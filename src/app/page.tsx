@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Send, Store, Package, Bell, Euro, Loader2, Code2 } from "lucide-react";
+import { Send, Store, Package, Bell, Euro, Loader2 } from "lucide-react";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -54,13 +53,7 @@ export default function Dashboard() {
         <div className="max-w-5xl mx-auto px-5 py-4 flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-brand" />
           <h1 className="font-semibold text-lg">MyCity Assistant</h1>
-          <Link
-            href="/sviluppo"
-            className="ml-auto inline-flex items-center gap-1.5 text-sm text-brand border border-brand/30 rounded-full px-3 py-1.5 hover:bg-brand/5"
-          >
-            <Code2 size={15} /> Sviluppo
-          </Link>
-          <span className="text-sm text-black/40">Piacenza</span>
+          <span className="ml-auto text-sm text-black/40">Piacenza</span>
         </div>
       </header>
 
