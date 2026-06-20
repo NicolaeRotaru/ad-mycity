@@ -16,8 +16,16 @@ L'assistente non aspetta che gli scrivi: **lavora da solo**.
 
 Il piano completo e le regole sono in `PIANO.md` e `ARCHITETTURA.md`.
 
+## I due database (separati — non confonderli)
+- 📊 **Marketplace (dati reali):** il Supabase del sito mycity, in
+  `MARKETPLACE_SUPABASE_URL` + `MARKETPLACE_SUPABASE_KEY` (sola lettura).
+  L'assistente lo LEGGE per ordini/clienti/incassi (strumenti `dati_tabelle` e
+  `dati_query`).
+- 🧠 **Memoria:** un progetto Supabase DIVERSO, in `SUPABASE_URL` +
+  `SUPABASE_SERVICE_KEY`, con la tabella `briefings`. Qui l'assistente SCRIVE.
+
 ## Per renderlo davvero "vivo"
-1. **Memoria (Supabase):** crea un progetto su supabase.com, poi una tabella:
+1. **Memoria (Supabase):** crea il progetto memoria su supabase.com, poi una tabella:
    ```sql
    create table briefings (
      id uuid primary key default gen_random_uuid(),

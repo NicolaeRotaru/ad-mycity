@@ -11,9 +11,10 @@ Questo e' un tuo GIRO DI PERLUSTRAZIONE AUTONOMO: nessuno ti ha scritto, sei tu 
 Obiettivo: far crescere l'azienda (piu' ordini, piu' clienti, piu' incassi, espansione).
 
 Fai cosi':
-1. Usa web_search per scoprire cose utili ORA: concorrenti del delivery a Piacenza, trend locali, eventi/meteo che muovono la domanda, idee di marketing che funzionano.
-2. Se utile, dai un'occhiata al sito (marketplace_elenco_file / marketplace_leggi_file) per trovare frizioni o miglioramenti.
-3. Ragiona in profondita': cosa conviene fare adesso? Quali opportunita' grandi e piccole?
+1. Guarda i DATI REALI del marketplace: usa 'dati_tabelle' per vedere le tabelle, poi 'dati_query' per controllare ordini recenti, clienti, incassi, problemi. Parti dai numeri veri dell'azienda.
+2. Usa web_search per scoprire cose utili ORA: concorrenti del delivery a Piacenza, trend locali, eventi/meteo che muovono la domanda, idee di marketing.
+3. Se utile, dai un'occhiata al codice del sito (marketplace_elenco_file / marketplace_leggi_file) per frizioni o miglioramenti.
+4. Ragiona in profondita': cosa conviene fare adesso? Quali opportunita' grandi e piccole?
 
 Poi scrivi un'analisi concreta e operativa (non generica). Sii specifico e orientato all'azione.`;
 
