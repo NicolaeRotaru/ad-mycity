@@ -24,6 +24,8 @@ import {
   UserMinus,
   Clock,
   Star,
+  Trash2,
+  History,
 } from "lucide-react";
 
 type Livello = "verde" | "giallo" | "rosso";
@@ -40,6 +42,19 @@ type Msg = {
   content: string;
   tools?: string[];
   esperto?: { nome: string; emoji: string };
+};
+type DiarioVoce = {
+  id: number;
+  at: string;
+  tipo: "chat" | "briefing" | "azione";
+  titolo: string;
+  testo: string;
+};
+
+const DIARIO_TIPO: Record<DiarioVoce["tipo"], string> = {
+  chat: "💬 Chat",
+  briefing: "🔭 Giro",
+  azione: "⚡ Azione",
 };
 
 const TEAM = [
@@ -133,9 +148,27 @@ export default function Dashboard() {
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
 
   const [messages, setMessages] = useState<Msg[]>([]);
+  const [diario, setDiario] = useState<DiarioVoce[]>([]);
+  const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
+    setDiario((d) => [{ id: Date.now() + Math.random(), at: new Date().toISOString(), tipo, titolo, testo }, ...d].slice(0, 200));
+  }
+  function cancellaChat() {
+    setMessages([]);
+    try {
+      localStorage.removeItem("mycity_chat");
+    } catch {}
+  }
+  function cancellaDiario() {
+    setDiario([]);
+    try {
+      localStorage.removeItem("mycity_diario");
+    } catch {}
+  }
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -166,6 +199,33 @@ export default function Dashboard() {
       .catch(() => {});
   }, [caricaStato]);
 
+  // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
+  useEffect(() => {
+    try {
+      const c = localStorage.getItem("mycity_chat");
+      if (c) setMessages(JSON.parse(c));
+      const d = localStorage.getItem("mycity_diario");
+      if (d) setDiario(JSON.parse(d));
+      const b = localStorage.getItem("mycity_briefing");
+      if (b) {
+        const o = JSON.parse(b);
+        if (o.briefing) setBriefing(o.briefing);
+        if (o.ultimoAt) setUltimoAt(o.ultimoAt);
+      }
+    } catch {}
+    setCaricato(true);
+  }, []);
+
+  useEffect(() => {
+    if (caricato) try { localStorage.setItem("mycity_chat", JSON.stringify(messages)); } catch {}
+  }, [messages, caricato]);
+  useEffect(() => {
+    if (caricato) try { localStorage.setItem("mycity_diario", JSON.stringify(diario)); } catch {}
+  }, [diario, caricato]);
+  useEffect(() => {
+    if (caricato && briefing) try { localStorage.setItem("mycity_briefing", JSON.stringify({ briefing, ultimoAt })); } catch {}
+  }, [briefing, ultimoAt, caricato]);
+
   async function aggiornaOra() {
     if (aggiornando) return;
     setAggiornando(true);
@@ -175,6 +235,10 @@ export default function Dashboard() {
       if (data.ok && data.briefing) {
         setBriefing(data.briefing);
         setUltimoAt(new Date().toISOString());
+        const b = data.briefing;
+        const op = (b.opportunita || []).map((o: any) => `• ${o.titolo}`).join("\n");
+        const az = (b.azioni || []).map((a: any) => `• [${a.livello}] ${a.titolo}`).join("\n");
+        aggiungiDiario("briefing", "Giro di perlustrazione", `${b.situazione}\n\nOpportunità:\n${op}\n\nAzioni proposte:\n${az}`);
       }
       caricaStato();
     } catch {
@@ -199,6 +263,7 @@ export default function Dashboard() {
       });
       const data = await res.json();
       setMessages([...next, { role: "assistant", content: data.reply, tools: data.toolsUsed, esperto: data.esperto }]);
+      aggiungiDiario("chat", data.esperto ? `${data.esperto.emoji} ${data.esperto.nome}` : "Assistente", `❓ ${t}\n\n${data.reply}`);
     } catch {
       setMessages([...next, { role: "assistant", content: "Connessione fallita." }]);
     } finally {
@@ -215,10 +280,9 @@ export default function Dashboard() {
       });
       const d = await res.json();
       if (d.collegato) {
-        setMessages((m) => [
-          ...m,
-          { role: "assistant", content: `${d.ok ? "✅ Eseguito" : "⚠️ Non riuscito"}: "${a.titolo}" — ${d.risultato || ""}` },
-        ]);
+        const esito = `${d.ok ? "✅ Eseguito" : "⚠️ Non riuscito"}: "${a.titolo}" — ${d.risultato || ""}`;
+        setMessages((m) => [...m, { role: "assistant", content: esito }]);
+        aggiungiDiario("azione", `Azione: ${a.titolo}`, esito);
         return;
       }
     } catch {
@@ -246,7 +310,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-5 py-6 space-y-5">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-5 py-6 space-y-5">
         {/* Battito */}
         <div className="flex items-center gap-2 text-sm text-black/50">
           <Activity size={16} className={memoria ? "text-green-500" : "text-amber-500"} />
@@ -343,7 +407,14 @@ export default function Dashboard() {
 
           {/* Chat */}
           <section className="lg:col-span-3 flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
-          <div className="px-5 pt-4 text-black/60 text-sm font-medium">Parla con l'assistente</div>
+          <div className="px-5 pt-4 flex items-center justify-between">
+            <span className="text-black/60 text-sm font-medium">Parla con l'assistente</span>
+            {messages.length > 0 && (
+              <button onClick={cancellaChat} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1">
+                <Trash2 size={12} /> Svuota chat
+              </button>
+            )}
+          </div>
           <div className="flex-1 p-5 space-y-4 overflow-y-auto min-h-[200px] max-h-[420px]">
             {messages.length === 0 && (
               <div className="pt-2">
@@ -412,6 +483,38 @@ export default function Dashboard() {
           </div>
           </section>
         </div>
+
+        {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
+        <section className="bg-white rounded-xl border border-black/10 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2 text-black/60 text-sm font-medium">
+              <History size={16} className="text-brand" /> Diario — tutto ciò che l'assistente dice e fa
+            </div>
+            {diario.length > 0 && (
+              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1">
+                <Trash2 size={12} /> Svuota
+              </button>
+            )}
+          </div>
+          {diario.length === 0 ? (
+            <p className="text-sm text-black/40">
+              Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
+            </p>
+          ) : (
+            <div className="space-y-2 max-h-[460px] overflow-y-auto">
+              {diario.map((v) => (
+                <div key={v.id} className="border border-black/10 rounded-lg p-3">
+                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1">
+                    <span className="px-1.5 py-0.5 rounded-full bg-black/5">{DIARIO_TIPO[v.tipo]}</span>
+                    <span className="font-medium text-ink/70">{v.titolo}</span>
+                    <span className="ml-auto">{fa(v.at)}</span>
+                  </div>
+                  <div className="text-sm text-ink/85 whitespace-pre-wrap">{v.testo}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );
