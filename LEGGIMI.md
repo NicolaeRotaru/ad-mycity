@@ -24,6 +24,15 @@ Il piano completo e le regole sono in `PIANO.md` e `ARCHITETTURA.md`.
 - 🧠 **Memoria:** un progetto Supabase DIVERSO, in `SUPABASE_URL` +
   `SUPABASE_SERVICE_KEY`, con la tabella `briefings`. Qui l'assistente SCRIVE.
 
+## Obsidian (memoria del business)
+Per collegare le note Obsidian (decisioni, idee, roadmap):
+1. In Obsidian installa il plugin **"Obsidian Git"** e sincronizza il vault su un
+   repository GitHub **privato** (es. `mycity-vault`).
+2. Crea un token GitHub con accesso **Contents (read/write)** a quel repo.
+3. Imposta `OBSIDIAN_REPO_OWNER`, `OBSIDIAN_REPO`, `OBSIDIAN_TOKEN` (vedi
+   `.env.example`).
+L'assistente potra' leggere le note (per contesto) e scriverne/aggiornarle.
+
 ## Per renderlo davvero "vivo"
 1. **Memoria (Supabase):** crea il progetto memoria su supabase.com, poi una tabella:
    ```sql

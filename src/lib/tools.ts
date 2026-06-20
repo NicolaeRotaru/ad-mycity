@@ -1,6 +1,7 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { listMarketplaceFiles, readMarketplaceFile } from "@/lib/github";
 import { listTables, queryTable } from "@/lib/marketplace-db";
+import { listNotes, readNote, writeNote } from "@/lib/obsidian";
 
 // Strumenti "custom": eseguiti dal nostro server (a differenza di web_search,
 // che e' un tool lato Anthropic). In v1 sono in SOLA LETTURA.
@@ -49,6 +50,42 @@ export const CUSTOM_TOOLS: Anthropic.Tool[] = [
       required: ["tabella"],
     },
   },
+  {
+    name: "obsidian_cerca",
+    description:
+      "Elenca le note Obsidian (la memoria del business: decisioni, idee, roadmap, contesto). Filtro opzionale sul nome/percorso.",
+    input_schema: {
+      type: "object",
+      properties: {
+        filtro: { type: "string", description: "Parola per filtrare i nomi delle note (opzionale)." },
+      },
+    },
+  },
+  {
+    name: "obsidian_leggi",
+    description: "Legge il contenuto di una nota Obsidian. Indica il percorso (es. 'Decisioni/Resi.md').",
+    input_schema: {
+      type: "object",
+      properties: {
+        percorso: { type: "string", description: "Percorso della nota nel vault." },
+      },
+      required: ["percorso"],
+    },
+  },
+  {
+    name: "obsidian_scrivi",
+    description:
+      "Crea o aggiorna una nota Obsidian (memoria del business). Usalo per salvare decisioni, idee o riepiloghi, di solito quando l'utente lo chiede o conferma.",
+    input_schema: {
+      type: "object",
+      properties: {
+        percorso: { type: "string", description: "Percorso della nota (es. 'Decisioni/2026.md')." },
+        contenuto: { type: "string", description: "Testo in Markdown." },
+        aggiungi: { type: "boolean", description: "Se true, accoda in fondo alla nota esistente invece di sovrascrivere." },
+      },
+      required: ["percorso", "contenuto"],
+    },
+  },
 ];
 
 // Etichette leggibili per mostrare in chat cosa ha usato l'assistente.
@@ -58,6 +95,9 @@ export const TOOL_LABELS: Record<string, string> = {
   marketplace_leggi_file: "Lettura file del sito",
   dati_tabelle: "Tabelle del marketplace",
   dati_query: "Dati del marketplace",
+  obsidian_cerca: "Note Obsidian",
+  obsidian_leggi: "Lettura nota Obsidian",
+  obsidian_scrivi: "Scrittura nota Obsidian",
 };
 
 export async function executeCustomTool(name: string, input: any): Promise<string> {
@@ -76,6 +116,12 @@ export async function executeCustomTool(name: string, input: any): Promise<strin
         ordina: input?.ordina,
         limite: input?.limite,
       });
+    case "obsidian_cerca":
+      return listNotes(input?.filtro);
+    case "obsidian_leggi":
+      return readNote(String(input?.percorso || ""));
+    case "obsidian_scrivi":
+      return writeNote(String(input?.percorso || ""), String(input?.contenuto || ""), Boolean(input?.aggiungi));
     default:
       return `Strumento sconosciuto: ${name}`;
   }
