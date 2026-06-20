@@ -3,27 +3,14 @@
 Versione ridotta per **testare solo la chat AI**.
 Niente Supabase, niente Stripe: serve una sola chiave.
 
-## Cosa fa adesso
-- Chat AI in italiano (modello Claude Sonnet)
-- Dashboard con la chat e alcune metriche segnaposto
-- **Pagina /sviluppo**: scrivi una richiesta → **Claude Design** prepara il progetto
-  → (tu approvi) → **Claude Code** scrive il codice → (tu approvi) → si apre una
-  **Pull Request su GitHub**. Ogni passo passa dalla tua conferma.
+## Cosa fa adesso (v1 — co-pilota con strumenti)
+- Chat AI in italiano (Claude) che **usa strumenti**, non solo chiacchiera:
+  - 🔎 **ricerca sul web** (concorrenti, trend, idee) — funziona da subito;
+  - 🛠️ **analisi del marketplace mycity** (legge il codice in **sola lettura**)
+    — si attiva se colleghi un token GitHub (vedi `.env.example`, è opzionale).
+- Dashboard con la chat e metriche segnaposto (i dati reali si collegano dopo).
 
-## La pagina /sviluppo (Design → Code → PR)
-1. Scrivi cosa vuoi fare (es: "aggiungi un pulsante Esci nell'header").
-2. Claude Design ti mostra il progetto. Lo approvi.
-3. Claude Code ti mostra i file modificati (contenuto completo). Li approvi.
-4. Viene aperta una Pull Request sul repo del marketplace: la rivedi e fai il merge su GitHub.
-
-**Su quale repo apre le PR?** Su quello indicato da `GITHUB_OWNER`/`GITHUB_REPO`.
-Di default punta al **marketplace `mycity`** (il sito vero), così le modifiche che
-chiedi finiscono lì e non su questo assistente. Per cambiare bersaglio, modifica
-`GITHUB_REPO`.
-
-Serve un **token GitHub** (vedi `.env.example`: `GITHUB_TOKEN`, `GITHUB_OWNER`,
-`GITHUB_REPO`) con accesso in scrittura al repo di destinazione (*Contents* e
-*Pull requests*).
+Il piano completo e le regole sono in `PIANO.md` e `ARCHITETTURA.md`.
 
 ## Avvio in locale (3 passi)
 1. `npm install`

@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-// Modello unico per tutto l'assistente: intelligente ma economico.
+// Modello unico dell'assistente: intelligente ma economico.
 export const MODEL = "claude-sonnet-4-6";
 
 // Client creato a ogni chiamata: cosi il build non richiede la chiave.
