@@ -9,6 +9,15 @@ import {
   Activity,
   TrendingUp,
   CheckCircle2,
+  Package,
+  Euro,
+  Receipt,
+  UserPlus,
+  Users,
+  Store,
+  Bike,
+  AlertTriangle,
+  Percent,
 } from "lucide-react";
 
 type Livello = "verde" | "giallo" | "rosso";
@@ -32,6 +41,21 @@ const COLORI: Record<Livello, string> = {
   giallo: "border-amber-300 bg-amber-50 text-amber-800",
   rosso: "border-red-300 bg-red-50 text-red-800",
 };
+
+// Le 10 metriche piu' importanti per un marketplace di consegne.
+// Valore "—" finche' non colleghiamo le fonti dati (Supabase / Stripe / PostHog).
+const METRICHE: { icon: React.ReactNode; label: string; fonte: string }[] = [
+  { icon: <Package size={16} />, label: "Ordini oggi", fonte: "Supabase" },
+  { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "Stripe" },
+  { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "Stripe" },
+  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "Stripe" },
+  { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "Supabase" },
+  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "Supabase" },
+  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "Supabase" },
+  { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "Supabase" },
+  { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "Operations" },
+  { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog" },
+];
 
 function fa(iso: string | null): string {
   if (!iso) return "mai";
@@ -220,8 +244,16 @@ export default function Dashboard() {
           )}
         </section>
 
-        {/* Chat */}
-        <section className="flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
+        {/* Metriche (a sinistra) + Chat */}
+        <div className="grid lg:grid-cols-3 gap-5">
+          <aside className="space-y-3">
+            {METRICHE.map((m) => (
+              <Card key={m.label} icon={m.icon} label={m.label} value="—" fonte={m.fonte} />
+            ))}
+          </aside>
+
+          {/* Chat */}
+          <section className="lg:col-span-2 flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
           <div className="px-5 pt-4 text-black/60 text-sm font-medium">Parla con l'assistente</div>
           <div className="flex-1 p-5 space-y-4 overflow-y-auto min-h-[200px] max-h-[420px]">
             {messages.length === 0 && (
@@ -270,8 +302,31 @@ export default function Dashboard() {
               <Send size={18} />
             </button>
           </div>
-        </section>
+          </section>
+        </div>
       </main>
+    </div>
+  );
+}
+
+function Card({
+  icon,
+  label,
+  value,
+  fonte,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  fonte: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-black/10 p-3">
+      <div className="flex items-center gap-2 text-black/50 text-xs mb-0.5">
+        {icon} {label}
+      </div>
+      <div className="text-xl font-semibold">{value}</div>
+      <div className="text-[11px] text-black/35 mt-0.5">da collegare · {fonte}</div>
     </div>
   );
 }
