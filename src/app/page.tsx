@@ -48,27 +48,49 @@ const COLORI: Record<Livello, string> = {
   rosso: "border-red-300 bg-red-50 text-red-800",
 };
 
-// Le 16 metriche piu' importanti per un marketplace di consegne (cockpit completo:
-// traffico -> conversione -> ordini -> incassi -> clienti -> consegne -> qualita').
-// Valore "—" finche' non colleghiamo le fonti dati (Supabase / Stripe / PostHog).
-const METRICHE: { icon: React.ReactNode; label: string; fonte: string }[] = [
-  { icon: <Package size={16} />, label: "Ordini oggi", fonte: "Supabase" },
-  { icon: <BarChart3 size={16} />, label: "Ordini 7 giorni", fonte: "Supabase" },
-  { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "Stripe" },
-  { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "Stripe" },
-  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "Stripe" },
+// Le 16 metriche piu' importanti per un marketplace di consegne (cockpit completo).
+// "chiave" = campo restituito da /api/metriche; senza chiave = fonte non ancora
+// collegata (es. PostHog). "tipo" = come formattare il numero.
+type Tipo = "n" | "euro" | "durata" | "stelle";
+const METRICHE: {
+  icon: React.ReactNode;
+  label: string;
+  fonte: string;
+  chiave?: string;
+  tipo?: Tipo;
+}[] = [
+  { icon: <Package size={16} />, label: "Ordini oggi", fonte: "mycity", chiave: "ordini_oggi", tipo: "n" },
+  { icon: <BarChart3 size={16} />, label: "Ordini 7 giorni", fonte: "mycity", chiave: "ordini_7g", tipo: "n" },
+  { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "mycity", chiave: "incasso_oggi", tipo: "euro" },
+  { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "mycity", chiave: "incasso_7g", tipo: "euro" },
+  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "mycity", chiave: "scontrino_medio", tipo: "euro" },
   { icon: <Eye size={16} />, label: "Visite sito (7gg)", fonte: "PostHog" },
   { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog" },
-  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "PostHog" },
-  { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "Supabase" },
-  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "Supabase" },
-  { icon: <UserMinus size={16} />, label: "Clienti dormienti", fonte: "Supabase" },
-  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "Supabase" },
-  { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "Supabase" },
-  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "Operations" },
-  { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "Operations" },
-  { icon: <Star size={16} />, label: "Recensione media", fonte: "Supabase" },
+  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "mycity", chiave: "carrelli", tipo: "n" },
+  { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "mycity", chiave: "nuovi_clienti_7g", tipo: "n" },
+  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "mycity", chiave: "clienti", tipo: "n" },
+  { icon: <UserMinus size={16} />, label: "Clienti dormienti", fonte: "mycity", chiave: "clienti_dormienti", tipo: "n" },
+  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "mycity", chiave: "negozi", tipo: "n" },
+  { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "mycity", chiave: "consegne_in_corso", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "mycity", chiave: "tempo_consegna_min", tipo: "durata" },
+  { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "mycity", chiave: "problemi", tipo: "n" },
+  { icon: <Star size={16} />, label: "Recensione media", fonte: "mycity", chiave: "recensione_media", tipo: "stelle" },
 ];
+
+function formatta(v: any, tipo?: Tipo): string {
+  if (v === undefined || v === null) return "—";
+  if (tipo === "euro") return "€ " + Number(v).toLocaleString("it-IT", { maximumFractionDigits: 2 });
+  if (tipo === "durata") {
+    const min = Number(v);
+    if (!min) return "—";
+    return min >= 60 ? `${Math.floor(min / 60)}h ${Math.round(min % 60)}m` : `${Math.round(min)} min`;
+  }
+  if (tipo === "stelle") {
+    const r = Number(v);
+    return r > 0 ? `${r}/5` : "—";
+  }
+  return String(v);
+}
 
 function fa(iso: string | null): string {
   if (!iso) return "mai";
@@ -85,6 +107,7 @@ export default function Dashboard() {
   const [memoria, setMemoria] = useState(false);
   const [giri, setGiri] = useState(0);
   const [aggiornando, setAggiornando] = useState(false);
+  const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
 
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -112,6 +135,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     caricaStato();
+    fetch("/api/metriche")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.connected) setMetriche(d);
+      })
+      .catch(() => {});
   }, [caricaStato]);
 
   async function aggiornaOra() {
@@ -261,7 +290,13 @@ export default function Dashboard() {
         <div className="grid lg:grid-cols-5 gap-5">
           <aside className="lg:col-span-2 grid grid-cols-2 gap-3 content-start">
             {METRICHE.map((m) => (
-              <Card key={m.label} icon={m.icon} label={m.label} value="—" fonte={m.fonte} />
+              <Card
+                key={m.label}
+                icon={m.icon}
+                label={m.label}
+                value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
+                fonte={m.fonte}
+              />
             ))}
           </aside>
 
@@ -339,7 +374,9 @@ function Card({
         {icon} {label}
       </div>
       <div className="text-xl font-semibold">{value}</div>
-      <div className="text-[11px] text-black/35 mt-0.5">da collegare · {fonte}</div>
+      <div className="text-[11px] text-black/35 mt-0.5">
+        {value === "—" ? `da collegare · ${fonte}` : fonte}
+      </div>
     </div>
   );
 }
