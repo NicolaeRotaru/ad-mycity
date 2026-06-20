@@ -351,46 +351,65 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b border-black/10 bg-white">
-        <div className="max-w-6xl mx-auto px-5 py-4 flex items-center gap-2">
-          <span className={`w-2.5 h-2.5 rounded-full ${memoria ? "bg-green-500" : "bg-amber-400"}`} />
-          <h1 className="font-semibold text-lg">MyCity Assistant</h1>
-          <span className="text-sm text-black/40">· co-pilota vivo</span>
-          <button
-            onClick={aggiornaOra}
-            disabled={aggiornando}
-            className="ml-auto inline-flex items-center gap-1.5 text-sm bg-brand text-white rounded-full px-3 py-1.5 hover:opacity-90 disabled:opacity-50"
-          >
-            {aggiornando ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-            Aggiorna ora
-          </button>
+      <header className="sticky top-0 z-20 border-b border-black/[0.06] bg-paper/80 backdrop-blur-md">
+        <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
+              M
+            </div>
+            <div className="leading-tight min-w-0">
+              <h1 className="font-semibold text-[15px] tracking-tight truncate">MyCity Assistant</h1>
+              <span className="text-xs text-black/40">co-pilota vivo</span>
+            </div>
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <span
+              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
+                memoria ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${memoria ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
+              {memoria ? "Vivo" : "In prova"}
+            </span>
+            <button
+              onClick={aggiornaOra}
+              disabled={aggiornando}
+              className="inline-flex items-center gap-1.5 text-sm font-medium bg-brand text-white rounded-full px-3.5 py-2 shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
+            >
+              {aggiornando ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+              Aggiorna ora
+            </button>
+          </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-5 py-6 space-y-5">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-6 sm:py-8 space-y-6">
         {/* Battito */}
-        <div className="flex items-center gap-2 text-sm text-black/50">
-          <Activity size={16} className={memoria ? "text-green-500" : "text-amber-500"} />
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-black/45">
+          <Activity size={15} className={memoria ? "text-green-500" : "text-amber-500"} />
           {memoria ? (
-            <span>Vivo · ultimo giro {fa(ultimoAt)} · {giri} giri in memoria</span>
+            <span>Sistema vivo · ultimo giro {fa(ultimoAt)} · {giri} giri in memoria</span>
           ) : (
             <span>In prova · memoria non collegata (i giri non si salvano) · ultimo {fa(ultimoAt)}</span>
           )}
         </div>
 
         {/* Briefing autonomo */}
-        <section className="bg-white rounded-xl border border-black/10 p-5">
-          <div className="flex items-center gap-2 text-black/60 text-sm font-medium mb-3">
-            <TrendingUp size={16} className="text-brand" /> Cosa ho scoperto e cosa propongo
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+          <div className="flex items-center gap-2.5 mb-4">
+            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <TrendingUp size={16} />
+            </span>
+            <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
           </div>
 
           {!briefing && (
-            <div className="text-center text-black/45 py-8">
-              <p className="mb-3">Non ho ancora fatto un giro.</p>
+            <div className="text-center text-black/45 py-10">
+              <p className="mb-4">Non ho ancora fatto un giro di perlustrazione.</p>
               <button
                 onClick={aggiornaOra}
                 disabled={aggiornando}
-                className="inline-flex items-center gap-2 bg-brand text-white px-4 py-2.5 rounded-lg text-sm hover:opacity-90 disabled:opacity-50"
+                className="inline-flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl text-sm font-medium shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
               >
                 {aggiornando ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
                 Fai il primo giro
@@ -407,11 +426,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   <div className="text-xs uppercase tracking-wide text-black/40 mb-2">Opportunità</div>
                   <div className="space-y-2">
                     {briefing.opportunita.map((o, i) => (
-                      <div key={i} className="border border-black/10 rounded-lg p-3">
+                      <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
                         <div className="text-sm font-medium">{o.titolo}</div>
-                        <div className="text-sm text-black/60">{o.motivo}</div>
-                        <div className="text-xs text-black/40 mt-1">
-                          impatto {o.impatto} · sforzo {o.sforzo}
+                        <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
+                        <div className="text-xs text-black/40 mt-2 flex items-center gap-1.5">
+                          <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
+                          <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
                         </div>
                       </div>
                     ))}
@@ -426,15 +446,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   </div>
                   <div className="space-y-2">
                     {briefing.azioni.map((a, i) => (
-                      <div key={i} className={`border rounded-lg p-3 ${COLORI[a.livello] || ""}`}>
-                        <div className="flex items-start gap-2">
-                          <div className="flex-1">
-                            <div className="text-sm font-medium">{a.titolo}</div>
-                            <div className="text-sm opacity-80">{a.motivo}</div>
+                      <div key={i} className={`border rounded-xl p-3.5 ${COLORI[a.livello] || ""}`}>
+                        <div className="flex items-start gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold">{a.titolo}</div>
+                            <div className="text-sm opacity-80 mt-0.5">{a.motivo}</div>
                           </div>
                           <button
                             onClick={() => approva(a)}
-                            className="shrink-0 inline-flex items-center gap-1 text-xs bg-white/70 border border-black/15 rounded-full px-2.5 py-1 hover:bg-white"
+                            className="shrink-0 inline-flex items-center gap-1 text-xs font-medium bg-white/80 border border-black/10 rounded-full px-3 py-1.5 shadow-sm hover:bg-white active:scale-95 transition"
                           >
                             <CheckCircle2 size={13} /> Approva
                           </button>
@@ -450,40 +470,53 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* Metriche (a sinistra) + Chat */}
         <div className="grid lg:grid-cols-5 gap-5">
-          <aside className="lg:col-span-2 grid grid-cols-2 gap-3 content-start">
-            {METRICHE.map((m) => (
-              <Card
-                key={m.label}
-                icon={m.icon}
-                label={m.label}
-                value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
-                fonte={m.fonte}
-              />
-            ))}
+          <aside className="lg:col-span-2">
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+                <BarChart3 size={16} />
+              </span>
+              <span className="text-[15px] font-semibold tracking-tight">Cockpit</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3 content-start">
+              {METRICHE.map((m) => (
+                <Card
+                  key={m.label}
+                  icon={m.icon}
+                  label={m.label}
+                  value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
+                  fonte={m.fonte}
+                />
+              ))}
+            </div>
           </aside>
 
           {/* Chat */}
-          <section className="lg:col-span-3 flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
-          <div className="px-5 pt-4 flex items-center justify-between">
-            <span className="text-black/60 text-sm font-medium">Parla con l'assistente</span>
+          <section className="lg:col-span-3 flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
+          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05]">
+            <div className="flex items-center gap-2.5">
+              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+                <Send size={15} />
+              </span>
+              <span className="text-[15px] font-semibold tracking-tight">Parla con l'assistente</span>
+            </div>
             {messages.length > 0 && (
-              <button onClick={cancellaChat} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1">
+              <button onClick={cancellaChat} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
                 <Trash2 size={12} /> Svuota chat
               </button>
             )}
           </div>
-          <div className="flex-1 p-5 space-y-4 overflow-y-auto min-h-[200px] max-h-[420px]">
+          <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
-              <div className="pt-2">
+              <div className="pt-1">
                 <p className="text-sm text-black/50 mb-3">
                   Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
                 </p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {TEAM.map((e) => (
-                    <div key={e.nome} className="flex items-start gap-2 text-xs border border-black/10 rounded-lg px-2.5 py-1.5">
-                      <span>{e.emoji}</span>
-                      <span>
-                        <span className="font-medium text-ink/80">{e.nome}</span>
+                    <div key={e.nome} className="flex items-start gap-2.5 text-xs border border-black/[0.07] bg-paper/40 rounded-xl px-3 py-2 hover:border-brand/30 hover:bg-brand-50/40 transition">
+                      <span className="text-base leading-none mt-0.5">{e.emoji}</span>
+                      <span className="leading-snug">
+                        <span className="font-semibold text-ink/80">{e.nome}</span>
                         <br />
                         <span className="text-black/40">{e.ruolo}</span>
                       </span>
@@ -495,14 +528,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={i} className="text-left">
-                  <div className="text-xs text-black/45 mb-1">
-                    📋 Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
+                  <div className="text-xs text-black/45 mb-1.5 flex items-center gap-1">
+                    <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
                   </div>
-                  <div className="border border-brand/30 bg-brand/5 rounded-lg p-3">
-                    <pre className="text-xs whitespace-pre-wrap font-sans text-ink/90">{m.content}</pre>
+                  <div className="border border-brand/25 bg-brand-50/60 rounded-xl p-3.5">
+                    <pre className="text-xs whitespace-pre-wrap font-sans text-ink/90 leading-relaxed">{m.content}</pre>
                     <button
                       onClick={() => copia(m.content)}
-                      className="mt-2 inline-flex items-center gap-1 text-xs bg-brand text-white rounded-full px-3 py-1 hover:opacity-90"
+                      className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
                     >
                       <Copy size={12} /> Copia
                     </button>
@@ -516,14 +549,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     </div>
                   )}
                   <span
-                    className={`inline-block px-4 py-2.5 rounded-2xl text-sm whitespace-pre-wrap max-w-[85%] ${
-                      m.role === "user" ? "bg-brand text-white rounded-br-sm" : "bg-black/5 text-ink rounded-bl-sm"
+                    className={`inline-block px-4 py-2.5 rounded-2xl text-sm whitespace-pre-wrap max-w-[85%] leading-relaxed ${
+                      m.role === "user"
+                        ? "bg-brand text-white rounded-br-md shadow-card"
+                        : "bg-black/[0.04] text-ink rounded-bl-md"
                     }`}
                   >
                     {m.content}
                   </span>
                   {m.role === "assistant" && m.tools && m.tools.length > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs text-black/35 mt-1">
+                    <div className="flex items-center gap-1.5 text-xs text-black/35 mt-1.5">
                       <Wrench size={12} />
                       {m.tools.map((t) => TOOL_LABELS[t] || t).join(" · ")}
                     </div>
@@ -538,19 +573,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={endRef} />
           </div>
-          <div className="border-t border-black/10 p-3 space-y-2">
+          <div className="border-t border-black/[0.06] p-3 space-y-2 bg-paper/30">
             <div className="flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
                 placeholder="Chiedi qualcosa o dai un obiettivo..."
-                className="flex-1 px-4 py-2.5 rounded-lg bg-black/5 outline-none text-sm focus:ring-2 focus:ring-brand/30"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
                 onClick={dammiPrompt}
                 disabled={!input.trim()}
-                className="inline-flex items-center gap-1.5 border border-brand/40 text-brand px-3 rounded-lg text-sm hover:bg-brand/5 disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 border border-brand/40 text-brand px-3.5 rounded-xl text-sm font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
                 title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
               >
                 <FileText size={16} /> Prompt
@@ -558,7 +593,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 onClick={() => send()}
                 disabled={loading}
-                className="bg-brand text-white px-4 rounded-lg hover:opacity-90 disabled:opacity-40"
+                className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
                 aria-label="Invia"
               >
                 <Send size={18} />
@@ -572,13 +607,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
 
         {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
-        <section className="bg-white rounded-xl border border-black/10 p-5">
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
           <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2 text-black/60 text-sm font-medium">
-              <History size={16} className="text-brand" /> Diario — tutto ciò che l'assistente dice e fa
+            <div className="flex items-center gap-2.5">
+              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+                <History size={16} />
+              </span>
+              <span className="text-[15px] font-semibold tracking-tight">Diario — tutto ciò che dice e fa</span>
             </div>
             {diario.length > 0 && (
-              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1">
+              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
                 <Trash2 size={12} /> Svuota
               </button>
             )}
@@ -593,15 +631,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
             </p>
           ) : (
-            <div className="space-y-2 max-h-[460px] overflow-y-auto">
+            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
               {diario.map((v) => (
-                <div key={v.id} className="border border-black/10 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1">
-                    <span className="px-1.5 py-0.5 rounded-full bg-black/5">{DIARIO_TIPO[v.tipo] || v.tipo}</span>
-                    <span className="font-medium text-ink/70">{v.titolo}</span>
-                    <span className="ml-auto">{fa(v.at)}</span>
+                <div key={v.id} className="border border-black/[0.07] rounded-xl p-3.5 hover:border-black/10 hover:bg-paper/40 transition">
+                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1.5">
+                    <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand font-medium shrink-0">{DIARIO_TIPO[v.tipo] || v.tipo}</span>
+                    <span className="font-medium text-ink/70 truncate">{v.titolo}</span>
+                    <span className="ml-auto shrink-0">{fa(v.at)}</span>
                   </div>
-                  <div className="text-sm text-ink/85 whitespace-pre-wrap">{v.testo}</div>
+                  <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
                 </div>
               ))}
             </div>
@@ -623,14 +661,30 @@ function Card({
   value: string;
   fonte: string;
 }) {
+  const connesso = value !== "—";
   return (
-    <div className="bg-white rounded-xl border border-black/10 p-3">
-      <div className="flex items-center gap-2 text-black/50 text-xs mb-0.5">
-        {icon} {label}
+    <div
+      className={`rounded-2xl border p-3.5 transition ${
+        connesso
+          ? "bg-white border-black/[0.06] shadow-card hover:shadow-hover hover:-translate-y-0.5"
+          : "bg-black/[0.015] border-dashed border-black/[0.12]"
+      }`}
+    >
+      <div className="flex items-center gap-2 mb-1.5">
+        <span
+          className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${
+            connesso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"
+          }`}
+        >
+          {icon}
+        </span>
+        <span className="text-xs text-black/50 leading-tight">{label}</span>
       </div>
-      <div className="text-xl font-semibold">{value}</div>
-      <div className="text-[11px] text-black/35 mt-0.5">
-        {value === "—" ? `da collegare · ${fonte}` : fonte}
+      <div className={`text-2xl font-semibold tracking-tight ${connesso ? "text-ink" : "text-black/25"}`}>
+        {value}
+      </div>
+      <div className="text-[10px] uppercase tracking-wide text-black/30 mt-1">
+        {connesso ? fonte : `da collegare · ${fonte}`}
       </div>
     </div>
   );

@@ -3,6 +3,29 @@
 @tailwind utilities;
 
 body {
-  background: #faf8f5;
+  background: linear-gradient(180deg, #fbf9f6 0%, #f6f1ec 100%);
+  background-attachment: fixed;
   color: #1a1410;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(192, 73, 44, 0.15);
+}
+
+/* Scrollbar discreta per le aree che scorrono (chat, diario) */
+.scroll-soft {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(26, 20, 16, 0.18) transparent;
+}
+.scroll-soft::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-soft::-webkit-scrollbar-thumb {
+  background: rgba(26, 20, 16, 0.15);
+  border-radius: 999px;
+}
+.scroll-soft::-webkit-scrollbar-thumb:hover {
+  background: rgba(26, 20, 16, 0.28);
 }
