@@ -18,6 +18,12 @@ import {
   Bike,
   AlertTriangle,
   Percent,
+  BarChart3,
+  Eye,
+  ShoppingCart,
+  UserMinus,
+  Clock,
+  Star,
 } from "lucide-react";
 
 type Livello = "verde" | "giallo" | "rosso";
@@ -42,19 +48,26 @@ const COLORI: Record<Livello, string> = {
   rosso: "border-red-300 bg-red-50 text-red-800",
 };
 
-// Le 10 metriche piu' importanti per un marketplace di consegne.
+// Le 16 metriche piu' importanti per un marketplace di consegne (cockpit completo:
+// traffico -> conversione -> ordini -> incassi -> clienti -> consegne -> qualita').
 // Valore "—" finche' non colleghiamo le fonti dati (Supabase / Stripe / PostHog).
 const METRICHE: { icon: React.ReactNode; label: string; fonte: string }[] = [
   { icon: <Package size={16} />, label: "Ordini oggi", fonte: "Supabase" },
+  { icon: <BarChart3 size={16} />, label: "Ordini 7 giorni", fonte: "Supabase" },
   { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "Stripe" },
   { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "Stripe" },
   { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "Stripe" },
+  { icon: <Eye size={16} />, label: "Visite sito (7gg)", fonte: "PostHog" },
+  { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog" },
+  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "PostHog" },
   { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "Supabase" },
   { icon: <Users size={16} />, label: "Clienti attivi", fonte: "Supabase" },
+  { icon: <UserMinus size={16} />, label: "Clienti dormienti", fonte: "Supabase" },
   { icon: <Store size={16} />, label: "Negozi attivi", fonte: "Supabase" },
   { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "Supabase" },
+  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "Operations" },
   { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "Operations" },
-  { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog" },
+  { icon: <Star size={16} />, label: "Recensione media", fonte: "Supabase" },
 ];
 
 function fa(iso: string | null): string {
@@ -148,7 +161,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-black/10 bg-white">
-        <div className="max-w-5xl mx-auto px-5 py-4 flex items-center gap-2">
+        <div className="max-w-6xl mx-auto px-5 py-4 flex items-center gap-2">
           <span className={`w-2.5 h-2.5 rounded-full ${memoria ? "bg-green-500" : "bg-amber-400"}`} />
           <h1 className="font-semibold text-lg">MyCity Assistant</h1>
           <span className="text-sm text-black/40">· co-pilota vivo</span>
@@ -245,15 +258,15 @@ export default function Dashboard() {
         </section>
 
         {/* Metriche (a sinistra) + Chat */}
-        <div className="grid lg:grid-cols-3 gap-5">
-          <aside className="space-y-3">
+        <div className="grid lg:grid-cols-5 gap-5">
+          <aside className="lg:col-span-2 grid grid-cols-2 gap-3 content-start">
             {METRICHE.map((m) => (
               <Card key={m.label} icon={m.icon} label={m.label} value="—" fonte={m.fonte} />
             ))}
           </aside>
 
           {/* Chat */}
-          <section className="lg:col-span-2 flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
+          <section className="lg:col-span-3 flex flex-col bg-white rounded-xl border border-black/10 overflow-hidden">
           <div className="px-5 pt-4 text-black/60 text-sm font-medium">Parla con l'assistente</div>
           <div className="flex-1 p-5 space-y-4 overflow-y-auto min-h-[200px] max-h-[420px]">
             {messages.length === 0 && (
