@@ -43,6 +43,21 @@ L'assistente potra' leggere le note (per contesto) e scriverne/aggiornarle.
    );
    ```
    Metti `SUPABASE_URL` e `SUPABASE_SERVICE_KEY` nelle variabili d'ambiente.
+
+   Per la **memoria delle conversazioni** (ricordare e riprendere le chat, anche
+   da un altro dispositivo) crea anche questa tabella nello stesso progetto
+   memoria:
+   ```sql
+   create table conversazioni (
+     id uuid primary key default gen_random_uuid(),
+     created_at timestamptz not null default now(),
+     updated_at timestamptz not null default now(),
+     titolo text not null default 'Conversazione',
+     messaggi jsonb not null default '[]'::jsonb
+   );
+   ```
+   Senza questa tabella le conversazioni restano salvate sul singolo dispositivo:
+   funzionano comunque, ma non si sincronizzano tra dispositivi.
 2. **Sveglia (cron):** è già in `vercel.json` (ogni ora). Imposta `CRON_SECRET`
    su Vercel così solo il cron può attivarlo. *(Nota: il piano gratuito di
    Vercel limita la frequenza dei cron — eventualmente passa a giornaliero.)*

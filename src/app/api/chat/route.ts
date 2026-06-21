@@ -71,22 +71,57 @@ async function eseguiLoop(
   return { reply, toolsUsed: [...toolsUsed] };
 }
 
+// Prepara lo storico per l'API Anthropic: tiene solo {role, content} testuali,
+// scarta i campi extra (tools/esperto/prompt) e i messaggi-segnaposto "Prompt".
+// Senza questa pulizia l'API risponde 400 ("messages.N.tools: Extra inputs are
+// not permitted") appena lo storico contiene un messaggio dell'assistente.
+// Unisce inoltre turni consecutivi dello stesso ruolo e parte sempre da "user".
+function perApi(messages: any[]): { role: "user" | "assistant"; content: string }[] {
+  const clean = (Array.isArray(messages) ? messages : [])
+    .filter(
+      (m: any) =>
+        m &&
+        (m.role === "user" || m.role === "assistant") &&
+        typeof m.content === "string" &&
+        m.content.trim() &&
+        !m.prompt
+    )
+    .map((m: any) => ({ role: m.role as "user" | "assistant", content: m.content as string }));
+  const merged: { role: "user" | "assistant"; content: string }[] = [];
+  for (const m of clean) {
+    const last = merged[merged.length - 1];
+    if (last && last.role === m.role) last.content += "\n\n" + m.content;
+    else merged.push({ ...m });
+  }
+  while (merged.length && merged[0].role !== "user") merged.shift();
+  return merged;
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const { messages, contesto } = await req.json();
     const anthropic = getAnthropic();
 
-    const ultimo = [...messages].reverse().find((m: any) => m.role === "user")?.content || "";
+    const base = perApi(messages);
+    if (!base.length) return NextResponse.json({ reply: "Scrivi un messaggio.", toolsUsed: [] });
+
+    const ultimo = [...base].reverse().find((m) => m.role === "user")?.content || "";
     const esperto = trovaEsperto(await scegliEsperto(anthropic, String(ultimo)));
     const tools = toolsFor(esperto.strumenti);
 
+    // Conversazioni precedenti scelte dall'utente "come base": entrano nel contesto.
+    let system = esperto.system;
+    if (contesto && String(contesto).trim()) {
+      system += `\n\n## Conversazioni precedenti scelte dall'utente come base\nTienine conto se pertinenti alla richiesta.\n\n${String(contesto).slice(0, 8000)}`;
+    }
+
     let out: { reply: string; toolsUsed: string[] };
     try {
-      out = await eseguiLoop(anthropic, esperto.system, tools, [...messages]);
+      out = await eseguiLoop(anthropic, system, tools, base.map((m) => ({ ...m })));
     } catch {
       // Ripiego: riprova senza ricerca web (es. se non e' attiva sull'account).
       const senzaWeb = tools.filter((t: any) => t.name !== "web_search");
-      out = await eseguiLoop(anthropic, esperto.system, senzaWeb, [...messages]);
+      out = await eseguiLoop(anthropic, system, senzaWeb, base.map((m) => ({ ...m })));
     }
 
     return NextResponse.json({

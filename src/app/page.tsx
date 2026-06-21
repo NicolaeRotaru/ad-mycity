@@ -29,6 +29,9 @@ import {
   Copy,
   FileText,
   Brain,
+  Plus,
+  MessagesSquare,
+  Layers,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -49,6 +52,13 @@ type Msg = {
   tools?: string[];
   esperto?: { nome: string; emoji: string };
   prompt?: boolean;
+};
+type Conversazione = {
+  id: string;
+  titolo: string;
+  messaggi: Msg[];
+  created_at: string;
+  updated_at: string;
 };
 type DiarioVoce = {
   id: number | string;
@@ -175,6 +185,11 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [diario, setDiario] = useState<DiarioVoce[]>([]);
   const [lavori, setLavori] = useState<Lavoro[]>([]);
+  const [conversazioni, setConversazioni] = useState<Conversazione[]>([]);
+  const [convId, setConvId] = useState<string | null>(null);
+  const [convServer, setConvServer] = useState(false);
+  const [convSel, setConvSel] = useState<string[]>([]);
+  const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -189,11 +204,149 @@ export default function Dashboard() {
       body: JSON.stringify({ tipo, titolo, testo }),
     }).catch(() => {});
   }
-  function cancellaChat() {
+  // --- Conversazioni: ricordare e riprendere le chat ---
+  function titoloDa(msgs: Msg[]): string {
+    const u = msgs.find((m) => m.role === "user" && !m.prompt)?.content || "";
+    const t = u.replace(/\s+/g, " ").trim();
+    if (!t) return "Conversazione";
+    return t.length > 60 ? t.slice(0, 60) + "…" : t;
+  }
+  function leggiConvLocali(): Conversazione[] {
+    try {
+      return JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
+    } catch {
+      return [];
+    }
+  }
+  function scriviConvLocali(list: Conversazione[]) {
+    try {
+      localStorage.setItem("mycity_conversazioni", JSON.stringify(list.slice(0, 100)));
+    } catch {}
+  }
+
+  // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
+  // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
+  async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
+    const reali = msgs.filter((m) => !m.prompt && (m.role === "user" || m.role === "assistant"));
+    if (reali.length === 0) return id;
+    const titolo = titoloDa(reali);
+    let newId = id;
+    if (convServer) {
+      try {
+        const res = await fetch("/api/conversazioni", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, titolo, messaggi: reali }),
+        });
+        const d = await res.json();
+        if (d?.id) newId = d.id;
+      } catch {}
+    } else {
+      newId = id || "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    }
+    if (!newId) return null;
+    setConversazioni((list) => {
+      const esiste = list.find((c) => c.id === newId);
+      const created_at = esiste?.created_at || new Date().toISOString();
+      const altri = list.filter((c) => c.id !== newId);
+      const nuova: Conversazione[] = [
+        { id: newId as string, titolo, messaggi: reali, created_at, updated_at: new Date().toISOString() },
+        ...altri,
+      ];
+      if (!convServer) scriviConvLocali(nuova);
+      return nuova;
+    });
+    return newId;
+  }
+
+  // Salva quella attuale e apre una chat nuova e vuota. NON fa partire risposte.
+  async function nuovaConversazione() {
+    await persistConversazione(convId, messages);
     setMessages([]);
+    setConvId(null);
+    setBase(null);
+    setConvSel([]);
     try {
       localStorage.removeItem("mycity_chat");
+      localStorage.removeItem("mycity_convid");
     } catch {}
+  }
+
+  // Riprende una conversazione esistente per continuarla. NON fa partire risposte.
+  async function continuaConversazione(id: string) {
+    await persistConversazione(convId, messages);
+    const c = conversazioni.find((x) => x.id === id);
+    if (!c) return;
+    setMessages(c.messaggi);
+    setConvId(c.id);
+    setBase(null);
+    setConvSel([]);
+  }
+
+  // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
+  // il contesto ma NON fa partire nessuna risposta, aspetta che scrivi tu.
+  async function usaComeBase() {
+    if (convSel.length === 0) return;
+    await persistConversazione(convId, messages);
+    const scelte = conversazioni.filter((c) => convSel.includes(c.id));
+    if (scelte.length === 0) return;
+    const testo = scelte
+      .map((c) => {
+        const corpo = c.messaggi
+          .filter((m) => !m.prompt)
+          .map((m) => `${m.role === "user" ? "Utente" : "Assistente"}: ${m.content}`)
+          .join("\n");
+        return `### ${c.titolo}\n${corpo}`;
+      })
+      .join("\n\n")
+      .slice(0, 8000);
+    setBase({ titoli: scelte.map((c) => c.titolo), testo });
+    setMessages([]);
+    setConvId(null);
+    setConvSel([]);
+    try {
+      localStorage.removeItem("mycity_convid");
+    } catch {}
+  }
+
+  function toggleSel(id: string) {
+    setConvSel((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
+  }
+
+  async function eliminaConversazione(id: string) {
+    if (convServer) {
+      fetch("/api/conversazioni", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }).catch(() => {});
+    }
+    setConversazioni((list) => {
+      const n = list.filter((c) => c.id !== id);
+      if (!convServer) scriviConvLocali(n);
+      return n;
+    });
+    setConvSel((s) => s.filter((x) => x !== id));
+    if (convId === id) {
+      setConvId(null);
+      setMessages([]);
+    }
+  }
+
+  function svuotaConversazioni() {
+    if (convServer) {
+      fetch("/api/conversazioni", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tutte: true }),
+      }).catch(() => {});
+    } else {
+      scriviConvLocali([]);
+    }
+    setConversazioni([]);
+    setConvSel([]);
+    setConvId(null);
+    setMessages([]);
   }
   function cancellaDiario() {
     setDiario([]);
@@ -313,6 +466,35 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       .catch(() => {});
   }, [caricaStato]);
 
+  // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
+  // dal salvataggio locale (questo dispositivo).
+  useEffect(() => {
+    fetch("/api/conversazioni")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.tabella && Array.isArray(d.conversazioni)) {
+          setConvServer(true);
+          setConversazioni(
+            d.conversazioni.map((c: any) => ({
+              id: c.id,
+              titolo: c.titolo,
+              messaggi: Array.isArray(c.messaggi) ? c.messaggi : [],
+              created_at: c.created_at,
+              updated_at: c.updated_at,
+            }))
+          );
+        } else {
+          setConvServer(false);
+          setConversazioni(leggiConvLocali());
+        }
+      })
+      .catch(() => {
+        setConvServer(false);
+        setConversazioni(leggiConvLocali());
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
   useEffect(() => {
     try {
@@ -326,6 +508,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (o.briefing) setBriefing(o.briefing);
         if (o.ultimoAt) setUltimoAt(o.ultimoAt);
       }
+      const cid = localStorage.getItem("mycity_convid");
+      if (cid) setConvId(cid);
     } catch {}
     setCaricato(true);
   }, []);
@@ -339,6 +523,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (caricato && briefing) try { localStorage.setItem("mycity_briefing", JSON.stringify({ briefing, ultimoAt })); } catch {}
   }, [briefing, ultimoAt, caricato]);
+  useEffect(() => {
+    if (!caricato) return;
+    try {
+      if (convId) localStorage.setItem("mycity_convid", convId);
+      else localStorage.removeItem("mycity_convid");
+    } catch {}
+  }, [convId, caricato]);
 
   // Ponte col cervello (Max): controlla i lavori ogni 8s, cosi i risultati
   // del cervello compaiono qui appena pronti.
@@ -392,11 +583,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({ messages: next, contesto: base?.testo }),
       });
       const data = await res.json();
-      setMessages([...next, { role: "assistant", content: data.reply, tools: data.toolsUsed, esperto: data.esperto }]);
+      const finale: Msg[] = [...next, { role: "assistant", content: data.reply, tools: data.toolsUsed, esperto: data.esperto }];
+      setMessages(finale);
       aggiungiDiario("chat", data.esperto ? `${data.esperto.emoji} ${data.esperto.nome}` : "Assistente", `❓ ${t}\n\n${data.reply}`);
+      const id = await persistConversazione(convId, finale);
+      if (id && id !== convId) setConvId(id);
     } catch {
       setMessages([...next, { role: "assistant", content: "Connessione fallita." }]);
     } finally {
@@ -568,19 +762,39 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
           {/* Chat */}
           <section className="lg:col-span-3 flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05]">
-            <div className="flex items-center gap-2.5">
+          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
+            <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
                 <Send size={15} />
               </span>
-              <span className="text-[15px] font-semibold tracking-tight">Parla con l'assistente</span>
+              <div className="leading-tight min-w-0">
+                <div className="text-[15px] font-semibold tracking-tight truncate">Parla con l'assistente</div>
+                {convId && (
+                  <div className="text-[11px] text-black/40 truncate">
+                    {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
+                  </div>
+                )}
+              </div>
             </div>
-            {messages.length > 0 && (
-              <button onClick={cancellaChat} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota chat
-              </button>
-            )}
+            <button
+              onClick={nuovaConversazione}
+              className="shrink-0 text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition"
+              title="Salva questa conversazione e iniziane una nuova"
+            >
+              <Plus size={13} /> Nuova
+            </button>
           </div>
+          {base && (
+            <div className="px-5 py-2 bg-brand-50/70 border-b border-brand/15 text-xs text-brand flex items-center gap-2">
+              <Layers size={13} className="shrink-0" />
+              <span className="truncate">
+                Base: {base.titoli.join(" · ")} — scrivi la tua domanda, ne terrò conto.
+              </span>
+              <button onClick={() => setBase(null)} className="ml-auto shrink-0 underline hover:no-underline">
+                togli
+              </button>
+            </div>
+          )}
           <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
               <div className="pt-1">
@@ -691,6 +905,93 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           </section>
         </div>
+
+        {/* Conversazioni: ricorda e riprendi le chat precedenti */}
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2.5">
+              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+                <MessagesSquare size={16} />
+              </span>
+              <span className="text-[15px] font-semibold tracking-tight">Conversazioni</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button onClick={nuovaConversazione} className="text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition">
+                <Plus size={13} /> Nuova
+              </button>
+              {conversazioni.length > 0 && (
+                <button onClick={svuotaConversazioni} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
+                  <Trash2 size={12} /> Svuota
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="text-[11px] text-black/40 mb-3">
+            {convServer
+              ? "💾 Salvate nel database: le ritrovi anche da un altro dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."
+              : "💾 Salvate su questo dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."}
+          </p>
+
+          {convSel.length > 0 && (
+            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 bg-brand-50/50 px-3 py-2">
+              <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
+              <button
+                onClick={usaComeBase}
+                className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
+              >
+                <Layers size={13} /> Inizia nuova con queste come base
+              </button>
+              <button onClick={() => setConvSel([])} className="text-xs text-black/45 hover:text-black/70">
+                annulla
+              </button>
+            </div>
+          )}
+
+          {conversazioni.length === 0 ? (
+            <p className="text-sm text-black/40">
+              Ancora nessuna conversazione. Quando scrivi nella chat qui sopra, la conversazione viene salvata qui e potrai riprenderla.
+            </p>
+          ) : (
+            <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
+              {conversazioni.map((c) => (
+                <div
+                  key={c.id}
+                  className={`flex items-center gap-3 border rounded-xl p-3 transition ${
+                    convId === c.id ? "border-brand/40 bg-brand-50/40" : "border-black/[0.07] hover:border-black/15 hover:bg-paper/40"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={convSel.includes(c.id)}
+                    onChange={() => toggleSel(c.id)}
+                    className="w-4 h-4 accent-brand shrink-0"
+                    aria-label="Seleziona conversazione"
+                  />
+                  <button onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
+                    <div className="text-sm font-medium text-ink/85 truncate">{c.titolo}</div>
+                    <div className="text-[11px] text-black/40">
+                      {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
+                      {convId === c.id && " · in corso"}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => continuaConversazione(c.id)}
+                    className="shrink-0 text-xs font-medium text-brand border border-brand/30 rounded-full px-3 py-1.5 hover:bg-brand-50 active:scale-95 transition"
+                  >
+                    Apri
+                  </button>
+                  <button
+                    onClick={() => eliminaConversazione(c.id)}
+                    className="shrink-0 text-black/30 hover:text-red-500 transition"
+                    aria-label="Elimina conversazione"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* Lavori del cervello: ponte con Claude Code sul Max */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">

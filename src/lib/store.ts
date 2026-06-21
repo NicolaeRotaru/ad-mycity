@@ -153,3 +153,66 @@ export async function clearLavori(): Promise<void> {
     headers: { ...headers(), Prefer: "return=minimal" },
   });
 }
+
+// --- Conversazioni: la memoria delle chat (ricordare e riprendere) ---
+// Ogni riga e' una conversazione con il suo elenco di messaggi (jsonb). Se la
+// tabella "conversazioni" non esiste ancora, le funzioni segnalano tabella:false
+// cosi la dashboard ripiega sul salvataggio locale (su questo dispositivo).
+
+export type ConversazioneRow = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  titolo: string;
+  messaggi: any;
+};
+
+/** Elenco conversazioni. tabella:false se la tabella non esiste ancora. */
+export async function getConversazioni(limit = 100): Promise<{ tabella: boolean; righe: ConversazioneRow[] }> {
+  if (!memoryConnected()) return { tabella: false, righe: [] };
+  const res = await fetch(
+    `${URL}/rest/v1/conversazioni?select=id,created_at,updated_at,titolo,messaggi&order=updated_at.desc&limit=${limit}`,
+    { headers: headers(), cache: "no-store" }
+  );
+  if (!res.ok) return { tabella: false, righe: [] };
+  return { tabella: true, righe: (await res.json()) as ConversazioneRow[] };
+}
+
+/** Crea (se manca id) o aggiorna una conversazione. Torna l'id, o null. */
+export async function upsertConversazione(c: { id?: string | null; titolo: string; messaggi: any }): Promise<string | null> {
+  if (!memoryConnected()) return null;
+  if (c.id) {
+    const res = await fetch(`${URL}/rest/v1/conversazioni?id=eq.${c.id}`, {
+      method: "PATCH",
+      headers: { ...headers(), Prefer: "return=minimal" },
+      body: JSON.stringify({ titolo: c.titolo, messaggi: c.messaggi, updated_at: new Date().toISOString() }),
+    });
+    return res.ok ? c.id : null;
+  }
+  const res = await fetch(`${URL}/rest/v1/conversazioni`, {
+    method: "POST",
+    headers: { ...headers(), Prefer: "return=representation" },
+    body: JSON.stringify({ titolo: c.titolo, messaggi: c.messaggi }),
+  });
+  if (!res.ok) return null;
+  const rows = (await res.json()) as { id: string }[];
+  return rows[0]?.id || null;
+}
+
+/** Elimina una conversazione. */
+export async function deleteConversazione(id: string): Promise<void> {
+  if (!memoryConnected()) return;
+  await fetch(`${URL}/rest/v1/conversazioni?id=eq.${id}`, {
+    method: "DELETE",
+    headers: { ...headers(), Prefer: "return=minimal" },
+  });
+}
+
+/** Svuota tutte le conversazioni. */
+export async function clearConversazioni(): Promise<void> {
+  if (!memoryConnected()) return;
+  await fetch(`${URL}/rest/v1/conversazioni?id=not.is.null`, {
+    method: "DELETE",
+    headers: { ...headers(), Prefer: "return=minimal" },
+  });
+}
