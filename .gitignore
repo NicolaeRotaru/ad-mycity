@@ -1,0 +1,10 @@
+# Obsidian — cache di layout/UI che cambia di continuo (le note restano versionate)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+
+# File di sistema OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini

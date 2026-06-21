@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>MyCity — Documento Strategia (aggiornato)</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Calibri", "Segoe UI", Arial, sans-serif; color: #1a1a1a; font-size: 11pt; line-height: 1.45; max-width: 800px; margin: 0 auto; padding: 10px 0; }
+  h1 { color: #b5371a; font-size: 23pt; margin: 0 0 2px; }
+  .subtitle { color: #555; font-style: italic; font-size: 11pt; margin-bottom: 4px; }
+  .meta { color: #777; font-size: 9pt; border-bottom: 2px solid #b5371a; padding-bottom: 10px; margin-bottom: 16px; }
+  h2 { color: #b5371a; font-size: 14.5pt; margin: 22px 0 6px; border-bottom: 1px solid #e3c7bf; padding-bottom: 3px; page-break-after: avoid; }
+  h3 { color: #333; font-size: 12pt; margin: 14px 0 4px; page-break-after: avoid; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 6px 0 6px 0; padding-left: 22px; }
+  li { margin: 3px 0; }
+  strong { color: #111; }
+  .callout { background: #fbf1ee; border-left: 4px solid #b5371a; padding: 9px 13px; margin: 12px 0; border-radius: 3px; }
+  .twocol { display: flex; gap: 16px; }
+  .col { flex: 1; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 10pt; }
+  th, td { border: 1px solid #d8c4bd; padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #f3e3df; color: #7a2a14; }
+  .tag { display: inline-block; background: #eee; color: #555; border-radius: 3px; padding: 0 5px; font-size: 8.5pt; }
+  .check { color: #1a7f37; } .warn { color: #c0392b; } .add { color: #1a7f37; font-weight: bold; }
+  h2, h3, table, .callout { page-break-inside: avoid; }
+  footer { margin-top: 24px; border-top: 1px solid #ddd; padding-top: 8px; color: #888; font-size: 8.5pt; }
+</style>
+</head>
+<body>
+
+<h1>MyCity — Documento Strategia</h1>
+<div class="subtitle">Marketplace delle botteghe di Piacenza · Documento maestro aggiornato</div>
+<div class="meta">Versione integrata: strategia del fondatore + analisi del board dirigenti (finanza, prodotto, operazioni, marketing, tecnologia, vendite, strategia, dati, clienti, brand). Giugno 2026.</div>
+
+<h2>1. La strategia in una frase</h2>
+<p><strong>Non varietà, ma DENSITÀ.</strong> Una famiglia del centro fa la <strong>spesa settimanale completa</strong> in un unico <strong>carrello multi-negozio</strong>, consegnato a casa. Si vince saturando <strong>un cluster stretto</strong>, non coprendo la città.</p>
+<p><strong>Principi chiave:</strong></p>
+<ul>
+  <li><strong>Frequenza = fedeltà.</strong> Chi ordina ogni settimana crea l'abitudine; chi ordina una volta al mese dimentica l'app.</li>
+  <li><strong>Cluster stretto.</strong> Asse <strong>Via Calzolai – Piazza Duomo – Via Chiapponi</strong> (tutto in 200-400 m, pedonale/ZTL). Un solo giro di consegna.</li>
+  <li><strong>Categorie giuste:</strong> cibo fresco, gastronomia, pane, salumi, formaggi, ortofrutta, parafarmacia, fiori. Evitare elettronica/libri/abbigliamento (perdono contro Amazon).</li>
+  <li><strong>Leva sociale.</strong> I primi negozi convincono i vicini ("ce l'ho già qui accanto").</li>
+</ul>
+
+<div class="callout">
+⚖️ <strong>La verità che governa tutto</strong> (su cui finanza, operazioni, strategia e dati convergono): <em>l'ordine singolo perde soldi; il margine nasce solo dal <strong>batching</strong> — più ordini nello stesso giro, nello stesso quartiere.</em> A 1 ordine/giro il margine è negativo; a 4 ordini/giro è circa +€5. <strong>La densità non è marketing: è sopravvivenza economica.</strong>
+</div>
+
+<h2>2. Il volano a due lati: OFFERTA e DOMANDA insieme</h2>
+<p>Un marketplace ha due lati. Se firmi i negozi ma non porti clienti, dopo 3 settimane i negozi se ne vanno e la prova sociale <strong>si ribalta</strong>. Le due colonne vanno costruite <strong>in parallelo</strong>.</p>
+
+<h3>🏪 Lato OFFERTA — i negozi</h3>
+<p><strong>Sequenza corretta: prima il "carrello minimo vitale", non le 8 Priorità A.</strong> Servono ~6 botteghe <strong>contigue</strong> che insieme permettano una spesa vera:</p>
+<ol>
+  <li><strong>Pane</strong> (Panificio Remondini / Rasparini / Groppi) — traino quotidiano</li>
+  <li><strong>Ortofrutta</strong> (I Frutti della Terra <em>o</em> Solo Cose Belle) — già delivery-ready</li>
+  <li><strong>Salumi/formaggi</strong> (Garetti / Amendolara / Spaccio Serafini)</li>
+  <li><strong>Macelleria</strong> (Cattivelli &amp; Passerini / Marco e Simona)</li>
+  <li><strong>Gastronomia/pasta fresca</strong> (I Cucinieri) — ticket alto, "cena pronta"</li>
+  <li><strong>Jolly</strong> (Enoteca La Canteina <em>o</em> un secondo ortofrutta)</li>
+</ol>
+<p>Firma per primo il <strong>negozio-faro</strong> (rispettato, chiacchierone) = testimonial vivente. Pasticcerie, fiori, caffè <strong>vengono dopo</strong>, ad alzare lo scontrino. CRM completo nell'Excel "MyCity Negozi Target".</p>
+
+<h3>🧲 Lato DOMANDA — i clienti <span class="tag">il pezzo che mancava</span></h3>
+<p><strong>Cliente da attaccare per primo:</strong> la <strong>mamma/coppia che lavora nel cluster</strong> (frequenza settimanale + dolore ZTL + acquisibile a costo ~0).</p>
+<p><strong>Canali a costo ~0</strong> (budget piccolo, niente ads a pagamento): i negozi stessi (QR in cassa + bigliettino nel sacchetto) · gruppi Facebook locali ("difendiamo le botteghe del centro") · volantinaggio solo nel cluster · presidio del mercato del mercoledì e sabato.</p>
+<p><strong>Apri una waitlist pre-lancio</strong> ("primi 50 = prima consegna gratis") <em>mentre</em> firmi i negozi.</p>
+
+<h2>3. Consegna e pagamenti <span class="tag">decisione presa dall'analisi</span></h2>
+<ul>
+  <li><strong>Consegna:</strong> rider proprio su <strong>cargo-bike elettrica</strong> (accesso ZTL 8-19), <strong>batching giornaliero D+1</strong> (cut-off ordini la sera → consegna l'indomani, più ordini in un giro). All'inizio il rider è il fondatore. <span class="warn">⚠️ Il modello "il negozio consegna" è incompatibile col carrello multi-negozio</span> (5 botteghe non consegnano alla stessa porta).</li>
+  <li><strong>Soglia minima: ≥10 ordini/giorno nel cluster, sotto non si esce</strong> (si accumula al giorno dopo).</li>
+  <li><strong>Pagamenti:</strong> incassa MyCity con <strong>Stripe Connect</strong> (split payment automatico verso i negozi), NON "contanti alla consegna" → serve per fiducia, resi, commissione e compliance.</li>
+  <li><strong>Commissione: 10-15% al negozio</strong> (vs ~30% di Glovo) + fee consegna al cliente ~€2,50-5. È la leva di vendita.</li>
+</ul>
+
+<h2>4. Onboarding prodotti (target 20-25 min/negozio)</h2>
+<p>Foto dei prodotti <strong>hero</strong> (20-30, non tutto il magazzino) → l'<strong>AI estrae</strong> nome/prezzo/descrizione/categoria → review rapida (~10 sec/prodotto, <strong>prezzo sempre confermato a mano</strong>) → <strong>bulk publish</strong>. Onboarding <strong>fatto-per-loro</strong> (le foto le fai tu). Ordini al negozio via <strong>WhatsApp / stampante termica</strong>.</p>
+
+<h2>5. Il pitch (conversazione di 3-5 minuti)</h2>
+<ul>
+  <li><strong>Timing:</strong> mattina 9-10 o pomeriggio 15-16, lun-mar. NO ore di punta (12-13, 18-19), sabato pomeriggio, domenica.</li>
+  <li><strong>Gancio:</strong> "Sto portando i negozi del centro online su MyCity, avete 2 minuti?" — offri un'informazione, non chiedere l'iscrizione. Poi <strong>TACI</strong>.</li>
+  <li><strong>Proposta:</strong> ricevono a casa · "voi non cambiate niente" · "costo ZERO iniziale, pagate solo quando vendete" (mai dire "è gratis") · clienti nuovi + i fedeli riordinano.</li>
+  <li><strong>➕ Arma di chiusura nuova — il BANDO:</strong> "C'è un bando regionale che ti rimborsa il <strong>40%</strong>, ma lo sportello chiude il <strong>21 luglio 2026</strong>." (autorità + urgenza).</li>
+  <li><strong>Obiezioni:</strong> tech → "faccio io, 20 min" · Amazon/Glovo → "loro non hanno i vostri freschi né i vostri clienti" · prezzo → "sul vostro margine, zero se non vendete" · "ci penso" → mando il link col negozio già pronto + FOMO cluster.</li>
+  <li><strong>Adatta al tipo:</strong> anziano → comunità + "faccio tutto io" (mai dire "app/piattaforma") · giovane → numeri della zona · scettico → lascia il link e i numeri dei vicini.</li>
+  <li><strong>Follow-up:</strong> sera stessa WhatsApp col mockup → dopo 3 giorni telefonata → dopo 7 giorni vocale con la leva del cluster.</li>
+  <li><strong>Metrica vera:</strong> non i "sì", ma <strong>quanti vanno LIVE (&gt;40%)</strong> e fanno il primo ordine entro 72h.</li>
+</ul>
+
+<h2>6. Prossimi passi (il piano completo)</h2>
+<div class="twocol">
+  <div class="col">
+    <h3>Offerta</h3>
+    <ul>
+      <li>Definire il <strong>carrello minimo vitale</strong> (6 botteghe contigue) + negozio-faro</li>
+      <li>Fissare i termini: <strong>commissione 10-15%</strong>, zero costi iniziali, fee €2,50-5</li>
+      <li>Mockup negozio + chi scatta le foto + checklist onboarding</li>
+      <li><span class="add">➕</span> <strong>Kit candidatura bando</strong> (entro 21 luglio 2026)</li>
+      <li>Giro firme sui 6 (farsi presentare da "Vita in Centro")</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h3>Domanda (in parallelo)</h3>
+    <ul>
+      <li><span class="add">➕</span> <strong>Aprire la waitlist pre-lancio</strong> (150-250 iscritti: QR negozi, gruppi FB, volantini cluster)</li>
+      <li><span class="add">➕</span> <strong>Primo sabato "concierge"</strong> coi primi 10 clienti vicinissimi</li>
+    </ul>
+    <h3>Consegna &amp; sito</h3>
+    <ul>
+      <li><span class="add">➕</span> <strong>Consegna:</strong> cargo-bike + batching D+1 + Stripe Connect</li>
+      <li>Homepage: rimuovere demo "Salumeria del Borgo" + chiarire promessa consegna (D+1, non same-day)</li>
+    </ul>
+  </div>
+</div>
+
+<h2>7. Reality check sull'obiettivo</h2>
+<p>"100 negozi + 1000 clienti fedeli" è la <strong>destinazione</strong>, non il prossimo passo. Il break-even è a <strong>~150-320 clienti</strong> (non 1000); i 1000 sono il punto in cui MyCity genera cassa. La strada: <strong>1 cluster saturo → caso studio → replica cluster-per-cluster → città-per-città</strong> (Parma, Reggio Emilia, Modena, Ferrara).</p>
+
+<footer>MyCity — Documento Strategia aggiornato. Generato dal vault MyCity-Vault (note 06-25). I dettagli operativi di ogni area (finanza, operazioni, tecnologia, vendite, metriche, brand) sono nelle note di approfondimento corrispondenti.</footer>
+
+</body>
+</html>

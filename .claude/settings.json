@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "PowerShell(Get-PSDrive C | Select-Object Used,Free,@{N='FreeGB';E={[math]::Round\\($_.Free/1GB,2\\)}},@{N='UsedGB';E={[math]::Round\\($_.Used/1GB,2\\)}})",
+      "WebFetch(domain:notizie.regione.emilia-romagna.it)",
+      "WebFetch(domain:startupitalia.eu)",
+      "WebFetch(domain:alessiacamera.substack.com)",
+      "WebFetch(domain:www.ilpiacenza.it)",
+      "WebFetch(domain:www.paginegialle.it)",
+      "WebFetch(domain:fesr.regione.emilia-romagna.it)",
+      "WebFetch(domain:imprese.regione.emilia-romagna.it)",
+      "WebFetch(domain:stripe.com)",
+      "WebFetch(domain:www.piacenza24.eu)",
+      "WebFetch(domain:6abiella.substack.com)",
+      "WebFetch(domain:www.accessibilitacentristorici.it)",
+      "Bash(grep -r \"deliver\\\\|geocod\\\\|geoloc\\\\|tracking\\\\|map\\\\|position\" \"c:\\\\Users\\\\InfinitaPossibilita\\\\mycity-live/lib\" --include=\"*.ts\" | head -30)",
+      "Read(//c/Users/InfinitaPossibilita/mycity-live/lib/**)"
+    ]
+  }
+}
