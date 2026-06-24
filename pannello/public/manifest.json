@@ -1,0 +1,12 @@
+{
+  "name": "Pannello di Controllo · AD MyCity",
+  "short_name": "AD MyCity",
+  "description": "Il pannello di controllo dell'AD digitale di MyCity: vedi tutto e approva le azioni.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#C0492C",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

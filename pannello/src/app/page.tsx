@@ -32,11 +32,14 @@ import {
   Plus,
   MessagesSquare,
   Layers,
+  Mic,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import MemoriaViva from "@/components/MemoriaViva";
+import GovernoAD from "@/components/GovernoAD";
+import RicercaGlobale from "@/components/RicercaGlobale";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -193,6 +196,26 @@ export default function Dashboard() {
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
+  const [ascoltando, setAscoltando] = useState(false);
+  // Dettatura vocale (Web Speech API del browser): riempie l'input parlando.
+  function dettaVoce() {
+    const SR = typeof window !== "undefined" && ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+    if (!SR) {
+      alert("Il riconoscimento vocale non è supportato da questo browser (prova Chrome).");
+      return;
+    }
+    const rec = new SR();
+    rec.lang = "it-IT";
+    rec.interimResults = false;
+    rec.onresult = (e: any) => {
+      const t = e.results?.[0]?.[0]?.transcript || "";
+      setInput((cur) => (cur ? cur + " " : "") + t);
+    };
+    rec.onend = () => setAscoltando(false);
+    rec.onerror = () => setAscoltando(false);
+    setAscoltando(true);
+    rec.start();
+  }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -665,8 +688,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </div>
 
+        {/* Ricerca globale nel vault */}
+        <RicercaGlobale />
+
         {/* Memoria viva dell'AD: da approvare · attività · stato · piani */}
         <MemoriaViva />
+
+        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
+        <GovernoAD />
 
         {/* Briefing autonomo */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
@@ -876,6 +905,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 placeholder="Chiedi qualcosa o dai un obiettivo..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
+              <button
+                onClick={dettaVoce}
+                disabled={ascoltando}
+                className={`px-3 rounded-xl border transition active:scale-95 ${
+                  ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
+                }`}
+                aria-label="Detta a voce"
+                title="Detta a voce"
+              >
+                <Mic size={18} />
+              </button>
               <button
                 onClick={() => send()}
                 disabled={loading}

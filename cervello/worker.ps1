@@ -29,6 +29,16 @@ $INTERVALLO = 30   # secondi tra un controllo e l'altro
 Write-Host "Worker AD avviato. Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
 while ($true) {
   try {
+    # Kill-switch: se nel Pannello di Controllo l'AD è in PAUSA, non eseguire nulla.
+    try {
+      $imp = Invoke-RestMethod -Uri "$URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" -Headers $headers -Method Get
+      if ($imp -and @($imp).Count -gt 0 -and @($imp)[0].valore -eq "on") {
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] AD in PAUSA (kill-switch): salto questo giro."
+        Start-Sleep -Seconds $INTERVALLO
+        continue
+      }
+    } catch { }  # tabella 'impostazioni' assente: prosegui normalmente
+
     $q = "$URL/rest/v1/lavori?stato=eq.in_attesa&order=created_at.asc&limit=1"
     $righe = Invoke-RestMethod -Uri $q -Headers $headers -Method Get
     if ($righe -and @($righe).Count -gt 0) {
