@@ -1,0 +1,40 @@
+CONTEGGIO: 🔴 2 bloccanti · 🟠 36 gravi · 🟡 49 minori (tot 87)
+
+[bloccante] (layout-responsive) Barra conferma ordine mobile sovrapposta alla MobileTabBar al checkout  ->  corsia:codice
+[bloccante] (mobile-pwa) La bottom tab bar copre la CTA sticky di conferma ordine in checkout (mobile)  ->  corsia:codice
+[grave] (layout-responsive) Card 'Acquista' del prodotto in posizione errata su tablet (md)  ->  corsia:codice
+[grave] (layout-responsive) Offset sticky (top-32 = 128px) inferiore all'altezza reale dell'header sticky (~144px)  ->  corsia:codice
+[grave] (coerenza-brand) Le OG image social usano palette esplicitamente RIFIUTATE dal design system (indigo/viola e rosa/arancio) + emoji  ->  corsia:codice
+[grave] (coerenza-brand) CTA mostarda (accent) con convenzioni di tonalita/hover divergenti tra schermate  ->  corsia:codice
+[grave] (coerenza-brand) Badge sconto '-X%' renderizzato in 3 colori diversi nelle varie superfici  ->  corsia:codice
+[grave] (coerenza-brand) Blocco 'Promozioni attive' nei negozi costruito interamente su rosa fuori-palette  ->  corsia:codice
+[grave] (coerenza-brand) Stelle di rating con due sistemi di icone (Lucide vs glyph unicode ★/☆)  ->  corsia:codice
+[grave] (coerenza-brand) Token --danger non allineato all'implementazione (commento 'rose-600' errato, red-600 nel token, rose-600 nel codice) e assenza di scala 'danger' nei token Tailwind  ->  corsia:codice
+[grave] (tipografia) Plugin @tailwindcss/typography assente: le classi prose nelle pagine legali sono morte (paragrafi senza spaziatura)  ->  corsia:codice
+[grave] (tipografia) Stelle di rating illeggibili: glifo testuale ★ in text-accent-500/400 su sfondo bianco = contrasto 2.0-2.2:1  ->  corsia:codice
+[grave] (tipografia) Wordmark del footer: parte accent in text-accent-500 su footer bg-cream-200 = 1.85:1  ->  corsia:codice
+[grave] (tipografia) Testo bianco su bg-accent-500 in 3 CTA (incoerenza col pattern ink-900) = 2.16:1  ->  corsia:codice
+[grave] (accessibilita-visiva) Focus visibile assente/invisibile su navbar e barra categorie (contrasto 1,34:1)  ->  corsia:codice
+[grave] (accessibilita-visiva) Tab attiva CategoryBar: testo accent-300 su terracotta sotto soglia AA (3,87:1)  ->  corsia:codice
+[grave] (accessibilita-visiva) Pulsanti CTA con testo bianco su accent-500 (contrasto 2,16:1)  ->  corsia:codice
+[grave] (accessibilita-visiva) Wordmark nel footer: testo accent-500 su crema con contrasto 1,85:1  ->  corsia:codice
+[grave] (stati-ui) ProductGrid: nessuno stato di errore — i fallimenti di rete vengono mostrati come "Nessun prodotto trovato"  ->  corsia:codice
+[grave] (stati-ui) Pagina ordini: errore di caricamento mostrato come "Non hai ancora ordini"  ->  corsia:codice
+[grave] (stati-ui) Pagina preferiti: errore di caricamento mostrato come "Nessun preferito ancora" + errore DB ignorato nel queryFn  ->  corsia:codice
+[grave] (stati-ui) Pagina negozi: nessuno stato di errore (e il queryFn non controlla l'errore Supabase)  ->  corsia:codice
+[grave] (stati-ui) StoreShowcase (home): nessuno skeleton di caricamento e nessuno stato di errore  ->  corsia:codice
+[grave] (stati-ui) Scheda prodotto: stato errore/not-found ridotto a testo grezzo "Prodotto non trovato."  ->  corsia:codice
+[grave] (immagini-media) OG image social con gradiente OFF-BRAND e incoerenti tra prodotto e negozio  ->  corsia:codice
+[grave] (immagini-media) Apple touch icon in SVG: iOS ignora l'icona su 'Aggiungi a Home'; manifest senza PNG né maskable  ->  corsia:codice
+[grave] (immagini-media) Nessuna OG image per home e pagine statiche → anteprima social 'nuda' + twitter card 'summary'  ->  corsia:codice
+[grave] (immagini-media) Catalogo quasi interamente popolato da foto stock Pexels (non foto reali dei negozi)  ->  corsia:config
+[grave] (mobile-pwa) Icone PWA solo in formato SVG: home-screen iOS vuota e niente icona maskable Android  ->  corsia:codice
+[grave] (mobile-pwa) Pulsante di chiusura (X) dell'onboarding ancorato allo schermo, non alla card  ->  corsia:codice
+[grave] (flussi-conversione) Carrello irraggiungibile dalla navbar desktop per gli ospiti (non loggati)  ->  corsia:codice
+[grave] (flussi-conversione) Soglia 'spedizione gratis' calcolata sul totale globale nel carrello ma per-negozio al checkout: il costo puo' cambiare tra le due pagine  ->  corsia:codice
+[grave] (flussi-conversione) L'upsell del carrello aggiunge prodotti con varianti senza opzioni, generando un articolo bloccato al checkout  ->  corsia:codice
+[grave] (flussi-conversione) Promessa di consegna nell'hero ('30-60 min') in contrasto col resto del sito ('24-48h')  ->  corsia:config
+[grave] (flussi-conversione) Fascia di consegna sempre 'Al completo' e disabilitata: scarsita' finta hardcoded  ->  corsia:codice
+[grave] (microcopy) Promessa "paghi alla consegna / niente carta" contraddice il checkout (carta come prima opzione)  ->  corsia:codice
+[grave] (microcopy) Newsletter etichettata "Iscriviti · €5" ma l'iscrizione è gratuita (nessun pagamento)  ->  corsia:codice
+[grave] (microcopy) Tempo di consegna nella home live (30-60 min) contraddice il 24-48h di tutto il resto  ->  corsia:config
