@@ -77,6 +77,11 @@ export async function queryTable(opts: {
   }
 }
 
+/** Lettura grezza (SOLA LETTURA) di righe da una tabella del marketplace. */
+export async function marketplaceSelect(table: string, qs: string): Promise<any[]> {
+  return selectRows(table, qs);
+}
+
 async function selectRows(table: string, qs: string): Promise<any[]> {
   // Resiliente: se una tabella non e' leggibile, non blocca le altre metriche.
   try {

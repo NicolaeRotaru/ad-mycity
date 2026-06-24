@@ -41,6 +41,7 @@ import MemoriaViva from "@/components/MemoriaViva";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
+import NumeriReport from "@/components/NumeriReport";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -700,6 +701,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
         <Intelligence />
+
+        {/* Numeri & report: trend · unit economics · report */}
+        <NumeriReport />
 
         {/* Briefing autonomo */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
