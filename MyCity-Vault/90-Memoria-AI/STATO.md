@@ -26,9 +26,9 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime 3 mosse dell'AD
-1. **Giro di perlustrazione 24/6** (dati reali): ancora 0 ordini / 0 clienti reali / 0 recensioni; nessuna sentinella scattata — vedi [[2026-06-24-giro]].
-2. **Team play** → pacchetto faro pronto (pitch, contratto, locandina QR, payout, primo ordine) in `consegne/`.
-3. Squadrone (40 senior) + sistema mani/capacità pronti, ma tutto in dry-run finché non colleghi le chiavi.
+1. **MACCHINA DI MARKETING completa (24/6)**: piano editoriale 4 settimane + 7 pacchetti di contenuti/copy (16 post, 7 flussi email, kit stampa, 8 reel, SEO/GBP, visivo), **Marketing Autopilot** (scheduler + 5 publisher + n8n, dry-run) e **Content Factory** che genera **contenuti grafici VERI** (post PNG + reel) — già prodotti i 4 post + 1 reel della S1. Vedi [[2026-06-24-piano-editoriale]].
+2. **Costruttore → DNA v1.1**: la capacità di auto-marketing è stata innestata nel genoma (riusabile da ogni Organismo).
+3. **Giro 24/6** (dati reali): ancora 0 ordini / 0 clienti reali / 0 recensioni — il collo di bottiglia resta la domanda; il motore di marketing è pronto a partire al collegamento delle mani.
 
 ## Prossime priorità (da approvare)
 - [ ] STASERA: confermare Stripe live/sandbox + sistemare branding + stampare materiali + creare form/IG.

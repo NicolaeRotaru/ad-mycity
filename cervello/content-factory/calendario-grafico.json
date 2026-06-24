@@ -1,0 +1,59 @@
+{
+  "_README": "Mappa il CALENDARIO-4-SETTIMANE.md (testi reali) in 'voci grafiche' per la Content Factory. Ogni voce dichiara pilastro+formato e i testi gia' sintetizzati per la grafica (titolo/testo/cta sono versioni brevi adatte all'immagine, NON la caption integrale che resta nel .md). Modifica liberamente: e' un file dati. I segnaposto [Garetti: __]/[MyCity: __] vanno riempiti coi dati VERI prima di pubblicare (🔴).",
+  "settimane": {
+    "1": [
+      {
+        "id": "S1-LUN-storia",
+        "pilastro": "storia-bottega",
+        "formato": "portrait",
+        "kicker": "Storia di bottega",
+        "titolo": "Sotto il Duomo si affetta la coppa a mano.",
+        "testo": "Stessa famiglia, stesso bancone, stesso profumo quando entri.\n\nA Piacenza di posti così ne abbiamo persi tanti: −22% di botteghe del centro in 12 anni.\n\nIo non ci sto. La prima è l'Antica Salumeria Garetti, in Piazza Duomo.",
+        "cta": "Scrivi 'centro': primi 50 = prima consegna gratis",
+        "handle": "@mycity.piacenza"
+      },
+      {
+        "id": "S1-MER-consiglio",
+        "pilastro": "consiglio-mercoledi",
+        "formato": "portrait",
+        "kicker": "Il consiglio del Vicino",
+        "titolo": "Pisarei e fasò: a Piacenza non si discute.",
+        "testo": "Il segreto non è la ricetta, è la materia prima: lo strutto giusto, il lardo battuto bene.\n\nFatti dare il lardo da chi te lo batte al momento. Cambia tutto.",
+        "cta": "Salva il post. Ingredienti veri a casa: lista in bio.",
+        "handle": "@mycity.piacenza"
+      },
+      {
+        "id": "S1-VEN-weekend",
+        "pilastro": "ordina-weekend",
+        "formato": "story",
+        "kicker": "È venerdì 🐎",
+        "titolo": "Il tagliere del weekend.",
+        "testo": "Coppa, pancetta e salame DOP della bottega del Duomo.\n\nNiente coda, niente ZTL. A casa tua.",
+        "cta": "Lista d'attesa: primi 50 = consegna gratis",
+        "handle": "@mycity.piacenza"
+      },
+      {
+        "id": "S1-DOM-prova",
+        "pilastro": "prova-sociale",
+        "formato": "portrait",
+        "kicker": "Salviamo il centro",
+        "titolo": "Un patto tra i piacentini e le loro botteghe.",
+        "testo": "Tutta gente di Piacenza che ha detto: \"sì, le nostre botteghe le difendo io\".\n\nNon è un'app qualunque. Grazie a chi c'è già. Se non ci sei ancora, c'è posto.",
+        "cta": "Lista d'attesa: primi 50 = prima consegna gratis",
+        "handle": "@mycity.piacenza"
+      }
+    ]
+  },
+  "reel": {
+    "1": {
+      "id": "S1-reel-lancio",
+      "nomeBase": "S1-reel-lancio",
+      "schede": [
+        { "kicker": "Piacenza", "titolo": "Le botteghe del centro", "testo": "stanno sparendo.\n−22% in 12 anni." },
+        { "kicker": "Ma", "titolo": "La spesa vera", "testo": "a casa tua.\nSenza ZTL, senza coda." },
+        { "kicker": "La prima", "titolo": "Salumeria Garetti", "testo": "Piazza Duomo.\nLe altre arrivano." },
+        { "kicker": "Insieme", "titolo": "Le salviamo", "testo": "Iscriviti alla lista.\nPrimi 50 = consegna gratis." }
+      ]
+    }
+  }
+}

@@ -40,9 +40,10 @@ Fonte: `consegne/pr/KIT-STAMPA-LANCIO.md`. Tutto scritto e pronto; serve la firm
 - **Data proposta:** 2026-06-24
 - **Cosa:** pubblicare i 16 post + bio IG/FB del calendario `consegne/content/CALENDARIO-4-SETTIMANE.md` sui canali reali (gruppi FB locali, IG feed/storie).
 - **Perché 🔴:** tocca canali pubblici reali in città piccola; cita nome/foto del negoziante.
-- **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) grafiche pronte da @designer; (6) peer review @finanza sulla promo "primi 50 gratis".
+- **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) grafiche pronte ✅ (S1 generata dalla Content Factory: 4 PNG + 1 reel .webm in `creativi/output/social/` — vedi `consegne/automazioni/CONTENT-FACTORY.md`); (6) peer review @finanza sulla promo "primi 50 gratis".
 - **Mani:** canali social → da collegare via @builder-automazioni (o pubblicazione manuale).
 - **Stato:** IN ATTESA DI FIRMA NICOLA.
+- **Nota builder (2026-06-24):** le grafiche di base ci sono già a €0. Per i contenuti AI fotorealistici / Canva pro / video MP4 servono le chiavi (`GEMINI_API_KEY` / `CANVA_TOKEN` / `RUNWAY_API_KEY|KLING_API_KEY`) — collegabili da @builder-automazioni al via di Nicola.
 
 ## 2026-06-24 · @crm-lifecycle · Flussi lifecycle pronti (DRY-RUN)
 Fonte: consegne/crm/FLUSSI-LIFECYCLE.md — niente è stato inviato.
