@@ -19,6 +19,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 | 2 | 2026-06-25 | finanza | Modalità payout-test: **1€ reale** (da stornare dopo) **o** ambiente test Stripe | 🔴 | consegne/finanza/payout-faro.md | onboarding min 17-20 | in attesa |
 | 3 | 2026-06-25 | customer-success | Via libera a inviare i **messaggi/telefonate ai clienti reali** del primo ordine (testi pronti) | 🟡 | consegne/customer-success/primo-ordine-faro.md | manuale (poi email/n8n) | in attesa |
 | 4 | 2026-06-24 | tech | **Merge + deploy** del fix checkout (tab bar mobile copriva "Conferma ordine") | 🔴 | PR #199 (github.com/NicolaeRotaru/mycity/pull/199) · branch `fix/checkout-tabbar-overlap` | controlla anteprima Render su mobile → merge su main | PR aperta, attende verifica+merge |
+| 5 | 2026-06-24 | frontend-dev | **Merge + deploy** Gruppo 1 audit-design (carrello ospiti, upsell varianti, slot consegna, microcopy pagamento, newsletter €5, spedizione stima) | 🔴 | PR #200 · branch `fix/group1-conversione` (worktree `mycity-g1`) | CI verde + anteprima mobile → merge su main | PR aperta, attende verifica+merge |
 
 <!-- I senior aggiungono righe qui sotto. Esempio:
 | 1 | 2026-06-25 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa |
