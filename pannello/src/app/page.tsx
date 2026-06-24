@@ -359,31 +359,37 @@ export default function Dashboard() {
   }
 
   // Manda un compito al "cervello" (Claude Code sul Max): lo esegue in background
-  // e il risultato compare qui sotto in "Lavori del cervello".
-  async function mandaAlCervello() {
-    const t = input.trim();
-    if (!t) return;
-    setInput("");
+  // e il risultato compare qui sotto in "Lavori del cervello". È il modo di
+  // chattare SENZA usare l'API a pagamento: lavora il tuo abbonamento Max.
+  async function mandaAlCervello(text?: string) {
+    const t = (text ?? input).trim();
+    if (!t || loading) return;
+    if (text === undefined) setInput("");
+    // Se hai scelto una o più conversazioni "come base", le accodo come contesto.
+    const richiesta = base?.testo ? `${t}\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : t;
     setMessages((m) => [
       ...m,
       { role: "user", content: t },
-      { role: "assistant", content: "🧠 Mandato al cervello (Max). Lo trovi qui sotto in «Lavori del cervello» quando è pronto." },
+      { role: "assistant", content: "🧠 Mandato al cervello (Max). La risposta compare qui sotto in «Lavori del cervello» appena è pronta." },
     ]);
+    setLoading(true);
     try {
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta: t }),
+        body: JSON.stringify({ richiesta }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
         setLavori((l) => [d.lavoro, ...l]);
         aggiungiDiario("chat", "🧠 Mandato al cervello", t);
       } else {
-        setMessages((m) => [...m, { role: "assistant", content: `⚠️ ${d.error || "Non sono riuscito a creare il lavoro."}` }]);
+        setMessages((m) => [...m, { role: "assistant", content: `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}` }]);
       }
     } catch {
       setMessages((m) => [...m, { role: "assistant", content: "⚠️ Connessione fallita." }]);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -573,32 +579,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }
 
-  async function send(text?: string) {
-    const t = (text ?? input).trim();
-    if (!t || loading) return;
-    const next = [...messages, { role: "user" as const, content: t }];
-    setMessages(next);
-    setInput("");
-    setLoading(true);
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next, contesto: base?.testo }),
-      });
-      const data = await res.json();
-      const finale: Msg[] = [...next, { role: "assistant", content: data.reply, tools: data.toolsUsed, esperto: data.esperto }];
-      setMessages(finale);
-      aggiungiDiario("chat", data.esperto ? `${data.esperto.emoji} ${data.esperto.nome}` : "Assistente", `❓ ${t}\n\n${data.reply}`);
-      const id = await persistConversazione(convId, finale);
-      if (id && id !== convId) setConvId(id);
-    } catch {
-      setMessages([...next, { role: "assistant", content: "Connessione fallita." }]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function approva(a: Azione) {
     try {
       const res = await fetch("/api/esegui", {
@@ -616,8 +596,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {
       /* canale non disponibile: ripiego sulla pianificazione */
     }
-    // Nessun canale d'azione collegato: l'esperto spiega i passi da fare a mano.
-    send(`Approvo: "${a.titolo}". Spiegami i passi concreti per realizzarla e cosa ti serve da me.`);
+    // Nessun canale d'azione collegato: mando al cervello (Max) i passi da fare.
+    mandaAlCervello(`Approvo: "${a.titolo}". Spiegami i passi concreti per realizzarla e cosa ti serve da me.`);
   }
 
   return (
@@ -872,17 +852,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Chiedi qualcosa o dai un obiettivo..."
+                onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
+                placeholder="Scrivi al cervello (Max), gratis..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
-                onClick={() => send()}
-                disabled={loading}
-                className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
-                aria-label="Invia"
+                onClick={() => mandaAlCervello()}
+                disabled={loading || !input.trim()}
+                className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
+                aria-label="Manda al cervello"
+                title="Manda al cervello (Claude Code sul tuo Max): gratis, in background"
               >
-                <Send size={18} />
+                {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
             </div>
             <div className="flex gap-2">
@@ -894,17 +875,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               >
                 <FileText size={14} /> Prompt (copia per Max)
               </button>
-              <button
-                onClick={mandaAlCervello}
-                disabled={!input.trim()}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
-                title="Manda il compito al cervello (Claude Code sul Max): pesante, gratis, in background"
-              >
-                <Brain size={14} /> Manda al cervello (Max)
-              </button>
             </div>
             <p className="text-[11px] text-black/40 px-1 leading-relaxed">
-              💬 <b>Invia</b> = subito (API, a pagamento) · 📋 <b>Prompt</b> = lo copi nel Max · 🧠 <b>Cervello</b> = lo fa il Max in automatico
+              🧠 <b>Invia</b> = lo fa il cervello sul tuo Max (gratis, in background) · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
           </section>
