@@ -216,3 +216,41 @@ export async function clearConversazioni(): Promise<void> {
     headers: { ...headers(), Prefer: "return=minimal" },
   });
 }
+
+// --- Impostazioni: chiave/valore per kill-switch, budget AI, preferenze ---
+// Tabella `impostazioni` (chiave text unique, valore text, updated_at). Se manca,
+// le funzioni ripiegano silenziosamente e il pannello usa i default.
+
+/** Legge il valore di una impostazione (o null se assente/non collegato). */
+export async function getImpostazione(chiave: string): Promise<string | null> {
+  if (!memoryConnected()) return null;
+  const res = await fetch(
+    `${URL}/rest/v1/impostazioni?select=valore&chiave=eq.${encodeURIComponent(chiave)}&limit=1`,
+    { headers: headers(), cache: "no-store" }
+  );
+  if (!res.ok) return null;
+  const rows = (await res.json()) as { valore: string }[];
+  return rows[0]?.valore ?? null;
+}
+
+/** Legge tutte le impostazioni come mappa chiave→valore. */
+export async function getImpostazioni(): Promise<{ tabella: boolean; valori: Record<string, string> }> {
+  if (!memoryConnected()) return { tabella: false, valori: {} };
+  const res = await fetch(`${URL}/rest/v1/impostazioni?select=chiave,valore`, { headers: headers(), cache: "no-store" });
+  if (!res.ok) return { tabella: false, valori: {} };
+  const rows = (await res.json()) as { chiave: string; valore: string }[];
+  const valori: Record<string, string> = {};
+  for (const r of rows) valori[r.chiave] = r.valore;
+  return { tabella: true, valori };
+}
+
+/** Scrive (upsert) una impostazione. Torna true se riuscito. */
+export async function setImpostazione(chiave: string, valore: string): Promise<boolean> {
+  if (!memoryConnected()) return false;
+  const res = await fetch(`${URL}/rest/v1/impostazioni?on_conflict=chiave`, {
+    method: "POST",
+    headers: { ...headers(), Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: JSON.stringify({ chiave, valore, updated_at: new Date().toISOString() }),
+  });
+  return res.ok;
+}

@@ -14,6 +14,18 @@ if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
   exit 1
 }
 
+# Kill-switch (opzionale): se il Pannello di Controllo ha messo l'AD in PAUSA, non girare.
+if ($env:SUPABASE_URL -and $env:SUPABASE_SERVICE_KEY) {
+  try {
+    $h = @{ apikey = $env:SUPABASE_SERVICE_KEY; Authorization = "Bearer $($env:SUPABASE_SERVICE_KEY)" }
+    $imp = Invoke-RestMethod -Uri "$($env:SUPABASE_URL)/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" -Headers $h -Method Get
+    if ($imp -and @($imp).Count -gt 0 -and @($imp)[0].valore -eq "on") {
+      Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] AD in PAUSA (kill-switch): giro saltato."
+      exit 0
+    }
+  } catch { }  # nessuna tabella impostazioni: prosegui
+}
+
 # Il prompt del giro
 $prompt = Get-Content -Raw -Path (Join-Path $PSScriptRoot "giro.md")
 

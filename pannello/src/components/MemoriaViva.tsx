@@ -9,6 +9,7 @@ import {
   RefreshCw,
   Loader2,
   CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -107,19 +108,22 @@ export default function MemoriaViva() {
     carica();
   }, [carica]);
 
-  async function approva(az: Azione) {
+  async function decidi(az: Azione, decisione: "approva" | "rifiuta") {
     setApprovando(az.numero);
     setEsito(null);
     try {
       const res = await fetch("/api/approva", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ numero: az.numero, azione: az.azione }),
+        body: JSON.stringify({ numero: az.numero, azione: az.azione, decisione }),
       });
       const d = await res.json();
+      const okMsg = decisione === "rifiuta"
+        ? "Rifiutata: l'AD la segnerà come ❌ RIFIUTATA."
+        : "Inviata al cervello: l'AD la eseguirà e segnerà FATTO.";
       setEsito(
         d.ok
-          ? { numero: az.numero, ok: true, msg: "Inviata al cervello: l'AD la eseguirà e segnerà FATTO." }
+          ? { numero: az.numero, ok: true, msg: okMsg }
           : { numero: az.numero, ok: false, msg: d.error || "Errore." }
       );
     } catch (e: any) {
@@ -226,14 +230,24 @@ export default function MemoriaViva() {
                       )}
                     </div>
                     {a.inAttesa && (
-                      <button
-                        onClick={() => approva(a)}
-                        disabled={approvando === a.numero}
-                        className="shrink-0 inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3 py-1.5 rounded-lg shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-                      >
-                        {approvando === a.numero ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-                        Approva
-                      </button>
+                      <div className="shrink-0 flex flex-col gap-1.5">
+                        <button
+                          onClick={() => decidi(a, "approva")}
+                          disabled={approvando === a.numero}
+                          className="inline-flex items-center justify-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3 py-1.5 rounded-lg shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
+                        >
+                          {approvando === a.numero ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
+                          Approva
+                        </button>
+                        <button
+                          onClick={() => decidi(a, "rifiuta")}
+                          disabled={approvando === a.numero}
+                          className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50"
+                        >
+                          <XCircle size={14} />
+                          Rifiuta
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
