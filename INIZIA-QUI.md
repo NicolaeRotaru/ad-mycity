@@ -1,10 +1,13 @@
-# 🏠 INIZIA QUI — la mappa del tuo secondo cervello
+# 🏠 INIZIA QUI — la mappa di AD MyCity
 
 > Apri **sempre questa nota per prima**. Da qui raggiungi tutto in un clic: **non navigare le cartelle**, torna qui.
 
 Ci sono **due mondi**:
 - 📚 **LA TUA CONOSCENZA** — tutto ciò che sai e hai deciso su MyCity (strategia, mercato, prodotto, numeri).
 - 🤖 **LA TUA AZIENDA AI** — l'assistente (AD) e i 40 dipendenti senior che lavorano per te.
+
+> 🖥️ **Il Pannello di Controllo web** (cartella `pannello/`) è la dashboard dove vedi
+> tutto a colpo d'occhio e approvi le azioni. Gira separato dal vault ma legge questa stessa memoria.
 
 > 🎛️ **I comandi che puoi darmi** (come *"fai un giro"*) → **[[COMANDI]]**
 

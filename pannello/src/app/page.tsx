@@ -36,6 +36,7 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import MemoriaViva from "@/components/MemoriaViva";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -628,8 +629,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               M
             </div>
             <div className="leading-tight min-w-0">
-              <h1 className="font-semibold text-[15px] tracking-tight truncate">MyCity Assistant</h1>
-              <span className="text-xs text-black/40">co-pilota vivo</span>
+              <h1 className="font-semibold text-[15px] tracking-tight truncate">Pannello di Controllo</h1>
+              <span className="text-xs text-black/40">AD MyCity</span>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -663,6 +664,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <span>In prova · memoria non collegata (i giri non si salvano) · ultimo {fa(ultimoAt)}</span>
           )}
         </div>
+
+        {/* Memoria viva dell'AD: da approvare · attività · stato · piani */}
+        <MemoriaViva />
 
         {/* Briefing autonomo */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">

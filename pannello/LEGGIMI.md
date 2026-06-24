@@ -1,4 +1,4 @@
-# MyCity Assistant — versione minima (solo AI)
+# 🖥️ Pannello di Controllo — AD MyCity
 
 Versione ridotta per **testare solo la chat AI**.
 Niente Supabase, niente Stripe: serve una sola chiave.

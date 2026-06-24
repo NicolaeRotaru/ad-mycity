@@ -1,5 +1,5 @@
 # Esegue un "giro di perlustrazione" dell'AD con Claude Code (piano Max).
-# Gira nella cartella "secondo cervello", così Claude Code prende automaticamente
+# Gira nella cartella di AD MyCity, così Claude Code prende automaticamente
 # CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
 
 $ErrorActionPreference = "Stop"
@@ -28,7 +28,7 @@ Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Giro completato."
 # Incolla questo comando in PowerShell (adatta il percorso se serve):
 #
 # schtasks /Create /TN "MyCity-AD-Giro" /SC DAILY /ST 08:00 /TR `
-#   "powershell -NoProfile -ExecutionPolicy Bypass -File `"C:\Users\InfinitaPossibilita\Desktop\secondo cervello\cervello\giro.ps1`""
+#   "powershell -NoProfile -ExecutionPolicy Bypass -File `"C:\Users\InfinitaPossibilita\Desktop\ad-mycity\cervello\giro.ps1`""
 #
 # Per più giri al giorno usa /SC HOURLY /MO 3  (ogni 3 ore), ecc.
 # Per rimuoverlo:  schtasks /Delete /TN "MyCity-AD-Giro" /F

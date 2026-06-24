@@ -1,7 +1,7 @@
 # Worker della coda "lavori" (Modo B del README).
 # Prende i lavori "in_attesa" dalla memoria Supabase e li fa eseguire all'AD
 # (Claude Code, piano Max), poi riscrive il risultato. Serve solo se usi anche
-# la dashboard web del repo Assistente-mycity.
+# il Pannello di Controllo web (cartella pannello/).
 #
 # Richiede le variabili d'ambiente del progetto MEMORIA (NON del marketplace):
 #   SUPABASE_URL          = https://LA-MEMORIA.supabase.co
@@ -40,7 +40,15 @@ while ($true) {
       Invoke-RestMethod -Uri "$URL/rest/v1/lavori?id=eq.$($lav.id)" -Headers $headers -Method Patch -Body $upd | Out-Null
 
       # 2) esegui con Claude Code (prende CLAUDE.md + agenti dal repo)
-      $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:`n`n$($lav.richiesta)"
+      if ($lav.tipo -eq "esegui-azione") {
+        # Azione APPROVATA dal Pannello di Controllo: va eseguita davvero con le "mani".
+        $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). $($lav.richiesta)`n`n" +
+                  "Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run). " +
+                  "Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md. " +
+                  "Restituisci a Nicola, in chiaro, COSA è partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
+      } else {
+        $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:`n`n$($lav.richiesta)"
+      }
       $out = (claude -p $prompt --permission-mode acceptEdits | Out-String)
 
       # 3) riscrivi il risultato

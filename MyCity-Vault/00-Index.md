@@ -59,7 +59,7 @@
 - [[AZIONI-IN-ATTESA]] — Coda delle azioni 🟡/🔴 pronte, in attesa della firma di Nicola
 - [[DECISIONI]] — Registro append-only delle decisioni 🟡/🔴 (tracciabilità)
 - `90-Memoria-AI/Briefing/` — Un file per ogni giro di perlustrazione
-- [[Collegamento-AD]] — Come collegare anche la dashboard web (Assistente-mycity) a questo vault
+- [[Collegamento-AD]] — Come collegare il Pannello di Controllo web (cartella `pannello/`) a questo vault
 
 ---
 
