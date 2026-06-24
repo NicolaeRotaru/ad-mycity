@@ -40,6 +40,7 @@ import remarkBreaks from "remark-breaks";
 import MemoriaViva from "@/components/MemoriaViva";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
+import Intelligence from "@/components/Intelligence";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -696,6 +697,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
         <GovernoAD />
+
+        {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
+        <Intelligence />
 
         {/* Briefing autonomo */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
