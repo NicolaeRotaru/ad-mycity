@@ -32,6 +32,7 @@ import {
   Plus,
   MessagesSquare,
   Layers,
+  Home,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -176,6 +177,7 @@ function fa(iso: string | null): string {
 }
 
 export default function Dashboard() {
+  const [vista, setVista] = useState<"oggi" | "assistente" | "storico">("oggi");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
@@ -645,6 +647,41 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </div>
 
+        {/* Navigazione: 3 aree chiare invece di un muro unico */}
+        {(() => {
+          const SCHEDE = [
+            { id: "oggi", label: "Oggi", icon: <Home size={16} />, desc: "Cosa devo decidere, i numeri di oggi e cosa ha scoperto l'AD." },
+            { id: "assistente", label: "Assistente", icon: <Send size={16} />, desc: "Chiedi o dai un compito: risponde il cervello sul tuo Max, gratis." },
+            { id: "storico", label: "Storico", icon: <History size={16} />, desc: "Il diario di tutto ciò che l'AD ha detto e fatto." },
+          ] as const;
+          const attiva = SCHEDE.find((s) => s.id === vista);
+          return (
+            <div>
+              <div className="flex gap-1.5 sm:gap-2">
+                {SCHEDE.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setVista(t.id)}
+                    className={`flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 text-sm font-medium px-2 sm:px-3 py-2.5 rounded-xl transition ${
+                      vista === t.id
+                        ? "bg-brand text-white shadow-card"
+                        : "bg-white text-black/55 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                    }`}
+                  >
+                    {t.icon}
+                    <span>{t.label}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-black/45 mt-2 px-1">{attiva?.desc}</p>
+            </div>
+          );
+        })()}
+
+        {/* ===================== SCHEDA: OGGI ===================== */}
+        {vista === "oggi" && (
+        <div className="space-y-6">
+
         {/* Memoria viva dell'AD: da approvare · attività · stato · piani */}
         <MemoriaViva />
 
@@ -722,30 +759,39 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
-        {/* Metriche (a sinistra) + Chat */}
-        <div className="grid lg:grid-cols-5 gap-5">
-          <aside className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <BarChart3 size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Cockpit</span>
-            </div>
-            <div className="grid grid-cols-2 gap-3 content-start">
-              {METRICHE.map((m) => (
-                <Card
-                  key={m.label}
-                  icon={m.icon}
-                  label={m.label}
-                  value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
-                  fonte={m.fonte}
-                />
-              ))}
-            </div>
-          </aside>
+        {/* I numeri (cockpit) */}
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+          <div className="flex items-center gap-2.5 mb-1">
+            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <BarChart3 size={16} />
+            </span>
+            <span className="text-[15px] font-semibold tracking-tight">I numeri di oggi</span>
+          </div>
+          <p className="text-[12px] text-black/45 mb-4 pl-[42px]">
+            Come va l'azienda adesso. Le caselle spente sono fonti ancora da collegare.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 content-start">
+            {METRICHE.map((m) => (
+              <Card
+                key={m.label}
+                icon={m.icon}
+                label={m.label}
+                value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
+                fonte={m.fonte}
+              />
+            ))}
+          </div>
+        </section>
+
+        </div>
+        )}
+
+        {/* ===================== SCHEDA: ASSISTENTE ===================== */}
+        {vista === "assistente" && (
+        <div className="space-y-6">
 
           {/* Chat */}
-          <section className="lg:col-span-3 flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
+          <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -881,7 +927,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </div>
           </section>
-        </div>
 
         {/* Conversazioni: ricorda e riprendi le chat precedenti */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
@@ -1015,6 +1060,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
+        </div>
+        )}
+
+        {/* ===================== SCHEDA: STORICO ===================== */}
+        {vista === "storico" && (
+        <div className="space-y-6">
+
         {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
           <div className="flex items-center justify-between mb-3">
@@ -1054,6 +1106,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
+
+        </div>
+        )}
       </main>
     </div>
   );
