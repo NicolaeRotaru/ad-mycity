@@ -36,3 +36,5 @@ Le modifiche restano **coerenti con la design system** (niente colori/font a cas
 pubblici (li vedono i clienti) sono 🟡: te li mostro/applico e ti dico cosa ho cambiato (config = undo facile).
 
 Motore audit: `.claude/workflows/audit-design.js`. Comando nel menù: [[COMANDI]].
+
+> 📋 Piano dei fix in corso: [[PIANO-FIX-DESIGN]] (i 4 gruppi rimasti + come eseguirli).
