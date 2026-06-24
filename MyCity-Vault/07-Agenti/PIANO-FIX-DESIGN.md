@@ -17,7 +17,7 @@ report-dettagli: consegne/design/2026-06-24-audit-design.md
 ---
 
 ## ▶️ COME ESEGUIRE UN GRUPPO (in un'altra sessione)
-**Prerequisiti:** Claude Code aperto in questa cartella (`secondo cervello`); `mycity-live` presente in
+**Prerequisiti:** Claude Code aperto in questa cartella (`ad-mycity`); `mycity-live` presente in
 `C:\Users\InfinitaPossibilita\mycity-live` e aggiornato su `main`.
 
 1. Di' all'AD: **«sistema il gruppo 2 dell'audit design»** (o 3, 4, 5).

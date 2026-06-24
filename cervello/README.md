@@ -34,9 +34,10 @@ Il prompt del giro è in `giro.md` — modificalo per cambiare cosa fa l'AD ogni
 
 ---
 
-## Modo B — Coda lavori (la versione "ponte" del repo Assistente-mycity) 🔧
-La dashboard web crea righe nella tabella `lavori` (Supabase memoria); questo
-worker le prende e le fa eseguire all'AD. Serve solo se usi anche la dashboard web.
+## Modo B — Coda lavori (il "ponte" con il Pannello di Controllo) 🔧
+Il Pannello di Controllo (cartella `pannello/`) crea righe nella tabella `lavori`
+(Supabase memoria); questo worker le prende e le fa eseguire all'AD. Serve solo se
+usi anche il pannello web.
 
 Richiede (variabili d'ambiente):
 ```
@@ -49,7 +50,7 @@ Poi:
 ```
 Il worker fa polling, esegue ogni lavoro con `claude -p`, e riscrive il risultato.
 È uno **scheletro**: parte appena imposti le 2 variabili e crei la tabella `lavori`
-(SQL nel `LEGGIMI.md` del repo Assistente-mycity).
+(SQL in `pannello/LEGGIMI.md`).
 
 ---
 

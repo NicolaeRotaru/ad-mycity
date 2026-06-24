@@ -3,37 +3,44 @@ tipo: guida
 fonte: AD digitale
 ---
 
-# 🔌 Collegare il secondo cervello all'app AD (Assistente-mycity)
+# 🔌 Collegare la memoria dell'AD al Pannello di Controllo
 
-> Serve solo se vuoi che **anche la dashboard web** (il repo `Assistente-mycity`,
-> quella che usa le API) legga/scriva queste note. Se usi l'AD via **Claude Code
-> qui dentro**, il collegamento è **già fatto** (Claude Code legge il vault
-> direttamente). Questa guida è per la versione web.
+> Il **Pannello di Controllo** (l'app web nella cartella `pannello/`) e la memoria
+> dell'AD (questo vault) vivono nella **stessa repo `ad-mycity`**. Quando giri l'AD
+> via **Claude Code qui dentro**, il collegamento è **già fatto** (Claude Code legge
+> il vault direttamente dai file). Questa guida serve per la **versione web**: quando
+> il pannello è deployato (Vercel) deve leggere/scrivere queste note via **GitHub API**.
 
 ## Cosa fa
-L'app AD ha già gli strumenti `obsidian_cerca / obsidian_leggi / obsidian_scrivi`.
-Vanno solo puntati a questo vault, che è già su GitHub: `NicolaeRotaru/secondo-cervello`.
+Il pannello ha già gli strumenti `obsidian_cerca / obsidian_leggi / obsidian_scrivi`.
+Vanno solo puntati a questa repo, che è già su GitHub: `NicolaeRotaru/ad-mycity`.
 
 ## Passi (5 minuti)
 1. **Token GitHub** (lo crei tu, io non posso):
    GitHub → Settings → Developer settings → **Fine-grained tokens** → Generate.
-   - Repository access: **Only select repositories** → `secondo-cervello`.
+   - Repository access: **Only select repositories** → `ad-mycity`.
    - Permissions → Repository → **Contents: Read and write**.
    - Copia il token (inizia con `github_pat_...`). **Non incollarlo mai in chat.**
-2. **Variabili d'ambiente** dell'app AD (su Vercel → Project → Settings →
-   Environment Variables, oppure in `.env.local` se giri in locale):
+2. **Variabili d'ambiente** del pannello (su Vercel → Project → Settings →
+   Environment Variables, oppure in `pannello/.env.local` se giri in locale):
    ```
    OBSIDIAN_REPO_OWNER = NicolaeRotaru
-   OBSIDIAN_REPO       = secondo-cervello
+   OBSIDIAN_REPO       = ad-mycity
    OBSIDIAN_TOKEN      = github_pat_...   (il token del passo 1)
    OBSIDIAN_BRANCH     = main
    ```
-3. **Redeploy** dell'app (Vercel) o riavvio in locale.
+3. **Redeploy** del pannello (Vercel) o riavvio in locale.
 
 ## ⚠️ Nota sui percorsi
-Le note stanno nella sottocartella `MyCity-Vault/`. Quindi quando l'app scrive,
+Le note stanno nella sottocartella `MyCity-Vault/`. Quindi quando il pannello scrive,
 deve usare percorsi tipo `MyCity-Vault/90-Memoria-AI/STATO.md`. L'AD ne è già a
 conoscenza (è scritto in `CLAUDE.md`).
+
+## ⚠️ Nota su Vercel (monorepo)
+Il pannello sta in `pannello/`: nel progetto Vercel imposta **Root Directory = `pannello`**.
+Ogni push del vault può far ripartire un deploy del pannello — se vuoi, limita i build con
+"Ignored Build Step" sul path `pannello/`. La freschezza dei dati NON dipende dal redeploy:
+il pannello legge sempre l'ultima versione del vault via GitHub API.
 
 ## Sincronizzazione con Obsidian
 Per vedere in Obsidian ciò che l'AD scrive (e viceversa), tieni attivo il plugin
