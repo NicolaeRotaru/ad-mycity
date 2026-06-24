@@ -1,0 +1,72 @@
+{
+  "_README": "Calendario editoriale della Marketing Autopilot. Ogni voce e' un contenuto programmato. Lo scheduler (cervello/autopilot.mjs) legge questo file, trova le voci 'in scadenza' (data <= oggi e stato 'programmato') e prepara/pubblica l'azione sul canale giusto. Campi: id, data (AAAA-MM-GG), canale (telegram|email|facebook|instagram|gbp), titolo, testo, mediaRef (URL pubblico immagine/video, richiesto per instagram), utm (oggetto per il tracciamento), colore (verde|giallo|rosso), stato (programmato|pubblicato). Modifica liberamente: e' un file dati, non codice.",
+  "voci": [
+    {
+      "id": "post-001",
+      "data": "2026-06-24",
+      "canale": "telegram",
+      "titolo": "Annuncio lista d'attesa",
+      "testo": "🛍️ MyCity sta arrivando a Piacenza! Il marketplace dei negozi sotto casa, con consegna in giornata. Iscriviti alla lista d'attesa: https://mycity.example/lista",
+      "mediaRef": null,
+      "utm": { "source": "telegram", "medium": "social", "campaign": "lancio-lista" },
+      "colore": "giallo",
+      "stato": "programmato"
+    },
+    {
+      "id": "post-002",
+      "data": "2026-06-25",
+      "canale": "facebook",
+      "titolo": "Bottega in vetrina: il fornaio del centro",
+      "testo": "Il pane appena sfornato del centro storico, ora a casa tua con MyCity 🥖 Scopri le botteghe di Piacenza: https://mycity.example/negozi",
+      "mediaRef": "https://mycity.example/media/fornaio-vetrina.jpg",
+      "utm": { "source": "facebook", "medium": "social", "campaign": "botteghe-vetrina" },
+      "colore": "giallo",
+      "stato": "programmato"
+    },
+    {
+      "id": "post-003",
+      "data": "2026-06-26",
+      "canale": "instagram",
+      "titolo": "Reel: spesa locale in 3 tap",
+      "testo": "Spesa dai negozi di Piacenza in 3 tap. Sostieni le botteghe del tuo quartiere 💚 #Piacenza #spesalocale #MyCity",
+      "mediaRef": "https://mycity.example/media/reel-spesa-3tap.mp4",
+      "utm": { "source": "instagram", "medium": "social", "campaign": "spesa-locale" },
+      "colore": "giallo",
+      "stato": "programmato"
+    },
+    {
+      "id": "post-004",
+      "data": "2026-06-27",
+      "canale": "gbp",
+      "titolo": "Post Google: consegna in giornata",
+      "testo": "Ordina dai negozi di Piacenza e ricevi in giornata. Attivo nel centro e prima periferia. Scopri di piu': https://mycity.example",
+      "mediaRef": "https://mycity.example/media/consegna-giornata.jpg",
+      "utm": { "source": "google", "medium": "gbp", "campaign": "consegna-giornata" },
+      "colore": "giallo",
+      "stato": "programmato"
+    },
+    {
+      "id": "post-005",
+      "data": "2026-06-28",
+      "canale": "email",
+      "titolo": "Newsletter: le novita' della settimana",
+      "subject": "🛒 Nuove botteghe su MyCity questa settimana",
+      "testo": "Ciao! Questa settimana entrano 3 nuove botteghe piacentine su MyCity: panificio, ortofrutta e gastronomia. Sfoglia il catalogo e fai il tuo primo ordine: https://mycity.example/novita",
+      "mediaRef": null,
+      "utm": { "source": "newsletter", "medium": "email", "campaign": "novita-settimanali" },
+      "colore": "rosso",
+      "stato": "programmato"
+    },
+    {
+      "id": "post-006",
+      "data": "2026-06-30",
+      "canale": "telegram",
+      "titolo": "Promemoria primo ordine",
+      "testo": "🎁 Hai gia' provato MyCity? Il tuo primo ordine ha la consegna offerta. Le botteghe ti aspettano: https://mycity.example",
+      "mediaRef": null,
+      "utm": { "source": "telegram", "medium": "social", "campaign": "primo-ordine" },
+      "colore": "giallo",
+      "stato": "programmato"
+    }
+  ]
+}

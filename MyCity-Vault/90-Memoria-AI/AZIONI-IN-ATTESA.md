@@ -26,3 +26,30 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 <!-- I senior aggiungono righe qui sotto. Esempio:
 | 1 | 2026-06-25 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa |
 -->
+
+### 2026-06-24 · @pr-stampa · 🔴 Pacchetto earned media di lancio (kit pronto)
+Fonte: `consegne/pr/KIT-STAMPA-LANCIO.md`. Tutto scritto e pronto; serve la firma per gli invii reali.
+1. 🔴 **Invio email ESCLUSIVA a Libertà** (+ proposta servizio Telelibertà). Verificare prima il nome del direttore attuale (Rocco vs Visconti).
+2. 🔴 **Invio email alle 3 testate online** (PiacenzaSera, Piacenza24, IlPiacenza) — solo DOPO l'uscita su Libertà o dopo 48h di silenzio.
+3. 🔴 **Autorizzazione citazione titolare Garetti** (ok scritto del negoziante prima di pubblicarla).
+4. 🔴 **Richiesta citazione/foto assessore Fornasari** (via @relazioni-istituzionali).
+5. Completare campi [INSERIRE]: numero/email/sito stampa, fonte ufficiale del -22%, data di lancio.
+
+---
+## 🔴 Pubblicazione contenuti social — Settimane 1-4 (content-social)
+- **Data proposta:** 2026-06-24
+- **Cosa:** pubblicare i 16 post + bio IG/FB del calendario `consegne/content/CALENDARIO-4-SETTIMANE.md` sui canali reali (gruppi FB locali, IG feed/storie).
+- **Perché 🔴:** tocca canali pubblici reali in città piccola; cita nome/foto del negoziante.
+- **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) grafiche pronte da @designer; (6) peer review @finanza sulla promo "primi 50 gratis".
+- **Mani:** canali social → da collegare via @builder-automazioni (o pubblicazione manuale).
+- **Stato:** IN ATTESA DI FIRMA NICOLA.
+
+## 2026-06-24 · @crm-lifecycle · Flussi lifecycle pronti (DRY-RUN)
+Fonte: consegne/crm/FLUSSI-LIFECYCLE.md — niente è stato inviato.
+- [ ] 🔴 Approvare incentivo "prima consegna gratis" primi 50 iscritti (cap ~200€).
+- [ ] 🔴 Approvare referral give-get 5€+5€ (budget mensile suggerito 250€) + anti-frode.
+- [ ] 🔴 Approvare "Regala una spesa" (gift, prepagato = cash-positive) + scadenza buono 12 mesi.
+- [ ] 🔴 Approvare consegna offerta su win-back #2 e carrello #2 (1 volta/cliente, ~4€).
+- [ ] 🟡 Via libera all'INVIO dei 3 Welcome + transazionali ai primi clienti reali (dopo validazione legale-privacy footer/consenso).
+- [ ] 🛠️ @builder-automazioni: collegare RESEND_API_KEY (+ dominio/SPF/DKIM), VAPID push, Telegram, webhook stato ordine.
+- [ ] ⚖️ @legale-privacy: validare footer disiscrizione + testi consenso (marketing vs transazionale) prima del primo invio.
