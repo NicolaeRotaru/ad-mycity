@@ -75,13 +75,19 @@ export default function GovernoAD() {
   async function spiegaPerche(i: number, d: Decisione) {
     setSpiegando(i);
     try {
-      const msg = `Spiegami in 3-4 righe, in modo concreto, perché è stata presa questa decisione di MyCity: "${d.cosa}" (reparto ${d.reparto}, ${d.data}, livello ${d.colore}). Motivo annotato: "${d.perche}". Basati sul vault se serve.`;
-      const r = await fetch("/api/chat", {
+      // Niente API a pagamento: la spiegazione la fa il cervello sul Max (coda lavori).
+      const msg = `Spiegami in 3-4 righe, in modo concreto, perché è stata presa questa decisione di MyCity: "${d.cosa}" (reparto ${d.reparto}, ${d.data}, livello ${d.colore}). Motivo annotato: "${d.perche}". Basati sul vault.`;
+      const r = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [{ role: "user", content: msg }] }),
+        body: JSON.stringify({ richiesta: msg, tipo: "spiegazione" }),
       }).then((x) => x.json());
-      setSpiega((s) => ({ ...s, [i]: r.reply || "Nessuna spiegazione." }));
+      setSpiega((s) => ({
+        ...s,
+        [i]: r.ok
+          ? "🧠 Chiesto al cervello (Max): la spiegazione comparirà nei «Lavori del cervello» appena pronta."
+          : r.error || "Memoria non collegata: impossibile chiedere ora.",
+      }));
     } catch (e: any) {
       setSpiega((s) => ({ ...s, [i]: "Errore: " + e.message }));
     } finally {

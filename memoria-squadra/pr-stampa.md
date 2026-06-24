@@ -9,3 +9,4 @@ reparto: pr-stampa
 
 ## Esiti
 - (ancora vuoto: il primo lavoro lascerà qui la prima lezione)
+- 2026-06-24 · kit stampa lancio · contatti reali trovati via web (Libertà 0523.393939 dir. Rocco/Visconti da verif.; PiacenzaSera dir. Pinotti 0523.044520; Piacenza24=Radio Sound redazione@radiosound95.it; IlPiacenza=Citynews Bisaglia redazione@ilpiacenza.it; Telelibertà=stesso gruppo Libertà) · 5 contatti+angoli · lezione: Libertà va per prima con ESCLUSIVA, online solo dopo (non bruciare l'esclusiva); ogni citazione di terzi va autorizzata; ogni dato va con fonte · #pr #kit #lancio #contatti
