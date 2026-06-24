@@ -1,0 +1,57 @@
+# Worker della coda "lavori" (Modo B del README).
+# Prende i lavori "in_attesa" dalla memoria Supabase e li fa eseguire all'AD
+# (Claude Code, piano Max), poi riscrive il risultato. Serve solo se usi anche
+# la dashboard web del repo Assistente-mycity.
+#
+# Richiede le variabili d'ambiente del progetto MEMORIA (NON del marketplace):
+#   SUPABASE_URL          = https://LA-MEMORIA.supabase.co
+#   SUPABASE_SERVICE_KEY  = eyJ... (service_role)
+
+$ErrorActionPreference = "Stop"
+
+$repo = Split-Path -Parent $PSScriptRoot
+Set-Location $repo
+
+$URL = $env:SUPABASE_URL
+$KEY = $env:SUPABASE_SERVICE_KEY
+if (-not $URL -or -not $KEY) {
+  Write-Error "Mancano SUPABASE_URL e SUPABASE_SERVICE_KEY (progetto MEMORIA). Vedi cervello/README.md."
+  exit 1
+}
+if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
+  Write-Error "Claude Code (CLI 'claude') non trovato. Installalo e fai login col tuo piano Max."
+  exit 1
+}
+
+$headers = @{ apikey = $KEY; Authorization = "Bearer $KEY"; "Content-Type" = "application/json" }
+$INTERVALLO = 30   # secondi tra un controllo e l'altro
+
+Write-Host "Worker AD avviato. Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
+while ($true) {
+  try {
+    $q = "$URL/rest/v1/lavori?stato=eq.in_attesa&order=created_at.asc&limit=1"
+    $righe = Invoke-RestMethod -Uri $q -Headers $headers -Method Get
+    if ($righe -and @($righe).Count -gt 0) {
+      $lav = @($righe)[0]
+      Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Lavoro $($lav.id): $($lav.richiesta)"
+
+      # 1) segna "in_corso"
+      $upd = @{ stato = "in_corso" } | ConvertTo-Json
+      Invoke-RestMethod -Uri "$URL/rest/v1/lavori?id=eq.$($lav.id)" -Headers $headers -Method Patch -Body $upd | Out-Null
+
+      # 2) esegui con Claude Code (prende CLAUDE.md + agenti dal repo)
+      $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:`n`n$($lav.richiesta)"
+      $out = (claude -p $prompt --permission-mode acceptEdits | Out-String)
+
+      # 3) riscrivi il risultato
+      $body = @{ stato = "fatto"; risultato = $out } | ConvertTo-Json
+      Invoke-RestMethod -Uri "$URL/rest/v1/lavori?id=eq.$($lav.id)" -Headers $headers -Method Patch -Body $body | Out-Null
+      Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Lavoro $($lav.id) completato."
+    } else {
+      Start-Sleep -Seconds $INTERVALLO
+    }
+  } catch {
+    Write-Warning "Errore: $($_.Exception.Message)"
+    Start-Sleep -Seconds $INTERVALLO
+  }
+}

@@ -1,7 +1,0 @@
-{
-	"nodes":[
-		{"id":"b873fc15d3f6ea4f","x":-125,"y":-30,"width":250,"height":60,"type":"text","text":""},
-		{"id":"a51205cd7d760b4f","x":80,"y":-280,"width":400,"height":400,"type":"file","file":"MyCity-Vault/08-Domanda-Primi-Clienti.md"}
-	],
-	"edges":[]
-}

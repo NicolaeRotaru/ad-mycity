@@ -1,0 +1,11 @@
+{
+  "name": "mycity-creativi",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Toolchain del designer dell'AD MyCity: genera QR e materiali stampabili col brand.",
+  "dependencies": {
+    "pdfkit": "^0.15.0",
+    "qrcode": "^1.5.4"
+  }
+}

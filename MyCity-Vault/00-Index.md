@@ -1,43 +1,69 @@
 # 🗺️ MyCity Marketplace — Index (MOC)
 
+> 🏠 Cerchi la **porta d'ingresso generale**? Apri **[[INIZIA-QUI]]**. Questa è la mappa di *dettaglio della conoscenza*.
+
 > Vault di prodotto per portare **MyCity** da MVP (1 negozio) a marketplace locale reale.
 > Modello mentale: **Amazon** (catalogo + fiducia) × **eBay** (venditori + reputazione) × **Glovo** (consegna locale live).
 
-**Stato attuale:** il **prodotto è costruito al ~90%** (vedi [[26-Audit-Codice-vs-Roadmap]]), ma con ~1 negozio e ~0 ordini. Il collo di bottiglia NON è il prodotto: è la **domanda/distribuzione**. Obiettivo immediato: (1) aggiungere altri negozi, (2) ricevere il primo ordine, (3) costruire fiducia.
+**Stato attuale:** il **prodotto è costruito al ~90%** ([[Roadmap & Stato Prodotto]]), ma con ~1 negozio e ~0 ordini. Il collo di bottiglia NON è il prodotto: è la **domanda/distribuzione**. Obiettivo immediato: (1) aggiungere altri negozi, (2) ricevere il primo ordine, (3) costruire fiducia.
+
+> 🧭 **Come è organizzato il vault:** 6 cartelle tematiche + il dettaglio prodotto (Aree e Funzionalità). Gli approfondimenti originali, prima delle fusioni, sono in `_Archivio/`.
 
 ---
 
-## 📌 Note di navigazione
-- [[01-Roadmap]] — Cosa costruire SUBITO dopo il primo negozio (tabella priorità)
-- [[04-Metriche]] — North Star Metric + KPI per area
-- [[05-Decisioni-Aperte]] — Trade-off e domande da risolvere
-- [[06-Contesto-Piacenza]] — La realtà sul campo (negozi reali, concorrenza, fondatore)
-- [[07-Strategia-Piacenza]] — Go-to-market: densità, cluster, negozi target, pitch, onboarding
-- [[08-Domanda-Primi-Clienti]] — Da dove arrivano i PRIMI clienti (il lato domanda)
-- [[09-Ricerca-Mercato-e-Numeri]] — Dati reali, concorrenza, unit economics, break-even (il "cervello imprenditore")
-- [[26-Audit-Codice-vs-Roadmap]] — 🔍 Stato REALE del codice: cosa è già costruito (24/26 feature fatte) vs i 3 buchi veri
+## 🧭 01 · Strategia
+- [[Strategia & Fossato]] — Documento maestro: densità, volano a 2 lati, GTM, moat, network effects, 3 motori, 5 scommesse
+- [[Decisioni Aperte]] — Trade-off e domande strategiche da risolvere (consegna, pagamenti, commissioni, nome…)
+- [[Brand & Posizionamento]] — Appartenenza civica, naming, tono, tagline, fossato di marca
 
-## 🔬 Ricerche di mercato approfondite
-- [[10-Commercio-Piacenza]] — Tessuto retail, ZTL, desertificazione, ecosistema istituzionale
-- [[11-Botteghe-Mappa]] — Mappa botteghe alimentari del centro per categoria + DOP
-- [[12-Bandi-e-Finanziamenti]] — Soldi pubblici per MyCity (⚠️ scadenze) — startup + B2B
-- [[13-Casi-Studio]] — Daje, Babaco, Cortilia, q-commerce: cosa imitare/evitare
-- [[14-Consumatori-e-Angoli-Laterali]] — Anziani soli, ZTL, DOP-export, welfare, studenti
-- [[15-Rischi-e-Compliance]] — Pagamenti, HACCP, rider, fisco + rischi di business
+## 📈 02 · Mercato & Ricerca
+- [[Mercato, Numeri & Contesto]] — Stato reale sul campo + TAM/SAM/SOM, concorrenza, GDO, ZTL, desertificazione, trend
+- [[Botteghe del Centro - Mappa]] — Mappa delle botteghe alimentari del centro per categoria + DOP
+- [[Casi Studio]] — Daje, Babaco, Cortilia, q-commerce: cosa imitare/evitare
+- [[Bandi & Finanziamenti]] — Soldi pubblici per MyCity (⚠️ scadenze) — startup + B2B
 
-## 🧑‍💼 Board dei dirigenti (analisi per funzione)
-- [[16-Finanza-e-Unit-Economics]] `CFO` — il conto del batching, break-even, proiezioni, capitale
-- [[17-Prodotto-e-UX]] `Product` — PWA, carrello multi-negozio, peso variabile, retention
-- [[18-Operazioni-e-Logistica]] `COO` — cut-off D+1, cargo-bike, micro-hub, catena del freddo
-- [[19-Marketing-e-Crescita]] `CMO` — canali a basso costo, growth loops, lancio 90 giorni
-- [[20-Tecnologia-e-Stack]] `CTO` — Supabase + Stripe Connect + Gemini + WhatsApp, costi
-- [[21-Vendite-Negozi-B2B]] `Sales` — ICP, pipeline, carrello minimo vitale, bando come arma
-- [[22-Strategia-e-Fossato]] `CSO` — moat, network effects, 3 motori, 5 scommesse
-- [[23-Metriche-e-KPI]] `Data` — North Star, coorti settimanali, i 7 numeri, esperimenti
-- [[24-Personas-e-JTBD]] `Insight` — beachhead Giulia, assunzioni da validare, Mom Test
-- [[25-Brand-e-Posizionamento]] `Brand` — appartenenza civica, naming, tono, fossato di marca
+## 🚀 03 · Clienti & Crescita
+- [[Clienti, Personas & Crescita]] — I 3 lati, personas/JTBD, canali a costo ~0, 5 loop organici, angoli laterali, volano istituzionale, lancio 90gg
+- [[Vendite & Acquisizione Negozi]] — `Sales` ICP, pipeline, carrello minimo vitale, pitch, bando come arma
 
-## 🧭 Aree funzionali (Map of Content)
+## 📱 04 · Prodotto, Operazioni & Tech
+- [[Roadmap & Stato Prodotto]] — Roadmap per priorità × audit del codice reale (24/26 feature fatte, i 3 buchi veri)
+- [[Prodotto & UX]] — `Product` PWA, carrello multi-negozio, peso variabile, retention
+- [[Operazioni & Logistica]] — `COO` cut-off D+1, cargo-bike, micro-hub, catena del freddo
+- [[Tecnologia & Stack]] — `CTO` Supabase + Stripe Connect + Gemini + WhatsApp, costi
+- 📂 `Aree/` e `Funzionalità/` — il dettaglio prodotto (le 7 aree funzionali + le 26 feature, vedi sotto)
+
+## 💶 05 · Soldi, Metriche & Rischi
+- [[Finanza & Unit Economics]] — `CFO` il conto del batching, break-even, proiezioni, capitale
+- [[Metriche & KPI]] — `Data` North Star, KPI per area, coorti settimanali, i 7 numeri, esperimenti
+- [[Rischi & Compliance]] — Pagamenti, HACCP, rider, fisco + rischi di business
+
+## 🧩 06 · Piani & Deliverable
+- [[Business Model Canvas]] — Il BMC compilato (9 blocchi multi-sided + Value Proposition Canvas + test assunzioni)
+- [[Prompt - Business Model Canvas]] — Il prompt che lo genera (vista Strategyzer)
+- [[Piano d'Azione]] — Piano operativo 90 giorni (ordini/conversione, densità)
+- [[Piano di Notorieta 2026]] — Piano di notorietà: metà negozi + metà popolazione di Piacenza
+
+## 🤖 07 · L'AD digitale (il cervello AI)
+- [[AGENTI]] — Organigramma dei 19 senior digitali (chi fa cosa, con quali poteri)
+- [[CULTURA-SQUADRA]] — I principi della squadra + le catene di collaborazione (team play)
+- [[OKR-Squadra]] · [[PLAYBOOK-ECCEZIONI]] · [[RUBRICA-QUALITA]] — le 7 capacità (numeri, imprevisti, qualità)
+- `CLAUDE.md` (radice) — Il manuale operativo dell'AD: regola 🟢🟡🔴, doer mode, squadra
+- `.claude/agents/` — I 19 mansionari operativi (con doer mode + collaborazione)
+- `cervello/` — Gli script per far girare l'AD da solo (giri, coda lavori, esecutore azioni)
+- `consegne/` e `creativi/` — Dove i senior salvano i lavori finiti (testi e grafiche/QR)
+
+## 🧠 90 · Memoria dell'AD (scrive lui)
+- [[STATO]] — Cruscotto: i 7 numeri chiave + ultime mosse (aggiornato dall'AD)
+- [[SALA-OPERATIVA]] — Il canale condiviso della squadra (richieste, handoff, "fatto")
+- [[AZIONI-IN-ATTESA]] — Coda delle azioni 🟡/🔴 pronte, in attesa della firma di Nicola
+- [[DECISIONI]] — Registro append-only delle decisioni 🟡/🔴 (tracciabilità)
+- `90-Memoria-AI/Briefing/` — Un file per ogni giro di perlustrazione
+- [[Collegamento-AD]] — Come collegare anche la dashboard web (Assistente-mycity) a questo vault
+
+---
+
+## 🧭 Aree funzionali (Map of Content → `04-Prodotto-Ops/Aree`)
 - [[Area - Venditori]] `#ebay` → come far entrare e crescere i negozi
 - [[Area - Catalogo]] `#amazon` → prodotti, ricerca, schede
 - [[Area - Consegna]] `#glovo` → zone, slot, tracking, rider
@@ -51,7 +77,7 @@
 - **Esperto eBay** → onboarding venditori, reputazione, listing, pagamenti, dispute
 - **Esperto Glovo** → consegna locale, tracking live, geolocalizzazione, operations
 
-## 🔢 Sequenza consigliata (il "primo anello")
+## 🔢 Sequenza consigliata (il "primo anello", → `04-Prodotto-Ops/Funzionalità`)
 1. [[Onboarding Venditori Self-Service]] → servono più negozi
 2. [[Gestione Catalogo e Listing]] → servono prodotti vendibili
 3. [[Ricerca e Navigazione Catalogo]] + [[Scheda Prodotto]] → il cliente trova cosa comprare
