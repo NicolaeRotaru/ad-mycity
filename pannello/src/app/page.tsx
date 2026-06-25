@@ -5,7 +5,6 @@ import {
   Send,
   Loader2,
   Wrench,
-  RefreshCw,
   Activity,
   TrendingUp,
   CheckCircle2,
@@ -216,7 +215,6 @@ export default function Dashboard() {
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [giri, setGiri] = useState(0);
-  const [aggiornando, setAggiornando] = useState(false);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
 
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -508,6 +506,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }, []);
 
+  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max ogni 60s,
+  // cosi' il briefing orario compare da solo (niente pulsante "Aggiorna").
+  useEffect(() => {
+    const id = setInterval(() => caricaStato(), 60000);
+    return () => clearInterval(id);
+  }, [caricaStato]);
+
   useEffect(() => {
     caricaStato();
     fetch("/api/metriche")
@@ -613,28 +618,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     };
   }, []);
 
-  async function aggiornaOra() {
-    if (aggiornando) return;
-    setAggiornando(true);
-    try {
-      const res = await fetch("/api/heartbeat", { method: "POST" });
-      const data = await res.json();
-      if (data.ok && data.briefing) {
-        setBriefing(data.briefing);
-        setUltimoAt(new Date().toISOString());
-        const b = data.briefing;
-        const op = (b.opportunita || []).map((o: any) => `• ${o.titolo}`).join("\n");
-        const az = (b.azioni || []).map((a: any) => `• [${a.livello}] ${a.titolo}`).join("\n");
-        aggiungiDiario("briefing", "Giro di perlustrazione", `${b.situazione}\n\nOpportunità:\n${op}\n\nAzioni proposte:\n${az}`);
-      }
-      caricaStato();
-    } catch {
-      /* errore rete */
-    } finally {
-      setAggiornando(false);
-    }
-  }
-
   async function approva(a: Azione) {
     try {
       const res = await fetch("/api/esegui", {
@@ -678,14 +661,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <span className={`w-1.5 h-1.5 rounded-full ${memoria ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
               {memoria ? "Vivo" : "In prova"}
             </span>
-            <button
-              onClick={aggiornaOra}
-              disabled={aggiornando}
-              className="inline-flex items-center gap-1.5 text-sm font-medium bg-brand text-white rounded-full px-3.5 py-2 shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-            >
-              {aggiornando ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-              Aggiorna ora
-            </button>
           </div>
         </div>
       </header>
@@ -748,20 +723,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
               <TrendingUp size={16} />
             </span>
-            <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
+            <div className="min-w-0">
+              <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
+              <div className="text-xs text-black/40">
+                L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
+              </div>
+            </div>
           </div>
 
           {!briefing && (
             <div className="text-center text-black/45 py-10">
-              <p className="mb-4">Non ho ancora fatto un giro di perlustrazione.</p>
-              <button
-                onClick={aggiornaOra}
-                disabled={aggiornando}
-                className="inline-flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl text-sm font-medium shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-              >
-                {aggiornando ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
-                Fai il primo giro
-              </button>
+              <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
+              <p className="text-sm text-black/35">
+                Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
+              </p>
             </div>
           )}
 
