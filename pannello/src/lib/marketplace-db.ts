@@ -110,7 +110,7 @@ export async function getMetriche(): Promise<Metriche> {
     const [orders, profiles, carts, reviews] = await Promise.all([
       selectRows("orders", "select=total_price,payment_status,delivery_status,created_at,delivered_at,user_id&limit=10000"),
       selectRows("profiles", "select=role,created_at&limit=10000"),
-      selectRows("abandoned_carts", "select=recovered&limit=10000"),
+      selectRows("abandoned_carts", "select=recovered,created_at&limit=10000"),
       selectRows("store_reviews", "select=rating&limit=10000"),
     ]);
 
@@ -124,8 +124,13 @@ export async function getMetriche(): Promise<Metriche> {
     const notFailed = (o: any) => o.payment_status !== "FAILED";
     const paid = (o: any) => o.payment_status === "PAID";
     const num = (v: any) => Number(v) || 0;
+    // Media dello scontrino sugli ordini PAID in una finestra temporale.
+    const media = (arr: any[]) => (arr.length ? arr.reduce((s, o) => s + num(o.total_price), 0) / arr.length : 0);
 
     const paidAll = orders.filter(paid);
+    const paidOggi = orders.filter((o) => paid(o) && isOggi(o.created_at));
+    const paid7 = orders.filter((o) => paid(o) && t(o.created_at) >= d7);
+    const paid30 = orders.filter((o) => paid(o) && t(o.created_at) >= d30);
     const delivered = orders.filter((o) => o.delivered_at);
     const ratings = reviews.map((r) => num(r.rating)).filter((n) => n > 0);
 
@@ -133,25 +138,63 @@ export async function getMetriche(): Promise<Metriche> {
     for (const o of orders) {
       if (o.user_id) ultimoOrdine[o.user_id] = Math.max(ultimoOrdine[o.user_id] || 0, t(o.created_at));
     }
+    const ultimi = Object.values(ultimoOrdine);
+    // Clienti attivi = clienti distinti che hanno ordinato nella finestra.
+    const attiviIn = (pred: (iso: string) => boolean) =>
+      new Set(orders.filter((o) => o.user_id && pred(o.created_at)).map((o) => o.user_id)).size;
 
     return {
       connected: true,
+      // --- Ordini (oggi / 7g / 30g) ---
       ordini_oggi: orders.filter((o) => notFailed(o) && isOggi(o.created_at)).length,
       ordini_7g: orders.filter((o) => notFailed(o) && t(o.created_at) >= d7).length,
-      incasso_oggi: orders.filter((o) => paid(o) && isOggi(o.created_at)).reduce((s, o) => s + num(o.total_price), 0),
-      incasso_7g: orders.filter((o) => paid(o) && t(o.created_at) >= d7).reduce((s, o) => s + num(o.total_price), 0),
-      scontrino_medio: paidAll.length ? paidAll.reduce((s, o) => s + num(o.total_price), 0) / paidAll.length : 0,
-      carrelli: carts.filter((c) => c.recovered !== true).length,
+      ordini_30g: orders.filter((o) => notFailed(o) && t(o.created_at) >= d30).length,
+      // --- Incasso / GMV (oggi / 7g / 30g) ---
+      incasso_oggi: paidOggi.reduce((s, o) => s + num(o.total_price), 0),
+      incasso_7g: paid7.reduce((s, o) => s + num(o.total_price), 0),
+      incasso_30g: paid30.reduce((s, o) => s + num(o.total_price), 0),
+      // --- Scontrino medio (storico + oggi / 7g / 30g) ---
+      scontrino_medio: media(paidAll),
+      scontrino_oggi: media(paidOggi),
+      scontrino_7g: media(paid7),
+      scontrino_30g: media(paid30),
+      // --- Clienti ---
+      nuovi_clienti_oggi: profiles.filter((p) => p.role === "buyer" && isOggi(p.created_at)).length,
       nuovi_clienti_7g: profiles.filter((p) => p.role === "buyer" && t(p.created_at) >= d7).length,
+      nuovi_clienti_30g: profiles.filter((p) => p.role === "buyer" && t(p.created_at) >= d30).length,
       clienti: profiles.filter((p) => p.role === "buyer").length,
+      clienti_attivi_oggi: attiviIn((iso) => isOggi(iso)),
+      clienti_attivi_7g: attiviIn((iso) => t(iso) >= d7),
+      clienti_attivi_30g: attiviIn((iso) => t(iso) >= d30),
+      clienti_dormienti: ultimi.filter((tt) => tt < d30).length,
+      // --- Carrelli (richiede created_at su abandoned_carts) ---
+      carrelli: carts.filter((c) => c.recovered !== true).length,
+      carrelli_oggi: carts.filter((c) => c.recovered !== true && c.created_at && isOggi(c.created_at)).length,
+      carrelli_7g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d7).length,
+      carrelli_30g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d30).length,
+      carrelli_recuperati_oggi: carts.filter((c) => c.recovered === true && c.created_at && isOggi(c.created_at)).length,
+      carrelli_recuperati_7g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d7).length,
+      carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && (!c.created_at || t(c.created_at) >= d30)).length,
+      // --- Negozi ---
       negozi: profiles.filter((p) => p.role === "seller").length,
+      nuovi_negozi_oggi: profiles.filter((p) => p.role === "seller" && isOggi(p.created_at)).length,
+      nuovi_negozi_7g: profiles.filter((p) => p.role === "seller" && t(p.created_at) >= d7).length,
+      nuovi_negozi_30g: profiles.filter((p) => p.role === "seller" && t(p.created_at) >= d30).length,
+      // --- Consegne / Operations ---
       consegne_in_corso: orders.filter((o) => notFailed(o) && !["DELIVERED", "CANCELED"].includes(o.delivery_status)).length,
+      consegne_oggi: orders.filter((o) => o.delivered_at && isOggi(o.delivered_at)).length,
+      consegne_7g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d7).length,
+      consegne_30g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d30).length,
       tempo_consegna_min: delivered.length
         ? Math.round(delivered.reduce((s, o) => s + (t(o.delivered_at) - t(o.created_at)) / 60000, 0) / delivered.length)
         : 0,
       problemi: orders.filter((o) => o.delivery_status === "CANCELED").length,
+      annullati_oggi: orders.filter((o) => o.delivery_status === "CANCELED" && isOggi(o.created_at)).length,
+      annullati_7g: orders.filter((o) => o.delivery_status === "CANCELED" && t(o.created_at) >= d7).length,
+      annullati_30g: orders.filter((o) => o.delivery_status === "CANCELED" && t(o.created_at) >= d30).length,
+      // --- Qualità / recensioni ---
       recensione_media: ratings.length ? Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10 : 0,
-      clienti_dormienti: Object.values(ultimoOrdine).filter((tt) => tt < d30).length,
+      recensioni_totali: ratings.length,
     };
   } catch (e: any) {
     return { connected: false, error: e.message };

@@ -15,15 +15,12 @@ import {
   UserPlus,
   Users,
   Store,
-  Bike,
   AlertTriangle,
   Percent,
   BarChart3,
   Eye,
   ShoppingCart,
   UserMinus,
-  Clock,
-  Star,
   Trash2,
   History,
   Copy,
@@ -34,6 +31,12 @@ import {
   Layers,
   Home,
   Mic,
+  Mail,
+  Target,
+  Globe,
+  Instagram,
+  Wallet,
+  MousePointer,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -127,34 +130,60 @@ const COLORI: Record<Livello, string> = {
   rosso: "border-red-300 bg-red-50 text-red-800",
 };
 
-// Le 16 metriche piu' importanti per un marketplace di consegne (cockpit completo).
-// "chiave" = campo restituito da /api/metriche; senza chiave = fonte non ancora
-// collegata (es. PostHog). "tipo" = come formattare il numero.
+// Il cockpit "I numeri di oggi": 30 dati Marketplace + 30 dati Marketing.
+// Ogni KPI è una RIGA con tre finestre: oggi / 7 giorni / 30 giorni
+// (10 KPI × 3 = 30 dati per blocco). Ogni finestra ha una "chiave" = campo di
+// /api/metriche; senza chiave la cella è "—" (fonte ancora da collegare).
 type Tipo = "n" | "euro" | "durata" | "stelle" | "perc";
-const METRICHE: {
+type Kpi = {
   icon: React.ReactNode;
   label: string;
   fonte: string;
-  chiave?: string;
   tipo?: Tipo;
-}[] = [
-  { icon: <Package size={16} />, label: "Ordini oggi", fonte: "mycity", chiave: "ordini_oggi", tipo: "n" },
-  { icon: <BarChart3 size={16} />, label: "Ordini 7 giorni", fonte: "mycity", chiave: "ordini_7g", tipo: "n" },
-  { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "mycity", chiave: "incasso_oggi", tipo: "euro" },
-  { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "mycity", chiave: "incasso_7g", tipo: "euro" },
-  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "mycity", chiave: "scontrino_medio", tipo: "euro" },
-  { icon: <Eye size={16} />, label: "Visite sito (7gg)", fonte: "PostHog", chiave: "visite_7g", tipo: "n" },
-  { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog", chiave: "conversione", tipo: "perc" },
-  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "mycity", chiave: "carrelli", tipo: "n" },
-  { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "mycity", chiave: "nuovi_clienti_7g", tipo: "n" },
-  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "mycity", chiave: "clienti", tipo: "n" },
-  { icon: <UserMinus size={16} />, label: "Clienti dormienti", fonte: "mycity", chiave: "clienti_dormienti", tipo: "n" },
-  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "mycity", chiave: "negozi", tipo: "n" },
-  { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "mycity", chiave: "consegne_in_corso", tipo: "n" },
-  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "mycity", chiave: "tempo_consegna_min", tipo: "durata" },
-  { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "mycity", chiave: "problemi", tipo: "n" },
-  { icon: <Star size={16} />, label: "Recensione media", fonte: "mycity", chiave: "recensione_media", tipo: "stelle" },
+  oggi?: string; // chiave finestra "oggi"
+  sett?: string; // chiave finestra "7 giorni"
+  mese?: string; // chiave finestra "30 giorni"
+};
+
+// === 30 DATI MARKETPLACE — 10 KPI × (oggi/7g/30g), tutti dal DB ===
+const MARKETPLACE_KPI: Kpi[] = [
+  { icon: <Package size={16} />, label: "Ordini", fonte: "mycity", tipo: "n", oggi: "ordini_oggi", sett: "ordini_7g", mese: "ordini_30g" },
+  { icon: <Euro size={16} />, label: "Incasso (GMV)", fonte: "mycity", tipo: "euro", oggi: "incasso_oggi", sett: "incasso_7g", mese: "incasso_30g" },
+  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "mycity", tipo: "euro", oggi: "scontrino_oggi", sett: "scontrino_7g", mese: "scontrino_30g" },
+  { icon: <UserPlus size={16} />, label: "Nuovi clienti", fonte: "mycity", tipo: "n", oggi: "nuovi_clienti_oggi", sett: "nuovi_clienti_7g", mese: "nuovi_clienti_30g" },
+  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "mycity", tipo: "n", oggi: "clienti_attivi_oggi", sett: "clienti_attivi_7g", mese: "clienti_attivi_30g" },
+  { icon: <CheckCircle2 size={16} />, label: "Consegne completate", fonte: "mycity", tipo: "n", oggi: "consegne_oggi", sett: "consegne_7g", mese: "consegne_30g" },
+  { icon: <AlertTriangle size={16} />, label: "Ordini annullati", fonte: "mycity", tipo: "n", oggi: "annullati_oggi", sett: "annullati_7g", mese: "annullati_30g" },
+  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "mycity", tipo: "n", oggi: "carrelli_oggi", sett: "carrelli_7g", mese: "carrelli_30g" },
+  { icon: <UserMinus size={16} />, label: "Carrelli recuperati", fonte: "mycity", tipo: "n", oggi: "carrelli_recuperati_oggi", sett: "carrelli_recuperati_7g", mese: "carrelli_recuperati_30g" },
+  { icon: <Store size={16} />, label: "Nuovi negozi", fonte: "mycity", tipo: "n", oggi: "nuovi_negozi_oggi", sett: "nuovi_negozi_7g", mese: "nuovi_negozi_30g" },
 ];
+
+// === 30 DATI MARKETING — 10 KPI × (oggi/7g/30g) ===
+// Solo "Visite sito 7g" e "Conversione sito 7g" arrivano già da PostHog; il resto
+// è pronto e si accende appena colleghi la fonte indicata.
+const MARKETING_KPI: Kpi[] = [
+  { icon: <Wallet size={16} />, label: "Spesa ads", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <Target size={16} />, label: "ROAS", fonte: "Meta/Google Ads", tipo: "n" },
+  { icon: <Receipt size={16} />, label: "CPA (costo/acquisizione)", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <MousePointer size={16} />, label: "Click ads", fonte: "Meta/Google Ads", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Impression ads", fonte: "Meta/Google Ads", tipo: "n" },
+  { icon: <Globe size={16} />, label: "Visite sito", fonte: "PostHog/GA4", tipo: "n", sett: "visite_7g" },
+  { icon: <Users size={16} />, label: "Visitatori unici", fonte: "PostHog/GA4", tipo: "n" },
+  { icon: <Percent size={16} />, label: "Conversione sito", fonte: "PostHog/GA4", tipo: "perc", sett: "conversione" },
+  { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
+  { icon: <Instagram size={16} />, label: "Nuovi follower social", fonte: "IG/Facebook", tipo: "n" },
+];
+
+// Lista piatta (KPI × finestra) per il generatore di prompt per Max.
+const ALL_METRICHE: { label: string; periodo: string; chiave?: string; tipo?: Tipo }[] = [
+  ...MARKETPLACE_KPI,
+  ...MARKETING_KPI,
+].flatMap((k) => [
+  { label: k.label, periodo: "oggi", chiave: k.oggi, tipo: k.tipo },
+  { label: k.label, periodo: "7 giorni", chiave: k.sett, tipo: k.tipo },
+  { label: k.label, periodo: "30 giorni", chiave: k.mese, tipo: k.tipo },
+]);
 
 function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";
@@ -429,8 +458,8 @@ export default function Dashboard() {
   // Costo API: ZERO — il lavoro pesante lo fai fare al tuo abbonamento.
   function generaPrompt(richiesta: string): string {
     const righe = metriche
-      ? METRICHE.filter((x) => x.chiave && metriche[x.chiave] !== undefined && metriche[x.chiave] !== null)
-          .map((x) => `- ${x.label}: ${formatta(metriche[x.chiave!], x.tipo)}`)
+      ? ALL_METRICHE.filter((x) => x.chiave && metriche[x.chiave] !== undefined && metriche[x.chiave] !== null)
+          .map((x) => `- ${x.label} (${x.periodo}): ${formatta(metriche[x.chiave!], x.tipo)}`)
           .join("\n")
       : "(metriche non disponibili)";
     const brief = briefing ? `\n\n## Ultimo briefing dell'assistente\n${briefing.situazione}` : "";
@@ -787,7 +816,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
-        {/* I numeri (cockpit) */}
+        {/* I numeri (cockpit): 30 dati Marketplace + 30 dati Marketing */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
           <div className="flex items-center gap-2.5 mb-1">
             <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -795,20 +824,28 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </span>
             <span className="text-[15px] font-semibold tracking-tight">I numeri di oggi</span>
           </div>
-          <p className="text-[12px] text-black/45 mb-4 pl-[42px]">
-            Come va l'azienda adesso. Le caselle spente sono fonti ancora da collegare.
+          <p className="text-[12px] text-black/45 mb-5 pl-[42px]">
+            Come va l'azienda adesso, in tre finestre: oggi · 7 giorni · 30 giorni. Le celle spente sono fonti ancora da collegare.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 content-start">
-            {METRICHE.map((m) => (
-              <Card
-                key={m.label}
-                icon={m.icon}
-                label={m.label}
-                value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
-                fonte={m.fonte}
-              />
-            ))}
-          </div>
+
+          {/* 📦 Marketplace — 10 KPI × 3 finestre = 30 dati */}
+          <TabellaNumeri
+            titolo="Marketplace"
+            emoji="📦"
+            sottotitolo="30 dati su ordini, incassi, clienti, carrelli, consegne e negozi"
+            kpis={MARKETPLACE_KPI}
+            metriche={metriche}
+          />
+
+          {/* 📣 Marketing — 10 KPI × 3 finestre = 30 dati */}
+          <TabellaNumeri
+            titolo="Marketing"
+            emoji="📣"
+            sottotitolo="30 dati su pubblicità, traffico, conversione, email e social — si accendono appena colleghi le fonti"
+            kpis={MARKETING_KPI}
+            metriche={metriche}
+            className="mt-7"
+          />
         </section>
 
         {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
@@ -1213,41 +1250,82 @@ function Markdown({ children }: { children: string }) {
   );
 }
 
-function Card({
-  icon,
-  label,
-  value,
-  fonte,
+// Un blocco di numeri (Marketplace o Marketing) come tabella: una riga per KPI,
+// tre colonne di valori (Oggi · 7 giorni · 30 giorni). Le celle senza fonte
+// collegata mostrano "—".
+function TabellaNumeri({
+  titolo,
+  emoji,
+  sottotitolo,
+  kpis,
+  metriche,
+  className = "",
 }: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  fonte: string;
+  titolo: string;
+  emoji: string;
+  sottotitolo: string;
+  kpis: Kpi[];
+  metriche: Record<string, any> | null;
+  className?: string;
 }) {
-  const connesso = value !== "—";
+  const cella = (chiave?: string, tipo?: Tipo) => {
+    const on = Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null);
+    return { on, v: on ? formatta(metriche![chiave!], tipo) : "—" };
+  };
+  const totale = kpis.length * 3;
+  const collegate = kpis.reduce(
+    (s, k) => s + [k.oggi, k.sett, k.mese].filter((c) => c && metriche && metriche[c] !== undefined && metriche[c] !== null).length,
+    0
+  );
   return (
-    <div
-      className={`rounded-2xl border p-3.5 transition ${
-        connesso
-          ? "bg-white border-black/[0.06] shadow-card hover:shadow-hover hover:-translate-y-0.5"
-          : "bg-black/[0.015] border-dashed border-black/[0.12]"
-      }`}
-    >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span
-          className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${
-            connesso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"
-          }`}
-        >
-          {icon}
-        </span>
-        <span className="text-xs text-black/50 leading-tight">{label}</span>
+    <div className={className}>
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className="text-[14px] font-semibold tracking-tight">{emoji} {titolo}</span>
+        <span className="text-[11px] text-black/40">{collegate}/{totale} dati collegati</span>
       </div>
-      <div className={`text-2xl font-semibold tracking-tight ${connesso ? "text-ink" : "text-black/25"}`}>
-        {value}
-      </div>
-      <div className="text-[10px] uppercase tracking-wide text-black/30 mt-1">
-        {connesso ? fonte : `da collegare · ${fonte}`}
+      <p className="text-[11px] text-black/40 mb-3">{sottotitolo}</p>
+      <div className="overflow-x-auto -mx-1 px-1">
+        <table className="w-full border-separate border-spacing-y-1.5 min-w-[420px]">
+          <thead>
+            <tr className="text-[10px] uppercase tracking-wide text-black/35">
+              <th className="text-left font-medium py-1 pl-1">KPI</th>
+              <th className="text-right font-medium py-1 px-2">Oggi</th>
+              <th className="text-right font-medium py-1 px-2">7 giorni</th>
+              <th className="text-right font-medium py-1 px-2 pr-1">30 giorni</th>
+            </tr>
+          </thead>
+          <tbody>
+            {kpis.map((k) => {
+              const celle = [cella(k.oggi, k.tipo), cella(k.sett, k.tipo), cella(k.mese, k.tipo)];
+              const acceso = celle.some((c) => c.on);
+              return (
+                <tr key={k.label} className="bg-paper/40 hover:bg-brand-50/30 transition">
+                  <td className="rounded-l-xl border-y border-l border-black/[0.06] py-2.5 pl-2.5">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${acceso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"}`}>
+                        {k.icon}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[13px] font-medium text-ink/85 leading-tight truncate">{k.label}</span>
+                        <span className="block text-[10px] uppercase tracking-wide text-black/30 leading-tight">
+                          {acceso ? k.fonte : `da collegare · ${k.fonte}`}
+                        </span>
+                      </span>
+                    </div>
+                  </td>
+                  {celle.map((c, i) => (
+                    <td
+                      key={i}
+                      className={`border-y border-black/[0.06] text-right px-2 tabular-nums ${i === 2 ? "rounded-r-xl border-r pr-2.5" : ""}`}
+                    >
+                      <span className={`text-[15px] font-semibold tracking-tight ${c.on ? "text-ink" : "text-black/20"}`}>{c.v}</span>
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
