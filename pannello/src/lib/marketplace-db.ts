@@ -139,6 +139,9 @@ export async function getMetriche(): Promise<Metriche> {
       if (o.user_id) ultimoOrdine[o.user_id] = Math.max(ultimoOrdine[o.user_id] || 0, t(o.created_at));
     }
     const ultimi = Object.values(ultimoOrdine);
+    // Clienti attivi = clienti distinti che hanno ordinato nella finestra.
+    const attiviIn = (pred: (iso: string) => boolean) =>
+      new Set(orders.filter((o) => o.user_id && pred(o.created_at)).map((o) => o.user_id)).size;
 
     return {
       connected: true,
@@ -160,24 +163,33 @@ export async function getMetriche(): Promise<Metriche> {
       nuovi_clienti_7g: profiles.filter((p) => p.role === "buyer" && t(p.created_at) >= d7).length,
       nuovi_clienti_30g: profiles.filter((p) => p.role === "buyer" && t(p.created_at) >= d30).length,
       clienti: profiles.filter((p) => p.role === "buyer").length,
-      clienti_attivi_30g: ultimi.filter((tt) => tt >= d30).length,
+      clienti_attivi_oggi: attiviIn((iso) => isOggi(iso)),
+      clienti_attivi_7g: attiviIn((iso) => t(iso) >= d7),
+      clienti_attivi_30g: attiviIn((iso) => t(iso) >= d30),
       clienti_dormienti: ultimi.filter((tt) => tt < d30).length,
       // --- Carrelli (richiede created_at su abandoned_carts) ---
       carrelli: carts.filter((c) => c.recovered !== true).length,
       carrelli_oggi: carts.filter((c) => c.recovered !== true && c.created_at && isOggi(c.created_at)).length,
       carrelli_7g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d7).length,
+      carrelli_30g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d30).length,
+      carrelli_recuperati_oggi: carts.filter((c) => c.recovered === true && c.created_at && isOggi(c.created_at)).length,
+      carrelli_recuperati_7g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d7).length,
       carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && (!c.created_at || t(c.created_at) >= d30)).length,
       // --- Negozi ---
       negozi: profiles.filter((p) => p.role === "seller").length,
+      nuovi_negozi_oggi: profiles.filter((p) => p.role === "seller" && isOggi(p.created_at)).length,
+      nuovi_negozi_7g: profiles.filter((p) => p.role === "seller" && t(p.created_at) >= d7).length,
       nuovi_negozi_30g: profiles.filter((p) => p.role === "seller" && t(p.created_at) >= d30).length,
       // --- Consegne / Operations ---
       consegne_in_corso: orders.filter((o) => notFailed(o) && !["DELIVERED", "CANCELED"].includes(o.delivery_status)).length,
       consegne_oggi: orders.filter((o) => o.delivered_at && isOggi(o.delivered_at)).length,
+      consegne_7g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d7).length,
       consegne_30g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d30).length,
       tempo_consegna_min: delivered.length
         ? Math.round(delivered.reduce((s, o) => s + (t(o.delivered_at) - t(o.created_at)) / 60000, 0) / delivered.length)
         : 0,
       problemi: orders.filter((o) => o.delivery_status === "CANCELED").length,
+      annullati_oggi: orders.filter((o) => o.delivery_status === "CANCELED" && isOggi(o.created_at)).length,
       annullati_7g: orders.filter((o) => o.delivery_status === "CANCELED" && t(o.created_at) >= d7).length,
       annullati_30g: orders.filter((o) => o.delivery_status === "CANCELED" && t(o.created_at) >= d30).length,
       // --- Qualità / recensioni ---
