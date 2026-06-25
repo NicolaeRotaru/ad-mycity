@@ -65,7 +65,14 @@ Il worker fa polling, esegue ogni lavoro con `claude -p`, e riscrive il risultat
 Far girare il cervello su un server Linux (es. Hetzner) **accanto** a quello che c'è già, senza
 cancellare nulla. Giro automatico ogni 2 ore + worker delle approvazioni, sempre attivi, sul tuo Max.
 
-➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)** (3 passi: `setup.sh` → `claude login` → segreti → accendi).
+➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)**. In breve, **sul VPS via SSH** (non sul PC Windows):
+> ```bash
+> ssh root@INDIRIZZO-IP-DEL-VPS            # 0) collegati al server
+> sudo apt-get update && sudo apt-get install -y git
+> sudo git clone https://github.com/NicolaeRotaru/ad-mycity.git /opt/mycity-bootstrap
+> sudo bash /opt/mycity-bootstrap/cervello/vps/setup.sh   # 1) installa
+> sudo -u mycity -H claude login           # 2) collega il Max · 3) segreti in .env · poi systemctl start
+> ```
 
 > ⚠️ **Onestà:** login Max interattivo una volta (`claude login`); i limiti d'uso del Max restano
 > (giro ogni 2h sta largo); il server sempre acceso ha il suo costo. Le azioni 🔴 partono solo da
