@@ -11,11 +11,13 @@
 > tipo `root@nomeserver:~#` — è lì che incolli i comandi.
 
 ## Cosa ti serve prima
-- Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root/sudo** via SSH.
+- Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
 - Il tuo account **Claude Max** (per fare `claude login`).
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
-- Un **PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`
-  (serve al server per ripushare il vault, così il Pannello lo vede).
+- ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
+  **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
+  GitHub non è più accettata). Crealo su github.com → Settings → Developer settings →
+  Fine-grained tokens → solo il repo `ad-mycity`, *Repository permissions → Contents: Read and write*.
 
 ## Passi
 
@@ -32,14 +34,15 @@ sudo systemctl disable --now NOME-SERVIZIO-DEL-BOT   # se gira come servizio sys
 ```
 Non tocchiamo i file del bot: restano sul disco, recuperabili.
 
-**1. Scarica ed esegui il setup** (installa Node, Claude Code, clona il repo, prepara systemd).
-Usa `git clone` (robusto, niente cache CDN che dà 404):
+**1. Clona ed esegui il setup** (il repo è **privato** → usa il tuo **PAT**; sei `root`, niente `sudo`).
+Sostituisci `github_pat_xxxxxxxx` col tuo token:
 ```bash
-sudo apt-get update && sudo apt-get install -y git
-sudo git clone https://github.com/NicolaeRotaru/ad-mycity.git /opt/mycity-bootstrap 2>/dev/null \
-  || sudo git -C /opt/mycity-bootstrap pull --ff-only
-sudo bash /opt/mycity-bootstrap/cervello/vps/setup.sh
+apt-get update && apt-get install -y git
+TOKEN=github_pat_xxxxxxxx
+git clone https://x-access-token:$TOKEN@github.com/NicolaeRotaru/ad-mycity.git /opt/mycity/ad-mycity
+GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
+> Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
 **2. Collega il piano Max** (login interattivo, una volta sola):
 ```bash
