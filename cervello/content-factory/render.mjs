@@ -38,6 +38,12 @@ export const PILASTRI = {
   "consiglio-mercoledi": "consiglio-mercoledi.html",
   "ordina-weekend": "ordina-weekend.html",
   "prova-sociale": "prova-sociale.html",
+  // — categorie aggiunte (5 stili distinti) —
+  "manifesto-causa": "manifesto-causa.html",
+  "carosello-edu": "carosello-edu.html",
+  "prodotto-dop": "prodotto-dop.html",
+  "pov-relatable": "pov-relatable.html",
+  "prova-sociale-quote": "prova-sociale-quote.html",
 };
 
 // Sostituisce i {{segnaposto}} (escape HTML dei valori per sicurezza).

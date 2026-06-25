@@ -1,0 +1,187 @@
+<!doctype html>
+<!--
+  Template categoria NUOVA — "PRODOTTO-EROE DOP / regalo da spedire".
+  Il box-regalo dei 3 salumi DOP piacentini (Coppa, Pancetta, Salame) spedito a chi è lontano.
+  Tono: "il Vicino Orgoglioso" in versione calda/nostalgica — "il sapore di casa, spedito".
+  Segnaposto: {{titolo}} {{sub}} {{cta}} {{prezzo}}
+  Variabili colore iniettate via :root dal motore (qui ci sono i fallback identici al brand).
+  Formato: feed 1080x1080.
+
+  ⚠️  ZONA FOTO REALE: il blocco .foto qui sotto è il SEGNAPOSTO dove andrà la FOTO vera del box
+      (o l'immagine generata via GEMINI_API_KEY). Finché non c'è la foto, mostra un trattamento
+      grafico forte "carta da salumeria" che fa venire fame. Sostituisci .foto-ph con un <img>.
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;600;700;800&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0; --bianco:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    background:var(--panna); color:var(--inchiostro);
+    width:1080px; height:1080px; position:relative; overflow:hidden;
+  }
+  /* ---- fondo "carta da salumeria": panna + sottile trama a righe + bordo cucito ---- */
+  .carta{
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(180deg, rgba(44,42,40,.022) 0 2px, transparent 2px 26px),
+      var(--panna);
+  }
+  .cornice{
+    position:absolute; inset:34px;
+    border:3px solid var(--bordeaux);
+    border-radius:8px;
+  }
+  .cornice::after{
+    content:""; position:absolute; inset:9px;
+    border:1.5px dashed rgba(184,42,40,.55); border-radius:4px;
+  }
+  /* ---- nastro angolare "DOP" in alto a destra ---- */
+  .nastro{
+    position:absolute; top:46px; right:-66px; width:300px;
+    background:var(--oliva); color:var(--panna);
+    text-align:center; transform:rotate(45deg);
+    padding:16px 0; font-weight:800; letter-spacing:6px; font-size:30px;
+    font-family:'Inter',sans-serif; box-shadow:0 6px 18px rgba(0,0,0,.18);
+    z-index:5;
+  }
+  /* ---- header: marchietto tondo "3 DOP" ---- */
+  .head{ position:absolute; top:96px; left:0; right:0; text-align:center; }
+  .occhiello{
+    font-family:'Inter',sans-serif; text-transform:uppercase;
+    letter-spacing:8px; font-size:24px; font-weight:800; color:var(--terracotta);
+  }
+  .occhiello small{ display:block; letter-spacing:5px; font-size:19px; font-weight:700;
+    color:var(--inchiostro); opacity:.7; margin-top:8px; }
+
+  /* ---- TITOLO grande tipografico (il cuore del desiderio) ---- */
+  .titolo{
+    position:absolute; top:188px; left:70px; right:70px;
+    font-family:'Fraunces',Georgia,serif; font-weight:900;
+    font-size:84px; line-height:1.0; letter-spacing:-1px;
+    color:var(--bordeaux); text-align:center;
+  }
+  .titolo b{ color:var(--terracotta); font-style:italic; }
+
+  /* ---- ZONA FOTO REALE (segnaposto) ---- */
+  .foto{
+    position:absolute; left:90px; right:90px; top:430px; height:320px;
+    border-radius:14px; overflow:hidden;
+    box-shadow:0 16px 40px rgba(44,42,40,.20);
+  }
+  .foto-ph{
+    width:100%; height:100%;
+    background:
+      radial-gradient(circle at 30% 35%, rgba(255,255,255,.18), transparent 60%),
+      linear-gradient(135deg, var(--terracotta) 0%, #9c3a23 55%, var(--bordeaux) 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--panna); position:relative;
+  }
+  .foto-ph .salumi{ font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:96px; line-height:1; letter-spacing:14px; text-shadow:0 4px 14px rgba(0,0,0,.25); }
+  .foto-ph .nota{
+    margin-top:18px; font-family:'Inter',sans-serif; font-size:23px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase; opacity:.92;
+  }
+  .foto-ph .ph-tag{
+    position:absolute; bottom:14px; right:16px;
+    font-family:'Inter',sans-serif; font-size:16px; font-weight:700;
+    letter-spacing:1px; opacity:.55;
+  }
+  /* etichetta "fatto a Piacenza" sotto la foto */
+  .tre{
+    position:absolute; left:90px; right:90px; top:766px;
+    display:flex; justify-content:space-between; gap:14px;
+  }
+  .tre .voce{
+    flex:1; text-align:center; background:var(--bianco);
+    border:2px solid var(--senape); border-radius:12px; padding:14px 6px;
+    font-family:'Fraunces',Georgia,serif; font-weight:700; font-size:28px; color:var(--inchiostro);
+  }
+  .tre .voce span{ display:block; font-family:'Inter',sans-serif; font-weight:700;
+    font-size:15px; letter-spacing:2px; text-transform:uppercase; color:var(--oliva); margin-top:4px; }
+
+  /* ---- sottotitolo nostalgico ---- */
+  .sub{
+    position:absolute; left:90px; right:90px; top:870px;
+    text-align:center; font-family:'Fraunces',Georgia,serif; font-style:italic;
+    font-size:30px; line-height:1.28; color:var(--inchiostro); opacity:.9;
+  }
+
+  /* ---- fondo: prezzo (timbro) + CTA + brand ---- */
+  .fondo{ position:absolute; left:70px; right:70px; bottom:54px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .prezzo{
+    display:flex; flex-direction:column; align-items:flex-start;
+    font-family:'Fraunces',Georgia,serif;
+  }
+  .prezzo .da{ font-family:'Inter',sans-serif; font-size:18px; font-weight:800;
+    letter-spacing:3px; text-transform:uppercase; color:var(--oliva); }
+  .prezzo .cifra{ font-size:62px; font-weight:900; color:var(--bordeaux); line-height:.95; }
+  .prezzo .sped{ font-family:'Inter',sans-serif; font-size:17px; font-weight:700; color:var(--inchiostro); opacity:.7; }
+  .cta{
+    background:var(--senape); color:var(--inchiostro);
+    font-family:'Inter',sans-serif; font-weight:800; font-size:30px;
+    padding:24px 38px; border-radius:16px; text-align:center;
+    box-shadow:0 8px 20px rgba(232,163,61,.45);
+  }
+  /* brand sotto la cornice */
+  .brandrow{
+    position:absolute; left:70px; right:70px; bottom:14px;
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .brand{ font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:30px; color:var(--terracotta); }
+  .handle{ font-family:'Inter',sans-serif; font-size:22px; font-weight:800; color:var(--oliva); }
+</style>
+</head>
+<body>
+  <div class="carta"></div>
+  <div class="cornice"></div>
+  <div class="nastro">D O P</div>
+
+  <div class="head">
+    <div class="occhiello">Box-Regalo Salumi Piacentini
+      <small>Coppa · Pancetta · Salame — i 3 DOP, in una scatola</small>
+    </div>
+  </div>
+
+  <div class="titolo">{{titolo}}</div>
+
+  <!-- ⬇️ QUI VA LA FOTO REALE DEL BOX (sostituisci .foto-ph con <img src="...">) -->
+  <div class="foto">
+    <div class="foto-ph">
+      <div class="salumi">C · P · S</div>
+      <div class="nota">la foto reale del box va qui</div>
+      <div class="ph-tag">[ FOTO PRODOTTO ]</div>
+    </div>
+  </div>
+
+  <div class="tre">
+    <div class="voce">Coppa<span>DOP</span></div>
+    <div class="voce">Pancetta<span>DOP</span></div>
+    <div class="voce">Salame<span>DOP</span></div>
+  </div>
+
+  <div class="sub">{{sub}}</div>
+
+  <div class="fondo">
+    <div class="prezzo">
+      <div class="da">da</div>
+      <div class="cifra">{{prezzo}}</div>
+      <div class="sped">spedito in tutta Italia</div>
+    </div>
+    <div class="cta">{{cta}}</div>
+  </div>
+
+  <div class="brandrow">
+    <div class="brand">MyCity</div>
+    <div class="handle">@mycity.piacenza</div>
+  </div>
+</body>
+</html>
