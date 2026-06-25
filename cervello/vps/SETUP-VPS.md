@@ -4,6 +4,12 @@
 > Usa il tuo **piano Max** (login interattivo una volta), non le API a pagamento.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
+> ## ⚠️ LEGGI QUESTO PRIMA
+> **Tutti i comandi qui sotto vanno eseguiti SUL VPS Linux (dopo esserti collegato via SSH), NON nel
+> Prompt dei comandi di Windows del tuo PC.** Windows non ha `sudo`/`bash`/`apt`: da lì non funzionano.
+> Il PC serve solo per **collegarti** al server (Passo 0). Quando sei "dentro" il VPS il prompt diventa
+> tipo `root@nomeserver:~#` — è lì che incolli i comandi.
+
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root/sudo** via SSH.
 - Il tuo account **Claude Max** (per fare `claude login`).
@@ -11,18 +17,28 @@
 - Un **PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`
   (serve al server per ripushare il vault, così il Pannello lo vede).
 
-## Passi (copia-incolla sul server)
+## Passi
 
-**0. (Opzionale) Impedisci al bot di ripartire al reboot** — senza cancellarlo:
+**0. Collegati al VPS via SSH** (dal tuo PC — Windows cmd/PowerShell hanno `ssh` integrato, oppure
+terminale Mac/Linux). L'**indirizzo IP** e la **password root** sono nella **console Hetzner** (il tuo server):
+```bash
+ssh root@INDIRIZZO-IP-DEL-VPS
+```
+Da qui in poi il prompt è quello del VPS (Linux): **tutti i comandi sotto si incollano lì.**
+
+**0-bis. (Opzionale) Impedisci al bot di ripartire al reboot** — senza cancellarlo:
 ```bash
 sudo systemctl disable --now NOME-SERVIZIO-DEL-BOT   # se gira come servizio systemd
 ```
 Non tocchiamo i file del bot: restano sul disco, recuperabili.
 
-**1. Scarica ed esegui il setup** (installa Node, Claude Code, clona il repo, prepara systemd):
+**1. Scarica ed esegui il setup** (installa Node, Claude Code, clona il repo, prepara systemd).
+Usa `git clone` (robusto, niente cache CDN che dà 404):
 ```bash
-curl -fsSL https://raw.githubusercontent.com/NicolaeRotaru/ad-mycity/main/cervello/vps/setup.sh -o /tmp/setup.sh
-sudo bash /tmp/setup.sh
+sudo apt-get update && sudo apt-get install -y git
+sudo git clone https://github.com/NicolaeRotaru/ad-mycity.git /opt/mycity-bootstrap 2>/dev/null \
+  || sudo git -C /opt/mycity-bootstrap pull --ff-only
+sudo bash /opt/mycity-bootstrap/cervello/vps/setup.sh
 ```
 
 **2. Collega il piano Max** (login interattivo, una volta sola):
