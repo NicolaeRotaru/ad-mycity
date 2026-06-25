@@ -27,8 +27,15 @@ perlustrazione": l'AD legge dati + memoria, scrive un briefing nel vault e aggio
    ```powershell
    .\cervello\giro.ps1
    ```
-2. Programmalo (Utilità di pianificazione di Windows): vedi `giro.ps1` in fondo
-   per il comando `schtasks` già pronto (es. ogni mattina alle 8).
+2. **Fallo partire da solo con un doppio-clic** (niente comandi da scrivere):
+   - ▶ Doppio-clic su `cervello\attiva-giro-automatico.cmd` → registra l'attività
+     pianificata (ogni **2 ore**, percorso auto-rilevato, **senza permessi admin**).
+   - ⏹ Per fermarlo: `cervello\disattiva-giro-automatico.cmd`.
+   - Per cambiare intervallo: da PowerShell in `cervello\`, `.\installa-giro.ps1 -OgniOre 1`.
+
+> ⚠️ **Onestà:** serve il **PC acceso** + Claude Code loggato col **Max**. Il Max ha limiti
+> d'uso che si resettano ogni poche ore: ogni 2 ore è un buon equilibrio; ogni ora 24/7 può
+> incontrare i limiti. Le azioni 🔴 (soldi/messaggi reali) restano comunque da firmare.
 
 Il prompt del giro è in `giro.md` — modificalo per cambiare cosa fa l'AD ogni volta.
 
