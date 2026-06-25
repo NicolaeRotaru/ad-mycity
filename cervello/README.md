@@ -61,7 +61,21 @@ Il worker fa polling, esegue ogni lavoro con `claude -p`, e riscrive il risultat
 
 ---
 
+## Modo C — VPS Linux sempre acceso (24/7, senza il tuo PC) 🖥️
+Far girare il cervello su un server Linux (es. Hetzner) **accanto** a quello che c'è già, senza
+cancellare nulla. Giro automatico ogni 2 ore + worker delle approvazioni, sempre attivi, sul tuo Max.
+
+➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)** (3 passi: `setup.sh` → `claude login` → segreti → accendi).
+
+> ⚠️ **Onestà:** login Max interattivo una volta (`claude login`); i limiti d'uso del Max restano
+> (giro ogni 2h sta largo); il server sempre acceso ha il suo costo. Le azioni 🔴 partono solo da
+> approvazione nel Pannello (`AZIONI_LIVE=0`).
+
+---
+
 ## Mappa
-- `giro.md` — il prompt del giro di perlustrazione (Modo A).
-- `giro.ps1` — esegue un giro con Claude Code.
-- `worker.ps1` — worker della coda lavori (Modo B).
+- `giro.md` — il prompt del giro di perlustrazione (Modi A/B/C).
+- `giro.ps1` / `giro.sh` — esegue un giro con Claude Code (Windows / Linux).
+- `worker.ps1` / `worker.sh` — worker della coda lavori (Windows / Linux).
+- `attiva-giro-automatico.cmd` · `installa-giro.ps1` — giro automatico su Windows (un doppio-clic).
+- `vps/` — installazione su VPS Linux: `setup.sh`, unit systemd `mycity-*`, `.env.example`, `SETUP-VPS.md`.

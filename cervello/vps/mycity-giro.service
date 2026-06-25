@@ -1,0 +1,13 @@
+[Unit]
+Description=MyCity AD — giro di perlustrazione (Claude Code, piano Max)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+# HOME serve a 'claude' per trovare il login del Max (~/.claude)
+Environment=HOME=/home/mycity
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/giro.sh
