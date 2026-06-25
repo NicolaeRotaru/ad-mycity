@@ -16,8 +16,13 @@
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
-  GitHub non è più accettata). Crealo su github.com → Settings → Developer settings →
-  Fine-grained tokens → solo il repo `ad-mycity`, *Repository permissions → Contents: Read and write*.
+  GitHub non è più accettata). Crealo su github.com → Settings → Developer settings → Fine-grained tokens.
+  **Configuralo bene (un token "vuoto" NON funziona):**
+  1. **Repository access** → *Only select repositories* → scegli **`ad-mycity`**.
+  2. **Repository permissions** → **Contents: Read and write** (Metadata: Read-only si aggiunge da solo).
+  3. *Generate / Update token* → copia il valore `github_pat_…`.
+  > Se il token risulta "*does not have access to any repositories*" o "*any repository permissions*",
+  > non è configurato: premi **Edit**, aggiungi repo + Contents R/W e salva (il valore del token non cambia).
 
 ## Passi
 
