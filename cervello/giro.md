@@ -13,6 +13,13 @@ Passi:
    azioni proposte, ognuna con colore 🟢🟡🔴.
 4. Salva il briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` con nome data
    (AAAA-MM-GG.md). Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`.
+   Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
+   `SUPABASE_SERVICE_KEY`), salva il briefing STRUTTURATO anche nella tabella
+   `briefings` così il **Pannello di Controllo** lo mostra in "Aggiorna ora".
+   La riga è `{ "data": { "situazione": "...", "opportunita": [...], "azioni": [...] } }`;
+   ogni azione ha `livello` "verde"/"giallo"/"rosso". Esempio:
+   `curl -s -X POST "$SUPABASE_URL/rest/v1/briefings" -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json" -d '{"data": { ... }}'`
+   (Senza memoria collegata, salta questo passo: il briefing resta comunque nel vault.)
 5. DOER MODE: ESEGUI da solo le azioni 🟢 (produci gli artefatti veri in `consegne/` o `creativi/`,
    aggiorna la memoria). Le 🟡/🔴 preparale COMPLETE e ACCODALE in
    `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` (non eseguirle finché Nicola non dà il via).
