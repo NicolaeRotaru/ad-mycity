@@ -36,16 +36,14 @@ claude -p $prompt --permission-mode acceptEdits
 Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Giro completato."
 
 # ---------------------------------------------------------------------------
-# PROGRAMMARLO OGNI ORA (una volta sola). Incolla in PowerShell (adatta il percorso):
+# PER FARLO PARTIRE DA SOLO (ogni 2 ore): NON serve scrivere comandi.
+#   ▶ Doppio-clic su  cervello\attiva-giro-automatico.cmd
+#   ⏹ Per fermarlo:    cervello\disattiva-giro-automatico.cmd
 #
-# schtasks /Create /TN "MyCity-AD-Giro" /SC HOURLY /MO 1 /TR `
-#   "powershell -NoProfile -ExecutionPolicy Bypass -File `"C:\Users\InfinitaPossibilita\Desktop\ad-mycity\cervello\giro.ps1`""
+# Cambiare intervallo (es. ogni ora), da PowerShell nella cartella cervello\:
+#   .\installa-giro.ps1 -OgniOre 1
 #
-# Da quel momento l'AD fa un giro DA SOLO ogni ora (usa il tuo piano Max, niente API).
-# Richiede: PC acceso + Claude Code installato e loggato col Max.
-#
-# Varianti:  /SC HOURLY /MO 3  (ogni 3 ore)   ·   /SC DAILY /ST 08:00  (1 volta, la mattina)
-# ⚠️ Onestà: il Max ha limiti d'uso che si resettano ogni poche ore. Ogni ora nelle ore
-#    di veglia va bene; ogni ora 24/7 può incontrare i limiti — in quel caso usa /MO 2-3.
-# Per rimuoverlo:  schtasks /Delete /TN "MyCity-AD-Giro" /F
+# Richiede: PC acceso + Claude Code loggato col Max.
+# ⚠️ Onestà: il Max ha limiti d'uso che si resettano ogni poche ore. Ogni 2 ore è un buon
+#    equilibrio; 'ogni ora' 24/7 può incontrare i limiti — in quel caso resta su 2-3 ore.
 # ---------------------------------------------------------------------------
