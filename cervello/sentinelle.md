@@ -4,6 +4,12 @@
 > quando un segnale supera la soglia, AGISCE nei 🟢 e ALLERTA sui 🟡/🔴.
 > ⚠️ Si attivano davvero solo quando il "cervello" gira (worker/giri schedulati in `cervello/`). Finché lo
 > lanci a mano, valgono come checklist da scorrere a ogni giro.
+>
+> 🔭 **Sentinelle vs Radar:** qui ci sono i trigger a **soglia su dati INTERNI** (ordini, payout,
+> recensioni…). Il mondo **ESTERNO** che influenza MyCity (notizie, competitor, bandi, meteo,
+> istituzioni…) sta nel **radar**: `cervello/radar.json` — i 50 fattori con senior, peso e fonti live.
+> Si completano: alcuni fattori del radar, quando hanno una soglia (es. "cambio prezzo concorrente"),
+> sono già sentinelle qui sotto. Il giro (`giro.md`) controlla **prima le sentinelle, poi il radar**.
 
 | Segnale | Soglia | Reparto | Azione | Colore |
 |---|---|---|---|---|
