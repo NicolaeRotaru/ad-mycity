@@ -1,6 +1,6 @@
 export const meta = {
   name: 'audit-design',
-  description: 'Audit UX/UI del marketplace MyCity: trova errori grafici, di layout e frizioni (sola lettura), ogni problema verificato',
+  description: 'Radiografia del design: audit UX/UI completo del marketplace MyCity (11 dimensioni che coprono i 24 punti visivi/UX), in sola lettura, ogni problema verificato',
   phases: [
     { title: 'Design review', detail: 'un esperto per dimensione UX/UI (sola lettura)' },
     { title: 'Verifica', detail: 'tieni solo i problemi reali' },
@@ -42,6 +42,8 @@ const DIMS = [
   { key: 'mobile-pwa', focus: 'esperienza mobile/PWA: usabilità da telefono, touch target, viewport, menu, install/PWA' },
   { key: 'flussi-conversione', focus: 'frizioni UX nei flussi chiave (home→negozio→prodotto→carrello→checkout/COD): troppi step, CTA poco chiare, campi inutili, punti di abbandono' },
   { key: 'microcopy', focus: 'microcopy/UX writing: testi UI poco chiari, messaggi d\'errore criptici, tono incoerente col brand, refusi' },
+  { key: 'navigazione-gerarchia', focus: 'navigazione e gerarchia visiva: menu/header/footer poco chiari, percorsi per trovare le cose, breadcrumb, cosa salta all\'occhio (il prezzo e la CTA "compra" devono dominare), allineamento e spaziatura tra elementi importanti, ordine logico dei blocchi nella pagina' },
+  { key: 'performance-percepita', focus: 'velocità percepita: peso e ottimizzazione immagini, lazy-load, skeleton/spinner durante il caricamento, layout shift (CLS), bundle pesanti, font che bloccano il render, sensazione di lentezza nelle pagine chiave' },
 ]
 
 phase('Design review')
