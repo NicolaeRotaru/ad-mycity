@@ -8,3 +8,8 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Segreti (mai committare): i .env reali del VPS e del pannello
+.env
+.env.local
+cervello/vps/.env

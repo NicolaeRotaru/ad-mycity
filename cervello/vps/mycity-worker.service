@@ -1,0 +1,17 @@
+[Unit]
+Description=MyCity AD — worker della coda approvazioni (Claude Code, piano Max)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+Environment=HOME=/home/mycity
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
