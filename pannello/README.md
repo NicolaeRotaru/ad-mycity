@@ -46,7 +46,7 @@ create table impostazioni (
 ```bash
 cd pannello
 npm install
-cp .env.example .env.local   # inserisci almeno ANTHROPIC_API_KEY
+cp .env.example .env.local   # il Pannello NON usa le API Claude: niente chiave Anthropic
 npm run dev                  # http://localhost:3000
 ```
 
