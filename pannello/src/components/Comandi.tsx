@@ -113,7 +113,8 @@ export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void
   const toggleReparto = (i: number) =>
     setApertiReparti((s) => {
       const n = new Set(s);
-      n.has(i) ? n.delete(i) : n.add(i);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
       return n;
     });
   const tuttiAperti = apertiReparti.size === REPARTI.length;
@@ -156,13 +157,19 @@ export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void
                 >
                   <button
                     onClick={() => toggleReparto(i)}
-                    className="w-full flex items-center gap-1.5 text-left px-2.5 py-2"
+                    className="w-full flex items-center gap-1.5 text-left px-2.5 py-2.5"
                     aria-expanded={open}
                   >
                     <span className="text-[12.5px] font-semibold tracking-tight text-ink/85 leading-tight flex-1 min-w-0">
                       {r.nome}
                     </span>
-                    <span className="text-[10px] text-black/35 shrink-0 tabular-nums">{r.comandi.length}</span>
+                    <span
+                      className={`text-[10px] tabular-nums px-1.5 py-0.5 rounded-full shrink-0 ${
+                        open ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/40"
+                      }`}
+                    >
+                      {r.comandi.length}
+                    </span>
                     <span className="shrink-0 text-black/35">
                       {open ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
                     </span>

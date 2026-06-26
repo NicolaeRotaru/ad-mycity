@@ -282,6 +282,20 @@ const ALL_METRICHE: { label: string; periodo: string; chiave?: string; tipo?: Ti
   ...SALUTE_KPI.map((k) => ({ label: k.label, periodo: "adesso", chiave: k.valore, tipo: k.tipo })),
 ];
 
+// Le categorie del cockpit "I numeri di oggi", in ordine. Ognuna è una tendina.
+type CategoriaNum = { emoji: string; titolo: string; sottotitolo: string; kpis: Kpi[]; snapshot?: boolean };
+const CATEGORIE_NUMERI: CategoriaNum[] = [
+  { emoji: "🩺", titolo: "Salute adesso", sottotitolo: "La foto dell'azienda in questo momento — già collegata ai dati reali.", kpis: SALUTE_KPI, snapshot: true },
+  { emoji: "📦", titolo: "Marketplace", sottotitolo: "Ordini, incassi, clienti, carrelli, consegne e negozi.", kpis: MARKETPLACE_KPI },
+  { emoji: "🛵", titolo: "Operations & consegne", sottotitolo: "Puntualità, ritardi, rider e costo per consegna — si accendono col tracking consegne.", kpis: OPERATIONS_KPI },
+  { emoji: "💶", titolo: "Finanza & margini", sottotitolo: "Commissioni, margini, payout, rimborsi e incasso netto — si accendono con Stripe e i costi.", kpis: FINANZA_KPI },
+  { emoji: "🤝", titolo: "Clienti & retention", sottotitolo: "Riordino, churn, valore cliente, NPS e reclami — si accendono con gli eventi cliente.", kpis: CLIENTI_KPI },
+  { emoji: "🏪", titolo: "Negozi & catalogo", sottotitolo: "Negozi in calo, prodotti, esauriti e categorie — si accendono col catalogo e l'health negozi.", kpis: NEGOZI_KPI },
+  { emoji: "📣", titolo: "Marketing", sottotitolo: "Pubblicità, traffico, conversione, email e social — si accendono appena colleghi le fonti.", kpis: MARKETING_KPI },
+];
+// Aperte di default: i due blocchi con più dati reali.
+const NUM_DEFAULT_APERTE = ["Salute adesso", "Marketplace"];
+
 function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";
   if (tipo === "euro") return "€ " + Number(v).toLocaleString("it-IT", { maximumFractionDigits: 2 });
@@ -314,6 +328,19 @@ export default function Dashboard() {
   const [memoria, setMemoria] = useState(false);
   const [giri, setGiri] = useState(0);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
+  // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
+  // (i dati reali subito sott'occhio); le altre chiuse → meno scroll.
+  const [catAperte, setCatAperte] = useState<Set<string>>(() => new Set(NUM_DEFAULT_APERTE));
+  const toggleCat = (t: string) =>
+    setCatAperte((s) => {
+      const n = new Set(s);
+      if (n.has(t)) n.delete(t);
+      else n.add(t);
+      return n;
+    });
+  const tutteCatAperte = catAperte.size === CATEGORIE_NUMERI.length;
+  const toggleTutteCat = () =>
+    setCatAperte(tutteCatAperte ? new Set() : new Set(CATEGORIE_NUMERI.map((c) => c.titolo)));
 
   const [messages, setMessages] = useState<Msg[]>([]);
   const [diario, setDiario] = useState<DiarioVoce[]>([]);
@@ -554,7 +581,13 @@ export default function Dashboard() {
   // Costo API: ZERO — il lavoro pesante lo fai fare al tuo abbonamento.
   function generaPrompt(richiesta: string): string {
     const righe = metriche
-      ? ALL_METRICHE.filter((x) => x.chiave && metriche[x.chiave] !== undefined && metriche[x.chiave] !== null)
+      ? ALL_METRICHE.filter(
+          (x) =>
+            x.chiave &&
+            metriche[x.chiave] !== undefined &&
+            metriche[x.chiave] !== null &&
+            formatta(metriche[x.chiave], x.tipo) !== "—"
+        )
           .map((x) => `- ${x.label} (${x.periodo}): ${formatta(metriche[x.chiave!], x.tipo)}`)
           .join("\n")
       : "(metriche non disponibili)";
@@ -896,71 +929,31 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <BarChart3 size={16} />
             </span>
             <span className="text-[15px] font-semibold tracking-tight">I numeri di oggi</span>
+            <button
+              onClick={toggleTutteCat}
+              className="ml-auto text-[11px] font-medium text-black/45 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+            >
+              {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
+            </button>
           </div>
           <p className="text-[12px] text-black/45 mb-3 pl-[42px]">
             Per categoria, in tre finestre: oggi · 7 giorni · 30 giorni. Tocca una categoria per aprirla; le celle spente sono fonti da collegare.
           </p>
 
           <div className="space-y-2">
-            {/* 🩺 Salute adesso — foto istantanea, già da dati reali */}
-            <CategoriaNumeri
-              emoji="🩺"
-              titolo="Salute adesso"
-              sottotitolo="La foto dell'azienda in questo momento — già collegata ai dati reali."
-              kpis={SALUTE_KPI}
-              metriche={metriche}
-              snapshot
-              apertaDefault
-            />
-            {/* 📦 Marketplace — ordini, incassi, clienti, carrelli, consegne, negozi */}
-            <CategoriaNumeri
-              emoji="📦"
-              titolo="Marketplace"
-              sottotitolo="Ordini, incassi, clienti, carrelli, consegne e negozi."
-              kpis={MARKETPLACE_KPI}
-              metriche={metriche}
-              apertaDefault
-            />
-            {/* 🛵 Operations & consegne */}
-            <CategoriaNumeri
-              emoji="🛵"
-              titolo="Operations & consegne"
-              sottotitolo="Puntualità, ritardi, rider e costo per consegna — si accendono col tracking consegne."
-              kpis={OPERATIONS_KPI}
-              metriche={metriche}
-            />
-            {/* 💶 Finanza & margini */}
-            <CategoriaNumeri
-              emoji="💶"
-              titolo="Finanza & margini"
-              sottotitolo="Commissioni, margini, payout, rimborsi e incasso netto — si accendono con Stripe e i costi."
-              kpis={FINANZA_KPI}
-              metriche={metriche}
-            />
-            {/* 🤝 Clienti & retention */}
-            <CategoriaNumeri
-              emoji="🤝"
-              titolo="Clienti & retention"
-              sottotitolo="Riordino, churn, valore cliente, NPS e reclami — si accendono con gli eventi cliente."
-              kpis={CLIENTI_KPI}
-              metriche={metriche}
-            />
-            {/* 🏪 Negozi & catalogo */}
-            <CategoriaNumeri
-              emoji="🏪"
-              titolo="Negozi & catalogo"
-              sottotitolo="Negozi in calo, prodotti, esauriti e categorie — si accendono col catalogo e l'health negozi."
-              kpis={NEGOZI_KPI}
-              metriche={metriche}
-            />
-            {/* 📣 Marketing */}
-            <CategoriaNumeri
-              emoji="📣"
-              titolo="Marketing"
-              sottotitolo="Pubblicità, traffico, conversione, email e social — si accendono appena colleghi le fonti."
-              kpis={MARKETING_KPI}
-              metriche={metriche}
-            />
+            {CATEGORIE_NUMERI.map((c) => (
+              <CategoriaNumeri
+                key={c.titolo}
+                emoji={c.emoji}
+                titolo={c.titolo}
+                sottotitolo={c.sottotitolo}
+                kpis={c.kpis}
+                snapshot={c.snapshot}
+                metriche={metriche}
+                open={catAperte.has(c.titolo)}
+                onToggle={() => toggleCat(c.titolo)}
+              />
+            ))}
           </div>
         </section>
 
@@ -1380,7 +1373,8 @@ function CategoriaNumeri({
   kpis,
   metriche,
   snapshot = false,
-  apertaDefault = false,
+  open,
+  onToggle,
 }: {
   emoji: string;
   titolo: string;
@@ -1388,20 +1382,24 @@ function CategoriaNumeri({
   kpis: Kpi[];
   metriche: Record<string, any> | null;
   snapshot?: boolean;
-  apertaDefault?: boolean;
+  open: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(apertaDefault);
-  const acceso = (chiave?: string) =>
-    Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null);
+  // "Acceso" = c'è un valore E si formatta in qualcosa di mostrabile (non "—").
+  // Così il badge e l'aspetto della cella restano sempre d'accordo (es. tempo
+  // consegna o recensione media a 0 = fonte di fatto non ancora utile → spenta).
+  const acceso = (chiave?: string, tipo?: Tipo) =>
+    Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null) &&
+    formatta(metriche![chiave!], tipo) !== "—";
   const totale = snapshot ? kpis.length : kpis.length * 3;
   const collegate = snapshot
-    ? kpis.filter((k) => acceso(k.valore)).length
-    : kpis.reduce((s, k) => s + [k.oggi, k.sett, k.mese].filter((c) => acceso(c)).length, 0);
+    ? kpis.filter((k) => acceso(k.valore, k.tipo)).length
+    : kpis.reduce((s, k) => s + [k.oggi, k.sett, k.mese].filter((c) => acceso(c, k.tipo)).length, 0);
   const haDati = collegate > 0;
 
   return (
-    <div className={`rounded-xl border transition ${open ? "border-brand/25 bg-paper/30" : "border-black/[0.06] bg-paper/30 hover:border-brand/20"}`}>
-      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center gap-2 px-3 py-2.5 text-left" aria-expanded={open}>
+    <div className={`rounded-xl border transition ${open ? "border-brand/25 bg-brand-50/20" : "border-black/[0.06] bg-paper/30 hover:border-brand/20"}`}>
+      <button onClick={onToggle} className="w-full flex items-center gap-2 px-3 py-2.5 text-left" aria-expanded={open}>
         <span className="text-[14px] font-semibold tracking-tight">{emoji} {titolo}</span>
         <span className={`text-[10.5px] tabular-nums px-1.5 py-0.5 rounded-full ${haDati ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/35"}`}>
           {collegate}/{totale}
@@ -1422,8 +1420,9 @@ function CategoriaNumeri({
 // Le celle senza fonte collegata mostrano "—".
 function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string, any> | null }) {
   const cella = (chiave?: string, tipo?: Tipo) => {
-    const on = Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null);
-    return { on, v: on ? formatta(metriche![chiave!], tipo) : "—" };
+    const present = Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null);
+    const v = present ? formatta(metriche![chiave!], tipo) : "—";
+    return { on: v !== "—", v };
   };
   return (
     <div className="overflow-x-auto -mx-1 px-1">
@@ -1478,8 +1477,9 @@ function CorpoGriglia({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
       {kpis.map((k) => {
-        const on = Boolean(k.valore && metriche && metriche[k.valore] !== undefined && metriche[k.valore] !== null);
-        const v = on ? formatta(metriche![k.valore!], k.tipo) : "—";
+        const present = Boolean(k.valore && metriche && metriche[k.valore] !== undefined && metriche[k.valore] !== null);
+        const v = present ? formatta(metriche![k.valore!], k.tipo) : "—";
+        const on = v !== "—";
         return (
           <div key={k.label} className={`rounded-xl border p-2.5 ${on ? "border-black/[0.06] bg-paper/40" : "border-dashed border-black/[0.10] bg-paper/20"}`}>
             <div className="flex items-center gap-1.5">
