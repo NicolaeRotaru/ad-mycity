@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-27 00:39
+aggiornato: 2026-06-27 00:48
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -9,10 +9,12 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 > Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
 > Domani (25/6) i numeri devono iniziare a muoversi da 0.
 >
-> ⚠️ **27/6 — numeri ANCORA alla baseline 24/6:** nel giro del 27/6 il **Web è tornato** (meteo+eventi
-> reali ✅) ma il **Supabase MCP è ancora NON autorizzato** e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY`
-> non sono configurate → i 7 numeri interni restano **non riverificati** dal 24/6. Oggi (sab 27/6) è il
-> **GIORNO della prima consegna concierge**. Radar: **caldo estremo 38-39°C, zero pioggia** → priorità =
+> ⚠️ **27/6 00:48 (passaggio 2) — sessione CIECA:** ho riprovato a leggere i dati ma **Supabase MCP
+> E WebFetch sono entrambi non autorizzati** in questa sessione → i 7 numeri restano alla baseline 24/6,
+> nessun check esterno nuovo. (Nel passaggio 00:39 il Web c'era: meteo+eventi reali ✅.) Per chiudere la
+> cecità sui numeri serve **autorizzare il Supabase MCP** o configurare `SUPABASE_URL`/`SUPABASE_SERVICE_KEY`.
+> Oggi (sab 27/6) è il **GIORNO della prima consegna concierge**. Radar (dal passaggio 00:39, ancora valido):
+> **caldo estremo 38-39°C, zero pioggia** → priorità =
 > catena del freddo (piano in `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`). Vedi [[2026-06-27]].
 
 ## I 7 numeri del primo passo (baseline = oggi 24/6)
