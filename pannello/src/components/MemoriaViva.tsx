@@ -270,7 +270,7 @@ export default function MemoriaViva() {
                           {a.stato}
                         </span>
                       </div>
-                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{a.azione}</p>
+                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(a.azione)}</p>
                       <p className="text-[11px] text-black/45 mt-1">
                         📎 {a.contenuto} · 📣 {a.canale}
                       </p>
@@ -313,7 +313,7 @@ export default function MemoriaViva() {
           {tab === "attivita" && attivita && (
             <div className="space-y-4">
               {attivita.briefing && (
-                <details open className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+                <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
                   <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {attivita.briefing.nome}</summary>
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.briefing.testo}</Markdown>

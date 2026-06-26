@@ -29,7 +29,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "persone", gruppo: "Chi compra e chi vende", emoji: "🏪", titolo: "Negozi & venditori",
     descrizione: "Le botteghe sulla piattaforma: quante attive, nuove entrate, e la loro salute.",
-    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=negozi", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=negozi",
     kpis: [
       { label: "Negozi attivi", chiave: "negozi", tipo: "n" },
       { label: "Nuovi (7g)", chiave: "nuovi_negozi_7g", tipo: "n" },
@@ -40,7 +40,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "persone", gruppo: "Chi compra e chi vende", emoji: "🧑", titolo: "Clienti",
     descrizione: "La base clienti: totali, attivi, nuovi e chi si sta addormentando.",
-    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=clienti", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=clienti",
     kpis: [
       { label: "Clienti totali", chiave: "clienti", tipo: "n" },
       { label: "Attivi (7g)", chiave: "clienti_attivi_7g", tipo: "n" },
@@ -87,7 +87,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "operazioni", gruppo: "In tempo reale", emoji: "🧾", titolo: "Ordini live",
     descrizione: "Gli ordini di oggi e quelli in corso adesso.",
-    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=ordini", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=ordini",
     kpis: [
       { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n" },
       { label: "Ordini (7g)", chiave: "ordini_7g", tipo: "n" },
@@ -98,7 +98,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "operazioni", gruppo: "In tempo reale", emoji: "🛵", titolo: "Consegne",
     descrizione: "Stato delle consegne: in corso, completate, tempi e problemi.",
-    fonte: "marketplace + tracking", stato: "live", lista: "/api/marketplace/lista?tipo=consegne", apertaDefault: true,
+    fonte: "marketplace + tracking", stato: "live", lista: "/api/marketplace/lista?tipo=consegne",
     kpis: [
       { label: "In corso", chiave: "consegne_in_corso", tipo: "n" },
       { label: "Completate oggi", chiave: "consegne_oggi", tipo: "n" },
@@ -136,7 +136,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Il mondo fuori", emoji: "🔎", titolo: "Mercato & concorrenti",
     descrizione: "Chi sono i concorrenti e come si muovono.",
-    fonte: "intelligence", stato: "placeholder", apertaDefault: true,
+    fonte: "intelligence", stato: "placeholder",
     punti: ["Concorrenti monitorati e prezzi", "Quota di mercato stimata", "Mosse e novità rilevate"],
   },
   {
@@ -148,7 +148,7 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Reputazione & clienti", emoji: "⭐", titolo: "Reputazione",
     descrizione: "Come ci vedono: recensioni e sentiment.",
-    fonte: "recensioni marketplace + social", stato: "live", lista: "/api/marketplace/lista?tipo=recensioni", apertaDefault: true,
+    fonte: "recensioni marketplace + social", stato: "live", lista: "/api/marketplace/lista?tipo=recensioni",
     kpis: [
       { label: "Recensione media", chiave: "recensione_media", tipo: "stelle" },
       { label: "Recensioni totali", chiave: "recensioni_totali", tipo: "n" },

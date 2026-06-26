@@ -185,7 +185,7 @@ export default function NumeriReport() {
           )}
 
           {report?.ultimo ? (
-            <details open className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
               <summary className="text-[13px] font-semibold cursor-pointer">Ultimo report · {report.ultimo.nome}</summary>
               <div className="mt-2 max-h-96 overflow-y-auto pr-1 text-[13px] leading-relaxed">
                 <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{report.ultimo.testo}</ReactMarkdown>
