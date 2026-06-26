@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Zap, CheckCircle2, XCircle, Loader2, ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Zap, CheckCircle2, XCircle, Loader2, ChevronDown, ChevronRight, RotateCcw, Bot } from "lucide-react";
 
 // La corsia operativa: le mosse già pronte preparate dall'AD. Per ogni mossa:
 // situazione/perché, chi l'ha preparata, l'anteprima del testo, e i bottoni
@@ -41,20 +41,49 @@ export default function Azioni() {
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
+  const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    fetch("/api/azioni-pronte")
-      .then((r) => r.json())
-      .then((d) => {
-        setAzioni(d.azioni || []);
-        setSalvataggio(Boolean(d.salvataggio));
-        setCollegato(Boolean(d.collegato));
-      })
-      .catch(() => setCollegato(false))
-      .finally(() => setLoading(false));
+  const carica = useCallback(async () => {
+    const d = await fetch("/api/azioni-pronte").then((r) => r.json()).catch(() => null);
+    if (d) {
+      setAzioni(d.azioni || []);
+      setSalvataggio(Boolean(d.salvataggio));
+      setCollegato(Boolean(d.collegato));
+      setAutopilota(Boolean(d.autopilota));
+    } else {
+      setCollegato(false);
+    }
+    return d;
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const d = await carica();
+      // Se l'autopilota è acceso, esegue da solo le 🟢 e poi ricarica.
+      if (d?.autopilota) {
+        await fetch("/api/azioni-pronte/autopilota", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }).catch(() => {});
+        await carica();
+      }
+      setLoading(false);
+    })();
+  }, [carica]);
+
+  async function toggleAutopilota() {
+    const nuovo = !autopilota;
+    setAutopilota(nuovo);
+    try {
+      await fetch("/api/azioni-pronte/autopilota", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ attiva: nuovo }),
+      });
+      await carica();
+    } catch {
+      /* ignora */
+    }
+  }
 
   function patch(id: string, p: Partial<Azione>) {
     setAzioni((list) => list.map((a) => (a.id === id ? { ...a, ...p } : a)));
@@ -100,6 +129,19 @@ export default function Azioni() {
           Quando approvi, l'azione parte dalle «mani». Oggi è collegata l'<b>email</b>: invia <b>davvero</b> solo con la
           chiave e l'interruttore attivi; altrimenti la <b>simula</b> o resta <b>in coda</b>. <b>Mai invii per sbaglio.</b>
         </span>
+      </div>
+
+      {/* Autopilota: le azioni sicure 🟢 le fa da solo */}
+      <div className="flex flex-wrap items-center gap-2.5">
+        <button
+          onClick={toggleAutopilota}
+          className={`inline-flex items-center gap-2 text-[12.5px] font-medium px-3 py-2 rounded-xl border transition ${
+            autopilota ? "border-brand/40 bg-brand-50 text-brand" : "border-black/10 text-black/60 hover:bg-black/[0.04]"
+          }`}
+        >
+          <Bot size={15} /> Autopilota azioni sicure 🟢: <b>{autopilota ? "ON" : "OFF"}</b>
+        </button>
+        <span className="t-eti">Quando è ON, le mosse 🟢 partono da sole e te le segno («🤖 in automatico»). Restano sicure: senza modalità live, simula.</span>
       </div>
 
       {loading && (
