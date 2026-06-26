@@ -71,6 +71,19 @@ export async function GET(req: Request) {
       meta: o.delivery_status || "in corso",
       colore: "giallo",
     }));
+  } else if (tipo === "recensioni") {
+    // store_reviews: niente order=created_at (colonna non garantita) per non fallire.
+    const rows = await marketplaceSelect("store_reviews", "select=*&limit=60");
+    righe = rows.map((r) => {
+      const rating = Number(r.rating) || 0;
+      const testo = r.comment || r.commento || r.testo || r.text || r.body || r.review || "";
+      return {
+        titolo: testo || (rating ? `Voto ${rating}/5` : "recensione"),
+        sottotitolo: dataBreve(r.created_at),
+        meta: rating ? `${rating}★` : "",
+        colore: rating >= 4 ? "verde" : rating > 0 && rating < 3 ? "rosso" : "giallo",
+      };
+    });
   } else {
     return NextResponse.json({ collegato: true, righe: [], error: "tipo non valido" });
   }

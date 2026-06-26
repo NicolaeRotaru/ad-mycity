@@ -57,9 +57,18 @@ export const MODULI: ModuloDef[] = [
   },
   {
     area: "persone", gruppo: "Chi consegna e chi lavora", emoji: "👥", titolo: "Squadra (i senior AD)",
-    descrizione: "I tuoi reparti digitali: chi sta lavorando e cosa hanno consegnato.",
-    fonte: "memoria (lavori) + .claude/agents", stato: "parziale",
-    punti: ["Senior attivi e ultimi lavori", "Carichi e handoff (Sala Operativa)", "OKR posseduto da ogni reparto"],
+    descrizione: "I tuoi reparti digitali: ogni senior ha un ruolo e possiede un KPI. Chiamali dall'Assistente (es. «legale, scrivimi il contratto»).",
+    fonte: "organigramma AD", stato: "live",
+    punti: [
+      "🤝 vendite — nuovi negozi · 📇 account-negozi — retention negozi",
+      "📣 marketing — acquisizione · 🚀 growth — esperimenti di ricavo",
+      "🔁 crm-lifecycle — carrelli & win-back · ✍️ content-social — contenuti",
+      "🎨 designer — grafiche/QR · 📰 pr-stampa — stampa · 🏛️ relazioni-istituzionali — Comune/bandi",
+      "🔎 intelligence — concorrenti/trend · 📊 analista — KPI",
+      "💶 finanza — incassi/payout · ⚖️ legale-privacy — contratti/GDPR · 🔒 security — sicurezza",
+      "🛵 operations — consegne · 🚲 rider-fleet — flotta · 🎧 supporto · 🤗 customer-success",
+      "🛠️ tech — codice sito · 🧰 builder-automazioni — automazioni · ✅ qa — verifiche",
+    ],
   },
   {
     area: "persone", gruppo: "Relazioni esterne", emoji: "📇", titolo: "Contatti & relazioni",
@@ -139,12 +148,12 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Reputazione & clienti", emoji: "⭐", titolo: "Reputazione",
     descrizione: "Come ci vedono: recensioni e sentiment.",
-    fonte: "recensioni marketplace + social", stato: "parziale", apertaDefault: true,
+    fonte: "recensioni marketplace + social", stato: "live", lista: "/api/marketplace/lista?tipo=recensioni", apertaDefault: true,
     kpis: [
       { label: "Recensione media", chiave: "recensione_media", tipo: "stelle" },
       { label: "Recensioni totali", chiave: "recensioni_totali", tipo: "n" },
     ],
-    punti: ["Recensioni recenti (positive/negative)", "Menzioni e sentiment social"],
+    punti: ["Menzioni e sentiment social: in arrivo"],
   },
   {
     area: "mondo", gruppo: "Reputazione & clienti", emoji: "🎧", titolo: "Reclami & dispute",
