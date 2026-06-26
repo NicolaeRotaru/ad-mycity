@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Zap, CheckCircle2, XCircle, Loader2, ChevronDown, ChevronRight, RotateCcw, Bot, ListChecks, BookOpen } from "lucide-react";
+import { istante } from "@/lib/format";
 
 // La corsia operativa con due tab:
 //  ⚡ Da fare  → le mosse pronte (vault + sentinelle); approvi → partono dalle mani.
@@ -27,13 +28,7 @@ function badgeStato(s: string): { txt: string; cls: string } | null {
   if (s === "rifiutata") return { txt: "✕ rifiutata", cls: "bg-black/[0.05] text-black/50" };
   return null;
 }
-function quando(at: string): string {
-  try {
-    return new Intl.DateTimeFormat("it-IT", { timeZone: "Europe/Rome", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(at));
-  } catch {
-    return "";
-  }
-}
+const quando = istante; // "GG/MM · HH:MM" in Europe/Rome
 
 export default function Azioni() {
   const [tab, setTab] = useState<"dafare" | "registro">("dafare");

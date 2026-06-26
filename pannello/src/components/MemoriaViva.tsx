@@ -19,7 +19,7 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import { testoPulito } from "@/lib/format";
+import { testoPulito, dataVault } from "@/lib/format";
 
 // --- Tipi (combaciano con le API /api/memoria/*) ---
 type Azione = {
@@ -265,7 +265,7 @@ export default function MemoriaViva() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[11px] font-mono text-black/40">#{a.numero}</span>
                         <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{a.reparto}</span>
-                        <span className="text-[11px] text-black/40">{a.data}</span>
+                        <span className="text-[11px] text-black/40">{dataVault(a.data)}</span>
                         <span className={`text-[11px] px-1.5 py-0.5 rounded ${a.inAttesa ? "bg-amber-50 text-amber-700" : "bg-green-50 text-green-700"}`}>
                           {a.stato}
                         </span>
@@ -449,7 +449,7 @@ export default function MemoriaViva() {
                 <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
                   <div className="flex items-center gap-2 text-[11px] text-black/50 mb-1">
                     <span className="shrink-0">{dot(d.livello)}</span>
-                    <span className="font-mono">{d.data}</span>
+                    <span className="font-mono">{dataVault(d.data)}</span>
                     {d.reparto && <span className="px-1.5 py-0.5 rounded bg-brand-50 text-brand font-medium">{d.reparto}</span>}
                     {d.stato && <span className="ml-auto shrink-0">{d.stato}</span>}
                   </div>

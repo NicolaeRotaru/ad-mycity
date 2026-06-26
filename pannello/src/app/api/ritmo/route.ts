@@ -8,7 +8,8 @@ export const runtime = "nodejs";
 type Voce = { data: string; testo: string };
 
 function ultimoBlocco(md: string, etichetta: string): Voce | null {
-  const re = new RegExp(`^##\\s+${etichetta}\\s+·\\s+(\\d{4}-\\d{2}-\\d{2})\\s*$`);
+  // Data con ora opzionale: "AAAA-MM-GG" oppure "AAAA-MM-GG HH:MM".
+  const re = new RegExp(`^##\\s+${etichetta}\\s+·\\s+(\\d{4}-\\d{2}-\\d{2}(?:[ T]\\d{2}:\\d{2})?)\\s*$`);
   const righe = md.split("\n");
   let trovato: Voce | null = null;
   let cur: Voce | null = null;

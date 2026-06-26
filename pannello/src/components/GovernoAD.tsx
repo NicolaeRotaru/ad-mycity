@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
-import { testoPulito } from "@/lib/format";
+import { testoPulito, dataVault, istante } from "@/lib/format";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -19,9 +19,9 @@ function dot(l: Decisione["livello"]) {
   return <span className={`inline-block w-2 h-2 rounded-full ${c}`} />;
 }
 
+// Timestamp ISO/vault → "GG/MM · HH:MM" in Europe/Rome (ora di Piacenza).
 function quando(s: string) {
-  // "2026-06-24T15:16:00Z" o "2026-06-24 02:20" → forma breve
-  return (s || "").replace("T", " ").replace(/:\d{2}(\.\d+)?Z?$/, "").slice(0, 16);
+  return istante(s);
 }
 
 export default function GovernoAD() {
@@ -171,7 +171,7 @@ export default function GovernoAD() {
               <div className="flex items-center gap-2 flex-wrap">
                 {dot(d.livello)}
                 <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{d.reparto}</span>
-                <span className="text-[11px] text-black/40">{d.data}</span>
+                <span className="text-[11px] text-black/40">{dataVault(d.data)}</span>
                 {d.stato && <span className="text-[11px] px-1.5 py-0.5 rounded bg-black/[0.05] text-black/60">{d.stato}</span>}
               </div>
               <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(d.cosa)}</p>
