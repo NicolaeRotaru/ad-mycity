@@ -105,6 +105,15 @@ const TEAM = [
   { emoji: "🔎", nome: "Intelligence", ruolo: "Concorrenti e trend" },
 ];
 
+// Comandi rapidi: cliccando precompilano l'input della chat (poi Nicola completa).
+// "Contenuti PRO" = crea contenuti a qualita' alta (vedi COMANDI.md / CLAUDE.md).
+const COMANDI_RAPIDI: { label: string; testo: string }[] = [
+  { label: "✨ Contenuti PRO", testo: "contenuti pro: " },
+  { label: "🔄 Fai un giro", testo: "fai un giro" },
+  { label: "📋 Che comandi ho?", testo: "che comandi ho?" },
+  { label: "📊 Come stiamo?", testo: "come stiamo?" },
+];
+
 const TOOL_LABELS: Record<string, string> = {
   web_search: "Ricerca web",
   marketplace_elenco_file: "Elenco file del sito",
@@ -796,6 +805,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       </span>
                     </div>
                   ))}
+                </div>
+                <div className="mt-4">
+                  <p className="text-sm text-black/50 mb-2">Comandi rapidi</p>
+                  <div className="flex flex-wrap gap-2">
+                    {COMANDI_RAPIDI.map((c) => (
+                      <button
+                        key={c.label}
+                        onClick={() => setInput(c.testo)}
+                        className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/80 rounded-full px-3 py-1.5 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
