@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock } from "lucide-react";
-import { formatta, testoPulito, type Tipo } from "@/lib/format";
+import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -167,7 +167,7 @@ export default function Plancia({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${ritmo.pianoMattino.data}` : ""}</div>
+              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${dataVault(ritmo.pianoMattino.data)}` : ""}</div>
               {ritmo.pianoMattino ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.pianoMattino.testo}</p>
               ) : (
@@ -175,7 +175,7 @@ export default function Plancia({
               )}
             </div>
             <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${ritmo.reportSera.data}` : ""}</div>
+              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${dataVault(ritmo.reportSera.data)}` : ""}</div>
               {ritmo.reportSera ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.reportSera.testo}</p>
               ) : (

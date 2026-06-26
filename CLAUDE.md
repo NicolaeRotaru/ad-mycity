@@ -59,6 +59,12 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
     perlustrazione (situazione, opportunità, azioni proposte).
 - **I mansionari dei senior**: `MyCity-Vault/07-Agenti/AGENTI.md`.
 
+> ⏰ **Regola dell'orario (vale SEMPRE):** ogni volta che scrivi una data in
+> memoria — decisioni, azioni in attesa, ritmo, briefing, qualsiasi traccia —
+> mettici **anche l'ora**, formato `AAAA-MM-GG HH:MM` (fuso di Piacenza). Nicola
+> deve poter sapere **al minuto** quando è apparso ogni dato nella Cabina. Mai
+> solo la data secca.
+
 > Regola: la cartella `90-Memoria-AI/` è tua. Il resto del vault è di Nicola —
 > lì proponi modifiche, non riscrivi senza chiedere (🟡).
 
