@@ -11,6 +11,7 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 reparto: relazioni-istituzionali
 livello: 🟡
 canale: Email all'Ufficio Commercio del Comune di Piacenza
+destinatario: ufficio.commercio@comune.esempio.it
 perche: Bando aperto: rimborso fino al 50% sui materiali (vetrofanie, volantini, QR). Scade a fine mese — candidarsi ora è un vantaggio quasi gratis.
 preparato: ✍️ copywriter + ⚖️ legale
 testo:
@@ -25,6 +26,7 @@ Cordiali saluti — MyCity
 reparto: vendite
 livello: 🔴
 canale: Email / di persona — titolare Garetti
+destinatario: garetti@esempio.it
 perche: È il negozio "faro" per il primo go-live. Condizioni chiare = parte subito e porta i suoi clienti.
 preparato: 🤝 vendite + ⚖️ legale
 testo:
