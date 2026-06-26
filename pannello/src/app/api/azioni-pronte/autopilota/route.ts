@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getImpostazione, getImpostazioni, setImpostazione } from "@/lib/store";
+import { getImpostazione, getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
     const esito = await eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo });
     await setImpostazione(`azione:${a.id}`, esito.stato);
     await setImpostazione(`azione:${a.id}:nota`, `🤖 (automatico) ${esito.dettaglio}`);
+    await logAzione({ id: a.id, titolo: a.titolo, reparto: a.reparto, livello: a.livello, stato: esito.stato, esito: esito.dettaglio, auto: true });
     eseguite++;
   }
 
