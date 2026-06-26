@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-26 02:30
+aggiornato: 2026-06-27 00:39
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -9,10 +9,11 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 > Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
 > Domani (25/6) i numeri devono iniziare a muoversi da 0.
 >
-> ⚠️ **26/6 — numeri NON riverificati:** nel giro del 26/6 né il Supabase MCP né la rete in
-> uscita erano autorizzati e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` non sono configurate.
-> I 7 numeri qui sotto restano alla **baseline 24/6**, da riverificare appena un canale dati è
-> sbloccato. Oggi (ven 26/6) è la **vigilia della prima consegna** (sab 27/6), slot ordini entro 21:00.
+> ⚠️ **27/6 — numeri ANCORA alla baseline 24/6:** nel giro del 27/6 il **Web è tornato** (meteo+eventi
+> reali ✅) ma il **Supabase MCP è ancora NON autorizzato** e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY`
+> non sono configurate → i 7 numeri interni restano **non riverificati** dal 24/6. Oggi (sab 27/6) è il
+> **GIORNO della prima consegna concierge**. Radar: **caldo estremo 38-39°C, zero pioggia** → priorità =
+> catena del freddo (piano in `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`). Vedi [[2026-06-27]].
 
 ## I 7 numeri del primo passo (baseline = oggi 24/6)
 | Numero | Oggi | "Riuscito" domani | Note |
@@ -31,6 +32,9 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0. **Giro 27/6** (giorno prima consegna, web tornato): radar live → **caldo 38-39°C**. Scritto il
+   **piano catena del freddo** per la consegna di oggi (🟢) e aggiornati i 3 file Intelligence del
+   Pannello (eventi-picchi, concorrenti, buchi-mercato). Supabase ancora cieco. Vedi [[2026-06-27]].
 1. **Giro 26/6 — 2° passaggio** (dati ancora bloccati): consolidato le 3 decisioni 🔴 in un
    **foglio-firma da 2 minuti** `consegne/decisioni/2026-06-26-foglio-firma-lancio.md` per
    sbloccare la prima consegna. Vedi [[2026-06-26]].

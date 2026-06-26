@@ -1,0 +1,17 @@
+{
+  "data": "2026-06-27 00:39",
+  "situazione": "È il giorno della prima consegna concierge (sab 27/6). Il canale Web è tornato (primo giro con intelligence live da giorni); Supabase ancora non autorizzato, quindi i 7 numeri restano alla baseline 24/6. Segnale dominante: caldo estremo 38°C oggi e 39°C domani, zero pioggia — rischio catena del freddo sui freschi ma anche forte leva di domanda ('col caldo non esci, te la portiamo noi'). Restano ferme le 3 firme di lancio e la conferma che Garetti è LIVE.",
+  "opportunita": [
+    {"titolo": "Cavalcare il caldo: 'con 38°C non esci, te la portiamo noi'", "motivo": "Radar meteo live 38-39°C: leva onesta e tempestiva, contro-posizionamento vs GDO-in-auto", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Blindare la catena del freddo alla prima consegna", "motivo": "È oggi: l'esperienza del primo cliente fa il passaparola; col caldo un fresco rovinato fa danno doppio", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Centro animato fino al 17/7 (300 negozi aperti)", "motivo": "Radar eventi: manifestazione lunga = finestra per presidio fisico/QR e lead negozi", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Sbloccare le 3 firme di lancio + Garetti LIVE", "motivo": "Collo di bottiglia da 2 giorni: senza, niente payout reale oggi", "impatto": "alto", "sforzo": "basso"}
+  ],
+  "azioni": [
+    {"titolo": "Piano catena del freddo per la consegna di oggi (mattina, borsa termica)", "motivo": "Caldo 38°C: blinda l'esperienza del primo cliente — già scritto e pronto", "livello": "verde"},
+    {"titolo": "Aggiornati i 3 file Intelligence del Pannello (eventi, concorrenti, buchi)", "motivo": "Radar live tornato: dati esterni freschi per la Cabina", "livello": "verde"},
+    {"titolo": "Bozza content 'caldo': con 38°C non esci, te la portiamo noi (pubblicazione in coda)", "motivo": "Cavalcare il segnale meteo con un messaggio tempestivo", "livello": "giallo"},
+    {"titolo": "Firmare le 3 decisioni di lancio (Stripe/commissione/fee)", "motivo": "Senza, niente payout reale alla prima consegna di oggi", "livello": "rosso"},
+    {"titolo": "Sbloccare il Supabase MCP per leggere i 7 numeri veri", "motivo": "Da 2 giri i numeri interni sono ciechi alla baseline 24/6", "livello": "giallo"}
+  ]
+}

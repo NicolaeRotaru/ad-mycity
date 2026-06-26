@@ -188,3 +188,10 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 *Effetto atteso sui KPI:* primi ordini chiusi a **% OK ~100%** e **on-time ≥90%** (fiducia + passaparola), batching che porta il **CM/ordine da −€0,07 a +€3,4** già dal 2° ordine/giro, **0 excursion freddo**. La leva di crescita resta la **densità nel cluster centro**, non l'allungamento dei giri.
 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **Caldo estremo 38-39°C oggi/domani** → catena del freddo = rischio n°1 sulla prima consegna: consegnare in **mattinata (≤11:00)**, borsa termica + ghiaccio, tempo fuori-frigo <30 min. Piano pronto: `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`.
+- **Picco domanda atteso col caldo** su freschi/bevande/ortofrutta estiva e piatti freddi → spingere quegli item del faro.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->
