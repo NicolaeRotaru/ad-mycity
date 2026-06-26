@@ -534,13 +534,27 @@ function formatta(v: any, tipo?: Tipo): string {
   return String(v);
 }
 
+// Tempo relativo ("5 min fa") + orario esatto, così si sa con precisione QUANDO.
+// Oggi → "5 min fa · 14:32"; più vecchio → "3 g fa · 24/06 14:32". Fuso Europe/Rome.
 function fa(iso: string | null): string {
   if (!iso) return "mai";
-  const sec = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
-  if (sec < 90) return "poco fa";
-  if (sec < 3600) return `${Math.round(sec / 60)} min fa`;
-  if (sec < 86400) return `${Math.round(sec / 3600)} h fa`;
-  return `${Math.round(sec / 86400)} g fa`;
+  const d = new Date(iso);
+  const ms = d.getTime();
+  if (Number.isNaN(ms)) return "mai";
+  const sec = Math.max(0, (Date.now() - ms) / 1000);
+  const rel =
+    sec < 90 ? "poco fa" : sec < 3600 ? `${Math.round(sec / 60)} min fa` : sec < 86400 ? `${Math.round(sec / 3600)} h fa` : `${Math.round(sec / 86400)} g fa`;
+  try {
+    const giorno = (x: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(x);
+    const opts: Intl.DateTimeFormatOptions = { timeZone: "Europe/Rome", hour: "2-digit", minute: "2-digit" };
+    if (giorno(d) !== giorno(new Date())) {
+      opts.day = "2-digit";
+      opts.month = "2-digit";
+    }
+    return `${rel} · ${new Intl.DateTimeFormat("it-IT", opts).format(d)}`;
+  } catch {
+    return rel;
+  }
 }
 
 export default function Dashboard() {

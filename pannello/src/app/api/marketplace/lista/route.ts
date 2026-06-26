@@ -25,7 +25,14 @@ function idOrdine(r: any): string {
 function dataBreve(iso?: string): string {
   if (!iso) return "";
   try {
-    return new Intl.DateTimeFormat("it-IT", { day: "2-digit", month: "2-digit" }).format(new Date(iso));
+    // Data + ora (Europe/Rome): es. "24/06 14:32" — così si sa con precisione quando.
+    return new Intl.DateTimeFormat("it-IT", {
+      timeZone: "Europe/Rome",
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(iso));
   } catch {
     return "";
   }
