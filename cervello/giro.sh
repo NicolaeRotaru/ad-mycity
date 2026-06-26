@@ -39,22 +39,29 @@ claude -p "$(cat "$SCRIPT_DIR/giro.md")" --permission-mode acceptEdits || {
 }
 echo "[$(ts)] Giro completato."
 
-# --- Sync del vault su GitHub: cosi' il Pannello (via OBSIDIAN_*) vede subito briefing/azioni/stato ---
+# --- Sync del vault su GitHub (a prova di proiettile): commit TUTTO, riallineati, ritenta ---
+# Cosi' il Pannello (via OBSIDIAN_*) vede subito briefing/azioni/stato, anche se 'main' si muove.
 branch="${GIT_BRANCH:-main}"
-git add MyCity-Vault/ memoria-squadra/ consegne/ creativi/ 2>/dev/null || true
+git add -A 2>/dev/null || true          # stage di TUTTO: niente unstaged blocca il rebase (.env e' gitignored)
 if git diff --cached --quiet 2>/dev/null; then
   echo "[$(ts)] Nessuna modifica al vault da inviare."
 else
   git -c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)" \
     commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
-  git pull --rebase origin "$branch" 2>/dev/null || true
   if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-    # Token usato solo al volo nell'URL di push: non resta salvato nella config.
-    if git push "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" "HEAD:${branch}" 2>/dev/null; then
-      echo "[$(ts)] Vault sincronizzato su GitHub ($branch)."
-    else
-      echo "[$(ts)] Push del vault fallito (controlla GIT_PUSH_TOKEN / GIT_REPO / GIT_BRANCH)." >&2
-    fi
+    url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+    ok=0
+    for attempt in 1 2 3; do
+      # main si muove (piu' sessioni): riallineati; se il rebase si incastra, abortisci e ritenta
+      git pull --rebase "$url" "$branch" 2>/dev/null || git rebase --abort 2>/dev/null || true
+      if git push "$url" "HEAD:${branch}" 2>/dev/null; then
+        echo "[$(ts)] Vault sincronizzato su GitHub ($branch, tentativo $attempt)."
+        ok=1; break
+      fi
+      echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
+      sleep 3
+    done
+    [ "$ok" = 1 ] || echo "[$(ts)] Push del vault fallito dopo 3 tentativi (il giro successivo recupera)." >&2
   else
     echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (il vault resta solo sul server)."
   fi
