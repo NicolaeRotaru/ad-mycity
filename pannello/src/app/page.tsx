@@ -100,6 +100,8 @@ import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
 import Comandi from "@/components/Comandi";
+import Plancia from "@/components/aree/Plancia";
+import AreaModuli from "@/components/aree/AreaModuli";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -533,7 +535,9 @@ function fa(iso: string | null): string {
 }
 
 export default function Dashboard() {
-  const [vista, setVista] = useState<"oggi" | "assistente" | "storico">("oggi");
+  const [vista, setVista] = useState<
+    "plancia" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
+  >("plancia");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
@@ -1018,25 +1022,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </div>
 
-        {/* Navigazione: 3 aree chiare invece di un muro unico */}
+        {/* Navigazione: 8 aree — barra a pillole scorrevole (mobile-first) */}
         {(() => {
-          const SCHEDE = [
-            { id: "oggi", label: "Oggi", icon: <Home size={16} />, desc: "Cosa devo decidere, i numeri di oggi e cosa ha scoperto l'AD." },
-            { id: "assistente", label: "Assistente", icon: <Send size={16} />, desc: "Chiedi o dai un compito: risponde il cervello sul tuo Max, gratis." },
-            { id: "storico", label: "Storico", icon: <History size={16} />, desc: "Il diario di tutto ciò che l'AD ha detto e fatto." },
+          const AREE = [
+            { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
+            { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
+            { id: "memoria", label: "Memoria & decisioni", icon: <Brain size={15} /> },
+            { id: "persone", label: "Persone", icon: <Users size={15} /> },
+            { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
+            { id: "mondo", label: "Mondo & rischi", icon: <Globe size={15} /> },
+            { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+            { id: "storico", label: "Storico", icon: <History size={15} /> },
           ] as const;
-          const attiva = SCHEDE.find((s) => s.id === vista);
           return (
-            <div>
-              <div className="flex gap-1.5 sm:gap-2">
-                {SCHEDE.map((t) => (
+            <div className="scroll-soft -mx-1 px-1 overflow-x-auto">
+              <div className="flex gap-1.5 min-w-max pb-1">
+                {AREE.map((t) => (
                   <button
                     key={t.id}
                     onClick={() => setVista(t.id)}
-                    className={`flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 text-sm font-medium px-2 sm:px-3 py-2.5 rounded-xl transition ${
+                    className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition whitespace-nowrap ${
                       vista === t.id
                         ? "bg-brand text-white shadow-card"
-                        : "bg-white text-black/55 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                        : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
                     }`}
                   >
                     {t.icon}
@@ -1044,148 +1052,175 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   </button>
                 ))}
               </div>
-              <p className="text-xs text-black/45 mt-2 px-1">{attiva?.desc}</p>
             </div>
           );
         })()}
 
-        {/* ===================== SCHEDA: OGGI ===================== */}
-        {vista === "oggi" && (
-        <div className="space-y-4">
-
-        {/* Ricerca globale nel vault */}
+        {/* Ricerca globale: cercabile da ogni area */}
         <RicercaGlobale />
 
-        {/* Memoria viva dell'AD: da approvare · attività · stato · piani */}
-        <MemoriaViva />
+        {/* ===================== PLANCIA ===================== */}
+        {vista === "plancia" && (
+          <Plancia metriche={metriche} briefing={briefing} onVaiA={(a) => setVista(a as typeof vista)} />
+        )}
 
-        {/* Briefing autonomo */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center gap-2.5 mb-4">
-            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-              <TrendingUp size={16} />
-            </span>
-            <div className="min-w-0">
-              <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
-              <div className="text-xs text-black/40">
-                L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
+        {/* ===================== NUMERI ===================== */}
+        {vista === "numeri" && (
+        <div className="space-y-4">
+          <div>
+            <h2 className="t-area">📊 I numeri dell'azienda</h2>
+            <p className="t-eti mt-0.5">Tutte le sfere, per categoria, in tre finestre: oggi · 7 giorni · 30 giorni.</p>
+          </div>
+
+          {/* I numeri (cockpit): categorie a tendina — apri solo ciò che ti serve */}
+          <section className="card p-4">
+            <div className="flex items-center gap-2.5 mb-1">
+              <span className="sez-ico"><BarChart3 size={16} /></span>
+              <span className="t-sez">Tutti i numeri</span>
+              <button
+                onClick={toggleTutteCat}
+                className="ml-auto text-[11px] font-medium text-black/55 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+              >
+                {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
+              </button>
+            </div>
+            <p className="t-eti mb-3 pl-[42px]">Tocca una categoria per aprirla; le celle spente sono fonti da collegare.</p>
+
+            <div className="space-y-1.5">
+              {CATEGORIE_NUMERI.map((c, i) => {
+                const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
+                return (
+                  <Fragment key={c.titolo}>
+                    {nuovoGruppo && c.gruppo !== "Panoramica" && <div className="t-micro px-0.5 pt-2 pb-0.5">{c.gruppo}</div>}
+                    <CategoriaNumeri
+                      emoji={c.emoji}
+                      titolo={c.titolo}
+                      sottotitolo={c.sottotitolo}
+                      kpis={c.kpis}
+                      snapshot={c.snapshot}
+                      metriche={metriche}
+                      open={catAperte.has(c.titolo)}
+                      onToggle={() => toggleCat(c.titolo)}
+                    />
+                  </Fragment>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Numeri & report: trend · unit economics · report */}
+          <NumeriReport />
+        </div>
+        )}
+
+        {/* ===================== MEMORIA & DECISIONI ===================== */}
+        {vista === "memoria" && (
+        <div className="space-y-4">
+          <div>
+            <h2 className="t-area">🧠 Memoria & decisioni</h2>
+            <p className="t-eti mt-0.5">Cosa firmare, cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD.</p>
+          </div>
+
+          {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
+          <MemoriaViva />
+
+          {/* Briefing autonomo */}
+          <section className="card p-4">
+            <div className="sez-head mb-4">
+              <span className="sez-ico"><TrendingUp size={16} /></span>
+              <div className="min-w-0">
+                <span className="t-sez">Cosa ho scoperto e cosa propongo</span>
+                <div className="t-eti">
+                  L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
+                </div>
               </div>
             </div>
-          </div>
 
-          {!briefing && (
-            <div className="text-center text-black/45 py-10">
-              <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
-              <p className="text-sm text-black/35">
-                Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
-              </p>
-            </div>
-          )}
+            {!briefing && (
+              <div className="text-center text-black/45 py-10">
+                <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
+                <p className="text-sm text-black/35">
+                  Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
+                </p>
+              </div>
+            )}
 
-          {briefing && (
-            <div className="space-y-5">
-              <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
+            {briefing && (
+              <div className="space-y-5">
+                <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
 
-              {briefing.opportunita?.length > 0 && (
-                <div>
-                  <div className="text-xs uppercase tracking-wide text-black/40 mb-2">Opportunità</div>
-                  <div className="space-y-2">
-                    {briefing.opportunita.map((o, i) => (
-                      <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
-                        <div className="text-sm font-medium">{o.titolo}</div>
-                        <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
-                        <div className="text-xs text-black/40 mt-2 flex items-center gap-1.5">
-                          <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
-                          <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {briefing.azioni?.length > 0 && (
-                <div>
-                  <div className="text-xs uppercase tracking-wide text-black/40 mb-2">
-                    Azioni proposte (servono la tua conferma)
-                  </div>
-                  <div className="space-y-2">
-                    {briefing.azioni.map((a, i) => (
-                      <div key={i} className={`border rounded-xl p-3.5 ${COLORI[a.livello] || ""}`}>
-                        <div className="flex items-start gap-3">
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-semibold">{a.titolo}</div>
-                            <div className="text-sm opacity-80 mt-0.5">{a.motivo}</div>
+                {briefing.opportunita?.length > 0 && (
+                  <div>
+                    <div className="t-micro mb-2">Opportunità</div>
+                    <div className="space-y-2">
+                      {briefing.opportunita.map((o, i) => (
+                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
+                          <div className="text-sm font-medium">{o.titolo}</div>
+                          <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
+                          <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
+                            <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
+                            <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
                           </div>
-                          <button
-                            onClick={() => approva(a)}
-                            className="shrink-0 inline-flex items-center gap-1 text-xs font-medium bg-white/80 border border-black/10 rounded-full px-3 py-1.5 shadow-sm hover:bg-white active:scale-95 transition"
-                          >
-                            <CheckCircle2 size={13} /> Approva
-                          </button>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </section>
-
-        {/* I numeri (cockpit): categorie a tendina — apri solo ciò che ti serve */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center gap-2.5 mb-1">
-            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-              <BarChart3 size={16} />
-            </span>
-            <span className="text-[15px] font-semibold tracking-tight">I numeri di oggi</span>
-            <button
-              onClick={toggleTutteCat}
-              className="ml-auto text-[11px] font-medium text-black/45 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
-            >
-              {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
-            </button>
-          </div>
-          <p className="text-[12px] text-black/45 mb-3 pl-[42px]">
-            Per categoria, in tre finestre: oggi · 7 giorni · 30 giorni. Tocca una categoria per aprirla; le celle spente sono fonti da collegare.
-          </p>
-
-          <div className="space-y-1.5">
-            {CATEGORIE_NUMERI.map((c, i) => {
-              const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
-              return (
-                <Fragment key={c.titolo}>
-                  {nuovoGruppo && c.gruppo !== "Panoramica" && (
-                    <div className="text-[10px] uppercase tracking-wide text-black/40 font-semibold px-0.5 pt-2 pb-0.5">
-                      {c.gruppo}
+                      ))}
                     </div>
-                  )}
-                  <CategoriaNumeri
-                    emoji={c.emoji}
-                    titolo={c.titolo}
-                    sottotitolo={c.sottotitolo}
-                    kpis={c.kpis}
-                    snapshot={c.snapshot}
-                    metriche={metriche}
-                    open={catAperte.has(c.titolo)}
-                    onToggle={() => toggleCat(c.titolo)}
-                  />
-                </Fragment>
-              );
-            })}
+                  </div>
+                )}
+
+                {briefing.azioni?.length > 0 && (
+                  <div>
+                    <div className="t-micro mb-2">Azioni proposte (servono la tua conferma)</div>
+                    <div className="space-y-2">
+                      {briefing.azioni.map((a, i) => (
+                        <div key={i} className={`border rounded-xl p-3.5 ${COLORI[a.livello] || ""}`}>
+                          <div className="flex items-start gap-3">
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-semibold">{a.titolo}</div>
+                              <div className="text-sm opacity-80 mt-0.5">{a.motivo}</div>
+                            </div>
+                            <button
+                              onClick={() => approva(a)}
+                              className="shrink-0 inline-flex items-center gap-1 text-xs font-medium bg-white/80 border border-black/10 rounded-full px-3 py-1.5 shadow-sm hover:bg-white active:scale-95 transition"
+                            >
+                              <CheckCircle2 size={13} /> Approva
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </section>
+
+          {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
+          <GovernoAD />
+        </div>
+        )}
+
+        {/* ===================== PERSONE ===================== */}
+        {vista === "persone" && (
+          <AreaModuli area="persone" titolo="🤝 Persone" sottotitolo="Chi compra, chi vende, chi consegna e chi lavora con noi." metriche={metriche} />
+        )}
+
+        {/* ===================== OPERAZIONI ===================== */}
+        {vista === "operazioni" && (
+          <AreaModuli area="operazioni" titolo="⚙️ Operazioni" sottotitolo="Ordini, consegne, catalogo, campagne e lavori in corso." metriche={metriche} />
+        )}
+
+        {/* ===================== MONDO & RISCHI ===================== */}
+        {vista === "mondo" && (
+        <div className="space-y-4">
+          <div>
+            <h2 className="t-area">🌍 Mondo & rischi</h2>
+            <p className="t-eti mt-0.5">Tutto ciò che ci impatta da fuori: mercato, reputazione, sicurezza, futuro.</p>
           </div>
-        </section>
 
-        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-        <GovernoAD />
+          {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
+          <Intelligence />
 
-        {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
-        <Intelligence />
-
-        {/* Numeri & report: trend · unit economics · report */}
-        <NumeriReport />
-
+          <AreaModuli area="mondo" metriche={metriche} />
         </div>
         )}
 

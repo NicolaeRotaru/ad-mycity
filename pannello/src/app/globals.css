@@ -7,6 +7,34 @@ body {
   background-attachment: fixed;
   color: #1a1410;
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Sistema di leggibilità === */
+/* Gerarchia a 2 livelli + scala tipografica coerente, per non "incrociare gli
+   occhi": titolo-AREA (grande, con accento) ≠ titolo-SEZIONE (medio) ≠ corpo ≠
+   etichetta ≠ micro. I testi secondari usano un grigio con contrasto adeguato
+   (≈5.5:1), non i vecchi text-black/40. */
+@layer components {
+  .t-area   { @apply text-[19px] sm:text-[20px] font-bold tracking-tight text-ink; }
+  .t-sez    { @apply text-[15px] font-semibold tracking-tight text-ink; }
+  .t-corpo  { @apply text-[13.5px] leading-relaxed text-ink/90; }
+  .t-eti    { @apply text-[12px] text-black/55; }            /* secondario leggibile */
+  .t-micro  { @apply text-[10.5px] uppercase tracking-wide text-black/45; }
+
+  /* Card standard del pannello (un solo posto da cui cambiarle tutte). */
+  .card { @apply bg-white rounded-2xl border border-black/[0.06] shadow-card; }
+
+  /* Intestazione di SEZIONE riusabile: pastiglia icona brand + titolo. */
+  .sez-head { @apply flex items-center gap-2.5; }
+  .sez-ico  { @apply grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0; }
+
+  /* Badge di stato (live / da collegare / conteggio). */
+  .badge      { @apply text-[10.5px] tabular-nums px-1.5 py-0.5 rounded-full; }
+  .badge-on   { @apply bg-brand-50 text-brand; }
+  .badge-off  { @apply bg-black/[0.04] text-black/45; }
 }
 
 ::selection {
