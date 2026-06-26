@@ -270,7 +270,7 @@ export default function MemoriaViva() {
                           {a.stato}
                         </span>
                       </div>
-                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{a.azione}</p>
+                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(a.azione)}</p>
                       <p className="text-[11px] text-black/45 mt-1">
                         📎 {a.contenuto} · 📣 {a.canale}
                       </p>

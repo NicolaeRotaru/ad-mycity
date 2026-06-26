@@ -5,7 +5,6 @@ import {
   Send,
   Loader2,
   Wrench,
-  Activity,
   TrendingUp,
   CheckCircle2,
   Package,
@@ -1028,47 +1027,35 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </header>
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-4 sm:py-5 space-y-4">
-        {/* Battito */}
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-black/45">
-          <Activity size={15} className={memoria ? "text-green-500" : "text-amber-500"} />
-          {memoria ? (
-            <span>Sistema vivo · ultimo giro {fa(ultimoAt)} · {giri} giri in memoria</span>
-          ) : (
-            <span>In prova · memoria non collegata (i giri non si salvano) · ultimo {fa(ultimoAt)}</span>
-          )}
-        </div>
-
-        {/* Navigazione: 8 aree — barra a pillole scorrevole (mobile-first) */}
+        {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
         {(() => {
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
-            { id: "memoria", label: "Memoria & decisioni", icon: <Brain size={15} /> },
+            { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
-            { id: "mondo", label: "Mondo & rischi", icon: <Globe size={15} /> },
+            { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
             { id: "storico", label: "Storico", icon: <History size={15} /> },
           ] as const;
           return (
-            <div className="scroll-soft -mx-1 px-1 overflow-x-auto">
-              <div className="flex gap-1.5 min-w-max pb-1">
-                {AREE.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setVista(t.id)}
-                    className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition whitespace-nowrap ${
-                      vista === t.id
-                        ? "bg-brand text-white shadow-card"
-                        : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
-                    }`}
-                  >
-                    {t.icon}
-                    <span>{t.label}</span>
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-1.5">
+              {AREE.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setVista(t.id)}
+                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition ${
+                    vista === t.id
+                      ? "bg-brand text-white shadow-card"
+                      : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                  }`}
+                >
+                  {t.icon}
+                  <span>{t.label}</span>
+                </button>
+              ))}
             </div>
           );
         })()}
@@ -1213,9 +1200,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </div>
             )}
           </section>
-
-          {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-          <GovernoAD />
         </div>
         )}
 
@@ -1538,6 +1522,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: STORICO ===================== */}
         {vista === "storico" && (
         <div className="space-y-4">
+
+        <div>
+          <h2 className="t-area">🕘 Storico & governo</h2>
+          <p className="t-eti mt-0.5">Il diario di tutto ciò che l'AD ha detto e fatto, la diretta della squadra e i controlli.</p>
+        </div>
+
+        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
+        <GovernoAD />
 
         {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">

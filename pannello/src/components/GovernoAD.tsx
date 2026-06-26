@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
+import { testoPulito } from "@/lib/format";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -173,8 +174,8 @@ export default function GovernoAD() {
                 <span className="text-[11px] text-black/40">{d.data}</span>
                 {d.stato && <span className="text-[11px] px-1.5 py-0.5 rounded bg-black/[0.05] text-black/60">{d.stato}</span>}
               </div>
-              <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{d.cosa}</p>
-              {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {d.perche}</p>}
+              <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(d.cosa)}</p>
+              {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {testoPulito(d.perche)}</p>}
               <button
                 onClick={() => spiegaPerche(i, d)}
                 disabled={spiegando === i}
@@ -219,7 +220,7 @@ export default function GovernoAD() {
                     <span className="text-[11px] text-black/40">{quando(r.ts)}</span>{" "}
                     <span className="text-[11px] font-medium text-brand">@{r.reparto}</span>{" "}
                     <span className="text-[11px] px-1.5 rounded bg-black/[0.05] text-black/60">{r.tipo}</span>
-                    <div className="text-ink/85 mt-0.5">{r.msg}</div>
+                    <div className="text-ink/85 mt-0.5">{testoPulito(r.msg)}</div>
                   </div>
                 ))}
               </div>
@@ -238,8 +239,8 @@ export default function GovernoAD() {
                 <span className="text-[10px] uppercase tracking-wide text-brand bg-brand-50 px-1.5 py-0.5 rounded">{v.tipo}</span>
                 <span className="text-[11px] text-black/40">{quando(v.quando)}</span>
               </div>
-              <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{v.titolo}</p>
-              {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{v.testo}</p>}
+              <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{testoPulito(v.titolo)}</p>
+              {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{testoPulito(v.testo)}</p>}
             </div>
           ))}
         </div>
