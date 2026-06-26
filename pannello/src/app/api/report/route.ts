@@ -37,7 +37,14 @@ export async function GET(req: NextRequest) {
     const testo = await readVaultFile(`90-Memoria-AI/Report/${files[0]}`);
     if (testo) ultimo = { nome: files[0].replace(/\.md$/, ""), data: dataFrontmatter(testo), testo };
   }
-  return NextResponse.json({ collegato: files.length > 0, elenco: files.map((f) => f.replace(/\.md$/, "")), ultimo });
+  // Elenco con data+ora reale (dal frontmatter), così le chip mostrano l'ora e non solo il nome-file.
+  const elenco = await Promise.all(
+    files.slice(0, 8).map(async (f) => {
+      const t = f === files[0] ? ultimo?.testo : await readVaultFile(`90-Memoria-AI/Report/${f}`);
+      return { nome: f.replace(/\.md$/, ""), data: t ? dataFrontmatter(t) : "" };
+    })
+  );
+  return NextResponse.json({ collegato: files.length > 0, elenco, ultimo });
 }
 
 export async function POST(req: NextRequest) {

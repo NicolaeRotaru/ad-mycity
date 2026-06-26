@@ -36,7 +36,8 @@ Passi:
 6. Salva il briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` con nome data
    (AAAA-MM-GG.md) e nel frontmatter metti SEMPRE data **E ora**:
    `data: AAAA-MM-GG HH:MM` (fuso di Piacenza) — così la Cabina mostra al minuto
-   quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`.
+   quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`
+   e nel suo frontmatter scrivi `aggiornato: AAAA-MM-GG HH:MM` (con l'ora).
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
    `SUPABASE_SERVICE_KEY`), salva nella tabella `briefings` un **digest STRUTTURATO**
    del report (è un sottoinsieme: la Sintesi → `situazione`, le Opportunità e le Azioni)

@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-26
+aggiornato: 2026-06-26 02:30
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 

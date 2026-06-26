@@ -90,6 +90,7 @@ export default function MemoriaViva() {
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
+  const [statoAgg, setStatoAgg] = useState("");
   const [piani, setPiani] = useState<Piano[]>([]);
   const [todo, setTodo] = useState<TodoItem[]>([]);
   const [todoSalva, setTodoSalva] = useState(false);
@@ -116,6 +117,7 @@ export default function MemoriaViva() {
       setAzioni(a.azioni || []);
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
       setStato(st.testo || "");
+      setStatoAgg(st.aggiornato || "");
       setPiani(pi.piani || []);
       setTodo(td.items || []);
       setTodoSalva(Boolean(td.salvataggio));
@@ -342,7 +344,12 @@ export default function MemoriaViva() {
           {/* --- STATO & NUMERI --- */}
           {tab === "stato" && (
             <div className="max-h-[28rem] overflow-y-auto pr-1">
-              {stato ? <Markdown>{stato}</Markdown> : <p className="text-sm text-black/45 py-4 text-center">STATO.md non trovato.</p>}
+              {stato ? (
+                <>
+                  {statoAgg && <p className="text-[11px] text-black/45 mb-2">🕗 Aggiornato · {dataVault(statoAgg)}</p>}
+                  <Markdown>{stato}</Markdown>
+                </>
+              ) : <p className="text-sm text-black/45 py-4 text-center">STATO.md non trovato.</p>}
             </div>
           )}
 
