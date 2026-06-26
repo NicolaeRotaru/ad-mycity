@@ -9,6 +9,7 @@ import type { Tipo } from "./format";
 
 export type AreaModulo = "persone" | "operazioni" | "mondo";
 export type ModuloKpi = { label: string; chiave?: string; tipo?: Tipo };
+export type RigaLista = { titolo: string; sottotitolo?: string; meta?: string; colore?: "verde" | "giallo" | "rosso" };
 export type ModuloDef = {
   area: AreaModulo;
   gruppo?: string;
@@ -18,6 +19,7 @@ export type ModuloDef = {
   fonte: string;
   stato: "live" | "parziale" | "placeholder";
   kpis?: ModuloKpi[];
+  lista?: string; // endpoint che torna { collegato, righe: RigaLista[] } — elenco reale
   punti?: string[];
   apertaDefault?: boolean;
 };
@@ -27,25 +29,25 @@ export const MODULI: ModuloDef[] = [
   {
     area: "persone", gruppo: "Chi compra e chi vende", emoji: "🏪", titolo: "Negozi & venditori",
     descrizione: "Le botteghe sulla piattaforma: quante attive, nuove entrate, e la loro salute.",
-    fonte: "marketplace + health negozi", stato: "parziale", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=negozi", apertaDefault: true,
     kpis: [
       { label: "Negozi attivi", chiave: "negozi", tipo: "n" },
       { label: "Nuovi (7g)", chiave: "nuovi_negozi_7g", tipo: "n" },
       { label: "Nuovi (30g)", chiave: "nuovi_negozi_30g", tipo: "n" },
     ],
-    punti: ["Elenco negozi con health score", "Negozi in calo / a rischio churn", "Payout e recensioni per negozio"],
+    punti: ["Health score, churn e payout per negozio: in arrivo"],
   },
   {
     area: "persone", gruppo: "Chi compra e chi vende", emoji: "🧑", titolo: "Clienti",
     descrizione: "La base clienti: totali, attivi, nuovi e chi si sta addormentando.",
-    fonte: "marketplace", stato: "parziale", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=clienti", apertaDefault: true,
     kpis: [
       { label: "Clienti totali", chiave: "clienti", tipo: "n" },
       { label: "Attivi (7g)", chiave: "clienti_attivi_7g", tipo: "n" },
       { label: "Nuovi (30g)", chiave: "nuovi_clienti_30g", tipo: "n" },
       { label: "Dormienti", chiave: "clienti_dormienti", tipo: "n" },
     ],
-    punti: ["Anagrafica e segmenti", "Clienti VIP (top spender)", "Singolo cliente: storico ordini"],
+    punti: ["Segmenti, VIP (top spender) e storico per cliente: in arrivo"],
   },
   {
     area: "persone", gruppo: "Chi consegna e chi lavora", emoji: "🚴", titolo: "Rider & flotta",
@@ -76,26 +78,25 @@ export const MODULI: ModuloDef[] = [
   {
     area: "operazioni", gruppo: "In tempo reale", emoji: "🧾", titolo: "Ordini live",
     descrizione: "Gli ordini di oggi e quelli in corso adesso.",
-    fonte: "marketplace", stato: "parziale", apertaDefault: true,
+    fonte: "marketplace", stato: "live", lista: "/api/marketplace/lista?tipo=ordini", apertaDefault: true,
     kpis: [
       { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n" },
       { label: "Ordini (7g)", chiave: "ordini_7g", tipo: "n" },
       { label: "In corso", chiave: "consegne_in_corso", tipo: "n" },
       { label: "Annullati oggi", chiave: "annullati_oggi", tipo: "n" },
     ],
-    punti: ["Lista ordini con stato in tempo reale", "Ordini a rischio / da intercettare"],
   },
   {
     area: "operazioni", gruppo: "In tempo reale", emoji: "🛵", titolo: "Consegne",
     descrizione: "Stato delle consegne: in corso, completate, tempi e problemi.",
-    fonte: "marketplace + tracking", stato: "parziale", apertaDefault: true,
+    fonte: "marketplace + tracking", stato: "live", lista: "/api/marketplace/lista?tipo=consegne", apertaDefault: true,
     kpis: [
       { label: "In corso", chiave: "consegne_in_corso", tipo: "n" },
       { label: "Completate oggi", chiave: "consegne_oggi", tipo: "n" },
       { label: "Tempo medio", chiave: "tempo_consegna_min", tipo: "durata" },
       { label: "Con problemi", chiave: "problemi", tipo: "n" },
     ],
-    punti: ["Consegne puntuali % e in ritardo", "Mappa/giri (col tracking rider)"],
+    punti: ["Puntualità %, ritardi e mappa giri (col tracking rider): in arrivo"],
   },
   {
     area: "operazioni", gruppo: "Offerta & lavoro", emoji: "📦", titolo: "Catalogo & prodotti",
