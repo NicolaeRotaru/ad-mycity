@@ -102,6 +102,7 @@ import NumeriReport from "@/components/NumeriReport";
 import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
+import Azioni from "@/components/aree/Azioni";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -559,7 +560,7 @@ function fa(iso: string | null): string {
 
 export default function Dashboard() {
   const [vista, setVista] = useState<
-    "plancia" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
+    "plancia" | "azioni" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
   >("plancia");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
@@ -1049,6 +1050,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {(() => {
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
+            { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria & decisioni", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
@@ -1086,6 +1088,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {vista === "plancia" && (
           <Plancia metriche={metriche} briefing={briefing} onVaiA={(a) => setVista(a as typeof vista)} />
         )}
+
+        {/* ===================== AZIONI (corsia operativa) ===================== */}
+        {vista === "azioni" && <Azioni />}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (

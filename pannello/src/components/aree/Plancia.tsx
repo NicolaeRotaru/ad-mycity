@@ -61,7 +61,7 @@ export default function Plancia({
       {/* 3 priorità: firmare · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* Da firmare */}
-        <button onClick={() => onVaiA?.("memoria")} className="card p-3.5 text-left hover:border-brand/30 transition">
+        <button onClick={() => onVaiA?.("azioni")} className="card p-3.5 text-left hover:border-brand/30 transition">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><PenLine size={16} /></span>
             <span className="t-sez">Da firmare</span>
