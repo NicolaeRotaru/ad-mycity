@@ -20,6 +20,7 @@ type Azione = {
   perche: string;
   preparato: string;
   testo: string;
+  fonte: "vault" | "sentinella";
   stato: Stato;
   esito: string;
 };
@@ -135,6 +136,7 @@ export default function Azioni() {
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                         <span className="badge badge-off">{a.reparto}</span>
                         {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
+                        {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
                       </div>
                     </div>
                     {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}

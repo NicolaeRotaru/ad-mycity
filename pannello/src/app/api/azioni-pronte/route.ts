@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 import { getImpostazioni, setImpostazione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
+import { getMetriche } from "@/lib/marketplace-db";
+import { azioniDaSentinelle } from "@/lib/sentinelle";
 
 export const runtime = "nodejs";
 
@@ -23,6 +25,7 @@ export type AzionePronta = {
   perche: string;
   preparato: string;
   testo: string;
+  fonte: "vault" | "sentinella";
   stato: StatoAzione;
   esito: string;
 };
@@ -44,7 +47,7 @@ function parse(md: string): Blocco[] {
     const h = raw.match(/^##\s+(\S+)\s+·\s+(.+)$/);
     if (h) {
       if (cur) out.push({ ...cur, testo: cur.testo.trim() });
-      cur = { id: h[1], titolo: h[2].trim(), reparto: "", livello: "?", canale: "", destinatario: "", perche: "", preparato: "", testo: "" };
+      cur = { id: h[1], titolo: h[2].trim(), reparto: "", livello: "?", canale: "", destinatario: "", perche: "", preparato: "", testo: "", fonte: "vault" };
       inTesto = false;
       continue;
     }
@@ -79,17 +82,31 @@ function statoDa(raw: string): StatoAzione {
   return "";
 }
 
-export async function GET() {
+// Tutte le azioni della corsia: quelle scritte dall'AD nel vault + quelle generate
+// in automatico dalle sentinelle sui dati reali. Le sentinelle stanno in cima
+// (sono "calde", appena scattate).
+async function tutteLeAzioni(): Promise<Blocco[]> {
   const md = await readVaultFile("90-Memoria-AI/AZIONI-PRONTE.md");
-  if (md == null) return NextResponse.json({ collegato: false, salvataggio: false, azioni: [] });
-  const blocchi = parse(md);
+  const vault = md ? parse(md) : [];
+  let sentinelle: Blocco[] = [];
+  try {
+    const m: any = await getMetriche();
+    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const }));
+  } catch {
+    sentinelle = [];
+  }
+  return [...sentinelle, ...vault];
+}
+
+export async function GET() {
+  const blocchi = await tutteLeAzioni();
   const { tabella, valori } = await getImpostazioni();
   const azioni: AzionePronta[] = blocchi.map((b) => ({
     ...b,
     stato: statoDa(valori[`azione:${b.id}`] || ""),
     esito: valori[`azione:${b.id}:nota`] || "",
   }));
-  return NextResponse.json({ collegato: true, salvataggio: tabella, azioni });
+  return NextResponse.json({ collegato: blocchi.length > 0, salvataggio: tabella, azioni });
 }
 
 // Decidi. Body: { id, decisione: "approva" | "rifiuta" | "annulla" }.
@@ -113,9 +130,8 @@ export async function POST(req: Request) {
 
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
 
-  // Trova l'azione e falla partire (le mani decidono se invia/simula/coda).
-  const md = await readVaultFile("90-Memoria-AI/AZIONI-PRONTE.md");
-  const azione = md ? parse(md).find((a) => a.id === id) : undefined;
+  // Trova l'azione (vault o sentinella) e falla partire (le mani decidono se invia/simula/coda).
+  const azione = (await tutteLeAzioni()).find((a) => a.id === id);
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
   const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
