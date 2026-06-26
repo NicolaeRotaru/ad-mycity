@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getImpostazioni, setImpostazione } from "@/lib/store";
+import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa, type AzionePronta } from "@/lib/azioni-pronte";
 
@@ -36,18 +36,22 @@ export async function POST(req: Request) {
   const dec = String(body?.decisione || "").trim();
   if (!id) return NextResponse.json({ ok: false, error: "Manca l'id." }, { status: 400 });
 
+  const azione = (await tutteLeAzioni()).find((a) => a.id === id);
+
   if (dec === "rifiuta" || dec === "annulla") {
     const stato = dec === "rifiuta" ? "rifiutata" : "";
     const salv = (await setImpostazione(`azione:${id}`, stato)) && (await setImpostazione(`azione:${id}:nota`, ""));
+    if (dec === "rifiuta" && azione) {
+      await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: "rifiutata", esito: "", auto: false });
+    }
     return NextResponse.json({ ok: true, stato, esito: "", salvataggio: salv });
   }
 
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
-
-  const azione = (await tutteLeAzioni()).find((a) => a.id === id);
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
   const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
   const salv = (await setImpostazione(`azione:${id}`, esito.stato)) && (await setImpostazione(`azione:${id}:nota`, esito.dettaglio));
+  await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
   return NextResponse.json({ ok: true, stato: esito.stato, esito: esito.dettaglio, salvataggio: salv });
 }

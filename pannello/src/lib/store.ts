@@ -254,3 +254,37 @@ export async function setImpostazione(chiave: string, valore: string): Promise<b
   });
   return res.ok;
 }
+
+// --- Registro azioni: impara e misura ---
+// Storia append-only di ogni azione decisa/eseguita, salvata come JSON cappato
+// nella chiave impostazioni "azioni_log". Serve a misurare cosa è stato fatto e
+// (nel tempo) se ha reso. Degrada in silenzio se la memoria non è collegata.
+
+export type VoceLog = {
+  at: string;
+  id: string;
+  titolo: string;
+  reparto: string;
+  livello: string;
+  stato: string; // fatta | simulata | coda | rifiutata
+  esito: string;
+  auto: boolean; // eseguita dall'autopilota?
+};
+
+export async function getAzioniLog(): Promise<VoceLog[]> {
+  const raw = await getImpostazione("azioni_log");
+  if (!raw) return [];
+  try {
+    const a = JSON.parse(raw);
+    return Array.isArray(a) ? a : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function logAzione(v: Omit<VoceLog, "at"> & { at?: string }): Promise<void> {
+  if (!memoryConnected()) return;
+  const voce: VoceLog = { ...v, at: v.at || new Date().toISOString() };
+  const cur = await getAzioniLog();
+  await setImpostazione("azioni_log", JSON.stringify([voce, ...cur].slice(0, 200)));
+}
