@@ -1,6 +1,6 @@
 ---
 tipo: briefing
-data: 2026-06-24
+data: 2026-06-24 18:10
 giro: piano editoriale + esecuzione marketing + autopilot
 fonte: AD digitale (squadra al completo)
 ---
