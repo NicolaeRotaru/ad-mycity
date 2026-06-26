@@ -11,3 +11,4 @@ reparto: crm-lifecycle
 - (ancora vuoto: il primo lavoro lascerà qui la prima lezione)
 
 2026-06-24 · flussi lifecycle lancio · scritti 7 flussi completi (testo pronto) riusando tono "Vicino Orgoglioso" + frase-causa "salviamole insieme"; chiave: ogni incentivo in € marcato 🔴 con cap+ROI, mai chiedere recensione a cliente insoddisfatto (ramo 👎→supporto), gift = cash-positive. Canali in dry-run → tutto accodato, niente inviato. #lifecycle #lancio #garetti
+2026-06-25 · contenuto C5 prova sociale · la prova sociale credibile vive di FATTI concreti (Marco in bici, bigliettino) non di superlativi; con 0 clienti il template va consegnato con esempio MARCATO (badge a video) + pipeline consenso, mai testimonianze finte · 1 storia vera target entro 29/6 dal sabato concierge · lezione: il visual prova-sociale è un MOTORE (DM "racconta la tua" → nuove storie in loop) · #prova-sociale #testimonianze #consenso #retention

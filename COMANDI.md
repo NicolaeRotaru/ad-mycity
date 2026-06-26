@@ -22,6 +22,7 @@
 - **"negozio in calo"** → piano per recuperare un negozio che vende meno. 🟡
 
 ## 🚀 Crescita & contenuti
+- **"contenuti pro: [quali]"** (alias: *"fammi i contenuti pro"*, *"modalità esperto: [quali]"*) → creo i contenuti che mi dici **a qualità da social manager 10+ anni**: hook che ferma lo scroll, copy nativo, **grafica vera renderizzata** (e script+cover per i reel), modellati sui format vincenti dei competitor, con le regole di onestà. Tu scrivi il comando + **quali contenuti** (es. *"contenuti pro: un manifesto + un reel ricetta + il contatore civico"*). 🟢 *(creo)* / 🔴 *(pubblicare)*
 - **"lancia una campagna [tema]"** → piano completo (post, grafiche, budget) da approvare. 🟡
 - **"contenuti della settimana"** → calendario + post + reel pronti. 🟢
 - **"fammi [post / volantino / QR] per [X]"** → il designer/AI te lo crea. 🟢
