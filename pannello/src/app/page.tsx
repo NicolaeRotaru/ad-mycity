@@ -565,6 +565,7 @@ export default function Dashboard() {
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
+  const [vivo, setVivo] = useState(false);
   const [giri, setGiri] = useState(0);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
@@ -866,6 +867,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const res = await fetch("/api/stato");
       const data = await res.json();
       setMemoria(Boolean(data.memoria));
+      setVivo(Boolean(data.vivo));
       setGiri((data.giri || []).length);
       if (data.ultimo) {
         setBriefing(data.ultimo.data);
@@ -1025,11 +1027,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="ml-auto flex items-center gap-2">
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                memoria ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+                vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
               }`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${memoria ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
-              {memoria ? "Vivo" : "In prova"}
+              <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
+              {vivo ? "Vivo" : "In prova"}
             </span>
           </div>
         </div>

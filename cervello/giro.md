@@ -57,9 +57,13 @@ Passi:
    - `MyCity-Vault/90-Memoria-AI/Intelligence/buchi-mercato.md` — categorie o zone scoperte da
      coprire, in ordine di priorità e potenziale (dai dati interni se disponibili, altrimenti dal radar).
    (Se per un file non hai nulla di nuovo, lascia il file esistente: non sovrascrivere con un vuoto.)
+   Scrivi SEMPRE il **digest STRUTTURATO** del briefing nel file
+   `MyCity-Vault/90-Memoria-AI/ultimo-briefing.json` (così la Cabina mostra la card
+   **"Cosa ho scoperto e cosa propongo"** + il badge "Vivo" anche **senza Supabase**). Forma esatta:
+   `{ "data": "AAAA-MM-GG HH:MM", "situazione": "<la Sintesi in 2-4 righe>", "opportunita": [ {"titolo":"…","motivo":"…","impatto":"alto|medio|basso","sforzo":"alto|medio|basso"} ], "azioni": [ {"titolo":"…","motivo":"…","livello":"verde|giallo|rosso"} ] }`
+   (è lo stesso digest che andrebbe in Supabase: `situazione` = la Sintesi; ogni azione ha `livello`.)
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
-   `SUPABASE_SERVICE_KEY`), salva nella tabella `briefings` un **digest STRUTTURATO**
-   del report (è un sottoinsieme: la Sintesi → `situazione`, le Opportunità e le Azioni)
+   `SUPABASE_SERVICE_KEY`), salva lo stesso digest anche nella tabella `briefings`
    così il **Pannello di Controllo** lo mostra nella card in alto. Il report COMPLETO
    (le 11 sezioni) resta nel file del vault, che il Pannello mostra in "Attività & briefing".
    La riga è `{ "data": { "situazione": "...", "opportunita": [...], "azioni": [...] } }`;
