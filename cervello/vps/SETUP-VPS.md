@@ -23,6 +23,11 @@
   3. *Generate / Update token* → copia il valore `github_pat_…`.
   > Se il token risulta "*does not have access to any repositories*" o "*any repository permissions*",
   > non è configurato: premi **Edit**, aggiungi repo + Contents R/W e salva (il valore del token non cambia).
+  >
+  > ⚠️ **NOME ≠ VALORE.** Il **nome** del token (es. `assistente-mycity`) è solo un'etichetta. Quello che
+  > serve è il **VALORE**: la stringa lunga **`github_pat_...`** mostrata **una sola volta** alla creazione.
+  > Usala nei comandi (`TOKEN=github_pat_...`). Se non l'hai copiata, premi **Regenerate token**, copiala
+  > subito. Controlla sempre con `echo $TOKEN`: deve iniziare con `github_pat_`, non essere il nome.
 
 ## Passi
 
