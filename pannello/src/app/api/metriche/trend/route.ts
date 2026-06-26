@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { marketplaceSelect, marketplaceDbConnected } from "@/lib/marketplace-db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Trend storici: ordini e incasso per giorno negli ultimi 30 giorni + proiezione
 // del mese (media degli ultimi 7 giorni × 30). Solo letture aggregate.

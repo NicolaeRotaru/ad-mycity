@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Coda da approvare: legge e parsa la tabella di AZIONI-IN-ATTESA.md.
 export type AzioneAttesa = {

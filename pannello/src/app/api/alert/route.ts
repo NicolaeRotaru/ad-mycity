@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getMetriche } from "@/lib/marketplace-db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Alert anomalie: regole sui dati reali del marketplace → segnali 🔴/🟡 con
 // "perché" e "cosa fare". Sincrono e senza dipendenze esterne.

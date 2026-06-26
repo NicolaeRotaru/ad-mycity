@@ -3,6 +3,8 @@ import { getMetriche } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Le metriche del cruscotto: dati del marketplace (mycity) + traffico (PostHog).
 export async function GET() {

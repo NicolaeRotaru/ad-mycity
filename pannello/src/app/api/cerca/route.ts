@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { listVaultDir, readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Ricerca globale nel vault (memoria + conoscenza). Cerca la query nelle cartelle
 // chiave e restituisce, per ogni file che la contiene, la prima riga che combacia.

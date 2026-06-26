@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Approva o rifiuta un'azione della coda: crea un lavoro che il worker dell'AD
 // (cervello/worker.ps1) prende ed esegue (con le "mani" se approvata).

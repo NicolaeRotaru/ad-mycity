@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile, listVaultDir, codaTesto } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Piani: i piani del vault (cartella 06-Piani), saltando i file "Prompt - ...".
 export async function GET() {

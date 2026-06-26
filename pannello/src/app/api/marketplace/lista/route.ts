@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { marketplaceSelect, marketplaceDbConnected } from "@/lib/marketplace-db";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Liste REALI dal marketplace (SOLA LETTURA), per i moduli del pannello:
 //   /api/marketplace/lista?tipo=negozi|clienti|ordini|consegne
