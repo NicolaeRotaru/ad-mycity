@@ -76,7 +76,12 @@ export async function readNote(path: string): Promise<string> {
     const d: any = await r.json();
     if (!r.ok || !d.content) return `Nota non trovata: ${path}`;
     const text = Buffer.from(d.content, "base64").toString("utf-8");
-    return text.length > 12000 ? text.slice(0, 12000) + "\n[...troncato]" : text;
+    // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
+    // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
+    // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
+    // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
+    const MAX = 200000;
+    return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
   } catch (e: any) {
     return `Errore: ${e.message}`;
   }
