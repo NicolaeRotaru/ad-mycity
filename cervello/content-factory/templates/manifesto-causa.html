@@ -1,0 +1,114 @@
+<!doctype html>
+<!--
+  Template MANIFESTO-CAUSA — evoluzione del manifesto di lancio, angolo "ogni spesa è un voto".
+  Segnaposto: {{kicker}} {{titolo}} {{sub}} {{cta}}
+  Variante DIVERSA dal FLAGSHIP terracotta: fondo OLIVA profondo, layout "scheda di scrutinio",
+  riga-dato in evidenza (la causa -22%), una sola idea, gerarchia tipografica forte.
+  Formato 1080x1350 (4:5 feed FB/IG).
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;600;700;800&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0;
+    --oliva-scuro:#46622F; --oliva-piu-scuro:#3A5228;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    color:var(--panna);
+    width:1080px; height:1350px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--oliva-scuro) 0%, var(--oliva) 42%, var(--oliva-piu-scuro) 100%);
+  }
+  /* texture leggera "carta da salumeria" via grana di linee sottili */
+  .grana{
+    position:absolute; inset:0; opacity:.06; pointer-events:none;
+    background-image:repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 26px);
+  }
+  .wrap{ position:absolute; inset:0; padding:84px 84px 72px; display:flex; flex-direction:column; }
+
+  /* KICKER — riga d'apertura, stile "scheda" */
+  .kicker{
+    font-weight:800; text-transform:uppercase; letter-spacing:8px; font-size:27px;
+    color:var(--senape);
+    display:flex; align-items:center; gap:22px;
+  }
+  .kicker::after{ content:""; height:3px; flex:1; background:var(--senape); opacity:.55; border-radius:2px; }
+
+  /* TITOLO — l'unica idea, enorme, in Fraunces */
+  .titolo{
+    font-family:'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight:900; font-size:138px; line-height:.96; letter-spacing:-2px;
+    margin-top:56px; color:var(--panna);
+  }
+  .titolo .acc{ color:var(--senape); font-style:italic; }
+
+  .sub{
+    font-family:'Fraunces', Georgia, serif; font-weight:400; font-style:italic;
+    font-size:46px; line-height:1.32; margin-top:40px; max-width:880px;
+    color:var(--panna); opacity:.94;
+  }
+
+  /* RIGA-DATO — la causa, in un riquadro "scrutinio" */
+  .dato{
+    margin-top:auto; margin-bottom:40px;
+    background:rgba(251,247,240,.07);
+    border:2px solid rgba(232,163,61,.55);
+    border-radius:22px; padding:34px 40px;
+    display:flex; align-items:center; gap:30px;
+  }
+  .dato .num{
+    font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:104px; line-height:.9;
+    color:var(--senape); white-space:nowrap;
+  }
+  .dato .txt{ font-size:32px; line-height:1.34; font-weight:600; color:var(--panna); }
+  .dato .txt b{ color:var(--senape); }
+
+  /* CTA chip */
+  .cta{
+    background:var(--senape); color:var(--inchiostro);
+    font-weight:800; font-size:38px; letter-spacing:.3px;
+    padding:30px 38px; border-radius:18px; text-align:center;
+    box-shadow:0 8px 0 rgba(0,0,0,.16);
+  }
+
+  /* FOOTER brand */
+  .footer{
+    margin-top:34px; display:flex; justify-content:space-between; align-items:flex-end;
+    border-top:3px solid rgba(251,247,240,.35); padding-top:26px;
+  }
+  .wordmark{ font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:50px; color:var(--panna); line-height:1; }
+  .tagline{ font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:400; font-size:28px; color:var(--panna); opacity:.9; margin-top:8px; }
+  .handle{ font-weight:800; font-size:28px; color:var(--senape); letter-spacing:.4px; }
+</style>
+</head>
+<body>
+  <div class="grana"></div>
+  <div class="wrap">
+    <div class="kicker">{{kicker}}</div>
+
+    <div class="titolo">{{titolo}}</div>
+    <div class="sub">{{sub}}</div>
+
+    <div class="dato">
+      <div class="num">−22%</div>
+      <div class="txt">botteghe sparite dal <b>centro di Piacenza</b> in 12 anni. Il prossimo voto è il tuo carrello.</div>
+    </div>
+
+    <div class="cta">{{cta}}</div>
+
+    <div class="footer">
+      <div>
+        <div class="wordmark">MyCity</div>
+        <div class="tagline">La spesa che tiene viva la città.</div>
+      </div>
+      <div class="handle">@mycity.piacenza</div>
+    </div>
+  </div>
+</body>
+</html>

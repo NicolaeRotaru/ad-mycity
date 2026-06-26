@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
+import { testoPulito, dataVault, istante } from "@/lib/format";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -18,9 +19,9 @@ function dot(l: Decisione["livello"]) {
   return <span className={`inline-block w-2 h-2 rounded-full ${c}`} />;
 }
 
+// Timestamp ISO/vault → "GG/MM · HH:MM" in Europe/Rome (ora di Piacenza).
 function quando(s: string) {
-  // "2026-06-24T15:16:00Z" o "2026-06-24 02:20" → forma breve
-  return (s || "").replace("T", " ").replace(/:\d{2}(\.\d+)?Z?$/, "").slice(0, 16);
+  return istante(s);
 }
 
 export default function GovernoAD() {
@@ -119,7 +120,7 @@ export default function GovernoAD() {
   const decViste = decisioni.filter((d) => filtro === "tutte" || d.livello === filtro);
 
   return (
-    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
       <div className="flex items-center gap-2.5 mb-4">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
           <Scale size={16} />
@@ -170,11 +171,11 @@ export default function GovernoAD() {
               <div className="flex items-center gap-2 flex-wrap">
                 {dot(d.livello)}
                 <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{d.reparto}</span>
-                <span className="text-[11px] text-black/40">{d.data}</span>
+                <span className="text-[11px] text-black/40">{dataVault(d.data)}</span>
                 {d.stato && <span className="text-[11px] px-1.5 py-0.5 rounded bg-black/[0.05] text-black/60">{d.stato}</span>}
               </div>
-              <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{d.cosa}</p>
-              {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {d.perche}</p>}
+              <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(d.cosa)}</p>
+              {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {testoPulito(d.perche)}</p>}
               <button
                 onClick={() => spiegaPerche(i, d)}
                 disabled={spiegando === i}
@@ -219,7 +220,7 @@ export default function GovernoAD() {
                     <span className="text-[11px] text-black/40">{quando(r.ts)}</span>{" "}
                     <span className="text-[11px] font-medium text-brand">@{r.reparto}</span>{" "}
                     <span className="text-[11px] px-1.5 rounded bg-black/[0.05] text-black/60">{r.tipo}</span>
-                    <div className="text-ink/85 mt-0.5">{r.msg}</div>
+                    <div className="text-ink/85 mt-0.5">{testoPulito(r.msg)}</div>
                   </div>
                 ))}
               </div>
@@ -238,8 +239,8 @@ export default function GovernoAD() {
                 <span className="text-[10px] uppercase tracking-wide text-brand bg-brand-50 px-1.5 py-0.5 rounded">{v.tipo}</span>
                 <span className="text-[11px] text-black/40">{quando(v.quando)}</span>
               </div>
-              <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{v.titolo}</p>
-              {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{v.testo}</p>}
+              <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{testoPulito(v.titolo)}</p>
+              {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{testoPulito(v.testo)}</p>}
             </div>
           ))}
         </div>

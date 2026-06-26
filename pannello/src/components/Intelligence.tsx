@@ -54,7 +54,7 @@ export default function Intelligence() {
   }
 
   return (
-    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
       <div className="flex items-center gap-2.5 mb-4">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
           <Telescope size={16} />

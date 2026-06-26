@@ -1,0 +1,93 @@
+<!doctype html>
+<!--
+  Template carosello educativo "da salvare" — categoria C2.
+  UNA slide parametrica. Segnaposto: {{numero}} {{titolo}} {{testo}} {{tipo}} {{kicker}} {{handle}} {{body}}
+  {{tipo}} = "cover" | "punto" | "cta"  → applica il vestito (classe su <body>).
+  {{body}} = blocco HTML centrale, costruito dal renderer in base al tipo (evita residui di display:none).
+  Brand MyCity: terracotta/senape/oliva/bordeaux/inchiostro/panna. Font Fraunces + Inter (con fallback).
+  Viewport target: 1080x1350 (4:5 IG).
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Inter:wght@400;600;700;800&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0; --bianco:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    background:var(--panna); color:var(--inchiostro);
+    width:1080px; height:1350px; position:relative; overflow:hidden;
+  }
+  .frame{position:absolute; inset:0; padding:72px 80px; display:flex; flex-direction:column;}
+  .topbar{display:flex; justify-content:space-between; align-items:center;}
+  .kicker{text-transform:uppercase; letter-spacing:5px; font-size:24px; font-weight:800; color:var(--terracotta);}
+  .pageno{font-size:24px; font-weight:800; letter-spacing:1px; color:var(--panna); background:var(--inchiostro);
+    width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .timbro{font-size:54px; line-height:1;}
+  .body{display:flex; flex-direction:column; flex:1;}
+
+  .brandrow{margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end;
+    border-top:3px solid var(--terracotta); padding-top:26px;}
+  .brand{font-size:42px; font-weight:900; color:var(--terracotta); line-height:1;}
+  .tagline{font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:26px; color:var(--inchiostro); opacity:.82; margin-top:6px;}
+  .handle{font-size:25px; color:var(--oliva); font-weight:800;}
+
+  /* ====== COVER ====== */
+  body.cover{background:var(--terracotta); color:var(--panna);}
+  .cover .kicker{color:var(--senape);}
+  .cover .pageno{background:var(--panna); color:var(--terracotta);}
+  .cover .c-titolo{font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:108px; line-height:1.02; margin-top:60px; color:var(--panna);}
+  .cover .c-titolo .acc{color:var(--senape);}
+  .cover .c-sub{font-size:42px; line-height:1.4; margin-top:40px; color:var(--panna); opacity:.95; max-width:880px;}
+  .cover .salva{margin-top:52px; display:inline-flex; align-items:center; gap:18px; background:var(--senape); color:var(--inchiostro);
+    font-weight:800; font-size:36px; padding:26px 40px; border-radius:18px; align-self:flex-start;}
+  .cover .brandrow{border-top-color:var(--senape);}
+  .cover .brand{color:var(--panna);} .cover .tagline{color:var(--panna); opacity:.9;} .cover .handle{color:var(--senape);}
+
+  /* ====== PUNTO (slide 2-4) ====== */
+  .p-num{font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:190px; line-height:.82; color:var(--senape); margin-top:36px;}
+  .p-titolo{font-family:'Fraunces',Georgia,serif; font-weight:800; font-size:76px; line-height:1.06; color:var(--bordeaux); margin-top:14px; max-width:920px; white-space:pre-line;}
+  .p-testo{font-size:38px; line-height:1.46; color:var(--inchiostro); margin-top:32px; max-width:920px;}
+  .p-badge{margin-top:36px; align-self:flex-start; background:var(--oliva); color:var(--panna);
+    font-weight:700; font-size:27px; padding:18px 30px; border-radius:14px; line-height:1.3;}
+
+  /* ====== CTA (slide 5) ====== */
+  body.cta{background:var(--inchiostro); color:var(--panna);}
+  .cta .kicker{color:var(--senape);}
+  .cta .pageno{background:var(--senape); color:var(--inchiostro);}
+  .cta .x-titolo{font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:92px; line-height:1.04; margin-top:56px; color:var(--panna);}
+  .cta .x-titolo .acc{color:var(--senape);}
+  .cta .x-testo{font-size:38px; line-height:1.46; margin-top:34px; color:var(--panna); opacity:.95; max-width:900px; white-space:pre-line;}
+  .cta .pill{margin-top:48px; align-self:flex-start; background:var(--terracotta); color:var(--panna);
+    font-weight:800; font-size:36px; padding:28px 46px; border-radius:20px;}
+  .cta .brandrow{border-top-color:var(--senape);}
+  .cta .brand{color:var(--senape);} .cta .tagline{color:var(--panna); opacity:.85;} .cta .handle{color:var(--panna);}
+</style>
+</head>
+<body class="{{tipo}}">
+  <div class="frame">
+    <div class="topbar">
+      <div class="kicker">{{kicker}}</div>
+      <div style="display:flex; align-items:center; gap:24px;">
+        <div class="timbro">🐎</div>
+        <div class="pageno">{{numero}}</div>
+      </div>
+    </div>
+    <div class="body">
+      {{body}}
+    </div>
+    <div class="brandrow">
+      <div>
+        <div class="brand">MyCity</div>
+        <div class="tagline">La spesa che tiene viva la città.</div>
+      </div>
+      <div class="handle">{{handle}}</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, Ch
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import { dataVault } from "@/lib/format";
 
 type Tab = "trend" | "unit" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
@@ -31,7 +32,7 @@ export default function NumeriReport() {
 
   const [trend, setTrend] = useState<{ collegato: boolean; serie: Punto[]; proiezione?: { ordini_mese: number; incasso_mese: number } } | null>(null);
   const [unit, setUnit] = useState<any>(null);
-  const [report, setReport] = useState<{ collegato: boolean; elenco: string[]; ultimo: { nome: string; testo: string } | null } | null>(null);
+  const [report, setReport] = useState<{ collegato: boolean; elenco: { nome: string; data?: string }[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
   const [accodato, setAccodato] = useState<string | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
@@ -68,7 +69,7 @@ export default function NumeriReport() {
   const eur = (v: number) => "€" + (Math.round(v * 100) / 100).toLocaleString("it-IT");
 
   return (
-    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
       <div className="flex items-center gap-2.5 mb-4">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
           <BarChart3 size={16} />
@@ -177,16 +178,16 @@ export default function NumeriReport() {
           {report?.elenco && report.elenco.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {report.elenco.slice(0, 8).map((r) => (
-                <span key={r} className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded bg-paper/60 text-black/55">
-                  <Download size={11} /> {r}
+                <span key={r.nome} className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded bg-paper/60 text-black/55">
+                  <Download size={11} /> {r.data ? dataVault(r.data) : r.nome}
                 </span>
               ))}
             </div>
           )}
 
           {report?.ultimo ? (
-            <details open className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-              <summary className="text-[13px] font-semibold cursor-pointer">Ultimo report · {report.ultimo.nome}</summary>
+            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+              <summary className="text-[13px] font-semibold cursor-pointer">Ultimo report · {dataVault(report.ultimo.data || report.ultimo.nome)}</summary>
               <div className="mt-2 max-h-96 overflow-y-auto pr-1 text-[13px] leading-relaxed">
                 <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{report.ultimo.testo}</ReactMarkdown>
               </div>

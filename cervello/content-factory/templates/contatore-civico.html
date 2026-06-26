@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Inter:wght@400;600;700&display=swap');
+:root{--terracotta:#C0492C;--senape:#E8A33D;--oliva:#5A7C42;--bordeaux:#B82A28;--inchiostro:#2C2A28;--panna:#FBF7F0;--bianco:#FFFFFF;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;background:var(--panna);color:var(--inchiostro);
+  font-family:'Inter','Helvetica Neue',Arial,sans-serif;position:relative;overflow:hidden}
+.pad{position:absolute;inset:0;padding:84px 80px 70px;display:flex;flex-direction:column}
+.kicker{font-weight:700;letter-spacing:.28em;font-size:23px;color:var(--oliva);text-transform:uppercase}
+.lead{font-family:'Fraunces','Georgia',serif;font-size:40px;font-weight:500;font-style:italic;
+  color:var(--inchiostro);margin-top:54px}
+.numwrap{margin-top:6px;display:flex;align-items:flex-start;gap:18px}
+.num{font-family:'Fraunces','Georgia',serif;font-weight:900;font-size:228px;line-height:.9;
+  color:var(--oliva);letter-spacing:-4px}
+.badge{background:var(--bordeaux);color:#fff;font-weight:700;font-size:24px;letter-spacing:.04em;
+  padding:9px 16px;border-radius:10px;margin-top:30px;white-space:nowrap}
+.after{font-family:'Fraunces','Georgia',serif;font-size:46px;font-weight:600;line-height:1.12;
+  margin-top:18px;max-width:900px}
+.after b{color:var(--terracotta)}
+.sub{font-size:31px;line-height:1.4;color:#4a4642;margin-top:30px;max-width:880px}
+.spacer{flex:1}
+.cta{display:inline-block;background:var(--senape);color:var(--inchiostro);font-weight:700;
+  font-size:31px;padding:25px 32px;border-radius:16px;max-width:900px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:46px}
+.brand{font-family:'Fraunces','Georgia',serif;font-weight:900;font-size:44px;color:var(--terracotta)}
+.brand small{display:block;font-family:'Inter',sans-serif;font-weight:400;font-style:italic;
+  font-size:23px;color:#6a655f;margin-top:5px}
+.handle{font-weight:700;font-size:27px;color:var(--oliva)}
+</style></head><body><div class="pad">
+  <div class="kicker">Il contatore civico · {{mese}}</div>
+  <div class="lead">Questo mese, grazie a voi,</div>
+  <div class="numwrap">
+    <div class="num">{{importo}}</div>
+    <div class="badge">{{badge_esempio}}</div>
+  </div>
+  <div class="after">sono rimasti nelle <b>botteghe del centro</b> di Piacenza.</div>
+  <div class="sub">Ogni spesa su MyCity è un incasso che resta in città — sul bancone del tuo quartiere, non in un magazzino fuori porta.</div>
+  <div class="spacer"></div>
+  <div class="cta">Fai restare i tuoi soldi a Piacenza → entra in lista</div>
+  <div class="foot">
+    <div class="brand">MyCity<small>La spesa che tiene viva la città.</small></div>
+    <div class="handle">@mycity.piacenza</div>
+  </div>
+</div></body></html>

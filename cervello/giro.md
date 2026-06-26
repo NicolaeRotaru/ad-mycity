@@ -34,7 +34,10 @@ Passi:
    11. **Gap — cosa NON ho potuto verificare** — dati/canali mancanti, da riprendere al prossimo giro.
    Regola: meglio una riga in più che un'informazione persa. Mai inventare dati: se manca, scrivilo nei Gap.
 6. Salva il briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` con nome data
-   (AAAA-MM-GG.md). Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`.
+   (AAAA-MM-GG.md) e nel frontmatter metti SEMPRE data **E ora**:
+   `data: AAAA-MM-GG HH:MM` (fuso di Piacenza) — così la Cabina mostra al minuto
+   quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`
+   e nel suo frontmatter scrivi `aggiornato: AAAA-MM-GG HH:MM` (con l'ora).
    Aggiorna anche, dai risultati del RADAR (passo 3), i **tre file Intelligence** che
    alimentano la scheda **Mondo → Intelligence & opportunità** del Pannello (si leggono dal
    vault, NON serve Supabase). Scrivili (sovrascrivendo col risultato più fresco), ognuno

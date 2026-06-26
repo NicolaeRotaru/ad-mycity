@@ -4,6 +4,14 @@ import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
 
+// Estrae il campo "data:" dal frontmatter (può contenere data E ora). Vuoto se assente.
+function dataFrontmatter(md: string): string {
+  const fm = md.match(/^---\s*\n([\s\S]*?)\n---/);
+  const blocco = fm ? fm[1] : md.slice(0, 400);
+  const m = blocco.match(/^\s*data:\s*(.+?)\s*$/m);
+  return m ? m[1].trim() : "";
+}
+
 // Report automatici: il pannello elenca i report salvati dall'AD nel vault e può
 // accodare la generazione (giornaliero/settimanale), eseguita dal worker.
 // La GET con ?genera= è pensata per il cron di Vercel.
@@ -11,7 +19,8 @@ async function accoda(tipoRaw: string) {
   const tipo = tipoRaw === "settimanale" ? "settimanale" : "giornaliero";
   const richiesta =
     `Genera il REPORT ${tipo} di MyCity: situazione, numeri chiave reali (ordini, incassi, clienti, negozi), ` +
-    `mosse fatte e cose da firmare. Scrivilo in MyCity-Vault/90-Memoria-AI/Report/<DATA>-${tipo}.md. ` +
+    `mosse fatte e cose da firmare. Scrivilo in MyCity-Vault/90-Memoria-AI/Report/<DATA>-${tipo}.md ` +
+    `col frontmatter che riporta SEMPRE data E ora: "data: AAAA-MM-GG HH:MM" (fuso di Piacenza). ` +
     `Se la "mano" email è attiva, invialo anche a Nicola.`;
   return creaLavoro(richiesta, "report");
 }
@@ -23,12 +32,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: Boolean(l) });
   }
   const files = (await listVaultDir("90-Memoria-AI/Report")).sort().reverse();
-  let ultimo: { nome: string; testo: string } | null = null;
+  let ultimo: { nome: string; data: string; testo: string } | null = null;
   if (files.length) {
     const testo = await readVaultFile(`90-Memoria-AI/Report/${files[0]}`);
-    if (testo) ultimo = { nome: files[0].replace(/\.md$/, ""), testo };
+    if (testo) ultimo = { nome: files[0].replace(/\.md$/, ""), data: dataFrontmatter(testo), testo };
   }
-  return NextResponse.json({ collegato: files.length > 0, elenco: files.map((f) => f.replace(/\.md$/, "")), ultimo });
+  // Elenco con data+ora reale (dal frontmatter), così le chip mostrano l'ora e non solo il nome-file.
+  const elenco = await Promise.all(
+    files.slice(0, 8).map(async (f) => {
+      const t = f === files[0] ? ultimo?.testo : await readVaultFile(`90-Memoria-AI/Report/${f}`);
+      return { nome: f.replace(/\.md$/, ""), data: t ? dataFrontmatter(t) : "" };
+    })
+  );
+  return NextResponse.json({ collegato: files.length > 0, elenco, ultimo });
 }
 
 export async function POST(req: NextRequest) {
