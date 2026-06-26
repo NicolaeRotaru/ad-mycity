@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-24
+aggiornato: 2026-06-26
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -8,6 +8,11 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 
 > Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
 > Domani (25/6) i numeri devono iniziare a muoversi da 0.
+>
+> ⚠️ **26/6 — numeri NON riverificati:** nel giro del 26/6 né il Supabase MCP né la rete in
+> uscita erano autorizzati e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` non sono configurate.
+> I 7 numeri qui sotto restano alla **baseline 24/6**, da riverificare appena un canale dati è
+> sbloccato. Oggi (ven 26/6) è la **vigilia della prima consegna** (sab 27/6), slot ordini entro 21:00.
 
 ## I 7 numeri del primo passo (baseline = oggi 24/6)
 | Numero | Oggi | "Riuscito" domani | Note |
@@ -26,9 +31,10 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime 3 mosse dell'AD
-1. **Giro di perlustrazione 24/6** (dati reali): ancora 0 ordini / 0 clienti reali / 0 recensioni; nessuna sentinella scattata — vedi [[2026-06-24-giro]].
-2. **Team play** → pacchetto faro pronto (pitch, contratto, locandina QR, payout, primo ordine) in `consegne/`.
-3. Squadrone (40 senior) + sistema mani/capacità pronti, ma tutto in dry-run finché non colleghi le chiavi.
+1. **Giro di perlustrazione 26/6** (vigilia prima consegna): giro a **dati-live mancanti**
+   (DB + web non autorizzati); checklist vigilia pronta in `consegne/operations/` — vedi [[2026-06-26]].
+2. **Giro 25/6**: 7 senior → pacchetto faro pronto (pitch, contratto, QR, payout, primo ordine).
+3. Decisioni 🔴 bloccanti ancora in coda (Stripe live/sandbox, fee, commissione) — vedi [[AZIONI-IN-ATTESA]].
 
 ## Prossime priorità (da approvare)
 - [ ] STASERA: confermare Stripe live/sandbox + sistemare branding + stampare materiali + creare form/IG.
