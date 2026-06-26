@@ -36,7 +36,13 @@ Passi:
 6. Salva il briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` con nome data
    (AAAA-MM-GG.md) e nel frontmatter metti SEMPRE data **E ora**:
    `data: AAAA-MM-GG HH:MM` (fuso di Piacenza) — così la Cabina mostra al minuto
-   quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`
+   quando è stato fatto il giro. **Se nello stesso giorno fai più giri/passaggi sullo stesso
+   file**, NON lasciare l'ora del primo passaggio: AGGIORNA il campo `data:` del frontmatter
+   all'ora dell'**ULTIMO** passaggio e metti il report più recente **IN CIMA** (TL;DR + sintesi
+   freschi); i passaggi precedenti, se li conservi, vanno SOTTO un separatore "## Passaggi precedenti".
+   (La Cabina mostra l'etichetta dell'ora leggendo SOLO il campo `data:` del frontmatter: se resta
+   vecchio, il briefing sembra vecchio anche quando il contenuto è fresco.)
+   Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`
    e nel suo frontmatter scrivi `aggiornato: AAAA-MM-GG HH:MM` (con l'ora).
    Aggiorna anche, dai risultati del RADAR (passo 3), i **tre file Intelligence** che
    alimentano la scheda **Mondo → Intelligence & opportunità** del Pannello (si leggono dal
@@ -51,9 +57,13 @@ Passi:
    - `MyCity-Vault/90-Memoria-AI/Intelligence/buchi-mercato.md` — categorie o zone scoperte da
      coprire, in ordine di priorità e potenziale (dai dati interni se disponibili, altrimenti dal radar).
    (Se per un file non hai nulla di nuovo, lascia il file esistente: non sovrascrivere con un vuoto.)
+   Scrivi SEMPRE il **digest STRUTTURATO** del briefing nel file
+   `MyCity-Vault/90-Memoria-AI/ultimo-briefing.json` (così la Cabina mostra la card
+   **"Cosa ho scoperto e cosa propongo"** + il badge "Vivo" anche **senza Supabase**). Forma esatta:
+   `{ "data": "AAAA-MM-GG HH:MM", "situazione": "<la Sintesi in 2-4 righe>", "opportunita": [ {"titolo":"…","motivo":"…","impatto":"alto|medio|basso","sforzo":"alto|medio|basso"} ], "azioni": [ {"titolo":"…","motivo":"…","livello":"verde|giallo|rosso"} ] }`
+   (è lo stesso digest che andrebbe in Supabase: `situazione` = la Sintesi; ogni azione ha `livello`.)
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
-   `SUPABASE_SERVICE_KEY`), salva nella tabella `briefings` un **digest STRUTTURATO**
-   del report (è un sottoinsieme: la Sintesi → `situazione`, le Opportunità e le Azioni)
+   `SUPABASE_SERVICE_KEY`), salva lo stesso digest anche nella tabella `briefings`
    così il **Pannello di Controllo** lo mostra nella card in alto. Il report COMPLETO
    (le 11 sezioni) resta nel file del vault, che il Pannello mostra in "Attività & briefing".
    La riga è `{ "data": { "situazione": "...", "opportunita": [...], "azioni": [...] } }`;
@@ -63,6 +73,19 @@ Passi:
 7. DOER MODE: ESEGUI da solo le azioni 🟢 (produci gli artefatti veri in `consegne/` o `creativi/`,
    aggiorna la memoria). Le 🟡/🔴 preparale COMPLETE e ACCODALE in
    `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` (non eseguirle finché Nicola non dà il via).
+   **FORMATO OBBLIGATORIO (la Cabina conta solo questo):** ogni 🟡/🔴 va aggiunta come **RIGA della
+   tabella a 8 colonne**, NON come sezione `##` (le sezioni `##` la Cabina NON le vede). Colonne, in
+   quest'ordine esatto:
+   `| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |`
+   - `#` = numero progressivo (solo cifre) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
+   - `Colore` = l'emoji `🟡` o `🔴` · `Contenuto` = link al file in `consegne/` o testo pronto · `Canale` = email/push/in-app/manuale
+   - `Stato` = deve contenere la parola **`in attesa`** (è ciò che la Cabina conta in "Da firmare").
+   Esempio: `| 6 | 2026-06-26 18:14 | @vendite | Presidio Venerdì Piacentino | 🟡 | consegne/vendite/presidio.md | manuale | in attesa |`
+8. SALA OPERATIVA: registra le mosse di QUESTO giro in `MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md`,
+   così la Cabina (Diretta agenti / Feed) mostra cosa è successo. Aggiungi **almeno una riga per mossa**,
+   nel formato canonico (con l'**ORA**, senza backtick attorno):
+   `- AAAA-MM-GG HH:MM · @reparto · FATTO/FACCIO/PASSO-A · messaggio breve`.
+   Esempio: `- 2026-06-26 18:14 · @intelligence · FATTO · radar live: caldo 37° domani, Venerdì Piacentino stasera`.
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.
