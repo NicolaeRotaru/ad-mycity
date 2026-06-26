@@ -6,6 +6,10 @@ import { Terminal, ChevronDown, ChevronRight, Sparkles } from "lucide-react";
 // Il "menù dei comandi" dell'AD, identico a COMANDI.md ma cliccabile dal pannello.
 // Clicca un comando → finisce nella chat qui sotto, pronto da inviare al cervello (Max).
 // Tienilo allineato a /COMANDI.md quando aggiungi o cambi un comando.
+//
+// Layout: ogni reparto è una TENDINA in una griglia (1 colonna su mobile → 4 su
+// desktop). Così su web vedi tutti i reparti a colpo d'occhio e su mobile scorri
+// tendine compatte. Apri solo il reparto che ti serve: meno scroll, capisci veloce.
 
 type Comando = { cmd: string; desc: string; evidenzia?: boolean; punti?: string[] };
 type Reparto = { nome: string; comandi: Comando[] };
@@ -102,59 +106,114 @@ const REPARTI: Reparto[] = [
 
 export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void }) {
   const [aperto, setAperto] = useState(false);
+  // Quali reparti (tendine) sono aperti. Di default tutti chiusi: vedi prima i
+  // titoli a colpo d'occhio, poi apri solo quello che ti serve.
+  const [apertiReparti, setApertiReparti] = useState<Set<number>>(new Set());
+
+  const toggleReparto = (i: number) =>
+    setApertiReparti((s) => {
+      const n = new Set(s);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
+  const tuttiAperti = apertiReparti.size === REPARTI.length;
+  const toggleTutti = () =>
+    setApertiReparti(tuttiAperti ? new Set() : new Set(REPARTI.map((_, i) => i)));
 
   return (
-    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
       <button onClick={() => setAperto((v) => !v)} className="w-full flex items-center gap-2.5 text-left">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
           <Terminal size={16} />
         </span>
         <div className="min-w-0 flex-1">
           <span className="text-[15px] font-semibold tracking-tight">Comandi — cosa puoi dirmi</span>
-          <div className="text-xs text-black/40">Tocca un comando per metterlo nella chat, poi invialo.</div>
+          <div className="text-xs text-black/40">Apri un reparto e tocca un comando per metterlo nella chat.</div>
         </div>
         <span className="shrink-0 text-black/40">{aperto ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</span>
       </button>
 
       {aperto && (
-        <div className="mt-4 space-y-5">
-          {REPARTI.map((r) => (
-            <div key={r.nome}>
-              <div className="text-xs uppercase tracking-wide text-black/40 mb-2">{r.nome}</div>
-              <div className="space-y-1.5">
-                {r.comandi.map((c) => (
+        <div className="mt-3">
+          <div className="flex justify-end mb-2">
+            <button
+              onClick={toggleTutti}
+              className="text-[11px] font-medium text-black/45 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+            >
+              {tuttiAperti ? "Chiudi tutti" : "Apri tutti"}
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 items-start">
+            {REPARTI.map((r, i) => {
+              const open = apertiReparti.has(i);
+              return (
+                <div
+                  key={r.nome}
+                  className={`rounded-xl border transition ${
+                    open ? "border-brand/30 bg-brand-50/20" : "border-black/[0.07] bg-paper/40 hover:border-brand/25"
+                  }`}
+                >
                   <button
-                    key={c.cmd}
-                    onClick={() => onScegli?.(c.cmd)}
-                    className={`w-full text-left rounded-xl border p-3 transition ${
-                      c.evidenzia
-                        ? "border-brand/40 bg-brand-50/50 hover:bg-brand-50"
-                        : "border-black/[0.07] bg-paper/40 hover:border-brand/30 hover:bg-brand-50/40"
-                    }`}
+                    onClick={() => toggleReparto(i)}
+                    className="w-full flex items-center gap-1.5 text-left px-2.5 py-2.5"
+                    aria-expanded={open}
                   >
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {c.evidenzia && <Sparkles size={13} className="text-brand shrink-0" />}
-                      <code className="text-[13px] font-semibold text-brand bg-white/70 ring-1 ring-brand/15 rounded px-1.5 py-0.5">
-                        {c.cmd}
-                      </code>
-                    </div>
-                    <p className="text-[12px] text-black/55 mt-1 leading-snug">{c.desc}</p>
-                    {c.punti && (
-                      <ul className="mt-2 space-y-1 border-t border-brand/15 pt-2">
-                        {c.punti.map((p, i) => (
-                          <li key={i} className="text-[11px] text-black/55 leading-snug flex gap-1.5">
-                            <span className="text-brand shrink-0">•</span>
-                            <span>{p}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <span className="text-[12.5px] font-semibold tracking-tight text-ink/85 leading-tight flex-1 min-w-0">
+                      {r.nome}
+                    </span>
+                    <span
+                      className={`text-[10px] tabular-nums px-1.5 py-0.5 rounded-full shrink-0 ${
+                        open ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/40"
+                      }`}
+                    >
+                      {r.comandi.length}
+                    </span>
+                    <span className="shrink-0 text-black/35">
+                      {open ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
+                    </span>
                   </button>
-                ))}
-              </div>
-            </div>
-          ))}
-          <p className="text-[11px] text-black/40 leading-relaxed px-1">
+
+                  {open && (
+                    <div className="px-2 pb-2 space-y-1.5">
+                      {r.comandi.map((c) => (
+                        <button
+                          key={c.cmd}
+                          onClick={() => onScegli?.(c.cmd)}
+                          className={`w-full text-left rounded-lg border p-2.5 transition ${
+                            c.evidenzia
+                              ? "border-brand/40 bg-brand-50/50 hover:bg-brand-50"
+                              : "border-black/[0.07] bg-white/70 hover:border-brand/30 hover:bg-brand-50/40"
+                          }`}
+                        >
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            {c.evidenzia && <Sparkles size={12} className="text-brand shrink-0" />}
+                            <code className="text-[12px] font-semibold text-brand bg-white/80 ring-1 ring-brand/15 rounded px-1.5 py-0.5">
+                              {c.cmd}
+                            </code>
+                          </div>
+                          <p className="text-[11.5px] text-black/55 mt-1 leading-snug">{c.desc}</p>
+                          {c.punti && (
+                            <ul className="mt-1.5 space-y-1 border-t border-brand/15 pt-1.5">
+                              {c.punti.map((p, k) => (
+                                <li key={k} className="text-[11px] text-black/55 leading-snug flex gap-1.5">
+                                  <span className="text-brand shrink-0">•</span>
+                                  <span>{p}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="text-[11px] text-black/40 leading-relaxed px-1 mt-3">
             💡 Non sono rigidi: scrivimi come ti viene, ti capisco lo stesso. Puoi sempre inventarne di nuovi
             («d'ora in poi quando scrivo X fai Y») e li aggiungo qui.
           </p>
