@@ -3,7 +3,7 @@
 // ripiega sulla GitHub API tramite gli strumenti obsidian.* (variabili OBSIDIAN_*).
 import { promises as fs } from "fs";
 import path from "path";
-import { readNote, listNotes, obsidianConnected } from "./obsidian";
+import { readNote, listDir, obsidianConnected } from "./obsidian";
 
 const ERR_PREFIXES = [
   "Obsidian non collegato",
@@ -56,20 +56,10 @@ export async function listVaultDir(relDir: string): Promise<string[]> {
       /* provo la radice successiva */
     }
   }
-  // 2) GitHub API
-  if (obsidianConnected()) {
-    const res = await listNotes(`MyCity-Vault/${relDir}`);
-    if (res && !isErr(res)) {
-      const prefix = `MyCity-Vault/${relDir}/`;
-      return res
-        .split("\n")
-        .map((l) => l.trim())
-        .filter((l) => l.startsWith(prefix) && l.endsWith(".md"))
-        .map((l) => l.slice(prefix.length))
-        .filter((l) => !l.includes("/")) // solo i file diretti della cartella
-        .sort();
-    }
-  }
+  // 2) GitHub Contents API (sempre attuale; niente albero git ricorsivo che, con repo
+  //    grandi, viene troncato e può perdere i file più recenti — es. il briefing di oggi).
+  const viaApi = await listDir(`MyCity-Vault/${relDir}`);
+  if (viaApi) return viaApi;
   return [];
 }
 

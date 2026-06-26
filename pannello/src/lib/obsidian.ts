@@ -43,6 +43,30 @@ export async function listNotes(filtro?: string): Promise<string> {
   }
 }
 
+/**
+ * Elenco dei file .md DIRETTI in una cartella, via Contents API (sempre attuale,
+ * niente albero git ricorsivo che con repo grandi può essere troncato e perdere file nuovi).
+ * Torna i nomi-file ordinati, o null se non collegato/errore.
+ */
+export async function listDir(dir: string): Promise<string[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
+      .map((x: any) => x.name as string)
+      .sort();
+  } catch {
+    return null;
+  }
+}
+
 /** Contenuto di una nota. */
 export async function readNote(path: string): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;
