@@ -87,6 +87,12 @@ Ogni senior ha la "Carta del Dipendente" nel suo file `.claude/agents/`. La fann
 - `cervello/sentinelle.md` — i trigger dell'iniziativa · `cervello/ritmo.md` — il battito (mattino/sera/settimana)
 - [[PLAYBOOK-ECCEZIONI]] — cosa fare quando va storto · [[RUBRICA-QUALITA]] — come si misura "fatto bene"
 
+## 🎓 Da "competente" a "fuoriclasse da 10+ anni" (programma in corso)
+La Carta dà il **comportamento** (uguale per tutti); la competenza da veterano è il pezzo che mancava. Si aggiunge con:
+- [[STAMPO-SENIOR-PRO]] — i 6 ingredienti della **Scheda Mestiere** + le 3 leve del soffitto + checklist di rollout. Lo applica il `@prompt-engineer`, un senior alla volta, partendo dai motori di soldi.
+- [[TASTE-FILE-NICOLA]] — il **gusto di Nicola codificato**: il metro vero contro cui i senior output-facing si auto-criticano prima di consegnare.
+- **Pilota fatto:** `content-social` (vedi la sua "🎓 SCHEDA MESTIERE"). Modello per gli altri 39.
+
 ## Le 3 "lenti" senior del panel (vedi [[00-Index]])
 - **Lente Amazon** → catalogo, ricerca, recensioni, logistica, retention.
 - **Lente eBay** → onboarding venditori, reputazione, listing, pagamenti, dispute.
