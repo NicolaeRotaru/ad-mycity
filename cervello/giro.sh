@@ -39,10 +39,14 @@ claude -p "$(cat "$SCRIPT_DIR/giro.md")" --permission-mode acceptEdits || {
 }
 echo "[$(ts)] Giro completato."
 
-# --- Sync del vault su GitHub (a prova di proiettile): commit TUTTO, riallineati, ritenta ---
-# Cosi' il Pannello (via OBSIDIAN_*) vede subito briefing/azioni/stato, anche se 'main' si muove.
-branch="${GIT_BRANCH:-main}"
-git add -A 2>/dev/null || true          # stage di TUTTO: niente unstaged blocca il rebase (.env e' gitignored)
+# --- Sync della memoria su un RAMO DEDICATO dell'AD: force-push, zero conflitti ---
+# Il giro e' l'UNICO scrittore di questo ramo (default: memoria-ad). Cosi' NON litiga con 'main',
+# dove altre sessioni toccano gli stessi file di memoria (STATO/DECISIONI/briefing): la' il push
+# veniva respinto per conflitto a ogni giro. Qui il force-push allinea il ramo a cio' che ha il VPS
+# (sempre piu' avanti), quindi non fallisce mai per conflitto. Il Pannello legge questo ramo via
+# OBSIDIAN_BRANCH. Il codice arriva da 'main' col 'reset --hard origin/main' quando serve (raro).
+branch="${GIT_BRANCH:-memoria-ad}"
+git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
 if git diff --cached --quiet 2>/dev/null; then
   echo "[$(ts)] Nessuna modifica al vault da inviare."
 else
@@ -52,17 +56,16 @@ else
     url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
     ok=0
     for attempt in 1 2 3; do
-      # main si muove (piu' sessioni): riallineati; se il rebase si incastra, abortisci e ritenta
-      git pull --rebase "$url" "$branch" 2>/dev/null || git rebase --abort 2>/dev/null || true
-      if git push "$url" "HEAD:${branch}" 2>/dev/null; then
-        echo "[$(ts)] Vault sincronizzato su GitHub ($branch, tentativo $attempt)."
+      # ramo solo dell'AD: il force-push e' sicuro (nessun altro lo scrive) e non si incastra mai
+      if git push --force "$url" "HEAD:${branch}" 2>/dev/null; then
+        echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
         ok=1; break
       fi
       echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
       sleep 3
     done
-    [ "$ok" = 1 ] || echo "[$(ts)] Push del vault fallito dopo 3 tentativi (il giro successivo recupera)." >&2
+    [ "$ok" = 1 ] || echo "[$(ts)] Push della memoria fallito dopo 3 tentativi (il giro successivo recupera)." >&2
   else
-    echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (il vault resta solo sul server)."
+    echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)."
   fi
 fi

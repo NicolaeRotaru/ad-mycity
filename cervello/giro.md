@@ -38,6 +38,19 @@ Passi:
    `data: AAAA-MM-GG HH:MM` (fuso di Piacenza) — così la Cabina mostra al minuto
    quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`
    e nel suo frontmatter scrivi `aggiornato: AAAA-MM-GG HH:MM` (con l'ora).
+   Aggiorna anche, dai risultati del RADAR (passo 3), i **tre file Intelligence** che
+   alimentano la scheda **Mondo → Intelligence & opportunità** del Pannello (si leggono dal
+   vault, NON serve Supabase). Scrivili (sovrascrivendo col risultato più fresco), ognuno
+   con la **data di oggi in cima**, sintetico e azionabile:
+   - `MyCity-Vault/90-Memoria-AI/Intelligence/radar-concorrenti.md` — radar dei concorrenti a
+     Piacenza (food/grocery delivery, marketplace locali, GDO con consegna, botteghe online):
+     prezzi, promozioni, novità, punti deboli sfruttabili.
+   - `MyCity-Vault/90-Memoria-AI/Intelligence/eventi-picchi.md` — eventi a Piacenza nei prossimi
+     7-14 giorni (sagre, mercati, fiere, concerti, meteo estremo, chiusure/ZTL) e i **picchi di
+     domanda** attesi per il delivery, con consigli operativi.
+   - `MyCity-Vault/90-Memoria-AI/Intelligence/buchi-mercato.md` — categorie o zone scoperte da
+     coprire, in ordine di priorità e potenziale (dai dati interni se disponibili, altrimenti dal radar).
+   (Se per un file non hai nulla di nuovo, lascia il file esistente: non sovrascrivere con un vuoto.)
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
    `SUPABASE_SERVICE_KEY`), salva nella tabella `briefings` un **digest STRUTTURATO**
    del report (è un sottoinsieme: la Sintesi → `situazione`, le Opportunità e le Azioni)
