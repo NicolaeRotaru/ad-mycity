@@ -508,7 +508,8 @@ const CATEGORIE_NUMERI: CategoriaNum[] = [
   { gruppo: "Azienda", emoji: "🎯", titolo: "Obiettivi & governance", sottotitolo: "OKR, allarmi, decisioni, azioni in attesa e ritmo della squadra.", kpis: GOVERNANCE_KPI },
 ];
 // Aperte di default: i due blocchi con più dati reali.
-const NUM_DEFAULT_APERTE = ["Salute adesso", "Marketplace"];
+// Tutte le categorie chiuse di default: si vede una lista pulita, apri solo ciò che serve.
+const NUM_DEFAULT_APERTE: string[] = [];
 
 function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";

@@ -313,7 +313,7 @@ export default function MemoriaViva() {
           {tab === "attivita" && attivita && (
             <div className="space-y-4">
               {attivita.briefing && (
-                <details open className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+                <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
                   <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {attivita.briefing.nome}</summary>
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.briefing.testo}</Markdown>
