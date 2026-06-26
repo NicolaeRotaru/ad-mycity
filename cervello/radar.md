@@ -1,11 +1,11 @@
-# 🔭 radar.md — i 50 fattori che influenzano MyCity (Piacenza)
+# 🔭 radar.md — i 100 fattori che influenzano MyCity (Piacenza)
 
 > **Sorgente di verità = `cervello/radar.json`** (questo file è la vista leggibile, rigenerala da lì).
 > Il giro di perlustrazione (`cervello/giro.md`) scorre il radar: per i fattori a **peso ≥ 4** fa un check
 > live (via **intelligence**) sulle fonti, e instrada i fattori "caldi" al senior indicato. Complementare a
-> `cervello/sentinelle.md` (quelle = soglie su dati interni; il radar = mondo esterno).
+> `cervello/sentinelle.md` (quelle = soglie su dati interni; il radar = mondo esterno + entità interne).
 >
-> **Peso:** 5=massima influenza ora · 1=conta solo a volume (stadio: ~1 negozio, ~0 ordini). **Colore:** 🟢 esegui · 🟡 allerta AD · 🔴 firma di Nicola.
+> **Peso:** 5=massima influenza ora · 1=conta solo a volume. **Colore:** 🟢 esegui · 🟡 allerta AD · 🔴 firma di Nicola.
 
 ## Mercato locale & commercio
 
@@ -101,6 +101,101 @@
 | Normativa HACCP / sicurezza alimentare | legale-privacy, operations | 3 | Aggiornamento normativo -> vincolo sui freschi (bozze, valida umano) | [salute.gov.it](https://www.salute.gov.it/new/it/tema/sicurezza-alimentare/) · [salute.regione.emilia-romagna.it](https://salute.regione.emilia-romagna.it/sicurezza-alimentare) | 🟡 |
 | GDPR / consenso & dati clienti | legale-privacy, security | 3 | Novita GDPR -> base legale del CRM | [garanteprivacy.it](https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/newsletter) · [garanteprivacy.it](https://www.garanteprivacy.it/regolamentoue) | 🟡 |
 | Regole rider/lavoro & packaging (plastic-free) | legale-privacy, operations | 1 | Nuove regole rider/packaging -> costi e reputazione sostenibile | [lavoro.gov.it](https://www.lavoro.gov.it/) · [mase.gov.it](https://www.mase.gov.it/) | 🟢 |
+
+## I miei negozi
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Salute del negozio-faro Garetti (vendite, stock, recensioni, soddisfazione titolare) | account-negozi, customer-success | 5 | Calo/insoddisfazione del faro -> intervento immediato | — | 🟡 |
+| Pipeline negozi prospect per categoria mancante (panetteria, macelleria, ortofrutta, pescheria, gastronomia, enoteca) | vendite | 5 | Categoria scoperta -> scouting mirato | [paginegialle.it](https://www.paginegialle.it/piacenza-pc/alimentari.html) · [google.com](https://www.google.com/maps/search/alimentari+piacenza+centro) | 🟢 |
+| Reputazione/recensioni dei singoli negozi (Google/social) | account-negozi, trust-safety | 3 | Recensione negativa di un negozio -> supporto reputazione | [google.com](https://www.google.com/maps/search/negozi+piacenza+centro) | 🟡 |
+| Stock e stagionalita del catalogo dei negozi | operations, vendite | 3 | Prodotti di stagione/festivita -> push catalogo | — | 🟢 |
+| Rischio churn dei negozi attivi (calo o 0 ordini) | account-negozi | 4 | Negozio in calo -> check-in di recupero | — | 🟡 |
+
+## I miei clienti
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Clienti VIP / top spender | customer-success, crm-lifecycle | 3 | Top client a rischio -> cura dedicata | — | 🟢 |
+| Coorti di clienti (retention per settimana di acquisizione) | analista, crm-lifecycle | 3 | Coorte che non torna -> win-back | — | 🟢 |
+| Personas specifiche (anziani soli, famiglie, studenti, professionisti) | analista, customer-success | 3 | Bisogno emergente -> offerta su misura | — | 🟢 |
+| Feedback/NPS dopo consegna | customer-success | 4 | Feedback negativo -> recupero + fix | — | 🟡 |
+| Comunita e gruppi locali (parrocchie, associazioni di quartiere, condomini, welfare aziendale) | marketing, crm-lifecycle | 3 | Nuova comunita -> canale di acquisizione | — | 🟢 |
+
+## Persone chiave & stakeholder
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Assessore Fornasari + giunta comunale (dichiarazioni, agenda) | relazioni-istituzionali | 5 | Dichiarazione/iniziativa -> aggancio o endorsement | [comune.piacenza.it](https://www.comune.piacenza.it/it/menu/news) | 🟡 |
+| Direttore e giornalisti di Liberta (chi e in carica) | pr-stampa | 4 | Cambio direttore/giornalista -> aggiorna contatti PR | [liberta.it](https://www.liberta.it/) | 🟡 |
+| Presidenti associazioni di categoria (Confcommercio/Confesercenti/CNA/Coldiretti PC) | relazioni-istituzionali | 4 | Presa di posizione -> alleanza | [unionecommerciantipc.it](https://www.unionecommerciantipc.it/) · [piacenza.cna.it](https://piacenza.cna.it/) · [piacenza.coldiretti.it](https://piacenza.coldiretti.it/) | 🟡 |
+| Influencer/food blogger locali di Piacenza | influencer-partnership | 3 | Creator rilevante -> partnership/barter | [ilpiacenza.it](https://www.ilpiacenza.it/cibotoday/) | 🟢 |
+| Il founder (Nicola): tempo/energia/bandwidth (single point of failure) | claude | 4 | Sovraccarico -> delega/priorita | — | 🟡 |
+| Rider e collaboratori: reclutamento, turni, soddisfazione | rider-fleet | 3 | Buco copertura/turnover -> reclutamento | — | 🟢 |
+
+## Partner & fornitori
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Stripe (pricing, policy, dispute, downtime) | finanza, devops-sre | 4 | Cambio policy/downtime -> impatto pagamenti | [stripe.com](https://stripe.com/connect/pricing) · [status.stripe.com](https://status.stripe.com/) | 🔴 |
+| Supabase (pricing, limiti, downtime, stato progetto) | devops-sre | 4 | Downtime/limite -> dati e memoria a rischio | [status.supabase.com](https://status.supabase.com/) · [supabase.com](https://supabase.com/pricing) | 🔴 |
+| Vercel (hosting pannello, build, costi) | devops-sre | 3 | Build rotto/costo -> fix deploy | [vercel-status.com](https://www.vercel-status.com/) | 🟢 |
+| Provider email/push (Resend, VAPID) deliverability/policy | builder-automazioni | 3 | Problema deliverability -> recapito a rischio | [resend-status.com](https://resend-status.com/) | 🟡 |
+| Fornitore cargo-bike / officina (manutenzione, costi, disponibilita) | operations, rider-fleet | 3 | Mezzo fermo -> piano B consegne | — | 🟢 |
+| Tipografia/stampa (QR, vetrofanie, sacchetti) costi/tempi | designer | 2 | Ritardo/costo stampa -> materiali ambassador | — | 🟢 |
+
+## Tecnologia & AI
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Nuovi modelli AI e prezzi (capacita/costo per i senior) | prompt-engineer | 3 | Modello migliore/piu economico -> aggiorna routing | [docs.anthropic.com](https://docs.anthropic.com/en/docs/about-claude/models) | 🟢 |
+| Costi/limiti del piano Max e delle API usate | prompt-engineer, finanza | 3 | Limite vicino -> sposta carichi/cadenza | — | 🟢 |
+| Vulnerabilita/sicurezza (CVE dipendenze, leak credenziali) | security | 4 | Vulnerabilita -> patch/rotazione chiavi | [github.com](https://github.com/advisories) | 🔴 |
+| Uptime/errori del sito e del pannello | devops-sre | 4 | Sito giu/errori -> alert + fix | [vercel-status.com](https://www.vercel-status.com/) | 🔴 |
+| Nuovi strumenti/automazioni utili (n8n, integrazioni, MCP) | builder-automazioni | 2 | Strumento utile -> prototipo | — | 🟢 |
+
+## Finanza, capitale & fisco
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Cash flow e runway (mesi di autonomia) | finanza | 5 | Runway che scende -> alert capitale | — | 🔴 |
+| Investitori/VC/business angel locali + acceleratori (CdC, ART-ER) | finanza, relazioni-istituzionali | 3 | Bando/acceleratore -> opportunita capitale | [imprese.regione.emilia-romagna.it](https://imprese.regione.emilia-romagna.it/) | 🟢 |
+| Scadenze fiscali e contabili (IVA, F24, dichiarazioni) | contabilita | 3 | Scadenza vicina -> adempimento | [agenziaentrate.gov.it](https://www.agenziaentrate.gov.it/portale/scadenze) | 🔴 |
+| Tassi BCE / costo del credito | finanza, intelligence | 2 | Variazione tassi -> costo capitale | [ecb.europa.eu](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html) | 🟢 |
+| Margini e unit economics per ordine (densita/fee) | finanza, analista | 4 | CM sotto soglia -> rivedi pricing/fee | — | 🟡 |
+
+## Legale & regolatorio
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Normativa e-commerce / diritto di recesso / resi | legale-privacy | 3 | Aggiornamento -> aggiorna TOS/flussi | — | 🟡 |
+| PSD2 / SCA / antiriciclaggio sui pagamenti | legale-privacy, security | 3 | Nuovo obbligo -> compliance checkout | — | 🟡 |
+| Riforma normativa rider / lavoro digitale | legale-privacy | 3 | Riforma -> impatto costi/contratti rider | [lavoro.gov.it](https://www.lavoro.gov.it/) | 🟡 |
+| Fatturazione elettronica / DAC7 / obblighi piattaforme | contabilita, legale-privacy | 3 | Obbligo piattaforma -> adempimento | [agenziaentrate.gov.it](https://www.agenziaentrate.gov.it/) | 🟡 |
+| Etichettatura alimentare / allergeni / richiami prodotti | legale-privacy, trust-safety | 3 | Richiamo prodotto -> rimozione + avviso | [salute.gov.it](https://www.salute.gov.it/portale/news/p3_2_3_1.jsp) | 🔴 |
+
+## Macro, ambiente & salute
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Inflazione alimentare e potere d acquisto | finanza, analista | 3 | Picco prezzi -> sensibilita scontrino | [istat.it](https://www.istat.it/it/prezzi) | 🟢 |
+| Costo energia/bollette dei negozi (margini venditori) | intelligence | 2 | Caro bollette -> stress sui negozi | — | 🟢 |
+| Stagione agricola / raccolti / qualita freschi DOP | intelligence, operations | 2 | Annata/qualita -> disponibilita freschi | — | 🟢 |
+| Ondate influenzali / allerte sanitarie (picchi consegna a casa) | analista, operations | 3 | Picco influenza -> piu domanda delivery | [epicentro.iss.it](https://www.epicentro.iss.it/influenza/flunews) | 🟢 |
+| Eventi climatici estremi / allerta meteo regionale | operations | 3 | Allerta -> piano consegne | [allertameteo.regione.emilia-romagna.it](https://allertameteo.regione.emilia-romagna.it/) | 🟡 |
+
+## Territorio, mobilita & digitale
+
+| Fattore | Senior | Peso | Cosa far scattare | Fonti | |
+|---|---|:--:|---|---|:--:|
+| Quartieri di Piacenza (densita, espansione zone servite) | operations, analista | 3 | Zona densa -> espansione cluster | — | 🟢 |
+| Cantieri/strade chiuse/ZTL temporanee/scioperi | operations | 3 | Strada chiusa -> rerouting consegne | [comune.piacenza.it](https://www.comune.piacenza.it/it/menu/news) | 🟡 |
+| Flussi universitari (Cattolica/Politecnico): calendario, alloggi | marketing, customer-success | 3 | Rientro studenti -> campagna | [piacenza.unicatt.it](https://piacenza.unicatt.it/) · [polimi.it](https://www.polimi.it/) | 🟢 |
+| Turismo e grandi eventi in citta (afflusso) | intelligence | 2 | Grande evento -> domanda extra | — | 🟢 |
+| Trend food/spesa su TikTok/IG/Google Trends | content-social, seo | 3 | Trend cavalcabile -> contenuto | [trends.google.it](https://trends.google.it/trends/) | 🟢 |
+| Recensioni e rating di MyCity (store/social/passaparola) | trust-safety, customer-success | 4 | Recensione MyCity -> risposta/fix | — | 🟡 |
+| SEO/posizionamento Google e Maps per query locali | seo | 3 | Calo ranking -> ottimizzazione | [trends.google.it](https://trends.google.it/trends/) | 🟢 |
+| Concorrenza indiretta (meal kit, ristorazione delivery, GAS, mercati contadini online, Too Good To Go) | intelligence, growth-monetizzazione | 3 | Nuovo sostituto -> contro-posizionamento | [toogoodtogo.com](https://www.toogoodtogo.com/it) | 🟢 |
 
 ---
 
