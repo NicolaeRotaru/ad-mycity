@@ -32,7 +32,7 @@ export default function NumeriReport() {
 
   const [trend, setTrend] = useState<{ collegato: boolean; serie: Punto[]; proiezione?: { ordini_mese: number; incasso_mese: number } } | null>(null);
   const [unit, setUnit] = useState<any>(null);
-  const [report, setReport] = useState<{ collegato: boolean; elenco: string[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
+  const [report, setReport] = useState<{ collegato: boolean; elenco: { nome: string; data?: string }[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
   const [accodato, setAccodato] = useState<string | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
@@ -178,8 +178,8 @@ export default function NumeriReport() {
           {report?.elenco && report.elenco.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {report.elenco.slice(0, 8).map((r) => (
-                <span key={r} className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded bg-paper/60 text-black/55">
-                  <Download size={11} /> {r}
+                <span key={r.nome} className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded bg-paper/60 text-black/55">
+                  <Download size={11} /> {r.data ? dataVault(r.data) : r.nome}
                 </span>
               ))}
             </div>
