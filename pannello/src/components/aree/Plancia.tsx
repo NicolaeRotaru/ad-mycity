@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock } from "lucide-react";
 import { formatta, testoPulito, type Tipo } from "@/lib/format";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
@@ -11,6 +11,7 @@ import { formatta, testoPulito, type Tipo } from "@/lib/format";
 type Azione = { numero: string; reparto: string; azione: string; livello: string; inAttesa: boolean };
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
+type Voce = { data: string; testo: string } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
   { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n", icon: <Package size={14} /> },
@@ -37,11 +38,13 @@ export default function Plancia({
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [todo, setTodo] = useState<Todo[]>([]);
+  const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
 
   useEffect(() => {
     fetch("/api/memoria/azioni").then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
     fetch("/api/alert").then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
     fetch("/api/memoria/todo").then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
+    fetch("/api/ritmo").then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
   }, []);
 
   const daFirmare = azioni.filter((a) => a.inAttesa);
@@ -154,6 +157,34 @@ export default function Plancia({
           <p className="t-eti">Appena l'AD fa il suo giro (ogni ora), il riassunto compare qui.</p>
         )}
       </section>
+
+      {/* Ritmo del giorno: Piano del mattino / Report della sera */}
+      {(ritmo.pianoMattino || ritmo.reportSera) && (
+        <section className="card p-4">
+          <div className="sez-head mb-3">
+            <span className="sez-ico"><Clock size={16} /></span>
+            <span className="t-sez">Ritmo del giorno</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${ritmo.pianoMattino.data}` : ""}</div>
+              {ritmo.pianoMattino ? (
+                <p className="t-corpo whitespace-pre-wrap">{ritmo.pianoMattino.testo}</p>
+              ) : (
+                <p className="t-eti">Non ancora scritto oggi.</p>
+              )}
+            </div>
+            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${ritmo.reportSera.data}` : ""}</div>
+              {ritmo.reportSera ? (
+                <p className="t-corpo whitespace-pre-wrap">{ritmo.reportSera.testo}</p>
+              ) : (
+                <p className="t-eti">Non ancora scritto oggi.</p>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
