@@ -1,0 +1,2 @@
+# 🧠 Quaderno — relazioni-istituzionali
+2026-06-25 · Piano Istituzionale scritto · Bando Commercio ER 40% sportello APERTO 23/06→21/07/2026 (~26gg residui oggi): finestra più stretta e più sfruttabile come arma di vendita · sequenza enti: Vita in Centro→Hub Urbano→Fornasari→CdC/associazioni→Coldiretti (operativo prima, reach di massa dopo) · lezione: ogni contatto reale = 🔴 firma Nicola; mai promettere esito bando · #istituzionale #bandi

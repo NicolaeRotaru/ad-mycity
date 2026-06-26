@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, Fragment } from "react";
 import {
   Send,
   Loader2,
   Wrench,
-  RefreshCw,
   Activity,
   TrendingUp,
   CheckCircle2,
@@ -15,15 +14,12 @@ import {
   UserPlus,
   Users,
   Store,
-  Bike,
   AlertTriangle,
   Percent,
   BarChart3,
   Eye,
   ShoppingCart,
   UserMinus,
-  Clock,
-  Star,
   Trash2,
   History,
   Copy,
@@ -32,11 +28,78 @@ import {
   Plus,
   MessagesSquare,
   Layers,
+  Home,
+  Mic,
+  Mail,
+  Target,
+  Globe,
+  Instagram,
+  Wallet,
+  MousePointer,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  Star,
+  Truck,
+  Bike,
+  Timer,
+  MapPin,
+  Banknote,
+  RotateCcw,
+  ShieldAlert,
+  PiggyBank,
+  Repeat,
+  Smile,
+  Headphones,
+  Gift,
+  HandCoins,
+  TrendingDown,
+  Boxes,
+  PackageX,
+  Tags,
+  Moon,
+  ThumbsUp,
+  CalendarClock,
+  Scale,
+  FlaskConical,
+  ArrowUpRight,
+  Coins,
+  Filter,
+  MessageSquare,
+  Search,
+  Heart,
+  Share2,
+  Video,
+  Newspaper,
+  Megaphone,
+  Handshake,
+  Building2,
+  UserX,
+  ShieldCheck,
+  FileCheck,
+  Lock,
+  Server,
+  Gauge,
+  Bug,
+  Rocket,
+  Workflow,
+  Zap,
+  Plug,
+  Cpu,
+  Swords,
+  CalendarDays,
+  Lightbulb,
+  Award,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import MemoriaViva from "@/components/MemoriaViva";
+import GovernoAD from "@/components/GovernoAD";
+import RicercaGlobale from "@/components/RicercaGlobale";
+import Intelligence from "@/components/Intelligence";
+import NumeriReport from "@/components/NumeriReport";
+import Comandi from "@/components/Comandi";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -130,34 +193,328 @@ const COLORI: Record<Livello, string> = {
   rosso: "border-red-300 bg-red-50 text-red-800",
 };
 
-// Le 16 metriche piu' importanti per un marketplace di consegne (cockpit completo).
-// "chiave" = campo restituito da /api/metriche; senza chiave = fonte non ancora
-// collegata (es. PostHog). "tipo" = come formattare il numero.
+// Il cockpit "I numeri di oggi": 30 dati Marketplace + 30 dati Marketing.
+// Ogni KPI è una RIGA con tre finestre: oggi / 7 giorni / 30 giorni
+// (10 KPI × 3 = 30 dati per blocco). Ogni finestra ha una "chiave" = campo di
+// /api/metriche; senza chiave la cella è "—" (fonte ancora da collegare).
 type Tipo = "n" | "euro" | "durata" | "stelle" | "perc";
-const METRICHE: {
+type Kpi = {
   icon: React.ReactNode;
   label: string;
   fonte: string;
-  chiave?: string;
   tipo?: Tipo;
-}[] = [
-  { icon: <Package size={16} />, label: "Ordini oggi", fonte: "mycity", chiave: "ordini_oggi", tipo: "n" },
-  { icon: <BarChart3 size={16} />, label: "Ordini 7 giorni", fonte: "mycity", chiave: "ordini_7g", tipo: "n" },
-  { icon: <Euro size={16} />, label: "Incasso oggi", fonte: "mycity", chiave: "incasso_oggi", tipo: "euro" },
-  { icon: <TrendingUp size={16} />, label: "Incasso 7 giorni", fonte: "mycity", chiave: "incasso_7g", tipo: "euro" },
-  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "mycity", chiave: "scontrino_medio", tipo: "euro" },
-  { icon: <Eye size={16} />, label: "Visite sito (7gg)", fonte: "PostHog", chiave: "visite_7g", tipo: "n" },
-  { icon: <Percent size={16} />, label: "Conversione", fonte: "PostHog", chiave: "conversione", tipo: "perc" },
-  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "mycity", chiave: "carrelli", tipo: "n" },
-  { icon: <UserPlus size={16} />, label: "Nuovi clienti (7gg)", fonte: "mycity", chiave: "nuovi_clienti_7g", tipo: "n" },
-  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "mycity", chiave: "clienti", tipo: "n" },
-  { icon: <UserMinus size={16} />, label: "Clienti dormienti", fonte: "mycity", chiave: "clienti_dormienti", tipo: "n" },
-  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "mycity", chiave: "negozi", tipo: "n" },
-  { icon: <Bike size={16} />, label: "Consegne in corso", fonte: "mycity", chiave: "consegne_in_corso", tipo: "n" },
-  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "mycity", chiave: "tempo_consegna_min", tipo: "durata" },
-  { icon: <AlertTriangle size={16} />, label: "Problemi / ritardi", fonte: "mycity", chiave: "problemi", tipo: "n" },
-  { icon: <Star size={16} />, label: "Recensione media", fonte: "mycity", chiave: "recensione_media", tipo: "stelle" },
+  oggi?: string; // chiave finestra "oggi"
+  sett?: string; // chiave finestra "7 giorni"
+  mese?: string; // chiave finestra "30 giorni"
+  valore?: string; // chiave per i dati "snapshot" (foto di adesso, una sola cifra)
+};
+
+// === 30 DATI MARKETPLACE — 10 KPI × (oggi/7g/30g), tutti dal DB ===
+const MARKETPLACE_KPI: Kpi[] = [
+  { icon: <Package size={16} />, label: "Ordini", fonte: "mycity", tipo: "n", oggi: "ordini_oggi", sett: "ordini_7g", mese: "ordini_30g" },
+  { icon: <Euro size={16} />, label: "Incasso (GMV)", fonte: "mycity", tipo: "euro", oggi: "incasso_oggi", sett: "incasso_7g", mese: "incasso_30g" },
+  { icon: <Receipt size={16} />, label: "Scontrino medio", fonte: "mycity", tipo: "euro", oggi: "scontrino_oggi", sett: "scontrino_7g", mese: "scontrino_30g" },
+  { icon: <UserPlus size={16} />, label: "Nuovi clienti", fonte: "mycity", tipo: "n", oggi: "nuovi_clienti_oggi", sett: "nuovi_clienti_7g", mese: "nuovi_clienti_30g" },
+  { icon: <Users size={16} />, label: "Clienti attivi", fonte: "mycity", tipo: "n", oggi: "clienti_attivi_oggi", sett: "clienti_attivi_7g", mese: "clienti_attivi_30g" },
+  { icon: <CheckCircle2 size={16} />, label: "Consegne completate", fonte: "mycity", tipo: "n", oggi: "consegne_oggi", sett: "consegne_7g", mese: "consegne_30g" },
+  { icon: <AlertTriangle size={16} />, label: "Ordini annullati", fonte: "mycity", tipo: "n", oggi: "annullati_oggi", sett: "annullati_7g", mese: "annullati_30g" },
+  { icon: <ShoppingCart size={16} />, label: "Carrelli abbandonati", fonte: "mycity", tipo: "n", oggi: "carrelli_oggi", sett: "carrelli_7g", mese: "carrelli_30g" },
+  { icon: <UserMinus size={16} />, label: "Carrelli recuperati", fonte: "mycity", tipo: "n", oggi: "carrelli_recuperati_oggi", sett: "carrelli_recuperati_7g", mese: "carrelli_recuperati_30g" },
+  { icon: <Store size={16} />, label: "Nuovi negozi", fonte: "mycity", tipo: "n", oggi: "nuovi_negozi_oggi", sett: "nuovi_negozi_7g", mese: "nuovi_negozi_30g" },
 ];
+
+// === PUBBLICITÀ (ADS) === — Meta/Google/TikTok Ads
+const ADS_KPI: Kpi[] = [
+  { icon: <Wallet size={16} />, label: "Spesa ads", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <Target size={16} />, label: "ROAS", fonte: "Meta/Google Ads", tipo: "n" },
+  { icon: <Receipt size={16} />, label: "CPA (costo/acquisizione)", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <MousePointer size={16} />, label: "CPC (costo/click)", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <MousePointer size={16} />, label: "Click ads", fonte: "Meta/Google Ads", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Impression ads", fonte: "Meta/Google Ads", tipo: "n" },
+];
+
+// === SEO & TRAFFICO === — "Visite sito" arriva già da PostHog
+const SEO_KPI: Kpi[] = [
+  { icon: <Globe size={16} />, label: "Visite sito", fonte: "PostHog/GA4", tipo: "n", sett: "visite_7g" },
+  { icon: <Users size={16} />, label: "Visitatori unici", fonte: "PostHog/GA4", tipo: "n" },
+  { icon: <Search size={16} />, label: "Posizione media Google", fonte: "Search Console", tipo: "n" },
+  { icon: <Award size={16} />, label: "Keyword in top 10", fonte: "Search Console", tipo: "n" },
+  { icon: <MousePointer size={16} />, label: "Click da Google", fonte: "Search Console", tipo: "n" },
+  { icon: <MapPin size={16} />, label: "Visite scheda Google", fonte: "Google Business", tipo: "n" },
+];
+
+// === SOCIAL & CONTENUTI ===
+const SOCIAL_KPI: Kpi[] = [
+  { icon: <Instagram size={16} />, label: "Follower", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <TrendingUp size={16} />, label: "Nuovi follower", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <Heart size={16} />, label: "Engagement", fonte: "IG/Facebook", tipo: "perc" },
+  { icon: <Share2 size={16} />, label: "Reach / copertura", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <FileText size={16} />, label: "Post pubblicati", fonte: "content", tipo: "n" },
+  { icon: <Video size={16} />, label: "Visualizzazioni reel", fonte: "IG/TikTok", tipo: "n" },
+];
+
+// === STAMPA, PARTNERSHIP & ISTITUZIONI ===
+const PR_KPI: Kpi[] = [
+  { icon: <Newspaper size={16} />, label: "Uscite stampa", fonte: "PR", tipo: "n" },
+  { icon: <Megaphone size={16} />, label: "Menzioni / earned reach", fonte: "PR", tipo: "n" },
+  { icon: <Handshake size={16} />, label: "Influencer attivi", fonte: "partnership", tipo: "n" },
+  { icon: <Gift size={16} />, label: "Conversioni da partner", fonte: "partnership", tipo: "n" },
+  { icon: <Award size={16} />, label: "Bandi attivi / vinti", fonte: "ist. relazioni", tipo: "n" },
+  { icon: <Building2 size={16} />, label: "Partner istituzionali", fonte: "ist. relazioni", tipo: "n" },
+];
+
+// === SALUTE ADESSO — foto istantanea dell'azienda, tutta da dati REALI del DB ===
+// Sono cifre "snapshot" (una sola finestra: adesso), già collegate al marketplace.
+const SALUTE_KPI: Kpi[] = [
+  { icon: <Users size={16} />, label: "Clienti totali", fonte: "mycity", tipo: "n", valore: "clienti" },
+  { icon: <Store size={16} />, label: "Negozi attivi", fonte: "mycity", tipo: "n", valore: "negozi" },
+  { icon: <Truck size={16} />, label: "Consegne in corso", fonte: "mycity", tipo: "n", valore: "consegne_in_corso" },
+  { icon: <Clock size={16} />, label: "Tempo medio consegna", fonte: "mycity", tipo: "durata", valore: "tempo_consegna_min" },
+  { icon: <Star size={16} />, label: "Recensione media", fonte: "mycity", tipo: "stelle", valore: "recensione_media" },
+  { icon: <ThumbsUp size={16} />, label: "Recensioni totali", fonte: "mycity", tipo: "n", valore: "recensioni_totali" },
+  { icon: <ShoppingCart size={16} />, label: "Carrelli attivi", fonte: "mycity", tipo: "n", valore: "carrelli" },
+  { icon: <Moon size={16} />, label: "Clienti dormienti (>30g)", fonte: "mycity", tipo: "n", valore: "clienti_dormienti" },
+  { icon: <AlertTriangle size={16} />, label: "Ordini con problemi", fonte: "mycity", tipo: "n", valore: "problemi" },
+];
+
+// === CONSEGNE & PUNTUALITÀ === — qualità del servizio di consegna
+const CONSEGNE_KPI: Kpi[] = [
+  { icon: <CheckCircle2 size={16} />, label: "Consegne puntuali", fonte: "tracking consegne", tipo: "perc" },
+  { icon: <Clock size={16} />, label: "Consegne in ritardo", fonte: "tracking consegne", tipo: "n" },
+  { icon: <Timer size={16} />, label: "Tempo medio preparazione", fonte: "negozi/POS", tipo: "durata" },
+  { icon: <Truck size={16} />, label: "Tempo medio consegna", fonte: "tracking consegne", tipo: "durata" },
+  { icon: <RotateCcw size={16} />, label: "Consegne contestate", fonte: "tracking consegne", tipo: "n" },
+  { icon: <MapPin size={16} />, label: "Distanza media", fonte: "tracking consegne", tipo: "n" },
+];
+
+// === RIDER & FLOTTA === — chi consegna e a che costo
+const RIDER_KPI: Kpi[] = [
+  { icon: <Bike size={16} />, label: "Rider attivi", fonte: "flotta rider", tipo: "n" },
+  { icon: <Users size={16} />, label: "Turni coperti", fonte: "flotta rider", tipo: "perc" },
+  { icon: <Truck size={16} />, label: "Ordini per rider", fonte: "flotta rider", tipo: "n" },
+  { icon: <Euro size={16} />, label: "Costo medio consegna", fonte: "flotta rider", tipo: "euro" },
+  { icon: <MapPin size={16} />, label: "Zone scoperte", fonte: "flotta rider", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo medio per giro", fonte: "flotta rider", tipo: "durata" },
+];
+
+// === FINANZA & MARGINI — 8 KPI × 3 finestre ===
+// Si accendono quando colleghi Stripe/payout e i costi.
+const FINANZA_KPI: Kpi[] = [
+  { icon: <Percent size={16} />, label: "Ricavo piattaforma (commissioni)", fonte: "Stripe/ordini", tipo: "euro" },
+  { icon: <TrendingUp size={16} />, label: "Margine medio / ordine", fonte: "Stripe/costi", tipo: "euro" },
+  { icon: <Banknote size={16} />, label: "Payout ai negozi", fonte: "Stripe", tipo: "euro" },
+  { icon: <RotateCcw size={16} />, label: "Rimborsi", fonte: "Stripe", tipo: "euro" },
+  { icon: <ShieldAlert size={16} />, label: "Chargeback / dispute", fonte: "Stripe", tipo: "n" },
+  { icon: <Truck size={16} />, label: "Costo consegne", fonte: "flotta rider", tipo: "euro" },
+  { icon: <Receipt size={16} />, label: "IVA stimata", fonte: "contabilità", tipo: "euro" },
+  { icon: <PiggyBank size={16} />, label: "Incasso netto", fonte: "Stripe/costi", tipo: "euro" },
+];
+
+// === CLIENTI & RETENTION (CRM) === — far tornare e fidelizzare i clienti
+const CLIENTI_KPI: Kpi[] = [
+  { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc" },
+  { icon: <UserMinus size={16} />, label: "Churn clienti", fonte: "ordini", tipo: "perc" },
+  { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro" },
+  { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n" },
+  { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Apertura email", fonte: "Resend", tipo: "perc" },
+  { icon: <RotateCcw size={16} />, label: "Win-back recuperati", fonte: "CRM", tipo: "n" },
+  { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n" },
+];
+
+// === NEGOZI & CATALOGO — 8 KPI × 3 finestre ===
+// Si accendono quando colleghi catalogo prodotti e health dei negozi.
+const NEGOZI_KPI: Kpi[] = [
+  { icon: <TrendingDown size={16} />, label: "Negozi in calo", fonte: "ordini", tipo: "n" },
+  { icon: <Boxes size={16} />, label: "Prodotti a catalogo", fonte: "catalogo", tipo: "n" },
+  { icon: <PackageX size={16} />, label: "Prodotti esauriti", fonte: "catalogo", tipo: "n" },
+  { icon: <Store size={16} />, label: "Negozi senza ordini", fonte: "ordini", tipo: "n" },
+  { icon: <Tags size={16} />, label: "Categorie coperte", fonte: "catalogo", tipo: "n" },
+  { icon: <Star size={16} />, label: "Recensione media negozi", fonte: "recensioni", tipo: "stelle" },
+  { icon: <Clock size={16} />, label: "Tempo risposta negozio", fonte: "messaggi", tipo: "durata" },
+  { icon: <UserPlus size={16} />, label: "Negozi in onboarding", fonte: "vendite", tipo: "n" },
+];
+
+// === CONTABILITÀ & FISCO ===
+const CONTABILITA_KPI: Kpi[] = [
+  { icon: <FileText size={16} />, label: "Fatture emesse", fonte: "contabilità", tipo: "n" },
+  { icon: <Receipt size={16} />, label: "Fatturato imponibile", fonte: "contabilità", tipo: "euro" },
+  { icon: <Percent size={16} />, label: "IVA da versare", fonte: "contabilità", tipo: "euro" },
+  { icon: <Banknote size={16} />, label: "Payout riconciliati", fonte: "Stripe/contabilità", tipo: "perc" },
+  { icon: <RotateCcw size={16} />, label: "Note di credito", fonte: "contabilità", tipo: "n" },
+  { icon: <CalendarClock size={16} />, label: "Scadenze fiscali", fonte: "contabilità", tipo: "n" },
+];
+
+// === GROWTH & MONETIZZAZIONE === — esperimenti per fare più soldi
+const GROWTH_KPI: Kpi[] = [
+  { icon: <FlaskConical size={16} />, label: "Esperimenti attivi", fonte: "growth", tipo: "n" },
+  { icon: <ArrowUpRight size={16} />, label: "Uplift ricavo", fonte: "growth", tipo: "perc" },
+  { icon: <TrendingUp size={16} />, label: "Tasso upsell", fonte: "ordini", tipo: "perc" },
+  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro" },
+  { icon: <Receipt size={16} />, label: "Scontrino post-upsell", fonte: "ordini", tipo: "euro" },
+  { icon: <Truck size={16} />, label: "Uso soglia spedizione gratis", fonte: "ordini", tipo: "perc" },
+];
+
+// === CONVERSIONE & FUNNEL (CRO) === — "Conversione sito" arriva già da PostHog
+const CRO_KPI: Kpi[] = [
+  { icon: <Percent size={16} />, label: "Conversione sito", fonte: "PostHog/GA4", tipo: "perc", sett: "conversione" },
+  { icon: <ShoppingCart size={16} />, label: "Add to cart", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <Filter size={16} />, label: "Abbandono carrello", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <Filter size={16} />, label: "Abbandono checkout", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <FlaskConical size={16} />, label: "A/B test attivi", fonte: "CRO", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo al checkout", fonte: "PostHog/GA4", tipo: "durata" },
+];
+
+// === SUPPORTO & SODDISFAZIONE ===
+const SUPPORTO_KPI: Kpi[] = [
+  { icon: <MessageSquare size={16} />, label: "Ticket aperti", fonte: "supporto", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo prima risposta", fonte: "supporto", tipo: "durata" },
+  { icon: <Timer size={16} />, label: "Tempo di risoluzione", fonte: "supporto", tipo: "durata" },
+  { icon: <Smile size={16} />, label: "Soddisfazione (CSAT)", fonte: "supporto", tipo: "perc" },
+  { icon: <ThumbsUp size={16} />, label: "NPS", fonte: "sondaggi", tipo: "n" },
+  { icon: <Headphones size={16} />, label: "Reclami aperti", fonte: "supporto", tipo: "n" },
+];
+
+// === FIDUCIA & SICUREZZA === — frodi, abusi, protezione dati
+const TRUST_KPI: Kpi[] = [
+  { icon: <ShieldAlert size={16} />, label: "Frodi bloccate", fonte: "trust&safety", tipo: "n" },
+  { icon: <Star size={16} />, label: "Recensioni false rimosse", fonte: "trust&safety", tipo: "n" },
+  { icon: <UserX size={16} />, label: "Account sospesi", fonte: "trust&safety", tipo: "n" },
+  { icon: <ShieldAlert size={16} />, label: "Dispute vinte", fonte: "Stripe", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "Segnalazioni aperte", fonte: "trust&safety", tipo: "n" },
+  { icon: <ShieldCheck size={16} />, label: "Incidenti sicurezza", fonte: "security", tipo: "n" },
+];
+
+// === LEGALE & PRIVACY ===
+const LEGALE_KPI: Kpi[] = [
+  { icon: <FileCheck size={16} />, label: "Contratti firmati", fonte: "legale", tipo: "n" },
+  { icon: <Lock size={16} />, label: "Consensi GDPR", fonte: "legale/privacy", tipo: "perc" },
+  { icon: <ShieldCheck size={16} />, label: "HACCP a norma", fonte: "legale", tipo: "perc" },
+  { icon: <CalendarClock size={16} />, label: "Scadenze documenti", fonte: "legale", tipo: "n" },
+  { icon: <Scale size={16} />, label: "Richieste GDPR aperte", fonte: "privacy", tipo: "n" },
+  { icon: <FileText size={16} />, label: "Negozi senza contratto", fonte: "legale", tipo: "n" },
+];
+
+// === TECH & AFFIDABILITÀ SITO ===
+const TECH_KPI: Kpi[] = [
+  { icon: <Server size={16} />, label: "Uptime", fonte: "Render/monitor", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "Errori in produzione", fonte: "Render/Sentry", tipo: "n" },
+  { icon: <Gauge size={16} />, label: "Velocità (LCP)", fonte: "Web Vitals", tipo: "durata" },
+  { icon: <Bug size={16} />, label: "Bug aperti", fonte: "tech", tipo: "n" },
+  { icon: <Rocket size={16} />, label: "Deploy", fonte: "CI/Render", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Core Web Vitals ok", fonte: "Web Vitals", tipo: "perc" },
+];
+
+// === AUTOMAZIONI & STRUMENTI ===
+const AUTOMAZIONI_KPI: Kpi[] = [
+  { icon: <Workflow size={16} />, label: "Flussi attivi", fonte: "n8n", tipo: "n" },
+  { icon: <Zap size={16} />, label: "Esecuzioni / giorno", fonte: "n8n", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Ore risparmiate", fonte: "n8n", tipo: "n" },
+  { icon: <Plug size={16} />, label: "Integrazioni (MCP)", fonte: "builder", tipo: "n" },
+  { icon: <AlertTriangle size={16} />, label: "Errori automazioni", fonte: "n8n", tipo: "n" },
+  { icon: <Cpu size={16} />, label: "Costo AI / mese", fonte: "builder", tipo: "euro" },
+];
+
+// === MERCATO & CONCORRENZA === — il mondo fuori che ci influenza
+const MERCATO_KPI: Kpi[] = [
+  { icon: <Swords size={16} />, label: "Concorrenti monitorati", fonte: "intelligence", tipo: "n" },
+  { icon: <Euro size={16} />, label: "Prezzo medio mercato", fonte: "intelligence", tipo: "euro" },
+  { icon: <Award size={16} />, label: "Quota di mercato stimata", fonte: "intelligence", tipo: "perc" },
+  { icon: <CalendarDays size={16} />, label: "Eventi in arrivo", fonte: "intelligence", tipo: "n" },
+  { icon: <Lightbulb size={16} />, label: "Opportunità aperte", fonte: "intelligence", tipo: "n" },
+  { icon: <TrendingUp size={16} />, label: "Trend in salita", fonte: "intelligence", tipo: "n" },
+];
+
+// === AZIENDA & SQUADRA === — la salute dell'impresa dietro MyCity
+const AZIENDA_KPI: Kpi[] = [
+  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro" },
+  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n" },
+  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro" },
+  { icon: <TrendingDown size={16} />, label: "Burn mensile", fonte: "finanza", tipo: "euro" },
+  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n" },
+  { icon: <Percent size={16} />, label: "Margine operativo", fonte: "finanza", tipo: "perc" },
+];
+
+// === OBIETTIVI & GOVERNANCE === — come gira la macchina (AD + squadra)
+const GOVERNANCE_KPI: Kpi[] = [
+  { icon: <Target size={16} />, label: "OKR a target", fonte: "OKR-Squadra", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "KPI in allarme", fonte: "sentinelle", tipo: "n" },
+  { icon: <CheckCircle2 size={16} />, label: "Decisioni prese", fonte: "memoria AI", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Azioni in attesa di firma", fonte: "memoria AI", tipo: "n" },
+  { icon: <History size={16} />, label: "Giri/report fatti", fonte: "memoria AI", tipo: "n" },
+  { icon: <Users size={16} />, label: "Senior attivi", fonte: "squadra", tipo: "n" },
+];
+
+// Lista piatta (KPI × finestra) per il generatore di prompt per Max.
+const ALL_METRICHE: { label: string; periodo: string; chiave?: string; tipo?: Tipo }[] = [
+  ...[
+    ...MARKETPLACE_KPI,
+    ...FINANZA_KPI,
+    ...CONTABILITA_KPI,
+    ...GROWTH_KPI,
+    ...CLIENTI_KPI,
+    ...CRO_KPI,
+    ...SUPPORTO_KPI,
+    ...NEGOZI_KPI,
+    ...ADS_KPI,
+    ...SEO_KPI,
+    ...SOCIAL_KPI,
+    ...PR_KPI,
+    ...CONSEGNE_KPI,
+    ...RIDER_KPI,
+    ...TRUST_KPI,
+    ...LEGALE_KPI,
+    ...TECH_KPI,
+    ...AUTOMAZIONI_KPI,
+    ...MERCATO_KPI,
+    ...AZIENDA_KPI,
+    ...GOVERNANCE_KPI,
+  ].flatMap((k) => [
+    { label: k.label, periodo: "oggi", chiave: k.oggi, tipo: k.tipo },
+    { label: k.label, periodo: "7 giorni", chiave: k.sett, tipo: k.tipo },
+    { label: k.label, periodo: "30 giorni", chiave: k.mese, tipo: k.tipo },
+  ]),
+  ...SALUTE_KPI.map((k) => ({ label: k.label, periodo: "adesso", chiave: k.valore, tipo: k.tipo })),
+];
+
+// Le categorie del cockpit "I numeri di oggi", in ordine e raggruppate per
+// macro-area (gruppo). Coprono TUTTE le sfere che riguardano e influenzano
+// MyCity e l'azienda. Ognuna è una tendina.
+type CategoriaNum = { gruppo: string; emoji: string; titolo: string; sottotitolo: string; kpis: Kpi[]; snapshot?: boolean };
+const CATEGORIE_NUMERI: CategoriaNum[] = [
+  // — Panoramica
+  { gruppo: "Panoramica", emoji: "🩺", titolo: "Salute adesso", sottotitolo: "La foto dell'azienda in questo momento — già collegata ai dati reali.", kpis: SALUTE_KPI, snapshot: true },
+  // — Soldi & vendite
+  { gruppo: "Soldi & vendite", emoji: "📦", titolo: "Marketplace", sottotitolo: "Ordini, incassi, clienti, carrelli, consegne e negozi.", kpis: MARKETPLACE_KPI },
+  { gruppo: "Soldi & vendite", emoji: "💶", titolo: "Finanza & margini", sottotitolo: "Commissioni, margini, payout, rimborsi e incasso netto — con Stripe e i costi.", kpis: FINANZA_KPI },
+  { gruppo: "Soldi & vendite", emoji: "🧾", titolo: "Contabilità & fisco", sottotitolo: "Fatture, IVA, riconciliazioni e scadenze fiscali.", kpis: CONTABILITA_KPI },
+  { gruppo: "Soldi & vendite", emoji: "🚀", titolo: "Growth & monetizzazione", sottotitolo: "Esperimenti, upsell, fee e leve per aumentare i ricavi.", kpis: GROWTH_KPI },
+  // — Clienti & domanda
+  { gruppo: "Clienti & domanda", emoji: "🤝", titolo: "Clienti & retention (CRM)", sottotitolo: "Riordino, churn, valore cliente, email e referral.", kpis: CLIENTI_KPI },
+  { gruppo: "Clienti & domanda", emoji: "🛒", titolo: "Conversione & funnel", sottotitolo: "Conversione, carrello/checkout, A/B test — con PostHog/GA4.", kpis: CRO_KPI },
+  { gruppo: "Clienti & domanda", emoji: "🎧", titolo: "Supporto & soddisfazione", sottotitolo: "Ticket, tempi di risposta, CSAT, NPS e reclami.", kpis: SUPPORTO_KPI },
+  // — Offerta
+  { gruppo: "Offerta", emoji: "🏪", titolo: "Negozi & catalogo", sottotitolo: "Negozi in calo, prodotti, esauriti e categorie — con catalogo e health negozi.", kpis: NEGOZI_KPI },
+  // — Acquisizione & voce
+  { gruppo: "Acquisizione & voce", emoji: "📢", titolo: "Pubblicità (Ads)", sottotitolo: "Spesa, ROAS, CPA, click e impression — con Meta/Google/TikTok Ads.", kpis: ADS_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "🔍", titolo: "SEO & traffico", sottotitolo: "Visite, posizionamento Google e scheda Business.", kpis: SEO_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "📱", titolo: "Social & contenuti", sottotitolo: "Follower, engagement, reach, post e reel.", kpis: SOCIAL_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "🗞️", titolo: "Stampa, partnership & istituzioni", sottotitolo: "Uscite stampa, influencer, bandi e alleanze locali.", kpis: PR_KPI },
+  // — Operazioni & consegne
+  { gruppo: "Operazioni & consegne", emoji: "🛵", titolo: "Consegne & puntualità", sottotitolo: "Puntualità, ritardi, tempi di preparazione e consegna.", kpis: CONSEGNE_KPI },
+  { gruppo: "Operazioni & consegne", emoji: "🚴", titolo: "Rider & flotta", sottotitolo: "Rider attivi, turni, ordini per rider, costo e zone scoperte.", kpis: RIDER_KPI },
+  // — Fondamenta
+  { gruppo: "Fondamenta", emoji: "🛡️", titolo: "Fiducia & sicurezza", sottotitolo: "Frodi, recensioni false, account sospesi, dispute e sicurezza.", kpis: TRUST_KPI },
+  { gruppo: "Fondamenta", emoji: "⚖️", titolo: "Legale & privacy", sottotitolo: "Contratti, consensi GDPR, HACCP e scadenze documenti.", kpis: LEGALE_KPI },
+  { gruppo: "Fondamenta", emoji: "🛠️", titolo: "Tech & affidabilità", sottotitolo: "Uptime, errori in produzione, velocità e bug del sito.", kpis: TECH_KPI },
+  { gruppo: "Fondamenta", emoji: "🤖", titolo: "Automazioni & strumenti", sottotitolo: "Flussi n8n, esecuzioni, ore risparmiate e integrazioni (MCP).", kpis: AUTOMAZIONI_KPI },
+  { gruppo: "Fondamenta", emoji: "🔎", titolo: "Mercato & concorrenza", sottotitolo: "Concorrenti, prezzi, quota, eventi e opportunità di mercato.", kpis: MERCATO_KPI },
+  // — Azienda
+  { gruppo: "Azienda", emoji: "🏢", titolo: "Azienda & squadra", sottotitolo: "Cassa, runway, costi fissi, break-even e margine operativo.", kpis: AZIENDA_KPI },
+  { gruppo: "Azienda", emoji: "🎯", titolo: "Obiettivi & governance", sottotitolo: "OKR, allarmi, decisioni, azioni in attesa e ritmo della squadra.", kpis: GOVERNANCE_KPI },
+];
+// Aperte di default: i due blocchi con più dati reali.
+const NUM_DEFAULT_APERTE = ["Salute adesso", "Marketplace"];
 
 function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";
@@ -185,12 +542,25 @@ function fa(iso: string | null): string {
 }
 
 export default function Dashboard() {
+  const [vista, setVista] = useState<"oggi" | "assistente" | "storico">("oggi");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [giri, setGiri] = useState(0);
-  const [aggiornando, setAggiornando] = useState(false);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
+  // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
+  // (i dati reali subito sott'occhio); le altre chiuse → meno scroll.
+  const [catAperte, setCatAperte] = useState<Set<string>>(() => new Set(NUM_DEFAULT_APERTE));
+  const toggleCat = (t: string) =>
+    setCatAperte((s) => {
+      const n = new Set(s);
+      if (n.has(t)) n.delete(t);
+      else n.add(t);
+      return n;
+    });
+  const tutteCatAperte = catAperte.size === CATEGORIE_NUMERI.length;
+  const toggleTutteCat = () =>
+    setCatAperte(tutteCatAperte ? new Set() : new Set(CATEGORIE_NUMERI.map((c) => c.titolo)));
 
   const [messages, setMessages] = useState<Msg[]>([]);
   const [diario, setDiario] = useState<DiarioVoce[]>([]);
@@ -202,6 +572,26 @@ export default function Dashboard() {
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
+  const [ascoltando, setAscoltando] = useState(false);
+  // Dettatura vocale (Web Speech API del browser): riempie l'input parlando.
+  function dettaVoce() {
+    const SR = typeof window !== "undefined" && ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+    if (!SR) {
+      alert("Il riconoscimento vocale non è supportato da questo browser (prova Chrome).");
+      return;
+    }
+    const rec = new SR();
+    rec.lang = "it-IT";
+    rec.interimResults = false;
+    rec.onresult = (e: any) => {
+      const t = e.results?.[0]?.[0]?.transcript || "";
+      setInput((cur) => (cur ? cur + " " : "") + t);
+    };
+    rec.onend = () => setAscoltando(false);
+    rec.onerror = () => setAscoltando(false);
+    setAscoltando(true);
+    rec.start();
+  }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -411,8 +801,14 @@ export default function Dashboard() {
   // Costo API: ZERO — il lavoro pesante lo fai fare al tuo abbonamento.
   function generaPrompt(richiesta: string): string {
     const righe = metriche
-      ? METRICHE.filter((x) => x.chiave && metriche[x.chiave] !== undefined && metriche[x.chiave] !== null)
-          .map((x) => `- ${x.label}: ${formatta(metriche[x.chiave!], x.tipo)}`)
+      ? ALL_METRICHE.filter(
+          (x) =>
+            x.chiave &&
+            metriche[x.chiave] !== undefined &&
+            metriche[x.chiave] !== null &&
+            formatta(metriche[x.chiave], x.tipo) !== "—"
+        )
+          .map((x) => `- ${x.label} (${x.periodo}): ${formatta(metriche[x.chiave!], x.tipo)}`)
           .join("\n")
       : "(metriche non disponibili)";
     const brief = briefing ? `\n\n## Ultimo briefing dell'assistente\n${briefing.situazione}` : "";
@@ -460,6 +856,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       /* offline */
     }
   }, []);
+
+  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max ogni 60s,
+  // cosi' il briefing orario compare da solo (niente pulsante "Aggiorna").
+  useEffect(() => {
+    const id = setInterval(() => caricaStato(), 60000);
+    return () => clearInterval(id);
+  }, [caricaStato]);
 
   useEffect(() => {
     caricaStato();
@@ -566,28 +969,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     };
   }, []);
 
-  async function aggiornaOra() {
-    if (aggiornando) return;
-    setAggiornando(true);
-    try {
-      const res = await fetch("/api/heartbeat", { method: "POST" });
-      const data = await res.json();
-      if (data.ok && data.briefing) {
-        setBriefing(data.briefing);
-        setUltimoAt(new Date().toISOString());
-        const b = data.briefing;
-        const op = (b.opportunita || []).map((o: any) => `• ${o.titolo}`).join("\n");
-        const az = (b.azioni || []).map((a: any) => `• [${a.livello}] ${a.titolo}`).join("\n");
-        aggiungiDiario("briefing", "Giro di perlustrazione", `${b.situazione}\n\nOpportunità:\n${op}\n\nAzioni proposte:\n${az}`);
-      }
-      caricaStato();
-    } catch {
-      /* errore rete */
-    } finally {
-      setAggiornando(false);
-    }
-  }
-
   async function approva(a: Azione) {
     try {
       const res = await fetch("/api/esegui", {
@@ -631,19 +1012,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <span className={`w-1.5 h-1.5 rounded-full ${memoria ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
               {memoria ? "Vivo" : "In prova"}
             </span>
-            <button
-              onClick={aggiornaOra}
-              disabled={aggiornando}
-              className="inline-flex items-center gap-1.5 text-sm font-medium bg-brand text-white rounded-full px-3.5 py-2 shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-            >
-              {aggiornando ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-              Aggiorna ora
-            </button>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-6 sm:py-8 space-y-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-4 sm:py-5 space-y-4">
         {/* Battito */}
         <div className="flex items-center gap-2 text-xs sm:text-sm text-black/45">
           <Activity size={15} className={memoria ? "text-green-500" : "text-amber-500"} />
@@ -654,29 +1027,67 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </div>
 
+        {/* Navigazione: 3 aree chiare invece di un muro unico */}
+        {(() => {
+          const SCHEDE = [
+            { id: "oggi", label: "Oggi", icon: <Home size={16} />, desc: "Cosa devo decidere, i numeri di oggi e cosa ha scoperto l'AD." },
+            { id: "assistente", label: "Assistente", icon: <Send size={16} />, desc: "Chiedi o dai un compito: risponde il cervello sul tuo Max, gratis." },
+            { id: "storico", label: "Storico", icon: <History size={16} />, desc: "Il diario di tutto ciò che l'AD ha detto e fatto." },
+          ] as const;
+          const attiva = SCHEDE.find((s) => s.id === vista);
+          return (
+            <div>
+              <div className="flex gap-1.5 sm:gap-2">
+                {SCHEDE.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setVista(t.id)}
+                    className={`flex-1 inline-flex items-center justify-center gap-1.5 sm:gap-2 text-sm font-medium px-2 sm:px-3 py-2.5 rounded-xl transition ${
+                      vista === t.id
+                        ? "bg-brand text-white shadow-card"
+                        : "bg-white text-black/55 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                    }`}
+                  >
+                    {t.icon}
+                    <span>{t.label}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-black/45 mt-2 px-1">{attiva?.desc}</p>
+            </div>
+          );
+        })()}
+
+        {/* ===================== SCHEDA: OGGI ===================== */}
+        {vista === "oggi" && (
+        <div className="space-y-4">
+
+        {/* Ricerca globale nel vault */}
+        <RicercaGlobale />
+
         {/* Memoria viva dell'AD: da approvare · attività · stato · piani */}
         <MemoriaViva />
 
         {/* Briefing autonomo */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center gap-2.5 mb-4">
             <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
               <TrendingUp size={16} />
             </span>
-            <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
+            <div className="min-w-0">
+              <span className="text-[15px] font-semibold tracking-tight">Cosa ho scoperto e cosa propongo</span>
+              <div className="text-xs text-black/40">
+                L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
+              </div>
+            </div>
           </div>
 
           {!briefing && (
             <div className="text-center text-black/45 py-10">
-              <p className="mb-4">Non ho ancora fatto un giro di perlustrazione.</p>
-              <button
-                onClick={aggiornaOra}
-                disabled={aggiornando}
-                className="inline-flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl text-sm font-medium shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-              >
-                {aggiornando ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
-                Fai il primo giro
-              </button>
+              <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
+              <p className="text-sm text-black/35">
+                Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
+              </p>
             </div>
           )}
 
@@ -731,30 +1142,71 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
-        {/* Metriche (a sinistra) + Chat */}
-        <div className="grid lg:grid-cols-5 gap-5">
-          <aside className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 mb-3">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <BarChart3 size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Cockpit</span>
-            </div>
-            <div className="grid grid-cols-2 gap-3 content-start">
-              {METRICHE.map((m) => (
-                <Card
-                  key={m.label}
-                  icon={m.icon}
-                  label={m.label}
-                  value={m.chiave && metriche ? formatta(metriche[m.chiave], m.tipo) : "—"}
-                  fonte={m.fonte}
-                />
-              ))}
-            </div>
-          </aside>
+        {/* I numeri (cockpit): categorie a tendina — apri solo ciò che ti serve */}
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
+          <div className="flex items-center gap-2.5 mb-1">
+            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <BarChart3 size={16} />
+            </span>
+            <span className="text-[15px] font-semibold tracking-tight">I numeri di oggi</span>
+            <button
+              onClick={toggleTutteCat}
+              className="ml-auto text-[11px] font-medium text-black/45 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+            >
+              {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
+            </button>
+          </div>
+          <p className="text-[12px] text-black/45 mb-3 pl-[42px]">
+            Per categoria, in tre finestre: oggi · 7 giorni · 30 giorni. Tocca una categoria per aprirla; le celle spente sono fonti da collegare.
+          </p>
+
+          <div className="space-y-1.5">
+            {CATEGORIE_NUMERI.map((c, i) => {
+              const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
+              return (
+                <Fragment key={c.titolo}>
+                  {nuovoGruppo && c.gruppo !== "Panoramica" && (
+                    <div className="text-[10px] uppercase tracking-wide text-black/40 font-semibold px-0.5 pt-2 pb-0.5">
+                      {c.gruppo}
+                    </div>
+                  )}
+                  <CategoriaNumeri
+                    emoji={c.emoji}
+                    titolo={c.titolo}
+                    sottotitolo={c.sottotitolo}
+                    kpis={c.kpis}
+                    snapshot={c.snapshot}
+                    metriche={metriche}
+                    open={catAperte.has(c.titolo)}
+                    onToggle={() => toggleCat(c.titolo)}
+                  />
+                </Fragment>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
+        <GovernoAD />
+
+        {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
+        <Intelligence />
+
+        {/* Numeri & report: trend · unit economics · report */}
+        <NumeriReport />
+
+        </div>
+        )}
+
+        {/* ===================== SCHEDA: ASSISTENTE ===================== */}
+        {vista === "assistente" && (
+        <div className="space-y-4">
+
+          {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
+          <Comandi onScegli={(cmd) => setInput(cmd)} />
 
           {/* Chat */}
-          <section className="lg:col-span-3 flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
+          <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -880,6 +1332,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
+                onClick={dettaVoce}
+                disabled={ascoltando}
+                className={`px-3 rounded-xl border transition active:scale-95 ${
+                  ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
+                }`}
+                aria-label="Detta a voce"
+                title="Detta a voce"
+              >
+                <Mic size={18} />
+              </button>
+              <button
                 onClick={() => mandaAlCervello()}
                 disabled={loading || !input.trim()}
                 className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
@@ -904,10 +1367,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </div>
           </section>
-        </div>
 
         {/* Conversazioni: ricorda e riprendi le chat precedenti */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -994,7 +1456,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </section>
 
         {/* Lavori del cervello: ponte con Claude Code sul Max */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -1038,8 +1500,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
+        </div>
+        )}
+
+        {/* ===================== SCHEDA: STORICO ===================== */}
+        {vista === "storico" && (
+        <div className="space-y-4">
+
         {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-5">
+        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -1077,6 +1546,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
+
+        </div>
+        )}
       </main>
     </div>
   );
@@ -1133,42 +1605,136 @@ function Markdown({ children }: { children: string }) {
   );
 }
 
-function Card({
-  icon,
-  label,
-  value,
-  fonte,
+// Una CATEGORIA di numeri come TENDINA. Chiusa = solo titolo + quanti dati sono
+// già collegati (badge); aperta = la tabella (oggi/7g/30g) o, se snapshot, una
+// griglia di cifre singole "adesso". Apri solo ciò che ti serve: meno scroll,
+// capisci veloce.
+function CategoriaNumeri({
+  emoji,
+  titolo,
+  sottotitolo,
+  kpis,
+  metriche,
+  snapshot = false,
+  open,
+  onToggle,
 }: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  fonte: string;
+  emoji: string;
+  titolo: string;
+  sottotitolo: string;
+  kpis: Kpi[];
+  metriche: Record<string, any> | null;
+  snapshot?: boolean;
+  open: boolean;
+  onToggle: () => void;
 }) {
-  const connesso = value !== "—";
+  // "Acceso" = c'è un valore E si formatta in qualcosa di mostrabile (non "—").
+  // Così il badge e l'aspetto della cella restano sempre d'accordo (es. tempo
+  // consegna o recensione media a 0 = fonte di fatto non ancora utile → spenta).
+  const acceso = (chiave?: string, tipo?: Tipo) =>
+    Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null) &&
+    formatta(metriche![chiave!], tipo) !== "—";
+  const totale = snapshot ? kpis.length : kpis.length * 3;
+  const collegate = snapshot
+    ? kpis.filter((k) => acceso(k.valore, k.tipo)).length
+    : kpis.reduce((s, k) => s + [k.oggi, k.sett, k.mese].filter((c) => acceso(c, k.tipo)).length, 0);
+  const haDati = collegate > 0;
+
   return (
-    <div
-      className={`rounded-2xl border p-3.5 transition ${
-        connesso
-          ? "bg-white border-black/[0.06] shadow-card hover:shadow-hover hover:-translate-y-0.5"
-          : "bg-black/[0.015] border-dashed border-black/[0.12]"
-      }`}
-    >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span
-          className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${
-            connesso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"
-          }`}
-        >
-          {icon}
+    <div className={`rounded-xl border transition ${open ? "border-brand/25 bg-brand-50/20" : "border-black/[0.06] bg-paper/30 hover:border-brand/20"}`}>
+      <button onClick={onToggle} className="w-full flex items-center gap-2 px-3 py-2.5 text-left" aria-expanded={open}>
+        <span className="text-[14px] font-semibold tracking-tight">{emoji} {titolo}</span>
+        <span className={`text-[10.5px] tabular-nums px-1.5 py-0.5 rounded-full ${haDati ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/35"}`}>
+          {collegate}/{totale}
         </span>
-        <span className="text-xs text-black/50 leading-tight">{label}</span>
-      </div>
-      <div className={`text-2xl font-semibold tracking-tight ${connesso ? "text-ink" : "text-black/25"}`}>
-        {value}
-      </div>
-      <div className="text-[10px] uppercase tracking-wide text-black/30 mt-1">
-        {connesso ? fonte : `da collegare · ${fonte}`}
-      </div>
+        <span className="ml-auto shrink-0 text-black/35">{open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}</span>
+      </button>
+      {open && (
+        <div className="px-3 pb-3">
+          <p className="text-[11px] text-black/40 mb-2.5">{sottotitolo}</p>
+          {snapshot ? <CorpoGriglia kpis={kpis} metriche={metriche} /> : <CorpoTabella kpis={kpis} metriche={metriche} />}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Corpo "tabella": una riga per KPI, tre colonne di valori (Oggi · 7g · 30g).
+// Le celle senza fonte collegata mostrano "—".
+function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string, any> | null }) {
+  const cella = (chiave?: string, tipo?: Tipo) => {
+    const present = Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null);
+    const v = present ? formatta(metriche![chiave!], tipo) : "—";
+    return { on: v !== "—", v };
+  };
+  return (
+    <div className="overflow-x-auto -mx-1 px-1">
+      <table className="w-full border-separate border-spacing-y-1.5 min-w-[420px]">
+        <thead>
+          <tr className="text-[10px] uppercase tracking-wide text-black/35">
+            <th className="text-left font-medium py-1 pl-1">KPI</th>
+            <th className="text-right font-medium py-1 px-2">Oggi</th>
+            <th className="text-right font-medium py-1 px-2">7 giorni</th>
+            <th className="text-right font-medium py-1 px-2 pr-1">30 giorni</th>
+          </tr>
+        </thead>
+        <tbody>
+          {kpis.map((k) => {
+            const celle = [cella(k.oggi, k.tipo), cella(k.sett, k.tipo), cella(k.mese, k.tipo)];
+            const acceso = celle.some((c) => c.on);
+            return (
+              <tr key={k.label} className="bg-paper/40 hover:bg-brand-50/30 transition">
+                <td className="rounded-l-xl border-y border-l border-black/[0.06] py-2 pl-2.5">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${acceso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"}`}>
+                      {k.icon}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[13px] font-medium text-ink/85 leading-tight truncate">{k.label}</span>
+                      <span className="block text-[10px] uppercase tracking-wide text-black/30 leading-tight">
+                        {acceso ? k.fonte : `da collegare · ${k.fonte}`}
+                      </span>
+                    </span>
+                  </div>
+                </td>
+                {celle.map((c, i) => (
+                  <td
+                    key={i}
+                    className={`border-y border-black/[0.06] text-right px-2 tabular-nums ${i === 2 ? "rounded-r-xl border-r pr-2.5" : ""}`}
+                  >
+                    <span className={`text-[15px] font-semibold tracking-tight ${c.on ? "text-ink" : "text-black/20"}`}>{c.v}</span>
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// Corpo "griglia": cifre singole (snapshot di adesso) in card compatte.
+// Le card senza fonte collegata sono tratteggiate e mostrano "—".
+function CorpoGriglia({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string, any> | null }) {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      {kpis.map((k) => {
+        const present = Boolean(k.valore && metriche && metriche[k.valore] !== undefined && metriche[k.valore] !== null);
+        const v = present ? formatta(metriche![k.valore!], k.tipo) : "—";
+        const on = v !== "—";
+        return (
+          <div key={k.label} className={`rounded-xl border p-2.5 ${on ? "border-black/[0.06] bg-paper/40" : "border-dashed border-black/[0.10] bg-paper/20"}`}>
+            <div className="flex items-center gap-1.5">
+              <span className={`grid place-items-center w-6 h-6 rounded-lg shrink-0 ${on ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"}`}>
+                {k.icon}
+              </span>
+              <span className="text-[10.5px] text-black/45 leading-tight">{k.label}</span>
+            </div>
+            <div className={`text-[19px] font-semibold tracking-tight mt-1 tabular-nums ${on ? "text-ink" : "text-black/20"}`}>{v}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }

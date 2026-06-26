@@ -14,6 +14,18 @@ if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
   exit 1
 }
 
+# Kill-switch (opzionale): se il Pannello di Controllo ha messo l'AD in PAUSA, non girare.
+if ($env:SUPABASE_URL -and $env:SUPABASE_SERVICE_KEY) {
+  try {
+    $h = @{ apikey = $env:SUPABASE_SERVICE_KEY; Authorization = "Bearer $($env:SUPABASE_SERVICE_KEY)" }
+    $imp = Invoke-RestMethod -Uri "$($env:SUPABASE_URL)/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" -Headers $h -Method Get
+    if ($imp -and @($imp).Count -gt 0 -and @($imp)[0].valore -eq "on") {
+      Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] AD in PAUSA (kill-switch): giro saltato."
+      exit 0
+    }
+  } catch { }  # nessuna tabella impostazioni: prosegui
+}
+
 # Il prompt del giro
 $prompt = Get-Content -Raw -Path (Join-Path $PSScriptRoot "giro.md")
 
@@ -24,12 +36,14 @@ claude -p $prompt --permission-mode acceptEdits
 Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Giro completato."
 
 # ---------------------------------------------------------------------------
-# PROGRAMMARLO (una volta sola). Esempio: ogni mattina alle 8:00.
-# Incolla questo comando in PowerShell (adatta il percorso se serve):
+# PER FARLO PARTIRE DA SOLO (ogni 2 ore): NON serve scrivere comandi.
+#   ▶ Doppio-clic su  cervello\attiva-giro-automatico.cmd
+#   ⏹ Per fermarlo:    cervello\disattiva-giro-automatico.cmd
 #
-# schtasks /Create /TN "MyCity-AD-Giro" /SC DAILY /ST 08:00 /TR `
-#   "powershell -NoProfile -ExecutionPolicy Bypass -File `"C:\Users\InfinitaPossibilita\Desktop\ad-mycity\cervello\giro.ps1`""
+# Cambiare intervallo (es. ogni ora), da PowerShell nella cartella cervello\:
+#   .\installa-giro.ps1 -OgniOre 1
 #
-# Per più giri al giorno usa /SC HOURLY /MO 3  (ogni 3 ore), ecc.
-# Per rimuoverlo:  schtasks /Delete /TN "MyCity-AD-Giro" /F
+# Richiede: PC acceso + Claude Code loggato col Max.
+# ⚠️ Onestà: il Max ha limiti d'uso che si resettano ogni poche ore. Ogni 2 ore è un buon
+#    equilibrio; 'ogni ora' 24/7 può incontrare i limiti — in quel caso resta su 2-3 ore.
 # ---------------------------------------------------------------------------
