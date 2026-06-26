@@ -45,6 +45,7 @@ import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
+import Comandi from "@/components/Comandi";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -838,6 +839,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
         <div className="space-y-6">
+
+          {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
+          <Comandi onScegli={(cmd) => setInput(cmd)} />
 
           {/* Chat */}
           <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
