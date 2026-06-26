@@ -4,6 +4,8 @@ import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa, type AzionePronta } from "@/lib/azioni-pronte";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // "Azioni pronte" = la corsia operativa. Mosse del vault + sentinelle (lib/azioni-pronte).
 // Approvare → esegue tramite le "mani" (lib/mani) e salva esito in Supabase.

@@ -3,6 +3,8 @@ import { readVaultFile } from "@/lib/vault";
 import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Intelligence: il pannello mostra l'ultimo risultato salvato dall'AD nel vault e
 // può accodare un lavoro per rigenerarlo (lo esegue l'agente intelligence/analista).

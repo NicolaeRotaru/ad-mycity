@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile, listVaultDir, codaTesto } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Estrae il campo "data:" dal frontmatter (può contenere data E ora,
 // es. "2026-06-26 01:48"). Vuoto se assente. Cerca solo nel blocco --- iniziale.

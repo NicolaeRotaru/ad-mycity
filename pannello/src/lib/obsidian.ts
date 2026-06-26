@@ -30,8 +30,8 @@ export async function listNotes(filtro?: string): Promise<string> {
   try {
     const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, { headers: h(), cache: "no-store" })).json();
     if (!ref.object) return `Errore: ${ref.message || "branch non trovato"}`;
-    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h() })).json();
-    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h() })).json();
+    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
     let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
     if (filtro) {
       const f = filtro.toLowerCase();

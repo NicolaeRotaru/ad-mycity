@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Avviso a Nicola tramite le "mani" dell'AD (Telegram/email): accoda un lavoro
 // "notifica" che il worker invia con cervello/esegui-azione.mjs. 🟡 — parte solo

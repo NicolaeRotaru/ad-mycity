@@ -8,6 +8,8 @@ import {
 } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // GET: elenco conversazioni. tabella:false => la dashboard usa il salvataggio
 // locale (su questo dispositivo), finche' la tabella non viene creata.

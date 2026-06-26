@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { saveDiarioVoce, getDiario, clearDiario, memoryConnected } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // GET: tutte le voci salvate (lato server, durevoli).
 export async function GET() {

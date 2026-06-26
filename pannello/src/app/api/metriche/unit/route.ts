@@ -3,6 +3,8 @@ import { getMetriche } from "@/lib/marketplace-db";
 import { getImpostazione } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Unit economics: margini, ricavo piattaforma e break-even a partire dai dati reali
 // + le assunzioni (commissione %, costo fisso) configurabili nella tabella impostazioni.

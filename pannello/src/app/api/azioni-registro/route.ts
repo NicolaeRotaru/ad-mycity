@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getAzioniLog } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Registro & risultati: la storia delle azioni decise/eseguite + conteggi.
 // Serve a "imparare e misurare": cosa è stato fatto, quanto, da chi.

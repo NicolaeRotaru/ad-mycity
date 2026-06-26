@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { creaLavoro, getLavori, clearLavori, memoryConnected } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Il "ponte" tra l'app web e il cervello (Claude Code sul Max).
 // GET: elenco lavori (la dashboard fa polling per mostrare i risultati).

@@ -3,6 +3,8 @@ import { getDiario, getLavori } from "@/lib/store";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Feed unico "attività dell'azienda": fonde diario + lavori + Sala Operativa,
 // ordinati dal più recente. Una timeline sola di tutto ciò che l'AD fa.

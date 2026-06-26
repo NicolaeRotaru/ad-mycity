@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getLatestBriefing, creaLavoro, memoryConnected } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // "Aggiorna ora" / il cron giornaliero.
 // IMPORTANTE: questo endpoint NON usa le API di Claude (nessun costo a token).
