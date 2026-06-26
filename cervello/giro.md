@@ -86,6 +86,24 @@ Passi:
    nel formato canonico (con l'**ORA**, senza backtick attorno):
    `- AAAA-MM-GG HH:MM · @reparto · FATTO/FACCIO/PASSO-A · messaggio breve`.
    Esempio: `- 2026-06-26 18:14 · @intelligence · FATTO · radar live: caldo 37° domani, Venerdì Piacentino stasera`.
+9. AGGIORNA I PIANI (proposte AD): tieni "vivi" i piani in `MyCity-Vault/06-Piani/` con gli spunti
+   dell'analisi di OGGI. ⚠️ **Regola d'oro: quei piani sono di Nicola — tu PROPONI, non riscrivi il suo testo.**
+   Per ogni piano a cui questo giro ha qualcosa da dire, mantieni IN FONDO al file UN solo blocco delimitato
+   che **rigeneri** (non accumulare passaggi); tocca SOLO il testo tra i marker, MAI il resto del piano:
+   ```
+   <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+   ## 🤖 Aggiornamento dell'AD — AAAA-MM-GG HH:MM
+   > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+   - <spunto azionabile, con fonte/link>
+   <!-- 🤖 AD-AGGIORNAMENTO:END -->
+   ```
+   - Se i marker non ci sono → appendili in fondo; se ci sono → SOSTITUISCI il contenuto tra di essi (resta sempre l'ultimo).
+   - Aggiorna un piano SOLO se c'è qualcosa di nuovo/pertinente da questo giro; altrimenti lascia il suo blocco com'è (non svuotarlo).
+   - Pertinenza (fonte → piano): **Piano Vendite** ← `Intelligence/buchi-mercato.md` (categorie/zone scoperte) + concorrenti;
+     **Piano Editoriale** + **Piano di Notorieta** ← `Intelligence/eventi-picchi.md` (eventi, meteo, temi);
+     **Piano di Crescita** ← le Opportunità del briefing; **Piano Operativo** ← meteo/picchi consegne;
+     **Piano Finanziario** ← i 7 numeri (quando il DB è leggibile); **Piano Istituzionale** ← bandi/Comune/associazioni dal radar;
+     **Piano Prodotto** ← opportunità tech/feature. Colore 🟡 (proposte nel vault di Nicola, non decisioni).
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.
