@@ -41,7 +41,7 @@ export default function Azioni() {
   const [registro, setRegistro] = useState<Registro | null>(null);
 
   const carica = useCallback(async () => {
-    const d = await fetch("/api/azioni-pronte").then((r) => r.json()).catch(() => null);
+    const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
     if (d) {
       setAzioni(d.azioni || []);
       setSalvataggio(Boolean(d.salvataggio));
@@ -65,7 +65,7 @@ export default function Azioni() {
   // Carica il registro alla prima apertura della tab.
   useEffect(() => {
     if (tab === "registro" && !registro) {
-      fetch("/api/azioni-registro")
+      fetch("/api/azioni-registro", { cache: "no-store" })
         .then((r) => r.json())
         .then((d) => setRegistro({ voci: d.voci || [], stat: d.stat || {} }))
         .catch(() => setRegistro({ voci: [], stat: { totale: 0, fatte: 0, simulate: 0, coda: 0, rifiutate: 0, auto: 0, repartoTop: "" } }));
