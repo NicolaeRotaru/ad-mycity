@@ -36,7 +36,7 @@ type Azione = {
 };
 type Attivita = {
   collegato: boolean;
-  briefing: { nome: string; testo: string } | null;
+  briefing: { nome: string; data?: string; testo: string } | null;
   salaOperativa: string;
   decisioni: string;
 };
@@ -314,7 +314,7 @@ export default function MemoriaViva() {
             <div className="space-y-4">
               {attivita.briefing && (
                 <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-                  <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {attivita.briefing.nome}</summary>
+                  <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {dataVault(attivita.briefing.data || attivita.briefing.nome)}</summary>
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.briefing.testo}</Markdown>
                   </div>

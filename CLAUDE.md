@@ -56,7 +56,8 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
   - `MyCity-Vault/90-Memoria-AI/DECISIONI.md` → log append-only: ogni decisione
     🟡/🔴 con data, cosa, perché. Non riscrivere mai le righe vecchie.
   - `MyCity-Vault/90-Memoria-AI/Briefing/AAAA-MM-GG.md` → un file per ogni giro di
-    perlustrazione (situazione, opportunità, azioni proposte).
+    perlustrazione (situazione, opportunità, azioni proposte). Nel frontmatter
+    metti SEMPRE `data: AAAA-MM-GG HH:MM` (con l'ora). Lo stesso per i Report.
 - **I mansionari dei senior**: `MyCity-Vault/07-Agenti/AGENTI.md`.
 
 > ⏰ **Regola dell'orario (vale SEMPRE):** ogni volta che scrivi una data in

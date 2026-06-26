@@ -34,7 +34,9 @@ Passi:
    11. **Gap — cosa NON ho potuto verificare** — dati/canali mancanti, da riprendere al prossimo giro.
    Regola: meglio una riga in più che un'informazione persa. Mai inventare dati: se manca, scrivilo nei Gap.
 6. Salva il briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` con nome data
-   (AAAA-MM-GG.md). Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`.
+   (AAAA-MM-GG.md) e nel frontmatter metti SEMPRE data **E ora**:
+   `data: AAAA-MM-GG HH:MM` (fuso di Piacenza) — così la Cabina mostra al minuto
+   quando è stato fatto il giro. Aggiorna i 7 numeri in `MyCity-Vault/90-Memoria-AI/STATO.md`.
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
    `SUPABASE_SERVICE_KEY`), salva nella tabella `briefings` un **digest STRUTTURATO**
    del report (è un sottoinsieme: la Sintesi → `situazione`, le Opportunità e le Azioni)
