@@ -1,0 +1,139 @@
+<!doctype html>
+<!--
+  Template POV-RELATABLE — categoria NUOVA "UTILITÀ / ZTL POV".
+  Il dolore quotidiano del piacentino (ZTL 8-19, multa 83€, parcheggio, "sabato e devi prendere la coppa")
+  reso relatable in formato POV + lista pungente, con la soluzione MyCity leggera in chiusura.
+  Segnaposto: {{kicker}} {{titolo}} {{righe}} {{cta}}
+  ({{righe}} = blocco HTML di <li> già pronto, iniettato dal render.)
+  Variante DIVERSA dal manifesto (oliva) e dal flagship (terracotta): fondo PANNA editoriale,
+  layout "appunto sul frigo / promemoria", bollino-multa bordeaux che cattura l'occhio,
+  una sola idea, gerarchia tipografica fortissima. Formato 1080x1350 (4:5 portrait feed FB/IG).
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;600;700;800;900&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    color:var(--inchiostro);
+    width:1080px; height:1350px; position:relative; overflow:hidden;
+    background:var(--panna);
+  }
+  /* texture "carta da salumeria" sottilissima */
+  .grana{
+    position:absolute; inset:0; opacity:.05; pointer-events:none;
+    background-image:repeating-linear-gradient(0deg, var(--inchiostro) 0, var(--inchiostro) 1px, transparent 1px, transparent 30px);
+  }
+  /* cornice "promemoria appuntato" */
+  .frame{ position:absolute; inset:40px; border:5px solid var(--inchiostro); border-radius:30px; }
+  .wrap{ position:absolute; inset:40px; padding:64px 74px 52px; display:flex; flex-direction:column; }
+
+  /* KICKER — "POV" stile timbro */
+  .kicker{
+    align-self:flex-start;
+    font-weight:900; text-transform:uppercase; letter-spacing:6px; font-size:30px;
+    color:var(--panna); background:var(--inchiostro);
+    padding:14px 26px; border-radius:14px;
+    transform:rotate(-2deg);
+  }
+
+  /* TITOLO — l'unica idea, enorme, Fraunces */
+  .titolo{
+    font-family:'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight:900; font-size:100px; line-height:.94; letter-spacing:-2px;
+    margin-top:34px; color:var(--inchiostro); max-width:920px;
+  }
+  .titolo .acc{ color:var(--terracotta); font-style:italic; }
+
+  /* LISTA del dolore — relatable, numerata a pallino senape */
+  ul.lista{ list-style:none; margin-top:40px; display:flex; flex-direction:column; gap:20px; }
+  ul.lista li{
+    display:flex; align-items:flex-start; gap:22px;
+    font-size:37px; line-height:1.22; font-weight:600; color:var(--inchiostro);
+  }
+  ul.lista li .bullet{
+    flex:0 0 auto; width:54px; height:54px; border-radius:50%;
+    background:var(--senape); color:var(--inchiostro);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:32px; line-height:1;
+    margin-top:2px;
+  }
+  ul.lista li b{ color:var(--bordeaux); font-weight:800; }
+
+  /* BOLLINO MULTA — l'occhio ci cade subito, in alto a destra */
+  .bollino{
+    position:absolute; top:58px; right:60px; z-index:5;
+    width:188px; height:188px; border-radius:50%;
+    background:var(--bordeaux); color:var(--panna);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transform:rotate(7deg);
+    box-shadow:0 10px 0 rgba(0,0,0,.14);
+    border:4px dashed rgba(251,247,240,.7);
+  }
+  .bollino .b-num{ font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:64px; line-height:.9; }
+  .bollino .b-txt{ font-weight:800; font-size:20px; text-transform:uppercase; letter-spacing:1.5px; margin-top:6px; }
+
+  /* RIGA-SOLUZIONE — la chiusura leggera, MyCity */
+  .soluzione{
+    margin-top:auto; margin-bottom:26px;
+    background:var(--oliva); color:var(--panna);
+    border-radius:22px; padding:30px 38px;
+    font-family:'Fraunces', Georgia, serif; font-weight:600; font-size:40px; line-height:1.2;
+  }
+  .soluzione b{ color:var(--senape); font-weight:900; font-style:italic; }
+
+  /* CTA chip */
+  .cta{
+    background:var(--terracotta); color:var(--panna);
+    font-weight:800; font-size:38px; letter-spacing:.3px;
+    padding:28px 38px; border-radius:18px; text-align:center;
+    box-shadow:0 8px 0 rgba(0,0,0,.16);
+  }
+
+  /* FOOTER brand */
+  .footer{
+    margin-top:24px; display:flex; justify-content:space-between; align-items:flex-end;
+    border-top:3px solid rgba(44,42,40,.22); padding-top:20px;
+  }
+  .wordmark{ font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:48px; color:var(--inchiostro); line-height:1; }
+  .tagline{ font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:400; font-size:26px; color:var(--inchiostro); opacity:.85; margin-top:8px; }
+  .handle{ font-weight:800; font-size:27px; color:var(--terracotta); letter-spacing:.4px; }
+</style>
+</head>
+<body>
+  <div class="grana"></div>
+  <div class="frame"></div>
+
+  <div class="bollino">
+    <div class="b-num">83€</div>
+    <div class="b-txt">di multa</div>
+  </div>
+
+  <div class="wrap">
+    <div class="kicker">{{kicker}}</div>
+
+    <div class="titolo">{{titolo}}</div>
+
+    <ul class="lista">{{righe}}</ul>
+
+    <div class="soluzione">{{soluzione}}</div>
+
+    <div class="cta">{{cta}}</div>
+
+    <div class="footer">
+      <div>
+        <div class="wordmark">MyCity</div>
+        <div class="tagline">La spesa che tiene viva la città.</div>
+      </div>
+      <div class="handle">@mycity.piacenza</div>
+    </div>
+  </div>
+</body>
+</html>

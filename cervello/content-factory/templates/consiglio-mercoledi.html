@@ -1,0 +1,61 @@
+<!doctype html>
+<!--
+  Template pilastro MER — "consiglio del Vicino / ricetta piacentina".
+  Segnaposto: {{titolo}} {{testo}} {{cta}} {{handle}} {{kicker}}
+  Stile: scheda-ricetta su fondo panna, banda olivo (fresco/consiglio), numeri/punti elenco a timbro.
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0; --bianco:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family: Georgia,'Times New Roman',serif;
+    background:var(--panna); color:var(--inchiostro);
+    width:100vw;height:100vh;position:relative;overflow:hidden;
+  }
+  /* cornice interna a doppio filo */
+  .cornice{ position:absolute; inset:36px; border:4px solid var(--oliva); border-radius:24px; }
+  .badge{
+    position:absolute; top:0; left:50%; transform:translate(-50%,-50%);
+    background:var(--oliva); color:var(--panna);
+    font-family:'Helvetica Neue',Arial,sans-serif; font-weight:700;
+    text-transform:uppercase; letter-spacing:5px; font-size:24px;
+    padding:18px 40px; border-radius:40px;
+  }
+  .wrap{ position:absolute; inset:36px; padding:90px 70px 70px; display:flex; flex-direction:column; }
+  .titolo{
+    font-size:66px; line-height:1.08; font-weight:700; color:var(--terracotta);
+    margin-bottom:36px;
+  }
+  .testo{ font-size:38px; line-height:1.46; white-space:pre-line; flex:1; }
+  .cta{
+    background:var(--senape); color:var(--inchiostro);
+    font-family:'Helvetica Neue',Arial,sans-serif; font-weight:700;
+    font-size:32px; padding:26px 34px; border-radius:16px; text-align:center;
+    margin:24px 0 22px;
+  }
+  .brandrow{ display:flex; justify-content:space-between; align-items:baseline; }
+  .brand{ font-size:36px; font-weight:700; color:var(--terracotta); }
+  .handle{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:26px; color:var(--oliva); font-weight:700; }
+</style>
+</head>
+<body>
+  <div class="cornice"></div>
+  <div class="badge">{{kicker}}</div>
+  <div class="wrap">
+    <div class="titolo">{{titolo}}</div>
+    <div class="testo">{{testo}}</div>
+    <div class="cta">{{cta}}</div>
+    <div class="brandrow">
+      <div class="brand">MyCity 🐎</div>
+      <div class="handle">{{handle}}</div>
+    </div>
+  </div>
+</body>
+</html>

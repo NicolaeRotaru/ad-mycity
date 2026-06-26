@@ -1,0 +1,155 @@
+<!doctype html>
+<!--
+  Template categoria NUOVA — "RITRATTO DI BOTTEGA / il nostro bottegaio".
+  Deriva da La Ruche qui dit Oui "Notre producteur…": mette una PERSONA in scena, non un prodotto.
+  La nostra versione: "Il nostro bottegaio". Il VOLTO e la STORIA prima del prodotto.
+  Eroe: la FOTO del volto (segnaposto [FOTO VOLTO]) + la citazione del bottegaio (Fraunces).
+  Tono: "il Vicino Orgoglioso" — caldo, umano. Accento TERRACOTTA (calore artigianale).
+  Formato: portrait 1080x1350.
+
+  ⚠️ ONESTA: i dettagli personali di Garetti che non conosciamo sono segnaposto [Garetti: …]
+     da confermare. La foto va sostituita con quella vera (consenso del negoziante).
+  Segnaposto testuali sostituiti dallo script: {{kicker}} {{citazione}} {{nome}} {{ruolo}} {{micro}}
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,500;9..144,0,600;9..144,0,700;9..144,0,900;9..144,1,600;9..144,1,700&family=Inter:wght@400;600;700;800&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0; --bianco:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    background:var(--panna); color:var(--inchiostro);
+    width:1080px; height:1350px; position:relative; overflow:hidden;
+  }
+  .carta{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 85% 6%, rgba(192,73,44,.07), transparent 42%),
+      radial-gradient(circle at 10% 98%, rgba(192,73,44,.05), transparent 40%),
+      var(--panna);
+  }
+  .bordo{ position:absolute; inset:46px; border:2px solid rgba(192,73,44,.28); border-radius:10px; }
+  .filo-top{ position:absolute; top:46px; left:46px; right:46px; height:10px; background:var(--terracotta); border-radius:10px 10px 0 0; }
+
+  /* occhiello = l'hook "Il nostro bottegaio" */
+  .occhiello{
+    position:absolute; top:104px; left:0; right:0; text-align:center;
+    font-family:'Inter',sans-serif; text-transform:uppercase;
+    letter-spacing:8px; font-size:25px; font-weight:800; color:var(--terracotta);
+  }
+
+  /* badge ONESTA: foto/storia da confermare. Va RIMOSSO con foto e frase vere. */
+  .daconf{
+    position:absolute; top:70px; right:70px; z-index:8;
+    background:var(--bordeaux); color:var(--panna);
+    font-family:'Inter',sans-serif; font-weight:800; font-size:15px;
+    letter-spacing:1.3px; text-transform:uppercase;
+    padding:8px 13px; border-radius:8px; transform:rotate(3deg);
+    box-shadow:0 6px 16px rgba(184,42,40,.30);
+  }
+
+  /* IL VOLTO — l'eroe. Cerchio con segnaposto foto, cornice terracotta + timbro civico */
+  .ritratto-wrap{
+    position:absolute; top:168px; left:0; right:0;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .ritratto{
+    width:430px; height:430px; border-radius:50%;
+    background:
+      repeating-linear-gradient(135deg, rgba(192,73,44,.10) 0 22px, rgba(232,163,61,.10) 22px 44px);
+    border:8px solid var(--terracotta);
+    box-shadow:0 14px 34px rgba(44,42,40,.18);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .ritratto .ico{ font-size:120px; line-height:1; opacity:.55; }
+  .ritratto .ph{
+    font-family:'Inter',sans-serif; font-weight:800; font-size:24px;
+    letter-spacing:2px; color:var(--terracotta); margin-top:14px; text-transform:uppercase;
+  }
+  .ritratto .ph small{ display:block; font-weight:700; font-size:16px; letter-spacing:1px; color:var(--inchiostro); opacity:.6; margin-top:6px; text-transform:none; }
+  .timbro{ position:absolute; bottom:14px; right:18px; font-size:40px; opacity:.5; }
+
+  /* nome + ruolo sotto il volto */
+  .nome{
+    font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:58px;
+    color:var(--inchiostro); margin-top:26px; line-height:1; text-align:center;
+  }
+  .ruolo{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:25px;
+    color:var(--terracotta); letter-spacing:.5px; margin-top:8px; text-align:center;
+  }
+
+  /* LA CITAZIONE del bottegaio — la persona parla in prima persona */
+  .apice{
+    position:absolute; left:80px; bottom:430px;
+    font-family:'Fraunces',Georgia,serif; font-weight:900; font-style:italic;
+    font-size:200px; line-height:.5; color:rgba(192,73,44,.16); z-index:0;
+  }
+  .citazione{
+    position:absolute; left:100px; right:100px; bottom:300px; z-index:2;
+    font-family:'Fraunces',Georgia,serif; font-weight:600; font-style:italic;
+    font-size:50px; line-height:1.24; letter-spacing:-.5px;
+    color:var(--inchiostro); text-align:center;
+  }
+  .micro{
+    position:absolute; left:100px; right:100px; bottom:236px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:23px;
+    color:var(--oliva); text-align:center; letter-spacing:.3px;
+  }
+
+  /* fascia terracotta col claim + brand in fondo */
+  .fascia{
+    position:absolute; left:46px; right:46px; bottom:46px; height:140px;
+    background:var(--terracotta); color:var(--panna);
+    border-radius:0 0 10px 10px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 48px;
+  }
+  .fascia .claim{
+    font-family:'Fraunces',Georgia,serif; font-weight:700; font-style:italic;
+    font-size:30px; line-height:1.18; max-width:560px;
+  }
+  .fascia .marca{ text-align:right; }
+  .fascia .brand{ font-family:'Fraunces',Georgia,serif; font-weight:900; font-size:38px; line-height:1; }
+  .fascia .handle{ font-family:'Inter',sans-serif; font-weight:800; font-size:22px; opacity:.92; margin-top:6px; }
+</style>
+</head>
+<body>
+  <div class="carta"></div>
+  <div class="bordo"></div>
+  <div class="filo-top"></div>
+
+  <div class="daconf">Foto + frase da confermare</div>
+
+  <div class="occhiello">{{kicker}}</div>
+
+  <div class="ritratto-wrap">
+    <div class="ritratto">
+      <div class="ico">📸</div>
+      <div class="ph">[FOTO VOLTO]<small>il ritratto vero di {{nome}}</small></div>
+      <div class="timbro">🐎</div>
+    </div>
+    <div class="nome">{{nome}}</div>
+    <div class="ruolo">{{ruolo}}</div>
+  </div>
+
+  <div class="apice">&ldquo;</div>
+  <div class="citazione">{{citazione}}</div>
+  <div class="micro">{{micro}}</div>
+
+  <div class="fascia">
+    <div class="claim">La spesa che tiene viva la città.</div>
+    <div class="marca">
+      <div class="brand">MyCity</div>
+      <div class="handle">@mycity.piacenza</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -22,6 +22,7 @@
 - **"negozio in calo"** → piano per recuperare un negozio che vende meno. 🟡
 
 ## 🚀 Crescita & contenuti
+- **"contenuti pro: [quali]"** (alias: *"modalità mondiale"*, *"fammi i contenuti pro"*) → creo i contenuti che mi dici a **livello agenzia internazionale**, passando dalla pipeline **Modalità Mondiale**: ① **Brief** (`BRIEF-CREATIVO.md`) → ② aggancio alla **Piattaforma "Il Turno"** (`consegne/marketing/PIATTAFORMA-CREATIVA.md`) → ③ genero **più varianti** → ④ il **@direttore-creativo** le critica spietato e tiene la migliore (vs `creativi/swipe/SWIPE-FILE.md` + rubrica per categoria) → ⑤ **produco** la grafica/reel veri → ⑥ **@qa-designer** controlla brand + onestà + safe-area → ⑦ accodo le pubblicazioni. Tu scrivi il comando + **quali contenuti**. 🟢 *(creo)* / 🔴 *(pubblicare)*
 - **"lancia una campagna [tema]"** → piano completo (post, grafiche, budget) da approvare. 🟡
 - **"contenuti della settimana"** → calendario + post + reel pronti. 🟢
 - **"fammi [post / volantino / QR] per [X]"** → il designer/AI te lo crea. 🟢

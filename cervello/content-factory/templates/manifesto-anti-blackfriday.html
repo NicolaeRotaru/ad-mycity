@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  Template MANIFESTO ANTI-BLACK-FRIDAY — derivato da manifesto-causa.html.
+  Angolo: "una nota dalle botteghe del centro, oggi che è Black Friday".
+  Variante visiva DISTINTA: fondo BORDEAUX/INCHIOSTRO militante-complice (NON oliva del C1, NON terracotta del FLAGSHIP).
+  Layout "lettera incollata su carta da pacchi": una nota dalle botteghe, dato-causa, CTA.
+  Formato 1080x1350 (4:5 feed FB/IG).
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;600;700;800&display=swap');
+  :root{
+    --terracotta:#C0492C; --senape:#E8A33D; --oliva:#5A7C42;
+    --bordeaux:#B82A28; --inchiostro:#2C2A28; --panna:#FBF7F0;
+    --bordeaux-scuro:#8E1F1D; --notte:#211F1D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    color:var(--panna);
+    width:1080px; height:1350px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(130% 90% at 50% 8%, var(--bordeaux) 0%, var(--bordeaux-scuro) 48%, var(--notte) 100%);
+  }
+  .grana{
+    position:absolute; inset:0; opacity:.05; pointer-events:none;
+    background-image:repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 26px);
+  }
+  .wrap{ position:absolute; inset:0; padding:78px 80px 66px; display:flex; flex-direction:column; }
+
+  /* KICKER — "barrato": il Black Friday cancellato */
+  .kicker{
+    font-weight:800; text-transform:uppercase; letter-spacing:6px; font-size:25px;
+    color:var(--senape);
+    display:flex; align-items:center; gap:20px;
+  }
+  .kicker .barr{ color:var(--panna); opacity:.6; text-decoration:line-through; text-decoration-thickness:3px; }
+  .kicker::after{ content:""; height:3px; flex:1; background:var(--senape); opacity:.5; border-radius:2px; }
+
+  /* NOTA — etichetta della lettera */
+  .nota-label{
+    margin-top:46px; font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:400;
+    font-size:34px; color:var(--senape); opacity:.95;
+  }
+
+  /* TITOLO — l'unica idea, enorme */
+  .titolo{
+    font-family:'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight:900; font-size:118px; line-height:.95; letter-spacing:-2px;
+    margin-top:14px; color:var(--panna);
+  }
+  .titolo .acc{ color:var(--senape); font-style:italic; }
+
+  .sub{
+    font-family:'Fraunces', Georgia, serif; font-weight:400; font-style:italic;
+    font-size:43px; line-height:1.34; margin-top:34px; max-width:900px;
+    color:var(--panna); opacity:.95;
+  }
+
+  /* RIGA-DATO — la causa */
+  .dato{
+    margin-top:auto; margin-bottom:36px;
+    background:rgba(251,247,240,.06);
+    border:2px solid rgba(232,163,61,.55);
+    border-radius:22px; padding:32px 38px;
+    display:flex; align-items:center; gap:28px;
+  }
+  .dato .num{
+    font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:98px; line-height:.9;
+    color:var(--senape); white-space:nowrap;
+  }
+  .dato .txt{ font-size:31px; line-height:1.34; font-weight:600; color:var(--panna); }
+  .dato .txt b{ color:var(--senape); }
+
+  /* CTA chip */
+  .cta{
+    background:var(--senape); color:var(--inchiostro);
+    font-weight:800; font-size:37px; letter-spacing:.3px;
+    padding:30px 38px; border-radius:18px; text-align:center;
+    box-shadow:0 8px 0 rgba(0,0,0,.20);
+  }
+
+  /* FOOTER brand */
+  .footer{
+    margin-top:32px; display:flex; justify-content:space-between; align-items:flex-end;
+    border-top:3px solid rgba(251,247,240,.32); padding-top:24px;
+  }
+  .wordmark{ font-family:'Fraunces', Georgia, serif; font-weight:900; font-size:48px; color:var(--panna); line-height:1; }
+  .tagline{ font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:400; font-size:27px; color:var(--panna); opacity:.9; margin-top:8px; }
+  .handle{ font-weight:800; font-size:27px; color:var(--senape); letter-spacing:.4px; }
+</style>
+</head>
+<body>
+  <div class="grana"></div>
+  <div class="wrap">
+    <div class="kicker"><span class="barr">Black Friday</span>&nbsp;·&nbsp;edizione Piacenza</div>
+
+    <div class="nota-label">Una nota dalle botteghe del centro:</div>
+    <div class="titolo">Oggi compra <span class="acc">sotto casa.</span></div>
+    <div class="sub">Non sei un dato di un magazzino fuori città. Sei un vicino di casa. E oggi il tuo carrello vale doppio.</div>
+
+    <div class="dato">
+      <div class="num">&minus;22%</div>
+      <div class="txt">botteghe sparite dal <b>centro di Piacenza</b> in 12 anni. Mentre fuori scontano tutto, qui resistiamo. <b>Con te.</b></div>
+    </div>
+
+    <div class="cta">Compra sotto casa &rarr; lista d'attesa (link nei commenti)</div>
+
+    <div class="footer">
+      <div>
+        <div class="wordmark">MyCity</div>
+        <div class="tagline">La spesa che tiene viva la città.</div>
+      </div>
+      <div class="handle">@mycity.piacenza</div>
+    </div>
+  </div>
+</body>
+</html>
