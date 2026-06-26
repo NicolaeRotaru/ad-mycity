@@ -44,6 +44,10 @@ export const PILASTRI = {
   "prodotto-dop": "prodotto-dop.html",
   "pov-relatable": "pov-relatable.html",
   "prova-sociale-quote": "prova-sociale-quote.html",
+  // — contenuti modellati sui vincenti dei competitor —
+  "manifesto-anti-blackfriday": "manifesto-anti-blackfriday.html",
+  "ritratto-bottega": "ritratto-bottega.html",
+  "contatore-civico": "contatore-civico.html",
 };
 
 // Sostituisce i {{segnaposto}} (escape HTML dei valori per sicurezza).
