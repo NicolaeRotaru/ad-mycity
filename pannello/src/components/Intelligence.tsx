@@ -28,10 +28,10 @@ export default function Intelligence() {
     setLoading(true);
     try {
       if (t === "alert") {
-        const a = await fetch("/api/alert").then((r) => r.json()).catch(() => ({ collegato: false, alert: [] }));
+        const a = await fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] }));
         setAlert(a);
       } else {
-        const r = await fetch(`/api/intelligence?tipo=${t}`).then((x) => x.json()).catch(() => ({ presente: false, testo: "" }));
+        const r = await fetch(`/api/intelligence?tipo=${t}`, { cache: "no-store" }).then((x) => x.json()).catch(() => ({ presente: false, testo: "" }));
         setCache((c) => ({ ...c, [t]: { presente: r.presente, testo: r.testo } }));
       }
     } finally {

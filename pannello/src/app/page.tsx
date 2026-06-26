@@ -864,7 +864,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   const caricaStato = useCallback(async () => {
     try {
-      const res = await fetch("/api/stato");
+      const res = await fetch("/api/stato", { cache: "no-store" });
       const data = await res.json();
       setMemoria(Boolean(data.memoria));
       setVivo(Boolean(data.vivo));
@@ -887,14 +887,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   useEffect(() => {
     caricaStato();
-    fetch("/api/metriche")
+    fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d && d.connected) setMetriche(d);
       })
       .catch(() => {});
     // Il diario salvato lato server e' la fonte durevole: se c'e', vince sul locale.
-    fetch("/api/diario")
+    fetch("/api/diario", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d?.memoria && Array.isArray(d.voci) && d.voci.length) {
@@ -909,7 +909,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
   useEffect(() => {
-    fetch("/api/conversazioni")
+    fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d?.tabella && Array.isArray(d.conversazioni)) {
@@ -977,7 +977,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     let stop = false;
     const carica = async () => {
       try {
-        const r = await fetch("/api/lavori");
+        const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) setLavori(d.lavori);
       } catch {}
