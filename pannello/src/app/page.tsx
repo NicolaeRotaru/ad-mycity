@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, Fragment } from "react";
 import {
   Send,
   Loader2,
@@ -59,6 +59,37 @@ import {
   Tags,
   Moon,
   ThumbsUp,
+  CalendarClock,
+  Scale,
+  FlaskConical,
+  ArrowUpRight,
+  Coins,
+  Filter,
+  MessageSquare,
+  Search,
+  Heart,
+  Share2,
+  Video,
+  Newspaper,
+  Megaphone,
+  Handshake,
+  Building2,
+  UserX,
+  ShieldCheck,
+  FileCheck,
+  Lock,
+  Server,
+  Gauge,
+  Bug,
+  Rocket,
+  Workflow,
+  Zap,
+  Plug,
+  Cpu,
+  Swords,
+  CalendarDays,
+  Lightbulb,
+  Award,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -183,20 +214,44 @@ const MARKETPLACE_KPI: Kpi[] = [
   { icon: <Store size={16} />, label: "Nuovi negozi", fonte: "mycity", tipo: "n", oggi: "nuovi_negozi_oggi", sett: "nuovi_negozi_7g", mese: "nuovi_negozi_30g" },
 ];
 
-// === 30 DATI MARKETING — 10 KPI × (oggi/7g/30g) ===
-// Solo "Visite sito 7g" e "Conversione sito 7g" arrivano già da PostHog; il resto
-// è pronto e si accende appena colleghi la fonte indicata.
-const MARKETING_KPI: Kpi[] = [
+// === PUBBLICITÀ (ADS) === — Meta/Google/TikTok Ads
+const ADS_KPI: Kpi[] = [
   { icon: <Wallet size={16} />, label: "Spesa ads", fonte: "Meta/Google Ads", tipo: "euro" },
   { icon: <Target size={16} />, label: "ROAS", fonte: "Meta/Google Ads", tipo: "n" },
   { icon: <Receipt size={16} />, label: "CPA (costo/acquisizione)", fonte: "Meta/Google Ads", tipo: "euro" },
+  { icon: <MousePointer size={16} />, label: "CPC (costo/click)", fonte: "Meta/Google Ads", tipo: "euro" },
   { icon: <MousePointer size={16} />, label: "Click ads", fonte: "Meta/Google Ads", tipo: "n" },
   { icon: <Eye size={16} />, label: "Impression ads", fonte: "Meta/Google Ads", tipo: "n" },
+];
+
+// === SEO & TRAFFICO === — "Visite sito" arriva già da PostHog
+const SEO_KPI: Kpi[] = [
   { icon: <Globe size={16} />, label: "Visite sito", fonte: "PostHog/GA4", tipo: "n", sett: "visite_7g" },
   { icon: <Users size={16} />, label: "Visitatori unici", fonte: "PostHog/GA4", tipo: "n" },
-  { icon: <Percent size={16} />, label: "Conversione sito", fonte: "PostHog/GA4", tipo: "perc", sett: "conversione" },
-  { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
-  { icon: <Instagram size={16} />, label: "Nuovi follower social", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <Search size={16} />, label: "Posizione media Google", fonte: "Search Console", tipo: "n" },
+  { icon: <Award size={16} />, label: "Keyword in top 10", fonte: "Search Console", tipo: "n" },
+  { icon: <MousePointer size={16} />, label: "Click da Google", fonte: "Search Console", tipo: "n" },
+  { icon: <MapPin size={16} />, label: "Visite scheda Google", fonte: "Google Business", tipo: "n" },
+];
+
+// === SOCIAL & CONTENUTI ===
+const SOCIAL_KPI: Kpi[] = [
+  { icon: <Instagram size={16} />, label: "Follower", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <TrendingUp size={16} />, label: "Nuovi follower", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <Heart size={16} />, label: "Engagement", fonte: "IG/Facebook", tipo: "perc" },
+  { icon: <Share2 size={16} />, label: "Reach / copertura", fonte: "IG/Facebook", tipo: "n" },
+  { icon: <FileText size={16} />, label: "Post pubblicati", fonte: "content", tipo: "n" },
+  { icon: <Video size={16} />, label: "Visualizzazioni reel", fonte: "IG/TikTok", tipo: "n" },
+];
+
+// === STAMPA, PARTNERSHIP & ISTITUZIONI ===
+const PR_KPI: Kpi[] = [
+  { icon: <Newspaper size={16} />, label: "Uscite stampa", fonte: "PR", tipo: "n" },
+  { icon: <Megaphone size={16} />, label: "Menzioni / earned reach", fonte: "PR", tipo: "n" },
+  { icon: <Handshake size={16} />, label: "Influencer attivi", fonte: "partnership", tipo: "n" },
+  { icon: <Gift size={16} />, label: "Conversioni da partner", fonte: "partnership", tipo: "n" },
+  { icon: <Award size={16} />, label: "Bandi attivi / vinti", fonte: "ist. relazioni", tipo: "n" },
+  { icon: <Building2 size={16} />, label: "Partner istituzionali", fonte: "ist. relazioni", tipo: "n" },
 ];
 
 // === SALUTE ADESSO — foto istantanea dell'azienda, tutta da dati REALI del DB ===
@@ -213,17 +268,24 @@ const SALUTE_KPI: Kpi[] = [
   { icon: <AlertTriangle size={16} />, label: "Ordini con problemi", fonte: "mycity", tipo: "n", valore: "problemi" },
 ];
 
-// === OPERATIONS & CONSEGNE — 8 KPI × 3 finestre ===
-// Si accendono quando colleghi il tracking consegne/rider.
-const OPERATIONS_KPI: Kpi[] = [
+// === CONSEGNE & PUNTUALITÀ === — qualità del servizio di consegna
+const CONSEGNE_KPI: Kpi[] = [
   { icon: <CheckCircle2 size={16} />, label: "Consegne puntuali", fonte: "tracking consegne", tipo: "perc" },
   { icon: <Clock size={16} />, label: "Consegne in ritardo", fonte: "tracking consegne", tipo: "n" },
   { icon: <Timer size={16} />, label: "Tempo medio preparazione", fonte: "negozi/POS", tipo: "durata" },
+  { icon: <Truck size={16} />, label: "Tempo medio consegna", fonte: "tracking consegne", tipo: "durata" },
+  { icon: <RotateCcw size={16} />, label: "Consegne contestate", fonte: "tracking consegne", tipo: "n" },
+  { icon: <MapPin size={16} />, label: "Distanza media", fonte: "tracking consegne", tipo: "n" },
+];
+
+// === RIDER & FLOTTA === — chi consegna e a che costo
+const RIDER_KPI: Kpi[] = [
   { icon: <Bike size={16} />, label: "Rider attivi", fonte: "flotta rider", tipo: "n" },
+  { icon: <Users size={16} />, label: "Turni coperti", fonte: "flotta rider", tipo: "perc" },
   { icon: <Truck size={16} />, label: "Ordini per rider", fonte: "flotta rider", tipo: "n" },
   { icon: <Euro size={16} />, label: "Costo medio consegna", fonte: "flotta rider", tipo: "euro" },
-  { icon: <Users size={16} />, label: "Turni coperti", fonte: "flotta rider", tipo: "perc" },
   { icon: <MapPin size={16} />, label: "Zone scoperte", fonte: "flotta rider", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo medio per giro", fonte: "flotta rider", tipo: "durata" },
 ];
 
 // === FINANZA & MARGINI — 8 KPI × 3 finestre ===
@@ -239,16 +301,15 @@ const FINANZA_KPI: Kpi[] = [
   { icon: <PiggyBank size={16} />, label: "Incasso netto", fonte: "Stripe/costi", tipo: "euro" },
 ];
 
-// === CLIENTI & RETENTION — 8 KPI × 3 finestre ===
-// Si accendono quando colleghi gli eventi cliente (riordini, NPS, supporto).
+// === CLIENTI & RETENTION (CRM) === — far tornare e fidelizzare i clienti
 const CLIENTI_KPI: Kpi[] = [
   { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc" },
   { icon: <UserMinus size={16} />, label: "Churn clienti", fonte: "ordini", tipo: "perc" },
   { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro" },
   { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n" },
-  { icon: <Smile size={16} />, label: "NPS", fonte: "sondaggi", tipo: "n" },
-  { icon: <Star size={16} />, label: "Recensioni clienti", fonte: "recensioni", tipo: "n" },
-  { icon: <Headphones size={16} />, label: "Reclami aperti", fonte: "supporto", tipo: "n" },
+  { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Apertura email", fonte: "Resend", tipo: "perc" },
+  { icon: <RotateCcw size={16} />, label: "Win-back recuperati", fonte: "CRM", tipo: "n" },
   { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n" },
 ];
 
@@ -265,15 +326,140 @@ const NEGOZI_KPI: Kpi[] = [
   { icon: <UserPlus size={16} />, label: "Negozi in onboarding", fonte: "vendite", tipo: "n" },
 ];
 
+// === CONTABILITÀ & FISCO ===
+const CONTABILITA_KPI: Kpi[] = [
+  { icon: <FileText size={16} />, label: "Fatture emesse", fonte: "contabilità", tipo: "n" },
+  { icon: <Receipt size={16} />, label: "Fatturato imponibile", fonte: "contabilità", tipo: "euro" },
+  { icon: <Percent size={16} />, label: "IVA da versare", fonte: "contabilità", tipo: "euro" },
+  { icon: <Banknote size={16} />, label: "Payout riconciliati", fonte: "Stripe/contabilità", tipo: "perc" },
+  { icon: <RotateCcw size={16} />, label: "Note di credito", fonte: "contabilità", tipo: "n" },
+  { icon: <CalendarClock size={16} />, label: "Scadenze fiscali", fonte: "contabilità", tipo: "n" },
+];
+
+// === GROWTH & MONETIZZAZIONE === — esperimenti per fare più soldi
+const GROWTH_KPI: Kpi[] = [
+  { icon: <FlaskConical size={16} />, label: "Esperimenti attivi", fonte: "growth", tipo: "n" },
+  { icon: <ArrowUpRight size={16} />, label: "Uplift ricavo", fonte: "growth", tipo: "perc" },
+  { icon: <TrendingUp size={16} />, label: "Tasso upsell", fonte: "ordini", tipo: "perc" },
+  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro" },
+  { icon: <Receipt size={16} />, label: "Scontrino post-upsell", fonte: "ordini", tipo: "euro" },
+  { icon: <Truck size={16} />, label: "Uso soglia spedizione gratis", fonte: "ordini", tipo: "perc" },
+];
+
+// === CONVERSIONE & FUNNEL (CRO) === — "Conversione sito" arriva già da PostHog
+const CRO_KPI: Kpi[] = [
+  { icon: <Percent size={16} />, label: "Conversione sito", fonte: "PostHog/GA4", tipo: "perc", sett: "conversione" },
+  { icon: <ShoppingCart size={16} />, label: "Add to cart", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <Filter size={16} />, label: "Abbandono carrello", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <Filter size={16} />, label: "Abbandono checkout", fonte: "PostHog/GA4", tipo: "perc" },
+  { icon: <FlaskConical size={16} />, label: "A/B test attivi", fonte: "CRO", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo al checkout", fonte: "PostHog/GA4", tipo: "durata" },
+];
+
+// === SUPPORTO & SODDISFAZIONE ===
+const SUPPORTO_KPI: Kpi[] = [
+  { icon: <MessageSquare size={16} />, label: "Ticket aperti", fonte: "supporto", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Tempo prima risposta", fonte: "supporto", tipo: "durata" },
+  { icon: <Timer size={16} />, label: "Tempo di risoluzione", fonte: "supporto", tipo: "durata" },
+  { icon: <Smile size={16} />, label: "Soddisfazione (CSAT)", fonte: "supporto", tipo: "perc" },
+  { icon: <ThumbsUp size={16} />, label: "NPS", fonte: "sondaggi", tipo: "n" },
+  { icon: <Headphones size={16} />, label: "Reclami aperti", fonte: "supporto", tipo: "n" },
+];
+
+// === FIDUCIA & SICUREZZA === — frodi, abusi, protezione dati
+const TRUST_KPI: Kpi[] = [
+  { icon: <ShieldAlert size={16} />, label: "Frodi bloccate", fonte: "trust&safety", tipo: "n" },
+  { icon: <Star size={16} />, label: "Recensioni false rimosse", fonte: "trust&safety", tipo: "n" },
+  { icon: <UserX size={16} />, label: "Account sospesi", fonte: "trust&safety", tipo: "n" },
+  { icon: <ShieldAlert size={16} />, label: "Dispute vinte", fonte: "Stripe", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "Segnalazioni aperte", fonte: "trust&safety", tipo: "n" },
+  { icon: <ShieldCheck size={16} />, label: "Incidenti sicurezza", fonte: "security", tipo: "n" },
+];
+
+// === LEGALE & PRIVACY ===
+const LEGALE_KPI: Kpi[] = [
+  { icon: <FileCheck size={16} />, label: "Contratti firmati", fonte: "legale", tipo: "n" },
+  { icon: <Lock size={16} />, label: "Consensi GDPR", fonte: "legale/privacy", tipo: "perc" },
+  { icon: <ShieldCheck size={16} />, label: "HACCP a norma", fonte: "legale", tipo: "perc" },
+  { icon: <CalendarClock size={16} />, label: "Scadenze documenti", fonte: "legale", tipo: "n" },
+  { icon: <Scale size={16} />, label: "Richieste GDPR aperte", fonte: "privacy", tipo: "n" },
+  { icon: <FileText size={16} />, label: "Negozi senza contratto", fonte: "legale", tipo: "n" },
+];
+
+// === TECH & AFFIDABILITÀ SITO ===
+const TECH_KPI: Kpi[] = [
+  { icon: <Server size={16} />, label: "Uptime", fonte: "Render/monitor", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "Errori in produzione", fonte: "Render/Sentry", tipo: "n" },
+  { icon: <Gauge size={16} />, label: "Velocità (LCP)", fonte: "Web Vitals", tipo: "durata" },
+  { icon: <Bug size={16} />, label: "Bug aperti", fonte: "tech", tipo: "n" },
+  { icon: <Rocket size={16} />, label: "Deploy", fonte: "CI/Render", tipo: "n" },
+  { icon: <Eye size={16} />, label: "Core Web Vitals ok", fonte: "Web Vitals", tipo: "perc" },
+];
+
+// === AUTOMAZIONI & STRUMENTI ===
+const AUTOMAZIONI_KPI: Kpi[] = [
+  { icon: <Workflow size={16} />, label: "Flussi attivi", fonte: "n8n", tipo: "n" },
+  { icon: <Zap size={16} />, label: "Esecuzioni / giorno", fonte: "n8n", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Ore risparmiate", fonte: "n8n", tipo: "n" },
+  { icon: <Plug size={16} />, label: "Integrazioni (MCP)", fonte: "builder", tipo: "n" },
+  { icon: <AlertTriangle size={16} />, label: "Errori automazioni", fonte: "n8n", tipo: "n" },
+  { icon: <Cpu size={16} />, label: "Costo AI / mese", fonte: "builder", tipo: "euro" },
+];
+
+// === MERCATO & CONCORRENZA === — il mondo fuori che ci influenza
+const MERCATO_KPI: Kpi[] = [
+  { icon: <Swords size={16} />, label: "Concorrenti monitorati", fonte: "intelligence", tipo: "n" },
+  { icon: <Euro size={16} />, label: "Prezzo medio mercato", fonte: "intelligence", tipo: "euro" },
+  { icon: <Award size={16} />, label: "Quota di mercato stimata", fonte: "intelligence", tipo: "perc" },
+  { icon: <CalendarDays size={16} />, label: "Eventi in arrivo", fonte: "intelligence", tipo: "n" },
+  { icon: <Lightbulb size={16} />, label: "Opportunità aperte", fonte: "intelligence", tipo: "n" },
+  { icon: <TrendingUp size={16} />, label: "Trend in salita", fonte: "intelligence", tipo: "n" },
+];
+
+// === AZIENDA & SQUADRA === — la salute dell'impresa dietro MyCity
+const AZIENDA_KPI: Kpi[] = [
+  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro" },
+  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n" },
+  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro" },
+  { icon: <TrendingDown size={16} />, label: "Burn mensile", fonte: "finanza", tipo: "euro" },
+  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n" },
+  { icon: <Percent size={16} />, label: "Margine operativo", fonte: "finanza", tipo: "perc" },
+];
+
+// === OBIETTIVI & GOVERNANCE === — come gira la macchina (AD + squadra)
+const GOVERNANCE_KPI: Kpi[] = [
+  { icon: <Target size={16} />, label: "OKR a target", fonte: "OKR-Squadra", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "KPI in allarme", fonte: "sentinelle", tipo: "n" },
+  { icon: <CheckCircle2 size={16} />, label: "Decisioni prese", fonte: "memoria AI", tipo: "n" },
+  { icon: <Clock size={16} />, label: "Azioni in attesa di firma", fonte: "memoria AI", tipo: "n" },
+  { icon: <History size={16} />, label: "Giri/report fatti", fonte: "memoria AI", tipo: "n" },
+  { icon: <Users size={16} />, label: "Senior attivi", fonte: "squadra", tipo: "n" },
+];
+
 // Lista piatta (KPI × finestra) per il generatore di prompt per Max.
 const ALL_METRICHE: { label: string; periodo: string; chiave?: string; tipo?: Tipo }[] = [
   ...[
     ...MARKETPLACE_KPI,
-    ...OPERATIONS_KPI,
     ...FINANZA_KPI,
+    ...CONTABILITA_KPI,
+    ...GROWTH_KPI,
     ...CLIENTI_KPI,
+    ...CRO_KPI,
+    ...SUPPORTO_KPI,
     ...NEGOZI_KPI,
-    ...MARKETING_KPI,
+    ...ADS_KPI,
+    ...SEO_KPI,
+    ...SOCIAL_KPI,
+    ...PR_KPI,
+    ...CONSEGNE_KPI,
+    ...RIDER_KPI,
+    ...TRUST_KPI,
+    ...LEGALE_KPI,
+    ...TECH_KPI,
+    ...AUTOMAZIONI_KPI,
+    ...MERCATO_KPI,
+    ...AZIENDA_KPI,
+    ...GOVERNANCE_KPI,
   ].flatMap((k) => [
     { label: k.label, periodo: "oggi", chiave: k.oggi, tipo: k.tipo },
     { label: k.label, periodo: "7 giorni", chiave: k.sett, tipo: k.tipo },
@@ -282,16 +468,41 @@ const ALL_METRICHE: { label: string; periodo: string; chiave?: string; tipo?: Ti
   ...SALUTE_KPI.map((k) => ({ label: k.label, periodo: "adesso", chiave: k.valore, tipo: k.tipo })),
 ];
 
-// Le categorie del cockpit "I numeri di oggi", in ordine. Ognuna è una tendina.
-type CategoriaNum = { emoji: string; titolo: string; sottotitolo: string; kpis: Kpi[]; snapshot?: boolean };
+// Le categorie del cockpit "I numeri di oggi", in ordine e raggruppate per
+// macro-area (gruppo). Coprono TUTTE le sfere che riguardano e influenzano
+// MyCity e l'azienda. Ognuna è una tendina.
+type CategoriaNum = { gruppo: string; emoji: string; titolo: string; sottotitolo: string; kpis: Kpi[]; snapshot?: boolean };
 const CATEGORIE_NUMERI: CategoriaNum[] = [
-  { emoji: "🩺", titolo: "Salute adesso", sottotitolo: "La foto dell'azienda in questo momento — già collegata ai dati reali.", kpis: SALUTE_KPI, snapshot: true },
-  { emoji: "📦", titolo: "Marketplace", sottotitolo: "Ordini, incassi, clienti, carrelli, consegne e negozi.", kpis: MARKETPLACE_KPI },
-  { emoji: "🛵", titolo: "Operations & consegne", sottotitolo: "Puntualità, ritardi, rider e costo per consegna — si accendono col tracking consegne.", kpis: OPERATIONS_KPI },
-  { emoji: "💶", titolo: "Finanza & margini", sottotitolo: "Commissioni, margini, payout, rimborsi e incasso netto — si accendono con Stripe e i costi.", kpis: FINANZA_KPI },
-  { emoji: "🤝", titolo: "Clienti & retention", sottotitolo: "Riordino, churn, valore cliente, NPS e reclami — si accendono con gli eventi cliente.", kpis: CLIENTI_KPI },
-  { emoji: "🏪", titolo: "Negozi & catalogo", sottotitolo: "Negozi in calo, prodotti, esauriti e categorie — si accendono col catalogo e l'health negozi.", kpis: NEGOZI_KPI },
-  { emoji: "📣", titolo: "Marketing", sottotitolo: "Pubblicità, traffico, conversione, email e social — si accendono appena colleghi le fonti.", kpis: MARKETING_KPI },
+  // — Panoramica
+  { gruppo: "Panoramica", emoji: "🩺", titolo: "Salute adesso", sottotitolo: "La foto dell'azienda in questo momento — già collegata ai dati reali.", kpis: SALUTE_KPI, snapshot: true },
+  // — Soldi & vendite
+  { gruppo: "Soldi & vendite", emoji: "📦", titolo: "Marketplace", sottotitolo: "Ordini, incassi, clienti, carrelli, consegne e negozi.", kpis: MARKETPLACE_KPI },
+  { gruppo: "Soldi & vendite", emoji: "💶", titolo: "Finanza & margini", sottotitolo: "Commissioni, margini, payout, rimborsi e incasso netto — con Stripe e i costi.", kpis: FINANZA_KPI },
+  { gruppo: "Soldi & vendite", emoji: "🧾", titolo: "Contabilità & fisco", sottotitolo: "Fatture, IVA, riconciliazioni e scadenze fiscali.", kpis: CONTABILITA_KPI },
+  { gruppo: "Soldi & vendite", emoji: "🚀", titolo: "Growth & monetizzazione", sottotitolo: "Esperimenti, upsell, fee e leve per aumentare i ricavi.", kpis: GROWTH_KPI },
+  // — Clienti & domanda
+  { gruppo: "Clienti & domanda", emoji: "🤝", titolo: "Clienti & retention (CRM)", sottotitolo: "Riordino, churn, valore cliente, email e referral.", kpis: CLIENTI_KPI },
+  { gruppo: "Clienti & domanda", emoji: "🛒", titolo: "Conversione & funnel", sottotitolo: "Conversione, carrello/checkout, A/B test — con PostHog/GA4.", kpis: CRO_KPI },
+  { gruppo: "Clienti & domanda", emoji: "🎧", titolo: "Supporto & soddisfazione", sottotitolo: "Ticket, tempi di risposta, CSAT, NPS e reclami.", kpis: SUPPORTO_KPI },
+  // — Offerta
+  { gruppo: "Offerta", emoji: "🏪", titolo: "Negozi & catalogo", sottotitolo: "Negozi in calo, prodotti, esauriti e categorie — con catalogo e health negozi.", kpis: NEGOZI_KPI },
+  // — Acquisizione & voce
+  { gruppo: "Acquisizione & voce", emoji: "📢", titolo: "Pubblicità (Ads)", sottotitolo: "Spesa, ROAS, CPA, click e impression — con Meta/Google/TikTok Ads.", kpis: ADS_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "🔍", titolo: "SEO & traffico", sottotitolo: "Visite, posizionamento Google e scheda Business.", kpis: SEO_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "📱", titolo: "Social & contenuti", sottotitolo: "Follower, engagement, reach, post e reel.", kpis: SOCIAL_KPI },
+  { gruppo: "Acquisizione & voce", emoji: "🗞️", titolo: "Stampa, partnership & istituzioni", sottotitolo: "Uscite stampa, influencer, bandi e alleanze locali.", kpis: PR_KPI },
+  // — Operazioni & consegne
+  { gruppo: "Operazioni & consegne", emoji: "🛵", titolo: "Consegne & puntualità", sottotitolo: "Puntualità, ritardi, tempi di preparazione e consegna.", kpis: CONSEGNE_KPI },
+  { gruppo: "Operazioni & consegne", emoji: "🚴", titolo: "Rider & flotta", sottotitolo: "Rider attivi, turni, ordini per rider, costo e zone scoperte.", kpis: RIDER_KPI },
+  // — Fondamenta
+  { gruppo: "Fondamenta", emoji: "🛡️", titolo: "Fiducia & sicurezza", sottotitolo: "Frodi, recensioni false, account sospesi, dispute e sicurezza.", kpis: TRUST_KPI },
+  { gruppo: "Fondamenta", emoji: "⚖️", titolo: "Legale & privacy", sottotitolo: "Contratti, consensi GDPR, HACCP e scadenze documenti.", kpis: LEGALE_KPI },
+  { gruppo: "Fondamenta", emoji: "🛠️", titolo: "Tech & affidabilità", sottotitolo: "Uptime, errori in produzione, velocità e bug del sito.", kpis: TECH_KPI },
+  { gruppo: "Fondamenta", emoji: "🤖", titolo: "Automazioni & strumenti", sottotitolo: "Flussi n8n, esecuzioni, ore risparmiate e integrazioni (MCP).", kpis: AUTOMAZIONI_KPI },
+  { gruppo: "Fondamenta", emoji: "🔎", titolo: "Mercato & concorrenza", sottotitolo: "Concorrenti, prezzi, quota, eventi e opportunità di mercato.", kpis: MERCATO_KPI },
+  // — Azienda
+  { gruppo: "Azienda", emoji: "🏢", titolo: "Azienda & squadra", sottotitolo: "Cassa, runway, costi fissi, break-even e margine operativo.", kpis: AZIENDA_KPI },
+  { gruppo: "Azienda", emoji: "🎯", titolo: "Obiettivi & governance", sottotitolo: "OKR, allarmi, decisioni, azioni in attesa e ritmo della squadra.", kpis: GOVERNANCE_KPI },
 ];
 // Aperte di default: i due blocchi con più dati reali.
 const NUM_DEFAULT_APERTE = ["Salute adesso", "Marketplace"];
@@ -940,20 +1151,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             Per categoria, in tre finestre: oggi · 7 giorni · 30 giorni. Tocca una categoria per aprirla; le celle spente sono fonti da collegare.
           </p>
 
-          <div className="space-y-2">
-            {CATEGORIE_NUMERI.map((c) => (
-              <CategoriaNumeri
-                key={c.titolo}
-                emoji={c.emoji}
-                titolo={c.titolo}
-                sottotitolo={c.sottotitolo}
-                kpis={c.kpis}
-                snapshot={c.snapshot}
-                metriche={metriche}
-                open={catAperte.has(c.titolo)}
-                onToggle={() => toggleCat(c.titolo)}
-              />
-            ))}
+          <div className="space-y-1.5">
+            {CATEGORIE_NUMERI.map((c, i) => {
+              const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
+              return (
+                <Fragment key={c.titolo}>
+                  {nuovoGruppo && c.gruppo !== "Panoramica" && (
+                    <div className="text-[10px] uppercase tracking-wide text-black/40 font-semibold px-0.5 pt-2 pb-0.5">
+                      {c.gruppo}
+                    </div>
+                  )}
+                  <CategoriaNumeri
+                    emoji={c.emoji}
+                    titolo={c.titolo}
+                    sottotitolo={c.sottotitolo}
+                    kpis={c.kpis}
+                    snapshot={c.snapshot}
+                    metriche={metriche}
+                    open={catAperte.has(c.titolo)}
+                    onToggle={() => toggleCat(c.titolo)}
+                  />
+                </Fragment>
+              );
+            })}
           </div>
         </section>
 
