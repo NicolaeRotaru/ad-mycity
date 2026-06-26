@@ -31,10 +31,13 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime 3 mosse dell'AD
-1. **Giro di perlustrazione 26/6** (vigilia prima consegna): giro a **dati-live mancanti**
-   (DB + web non autorizzati); checklist vigilia pronta in `consegne/operations/` — vedi [[2026-06-26]].
-2. **Giro 25/6**: 7 senior → pacchetto faro pronto (pitch, contratto, QR, payout, primo ordine).
-3. Decisioni 🔴 bloccanti ancora in coda (Stripe live/sandbox, fee, commissione) — vedi [[AZIONI-IN-ATTESA]].
+1. **Giro 26/6 — 2° passaggio** (dati ancora bloccati): consolidato le 3 decisioni 🔴 in un
+   **foglio-firma da 2 minuti** `consegne/decisioni/2026-06-26-foglio-firma-lancio.md` per
+   sbloccare la prima consegna. Vedi [[2026-06-26]].
+2. **Giro 26/6 — 1° passaggio** (vigilia prima consegna): dati-live mancanti; checklist vigilia
+   in `consegne/operations/2026-06-26-vigilia-prima-consegna.md`.
+3. **Giro 25/6**: 7 senior → pacchetto faro pronto (pitch, contratto, QR, payout, primo ordine).
+   Decisioni 🔴 bloccanti ancora in coda (Stripe live/sandbox, fee, commissione) — [[AZIONI-IN-ATTESA]].
 
 ## Prossime priorità (da approvare)
 - [ ] STASERA: confermare Stripe live/sandbox + sistemare branding + stampare materiali + creare form/IG.
