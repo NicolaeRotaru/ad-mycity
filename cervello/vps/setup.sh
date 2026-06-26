@@ -12,11 +12,20 @@
 # Poi restano 2 passi MANUALI (li stampa alla fine): 'claude login' e i segreti in .env.
 set -euo pipefail
 
-REPO_URL="${REPO_URL:-https://github.com/NicolaeRotaru/ad-mycity.git}"
+GIT_REPO="${GIT_REPO:-NicolaeRotaru/ad-mycity}"   # owner/repo (il repo e' PRIVATO)
+GIT_TOKEN="${GIT_TOKEN:-${GIT_PUSH_TOKEN:-}}"     # PAT GitHub (Contents: read/write)
 REPO_BRANCH="${REPO_BRANCH:-main}"
 APP_USER="mycity"
 APP_HOME="/home/$APP_USER"
 APP_DIR="/opt/mycity/ad-mycity"
+
+# Repo privato -> serve un token per clonare/pullare via HTTPS (la password non e' piu' accettata).
+if [ -z "$GIT_TOKEN" ]; then
+  echo "ERRORE: il repo $GIT_REPO e' privato: serve un Personal Access Token." >&2
+  echo "Rilancia cosi':  GIT_TOKEN=il_tuo_PAT bash $0" >&2
+  exit 1
+fi
+CLONE_URL="https://x-access-token:${GIT_TOKEN}@github.com/${GIT_REPO}.git"
 
 if [ "$(id -u)" -ne 0 ]; then
   echo "Esegui come root:  sudo bash setup.sh" >&2
@@ -55,11 +64,15 @@ command -v claude >/dev/null 2>&1 && echo "   $(claude --version 2>/dev/null || 
 echo "== 5) Repo in $APP_DIR =="
 mkdir -p /opt/mycity
 if [ -d "$APP_DIR/.git" ]; then
+  # Aggiorna il remote col token (repo privato) e pulla.
+  git -C "$APP_DIR" remote set-url origin "$CLONE_URL"
   git -C "$APP_DIR" pull --ff-only || true
 else
-  git clone --branch "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
+  git clone --branch "$REPO_BRANCH" "$CLONE_URL" "$APP_DIR"
 fi
+# Il working clone tiene il remote col token, cosi' giro.sh (pull+push del vault) funziona sul privato.
 chown -R "$APP_USER":"$APP_USER" /opt/mycity
+chmod -R go-rwx "$APP_DIR/.git" 2>/dev/null || true   # protegge il token nel .git/config
 
 echo "== 6) File dei segreti (.env) =="
 ENV_DIR="$APP_DIR/cervello/vps"

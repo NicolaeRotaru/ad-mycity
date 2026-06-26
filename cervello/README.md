@@ -65,12 +65,13 @@ Il worker fa polling, esegue ogni lavoro con `claude -p`, e riscrive il risultat
 Far girare il cervello su un server Linux (es. Hetzner) **accanto** a quello che c'è già, senza
 cancellare nulla. Giro automatico ogni 2 ore + worker delle approvazioni, sempre attivi, sul tuo Max.
 
-➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)**. In breve, **sul VPS via SSH** (non sul PC Windows):
+➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)**. In breve, **sul VPS via SSH** (non sul PC Windows; il repo è **privato** → serve un **PAT**):
 > ```bash
-> ssh root@INDIRIZZO-IP-DEL-VPS            # 0) collegati al server
-> sudo apt-get update && sudo apt-get install -y git
-> sudo git clone https://github.com/NicolaeRotaru/ad-mycity.git /opt/mycity-bootstrap
-> sudo bash /opt/mycity-bootstrap/cervello/vps/setup.sh   # 1) installa
+> ssh root@INDIRIZZO-IP-DEL-VPS            # 0) collegati al server (sei root)
+> apt-get update && apt-get install -y git
+> TOKEN=github_pat_xxxxxxxx                 # tuo PAT (Contents: read/write su ad-mycity)
+> git clone https://x-access-token:$TOKEN@github.com/NicolaeRotaru/ad-mycity.git /opt/mycity/ad-mycity
+> GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh   # 1) installa
 > sudo -u mycity -H claude login           # 2) collega il Max · 3) segreti in .env · poi systemctl start
 > ```
 
