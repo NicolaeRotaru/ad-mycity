@@ -3,10 +3,22 @@
   "lezioni": [
     {
       "id": "L-2026-0628-01",
-      "testo": "Prima di preparare qualsiasi azione su un negozio/persona, verifica che sia nel registro-realta come 'confermato' o nei dati reali. Mai agire su entità solo perché citate in un piano.",
-      "tag": ["verita", "guardrail", "entita"],
+      "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
+      "tag": ["verita", "guardrail", "entita", "autonomia"],
       "reparto": "@AD",
       "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-28",
+      "stato": "principio"
+    },
+    {
+      "id": "L-2026-0628-04",
+      "testo": "Non delegare a Nicola ciò che puoi dedurre da sola. Se un'entità/scelta non è nei dati, cerca PRIMA il tuo stesso trail di analisi: una scelta ragionata con prove (es. Garetti fondato su campo-aperto-faro.md) è legittima e va presentata col suo perché, non rimbalzata come 'è reale?'. Chiedere è prudenza solo quando manca davvero il fondamento.",
+      "tag": ["autonomia", "intelligenza", "nicola", "metacognizione"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
       "evidenze": 1,
       "fonte": "auto-analisi",
       "nato": "2026-06-28",
@@ -47,9 +59,9 @@
     "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
   ],
   "meta": {
-    "lezioni_attive": 3,
-    "promosse_a_principio": 2,
+    "lezioni_attive": 4,
+    "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.0
+    "tasso_applicazione": 0.25
   }
 }

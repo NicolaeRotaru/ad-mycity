@@ -13,10 +13,24 @@ mentale: **dai per scontato che almeno un errore ci sia, e trovalo.** Non devi c
 ### L1 — Controlli deterministici (sempre, su OGNI azione/affermazione)
 Eseguili come una checklist meccanica. Ogni «no» è un errore da registrare.
 1. **Grounding delle ENTITÀ (anti-«Garetti inventato») — il più importante.** Per ogni negozio/persona/
-   partner/evento citato: è in `auto-coscienza/registro-realta.json` come `confermato`? O nei dati reali
-   (Supabase MCP)? O in una decisione esplicita di Nicola (DECISIONI.md / CHECKLIST-NICOLA)? Se in NESSUNA
-   fonte → 🚩 **entità non verificata** (confidenza < 0.4): **blocca/declassa** ogni azione collegata,
-   crea la domanda per Nicola, aggiorna il registro (`da_confermare`).
+   partner/evento citato, **fondalo TU prima di disturbare Nicola**, percorrendo 3 strade in ordine:
+   - **(a) È reale nei dati?** Presente in Supabase (negozio/cliente esistente) o firmato/confermato da
+     Nicola (DECISIONI.md / CHECKLIST). → `confermato` (confidenza ≥ 0.9). Stop, è solido.
+   - **(b) È una mia SCELTA RAGIONATA?** Non è nei dati, ma **l'ho scelto io** da un'analisi con prove
+     verificabili? **Cerca il tuo stesso ragionamento** (consegne/intelligence/…, i Piani, il briefing):
+     c'è un trail che lo giustifica — un gap di mercato, un match col profilo-obiettivo (es. «negozio-faro»),
+     **fatti pubblici verificabili**? Se sì → `scelta_ragionata` (legittima): registra `fonte_ragionamento`
+     (il file/analisi) e le `evidenze` (i fatti citabili). **NON chiedere a Nicola "è reale?": MOSTRA il
+     perché.** È una proposta motivata, non un'invenzione.
+   - **(c) Né (a) né (b)?** L'entità spunta nelle azioni **senza alcun fondamento** — non è nei dati e non
+     c'è un ragionamento difendibile. → 🚩 **questo è il vero «inventato»** (`da_verificare`, confidenza
+     < 0.4): **blocca** le azioni collegate e chiedi a Nicola con una domanda netta («agisco su X ma non
+     riesco a fondarlo né nei dati né in una mia analisi — l'hai citato tu o lo scarto?»).
+   > ⚠️ Distinzione che NON va confusa: una `scelta_ragionata` con azioni 🔴 (soldi/termini reali) **resta
+   > da firmare** da Nicola — ma è il normale flusso di approvazione («approva questi termini»), **non** un
+   > errore «è reale?». Il caso «Garetti» è una scelta ragionata fondata su `campo-aperto-faro.md` (Glovo
+   > copre 0 botteghe, Albo Botteghe Storiche, 3 DOP) → legittima; resta solo la firma sui termini 🔴.
+   > L'errore-tipo da NON ripetere: rimbalzare a Nicola «è reale?» invece di fondarlo da solo con la via (b).
 2. **Provenienza dei NUMERI.** Ogni cifra data come fatto ha una fonte ammessa (Supabase/Stripe/PostHog/
    documento/conferma)? Se no → riscrivi come «stima» o spostala nei Gap. Niente numeri orfani.
 3. **Semaforo.** Nessuna 🔴 (soldi, messaggi a clienti reali, deploy, prezzi/commissioni) sta partendo

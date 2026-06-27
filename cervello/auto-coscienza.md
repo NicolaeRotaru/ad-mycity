@@ -56,12 +56,19 @@ non la sovrascrive col codice di main). Gli **spec/prompt** invece stanno in `ce
 ```json
 { "aggiornato": "AAAA-MM-GG HH:MM",
   "entita": [
-    {"nome":"…","tipo":"negozio|persona|partner|evento|luogo","stato":"confermato|da_confermare|scartato",
+    {"nome":"…","tipo":"negozio|persona|partner|evento|luogo",
+     "stato":"confermato|scelta_ragionata|da_verificare|scartato",
      "fonte":"Supabase|Stripe|DECISIONI|CHECKLIST|documento|conferma-Nicola|—","confidenza":0.0,
-     "note":"…","domanda_per_nicola":"…(solo se da_confermare)","ultima_verifica":"AAAA-MM-GG HH:MM"}],
+     "fonte_ragionamento":"…(file/analisi che giustifica la scelta, solo se scelta_ragionata)",
+     "evidenze":["fatti pubblici/dati citabili che reggono la scelta"],
+     "note":"…","domanda_per_nicola":"…(solo se da_verificare: entità senza fondamento)","ultima_verifica":"AAAA-MM-GG HH:MM"}],
   "numeri_da_non_inventare": {"fonti_ammesse":["Supabase MCP","Stripe MCP","PostHog","documento","conferma di Nicola"]} }
 ```
-Regola: confidenza = quanto è solida la prova (1.0 = nel DB/firmato; 0.5 = implicito; <0.4 = sospetto → da_confermare).
+Stati: **confermato** = nei dati/firmato (confidenza ≥ 0.9). **scelta_ragionata** = la macchina l'ha scelto
+da una sua analisi con prove verificabili — LEGITTIMA, si mostra il perché, non si chiede «è reale?»
+(confidenza 0.6-0.85; le azioni 🔴 restano da firmare nel normale flusso). **da_verificare** = compare nelle
+azioni SENZA fondamento (né dati né ragionamento difendibile) → il vero «inventato», si blocca e si chiede
+(confidenza < 0.4). **scartato** = valutato e scartato.
 
 ### `auto-analisi.json`
 ```json

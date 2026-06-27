@@ -39,7 +39,7 @@ type Miglioramento = {
   peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
   proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
 };
-type Entita = { nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; note?: string; domanda_per_nicola?: string };
+type Entita = { nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
 type Registro = { entita?: Entita[] };
 type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
 
@@ -89,7 +89,8 @@ export default function AutoCoscienza() {
   }, [d]);
 
   const a = d?.analisi;
-  const daConfermare = (d?.registro?.entita || []).filter((e) => e.stato === "da_confermare");
+  const scelteRagionate = (d?.registro?.entita || []).filter((e) => e.stato === "scelta_ragionata");
+  const daVerificare = (d?.registro?.entita || []).filter((e) => e.stato === "da_verificare");
   const ap = d?.apprendimento;
   const mi = d?.miglioramento;
   const cal = d?.calibrazione;
@@ -162,13 +163,39 @@ export default function AutoCoscienza() {
                 </div>
               )}
 
-              {/* 🧬 Entità da confermare (anti-«Garetti inventato»): su cosa la macchina NON agisce finché non confermi */}
-              {daConfermare.length > 0 && (
+              {/* 🧠 Scelte ragionate: entità che la macchina ha scelto DA SOLA con prove (legittime, non inventate) */}
+              {scelteRagionate.length > 0 && (
                 <div>
-                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Entità da confermare ({daConfermare.length})</div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><CheckCircle2 size={13} /> Scelte ragionate della macchina ({scelteRagionate.length})</div>
                   <div className="space-y-2">
-                    {daConfermare.map((e, i) => (
-                      <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+                    {scelteRagionate.map((e, i) => (
+                      <div key={i} className="rounded-xl border border-green-200 bg-green-50/50 p-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-medium">{e.nome}</span>
+                          {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
+                          <span className="text-[10px] px-1.5 rounded bg-green-100 text-green-700">scelta motivata</span>
+                          {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
+                        </div>
+                        {e.evidenze && e.evidenze.length > 0 && (
+                          <ul className="mt-1.5 space-y-0.5">
+                            {e.evidenze.map((ev, j) => <li key={j} className="text-[12px] text-black/70 flex gap-1.5"><span className="text-green-600">✓</span>{ev}</li>)}
+                          </ul>
+                        )}
+                        {e.fonte_ragionamento && <div className="t-eti mt-1 font-mono">perché: {e.fonte_ragionamento}</div>}
+                        {e.note && <div className="text-[12px] text-black/60 mt-1">{e.note}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 🚩 Entità senza fondamento: il vero «inventato» → bloccate finché non chiarisci */}
+              {daVerificare.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Entità senza fondamento — bloccate ({daVerificare.length})</div>
+                  <div className="space-y-2">
+                    {daVerificare.map((e, i) => (
+                      <div key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-3">
                         <div className="flex items-center gap-2">
                           <span className="text-[13px] font-medium">{e.nome}</span>
                           {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
