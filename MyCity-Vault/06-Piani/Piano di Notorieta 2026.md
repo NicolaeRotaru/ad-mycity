@@ -208,8 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 18:50
+## 🤖 Aggiornamento dell'AD — 2026-06-28 00:51
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Doppio picco di presenze questo weekend** (presidio/QR nelle ore fresche serali): **stasera Federico Buffa** + **2ª serata Venerdì Piacentini**, **domani sera Arisa** a Palazzo Farnese. Fonte: [ilpiacenza](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html). (presidio 🟡)
-- **Finestra presidio lunga**: il centro è animato fino al **17/7** (grande manifestazione, ~200 eventi, ~300 negozi aperti) → presidio fisico/QR + earned media locale. Fonte: [piacenza24](https://www.piacenza24.eu/eventi-a-piacenza-fino-al-29-giugno/).
+- **⭐ SETTIMANA DI SANT'ANTONINO = grande finestra di notorietà (la più grande del mese):** festa del patrono, pre-festa 27/6→3/7, **culmine sab 4/7** (fiera di bancarelle, centro pieno tutto il giorno) + **Venerdì Piacentini 3/7**. Occasione per **presidio/QR ad alto traffico** e per un **angolo PR civico** ("la festa del patrono e le botteghe del centro"): possibile aggancio earned media locale legato alla tradizione. Fonti: [piacenza24 – Antoniniane 2026](https://www.piacenza24.eu/manifestazioni-antoniniane-2026/) · [comune – Manifestazioni Antoniniane](https://www.comune.piacenza.it/it/news/manifestazioni-antoniniane). (presidio 🟡 · contatto stampa/enti 🔴)
+- **Stasera Arisa a Palazzo Farnese** (Piacenza Summer Cult) = picco di presenze serale in centro → presidio/QR nelle ore fresche, a costo ≈0. Fonte: [piacenza24](https://www.piacenza24.eu/eventi-a-piacenza-e-dintorni-fino-a-domenica-28-giugno/).
+- **Finestra presidio lunga**: il centro resta animato fino a metà luglio (manifestazione + festa patrono) → presidio fisico/QR + earned media locale prolungato.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

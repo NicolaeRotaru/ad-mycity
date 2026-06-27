@@ -1,7 +1,17 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 23:02** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
-> Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+> Aggiornato: **2026-06-28 00:51** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
+> Finestra coperta: 28/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> 🌞 **Nota delle 00:51 (dom 28/6, primo giro del giorno) — ULTIMO giorno del picco di caldo.**
+> Check live: **allerta caldo confermata per oggi** (Arpae in accordo con Protezione Civile, pianura
+> centro-ovest ER incl. Piacenza), max **38-39°C**, sole. È l'**apice**: da inizio luglio aria più
+> fresca **ma rischio di violenti temporali** (ri-verificare **1-2/7** per blindare l'operativo del
+> weekend del patrono). **OGGI (sera):** **Arisa a Palazzo Farnese** (Piacenza Summer Cult) = 2° picco
+> di presenze del weekend nelle ore fresche → presidio/QR. Di giorno domina il delivery a casa ("col
+> caldo non esci, te la portiamo noi"); freschi **solo al mattino presto**, mai 12-18. La grande
+> finestra resta la **settimana di Sant'Antonino** (culmine 4/7) — vedi nota sotto. Fonti:
+> [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) · [il Resto del Carlino – svolta inizio luglio](https://www.ilrestodelcarlino.it/meteo/fine-caldo-africano-le-date-della-svolta-meteo-secondo-gli-esperti-quando-arriva-laria-piu-fresca-in-emilia-romagna-c0lj11o7) · [piacenza24 – eventi fino al 28/6](https://www.piacenza24.eu/eventi-a-piacenza-e-dintorni-fino-a-domenica-28-giugno/)
 
 > 🔭 **Nota delle 23:02 (giro notturno) — LA SETTIMANA CHE VIENE È PIENA: festa del patrono.**
 > Dato nuovo dal monitoraggio web: **Manifestazioni Antoniniane 2026** (festa di Sant'Antonino, patrono

@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-27 20:51
+aggiornato: 2026-06-28 00:51
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -9,13 +9,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 > Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
 > Domani (25/6) i numeri devono iniziare a muoversi da 0.
 >
-> ⚠️ **27/6 08:48 (passaggio 3, MATTINA) — Web ✅ / Supabase ❌:** il Web è tornato; ho preso il
-> **meteo orario** di oggi (ore 8 = 28°C, ore 11 = 34°C, picco ore 17 = 38°C). **Supabase MCP ancora
-> non autorizzato e NESSUN file .env** sul sistema → i 7 numeri restano alla baseline 24/6. Unico
-> sblocco possibile: **autorizzare il Supabase MCP**. Oggi (sab 27/6) è il **GIORNO della prima
-> consegna concierge** e la **finestra fresca è ADESSO**: priorità n°1 = consegnare i freschi
-> **tra le 9:00 e le 10:30** (catena del freddo) — piano affinato con la curva oraria in
-> `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`. Vedi [[2026-06-27]].
+> ⚠️ **28/6 00:51 (primo giro del nuovo giorno) — Web ✅ / Supabase ❌:** è domenica, il giorno
+> **dopo** il Giorno-1 (la prima consegna concierge era ieri 27/6). **Supabase MCP ritentato → di
+> nuovo NEGATO** → i 7 numeri restano alla baseline 24/6; la domanda chiave *"il Giorno-1 ha mosso
+> qualcosa?"* è leggibile solo da Nicola o sbloccando il MCP. Check live: **allerta caldo confermata
+> per oggi** (Arpae/Prot. Civile, 38-39°C, apice; svolta a inizio luglio ma con rischio temporali),
+> **Arisa a Palazzo Farnese stasera** (presidio serale), **piattaforme operative** (gap ops-02 chiuso).
+> ⭐ **Mossa strategica del giro:** preparare la **settimana di Sant'Antonino** (patrono, culmine
+> **sab 4/7** + Venerdì Piacentini 3/7) = finestra di presidio/lead vendite più grande del mese.
+> Vedi [[2026-06-28]].
 
 ## I 7 numeri del primo passo (baseline = oggi 24/6)
 | Numero | Oggi | "Riuscito" domani | Note |
@@ -34,6 +36,13 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0y. **Giro 28/6 — 00:51 (primo giro del nuovo giorno, NOTTE):** è il giorno **dopo** il Giorno-1.
+   Check live → **allerta caldo confermata oggi** (Arpae/Prot. Civile, 38-39°C, apice; svolta inizio
+   luglio con rischio temporali), **Arisa stasera** a Palazzo Farnese (presidio serale), **piattaforme
+   operative** (gap ops-02 chiuso). **Supabase MCP ritentato (`list_projects`) → di nuovo NEGATO** (7
+   numeri ciechi: il Giorno-1 non è misurabile dal DB). ⭐ Mossa strategica: preparare la **settimana di
+   Sant'Antonino** (culmine 4/7 + Venerdì Piacentini 3/7), la finestra fisica più grande del mese.
+   Coda 🟡/🔴 già piena (6 azioni): nessuna nuova accodata. Vedi [[2026-06-28]].
 0z4. **Giro 27/6 — 20:51 (passaggio 8, SERA INOLTRATA):** presidio serale in corso. Check live →
    il caldo è ora **allerta meteo UFFICIALE (Allerta 066/2026, temperature estreme)** con **un evento di
    domani 28/6 cancellato per emergenza caldo**; **Arisa** confermata domani sera a Palazzo Farnese →
