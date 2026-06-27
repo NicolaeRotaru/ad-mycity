@@ -107,7 +107,7 @@ Ingredienti che alzano il livello del *pensiero*:
 ## ✅ STATO (al 2026-06-27 01:35)
 - ✅ [[STAMPO-SENIOR-PRO]] v1 (strato A — 6 ingredienti) creato.
 - ✅ [[TASTE-FILE-NICOLA]] seed creato (principi di partenza; verdetti reali da raccogliere).
-- ✅ **Pilota `content-social`** riscritto a L3 + loop interno; test prima/dopo prodotto (post "La saracinesca").
+- ✅ **Pilota `content-social`** — prima riscritto a L3 (post "La saracinesca"); poi **evoluto al sistema completo a 7 strati** → vedi AGGIORNAMENTO 2026-06-27 sotto.
 - ✅ Quaderno `memoria-squadra/content-social.md` avviato (loop chiuso).
 - ⏳ **Stampo v2** (strato B — 5 dimensioni) e **strato C** (altitudine): DA SCRIVERE nello stampo, poi applicare.
 - ⏳ **Verdetti reali di Nicola** nel Taste File: DA RACCOGLIERE (5-6 "sì/no" per partire).
