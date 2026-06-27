@@ -18,7 +18,9 @@ export const revalidate = 0;
 async function handle(req: NextRequest, accodaGiro: boolean) {
   const secret = process.env.CRON_SECRET;
   const auth = req.headers.get("authorization");
-  if (secret && auth && auth !== `Bearer ${secret}`) {
+  // Fail-CLOSED: se CRON_SECRET è impostato, una richiesta SENZA header (o con token errato) viene respinta.
+  // (Prima il check `auth && …` lasciava passare chi non mandava l'header: auth opzionale di fatto.)
+  if (secret && auth !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
   }
 

@@ -11,7 +11,7 @@
 //   node esegui-azione.mjs notifica <userId> "<titolo>" "<corpo>" [link]
 //   node esegui-azione.mjs n8n '<json>'        (l'hub n8n instrada a WhatsApp/social/Google/ecc.)
 
-const LIVE = process.env.AZIONI_LIVE === "1";
+const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 const RESEND_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM = process.env.RESEND_FROM || "MyCity <no-reply@mycity.example>";
 const MKT_URL = process.env.MARKETPLACE_SUPABASE_URL;

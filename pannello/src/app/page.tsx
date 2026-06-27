@@ -890,7 +890,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        if (d && d.connected) setMetriche(d);
+        // Se il marketplace non è collegato, AZZERA i KPI (prima restavano i numeri vecchi a schermo
+        // col timbro "Aggiornato" fresco — sembravano dati attuali ma non lo erano).
+        setMetriche(d && d.connected ? d : null);
         setDatiAggiornatiAt(Date.now());
       })
       .catch(() => {});

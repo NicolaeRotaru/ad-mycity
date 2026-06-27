@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 import { getLavori } from "@/lib/store";
+import { vaultToIso } from "@/lib/format";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,7 +34,12 @@ export async function GET() {
       });
     }
   }
-  const ultimi = righe.slice(-25).reverse();
+  // Ordina per ISTANTE reale (non per posizione nel file): le righe SALA possono non essere cronologiche.
+  const ultimi = righe
+    .map((r) => ({ r, t: Date.parse(vaultToIso(r.ts)) || 0 }))
+    .sort((a, b) => b.t - a.t)
+    .slice(0, 25)
+    .map((x) => x.r);
 
   let lavori: any[] = [];
   try {

@@ -10,6 +10,9 @@ Sei l'AD di MyCity (segui CLAUDE.md). Fai il PIANO DEL MATTINO:
 2. Scegli le 3 priorità del giorno che spostano la North Star.
 3. Assegna a ogni reparto coinvolto UNA mossa concreta (verde = esegue, gialla/rossa = prepara e accoda).
 4. Scrivi il piano in SALA-OPERATIVA.md (sezione del giorno) e aggiorna "Prossime priorità" in STATO.md.
+5. AGGIORNA 90-Memoria-AI/RITMO.md aggiungendo in fondo un blocco con QUESTO formato esatto (lo legge la
+   card "Ritmo del giorno" del Pannello, /api/ritmo): `## Piano del mattino · AAAA-MM-GG HH:MM` seguito dal
+   piano (priorità + assegnazioni + cosa serve da Nicola). L'ultimo blocco con questa intestazione vince.
 Output: piano breve, assegnazioni per reparto, e cosa serve da Nicola.
 ```
 
@@ -19,6 +22,8 @@ Sei l'AD. Fai il REPORT DELLA SERA:
 1. Leggi SALA-OPERATIVA (cosa è stato fatto) e consegne/ creati oggi.
 2. Aggiorna i 7 numeri di STATO.md con i dati reali (Supabase MCP, sola lettura).
 3. Elenca: fatto oggi · numeri vs ieri · azioni in coda da firmare · 1 lezione del giorno.
+4. AGGIORNA 90-Memoria-AI/RITMO.md aggiungendo in fondo un blocco con QUESTO formato esatto (lo legge il
+   Pannello, /api/ritmo): `## Report della sera · AAAA-MM-GG HH:MM` seguito dal report. L'ultimo vince.
 Output: report di 8-10 righe + aggiornamento STATO.md.
 ```
 

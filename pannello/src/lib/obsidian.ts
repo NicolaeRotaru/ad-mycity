@@ -5,7 +5,12 @@ const API = "https://api.github.com";
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
-const BRANCH = process.env.OBSIDIAN_BRANCH || "main";
+// Il giro scrive il vault sul ramo 'memoria-ad' (cervello/giro.sh, GIT_BRANCH:-memoria-ad), MAI su 'main'.
+// Quindi il default deve essere 'memoria-ad': con default 'main' la Cabina leggerebbe un vault congelato.
+const BRANCH = process.env.OBSIDIAN_BRANCH || "memoria-ad";
+if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
+  console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'memoria-ad'. Impostalo esplicitamente su Vercel.");
+}
 
 export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
