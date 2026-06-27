@@ -3,7 +3,7 @@
 // ripiega sulla GitHub API tramite gli strumenti obsidian.* (variabili OBSIDIAN_*).
 import { promises as fs } from "fs";
 import path from "path";
-import { readNote, listNotes, obsidianConnected } from "./obsidian";
+import { readNote, listDir, obsidianConnected } from "./obsidian";
 
 const ERR_PREFIXES = [
   "Obsidian non collegato",
@@ -27,7 +27,14 @@ function vaultRoots(): string[] {
 
 /** Legge un file del vault (percorso relativo a MyCity-Vault/, es. "90-Memoria-AI/STATO.md"). */
 export async function readVaultFile(relPath: string): Promise<string | null> {
-  // 1) disco (sviluppo locale nel monorepo)
+  // PRODUZIONE (OBSIDIAN_* configurate): leggi SEMPRE da GitHub (ramo OBSIDIAN_BRANCH, es. memoria-ad),
+  // MAI dal disco. Su Vercel il repo è clonato da `main`, che ha MyCity-Vault/ coi file VECCHI (i briefing
+  // del giro stanno su memoria-ad): se leggessimo dal disco prenderemmo main e non vedremmo gli aggiornamenti.
+  if (obsidianConnected()) {
+    const res = await readNote(`MyCity-Vault/${relPath}`);
+    return res && !isErr(res) ? res : null;
+  }
+  // LOCALE (monorepo senza OBSIDIAN_*): leggi da disco.
   for (const root of vaultRoots()) {
     try {
       const txt = await fs.readFile(path.join(root, relPath), "utf-8");
@@ -36,17 +43,17 @@ export async function readVaultFile(relPath: string): Promise<string | null> {
       /* provo la radice successiva */
     }
   }
-  // 2) GitHub API (produzione su Vercel)
-  if (obsidianConnected()) {
-    const res = await readNote(`MyCity-Vault/${relPath}`);
-    if (res && !isErr(res)) return res;
-  }
   return null;
 }
 
 /** Elenco dei file .md in una cartella del vault (es. "90-Memoria-AI/Briefing"). */
 export async function listVaultDir(relDir: string): Promise<string[]> {
-  // 1) disco
+  // PRODUZIONE (OBSIDIAN_*): elenca SEMPRE da GitHub (Contents API, ramo memoria-ad), MAI dal disco
+  // (il clone di build è di `main` → cartelle coi file vecchi). Disco solo in locale.
+  if (obsidianConnected()) {
+    return (await listDir(`MyCity-Vault/${relDir}`)) || [];
+  }
+  // LOCALE (monorepo senza OBSIDIAN_*): leggi da disco.
   for (const root of vaultRoots()) {
     try {
       const names = await fs.readdir(path.join(root, relDir));
@@ -54,20 +61,6 @@ export async function listVaultDir(relDir: string): Promise<string[]> {
       if (md.length) return md.sort();
     } catch {
       /* provo la radice successiva */
-    }
-  }
-  // 2) GitHub API
-  if (obsidianConnected()) {
-    const res = await listNotes(`MyCity-Vault/${relDir}`);
-    if (res && !isErr(res)) {
-      const prefix = `MyCity-Vault/${relDir}/`;
-      return res
-        .split("\n")
-        .map((l) => l.trim())
-        .filter((l) => l.startsWith(prefix) && l.endsWith(".md"))
-        .map((l) => l.slice(prefix.length))
-        .filter((l) => !l.includes("/")) // solo i file diretti della cartella
-        .sort();
     }
   }
   return [];

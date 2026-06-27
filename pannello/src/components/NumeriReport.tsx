@@ -40,9 +40,9 @@ export default function NumeriReport() {
   const carica = useCallback(async (t: Tab) => {
     setLoading(true);
     try {
-      if (t === "trend") setTrend(await fetch("/api/metriche/trend").then((r) => r.json()).catch(() => null));
-      else if (t === "unit") setUnit(await fetch("/api/metriche/unit").then((r) => r.json()).catch(() => null));
-      else setReport(await fetch("/api/report").then((r) => r.json()).catch(() => null));
+      if (t === "trend") setTrend(await fetch("/api/metriche/trend", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "unit") setUnit(await fetch("/api/metriche/unit", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else setReport(await fetch("/api/report", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       setAggAt(Date.now());
     } finally {
       setLoading(false);

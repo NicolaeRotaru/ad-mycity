@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { eseguiAzione } from "@/lib/azioni";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Esegue un'azione approvata dal proprietario (via n8n). Chiamato dal pulsante
 // "Approva" della dashboard: il click dell'utente E' la conferma.

@@ -23,7 +23,7 @@ export default function RicercaGlobale() {
       setLoading(true);
       setAperto(true);
       try {
-        const r = await fetch(`/api/cerca?q=${encodeURIComponent(q.trim())}`).then((x) => x.json());
+        const r = await fetch(`/api/cerca?q=${encodeURIComponent(q.trim())}`, { cache: "no-store" }).then((x) => x.json());
         setRisultati(r.risultati || []);
       } catch {
         setRisultati([]);

@@ -30,8 +30,8 @@ export async function listNotes(filtro?: string): Promise<string> {
   try {
     const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, { headers: h(), cache: "no-store" })).json();
     if (!ref.object) return `Errore: ${ref.message || "branch non trovato"}`;
-    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h() })).json();
-    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h() })).json();
+    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
     let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
     if (filtro) {
       const f = filtro.toLowerCase();
@@ -40,6 +40,30 @@ export async function listNotes(filtro?: string): Promise<string> {
     return note.length ? `Note Obsidian (${note.length}):\n${note.join("\n")}` : "Nessuna nota trovata.";
   } catch (e: any) {
     return `Errore: ${e.message}`;
+  }
+}
+
+/**
+ * Elenco dei file .md DIRETTI in una cartella, via Contents API (sempre attuale,
+ * niente albero git ricorsivo che con repo grandi può essere troncato e perdere file nuovi).
+ * Torna i nomi-file ordinati, o null se non collegato/errore.
+ */
+export async function listDir(dir: string): Promise<string[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
+      .map((x: any) => x.name as string)
+      .sort();
+  } catch {
+    return null;
   }
 }
 
@@ -52,7 +76,12 @@ export async function readNote(path: string): Promise<string> {
     const d: any = await r.json();
     if (!r.ok || !d.content) return `Nota non trovata: ${path}`;
     const text = Buffer.from(d.content, "base64").toString("utf-8");
-    return text.length > 12000 ? text.slice(0, 12000) + "\n[...troncato]" : text;
+    // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
+    // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
+    // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
+    // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
+    const MAX = 200000;
+    return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
   } catch (e: any) {
     return `Errore: ${e.message}`;
   }

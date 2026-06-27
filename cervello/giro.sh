@@ -39,23 +39,33 @@ claude -p "$(cat "$SCRIPT_DIR/giro.md")" --permission-mode acceptEdits || {
 }
 echo "[$(ts)] Giro completato."
 
-# --- Sync del vault su GitHub: cosi' il Pannello (via OBSIDIAN_*) vede subito briefing/azioni/stato ---
-branch="${GIT_BRANCH:-main}"
-git add MyCity-Vault/ memoria-squadra/ consegne/ creativi/ 2>/dev/null || true
+# --- Sync della memoria su un RAMO DEDICATO dell'AD: force-push, zero conflitti ---
+# Il giro e' l'UNICO scrittore di questo ramo (default: memoria-ad). Cosi' NON litiga con 'main',
+# dove altre sessioni toccano gli stessi file di memoria (STATO/DECISIONI/briefing): la' il push
+# veniva respinto per conflitto a ogni giro. Qui il force-push allinea il ramo a cio' che ha il VPS
+# (sempre piu' avanti), quindi non fallisce mai per conflitto. Il Pannello legge questo ramo via
+# OBSIDIAN_BRANCH. Il codice arriva da 'main' col 'reset --hard origin/main' quando serve (raro).
+branch="${GIT_BRANCH:-memoria-ad}"
+git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
 if git diff --cached --quiet 2>/dev/null; then
   echo "[$(ts)] Nessuna modifica al vault da inviare."
 else
   git -c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)" \
     commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
-  git pull --rebase origin "$branch" 2>/dev/null || true
   if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-    # Token usato solo al volo nell'URL di push: non resta salvato nella config.
-    if git push "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" "HEAD:${branch}" 2>/dev/null; then
-      echo "[$(ts)] Vault sincronizzato su GitHub ($branch)."
-    else
-      echo "[$(ts)] Push del vault fallito (controlla GIT_PUSH_TOKEN / GIT_REPO / GIT_BRANCH)." >&2
-    fi
+    url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+    ok=0
+    for attempt in 1 2 3; do
+      # ramo solo dell'AD: il force-push e' sicuro (nessun altro lo scrive) e non si incastra mai
+      if git push --force "$url" "HEAD:${branch}" 2>/dev/null; then
+        echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
+        ok=1; break
+      fi
+      echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
+      sleep 3
+    done
+    [ "$ok" = 1 ] || echo "[$(ts)] Push della memoria fallito dopo 3 tentativi (il giro successivo recupera)." >&2
   else
-    echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (il vault resta solo sul server)."
+    echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)."
   fi
 fi

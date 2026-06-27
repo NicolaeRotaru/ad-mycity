@@ -3,6 +3,8 @@ import { readVaultFile } from "@/lib/vault";
 import { getImpostazioni, setImpostazione } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // "Cose da fare per me" (checklist di Nicola).
 // - Le VOCI si leggono dal vault: 90-Memoria-AI/CHECKLIST-NICOLA.md

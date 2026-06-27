@@ -3,6 +3,8 @@ import { readVaultFile } from "@/lib/vault";
 import { getLavori } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Diretta degli agenti: chi sta facendo cosa adesso.
 // Unisce le righe recenti della SALA-OPERATIVA (FACCIO/FATTO/PASSO-A/SERVE/RIVEDI)

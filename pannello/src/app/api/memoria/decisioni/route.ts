@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Storico decisioni: parsa DECISIONI.md (righe "data · colore · [reparto] · cosa · perché · stato · firma").
 export type Decisione = {

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // OKR / pagella squadra: parsa la tabella di 05-Soldi-Rischi/OKR-Squadra.md
 // (Senior | KPI che possiede | Target | Budget) + la North Star dalle righe ">".

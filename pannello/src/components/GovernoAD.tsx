@@ -46,17 +46,17 @@ export default function GovernoAD() {
     setLoading(true);
     try {
       if (t === "decisioni") {
-        const d = await fetch("/api/memoria/decisioni").then((r) => r.json()).catch(() => ({ decisioni: [] }));
+        const d = await fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ decisioni: [] }));
         setDecisioni(d.decisioni || []);
       } else if (t === "agenti") {
-        const a = await fetch("/api/agenti-live").then((r) => r.json()).catch(() => ({ righe: [], lavori: [] }));
+        const a = await fetch("/api/agenti-live", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ righe: [], lavori: [] }));
         setSala(a.righe || []);
         setLavori(a.lavori || []);
       } else if (t === "feed") {
-        const f = await fetch("/api/feed").then((r) => r.json()).catch(() => ({ feed: [] }));
+        const f = await fetch("/api/feed", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ feed: [] }));
         setFeed(f.feed || []);
       } else if (t === "controllo") {
-        const c = await fetch("/api/controllo").then((r) => r.json()).catch(() => null);
+        const c = await fetch("/api/controllo", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
         setControllo(c);
       }
       setAggAt(Date.now());

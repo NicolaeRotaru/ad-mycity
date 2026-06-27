@@ -4,6 +4,8 @@ import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Autopilota: esegue DA SOLO le azioni SICURE (🟢 verde) ancora non decise.
 // - Interruttore "autopilota" salvato in Supabase (impostazioni), spento di default.

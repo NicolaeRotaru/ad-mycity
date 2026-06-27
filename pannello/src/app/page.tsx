@@ -567,6 +567,7 @@ export default function Dashboard() {
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
   const [memoria, setMemoria] = useState(false);
+  const [vivo, setVivo] = useState(false);
   const [giri, setGiri] = useState(0);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
@@ -865,9 +866,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   const caricaStato = useCallback(async () => {
     try {
-      const res = await fetch("/api/stato");
+      const res = await fetch("/api/stato", { cache: "no-store" });
       const data = await res.json();
       setMemoria(Boolean(data.memoria));
+      setVivo(Boolean(data.vivo));
       setGiri((data.giri || []).length);
       if (data.ultimo) {
         setBriefing(data.ultimo.data);
@@ -888,7 +890,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   useEffect(() => {
     caricaStato();
-    fetch("/api/metriche")
+    fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d && d.connected) setMetriche(d);
@@ -896,7 +898,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       })
       .catch(() => {});
     // Il diario salvato lato server e' la fonte durevole: se c'e', vince sul locale.
-    fetch("/api/diario")
+    fetch("/api/diario", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d?.memoria && Array.isArray(d.voci) && d.voci.length) {
@@ -911,7 +913,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
   useEffect(() => {
-    fetch("/api/conversazioni")
+    fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d?.tabella && Array.isArray(d.conversazioni)) {
@@ -979,7 +981,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     let stop = false;
     const carica = async () => {
       try {
-        const r = await fetch("/api/lavori");
+        const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) setLavori(d.lavori);
       } catch {}
@@ -1030,11 +1032,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                memoria ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+                vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
               }`}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${memoria ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
-              {memoria ? "Vivo" : "In prova"}
+              <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
+              {vivo ? "Vivo" : "In prova"}
             </span>
           </div>
         </div>

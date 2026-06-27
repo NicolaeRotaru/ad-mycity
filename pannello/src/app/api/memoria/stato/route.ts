@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Separa il frontmatter YAML (--- ... ---) dal corpo. Ritorna i campi e il corpo "pulito".
 function separaFrontmatter(md: string): { meta: Record<string, string>; body: string } {

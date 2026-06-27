@@ -107,14 +107,14 @@ export default function MemoriaViva() {
     setLoading(true);
     try {
       const [a, at, st, pi, td, al, de, ok] = await Promise.all([
-        fetch("/api/memoria/azioni").then((r) => r.json()).catch(() => ({ collegato: false, azioni: [] })),
-        fetch("/api/memoria/attivita").then((r) => r.json()).catch(() => ({ collegato: false })),
-        fetch("/api/memoria/stato").then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
-        fetch("/api/memoria/piani").then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
-        fetch("/api/memoria/todo").then((r) => r.json()).catch(() => ({ collegato: false, items: [] })),
-        fetch("/api/alert").then((r) => r.json()).catch(() => ({ collegato: false, alert: [] })),
-        fetch("/api/memoria/decisioni").then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
-        fetch("/api/memoria/okr").then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
+        fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, azioni: [] })),
+        fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
+        fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
+        fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
+        fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, items: [] })),
+        fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] })),
+        fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
+        fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
       ]);
       setAzioni(a.azioni || []);
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
