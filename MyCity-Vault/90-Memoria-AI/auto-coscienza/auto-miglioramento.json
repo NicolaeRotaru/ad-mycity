@@ -1,0 +1,21 @@
+{
+  "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — benchmark coi migliori, esperimenti, peer-review tra senior, proposte di auto-riscrittura. Schema in cervello/auto-coscienza.md.",
+  "data": "2026-06-28 00:35",
+  "benchmark": [
+    {
+      "ambito": "contenuto",
+      "nostro": "Contenuti social a livello L3-L7 (pipeline Modalità Mondiale già esistente), ma senza loop di confronto-post-pubblicazione coi competitor.",
+      "migliori": [
+        {"chi": "(da popolare al primo ciclo)", "cosa_fa": "Analisi competitor food/local delivery sui social — hook, frequenza, prova sociale", "fonte": "consegne/intelligence/5-aziende-simili-social.md + creativi/swipe/SWIPE-FILE.md"}
+      ],
+      "divario": "alto",
+      "punteggio_nostro": 0,
+      "punteggio_migliore": 0,
+      "cosa_ci_manca": "Il loop chiuso: dopo aver pubblicato, confrontare le metriche reali con i competitor e iterare. All'inizio il margine di miglioramento è enorme — è esattamente dove puntare."
+    }
+  ],
+  "esperimenti": [],
+  "peer_review": [],
+  "proposte_auto_riscrittura": [],
+  "_nota": "Seed iniziale. Al primo ciclo di lavoro importante, @intelligence popola i 'migliori' con fonti reali, si misura il divario e parte il torneo tra varianti dei senior."
+}

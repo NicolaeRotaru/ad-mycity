@@ -1,0 +1,29 @@
+{
+  "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) verifica OGNI entità di OGNI azione contro questo file PRIMA che l'azione esca. Confidenza: 1.0 = nel DB/firmato; ~0.5 = implicito; <0.4 = sospetto → da_confermare. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-28 00:35",
+  "entita": [
+    {
+      "nome": "Nicola",
+      "tipo": "persona",
+      "stato": "confermato",
+      "fonte": "CLAUDE.md",
+      "confidenza": 1.0,
+      "note": "Proprietario di MyCity, decisore finale (firma 🔴).",
+      "ultima_verifica": "2026-06-28 00:35"
+    },
+    {
+      "nome": "Garetti",
+      "tipo": "negozio",
+      "stato": "da_confermare",
+      "fonte": "—",
+      "confidenza": 0.35,
+      "note": "Trattato in TUTTA la memoria operativa come il primo negozio (pitch consegne/vendite/pitch-garetti.md, kit consegne/content/GARETTI-kit-L7.md, commissione 12%, payout-test 1€, checklist onboarding). MA in DECISIONI.md compare SOLO come esempio di contenuto ('post Garetti — La saracinesca'): nessuna scelta esplicita di Nicola. Rischio: se è un segnaposto, sono in preparazione azioni 🔴 reali su un'entità non confermata.",
+      "domanda_per_nicola": "Garetti è un negozio reale che hai scelto e con cui sei in contatto, o è un esempio/segnaposto? Se reale → lo confermo. Se esempio → fermo tutte le azioni che lo riguardano finché non c'è un negozio vero.",
+      "ultima_verifica": "2026-06-28 00:35"
+    }
+  ],
+  "numeri_da_non_inventare": {
+    "_regola": "Nessuna cifra (ordini, incassi, clienti, follower, %, ROAS, prezzi) come FATTO senza fonte ammessa. Senza fonte → 'stima' dichiarata o nei Gap.",
+    "fonti_ammesse": ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola"]
+  }
+}
