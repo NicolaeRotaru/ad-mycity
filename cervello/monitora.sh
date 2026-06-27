@@ -45,20 +45,21 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     else
       git checkout -f -B "$branch" 2>/dev/null || true
     fi
-    memref="$(git rev-parse HEAD 2>/dev/null || echo '')"
-    # Allinea il CODICE a main in modo DETERMINISTICO: checkout dei file di main, NIENTE merge
-    # (il merge -X theirs andava in conflitto quando memoria-ad e main divergevano → codice vecchio).
-    # Poi RIPRISTINA le cartelle di memoria dal ramo memoria-ad (HEAD): risultato = codice di main
-    # + memoria accumulata. Il checkout non cancella file e non perde mai il vault.
+    # Allinea SOLO il CODICE a main (NIENTE merge, e soprattutto NIENTE checkout delle cartelle di
+    # memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
+    # (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
+    # impossibile resuscitare file potati dall'AD o sovrascrivere scritture del vault. Deterministico,
+    # niente conflitti. (La memoria resta quella del ramo memoria-ad, ripresa dal remoto sopra.)
     if git fetch "$url" main 2>/dev/null; then
-      if git checkout FETCH_HEAD -- . 2>/dev/null; then
-        for d in "${MEM_DIRS[@]}"; do
-          [ -n "$memref" ] && git checkout "$memref" -- "$d" 2>/dev/null || true
-        done
-        git "${GIT_ID[@]}" commit -q -m "monitoraggio: allinea codice a main, memoria preservata ($(ts))" 2>/dev/null || true
-        echo "[$(ts)] Codice allineato a origin/main (deterministico, memoria preservata)."
+      code_paths=()
+      while IFS= read -r p; do
+        case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
+      done < <(git ls-tree --name-only FETCH_HEAD)
+      if [ "${#code_paths[@]}" -gt 0 ] && git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null; then
+        git "${GIT_ID[@]}" commit -q -m "monitoraggio: allinea codice a main (vault intatto) ($(ts))" 2>/dev/null || true
+        echo "[$(ts)] Codice allineato a origin/main (solo codice, vault intatto)."
       else
-        echo "[$(ts)] WARN: checkout del codice di main fallito, continuo col codice attuale." >&2
+        echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
       fi
     fi
   ) 9>"$LOCK" || true
