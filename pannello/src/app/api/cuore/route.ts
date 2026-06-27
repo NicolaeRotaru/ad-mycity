@@ -1,0 +1,48 @@
+import { NextResponse } from "next/server";
+import { getImpostazione, memoryConnected } from "@/lib/store";
+import { getBudget, setTetto } from "@/lib/ai-budget";
+import { aiConfigurato } from "@/lib/ai";
+import { demoAttivo, cuoreDemo } from "@/lib/demo";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+// 🫀 Stato del cuore della macchina: ultimo battito, autopilota, ultime azioni
+// automatiche, e budget AI. Tutto a €0 (legge solo impostazioni).
+export async function GET() {
+  // 🧪 Demo: cuore che "batte" con valori di esempio (marchiati demo:true).
+  if (await demoAttivo()) return NextResponse.json(cuoreDemo());
+  const [ultimo, eseguite, autopilota, pensiero] = await Promise.all([
+    getImpostazione("cuore:ultimo").catch(() => null),
+    getImpostazione("cuore:eseguite").catch(() => null),
+    getImpostazione("autopilota").catch(() => null),
+    getImpostazione("cuore:pensiero").catch(() => null),
+  ]);
+  const budget = await getBudget().catch(() => null);
+  return NextResponse.json({
+    collegato: memoryConnected(),
+    ultimoBattito: ultimo,
+    eseguiteUltimo: Number(eseguite ?? 0) || 0,
+    autopilota: autopilota === "on",
+    pensiero: pensiero || null,
+    budget,
+    // stato organi: cervello (AI) e mani (email)
+    ai: aiConfigurato(),
+    maniEmail: Boolean(process.env.RESEND_API_KEY),
+    maniLive: process.env.AZIONI_LIVE === "on",
+  });
+}
+
+// Governance: imposta il tetto di spesa AI mensile (€). Body: { tetto: number }.
+export async function POST(req: Request) {
+  let body: any = {};
+  try {
+    body = await req.json();
+  } catch {
+    body = {};
+  }
+  const n = Number(body?.tetto);
+  if (!Number.isNaN(n) && n >= 0) await setTetto(n);
+  return NextResponse.json({ ok: true, budget: await getBudget().catch(() => null) });
+}
