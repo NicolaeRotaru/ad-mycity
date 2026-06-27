@@ -9,6 +9,8 @@ import {
 import { readVaultFile, listVaultDir } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Estrae il campo "data:" dal frontmatter (può contenere data E ora).
 function dataFrontmatter(md: string): string {

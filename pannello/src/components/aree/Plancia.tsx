@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock } from "lucide-react";
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
+import CuoreMacchina from "@/components/CuoreMacchina";
+import StatoMacchina from "@/components/StatoMacchina";
+import Volano from "@/components/Volano";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -39,12 +43,21 @@ export default function Plancia({
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [todo, setTodo] = useState<Todo[]>([]);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/memoria/azioni").then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
-    fetch("/api/alert").then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
-    fetch("/api/memoria/todo").then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
-    fetch("/api/ritmo").then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
+    // Ricarica anche a intervalli: i dati arrivano dal vault (giro) e cambiano mentre si è fermi sulla home.
+    // Il timbro "Aggiornato" si rinfresca a ogni giro del polling, non solo al mount.
+    const carica = () => {
+      fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
+      fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
+      fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
+      fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
+      setAggAt(Date.now());
+    };
+    carica();
+    const id = setInterval(carica, 60000);
+    return () => clearInterval(id);
   }, []);
 
   const daFirmare = azioni.filter((a) => a.inAttesa);
@@ -56,10 +69,22 @@ export default function Plancia({
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="t-area">🏠 Cosa conta ora</h2>
-        <p className="t-eti mt-0.5">Il riepilogo per decidere in 10 secondi. Tocca un blocco per andare al dettaglio.</p>
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h2 className="t-area">🏠 Cosa conta ora</h2>
+          <p className="t-eti mt-0.5">Il riepilogo per decidere in 10 secondi. Tocca un blocco per andare al dettaglio.</p>
+        </div>
+        <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
+
+      {/* 🫀 Stato del cuore della macchina */}
+      <CuoreMacchina />
+
+      {/* 🧬 Gli 8 organi: a colpo d'occhio cosa è pronto e cosa va acceso */}
+      <StatoMacchina />
+
+      {/* 🔄 Il volano (effetto-rete) */}
+      <Volano />
 
       {/* 3 priorità: firmare · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

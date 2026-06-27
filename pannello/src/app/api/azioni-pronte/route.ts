@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
-import { tutteLeAzioni, statoDa, type AzionePronta } from "@/lib/azioni-pronte";
+import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
+import { verificaQualita } from "@/lib/qualita";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // "Azioni pronte" = la corsia operativa. Mosse del vault + sentinelle (lib/azioni-pronte).
 // Approvare → esegue tramite le "mani" (lib/mani) e salva esito in Supabase.
@@ -11,10 +14,11 @@ export const runtime = "nodejs";
 export async function GET() {
   const blocchi = await tutteLeAzioni();
   const { tabella, valori } = await getImpostazioni();
-  const azioni: AzionePronta[] = blocchi.map((b) => ({
+  const azioni = blocchi.map((b) => ({
     ...b,
     stato: statoDa(valori[`azione:${b.id}`] || ""),
     esito: valori[`azione:${b.id}:nota`] || "",
+    qualita: verificaQualita(b), // 🏆 controllo qualità Livello 2 (€0)
   }));
   return NextResponse.json({
     collegato: blocchi.length > 0,

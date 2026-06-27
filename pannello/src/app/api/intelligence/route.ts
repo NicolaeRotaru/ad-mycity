@@ -3,6 +3,8 @@ import { readVaultFile } from "@/lib/vault";
 import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Intelligence: il pannello mostra l'ultimo risultato salvato dall'AD nel vault e
 // può accodare un lavoro per rigenerarlo (lo esegue l'agente intelligence/analista).
@@ -24,6 +26,18 @@ const TIPI: Record<string, { file: string; agente: string; compito: string }> = 
     agente: "analista",
     compito:
       "Analizza le categorie e i negozi presenti sul marketplace (dati reali) e individua i BUCHI di mercato: categorie o zone scoperte da coprire, in ordine di priorità e potenziale.",
+  },
+  leve: {
+    file: "leve-uscita",
+    agente: "intelligence",
+    compito:
+      "Analizza le LEVE IN USCITA del radar (cervello/radar.json, direzione=OUT) e le catene_indirette: cosa MyCity può influenzare ADESSO a Piacenza. Per ogni leva rilevante in questo momento di' SE e COME spingerla (mossa concreta, senior, colore 🟢🟡🔴), in ordine di priorità. Aggiungi le 2-3 catene indirette più sfruttabili ora (il primo anello che si muove e l'opportunità a valle). Le azioni reali (stampa, istituzioni, sponsor) si accodano per la firma di Nicola.",
+  },
+  reputazione: {
+    file: "reputazione",
+    agente: "supporto",
+    compito:
+      "Cerca sul web cosa si dice di MyCity e dei nostri negozi a Piacenza: menzioni su news/social, recensioni Google, gruppi FB di quartiere, sentiment generale e lamentele ricorrenti. Sintetizza con i link, indica il sentiment (positivo/neutro/negativo) e le 1-3 cose concrete da sistemare o da valorizzare. Usa la ricerca web.",
   },
 };
 

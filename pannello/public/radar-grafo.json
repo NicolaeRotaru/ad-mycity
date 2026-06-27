@@ -1,0 +1,411 @@
+{
+ "generato": "2026-06-27",
+ "centro": "MyCity",
+ "totali": {
+  "in": 100,
+  "out": 11,
+  "aree_in": 18,
+  "catene": 7
+ },
+ "aree_in": [
+  {
+   "area": "Mercato locale & commercio",
+   "n": 8,
+   "peso": 5,
+   "top": [
+    "Desertificazione del centro (-22% botteghe in 12 anni)",
+    "Aperture/chiusure di botteghe storiche",
+    "ZTL e regole di accesso al centro"
+   ]
+  },
+  {
+   "area": "Istituzioni & politica",
+   "n": 6,
+   "peso": 5,
+   "top": [
+    "Comune / assessore Fornasari",
+    "Vita in Centro a Piacenza",
+    "Hub Urbano / Cabina di Regia (con Confcommercio)"
+   ]
+  },
+  {
+   "area": "Persone chiave & stakeholder",
+   "n": 6,
+   "peso": 5,
+   "top": [
+    "Assessore Fornasari + giunta comunale (dichiarazioni, agenda)",
+    "Direttore e giornalisti di Liberta (chi e in carica)",
+    "Presidenti associazioni di categoria (Confcommercio/Confesercenti/CNA/Coldiretti PC)"
+   ]
+  },
+  {
+   "area": "Stampa & media locali",
+   "n": 5,
+   "peso": 5,
+   "top": [
+    "Libertà (quotidiano dominante)",
+    "Telelibertà (TV locale)",
+    "PiacenzaSera / IlPiacenza / Piacenza24 (online)"
+   ]
+  },
+  {
+   "area": "Eventi & stagionalita",
+   "n": 5,
+   "peso": 5,
+   "top": [
+    "Natale in Piazza Cavalli / mercatini",
+    "Calendario eventi del centro ('Via di Gusto', concerti)",
+    "Calendario universitario (Cattolica + Politecnico)"
+   ]
+  },
+  {
+   "area": "Clienti, domanda & economia",
+   "n": 5,
+   "peso": 5,
+   "top": [
+    "Recensioni e passaparola (citta piccola)",
+    "Carrelli abbandonati e clienti dormienti",
+    "Demografia (anziani soli, famiglie, studenti)"
+   ]
+  },
+  {
+   "area": "I miei negozi",
+   "n": 5,
+   "peso": 5,
+   "top": [
+    "Salute del negozio-faro Garetti (vendite, stock, recensioni, soddisfazione titolare)",
+    "Pipeline negozi prospect per categoria mancante (panetteria, macelleria, ortofrutta, pescheria, gastronomia, enoteca)",
+    "Rischio churn dei negozi attivi (calo o 0 ordini)"
+   ]
+  },
+  {
+   "area": "Finanza, capitale & fisco",
+   "n": 5,
+   "peso": 5,
+   "top": [
+    "Cash flow e runway (mesi di autonomia)",
+    "Margini e unit economics per ordine (densita/fee)",
+    "Investitori/VC/business angel locali + acceleratori (CdC, ART-ER)"
+   ]
+  },
+  {
+   "area": "Bandi & finanziamenti",
+   "n": 4,
+   "peso": 5,
+   "top": [
+    "Bando Commercio ER (40% fondo perduto, scad. 21/07/2026)",
+    "Voucher Camera di Commercio (50% digitalizzazione)",
+    "Bandi PNRR / startup innovative / Smart&Start"
+   ]
+  },
+  {
+   "area": "Concorrenti",
+   "n": 8,
+   "peso": 4,
+   "top": [
+    "Glovo / Deliveroo / Just Eat a Piacenza",
+    "CompraPiacenza.it (vetrina col Comune)",
+    "GDO con consegna a casa (Esselunga, Conad, Coop)"
+   ]
+  },
+  {
+   "area": "Territorio, mobilita & digitale",
+   "n": 8,
+   "peso": 4,
+   "top": [
+    "Recensioni e rating di MyCity (store/social/passaparola)",
+    "Quartieri di Piacenza (densita, espansione zone servite)",
+    "Cantieri/strade chiuse/ZTL temporanee/scioperi"
+   ]
+  },
+  {
+   "area": "Partner & fornitori",
+   "n": 6,
+   "peso": 4,
+   "top": [
+    "Stripe (pricing, policy, dispute, downtime)",
+    "Supabase (pricing, limiti, downtime, stato progetto)",
+    "Vercel (hosting pannello, build, costi)"
+   ]
+  },
+  {
+   "area": "Operativita, tech & normativa",
+   "n": 5,
+   "peso": 4,
+   "top": [
+    "Disponibilita rider / cargo-bike nei picchi",
+    "Stato piattaforma (Supabase/Stripe: downtime, payout)",
+    "Normativa HACCP / sicurezza alimentare"
+   ]
+  },
+  {
+   "area": "I miei clienti",
+   "n": 5,
+   "peso": 4,
+   "top": [
+    "Feedback/NPS dopo consegna",
+    "Clienti VIP / top spender",
+    "Coorti di clienti (retention per settimana di acquisizione)"
+   ]
+  },
+  {
+   "area": "Tecnologia & AI",
+   "n": 5,
+   "peso": 4,
+   "top": [
+    "Vulnerabilita/sicurezza (CVE dipendenze, leak credenziali)",
+    "Uptime/errori del sito e del pannello",
+    "Nuovi modelli AI e prezzi (capacita/costo per i senior)"
+   ]
+  },
+  {
+   "area": "Meteo & ambiente",
+   "n": 4,
+   "peso": 4,
+   "top": [
+    "Pioggia / maltempo",
+    "Ondate di caldo",
+    "Neve / ghiaccio"
+   ]
+  },
+  {
+   "area": "Legale & regolatorio",
+   "n": 5,
+   "peso": 3,
+   "top": [
+    "Normativa e-commerce / diritto di recesso / resi",
+    "PSD2 / SCA / antiriciclaggio sui pagamenti",
+    "Riforma normativa rider / lavoro digitale"
+   ]
+  },
+  {
+   "area": "Macro, ambiente & salute",
+   "n": 5,
+   "peso": 3,
+   "top": [
+    "Inflazione alimentare e potere d acquisto",
+    "Ondate influenzali / allerte sanitarie (picchi consegna a casa)",
+    "Eventi climatici estremi / allerta meteo regionale"
+   ]
+  }
+ ],
+ "leve_out": [
+  {
+   "nome": "I negozi del cluster",
+   "peso": 5,
+   "leva": "Digitalizziamo le botteghe e portiamo loro ordini/incassi; partiamo dal faro testimonial.",
+   "indiretto": "Salvare botteghe storiche → ripopolare il centro → contrastare la desertificazione (causa-madre).",
+   "colore": "giallo",
+   "senior": [
+    "vendite",
+    "account-negozi"
+   ]
+  },
+  {
+   "nome": "Narrazione pubblica (earned media)",
+   "peso": 5,
+   "leva": "Creiamo notizia: 'Piacenza non è in vendita', salviamo le botteghe → Libertà/Telelibertà/IlPiacenza/PiacenzaSera.",
+   "indiretto": "Reputazione → fiducia → onboarding negozi più facile + istituzioni più aperte.",
+   "colore": "rosso",
+   "senior": [
+    "pr-stampa",
+    "content-social"
+   ]
+  },
+  {
+   "nome": "Abitudini di spesa dei clienti",
+   "peso": 4,
+   "leva": "Spostiamo la spesa da GDO/Glovo verso il locale con contenuti, referral, prima esperienza curata.",
+   "indiretto": "Più spesa locale → botteghe più sane → più offerta → più clienti (volano).",
+   "colore": "giallo",
+   "senior": [
+    "marketing",
+    "crm-lifecycle"
+   ]
+  },
+  {
+   "nome": "Associazioni di categoria",
+   "peso": 4,
+   "leva": "Diventarne il braccio digitale (Confcommercio/Confesercenti/CNA/Coldiretti/Unione Commercianti).",
+   "indiretto": "Un sì associativo → decine di botteghe in blocco.",
+   "colore": "rosso",
+   "senior": [
+    "relazioni-istituzionali",
+    "vendite"
+   ]
+  },
+  {
+   "nome": "Istituzioni (Comune / Vita in Centro)",
+   "peso": 4,
+   "leva": "Partner dei progetti del centro; voce ai tavoli (Hub Urbano/Cabina di Regia); accesso ai bandi.",
+   "indiretto": "Policy su commercio/ZTL/eventi più favorevoli a noi.",
+   "colore": "rosso",
+   "senior": [
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "nome": "Media & influencer locali",
+   "peso": 3,
+   "leva": "Attiviamo creator food/lifestyle e gruppi FB di quartiere; barter prodotto-per-contenuto.",
+   "indiretto": "Più notorietà → domanda organica → meno CAC.",
+   "colore": "giallo",
+   "senior": [
+    "pr-stampa",
+    "influencer-partnership",
+    "content-social"
+   ]
+  },
+  {
+   "nome": "Mercato del lavoro (rider/studenti)",
+   "peso": 3,
+   "leva": "Creiamo lavoro per studenti (Cattolica/Politecnico) e rider; ambassador da settembre.",
+   "indiretto": "Studenti = clienti + ambassador + rider (triplo ritorno).",
+   "colore": "giallo",
+   "senior": [
+    "rider-fleet",
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "nome": "I concorrenti (postura)",
+   "peso": 3,
+   "leva": "Le nostre mosse li costringono a reagire: complementari a CompraPiacenza, frontali con Glovo sul '30%'.",
+   "indiretto": "Alziamo lo standard locale del delivery.",
+   "colore": "verde",
+   "senior": [
+    "intelligence",
+    "growth-monetizzazione"
+   ]
+  },
+  {
+   "nome": "Economia locale (impatto)",
+   "peso": 3,
+   "leva": "Misuriamo e raccontiamo i soldi che restano in città.",
+   "indiretto": "Arma per bandi, istituzioni e sponsor.",
+   "colore": "giallo",
+   "senior": [
+    "pr-stampa",
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "nome": "Eventi della città",
+   "peso": 3,
+   "leva": "Sponsor/presenza/co-creazione: Sant'Antonino, sagre DOP, Sbaracco, Gas Sales Volley, Piacenza Calcio.",
+   "indiretto": "Presenza agli eventi → notorietà → onboarding.",
+   "colore": "giallo",
+   "senior": [
+    "marketing",
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "nome": "Il modello oltre Piacenza",
+   "peso": 2,
+   "leva": "Ciò che funziona qui diventa narrativa di espansione (provincia/altre città).",
+   "indiretto": "Attrae capitale e partner.",
+   "colore": "giallo",
+   "senior": [
+    "growth-monetizzazione"
+   ]
+  }
+ ],
+ "catene": [
+  {
+   "catena": "Bollette energia → chiusura botteghe → noi le salviamo",
+   "anelli": [
+    "caro-energia ⬇️",
+    "margini bottega giù",
+    "rischio chiusura",
+    "MyCity la digitalizza ⬆️",
+    "ricavi salvati",
+    "testimonial → PR ⬆️"
+   ],
+   "opportunita": "Lista negozi a rischio da contattare con offerta last-mile; storia PR.",
+   "senior": [
+    "intelligence",
+    "vendite",
+    "pr-stampa"
+   ]
+  },
+  {
+   "catena": "Calendario universitario (Cattolica/Politecnico)",
+   "anelli": [
+    "arrivo/partenza studenti ⬇️",
+    "picchi e cali di domanda",
+    "disponibilità rider"
+   ],
+   "opportunita": "Pianificare picchi a inizio semestre + reclutare studenti come rider/ambassador.",
+   "senior": [
+    "analista",
+    "rider-fleet",
+    "marketing"
+   ]
+  },
+  {
+   "catena": "Polo logistico (Amazon Castel San Giovanni)",
+   "anelli": [
+    "hub logistico padano ⬇️",
+    "compete per i rider",
+    "salari rider su → costo consegna ⬆️"
+   ],
+   "opportunita": "Monitorare costo/disponibilità rider; leva 'lavora vicino a casa'.",
+   "senior": [
+    "rider-fleet",
+    "finanza"
+   ]
+  },
+  {
+   "catena": "Po / qualità dell'aria (Pianura Padana)",
+   "anelli": [
+    "nebbia/PM10/piene ⬇️",
+    "blocco auto in centro",
+    "cargo-bike avvantaggiata ⬆️ / consegne a rischio col maltempo"
+   ],
+   "opportunita": "Cavalcare il blocco auto ('noi consegniamo lo stesso, in bici'); piano B maltempo.",
+   "senior": [
+    "operations",
+    "content-social"
+   ]
+  },
+  {
+   "catena": "Sport come collante (Gas Sales Volley Superlega, Piacenza Calcio)",
+   "anelli": [
+    "squadre cittadine ⬇️",
+    "comunità e audience",
+    "sponsorship/partnership ⬆️"
+   ],
+   "opportunita": "Presenza/sponsor leggero per notorietà locale.",
+   "senior": [
+    "marketing",
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "catena": "Reti di comunità (parrocchie, gruppi WhatsApp, condomini, uffici)",
+   "anelli": [
+    "reti civiche ⬇️",
+    "canali di consegna aggregata + passaparola ⬆️"
+   ],
+   "opportunita": "Ordini di gruppo per via/condominio; passaparola di quartiere.",
+   "senior": [
+    "crm-lifecycle",
+    "marketing"
+   ]
+  },
+  {
+   "catena": "Demografia che invecchia",
+   "anelli": [
+    "popolazione anziana ⬇️",
+    "bisogno di consegna a casa",
+    "segmento da servire ⬆️"
+   ],
+   "opportunita": "Offerta 'spesa a casa per chi non esce'; canale telefonico/concierge.",
+   "senior": [
+    "customer-success",
+    "marketing"
+   ]
+  }
+ ]
+}

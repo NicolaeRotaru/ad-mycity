@@ -24,6 +24,37 @@ export function testoPulito(s: string): string {
 //     convertiti e mostrati in Europe/Rome → istante().
 const TZ_ROMA = "Europe/Rome";
 
+// True se la stringa NON porta un fuso (né 'Z' né offset '±HH:MM') → è una data-vault wall-clock.
+export function senzaFuso(s: string): boolean {
+  const raw = (s || "").trim();
+  return !!raw && !/[zZ]$/.test(raw) && !/[+-]\d{2}:?\d{2}$/.test(raw);
+}
+
+// Offset di Europe/Rome a una certa data, come "+02:00" (estate) / "+01:00" (inverno).
+export function offsetRoma(d: Date): string {
+  try {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: TZ_ROMA, timeZoneName: "longOffset" }).formatToParts(d);
+    const v = parts.find((p) => p.type === "timeZoneName")?.value || "";
+    const m = v.match(/GMT([+-])(\d{2}):?(\d{2})/);
+    if (m) return `${m[1]}${m[2]}:${m[3]}`;
+  } catch {
+    /* runtime senza longOffset: ripiega su CET */
+  }
+  return "+01:00";
+}
+
+// Converte una stringa-vault (Piacenza, senza fuso) in un ISO con offset Europe/Rome corretto per quella
+// data (no hardcode +02:00, sbaglierebbe d'inverno). Le stringhe che hanno già un fuso tornano invariate.
+export function vaultToIso(s: string): string {
+  const raw = (s || "").trim();
+  if (!senzaFuso(raw)) return raw;
+  const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if (!m) return raw;
+  const [, y, mo, d, hh = "00", mi = "00"] = m;
+  const base = Date.UTC(+y, +mo - 1, +d, +hh, +mi);
+  return `${y}-${mo}-${d}T${hh}:${mi}:00${offsetRoma(new Date(base))}`;
+}
+
 // Vault → "GG/MM/AAAA · HH:MM" (o solo "GG/MM/AAAA" se l'ora non c'è).
 export function dataVault(s: string): string {
   const raw = (s || "").trim();
@@ -38,6 +69,9 @@ export function dataVault(s: string): string {
 export function istante(iso: string): string {
   const raw = (iso || "").trim();
   if (!raw) return "";
+  // Stringa-vault SENZA fuso? È già ora di parete di Piacenza: niente conversione, altrimenti new Date()
+  // la interpreta come ora locale del runtime (UTC su Vercel) e la riproietta → sfasamento di 1-2h.
+  if (senzaFuso(raw)) return dataVault(raw);
   const d = new Date(raw);
   if (Number.isNaN(d.getTime())) return dataVault(raw); // fallback: stringa-vault
   try {
@@ -46,6 +80,22 @@ export function istante(iso: string): string {
     }).format(d).replace(", ", " · ");
   } catch {
     return dataVault(raw);
+  }
+}
+
+// "Timbro" di QUANDO un dato è apparso / è stato aggiornato nel pannello:
+// "GG/MM/AAAA · HH:MM" (Europe/Rome). Accetta ISO, millisecondi o Date.
+export function timbro(quando: string | number | Date | null | undefined): string {
+  // null/undefined/0/"" = nessun valore → vuoto (evita di mostrare l'epoch 1970).
+  if (quando == null || quando === 0 || quando === "") return "";
+  const d = quando instanceof Date ? quando : new Date(quando);
+  if (Number.isNaN(d.getTime())) return "";
+  try {
+    return new Intl.DateTimeFormat("it-IT", {
+      timeZone: TZ_ROMA, day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit",
+    }).format(d).replace(", ", " · ");
+  } catch {
+    return "";
   }
 }
 

@@ -1,6 +1,7 @@
 import { readVaultFile } from "@/lib/vault";
 import { getMetriche } from "@/lib/marketplace-db";
 import { azioniDaSentinelle } from "@/lib/sentinelle";
+import { parseAzioniAttesa } from "@/lib/azioni-attesa";
 
 // Logica condivisa della corsia "Azioni pronte": parsing del vault, unione con
 // le sentinelle, stato delle decisioni. Usata dall'endpoint /api/azioni-pronte
@@ -19,51 +20,28 @@ export type Blocco = {
   preparato: string;
   testo: string;
   fonte: "vault" | "sentinella";
+  // Spiegazione specifica scritta dal senior (per la scheda nel Pannello).
+  cambia: string;
+  seguito: string;
 };
 export type AzionePronta = Blocco & { stato: StatoAzione; esito: string };
 
-function livelloDi(s: string): Livello {
-  if (s.includes("🟢")) return "verde";
-  if (s.includes("🟡")) return "giallo";
-  if (s.includes("🔴")) return "rosso";
-  return "?";
-}
-
-function parse(md: string): Blocco[] {
-  const out: Blocco[] = [];
-  let cur: Blocco | null = null;
-  let inTesto = false;
-  for (const raw of md.split("\n")) {
-    const h = raw.match(/^##\s+(\S+)\s+·\s+(.+)$/);
-    if (h) {
-      if (cur) out.push({ ...cur, testo: cur.testo.trim() });
-      cur = { id: h[1], titolo: h[2].trim(), reparto: "", livello: "?", canale: "", destinatario: "", perche: "", preparato: "", testo: "", fonte: "vault" };
-      inTesto = false;
-      continue;
-    }
-    if (!cur) continue;
-    if (!inTesto) {
-      if (raw.trim() === "testo:") {
-        inTesto = true;
-        continue;
-      }
-      const f = raw.match(/^(\w+):\s*(.*)$/);
-      if (f) {
-        const k = f[1].toLowerCase();
-        const v = f[2].trim();
-        if (k === "reparto") cur.reparto = v;
-        else if (k === "livello") cur.livello = livelloDi(v);
-        else if (k === "canale") cur.canale = v;
-        else if (k === "destinatario") cur.destinatario = v;
-        else if (k === "perche") cur.perche = v;
-        else if (k === "preparato") cur.preparato = v;
-      }
-    } else {
-      cur.testo += (cur.testo ? "\n" : "") + raw;
-    }
-  }
-  if (cur) out.push({ ...cur, testo: cur.testo.trim() });
-  return out;
+// Mappa una riga della coda AZIONI-IN-ATTESA.md nel formato Blocco della corsia.
+function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco {
+  return {
+    id: a.numero,
+    titolo: a.azione,
+    reparto: a.reparto,
+    livello: a.livello,
+    canale: a.canale,
+    destinatario: "",
+    perche: a.contenuto,
+    preparato: a.data,
+    testo: a.contenuto,
+    fonte: "vault",
+    cambia: a.cambia,
+    seguito: a.seguito,
+  };
 }
 
 export function statoDa(raw: string): StatoAzione {
@@ -75,12 +53,17 @@ export function statoDa(raw: string): StatoAzione {
 // Tutte le azioni: quelle scritte dall'AD nel vault + quelle generate dalle
 // sentinelle sui dati reali (in cima, sono "calde").
 export async function tutteLeAzioni(): Promise<Blocco[]> {
-  const md = await readVaultFile("90-Memoria-AI/AZIONI-PRONTE.md");
-  const vault = md ? parse(md) : [];
+  // Fonte unica con la scheda "Da firmare": la coda VERA che il giro aggiorna.
+  const md = await readVaultFile("90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  const vault = md
+    ? parseAzioniAttesa(md)
+        .filter((a) => a.inAttesa)
+        .map(bloccoDaAttesa)
+    : [];
   let sentinelle: Blocco[] = [];
   try {
     const m: any = await getMetriche();
-    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const }));
+    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const, cambia: "", seguito: "" }));
   } catch {
     sentinelle = [];
   }

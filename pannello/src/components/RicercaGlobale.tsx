@@ -11,6 +11,7 @@ export default function RicercaGlobale() {
   const [loading, setLoading] = useState(false);
   const [aperto, setAperto] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reqId = useRef(0);
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current);
@@ -20,15 +21,17 @@ export default function RicercaGlobale() {
       return;
     }
     timer.current = setTimeout(async () => {
+      const mine = ++reqId.current; // marca questa richiesta: scarta le risposte sorpassate (race)
       setLoading(true);
       setAperto(true);
       try {
-        const r = await fetch(`/api/cerca?q=${encodeURIComponent(q.trim())}`).then((x) => x.json());
+        const r = await fetch(`/api/cerca?q=${encodeURIComponent(q.trim())}`, { cache: "no-store" }).then((x) => x.json());
+        if (mine !== reqId.current) return; // è già partita una query più recente: ignora questo risultato
         setRisultati(r.risultati || []);
       } catch {
-        setRisultati([]);
+        if (mine === reqId.current) setRisultati([]);
       } finally {
-        setLoading(false);
+        if (mine === reqId.current) setLoading(false);
       }
     }, 350);
     return () => {

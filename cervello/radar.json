@@ -1,1566 +1,1960 @@
 {
-  "_README": "RADAR DELLE INFLUENZE di MyCity (Piacenza). I 50 fattori esterni/strutturali che piu' influenzano l'azienda. Il giro di perlustrazione (cervello/giro.md) scorre questo file: per i fattori a peso>=4 fa un check live (via intelligence) sulle 'fonti', e instrada i fattori 'caldi' al senior indicato, annotandoli nel briefing col colore giusto. Complementare a cervello/sentinelle.md (quelle sono trigger a SOGLIA su dati INTERNI; questo e' il radar ESTERNO). Campi di ogni voce: id, fattore, area, senior (uno o piu' reparti di .claude/agents/), peso (1-5), trigger (cosa far scattare + azione sintetica), fonti (URL live, riempite dall'intelligence), colore (verde=esegui da solo / giallo=allerta AD / rosso=stop-firma di Nicola), cadenza (ogni-giro|giornaliera|settimanale = ogni quanto vale la pena ricontrollarlo, per non sprecare il Max). RUBRICA PESI (stadio attuale: ~1 negozio, ~0 ordini -> il collo di bottiglia e' domanda+offerta): 5=acquisizione negozi/clienti, awareness, offerta, bandi a scadenza, fiducia/reputazione; 3-4=competitor, eventi verso Natale, meteo, istituzioni; 1-2=fattori che contano a VOLUME (retention/scaling, normativa rider, carburante) da rialzare quando ci saranno ordini veri. E' un file DATI: modificalo liberamente, rivedi i pesi nel tempo.",
-  "aggiornato": "2026-06-26",
-  "fattori": [
-    {
-      "id": "mercato-01",
-      "fattore": "Desertificazione del centro (-22% botteghe in 12 anni)",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "intelligence",
-        "pr-stampa"
-      ],
-      "peso": 5,
-      "trigger": "Nuovo dato/articolo sulla desertificazione -> aggancio PR (causa-madre) + nota nel briefing",
-      "fonti": [
-        "https://www.piacenzasera.it/2026/03/commercio-in-calo-ma-piacenza-resiste-in-tredici-anni-perse-231-attivita/636409/",
-        "https://www.ilpiacenza.it/economia/",
-        "https://www.liberta.it/attualita"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-02",
-      "fattore": "Aperture/chiusure di botteghe storiche",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "intelligence",
-        "vendite"
-      ],
-      "peso": 5,
-      "trigger": "Chiusura nota -> negozio da salvare/contattare; apertura -> nuovo lead",
-      "fonti": [
-        "https://www.liberta.it/territorio/citta/piacenza",
-        "https://www.ilpiacenza.it/economia/",
-        "https://www.piacenzasera.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-03",
-      "fattore": "ZTL e regole di accesso al centro",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "operations",
-        "relazioni-istituzionali"
-      ],
-      "peso": 4,
-      "trigger": "Cambio orari/regole ZTL -> impatto su cargo-bike e messaggio 'no auto in ZTL'",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/menu/news",
-        "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-04",
-      "fattore": "Costo/disponibilita affitti commerciali in centro",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 3,
-      "trigger": "Segnali su chi resiste/chi molla -> mappa negozi a rischio",
-      "fonti": [
-        "https://www.idealista.it/cerca/affitto-locali/piacenza-piacenza/",
-        "https://www.immobiliare.it/affitto-negozi/piacenza/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-05",
-      "fattore": "Orari e giorni di chiusura dei negozi",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "operations",
-        "vendite"
-      ],
-      "peso": 2,
-      "trigger": "Cambi orari -> aggiorna slot e disponibilita catalogo",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "mercato-06",
-      "fattore": "Mercati rionali e ambulanti (Campagna Amica, mercato serale)",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "intelligence",
-        "relazioni-istituzionali"
-      ],
-      "peso": 3,
-      "trigger": "Date/luoghi mercati -> presidio gazebo + lead negozi",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/topics/12",
-        "https://www.comune.piacenza.it/it/categorie-eventi/76806"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-07",
-      "fattore": "Sagre e fiere di prodotto locale/DOP",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "intelligence",
-        "content-social"
-      ],
-      "peso": 3,
-      "trigger": "Evento DOP -> domanda stagionale + storytelling",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/categorie-eventi/76806",
-        "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "mercato-08",
-      "fattore": "Sbaracco e saldi del centro",
-      "area": "Mercato locale & commercio",
-      "senior": [
-        "marketing",
-        "vendite"
-      ],
-      "peso": 3,
-      "trigger": "Date Sbaracco/saldi -> picco traffico fisico da agganciare",
-      "fonti": [
-        "https://www.vitaincentroapiacenza.com/category/news/",
-        "https://www.unionecommerciantipc.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-01",
-      "fattore": "Glovo / Deliveroo / Just Eat a Piacenza",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence",
-        "growth-monetizzazione"
-      ],
-      "peso": 4,
-      "trigger": "Nuovi negozi/commissioni/promo -> aggiorna contro-argomento '30% Glovo'",
-      "fonti": [
-        "https://glovoapp.com/it/it/piacenza/",
-        "https://www.justeat.it/",
-        "https://glovoapp.com/it/it/piacenza/supermercati_4/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-02",
-      "fattore": "CompraPiacenza.it (vetrina col Comune)",
-      "area": "Concorrenti",
-      "senior": [
-        "relazioni-istituzionali",
-        "intelligence"
-      ],
-      "peso": 4,
-      "trigger": "Novita CompraPiacenza -> postura COMPLEMENTARE, mai nemico",
-      "fonti": [
-        "https://comprapiacenza.it/",
-        "https://piacenza.cna.it/comprapiacenza-vetrina-digitale-per-il-commercio-locale/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-03",
-      "fattore": "GDO con consegna a casa (Esselunga, Conad, Coop)",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence",
-        "analista"
-      ],
-      "peso": 4,
-      "trigger": "Nuovo servizio/zona consegna GDO -> il vero concorrente di abitudine",
-      "fonti": [
-        "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
-        "https://www.esselunga.it/it-it/servizi-utili/consegna-a-domicilio.html"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-04",
-      "fattore": "Cortilia / Everli / q-commerce (filiera corta online)",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence",
-        "growth-monetizzazione"
-      ],
-      "peso": 4,
-      "trigger": "Modelli/prezzi -> cosa imitare o evitare",
-      "fonti": [
-        "https://www.cortilia.it/",
-        "https://press.aboutamazon.com/it/2026/5/amazon-cortilia-servizio-consegna-spesa-arriva-toscana-valle-daosta-veneto",
-        "https://it.everli.com/it/it"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-05",
-      "fattore": "Amazon / Amazon Fresh",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 2,
-      "trigger": "Benchmark di comodita/fiducia -> alza l'asticella UX",
-      "fonti": [
-        "https://www.amazon.it/cortilia",
-        "https://press.aboutamazon.com/it"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-06",
-      "fattore": "Supermercati e discount locali (volantini, promo)",
-      "area": "Concorrenti",
-      "senior": [
-        "analista",
-        "intelligence"
-      ],
-      "peso": 3,
-      "trigger": "Promo forti -> pressione sui prezzi, monitora scontrino",
-      "fonti": [
-        "https://www.volantinofacile.it/negozi/piacenza",
-        "https://www.promoqui.it/volantini/piacenza"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-07",
-      "fattore": "Nuovi entranti / copia-modello locali",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 3,
-      "trigger": "Qualcuno che imita il modello -> reagisci prima",
-      "fonti": [
-        "https://www.piacenzasera.it/",
-        "https://www.ilpiacenza.it/economia/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "competitor-08",
-      "fattore": "Gruppi WhatsApp di quartiere per la spesa",
-      "area": "Concorrenti",
-      "senior": [
-        "intelligence",
-        "crm-lifecycle"
-      ],
-      "peso": 3,
-      "trigger": "Concorrenza informale dal basso -> intercetta domanda",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "stampa-01",
-      "fattore": "Libertà (quotidiano dominante)",
-      "area": "Stampa & media locali",
-      "senior": [
-        "pr-stampa"
-      ],
-      "peso": 5,
-      "trigger": "Tema affine (commercio/centro) -> proponi pezzo/comunicato",
-      "fonti": [
-        "https://www.liberta.it/",
-        "https://www.liberta.it/territorio/citta/piacenza",
-        "https://www.liberta.it/attualita/cronaca"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "stampa-02",
-      "fattore": "Telelibertà (TV locale)",
-      "area": "Stampa & media locali",
-      "senior": [
-        "pr-stampa"
-      ],
-      "peso": 4,
-      "trigger": "Servizio su eventi/commercio -> aggancio visivo (cargo-bike)",
-      "fonti": [
-        "https://liberta.it/multimedia/folder/teleliberta",
-        "https://liberta.it/multimedia/folder/teleliberta/on-demand/news/tgl"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "stampa-03",
-      "fattore": "PiacenzaSera / IlPiacenza / Piacenza24 (online)",
-      "area": "Stampa & media locali",
-      "senior": [
-        "pr-stampa",
-        "seo"
-      ],
-      "peso": 4,
-      "trigger": "Uscite frequenti -> earned media + SEO locale",
-      "fonti": [
-        "https://www.piacenzasera.it/",
-        "https://www.ilpiacenza.it/",
-        "https://www.piacenza24.eu/"
-      ],
-      "colore": "verde",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "stampa-04",
-      "fattore": "Giornalisti locali chiave (commercio/economia)",
-      "area": "Stampa & media locali",
-      "senior": [
-        "pr-stampa"
-      ],
-      "peso": 4,
-      "trigger": "Chi scrive di commercio -> relazione da coltivare",
-      "fonti": [
-        "https://www.ilpiacenza.it/economia/",
-        "https://www.liberta.it/attualita"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "stampa-05",
-      "fattore": "Sentiment sui social locali (gruppi FB di quartiere)",
-      "area": "Stampa & media locali",
-      "senior": [
-        "content-social",
-        "trust-safety"
-      ],
-      "peso": 4,
-      "trigger": "Menzioni/lamentele su MyCity o il tema -> reputazione in tempo reale",
-      "fonti": [
-        "https://www.facebook.com/vitaincentro/",
-        "https://it-it.facebook.com/telelibertapiacenza/"
-      ],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "istituzioni-01",
-      "fattore": "Comune / assessore Fornasari",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "relazioni-istituzionali"
-      ],
-      "peso": 5,
-      "trigger": "Dichiarazioni/bandi/iniziative -> endorsement civico + regole centro",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/menu/news",
-        "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "istituzioni-02",
-      "fattore": "Hub Urbano / Cabina di Regia (con Confcommercio)",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "relazioni-istituzionali"
-      ],
-      "peso": 4,
-      "trigger": "Piani di animazione/spazi centro -> accesso ai 1.149 spazi",
-      "fonti": [
-        "https://www.unionecommerciantipc.it/",
-        "https://www.comune.piacenza.it/it/menu/news"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "istituzioni-03",
-      "fattore": "Vita in Centro a Piacenza",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "relazioni-istituzionali",
-        "vendite"
-      ],
-      "peso": 5,
-      "trigger": "Eventi/aperture -> porta d'ingresso ai negozi del centro",
-      "fonti": [
-        "https://www.vitaincentroapiacenza.com/",
-        "https://www.vitaincentroapiacenza.com/category/news/",
-        "https://www.vitaincentroapiacenza.com/listings/negozi/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "istituzioni-04",
-      "fattore": "Camera di Commercio (PID)",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "relazioni-istituzionali"
-      ],
-      "peso": 4,
-      "trigger": "Annuncio ai soci -> awareness di massa tra i negozi",
-      "fonti": [
-        "https://www.emilia.camcom.it/",
-        "https://www.pc.camcom.it/pid-punto-impresa-digitale"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "istituzioni-05",
-      "fattore": "Confcommercio / Confesercenti / CNA / Coldiretti",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "relazioni-istituzionali",
-        "vendite"
-      ],
-      "peso": 4,
-      "trigger": "Comunicazioni ai soci -> canale ai commercianti",
-      "fonti": [
-        "https://www.unionecommerciantipc.it/",
-        "https://www.confesercentipiacenza.it/news.html",
-        "https://piacenza.cna.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "istituzioni-06",
-      "fattore": "Elezioni / cambi di giunta locali",
-      "area": "Istituzioni & politica",
-      "senior": [
-        "intelligence",
-        "relazioni-istituzionali"
-      ],
-      "peso": 2,
-      "trigger": "Cambio interlocutori/priorita -> aggiorna mappa alleanze",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/menu/news",
-        "https://www.liberta.it/attualita"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "bandi-01",
-      "fattore": "Bando Commercio ER (40% fondo perduto, scad. 21/07/2026)",
-      "area": "Bandi & finanziamenti",
-      "senior": [
-        "legale-privacy",
-        "vendite"
-      ],
-      "peso": 5,
-      "trigger": "Scadenza imminente -> arma di vendita a tempo (mai promettere l'esito)",
-      "fonti": [
-        "https://fesr.regione.emilia-romagna.it/opportunita/opportunita-di-finanziamento/2026/sostegno-allinnovazione-e-agli-investimenti-delle-imprese-operanti-nei-settori-del-commercio-in-sede-fissa-esercizi-di-vicinato-e-polifunzionali-e-dei-pubblici-esercizi-di-somministrazione-alimenti-e-bevande-ed-intrattenimento-danzante",
-        "https://servizifederati.regione.emilia-romagna.it/fesr2020/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "bandi-02",
-      "fattore": "Voucher Camera di Commercio (50% digitalizzazione)",
-      "area": "Bandi & finanziamenti",
-      "senior": [
-        "legale-privacy"
-      ],
-      "peso": 4,
-      "trigger": "Apertura/riapertura sportello -> riduce il costo d'ingresso dei negozi",
-      "fonti": [
-        "https://www.pc.camcom.it/pid-punto-impresa-digitale/bando-voucher-digitali-4.0",
-        "https://www.puntoimpresadigitale.camcom.it/paginainterna/voucher-digitali-40"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "bandi-03",
-      "fattore": "Bandi PNRR / startup innovative / Smart&Start",
-      "area": "Bandi & finanziamenti",
-      "senior": [
-        "finanza",
-        "legale-privacy"
-      ],
-      "peso": 3,
-      "trigger": "Nuovo bando -> capitale non diluitivo per MyCity",
-      "fonti": [
-        "https://www.invitalia.it/cosa-facciamo/creiamo-nuove-aziende/smartstart-italia",
-        "https://fesr.regione.emilia-romagna.it/opportunita/opportunita-di-finanziamento"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "bandi-04",
-      "fattore": "Contributi su mobilita sostenibile / cargo-bike",
-      "area": "Bandi & finanziamenti",
-      "senior": [
-        "finanza",
-        "relazioni-istituzionali"
-      ],
-      "peso": 3,
-      "trigger": "Incentivi cargo-bike -> abbattono il costo logistico",
-      "fonti": [
-        "https://mobilita.regione.emilia-romagna.it/",
-        "https://www.comune.piacenza.it/it/menu/news"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "eventi-01",
-      "fattore": "Natale in Piazza Cavalli / mercatini",
-      "area": "Eventi & stagionalita",
-      "senior": [
-        "marketing",
-        "operations"
-      ],
-      "peso": 5,
-      "trigger": "Calendario natalizio -> picco di awareness e ordini dell'anno",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/categorie-eventi/76806",
-        "https://www.vitaincentroapiacenza.com/category/news/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "eventi-02",
-      "fattore": "Calendario eventi del centro ('Via di Gusto', concerti)",
-      "area": "Eventi & stagionalita",
-      "senior": [
-        "intelligence",
-        "content-social"
-      ],
-      "peso": 3,
-      "trigger": "Eventi in calendario -> presidio fisico + contenuti",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/categorie-eventi/76806",
-        "https://www.vitaincentroapiacenza.com/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "eventi-03",
-      "fattore": "Calendario universitario (Cattolica + Politecnico)",
-      "area": "Eventi & stagionalita",
-      "senior": [
-        "marketing",
-        "customer-success"
-      ],
-      "peso": 3,
-      "trigger": "Rientri/sessioni -> studenti come clienti + ambassador",
-      "fonti": [
-        "https://piacenza.unicatt.it/il-campus-di-piacenza-e-cremona-orari",
-        "https://www.polo-piacenza.polimi.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "eventi-04",
-      "fattore": "Festivita e ricorrenze (Pasqua, Ferragosto, San Antonino patrono)",
-      "area": "Eventi & stagionalita",
-      "senior": [
-        "analista",
-        "crm-lifecycle"
-      ],
-      "peso": 3,
-      "trigger": "Ricorrenza vicina -> domanda a ondate, prepara campagne",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "eventi-05",
-      "fattore": "Turismo e flussi in citta (weekend, ponti)",
-      "area": "Eventi & stagionalita",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 2,
-      "trigger": "Picchi turistici -> domanda extra",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/categorie-eventi/76806",
-        "https://www.visitemilia.com/it/piacenza"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "meteo-01",
-      "fattore": "Pioggia / maltempo",
-      "area": "Meteo & ambiente",
-      "senior": [
-        "operations",
-        "analista"
-      ],
-      "peso": 4,
-      "trigger": "Previsione pioggia -> alza la domanda di consegna a casa",
-      "fonti": [
-        "https://www.3bmeteo.com/meteo/piacenza",
-        "https://www.arpae.it/it/temi-ambientali/meteo/previsioni-meteo/previsioni-meteo-provinciali/piacenza",
-        "https://allertameteo.regione.emilia-romagna.it/web/piacenza"
-      ],
-      "colore": "verde",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "meteo-02",
-      "fattore": "Ondate di caldo",
-      "area": "Meteo & ambiente",
-      "senior": [
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Caldo estremo -> rischio catena del freddo + domanda freschi",
-      "fonti": [
-        "https://www.3bmeteo.com/meteo/piacenza",
-        "https://www.ilmeteo.it/meteo/piacenza"
-      ],
-      "colore": "verde",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "meteo-03",
-      "fattore": "Neve / ghiaccio",
-      "area": "Meteo & ambiente",
-      "senior": [
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Neve/ghiaccio -> cargo-bike a rischio: attiva piano B logistico",
-      "fonti": [
-        "https://www.3bmeteo.com/meteo/piacenza",
-        "https://allertameteo.regione.emilia-romagna.it/web/piacenza"
-      ],
-      "colore": "giallo",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "meteo-04",
-      "fattore": "Qualita dell'aria / blocchi traffico",
-      "area": "Meteo & ambiente",
-      "senior": [
-        "content-social"
-      ],
-      "peso": 2,
-      "trigger": "Blocco traffico/smog -> rafforza il messaggio 'consegna green'",
-      "fonti": [
-        "https://www.arpae.it/it/temi-ambientali/qualita-aria/bollettini/liberiamo-laria",
-        "https://www.comune.piacenza.it/it/menu/news"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "clienti-01",
-      "fattore": "Demografia (anziani soli, famiglie, studenti)",
-      "area": "Clienti, domanda & economia",
-      "senior": [
-        "analista",
-        "customer-success"
-      ],
-      "peso": 3,
-      "trigger": "Dati demografici -> personas da servire",
-      "fonti": [
-        "http://dati.istat.it/",
-        "https://www.comune.piacenza.it/it/page/statistica-e-toponomastica"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "clienti-02",
-      "fattore": "Inflazione e potere d'acquisto",
-      "area": "Clienti, domanda & economia",
-      "senior": [
-        "finanza",
-        "analista"
-      ],
-      "peso": 3,
-      "trigger": "Variazione prezzi/potere d'acquisto -> sensibilita su scontrino",
-      "fonti": [
-        "https://www.istat.it/it/archivio/prezzi",
-        "https://www.comune.piacenza.it/it/page/statistica-e-toponomastica"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "clienti-03",
-      "fattore": "Prezzo carburante",
-      "area": "Clienti, domanda & economia",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 1,
-      "trigger": "Caro carburante -> GDO-in-auto piu' costosa vs consegna locale",
-      "fonti": [
-        "https://carburanti.mise.gov.it/ospzSearch/",
-        "https://www.mimit.gov.it/it/prezzi-carburanti"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "clienti-04",
-      "fattore": "Recensioni e passaparola (citta piccola)",
-      "area": "Clienti, domanda & economia",
-      "senior": [
-        "customer-success",
-        "trust-safety"
-      ],
-      "peso": 5,
-      "trigger": "Recensione/menzione -> fiducia = tutto, reagisci subito",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "clienti-05",
-      "fattore": "Carrelli abbandonati e clienti dormienti",
-      "area": "Clienti, domanda & economia",
-      "senior": [
-        "crm-lifecycle",
-        "cro"
-      ],
-      "peso": 4,
-      "trigger": "Picco abbandoni/dormienti -> frizione da risolvere + recupero",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "ops-01",
-      "fattore": "Disponibilita rider / cargo-bike nei picchi",
-      "area": "Operativita, tech & normativa",
-      "senior": [
-        "rider-fleet",
-        "operations"
-      ],
-      "peso": 4,
-      "trigger": "Buco di copertura nei picchi (pranzo/cena/weekend) -> turni",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "ops-02",
-      "fattore": "Stato piattaforma (Supabase/Stripe: downtime, payout)",
-      "area": "Operativita, tech & normativa",
-      "senior": [
-        "devops-sre",
-        "finanza"
-      ],
-      "peso": 4,
-      "trigger": "Downtime/incidente/payout fallito -> soldi e fiducia a rischio",
-      "fonti": [
-        "https://status.supabase.com/",
-        "https://status.stripe.com/"
-      ],
-      "colore": "rosso",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "ops-03",
-      "fattore": "Normativa HACCP / sicurezza alimentare",
-      "area": "Operativita, tech & normativa",
-      "senior": [
-        "legale-privacy",
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Aggiornamento normativo -> vincolo sui freschi (bozze, valida umano)",
-      "fonti": [
-        "https://www.salute.gov.it/new/it/tema/sicurezza-alimentare/",
-        "https://salute.regione.emilia-romagna.it/sicurezza-alimentare"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "ops-04",
-      "fattore": "GDPR / consenso & dati clienti",
-      "area": "Operativita, tech & normativa",
-      "senior": [
-        "legale-privacy",
-        "security"
-      ],
-      "peso": 3,
-      "trigger": "Novita GDPR -> base legale del CRM",
-      "fonti": [
-        "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/newsletter",
-        "https://www.garanteprivacy.it/regolamentoue"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "ops-05",
-      "fattore": "Regole rider/lavoro & packaging (plastic-free)",
-      "area": "Operativita, tech & normativa",
-      "senior": [
-        "legale-privacy",
-        "operations"
-      ],
-      "peso": 1,
-      "trigger": "Nuove regole rider/packaging -> costi e reputazione sostenibile",
-      "fonti": [
-        "https://www.lavoro.gov.it/",
-        "https://www.mase.gov.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "negozio-01",
-      "fattore": "Salute del negozio-faro Garetti (vendite, stock, recensioni, soddisfazione titolare)",
-      "area": "I miei negozi",
-      "senior": [
-        "account-negozi",
-        "customer-success"
-      ],
-      "peso": 5,
-      "trigger": "Calo/insoddisfazione del faro -> intervento immediato",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "negozio-02",
-      "fattore": "Pipeline negozi prospect per categoria mancante (panetteria, macelleria, ortofrutta, pescheria, gastronomia, enoteca)",
-      "area": "I miei negozi",
-      "senior": [
-        "vendite"
-      ],
-      "peso": 5,
-      "trigger": "Categoria scoperta -> scouting mirato",
-      "fonti": [
-        "https://www.paginegialle.it/piacenza-pc/alimentari.html",
-        "https://www.google.com/maps/search/alimentari+piacenza+centro"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "negozio-03",
-      "fattore": "Reputazione/recensioni dei singoli negozi (Google/social)",
-      "area": "I miei negozi",
-      "senior": [
-        "account-negozi",
-        "trust-safety"
-      ],
-      "peso": 3,
-      "trigger": "Recensione negativa di un negozio -> supporto reputazione",
-      "fonti": [
-        "https://www.google.com/maps/search/negozi+piacenza+centro"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "negozio-04",
-      "fattore": "Stock e stagionalita del catalogo dei negozi",
-      "area": "I miei negozi",
-      "senior": [
-        "operations",
-        "vendite"
-      ],
-      "peso": 3,
-      "trigger": "Prodotti di stagione/festivita -> push catalogo",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "negozio-05",
-      "fattore": "Rischio churn dei negozi attivi (calo o 0 ordini)",
-      "area": "I miei negozi",
-      "senior": [
-        "account-negozi"
-      ],
-      "peso": 4,
-      "trigger": "Negozio in calo -> check-in di recupero",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "cliente-01",
-      "fattore": "Clienti VIP / top spender",
-      "area": "I miei clienti",
-      "senior": [
-        "customer-success",
-        "crm-lifecycle"
-      ],
-      "peso": 3,
-      "trigger": "Top client a rischio -> cura dedicata",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "cliente-02",
-      "fattore": "Coorti di clienti (retention per settimana di acquisizione)",
-      "area": "I miei clienti",
-      "senior": [
-        "analista",
-        "crm-lifecycle"
-      ],
-      "peso": 3,
-      "trigger": "Coorte che non torna -> win-back",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "cliente-03",
-      "fattore": "Personas specifiche (anziani soli, famiglie, studenti, professionisti)",
-      "area": "I miei clienti",
-      "senior": [
-        "analista",
-        "customer-success"
-      ],
-      "peso": 3,
-      "trigger": "Bisogno emergente -> offerta su misura",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "cliente-04",
-      "fattore": "Feedback/NPS dopo consegna",
-      "area": "I miei clienti",
-      "senior": [
-        "customer-success"
-      ],
-      "peso": 4,
-      "trigger": "Feedback negativo -> recupero + fix",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "cliente-05",
-      "fattore": "Comunita e gruppi locali (parrocchie, associazioni di quartiere, condomini, welfare aziendale)",
-      "area": "I miei clienti",
-      "senior": [
-        "marketing",
-        "crm-lifecycle"
-      ],
-      "peso": 3,
-      "trigger": "Nuova comunita -> canale di acquisizione",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "persona-01",
-      "fattore": "Assessore Fornasari + giunta comunale (dichiarazioni, agenda)",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "relazioni-istituzionali"
-      ],
-      "peso": 5,
-      "trigger": "Dichiarazione/iniziativa -> aggancio o endorsement",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/menu/news"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "persona-02",
-      "fattore": "Direttore e giornalisti di Liberta (chi e in carica)",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "pr-stampa"
-      ],
-      "peso": 4,
-      "trigger": "Cambio direttore/giornalista -> aggiorna contatti PR",
-      "fonti": [
-        "https://www.liberta.it/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "persona-03",
-      "fattore": "Presidenti associazioni di categoria (Confcommercio/Confesercenti/CNA/Coldiretti PC)",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "relazioni-istituzionali"
-      ],
-      "peso": 4,
-      "trigger": "Presa di posizione -> alleanza",
-      "fonti": [
-        "https://www.unionecommerciantipc.it/",
-        "https://piacenza.cna.it/",
-        "https://piacenza.coldiretti.it/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "persona-04",
-      "fattore": "Influencer/food blogger locali di Piacenza",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "influencer-partnership"
-      ],
-      "peso": 3,
-      "trigger": "Creator rilevante -> partnership/barter",
-      "fonti": [
-        "https://www.ilpiacenza.it/cibotoday/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "persona-05",
-      "fattore": "Il founder (Nicola): tempo/energia/bandwidth (single point of failure)",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "claude"
-      ],
-      "peso": 4,
-      "trigger": "Sovraccarico -> delega/priorita",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "persona-06",
-      "fattore": "Rider e collaboratori: reclutamento, turni, soddisfazione",
-      "area": "Persone chiave & stakeholder",
-      "senior": [
-        "rider-fleet"
-      ],
-      "peso": 3,
-      "trigger": "Buco copertura/turnover -> reclutamento",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "partner-01",
-      "fattore": "Stripe (pricing, policy, dispute, downtime)",
-      "area": "Partner & fornitori",
-      "senior": [
-        "finanza",
-        "devops-sre"
-      ],
-      "peso": 4,
-      "trigger": "Cambio policy/downtime -> impatto pagamenti",
-      "fonti": [
-        "https://stripe.com/connect/pricing",
-        "https://status.stripe.com/"
-      ],
-      "colore": "rosso",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "partner-02",
-      "fattore": "Supabase (pricing, limiti, downtime, stato progetto)",
-      "area": "Partner & fornitori",
-      "senior": [
-        "devops-sre"
-      ],
-      "peso": 4,
-      "trigger": "Downtime/limite -> dati e memoria a rischio",
-      "fonti": [
-        "https://status.supabase.com/",
-        "https://supabase.com/pricing"
-      ],
-      "colore": "rosso",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "partner-03",
-      "fattore": "Vercel (hosting pannello, build, costi)",
-      "area": "Partner & fornitori",
-      "senior": [
-        "devops-sre"
-      ],
-      "peso": 3,
-      "trigger": "Build rotto/costo -> fix deploy",
-      "fonti": [
-        "https://www.vercel-status.com/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "partner-04",
-      "fattore": "Provider email/push (Resend, VAPID) deliverability/policy",
-      "area": "Partner & fornitori",
-      "senior": [
-        "builder-automazioni"
-      ],
-      "peso": 3,
-      "trigger": "Problema deliverability -> recapito a rischio",
-      "fonti": [
-        "https://resend-status.com/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "partner-05",
-      "fattore": "Fornitore cargo-bike / officina (manutenzione, costi, disponibilita)",
-      "area": "Partner & fornitori",
-      "senior": [
-        "operations",
-        "rider-fleet"
-      ],
-      "peso": 3,
-      "trigger": "Mezzo fermo -> piano B consegne",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "partner-06",
-      "fattore": "Tipografia/stampa (QR, vetrofanie, sacchetti) costi/tempi",
-      "area": "Partner & fornitori",
-      "senior": [
-        "designer"
-      ],
-      "peso": 2,
-      "trigger": "Ritardo/costo stampa -> materiali ambassador",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "tech-01",
-      "fattore": "Nuovi modelli AI e prezzi (capacita/costo per i senior)",
-      "area": "Tecnologia & AI",
-      "senior": [
-        "prompt-engineer"
-      ],
-      "peso": 3,
-      "trigger": "Modello migliore/piu economico -> aggiorna routing",
-      "fonti": [
-        "https://docs.anthropic.com/en/docs/about-claude/models"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "tech-02",
-      "fattore": "Costi/limiti del piano Max e delle API usate",
-      "area": "Tecnologia & AI",
-      "senior": [
-        "prompt-engineer",
-        "finanza"
-      ],
-      "peso": 3,
-      "trigger": "Limite vicino -> sposta carichi/cadenza",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "tech-03",
-      "fattore": "Vulnerabilita/sicurezza (CVE dipendenze, leak credenziali)",
-      "area": "Tecnologia & AI",
-      "senior": [
-        "security"
-      ],
-      "peso": 4,
-      "trigger": "Vulnerabilita -> patch/rotazione chiavi",
-      "fonti": [
-        "https://github.com/advisories"
-      ],
-      "colore": "rosso",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "tech-04",
-      "fattore": "Uptime/errori del sito e del pannello",
-      "area": "Tecnologia & AI",
-      "senior": [
-        "devops-sre"
-      ],
-      "peso": 4,
-      "trigger": "Sito giu/errori -> alert + fix",
-      "fonti": [
-        "https://www.vercel-status.com/"
-      ],
-      "colore": "rosso",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "tech-05",
-      "fattore": "Nuovi strumenti/automazioni utili (n8n, integrazioni, MCP)",
-      "area": "Tecnologia & AI",
-      "senior": [
-        "builder-automazioni"
-      ],
-      "peso": 2,
-      "trigger": "Strumento utile -> prototipo",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "finanza-01",
-      "fattore": "Cash flow e runway (mesi di autonomia)",
-      "area": "Finanza, capitale & fisco",
-      "senior": [
-        "finanza"
-      ],
-      "peso": 5,
-      "trigger": "Runway che scende -> alert capitale",
-      "fonti": [],
-      "colore": "rosso",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "finanza-02",
-      "fattore": "Investitori/VC/business angel locali + acceleratori (CdC, ART-ER)",
-      "area": "Finanza, capitale & fisco",
-      "senior": [
-        "finanza",
-        "relazioni-istituzionali"
-      ],
-      "peso": 3,
-      "trigger": "Bando/acceleratore -> opportunita capitale",
-      "fonti": [
-        "https://imprese.regione.emilia-romagna.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "finanza-03",
-      "fattore": "Scadenze fiscali e contabili (IVA, F24, dichiarazioni)",
-      "area": "Finanza, capitale & fisco",
-      "senior": [
-        "contabilita"
-      ],
-      "peso": 3,
-      "trigger": "Scadenza vicina -> adempimento",
-      "fonti": [
-        "https://www.agenziaentrate.gov.it/portale/scadenze"
-      ],
-      "colore": "rosso",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "finanza-04",
-      "fattore": "Tassi BCE / costo del credito",
-      "area": "Finanza, capitale & fisco",
-      "senior": [
-        "finanza",
-        "intelligence"
-      ],
-      "peso": 2,
-      "trigger": "Variazione tassi -> costo capitale",
-      "fonti": [
-        "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "finanza-05",
-      "fattore": "Margini e unit economics per ordine (densita/fee)",
-      "area": "Finanza, capitale & fisco",
-      "senior": [
-        "finanza",
-        "analista"
-      ],
-      "peso": 4,
-      "trigger": "CM sotto soglia -> rivedi pricing/fee",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "legale-01",
-      "fattore": "Normativa e-commerce / diritto di recesso / resi",
-      "area": "Legale & regolatorio",
-      "senior": [
-        "legale-privacy"
-      ],
-      "peso": 3,
-      "trigger": "Aggiornamento -> aggiorna TOS/flussi",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "legale-02",
-      "fattore": "PSD2 / SCA / antiriciclaggio sui pagamenti",
-      "area": "Legale & regolatorio",
-      "senior": [
-        "legale-privacy",
-        "security"
-      ],
-      "peso": 3,
-      "trigger": "Nuovo obbligo -> compliance checkout",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "legale-03",
-      "fattore": "Riforma normativa rider / lavoro digitale",
-      "area": "Legale & regolatorio",
-      "senior": [
-        "legale-privacy"
-      ],
-      "peso": 3,
-      "trigger": "Riforma -> impatto costi/contratti rider",
-      "fonti": [
-        "https://www.lavoro.gov.it/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "legale-04",
-      "fattore": "Fatturazione elettronica / DAC7 / obblighi piattaforme",
-      "area": "Legale & regolatorio",
-      "senior": [
-        "contabilita",
-        "legale-privacy"
-      ],
-      "peso": 3,
-      "trigger": "Obbligo piattaforma -> adempimento",
-      "fonti": [
-        "https://www.agenziaentrate.gov.it/"
-      ],
-      "colore": "giallo",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "legale-05",
-      "fattore": "Etichettatura alimentare / allergeni / richiami prodotti",
-      "area": "Legale & regolatorio",
-      "senior": [
-        "legale-privacy",
-        "trust-safety"
-      ],
-      "peso": 3,
-      "trigger": "Richiamo prodotto -> rimozione + avviso",
-      "fonti": [
-        "https://www.salute.gov.it/portale/news/p3_2_3_1.jsp"
-      ],
-      "colore": "rosso",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "macro-01",
-      "fattore": "Inflazione alimentare e potere d acquisto",
-      "area": "Macro, ambiente & salute",
-      "senior": [
-        "finanza",
-        "analista"
-      ],
-      "peso": 3,
-      "trigger": "Picco prezzi -> sensibilita scontrino",
-      "fonti": [
-        "https://www.istat.it/it/prezzi"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "macro-02",
-      "fattore": "Costo energia/bollette dei negozi (margini venditori)",
-      "area": "Macro, ambiente & salute",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 2,
-      "trigger": "Caro bollette -> stress sui negozi",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "macro-03",
-      "fattore": "Stagione agricola / raccolti / qualita freschi DOP",
-      "area": "Macro, ambiente & salute",
-      "senior": [
-        "intelligence",
-        "operations"
-      ],
-      "peso": 2,
-      "trigger": "Annata/qualita -> disponibilita freschi",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "macro-04",
-      "fattore": "Ondate influenzali / allerte sanitarie (picchi consegna a casa)",
-      "area": "Macro, ambiente & salute",
-      "senior": [
-        "analista",
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Picco influenza -> piu domanda delivery",
-      "fonti": [
-        "https://www.epicentro.iss.it/influenza/flunews"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "macro-05",
-      "fattore": "Eventi climatici estremi / allerta meteo regionale",
-      "area": "Macro, ambiente & salute",
-      "senior": [
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Allerta -> piano consegne",
-      "fonti": [
-        "https://allertameteo.regione.emilia-romagna.it/"
-      ],
-      "colore": "giallo",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "territorio-01",
-      "fattore": "Quartieri di Piacenza (densita, espansione zone servite)",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "operations",
-        "analista"
-      ],
-      "peso": 3,
-      "trigger": "Zona densa -> espansione cluster",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "territorio-02",
-      "fattore": "Cantieri/strade chiuse/ZTL temporanee/scioperi",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "operations"
-      ],
-      "peso": 3,
-      "trigger": "Strada chiusa -> rerouting consegne",
-      "fonti": [
-        "https://www.comune.piacenza.it/it/menu/news"
-      ],
-      "colore": "giallo",
-      "cadenza": "giornaliera"
-    },
-    {
-      "id": "territorio-03",
-      "fattore": "Flussi universitari (Cattolica/Politecnico): calendario, alloggi",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "marketing",
-        "customer-success"
-      ],
-      "peso": 3,
-      "trigger": "Rientro studenti -> campagna",
-      "fonti": [
-        "https://piacenza.unicatt.it/",
-        "https://www.polimi.it/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "territorio-04",
-      "fattore": "Turismo e grandi eventi in citta (afflusso)",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "intelligence"
-      ],
-      "peso": 2,
-      "trigger": "Grande evento -> domanda extra",
-      "fonti": [],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "digitale-01",
-      "fattore": "Trend food/spesa su TikTok/IG/Google Trends",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "content-social",
-        "seo"
-      ],
-      "peso": 3,
-      "trigger": "Trend cavalcabile -> contenuto",
-      "fonti": [
-        "https://trends.google.it/trends/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "digitale-02",
-      "fattore": "Recensioni e rating di MyCity (store/social/passaparola)",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "trust-safety",
-        "customer-success"
-      ],
-      "peso": 4,
-      "trigger": "Recensione MyCity -> risposta/fix",
-      "fonti": [],
-      "colore": "giallo",
-      "cadenza": "ogni-giro"
-    },
-    {
-      "id": "digitale-03",
-      "fattore": "SEO/posizionamento Google e Maps per query locali",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "seo"
-      ],
-      "peso": 3,
-      "trigger": "Calo ranking -> ottimizzazione",
-      "fonti": [
-        "https://trends.google.it/trends/"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    },
-    {
-      "id": "concorrenza-indiretta-01",
-      "fattore": "Concorrenza indiretta (meal kit, ristorazione delivery, GAS, mercati contadini online, Too Good To Go)",
-      "area": "Territorio, mobilita & digitale",
-      "senior": [
-        "intelligence",
-        "growth-monetizzazione"
-      ],
-      "peso": 3,
-      "trigger": "Nuovo sostituto -> contro-posizionamento",
-      "fonti": [
-        "https://www.toogoodtogo.com/it"
-      ],
-      "colore": "verde",
-      "cadenza": "settimanale"
-    }
-  ]
+ "_README": "Radar dei fattori che influenzano MyCity (Piacenza) — ORA BIDIREZIONALE. Ogni fattore ha 'direzione': IN = ci influenza (monitoraggio sulle 'fonti'); OUT = cosa MyCity puo' influenzare (campi leva_uscita/effetto_diretto/effetto_indiretto, una mossa da proporre). 'catene_indirette' = effetti di 2-3 ordine da sorvegliare (non solo il primo anello). Sorgente di verita'; rigenera radar.md da qui. Il giro (giro.md) controlla IN (peso>=4) e propone le mosse OUT.",
+ "aggiornato": "2026-06-27",
+ "fattori": [
+  {
+   "id": "mercato-01",
+   "fattore": "Desertificazione del centro (-22% botteghe in 12 anni)",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "intelligence",
+    "pr-stampa"
+   ],
+   "peso": 5,
+   "trigger": "Nuovo dato/articolo sulla desertificazione -> aggancio PR (causa-madre) + nota nel briefing",
+   "fonti": [
+    "https://www.piacenzasera.it/2026/03/commercio-in-calo-ma-piacenza-resiste-in-tredici-anni-perse-231-attivita/636409/",
+    "https://www.ilpiacenza.it/economia/",
+    "https://www.liberta.it/attualita"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-02",
+   "fattore": "Aperture/chiusure di botteghe storiche",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "intelligence",
+    "vendite"
+   ],
+   "peso": 5,
+   "trigger": "Chiusura nota -> negozio da salvare/contattare; apertura -> nuovo lead",
+   "fonti": [
+    "https://www.liberta.it/territorio/citta/piacenza",
+    "https://www.ilpiacenza.it/economia/",
+    "https://www.piacenzasera.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-03",
+   "fattore": "ZTL e regole di accesso al centro",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "operations",
+    "relazioni-istituzionali"
+   ],
+   "peso": 4,
+   "trigger": "Cambio orari/regole ZTL -> impatto su cargo-bike e messaggio 'no auto in ZTL'",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/menu/news",
+    "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-04",
+   "fattore": "Costo/disponibilita affitti commerciali in centro",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 3,
+   "trigger": "Segnali su chi resiste/chi molla -> mappa negozi a rischio",
+   "fonti": [
+    "https://www.idealista.it/cerca/affitto-locali/piacenza-piacenza/",
+    "https://www.immobiliare.it/affitto-negozi/piacenza/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-05",
+   "fattore": "Orari e giorni di chiusura dei negozi",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "operations",
+    "vendite"
+   ],
+   "peso": 2,
+   "trigger": "Cambi orari -> aggiorna slot e disponibilita catalogo",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-06",
+   "fattore": "Mercati rionali e ambulanti (Campagna Amica, mercato serale)",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "intelligence",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "trigger": "Date/luoghi mercati -> presidio gazebo + lead negozi",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/topics/12",
+    "https://www.comune.piacenza.it/it/categorie-eventi/76806"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-07",
+   "fattore": "Sagre e fiere di prodotto locale/DOP",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "intelligence",
+    "content-social"
+   ],
+   "peso": 3,
+   "trigger": "Evento DOP -> domanda stagionale + storytelling",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+    "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "mercato-08",
+   "fattore": "Sbaracco e saldi del centro",
+   "area": "Mercato locale & commercio",
+   "senior": [
+    "marketing",
+    "vendite"
+   ],
+   "peso": 3,
+   "trigger": "Date Sbaracco/saldi -> picco traffico fisico da agganciare",
+   "fonti": [
+    "https://www.vitaincentroapiacenza.com/category/news/",
+    "https://www.unionecommerciantipc.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-01",
+   "fattore": "Glovo / Deliveroo / Just Eat a Piacenza",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence",
+    "growth-monetizzazione"
+   ],
+   "peso": 4,
+   "trigger": "Nuovi negozi/commissioni/promo -> aggiorna contro-argomento '30% Glovo'",
+   "fonti": [
+    "https://glovoapp.com/it/it/piacenza/",
+    "https://www.justeat.it/",
+    "https://glovoapp.com/it/it/piacenza/supermercati_4/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-02",
+   "fattore": "CompraPiacenza.it (vetrina col Comune)",
+   "area": "Concorrenti",
+   "senior": [
+    "relazioni-istituzionali",
+    "intelligence"
+   ],
+   "peso": 4,
+   "trigger": "Novita CompraPiacenza -> postura COMPLEMENTARE, mai nemico",
+   "fonti": [
+    "https://comprapiacenza.it/",
+    "https://piacenza.cna.it/comprapiacenza-vetrina-digitale-per-il-commercio-locale/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-03",
+   "fattore": "GDO con consegna a casa (Esselunga, Conad, Coop)",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence",
+    "analista"
+   ],
+   "peso": 4,
+   "trigger": "Nuovo servizio/zona consegna GDO -> il vero concorrente di abitudine",
+   "fonti": [
+    "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
+    "https://www.esselunga.it/it-it/servizi-utili/consegna-a-domicilio.html"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-04",
+   "fattore": "Cortilia / Everli / q-commerce (filiera corta online)",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence",
+    "growth-monetizzazione"
+   ],
+   "peso": 4,
+   "trigger": "Modelli/prezzi -> cosa imitare o evitare",
+   "fonti": [
+    "https://www.cortilia.it/",
+    "https://press.aboutamazon.com/it/2026/5/amazon-cortilia-servizio-consegna-spesa-arriva-toscana-valle-daosta-veneto",
+    "https://it.everli.com/it/it"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-05",
+   "fattore": "Amazon / Amazon Fresh",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 2,
+   "trigger": "Benchmark di comodita/fiducia -> alza l'asticella UX",
+   "fonti": [
+    "https://www.amazon.it/cortilia",
+    "https://press.aboutamazon.com/it"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-06",
+   "fattore": "Supermercati e discount locali (volantini, promo)",
+   "area": "Concorrenti",
+   "senior": [
+    "analista",
+    "intelligence"
+   ],
+   "peso": 3,
+   "trigger": "Promo forti -> pressione sui prezzi, monitora scontrino",
+   "fonti": [
+    "https://www.volantinofacile.it/negozi/piacenza",
+    "https://www.promoqui.it/volantini/piacenza"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-07",
+   "fattore": "Nuovi entranti / copia-modello locali",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 3,
+   "trigger": "Qualcuno che imita il modello -> reagisci prima",
+   "fonti": [
+    "https://www.piacenzasera.it/",
+    "https://www.ilpiacenza.it/economia/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "competitor-08",
+   "fattore": "Gruppi WhatsApp di quartiere per la spesa",
+   "area": "Concorrenti",
+   "senior": [
+    "intelligence",
+    "crm-lifecycle"
+   ],
+   "peso": 3,
+   "trigger": "Concorrenza informale dal basso -> intercetta domanda",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "stampa-01",
+   "fattore": "Libertà (quotidiano dominante)",
+   "area": "Stampa & media locali",
+   "senior": [
+    "pr-stampa"
+   ],
+   "peso": 5,
+   "trigger": "Tema affine (commercio/centro) -> proponi pezzo/comunicato",
+   "fonti": [
+    "https://www.liberta.it/",
+    "https://www.liberta.it/territorio/citta/piacenza",
+    "https://www.liberta.it/attualita/cronaca"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "stampa-02",
+   "fattore": "Telelibertà (TV locale)",
+   "area": "Stampa & media locali",
+   "senior": [
+    "pr-stampa"
+   ],
+   "peso": 4,
+   "trigger": "Servizio su eventi/commercio -> aggancio visivo (cargo-bike)",
+   "fonti": [
+    "https://liberta.it/multimedia/folder/teleliberta",
+    "https://liberta.it/multimedia/folder/teleliberta/on-demand/news/tgl"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "stampa-03",
+   "fattore": "PiacenzaSera / IlPiacenza / Piacenza24 (online)",
+   "area": "Stampa & media locali",
+   "senior": [
+    "pr-stampa",
+    "seo"
+   ],
+   "peso": 4,
+   "trigger": "Uscite frequenti -> earned media + SEO locale",
+   "fonti": [
+    "https://www.piacenzasera.it/",
+    "https://www.ilpiacenza.it/",
+    "https://www.piacenza24.eu/"
+   ],
+   "colore": "verde",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "stampa-04",
+   "fattore": "Giornalisti locali chiave (commercio/economia)",
+   "area": "Stampa & media locali",
+   "senior": [
+    "pr-stampa"
+   ],
+   "peso": 4,
+   "trigger": "Chi scrive di commercio -> relazione da coltivare",
+   "fonti": [
+    "https://www.ilpiacenza.it/economia/",
+    "https://www.liberta.it/attualita"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "stampa-05",
+   "fattore": "Sentiment sui social locali (gruppi FB di quartiere)",
+   "area": "Stampa & media locali",
+   "senior": [
+    "content-social",
+    "trust-safety"
+   ],
+   "peso": 4,
+   "trigger": "Menzioni/lamentele su MyCity o il tema -> reputazione in tempo reale",
+   "fonti": [
+    "https://www.facebook.com/vitaincentro/",
+    "https://it-it.facebook.com/telelibertapiacenza/"
+   ],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-01",
+   "fattore": "Comune / assessore Fornasari",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 5,
+   "trigger": "Dichiarazioni/bandi/iniziative -> endorsement civico + regole centro",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/menu/news",
+    "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-02",
+   "fattore": "Hub Urbano / Cabina di Regia (con Confcommercio)",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 4,
+   "trigger": "Piani di animazione/spazi centro -> accesso ai 1.149 spazi",
+   "fonti": [
+    "https://www.unionecommerciantipc.it/",
+    "https://www.comune.piacenza.it/it/menu/news"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-03",
+   "fattore": "Vita in Centro a Piacenza",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "relazioni-istituzionali",
+    "vendite"
+   ],
+   "peso": 5,
+   "trigger": "Eventi/aperture -> porta d'ingresso ai negozi del centro",
+   "fonti": [
+    "https://www.vitaincentroapiacenza.com/",
+    "https://www.vitaincentroapiacenza.com/category/news/",
+    "https://www.vitaincentroapiacenza.com/listings/negozi/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-04",
+   "fattore": "Camera di Commercio (PID)",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 4,
+   "trigger": "Annuncio ai soci -> awareness di massa tra i negozi",
+   "fonti": [
+    "https://www.emilia.camcom.it/",
+    "https://www.pc.camcom.it/pid-punto-impresa-digitale"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-05",
+   "fattore": "Confcommercio / Confesercenti / CNA / Coldiretti",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "relazioni-istituzionali",
+    "vendite"
+   ],
+   "peso": 4,
+   "trigger": "Comunicazioni ai soci -> canale ai commercianti",
+   "fonti": [
+    "https://www.unionecommerciantipc.it/",
+    "https://www.confesercentipiacenza.it/news.html",
+    "https://piacenza.cna.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "istituzioni-06",
+   "fattore": "Elezioni / cambi di giunta locali",
+   "area": "Istituzioni & politica",
+   "senior": [
+    "intelligence",
+    "relazioni-istituzionali"
+   ],
+   "peso": 2,
+   "trigger": "Cambio interlocutori/priorita -> aggiorna mappa alleanze",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/menu/news",
+    "https://www.liberta.it/attualita"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "bandi-01",
+   "fattore": "Bando Commercio ER (40% fondo perduto, scad. 21/07/2026)",
+   "area": "Bandi & finanziamenti",
+   "senior": [
+    "legale-privacy",
+    "vendite"
+   ],
+   "peso": 5,
+   "trigger": "Scadenza imminente -> arma di vendita a tempo (mai promettere l'esito)",
+   "fonti": [
+    "https://fesr.regione.emilia-romagna.it/opportunita/opportunita-di-finanziamento/2026/sostegno-allinnovazione-e-agli-investimenti-delle-imprese-operanti-nei-settori-del-commercio-in-sede-fissa-esercizi-di-vicinato-e-polifunzionali-e-dei-pubblici-esercizi-di-somministrazione-alimenti-e-bevande-ed-intrattenimento-danzante",
+    "https://servizifederati.regione.emilia-romagna.it/fesr2020/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "bandi-02",
+   "fattore": "Voucher Camera di Commercio (50% digitalizzazione)",
+   "area": "Bandi & finanziamenti",
+   "senior": [
+    "legale-privacy"
+   ],
+   "peso": 4,
+   "trigger": "Apertura/riapertura sportello -> riduce il costo d'ingresso dei negozi",
+   "fonti": [
+    "https://www.pc.camcom.it/pid-punto-impresa-digitale/bando-voucher-digitali-4.0",
+    "https://www.puntoimpresadigitale.camcom.it/paginainterna/voucher-digitali-40"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "bandi-03",
+   "fattore": "Bandi PNRR / startup innovative / Smart&Start",
+   "area": "Bandi & finanziamenti",
+   "senior": [
+    "finanza",
+    "legale-privacy"
+   ],
+   "peso": 3,
+   "trigger": "Nuovo bando -> capitale non diluitivo per MyCity",
+   "fonti": [
+    "https://www.invitalia.it/cosa-facciamo/creiamo-nuove-aziende/smartstart-italia",
+    "https://fesr.regione.emilia-romagna.it/opportunita/opportunita-di-finanziamento"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "bandi-04",
+   "fattore": "Contributi su mobilita sostenibile / cargo-bike",
+   "area": "Bandi & finanziamenti",
+   "senior": [
+    "finanza",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "trigger": "Incentivi cargo-bike -> abbattono il costo logistico",
+   "fonti": [
+    "https://mobilita.regione.emilia-romagna.it/",
+    "https://www.comune.piacenza.it/it/menu/news"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "eventi-01",
+   "fattore": "Natale in Piazza Cavalli / mercatini",
+   "area": "Eventi & stagionalita",
+   "senior": [
+    "marketing",
+    "operations"
+   ],
+   "peso": 5,
+   "trigger": "Calendario natalizio -> picco di awareness e ordini dell'anno",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+    "https://www.vitaincentroapiacenza.com/category/news/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "eventi-02",
+   "fattore": "Calendario eventi del centro ('Via di Gusto', concerti)",
+   "area": "Eventi & stagionalita",
+   "senior": [
+    "intelligence",
+    "content-social"
+   ],
+   "peso": 3,
+   "trigger": "Eventi in calendario -> presidio fisico + contenuti",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+    "https://www.vitaincentroapiacenza.com/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "eventi-03",
+   "fattore": "Calendario universitario (Cattolica + Politecnico)",
+   "area": "Eventi & stagionalita",
+   "senior": [
+    "marketing",
+    "customer-success"
+   ],
+   "peso": 3,
+   "trigger": "Rientri/sessioni -> studenti come clienti + ambassador",
+   "fonti": [
+    "https://piacenza.unicatt.it/il-campus-di-piacenza-e-cremona-orari",
+    "https://www.polo-piacenza.polimi.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "eventi-04",
+   "fattore": "Festivita e ricorrenze (Pasqua, Ferragosto, San Antonino patrono)",
+   "area": "Eventi & stagionalita",
+   "senior": [
+    "analista",
+    "crm-lifecycle"
+   ],
+   "peso": 3,
+   "trigger": "Ricorrenza vicina -> domanda a ondate, prepara campagne",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "eventi-05",
+   "fattore": "Turismo e flussi in citta (weekend, ponti)",
+   "area": "Eventi & stagionalita",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 2,
+   "trigger": "Picchi turistici -> domanda extra",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+    "https://www.visitemilia.com/it/piacenza"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "meteo-01",
+   "fattore": "Pioggia / maltempo",
+   "area": "Meteo & ambiente",
+   "senior": [
+    "operations",
+    "analista"
+   ],
+   "peso": 4,
+   "trigger": "Previsione pioggia -> alza la domanda di consegna a casa",
+   "fonti": [
+    "https://www.3bmeteo.com/meteo/piacenza",
+    "https://www.arpae.it/it/temi-ambientali/meteo/previsioni-meteo/previsioni-meteo-provinciali/piacenza",
+    "https://allertameteo.regione.emilia-romagna.it/web/piacenza"
+   ],
+   "colore": "verde",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "meteo-02",
+   "fattore": "Ondate di caldo",
+   "area": "Meteo & ambiente",
+   "senior": [
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Caldo estremo -> rischio catena del freddo + domanda freschi",
+   "fonti": [
+    "https://www.3bmeteo.com/meteo/piacenza",
+    "https://www.ilmeteo.it/meteo/piacenza"
+   ],
+   "colore": "verde",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "meteo-03",
+   "fattore": "Neve / ghiaccio",
+   "area": "Meteo & ambiente",
+   "senior": [
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Neve/ghiaccio -> cargo-bike a rischio: attiva piano B logistico",
+   "fonti": [
+    "https://www.3bmeteo.com/meteo/piacenza",
+    "https://allertameteo.regione.emilia-romagna.it/web/piacenza"
+   ],
+   "colore": "giallo",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "meteo-04",
+   "fattore": "Qualita dell'aria / blocchi traffico",
+   "area": "Meteo & ambiente",
+   "senior": [
+    "content-social"
+   ],
+   "peso": 2,
+   "trigger": "Blocco traffico/smog -> rafforza il messaggio 'consegna green'",
+   "fonti": [
+    "https://www.arpae.it/it/temi-ambientali/qualita-aria/bollettini/liberiamo-laria",
+    "https://www.comune.piacenza.it/it/menu/news"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "clienti-01",
+   "fattore": "Demografia (anziani soli, famiglie, studenti)",
+   "area": "Clienti, domanda & economia",
+   "senior": [
+    "analista",
+    "customer-success"
+   ],
+   "peso": 3,
+   "trigger": "Dati demografici -> personas da servire",
+   "fonti": [
+    "http://dati.istat.it/",
+    "https://www.comune.piacenza.it/it/page/statistica-e-toponomastica"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "clienti-02",
+   "fattore": "Inflazione e potere d'acquisto",
+   "area": "Clienti, domanda & economia",
+   "senior": [
+    "finanza",
+    "analista"
+   ],
+   "peso": 3,
+   "trigger": "Variazione prezzi/potere d'acquisto -> sensibilita su scontrino",
+   "fonti": [
+    "https://www.istat.it/it/archivio/prezzi",
+    "https://www.comune.piacenza.it/it/page/statistica-e-toponomastica"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "clienti-03",
+   "fattore": "Prezzo carburante",
+   "area": "Clienti, domanda & economia",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 1,
+   "trigger": "Caro carburante -> GDO-in-auto piu' costosa vs consegna locale",
+   "fonti": [
+    "https://carburanti.mise.gov.it/ospzSearch/",
+    "https://www.mimit.gov.it/it/prezzi-carburanti"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "clienti-04",
+   "fattore": "Recensioni e passaparola (citta piccola)",
+   "area": "Clienti, domanda & economia",
+   "senior": [
+    "customer-success",
+    "trust-safety"
+   ],
+   "peso": 5,
+   "trigger": "Recensione/menzione -> fiducia = tutto, reagisci subito",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "clienti-05",
+   "fattore": "Carrelli abbandonati e clienti dormienti",
+   "area": "Clienti, domanda & economia",
+   "senior": [
+    "crm-lifecycle",
+    "cro"
+   ],
+   "peso": 4,
+   "trigger": "Picco abbandoni/dormienti -> frizione da risolvere + recupero",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "ops-01",
+   "fattore": "Disponibilita rider / cargo-bike nei picchi",
+   "area": "Operativita, tech & normativa",
+   "senior": [
+    "rider-fleet",
+    "operations"
+   ],
+   "peso": 4,
+   "trigger": "Buco di copertura nei picchi (pranzo/cena/weekend) -> turni",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "ops-02",
+   "fattore": "Stato piattaforma (Supabase/Stripe: downtime, payout)",
+   "area": "Operativita, tech & normativa",
+   "senior": [
+    "devops-sre",
+    "finanza"
+   ],
+   "peso": 4,
+   "trigger": "Downtime/incidente/payout fallito -> soldi e fiducia a rischio",
+   "fonti": [
+    "https://status.supabase.com/",
+    "https://status.stripe.com/"
+   ],
+   "colore": "rosso",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "ops-03",
+   "fattore": "Normativa HACCP / sicurezza alimentare",
+   "area": "Operativita, tech & normativa",
+   "senior": [
+    "legale-privacy",
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Aggiornamento normativo -> vincolo sui freschi (bozze, valida umano)",
+   "fonti": [
+    "https://www.salute.gov.it/new/it/tema/sicurezza-alimentare/",
+    "https://salute.regione.emilia-romagna.it/sicurezza-alimentare"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "ops-04",
+   "fattore": "GDPR / consenso & dati clienti",
+   "area": "Operativita, tech & normativa",
+   "senior": [
+    "legale-privacy",
+    "security"
+   ],
+   "peso": 3,
+   "trigger": "Novita GDPR -> base legale del CRM",
+   "fonti": [
+    "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/newsletter",
+    "https://www.garanteprivacy.it/regolamentoue"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "ops-05",
+   "fattore": "Regole rider/lavoro & packaging (plastic-free)",
+   "area": "Operativita, tech & normativa",
+   "senior": [
+    "legale-privacy",
+    "operations"
+   ],
+   "peso": 1,
+   "trigger": "Nuove regole rider/packaging -> costi e reputazione sostenibile",
+   "fonti": [
+    "https://www.lavoro.gov.it/",
+    "https://www.mase.gov.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "negozio-01",
+   "fattore": "Salute del negozio-faro Garetti (vendite, stock, recensioni, soddisfazione titolare)",
+   "area": "I miei negozi",
+   "senior": [
+    "account-negozi",
+    "customer-success"
+   ],
+   "peso": 5,
+   "trigger": "Calo/insoddisfazione del faro -> intervento immediato",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "negozio-02",
+   "fattore": "Pipeline negozi prospect per categoria mancante (panetteria, macelleria, ortofrutta, pescheria, gastronomia, enoteca)",
+   "area": "I miei negozi",
+   "senior": [
+    "vendite"
+   ],
+   "peso": 5,
+   "trigger": "Categoria scoperta -> scouting mirato",
+   "fonti": [
+    "https://www.paginegialle.it/piacenza-pc/alimentari.html",
+    "https://www.google.com/maps/search/alimentari+piacenza+centro"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "negozio-03",
+   "fattore": "Reputazione/recensioni dei singoli negozi (Google/social)",
+   "area": "I miei negozi",
+   "senior": [
+    "account-negozi",
+    "trust-safety"
+   ],
+   "peso": 3,
+   "trigger": "Recensione negativa di un negozio -> supporto reputazione",
+   "fonti": [
+    "https://www.google.com/maps/search/negozi+piacenza+centro"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "negozio-04",
+   "fattore": "Stock e stagionalita del catalogo dei negozi",
+   "area": "I miei negozi",
+   "senior": [
+    "operations",
+    "vendite"
+   ],
+   "peso": 3,
+   "trigger": "Prodotti di stagione/festivita -> push catalogo",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "negozio-05",
+   "fattore": "Rischio churn dei negozi attivi (calo o 0 ordini)",
+   "area": "I miei negozi",
+   "senior": [
+    "account-negozi"
+   ],
+   "peso": 4,
+   "trigger": "Negozio in calo -> check-in di recupero",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "cliente-01",
+   "fattore": "Clienti VIP / top spender",
+   "area": "I miei clienti",
+   "senior": [
+    "customer-success",
+    "crm-lifecycle"
+   ],
+   "peso": 3,
+   "trigger": "Top client a rischio -> cura dedicata",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "cliente-02",
+   "fattore": "Coorti di clienti (retention per settimana di acquisizione)",
+   "area": "I miei clienti",
+   "senior": [
+    "analista",
+    "crm-lifecycle"
+   ],
+   "peso": 3,
+   "trigger": "Coorte che non torna -> win-back",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "cliente-03",
+   "fattore": "Personas specifiche (anziani soli, famiglie, studenti, professionisti)",
+   "area": "I miei clienti",
+   "senior": [
+    "analista",
+    "customer-success"
+   ],
+   "peso": 3,
+   "trigger": "Bisogno emergente -> offerta su misura",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "cliente-04",
+   "fattore": "Feedback/NPS dopo consegna",
+   "area": "I miei clienti",
+   "senior": [
+    "customer-success"
+   ],
+   "peso": 4,
+   "trigger": "Feedback negativo -> recupero + fix",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "cliente-05",
+   "fattore": "Comunita e gruppi locali (parrocchie, associazioni di quartiere, condomini, welfare aziendale)",
+   "area": "I miei clienti",
+   "senior": [
+    "marketing",
+    "crm-lifecycle"
+   ],
+   "peso": 3,
+   "trigger": "Nuova comunita -> canale di acquisizione",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-01",
+   "fattore": "Assessore Fornasari + giunta comunale (dichiarazioni, agenda)",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 5,
+   "trigger": "Dichiarazione/iniziativa -> aggancio o endorsement",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/menu/news"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-02",
+   "fattore": "Direttore e giornalisti di Liberta (chi e in carica)",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "pr-stampa"
+   ],
+   "peso": 4,
+   "trigger": "Cambio direttore/giornalista -> aggiorna contatti PR",
+   "fonti": [
+    "https://www.liberta.it/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-03",
+   "fattore": "Presidenti associazioni di categoria (Confcommercio/Confesercenti/CNA/Coldiretti PC)",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 4,
+   "trigger": "Presa di posizione -> alleanza",
+   "fonti": [
+    "https://www.unionecommerciantipc.it/",
+    "https://piacenza.cna.it/",
+    "https://piacenza.coldiretti.it/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-04",
+   "fattore": "Influencer/food blogger locali di Piacenza",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "influencer-partnership"
+   ],
+   "peso": 3,
+   "trigger": "Creator rilevante -> partnership/barter",
+   "fonti": [
+    "https://www.ilpiacenza.it/cibotoday/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-05",
+   "fattore": "Il founder (Nicola): tempo/energia/bandwidth (single point of failure)",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "claude"
+   ],
+   "peso": 4,
+   "trigger": "Sovraccarico -> delega/priorita",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "persona-06",
+   "fattore": "Rider e collaboratori: reclutamento, turni, soddisfazione",
+   "area": "Persone chiave & stakeholder",
+   "senior": [
+    "rider-fleet"
+   ],
+   "peso": 3,
+   "trigger": "Buco copertura/turnover -> reclutamento",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-01",
+   "fattore": "Stripe (pricing, policy, dispute, downtime)",
+   "area": "Partner & fornitori",
+   "senior": [
+    "finanza",
+    "devops-sre"
+   ],
+   "peso": 4,
+   "trigger": "Cambio policy/downtime -> impatto pagamenti",
+   "fonti": [
+    "https://stripe.com/connect/pricing",
+    "https://status.stripe.com/"
+   ],
+   "colore": "rosso",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-02",
+   "fattore": "Supabase (pricing, limiti, downtime, stato progetto)",
+   "area": "Partner & fornitori",
+   "senior": [
+    "devops-sre"
+   ],
+   "peso": 4,
+   "trigger": "Downtime/limite -> dati e memoria a rischio",
+   "fonti": [
+    "https://status.supabase.com/",
+    "https://supabase.com/pricing"
+   ],
+   "colore": "rosso",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-03",
+   "fattore": "Vercel (hosting pannello, build, costi)",
+   "area": "Partner & fornitori",
+   "senior": [
+    "devops-sre"
+   ],
+   "peso": 3,
+   "trigger": "Build rotto/costo -> fix deploy",
+   "fonti": [
+    "https://www.vercel-status.com/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-04",
+   "fattore": "Provider email/push (Resend, VAPID) deliverability/policy",
+   "area": "Partner & fornitori",
+   "senior": [
+    "builder-automazioni"
+   ],
+   "peso": 3,
+   "trigger": "Problema deliverability -> recapito a rischio",
+   "fonti": [
+    "https://resend-status.com/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-05",
+   "fattore": "Fornitore cargo-bike / officina (manutenzione, costi, disponibilita)",
+   "area": "Partner & fornitori",
+   "senior": [
+    "operations",
+    "rider-fleet"
+   ],
+   "peso": 3,
+   "trigger": "Mezzo fermo -> piano B consegne",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "partner-06",
+   "fattore": "Tipografia/stampa (QR, vetrofanie, sacchetti) costi/tempi",
+   "area": "Partner & fornitori",
+   "senior": [
+    "designer"
+   ],
+   "peso": 2,
+   "trigger": "Ritardo/costo stampa -> materiali ambassador",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "tech-01",
+   "fattore": "Nuovi modelli AI e prezzi (capacita/costo per i senior)",
+   "area": "Tecnologia & AI",
+   "senior": [
+    "prompt-engineer"
+   ],
+   "peso": 3,
+   "trigger": "Modello migliore/piu economico -> aggiorna routing",
+   "fonti": [
+    "https://docs.anthropic.com/en/docs/about-claude/models"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "tech-02",
+   "fattore": "Costi/limiti del piano Max e delle API usate",
+   "area": "Tecnologia & AI",
+   "senior": [
+    "prompt-engineer",
+    "finanza"
+   ],
+   "peso": 3,
+   "trigger": "Limite vicino -> sposta carichi/cadenza",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "tech-03",
+   "fattore": "Vulnerabilita/sicurezza (CVE dipendenze, leak credenziali)",
+   "area": "Tecnologia & AI",
+   "senior": [
+    "security"
+   ],
+   "peso": 4,
+   "trigger": "Vulnerabilita -> patch/rotazione chiavi",
+   "fonti": [
+    "https://github.com/advisories"
+   ],
+   "colore": "rosso",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "tech-04",
+   "fattore": "Uptime/errori del sito e del pannello",
+   "area": "Tecnologia & AI",
+   "senior": [
+    "devops-sre"
+   ],
+   "peso": 4,
+   "trigger": "Sito giu/errori -> alert + fix",
+   "fonti": [
+    "https://www.vercel-status.com/"
+   ],
+   "colore": "rosso",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "tech-05",
+   "fattore": "Nuovi strumenti/automazioni utili (n8n, integrazioni, MCP)",
+   "area": "Tecnologia & AI",
+   "senior": [
+    "builder-automazioni"
+   ],
+   "peso": 2,
+   "trigger": "Strumento utile -> prototipo",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "finanza-01",
+   "fattore": "Cash flow e runway (mesi di autonomia)",
+   "area": "Finanza, capitale & fisco",
+   "senior": [
+    "finanza"
+   ],
+   "peso": 5,
+   "trigger": "Runway che scende -> alert capitale",
+   "fonti": [],
+   "colore": "rosso",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "finanza-02",
+   "fattore": "Investitori/VC/business angel locali + acceleratori (CdC, ART-ER)",
+   "area": "Finanza, capitale & fisco",
+   "senior": [
+    "finanza",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "trigger": "Bando/acceleratore -> opportunita capitale",
+   "fonti": [
+    "https://imprese.regione.emilia-romagna.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "finanza-03",
+   "fattore": "Scadenze fiscali e contabili (IVA, F24, dichiarazioni)",
+   "area": "Finanza, capitale & fisco",
+   "senior": [
+    "contabilita"
+   ],
+   "peso": 3,
+   "trigger": "Scadenza vicina -> adempimento",
+   "fonti": [
+    "https://www.agenziaentrate.gov.it/portale/scadenze"
+   ],
+   "colore": "rosso",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "finanza-04",
+   "fattore": "Tassi BCE / costo del credito",
+   "area": "Finanza, capitale & fisco",
+   "senior": [
+    "finanza",
+    "intelligence"
+   ],
+   "peso": 2,
+   "trigger": "Variazione tassi -> costo capitale",
+   "fonti": [
+    "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "finanza-05",
+   "fattore": "Margini e unit economics per ordine (densita/fee)",
+   "area": "Finanza, capitale & fisco",
+   "senior": [
+    "finanza",
+    "analista"
+   ],
+   "peso": 4,
+   "trigger": "CM sotto soglia -> rivedi pricing/fee",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "legale-01",
+   "fattore": "Normativa e-commerce / diritto di recesso / resi",
+   "area": "Legale & regolatorio",
+   "senior": [
+    "legale-privacy"
+   ],
+   "peso": 3,
+   "trigger": "Aggiornamento -> aggiorna TOS/flussi",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "legale-02",
+   "fattore": "PSD2 / SCA / antiriciclaggio sui pagamenti",
+   "area": "Legale & regolatorio",
+   "senior": [
+    "legale-privacy",
+    "security"
+   ],
+   "peso": 3,
+   "trigger": "Nuovo obbligo -> compliance checkout",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "legale-03",
+   "fattore": "Riforma normativa rider / lavoro digitale",
+   "area": "Legale & regolatorio",
+   "senior": [
+    "legale-privacy"
+   ],
+   "peso": 3,
+   "trigger": "Riforma -> impatto costi/contratti rider",
+   "fonti": [
+    "https://www.lavoro.gov.it/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "legale-04",
+   "fattore": "Fatturazione elettronica / DAC7 / obblighi piattaforme",
+   "area": "Legale & regolatorio",
+   "senior": [
+    "contabilita",
+    "legale-privacy"
+   ],
+   "peso": 3,
+   "trigger": "Obbligo piattaforma -> adempimento",
+   "fonti": [
+    "https://www.agenziaentrate.gov.it/"
+   ],
+   "colore": "giallo",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "legale-05",
+   "fattore": "Etichettatura alimentare / allergeni / richiami prodotti",
+   "area": "Legale & regolatorio",
+   "senior": [
+    "legale-privacy",
+    "trust-safety"
+   ],
+   "peso": 3,
+   "trigger": "Richiamo prodotto -> rimozione + avviso",
+   "fonti": [
+    "https://www.salute.gov.it/portale/news/p3_2_3_1.jsp"
+   ],
+   "colore": "rosso",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "macro-01",
+   "fattore": "Inflazione alimentare e potere d acquisto",
+   "area": "Macro, ambiente & salute",
+   "senior": [
+    "finanza",
+    "analista"
+   ],
+   "peso": 3,
+   "trigger": "Picco prezzi -> sensibilita scontrino",
+   "fonti": [
+    "https://www.istat.it/it/prezzi"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "macro-02",
+   "fattore": "Costo energia/bollette dei negozi (margini venditori)",
+   "area": "Macro, ambiente & salute",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 2,
+   "trigger": "Caro bollette -> stress sui negozi",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "macro-03",
+   "fattore": "Stagione agricola / raccolti / qualita freschi DOP",
+   "area": "Macro, ambiente & salute",
+   "senior": [
+    "intelligence",
+    "operations"
+   ],
+   "peso": 2,
+   "trigger": "Annata/qualita -> disponibilita freschi",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "macro-04",
+   "fattore": "Ondate influenzali / allerte sanitarie (picchi consegna a casa)",
+   "area": "Macro, ambiente & salute",
+   "senior": [
+    "analista",
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Picco influenza -> piu domanda delivery",
+   "fonti": [
+    "https://www.epicentro.iss.it/influenza/flunews"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "macro-05",
+   "fattore": "Eventi climatici estremi / allerta meteo regionale",
+   "area": "Macro, ambiente & salute",
+   "senior": [
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Allerta -> piano consegne",
+   "fonti": [
+    "https://allertameteo.regione.emilia-romagna.it/"
+   ],
+   "colore": "giallo",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "territorio-01",
+   "fattore": "Quartieri di Piacenza (densita, espansione zone servite)",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "operations",
+    "analista"
+   ],
+   "peso": 3,
+   "trigger": "Zona densa -> espansione cluster",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "territorio-02",
+   "fattore": "Cantieri/strade chiuse/ZTL temporanee/scioperi",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "operations"
+   ],
+   "peso": 3,
+   "trigger": "Strada chiusa -> rerouting consegne",
+   "fonti": [
+    "https://www.comune.piacenza.it/it/menu/news"
+   ],
+   "colore": "giallo",
+   "cadenza": "giornaliera",
+   "direzione": "IN"
+  },
+  {
+   "id": "territorio-03",
+   "fattore": "Flussi universitari (Cattolica/Politecnico): calendario, alloggi",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "marketing",
+    "customer-success"
+   ],
+   "peso": 3,
+   "trigger": "Rientro studenti -> campagna",
+   "fonti": [
+    "https://piacenza.unicatt.it/",
+    "https://www.polimi.it/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "territorio-04",
+   "fattore": "Turismo e grandi eventi in citta (afflusso)",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "intelligence"
+   ],
+   "peso": 2,
+   "trigger": "Grande evento -> domanda extra",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "digitale-01",
+   "fattore": "Trend food/spesa su TikTok/IG/Google Trends",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "content-social",
+    "seo"
+   ],
+   "peso": 3,
+   "trigger": "Trend cavalcabile -> contenuto",
+   "fonti": [
+    "https://trends.google.it/trends/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "digitale-02",
+   "fattore": "Recensioni e rating di MyCity (store/social/passaparola)",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "trust-safety",
+    "customer-success"
+   ],
+   "peso": 4,
+   "trigger": "Recensione MyCity -> risposta/fix",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "ogni-giro",
+   "direzione": "IN"
+  },
+  {
+   "id": "digitale-03",
+   "fattore": "SEO/posizionamento Google e Maps per query locali",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "seo"
+   ],
+   "peso": 3,
+   "trigger": "Calo ranking -> ottimizzazione",
+   "fonti": [
+    "https://trends.google.it/trends/"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "concorrenza-indiretta-01",
+   "fattore": "Concorrenza indiretta (meal kit, ristorazione delivery, GAS, mercati contadini online, Too Good To Go)",
+   "area": "Territorio, mobilita & digitale",
+   "senior": [
+    "intelligence",
+    "growth-monetizzazione"
+   ],
+   "peso": 3,
+   "trigger": "Nuovo sostituto -> contro-posizionamento",
+   "fonti": [
+    "https://www.toogoodtogo.com/it"
+   ],
+   "colore": "verde",
+   "cadenza": "settimanale",
+   "direzione": "IN"
+  },
+  {
+   "id": "uscita-01",
+   "fattore": "I negozi del cluster",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "vendite",
+    "account-negozi"
+   ],
+   "peso": 5,
+   "direzione": "OUT",
+   "leva_uscita": "Digitalizziamo le botteghe e portiamo loro ordini/incassi; partiamo dal faro testimonial.",
+   "effetto_diretto": "Più ordini e incassi per la bottega.",
+   "effetto_indiretto": "Salvare botteghe storiche → ripopolare il centro → contrastare la desertificazione (causa-madre).",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-02",
+   "fattore": "Abitudini di spesa dei clienti",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "marketing",
+    "crm-lifecycle"
+   ],
+   "peso": 4,
+   "direzione": "OUT",
+   "leva_uscita": "Spostiamo la spesa da GDO/Glovo verso il locale con contenuti, referral, prima esperienza curata.",
+   "effetto_diretto": "Quota di spesa che torna alle botteghe.",
+   "effetto_indiretto": "Più spesa locale → botteghe più sane → più offerta → più clienti (volano).",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-03",
+   "fattore": "Narrazione pubblica (earned media)",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "pr-stampa",
+    "content-social"
+   ],
+   "peso": 5,
+   "direzione": "OUT",
+   "leva_uscita": "Creiamo notizia: 'Piacenza non è in vendita', salviamo le botteghe → Libertà/Telelibertà/IlPiacenza/PiacenzaSera.",
+   "effetto_diretto": "Uscite stampa e reach gratuita.",
+   "effetto_indiretto": "Reputazione → fiducia → onboarding negozi più facile + istituzioni più aperte.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "rosso",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-04",
+   "fattore": "Associazioni di categoria",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "relazioni-istituzionali",
+    "vendite"
+   ],
+   "peso": 4,
+   "direzione": "OUT",
+   "leva_uscita": "Diventarne il braccio digitale (Confcommercio/Confesercenti/CNA/Coldiretti/Unione Commercianti).",
+   "effetto_diretto": "Endorsement che porta più negozi.",
+   "effetto_indiretto": "Un sì associativo → decine di botteghe in blocco.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "rosso",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-05",
+   "fattore": "Istituzioni (Comune / Vita in Centro)",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "relazioni-istituzionali"
+   ],
+   "peso": 4,
+   "direzione": "OUT",
+   "leva_uscita": "Partner dei progetti del centro; voce ai tavoli (Hub Urbano/Cabina di Regia); accesso ai bandi.",
+   "effetto_diretto": "Partnership e accesso a bandi.",
+   "effetto_indiretto": "Policy su commercio/ZTL/eventi più favorevoli a noi.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "rosso",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-06",
+   "fattore": "Media & influencer locali",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "pr-stampa",
+    "influencer-partnership",
+    "content-social"
+   ],
+   "peso": 3,
+   "direzione": "OUT",
+   "leva_uscita": "Attiviamo creator food/lifestyle e gruppi FB di quartiere; barter prodotto-per-contenuto.",
+   "effetto_diretto": "Notorietà e UGC a basso costo.",
+   "effetto_indiretto": "Più notorietà → domanda organica → meno CAC.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-07",
+   "fattore": "Mercato del lavoro (rider/studenti)",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "rider-fleet",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "direzione": "OUT",
+   "leva_uscita": "Creiamo lavoro per studenti (Cattolica/Politecnico) e rider; ambassador da settembre.",
+   "effetto_diretto": "Flotta e ambassador a costo basso.",
+   "effetto_indiretto": "Studenti = clienti + ambassador + rider (triplo ritorno).",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-08",
+   "fattore": "I concorrenti (postura)",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "intelligence",
+    "growth-monetizzazione"
+   ],
+   "peso": 3,
+   "direzione": "OUT",
+   "leva_uscita": "Le nostre mosse li costringono a reagire: complementari a CompraPiacenza, frontali con Glovo sul '30%'.",
+   "effetto_diretto": "Differenziazione percepita.",
+   "effetto_indiretto": "Alziamo lo standard locale del delivery.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "verde",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-09",
+   "fattore": "Economia locale (impatto)",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "pr-stampa",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "direzione": "OUT",
+   "leva_uscita": "Misuriamo e raccontiamo i soldi che restano in città.",
+   "effetto_diretto": "Argomento di impatto economico.",
+   "effetto_indiretto": "Arma per bandi, istituzioni e sponsor.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-10",
+   "fattore": "Eventi della città",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "marketing",
+    "relazioni-istituzionali"
+   ],
+   "peso": 3,
+   "direzione": "OUT",
+   "leva_uscita": "Sponsor/presenza/co-creazione: Sant'Antonino, sagre DOP, Sbaracco, Gas Sales Volley, Piacenza Calcio.",
+   "effetto_diretto": "Visibilità + lead negozi + UGC.",
+   "effetto_indiretto": "Presenza agli eventi → notorietà → onboarding.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  },
+  {
+   "id": "uscita-11",
+   "fattore": "Il modello oltre Piacenza",
+   "area": "Leve in uscita (cosa MyCity influenza)",
+   "senior": [
+    "growth-monetizzazione"
+   ],
+   "peso": 2,
+   "direzione": "OUT",
+   "leva_uscita": "Ciò che funziona qui diventa narrativa di espansione (provincia/altre città).",
+   "effetto_diretto": "Storia di scalabilità.",
+   "effetto_indiretto": "Attrae capitale e partner.",
+   "trigger": "Ogni giro l'AD valuta se attivare/spingere questa leva e propone la mossa (firma di Nicola per le azioni reali).",
+   "fonti": [],
+   "colore": "giallo",
+   "cadenza": "settimanale"
+  }
+ ],
+ "catene_indirette": [
+  {
+   "catena": "Bollette energia → chiusura botteghe → noi le salviamo",
+   "anelli": [
+    "caro-energia ⬇️",
+    "margini bottega giù",
+    "rischio chiusura",
+    "MyCity la digitalizza ⬆️",
+    "ricavi salvati",
+    "testimonial → PR ⬆️"
+   ],
+   "opportunita": "Lista negozi a rischio da contattare con offerta last-mile; storia PR.",
+   "senior": [
+    "intelligence",
+    "vendite",
+    "pr-stampa"
+   ]
+  },
+  {
+   "catena": "Calendario universitario (Cattolica/Politecnico)",
+   "anelli": [
+    "arrivo/partenza studenti ⬇️",
+    "picchi e cali di domanda",
+    "disponibilità rider"
+   ],
+   "opportunita": "Pianificare picchi a inizio semestre + reclutare studenti come rider/ambassador.",
+   "senior": [
+    "analista",
+    "rider-fleet",
+    "marketing"
+   ]
+  },
+  {
+   "catena": "Polo logistico (Amazon Castel San Giovanni)",
+   "anelli": [
+    "hub logistico padano ⬇️",
+    "compete per i rider",
+    "salari rider su → costo consegna ⬆️"
+   ],
+   "opportunita": "Monitorare costo/disponibilità rider; leva 'lavora vicino a casa'.",
+   "senior": [
+    "rider-fleet",
+    "finanza"
+   ]
+  },
+  {
+   "catena": "Po / qualità dell'aria (Pianura Padana)",
+   "anelli": [
+    "nebbia/PM10/piene ⬇️",
+    "blocco auto in centro",
+    "cargo-bike avvantaggiata ⬆️ / consegne a rischio col maltempo"
+   ],
+   "opportunita": "Cavalcare il blocco auto ('noi consegniamo lo stesso, in bici'); piano B maltempo.",
+   "senior": [
+    "operations",
+    "content-social"
+   ]
+  },
+  {
+   "catena": "Sport come collante (Gas Sales Volley Superlega, Piacenza Calcio)",
+   "anelli": [
+    "squadre cittadine ⬇️",
+    "comunità e audience",
+    "sponsorship/partnership ⬆️"
+   ],
+   "opportunita": "Presenza/sponsor leggero per notorietà locale.",
+   "senior": [
+    "marketing",
+    "relazioni-istituzionali"
+   ]
+  },
+  {
+   "catena": "Reti di comunità (parrocchie, gruppi WhatsApp, condomini, uffici)",
+   "anelli": [
+    "reti civiche ⬇️",
+    "canali di consegna aggregata + passaparola ⬆️"
+   ],
+   "opportunita": "Ordini di gruppo per via/condominio; passaparola di quartiere.",
+   "senior": [
+    "crm-lifecycle",
+    "marketing"
+   ]
+  },
+  {
+   "catena": "Demografia che invecchia",
+   "anelli": [
+    "popolazione anziana ⬇️",
+    "bisogno di consegna a casa",
+    "segmento da servire ⬆️"
+   ],
+   "opportunita": "Offerta 'spesa a casa per chi non esce'; canale telefonico/concierge.",
+   "senior": [
+    "customer-success",
+    "marketing"
+   ]
+  }
+ ]
 }

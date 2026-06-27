@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Il "ritmo" del giorno: l'ultimo Piano del mattino e l'ultimo Report della sera,
 // dal vault (90-Memoria-AI/RITMO.md). Blocchi "## Piano del mattino · AAAA-MM-GG".

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getImpostazioni, setImpostazione, memoryConnected } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Kill-switch & budget AI: legge/scrive flag in tabella `impostazioni`.
 // Chiavi usate: "pausa" (on/off), "tetto_spesa" (€), "spesa_attuale" (€, opzionale).

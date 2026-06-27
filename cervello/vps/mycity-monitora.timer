@@ -1,0 +1,10 @@
+[Unit]
+Description=MyCity AD — lancia il monitoraggio web una volta al giorno
+
+[Timer]
+# Ogni giorno alle 06:30 (ora di Piacenza). Persistent: recupera se il server era spento.
+OnCalendar=*-*-* 06:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

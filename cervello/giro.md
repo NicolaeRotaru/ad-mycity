@@ -9,13 +9,20 @@ Passi:
    e lavora su ciò che hai, segnalando che servono i dati.
 2. Controlla le SENTINELLE (`cervello/sentinelle.md`) contro i dati interni: se
    un segnale supera la soglia, agisci nei 🟢 e allerta sui 🟡/🔴.
-3. Scorri il RADAR delle influenze (`cervello/radar.json`): per i fattori a
-   **peso ≥ 4** fai un check live tramite l'**intelligence** sulle `fonti`
-   indicate (WebSearch/WebFetch); se è cambiato qualcosa di rilevante, instradalo
-   al `senior` indicato e annotalo nel briefing (opportunità/azione col `colore`
-   giusto). Rispetta la `cadenza`: NON ricontrollare a ogni giro i fattori a
-   cadenza "settimanale" (per non sprecare il Max) — concentrati su quelli
-   "ogni-giro"/"giornaliera" e sui peso alti.
+3. Scorri il RADAR delle influenze (`cervello/radar.json`) — ora **BIDIREZIONALE**:
+   a. **Fattori IN (`direzione: IN`)** — cosa ci influenza: per i `peso ≥ 4` fai un
+      check live tramite l'**intelligence** sulle `fonti` (WebSearch/WebFetch); se è
+      cambiato qualcosa di rilevante, instradalo al `senior` e annotalo nel briefing
+      (opportunità/azione col `colore` giusto). Rispetta la `cadenza`: NON
+      ricontrollare a ogni giro i fattori "settimanale" (per non sprecare il Max) —
+      concentrati su "ogni-giro"/"giornaliera" e sui peso alti.
+   b. **Leve OUT (`direzione: OUT`)** — cosa MyCity può influenzare: valuta se questo
+      giro conviene **spingere** una leva (`leva_uscita`, con `effetto_diretto` e
+      `effetto_indiretto`) e **proponi la mossa** col `senior` indicato e il `colore`
+      giusto (le azioni reali — stampa, istituzioni, sponsor — si accodano e le firma Nicola).
+   c. **Catene indirette (`catene_indirette`)** — non fermarti al primo anello: se un
+      fattore IN ne attiva un altro (es. caro-energia → botteghe a rischio → noi le
+      salviamo), segui la catena e cogli l'**opportunità** a valle col senior indicato.
 4. Delega all'analista l'analisi dei numeri e all'intelligence un rapido scan di
    opportunità esterne (solo se utile e veloce).
 5. Scrivi un BRIEFING COMPLETO (in markdown) — l'obiettivo è NON perdere informazioni utili.
@@ -73,9 +80,10 @@ Passi:
 7. DOER MODE: ESEGUI da solo le azioni 🟢 (produci gli artefatti veri in `consegne/` o `creativi/`,
    aggiorna la memoria). Le 🟡/🔴 preparale COMPLETE e ACCODALE in
    `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` (non eseguirle finché Nicola non dà il via).
-   **FORMATO OBBLIGATORIO (la Cabina conta solo questo):** ogni 🟡/🔴 va aggiunta come **RIGA della
-   tabella a 8 colonne**, NON come sezione `##` (le sezioni `##` la Cabina NON le vede). Colonne, in
-   quest'ordine esatto:
+   **FORMATO PREFERITO:** ogni 🟡/🔴 va aggiunta come **RIGA della tabella a 8 colonne** (la Cabina la mostra
+   sia in "Da firmare" sia, azionabile con Approva/Rifiuta, nella corsia "Azioni"). La Cabina ora legge ANCHE
+   i blocchi `##`/`###` con 🟡/🔴 (così niente resta invisibile), ma la riga-tabella è migliore perché porta
+   Canale e Stato strutturati. Colonne, in quest'ordine esatto:
    `| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |`
    - `#` = numero progressivo (solo cifre) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
    - `Colore` = l'emoji `🟡` o `🔴` · `Contenuto` = link al file in `consegne/` o testo pronto · `Canale` = email/push/in-app/manuale
@@ -104,6 +112,28 @@ Passi:
      **Piano di Crescita** ← le Opportunità del briefing; **Piano Operativo** ← meteo/picchi consegne;
      **Piano Finanziario** ← i 7 numeri (quando il DB è leggibile); **Piano Istituzionale** ← bandi/Comune/associazioni dal radar;
      **Piano Prodotto** ← opportunità tech/feature. Colore 🟡 (proposte nel vault di Nicola, non decisioni).
+10. INTENZIONI DI NICOLA (alimenta la card "Mosse di Nicola" del Pannello): LEGGI i Piani in
+    `MyCity-Vault/06-Piani/` + `90-Memoria-AI/CHECKLIST-NICOLA.md` + `AZIONI-IN-ATTESA.md` ed ESTRAI
+    cosa **Nicola** sta per fare (le SUE mosse, non le tue): quali primi negozi contatterà, in che
+    ordine, come si comporterà, con quali scadenze. NON inventare: se una cosa non è scritta o
+    chiaramente implicita, mettila tra le lacune (`serve_da_nicola`). Per ogni mossa indica anche
+    **cosa l'AD pre-prepara** per anticiparla (artefatto + senior + colore). Scrivi il digest in
+    `MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json` con QUESTA forma esatta (la legge
+    `/api/memoria/intenzioni` → tab «Mosse di Nicola»):
+    ```json
+    {
+      "data": "AAAA-MM-GG HH:MM",
+      "sintesi": "4-6 righe: cosa sta per fare Nicola adesso",
+      "prossime_mosse": [
+        {"titolo":"…","quando":"…","come":"…","priorita":"alta|media|bassa","ad_prepara":"…","senior":"@reparto","colore":"🟢|🟡|🔴"}
+      ],
+      "primi_negozi": [ {"nome":"…","perche":"…","stato":"…"} ],
+      "rischi": ["…"],
+      "serve_da_nicola": [ {"ambito":"…","cosa_manca":"…","domanda_per_nicola":"…"} ]
+    }
+    ```
+    (Se non hai nulla di nuovo rispetto all'ultimo giro, lascia il file com'è: non sovrascriverlo con un vuoto.)
+    Le mosse 🟡/🔴 che l'AD prepara restano comunque da firmare in [[AZIONI-IN-ATTESA]] (passo 7).
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.

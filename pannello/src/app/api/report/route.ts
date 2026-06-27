@@ -3,6 +3,8 @@ import { readVaultFile, listVaultDir } from "@/lib/vault";
 import { creaLavoro } from "@/lib/store";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Estrae il campo "data:" dal frontmatter (può contenere data E ora). Vuoto se assente.
 function dataFrontmatter(md: string): string {

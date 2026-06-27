@@ -5,7 +5,12 @@ const API = "https://api.github.com";
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
-const BRANCH = process.env.OBSIDIAN_BRANCH || "main";
+// Il giro scrive il vault sul ramo 'memoria-ad' (cervello/giro.sh, GIT_BRANCH:-memoria-ad), MAI su 'main'.
+// Quindi il default deve essere 'memoria-ad': con default 'main' la Cabina leggerebbe un vault congelato.
+const BRANCH = process.env.OBSIDIAN_BRANCH || "memoria-ad";
+if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
+  console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'memoria-ad'. Impostalo esplicitamente su Vercel.");
+}
 
 export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
@@ -30,8 +35,8 @@ export async function listNotes(filtro?: string): Promise<string> {
   try {
     const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, { headers: h(), cache: "no-store" })).json();
     if (!ref.object) return `Errore: ${ref.message || "branch non trovato"}`;
-    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h() })).json();
-    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h() })).json();
+    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
     let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
     if (filtro) {
       const f = filtro.toLowerCase();
@@ -40,6 +45,50 @@ export async function listNotes(filtro?: string): Promise<string> {
     return note.length ? `Note Obsidian (${note.length}):\n${note.join("\n")}` : "Nessuna nota trovata.";
   } catch (e: any) {
     return `Errore: ${e.message}`;
+  }
+}
+
+/**
+ * Elenco dei file .md DIRETTI in una cartella, via Contents API (sempre attuale,
+ * niente albero git ricorsivo che con repo grandi può essere troncato e perdere file nuovi).
+ * Torna i nomi-file ordinati, o null se non collegato/errore.
+ */
+export async function listDir(dir: string): Promise<string[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
+      .map((x: any) => x.name as string)
+      .sort();
+  } catch {
+    return null;
+  }
+}
+
+/** Voci di una cartella (file .md E sottocartelle), per camminare l'albero in modo ricorsivo. */
+export async function listDirEntries(dir: string): Promise<{ name: string; type: "file" | "dir" }[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
+      .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  } catch {
+    return null;
   }
 }
 
@@ -52,7 +101,12 @@ export async function readNote(path: string): Promise<string> {
     const d: any = await r.json();
     if (!r.ok || !d.content) return `Nota non trovata: ${path}`;
     const text = Buffer.from(d.content, "base64").toString("utf-8");
-    return text.length > 12000 ? text.slice(0, 12000) + "\n[...troncato]" : text;
+    // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
+    // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
+    // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
+    // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
+    const MAX = 200000;
+    return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
   } catch (e: any) {
     return `Errore: ${e.message}`;
   }

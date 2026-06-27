@@ -64,9 +64,17 @@ command -v claude >/dev/null 2>&1 && echo "   $(claude --version 2>/dev/null || 
 echo "== 5) Repo in $APP_DIR =="
 mkdir -p /opt/mycity
 if [ -d "$APP_DIR/.git" ]; then
-  # Aggiorna il remote col token (repo privato) e pulla.
+  # Aggiorna il remote col token (repo privato) e riallinea il CODICE a origin/$REPO_BRANCH (di solito main).
+  # La memoria vive sul ramo dedicato 'memoria-ad', che giro.sh ricostruisce da remoto a ogni giro:
+  # quindi qui possiamo riallineare main senza rischio di perdere il vault. Niente '|| true' muto: logghiamo.
   git -C "$APP_DIR" remote set-url origin "$CLONE_URL"
-  git -C "$APP_DIR" pull --ff-only || true
+  if git -C "$APP_DIR" fetch origin "$REPO_BRANCH" 2>/dev/null \
+     && git -C "$APP_DIR" checkout -f "$REPO_BRANCH" 2>/dev/null \
+     && git -C "$APP_DIR" reset --hard "origin/$REPO_BRANCH" 2>/dev/null; then
+    echo "   codice aggiornato a origin/$REPO_BRANCH"
+  else
+    echo "   WARN: aggiornamento del codice fallito (controlla rete/token/permessi)." >&2
+  fi
 else
   git clone --branch "$REPO_BRANCH" "$CLONE_URL" "$APP_DIR"
 fi
@@ -86,12 +94,12 @@ else
 fi
 
 echo "== 7) Unit systemd =="
-for unit in mycity-giro.service mycity-giro.timer mycity-worker.service; do
+for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"
 done
 systemctl daemon-reload
-systemctl enable mycity-giro.timer mycity-worker.service >/dev/null 2>&1 || true
-echo "   unit installate e abilitate (NON ancora avviate)."
+systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer >/dev/null 2>&1 || true
+echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio web (giornaliero)."
 
 cat <<EOF
 
@@ -109,9 +117,11 @@ cat <<EOF
  Poi accendi tutto:
       systemctl start mycity-worker.service
       systemctl start mycity-giro.timer
-      # prova subito un giro:
+      systemctl start mycity-monitora.timer    # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
+      # prova subito un giro e un monitoraggio:
       systemctl start mycity-giro.service && journalctl -u mycity-giro -n 30 --no-pager
+      systemctl start mycity-monitora.service && journalctl -u mycity-monitora -n 30 --no-pager
 
- Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer
+ Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
 ============================================================
 EOF

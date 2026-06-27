@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
 import { testoPulito, dataVault, istante } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -27,11 +28,12 @@ function quando(s: string) {
 export default function GovernoAD() {
   const [tab, setTab] = useState<Tab>("decisioni");
   const [loading, setLoading] = useState(false);
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [filtro, setFiltro] = useState<"tutte" | "verde" | "giallo" | "rosso">("tutte");
-  const [spiega, setSpiega] = useState<Record<number, string>>({});
-  const [spiegando, setSpiegando] = useState<number | null>(null);
+  const [spiega, setSpiega] = useState<Record<string, string>>({});
+  const [spiegando, setSpiegando] = useState<string | null>(null);
 
   const [sala, setSala] = useState<RigaSala[]>([]);
   const [lavori, setLavori] = useState<Lavoro[]>([]);
@@ -44,19 +46,20 @@ export default function GovernoAD() {
     setLoading(true);
     try {
       if (t === "decisioni") {
-        const d = await fetch("/api/memoria/decisioni").then((r) => r.json()).catch(() => ({ decisioni: [] }));
+        const d = await fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ decisioni: [] }));
         setDecisioni(d.decisioni || []);
       } else if (t === "agenti") {
-        const a = await fetch("/api/agenti-live").then((r) => r.json()).catch(() => ({ righe: [], lavori: [] }));
+        const a = await fetch("/api/agenti-live", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ righe: [], lavori: [] }));
         setSala(a.righe || []);
         setLavori(a.lavori || []);
       } else if (t === "feed") {
-        const f = await fetch("/api/feed").then((r) => r.json()).catch(() => ({ feed: [] }));
+        const f = await fetch("/api/feed", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ feed: [] }));
         setFeed(f.feed || []);
       } else if (t === "controllo") {
-        const c = await fetch("/api/controllo").then((r) => r.json()).catch(() => null);
+        const c = await fetch("/api/controllo", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
         setControllo(c);
       }
+      setAggAt(Date.now());
     } finally {
       setLoading(false);
     }
@@ -73,7 +76,11 @@ export default function GovernoAD() {
     return () => clearInterval(id);
   }, [tab, carica]);
 
-  async function spiegaPerche(i: number, d: Decisione) {
+  // Chiave STABILE per decisione (non l'indice posizionale: cambiando filtro l'indice mappa una decisione diversa).
+  const chiaveDec = (d: Decisione) => `${d.data}|${d.reparto}|${d.cosa}`;
+
+  async function spiegaPerche(d: Decisione) {
+    const i = chiaveDec(d);
     setSpiegando(i);
     try {
       // Niente API a pagamento: la spiegazione la fa il cervello sul Max (coda lavori).
@@ -126,10 +133,11 @@ export default function GovernoAD() {
           <Scale size={16} />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">Governo dell'AD</span>
+        <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica(tab)}
           disabled={loading}
-          className="ml-auto inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           Aggiorna
@@ -166,8 +174,10 @@ export default function GovernoAD() {
             ))}
           </div>
           {decViste.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna decisione registrata.</p>}
-          {decViste.map((d, i) => (
-            <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5">
+          {decViste.map((d, i) => {
+            const k = chiaveDec(d);
+            return (
+            <div key={k || i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5">
               <div className="flex items-center gap-2 flex-wrap">
                 {dot(d.livello)}
                 <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{d.reparto}</span>
@@ -177,16 +187,17 @@ export default function GovernoAD() {
               <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(d.cosa)}</p>
               {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {testoPulito(d.perche)}</p>}
               <button
-                onClick={() => spiegaPerche(i, d)}
-                disabled={spiegando === i}
+                onClick={() => spiegaPerche(d)}
+                disabled={spiegando === k}
                 className="mt-2 inline-flex items-center gap-1.5 text-[12px] text-brand hover:text-brand-dark disabled:opacity-50"
               >
-                {spiegando === i ? <Loader2 size={13} className="animate-spin" /> : <HelpCircle size={13} />}
+                {spiegando === k ? <Loader2 size={13} className="animate-spin" /> : <HelpCircle size={13} />}
                 Spiegami perché
               </button>
-              {spiega[i] && <p className="text-[12px] text-ink/80 mt-2 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[i]}</p>}
+              {spiega[k] && <p className="text-[12px] text-ink/80 mt-2 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[k]}</p>}
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

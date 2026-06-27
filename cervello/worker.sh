@@ -5,6 +5,9 @@
 # Lo tiene acceso systemd (cervello/vps/mycity-worker.service, Restart=always).
 set -uo pipefail   # niente -e: il loop deve sopravvivere agli errori dei singoli lavori
 
+# Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
+export TZ="${TZ:-Europe/Rome}"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
@@ -13,6 +16,35 @@ ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%H:%M:%S'; }
+
+# --- Sync conflict-safe delle scritture del vault sul ramo memoria-ad ---
+# Il worker edita i file del vault (AZIONI-IN-ATTESA → FATTO, DECISIONI). Senza questo, il giro successivo
+# faceva 'checkout -f' e le cancellava (data loss + rischio doppio invio reale). Qui le rendiamo DUREVOLI
+# subito, sotto lo STESSO lock del giro (niente race) e con push NON-force (rebase) per non sovrascrivere il giro.
+branch="${GIT_BRANCH:-memoria-ad}"
+LOCK="$REPO/.git/mycity-sync.lock"
+GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (worker)")
+MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
+sync_vault() {
+  [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ] || return 0
+  local url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+  (
+    flock 9
+    git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
+    if git diff --cached --quiet 2>/dev/null; then
+      :   # niente da inviare
+    else
+      git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
+      local ok=0
+      for a in 1 2 3; do
+        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+        if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
+        sleep 2
+      done
+      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (il giro recupera)." >&2
+    fi
+  ) 9>"$LOCK" || true
+}
 
 for dep in claude jq curl node; do
   if ! command -v "$dep" >/dev/null 2>&1; then
@@ -65,12 +97,26 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta"
   fi
 
-  # 3) esegui con Claude Code (Max). Cattura output (stdout+stderr).
-  out="$(claude -p "$prompt" --permission-mode acceptEdits 2>&1 || true)"
+  # 3) esegui con Claude Code (Max), con TIMEOUT (un lavoro impallato non blocca il worker per sempre).
+  to="${WORKER_TIMEOUT:-900}"
+  out="$(timeout --kill-after=30s "$to" claude -p "$prompt" --permission-mode acceptEdits 2>&1)"; rc=$?
+  if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+    stato="errore"; out="$out
+[worker] TIMEOUT dopo ${to}s — lavoro interrotto."
+  elif [ "$rc" -ne 0 ]; then
+    stato="errore"; out="$out
+[worker] claude uscito con rc=$rc."
+  else
+    stato="fatto"
+  fi
 
-  # 4) riscrivi il risultato (jq fa l'escape JSON in sicurezza)
-  body="$(jq -n --arg stato "fatto" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
+  # 3b) Se è andato bene, rendi DUREVOLI subito le scritture del vault (prima del prossimo giro).
+  [ "$stato" = "fatto" ] && sync_vault
+
+  # 4) riscrivi il risultato col VERO stato (fatto|errore): un lavoro fallito NON risulta più "fatto"
+  #    (così è visibile a Nicola e ri-approvabile, e le azioni reali 🔴 non si perdono in silenzio).
+  body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
-    && echo "[$(ts)] Lavoro $id completato." \
+    && echo "[$(ts)] Lavoro $id: $stato." \
     || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
 done

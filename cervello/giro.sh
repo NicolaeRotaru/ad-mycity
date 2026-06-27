@@ -5,6 +5,10 @@
 # Lo lancia il timer systemd (cervello/vps/mycity-giro.timer) ogni 2 ore.
 set -euo pipefail
 
+# Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
+# ora-di-parete italiana. Senza questo, su un VPS in UTC (default Hetzner) finiscono indietro di 1-2h.
+export TZ="${TZ:-Europe/Rome}"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
@@ -31,6 +35,45 @@ if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
   fi
 fi
 
+# --- Prepara il ramo della memoria e ALLINEA IL CODICE a main (PRIMA del giro) ---
+# Modello: il VPS lavora sul ramo dedicato 'memoria-ad' (vault accumulato: STATO/DECISIONI/briefing +
+# consegne/creativi). Il CODICE (pannello, cervello, agenti) arriva da 'main'. Tenendo la memoria FUORI da
+# 'main', 'main' non diverge mai e i bugfix spinti su main arrivano al server a ogni giro.
+branch="${GIT_BRANCH:-memoria-ad}"
+GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)")
+LOCK="$REPO/.git/mycity-sync.lock"           # serializza le operazioni git tra giro e worker (stesso working tree)
+MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)   # cartelle ACCUMULATE dell'AD: mai sovrascritte da main
+if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+  url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+  (
+    flock 9
+    # 1) Mettiti sul ramo della memoria, dall'accumulato remoto (include le scritture pushate dal worker).
+    if git fetch "$url" "$branch" 2>/dev/null; then
+      git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
+    else
+      git checkout -f -B "$branch" 2>/dev/null || true   # primo giro: il ramo remoto non esiste ancora
+    fi
+    memref="$(git rev-parse HEAD 2>/dev/null || echo '')"   # stato della MEMORIA prima di toccare il codice
+    # 2) Allinea il CODICE a main. ATTENZIONE: '-X theirs' riporterebbe a 'main' (vecchio) ANCHE le cartelle
+    #    di memoria → subito dopo le RIPRISTINIAMO da memoria-ad. Così il codice si aggiorna e la memoria NON
+    #    viene mai cancellata (era il bug: il merge sovrascriveva STATO/DECISIONI/AZIONI con le versioni vecchie).
+    if git fetch "$url" main 2>/dev/null; then
+      if git "${GIT_ID[@]}" merge --no-edit -X theirs FETCH_HEAD 2>/dev/null; then
+        if [ -n "$memref" ]; then
+          for d in "${MEM_DIRS[@]}"; do git checkout "$memref" -- "$d" 2>/dev/null || true; done
+          git "${GIT_ID[@]}" commit -q -m "giro: preserva la memoria dopo l'allineamento del codice ($(ts))" 2>/dev/null || true
+        fi
+        echo "[$(ts)] Codice allineato a origin/main (memoria preservata)."
+      else
+        git merge --abort 2>/dev/null || true
+        echo "[$(ts)] WARN: merge di main fallito, continuo col codice attuale." >&2
+      fi
+    fi
+  ) 9>"$LOCK" || true
+else
+  echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: niente allineamento codice/memoria (solo locale)." >&2
+fi
+
 # Esegue il giro. acceptEdits: l'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
 # Le azioni 🔴 restano comunque da firmare (regole in CLAUDE.md).
 echo "[$(ts)] Avvio giro di perlustrazione AD..."
@@ -39,33 +82,33 @@ claude -p "$(cat "$SCRIPT_DIR/giro.md")" --permission-mode acceptEdits || {
 }
 echo "[$(ts)] Giro completato."
 
-# --- Sync della memoria su un RAMO DEDICATO dell'AD: force-push, zero conflitti ---
-# Il giro e' l'UNICO scrittore di questo ramo (default: memoria-ad). Cosi' NON litiga con 'main',
-# dove altre sessioni toccano gli stessi file di memoria (STATO/DECISIONI/briefing): la' il push
-# veniva respinto per conflitto a ogni giro. Qui il force-push allinea il ramo a cio' che ha il VPS
-# (sempre piu' avanti), quindi non fallisce mai per conflitto. Il Pannello legge questo ramo via
-# OBSIDIAN_BRANCH. Il codice arriva da 'main' col 'reset --hard origin/main' quando serve (raro).
-branch="${GIT_BRANCH:-memoria-ad}"
-git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
-if git diff --cached --quiet 2>/dev/null; then
-  echo "[$(ts)] Nessuna modifica al vault da inviare."
-else
-  git -c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)" \
-    commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
-  if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-    url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
-    ok=0
-    for attempt in 1 2 3; do
-      # ramo solo dell'AD: il force-push e' sicuro (nessun altro lo scrive) e non si incastra mai
-      if git push --force "$url" "HEAD:${branch}" 2>/dev/null; then
-        echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
-        ok=1; break
-      fi
-      echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
-      sleep 3
-    done
-    [ "$ok" = 1 ] || echo "[$(ts)] Push della memoria fallito dopo 3 tentativi (il giro successivo recupera)." >&2
+# --- Sync della memoria sul RAMO DEDICATO 'memoria-ad': commit + push (rebase, NON force) ---
+# Sotto lo STESSO lock del worker: i due non si pestano. Push NON-force con rebase, così le scritture del
+# worker (pushate su memoria-ad) NON vengono mai cancellate dal giro (col force-push le perdeva).
+# Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
+(
+  flock 9
+  git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
+  if git diff --cached --quiet 2>/dev/null; then
+    echo "[$(ts)] Nessuna modifica al vault da inviare."
   else
-    echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)."
+    git "${GIT_ID[@]}" commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
+    if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+      url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+      ok=0
+      for attempt in 1 2 3; do
+        # riallineati al remoto (il worker potrebbe aver pushato) con rebase, poi push fast-forward
+        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+        if git push "$url" "HEAD:${branch}" 2>/dev/null; then
+          echo "[$(ts)] Memoria sincronizzata su GitHub (ramo $branch, tentativo $attempt)."
+          ok=1; break
+        fi
+        echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
+        sleep 3
+      done
+      [ "$ok" = 1 ] || echo "[$(ts)] Push della memoria fallito dopo 3 tentativi (il giro successivo recupera)." >&2
+    else
+      echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)."
+    fi
   fi
-fi
+) 9>"$LOCK" || true
