@@ -1,16 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle } from "lucide-react";
+import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
-type Tab = "trend" | "retention" | "pattern" | "unit" | "report";
+type Tab = "trend" | "retention" | "pattern" | "negozi" | "funnel" | "unit" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
 type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
+type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct: number; stato: "verde" | "giallo" | "rosso"; motivo: string };
 const GIORNI = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
 // Mini grafico a barre in SVG puro (niente dipendenze).
@@ -38,6 +39,8 @@ export default function NumeriReport() {
   const [report, setReport] = useState<{ collegato: boolean; elenco: { nome: string; data?: string }[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
   const [retention, setRetention] = useState<any>(null);
   const [pattern, setPattern] = useState<any>(null);
+  const [negozi, setNegozi] = useState<{ collegato: boolean; riepilogo?: any; negozi: Negozio[] } | null>(null);
+  const [funnel, setFunnel] = useState<any>(null);
   const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -54,6 +57,8 @@ export default function NumeriReport() {
         setAnomalie(an?.anomalie || []);
       } else if (t === "retention") setRetention(await fetch("/api/metriche/retention", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "pattern") setPattern(await fetch("/api/metriche/pattern", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "negozi") setNegozi(await fetch("/api/metriche/negozi", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "funnel") setFunnel(await fetch("/api/metriche/funnel", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "unit") setUnit(await fetch("/api/metriche/unit", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else setReport(await fetch("/api/report", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       setAggAt(Date.now());
@@ -80,6 +85,8 @@ export default function NumeriReport() {
     { id: "trend", label: "Trend & proiezioni", icon: <TrendingUp size={14} /> },
     { id: "retention", label: "Retention & LTV", icon: <Repeat size={14} /> },
     { id: "pattern", label: "Ritmi (ore/giorni)", icon: <Clock size={14} /> },
+    { id: "negozi", label: "Salute negozi", icon: <Store size={14} /> },
+    { id: "funnel", label: "Funnel", icon: <Filter size={14} /> },
     { id: "unit", label: "Unit economics", icon: <Calculator size={14} /> },
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
@@ -246,6 +253,73 @@ export default function NumeriReport() {
                 </div>
               </div>
               <p className="text-[11px] text-black/40">Usa i picchi per la copertura rider e per l'orario di push/post. Totale ordini analizzati: {pattern.totale}.</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* SALUTE NEGOZI */}
+      {tab === "negozi" && (
+        <div className="space-y-2.5">
+          {!negozi?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per la salute dei negozi.</p>}
+          {negozi?.collegato && (
+            <>
+              {negozi.riepilogo && (
+                <div className="text-[12px] text-black/60">
+                  <b>{negozi.riepilogo.totale}</b> negozi · <span className="text-red-600">{negozi.riepilogo.rossi} a rischio</span> · <span className="text-amber-600">{negozi.riepilogo.gialli} da tenere d'occhio</span>
+                </div>
+              )}
+              {negozi.negozi.length === 0 && <p className="text-[13px] text-black/45 py-2 text-center">Nessun negozio ancora.</p>}
+              {negozi.negozi.map((n) => {
+                const c = n.stato === "rosso" ? "border-red-200 bg-red-50/50" : n.stato === "giallo" ? "border-amber-200 bg-amber-50/50" : "border-green-200 bg-green-50/40";
+                const dotc = n.stato === "rosso" ? "bg-red-500" : n.stato === "giallo" ? "bg-amber-500" : "bg-green-500";
+                return (
+                  <div key={n.id} className={`rounded-xl border p-2.5 ${c}`}>
+                    <div className="flex items-center gap-2">
+                      <span className={`inline-block w-2 h-2 rounded-full shrink-0 ${dotc}`} />
+                      <span className="text-[13px] font-semibold text-ink/90 truncate">{n.nome}</span>
+                      <span className="ml-auto text-[11px] text-black/55 shrink-0">{n.motivo}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/55 mt-1 pl-4">
+                      <span>{n.ordini_30g} ordini/30g</span>
+                      <span>{eur(n.gmv_30g)} GMV</span>
+                      {n.recensione_media > 0 && <span>★ {n.recensione_media}</span>}
+                      {n.ultimo_ordine_giorni != null && <span>ultimo {n.ultimo_ordine_giorni}g fa</span>}
+                      <span className={n.trend_pct < 0 ? "text-red-600" : "text-green-700"}>{n.trend_pct >= 0 ? "▲" : "▼"} {Math.abs(n.trend_pct)}% vs mese prima</span>
+                    </div>
+                  </div>
+                );
+              })}
+              <p className="text-[11px] text-black/40">I peggiori in cima: l'AD li passa ad account-negozi per il check-in. Soglie: rosso = mai/fermo da 14g · giallo = −40% o recensioni &lt;3.5.</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* FUNNEL */}
+      {tab === "funnel" && (
+        <div className="space-y-3">
+          {!funnel?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace (e PostHog per i visitatori) per il funnel.</p>}
+          {funnel?.collegato && (
+            <>
+              <div className="space-y-1.5">
+                {funnel.steps.map((s: any, i: number) => {
+                  const max = Math.max(1, funnel.steps[0]?.valore || 1);
+                  return (
+                    <div key={i}>
+                      <div className="flex items-baseline justify-between text-[12px] mb-0.5">
+                        <span className="text-ink/85">{s.nome}</span>
+                        <span className="text-black/55"><b className="text-ink tabular-nums">{s.valore.toLocaleString("it-IT")}</b>{s.conv != null && <span className="text-black/45"> · {s.conv}% del passo prima</span>}</span>
+                      </div>
+                      <div className="h-5 rounded bg-black/[0.05] overflow-hidden">
+                        <div className="h-full bg-brand/70" style={{ width: `${Math.max(2, (s.valore / max) * 100)}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="text-[12px] text-black/60">🛒 Carrelli abbandonati (7g): <b>{funnel.carrelli_abbandonati_7g}</b> — ordini quasi persi da recuperare.</div>
+              {funnel.nota && <p className="text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2.5 py-1.5">{funnel.nota}</p>}
             </>
           )}
         </div>
