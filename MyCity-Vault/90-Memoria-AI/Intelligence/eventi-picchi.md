@@ -1,7 +1,13 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 08:48** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 12:49** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> 🌇 **Nota delle 12:49 (mezzogiorno):** la finestra di consegna fresca (9:00–10:30) è **chiusa**; il
+> picco di caldo è alle **17 (38°C)** → **niente consegne di freschi tra le 12 e le 18** (slot serale o
+> domattina). Il **presidio fisico/QR** conviene **stasera dalle 19:00** (ore fresche), quando il centro
+> si anima: **Summer Cult/Federico Buffa a Palazzo Farnese** + festival in centro. Piano:
+> `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
 
 ## 🌡️ METEO — il fattore n°1 di questo weekend
 - **Sab 27/6: max 38°C · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**, apice ondata di calore.

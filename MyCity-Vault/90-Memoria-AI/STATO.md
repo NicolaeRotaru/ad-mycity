@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-27 08:48
+aggiornato: 2026-06-27 12:49
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -34,6 +34,12 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0z. **Giro 27/6 — 12:49 (passaggio 5, MEZZOGIORNO):** la finestra di consegna fresca (9:00–10:30) è
+   **chiusa** → pivot del giorno: da "consegnare" a **raccogliere il passaparola del primo cliente**.
+   Scritto il **piano pomeriggio/sera** (`consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`):
+   feedback a caldo + richiesta recensione/foto (🟡 accodata) + presidio serale in centro nelle ore
+   fresche (Web: eventi serali confermati) + regola "no freschi 12–18" (picco 38°C alle 17). **Supabase
+   MCP ritentato → ancora negato.** Vedi [[2026-06-27]].
 0a. **Giro 27/6 — 08:48 (passaggio 4):** chiuso il gap **ops-02** via WebSearch → **Supabase e Stripe
    OPERATIVI**, nessuna outage. Conclusione importante: il blackout sui 7 numeri **non è un guasto**, è
    solo il **permesso del Supabase MCP** da concedere. Le rotaie del payout per oggi sono in piedi (🟢).
