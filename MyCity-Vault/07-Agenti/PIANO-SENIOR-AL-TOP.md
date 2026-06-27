@@ -75,6 +75,15 @@ Aggiungere a ogni Scheda Mestiere blocchi concreti per Giudizio/Carattere/Motore
 - **Ossessione-cliente:** "apri SEMPRE da cosa prova la persona reale, non dal prodotto".
 - **Legame col reale:** "ancora il lavoro alla Piacenza vera; se non conosci il terreno, procuratelo".
 
+### STRATO D — I 15 VETTORI MULTINAZIONALE (il livello "pari ai pro delle multinazionali") · **MAPPATO, da applicare**
+Frutto del workflow a 9 lenti world-class (vedi [[VETTORI-MULTINAZIONALE]]): sotto i 5 radice vivono 38 vettori
+operativi (23 impliciti + **15 nuovi**) in 8 famiglie (2 nuove: Strategia-Foresight, Resilienza-Sostenibilità).
+I 7 assi NUOVI da innestare nello stampo v3 (gli altri 8 estendono i 5 radice): **foresight strategico** ·
+**stakeholder management/pre-wiring** · **visione olistica cross-silo** (la lacuna più pericolosa) ·
+**strategia competitiva/moat** · **coerenza cross-funzionale** (una sola verità tra 40 reparti) ·
+**gestione attenzione/contesto** · + **metacognizione calibrata** (rende un'AI fidata invece che pericolosa).
+Distribuzione per archetipo: non tutti su tutti. Dettaglio, come-si-costruisce e come-si-testa in [[VETTORI-MULTINAZIONALE]].
+
 ### STRATO C — ALTITUDINE (salire la scala L4→L7) · **DA APPLICARE**
 Ingredienti che alzano il livello del *pensiero*:
 - **Sfida-il-brief** (L5): prima di produrre, chiedi "è la mossa giusta verso l'obiettivo? o c'è leva più alta?".
