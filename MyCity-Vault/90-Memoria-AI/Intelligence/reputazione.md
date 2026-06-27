@@ -1,5 +1,9 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Giro 2026-06-27 19:50:** nessuna menzione reale di "MyCity Piacenza" o dei nostri negozi
+> intercettata oggi dalle fonti news locali (coerente con la Fase 0: poche menzioni esterne attese).
+> Niente da segnalare → contenuto seed conservato.
+
 > 2026-06-27 · Seed. La rigenera il monitoraggio web (`cervello/monitora.md`, fonte `reputazione`)
 > o il pulsante «Aggiorna analisi». Sorveglia: menzioni online, recensioni Google/social, gruppi FB
 > di quartiere, sentiment e lamentele ricorrenti.
