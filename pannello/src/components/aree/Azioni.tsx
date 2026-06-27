@@ -111,6 +111,8 @@ export default function Azioni() {
     });
 
   const daDecidere = azioni.filter((a) => !a.stato).length;
+  const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
+  const qDaRivedere = azioni.filter((a) => !a.stato && a.qualita?.voto === "rivedere").length;
 
   return (
     <div className="space-y-4">
@@ -180,7 +182,7 @@ export default function Azioni() {
 
           {!loading && azioni.length > 0 && (
             <>
-              <div className="t-eti">{daDecidere} da decidere · {azioni.length - daDecidere} già decise</div>
+              <div className="t-eti">{daDecidere} da decidere · {azioni.length - daDecidere} già decise{daDecidere > 0 ? ` · 🏆 ${qVerificate} verificate · ⚠️ ${qDaRivedere} da rivedere` : ""}</div>
               <div className="space-y-2.5">
                 {azioni.map((a) => {
                   const decisa = a.stato !== "";
