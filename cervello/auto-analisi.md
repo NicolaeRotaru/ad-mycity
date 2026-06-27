@@ -55,6 +55,15 @@ Spawna **più revisori, ognuno con UNA lente** diversa, e vota a maggioranza:
 Se ≥ metà segnala un problema → l'azione non passa. La diversità di lente cattura errori che un solo
 revisore non vedrebbe.
 
+## 🏆 Il filo del benchmark (su ogni lavoro importante)
+Verificare che il lavoro sia *giusto* non basta: deve essere *al livello dei migliori*. Su ogni lavoro che
+conta, prima di consegnare chiediti: **«è al livello dei migliori del mondo per questo mestiere? come fanno
+loro? come ci arrivo?»** — confronto a **due livelli** (concorrenti locali + meglio del mondo, vedi
+`auto-miglioramento.md`). Se il divario è alto, il lavoro **non è finito**: o lo alzi ora, o dichiari il
+divario e il piano per colmarlo. Mai accontentarsi del «fatto» quando era possibile il «al livello dei top».
+Registra l'esito di questo filo in `verifiche.benchmark` (ok/problemi). **Mai sazia:** anche se è già buono,
+«c'è un 10× qui?».
+
 ## 🩺 Auto-diagnosi della macchina (meta-salute)
 Oltre al lavoro, controlla **te stessa come sistema**: Supabase/Stripe raggiungibili? dati freschi? quanti
 sensori/sentinelle realmente attivi? il giro precedente ha lasciato lavoro a metà? Scrivi in

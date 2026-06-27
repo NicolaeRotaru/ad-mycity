@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer } from "lucide-react";
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import CuoreMacchina from "@/components/CuoreMacchina";
@@ -17,6 +17,7 @@ type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
 type AutoAnalisi = { voto_fiducia?: number; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
+type Radiografia = { voto_salute_architettura?: number; trend?: string; sintesi?: string } | null;
 type Voce = { data: string; testo: string } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
@@ -46,6 +47,8 @@ export default function Plancia({
   const [todo, setTodo] = useState<Todo[]>([]);
   const [mosse, setMosse] = useState<Mossa[]>([]);
   const [autoAnalisi, setAutoAnalisi] = useState<AutoAnalisi>(null);
+  const [radiografia, setRadiografia] = useState<Radiografia>(null);
+  const [difettiAperti, setDifettiAperti] = useState<number>(0);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [aggAt, setAggAt] = useState<number | null>(null);
 
@@ -58,6 +61,10 @@ export default function Plancia({
       fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
       fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
       fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then((d) => setAutoAnalisi(d.collegato ? d.analisi || null : null)).catch(() => {});
+      fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).then((d) => {
+        setRadiografia(d.collegato ? d.radiografia || null : null);
+        setDifettiAperti(d.collegato ? (d.cantiere?.difetti || []).filter((x: any) => x.stato !== "chiuso").length : 0);
+      }).catch(() => {});
       fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
       setAggAt(Date.now());
     };
@@ -125,6 +132,32 @@ export default function Plancia({
                 <HelpCircle size={12} /> {autoAnalisi.domande_per_nicola?.length || 0} domande
               </span>
             </div>
+          </div>
+        </button>
+      )}
+
+      {/* 🩻 Radiografia di sé: la macchina si è analizzata da cima a fondo → area Cervello */}
+      {radiografia && (
+        <button
+          onClick={() => { if (typeof window !== "undefined") window.location.hash = "auto-radiografia"; onVaiA?.("cervello"); }}
+          className="w-full card p-3.5 text-left hover:border-brand/30 transition border-brand/20"
+        >
+          <div className="flex items-center gap-3">
+            <span className="sez-ico"><Cpu size={16} /></span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="t-sez">Radiografia della macchina</span>
+                {radiografia.voto_salute_architettura != null && (
+                  <span className={`text-[12px] font-bold tabular-nums ${radiografia.voto_salute_architettura >= 80 ? "text-green-600" : radiografia.voto_salute_architettura >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    salute {radiografia.voto_salute_architettura}/100 {radiografia.trend || ""}
+                  </span>
+                )}
+              </div>
+              {radiografia.sintesi && <p className="t-eti line-clamp-1 mt-0.5">{radiografia.sintesi}</p>}
+            </div>
+            <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg shrink-0 ${difettiAperti ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" : "bg-green-50 text-green-700 ring-1 ring-green-200"}`}>
+              <Hammer size={12} /> {difettiAperti} difetti aperti
+            </span>
           </div>
         </button>
       )}

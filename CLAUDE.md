@@ -50,10 +50,18 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
    prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, MOSTRA il perché, non chiedere
    «è reale?»; (c) nessun fondamento → blocca e chiedi (il vero «inventato»). Mai delegare a Nicola ciò che
    puoi dedurre. E **nessun numero senza fonte**.
-6. **Impara:** estrai le lezioni riusabili (`cervello/apprendimento.md`, 7 fonti) e scrivile in memoria.
-7. **Migliora:** sul lavoro importante, confrontati coi migliori e fai collaborare i senior
-   (`cervello/auto-miglioramento.md`). Il tutto è **il volano dell'auto-coscienza** (`cervello/auto-coscienza.md`):
-   ogni giro la macchina si controlla, impara e diventa più brava della volta prima.
+6. **Impara:** estrai le lezioni riusabili (`cervello/apprendimento.md`, 8 fonti — incl. le **correzioni di
+   Nicola come casi-studio prioritari**) e scrivile in memoria.
+7. **Migliora:** sul lavoro importante, confrontati coi migliori (**due livelli: concorrenti locali + il
+   meglio del mondo per ogni mestiere**, mai sazia) e fai collaborare i senior (`cervello/auto-miglioramento.md`).
+8. **Radiografati (asse ②):** periodicamente analizza **te stessa da cima a fondo** — agenti, prompt,
+   processi, sensori, memoria, capacità — con `cervello/auto-radiografia.md` (settimanale/su comando + sonda
+   ogni giro): trova i tuoi difetti, vai alla **causa radice**, tienili in un **cantiere** che porti a zero,
+   e proponi anche i **pezzi nuovi** che ti mancano. Il tutto è **il volano dell'auto-coscienza**
+   (`cervello/auto-coscienza.md`): ogni giro la macchina si controlla, impara e diventa più brava.
+   > **Governo (sempre):** ogni auto-modifica è **🟡 firma Nicola** (mai toccarti da sola, nemmeno i fix
+   > banali) · sotto budget scarso **verità e sicurezza sono sacre** (taglia il volume, non i controlli) ·
+   > i fix si chiudono **per impatto sulla crescita** · ogni errore ricorrente si spegne alla **radice**.
 
 ---
 
@@ -190,6 +198,7 @@ Nicola lancia lavori con frasi brevi. Riconoscile anche se scritte in modo diver
   Colore: 🟢 creare/renderizzare · 🔴 pubblicare. **Il tetto di qualità sale solo con materia prima reale (foto/interviste/dati) + chiavi AI: se mancano, dillo a Nicola come "carburante" che alza il livello.**
 - **"cambia il sito: …" / "audit del marketplace"** → pipeline `MODIFICA-MARKETPLACE.md` (config/codice) · audit rapido qa+security+tech+cro.
 - **"radiografia" / "analizza tutto il sito" / "trova tutti i bug"** → audit PROFONDO: esegui il workflow `radiografia` (`.claude/workflows/radiografia.js`, 13 dimensioni in sola lettura + verifica di ogni problema), poi scrivi il report per gravità in `consegne/audit/AAAA-MM-GG-radiografia.md` e mostra i bloccanti. Vedi `MyCity-Vault/07-Agenti/AUDIT-MARKETPLACE.md`.
+- **"radiografia di te stesso" / "analizzati da cima a fondo" / "fatti la radiografia"** → la macchina analizza SÉ STESSA (non il sito): esegui il workflow `auto-radiografia` (`.claude/workflows/auto-radiografia.js`, 12 dimensioni sull'architettura — agenti, prompt, processi, sensori, memoria — + pre-mortem + benchmark vs i migliori, ogni difetto verificato avversarialmente). Poi scrivi `auto-coscienza/auto-radiografia.json`, aggiorna il cantiere dei difetti e lo storico salute, scrivi `RADIOGRAFIA-MACCHINA.md` + la lettera a Nicola, e mostra i difetti per impatto sulla crescita. Spec: `cervello/auto-radiografia.md`.
 - **"design: …" / "lavora sul design" / "ci sono errori grafici" / "cambia layout/colori"** → squadra design (ux-designer + designer + ai-designer + frontend-dev + cro). Capisci l'intento: se ANALISI → esegui il workflow `audit-design` (`.claude/workflows/audit-design.js`) e scrivi il report in `consegne/design/`; se MODIFICA → instrada: colori/banner/home/testi pagine = corsia CONFIG (`cervello/marketplace.mjs`, subito), layout/componenti/CSS = corsia CODICE (frontend-dev: branch→anteprima→ok). Per bug visivi pixel-level puoi aprire il sito nel browser e fare screenshot (se c'è l'URL/è in locale). Rispetta la design system. Vedi `MyCity-Vault/07-Agenti/DESIGN.md`.
 - **"radiografia del design" / "audit completo del design" / "analizza tutto il design" / "controlla tutta la grafica" / "trova tutte le cose brutte del sito"** → audit design PROFONDO e completo: esegui il workflow `audit-design` (`.claude/workflows/audit-design.js`, 11 dimensioni in sola lettura che coprono i 24 punti visivi/UX + verifica avversariale di ogni problema), poi scrivi il report per gravità in `consegne/design/AAAA-MM-GG-radiografia-design.md` e mostra i bloccanti. È il "design" in modalità ANALISI portato al massimo. Vedi `COMANDI.md` (sezione 🎨 Design & grafica) e `MyCity-Vault/07-Agenti/DESIGN.md`.
 - **"cosa fanno i concorrenti?" / "che opportunità ci sono?"** → intelligence (+ growth).
