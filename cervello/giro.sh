@@ -76,18 +76,20 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       else
         echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
       fi
-      # Seed-if-missing dell'AUTO-COSCIENZA dallo scaffold di main. Il vault vive su memoria-ad e NON viene
-      # mai sovrascritto da main; MA se questi file non esistono ancora su memoria-ad (l'AD non li ha mai
-      # scritti), li prendo UNA TANTUM da main: cosi' la Cabina ha una base e l'auto-analisi ha il
-      # registro-realta da leggere per il grounding. SOLO se mancanti -> quando l'AD li mantiene, non li tocco.
-      # (FETCH_HEAD qui = main.) Restano staged: li committa il sync della memoria a fine giro, su memoria-ad.
+      # Bootstrap-if-absent dell'AUTO-COSCIENZA dallo scaffold di main. Il vault vive su memoria-ad e NON viene
+      # mai sovrascritto da main; MA se la CARTELLA auto-coscienza non esiste ancora su memoria-ad (ramo fresco,
+      # l'AD non l'ha mai creata) la prendo UNA TANTUM da main: cosi' la Cabina ha una base e l'auto-analisi ha
+      # il registro-realta da leggere per il grounding. SOLO se la CARTELLA manca -> appena esiste l'AD ne e'
+      # padrone e il giro non la tocca piu' (niente resurrezione di un file che l'AD ha potato di proposito).
+      # (FETCH_HEAD qui = main.) Resta staged: lo committa il sync della memoria a fine giro, su memoria-ad.
       ac="MyCity-Vault/90-Memoria-AI/auto-coscienza"
-      for acf in auto-analisi registro-realta apprendimento auto-miglioramento calibrazione; do
-        if [ ! -f "$ac/$acf.json" ] && git cat-file -e "FETCH_HEAD:$ac/$acf.json" 2>/dev/null; then
-          git checkout FETCH_HEAD -- "$ac/$acf.json" 2>/dev/null \
-            && echo "[$(ts)] Seed auto-coscienza: $acf.json preso da main (mancava su $branch)."
-        fi
-      done
+      if [ ! -d "$ac" ] && git cat-file -e "FETCH_HEAD:$ac/auto-analisi.json" 2>/dev/null; then
+        git checkout FETCH_HEAD -- "$ac" 2>/dev/null \
+          && echo "[$(ts)] Bootstrap auto-coscienza: scaffold preso da main (cartella mancante su $branch)." \
+          || echo "[$(ts)] WARN: bootstrap auto-coscienza fallito, continuo." >&2
+      fi
+    else
+      echo "[$(ts)] WARN: fetch di main fallito: salto allineamento codice e bootstrap auto-coscienza." >&2
     fi
   ) 9>"$LOCK" || true
 else
