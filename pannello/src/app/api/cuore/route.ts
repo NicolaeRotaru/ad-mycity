@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getImpostazione, memoryConnected } from "@/lib/store";
 import { getBudget, setTetto } from "@/lib/ai-budget";
+import { aiConfigurato } from "@/lib/ai";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +24,10 @@ export async function GET() {
     autopilota: autopilota === "on",
     pensiero: pensiero || null,
     budget,
+    // stato organi: cervello (AI) e mani (email)
+    ai: aiConfigurato(),
+    maniEmail: Boolean(process.env.RESEND_API_KEY),
+    maniLive: process.env.AZIONI_LIVE === "on",
   });
 }
 

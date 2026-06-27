@@ -5,6 +5,8 @@ import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import CuoreMacchina from "@/components/CuoreMacchina";
+import StatoMacchina from "@/components/StatoMacchina";
+import Volano from "@/components/Volano";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -70,6 +72,12 @@ export default function Plancia({
 
       {/* 🫀 Stato del cuore della macchina */}
       <CuoreMacchina />
+
+      {/* 🧬 Gli 8 organi: a colpo d'occhio cosa è pronto e cosa va acceso */}
+      <StatoMacchina />
+
+      {/* 🔄 Il volano (effetto-rete) */}
+      <Volano />
 
       {/* 3 priorità: firmare · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
