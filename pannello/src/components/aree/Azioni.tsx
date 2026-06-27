@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Zap, CheckCircle2, XCircle, Loader2, ChevronDown, ChevronRight, RotateCcw, Bot, ListChecks, BookOpen } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, ClipboardCheck, ArrowRight } from "lucide-react";
 import { istante } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
@@ -31,10 +31,9 @@ function badgeStato(s: string): { txt: string; cls: string } | null {
 }
 const quando = istante; // "GG/MM · HH:MM" in Europe/Rome
 
-export default function Azioni() {
+export default function Azioni({ onVaiA }: { onVaiA?: (area: string) => void }) {
   const [tab, setTab] = useState<"dafare" | "registro">("dafare");
   const [azioni, setAzioni] = useState<Azione[]>([]);
-  const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
   const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -46,7 +45,6 @@ export default function Azioni() {
     const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
     if (d) {
       setAzioni(d.azioni || []);
-      setSalvataggio(Boolean(d.salvataggio));
       setCollegato(Boolean(d.collegato));
       setAutopilota(Boolean(d.autopilota));
     } else setCollegato(false);
@@ -75,21 +73,6 @@ export default function Azioni() {
     }
   }, [tab, registro]);
 
-  function patch(id: string, p: Partial<Azione>) {
-    setAzioni((list) => list.map((a) => (a.id === id ? { ...a, ...p } : a)));
-  }
-  async function decidi(id: string, dec: "approva" | "rifiuta" | "annulla") {
-    if (dec === "approva") patch(id, { stato: "coda", esito: "Invio in corso…" });
-    else if (dec === "rifiuta") patch(id, { stato: "rifiutata", esito: "" });
-    else patch(id, { stato: "", esito: "" });
-    try {
-      const r = await fetch("/api/azioni-pronte", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, decisione: dec }) }).then((x) => x.json());
-      if (r && typeof r.stato === "string") patch(id, { stato: r.stato as Stato, esito: r.esito || "" });
-      setRegistro(null); // il registro si ricaricherà
-    } catch {
-      /* ignora */
-    }
-  }
   async function toggleAutopilota() {
     const nuovo = !autopilota;
     setAutopilota(nuovo);
@@ -144,11 +127,16 @@ export default function Azioni() {
       {tab === "dafare" && (
         <>
           <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
-            <Zap size={15} className="text-brand mt-0.5 shrink-0" />
-            <span>
-              Quando approvi, l'azione parte dalle «mani». Oggi è collegata l'<b>email</b>: invia <b>davvero</b> solo con la
-              chiave e l'interruttore attivi; altrimenti la <b>simula</b> o resta <b>in coda</b>. <b>Mai invii per sbaglio.</b>
-            </span>
+            <ClipboardCheck size={15} className="text-brand mt-0.5 shrink-0" />
+            <div className="flex-1">
+              Qui <b>non si approva</b>: questa è la plancia dell'<b>Autopilota</b> (le mosse 🟢 in automatico) e del <b>Registro</b> dei risultati.
+              Per approvare le azioni — con la scheda completa (chi · mani · cosa cambia) — vai in <b>Memoria → Da approvare</b>.
+              {onVaiA && (
+                <button onClick={() => onVaiA("memoria")} className="ml-1 inline-flex items-center gap-1 text-brand font-medium hover:underline align-baseline">
+                  Vai a Da approvare <ArrowRight size={13} />
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
@@ -179,7 +167,7 @@ export default function Azioni() {
 
           {!loading && azioni.length > 0 && (
             <>
-              <div className="t-eti">{daDecidere} da decidere · {azioni.length - daDecidere} già decise</div>
+              <div className="t-eti">{daDecidere} in coda · le 🟢 le gestisce l'Autopilota; le altre si approvano in «Da approvare».</div>
               <div className="space-y-2.5">
                 {azioni.map((a) => {
                   const decisa = a.stato !== "";
@@ -220,32 +208,10 @@ export default function Azioni() {
                       )}
 
                       {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
-
-                      <div className="mt-3 flex flex-wrap items-center gap-2">
-                        {!decisa ? (
-                          <>
-                            <button onClick={() => decidi(a.id, "approva")} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition">
-                              <CheckCircle2 size={15} /> Approva e fai
-                            </button>
-                            <button onClick={() => decidi(a.id, "rifiuta")} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
-                              <XCircle size={15} /> Rifiuta
-                            </button>
-                          </>
-                        ) : (
-                          <button onClick={() => decidi(a.id, "annulla")} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition">
-                            <RotateCcw size={13} /> annulla
-                          </button>
-                        )}
-                      </div>
                     </div>
                   );
                 })}
               </div>
-              {!salvataggio && (
-                <p className="t-eti">
-                  ⚠️ Le decisioni non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.
-                </p>
-              )}
             </>
           )}
         </>

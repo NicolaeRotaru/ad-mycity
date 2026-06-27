@@ -1108,7 +1108,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== AZIONI (corsia operativa) ===================== */}
         {vista === "azioni" && (
           <div className="space-y-4">
-            <Azioni />
+            <Azioni onVaiA={(a) => setVista(a as typeof vista)} />
             <Arsenale />
           </div>
         )}

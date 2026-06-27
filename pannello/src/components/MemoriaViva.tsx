@@ -265,6 +265,11 @@ export default function MemoriaViva() {
           {/* --- DA APPROVARE --- */}
           {tab === "azioni" && (
             <div className="space-y-2.5">
+              {azioni.length > 0 && (
+                <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12px] text-ink/85">
+                  ✅ Questo è l'<b>unico</b> posto dove approvi. «Approva» manda l'azione all'AD che la esegue; «Rifiuta» la archivia. Le mosse 🟢 in automatico le trovi in <b>Azioni</b> (Autopilota & Registro).
+                </div>
+              )}
               {azioni.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna azione in coda.</p>}
               {azioni.map((a) => (
                 <div
