@@ -1,28 +1,25 @@
-# 🕳️ Buchi di mercato — categorie/zone da coprire
+# 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
 
-> Aggiornato: **2026-06-27 00:39** · ⚠️ Senza dati interni leggibili (Supabase MCP non autorizzato
-> in questo giro), le priorità restano **dal radar** e dalla baseline 24/6, non da numeri freschi.
+> Aggiornato: **2026-06-27 19:50** · Fonte: monitoraggio web (`cervello/monitora.md`, fonti
+> `ilpiacenza-economia` + immobiliare). 🟢 note · i contatti a lead/botteghe = 🟡/🔴 (firma Nicola).
+> Cosa contiene: categorie/zone senza offerta locale + botteghe in difficoltà (segnali da news/immobiliare),
+> da girare a @vendite come lead.
 
-## Stadio attuale
-~1 negozio-faro (Garetti, gastronomia/freschi), **0 ordini reali** ancora. Il collo di bottiglia
-NON è la copertura categorie, è **far partire il primo ordine + portare LIVE il faro**. I buchi
-qui sotto contano appena la macchina gira.
+## Stato giro 2026-06-27
+- **Nessuna novità rilevante oggi** dalle news economiche. La ricerca su IlPiacenza-Economia / aperture-chiusure
+  attività non ha restituito chiusure o aperture specifiche di botteghe nel centro databili a questa settimana
+  (WebFetch sui portali locali è bloccato 403 → solo WebSearch, che non ha intercettato casi singoli).
+  Niente da inventare: la scheda resta in attesa di segnali reali.
+- ⚠️ **Carburante per alzare il livello:** l'analisi immobiliare (Idealista locali commerciali, cadenza
+  settimanale) e l'accesso diretto alle pagine economia delle testate darebbero i segnali "chi molla/chi
+  resiste" → lead caldi per @vendite. Oggi 403 sui portali. Da riprovare al giro settimanale.
 
-## Categorie scoperte (pipeline vendite — priorità)
-| Priorità | Categoria | Perché |
-|---|---|---|
-| 1 | **Panetteria / forno** | Acquisto quotidiano ad alta frequenza → traina il riordino |
-| 2 | **Ortofrutta** | Freschi quotidiani, scontrino ricorrente, stagionalità estiva forte |
-| 3 | **Macelleria** | Alto valore, fiducia sul fresco = vantaggio vs GDO |
-| 4 | **Pescheria** | Categoria rara online, differenziante (con catena del freddo seria) |
-| 5 | **Enoteca / gastronomia** | Scontrino alto, regalo, abbinabile a eventi/centro |
+## Spunto strutturale (ipotesi, conf. 60% — da validare sui dati interni)
+- **Domanda DOP/tipici slegata dal raggio di consegna:** le sagre di provincia (Tortello Vigolzone 24-28 lug,
+  vedi `eventi-picchi.md`) segnalano forte domanda di tipici piacentini. Chi NON va alla sagra è un potenziale
+  cliente per coppa/salame/tortello consegnati o spediti (box DOP). Non è un "buco" classico ma una fascia di
+  domanda stagionale che nessun delivery locale presidia bene. → PASSO-A @growth (box DOP già in lavorazione) +
+  @analista (verificare se i nostri dati food confermano interesse tipici).
 
-## Zone
-Dati di densità per quartiere **non disponibili** (serve il DB). Da radar: il **centro è animato
-fino a metà luglio** (~300 negozi aperti per la manifestazione) → zona naturale per il primo cluster.
-
-## Opportunità tempestiva (estate/caldo)
-Col caldo, picco su **freschi/bevande/ortofrutta estiva** e **piatti pronti freddi**: spingere il
-catalogo del faro su questi item nei giorni 38-39°C. → @vendite + @operations.
-
-*Riprendere con dati veri (frequenza per categoria, zone con domanda) appena Supabase è leggibile.*
+---
+> Si rigenera quando le news segnalano una bottega che chiude/apre o una categoria/zona scoperta.
