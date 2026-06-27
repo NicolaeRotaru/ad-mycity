@@ -102,6 +102,7 @@ import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import { vaultToIso } from "@/lib/format";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -539,7 +540,10 @@ function formatta(v: any, tipo?: Tipo): string {
 // Oggi → "5 min fa · 14:32"; più vecchio → "3 g fa · 24/06 14:32". Fuso Europe/Rome.
 function fa(iso: string | null): string {
   if (!iso) return "mai";
-  const d = new Date(iso);
+  // Le date del fallback-vault sono wall-clock di Piacenza senza fuso (es. "2026-06-27 00:48"):
+  // ancorale a Europe/Rome, altrimenti new Date() le legge come ora locale (UTC su Vercel) e il tempo
+  // relativo finisce nel "futuro" → ogni briefing mostrerebbe "poco fa" per 1-2h. Gli ISO veri restano tali.
+  const d = new Date(vaultToIso(iso));
   const ms = d.getTime();
   if (Number.isNaN(ms)) return "mai";
   const sec = Math.max(0, (Date.now() - ms) / 1000);
@@ -878,21 +882,28 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }, []);
 
-  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max ogni 60s,
-  // cosi' il briefing orario compare da solo (niente pulsante "Aggiorna").
-  useEffect(() => {
-    const id = setInterval(() => caricaStato(), 60000);
-    return () => clearInterval(id);
-  }, [caricaStato]);
-
-  useEffect(() => {
-    caricaStato();
+  const caricaMetriche = useCallback(() => {
     fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d && d.connected) setMetriche(d);
       })
       .catch(() => {});
+  }, []);
+
+  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max E i KPI ogni 60s,
+  // cosi' il briefing orario e i numeri compaiono da soli (niente pulsante "Aggiorna").
+  useEffect(() => {
+    const id = setInterval(() => {
+      caricaStato();
+      caricaMetriche();
+    }, 60000);
+    return () => clearInterval(id);
+  }, [caricaStato, caricaMetriche]);
+
+  useEffect(() => {
+    caricaStato();
+    caricaMetriche();
     // Il diario salvato lato server e' la fonte durevole: se c'e', vince sul locale.
     fetch("/api/diario", { cache: "no-store" })
       .then((r) => r.json())
@@ -904,7 +915,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         }
       })
       .catch(() => {});
-  }, [caricaStato]);
+  }, [caricaStato, caricaMetriche]);
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).

@@ -5,6 +5,9 @@
 # Lo tiene acceso systemd (cervello/vps/mycity-worker.service, Restart=always).
 set -uo pipefail   # niente -e: il loop deve sopravvivere agli errori dei singoli lavori
 
+# Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
+export TZ="${TZ:-Europe/Rome}"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"

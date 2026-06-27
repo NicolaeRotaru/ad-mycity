@@ -164,7 +164,7 @@ export default function Azioni() {
           )}
           {!loading && !collegato && (
             <div className="card p-4 text-sm text-black/55">
-              Le azioni le scrive l'AD in <code className="bg-black/[0.06] px-1 rounded">90-Memoria-AI/AZIONI-PRONTE.md</code>. Memoria non raggiungibile ora.
+              Le azioni le accoda l'AD in <code className="bg-black/[0.06] px-1 rounded">90-Memoria-AI/AZIONI-IN-ATTESA.md</code>. Memoria non raggiungibile ora.
             </div>
           )}
           {!loading && collegato && azioni.length === 0 && (

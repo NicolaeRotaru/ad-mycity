@@ -101,8 +101,8 @@ export default function MemoriaViva() {
   const [approvando, setApprovando] = useState<string | null>(null);
   const [esito, setEsito] = useState<{ numero: string; ok: boolean; msg: string } | null>(null);
 
-  const carica = useCallback(async () => {
-    setLoading(true);
+  const carica = useCallback(async (silenzioso = false) => {
+    if (!silenzioso) setLoading(true);
     try {
       const [a, at, st, pi, td, al, de, ok] = await Promise.all([
         fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, azioni: [] })),
@@ -132,6 +132,9 @@ export default function MemoriaViva() {
 
   useEffect(() => {
     carica();
+    // Aggiornamento di sfondo (senza spinner): il vault cambia mentre la tab resta aperta.
+    const id = setInterval(() => carica(true), 90000);
+    return () => clearInterval(id);
   }, [carica]);
 
   async function decidi(az: Azione, decisione: "approva" | "rifiuta") {
@@ -196,7 +199,7 @@ export default function MemoriaViva() {
         </span>
         <span className="text-[15px] font-semibold tracking-tight">La memoria viva dell'AD</span>
         <button
-          onClick={carica}
+          onClick={() => carica()}
           disabled={loading}
           className="ml-auto inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
