@@ -53,20 +53,21 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     else
       git checkout -f -B "$branch" 2>/dev/null || true   # primo giro: il ramo remoto non esiste ancora
     fi
-    memref="$(git rev-parse HEAD 2>/dev/null || echo '')"   # stato della MEMORIA prima di toccare il codice
-    # 2) Allinea il CODICE a main. ATTENZIONE: '-X theirs' riporterebbe a 'main' (vecchio) ANCHE le cartelle
-    #    di memoria → subito dopo le RIPRISTINIAMO da memoria-ad. Così il codice si aggiorna e la memoria NON
-    #    viene mai cancellata (era il bug: il merge sovrascriveva STATO/DECISIONI/AZIONI con le versioni vecchie).
+    # 2) Allinea SOLO il CODICE a main (NIENTE merge, e soprattutto NIENTE checkout delle cartelle di
+    #    memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
+    #    (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
+    #    impossibile resuscitare file potati dall'AD o sovrascrivere le scritture del vault. Deterministico.
+    #    (La memoria resta quella del ramo memoria-ad, ripresa dal remoto al passo 1.)
     if git fetch "$url" main 2>/dev/null; then
-      if git "${GIT_ID[@]}" merge --no-edit -X theirs FETCH_HEAD 2>/dev/null; then
-        if [ -n "$memref" ]; then
-          for d in "${MEM_DIRS[@]}"; do git checkout "$memref" -- "$d" 2>/dev/null || true; done
-          git "${GIT_ID[@]}" commit -q -m "giro: preserva la memoria dopo l'allineamento del codice ($(ts))" 2>/dev/null || true
-        fi
-        echo "[$(ts)] Codice allineato a origin/main (memoria preservata)."
+      code_paths=()
+      while IFS= read -r p; do
+        case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
+      done < <(git ls-tree --name-only FETCH_HEAD)
+      if [ "${#code_paths[@]}" -gt 0 ] && git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null; then
+        git "${GIT_ID[@]}" commit -q -m "giro: allinea codice a main (vault intatto) ($(ts))" 2>/dev/null || true
+        echo "[$(ts)] Codice allineato a origin/main (solo codice, vault intatto)."
       else
-        git merge --abort 2>/dev/null || true
-        echo "[$(ts)] WARN: merge di main fallito, continuo col codice attuale." >&2
+        echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
       fi
     fi
   ) 9>"$LOCK" || true
@@ -76,8 +77,14 @@ fi
 
 # Esegue il giro. acceptEdits: l'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
 # Le azioni 🔴 restano comunque da firmare (regole in CLAUDE.md).
+# Guardia: leggi il prompt DOPO l'allineamento e abortisci se vuoto (evita il "--print con input vuoto").
+PROMPT="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
+if [ -z "$PROMPT" ]; then
+  echo "[$(ts)] ERRORE: cervello/giro.md non trovato/vuoto dopo l'allineamento; giro saltato." >&2
+  exit 1
+fi
 echo "[$(ts)] Avvio giro di perlustrazione AD..."
-claude -p "$(cat "$SCRIPT_DIR/giro.md")" --permission-mode acceptEdits || {
+claude -p "$PROMPT" --permission-mode acceptEdits || {
   echo "[$(ts)] Claude ha restituito un errore (giro non completato)." >&2
 }
 echo "[$(ts)] Giro completato."
