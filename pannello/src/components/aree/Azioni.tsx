@@ -14,6 +14,7 @@ type Azione = {
   id: string; titolo: string; reparto: string; livello: "verde" | "giallo" | "rosso" | "?";
   canale: string; destinatario: string; perche: string; preparato: string; testo: string;
   fonte: "vault" | "sentinella"; stato: Stato; esito: string;
+  qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
 type Registro = { voci: VoceLog[]; stat: { totale: number; fatte: number; simulate: number; coda: number; rifiutate: number; auto: number; repartoTop: string } };
@@ -195,6 +196,12 @@ export default function Azioni() {
                             <span className="badge badge-off">{a.reparto}</span>
                             {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
                             {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
+                            {a.qualita?.voto === "rivedere" && (
+                              <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>
+                            )}
+                            {a.qualita?.voto === "ok" && !decisa && (
+                              <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>
+                            )}
                           </div>
                         </div>
                         {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
@@ -205,6 +212,12 @@ export default function Azioni() {
                         {a.preparato && <span>preparato da {a.preparato}</span>}
                         {a.canale && <span>· canale: {a.canale}</span>}
                       </div>
+
+                      {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
+                        <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                          ⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}
+                        </div>
+                      )}
 
                       {a.testo && (
                         <div className="mt-2.5">
