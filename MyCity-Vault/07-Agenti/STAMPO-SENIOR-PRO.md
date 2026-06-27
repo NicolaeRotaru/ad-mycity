@@ -216,6 +216,6 @@ Per ogni senior, lo stampo è applicato bene se:
 > Un +10% su `vendite` vale più che su `dispatch`: la profondità segue il ritorno.
 
 ---
-*Stato: stampo v1 validato sul pilota `content-social`. I gate (`@direttore-creativo`, `@qa-designer`,
-valutatore indipendente della [[RUBRICA-QUALITA]]) restano attivi: il loop interno alza la prima bozza,
-il gate esterno garantisce il minimo.*
+*Stato: stampo v3 — **installato** sul pilota `content-social`, **in attesa di validazione** (test prima/dopo
++ verdetto di Nicola; non ancora "validato"). I gate (`@direttore-creativo`, `@qa-designer`, valutatore
+indipendente della [[RUBRICA-QUALITA]]) restano attivi: il loop interno alza la prima bozza, il gate esterno garantisce il minimo.*

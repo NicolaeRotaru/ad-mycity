@@ -22,7 +22,7 @@ obiettivo: portare ogni senior al TOP — non "competente", ma fuoriclasse con a
 La scala (vista sullo stesso brief "post Garetti"):
 - **L1 Esegue** — "ecco un post". (junior)
 - **L2 Lo fa bene** — corretto, on-brand. (i senior PRIMA)
-- **L3 Artigiano** — gusto, auto-critica, 3 angoli, hook forte. ← **dove siamo ORA** (pilota content-social)
+- **L3 Artigiano** — gusto, auto-critica, 3 angoli, hook forte. ← **punto di partenza** del pilota (pre-kit); ora il pilota è installato a **L7-con-giudizio** e *concepisce* L6/L7 (vedi consegne Garetti).
 - **L4 Sistema** — non un post: il **motore** che produce 100 post coerenti; vede gli effetti di secondo ordine.
 - **L5 Strategia** — **sfida il brief**: "un post a lista vuota è basso ROI; la leva vera è X".
 - **L6 Operatore/Fondatore** — **possiede il numero**: dà l'intero funnel che centra il KPI, trasversale ai reparti.
@@ -62,6 +62,10 @@ Sul Garetti: capire che con 0 ordini il problema non è il post, è *dove sono i
 ---
 
 ## 🧰 LE MODIFICHE DA APPLICARE (il backlog — cosa entra nei mansionari)
+
+> ⚠️ **Nota sulle etichette:** "stampo v1/v2/v3" qui sotto sono **fasi concettuali**, non release del documento.
+> Lo [[STAMPO-SENIOR-PRO]] reale è **un unico file già a v3** che **incorpora già** gli strati A, B e D.
+> Quindi "DA APPLICARE" significa **da propagare agli altri 39 senior** — sul pilota `content-social` sono **già installati**.
 
 ### STRATO A — MESTIERE (i 6 ingredienti) · **stampo v1 · FATTO sul pilota**
 Identità con punto di vista · Modelli mentali · Riflesso diagnostico · **Loop di auto-critica interno** ·
