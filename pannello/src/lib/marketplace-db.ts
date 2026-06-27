@@ -315,3 +315,90 @@ export async function getPatternOrari(): Promise<{ connected: boolean; [k: strin
     return { connected: false, error: e.message };
   }
 }
+
+/**
+ * HEALTH PER NEGOZIO (Ondata 1.3) — la salute di OGNI bottega, per proteggere
+ * l'asset critico (con pochi negozi, perderne uno conta). Lega gli ordini al
+ * negozio via `orders.seller_id` (= `profiles.id`, role=seller) e le recensioni
+ * via `store_reviews.store_id`. Ordina i peggiori per primi (chi rischia churn).
+ */
+export async function getHealthNegozi(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false, negozi: [] };
+  try {
+    const [orders, profiles, reviews] = await Promise.all([
+      selectRows("orders", "select=seller_id,total_price,payment_status,created_at&limit=10000"),
+      selectRows("profiles", "select=id,store_name,role,created_at&limit=10000"),
+      selectRows("store_reviews", "select=store_id,rating&limit=10000"),
+    ]);
+    const now = Date.now();
+    const d30 = now - 30 * 86400000;
+    const d60 = now - 60 * 86400000;
+    const t = (iso: string) => new Date(iso).getTime();
+    const sellers = profiles.filter((p) => p.role === "seller");
+
+    // Recensioni raggruppate per negozio.
+    const revBy: Record<string, number[]> = {};
+    for (const r of reviews) {
+      const rating = Number(r.rating) || 0;
+      if (rating > 0 && r.store_id) (revBy[String(r.store_id)] ||= []).push(rating);
+    }
+
+    const negozi = sellers.map((s) => {
+      const id = String(s.id);
+      const os = orders.filter((o) => String(o.seller_id) === id && o.payment_status !== "FAILED");
+      const paid = os.filter((o) => o.payment_status === "PAID");
+      const o30 = os.filter((o) => t(o.created_at) >= d30).length;
+      const oPrev = os.filter((o) => t(o.created_at) >= d60 && t(o.created_at) < d30).length;
+      const gmv30 = paid.filter((o) => t(o.created_at) >= d30).reduce((a, o) => a + (Number(o.total_price) || 0), 0);
+      const tempi = os.map((o) => t(o.created_at));
+      const ultimoGiorni = tempi.length ? Math.floor((now - Math.max(...tempi)) / 86400000) : null;
+      const rev = revBy[id] || [];
+      const recMedia = rev.length ? Math.round((rev.reduce((a, b) => a + b, 0) / rev.length) * 10) / 10 : 0;
+      const trend = oPrev > 0 ? Math.round(((o30 - oPrev) / oPrev) * 100) : o30 > 0 ? 100 : 0;
+
+      // Stato di salute + motivo (le soglie ricalcano le sentinelle).
+      let stato: "verde" | "giallo" | "rosso" = "verde";
+      let motivo = "attivo";
+      if (os.length === 0) {
+        stato = "rosso";
+        motivo = "mai un ordine";
+      } else if (ultimoGiorni != null && ultimoGiorni >= 14) {
+        stato = "rosso";
+        motivo = `fermo da ${ultimoGiorni}g`;
+      } else if (trend <= -40) {
+        stato = "giallo";
+        motivo = `ordini −${Math.abs(trend)}% vs mese prima`;
+      } else if (recMedia > 0 && recMedia < 3.5) {
+        stato = "giallo";
+        motivo = `recensioni ${recMedia}/5`;
+      }
+      return {
+        id,
+        nome: s.store_name || "(senza nome)",
+        ordini_30g: o30,
+        gmv_30g: Math.round(gmv30 * 100) / 100,
+        ultimo_ordine_giorni: ultimoGiorni,
+        recensione_media: recMedia,
+        trend_pct: trend,
+        stato,
+        motivo,
+      };
+    });
+
+    // Peggiori per primi: rosso → giallo → verde; a parità, i più fermi prima.
+    const rank = { rosso: 0, giallo: 1, verde: 2 } as const;
+    negozi.sort((a, b) => rank[a.stato] - rank[b.stato] || (b.ultimo_ordine_giorni ?? 9999) - (a.ultimo_ordine_giorni ?? 9999));
+
+    return {
+      connected: true,
+      riepilogo: {
+        totale: negozi.length,
+        rossi: negozi.filter((n) => n.stato === "rosso").length,
+        gialli: negozi.filter((n) => n.stato === "giallo").length,
+      },
+      negozi,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message, negozi: [] };
+  }
+}
