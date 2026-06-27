@@ -145,7 +145,9 @@ prima consegna gratis."* **Misura:** naming file `AAAA-MM-GG_pilastro_formato_ne
 
 ---
 # 🖼️ STRATO 5 — GALLERIA (il bersaglio del 10/10, per formato)
-> Estende `creativi/swipe/SWIPE-FILE.md`. Modella, non copiare. Ogni voce: COSA · PERCHÉ (principio) · MYCITY.
+> 📖 **Versione PROFONDA (esempi scritti per esteso, parola per parola):** `kit/content-social-GALLERIA.md`
+> — consultala per modellare; qui sotto la sintesi rapida. Estende `creativi/swipe/SWIPE-FILE.md`.
+> Modella, non copiare. Ogni voce: COSA · PERCHÉ (principio) · MYCITY.
 
 ## REEL
 - ✅ **CrowdFarming — founder in campo all'alba.** *Perché:* trasparenza dell'origine = antidoto
