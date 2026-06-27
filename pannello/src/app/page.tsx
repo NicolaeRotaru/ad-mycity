@@ -104,6 +104,7 @@ import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
+import DemoBanner from "@/components/DemoBanner";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -1076,6 +1077,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           );
         })()}
+
+        {/* 🧪 Modalità demo: prova la macchina viva senza chiavi (banner + interruttore) */}
+        <DemoBanner />
 
         {/* Timbro globale: quando i dati del pannello sono stati aggiornati (visibile ovunque) */}
         {datiAggiornatiAt && (

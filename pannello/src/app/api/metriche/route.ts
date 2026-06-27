@@ -9,6 +9,8 @@ export const revalidate = 0;
 // Le metriche del cruscotto: dati del marketplace (mycity) + traffico (PostHog).
 export async function GET() {
   const m: any = await getMetriche();
+  // 🧪 In demo i numeri (traffico incluso) sono già pronti e marchiati: niente DB/PostHog.
+  if (m.demo) return NextResponse.json(m);
   const ph = await getPostHog();
   const marketplaceCollegato = Boolean(m.connected); // stato reale del DB negozi
   if (ph.connected) {

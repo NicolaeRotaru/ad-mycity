@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getImpostazione, memoryConnected } from "@/lib/store";
 import { getBudget, setTetto } from "@/lib/ai-budget";
 import { aiConfigurato } from "@/lib/ai";
+import { demoAttivo, cuoreDemo } from "@/lib/demo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +11,8 @@ export const revalidate = 0;
 // 🫀 Stato del cuore della macchina: ultimo battito, autopilota, ultime azioni
 // automatiche, e budget AI. Tutto a €0 (legge solo impostazioni).
 export async function GET() {
+  // 🧪 Demo: cuore che "batte" con valori di esempio (marchiati demo:true).
+  if (await demoAttivo()) return NextResponse.json(cuoreDemo());
   const [ultimo, eseguite, autopilota, pensiero] = await Promise.all([
     getImpostazione("cuore:ultimo").catch(() => null),
     getImpostazione("cuore:eseguite").catch(() => null),

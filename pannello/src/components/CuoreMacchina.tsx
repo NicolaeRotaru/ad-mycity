@@ -6,6 +6,7 @@ import { istante } from "@/lib/format";
 
 type Cuore = {
   collegato: boolean;
+  demo?: boolean;
   ultimoBattito: string | null;
   eseguiteUltimo: number;
   autopilota: boolean;
@@ -67,7 +68,7 @@ export default function CuoreMacchina() {
         </div>
         <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
           <div className="text-[10.5px] text-black/55">Stato</div>
-          <div className="text-[13px] font-medium mt-1">{c.collegato ? "🟢 Vivo" : "🟡 In prova"}</div>
+          <div className="text-[13px] font-medium mt-1">{c.demo ? "🧪 Demo" : c.collegato ? "🟢 Vivo" : "🟡 In prova"}</div>
         </div>
       </div>
       {c.pensiero && (
