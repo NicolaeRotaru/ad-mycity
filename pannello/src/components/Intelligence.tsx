@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Telescope, AlertTriangle, Swords, CalendarClock, PackageSearch, RefreshCw, Loader2, CheckCircle2 } from "lucide-react";
+import { Telescope, AlertTriangle, Swords, CalendarClock, PackageSearch, RefreshCw, Loader2, CheckCircle2, Send } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 
-type Tab = "alert" | "concorrenti" | "eventi" | "buchi";
+type Tab = "alert" | "concorrenti" | "eventi" | "buchi" | "leve";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 
 const INTEL: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -14,6 +14,7 @@ const INTEL: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "concorrenti", label: "Concorrenti", icon: <Swords size={14} /> },
   { id: "eventi", label: "Eventi & picchi", icon: <CalendarClock size={14} /> },
   { id: "buchi", label: "Buchi di mercato", icon: <PackageSearch size={14} /> },
+  { id: "leve", label: "Leve in uscita", icon: <Send size={14} /> },
 ];
 
 export default function Intelligence() {
