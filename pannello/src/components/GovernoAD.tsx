@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
 import { testoPulito, dataVault, istante } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -27,6 +28,7 @@ function quando(s: string) {
 export default function GovernoAD() {
   const [tab, setTab] = useState<Tab>("decisioni");
   const [loading, setLoading] = useState(false);
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [filtro, setFiltro] = useState<"tutte" | "verde" | "giallo" | "rosso">("tutte");
@@ -57,6 +59,7 @@ export default function GovernoAD() {
         const c = await fetch("/api/controllo", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
         setControllo(c);
       }
+      setAggAt(Date.now());
     } finally {
       setLoading(false);
     }
@@ -130,10 +133,11 @@ export default function GovernoAD() {
           <Scale size={16} />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">Governo dell'AD</span>
+        <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica(tab)}
           disabled={loading}
-          className="ml-auto inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           Aggiorna

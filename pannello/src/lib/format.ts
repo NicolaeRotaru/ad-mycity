@@ -83,6 +83,20 @@ export function istante(iso: string): string {
   }
 }
 
+// "Timbro" di QUANDO un dato è apparso / è stato aggiornato nel pannello:
+// "GG/MM/AAAA · HH:MM" (Europe/Rome). Accetta ISO, millisecondi o Date.
+export function timbro(quando: string | number | Date): string {
+  const d = quando instanceof Date ? quando : new Date(quando);
+  if (Number.isNaN(d.getTime())) return "";
+  try {
+    return new Intl.DateTimeFormat("it-IT", {
+      timeZone: TZ_ROMA, day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit",
+    }).format(d).replace(", ", " · ");
+  } catch {
+    return "";
+  }
+}
+
 export function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";
   if (tipo === "euro") return "€ " + Number(v).toLocaleString("it-IT", { maximumFractionDigits: 2 });

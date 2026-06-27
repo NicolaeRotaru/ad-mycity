@@ -20,6 +20,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { testoPulito, dataVault } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
 
 // --- Tipi (combaciano con le API /api/memoria/*) ---
 type Azione = {
@@ -91,6 +92,7 @@ export default function MemoriaViva() {
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
   const [statoAgg, setStatoAgg] = useState("");
+  const [aggAt, setAggAt] = useState<number | null>(null);
   const [piani, setPiani] = useState<Piano[]>([]);
   const [todo, setTodo] = useState<TodoItem[]>([]);
   const [todoSalva, setTodoSalva] = useState(false);
@@ -125,6 +127,7 @@ export default function MemoriaViva() {
       setDecisioni(de.decisioni || []);
       setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
       setCollegato(Boolean(a.collegato || at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato));
+      setAggAt(Date.now());
     } finally {
       setLoading(false);
     }
@@ -198,10 +201,11 @@ export default function MemoriaViva() {
           <Brain />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">La memoria viva dell'AD</span>
+        <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica()}
           disabled={loading}
-          className="ml-auto inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           Aggiorna
