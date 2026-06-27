@@ -45,17 +45,21 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     else
       git checkout -f -B "$branch" 2>/dev/null || true
     fi
-    memref="$(git rev-parse HEAD 2>/dev/null || echo '')"
+    # Allinea SOLO il CODICE a main (NIENTE merge, e soprattutto NIENTE checkout delle cartelle di
+    # memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
+    # (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
+    # impossibile resuscitare file potati dall'AD o sovrascrivere scritture del vault. Deterministico,
+    # niente conflitti. (La memoria resta quella del ramo memoria-ad, ripresa dal remoto sopra.)
     if git fetch "$url" main 2>/dev/null; then
-      if git "${GIT_ID[@]}" merge --no-edit -X theirs FETCH_HEAD 2>/dev/null; then
-        if [ -n "$memref" ]; then
-          for d in "${MEM_DIRS[@]}"; do git checkout "$memref" -- "$d" 2>/dev/null || true; done
-          git "${GIT_ID[@]}" commit -q -m "monitoraggio: preserva la memoria dopo l'allineamento del codice ($(ts))" 2>/dev/null || true
-        fi
-        echo "[$(ts)] Codice allineato a origin/main (memoria preservata)."
+      code_paths=()
+      while IFS= read -r p; do
+        case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
+      done < <(git ls-tree --name-only FETCH_HEAD)
+      if [ "${#code_paths[@]}" -gt 0 ] && git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null; then
+        git "${GIT_ID[@]}" commit -q -m "monitoraggio: allinea codice a main (vault intatto) ($(ts))" 2>/dev/null || true
+        echo "[$(ts)] Codice allineato a origin/main (solo codice, vault intatto)."
       else
-        git merge --abort 2>/dev/null || true
-        echo "[$(ts)] WARN: merge di main fallito, continuo col codice attuale." >&2
+        echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
       fi
     fi
   ) 9>"$LOCK" || true
@@ -64,8 +68,14 @@ else
 fi
 
 # Esegue il monitoraggio (LEGGERO: solo le fonti dovute oggi). acceptEdits: scrive nel vault senza chiedere.
+# Guardia: leggi il prompt DOPO l'allineamento e abortisci se è vuoto (evita il "--print con input vuoto").
+PROMPT="$(cat "$SCRIPT_DIR/monitora.md" 2>/dev/null || true)"
+if [ -z "$PROMPT" ]; then
+  echo "[$(ts)] ERRORE: cervello/monitora.md non trovato/vuoto dopo l'allineamento; monitoraggio saltato." >&2
+  exit 1
+fi
 echo "[$(ts)] Avvio monitoraggio web AD..."
-claude -p "$(cat "$SCRIPT_DIR/monitora.md")" --permission-mode acceptEdits || {
+claude -p "$PROMPT" --permission-mode acceptEdits || {
   echo "[$(ts)] Claude ha restituito un errore (monitoraggio non completato)." >&2
 }
 echo "[$(ts)] Monitoraggio completato."
