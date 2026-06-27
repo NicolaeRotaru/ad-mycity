@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock } from "lucide-react";
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
+import CuoreMacchina from "@/components/CuoreMacchina";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -66,6 +67,9 @@ export default function Plancia({
         </div>
         <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
+
+      {/* 🫀 Stato del cuore della macchina */}
+      <CuoreMacchina />
 
       {/* 3 priorità: firmare · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

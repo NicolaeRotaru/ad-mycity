@@ -103,6 +103,7 @@ import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import Aggiornato from "@/components/Aggiornato";
+import Arsenale from "@/components/Arsenale";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -1092,7 +1093,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         )}
 
         {/* ===================== AZIONI (corsia operativa) ===================== */}
-        {vista === "azioni" && <Azioni />}
+        {vista === "azioni" && (
+          <div className="space-y-4">
+            <Azioni />
+            <Arsenale />
+          </div>
+        )}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
