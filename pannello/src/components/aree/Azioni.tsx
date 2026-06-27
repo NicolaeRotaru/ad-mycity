@@ -8,7 +8,8 @@ import Aggiornato from "@/components/Aggiornato";
 
 // L'UNICO posto dove si approva. Tre cose, in un riquadro solo:
 //  💡 Proposte dal giro  → le idee fresche dell'analisi oraria (briefing) → approvi → l'AD le realizza.
-//  📋 Coda da firmare    → le mosse pronte dei senior (vault + sentinelle), con la scheda completa.
+//  📋 Coda da firmare    → le mosse pronte dei senior (vault + sentinelle), con la scheda completa
+//                          e il controllo qualità (Livello 2) + le lezioni apprese.
 //  🤖 Autopilota + 📒 Registro → il motore (🟢 in automatico) e lo storico dei risultati.
 
 type Livello = "verde" | "giallo" | "rosso" | "?";
@@ -18,6 +19,7 @@ type Azione = {
   canale: string; destinatario: string; perche: string; preparato: string; testo: string;
   fonte: "vault" | "sentinella"; stato: Stato; esito: string;
   cambia?: string; seguito?: string;
+  qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
 type Proposta = { titolo: string; motivo: string; livello: Livello };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
@@ -54,6 +56,7 @@ function Scheda({ a }: { a: Azione }) {
 export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [tab, setTab] = useState<"dafare" | "registro">("dafare");
   const [azioni, setAzioni] = useState<Azione[]>([]);
+  const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
   const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,6 +73,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
     if (d) {
       setAzioni(d.azioni || []);
+      setSalvataggio(Boolean(d.salvataggio));
       setCollegato(Boolean(d.collegato));
       setAutopilota(Boolean(d.autopilota));
     } else setCollegato(false);
@@ -157,6 +161,15 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const daDecidere = azioni.filter((a) => !a.stato).length;
   const proposteVive = proposte.filter((_, i) => !propDecise.has(i)).length;
   const vuoto = azioni.length === 0 && proposte.length === 0;
+  // 🏆 Qualità (Livello 2): quante mosse da firmare sono verificate / da rivedere.
+  const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
+  const qDaRivedere = azioni.filter((a) => !a.stato && a.qualita?.voto === "rivedere").length;
+  // 📚 Auto-miglioramento: i problemi di qualità più ricorrenti = le "lezioni".
+  const lezioni: [string, number][] = (() => {
+    const m: Record<string, number> = {};
+    for (const a of azioni) for (const p of a.qualita?.problemi || []) m[p] = (m[p] || 0) + 1;
+    return Object.entries(m).sort((x, y) => y[1] - x[1]).slice(0, 4);
+  })();
 
   return (
     <div className="space-y-4">
@@ -265,12 +278,33 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
             <div className="card p-4 text-sm text-black/55">Nessuna azione pronta adesso. Quando l'AD prepara una mossa, compare qui.</div>
           )}
 
-          {/* 📋 CODA DA FIRMARE — mosse pronte dei senior, con scheda */}
+          {/* 📋 CODA DA FIRMARE — mosse pronte dei senior, con scheda + qualità */}
           {!loading && azioni.length > 0 && (
             <>
               <div className="t-micro flex items-center gap-1.5">
                 <ListChecks size={13} className="text-brand" /> Coda pronta dai senior · {daDecidere} da firmare
+                {daDecidere > 0 && <span className="t-eti">· 🏆 {qVerificate} verificate · ⚠️ {qDaRivedere} da rivedere</span>}
               </div>
+
+              {/* 📚 LEZIONI APPRESE — auto-miglioramento dai problemi di qualità ricorrenti */}
+              {lezioni.length > 0 && (
+                <div className="card border border-amber-200 bg-amber-50/40 p-3.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[15px]">📚</span>
+                    <span className="t-sez">Lezioni apprese <span className="t-eti">(auto-miglioramento)</span></span>
+                  </div>
+                  <div className="mt-2 space-y-1">
+                    {lezioni.map(([p, n]) => (
+                      <div key={p} className="flex items-center gap-2 text-[12.5px] text-ink/85">
+                        <span className="badge badge-off shrink-0">{n}×</span>
+                        <span>{p}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="t-eti mt-2">Sono gli errori di qualità più ricorrenti: l'AD li tiene presenti quando prepara le prossime mosse, così migliora da solo.</p>
+                </div>
+              )}
+
               <div className="space-y-2.5">
                 {azioni.map((a) => {
                   const decisa = a.stato !== "";
@@ -286,6 +320,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                             <span className="badge badge-off">{a.reparto}</span>
                             {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
                             {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
+                            {a.qualita?.voto === "rivedere" && (
+                              <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>
+                            )}
+                            {a.qualita?.voto === "ok" && !decisa && (
+                              <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>
+                            )}
                           </div>
                         </div>
                         {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
@@ -296,6 +336,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         {a.preparato && <span>preparato da {a.preparato}</span>}
                         {a.canale && <span>· canale: {a.canale}</span>}
                       </div>
+
+                      {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
+                        <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                          ⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}
+                        </div>
+                      )}
 
                       {a.testo && (
                         <div className="mt-2.5">
@@ -333,6 +379,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                   );
                 })}
               </div>
+
+              {!salvataggio && (
+                <p className="t-eti">
+                  ⚠️ Le decisioni non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.
+                </p>
+              )}
             </>
           )}
         </>

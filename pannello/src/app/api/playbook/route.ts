@@ -11,6 +11,7 @@ export async function GET() {
   const mappa = new Map(stato.map((s) => [s.id, s]));
   const playbook = PLAYBOOKS.map((p) => ({
     id: p.id,
+    forma: p.forma,
     leva: p.leva,
     emoji: p.emoji,
     titolo: p.titolo,
