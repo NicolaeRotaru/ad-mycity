@@ -94,12 +94,12 @@ else
 fi
 
 echo "== 7) Unit systemd =="
-for unit in mycity-giro.service mycity-giro.timer mycity-worker.service; do
+for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"
 done
 systemctl daemon-reload
-systemctl enable mycity-giro.timer mycity-worker.service >/dev/null 2>&1 || true
-echo "   unit installate e abilitate (NON ancora avviate)."
+systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer >/dev/null 2>&1 || true
+echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio web (giornaliero)."
 
 cat <<EOF
 
@@ -117,9 +117,11 @@ cat <<EOF
  Poi accendi tutto:
       systemctl start mycity-worker.service
       systemctl start mycity-giro.timer
-      # prova subito un giro:
+      systemctl start mycity-monitora.timer    # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
+      # prova subito un giro e un monitoraggio:
       systemctl start mycity-giro.service && journalctl -u mycity-giro -n 30 --no-pager
+      systemctl start mycity-monitora.service && journalctl -u mycity-monitora -n 30 --no-pager
 
- Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer
+ Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
 ============================================================
 EOF

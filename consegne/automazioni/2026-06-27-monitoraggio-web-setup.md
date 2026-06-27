@@ -18,9 +18,26 @@ colore: 🟡
 - **Faccia:** schede Intelligence del Pannello (Concorrenti, Eventi & picchi, Buchi, Leve in uscita,
   Reputazione) — leggono quei file dal vault.
 
-## Cosa deve fare builder (una sola cosa: schedularlo)
+## ✅ Accensione (gli artefatti sono PRONTI nel repo)
+Ora ci sono: lo script **`cervello/monitora.sh`** + le unit **`cervello/vps/mycity-monitora.{service,timer}`**
+(timer giornaliero 06:30) + `setup.sh` aggiornato che le installa. Quindi accendere è **un comando**.
+
+### Via 0 — systemd (CONSIGLIATA, stesso schema del giro) — VPS già configurato
+Sul VPS dove gira già il giro:
+```bash
+cd /opt/mycity/ad-mycity && git pull                          # prende monitora.sh + le unit
+sudo cp cervello/vps/mycity-monitora.service /etc/systemd/system/
+sudo cp cervello/vps/mycity-monitora.timer  /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now mycity-monitora.timer            # 👈 ACCENDE il monitoraggio giornaliero
+sudo systemctl start mycity-monitora.service                 # prova subito un giro di monitoraggio
+journalctl -u mycity-monitora -n 40 --no-pager               # log
+```
+(Se rilanci `bash cervello/vps/setup.sh`, le unit vengono installate e abilitate da solo.)
+Stop: `sudo systemctl stop mycity-monitora.timer`. Cambiare orario: `OnCalendar` nel `.timer`.
+
+## Alternative (se non usi systemd)
 Il motore gira **come un giro**: stesso worker Max, stesso meccanismo di `cervello/giro.*`.
-Scegli UNA delle due vie:
 
 ### Via 1 — Cron/schtasks (più semplice, 0 dipendenze)
 Aggiungi un job che esegue il prompt una volta al giorno (mattino presto), sullo stesso pattern di
