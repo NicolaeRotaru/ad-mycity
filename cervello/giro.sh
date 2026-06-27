@@ -76,6 +76,18 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       else
         echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
       fi
+      # Seed-if-missing dell'AUTO-COSCIENZA dallo scaffold di main. Il vault vive su memoria-ad e NON viene
+      # mai sovrascritto da main; MA se questi file non esistono ancora su memoria-ad (l'AD non li ha mai
+      # scritti), li prendo UNA TANTUM da main: cosi' la Cabina ha una base e l'auto-analisi ha il
+      # registro-realta da leggere per il grounding. SOLO se mancanti -> quando l'AD li mantiene, non li tocco.
+      # (FETCH_HEAD qui = main.) Restano staged: li committa il sync della memoria a fine giro, su memoria-ad.
+      ac="MyCity-Vault/90-Memoria-AI/auto-coscienza"
+      for acf in auto-analisi registro-realta apprendimento auto-miglioramento calibrazione; do
+        if [ ! -f "$ac/$acf.json" ] && git cat-file -e "FETCH_HEAD:$ac/$acf.json" 2>/dev/null; then
+          git checkout FETCH_HEAD -- "$ac/$acf.json" 2>/dev/null \
+            && echo "[$(ts)] Seed auto-coscienza: $acf.json preso da main (mancava su $branch)."
+        fi
+      done
     fi
   ) 9>"$LOCK" || true
 else
@@ -102,6 +114,9 @@ echo "[$(ts)] Giro completato."
 # Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
 (
   flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo giro recupera il WIP)
+  # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
+  [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
+    || echo "[$(ts)] ⚠️  AUTO-ANALISI NON PERSISTITA: manca auto-coscienza/auto-analisi.json — la Cabina resterà vuota (vedi passo 11 del giro)." >&2
   git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
