@@ -1,7 +1,23 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 20:51** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 23:02** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> 🔭 **Nota delle 23:02 (giro notturno) — LA SETTIMANA CHE VIENE È PIENA: festa del patrono.**
+> Dato nuovo dal monitoraggio web: **Manifestazioni Antoniniane 2026** (festa di Sant'Antonino, patrono
+> di Piacenza) — pre-festa **27/6 → 3/7**, **culmine sab 4/7**. Il 4/7 la **grande fiera di bancarelle
+> anima il centro storico dalla mattina presto fino a mezzanotte** (+ Banda Ponchielli, messa solenne in
+> Basilica, premio "Antonino d'Oro", la sera in Piazza Cavalli "Piacenza nel cuore" canzone dialettale).
+> Tappe intermedie: **29/6** concerto "Angeliche risonanze"; **30/6** ore 19 Vespri + aperitivo nel chiostro;
+> **2/7** cortile Palazzo Farnese; mostra "Acqua Km Zero" (chiostro Basilica, 27/6→2/8). Si somma alla **4ª
+> serata Venerdì Piacentini ven 3/7**. ⇒ Centro **pieno di gente per tutta la settimana, picco fisico enorme
+> il 4/7**: finestra lunga di **presidio/QR + aggancio negozianti aperti** (lead vendite). → @marketing, @vendite,
+> @relazioni-istituzionali. ⚠️ La fiera del 4/7 è di **ambulanti** (concorrenza fisica sul fresco): il nostro
+> angolo resta "te lo portiamo a casa, non fai la coda al caldo".
+> 🌦️ **Meteo a 7gg:** dom 28/6 = **39°C confermati** (sole, zero pioggia, picco pomeriggio). **Svolta a inizio
+> luglio:** aria più fresca **ma rischio di violenti temporali** → due effetti a valle: (a) **picco di delivery**
+> se piove sugli eventi 3-4/7, (b) **cargo-bike avvantaggiata** se scatta blocco/disagio auto (catena indiretta).
+> Da **ri-verificare il 1-2/7** per blindare l'operativo del weekend del patrono. Fonti: [piacenza24 – Antoniniane 2026](https://www.piacenza24.eu/manifestazioni-antoniniane-2026/) · [liberta.it – la città si prepara a Sant'Antonino](https://www.liberta.it/news/attualita/cronaca/la-citta-si-prepara-a-celebrare-santantonino/107802) · [comune – Manifestazioni Antoniniane](https://www.comune.piacenza.it/it/news/manifestazioni-antoniniane) · [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza)
 
 > 🔴 **Nota delle 20:51 (sera inoltrata) — ALLERTA CALDO UFFICIALE:** check live → è in vigore
 > l'**Allerta 066/2026** per temperature estreme (valida dal 27/6) e **almeno un evento di domani 28/6

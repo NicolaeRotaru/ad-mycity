@@ -1,8 +1,11 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> **Giro 2026-06-27 19:50:** nessuna menzione reale di "MyCity Piacenza" o dei nostri negozi
-> intercettata oggi dalle fonti news locali (coerente con la Fase 0: poche menzioni esterne attese).
-> Niente da segnalare → contenuto seed conservato.
+> **Giro 2026-06-27 23:02 (notturno):** ri-controllo web → **zero menzioni esterne, recensioni o
+> lamentele** su "MyCity Piacenza" o sui nostri negozi nelle news locali e nei social. L'unico risultato è
+> il **sito ufficiale** [mycity-marketplace.com](https://mycity-marketplace.com/) (servizio attivo: consegna
+> 24-48h, newsletter del venerdì "Cosa Bolle in Pentola a Piacenza"). Sentiment: **neutro/assente**, coerente
+> con la Fase 0. Niente da escalare → contenuto seed conservato. Prossimo check menzioni: ricerca aperta
+> *settimanale* (fonte `reputazione-mycity`) o al primo ordine/PR.
 
 > 2026-06-27 · Seed. La rigenera il monitoraggio web (`cervello/monitora.md`, fonte `reputazione`)
 > o il pulsante «Aggiorna analisi». Sorveglia: menzioni online, recensioni Google/social, gruppi FB
