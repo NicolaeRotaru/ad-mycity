@@ -75,6 +75,25 @@ sudo systemctl start mycity-giro.service        # prova subito un giro adesso
 sudo systemctl start mycity-monitora.service    # prova subito un monitoraggio web
 ```
 
+## ▶️ Far partire il giro + auto-analisi ADESSO (dopo aver committato cose nuove)
+Quando hai appena pushato funzionalità nuove su `main` e vuoi vedere subito cosa tira fuori l'AD:
+```bash
+# Scorciatoia (sincronizza il codice nuovo da main + giro + auto-analisi, con log in diretta):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
+```
+Oppure i due comandi a mano (equivalenti):
+```bash
+sudo systemctl start --no-block mycity-giro.service   # parte il giro adesso
+sudo journalctl -u mycity-giro -f                     # log in diretta (Ctrl-C per uscire)
+```
+Non serve `git pull` a mano: **il primo passo del giro allinea da solo il codice a `origin/main`**
+(pannello, cervello, agenti) — i tuoi merge entrano lì — lasciando intatto il vault. Al termine trovi
+il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo
+`memoria-ad` → visibili nel **Pannello**. ⚠️ I merge devono essere su `main`: il giro sincronizza solo da lì.
+
+> Se hai cambiato i **file delle unit systemd** (`mycity-*.service`/`.timer`), ricopiali e ricarica prima:
+> `sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload`
+
 ## Verifica che funzioni
 ```bash
 systemctl status mycity-worker --no-pager           # deve essere: active (running)
