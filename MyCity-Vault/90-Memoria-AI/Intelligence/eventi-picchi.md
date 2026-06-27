@@ -1,15 +1,17 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 00:39** · fonte: radar live (ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 08:48** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
 
 ## 🌡️ METEO — il fattore n°1 di questo weekend
-- **Sab 27/6: 38°C · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**, apice ondata di calore.
+- **Sab 27/6: max 38°C · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**, apice ondata di calore.
   Svolta (aria fresca + temporali) attesa solo a **inizio luglio**.
+- **Curva oraria di OGGI (live 08:48):** ore 8 = **28°C** · ore 11 = **34°C** · ore 17 = **picco 38°C** · ore 20 = **36°C**.
 - **Impatto delivery:** ⬆️ **domanda di consegna a casa** (con 38°C la gente non esce) ma ⚠️
-  **rischio catena del freddo** sui freschi → consegne in **mattinata (≤11:00)** + borsa termica.
+  **rischio catena del freddo** sui freschi → **finestra di consegna 9:00-10:30** (entro le 11, quando
+  si toccano già 34°C); **mai consegnare freschi tra le 12 e le 18** (picco). Borsa termica + siberini.
 - **Operativo:** vedi piano `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`.
-- Fonti: [today.it – caldo fine giugno](https://www.today.it/meteo/caldo-quando-finisce-giugno-svolta-inizio-luglio-2026.html) · [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza)
+- Fonti: [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) · [3bmeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [today.it – caldo fine giugno](https://www.today.it/meteo/caldo-quando-finisce-giugno-svolta-inizio-luglio-2026.html)
 
 ## 🎭 EVENTI in città (27/6 – 11/7) — traffico fisico da agganciare
 | Quando | Evento | Dove | Rilevanza delivery / presidio |

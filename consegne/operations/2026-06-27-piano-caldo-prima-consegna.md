@@ -1,6 +1,6 @@
 ---
 tipo: consegna-operativa
-data: 2026-06-27 00:39
+data: 2026-06-27 08:48
 reparto: operations + rider-fleet + customer-success
 colore: 🟢 (interno, reversibile — preparazione)
 fonte: radar meteo live (3bmeteo/ilmeteo/today.it, 27/6/2026)
@@ -21,9 +21,22 @@ fonte: radar meteo live (3bmeteo/ilmeteo/today.it, 27/6/2026)
 | ⚠️ Rischio | 38°C → freschi a rischio in <30 min fuori frigo; cargo-bike sotto sole | Finestra mattutina + borsa termica + ghiaccio |
 | 🚀 Opportunità | Con 38°C nessuno vuole uscire a fare la spesa | Messaggio "col caldo, ci pensiamo noi" (vedi proposta content 🟡) |
 
+## 🌡️ Curva oraria di OGGI (aggiornata 27/6 08:48 — fonte ilmeteo/3bmeteo)
+| Ora | Temp | Lettura operativa |
+|---|---|---|
+| 08:00 | **28°C** | finestra fresca: ADESSO è il momento migliore |
+| 11:00 | **34°C** | limite massimo accettabile per i freschi |
+| 17:00 | **38°C** | **picco — NON consegnare** freschi in queste ore |
+| 20:00 | **36°C** | ancora caldo; solo dopo le 19 e con cautela (piano B) |
+
+> 🟢 **Decisione operativa:** consegnare nella **finestra 9:00–10:30** (alle 08:48 di oggi siamo già
+> dentro la fascia ideale). Dopo le 11:00 si superano i 34°C e ogni ora aggiunge ~1°C: la catena del
+> freddo diventa difficile. **Muoversi adesso.**
+
 ## ✅ Checklist catena del freddo (per la consegna di oggi)
-1. **Finestra oraria:** consegnare **entro le 11:00** (meglio 9:00-10:30), prima del picco di calore
-   del primo pomeriggio. Concordare lo slot col cliente **stamattina presto**.
+1. **Finestra oraria:** consegnare **9:00–10:30** (tassativo entro le 11:00, quando si toccano già
+   34°C). Il picco di 38°C è alle 17:00 → mai consegnare freschi tra le 12 e le 18. Concordare lo
+   slot col cliente **subito stamattina**.
 2. **Borsa termica + ghiaccio:** freschi in borsa isotermica con **3-4 siberini/ghiaccio secco**;
    separare freschi da ambiente. Se manca la borsa pro → cooler da campeggio + panni umidi (piano B).
 3. **Tempo fuori-frigo < 30 min:** dal ritiro in bottega alla consegna. Caricare i freschi **per

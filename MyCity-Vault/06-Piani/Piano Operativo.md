@@ -190,8 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+## 🤖 Aggiornamento dell'AD — 2026-06-27 08:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Caldo estremo 38-39°C oggi/domani** → catena del freddo = rischio n°1 sulla prima consegna: consegnare in **mattinata (≤11:00)**, borsa termica + ghiaccio, tempo fuori-frigo <30 min. Piano pronto: `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`.
+- **Curva oraria di OGGI (meteo live 08:48):** ore 8 = 28°C · ore 11 = 34°C · picco ore 17 = 38°C · ore 20 = 36°C → **finestra di consegna 9:00-10:30** (la fascia fresca è ADESSO); mai consegnare freschi tra le 12 e le 18. Piano affinato: `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`.
+- **Regola pratica da inserire nel protocollo slot estivo:** nei giorni di caldo estremo (>35°C) lo slot AM si chiude alle 11:00 e l'eventuale slot PM slitta a dopo le 19:00.
 - **Picco domanda atteso col caldo** su freschi/bevande/ortofrutta estiva e piatti freddi → spingere quegli item del faro.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

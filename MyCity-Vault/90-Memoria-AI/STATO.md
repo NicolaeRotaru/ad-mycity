@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-27 00:48
+aggiornato: 2026-06-27 08:48
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -9,13 +9,13 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 > Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
 > Domani (25/6) i numeri devono iniziare a muoversi da 0.
 >
-> ⚠️ **27/6 00:48 (passaggio 2) — sessione CIECA:** ho riprovato a leggere i dati ma **Supabase MCP
-> E WebFetch sono entrambi non autorizzati** in questa sessione → i 7 numeri restano alla baseline 24/6,
-> nessun check esterno nuovo. (Nel passaggio 00:39 il Web c'era: meteo+eventi reali ✅.) Per chiudere la
-> cecità sui numeri serve **autorizzare il Supabase MCP** o configurare `SUPABASE_URL`/`SUPABASE_SERVICE_KEY`.
-> Oggi (sab 27/6) è il **GIORNO della prima consegna concierge**. Radar (dal passaggio 00:39, ancora valido):
-> **caldo estremo 38-39°C, zero pioggia** → priorità =
-> catena del freddo (piano in `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`). Vedi [[2026-06-27]].
+> ⚠️ **27/6 08:48 (passaggio 3, MATTINA) — Web ✅ / Supabase ❌:** il Web è tornato; ho preso il
+> **meteo orario** di oggi (ore 8 = 28°C, ore 11 = 34°C, picco ore 17 = 38°C). **Supabase MCP ancora
+> non autorizzato e NESSUN file .env** sul sistema → i 7 numeri restano alla baseline 24/6. Unico
+> sblocco possibile: **autorizzare il Supabase MCP**. Oggi (sab 27/6) è il **GIORNO della prima
+> consegna concierge** e la **finestra fresca è ADESSO**: priorità n°1 = consegnare i freschi
+> **tra le 9:00 e le 10:30** (catena del freddo) — piano affinato con la curva oraria in
+> `consegne/operations/2026-06-27-piano-caldo-prima-consegna.md`. Vedi [[2026-06-27]].
 
 ## I 7 numeri del primo passo (baseline = oggi 24/6)
 | Numero | Oggi | "Riuscito" domani | Note |
@@ -34,9 +34,12 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
-0. **Giro 27/6** (giorno prima consegna, web tornato): radar live → **caldo 38-39°C**. Scritto il
-   **piano catena del freddo** per la consegna di oggi (🟢) e aggiornati i 3 file Intelligence del
-   Pannello (eventi-picchi, concorrenti, buchi-mercato). Supabase ancora cieco. Vedi [[2026-06-27]].
+0. **Giro 27/6 — 08:48 (mattina consegna):** check **meteo orario** live (8h=28°C, 11h=34°C, picco
+   17h=38°C) → **finestra di consegna 9:00-10:30** blindata nel piano caldo (🟢). Verificato: nessun
+   file .env → l'unico sblocco dati è autorizzare il Supabase MCP. Vedi [[2026-06-27]].
+0bis. **Giro 27/6 — 00:39 (notte):** radar live → **caldo 38-39°C**. Scritto il **piano catena del
+   freddo** per la consegna di oggi (🟢) e aggiornati i 3 file Intelligence del Pannello
+   (eventi-picchi, concorrenti, buchi-mercato). Supabase cieco. Vedi [[2026-06-27]].
 1. **Giro 26/6 — 2° passaggio** (dati ancora bloccati): consolidato le 3 decisioni 🔴 in un
    **foglio-firma da 2 minuti** `consegne/decisioni/2026-06-26-foglio-firma-lancio.md` per
    sbloccare la prima consegna. Vedi [[2026-06-26]].
