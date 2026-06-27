@@ -46,7 +46,14 @@ MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)   # cartelle ACCUMULAT
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
   (
-    flock 9
+    flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
+    # Fix B: se un giro precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
+    # ramo memoria-ad), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
+    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+      git add -A 2>/dev/null || true
+      git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un giro interrotto ($(ts))" 2>/dev/null || true
+      git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un giro precedente." || true
+    fi
     # 1) Mettiti sul ramo della memoria, dall'accumulato remoto (include le scritture pushate dal worker).
     if git fetch "$url" "$branch" 2>/dev/null; then
       git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
@@ -94,7 +101,7 @@ echo "[$(ts)] Giro completato."
 # worker (pushate su memoria-ad) NON vengono mai cancellate dal giro (col force-push le perdeva).
 # Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
 (
-  flock 9
+  flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo giro recupera il WIP)
   git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
