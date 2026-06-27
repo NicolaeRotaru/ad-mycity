@@ -24,6 +24,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 | 4 | 2026-06-24 10:43 | tech | Fix checkout (tab bar mobile copriva "Conferma ordine") | 🔴 | PR #199 | — | ✅ MERGED |
 | 5 | 2026-06-24 10:43 | frontend-dev | Gruppo 1 audit-design (conversione & messaggi) | 🔴 | PR #200 | — | ✅ MERGED |
 | 6 | 2026-06-26 23:05 | content-social | Pubblicare post storia-bottega Garetti "La saracinesca" su **IG + FB** (FB: link nel 1° commento). Serve il **LINK reale lista d'attesa** da Nicola | 🔴 | consegne/content/POST-storia-bottega-garetti-saracinesca.md + creativi/output/social/storia-bottega-garetti-saracinesca.png | IG + FB (manuale, poi n8n) | in attesa |
+| 7 | 2026-06-27 02:10 | content-social | Pubblicare "I TRE VENERDÌ" (post+storia IG/FB + post gruppo locale) **nelle sere dei Venerdì Piacentini rimasti: 3, 10, 17 lug**. FB: link nel 1° commento. **FINESTRA REALE che si chiude il 17/7** → serve LINK lista d'attesa + ok lancio entro il **3 lug** | 🔴 | consegne/content/GARETTI-kit-L7.md | IG + FB + gruppi FB locali (manuale, poi n8n) | in attesa |
+| 8 | 2026-06-27 02:10 | content-social→relazioni-istituzionali/pr-stampa | Contattare **organizzatori Venerdì Piacentini / pagine "Sei di Piacenza se…"** per ricondivisione DI VALORE (mini-storia bottega del centro, non spam) durante la finestra | 🔴 | consegne/content/GARETTI-kit-L7.md §3B | DM/email a pagine locali | in attesa |
+| 9 | 2026-06-27 02:10 | content-social (proposta L7) | Rendere **"Bottega × Evento" rubrica fissa** (format-motore che aggancia ogni evento del centro PC a una bottega). Serve calendario eventi PC da @intelligence + consensi-bottega | 🔴 | consegne/content/GARETTI-kit-L7.md §7 | decisione strategica Nicola | in attesa |
 
 > 📋 I **4 gruppi rimasti** (2 errori-vuoti · 3 contrasto · 4 brand+layout · 5 immagini/PWA) sono nel piano [[PIANO-FIX-DESIGN]] — eseguibili uno alla volta con *"sistema il gruppo N dell'audit design"*.
 
