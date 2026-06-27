@@ -27,6 +27,12 @@ const TIPI: Record<string, { file: string; agente: string; compito: string }> = 
     compito:
       "Analizza le categorie e i negozi presenti sul marketplace (dati reali) e individua i BUCHI di mercato: categorie o zone scoperte da coprire, in ordine di priorità e potenziale.",
   },
+  leve: {
+    file: "leve-uscita",
+    agente: "intelligence",
+    compito:
+      "Analizza le LEVE IN USCITA del radar (cervello/radar.json, direzione=OUT) e le catene_indirette: cosa MyCity può influenzare ADESSO a Piacenza. Per ogni leva rilevante in questo momento di' SE e COME spingerla (mossa concreta, senior, colore 🟢🟡🔴), in ordine di priorità. Aggiungi le 2-3 catene indirette più sfruttabili ora (il primo anello che si muove e l'opportunità a valle). Le azioni reali (stampa, istituzioni, sponsor) si accodano per la firma di Nicola.",
+  },
 };
 
 export async function GET(req: NextRequest) {

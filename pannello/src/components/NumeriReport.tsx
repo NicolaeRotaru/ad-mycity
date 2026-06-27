@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter, Package, UserPlus, Wallet } from "lucide-react";
+import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter, Package, UserPlus, Wallet, PiggyBank } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
-type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "payout" | "report";
+type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "cassa" | "payout" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
 type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
 type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct: number; stato: "verde" | "giallo" | "rosso"; motivo: string };
@@ -44,6 +44,7 @@ export default function NumeriReport() {
   const [catalogo, setCatalogo] = useState<any>(null);
   const [acquisizione, setAcquisizione] = useState<any>(null);
   const [payout, setPayout] = useState<any>(null);
+  const [cassa, setCassa] = useState<any>(null);
   const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -61,6 +62,7 @@ export default function NumeriReport() {
       } else if (t === "retention") setRetention(await fetch("/api/metriche/retention", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "acquisizione") setAcquisizione(await fetch("/api/metriche/acquisizione", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "payout") setPayout(await fetch("/api/metriche/payout", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "cassa") setCassa(await fetch("/api/metriche/cassa", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "pattern") setPattern(await fetch("/api/metriche/pattern", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "negozi") setNegozi(await fetch("/api/metriche/negozi", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "funnel") setFunnel(await fetch("/api/metriche/funnel", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
@@ -96,6 +98,7 @@ export default function NumeriReport() {
     { id: "funnel", label: "Funnel", icon: <Filter size={14} /> },
     { id: "catalogo", label: "Catalogo", icon: <Package size={14} /> },
     { id: "unit", label: "Unit economics", icon: <Calculator size={14} /> },
+    { id: "cassa", label: "Cassa & runway", icon: <PiggyBank size={14} /> },
     { id: "payout", label: "Payout negozi", icon: <Wallet size={14} /> },
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
@@ -512,6 +515,40 @@ export default function NumeriReport() {
                   <>Imposta un costo fisso mensile (impostazione <code className="bg-black/[0.06] px-1 rounded">costo_fisso</code>) per calcolare il break-even. La commissione (<code className="bg-black/[0.06] px-1 rounded">commissione</code>) è {unit.commissione}%.</>
                 )}
               </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* CASSA & RUNWAY */}
+      {tab === "cassa" && (
+        <div className="space-y-3">
+          {!cassa?.collegato && <p className="text-[13px] text-black/45 py-2">Imposta <code className="bg-black/[0.06] px-1 rounded">cassa_attuale</code> e <code className="bg-black/[0.06] px-1 rounded">burn_mensile</code> nelle impostazioni per il runway.</p>}
+          {cassa?.collegato && (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { l: "Cassa attuale", v: eur(cassa.cassa_attuale) },
+                  { l: "Burn lordo / mese", v: eur(cassa.burn_lordo) },
+                  { l: "Ricavo commissioni 30g", v: eur(cassa.ricavo_commissioni_30g) },
+                  { l: "Burn netto / mese", v: eur(cassa.burn_netto) },
+                ].map((c, i) => (
+                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
+                    <div className="text-[11px] text-black/45">{c.l}</div>
+                    <div className="text-[16px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                  </div>
+                ))}
+              </div>
+              {cassa.sostenibile ? (
+                <div className="rounded-xl border border-green-200 bg-green-50/50 p-3.5 text-[13px] text-green-800">✅ Sostenibile: i ricavi coprono il burn. Runway di fatto illimitato.</div>
+              ) : cassa.runway_mesi != null ? (
+                <div className={`rounded-xl border p-3.5 text-[13px] ${cassa.runway_mesi >= 12 ? "border-green-200 bg-green-50/50" : cassa.runway_mesi >= 6 ? "border-amber-200 bg-amber-50/50" : "border-red-200 bg-red-50/50"}`}>
+                  Runway: <b>{cassa.runway_mesi} mesi</b> di autonomia al ritmo di burn attuale. {cassa.runway_mesi < 6 ? "⚠️ Sotto i 6 mesi: priorità a ricavi o raccolta." : ""}
+                </div>
+              ) : (
+                <div className="rounded-xl border border-black/[0.07] bg-brand-50/40 p-3.5 text-[13px]">Imposta cassa e burn per calcolare i mesi di runway.</div>
+              )}
+              <p className="text-[11px] text-black/40">Burn netto = burn lordo − ricavo commissioni reale. Il ricavo arriva dai dati; cassa e burn dalle impostazioni.</p>
             </>
           )}
         </div>

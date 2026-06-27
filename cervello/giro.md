@@ -9,13 +9,20 @@ Passi:
    e lavora su ciò che hai, segnalando che servono i dati.
 2. Controlla le SENTINELLE (`cervello/sentinelle.md`) contro i dati interni: se
    un segnale supera la soglia, agisci nei 🟢 e allerta sui 🟡/🔴.
-3. Scorri il RADAR delle influenze (`cervello/radar.json`): per i fattori a
-   **peso ≥ 4** fai un check live tramite l'**intelligence** sulle `fonti`
-   indicate (WebSearch/WebFetch); se è cambiato qualcosa di rilevante, instradalo
-   al `senior` indicato e annotalo nel briefing (opportunità/azione col `colore`
-   giusto). Rispetta la `cadenza`: NON ricontrollare a ogni giro i fattori a
-   cadenza "settimanale" (per non sprecare il Max) — concentrati su quelli
-   "ogni-giro"/"giornaliera" e sui peso alti.
+3. Scorri il RADAR delle influenze (`cervello/radar.json`) — ora **BIDIREZIONALE**:
+   a. **Fattori IN (`direzione: IN`)** — cosa ci influenza: per i `peso ≥ 4` fai un
+      check live tramite l'**intelligence** sulle `fonti` (WebSearch/WebFetch); se è
+      cambiato qualcosa di rilevante, instradalo al `senior` e annotalo nel briefing
+      (opportunità/azione col `colore` giusto). Rispetta la `cadenza`: NON
+      ricontrollare a ogni giro i fattori "settimanale" (per non sprecare il Max) —
+      concentrati su "ogni-giro"/"giornaliera" e sui peso alti.
+   b. **Leve OUT (`direzione: OUT`)** — cosa MyCity può influenzare: valuta se questo
+      giro conviene **spingere** una leva (`leva_uscita`, con `effetto_diretto` e
+      `effetto_indiretto`) e **proponi la mossa** col `senior` indicato e il `colore`
+      giusto (le azioni reali — stampa, istituzioni, sponsor — si accodano e le firma Nicola).
+   c. **Catene indirette (`catene_indirette`)** — non fermarti al primo anello: se un
+      fattore IN ne attiva un altro (es. caro-energia → botteghe a rischio → noi le
+      salviamo), segui la catena e cogli l'**opportunità** a valle col senior indicato.
 4. Delega all'analista l'analisi dei numeri e all'intelligence un rapido scan di
    opportunità esterne (solo se utile e veloce).
 5. Scrivi un BRIEFING COMPLETO (in markdown) — l'obiettivo è NON perdere informazioni utili.
