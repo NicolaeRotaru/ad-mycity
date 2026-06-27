@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-27 12:49
+aggiornato: 2026-06-27 14:49
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -34,6 +34,10 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0z2. **Giro 27/6 — 14:49 (passaggio 6, PRIMO POMERIGGIO):** quadro stabile. Check meteo orario live →
+   picco rivisto a **39°C alle 17** (stamattina 38°C) e **sera senza temporali** → presidio serale 19:00+
+   confermato, regola "no freschi 12–18" ancora più giusta. **Supabase MCP ritentato → ancora negato**
+   (7 numeri ciechi). Nessuna nuova azione accodata: la coda 🟡/🔴 è già piena. Vedi [[2026-06-27]].
 0z. **Giro 27/6 — 12:49 (passaggio 5, MEZZOGIORNO):** la finestra di consegna fresca (9:00–10:30) è
    **chiusa** → pivot del giorno: da "consegnare" a **raccogliere il passaparola del primo cliente**.
    Scritto il **piano pomeriggio/sera** (`consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`):

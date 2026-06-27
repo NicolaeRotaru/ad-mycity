@@ -1,18 +1,19 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 12:49** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 14:49** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
 
-> 🌇 **Nota delle 12:49 (mezzogiorno):** la finestra di consegna fresca (9:00–10:30) è **chiusa**; il
-> picco di caldo è alle **17 (38°C)** → **niente consegne di freschi tra le 12 e le 18** (slot serale o
+> 🌇 **Nota delle 14:49 (primo pomeriggio):** la finestra di consegna fresca (9:00–10:30) è **chiusa**; il
+> picco di caldo è alle **17 (39°C, rivisto al rialzo)** → **niente consegne di freschi tra le 12 e le 18** (slot serale o
 > domattina). Il **presidio fisico/QR** conviene **stasera dalle 19:00** (ore fresche), quando il centro
 > si anima: **Summer Cult/Federico Buffa a Palazzo Farnese** + festival in centro. Piano:
 > `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
 
 ## 🌡️ METEO — il fattore n°1 di questo weekend
-- **Sab 27/6: max 38°C · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**, apice ondata di calore.
-  Svolta (aria fresca + temporali) attesa solo a **inizio luglio**.
-- **Curva oraria di OGGI (live 08:48):** ore 8 = **28°C** · ore 11 = **34°C** · ore 17 = **picco 38°C** · ore 20 = **36°C**.
+- **Sab 27/6: max 39°C (rivisto al rialzo, live 14:49) · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**,
+  apice ondata di calore. Svolta (aria fresca + temporali) attesa solo a **inizio luglio**.
+- **Curva oraria di OGGI (live 14:49):** ore 8 = **28°C** · ore 11 = **34°C** · **picco 39°C alle 17** ·
+  sera = **nuvolosità innocua, zero temporali** (presidio serale 19:00+ fattibile). UV max alle 14 (7.4).
 - **Impatto delivery:** ⬆️ **domanda di consegna a casa** (con 38°C la gente non esce) ma ⚠️
   **rischio catena del freddo** sui freschi → **finestra di consegna 9:00-10:30** (entro le 11, quando
   si toccano già 34°C); **mai consegnare freschi tra le 12 e le 18** (picco). Borsa termica + siberini.
