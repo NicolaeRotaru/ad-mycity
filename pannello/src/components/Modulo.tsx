@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { formatta, type Tipo } from "@/lib/format";
 import type { ModuloDef, RigaLista } from "@/lib/moduli";
+import Aggiornato from "@/components/Aggiornato";
 
 function dotCls(c?: string) {
   return c === "rosso" ? "bg-red-500" : c === "giallo" ? "bg-amber-500" : c === "verde" ? "bg-green-500" : "bg-black/25";
@@ -18,6 +19,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [listaColl, setListaColl] = useState(true);
   const [caricando, setCaricando] = useState(false);
   const [mostraTutte, setMostraTutte] = useState(false);
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   // Carica l'elenco reale solo alla prima apertura (lazy).
   useEffect(() => {
@@ -33,7 +35,10 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
         setRighe([]);
         setListaColl(false);
       })
-      .finally(() => setCaricando(false));
+      .finally(() => {
+        setCaricando(false);
+        setAggAt(Date.now());
+      });
   }, [open, def.lista, righe]);
 
   const acceso = (chiave?: string, tipo?: Tipo) =>
@@ -56,7 +61,10 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
 
       {open && (
         <div className="px-3 pb-3">
-          <p className="t-eti mb-2.5">{def.descrizione}</p>
+          <div className="flex items-start justify-between gap-2 mb-2.5">
+            <p className="t-eti">{def.descrizione}</p>
+            {def.lista && <Aggiornato at={aggAt} className="shrink-0" />}
+          </div>
 
           {kpis.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-2.5">

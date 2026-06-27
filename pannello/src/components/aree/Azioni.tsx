@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Zap, CheckCircle2, XCircle, Loader2, ChevronDown, ChevronRight, RotateCcw, Bot, ListChecks, BookOpen } from "lucide-react";
 import { istante } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
 
 // La corsia operativa con due tab:
 //  ⚡ Da fare  → le mosse pronte (vault + sentinelle); approvi → partono dalle mani.
@@ -39,6 +40,7 @@ export default function Azioni() {
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
   const [registro, setRegistro] = useState<Registro | null>(null);
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   const carica = useCallback(async () => {
     const d = await fetch("/api/azioni-pronte").then((r) => r.json()).catch(() => null);
@@ -48,6 +50,7 @@ export default function Azioni() {
       setCollegato(Boolean(d.collegato));
       setAutopilota(Boolean(d.autopilota));
     } else setCollegato(false);
+    setAggAt(Date.now());
     return d;
   }, []);
 
@@ -110,9 +113,12 @@ export default function Azioni() {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="t-area">⚡ Azioni</h2>
-        <p className="t-eti mt-0.5">Le mosse che l'AD ha già preparato, e il registro di cosa è stato fatto.</p>
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h2 className="t-area">⚡ Azioni</h2>
+          <p className="t-eti mt-0.5">Le mosse che l'AD ha già preparato, e il registro di cosa è stato fatto.</p>
+        </div>
+        <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
 
       {/* tab */}
