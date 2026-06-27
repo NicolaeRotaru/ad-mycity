@@ -23,6 +23,10 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 | 3 | 2026-06-25 10:09 | customer-success | Via libera a inviare i **messaggi/telefonate ai clienti reali** del primo ordine (testi pronti) | 🟡 | consegne/customer-success/primo-ordine-faro.md | manuale (poi email/n8n) | in attesa |
 | 4 | 2026-06-24 10:43 | tech | Fix checkout (tab bar mobile copriva "Conferma ordine") | 🔴 | PR #199 | — | ✅ MERGED |
 | 5 | 2026-06-24 10:43 | frontend-dev | Gruppo 1 audit-design (conversione & messaggi) | 🔴 | PR #200 | — | ✅ MERGED |
+| 6 | 2026-06-26 23:05 | content-social | Pubblicare post storia-bottega Garetti "La saracinesca" su **IG + FB** (FB: link nel 1° commento). Serve il **LINK reale lista d'attesa** da Nicola | 🔴 | consegne/content/POST-storia-bottega-garetti-saracinesca.md + creativi/output/social/storia-bottega-garetti-saracinesca.png | IG + FB (manuale, poi n8n) | in attesa |
+| 7 | 2026-06-27 02:10 | content-social | Pubblicare "I TRE VENERDÌ" (post+storia IG/FB + post gruppo locale) **nelle sere dei Venerdì Piacentini rimasti: 3, 10, 17 lug**. FB: link nel 1° commento. **FINESTRA REALE che si chiude il 17/7** → serve LINK lista d'attesa + ok lancio entro il **3 lug** | 🔴 | consegne/content/GARETTI-kit-L7.md | IG + FB + gruppi FB locali (manuale, poi n8n) | in attesa |
+| 8 | 2026-06-27 02:10 | content-social→relazioni-istituzionali/pr-stampa | Contattare **organizzatori Venerdì Piacentini / pagine "Sei di Piacenza se…"** per ricondivisione DI VALORE (mini-storia bottega del centro, non spam) durante la finestra | 🔴 | consegne/content/GARETTI-kit-L7.md §3B | DM/email a pagine locali | in attesa |
+| 9 | 2026-06-27 02:10 | content-social (proposta L7) | Rendere **"Bottega × Evento" rubrica fissa** (format-motore che aggancia ogni evento del centro PC a una bottega). Serve calendario eventi PC da @intelligence + consensi-bottega | 🔴 | consegne/content/GARETTI-kit-L7.md §7 | decisione strategica Nicola | in attesa |
 
 > 📋 I **4 gruppi rimasti** (2 errori-vuoti · 3 contrasto · 4 brand+layout · 5 immagini/PWA) sono nel piano [[PIANO-FIX-DESIGN]] — eseguibili uno alla volta con *"sistema il gruppo N dell'audit design"*.
 
@@ -43,7 +47,7 @@ Fonte: `consegne/pr/KIT-STAMPA-LANCIO.md`. Tutto scritto e pronto; serve la firm
 - **Data proposta:** 2026-06-24
 - **Cosa:** pubblicare i 16 post + bio IG/FB del calendario `consegne/content/CALENDARIO-4-SETTIMANE.md` sui canali reali (gruppi FB locali, IG feed/storie).
 - **Perché 🔴:** tocca canali pubblici reali in città piccola; cita nome/foto del negoziante.
-- **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) grafiche pronte ✅ (S1 generata dalla Content Factory: 4 PNG + 1 reel .webm in `creativi/output/social/` — vedi `consegne/automazioni/CONTENT-FACTORY.md`); (6) peer review @finanza sulla promo "primi 50 gratis".
+- **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) ⏳ grafiche DA GENERARE — la Content Factory (`render.mjs`) esiste, ma su disco c'è SOLO `creativi/output/social/storia-bottega-garetti-saracinesca.png`: i 4 PNG S1 + il reel .webm vanno ancora prodotti (non spuntare come pronti finché non sono su disco); (6) peer review @finanza sulla promo "primi 50 gratis".
 - **Mani:** canali social → da collegare via @builder-automazioni (o pubblicazione manuale).
 - **Stato:** IN ATTESA DI FIRMA NICOLA.
 - **Nota builder (2026-06-24):** le grafiche di base ci sono già a €0. Per i contenuti AI fotorealistici / Canva pro / video MP4 servono le chiavi (`GEMINI_API_KEY` / `CANVA_TOKEN` / `RUNWAY_API_KEY|KLING_API_KEY`) — collegabili da @builder-automazioni al via di Nicola.
@@ -57,7 +61,7 @@ Fonte: consegne/crm/FLUSSI-LIFECYCLE.md — niente è stato inviato.
 - [ ] 🟡 Via libera all'INVIO dei 3 Welcome + transazionali ai primi clienti reali (dopo validazione legale-privacy footer/consenso).
 - [ ] 🛠️ @builder-automazioni: collegare RESEND_API_KEY (+ dominio/SPF/DKIM), VAPID push, Telegram, webhook stato ordine.
 - [ ] ⚖️ @legale-privacy: validare footer disiscrizione + testi consenso (marketing vs transazionale) prima del primo invio.
-- [ ] 🔴 Pubblicare il MANIFESTO-CAUSA "Ogni spesa è un voto" (post gruppi FB + feed IG @mycity.piacenza). Testo+visual pronti in `consegne/content/C1-manifesto-causa.md` (PNG: `creativi/output/social/C1-manifesto-causa.png`). PRECONDIZIONI: (a) confermare il dato −22%/12 anni + fonte citabile [vault riporta anche −20,4% al 2035]; (b) link reale lista d'attesa nel 1° commento (da @builder-automazioni); (c) [opz.] validare la variante dialetto con madrelingua.
+- [ ] 🔴 Pubblicare il MANIFESTO-CAUSA "Ogni spesa è un voto" (post gruppi FB + feed IG @mycity.piacenza). Testo pronto in `consegne/content/C1-manifesto-causa.md` (⏳ PNG `creativi/output/social/C1-manifesto-causa.png` DA GENERARE — non ancora su disco). PRECONDIZIONI: (a) confermare il dato −22%/12 anni + fonte citabile [vault riporta anche −20,4% al 2035]; (b) link reale lista d'attesa nel 1° commento (da @builder-automazioni); (c) [opz.] validare la variante dialetto con madrelingua.
 
 ## 🔴 Pubblicare il POV/ZTL "Sabato e ti tocca prendere la coppa" (C4) — @cro/@content-social
 - **Data proposta:** 2026-06-25
@@ -80,3 +84,21 @@ Fonte: consegne/crm/FLUSSI-LIFECYCLE.md — niente è stato inviato.
 - 🟡 **Consenso Garetti** (volto+voce+nome) prima di girare/pubblicare il BTS. Chi va a chiederlo?
 - 🔴 **Pubblicare il reel** su IG/FB/TikTok (canali reali) → firma Nicola. Contenuto pronto in `consegne/content/W4-bts-bottega.md`, cover in `creativi/output/social/W4-bts-cover.png`.
 - 📋 Pre-requisito: riempire segnaposto in negozio (anni attività, prodotto-orgoglio DOP, parentela) + scegliere traccia audio royalty-free con licenza social.
+
+## 2026-06-26 23:40 · @content-social · SISTEMA DI LANCIO Garetti (L6) → primi 50 iscritti
+Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-L6.md`. È il sistema dentro cui vive il post L3 già fatto. Cosa tocca il mondo reale (🔴/🟡):
+- [ ] 🔴 **PRE-CONDIZIONE n°1 — Landing lista d'attesa reale** (1 campo + "primi 50 gratis" + UTM per canale). Senza, OGNI canale converte 0. → @builder-automazioni + @frontend-dev + @cro. *Questo sblocca tutto il resto.*
+- [ ] 🔴 **Canale 2 (il più ricco) — SÌ di Garetti su 3 cose:** (a) ricondividere il post L3 "La saracinesca" ai suoi clienti, (b) QR + vetrofania in cassa, (c) [opz.] comparire su Libertà. Senza il suo consenso il funnel scende sotto i 50 nel caso peggiore. → richiesta da portare via @vendite/@onboarding-negozi.
+- [ ] 🔴 **Canale 1 — pubblicare il Contenuto-faro nei gruppi FB locali** (già in coda; CORREZIONE d'onestà obbligatoria: togliere il −22% non confermato + ZTL solo se cifra blindata). Presidio commenti primi 90'.
+- [ ] 🔴 **Canale 5 — angolo stampa Libertà** ("le botteghe storiche sfidano il delivery, parte da Piazza Duomo") → @pr-stampa, su base §4D del piano. Serve data lancio + consenso Garetti.
+- [ ] 🟡 **Referral civico** (riga §4C in thank-you page, no budget, gloria non sconto) → @crm-lifecycle. Tenere distinto dal give-get 5€+5€.
+- [ ] 🔴 **Vetrofania + cartoncino-cassa + QR per Garetti** → @designer (brief §6), check @qa-designer.
+- [ ] 🔴 **Conferma/blinda dato −22% + cifra ZTL + cap incentivo "primi 50 gratis"** → @analista/@finanza prima di pubblicare.
+- **Stato:** IN ATTESA DI FIRMA NICOLA. **Mani social** → @builder-automazioni o pubblicazione manuale.
+
+## 2026-06-26 23:40 · @content-social · 🔴🚀 PROPOSTA L7 (mossa 10x non richiesta) — Evento "IL PRIMO TURNO" in Piazza Duomo
+- **Cosa:** evento civico di lancio nel sabato di apertura — Garetti alza la saracinesca in Piazza Duomo + partono le prime 50 consegne in cargo-bike. Trasforma "iscriviti alla lista" in "sii tra le 50 consegne del Primo Turno". Dettagli: §8 del piano `PIANO-LANCIO-garetti-L6.md`.
+- **Perché 10x:** dà a stampa+gruppi FB un EVENTO (data+luogo iconico+immagine forte) → earned media; trasforma l'iscrizione in un rito civico; arruola Vita in Centro/Comune/altre botteghe a costo ≈0; nativamente "Il Turno", incopiabile da Amazon; i 50 iscritti diventano i primi 50 CLIENTI reali (fine dei "0 ordini").
+- **Serve:** una data · ok Garetti a fare il "primo turno" in piazza · mini-budget €0-300 · catena @relazioni-istituzionali + @pr-stampa + @designer + @operations.
+- **Colore:** 🔴 PROPOSTA — non eseguita. Aspetta valutazione/firma di Nicola.
+- **Stato:** PROPOSTA SUL TAVOLO.
