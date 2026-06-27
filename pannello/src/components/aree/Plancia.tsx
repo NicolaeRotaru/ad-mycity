@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle } from "lucide-react";
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import CuoreMacchina from "@/components/CuoreMacchina";
@@ -16,6 +16,7 @@ type Azione = { numero: string; reparto: string; azione: string; livello: string
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
+type AutoAnalisi = { voto_fiducia?: number; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
 type Voce = { data: string; testo: string } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
@@ -44,6 +45,7 @@ export default function Plancia({
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [todo, setTodo] = useState<Todo[]>([]);
   const [mosse, setMosse] = useState<Mossa[]>([]);
+  const [autoAnalisi, setAutoAnalisi] = useState<AutoAnalisi>(null);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [aggAt, setAggAt] = useState<number | null>(null);
 
@@ -55,6 +57,7 @@ export default function Plancia({
       fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
       fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
       fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
+      fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then((d) => setAutoAnalisi(d.collegato ? d.analisi || null : null)).catch(() => {});
       fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
       setAggAt(Date.now());
     };
@@ -94,6 +97,37 @@ export default function Plancia({
 
       {/* 🔄 Il volano (effetto-rete) */}
       <Volano />
+
+      {/* 🔬 Auto-analisi: la macchina si è controllata da sola. Il livello più serio → banner in evidenza. */}
+      {autoAnalisi && (
+        <button
+          onClick={() => { if (typeof window !== "undefined") window.location.hash = "auto-coscienza"; onVaiA?.("memoria"); }}
+          className="w-full card p-3.5 text-left hover:border-brand/30 transition border-brand/20"
+        >
+          <div className="flex items-center gap-3">
+            <span className="sez-ico"><Microscope size={16} /></span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="t-sez">Auto-analisi della macchina</span>
+                {autoAnalisi.voto_fiducia != null && (
+                  <span className={`text-[12px] font-bold tabular-nums ${autoAnalisi.voto_fiducia >= 80 ? "text-green-600" : autoAnalisi.voto_fiducia >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    fiducia {autoAnalisi.voto_fiducia}/100 {autoAnalisi.trend_fiducia || ""}
+                  </span>
+                )}
+              </div>
+              {autoAnalisi.sintesi && <p className="t-eti line-clamp-1 mt-0.5">{autoAnalisi.sintesi}</p>}
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.errori?.length || 0) ? "bg-red-50 text-red-700 ring-1 ring-red-200" : "bg-green-50 text-green-700 ring-1 ring-green-200"}`}>
+                <ShieldAlert size={12} /> {autoAnalisi.errori?.length || 0} errori
+              </span>
+              <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.domande_per_nicola?.length || 0) ? "bg-brand-50 text-brand ring-1 ring-brand/20" : "bg-black/5 text-black/40"}`}>
+                <HelpCircle size={12} /> {autoAnalisi.domande_per_nicola?.length || 0} domande
+              </span>
+            </div>
+          </div>
+        </button>
+      )}
 
       {/* 4 priorità: firmare · mosse di Nicola · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">

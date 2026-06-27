@@ -1,0 +1,403 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  Microscope,
+  GraduationCap,
+  Rocket,
+  ShieldAlert,
+  HelpCircle,
+  EyeOff,
+  Activity,
+  Target,
+  Lightbulb,
+  Swords,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
+import { dataVault } from "@/lib/format";
+
+// 🧠 AUTO-COSCIENZA — il pannello con cui Nicola vede la macchina pensare su se stessa:
+// si controlla (auto-analisi), impara (apprendimento), si migliora (auto-miglioramento).
+// Legge /api/memoria/auto-coscienza (i 5 digest del vault). Spec: cervello/auto-coscienza.md.
+
+type Errore = { gravita?: string; titolo?: string; dettaglio?: string; azione_presa?: string; riguarda?: string; livello_scoperta?: string };
+type Domanda = { domanda?: string; perche_serve?: string; se_rispondi?: string; gravita?: string };
+type Analisi = {
+  data?: string; voto_fiducia?: number; trend_fiducia?: string; sintesi?: string;
+  verifiche?: Record<string, string>; errori?: Errore[]; domande_per_nicola?: Domanda[];
+  punti_ciechi?: string[]; miglioramenti_prossimo_giro?: string[];
+  salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number };
+};
+type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string };
+type Apprendimento = { data?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: Record<string, number> };
+type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; autonomia?: string; nota?: string }[] };
+type Benchmark = { ambito?: string; nostro?: string; migliori?: { chi?: string; cosa_fa?: string; fonte?: string }[]; divario?: string; cosa_ci_manca?: string };
+type Miglioramento = {
+  data?: string; benchmark?: Benchmark[];
+  esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
+  peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
+  proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
+};
+type Entita = { nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; note?: string; domanda_per_nicola?: string };
+type Registro = { entita?: Entita[] };
+type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
+
+const VERIFICA_LABEL: Record<string, string> = { entita: "Entità reali", numeri: "Numeri con fonte", coerenza: "Coerenza", semaforo: "Semaforo 🟢🟡🔴", qualita: "Qualità" };
+
+type Tab = "analisi" | "apprendimento" | "miglioramento";
+
+const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
+  alta: { cls: "border-red-200 bg-red-50/60", dot: "bg-red-500", label: "ALTA" },
+  media: { cls: "border-amber-200 bg-amber-50/60", dot: "bg-amber-500", label: "MEDIA" },
+  bassa: { cls: "border-black/10 bg-paper/40", dot: "bg-black/30", label: "BASSA" },
+};
+
+function votoColore(v?: number) {
+  if (v == null) return "text-black/40";
+  if (v >= 80) return "text-green-600";
+  if (v >= 60) return "text-amber-600";
+  return "text-red-600";
+}
+
+function barra(conf?: number) {
+  const pct = Math.round((conf ?? 0) * 100);
+  const c = pct >= 80 ? "bg-green-500" : pct >= 50 ? "bg-amber-500" : "bg-black/30";
+  return (
+    <div className="h-1.5 w-16 rounded-full bg-black/10 overflow-hidden shrink-0">
+      <div className={`h-full ${c}`} style={{ width: `${pct}%` }} />
+    </div>
+  );
+}
+
+export default function AutoCoscienza() {
+  const [d, setD] = useState<Dati | null>(null);
+  const [tab, setTab] = useState<Tab>("analisi");
+
+  useEffect(() => {
+    const carica = () => fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    carica();
+    const id = setInterval(carica, 60000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Deep-link dal banner della Plancia (#auto-coscienza): porta la card sott'occhio.
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash.replace("#", "") === "auto-coscienza") {
+      setTimeout(() => document.getElementById("auto-coscienza")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    }
+  }, [d]);
+
+  const a = d?.analisi;
+  const daConfermare = (d?.registro?.entita || []).filter((e) => e.stato === "da_confermare");
+  const ap = d?.apprendimento;
+  const mi = d?.miglioramento;
+  const cal = d?.calibrazione;
+  const nErrori = a?.errori?.length || 0;
+  const nDomande = a?.domande_per_nicola?.length || 0;
+
+  const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
+    { id: "analisi", label: "Auto-analisi", icon: <Microscope size={15} />, badge: nErrori },
+    { id: "apprendimento", label: "Apprendimento", icon: <GraduationCap size={15} />, badge: ap?.lezioni?.length || 0 },
+    { id: "miglioramento", label: "Auto-miglioramento", icon: <Rocket size={15} />, badge: mi?.benchmark?.length || 0 },
+  ];
+
+  return (
+    <section id="auto-coscienza" className="card p-4 border-brand/20 scroll-mt-24">
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="sez-ico"><Microscope size={16} /></span>
+          <div className="min-w-0">
+            <span className="t-sez">🧠 Auto-coscienza della macchina</span>
+            <div className="t-eti">Si controlla, impara e si migliora da sola — prima di consegnare. {a?.data ? `· ultima ${dataVault(a.data)}` : ""}</div>
+          </div>
+        </div>
+        {a?.voto_fiducia != null && (
+          <div className="text-right shrink-0">
+            <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(a.voto_fiducia)}`}>{a.voto_fiducia}<span className="text-[13px] text-black/30">/100</span></div>
+            <div className="t-eti">fiducia {a.trend_fiducia || ""}</div>
+          </div>
+        )}
+      </div>
+
+      {!d?.collegato && (
+        <p className="t-eti py-6 text-center">{d?.messaggio || "Caricamento…"}</p>
+      )}
+
+      {d?.collegato && (
+        <>
+          {/* Tab switch */}
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                className={`inline-flex items-center gap-1.5 text-[12.5px] font-medium px-2.5 py-1.5 rounded-lg transition ${
+                  tab === t.id ? "bg-brand text-white" : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                }`}
+              >
+                {t.icon}
+                <span>{t.label}</span>
+                {t.badge ? <span className={`text-[10px] px-1.5 rounded-full ${tab === t.id ? "bg-white/25" : "bg-black/10"}`}>{t.badge}</span> : null}
+              </button>
+            ))}
+          </div>
+
+          {/* ===== AUTO-ANALISI ===== */}
+          {tab === "analisi" && (
+            <div className="space-y-3">
+              {a?.sintesi && <p className="t-corpo">{a.sintesi}</p>}
+
+              {/* Le 5 verifiche a colpo d'occhio */}
+              {a?.verifiche && (
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(a.verifiche).map(([k, v]) => {
+                    const ok = v === "ok";
+                    return (
+                      <span key={k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
+                        {ok ? <CheckCircle2 size={11} /> : <AlertTriangle size={11} />} {VERIFICA_LABEL[k] || k}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* 🧬 Entità da confermare (anti-«Garetti inventato»): su cosa la macchina NON agisce finché non confermi */}
+              {daConfermare.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Entità da confermare ({daConfermare.length})</div>
+                  <div className="space-y-2">
+                    {daConfermare.map((e, i) => (
+                      <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-medium">{e.nome}</span>
+                          {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
+                          {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
+                        </div>
+                        {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
+                        {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Salute della macchina */}
+              {a?.salute_macchina && (
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { k: "Supabase", v: a.salute_macchina.supabase, ok: a.salute_macchina.supabase === "ok" },
+                    { k: "Stripe", v: a.salute_macchina.stripe, ok: a.salute_macchina.stripe === "ok" },
+                    { k: "Dati freschi", v: a.salute_macchina.dati_freschi ? "sì" : "no", ok: !!a.salute_macchina.dati_freschi },
+                    { k: "Sensori attivi", v: String(a.salute_macchina.sensori_attivi ?? 0), ok: (a.salute_macchina.sensori_attivi ?? 0) > 0 },
+                  ].map((s) => (
+                    <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
+                      <Activity size={11} /> {s.k}: <b>{s.v}</b>
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Errori trovati */}
+              {nErrori > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Errori trovati ({nErrori})</div>
+                  <div className="space-y-2">
+                    {a!.errori!.map((e, i) => {
+                      const g = GRAV[e.gravita || "bassa"] || GRAV.bassa;
+                      return (
+                        <div key={i} className={`rounded-xl border p-3 ${g.cls}`}>
+                          <div className="flex items-center gap-2">
+                            <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
+                            <span className="text-[10px] font-bold tracking-wide text-black/50">{g.label}</span>
+                            {e.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {e.livello_scoperta}</span>}
+                            {e.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{e.azione_presa}</span>}
+                          </div>
+                          <div className="text-[13px] font-medium mt-1">{e.titolo}</div>
+                          {e.dettaglio && <div className="text-[12px] text-black/65 mt-0.5">{e.dettaglio}</div>}
+                          {e.riguarda && <div className="t-eti mt-1">riguarda: {e.riguarda}</div>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Domande per Nicola */}
+              {nDomande > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te ({nDomande})</div>
+                  <div className="space-y-2">
+                    {a!.domande_per_nicola!.map((q, i) => (
+                      <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3">
+                        <div className="text-[13px] font-medium">❓ {q.domanda}</div>
+                        {q.perche_serve && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {q.perche_serve}</div>}
+                        {q.se_rispondi && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {q.se_rispondi}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Punti ciechi */}
+              {a?.punti_ciechi && a.punti_ciechi.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><EyeOff size={13} /> Punti ciechi</div>
+                  <ul className="space-y-1">
+                    {a.punti_ciechi.map((p, i) => <li key={i} className="text-[12px] text-black/65 flex gap-1.5"><span className="text-black/30">•</span>{p}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ===== APPRENDIMENTO ===== */}
+          {tab === "apprendimento" && (
+            <div className="space-y-3">
+              {ap?.meta && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {[
+                    { l: "Lezioni attive", v: ap.meta.lezioni_attive },
+                    { l: "Principi", v: ap.meta.promosse_a_principio },
+                    { l: "Decadute", v: ap.meta.decadute },
+                    { l: "Tasso applic.", v: ap.meta.tasso_applicazione != null ? `${Math.round((ap.meta.tasso_applicazione || 0) * 100)}%` : "—" },
+                  ].map((m) => (
+                    <div key={m.l} className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
+                      <div className="text-[18px] font-semibold tabular-nums">{m.v ?? "—"}</div>
+                      <div className="t-eti">{m.l}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {ap?.lezioni && ap.lezioni.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><Lightbulb size={13} /> Lezioni imparate</div>
+                  <div className="space-y-2">
+                    {ap.lezioni.map((l, i) => (
+                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                        <div className="text-[12.5px]">{l.testo}</div>
+                        <div className="flex items-center flex-wrap gap-1.5 mt-1.5">
+                          {l.stato && <span className={`text-[10px] px-1.5 rounded ${l.stato === "principio" ? "bg-green-100 text-green-700" : l.stato === "decaduta" ? "bg-black/5 text-black/40" : "bg-amber-100 text-amber-700"}`}>{l.stato}</span>}
+                          {l.reparto && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{l.reparto}</span>}
+                          {l.fonte && <span className="t-eti">da: {l.fonte}</span>}
+                          {l.evidenze != null && <span className="t-eti">· {l.evidenze} evid.</span>}
+                          <span className="ml-auto flex items-center gap-1.5">{barra(l.confidenza)}<span className="t-eti tabular-nums">{Math.round((l.confidenza ?? 0) * 100)}%</span></span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Calibrazione */}
+              {cal?.per_reparto && cal.per_reparto.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><Target size={13} /> Calibrazione (previsto vs reale)</div>
+                  <div className="space-y-1.5">
+                    {cal.per_reparto.map((r, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[12px]">
+                        <span className="font-medium">{r.reparto}</span>
+                        <span className="t-eti">{r.azzeccate}/{r.previsioni} azzeccate</span>
+                        <span className="ml-auto flex items-center gap-1.5">{barra(r.punteggio)}<span className="t-eti">autonomia {r.autonomia}</span></span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {ap?.preferenze_nicola && ap.preferenze_nicola.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5">🎯 Cosa ho capito che vuoi (preference learning)</div>
+                  <ul className="space-y-1">
+                    {ap.preferenze_nicola.map((p, i) => <li key={i} className="text-[12px] text-black/65 flex gap-1.5"><span className="text-black/30">•</span>{p}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ===== AUTO-MIGLIORAMENTO ===== */}
+          {tab === "miglioramento" && (
+            <div className="space-y-3">
+              {mi?.benchmark && mi.benchmark.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><Swords size={13} /> Confronto coi migliori</div>
+                  <div className="space-y-2">
+                    {mi.benchmark.map((b, i) => (
+                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-medium capitalize">{b.ambito}</span>
+                          {b.divario && <span className={`text-[10px] px-1.5 rounded ml-auto ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>divario {b.divario}</span>}
+                        </div>
+                        {b.nostro && <div className="text-[12px] text-black/65 mt-1"><b>Noi:</b> {b.nostro}</div>}
+                        {b.cosa_ci_manca && <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa ci manca:</b> {b.cosa_ci_manca}</div>}
+                        {b.migliori && b.migliori.length > 0 && (
+                          <div className="mt-1.5 space-y-0.5">
+                            {b.migliori.map((m, j) => <div key={j} className="t-eti">↗ {m.chi}: {m.cosa_fa}</div>)}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mi?.esperimenti && mi.esperimenti.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><CheckCircle2 size={13} /> Esperimenti di miglioria</div>
+                  <div className="space-y-2">
+                    {mi.esperimenti.map((e, i) => (
+                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                        <div className="text-[12.5px] font-medium">{e.ipotesi}</div>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          {e.reparto_guida && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.reparto_guida}</span>}
+                          {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{e.stato}</span>}
+                          {e.esito && <span className="t-eti ml-auto">{e.esito}</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mi?.peer_review && mi.peer_review.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5">🤝 I senior si migliorano a vicenda</div>
+                  <div className="space-y-2">
+                    {mi.peer_review.map((p, i) => (
+                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                        <div className="text-[12.5px] font-medium">{p.lavoro} <span className="t-eti">· di {p.autore}</span></div>
+                        {p.guadagno && <div className="text-[12px] text-green-700 mt-0.5">▲ {p.guadagno}</div>}
+                        {p.revisori && <div className="t-eti mt-0.5">rivisto da: {p.revisori.join(", ")}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mi?.proposte_auto_riscrittura && mi.proposte_auto_riscrittura.length > 0 && (
+                <div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><AlertTriangle size={13} /> Proposte di auto-riscrittura (🟡 da validare)</div>
+                  <div className="space-y-2">
+                    {mi.proposte_auto_riscrittura.map((p, i) => (
+                      <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                        <div className="text-[12.5px] font-medium">{p.cosa}</div>
+                        {p.perche && <div className="text-[12px] text-black/65 mt-0.5">{p.perche}</div>}
+                        {p.dove && <div className="t-eti mt-0.5 font-mono">{p.dove}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {(!mi?.benchmark?.length && !mi?.esperimenti?.length && !mi?.peer_review?.length) && (
+                <p className="t-eti py-4 text-center">Nessun ciclo di miglioramento ancora. Parte al primo lavoro importante (contenuti, pitch, pagine).</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </section>
+  );
+}

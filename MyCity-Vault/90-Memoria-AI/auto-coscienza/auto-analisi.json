@@ -1,0 +1,53 @@
+{
+  "data": "2026-06-28 00:35",
+  "voto_fiducia": 62,
+  "trend_fiducia": "=",
+  "sintesi": "Primo controllo del nuovo cancello di serietà. Errore più grave: l'intera memoria operativa agisce su 'Garetti' come primo negozio confermato, ma non risulta una scelta esplicita di Nicola — possibile entità non verificata. Voto medio finché non è chiarito.",
+  "verifiche": {
+    "entita": "problemi",
+    "numeri": "ok",
+    "coerenza": "problemi",
+    "semaforo": "ok",
+    "qualita": "ok"
+  },
+  "errori": [
+    {
+      "gravita": "alta",
+      "titolo": "Entità non verificata: 'Garetti' trattato come negozio confermato senza una decisione di Nicola",
+      "dettaglio": "Pitch, kit, commissione 12% e payout-test 1€ sono preparati su Garetti. In DECISIONI.md compare solo come esempio di contenuto. Nessuna fonte (Supabase/decisione/documento) conferma che sia un negozio reale scelto.",
+      "azione_presa": "declassato",
+      "riguarda": "tutte le azioni 🔴/🟡 che riguardano Garetti",
+      "livello_scoperta": "L1"
+    },
+    {
+      "gravita": "media",
+      "titolo": "Apprendimento finora cieco: imparava solo da un linter di 4 regole",
+      "dettaglio": "L'unico apprendimento automatico era verificaQualita() (testo corto, segnaposti, email senza Oggetto/destinatario). Per questo aveva 'imparato' solo 3 cose. Ignorava esiti, approvazioni di Nicola, calibrazione, pattern, benchmark.",
+      "azione_presa": "corretto",
+      "riguarda": "il motore di apprendimento",
+      "livello_scoperta": "L1"
+    }
+  ],
+  "domande_per_nicola": [
+    {
+      "domanda": "Garetti è un negozio reale che hai scelto e con cui sei in contatto, oppure è un esempio/segnaposto?",
+      "perche_serve": "Tutta la memoria operativa lo dà per primo negozio e ci sono azioni 🔴 (commissione, payout, messaggi) pronte. Se è un segnaposto, partirebbero su un'entità inventata.",
+      "se_rispondi": "Se reale → lo confermo nel registro e le azioni proseguono. Se esempio → fermo tutto ciò che lo riguarda finché non c'è un negozio vero.",
+      "gravita": "alta"
+    }
+  ],
+  "punti_ciechi": [
+    "Supabase MCP spesso non raggiungibile in questi giri: i dati interni (ordini/clienti) potrebbero non essere stati verificati live.",
+    "Nessuna metrica social/competitor ancora collegata: i benchmark di auto-miglioramento partono da fonti web, non da dati nostri."
+  ],
+  "miglioramenti_prossimo_giro": [
+    "Verificare ogni entità nuova contro il registro PRIMA di preparare azioni.",
+    "Iniziare a registrare previsto-vs-reale per costruire la calibrazione."
+  ],
+  "salute_macchina": {
+    "supabase": "giù",
+    "stripe": "giù",
+    "dati_freschi": false,
+    "sensori_attivi": 0
+  }
+}

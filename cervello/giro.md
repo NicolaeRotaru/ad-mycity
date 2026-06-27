@@ -134,6 +134,22 @@ Passi:
     ```
     (Se non hai nulla di nuovo rispetto all'ultimo giro, lascia il file com'è: non sovrascriverlo con un vuoto.)
     Le mosse 🟡/🔴 che l'AD prepara restano comunque da firmare in [[AZIONI-IN-ATTESA]] (passo 7).
+11. 🔬 AUTO-ANALISI (CANCELLO DI SERIETÀ — esegui `cervello/auto-analisi.md`): PRIMA di considerare
+    chiuso il giro, **controlla il tuo stesso lavoro** con la verifica avversariale a 3 livelli. In
+    particolare il **grounding delle entità**: ogni negozio/persona/numero citato nelle azioni di questo
+    giro va verificato contro `90-Memoria-AI/auto-coscienza/registro-realta.json` (o dati reali / decisioni
+    di Nicola). Un'entità non verificata → **declassa l'azione** e crea una domanda per Nicola (mai agire su
+    qualcosa di non confermato — è l'errore-tipo «Garetti»). Scrivi `auto-coscienza/auto-analisi.json` +
+    `AUTO-ANALISI.md` (voto di fiducia, errori, domande, salute della macchina) e aggiorna il registro.
+    Le domande 🔴/bloccanti vanno anche in [[AZIONI-IN-ATTESA]] e in `serve_da_nicola`.
+12. 📚 APPRENDIMENTO (esegui `cervello/apprendimento.md`): estrai le **lezioni riusabili** di questo giro
+    dalle 7 fonti (esiti, approvazioni/rifiuti di Nicola, calibrazione previsto-vs-reale, pattern nei dati,
+    errori dell'auto-analisi, eccezioni, benchmark). Aggiorna `auto-coscienza/apprendimento.json` +
+    `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al prossimo giro (è il volano).
+13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine,
+    esperimenti): esegui `cervello/auto-miglioramento.md` — benchmark coi migliori (via @intelligence),
+    misura il divario, fai produrre ≥3 varianti dai senior, torneo+critico, peer-review incrociata, e
+    scrivi `auto-coscienza/auto-miglioramento.json`. (Il ciclo profondo è settimanale, in `ritmo.md`.)
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.

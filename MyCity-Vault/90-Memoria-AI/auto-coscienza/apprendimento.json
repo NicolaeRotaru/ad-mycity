@@ -1,0 +1,55 @@
+{
+  "data": "2026-06-28 00:35",
+  "lezioni": [
+    {
+      "id": "L-2026-0628-01",
+      "testo": "Prima di preparare qualsiasi azione su un negozio/persona, verifica che sia nel registro-realta come 'confermato' o nei dati reali. Mai agire su entità solo perché citate in un piano.",
+      "tag": ["verita", "guardrail", "entita"],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-28",
+      "stato": "principio"
+    },
+    {
+      "id": "L-2026-0628-02",
+      "testo": "Nessun numero come fatto senza fonte ammessa (Supabase/Stripe/PostHog/documento/conferma). Senza fonte → 'stima' o nei Gap.",
+      "tag": ["verita", "numeri", "guardrail"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-28",
+      "stato": "principio"
+    },
+    {
+      "id": "L-2026-0628-03",
+      "testo": "Il segnale più prezioso per imparare è cosa Nicola approva vs ignora: ogni firma/rifiuto è una correzione del modello. Allinea le mosse future a quel gusto.",
+      "tag": ["preference-learning", "nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "approvazione",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-28",
+      "stato": "attiva"
+    }
+  ],
+  "principi": [
+    "Verità prima di tutto: nessuna entità o numero senza fonte verificabile.",
+    "L'autonomia si guadagna azzeccando le previsioni (calibrazione)."
+  ],
+  "preferenze_nicola": [
+    "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
+    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
+  ],
+  "meta": {
+    "lezioni_attive": 3,
+    "promosse_a_principio": 2,
+    "decadute": 0,
+    "tasso_applicazione": 0.0
+  }
+}
