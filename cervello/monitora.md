@@ -27,6 +27,12 @@ Passi:
 6. Registra una riga in `MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md`:
    `- AAAA-MM-GG HH:MM · @intelligence · FATTO · monitoraggio web: <fonti controllate, novità chiave>`.
 
+Nota metodo (imparata 2026-06-27): i portali locali (Libertà, IlPiacenza, PiacenzaSera, comune.piacenza.it)
+spesso **bloccano WebFetch con HTTP 403**. È un blocco lato-sito, non un problema di proxy: in quel caso
+**ripiega su WebSearch mirata** ("<cosa_cercare> Piacenza <data>") e cita comunque il link alla fonte.
+Per leggerli oltre il 403 servirebbe un'integrazione RSS/feed via @builder-automazioni (sbloccherebbe le
+chiusure/aperture di botteghe → lead per @vendite, oggi invisibili): segnalalo come carburante a Nicola.
+
 Regole: solo dati reali con link (mai inventare); ora-di-parete di Piacenza con l'ora nelle date;
 è un giro LEGGERO (solo le fonti dovute), non l'audit completo. Il colore: 🟢 leggere/scrivere note ·
 🟡/🔴 le azioni reali sul mondo (si accodano e le firma Nicola).
