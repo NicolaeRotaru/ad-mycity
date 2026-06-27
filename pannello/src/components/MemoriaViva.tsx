@@ -13,6 +13,7 @@ import {
   Target,
   ScrollText,
   AlertTriangle,
+  Footprints,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -33,8 +34,12 @@ type TodoItem = { id: string; testo: string; livello: "verde" | "giallo" | "ross
 type Okr = { senior: string; kpi: string; target: string; budget: string };
 type Decisione = { data: string; colore: string; livello: "verde" | "giallo" | "rosso" | "?"; reparto: string; cosa: string; perche: string; stato: string; firma: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
+type NegozioInt = { nome: string; perche?: string; stato?: string };
+type Lacuna = { ambito?: string; cosa_manca: string; domanda_per_nicola: string };
+type Intenzioni = { collegato: boolean; data?: string; sintesi?: string; prossime_mosse: Mossa[]; primi_negozi: NegozioInt[]; rischi: string[]; serve_da_nicola: Lacuna[] };
 
-type Tab = "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
+type Tab = "intenzioni" | "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
 
 // Rendering markdown compatto e leggibile (riusa i plugin già installati).
 const md: Components = {
@@ -72,10 +77,11 @@ function dot(livello: "verde" | "giallo" | "rosso" | "?") {
 
 
 export default function MemoriaViva() {
-  const [tab, setTab] = useState<Tab>("todo");
+  const [tab, setTab] = useState<Tab>("intenzioni");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
 
+  const [intenzioni, setIntenzioni] = useState<Intenzioni | null>(null);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
   const [statoAgg, setStatoAgg] = useState("");
@@ -90,7 +96,7 @@ export default function MemoriaViva() {
   const carica = useCallback(async (silenzioso = false) => {
     if (!silenzioso) setLoading(true);
     try {
-      const [at, st, pi, td, al, de, ok] = await Promise.all([
+      const [at, st, pi, td, al, de, ok, intz] = await Promise.all([
         fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
         fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
         fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
@@ -98,7 +104,21 @@ export default function MemoriaViva() {
         fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] })),
         fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
         fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
+        fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, prossime_mosse: [] })),
       ]);
+      setIntenzioni(
+        intz
+          ? {
+              collegato: Boolean(intz.collegato),
+              data: intz.data || "",
+              sintesi: intz.sintesi || "",
+              prossime_mosse: intz.prossime_mosse || [],
+              primi_negozi: intz.primi_negozi || [],
+              rischi: intz.rischi || [],
+              serve_da_nicola: intz.serve_da_nicola || [],
+            }
+          : null
+      );
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
       setStato(st.testo || "");
       setStatoAgg(st.aggiornato || "");
@@ -108,7 +128,7 @@ export default function MemoriaViva() {
       setAlerts(al.alert || []);
       setDecisioni(de.decisioni || []);
       setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
-      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato));
+      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato || intz?.collegato));
       setAggAt(Date.now());
     } finally {
       setLoading(false);
@@ -138,6 +158,7 @@ export default function MemoriaViva() {
   }
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    { id: "intenzioni", label: "Mosse di Nicola", icon: <Footprints size={14} /> },
     { id: "todo", label: "Cose da fare", icon: <ListTodo size={14} /> },
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
@@ -176,6 +197,8 @@ export default function MemoriaViva() {
               ? daFare.length
               : t.id === "sentinelle" && alerts.length > 0
               ? alerts.length
+              : t.id === "intenzioni" && (intenzioni?.prossime_mosse.length || 0) > 0
+              ? intenzioni!.prossime_mosse.length
               : null;
           return (
             <button
@@ -210,6 +233,95 @@ export default function MemoriaViva() {
         </div>
       ) : (
         <>
+          {/* --- MOSSE DI NICOLA (intenzioni dai Piani) --- */}
+          {tab === "intenzioni" && (
+            <div className="space-y-3">
+              {!intenzioni?.collegato ? (
+                <p className="text-sm text-black/55 py-4 text-center">
+                  L'AD non ha ancora letto i tuoi Piani. Lancia un giro (passo «intenzioni») e qui compaiono le tue prossime mosse.
+                </p>
+              ) : (
+                <>
+                  {intenzioni.data && <p className="text-[11px] text-black/45">🕗 Letto dai Piani · {dataVault(intenzioni.data)}</p>}
+                  {intenzioni.sintesi && (
+                    <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">{intenzioni.sintesi}</div>
+                  )}
+
+                  {intenzioni.prossime_mosse.length > 0 && (
+                    <div className="space-y-2">
+                      <div className="t-micro">Le prossime mosse, in ordine</div>
+                      {intenzioni.prossime_mosse.map((m, i) => {
+                        const c =
+                          m.priorita === "alta"
+                            ? "border-red-200 bg-red-50/50"
+                            : m.priorita === "media"
+                            ? "border-amber-200 bg-amber-50/50"
+                            : "border-black/[0.07] bg-paper/40";
+                        return (
+                          <div key={i} className={`rounded-xl border p-3 ${c}`}>
+                            <div className="flex items-start gap-2">
+                              <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
+                              <div className="min-w-0">
+                                <div className="text-[13px] font-semibold text-ink/90">
+                                  {m.colore ? `${m.colore} ` : ""}{m.titolo}
+                                </div>
+                                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/50 mt-0.5">
+                                  {m.quando && <span>🗓️ {m.quando}</span>}
+                                  {m.senior && <span className="text-brand">{m.senior}</span>}
+                                  {m.priorita && <span>priorità: {m.priorita}</span>}
+                                </div>
+                                {m.come && <div className="text-[12px] text-black/65 mt-1">Come: {m.come}</div>}
+                                {m.ad_prepara && <div className="text-[12px] text-ink/80 mt-1">🤖 L'AD prepara: {m.ad_prepara}</div>}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {intenzioni.primi_negozi.length > 0 && (
+                    <div className="space-y-1.5">
+                      <div className="t-micro">Primi negozi da contattare</div>
+                      {intenzioni.primi_negozi.map((n, i) => (
+                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className="text-[13px] font-medium text-ink/90">🏪 {n.nome}</span>
+                            {n.stato && <span className="t-eti shrink-0">{n.stato}</span>}
+                          </div>
+                          {n.perche && <div className="text-[12px] text-black/60 mt-0.5">{n.perche}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {intenzioni.rischi.length > 0 && (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                      <div className="t-micro mb-1">⚠️ Rischi e conflitti</div>
+                      <ul className="list-disc pl-5 text-[12px] text-ink/85 space-y-0.5">
+                        {intenzioni.rischi.map((r, i) => <li key={i}>{r}</li>)}
+                      </ul>
+                    </div>
+                  )}
+
+                  {intenzioni.serve_da_nicola.length > 0 && (
+                    <div className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
+                      <div className="t-micro mb-1">🙋 Cosa serve da te (decisioni mancanti)</div>
+                      <div className="space-y-1.5">
+                        {intenzioni.serve_da_nicola.map((l, i) => (
+                          <div key={i}>
+                            <div className="text-[13px] text-ink/90">{l.domanda_per_nicola}</div>
+                            {l.cosa_manca && <div className="text-[11px] text-black/50">{l.cosa_manca}</div>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
           {/* --- ATTIVITÀ & BRIEFING --- */}
           {tab === "attivita" && attivita && (
             <div className="space-y-4">
