@@ -46,16 +46,19 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       git checkout -f -B "$branch" 2>/dev/null || true
     fi
     memref="$(git rev-parse HEAD 2>/dev/null || echo '')"
+    # Allinea il CODICE a main in modo DETERMINISTICO: checkout dei file di main, NIENTE merge
+    # (il merge -X theirs andava in conflitto quando memoria-ad e main divergevano → codice vecchio).
+    # Poi RIPRISTINA le cartelle di memoria dal ramo memoria-ad (HEAD): risultato = codice di main
+    # + memoria accumulata. Il checkout non cancella file e non perde mai il vault.
     if git fetch "$url" main 2>/dev/null; then
-      if git "${GIT_ID[@]}" merge --no-edit -X theirs FETCH_HEAD 2>/dev/null; then
-        if [ -n "$memref" ]; then
-          for d in "${MEM_DIRS[@]}"; do git checkout "$memref" -- "$d" 2>/dev/null || true; done
-          git "${GIT_ID[@]}" commit -q -m "monitoraggio: preserva la memoria dopo l'allineamento del codice ($(ts))" 2>/dev/null || true
-        fi
-        echo "[$(ts)] Codice allineato a origin/main (memoria preservata)."
+      if git checkout FETCH_HEAD -- . 2>/dev/null; then
+        for d in "${MEM_DIRS[@]}"; do
+          [ -n "$memref" ] && git checkout "$memref" -- "$d" 2>/dev/null || true
+        done
+        git "${GIT_ID[@]}" commit -q -m "monitoraggio: allinea codice a main, memoria preservata ($(ts))" 2>/dev/null || true
+        echo "[$(ts)] Codice allineato a origin/main (deterministico, memoria preservata)."
       else
-        git merge --abort 2>/dev/null || true
-        echo "[$(ts)] WARN: merge di main fallito, continuo col codice attuale." >&2
+        echo "[$(ts)] WARN: checkout del codice di main fallito, continuo col codice attuale." >&2
       fi
     fi
   ) 9>"$LOCK" || true
@@ -64,8 +67,14 @@ else
 fi
 
 # Esegue il monitoraggio (LEGGERO: solo le fonti dovute oggi). acceptEdits: scrive nel vault senza chiedere.
+# Guardia: leggi il prompt DOPO l'allineamento e abortisci se è vuoto (evita il "--print con input vuoto").
+PROMPT="$(cat "$SCRIPT_DIR/monitora.md" 2>/dev/null || true)"
+if [ -z "$PROMPT" ]; then
+  echo "[$(ts)] ERRORE: cervello/monitora.md non trovato/vuoto dopo l'allineamento; monitoraggio saltato." >&2
+  exit 1
+fi
 echo "[$(ts)] Avvio monitoraggio web AD..."
-claude -p "$(cat "$SCRIPT_DIR/monitora.md")" --permission-mode acceptEdits || {
+claude -p "$PROMPT" --permission-mode acceptEdits || {
   echo "[$(ts)] Claude ha restituito un errore (monitoraggio non completato)." >&2
 }
 echo "[$(ts)] Monitoraggio completato."
