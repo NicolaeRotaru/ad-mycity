@@ -3,10 +3,18 @@ titolo: Piano di costruzione della macchina di analisi — sequenza in 6 ondate
 data: 2026-06-27 17:45
 autore: AD digitale
 colore: 🟢
-stato: DA APPROVARE
+stato: IN COSTRUZIONE
+aggiornato: 2026-06-27 19:20
 ---
 
 # 🏗️ Piano unico — come costruiamo la macchina di analisi (6 ondate)
+
+> 🚧 **Stato di avanzamento (2026-06-27):**
+> - ✅ **1.1** Intenzioni di Nicola (card «Mosse di Nicola» + giro passo 10 + analisi reale)
+> - ✅ **0.1** GLOSSARIO-KPI riconciliato (verità operativa + 7 divergenze)
+> - ✅ **1.2** Retention/coorti/LTV · ✅ **1.4** Pattern temporali · ✅ **0.4** Anomaly statistico · ✅ **0.5** Self-diagnosi macchina
+> - ⏭️ **Prossimi:** 0.2 data-layer · 0.3 riconciliazione Stripe (serve Stripe MCP) · 1.3 Health per negozio (serve schema seller) · poi Ondata 2.
+> Tutto il costruito è in sola lettura e si accende col DB marketplace, come i moduli esistenti. Build di produzione verde.
 
 > Sintesi operativa dei 3 doc di strategia (mappa-buchi · macchina-totale · radar-totale).
 > Ordine guidato da **dipendenze** (prima il telaio, poi ciò che vi si appende) e da
