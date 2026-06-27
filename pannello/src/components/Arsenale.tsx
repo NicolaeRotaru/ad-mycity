@@ -13,6 +13,7 @@ type PB = {
   cadenza: "giornaliero" | "settimanale";
   livello: "verde" | "giallo" | "rosso";
   ultimo: string | null;
+  oggi: boolean;
 };
 
 const dot = (l: string) => (l === "rosso" ? "bg-red-500" : l === "giallo" ? "bg-amber-500" : "bg-green-500");
@@ -25,7 +26,7 @@ export default function Arsenale() {
     fetch("/api/playbook", { cache: "no-store" }).then((r) => r.json()).then((d) => setPb(d.playbook || [])).catch(() => setPb([]));
   }, []);
   if (!pb) return null;
-  const partitiOggi = pb.filter((p) => p.ultimo).length;
+  const partitiOggi = pb.filter((p) => p.oggi).length;
 
   return (
     <section className="card p-4">

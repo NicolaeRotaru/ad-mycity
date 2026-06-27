@@ -7,8 +7,8 @@ export const revalidate = 0;
 
 // 🗡️ L'arsenale: catalogo dei playbook + stato (quali sono partiti oggi).
 export async function GET() {
-  const stato = await statoPlaybook().catch(() => []);
-  const mappa = new Map(stato.map((s) => [s.id, s.ultimo]));
+  const stato = await statoPlaybook().catch(() => [] as { id: string; ultimo: string | null; oggi: boolean }[]);
+  const mappa = new Map(stato.map((s) => [s.id, s]));
   const playbook = PLAYBOOKS.map((p) => ({
     id: p.id,
     leva: p.leva,
@@ -17,7 +17,8 @@ export async function GET() {
     descrizione: p.descrizione,
     cadenza: p.cadenza,
     livello: p.livello,
-    ultimo: mappa.get(p.id) ?? null,
+    ultimo: mappa.get(p.id)?.ultimo ?? null,
+    oggi: mappa.get(p.id)?.oggi ?? false,
   }));
   return NextResponse.json({ playbook });
 }

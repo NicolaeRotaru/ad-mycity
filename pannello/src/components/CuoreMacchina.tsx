@@ -9,6 +9,7 @@ type Cuore = {
   ultimoBattito: string | null;
   eseguiteUltimo: number;
   autopilota: boolean;
+  pensiero: string | null;
   budget: { tetto: number; speso: number; restante: number } | null;
 };
 
@@ -53,6 +54,12 @@ export default function CuoreMacchina() {
           <div className="text-[13px] font-medium mt-1">{c.collegato ? "🟢 Vivo" : "🟡 In prova"}</div>
         </div>
       </div>
+      {c.pensiero && (
+        <div className="mt-2 rounded-xl border border-brand/20 bg-brand-50/30 p-2.5">
+          <div className="text-[10.5px] uppercase tracking-wide text-brand mb-0.5">💭 Pensiero del giorno</div>
+          <p className="text-[12.5px] text-ink/85 whitespace-pre-wrap leading-snug">{c.pensiero}</p>
+        </div>
+      )}
       {!c.collegato && (
         <p className="t-eti mt-2">Collega la memoria perché il cuore batta e registri i giri. L'AI "pensante" si accende dopo, con la chiave (tetto €{c.budget?.tetto ?? 50}).</p>
       )}
