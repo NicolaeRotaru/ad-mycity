@@ -102,6 +102,7 @@ import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import Aggiornato from "@/components/Aggiornato";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -564,6 +565,7 @@ export default function Dashboard() {
   >("plancia");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
+  const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [vivo, setVivo] = useState(false);
   const [giri, setGiri] = useState(0);
@@ -873,6 +875,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setBriefing(data.ultimo.data);
         setUltimoAt(data.ultimo.created_at);
       }
+      setDatiAggiornatiAt(Date.now());
     } catch {
       /* offline */
     }
@@ -891,6 +894,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       .then((r) => r.json())
       .then((d) => {
         if (d && d.connected) setMetriche(d);
+        setDatiAggiornatiAt(Date.now());
       })
       .catch(() => {});
     // Il diario salvato lato server e' la fonte durevole: se c'e', vince sul locale.
@@ -1025,6 +1029,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
                 vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
@@ -1071,6 +1076,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           );
         })()}
 
+        {/* Timbro globale: quando i dati del pannello sono stati aggiornati (visibile ovunque) */}
+        {datiAggiornatiAt && (
+          <div className="-mt-1">
+            <Aggiornato at={datiAggiornatiAt} prefisso="dati del pannello aggiornati" />
+          </div>
+        )}
+
         {/* Ricerca globale: cercabile da ogni area */}
         <RicercaGlobale />
 
@@ -1085,9 +1097,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
         <div className="space-y-4">
-          <div>
-            <h2 className="t-area">📊 I numeri dell'azienda</h2>
-            <p className="t-eti mt-0.5">Tutte le sfere, per categoria, in tre finestre: oggi · 7 giorni · 30 giorni.</p>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <h2 className="t-area">📊 I numeri dell'azienda</h2>
+              <p className="t-eti mt-0.5">Tutte le sfere, per categoria, in tre finestre: oggi · 7 giorni · 30 giorni.</p>
+            </div>
+            <Aggiornato at={datiAggiornatiAt} className="mt-1 shrink-0" />
           </div>
 
           {/* I numeri (cockpit): categorie a tendina — apri solo ciò che ti serve */}
@@ -1216,12 +1231,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== PERSONE ===================== */}
         {vista === "persone" && (
-          <AreaModuli area="persone" titolo="🤝 Persone" sottotitolo="Chi compra, chi vende, chi consegna e chi lavora con noi." metriche={metriche} />
+          <AreaModuli area="persone" titolo="🤝 Persone" sottotitolo="Chi compra, chi vende, chi consegna e chi lavora con noi." metriche={metriche} aggAt={datiAggiornatiAt} />
         )}
 
         {/* ===================== OPERAZIONI ===================== */}
         {vista === "operazioni" && (
-          <AreaModuli area="operazioni" titolo="⚙️ Operazioni" sottotitolo="Ordini, consegne, catalogo, campagne e lavori in corso." metriche={metriche} />
+          <AreaModuli area="operazioni" titolo="⚙️ Operazioni" sottotitolo="Ordini, consegne, catalogo, campagne e lavori in corso." metriche={metriche} aggAt={datiAggiornatiAt} />
         )}
 
         {/* ===================== MONDO & RISCHI ===================== */}
@@ -1235,7 +1250,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
           <Intelligence />
 
-          <AreaModuli area="mondo" metriche={metriche} />
+          <AreaModuli area="mondo" metriche={metriche} aggAt={datiAggiornatiAt} />
         </div>
         )}
 

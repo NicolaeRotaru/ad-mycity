@@ -2,6 +2,7 @@
 
 import { Fragment } from "react";
 import Modulo from "@/components/Modulo";
+import Aggiornato from "@/components/Aggiornato";
 import { MODULI, type AreaModulo } from "@/lib/moduli";
 
 // Renderizza la griglia di moduli di un'area (Persone / Operazioni / Mondo),
@@ -11,19 +12,24 @@ export default function AreaModuli({
   titolo,
   sottotitolo,
   metriche,
+  aggAt,
 }: {
   area: AreaModulo;
   titolo?: string;
   sottotitolo?: string;
   metriche: Record<string, any> | null;
+  aggAt?: number | null;
 }) {
   const lista = MODULI.filter((m) => m.area === area);
   return (
     <div className="space-y-3">
       {titolo && (
-        <div>
-          <h2 className="t-area">{titolo}</h2>
-          {sottotitolo && <p className="t-eti mt-0.5">{sottotitolo}</p>}
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <h2 className="t-area">{titolo}</h2>
+            {sottotitolo && <p className="t-eti mt-0.5">{sottotitolo}</p>}
+          </div>
+          <Aggiornato at={aggAt} className="mt-1 shrink-0" />
         </div>
       )}
       <div className="space-y-1.5">

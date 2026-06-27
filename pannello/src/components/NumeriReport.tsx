@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
+import Aggiornato from "@/components/Aggiornato";
 
 type Tab = "trend" | "unit" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
@@ -34,6 +35,7 @@ export default function NumeriReport() {
   const [unit, setUnit] = useState<any>(null);
   const [report, setReport] = useState<{ collegato: boolean; elenco: { nome: string; data?: string }[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
   const [accodato, setAccodato] = useState<string | null>(null);
+  const [aggAt, setAggAt] = useState<number | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
     setLoading(true);
@@ -41,6 +43,7 @@ export default function NumeriReport() {
       if (t === "trend") setTrend(await fetch("/api/metriche/trend", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "unit") setUnit(await fetch("/api/metriche/unit", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else setReport(await fetch("/api/report", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      setAggAt(Date.now());
     } finally {
       setLoading(false);
     }
@@ -75,10 +78,11 @@ export default function NumeriReport() {
           <BarChart3 size={16} />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">Numeri & report</span>
+        <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica(tab)}
           disabled={loading}
-          className="ml-auto inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           Aggiorna
