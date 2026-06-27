@@ -3,6 +3,21 @@ import { getLatestBriefing, creaLavoro, memoryConnected, setImpostazione, getImp
 import { eseguiAutopilota } from "@/lib/autopilota";
 import { accodaPlaybookDelGiorno } from "@/lib/playbook";
 import { aiConfigurato, pensa } from "@/lib/ai";
+import { tutteLeAzioni } from "@/lib/azioni-pronte";
+import { verificaQualita } from "@/lib/qualita";
+
+// 📚 Auto-miglioramento: i problemi di qualità più ricorrenti, da dare in pasto al cervello.
+async function lezioniRicorrenti(): Promise<string> {
+  try {
+    const az = await tutteLeAzioni();
+    const m: Record<string, number> = {};
+    for (const a of az) for (const p of verificaQualita(a).problemi) m[p] = (m[p] || 0) + 1;
+    const top = Object.entries(m).sort((x, y) => y[1] - x[1]).slice(0, 3);
+    return top.length ? top.map(([p, n]) => `${p} (${n}x)`).join("; ") : "";
+  } catch {
+    return "";
+  }
+}
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -51,9 +66,13 @@ async function handle(req: NextRequest, accodaGiro: boolean) {
         // Prenoto la data PRIMA di chiamare: due esecuzioni ravvicinate (cron + click)
         // non spendono due volte. Se la chiamata fallisce, oggi niente pensiero (€0).
         await setImpostazione("cuore:pensiero:data", oggi).catch(() => {});
+        // Auto-miglioramento: passa al cervello le lezioni (errori di qualità ricorrenti).
+        const lezioni = await lezioniRicorrenti();
+        if (lezioni) await setImpostazione("lezioni-qualita", lezioni).catch(() => {});
         const pensiero = await pensa({
           prompt:
-            "Sei l'AD di MyCity (marketplace negozi di Piacenza, fase 0→1). In massimo 3 righe: le 3 priorità di OGGI verso la North Star (ordini consegnati). Concreto, niente numeri inventati.",
+            "Sei l'AD di MyCity (marketplace negozi di Piacenza, fase 0→1). In massimo 3 righe: le 3 priorità di OGGI verso la North Star (ordini consegnati). Concreto, niente numeri inventati." +
+            (lezioni ? ` Tieni presente ed EVITA questi errori ricorrenti nelle mosse: ${lezioni}.` : ""),
           maxToken: 300,
         }).catch(() => null);
         if (pensiero) await setImpostazione("cuore:pensiero", pensiero).catch(() => {});

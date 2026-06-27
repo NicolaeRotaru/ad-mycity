@@ -113,6 +113,12 @@ export default function Azioni() {
   const daDecidere = azioni.filter((a) => !a.stato).length;
   const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
   const qDaRivedere = azioni.filter((a) => !a.stato && a.qualita?.voto === "rivedere").length;
+  // 📚 Auto-miglioramento: i problemi di qualità più ricorrenti = le "lezioni".
+  const lezioni: [string, number][] = (() => {
+    const m: Record<string, number> = {};
+    for (const a of azioni) for (const p of a.qualita?.problemi || []) m[p] = (m[p] || 0) + 1;
+    return Object.entries(m).sort((x, y) => y[1] - x[1]).slice(0, 4);
+  })();
 
   return (
     <div className="space-y-4">
@@ -183,6 +189,25 @@ export default function Azioni() {
           {!loading && azioni.length > 0 && (
             <>
               <div className="t-eti">{daDecidere} da decidere · {azioni.length - daDecidere} già decise{daDecidere > 0 ? ` · 🏆 ${qVerificate} verificate · ⚠️ ${qDaRivedere} da rivedere` : ""}</div>
+
+              {lezioni.length > 0 && (
+                <div className="card border border-amber-200 bg-amber-50/40 p-3.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[15px]">📚</span>
+                    <span className="t-sez">Lezioni apprese <span className="t-eti">(auto-miglioramento)</span></span>
+                  </div>
+                  <div className="mt-2 space-y-1">
+                    {lezioni.map(([p, n]) => (
+                      <div key={p} className="flex items-center gap-2 text-[12.5px] text-ink/85">
+                        <span className="badge badge-off shrink-0">{n}×</span>
+                        <span>{p}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="t-eti mt-2">Sono gli errori di qualità più ricorrenti: l'AD li tiene presenti quando prepara le prossime mosse, così migliora da solo.</p>
+                </div>
+              )}
+
               <div className="space-y-2.5">
                 {azioni.map((a) => {
                   const decisa = a.stato !== "";
