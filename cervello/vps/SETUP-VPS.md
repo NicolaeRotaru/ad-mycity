@@ -70,7 +70,9 @@ Compila `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `G
 ```bash
 sudo systemctl start mycity-worker.service     # worker sempre attivo (le approvazioni)
 sudo systemctl start mycity-giro.timer         # giro automatico ogni 2 ore
+sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
 sudo systemctl start mycity-giro.service        # prova subito un giro adesso
+sudo systemctl start mycity-monitora.service    # prova subito un monitoraggio web
 ```
 
 ## Verifica che funzioni
@@ -86,7 +88,8 @@ Premendo **Approva** nel Pannello, entro ~30s il worker esegue e la riga in `AZI
 ## Comandi utili
 ```bash
 # Fermare tutto
-sudo systemctl stop mycity-worker mycity-giro.timer
+sudo systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
+# Cambiare l'orario del monitoraggio: modifica OnCalendar in mycity-monitora.timer, poi ricopia + daemon-reload.
 # Cambiare la frequenza del giro: modifica OnUnitActiveSec in mycity-giro.timer, poi:
 sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system/ && sudo systemctl daemon-reload
 # Mettere in PAUSA da remoto: nel Pannello (kill-switch) -> impostazioni.pausa = on

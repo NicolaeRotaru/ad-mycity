@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Telescope, AlertTriangle, Swords, CalendarClock, PackageSearch, RefreshCw, Loader2, CheckCircle2, Send, Star } from "lucide-react";
+import { Telescope, AlertTriangle, Swords, CalendarClock, PackageSearch, RefreshCw, Loader2, CheckCircle2, Send, Star, Network } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import GrafoInfluenza from "@/components/GrafoInfluenza";
 
-type Tab = "alert" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
+type Tab = "alert" | "mappa" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 
 const INTEL: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "alert", label: "Alert anomalie", icon: <AlertTriangle size={14} /> },
+  { id: "mappa", label: "Mappa d'influenza", icon: <Network size={14} /> },
   { id: "concorrenti", label: "Concorrenti", icon: <Swords size={14} /> },
   { id: "eventi", label: "Eventi & picchi", icon: <CalendarClock size={14} /> },
   { id: "buchi", label: "Buchi di mercato", icon: <PackageSearch size={14} /> },
@@ -32,6 +34,8 @@ export default function Intelligence() {
       if (t === "alert") {
         const a = await fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] }));
         setAlert(a);
+      } else if (t === "mappa") {
+        // Il grafo si carica da solo l'asset statico /radar-grafo.json: niente da fetchare qui.
       } else {
         const r = await fetch(`/api/intelligence?tipo=${t}`, { cache: "no-store" }).then((x) => x.json()).catch(() => ({ presente: false, testo: "" }));
         setCache((c) => ({ ...c, [t]: { presente: r.presente, testo: r.testo } }));
@@ -111,8 +115,11 @@ export default function Intelligence() {
         </div>
       )}
 
-      {/* CONCORRENTI / EVENTI / BUCHI (cache vault + rigenera) */}
-      {tab !== "alert" && (
+      {/* MAPPA D'INFLUENZA (grafo IN↔OUT + catene) */}
+      {tab === "mappa" && <GrafoInfluenza />}
+
+      {/* CONCORRENTI / EVENTI / BUCHI / LEVE / REPUTAZIONE (cache vault + rigenera) */}
+      {tab !== "alert" && tab !== "mappa" && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-black/45">Ultimo risultato salvato dall'AD. Premi “Aggiorna analisi” per rigenerarlo.</p>
