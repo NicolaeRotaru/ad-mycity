@@ -39,7 +39,14 @@ MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   (
-    flock 9
+    flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
+    # Fix B: se un run precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
+    # ramo memoria-ad), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
+    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+      git add -A 2>/dev/null || true
+      git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
+      git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un run precedente." || true
+    fi
     if git fetch "$url" "$branch" 2>/dev/null; then
       git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
     else
@@ -82,7 +89,7 @@ echo "[$(ts)] Monitoraggio completato."
 
 # --- Sync della memoria sul ramo 'memoria-ad': commit + push (rebase, NON force) ---
 (
-  flock 9
+  flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo monitoraggio recupera il WIP)
   git add -A 2>/dev/null || true
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna novità dalle fonti da inviare."
