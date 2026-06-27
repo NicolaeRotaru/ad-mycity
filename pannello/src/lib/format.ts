@@ -85,7 +85,9 @@ export function istante(iso: string): string {
 
 // "Timbro" di QUANDO un dato è apparso / è stato aggiornato nel pannello:
 // "GG/MM/AAAA · HH:MM" (Europe/Rome). Accetta ISO, millisecondi o Date.
-export function timbro(quando: string | number | Date): string {
+export function timbro(quando: string | number | Date | null | undefined): string {
+  // null/undefined/0/"" = nessun valore → vuoto (evita di mostrare l'epoch 1970).
+  if (quando == null || quando === 0 || quando === "") return "";
   const d = quando instanceof Date ? quando : new Date(quando);
   if (Number.isNaN(d.getTime())) return "";
   try {
