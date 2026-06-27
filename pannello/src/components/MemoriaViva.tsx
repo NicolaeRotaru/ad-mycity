@@ -2,14 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
-  ClipboardCheck,
   ListChecks,
   Gauge,
   Map as MapIcon,
   RefreshCw,
   Loader2,
   CheckCircle2,
-  XCircle,
   ListTodo,
   ShieldAlert,
   Target,
@@ -20,25 +18,10 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { testoPulito, dataVault } from "@/lib/format";
-import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 
 // --- Tipi (combaciano con le API /api/memoria/*) ---
-type Azione = {
-  numero: string;
-  data: string;
-  reparto: string;
-  azione: string;
-  colore: string;
-  livello: "verde" | "giallo" | "rosso" | "?";
-  contenuto: string;
-  canale: string;
-  stato: string;
-  inAttesa: boolean;
-  cambia?: string;
-  seguito?: string;
-};
 type Attivita = {
   collegato: boolean;
   briefing: { nome: string; data?: string; testo: string } | null;
@@ -51,7 +34,7 @@ type Okr = { senior: string; kpi: string; target: string; budget: string };
 type Decisione = { data: string; colore: string; livello: "verde" | "giallo" | "rosso" | "?"; reparto: string; cosa: string; perche: string; stato: string; firma: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 
-type Tab = "azioni" | "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
+type Tab = "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
 
 // Rendering markdown compatto e leggibile (riusa i plugin già installati).
 const md: Components = {
@@ -82,18 +65,17 @@ function Markdown({ children }: { children: string }) {
   );
 }
 
-function dot(livello: Azione["livello"]) {
+function dot(livello: "verde" | "giallo" | "rosso" | "?") {
   const c = livello === "verde" ? "bg-green-500" : livello === "giallo" ? "bg-amber-500" : livello === "rosso" ? "bg-red-500" : "bg-black/30";
   return <span className={`inline-block w-2 h-2 rounded-full ${c}`} />;
 }
 
 
 export default function MemoriaViva() {
-  const [tab, setTab] = useState<Tab>("azioni");
+  const [tab, setTab] = useState<Tab>("todo");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
 
-  const [azioni, setAzioni] = useState<Azione[]>([]);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
   const [statoAgg, setStatoAgg] = useState("");
@@ -105,14 +87,10 @@ export default function MemoriaViva() {
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const [approvando, setApprovando] = useState<string | null>(null);
-  const [esito, setEsito] = useState<{ numero: string; ok: boolean; msg: string } | null>(null);
-
   const carica = useCallback(async (silenzioso = false) => {
     if (!silenzioso) setLoading(true);
     try {
-      const [a, at, st, pi, td, al, de, ok] = await Promise.all([
-        fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, azioni: [] })),
+      const [at, st, pi, td, al, de, ok] = await Promise.all([
         fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
         fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
         fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
@@ -121,7 +99,6 @@ export default function MemoriaViva() {
         fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
         fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
       ]);
-      setAzioni(a.azioni || []);
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
       setStato(st.testo || "");
       setStatoAgg(st.aggiornato || "");
@@ -131,7 +108,7 @@ export default function MemoriaViva() {
       setAlerts(al.alert || []);
       setDecisioni(de.decisioni || []);
       setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
-      setCollegato(Boolean(a.collegato || at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato));
+      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato));
       setAggAt(Date.now());
     } finally {
       setLoading(false);
@@ -144,31 +121,6 @@ export default function MemoriaViva() {
     const id = setInterval(() => carica(true), 90000);
     return () => clearInterval(id);
   }, [carica]);
-
-  async function decidi(az: Azione, decisione: "approva" | "rifiuta") {
-    setApprovando(az.numero);
-    setEsito(null);
-    try {
-      const res = await fetch("/api/approva", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ numero: az.numero, azione: az.azione, decisione }),
-      });
-      const d = await res.json();
-      const okMsg = decisione === "rifiuta"
-        ? "Rifiutata: l'AD la segnerà come ❌ RIFIUTATA."
-        : "Inviata al cervello: l'AD la eseguirà e segnerà FATTO.";
-      setEsito(
-        d.ok
-          ? { numero: az.numero, ok: true, msg: okMsg }
-          : { numero: az.numero, ok: false, msg: d.error || "Errore." }
-      );
-    } catch (e: any) {
-      setEsito({ numero: az.numero, ok: false, msg: e.message });
-    } finally {
-      setApprovando(null);
-    }
-  }
 
   // Spunta una voce della checklist: aggiorna subito a schermo e salva (Supabase).
   async function spunta(item: TodoItem) {
@@ -186,7 +138,6 @@ export default function MemoriaViva() {
   }
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "azioni", label: "Da approvare", icon: <ClipboardCheck size={14} /> },
     { id: "todo", label: "Cose da fare", icon: <ListTodo size={14} /> },
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
@@ -196,7 +147,6 @@ export default function MemoriaViva() {
     { id: "piani", label: "Piani", icon: <MapIcon size={14} /> },
   ];
 
-  const daApprovare = azioni.filter((a) => a.inAttesa);
   const daFare = todo.filter((t) => !t.fatto);
 
   return (
@@ -222,9 +172,7 @@ export default function MemoriaViva() {
         {tabs.map((t) => {
           const on = tab === t.id;
           const badge =
-            t.id === "azioni" && daApprovare.length > 0
-              ? daApprovare.length
-              : t.id === "todo" && daFare.length > 0
+            t.id === "todo" && daFare.length > 0
               ? daFare.length
               : t.id === "sentinelle" && alerts.length > 0
               ? alerts.length
@@ -249,7 +197,7 @@ export default function MemoriaViva() {
         })}
       </div>
 
-      {loading && azioni.length === 0 && !attivita && !stato && piani.length === 0 ? (
+      {loading && !attivita && !stato && piani.length === 0 ? (
         <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
           <Loader2 size={16} className="animate-spin" /> Carico la memoria…
         </div>
@@ -262,83 +210,6 @@ export default function MemoriaViva() {
         </div>
       ) : (
         <>
-          {/* --- DA APPROVARE --- */}
-          {tab === "azioni" && (
-            <div className="space-y-2.5">
-              {azioni.length > 0 && (
-                <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12px] text-ink/85">
-                  ✅ Questo è l'<b>unico</b> posto dove approvi. «Approva» manda l'azione all'AD che la esegue; «Rifiuta» la archivia. Le mosse 🟢 in automatico le trovi in <b>Azioni</b> (Autopilota & Registro).
-                </div>
-              )}
-              {azioni.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna azione in coda.</p>}
-              {azioni.map((a) => (
-                <div
-                  key={a.numero}
-                  className={`rounded-xl border p-3.5 transition ${
-                    a.inAttesa ? "border-black/[0.08] bg-paper/40" : "border-black/[0.05] bg-black/[0.015] opacity-70"
-                  }`}
-                >
-                  <div className="flex items-start gap-2.5">
-                    <span className="mt-1.5 shrink-0">{dot(a.livello)}</span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[11px] font-mono text-black/40">#{a.numero}</span>
-                        <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{a.reparto}</span>
-                        <span className="text-[11px] text-black/40">{dataVault(a.data)}</span>
-                        <span className={`text-[11px] px-1.5 py-0.5 rounded ${a.inAttesa ? "bg-amber-50 text-amber-700" : "bg-green-50 text-green-700"}`}>
-                          {a.stato}
-                        </span>
-                      </div>
-                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(a.azione)}</p>
-                      <p className="text-[11px] text-black/45 mt-1">
-                        📎 {a.contenuto} · 📣 {a.canale}
-                      </p>
-                      {esito && esito.numero === a.numero && (
-                        <p className={`text-[12px] mt-2 flex items-center gap-1.5 ${esito.ok ? "text-green-700" : "text-red-600"}`}>
-                          {esito.ok && <CheckCircle2 size={13} />} {esito.msg}
-                        </p>
-                      )}
-                    </div>
-                    {a.inAttesa && (
-                      <div className="shrink-0 flex flex-col gap-1.5">
-                        <button
-                          onClick={() => decidi(a, "approva")}
-                          disabled={approvando === a.numero}
-                          className="inline-flex items-center justify-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3 py-1.5 rounded-lg shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-                        >
-                          {approvando === a.numero ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-                          Approva
-                        </button>
-                        <button
-                          onClick={() => decidi(a, "rifiuta")}
-                          disabled={approvando === a.numero}
-                          className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50"
-                        >
-                          <XCircle size={14} />
-                          Rifiuta
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  {a.inAttesa && (
-                    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5 space-y-1.5">
-                      <div className="text-[10.5px] font-semibold text-brand uppercase tracking-wide">Se approvi, ecco cosa succede</div>
-                      {spiegaAzione(a).map((r) => (
-                        <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
-                          <span className="mr-1">{r.ico}</span>
-                          <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              <p className="text-[11px] text-black/40 pt-1">
-                Ogni card spiega chi ci lavora, con quali «mani» e cosa cambia. «Rifiuta» la archivia come ❌ rifiutata, senza eseguire nulla.
-              </p>
-            </div>
-          )}
-
           {/* --- ATTIVITÀ & BRIEFING --- */}
           {tab === "attivita" && attivita && (
             <div className="space-y-4">

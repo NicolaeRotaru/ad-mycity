@@ -20,6 +20,9 @@ export type Blocco = {
   preparato: string;
   testo: string;
   fonte: "vault" | "sentinella";
+  // Spiegazione specifica scritta dal senior (per la scheda nel Pannello).
+  cambia: string;
+  seguito: string;
 };
 export type AzionePronta = Blocco & { stato: StatoAzione; esito: string };
 
@@ -36,6 +39,8 @@ function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco
     preparato: a.data,
     testo: a.contenuto,
     fonte: "vault",
+    cambia: a.cambia,
+    seguito: a.seguito,
   };
 }
 
@@ -58,7 +63,7 @@ export async function tutteLeAzioni(): Promise<Blocco[]> {
   let sentinelle: Blocco[] = [];
   try {
     const m: any = await getMetriche();
-    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const }));
+    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const, cambia: "", seguito: "" }));
   } catch {
     sentinelle = [];
   }
