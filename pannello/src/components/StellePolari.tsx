@@ -6,12 +6,48 @@ import { Star } from "lucide-react";
 type Stella = { id: string; emoji: string; nome: string; descrizione: string; principale: boolean; attiva: boolean };
 
 // ⭐ Le 3 Stelle Polari, con interruttore on/off per le secondarie.
+// Il numero reale di ogni Stella, dai dati già disponibili (/api/metriche).
+// Se la fonte non è collegata, resta "—" (mai numeri inventati).
+function valoreStella(id: string, m: Record<string, any> | null): string {
+  if (!m) return "—";
+  const n = (k: string) => (m[k] === undefined || m[k] === null ? null : Number(m[k]));
+  if (id === "ordini") {
+    const c = n("consegne_7g") ?? n("ordini_7g");
+    return c == null ? "—" : `${c} consegnati · 7g`;
+  }
+  if (id === "clienti") {
+    const nuovi = n("nuovi_clienti_7g");
+    const visite = n("visite_7g");
+    const conv = n("conversione");
+    const parti = [
+      nuovi != null ? `${nuovi} nuovi` : null,
+      visite != null ? `${visite} visite` : null,
+      conv != null ? `${conv}% conv.` : null,
+    ].filter(Boolean);
+    return parti.length ? `${parti.join(" · ")} · 7g` : "—";
+  }
+  if (id === "influenza") {
+    const neg = n("negozi");
+    const rec = n("recensioni_totali");
+    const visite = n("visite_7g");
+    const parti = [
+      neg != null ? `${neg} negozi` : null,
+      rec != null ? `${rec} recensioni` : null,
+      visite != null ? `${visite} visite/7g` : null,
+    ].filter(Boolean);
+    return parti.length ? parti.join(" · ") : "—";
+  }
+  return "—";
+}
+
 export default function StellePolari() {
   const [stelle, setStelle] = useState<Stella[]>([]);
+  const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   const carica = () =>
     fetch("/api/stelle", { cache: "no-store" }).then((r) => r.json()).then((d) => setStelle(d.stelle || [])).catch(() => {});
   useEffect(() => {
     carica();
+    fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setMetriche).catch(() => {});
   }, []);
 
   async function toggle(s: Stella) {
@@ -42,6 +78,7 @@ export default function StellePolari() {
           <span className="text-[18px] leading-none mt-0.5">{s.emoji}</span>
           <div className="min-w-0 flex-1">
             <div className="text-[13px] font-semibold text-ink">{s.nome}</div>
+            <div className="text-[12px] font-medium text-brand mt-0.5 tabular-nums">{valoreStella(s.id, metriche)}</div>
             <div className="t-eti mt-0.5">{s.descrizione}</div>
           </div>
           {s.principale ? (

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLatestBriefing, creaLavoro, memoryConnected, setImpostazione } from "@/lib/store";
+import { getLatestBriefing, creaLavoro, memoryConnected, setImpostazione, getImpostazione } from "@/lib/store";
 import { eseguiAutopilota } from "@/lib/autopilota";
 import { accodaPlaybookDelGiorno } from "@/lib/playbook";
+import { aiConfigurato, pensa } from "@/lib/ai";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,6 +41,24 @@ async function handle(req: NextRequest, accodaGiro: boolean) {
     // 1-quater) Registra il battito (per la card "Cuore" nella Cabina).
     await setImpostazione("cuore:ultimo", new Date().toISOString()).catch(() => {});
     await setImpostazione("cuore:eseguite", String(auto.eseguite || 0)).catch(() => {});
+
+    // 1-quinquies) PENSIERO DEL GIORNO (a pagamento ma a contagocce): solo se c'è la
+    // chiave AI e il budget regge, e UNA volta al giorno (dedup). Senza chiave: €0, salta.
+    if (aiConfigurato()) {
+      const oggi = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date());
+      const fattoOggi = await getImpostazione("cuore:pensiero:data").catch(() => null);
+      if (fattoOggi !== oggi) {
+        const pensiero = await pensa({
+          prompt:
+            "Sei l'AD di MyCity (marketplace negozi di Piacenza, fase 0→1). In massimo 3 righe: le 3 priorità di OGGI verso la North Star (ordini consegnati). Concreto, niente numeri inventati.",
+          maxToken: 300,
+        }).catch(() => null);
+        if (pensiero) {
+          await setImpostazione("cuore:pensiero", pensiero).catch(() => {});
+          await setImpostazione("cuore:pensiero:data", oggi).catch(() => {});
+        }
+      }
+    }
   }
 
   // 2) Mostra l'ultimo briefing che il cervello-Max ha gia' salvato.
