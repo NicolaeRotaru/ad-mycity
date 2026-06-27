@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getImpostazione, memoryConnected } from "@/lib/store";
-import { getBudget } from "@/lib/ai-budget";
+import { getBudget, setTetto } from "@/lib/ai-budget";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,4 +24,17 @@ export async function GET() {
     pensiero: pensiero || null,
     budget,
   });
+}
+
+// Governance: imposta il tetto di spesa AI mensile (€). Body: { tetto: number }.
+export async function POST(req: Request) {
+  let body: any = {};
+  try {
+    body = await req.json();
+  } catch {
+    body = {};
+  }
+  const n = Number(body?.tetto);
+  if (!Number.isNaN(n) && n >= 0) await setTetto(n);
+  return NextResponse.json({ ok: true, budget: await getBudget().catch(() => null) });
 }

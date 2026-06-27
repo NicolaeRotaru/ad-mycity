@@ -17,9 +17,22 @@ type Cuore = {
 // automatiche dell'ultimo giro e budget AI. Tutto a colpo d'occhio.
 export default function CuoreMacchina() {
   const [c, setC] = useState<Cuore | null>(null);
+  const carica = () => fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
   useEffect(() => {
-    fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
+    carica();
   }, []);
+
+  // Governance: imposta il tetto di spesa AI mensile dal pannello.
+  async function modificaTetto() {
+    const att = c?.budget?.tetto ?? 50;
+    const v = window.prompt("Tetto di spesa AI al mese (€). La macchina si ferma da sola al raggiungimento:", String(att));
+    if (v == null) return;
+    const n = Number(v.replace(",", "."));
+    if (Number.isNaN(n) || n < 0) return;
+    await fetch("/api/cuore", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tetto: n }) }).catch(() => {});
+    carica();
+  }
+
   if (!c) return null;
 
   const battito = c.ultimoBattito ? istante(c.ultimoBattito) : "non ancora";
@@ -44,7 +57,10 @@ export default function CuoreMacchina() {
           <div className="text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums">{c.eseguiteUltimo}</div>
         </div>
         <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
-          <div className="text-[10.5px] text-black/55">Budget AI questo mese</div>
+          <div className="flex items-center gap-1.5">
+            <div className="text-[10.5px] text-black/55">Budget AI questo mese</div>
+            <button onClick={modificaTetto} className="ml-auto text-[10.5px] text-brand hover:underline" title="Imposta il tetto di spesa AI">modifica</button>
+          </div>
           <div className="text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums">
             {c.budget ? `€${c.budget.speso} / ${c.budget.tetto}` : "—"}
           </div>
