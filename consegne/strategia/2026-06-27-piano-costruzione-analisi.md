@@ -13,8 +13,11 @@ aggiornato: 2026-06-27 19:20
 > - ✅ **1.1** Intenzioni di Nicola (card «Mosse di Nicola» + giro passo 10 + analisi reale)
 > - ✅ **0.1** GLOSSARIO-KPI riconciliato (verità operativa + 7 divergenze)
 > - ✅ **1.2** Retention/coorti/LTV · ✅ **1.4** Pattern temporali · ✅ **0.4** Anomaly statistico · ✅ **0.5** Self-diagnosi macchina
-> - ⏭️ **Prossimi:** 0.2 data-layer · 0.3 riconciliazione Stripe (serve Stripe MCP) · 1.3 Health per negozio (serve schema seller) · poi Ondata 2.
-> Tutto il costruito è in sola lettura e si accende col DB marketplace, come i moduli esistenti. Build di produzione verde.
+> - ✅ **2.3** Margine di contribuzione/ordine · ✅ **1.3** Health per negozio (via `orders.seller_id`) · ✅ **2.2** Funnel di conversione (macro)
+> - 🔎 **Schema marketplace confermato** (Supabase MCP): `orders` ha seller_id, delivery_fee_cents, seller_payout_cents, application_fee_cents, payout_status; ci sono `products`(seller_id, category_id, stock) e `order_items`(product_id, quantity, unit_price) → sbloccano 2.4 catalogo e un CM/ordine dai dati VERI.
+> - ⏭️ **Prossimi:** 2.4 Catalogo/search · CM-2.3 dai campi reali (delivery_fee_cents/seller_payout_cents) · 0.3 riconciliazione Stripe (serve Stripe MCP) · 2.1 CAC (serve attribuzione/UTM) · Ondata 3 (web, serve builder).
+> - ⏸️ **0.2 data-layer:** rinviato di proposito — oggi ogni analisi fa già UN fetch efficiente; il refactor unificante ha valore solo quando le analisi si moltiplicano. Non è vaporware mancante, è una scelta di priorità.
+> Tutto il costruito è in sola lettura e si accende col DB marketplace, come i moduli esistenti. Build di produzione verde a ogni passo.
 
 > Sintesi operativa dei 3 doc di strategia (mappa-buchi · macchina-totale · radar-totale).
 > Ordine guidato da **dipendenze** (prima il telaio, poi ciò che vi si appende) e da
