@@ -190,11 +190,11 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 14:49
+## 🤖 Aggiornamento dell'AD — 2026-06-27 18:50
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Meteo rivisto (live 14:49):** picco di oggi **39°C alle 17** (non 38°C) e **sera senza temporali** (nuvolosità innocua) → il **presidio serale 19:00+ è fattibile** e la regola "no freschi 12-18" è ancora più giusta.
-- **Pivot di mezzogiorno del Giorno-1:** chiusa la finestra di consegna fresca (9:00-10:30), il valore ora si raccoglie nel **feedback a caldo del primo cliente + recensione/foto** (primo asset di prova sociale) → piano `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
-- **Regola slot estivo (da protocollare):** nei giorni >35°C, **niente consegne di freschi tra le 12 e le 18** (picco 39°C alle 17); ordini freschi del pomeriggio → slot serale (dopo le 19:30) o domattina presto. Slot AM chiuso alle 11:00.
-- **Presidio fisico/QR solo nelle ore fresche serali (19:00+):** stasera il centro è animato (Summer Cult/Buffa a Palazzo Farnese + festival) → finestra per lead negozi e iscritti a costo ≈0; di giorno (39°C) il presidio è inutile.
+- **Meteo domani (live 18:50):** **dom 28/6 = 39°C confermati** (afa verso i 40°) → la **regola "niente consegne di freschi 12-18" vale ANCHE domani**; la finestra fresca di consegna è solo al **mattino presto** (slot AM chiuso alle 11:00).
+- **Regola slot estivo (da protocollare):** nei giorni >35°C, **niente consegne di freschi tra le 12 e le 18** (picco ~39°C alle 17); ordini freschi del pomeriggio → slot serale (dopo le 19:30) o domattina presto. Borsa termica + siberini sempre.
+- **Presidio fisico/QR nelle ore fresche serali (19:00+):** finestra **aperta ora** — stasera **Buffa** a Palazzo Farnese + **2ª serata Venerdì Piacentini**, domani sera **Arisa** → centro pieno e fresco, lead negozi e iscritti a costo ≈0; di giorno (39°C) il presidio è inutile.
+- **Passaparola Giorno-1:** se la consegna di stamattina è andata, raccogliere a caldo **feedback + recensione/foto** del primo cliente → piano `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
 - **Picco domanda atteso col caldo** su freschi/bevande/ortofrutta estiva e piatti freddi → spingere quegli item del faro.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

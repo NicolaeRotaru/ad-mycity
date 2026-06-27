@@ -1,13 +1,13 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 14:49** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 18:50** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
 
-> 🌇 **Nota delle 14:49 (primo pomeriggio):** la finestra di consegna fresca (9:00–10:30) è **chiusa**; il
-> picco di caldo è alle **17 (39°C, rivisto al rialzo)** → **niente consegne di freschi tra le 12 e le 18** (slot serale o
-> domattina). Il **presidio fisico/QR** conviene **stasera dalle 19:00** (ore fresche), quando il centro
-> si anima: **Summer Cult/Federico Buffa a Palazzo Farnese** + festival in centro. Piano:
-> `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
+> 🌆 **Nota delle 18:50 (sera):** la **finestra di presidio serale è APERTA ADESSO** (ore fresche + centro
+> animato): **Federico Buffa** a Palazzo Farnese stasera + **2ª serata Venerdì Piacentini** → in centro
+> con QR/volantino ORA, finché c'è gente. **Domani dom 28/6 = 39°C confermati** (afa verso i 40°): la
+> regola **"niente consegne di freschi 12–18"** vale **anche domani**, finestra fresca solo al mattino
+> presto; domani sera **Arisa** a Palazzo Farnese (altro picco di presenze in centro).
 
 ## 🌡️ METEO — il fattore n°1 di questo weekend
 - **Sab 27/6: max 39°C (rivisto al rialzo, live 14:49) · Dom 28/6: 39°C**, cielo sereno, **zero pioggia**,
@@ -23,7 +23,9 @@
 ## 🎭 EVENTI in città (27/6 – 11/7) — traffico fisico da agganciare
 | Quando | Evento | Dove | Rilevanza delivery / presidio |
 |---|---|---|---|
-| **Sab 27/6** | Federico Buffa – rassegna **Piacenza Summer Cult** | Palazzo Farnese (centro) | Pubblico serale in centro → QR/volantino, awareness |
+| **Sab 27/6 (stasera)** | Federico Buffa – rassegna **Piacenza Summer Cult** | Palazzo Farnese (centro) | Pubblico serale in centro → QR/volantino, awareness |
+| **Weekend (sera)** | **2ª serata Venerdì Piacentini** | Centro Piacenza | 🔥 Centro pieno nelle ore fresche → presidio fisico/QR |
+| **Dom 28/6 (sera)** | **Arisa** – rassegna Piacenza Summer Cult | Palazzo Farnese (centro) | Pubblico serale in centro → 2° picco presidio del weekend |
 | **Sab 27 + Dom 28/6** | **Auto&Trucks** (1ª ediz., motori) | Piacenza Expo | Flusso fuori-centro; meno utile al delivery centro |
 | **27-29/6** | Festival Teatro Antico di Veleia – "Baccanti" | Veleia (fuori città) | Marginale per il centro |
 | **Sab 27 + Dom 28/6** | Palio delle Contrade | Bobbio | Fuori area servita |

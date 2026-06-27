@@ -180,8 +180,8 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+## 🤖 Aggiornamento dell'AD — 2026-06-27 18:50
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Angolo "caldo" tempestivo**: con 38°C (oggi) / 39°C (domani) e zero pioggia, post "Con questo caldo non esci: te la portiamo noi" — leva onesta vs GDO-in-auto. Fonte: [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza). (bozza 🟢, pubblicazione 🔴)
-- **Cavalcare il centro animato 27/6→17/7** (~300 negozi aperti, Piacenza Summer Cult con Buffa): contenuti "il centro è vivo" + storie di bottega. Fonte: [ilpiacenza](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html).
+- **Angolo "caldo" tempestivo (vale anche domani)**: **dom 28/6 = 39°C** confermati, afa verso i 40° e zero pioggia → post "Con questo caldo non esci: te la portiamo noi" — leva onesta vs GDO-in-auto. Fonte: [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza). (bozza 🟢, pubblicazione 🔴)
+- **Cavalcare gli eventi serali del weekend in centro** (Piacenza Summer Cult: **Buffa** stasera, **Arisa** domani + 2ª serata Venerdì Piacentini): contenuti "il centro è vivo" + storie di bottega, in tempo reale dalle ore fresche. Fonte: [ilpiacenza](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

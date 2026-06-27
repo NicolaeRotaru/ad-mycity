@@ -208,8 +208,8 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+## 🤖 Aggiornamento dell'AD — 2026-06-27 18:50
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **Doppio picco di presenze questo weekend** (presidio/QR nelle ore fresche serali): **stasera Federico Buffa** + **2ª serata Venerdì Piacentini**, **domani sera Arisa** a Palazzo Farnese. Fonte: [ilpiacenza](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html). (presidio 🟡)
 - **Finestra presidio lunga**: il centro è animato fino al **17/7** (grande manifestazione, ~200 eventi, ~300 negozi aperti) → presidio fisico/QR + earned media locale. Fonte: [piacenza24](https://www.piacenza24.eu/eventi-a-piacenza-fino-al-29-giugno/).
-- **Aggancio Summer Cult** (Federico Buffa, Palazzo Farnese, oggi): pubblico serale in centro → volantino/QR nelle ore fresche. (presidio 🟡)
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
