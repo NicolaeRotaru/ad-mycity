@@ -48,15 +48,15 @@ async function handle(req: NextRequest, accodaGiro: boolean) {
       const oggi = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date());
       const fattoOggi = await getImpostazione("cuore:pensiero:data").catch(() => null);
       if (fattoOggi !== oggi) {
+        // Prenoto la data PRIMA di chiamare: due esecuzioni ravvicinate (cron + click)
+        // non spendono due volte. Se la chiamata fallisce, oggi niente pensiero (€0).
+        await setImpostazione("cuore:pensiero:data", oggi).catch(() => {});
         const pensiero = await pensa({
           prompt:
             "Sei l'AD di MyCity (marketplace negozi di Piacenza, fase 0→1). In massimo 3 righe: le 3 priorità di OGGI verso la North Star (ordini consegnati). Concreto, niente numeri inventati.",
           maxToken: 300,
         }).catch(() => null);
-        if (pensiero) {
-          await setImpostazione("cuore:pensiero", pensiero).catch(() => {});
-          await setImpostazione("cuore:pensiero:data", oggi).catch(() => {});
-        }
+        if (pensiero) await setImpostazione("cuore:pensiero", pensiero).catch(() => {});
       }
     }
   }

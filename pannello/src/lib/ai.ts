@@ -1,4 +1,4 @@
-import { getBudget, aggiungiSpesa } from "@/lib/ai-budget";
+import { puoSpendere, aggiungiSpesa } from "@/lib/ai-budget";
 
 // 🧠 Il cervello "pensante" a basso costo della macchina.
 // SICURO PER COSTRUZIONE: se manca la chiave (ANTHROPIC_API_KEY) o il budget è
@@ -28,11 +28,16 @@ export async function pensa(opts: {
   maxToken?: number;
 }): Promise<string | null> {
   if (!aiConfigurato()) return null;
-  const b = await getBudget().catch(() => null);
-  if (b?.stop) return null; // tetto raggiunto → STOP, niente spesa
 
   const model = opts.potente ? MODELLO_POTENTE : MODELLO_ECONOMICO;
   const max_tokens = opts.maxToken ?? 1000;
+  const p = PREZZI[model] || { in: 1, out: 5 };
+  // Stima PRUDENTE del costo PRIMA di chiamare (input ~ output come tetto largo):
+  // se questa singola chiamata sforerebbe il budget, non parte. Chiude il caso
+  // "una chiamata costosa che supera il tetto".
+  const stimaEuro = ((max_tokens / 1e6) * (p.in + p.out)) * EURO_PER_USD;
+  if (!(await puoSpendere(stimaEuro))) return null;
+
   try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -52,9 +57,8 @@ export async function pensa(opts: {
     const d: any = await res.json();
     const testo = (d?.content?.[0]?.text || "").trim();
 
-    // Stima e registra la spesa (così la guardia budget la conta).
+    // Registra la spesa reale (così la guardia budget la conta).
     const u = d?.usage || {};
-    const p = PREZZI[model] || { in: 1, out: 5 };
     const costoUsd = ((u.input_tokens || 0) / 1e6) * p.in + ((u.output_tokens || 0) / 1e6) * p.out;
     if (costoUsd > 0) await aggiungiSpesa(costoUsd * EURO_PER_USD).catch(() => {});
 

@@ -94,21 +94,27 @@ export async function accodaPlaybookDelGiorno(): Promise<number> {
   for (const p of due) {
     const k = `pb:${p.id}:${oggi}`;
     if (await getImpostazione(k)) continue; // già accodato oggi
-    await creaLavoro(p.compito, "playbook").catch(() => {});
-    await setImpostazione(k, new Date().toISOString()).catch(() => {});
+    const l = await creaLavoro(p.compito, "playbook").catch(() => null);
+    if (!l) continue; // creazione fallita → riprova al prossimo giro (niente stato falso)
+    const ora = new Date().toISOString();
+    await setImpostazione(k, ora).catch(() => {}); // dedup giornaliero
+    await setImpostazione(`pb:${p.id}:ultimo`, ora).catch(() => {}); // ultimo accodamento (qualsiasi giorno)
     n++;
   }
   return n;
 }
 
-// Stato per la Cabina: catalogo + dovuti oggi + ultimo accodamento.
-export async function statoPlaybook(): Promise<{ id: string; ultimo: string | null }[]> {
+// Stato per la Cabina: per ogni playbook l'ULTIMO accodamento reale (qualsiasi giorno)
+// e se è di oggi. Così i settimanali non sembrano "in attesa" da martedì a domenica.
+export async function statoPlaybook(): Promise<{ id: string; ultimo: string | null; oggi: boolean }[]> {
   const oggi = oggiRoma();
-  const due = new Set(playbookDaEseguire(giornoSettimanaRoma()).map((p) => p.id));
-  const out: { id: string; ultimo: string | null }[] = [];
+  const out: { id: string; ultimo: string | null; oggi: boolean }[] = [];
   for (const p of PLAYBOOKS) {
-    const ultimo = due.has(p.id) ? await getImpostazione(`pb:${p.id}:${oggi}`).catch(() => null) : null;
-    out.push({ id: p.id, ultimo });
+    const ultimo = await getImpostazione(`pb:${p.id}:ultimo`).catch(() => null);
+    const eraOggi = ultimo
+      ? new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date(ultimo)) === oggi
+      : false;
+    out.push({ id: p.id, ultimo, oggi: eraOggi });
   }
   return out;
 }
