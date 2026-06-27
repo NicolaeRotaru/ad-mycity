@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter, Package } from "lucide-react";
+import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter, Package, UserPlus, Wallet } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
-type Tab = "trend" | "retention" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "report";
+type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "payout" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
 type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
 type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct: number; stato: "verde" | "giallo" | "rosso"; motivo: string };
@@ -42,6 +42,8 @@ export default function NumeriReport() {
   const [negozi, setNegozi] = useState<{ collegato: boolean; riepilogo?: any; negozi: Negozio[] } | null>(null);
   const [funnel, setFunnel] = useState<any>(null);
   const [catalogo, setCatalogo] = useState<any>(null);
+  const [acquisizione, setAcquisizione] = useState<any>(null);
+  const [payout, setPayout] = useState<any>(null);
   const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -57,6 +59,8 @@ export default function NumeriReport() {
         setTrend(tr);
         setAnomalie(an?.anomalie || []);
       } else if (t === "retention") setRetention(await fetch("/api/metriche/retention", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "acquisizione") setAcquisizione(await fetch("/api/metriche/acquisizione", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "payout") setPayout(await fetch("/api/metriche/payout", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "pattern") setPattern(await fetch("/api/metriche/pattern", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "negozi") setNegozi(await fetch("/api/metriche/negozi", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "funnel") setFunnel(await fetch("/api/metriche/funnel", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
@@ -86,11 +90,13 @@ export default function NumeriReport() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "trend", label: "Trend & proiezioni", icon: <TrendingUp size={14} /> },
     { id: "retention", label: "Retention & LTV", icon: <Repeat size={14} /> },
+    { id: "acquisizione", label: "Acquisizione (CAC)", icon: <UserPlus size={14} /> },
     { id: "pattern", label: "Ritmi (ore/giorni)", icon: <Clock size={14} /> },
     { id: "negozi", label: "Salute negozi", icon: <Store size={14} /> },
     { id: "funnel", label: "Funnel", icon: <Filter size={14} /> },
     { id: "catalogo", label: "Catalogo", icon: <Package size={14} /> },
     { id: "unit", label: "Unit economics", icon: <Calculator size={14} /> },
+    { id: "payout", label: "Payout negozi", icon: <Wallet size={14} /> },
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
 
@@ -216,6 +222,41 @@ export default function NumeriReport() {
                 </div>
               )}
               <p className="text-[11px] text-black/40">Su ordini PAID. La retention è la verità della crescita: senza riacquisto, si scala un secchio bucato.</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* ACQUISIZIONE — CAC / LTV:CAC */}
+      {tab === "acquisizione" && (
+        <div className="space-y-3">
+          {!acquisizione?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per l'acquisizione.</p>}
+          {acquisizione?.collegato && (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {[
+                  { l: "Clienti totali", v: acquisizione.clienti_totali },
+                  { l: "Nuovi (30g)", v: acquisizione.nuovi_30g },
+                  { l: "LTV medio", v: eur(acquisizione.ltv_medio) },
+                  { l: "CAC", v: acquisizione.cac != null ? eur(acquisizione.cac) : "—" },
+                  { l: "LTV : CAC", v: acquisizione.ltv_cac != null ? acquisizione.ltv_cac + "×" : "—" },
+                  { l: "Payback (ordini)", v: acquisizione.payback_ordini != null ? acquisizione.payback_ordini : "—" },
+                ].map((c, i) => (
+                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
+                    <div className="text-[11px] text-black/45">{c.l}</div>
+                    <div className="text-[18px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-[12px] text-black/60">
+                Attribuzione (dai dati): <b>{acquisizione.referral_30g}</b> da referral · <b>{acquisizione.diretti_30g}</b> diretti negli ultimi 30g · quota referral storica {acquisizione.quota_referral_pct}%
+              </div>
+              {acquisizione.ltv_cac != null && (
+                <div className={`rounded-xl border p-3 text-[13px] ${acquisizione.ltv_cac >= 3 ? "border-green-200 bg-green-50/50" : "border-amber-200 bg-amber-50/50"}`}>
+                  {acquisizione.ltv_cac >= 3 ? "✅ LTV:CAC sano (≥3×): ogni euro speso ne rende almeno 3." : "⚠️ LTV:CAC sotto 3×: l'acquisizione a pagamento non è ancora sostenibile — prima densità e retention."}
+                </div>
+              )}
+              {acquisizione.nota && <p className="text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2.5 py-1.5">{acquisizione.nota}</p>}
             </>
           )}
         </div>
@@ -471,6 +512,57 @@ export default function NumeriReport() {
                   <>Imposta un costo fisso mensile (impostazione <code className="bg-black/[0.06] px-1 rounded">costo_fisso</code>) per calcolare il break-even. La commissione (<code className="bg-black/[0.06] px-1 rounded">commissione</code>) è {unit.commissione}%.</>
                 )}
               </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* PAYOUT — riconciliazione soldi negozi */}
+      {tab === "payout" && (
+        <div className="space-y-3">
+          {!payout?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per la riconciliazione payout.</p>}
+          {payout?.collegato && (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { l: "Ordini con incasso", v: payout.riepilogo.ordini_con_incasso },
+                  { l: "Payout completati", v: payout.riepilogo.completati },
+                  { l: "In attesa", v: `${payout.riepilogo.in_attesa} · ${eur(payout.riepilogo.euro_in_attesa)}` },
+                  { l: "Falliti", v: payout.riepilogo.falliti },
+                ].map((c, i) => (
+                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
+                    <div className="text-[11px] text-black/45">{c.l}</div>
+                    <div className="text-[16px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                  </div>
+                ))}
+              </div>
+              {payout.anomalie?.length > 0 && (
+                <div className="space-y-1.5">
+                  {payout.anomalie.map((a: any, i: number) => (
+                    <div key={i} className={`rounded-xl border p-2.5 text-[13px] ${a.livello === "rosso" ? "border-red-200 bg-red-50/60 text-red-800" : "border-amber-200 bg-amber-50/60 text-amber-800"}`}>
+                      {a.livello === "rosso" ? "🔴" : "🟡"} {a.testo}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {payout.anomalie?.length === 0 && <p className="text-[13px] text-green-700">✅ Nessuna anomalia: payout e rimborsi in ordine.</p>}
+              {payout.righe?.length > 0 && (
+                <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-2.5">
+                  <summary className="text-[12px] font-semibold cursor-pointer">Ordini da riconciliare ({payout.righe.length})</summary>
+                  <div className="mt-1.5 space-y-0.5">
+                    {payout.righe.map((r: any, i: number) => (
+                      <div key={i} className="text-[12px] flex items-center gap-2">
+                        <span className="font-mono text-black/45 shrink-0">{dataVault(r.data)}</span>
+                        <span className={r.stato === "fallito" ? "text-red-600" : "text-amber-700"}>{r.stato.replace("_", " ")}</span>
+                        <span className="text-black/45">{r.payout_status}</span>
+                        <span className="ml-auto shrink-0 font-medium">{eur(r.payout_eur)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+              {payout.riepilogo.rimborsi > 0 && <p className="text-[12px] text-black/55">Rimborsi: {payout.riepilogo.rimborsi} ordini · {eur(payout.riepilogo.rimborsi_euro)}.</p>}
+              <p className="text-[11px] text-black/40">Dai campi reali degli ordini (seller_payout_cents, payout_status), senza Stripe. "In attesa" = soldi che i negozi devono ancora ricevere.</p>
             </>
           )}
         </div>

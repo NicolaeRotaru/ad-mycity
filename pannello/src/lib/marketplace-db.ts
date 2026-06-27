@@ -508,3 +508,120 @@ export async function getMargineReale(costoConsegna = 0): Promise<{ connected: b
     return { connected: false, error: e.message };
   }
 }
+
+/**
+ * RICONCILIAZIONE PAYOUT (Ondata 0.3) — i soldi dei negozi: chi è stato pagato e
+ * chi no. Dai campi reali degli ordini (`seller_payout_cents`, `payout_status`,
+ * `payout_at`, `refunded_amount_cents`), SENZA Stripe MCP. Bucket generici (non
+ * dipende da una lista chiusa di stati): completato se c'è `payout_at`/stato di
+ * successo, fallito se lo stato è di errore, altrimenti in attesa.
+ */
+export async function getRiconciliazionePayout(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const orders = await selectRows(
+      "orders",
+      "select=payment_status,payment_method,seller_payout_cents,payout_status,payout_at,refunded_amount_cents,cash_collected_cents,total_price,created_at&limit=10000"
+    );
+    // Ordini che generano un payout DOVUTO al negozio: pagati a carta, o COD incassato, o con payout già tracciato.
+    const conIncasso = orders.filter(
+      (o) => o.payment_status === "PAID" || (Number(o.cash_collected_cents) || 0) > 0 || o.payout_status != null || (Number(o.seller_payout_cents) || 0) > 0
+    );
+
+    const isOk = (s: any) => typeof s === "string" && /paid|complet|transfer|remit|success|done|settl/i.test(s);
+    const isFail = (s: any) => typeof s === "string" && /fail|error|revers|cancel|declin/i.test(s);
+
+    let completati = 0,
+      falliti = 0,
+      inAttesa = 0,
+      euroInAttesa = 0,
+      euroCompletati = 0;
+    const righe: any[] = [];
+    for (const o of conIncasso) {
+      const payout = (Number(o.seller_payout_cents) || 0) / 100;
+      const completo = o.payout_at != null || isOk(o.payout_status);
+      const fallito = isFail(o.payout_status);
+      let stato: "completato" | "fallito" | "in_attesa";
+      if (fallito) {
+        stato = "fallito";
+        falliti++;
+      } else if (completo) {
+        stato = "completato";
+        completati++;
+        euroCompletati += payout;
+      } else {
+        stato = "in_attesa";
+        inAttesa++;
+        euroInAttesa += payout;
+      }
+      if (stato !== "completato") {
+        righe.push({
+          data: o.created_at,
+          payout_eur: Math.round(payout * 100) / 100,
+          stato,
+          payout_status: o.payout_status || "(vuoto)",
+          metodo: o.payment_method || "—",
+        });
+      }
+    }
+
+    const rimborsiArr = orders.filter((o) => (Number(o.refunded_amount_cents) || 0) > 0);
+    const rimborsiEuro = rimborsiArr.reduce((s, o) => s + (Number(o.refunded_amount_cents) || 0), 0) / 100;
+
+    const anomalie: { livello: "rosso" | "giallo"; testo: string }[] = [];
+    if (falliti > 0) anomalie.push({ livello: "rosso", testo: `${falliti} payout FALLITI da rilavorare` });
+    if (inAttesa > 0) anomalie.push({ livello: "giallo", testo: `${inAttesa} payout in attesa — €${Math.round(euroInAttesa * 100) / 100} dovuti ai negozi` });
+    if (rimborsiArr.length > 0) anomalie.push({ livello: "giallo", testo: `${rimborsiArr.length} ordini con rimborso (€${Math.round(rimborsiEuro * 100) / 100})` });
+
+    righe.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
+
+    return {
+      connected: true,
+      riepilogo: {
+        ordini_con_incasso: conIncasso.length,
+        completati,
+        in_attesa: inAttesa,
+        falliti,
+        euro_in_attesa: Math.round(euroInAttesa * 100) / 100,
+        euro_completati: Math.round(euroCompletati * 100) / 100,
+        rimborsi: rimborsiArr.length,
+        rimborsi_euro: Math.round(rimborsiEuro * 100) / 100,
+      },
+      anomalie,
+      righe: righe.slice(0, 20),
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
+
+/**
+ * ACQUISIZIONE / ATTRIBUZIONE (Ondata 2.1, lato dati) — quanti nuovi clienti e da
+ * dove, per ciò che il DB SA: referral (`profiles.referred_by`) vs diretto. La
+ * spesa di acquisizione per canale non è nel DB: il CAC e il rapporto LTV:CAC li
+ * calcola la route con la spesa configurata + l'LTV reale.
+ */
+export async function getAcquisizione(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const profiles = await selectRows("profiles", "select=role,created_at,referred_by&limit=10000");
+    const buyers = profiles.filter((p) => p.role === "buyer");
+    const now = Date.now();
+    const d30 = now - 30 * 86400000;
+    const t = (iso: string) => new Date(iso).getTime();
+    const nuovi = buyers.filter((b) => b.created_at && t(b.created_at) >= d30);
+    const refTot = buyers.filter((b) => b.referred_by != null).length;
+    const refNuovi = nuovi.filter((b) => b.referred_by != null).length;
+    return {
+      connected: true,
+      clienti_totali: buyers.length,
+      nuovi_30g: nuovi.length,
+      referral_30g: refNuovi,
+      diretti_30g: nuovi.length - refNuovi,
+      referral_totali: refTot,
+      quota_referral_pct: buyers.length ? Math.round((refTot / buyers.length) * 100) : 0,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
