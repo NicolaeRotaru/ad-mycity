@@ -1,6 +1,6 @@
 {
   "data": "2026-06-27 08:48",
-  "situazione": "Mattina del giorno della prima consegna concierge (08:48), finestra di consegna APERTA adesso. Il Web è tornato: check meteo orario di oggi → ore 8 = 28°C, ore 11 = 34°C, picco ore 17 = 38°C, zero pioggia. La mossa n°1 è urgente e a tempo: consegnare i freschi di Garetti tra le 9:00 e le 10:30, prima che si superino i 34°C (catena del freddo). Restano i 2 blocchi di sempre: le 3 firme di lancio e la conferma che Garetti sia LIVE con un ordine-test. Dati interni ancora ciechi: Supabase MCP non autorizzato e nessun file .env sul sistema, i 7 numeri restano a 0 (baseline 24/6). L'unico sblocco è autorizzare il Supabase MCP.",
+  "situazione": "Mattina del giorno della prima consegna concierge (08:48), finestra di consegna APERTA adesso. Meteo orario: ore 8 = 28°C, ore 11 = 34°C, picco ore 17 = 38°C, zero pioggia → mossa n°1 a tempo: consegnare i freschi di Garetti tra le 9:00 e le 10:30, prima dei 34°C (catena del freddo). NOVITÀ di questo giro: verificato lo stato delle piattaforme — Supabase e Stripe sono OPERATIVE, nessuna outage: il blackout sui nostri 7 numeri NON è un guasto, è solo il permesso del Supabase MCP da concedere (le rotaie del payout per oggi sono in piedi). Restano i 2 blocchi umani: le 3 firme di lancio e la conferma che Garetti sia LIVE con un ordine-test. L'unico sblocco dei numeri è autorizzare il Supabase MCP.",
   "opportunita": [
     {"titolo": "Consegnare nella finestra fresca 9:00-10:30 (è ADESSO)", "motivo": "Meteo orario live: ore 8 = 28°C ma ore 11 = 34°C e picco 38°C alle 17. Consegnare ora protegge la catena del freddo e fa il primo cliente felice = passaparola", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Cavalcare il caldo: 'con 38°C non esci, te la portiamo noi'", "motivo": "Radar meteo 38-39°C: leva onesta e tempestiva contro la GDO-in-auto, post caldo già in coda", "impatto": "alto", "sforzo": "basso"},
@@ -8,6 +8,7 @@
     {"titolo": "Autorizzare il Supabase MCP", "motivo": "Da 3 giri i 7 numeri sono ciechi e non esiste un .env alternativo: senza, ogni giro lavora a memoria", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
+    {"titolo": "Chiuso il gap ops-02: verificato che Supabase e Stripe sono OPERATIVE (nessuna outage)", "motivo": "Distingue il blocco-dati (permesso MCP da concedere) da un guasto: le rotaie del payout per oggi sono tecnicamente in piedi", "livello": "verde"},
     {"titolo": "Check meteo orario live + affinato il piano caldo con la curva oraria e la finestra 9:00-10:30", "motivo": "L'orario esatto di consegna decide se la catena del freddo regge al primo ordine", "livello": "verde"},
     {"titolo": "Verificato che non esiste alcun file .env: l'unico canale dati è l'autorizzazione MCP", "motivo": "Chiarisce a Nicola qual e' l'unica leva per chiudere la cecità sui numeri", "livello": "verde"},
     {"titolo": "Muovere la consegna nella fascia 9:00-10:30 e confermare se Garetti è LIVE", "motivo": "Priorità n°1 a tempo: la finestra fresca si chiude verso le 11", "livello": "giallo"},

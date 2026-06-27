@@ -34,6 +34,10 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0a. **Giro 27/6 — 08:48 (passaggio 4):** chiuso il gap **ops-02** via WebSearch → **Supabase e Stripe
+   OPERATIVI**, nessuna outage. Conclusione importante: il blackout sui 7 numeri **non è un guasto**, è
+   solo il **permesso del Supabase MCP** da concedere. Le rotaie del payout per oggi sono in piedi (🟢).
+   (Nota minore: monitor terzo segnala possibile intoppo sul componente Stripe "Acquirers" — riverificare ai primi incassi.) Vedi [[2026-06-27]].
 0. **Giro 27/6 — 08:48 (mattina consegna):** check **meteo orario** live (8h=28°C, 11h=34°C, picco
    17h=38°C) → **finestra di consegna 9:00-10:30** blindata nel piano caldo (🟢). Verificato: nessun
    file .env → l'unico sblocco dati è autorizzare il Supabase MCP. Vedi [[2026-06-27]].
