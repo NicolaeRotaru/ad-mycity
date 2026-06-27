@@ -174,7 +174,7 @@ export async function getMetriche(): Promise<Metriche> {
       carrelli_30g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d30).length,
       carrelli_recuperati_oggi: carts.filter((c) => c.recovered === true && c.created_at && isOggi(c.created_at)).length,
       carrelli_recuperati_7g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d7).length,
-      carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && (!c.created_at || t(c.created_at) >= d30)).length,
+      carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d30).length,
       // --- Negozi ---
       negozi: profiles.filter((p) => p.role === "seller").length,
       nuovi_negozi_oggi: profiles.filter((p) => p.role === "seller" && isOggi(p.created_at)).length,
@@ -186,7 +186,7 @@ export async function getMetriche(): Promise<Metriche> {
       consegne_7g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d7).length,
       consegne_30g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d30).length,
       tempo_consegna_min: delivered.length
-        ? Math.round(delivered.reduce((s, o) => s + (t(o.delivered_at) - t(o.created_at)) / 60000, 0) / delivered.length)
+        ? Math.round(delivered.reduce((s, o) => s + Math.max(0, t(o.delivered_at) - t(o.created_at)) / 60000, 0) / delivered.length)
         : 0,
       problemi: orders.filter((o) => o.delivery_status === "CANCELED").length,
       annullati_oggi: orders.filter((o) => o.delivery_status === "CANCELED" && isOggi(o.created_at)).length,

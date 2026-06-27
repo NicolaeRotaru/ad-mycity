@@ -14,7 +14,7 @@ export default function Aggiornato({
   prefisso?: string;
   className?: string;
 }) {
-  if (at == null || at === "") return null;
+  if (!at) return null; // null/undefined/0/"" → niente chip
   const t = timbro(at);
   if (!t) return null;
   return (
