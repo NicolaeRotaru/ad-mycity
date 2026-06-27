@@ -13,7 +13,8 @@ aggiornato: 2026-06-27 19:20
 > - ✅ **1.1** Intenzioni di Nicola (card «Mosse di Nicola» + giro passo 10 + analisi reale)
 > - ✅ **0.1** GLOSSARIO-KPI riconciliato (verità operativa + 7 divergenze)
 > - ✅ **1.2** Retention/coorti/LTV · ✅ **1.4** Pattern temporali · ✅ **0.4** Anomaly statistico · ✅ **0.5** Self-diagnosi macchina
-> - ✅ **2.3** Margine di contribuzione/ordine · ✅ **1.3** Health per negozio (via `orders.seller_id`) · ✅ **2.2** Funnel di conversione (macro)
+> - ✅ **2.3** Margine di contribuzione/ordine (stima + **dai dati veri** via application_fee_cents/delivery_fee_cents) · ✅ **1.3** Health per negozio (via `orders.seller_id`) · ✅ **2.2** Funnel · ✅ **2.4** Catalogo (best-seller/mai-venduti/categorie/stock)
+> - 📌 **Insight dai dati veri (27/6):** 258 prodotti a catalogo ma ~0 ordini pagati (4 order_items totali) → il collo di bottiglia è la **domanda**, non l'offerta. Conferma la tesi dell'analisi dei Piani.
 > - 🔎 **Schema marketplace confermato** (Supabase MCP): `orders` ha seller_id, delivery_fee_cents, seller_payout_cents, application_fee_cents, payout_status; ci sono `products`(seller_id, category_id, stock) e `order_items`(product_id, quantity, unit_price) → sbloccano 2.4 catalogo e un CM/ordine dai dati VERI.
 > - ⏭️ **Prossimi:** 2.4 Catalogo/search · CM-2.3 dai campi reali (delivery_fee_cents/seller_payout_cents) · 0.3 riconciliazione Stripe (serve Stripe MCP) · 2.1 CAC (serve attribuzione/UTM) · Ondata 3 (web, serve builder).
 > - ⏸️ **0.2 data-layer:** rinviato di proposito — oggi ogni analisi fa già UN fetch efficiente; il refactor unificante ha valore solo quando le analisi si moltiplicano. Non è vaporware mancante, è una scelta di priorità.

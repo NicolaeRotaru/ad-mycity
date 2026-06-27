@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter } from "lucide-react";
+import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle, Store, Filter, Package } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
-type Tab = "trend" | "retention" | "pattern" | "negozi" | "funnel" | "unit" | "report";
+type Tab = "trend" | "retention" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
 type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
 type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct: number; stato: "verde" | "giallo" | "rosso"; motivo: string };
@@ -41,6 +41,7 @@ export default function NumeriReport() {
   const [pattern, setPattern] = useState<any>(null);
   const [negozi, setNegozi] = useState<{ collegato: boolean; riepilogo?: any; negozi: Negozio[] } | null>(null);
   const [funnel, setFunnel] = useState<any>(null);
+  const [catalogo, setCatalogo] = useState<any>(null);
   const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -59,6 +60,7 @@ export default function NumeriReport() {
       else if (t === "pattern") setPattern(await fetch("/api/metriche/pattern", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "negozi") setNegozi(await fetch("/api/metriche/negozi", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "funnel") setFunnel(await fetch("/api/metriche/funnel", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "catalogo") setCatalogo(await fetch("/api/metriche/catalogo", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "unit") setUnit(await fetch("/api/metriche/unit", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else setReport(await fetch("/api/report", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       setAggAt(Date.now());
@@ -87,6 +89,7 @@ export default function NumeriReport() {
     { id: "pattern", label: "Ritmi (ore/giorni)", icon: <Clock size={14} /> },
     { id: "negozi", label: "Salute negozi", icon: <Store size={14} /> },
     { id: "funnel", label: "Funnel", icon: <Filter size={14} /> },
+    { id: "catalogo", label: "Catalogo", icon: <Package size={14} /> },
     { id: "unit", label: "Unit economics", icon: <Calculator size={14} /> },
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
@@ -325,6 +328,73 @@ export default function NumeriReport() {
         </div>
       )}
 
+      {/* CATALOGO */}
+      {tab === "catalogo" && (
+        <div className="space-y-3">
+          {!catalogo?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per il catalogo.</p>}
+          {catalogo?.collegato && (
+            <>
+              {catalogo.riepilogo && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {[
+                    { l: "Prodotti", v: catalogo.riepilogo.totale_prodotti },
+                    { l: "Mai venduti", v: catalogo.riepilogo.mai_venduti },
+                    { l: "Stock a zero", v: catalogo.riepilogo.stock_zero },
+                    { l: "Categorie", v: catalogo.riepilogo.categorie },
+                  ].map((c, i) => (
+                    <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
+                      <div className="text-[11px] text-black/45">{c.l}</div>
+                      <div className="text-[18px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {catalogo.best_seller?.length > 0 && (
+                <div>
+                  <div className="text-xs uppercase tracking-wide text-black/40 mb-1">Best-seller (pezzi venduti, ordini pagati)</div>
+                  <div className="space-y-1">
+                    {catalogo.best_seller.map((p: any) => (
+                      <div key={p.id} className="flex items-center gap-2 text-[12px]">
+                        <span className="text-ink/85 truncate">{p.nome}</span>
+                        <span className="text-black/40 shrink-0">· {p.categoria}</span>
+                        <span className="ml-auto font-semibold tabular-nums shrink-0">{p.venduti}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {catalogo.categorie?.length > 0 && (
+                <div>
+                  <div className="text-xs uppercase tracking-wide text-black/40 mb-1">Copertura per categoria</div>
+                  <div className="space-y-0.5">
+                    {catalogo.categorie.map((c: any) => (
+                      <div key={c.nome} className="flex items-center gap-2 text-[12px]">
+                        <span className="text-ink/85 truncate">{c.nome}</span>
+                        <span className="ml-auto text-black/50 shrink-0">{c.prodotti} prodotti · {c.venduti} venduti</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {catalogo.mai_venduti?.length > 0 && (
+                <details className="rounded-xl border border-amber-200 bg-amber-50/40 p-2.5">
+                  <summary className="text-[12px] font-semibold text-amber-800 cursor-pointer">Prodotti mai venduti ({catalogo.riepilogo.mai_venduti}) — da rilanciare o togliere</summary>
+                  <div className="mt-1.5 space-y-0.5">
+                    {catalogo.mai_venduti.map((p: any) => (
+                      <div key={p.id} className="text-[12px] text-ink/75 flex items-center gap-2">
+                        <span className="truncate">{p.nome}</span>
+                        <span className="ml-auto text-black/40 shrink-0">{p.categoria}{p.stock === 0 ? " · stock 0" : ""}</span>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+              <p className="text-[11px] text-black/40">Best-seller = pezzi venduti su ordini pagati. I "mai venduti" e le categorie scoperte dicono a vendite cosa rilanciare o quali botteghe reclutare.</p>
+            </>
+          )}
+        </div>
+      )}
+
       {/* UNIT ECONOMICS */}
       {tab === "unit" && (
         <div className="space-y-3">
@@ -365,6 +435,35 @@ export default function NumeriReport() {
                   </div>
                 );
               })()}
+              {/* Margine REALE dai campi degli ordini (commissione e fee davvero incassate, 30g) */}
+              {unit.reale?.connected && unit.reale.ordini_paid_30g > 0 && (
+                <div className="rounded-xl border border-black/[0.1] bg-paper/60 p-3.5">
+                  <div className="text-[12px] font-semibold text-ink/85 mb-1.5">Dai dati reali · ultimi 30g ({unit.reale.ordini_paid_30g} ordini pagati)</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                    {[
+                      { l: "Commissione reale / ordine", v: eur(unit.reale.commissione_media_ordine) },
+                      { l: "Fee consegna reale / ordine", v: eur(unit.reale.fee_consegna_media_ordine) },
+                      { l: "Ricavo commissioni (30g)", v: eur(unit.reale.ricavo_commissione_30g) },
+                    ].map((c, i) => (
+                      <div key={i} className="rounded-lg border border-black/[0.07] bg-white/70 p-2.5">
+                        <div className="text-[11px] text-black/45">{c.l}</div>
+                        <div className="text-[16px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {(() => {
+                    const cm = Number(unit.reale.cm_reale_per_ordine);
+                    const pos = cm >= 0;
+                    return (
+                      <div className={`mt-2 flex items-baseline justify-between rounded-lg px-2.5 py-2 ${pos ? "bg-green-50" : "bg-red-50"}`}>
+                        <span className="text-[12px] font-semibold text-ink/85">Margine di contribuzione REALE / ordine</span>
+                        <span className={`text-[18px] font-bold ${pos ? "text-green-700" : "text-red-600"}`}>{eur(cm)}</span>
+                      </div>
+                    );
+                  })()}
+                  <div className="text-[11px] text-black/45 mt-1">= commissione reale + fee reale − costo consegna {eur(unit.costo_consegna || 0)} (imposta <code className="bg-black/[0.06] px-1 rounded">costo_consegna</code> per il numero netto).</div>
+                </div>
+              )}
               <div className="rounded-xl border border-black/[0.07] bg-brand-50/40 p-3.5 text-[13px]">
                 {unit.break_even_ordini_mese != null ? (
                   <>Break-even: servono <b>{unit.break_even_ordini_mese} ordini/mese</b> per coprire un costo fisso di {eur(unit.costo_fisso)}.</>

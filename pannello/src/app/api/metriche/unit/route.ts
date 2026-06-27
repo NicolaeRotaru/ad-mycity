@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMetriche } from "@/lib/marketplace-db";
+import { getMetriche, getMargineReale } from "@/lib/marketplace-db";
 import { getImpostazione } from "@/lib/store";
 
 export const runtime = "nodejs";
@@ -31,6 +31,9 @@ export async function GET() {
   // Break-even sul margine di CONTRIBUZIONE (più onesto del solo margine commissione).
   const breakEvenOrdiniMese = costoFisso > 0 && cmPerOrdine > 0 ? Math.ceil(costoFisso / cmPerOrdine) : null;
 
+  // Margine REALE dai campi in centesimi degli ordini (commissione e fee davvero incassate).
+  const reale = await getMargineReale(costoConsegna).catch(() => ({ connected: false }));
+
   return NextResponse.json({
     collegato: true,
     commissione,
@@ -44,5 +47,6 @@ export async function GET() {
     margine_per_ordine: Math.round(marginePerOrdine * 100) / 100,
     cm_per_ordine: Math.round(cmPerOrdine * 100) / 100,
     break_even_ordini_mese: breakEvenOrdiniMese,
+    reale,
   });
 }

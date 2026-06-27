@@ -402,3 +402,109 @@ export async function getHealthNegozi(): Promise<{ connected: boolean; [k: strin
     return { connected: false, error: e.message, negozi: [] };
   }
 }
+
+/**
+ * CATALOGO / PRODOTTI (Ondata 2.4) — best-seller, prodotti MAI venduti, copertura
+ * per categoria e stock a zero. Lega `order_items.product_id` → `products.id`,
+ * contando solo le quantità degli ordini PAID. I nomi categoria da `categories`
+ * (se leggibile; altrimenti "Senza categoria"). Niente filtri su `status` indovinati.
+ */
+export async function getCatalogo(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const [products, items, orders, categories] = await Promise.all([
+      selectRows("products", "select=id,name,category_id,status,stock,price&limit=10000"),
+      selectRows("order_items", "select=order_id,product_id,quantity&limit=20000"),
+      selectRows("orders", "select=id,payment_status&limit=10000"),
+      selectRows("categories", "select=id,name&limit=2000"), // graceful: [] se non leggibile
+    ]);
+
+    const paidOrderIds = new Set(orders.filter((o) => o.payment_status === "PAID").map((o) => String(o.id)));
+    const catName: Record<string, string> = {};
+    for (const c of categories) catName[String(c.id)] = c.name || "(senza nome)";
+
+    // Quantità venduta per prodotto (solo ordini PAID).
+    const venduto: Record<string, number> = {};
+    for (const it of items) {
+      if (!paidOrderIds.has(String(it.order_id))) continue;
+      const k = String(it.product_id);
+      venduto[k] = (venduto[k] || 0) + (Number(it.quantity) || 0);
+    }
+
+    const prodotti = products.map((p) => ({
+      id: String(p.id),
+      nome: p.name || "(senza nome)",
+      categoria: p.category_id ? catName[String(p.category_id)] || "Senza categoria" : "Senza categoria",
+      status: p.status || "",
+      stock: p.stock == null ? null : Number(p.stock),
+      prezzo: Number(p.price) || 0,
+      venduti: venduto[String(p.id)] || 0,
+    }));
+
+    const bestSeller = [...prodotti].filter((p) => p.venduti > 0).sort((a, b) => b.venduti - a.venduti).slice(0, 10);
+    const maiVenduti = prodotti.filter((p) => p.venduti === 0);
+    const stockZero = prodotti.filter((p) => p.stock === 0);
+
+    // Copertura per categoria: quanti prodotti e quanti pezzi venduti.
+    const perCat: Record<string, { prodotti: number; venduti: number }> = {};
+    for (const p of prodotti) {
+      (perCat[p.categoria] ||= { prodotti: 0, venduti: 0 });
+      perCat[p.categoria].prodotti++;
+      perCat[p.categoria].venduti += p.venduti;
+    }
+    const categorieArr = Object.entries(perCat)
+      .map(([nome, v]) => ({ nome, prodotti: v.prodotti, venduti: v.venduti }))
+      .sort((a, b) => b.venduti - a.venduti);
+
+    return {
+      connected: true,
+      riepilogo: {
+        totale_prodotti: prodotti.length,
+        mai_venduti: maiVenduti.length,
+        stock_zero: stockZero.length,
+        categorie: categorieArr.length,
+      },
+      best_seller: bestSeller,
+      mai_venduti: maiVenduti.slice(0, 15),
+      stock_zero: stockZero.slice(0, 15),
+      categorie: categorieArr,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
+
+/**
+ * MARGINE REALE per ordine (Ondata 2.3, versione dai DATI VERI) — usa i campi in
+ * centesimi degli ordini: `application_fee_cents` (la nostra commissione incassata)
+ * e `delivery_fee_cents` (fee consegna pagata dal cliente), meno il costo di consegna
+ * (config). Media sugli ordini PAID a 30 giorni. Più onesto della stima scontrino×%.
+ */
+export async function getMargineReale(costoConsegna = 0): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const since = new Date(Date.now() - 30 * 86400000).toISOString();
+    const orders = await selectRows("orders", `select=payment_status,application_fee_cents,delivery_fee_cents,created_at&created_at=gte.${since}&limit=10000`);
+    const paid = orders.filter((o) => o.payment_status === "PAID");
+    const n = paid.length;
+    if (n === 0) return { connected: true, ordini_paid_30g: 0 };
+
+    const sommaComm = paid.reduce((s, o) => s + (Number(o.application_fee_cents) || 0), 0) / 100;
+    const sommaFee = paid.reduce((s, o) => s + (Number(o.delivery_fee_cents) || 0), 0) / 100;
+    const commMedia = sommaComm / n;
+    const feeMedia = sommaFee / n;
+    const cmReale = commMedia + feeMedia - costoConsegna;
+
+    return {
+      connected: true,
+      ordini_paid_30g: n,
+      ricavo_commissione_30g: Math.round(sommaComm * 100) / 100,
+      commissione_media_ordine: Math.round(commMedia * 100) / 100,
+      fee_consegna_media_ordine: Math.round(feeMedia * 100) / 100,
+      costo_consegna: costoConsegna,
+      cm_reale_per_ordine: Math.round(cmReale * 100) / 100,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
