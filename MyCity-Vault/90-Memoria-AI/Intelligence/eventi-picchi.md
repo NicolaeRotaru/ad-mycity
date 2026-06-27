@@ -1,7 +1,14 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 18:50** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
+> Aggiornato: **2026-06-27 20:51** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, today.it, piacenza24.eu, comune).
 > Finestra coperta: 27/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> 🔴 **Nota delle 20:51 (sera inoltrata) — ALLERTA CALDO UFFICIALE:** check live → è in vigore
+> l'**Allerta 066/2026** per temperature estreme (valida dal 27/6) e **almeno un evento di domani 28/6
+> è stato cancellato per emergenza caldo**. Il caldo non è più solo "previsione": è **allerta ufficiale**.
+> Conseguenza operativa: la regola **"niente consegne di freschi 12–18"** domani è **rinforzata**, e il
+> presidio fisico va fatto **solo nelle ore serali fresche**. Domani sera **Arisa** a Palazzo Farnese
+> (2° picco di presenze in centro del weekend) = finestra di presidio/QR.
 
 > 🌆 **Nota delle 18:50 (sera):** la **finestra di presidio serale è APERTA ADESSO** (ore fresche + centro
 > animato): **Federico Buffa** a Palazzo Farnese stasera + **2ª serata Venerdì Piacentini** → in centro
@@ -40,4 +47,4 @@
 3. **Angolo content del caldo:** "con 38°C non esci, te la portiamo noi" — messaggio onesto e tempestivo.
    → @content-social (bozza 🟢, pubblicazione 🔴, in coda).
 
-*Fonti: [ilpiacenza – weekend 26-28/6](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html) · [piacenza24 – eventi fino al 29/6](https://www.piacenza24.eu/eventi-a-piacenza-fino-al-29-giugno/)*
+*Fonti: [ilpiacenza – weekend 26-28/6](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html) · [piacenza24 – eventi fino al 28/6](https://www.piacenza24.eu/eventi-a-piacenza-e-dintorni-fino-a-domenica-28-giugno/) · [comune di Piacenza – eventi](https://www.comune.piacenza.it/it/eventi)*
