@@ -1,8 +1,8 @@
 ---
 tipo: stampo
 fonte: AD digitale
-stato: v2 (strato MESTIERE + 5 DIMENSIONI + ALTITUDINE) · pilota content-social a L3
-obiettivo: senior pari ai professionisti delle multinazionali (vedi [[PIANO-SENIOR-AL-TOP]])
+stato: v2 (MESTIERE + 5 DIMENSIONI + ALTITUDINE) · in evoluzione verso v3 (i 7 strati del professionista, non solo il mansionario)
+obiettivo: senior pari ai professionisti delle multinazionali (vedi [[PIANO-SENIOR-AL-TOP]] e [[VETTORI-MULTINAZIONALE]])
 ---
 
 # 🏗️ STAMPO SENIOR-PRO — come si trasforma un senior "competente" in un "fuoriclasse da 10+ anni"
