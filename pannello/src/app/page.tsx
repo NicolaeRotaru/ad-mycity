@@ -94,6 +94,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import MemoriaViva from "@/components/MemoriaViva";
+import AutoCoscienza from "@/components/AutoCoscienza";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
@@ -1150,6 +1151,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <h2 className="t-area">🧠 Memoria & decisioni</h2>
             <p className="t-eti mt-0.5">Cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD. (Le azioni da firmare sono in ⚡ Azioni.)</p>
           </div>
+
+          {/* 🔬 Auto-coscienza: la macchina si controlla, impara e si migliora da sola (in cima: è il livello più serio) */}
+          <AutoCoscienza />
 
           {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
           <MemoriaViva />
