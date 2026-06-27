@@ -1,15 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download } from "lucide-react";
+import { BarChart3, TrendingUp, Calculator, FileBarChart, RefreshCw, Loader2, CheckCircle2, Download, Repeat, Clock, AlertTriangle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 
-type Tab = "trend" | "unit" | "report";
+type Tab = "trend" | "retention" | "pattern" | "unit" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
+type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
+const GIORNI = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
 // Mini grafico a barre in SVG puro (niente dipendenze).
 function Barre({ valori, colore }: { valori: number[]; colore: string }) {
@@ -34,13 +36,24 @@ export default function NumeriReport() {
   const [trend, setTrend] = useState<{ collegato: boolean; serie: Punto[]; proiezione?: { ordini_mese: number; incasso_mese: number } } | null>(null);
   const [unit, setUnit] = useState<any>(null);
   const [report, setReport] = useState<{ collegato: boolean; elenco: { nome: string; data?: string }[]; ultimo: { nome: string; data?: string; testo: string } | null } | null>(null);
+  const [retention, setRetention] = useState<any>(null);
+  const [pattern, setPattern] = useState<any>(null);
+  const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
     setLoading(true);
     try {
-      if (t === "trend") setTrend(await fetch("/api/metriche/trend", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      if (t === "trend") {
+        const [tr, an] = await Promise.all([
+          fetch("/api/metriche/trend", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
+          fetch("/api/anomalie", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ anomalie: [] })),
+        ]);
+        setTrend(tr);
+        setAnomalie(an?.anomalie || []);
+      } else if (t === "retention") setRetention(await fetch("/api/metriche/retention", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
+      else if (t === "pattern") setPattern(await fetch("/api/metriche/pattern", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else if (t === "unit") setUnit(await fetch("/api/metriche/unit", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       else setReport(await fetch("/api/report", { cache: "no-store" }).then((r) => r.json()).catch(() => null));
       setAggAt(Date.now());
@@ -65,6 +78,8 @@ export default function NumeriReport() {
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "trend", label: "Trend & proiezioni", icon: <TrendingUp size={14} /> },
+    { id: "retention", label: "Retention & LTV", icon: <Repeat size={14} /> },
+    { id: "pattern", label: "Ritmi (ore/giorni)", icon: <Clock size={14} /> },
     { id: "unit", label: "Unit economics", icon: <Calculator size={14} /> },
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
@@ -125,6 +140,112 @@ export default function NumeriReport() {
                 <Barre valori={trend.serie.map((d) => d.incasso)} colore="#1a1410" />
               </div>
               <p className="text-[11px] text-black/40">Proiezione = media degli ultimi 7 giorni × 30. Indicativa.</p>
+              {anomalie.length > 0 && (
+                <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                  <div className="flex items-center gap-1.5 text-[12px] font-semibold text-amber-800 mb-1.5">
+                    <AlertTriangle size={13} /> Giorni anomali (oltre 2σ dalla media 30g)
+                  </div>
+                  <div className="space-y-1">
+                    {anomalie.slice(0, 6).map((a, i) => (
+                      <div key={i} className="text-[12px] text-ink/80 flex items-center gap-2">
+                        <span className="font-mono text-black/45">{a.giorno}</span>
+                        <span>{a.metrica === "incasso" ? eur(a.valore) : a.valore + " ordini"}</span>
+                        <span className={a.direzione === "sopra" ? "text-green-700" : "text-red-600"}>
+                          {a.direzione === "sopra" ? "▲" : "▼"} {a.direzione} la norma ({a.metrica === "incasso" ? eur(a.media) : a.media})
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* RETENTION & LTV */}
+      {tab === "retention" && (
+        <div className="space-y-3">
+          {!retention?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per retention e LTV.</p>}
+          {retention?.collegato && (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                {[
+                  { l: "Repeat rate", v: retention.repeat_rate + "%" },
+                  { l: "Ordini / cliente", v: retention.ordini_per_cliente },
+                  { l: "LTV medio", v: eur(retention.ltv_medio) },
+                  { l: "Clienti paganti", v: retention.clienti_paganti },
+                  { l: "Tempo al 2° ordine", v: retention.tempo_medio_secondo_ordine_giorni + "g" },
+                  { l: "Ordini validi (PAID)", v: retention.ordini_validi },
+                ].map((c, i) => (
+                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
+                    <div className="text-[11px] text-black/45">{c.l}</div>
+                    <div className="text-[18px] font-semibold tracking-tight mt-0.5">{c.v}</div>
+                  </div>
+                ))}
+              </div>
+              {retention.distribuzione && (
+                <div className="text-[12px] text-black/60">
+                  Distribuzione clienti: <b>{retention.distribuzione.uno}</b> con 1 ordine · <b>{retention.distribuzione.due}</b> con 2 · <b>{retention.distribuzione.tre_piu}</b> con 3+
+                </div>
+              )}
+              {retention.coorti?.length > 0 && (
+                <div>
+                  <div className="text-xs uppercase tracking-wide text-black/40 mb-1">Coorti (mese del 1° ordine → % che ha riacquistato)</div>
+                  <div className="space-y-1">
+                    {retention.coorti.map((c: any) => (
+                      <div key={c.mese} className="flex items-center gap-2 text-[12px]">
+                        <span className="font-mono text-black/45 w-16 shrink-0">{c.mese}</span>
+                        <div className="flex-1 h-3 rounded bg-black/[0.05] overflow-hidden">
+                          <div className="h-full bg-brand/70" style={{ width: `${c.tasso}%` }} />
+                        </div>
+                        <span className="w-24 shrink-0 text-right text-black/60">{c.tasso}% di {c.clienti}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <p className="text-[11px] text-black/40">Su ordini PAID. La retention è la verità della crescita: senza riacquisto, si scala un secchio bucato.</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* RITMI — pattern ore/giorni */}
+      {tab === "pattern" && (
+        <div className="space-y-5">
+          {!pattern?.collegato && <p className="text-[13px] text-black/45 py-2">Servono le chiavi del marketplace per i ritmi.</p>}
+          {pattern?.collegato && (
+            <>
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs uppercase tracking-wide text-black/40">Ordini per ora del giorno</span>
+                  {pattern.ora_di_punta != null && <span className="text-[12px] text-black/45">Punta: <b className="text-ink">{String(pattern.ora_di_punta).padStart(2, "0")}:00</b></span>}
+                </div>
+                <Barre valori={pattern.per_ora} colore="#C0492C" />
+                <div className="flex justify-between text-[10px] text-black/35 mt-0.5"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs uppercase tracking-wide text-black/40">Ordini per giorno della settimana</span>
+                  {pattern.giorno_di_punta != null && <span className="text-[12px] text-black/45">Punta: <b className="text-ink">{GIORNI[pattern.giorno_di_punta]}</b></span>}
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {pattern.per_giorno.map((v: number, i: number) => {
+                    const max = Math.max(1, ...pattern.per_giorno);
+                    return (
+                      <div key={i} className="text-center">
+                        <div className="h-16 flex items-end justify-center">
+                          <div className="w-full bg-ink/80 rounded-t" style={{ height: `${(v / max) * 100}%` }} />
+                        </div>
+                        <div className="text-[10px] text-black/45 mt-0.5">{GIORNI[i]}</div>
+                        <div className="text-[11px] font-medium tabular-nums">{v}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <p className="text-[11px] text-black/40">Usa i picchi per la copertura rider e per l'orario di push/post. Totale ordini analizzati: {pattern.totale}.</p>
             </>
           )}
         </div>
