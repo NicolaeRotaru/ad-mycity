@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints } from "lucide-react";
 import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import CuoreMacchina from "@/components/CuoreMacchina";
@@ -15,6 +15,7 @@ import Volano from "@/components/Volano";
 type Azione = { numero: string; reparto: string; azione: string; livello: string; inAttesa: boolean };
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
+type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
 type Voce = { data: string; testo: string } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
@@ -42,6 +43,7 @@ export default function Plancia({
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [todo, setTodo] = useState<Todo[]>([]);
+  const [mosse, setMosse] = useState<Mossa[]>([]);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [aggAt, setAggAt] = useState<number | null>(null);
 
@@ -52,6 +54,7 @@ export default function Plancia({
       fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
       fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
       fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
+      fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
       fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
       setAggAt(Date.now());
     };
@@ -62,6 +65,12 @@ export default function Plancia({
 
   const daFirmare = azioni.filter((a) => a.inAttesa);
   const daFare = todo.filter((t) => !t.fatto);
+  const ordP: Record<string, number> = { alta: 0, media: 1, bassa: 2 };
+  const mosseOrd = [...mosse].sort((a, b) => (ordP[a.priorita || "media"] ?? 1) - (ordP[b.priorita || "media"] ?? 1));
+  const vaiAMosse = () => {
+    if (typeof window !== "undefined") window.location.hash = "azioni-mosse";
+    onVaiA?.("azioni");
+  };
   const cell = (chiave: string, tipo: Tipo) => {
     const on = metriche && metriche[chiave] !== undefined && metriche[chiave] !== null;
     return on ? formatta(metriche![chiave], tipo) : "—";
@@ -86,8 +95,8 @@ export default function Plancia({
       {/* 🔄 Il volano (effetto-rete) */}
       <Volano />
 
-      {/* 3 priorità: firmare · allarmi · da fare */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* 4 priorità: firmare · mosse di Nicola · allarmi · da fare */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Da firmare */}
         <button onClick={() => onVaiA?.("azioni")} className="card p-3.5 text-left hover:border-brand/30 transition">
           <div className="flex items-center gap-2">
@@ -104,6 +113,25 @@ export default function Plancia({
               </div>
             ))}
             {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
+          </div>
+        </button>
+
+        {/* Mosse di Nicola */}
+        <button onClick={vaiAMosse} className="card p-3.5 text-left hover:border-brand/30 transition">
+          <div className="flex items-center gap-2">
+            <span className="sez-ico"><Footprints size={16} /></span>
+            <span className="t-sez">Mosse di Nicola</span>
+            <span className={`badge ml-auto ${mosseOrd.length ? "badge-on" : "badge-off"}`}>{mosseOrd.length}</span>
+          </div>
+          <div className="mt-2 space-y-1">
+            {mosseOrd.length === 0 && <p className="t-eti">Nessuna mossa in agenda.</p>}
+            {mosseOrd.slice(0, 3).map((m, i) => (
+              <div key={i} className="flex items-start gap-1.5 text-[12px] text-ink/85">
+                <span className="mt-0.5 shrink-0">{m.colore || "•"}</span>
+                <span className="line-clamp-1">{testoPulito(m.titolo)}</span>
+              </div>
+            ))}
+            {mosseOrd.length > 3 && <p className="t-eti">+{mosseOrd.length - 3} altre…</p>}
           </div>
         </button>
 

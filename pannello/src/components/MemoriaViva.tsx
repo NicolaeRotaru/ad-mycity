@@ -7,22 +7,18 @@ import {
   Map as MapIcon,
   RefreshCw,
   Loader2,
-  CheckCircle2,
-  ListTodo,
-  ShieldAlert,
   Target,
   ScrollText,
-  AlertTriangle,
-  Footprints,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import { testoPulito, dataVault } from "@/lib/format";
+import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 
-// --- Tipi (combaciano con le API /api/memoria/*) ---
+// La MEMORIA: ciò che l'AD sa e ricorda. (Le cose DA FARE — Mosse di Nicola, Cose da fare,
+// Sentinelle — vivono in ⚡ Azioni, l'hub delle decisioni.)
 type Attivita = {
   collegato: boolean;
   briefing: { nome: string; data?: string; testo: string } | null;
@@ -30,16 +26,10 @@ type Attivita = {
   decisioni: string;
 };
 type Piano = { nome: string; testo: string };
-type TodoItem = { id: string; testo: string; livello: "verde" | "giallo" | "rosso" | "?"; sezione: string; fatto: boolean };
 type Okr = { senior: string; kpi: string; target: string; budget: string };
 type Decisione = { data: string; colore: string; livello: "verde" | "giallo" | "rosso" | "?"; reparto: string; cosa: string; perche: string; stato: string; firma: string };
-type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
-type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
-type NegozioInt = { nome: string; perche?: string; stato?: string };
-type Lacuna = { ambito?: string; cosa_manca: string; domanda_per_nicola: string };
-type Intenzioni = { collegato: boolean; data?: string; sintesi?: string; prossime_mosse: Mossa[]; primi_negozi: NegozioInt[]; rischi: string[]; serve_da_nicola: Lacuna[] };
 
-type Tab = "intenzioni" | "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
+type Tab = "attivita" | "decisioni" | "okr" | "stato" | "piani";
 
 // Rendering markdown compatto e leggibile (riusa i plugin già installati).
 const md: Components = {
@@ -77,58 +67,35 @@ function dot(livello: "verde" | "giallo" | "rosso" | "?") {
 
 
 export default function MemoriaViva() {
-  const [tab, setTab] = useState<Tab>("intenzioni");
+  const [tab, setTab] = useState<Tab>("attivita");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
 
-  const [intenzioni, setIntenzioni] = useState<Intenzioni | null>(null);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
   const [statoAgg, setStatoAgg] = useState("");
   const [aggAt, setAggAt] = useState<number | null>(null);
   const [piani, setPiani] = useState<Piano[]>([]);
-  const [todo, setTodo] = useState<TodoItem[]>([]);
-  const [todoSalva, setTodoSalva] = useState(false);
   const [okr, setOkr] = useState<{ northStar: string; righe: Okr[] }>({ northStar: "", righe: [] });
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
-  const [alerts, setAlerts] = useState<Alert[]>([]);
 
   const carica = useCallback(async (silenzioso = false) => {
     if (!silenzioso) setLoading(true);
     try {
-      const [at, st, pi, td, al, de, ok, intz] = await Promise.all([
+      const [at, st, pi, de, ok] = await Promise.all([
         fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
         fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
         fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
-        fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, items: [] })),
-        fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] })),
         fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
         fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
-        fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, prossime_mosse: [] })),
       ]);
-      setIntenzioni(
-        intz
-          ? {
-              collegato: Boolean(intz.collegato),
-              data: intz.data || "",
-              sintesi: intz.sintesi || "",
-              prossime_mosse: intz.prossime_mosse || [],
-              primi_negozi: intz.primi_negozi || [],
-              rischi: intz.rischi || [],
-              serve_da_nicola: intz.serve_da_nicola || [],
-            }
-          : null
-      );
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
       setStato(st.testo || "");
       setStatoAgg(st.aggiornato || "");
       setPiani(pi.piani || []);
-      setTodo(td.items || []);
-      setTodoSalva(Boolean(td.salvataggio));
-      setAlerts(al.alert || []);
       setDecisioni(de.decisioni || []);
       setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
-      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato || intz?.collegato));
+      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || de.collegato || ok.collegato));
       setAggAt(Date.now());
     } finally {
       setLoading(false);
@@ -142,33 +109,13 @@ export default function MemoriaViva() {
     return () => clearInterval(id);
   }, [carica]);
 
-  // Spunta una voce della checklist: aggiorna subito a schermo e salva (Supabase).
-  async function spunta(item: TodoItem) {
-    const nuovo = !item.fatto;
-    setTodo((list) => list.map((t) => (t.id === item.id ? { ...t, fatto: nuovo } : t)));
-    try {
-      await fetch("/api/memoria/todo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: item.id, fatto: nuovo }),
-      });
-    } catch {
-      /* se fallisce, alla prossima ricarica torna lo stato del server */
-    }
-  }
-
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "intenzioni", label: "Mosse di Nicola", icon: <Footprints size={14} /> },
-    { id: "todo", label: "Cose da fare", icon: <ListTodo size={14} /> },
-    { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} /> },
+    { id: "attivita", label: "Attività & briefing", icon: <ListChecks size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
     { id: "okr", label: "OKR & pagella", icon: <Target size={14} /> },
-    { id: "attivita", label: "Attività & briefing", icon: <ListChecks size={14} /> },
     { id: "stato", label: "Stato & numeri", icon: <Gauge size={14} /> },
     { id: "piani", label: "Piani", icon: <MapIcon size={14} /> },
   ];
-
-  const daFare = todo.filter((t) => !t.fatto);
 
   return (
     <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
@@ -192,14 +139,6 @@ export default function MemoriaViva() {
       <div className="flex flex-wrap gap-1.5 mb-4">
         {tabs.map((t) => {
           const on = tab === t.id;
-          const badge =
-            t.id === "todo" && daFare.length > 0
-              ? daFare.length
-              : t.id === "sentinelle" && alerts.length > 0
-              ? alerts.length
-              : t.id === "intenzioni" && (intenzioni?.prossime_mosse.length || 0) > 0
-              ? intenzioni!.prossime_mosse.length
-              : null;
           return (
             <button
               key={t.id}
@@ -210,11 +149,6 @@ export default function MemoriaViva() {
             >
               {t.icon}
               {t.label}
-              {badge != null && (
-                <span className={`ml-0.5 text-[11px] px-1.5 rounded-full ${on ? "bg-white/25" : "bg-amber-100 text-amber-700"}`}>
-                  {badge}
-                </span>
-              )}
             </button>
           );
         })}
@@ -233,95 +167,6 @@ export default function MemoriaViva() {
         </div>
       ) : (
         <>
-          {/* --- MOSSE DI NICOLA (intenzioni dai Piani) --- */}
-          {tab === "intenzioni" && (
-            <div className="space-y-3">
-              {!intenzioni?.collegato ? (
-                <p className="text-sm text-black/55 py-4 text-center">
-                  L'AD non ha ancora letto i tuoi Piani. Lancia un giro (passo «intenzioni») e qui compaiono le tue prossime mosse.
-                </p>
-              ) : (
-                <>
-                  {intenzioni.data && <p className="text-[11px] text-black/45">🕗 Letto dai Piani · {dataVault(intenzioni.data)}</p>}
-                  {intenzioni.sintesi && (
-                    <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">{intenzioni.sintesi}</div>
-                  )}
-
-                  {intenzioni.prossime_mosse.length > 0 && (
-                    <div className="space-y-2">
-                      <div className="t-micro">Le prossime mosse, in ordine</div>
-                      {intenzioni.prossime_mosse.map((m, i) => {
-                        const c =
-                          m.priorita === "alta"
-                            ? "border-red-200 bg-red-50/50"
-                            : m.priorita === "media"
-                            ? "border-amber-200 bg-amber-50/50"
-                            : "border-black/[0.07] bg-paper/40";
-                        return (
-                          <div key={i} className={`rounded-xl border p-3 ${c}`}>
-                            <div className="flex items-start gap-2">
-                              <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
-                              <div className="min-w-0">
-                                <div className="text-[13px] font-semibold text-ink/90">
-                                  {m.colore ? `${m.colore} ` : ""}{m.titolo}
-                                </div>
-                                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/50 mt-0.5">
-                                  {m.quando && <span>🗓️ {m.quando}</span>}
-                                  {m.senior && <span className="text-brand">{m.senior}</span>}
-                                  {m.priorita && <span>priorità: {m.priorita}</span>}
-                                </div>
-                                {m.come && <div className="text-[12px] text-black/65 mt-1">Come: {m.come}</div>}
-                                {m.ad_prepara && <div className="text-[12px] text-ink/80 mt-1">🤖 L'AD prepara: {m.ad_prepara}</div>}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {intenzioni.primi_negozi.length > 0 && (
-                    <div className="space-y-1.5">
-                      <div className="t-micro">Primi negozi da contattare</div>
-                      {intenzioni.primi_negozi.map((n, i) => (
-                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
-                          <div className="flex items-baseline justify-between gap-2">
-                            <span className="text-[13px] font-medium text-ink/90">🏪 {n.nome}</span>
-                            {n.stato && <span className="t-eti shrink-0">{n.stato}</span>}
-                          </div>
-                          {n.perche && <div className="text-[12px] text-black/60 mt-0.5">{n.perche}</div>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {intenzioni.rischi.length > 0 && (
-                    <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
-                      <div className="t-micro mb-1">⚠️ Rischi e conflitti</div>
-                      <ul className="list-disc pl-5 text-[12px] text-ink/85 space-y-0.5">
-                        {intenzioni.rischi.map((r, i) => <li key={i}>{r}</li>)}
-                      </ul>
-                    </div>
-                  )}
-
-                  {intenzioni.serve_da_nicola.length > 0 && (
-                    <div className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
-                      <div className="t-micro mb-1">🙋 Cosa serve da te (decisioni mancanti)</div>
-                      <div className="space-y-1.5">
-                        {intenzioni.serve_da_nicola.map((l, i) => (
-                          <div key={i}>
-                            <div className="text-[13px] text-ink/90">{l.domanda_per_nicola}</div>
-                            {l.cosa_manca && <div className="text-[11px] text-black/50">{l.cosa_manca}</div>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-
           {/* --- ATTIVITÀ & BRIEFING --- */}
           {tab === "attivita" && attivita && (
             <div className="space-y-4">
@@ -376,86 +221,6 @@ export default function MemoriaViva() {
                   </div>
                 </details>
               ))}
-            </div>
-          )}
-
-          {/* --- COSE DA FARE (checklist spuntabile) --- */}
-          {tab === "todo" && (
-            <div className="space-y-3">
-              {!todoSalva && todo.length > 0 && (
-                <p className="text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2.5 py-1.5">
-                  ⚠️ Le spunte non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.
-                </p>
-              )}
-              {todo.length === 0 && (
-                <p className="text-sm text-black/55 py-4 text-center">Nessuna cosa da fare. L'AD scrive l'elenco in CHECKLIST-NICOLA.md.</p>
-              )}
-              {Array.from(new Set(todo.map((t) => t.sezione))).map((sez) => (
-                <div key={sez || "_"}>
-                  {sez && <div className="t-micro mb-1.5">{sez}</div>}
-                  <div className="space-y-1.5">
-                    {todo
-                      .filter((t) => t.sezione === sez)
-                      .map((item) => {
-                        const c =
-                          item.livello === "rosso"
-                            ? "border-red-200 bg-red-50/60"
-                            : item.livello === "giallo"
-                            ? "border-amber-200 bg-amber-50/60"
-                            : "border-green-200 bg-green-50/50";
-                        return (
-                          <button
-                            key={item.id}
-                            onClick={() => spunta(item)}
-                            className={`w-full text-left flex items-start gap-2.5 rounded-xl border p-2.5 transition active:scale-[0.99] ${
-                              item.fatto ? "border-black/[0.06] bg-black/[0.02] opacity-60" : c
-                            }`}
-                          >
-                            <span
-                              className={`mt-0.5 grid place-items-center w-5 h-5 rounded-md border shrink-0 ${
-                                item.fatto ? "bg-brand border-brand text-white" : "border-black/25 bg-white"
-                              }`}
-                            >
-                              {item.fatto && <CheckCircle2 size={13} />}
-                            </span>
-                            <span className={`text-[13px] leading-snug ${item.fatto ? "line-through text-black/45" : "text-ink/90"}`}>
-                              {testoPulito(item.testo)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                  </div>
-                </div>
-              ))}
-              {todo.length > 0 && (
-                <p className="t-eti pt-1">
-                  {daFare.length} da fare · {todo.length - daFare.length} fatte. Tocca una voce per spuntarla.
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* --- SENTINELLE / ALLARMI --- */}
-          {tab === "sentinelle" && (
-            <div className="space-y-2">
-              {alerts.length === 0 && (
-                <p className="text-sm text-black/55 py-4 text-center">Nessun allarme attivo: tutto sotto controllo. (Soglie sui dati reali del marketplace.)</p>
-              )}
-              {alerts.map((al, i) => {
-                const rosso = al.livello === "rosso";
-                return (
-                  <div key={i} className={`rounded-xl border p-3 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
-                      <div className="min-w-0">
-                        <div className="text-[13px] font-semibold text-ink/90">{al.titolo}</div>
-                        <div className="text-[12px] text-black/60 mt-0.5">{al.perche}</div>
-                        <div className="text-[12px] text-ink/80 mt-1">→ {al.cosaFare}</div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           )}
 
