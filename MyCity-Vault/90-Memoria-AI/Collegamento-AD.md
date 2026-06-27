@@ -27,7 +27,7 @@ Vanno solo puntati a questa repo, che è già su GitHub: `NicolaeRotaru/ad-mycit
    OBSIDIAN_REPO_OWNER = NicolaeRotaru
    OBSIDIAN_REPO       = ad-mycity
    OBSIDIAN_TOKEN      = github_pat_...   (il token del passo 1)
-   OBSIDIAN_BRANCH     = memoria-ad   ← il ramo dove il giro pubblica il vault (NON main: là è vecchio)
+   OBSIDIAN_BRANCH     = main
    ```
 3. **Redeploy** del pannello (Vercel) o riavvio in locale.
 
