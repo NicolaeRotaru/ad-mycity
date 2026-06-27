@@ -1,6 +1,8 @@
 // Lettura SOLA-LETTURA dal database del MARKETPLACE (mycity), separato dalla
 // memoria dell'assistente. Usa Supabase/PostgREST via fetch (solo richieste GET).
 
+import { demoAttivo, metricheDemo } from "@/lib/demo";
+
 const URL = process.env.MARKETPLACE_SUPABASE_URL;
 const KEY = process.env.MARKETPLACE_SUPABASE_KEY;
 
@@ -112,6 +114,8 @@ export type Metriche = {
  * marketplace. Nessuna modifica al database: solo GET, aggregazione lato app.
  */
 export async function getMetriche(): Promise<Metriche> {
+  // 🧪 Demo: numeri di esempio (chiaramente marchiati) per testare la macchina viva.
+  if (await demoAttivo()) return metricheDemo();
   if (!marketplaceDbConnected()) return { connected: false };
   try {
     const [orders, profiles, carts, reviews] = await Promise.all([
