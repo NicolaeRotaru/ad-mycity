@@ -9,6 +9,8 @@ User=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
 EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
 Environment=HOME=/home/mycity
+# Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
+Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
 Restart=always
 RestartSec=10

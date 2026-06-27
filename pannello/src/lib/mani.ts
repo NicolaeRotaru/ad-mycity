@@ -2,7 +2,7 @@
 // Per ora: EMAIL via Resend. Sicuro per costruzione — invia DAVVERO solo se:
 //   1) c'è la chiave (RESEND_API_KEY),
 //   2) c'è un destinatario,
-//   3) l'interruttore esplicito AZIONI_LIVE === "on".
+//   3) l'interruttore esplicito AZIONI_LIVE ("on" o "1").
 // Altrimenti: "simulata" (prova a vuoto, NON invia) o resta "in coda" col motivo.
 // Così non parte mai niente per sbaglio.
 
@@ -68,8 +68,10 @@ export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
   if (!resendConfigurato()) {
     return { stato: "coda", dettaglio: "Manca la chiave email (RESEND_API_KEY): resta in coda." };
   }
-  if (process.env.AZIONI_LIVE !== "on") {
-    return { stato: "simulata", dettaglio: `Simulata (modalità test) → ${a.destinatario} · ${ora}. Per inviare davvero imposta AZIONI_LIVE=on.` };
+  // Accetta sia "on" sia "1": il resto del sistema (cervello/*, .env.example, docs) usa "1"/"0".
+  const live = process.env.AZIONI_LIVE === "on" || process.env.AZIONI_LIVE === "1";
+  if (!live) {
+    return { stato: "simulata", dettaglio: `Simulata (modalità test) → ${a.destinatario} · ${ora}. Per inviare davvero imposta AZIONI_LIVE=1.` };
   }
   const r = await inviaEmail(a.destinatario, oggettoDa(a.testo, a.titolo), corpoDa(a.testo));
   return r.ok

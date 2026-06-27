@@ -73,9 +73,10 @@ Passi:
 7. DOER MODE: ESEGUI da solo le azioni 🟢 (produci gli artefatti veri in `consegne/` o `creativi/`,
    aggiorna la memoria). Le 🟡/🔴 preparale COMPLETE e ACCODALE in
    `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` (non eseguirle finché Nicola non dà il via).
-   **FORMATO OBBLIGATORIO (la Cabina conta solo questo):** ogni 🟡/🔴 va aggiunta come **RIGA della
-   tabella a 8 colonne**, NON come sezione `##` (le sezioni `##` la Cabina NON le vede). Colonne, in
-   quest'ordine esatto:
+   **FORMATO PREFERITO:** ogni 🟡/🔴 va aggiunta come **RIGA della tabella a 8 colonne** (la Cabina la mostra
+   sia in "Da firmare" sia, azionabile con Approva/Rifiuta, nella corsia "Azioni"). La Cabina ora legge ANCHE
+   i blocchi `##`/`###` con 🟡/🔴 (così niente resta invisibile), ma la riga-tabella è migliore perché porta
+   Canale e Stato strutturati. Colonne, in quest'ordine esatto:
    `| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |`
    - `#` = numero progressivo (solo cifre) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
    - `Colore` = l'emoji `🟡` o `🔴` · `Contenuto` = link al file in `consegne/` o testo pronto · `Canale` = email/push/in-app/manuale

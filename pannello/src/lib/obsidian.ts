@@ -67,6 +67,26 @@ export async function listDir(dir: string): Promise<string[] | null> {
   }
 }
 
+/** Voci di una cartella (file .md E sottocartelle), per camminare l'albero in modo ricorsivo. */
+export async function listDirEntries(dir: string): Promise<{ name: string; type: "file" | "dir" }[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
+      .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  } catch {
+    return null;
+  }
+}
+
 /** Contenuto di una nota. */
 export async function readNote(path: string): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;

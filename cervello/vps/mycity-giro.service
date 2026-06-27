@@ -10,4 +10,6 @@ WorkingDirectory=/opt/mycity/ad-mycity
 EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
 # HOME serve a 'claude' per trovare il login del Max (~/.claude)
 Environment=HOME=/home/mycity
+# Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
+Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/giro.sh
