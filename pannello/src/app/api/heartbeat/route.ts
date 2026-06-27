@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLatestBriefing, creaLavoro, memoryConnected } from "@/lib/store";
+import { eseguiAutopilota } from "@/lib/autopilota";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,6 +28,10 @@ async function handle(req: NextRequest, accodaGiro: boolean) {
         "cosi' compare nel Pannello.",
       "giro"
     ).catch(() => {});
+
+    // 1-bis) BATTITO GRATIS (€0, nessuna API): esegue da solo le azioni SICURE 🟢
+    // ancora non decise. Se l'autopilota è spento o non c'è nulla, non fa niente.
+    await eseguiAutopilota().catch(() => {});
   }
 
   // 2) Mostra l'ultimo briefing che il cervello-Max ha gia' salvato.
