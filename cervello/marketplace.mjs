@@ -15,8 +15,9 @@ import { mkdirSync, writeFileSync } from "node:fs";
 
 const URL = process.env.MARKETPLACE_SUPABASE_URL;
 const KEY = process.env.MARKETPLACE_SUPABASE_WRITE_KEY;
-const LIVE = process.env.AZIONI_LIVE === "1";
-const BACKUP_DIR = "creativi/output/marketplace-backup";
+const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
+// Path ASSOLUTO rispetto alla radice del repo (non alla cwd): il backup va sempre nello stesso posto.
+const BACKUP_DIR = new URL("../creativi/output/marketplace-backup", import.meta.url).pathname;
 
 const can = () => URL && KEY;
 const h = () => ({ apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" });

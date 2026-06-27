@@ -3,7 +3,7 @@
 // ripiega sulla GitHub API tramite gli strumenti obsidian.* (variabili OBSIDIAN_*).
 import { promises as fs } from "fs";
 import path from "path";
-import { readNote, listDir, obsidianConnected } from "./obsidian";
+import { readNote, listDir, listDirEntries, obsidianConnected } from "./obsidian";
 
 const ERR_PREFIXES = [
   "Obsidian non collegato",
@@ -59,6 +59,25 @@ export async function listVaultDir(relDir: string): Promise<string[]> {
       const names = await fs.readdir(path.join(root, relDir));
       const md = names.filter((n) => n.endsWith(".md"));
       if (md.length) return md.sort();
+    } catch {
+      /* provo la radice successiva */
+    }
+  }
+  return [];
+}
+
+/** Voci (file .md + sottocartelle) di una cartella del vault, per camminare l'albero. */
+export async function listVaultDirEntries(relDir: string): Promise<{ name: string; type: "file" | "dir" }[]> {
+  if (obsidianConnected()) {
+    return (await listDirEntries(`MyCity-Vault/${relDir}`)) || [];
+  }
+  for (const root of vaultRoots()) {
+    try {
+      const ents = await fs.readdir(path.join(root, relDir), { withFileTypes: true });
+      const out = ents
+        .filter((e) => e.isDirectory() || (e.isFile() && e.name.endsWith(".md")))
+        .map((e) => ({ name: e.name, type: e.isDirectory() ? ("dir" as const) : ("file" as const) }));
+      if (out.length) return out.sort((a, b) => a.name.localeCompare(b.name));
     } catch {
       /* provo la radice successiva */
     }

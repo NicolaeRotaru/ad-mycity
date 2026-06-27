@@ -85,13 +85,20 @@ export async function marketplaceSelect(table: string, qs: string): Promise<any[
 }
 
 async function selectRows(table: string, qs: string): Promise<any[]> {
-  // Resiliente: se una tabella non e' leggibile, non blocca le altre metriche.
+  // Resiliente: se una tabella non e' leggibile, non blocca le altre metriche. MA logghiamo l'errore:
+  // così un 4xx/5xx/RLS (tabella/colonna sbagliata, permessi) è DISTINGUIBILE da "nessun dato" nei log Vercel,
+  // invece di mascherarsi da lista vuota con connected:true. (Badge "dati non affidabili": rifinitura di lunedì col DB su.)
   try {
     const res = await fetch(`${URL}/rest/v1/${table}?${qs}`, { headers: headers(), cache: "no-store" });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error(`[marketplace-db] query '${table}' fallita: ${res.status} ${body.slice(0, 200)}`);
+      return [];
+    }
     const d = await res.json();
     return Array.isArray(d) ? d : [];
-  } catch {
+  } catch (e: any) {
+    console.error(`[marketplace-db] query '${table}' errore di rete: ${e?.message || e}`);
     return [];
   }
 }

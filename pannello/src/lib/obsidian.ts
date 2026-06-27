@@ -5,7 +5,12 @@ const API = "https://api.github.com";
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
-const BRANCH = process.env.OBSIDIAN_BRANCH || "main";
+// Il giro scrive il vault sul ramo 'memoria-ad' (cervello/giro.sh, GIT_BRANCH:-memoria-ad), MAI su 'main'.
+// Quindi il default deve essere 'memoria-ad': con default 'main' la Cabina leggerebbe un vault congelato.
+const BRANCH = process.env.OBSIDIAN_BRANCH || "memoria-ad";
+if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
+  console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'memoria-ad'. Impostalo esplicitamente su Vercel.");
+}
 
 export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
@@ -62,6 +67,26 @@ export async function listDir(dir: string): Promise<string[] | null> {
       .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
       .map((x: any) => x.name as string)
       .sort();
+  } catch {
+    return null;
+  }
+}
+
+/** Voci di una cartella (file .md E sottocartelle), per camminare l'albero in modo ricorsivo. */
+export async function listDirEntries(dir: string): Promise<{ name: string; type: "file" | "dir" }[] | null> {
+  if (!obsidianConnected()) return null;
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return null;
+    const d: any = await r.json();
+    if (!Array.isArray(d)) return null;
+    return d
+      .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
+      .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   } catch {
     return null;
   }

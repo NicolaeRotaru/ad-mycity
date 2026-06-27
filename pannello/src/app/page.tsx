@@ -102,6 +102,7 @@ import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
@@ -192,12 +193,6 @@ const TOOL_LABELS: Record<string, string> = {
   obsidian_leggi: "Lettura nota Obsidian",
   obsidian_scrivi: "Scrittura nota Obsidian",
 };
-const COLORI: Record<Livello, string> = {
-  verde: "border-green-300 bg-green-50 text-green-800",
-  giallo: "border-amber-300 bg-amber-50 text-amber-800",
-  rosso: "border-red-300 bg-red-50 text-red-800",
-};
-
 // Il cockpit "I numeri di oggi": 30 dati Marketplace + 30 dati Marketing.
 // Ogni KPI è una RIGA con tre finestre: oggi / 7 giorni / 30 giorni
 // (10 KPI × 3 = 30 dati per blocco). Ogni finestra ha una "chiave" = campo di
@@ -542,7 +537,10 @@ function formatta(v: any, tipo?: Tipo): string {
 // Oggi → "5 min fa · 14:32"; più vecchio → "3 g fa · 24/06 14:32". Fuso Europe/Rome.
 function fa(iso: string | null): string {
   if (!iso) return "mai";
-  const d = new Date(iso);
+  // Le date del fallback-vault sono wall-clock di Piacenza senza fuso (es. "2026-06-27 00:48"):
+  // ancorale a Europe/Rome, altrimenti new Date() le legge come ora locale (UTC su Vercel) e il tempo
+  // relativo finisce nel "futuro" → ogni briefing mostrerebbe "poco fa" per 1-2h. Gli ISO veri restano tali.
+  const d = new Date(vaultToIso(iso));
   const ms = d.getTime();
   if (Number.isNaN(ms)) return "mai";
   const sec = Math.max(0, (Date.now() - ms) / 1000);
@@ -883,22 +881,31 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }, []);
 
-  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max ogni 60s,
-  // cosi' il briefing orario compare da solo (niente pulsante "Aggiorna").
-  useEffect(() => {
-    const id = setInterval(() => caricaStato(), 60000);
-    return () => clearInterval(id);
-  }, [caricaStato]);
-
-  useEffect(() => {
-    caricaStato();
+  const caricaMetriche = useCallback(() => {
     fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        if (d && d.connected) setMetriche(d);
+        // Se il marketplace non è collegato, AZZERA i KPI (prima restavano i numeri vecchi a schermo
+        // col timbro "Aggiornato" fresco — sembravano dati attuali ma non lo erano).
+        setMetriche(d && d.connected ? d : null);
         setDatiAggiornatiAt(Date.now());
       })
       .catch(() => {});
+  }, []);
+
+  // Aggiornamento automatico: ricarica l'ultima analisi del cervello-Max E i KPI ogni 60s,
+  // cosi' il briefing orario e i numeri compaiono da soli (niente pulsante "Aggiorna").
+  useEffect(() => {
+    const id = setInterval(() => {
+      caricaStato();
+      caricaMetriche();
+    }, 60000);
+    return () => clearInterval(id);
+  }, [caricaStato, caricaMetriche]);
+
+  useEffect(() => {
+    caricaStato();
+    caricaMetriche();
     // Il diario salvato lato server e' la fonte durevole: se c'e', vince sul locale.
     fetch("/api/diario", { cache: "no-store" })
       .then((r) => r.json())
@@ -910,7 +917,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         }
       })
       .catch(() => {});
-  }, [caricaStato]);
+  }, [caricaStato, caricaMetriche]);
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
@@ -996,26 +1003,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     };
   }, []);
 
-  async function approva(a: Azione) {
-    try {
-      const res = await fetch("/api/esegui", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ azione: a }),
-      });
-      const d = await res.json();
-      if (d.collegato) {
-        const esito = `${d.ok ? "✅ Eseguito" : "⚠️ Non riuscito"}: "${a.titolo}" — ${d.risultato || ""}`;
-        setMessages((m) => [...m, { role: "assistant", content: esito }]);
-        aggiungiDiario("azione", `Azione: ${a.titolo}`, esito);
-        return;
-      }
-    } catch {
-      /* canale non disponibile: ripiego sulla pianificazione */
-    }
-    // Nessun canale d'azione collegato: mando al cervello (Max) i passi da fare.
-    mandaAlCervello(`Approvo: "${a.titolo}". Spiegami i passi concreti per realizzarla e cosa ti serve da me.`);
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -1099,7 +1086,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== AZIONI (corsia operativa) ===================== */}
         {vista === "azioni" && (
           <div className="space-y-4">
-            <Azioni />
+            <Azioni proposte={briefing?.azioni || []} />
             <Arsenale />
           </div>
         )}
@@ -1161,7 +1148,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         <div className="space-y-4">
           <div>
             <h2 className="t-area">🧠 Memoria & decisioni</h2>
-            <p className="t-eti mt-0.5">Cosa firmare, cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD.</p>
+            <p className="t-eti mt-0.5">Cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD. (Le azioni da firmare sono in ⚡ Azioni.)</p>
           </div>
 
           {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
@@ -1211,26 +1198,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 )}
 
                 {briefing.azioni?.length > 0 && (
-                  <div>
-                    <div className="t-micro mb-2">Azioni proposte (servono la tua conferma)</div>
-                    <div className="space-y-2">
-                      {briefing.azioni.map((a, i) => (
-                        <div key={i} className={`border rounded-xl p-3.5 ${COLORI[a.livello] || ""}`}>
-                          <div className="flex items-start gap-3">
-                            <div className="flex-1 min-w-0">
-                              <div className="text-sm font-semibold">{a.titolo}</div>
-                              <div className="text-sm opacity-80 mt-0.5">{a.motivo}</div>
-                            </div>
-                            <button
-                              onClick={() => approva(a)}
-                              className="shrink-0 inline-flex items-center gap-1 text-xs font-medium bg-white/80 border border-black/10 rounded-full px-3 py-1.5 shadow-sm hover:bg-white active:scale-95 transition"
-                            >
-                              <CheckCircle2 size={13} /> Approva
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="rounded-xl border border-brand/15 bg-brand-50/30 p-3 text-[12.5px] text-ink/80">
+                    💡 Da questo giro l'AD propone <b>{briefing.azioni.length}</b> azioni. Le approvi (o le ignori) nell'area <b>⚡ Azioni → Da approvare</b>, in cima come «Proposte dal giro».
                   </div>
                 )}
               </div>

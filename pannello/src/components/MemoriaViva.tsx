@@ -2,19 +2,18 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
-  ClipboardCheck,
   ListChecks,
   Gauge,
   Map as MapIcon,
   RefreshCw,
   Loader2,
   CheckCircle2,
-  XCircle,
   ListTodo,
   ShieldAlert,
   Target,
   ScrollText,
   AlertTriangle,
+  Footprints,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -24,18 +23,6 @@ import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 
 // --- Tipi (combaciano con le API /api/memoria/*) ---
-type Azione = {
-  numero: string;
-  data: string;
-  reparto: string;
-  azione: string;
-  colore: string;
-  livello: "verde" | "giallo" | "rosso" | "?";
-  contenuto: string;
-  canale: string;
-  stato: string;
-  inAttesa: boolean;
-};
 type Attivita = {
   collegato: boolean;
   briefing: { nome: string; data?: string; testo: string } | null;
@@ -47,8 +34,12 @@ type TodoItem = { id: string; testo: string; livello: "verde" | "giallo" | "ross
 type Okr = { senior: string; kpi: string; target: string; budget: string };
 type Decisione = { data: string; colore: string; livello: "verde" | "giallo" | "rosso" | "?"; reparto: string; cosa: string; perche: string; stato: string; firma: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
+type NegozioInt = { nome: string; perche?: string; stato?: string };
+type Lacuna = { ambito?: string; cosa_manca: string; domanda_per_nicola: string };
+type Intenzioni = { collegato: boolean; data?: string; sintesi?: string; prossime_mosse: Mossa[]; primi_negozi: NegozioInt[]; rischi: string[]; serve_da_nicola: Lacuna[] };
 
-type Tab = "azioni" | "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
+type Tab = "intenzioni" | "todo" | "sentinelle" | "attivita" | "decisioni" | "okr" | "stato" | "piani";
 
 // Rendering markdown compatto e leggibile (riusa i plugin già installati).
 const md: Components = {
@@ -79,17 +70,18 @@ function Markdown({ children }: { children: string }) {
   );
 }
 
-function dot(livello: Azione["livello"]) {
+function dot(livello: "verde" | "giallo" | "rosso" | "?") {
   const c = livello === "verde" ? "bg-green-500" : livello === "giallo" ? "bg-amber-500" : livello === "rosso" ? "bg-red-500" : "bg-black/30";
   return <span className={`inline-block w-2 h-2 rounded-full ${c}`} />;
 }
 
+
 export default function MemoriaViva() {
-  const [tab, setTab] = useState<Tab>("azioni");
+  const [tab, setTab] = useState<Tab>("intenzioni");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
 
-  const [azioni, setAzioni] = useState<Azione[]>([]);
+  const [intenzioni, setIntenzioni] = useState<Intenzioni | null>(null);
   const [attivita, setAttivita] = useState<Attivita | null>(null);
   const [stato, setStato] = useState("");
   const [statoAgg, setStatoAgg] = useState("");
@@ -101,14 +93,10 @@ export default function MemoriaViva() {
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const [approvando, setApprovando] = useState<string | null>(null);
-  const [esito, setEsito] = useState<{ numero: string; ok: boolean; msg: string } | null>(null);
-
-  const carica = useCallback(async () => {
-    setLoading(true);
+  const carica = useCallback(async (silenzioso = false) => {
+    if (!silenzioso) setLoading(true);
     try {
-      const [a, at, st, pi, td, al, de, ok] = await Promise.all([
-        fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, azioni: [] })),
+      const [at, st, pi, td, al, de, ok, intz] = await Promise.all([
         fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
         fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
         fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
@@ -116,8 +104,21 @@ export default function MemoriaViva() {
         fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, alert: [] })),
         fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
         fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
+        fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, prossime_mosse: [] })),
       ]);
-      setAzioni(a.azioni || []);
+      setIntenzioni(
+        intz
+          ? {
+              collegato: Boolean(intz.collegato),
+              data: intz.data || "",
+              sintesi: intz.sintesi || "",
+              prossime_mosse: intz.prossime_mosse || [],
+              primi_negozi: intz.primi_negozi || [],
+              rischi: intz.rischi || [],
+              serve_da_nicola: intz.serve_da_nicola || [],
+            }
+          : null
+      );
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
       setStato(st.testo || "");
       setStatoAgg(st.aggiornato || "");
@@ -127,7 +128,7 @@ export default function MemoriaViva() {
       setAlerts(al.alert || []);
       setDecisioni(de.decisioni || []);
       setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
-      setCollegato(Boolean(a.collegato || at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato));
+      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || td.collegato || al.collegato || de.collegato || ok.collegato || intz?.collegato));
       setAggAt(Date.now());
     } finally {
       setLoading(false);
@@ -136,32 +137,10 @@ export default function MemoriaViva() {
 
   useEffect(() => {
     carica();
+    // Aggiornamento di sfondo (senza spinner): il vault cambia mentre la tab resta aperta.
+    const id = setInterval(() => carica(true), 90000);
+    return () => clearInterval(id);
   }, [carica]);
-
-  async function decidi(az: Azione, decisione: "approva" | "rifiuta") {
-    setApprovando(az.numero);
-    setEsito(null);
-    try {
-      const res = await fetch("/api/approva", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ numero: az.numero, azione: az.azione, decisione }),
-      });
-      const d = await res.json();
-      const okMsg = decisione === "rifiuta"
-        ? "Rifiutata: l'AD la segnerà come ❌ RIFIUTATA."
-        : "Inviata al cervello: l'AD la eseguirà e segnerà FATTO.";
-      setEsito(
-        d.ok
-          ? { numero: az.numero, ok: true, msg: okMsg }
-          : { numero: az.numero, ok: false, msg: d.error || "Errore." }
-      );
-    } catch (e: any) {
-      setEsito({ numero: az.numero, ok: false, msg: e.message });
-    } finally {
-      setApprovando(null);
-    }
-  }
 
   // Spunta una voce della checklist: aggiorna subito a schermo e salva (Supabase).
   async function spunta(item: TodoItem) {
@@ -179,7 +158,7 @@ export default function MemoriaViva() {
   }
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "azioni", label: "Da approvare", icon: <ClipboardCheck size={14} /> },
+    { id: "intenzioni", label: "Mosse di Nicola", icon: <Footprints size={14} /> },
     { id: "todo", label: "Cose da fare", icon: <ListTodo size={14} /> },
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
@@ -189,7 +168,6 @@ export default function MemoriaViva() {
     { id: "piani", label: "Piani", icon: <MapIcon size={14} /> },
   ];
 
-  const daApprovare = azioni.filter((a) => a.inAttesa);
   const daFare = todo.filter((t) => !t.fatto);
 
   return (
@@ -201,7 +179,7 @@ export default function MemoriaViva() {
         <span className="text-[15px] font-semibold tracking-tight">La memoria viva dell'AD</span>
         <Aggiornato at={aggAt} className="ml-auto" />
         <button
-          onClick={carica}
+          onClick={() => carica()}
           disabled={loading}
           className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
         >
@@ -215,12 +193,12 @@ export default function MemoriaViva() {
         {tabs.map((t) => {
           const on = tab === t.id;
           const badge =
-            t.id === "azioni" && daApprovare.length > 0
-              ? daApprovare.length
-              : t.id === "todo" && daFare.length > 0
+            t.id === "todo" && daFare.length > 0
               ? daFare.length
               : t.id === "sentinelle" && alerts.length > 0
               ? alerts.length
+              : t.id === "intenzioni" && (intenzioni?.prossime_mosse.length || 0) > 0
+              ? intenzioni!.prossime_mosse.length
               : null;
           return (
             <button
@@ -242,7 +220,7 @@ export default function MemoriaViva() {
         })}
       </div>
 
-      {loading && azioni.length === 0 && !attivita && !stato && piani.length === 0 ? (
+      {loading && !attivita && !stato && piani.length === 0 ? (
         <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
           <Loader2 size={16} className="animate-spin" /> Carico la memoria…
         </div>
@@ -255,64 +233,92 @@ export default function MemoriaViva() {
         </div>
       ) : (
         <>
-          {/* --- DA APPROVARE --- */}
-          {tab === "azioni" && (
-            <div className="space-y-2.5">
-              {azioni.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna azione in coda.</p>}
-              {azioni.map((a) => (
-                <div
-                  key={a.numero}
-                  className={`rounded-xl border p-3.5 transition ${
-                    a.inAttesa ? "border-black/[0.08] bg-paper/40" : "border-black/[0.05] bg-black/[0.015] opacity-70"
-                  }`}
-                >
-                  <div className="flex items-start gap-2.5">
-                    <span className="mt-1.5 shrink-0">{dot(a.livello)}</span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[11px] font-mono text-black/40">#{a.numero}</span>
-                        <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{a.reparto}</span>
-                        <span className="text-[11px] text-black/40">{dataVault(a.data)}</span>
-                        <span className={`text-[11px] px-1.5 py-0.5 rounded ${a.inAttesa ? "bg-amber-50 text-amber-700" : "bg-green-50 text-green-700"}`}>
-                          {a.stato}
-                        </span>
-                      </div>
-                      <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(a.azione)}</p>
-                      <p className="text-[11px] text-black/45 mt-1">
-                        📎 {a.contenuto} · 📣 {a.canale}
-                      </p>
-                      {esito && esito.numero === a.numero && (
-                        <p className={`text-[12px] mt-2 flex items-center gap-1.5 ${esito.ok ? "text-green-700" : "text-red-600"}`}>
-                          {esito.ok && <CheckCircle2 size={13} />} {esito.msg}
-                        </p>
-                      )}
+          {/* --- MOSSE DI NICOLA (intenzioni dai Piani) --- */}
+          {tab === "intenzioni" && (
+            <div className="space-y-3">
+              {!intenzioni?.collegato ? (
+                <p className="text-sm text-black/55 py-4 text-center">
+                  L'AD non ha ancora letto i tuoi Piani. Lancia un giro (passo «intenzioni») e qui compaiono le tue prossime mosse.
+                </p>
+              ) : (
+                <>
+                  {intenzioni.data && <p className="text-[11px] text-black/45">🕗 Letto dai Piani · {dataVault(intenzioni.data)}</p>}
+                  {intenzioni.sintesi && (
+                    <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">{intenzioni.sintesi}</div>
+                  )}
+
+                  {intenzioni.prossime_mosse.length > 0 && (
+                    <div className="space-y-2">
+                      <div className="t-micro">Le prossime mosse, in ordine</div>
+                      {intenzioni.prossime_mosse.map((m, i) => {
+                        const c =
+                          m.priorita === "alta"
+                            ? "border-red-200 bg-red-50/50"
+                            : m.priorita === "media"
+                            ? "border-amber-200 bg-amber-50/50"
+                            : "border-black/[0.07] bg-paper/40";
+                        return (
+                          <div key={i} className={`rounded-xl border p-3 ${c}`}>
+                            <div className="flex items-start gap-2">
+                              <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
+                              <div className="min-w-0">
+                                <div className="text-[13px] font-semibold text-ink/90">
+                                  {m.colore ? `${m.colore} ` : ""}{m.titolo}
+                                </div>
+                                <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/50 mt-0.5">
+                                  {m.quando && <span>🗓️ {m.quando}</span>}
+                                  {m.senior && <span className="text-brand">{m.senior}</span>}
+                                  {m.priorita && <span>priorità: {m.priorita}</span>}
+                                </div>
+                                {m.come && <div className="text-[12px] text-black/65 mt-1">Come: {m.come}</div>}
+                                {m.ad_prepara && <div className="text-[12px] text-ink/80 mt-1">🤖 L'AD prepara: {m.ad_prepara}</div>}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                    {a.inAttesa && (
-                      <div className="shrink-0 flex flex-col gap-1.5">
-                        <button
-                          onClick={() => decidi(a, "approva")}
-                          disabled={approvando === a.numero}
-                          className="inline-flex items-center justify-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3 py-1.5 rounded-lg shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50"
-                        >
-                          {approvando === a.numero ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-                          Approva
-                        </button>
-                        <button
-                          onClick={() => decidi(a, "rifiuta")}
-                          disabled={approvando === a.numero}
-                          className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50"
-                        >
-                          <XCircle size={14} />
-                          Rifiuta
-                        </button>
+                  )}
+
+                  {intenzioni.primi_negozi.length > 0 && (
+                    <div className="space-y-1.5">
+                      <div className="t-micro">Primi negozi da contattare</div>
+                      {intenzioni.primi_negozi.map((n, i) => (
+                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className="text-[13px] font-medium text-ink/90">🏪 {n.nome}</span>
+                            {n.stato && <span className="t-eti shrink-0">{n.stato}</span>}
+                          </div>
+                          {n.perche && <div className="text-[12px] text-black/60 mt-0.5">{n.perche}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {intenzioni.rischi.length > 0 && (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
+                      <div className="t-micro mb-1">⚠️ Rischi e conflitti</div>
+                      <ul className="list-disc pl-5 text-[12px] text-ink/85 space-y-0.5">
+                        {intenzioni.rischi.map((r, i) => <li key={i}>{r}</li>)}
+                      </ul>
+                    </div>
+                  )}
+
+                  {intenzioni.serve_da_nicola.length > 0 && (
+                    <div className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
+                      <div className="t-micro mb-1">🙋 Cosa serve da te (decisioni mancanti)</div>
+                      <div className="space-y-1.5">
+                        {intenzioni.serve_da_nicola.map((l, i) => (
+                          <div key={i}>
+                            <div className="text-[13px] text-ink/90">{l.domanda_per_nicola}</div>
+                            {l.cosa_manca && <div className="text-[11px] text-black/50">{l.cosa_manca}</div>}
+                          </div>
+                        ))}
                       </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-              <p className="text-[11px] text-black/40 pt-1">
-                «Approva» manda l'ordine all'AD (coda lavori): parte davvero solo con il worker attivo e le chiavi delle “mani”.
-              </p>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
 
