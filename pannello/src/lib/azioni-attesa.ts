@@ -16,6 +16,10 @@ export type AzioneAttesa = {
   canale: string;
   stato: string;
   inAttesa: boolean;
+  // Spiegazione specifica scritta dal senior (opzionale): cosa cambia nel mondo reale
+  // e cosa succede dopo se va bene. Se vuote, il Pannello usa i testi per-reparto.
+  cambia: string;
+  seguito: string;
 };
 
 export function livelloDi(c: string): AzioneAttesa["livello"] {
@@ -78,7 +82,20 @@ function parseHeading(heading: string): { data: string; reparto: string; titolo:
   return { data, reparto, titolo };
 }
 
-// Le righe-tabella a 8 colonne.
+// Estrae da un blocco-sezione il valore di un campo etichettato (es. "Cosa cambia: ...").
+// Accetta le righe anche con prefissi markdown (- , >, **) e si ferma alla prima riga utile.
+function campo(blocco: string, etichette: string[]): string {
+  for (const raw of blocco.split("\n")) {
+    const line = raw.replace(/^[\s>*\-]+/, "").replace(/\*\*/g, "").trim();
+    for (const et of etichette) {
+      const m = line.match(new RegExp("^" + et + "\\s*:\\s*(.+)$", "i"));
+      if (m && m[1].trim()) return m[1].trim();
+    }
+  }
+  return "";
+}
+
+// Le righe-tabella: 8 colonne obbligatorie + 2 OPZIONALI (Cosa cambia · Se va bene).
 function parseTabella(md: string): AzioneAttesa[] {
   const out: AzioneAttesa[] = [];
   for (const raw of md.split("\n")) {
@@ -100,6 +117,8 @@ function parseTabella(md: string): AzioneAttesa[] {
       canale: cells[6],
       stato,
       inAttesa: /attesa/i.test(stato),
+      cambia: cells[8] || "",
+      seguito: cells[9] || "",
     });
   }
   return out;
@@ -125,9 +144,11 @@ function parseSezioni(md: string): AzioneAttesa[] {
         livello: livelloDi(colore),
         // prima riga utile del corpo come anteprima/contenuto
         contenuto: (cur.corpo.find((r) => r.trim().length > 0) || "").trim().slice(0, 240),
-        canale: "",
+        canale: campo(blocco, ["canale", "mani"]),
         stato: "in attesa",
         inAttesa: true,
+        cambia: campo(blocco, ["cosa cambia", "cambia", "conseguenza", "effetto atteso", "effetto atteso kpi"]),
+        seguito: campo(blocco, ["se va bene", "seguito", "via libera"]),
       });
     }
     cur = null;

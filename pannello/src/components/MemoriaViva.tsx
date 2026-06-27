@@ -36,6 +36,8 @@ type Azione = {
   canale: string;
   stato: string;
   inAttesa: boolean;
+  cambia?: string;
+  seguito?: string;
 };
 type Attivita = {
   collegato: boolean;

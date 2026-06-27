@@ -9,6 +9,9 @@ export type AzioneInput = {
   canale: string;
   contenuto: string;
   livello: "verde" | "giallo" | "rosso" | "?";
+  // Testo specifico scritto dal senior nella coda (opzionale): se c'è, vince sui default per-reparto.
+  cambia?: string;
+  seguito?: string;
 };
 
 export type RigaScheda = { ico: string; etichetta: string; testo: string };
@@ -84,16 +87,28 @@ function conseguenza(livello: AzioneInput["livello"]): string {
   return "impatto da confermare: nel dubbio l'AD sale di livello e ti chiede";
 }
 
+// Assicura un punto finale, per frasi scritte a mano dai senior.
+function punto(s: string): string {
+  const t = s.trim();
+  return /[.!?…]$/.test(t) ? t : t + ".";
+}
+
 // Costruisce le righe della scheda da mostrare dentro la card.
+// Se il senior ha scritto "Cosa cambia" / "Se va bene" nella coda, quei testi VINCONO
+// sui default per-reparto: così ogni azione è specifica (cita Garetti, importi, scadenze…).
 export function spiegaAzione(a: AzioneInput): RigaScheda[] {
   const base = repartoBase(a.reparto);
   const s = SENIOR[base] || { nome: a.reparto || "Un senior", ruolo: "esegue la mossa già preparata", seguito: "l'AD ti riferisce com'è andata" };
+
+  const cambiaTxt = a.cambia && a.cambia.trim() ? punto(a.cambia) : `${punto(conseguenza(a.livello))}`;
+  const seguitoTxt = a.seguito && a.seguito.trim() ? punto(a.seguito) : punto(s.seguito);
+
   const righe: RigaScheda[] = [
     { ico: "👤", etichetta: "Chi ci lavora", testo: `${s.nome} — ${s.ruolo}.` },
     { ico: "✋", etichetta: "Come agisce", testo: `${mani(a.canale)}.` },
     { ico: "⚙️", etichetta: "Appena approvi", testo: "l'AD mette l'azione in coda e il senior parte dal testo già pronto (qui sopra)." },
-    { ico: "🎯", etichetta: "Cosa cambia", testo: `${conseguenza(a.livello)}.` },
-    { ico: "➡️", etichetta: "Se va bene", testo: `${s.seguito}, e l'azione viene segnata ✅ FATTO con traccia nelle Decisioni.` },
+    { ico: "🎯", etichetta: "Cosa cambia", testo: cambiaTxt },
+    { ico: "➡️", etichetta: "Se va bene", testo: `${seguitoTxt} Poi l'AD la segna ✅ FATTO con traccia nelle Decisioni.` },
     { ico: "🙋", etichetta: "Da sapere", testo: "le «mani» inviano davvero solo con il worker acceso e la chiave del canale collegata; altrimenti l'azione resta in coda o viene simulata — niente parte per sbaglio." },
   ];
   return righe;
