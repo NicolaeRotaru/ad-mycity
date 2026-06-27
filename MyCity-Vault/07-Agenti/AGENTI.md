@@ -95,7 +95,7 @@ La Carta dà il **comportamento** (uguale per tutti); la competenza + l'anima da
 - [[RUBRICA-LIVELLI]] — lo **strato 7**: la scala L1-L7 con scorecard e loop chiuso (lo standard con i denti).
 - [[TASTE-FILE-NICOLA]] — il **gusto di Nicola codificato**: il metro vero contro cui i senior si auto-criticano prima di consegnare.
 - **Pilota installato:** `content-social` con kit completo (`kit/content-social-KIT.md`, strati 3-6) + bersaglio L7. Modello per gli altri.
-- **✅ Rollout fatto (2026-06-27):** stampo v3 (strati 1-2: Scheda Mestiere + 5 dimensioni + vettori per archetipo + 8 famiglie) installato su **TUTTI i 41 mansionari**, tarato per ruolo, Carta intatta, **verificato da revisione indipendente** (zero bloccanti). Restano: i **kit profondi** (strati 3-5) per ruolo + il **carburante** (lunedì) + il **test prima/dopo** col verdetto di Nicola.
+- **✅ Rollout COMPLETO (2026-06-27):** stampo v3 (strati 1-2) **+ kit profondi (strati 3-6)** installati su **TUTTI i 42 senior** — ognuno ha il suo `kit/<ruolo>-KIT.md` (sapere + toolkit + galleria + slot carburante), tarato per ruolo, Carta intatta, verificato da revisione indipendente. Restano: il **carburante reale** (lunedì) + il **test prima/dopo** col verdetto di Nicola per dichiarare la validazione.
 
 ## Le 3 "lenti" senior del panel (vedi [[00-Index]])
 - **Lente Amazon** → catalogo, ricerca, recensioni, logistica, retention.
