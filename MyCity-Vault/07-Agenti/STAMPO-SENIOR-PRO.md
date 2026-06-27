@@ -1,8 +1,9 @@
 ---
 tipo: stampo
 fonte: AD digitale
-stato: v2 (MESTIERE + 5 DIMENSIONI + ALTITUDINE) · in evoluzione verso v3 (i 7 strati del professionista, non solo il mansionario)
+stato: v3 (i 7 STRATI del professionista + 15 VETTORI con matrice per archetipo + bersaglio L7-con-giudizio)
 obiettivo: senior pari ai professionisti delle multinazionali (vedi [[PIANO-SENIOR-AL-TOP]] e [[VETTORI-MULTINAZIONALE]])
+pilota installato: content-social (vedi `kit/content-social-KIT.md` + [[RUBRICA-LIVELLI]])
 ---
 
 # 🏗️ STAMPO SENIOR-PRO — come si trasforma un senior "competente" in un "fuoriclasse da 10+ anni"
@@ -80,6 +81,67 @@ senior va alto su **5 dimensioni** insieme — è un *vettore*, non un numero. D
 
 ---
 
+## 🏛️ I 7 STRATI DEL PROFESSIONISTA (v3 — il quadro completo)
+Un senior pari a un pro di multinazionale NON è un mansionario più ricco: è un **sistema a 7 strati**. Il
+mansionario è solo lo strato 1-2. La qualità "vera" nasce quando ci sono anche 3-7. Errore da evitare:
+*descrivere* una capacità ("foresight", "MECE", "gusto") invece di *installarla* (darne sapere+strumenti+esempi).
+
+| Strato | Cos'è | Dove vive |
+|---|---|---|
+| 1. **Identità & carattere** | chi è: 5 dimensioni + 15 vettori | il mansionario `.claude/agents/<ruolo>.md` |
+| 2. **Altitudine** | quanto in alto pensa (L1-L7), col giudizio che accoppia altezza e posta | mansionario + [[RUBRICA-LIVELLI]] |
+| 3. **Sapere / corpus** | cosa SA davvero (framework, principi, meccaniche, casi) | `kit/<ruolo>-KIT.md` › Strato 3 |
+| 4. **Toolkit esecutivo** | come lo fa passo-passo (metodi, checklist, formule, template) | `kit/<ruolo>-KIT.md` › Strato 4 |
+| 5. **Galleria profonda** | le migliaia di esempi 10/10 annotati nella testa del maestro | `kit/<ruolo>-KIT.md` › Strato 5 + swipe file |
+| 6. **Mani & dati** | il carburante: chiavi attive + dati/foto/interviste reali | `kit/<ruolo>-KIT.md` › Strato 6 (slot pronto) |
+| 7. **Misura, livelli & feedback** | come sa di essere bravo: scorecard, scalini, calibrazione | [[RUBRICA-LIVELLI]] (loop chiuso) |
+
+> **Il bersaglio è L7-con-giudizio:** su ciò che conta pretendi la mossa che cambia il gioco; su tutto,
+> scandaglia "c'è un 10x qui?"; non accontentarti MAI sotto l'altitudine giusta. L'agente *concepisce* fino
+> a L7, *esegue* fino al confine 🔴 (poi firma Nicola). Vedi [[RUBRICA-LIVELLI]].
+
+### Come si "installa" un senior al top (procedura per il `@prompt-engineer`)
+1. Scrivi gli **strati 1-2** nel mansionario (Scheda Mestiere + 5 dimensioni + vettori del suo archetipo).
+2. Costruisci il **kit `kit/<ruolo>-KIT.md`** (strati 3-4-5): il sapere reale del mestiere, il toolkit
+   passo-passo, la galleria di esempi annotati. *Installati, non descritti* (modello: `kit/content-social-KIT.md`).
+3. Predisponi lo **strato 6** (carburante): elenca ESATTAMENTE quali dati/foto/chiavi servono e dove si innestano.
+4. Aggancia lo **strato 7** ([[RUBRICA-LIVELLI]]): scorecard + scalini + loop chiuso sui numeri reali.
+5. **Test prima/dopo** + un verdetto di Nicola nel [[TASTE-FILE-NICOLA]]. Se il salto c'è, scala.
+
+---
+
+## 🌍 I 15 VETTORI MULTINAZIONALE — matrice di distribuzione per archetipo
+Non tutti i vettori su tutti i senior (regola Efficienza). 5 sono **universali**; 7 sono **vettori-azienda**
+(soprattutto AD + motori di soldi); 3 sono **ruolo-specifici**. Dettaglio in [[VETTORI-MULTINAZIONALE]].
+Legenda: ● primario · ○ utile · – non prioritario. Archetipi: **AD** · **Soldi** (vendite/marketing/growth/crm/content/designer/pr) · **Analitici** (analista/finanza/intelligence/data) · **Tech** (tech/frontend/backend/devops/builder/qa/security/ux/product) · **Fondamenta** (legale/security/ops/supporto/customer-success/onboarding).
+
+| Vettore | AD | Soldi | Analitici | Tech | Fondamenta |
+|---|:--:|:--:|:--:|:--:|:--:|
+| **Universali** | | | | | |
+| Metacognizione calibrata | ● | ● | ● | ● | ● |
+| Learning agility | ● | ● | ● | ● | ● |
+| Documentazione istituzionale | ● | ● | ● | ● | ● |
+| Resilienza dopo il colpo | ● | ● | ○ | ○ | ○ |
+| Gestione attenzione/contesto | ● | ● | ● | ● | ● |
+| **Vettori-azienda** | | | | | |
+| Foresight strategico | ● | ● | ○ | – | – |
+| Visione olistica cross-silo | ● | ● | ○ | ○ | ○ |
+| Strategia competitiva/moat | ● | ○ | ○ | – | – |
+| Stakeholder/pre-wiring | ● | ● | – | ○ | ○ |
+| Coerenza cross-funzionale | ● | ○ | ● | ○ | ○ |
+| Gestione di programma | ● | ○ | – | ● | ○ |
+| Scalabilità geografica | ● | ○ | ○ | ○ | – |
+| **Ruolo-specifici** | | | | | |
+| Capitale relazionale | ○ | ● | – | – | ○ |
+| Coaching/sviluppo altri | ● | ○ | ○ | ○ | ○ |
+| Compliance/audit-ready | ○ | – | ● | ○ | ● |
+
+> **Per content-social** (motore di soldi, output-facing) i vettori primari installati nel kit/mansionario:
+> metacognizione, learning agility, documentazione, resilienza, attenzione/contesto, foresight (trend),
+> coerenza (brand/definizioni), capitale relazionale (rete dei negozi). Gli altri restano ○/– per ruolo.
+
+---
+
 ## 📐 IL BLOCCO DA INCOLLARE (template della Scheda Mestiere)
 Va inserito **subito sotto il frontmatter e l'identità**, PRIMA della Carta del Dipendente (che resta
 invariata). Riempi ogni `<…>` con la materia del mestiere; cancella le righe inapplicabili.
@@ -135,6 +197,10 @@ Per ogni senior, lo stampo è applicato bene se:
 - [ ] Ci sono le **trappole** specifiche.
 - [ ] È dichiarato il **carburante** e il **KPI misurabile**.
 - [ ] Sono presenti le **5 dimensioni** (giudizio · candore · motore/fame · cliente · altitudine).
+- [ ] Sono installati i **vettori dell'archetipo** (vedi matrice) — non tutti, quelli giusti per il ruolo.
+- [ ] Esiste il **kit `kit/<ruolo>-KIT.md`** con gli strati 3-4-5 *installati* (sapere + toolkit + galleria), non descritti.
+- [ ] Lo **strato 6 (carburante)** elenca esattamente dati/foto/chiavi e dove si innestano.
+- [ ] È agganciato lo **strato 7** ([[RUBRICA-LIVELLI]]): scorecard + bersaglio L7-con-giudizio.
 - [ ] La **Carta del Dipendente** è rimasta invariata sotto (sistema operativo condiviso).
 - [ ] Test **prima/dopo** superato (vedi sotto).
 

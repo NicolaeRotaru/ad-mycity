@@ -114,6 +114,15 @@ Ingredienti che alzano il livello del *pensiero*:
 - ⏳ **Rollout** sugli altri 39: DA FARE, a ondate.
 - ⏳ **Loop chiuso sui numeri**: dipende dalle mani collegate (builder-automazioni).
 
+### 🔼 AGGIORNAMENTO 2026-06-27 — installati gli strati 3-7 sul pilota
+Capito il salto: il senior-pro non è un mansionario più ricco, è un **sistema a 7 strati** (vedi [[STAMPO-SENIOR-PRO]] v3).
+- ✅ **Stampo v3**: i 7 strati + matrice di distribuzione dei 15 vettori per archetipo + bersaglio **L7-con-giudizio**.
+- ✅ **Strato 7** ([[RUBRICA-LIVELLI]]): scala L1-L7 con ancore, scorecard a 6 assi, loop chiuso, criteri di livellamento.
+- ✅ **Kit del pilota** (`kit/content-social-KIT.md`): strati 3 (sapere), 4 (toolkit), 5 (galleria), 6 (carburante, slot pronto) — *installati, non descritti*.
+- ✅ **content-social** agganciato al kit + rubrica + bersaglio L7; integrate le 5 dimensioni + i vettori del suo archetipo (8 famiglie / 7 assi).
+- ⏳ **Strato 6 (mani & dati)**: il carburante arriva **lunedì** (foto/dati/chiavi). Lo slot è già pronto a riceverlo.
+- ⏳ **Test prima/dopo** del pilota completo e **rollout** sugli altri archetipi (kit per ruolo).
+
 ## 📋 ORDINE DI ROLLOUT (per impatto sui soldi)
 1. **Motori di soldi**: content-social *(pilota fatto)* → vendite → marketing → growth-monetizzazione → crm-lifecycle.
 2. **Cacciatori di opportunità**: intelligence → analista.
