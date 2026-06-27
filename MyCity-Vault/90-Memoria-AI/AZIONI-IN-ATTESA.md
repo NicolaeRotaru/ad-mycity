@@ -25,6 +25,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 | 5 | 2026-06-24 10:43 | frontend-dev | Gruppo 1 audit-design (conversione & messaggi) | 🔴 | PR #200 | — | ✅ MERGED |
 | 6 | 2026-06-27 00:39 | @content-social | Post "Con 38°C non esci, te la portiamo noi" — cavalca l'ondata di caldo (bozza da produrre, poi pubblicare sui canali reali) | 🟡 | da creare in consegne/content/ (angolo caldo) | IG/FB + gruppi quartiere | in attesa |
 | 7 | 2026-06-27 12:49 | @customer-success | Richiesta **recensione + foto** al primo cliente post-consegna (asset di prova sociale, testi pronti) | 🟡 | consegne/customer-success/primo-ordine-faro.md + piano consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md | manuale (WhatsApp/telefono) | in attesa |
+| 8 | 2026-06-28 01:27 | @marketing | **Presidio Sant'Antonino (3-4/7)**: attivare turni + stampa materiali (QR `santantonino_2026` + volantino A6 "te lo portiamo a casa"). Cosa cambia: la finestra fisica più grande del mese (centro pieno per la festa del patrono, culmine fiera 4/7) diventa lead-vendite + iscritti a costo ≈0. Se va bene: agganciamo i negozianti aperti e raccogliamo iscritti reali nella settimana clou. | 🟡 | consegne/marketing/2026-07-04-piano-santantonino.md | manuale (presenza fisica) + stampa 🔴 | in attesa |
 
 > 📋 I **4 gruppi rimasti** (2 errori-vuoti · 3 contrasto · 4 brand+layout · 5 immagini/PWA) sono nel piano [[PIANO-FIX-DESIGN]] — eseguibili uno alla volta con *"sistema il gruppo N dell'audit design"*.
 

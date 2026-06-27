@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 00:51
+aggiornato: 2026-06-28 01:27
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,13 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0x. **Giro 28/6 — 01:27 (passaggio 2, NOTTE):** 36 min dopo il primo. Quadro **invariato** (notte
+   fonda: meteo/eventi/status piattaforme identici al check 00:51, <1h → cadenza rispettata, Max
+   risparmiato). **Supabase MCP ritentato (`execute_sql`/`list_tables`) → di nuovo NEGATO** (7 numeri
+   ciechi). ⭐ Contributo del passaggio = **doer**: prodotto l'artefatto 🟢 **Piano Sant'Antonino**
+   (`consegne/marketing/2026-07-04-piano-santantonino.md`) + accodata l'azione 🟡 #8 (presidio 3-4/7 +
+   stampa). I 3 sblocchi da Nicola restano: esito Giorno-1/Garetti LIVE · 3 firme 🔴 · autorizzare il
+   MCP. Vedi [[2026-06-28]].
 0y. **Giro 28/6 — 00:51 (primo giro del nuovo giorno, NOTTE):** è il giorno **dopo** il Giorno-1.
    Check live → **allerta caldo confermata oggi** (Arpae/Prot. Civile, 38-39°C, apice; svolta inizio
    luglio con rischio temporali), **Arisa stasera** a Palazzo Farnese (presidio serale), **piattaforme

@@ -171,8 +171,9 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-28 00:51
+## 🤖 Aggiornamento dell'AD — 2026-06-28 01:27
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **✅ Piano operativo pronto:** `consegne/marketing/2026-07-04-piano-santantonino.md` include la corsia "aggancio negozianti aperti" (pitch breve + 1 pagina condizioni) nei turni 3-4/7. Compilare la lista negozianti quando c'è il link lista d'attesa reale.
 - **⭐ SETTIMANA DI SANT'ANTONINO = finestra di lead negozianti (la più grande del mese):** pre-festa 27/6→3/7, culmine **sab 4/7** (centro pieno, ~300 negozi aperti) + **Venerdì Piacentini 3/7**. È il momento per **agganciare i negozianti aperti del cluster** (Calzolai–Duomo–Chiapponi) di persona, mentre sono in vetrina e c'è traffico: pitch breve "ti porto clienti a costo zero" + Bando Commercio ER (scad. 21/07) come urgenza. Preparare ORA la **lista negozianti aperti da visitare** + i 3-5 pitch clonati da Garetti. Fonti: [piacenza24 – Antoniniane 2026](https://www.piacenza24.eu/manifestazioni-antoniniane-2026/).
 - **Contro-posizionamento vs ambulanti del 4/7:** la fiera di bancarelle è concorrenza fisica sul fresco → l'angolo di vendita resta "te lo portiamo a casa, niente coda al caldo" (utile sia coi clienti sia come argomento ai negozianti).
 - Resta valido il blocco n°0: senza Garetti LIVE + 3 firme 🔴 + link lista d'attesa, l'aggancio converte poco. Sbloccare quelli per primi.
