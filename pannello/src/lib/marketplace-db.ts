@@ -211,3 +211,107 @@ export async function getMetriche(): Promise<Metriche> {
     return { connected: false, error: e.message };
   }
 }
+
+/**
+ * RETENTION / COORTI / LTV (Ondata 1.2) — la verita della crescita.
+ * Legge (sola lettura) gli ordini PAID e ragiona per CLIENTE: quanti riordinano,
+ * quanto tempo passa tra 1o e 2o ordine, quanto vale un cliente (LTV), e la curva
+ * di riacquisto per coorte (mese del primo ordine). Solo aggregazioni lato app.
+ */
+export async function getRetention(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const orders = await selectRows("orders", "select=user_id,total_price,payment_status,created_at&limit=10000");
+    const paid = orders.filter((o) => o.payment_status === "PAID" && o.user_id && o.created_at);
+
+    // Raggruppa per cliente: tempi degli ordini + spesa totale.
+    const perCliente: Record<string, { t: number[]; spesa: number }> = {};
+    for (const o of paid) {
+      const k = String(o.user_id);
+      (perCliente[k] ||= { t: [], spesa: 0 });
+      perCliente[k].t.push(new Date(o.created_at).getTime());
+      perCliente[k].spesa += Number(o.total_price) || 0;
+    }
+    const clienti = Object.values(perCliente);
+    const n = clienti.length;
+    const conRiacquisto = clienti.filter((c) => c.t.length >= 2).length;
+    const uno = clienti.filter((c) => c.t.length === 1).length;
+    const due = clienti.filter((c) => c.t.length === 2).length;
+    const trePiu = clienti.filter((c) => c.t.length >= 3).length;
+
+    // Tempo medio tra 1o e 2o ordine (giorni), solo su chi ha riordinato.
+    const gap: number[] = [];
+    for (const c of clienti) {
+      if (c.t.length >= 2) {
+        const s = [...c.t].sort((a, b) => a - b);
+        gap.push((s[1] - s[0]) / 86400000);
+      }
+    }
+    const tempoMedio2 = gap.length ? gap.reduce((a, b) => a + b, 0) / gap.length : 0;
+    const ltvMedio = n ? clienti.reduce((s, c) => s + c.spesa, 0) / n : 0;
+    const ordiniTot = paid.length;
+
+    // Coorti per mese del PRIMO ordine (ultime 6): % che ha poi riacquistato.
+    const fmtMese = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" });
+    const coorti: Record<string, { clienti: number; riacquisto: number }> = {};
+    for (const c of clienti) {
+      const mese = fmtMese.format(new Date(Math.min(...c.t))).slice(0, 7); // YYYY-MM
+      (coorti[mese] ||= { clienti: 0, riacquisto: 0 });
+      coorti[mese].clienti++;
+      if (c.t.length >= 2) coorti[mese].riacquisto++;
+    }
+    const coortiArr = Object.entries(coorti)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-6)
+      .map(([mese, v]) => ({ mese, clienti: v.clienti, riacquisto: v.riacquisto, tasso: v.clienti ? Math.round((v.riacquisto / v.clienti) * 100) : 0 }));
+
+    return {
+      connected: true,
+      clienti_paganti: n,
+      ordini_validi: ordiniTot,
+      repeat_rate: n ? Math.round((conRiacquisto / n) * 100) : 0,
+      ordini_per_cliente: n ? Math.round((ordiniTot / n) * 100) / 100 : 0,
+      tempo_medio_secondo_ordine_giorni: Math.round(tempoMedio2),
+      ltv_medio: Math.round(ltvMedio * 100) / 100,
+      distribuzione: { uno, due, tre_piu: trePiu },
+      coorti: coortiArr,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
+
+/**
+ * PATTERN TEMPORALI (Ondata 1.4) — quando si ordina, per pianificare copertura
+ * rider e orario di push/post. Conta gli ordini (non falliti) per ORA del giorno
+ * e per GIORNO della settimana, nel fuso di Piacenza.
+ */
+export async function getPatternOrari(): Promise<{ connected: boolean; [k: string]: any }> {
+  if (!marketplaceDbConnected()) return { connected: false };
+  try {
+    const orders = await selectRows("orders", "select=created_at,payment_status&limit=10000");
+    const validi = orders.filter((o) => o.payment_status !== "FAILED" && o.created_at);
+    const fmtH = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Rome", hour: "2-digit", hourCycle: "h23" });
+    const fmtW = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Rome", weekday: "short" });
+    const wmap: Record<string, number> = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
+
+    const perOra = new Array(24).fill(0) as number[];
+    const perGiorno = new Array(7).fill(0) as number[];
+    for (const o of validi) {
+      const d = new Date(o.created_at);
+      perOra[parseInt(fmtH.format(d), 10) % 24]++;
+      const w = wmap[fmtW.format(d)];
+      if (w != null) perGiorno[w]++;
+    }
+    return {
+      connected: true,
+      totale: validi.length,
+      per_ora: perOra,
+      per_giorno: perGiorno,
+      ora_di_punta: validi.length ? perOra.indexOf(Math.max(...perOra)) : null,
+      giorno_di_punta: validi.length ? perGiorno.indexOf(Math.max(...perGiorno)) : null,
+    };
+  } catch (e: any) {
+    return { connected: false, error: e.message };
+  }
+}
