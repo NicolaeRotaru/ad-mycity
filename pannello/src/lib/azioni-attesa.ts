@@ -27,11 +27,25 @@ export function livelloDi(c: string): AzioneAttesa["livello"] {
 
 const DATA_RE = /\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?/;
 
-// Una sezione conta come "in attesa" se contiene 🟡/🔴 e NON è marcata come già fatta.
+// Id STABILE per le sezioni: derivato dal contenuto (data|reparto|titolo), non dalla posizione.
+// Così la chiave `azione:<id>` resta agganciata all'azione giusta anche se cambia l'ordine dei blocchi.
+function idSezione(data: string, reparto: string, titolo: string): string {
+  const s = `${data}|${reparto}|${titolo}`;
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return "S" + (h >>> 0).toString(36);
+}
+
+// Una sezione conta come "in attesa" se contiene 🟡/🔴 e NON è dichiarata FATTA.
+// IMPORTANTE: una ✅ nel CORPO (spunta di una pre-condizione) NON deve scartare l'azione: conta lo STATO
+// esplicito. Se c'è "in attesa (di firma)" → è in attesa; "fatta" solo se una riga Stato: lo dichiara.
 function inAttesaSezione(blocco: string): boolean {
   if (!/🟡|🔴/.test(blocco)) return false;
-  if (/✅|\bMERGED\b|\bFATTO\b/i.test(blocco)) return false;
-  return true;
+  if (/in attesa( di firma)?/i.test(blocco)) return true;
+  const fatta = blocco
+    .split("\n")
+    .some((r) => /^[\s>*\-]*\*{0,2}stato\*{0,2}\s*:.*(✅|\bFATTO\b|\bMERGED\b)/i.test(r));
+  return !fatta;
 }
 
 // Dal titolo di una sezione "AAAA-MM-GG · @reparto · titolo" (o varianti) estrae i campi.
@@ -54,7 +68,9 @@ function parseHeading(heading: string): { data: string; reparto: string; titolo:
   // se il reparto non era una cella "·", provalo a pescare da un @parola nel titolo
   let titolo = resto.join(" · ").trim();
   if (!reparto) {
-    const m = titolo.match(/@([a-z0-9-]+)/i);
+    // @reparto in qualunque punto del titolo, oppure uno slug-reparto tra parentesi (minuscolo+trattino,
+    // es. "(content-social)"): evita falsi positivi tipo "(C4)" o "(DRY-RUN)".
+    const m = titolo.match(/@([a-z0-9-]+)/i) || titolo.match(/\(@?([a-z]+-[a-z]+)\)/);
     if (m) reparto = m[1];
   }
   // ripulisci il titolo dalle emoji-semaforo iniziali
@@ -90,11 +106,10 @@ function parseTabella(md: string): AzioneAttesa[] {
 }
 
 // I blocchi sezione ## / ### (formato libero dei senior).
-function parseSezioni(md: string, startNumero: number): AzioneAttesa[] {
+function parseSezioni(md: string): AzioneAttesa[] {
   const out: AzioneAttesa[] = [];
   const righe = md.split("\n");
   let cur: { heading: string; corpo: string[] } | null = null;
-  let n = startNumero;
   const chiudi = () => {
     if (!cur) return;
     const blocco = cur.heading + "\n" + cur.corpo.join("\n");
@@ -102,7 +117,7 @@ function parseSezioni(md: string, startNumero: number): AzioneAttesa[] {
       const { data, reparto, titolo } = parseHeading(cur.heading);
       const colore = /🔴/.test(blocco) ? "🔴" : "🟡";
       out.push({
-        numero: `S${n++}`,
+        numero: idSezione(data, reparto, titolo),
         data,
         reparto,
         azione: titolo,
@@ -134,6 +149,6 @@ export function parseAzioniAttesa(md: string): AzioneAttesa[] {
   // Via i commenti HTML (contengono righe-esempio che non sono azioni vere).
   const pulito = md.replace(/<!--[\s\S]*?-->/g, "");
   const tabella = parseTabella(pulito);
-  const sezioni = parseSezioni(pulito, tabella.length + 1);
+  const sezioni = parseSezioni(pulito);
   return [...tabella, ...sezioni];
 }
