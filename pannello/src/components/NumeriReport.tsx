@@ -264,7 +264,7 @@ export default function NumeriReport() {
                   { l: "Scontrino medio", v: eur(unit.scontrino_medio) },
                   { l: `Commissione`, v: unit.commissione + "%" },
                   { l: "Ricavo piattaforma (7g)", v: eur(unit.ricavo_piattaforma_7g) },
-                  { l: "Margine / ordine", v: eur(unit.margine_per_ordine) },
+                  { l: "Margine commissione / ordine", v: eur(unit.margine_per_ordine) },
                 ].map((c, i) => (
                   <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3">
                     <div className="text-[11px] text-black/45">{c.l}</div>
@@ -272,6 +272,25 @@ export default function NumeriReport() {
                   </div>
                 ))}
               </div>
+              {/* Margine di CONTRIBUZIONE per ordine: guadagna o perde? */}
+              {(() => {
+                const cm = Number(unit.cm_per_ordine ?? unit.margine_per_ordine);
+                const pos = cm >= 0;
+                return (
+                  <div className={`rounded-xl border p-3.5 ${pos ? "border-green-200 bg-green-50/50" : "border-red-200 bg-red-50/50"}`}>
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="text-[12px] font-semibold text-ink/85">Margine di contribuzione / ordine</span>
+                      <span className={`text-[20px] font-bold tracking-tight ${pos ? "text-green-700" : "text-red-600"}`}>{eur(cm)}</span>
+                    </div>
+                    <div className="text-[11px] text-black/55 mt-1">
+                      = commissione {eur(unit.margine_per_ordine)} + fee consegna {eur(unit.fee_consegna_cliente || 0)} − costo consegna {eur(unit.costo_consegna || 0)}
+                    </div>
+                    <div className="text-[11px] text-black/50 mt-1">
+                      Obiettivo dei Piani: <b>+3-4€/ordine</b> prima di scalare. Imposta <code className="bg-black/[0.06] px-1 rounded">fee_consegna_cliente</code> e <code className="bg-black/[0.06] px-1 rounded">costo_consegna</code> per renderlo reale.
+                    </div>
+                  </div>
+                );
+              })()}
               <div className="rounded-xl border border-black/[0.07] bg-brand-50/40 p-3.5 text-[13px]">
                 {unit.break_even_ordini_mese != null ? (
                   <>Break-even: servono <b>{unit.break_even_ordini_mese} ordini/mese</b> per coprire un costo fisso di {eur(unit.costo_fisso)}.</>
