@@ -84,6 +84,21 @@ function dot(livello: Azione["livello"]) {
   return <span className={`inline-block w-2 h-2 rounded-full ${c}`} />;
 }
 
+// Spiega, dentro ogni card "Da approvare", cosa succede DOPO che Nicola tocca «Approva».
+// È tarato sul colore 🟢🟡🔴 e cita il canale reale dell'azione, così non ci sono sorprese.
+function cosaSuccede(a: Azione): string {
+  const canale = testoPulito(a.canale || "").replace(/[—–-]/g, "").trim();
+  const dove = canale ? ` sul canale «${canale}»` : "";
+  const base = `l'ordine va in coda all'AD, che esegue la mossa${dove} con le «mani», poi la segna ✅ FATTO e ne lascia traccia nelle Decisioni.`;
+  if (a.livello === "rosso")
+    return `Tocca soldi o impegni reali: ${base} Parte sul serio solo con il worker acceso e la chiave della «mano» collegata — altrimenti resta in coda o viene simulata. Mai inviata per sbaglio.`;
+  if (a.livello === "giallo")
+    return `Impatto medio: ${base} Subito dopo l'AD ti avvisa di cosa è partito.`;
+  if (a.livello === "verde")
+    return `Mossa sicura e reversibile: ${base}`;
+  return base;
+}
+
 export default function MemoriaViva() {
   const [tab, setTab] = useState<Tab>("azioni");
   const [loading, setLoading] = useState(true);
@@ -311,6 +326,14 @@ export default function MemoriaViva() {
                       </div>
                     )}
                   </div>
+                  {a.inAttesa && (
+                    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-2.5 py-2">
+                      <p className="text-[11.5px] leading-relaxed text-ink/80">
+                        <span className="font-semibold text-brand">Se approvi → </span>
+                        {cosaSuccede(a)}
+                      </p>
+                    </div>
+                  )}
                 </div>
               ))}
               <p className="text-[11px] text-black/40 pt-1">
