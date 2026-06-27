@@ -21,6 +21,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { testoPulito, dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
+import StellePolari from "@/components/StellePolari";
 
 // --- Tipi (combaciano con le API /api/memoria/*) ---
 type Azione = {
@@ -476,7 +477,9 @@ export default function MemoriaViva() {
 
           {/* --- OKR / PAGELLA SQUADRA --- */}
           {tab === "okr" && (
-            <div className="space-y-2">
+            <div className="space-y-3">
+              {/* ⭐ Le 3 Stelle Polari con interruttore on/off */}
+              <StellePolari />
               {okr.northStar && (
                 <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">🌟 {okr.northStar}</div>
               )}
