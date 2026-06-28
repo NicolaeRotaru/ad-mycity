@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 14:06
+aggiornato: 2026-06-28 16:07
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,17 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0p. **Giro 28/6 — 16:07 (passaggio 10, RUN-UP AL PRESIDIO SERALE):** 2 ore dopo il 9°. Delta unico:
+   la fase passa dal cuore del pomeriggio al **run-up della sera** (~1h dal picco 17:00, ~3h dall'apertura
+   della finestra presidio) → la macchina guarda ormai solo al **presidio serale di stasera** (Arisa a
+   Palazzo Farnese, ore fresche): mossa n.1 = essere lì col QR (coperta da azioni #6 e #8 già in coda).
+   Esterno **invariato** → nessuna ricerca ripetuta (meteo già riconfermato stamattina + scan 08:30,
+   competitor a cadenza settimanale → Max risparmiato). **Supabase MCP ritentato → permesso di nuovo
+   NEGATO** (17° giro cieco; piattaforma sana, è solo il permesso). Nessuna azione nuova accodata (coda
+   piena, 8 azioni). **Applicato il GOVERNATORE di cadenza (DF-02):** a dati fermi giro solo al cambio-fase
+   → questo è l'ultimo passaggio utile prima della sera. I 3 sblocchi da Nicola restano identici (+ serve il
+   link lista d'attesa per far convertire il QR stasera). **Consiglio:** prossimo giro utile = stasera per/
+   dopo il presidio, oppure dopo uno sblocco; non tra un'ora. Vedi [[2026-06-28]].
 0q. **Giro 28/6 — 14:06 (passaggio 9, CUORE POMERIGGIO ROVENTE):** 2 ore dopo l'8°. Delta unico:
    siamo a ~3h dal **picco delle 17 (38-41°C)** → il piano operativo pivota dalla "consegna" (freschi fermi
    fino a domattina presto) al **PRESIDIO SERALE nelle ore fresche**: stasera **Arisa a Palazzo Farnese**

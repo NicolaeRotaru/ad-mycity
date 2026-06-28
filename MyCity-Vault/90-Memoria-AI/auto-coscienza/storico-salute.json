@@ -2,6 +2,15 @@
   "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
   "snapshot": [
     {
+      "data": "2026-06-28 16:07",
+      "voto_salute": 73,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.8,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
+      "difetti_aperti": 2,
+      "nota": "10° passaggio del giorno: la macchina riconosce e GESTISCE attivamente DF-02 (cadenza eccessiva) applicando il governatore auto-imposto -> tasso applicazione lezioni a 0.8, voto limato solo da cecita-dati (permesso). Nessun difetto BLOCCANTE."
+    },
+    {
       "data": "2026-06-28 14:06",
       "voto_salute": 72,
       "loop_chiude": true,

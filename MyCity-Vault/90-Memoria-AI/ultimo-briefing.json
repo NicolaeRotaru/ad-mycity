@@ -1,13 +1,13 @@
 {
-  "data": "2026-06-28 14:06",
-  "situazione": "Domenica 28/6, cuore del pomeriggio rovente (verso il picco delle 17, 38-41°C, allerta caldo 066/2026). 9° passaggio del giorno: quadro frozen. Supabase MCP di nuovo NEGATO (16° giro cieco) → i 7 numeri restano baseline 24/6, il Giorno-1 di ieri non è misurabile dal DB (piattaforma sana: è solo un permesso). L'unico delta vs 12:05 è la fase oraria: il piano pivota dalla consegna (freschi fermi fino a domattina) al presidio serale nelle ore fresche, con Arisa a Palazzo Farnese stasera. Coda 🟡/🔴 piena (8 azioni), nessuna nuova.",
+  "data": "2026-06-28 16:07",
+  "situazione": "Domenica 28/6, run-up al presidio serale (~1h dal picco di caldo delle 17, ~3h dall'apertura della finestra serale; allerta caldo 066/2026, 38-41°C). 10° passaggio del giorno: quadro frozen. Supabase MCP di nuovo NEGATO (17° giro cieco) → i 7 numeri restano baseline 24/6, il Giorno-1 di ieri non è misurabile dal DB (piattaforma sana: è solo un permesso). L'unico delta vs 14:06 è la fase oraria: la macchina guarda ormai solo al presidio serale durante Arisa a Palazzo Farnese (ore fresche). Coda 🟡/🔴 piena (8 azioni), nessuna nuova. Applicato il governatore di cadenza (DF-02): questo è l'ultimo giro utile prima della sera.",
   "opportunita": [
-    {"titolo": "Presidio serale Arisa @ Palazzo Farnese (stasera ~19:00+)", "motivo": "Ore fresche + centro pieno per il concerto = finestra fisica migliore della giornata per QR e iscritti lista d'attesa a costo ≈0. Coperta da azioni #6 (post caldo) e #8 (materiali Sant'Antonino) già pronte.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Presidio serale Arisa @ Palazzo Farnese (stasera ~19:00+)", "motivo": "Ore fresche + centro pieno per il concerto = finestra fisica migliore della giornata per QR e iscritti lista d'attesa a costo ≈0. Coperta da azioni #6 (post caldo) e #8 (materiali) già pronte. Serve solo presenza + link lista d'attesa reale.", "impatto": "medio", "sforzo": "basso"},
     {"titolo": "Settimana di Sant'Antonino (Venerdì Piacentini 3/7 + culmine fiera 4/7)", "motivo": "Finestra di presidio/lead-vendite più grande del mese: centro pieno per il patrono. Piano già pronto in coda (#8).", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "Sblocco Supabase MCP", "motivo": "Unico modo per misurare il Giorno-1 e far ripartire i 7 numeri da 0; è un permesso, non un guasto.", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Stasera essere in centro col QR durante Arisa (ore fresche)", "motivo": "Sfrutta caldo+evento: i clienti non escono di giorno ma la sera sì → acquisizione iscritti a costo ≈0.", "livello": "giallo"},
+    {"titolo": "Stasera essere in centro col QR durante Arisa (ore fresche) + link lista d'attesa attivo", "motivo": "Sfrutta caldo+evento: i clienti non escono di giorno ma la sera sì → acquisizione iscritti a costo ≈0. Senza il link reale il QR converte 0.", "livello": "giallo"},
     {"titolo": "Autorizzare il Supabase MCP (o SUPABASE_URL+SERVICE_KEY)", "motivo": "Sbloccare i 7 numeri reali e misurare l'esito del Giorno-1.", "livello": "giallo"},
     {"titolo": "Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)", "motivo": "Sbloccano la pipeline incasso-payout e il go-live di Garetti.", "livello": "rosso"}
   ]

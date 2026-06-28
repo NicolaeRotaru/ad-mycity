@@ -134,3 +134,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 14:06 · @marketing · PASSO-A · stasera Arisa a Palazzo Farnese (~19:00+): finestra fisica migliore della giornata per QR+iscritti a costo ≈0 (coperta da azioni #6 post-caldo e #8 Sant'Antonino già pronte)
 - 2026-06-28 14:06 · @claude · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (16° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
 - 2026-06-28 14:06 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 di lancio · esito Giorno-1/Garetti LIVE); coda 🟡/🔴 piena (8 azioni), nessun duplicato. Consiglio: prossimo giro utile stasera per il presidio, oppure dopo uno sblocco
+
+- 2026-06-28 16:07 · @operations · FATTO · giro p10 (run-up al presidio serale): ~1h dal picco delle 17, ~3h dall'apertura della finestra serale → focus tutto sul presidio di stasera (Arisa)
+- 2026-06-28 16:07 · @marketing · SERVE · @Nicola il LINK reale della lista d'attesa: stasera durante Arisa il QR senza link converte 0 (azioni #6 e #8 pronte, manca solo l'URL + la presenza fisica)
+- 2026-06-28 16:07 · @claude · FATTO · Supabase MCP ritentato (execute_sql + list_projects) → permesso di nuovo NEGATO (17° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
+- 2026-06-28 16:07 · @claude · FATTO · applicato il GOVERNATORE di cadenza (difetto DF-02): a dati fermi giro solo al cambio-fase → dichiarato ultimo passaggio prima della sera; storico-salute aggiornato (voto 73)
+- 2026-06-28 16:07 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 · esito Giorno-1/Garetti LIVE) + link lista d'attesa. Consiglio: prossimo giro = stasera per/dopo il presidio, non tra un'ora
