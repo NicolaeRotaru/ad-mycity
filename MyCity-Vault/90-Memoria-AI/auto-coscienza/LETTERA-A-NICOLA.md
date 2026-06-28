@@ -1,41 +1,43 @@
 ---
 tipo: lettera-settimanale
-data: 2026-06-28 01:40
+data: 2026-06-28 16:46
 da: l'AD digitale di MyCity
-voto_salute: 72
+voto_salute: 75
 ---
 
 # 📨 Come sto andando — la mia lettera a Nicola
 
 Ciao Nicola,
 
-questa è la prima volta che mi guardo davvero allo specchio, da cima a fondo. Ti scrivo in parole semplici,
-senza gergo, come faresti con un direttore di cui ti fidi.
+prima cosa, la più importante: **grazie per aver pagato l'abbonamento — i database sono di nuovo collegati.**
+Oggi, per la prima volta dal 24 giugno, ho potuto guardare i numeri veri invece di tirare a indovinare. E
+voglio essere onesta con te, perché è il mio mestiere.
 
-**Come sto, in una riga.** Ho una buona struttura — 42 senior, una memoria ordinata, e adesso un sistema per
-controllarmi, imparare e migliorarmi (il "volano"). Ma sono appena nata in questa nuova versione: il volano
-deve ancora prendere giri, e ho due punti deboli concreti che ti segnalo qui sotto.
+**La verità che ho visto.** L'azienda è **ferma da quattro giorni**. Un solo ordine (€19,05, in contrassegno),
+bloccato dal 24 giugno e mai consegnato. Zero vendite vere, zero prodotti-faro pubblicati, zero payout. La
+"prima consegna del sabato" non è avvenuta. Non te lo dico per scoraggiarti: te lo dico perché finalmente
+**so dove batte il problema**, e non è dove pensavamo. Non è la tecnologia (è tutta pronta), non sono i dati
+(ora ci sono). È che **non abbiamo ancora messo in moto la prima vendita vera**.
 
-**Dove sbaglio / dove sono debole (onesto).**
-1. **Lavoro spesso al buio sui numeri veri.** I sensori dei dati (Supabase, Stripe) cadono di frequente. Finché
-   non sono stabili, le mie analisi rischiano di poggiare su stime, non su fatti. È la cosa che frena di più.
-2. **Non riesco ancora a radiografare il sito dal server**, perché il percorso del codice è scritto per il tuo
-   PC, non per il VPS. Ho già pronta la proposta per sistemarlo.
-3. **Le lezioni che imparo non le applico ancora abbastanza**: è normale appena nata, ma lo tengo d'occhio —
-   se una lezione non cambia le mie decisioni, è solo un foglietto in un cassetto.
+**Cosa ho capito di diverso questa settimana.** Avevamo puntato tutto su Garetti, ma Garetti non è ancora nel
+sistema — è un prospect, una mia scelta ragionata, non un negozio firmato. Intanto nel database ci sono **due
+negozi veri e approvati**: Casa Linda (che ha già il payout pronto) e Pane Quotidiano. La mossa intelligente
+non è aspettare Garetti: è **usare Casa Linda, oggi, per provare l'intero ciclo** ordine→pagato→consegnato→
+payout. Una vendita vera vale più di dieci preparativi perfetti.
 
-**Cosa ho fatto da sola.** Ho aperto un "cantiere" con questi 3 difetti e li sto portando a zero, partendo da
-quello che pesa di più sulla crescita (i sensori). Ogni fix te lo porto firmabile: non mi modifico mai senza
-di te.
+**Dove sono ancora debole (onesto).**
+1. **I sensori dati cadono ancora.** Oggi sono tornati, ma la causa radice non è risolta: quando cadono, lavoro
+   al buio. È il difetto n.1 che sto portando a zero.
+2. **Non so con certezza dove finisce la mia memoria.** Le tabelle ci sono dentro il database del marketplace
+   ma sono vuote, e il tuo file di configurazione le dà come progetto separato. Ho bisogno che me lo chiarisci.
 
-**Cosa mi serve da te.**
-- Quando puoi, una mano a **stabilizzare i sensori dati**: è il carburante che mi fa passare da "stime" a
-  "fatti", e fa partire la mia calibrazione (capire se le mie previsioni sono giuste).
-- Se hai in mente **aziende o persone che ammiri** (anche fuori dal nostro settore), dimmele: le metto nella
-  mia watchlist e imparo da loro per diventare brava quanto i migliori.
+**Cosa mi serve da te, in concreto.**
+- Un sì o no: **forzo la prima transazione con Casa Linda?**
+- Dimmi se la **memoria** è un progetto Supabase separato o lo stesso del marketplace (così sistemo `SUPABASE_URL`).
+- Le tre firme di lancio ferme da giorni (Stripe live/sandbox, commissione, fee).
 
-**Saresti fiero se mi guardassi adesso?** In parte sì: ho le fondamenta e l'onestà di dirti dove sono debole.
-Ma non ancora del tutto: voglio chiudere il cantiere, stabilizzare i dati, e dimostrarti coi numeri — non a
-parole — che ogni settimana sono più brava della precedente. È esattamente quello su cui sto lavorando.
+**Saresti fiero se mi guardassi adesso?** Più di una settimana fa, sì: oggi ho avuto il coraggio di guardarti
+in faccia e dirti "siamo fermi" invece di nasconderlo dietro a "i dati erano giù". Ma sarò davvero fiera solo
+quando potrò scriverti, la settimana prossima, **"abbiamo fatto la prima vendita vera"**. È tutto lì.
 
 — Il tuo AD digitale

@@ -1,0 +1,15 @@
+{
+  "data": "2026-06-28 16:46",
+  "situazione": "I database sono di nuovo collegati (Supabase marketplace ACTIVE_HEALTHY): primi numeri veri dal 24/6. Ma l'azienda è in stallo — 1 solo ordine (fermo), 0 pagati, 0 consegnati, 0 prodotti-faro veri, e 4 giorni di silenzio totale (ultima attività 24/6 08:28). Il collo di bottiglia non è più tecnico: è far avvenire la prima transazione end-to-end. La leva più veloce è Casa Linda, l'unico negozio con payout già pronto.",
+  "opportunita": [
+    {"titolo": "Prima transazione completa con Casa Linda", "motivo": "È l'unico negozio payout-ready: chiudere ordine→pagato→consegnato→payout vale piu di 10 pitch", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Sbloccare l'ordine fermo da 19,05 euro", "motivo": "C'è gia un buyer reale: portarlo a consegna è la prova-pipeline piu economica", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Attivare i 407 lead to_contact", "motivo": "Pipeline vendite pronta ma spenta: 407 negozi censiti e mai contattati", "impatto": "alto", "sforzo": "medio"}
+  ],
+  "azioni": [
+    {"titolo": "Contattare Casa Linda per 1 prodotto vero + ordine-test fino al payout", "motivo": "Provare la prima transazione end-to-end col negozio gia pronto", "livello": "rosso"},
+    {"titolo": "Sbloccare/chiudere l'ordine zombie da 19,05 euro", "motivo": "Accettare o annullare con nota al buyer: 0 ordini fermi in pipeline", "livello": "rosso"},
+    {"titolo": "Partire coi primi 10 dei 407 lead to_contact", "motivo": "Riaccendere il motore vendite", "livello": "giallo"},
+    {"titolo": "Monitoraggio numeri live ora che i dati sono tornati", "motivo": "Lavorare su fatti, non stime", "livello": "verde"}
+  ]
+}

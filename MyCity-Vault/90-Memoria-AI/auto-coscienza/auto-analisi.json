@@ -1,47 +1,55 @@
 {
-  "data": "2026-06-28 01:10",
-  "voto_fiducia": 79,
+  "data": "2026-06-28 16:46",
+  "voto_fiducia": 85,
   "trend_fiducia": "▲",
-  "sintesi": "Auto-analisi rifatta con la logica corretta: la macchina FONDA le entità da sola prima di chiedere. 'Garetti' non è un'invenzione ma una scelta ragionata, fondata sull'analisi di @intelligence (campo aperto) e su fatti pubblici (Albo Botteghe Storiche, 3 DOP) → legittima. Nessuna domanda 'è reale?' da farti: resta solo la firma sui termini 🔴, nel normale flusso.",
+  "sintesi": "Giro a sensori-dati TORNATI: per la prima volta dal 24/6 il lavoro poggia su fatti veri (query dirette Supabase), non su stime. Voto in salita (79→85) perché i 7 numeri sono ora tutti fondati su fonte ammessa e due entità prima solo nominate (Casa Linda, Pane Quotidiano) sono confermate nei dati. Garetti resta una scelta_ragionata legittima (prospect, non nel DB). Penalità residue solo per punti ciechi dichiarati: memoria (DB 2) ambigua, Stripe/PostHog non interrogati, radar esterno non fatto.",
   "verifiche": {
     "entita": "ok",
     "numeri": "ok",
     "coerenza": "ok",
     "semaforo": "ok",
-    "qualita": "ok"
+    "qualita": "ok",
+    "benchmark": "non applicabile (giro di lettura dati, nessun contenuto da benchmarkare)"
   },
   "errori": [
     {
-      "gravita": "media",
-      "titolo": "La PRIMA versione dell'auto-analisi ha sbagliato: rimbalzava a Nicola 'Garetti è reale?' invece di fondarlo da sola",
-      "dettaglio": "Avevo controllato solo se Nicola l'avesse confermato in DECISIONI e, non trovandolo, l'avevo flaggato come possibile invenzione. Sbagliato: bastava seguire il mio stesso ragionamento (consegne/intelligence/campo-aperto-faro.md) per vedere che è una scelta ragionata con prove verificabili. La macchina deve usare la propria intelligenza, non delegare a Nicola ciò che può dedurre.",
-      "azione_presa": "corretto",
-      "riguarda": "logica di grounding delle entità (ora a 3 strade: dati → scelta ragionata → inventato)",
-      "livello_scoperta": "L1"
-    },
-    {
-      "gravita": "media",
-      "titolo": "Apprendimento finora cieco: imparava solo da un linter di 4 regole",
-      "dettaglio": "L'unico apprendimento automatico era verificaQualita() (testo corto, segnaposti, email senza Oggetto/destinatario). Per questo aveva 'imparato' solo 3 cose. Ignorava esiti, approvazioni di Nicola, calibrazione, pattern, benchmark.",
-      "azione_presa": "corretto",
-      "riguarda": "il motore di apprendimento",
+      "gravita": "bassa",
+      "titolo": "La baseline 24/6 di STATO.md dava i 250 prodotti come 'da ignorare' senza ri-misurare lo stato",
+      "dettaglio": "Verificato ora: 250 'available' (seed) + 7 draft + 1 sold. Coerente con la baseline ('seed/test'), ma per 4 giorni il numero è restato non riverificato perché i sensori erano giù. Nessun danno: appena tornati i dati, riallineato.",
+      "azione_presa": "corretto (numeri riverificati live)",
+      "riguarda": "freschezza dei dati / dipendenza dai sensori",
       "livello_scoperta": "L1"
     }
   ],
-  "domande_per_nicola": [],
+  "domande_per_nicola": [
+    {
+      "domanda": "La memoria dell'AD è un progetto Supabase SEPARATO o lo STESSO del marketplace?",
+      "perche_serve": "Le tabelle memoria (briefings, lavori, diario, conversazioni, impostazioni) esistono dentro clmpyfvpvfjgeviworth ma sono vuote; il tuo .env le descrive come progetto a parte (LA-MEMORIA.supabase.co). Da questo dipende cosa metti in SUPABASE_URL su Vercel.",
+      "se_rispondi": "So se puntare SUPABASE_URL al marketplace o a un secondo progetto, e posso testare la scrittura di un briefing nella tabella memoria.",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout gia attivo) invece di aspettare la firma di Garetti?",
+      "perche_serve": "Casa Linda è l'unico negozio payout-ready: è la via piu veloce per provare ordine→pagato→consegnato→payout. Aspettare Garetti tiene l'azienda a zero.",
+      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda e provo il primo ciclo completo.",
+      "gravita": "alta"
+    }
+  ],
   "punti_ciechi": [
-    "Garetti è un PROSPECT (0 ordini): la sua legittimità come scelta è solida, ma l'esito del pitch e la firma dei termini 🔴 restano da fare (sono in AZIONI-IN-ATTESA, non sono un errore).",
-    "Supabase/Stripe MCP spesso giù in questi giri: i dati interni vanno riconfermati live appena tornano.",
-    "Nessuna metrica social/competitor collegata: i benchmark di auto-miglioramento partono da fonti web."
+    "Memoria (DB 2): non distinguibile dal mio accesso Supabase (vedo solo il progetto marketplace). Le tabelle memoria sono vuote: i giri potrebbero non persistere nel Pannello finché SUPABASE_URL non è confermato.",
+    "Stripe non interrogato in questo giro: incassi/payout reali non riconciliati.",
+    "PostHog non collegato: nessun dato di traffico/conversione.",
+    "Radar esterno (concorrenti/eventi/meteo) non verificato live oggi: priorità data ai dati interni tornati."
   ],
   "miglioramenti_prossimo_giro": [
-    "Applicare sempre le 3 strade di grounding: fondare l'entità da sé (dati → ragionamento) prima di chiedere a Nicola.",
-    "Iniziare a registrare previsto-vs-reale per costruire la calibrazione."
+    "Ora che i dati sono live, interrogare anche Stripe e riconciliare incassi/payout.",
+    "Far girare @intelligence sul radar esterno (era fermo da giorni di cecità).",
+    "Iniziare a registrare previsto-vs-reale (calibrazione) sulle azioni proposte oggi."
   ],
   "salute_macchina": {
-    "supabase": "giù",
-    "stripe": "giù",
-    "dati_freschi": false,
-    "sensori_attivi": 0
+    "supabase": "ok (marketplace ACTIVE_HEALTHY, riverificato live)",
+    "stripe": "non interrogato",
+    "dati_freschi": true,
+    "sensori_attivi": 1
   }
 }

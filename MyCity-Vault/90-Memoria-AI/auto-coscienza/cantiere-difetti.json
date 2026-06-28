@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 01:40",
+  "aggiornato": "2026-06-28 16:46",
   "difetti": [
     {
       "id": "AR-001",
@@ -8,10 +8,11 @@
       "dimensione": "salute-sensori-dati",
       "gravita": "grave",
       "impatto_crescita": "alto",
-      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù.",
-      "fix_proposto": "Passo di retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP.",
+      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù. (28/6: il calo era anche dovuto all'abbonamento Supabase scaduto → progetto in pausa; ora pagato e ACTIVE_HEALTHY.)",
+      "fix_proposto": "Passo di retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP. Inoltre: sentinella su stato abbonamento/progetto Supabase (pausa = cecità totale).",
       "colore": "🟡",
       "stato": "aperto",
+      "nota_28_06": "RIENTRATO in questo giro (sensori tornati dopo pagamento abbonamento), ma causa radice NON risolta: resta il difetto a maggior impatto crescita. È il fix proposto come prossimo dal cantiere.",
       "nato": "2026-06-28",
       "chiuso_il": ""
     },
