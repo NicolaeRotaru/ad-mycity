@@ -86,6 +86,15 @@ Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi ele
    (specifiche, con contesto) · Salute della macchina · Punti ciechi · Cosa miglioro al prossimo giro.
 2. **Digest strutturato** → `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json` (schema esatto in
    `auto-coscienza.md`). Aggiorna anche `registro-realta.json` con le entità verificate/declassate stavolta.
+   > 🚨 **RISPETTA I TIPI DEL CONTRATTO ALLA LETTERA — il Pannello si rompe se sgarri:**
+   > - `voto_fiducia` = **NUMERO intero 0-100**, MAI una frase. La sfumatura («alto su tracciabilità, basso
+   >   sull'utilità…») va in `sintesi`, NON nel voto. (Un voto come testo viene reso come numero gigante e
+   >   sfonda la card.)
+   > - `domande_per_nicola` = array di **OGGETTI** `{domanda, perche_serve, se_rispondi, gravita}` — mai
+   >   stringhe nude (escono come «❓» vuote nel Pannello).
+   > - Usa i **nomi di campo ESATTI**: `verifiche`, `errori`, `punti_ciechi`, `salute_macchina`. **Vietato**
+   >   inventarne altri (`errori_trovati_e_corretti`, `salute_sistema`, `verifica_avversariale_3_livelli`…):
+   >   il Pannello legge solo i nomi del contratto, il resto è invisibile.
 
 ## 🔗 Effetti a valle (chiudi il volano)
 - Le **domande 🔴/bloccanti** → anche in `AZIONI-IN-ATTESA.md` e in `serve_da_nicola` delle intenzioni.

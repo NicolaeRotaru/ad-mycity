@@ -22,9 +22,9 @@ type Difetto = { id?: string; titolo?: string; dimensione?: string; gravita?: st
 type PreMortem = { disastro?: string; probabilita?: string; come?: string; difesa_proposta?: string };
 type Bench = { ambito?: string; come_fanno_i_migliori?: string; esempi?: { chi?: string; cosa?: string; link?: string }[]; nostro_divario?: string; obiettivo?: string; primo_passo?: string };
 type Radiografia = {
-  data?: string; tipo?: string; voto_salute_architettura?: number; trend?: string; sintesi?: string;
+  data?: string; tipo?: string; voto_salute_architettura?: number | string; trend?: string; sintesi?: string;
   dimensioni?: Dimensione[]; pre_mortem?: PreMortem[]; benchmark_vs_migliori?: Bench[];
-  proposte_nuovi_pezzi?: { cosa?: string; perche?: string }[]; domande_per_nicola?: { domanda?: string; perche_serve?: string; se_rispondi?: string }[];
+  proposte_nuovi_pezzi?: { cosa?: string; perche?: string }[]; domande_per_nicola?: ({ domanda?: string; perche_serve?: string; se_rispondi?: string } | string)[];
   sonda?: { loop_chiude?: boolean; tasso_applicazione?: number; giro_a_cadenza?: boolean; sentinelle_scattano?: boolean; verdetto?: string };
   salute_marketplace?: { voto?: number; sintesi?: string };
   meta?: { agenti_totali?: number; bloccanti?: number };
@@ -43,7 +43,7 @@ const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
 const IMPATTO: Record<string, string> = { alto: "bg-red-100 text-red-700", medio: "bg-amber-100 text-amber-700", basso: "bg-black/5 text-black/50" };
 
 function votoColore(v?: number) {
-  if (v == null) return "text-black/40";
+  if (v == null || !Number.isFinite(v)) return "text-black/40";
   if (v >= 80) return "text-green-600";
   if (v >= 60) return "text-amber-600";
   return "text-red-600";
@@ -61,6 +61,9 @@ function RadiografiaDiSe() {
   }, []);
 
   const r = d?.radiografia;
+  const votoS = Number(r?.voto_salute_architettura);
+  const votoSOk = Number.isFinite(votoS);
+  const sintesiR = r?.sintesi || (!votoSOk && typeof r?.voto_salute_architettura === "string" ? r!.voto_salute_architettura : "");
   const cantiere = d?.cantiere;
   const aperti = (cantiere?.difetti || []).filter((x) => x.stato !== "chiuso");
   const chiusi = (cantiere?.difetti || []).filter((x) => x.stato === "chiuso");
@@ -84,10 +87,10 @@ function RadiografiaDiSe() {
             <div className="t-eti">La macchina analizza la propria architettura da cima a fondo. {r?.data ? `· ${dataVault(r.data)}` : ""}</div>
           </div>
         </div>
-        {r?.voto_salute_architettura != null && (
+        {votoSOk && (
           <div className="text-right shrink-0">
-            <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(r.voto_salute_architettura)}`}>{r.voto_salute_architettura}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti">salute {r.trend || ""}</div>
+            <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoS)}`}>{votoS}<span className="text-[13px] text-black/30">/100</span></div>
+            <div className="t-eti">salute {r?.trend || ""}</div>
           </div>
         )}
       </div>
@@ -96,7 +99,7 @@ function RadiografiaDiSe() {
 
       {d?.collegato && (
         <>
-          {r?.sintesi && <p className="t-corpo mb-3">{r.sintesi}</p>}
+          {sintesiR && <p className="t-corpo break-words mb-3">{sintesiR}</p>}
 
           {/* Sonda: i 4 invarianti del volano */}
           {r?.sonda && (
@@ -202,12 +205,16 @@ function RadiografiaDiSe() {
               {(r?.domande_per_nicola || []).length > 0 && (
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te</div>
-                  {r!.domande_per_nicola!.map((q, i) => (
-                    <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 mb-2">
-                      <div className="text-[13px] font-medium">❓ {q.domanda}</div>
-                      {q.perche_serve && <div className="text-[12px] text-black/65 mt-1"><b>Perché:</b> {q.perche_serve}</div>}
-                    </div>
-                  ))}
+                  {r!.domande_per_nicola!.map((q, i) => {
+                    const testo = typeof q === "string" ? q : q?.domanda;
+                    const perche = typeof q === "string" ? "" : q?.perche_serve;
+                    return (
+                      <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 mb-2">
+                        <div className="text-[13px] font-medium break-words">❓ {testo}</div>
+                        {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché:</b> {perche}</div>}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 

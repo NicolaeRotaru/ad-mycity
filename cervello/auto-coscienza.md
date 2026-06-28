@@ -55,6 +55,10 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ---
 
 ## 📐 I contratti dati (schema ESATTO — il Pannello e i giri dipendono da questi)
+> 🚨 **Tipi e nomi alla lettera, sempre.** I voti (`voto_fiducia`, `voto_salute_architettura`, `voto`) sono
+> **NUMERI interi 0-100**, mai frasi (la sfumatura va in `sintesi`). I campi `domande_per_nicola` sono
+> **array di OGGETTI**, mai stringhe nude. Usa i nomi di campo qui sotto **identici**: il Pannello legge solo
+> questi; qualsiasi campo inventato è invisibile e un voto-come-testo **rompe il layout**.
 
 ### `registro-realta.json` (asse ①)
 ```json

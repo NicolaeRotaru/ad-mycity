@@ -16,8 +16,8 @@ type Azione = { numero: string; reparto: string; azione: string; livello: string
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
-type AutoAnalisi = { voto_fiducia?: number; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
-type Radiografia = { voto_salute_architettura?: number; trend?: string; sintesi?: string } | null;
+type AutoAnalisi = { voto_fiducia?: number | string; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
+type Radiografia = { voto_salute_architettura?: number | string; trend?: string; sintesi?: string } | null;
 type Voce = { data: string; testo: string } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
@@ -116,9 +116,9 @@ export default function Plancia({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <span className="t-sez">Auto-analisi della macchina</span>
-                {autoAnalisi.voto_fiducia != null && (
-                  <span className={`text-[12px] font-bold tabular-nums ${autoAnalisi.voto_fiducia >= 80 ? "text-green-600" : autoAnalisi.voto_fiducia >= 60 ? "text-amber-600" : "text-red-600"}`}>
-                    fiducia {autoAnalisi.voto_fiducia}/100 {autoAnalisi.trend_fiducia || ""}
+                {Number.isFinite(Number(autoAnalisi.voto_fiducia)) && (
+                  <span className={`text-[12px] font-bold tabular-nums shrink-0 ${Number(autoAnalisi.voto_fiducia) >= 80 ? "text-green-600" : Number(autoAnalisi.voto_fiducia) >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    fiducia {Number(autoAnalisi.voto_fiducia)}/100 {autoAnalisi.trend_fiducia || ""}
                   </span>
                 )}
               </div>
@@ -147,9 +147,9 @@ export default function Plancia({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <span className="t-sez">Radiografia della macchina</span>
-                {radiografia.voto_salute_architettura != null && (
-                  <span className={`text-[12px] font-bold tabular-nums ${radiografia.voto_salute_architettura >= 80 ? "text-green-600" : radiografia.voto_salute_architettura >= 60 ? "text-amber-600" : "text-red-600"}`}>
-                    salute {radiografia.voto_salute_architettura}/100 {radiografia.trend || ""}
+                {Number.isFinite(Number(radiografia.voto_salute_architettura)) && (
+                  <span className={`text-[12px] font-bold tabular-nums shrink-0 ${Number(radiografia.voto_salute_architettura) >= 80 ? "text-green-600" : Number(radiografia.voto_salute_architettura) >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    salute {Number(radiografia.voto_salute_architettura)}/100 {radiografia.trend || ""}
                   </span>
                 )}
               </div>

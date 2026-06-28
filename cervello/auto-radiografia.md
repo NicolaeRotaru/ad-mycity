@@ -100,6 +100,9 @@ proposte/esperimenti fermi da troppo? Aggiorna il blocco `sonda` di `auto-radiog
 ## 🧾 Cosa scrivi (COMPLETA)
 1. `auto-coscienza/auto-radiografia.json` (schema in `auto-coscienza.md`): 12 dimensioni verificate,
    pre-mortem, benchmark, sintesi marketplace, proposte_nuovi_pezzi, domande, voto salute.
+   > 🚨 Tipi alla lettera: `voto_salute_architettura` e ogni `voto` sono **NUMERI 0-100** (mai frasi: la
+   > sfumatura va in `sintesi`); `domande_per_nicola` sono **oggetti** `{domanda, perche_serve, …}`. Altrimenti
+   > il Pannello si rompe.
 2. Aggiorna `cantiere-difetti.json` (nuovi/chiusi) e `storico-salute.json` (snapshot).
 3. `MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md` (report umano) + archivio
    `consegne/audit/AAAA-MM-GG-auto-radiografia.md`.
