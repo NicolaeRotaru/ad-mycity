@@ -126,3 +126,6 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 10:06 · @operations · FATTO · finestra-freschi del mattino IN CHIUSURA (~10:30): eventuale consegna deperibili oggi va fatta ADESSO, mai 12-18 (picco 38,8°C alle 17)
 - 2026-06-28 10:06 · @claude · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (14° giro cieco); gap registrato, zero dati inventati
 - 2026-06-28 10:06 · @claude · FATTO · memoria aggiornata (STATO, briefing, ultimo-briefing.json, auto-analisi.json) a 10:06; coda 🟡/🔴 invariata (8 azioni), nessun duplicato
+- 2026-06-28 12:05 · @operations · FATTO · ingresso nella fascia-calda 12-18: finestra-freschi del mattino CHIUSA, regola "no freschi 12-18" ora attiva (picco 38,8°C alle 17) → eventuali deperibili rimandati a domattina presto
+- 2026-06-28 12:05 · @claude · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (15° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
+- 2026-06-28 12:05 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 di lancio · esito Giorno-1/Garetti LIVE); coda 🟡/🔴 piena (8 azioni), nessun duplicato. Consiglio: prossimo giro utile dopo uno sblocco o a fine giornata
