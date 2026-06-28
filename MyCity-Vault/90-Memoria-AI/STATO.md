@@ -42,7 +42,7 @@ fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati li
 - [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
 - [x] ✅ **Memoria chiarita** (Nicola, 28/6 16:52): progetto Supabase **separato** dal marketplace.
 - [x] ✅ **Tabelle-memoria rimosse dal marketplace** (28/6 17:05): le 5 tabelle vuote tolte da `clmpyfvpvfjgeviworth`, business intatto. Backup ri-creabile in `pannello/sql/memoria-schema.sql`.
-- [ ] 🔴 **Creare lo schema memoria nel DB-memoria separato** — BLOCCO: il DB-memoria non è raggiungibile dai miei strumenti (vedo solo il marketplace; nuovo progetto qui = $10/mese). Pronto lo script `pannello/sql/memoria-schema.sql`. Serve da Nicola: dove applicarlo (suo progetto-memoria esistente / crearne uno dedicato / darmi accesso).
+- [x] ✅ **Schema memoria creato nel DB-memoria separato** (28/6 20:19): collegato il DB-memoria agli strumenti (config MCP `.mcp.json` a 2 connessioni: marketplace RO + memoria RW) e applicato `pannello/sql/memoria-schema.sql` al progetto `xjljcsorpbqwttrejqte` → 5 tabelle (briefings·diario·lavori·conversazioni·impostazioni), RLS attiva, verificato live (advisor = solo INFO atteso). Resta solo il wiring Vercel.
 - [ ] 🟡 **Vercel**: puntare `SUPABASE_URL` + `SUPABASE_SERVICE_KEY` al DB-memoria + Redeploy (poi "Memoria collegata" diventa verde).
 
 ---
