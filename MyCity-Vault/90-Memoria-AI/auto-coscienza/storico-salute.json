@@ -2,6 +2,15 @@
   "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
   "snapshot": [
     {
+      "data": "2026-06-28 20:22",
+      "voto_salute": 74,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.85,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 20° giro)",
+      "difetti_aperti": 2,
+      "nota": "13° passaggio ma su CAMBIO-FASE REALE (apertura effettiva del presidio serale): cadenza corretta, DF-02 rientrato rispetto al quasi-duplicato delle 18:22. Contributo a valore: 1 check go/no-go decisivo (Arisa confermata stasera 21:15) al momento in cui si decide di andare in centro. Voto in lieve salita (da 73): la macchina gira al varco operativo e poi rarefà. Cecita-dati (DF-01) resta il limite (20° giro, negato su marketplace e memoria); nessun difetto BLOCCANTE; collo di bottiglia di stasera = link lista (umano)."
+    },
+    {
       "data": "2026-06-28 18:22",
       "voto_salute": 73,
       "loop_chiude": true,

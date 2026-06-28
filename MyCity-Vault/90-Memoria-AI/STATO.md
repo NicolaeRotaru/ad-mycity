@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 18:22
+aggiornato: 2026-06-28 20:22
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,19 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0m. **Giro 28/6 — 20:22 (passaggio 13, APERTURA EFFETTIVA DEL PRESIDIO SERALE):** 2 ore dopo il 12°.
+   **Cambio-fase reale** (non il quasi-duplicato delle 18:22): la finestra fisica attesa tutto il giorno è
+   **ORA aperta** — gente in arrivo in centro per Arisa (21:15), ore fresche post-picco. ⭐ Contributo a
+   valore = **l'unico check decisivo del momento (go/no-go):** Arisa **CONFERMATA stasera ore 21:15 a Palazzo
+   Farnese** (prima di 14 date del summer tour, biglietti in vendita, nessuna cancellazione nonostante
+   l'allerta caldo — è di sera) → il presidio **si fa** ([ticketone](https://www.ticketone.it/event/arisa-live-tour-palazzo-farnese-21450766/) ·
+   [piacenzasera](https://www.piacenzasera.it/2026/03/si-apre-a-piacenza-il-summer-tour-di-arisa-a-palazzo-farnese-il-28-giugno/636659/)).
+   Mossa n.1: **essere in centro col QR ADESSO (20:00-21:15) + post-show 23:00** (coperto da azioni #6 e #8).
+   **Supabase MCP ritentato su ENTRAMBI i progetti (marketplace + memoria) → negati** (20° giro cieco; il
+   digest non è scrivibile sulla tabella `briefings`, resta nel vault). Resto del radar non rifatto (cadenza,
+   Max risparmiato). Nessuna azione nuova (coda piena, 8). **Voto fiducia 7.** Serve da Nicola **stasera**: il
+   **link reale lista d'attesa** (senza, il QR converte 0); appena può: i 3 sblocchi. Prossimo giro utile:
+   **~23:00 post-Arisa** o domattina. Vedi [[2026-06-28]].
 0n. **Giro 28/6 — 18:22 (passaggio 12, NON-PASSAGGIO DI DISCIPLINA):** appena 15 min dopo il 11°.
    **Esterno INVARIATO**, nessun cambio-fase, presidio Arisa (21:15) ancora ~1,5h avanti → da governatore
    di cadenza (DF-02) **niente valore nuovo da estrarre**: **zero ricerche** (meteo/eventi/competitor erano

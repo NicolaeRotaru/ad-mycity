@@ -1,31 +1,31 @@
 {
-  "data": "2026-06-28 18:22",
-  "giro": "2026-06-28 passaggio 12 (NON-PASSAGGIO DI DISCIPLINA, 18:22, a 15 min dal p11)",
-  "voto_fiducia": 6,
-  "voto_fiducia_nota": "PIÙ BASSO del 18:07 (8) per onestà: questo passaggio NON ha contributo nuovo (esterno invariato, nessun cambio-fase, presidio ancora ~1,5h avanti). Il valore marginale è quasi-zero e lo dichiaro invece di gonfiarlo. Resta ALTO su candore, disciplina e tracciabilità: zero ricerche sprecate (Max risparmiato), zero dati inventati, zero azioni duplicate, e segnalo apertamente che girare a 15 min dall'ultimo è esso stesso il rischio rumore-cadenza (DF-02). La cosa giusta da AD è dirlo e raccomandare di rarefare, non simulare attività.",
+  "data": "2026-06-28 20:22",
+  "giro": "2026-06-28 passaggio 13 (APERTURA EFFETTIVA DEL PRESIDIO SERALE, 20:22, 2h dopo il p12)",
+  "voto_fiducia": 7,
+  "voto_fiducia_nota": "PIÙ ALTO del 18:22 (6) perché questo passaggio è un CAMBIO-FASE REALE, non un quasi-duplicato: la finestra di presidio che la macchina inseguiva da stamattina è ORA aperta (gente in arrivo per Arisa 21:15). Il contributo nuovo è UNO e decisivo: il check go/no-go dell'evento proprio nel momento in cui si decide se andare fisicamente in centro. Non sale a 8 perché i dati interni restano ciechi (20° giro) e il pezzo che farebbe convertire il presidio (link lista) dipende da Nicola, non da me. Coerente con la lezione del 18:07: a dati ciechi il valore si concentra nell'unico check che il cambio-fase rende decisivo.",
   "verifica_avversariale_3_livelli": {
-    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: baseline 24/6, gap dichiarato (Supabase MCP ritentato e confermato negato in sessione, 19° giro cieco). Nessuna cifra orfana. Nessun fatto live nuovo asserito (di proposito: i dati delle 18:07 — Arisa 21:15, meteo serale 36°→30°C — sono ancora freschi a 15 min, ri-cercarli non produrrebbe informazione).",
-    "livello_2_logica_e_grounding_entita": "Entità invariate e già verificate nel registro-realta.json (nessuna nuova entità introdotta → nessun rischio 'Garetti inventati'). Garetti resta DA-CONFERMARE: nessuna azione lo assume LIVE. La logica del passaggio è meta-operativa: riconoscere che NON c'è delta e non fabbricarne uno.",
-    "livello_3_utilita_e_rischio": "Rischio principale = rumore-cadenza (12° passaggio del giorno). Mitigazione ATTIVA: voto abbassato a 6, raccomandazione esplicita di rarefare (prossimo utile ~23:00 o domattina), nessuna ricerca, nessuna azione nuova. Utilità reale del passaggio: mantenere la Cabina 'Viva' all'ora corretta e lasciare a Nicola un messaggio netto sul fatto che il collo di bottiglia è umano (i 3 sblocchi), non altra analisi."
+    "livello_1_fatti_e_numeri": "7 numeri NON toccati: baseline 24/6, gap dichiarato (Supabase MCP ritentato su marketplace E memoria, entrambi negati, 20° giro cieco). Nessuna cifra orfana. L'unico fatto live nuovo (Arisa confermata stasera 21:15) è verificato con 2 fonti (ticketone + piacenzasera) e ha valenza go/no-go operativa. Meteo serale e resto del radar = riuso dichiarato (freschi dalle 18:07), non rifatti per cadenza.",
+    "livello_2_logica_e_grounding_entita": "Nessuna entità nuova introdotta. Garetti resta DA-CONFERMARE (nessuna azione lo assume LIVE). Arisa già REALE, qui solo riconfermata come ancora-on al momento decisivo (un evento è stato cancellato per caldo oggi → il check non era ridondante ma una verifica di tenuta). La riposizionatura della finestra QR (20:00-21:15 + 23:00) è dedotta dall'orario reale + curva di raffreddamento. Dipendenza esplicitata: senza link lista d'attesa reale il QR converte 0.",
+    "livello_3_utilita_e_rischio": "Utilità reale: dare a Nicola il 'vai ora' con l'evento confermato e mettere a fuoco l'unica cosa che serve stasera (il link lista). Rischio principale: rumore-cadenza SE si gira di nuovo a breve a esterno fermo → mitigato dichiarando la rarefazione (prossimo utile ~23:00 post-Arisa o domattina). Rischio operativo: QR converte 0 senza link → messo come richiesta n.1 a Nicola per stasera."
   },
   "entita_verificate": [
     {"nome": "Nicola (founder)", "stato": "REALE", "fonte": "utente/firma"},
     {"nome": "MyCity marketplace + progetto Supabase clmpyfvpvfjgeviworth", "stato": "REALE", "fonte": "STATO.md, verificato sul vivo nei giri precedenti"},
-    {"nome": "Arisa a Palazzo Farnese (28/6 ore 21:15, piazza Cittadella 29)", "stato": "REALE (verificato 18:07, ancora valido)", "fonte": "ticketone.it + piacenzasera.it"},
-    {"nome": "Allerta caldo 066/2026 (28/6) + curva serale 36°C(20h)→30°C(23h)", "stato": "REALE (verificato 18:07/08:30, ancora valido)", "fonte": "Arpae/Prot. Civile + ilmeteo.it"},
+    {"nome": "Arisa a Palazzo Farnese (28/6 ore 21:15, piazza Cittadella 29)", "stato": "REALE (riconfermato 20:22, go/no-go: evento ancora ON)", "fonte": "ticketone.it + piacenzasera.it"},
+    {"nome": "Allerta caldo 066/2026 (28/6) + curva serale 36°C(20h)→30°C(23h)", "stato": "REALE (in raffreddamento serale, gestita 🟢)", "fonte": "Arpae/Prot. Civile + ilmeteo.it"},
     {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdì Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu"}
   ],
   "entita_declassate": [
     {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, stato LIVE DA CONFERMARE", "motivo": "Supabase cieco: non posso verificare approvazione/LIVE/prodotti veri. Nessuna azione lo dà per confermato.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"}
   ],
   "errori_trovati_e_corretti": [
-    "Nessun errore di dato. Riconosciuto un RISCHIO DI PROCESSO e gestito: girare di nuovo a 15 min dal passaggio precedente, a esterno fermo, alimenta DF-02 (rumore-cadenza). Corretto in corsa abbassando il voto a 6, NON eseguendo ricerche/azioni, e raccomandando esplicitamente la rarefazione. Questo è coerente con la lezione del 18:07 ('il valore sta nell'unico check che il cambio-fase rende decisivo'): qui il cambio-fase non c'è, quindi il valore corretto è ~0 e va dichiarato."
+    "Nessun errore di dato. Il passaggio è correttamente posizionato sul cambio-fase (apertura presidio) e non sul mero scorrere dell'orologio: il check go/no-go è giustificato dalla decisione operativa che si prende ADESSO (andare in centro) e dal precedente reale di un evento già cancellato oggi per caldo. La verifica ha confermato che Arisa REGGE → il presidio si fa, senza assunzioni."
   ],
   "domande_per_nicola": [
-    "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? Piattaforma VERIFICATA sana: manca solo il permesso. Unico sblocco per i 7 numeri veri e per misurare il Giorno-1 (19° giro cieco di fila).",
-    "Mi passi il LINK reale della lista d'attesa? Stasera durante Arisa (21:15) il QR senza link converte 0.",
+    "STASERA: mi passi il LINK reale della lista d'attesa? Durante Arisa (21:15) il QR senza link converte 0. È l'unica cosa che serve per far fruttare il presidio di stasera.",
+    "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? Piattaforma verificata sana: manca solo il permesso. 20° giro cieco di fila (negato su marketplace e memoria); è il difetto a maggior impatto sulla crescita.",
     "Garetti è davvero LIVE (approvato + payout + prodotti veri)? La consegna del Giorno-1 (27/6) è avvenuta?",
     "Firmi le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)?"
   ],
-  "salute_sistema": "STABILE. Infrastruttura sana (verificata): i 3 colli di bottiglia sono UMANI/permessi, non tecnici. Il segnale forte di questo passaggio: 19 giri ciechi di fila e una macchina che continua a girare a 15 min di distanza indicano che il sistema sta SOSTITUENDO con la frequenza ciò che dovrebbe arrivare dallo sblocco umano. La risposta corretta non è girare di più ma rarefare e mettere a Nicola il blocco davanti in modo inequivocabile. DF-02 in gestione attiva: voto limato (6) proprio per non auto-assolversi sul rumore-cadenza."
+  "salute_sistema": "STABILE/IN SALITA. Infrastruttura sana (verificata): i colli di bottiglia sono UMANI/permessi, non tecnici. Questo passaggio è l'esempio buono del governatore DF-02: la macchina gira al cambio-fase reale (apertura presidio), spende UNA ricerca decisiva e si ferma, invece di macinare quasi-duplicati. Il collo di bottiglia di STASERA è netto e singolo (il link lista); quello strutturale resta lo sblocco-dati (MCP)."
 }

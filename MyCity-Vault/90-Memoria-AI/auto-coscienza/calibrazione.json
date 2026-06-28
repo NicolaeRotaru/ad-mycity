@@ -1,7 +1,13 @@
 {
-  "aggiornato": "2026-06-28 18:22",
+  "aggiornato": "2026-06-28 20:22",
   "_README": "Calibrazione previsto-vs-reale. Si popola quando ci sono esiti misurabili (richiede dati reali via Supabase).",
   "voci": [
+    {
+      "previsione": "La finestra di presidio serale si apre verso sera nelle ore fresche e Arisa ne è l'ancora (giri 14:06-18:22)",
+      "reale": "CONFERMATO (20:22): alle 20:22 la finestra è effettivamente aperta (gente in arrivo), Arisa REGGE stasera 21:15 (check go/no-go: nessuna cancellazione nonostante l'allerta caldo)",
+      "scarto": "nessuno — il foresight del giorno (giorno=difesa freschi, sera=attacco presidio) si è avverato; aggiunta la conferma di tenuta dell'evento",
+      "nota": "Lezione: al momento dell'apertura della finestra, verificare la TENUTA della condizione abilitante (evento ancora on), non solo l'orario."
+    },
     {
       "previsione": "Presidio serale durante Arisa stimato ~19:00 (giri 14:06-16:07)",
       "reale": "VERIFICATO (18:07): concerto Arisa @ Palazzo Farnese ore 21:15 (ticketone + piacenzasera)",

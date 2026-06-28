@@ -1,15 +1,15 @@
 {
-  "aggiornato": "2026-06-28 18:22",
+  "aggiornato": "2026-06-28 20:22",
   "_README": "Sonda leggera di auto-radiografia (cervello/auto-radiografia.md): controllo deterministico dei 4 invarianti del volano a ogni giro. La radiografia COMPLETA (workflow .claude/workflows/auto-radiografia.js) e settimanale o su comando 'radiografia di te stesso'.",
   "sonda": {
-    "data": "2026-06-28 18:22",
+    "data": "2026-06-28 20:22",
     "invarianti": {
       "loop_chiude": {"ok": true, "nota": "Il giro produce/aggiorna gli artefatti e scrive auto-coscienza (auto-analisi/registro/AUTO-ANALISI/storico-salute). Mantenuto."},
-      "tasso_applicazione_lezioni": {"valore": 0.8, "ok": true, "nota": "La lezione DF-02 (governatore di cadenza) e' applicata ONESTAMENTE: questo passaggio a 15 min dall'ultimo NON aveva trigger valido (nessun cambio-fase) -> la macchina lo RICONOSCE, non rifa' ricerche, non accoda azioni e abbassa il proprio voto a 6. Applicare la lezione qui significa dichiarare il non-valore, non simularlo. >0 = volano chiude."},
-      "giro_a_cadenza": {"ok": "attenzione", "nota": "12° passaggio il 28/6, e questo e' un quasi-duplicato a 15 min dal p11 senza cambio-fase: e' esattamente il pattern DF-02 (rumore-cadenza). NON e' un miglioramento rispetto alle 18:07: e' una ricaduta, gestita con candore (voto 6 + raccomandazione di rarefare a ~23:00/domattina) ma da NON ripetere. La rarefazione e' la cura; la frequenza non sostituisce lo sblocco umano."},
-      "sentinelle_scattano": {"ok": "parziale", "nota": "Sentinella esterna (caldo, allerta 066/2026) gestita nei 🟢. Le sentinelle su dati INTERNI sono cieche (Supabase MCP negato, 19° giro) -> non valutabili: gap di misura."}
+      "tasso_applicazione_lezioni": {"valore": 0.85, "ok": true, "nota": "Applicata la lezione del 18:07 (a dati ciechi il valore si concentra nell'UNICO check che il cambio-fase rende decisivo): qui il cambio-fase reale (apertura presidio) ha giustificato 1 sola ricerca go/no-go (Arisa ON), niente radar a tappeto. Applicato anche DF-02 in positivo: si gira al varco reale e poi ci si ferma. >0 = volano chiude."},
+      "giro_a_cadenza": {"ok": true, "nota": "13° passaggio MA a 2h dal p12 e su un CAMBIO-FASE REALE (la finestra di presidio si apre ora): cadenza corretta, NON è il rumore-DF-02 del 18:22. La macchina ha ripreso il ritmo giusto: passaggio al varco operativo, contributo decisivo, poi rarefazione dichiarata (prossimo ~23:00 o domattina)."},
+      "sentinelle_scattano": {"ok": "parziale", "nota": "Sentinella esterna (caldo, allerta 066/2026) gestita nei 🟢 (presidio nelle ore fresche). Le sentinelle su dati INTERNI sono cieche (Supabase MCP negato su entrambi i progetti, 20° giro) -> non valutabili: gap di misura."}
     },
     "giorni_da_ultima_radiografia_completa": ">10 (nessuna radiografia completa registrata) — sentinella 🟡 ATTIVA",
-    "azione": "Due trigger 🟡 attivi: (1) >10 giorni senza radiografia completa di se'; (2) cadenza in ricaduta (DF-02). Entrambi NON accodati come azioni nuove perche' la coda e' piena E la causa-radice e' una sola, gia' la richiesta #1 a Nicola (sblocco-dati): la radiografia completa va lanciata quando i dati sono sbloccati o su comando esplicito 'radiografia di te stesso'. Cantiere: DF-01 (cecita-dati) resta il difetto a maggior impatto; DF-02 (cadenza) gestito ma da tenere d'occhio."
+    "azione": "Trigger 🟡 attivo: >10 giorni senza radiografia completa di se'. NON accodato come azione nuova: coda piena E causa-radice unica gia' nella richiesta #2 a Nicola (sblocco-dati MCP); la radiografia completa va lanciata a dati sbloccati o su comando 'radiografia di te stesso'. Cantiere: DF-01 (cecita-dati, 20° giro) resta il difetto a maggior impatto; DF-02 (cadenza) RIENTRATO in questo passaggio (cadenza corretta sul cambio-fase)."
   }
 }

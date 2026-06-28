@@ -1,7 +1,21 @@
 ---
 tipo: auto-analisi
-aggiornato: 2026-06-28 18:22
+aggiornato: 2026-06-28 20:22
 fonte: AD digitale — cancello di serietà (cervello/auto-analisi.md)
+---
+
+# 🔬 Auto-analisi — Domenica 28/6, 20:22 (passaggio 13, APERTURA EFFETTIVA DEL PRESIDIO SERALE)
+
+**Voto di fiducia:** 7/10 — **più alto** del 18:22 (6) perché è un **cambio-fase reale**, non un quasi-duplicato: la finestra di presidio inseguita tutto il giorno è ORA aperta (gente in arrivo per Arisa 21:15). Il contributo nuovo è **uno e decisivo** — il check **go/no-go** dell'evento proprio nel momento in cui si decide se andare in centro. Non sale a 8 perché i dati interni restano ciechi (20° giro) e il pezzo che fa convertire il presidio (link lista) dipende da Nicola.
+
+## Verifica avversariale a 3 livelli (20:22)
+1. **Fatti & numeri** — 7 numeri NON toccati: baseline 24/6, gap dichiarato (Supabase MCP ritentato su marketplace **e** memoria → entrambi negati, **20° giro cieco**). Nessuna cifra orfana. Unico fatto live nuovo (**Arisa confermata stasera 21:15**) verificato con 2 fonti (ticketone + piacenzasera), valenza go/no-go. Resto del radar = riuso dichiarato (cadenza, Max risparmiato).
+2. **Logica & grounding entità** — Nessuna entità nuova. Garetti resta DA-CONFERMARE (nessuna azione lo assume LIVE). Il check Arisa **non era ridondante**: un evento è stato cancellato per caldo oggi → verificarne la tenuta al momento del "vai" è una conferma operativa, non rumore. Dipendenza esplicitata: senza link lista il QR converte 0.
+3. **Utilità & rischio** — Utilità: dare a Nicola il "vai ora" con evento confermato e isolare l'unica cosa che serve stasera (il link lista). Rischio = rumore-cadenza se si gira ancora a breve → mitigato dichiarando la rarefazione (prossimo utile ~23:00 post-Arisa o domattina).
+
+## Errori trovati e corretti (20:22)
+Nessun errore di dato. Passaggio correttamente ancorato al **cambio-fase** (apertura presidio) e non al mero scorrere dell'orologio: l'unica ricerca spesa è quella che la decisione di stasera rende decisiva. Esito: Arisa REGGE → il presidio si fa, senza assunzioni.
+
 ---
 
 # 🔬 Auto-analisi — Domenica 28/6, 18:22 (passaggio 12, NON-PASSAGGIO DI DISCIPLINA)

@@ -1,6 +1,13 @@
 {
-  "aggiornato": "2026-06-28 18:22",
+  "aggiornato": "2026-06-28 20:22",
   "lezioni": [
+    {
+      "data": "2026-06-28 20:22",
+      "fonte": "esito del giro (apertura presidio) + calibrazione previsto-vs-reale",
+      "testo": "Quando una finestra operativa passa da 'attesa' ad 'aperta adesso' (es. il presidio mentre la gente arriva per il concerto), il check di maggior valore è il GO/NO-GO della condizione che la abilita: alle 20:22 ho riconfermato che Arisa REGGE (oggi un altro evento era stato cancellato per caldo) → il presidio si fa, con certezza invece che per assunzione. È diverso dal ripetere un dato fresco: è verificare la TENUTA della condizione proprio nell'istante in cui si agisce fisicamente.",
+      "lezione": "All'apertura effettiva di una finestra operativa, spendere l'unica ricerca nel GO/NO-GO della condizione abilitante (l'evento è ancora on? il negozio è ancora aperto? la strada è agibile?), non nel ri-confermare dati già freschi. Una conferma di tenenza al momento del 'vai' previene un presidio a vuoto.",
+      "come_applicare": "Distinguere 'dato fresco da non rifare' (cadenza) da 'condizione abilitante da verificare al momento dell'azione' (go/no-go). Per ogni azione fisica imminente: 1 check sulla condizione che la può annullare, con 2 fonti, e poi si parte."
+    },
     {
       "data": "2026-06-28 18:22",
       "fonte": "auto-analisi del giro (errore di processo riconosciuto) + auto-radiografia (sonda DF-02)",

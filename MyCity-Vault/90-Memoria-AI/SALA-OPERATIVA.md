@@ -152,3 +152,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 18:22 · @analista · FATTO · Supabase MCP ritentato → di nuovo NEGATO (19° giro cieco). I 7 numeri restano baseline 24/6.
 - 2026-06-28 18:22 · @claude(AD) · FATTO · auto-analisi voto-fiducia onesto 6 (basso valore marginale, alto candore); sonda volano: cadenza in "attenzione" (ricaduta DF-02), voto salute 73. Lezione registrata: a trigger assente il valore corretto del giro è ~0, va dichiarato e si rarefà.
 - 2026-06-28 18:22 · @claude(AD) · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 · esito Giorno-1/Garetti LIVE) + link lista d'attesa. RACCOMANDAZIONE: prossimo giro utile = stasera ~23:00 (post-Arisa) o domattina, NON tra 15 minuti.
+
+### 2026-06-28 — Giro 20:22 (passaggio 13, APERTURA EFFETTIVA DEL PRESIDIO SERALE)
+- 2026-06-28 20:22 · @intelligence · FATTO · check go/no-go decisivo (la finestra di presidio è ORA aperta): Arisa @ Palazzo Farnese CONFERMATA stasera ore 21:15 — prima di 14 date del summer tour, biglietti in vendita, nessuna cancellazione nonostante l'allerta caldo (è di sera). Fonti: ticketone + piacenzasera.
+- 2026-06-28 20:22 · @marketing · FACCIO · mossa n.1 viva ORA: essere in centro col QR (finestra 20:00-21:15, gente che arriva) + post-show ~23:00. Coperta da azioni in coda #6 (post caldo) e #8 (materiali/QR). SERVE link lista d'attesa reale (senza, il QR converte 0).
+- 2026-06-28 20:22 · @analista · FATTO · Supabase MCP ritentato su ENTRAMBI i progetti (marketplace + memoria) → negati (20° giro cieco). I 7 numeri restano baseline 24/6; il digest non è scrivibile sulla tabella briefings → resta nel vault.
+- 2026-06-28 20:22 · @claude(AD) · FATTO · passaggio legittimo (cambio-fase reale, non duplicato): 1 sola ricerca mirata, resto del radar non rifatto (cadenza, Max risparmiato). Voto fiducia 7, voto salute 74. Dopo il presidio mi fermo: prossimo utile ~23:00 post-Arisa o domattina.
+- 2026-06-28 20:22 · @claude(AD) · SERVE · @Nicola STASERA il link reale lista d'attesa; appena può i 3 sblocchi (autorizza MCP · 3 firme 🔴 · esito Giorno-1/Garetti LIVE).
