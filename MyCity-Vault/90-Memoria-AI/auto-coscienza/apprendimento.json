@@ -1,6 +1,12 @@
 {
-  "aggiornato": "2026-06-28 04:05",
+  "aggiornato": "2026-06-28 06:05",
   "lezioni": [
+    {
+      "data": "2026-06-28 06:05",
+      "fonte": "pattern temporale (fase del giorno) + cadenza radar",
+      "lezione": "Il discriminante per il valore di un passaggio a dati ciechi NON e il tempo trascorso ma il CAMBIO DI FASE DEL GIORNO. Alle 06:05 (alba) il fattore meteo-01 (peso 4, ogni-giro) torna a essere utile anche se l'avevo gia controllato di notte: all'alba c'e il minimo termico e si apre la finestra-freschi operativa. Lo stesso fattore, stesso valore previsto, ma diventa AZIONABILE solo ora.",
+      "come_applicare": "A dati ciechi, prima di ripetere un check valutare se la FASE (notte->alba->giorno->sera) ha reso un fattore ogni-giro di nuovo azionabile. Se si, rifallo (e fresco e utile); se no, astieniti. Non confondere 'gia controllato oggi' con 'gia inutile adesso'."
+    },
     {
       "data": "2026-06-28 04:05",
       "fonte": "calibrazione previsto-vs-reale + check status piattaforme",

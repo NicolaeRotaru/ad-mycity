@@ -1,7 +1,15 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-28 00:51** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
+> Aggiornato: **2026-06-28 06:05** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
 > Finestra coperta: 28/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> ☀️ **Nota delle 06:05 (dom 28/6, ALBA del giorno-apice) — la FINESTRA-FRESCHI DEL MATTINO È APERTA ORA.**
+> Check meteo orario live di oggi: **min 24°C alle 6:00 (adesso) · max 39°C alle 17:00**, cielo poco
+> nuvoloso, zero pioggia, UV max 7.4 alle 14. È l'**apice** dell'ondata. Conseguenza operativa **diretta
+> per oggi:** consegnare i **freschi tra le ~6:30 e le ~10:30** (l'unica fascia sotto i 34°C); **mai 12-18**
+> (picco). Borsa termica + siberini obbligatori. Di giorno domina il delivery a casa ("col caldo non esci,
+> te la portiamo noi"); presidio fisico **solo la sera** (Arisa a Palazzo Farnese). Fonti:
+> [ilmeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) · [weather.com Piacenza](https://weather.com/it-IT/tempo/oggi/l/Piacenza+provincia+di+Piacenza)
 
 > 🌞 **Nota delle 00:51 (dom 28/6, primo giro del giorno) — ULTIMO giorno del picco di caldo.**
 > Check live: **allerta caldo confermata per oggi** (Arpae in accordo con Protezione Civile, pianura

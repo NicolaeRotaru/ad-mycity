@@ -1,7 +1,13 @@
 {
-  "aggiornato": "2026-06-28 04:05",
+  "aggiornato": "2026-06-28 06:05",
   "_README": "Calibrazione previsto-vs-reale. Si popola quando ci sono esiti misurabili (richiede dati reali via Supabase).",
   "voci": [
+    {
+      "previsione": "28/6 = apice ondata di caldo, 39°C (profilo noto dai giri precedenti)",
+      "reale": "CONFERMATO (06:05): meteo orario oggi min 24°C alle 6:00, max 39°C alle 17:00 (ilmeteo/weather.com)",
+      "scarto": "nessuno — profilo confermato, aggiunta la curva oraria",
+      "nota": "La curva oraria precisa la finestra-freschi operativa: 6:30-10:30 (sotto i 34°C), mai 12-18."
+    },
     {
       "previsione": "I 7 numeri restano a 0/baseline finche Supabase MCP e negato e le firme 🔴 ferme",
       "reale": "non misurabile (Supabase MCP negato da 11 giri)",

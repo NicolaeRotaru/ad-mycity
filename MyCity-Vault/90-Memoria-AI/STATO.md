@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 04:05
+aggiornato: 2026-06-28 06:05
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0u. **Giro 28/6 — 06:05 (passaggio 5, ALBA del giorno-apice):** 2 ore dopo il 4°, ma cambia la
+   **fase del giorno**: si apre la giornata operativa. ⭐ Contributo = **l'operatività dell'alba**: check
+   meteo orario fresco di oggi (input peso-4 ogni-giro, a cadenza) → **min 24°C ora alle 6:00, max 39°C
+   alle 17** ([ilmeteo](https://www.ilmeteo.it/meteo/piacenza)) → **finestra-freschi del mattino aperta
+   ADESSO (6:30-10:30), mai 12-18**. Se Garetti è LIVE e c'è una consegna oggi, è la fascia da usare.
+   Resto dell'esterno invariato (non rifatto, cadenza). **Supabase MCP ritentato → di nuovo NEGATO** (12°
+   giro cieco; piattaforma sana, è solo il permesso). Nessuna azione nuova accodata (coda piena). I 3
+   sblocchi da Nicola restano identici. **Consiglio:** valore a dati fermi ormai esaurito → il prossimo
+   passaggio utile è dopo uno sblocco o a fine giornata. Vedi [[2026-06-28]].
 0v. **Giro 28/6 — 04:05 (passaggio 4, NOTTE FONDA):** 2 ore dopo il 3°. Esterno **invariato**
    (notte fonda → niente ricerche meteo/eventi/competitor ripetute, cadenza rispettata, Max
    risparmiato). ⭐ Contributo del passaggio = **una verifica reale**: ho controllato lo **status di
