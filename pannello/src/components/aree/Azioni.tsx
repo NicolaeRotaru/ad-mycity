@@ -5,6 +5,7 @@ import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCir
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
+import { vaiArea } from "@/lib/nav";
 
 // L'UNICO posto dove si decide e si agisce. Schede separate (niente colonna unica lunga da scrollare):
 //  🦶 Mosse di Nicola → le tue prossime mosse (dai Piani), con link all'azione da firmare.
@@ -486,6 +487,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         {a.preparato && <span>preparato da {a.preparato}</span>}
                         {a.canale && <span>· canale: {a.canale}</span>}
                       </div>
+                      <button onClick={() => vaiArea("cervello", "auto-coscienza")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                        <ArrowRight size={12} /> Perché l'ho proposta? Vedi nel Cervello
+                      </button>
 
                       {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
                         <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
