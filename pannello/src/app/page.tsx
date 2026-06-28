@@ -95,6 +95,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import MemoriaViva from "@/components/MemoriaViva";
 import AutoCoscienza from "@/components/AutoCoscienza";
+import Cervello from "@/components/aree/Cervello";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
@@ -562,7 +563,7 @@ function fa(iso: string | null): string {
 
 export default function Dashboard() {
   const [vista, setVista] = useState<
-    "plancia" | "azioni" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
+    "plancia" | "azioni" | "cervello" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
   >("plancia");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
@@ -1038,6 +1039,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+            { id: "cervello", label: "Cervello", icon: <Cpu size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
@@ -1091,6 +1093,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Arsenale />
           </div>
         )}
+
+        {/* ===================== CERVELLO (la macchina su sé stessa) ===================== */}
+        {vista === "cervello" && <Cervello />}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (

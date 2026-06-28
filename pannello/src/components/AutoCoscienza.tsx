@@ -24,8 +24,10 @@ import { dataVault } from "@/lib/format";
 type Errore = { gravita?: string; titolo?: string; dettaglio?: string; azione_presa?: string; riguarda?: string; livello_scoperta?: string };
 type Domanda = { domanda?: string; perche_serve?: string; se_rispondi?: string; gravita?: string };
 type Analisi = {
-  data?: string; voto_fiducia?: number; trend_fiducia?: string; sintesi?: string;
-  verifiche?: Record<string, string>; errori?: Errore[]; domande_per_nicola?: Domanda[];
+  // voto_fiducia DOVREBBE essere un numero 0-100, ma il giro a volte ci scrive una frase:
+  // accettiamo entrambi e in render coerciamo (vedi votoF/votoFOk), così l'header non esplode.
+  data?: string; voto_fiducia?: number | string; trend_fiducia?: string; sintesi?: string;
+  verifiche?: Record<string, string>; errori?: Errore[]; domande_per_nicola?: (Domanda | string)[];
   punti_ciechi?: string[]; miglioramenti_prossimo_giro?: string[];
   salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number };
 };
@@ -54,7 +56,7 @@ const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
 };
 
 function votoColore(v?: number) {
-  if (v == null) return "text-black/40";
+  if (v == null || !Number.isFinite(v)) return "text-black/40";
   if (v >= 80) return "text-green-600";
   if (v >= 60) return "text-amber-600";
   return "text-red-600";
@@ -89,6 +91,11 @@ export default function AutoCoscienza() {
   }, [d]);
 
   const a = d?.analisi;
+  // Il voto può arrivare come numero o (per un giro che non rispetta il contratto) come frase.
+  const votoF = Number(a?.voto_fiducia);
+  const votoFOk = Number.isFinite(votoF);
+  // Se il voto è una frase non numerica, mostriamola come sintesi piccola (non come numero gigante).
+  const sintesiEff = a?.sintesi || (!votoFOk && typeof a?.voto_fiducia === "string" ? a!.voto_fiducia : "");
   const scelteRagionate = (d?.registro?.entita || []).filter((e) => e.stato === "scelta_ragionata");
   const daVerificare = (d?.registro?.entita || []).filter((e) => e.stato === "da_verificare");
   const ap = d?.apprendimento;
@@ -113,10 +120,10 @@ export default function AutoCoscienza() {
             <div className="t-eti">Si controlla, impara e si migliora da sola — prima di consegnare. {a?.data ? `· ultima ${dataVault(a.data)}` : ""}</div>
           </div>
         </div>
-        {a?.voto_fiducia != null && (
+        {votoFOk && (
           <div className="text-right shrink-0">
-            <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(a.voto_fiducia)}`}>{a.voto_fiducia}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti">fiducia {a.trend_fiducia || ""}</div>
+            <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoF)}`}>{votoF}<span className="text-[13px] text-black/30">/100</span></div>
+            <div className="t-eti">fiducia {a?.trend_fiducia || ""}</div>
           </div>
         )}
       </div>
@@ -147,7 +154,7 @@ export default function AutoCoscienza() {
           {/* ===== AUTO-ANALISI ===== */}
           {tab === "analisi" && (
             <div className="space-y-3">
-              {a?.sintesi && <p className="t-corpo">{a.sintesi}</p>}
+              {sintesiEff && <p className="t-corpo break-words">{sintesiEff}</p>}
 
               {/* Le 5 verifiche a colpo d'occhio */}
               {a?.verifiche && (
@@ -255,13 +262,18 @@ export default function AutoCoscienza() {
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te ({nDomande})</div>
                   <div className="space-y-2">
-                    {a!.domande_per_nicola!.map((q, i) => (
-                      <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3">
-                        <div className="text-[13px] font-medium">❓ {q.domanda}</div>
-                        {q.perche_serve && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {q.perche_serve}</div>}
-                        {q.se_rispondi && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {q.se_rispondi}</div>}
-                      </div>
-                    ))}
+                    {a!.domande_per_nicola!.map((q, i) => {
+                      const testo = typeof q === "string" ? q : q?.domanda;
+                      const perche = typeof q === "string" ? "" : q?.perche_serve;
+                      const seRisp = typeof q === "string" ? "" : q?.se_rispondi;
+                      return (
+                        <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3">
+                          <div className="text-[13px] font-medium break-words">❓ {testo}</div>
+                          {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {perche}</div>}
+                          {seRisp && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {seRisp}</div>}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}

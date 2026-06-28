@@ -1,0 +1,122 @@
+{
+  "_cosa_e": "🩻 AUTO-RADIOGRAFIA — la macchina analizza SÉ STESSA da cima a fondo (architettura: agenti, prompt, processi, sensori, memoria). Lo scrive il workflow .claude/workflows/auto-radiografia.js (completa) o la sonda del giro. Schema in cervello/auto-coscienza.md. Questo è il seed iniziale: la prima radiografia vera la genera il giro/comando.",
+  "data": "2026-06-28 01:40",
+  "tipo": "completa",
+  "voto_salute_architettura": 72,
+  "trend": "=",
+  "sintesi": "Prima radiografia della macchina. Architettura solida e ben documentata (42 agenti, volano di auto-coscienza appena acceso). Difetti reali da chiudere: un percorso del marketplace cablato su Windows che non gira sul VPS Linux, sensori MCP intermittenti, e il volano ancora da rodare (tasso di applicazione delle lezioni basso perché è nato adesso).",
+  "dimensioni": [
+    {
+      "key": "cadenza-esecuzione",
+      "voto": 70,
+      "stato": "attenzione",
+      "sintesi": "Il giro e le cadenze sono definiti, ma alcuni riferimenti sono legati a Windows.",
+      "findings": [
+        {
+          "titolo": "Il workflow radiografia del marketplace ha il percorso cablato su Windows",
+          "dove": ".claude/workflows/radiografia.js (const REPO)",
+          "severita": "grave",
+          "descrizione": "REPO = 'C:\\\\Users\\\\InfinitaPossibilita\\\\mycity-live': sul VPS Linux questo percorso non esiste, quindi la radiografia del sito fallirebbe.",
+          "impatto": "La macchina non può davvero radiografare il marketplace dal server: una capacità dichiarata ma cieca.",
+          "causa_radice": "Il percorso del codice del sito è stato scritto per il PC di Nicola, non parametrizzato per il VPS. Manca una variabile d'ambiente MARKETPLACE_REPO.",
+          "fix": "Proporre 🟡 di leggere il percorso da una env var (es. MARKETPLACE_REPO) con fallback, in radiografia.js e audit-design.js.",
+          "impatto_crescita": "medio",
+          "genera": "auto-riscrittura",
+          "confermato": true
+        }
+      ]
+    },
+    {
+      "key": "salute-sensori-dati",
+      "voto": 60,
+      "stato": "attenzione",
+      "sintesi": "Sensori MCP intermittenti: la macchina spesso lavora 'al buio' sui dati interni.",
+      "findings": [
+        {
+          "titolo": "Supabase/Stripe MCP spesso non raggiungibili ('permission stream closed')",
+          "dove": "MCP Supabase/Stripe usati da giro.md / Pannello",
+          "severita": "grave",
+          "descrizione": "Nei giri recenti gli MCP cadono di frequente: ordini/incassi reali non vengono verificati live.",
+          "impatto": "Senza dati reali, le analisi rischiano di poggiare su assunzioni; la calibrazione previsto-vs-reale non parte.",
+          "causa_radice": "Connessione MCP instabile e nessun retry/fallback dichiarato nel giro quando il sensore è giù.",
+          "fix": "Proporre 🟡 un passo di retry + un fallback esplicito ('lavoro su ciò che ho, segnalo i dati mancanti nei Gap') e un conteggio 'da quanti giri il sensore è cieco'.",
+          "impatto_crescita": "alto",
+          "genera": "auto-riscrittura",
+          "confermato": true
+        }
+      ]
+    },
+    {
+      "key": "chiusura-volano",
+      "voto": 75,
+      "stato": "attenzione",
+      "sintesi": "Il volano di auto-coscienza è appena acceso: va rodato.",
+      "findings": [
+        {
+          "titolo": "Tasso di applicazione delle lezioni ancora basso (volano nuovo)",
+          "dove": "auto-coscienza/apprendimento.json (meta.tasso_applicazione)",
+          "severita": "minore",
+          "descrizione": "Le lezioni esistono ma non sono ancora state applicate giro dopo giro: è normale all'avvio, ma va monitorato che non resti conoscenza inerte.",
+          "impatto": "Se le lezioni non cambiano le decisioni, l'apprendimento è solo un archivio.",
+          "causa_radice": "Il volano è nato in questi giorni: mancano i giri necessari a chiudere il ciclo impara→applica.",
+          "fix": "La sonda di ogni giro vigila sul tasso_applicazione; se resta <0.3 per 3 giri, accoda 🟡 la radiografia completa.",
+          "impatto_crescita": "medio",
+          "genera": "solo-report",
+          "confermato": true
+        }
+      ]
+    }
+  ],
+  "pre_mortem": [
+    {
+      "disastro": "Un'azione 🔴 (messaggio a un negozio reale, payout) parte senza firma per un bug del worker/autopilot.",
+      "probabilita": "bassa",
+      "come": "esegui-azione.mjs in modalità LIVE su una coda non filtrata bene per colore.",
+      "difesa_proposta": "Doppio controllo del colore in esegui-azione.mjs: rifiuta qualsiasi 🔴 senza flag di firma esplicito; test in dry-run prima di ogni LIVE.",
+      "colore": "🟡"
+    },
+    {
+      "disastro": "Il giro corrompe/perde la memoria del vault durante il sync git (reset/force).",
+      "probabilita": "bassa",
+      "come": "un giro interrotto a metà sul ramo memoria-ad prima del push.",
+      "difesa_proposta": "Confermare il blocco di recupero WIP già presente in giro.sh + uno snapshot periodico della cartella auto-coscienza/.",
+      "colore": "🟡"
+    }
+  ],
+  "benchmark_vs_migliori": [
+    {
+      "ambito": "Gestione autonoma dell'azienda con agenti AI",
+      "come_fanno_i_migliori": "I migliori sistemi di 'AI ops' chiudono il loop osserva→agisci→misura→impara su dati reali e tengono un audit continuo di sé. Da popolare con fonti reali al primo ciclo completo.",
+      "esempi": [],
+      "nostro_divario": "alto",
+      "obiettivo": "Chiudere il volano sui dati reali (non solo sui prompt) appena gli MCP sono stabili.",
+      "primo_passo": "Stabilizzare i sensori (vedi salute-sensori-dati) per far partire la calibrazione."
+    }
+  ],
+  "salute_marketplace": {
+    "voto": 0,
+    "da": "(nessun audit del sito ancora leggibile dal VPS — vedi finding su radiografia.js)",
+    "sintesi": "La salute del marketplace entra nel 'sé' appena il percorso del sito è parametrizzato e un audit gira sul server."
+  },
+  "proposte_nuovi_pezzi": [
+    {
+      "cosa": "sensore",
+      "perche": "Manca un sensore che misuri da quanti giri ogni MCP è cieco (oggi la cecità è silenziosa).",
+      "colore": "🟡"
+    }
+  ],
+  "domande_per_nicola": [],
+  "sonda": {
+    "loop_chiude": true,
+    "tasso_applicazione": 0.25,
+    "giro_a_cadenza": true,
+    "sentinelle_scattano": true,
+    "ore_da_ultima_completa": 0,
+    "verdetto": "ok"
+  },
+  "meta": {
+    "agenti_totali": 42,
+    "dimensioni_critiche": 0,
+    "bloccanti": 0
+  }
+}

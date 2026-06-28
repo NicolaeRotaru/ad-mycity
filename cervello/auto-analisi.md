@@ -55,6 +55,15 @@ Spawna **più revisori, ognuno con UNA lente** diversa, e vota a maggioranza:
 Se ≥ metà segnala un problema → l'azione non passa. La diversità di lente cattura errori che un solo
 revisore non vedrebbe.
 
+## 🏆 Il filo del benchmark (su ogni lavoro importante)
+Verificare che il lavoro sia *giusto* non basta: deve essere *al livello dei migliori*. Su ogni lavoro che
+conta, prima di consegnare chiediti: **«è al livello dei migliori del mondo per questo mestiere? come fanno
+loro? come ci arrivo?»** — confronto a **due livelli** (concorrenti locali + meglio del mondo, vedi
+`auto-miglioramento.md`). Se il divario è alto, il lavoro **non è finito**: o lo alzi ora, o dichiari il
+divario e il piano per colmarlo. Mai accontentarsi del «fatto» quando era possibile il «al livello dei top».
+Registra l'esito di questo filo in `verifiche.benchmark` (ok/problemi). **Mai sazia:** anche se è già buono,
+«c'è un 10× qui?».
+
 ## 🩺 Auto-diagnosi della macchina (meta-salute)
 Oltre al lavoro, controlla **te stessa come sistema**: Supabase/Stripe raggiungibili? dati freschi? quanti
 sensori/sentinelle realmente attivi? il giro precedente ha lasciato lavoro a metà? Scrivi in
@@ -77,6 +86,15 @@ Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi ele
    (specifiche, con contesto) · Salute della macchina · Punti ciechi · Cosa miglioro al prossimo giro.
 2. **Digest strutturato** → `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json` (schema esatto in
    `auto-coscienza.md`). Aggiorna anche `registro-realta.json` con le entità verificate/declassate stavolta.
+   > 🚨 **RISPETTA I TIPI DEL CONTRATTO ALLA LETTERA — il Pannello si rompe se sgarri:**
+   > - `voto_fiducia` = **NUMERO intero 0-100**, MAI una frase. La sfumatura («alto su tracciabilità, basso
+   >   sull'utilità…») va in `sintesi`, NON nel voto. (Un voto come testo viene reso come numero gigante e
+   >   sfonda la card.)
+   > - `domande_per_nicola` = array di **OGGETTI** `{domanda, perche_serve, se_rispondi, gravita}` — mai
+   >   stringhe nude (escono come «❓» vuote nel Pannello).
+   > - Usa i **nomi di campo ESATTI**: `verifiche`, `errori`, `punti_ciechi`, `salute_macchina`. **Vietato**
+   >   inventarne altri (`errori_trovati_e_corretti`, `salute_sistema`, `verifica_avversariale_3_livelli`…):
+   >   il Pannello legge solo i nomi del contratto, il resto è invisibile.
 
 ## 🔗 Effetti a valle (chiudi il volano)
 - Le **domande 🔴/bloccanti** → anche in `AZIONI-IN-ATTESA.md` e in `serve_da_nicola` delle intenzioni.
