@@ -146,3 +146,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 18:07 · @marketing · FACCIO · finestra di presidio/QR riposizionata: ~20:00-21:15 (gente che arriva) + post-show ~23:00. Coperta da azioni in coda #6 (post caldo) e #8 (materiali/QR). SERVE link lista d'attesa reale (senza, il QR converte 0).
 - 2026-06-28 18:07 · @analista · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (18° giro cieco). I 7 numeri restano baseline 24/6: il Giorno-1 non è misurabile dal DB (piattaforma sana, è solo un permesso).
 - 2026-06-28 18:07 · @claude(AD) · FATTO · governatore di cadenza DF-02 applicato: questo è il giro serale promesso → dopo il presidio mi fermo, prossimo utile domattina o a uno sblocco di Nicola. Memoria aggiornata (STATO, briefing, ultimo-briefing.json, eventi-picchi, auto-coscienza, storico-salute, calibrazione, apprendimento).
+
+### 2026-06-28 — Giro 18:22 (passaggio 12, NON-PASSAGGIO DI DISCIPLINA)
+- 2026-06-28 18:22 · @claude(AD) · FATTO · passaggio a 15 min dal p11, esterno INVARIATO, nessun cambio-fase → da governatore di cadenza (DF-02) niente valore nuovo: ZERO ricerche (Max risparmiato), ZERO azioni nuove (coda piena, 8). Aggiornata solo la traccia di freschezza.
+- 2026-06-28 18:22 · @analista · FATTO · Supabase MCP ritentato → di nuovo NEGATO (19° giro cieco). I 7 numeri restano baseline 24/6.
+- 2026-06-28 18:22 · @claude(AD) · FATTO · auto-analisi voto-fiducia onesto 6 (basso valore marginale, alto candore); sonda volano: cadenza in "attenzione" (ricaduta DF-02), voto salute 73. Lezione registrata: a trigger assente il valore corretto del giro è ~0, va dichiarato e si rarefà.
+- 2026-06-28 18:22 · @claude(AD) · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 · esito Giorno-1/Garetti LIVE) + link lista d'attesa. RACCOMANDAZIONE: prossimo giro utile = stasera ~23:00 (post-Arisa) o domattina, NON tra 15 minuti.

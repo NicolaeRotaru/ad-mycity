@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 18:07
+aggiornato: 2026-06-28 18:22
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0n. **Giro 28/6 — 18:22 (passaggio 12, NON-PASSAGGIO DI DISCIPLINA):** appena 15 min dopo il 11°.
+   **Esterno INVARIATO**, nessun cambio-fase, presidio Arisa (21:15) ancora ~1,5h avanti → da governatore
+   di cadenza (DF-02) **niente valore nuovo da estrarre**: **zero ricerche** (meteo/eventi/competitor erano
+   freschi alle 18:07 → Max risparmiato), **zero azioni nuove** (coda piena, 8). **Supabase MCP ritentato →
+   di nuovo NEGATO** (19° giro cieco). Aggiornata solo la **traccia di freschezza** (timestamp, ultimo-briefing,
+   auto-coscienza, sonda del volano, storico-salute) perché la Cabina mostri "Vivo" all'ora giusta. **Voto di
+   fiducia onesto: 6** (alto su candore/disciplina, basso su valore marginale: è un quasi-duplicato e lo dico).
+   ⭐ Raccomandazione esplicita: **prossimo giro utile = stasera ~23:00** (post-Arisa, per imparare dal presidio)
+   **o domattina**, non tra 15 min. Il collo di bottiglia è UMANO: i 3 sblocchi di Nicola restano identici. Vedi [[2026-06-28]].
 0o. **Giro 28/6 — 18:07 (passaggio 11, APERTURA PRESIDIO SERALE):** 2 ore dopo il 10°. **Cambio-fase reale:**
    il picco di caldo delle 17 è passato, la temperatura cala (36°C alle 20, 30°C alle 23) → si apre **ORA** l'unica
    finestra fisica vera del giorno: il **presidio serale**. ⭐ Contributo = **1 check live mirato a valore** (giustificato

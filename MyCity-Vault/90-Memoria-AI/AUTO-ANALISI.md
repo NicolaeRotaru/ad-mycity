@@ -1,7 +1,21 @@
 ---
 tipo: auto-analisi
-aggiornato: 2026-06-28 18:07
+aggiornato: 2026-06-28 18:22
 fonte: AD digitale — cancello di serietà (cervello/auto-analisi.md)
+---
+
+# 🔬 Auto-analisi — Domenica 28/6, 18:22 (passaggio 12, NON-PASSAGGIO DI DISCIPLINA)
+
+**Voto di fiducia:** 6/10 — **più basso** del 18:07 (8) per onestà. Questo passaggio, a 15 min dal precedente e a esterno invariato (nessun cambio-fase), **non ha contributo nuovo**: il valore marginale è ~0 e lo dichiaro invece di gonfiarlo. Resta ALTO su candore/disciplina: **zero ricerche** (Max risparmiato), **zero dati inventati**, **zero azioni nuove**, e segnalo che girare ora è esso stesso il rischio rumore-cadenza (DF-02). Da AD la mossa giusta è dirlo e **raccomandare di rarefare** (prossimo utile ~23:00 post-Arisa o domattina), non simulare attività.
+
+## Verifica avversariale a 3 livelli (18:22)
+1. **Fatti & numeri** — 7 numeri NON toccati: baseline 24/6, gap dichiarato (Supabase MCP ritentato → di nuovo negato, **19° giro cieco**). Nessuna cifra orfana. **Nessun fatto live nuovo asserito**, di proposito: i dati delle 18:07 (Arisa 21:15, meteo 36°→30°C) sono ancora freschi a 15 min — ri-cercarli non darebbe informazione, solo costo.
+2. **Logica & grounding entità** — Nessuna entità nuova introdotta → nessun rischio "Garetti inventati". Garetti resta DA-CONFERMARE. La logica del passaggio è meta-operativa: riconoscere l'assenza di delta e non fabbricarne uno.
+3. **Utilità & rischio** — Rischio = rumore-cadenza (12° passaggio). Mitigazione attiva: voto a 6, raccomandazione di rarefare, niente ricerche/azioni. Utilità reale: tenere la Cabina "Viva" all'ora giusta e dire a Nicola, netto, che il collo di bottiglia è **umano** (i 3 sblocchi), non altra analisi.
+
+## Errori trovati e corretti (18:22)
+Nessun errore di dato. **Riconosciuto e gestito un rischio di processo:** girare a 15 min dall'ultimo, a esterno fermo, alimenta DF-02. Corretto in corsa: voto a 6, nessuna ricerca/azione, raccomandazione esplicita di rarefare. Coerente con la lezione del 18:07 ("il valore sta nell'unico check che il cambio-fase rende decisivo"): qui il cambio-fase non c'è → il valore corretto è ~0 e va dichiarato.
+
 ---
 
 # 🔬 Auto-analisi — Domenica 28/6, 18:07 (passaggio 11, APERTURA PRESIDIO SERALE)

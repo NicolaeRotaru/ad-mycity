@@ -1,6 +1,13 @@
 {
-  "aggiornato": "2026-06-28 18:07",
+  "aggiornato": "2026-06-28 18:22",
   "lezioni": [
+    {
+      "data": "2026-06-28 18:22",
+      "fonte": "auto-analisi del giro (errore di processo riconosciuto) + auto-radiografia (sonda DF-02)",
+      "testo": "Alle 18:22, a 15 min dal p11 e a esterno invariato, un nuovo giro non produce informazione: i dati erano freschi, nessun cambio-fase. La frequenza stava sostituendo lo sblocco umano (19° giro cieco). La cosa giusta non è girare di più ma riconoscere il non-valore, NON rifare ricerche, abbassare il proprio voto-fiducia e raccomandare di rarefare.",
+      "lezione": "Quando manca il trigger (nessun cambio-fase, dati freschi), il valore corretto di un giro è ~0 e va DICHIARATO: niente ricerche, niente azioni, voto onesto basso, raccomandazione di rarefare. La cadenza alta non compensa mai un blocco umano; rischia solo di mascherarlo. Girare a vuoto è un costo (rumore-cadenza DF-02), non un'attività.",
+      "come_applicare": "Prima di ogni giro ravvicinato chiedersi: c'è un cambio-fase o un dato scaduto da rinfrescare? Se no → passaggio minimo (solo traccia di freschezza), voto basso e onesto, e rarefazione esplicita (prossimo utile alla prossima finestra reale o a uno sblocco). Mettere il blocco umano davanti a Nicola, non aggiungere analisi."
+    },
     {
       "data": "2026-06-28 18:07",
       "fonte": "esito di un check live + calibrazione previsto-vs-reale",

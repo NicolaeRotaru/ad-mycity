@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-06-28 18:07",
+  "aggiornato": "2026-06-28 18:22",
   "_README": "Registro di grounding delle entita citate nelle azioni dell'AD. stato: REALE (dati/firma) | SCELTA-RAGIONATA (deduzione difendibile con prove) | DA-CONFERMARE (serve conferma Nicola/dati) | NON-VERIFICABILE (canale dati assente).",
   "entita": [
     {"nome": "Nicola", "tipo": "persona/founder", "stato": "REALE", "fonte": "utente (nicolaflorea50@gmail.com), firma decisioni", "note": "Proprietario, single point of failure (radar persona-05)."},

@@ -2,6 +2,15 @@
   "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
   "snapshot": [
     {
+      "data": "2026-06-28 18:22",
+      "voto_salute": 73,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.8,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 19° giro)",
+      "difetti_aperti": 2,
+      "nota": "12° passaggio, quasi-duplicato a 15 min dal p11 senza cambio-fase: ricaduta lieve su DF-02 (rumore-cadenza). Voto LIMATO a 73 (da 75) per onestà: girare a vuoto è un costo, non un valore. Compensa il candore: la macchina riconosce il non-valore, non rifà ricerche (Max risparmiato), non inventa, abbassa il proprio voto-fiducia a 6 e raccomanda di rarefare. Nessun difetto BLOCCANTE; il collo di bottiglia resta UMANO (3 sblocchi)."
+    },
+    {
       "data": "2026-06-28 18:07",
       "voto_salute": 75,
       "loop_chiude": true,
