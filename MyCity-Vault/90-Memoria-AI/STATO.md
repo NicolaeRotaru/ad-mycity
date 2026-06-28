@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 06:05
+aggiornato: 2026-06-28 08:05
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0t. **Giro 28/6 — 08:05 (passaggio 6, MATTINO operativo):** 2 ore dopo il 5°. Cambia la **fase**: da
+   alba a mattino pieno → la **finestra-freschi è ora ATTIVA e in scadenza** (~2,5h residue, fino a ~10:30;
+   34°C già alle 11). ⭐ Contributo = riconferma meteo orario di oggi via WebSearch (input peso-4 ogni-giro,
+   a cadenza): 11h=34°C · 14h=38°C · **picco 38,8°C alle 17** · 20h=36°C · 23h=30°C, nessun nuovo temporale
+   ([ilmeteo](https://www.ilmeteo.it/meteo/piacenza)). Resto dell'esterno invariato (cadenza rispettata, Max
+   risparmiato). **Supabase MCP ritentato → permesso di nuovo NEGATO** (13° giro cieco; piattaforma sana, è
+   solo il permesso). Nessuna azione nuova accodata (coda piena, 8 azioni). I 3 sblocchi da Nicola restano
+   identici. **Consiglio:** valore a dati fermi esaurito → prossimo giro utile dopo uno sblocco o a fine
+   giornata. Vedi [[2026-06-28]].
 0u. **Giro 28/6 — 06:05 (passaggio 5, ALBA del giorno-apice):** 2 ore dopo il 4°, ma cambia la
    **fase del giorno**: si apre la giornata operativa. ⭐ Contributo = **l'operatività dell'alba**: check
    meteo orario fresco di oggi (input peso-4 ogni-giro, a cadenza) → **min 24°C ora alle 6:00, max 39°C

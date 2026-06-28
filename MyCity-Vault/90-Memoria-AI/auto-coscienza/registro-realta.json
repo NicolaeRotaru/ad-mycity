@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-06-28 06:05",
+  "aggiornato": "2026-06-28 08:05",
   "_README": "Registro di grounding delle entita citate nelle azioni dell'AD. stato: REALE (dati/firma) | SCELTA-RAGIONATA (deduzione difendibile con prove) | DA-CONFERMARE (serve conferma Nicola/dati) | NON-VERIFICABILE (canale dati assente).",
   "entita": [
     {"nome": "Nicola", "tipo": "persona/founder", "stato": "REALE", "fonte": "utente (nicolaflorea50@gmail.com), firma decisioni", "note": "Proprietario, single point of failure (radar persona-05)."},
@@ -8,7 +8,7 @@
     {"nome": "Garetti", "tipo": "negozio-faro", "stato": "DA-CONFERMARE", "fonte": "vault (scelta del negozio-faro)", "note": "Stato LIVE (approvato+payout+prodotti veri) e grounding anagrafico non verificabili senza Supabase. NON dare per confermato: e l'errore-tipo 'Garetti inventati'. Domanda aperta per Nicola."},
     {"nome": "Manifestazioni Antoniniane / Sant'Antonino", "tipo": "evento", "stato": "REALE", "fonte": "piacenza24.eu (Antoniniane 2026)", "note": "Festa del patrono, culmine fiera sab 4/7; + Venerdi Piacentini 3/7. Finestra di presidio piu grande del mese."},
     {"nome": "Arisa a Palazzo Farnese (28/6 sera)", "tipo": "evento", "stato": "REALE", "fonte": "ilpiacenza.it / Piacenza Summer Cult", "note": "Presidio serale nelle ore fresche."},
-    {"nome": "Allerta caldo 066/2026 (28/6, 39 gradi)", "tipo": "meteo", "stato": "REALE", "fonte": "Arpae / Protezione Civile ER + meteo orario ilmeteo/weather.com (06:05): min 24°C alle 6, max 39°C alle 17", "note": "Apice oggi. Finestra-freschi del mattino 6:30-10:30 (sotto i 34°C), mai 12-18. Svolta inizio luglio con rischio violenti temporali (ri-verificare 1-2/7)."},
+    {"nome": "Allerta caldo 066/2026 (28/6, ~39 gradi)", "tipo": "meteo", "stato": "REALE", "fonte": "Arpae / Protezione Civile ER + meteo orario ilmeteo (riconfermato 08:05): 11h=34°C, 14h=38°C, 17h=38,8°C, 20h=36°C, 23h=30°C", "note": "Apice oggi. Finestra-freschi del mattino sicura fino a ~10:30 (sotto i 34°C), mai 12-18. Svolta inizio luglio con rischio violenti temporali (ri-verificare 1-2/7)."},
     {"nome": "I 7 numeri (ordini, pagati, payout, clienti, prodotti, consegne, negozi LIVE)", "tipo": "kpi-interni", "stato": "NON-VERIFICABILE", "fonte": "Supabase MCP negato", "note": "Restano baseline 24/6. Dichiarati gap, mai inventati."}
   ]
 }

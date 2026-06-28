@@ -1,10 +1,33 @@
 ---
 tipo: auto-analisi
-aggiornato: 2026-06-28 06:05
+aggiornato: 2026-06-28 08:05
 fonte: AD digitale — cancello di serietà (cervello/auto-analisi.md)
 ---
 
 # 🔬 AUTO-ANALISI — voto di fiducia del giro
+
+## Giro 2026-06-28 08:05 (passaggio 6, MATTINO operativo)
+
+**Voto di fiducia:** 🟢 ALTO su tracciabilità e onestà · 🟡 MEDIO-BASSO sull'utilità marginale (13° giro
+cieco, 6° passaggio del giorno). Passaggio di **mantenimento**: l'unico fatto nuovo è il cambio di fase
+(alba → mattino pieno, finestra-freschi ora **attiva e in scadenza**, ~2,5h residue). Nessun dato inventato,
+nessuna azione duplicata, una sola ricerca (l'unica ogni-giro dovuta: meteo).
+
+### Verifica avversariale a 3 livelli
+1. **Fatti & numeri** — I 7 numeri non toccati (baseline 24/6, gap dichiarato: Supabase MCP ritentato e di
+   nuovo negato). Nessuna cifra orfana. Unica affermazione live: meteo orario di oggi (11h=34°C, 17h=38,8°C,
+   20h=36°C), fonte citata (ilmeteo), coerente col profilo già noto.
+2. **Logica & grounding entità** — Entità verificate contro `registro-realta.json`. **Garetti resta
+   DA-CONFERMARE**: la proposta sulla finestra-freschi è **condizionata** → non assume nulla di non confermato.
+   Deduzione: alle 08:05 restano ~2,5h prima dei 34°C delle 11 = chiusura della fascia sicura per i deperibili.
+3. **Utilità & rischio** — Rischio rumore (6° passaggio) mitigato: input nuovo (cambio fase), zero azioni
+   duplicate, zero ricerche ridondanti oltre l'unica dovuta. Raccomandazione metacognitiva **confermata**: a
+   dati fermi il valore marginale è esaurito → prossimo giro utile dopo uno sblocco di Nicola o a fine giornata.
+
+**Domande per Nicola:** ① autorizzare il Supabase MCP · ② firmare le 3 decisioni 🔴 · ③ Garetti LIVE? esito
+Giorno-1? · **Salute sistema:** STABILE (3 colli di bottiglia tutti umani/permessi, non tecnici).
+
+---
 
 ## Giro 2026-06-28 06:05 (passaggio 5, ALBA del giorno-apice)
 
