@@ -30,7 +30,9 @@ const FINDINGS = {
   required: ['dimensione', 'findings'],
 }
 
-const REPO = 'C:\\Users\\InfinitaPossibilita\\mycity-live'
+// Percorso del codice del marketplace. Su VPS Linux imposta MARKETPLACE_REPO (env); il default Windows
+// vale solo sul PC di Nicola. Senza un percorso valido la radiografia del sito non gira.
+const REPO = process.env.MARKETPLACE_REPO || 'C:\\Users\\InfinitaPossibilita\\mycity-live'
 
 const DIMS = [
   { key: 'architettura', focus: 'architettura: struttura del codice, accoppiamenti, duplicazioni, coerenza, dipendenze fragili, dead code' },
