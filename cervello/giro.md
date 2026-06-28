@@ -134,12 +134,13 @@ Passi:
     ```
     (Se non hai nulla di nuovo rispetto all'ultimo giro, lascia il file com'è: non sovrascriverlo con un vuoto.)
     Le mosse 🟡/🔴 che l'AD prepara restano comunque da firmare in [[AZIONI-IN-ATTESA]] (passo 7).
-11. 🔬 AUTO-ANALISI (CANCELLO DI SERIETÀ — esegui `cervello/auto-analisi.md`): PRIMA di considerare
-    chiuso il giro, **controlla il tuo stesso lavoro** con la verifica avversariale a 3 livelli. In
-    particolare il **grounding delle entità**: ogni negozio/persona/numero citato nelle azioni di questo
-    giro va verificato contro `90-Memoria-AI/auto-coscienza/registro-realta.json` (o dati reali / decisioni
-    di Nicola). Un'entità non verificata → **declassa l'azione** e crea una domanda per Nicola (mai agire su
-    qualcosa di non confermato — è l'errore-tipo «Garetti»).
+11. 🔬 AUTO-ANALISI DEL LAVORO (CANCELLO DI SERIETÀ — esegui `cervello/auto-analisi.md`): PRIMA di
+    considerare chiuso il giro, **controlla il tuo stesso lavoro** con la verifica avversariale a 3 livelli.
+    In particolare il **grounding delle entità a 3 strade** (dati reali → scelta ragionata con prove →
+    altrimenti blocca): verifica ogni negozio/persona/numero contro
+    `90-Memoria-AI/auto-coscienza/registro-realta.json`. Un'entità senza fondamento → **declassa l'azione** e
+    chiedi (è l'errore-tipo «Garetti»). E il **filo del benchmark**: il lavoro importante è *al livello dei
+    migliori*?
     ⚠️ **QUESTO NON È UN PASSO "DI PENSIERO": DEVI SCRIVERE I FILE SU DISCO ADESSO (strumento Write), prima di
     chiudere il giro.** Scrivere la tua memoria è 🟢 (sei in acceptEdits): **non aspettare Nicola, non limitarti a
     riassumere il verdetto nella risposta.** Crea la cartella se manca. File **OBBLIGATORI** di questo passo:
@@ -148,13 +149,24 @@ Passi:
     **Se a fine giro `auto-coscienza/auto-analisi.json` non esiste su disco, il giro è FALLITO: la Cabina resta
     vuota e tutto il tuo lavoro di analisi è invisibile.** Le domande 🔴/bloccanti vanno anche in [[AZIONI-IN-ATTESA]] e in `serve_da_nicola`.
 12. 📚 APPRENDIMENTO (esegui `cervello/apprendimento.md`): estrai le **lezioni riusabili** di questo giro
-    dalle 7 fonti (esiti, approvazioni/rifiuti di Nicola, calibrazione previsto-vs-reale, pattern nei dati,
-    errori dell'auto-analisi, eccezioni, benchmark). Aggiorna `auto-coscienza/apprendimento.json` +
-    `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al prossimo giro (è il volano).
-13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine,
-    esperimenti): esegui `cervello/auto-miglioramento.md` — benchmark coi migliori (via @intelligence),
-    misura il divario, fai produrre ≥3 varianti dai senior, torneo+critico, peer-review incrociata, e
-    scrivi `auto-coscienza/auto-miglioramento.json`. (Il ciclo profondo è settimanale, in `ritmo.md`.)
+    dalle **8 fonti** (esiti, approvazioni/**correzioni di Nicola — casi-studio prioritari**, calibrazione,
+    pattern, errori dell'auto-analisi, eccezioni, benchmark, **auto-radiografia**). Aggiorna
+    `apprendimento.json` + `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
+    prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
+    come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`
+    dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
+13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine):
+    esegui `cervello/auto-miglioramento.md` — benchmark coi migliori a **due livelli** (locali + mondo, via
+    @intelligence + watchlist), misura il divario con **obiettivo e progresso**, ≥3 varianti dai senior,
+    torneo+critico, peer-review; scrivi `auto-coscienza/auto-miglioramento.json`.
+14. 🩻 SONDA DI AUTO-RADIOGRAFIA (esegui la parte «sonda leggera» di `cervello/auto-radiografia.md`):
+    controllo deterministico dei **4 invarianti del volano** (loop chiude? `tasso_applicazione`>0? giro a
+    cadenza? sentinelle scattano?). Aggiorna il blocco `sonda` di `auto-coscienza/auto-radiografia.json` e
+    aggiungi uno snapshot a `storico-salute.json`. Se un invariante è rotto o sono passati >10 giorni
+    dall'ultima radiografia completa → accoda 🟡 «serve la radiografia completa» e fai scattare la sentinella.
+    Avanza il **cantiere** (`cantiere-difetti.json`): proponi 🟡 il fix di **un** difetto aperto a maggior
+    impatto sulla crescita. (La radiografia COMPLETA — workflow `.claude/workflows/auto-radiografia.js` — è
+    settimanale in `ritmo.md` o su comando «radiografia di te stesso».)
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.

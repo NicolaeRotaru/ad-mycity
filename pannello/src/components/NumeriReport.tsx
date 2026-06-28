@@ -11,7 +11,7 @@ import Aggiornato from "@/components/Aggiornato";
 type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "cassa" | "payout" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
 type Anomalia = { giorno: string; metrica: "ordini" | "incasso"; valore: number; media: number; z: number; direzione: "sopra" | "sotto" };
-type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct: number; stato: "verde" | "giallo" | "rosso"; motivo: string };
+type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; ultimo_ordine_giorni: number | null; recensione_media: number; trend_pct?: number | null; stato: "verde" | "giallo" | "rosso"; motivo: string };
 const GIORNI = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
 // Mini grafico a barre in SVG puro (niente dipendenze).
@@ -103,7 +103,13 @@ export default function NumeriReport() {
     { id: "report", label: "Report", icon: <FileBarChart size={14} /> },
   ];
 
-  const eur = (v: number) => "€" + (Math.round(v * 100) / 100).toLocaleString("it-IT");
+  // Coercizione sicura: il giro/marketplace può mandare numeri come stringa o assenti.
+  // Senza guardia → «€NaN»/«NaN%». num() coerce con fallback; eur() mostra «—» se non è un numero.
+  const num = (v: any, d = 0) => { const n = Number(v); return Number.isFinite(n) ? n : d; };
+  const eur = (v?: number | string | null) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? "€" + (Math.round(n * 100) / 100).toLocaleString("it-IT") : "—";
+  };
 
   return (
     <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
@@ -332,7 +338,7 @@ export default function NumeriReport() {
                       <span>{eur(n.gmv_30g)} GMV</span>
                       {n.recensione_media > 0 && <span>★ {n.recensione_media}</span>}
                       {n.ultimo_ordine_giorni != null && <span>ultimo {n.ultimo_ordine_giorni}g fa</span>}
-                      <span className={n.trend_pct < 0 ? "text-red-600" : "text-green-700"}>{n.trend_pct >= 0 ? "▲" : "▼"} {Math.abs(n.trend_pct)}% vs mese prima</span>
+                      {n.trend_pct != null && <span className={num(n.trend_pct) < 0 ? "text-red-600" : "text-green-700"}>{num(n.trend_pct) >= 0 ? "▲" : "▼"} {Math.abs(num(n.trend_pct))}% vs mese prima</span>}
                     </div>
                   </div>
                 );
@@ -351,15 +357,16 @@ export default function NumeriReport() {
             <>
               <div className="space-y-1.5">
                 {funnel.steps.map((s: any, i: number) => {
-                  const max = Math.max(1, funnel.steps[0]?.valore || 1);
+                  const max = Math.max(1, num(funnel.steps[0]?.valore, 1));
+                  const val = num(s.valore);
                   return (
                     <div key={i}>
                       <div className="flex items-baseline justify-between text-[12px] mb-0.5">
                         <span className="text-ink/85">{s.nome}</span>
-                        <span className="text-black/55"><b className="text-ink tabular-nums">{s.valore.toLocaleString("it-IT")}</b>{s.conv != null && <span className="text-black/45"> · {s.conv}% del passo prima</span>}</span>
+                        <span className="text-black/55"><b className="text-ink tabular-nums">{val.toLocaleString("it-IT")}</b>{s.conv != null && <span className="text-black/45"> · {s.conv}% del passo prima</span>}</span>
                       </div>
                       <div className="h-5 rounded bg-black/[0.05] overflow-hidden">
-                        <div className="h-full bg-brand/70" style={{ width: `${Math.max(2, (s.valore / max) * 100)}%` }} />
+                        <div className="h-full bg-brand/70" style={{ width: `${Math.max(2, (val / max) * 100)}%` }} />
                       </div>
                     </div>
                   );

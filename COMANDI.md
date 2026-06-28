@@ -32,6 +32,7 @@
 - **"cambia il sito: [cosa]"** → config subito, oppure codice con anteprima + tuo ok. ⚡/🛠️
 - **"audit del marketplace"** → check tecnico **rapido**: bug/rischi/frizioni principali. 🟢
 - **"radiografia"** (alias: *"analizza tutto il sito"*, *"trova tutti i bug"*) → analisi **profonda e millimetrica** di TUTTO il marketplace (13 dimensioni: sicurezza, RLS, pagamenti, privacy, performance, accessibilità, QA, AI, deploy…), **ogni problema verificato**, report per gravità in `consegne/audit/`. 🟢 *(lunga e approfondita)*
+- **"radiografia di te stesso"** (alias: *"analizzati da cima a fondo"*, *"fatti la radiografia"*) → la macchina analizza **SÉ STESSA** (la propria architettura: 42 agenti, prompt, processi, sensori, memoria, capacità) su **12 dimensioni**, con causa-radice, pre-mortem e **confronto coi migliori** del mondo; ogni difetto verificato. Aggiorna il **cantiere dei difetti** (li porta a zero), lo storico-salute, e ti scrive una **lettera** su come sta andando. Workflow `.claude/workflows/auto-radiografia.js`. 🟢 *(lunga; le correzioni a sé stessa restano 🟡 da firmare)*
 - **"design: [richiesta]"** (alias: *"lavora sul design"*, *"ci sono errori grafici"*, *"cambia il layout/i colori"*) → la squadra design **analizza** i problemi grafici/UX (audit design) **oppure modifica** ciò che chiedi: colori/home/testi = subito (config), layout/componenti = anteprima + tuo ok (codice). 🟢/⚡/🛠️
 
 ## 🎨 Design & grafica (tutto ciò che si vede)
