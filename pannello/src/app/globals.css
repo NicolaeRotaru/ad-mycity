@@ -57,3 +57,14 @@ body {
 .scroll-soft::-webkit-scrollbar-thumb:hover {
   background: rgba(26, 20, 16, 0.28);
 }
+
+/* 🔗 Evidenziazione della casella di destinazione quando arrivi da un link bidirezionale
+   (Da approvare ⇄ Cervello): un lampeggio breve così trovi subito la casella esatta. */
+@keyframes flashTarget {
+  0% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.45); background-color: rgba(251, 191, 36, 0.16); }
+  100% { box-shadow: 0 0 0 8px rgba(180, 83, 9, 0); background-color: transparent; }
+}
+.flash-target {
+  animation: flashTarget 2.1s ease-out 1;
+  border-radius: 0.75rem;
+}

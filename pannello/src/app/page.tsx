@@ -887,10 +887,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        // Se il marketplace non è collegato, AZZERA i KPI (prima restavano i numeri vecchi a schermo
-        // col timbro "Aggiornato" fresco — sembravano dati attuali ma non lo erano).
-        setMetriche(d && d.connected ? d : null);
-        setDatiAggiornatiAt(Date.now());
+        if (d && d.connected) {
+          setMetriche(d);
+          setDatiAggiornatiAt(Date.now());
+        } else {
+          // Poll non collegato: NON azzerare i KPI già a schermo (evitava che la pagina si
+          // accorciasse di colpo facendo SALTARE lo scroll in cima durante l'auto-refresh).
+          // Lascio anche il timbro "Aggiornato" fermo → mostra l'età VERA dei dati, non un
+          // refresh finto. Solo al PRIMO caricamento, se mai connesso, resta null (UI "non collegato").
+          setMetriche((cur) => cur);
+        }
       })
       .catch(() => {});
   }, []);
@@ -904,6 +910,42 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }, 60000);
     return () => clearInterval(id);
   }, [caricaStato, caricaMetriche]);
+
+  // 🧭 Vista persistente: al refresh del browser NON tornare alla Plancia, ripristina l'ultima area.
+  const vistaPrimaVolta = useRef(true);
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("mycity_vista");
+      if (v) setVista(v as typeof vista);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; return; } // salta il montaggio
+    try { localStorage.setItem("mycity_vista", vista); } catch {}
+  }, [vista]);
+
+  // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
+  // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
+  useEffect(() => {
+    const onVai = (e: Event) => {
+      const det = (e as CustomEvent).detail as { vista?: typeof vista; anchor?: string } | undefined;
+      if (!det?.vista) return;
+      setVista(det.vista);
+      if (det.anchor) {
+        const target = det.anchor;
+        setTimeout(() => {
+          const el = document.getElementById(target);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+            el.classList.add("flash-target");
+            setTimeout(() => el.classList.remove("flash-target"), 2200);
+          }
+        }, 140);
+      }
+    };
+    window.addEventListener("mycity:vai", onVai);
+    return () => window.removeEventListener("mycity:vai", onVai);
+  }, []);
 
   useEffect(() => {
     caricaStato();
