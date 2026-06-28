@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import {
   Cpu, Activity, ShieldAlert, Wrench, Hammer, Swords, Sparkles, HelpCircle,
-  Mail, TrendingUp, CheckCircle2, Eye,
+  Mail, TrendingUp, CheckCircle2, Eye, ArrowRight,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
+import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import AutoCoscienza from "@/components/AutoCoscienza";
@@ -52,12 +53,33 @@ function votoColore(v?: number) {
 function RadiografiaDiSe() {
   const [d, setD] = useState<Dati | null>(null);
   const [tab, setTab] = useState<Tab>("dimensioni");
+  // 🔗 Azioni indicizzate per origine (origine → id azione): per il link "vai all'azione" sui difetti.
+  const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const carica = () => fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    const carica = () => {
+      fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
+        const m: Record<string, string> = {};
+        for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
+        setAzPerOrigine(m);
+      }).catch(() => {});
+    };
     carica();
     const id = setInterval(carica, 60000);
     return () => clearInterval(id);
+  }, []);
+
+  // Link bidirezionali: se si arriva al Cervello puntando la scheda "Cantiere", aprila.
+  useEffect(() => {
+    const onVai = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioVai>).detail;
+      if (det?.vista !== "cervello" || !det.sub) return;
+      const valide: Tab[] = ["dimensioni", "cantiere", "lettera", "storico"];
+      if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
+    };
+    window.addEventListener(EVENTO_VAI, onVai);
+    return () => window.removeEventListener(EVENTO_VAI, onVai);
   }, []);
 
   const r = d?.radiografia;
@@ -245,8 +267,9 @@ function RadiografiaDiSe() {
               {aperti.length === 0 && <p className="t-eti">Nessun difetto aperto. 👍</p>}
               {aperti.map((x, i) => {
                 const g = GRAV[x.gravita || "minore"] || GRAV.minore;
+                const azId = x.id ? azPerOrigine[`difetto:${x.id}`] : undefined;
                 return (
-                  <div key={i} className={`rounded-xl border p-3 ${g.cls}`}>
+                  <div id={x.id ? `difetto-${x.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${g.cls}`}>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                       <span className="text-[10px] font-bold text-black/50">{g.label}</span>
@@ -256,6 +279,11 @@ function RadiografiaDiSe() {
                     <div className="text-[12.5px] font-medium mt-1">{x.titolo}</div>
                     {x.causa_radice && <div className="text-[12px] text-black/60 mt-1"><b>Causa radice:</b> {x.causa_radice}</div>}
                     {x.fix_proposto && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {x.fix_proposto}</div>}
+                    {azId && (
+                      <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                        <ArrowRight size={12} /> Vai all'azione collegata
+                      </button>
+                    )}
                   </div>
                 );
               })}
