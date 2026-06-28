@@ -1,7 +1,13 @@
 {
-  "aggiornato": "2026-06-28 14:06",
+  "aggiornato": "2026-06-28 18:07",
   "_README": "Calibrazione previsto-vs-reale. Si popola quando ci sono esiti misurabili (richiede dati reali via Supabase).",
   "voci": [
+    {
+      "previsione": "Presidio serale durante Arisa stimato ~19:00 (giri 14:06-16:07)",
+      "reale": "VERIFICATO (18:07): concerto Arisa @ Palazzo Farnese ore 21:15 (ticketone + piacenzasera)",
+      "scarto": "stima anticipata di ~2h: la finestra reale e 20:00-21:15 (pre-show) + post-show 23:00, non '~19:00'",
+      "nota": "Lezione: fissare l'orario reale di un evento con una ricerca mirata prima di pianificare il presidio, non stimarlo per analogia."
+    },
     {
       "previsione": "28/6 = apice ondata di caldo, 39°C (profilo noto dai giri precedenti)",
       "reale": "CONFERMATO (06:05): meteo orario oggi min 24°C alle 6:00, max 39°C alle 17:00 (ilmeteo/weather.com)",

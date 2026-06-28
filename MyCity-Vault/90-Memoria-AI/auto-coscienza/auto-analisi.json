@@ -1,32 +1,32 @@
 {
-  "data": "2026-06-28 16:07",
-  "giro": "2026-06-28 passaggio 10 (RUN-UP AL PRESIDIO SERALE, ~1h dal picco delle 17, 16:07)",
-  "voto_fiducia": 7,
-  "voto_fiducia_nota": "ALTO su tracciabilità e onestà; BASSO sull'utilità marginale (17° giro cieco, 10° passaggio del giorno). È un passaggio di mantenimento: l'unico fatto nuovo è il passaggio di fase oraria (run-up al presidio serale). Nessun dato inventato, nessuna azione duplicata, nessuna ricerca ridondante (esterno invariato vs 14:06, cadenza rispettata). Applicato il governatore di cadenza (DF-02) auto-imposto.",
+  "data": "2026-06-28 18:07",
+  "giro": "2026-06-28 passaggio 11 (APERTURA PRESIDIO SERALE, picco delle 17 superato, 18:07)",
+  "voto_fiducia": 8,
+  "voto_fiducia_nota": "Più alto del 16:07 (7) perché questo passaggio ha un VERO contributo nuovo e azionabile (cambio-fase reale + Arisa confermata ore 21:15, non una stima) invece di essere mantenimento. ALTO su tracciabilità e onestà; nessun dato inventato, nessuna azione duplicata, una sola ricerca live mirata e giustificata (cambio-fase + precedente di evento cancellato per caldo). Applicato il governatore di cadenza (DF-02): è il giro serale promesso, dopo mi fermo.",
   "verifica_avversariale_3_livelli": {
-    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: restano baseline 24/6, dichiarati gap (Supabase MCP negato, ritentato e confermato negato in sessione alle 16:07 con execute_sql E list_projects). Nessuna cifra orfana. Nessuna affermazione live nuova: il meteo orario è RIUSO del check di stamattina + scan web 08:30 (esplicitato, non spacciato per fresco). Competitor non rifatti (cadenza settimanale).",
-    "livello_2_logica_e_grounding_entita": "Entità invariate vs passaggio 9, verificate contro registro-realta.json. Garetti resta DA-CONFERMARE: nessuna azione lo assume LIVE. Il focus sul presidio serale poggia su Arisa@Palazzo Farnese (REALE, registro) e sulla curva oraria (sera ~36->30°C, fresco rispetto al picco 38-41 delle 17). Deduzione solida. Nota onesta: il QR serale converte 0 senza il link lista d'attesa reale (dipendenza esplicitata, non nascosta).",
-    "livello_3_utilita_e_rischio": "Rischio: rumore (10° passaggio del giorno, 17° cieco) — è ESATTAMENTE il difetto DF-02 del cantiere. Mitigato applicando il governatore di cadenza auto-imposto: dichiaro questo l'ultimo passaggio prima della sera e dirado. L'unico input nuovo (run-up al presidio + opportunità Arisa) è legittimo per l'operatività; nessuna azione duplicata; ZERO ricerche ridondanti."
+    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: restano baseline 24/6, dichiarati gap (Supabase MCP ritentato e confermato negato in sessione alle 18:07). Nessuna cifra orfana. L'unico fatto live nuovo (Arisa ore 21:15, piazza Cittadella 29) è VERIFICATO con 2 fonti indipendenti (ticketone + piacenzasera), non stimato. Meteo serale = riuso dichiarato della curva mattutina (20h=36°C, 23h=30°C), non spacciato per fresco. Competitor non rifatti (cadenza settimanale).",
+    "livello_2_logica_e_grounding_entita": "Entità verificate contro registro-realta.json. Garetti resta DA-CONFERMARE: nessuna azione lo assume LIVE. Arisa@Palazzo Farnese promossa da 'REALE generico' a 'REALE con orario preciso 21:15 + luogo piazza Cittadella 29' (2 fonti). La riposizionatura della finestra QR (20:00-21:15 + 23:00) è dedotta correttamente dall'orario reale del concerto + curva di raffreddamento serale. Dipendenza esplicitata: il QR converte 0 senza link lista d'attesa reale.",
+    "livello_3_utilita_e_rischio": "Rischio rumore-cadenza: questo è l'11° passaggio del giorno MA è un cambio-fase reale (apertura presidio) con contributo nuovo → legittimo, non un duplicato. Mitigazione DF-02 applicata: dichiaro che dopo il presidio mi fermo (prossimo utile domattina o a uno sblocco). ZERO ricerche ridondanti oltre l'unica mirata. Nessuna azione duplicata (coda piena, 8)."
   },
   "entita_verificate": [
     {"nome": "Nicola (founder)", "stato": "REALE", "fonte": "utente/firma"},
     {"nome": "MyCity marketplace + progetto Supabase clmpyfvpvfjgeviworth", "stato": "REALE", "fonte": "STATO.md, verificato sul vivo nei giri precedenti"},
     {"nome": "Piattaforma Supabase OPERATIVA (28/6)", "stato": "REALE", "fonte": "WebSearch status.supabase.com/history (passaggio 4): incident 20-24/6 risolti"},
-    {"nome": "Meteo orario oggi 28/6 (picco 17h ~38,8-41°C, sera 36->30°C)", "stato": "REALE (riuso check mattutino + scan web 08:30)", "fonte": "WebSearch ilmeteo.it / Arpae allerta 066/2026"},
-    {"nome": "Arisa a Palazzo Farnese (28/6 sera, Piacenza Summer Cult)", "stato": "REALE", "fonte": "ilpiacenza.it (check 27-28/6)"},
+    {"nome": "Arisa a Palazzo Farnese (28/6 ore 21:15, cortile, piazza Cittadella 29)", "stato": "REALE (orario+luogo verificati, 2 fonti)", "fonte": "ticketone.it + piacenzasera.it (check 18:07)"},
+    {"nome": "Meteo serale oggi 28/6 (post-picco: 20h=36°C, 23h=30°C)", "stato": "REALE (riuso dichiarato curva mattutina)", "fonte": "WebSearch ilmeteo.it / Arpae allerta 066/2026"},
     {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdì Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu (check 27-28/6)"}
   ],
   "entita_declassate": [
     {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, grounding anagrafico e stato LIVE DA CONFERMARE", "motivo": "Supabase cieco: non posso verificare che Garetti sia approvato/LIVE/con prodotti veri. Nessuna azione lo dà per confermato.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"}
   ],
   "errori_trovati_e_corretti": [
-    "Nessun errore nuovo introdotto. Riconosciuto e gestito il difetto DF-02 (cadenza eccessiva a dati fermi): applicato il governatore auto-imposto invece di produrre l'ennesimo passaggio identico. Confermata la disciplina di cadenza: non ho ripetuto il check meteo né i competitor (settimanale) -> evitato spreco di Max."
+    "Nessun errore nuovo introdotto. Corretta una IMPRECISIONE dei giri precedenti: la finestra di presidio era stimata '~19:00'; col dato reale (concerto 21:15) la finestra QR migliore è stata riposizionata a 20:00-21:15 + 23:00. Confermata la disciplina DF-02: 1 sola ricerca live mirata (non l'intero radar), competitor non rifatti (settimanale) -> Max risparmiato."
   ],
   "domande_per_nicola": [
     "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? Piattaforma VERIFICATA sana: manca solo il permesso. Unico sblocco per i 7 numeri veri e per misurare il Giorno-1.",
-    "Mi passi il LINK reale della lista d'attesa? Stasera durante Arisa il QR senza link converte 0.",
+    "Mi passi il LINK reale della lista d'attesa? STASERA durante Arisa (21:15) il QR senza link converte 0.",
     "Garetti è davvero LIVE (approvato + payout + prodotti veri)? La consegna del Giorno-1 (27/6) è avvenuta?",
     "Firmi le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)?"
   ],
-  "salute_sistema": "STABILE. Infrastruttura sana (verificata): i 3 colli di bottiglia sono tutti UMANI/permessi, non tecnici. La macchina è cieca sui dati (cecità da permesso) ma onesta, non duplica e rispetta la cadenza. DF-02 (cadenza eccessiva) attivamente gestito col governatore auto-imposto. Raccomandazione metacognitiva confermata: a dati fermi il valore marginale dei passaggi ravvicinati è esaurito -> prossimo giro utile = presidio serale (stasera) o sblocco di Nicola."
+  "salute_sistema": "STABILE e in lieve MIGLIORAMENTO sul valore-per-giro (questo passaggio ha contributo nuovo vs il mantenimento del 16:07). Infrastruttura sana (verificata): i 3 colli di bottiglia sono tutti UMANI/permessi, non tecnici. La macchina è cieca sui dati (cecità da permesso) ma onesta, non duplica e rispetta la cadenza. DF-02 (cadenza eccessiva) attivamente gestito col governatore auto-imposto: questo è il giro serale promesso, dopo mi fermo fino a domattina o a uno sblocco."
 }

@@ -2,6 +2,15 @@
   "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
   "snapshot": [
     {
+      "data": "2026-06-28 18:07",
+      "voto_salute": 75,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.85,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
+      "difetti_aperti": 2,
+      "nota": "11° passaggio ma cambio-fase reale (apertura presidio serale) con contributo nuovo e azionabile (Arisa ore 21:15 confermata, finestra QR riposizionata). Voto in lieve salita: la macchina applica il governatore DF-02 (giro al cambio-fase, poi si ferma) e produce valore vero invece di mantenimento. Nessun difetto BLOCCANTE; voto limato solo da cecita-dati (permesso)."
+    },
+    {
       "data": "2026-06-28 16:07",
       "voto_salute": 73,
       "loop_chiude": true,

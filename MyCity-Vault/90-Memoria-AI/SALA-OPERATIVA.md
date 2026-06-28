@@ -140,3 +140,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 16:07 · @claude · FATTO · Supabase MCP ritentato (execute_sql + list_projects) → permesso di nuovo NEGATO (17° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
 - 2026-06-28 16:07 · @claude · FATTO · applicato il GOVERNATORE di cadenza (difetto DF-02): a dati fermi giro solo al cambio-fase → dichiarato ultimo passaggio prima della sera; storico-salute aggiornato (voto 73)
 - 2026-06-28 16:07 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 · esito Giorno-1/Garetti LIVE) + link lista d'attesa. Consiglio: prossimo giro = stasera per/dopo il presidio, non tra un'ora
+
+### 2026-06-28 — Giro 18:07 (passaggio 11, APERTURA PRESIDIO SERALE)
+- 2026-06-28 18:07 · @intelligence · FATTO · check live mirato (cambio-fase): Arisa @ Palazzo Farnese CONFERMATA stasera ore 21:15 (cortile, piazza Cittadella 29) — l'evento regge nonostante l'allerta caldo (ore fresche). Fonti: ticketone + piacenzasera.
+- 2026-06-28 18:07 · @marketing · FACCIO · finestra di presidio/QR riposizionata: ~20:00-21:15 (gente che arriva) + post-show ~23:00. Coperta da azioni in coda #6 (post caldo) e #8 (materiali/QR). SERVE link lista d'attesa reale (senza, il QR converte 0).
+- 2026-06-28 18:07 · @analista · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (18° giro cieco). I 7 numeri restano baseline 24/6: il Giorno-1 non è misurabile dal DB (piattaforma sana, è solo un permesso).
+- 2026-06-28 18:07 · @claude(AD) · FATTO · governatore di cadenza DF-02 applicato: questo è il giro serale promesso → dopo il presidio mi fermo, prossimo utile domattina o a uno sblocco di Nicola. Memoria aggiornata (STATO, briefing, ultimo-briefing.json, eventi-picchi, auto-coscienza, storico-salute, calibrazione, apprendimento).

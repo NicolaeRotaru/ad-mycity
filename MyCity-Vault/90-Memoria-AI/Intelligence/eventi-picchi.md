@@ -1,7 +1,16 @@
 # 📅 Eventi & picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-28 06:05** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
+> Aggiornato: **2026-06-28 18:07** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it, ticketone).
 > Finestra coperta: 28/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
+
+> 🎤 **Nota delle 18:07 (dom 28/6, APERTURA PRESIDIO SERALE) — ARISA stasera ore 21:15, confermata.**
+> Check live al cambio-fase (picco di caldo delle 17 superato, temperatura in calo: 36°C alle 20, 30°C alle 23):
+> **Arisa @ Palazzo Farnese** stasera, **ore 21:15**, cortile interno, **piazza Cittadella 29** (prima data del Summer
+> Tour 2026; rassegna Piacenza Summer Cult). L'evento **REGGE** nonostante l'allerta caldo 066/2026 perché è nelle ore
+> fresche. ⇒ **Finestra di presidio/QR migliore: ~20:00-21:15** (gente che arriva, fresco) **+ post-concerto ~23:00**
+> (affinata rispetto alla stima ~19:00 dei giri precedenti). → @marketing presidio fisico, link lista d'attesa reale
+> indispensabile (senza, il QR converte 0). Fonti: [ticketone – Arisa Palazzo Farnese 28/6 ore 21:15](https://www.ticketone.it/event/arisa-live-tour-palazzo-farnese-21450766/) ·
+> [piacenzasera – summer tour Arisa](https://www.piacenzasera.it/2026/03/si-apre-a-piacenza-il-summer-tour-di-arisa-a-palazzo-farnese-il-28-giugno/636659/).
 
 > 🌡️ **Nota delle 08:30 (dom 28/6) — meteo confermato e LEGGERMENTE PEGGIORATO.** Check live nazionale: il
 > picco dell'ondata è **oggi 28 e lun 29/6** con **punte 40-41°C in Pianura Padana** (Piacenza inclusa) —

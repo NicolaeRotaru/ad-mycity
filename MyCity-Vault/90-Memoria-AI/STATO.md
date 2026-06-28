@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 16:07
+aggiornato: 2026-06-28 18:07
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,16 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0o. **Giro 28/6 — 18:07 (passaggio 11, APERTURA PRESIDIO SERALE):** 2 ore dopo il 10°. **Cambio-fase reale:**
+   il picco di caldo delle 17 è passato, la temperatura cala (36°C alle 20, 30°C alle 23) → si apre **ORA** l'unica
+   finestra fisica vera del giorno: il **presidio serale**. ⭐ Contributo = **1 check live mirato a valore** (giustificato
+   dal cambio-fase + precedente di un evento già cancellato per caldo): **Arisa @ Palazzo Farnese CONFERMATA stasera
+   ore 21:15** (cortile, piazza Cittadella 29 — [ticketone](https://www.ticketone.it/event/arisa-live-tour-palazzo-farnese-21450766/)).
+   L'evento **regge** (è nelle ore fresche) → **finestra QR affinata: ~20:00-21:15** (gente che arriva) **+ post-show ~23:00**
+   (prima stimavo ~19:00). Coperta da azioni #6 e #8 già in coda. **Supabase MCP ritentato → permesso di nuovo NEGATO**
+   (18° giro cieco; piattaforma sana, è solo il permesso). Nessuna azione nuova accodata (coda piena, 8). **Questo è il giro
+   serale promesso dal governatore di cadenza (DF-02):** dopo il presidio mi fermo → prossimo utile **domattina** o a uno
+   sblocco. I 3 sblocchi da Nicola restano identici (+ link lista d'attesa per far convertire il QR stasera). Vedi [[2026-06-28]].
 0p. **Giro 28/6 — 16:07 (passaggio 10, RUN-UP AL PRESIDIO SERALE):** 2 ore dopo il 9°. Delta unico:
    la fase passa dal cuore del pomeriggio al **run-up della sera** (~1h dal picco 17:00, ~3h dall'apertura
    della finestra presidio) → la macchina guarda ormai solo al **presidio serale di stasera** (Arisa a
