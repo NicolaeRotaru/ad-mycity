@@ -40,7 +40,7 @@ fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati li
 - [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
 - [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
 - [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
-- [ ] 🔴 Chiarire dove scrive la **memoria** (progetto Supabase separato o lo stesso del marketplace).
+- [x] ✅ **Memoria chiarita** (Nicola, 28/6 16:52): progetto Supabase **separato** dal marketplace. Resta da: ① puntare `SUPABASE_URL`/`SERVICE_KEY` su Vercel al DB-memoria separato; ② verificare che lì esista lo schema memoria (briefings, lavori, diario, conversazioni, impostazioni); ③ 🔴 rimuovere le tabelle-memoria vuote finite per errore dentro il marketplace `clmpyfvpvfjgeviworth`.
 
 ---
 *Scritto dall'AD. Dettaglio del giro in [[2026-06-28]]; decisioni in [[DECISIONI]].*
