@@ -3,6 +3,17 @@
 > Aggiornato: **2026-06-28 06:05** · fonte: radar live (ilmeteo.it/3bmeteo, ilpiacenza.it, piacenza24.eu, comune, liberta.it).
 > Finestra coperta: 28/6 → ~11/7. Per il delivery conta il **meteo** (oggi domina) + **eventi centro**.
 
+> 🌡️ **Nota delle 08:30 (dom 28/6) — meteo confermato e LEGGERMENTE PEGGIORATO.** Check live nazionale: il
+> picco dell'ondata è **oggi 28 e lun 29/6** con **punte 40-41°C in Pianura Padana** (Piacenza inclusa) —
+> rialzo rispetto ai 39°C stimati ieri. **Svolta confermata e ristretta all'1-3/7**: aria più fresca da
+> nord-ovest **ma con temporali forti, grandine e nubifragi al Nord** tra 30/6 e 3/7. Doppio effetto a valle
+> per il weekend del patrono (Sant'Antonino, culmine 4/7): (a) se i temporali colpiscono gli eventi 3-4/7 →
+> **picco di delivery a casa**; (b) eventuale disagio auto → **cargo-bike avvantaggiata** (catena indiretta).
+> **Ri-verificare 1-2/7** per blindare l'operativo del weekend. Fonti:
+> [today.it – 40 gradi poi svolta](https://www.today.it/meteo/caldo-quando-finisce-giugno-svolta-inizio-luglio-2026.html) ·
+> [meteo.it – svolta luglio](https://www.meteo.it/notizie/meteo-svolta-luglio-anticiclone-previsioni-weekend-ab520a00) ·
+> [il Resto del Carlino – temporali Emilia-Romagna](https://www.ilrestodelcarlino.it/meteo/temporali-estremi-incognite-meteo-caldo-emilia-romagna-vepxifh7)
+
 > ☀️ **Nota delle 06:05 (dom 28/6, ALBA del giorno-apice) — la FINESTRA-FRESCHI DEL MATTINO È APERTA ORA.**
 > Check meteo orario live di oggi: **min 24°C alle 6:00 (adesso) · max 39°C alle 17:00**, cielo poco
 > nuvoloso, zero pioggia, UV max 7.4 alle 14. È l'**apice** dell'ondata. Conseguenza operativa **diretta

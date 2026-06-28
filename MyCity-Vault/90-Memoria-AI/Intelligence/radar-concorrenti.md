@@ -17,6 +17,11 @@
 - Promozioni estive Glovo/GDO sui freschi (volantini luglio).
 - Novità CompraPiacenza (per postura complementare).
 - Espansione zone consegna Conad/Esselunga a Piacenza.
+- 🆕 **ANDREI.shop** ([pc.andrei.shop](https://pc.andrei.shop/content/14-chi-siamo)) — *scoperto 2026-06-28 in
+  un giro daily*: si presenta come "marketplace di Piacenza" per la spesa online dalle attività locali.
+  **Profilarlo a fondo al prossimo check settimanale**: negozi aderenti, categorie, consegna, fee, punti
+  deboli. Occupa lo stesso spazio narrativo ("compra locale online a Piacenza") → capire se complementare
+  o frontale. (Non rifatto qui il check competitor: cadenza settimanale, ultima ricognizione ~24/6 ancora valida.)
 
 ## Punto debole sfruttabile *oggi*
 Col **caldo estremo** (38-39°C), la GDO-in-auto è scomoda e calda: **"non uscire col caldo, te la

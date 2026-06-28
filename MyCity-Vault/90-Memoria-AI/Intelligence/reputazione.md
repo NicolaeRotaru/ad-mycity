@@ -1,5 +1,14 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Giro 2026-06-28 08:30 (mattino):** ricerca aperta ripetuta → **ancora zero menzioni esterne,
+> recensioni o lamentele** su "MyCity Piacenza" o sui nostri negozi (news locali e social). L'unico
+> risultato resta il **sito ufficiale** [mycity-marketplace.com](https://mycity-marketplace.com/).
+> Sentiment: **neutro/assente**, coerente con la Fase 0. Niente da escalare.
+> 🔎 **Scoperto nel mentre:** esiste un altro marketplace locale, **ANDREI.shop** ([pc.andrei.shop](https://pc.andrei.shop/content/14-chi-siamo)),
+> che si presenta come "marketplace di Piacenza" per la spesa online dalle attività locali → da
+> profilare al prossimo check competitor settimanale (vedi [[radar-concorrenti]]). Non è ancora una
+> minaccia reputazionale, ma occupa lo stesso spazio narrativo "compra locale online a Piacenza".
+
 > **Giro 2026-06-27 23:02 (notturno):** ri-controllo web → **zero menzioni esterne, recensioni o
 > lamentele** su "MyCity Piacenza" o sui nostri negozi nelle news locali e nei social. L'unico risultato è
 > il **sito ufficiale** [mycity-marketplace.com](https://mycity-marketplace.com/) (servizio attivo: consegna
