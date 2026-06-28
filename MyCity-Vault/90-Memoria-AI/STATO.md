@@ -1,56 +1,46 @@
 ---
 tipo: stato
-aggiornato: 2026-06-26 02:30
-fonte: AD digitale (dati reali Supabase + Stripe)
+aggiornato: 2026-06-28 16:46
+fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati live)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
-> Domani (25/6) i numeri devono iniziare a muoversi da 0.
->
-> ⚠️ **26/6 — numeri NON riverificati:** nel giro del 26/6 né il Supabase MCP né la rete in
-> uscita erano autorizzati e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` non sono configurate.
-> I 7 numeri qui sotto restano alla **baseline 24/6**, da riverificare appena un canale dati è
-> sbloccato. Oggi (ven 26/6) è la **vigilia della prima consegna** (sab 27/6), slot ordini entro 21:00.
+> ✅ **28/6 16:46 — DATABASE RICOLLEGATO.** Dopo il pagamento dell'abbonamento, il Supabase del
+> marketplace è `ACTIVE_HEALTHY`: ho riverificato i 7 numeri sul vivo per la **prima volta dal 24/6**.
+> ⚠️ Verità scomoda emersa: l'azienda è **in stallo** — 4 giorni di silenzio totale (ultima attività
+> 24/6 08:28), 1 solo ordine fermo. Il collo di bottiglia non è più tecnico: è **far avvenire la
+> prima transazione end-to-end**.
 
-## I 7 numeri del primo passo (baseline = oggi 24/6)
-| Numero | Oggi | "Riuscito" domani | Note |
+## I 7 numeri (verificati live 2026-06-28 16:46 · Supabase clmpyfvpvfjgeviworth)
+| Numero | Oggi (28/6) | "Riuscito" | Note |
 |---|---|---|---|
-| Negozi LIVE nel cluster (approvato + payout + ≥1 prodotto) | **0** | ≥1 | oggi 2 approvati su 17, ma solo 1 con payout |
-| Prodotti VERI del faro pubblicati | **0** | ≥5 | (250 "available" attuali = seed/test, da ignorare) |
-| Ordini creati | **0** | ≥1 | anche l'ordine-test conta come prova pipeline |
-| Ordini pagati | **0** | 1 | |
-| Payout testato | **0** | 1 | la prova che incassa-trattiene-paga gira |
-| Nuovi clienti reali | **0** | ≥1 | |
-| Consegnato (primo sabato 27/6) | **0** | 1 (sab) | concierge a mano |
+| Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
+| Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW |
+| Ordini pagati | **0** | 1 | l'unico ordine è COD non ancora incassato |
+| Ordini consegnati | **0** | 1 | la "prima consegna 27/6" NON risulta avvenuta |
+| Payout testato | **0** | 1 | mai eseguito un payout reale |
+| Nuovi clienti reali | **4 buyer** (0 negli ultimi 7g) | crescita | nessun nuovo profilo nell'ultima settimana |
 
 ## Semafori
-- 🟢 Va bene: infrastruttura pronta (Stripe attivo, onboarding/COD nel codice, catalogo tecnico ok).
-- 🟡 Da tenere d'occhio: solo 1 seller con payout attivo; catalogo "sporco" di seed; email da confermare.
-- 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
+- 🟢 Va bene: **database ricollegato**; infrastruttura pronta (Stripe, COD, onboarding, 407 lead censiti, 250 prodotti seed).
+- 🟡 Da tenere d'occhio: catalogo-vetrina ancora "finto" (solo seed); ordine €19,05 zombie da 4 giorni; 4 carrelli abbandonati.
+- 🔴 Problema: **stallo da 96h** (0 ordini/0 eventi); 3 decisioni di lancio ancora non firmate; memoria (DB 2) da chiarire.
 
 ## Ultime mosse dell'AD
-1. **Giro 26/6 — 2° passaggio** (dati ancora bloccati): consolidato le 3 decisioni 🔴 in un
-   **foglio-firma da 2 minuti** `consegne/decisioni/2026-06-26-foglio-firma-lancio.md` per
-   sbloccare la prima consegna. Vedi [[2026-06-26]].
-2. **Giro 26/6 — 1° passaggio** (vigilia prima consegna): dati-live mancanti; checklist vigilia
-   in `consegne/operations/2026-06-26-vigilia-prima-consegna.md`.
-3. **MACCHINA DI MARKETING completa**: piano editoriale 4 settimane + 7 pacchetti di contenuti/copy
-   (16 post, 7 flussi email, kit stampa, 8 reel, SEO/GBP, visivo) + **Marketing Autopilot** (scheduler
-   + 5 publisher + n8n, dry-run) + **Content Factory** che genera **contenuti grafici VERI** (post PNG
-   + reel): prodotti i contenuti S1, le **5 categorie** e i **5 "vincenti dei competitor" (W1–W5)**.
-   Vedi [[2026-06-24-piano-editoriale]].
-4. **Costruttore → DNA v1.1**: capacità di auto-marketing innestata nel genoma (riusabile da ogni
-   Organismo). Comando **"contenuti pro"** salvato nel pannello.
-5. **Giro 25/6**: 7 senior → pacchetto faro pronto (pitch, contratto, QR, payout, primo ordine).
-   Decisioni 🔴 bloccanti ancora in coda (Stripe live/sandbox, fee, commissione) — [[AZIONI-IN-ATTESA]].
+1. **Giro 28/6 16:46** — DB ricollegato: riverificati i numeri veri dal 24/6. Stallo confermato dai dati.
+   Eseguite le 4 cadenze in un colpo (giro + piano mattino + report sera + review settimanale). Vedi [[2026-06-28]].
+2. Confermate nel registro 2 entità reali: **Casa Linda** e **Pane Quotidiano** (negozi approvati, nei dati).
+3. Giro 26/6 (dati bloccati): foglio-firma da 2 minuti per sbloccare il lancio.
+4. MACCHINA DI MARKETING completa: piano editoriale + 7 pacchetti contenuti + Content Factory.
 
 ## Prossime priorità (da approvare)
-- [ ] STASERA: confermare Stripe live/sandbox + sistemare branding + stampare materiali + creare form/IG.
-- [ ] DOMANI 25/6 (vedi Piano del Mattino in [[SALA-OPERATIVA]]): ① Garetti LIVE · ② accendere domanda (QR+lista+storia) · ③ ordine-test fino al payout.
-- [ ] SABATO 27/6: primo ordine reale consegnato concierge.
-- [ ] ⛔ Sbloccare: Stripe live/sandbox + firme righe 1-2 di [[AZIONI-IN-ATTESA]].
+- [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.
+- [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
+- [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
+- [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
+- [ ] 🔴 Chiarire dove scrive la **memoria** (progetto Supabase separato o lo stesso del marketplace).
 
 ---
-*Scritto dall'AD. Per il dettaglio operativo vedi [[2026-06-25]]; per le decisioni [[DECISIONI]].*
+*Scritto dall'AD. Dettaglio del giro in [[2026-06-28]]; decisioni in [[DECISIONI]].*

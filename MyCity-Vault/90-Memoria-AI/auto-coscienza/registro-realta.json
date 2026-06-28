@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 01:10",
+  "aggiornato": "2026-06-28 16:46",
   "entita": [
     {
       "nome": "Nicola",
@@ -10,7 +10,34 @@
       "confidenza": 1.0,
       "evidenze": [],
       "note": "Proprietario di MyCity, decisore finale (firma 🔴).",
-      "ultima_verifica": "2026-06-28 01:10"
+      "ultima_verifica": "2026-06-28 16:46"
+    },
+    {
+      "nome": "Casa Linda",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.95,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (verificato live 2026-06-28 16:46).",
+        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout gia attivo.",
+        "Match operativo: è la leva piu veloce per la prima transazione end-to-end."
+      ],
+      "note": "Negozio reale e approvato nel DB. Payout-ready: candidato n.1 per provare ordine→pagato→consegnato→payout senza aspettare la firma di Garetti.",
+      "ultima_verifica": "2026-06-28 16:46"
+    },
+    {
+      "nome": "Pane Quotidiano",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.9,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (verificato live 2026-06-28 16:46).",
+        "Payout non ancora attivo (stripe_payouts_enabled=false): manca lo step Stripe Connect."
+      ],
+      "note": "Negozio reale e approvato nel DB. Secondo seller approvato dopo Casa Linda. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati.",
+      "ultima_verifica": "2026-06-28 16:46"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -25,8 +52,8 @@
         "Vende i 3 DOP Piacentini (Coppa, Pancetta, Salame): il prodotto-faro che differenzia MyCity dalla GDO.",
         "Piazza Duomo 44: posizione di passaggio nel centro storico (match col profilo 'negozio-faro')."
       ],
-      "note": "NON è un'invenzione né un segnaposto: è la scelta ragionata della macchina come primo negozio-faro, fondata sull'analisi di @intelligence e su fatti pubblici. È un PROSPECT (0 ordini, non ancora cliente firmato): le azioni 🔴 collegate (commissione 12%, payout-test) restano da firmare nel normale flusso di approvazione — non perché l'entità sia dubbia, ma perché toccano soldi/termini reali. Volto/voce/aneddoti del titolare NON inventati (solo fatti pubblici).",
-      "ultima_verifica": "2026-06-28 01:10"
+      "note": "NON è un'invenzione né un segnaposto: è la scelta ragionata della macchina come primo negozio-faro, fondata sull'analisi di @intelligence e su fatti pubblici. È un PROSPECT (0 ordini, non ancora cliente firmato): le azioni 🔴 collegate (commissione 12%, payout-test) restano da firmare nel normale flusso di approvazione — non perché l'entità sia dubbia, ma perché toccano soldi/termini reali. Volto/voce/aneddoti del titolare NON inventati (solo fatti pubblici). NB 28/6: confermato che NON è nel DB (i 2 approvati reali sono Casa Linda e Pane Quotidiano) → resta prospect.",
+      "ultima_verifica": "2026-06-28 16:46"
     }
   ],
   "numeri_da_non_inventare": {

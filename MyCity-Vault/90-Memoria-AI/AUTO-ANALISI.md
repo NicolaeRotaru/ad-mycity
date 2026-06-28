@@ -1,54 +1,48 @@
 ---
 tipo: auto-analisi
-data: 2026-06-28 01:10
-voto_fiducia: 79
+data: 2026-06-28 16:46
+fonte: AD digitale — cancello di serietà (verifica avversariale)
 ---
 
-# 🔬 Auto-analisi dell'AD — 2026-06-28 01:10
+# 🔬 Auto-analisi del giro — 2026-06-28 16:46
 
-> Il cancello di serietà: la macchina si controlla da sola PRIMA di consegnare. Report leggibile;
-> il digest strutturato è in `auto-coscienza/auto-analisi.json`. Spec: `cervello/auto-analisi.md`.
+## Voto di fiducia: 85 / 100 — trend ▲ (da 79)
+Sale di 6 punti per un motivo concreto: **i sensori dati sono tornati**. Per la prima volta dal 24/6
+i 7 numeri poggiano su query dirette a Supabase, non su stime. Due entità prima solo nominate sono ora
+**confermate nei dati** (Casa Linda, Pane Quotidiano). Il voto non è 100 perché restano punti ciechi
+**dichiarati** (memoria DB 2, Stripe, PostHog, radar esterno): un voto alto va dimostrato, non assunto.
 
-## 🎯 Voto di fiducia: 79/100 (▲ rispetto al giro precedente)
-Salito dopo aver corretto la logica di grounding: la macchina ora **fonda le entità da sola** prima di
-disturbare Nicola. Non è un «tutto ok» cieco — i punti ciechi (Supabase/Stripe giù) restano dichiarati.
+## Errori per gravità
+- 🟢 **Bassa** — *Baseline 250 prodotti non riverificata per 4 giorni.* La baseline 24/6 li dava come
+  "seed da ignorare"; oggi confermato (250 available + 7 draft + 1 sold). Nessun danno: era effetto della
+  cecità sensori, non un errore di giudizio. **Azione presa:** numeri riallineati live.
 
-## ✅ Il caso «Garetti» — risolto dalla macchina, non rimbalzato a Nicola
-**Garetti NON è un'invenzione: è una scelta ragionata.** Seguendo il mio stesso ragionamento
-(`consegne/intelligence/campo-aperto-faro.md`), la scelta di **Antica Salumeria Garetti** come primo
-negozio-faro è fondata su prove verificabili:
-- **Campo aperto:** Glovo a Piacenza copre ~3 supermercati e **zero botteghe artigianali** → lo spazio è vuoto.
-- **Albo Botteghe Storiche** del Comune (>50 anni) → fatto pubblico, autenticità non imitabile dalla GDO.
-- **3 DOP Piacentini** (Coppa, Pancetta, Salame) → il prodotto-faro che differenzia MyCity.
-- **Piazza Duomo 44** → posizione di passaggio (match col profilo «negozio-faro»).
-→ Stato nel registro: **scelta_ragionata** (confidenza 0.78). È un **prospect** (0 ordini): le azioni 🔴
-(commissione 12%, payout-test) restano da firmare nel **normale flusso**, non perché l'entità sia dubbia.
+Nessun errore medio/grave in questo giro. Nessuna entità inventata, nessun numero orfano, nessuna 🔴
+travestita da 🟢.
 
-## 🚨 Errori trovati (per gravità)
+## Grounding delle entità (3 strade)
+- **Casa Linda** → `confermato` (nei dati: seller approvato, payout attivo). Promossa nel registro.
+- **Pane Quotidiano** → `confermato` (nei dati: seller approvato). Promossa nel registro.
+- **Antica Salumeria Garetti** → resta `scelta_ragionata` (prospect, 0 ordini, non nel DB): legittima,
+  fondata su `campo-aperto-faro.md` + fatti pubblici. Le 🔴 collegate restano da firmare (flusso normale).
 
-### 🟡 MEDIA — la PRIMA auto-analisi ha sbagliato: chiedeva «Garetti è reale?» invece di fondarlo da sola
-- **Cosa:** avevo controllato solo `DECISIONI.md` e, non trovando una conferma di Nicola, avevo flaggato
-  Garetti come possibile invenzione e ti avevo girato la domanda.
-- **Perché è un problema:** la macchina deve **usare la propria intelligenza**: bastava leggere il mio
-  stesso trail di analisi per vedere che è una scelta ragionata. Delegare a Nicola ciò che si può dedurre
-  è un fallimento, non prudenza.
-- **Azione presa:** **corretto** — logica di grounding ora a **3 strade**: (a) dati reali → confermato;
-  (b) scelta ragionata con prove → legittima (mostro il perché); (c) nessun fondamento → blocco e chiedo.
+## Domande per Nicola
+1. 🔴 **Memoria = progetto Supabase separato o lo stesso del marketplace?** Le tabelle memoria esistono
+   dentro `clmpyfvpvfjgeviworth` ma vuote; il `.env` le dà come progetto a parte. Da qui dipende `SUPABASE_URL`.
+2. 🔴 **Forzo la prima transazione con Casa Linda** (payout-ready) invece di aspettare Garetti?
 
-### 🟡 MEDIA — l'apprendimento era cieco (imparava solo da un linter di 4 regole)
-- **Azione presa:** corretto — motore `cervello/apprendimento.md` (7 fonti, archivio lezioni, preference learning).
+## Salute della macchina
+- **Supabase (marketplace):** ✅ ok, `ACTIVE_HEALTHY`, riverificato live.
+- **Stripe:** ⚪ non interrogato in questo giro.
+- **PostHog:** 🔴 non collegato.
+- **Dati freschi:** ✅ sì (query del 28/6 16:46). **Sensori attivi:** 1.
 
-## ❓ Domande per Nicola
-**Nessuna domanda «è reale?».** L'unica cosa che resta su Garetti è la **firma sui termini 🔴**
-(commissione/payout), che è già nel normale flusso di approvazione (AZIONI-IN-ATTESA) — non una confusione.
+## Punti ciechi
+- Memoria (DB 2) non distinguibile dal mio accesso; tabelle memoria vuote → rischio non-persistenza.
+- Stripe e PostHog non letti → incassi/payout e traffico non riconciliati.
+- Radar esterno non verificato oggi.
 
-## 🩺 Salute della macchina
-- Supabase MCP: **giù** · Stripe MCP: **giù** · Dati freschi: **no** · Sensori attivi: **0**.
-
-## 🕳️ Punti ciechi
-- Garetti è un prospect: l'esito del pitch e la firma dei termini restano da fare.
-- Senza Supabase/Stripe non ho verificato live ordini/incassi.
-
-## ⏭️ Cosa miglioro al prossimo giro
-- Applicare sempre le 3 strade: **fondare l'entità da sé** (dati → ragionamento) prima di chiedere a Nicola.
-- Iniziare a registrare previsto-vs-reale per la calibrazione.
+## Cosa miglioro al prossimo giro
+- Interrogare anche Stripe e riconciliare incassi/payout.
+- Far girare @intelligence sul radar esterno (fermo da giorni di cecità).
+- Avviare la registrazione previsto-vs-reale (calibrazione) sulle azioni proposte oggi.
