@@ -1,10 +1,10 @@
 {
-  "aggiornato": "2026-06-28 02:05",
+  "aggiornato": "2026-06-28 04:05",
   "_README": "Registro di grounding delle entita citate nelle azioni dell'AD. stato: REALE (dati/firma) | SCELTA-RAGIONATA (deduzione difendibile con prove) | DA-CONFERMARE (serve conferma Nicola/dati) | NON-VERIFICABILE (canale dati assente).",
   "entita": [
     {"nome": "Nicola", "tipo": "persona/founder", "stato": "REALE", "fonte": "utente (nicolaflorea50@gmail.com), firma decisioni", "note": "Proprietario, single point of failure (radar persona-05)."},
     {"nome": "MyCity (marketplace)", "tipo": "azienda", "stato": "REALE", "fonte": "repo + vault", "note": "Marketplace negozi di Piacenza, pre-lancio pubblico."},
-    {"nome": "Progetto Supabase clmpyfvpvfjgeviworth", "tipo": "infrastruttura", "stato": "REALE", "fonte": "STATO.md (verificato sul vivo nei primi giri)", "note": "MCP attualmente NON autorizzato in sessione -> dati non leggibili."},
+    {"nome": "Progetto Supabase clmpyfvpvfjgeviworth", "tipo": "infrastruttura", "stato": "REALE", "fonte": "STATO.md (verificato sul vivo nei primi giri) + status.supabase.com/history (28/6: piattaforma operativa)", "note": "Piattaforma VERIFICATA operativa (incident 20-24/6 risolti). MCP NON autorizzato in sessione -> dati non leggibili: il blocco e un PERMESSO, non un'outage."},
     {"nome": "Garetti", "tipo": "negozio-faro", "stato": "DA-CONFERMARE", "fonte": "vault (scelta del negozio-faro)", "note": "Stato LIVE (approvato+payout+prodotti veri) e grounding anagrafico non verificabili senza Supabase. NON dare per confermato: e l'errore-tipo 'Garetti inventati'. Domanda aperta per Nicola."},
     {"nome": "Manifestazioni Antoniniane / Sant'Antonino", "tipo": "evento", "stato": "REALE", "fonte": "piacenza24.eu (Antoniniane 2026)", "note": "Festa del patrono, culmine fiera sab 4/7; + Venerdi Piacentini 3/7. Finestra di presidio piu grande del mese."},
     {"nome": "Arisa a Palazzo Farnese (28/6 sera)", "tipo": "evento", "stato": "REALE", "fonte": "ilpiacenza.it / Piacenza Summer Cult", "note": "Presidio serale nelle ore fresche."},

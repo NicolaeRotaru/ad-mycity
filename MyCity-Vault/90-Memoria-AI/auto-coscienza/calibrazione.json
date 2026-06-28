@@ -1,12 +1,18 @@
 {
-  "aggiornato": "2026-06-28 02:05",
+  "aggiornato": "2026-06-28 04:05",
   "_README": "Calibrazione previsto-vs-reale. Si popola quando ci sono esiti misurabili (richiede dati reali via Supabase).",
   "voci": [
     {
       "previsione": "I 7 numeri restano a 0/baseline finche Supabase MCP e negato e le firme 🔴 ferme",
-      "reale": "non misurabile (Supabase negato da 10 giri)",
+      "reale": "non misurabile (Supabase MCP negato da 11 giri)",
       "scarto": "n/d — gap di misura, non di previsione",
       "nota": "Prima voce calibrabile davvero solo dopo l'autorizzazione del MCP."
+    },
+    {
+      "previsione": "Il blocco ai 7 numeri poteva essere un'outage della piattaforma OPPURE un permesso MCP",
+      "reale": "VERIFICATO (28/6 04:05): piattaforma Supabase operativa, incident 20-24/6 risolti -> e un permesso MCP, non un'outage",
+      "scarto": "ipotesi-outage smentita: nessun guasto infrastrutturale",
+      "nota": "Diagnosi confermata via status page. Riduce la richiesta a Nicola a una sola leva tecnica (autorizzare il MCP)."
     }
   ]
 }

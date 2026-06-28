@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 02:05
+aggiornato: 2026-06-28 04:05
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0v. **Giro 28/6 — 04:05 (passaggio 4, NOTTE FONDA):** 2 ore dopo il 3°. Esterno **invariato**
+   (notte fonda → niente ricerche meteo/eventi/competitor ripetute, cadenza rispettata, Max
+   risparmiato). ⭐ Contributo del passaggio = **una verifica reale**: ho controllato lo **status di
+   Supabase** (ops-02, ROSSO, ogni-giro) → **piattaforma operativa**, incident del 20-24/6 tutti
+   risolti ([status/history](https://status.supabase.com/history)). Quindi il blocco ai 7 numeri
+   **NON è un'outage**: è solo il **MCP non autorizzato** in sessione (ritentato → di nuovo NEGATO,
+   11° giro cieco). WebFetch anch'esso non autorizzato → usato WebSearch come ripiego. **Nessuna
+   azione nuova accodata** (coda già piena, no duplicati). I 3 sblocchi da Nicola restano identici.
+   Vedi [[2026-06-28]].
 0w. **Giro 28/6 — 02:05 (passaggio 3, NOTTE):** 38 min dopo il 2°. Esterno **invariato** (notte fonda
    → niente ricerche ripetute, Max risparmiato). **Supabase MCP ritentato (`execute_sql`/`list_projects`)
    → di nuovo NEGATO** (10° giro cieco). ⭐ Contributo del passaggio = **chiuso un GAP STRUTTURALE**: la

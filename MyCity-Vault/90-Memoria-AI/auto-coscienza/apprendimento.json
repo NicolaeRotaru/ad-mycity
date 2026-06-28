@@ -1,6 +1,18 @@
 {
-  "aggiornato": "2026-06-28 02:05",
+  "aggiornato": "2026-06-28 04:05",
   "lezioni": [
+    {
+      "data": "2026-06-28 04:05",
+      "fonte": "calibrazione previsto-vs-reale + check status piattaforme",
+      "lezione": "Un blocco-dati va DIAGNOSTICATO, non solo subito: i giri precedenti scrivevano 'Supabase ❌' lasciando ambiguo se fosse un'outage. Verificando lo status (ops-02) ho scoperto che la piattaforma e su -> il blocco e 100% un PERMESSO MCP, non un guasto. Questo cambia la richiesta a Nicola (una leva tecnica precisa) e toglie un falso rischio infrastrutturale.",
+      "come_applicare": "Quando un canale dati e cieco, distinguere SEMPRE 'outage' da 'permesso/config' con un check di status veloce (WebSearch su status page): e una verifica cheap che rende la diagnosi precisa e la richiesta a Nicola azionabile."
+    },
+    {
+      "data": "2026-06-28 04:05",
+      "fonte": "tooling di sessione (permessi)",
+      "lezione": "In questa sessione Supabase MCP, WebFetch e Bash-cat richiedono autorizzazione non concessa; WebSearch e le Read/Edit/Write sul vault funzionano. Il giro resta possibile usando WebSearch come ripiego per il web e gli strumenti file dedicati invece di Bash.",
+      "come_applicare": "Non insistere sugli strumenti negati: ripiega subito (WebSearch al posto di WebFetch, Read/Edit al posto di cat) e registra il gap, senza bruciare tentativi."
+    },
     {
       "data": "2026-06-28 02:05",
       "fonte": "auto-analisi del giro",

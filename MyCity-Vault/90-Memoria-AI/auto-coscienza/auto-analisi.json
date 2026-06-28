@@ -1,30 +1,29 @@
 {
-  "data": "2026-06-28 02:05",
-  "giro": "2026-06-28 passaggio 3 (notte, 02:05)",
-  "voto_fiducia": "ALTO sulla tracciabilita, MEDIO sull'utilita marginale. Il giro non inventa nulla e dichiara onestamente la cecita sui dati; l'utilita di un 3o passaggio notturno a 38 min dal 2o e per sua natura bassa, ma stavolta ha un contributo reale e non duplicato: ha chiuso un gap strutturale (i file obbligatori dell'auto-coscienza non esistevano) e ha prodotto la bozza del post caldo (azione #6, ferma come 'da creare' dal 27/6).",
+  "data": "2026-06-28 04:05",
+  "giro": "2026-06-28 passaggio 4 (notte fonda, 04:05)",
+  "voto_fiducia": "ALTO sulla tracciabilita e l'onesta, BASSO sull'utilita marginale. E' il 4o passaggio in una notte: il contributo netto e una sola verifica reale (status piattaforme) e l'aggiornamento onesto della memoria. Nessun dato inventato, nessuna azione duplicata. Metacognitivamente: passaggio al limite della soglia di utilita -> il prossimo a vuoto va saltato.",
   "verifica_avversariale_3_livelli": {
-    "livello_1_fatti_e_numeri": "I 7 numeri NON sono stati toccati: restano baseline 24/6 e sono dichiarati gap (Supabase MCP negato, ritentato execute_sql/list_projects). Nessuna cifra orfana introdotta. La sola affermazione live ri-usata (allerta caldo, Arisa, status piattaforme) viene dal check delle 00:51 (<2h fa) ed e marcata come tale, non rifatta -> nessun dato spacciato per fresco.",
-    "livello_2_logica_e_grounding_entita": "Entita citate verificate contro registro-realta.json. Garetti (negozio-faro) e DECLASSATO a 'scelta ragionata, grounding LIVE da confermare': nessuna azione di questo giro agisce su Garetti come fosse confermato reale -> evitato l'errore-tipo 'Garetti inventati'. Eventi (Manifestazioni Antoniniane, Arisa) e allerta caldo 066/2026 sono REALI (fonti web citate). I 7 numeri sono dichiarati non-verificabili.",
-    "livello_3_utilita_e_rischio": "Rischio principale: rumore (troppi passaggi notturni a vuoto). Mitigato: niente ricerche web ripetute (cadenza rispettata, Max risparmiato), e ogni passaggio deve lasciare un artefatto reale o astenersi. Questo passaggio supera la soglia perche chiude il gap auto-coscienza + produce la bozza caldo. Se il prossimo passaggio non avesse nulla di nuovo ne da fare, andrebbe SALTATO."
+    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: restano baseline 24/6, dichiarati gap (Supabase MCP negato). Nessuna cifra orfana. L'unica affermazione live NUOVA e verificata: lo status di Supabase (piattaforma operativa, incident 20-24/6 risolti) da WebSearch su status.supabase.com/history -> fonte citata. Meteo/eventi/competitor NON rifatti e marcati come ri-uso del check 00:51 -> nessun dato spacciato per fresco.",
+    "livello_2_logica_e_grounding_entita": "Entita invariate rispetto al passaggio 3, verificate contro registro-realta.json. Garetti resta DA-CONFERMARE: nessuna azione di questo giro agisce su Garetti. La nuova affermazione (piattaforme su) e di tipo infrastrutturale, verificabile e verificata. Deduzione corretta: 'piattaforma su + MCP negato' => il blocco e un permesso, non un'outage. Logicamente solida.",
+    "livello_3_utilita_e_rischio": "Rischio principale: rumore (4o passaggio notturno). Mitigato: niente ricerche ripetute, nessuna azione duplicata, e il passaggio porta UN fatto nuovo (ops-02 verificato verde) che restringe la richiesta a Nicola a una sola leva (autorizzare il MCP). Raccomandazione esplicita ripetuta a Nicola: diradare i passaggi notturni; saltare il prossimo se a vuoto."
   },
   "entita_verificate": [
     {"nome": "Nicola (founder)", "stato": "REALE", "fonte": "utente/firma"},
     {"nome": "MyCity marketplace + progetto Supabase clmpyfvpvfjgeviworth", "stato": "REALE", "fonte": "STATO.md, verificato sul vivo nei giri precedenti"},
-    {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdi Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu (check 27/6 23:02 e 28/6 00:51)"},
-    {"nome": "Arisa a Palazzo Farnese (sera 28/6, Piacenza Summer Cult)", "stato": "REALE", "fonte": "ilpiacenza.it / piacenza24.eu"},
-    {"nome": "Allerta caldo 066/2026 (38-39 gradi, apice 28/6)", "stato": "REALE", "fonte": "Arpae / Protezione Civile ER"}
+    {"nome": "Piattaforma Supabase OPERATIVA (28/6)", "stato": "REALE", "fonte": "WebSearch su status.supabase.com/history: incident 20-24/6 risolti, servizio operativo al 26/6"},
+    {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdi Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu (check 27-28/6)"},
+    {"nome": "Allerta caldo (38-39 gradi, apice 28/6)", "stato": "REALE", "fonte": "Arpae / Protezione Civile ER (check 00:51)"}
   ],
   "entita_declassate": [
-    {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, grounding anagrafico e stato LIVE DA CONFERMARE", "motivo": "Supabase cieco: non posso verificare che Garetti sia approvato/LIVE/con prodotti veri. Nessuna azione di questo giro lo da per confermato; resta domanda aperta per Nicola. E' l'errore-tipo da non ripetere.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"}
+    {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, grounding anagrafico e stato LIVE DA CONFERMARE", "motivo": "Supabase cieco: non posso verificare che Garetti sia approvato/LIVE/con prodotti veri. Nessuna azione di questo giro lo da per confermato; resta domanda aperta per Nicola.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"}
   ],
   "errori_trovati_e_corretti": [
-    "GAP STRUTTURALE: la cartella auto-coscienza/ e i file obbligatori auto-analisi.json / registro-realta.json NON esistevano -> i giri precedenti hanno saltato il cancello di serieta del passo 11. CORRETTO in questo passaggio creando i file. Lezione registrata in apprendimento.json.",
-    "Azione #6 (post caldo) ferma come 'da creare' dal 2026-06-27 00:39: convertita in bozza pronta in consegne/content/POST-caldo-38.md (resta 🔴 la pubblicazione)."
+    "Nessun errore nuovo introdotto in questo passaggio. Distinzione importante chiarita rispetto ai giri precedenti: il blocco ai 7 numeri era descritto come 'Supabase ❌' in modo ambiguo (poteva sembrare un'outage). VERIFICATO che la piattaforma e su -> e un problema di permesso MCP, non infrastrutturale. Correzione di precisione registrata."
   ],
   "domande_per_nicola": [
+    "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? La piattaforma e VERIFICATA su: manca solo il permesso. E' l'unico sblocco per i 7 numeri veri e per misurare il Giorno-1.",
     "Garetti e davvero LIVE (approvato + payout + prodotti veri)? La consegna del Giorno-1 (27/6) e avvenuta?",
-    "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? E' l'unico sblocco per i 7 numeri veri.",
     "Firmi le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)?"
   ],
-  "salute_sistema": "STABILE ma BLOCCATO sugli stessi 3 colli di bottiglia umani da 10 giri. La macchina gira a vuoto sui dati (cecita) ma continua a produrre artefatti pronti. Raccomandazione metacognitiva: ridurre la frequenza dei passaggi notturni a vuoto (uno ogni qualche ora basta finche l'esterno e fermo e non c'e nuovo lavoro doer)."
+  "salute_sistema": "STABILE e ora con UNA certezza in piu: l'infrastruttura e sana (verificata), quindi i 3 colli di bottiglia sono tutti UMANI/permessi, non tecnici. La macchina gira a vuoto sui dati (cecita da permesso) ma e onesta e non duplica. Raccomandazione metacognitiva confermata: ridurre la frequenza dei passaggi notturni a vuoto; il prossimo, se senza nuovo lavoro doer e con esterno fermo, va SALTATO."
 }
