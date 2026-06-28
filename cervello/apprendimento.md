@@ -33,7 +33,10 @@ ti renderà più brava. Una lezione vale solo se è **riusabile** (un principio,
    principio che cambia il processo (non solo il sintomo).
 
 ## 🧠 L'archivio delle lezioni (con confidenza e decadimento — non una lista che cresce all'infinito)
-Mantieni `auto-coscienza/apprendimento.json`. Ogni lezione ha:
+Mantieni `auto-coscienza/apprendimento.json`. **🚨 Usa i nomi di campo ESATTI** (il Pannello legge solo
+questi): il testo della lezione va in **`testo`** (NON `lezione`/`come_applicare`/`principio`), più
+`confidenza` (numero 0-1), `evidenze` (numero), `stato`, `reparto`, `fonte`, `tag`. E i campi `meta`
+(`lezioni_attive`, `promosse_a_principio`, `decadute`, `tasso_applicazione` come numero 0-1). Ogni lezione ha:
 - **confidenza** (0-1): sale di ~0.15 a ogni nuova evidenza che la conferma, scende se viene smentita.
 - **evidenze**: quante volte si è ripresentata. Una lezione con 1 sola evidenza è un'**ipotesi** (`in-prova`).
 - **decadimento**: se non è riconfermata da ~4 settimane, la confidenza scende; sotto 0.3 diventa `decaduta`

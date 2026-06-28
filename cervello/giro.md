@@ -152,7 +152,9 @@ Passi:
     dalle **8 fonti** (esiti, approvazioni/**correzioni di Nicola — casi-studio prioritari**, calibrazione,
     pattern, errori dell'auto-analisi, eccezioni, benchmark, **auto-radiografia**). Aggiorna
     `apprendimento.json` + `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
-    prossimo giro (è il volano).
+    prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
+    come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`
+    dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
 13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine):
     esegui `cervello/auto-miglioramento.md` — benchmark coi migliori a **due livelli** (locali + mondo, via
     @intelligence + watchlist), misura il divario con **obiettivo e progresso**, ≥3 varianti dai senior,
