@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 01:27
+aggiornato: 2026-06-28 02:05
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0w. **Giro 28/6 — 02:05 (passaggio 3, NOTTE):** 38 min dopo il 2°. Esterno **invariato** (notte fonda
+   → niente ricerche ripetute, Max risparmiato). **Supabase MCP ritentato (`execute_sql`/`list_projects`)
+   → di nuovo NEGATO** (10° giro cieco). ⭐ Contributo del passaggio = **chiuso un GAP STRUTTURALE**: la
+   cartella `auto-coscienza/` **non esisteva** → creati i file obbligatori del cancello di serietà
+   (`auto-analisi.json` + `registro-realta.json` + `AUTO-ANALISI.md` + `apprendimento.json` +
+   `calibrazione.json`): i giri precedenti **saltavano il passo 11**. **Garetti declassato** nel
+   registro-realtà a «scelta ragionata, LIVE da confermare» (evito l'errore «Garetti inventati»). Inoltre
+   prodotta la **bozza del post caldo** (`consegne/content/POST-caldo-38.md`, azione #6 da "da creare" a
+   pronta). I 3 sblocchi da Nicola restano identici. Vedi [[2026-06-28]].
 0x. **Giro 28/6 — 01:27 (passaggio 2, NOTTE):** 36 min dopo il primo. Quadro **invariato** (notte
    fonda: meteo/eventi/status piattaforme identici al check 00:51, <1h → cadenza rispettata, Max
    risparmiato). **Supabase MCP ritentato (`execute_sql`/`list_tables`) → di nuovo NEGATO** (7 numeri

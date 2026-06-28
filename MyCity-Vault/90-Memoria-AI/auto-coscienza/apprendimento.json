@@ -1,0 +1,29 @@
+{
+  "aggiornato": "2026-06-28 02:05",
+  "lezioni": [
+    {
+      "data": "2026-06-28 02:05",
+      "fonte": "auto-analisi del giro",
+      "lezione": "Il passo 11 (auto-coscienza) veniva saltato: la cartella e i file obbligatori non esistevano. Da ora ogni giro DEVE verificare/scrivere auto-coscienza/auto-analisi.json + registro-realta.json prima di chiudere, altrimenti il giro e tecnicamente fallito (la Cabina resta vuota).",
+      "come_applicare": "Inserire la scrittura dei file auto-coscienza come primo artefatto doer del giro, non come ultimo pensiero."
+    },
+    {
+      "data": "2026-06-28 02:05",
+      "fonte": "pattern nei dati (10 giri ciechi)",
+      "lezione": "I passaggi notturni ravvicinati (es. 00:51, 01:27, 02:05) a esterno fermo e dati ciechi producono utilita marginale calante. Hanno senso solo se chiudono un gap reale o producono un artefatto non-duplicato.",
+      "come_applicare": "Di notte, se non c'e nuovo lavoro doer ne nuovi dati, diradare i passaggi (uno ogni qualche ora). Regola: 'artefatto reale o astieniti'."
+    },
+    {
+      "data": "2026-06-28 02:05",
+      "fonte": "approvazioni/rifiuti di Nicola (assenti)",
+      "lezione": "I 3 sblocchi (firme 🔴, Garetti LIVE, Supabase MCP) sono fermi da 10 giri: continuare ad accodare artefatti non li sblocca. Il valore ora e nella nettezza della richiesta, non nel volume di output.",
+      "come_applicare": "Tenere la coda 🟡/🔴 stabile (no duplicati) e ripetere i 3 sblocchi in modo identico e sintetico finche non arriva risposta."
+    },
+    {
+      "data": "2026-06-28 02:05",
+      "fonte": "errori dell'auto-analisi (grounding)",
+      "lezione": "Garetti va sempre trattato come 'scelta ragionata da confermare', mai come reale-confermato, finche Supabase e cieco. E' l'errore-tipo da non ripetere.",
+      "come_applicare": "Nessuna azione esecutiva su Garetti senza conferma dati/Nicola; resta sempre una domanda aperta."
+    }
+  ]
+}
