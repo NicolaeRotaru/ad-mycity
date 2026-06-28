@@ -57,8 +57,11 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ## 📐 I contratti dati (schema ESATTO — il Pannello e i giri dipendono da questi)
 > 🚨 **Tipi e nomi alla lettera, sempre.** I voti (`voto_fiducia`, `voto_salute_architettura`, `voto`) sono
 > **NUMERI interi 0-100**, mai frasi (la sfumatura va in `sintesi`). I campi `domande_per_nicola` sono
-> **array di OGGETTI**, mai stringhe nude. Usa i nomi di campo qui sotto **identici**: il Pannello legge solo
-> questi; qualsiasi campo inventato è invisibile e un voto-come-testo **rompe il layout**.
+> **array di OGGETTI**, mai stringhe nude. Il testo di una lezione va in **`testo`** (non `lezione`). Lo
+> `stato` di un'entità del registro è SOLO uno di `confermato|scelta_ragionata|da_verificare|scartato`
+> (NON `REALE`/`DA-CONFERMARE`/`NON-VERIFICABILE`). Usa i nomi di campo qui sotto **identici**: il Pannello
+> legge solo questi; qualsiasi campo inventato è invisibile e un voto-come-testo **rompe il layout**. Ogni
+> file `auto-coscienza/*.json` dev'essere **JSON valido e non vuoto**.
 
 ### `registro-realta.json` (asse ①)
 ```json
