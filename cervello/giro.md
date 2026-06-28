@@ -139,9 +139,14 @@ Passi:
     particolare il **grounding delle entità**: ogni negozio/persona/numero citato nelle azioni di questo
     giro va verificato contro `90-Memoria-AI/auto-coscienza/registro-realta.json` (o dati reali / decisioni
     di Nicola). Un'entità non verificata → **declassa l'azione** e crea una domanda per Nicola (mai agire su
-    qualcosa di non confermato — è l'errore-tipo «Garetti»). Scrivi `auto-coscienza/auto-analisi.json` +
-    `AUTO-ANALISI.md` (voto di fiducia, errori, domande, salute della macchina) e aggiorna il registro.
-    Le domande 🔴/bloccanti vanno anche in [[AZIONI-IN-ATTESA]] e in `serve_da_nicola`.
+    qualcosa di non confermato — è l'errore-tipo «Garetti»).
+    ⚠️ **QUESTO NON È UN PASSO "DI PENSIERO": DEVI SCRIVERE I FILE SU DISCO ADESSO (strumento Write), prima di
+    chiudere il giro.** Scrivere la tua memoria è 🟢 (sei in acceptEdits): **non aspettare Nicola, non limitarti a
+    riassumere il verdetto nella risposta.** Crea la cartella se manca. File **OBBLIGATORI** di questo passo:
+    `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json` + `…/registro-realta.json` (entità verificate/
+    declassate) + `MyCity-Vault/90-Memoria-AI/AUTO-ANALISI.md` (voto di fiducia, errori, domande, salute).
+    **Se a fine giro `auto-coscienza/auto-analisi.json` non esiste su disco, il giro è FALLITO: la Cabina resta
+    vuota e tutto il tuo lavoro di analisi è invisibile.** Le domande 🔴/bloccanti vanno anche in [[AZIONI-IN-ATTESA]] e in `serve_da_nicola`.
 12. 📚 APPRENDIMENTO (esegui `cervello/apprendimento.md`): estrai le **lezioni riusabili** di questo giro
     dalle 7 fonti (esiti, approvazioni/rifiuti di Nicola, calibrazione previsto-vs-reale, pattern nei dati,
     errori dell'auto-analisi, eccezioni, benchmark). Aggiorna `auto-coscienza/apprendimento.json` +

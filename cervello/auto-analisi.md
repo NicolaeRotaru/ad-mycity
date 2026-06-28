@@ -66,7 +66,11 @@ media −10, bassa −3), per ogni entità non verificata su cui si agisce (−2
 per ogni sensore cieco rilevante (−5). Confronta col voto del giro precedente (`trend_fiducia` ▲▼=).
 Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi elencati è di per sé sospetto.
 
-## 🧾 Cosa scrivi (SEMPRE due output)
+## 🧾 Cosa scrivi (SEMPRE due output — OBBLIGATORI, si scrivono SUBITO con lo strumento Write)
+> ⚠️ **Persistere NON è facoltativo.** Il Pannello legge l'auto-coscienza SOLO da questi file. Se ti limiti a
+> *narrare* il verdetto nella risposta senza scriverli, la Cabina mostra «la macchina non ha ancora fatto la sua
+> auto-analisi» e tutto il tuo lavoro è invisibile. Scrivere la tua memoria è 🟢 (acceptEdits): **fallo da sola,
+> ora, senza chiedere a Nicola.** Crea la cartella `90-Memoria-AI/auto-coscienza/` se non esiste.
 1. **Report umano** → `MyCity-Vault/90-Memoria-AI/AUTO-ANALISI.md` (sovrascrivi col più fresco;
    frontmatter `data: AAAA-MM-GG HH:MM`). Sezioni: Voto di fiducia (+trend e perché) · Errori per gravità
    (cosa / perché è un problema / azione presa / a che livello l'ho scoperto) · Domande per Nicola
