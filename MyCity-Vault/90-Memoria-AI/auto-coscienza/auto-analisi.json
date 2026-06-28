@@ -1,55 +1,55 @@
 {
-  "data": "2026-06-28 16:46",
-  "voto_fiducia": 85,
+  "data": "2026-06-28 20:25",
+  "voto_fiducia": 87,
   "trend_fiducia": "▲",
-  "sintesi": "Giro a sensori-dati TORNATI: per la prima volta dal 24/6 il lavoro poggia su fatti veri (query dirette Supabase), non su stime. Voto in salita (79→85) perché i 7 numeri sono ora tutti fondati su fonte ammessa e due entità prima solo nominate (Casa Linda, Pane Quotidiano) sono confermate nei dati. Garetti resta una scelta_ragionata legittima (prospect, non nel DB). Penalità residue solo per punti ciechi dichiarati: memoria (DB 2) ambigua, Stripe/PostHog non interrogati, radar esterno non fatto.",
+  "sintesi": "Secondo giro del 28/6. Voto in lieve salita (85→87): un punto cieco grosso del giro precedente — 'dove scrive la memoria?' — è stato CHIUSO non a parole ma costruendo il DB-memoria separato (xjljcsorpbqwttrejqte, 5 tabelle, RLS, verificato live) e scrivendoci dentro il primo briefing. I 7 numeri di business sono riverificati live e identici alle 16:46 (nessun movimento: stallo a ~106h). Le entità reggono: Casa Linda e Pane Quotidiano confermate nei dati, Garetti resta scelta_ragionata (prospect, non nel DB). Lo scan esterno è stato rifatto live (@intelligence) con fonti citate, chiudendo il punto cieco 'radar non fatto'. Penalità residue solo per Stripe/PostHog non interrogati e per i 3 buchi-mercato a confidenza ~70% (mancano dati food interni per blindarli).",
   "verifiche": {
     "entita": "ok",
     "numeri": "ok",
     "coerenza": "ok",
     "semaforo": "ok",
     "qualita": "ok",
-    "benchmark": "non applicabile (giro di lettura dati, nessun contenuto da benchmarkare)"
+    "benchmark": "ok (radar concorrenti rifatto con fonti; nessun contenuto creativo da benchmarkare in questo giro)"
   },
   "errori": [
     {
       "gravita": "bassa",
-      "titolo": "La baseline 24/6 di STATO.md dava i 250 prodotti come 'da ignorare' senza ri-misurare lo stato",
-      "dettaglio": "Verificato ora: 250 'available' (seed) + 7 draft + 1 sold. Coerente con la baseline ('seed/test'), ma per 4 giorni il numero è restato non riverificato perché i sensori erano giù. Nessun danno: appena tornati i dati, riallineato.",
-      "azione_presa": "corretto (numeri riverificati live)",
-      "riguarda": "freschezza dei dati / dipendenza dai sensori",
+      "titolo": "I 3 buchi di mercato sono dati come opportunità con confidenza ~70%, non come fatti",
+      "dettaglio": "Lo scan @intelligence li marca esplicitamente a confidenza 65-70% perché manca 1 screenshot listino-fee Glovo e l'accesso ai nostri dati ordini food. Corretto averli dichiarati come ipotesi e non come fatti (regola: nessun numero/claim orfano).",
+      "azione_presa": "dichiarato come ipotesi a confidenza esplicita + segnato il carburante mancante",
+      "riguarda": "onestà delle opportunità esterne",
       "livello_scoperta": "L1"
     }
   ],
   "domande_per_nicola": [
     {
-      "domanda": "La memoria dell'AD è un progetto Supabase SEPARATO o lo STESSO del marketplace?",
-      "perche_serve": "Le tabelle memoria (briefings, lavori, diario, conversazioni, impostazioni) esistono dentro clmpyfvpvfjgeviworth ma sono vuote; il tuo .env le descrive come progetto a parte (LA-MEMORIA.supabase.co). Da questo dipende cosa metti in SUPABASE_URL su Vercel.",
-      "se_rispondi": "So se puntare SUPABASE_URL al marketplace o a un secondo progetto, e posso testare la scrittura di un briefing nella tabella memoria.",
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout già attivo) invece di aspettare la firma di Garetti?",
+      "perche_serve": "Casa Linda è l'unico negozio payout-ready: è la via più veloce per provare ordine→pagato→consegnato→payout. Aspettare Garetti tiene l'azienda a zero da ~106h.",
+      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda e provo il primo ciclo completo.",
       "gravita": "alta"
     },
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout gia attivo) invece di aspettare la firma di Garetti?",
-      "perche_serve": "Casa Linda è l'unico negozio payout-ready: è la via piu veloce per provare ordine→pagato→consegnato→payout. Aspettare Garetti tiene l'azienda a zero.",
-      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda e provo il primo ciclo completo.",
-      "gravita": "alta"
+      "domanda": "Faccio il wiring Vercel della memoria (SUPABASE_URL + SUPABASE_SERVICE_KEY al progetto memoria) per accendere la card nel Pannello?",
+      "perche_serve": "Il DB-memoria è costruito e collegato agli strumenti, ma la service_role key è un segreto che non tocco io: senza il wiring + Redeploy la spia 'Memoria collegata' resta grigia anche se il DB funziona.",
+      "se_rispondi": "Tu metti le 2 variabili su Vercel + Redeploy; io verifico che il Pannello legga il briefing già salvato nella tabella briefings.",
+      "gravita": "media"
     }
   ],
   "punti_ciechi": [
-    "Memoria (DB 2): non distinguibile dal mio accesso Supabase (vedo solo il progetto marketplace). Le tabelle memoria sono vuote: i giri potrebbero non persistere nel Pannello finché SUPABASE_URL non è confermato.",
-    "Stripe non interrogato in questo giro: incassi/payout reali non riconciliati.",
+    "Stripe non interrogato in questo giro (MCP Stripe non collegato in sessione): incassi/payout reali non riconciliati.",
     "PostHog non collegato: nessun dato di traffico/conversione.",
-    "Radar esterno (concorrenti/eventi/meteo) non verificato live oggi: priorità data ai dati interni tornati."
+    "I 3 buchi di mercato (gastronomia centro, delivery diurno, regalo locale) restano a confidenza ~70%: mancano i dati ordini food interni e 1 listino-fee Glovo per blindarli."
   ],
   "miglioramenti_prossimo_giro": [
-    "Ora che i dati sono live, interrogare anche Stripe e riconciliare incassi/payout.",
-    "Far girare @intelligence sul radar esterno (era fermo da giorni di cecità).",
-    "Iniziare a registrare previsto-vs-reale (calibrazione) sulle azioni proposte oggi."
+    "Interrogare Stripe e riconciliare incassi/payout ora che la pipeline dati è solida.",
+    "Misurare previsto-vs-reale (calibrazione) sull'azione 'forzare transazione Casa Linda' una volta eseguita.",
+    "Dimensionare il buco gastronomia coi nostri dati order_items food su Supabase (alza i 3 buchi da ipotesi a fatti)."
   ],
   "salute_macchina": {
-    "supabase": "ok (marketplace ACTIVE_HEALTHY, riverificato live)",
+    "supabase_marketplace": "ok (ACTIVE_HEALTHY, riverificato live, sola lettura)",
+    "supabase_memoria": "ok (xjljcsorpbqwttrejqte ACTIVE_HEALTHY, 5 tabelle, RLS, scrittura testata)",
     "stripe": "non interrogato",
     "dati_freschi": true,
-    "sensori_attivi": 1
+    "sensori_attivi": 2
   }
 }

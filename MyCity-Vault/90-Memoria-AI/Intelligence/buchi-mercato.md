@@ -1,9 +1,14 @@
 # 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
 
-> Aggiornato: **2026-06-27 19:50** · Fonte: monitoraggio web (`cervello/monitora.md`, fonti
-> `ilpiacenza-economia` + immobiliare). 🟢 note · i contatti a lead/botteghe = 🟡/🔴 (firma Nicola).
+> Aggiornato: **2026-06-28 20:25** · Fonte: monitoraggio web (@intelligence, giro del 28/6). 🟢 note · i contatti a lead/botteghe = 🟡/🔴 (firma Nicola).
 > Cosa contiene: categorie/zone senza offerta locale + botteghe in difficoltà (segnali da news/immobiliare),
 > da girare a @vendite come lead.
+
+## Stato giro 2026-06-28 — 3 buchi azionabili (confermati live)
+1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo fa ristoranti, la GDO fa supermercati, **nessuno fa salumiere/fornaio/enoteca storica**. Idea: pacchetto "cena del weekend con 2 botteghe". *Confidenza ~70% — da confermare coi nostri dati ordini food su Supabase.* → @growth + @analista.
+2. 🟢 **Delivery diurno anti-caldo (11-18)** — bibite/gelato/fresco mentre la GDO consegna a slot rigidi e Glovo costa: finestra di servizio + relazione, sfruttabile **subito** (ondata di calore in corso). → @operations + @content-social (push "te lo portiamo, resta al fresco").
+3. 🟡 **Regalo locale a domicilio (modello Cosaporto, assente a Piacenza)** — agganciato al flusso turistico dei Venerdì Piacentini: visitatori che vogliono un prodotto piacentino consegnato. → @growth + @marketing.
+> Fonti: [glovoapp.com/piacenza](https://glovoapp.com/en/it/piacenza) · [pambianconews](https://wine.pambianconews.com/2024/02/le-nuove-frontiere-del-food-delivery/225477/). Dettaglio concorrenti in `radar-concorrenti.md`.
 
 ## Stato giro 2026-06-27
 - **Nessuna novità rilevante oggi** dalle news economiche. La ricerca su IlPiacenza-Economia / aperture-chiusure

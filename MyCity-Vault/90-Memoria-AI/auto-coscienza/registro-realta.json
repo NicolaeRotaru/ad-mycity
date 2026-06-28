@@ -1,7 +1,21 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 16:46",
+  "aggiornato": "2026-06-28 20:25",
   "entita": [
+    {
+      "nome": "DB Memoria (progetto Supabase ad-mycity)",
+      "tipo": "infrastruttura",
+      "stato": "confermato",
+      "fonte": "Supabase MCP → list_projects + list_tables (xjljcsorpbqwttrejqte)",
+      "confidenza": 1.0,
+      "evidenze": [
+        "Progetto Supabase reale e separato dal marketplace: ref xjljcsorpbqwttrejqte, org xwbccbdkgcmdudcuxwdc, ACTIVE_HEALTHY, creato 2026-06-28 (verificato live).",
+        "Schema applicato e verificato: 5 tabelle (briefings, diario, lavori, conversazioni, impostazioni), RLS attiva su tutte, advisor = solo INFO atteso.",
+        "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e)."
+      ],
+      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Risolve la domanda aperta del giro 16:46 ('memoria separata o stessa?'): SEPARATA e collegata. Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
+      "ultima_verifica": "2026-06-28 20:25"
+    },
     {
       "nome": "Nicola",
       "tipo": "persona",
@@ -23,8 +37,8 @@
         "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout gia attivo.",
         "Match operativo: è la leva piu veloce per la prima transazione end-to-end."
       ],
-      "note": "Negozio reale e approvato nel DB. Payout-ready: candidato n.1 per provare ordine→pagato→consegnato→payout senza aspettare la firma di Garetti.",
-      "ultima_verifica": "2026-06-28 16:46"
+      "note": "Negozio reale e approvato nel DB. Payout-ready: candidato n.1 per provare ordine→pagato→consegnato→payout senza aspettare la firma di Garetti. Riverificato live 20:25: stato invariato, 26 prodotti (18 available).",
+      "ultima_verifica": "2026-06-28 20:25"
     },
     {
       "nome": "Pane Quotidiano",
@@ -36,8 +50,8 @@
         "Seller con is_approved=true nei dati reali (verificato live 2026-06-28 16:46).",
         "Payout non ancora attivo (stripe_payouts_enabled=false): manca lo step Stripe Connect."
       ],
-      "note": "Negozio reale e approvato nel DB. Secondo seller approvato dopo Casa Linda. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati.",
-      "ultima_verifica": "2026-06-28 16:46"
+      "note": "Negozio reale e approvato nel DB. Secondo seller approvato dopo Casa Linda. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. Riverificato live 20:25: stato invariato, 5 prodotti.",
+      "ultima_verifica": "2026-06-28 20:25"
     },
     {
       "nome": "Antica Salumeria Garetti",

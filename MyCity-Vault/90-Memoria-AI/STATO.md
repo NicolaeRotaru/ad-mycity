@@ -1,18 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 16:46
+aggiornato: 2026-06-28 20:25
 fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati live)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> ✅ **28/6 16:46 — DATABASE RICOLLEGATO.** Dopo il pagamento dell'abbonamento, il Supabase del
-> marketplace è `ACTIVE_HEALTHY`: ho riverificato i 7 numeri sul vivo per la **prima volta dal 24/6**.
-> ⚠️ Verità scomoda emersa: l'azienda è **in stallo** — 4 giorni di silenzio totale (ultima attività
-> 24/6 08:28), 1 solo ordine fermo. Il collo di bottiglia non è più tecnico: è **far avvenire la
-> prima transazione end-to-end**.
+> 🧠 **28/6 20:25 — MEMORIA COSTRUITA E COLLEGATA.** Il DB-memoria separato (`xjljcsorpbqwttrejqte`) è
+> creato e verificato (5 tabelle, RLS) e ci ho scritto dentro il primo briefing. La memoria della Cabina
+> ora persiste davvero. Resta solo il wiring Vercel (service key, lato Nicola).
+> ⚠️ Business invariato dalle 16:46: stessi 7 numeri, **stallo a ~106h** (ultima attività 24/6 08:28). Il
+> collo di bottiglia resta **far avvenire la prima transazione end-to-end** (leva: Casa Linda, payout-ready).
 
-## I 7 numeri (verificati live 2026-06-28 16:46 · Supabase clmpyfvpvfjgeviworth)
+## I 7 numeri (verificati live 2026-06-28 20:25 · Supabase clmpyfvpvfjgeviworth)
 | Numero | Oggi (28/6) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
@@ -26,13 +26,12 @@ fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati li
 ## Semafori
 - 🟢 Va bene: **database ricollegato**; infrastruttura pronta (Stripe, COD, onboarding, 407 lead censiti, 250 prodotti seed).
 - 🟡 Da tenere d'occhio: catalogo-vetrina ancora "finto" (solo seed); ordine €19,05 zombie da 4 giorni; 4 carrelli abbandonati.
-- 🔴 Problema: **stallo da 96h** (0 ordini/0 eventi); 3 decisioni di lancio ancora non firmate; memoria (DB 2) da chiarire.
+- 🔴 Problema: **stallo da ~106h** (0 ordini/0 eventi); 3 decisioni di lancio ancora non firmate.
 
 ## Ultime mosse dell'AD
-1. **Giro 28/6 16:46** — DB ricollegato: riverificati i numeri veri dal 24/6. Stallo confermato dai dati.
-   Eseguite le 4 cadenze in un colpo (giro + piano mattino + report sera + review settimanale). Vedi [[2026-06-28]].
-2. Confermate nel registro 2 entità reali: **Casa Linda** e **Pane Quotidiano** (negozi approvati, nei dati).
-3. Giro 26/6 (dati bloccati): foglio-firma da 2 minuti per sbloccare il lancio.
+1. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato) e primo briefing scritto dentro. 2ª lettura numeri: invariati, stallo a ~106h. Scan esterno live (@intelligence). Vedi [[2026-06-28]].
+2. **Giro 28/6 16:46** — DB marketplace ricollegato: riverificati i numeri veri dal 24/6. Stallo confermato. 4 cadenze in un colpo.
+3. Confermate nel registro 2 entità reali: **Casa Linda** e **Pane Quotidiano** (negozi approvati, nei dati) + entità «DB Memoria».
 4. MACCHINA DI MARKETING completa: piano editoriale + 7 pacchetti contenuti + Content Factory.
 
 ## Prossime priorità (da approvare)

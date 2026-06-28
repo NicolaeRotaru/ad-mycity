@@ -1,10 +1,13 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-27 19:50** · Fonte: monitoraggio web (`cervello/monitora.md`).
+> Aggiornato: **2026-06-28 20:25** · Fonte: monitoraggio web (@intelligence, giro del 28/6).
 > Cosa contiene: eventi/sagre/fiere + meteo + ZTL a 7-14 gg, e i **picchi di domanda delivery** attesi,
 > con 1 consiglio operativo ciascuno. 🟢 note · le azioni reali (turni rider, push) si accodano/firmano.
 > ⚠️ Nota metodo: Libertà, IlPiacenza, PiacenzaSera e i siti del Comune oggi bloccano WebFetch (HTTP 403);
 > i fatti sotto sono ricostruiti via WebSearch con link alla fonte. Tutti datati e verificabili.
+
+> 🔄 **Conferma 28/6 20:25 (@intelligence):** i 3 picchi sotto restano validi e caldi. Riconfermati live:
+> Venerdì Piacentini 3/10/17 lug (50-60k presenze/sera, 300 negozi, indotto >10M€ — [venerdipiacentini.it](https://www.venerdipiacentini.it/) · [ilpiacenza.it](https://www.ilpiacenza.it/attualita/piacenza-si-riaccende-al-via-i-venerdi-piacentini-2026-con-il-record-storico-di-250-eventi.html)) e ondata di calore ~39°C fino a inizio luglio ([ilmeteo.it](https://www.ilmeteo.it/meteo/piacenza)). **Novità:** festa patronale **Sant'Antonino** (manifestazioni ~27/6–4/7 — [scopripiacenza.it](https://scopripiacenza.it/it/sezioni/sagre-fiere-e-mercati-a-piacenza)) → picco food/dolci locali + finestra contenuti. 🟢 Operativo riconfermato: **delivery DIURNO anti-caldo** (11-18: bibite/gelato/fresco) + **presidio offline QR** nei venerdì (NON delivery serale in ZTL pedonale).
 
 ---
 
