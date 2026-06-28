@@ -75,6 +75,15 @@ media −10, bassa −3), per ogni entità non verificata su cui si agisce (−2
 per ogni sensore cieco rilevante (−5). Confronta col voto del giro precedente (`trend_fiducia` ▲▼=).
 Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi elencati è di per sé sospetto.
 
+> 🩺 **Cecità ≠ pessima qualità (NON collassare il voto a ~7).** Se in questo giro **non hai i sensori**
+> (es. niente accesso Supabase → non puoi verificare i 7 numeri), NON penalizzare ogni numero come «orfano»
+> e ogni entità come «non verificata»: quello fa precipitare il voto a 7 e produce un'analisi-guscio inutile.
+> Invece: (a) **dichiara la cecità** in `sintesi` e nei `punti_ciechi`; (b) valuta la **qualità del lavoro
+> che HAI potuto fare**, applicando il malus «sensore cieco» UNA volta (−5..−10), non per ogni dato; (c) la
+> `sintesi` non è **MAI vuota** (un giro senza sintesi = giro fallito); (d) `salute_macchina` va sempre
+> compilata (quale sensore è giù). Un voto di **fiducia** misura quanto ti fidi del tuo lavoro, non quanti
+> dati ti mancano: «cieco ma onesto» vale molto più di «7/100 con la card vuota».
+
 ## 🧾 Cosa scrivi (SEMPRE due output — OBBLIGATORI, si scrivono SUBITO con lo strumento Write)
 > ⚠️ **Persistere NON è facoltativo.** Il Pannello legge l'auto-coscienza SOLO da questi file. Se ti limiti a
 > *narrare* il verdetto nella risposta senza scriverli, la Cabina mostra «la macchina non ha ancora fatto la sua
@@ -95,6 +104,12 @@ Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi ele
    > - Usa i **nomi di campo ESATTI**: `verifiche`, `errori`, `punti_ciechi`, `salute_macchina`. **Vietato**
    >   inventarne altri (`errori_trovati_e_corretti`, `salute_sistema`, `verifica_avversariale_3_livelli`…):
    >   il Pannello legge solo i nomi del contratto, il resto è invisibile.
+   > - `registro-realta.json` → SOLO **entità del mondo reale** (negozio, persona, azienda, lead, infrastruttura).
+   >   **MAI concetti/metriche** come entità: «I 7 numeri», «gli ordini», «il catalogo» NON sono entità da
+   >   «fondare» o «bloccare» — vanno in `numeri_da_non_inventare`/nei Gap, non tra le entità. Un concetto
+   >   marcato `da_verificare`/`NON-VERIFICABILE` esce nel Pannello come falso «entità senza fondamento — bloccata».
+   > - `stato` entità = SOLO `confermato` · `scelta_ragionata` · `da_verificare` · `scartato` (minuscolo, snake).
+   >   NON usare `REALE`/`DA-CONFERMARE`/`NON-VERIFICABILE` (vecchio formato: il Pannello deve indovinare).
 
 ## 🔗 Effetti a valle (chiudi il volano)
 - Le **domande 🔴/bloccanti** → anche in `AZIONI-IN-ATTESA.md` e in `serve_da_nicola` delle intenzioni.
