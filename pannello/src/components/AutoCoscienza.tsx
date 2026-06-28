@@ -122,7 +122,7 @@ function RispostaBox({
 // Legge /api/memoria/auto-coscienza (i 5 digest del vault). Spec: cervello/auto-coscienza.md.
 
 type Errore = { gravita?: string; titolo?: string; dettaglio?: string; azione_presa?: string; riguarda?: string; livello_scoperta?: string };
-type Domanda = { domanda?: string; perche_serve?: string; se_rispondi?: string; gravita?: string };
+type Domanda = { id?: string; domanda?: string; perche_serve?: string; se_rispondi?: string; gravita?: string };
 type Analisi = {
   // voto_fiducia DOVREBBE essere un numero 0-100, ma il giro a volte ci scrive una frase:
   // accettiamo entrambi e in render coerciamo (vedi votoF/votoFOk), così l'header non esplode.
@@ -178,11 +178,19 @@ export default function AutoCoscienza() {
   // Risposte già date alle domande dell'AD (qid → {risposta, at}).
   const [risposte, setRisposte] = useState<Record<string, Salvata>>({});
   const onSalvata = (qid: string, risposta: string, at: string) => setRisposte((s) => ({ ...s, [qid]: { risposta, at } }));
+  // 🔗 Azioni da firmare indicizzate per origine: per ogni casella (domanda/entità) sappiamo
+  // se esiste un'azione che ne è nata → mostriamo "vai all'azione". (origine → id azione)
+  const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const carica = () => {
       fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
       fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => { if (x?.risposte) setRisposte(x.risposte); }).catch(() => {});
+      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
+        const m: Record<string, string> = {};
+        for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
+        setAzPerOrigine(m);
+      }).catch(() => {});
     };
     carica();
     const id = setInterval(carica, 60000);
@@ -320,6 +328,11 @@ export default function AutoCoscienza() {
                           {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
                           {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
                           <RispostaBox qid={idE} domanda={domE} salvata={risposte[idE]} onSalvata={onSalvata} />
+                          {(azPerOrigine[`entita:${idE}`] || azPerOrigine[`domanda:${idE}`]) && (
+                            <button onClick={() => vaiArea("azioni", `azione-${azPerOrigine[`entita:${idE}`] || azPerOrigine[`domanda:${idE}`]}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                              <ArrowRight size={12} /> Vai all'azione collegata
+                            </button>
+                          )}
                         </div>
                       );
                     })}
@@ -377,16 +390,24 @@ export default function AutoCoscienza() {
                       const testo = (typeof q === "string" ? q : q?.domanda) || "";
                       const perche = typeof q === "string" ? "" : q?.perche_serve;
                       const seRisp = typeof q === "string" ? "" : q?.se_rispondi;
-                      const id = qidDa(testo || `domanda-${i}`);
+                      // id stabile: quello dato dal giro se c'è (combacia col tag origine delle azioni), altrimenti dall'hash del testo.
+                      const id = (typeof q !== "string" && q?.id) ? q.id : qidDa(testo || `domanda-${i}`);
+                      const azId = azPerOrigine[`domanda:${id}`];
                       return (
                         <div id={`domanda-${id}`} key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 scroll-mt-24">
                           <div className="text-[13px] font-medium break-words">❓ {testo}</div>
                           {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {perche}</div>}
                           {seRisp && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {seRisp}</div>}
                           <RispostaBox qid={id} domanda={testo} salvata={risposte[id]} onSalvata={onSalvata} />
-                          <button onClick={() => vaiArea("azioni")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                            <ArrowRight size={12} /> Vai alle Azioni da firmare
-                          </button>
+                          {azId ? (
+                            <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                              <ArrowRight size={12} /> Vai all'azione collegata
+                            </button>
+                          ) : (
+                            <button onClick={() => vaiArea("azioni", undefined, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                              <ArrowRight size={12} /> Vai alle Azioni da firmare
+                            </button>
+                          )}
                         </div>
                       );
                     })}

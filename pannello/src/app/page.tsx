@@ -933,14 +933,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       setVista(det.vista);
       if (det.anchor) {
         const target = det.anchor;
-        setTimeout(() => {
+        // Ritenta: la casella può comparire dopo il cambio area, l'apertura della scheda
+        // o il caricamento dei dati. Cerco fino a ~2.4s, poi mi arrendo (nessun danno).
+        let tentativi = 0;
+        const cerca = () => {
           const el = document.getElementById(target);
           if (el) {
             el.scrollIntoView({ behavior: "smooth", block: "center" });
             el.classList.add("flash-target");
             setTimeout(() => el.classList.remove("flash-target"), 2200);
+            return;
           }
-        }, 140);
+          if (++tentativi < 20) setTimeout(cerca, 120);
+        };
+        setTimeout(cerca, 120);
       }
     };
     window.addEventListener("mycity:vai", onVai);

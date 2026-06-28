@@ -5,7 +5,8 @@ import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCir
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
-import { vaiArea } from "@/lib/nav";
+import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
+import { risolviOrigine } from "@/lib/origine";
 
 // L'UNICO posto dove si decide e si agisce. Schede separate (niente colonna unica lunga da scrollare):
 //  🦶 Mosse di Nicola → le tue prossime mosse (dai Piani), con link all'azione da firmare.
@@ -22,7 +23,7 @@ type Azione = {
   id: string; titolo: string; reparto: string; livello: Livello;
   canale: string; destinatario: string; perche: string; preparato: string; testo: string;
   fonte: "vault" | "sentinella"; stato: Stato; esito: string;
-  cambia?: string; seguito?: string;
+  cambia?: string; seguito?: string; origine?: string;
   qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
 type Proposta = { titolo: string; motivo: string; livello: Livello };
@@ -131,6 +132,19 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     apriDaHash();
     window.addEventListener("hashchange", apriDaHash);
     return () => window.removeEventListener("hashchange", apriDaHash);
+  }, []);
+
+  // Link bidirezionali: quando si arriva nell'area Azioni puntando una scheda specifica, aprila
+  // (es. da un difetto/domanda nel Cervello → "vai all'azione" apre "Da approvare").
+  useEffect(() => {
+    const onVai = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioVai>).detail;
+      if (det?.vista !== "azioni" || !det.sub) return;
+      const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
+      if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
+    };
+    window.addEventListener(EVENTO_VAI, onVai);
+    return () => window.removeEventListener(EVENTO_VAI, onVai);
   }, []);
 
   useEffect(() => {
@@ -487,9 +501,22 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         {a.preparato && <span>preparato da {a.preparato}</span>}
                         {a.canale && <span>· canale: {a.canale}</span>}
                       </div>
-                      <button onClick={() => vaiArea("cervello", "auto-coscienza")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                        <ArrowRight size={12} /> Perché l'ho proposta? Vedi nel Cervello
-                      </button>
+                      {(() => {
+                        const o = risolviOrigine(a.origine);
+                        if (o) {
+                          return (
+                            <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                              <ArrowRight size={12} /> Vai all'origine: {o.etichetta}
+                            </button>
+                          );
+                        }
+                        // Senza tag origine: link generico al Cervello (auto-coscienza).
+                        return (
+                          <button onClick={() => vaiArea("cervello", "auto-coscienza")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                            <ArrowRight size={12} /> Perché l'ho proposta? Vedi nel Cervello
+                          </button>
+                        );
+                      })()}
 
                       {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
                         <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
