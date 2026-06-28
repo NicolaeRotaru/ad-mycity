@@ -40,7 +40,10 @@ fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati li
 - [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
 - [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
 - [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
-- [x] ✅ **Memoria chiarita** (Nicola, 28/6 16:52): progetto Supabase **separato** dal marketplace. Resta da: ① puntare `SUPABASE_URL`/`SERVICE_KEY` su Vercel al DB-memoria separato; ② verificare che lì esista lo schema memoria (briefings, lavori, diario, conversazioni, impostazioni); ③ 🔴 rimuovere le tabelle-memoria vuote finite per errore dentro il marketplace `clmpyfvpvfjgeviworth`.
+- [x] ✅ **Memoria chiarita** (Nicola, 28/6 16:52): progetto Supabase **separato** dal marketplace.
+- [x] ✅ **Tabelle-memoria rimosse dal marketplace** (28/6 17:05): le 5 tabelle vuote tolte da `clmpyfvpvfjgeviworth`, business intatto. Backup ri-creabile in `pannello/sql/memoria-schema.sql`.
+- [ ] 🔴 **Creare lo schema memoria nel DB-memoria separato** — BLOCCO: il DB-memoria non è raggiungibile dai miei strumenti (vedo solo il marketplace; nuovo progetto qui = $10/mese). Pronto lo script `pannello/sql/memoria-schema.sql`. Serve da Nicola: dove applicarlo (suo progetto-memoria esistente / crearne uno dedicato / darmi accesso).
+- [ ] 🟡 **Vercel**: puntare `SUPABASE_URL` + `SUPABASE_SERVICE_KEY` al DB-memoria + Redeploy (poi "Memoria collegata" diventa verde).
 
 ---
 *Scritto dall'AD. Dettaglio del giro in [[2026-06-28]]; decisioni in [[DECISIONI]].*
