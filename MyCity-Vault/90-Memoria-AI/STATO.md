@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 20:22
+aggiornato: 2026-06-28 22:23
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,16 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0l. **Giro 28/6 — 22:23 (passaggio 14, FINESTRA POST-ARISA + NOVITÀ INFRA MCP):** 2 ore dopo il 13°,
+   nella finestra "~23:00 post-Arisa" che il p13 aveva schedulato (cadenza legittima). ⭐ Contributo a valore =
+   **una novità tecnica concreta:** in sessione sono comparsi i **due server Supabase DEDICATI** —
+   `supabase-marketplace` (dati) + `supabase-memoria` (digest), che prima non c'erano (solo il vecchio
+   `claude_ai_Supabase`). Testati **tutti e tre** (`list_tables` + `execute_sql` marketplace, `execute_sql`
+   memoria) → **"permesso non ancora concesso"**: 21° giro cieco, **MA lo sblocco è ora UN SOLO "approva"**
+   di Nicola sul prompt del permesso, su server scoped — diagnosi affinata (non più un MCP generico vago).
+   Nessuna ricerca web (notte, esterno fresco → Max risparmiato). Coda piena (8), nessuna azione nuova. **Voto
+   fiducia 7.** Serve da Nicola: **un "approva" sul permesso MCP** (sblocca i 7 numeri) + **esito presidio
+   Arisa** + **link lista d'attesa**. Prossimo giro utile: **domattina** o appena Nicola approva/risponde. Vedi [[2026-06-28]].
 0m. **Giro 28/6 — 20:22 (passaggio 13, APERTURA EFFETTIVA DEL PRESIDIO SERALE):** 2 ore dopo il 12°.
    **Cambio-fase reale** (non il quasi-duplicato delle 18:22): la finestra fisica attesa tutto il giorno è
    **ORA aperta** — gente in arrivo in centro per Arisa (21:15), ore fresche post-picco. ⭐ Contributo a

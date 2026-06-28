@@ -2,6 +2,15 @@
   "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
   "snapshot": [
     {
+      "data": "2026-06-28 22:23",
+      "voto_salute": 75,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.85,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 21° giro)",
+      "difetti_aperti": 2,
+      "nota": "14° passaggio MA nella finestra '~23:00 post-Arisa' schedulata dal p13 (cadenza corretta) + contributo nuovo reale: comparsi i due server Supabase scoped (marketplace+memoria) -> diagnosi affinata, lo sblocco-dati e ora un SINGOLO consenso di Nicola. Voto in lieve salita (da 74): l'infra e ora piu' leggibile, la richiesta di sblocco e a portata di un click. Cecita-dati (DF-01) resta il limite (21° giro) ma con leva precisissima; nessun difetto BLOCCANTE; collo di bottiglia = umano (approva permesso + report presidio)."
+    },
+    {
       "data": "2026-06-28 20:22",
       "voto_salute": 74,
       "loop_chiude": true,

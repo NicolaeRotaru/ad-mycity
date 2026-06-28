@@ -1,7 +1,21 @@
 ---
 tipo: auto-analisi
-aggiornato: 2026-06-28 20:22
+aggiornato: 2026-06-28 22:23
 fonte: AD digitale — cancello di serietà (cervello/auto-analisi.md)
+---
+
+# 🔬 Auto-analisi — Domenica 28/6, 22:23 (passaggio 14, FINESTRA POST-ARISA + NOVITÀ INFRA MCP)
+
+**Voto di fiducia:** 7/10 — confermato come il p13. **Su**: cadenza **legittima** (è la finestra "~23:00 post-Arisa" che il p13 aveva schedulato, non rumore) + **un contributo reale nuovo**: la diagnosi affinata dello sblocco-dati (comparsi i due server Supabase scoped `supabase-marketplace`+`supabase-memoria` → lo sblocco è ora un **singolo consenso**, non più un MCP generico). Non sale a 8 perché i dati interni restano ciechi (21° giro) e l'apprendimento dal presidio dipende dal report di Nicola (la macchina non era in centro).
+
+## Verifica avversariale a 3 livelli (22:23)
+1. **Fatti & numeri** — 7 numeri NON toccati: baseline 24/6, gap dichiarato (testati **tutti e tre** i server MCP → tutti "permesso non concesso", **21° giro cieco**). Nessuna cifra orfana. **Nessun fatto web nuovo asserito** (di proposito: notte, esterno fresco → cadenza, Max risparmiato). L'unico fatto nuovo è di **tooling**, verificato per prova diretta (le 3 chiamate MCP).
+2. **Logica & grounding entità** — Aggiunta 1 entità infrastrutturale (server MCP scoped) con stato REALE-presente-ma-non-autorizzato, fondata sulla prova diretta. Garetti resta DA-CONFERMARE. Il presidio Arisa è **avvenuto** ma il suo esito è **NON-VERIFICABILE** senza report di Nicola → dichiarato gap, non inventato.
+3. **Utilità & rischio** — Utilità: ridurre lo sblocco-dati a una **richiesta a un click**. Rischio = rumore-cadenza se si gira ancora stanotte → mitigato dichiarando lo **stop fino a domattina**.
+
+## Errori trovati e corretti (22:23)
+Nessun errore di dato. Verificato e mitigato il rischio rumore-cadenza (14° passaggio): legittimo perché è la finestra post-Arisa schedulata + porta diagnosi nuova. Verificato di **non aver inventato l'esito del presidio**: gap dichiarato, report chiesto a Nicola.
+
 ---
 
 # 🔬 Auto-analisi — Domenica 28/6, 20:22 (passaggio 13, APERTURA EFFETTIVA DEL PRESIDIO SERALE)

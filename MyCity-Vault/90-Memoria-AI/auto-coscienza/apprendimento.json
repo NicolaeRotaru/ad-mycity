@@ -1,6 +1,13 @@
 {
-  "aggiornato": "2026-06-28 20:22",
+  "aggiornato": "2026-06-28 22:23",
   "lezioni": [
+    {
+      "data": "2026-06-28 22:23",
+      "fonte": "auto-radiografia (sonda tooling) + prova diretta delle chiamate MCP",
+      "testo": "Alle 22:23 sono comparsi in sessione due server Supabase MCP DEDICATI (supabase-marketplace + supabase-memoria), distinti dal vecchio claude_ai_Supabase. Testandoli ho scoperto che il blocco non e piu' un MCP generico ambiguo ma un consenso mancante su server SCOPED gia' presenti: la diagnosi dello sblocco-dati si e affinata da 'autorizza il MCP (come?)' a 'approva il prompt del permesso (un click)'. Un canale dato bloccato va RI-DIAGNOSTICATO a ogni giro, non dato per immutabile: l'ambiente cambia (nuovi server appaiono) e la richiesta a Nicola puo' diventare molto piu' precisa.",
+      "lezione": "Un blocco-dati persistente non e un fatto fisso: ri-sondare gli strumenti disponibili a ogni sessione/giro puo' rivelare un percorso di sblocco piu' preciso (es. server scoped comparsi -> richiesta a un click). La precisione della richiesta a Nicola e essa stessa un output di valore.",
+      "come_applicare": "A ogni giro con dati ciechi, prima di scrivere 'MCP negato' come al solito, RIVERIFICA quali server/strumenti sono effettivamente presenti in sessione e testa il piu' specifico; aggiorna la richiesta a Nicola alla leva piu' precisa disponibile (un consenso mirato batte una richiesta generica)."
+    },
     {
       "data": "2026-06-28 20:22",
       "fonte": "esito del giro (apertura presidio) + calibrazione previsto-vs-reale",

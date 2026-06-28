@@ -23,6 +23,8 @@ Esempi:
 
 ## Canale
 <!-- La squadra scrive qui sotto, dal più vecchio al più recente. -->
+- 2026-06-28 22:23 · @devops-sre · FATTO · novità infra: comparsi in sessione i 2 server Supabase MCP dedicati (supabase-marketplace + supabase-memoria); testati (list_tables/execute_sql) → permesso non ancora concesso. Sblocco ora a UN consenso di Nicola. PASSO-A @AD.
+- 2026-06-28 22:23 · @AD · FATTO · passaggio 14 (post-Arisa, schedulato dal p13): nessuna ricerca web (notte/esterno fermo, Max risparmiato), coda invariata (8). Voto fiducia 7. SERVE da Nicola: "approva" permesso MCP + esito presidio Arisa + link lista. Prossimo giro utile = domattina.
 
 ### 2026-06-24 — Team play: "portare il negozio-faro (Garetti) LIVE domani"
 - 2026-06-24 02:20 · @intelligence · FATTO · campo-aperto + 3 leve urgenza (bando 21/7, mercato sab 27/6, caldo+ZTL) in `consegne/intelligence/campo-aperto-faro.md` → PASSO-A @vendite. SERVE @finanza conferma commissione, @legale kit bando.
