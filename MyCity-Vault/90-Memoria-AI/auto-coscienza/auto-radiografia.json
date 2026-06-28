@@ -1,0 +1,15 @@
+{
+  "aggiornato": "2026-06-28 14:06",
+  "_README": "Sonda leggera di auto-radiografia (cervello/auto-radiografia.md): controllo deterministico dei 4 invarianti del volano a ogni giro. La radiografia COMPLETA (workflow .claude/workflows/auto-radiografia.js) e settimanale o su comando 'radiografia di te stesso'.",
+  "sonda": {
+    "data": "2026-06-28 14:06",
+    "invarianti": {
+      "loop_chiude": {"ok": true, "nota": "Il giro produce artefatti e scrive auto-coscienza (auto-analisi/registro/AUTO-ANALISI/apprendimento/calibrazione). Gap del passo 11 chiuso dal 28/6 02:05."},
+      "tasso_applicazione_lezioni": {"valore": 0.7, "ok": true, "nota": "Le lezioni di cadenza/fase-del-giorno sono applicate ad ogni passaggio (niente ricerche ridondanti, pivot serale dedotto dalla fase). >0 = volano chiude."},
+      "giro_a_cadenza": {"ok": true, "nota": "Giri regolari (9 passaggi il 28/6). ATTENZIONE: frequenza ECCESSIVA a dati fermi -> difetto aperto nel cantiere (manca un governatore di cadenza)."},
+      "sentinelle_scattano": {"ok": "parziale", "nota": "Sentinella esterna (caldo, allerta 066/2026) scattata e gestita nei 🟢. Le sentinelle su dati INTERNI sono cieche (Supabase MCP negato) -> non valutabili: gap di misura, non di logica."}
+    },
+    "giorni_da_ultima_radiografia_completa": ">10 (nessuna radiografia completa registrata)",
+    "azione": "Invariante 'sentinelle interne' cieco per permesso + >10 giorni senza radiografia completa -> raccomandata la radiografia completa quando i dati saranno sbloccati. Non accodata come azione nuova (coda piena, sblocco-dati e gia la richiesta #1 a Nicola)."
+  }
+}

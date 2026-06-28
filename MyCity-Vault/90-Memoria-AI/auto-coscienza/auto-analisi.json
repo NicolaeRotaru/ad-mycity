@@ -1,29 +1,30 @@
 {
-  "data": "2026-06-28 12:05",
-  "giro": "2026-06-28 passaggio 8 (MEZZOGIORNO, ingresso fascia-calda 12-18, 12:05)",
-  "voto_fiducia": "ALTO su tracciabilita e onesta; BASSO sull'utilita marginale (15° giro cieco, 8° passaggio del giorno). E' un passaggio di mantenimento: l'unico fatto nuovo e il passaggio di fase oraria (ingresso nella fascia-calda 12-18, finestra-freschi del mattino ormai chiusa, regola 'no freschi' attiva). Nessun dato inventato, nessuna azione duplicata, nessuna ricerca ridondante (esterno invariato vs 10:06, cadenza rispettata).",
+  "data": "2026-06-28 14:06",
+  "giro": "2026-06-28 passaggio 9 (CUORE POMERIGGIO ROVENTE, verso il picco delle 17, 14:06)",
+  "voto_fiducia": "ALTO su tracciabilita e onesta; BASSO sull'utilita marginale (16° giro cieco, 9° passaggio del giorno). E' un passaggio di mantenimento: l'unico fatto nuovo e il passaggio di fase oraria (cuore della fascia-calda, pivot operativo dalla consegna al presidio serale con Arisa). Nessun dato inventato, nessuna azione duplicata, nessuna ricerca ridondante (esterno invariato vs 12:05, cadenza rispettata).",
   "verifica_avversariale_3_livelli": {
-    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: restano baseline 24/6, dichiarati gap (Supabase MCP negato, ritentato e confermato negato in sessione alle 12:05). Nessuna cifra orfana. Nessuna affermazione live nuova: il meteo orario di oggi e RIUSO del check di stamattina (esplicitato, non spacciato per fresco). Competitor non rifatti (cadenza settimanale).",
-    "livello_2_logica_e_grounding_entita": "Entita invariate vs passaggio 7, verificate contro registro-realta.json. Garetti resta DA-CONFERMARE: la proposta sul caldo e CONDIZIONATA ('SE c'e una consegna di freschi') e a mezzogiorno si traduce in 'rimandare a domattina' -> non assume nulla di non confermato. Deduzione coerente con la curva oraria: alle 12:05 siamo nella fascia 12-18, oltre la chiusura della fascia sicura (34°C gia alle 11). Solida.",
-    "livello_3_utilita_e_rischio": "Rischio: rumore (8o passaggio del giorno, 15o cieco). Mitigato: l'unico input nuovo (ingresso fascia-calda 12-18) e legittimo per l'operativita; nessuna azione duplicata; ZERO ricerche ridondanti. Raccomandazione metacognitiva CONFERMATA e ora urgente: a dati fermi il valore marginale e esaurito -> il prossimo passaggio utile e dopo uno sblocco di Nicola (MCP/firme) o a fine giornata, non tra un'ora."
+    "livello_1_fatti_e_numeri": "I 7 numeri NON toccati: restano baseline 24/6, dichiarati gap (Supabase MCP negato, ritentato e confermato negato in sessione alle 14:06). Nessuna cifra orfana. Nessuna affermazione live nuova: il meteo orario di oggi e RIUSO del check di stamattina + scan web 08:30 (apice rivisto a 40-41°C, esplicitato, non spacciato per fresco). Competitor non rifatti (cadenza settimanale).",
+    "livello_2_logica_e_grounding_entita": "Entita invariate vs passaggio 8, verificate contro registro-realta.json. Garetti resta DA-CONFERMARE: la proposta sul caldo e CONDIZIONATA e oggi pomeriggio si traduce in 'rimandare i freschi a domattina' -> non assume nulla di non confermato. Il pivot al presidio serale poggia su Arisa@Palazzo Farnese (REALE, registro) e sulla curva oraria (sera ~36->30°C, fresco rispetto al picco 38-41 delle 17). Deduzione solida.",
+    "livello_3_utilita_e_rischio": "Rischio: rumore (9o passaggio del giorno, 16o cieco). Mitigato: l'unico input nuovo (cuore della fascia-calda + opportunita presidio serale Arisa) e legittimo per l'operativita; nessuna azione duplicata; ZERO ricerche ridondanti. Raccomandazione metacognitiva CONFERMATA: a dati fermi il valore marginale e esaurito -> prossimo passaggio utile = stasera per il presidio, oppure dopo uno sblocco di Nicola, non tra un'ora."
   },
   "entita_verificate": [
     {"nome": "Nicola (founder)", "stato": "REALE", "fonte": "utente/firma"},
     {"nome": "MyCity marketplace + progetto Supabase clmpyfvpvfjgeviworth", "stato": "REALE", "fonte": "STATO.md, verificato sul vivo nei giri precedenti"},
     {"nome": "Piattaforma Supabase OPERATIVA (28/6)", "stato": "REALE", "fonte": "WebSearch status.supabase.com/history (passaggio 4): incident 20-24/6 risolti"},
-    {"nome": "Meteo orario oggi 28/6 (14h=38, 17h=38,8, 20h=36)", "stato": "REALE (riuso check mattutino)", "fonte": "WebSearch ilmeteo.it"},
+    {"nome": "Meteo orario oggi 28/6 (picco 17h ~38,8-41°C, sera 36->30°C)", "stato": "REALE (riuso check mattutino + scan web 08:30)", "fonte": "WebSearch ilmeteo.it / Arpae allerta 066/2026"},
+    {"nome": "Arisa a Palazzo Farnese (28/6 sera, Piacenza Summer Cult)", "stato": "REALE", "fonte": "ilpiacenza.it (check 27-28/6)"},
     {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdi Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu (check 27-28/6)"}
   ],
   "entita_declassate": [
     {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, grounding anagrafico e stato LIVE DA CONFERMARE", "motivo": "Supabase cieco: non posso verificare che Garetti sia approvato/LIVE/con prodotti veri. La proposta operativa di oggi e CONDIZIONATA al suo stato LIVE; nessuna azione lo da per confermato.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"}
   ],
   "errori_trovati_e_corretti": [
-    "Nessun errore nuovo introdotto. Confermata la disciplina di cadenza: non ho ripetuto il check meteo (gia fatto stamattina) ne i competitor (settimanale) -> evitato spreco di Max su ricerche ridondanti."
+    "Nessun errore nuovo introdotto. Confermata la disciplina di cadenza: non ho ripetuto il check meteo (gia fatto stamattina + scan 08:30) ne i competitor (settimanale) -> evitato spreco di Max su ricerche ridondanti."
   ],
   "domande_per_nicola": [
     "Autorizzi il Supabase MCP (o configuri SUPABASE_URL+SUPABASE_SERVICE_KEY)? Piattaforma VERIFICATA sana: manca solo il permesso. Unico sblocco per i 7 numeri veri e per misurare il Giorno-1.",
     "Garetti e davvero LIVE (approvato + payout + prodotti veri)? La consegna del Giorno-1 (27/6) e avvenuta? (Per oggi: eventuali freschi solo domattina presto, mai 12-18.)",
     "Firmi le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)?"
   ],
-  "salute_sistema": "STABILE. Infrastruttura sana (verificata): i 3 colli di bottiglia sono tutti UMANI/permessi, non tecnici. La macchina e cieca sui dati (cecita da permesso) ma onesta, non duplica e rispetta la cadenza (nessuna ricerca ridondante). Raccomandazione metacognitiva confermata e ora urgente: a dati fermi il valore marginale dei passaggi ravvicinati e esaurito -> attendere uno sblocco di Nicola o fine giornata prima del prossimo giro."
+  "salute_sistema": "STABILE. Infrastruttura sana (verificata): i 3 colli di bottiglia sono tutti UMANI/permessi, non tecnici. La macchina e cieca sui dati (cecita da permesso) ma onesta, non duplica e rispetta la cadenza. Raccomandazione metacognitiva confermata: a dati fermi il valore marginale dei passaggi ravvicinati e esaurito -> prossimo giro utile = presidio serale (stasera) o sblocco di Nicola."
 }

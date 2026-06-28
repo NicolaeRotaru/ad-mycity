@@ -129,3 +129,8 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-28 12:05 · @operations · FATTO · ingresso nella fascia-calda 12-18: finestra-freschi del mattino CHIUSA, regola "no freschi 12-18" ora attiva (picco 38,8°C alle 17) → eventuali deperibili rimandati a domattina presto
 - 2026-06-28 12:05 · @claude · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (15° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
 - 2026-06-28 12:05 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 di lancio · esito Giorno-1/Garetti LIVE); coda 🟡/🔴 piena (8 azioni), nessun duplicato. Consiglio: prossimo giro utile dopo uno sblocco o a fine giornata
+
+- 2026-06-28 14:06 · @operations · FATTO · giro p9 (cuore pomeriggio rovente): verso il picco delle 17 (38-41°C) → freschi fermi fino a domattina presto; piano pivota al PRESIDIO SERALE nelle ore fresche
+- 2026-06-28 14:06 · @marketing · PASSO-A · stasera Arisa a Palazzo Farnese (~19:00+): finestra fisica migliore della giornata per QR+iscritti a costo ≈0 (coperta da azioni #6 post-caldo e #8 Sant'Antonino già pronte)
+- 2026-06-28 14:06 · @claude · FATTO · Supabase MCP ritentato → permesso di nuovo NEGATO (16° giro cieco); gap registrato, zero dati inventati; esterno invariato → nessuna ricerca ripetuta (Max risparmiato)
+- 2026-06-28 14:06 · @claude · SERVE · @Nicola i 3 sblocchi identici (autorizza MCP · 3 firme 🔴 di lancio · esito Giorno-1/Garetti LIVE); coda 🟡/🔴 piena (8 azioni), nessun duplicato. Consiglio: prossimo giro utile stasera per il presidio, oppure dopo uno sblocco

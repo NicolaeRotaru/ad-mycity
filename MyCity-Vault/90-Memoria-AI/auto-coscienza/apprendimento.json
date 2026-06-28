@@ -1,6 +1,13 @@
 {
-  "aggiornato": "2026-06-28 06:05",
+  "aggiornato": "2026-06-28 14:06",
   "lezioni": [
+    {
+      "data": "2026-06-28 14:06",
+      "fonte": "pattern temporale (fase del giorno) applicato al pomeriggio rovente",
+      "testo": "Il 'cambio di fase del giorno' come discriminante del valore (lezione delle 06:05) vale anche in senso PROPOSITIVO, non solo difensivo: il cuore del pomeriggio rovente, a freschi bloccati, non e un buco ma il momento in cui il piano PIVOTA verso la sera. Alle 14:06 l'azione utile non e 'consegnare' ma 'preparare il presidio serale nelle ore fresche' (Arisa@Palazzo Farnese). La fase oraria non spegne solo opzioni, ne accende altre.",
+      "lezione": "Il 'cambio di fase del giorno' vale anche in senso PROPOSITIVO: il pomeriggio rovente a freschi bloccati e il momento in cui il piano pivota verso il presidio serale nelle ore fresche, non un buco.",
+      "come_applicare": "A dati ciechi, oltre a 'questo fattore e tornato azionabile?', chiedersi 'quale finestra si APRE adesso?'. Nel caldo estremo: giorno = difesa (freschi fermi), sera = attacco (presidio fisico nelle ore fresche, agganciando eventi cittadini)."
+    },
     {
       "data": "2026-06-28 06:05",
       "fonte": "pattern temporale (fase del giorno) + cadenza radar",

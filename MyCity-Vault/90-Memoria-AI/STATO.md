@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-06-28 12:05
+aggiornato: 2026-06-28 14:06
 fonte: AD digitale (dati reali Supabase + Stripe)
 ---
 
@@ -36,6 +36,15 @@ fonte: AD digitale (dati reali Supabase + Stripe)
 - 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
 
 ## Ultime mosse dell'AD
+0q. **Giro 28/6 — 14:06 (passaggio 9, CUORE POMERIGGIO ROVENTE):** 2 ore dopo l'8°. Delta unico:
+   siamo a ~3h dal **picco delle 17 (38-41°C)** → il piano operativo pivota dalla "consegna" (freschi fermi
+   fino a domattina presto) al **PRESIDIO SERALE nelle ore fresche**: stasera **Arisa a Palazzo Farnese**
+   (~19:00+) è la finestra fisica migliore della giornata per QR + iscritti a costo ≈0 (coperta da azioni #6
+   e #8 già in coda). Esterno **invariato** → nessuna ricerca ripetuta (meteo già riconfermato stamattina +
+   scan web 08:30, competitor a cadenza settimanale → Max risparmiato). **Supabase MCP ritentato → permesso di
+   nuovo NEGATO** (16° giro cieco; piattaforma sana, è solo il permesso). Nessuna azione nuova accodata (coda
+   piena, 8 azioni). I 3 sblocchi da Nicola restano identici. **Consiglio:** prossimo giro utile = stasera per
+   il presidio, oppure dopo uno sblocco; non tra un'ora. Vedi [[2026-06-28]].
 0r. **Giro 28/6 — 12:05 (passaggio 8, MEZZOGIORNO / fascia-calda):** 2 ore dopo il 7°. Delta unico:
    siamo **ENTRATI nella fascia 12-18** → la finestra-freschi del mattino è **chiusa** e la regola "no
    freschi 12-18" è ora **attiva** (14h=38°C, picco 38,8°C alle 17, 36°C alle 20): eventuale consegna di

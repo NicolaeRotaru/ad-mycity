@@ -1,0 +1,14 @@
+{
+  "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
+  "snapshot": [
+    {
+      "data": "2026-06-28 14:06",
+      "voto_salute": 72,
+      "loop_chiude": true,
+      "tasso_applicazione": 0.7,
+      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
+      "difetti_aperti": 2,
+      "nota": "Macchina onesta e disciplinata ma cieca sui dati (permesso) e con cadenza eccessiva a dati fermi (9 passaggi/giorno). Voto limato da cecita-dati e rumore-cadenza; nessun difetto BLOCCANTE."
+    }
+  ]
+}
