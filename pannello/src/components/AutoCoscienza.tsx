@@ -14,8 +14,108 @@ import {
   Swords,
   CheckCircle2,
   AlertTriangle,
+  Send,
+  MessageSquarePlus,
+  Loader2,
+  ArrowRight,
 } from "lucide-react";
 import { dataVault } from "@/lib/format";
+import { vaiArea } from "@/lib/nav";
+
+// 🔑 Id stabile di una domanda, derivato dal suo testo (djb2): resta lo stesso tra
+// un refresh e l'altro finché la domanda è la stessa → così sappiamo a quale è già
+// stata data risposta. Niente dipendenze esterne.
+function qidDa(testo: string): string {
+  const s = (testo || "").trim();
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return "q" + h.toString(36);
+}
+
+type Salvata = { risposta: string; at: string };
+
+// 💬 Casella per rispondere a una domanda dell'AD. Se c'è già una risposta, la
+// mostra; altrimenti apre un campo e la manda al cervello (POST /api/memoria/risposta).
+function RispostaBox({
+  qid,
+  domanda,
+  salvata,
+  onSalvata,
+}: {
+  qid: string;
+  domanda: string;
+  salvata?: Salvata;
+  onSalvata: (qid: string, risposta: string, at: string) => void;
+}) {
+  const [aperto, setAperto] = useState(false);
+  const [bozza, setBozza] = useState("");
+  const [inviando, setInviando] = useState(false);
+  const [err, setErr] = useState("");
+
+  if (salvata) {
+    return (
+      <div className="mt-2 rounded-lg border border-green-200 bg-green-50/60 px-3 py-2">
+        <div className="text-[10.5px] font-semibold text-green-700 uppercase tracking-wide flex items-center gap-1">
+          <CheckCircle2 size={12} /> La tua risposta
+        </div>
+        <div className="text-[12.5px] text-ink/85 mt-0.5 whitespace-pre-wrap break-words">{salvata.risposta}</div>
+        <div className="t-eti mt-0.5">il cervello la applica al prossimo giro{salvata.at ? ` · ${dataVault(salvata.at)}` : ""}</div>
+      </div>
+    );
+  }
+
+  async function invia() {
+    const testo = bozza.trim();
+    if (!testo) return;
+    setInviando(true);
+    setErr("");
+    try {
+      const r = await fetch("/api/memoria/risposta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qid, domanda, risposta: testo }),
+      }).then((x) => x.json());
+      if (r?.ok) onSalvata(qid, testo, r.at || "");
+      else setErr(r?.error || "Non riuscito.");
+    } catch {
+      setErr("Errore di rete.");
+    } finally {
+      setInviando(false);
+    }
+  }
+
+  return (
+    <div className="mt-2">
+      {!aperto ? (
+        <button onClick={() => setAperto(true)} className="inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
+          <MessageSquarePlus size={13} /> ✍️ Rispondi
+        </button>
+      ) : (
+        <div className="space-y-1.5">
+          <textarea
+            value={bozza}
+            onChange={(e) => setBozza(e.target.value)}
+            rows={2}
+            autoFocus
+            placeholder="Scrivi la tua risposta… arriva al cervello e chiude la domanda."
+            className="w-full text-[12.5px] rounded-lg border border-black/15 bg-white px-2.5 py-1.5 outline-none focus:border-brand/50 resize-y"
+          />
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={invia}
+              disabled={inviando || !bozza.trim()}
+              className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
+            >
+              {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia al cervello
+            </button>
+            <button onClick={() => { setAperto(false); setBozza(""); setErr(""); }} className="t-eti hover:text-brand">annulla</button>
+            {err && <span className="t-eti text-red-600">{err}</span>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // 🧠 AUTO-COSCIENZA — il pannello con cui Nicola vede la macchina pensare su se stessa:
 // si controlla (auto-analisi), impara (apprendimento), si migliora (auto-miglioramento).
@@ -75,9 +175,15 @@ function barra(conf?: number) {
 export default function AutoCoscienza() {
   const [d, setD] = useState<Dati | null>(null);
   const [tab, setTab] = useState<Tab>("analisi");
+  // Risposte già date alle domande dell'AD (qid → {risposta, at}).
+  const [risposte, setRisposte] = useState<Record<string, Salvata>>({});
+  const onSalvata = (qid: string, risposta: string, at: string) => setRisposte((s) => ({ ...s, [qid]: { risposta, at } }));
 
   useEffect(() => {
-    const carica = () => fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    const carica = () => {
+      fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+      fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => { if (x?.risposte) setRisposte(x.risposte); }).catch(() => {});
+    };
     carica();
     const id = setInterval(carica, 60000);
     return () => clearInterval(id);
@@ -201,17 +307,22 @@ export default function AutoCoscienza() {
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Entità senza fondamento — bloccate ({daVerificare.length})</div>
                   <div className="space-y-2">
-                    {daVerificare.map((e, i) => (
-                      <div key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-medium">{e.nome}</span>
-                          {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
-                          {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
+                    {daVerificare.map((e, i) => {
+                      const domE = e.domanda_per_nicola || `${e.nome}: è reale o lo scarto?`;
+                      const idE = qidDa(`entita:${e.nome}:${domE}`);
+                      return (
+                        <div id={`domanda-${idE}`} key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-3 scroll-mt-24">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[13px] font-medium">{e.nome}</span>
+                            {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
+                            {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
+                          </div>
+                          {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
+                          {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
+                          <RispostaBox qid={idE} domanda={domE} salvata={risposte[idE]} onSalvata={onSalvata} />
                         </div>
-                        {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
-                        {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -263,14 +374,19 @@ export default function AutoCoscienza() {
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><HelpCircle size={13} /> Domande per te ({nDomande})</div>
                   <div className="space-y-2">
                     {a!.domande_per_nicola!.map((q, i) => {
-                      const testo = typeof q === "string" ? q : q?.domanda;
+                      const testo = (typeof q === "string" ? q : q?.domanda) || "";
                       const perche = typeof q === "string" ? "" : q?.perche_serve;
                       const seRisp = typeof q === "string" ? "" : q?.se_rispondi;
+                      const id = qidDa(testo || `domanda-${i}`);
                       return (
-                        <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3">
+                        <div id={`domanda-${id}`} key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 scroll-mt-24">
                           <div className="text-[13px] font-medium break-words">❓ {testo}</div>
                           {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {perche}</div>}
                           {seRisp && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {seRisp}</div>}
+                          <RispostaBox qid={id} domanda={testo} salvata={risposte[id]} onSalvata={onSalvata} />
+                          <button onClick={() => vaiArea("azioni")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                            <ArrowRight size={12} /> Vai alle Azioni da firmare
+                          </button>
                         </div>
                       );
                     })}
