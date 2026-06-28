@@ -130,8 +130,10 @@ export async function getMetriche(): Promise<Metriche> {
     const d30 = now - 30 * 86400000;
     const romeFmt = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" });
     const oggi = romeFmt.format(new Date());
-    const t = (iso: string) => new Date(iso).getTime();
-    const isOggi = (iso: string) => romeFmt.format(new Date(iso)) === oggi;
+    // Date-safety: una data NULL/non valida deve dare NaN (riga esclusa dalle finestre), MAI 1970
+    // (che falserebbe medie/finestre quando il DB ha created_at nullo).
+    const t = (iso: string) => { const x = iso ? new Date(iso).getTime() : NaN; return Number.isFinite(x) ? x : NaN; };
+    const isOggi = (iso: string) => !!iso && romeFmt.format(new Date(iso)) === oggi;
     const notFailed = (o: any) => o.payment_status !== "FAILED";
     const paid = (o: any) => o.payment_status === "PAID";
     const num = (v: any) => Number(v) || 0;
@@ -147,7 +149,8 @@ export async function getMetriche(): Promise<Metriche> {
 
     const ultimoOrdine: Record<string, number> = {};
     for (const o of orders) {
-      if (o.user_id) ultimoOrdine[o.user_id] = Math.max(ultimoOrdine[o.user_id] || 0, t(o.created_at));
+      const tt = t(o.created_at);
+      if (o.user_id && Number.isFinite(tt)) ultimoOrdine[o.user_id] = Math.max(ultimoOrdine[o.user_id] || 0, tt);
     }
     const ultimi = Object.values(ultimoOrdine);
     // Clienti attivi = clienti distinti che hanno ordinato nella finestra.
@@ -229,7 +232,8 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     for (const o of paid) {
       const k = String(o.user_id);
       (perCliente[k] ||= { t: [], spesa: 0 });
-      perCliente[k].t.push(new Date(o.created_at).getTime());
+      const ms = new Date(o.created_at).getTime();
+      if (Number.isFinite(ms)) perCliente[k].t.push(ms); // salta date non valide → niente 1970 in gap/coorti/LTV
       perCliente[k].spesa += Number(o.total_price) || 0;
     }
     const clienti = Object.values(perCliente);
@@ -255,6 +259,7 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     const fmtMese = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" });
     const coorti: Record<string, { clienti: number; riacquisto: number }> = {};
     for (const c of clienti) {
+      if (!c.t.length) continue; // cliente con sole date non valide → niente coorte fantasma
       const mese = fmtMese.format(new Date(Math.min(...c.t))).slice(0, 7); // YYYY-MM
       (coorti[mese] ||= { clienti: 0, riacquisto: 0 });
       coorti[mese].clienti++;
@@ -299,7 +304,9 @@ export async function getPatternOrari(): Promise<{ connected: boolean; [k: strin
     const perGiorno = new Array(7).fill(0) as number[];
     for (const o of validi) {
       const d = new Date(o.created_at);
-      perOra[parseInt(fmtH.format(d), 10) % 24]++;
+      if (isNaN(d.getTime())) continue; // data non valida → fmt.format() lancerebbe RangeError e crasherebbe il pattern
+      const oraN = parseInt(fmtH.format(d), 10);
+      if (Number.isFinite(oraN)) perOra[oraN % 24]++;
       const w = wmap[fmtW.format(d)];
       if (w != null) perGiorno[w]++;
     }
@@ -333,7 +340,7 @@ export async function getHealthNegozi(): Promise<{ connected: boolean; [k: strin
     const now = Date.now();
     const d30 = now - 30 * 86400000;
     const d60 = now - 60 * 86400000;
-    const t = (iso: string) => new Date(iso).getTime();
+    const t = (iso: string) => { const x = iso ? new Date(iso).getTime() : NaN; return Number.isFinite(x) ? x : NaN; };
     const sellers = profiles.filter((p) => p.role === "seller");
 
     // Recensioni raggruppate per negozio.
@@ -350,7 +357,7 @@ export async function getHealthNegozi(): Promise<{ connected: boolean; [k: strin
       const o30 = os.filter((o) => t(o.created_at) >= d30).length;
       const oPrev = os.filter((o) => t(o.created_at) >= d60 && t(o.created_at) < d30).length;
       const gmv30 = paid.filter((o) => t(o.created_at) >= d30).reduce((a, o) => a + (Number(o.total_price) || 0), 0);
-      const tempi = os.map((o) => t(o.created_at));
+      const tempi = os.map((o) => t(o.created_at)).filter((x) => Number.isFinite(x)); // niente NaN in Math.max
       const ultimoGiorni = tempi.length ? Math.floor((now - Math.max(...tempi)) / 86400000) : null;
       const rev = revBy[id] || [];
       const recMedia = rev.length ? Math.round((rev.reduce((a, b) => a + b, 0) / rev.length) * 10) / 10 : 0;
@@ -608,7 +615,7 @@ export async function getAcquisizione(): Promise<{ connected: boolean; [k: strin
     const buyers = profiles.filter((p) => p.role === "buyer");
     const now = Date.now();
     const d30 = now - 30 * 86400000;
-    const t = (iso: string) => new Date(iso).getTime();
+    const t = (iso: string) => { const x = iso ? new Date(iso).getTime() : NaN; return Number.isFinite(x) ? x : NaN; };
     const nuovi = buyers.filter((b) => b.created_at && t(b.created_at) >= d30);
     const refTot = buyers.filter((b) => b.referred_by != null).length;
     const refNuovi = nuovi.filter((b) => b.referred_by != null).length;

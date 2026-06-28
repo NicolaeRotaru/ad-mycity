@@ -15,14 +15,17 @@ type Negozio = { id: string; nome: string; ordini_30g: number; gmv_30g: number; 
 const GIORNI = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
 // Mini grafico a barre in SVG puro (niente dipendenze).
-function Barre({ valori, colore }: { valori: number[]; colore: string }) {
-  const max = Math.max(1, ...valori);
-  const n = valori.length || 1;
+function Barre({ valori, colore }: { valori?: (number | string | null)[]; colore: string }) {
+  // Difesa: l'API può non mandare l'array (o mandare numeri come stringa). Senza guardia
+  // `Math.max(1, ...undefined)` o `.map` su undefined crasha l'intera area Numeri.
+  const safe = (Array.isArray(valori) ? valori : []).map((v) => { const x = Number(v); return Number.isFinite(x) ? x : 0; });
+  const max = Math.max(1, ...safe);
+  const n = safe.length || 1;
   const w = 300, h = 56, gap = 1.5;
   const bw = (w - gap * (n - 1)) / n;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-14" preserveAspectRatio="none">
-      {valori.map((v, i) => {
+      {safe.map((v, i) => {
         const bh = (v / max) * (h - 4);
         return <rect key={i} x={i * (bw + gap)} y={h - bh} width={bw} height={bh} rx={0.8} fill={colore} opacity={0.85} />;
       })}
@@ -288,11 +291,11 @@ export default function NumeriReport() {
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs uppercase tracking-wide text-black/40">Ordini per giorno della settimana</span>
-                  {pattern.giorno_di_punta != null && <span className="text-[12px] text-black/45">Punta: <b className="text-ink">{GIORNI[pattern.giorno_di_punta]}</b></span>}
+                  {pattern.giorno_di_punta != null && <span className="text-[12px] text-black/45">Punta: <b className="text-ink">{GIORNI[Math.min(6, Math.max(0, num(pattern.giorno_di_punta)))]}</b></span>}
                 </div>
                 <div className="grid grid-cols-7 gap-1">
-                  {pattern.per_giorno.map((v: number, i: number) => {
-                    const max = Math.max(1, ...pattern.per_giorno);
+                  {(pattern.per_giorno || []).map((v: number, i: number) => {
+                    const max = Math.max(1, ...(pattern.per_giorno || []), 1);
                     return (
                       <div key={i} className="text-center">
                         <div className="h-16 flex items-end justify-center">
@@ -356,8 +359,8 @@ export default function NumeriReport() {
           {funnel?.collegato && (
             <>
               <div className="space-y-1.5">
-                {funnel.steps.map((s: any, i: number) => {
-                  const max = Math.max(1, num(funnel.steps[0]?.valore, 1));
+                {(funnel.steps || []).map((s: any, i: number) => {
+                  const max = Math.max(1, num(funnel.steps?.[0]?.valore, 1));
                   const val = num(s.valore);
                   return (
                     <div key={i}>

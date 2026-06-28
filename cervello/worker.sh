@@ -29,7 +29,7 @@ sync_vault() {
   [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ] || return 0
   local url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   (
-    flock 9
+    flock -w 600 9 || exit 0   # timeout sul lock (coerente con giro.sh): niente attesa infinita se un altro processo resta appeso
     git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
     if git diff --cached --quiet 2>/dev/null; then
       :   # niente da inviare
