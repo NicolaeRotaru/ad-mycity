@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 20:25",
+  "aggiornato": "2026-06-29 11:30",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -13,8 +13,8 @@
         "Schema applicato e verificato: 5 tabelle (briefings, diario, lavori, conversazioni, impostazioni), RLS attiva su tutte, advisor = solo INFO atteso.",
         "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e)."
       ],
-      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Risolve la domanda aperta del giro 16:46 ('memoria separata o stessa?'): SEPARATA e collegata. Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
-      "ultima_verifica": "2026-06-28 20:25"
+      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
+      "ultima_verifica": "2026-06-29 11:30"
     },
     {
       "nome": "Nicola",
@@ -24,7 +24,7 @@
       "confidenza": 1.0,
       "evidenze": [],
       "note": "Proprietario di MyCity, decisore finale (firma 🔴).",
-      "ultima_verifica": "2026-06-28 16:46"
+      "ultima_verifica": "2026-06-29 11:30"
     },
     {
       "nome": "Casa Linda",
@@ -33,12 +33,12 @@
       "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
       "confidenza": 0.95,
       "evidenze": [
-        "Seller con is_approved=true nei dati reali (verificato live 2026-06-28 16:46).",
-        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout gia attivo.",
-        "Match operativo: è la leva piu veloce per la prima transazione end-to-end."
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
+        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
       ],
-      "note": "Negozio reale e approvato nel DB. Payout-ready: candidato n.1 per provare ordine→pagato→consegnato→payout senza aspettare la firma di Garetti. Riverificato live 20:25: stato invariato, 26 prodotti (18 available).",
-      "ultima_verifica": "2026-06-28 20:25"
+      "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
+      "ultima_verifica": "2026-06-29 11:30"
     },
     {
       "nome": "Pane Quotidiano",
@@ -47,11 +47,12 @@
       "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
       "confidenza": 0.9,
       "evidenze": [
-        "Seller con is_approved=true nei dati reali (verificato live 2026-06-28 16:46).",
-        "Payout non ancora attivo (stripe_payouts_enabled=false): manca lo step Stripe Connect."
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
+        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 5 giorni — ordine zombie)."
       ],
-      "note": "Negozio reale e approvato nel DB. Secondo seller approvato dopo Casa Linda. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. Riverificato live 20:25: stato invariato, 5 prodotti.",
-      "ultima_verifica": "2026-06-28 20:25"
+      "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
+      "ultima_verifica": "2026-06-29 11:30"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -66,8 +67,23 @@
         "Vende i 3 DOP Piacentini (Coppa, Pancetta, Salame): il prodotto-faro che differenzia MyCity dalla GDO.",
         "Piazza Duomo 44: posizione di passaggio nel centro storico (match col profilo 'negozio-faro')."
       ],
-      "note": "NON è un'invenzione né un segnaposto: è la scelta ragionata della macchina come primo negozio-faro, fondata sull'analisi di @intelligence e su fatti pubblici. È un PROSPECT (0 ordini, non ancora cliente firmato): le azioni 🔴 collegate (commissione 12%, payout-test) restano da firmare nel normale flusso di approvazione — non perché l'entità sia dubbia, ma perché toccano soldi/termini reali. Volto/voce/aneddoti del titolare NON inventati (solo fatti pubblici). NB 28/6: confermato che NON è nel DB (i 2 approvati reali sono Casa Linda e Pane Quotidiano) → resta prospect.",
-      "ultima_verifica": "2026-06-28 16:46"
+      "note": "Scelta ragionata come negozio-faro: fondata su gap di mercato + fatti pubblici, NON su dati interni. È un PROSPECT (0 ordini, non nel DB). Le azioni 🔴 collegate restano da firmare nel normale flusso. Confermato assente dal DB anche al 29/6.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Ex Scuderie — 3 spazi food premium",
+      "tipo": "infrastruttura",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.65,
+      "fonte_ragionamento": "WebSearch @intelligence giro 29/6 → PiacenzaSera (https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)",
+      "evidenze": [
+        "Il Comune ha approvato il regolamento per 3 spazi commerciali alimentari (gastronomia, panetteria, ortofrutta) nelle Ex Scuderie in centro.",
+        "Fonte: PiacenzaSera, giugno 2026.",
+        "Data di apertura NON nota: sono in fase di regolamento, non ancora operativi."
+      ],
+      "note": "Pipeline futura: quando aprono saranno 3 partner naturali per MyCity (food premium in centro). Per ora solo da monitorare, non azionabile. Confidenza 65% perché manca la data di apertura.",
+      "ultima_verifica": "2026-06-29 11:30"
     }
   ],
   "numeri_da_non_inventare": {
