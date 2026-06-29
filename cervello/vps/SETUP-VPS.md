@@ -1,6 +1,7 @@
 # 🖥️ Modo C — Il cervello MyCity sempre acceso su un VPS Linux
 
-> Fa girare l'AD **24/7** (giro ogni 2 ore + worker delle approvazioni) **senza dipendere dal tuo PC**.
+> Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
+> Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
 > Usa il tuo **piano Max** (login interattivo una volta), non le API a pagamento.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
@@ -68,11 +69,10 @@ Compila `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `G
 
 **4. Accendi tutto:**
 ```bash
-sudo systemctl start mycity-worker.service     # worker sempre attivo (le approvazioni)
-sudo systemctl start mycity-giro.timer         # giro automatico ogni 2 ore
+sudo systemctl start mycity-worker.service     # worker sempre attivo (chat pannello + approvazioni)
+# sudo systemctl start mycity-giro.timer       # ⛔ DISATTIVATO: giro automatico (auto-analisi)
 sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
-sudo systemctl start mycity-giro.service        # prova subito un giro adesso
-sudo systemctl start mycity-monitora.service    # prova subito un monitoraggio web
+# Per un giro manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
 ```
 
 ## ▶️ Far partire il giro + auto-analisi ADESSO (dopo aver committato cose nuove)
@@ -97,8 +97,8 @@ il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`,
 ## Verifica che funzioni
 ```bash
 systemctl status mycity-worker --no-pager           # deve essere: active (running)
-systemctl list-timers | grep mycity                 # mostra il prossimo giro (ogni 2h)
-journalctl -u mycity-giro -n 40 --no-pager          # log dell'ultimo giro
+systemctl list-timers | grep mycity                 # mostra i timer attivi (monitora; giro disattivato)
+journalctl -u mycity-worker -n 40 --no-pager        # log del worker (chat pannello)
 ```
 Se tutto va: dopo il giro compare un nuovo file in `MyCity-Vault/90-Memoria-AI/Briefing/` e, se il
 push è configurato, lo vedi anche nel **Pannello** (Attività & briefing / Cosa ho scoperto).
@@ -115,8 +115,8 @@ sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system
 ```
 
 ## ⚠️ Note oneste
-- **Limiti del Max:** il Max ha tetti d'uso che si resettano ogni poche ore. Giro ogni 2h + worker
-  on-demand stanno larghi. Se l'uso è troppo, alza l'intervallo del giro (es. 3-4h).
+- **Limiti del Max:** il Max ha tetti d'uso che si resettano ogni poche ore. Col solo worker
+  (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
 - **Costo:** il VPS sempre acceso ha il suo costo mensile (quello che già paghi).
 - **Sicurezza:** il `.env` ha permessi `600` e non va committato. Le azioni 🔴 (soldi/messaggi reali)
   partono **solo** quando le approvi dal Pannello (`AZIONI_LIVE=0` di default).
