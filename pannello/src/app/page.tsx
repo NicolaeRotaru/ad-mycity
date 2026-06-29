@@ -1022,7 +1022,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
-  useEffect(() => {
+  const caricaConversazioni = useCallback(() => {
     fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -1046,8 +1046,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setConvServer(false);
         setConversazioni(leggiConvLocali());
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    caricaConversazioni();
+    // 💬 "Parla con la casella" salva una chat in Conversazioni: ricarica l'elenco appena succede.
+    const onConv = () => caricaConversazioni();
+    window.addEventListener("mycity:conversazioni", onConv);
+    return () => window.removeEventListener("mycity:conversazioni", onConv);
+  }, [caricaConversazioni]);
 
   // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
   useEffect(() => {

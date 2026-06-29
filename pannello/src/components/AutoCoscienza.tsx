@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { dataVault } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
+import ParlaCasella from "@/components/ParlaCasella";
 
 // 🔑 Id stabile di una domanda, derivato dal suo testo (djb2): resta lo stesso tra
 // un refresh e l'altro finché la domanda è la stessa → così sappiamo a quale è già
@@ -313,6 +314,7 @@ export default function AutoCoscienza() {
                         )}
                         {e.fonte_ragionamento && <div className="t-eti mt-1 font-mono">perché: {e.fonte_ragionamento}</div>}
                         {e.note && <div className="text-[12px] text-black/60 mt-1">{e.note}</div>}
+                        <ParlaCasella titolo={`Scelta ragionata: ${e.nome}`} contesto={[e.fonte_ragionamento && `Perché: ${e.fonte_ragionamento}`, ...(e.evidenze || []), e.note].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -344,6 +346,7 @@ export default function AutoCoscienza() {
                               <ArrowRight size={12} /> Vai all'azione collegata
                             </button>
                           )}
+                          <ParlaCasella titolo={`Entità: ${e.nome}`} contesto={[e.note, e.domanda_per_nicola].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
@@ -385,6 +388,7 @@ export default function AutoCoscienza() {
                           <div className="text-[13px] font-medium mt-1">{e.titolo}</div>
                           {e.dettaglio && <div className="text-[12px] text-black/65 mt-0.5">{e.dettaglio}</div>}
                           {e.riguarda && <div className="t-eti mt-1">riguarda: {e.riguarda}</div>}
+                          <ParlaCasella titolo={`Errore: ${e.titolo}`} contesto={[e.dettaglio, e.riguarda && `riguarda: ${e.riguarda}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
@@ -419,6 +423,7 @@ export default function AutoCoscienza() {
                               <ArrowRight size={12} /> Vai alle Azioni da firmare
                             </button>
                           )}
+                          <ParlaCasella titolo={`Domanda: ${testo.slice(0, 60)}`} contesto={[testo, perche && `Perché serve: ${perche}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
