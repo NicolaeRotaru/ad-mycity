@@ -1,16 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-06-29 14:24
-fonte: AD digitale (passaggio 14:24 a sensori ridotti — Supabase/WebFetch non autorizzati; numeri dal check live delle 11:20)
+aggiornato: 2026-06-29 16:24
+fonte: AD digitale (passaggio 16:24 a sensori ridotti — Supabase/WebFetch non autorizzati; numeri dal check live delle 11:20)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **29/6 14:24 — STALLO A ~128h.** Passaggio leggero in giornata: i 7 numeri sono congelati (dati live
-> delle 11:20, stessa giornata) e fuori non è cambiato nulla da stamattina. ⚠️ In sessione **Supabase MCP e
-> WebFetch non autorizzati** → niente re-verifica live e niente apertura pagine (solo WebSearch). Il collo di
-> bottiglia non è più l'analisi: sono le **3 decisioni 🔴 in attesa di firma** (Casa Linda, ordine zombie,
-> foglio-lancio). **Novità esterna calda (invariata dalle 11:30):** Ex Scuderie (3 spazi food premium
+> 🧠 **29/6 16:24 — STALLO A ~128h (5 giorni e 8 ore).** 5° passaggio della giornata: i 7 numeri sono
+> congelati (dati live delle 11:20, stessa giornata) e fuori non è cambiato nulla. ⚠️ In sessione **Supabase
+> MCP e WebFetch ancora non autorizzati** → niente re-verifica live e niente apertura pagine (solo WebSearch).
+> ✅ Verificato a basso costo (sentinella 🔴 ogni-giro): **Supabase e Stripe operativi** → l'infrastruttura
+> NON è a rischio, il blocco è 100% decisionale. Il collo di bottiglia restano le **3 decisioni 🔴 in attesa
+> di firma** (Casa Linda, ordine zombie, foglio-lancio). **Novità esterna calda (invariata dalle 11:30):** Ex Scuderie (3 spazi food premium
 > approvati dal Comune), Bando Commercio ER (40% fondo perduto, scade **21/7 — 22 giorni**), Venerdì
 > Piacentini 3/10/17 lug confermati. Collo di bottiglia operativo: **prima transazione end-to-end con Casa
 > Linda** (payout-ready).
@@ -32,7 +33,8 @@ fonte: AD digitale (passaggio 14:24 a sensori ridotti — Supabase/WebFetch non 
 - 🔴 Problema: **stallo da ~125h** (0 ordini/0 eventi dal 24/6); 3 decisioni di lancio non firmate; nessun wiring Vercel.
 
 ## Ultime mosse dell'AD
-1. **Giro 29/6 14:24** — Passaggio leggero a sensori ridotti (Supabase/WebFetch non autorizzati). Niente novità da stamattina; stallo ~128h. Verdetto onesto: la palla è in mano a Nicola (3 firme 🔴). Vedi [[2026-06-29]].
+1. **Giro 29/6 16:24** — 5° passaggio, leggero, a sensori ridotti. Dati immobili, zero novità intraday, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Palla a Nicola (3 firme 🔴). Vedi [[2026-06-29]].
+2. **Giro 29/6 14:24** — Passaggio leggero a sensori ridotti (Supabase/WebFetch non autorizzati). Niente novità da stamattina; stallo ~128h. Verdetto onesto: la palla è in mano a Nicola (3 firme 🔴). Vedi [[2026-06-29]].
 2. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER confermato (22gg), Venerdì Piacentini record, caldo 37°C.
 2. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
 3. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.

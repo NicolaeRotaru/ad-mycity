@@ -107,14 +107,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-06-29 14:24",
+    "data": "2026-06-29 16:24",
     "loop_chiude": true,
     "tasso_applicazione": 0.5,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 37,
+    "ore_da_ultima_completa": 39,
     "verdetto": "attenzione",
-    "nota": "Sonda 29/6 14:24 (passaggio leggero). 4 invarianti formalmente ok: (1) loop chiude, (2) tasso applicazione 0.5 — lezione L-2026-0629-03 (giri ridondanti a sensori ciechi) registrata e applicata già in questo passaggio, (3) giro a cadenza, (4) sentinelle scattate. MA ⚠️ REGRESSIONE SENSORI: in questa sessione Supabase MCP e WebFetch NON autorizzati → 1 solo sensore attivo (WebSearch), numeri non ri-verificati live. Conferma il difetto aperto 'salute-sensori-dati' (impatto alto): la cecità MCP non è risolta. ore_da_ultima_completa=37 (<10gg → no radiografia completa forzata). Voto salute architettura invariato a 76 (il difetto era già contato). Nessun nuovo difetto strutturale."
+    "nota": "Sonda 29/6 16:24 (5° passaggio, leggero). 4 invarianti ok: (1) loop chiude, (2) tasso applicazione 0.5 — lezioni L-2026-0629-03/04 registrate e applicate, (3) giro a cadenza, (4) sentinelle scattate (chiusa positiva ops-02/partner-02: Supabase+Stripe operativi). ⚠️ REGRESSIONE SENSORI persistente: Supabase MCP + WebFetch ancora non autorizzati in sessione → 1 solo sensore dati attivo (WebSearch). Conferma (non aggrava) il difetto aperto 'salute-sensori-dati'. ore_da_ultima_completa=39 (<10gg → no radiografia completa forzata). Nessun nuovo difetto strutturale. Avanzamento cantiere: il difetto a maggior impatto resta 'salute-sensori-dati' — fix proposto (retry+fallback+contatore-cecità MCP) già in proposte_nuovi_pezzi, da firmare 🟡."
   },
   "meta": {
     "agenti_totali": 42,

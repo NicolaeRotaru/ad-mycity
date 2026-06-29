@@ -1,8 +1,8 @@
 {
-  "data": "2026-06-29 14:24",
+  "data": "2026-06-29 16:24",
   "voto_fiducia": 86,
-  "trend_fiducia": "▼",
-  "sintesi": "Quarto passaggio del 29/6 (14:24), leggero e onesto. Voto −2 (88→86): in sessione Supabase MCP e WebFetch NON autorizzati → 7 numeri non ri-verificati live (ereditati dal check delle 11:20, stessa giornata, dichiarato ovunque) e pagine non aperte (solo WebSearch). Lo scan locale non mostra novità dalle 11:30: stallo salito a ~128h, dati congelati. Il merito che evita un calo più netto: non ho inventato novità per giustificare il giro — ho riconosciuto che il valore aggiunto era ~zero e ho spostato il focus sulle 3 firme 🔴 ferme. Nessuna entità nuova senza fondamento. Sensori ciechi = conferma del difetto già aperto in auto-radiografia (salute-sensori-dati), non un nuovo problema.",
+  "trend_fiducia": "=",
+  "sintesi": "Quinto passaggio del 29/6 (16:24), leggero e onesto, 2h dopo il 4°. Voto stabile a 86: stesse condizioni (Supabase MCP + WebFetch non autorizzati, dati ereditati dalle 11:20, zero novità intraday), gestite allo stesso modo disciplinato. L'unico valore aggiunto reale e a basso costo: ho chiuso il check della sentinella 🔴 ogni-giro sullo stato piattaforme (Supabase + Stripe OPERATIVI via WebSearch) → diagnosi netta: durante lo stallo l'infrastruttura non è a rischio, il blocco è 100% decisionale. Non ho inventato novità né moltiplicato analisi: aggiornati solo gli orari e il digest. Nessuna entità nuova. Conferma (non aggravamento) del difetto salute-sensori-dati.",
   "verifiche": {
     "entita": "ok (nessuna nuova; le 6 esistenti non ri-verificate live — DB non autorizzato — ultima_verifica resta 11:30)",
     "numeri": "parziale (ereditati dal check live 11:20, NON ri-verificati in questa sessione; dichiarato)",
@@ -66,12 +66,13 @@
   "salute_macchina": {
     "supabase_marketplace": "NON autorizzato in questa sessione (permesso non concesso) — numeri ereditati dalle 11:20",
     "supabase_memoria": "NON autorizzato in questa sessione",
-    "stripe": "non interrogato",
+    "stripe": "non interrogato via MCP — ma status pubblico OPERATIVO (WebSearch 16:24)",
     "posthog": "non collegato",
-    "webfetch": "NON autorizzato in questa sessione (status pages e pagine locali non aperti)",
+    "webfetch": "NON autorizzato in questa sessione (pagine non aperte; status verificati via WebSearch)",
     "websearch": "ok",
+    "supabase_status_pubblico": "OPERATIVO (verificato 16:24)",
     "dati_freschi": false,
     "sensori_attivi": 1,
-    "nota": "Passaggio 14:24 a sensori ridotti: solo WebSearch. Conferma il difetto aperto salute-sensori-dati."
+    "nota": "Passaggio 16:24 a sensori ridotti: solo WebSearch. Conferma il difetto aperto salute-sensori-dati. Novità del passaggio: sentinella 🔴 ogni-giro su stato piattaforme chiusa positiva (Supabase + Stripe operativi) → infrastruttura non a rischio durante lo stallo."
   }
 }

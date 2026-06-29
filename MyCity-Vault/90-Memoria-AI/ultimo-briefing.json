@@ -1,6 +1,6 @@
 {
-  "data": "2026-06-29 14:24",
-  "situazione": "Passaggio leggero in giornata (14:24): stallo salito a ~128h, 7 numeri congelati, nessuna novità esterna da stamattina. In sessione Supabase MCP e WebFetch non autorizzati: numeri ereditati dal check live delle 11:20, niente re-verifica. Il collo di bottiglia non è più l'analisi ma le 3 decisioni 🔴 ferme: sblocco prima transazione con Casa Linda (payout-ready), Kit Bando ER (scade 21/7), ordine zombie €19,05. La palla è in mano a Nicola.",
+  "data": "2026-06-29 16:24",
+  "situazione": "5° passaggio della giornata (16:24): stallo a ~128h (5 giorni e 8 ore), 7 numeri congelati, zero novità esterne intraday. Supabase MCP e WebFetch ancora non autorizzati: numeri ereditati dal check live delle 11:20. Verificato a basso costo (sentinella ogni-giro): Supabase e Stripe operativi → l'infrastruttura NON è a rischio, il blocco è 100% decisionale. Restano ferme le 3 decisioni 🔴: sblocco prima transazione con Casa Linda (payout-ready), Kit Bando ER (scade 21/7, 22gg), ordine zombie €19,05. La palla è in mano a Nicola.",
   "opportunita": [
     {"titolo": "Bando ER come leva di onboarding (22gg alla scadenza)", "motivo": "Il bando rimborsa il 40% della digitalizzazione. MyCity è la soluzione. Kit one-pager per i negozi.", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "Ex Scuderie — 3 negozi food premium da onbordare", "motivo": "Il Comune apre spazi alimentari di qualità in centro: match perfetto col nostro posizionamento", "impatto": "medio", "sforzo": "basso"},

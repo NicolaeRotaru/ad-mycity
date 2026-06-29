@@ -1,10 +1,23 @@
 ---
-data: 2026-06-29 14:24
+data: 2026-06-29 16:24
 tipo: auto-analisi
 fonte: AD digitale — cancello di serietà (verifica avversariale)
 ---
 
-# 🔬 Auto-analisi del giro — 2026-06-29 14:24 (passaggio leggero)
+# 🔬 Auto-analisi del giro — 2026-06-29 16:24 (passaggio leggero, 5° del giorno)
+
+## Voto di fiducia: 86 / 100 — trend = (stabile da 86)
+Stesse condizioni del passaggio delle 14:24 (sensori dati spenti, dati ereditati dalle 11:20, zero novità
+intraday), gestite con la stessa disciplina. Voto stabile: niente di peggiorato, niente di significativamente
+migliorato. **L'unico valore aggiunto reale e a basso costo** è aver chiuso la sentinella 🔴 ogni-giro sullo
+stato piattaforme: **Supabase e Stripe operativi** → diagnosi netta e utile a Nicola, *il blocco non è tecnico,
+è decisionale*. Non ho moltiplicato analisi né inventato novità: ho aggiornato gli orari in memoria e il digest.
+Resta valida la lezione L-2026-0629-03 (non moltiplicare i giri a sensori ciechi): questo passaggio è stato
+volutamente minimo.
+
+---
+
+## Storico — Auto-analisi del giro — 2026-06-29 14:24 (passaggio leggero)
 
 ## Voto di fiducia: 86 / 100 — trend ▼ (da 88)
 −2 punti onesti: è il **4° passaggio della giornata su dati immobili** e in sessione **Supabase MCP e
