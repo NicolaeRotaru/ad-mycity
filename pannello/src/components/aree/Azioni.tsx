@@ -60,17 +60,29 @@ function chiavi(s: string): string[] {
   return ((s || "").toLowerCase().match(/[a-zàèéìòù0-9]{4,}/g) || []).filter((w) => !STOP.has(w));
 }
 
-// La scheda «Se approvi, ecco cosa succede» dentro una card della coda.
-function Scheda({ a }: { a: Azione }) {
+// La scheda «Se approvi, ecco cosa succede» dentro una card della coda: finestra
+// che si apre e si chiude (chiusa di default), così la card resta compatta.
+function Scheda({ a, open, onToggle }: { a: Azione; open: boolean; onToggle: () => void }) {
   return (
-    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5 space-y-1.5">
-      <div className="text-[10.5px] font-semibold text-brand uppercase tracking-wide">Se approvi, ecco cosa succede</div>
-      {spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito }).map((r) => (
-        <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
-          <span className="mr-1">{r.ico}</span>
-          <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
-        </p>
-      ))}
+    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5">
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="w-full flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide"
+      >
+        {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
+        Se approvi, ecco cosa succede
+      </button>
+      {open && (
+        <div className="mt-1.5 space-y-1.5">
+          {spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito }).map((r) => (
+            <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
+              <span className="mr-1">{r.ico}</span>
+              <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -83,6 +95,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
+  // Finestre «Se approvi, ecco cosa succede» aperte (chiuse di default → card compatta).
+  const [schedeAperte, setSchedeAperte] = useState<Set<string>>(new Set());
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -212,6 +226,13 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }
   const toggle = (id: string) =>
     setAperte((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
+      return n;
+    });
+  const toggleScheda = (id: string) =>
+    setSchedeAperte((s) => {
       const n = new Set(s);
       if (n.has(id)) n.delete(id);
       else n.add(id);
@@ -546,7 +567,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         </div>
                       )}
 
-                      {!decisa && <Scheda a={a} />}
+                      {!decisa && <Scheda a={a} open={schedeAperte.has(a.id)} onToggle={() => toggleScheda(a.id)} />}
                       {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">
