@@ -67,3 +67,10 @@ esatta** (e viceversa, dalla casella un "↗ Vai all'azione"). Niente tag = ness
   - Le **domande** (`auto-coscienza/auto-analisi.json` → `domande_per_nicola[]`): aggiungi a ogni oggetto un campo
     `"id"` breve e stabile (es. `"d-memoria-vps"`), e usa **lo stesso** id nel tag `{origine:domanda:d-memoria-vps}`.
     Se ometti l'id, il Pannello ne ricava uno dal testo: il link generico funziona lo stesso, quello puntuale no.
+  - Le **entità** (`auto-coscienza/auto-analisi.json` → `registro.entita[]`, stato `da_verificare`): **stessa regola delle
+    domande** → aggiungi a ogni entità un campo `"id"` breve e stabile (es. `"e-garetti"`) e usa **lo stesso** id nel tag
+    `{origine:entita:e-garetti}`. Senza id il link puntuale NON è preciso (degrada al generico).
+  - Le **sentinelle** hanno id fissi `S-…` generati dal Pannello (`S-problemi`, `S-recensioni`, `S-noordini`,
+    `S-carrelli`, `S-dormienti`, `S-consegne-lente`, `S-pochinegozi`): usa quello nel tag `{origine:sentinella:S-carrelli}`.
+  - Le **mosse**: `<n>` è la **posizione 1-based** nell'elenco `prossime_mosse` di `intenzioni-nicola.json` (la 1ª mossa
+    = `{origine:mossa:1}`). Mantieni l'ordine stabile tra un giro e l'altro, altrimenti il link punta alla mossa sbagliata.
