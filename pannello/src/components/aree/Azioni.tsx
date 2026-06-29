@@ -27,7 +27,7 @@ type Azione = {
   qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
 type Proposta = { titolo: string; motivo: string; livello: Livello };
-type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+type Alert = { id?: string; livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
 type Registro = { voci: VoceLog[]; stat: { totale: number; fatte: number; simulate: number; coda: number; rifiutate: number; auto: number; repartoTop: string } };
 type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
@@ -307,7 +307,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
               {mosse.map((m, i) => {
                 const c = m.priorita === "alta" ? "border-red-200 bg-red-50/40" : m.priorita === "media" ? "border-amber-200 bg-amber-50/40" : "border-black/[0.07] bg-paper/40";
                 return (
-                  <div key={i} className={`rounded-xl border p-3 ${c}`}>
+                  <div id={`mossa-${i + 1}`} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${c}`}>
                     <div className="flex items-start gap-2">
                       <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
                       <div className="min-w-0 flex-1">
@@ -418,7 +418,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
           {alerts.map((al, i) => {
             const rosso = al.livello === "rosso";
             return (
-              <div key={i} className={`rounded-xl border p-3 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
+              <div id={al.id ? `alert-${al.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
                 <div className="flex items-start gap-2">
                   <ShieldAlert size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
                   <div className="min-w-0 flex-1">
