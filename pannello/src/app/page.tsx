@@ -93,8 +93,7 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import MemoriaViva from "@/components/MemoriaViva";
-import AutoCoscienza from "@/components/AutoCoscienza";
+import Memoria from "@/components/aree/Memoria";
 import Cervello from "@/components/aree/Cervello";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
@@ -1250,70 +1249,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== MEMORIA & DECISIONI ===================== */}
         {vista === "memoria" && (
-        <div className="space-y-4">
-          <div>
-            <h2 className="t-area">🧠 Memoria & decisioni</h2>
-            <p className="t-eti mt-0.5">Cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD. (Le azioni da firmare sono in ⚡ Azioni.)</p>
-          </div>
-
-          {/* 🔬 Auto-coscienza: la macchina si controlla, impara e si migliora da sola (in cima: è il livello più serio) */}
-          <AutoCoscienza />
-
-          {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
-          <MemoriaViva />
-
-          {/* Briefing autonomo */}
-          <section className="card p-4">
-            <div className="sez-head mb-4">
-              <span className="sez-ico"><TrendingUp size={16} /></span>
-              <div className="min-w-0">
-                <span className="t-sez">Cosa ho scoperto e cosa propongo</span>
-                <div className="t-eti">
-                  L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
-                </div>
-              </div>
-            </div>
-
-            {!briefing && (
-              <div className="text-center text-black/45 py-10">
-                <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
-                <p className="text-sm text-black/35">
-                  Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
-                </p>
-              </div>
-            )}
-
-            {briefing && (
-              <div className="space-y-5">
-                <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
-
-                {briefing.opportunita?.length > 0 && (
-                  <div>
-                    <div className="t-micro mb-2">Opportunità</div>
-                    <div className="space-y-2">
-                      {briefing.opportunita.map((o, i) => (
-                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
-                          <div className="text-sm font-medium">{o.titolo}</div>
-                          <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
-                          <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {briefing.azioni?.length > 0 && (
-                  <div className="rounded-xl border border-brand/15 bg-brand-50/30 p-3 text-[12.5px] text-ink/80">
-                    💡 Da questo giro l'AD propone <b>{briefing.azioni.length}</b> azioni. Le approvi (o le ignori) nell'area <b>⚡ Azioni → Da approvare</b>, in cima come «Proposte dal giro».
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
-        </div>
+          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
         )}
 
         {/* ===================== PERSONE ===================== */}
