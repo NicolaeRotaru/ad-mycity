@@ -1,54 +1,65 @@
 {
-  "data": "2026-06-28 20:25",
-  "voto_fiducia": 87,
+  "data": "2026-06-29 11:30",
+  "voto_fiducia": 88,
   "trend_fiducia": "▲",
-  "sintesi": "Secondo giro del 28/6. Voto in lieve salita (85→87): un punto cieco grosso del giro precedente — 'dove scrive la memoria?' — è stato CHIUSO non a parole ma costruendo il DB-memoria separato (xjljcsorpbqwttrejqte, 5 tabelle, RLS, verificato live) e scrivendoci dentro il primo briefing. I 7 numeri di business sono riverificati live e identici alle 16:46 (nessun movimento: stallo a ~106h). Le entità reggono: Casa Linda e Pane Quotidiano confermate nei dati, Garetti resta scelta_ragionata (prospect, non nel DB). Lo scan esterno è stato rifatto live (@intelligence) con fonti citate, chiudendo il punto cieco 'radar non fatto'. Penalità residue solo per Stripe/PostHog non interrogati e per i 3 buchi-mercato a confidenza ~70% (mancano dati food interni per blindarli).",
+  "sintesi": "Terzo giro del 29/6. Voto +1 (87→88): dati Supabase riverificati live (tutti i 7 numeri confermati), radar @intelligence aggiornato con fonti citate (bando ER confermato 22gg, Ex Scuderie 🆕, Venerdì Piacentini record, meteo 37°C), 3 file intelligence aggiornati, stallo confermato a ~125h (ultimo evento 24/6 08:28). Nessuna nuova entità introdotta senza fondamento. I numeri sono identici al 28/6: lo stallo è reale e documentato. Nuova opportunità esterna (bando ER come leva onboarding) accodata in AZIONI-IN-ATTESA come 🟡. Penalità residue: Stripe non interrogato (MCP non collegato), PostHog assente, buchi-mercato ancora a ~70% (mancano dati food interni).",
   "verifiche": {
     "entita": "ok",
     "numeri": "ok",
     "coerenza": "ok",
     "semaforo": "ok",
     "qualita": "ok",
-    "benchmark": "ok (radar concorrenti rifatto con fonti; nessun contenuto creativo da benchmarkare in questo giro)"
+    "benchmark": "ok (radar concorrenti aggiornato con EasyCoop + CompraPiacenza dormiente; nessun contenuto creativo da benchmarkare)"
   },
   "errori": [
     {
       "gravita": "bassa",
-      "titolo": "I 3 buchi di mercato sono dati come opportunità con confidenza ~70%, non come fatti",
-      "dettaglio": "Lo scan @intelligence li marca esplicitamente a confidenza 65-70% perché manca 1 screenshot listino-fee Glovo e l'accesso ai nostri dati ordini food. Corretto averli dichiarati come ipotesi e non come fatti (regola: nessun numero/claim orfano).",
-      "azione_presa": "dichiarato come ipotesi a confidenza esplicita + segnato il carburante mancante",
+      "titolo": "Stallo a ~125h senza azione diretta della macchina per sbloccare",
+      "dettaglio": "La macchina osserva e documenta lo stallo da 3 giri (16:46, 20:25, 11:30) ma le azioni per sbloccarlo (transazione Casa Linda, ordine zombie) restano tutte in attesa di firma Nicola. Non c'è nulla di 🟢 che la macchina possa fare da sola per smuovere il business.",
+      "azione_presa": "Documentato come priorità 🔴 in STATO e briefing; escalato con domanda per Nicola",
+      "riguarda": "efficacia operativa",
+      "livello_scoperta": "L1"
+    },
+    {
+      "gravita": "bassa",
+      "titolo": "I buchi di mercato restano a confidenza ~70%",
+      "dettaglio": "Terzo giro consecutivo con i 3 buchi (gastronomia centro, delivery diurno, regalo locale) non blindati: mancano i dati food interni e 1 listino-fee Glovo. Correttamente dichiarati come ipotesi.",
+      "azione_presa": "Dichiarato nei Gap del briefing; carburante mancante elencato in buchi-mercato.md",
       "riguarda": "onestà delle opportunità esterne",
       "livello_scoperta": "L1"
     }
   ],
   "domande_per_nicola": [
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout già attivo) invece di aspettare la firma di Garetti?",
-      "perche_serve": "Casa Linda è l'unico negozio payout-ready: è la via più veloce per provare ordine→pagato→consegnato→payout. Aspettare Garetti tiene l'azienda a zero da ~106h.",
-      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda e provo il primo ciclo completo.",
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout-ready) per uscire dallo stallo?",
+      "perche_serve": "125h a zero. Casa Linda è l'unico negozio con payout attivo. È la via più veloce per testare ordine→pagato→consegnato→payout senza aspettare Garetti.",
+      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda: 1 prodotto vero → ordine-test → payout.",
       "gravita": "alta"
     },
     {
-      "domanda": "Faccio il wiring Vercel della memoria (SUPABASE_URL + SUPABASE_SERVICE_KEY al progetto memoria) per accendere la card nel Pannello?",
-      "perche_serve": "Il DB-memoria è costruito e collegato agli strumenti, ma la service_role key è un segreto che non tocco io: senza il wiring + Redeploy la spia 'Memoria collegata' resta grigia anche se il DB funziona.",
-      "se_rispondi": "Tu metti le 2 variabili su Vercel + Redeploy; io verifico che il Pannello legga il briefing già salvato nella tabella briefings.",
-      "gravita": "media"
+      "domanda": "Sblocco l'ordine zombie €19,05 (accettare/annullare con nota al buyer)?",
+      "perche_serve": "Fermo da 5 giorni, buyer nel limbo. La prima impressione è rovinata se resta sospeso.",
+      "se_rispondi": "Propongo la nota/email al buyer e l'azione di aggiornamento status (🔴 perché tocca un cliente reale).",
+      "gravita": "alta"
     }
   ],
   "punti_ciechi": [
-    "Stripe non interrogato in questo giro (MCP Stripe non collegato in sessione): incassi/payout reali non riconciliati.",
-    "PostHog non collegato: nessun dato di traffico/conversione.",
-    "I 3 buchi di mercato (gastronomia centro, delivery diurno, regalo locale) restano a confidenza ~70%: mancano i dati ordini food interni e 1 listino-fee Glovo per blindarli."
+    "Stripe non interrogato (MCP non collegato in sessione): incassi/payout reali non riconciliati.",
+    "PostHog non collegato: nessun dato di traffico/conversione/funnel.",
+    "I 3 buchi di mercato restano a confidenza ~70%: mancano dati ordini food interni e 1 listino-fee Glovo.",
+    "Non ho visibilità sulle azioni di Nicola offline (ha parlato con Garetti? con Casa Linda?). Lo stallo potrebbe essere rotto fuori dal digitale senza che io lo sappia."
   ],
   "miglioramenti_prossimo_giro": [
-    "Interrogare Stripe e riconciliare incassi/payout ora che la pipeline dati è solida.",
-    "Misurare previsto-vs-reale (calibrazione) sull'azione 'forzare transazione Casa Linda' una volta eseguita.",
-    "Dimensionare il buco gastronomia coi nostri dati order_items food su Supabase (alza i 3 buchi da ipotesi a fatti)."
+    "Interrogare Stripe per riconciliare incassi/payout (se MCP collegato).",
+    "Produrre il Kit Bando ER (🟡 accodato) come azione concreta della macchina.",
+    "Verificare se l'ordine zombie è ancora fermo o se qualcosa è cambiato.",
+    "Dimensionare il buco gastronomia con dati order_items food (alzare da ipotesi a fatto)."
   ],
   "salute_macchina": {
-    "supabase_marketplace": "ok (ACTIVE_HEALTHY, riverificato live, sola lettura)",
-    "supabase_memoria": "ok (xjljcsorpbqwttrejqte ACTIVE_HEALTHY, 5 tabelle, RLS, scrittura testata)",
+    "supabase_marketplace": "ok (ACTIVE_HEALTHY, dati freschi verificati live 29/6 11:20)",
+    "supabase_memoria": "ok (xjljcsorpbqwttrejqte ACTIVE_HEALTHY, scrittura testata)",
     "stripe": "non interrogato",
+    "posthog": "non collegato",
     "dati_freschi": true,
     "sensori_attivi": 2
   }

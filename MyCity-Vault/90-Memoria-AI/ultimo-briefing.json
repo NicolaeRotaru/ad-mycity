@@ -1,17 +1,19 @@
 {
-  "data": "2026-06-28 20:25",
-  "situazione": "Secondo giro del 28/6. Business fermo: 7 numeri identici alle 16:46 — 2 negozi approvati, 1 payout-ready (Casa Linda), 0 prodotti-faro veri, 1 ordine COD 19,05€ bloccato da 4 giorni, 0 pagati/0 consegnati/0 payout, 4 buyer. Stallo a ~106h (ultima attività 24/6 08:28). Novità interna grossa: la memoria è ora un DB separato, costruito, collegato e verificato — e questo briefing è il primo salvato dentro di esso. Mossa n.1: forzare la prima transazione completa con Casa Linda.",
+  "data": "2026-06-29 11:30",
+  "situazione": "Stallo a ~125h (nessun movimento dal 24/6). I 7 numeri sono identici. Novità esterna: Ex Scuderie (3 spazi food premium in centro) e Bando Commercio ER (40% fondo perduto, scade 21/7 — 22 giorni). Venerdì Piacentini confermati 3/10/17 luglio. Caldo estremo 37°C oggi. Il blocco è operativo: serve la prima transazione end-to-end con Casa Linda (payout-ready).",
   "opportunita": [
-    {"titolo": "Prima transazione completa con Casa Linda", "motivo": "Unico negozio payout-ready: chiudere ordine→pagato→consegnato→payout vale più di 10 pitch", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Memoria viva nel Pannello (wiring Vercel)", "motivo": "Col DB collegato, ogni giro si accumula nella Cabina in automatico", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Presidio QR ai Venerdì Piacentini (3/10/17 lug)", "motivo": "50-60k persone/sera in centro: acquisizione clienti già piacentini a costo ~0", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Attivare i primi 10 dei 407 lead to_contact", "motivo": "Pipeline vendite pronta ma spenta: 407 negozi censiti e mai contattati", "impatto": "alto", "sforzo": "medio"}
+    {"titolo": "Bando ER come leva di onboarding (22gg alla scadenza)", "motivo": "Il bando rimborsa il 40% della digitalizzazione. MyCity è la soluzione. Kit one-pager per i negozi.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Ex Scuderie — 3 negozi food premium da onbordare", "motivo": "Il Comune apre spazi alimentari di qualità in centro: match perfetto col nostro posizionamento", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Hub Urbano fondi regionali (14M€)", "motivo": "Piacenza riconosciuta Hub Urbano: fondi per commercio di centro. MyCity come braccio digitale", "impatto": "medio", "sforzo": "medio"},
+    {"titolo": "Caldo estremo 37°C — leva messaggio delivery", "motivo": "Domanda latente, ma inutile senza catalogo vero e primo ordine funzionante", "impatto": "basso", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Forzare la prima transazione con Casa Linda", "motivo": "1 prodotto vero → ordine-test → consegna → payout", "livello": "rosso"},
-    {"titolo": "Sbloccare l'ordine zombie da 19,05€", "motivo": "Accettare o annullare con nota al buyer: 0 ordini fermi in pipeline", "livello": "rosso"},
-    {"titolo": "Wiring Vercel della memoria + Redeploy", "motivo": "SUPABASE_URL+SERVICE_KEY al progetto memoria: spia 'Memoria collegata' verde", "livello": "giallo"},
-    {"titolo": "Kit QR per i Venerdì Piacentini", "motivo": "Handoff designer+vendite: presidio offline delle botteghe aperte", "livello": "giallo"},
-    {"titolo": "Bozza email recupero 4 carrelli abbandonati", "motivo": "Pronta a partire quando le mani sono attive", "livello": "verde"}
+    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Uscire dallo zero dopo 125h di stallo.", "livello": "rosso"},
+    {"titolo": "Kit Bando ER + MyCity per onboarding negozi", "motivo": "Bando scade 21/7 — 22 giorni. Leva commerciale urgente.", "livello": "giallo"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 5 giorni: buyer nel limbo, prima impressione rovinata.", "livello": "rosso"},
+    {"titolo": "Wiring Vercel memoria (2 env vars + Redeploy)", "motivo": "Pannello si accende e mostra i briefing in automatico.", "livello": "giallo"},
+    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Stripe live/sandbox, commissione 12%, fee consegna: sbloccano l'infrastruttura.", "livello": "rosso"},
+    {"titolo": "Segnalare Ex Scuderie a vendite come pipeline", "motivo": "3 futuri negozi food premium in centro.", "livello": "verde"},
+    {"titolo": "Verificare opportunità Hub Urbano", "motivo": "Fondi regionali 14M€ per commercio centro.", "livello": "verde"}
   ]
 }

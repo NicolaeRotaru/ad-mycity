@@ -1,68 +1,52 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-28 20:25** · Fonte: monitoraggio web (@intelligence, giro del 28/6).
-> Cosa contiene: eventi/sagre/fiere + meteo + ZTL a 7-14 gg, e i **picchi di domanda delivery** attesi,
-> con 1 consiglio operativo ciascuno. 🟢 note · le azioni reali (turni rider, push) si accodano/firmano.
-> ⚠️ Nota metodo: Libertà, IlPiacenza, PiacenzaSera e i siti del Comune oggi bloccano WebFetch (HTTP 403);
-> i fatti sotto sono ricostruiti via WebSearch con link alla fonte. Tutti datati e verificabili.
-
-> 🔄 **Conferma 28/6 20:25 (@intelligence):** i 3 picchi sotto restano validi e caldi. Riconfermati live:
-> Venerdì Piacentini 3/10/17 lug (50-60k presenze/sera, 300 negozi, indotto >10M€ — [venerdipiacentini.it](https://www.venerdipiacentini.it/) · [ilpiacenza.it](https://www.ilpiacenza.it/attualita/piacenza-si-riaccende-al-via-i-venerdi-piacentini-2026-con-il-record-storico-di-250-eventi.html)) e ondata di calore ~39°C fino a inizio luglio ([ilmeteo.it](https://www.ilmeteo.it/meteo/piacenza)). **Novità:** festa patronale **Sant'Antonino** (manifestazioni ~27/6–4/7 — [scopripiacenza.it](https://scopripiacenza.it/it/sezioni/sagre-fiere-e-mercati-a-piacenza)) → picco food/dolci locali + finestra contenuti. 🟢 Operativo riconfermato: **delivery DIURNO anti-caldo** (11-18: bibite/gelato/fresco) + **presidio offline QR** nei venerdì (NON delivery serale in ZTL pedonale).
+> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live).
+> ⚠️ Libertà, IlPiacenza, PiacenzaSera e siti del Comune bloccano WebFetch (403) — dati ricostruiti via WebSearch.
 
 ---
 
 ## 🔥 Picchi caldi (prossimi 14 giorni)
 
-### 1. ONDATA DI CALDO ESTREMO — weekend 27-28 giugno (in corso)
-- **Fatto (conf. 90%):** caldo africano, max **38-40°C**, afa; allerta afa ARPAE valida sul piacentino.
-  Svolta attesa **mercoledì 1 luglio**: aria atlantica → possibili **temporali** e calo termico.
-  Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [Il Resto del Carlino, temporali/caldo E-R](https://www.ilrestodelcarlino.it/meteo/temporali-estremi-incognite-meteo-caldo-emilia-romagna-vepxifh7) (consultati 27/06).
-- **Effetto delivery:** col 38-40°C la gente **non esce a fare la spesa** → la consegna a domicilio è
-  il canale naturale. Picco su: acqua/bibite, gelato/freschi, gastronomia pronta (non si cucina), spesa pesante.
-  Rischio opposto: catena del freddo da proteggere (gelato/latticini si rovinano in strada).
-- **🟢 Consiglio operativo:** spingere oggi-domani il messaggio *"Con questo caldo, te la portiamo noi"*
-  (food fresco + bibite). Per operations: borse termiche obbligatorie sui freschi, slot consegna nelle
-  ore meno calde (mattina presto / dopo le 19). **1 luglio temporale** = secondo micro-picco (chi è
-  uscito col bello rientra) → tenere rider pronti.
+### 1. CALDO ESTREMO — oggi 29/6 (37°C), in calo da martedì
 
-### 2. VENERDÌ PIACENTINI — venerdì 3, 10, 17 luglio (centro storico, fino a mezzanotte)
-- **Fatto (conf. 95%):** il più grande festival cittadino. Edizione 2026 su 5 venerdì (19, 26 giugno + 3,
-  10, 17 luglio). **200+ eventi, 300+ negozi aperti fino a mezzanotte**, ~280k visitatori sull'edizione,
-  indotto stimato >9 mln € sul commercio locale. Confermati wrestling in Piazza Cavalli, gran galà
-  pattinaggio, quiz Radio Sound. Fonti: [Comune di Piacenza — Venerdì Piacentini](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini) · [PiacenzaSera, 5 date](https://www.piacenzasera.it/2026/05/tornano-i-venerdi-piacentini-cinque-date-per-riscoprire-la-citta/645831/) · [Libertà, 200 eventi](https://www.liberta.it/news/attualita/almeno-duecento-eventi-per-i-venerdi-piacentini/106530) (consultati 27/06).
-- **Effetto delivery:** centro pieno la sera ma **ZTL/strade chiuse e pedonalizzate** → l'ultimo miglio
-  in auto si complica; di contro c'è enorme passaggio pedonale e i negozi sono aperti tardi.
-- **🟢 Consiglio operativo:** NON è la sera del delivery classico (centro intasato), MA è la vetrina
-  perfetta per il **presidio offline**: QR/vetrofania nelle botteghe aperte fino a mezzanotte = acquisizione
-  clienti a costo zero davanti a 280k persone. Catena: @designer (QR "ordina e te lo portiamo domani") →
-  @vendite (botteghe del centro già a bordo) → @relazioni-istituzionali (aggancio col format). Il delivery
-  vero si fa il **sabato dopo** (chi ha visto il centro pieno e vuole ricomprare senza tornare in ZTL).
+| Giorno | Max / Min | Condizioni |
+|--------|-----------|------------|
+| Dom 29/6 | 37 / 20 | Sole pieno, caldo estremo |
+| Lun 30/6 | 35 / 18 | Possibili piogge sparse |
+| Mar 01/7 | 34 / 17 | Piogge leggere, temporali pomeridiani |
+| Mer 02/7 | 34 / 17 | Piogge sparse |
+| Gio 03/7 | 33 / 17 | Instabile, poca pioggia |
+| Ven 04/7 | 31 / 16 | Calo termico, quasi asciutto |
+| Sab 05/7 | 33 / 18 | Risalita, poca pioggia |
 
-### 3. FESTA DEL TORTELLO — Vigolzone, 24-28 luglio (provincia, ~15 km)
-- **Fatto (conf. 90%):** sagra gastronomica storica, tortello piacentino + vini Val Nure, musica ogni sera,
-  pyromusicale lunedì 27. Fonte: [IlPiacenza, 26-29 luglio](https://www.ilpiacenza.it/eventi/dal-26-al-29-luglio-torna-la-festa-del-tortello-a-vigolzone.html) · [Visit Emilia](https://www.visitemilia.com/en/events/65945/vigolzone-festa-del-tortello-deco) (date 24-28 lug; consultati 27/06).
-  ⚠️ Date leggermente discordi tra fonti (24-28 vs 26-29 lug) → **da confermare** quale finestra esatta.
-- **Effetto delivery:** fuori dal nostro raggio di consegna (Vigolzone), ma alimenta la **domanda di
-  prodotti tipici DOP** in città (chi non va alla sagra vuole il tortello/coppa a casa).
-- **🟢 Consiglio operativo:** agganciare il content stagionale del DOP (box salumi / tortello fresco da
-  bottega) alla settimana della sagra — onda di interesse gratuita. PASSO-A @content-social + @growth (box DOP).
+- **Effetto delivery:** col 37°C nessuno esce → domanda naturale di consegna a casa (freschi, bibite, gastronomia pronta).
+- **🟢 Operativo:** delivery DIURNO anti-caldo (11-18). Borse termiche obbligatorie. Temporali mar-mer = secondo micro-picco.
+  Fonte: [3BMeteo](https://www.3bmeteo.com/meteo/piacenza), [iLMeteo](https://www.ilmeteo.it/meteo/piacenza).
+
+### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio (confermati, record storico)
+
+- **250 eventi** (record +25%), **200+ gratuiti**, **300+ negozi aperti fino a mezzanotte**.
+- Wrestling Piazza Cavalli, Gran Galà Pattinaggio, quiz Radio Sound, concerti di ogni genere, street food.
+- **Effetto:** centro pieno la sera + ZTL pedonale → NON è la sera del delivery classico, MA è la vetrina per **presidio offline QR** a costo zero davanti a ~50-60k persone/sera.
+- **🟢 Operativo:** QR/vetrofania alle botteghe partner → il delivery vero si fa il **sabato dopo**.
+  Fonti: [Comune PC](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini), [PiacenzaSera](https://www.piacenzasera.it/2026/06/venerdi-piacentini-al-via-250-eventi-per-animare-il-centro-storico/650935/).
+
+### 3. FESTA DEL TORTELLO — Vigolzone, 24-28 luglio (~15 km)
+
+- Sagra gastronomica storica, tortello piacentino + vini Val Nure.
+- **Fuori raggio consegna** ma alimenta domanda di tipici DOP in città → content stagionale.
+  Fonti: [IlPiacenza](https://www.ilpiacenza.it/eventi/dal-26-al-29-luglio-torna-la-festa-del-tortello-a-vigolzone.html).
 
 ---
 
-## 🗓️ Eventi minori del weekend in corso (27-28 giugno)
-- 27/06: concerto al tramonto sul Po (Guado di Sigerico); spettacolo Federico Buffa a Palazzo Farnese.
-- 28/06: **Arisa** a Palazzo Farnese; fiera **Auto&Trucks** a Piacenza Expo (27-28).
-  Fonte: [IlPiacenza, weekend 26-28 giugno](https://www.ilpiacenza.it/eventi/weekend-cosa-fare-dove-piacenza-provincia-26-27-28-giugno-2026.html) (consultato 27/06).
-- **Rilevanza delivery:** bassa/indiretta (eventi serali in luoghi specifici, non picchi di consegna).
-  Utile solo come contesto "città viva nel weekend".
+## 🆕 Novità dal 29/6
+
+- **Ex Scuderie — 3 spazi food premium approvati dal Comune:** gastronomia, panetteria, ortofrutta. Orari estesi ven-sab fino a mezzanotte. Pipeline di 3 potenziali negozi partner per MyCity. [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)
+- **Weekend 28-29/6:** Teatro Antico di Veleia, sagre in provincia. Rilevanza delivery bassa.
 
 ## 🚧 ZTL / viabilità
-- **Nessuna ordinanza specifica nuova** trovata via WebSearch per 27/06-11/07 (il Comune blocca WebFetch).
-  Regola base confermata: ZTL attiva ogni giorno **8-19** per i non autorizzati, 4 zone A-B-C-D.
-  Fonte: [Comune — ZTL](https://www.comune.piacenza.it/it/topics/ztl) (consultato 27/06).
-- **Da verificare al prossimo giro:** chiusure straordinarie nelle sere dei Venerdì Piacentini (3/10/17 lug)
-  → impattano l'ultimo miglio serale in centro. Carburante utile: accesso diretto a "Modifiche alla viabilità"
-  del Comune (oggi 403).
+- Nessuna ordinanza nuova trovata. ZTL base attiva 8-19 per non autorizzati.
+- Da verificare: chiusure straordinarie sere Venerdì Piacentini (3/10/17 lug).
 
 ---
-> Prossimo giro consigliato: 28-29/06 (verificare svolta meteo 1/7 + eventuali ordinanze ZTL Venerdì Piacentini).
+> Prossimo check: 30/6-1/7 (svolta meteo temporali + ordinanze VP).

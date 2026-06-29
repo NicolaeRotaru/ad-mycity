@@ -107,12 +107,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
+    "data": "2026-06-29 11:30",
     "loop_chiude": true,
-    "tasso_applicazione": 0.25,
+    "tasso_applicazione": 0.5,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 0,
-    "verdetto": "ok"
+    "ore_da_ultima_completa": 34,
+    "verdetto": "ok",
+    "nota": "Sonda 29/6 11:30. 4 invarianti ok: (1) loop chiude (auto-analisi→lezioni→applicazione), (2) tasso applicazione salito 0.25→0.5 (2 principi usati: grounding entità Ex Scuderie + numeri con fonte sui 7 KPI), (3) giro eseguito a cadenza, (4) sentinelle scattate (ordine in ritardo, carrelli abbandonati). Sensori stabili per 2° giro consecutivo. 3 difetti aperti invariati (percorso Windows, MCP intermittenti, volano giovane). Nessun nuovo difetto. Voto salute architettura: 76 (+1)."
   },
   "meta": {
     "agenti_totali": 42,
