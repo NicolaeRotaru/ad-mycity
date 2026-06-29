@@ -91,6 +91,14 @@ while true; do
 Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run).
 Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md.
 Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
+  elif [ "$tipo" = "metabolizza" ]; then
+    meta_prompt="$(cat "$SCRIPT_DIR/metabolizza.md" 2>/dev/null || echo "Metabolizza la conversazione.")"
+    prompt="$meta_prompt
+
+## Conversazione da metabolizzare
+$richiesta
+
+Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
@@ -112,6 +120,20 @@ $richiesta"
 
   # 3b) Se è andato bene, rendi DUREVOLI subito le scritture del vault (prima del prossimo giro).
   [ "$stato" = "fatto" ] && sync_vault
+
+  # 3c) Metabolizzazione: dopo una chat riuscita, accoda un lavoro interno che rilegge la
+  #     conversazione e aggiorna la memoria (apprendimento, stato, decisioni). Invisibile a Nicola.
+  #     Anti-loop: scatta solo per tipo=chat; il job creato ha tipo=metabolizza → nessun loop.
+  if [ "$stato" = "fatto" ] && [ "$tipo" = "chat" ]; then
+    meta_body="$(jq -n \
+      --arg richiesta "$(jq -n --arg c "$richiesta" --arg r "$out" \
+        '{conversazione:$c, risposta_ad:$r}')" \
+      '{stato:"in_attesa",tipo:"metabolizza",richiesta:$richiesta,esperto:"metabolizzazione"}')"
+    curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${AUTH[@]}" \
+      -d "$meta_body" >/dev/null 2>&1 \
+      && echo "[$(ts)] Metabolizzazione accodata per lavoro $id." \
+      || echo "[$(ts)] Metabolizzazione: non riesco ad accodare (proseguo)." >&2
+  fi
 
   # 4) riscrivi il risultato col VERO stato (fatto|errore): un lavoro fallito NON risulta più "fatto"
   #    (così è visibile a Nicola e ri-approvabile, e le azioni reali 🔴 non si perdono in silenzio).
