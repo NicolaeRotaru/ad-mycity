@@ -24,7 +24,7 @@ if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
 }
 
 $headers = @{ apikey = $KEY; Authorization = "Bearer $KEY"; "Content-Type" = "application/json" }
-$INTERVALLO = 30   # secondi tra un controllo e l'altro
+$INTERVALLO = 5   # secondi tra un controllo e l'altro (basso = chat reattiva)
 
 Write-Host "Worker AD avviato. Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
 while ($true) {
