@@ -476,6 +476,7 @@ export default function AutoCoscienza() {
                           {l.evidenze != null && <span className="t-eti">· {l.evidenze} evid.</span>}
                           <span className="ml-auto flex items-center gap-1.5">{barra(l.confidenza)}<span className="t-eti tabular-nums">{Math.round((l.confidenza ?? 0) * 100)}%</span></span>
                         </div>
+                        <ParlaCasella titolo={`Lezione: ${(l.testo || "").slice(0, 50)}`} contesto={l.testo} />
                       </div>
                     ))}
                   </div>
@@ -529,6 +530,7 @@ export default function AutoCoscienza() {
                             {b.migliori.map((m, j) => <div key={j} className="t-eti">↗ {m.chi}: {m.cosa_fa}</div>)}
                           </div>
                         )}
+                        <ParlaCasella titolo={`Confronto: ${b.ambito}`} contesto={[b.nostro && `Noi: ${b.nostro}`, b.cosa_ci_manca && `Ci manca: ${b.cosa_ci_manca}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -547,6 +549,7 @@ export default function AutoCoscienza() {
                           {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{e.stato}</span>}
                           {e.esito && <span className="t-eti ml-auto">{e.esito}</span>}
                         </div>
+                        <ParlaCasella titolo={`Esperimento: ${(e.ipotesi || "").slice(0, 50)}`} contesto={[e.ipotesi, e.esito].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -562,6 +565,7 @@ export default function AutoCoscienza() {
                         <div className="text-[12.5px] font-medium">{p.lavoro} <span className="t-eti">· di {p.autore}</span></div>
                         {p.guadagno && <div className="text-[12px] text-green-700 mt-0.5">▲ {p.guadagno}</div>}
                         {p.revisori && <div className="t-eti mt-0.5">rivisto da: {p.revisori.join(", ")}</div>}
+                        <ParlaCasella titolo={`Peer review: ${p.lavoro}`} contesto={[p.lavoro && `Lavoro: ${p.lavoro}`, p.guadagno && `Guadagno: ${p.guadagno}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -577,6 +581,7 @@ export default function AutoCoscienza() {
                         <div className="text-[12.5px] font-medium">{p.cosa}</div>
                         {p.perche && <div className="text-[12px] text-black/65 mt-0.5">{p.perche}</div>}
                         {p.dove && <div className="t-eti mt-0.5 font-mono">{p.dove}</div>}
+                        <ParlaCasella titolo={`Proposta: ${(p.cosa || "").slice(0, 50)}`} contesto={[p.cosa, p.perche, p.dove].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>

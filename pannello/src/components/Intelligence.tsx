@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import GrafoInfluenza from "@/components/GrafoInfluenza";
+import ParlaCasella from "@/components/ParlaCasella";
 
 type Tab = "alert" | "mappa" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
@@ -110,6 +111,7 @@ export default function Intelligence() {
               </div>
               <p className="text-[12px] text-black/60 mt-1">{a.perche}</p>
               <p className="text-[12px] text-ink/85 mt-1"><b>Cosa fare:</b> {a.cosaFare}</p>
+              <ParlaCasella titolo={`Alert: ${a.titolo}`} contesto={[a.perche, a.cosaFare && `Cosa fare: ${a.cosaFare}`].filter(Boolean).join(" · ")} />
             </div>
           ))}
         </div>
@@ -137,9 +139,12 @@ export default function Intelligence() {
             <p className="text-[12px] text-red-600">Memoria non collegata: impossibile accodare ora.</p>
           )}
           {cache[tab]?.presente ? (
+            <>
             <div className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5 max-h-96 overflow-y-auto text-[13px] leading-relaxed">
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{cache[tab].testo}</ReactMarkdown>
             </div>
+            <ParlaCasella titolo={`Intelligence: ${INTEL.find((t) => t.id === tab)?.label || tab}`} contesto={(cache[tab].testo || "").slice(0, 800)} />
+            </>
           ) : (
             <p className="text-[13px] text-black/45 py-4 text-center">Non ancora generato. Premi “Aggiorna analisi”.</p>
           )}
