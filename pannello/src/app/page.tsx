@@ -1626,7 +1626,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {lavori.map((lv) => (
+              {lavori.filter((lv) => lv.tipo !== "metabolizza").map((lv) => (
                 <div key={lv.id} className="border border-black/[0.07] rounded-xl p-3.5">
                   <div className="flex items-center gap-2 text-xs mb-1.5">
                     <span className={`px-2 py-0.5 rounded-full ring-1 font-medium ${LAVORO_STATO[lv.stato]?.cls || "bg-black/5 ring-black/10 text-black/60"}`}>
