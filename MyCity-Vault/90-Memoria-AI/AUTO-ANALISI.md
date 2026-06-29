@@ -1,10 +1,34 @@
 ---
-data: 2026-06-29 11:30
+data: 2026-06-29 14:24
 tipo: auto-analisi
 fonte: AD digitale — cancello di serietà (verifica avversariale)
 ---
 
-# 🔬 Auto-analisi del giro — 2026-06-29 11:30
+# 🔬 Auto-analisi del giro — 2026-06-29 14:24 (passaggio leggero)
+
+## Voto di fiducia: 86 / 100 — trend ▼ (da 88)
+−2 punti onesti: è il **4° passaggio della giornata su dati immobili** e in sessione **Supabase MCP e
+WebFetch non erano autorizzati** → non ho potuto ri-verificare i 7 numeri live né aprire le pagine
+(solo WebSearch). Ho ereditato i numeri dal check live delle 11:20 (legittimo, stessa giornata) e l'ho
+dichiarato ovunque (frontmatter, STATO, digest, Gap). Il punto di forza che evita un calo più netto:
+**non ho inventato novità per giustificare il giro** — ho riconosciuto che il valore aggiunto era ~zero
+e l'ho detto a Nicola, spostando il focus sulle 3 firme che sbloccano tutto.
+
+### L'errore-tipo di questo passaggio (metacognizione)
+Fare un giro extra in giornata con i sensori ciechi e nessun cambiamento esterno **brucia Max senza
+rendere**. La macchina deve riconoscere prima questa condizione e produrre un passaggio breve (come questo)
+o saltare. **Lezione registrata** (L-2026-0629-03) e applicata già qui: passaggio minimo, niente
+ri-scansione dei fattori settimanali del radar.
+
+## ⚠️ Sensori di questa sessione
+- **Supabase MCP (marketplace + memoria):** NON autorizzato (permesso non concesso) → numeri non ri-verificati live.
+- **WebFetch:** NON autorizzato → status Supabase/Stripe e pagine locali non aperti.
+- **WebSearch:** ok → usato per lo scan locale (nessuna novità dalle 11:30).
+- È esattamente il difetto già aperto in auto-radiografia («salute-sensori-dati»: MCP intermittenti). Conferma il difetto, non lo aggrava.
+
+---
+
+## Storico — Auto-analisi del giro — 2026-06-29 11:30
 
 ## Voto di fiducia: 88 / 100 — trend ▲ (da 87)
 +1 punto: dati Supabase riverificati live su tutte le tabelle rilevanti (profiles, orders, order_items,

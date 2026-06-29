@@ -1,6 +1,6 @@
 {
-  "data": "2026-06-29 11:30",
-  "situazione": "Stallo a ~125h (nessun movimento dal 24/6). I 7 numeri sono identici. Novità esterna: Ex Scuderie (3 spazi food premium in centro) e Bando Commercio ER (40% fondo perduto, scade 21/7 — 22 giorni). Venerdì Piacentini confermati 3/10/17 luglio. Caldo estremo 37°C oggi. Il blocco è operativo: serve la prima transazione end-to-end con Casa Linda (payout-ready).",
+  "data": "2026-06-29 14:24",
+  "situazione": "Passaggio leggero in giornata (14:24): stallo salito a ~128h, 7 numeri congelati, nessuna novità esterna da stamattina. In sessione Supabase MCP e WebFetch non autorizzati: numeri ereditati dal check live delle 11:20, niente re-verifica. Il collo di bottiglia non è più l'analisi ma le 3 decisioni 🔴 ferme: sblocco prima transazione con Casa Linda (payout-ready), Kit Bando ER (scade 21/7), ordine zombie €19,05. La palla è in mano a Nicola.",
   "opportunita": [
     {"titolo": "Bando ER come leva di onboarding (22gg alla scadenza)", "motivo": "Il bando rimborsa il 40% della digitalizzazione. MyCity è la soluzione. Kit one-pager per i negozi.", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "Ex Scuderie — 3 negozi food premium da onbordare", "motivo": "Il Comune apre spazi alimentari di qualità in centro: match perfetto col nostro posizionamento", "impatto": "medio", "sforzo": "basso"},

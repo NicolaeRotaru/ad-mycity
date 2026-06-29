@@ -1,31 +1,39 @@
 {
-  "data": "2026-06-29 11:30",
-  "voto_fiducia": 88,
-  "trend_fiducia": "▲",
-  "sintesi": "Terzo giro del 29/6. Voto +1 (87→88): dati Supabase riverificati live (tutti i 7 numeri confermati), radar @intelligence aggiornato con fonti citate (bando ER confermato 22gg, Ex Scuderie 🆕, Venerdì Piacentini record, meteo 37°C), 3 file intelligence aggiornati, stallo confermato a ~125h (ultimo evento 24/6 08:28). Nessuna nuova entità introdotta senza fondamento. I numeri sono identici al 28/6: lo stallo è reale e documentato. Nuova opportunità esterna (bando ER come leva onboarding) accodata in AZIONI-IN-ATTESA come 🟡. Penalità residue: Stripe non interrogato (MCP non collegato), PostHog assente, buchi-mercato ancora a ~70% (mancano dati food interni).",
+  "data": "2026-06-29 14:24",
+  "voto_fiducia": 86,
+  "trend_fiducia": "▼",
+  "sintesi": "Quarto passaggio del 29/6 (14:24), leggero e onesto. Voto −2 (88→86): in sessione Supabase MCP e WebFetch NON autorizzati → 7 numeri non ri-verificati live (ereditati dal check delle 11:20, stessa giornata, dichiarato ovunque) e pagine non aperte (solo WebSearch). Lo scan locale non mostra novità dalle 11:30: stallo salito a ~128h, dati congelati. Il merito che evita un calo più netto: non ho inventato novità per giustificare il giro — ho riconosciuto che il valore aggiunto era ~zero e ho spostato il focus sulle 3 firme 🔴 ferme. Nessuna entità nuova senza fondamento. Sensori ciechi = conferma del difetto già aperto in auto-radiografia (salute-sensori-dati), non un nuovo problema.",
   "verifiche": {
-    "entita": "ok",
-    "numeri": "ok",
+    "entita": "ok (nessuna nuova; le 6 esistenti non ri-verificate live — DB non autorizzato — ultima_verifica resta 11:30)",
+    "numeri": "parziale (ereditati dal check live 11:20, NON ri-verificati in questa sessione; dichiarato)",
     "coerenza": "ok",
     "semaforo": "ok",
-    "qualita": "ok",
-    "benchmark": "ok (radar concorrenti aggiornato con EasyCoop + CompraPiacenza dormiente; nessun contenuto creativo da benchmarkare)"
+    "qualita": "ok (passaggio dichiaratamente minimo)",
+    "benchmark": "n/a (nessun lavoro creativo questo passaggio)"
   },
   "errori": [
     {
+      "gravita": "media",
+      "titolo": "4° giro in giornata a sensori ciechi: valore aggiunto ~zero",
+      "dettaglio": "Con Supabase/WebFetch non autorizzati e nulla di cambiato fuori, un giro extra nello stesso giorno non produce informazione nuova: rischia di bruciare Max senza rendere. Gestito riconoscendolo e producendo un passaggio minimo + spostando il focus sulle firme di Nicola.",
+      "azione_presa": "Passaggio leggero dichiarato; lezione L-2026-0629-03 registrata e applicata (niente ri-scansione fattori settimanali del radar)",
+      "riguarda": "efficienza / metacognizione",
+      "livello_scoperta": "L2"
+    },
+    {
       "gravita": "bassa",
-      "titolo": "Stallo a ~125h senza azione diretta della macchina per sbloccare",
-      "dettaglio": "La macchina osserva e documenta lo stallo da 3 giri (16:46, 20:25, 11:30) ma le azioni per sbloccarlo (transazione Casa Linda, ordine zombie) restano tutte in attesa di firma Nicola. Non c'è nulla di 🟢 che la macchina possa fare da sola per smuovere il business.",
-      "azione_presa": "Documentato come priorità 🔴 in STATO e briefing; escalato con domanda per Nicola",
-      "riguarda": "efficacia operativa",
+      "titolo": "Numeri non ri-verificati live in questa sessione",
+      "dettaglio": "Permesso Supabase MCP non concesso: i 7 numeri provengono dal check delle 11:20. Legittimo a poche ore di distanza e su un sistema in stallo, ma è un dato ereditato, non fresco.",
+      "azione_presa": "Dichiarato in frontmatter briefing, STATO, ultimo-briefing.json e nei Gap. ultima_verifica delle entità lasciata a 11:30 (no falsa re-verifica).",
+      "riguarda": "onestà dei dati",
       "livello_scoperta": "L1"
     },
     {
       "gravita": "bassa",
-      "titolo": "I buchi di mercato restano a confidenza ~70%",
-      "dettaglio": "Terzo giro consecutivo con i 3 buchi (gastronomia centro, delivery diurno, regalo locale) non blindati: mancano i dati food interni e 1 listino-fee Glovo. Correttamente dichiarati come ipotesi.",
-      "azione_presa": "Dichiarato nei Gap del briefing; carburante mancante elencato in buchi-mercato.md",
-      "riguarda": "onestà delle opportunità esterne",
+      "titolo": "Stallo a ~128h non sbloccabile dalla macchina",
+      "dettaglio": "Tutte le leve per uscire dallo zero (Casa Linda, ordine zombie, foglio-lancio) sono 🔴 in attesa di firma. La macchina può solo tenerle pronte e ricordarle.",
+      "azione_presa": "3 firme ri-portate in cima al briefing e in STATO; già in coda in AZIONI-IN-ATTESA.",
+      "riguarda": "efficacia operativa",
       "livello_scoperta": "L1"
     }
   ],
@@ -56,11 +64,14 @@
     "Dimensionare il buco gastronomia con dati order_items food (alzare da ipotesi a fatto)."
   ],
   "salute_macchina": {
-    "supabase_marketplace": "ok (ACTIVE_HEALTHY, dati freschi verificati live 29/6 11:20)",
-    "supabase_memoria": "ok (xjljcsorpbqwttrejqte ACTIVE_HEALTHY, scrittura testata)",
+    "supabase_marketplace": "NON autorizzato in questa sessione (permesso non concesso) — numeri ereditati dalle 11:20",
+    "supabase_memoria": "NON autorizzato in questa sessione",
     "stripe": "non interrogato",
     "posthog": "non collegato",
-    "dati_freschi": true,
-    "sensori_attivi": 2
+    "webfetch": "NON autorizzato in questa sessione (status pages e pagine locali non aperti)",
+    "websearch": "ok",
+    "dati_freschi": false,
+    "sensori_attivi": 1,
+    "nota": "Passaggio 14:24 a sensori ridotti: solo WebSearch. Conferma il difetto aperto salute-sensori-dati."
   }
 }
