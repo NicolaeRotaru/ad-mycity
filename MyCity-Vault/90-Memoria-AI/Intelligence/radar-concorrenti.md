@@ -1,31 +1,26 @@
-# 🥊 Radar concorrenti — Piacenza delivery/spesa locale
+# 🛰️ Radar concorrenti — Piacenza (delivery / grocery / botteghe online)
 
-> Aggiornato: **2026-06-27 00:39** · In questo giro il check competitor **non è stato rifatto**
-> (cadenza radar = *settimanale*, niente Max sprecato): l'ultima ricognizione resta valida.
-> Rivedere al prossimo giro settimanale o se scatta la sentinella "cambio prezzo concorrente".
+> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live). 🟢 note.
 
-## Quadro (ultima ricognizione valida)
-| Concorrente | Tipo | Postura MyCity |
-|---|---|---|
-| **Glovo / Just Eat / Deliveroo** | Delivery food, fee alte ai negozi (~30%) | Contro-argomento "30% Glovo vs 12% MyCity" + filiera locale |
-| **CompraPiacenza.it** (col Comune) | Vetrina digitale locale | **Complementare, mai nemico** — possibile alleanza istituzionale |
-| **GDO con consegna** (Esselunga, Conad, Coop) | Spesa online a casa | Il vero concorrente di *abitudine*: noi = freschi di bottega + volto umano |
-| **Cortilia / Everli** (Amazon-backed) | Filiera corta online nazionale | Imitare UX/storytelling, differenziare sul **iperlocale Piacenza** |
-| **Gruppi WhatsApp di quartiere** | Spesa informale dal basso | Intercettare quella domanda con la lista d'attesa |
+---
 
-## ⚠️ Da verificare al prossimo check settimanale
-- Promozioni estive Glovo/GDO sui freschi (volantini luglio).
-- Novità CompraPiacenza (per postura complementare).
-- Espansione zone consegna Conad/Esselunga a Piacenza.
-- 🆕 **ANDREI.shop** ([pc.andrei.shop](https://pc.andrei.shop/content/14-chi-siamo)) — *scoperto 2026-06-28 in
-  un giro daily*: si presenta come "marketplace di Piacenza" per la spesa online dalle attività locali.
-  **Profilarlo a fondo al prossimo check settimanale**: negozi aderenti, categorie, consegna, fee, punti
-  deboli. Occupa lo stesso spazio narrativo ("compra locale online a Piacenza") → capire se complementare
-  o frontale. (Non rifatto qui il check competitor: cadenza settimanale, ultima ricognizione ~24/6 ancora valida.)
+## Chi c'è e cosa copre
 
-## Punto debole sfruttabile *oggi*
-Col **caldo estremo** (38-39°C), la GDO-in-auto è scomoda e calda: **"non uscire col caldo, te la
-porta la bottega sotto casa"** è un contro-posizionamento tempestivo che né Glovo né l'auto offrono
-con lo stesso calore umano. → leva content/growth di questa settimana.
+| Concorrente | Cosa copre a Piacenza | Punto debole sfruttabile | Fonte |
+|---|---|---|---|
+| **Glovo** | Food, spesa, parafarmacia, fiori, "qualsiasi cosa <1h". Nessuna novità giugno-luglio 2026. | Aggregatore **generico**: fee alte ai negozi, **zero relazione** col negoziante, nessuna bottega artigiana del centro. | [glovoapp.com/piacenza](https://glovoapp.com/en/it/piacenza) |
+| **Esselunga a casa** | Consegna GDO same-day lun-ven, ~6,20€. | Solo supermercato, slot rigidi, **niente prodotto artigiano/DOP**. | [esselunga.it](https://www.esselunga.it/it-it/servizi-utili/consegna-a-domicilio.html) |
+| **Conad Spesa a Casa** | Spesa GDO a domicilio, "Ordina e Ritira". Non tutti i PV coprono tutte le zone. | GDO standard, nessuna bottega. | [conad](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) |
+| **EasyCoop** | Spesa GDO a domicilio, attivo a Piacenza. | Stesso modello GDO. | [easycoop.com/piacenza](https://www.easycoop.com/l/piacenza.html) |
+| **Everli / Cortilia** | Spesa GDO e box agricoli. | Catena/box standardizzati, **non la bottega**. | [everli](https://it.everli.com/en/it) |
+| **CompraPiacenza.it** | Vetrina digitale (CNA/Confcommercio/Comune). **Sembra dormiente** — nessun aggiornamento 2026 trovato. No e-commerce, no consegna. Confidenza 60%. | Non transazionale: solo vetrina. Se dormiente, il campo "digitale locale" è vacante. | [comprapiacenza.it](https://comprapiacenza.it/) |
+| **Cosaporto** | "Regalo/bottega premium a domicilio" — **solo Milano/Roma/Torino, NON a Piacenza**. | Segmento vacante a Piacenza. | [pambianconews](https://wine.pambianconews.com/2024/02/le-nuove-frontiere-del-food-delivery/225477/) |
 
-*Nota: nessun dato competitor nuovo raccolto in questo giro per rispettare la cadenza settimanale.*
+---
+
+## Lettura strategica
+- 🟢 **Dove vinciamo:** bottega artigiana del centro + relazione col negoziante + causa civica "Il Turno". NON competere su prezzo/velocità (perdiamo).
+- 🟡 **Spazi vacanti confermati:** (1) salumiere/fornaio/enoteca storica con consegna locale, (2) regalo locale a domicilio (modello Cosaporto), (3) se CompraPiacenza è dormiente → il "digitale locale transazionale" è scoperto.
+- **Gap onesto:** manca 1 screenshot listino-fee Glovo per quantificare il vantaggio → resta qualitativo (~70%).
+
+> Azioni reali → si accodano in [[AZIONI-IN-ATTESA]] e le firma Nicola.

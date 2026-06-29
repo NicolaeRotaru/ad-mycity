@@ -1,25 +1,47 @@
 {
-  "aggiornato": "2026-06-28 14:06",
-  "_README": "Cantiere dei difetti della macchina, da portare a zero per impatto sulla crescita. stato: aperto | in-corso | chiuso. Ogni fix e 🟡 (firma Nicola: la macchina non si tocca da sola).",
+  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-28 16:46",
   "difetti": [
     {
-      "id": "DF-01",
-      "titolo": "Cecita sui dati interni (Supabase MCP non autorizzato da 16 giri)",
-      "causa_radice": "Permesso MCP non concesso in sessione (NON un'outage: piattaforma verificata sana). Manca anche il fallback SUPABASE_URL+SERVICE_KEY.",
-      "impatto_crescita": "ALTO: senza i 7 numeri non si misura il Giorno-1 ne si calibrano le previsioni; il volano resta semi-aperto.",
-      "fix_proposto": "🟡 Nicola autorizza il Supabase MCP (sola lettura) OPPURE @builder-automazioni configura SUPABASE_URL+SERVICE_KEY come fallback.",
+      "id": "AR-001",
+      "titolo": "Sensori MCP intermittenti: la macchina lavora al buio sui dati reali",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù. (28/6: il calo era anche dovuto all'abbonamento Supabase scaduto → progetto in pausa; ora pagato e ACTIVE_HEALTHY.)",
+      "fix_proposto": "Passo di retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP. Inoltre: sentinella su stato abbonamento/progetto Supabase (pausa = cecità totale).",
+      "colore": "🟡",
       "stato": "aperto",
-      "colore": "🟡"
+      "nota_28_06": "RIENTRATO in questo giro (sensori tornati dopo pagamento abbonamento), ma causa radice NON risolta: resta il difetto a maggior impatto crescita. È il fix proposto come prossimo dal cantiere.",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
     },
     {
-      "id": "DF-02",
-      "titolo": "Cadenza eccessiva del giro a dati fermi (9 passaggi in un giorno su quadro frozen)",
-      "causa_radice": "Manca un GOVERNATORE di cadenza: il giro riparte a frequenza fissa anche quando esterno (cadenza non scaduta) e interno (dati ciechi) sono statici -> utilita marginale calante, rischio rumore.",
-      "impatto_crescita": "MEDIO: brucia attenzione di Nicola e budget Max senza ritorno; diluisce il segnale dei briefing.",
-      "fix_proposto": "🟡 Aggiungere a giro.md una regola-governatore: a dati ciechi + esterno a cadenza non scaduta, eseguire un giro solo al CAMBIO DI FASE DEL GIORNO o su nuovo artefatto/sblocco; altrimenti diradare. (Questo giro applica gia la regola di fatto, da formalizzare.)",
-      "stato": "in-corso",
-      "colore": "🟡"
+      "id": "AR-002",
+      "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
+      "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback, in radiografia.js e audit-design.js.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-003",
+      "titolo": "La cecità dei sensori è silenziosa: manca un sensore che la misuri",
+      "dimensione": "copertura-cieca",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Nessun pezzo della macchina tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
+      "fix_proposto": "Creare (🟡) un sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
     }
   ],
-  "difetto_in_lavorazione_questo_giro": "DF-02 — formalizzato il governatore di cadenza come difetto a maggior impatto azionabile senza sblocchi di Nicola; il fix (riga in giro.md) e 🟡 da firmare."
+  "meta": { "aperti": 3, "in_corso": 0, "chiusi": 0 }
 }

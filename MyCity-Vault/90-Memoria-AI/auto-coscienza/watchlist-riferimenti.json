@@ -1,0 +1,9 @@
+{
+  "_cosa_e": "👀 WATCHLIST RIFERIMENTI — i 'migliori' con cui la macchina si confronta per ogni mestiere. La macchina popola 'scoperti' da sola; Nicola aggiunge i suoi idoli in 'aggiunti_da_nicola' (li tiene d'occhio sempre). Due livelli: locali e mondiali. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-28 01:40",
+  "scoperti": [
+    { "mestiere": "delivery locale (concorrente diretto)", "chi": "Glovo (Piacenza)", "perche": "Copre ~3 supermercati e 0 botteghe artigianali: è il metro locale e insieme il campo aperto da attaccare.", "fonte": "consegne/intelligence/campo-aperto-faro.md" }
+  ],
+  "aggiunti_da_nicola": [],
+  "_nota": "Nicola può aggiungere qui brand/account/aziende che ammira (anche fuori settore) da cui vuole che la macchina impari. La macchina continua a scoprire i migliori del mondo per ogni mestiere al primo ciclo di benchmark completo."
+}

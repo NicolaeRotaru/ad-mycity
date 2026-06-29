@@ -1,33 +1,66 @@
 {
-  "data": "2026-06-28 22:23",
-  "giro": "2026-06-28 passaggio 14 (FINESTRA POST-ARISA + NOVITÀ INFRA MCP, 22:23, 2h dopo il p13, finestra schedulata dal p13)",
-  "voto_fiducia": 7,
-  "voto_fiducia_nota": "Confermato 7 (come il p13). Su: il passaggio è cadenza LEGITTIMA (è la finestra ~23:00 post-Arisa che il p13 aveva esplicitamente schedulato, non rumore) e porta UN contributo reale nuovo: la diagnosi affinata dello sblocco-dati (comparsi i due server Supabase scoped marketplace+memoria → lo sblocco è ora un singolo consenso, non più un MCP generico vago). Non sale a 8 perché i dati interni restano ciechi (21° giro) e l'apprendimento dal presidio dipende dal report di Nicola (la macchina non era in centro). Coerente con la lezione del 04:05: un blocco-dati va DIAGNOSTICATO, non solo subìto — qui la diagnosi è diventata ancora più precisa.",
-  "verifica_avversariale_3_livelli": {
-    "livello_1_fatti_e_numeri": "7 numeri NON toccati: baseline 24/6, gap dichiarato (testati TUTTI E TRE i server MCP — supabase-marketplace list_tables/execute_sql + supabase-memoria execute_sql — tutti 'permesso non ancora concesso', 21° giro cieco). Nessuna cifra orfana. Nessun fatto live web nuovo asserito (di proposito: notte, esterno fresco dalle 18:07-20:22 → cadenza, Max risparmiato). L'unico fatto nuovo è di tooling, verificato per prova diretta (le 3 chiamate MCP).",
-    "livello_2_logica_e_grounding_entita": "Nessuna entità di mercato nuova. Aggiunta 1 entità infrastrutturale (server MCP supabase-marketplace/supabase-memoria) con stato REALE-presente-ma-non-autorizzato, fondata sulla prova diretta delle chiamate. Garetti resta DA-CONFERMARE (nessuna azione lo assume LIVE). Il presidio Arisa è AVVENUTO ma il suo esito è NON-VERIFICABILE senza report di Nicola → dichiarato gap, non inventato.",
-    "livello_3_utilita_e_rischio": "Utilità reale: rendere lo sblocco-dati una richiesta a un click ('approva il permesso'), il massimo di precisione raggiungibile dal lato macchina. Rischio principale: rumore-cadenza SE si gira ancora stanotte a esterno fermo → mitigato dichiarando lo stop fino a domattina. Rischio operativo: presidio non misurabile senza report dal campo → messo come richiesta esplicita a Nicola."
+  "data": "2026-06-29 11:30",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲",
+  "sintesi": "Terzo giro del 29/6. Voto +1 (87→88): dati Supabase riverificati live (tutti i 7 numeri confermati), radar @intelligence aggiornato con fonti citate (bando ER confermato 22gg, Ex Scuderie 🆕, Venerdì Piacentini record, meteo 37°C), 3 file intelligence aggiornati, stallo confermato a ~125h (ultimo evento 24/6 08:28). Nessuna nuova entità introdotta senza fondamento. I numeri sono identici al 28/6: lo stallo è reale e documentato. Nuova opportunità esterna (bando ER come leva onboarding) accodata in AZIONI-IN-ATTESA come 🟡. Penalità residue: Stripe non interrogato (MCP non collegato), PostHog assente, buchi-mercato ancora a ~70% (mancano dati food interni).",
+  "verifiche": {
+    "entita": "ok",
+    "numeri": "ok",
+    "coerenza": "ok",
+    "semaforo": "ok",
+    "qualita": "ok",
+    "benchmark": "ok (radar concorrenti aggiornato con EasyCoop + CompraPiacenza dormiente; nessun contenuto creativo da benchmarkare)"
   },
-  "entita_verificate": [
-    {"nome": "Nicola (founder)", "stato": "REALE", "fonte": "utente/firma"},
-    {"nome": "MyCity marketplace + progetto Supabase clmpyfvpvfjgeviworth", "stato": "REALE", "fonte": "STATO.md, verificato sul vivo nei giri precedenti"},
-    {"nome": "Server MCP supabase-marketplace + supabase-memoria", "stato": "REALE (presenti in sessione) ma NON AUTORIZZATI (permesso non concesso)", "fonte": "prova diretta: 3 chiamate MCP in questo giro → 'haven't granted it yet'"},
-    {"nome": "Concerto Arisa @ Palazzo Farnese (28/6 ore 21:15)", "stato": "REALE, AVVENUTO; esito presidio NON-VERIFICABILE senza report Nicola", "fonte": "ticketone.it + piacenzasera.it (confermato al p13)"},
-    {"nome": "Manifestazioni Antoniniane / Sant'Antonino (culmine sab 4/7) + Venerdì Piacentini 3/7", "stato": "REALE", "fonte": "piacenza24.eu"}
-  ],
-  "entita_declassate": [
-    {"nome": "Garetti (negozio-faro)", "da": "trattato come negozio reale e LIVE", "a": "scelta ragionata del negozio-faro, stato LIVE DA CONFERMARE", "motivo": "Supabase cieco (21° giro): non posso verificare approvazione/LIVE/prodotti veri. Nessuna azione lo dà per confermato.", "azione": "domanda a Nicola, nessuna esecuzione su Garetti"},
-    {"nome": "Esito presidio Arisa (QR scansionati, iscritti)", "da": "presunto misurabile post-evento", "a": "NON-VERIFICABILE senza report di Nicola (la macchina non era fisicamente in centro)", "motivo": "Nessun canale dati per il presidio fisico.", "azione": "richiesta esplicita di report a Nicola, nessun numero inventato"}
-  ],
-  "errori_trovati_e_corretti": [
-    "Nessun errore di dato. Verificato il rischio rumore-cadenza (14° passaggio): mitigato perché è la finestra post-Arisa SCHEDULATA dal p13 e perché porta un contributo nuovo reale (diagnosi infra). Verificato di NON aver inventato l'esito del presidio: dichiarato gap e chiesto a Nicola."
+  "errori": [
+    {
+      "gravita": "bassa",
+      "titolo": "Stallo a ~125h senza azione diretta della macchina per sbloccare",
+      "dettaglio": "La macchina osserva e documenta lo stallo da 3 giri (16:46, 20:25, 11:30) ma le azioni per sbloccarlo (transazione Casa Linda, ordine zombie) restano tutte in attesa di firma Nicola. Non c'è nulla di 🟢 che la macchina possa fare da sola per smuovere il business.",
+      "azione_presa": "Documentato come priorità 🔴 in STATO e briefing; escalato con domanda per Nicola",
+      "riguarda": "efficacia operativa",
+      "livello_scoperta": "L1"
+    },
+    {
+      "gravita": "bassa",
+      "titolo": "I buchi di mercato restano a confidenza ~70%",
+      "dettaglio": "Terzo giro consecutivo con i 3 buchi (gastronomia centro, delivery diurno, regalo locale) non blindati: mancano i dati food interni e 1 listino-fee Glovo. Correttamente dichiarati come ipotesi.",
+      "azione_presa": "Dichiarato nei Gap del briefing; carburante mancante elencato in buchi-mercato.md",
+      "riguarda": "onestà delle opportunità esterne",
+      "livello_scoperta": "L1"
+    }
   ],
   "domande_per_nicola": [
-    "Approvi il permesso del Supabase MCP? Sono comparsi i due server DEDICATI (supabase-marketplace per i dati + supabase-memoria per il digest): basta un 'approva' sul prompt e i 7 numeri si sbloccano. 21° giro cieco di fila; è il difetto a maggior impatto sulla crescita, ora a portata di un click.",
-    "Com'è andato il presidio durante Arisa stasera? (QR scansionati, iscritti raccolti, percezione in centro) — senza il tuo report non ho nulla di interno da misurare e da cui imparare per Sant'Antonino.",
-    "Mi passi il LINK reale della lista d'attesa? Serve a far convertire i QR del presidio.",
-    "Garetti è davvero LIVE (approvato + payout + prodotti veri)? La consegna del Giorno-1 (27/6) è avvenuta?",
-    "Firmi le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)?"
+    {
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout-ready) per uscire dallo stallo?",
+      "perche_serve": "125h a zero. Casa Linda è l'unico negozio con payout attivo. È la via più veloce per testare ordine→pagato→consegnato→payout senza aspettare Garetti.",
+      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda: 1 prodotto vero → ordine-test → payout.",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Sblocco l'ordine zombie €19,05 (accettare/annullare con nota al buyer)?",
+      "perche_serve": "Fermo da 5 giorni, buyer nel limbo. La prima impressione è rovinata se resta sospeso.",
+      "se_rispondi": "Propongo la nota/email al buyer e l'azione di aggiornamento status (🔴 perché tocca un cliente reale).",
+      "gravita": "alta"
+    }
   ],
-  "salute_sistema": "STABILE. Infrastruttura sana e ora più LEGGIBILE: i due server scoped presenti rendono lo sblocco-dati una singola approvazione. I colli di bottiglia restano UMANI/permessi, non tecnici. Questo passaggio è un buon uso della cadenza: gira nella finestra schedulata, porta una diagnosi nuova utile, non rifà ricerche, poi si ferma fino a domattina. Difetto dominante invariato: cecità-dati (DF-01, 21° giro), ora con leva di sblocco precisissima."
+  "punti_ciechi": [
+    "Stripe non interrogato (MCP non collegato in sessione): incassi/payout reali non riconciliati.",
+    "PostHog non collegato: nessun dato di traffico/conversione/funnel.",
+    "I 3 buchi di mercato restano a confidenza ~70%: mancano dati ordini food interni e 1 listino-fee Glovo.",
+    "Non ho visibilità sulle azioni di Nicola offline (ha parlato con Garetti? con Casa Linda?). Lo stallo potrebbe essere rotto fuori dal digitale senza che io lo sappia."
+  ],
+  "miglioramenti_prossimo_giro": [
+    "Interrogare Stripe per riconciliare incassi/payout (se MCP collegato).",
+    "Produrre il Kit Bando ER (🟡 accodato) come azione concreta della macchina.",
+    "Verificare se l'ordine zombie è ancora fermo o se qualcosa è cambiato.",
+    "Dimensionare il buco gastronomia con dati order_items food (alzare da ipotesi a fatto)."
+  ],
+  "salute_macchina": {
+    "supabase_marketplace": "ok (ACTIVE_HEALTHY, dati freschi verificati live 29/6 11:20)",
+    "supabase_memoria": "ok (xjljcsorpbqwttrejqte ACTIVE_HEALTHY, scrittura testata)",
+    "stripe": "non interrogato",
+    "posthog": "non collegato",
+    "dati_freschi": true,
+    "sensori_attivi": 2
+  }
 }

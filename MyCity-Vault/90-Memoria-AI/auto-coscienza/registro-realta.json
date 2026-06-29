@@ -1,15 +1,93 @@
 {
-  "aggiornato": "2026-06-28 22:23",
-  "_README": "Registro di grounding delle entita citate nelle azioni dell'AD. stato: REALE (dati/firma) | SCELTA-RAGIONATA (deduzione difendibile con prove) | DA-CONFERMARE (serve conferma Nicola/dati) | NON-VERIFICABILE (canale dati assente).",
+  "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-29 11:30",
   "entita": [
-    {"nome": "Nicola", "tipo": "persona/founder", "stato": "REALE", "fonte": "utente (nicolaflorea50@gmail.com), firma decisioni", "note": "Proprietario, single point of failure (radar persona-05)."},
-    {"nome": "MyCity (marketplace)", "tipo": "azienda", "stato": "REALE", "fonte": "repo + vault", "note": "Marketplace negozi di Piacenza, pre-lancio pubblico."},
-    {"nome": "Progetto Supabase clmpyfvpvfjgeviworth", "tipo": "infrastruttura", "stato": "REALE", "fonte": "STATO.md (verificato sul vivo nei primi giri) + status.supabase.com/history (28/6: piattaforma operativa)", "note": "Piattaforma VERIFICATA operativa (incident 20-24/6 risolti). MCP NON autorizzato in sessione -> dati non leggibili: il blocco e un PERMESSO, non un'outage."},
-    {"nome": "Server MCP supabase-marketplace + supabase-memoria", "tipo": "infrastruttura/tooling", "stato": "REALE (presenti in sessione 22:23) ma NON AUTORIZZATI", "fonte": "prova diretta (28/6 22:23): list_tables/execute_sql su marketplace + execute_sql su memoria -> 'haven't granted it yet'", "note": "Sono i due server DEDICATI (scoped): marketplace = i 7 numeri; memoria = scrittura del digest sulla tabella briefings. Lo sblocco e ora un SINGOLO consenso di Nicola sul prompt del permesso. Niente dato letto/inventato finche non concesso."},
-    {"nome": "Garetti", "tipo": "negozio-faro", "stato": "DA-CONFERMARE", "fonte": "vault (scelta del negozio-faro)", "note": "Stato LIVE (approvato+payout+prodotti veri) e grounding anagrafico non verificabili senza Supabase. NON dare per confermato: e l'errore-tipo 'Garetti inventati'. Domanda aperta per Nicola."},
-    {"nome": "Manifestazioni Antoniniane / Sant'Antonino", "tipo": "evento", "stato": "REALE", "fonte": "piacenza24.eu (Antoniniane 2026)", "note": "Festa del patrono, culmine fiera sab 4/7; + Venerdi Piacentini 3/7. Finestra di presidio piu grande del mese."},
-    {"nome": "Arisa a Palazzo Farnese (28/6 ore 21:15, cortile, piazza Cittadella 29)", "tipo": "evento", "stato": "REALE", "fonte": "ticketone.it + piacenzasera.it (riconfermato 20:22 — check go/no-go: evento ancora ON al momento dell'apertura del presidio)", "note": "Orario CONFERMATO 21:15. L'evento REGGE (prima di 14 date del summer tour, biglietti in vendita, nessuna cancellazione nonostante l'allerta caldo — è nelle ore fresche). Finestra di presidio/QR migliore: ~20:00-21:15 (gente che arriva) + post-show ~23:00. Coperta da azioni #6/#8 in coda. Richiede link lista d'attesa reale per convertire (senza, QR=0)."},
-    {"nome": "Allerta caldo 066/2026 (28/6, ~39 gradi)", "tipo": "meteo", "stato": "REALE", "fonte": "Arpae / Protezione Civile ER + meteo orario ilmeteo (riconfermato 08:05): 11h=34°C, 14h=38°C, 17h=38,8°C, 20h=36°C, 23h=30°C", "note": "Apice oggi. Alle 12:05 siamo DENTRO la fascia 12-18: finestra-freschi del mattino CHIUSA, regola 'no freschi' attiva (eventuali deperibili -> domattina presto). Svolta inizio luglio con rischio violenti temporali (ri-verificare 1-2/7)."},
-    {"nome": "I 7 numeri (ordini, pagati, payout, clienti, prodotti, consegne, negozi LIVE)", "tipo": "kpi-interni", "stato": "NON-VERIFICABILE", "fonte": "Supabase MCP negato", "note": "Restano baseline 24/6. Dichiarati gap, mai inventati."}
-  ]
+    {
+      "nome": "DB Memoria (progetto Supabase ad-mycity)",
+      "tipo": "infrastruttura",
+      "stato": "confermato",
+      "fonte": "Supabase MCP → list_projects + list_tables (xjljcsorpbqwttrejqte)",
+      "confidenza": 1.0,
+      "evidenze": [
+        "Progetto Supabase reale e separato dal marketplace: ref xjljcsorpbqwttrejqte, org xwbccbdkgcmdudcuxwdc, ACTIVE_HEALTHY, creato 2026-06-28 (verificato live).",
+        "Schema applicato e verificato: 5 tabelle (briefings, diario, lavori, conversazioni, impostazioni), RLS attiva su tutte, advisor = solo INFO atteso.",
+        "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e)."
+      ],
+      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Nicola",
+      "tipo": "persona",
+      "stato": "confermato",
+      "fonte": "CLAUDE.md",
+      "confidenza": 1.0,
+      "evidenze": [],
+      "note": "Proprietario di MyCity, decisore finale (firma 🔴).",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Casa Linda",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.95,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
+        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
+      ],
+      "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Pane Quotidiano",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.9,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
+        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 5 giorni — ordine zombie)."
+      ],
+      "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Antica Salumeria Garetti",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.78,
+      "fonte_ragionamento": "consegne/intelligence/campo-aperto-faro.md (@intelligence) → consegne/vendite/pitch-garetti.md",
+      "evidenze": [
+        "Campo aperto: Glovo a Piacenza copre ~3 supermercati e ZERO botteghe artigianali — lo spazio delivery delle botteghe DOP è vuoto.",
+        "Garetti è nell'Albo Botteghe Storiche del Comune di Piacenza (>50 anni) — fatto pubblico verificabile.",
+        "Vende i 3 DOP Piacentini (Coppa, Pancetta, Salame): il prodotto-faro che differenzia MyCity dalla GDO.",
+        "Piazza Duomo 44: posizione di passaggio nel centro storico (match col profilo 'negozio-faro')."
+      ],
+      "note": "Scelta ragionata come negozio-faro: fondata su gap di mercato + fatti pubblici, NON su dati interni. È un PROSPECT (0 ordini, non nel DB). Le azioni 🔴 collegate restano da firmare nel normale flusso. Confermato assente dal DB anche al 29/6.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Ex Scuderie — 3 spazi food premium",
+      "tipo": "infrastruttura",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.65,
+      "fonte_ragionamento": "WebSearch @intelligence giro 29/6 → PiacenzaSera (https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)",
+      "evidenze": [
+        "Il Comune ha approvato il regolamento per 3 spazi commerciali alimentari (gastronomia, panetteria, ortofrutta) nelle Ex Scuderie in centro.",
+        "Fonte: PiacenzaSera, giugno 2026.",
+        "Data di apertura NON nota: sono in fase di regolamento, non ancora operativi."
+      ],
+      "note": "Pipeline futura: quando aprono saranno 3 partner naturali per MyCity (food premium in centro). Per ora solo da monitorare, non azionabile. Confidenza 65% perché manca la data di apertura.",
+      "ultima_verifica": "2026-06-29 11:30"
+    }
+  ],
+  "numeri_da_non_inventare": {
+    "_regola": "Nessuna cifra (ordini, incassi, clienti, follower, %, ROAS, prezzi) come FATTO senza fonte ammessa. Senza fonte → 'stima' dichiarata o nei Gap.",
+    "fonti_ammesse": ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola"]
+  }
 }

@@ -1,82 +1,92 @@
 {
-  "aggiornato": "2026-06-28 22:23",
+  "data": "2026-06-29 11:30",
   "lezioni": [
     {
-      "data": "2026-06-28 22:23",
-      "fonte": "auto-radiografia (sonda tooling) + prova diretta delle chiamate MCP",
-      "testo": "Alle 22:23 sono comparsi in sessione due server Supabase MCP DEDICATI (supabase-marketplace + supabase-memoria), distinti dal vecchio claude_ai_Supabase. Testandoli ho scoperto che il blocco non e piu' un MCP generico ambiguo ma un consenso mancante su server SCOPED gia' presenti: la diagnosi dello sblocco-dati si e affinata da 'autorizza il MCP (come?)' a 'approva il prompt del permesso (un click)'. Un canale dato bloccato va RI-DIAGNOSTICATO a ogni giro, non dato per immutabile: l'ambiente cambia (nuovi server appaiono) e la richiesta a Nicola puo' diventare molto piu' precisa.",
-      "lezione": "Un blocco-dati persistente non e un fatto fisso: ri-sondare gli strumenti disponibili a ogni sessione/giro puo' rivelare un percorso di sblocco piu' preciso (es. server scoped comparsi -> richiesta a un click). La precisione della richiesta a Nicola e essa stessa un output di valore.",
-      "come_applicare": "A ogni giro con dati ciechi, prima di scrivere 'MCP negato' come al solito, RIVERIFICA quali server/strumenti sono effettivamente presenti in sessione e testa il piu' specifico; aggiorna la richiesta a Nicola alla leva piu' precisa disponibile (un consenso mirato batte una richiesta generica)."
+      "id": "L-2026-0628-01",
+      "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
+      "tag": ["verita", "guardrail", "entita", "autonomia"],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-29",
+      "stato": "principio"
     },
     {
-      "data": "2026-06-28 20:22",
-      "fonte": "esito del giro (apertura presidio) + calibrazione previsto-vs-reale",
-      "testo": "Quando una finestra operativa passa da 'attesa' ad 'aperta adesso' (es. il presidio mentre la gente arriva per il concerto), il check di maggior valore è il GO/NO-GO della condizione che la abilita: alle 20:22 ho riconfermato che Arisa REGGE (oggi un altro evento era stato cancellato per caldo) → il presidio si fa, con certezza invece che per assunzione. È diverso dal ripetere un dato fresco: è verificare la TENUTA della condizione proprio nell'istante in cui si agisce fisicamente.",
-      "lezione": "All'apertura effettiva di una finestra operativa, spendere l'unica ricerca nel GO/NO-GO della condizione abilitante (l'evento è ancora on? il negozio è ancora aperto? la strada è agibile?), non nel ri-confermare dati già freschi. Una conferma di tenenza al momento del 'vai' previene un presidio a vuoto.",
-      "come_applicare": "Distinguere 'dato fresco da non rifare' (cadenza) da 'condizione abilitante da verificare al momento dell'azione' (go/no-go). Per ogni azione fisica imminente: 1 check sulla condizione che la può annullare, con 2 fonti, e poi si parte."
+      "id": "L-2026-0628-04",
+      "testo": "Non delegare a Nicola ciò che puoi dedurre da sola. Se un'entità/scelta non è nei dati, cerca PRIMA il tuo stesso trail di analisi: una scelta ragionata con prove (es. Garetti fondato su campo-aperto-faro.md) è legittima e va presentata col suo perché, non rimbalzata come 'è reale?'. Chiedere è prudenza solo quando manca davvero il fondamento.",
+      "tag": ["autonomia", "intelligenza", "nicola", "metacognizione"],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-29",
+      "stato": "principio"
     },
     {
-      "data": "2026-06-28 18:22",
-      "fonte": "auto-analisi del giro (errore di processo riconosciuto) + auto-radiografia (sonda DF-02)",
-      "testo": "Alle 18:22, a 15 min dal p11 e a esterno invariato, un nuovo giro non produce informazione: i dati erano freschi, nessun cambio-fase. La frequenza stava sostituendo lo sblocco umano (19° giro cieco). La cosa giusta non è girare di più ma riconoscere il non-valore, NON rifare ricerche, abbassare il proprio voto-fiducia e raccomandare di rarefare.",
-      "lezione": "Quando manca il trigger (nessun cambio-fase, dati freschi), il valore corretto di un giro è ~0 e va DICHIARATO: niente ricerche, niente azioni, voto onesto basso, raccomandazione di rarefare. La cadenza alta non compensa mai un blocco umano; rischia solo di mascherarlo. Girare a vuoto è un costo (rumore-cadenza DF-02), non un'attività.",
-      "come_applicare": "Prima di ogni giro ravvicinato chiedersi: c'è un cambio-fase o un dato scaduto da rinfrescare? Se no → passaggio minimo (solo traccia di freschezza), voto basso e onesto, e rarefazione esplicita (prossimo utile alla prossima finestra reale o a uno sblocco). Mettere il blocco umano davanti a Nicola, non aggiungere analisi."
+      "id": "L-2026-0628-02",
+      "testo": "Nessun numero come fatto senza fonte ammessa (Supabase/Stripe/PostHog/documento/conferma). Senza fonte → 'stima' o nei Gap.",
+      "tag": ["verita", "numeri", "guardrail"],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-29",
+      "stato": "principio"
     },
     {
-      "data": "2026-06-28 18:07",
-      "fonte": "esito di un check live + calibrazione previsto-vs-reale",
-      "testo": "Un check live mirato al CAMBIO-FASE puo' valere piu' di dieci passaggi a quadro fermo: alle 18:07 una sola ricerca ha trasformato la stima 'presidio ~19:00' nel dato reale 'concerto Arisa ore 21:15' -> finestra QR riposizionata a 20:00-21:15 + 23:00. Il valore non sta nel ripetere tutto il radar, ma nell'unico fattore che diventa azionabile e operativamente decisivo proprio adesso.",
-      "lezione": "A dati interni ciechi, il valore di un giro si concentra nell'UNICO check live che il cambio-fase rende decisivo: falla mirata (1 ricerca, 2 fonti), non a tappeto. Un orario preciso reale batte dieci passaggi che ripetono una stima.",
-      "come_applicare": "Quando si apre una finestra operativa (presidio, consegna, evento), spendere UNA ricerca per fissarne l'orario/luogo reale con 2 fonti, e ricalibrare il piano su quel dato; non rifare il resto del radar (cadenza)."
+      "id": "L-2026-0628-03",
+      "testo": "Il segnale più prezioso per imparare è cosa Nicola approva vs ignora: ogni firma/rifiuto è una correzione del modello. Allinea le mosse future a quel gusto.",
+      "tag": ["preference-learning", "nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "approvazione",
+      "nato": "2026-06-28",
+      "ultima_conferma": "2026-06-28",
+      "stato": "attiva"
     },
     {
-      "data": "2026-06-28 14:06",
-      "fonte": "pattern temporale (fase del giorno) applicato al pomeriggio rovente",
-      "testo": "Il 'cambio di fase del giorno' come discriminante del valore (lezione delle 06:05) vale anche in senso PROPOSITIVO, non solo difensivo: il cuore del pomeriggio rovente, a freschi bloccati, non e un buco ma il momento in cui il piano PIVOTA verso la sera. Alle 14:06 l'azione utile non e 'consegnare' ma 'preparare il presidio serale nelle ore fresche' (Arisa@Palazzo Farnese). La fase oraria non spegne solo opzioni, ne accende altre.",
-      "lezione": "Il 'cambio di fase del giorno' vale anche in senso PROPOSITIVO: il pomeriggio rovente a freschi bloccati e il momento in cui il piano pivota verso il presidio serale nelle ore fresche, non un buco.",
-      "come_applicare": "A dati ciechi, oltre a 'questo fattore e tornato azionabile?', chiedersi 'quale finestra si APRE adesso?'. Nel caldo estremo: giorno = difesa (freschi fermi), sera = attacco (presidio fisico nelle ore fresche, agganciando eventi cittadini)."
+      "id": "L-2026-0629-01",
+      "testo": "Quando lo stallo supera ~72h senza azioni 🟢 eseguibili, la macchina deve cercare attivamente COSA può fare da sola (preparare kit, analisi, materiali pronti) invece di limitarsi a osservare e accodare 🔴. Osservare senza agire per 3 giri consecutivi è un segnale che qualcosa è bloccato nel processo, non solo nel business.",
+      "tag": ["efficacia", "azione", "stallo", "metacognizione"],
+      "reparto": "@AD",
+      "confidenza": 0.65,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-29",
+      "ultima_conferma": "2026-06-29",
+      "stato": "in-prova"
     },
     {
-      "data": "2026-06-28 06:05",
-      "fonte": "pattern temporale (fase del giorno) + cadenza radar",
-      "lezione": "Il discriminante per il valore di un passaggio a dati ciechi NON e il tempo trascorso ma il CAMBIO DI FASE DEL GIORNO. Alle 06:05 (alba) il fattore meteo-01 (peso 4, ogni-giro) torna a essere utile anche se l'avevo gia controllato di notte: all'alba c'e il minimo termico e si apre la finestra-freschi operativa. Lo stesso fattore, stesso valore previsto, ma diventa AZIONABILE solo ora.",
-      "come_applicare": "A dati ciechi, prima di ripetere un check valutare se la FASE (notte->alba->giorno->sera) ha reso un fattore ogni-giro di nuovo azionabile. Se si, rifallo (e fresco e utile); se no, astieniti. Non confondere 'gia controllato oggi' con 'gia inutile adesso'."
-    },
-    {
-      "data": "2026-06-28 04:05",
-      "fonte": "calibrazione previsto-vs-reale + check status piattaforme",
-      "lezione": "Un blocco-dati va DIAGNOSTICATO, non solo subito: i giri precedenti scrivevano 'Supabase ❌' lasciando ambiguo se fosse un'outage. Verificando lo status (ops-02) ho scoperto che la piattaforma e su -> il blocco e 100% un PERMESSO MCP, non un guasto. Questo cambia la richiesta a Nicola (una leva tecnica precisa) e toglie un falso rischio infrastrutturale.",
-      "come_applicare": "Quando un canale dati e cieco, distinguere SEMPRE 'outage' da 'permesso/config' con un check di status veloce (WebSearch su status page): e una verifica cheap che rende la diagnosi precisa e la richiesta a Nicola azionabile."
-    },
-    {
-      "data": "2026-06-28 04:05",
-      "fonte": "tooling di sessione (permessi)",
-      "lezione": "In questa sessione Supabase MCP, WebFetch e Bash-cat richiedono autorizzazione non concessa; WebSearch e le Read/Edit/Write sul vault funzionano. Il giro resta possibile usando WebSearch come ripiego per il web e gli strumenti file dedicati invece di Bash.",
-      "come_applicare": "Non insistere sugli strumenti negati: ripiega subito (WebSearch al posto di WebFetch, Read/Edit al posto di cat) e registra il gap, senza bruciare tentativi."
-    },
-    {
-      "data": "2026-06-28 02:05",
-      "fonte": "auto-analisi del giro",
-      "lezione": "Il passo 11 (auto-coscienza) veniva saltato: la cartella e i file obbligatori non esistevano. Da ora ogni giro DEVE verificare/scrivere auto-coscienza/auto-analisi.json + registro-realta.json prima di chiudere, altrimenti il giro e tecnicamente fallito (la Cabina resta vuota).",
-      "come_applicare": "Inserire la scrittura dei file auto-coscienza come primo artefatto doer del giro, non come ultimo pensiero."
-    },
-    {
-      "data": "2026-06-28 02:05",
-      "fonte": "pattern nei dati (10 giri ciechi)",
-      "lezione": "I passaggi notturni ravvicinati (es. 00:51, 01:27, 02:05) a esterno fermo e dati ciechi producono utilita marginale calante. Hanno senso solo se chiudono un gap reale o producono un artefatto non-duplicato.",
-      "come_applicare": "Di notte, se non c'e nuovo lavoro doer ne nuovi dati, diradare i passaggi (uno ogni qualche ora). Regola: 'artefatto reale o astieniti'."
-    },
-    {
-      "data": "2026-06-28 02:05",
-      "fonte": "approvazioni/rifiuti di Nicola (assenti)",
-      "lezione": "I 3 sblocchi (firme 🔴, Garetti LIVE, Supabase MCP) sono fermi da 10 giri: continuare ad accodare artefatti non li sblocca. Il valore ora e nella nettezza della richiesta, non nel volume di output.",
-      "come_applicare": "Tenere la coda 🟡/🔴 stabile (no duplicati) e ripetere i 3 sblocchi in modo identico e sintetico finche non arriva risposta."
-    },
-    {
-      "data": "2026-06-28 02:05",
-      "fonte": "errori dell'auto-analisi (grounding)",
-      "lezione": "Garetti va sempre trattato come 'scelta ragionata da confermare', mai come reale-confermato, finche Supabase e cieco. E' l'errore-tipo da non ripetere.",
-      "come_applicare": "Nessuna azione esecutiva su Garetti senza conferma dati/Nicola; resta sempre una domanda aperta."
+      "id": "L-2026-0629-02",
+      "testo": "Le opportunità esterne (bandi, eventi, aperture) hanno finestre temporali reali: vanno accodate CON la scadenza visibile, non solo come 'opportunità'. Il bando ER scade il 21/7 — 22 giorni — e ogni giro senza azione accorcia la finestra.",
+      "tag": ["urgenza", "opportunita", "bandi", "tempo"],
+      "reparto": "@vendite",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "radar",
+      "nato": "2026-06-29",
+      "ultima_conferma": "2026-06-29",
+      "stato": "attiva"
     }
-  ]
+  ],
+  "principi": [
+    "Verità prima di tutto: nessuna entità o numero senza fonte verificabile.",
+    "L'autonomia si guadagna azzeccando le previsioni (calibrazione).",
+    "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
+  ],
+  "preferenze_nicola": [
+    "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
+    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
+  ],
+  "meta": {
+    "lezioni_attive": 6,
+    "promosse_a_principio": 3,
+    "decadute": 0,
+    "tasso_applicazione": 0.5
+  }
 }

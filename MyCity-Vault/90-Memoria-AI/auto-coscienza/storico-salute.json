@@ -1,59 +1,8 @@
 {
-  "_README": "Storico degli snapshot di salute della macchina (append-only, dalla sonda di auto-radiografia).",
-  "snapshot": [
-    {
-      "data": "2026-06-28 22:23",
-      "voto_salute": 75,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.85,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 21° giro)",
-      "difetti_aperti": 2,
-      "nota": "14° passaggio MA nella finestra '~23:00 post-Arisa' schedulata dal p13 (cadenza corretta) + contributo nuovo reale: comparsi i due server Supabase scoped (marketplace+memoria) -> diagnosi affinata, lo sblocco-dati e ora un SINGOLO consenso di Nicola. Voto in lieve salita (da 74): l'infra e ora piu' leggibile, la richiesta di sblocco e a portata di un click. Cecita-dati (DF-01) resta il limite (21° giro) ma con leva precisissima; nessun difetto BLOCCANTE; collo di bottiglia = umano (approva permesso + report presidio)."
-    },
-    {
-      "data": "2026-06-28 20:22",
-      "voto_salute": 74,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.85,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 20° giro)",
-      "difetti_aperti": 2,
-      "nota": "13° passaggio ma su CAMBIO-FASE REALE (apertura effettiva del presidio serale): cadenza corretta, DF-02 rientrato rispetto al quasi-duplicato delle 18:22. Contributo a valore: 1 check go/no-go decisivo (Arisa confermata stasera 21:15) al momento in cui si decide di andare in centro. Voto in lieve salita (da 73): la macchina gira al varco operativo e poi rarefà. Cecita-dati (DF-01) resta il limite (20° giro, negato su marketplace e memoria); nessun difetto BLOCCANTE; collo di bottiglia di stasera = link lista (umano)."
-    },
-    {
-      "data": "2026-06-28 18:22",
-      "voto_salute": 73,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.8,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso, 19° giro)",
-      "difetti_aperti": 2,
-      "nota": "12° passaggio, quasi-duplicato a 15 min dal p11 senza cambio-fase: ricaduta lieve su DF-02 (rumore-cadenza). Voto LIMATO a 73 (da 75) per onestà: girare a vuoto è un costo, non un valore. Compensa il candore: la macchina riconosce il non-valore, non rifà ricerche (Max risparmiato), non inventa, abbassa il proprio voto-fiducia a 6 e raccomanda di rarefare. Nessun difetto BLOCCANTE; il collo di bottiglia resta UMANO (3 sblocchi)."
-    },
-    {
-      "data": "2026-06-28 18:07",
-      "voto_salute": 75,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.85,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
-      "difetti_aperti": 2,
-      "nota": "11° passaggio ma cambio-fase reale (apertura presidio serale) con contributo nuovo e azionabile (Arisa ore 21:15 confermata, finestra QR riposizionata). Voto in lieve salita: la macchina applica il governatore DF-02 (giro al cambio-fase, poi si ferma) e produce valore vero invece di mantenimento. Nessun difetto BLOCCANTE; voto limato solo da cecita-dati (permesso)."
-    },
-    {
-      "data": "2026-06-28 16:07",
-      "voto_salute": 73,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.8,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
-      "difetti_aperti": 2,
-      "nota": "10° passaggio del giorno: la macchina riconosce e GESTISCE attivamente DF-02 (cadenza eccessiva) applicando il governatore auto-imposto -> tasso applicazione lezioni a 0.8, voto limato solo da cecita-dati (permesso). Nessun difetto BLOCCANTE."
-    },
-    {
-      "data": "2026-06-28 14:06",
-      "voto_salute": 72,
-      "loop_chiude": true,
-      "tasso_applicazione": 0.7,
-      "sentinelle": "parziale (esterne ok, interne cieche per permesso)",
-      "difetti_aperti": 2,
-      "nota": "Macchina onesta e disciplinata ma cieca sui dati (permesso) e con cadenza eccessiva a dati fermi (9 passaggi/giorno). Voto limato da cecita-dati e rumore-cadenza; nessun difetto BLOCCANTE."
-    }
+  "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
+  "serie": [
+    { "data": "2026-06-28", "voto_salute": 72, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "completa" },
+    { "data": "2026-06-28", "voto_salute": 75, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori dati RIENTRATI (Supabase marketplace ACTIVE_HEALTHY): l'invariante 'dati freschi' torna verde. Voto +3. Difetto AR-001 (sensori intermittenti) non chiuso ma rientrato in questo giro." },
+    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori stabili per il 2° giro consecutivo (Supabase ok, dati freschi). Tasso applicazione lezioni 0.5 (2 principi usati su 4 attivi: grounding entità + numeri con fonte). Volano chiude. Voto +1." }
   ]
 }

@@ -1,14 +1,19 @@
 {
-  "data": "2026-06-28 22:23",
-  "situazione": "Domenica 28/6 ore 22:23, passaggio 14 (finestra post-Arisa schedulata dal p13). Novità tecnica concreta: in sessione sono comparsi i DUE server Supabase MCP DEDICATI — supabase-marketplace (dati) e supabase-memoria (digest), che prima non c'erano (solo il vecchio claude_ai_Supabase). Testati tutti e tre (list_tables + execute_sql) → 'permesso non ancora concesso': 21° giro cieco, MA lo sblocco dei 7 numeri è ora a UN SOLO 'approva' di Nicola sul prompt del permesso (server scoped, non più MCP generico). Esterno fermo (notte, caldo in raffreddamento), nessuna ricerca web (Max risparmiato). I 7 numeri restano baseline 24/6. Coda piena (8), nessuna azione nuova. Voto fiducia 7. Prossimo giro utile: domattina o appena Nicola approva il permesso / dà l'esito del presidio.",
+  "data": "2026-06-29 11:30",
+  "situazione": "Stallo a ~125h (nessun movimento dal 24/6). I 7 numeri sono identici. Novità esterna: Ex Scuderie (3 spazi food premium in centro) e Bando Commercio ER (40% fondo perduto, scade 21/7 — 22 giorni). Venerdì Piacentini confermati 3/10/17 luglio. Caldo estremo 37°C oggi. Il blocco è operativo: serve la prima transazione end-to-end con Casa Linda (payout-ready).",
   "opportunita": [
-    {"titolo": "Sblocco Supabase MCP — ora a un click (server scoped presenti)", "motivo": "I due server dedicati marketplace+memoria sono comparsi in sessione: basta approvare il prompt del permesso → 21 giri ciechi finiscono e i 7 numeri ripartono. È il difetto a maggior impatto sulla crescita, ora con sblocco precisissimo.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Settimana di Sant'Antonino (Venerdì Piacentini 3/7 + culmine fiera 4/7)", "motivo": "Finestra di presidio/lead-vendite più grande del mese: centro pieno per il patrono. Piano già pronto in coda (#8).", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Apprendere dal presidio Arisa appena avvenuto", "motivo": "Se Nicola riporta l'esito (QR scansionati, iscritti), calibriamo la resa del presidio fisico in vista di Sant'Antonino.", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Bando ER come leva di onboarding (22gg alla scadenza)", "motivo": "Il bando rimborsa il 40% della digitalizzazione. MyCity è la soluzione. Kit one-pager per i negozi.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Ex Scuderie — 3 negozi food premium da onbordare", "motivo": "Il Comune apre spazi alimentari di qualità in centro: match perfetto col nostro posizionamento", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Hub Urbano fondi regionali (14M€)", "motivo": "Piacenza riconosciuta Hub Urbano: fondi per commercio di centro. MyCity come braccio digitale", "impatto": "medio", "sforzo": "medio"},
+    {"titolo": "Caldo estremo 37°C — leva messaggio delivery", "motivo": "Domanda latente, ma inutile senza catalogo vero e primo ordine funzionante", "impatto": "basso", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Approvare il permesso Supabase MCP (server marketplace + memoria, già presenti)", "motivo": "Un solo 'approva' sblocca i 7 numeri reali e misura l'esito del Giorno-1: 21 giri ciechi di fila, ora a portata di un click sul prompt scoped. È la leva tecnica n.1.", "livello": "giallo"},
-    {"titolo": "Riportare l'esito del presidio Arisa + passare il link reale della lista d'attesa", "motivo": "La macchina non era fisicamente in centro: senza il report di Nicola non c'è nulla di interno da misurare; il link lista serve a far convertire i QR del presidio.", "livello": "giallo"},
-    {"titolo": "Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)", "motivo": "Sbloccano la pipeline incasso-payout e il go-live di Garetti.", "livello": "rosso"}
+    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Uscire dallo zero dopo 125h di stallo.", "livello": "rosso"},
+    {"titolo": "Kit Bando ER + MyCity per onboarding negozi", "motivo": "Bando scade 21/7 — 22 giorni. Leva commerciale urgente.", "livello": "giallo"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 5 giorni: buyer nel limbo, prima impressione rovinata.", "livello": "rosso"},
+    {"titolo": "Wiring Vercel memoria (2 env vars + Redeploy)", "motivo": "Pannello si accende e mostra i briefing in automatico.", "livello": "giallo"},
+    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Stripe live/sandbox, commissione 12%, fee consegna: sbloccano l'infrastruttura.", "livello": "rosso"},
+    {"titolo": "Segnalare Ex Scuderie a vendite come pipeline", "motivo": "3 futuri negozi food premium in centro.", "livello": "verde"},
+    {"titolo": "Verificare opportunità Hub Urbano", "motivo": "Fondi regionali 14M€ per commercio centro.", "livello": "verde"}
   ]
 }

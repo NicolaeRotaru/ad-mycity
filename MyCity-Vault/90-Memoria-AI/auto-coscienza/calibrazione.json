@@ -1,36 +1,7 @@
 {
-  "aggiornato": "2026-06-28 20:22",
-  "_README": "Calibrazione previsto-vs-reale. Si popola quando ci sono esiti misurabili (richiede dati reali via Supabase).",
-  "voci": [
-    {
-      "previsione": "La finestra di presidio serale si apre verso sera nelle ore fresche e Arisa ne è l'ancora (giri 14:06-18:22)",
-      "reale": "CONFERMATO (20:22): alle 20:22 la finestra è effettivamente aperta (gente in arrivo), Arisa REGGE stasera 21:15 (check go/no-go: nessuna cancellazione nonostante l'allerta caldo)",
-      "scarto": "nessuno — il foresight del giorno (giorno=difesa freschi, sera=attacco presidio) si è avverato; aggiunta la conferma di tenuta dell'evento",
-      "nota": "Lezione: al momento dell'apertura della finestra, verificare la TENUTA della condizione abilitante (evento ancora on), non solo l'orario."
-    },
-    {
-      "previsione": "Presidio serale durante Arisa stimato ~19:00 (giri 14:06-16:07)",
-      "reale": "VERIFICATO (18:07): concerto Arisa @ Palazzo Farnese ore 21:15 (ticketone + piacenzasera)",
-      "scarto": "stima anticipata di ~2h: la finestra reale e 20:00-21:15 (pre-show) + post-show 23:00, non '~19:00'",
-      "nota": "Lezione: fissare l'orario reale di un evento con una ricerca mirata prima di pianificare il presidio, non stimarlo per analogia."
-    },
-    {
-      "previsione": "28/6 = apice ondata di caldo, 39°C (profilo noto dai giri precedenti)",
-      "reale": "CONFERMATO (06:05): meteo orario oggi min 24°C alle 6:00, max 39°C alle 17:00 (ilmeteo/weather.com)",
-      "scarto": "nessuno — profilo confermato, aggiunta la curva oraria",
-      "nota": "La curva oraria precisa la finestra-freschi operativa: 6:30-10:30 (sotto i 34°C), mai 12-18."
-    },
-    {
-      "previsione": "I 7 numeri restano a 0/baseline finche Supabase MCP e negato e le firme 🔴 ferme",
-      "reale": "non misurabile (Supabase MCP negato da 11 giri)",
-      "scarto": "n/d — gap di misura, non di previsione",
-      "nota": "Prima voce calibrabile davvero solo dopo l'autorizzazione del MCP."
-    },
-    {
-      "previsione": "Il blocco ai 7 numeri poteva essere un'outage della piattaforma OPPURE un permesso MCP",
-      "reale": "VERIFICATO (28/6 04:05): piattaforma Supabase operativa, incident 20-24/6 risolti -> e un permesso MCP, non un'outage",
-      "scarto": "ipotesi-outage smentita: nessun guasto infrastrutturale",
-      "nota": "Diagnosi confermata via status page. Riduce la richiesta a Nicola a una sola leva tecnica (autorizzare il MCP)."
-    }
-  ]
+  "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-28 00:35",
+  "per_reparto": [],
+  "registro": [],
+  "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale."
 }

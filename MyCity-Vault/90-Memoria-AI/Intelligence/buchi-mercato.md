@@ -1,43 +1,24 @@
-# 🕳️ Buchi di mercato — categorie/zone da coprire
+# 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
 
-> Aggiornato: **2026-06-28 08:30** · ⚠️ Senza dati interni leggibili (Supabase MCP non autorizzato
-> in questo giro), le priorità restano **dal radar** e dalla baseline 24/6, non da numeri freschi.
+> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live). 🟢 note.
 
-> 📊 **Nota delle 08:30 (dom 28/6) — DATI STRUTTURALI dal monitoraggio web (IlPiacenza Economia + PiacenzaSera).**
-> Quadro del commercio piacentino (Osservatorio Confcommercio, dati 2012-2025):
-> - **Commercio al dettaglio -22,1% in 13 anni: 231 attività perse**, ma Piacenza **resiste meglio della media**
->   (96ª su 122 comuni monitorati, **miglior capoluogo dell'Emilia-Romagna**). [piacenzasera](https://www.piacenzasera.it/2026/03/commercio-in-calo-ma-piacenza-resiste-in-tredici-anni-perse-231-attivita/636409/) · [quotidianopiacenza](https://quotidianopiacenza.online/commercio-piacenza-perde-negozi-ma-resiste-piu-degli-altri-capoluoghi-emiliano-romagnoli/)
-> - **Spostamento di vocazione:** mobili/ferramenta 70→40, edicole 20→13 (categorie in ritirata);
->   farmacie 20→23 in centro, commercio su area pubblica 42→50 (in crescita); la città evolve verso
->   **ospitalità e servizi** (boom B&B e ristorazione). [immediatofin/Confcommercio](https://www.immediatofin.it/2026/03/12/meno-negozi-di-abbigliamento-boom-di-bb-e-ristorazione/)
-> - 🎯 **Segnale-chiave per MyCity:** **e-commerce e vendita porta-a-porta nel centro storico più che
->   raddoppiati (8→18 attività)**. La domanda di **acquisto digitale-locale a Piacenza esiste e cresce** →
->   è proprio il bisogno che MyCity intercetta (vetrina digitale + consegna 24-48h alle botteghe fisiche).
->   Usalo come **prova di mercato** nei pitch a negozianti e istituzioni. → @vendite, @relazioni-istituzionali.
-> - 🏛️ **Leva istituzionale emersa:** il Comune sta lavorando a un **"regolamento di qualificazione del centro
->   storico" + registro delle botteghe storiche** anti-desertificazione → aggancio naturale per MyCity come
->   "braccio digitale" delle botteghe. → @relazioni-istituzionali (approfondire al check settimanale leve-uscita).
+## Stato giro 2026-06-29 — 4 buchi azionabili
 
-## Stadio attuale
-~1 negozio-faro (Garetti, gastronomia/freschi), **0 ordini reali** ancora. Il collo di bottiglia
-NON è la copertura categorie, è **far partire il primo ordine + portare LIVE il faro**. I buchi
-qui sotto contano appena la macchina gira.
+1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo fa ristoranti, la GDO fa supermercati, nessuno fa salumiere/fornaio/enoteca storica. Idea: pacchetto "cena del weekend con 2 botteghe". *Confidenza ~70%.* → @growth + @analista.
 
-## Categorie scoperte (pipeline vendite — priorità)
-| Priorità | Categoria | Perché |
-|---|---|---|
-| 1 | **Panetteria / forno** | Acquisto quotidiano ad alta frequenza → traina il riordino |
-| 2 | **Ortofrutta** | Freschi quotidiani, scontrino ricorrente, stagionalità estiva forte |
-| 3 | **Macelleria** | Alto valore, fiducia sul fresco = vantaggio vs GDO |
-| 4 | **Pescheria** | Categoria rara online, differenziante (con catena del freddo seria) |
-| 5 | **Enoteca / gastronomia** | Scontrino alto, regalo, abbinabile a eventi/centro |
+2. 🟢 **Delivery diurno anti-caldo (11-18)** — bibite/gelato/fresco mentre la GDO consegna a slot rigidi. Finestra sfruttabile **subito** (caldo estremo 37°C oggi). → @operations + @content-social.
 
-## Zone
-Dati di densità per quartiere **non disponibili** (serve il DB). Da radar: il **centro è animato
-fino a metà luglio** (~300 negozi aperti per la manifestazione) → zona naturale per il primo cluster.
+3. 🟡 **Regalo locale a domicilio (modello Cosaporto, assente a Piacenza)** — agganciato ai Venerdì Piacentini: visitatori che vogliono un prodotto piacentino consegnato. → @growth + @marketing.
 
-## Opportunità tempestiva (estate/caldo)
-Col caldo, picco su **freschi/bevande/ortofrutta estiva** e **piatti pronti freddi**: spingere il
-catalogo del faro su questi item nei giorni 38-39°C. → @vendite + @operations.
+4. 🆕 🟡 **Ex Scuderie — 3 spazi food premium approvati dal Comune** (gastronomia, panetteria, ortofrutta) in centro storico. Quando aprono → **3 negozi partner naturali** per MyCity. Pipeline da monitorare. → @vendite + @relazioni-istituzionali.
+   Fonte: [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/).
 
-*Riprendere con dati veri (frequenza per categoria, zone con domanda) appena Supabase è leggibile.*
+## Spunto strutturale (ipotesi, conf. 60%)
+- **Domanda DOP/tipici slegata dal raggio:** sagre di provincia (Tortello Vigolzone 24-28 lug) segnalano forte domanda. Chi non va alla sagra = potenziale cliente per box DOP consegnati. → @growth + @analista.
+
+## Carburante mancante
+- Analisi immobiliare (Idealista locali commerciali) per segnali "chi molla/chi resiste" → lead caldi @vendite. Oggi portali locali bloccati 403.
+- Dati ordini food interni per blindare i buchi da 70% a fatto.
+
+---
+> Si rigenera quando le news segnalano bottega che chiude/apre o categoria/zona scoperta.
