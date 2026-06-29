@@ -143,7 +143,7 @@ type Miglioramento = {
 };
 type Entita = { nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
 type Registro = { entita?: Entita[] };
-type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
+type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; analisi_affidabile?: boolean; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
 
 const VERIFICA_LABEL: Record<string, string> = { entita: "Entità reali", numeri: "Numeri con fonte", coerenza: "Coerenza", semaforo: "Semaforo 🟢🟡🔴", qualita: "Qualità" };
 
@@ -207,7 +207,11 @@ export default function AutoCoscienza() {
   const a = d?.analisi;
   // Il voto può arrivare come numero o (per un giro che non rispetta il contratto) come frase.
   const votoF = Number(a?.voto_fiducia);
-  const votoFOk = Number.isFinite(votoF);
+  // 🩺 Mostriamo il numerone SOLO se l'analisi è affidabile (l'API marca i gusci vuoti dei giri rotti:
+  // voto 7 + sintesi vuota). Così non compare più un falso e allarmante «7/100». Default true per
+  // retrocompatibilità se l'API non manda il flag.
+  const analisiAffidabile = d?.analisi_affidabile !== false;
+  const votoFOk = Number.isFinite(votoF) && analisiAffidabile;
   // Se il voto è una frase non numerica, mostriamola come sintesi piccola (non come numero gigante).
   const sintesiEff = a?.sintesi || (!votoFOk && typeof a?.voto_fiducia === "string" ? a!.voto_fiducia : "");
   const scelteRagionate = (d?.registro?.entita || []).filter((e) => e.stato === "scelta_ragionata");
@@ -234,12 +238,17 @@ export default function AutoCoscienza() {
             <div className="t-eti">Si controlla, impara e si migliora da sola — prima di consegnare. {a?.data ? `· ultima ${dataVault(a.data)}` : ""}</div>
           </div>
         </div>
-        {votoFOk && (
+        {votoFOk ? (
           <div className="text-right shrink-0">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoF)}`}>{votoF}<span className="text-[13px] text-black/30">/100</span></div>
             <div className="t-eti">fiducia {a?.trend_fiducia || ""}</div>
           </div>
-        )}
+        ) : a ? (
+          <div className="text-right shrink-0 max-w-[44%]">
+            <div className="text-[12px] font-medium text-amber-600 leading-tight">analisi in aggiornamento</div>
+            <div className="t-eti">in attesa di un giro valido</div>
+          </div>
+        ) : null}
       </div>
 
       {!d?.collegato && (
