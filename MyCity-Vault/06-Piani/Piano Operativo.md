@@ -188,3 +188,13 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 *Effetto atteso sui KPI:* primi ordini chiusi a **% OK ~100%** e **on-time ≥90%** (fiducia + passaparola), batching che porta il **CM/ordine da −€0,07 a +€3,4** già dal 2° ordine/giro, **0 excursion freddo**. La leva di crescita resta la **densità nel cluster centro**, non l'allungamento dei giri.
 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-06-28 06:05
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **⏰ ALBA del giorno-apice (06:05): la FINESTRA-FRESCHI DEL MATTINO è APERTA ORA.** Meteo orario di oggi (live): **24°C alle 6:00 (minimo del giorno) → 34°C già alle 11 → picco 39°C alle 17**. Per QUALSIASI consegna di deperibili di oggi: **far partire 6:30-10:30** (slot AM chiuso alle 11:00), **mai 12-18**, borsa termica + siberini. È la fascia operativa critica della giornata.
+- **OGGI è l'ULTIMO giorno del picco di caldo (allerta confermata Arpae/Prot. Civile, 39°C):** la regola **"niente consegne di freschi 12-18"** vale anche oggi; freschi **solo al mattino presto**. Picco domanda su freschi/bevande/ortofrutta estiva/piatti freddi → spingere quegli item.
+- **🌦️ SVOLTA METEO a inizio luglio (foresight operativo):** aria più fresca **ma rischio di violenti temporali** → due scenari da pianificare: (a) **picco di delivery** se piove sugli eventi 3-4/7; (b) **piano B cargo-bike** col maltempo (impermeabili, slot allungati, eventuale disagio auto a nostro favore). **Ri-verificare il meteo 1-2/7** per blindare l'operativo del weekend del patrono.
+- **⭐ SETTIMANA DI SANT'ANTONINO (operativo da preparare ORA):** pre-festa 27/6→3/7, **culmine sab 4/7** (grande fiera di bancarelle, centro pieno dalla mattina a mezzanotte) + **Venerdì Piacentini 3/7**. Servono: **turni di consegna potenziati** nelle sere 3-4/7, **piano densità** col centro affollato (ZTL/pedonale → cargo-bike avvantaggiata), e regola "no coda al caldo, te lo portiamo a casa" come contro-posizionamento agli ambulanti del 4/7.
+- **Passaparola Giorno-1:** se la consegna di ieri è andata, raccogliere a caldo **feedback + recensione/foto** del primo cliente → `consegne/operations/2026-06-27-giorno1-pomeriggio-sera.md`.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

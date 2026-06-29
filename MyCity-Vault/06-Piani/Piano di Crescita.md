@@ -168,3 +168,10 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 ➡️ *Tutte e 5 sono a costo ~0.* Le uniche spese (stampa QR/sacchetti) e i cambi di prezzo restano 🔴: proposti, non eseguiti.
 
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **Leva caldo = domanda**: con 38-39°C la consegna a casa è al massimo desiderio → momento ideale per spingere acquisizione ("col caldo non esci, te la portiamo noi"). Fonte: radar meteo live.
+- **Prima consegna felice = motore di passaparola**: blindare la catena del freddo oggi è la mossa di crescita a più alto ritorno/sforzo (primo cliente → recensione → lista d'attesa).
+<!-- 🤖 AD-AGGIORNAMENTO:END -->
