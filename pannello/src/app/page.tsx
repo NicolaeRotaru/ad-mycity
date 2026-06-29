@@ -89,6 +89,7 @@ import {
   CalendarDays,
   Lightbulb,
   Award,
+  Terminal,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -97,7 +98,7 @@ import Memoria from "@/components/aree/Memoria";
 import Cervello from "@/components/aree/Cervello";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
-import Intelligence from "@/components/Intelligence";
+import Mondo from "@/components/aree/Mondo";
 import NumeriReport from "@/components/NumeriReport";
 import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
@@ -105,7 +106,7 @@ import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
-import Arsenale from "@/components/Arsenale";
+
 import DemoBanner from "@/components/DemoBanner";
 
 type Livello = "verde" | "giallo" | "rosso";
@@ -565,6 +566,7 @@ export default function Dashboard() {
   const [vista, setVista] = useState<
     "plancia" | "azioni" | "cervello" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
   >("plancia");
+  const [assistenteTab, setAssistenteTab] = useState<"comandi" | "chat" | "conversazioni">("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
@@ -575,6 +577,7 @@ export default function Dashboard() {
   // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
   // (i dati reali subito sott'occhio); le altre chiuse → meno scroll.
   const [catAperte, setCatAperte] = useState<Set<string>>(() => new Set(NUM_DEFAULT_APERTE));
+  const [storicoTab, setStoricoTab] = useState<"governo" | "diario">("governo");
   const toggleCat = (t: string) =>
     setCatAperte((s) => {
       const n = new Set(s);
@@ -1186,10 +1189,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== AZIONI (corsia operativa) ===================== */}
         {vista === "azioni" && (
-          <div className="space-y-4">
-            <Azioni proposte={briefing?.azioni || []} />
-            <Arsenale />
-          </div>
+          <Azioni proposte={briefing?.azioni || []} />
         )}
 
         {/* ===================== CERVELLO (la macchina su sé stessa) ===================== */}
@@ -1264,27 +1264,43 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== MONDO & RISCHI ===================== */}
         {vista === "mondo" && (
-        <div className="space-y-4">
-          <div>
-            <h2 className="t-area">🌍 Mondo & rischi</h2>
-            <p className="t-eti mt-0.5">Tutto ciò che ci impatta da fuori: mercato, reputazione, sicurezza, futuro.</p>
-          </div>
-
-          {/* Intelligence & opportunità: alert · concorrenti · eventi · buchi */}
-          <Intelligence />
-
-          <AreaModuli area="mondo" metriche={metriche} aggAt={datiAggiornatiAt} />
-        </div>
+          <Mondo metriche={metriche} aggAt={datiAggiornatiAt} />
         )}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
         <div className="space-y-4">
 
+          <div>
+            <h2 className="t-area">💬 Assistente</h2>
+            <p className="t-eti mt-0.5">Chatta con l'AD, usa i comandi rapidi e rivedi le conversazioni salvate.</p>
+          </div>
+
+          {/* Tab bar */}
+          <div className="flex flex-wrap gap-1.5">
+            {([
+              { id: "comandi" as const, label: "Comandi", icon: <Terminal size={14} /> },
+              { id: "chat" as const, label: "Chat", icon: <MessageSquare size={14} /> },
+              { id: "conversazioni" as const, label: "Conversazioni & lavori", icon: <MessagesSquare size={14} /> },
+            ]).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setAssistenteTab(t.id)}
+                className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+                  assistenteTab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
+
           {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
-          <Comandi onScegli={(cmd) => setInput(cmd)} />
+          {assistenteTab === "comandi" && <Comandi onScegli={(cmd) => { setInput(cmd); setAssistenteTab("chat"); }} />}
 
           {/* Chat */}
+          {assistenteTab === "chat" && (
           <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
@@ -1450,7 +1466,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </div>
           </section>
+          )}
 
+        {/* Conversazioni & lavori */}
+        {assistenteTab === "conversazioni" && (<>
         {/* Conversazioni: ricorda e riprendi le chat precedenti */}
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between mb-3">
@@ -1582,6 +1601,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
+        </>)}
 
         </div>
         )}
@@ -1595,10 +1615,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <p className="t-eti mt-0.5">Il diario di tutto ciò che l'AD ha detto e fatto, la diretta della squadra e i controlli.</p>
         </div>
 
+        {/* Tab bar */}
+        <div className="flex flex-wrap gap-1.5">
+          {([
+            { id: "governo" as const, label: "Governo", icon: <Scale size={14} /> },
+            { id: "diario" as const, label: "Diario", icon: <History size={14} /> },
+          ]).map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setStoricoTab(t.id)}
+              className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+                storicoTab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
+              }`}
+            >
+              {t.icon}
+              {t.label}
+            </button>
+          ))}
+        </div>
+
         {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-        <GovernoAD />
+        {storicoTab === "governo" && <GovernoAD />}
 
         {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
+        {storicoTab === "diario" && (
         <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
@@ -1637,6 +1677,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
+        )}
 
         </div>
         )}

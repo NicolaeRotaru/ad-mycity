@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Swords } from "lucide-react";
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
+import Arsenale from "@/components/Arsenale";
 
 // L'UNICO posto dove si decide e si agisce. Schede separate (niente colonna unica lunga da scrollare):
 //  🦶 Mosse di Nicola → le tue prossime mosse (dai Piani), con link all'azione da firmare.
@@ -16,7 +17,7 @@ import { risolviOrigine } from "@/lib/origine";
 //  🖊️ Da approvare → la coda pronta dei senior, con scheda completa + qualità + cosa-fa.
 //  📒 Registro → lo storico dei risultati.
 
-type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "approvare" | "registro";
+type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "approvare" | "registro" | "arsenale";
 type Livello = "verde" | "giallo" | "rosso" | "?";
 type Stato = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 type Azione = {
@@ -140,7 +141,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   useEffect(() => {
     const apriDaHash = () => {
       const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = { "azioni-mosse": "mosse", "azioni-proposte": "proposte", "azioni-dafare": "dafare", "azioni-sentinelle": "sentinelle", "azioni-approvare": "approvare" };
+      const map: Record<string, Tab> = { "azioni-mosse": "mosse", "azioni-proposte": "proposte", "azioni-dafare": "dafare", "azioni-sentinelle": "sentinelle", "azioni-approvare": "approvare", "azioni-arsenale": "arsenale" };
       if (map[h]) setTab(map[h]);
     };
     apriDaHash();
@@ -154,7 +155,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "azioni" || !det.sub) return;
-      const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
+      const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro", "arsenale"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_VAI, onVai);
@@ -286,6 +287,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} />, badge: alerts.length || undefined },
     { id: "approvare", label: "Da approvare", icon: <ListChecks size={14} />, badge: daDecidere || undefined },
     { id: "registro", label: "Registro", icon: <BookOpen size={14} /> },
+    { id: "arsenale", label: "Arsenale", icon: <Swords size={14} /> },
   ];
 
   return (
@@ -594,6 +596,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
           )}
         </>
       )}
+
+      {/* ===== ARSENALE ===== */}
+      {tab === "arsenale" && <Arsenale />}
 
       {/* ===== REGISTRO & RISULTATI ===== */}
       {tab === "registro" && (
