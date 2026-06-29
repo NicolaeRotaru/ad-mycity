@@ -420,6 +420,34 @@ export default function Dashboard() {
     }
   }
 
+  // Chat ISTANTANEA con la macchina (AD/AI via API): risponde subito, anche dal
+  // telefono a PC spento. Usa /api/chat (smista all'esperto e usa gli strumenti).
+  async function send(text?: string) {
+    const t = (text ?? input).trim();
+    if (!t || loading) return;
+    const next: Msg[] = [...messages, { role: "user", content: t }];
+    setMessages(next);
+    if (text === undefined) setInput("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: next, contesto: base?.testo }),
+      });
+      const data = await res.json();
+      const finale: Msg[] = [...next, { role: "assistant", content: data.reply, tools: data.toolsUsed, esperto: data.esperto }];
+      setMessages(finale);
+      aggiungiDiario("chat", data.esperto ? `${data.esperto.emoji} ${data.esperto.nome}` : "Assistente", `❓ ${t}\n\n${data.reply}`);
+      const id = await persistConversazione(convId, finale);
+      if (id && id !== convId) setConvId(id);
+    } catch {
+      setMessages([...next, { role: "assistant", content: "⚠️ Connessione fallita. (La risposta immediata richiede ANTHROPIC_API_KEY su Vercel.)" }]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function svuotaLavori() {
     setLavori([]);
     fetch("/api/lavori", { method: "DELETE" }).catch(() => {});
@@ -676,7 +704,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {(() => {
           const SCHEDE = [
             { id: "oggi", label: "Oggi", icon: <Home size={16} />, desc: "Cosa devo decidere, i numeri di oggi e cosa ha scoperto l'AD." },
-            { id: "assistente", label: "Assistente", icon: <Send size={16} />, desc: "Chiedi o dai un compito: risponde il cervello sul tuo Max, gratis." },
+            { id: "assistente", label: "Assistente", icon: <Send size={16} />, desc: "Chiedi o dai un compito: risposta subito dalla macchina (Invia) o gratis via Max." },
             { id: "storico", label: "Storico", icon: <History size={16} />, desc: "Il diario di tutto ciò che l'AD ha detto e fatto." },
           ] as const;
           const attiva = SCHEDE.find((s) => s.id === vista);
@@ -935,8 +963,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
-                placeholder="Scrivi al cervello (Max), gratis..."
+                onKeyDown={(e) => e.key === "Enter" && send()}
+                placeholder="Scrivi all'assistente..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
@@ -951,27 +979,35 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <Mic size={18} />
               </button>
               <button
-                onClick={() => mandaAlCervello()}
+                onClick={() => send()}
                 disabled={loading || !input.trim()}
                 className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
-                aria-label="Manda al cervello"
-                title="Manda al cervello (Claude Code sul tuo Max): gratis, in background"
+                aria-label="Invia"
+                title="Invia: risposta subito dall'assistente (la macchina/AI, via API)"
               >
-                {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
+                {loading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
               </button>
             </div>
             <div className="flex gap-2">
+              <button
+                onClick={() => mandaAlCervello()}
+                disabled={loading || !input.trim()}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
+                title="Manda al cervello (Claude Code sul tuo Max): gratis, in background"
+              >
+                <Brain size={14} /> Manda al cervello (Max)
+              </button>
               <button
                 onClick={dammiPrompt}
                 disabled={!input.trim()}
                 className="flex-1 inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
                 title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
               >
-                <FileText size={14} /> Prompt (copia per Max)
+                <FileText size={14} /> Prompt (copia)
               </button>
             </div>
             <p className="text-[11px] text-black/40 px-1 leading-relaxed">
-              🧠 <b>Invia</b> = lo fa il cervello sul tuo Max (gratis, in background) · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
+              ⚡ <b>Invia</b> = risposta subito dall'assistente (API, a consumo) · 🧠 <b>Cervello</b> = gratis via Max (in background) · 📋 <b>Prompt</b> = copia in Claude.
             </p>
           </div>
           </section>
