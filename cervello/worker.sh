@@ -57,7 +57,7 @@ if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then
   exit 1
 fi
 
-INTERVALLO="${WORKER_INTERVALLO:-30}"   # secondi tra un controllo e l'altro
+INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (basso = chat reattiva)
 AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
 echo "[$(ts)] Worker AD avviato. Controllo la coda 'lavori' ogni ${INTERVALLO}s."

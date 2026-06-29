@@ -124,6 +124,7 @@ type Msg = {
   tools?: string[];
   esperto?: { nome: string; emoji: string };
   prompt?: boolean;
+  pending?: boolean; // bolla "sto pensando…" in attesa della risposta del cervello
 };
 type Conversazione = {
   id: string;
@@ -651,7 +652,7 @@ export default function Dashboard() {
   // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
   // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
   async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
-    const reali = msgs.filter((m) => !m.prompt && (m.role === "user" || m.role === "assistant"));
+    const reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
     if (reali.length === 0) return id;
     const titolo = titoloDa(reali);
     let newId = id;
@@ -781,36 +782,86 @@ export default function Dashboard() {
     fetch("/api/diario", { method: "DELETE" }).catch(() => {});
   }
 
-  // Manda un compito al "cervello" (Claude Code sul Max): lo esegue in background
-  // e il risultato compare qui sotto in "Lavori del cervello". È il modo di
-  // chattare SENZA usare l'API a pagamento: lavora il tuo abbonamento Max.
+  // Sostituisce la bolla "sto pensando…" (pending) con la risposta vera del cervello.
+  // Se per qualche motivo non c'è più, accoda un nuovo messaggio.
+  function rispondiInChat(prev: Msg[], content: string): Msg[] {
+    const i = prev.findIndex((m) => m.pending);
+    if (i === -1) return [...prev, { role: "assistant", content }];
+    const copia = [...prev];
+    copia[i] = { role: "assistant", content };
+    return copia;
+  }
+
+  // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
+  // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
+  // o "errore" (o dopo il timeout, senza bloccare nulla).
+  async function attendiRisposta(id: string): Promise<string> {
+    const scadenza = Date.now() + 5 * 60 * 1000; // 5 minuti di pazienza
+    while (Date.now() < scadenza) {
+      await new Promise((r) => setTimeout(r, 2000));
+      try {
+        const r = await fetch("/api/lavori", { cache: "no-store" });
+        const d = await r.json();
+        if (Array.isArray(d.lavori)) {
+          setLavori(d.lavori);
+          const l = d.lavori.find((x: Lavoro) => x.id === id);
+          if (l && (l.stato === "fatto" || l.stato === "errore")) {
+            return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+          }
+        }
+      } catch {
+        // rete instabile: riprovo al giro dopo
+      }
+    }
+    return "⌛ Ci sto ancora lavorando: la risposta arriva a breve (puoi vederla anche in «Lavori del cervello»).";
+  }
+
+  // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
+  // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
   async function mandaAlCervello(text?: string) {
     const t = (text ?? input).trim();
     if (!t || loading) return;
     if (text === undefined) setInput("");
-    // Se hai scelto una o più conversazioni "come base", le accodo come contesto.
-    const richiesta = base?.testo ? `${t}\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : t;
+
+    // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
+    // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
+    const storia = messages
+      .filter((m) => !m.prompt && !m.pending)
+      .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
+      .join("\n");
+    const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
+    const richiesta =
+      (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+      `## Nuovo messaggio di Nicola\n${t}` +
+      baseTxt +
+      `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+      `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+
     setMessages((m) => [
       ...m,
       { role: "user", content: t },
-      { role: "assistant", content: "🧠 Mandato al cervello (Max). La risposta compare qui sotto in «Lavori del cervello» appena è pronta." },
+      { role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
     try {
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta }),
+        body: JSON.stringify({ richiesta, tipo: "chat" }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
         setLavori((l) => [d.lavoro, ...l]);
-        aggiungiDiario("chat", "🧠 Mandato al cervello", t);
+        aggiungiDiario("chat", "🧠 Chat col cervello", t);
+        const risposta = await attendiRisposta(d.lavoro.id);
+        setMessages((m) => rispondiInChat(m, risposta));
       } else {
-        setMessages((m) => [...m, { role: "assistant", content: `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}` }]);
+        setMessages((m) =>
+          rispondiInChat(m, `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`)
+        );
       }
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: "⚠️ Connessione fallita." }]);
+      setMessages((m) => rispondiInChat(m, "⚠️ Connessione fallita."));
     } finally {
       setLoading(false);
     }
@@ -1387,6 +1438,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <span className="inline-block px-4 py-2.5 rounded-2xl rounded-br-md text-sm whitespace-pre-wrap max-w-[85%] leading-relaxed bg-brand text-white shadow-card">
                       {m.content}
                     </span>
+                  ) : m.pending ? (
+                    <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md bg-black/[0.04] text-black/45 text-sm">
+                      <Loader2 size={14} className="animate-spin" /> sto pensando…
+                    </div>
                   ) : (
                     <div className="inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%] bg-black/[0.04] text-ink">
                       <Markdown>{m.content}</Markdown>
@@ -1401,7 +1456,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 </div>
               )
             )}
-            {loading && (
+            {loading && !messages.some((m) => m.pending) && (
               <div className="flex items-center gap-2 text-black/40 text-sm">
                 <Loader2 size={16} className="animate-spin" /> Sto lavorando...
               </div>
@@ -1414,7 +1469,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
-                placeholder="Scrivi al cervello (Max), gratis..."
+                placeholder="Scrivi all'AD (col tuo Max), gratis..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
@@ -1433,7 +1488,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 disabled={loading || !input.trim()}
                 className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
-                title="Manda al cervello (Claude Code sul tuo Max): gratis, in background"
+                title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
               >
                 {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
@@ -1449,7 +1504,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
             <p className="text-[11px] text-black/40 px-1 leading-relaxed">
-              🧠 <b>Invia</b> = lo fa il cervello sul tuo Max (gratis, in background) · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
+              🧠 <b>Invia</b> = l'AD ti risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
           </section>
