@@ -73,6 +73,8 @@ ai_prepare_env() {
   if [ "$(ai_engine)" = cursor ] && [ -n "${CURSOR_API_KEY:-}" ]; then
     export CURSOR_API_KEY
   fi
+  # Headless VPS: niente browser login.
+  export CI="${CI:-true}"
 }
 
 # Costruisce il comando del motore SENZA il prompt: popola l'array globale AI_CMD.

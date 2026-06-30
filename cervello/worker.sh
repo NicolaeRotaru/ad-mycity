@@ -215,8 +215,7 @@ $richiesta
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
   elif [ "$tipo" = "giro" ]; then
     # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
-    # NON usare agent diretto: senza giro.sh la memoria spesso non arriva su GitHub.
-    export GIRO_EXTRA_INSTRUCTION="$richiesta"
+    export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
     to="${WORKER_TIMEOUT_GIRO:-2700}"   # 45 min — allineato al timeout chat del Pannello
     out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/giro.sh" 2>&1)"; rc=$?
     skip_sync=1

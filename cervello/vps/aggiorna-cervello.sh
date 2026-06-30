@@ -15,7 +15,7 @@ ENV_FILE="$REPO/cervello/vps/.env"
 if [ "$(id -un)" = "root" ]; then
   echo "[$(ts)] ▶ Fix permessi repo → $APP_USER, poi allineamento senza root."
   chown -R "$APP_USER:$APP_USER" "$REPO"
-  AGGIORNA_SKIP_RESTART=1 sudo -u "$APP_USER" -H bash "$REPO/cervello/vps/aggiorna-cervello.sh"
+  AGGIORNA_SKIP_RESTART=1 sudo -u "$APP_USER" -H env AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"
   echo "[$(ts)] ▶ Riavvio mycity-worker..."
   systemctl restart mycity-worker
   sleep 2
@@ -58,7 +58,26 @@ flock -w 120 9
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
   git add -A 2>/dev/null || true
   git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti ($(ts))" 2>/dev/null || true
-  git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture vault pendenti." || true
+fi
+
+# Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).
+if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
+  git fetch "$url" "$branch" 2>/dev/null || true
+  _ahead_pre="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
+  if [ "${_ahead_pre:-0}" -gt 0 ] 2>/dev/null; then
+    echo "[$(ts)] ▶ Push di ${_ahead_pre} commit pendenti su origin/${branch} (prima dell'allineamento)..."
+    _ok_pre=0
+    for _a in 1 2 3; do
+      git fetch "$url" "$branch" 2>/dev/null \
+        && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+      if git push "$url" "HEAD:${branch}" 2>&1; then
+        echo "[$(ts)] ✓ Commit pendenti pubblicati su GitHub."
+        _ok_pre=1; break
+      fi
+      sleep 3
+    done
+    [ "$_ok_pre" = 1 ] || echo "[$(ts)] ✗ Push commit pendenti fallito — controlla GIT_PUSH_TOKEN." >&2
+  fi
 fi
 
 git fetch "$url" "$branch" 2>/dev/null \
@@ -107,26 +126,24 @@ else
   echo "[$(ts)] WARN: motore-ai senza --trust." >&2
 fi
 
-# Riavvio worker (serve root).
+# Riavvio worker: solo root (mycity non ha sudo).
 if [ -n "${AGGIORNA_SKIP_RESTART:-}" ]; then
-  echo "[$(ts)] ✓ Allineamento completato (restart saltato)."
+  echo "[$(ts)] ✓ Allineamento completato."
   exit 0
 fi
 
-if command -v systemctl >/dev/null 2>&1 && systemctl is-enabled mycity-worker >/dev/null 2>&1; then
-  if [ "$(id -un)" != "root" ]; then
-    echo "[$(ts)] ▶ Riavvio mycity-worker (serve root)..."
-    sudo systemctl restart mycity-worker
-  else
-    systemctl restart mycity-worker
-  fi
-  sleep 2
-  if systemctl is-active --quiet mycity-worker; then
-    echo "[$(ts)] ✓ Worker attivo. Lancia «fai un giro» dal Pannello."
-  else
-    echo "[$(ts)] ✗ Worker non partito — journalctl -u mycity-worker -n 30" >&2
-    exit 1
-  fi
+if [ "$(id -un)" != "root" ]; then
+  echo "[$(ts)] ✓ Allineamento completato." >&2
+  echo "[$(ts)]   Riavvio worker (come root): sudo systemctl restart mycity-worker" >&2
+  exit 0
+fi
+
+echo "[$(ts)] ▶ Riavvio mycity-worker..."
+systemctl restart mycity-worker
+sleep 2
+if systemctl is-active --quiet mycity-worker; then
+  echo "[$(ts)] ✓ Worker attivo. Lancia «fai un giro» dal Pannello."
 else
-  echo "[$(ts)] ✓ Allineamento completato."
+  echo "[$(ts)] ✗ Worker non partito — journalctl -u mycity-worker -n 30" >&2
+  exit 1
 fi
