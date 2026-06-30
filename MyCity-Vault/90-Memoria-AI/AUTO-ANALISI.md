@@ -1,35 +1,36 @@
 ---
-data: 2026-06-30 23:15
 tipo: auto-analisi
+data: 2026-07-01 00:17
 ---
 
-# 🔬 AUTO-ANALISI — Giro 30/6/2026 23:15
+# 🔬 AUTO-ANALISI — Giro 2026-07-01 00:17
 
-## Voto di fiducia: **85/100** (▼ da 86)
+## Voto di fiducia: **86/100** (▲ +1 vs 85 del 30/6 23:15)
 
-**Perché −1:** Sesto passaggio del giorno con business identico al passaggio di 5 min fa. Onesto e coerente con L-2026-0629-03. Il lavoro eseguito (riverifica REST + nota escalation 168h + digest memoria DB) è corretto; il malus è per ridondanza temporale, non per errori.
+**Perché:** 7 numeri riverificati live via REST (= vs passaggio precedente). Grounding entità ok. Nessun numero orfano. Valore aggiunto del giro: playbook temporali 1/7 🟢 + snapshot KPI + aggiornamento Intelligence. Malus singolo −5 MCP cieco (REST fallback attivo). Non ho ripetuto un passaggio vuoto: business invariato ma **contesto esterno nuovo** (allerta oggi) giustifica il giro.
 
 ## Errori per gravità
-
-Nessuno intercettato in L1. Entità fondate (Casa Linda, Pane Quotidiano, ordine €19,05, 407 lead). Numeri con fonte REST live 23:15.
+Nessun errore L1 intercettato in questo giro.
 
 ## Domande per Nicola
-
-1. **Forzo Casa Linda prima della soglia 168h (~11h)?**
-2. **Ordine zombie €19,05:** accetti o annulli?
-3. **Link lista d'attesa** per VP 3/7 (~46h)?
+1. **Forzo Casa Linda entro ~10h dalla soglia 168h?** — Stallo 157,8h, unico payout-ready.
+2. **Ordine €19,05:** accetti, consegni o annulli? — Buyer fermo ~6,6 gg.
+3. **Link lista d'attesa per VP 3/7?** — Tra ~66h, senza link conversione zero.
 
 ## Salute della macchina
-
-- **Supabase marketplace:** REST ✅ · MCP ❌ (fallback funziona)
-- **Supabase memoria:** env ✅ · tabella briefings scrivibile ✅
-- **Stripe:** status pubblico operativo
-- **PostHog:** non collegato
+- Supabase marketplace REST: ✅ live 00:17
+- Supabase memoria: ✅ env presente
+- Supabase MCP: ❌ cieco (fallback OK)
+- Stripe: ✅ status pubblico OK
+- PostHog: ❌ non collegato
+- Dati freschi: ✅ sì (REST questo giro)
 
 ## Punti ciechi
-
-Stripe MCP dettaglio, PostHog, scan competitor/stampa (settimanale).
+- PostHog / funnel checkout
+- Stripe MCP (solo status page)
+- Competitor live (cadenza settimanale)
+- Sentiment social (non esaustivo)
 
 ## Cosa miglioro al prossimo giro
-
-Se numeri = e meteo/eventi invariati → niente 7° passaggio (lezione L-2026-0629-03).
+- Non ripetere passaggio se numeri = E radar esterno invariato E nessun evento del giorno
+- Escalation automatica 🔴 se stallo supera 168h senza firma Nicola

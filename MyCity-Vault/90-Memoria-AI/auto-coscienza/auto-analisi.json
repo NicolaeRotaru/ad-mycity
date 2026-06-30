@@ -1,11 +1,11 @@
 {
-  "data": "2026-06-30 23:15",
-  "voto_fiducia": 85,
-  "trend_fiducia": "▼",
-  "sintesi": "Giro 30/6 23:15. Voto −1 (86→85): sesto passaggio del giorno con business identico al passaggio di 5 min fa — coerente con L-2026-0629-03. 7 numeri live REST confermati (=). Stallo 156,8h; soglia 168h tra ~11h. Valore aggiunto: nota escalation 🟢 + digest memoria DB. Nessun errore grounding/numeri orfani.",
+  "data": "2026-07-01 00:17",
+  "voto_fiducia": 86,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro 1/7 00:17. Voto +1 (85→86): 7 numeri live REST confermati (= vs 23:15). Stallo 157,8h; soglia 168h tra ~10h. Valore aggiunto: playbook temporali 1/7 🟢 + snapshot KPI + Intelligence eventi. Nessun errore grounding/numeri orfani. MCP cieco, REST fallback OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 23:15, fonte clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 00:17, fonte clmpyfvpvfjgeviworth)",
     "coerenza": "ok",
     "semaforo": "ok",
     "qualita": "ok",
@@ -14,19 +14,19 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda prima della soglia 168h (~11h)?",
-      "perche_serve": "Stallo 156,8h. Unico negozio payout-ready.",
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda prima della soglia 168h (~10h)?",
+      "perche_serve": "Stallo 157,8h. Unico negozio payout-ready.",
       "se_rispondi": "Attivo catena vendite+operations+finanza.",
       "gravita": "alta"
     },
     {
       "domanda": "Sblocco ordine zombie €19,05 (accetta o annulla)?",
-      "perche_serve": "Buyer fermo ~6,5 giorni — pacchetto pronto.",
+      "perche_serve": "Buyer fermo ~6,6 giorni — pacchetto pronto.",
       "se_rispondi": "Eseguo opzione A o B del pacchetto operations.",
       "gravita": "alta"
     },
     {
-      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra ~46h)?",
+      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra ~66h)?",
       "perche_serve": "Senza link il presidio QR converte 0.",
       "se_rispondi": "Completo kit #7 e #11.",
       "gravita": "alta"
@@ -39,7 +39,7 @@
     "Competitor/stampa non rifatti (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Non fare un 7° passaggio se numeri = e radar esterno invariato",
+    "Non fare passaggio ridondante se numeri = e nessun evento esterno nuovo",
     "Escalation automatica se stallo supera 168h senza firma"
   ],
   "salute_macchina": {

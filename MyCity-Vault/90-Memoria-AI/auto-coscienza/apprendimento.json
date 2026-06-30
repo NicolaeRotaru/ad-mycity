@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 00:06",
+  "data": "2026-07-01 00:17",
   "lezioni": [
+    {
+      "id": "L-2026-0701-02",
+      "testo": "Quando il business è in stallo (= numeri identici tra giri) ma c'è un evento esterno NUOVO del giorno (es. allerta meteo oggi vs 'domani' ieri), il giro ha valore se produce artefatti operativi 🟢 (playbook, snapshot KPI) — non se ripete solo il digest. Altrimenti applicare L-2026-0629-03 (passaggio minimo).",
+      "tag": ["giro", "efficienza", "meteo", "artefatti"],
+      "reparto": "@AD",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-01",
       "testo": "Da worker (chiavi in cervello/vps/.env) l'AD legge ENTRAMBI i Supabase via REST anche senza SUPABASE_ACCESS_TOKEN per MCP: marketplace clmpyfvpvfjgeviworth (sola lettura) e memoria Pannello xjljcsorpbqwttrejqte. Quando Nicola chiede «vedi i db?», rispondere con tabella progetti + conteggi live e distinguere: (a) sensori AD = OK; (b) Cabina Vercel = wiring env (#10 rifiutato 30/6), non assenza del DB.",
@@ -195,7 +207,7 @@
     "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»)."
   ],
   "meta": {
-    "lezioni_attive": 15,
+    "lezioni_attive": 16,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.65

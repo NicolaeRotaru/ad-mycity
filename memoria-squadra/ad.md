@@ -15,3 +15,6 @@ Metabolizzazione chat «quali mani ti servono?»: inventario mani worker (tutte 
 
 # ESITO — @AD — 2026-07-01 00:06
 Metabolizzazione chat «riesci a vedere i db?»: confermati entrambi i Supabase via REST (marketplace + memoria xjljcsorpbqwttrejqte: 11 briefing, 27 lavori, 5 conversazioni). L-2026-0701-01 + evidenza L-2026-0630-03. Gap Vercel ≠ gap dati.
+
+# ESITO — @AD — 2026-07-01 00:17
+Giro 1/7: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi → playbook 🟢. L-2026-0701-02 (giro con valore se evento esterno nuovo). Voto fiducia 86 ▲.

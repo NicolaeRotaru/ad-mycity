@@ -190,9 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 23:15
+## 🤖 Aggiornamento dell'AD — 2026-07-01 00:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **📊 7 numeri LIVE (REST 23:15):** stallo **156,8h** → **168h tra ~11h**. VP 3/7 **tra ~46 ore**.
-- **🌧️ Domani 1/7 temporali** ([Protezione Civile ER](https://protezionecivile.regione.emilia-romagna.it/novita/notizie/attualita/per-la-giornata-di-1-luglio-allerta-arancione-per-temperature-estreme-in-regione-giallo-temporali)): leva delivery latente.
+- **📊 7 numeri LIVE (REST 00:17):** stallo **157,8h** → **168h tra ~10h**. VP 3/7 **tra ~66 ore**.
+- **🌧️ OGGI 1/7 temporali** ([Protezione Civile ER](https://protezionecivile.regione.emilia-romagna.it/novita/notizie/attualita/per-la-giornata-di-1-luglio-allerta-arancione-per-temperature-estreme-in-regione-giallo-temporali)): playbook 🟢 pronto.
 - **⛔ Collo di bottiglia:** prima transazione **Casa Linda** + sblocco ordine zombie €19,05.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

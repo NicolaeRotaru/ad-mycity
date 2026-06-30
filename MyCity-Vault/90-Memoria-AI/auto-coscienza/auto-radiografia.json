@@ -107,14 +107,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-06-30 23:15",
+    "data": "2026-07-01 00:17",
     "loop_chiude": true,
     "tasso_applicazione": 0.65,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 64,
+    "ore_da_ultima_completa": 65,
     "verdetto": "ok",
-    "nota": "Sonda 30/6 23:15. 4 invarianti OK: (1) loop chiude — L-2026-0629-03 applicata (passaggio minimo + escalation 168h); (2) tasso 0.65 ▲; (3) giro a cadenza; (4) sentinelle verificate live. REST OK, MCP cieco. Voto salute 76 =. <10gg radiografia completa → no trigger."
+    "nota": "Sonda 1/7 00:17. 4 invarianti OK: (1) loop chiude — L-2026-0630-03 REST fallback applicato; (2) tasso 0.65; (3) giro a cadenza (nuovo giorno); (4) sentinelle: ordine zombie + 6 carrelli >4h. REST OK, MCP cieco. Voto salute 76 =. <10gg radiografia completa → no trigger."
   },
   "meta": {
     "agenti_totali": 42,

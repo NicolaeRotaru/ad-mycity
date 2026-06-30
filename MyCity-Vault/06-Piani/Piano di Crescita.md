@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 23:15
+## 🤖 Aggiornamento dell'AD — 2026-07-01 00:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 156,8h → 168h tra ~11h:** urgenza decisionale cresce. Nota escalation 🟢 in `consegne/ad/2026-06-30-nota-escalation-stallo-168h.md`.
+- **Stallo 157,8h → 168h tra ~10h:** urgenza decisionale massima. Nota escalation 🟢 già in `consegne/ad/2026-06-30-nota-escalation-stallo-168h.md`.
 - **Prima transazione Casa Linda** resta leva #1 — unico payout-ready.
-- **Esperimento E0 bloccato:** PostHog non collegato + 0 traffico → nessun A/B test partibile finché non c'è la 1ª transazione.
+- **Esperimento E0 bloccato:** PostHog non collegato + 0 traffico → nessun A/B test partibile.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

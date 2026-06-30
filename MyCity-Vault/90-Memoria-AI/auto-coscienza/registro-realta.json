@@ -1,7 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-30 23:15",
-  "_nota_giro_30_06_notte": "Giro 30/6 23:15: 7 numeri RIVERTIFICATI live via REST (= vs 23:10). Stallo 156,8h. Soglia 168h tra ~11h. 407 lead. 6 carrelli abbandonati >4h.",
+  "aggiornato": "2026-07-01 00:17",
+  "_nota_giro_01_07": "Giro 1/7 00:17: 7 numeri RIVERTIFICATI live via REST (= vs 30/6 23:15). Stallo 157,8h. Soglia 168h tra ~10h. 407 lead. 6 carrelli abbandonati >4h. Allerta temporali 1/7 ER.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -36,10 +36,10 @@
       "evidenze": [
         "Seller con is_approved=true nei dati reali (riverificato live 2026-06-30 23:08 via REST).",
         "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
-        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
+        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti. Riverificato 1/7 00:17."
       ],
       "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
-      "ultima_verifica": "2026-06-30 23:15"
+      "ultima_verifica": "2026-07-01 00:17"
     },
     {
       "nome": "Pane Quotidiano",
@@ -50,10 +50,10 @@
       "evidenze": [
         "Seller con is_approved=true nei dati reali (riverificato live 2026-06-30 23:08 via REST).",
         "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
-        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da ~6,6 giorni — ordine zombie)."
+        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da ~6,6 giorni — ordine zombie). Riverificato 1/7 00:17."
       ],
       "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
-      "ultima_verifica": "2026-06-30 23:15"
+      "ultima_verifica": "2026-07-01 00:17"
     },
     {
       "nome": "Antica Salumeria Garetti",

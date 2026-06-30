@@ -131,6 +131,14 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 23:15 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:15; Stripe operativo.
 - 2026-06-30 23:15 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 (~46h) · foglio-firma 🔴.
 
+### 2026-07-01 — Giro mattina (00:17)
+- 2026-07-01 00:17 · @AD · FATTO · Giro 1/7: 7 numeri LIVE REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Soglia 168h tra ~10h.
+- 2026-07-01 00:17 · @operations · FATTO · Playbook temporali 1/7 in consegne/operations/2026-07-01-playbook-temporali.md (🟢). Allerta 070/2026 ER.
+- 2026-07-01 00:17 · @analista · FATTO · Snapshot KPI in consegne/analista/2026-07-01-kpi-live-0017.md (🟢). 6 carrelli >4h confermati.
+- 2026-07-01 00:17 · @intelligence · FATTO · eventi-picchi.md + buchi-mercato.md aggiornati (allerta oggi + countdown VP ~66h).
+- 2026-07-01 00:17 · @devops-sre · FATTO · Sentinella ops-02: REST marketplace OK; Supabase mgmt incident altre regioni; Stripe OK.
+- 2026-07-01 00:17 · @AD · SERVE · Da Nicola: Casa Linda 🔴 (~10h a 168h) · ordine zombie 🔴 · link lista VP 🔴 (~66h) · foglio-firma 🔴.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
