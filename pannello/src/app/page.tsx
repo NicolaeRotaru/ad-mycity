@@ -89,13 +89,16 @@ import {
   CalendarDays,
   Lightbulb,
   Award,
+  Microscope,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
 import Cervello from "@/components/aree/Cervello";
-import GovernoAD from "@/components/GovernoAD";
+import Lavori from "@/components/aree/Lavori";
+import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
+import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
@@ -108,7 +111,7 @@ import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
-import LavoriCervello from "@/components/LavoriCervello";
+import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale } from "@/lib/lavori-gruppo";
 
@@ -559,10 +562,25 @@ function fa(iso: string | null): string {
   }
 }
 
+type Vista =
+  | "plancia"
+  | "azioni"
+  | "lavori"
+  | "cervello"
+  | "auto-coscienza"
+  | "numeri"
+  | "memoria"
+  | "persone"
+  | "operazioni"
+  | "mondo"
+  | "assistente"
+  | "storico";
+
+type AssistenteTab = "chat" | "conversazioni" | "storico";
+
 export default function Dashboard() {
-  const [vista, setVista] = useState<
-    "plancia" | "azioni" | "cervello" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
-  >("plancia");
+  const [vista, setVista] = useState<Vista>("plancia");
+  const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
@@ -1009,7 +1027,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     try {
       const v = localStorage.getItem("mycity_vista");
-      if (v) setVista(v as typeof vista);
+      if (v === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else if (v) setVista(v as Vista);
     } catch {}
   }, []);
   useEffect(() => {
@@ -1021,9 +1042,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
   useEffect(() => {
     const onVai = (e: Event) => {
-      const det = (e as CustomEvent).detail as { vista?: typeof vista; anchor?: string } | undefined;
+      const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
       if (!det?.vista) return;
-      setVista(det.vista);
+      if (det.vista === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else {
+        setVista(det.vista);
+        if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
+        if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
+        if (det.vista === "assistente" && det.sub === "chat") setAssistenteTab("chat");
+      }
       if (det.anchor) {
         const target = det.anchor;
         // Ritenta: la casella può comparire dopo il cambio area, l'apertura della scheda
@@ -1172,22 +1201,23 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 border-b border-black/[0.06] bg-paper/80 backdrop-blur-md">
+      <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
               M
             </div>
             <div className="leading-tight min-w-0">
-              <h1 className="font-semibold text-[15px] tracking-tight truncate">Pannello di Controllo</h1>
-              <span className="text-xs text-black/40">AD MyCity</span>
+              <h1 className="font-semibold text-[16px] tracking-tight truncate" style={{ color: "var(--text-primary)" }}>Pannello di Controllo</h1>
+              <span className="t-eti text-[12px]">AD MyCity</span>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+                vivo ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800" : "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
               }`}
             >
               <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
@@ -1197,32 +1227,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-4 sm:py-5 space-y-4">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5">
         {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
         {(() => {
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+            { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
             { id: "cervello", label: "Cervello", icon: <Cpu size={15} /> },
+            { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-            { id: "storico", label: "Storico", icon: <History size={15} /> },
           ] as const;
           return (
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {AREE.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setVista(t.id)}
-                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition ${
-                    vista === t.id
-                      ? "bg-brand text-white shadow-card"
-                      : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
-                  }`}
+                  className={`nav-tab ${vista === t.id ? "nav-tab-active" : ""}`}
                 >
                   {t.icon}
                   <span>{t.label}</span>
@@ -1258,8 +1285,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
         )}
 
-        {/* ===================== CERVELLO (la macchina su sé stessa) ===================== */}
+        {/* ===================== CERVELLO (radiografia) ===================== */}
         {vista === "cervello" && <Cervello />}
+
+        {/* ===================== LAVORI DEL CERVELLO ===================== */}
+        {vista === "lavori" && <Lavori lavori={lavori} onSvuota={svuotaLavori} />}
+
+        {/* ===================== AUTO-COSCIENZA ===================== */}
+        {vista === "auto-coscienza" && <AutoCoscienzaArea />}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
@@ -1346,13 +1379,43 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
         <div className="space-y-4">
+          <div>
+            <h2 className="t-area">💬 Assistente</h2>
+            <p className="t-eti mt-0.5">Chat con l&apos;AD, conversazioni salvate e storico.</p>
+          </div>
 
+          <div className="flex flex-wrap gap-1.5">
+            {(
+              [
+                { id: "chat" as const, label: "Chat", icon: <Send size={14} /> },
+                { id: "conversazioni" as const, label: "Conversazioni", icon: <MessagesSquare size={14} /> },
+                { id: "storico" as const, label: "Storico", icon: <History size={14} /> },
+              ] as const
+            ).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setAssistenteTab(t.id)}
+                className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {assistenteTab === "storico" && (
+            <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
+          )}
+
+          {assistenteTab === "chat" && (
+          <>
           {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
           <Comandi onScegli={(cmd) => setInput(cmd)} />
 
           {/* Chat */}
-          <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
+          <section className="card flex flex-col overflow-hidden">
+          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
                 <Send size={15} />
@@ -1388,17 +1451,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
               <div className="pt-1">
-                <p className="text-sm text-black/50 mb-3">
+                <p className="t-corpo text-sm mb-3">
                   Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {TEAM.map((e) => (
-                    <div key={e.nome} className="flex items-start gap-2.5 text-xs border border-black/[0.07] bg-paper/40 rounded-xl px-3 py-2 hover:border-brand/30 hover:bg-brand-50/40 transition">
+                    <div key={e.nome} className="surface-muted flex items-start gap-2.5 text-xs px-3 py-2 hover:border-brand/30 transition">
                       <span className="text-base leading-none mt-0.5">{e.emoji}</span>
                       <span className="leading-snug">
-                        <span className="font-semibold text-ink/80">{e.nome}</span>
+                        <span className="font-semibold t-sez text-[13px]">{e.nome}</span>
                         <br />
-                        <span className="text-black/40">{e.ruolo}</span>
+                        <span className="t-eti">{e.ruolo}</span>
                       </span>
                     </div>
                   ))}
@@ -1422,11 +1485,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={i} className="text-left">
-                  <div className="text-xs text-black/45 mb-1.5 flex items-center gap-1">
+                  <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
                     <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
                   </div>
-                  <div className="border border-brand/25 bg-brand-50/60 rounded-xl p-3.5">
-                    <pre className="text-xs whitespace-pre-wrap font-sans text-ink/90 leading-relaxed">{m.content}</pre>
+                  <div className="border border-brand/25 rounded-xl p-3.5" style={{ background: "var(--brand-soft)" }}>
+                    <pre className="text-xs whitespace-pre-wrap font-sans t-corpo leading-relaxed">{m.content}</pre>
                     <button
                       onClick={() => copia(m.content)}
                       className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
@@ -1438,7 +1501,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ) : (
                 <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
                   {m.role === "assistant" && m.esperto && (
-                    <div className="text-xs text-black/45 mb-1">
+                    <div className="t-eti text-xs mb-1">
                       {m.esperto.emoji} {m.esperto.nome}
                     </div>
                   )}
@@ -1447,16 +1510,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md bg-black/[0.04] text-black/45 text-sm">
+                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
                       <Loader2 size={14} className="animate-spin" /> sto pensando…
                     </div>
                   ) : (
-                    <div className="inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%] bg-black/[0.04] text-ink">
+                    <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
                     </div>
                   )}
                   {m.role === "assistant" && m.tools && m.tools.length > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs text-black/35 mt-1.5">
+                    <div className="flex items-center gap-1.5 text-xs t-eti mt-1.5">
                       <Wrench size={12} />
                       {m.tools.map((t) => TOOL_LABELS[t] || t).join(" · ")}
                     </div>
@@ -1465,20 +1528,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               )
             )}
             {loading && !messages.some((m) => m.pending) && (
-              <div className="flex items-center gap-2 text-black/40 text-sm">
+              <div className="flex items-center gap-2 t-eti text-sm">
                 <Loader2 size={16} className="animate-spin" /> Sto lavorando...
               </div>
             )}
             <div ref={endRef} />
           </div>
-          <div className="border-t border-black/[0.06] p-3 space-y-2 bg-paper/30">
+          <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <div className="flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
+                className="input-soft flex-1"
               />
               <button
                 onClick={dettaVoce}
@@ -1511,65 +1574,66 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <FileText size={14} /> Prompt (copia per Max)
               </button>
             </div>
-            <p className="text-[11px] text-black/40 px-1 leading-relaxed">
+            <p className="t-eti text-[11px] px-1 leading-relaxed">
               🧠 <b>Invia</b> = l'AD ti risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
           </section>
+          </>
+          )}
 
-        {/* Conversazioni: ricorda e riprendi le chat precedenti */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
+          {assistenteTab === "conversazioni" && (
+        <section className="card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <span className="sez-ico">
                 <MessagesSquare size={16} />
               </span>
-              <span className="text-[15px] font-semibold tracking-tight">Conversazioni</span>
+              <span className="t-sez">Conversazioni</span>
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={nuovaConversazione} className="text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition">
+              <button type="button" onClick={nuovaConversazione} className="btn-ghost">
                 <Plus size={13} /> Nuova
               </button>
               {conversazioni.length > 0 && (
-                <button onClick={svuotaConversazioni} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
+                <button type="button" onClick={svuotaConversazioni} className="btn-ghost">
                   <Trash2 size={12} /> Svuota
                 </button>
               )}
             </div>
           </div>
-          <p className="text-[11px] text-black/40 mb-3">
+          <p className="t-eti text-[11px] mb-3">
             {convServer
               ? "💾 Salvate nel database: le ritrovi anche da un altro dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."
               : "💾 Salvate su questo dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."}
           </p>
 
           {convSel.length > 0 && (
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 bg-brand-50/50 px-3 py-2">
+            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2" style={{ background: "var(--brand-soft)" }}>
               <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
               <button
+                type="button"
                 onClick={usaComeBase}
                 className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
               >
                 <Layers size={13} /> Inizia nuova con queste come base
               </button>
-              <button onClick={() => setConvSel([])} className="text-xs text-black/45 hover:text-black/70">
+              <button type="button" onClick={() => setConvSel([])} className="btn-ghost">
                 annulla
               </button>
             </div>
           )}
 
           {conversazioni.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora nessuna conversazione. Quando scrivi nella chat qui sopra, la conversazione viene salvata qui e potrai riprenderla.
+            <p className="t-eti text-sm">
+              Ancora nessuna conversazione. Quando scrivi nella chat, la conversazione viene salvata qui e potrai riprenderla.
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
               {conversazioni.map((c) => (
                 <div
                   key={c.id}
-                  className={`flex items-center gap-3 border rounded-xl p-3 transition ${
-                    convId === c.id ? "border-brand/40 bg-brand-50/40" : "border-black/[0.07] hover:border-black/15 hover:bg-paper/40"
-                  }`}
+                  className={`conv-row flex items-center gap-3 ${convId === c.id ? "conv-row-active" : ""}`}
                 >
                   <input
                     type="checkbox"
@@ -1578,22 +1642,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     className="w-4 h-4 accent-brand shrink-0"
                     aria-label="Seleziona conversazione"
                   />
-                  <button onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                    <div className="text-sm font-medium text-ink/85 truncate">{c.titolo}</div>
-                    <div className="text-[11px] text-black/40">
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
+                    <div className="conv-row-title">{c.titolo}</div>
+                    <div className="conv-row-meta">
                       {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
                       {convId === c.id && " · in corso"}
                     </div>
                   </button>
-                  <button
-                    onClick={() => continuaConversazione(c.id)}
-                    className="shrink-0 text-xs font-medium text-brand border border-brand/30 rounded-full px-3 py-1.5 hover:bg-brand-50 active:scale-95 transition"
-                  >
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="btn-outline-brand">
                     Apri
                   </button>
                   <button
+                    type="button"
                     onClick={() => eliminaConversazione(c.id)}
-                    className="shrink-0 text-black/30 hover:text-red-500 transition"
+                    className="btn-ghost-danger"
                     aria-label="Elimina conversazione"
                   >
                     <Trash2 size={14} />
@@ -1603,66 +1665,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
-
-        <LavoriCervello lavori={lavori} onSvuota={svuotaLavori} />
+          )}
 
         </div>
         )}
 
-        {/* ===================== SCHEDA: STORICO ===================== */}
+        {/* storico top-level: reindirizzato ad assistente → tab storico */}
         {vista === "storico" && (
-        <div className="space-y-4">
-
-        <div>
-          <h2 className="t-area">🕘 Storico & governo</h2>
-          <p className="t-eti mt-0.5">Il diario di tutto ciò che l'AD ha detto e fatto, la diretta della squadra e i controlli.</p>
-        </div>
-
-        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-        <GovernoAD />
-
-        {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <History size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Diario — tutto ciò che dice e fa</span>
-            </div>
-            {diario.length > 0 && (
-              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota
-              </button>
-            )}
-          </div>
-          <p className="text-[11px] text-black/40 mb-3">
-            {memoria
-              ? "💾 Salvato nel database: resta anche se aggiorni la pagina o cambi dispositivo."
-              : "💾 Salvato su questo browser. Collega il database di memoria per ritrovarlo ovunque."}
-          </p>
-          {diario.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {diario.map((v) => (
-                <div key={v.id} className="border border-black/[0.07] rounded-xl p-3.5 hover:border-black/10 hover:bg-paper/40 transition">
-                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand font-medium shrink-0">{DIARIO_TIPO[v.tipo] || v.tipo}</span>
-                    <span className="font-medium text-ink/70 truncate">{v.titolo}</span>
-                    <span className="ml-auto shrink-0">{fa(v.at)}</span>
-                  </div>
-                  <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
-                  <ParlaCasella titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        </div>
+          <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
       </main>
     </div>
@@ -1689,30 +1699,30 @@ const MD_COMPONENTS: Components = {
     className ? (
       <code className={className}>{children}</code>
     ) : (
-      <code className="bg-black/[0.06] rounded px-1 py-0.5 text-[0.85em] font-mono">{children}</code>
+      <code className="rounded px-1 py-0.5 text-[0.85em] font-mono" style={{ background: "var(--bg-surface-2)", color: "var(--text-primary)", border: "1px solid var(--border)" }}>{children}</code>
     ),
   pre: ({ children }) => (
-    <pre className="bg-black/[0.06] rounded-lg p-3 overflow-x-auto text-xs my-2">{children}</pre>
+    <pre className="rounded-lg p-3 overflow-x-auto text-xs my-2" style={{ background: "var(--bg-surface-2)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}>{children}</pre>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-black/15 pl-3 text-black/70 my-2">{children}</blockquote>
+    <blockquote className="border-l-2 pl-3 my-2" style={{ borderColor: "var(--border-strong)", color: "var(--text-muted)" }}>{children}</blockquote>
   ),
-  hr: () => <hr className="border-black/10 my-3" />,
+  hr: () => <hr className="my-3" style={{ borderColor: "var(--border)" }} />,
   table: ({ children }) => (
     <div className="overflow-x-auto my-2">
       <table className="w-full text-xs border-collapse">{children}</table>
     </div>
   ),
-  thead: ({ children }) => <thead className="bg-black/[0.04]">{children}</thead>,
-  th: ({ children }) => <th className="border border-black/10 px-2 py-1 text-left font-semibold">{children}</th>,
-  td: ({ children }) => <td className="border border-black/10 px-2 py-1 align-top">{children}</td>,
+  thead: ({ children }) => <thead style={{ background: "var(--bg-surface-2)" }}>{children}</thead>,
+  th: ({ children }) => <th className="px-2 py-1 text-left font-semibold" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>{children}</th>,
+  td: ({ children }) => <td className="px-2 py-1 align-top" style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}>{children}</td>,
 };
 
 // Mostra il testo dell'AI come Markdown formattato (grassetti, elenchi, tabelle)
 // invece che come testo grezzo pieno di asterischi e barrette.
 function Markdown({ children }: { children: string }) {
   return (
-    <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD_COMPONENTS}>
         {children}
       </ReactMarkdown>

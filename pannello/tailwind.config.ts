@@ -1,13 +1,15 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         brand: { DEFAULT: "#C0492C", dark: "#A23A20", 50: "#FBF1ED", 100: "#F4DED6" },
-        ink: "#1a1410",
-        paper: "#faf8f5",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        paper: "rgb(var(--paper-rgb) / <alpha-value>)",
+        black: "rgb(var(--black-rgb) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
