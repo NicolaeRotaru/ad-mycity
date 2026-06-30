@@ -170,6 +170,23 @@ battito_worker() {
     >/dev/null 2>&1 || true
 }
 
+# Dopo un restart systemd i lavori restano «in_corso» ma nessun processo li esegue più.
+# Rimettiamoli in coda così il worker non resta in sleep 5s per sempre.
+recupera_lavori_orfani() {
+  local orfani id tipo
+  orfani="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=id,tipo,updated_at&order=updated_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  printf '%s' "$orfani" | jq -c '.[]?' 2>/dev/null | while read -r row; do
+    id="$(printf '%s' "$row" | jq -r '.id // empty')"
+    tipo="$(printf '%s' "$row" | jq -r '.tipo // "?"')"
+    [ -z "$id" ] && continue
+    echo "[$(ts)] Recupero lavoro orfano $id ($tipo): in_corso → in_attesa (worker riavviato)." >&2
+    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
+      -d '{"stato":"in_attesa"}' >/dev/null 2>&1 || true
+  done
+}
+
+recupera_lavori_orfani
+
 while true; do
   maybe_reload_worker
   battito_worker
