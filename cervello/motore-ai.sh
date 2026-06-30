@@ -12,8 +12,16 @@
 #
 # Espone: ai_engine, ai_cli_name, ai_check, ai_build_cmd (popola l'array globale AI_CMD).
 
+# agent si installa in ~/.local/bin; un .env che esporta PATH può nasconderlo a command -v.
+ai_ensure_path() {
+  if [ -n "${HOME:-}" ] && [ -d "$HOME/.local/bin" ]; then
+    case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
+  fi
+}
+
 # Quale motore usare: cursor | claude | none.
 ai_engine() {
+  ai_ensure_path
   case "${CERVELLO_MOTORE:-auto}" in
     cursor) echo cursor ;;
     claude) echo claude ;;
@@ -36,6 +44,7 @@ ai_cli_name() {
 
 # Verifica che il motore sia installato (e dia un avviso utile se manca la chiave). Ritorna 1 se inutilizzabile.
 ai_check() {
+  ai_ensure_path
   local eng cli
   eng="$(ai_engine)"
   if [ "$eng" = none ]; then
@@ -44,11 +53,16 @@ ai_check() {
   fi
   cli="$(ai_cli_name)"
   if ! command -v "$cli" >/dev/null 2>&1; then
-    echo "CLI '$cli' non trovata (motore=$eng). Installala o cambia CERVELLO_MOTORE." >&2
+    echo "CLI '$cli' non trovata (motore=$eng). Installala o cambia CERVELLO_MOTORE (es. claude o auto)." >&2
+    return 1
+  fi
+  if [ "$eng" = cursor ] && [ "${CERVELLO_MOTORE:-auto}" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
+    echo "ERRORE: CERVELLO_MOTORE=cursor ma CURSOR_API_KEY mancante nel .env." >&2
+    echo "  Crea la chiave su cursor.com/dashboard → API Keys e aggiungila a cervello/vps/.env" >&2
     return 1
   fi
   if [ "$eng" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
-    echo "Nota: CURSOR_API_KEY non impostata. Uso il login interattivo di 'agent' (se presente). Per il VPS, imposta CURSOR_API_KEY in cervello/vps/.env." >&2
+    echo "Nota: CURSOR_API_KEY non impostata — su VPS serve quasi sempre. cursor.com/dashboard → API Keys." >&2
   fi
   return 0
 }
