@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:25
+aggiornato: 2026-07-01 01:29
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari ✅ · worker whitelist **11 domini** fino a merge PR `fix/webfetch-globale` · post-merge restano limiti **lato sito** (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** in Cursor ✅ · policy+mansionari ✅ · worker whitelist **11 domini** fino a merge PR `fix/webfetch-globale` · post-merge restano limiti **lato sito** (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,7 +49,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 01:25** — Nicola: «ci altri siti con webfetch a cui non puoi aderire?» → risposta a due binari: whitelist worker (11 domini fino a merge PR) vs resistenza lato sito (IG/paywall/anti-bot); test Cursor catalogati; ripiego WebSearch. L-2026-0701-13.
+1. **Chat 1/7 01:29** — Nicola: «fai giro web a tutti i senior» → **42/42** completati; sintesi top-10 + report `consegne/ad/2026-07-01-giro-web-senior.md`; quaderni aggiornati; handoff Sala Operativa (FESR chiuso, GDPR marketplace, fee consegna checkout). Giro in **Cursor** — worker resta whitelist fino merge PR. L-2026-0701-14.
+2. **Chat 1/7 01:25** — Nicola: «ci altri siti con webfetch a cui non puoi aderire?» → risposta a due binari: whitelist worker (11 domini fino a merge PR) vs resistenza lato sito (IG/paywall/anti-bot); test Cursor catalogati; ripiego WebSearch. L-2026-0701-13.
 2. **Chat 1/7 01:23** — Nicola: «apri la pr su main» → branch `fix/webfetch-globale` pushato (`3ccfb05`, WebFetch globale in `settings.json`); PR da mergiare su GitHub (token VPS push ✓, API PR ✗). Post-merge: `aggiorna-cervello.sh`. L-2026-0701-12.
 2. **Chat 1/7 01:19** — Nicola: «come faccio PR su main?» → playbook: fix codice su **`main`** (non memoria-ad); due vie = AD apre PR o GitHub UI 8 passi; post-merge = `aggiorna-cervello.sh`. L-2026-0701-11.
 3. **Chat 1/7 01:16** — Nicola esegue `sudo bash cervello/vps/aggiorna-cervello.sh`: worker **attivo** ✓ · commit `1394219` allinea a main · **`settings.json` = ancora whitelist** (11 domini) — WebFetch globale assente su `origin/main`. Percorso sync **corretto** (L-2026-0701-09); blocco resta PR su `main` + secondo sync. Fonte: chat Nicola 1/7 01:16.
@@ -77,7 +78,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 - [x] ~~Firmare le 3 decisioni di lancio~~ — **FATTO** Nicola 1/7 01:02
 - [ ] ~~Forzare transazione Casa Linda~~ — **RITIRATA** (negozio demo)
 - [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** da Nicola 1/7 (kit #7/#11 congelati; prossima finestra utile VP **10/17 lug** se link lista pronto)
-- [ ] 🟡 **Kit "Bando ER + MyCity"** (#12, scade 21/7)
+- [ ] 🟡 **Kit "Bando ER + MyCity"** (#12) — **⚠️ rivedere:** FESR Commercio ER **chiuso 23/6** (giro web 1/7); non promettere 40% fondo perduto finché kit non aggiornato
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-01]]; decisioni in [[DECISIONI]].*

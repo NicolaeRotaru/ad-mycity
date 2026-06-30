@@ -48,3 +48,6 @@ Metabolizzazione chat «apri la pr su main»: Nicola delega — AD push branch `
 
 # ESITO — @AD — 2026-07-01 01:25
 Metabolizzazione chat «ci altri siti con webfetch a cui non puoi aderire?»: Nicola vuole catalogo limiti concreto. Due binari: whitelist worker (11 domini) vs sito (IG/login, paywall, Idealista anti-bot). L-2026-0701-13 + preferenza Nicola.
+
+# ESITO — @AD — 2026-07-01 01:29
+Giro web 42 senior (Nicola): benchmark 2025-26, 1 riga ESITO/quaderno con URL+data, sintesi top-10 in chat + `consegne/ad/2026-07-01-giro-web-senior.md`. Handoff: FESR chiuso 23/6 → kit #12; fee consegna checkout; GDPR marketplace. Ambiente Cursor — worker post-merge PR main. L-2026-0701-14 + evidenza L-0629-02.

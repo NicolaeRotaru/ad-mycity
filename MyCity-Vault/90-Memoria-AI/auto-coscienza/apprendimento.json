@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 01:25",
+  "data": "2026-07-01 01:29",
   "lezioni": [
+    {
+      "id": "L-2026-0701-14",
+      "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente: Cursor ≠ worker (whitelist finché PR main). Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
+      "tag": ["web", "apprendimento", "senior", "nicola", "sintesi", "giro"],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-13",
       "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due binari distinti** (non confonderli): (1) **whitelist nostra** sul worker finché PR `fix/webfetch-globale` non è mergiata su `main` — passano solo 11 domini (stripe.com, bandi ER×3, ilpiacenza, piacenza24, paginegialle, startupitalia, 2 substack, accessibilitacentristorici); tutto il resto → «WebFetch non autorizzato»; (2) **resistenza lato sito** — resta anche dopo WebFetch globale: login-wall (IG/TikTok/FB), paywall (testo pieno Libertà/testate), anti-bot/JS (Idealista timeout), 403 intermittenti (portali locali). Test Cursor 1/7: Comune ✅ · Libertà ✅ · PiacenzaSera ✅ · developers.google.com ✅ · Idealista ❌ · Instagram ⚠️ solo titolo. Ripiego policy: WebFetch → WebSearch + URL → dichiara limite in Sala Operativa/`memoria-squadra/`. Citare anche blocchi **non-WebFetch**: Supabase/Stripe MCP, Auto-review Cursor.",
@@ -321,14 +333,14 @@
     },
     {
       "id": "L-2026-0629-02",
-      "testo": "Le opportunità esterne (bandi, eventi, aperture) hanno finestre temporali reali: vanno accodate CON la scadenza visibile, non solo come 'opportunità'. Il bando ER scade il 21/7 — 22 giorni — e ogni giro senza azione accorcia la finestra.",
-      "tag": ["urgenza", "opportunita", "bandi", "tempo"],
+      "testo": "Le opportunità esterne (bandi, eventi, aperture) hanno finestre temporali reali: vanno accodate CON la scadenza visibile, non solo come 'opportunità'. **Aggiornamento giro web 1/7:** bando FESR ER Commercio 2026 (40% fondo perduto) **chiuso anticipatamente 23/6/2026** al tetto domande — kit #12 e pitch vendite da rivedere prima di promettere fondi. Monitorare calendario bandi via @relazioni-istituzionali + web; ogni giro senza verifica accorcia la credibilità col negozio.",
+      "tag": ["urgenza", "opportunita", "bandi", "tempo", "fesr"],
       "reparto": "@vendite",
-      "confidenza": 0.7,
-      "evidenze": 1,
+      "confidenza": 0.82,
+      "evidenze": 2,
       "fonte": "radar",
       "nato": "2026-06-29",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-07-01",
       "stato": "attiva"
     }
   ],
@@ -355,10 +367,11 @@
     "Esegue comandi operativi semplici quando guidato correttamente (`sudo bash cervello/vps/aggiorna-cervello.sh`) — preferisce script a git manuale (confermato 1/7 01:16 post-correzione memoria-ad).",
     "Chiede «come faccio PR su main?» quando serve un fix codice — preferisce delegare all'AD («apri la PR su main») o istruzioni GitHub passo-passo nel browser; **non** git CLI locale/VPS (chat 1/7 01:19).",
     "Delega confermata con «apri la pr su main»: AD prepara branch+push, Nicola merge su GitHub in browser (1 click) — non git locale (chat 1/7 01:23).",
-    "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»)."
+    "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»).",
+    "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»)."
   ],
   "meta": {
-    "lezioni_attive": 27,
+    "lezioni_attive": 28,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65
