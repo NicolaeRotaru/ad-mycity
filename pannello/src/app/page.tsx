@@ -1595,6 +1595,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <p className="text-[11px] text-black/40 mb-3">
             Compiti pesanti che esegue il cervello su Claude Code/Max, gratis. Se il cervello non è ancora acceso, restano «in attesa».
           </p>
+          {lavori.some((lv) => {
+            if (lv.stato !== "in_attesa") return false;
+            const t = new Date(lv.created_at).getTime();
+            return !isNaN(t) && Date.now() - t > 3 * 60 * 1000;
+          }) && (
+            <div className="mb-3 rounded-xl border border-red-200 bg-red-50/80 px-3.5 py-2.5 text-[12.5px] text-red-800 leading-snug">
+              <b>⛔ Cervello spento.</b> Il lavoro è in coda da oltre 3 minuti senza partire. Sul VPS esegui:{" "}
+              <code className="bg-red-100/80 px-1 rounded text-[11px]">systemctl start mycity-worker</code>
+              {" "}(guida: <code className="text-[11px]">cervello/vps/SETUP-VPS.md</code>). Controlla anche che l&apos;AD non sia in{" "}
+              <b>Pausa</b> (Governo → Controllo).
+            </div>
+          )}
           {lavori.length === 0 ? (
             <p className="text-sm text-black/40">
               Nessun lavoro. Scrivi un compito nella chat e premi «🧠 Manda al cervello».

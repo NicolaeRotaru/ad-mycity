@@ -68,7 +68,16 @@ AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SER
 
 echo "[$(ts)] Worker AD avviato. Controllo la coda 'lavori' ogni ${INTERVALLO}s."
 
+# Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
+battito_worker() {
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:ultimo\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 while true; do
+  battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   if printf '%s' "$pausa" | grep -q '"valore":"on"'; then

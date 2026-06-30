@@ -47,6 +47,13 @@ $INTERVALLO = 5   # secondi tra un controllo e l'altro (basso = chat reattiva)
 Write-Host "Worker AD avviato (motore: $motore). Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
 while ($true) {
   try {
+    # Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
+    try {
+      $now = (Get-Date).ToUniversalTime().ToString("o")
+      $hb = @{ chiave = "worker:ultimo"; valore = $now; updated_at = $now } | ConvertTo-Json
+      Invoke-RestMethod -Uri "$URL/rest/v1/impostazioni?on_conflict=chiave" -Headers (@{ apikey = $KEY; Authorization = "Bearer $KEY"; "Content-Type" = "application/json"; Prefer = "resolution=merge-duplicates,return=minimal" }) -Method Post -Body $hb | Out-Null
+    } catch { }
+
     # Kill-switch: se nel Pannello di Controllo l'AD è in PAUSA, non eseguire nulla.
     try {
       $imp = Invoke-RestMethod -Uri "$URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" -Headers $headers -Method Get
