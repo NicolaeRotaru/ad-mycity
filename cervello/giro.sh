@@ -2,7 +2,7 @@
 # giro.sh — GIRO DI PERLUSTRAZIONE dell'AD MyCity con Claude Code (piano Max), per VPS Linux.
 # Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' Claude Code prende
 # automaticamente CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
-# Lo lancia il timer systemd (cervello/vps/mycity-giro.timer) ogni 2 ore.
+# Il timer automatico (mycity-giro.timer) è DISATTIVATO. Lanciare a mano con giro-ora.sh.
 set -euo pipefail
 
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere

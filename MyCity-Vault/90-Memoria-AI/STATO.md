@@ -1,18 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-06-29 11:30
-fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati live)
+aggiornato: 2026-06-30 11:45
+fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in sessione 30/6)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **29/6 11:30 — STALLO A ~125h.** I 7 numeri sono identici al 28/6. Nessuna attività dal 24/6 08:28.
-> **Novità esterna calda:** Ex Scuderie (3 spazi food premium approvati dal Comune), Bando Commercio ER
-> (40% fondo perduto, scade **21/7 — 22 giorni**), Venerdì Piacentini 3/10/17 lug confermati (250 eventi,
-> 300+ negozi aperti). Caldo estremo 37°C oggi.
-> Collo di bottiglia invariato: **prima transazione end-to-end con Casa Linda** (payout-ready).
+> 🧠 **30/6 11:45 — STALLO A ~6 GIORNI.** Supabase non collegato in questa sessione → i 7 numeri restano
+> alla baseline verificata live il 29/6. Nessuna attività reale dal 24/6 08:28.
+> **Novità di oggi (web live): SVOLTA METEO — il caldo è finito.** Oggi 30/6 e domani 1/7 = **pioggia
+> (prob. 90%, max ~34°C)**, poi clima mite (29-32°C). Il fattore-guida passa da caldo a **pioggia** (leva
+> delivery più forte). **Venerdì Piacentini 3/7 confermato** (49 eventi) → presidio QR ora comodo (sera fresca).
+> Collo di bottiglia invariato: **prima transazione end-to-end con Casa Linda** (payout-ready) + ordine zombie €19,05.
 
-## I 7 numeri (verificati live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth)
+## I 7 numeri (baseline live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth — NON riverificati il 30/6)
 | Numero | Oggi (29/6) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
@@ -29,10 +30,12 @@ fonte: AD digitale (dati reali Supabase clmpyfvpvfjgeviworth — riverificati li
 - 🔴 Problema: **stallo da ~125h** (0 ordini/0 eventi dal 24/6); 3 decisioni di lancio non firmate; nessun wiring Vercel.
 
 ## Ultime mosse dell'AD
-1. **Giro 29/6 11:30** — Riverificati numeri (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER confermato (22gg), Venerdì Piacentini record, caldo 37°C. Vedi [[2026-06-29]].
-2. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
-3. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
-4. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
+1. **Giro 30/6 11:45** — Svolta meteo confermata live (fine caldo, pioggia oggi+domani); Venerdì Piacentini 3/7 dettagliato (49 eventi). Supabase non collegato → 7 numeri = baseline 29/6. Nota operativa svolta meteo prodotta (🟢). Vedi [[2026-06-30]].
+2. **Giri 29/6 14:24 e 16:24** — 2 passaggi leggeri a sensori ridotti (Supabase/WebFetch non autorizzati): dati immobili, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Vedi [[2026-06-29]].
+3. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C.
+4. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
+5. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
+6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.

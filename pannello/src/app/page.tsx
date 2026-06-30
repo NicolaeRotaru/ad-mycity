@@ -93,8 +93,7 @@ import {
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import MemoriaViva from "@/components/MemoriaViva";
-import AutoCoscienza from "@/components/AutoCoscienza";
+import Memoria from "@/components/aree/Memoria";
 import Cervello from "@/components/aree/Cervello";
 import GovernoAD from "@/components/GovernoAD";
 import RicercaGlobale from "@/components/RicercaGlobale";
@@ -304,10 +303,10 @@ const RIDER_KPI: Kpi[] = [
 // === FINANZA & MARGINI — 8 KPI × 3 finestre ===
 // Si accendono quando colleghi Stripe/payout e i costi.
 const FINANZA_KPI: Kpi[] = [
-  { icon: <Percent size={16} />, label: "Ricavo piattaforma (commissioni)", fonte: "Stripe/ordini", tipo: "euro" },
-  { icon: <TrendingUp size={16} />, label: "Margine medio / ordine", fonte: "Stripe/costi", tipo: "euro" },
-  { icon: <Banknote size={16} />, label: "Payout ai negozi", fonte: "Stripe", tipo: "euro" },
-  { icon: <RotateCcw size={16} />, label: "Rimborsi", fonte: "Stripe", tipo: "euro" },
+  { icon: <Percent size={16} />, label: "Ricavo piattaforma (commissioni)", fonte: "Stripe/ordini", tipo: "euro", valore: "ricavo_commissione_30g" },
+  { icon: <TrendingUp size={16} />, label: "Margine medio / ordine", fonte: "Stripe/costi", tipo: "euro", valore: "cm_reale_per_ordine" },
+  { icon: <Banknote size={16} />, label: "Payout ai negozi", fonte: "Stripe", tipo: "euro", valore: "payout_completati_euro" },
+  { icon: <RotateCcw size={16} />, label: "Rimborsi", fonte: "Stripe", tipo: "euro", valore: "rimborsi_euro" },
   { icon: <ShieldAlert size={16} />, label: "Chargeback / dispute", fonte: "Stripe", tipo: "n" },
   { icon: <Truck size={16} />, label: "Costo consegne", fonte: "flotta rider", tipo: "euro" },
   { icon: <Receipt size={16} />, label: "IVA stimata", fonte: "contabilità", tipo: "euro" },
@@ -316,24 +315,24 @@ const FINANZA_KPI: Kpi[] = [
 
 // === CLIENTI & RETENTION (CRM) === — far tornare e fidelizzare i clienti
 const CLIENTI_KPI: Kpi[] = [
-  { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc" },
+  { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc", valore: "repeat_rate" },
   { icon: <UserMinus size={16} />, label: "Churn clienti", fonte: "ordini", tipo: "perc" },
-  { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro" },
-  { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n" },
+  { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro", valore: "ltv_medio" },
+  { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n", valore: "ordini_per_cliente" },
   { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
   { icon: <Eye size={16} />, label: "Apertura email", fonte: "Resend", tipo: "perc" },
   { icon: <RotateCcw size={16} />, label: "Win-back recuperati", fonte: "CRM", tipo: "n" },
-  { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n" },
+  { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n", valore: "referral_totali" },
 ];
 
 // === NEGOZI & CATALOGO — 8 KPI × 3 finestre ===
 // Si accendono quando colleghi catalogo prodotti e health dei negozi.
 const NEGOZI_KPI: Kpi[] = [
-  { icon: <TrendingDown size={16} />, label: "Negozi in calo", fonte: "ordini", tipo: "n" },
-  { icon: <Boxes size={16} />, label: "Prodotti a catalogo", fonte: "catalogo", tipo: "n" },
-  { icon: <PackageX size={16} />, label: "Prodotti esauriti", fonte: "catalogo", tipo: "n" },
+  { icon: <TrendingDown size={16} />, label: "Negozi in calo", fonte: "ordini", tipo: "n", valore: "negozi_rossi" },
+  { icon: <Boxes size={16} />, label: "Prodotti a catalogo", fonte: "catalogo", tipo: "n", valore: "prodotti_totali" },
+  { icon: <PackageX size={16} />, label: "Prodotti esauriti", fonte: "catalogo", tipo: "n", valore: "prodotti_stock_zero" },
   { icon: <Store size={16} />, label: "Negozi senza ordini", fonte: "ordini", tipo: "n" },
-  { icon: <Tags size={16} />, label: "Categorie coperte", fonte: "catalogo", tipo: "n" },
+  { icon: <Tags size={16} />, label: "Categorie coperte", fonte: "catalogo", tipo: "n", valore: "categorie_coperte" },
   { icon: <Star size={16} />, label: "Recensione media negozi", fonte: "recensioni", tipo: "stelle" },
   { icon: <Clock size={16} />, label: "Tempo risposta negozio", fonte: "messaggi", tipo: "durata" },
   { icon: <UserPlus size={16} />, label: "Negozi in onboarding", fonte: "vendite", tipo: "n" },
@@ -344,8 +343,8 @@ const CONTABILITA_KPI: Kpi[] = [
   { icon: <FileText size={16} />, label: "Fatture emesse", fonte: "contabilità", tipo: "n" },
   { icon: <Receipt size={16} />, label: "Fatturato imponibile", fonte: "contabilità", tipo: "euro" },
   { icon: <Percent size={16} />, label: "IVA da versare", fonte: "contabilità", tipo: "euro" },
-  { icon: <Banknote size={16} />, label: "Payout riconciliati", fonte: "Stripe/contabilità", tipo: "perc" },
-  { icon: <RotateCcw size={16} />, label: "Note di credito", fonte: "contabilità", tipo: "n" },
+  { icon: <Banknote size={16} />, label: "Payout in attesa", fonte: "Stripe/contabilità", tipo: "n", valore: "payout_in_attesa" },
+  { icon: <RotateCcw size={16} />, label: "Note di credito / rimborsi", fonte: "contabilità", tipo: "n", valore: "rimborsi_n" },
   { icon: <CalendarClock size={16} />, label: "Scadenze fiscali", fonte: "contabilità", tipo: "n" },
 ];
 
@@ -354,8 +353,8 @@ const GROWTH_KPI: Kpi[] = [
   { icon: <FlaskConical size={16} />, label: "Esperimenti attivi", fonte: "growth", tipo: "n" },
   { icon: <ArrowUpRight size={16} />, label: "Uplift ricavo", fonte: "growth", tipo: "perc" },
   { icon: <TrendingUp size={16} />, label: "Tasso upsell", fonte: "ordini", tipo: "perc" },
-  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro" },
-  { icon: <Receipt size={16} />, label: "Scontrino post-upsell", fonte: "ordini", tipo: "euro" },
+  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro", valore: "fee_consegna_media_ordine" },
+  { icon: <Receipt size={16} />, label: "Commissione media / ordine", fonte: "ordini", tipo: "euro", valore: "commissione_media_ordine" },
   { icon: <Truck size={16} />, label: "Uso soglia spedizione gratis", fonte: "ordini", tipo: "perc" },
 ];
 
@@ -431,11 +430,11 @@ const MERCATO_KPI: Kpi[] = [
 
 // === AZIENDA & SQUADRA === — la salute dell'impresa dietro MyCity
 const AZIENDA_KPI: Kpi[] = [
-  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro" },
-  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n" },
-  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro" },
-  { icon: <TrendingDown size={16} />, label: "Burn mensile", fonte: "finanza", tipo: "euro" },
-  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n" },
+  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro", valore: "cassa_attuale" },
+  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n", valore: "runway_mesi" },
+  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro", valore: "burn_lordo" },
+  { icon: <TrendingDown size={16} />, label: "Burn netto mensile", fonte: "finanza", tipo: "euro", valore: "burn_netto" },
+  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n", valore: "break_even_ordini_mese" },
   { icon: <Percent size={16} />, label: "Margine operativo", fonte: "finanza", tipo: "perc" },
 ];
 
@@ -1258,71 +1257,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== MEMORIA & DECISIONI ===================== */}
         {vista === "memoria" && (
-        <div className="space-y-4">
-          <div>
-            <h2 className="t-area">🧠 Memoria & decisioni</h2>
-            <p className="t-eti mt-0.5">Cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD. (Le azioni da firmare sono in ⚡ Azioni.)</p>
-          </div>
-
-          {/* 🔬 Auto-coscienza: la macchina si controlla, impara e si migliora da sola (in cima: è il livello più serio) */}
-          <AutoCoscienza />
-
-          {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
-          <MemoriaViva />
-
-          {/* Briefing autonomo */}
-          <section className="card p-4">
-            <div className="sez-head mb-4">
-              <span className="sez-ico"><TrendingUp size={16} /></span>
-              <div className="min-w-0">
-                <span className="t-sez">Cosa ho scoperto e cosa propongo</span>
-                <div className="t-eti">
-                  L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
-                </div>
-              </div>
-            </div>
-
-            {!briefing && (
-              <div className="text-center text-black/45 py-10">
-                <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
-                <p className="text-sm text-black/35">
-                  Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
-                </p>
-              </div>
-            )}
-
-            {briefing && (
-              <div className="space-y-5">
-                <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
-
-                {briefing.opportunita?.length > 0 && (
-                  <div>
-                    <div className="t-micro mb-2">Opportunità</div>
-                    <div className="space-y-2">
-                      {briefing.opportunita.map((o, i) => (
-                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
-                          <div className="text-sm font-medium">{o.titolo}</div>
-                          <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
-                          <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
-                          </div>
-                          <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={[o.motivo, `impatto ${o.impatto}`, `sforzo ${o.sforzo}`].filter(Boolean).join(" · ")} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {briefing.azioni?.length > 0 && (
-                  <div className="rounded-xl border border-brand/15 bg-brand-50/30 p-3 text-[12.5px] text-ink/80">
-                    💡 Da questo giro l'AD propone <b>{briefing.azioni.length}</b> azioni. Le approvi (o le ignori) nell'area <b>⚡ Azioni → Da approvare</b>, in cima come «Proposte dal giro».
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
-        </div>
+          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
         )}
 
         {/* ===================== PERSONE ===================== */}
@@ -1635,7 +1570,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {lavori.map((lv) => (
+              {lavori.filter((lv) => lv.tipo !== "metabolizza").map((lv) => (
                 <div key={lv.id} className="border border-black/[0.07] rounded-xl p-3.5">
                   <div className="flex items-center gap-2 text-xs mb-1.5">
                     <span className={`px-2 py-0.5 rounded-full ring-1 font-medium ${LAVORO_STATO[lv.stato]?.cls || "bg-black/5 ring-black/10 text-black/60"}`}>

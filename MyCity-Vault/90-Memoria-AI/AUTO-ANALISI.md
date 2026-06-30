@@ -1,57 +1,46 @@
 ---
-data: 2026-06-29 11:30
+data: 2026-06-30 11:45
 tipo: auto-analisi
 fonte: AD digitale — cancello di serietà (verifica avversariale)
 ---
 
-# 🔬 Auto-analisi del giro — 2026-06-29 11:30
+# 🔬 Auto-analisi del giro — 2026-06-30 11:45
 
-## Voto di fiducia: 88 / 100 — trend ▲ (da 87)
-+1 punto: dati Supabase riverificati live su tutte le tabelle rilevanti (profiles, orders, order_items,
-activity_events, user_carts, abandoned_carts, merchants_leads), radar intelligence aggiornato con fonti
-citate (bando ER confermato 22gg, Ex Scuderie 🆕, Venerdì Piacentini record, meteo 37°C), 3 file
-intelligence aggiornati, nuova opportunità (bando ER) accodata come 🟡. Nessuna entità introdotta senza
-fondamento. Non è 100 perché Stripe e PostHog restano ciechi, i buchi di mercato sono ancora a ~70%, e lo
-stallo a ~125h resta non sbloccabile dalla macchina (tutte le azioni sono 🔴).
+## Voto di fiducia: 85 / 100 — trend ▼ (da 88)
+−3 punti, **non per un errore di lavoro ma per un peggioramento dei sensori**: il Supabase MCP, che il 29/6
+era leggibile live, in questa sessione è di nuovo cieco (needsAuth). I 7 numeri non sono riverificabili oggi:
+tenuti correttamente alla baseline del 29/6 e dichiarati come gap di misura (non come dato fresco). Il valore
+aggiunto reale del giro è il **radar live**: confermata la **svolta meteo** (fine caldo, pioggia oggi+domani)
+e il dettaglio del **Venerdì Piacentini 3/7** (49 eventi), entrambi con fonti citate. Nessuna entità nuova
+senza fondamento, nessun numero orfano, nessuna 🔴 travestita da 🟢.
 
 ## Errori per gravità
 
-### Bassa — Stallo a ~125h osservato ma non sbloccabile dalla macchina
-La macchina documenta lo stallo da 3 giri consecutivi ma tutte le azioni per sbloccarlo (transazione Casa
-Linda, ordine zombie) sono 🔴 in attesa di firma. Il valore della macchina è fare, non solo osservare.
-**Azione:** escalato come priorità 🔴 n.1 in STATO e briefing.
+### Media — Regressione dei sensori (Supabase cieco dopo il 29/6)
+La cecità sui dati interni è tornata in questa sessione. Gestita con onestà (baseline + gap), ma è un
+peggioramento dell'invariante "dati freschi". **Azione:** 7 numeri etichettati come baseline 29/6; wiring
+Vercel / autorizzazione MCP già in coda (#10).
 
-### Bassa — Buchi di mercato a confidenza ~70% da 3 giri
-Gastronomia centro, delivery diurno, regalo locale restano ipotesi non blindate (manca listino-fee Glovo +
-dati ordini food interni). **Azione:** dichiarati come ipotesi con confidenza esplicita + carburante mancante.
+### Bassa — Stallo a ~6 giorni osservato ma non sbloccabile dalla macchina
+Quarto giro: le leve di sblocco sono tutte 🔴 in attesa. **Azione:** prodotto comunque un 🟢 concreto (nota
+operativa svolta meteo) e riescalate le domande 🔴 a Nicola.
 
-Nessun errore medio/grave. Nessuna entità inventata, nessun numero orfano, nessuna 🔴 travestita da 🟢.
+Nessun errore grave. Nessuna entità inventata, nessun numero orfano.
 
 ## Grounding delle entità (3 strade)
-- **DB Memoria** → `confermato` (riverificato 29/6).
-- **Casa Linda** → `confermato` (seller approvato, payout attivo acct_1TcI1vIb6nEnAk4o, 26 prodotti).
-- **Pane Quotidiano** → `confermato` (seller approvato, Stripe acct_1TifANEq35Z9pThc, payout non attivo).
-- **Garetti** → `scelta_ragionata` (prospect, fondato su campo-aperto-faro.md + fatti pubblici, non nel DB).
-- **Ex Scuderie** → `scelta_ragionata` 🆕 (3 spazi food approvati dal Comune, fonte PiacenzaSera, pipeline futura).
+- **Casa Linda** → `confermato` (baseline 29/6; **non riverificato oggi**, MCP cieco).
+- **Pane Quotidiano** → `confermato` (baseline 29/6; non riverificato oggi).
+- **Garetti** → `scelta_ragionata` (prospect, fondato su campo-aperto-faro.md + fatti pubblici).
+- **Ex Scuderie** → `scelta_ragionata` (3 spazi food approvati dal Comune, fonte PiacenzaSera).
+- **Svolta meteo 30/6** → fatto esterno verificato live (TempoItalia/MeteoLive/iLMeteo).
+- **Venerdì Piacentini 3/7 (49 eventi)** → fatto esterno verificato live (programma ufficiale PDF + IlPiacenza).
 
 ## Domande per Nicola
-1. 🔴 **Forzo la prima transazione con Casa Linda?** — 125h a zero, unico payout-ready. Se sì → vendite+operations su Casa Linda.
-2. 🔴 **Sblocco l'ordine zombie €19,05?** — Fermo da 5 giorni, buyer nel limbo. Propongo nota al buyer + aggiornamento status.
+1. 🔴 **Forzo la prima transazione con Casa Linda?** — ~6 giorni a zero, unico payout-ready.
+2. 🔴 **Sblocco l'ordine zombie €19,05?** — fermo da ~6 giorni, buyer nel limbo.
+3. 🟡 **Autorizzi il Supabase MCP (o chiavi su Vercel)?** — è l'unico modo per tornare a vedere i 7 numeri.
 
 ## Salute della macchina
-- **Supabase (marketplace):** ✅ ok, `ACTIVE_HEALTHY`, dati freschi 29/6 ~11:20.
-- **Supabase (memoria):** ✅ ok, `xjljcsorpbqwttrejqte` ACTIVE_HEALTHY.
-- **Stripe:** ⚪ non interrogato (MCP non collegato).
-- **PostHog:** 🔴 non collegato.
-- **Dati freschi:** ✅ sì. **Sensori attivi:** 2.
-
-## Punti ciechi
-- Stripe e PostHog non letti → incassi/payout e traffico non riconciliati.
-- Buchi di mercato a ~70%: mancano dati food interni + listino-fee Glovo.
-- Azioni offline di Nicola non visibili.
-
-## Cosa miglioro al prossimo giro
-- Interrogare Stripe (se MCP collegato).
-- Produrre Kit Bando ER come azione concreta.
-- Dimensionare buchi di mercato con dati order_items food.
-- Verificare stato ordine zombie.
+Sensori attivi: **1** (solo web). Supabase marketplace cieco in sessione, Stripe/PostHog non collegati,
+dati_freschi = **false**. Il volano gira (lezioni applicate, vedi apprendimento.json), ma la calibrazione
+previsto-vs-reale resta ferma finché i sensori dati non tornano stabili.
