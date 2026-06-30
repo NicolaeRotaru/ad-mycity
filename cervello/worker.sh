@@ -40,11 +40,28 @@ sync_vault() {
       git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
       local ok=0
       for a in 1 2 3; do
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+        if git fetch "$url" "$branch" 2>/dev/null; then
+          # MERGE (non rebase): i log del vault si fondono da soli (.gitattributes merge=union).
+          # Se restano conflitti su file di CODICE (es. cervello/vps/SETUP-VPS.md) li risolviamo prendendo
+          # la versione remota (theirs) e committiamo: così il push della memoria non si blocca mai.
+          if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+            local conflitti
+            conflitti="$(git diff --name-only --diff-filter=U 2>/dev/null || true)"
+            if [ -n "$conflitti" ]; then
+              printf '%s\n' "$conflitti" | while IFS= read -r f; do
+                [ -n "$f" ] && git checkout --theirs -- "$f" 2>/dev/null || true
+              done
+              git add -A 2>/dev/null || true
+              git "${GIT_ID[@]}" commit --no-edit 2>/dev/null || git merge --abort 2>/dev/null || true
+            else
+              git merge --abort 2>/dev/null || true
+            fi
+          fi
+        fi
         if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
         sleep 2
       done
-      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (il giro recupera)." >&2
+      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (riprovo al prossimo lavoro)." >&2
     fi
   ) 9>"$LOCK" || true
 }
