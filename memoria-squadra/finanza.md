@@ -9,3 +9,4 @@ reparto: finanza
 
 ## Esiti
 - 2026-07-01 01:06 · Foglio-firma #2-3 Nicola · payout-test **03/07 mattina** (esegue lui) · Stripe **sandbox** confermato → nessun incasso carta reale finché LIVE · percorso coerente: ordine zombie €19,05 già COD · lezione: non forzare opzione A/B del foglio se Nicola fissa data personale + stato sandbox · #finanza #stripe #payout #cod
+- 2026-07-01 · giro web · Stripe Pricing Policy aggiornata 18/12/2025: fee listate sulla Pricing Page prevalgono se manca Pricing Agreement; modello IC+ può retro-aggiustare Network Costs; tier progressive ricalcolate giornalmente · https://stripe.com/legal/pricing-policy · lezione: margine unitario va simulato con arrotondamenti fee + possibili rettifiche IC+, non solo % headline · #finanza #stripe #fee #ic-plus

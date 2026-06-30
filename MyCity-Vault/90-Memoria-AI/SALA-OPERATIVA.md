@@ -155,6 +155,16 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:00 · @onboarding-negozi · FACCIO · Preparare checklist batch 6/7 (catalogo, payout, foto, test ordine) — 🟢 bozza in consegne/.
 - 2026-07-01 01:00 · @AD · SERVE · Da Nicola: ① **lista negozi 6/7** (nomi/quanti) · ② ordine zombie A/B 🔴 · ③ foglio-firma 🔴.
 
+### 2026-07-01 — Giro web apprendimento (01:29) — tutti i 42 senior
+- 2026-07-01 01:29 · @AD · FACCIO · Nicola chiede giro web a tutti i senior: benchmark 2025-26, ESITO in `memoria-squadra/`.
+- 2026-07-01 01:29 · @AD · FATTO · **42/42 senior** completati (Cursor, WebFetch globale locale). Sintesi in `consegne/ad/2026-07-01-giro-web-senior.md`. Quaderni aggiornati: `memoria-squadra/*.md` (1 riga ESITO ciascuno, URL+data).
+- 2026-07-01 01:29 · @relazioni-istituzionali · PASSO-A @vendite · Bando FESR Commercio ER **chiuso 23/06** (tet domande) — non promettere fondo perduto 40% ai negozi; cercare prossimo sportello ER/Comune.
+- 2026-07-01 01:29 · @contabilita · PASSO-A @finanza · Fattura elettronica **v1.9.1** utilizzabile dal **15/05/2026** (AdE) — verificare impatto su fatturazione commissioni MyCity.
+- 2026-07-01 01:29 · @legale-privacy · PASSO-A @tech · CGUE **2/12/2025** (C-492/23): marketplace = titolare GDPR su dati negli annunci — mappare su catalogo/recensioni MyCity.
+- 2026-07-01 01:29 · @marketing · PASSO-A @content-social · Agentic Commerce 2026 (Casaleggio/Netcomm): cataloghi devono essere leggibili anche dagli agenti AI — schema prodotto + FAQ.
+- 2026-07-01 01:29 · @cro · PASSO-A @frontend-dev · Checkout: wallet-first su mobile +6-11% in test A/B 2026; costi consegna inaspettati = #1 abbandono EU (40,7%, Sendcloud).
+- 2026-07-01 01:29 · @AD · SERVE · Worker VPS: giro eseguito in **Cursor** (web OK). Sul worker vale solo dopo merge PR WebFetch su `main` + `aggiorna-cervello.sh`.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
