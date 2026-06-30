@@ -45,3 +45,6 @@ Metabolizzazione chat «come faccio PR su main?»: Nicola vuole percorso concret
 
 # ESITO — @AD — 2026-07-01 01:23
 Metabolizzazione chat «apri la pr su main»: Nicola delega — AD push branch `fix/webfetch-globale` (`3ccfb05`); PR non auto-creata (limite token VPS). L-2026-0701-12 + evidenza L-0701-11. Stato: merge Nicola su GitHub → secondo `aggiorna-cervello.sh`.
+
+# ESITO — @AD — 2026-07-01 01:25
+Metabolizzazione chat «ci altri siti con webfetch a cui non puoi aderire?»: Nicola vuole catalogo limiti concreto. Due binari: whitelist worker (11 domini) vs sito (IG/login, paywall, Idealista anti-bot). L-2026-0701-13 + preferenza Nicola.
