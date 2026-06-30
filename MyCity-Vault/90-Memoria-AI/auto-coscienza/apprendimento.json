@@ -1,13 +1,26 @@
 {
-  "data": "2026-07-01 01:08",
+  "data": "2026-07-01 01:11",
   "lezioni": [
     {
+      "id": "L-2026-0701-09",
+      "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Correzione dopo consiglio sbagliato di `git pull memoria-ad` sul VPS per aggiornare WebFetch. 5 perché: (1) ho confuso binario **memoria** (`memoria-ad`, overlay automatico worker) con binario **codice** (`main`, es. `.claude/settings.json`); (2) Nicola non deve toccare git — pull manuale su memoria-ad confligge col giro; (3) L-2026-0701-03 e L-2026-0701-08 ripetevano l'errore; (4) ogni giro fa già fetch memoria-ad + overlay codice da main; (5) fix: **mai** dire a Nicola pull/checkout su `memoria-ad`. Aggiornamento codice VPS = `cervello/vps/aggiorna-cervello.sh` o «fai un giro» Pannello; verifica = `grep WebFetch settings.json`. WebFetch globale ancora solo locale finché PR non mergiata su **main**.",
+      "tag": ["vps", "git", "memoria-ad", "main", "nicola", "guardrail", "devops"],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0701-08",
-      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — grep `settings.json` (WebFetch senza whitelist), pull `memoria-ad` sul worker + restart, test funzionale su dominio prima bloccato (es. developers.google.com, Shopify) con `@seo` o senior simile → URL+data in risposta, zero «WebFetch non autorizzato»; (B) **osservabilità** — non esiste log HTTP grezzo per design: output distillato in chat (`🧠 IMPARATO:`), `memoria-squadra/<senior>.md`, `consegne/`, `SALA-OPERATIVA.md`, briefing. **Gap:** `memoria-squadra/` fuori vault → **non** in Pannello (solo GitHub/repo). Proposta vista «Quaderni senior» in Cabina resta 🟡 in attesa firma Nicola.",
+      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — grep `settings.json` (WebFetch senza whitelist); su VPS sync codice via `aggiorna-cervello.sh` o «fai un giro» (**main**, mai pull manuale `memoria-ad` da Nicola — vedi L-2026-0701-09); test funzionale su dominio prima bloccato (es. developers.google.com) con `@seo` → URL+data, zero «WebFetch non autorizzato»; (B) **osservabilità** — non esiste log HTTP grezzo: output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing. **Gap:** `memoria-squadra/` fuori vault → non in Pannello. Vista «Quaderni senior» 🟡 in attesa.",
       "tag": ["web", "osservabilita", "verifica", "pannello", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.82,
-      "evidenze": 1,
+      "confidenza": 0.88,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -67,11 +80,11 @@
     },
     {
       "id": "L-2026-0701-03",
-      "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7: WebFetch globale in `.claude/settings.json`, policy `WEB-APPRENDIMENTO-SENIOR.md`, blocco web su 42 mansionari. Regole: benchmark a due livelli (Piacenza + mondo), fonte+data, lezione in memoria-squadra/, loop chiuso. Resta 🔴 messaggi/spesa/deploy. **Gap operativo:** worker VPS deve fare pull `memoria-ad` altrimenti giri automatici restano con whitelist WebFetch vecchia. **Verifica Cursor 1/7:** WebFetch OK su developers.google.com (~24 KB); test funzionale = senior su dominio non-Piacenza con URL+data in risposta.",
+      "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7: WebFetch globale in `.claude/settings.json`, policy `WEB-APPRENDIMENTO-SENIOR.md`, blocco web su 42 mansionari. Regole: benchmark a due livelli (Piacenza + mondo), fonte+data, lezione in memoria-squadra/, loop chiuso. Resta 🔴 messaggi/spesa/deploy. **Gap operativo (corretto 1/7):** merge su **`main`** + sync VPS (`aggiorna-cervello.sh` o giro Pannello) — **non** pull manuale `memoria-ad` da Nicola (conflitti, L-2026-0701-09). GitHub remoto ancora whitelist finché PR main non mergiata. **Verifica Cursor 1/7:** WebFetch OK su developers.google.com (~24 KB).",
       "tag": ["web", "apprendimento", "senior", "auto-miglioramento", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.87,
-      "evidenze": 2,
+      "confidenza": 0.9,
+      "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -287,10 +300,11 @@
     "Sul foglio-firma risponde con imperativi brevi e fatti («crea il contratto», «lo faccio 03/7 mattina», «è sandbox») — non con opzioni A/B/C; il payout-test Stripe lo esegue personalmente in calendario (chat 1/7 foglio-firma lancio).",
     "Confermato Stripe sandbox sul sito: nessun incasso carta reale finché non passa a LIVE; intanto percorso COD (ordine zombie €19,05 già coerente) (chat 1/7 #3).",
     "Non vuole approvare ciò che fa già lui (inserimento negozi, payout in calendario): «perché devo approvare?» = segnale che l'AD ha classificato male — correggere subito e ritirare la card, non spiegare perché serve firma (chat 1/7 card onboarding 6/7).",
-    "Dopo abilitazioni tecniche (es. web senior) chiede subito come **verificare che funzioni** e **dove vedere cosa hanno trovato** — vuole osservabilità concreta (check + percorsi file/Pannello), non solo «fidati del processo» (chat 1/7 «come a verificarlo? e come faccio a vedere i dati?»)."
+    "Dopo abilitazioni tecniche (es. web senior) chiede subito come **verificare che funzioni** e **dove vedere cosa hanno trovato** — vuole osservabilità concreta (check + percorsi file/Pannello), non solo «fidati del processo» (chat 1/7 «come a verificarlo? e come faccio a vedere i dati?»).",
+    "**Non** fa pull/git manuale su `memoria-ad` — crea conflitti con l'overlay del worker; aggiornamento codice VPS = `aggiorna-cervello.sh` o giro dal Pannello, zero git manuale da lui (correzione chat 1/7 «ti ricordi che non posso fare pull su memoria-ad?»)."
   ],
   "meta": {
-    "lezioni_attive": 22,
+    "lezioni_attive": 23,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

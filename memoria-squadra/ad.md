@@ -20,7 +20,7 @@ Metabolizzazione chat «riesci a vedere i db?»: confermati entrambi i Supabase 
 Giro 1/7: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi → playbook 🟢. L-2026-0701-02 (giro con valore se evento esterno nuovo). Voto fiducia 86 ▲.
 
 # ESITO — @AD — 2026-07-01 00:36
-Metabolizzazione chat «web per tutti i senior»: Nicola chiede apprendimento continuo via web per tutti i 42 senior (multinazionale). AD ha già eseguito 🟡 (WebFetch globale, policy WEB-APPRENDIMENTO-SENIOR, mansionari). L-2026-0701-03 + preferenza Nicola. Gap: pull memoria-ad sul worker VPS.
+Metabolizzazione chat «web per tutti i senior»: Nicola chiede apprendimento continuo via web per tutti i 42 senior (multinazionale). AD ha già eseguito 🟡 (WebFetch globale, policy WEB-APPRENDIMENTO-SENIOR, mansionari). L-2026-0701-03 + preferenza Nicola. Gap: merge su main + sync VPS (corretto 01:11 — non pull memoria-ad).
 
 # ESITO — @AD — 2026-07-01 00:58
 Metabolizzazione correzione Nicola (Pannello): **Casa Linda = demo/seed**, unico negozio reale = **Pane Quotidiano**. Proposta transazione Casa Linda ritirata. L-2026-0701-04 (caso_studio_nicola) + evidenza L-2026-0628-01. Priorità: ordine zombie €19,05 + payout Stripe Pane Quotidiano.
@@ -30,3 +30,6 @@ Metabolizzazione chat «perché devo approvare?» (card onboarding 6/7): errore 
 
 # ESITO — @AD — 2026-07-01 01:08
 Metabolizzazione chat «come verifico / come vedo i dati» (web senior): Nicola vuole osservabilità post-abilitazione. Pattern risposta: (1) grep settings + pull worker + test dominio ex-whitelist; (2) output distillato in memoria-squadra/consegne/Sala Operativa — no log HTTP; gap Pannello su quaderni. L-2026-0701-08 + evidenza L-2026-0701-03.
+
+# ESITO — @AD — 2026-07-01 01:11
+Metabolizzazione correzione Nicola «non posso fare pull su memoria-ad»: errore AD — confuso binario memoria vs codice. Fix: mai git manuale memoria-ad per Nicola; codice da main via aggiorna-cervello.sh o giro. L-2026-0701-09 (caso_studio) + patch L-0701-03/08 + preferenza Nicola.

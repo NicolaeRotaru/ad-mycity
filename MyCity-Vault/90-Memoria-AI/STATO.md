@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:08
+aggiornato: 2026-07-01 01:11
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** OK in Cursor (WebFetch test developers.google.com 1/7); **worker VPS** ancora da pull `memoria-ad`; `memoria-squadra/` **non** visibile in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** OK in Cursor (WebFetch test 1/7); **GitHub `main` remoto ancora whitelist** — serve PR merge + sync VPS (`aggiorna-cervello.sh` o giro Pannello; Nicola **non** fa pull `memoria-ad`); `memoria-squadra/` **non** in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,7 +49,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + VPS pull + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa.
+1. **Chat 1/7 01:11** — Nicola corregge: **non può fare pull su `memoria-ad`** (conflitti). AD corregge: binario memoria (worker) vs codice (`main`); sync VPS = `aggiorna-cervello.sh` o giro Pannello; WebFetch globale ancora da mergiare su `main`. L-2026-0701-09.
+1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa. *(Consiglio pull memoria-ad — **errato**, corretto 01:11.)*
 1. **Metabolizzazione 1/7 01:08** — L-2026-0701-08 (verifica + osservabilità web) + preferenza Nicola in apprendimento.json.
 1. **Metabolizzazione 1/7 01:07** — Lezione L-2026-0701-07 (impegni Nicola ≠ card 🔴) + preferenza in apprendimento.json.
 1. **Chat 1/7 01:03** — Nicola: «perché devo approvare?» su card onboarding 6/7 → **non serve** (lavoro suo); proposta ritirata dal Pannello.
@@ -58,7 +59,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 1. **Metabolizzazione 1/7 01:06** — Lezione L-2026-0701-06 (foglio-firma: imperativi Nicola, payout 03/7 lui, sandbox confermato) + quaderni finanza/legale/vendite.
 1. **Metabolizzazione 1/7 01:05** — Lezione L-2026-0701-05 (ops 6/7 > presidio VP) + sync #8 RIMANDATO.
 2. **Chat 1/7 01:00** — Nicola rimanda presidio VP 3/7 (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in attesa post-onboarding.
-2. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **Worker VPS:** serve pull `memoria-ad` per nuovo `settings.json`.
+2. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **VPS:** merge su `main` + `aggiorna-cervello.sh` (non pull manuale memoria-ad).
 2. **Giro 1/7 00:17** — 7 numeri live REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Playbook temporali 🟢. Vedi [[2026-07-01]].
 3. **Chat 1/7 00:06** — Confermato accesso live marketplace + memoria Pannello (REST OK).
 4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
