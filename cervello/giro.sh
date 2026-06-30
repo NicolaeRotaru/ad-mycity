@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# giro.sh — GIRO DI PERLUSTRAZIONE dell'AD MyCity con Claude Code (piano Max), per VPS Linux.
-# Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' Claude Code prende
+# giro.sh — GIRO DI PERLUSTRAZIONE dell'AD MyCity (motore AI: Cursor 'agent' o Claude 'claude'), per VPS Linux.
+# Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' il motore prende
 # automaticamente CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
 # Il timer automatico (mycity-giro.timer) è DISATTIVATO. Lanciare a mano con giro-ora.sh.
 set -euo pipefail
@@ -17,13 +17,13 @@ cd "$REPO"
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
+# Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
+. "$SCRIPT_DIR/motore-ai.sh"
+
 ts() { date '+%Y-%m-%d %H:%M'; }
 
-# Claude Code installato e loggato col Max?
-if ! command -v claude >/dev/null 2>&1; then
-  echo "[$(ts)] Claude Code (CLI 'claude') non trovato. Installalo e fai 'claude login' col tuo piano Max." >&2
-  exit 1
-fi
+# Motore AI installato e utilizzabile?
+ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
 
 # Kill-switch: se il Pannello ha messo l'AD in PAUSA (impostazioni.pausa = on), non girare.
 if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
@@ -96,7 +96,7 @@ else
   echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: niente allineamento codice/memoria (solo locale)." >&2
 fi
 
-# Esegue il giro. acceptEdits: l'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
+# Esegue il giro col motore AI. L'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
 # Le azioni 🔴 restano comunque da firmare (regole in CLAUDE.md).
 # Guardia: leggi il prompt DOPO l'allineamento e abortisci se vuoto (evita il "--print con input vuoto").
 PROMPT="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
@@ -104,9 +104,10 @@ if [ -z "$PROMPT" ]; then
   echo "[$(ts)] ERRORE: cervello/giro.md non trovato/vuoto dopo l'allineamento; giro saltato." >&2
   exit 1
 fi
-echo "[$(ts)] Avvio giro di perlustrazione AD..."
-claude -p "$PROMPT" --permission-mode acceptEdits || {
-  echo "[$(ts)] Claude ha restituito un errore (giro non completato)." >&2
+echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine))..."
+ai_build_cmd
+"${AI_CMD[@]}" "$PROMPT" || {
+  echo "[$(ts)] Il motore AI ha restituito un errore (giro non completato)." >&2
 }
 echo "[$(ts)] Giro completato."
 

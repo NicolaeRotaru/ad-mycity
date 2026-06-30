@@ -23,10 +23,10 @@ if (-not (Test-Path $script)) {
   exit 1
 }
 
-# Avviso (non bloccante) se Claude Code non e' nel PATH: il task si crea comunque,
-# cosi' parte appena fai login col Max.
-if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
-  Write-Warning "Claude Code (CLI 'claude') non trovato nel PATH. Installalo e fai login col tuo piano Max, altrimenti il giro fallira'."
+# Avviso (non bloccante) se nessun motore AI e' nel PATH: il task si crea comunque,
+# cosi' parte appena installi/configuri il motore.
+if (-not (Get-Command agent -ErrorAction SilentlyContinue) -and -not (Get-Command claude -ErrorAction SilentlyContinue)) {
+  Write-Warning "Nessun motore AI nel PATH. Installa Cursor CLI ('agent', con CURSOR_API_KEY) o Claude Code ('claude', login Max), altrimenti il giro fallira'."
 }
 
 # L'azione: lancia PowerShell che esegue giro.ps1 (le virgolette gestiscono i percorsi con spazi).

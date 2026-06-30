@@ -1,7 +1,7 @@
 # Worker della coda "lavori" (Modo B del README).
 # Prende i lavori "in_attesa" dalla memoria Supabase e li fa eseguire all'AD
-# (Claude Code, piano Max), poi riscrive il risultato. Serve solo se usi anche
-# il Pannello di Controllo web (cartella pannello/).
+# (motore AI: Cursor 'agent' o Claude 'claude'), poi riscrive il risultato.
+# Serve solo se usi anche il Pannello di Controllo web (cartella pannello/).
 #
 # Richiede le variabili d'ambiente del progetto MEMORIA (NON del marketplace):
 #   SUPABASE_URL          = https://LA-MEMORIA.supabase.co
@@ -18,15 +18,33 @@ if (-not $URL -or -not $KEY) {
   Write-Error "Mancano SUPABASE_URL e SUPABASE_SERVICE_KEY (progetto MEMORIA). Vedi cervello/README.md."
   exit 1
 }
-if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
-  Write-Error "Claude Code (CLI 'claude') non trovato. Installalo e fai login col tuo piano Max."
+# Motore AI: Cursor 'agent' (default) o Claude 'claude'. Scelta via $env:CERVELLO_MOTORE (auto|cursor|claude).
+$motore = $env:CERVELLO_MOTORE
+if (-not $motore) { $motore = "auto" }
+if ($motore -eq "auto") {
+  if (Get-Command agent -ErrorAction SilentlyContinue) { $motore = "cursor" }
+  elseif (Get-Command claude -ErrorAction SilentlyContinue) { $motore = "claude" }
+  else { Write-Error "Nessun motore AI trovato. Installa Cursor CLI ('agent') o Claude Code ('claude')."; exit 1 }
+}
+$cli = if ($motore -eq "cursor") { "agent" } else { "claude" }
+if (-not (Get-Command $cli -ErrorAction SilentlyContinue)) {
+  Write-Error "CLI '$cli' non trovata (motore=$motore). Installala o cambia CERVELLO_MOTORE."
   exit 1
+}
+
+# Lancia il motore AI con un prompt e torna l'output come stringa.
+function Invoke-Motore([string]$prompt) {
+  if ($motore -eq "cursor") {
+    if ($env:CERVELLO_MODELLO) { return (agent -p --force --model $env:CERVELLO_MODELLO $prompt | Out-String) }
+    return (agent -p --force $prompt | Out-String)
+  }
+  return (claude -p $prompt --permission-mode acceptEdits | Out-String)
 }
 
 $headers = @{ apikey = $KEY; Authorization = "Bearer $KEY"; "Content-Type" = "application/json" }
 $INTERVALLO = 5   # secondi tra un controllo e l'altro (basso = chat reattiva)
 
-Write-Host "Worker AD avviato. Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
+Write-Host "Worker AD avviato (motore: $motore). Controllo la coda 'lavori' ogni $INTERVALLO s. (Ctrl+C per fermare)"
 while ($true) {
   try {
     # Kill-switch: se nel Pannello di Controllo l'AD è in PAUSA, non eseguire nulla.
@@ -49,7 +67,7 @@ while ($true) {
       $upd = @{ stato = "in_corso" } | ConvertTo-Json
       Invoke-RestMethod -Uri "$URL/rest/v1/lavori?id=eq.$($lav.id)" -Headers $headers -Method Patch -Body $upd | Out-Null
 
-      # 2) esegui con Claude Code (prende CLAUDE.md + agenti dal repo)
+      # 2) esegui col motore AI (prende CLAUDE.md + agenti dal repo)
       if ($lav.tipo -eq "esegui-azione") {
         # Azione APPROVATA dal Pannello di Controllo: va eseguita davvero con le "mani".
         $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). $($lav.richiesta)`n`n" +
@@ -59,7 +77,7 @@ while ($true) {
       } else {
         $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:`n`n$($lav.richiesta)"
       }
-      $out = (claude -p $prompt --permission-mode acceptEdits | Out-String)
+      $out = Invoke-Motore $prompt
 
       # 3) riscrivi il risultato
       $body = @{ stato = "fatto"; risultato = $out } | ConvertTo-Json
