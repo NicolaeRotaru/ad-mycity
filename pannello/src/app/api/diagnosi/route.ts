@@ -72,6 +72,20 @@ export async function GET() {
     dettaglio: oreBatt == null ? "nessun battito registrato: il cron non ha ancora girato" : `ultimo ${eta(oreBatt)}`,
   });
 
+  // 5b) Worker VPS (coda chat/lavori): senza di lui i messaggi restano «in attesa» per sempre.
+  const worker = await getImpostazione("worker:ultimo").catch(() => null);
+  const oreWorker = oreDa(worker);
+  checks.push({
+    nome: "Worker chat (VPS)",
+    stato: oreWorker == null ? "rosso" : oreWorker <= 0.1 ? "verde" : oreWorker <= 1 ? "giallo" : "rosso",
+    dettaglio:
+      oreWorker == null
+        ? "mai partito: avvia systemctl start mycity-worker sul VPS"
+        : oreWorker <= 0.1
+          ? `vivo · battito ${eta(oreWorker)}`
+          : `spento da ${eta(oreWorker)} — i lavori in coda non partono`,
+  });
+
   // 6) Autopilota (informativo).
   const auto = (await getImpostazione("autopilota").catch(() => null)) === "on";
   checks.push({ nome: "Autopilota", stato: auto ? "verde" : "giallo", dettaglio: auto ? "le azioni 🟢 partono da sole" : "spento: le 🟢 restano in coda" });
