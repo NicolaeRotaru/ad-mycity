@@ -1,0 +1,147 @@
+# ✅ Checklist «tutto vivo» — chat + briefing + Pannello
+
+> **Leggi questo prima di toccare git sul VPS.**  
+> Tre sistemi separati: non confonderli.
+
+---
+
+## I tre tubi (non sono lo stesso cosa)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. CHAT (Pannello → risposta in chat)                           │
+│    Browser → Supabase tabella `lavori` → Worker VPS → AI        │
+│    Serve: SUPABASE (memoria) + worker ATTIVO + motore AI        │
+│    NON serve: merge memoria-ad, OBSIDIAN_*, GitHub              │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 2. BRIEFING / STATO / AZIONI (cosa vedi nelle schede memoria)   │
+│    Giro/Worker scrive su GitHub ramo `memoria-ad`               │
+│    Pannello LEGGE quel ramo via OBSIDIAN_* (GitHub API)         │
+│    NON serve: merge memoria-ad → main                           │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 3. CODICE (pannello, cervello, fix)                             │
+│    Vive su `main` · deploy Vercel · VPS allinea codice al giro  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## .env VPS — modello corretto (`cervello/vps/.env`)
+
+Copia e compila. **Regole sintassi:**
+- Valori con **spazi** → virgolette: `GIT_AUTHOR_NAME="AD MyCity VPS"`
+- **Mai** `git checkout main` sul VPS
+
+```bash
+# --- Motore AI ---
+CERVELLO_MOTORE=auto
+# auto = usa agent se c'è, altrimenti claude (consigliato sul VPS)
+# oppure: claude | cursor (solo se sai che la CLI c'è)
+CURSOR_API_KEY=
+
+# --- Supabase MEMORIA (stessi valori di Vercel) ---
+# ⚠️ NON il DB marketplace (clmpyfvpvfjgeviworth)
+SUPABASE_URL=https://xjljcsorpbqwttrejqte.supabase.co
+SUPABASE_SERVICE_KEY=eyJ_...service_role_MEMORIA...
+
+# --- GitHub memoria (ramo memoria-ad) ---
+GIT_REPO=NicolaeRotaru/ad-mycity
+GIT_BRANCH=memoria-ad
+GIT_PUSH_TOKEN=github_pat_...
+GIT_AUTHOR_EMAIL=98592323+NicolaeRotaru@users.noreply.github.com
+GIT_AUTHOR_NAME="AD MyCity VPS"
+```
+
+---
+
+## Vercel — variabili Pannello
+
+```bash
+# Chat + coda lavori (OBBLIGATORIO per chat)
+SUPABASE_URL=https://xjljcsorpbqwttrejqte.supabase.co
+SUPABASE_SERVICE_KEY=eyJ_...service_role_MEMORIA...
+
+# Lettura vault (OBBLIGATORIO per briefing/STATO, NON per chat)
+OBSIDIAN_REPO_OWNER=NicolaeRotaru
+OBSIDIAN_REPO=ad-mycity
+OBSIDIAN_TOKEN=github_pat_...
+OBSIDIAN_BRANCH=memoria-ad
+```
+
+Dopo ogni modifica env su Vercel: **Redeploy**.
+
+---
+
+## 4 comandi diagnostici (VPS, da root)
+
+```bash
+# 1) Worker vivo?
+systemctl is-active mycity-worker
+journalctl -u mycity-worker -n 15 --no-pager
+
+# 2) Motore AI per utente mycity?
+sudo -u mycity -H bash -lc 'source /opt/mycity/ad-mycity/cervello/vps/.env 2>/dev/null; command -v agent; command -v claude'
+
+# 3) .env senza errori sintassi?
+sudo -u mycity -H bash -lc 'set -a; source /opt/mycity/ad-mycity/cervello/vps/.env; set +a; echo OK'
+
+# 4) Riavvia dopo fix .env
+sudo systemctl restart mycity-worker
+```
+
+---
+
+## 4 comandi diagnostici (Pannello, browser)
+
+Apri nel browser (sostituisci dominio):
+
+1. `https://TUO-PANNELLO.vercel.app/api/lavori`  
+   → `memoria: true` e lista lavori
+
+2. `https://TUO-PANNELLO.vercel.app/api/diagnosi`  
+   → verde: «Memoria Supabase», «Worker chat (VPS)», «Vault GitHub»
+
+3. `https://TUO-PANNELLO.vercel.app/api/stato`  
+   → `vaultRamo: "memoria-ad"`, `briefingFonte: "vault"` o `"supabase"`
+
+4. `https://TUO-PANNELLO.vercel.app/api/controllo`  
+   → `pausa: false` (se true, worker non esegue nulla)
+
+---
+
+## Sintomi → causa → fix
+
+| Sintomo | Causa vera | Fix |
+|---------|------------|-----|
+| Chat: «Serve database memoria» | `SUPABASE_*` mancanti su Vercel | Imposta + redeploy |
+| Chat: «sto pensando…» poi timeout | **Worker spento** o in crash loop | Fix `.env` + `systemctl restart mycity-worker` |
+| Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
+| `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
+| `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |
+| Briefing vecchio | `OBSIDIAN_BRANCH=main` o no redeploy | `memoria-ad` + redeploy Vercel |
+| Errore Vercel su PR memoria-ad | email commit `ad@mycity.local` | `GIT_AUTHOR_EMAIL` nel .env VPS |
+
+---
+
+## Cosa NON fare mai sul VPS
+
+- ❌ `git checkout main` / `git pull main` (butta la memoria o crea conflitti)
+- ❌ `export VAR=...` nel terminale (non vale per systemd — scrivi nel `.env`)
+- ❌ Merge `memoria-ad → main` per far funzionare chat o briefing
+- ❌ Confondere Supabase **memoria** con Supabase **marketplace**
+
+---
+
+## Sequenza ripristino rapido (5 min)
+
+1. Correggi `/opt/mycity/ad-mycity/cervello/vps/.env` (modello sopra)
+2. `sudo systemctl restart mycity-worker`
+3. `journalctl -u mycity-worker -f` → deve dire `Worker AD avviato` (non exit)
+4. Vercel: verifica `SUPABASE_*` + `OBSIDIAN_BRANCH=memoria-ad` → Redeploy
+5. Pannello: invia «ciao» in chat → entro ~30s risposta
+
+Il codice nuovo da `main` arriva al VPS **da solo** al prossimo giro (`giro-ora.sh`), senza git manuale.
