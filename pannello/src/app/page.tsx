@@ -636,6 +636,7 @@ export default function Dashboard() {
   const endRef = useRef<HTMLDivElement>(null);
   // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
   const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
+  const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
@@ -647,13 +648,40 @@ export default function Dashboard() {
     } catch {}
   }
 
+  function rispondiInChat(prev: Msg[], content: string): Msg[] {
+    const i = prev.findIndex((m) => m.pending);
+    if (i !== -1) {
+      const copia = [...prev];
+      copia[i] = { role: "assistant", content };
+      return copia;
+    }
+    // Il polling in background può aver già sostituito la bolla pending: aggiorna l'ultima
+    // risposta assistant invece di accodare un duplicato.
+    for (let j = prev.length - 1; j >= 0; j--) {
+      const m = prev[j];
+      if (m.role !== "assistant" || m.prompt) continue;
+      if (m.content === content) return prev;
+      const copia = [...prev];
+      copia[j] = { role: "assistant", content };
+      return copia;
+    }
+    return [...prev, { role: "assistant", content }];
+  }
+
+  /** Applica la risposta del cervello una sola volta (attendiRisposta + polling non si pestano i piedi). */
+  function applicaRispostaChat(lavoroId: string, content: string) {
+    if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
+    lavoroRisoltoChatRef.current.add(lavoroId);
+    setMessages((m) => rispondiInChat(m, content));
+    salvaPendingChat(null);
+    setLoading(false);
+  }
+
   function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string }) {
     const l = lavoriLista.find((x) => x.id === pend.id);
     if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
     const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
-    setMessages((m) => rispondiInChat(m, testo));
-    salvaPendingChat(null);
-    setLoading(false);
+    applicaRispostaChat(pend.id, testo);
     return true;
   }
 
@@ -820,16 +848,6 @@ export default function Dashboard() {
     fetch("/api/diario", { method: "DELETE" }).catch(() => {});
   }
 
-  // Sostituisce la bolla "sto pensando…" (pending) con la risposta vera del cervello.
-  // Se per qualche motivo non c'è più, accoda un nuovo messaggio.
-  function rispondiInChat(prev: Msg[], content: string): Msg[] {
-    const i = prev.findIndex((m) => m.pending);
-    if (i === -1) return [...prev, { role: "assistant", content }];
-    const copia = [...prev];
-    copia[i] = { role: "assistant", content };
-    return copia;
-  }
-
   // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
   // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
   // o "errore" (o dopo il timeout, senza bloccare nulla).
@@ -844,7 +862,6 @@ export default function Dashboard() {
           setLavori(d.lavori);
           const l = d.lavori.find((x: Lavoro) => x.id === id);
           if (l && (l.stato === "fatto" || l.stato === "errore")) {
-            salvaPendingChat(null);
             return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
           }
         }
@@ -914,7 +931,14 @@ export default function Dashboard() {
         salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo });
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
         const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
-        setMessages((m) => rispondiInChat(m, risposta));
+        const timeoutMsg = messaggioLavoroInCorso(prep.tipo);
+        if (risposta === timeoutMsg) {
+          // Timeout: mostra messaggio di attesa ma lascia il polling aggiornare quando finisce.
+          setMessages((m) => rispondiInChat(m, risposta));
+          setLoading(false);
+        } else {
+          applicaRispostaChat(d.lavoro.id, risposta);
+        }
       } else {
         setMessages((m) =>
           rispondiInChat(m, `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`)
