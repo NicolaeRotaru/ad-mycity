@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Brain, TrendingUp } from "lucide-react";
+import { BookOpen, Brain, TrendingUp } from "lucide-react";
 import MemoriaViva from "@/components/MemoriaViva";
+import QuaderniSenior from "@/components/QuaderniSenior";
 import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 
-type Tab = "memoria-viva" | "scoperte";
+type Tab = "memoria-viva" | "quaderni" | "scoperte";
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
 type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
 
@@ -41,6 +42,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
       const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
       const map: Record<string, Tab> = {
         "memoria-memoria-viva": "memoria-viva",
+        "memoria-quaderni": "quaderni",
         "memoria-scoperte": "scoperte",
       };
       if (map[h]) setTab(map[h]);
@@ -54,7 +56,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "memoria" || !det.sub) return;
-      const valide: Tab[] = ["memoria-viva", "scoperte"];
+      const valide: Tab[] = ["memoria-viva", "quaderni", "scoperte"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_VAI, onVai);
@@ -63,6 +65,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "memoria-viva", label: "Memoria viva", icon: <BrainIcon /> },
+    { id: "quaderni", label: "Quaderni senior", icon: <BookOpen size={14} /> },
     { id: "scoperte", label: "Scoperte & proposte", icon: <TrendingUp size={14} /> },
   ];
 
@@ -71,7 +74,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="t-area">🧠 Memoria & decisioni</h2>
-          <p className="t-eti mt-0.5">Memoria viva e scoperte dell&apos;AD — ognuna nella sua pagina.</p>
+          <p className="t-eti mt-0.5">Memoria viva, quaderni dei senior e scoperte dell&apos;AD.</p>
         </div>
       </div>
 
@@ -93,6 +96,8 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
 
       {/* ===== LA MEMORIA VIVA DELL'AD ===== */}
       {tab === "memoria-viva" && <MemoriaViva />}
+
+      {tab === "quaderni" && <QuaderniSenior />}
 
       {/* ===== COSA HO SCOPERTO E COSA PROPONGO ===== */}
       {tab === "scoperte" && (

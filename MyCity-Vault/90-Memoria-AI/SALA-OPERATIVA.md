@@ -165,6 +165,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:29 · @cro · PASSO-A @frontend-dev · Checkout: wallet-first su mobile +6-11% in test A/B 2026; costi consegna inaspettati = #1 abbandono EU (40,7%, Sendcloud).
 - 2026-07-01 01:29 · @AD · SERVE · Worker VPS: giro eseguito in **Cursor** (web OK). Sul worker vale solo dopo merge PR WebFetch su `main` + `aggiorna-cervello.sh`.
 
+### 2026-07-01 — Vista Quaderni senior nel Pannello
+- 2026-07-01 02:15 · @AD · FATTO · Nicola chiede «aggiungi quaderni senior» → 🟡 tab **Quaderni senior** in Memoria (`pannello/`: API `/api/memoria/quaderni`, legge `memoria-squadra/` da ramo memoria-ad). Deploy: PR su **`main`** (codice Pannello), non memoria-ad.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.

@@ -68,6 +68,23 @@ export async function readRepoFile(relPath: string): Promise<string | null> {
   return null;
 }
 
+/** Elenco dei file .md in una cartella alla radice del repo (es. "memoria-squadra"). */
+export async function listRepoDir(relDir: string): Promise<string[]> {
+  if (obsidianConnected()) {
+    return (await listDir(relDir)) || [];
+  }
+  for (const root of [process.cwd(), path.join(process.cwd(), "..")]) {
+    try {
+      const names = await fs.readdir(path.join(root, relDir));
+      const md = names.filter((n) => n.endsWith(".md"));
+      if (md.length) return md.sort();
+    } catch {
+      /* provo la radice successiva */
+    }
+  }
+  return [];
+}
+
 /** Elenco dei file .md in una cartella del vault (es. "90-Memoria-AI/Briefing"). */
 export async function listVaultDir(relDir: string): Promise<string[]> {
   // PRODUZIONE (OBSIDIAN_*): elenca SEMPRE da GitHub (Contents API, ramo memoria-ad), MAI dal disco
