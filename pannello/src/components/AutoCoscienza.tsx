@@ -141,7 +141,7 @@ type Miglioramento = {
   peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
   proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
 };
-type Entita = { nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
+type Entita = { id?: string; nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
 type Registro = { entita?: Entita[] };
 type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; analisi_affidabile?: boolean; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
 
@@ -326,9 +326,11 @@ export default function AutoCoscienza() {
                   <div className="space-y-2">
                     {daVerificare.map((e, i) => {
                       const domE = e.domanda_per_nicola || `${e.nome}: è reale o lo scarto?`;
-                      const idE = qidDa(`entita:${e.nome}:${domE}`);
+                      // 🔑 id stabile: usa quello esplicito del giro (così il tag {origine:entita:<id>} combacia
+                      // ESATTAMENTE), altrimenti ricavalo dal testo (link generico ok, puntuale solo con id).
+                      const idE = e.id || qidDa(`entita:${e.nome}:${domE}`);
                       return (
-                        <div id={`domanda-${idE}`} key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-3 scroll-mt-24">
+                        <div id={`entita-${idE}`} key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-3 scroll-mt-24">
                           <div className="flex items-center gap-2">
                             <span className="text-[13px] font-medium">{e.nome}</span>
                             {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
@@ -337,8 +339,8 @@ export default function AutoCoscienza() {
                           {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
                           {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
                           <RispostaBox qid={idE} domanda={domE} salvata={risposte[idE]} onSalvata={onSalvata} />
-                          {(azPerOrigine[`entita:${idE}`] || azPerOrigine[`domanda:${idE}`]) && (
-                            <button onClick={() => vaiArea("azioni", `azione-${azPerOrigine[`entita:${idE}`] || azPerOrigine[`domanda:${idE}`]}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                          {azPerOrigine[`entita:${idE}`] && (
+                            <button onClick={() => vaiArea("azioni", `azione-${azPerOrigine[`entita:${idE}`]}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
                               <ArrowRight size={12} /> Vai all'azione collegata
                             </button>
                           )}
