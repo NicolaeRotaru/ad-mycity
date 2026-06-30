@@ -1485,11 +1485,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={i} className="text-left">
-                  <div className="text-xs text-black/45 mb-1.5 flex items-center gap-1">
+                  <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
                     <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
                   </div>
-                  <div className="border border-brand/25 bg-brand-50/60 rounded-xl p-3.5">
-                    <pre className="text-xs whitespace-pre-wrap font-sans text-ink/90 leading-relaxed">{m.content}</pre>
+                  <div className="border border-brand/25 rounded-xl p-3.5" style={{ background: "var(--brand-soft)" }}>
+                    <pre className="text-xs whitespace-pre-wrap font-sans t-corpo leading-relaxed">{m.content}</pre>
                     <button
                       onClick={() => copia(m.content)}
                       className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
@@ -1583,58 +1583,57 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
 
           {assistenteTab === "conversazioni" && (
-        <section className="card p-4">
+        <section className="card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <span className="sez-ico">
                 <MessagesSquare size={16} />
               </span>
-              <span className="text-[15px] font-semibold tracking-tight">Conversazioni</span>
+              <span className="t-sez">Conversazioni</span>
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={nuovaConversazione} className="text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition">
+              <button type="button" onClick={nuovaConversazione} className="btn-ghost">
                 <Plus size={13} /> Nuova
               </button>
               {conversazioni.length > 0 && (
-                <button onClick={svuotaConversazioni} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
+                <button type="button" onClick={svuotaConversazioni} className="btn-ghost">
                   <Trash2 size={12} /> Svuota
                 </button>
               )}
             </div>
           </div>
-          <p className="text-[11px] text-black/40 mb-3">
+          <p className="t-eti text-[11px] mb-3">
             {convServer
               ? "💾 Salvate nel database: le ritrovi anche da un altro dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."
               : "💾 Salvate su questo dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."}
           </p>
 
           {convSel.length > 0 && (
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 bg-brand-50/50 px-3 py-2">
+            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2" style={{ background: "var(--brand-soft)" }}>
               <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
               <button
+                type="button"
                 onClick={usaComeBase}
                 className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
               >
                 <Layers size={13} /> Inizia nuova con queste come base
               </button>
-              <button onClick={() => setConvSel([])} className="text-xs text-black/45 hover:text-black/70">
+              <button type="button" onClick={() => setConvSel([])} className="btn-ghost">
                 annulla
               </button>
             </div>
           )}
 
           {conversazioni.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora nessuna conversazione. Quando scrivi nella chat qui sopra, la conversazione viene salvata qui e potrai riprenderla.
+            <p className="t-eti text-sm">
+              Ancora nessuna conversazione. Quando scrivi nella chat, la conversazione viene salvata qui e potrai riprenderla.
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
               {conversazioni.map((c) => (
                 <div
                   key={c.id}
-                  className={`flex items-center gap-3 border rounded-xl p-3 transition ${
-                    convId === c.id ? "border-brand/40 bg-brand-50/40" : "border-black/[0.07] hover:border-black/15 hover:bg-paper/40"
-                  }`}
+                  className={`conv-row flex items-center gap-3 ${convId === c.id ? "conv-row-active" : ""}`}
                 >
                   <input
                     type="checkbox"
@@ -1643,22 +1642,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     className="w-4 h-4 accent-brand shrink-0"
                     aria-label="Seleziona conversazione"
                   />
-                  <button onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                    <div className="text-sm font-medium text-ink/85 truncate">{c.titolo}</div>
-                    <div className="text-[11px] text-black/40">
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
+                    <div className="conv-row-title">{c.titolo}</div>
+                    <div className="conv-row-meta">
                       {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
                       {convId === c.id && " · in corso"}
                     </div>
                   </button>
-                  <button
-                    onClick={() => continuaConversazione(c.id)}
-                    className="shrink-0 text-xs font-medium text-brand border border-brand/30 rounded-full px-3 py-1.5 hover:bg-brand-50 active:scale-95 transition"
-                  >
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="btn-outline-brand">
                     Apri
                   </button>
                   <button
+                    type="button"
                     onClick={() => eliminaConversazione(c.id)}
-                    className="shrink-0 text-black/30 hover:text-red-500 transition"
+                    className="btn-ghost-danger"
                     aria-label="Elimina conversazione"
                   >
                     <Trash2 size={14} />

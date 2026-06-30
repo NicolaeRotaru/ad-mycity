@@ -196,3 +196,44 @@ body {
   border-color: var(--border);
   color: var(--text-secondary);
 }
+
+/* Lista conversazioni */
+.conv-row {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  @apply rounded-xl p-3 transition;
+}
+.conv-row:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-surface-2);
+}
+.conv-row-active {
+  border-color: rgba(192, 73, 44, 0.45);
+  background: var(--brand-soft);
+}
+.conv-row-title {
+  color: var(--text-primary);
+  @apply text-sm font-medium truncate;
+}
+.conv-row-meta {
+  color: var(--text-muted);
+  @apply text-[11px];
+}
+.btn-ghost {
+  color: var(--text-muted);
+  @apply text-xs inline-flex items-center gap-1 transition hover:text-brand;
+}
+.btn-ghost-danger {
+  color: var(--text-faint);
+  @apply shrink-0 transition hover:text-red-500;
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border: 1px solid rgba(192, 73, 44, 0.35);
+  @apply shrink-0 text-xs font-medium rounded-full px-3 py-1.5 transition hover:opacity-90 active:scale-95;
+  background: var(--bg-elevated);
+}
+.dark .btn-outline-brand {
+  color: #f4a88a;
+  border-color: rgba(244, 168, 138, 0.45);
+}
