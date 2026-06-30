@@ -95,9 +95,8 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
-import Cervello from "@/components/aree/Cervello";
+import MacchinaArea from "@/components/aree/MacchinaArea";
 import Lavori from "@/components/aree/Lavori";
-import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
 import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
@@ -635,12 +634,17 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
-  const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
+  const pendingLavoroChatRef = useRef<{ id: string; tipo: string; targetConvId: string } | null>(null);
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
+  const convIdRef = useRef<string | null>(null);
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
-  function salvaPendingChat(pend: { id: string; tipo: string } | null) {
+  useEffect(() => {
+    convIdRef.current = convId;
+  }, [convId]);
+
+  function salvaPendingChat(pend: { id: string; tipo: string; targetConvId: string } | null) {
     pendingLavoroChatRef.current = pend;
     try {
       if (pend) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(pend));
@@ -668,20 +672,44 @@ export default function Dashboard() {
     return [...prev, { role: "assistant", content }];
   }
 
-  /** Applica la risposta del cervello una sola volta (attendiRisposta + polling non si pestano i piedi). */
-  function applicaRispostaChat(lavoroId: string, content: string) {
+  /** Applica la risposta al thread giusto (anche se Nicola ha aperto «Nuova chat» nel frattempo). */
+  function aggiornaMessaggiConversazione(targetConvId: string, content: string) {
+    setConversazioni((list) => {
+      const idx = list.findIndex((c) => c.id === targetConvId);
+      if (idx === -1) return list;
+      const c = list[idx];
+      const aggiornati = rispondiInChat(c.messaggi, content);
+      const nuovaLista = list.map((x, i) =>
+        i === idx ? { ...x, messaggi: aggiornati, updated_at: new Date().toISOString() } : x
+      );
+      if (!convServer) scriviConvLocali(nuovaLista);
+      void persistConversazione(targetConvId, aggiornati);
+      return nuovaLista;
+    });
+  }
+
+  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata). */
+  function instradaMessaggioChat(targetConvId: string, content: string) {
+    if (convIdRef.current === targetConvId) {
+      setMessages((m) => rispondiInChat(m, content));
+    } else {
+      aggiornaMessaggiConversazione(targetConvId, content);
+    }
+  }
+
+  function applicaRispostaChat(lavoroId: string, content: string, targetConvId: string) {
     if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
     lavoroRisoltoChatRef.current.add(lavoroId);
-    setMessages((m) => rispondiInChat(m, content));
     salvaPendingChat(null);
+    instradaMessaggioChat(targetConvId, content);
     setLoading(false);
   }
 
-  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string }) {
+  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string; targetConvId: string }) {
     const l = lavoriLista.find((x) => x.id === pend.id);
     if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
     const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
-    applicaRispostaChat(pend.id, testo);
+    applicaRispostaChat(pend.id, testo, pend.targetConvId);
     return true;
   }
 
@@ -757,6 +785,7 @@ export default function Dashboard() {
     setBase(null);
     setConvSel([]);
     sessionGruppoRef.current = null;
+    setLoading(false);
     try {
       localStorage.removeItem("mycity_chat");
       localStorage.removeItem("mycity_convid");
@@ -772,6 +801,12 @@ export default function Dashboard() {
     setConvId(c.id);
     setBase(null);
     setConvSel([]);
+    const pend = pendingLavoroChatRef.current;
+    if (pend?.targetConvId === id && !lavoroRisoltoChatRef.current.has(pend.id)) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
   }
 
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
@@ -902,12 +937,14 @@ export default function Dashboard() {
       { role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
+    let targetConvId = convId || sessionGruppoRef.current || "";
     try {
       let gruppoId = convId || sessionGruppoRef.current;
       if (!gruppoId) {
         gruppoId = `sess_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
         sessionGruppoRef.current = gruppoId;
       }
+      targetConvId = gruppoId;
       const savedConv = await persistConversazione(convId, [
         ...messages.filter((m) => !m.prompt && !m.pending),
         { role: "user", content: t },
@@ -916,6 +953,7 @@ export default function Dashboard() {
         setConvId(savedConv);
         gruppoId = savedConv;
         sessionGruppoRef.current = savedConv;
+        targetConvId = savedConv;
       }
 
       const res = await fetch("/api/lavori", {
@@ -927,26 +965,27 @@ export default function Dashboard() {
       if (d.ok && d.lavoro) {
         salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
-        pendingLavoroChatRef.current = { id: d.lavoro.id, tipo: prep.tipo };
-        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo });
+        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
         const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
         const timeoutMsg = messaggioLavoroInCorso(prep.tipo);
         if (risposta === timeoutMsg) {
-          // Timeout: mostra messaggio di attesa ma lascia il polling aggiornare quando finisce.
-          setMessages((m) => rispondiInChat(m, risposta));
+          instradaMessaggioChat(targetConvId, risposta);
           setLoading(false);
         } else {
-          applicaRispostaChat(d.lavoro.id, risposta);
+          applicaRispostaChat(d.lavoro.id, risposta, targetConvId);
         }
       } else {
-        setMessages((m) =>
-          rispondiInChat(m, `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`)
+        salvaPendingChat(null);
+        instradaMessaggioChat(
+          targetConvId,
+          `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`
         );
+        setLoading(false);
       }
     } catch {
-      setMessages((m) => rispondiInChat(m, "⚠️ Connessione fallita."));
-    } finally {
+      salvaPendingChat(null);
+      instradaMessaggioChat(targetConvId, "⚠️ Connessione fallita.");
       setLoading(false);
     }
   }
@@ -1071,6 +1110,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (det.vista === "storico") {
         setVista("assistente");
         setAssistenteTab("storico");
+      } else if (det.vista === "auto-coscienza") {
+        setVista("cervello");
       } else {
         setVista(det.vista);
         if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
@@ -1156,13 +1197,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     try {
       const c = localStorage.getItem("mycity_chat");
       if (c) setMessages(JSON.parse(c));
+      const cid = localStorage.getItem("mycity_convid");
       try {
         const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
         if (pendRaw) {
-          const pend = JSON.parse(pendRaw) as { id: string; tipo: string };
-          if (pend?.id) {
-            pendingLavoroChatRef.current = pend;
-            setLoading(true);
+          const pend = JSON.parse(pendRaw) as { id: string; tipo: string; targetConvId?: string };
+          if (pend?.id && pend.targetConvId) {
+            pendingLavoroChatRef.current = {
+              id: pend.id,
+              tipo: pend.tipo,
+              targetConvId: pend.targetConvId,
+            };
+            if (cid && cid === pend.targetConvId) setLoading(true);
           }
         }
       } catch {}
@@ -1174,7 +1220,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (o.briefing) setBriefing(o.briefing);
         if (o.ultimoAt) setUltimoAt(o.ultimoAt);
       }
-      const cid = localStorage.getItem("mycity_convid");
       if (cid) setConvId(cid);
     } catch {}
     setCaricato(true);
@@ -1258,8 +1303,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
             { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-            { id: "cervello", label: "Cervello", icon: <Cpu size={15} /> },
-            { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
+            { id: "cervello", label: "Macchina", icon: <Cpu size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
@@ -1309,14 +1353,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
         )}
 
-        {/* ===================== CERVELLO (radiografia) ===================== */}
-        {vista === "cervello" && <Cervello />}
+        {/* ===================== MACCHINA (radiografia + auto-coscienza) ===================== */}
+        {vista === "cervello" && <MacchinaArea />}
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
         {vista === "lavori" && <Lavori lavori={lavori} onSvuota={svuotaLavori} />}
-
-        {/* ===================== AUTO-COSCIENZA ===================== */}
-        {vista === "auto-coscienza" && <AutoCoscienzaArea />}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
@@ -1434,9 +1475,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
           {assistenteTab === "chat" && (
           <>
-          {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
-          <Comandi onScegli={(cmd) => setInput(cmd)} />
-
           {/* Chat */}
           <section className="card flex flex-col overflow-hidden">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
@@ -1603,6 +1641,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </div>
           </section>
+
+          <Comandi onScegli={(cmd) => setInput(cmd)} />
           </>
           )}
 

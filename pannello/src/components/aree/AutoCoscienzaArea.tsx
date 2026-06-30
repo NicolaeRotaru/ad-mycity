@@ -13,7 +13,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "miglioramento", label: "Auto-miglioramento", icon: <Rocket size={15} /> },
 ];
 
-export default function AutoCoscienzaArea() {
+export default function AutoCoscienzaArea({ embedded = false }: { embedded?: boolean }) {
   const [tab, setTab] = useState<Tab>("analisi");
 
   useEffect(() => {
@@ -47,10 +47,12 @@ export default function AutoCoscienzaArea() {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="t-area">🔬 Auto-coscienza della macchina</h2>
-        <p className="t-eti mt-0.5">Come l&apos;AD si controlla, impara e migliora — ogni scheda è una pagina dedicata.</p>
-      </div>
+      {!embedded && (
+        <div>
+          <h2 className="t-area">🔬 Auto-coscienza della macchina</h2>
+          <p className="t-eti mt-0.5">Come l&apos;AD si controlla, impara e migliora — ogni scheda è una pagina dedicata.</p>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-1.5">
         {TABS.map((t) => (
