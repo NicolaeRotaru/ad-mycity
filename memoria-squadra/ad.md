@@ -24,3 +24,6 @@ Metabolizzazione chat «web per tutti i senior»: Nicola chiede apprendimento co
 
 # ESITO — @AD — 2026-07-01 00:58
 Metabolizzazione correzione Nicola (Pannello): **Casa Linda = demo/seed**, unico negozio reale = **Pane Quotidiano**. Proposta transazione Casa Linda ritirata. L-2026-0701-04 (caso_studio_nicola) + evidenza L-2026-0628-01. Priorità: ordine zombie €19,05 + payout Stripe Pane Quotidiano.
+
+# ESITO — @AD — 2026-07-01 01:07
+Metabolizzazione chat «perché devo approvare?» (card onboarding 6/7): errore classificazione — impegno operativo Nicola ≠ azione 🔴 Pannello. Card ritirata. L-2026-0701-07 (caso_studio_nicola) + preferenza: non chiedere firma su lavoro che fa già lui. Guardrail: 🔴 solo per azioni AD su mondo esterno.

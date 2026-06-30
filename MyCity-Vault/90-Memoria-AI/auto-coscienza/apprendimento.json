@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 01:06",
+  "data": "2026-07-01 01:07",
   "lezioni": [
+    {
+      "id": "L-2026-0701-07",
+      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello.",
+      "tag": ["pannello", "classificazione", "nicola", "onboarding", "approvazioni", "guardrail"],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-06",
       "testo": "**Foglio-firma lancio (Nicola 1/7 01:02):** risponde con imperativi operativi, non con le lettere A/B/C del foglio — «crea il contratto» (#1), «lo faccio 03/7 mattina» (#2), «è sandbox» (#3). 5 perché: (1) vuole artefatti e date, non checkbox astratti; (2) il payout-test lo esegue lui in calendario, non delegato all'AD; (3) Stripe sandbox è stato fattuale confermato, non scelta futura LIVE; (4) COD-first è implicito (sandbox + ordine zombie già COD); (5) fix: mappare le sue frasi alle 3 decisioni, registrare forma esatta in DECISIONI, creare subito bozza contratto per Pane Quotidiano — unico negozio reale.",
@@ -260,10 +273,11 @@
     "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano).",
     "Con operazioni concrete in coda (es. inserimento batch negozi 6/7) rimanda leve marketing/eventi anche se la finestra temporale si chiude — ops prima del presidio VP (chat 1/7 «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»).",
     "Sul foglio-firma risponde con imperativi brevi e fatti («crea il contratto», «lo faccio 03/7 mattina», «è sandbox») — non con opzioni A/B/C; il payout-test Stripe lo esegue personalmente in calendario (chat 1/7 foglio-firma lancio).",
-    "Confermato Stripe sandbox sul sito: nessun incasso carta reale finché non passa a LIVE; intanto percorso COD (ordine zombie €19,05 già coerente) (chat 1/7 #3)."
+    "Confermato Stripe sandbox sul sito: nessun incasso carta reale finché non passa a LIVE; intanto percorso COD (ordine zombie €19,05 già coerente) (chat 1/7 #3).",
+    "Non vuole approvare ciò che fa già lui (inserimento negozi, payout in calendario): «perché devo approvare?» = segnale che l'AD ha classificato male — correggere subito e ritirare la card, non spiegare perché serve firma (chat 1/7 card onboarding 6/7)."
   ],
   "meta": {
-    "lezioni_attive": 20,
+    "lezioni_attive": 21,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65
