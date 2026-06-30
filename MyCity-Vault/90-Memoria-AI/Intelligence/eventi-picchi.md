@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-30 23:10** · Fonte: @intelligence (giro notturno 30/6, WebSearch + REST live).
+> Aggiornato: **2026-06-30 23:15** · Fonte: @intelligence (giro notturno 30/6, WebSearch + REST live).
 
 ---
 
@@ -32,10 +32,11 @@ Fonti: [Protezione Civile ER 1/7](https://protezionecivile.regione.emilia-romagn
 
 ---
 
-## 🆕 Novità dal 30/6 (23:10)
-- **Countdown VP:** **~47 ore** — urgenza link lista d'attesa + ok presidio invariata.
-- **1/7:** allerta temporali ER confermata (Protezione Civile 30/6 12:27).
-- **Stallo business:** ~157h — invariato sul DB (7 numeri = vs 23:08).
+## 🆕 Novità dal 30/6 (23:15)
+- **Escalation stallo:** **168h (7 giorni) tra ~11 ore** se nulla cambia — nota AD in `consegne/ad/2026-06-30-nota-escalation-stallo-168h.md`.
+- **Countdown VP:** **~46 ore** — urgenza link lista d'attesa invariata.
+- **1/7:** allerta temporali ER confermata (invariata vs 23:10).
+- **Stallo business:** 156,8h — invariato sul DB (7 numeri = vs 23:10).
 
 ## 🚧 ZTL / viabilità
 - VP 3/7: centro pedonale/ZTL serale — presidio QR sì, delivery in ZTL no quella sera.

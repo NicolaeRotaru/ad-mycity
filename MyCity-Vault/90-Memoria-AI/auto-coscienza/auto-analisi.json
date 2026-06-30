@@ -1,11 +1,11 @@
 {
-  "data": "2026-06-30 23:10",
-  "voto_fiducia": 86,
+  "data": "2026-06-30 23:15",
+  "voto_fiducia": 85,
   "trend_fiducia": "▼",
-  "sintesi": "Giro 30/6 23:10. Voto −1 (87→86): quinto passaggio del giorno con business invariato — corretto per L-2026-0629-03. 7 numeri live REST confermati (= vs 23:08). Stallo ~157h. Valore aggiunto: snapshot KPI 🟢 + correzione conteggio carrelli (6 con items). Nessun errore grounding/numeri orfani.",
+  "sintesi": "Giro 30/6 23:15. Voto −1 (86→85): sesto passaggio del giorno con business identico al passaggio di 5 min fa — coerente con L-2026-0629-03. 7 numeri live REST confermati (=). Stallo 156,8h; soglia 168h tra ~11h. Valore aggiunto: nota escalation 🟢 + digest memoria DB. Nessun errore grounding/numeri orfani.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 23:10, fonte clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 23:15, fonte clmpyfvpvfjgeviworth)",
     "coerenza": "ok",
     "semaforo": "ok",
     "qualita": "ok",
@@ -14,8 +14,8 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda?",
-      "perche_serve": "Stallo ~157h. Unico negozio payout-ready.",
+      "domanda": "Forzo la prima transazione end-to-end con Casa Linda prima della soglia 168h (~11h)?",
+      "perche_serve": "Stallo 156,8h. Unico negozio payout-ready.",
       "se_rispondi": "Attivo catena vendite+operations+finanza.",
       "gravita": "alta"
     },
@@ -26,7 +26,7 @@
       "gravita": "alta"
     },
     {
-      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra ~47h)?",
+      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra ~46h)?",
       "perche_serve": "Senza link il presidio QR converte 0.",
       "se_rispondi": "Completo kit #7 e #11.",
       "gravita": "alta"
@@ -39,12 +39,12 @@
     "Competitor/stampa non rifatti (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Evitare 6° passaggio nello stesso giorno se numeri = e radar esterno invariato",
-    "Escalation automatica se stallo supera 168h (1/7 sera)"
+    "Non fare un 7° passaggio se numeri = e radar esterno invariato",
+    "Escalation automatica se stallo supera 168h senza firma"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",
-    "supabase_memoria": "env presente",
+    "supabase_memoria": "env presente · briefings POST OK",
     "stripe": "status pubblico OK",
     "posthog": "non collegato",
     "dati_freschi": true,

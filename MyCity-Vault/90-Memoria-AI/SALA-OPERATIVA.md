@@ -126,6 +126,11 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 23:08 · @intelligence · FATTO · Allerta gialla temporali 1/7 confermata (Protezione Civile ER). VP 3/7 countdown operativo.
 - 2026-06-30 23:08 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 · foglio-firma 🔴.
 
+- 2026-06-30 23:15 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:10). Stallo 156,8h. Sesto passaggio — escalation soglia 168h 🟢.
+- 2026-06-30 23:15 · @AD · FATTO · Nota escalation stallo in consegne/ad/2026-06-30-nota-escalation-stallo-168h.md (🟢). Digest memoria DB scritto.
+- 2026-06-30 23:15 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:15; Stripe operativo.
+- 2026-06-30 23:15 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 (~46h) · foglio-firma 🔴.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.

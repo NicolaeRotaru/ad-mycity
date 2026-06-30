@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
+## 🤖 Aggiornamento dell'AD — 2026-06-30 23:15
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Leva meteo cambiata:** da caldo a **pioggia** (1/7 temporali) — messaggio *"piove, te la portiamo noi"*. Ma **latente**: 0 prodotti faro, 0 ordini pagati.
+- **Stallo 156,8h → 168h tra ~11h:** urgenza decisionale cresce. Nota escalation 🟢 in `consegne/ad/2026-06-30-nota-escalation-stallo-168h.md`.
+- **Prima transazione Casa Linda** resta leva #1 — unico payout-ready.
 - **Esperimento E0 bloccato:** PostHog non collegato + 0 traffico → nessun A/B test partibile finché non c'è la 1ª transazione.
-- **Prima consegna felice resta la leva #1:** rompere lo stallo 155h con Casa Linda → poi attivare E5 (recupero carrelli, 4 in DB) e E1 (QR negozio).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
