@@ -46,6 +46,10 @@
    ```bash
    sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-agent.sh
    ```
+4b. Test prompt giro (legge giro.md dal disco, ~3 min):
+   ```bash
+   sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-giro-prompt.sh
+   ```
 5. Riavvia: `sudo systemctl restart mycity-worker`
 6. Nei log deve comparire: `Motore AI: cursor (agent)` — **non** `claude`
 

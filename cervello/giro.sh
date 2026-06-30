@@ -3,7 +3,7 @@
 # Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' il motore prende
 # automaticamente CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
 # Il timer automatico (mycity-giro.timer) è DISATTIVATO. Lanciare a mano con giro-ora.sh.
-set -euo pipefail
+set -uo pipefail   # niente -e: il giro deve arrivare al push anche se un passo intermedio fallisce
 
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
 # ora-di-parete italiana. Senza questo, su un VPS in UTC (default Hetzner) finiscono indietro di 1-2h.
@@ -61,7 +61,20 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un giro interrotto ($(ts))" 2>/dev/null || true
-      git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un giro precedente." || true
+    fi
+    # Commit locali non pushati: pubblicali prima del checkout -f (altrimenti si perdono).
+    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
+      git fetch "$url" "$branch" 2>/dev/null || true
+      _ahead_pre="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
+      if [ "${_ahead_pre:-0}" -gt 0 ] 2>/dev/null; then
+        echo "[$(ts)] ▶ Push di ${_ahead_pre} commit pendenti su origin/${branch}..."
+        for _ap in 1 2 3; do
+          git fetch "$url" "$branch" 2>/dev/null \
+            && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+          git push "$url" "HEAD:${branch}" 2>/dev/null && break
+          sleep 3
+        done
+      fi
     fi
     # 1) Mettiti sul ramo della memoria, dall'accumulato remoto (include le scritture pushate dal worker).
     if git fetch "$url" "$branch" 2>/dev/null; then
