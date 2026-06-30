@@ -1,6 +1,18 @@
 {
-  "data": "2026-06-30 23:32",
+  "data": "2026-07-01 00:06",
   "lezioni": [
+    {
+      "id": "L-2026-0701-01",
+      "testo": "Da worker (chiavi in cervello/vps/.env) l'AD legge ENTRAMBI i Supabase via REST anche senza SUPABASE_ACCESS_TOKEN per MCP: marketplace clmpyfvpvfjgeviworth (sola lettura) e memoria Pannello xjljcsorpbqwttrejqte. Quando Nicola chiede «vedi i db?», rispondere con tabella progetti + conteggi live e distinguere: (a) sensori AD = OK; (b) Cabina Vercel = wiring env (#10 rifiutato 30/6), non assenza del DB.",
+      "tag": ["sensori", "supabase", "memoria", "pannello", "nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0630-06",
       "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?», rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env.",
@@ -27,14 +39,14 @@
     },
     {
       "id": "L-2026-0630-03",
-      "testo": "Quando il Supabase MCP è cieco (needsAuth), usare il fallback REST via env MARKETPLACE_SUPABASE_URL/KEY — verificato funzionante il 30/6 serale. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
       "tag": ["sensori", "fallback", "supabase", "rest"],
       "reparto": "@AD",
-      "confidenza": 0.8,
-      "evidenze": 2,
+      "confidenza": 0.85,
+      "evidenze": 3,
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
-      "ultima_conferma": "2026-06-30",
+      "ultima_conferma": "2026-07-01",
       "stato": "attiva"
     },
     {
@@ -179,10 +191,11 @@
     "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
     "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito).",
     "Si aspetta che l'AD veda le sue approvazioni/rifiuti dal Pannello (chat 30/6): leggerle dal DB memoria e rifletterle nel vault, senza che debba ripeterle.",
-    "Quando le azioni restano ferme chiede la lista concreta delle mani/chiavi mancanti, in ordine di impatto — non teoria (chat 30/6 «quali mani ti servono?»)."
+    "Quando le azioni restano ferme chiede la lista concreta delle mani/chiavi mancanti, in ordine di impatto — non teoria (chat 30/6 «quali mani ti servono?»).",
+    "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»)."
   ],
   "meta": {
-    "lezioni_attive": 14,
+    "lezioni_attive": 15,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.65

@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-06-30 23:32
-fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviworth · Pannello azioni_log 30/6 09:08 · worker mani 30/6 23:32 chat)
+aggiornato: 2026-07-01 00:06
+fonte: AD digitale (7 numeri = live REST 30/6 23:15 · memoria DB live 1/7 00:06 chat · Supabase clmpyfvpvfjgeviworth · Pannello azioni_log 30/6 09:08 · worker mani 30/6 23:32)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -20,9 +20,18 @@ fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviw
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: "samir?" il 16/6 |
 
 ## Semafori
-- 🟢 Va bene: infrastruttura pronta (REST Supabase OK, Stripe operativo, 407 lead `to_contact`, fallback REST quando MCP cieco).
+- 🟢 Va bene: infrastruttura pronta (REST Supabase OK su **entrambi** i progetti — marketplace RO + memoria Pannello — da `cervello/vps/.env`; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco / manca `SUPABASE_ACCESS_TOKEN`).
 - 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,5 gg; **6 carrelli** con items abbandonati >4h; bando ER 21 giorni; VP 3/7 tra ~46h senza link lista; **168h tra ~11h**.
 - 🔴 Problema: **stallo 156,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
+
+## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte` · fonte: chat Nicola 1/7)
+| Tabella | Righe | Note |
+|---|---|---|
+| briefings | **11** | popolata |
+| lavori | **27** | popolata |
+| conversazioni | **5** | popolata |
+
+> L'AD legge il DB memoria da worker; la Cabina **Vercel** resta scollegata finché non si fa wiring env (#10 rifiutato 30/6) — gap deploy, non assenza dati.
 
 ## Pannello · approvazioni Nicola (30/6 ~09:08, fonte: chat + `azioni_log` Supabase memoria)
 | Esito | Quante | Note |
@@ -47,7 +56,8 @@ fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviw
 Alcune azioni approvate **non richiedono chiavi** (#1 termini Garetti di persona, #2 scelta payout, #3 concierge umano, #9 ok strategico, link lista d'attesa = prodotto).
 
 ## Ultime mosse dell'AD
-1. **Giro 30/6 23:15** — Conferma live 7 numeri (= vs 23:10). Nota escalation 168h 🟢. Sesto passaggio — onesto (L-2026-0629-03). Vedi [[2026-06-30]].
+1. **Chat 1/7 00:06** — Confermato accesso live a **marketplace + memoria Pannello** (REST, entrambi OK). MCP senza token; gap Vercel = wiring #10, non DB.
+2. **Giro 30/6 23:15** — Conferma live 7 numeri (= vs 23:10). Nota escalation 168h 🟢. Sesto passaggio — onesto (L-2026-0629-03). Vedi [[2026-06-30]].
 2. **Giro 30/6 23:10** — Snapshot KPI 🟢. Quinto passaggio giornata.
 3. **Giro 30/6 23:08** — Checklist countdown VP 3/7 🟢.
 
