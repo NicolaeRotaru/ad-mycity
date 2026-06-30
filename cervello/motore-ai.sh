@@ -36,6 +36,11 @@ ai_cli_name() {
 
 # Verifica che il motore sia installato (e dia un avviso utile se manca la chiave). Ritorna 1 se inutilizzabile.
 ai_check() {
+  # Cursor CLI vive in ~/.local/bin: systemd lo mette nel PATH, ma un .env che esporta PATH
+  # può sovrascriverlo — ripristiniamo sempre la bin utente prima del command -v.
+  if [ -n "${HOME:-}" ] && [ -d "$HOME/.local/bin" ]; then
+    case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
+  fi
   local eng cli
   eng="$(ai_engine)"
   if [ "$eng" = none ]; then
