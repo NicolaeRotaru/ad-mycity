@@ -148,6 +148,7 @@ Apri nel browser (sostituisci dominio):
 | `Permission denied` su `.git/config` | `aggiorna-cervello.sh` eseguito come **root** → git di proprietà root, worker è **mycity** | `sudo chown -R mycity:mycity /opt/mycity/ad-mycity` poi `sudo systemctl restart mycity-worker` |
 | Lavori giro «errore» push memoria-ad | `GIT_PUSH_TOKEN` scaduto o email commit sbagliata | Rigenera token GitHub + `GIT_AUTHOR_EMAIL=98592323+NicolaeRotaru@users.noreply.github.com` |
 | Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
+| Lavoro bloccato **«In corso»** per ore, worker in `sleep 5` | Restart durante un giro → lavoro orfano `in_corso` (il worker legge solo `in_attesa`) | `sudo -u mycity -H bash cervello/vps/recupera-lavori-orfani.sh` poi controlla journalctl |
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
 | `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |
 | Briefing vecchio | `OBSIDIAN_BRANCH=main` o no redeploy | `memoria-ad` + redeploy Vercel |
