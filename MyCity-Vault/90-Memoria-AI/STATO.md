@@ -49,6 +49,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
+1. **Chat 1/7 01:16** — Nicola esegue `sudo bash cervello/vps/aggiorna-cervello.sh`: worker **attivo** ✓ · commit `1394219` allinea a main · **`settings.json` = ancora whitelist** (11 domini) — WebFetch globale assente su `origin/main`. Percorso sync **corretto** (L-2026-0701-09); blocco resta PR su `main` + secondo sync. Fonte: chat Nicola 1/7 01:16.
 1. **Chat 1/7 01:13** — Nicola: «come fanno ad essere arrivate su main?» → AD ammette: **WebFetch globale non è mai stato su `main`** (DECISIONI 00:35 sovrastimata). Fatto: policy su memoria-ad. Mancante: PR `settings.json` su main. Test Cursor ingannevole (IDE ≠ worker). L-2026-0701-10.
 1. **Chat 1/7 01:11** — Nicola corregge: **non può fare pull su `memoria-ad`** (conflitti). AD corregge: binario memoria (worker) vs codice (`main`); sync VPS = `aggiorna-cervello.sh` o giro Pannello; WebFetch globale ancora da mergiare su `main`. L-2026-0701-09.
 1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa. *(Consiglio pull memoria-ad — **errato**, corretto 01:11.)*
