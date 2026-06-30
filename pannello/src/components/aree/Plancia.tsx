@@ -128,7 +128,7 @@ export default function Plancia({
               <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.errori?.length || 0) ? "bg-red-50 text-red-700 ring-1 ring-red-200" : "bg-green-50 text-green-700 ring-1 ring-green-200"}`}>
                 <ShieldAlert size={12} /> {autoAnalisi.errori?.length || 0} errori
               </span>
-              <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.domande_per_nicola?.length || 0) ? "bg-brand-50 text-brand ring-1 ring-brand/20" : "bg-black/5 text-black/40"}`}>
+              <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.domande_per_nicola?.length || 0) ? "bg-brand-50 text-brand ring-1 ring-brand/20" : "badge-off"}`}>
                 <HelpCircle size={12} /> {autoAnalisi.domande_per_nicola?.length || 0} domande
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
             {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.numero} className="flex items-start gap-1.5 text-[12px] text-ink/85">
+              <div key={a.numero} className="flex items-start gap-1.5 t-riga">
                 <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(a.livello)}`} />
                 <span className="line-clamp-1">{testoPulito(a.azione)}</span>
               </div>
@@ -193,7 +193,7 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {mosseOrd.length === 0 && <p className="t-eti">Nessuna mossa in agenda.</p>}
             {mosseOrd.slice(0, 3).map((m, i) => (
-              <div key={i} className="flex items-start gap-1.5 text-[12px] text-ink/85">
+              <div key={i} className="flex items-start gap-1.5 t-riga">
                 <span className="mt-0.5 shrink-0">{m.colore || "•"}</span>
                 <span className="line-clamp-1">{testoPulito(m.titolo)}</span>
               </div>
@@ -212,7 +212,7 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {alerts.length === 0 && <p className="t-eti">Nessun allarme. Tutto ok.</p>}
             {alerts.slice(0, 3).map((al, i) => (
-              <div key={i} className="flex items-start gap-1.5 text-[12px] text-ink/85">
+              <div key={i} className="flex items-start gap-1.5 t-riga">
                 <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(al.livello)}`} />
                 <span className="line-clamp-1">{al.titolo}</span>
               </div>
@@ -231,7 +231,7 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFare.length === 0 && <p className="t-eti">Nessuna cosa in sospeso.</p>}
             {daFare.slice(0, 3).map((t) => (
-              <div key={t.id} className="flex items-start gap-1.5 text-[12px] text-ink/85">
+              <div key={t.id} className="flex items-start gap-1.5 t-riga">
                 <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(t.livello)}`} />
                 <span className="line-clamp-1">{testoPulito(t.testo)}</span>
               </div>
@@ -253,12 +253,12 @@ export default function Plancia({
             const v = cell(k.chiave, k.tipo);
             const on = v !== "—";
             return (
-              <div key={k.chiave} className={`rounded-xl border p-2.5 ${on ? "border-black/[0.06] bg-paper/40" : "border-dashed border-black/[0.10] bg-paper/20"}`}>
-                <div className="flex items-center gap-1.5 text-black/55">
-                  <span className={on ? "text-brand" : "text-black/30"}>{k.icon}</span>
-                  <span className="text-[10.5px] leading-tight">{k.label}</span>
+              <div key={k.chiave} className={`kpi-tile ${on ? "" : "kpi-tile-off"}`}>
+                <div className="kpi-tile-label">
+                  <span className={on ? "text-brand" : ""} style={on ? undefined : { color: "var(--text-faint)" }}>{k.icon}</span>
+                  <span>{k.label}</span>
                 </div>
-                <div className={`text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums ${on ? "text-ink" : "text-black/25"}`}>{v}</div>
+                <div className={`kpi-tile-value ${on ? "" : "kpi-tile-value-off"}`}>{v}</div>
               </div>
             );
           })}

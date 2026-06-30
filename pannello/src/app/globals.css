@@ -75,6 +75,33 @@ body {
     color: var(--text-faint);
   }
 
+  /* Righe compatte nelle card (Plancia, liste) — sempre leggibili */
+  .t-riga {
+    @apply text-[12px] leading-snug;
+    color: var(--text-secondary);
+  }
+
+  .kpi-tile {
+    @apply rounded-xl border p-2.5;
+    border-color: var(--border);
+    background: var(--bg-surface-2);
+  }
+  .kpi-tile-off {
+    border-style: dashed;
+    opacity: 0.85;
+  }
+  .kpi-tile-label {
+    @apply flex items-center gap-1.5 text-[10.5px] leading-tight;
+    color: var(--text-muted);
+  }
+  .kpi-tile-value {
+    @apply text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums;
+    color: var(--text-primary);
+  }
+  .kpi-tile-value-off {
+    color: var(--text-faint);
+  }
+
   .card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
@@ -246,6 +273,13 @@ body {
 }
 
 /* ── Dark mode: superfici e testi legacy (safety net globale) ── */
+.dark .text-ink {
+  color: var(--text-primary) !important;
+}
+.dark :is(.text-ink\/70, .text-ink\/80, .text-ink\/85, .text-ink\/90) {
+  color: var(--text-secondary) !important;
+}
+
 .dark .bg-white {
   background-color: var(--bg-elevated) !important;
 }
@@ -354,6 +388,6 @@ body {
 
 /* Chip timestamp condivisa */
 .t-aggiornato {
-  color: var(--text-faint);
+  color: var(--text-muted);
   @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap;
 }
