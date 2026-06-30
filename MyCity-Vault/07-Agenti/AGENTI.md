@@ -15,6 +15,9 @@ L'**AD** (Claude Code, guidato da `CLAUDE.md`) riceve l'obiettivo, lo spezza e
 Ogni senior ha **solo gli strumenti che gli servono** (minimo privilegio) e rispetta
 la regola d'oro 🟢🟡🔴.
 
+> **🌐 Web (2026-07-01):** **tutti i senior** hanno **WebSearch + WebFetch** 🟢 per benchmark,
+> apprendimento continuo e ricerca verificabile — vedi [[WEB-APPRENDIMENTO-SENIOR]].
+
 ## 🗂️ Organigramma per TEAM (40 senior + AD)
 - 🧠 **Direzione:** AD
 - 🤖 **AI Lab:** prompt-engineer · ai-designer · ai-video · ai-copywriter
@@ -52,7 +55,7 @@ la regola d'oro 🟢🟡🔴.
 | Senior | Cosa produce | Poteri max |
 |---|---|---|
 | 🔎 **intelligence** | concorrenti, trend, eventi, buchi di mercato | sola lettura + web 🟢 |
-| 📊 **analista** | report sui numeri, cali, opportunità | sola lettura 🟢 |
+| 📊 **analista** | report sui numeri, cali, opportunità | sola lettura + web 🟢 |
 
 ### 🛠️ Costruttori di strumenti
 | Senior | Cosa produce | Poteri max |
