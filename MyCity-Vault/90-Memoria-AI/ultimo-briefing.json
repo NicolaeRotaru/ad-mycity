@@ -1,19 +1,16 @@
 {
-  "data": "2026-06-29 16:24",
-  "situazione": "5° passaggio della giornata (16:24): stallo a ~128h (5 giorni e 8 ore), 7 numeri congelati, zero novità esterne intraday. Supabase MCP e WebFetch ancora non autorizzati: numeri ereditati dal check live delle 11:20. Verificato a basso costo (sentinella ogni-giro): Supabase e Stripe operativi → l'infrastruttura NON è a rischio, il blocco è 100% decisionale. Restano ferme le 3 decisioni 🔴: sblocco prima transazione con Casa Linda (payout-ready), Kit Bando ER (scade 21/7, 22gg), ordine zombie €19,05. La palla è in mano a Nicola.",
+  "data": "2026-06-30 11:45",
+  "situazione": "Giro del 30/6. Una novità vera e di peso: il caldo è finito — oggi e domani pioggia (prob. 90%, max ~34°C), poi clima mite. Il fattore-guida del delivery passa da caldo a pioggia. Il business resta però fermo: Supabase non collegato in questa sessione, i 7 numeri restano alla baseline del 29/6 (2 negozi approvati, 1 payout-ready, 0 ordini pagati, 0 consegne). Stallo da ~6 giorni. Venerdì Piacentini 3/7 confermato (49 eventi): con la sera fresca il presidio QR è ora comodo. Nessuna nuova azione da accodare: la coda è già piena e pertinente.",
   "opportunita": [
-    {"titolo": "Bando ER come leva di onboarding (22gg alla scadenza)", "motivo": "Il bando rimborsa il 40% della digitalizzazione. MyCity è la soluzione. Kit one-pager per i negozi.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Ex Scuderie — 3 negozi food premium da onbordare", "motivo": "Il Comune apre spazi alimentari di qualità in centro: match perfetto col nostro posizionamento", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Hub Urbano fondi regionali (14M€)", "motivo": "Piacenza riconosciuta Hub Urbano: fondi per commercio di centro. MyCity come braccio digitale", "impatto": "medio", "sforzo": "medio"},
-    {"titolo": "Caldo estremo 37°C — leva messaggio delivery", "motivo": "Domanda latente, ma inutile senza catalogo vero e primo ordine funzionante", "impatto": "basso", "sforzo": "basso"}
+    {"titolo": "Venerdì Piacentini 3/7 con sera fresca = presidio QR comodo", "motivo": "49 eventi, ~50-60k persone, niente afa: il presidio offline a costo ≈0 è ora sostenibile. Rafforza i kit #7 e #11 già in coda.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Pioggia oggi+domani come leva delivery", "motivo": "Due giorni a prob. 90%: 'piove, te la portiamo noi'. Ma latente senza catalogo vero e primo ordine.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready: è l'uscita dallo stallo di ~6 giorni.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Bando ER come leva onboarding (21 giorni alla scadenza)", "motivo": "Kit #12 pronto in coda: 40% fondo perduto, urgenza per i pitch.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Uscire dallo zero dopo 125h di stallo.", "livello": "rosso"},
-    {"titolo": "Kit Bando ER + MyCity per onboarding negozi", "motivo": "Bando scade 21/7 — 22 giorni. Leva commerciale urgente.", "livello": "giallo"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 5 giorni: buyer nel limbo, prima impressione rovinata.", "livello": "rosso"},
-    {"titolo": "Wiring Vercel memoria (2 env vars + Redeploy)", "motivo": "Pannello si accende e mostra i briefing in automatico.", "livello": "giallo"},
+    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Uscire dallo zero dopo ~6 giorni di stallo.", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 6 giorni: buyer nel limbo, prima impressione rovinata.", "livello": "rosso"},
     {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Stripe live/sandbox, commissione 12%, fee consegna: sbloccano l'infrastruttura.", "livello": "rosso"},
-    {"titolo": "Segnalare Ex Scuderie a vendite come pipeline", "motivo": "3 futuri negozi food premium in centro.", "livello": "verde"},
-    {"titolo": "Verificare opportunità Hub Urbano", "motivo": "Fondi regionali 14M€ per commercio centro.", "livello": "verde"}
+    {"titolo": "Autorizzare Supabase MCP o wiring Vercel memoria", "motivo": "Tornare a vedere i 7 numeri veri: in questa sessione il MCP è cieco.", "livello": "giallo"}
   ]
 }
