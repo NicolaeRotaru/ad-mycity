@@ -28,9 +28,9 @@ export default function Volano() {
       <div className="flex items-center gap-2 flex-wrap">
         {passi.map((p, i) => (
           <Fragment key={p.k}>
-            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5 text-center min-w-[82px]">
-              <div className="text-[11px] text-black/55">{p.e} {p.l}</div>
-              <div className="text-[18px] font-semibold tracking-tight tabular-nums">{v(p.k)}</div>
+            <div className="kpi-tile text-center min-w-[82px]">
+              <div className="kpi-tile-label justify-center"><span>{p.e} {p.l}</span></div>
+              <div className="kpi-tile-value">{v(p.k)}</div>
             </div>
             {i < passi.length - 1 && <span className="text-brand font-bold">→</span>}
           </Fragment>

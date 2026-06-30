@@ -77,29 +77,29 @@ export default function CuoreMacchina() {
         </span>
         <span className="ml-auto t-eti" title={`Fonte: ${c.ultimoBattitoFonte ?? "—"}`}>
           🕗 ultimo giro AD · {battitoLabel}
-          {fonte && <span className="text-black/35">{fonte}</span>}
+          {fonte && <span className="t-micro normal-case">{fonte}</span>}
         </span>
       </div>
       {autopilotaNota && <p className="t-eti mt-1 text-right">{autopilotaNota}</p>}
       <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
-        <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
-          <div className="text-[10.5px] text-black/55" title="Azioni 🟢 eseguite dall'autopilota al cron Vercel (non dal giro AD)">
+        <div className="kpi-tile">
+          <div className="kpi-tile-label" title="Azioni 🟢 eseguite dall'autopilota al cron Vercel (non dal giro AD)">
             Azioni auto (autopilota)
           </div>
-          <div className="text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums">{c.eseguiteUltimo}</div>
+          <div className="kpi-tile-value">{c.eseguiteUltimo}</div>
         </div>
-        <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
+        <div className="kpi-tile">
           <div className="flex items-center gap-1.5">
-            <div className="text-[10.5px] text-black/55">Budget AI questo mese</div>
+            <div className="kpi-tile-label">Budget AI questo mese</div>
             <button onClick={modificaTetto} className="ml-auto text-[10.5px] text-brand hover:underline" title="Imposta il tetto di spesa AI">modifica</button>
           </div>
-          <div className="text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums">
+          <div className="kpi-tile-value">
             {c.budget ? `€${c.budget.speso} / ${c.budget.tetto}` : "—"}
           </div>
         </div>
-        <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
-          <div className="text-[10.5px] text-black/55">Stato</div>
-          <div className="text-[13px] font-medium mt-1">
+        <div className="kpi-tile">
+          <div className="kpi-tile-label">Stato</div>
+          <div className="t-riga font-medium mt-1">
             {c.demo ? "🧪 Demo" : c.vivo ? "🟢 Vivo" : c.collegato ? "🟡 Collegato" : "🟡 In prova"}
             {c.workerVivo === false && c.vivo ? " · worker spento" : ""}
           </div>
@@ -108,7 +108,7 @@ export default function CuoreMacchina() {
       {c.pensiero && (
         <div className="mt-2 rounded-xl border border-brand/20 bg-brand-50/30 p-2.5">
           <div className="text-[10.5px] uppercase tracking-wide text-brand mb-0.5">💭 Pensiero del giorno</div>
-          <p className="text-[12.5px] text-ink/85 whitespace-pre-wrap leading-snug">{c.pensiero}</p>
+          <p className="t-corpo text-[12.5px] whitespace-pre-wrap leading-snug">{c.pensiero}</p>
         </div>
       )}
       {!c.collegato && (
@@ -116,18 +116,18 @@ export default function CuoreMacchina() {
       )}
 
       {diag && (
-        <div className="mt-2 rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
+        <div className="mt-2 rounded-xl border p-2.5 surface-muted">
           <div className="flex items-center gap-1.5 mb-1.5">
             <Stethoscope size={13} className="text-brand" />
-            <span className="text-[10.5px] uppercase tracking-wide text-black/55">Diagnosi macchina</span>
+            <span className="t-micro normal-case">Diagnosi macchina</span>
             <span className="ml-auto">{puntino(diag.salute)}</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
             {diag.checks.map((ch, i) => (
-              <div key={i} className="flex items-center gap-1.5 text-[11.5px]" title={ch.dettaglio}>
+              <div key={i} className="flex items-center gap-1.5 t-riga" title={ch.dettaglio}>
                 {puntino(ch.stato)}
-                <span className="text-ink/80">{ch.nome}</span>
-                <span className="ml-auto text-black/40 truncate max-w-[55%] text-right">{ch.dettaglio}</span>
+                <span>{ch.nome}</span>
+                <span className="ml-auto t-eti truncate max-w-[55%] text-right">{ch.dettaglio}</span>
               </div>
             ))}
           </div>
