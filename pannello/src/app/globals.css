@@ -22,22 +22,25 @@
 }
 
 .dark {
-  --ink-rgb: 248 244 239;
-  --paper-rgb: 42 38 34;
-  --black-rgb: 248 244 239;
-  --bg-page: #0f0d0b;
-  --bg-page-end: #171411;
-  --bg-surface: #1c1916;
-  --bg-surface-2: #242019;
-  --bg-elevated: #2a2622;
-  --text-primary: #f8f4ef;
-  --text-secondary: #e8e0d6;
-  --text-muted: #c9bfb3;
-  --text-faint: #a89d90;
-  --border: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.04);
-  --brand-soft: rgba(192, 73, 44, 0.22);
+  --ink-rgb: 232 224 212;
+  --paper-rgb: 31 28 24;
+  --black-rgb: 232 224 212;
+  /* Gerarchia superfici: 4 livelli, niente bianco puro — warm charcoal */
+  --bg-page: #090807;
+  --bg-page-end: #100e0c;
+  --bg-surface: #151311;
+  --bg-surface-2: #1d1a17;
+  --bg-elevated: #26221e;
+  --bg-inset: #11100e;
+  --text-primary: #e8e0d4;
+  --text-secondary: #cfc4b6;
+  --text-muted: #a89f94;
+  --text-faint: #7d756c;
+  --border: rgba(232, 224, 212, 0.09);
+  --border-strong: rgba(232, 224, 212, 0.2);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 6px 28px rgba(0, 0, 0, 0.5);
+  --brand-soft: rgba(244, 140, 108, 0.16);
+  --brand-glow: rgba(244, 140, 108, 0.28);
   color-scheme: dark;
 }
 
@@ -71,14 +74,26 @@ body {
     color: var(--text-muted);
   }
   .t-micro {
-    @apply text-[11px] uppercase tracking-wide font-medium;
-    color: var(--text-faint);
+    @apply text-[11px] uppercase tracking-wide font-semibold;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
   }
 
-  /* Righe compatte nelle card (Plancia, liste) — sempre leggibili */
+  /* Righe compatte nelle card — scannable, con grassetto via FraseLista */
   .t-riga {
-    @apply text-[12px] leading-snug;
-    color: var(--text-secondary);
+    @apply text-[13px] leading-snug;
+    color: var(--text-primary);
+  }
+  .frase-lista {
+    @apply text-[13px] leading-snug block;
+  }
+  .frase-lista-lead {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .frase-lista-rest {
+    font-weight: 400;
+    color: var(--text-muted);
   }
 
   .kpi-tile {
@@ -91,11 +106,11 @@ body {
     opacity: 0.85;
   }
   .kpi-tile-label {
-    @apply flex items-center gap-1.5 text-[10.5px] leading-tight;
+    @apply flex items-center gap-1.5 text-[10.5px] leading-tight font-medium;
     color: var(--text-muted);
   }
   .kpi-tile-value {
-    @apply text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums;
+    @apply text-[18px] font-bold tracking-tight mt-0.5 tabular-nums;
     color: var(--text-primary);
   }
   .kpi-tile-value-off {
@@ -115,6 +130,16 @@ body {
     @apply rounded-xl;
   }
 
+  .card-priorita {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    @apply rounded-2xl p-3.5 text-left transition;
+  }
+  .card-priorita:hover {
+    border-color: var(--border-strong);
+  }
+
   .sez-head { @apply flex items-center gap-2.5; }
   .sez-ico {
     @apply grid place-items-center w-8 h-8 rounded-lg text-brand shrink-0;
@@ -131,11 +156,12 @@ body {
   .nav-tab {
     @apply inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition;
     color: var(--text-muted);
-    background: var(--bg-elevated);
+    background: var(--bg-surface-2);
     border: 1px solid var(--border);
   }
   .nav-tab:hover {
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    background: var(--bg-elevated);
     border-color: var(--border-strong);
   }
   .nav-tab-active {
@@ -280,18 +306,6 @@ body {
   color: var(--text-secondary) !important;
 }
 
-.dark .bg-white {
-  background-color: var(--bg-elevated) !important;
-}
-.dark .bg-white\/5 {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-.dark .bg-white\/20 {
-  background-color: rgba(255, 255, 255, 0.12) !important;
-}
-.dark .bg-white\/25 {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-}
 .dark .ring-black\/\[0\.06\] {
   --tw-ring-color: var(--border) !important;
 }
@@ -359,10 +373,6 @@ body {
 .dark .ring-amber-200 { --tw-ring-color: rgba(251, 191, 36, 0.35) !important; }
 .dark .ring-green-200 { --tw-ring-color: rgba(74, 222, 128, 0.35) !important; }
 
-.dark .text-ink {
-  color: var(--text-primary) !important;
-}
-
 .dark .placeholder\:text-black\/35::placeholder,
 .dark .placeholder\:text-black\/40::placeholder {
   color: var(--text-faint) !important;
@@ -389,5 +399,68 @@ body {
 /* Chip timestamp condivisa */
 .t-aggiornato {
   color: var(--text-muted);
-  @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap;
+  @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap font-medium;
+}
+
+/* ── Dark mode: gerarchia visiva (UX) ── */
+.dark .card,
+.dark .card-priorita {
+  border-color: var(--border-strong);
+}
+.dark .card-priorita:hover {
+  border-color: var(--brand-glow);
+  background: var(--bg-surface-2);
+}
+.dark .kpi-tile {
+  background: var(--bg-inset);
+  border-color: var(--border-strong);
+}
+.dark .sez-ico {
+  box-shadow: 0 0 0 1px var(--brand-glow);
+}
+.dark .badge-off {
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.dark .frase-lista-lead {
+  color: var(--text-primary);
+}
+.dark .frase-lista-rest {
+  color: var(--text-secondary);
+}
+.dark .t-corpo {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.dark .surface-muted {
+  background: var(--bg-inset);
+  border-color: var(--border-strong);
+}
+.dark .chat-bubble-assistant {
+  background: var(--bg-surface-2);
+  border-color: var(--border-strong);
+}
+.dark .conv-row {
+  background: var(--bg-surface-2);
+  border-color: var(--border-strong);
+}
+.dark .conv-row:hover {
+  background: var(--bg-elevated);
+}
+.dark .input-soft:focus {
+  background: var(--bg-elevated);
+  border-color: var(--brand-glow);
+}
+.dark .bg-white {
+  background-color: var(--bg-surface-2) !important;
+}
+.dark .bg-white\/5 {
+  background-color: rgba(232, 224, 212, 0.06) !important;
+}
+.dark .bg-white\/20 {
+  background-color: rgba(232, 224, 212, 0.1) !important;
+}
+.dark .bg-white\/25 {
+  background-color: rgba(232, 224, 212, 0.12) !important;
 }

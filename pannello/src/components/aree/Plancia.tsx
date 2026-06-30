@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer } from "lucide-react";
-import { formatta, testoPulito, etichettaRitmo, ritmoEODoggi, type Tipo } from "@/lib/format";
+import { formatta, etichettaRitmo, ritmoEODoggi, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
+import FraseLista from "@/components/FraseLista";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
@@ -122,7 +123,7 @@ export default function Plancia({
                   </span>
                 )}
               </div>
-              {autoAnalisi.sintesi && <p className="t-eti line-clamp-1 mt-0.5">{autoAnalisi.sintesi}</p>}
+              {autoAnalisi.sintesi && <p className="t-corpo text-[13px] font-medium line-clamp-2 mt-0.5">{autoAnalisi.sintesi}</p>}
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ${(autoAnalisi.errori?.length || 0) ? "bg-red-50 text-red-700 ring-1 ring-red-200" : "bg-green-50 text-green-700 ring-1 ring-green-200"}`}>
@@ -153,7 +154,7 @@ export default function Plancia({
                   </span>
                 )}
               </div>
-              {radiografia.sintesi && <p className="t-eti line-clamp-1 mt-0.5">{radiografia.sintesi}</p>}
+              {radiografia.sintesi && <p className="t-corpo text-[13px] font-medium line-clamp-2 mt-0.5">{radiografia.sintesi}</p>}
             </div>
             <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg shrink-0 ${difettiAperti ? "bg-amber-50 text-amber-700 ring-1 ring-amber-200" : "bg-green-50 text-green-700 ring-1 ring-green-200"}`}>
               <Hammer size={12} /> {difettiAperti} difetti aperti
@@ -165,7 +166,7 @@ export default function Plancia({
       {/* 4 priorità: firmare · mosse di Nicola · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Da firmare */}
-        <button onClick={() => onVaiA?.("azioni")} className="card p-3.5 text-left hover:border-brand/30 transition">
+        <button onClick={() => onVaiA?.("azioni")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><PenLine size={16} /></span>
             <span className="t-sez">Da firmare</span>
@@ -174,9 +175,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
             {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.numero} className="flex items-start gap-1.5 t-riga">
-                <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <span className="line-clamp-1">{testoPulito(a.azione)}</span>
+              <div key={a.numero} className="flex items-start gap-2 t-riga">
+                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
+                <FraseLista testo={a.azione} />
               </div>
             ))}
             {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
@@ -184,7 +185,7 @@ export default function Plancia({
         </button>
 
         {/* Mosse di Nicola */}
-        <button onClick={vaiAMosse} className="card p-3.5 text-left hover:border-brand/30 transition">
+        <button onClick={vaiAMosse} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><Footprints size={16} /></span>
             <span className="t-sez">Mosse di Nicola</span>
@@ -193,9 +194,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {mosseOrd.length === 0 && <p className="t-eti">Nessuna mossa in agenda.</p>}
             {mosseOrd.slice(0, 3).map((m, i) => (
-              <div key={i} className="flex items-start gap-1.5 t-riga">
-                <span className="mt-0.5 shrink-0">{m.colore || "•"}</span>
-                <span className="line-clamp-1">{testoPulito(m.titolo)}</span>
+              <div key={i} className="flex items-start gap-2 t-riga">
+                <span className="mt-0.5 shrink-0 text-base">{m.colore || "•"}</span>
+                <FraseLista testo={m.titolo} />
               </div>
             ))}
             {mosseOrd.length > 3 && <p className="t-eti">+{mosseOrd.length - 3} altre…</p>}
@@ -203,7 +204,7 @@ export default function Plancia({
         </button>
 
         {/* Allarmi */}
-        <button onClick={() => onVaiA?.("memoria")} className="card p-3.5 text-left hover:border-brand/30 transition">
+        <button onClick={() => onVaiA?.("memoria")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><ShieldAlert size={16} /></span>
             <span className="t-sez">Allarmi</span>
@@ -212,9 +213,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {alerts.length === 0 && <p className="t-eti">Nessun allarme. Tutto ok.</p>}
             {alerts.slice(0, 3).map((al, i) => (
-              <div key={i} className="flex items-start gap-1.5 t-riga">
-                <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(al.livello)}`} />
-                <span className="line-clamp-1">{al.titolo}</span>
+              <div key={i} className="flex items-start gap-2 t-riga">
+                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(al.livello)}`} />
+                <FraseLista testo={al.titolo} />
               </div>
             ))}
             {alerts.length > 3 && <p className="t-eti">+{alerts.length - 3} altri…</p>}
@@ -222,7 +223,7 @@ export default function Plancia({
         </button>
 
         {/* Cose da fare */}
-        <button onClick={() => onVaiA?.("memoria")} className="card p-3.5 text-left hover:border-brand/30 transition">
+        <button onClick={() => onVaiA?.("memoria")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><ListTodo size={16} /></span>
             <span className="t-sez">Cose da fare</span>
@@ -231,9 +232,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFare.length === 0 && <p className="t-eti">Nessuna cosa in sospeso.</p>}
             {daFare.slice(0, 3).map((t) => (
-              <div key={t.id} className="flex items-start gap-1.5 t-riga">
-                <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(t.livello)}`} />
-                <span className="line-clamp-1">{testoPulito(t.testo)}</span>
+              <div key={t.id} className="flex items-start gap-2 t-riga">
+                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(t.livello)}`} />
+                <FraseLista testo={t.testo} />
               </div>
             ))}
             {daFare.length > 3 && <p className="t-eti">+{daFare.length - 3} altre…</p>}
@@ -272,7 +273,7 @@ export default function Plancia({
           <span className="t-sez">Cosa ha scoperto l'AD</span>
         </div>
         {briefing?.situazione ? (
-          <p className="t-corpo line-clamp-3">{briefing.situazione}</p>
+          <p className="t-corpo font-medium leading-relaxed line-clamp-4">{briefing.situazione}</p>
         ) : (
           <p className="t-eti">Appena l'AD fa il suo giro (ogni ora), il riassunto compare qui.</p>
         )}

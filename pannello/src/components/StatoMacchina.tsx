@@ -46,14 +46,14 @@ export default function StatoMacchina() {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {organi.map((o) => (
-          <div key={o.n} className={`rounded-xl border p-2.5 ${o.ok ? "border-green-200 bg-green-50/30" : "border-amber-200 bg-amber-50/30"}`}>
+          <div key={o.n} className={`kpi-tile ${o.ok ? "ring-1 ring-green-200/50" : "ring-1 ring-amber-200/50"}`}>
             <div className="flex items-center gap-1.5">
               <span>{o.e}</span>
-              <span className="text-[12.5px] font-semibold text-ink">{o.n}</span>
+              <span className="text-[12.5px] font-semibold" style={{ color: "var(--text-primary)" }}>{o.n}</span>
               <span className="ml-auto text-[12px]">{o.ok ? "✅" : "🟡"}</span>
             </div>
-            <div className="t-eti mt-0.5">{o.d}</div>
-            <div className="text-[11px] mt-0.5 text-black/55">{o.nota}</div>
+            <div className="kpi-tile-label mt-0.5 normal-case">{o.d}</div>
+            <div className="frase-lista-rest text-[11px] mt-0.5">{o.nota}</div>
           </div>
         ))}
       </div>
