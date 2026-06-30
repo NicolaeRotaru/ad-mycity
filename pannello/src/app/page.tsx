@@ -89,13 +89,16 @@ import {
   CalendarDays,
   Lightbulb,
   Award,
+  Microscope,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
 import Cervello from "@/components/aree/Cervello";
-import GovernoAD from "@/components/GovernoAD";
+import Lavori from "@/components/aree/Lavori";
+import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
+import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
@@ -108,7 +111,7 @@ import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
-import LavoriCervello from "@/components/LavoriCervello";
+import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale } from "@/lib/lavori-gruppo";
 
@@ -559,10 +562,25 @@ function fa(iso: string | null): string {
   }
 }
 
+type Vista =
+  | "plancia"
+  | "azioni"
+  | "lavori"
+  | "cervello"
+  | "auto-coscienza"
+  | "numeri"
+  | "memoria"
+  | "persone"
+  | "operazioni"
+  | "mondo"
+  | "assistente"
+  | "storico";
+
+type AssistenteTab = "chat" | "conversazioni" | "storico";
+
 export default function Dashboard() {
-  const [vista, setVista] = useState<
-    "plancia" | "azioni" | "cervello" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
-  >("plancia");
+  const [vista, setVista] = useState<Vista>("plancia");
+  const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
@@ -1009,7 +1027,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     try {
       const v = localStorage.getItem("mycity_vista");
-      if (v) setVista(v as typeof vista);
+      if (v === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else if (v) setVista(v as Vista);
     } catch {}
   }, []);
   useEffect(() => {
@@ -1021,9 +1042,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
   useEffect(() => {
     const onVai = (e: Event) => {
-      const det = (e as CustomEvent).detail as { vista?: typeof vista; anchor?: string } | undefined;
+      const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
       if (!det?.vista) return;
-      setVista(det.vista);
+      if (det.vista === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else {
+        setVista(det.vista);
+        if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
+        if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
+        if (det.vista === "assistente" && det.sub === "chat") setAssistenteTab("chat");
+      }
       if (det.anchor) {
         const target = det.anchor;
         // Ritenta: la casella può comparire dopo il cambio area, l'apertura della scheda
@@ -1172,7 +1201,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 border-b border-black/[0.06] bg-paper/80 backdrop-blur-md">
+      <header className="sticky top-0 z-20 border-b border-black/[0.06] dark:border-white/10 bg-paper/80 dark:bg-[#1a1614]/90 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
@@ -1180,10 +1209,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
             <div className="leading-tight min-w-0">
               <h1 className="font-semibold text-[15px] tracking-tight truncate">Pannello di Controllo</h1>
-              <span className="text-xs text-black/40">AD MyCity</span>
+              <span className="text-xs text-black/40 dark:text-white/40">AD MyCity</span>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
@@ -1203,14 +1233,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+            { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
             { id: "cervello", label: "Cervello", icon: <Cpu size={15} /> },
+            { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-            { id: "storico", label: "Storico", icon: <History size={15} /> },
           ] as const;
           return (
             <div className="flex flex-wrap gap-1.5">
@@ -1221,7 +1252,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition ${
                     vista === t.id
                       ? "bg-brand text-white shadow-card"
-                      : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
+                      : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"
                   }`}
                 >
                   {t.icon}
@@ -1258,8 +1289,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
         )}
 
-        {/* ===================== CERVELLO (la macchina su sé stessa) ===================== */}
+        {/* ===================== CERVELLO (radiografia) ===================== */}
         {vista === "cervello" && <Cervello />}
+
+        {/* ===================== LAVORI DEL CERVELLO ===================== */}
+        {vista === "lavori" && <Lavori lavori={lavori} onSvuota={svuotaLavori} />}
+
+        {/* ===================== AUTO-COSCIENZA ===================== */}
+        {vista === "auto-coscienza" && <AutoCoscienzaArea />}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
@@ -1346,7 +1383,39 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
         <div className="space-y-4">
+          <div>
+            <h2 className="t-area">💬 Assistente</h2>
+            <p className="t-eti mt-0.5">Chat con l&apos;AD, conversazioni salvate e storico.</p>
+          </div>
 
+          <div className="flex flex-wrap gap-1.5">
+            {(
+              [
+                { id: "chat" as const, label: "Chat", icon: <Send size={14} /> },
+                { id: "conversazioni" as const, label: "Conversazioni", icon: <MessagesSquare size={14} /> },
+                { id: "storico" as const, label: "Storico", icon: <History size={14} /> },
+              ] as const
+            ).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setAssistenteTab(t.id)}
+                className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+                  assistenteTab === t.id ? "bg-brand text-white shadow-card" : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {assistenteTab === "storico" && (
+            <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
+          )}
+
+          {assistenteTab === "chat" && (
+          <>
           {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
           <Comandi onScegli={(cmd) => setInput(cmd)} />
 
@@ -1516,9 +1585,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </div>
           </section>
+          </>
+          )}
 
-        {/* Conversazioni: ricorda e riprendi le chat precedenti */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
+          {assistenteTab === "conversazioni" && (
+        <section className="card p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
@@ -1603,66 +1674,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
-
-        <LavoriCervello lavori={lavori} onSvuota={svuotaLavori} />
+          )}
 
         </div>
         )}
 
-        {/* ===================== SCHEDA: STORICO ===================== */}
+        {/* storico top-level: reindirizzato ad assistente → tab storico */}
         {vista === "storico" && (
-        <div className="space-y-4">
-
-        <div>
-          <h2 className="t-area">🕘 Storico & governo</h2>
-          <p className="t-eti mt-0.5">Il diario di tutto ciò che l'AD ha detto e fatto, la diretta della squadra e i controlli.</p>
-        </div>
-
-        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-        <GovernoAD />
-
-        {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <History size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Diario — tutto ciò che dice e fa</span>
-            </div>
-            {diario.length > 0 && (
-              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota
-              </button>
-            )}
-          </div>
-          <p className="text-[11px] text-black/40 mb-3">
-            {memoria
-              ? "💾 Salvato nel database: resta anche se aggiorni la pagina o cambi dispositivo."
-              : "💾 Salvato su questo browser. Collega il database di memoria per ritrovarlo ovunque."}
-          </p>
-          {diario.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {diario.map((v) => (
-                <div key={v.id} className="border border-black/[0.07] rounded-xl p-3.5 hover:border-black/10 hover:bg-paper/40 transition">
-                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand font-medium shrink-0">{DIARIO_TIPO[v.tipo] || v.tipo}</span>
-                    <span className="font-medium text-ink/70 truncate">{v.titolo}</span>
-                    <span className="ml-auto shrink-0">{fa(v.at)}</span>
-                  </div>
-                  <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
-                  <ParlaCasella titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        </div>
+          <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
       </main>
     </div>

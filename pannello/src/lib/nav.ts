@@ -8,14 +8,16 @@
 export type VistaNav =
   | "plancia"
   | "azioni"
+  | "lavori"
   | "cervello"
+  | "auto-coscienza"
   | "numeri"
   | "memoria"
   | "persone"
   | "operazioni"
   | "mondo"
   | "assistente"
-  | "storico";
+  | "storico"; // legacy: reindirizza ad assistente → storico
 
 export const EVENTO_VAI = "mycity:vai";
 

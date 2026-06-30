@@ -537,7 +537,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         }
                         // Senza tag origine: link generico al Cervello (auto-coscienza).
                         return (
-                          <button onClick={() => vaiArea("cervello", "auto-coscienza")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                          <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
                             <ArrowRight size={12} /> Perché l'ho proposta? Vedi nel Cervello
                           </button>
                         );
