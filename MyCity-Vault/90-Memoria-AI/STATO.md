@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:11
+aggiornato: 2026-07-01 01:13
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** OK in Cursor (WebFetch test 1/7); **GitHub `main` remoto ancora whitelist** — serve PR merge + sync VPS (`aggiorna-cervello.sh` o giro Pannello; Nicola **non** fa pull `memoria-ad`); `memoria-squadra/` **non** in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari su `memoria-ad` ✅ · **`settings.json` WebFetch globale NON su GitHub** (main e memoria-ad remoto = whitelist; correzione Nicola chat 1/7 01:13) · Cursor test ≠ worker · serve PR su `main` + `aggiorna-cervello.sh`/giro · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,6 +49,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
+1. **Chat 1/7 01:13** — Nicola: «come fanno ad essere arrivate su main?» → AD ammette: **WebFetch globale non è mai stato su `main`** (DECISIONI 00:35 sovrastimata). Fatto: policy su memoria-ad. Mancante: PR `settings.json` su main. Test Cursor ingannevole (IDE ≠ worker). L-2026-0701-10.
 1. **Chat 1/7 01:11** — Nicola corregge: **non può fare pull su `memoria-ad`** (conflitti). AD corregge: binario memoria (worker) vs codice (`main`); sync VPS = `aggiorna-cervello.sh` o giro Pannello; WebFetch globale ancora da mergiare su `main`. L-2026-0701-09.
 1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa. *(Consiglio pull memoria-ad — **errato**, corretto 01:11.)*
 1. **Metabolizzazione 1/7 01:08** — L-2026-0701-08 (verifica + osservabilità web) + preferenza Nicola in apprendimento.json.

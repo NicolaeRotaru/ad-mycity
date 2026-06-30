@@ -33,3 +33,6 @@ Metabolizzazione chat «come verifico / come vedo i dati» (web senior): Nicola 
 
 # ESITO — @AD — 2026-07-01 01:11
 Metabolizzazione correzione Nicola «non posso fare pull su memoria-ad»: errore AD — confuso binario memoria vs codice. Fix: mai git manuale memoria-ad per Nicola; codice da main via aggiorna-cervello.sh o giro. L-2026-0701-09 (caso_studio) + patch L-0701-03/08 + preferenza Nicola.
+
+# ESITO — @AD — 2026-07-01 01:13
+Metabolizzazione correzione Nicola «come fanno ad essere arrivate su main?»: WebFetch globale **mai** su GitHub remoto — DECISIONI 00:35 sovrastimata. Cursor test ≠ worker. Fix: verificare `origin/main` prima di dire «su main»; dichiarare fatto (policy) vs mancante (settings.json). L-2026-0701-10 + patch L-0701-03/08.
