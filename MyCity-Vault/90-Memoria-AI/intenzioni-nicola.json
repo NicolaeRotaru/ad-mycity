@@ -1,6 +1,6 @@
 {
-  "data": "2026-06-29 11:30",
-  "sintesi": "AGGIORNAMENTO 29/6: stallo a ~125h (identico al 28/6). I 2 negozi reali (Casa Linda payout-ready, Pane Quotidiano) e Garetti (prospect) sono invariati. Novità esterne: bando ER 40% fondo perduto scade 21/7 (22 giorni), Ex Scuderie (3 food premium in arrivo), Venerdì Piacentini 3/10/17 lug confermati (record 250 eventi). L'unica via veloce per rompere lo stallo è forzare la prima transazione con Casa Linda OPPURE sbloccare l'ordine zombie €19,05 di Pane Quotidiano. Il kit bando ER è accodato come 🟡 (leva onboarding urgente). Piano di fondo invariato: negozio-faro → cluster 6 botteghe → domanda.",
+  "data": "2026-06-30 11:45",
+  "sintesi": "AGGIORNAMENTO 30/6: stallo a ~6 giorni (Supabase non collegato in sessione → 7 numeri = baseline 29/6). I 2 negozi reali (Casa Linda payout-ready, Pane Quotidiano) e Garetti (prospect) sono invariati. Novità di oggi: il caldo è finito (pioggia oggi+domani), e il Venerdì Piacentini 3/7 (49 eventi) avrà sera fresca → il presidio QR diventa comodo. L'unica via veloce per rompere lo stallo resta forzare la prima transazione con Casa Linda OPPURE sbloccare l'ordine zombie €19,05 di Pane Quotidiano. Bando ER scade 21/7 (21 giorni): kit #12 in coda. Piano di fondo invariato: negozio-faro → cluster 6 botteghe → domanda.",
   "prossime_mosse": [
     {
       "titolo": "Forzare prima transazione end-to-end con Casa Linda (payout-ready)",
@@ -75,8 +75,8 @@
     }
   ],
   "rischi": [
-    "Stallo a 125h: se non si sblocca con un'azione nei prossimi giorni, l'intero setup rischia di diventare 'progetto morto'",
-    "Bando ER scade 21/7 (22 giorni): se non si prepara il kit e non si usa come leva, si perde l'urgenza",
+    "Stallo a ~6 giorni: se non si sblocca con un'azione nei prossimi giorni, l'intero setup rischia di diventare 'progetto morto'",
+    "Bando ER scade 21/7 (21 giorni): se non si prepara il kit e non si usa come leva, si perde l'urgenza",
     "Ordine zombie €19,05: buyer abbandonato per 5 giorni = prima impressione rovinata",
     "Bus factor: tutto dipende da Nicola in prima persona (pitch, consegne, firme)"
   ],

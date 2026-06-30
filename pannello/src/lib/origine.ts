@@ -28,7 +28,7 @@ export function risolviOrigine(origine?: string): Origine | null {
       return { vista: "cervello", anchor: `domanda-${id}`, etichetta: "la domanda nell'Auto-coscienza" };
     case "entita":
     case "entità":
-      return { vista: "cervello", anchor: `domanda-${id}`, etichetta: "l'entità nell'Auto-coscienza" };
+      return { vista: "cervello", anchor: `entita-${id}`, etichetta: "l'entità nell'Auto-coscienza" };
     case "difetto":
       return { vista: "cervello", sub: "cantiere", anchor: `difetto-${id}`, etichetta: "il difetto nel Cantiere" };
     case "sentinella":

@@ -1,6 +1,30 @@
 {
-  "data": "2026-06-29 16:24",
+  "data": "2026-06-30 11:45",
   "lezioni": [
+    {
+      "id": "L-2026-0630-01",
+      "testo": "I sensori dati (Supabase/Stripe MCP) possono regredire da una sessione all'altra: leggibili un giorno, ciechi il giorno dopo. Quando succede, NON riportare i vecchi numeri come freschi: tienili come baseline ESPLICITA con la data dell'ultima verifica reale e mettili nei Gap. Un voto di fiducia che scende per peggioramento-sensori (non per errore) è onesto e corretto.",
+      "tag": ["sensori", "verita", "numeri", "onesta", "calibrazione"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0630-02",
+      "testo": "Una previsione del radar che si avvera è una vittoria di calibrazione da registrare: il 29/6 avevo previsto 'caldo in calo da martedì', il 30/6 si è verificato (pioggia, fine caldo). Quando un fattore esterno cambia, vale più aggiornare la GUIDA OPERATIVA (rilascio regola 'no freschi 12-18', leva pioggia) che accodare nuove azioni se la coda è già piena e pertinente.",
+      "tag": ["radar", "foresight", "meteo", "operativo", "no-rumore"],
+      "reparto": "@intelligence",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "pattern",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0629-03",
       "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
@@ -108,7 +132,7 @@
     "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
   ],
   "meta": {
-    "lezioni_attive": 7,
+    "lezioni_attive": 10,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.5

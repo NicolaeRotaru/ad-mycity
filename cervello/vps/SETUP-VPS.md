@@ -2,8 +2,7 @@
 
 > Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
 > Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
-> Il **motore AI** è **Cursor** di default (CLI `agent`, col tuo abbonamento Cursor); in alternativa
-> Claude Code (`claude`, piano Max). Lo scegli con `CERVELLO_MOTORE` nel `.env`.
+> Usa il tuo **piano Max** (login interattivo una volta), non le API a pagamento.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
 > ## ⚠️ LEGGI QUESTO PRIMA
@@ -14,8 +13,7 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Una **chiave API Cursor** (`CURSOR_API_KEY`): la crei su [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys**.
-  *(In alternativa, col motore Claude, il tuo account **Claude Max** per fare `claude login`.)*
+- Il tuo account **Claude Max** (per fare `claude login`).
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
@@ -57,18 +55,17 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il motore AI.** Con il motore **Cursor** (default) NON serve un login interattivo:
-basta mettere `CURSOR_API_KEY` nel `.env` (passo 3). Se preferisci il login interattivo una volta:
+**2. Collega il piano Max** (login interattivo, una volta sola):
 ```bash
-sudo -u mycity -H agent login        # motore Cursor (alternativa alla CURSOR_API_KEY)
-# sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
+sudo -u mycity -H claude login
 ```
+Apri l'URL mostrato, autorizza, incolla il codice.
 
 **3. Inserisci i segreti:**
 ```bash
 sudo -u mycity nano /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
+Compila `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
 
 **4. Accendi tutto:**
 ```bash
@@ -118,8 +115,8 @@ sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system
 ```
 
 ## ⚠️ Note oneste
-- **Limiti dell'abbonamento:** sia Cursor sia Claude Max hanno tetti d'uso che si resettano ogni poche
-  ore. Col solo worker (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
+- **Limiti del Max:** il Max ha tetti d'uso che si resettano ogni poche ore. Col solo worker
+  (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
 - **Costo:** il VPS sempre acceso ha il suo costo mensile (quello che già paghi).
 - **Sicurezza:** il `.env` ha permessi `600` e non va committato. Le azioni 🔴 (soldi/messaggi reali)
   partono **solo** quando le approvi dal Pannello (`AZIONI_LIVE=0` di default).

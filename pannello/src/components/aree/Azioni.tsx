@@ -27,7 +27,7 @@ type Azione = {
   qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
 type Proposta = { titolo: string; motivo: string; livello: Livello };
-type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+type Alert = { id?: string; livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
 type Registro = { voci: VoceLog[]; stat: { totale: number; fatte: number; simulate: number; coda: number; rifiutate: number; auto: number; repartoTop: string } };
 type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
@@ -60,17 +60,29 @@ function chiavi(s: string): string[] {
   return ((s || "").toLowerCase().match(/[a-zàèéìòù0-9]{4,}/g) || []).filter((w) => !STOP.has(w));
 }
 
-// La scheda «Se approvi, ecco cosa succede» dentro una card della coda.
-function Scheda({ a }: { a: Azione }) {
+// La scheda «Se approvi, ecco cosa succede» dentro una card della coda: finestra
+// che si apre e si chiude (chiusa di default), così la card resta compatta.
+function Scheda({ a, open, onToggle }: { a: Azione; open: boolean; onToggle: () => void }) {
   return (
-    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5 space-y-1.5">
-      <div className="text-[10.5px] font-semibold text-brand uppercase tracking-wide">Se approvi, ecco cosa succede</div>
-      {spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito }).map((r) => (
-        <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
-          <span className="mr-1">{r.ico}</span>
-          <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
-        </p>
-      ))}
+    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5">
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="w-full flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide"
+      >
+        {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
+        Se approvi, ecco cosa succede
+      </button>
+      {open && (
+        <div className="mt-1.5 space-y-1.5">
+          {spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito }).map((r) => (
+            <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
+              <span className="mr-1">{r.ico}</span>
+              <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -83,6 +95,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
+  // Finestre «Se approvi, ecco cosa succede» aperte (chiuse di default → card compatta).
+  const [schedeAperte, setSchedeAperte] = useState<Set<string>>(new Set());
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -217,6 +231,13 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       else n.add(id);
       return n;
     });
+  const toggleScheda = (id: string) =>
+    setSchedeAperte((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
+      return n;
+    });
   async function apriScheda(id: string, path: string) {
     if (schede[id]?.testo || schede[id]?.loading) return;
     setSchede((s) => ({ ...s, [id]: { loading: true } }));
@@ -307,7 +328,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
               {mosse.map((m, i) => {
                 const c = m.priorita === "alta" ? "border-red-200 bg-red-50/40" : m.priorita === "media" ? "border-amber-200 bg-amber-50/40" : "border-black/[0.07] bg-paper/40";
                 return (
-                  <div key={i} className={`rounded-xl border p-3 ${c}`}>
+                  <div id={`mossa-${i + 1}`} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${c}`}>
                     <div className="flex items-start gap-2">
                       <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
                       <div className="min-w-0 flex-1">
@@ -418,7 +439,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
           {alerts.map((al, i) => {
             const rosso = al.livello === "rosso";
             return (
-              <div key={i} className={`rounded-xl border p-3 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
+              <div id={al.id ? `alert-${al.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
                 <div className="flex items-start gap-2">
                   <ShieldAlert size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
                   <div className="min-w-0 flex-1">
@@ -546,7 +567,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         </div>
                       )}
 
-                      {!decisa && <Scheda a={a} />}
+                      {!decisa && <Scheda a={a} open={schedeAperte.has(a.id)} onToggle={() => toggleScheda(a.id)} />}
                       {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">

@@ -1,7 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-29 16:24",
-  "_nota_passaggio_16_24": "5° passaggio, leggero, a sensori ridotti (Supabase MCP non autorizzato): nessuna entità ri-verificata live, nessuna entità nuova. Le 6 entità restano valide dal check delle 11:30 (ultima_verifica invariata, non falsata). Verificato solo lo stato pubblico delle piattaforme (Supabase + Stripe operativi) — non è un'entità del registro ma una condizione infrastrutturale.",
+  "aggiornato": "2026-06-30 11:45",
+  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno (Casa Linda, Pane Quotidiano) NON sono state riverificate oggi: 'ultima_verifica' resta al 29/6 (baseline valida, non spacciata per fresca). Aggiunte 2 entità esterne verificate live oggi: svolta meteo 30/6 e dettaglio Venerdì Piacentini 3/7.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -85,6 +85,34 @@
       ],
       "note": "Pipeline futura: quando aprono saranno 3 partner naturali per MyCity (food premium in centro). Per ora solo da monitorare, non azionabile. Confidenza 65% perché manca la data di apertura.",
       "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Svolta meteo 30/6 (fine caldo, pioggia)",
+      "tipo": "evento-esterno",
+      "stato": "confermato",
+      "fonte": "WebSearch @intelligence giro 30/6",
+      "confidenza": 0.9,
+      "evidenze": [
+        "Mar 30/6: acquazzoni e schiarite, prob. 90% (~2,2 mm), max ~34°C (TempoItalia, MeteoLive).",
+        "Mer 1/7: piovaschi prob. 90% (~4,5 mm), ~34°C; poi gio 2/7 asciutto ~31°C (iLMeteo, TempoItalia).",
+        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata."
+      ],
+      "note": "Fine della fase di caldo estremo (37-39°C). Il fattore-guida del delivery passa da caldo (meteo-02) a pioggia (meteo-01, peso 4).",
+      "ultima_verifica": "2026-06-30 11:45"
+    },
+    {
+      "nome": "Venerdì Piacentini 3/7 (49 eventi)",
+      "tipo": "evento-esterno",
+      "stato": "confermato",
+      "fonte": "Programma ufficiale venerdipiacentini.it (PDF) + IlPiacenza",
+      "confidenza": 0.95,
+      "evidenze": [
+        "Venerdì 3/7 = 49 eventi (programma ufficiale): ICW Wrestling Piazza Cavalli 22:00, Tu Si Que Avis Piazza Duomo 22:00, Modoolo Square clubbing.",
+        "Mostra XNL 'Oltre le Nuvole' aperta 19-23 (5€) il 3/7 (XNL Piacenza).",
+        "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
+      ],
+      "note": "Con la sera fresca (svolta meteo), il presidio offline QR diventa comodo. Rafforza le azioni in coda #7 e #11.",
+      "ultima_verifica": "2026-06-30 11:45"
     }
   ],
   "numeri_da_non_inventare": {

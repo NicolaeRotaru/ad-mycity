@@ -1,38 +1,30 @@
 {
-  "data": "2026-06-29 16:24",
-  "voto_fiducia": 86,
-  "trend_fiducia": "=",
-  "sintesi": "Quinto passaggio del 29/6 (16:24), leggero e onesto, 2h dopo il 4°. Voto stabile a 86: stesse condizioni (Supabase MCP + WebFetch non autorizzati, dati ereditati dalle 11:20, zero novità intraday), gestite allo stesso modo disciplinato. L'unico valore aggiunto reale e a basso costo: ho chiuso il check della sentinella 🔴 ogni-giro sullo stato piattaforme (Supabase + Stripe OPERATIVI via WebSearch) → diagnosi netta: durante lo stallo l'infrastruttura non è a rischio, il blocco è 100% decisionale. Non ho inventato novità né moltiplicato analisi: aggiornati solo gli orari e il digest. Nessuna entità nuova. Conferma (non aggravamento) del difetto salute-sensori-dati.",
+  "data": "2026-06-30 11:45",
+  "voto_fiducia": 85,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro del 30/6. Voto -3 (88→85): non per un errore di lavoro, ma per un PEGGIORAMENTO dei sensori — il Supabase MCP, leggibile live il 29/6, in questa sessione è di nuovo cieco (needsAuth). I 7 numeri NON sono riverificabili oggi: tenuti correttamente alla baseline 29/6 e dichiarati come gap di misura. Il valore aggiunto reale del giro è il radar live: confermata la SVOLTA METEO (fine caldo, pioggia oggi+domani) e il dettaglio Venerdì Piacentini 3/7 (49 eventi) — entrambe con fonti citate. Nessuna entità nuova senza fondamento, nessun numero orfano. Nessuna nuova azione accodata (coda già piena e pertinente): la svolta meteo rafforza #7 e #11. Lo stallo del business è a ~6 giorni e resta non sbloccabile dalla macchina (tutte le azioni sono 🔴 da firmare).",
   "verifiche": {
-    "entita": "ok (nessuna nuova; le 6 esistenti non ri-verificate live — DB non autorizzato — ultima_verifica resta 11:30)",
-    "numeri": "parziale (ereditati dal check live 11:20, NON ri-verificati in questa sessione; dichiarato)",
+    "entita": "ok",
+    "numeri": "ok (baseline 29/6 dichiarata, nessun numero riverificato spacciato per fresco)",
     "coerenza": "ok",
     "semaforo": "ok",
-    "qualita": "ok (passaggio dichiaratamente minimo)",
-    "benchmark": "n/a (nessun lavoro creativo questo passaggio)"
+    "qualita": "ok",
+    "benchmark": "n/a (nessun contenuto creativo prodotto questo giro)"
   },
   "errori": [
     {
       "gravita": "media",
-      "titolo": "4° giro in giornata a sensori ciechi: valore aggiunto ~zero",
-      "dettaglio": "Con Supabase/WebFetch non autorizzati e nulla di cambiato fuori, un giro extra nello stesso giorno non produce informazione nuova: rischia di bruciare Max senza rendere. Gestito riconoscendolo e producendo un passaggio minimo + spostando il focus sulle firme di Nicola.",
-      "azione_presa": "Passaggio leggero dichiarato; lezione L-2026-0629-03 registrata e applicata (niente ri-scansione fattori settimanali del radar)",
-      "riguarda": "efficienza / metacognizione",
-      "livello_scoperta": "L2"
-    },
-    {
-      "gravita": "bassa",
-      "titolo": "Numeri non ri-verificati live in questa sessione",
-      "dettaglio": "Permesso Supabase MCP non concesso: i 7 numeri provengono dal check delle 11:20. Legittimo a poche ore di distanza e su un sistema in stallo, ma è un dato ereditato, non fresco.",
-      "azione_presa": "Dichiarato in frontmatter briefing, STATO, ultimo-briefing.json e nei Gap. ultima_verifica delle entità lasciata a 11:30 (no falsa re-verifica).",
-      "riguarda": "onestà dei dati",
+      "titolo": "Regressione dei sensori: Supabase MCP cieco dopo essere stato leggibile il 29/6",
+      "dettaglio": "Il 29/6 i 7 numeri erano stati riverificati live; in questa sessione il MCP è needsAuth e non risponde. La cecità sui dati interni è tornata. Gestito correttamente (baseline + gap dichiarato), ma è un peggioramento dell'invariante 'dati freschi'.",
+      "azione_presa": "7 numeri tenuti a baseline 29/6 con etichetta esplicita; gap elencato in §11 del briefing; accodato 🟡 (già #10) wiring Vercel / autorizzazione MCP.",
+      "riguarda": "salute sensori",
       "livello_scoperta": "L1"
     },
     {
       "gravita": "bassa",
-      "titolo": "Stallo a ~128h non sbloccabile dalla macchina",
-      "dettaglio": "Tutte le leve per uscire dallo zero (Casa Linda, ordine zombie, foglio-lancio) sono 🔴 in attesa di firma. La macchina può solo tenerle pronte e ricordarle.",
-      "azione_presa": "3 firme ri-portate in cima al briefing e in STATO; già in coda in AZIONI-IN-ATTESA.",
+      "titolo": "Stallo a ~6 giorni osservato ma non sbloccabile dalla macchina",
+      "dettaglio": "Quarto giro consecutivo: tutte le leve di sblocco (transazione Casa Linda, ordine zombie, 3 firme) sono 🔴 in attesa. La macchina ha fatto l'unico 🟢 utile possibile (nota operativa svolta meteo) ma non può smuovere il business da sola.",
+      "azione_presa": "Riescalato come priorità 🔴 in STATO/briefing/domande; prodotto comunque un artefatto 🟢 concreto.",
       "riguarda": "efficacia operativa",
       "livello_scoperta": "L1"
     }
@@ -40,39 +32,41 @@
   "domande_per_nicola": [
     {
       "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout-ready) per uscire dallo stallo?",
-      "perche_serve": "125h a zero. Casa Linda è l'unico negozio con payout attivo. È la via più veloce per testare ordine→pagato→consegnato→payout senza aspettare Garetti.",
-      "se_rispondi": "Attivo la catena vendite+operations su Casa Linda: 1 prodotto vero → ordine-test → payout.",
+      "perche_serve": "~6 giorni a zero. Casa Linda è l'unico negozio con payout attivo: via più veloce per testare ordine→pagato→consegnato→payout.",
+      "se_rispondi": "Attivo la catena vendite+operations+finanza su Casa Linda: 1 prodotto vero → ordine-test → payout.",
       "gravita": "alta"
     },
     {
-      "domanda": "Sblocco l'ordine zombie €19,05 (accettare/annullare con nota al buyer)?",
-      "perche_serve": "Fermo da 5 giorni, buyer nel limbo. La prima impressione è rovinata se resta sospeso.",
-      "se_rispondi": "Propongo la nota/email al buyer e l'azione di aggiornamento status (🔴 perché tocca un cliente reale).",
+      "domanda": "Sblocco l'ordine zombie €19,05 (accettare o annullare con nota al buyer)?",
+      "perche_serve": "Fermo da ~6 giorni, buyer nel limbo: la prima impressione del servizio è rovinata se resta sospeso.",
+      "se_rispondi": "Propongo la nota/email al buyer e l'aggiornamento status (🔴, tocca un cliente reale).",
       "gravita": "alta"
+    },
+    {
+      "domanda": "Autorizzi il Supabase MCP (o metti le chiavi su Vercel)?",
+      "perche_serve": "In questa sessione il MCP è cieco: senza, ogni giro è 'a memoria' e i 7 numeri non si misurano.",
+      "se_rispondi": "Al prossimo giro rileggo i 7 numeri veri e riparto la calibrazione previsto-vs-reale.",
+      "gravita": "media"
     }
   ],
   "punti_ciechi": [
-    "Stripe non interrogato (MCP non collegato in sessione): incassi/payout reali non riconciliati.",
-    "PostHog non collegato: nessun dato di traffico/conversione/funnel.",
-    "I 3 buchi di mercato restano a confidenza ~70%: mancano dati ordini food interni e 1 listino-fee Glovo.",
-    "Non ho visibilità sulle azioni di Nicola offline (ha parlato con Garetti? con Casa Linda?). Lo stallo potrebbe essere rotto fuori dal digitale senza che io lo sappia."
+    "Supabase marketplace non collegato in sessione: 7 numeri non riverificati (baseline 29/6).",
+    "Stripe non interrogato: incassi/payout reali non riconciliati.",
+    "PostHog non collegato: nessun dato traffico/conversione.",
+    "Azioni offline di Nicola non visibili: lo stallo potrebbe essere rotto fuori dal digitale.",
+    "Status pubblico Supabase/Stripe non ri-controllato questo giro (nessun segnale di outage)."
   ],
   "miglioramenti_prossimo_giro": [
-    "Interrogare Stripe per riconciliare incassi/payout (se MCP collegato).",
-    "Produrre il Kit Bando ER (🟡 accodato) come azione concreta della macchina.",
-    "Verificare se l'ordine zombie è ancora fermo o se qualcosa è cambiato.",
-    "Dimensionare il buco gastronomia con dati order_items food (alzare da ipotesi a fatto)."
+    "Se il MCP torna: rileggere i 7 numeri e verificare se l'ordine zombie €19,05 è ancora fermo.",
+    "Ri-verificare il meteo 2-3/7 (fine pioggia) + ordinanze ZTL del Venerdì Piacentini 3/7.",
+    "Se nulla si muove ancora: valutare un nuovo 🟢 ad alto valore (es. lista 10 lead prioritari pronta) per non restare solo in osservazione."
   ],
   "salute_macchina": {
-    "supabase_marketplace": "NON autorizzato in questa sessione (permesso non concesso) — numeri ereditati dalle 11:20",
-    "supabase_memoria": "NON autorizzato in questa sessione",
-    "stripe": "non interrogato via MCP — ma status pubblico OPERATIVO (WebSearch 16:24)",
+    "supabase_marketplace": "cieco in sessione (needsAuth) — baseline 29/6",
+    "supabase_memoria": "non interrogato in sessione (scrittura su file del vault, sincronizzata via git)",
+    "stripe": "non interrogato",
     "posthog": "non collegato",
-    "webfetch": "NON autorizzato in questa sessione (pagine non aperte; status verificati via WebSearch)",
-    "websearch": "ok",
-    "supabase_status_pubblico": "OPERATIVO (verificato 16:24)",
     "dati_freschi": false,
-    "sensori_attivi": 1,
-    "nota": "Passaggio 16:24 a sensori ridotti: solo WebSearch. Conferma il difetto aperto salute-sensori-dati. Novità del passaggio: sentinella 🔴 ogni-giro su stato piattaforme chiusa positiva (Supabase + Stripe operativi) → infrastruttura non a rischio durante lo stallo."
+    "sensori_attivi": 1
   }
 }
