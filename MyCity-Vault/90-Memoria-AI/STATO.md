@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-06-30 23:29
-fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviworth · Pannello azioni_log 30/6 09:08)
+aggiornato: 2026-06-30 23:32
+fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviworth · Pannello azioni_log 30/6 09:08 · worker mani 30/6 23:32 chat)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -32,6 +32,19 @@ fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviw
 | 🚀 Inviate sul mondo reale | **0** | Canali social/email non collegati |
 
 > Gap 🟡: click Pannello → DB memoria sì, vault (`DECISIONI`/`AZIONI`) no automatico — sincronizzato in metabolizzazione 30/6 23:29.
+
+## Mani · stato worker (30/6 23:32, fonte: verifica worker + chat Nicola)
+| Mano | Stato | Sblocca |
+|---|---|---|
+| Telegram | ❌ spenta | Avvisi esecuzione + test sicuro |
+| Resend (email) | ❌ spenta | Kit bando #12, CRM, PR |
+| n8n | ❌ spenta | Hub IG/FB/gruppi/WhatsApp |
+| `AZIONI_LIVE` | **0** (kill-switch) | Trasforma approvato → inviato |
+| Meta (IG/FB) | ❌ spenta | ~16 post social in coda |
+| Supabase write marketplace | ❌ manca | Notifiche in-app, coupon, admin |
+
+**Starter pack minimo** (prima azione ✅ inviata): Telegram + Resend + `AZIONI_LIVE=1` sul VPS. Checklist: `cervello/collega-le-mani.md`.
+Alcune azioni approvate **non richiedono chiavi** (#1 termini Garetti di persona, #2 scelta payout, #3 concierge umano, #9 ok strategico, link lista d'attesa = prodotto).
 
 ## Ultime mosse dell'AD
 1. **Giro 30/6 23:15** — Conferma live 7 numeri (= vs 23:10). Nota escalation 168h 🟢. Sesto passaggio — onesto (L-2026-0629-03). Vedi [[2026-06-30]].

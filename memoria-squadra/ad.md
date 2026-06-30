@@ -9,3 +9,6 @@ Sesto passaggio: numeri = vs 5 min fa → passaggio minimo + nota escalation 168
 
 # ESITO — @AD — 2026-06-30 23:29
 Metabolizzazione chat Nicola: approvazioni Pannello (~20 ok, 2 rifiuti #10+PR) sincronizzate in vault. Lezione L-2026-0630-05 (gap Pannello→vault). Preferenza: AD deve vedere i click Approva/Rifiuta senza ripetizione.
+
+# ESITO — @AD — 2026-06-30 23:32
+Metabolizzazione chat «quali mani ti servono?»: inventario mani worker (tutte OFF, AZIONI_LIVE=0) → STATO + L-2026-0630-06. Preferenza: lista concreta tier per impatto, non teoria env.
