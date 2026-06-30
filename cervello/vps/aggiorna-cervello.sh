@@ -80,6 +80,11 @@ if grep -q 'bash "\$SCRIPT_DIR/giro.sh"' cervello/worker.sh 2>/dev/null; then
 else
   echo "[$(ts)] WARN: worker ancora legacy — fetch main fallito?" >&2
 fi
+if grep -q '\--trust' cervello/motore-ai.sh 2>/dev/null; then
+  echo "[$(ts)] motore-ai: --trust presente ✓"
+else
+  echo "[$(ts)] WARN: motore-ai senza --trust — il giro può fallire. Riesegui dopo fetch main." >&2
+fi
 
 echo "[$(ts)] ▶ Riavvio mycity-worker..."
 systemctl restart mycity-worker
