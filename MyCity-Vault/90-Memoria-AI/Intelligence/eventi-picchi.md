@@ -1,35 +1,33 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live).
+> Aggiornato: **2026-06-30 11:45** · Fonte: @intelligence (giro del 30/6, WebSearch live).
 > ⚠️ Libertà, IlPiacenza, PiacenzaSera e siti del Comune bloccano WebFetch (403) — dati ricostruiti via WebSearch.
 
 ---
 
-## 🔥 Picchi caldi (prossimi 14 giorni)
+## 🌦️ Picchi meteo (prossimi 7 giorni) — SVOLTA: il caldo è finito
 
-### 1. CALDO ESTREMO — oggi 29/6 (37°C), in calo da martedì
+### 1. FINE CALDO, ARRIVA LA PIOGGIA — da oggi 30/6 (verificato live)
 
-| Giorno | Max / Min | Condizioni |
-|--------|-----------|------------|
-| Dom 29/6 | 37 / 20 | Sole pieno, caldo estremo |
-| Lun 30/6 | 35 / 18 | Possibili piogge sparse |
-| Mar 01/7 | 34 / 17 | Piogge leggere, temporali pomeridiani |
-| Mer 02/7 | 34 / 17 | Piogge sparse |
-| Gio 03/7 | 33 / 17 | Instabile, poca pioggia |
-| Ven 04/7 | 31 / 16 | Calo termico, quasi asciutto |
-| Sab 05/7 | 33 / 18 | Risalita, poca pioggia |
+| Giorno | Max / Min | Condizioni | Leva delivery |
+|--------|-----------|------------|---------------|
+| **Mar 30/6 (oggi)** | ~34-35 / 20 | **Acquazzoni e schiarite, prob. 90% (~2,2 mm)** | 🌧️ pioggia → domanda ↑ |
+| **Mer 01/7** | ~34 / 20 | **Piovaschi, prob. 90% (~4,5 mm)** | 🌧️ pioggia → domanda ↑ |
+| Gio 02/7 | ~31 / 21 | Poco nuvoloso, asciutto | clima mite |
+| Ven 03/7 | ~31-33 / 17 | Variabile, sera fresca | presidio VP comodo |
+| Sab 04/7 | ~33 / 18 | Poca pioggia | normale |
 
-- **Effetto delivery:** col 37°C nessuno esce → domanda naturale di consegna a casa (freschi, bibite, gastronomia pronta).
-- **🟢 Operativo:** delivery DIURNO anti-caldo (11-18). Borse termiche obbligatorie. Temporali mar-mer = secondo micro-picco.
-  Fonte: [3BMeteo](https://www.3bmeteo.com/meteo/piacenza), [iLMeteo](https://www.ilmeteo.it/meteo/piacenza).
+- **Cosa è cambiato:** la fase di **caldo estremo (37-39°C) è FINITA**. Il fattore-guida passa da **caldo (meteo-02)** a **pioggia (meteo-01, peso 4)** — la leva di domanda delivery più forte.
+- **🟢 Operativo:** la regola "no freschi 12-18" si **rilassa** (niente più picco 39°C); leva messaggio **"piove, te la portiamo noi"**; piano B cargo-bike col bagnato (impermeabili) per quando partiranno le consegne reali.
+  Fonti: [TempoItalia](https://www.tempoitalia.it/meteo/piacenza) · [MeteoLive 30/6](https://www.meteolive.it/previsione-meteo/italia/Emilia+Romagna/Piacenza/14/) · [iLMeteo](https://www.ilmeteo.it/meteo/piacenza).
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio (confermati, record storico)
 
-- **250 eventi** (record +25%), **200+ gratuiti**, **300+ negozi aperti fino a mezzanotte**.
-- Wrestling Piazza Cavalli, Gran Galà Pattinaggio, quiz Radio Sound, concerti di ogni genere, street food.
-- **Effetto:** centro pieno la sera + ZTL pedonale → NON è la sera del delivery classico, MA è la vetrina per **presidio offline QR** a costo zero davanti a ~50-60k persone/sera.
-- **🟢 Operativo:** QR/vetrofania alle botteghe partner → il delivery vero si fa il **sabato dopo**.
-  Fonti: [Comune PC](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini), [PiacenzaSera](https://www.piacenzasera.it/2026/06/venerdi-piacentini-al-via-250-eventi-per-animare-il-centro-storico/650935/).
+- **250 eventi totali** (record), **200+ gratuiti**, centro pieno + ZTL pedonale fino a tarda sera.
+- **Venerdì 3/7 = 49 eventi (dettaglio verificato):** **ICW Wrestling** Piazza Cavalli ore 22:00 · **Tu Si Que Avis** (talent AVIS) Piazza Duomo ore 22:00 · **Modoolo Square** open-air clubbing · mostra **XNL "Oltre le Nuvole"** aperta 19-23 (5€, 2 visite guidate gratuite).
+- **🌦️+🎭 Nota chiave:** la sera del 3/7 sarà **fresca** (fine caldo) → il **presidio offline QR** è ora **molto più sostenibile** del previsto (non più sotto i 39°C).
+- **Effetto:** NON è la sera del delivery classico, MA è la vetrina per **presidio offline QR** a costo ≈0 davanti a ~50-60k persone/sera. Delivery vero il **sabato dopo**.
+  Fonti: [Programma ufficiale VP (PDF)](https://www.venerdipiacentini.it/pdf/programma2026.pdf) · [IlPiacenza](https://www.ilpiacenza.it/attualita/piacenza-si-riaccende-al-via-i-venerdi-piacentini-2026-con-il-record-storico-di-250-eventi.html) · [XNL](https://xnlpiacenza.it/venerdi-sera-in-mostra-in-collaborazione-con-i-venerdi-piacentini/).
 
 ### 3. FESTA DEL TORTELLO — Vigolzone, 24-28 luglio (~15 km)
 
@@ -39,14 +37,14 @@
 
 ---
 
-## 🆕 Novità dal 29/6
+## 🆕 Novità dal 30/6
 
-- **Ex Scuderie — 3 spazi food premium approvati dal Comune:** gastronomia, panetteria, ortofrutta. Orari estesi ven-sab fino a mezzanotte. Pipeline di 3 potenziali negozi partner per MyCity. [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)
-- **Weekend 28-29/6:** Teatro Antico di Veleia, sagre in provincia. Rilevanza delivery bassa.
+- **🌦️ SVOLTA METEO CONFERMATA:** la previsione "caldo in calo da martedì" si è avverata. Oggi 30/6 e domani 1/7 = **pioggia (prob. 90%)**, poi clima mite. Fine del caldo estremo. → cambia la guida operativa (vedi §1).
+- **Ex Scuderie — 3 spazi food premium approvati dal Comune** (dal 29/6, ancora valido): gastronomia, panetteria, ortofrutta. Pipeline di 3 potenziali partner MyCity. [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)
 
 ## 🚧 ZTL / viabilità
 - Nessuna ordinanza nuova trovata. ZTL base attiva 8-19 per non autorizzati.
-- Da verificare: chiusure straordinarie sere Venerdì Piacentini (3/10/17 lug).
+- Da verificare: chiusure straordinarie sere Venerdì Piacentini (3/10/17 lug) — centro pedonale.
 
 ---
-> Prossimo check: 30/6-1/7 (svolta meteo temporali + ordinanze VP).
+> Prossimo check: 2-3/7 (conferma fine pioggia + ordinanze ZTL del Venerdì Piacentini 3/7).
