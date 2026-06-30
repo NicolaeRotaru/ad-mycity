@@ -12,8 +12,16 @@
 #
 # Espone: ai_engine, ai_cli_name, ai_check, ai_build_cmd (popola l'array globale AI_CMD).
 
+# agent si installa in ~/.local/bin; un .env che esporta PATH può nasconderlo a command -v.
+ai_ensure_path() {
+  if [ -n "${HOME:-}" ] && [ -d "$HOME/.local/bin" ]; then
+    case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
+  fi
+}
+
 # Quale motore usare: cursor | claude | none.
 ai_engine() {
+  ai_ensure_path
   case "${CERVELLO_MOTORE:-auto}" in
     cursor) echo cursor ;;
     claude) echo claude ;;
@@ -36,11 +44,7 @@ ai_cli_name() {
 
 # Verifica che il motore sia installato (e dia un avviso utile se manca la chiave). Ritorna 1 se inutilizzabile.
 ai_check() {
-  # Cursor CLI vive in ~/.local/bin: systemd lo mette nel PATH, ma un .env che esporta PATH
-  # può sovrascriverlo — ripristiniamo sempre la bin utente prima del command -v.
-  if [ -n "${HOME:-}" ] && [ -d "$HOME/.local/bin" ]; then
-    case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
-  fi
+  ai_ensure_path
   local eng cli
   eng="$(ai_engine)"
   if [ "$eng" = none ]; then
