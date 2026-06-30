@@ -119,16 +119,27 @@ export type Lavoro = {
   richiesta: string;
   risultato: string;
   esperto: string;
+  gruppo_id?: string | null;
 };
 
 /** Crea un lavoro per il cervello. Torna la riga creata, o null se non collegato. */
-export async function creaLavoro(richiesta: string, tipo = "analisi"): Promise<Lavoro | null> {
+export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
-  const res = await fetch(`${URL}/rest/v1/lavori`, {
+  const payload: Record<string, string> = { richiesta, tipo, stato: "in_attesa" };
+  if (gruppoId) payload.gruppo_id = gruppoId;
+  let res = await fetch(`${URL}/rest/v1/lavori`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
-    body: JSON.stringify({ richiesta, tipo, stato: "in_attesa" }),
+    body: JSON.stringify(payload),
   });
+  if (!res.ok && gruppoId) {
+    const { gruppo_id: _g, ...senzaGruppo } = payload;
+    res = await fetch(`${URL}/rest/v1/lavori`, {
+      method: "POST",
+      headers: { ...headers(), Prefer: "return=representation" },
+      body: JSON.stringify(senzaGruppo),
+    });
+  }
   if (!res.ok) return null;
   const rows = (await res.json()) as Lavoro[];
   return rows[0] || null;
@@ -137,10 +148,14 @@ export async function creaLavoro(richiesta: string, tipo = "analisi"): Promise<L
 /** Ultimi lavori, dal piu' recente. */
 export async function getLavori(limit = 50): Promise<Lavoro[]> {
   if (!memoryConnected()) return [];
-  const res = await fetch(
-    `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto&order=created_at.desc&limit=${limit}`,
-    { headers: headers(), cache: "no-store" }
-  );
+  const q = `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id&order=created_at.desc&limit=${limit}`;
+  let res = await fetch(q, { headers: headers(), cache: "no-store" });
+  if (!res.ok) {
+    res = await fetch(
+      `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto&order=created_at.desc&limit=${limit}`,
+      { headers: headers(), cache: "no-store" }
+    );
+  }
   if (!res.ok) return [];
   return (await res.json()) as Lavoro[];
 }

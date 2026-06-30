@@ -9,6 +9,7 @@ import {
 import { readVaultFile, listVaultDir } from "@/lib/vault";
 import { vaultToIso } from "@/lib/format";
 import { vaultGithubInfo } from "@/lib/obsidian";
+import { marketplaceGithubInfo } from "@/lib/github";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -97,6 +98,7 @@ function briefingPiuFresco(
 export async function GET() {
   try {
     const vault = vaultGithubInfo();
+    const codice = marketplaceGithubInfo();
     const [fromDb, fromVault, recent] = await Promise.all([
       getLatestBriefing(),
       briefingDalVault(),
@@ -107,6 +109,9 @@ export async function GET() {
       memoria: memoryConnected(),
       vaultGithub: vault.collegato,
       vaultRamo: vault.ramo,
+      marketplaceCodice: codice.collegato,
+      marketplaceRepo: codice.repo,
+      marketplaceRamo: codice.ramo,
       briefingFonte,
       vivo: memoryConnected() || ultimo != null,
       ultimo,

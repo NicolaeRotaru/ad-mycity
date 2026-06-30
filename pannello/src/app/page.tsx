@@ -108,7 +108,9 @@ import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
+import LavoriCervello from "@/components/LavoriCervello";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
+import { salvaGruppoLavoroLocale } from "@/lib/lavori-gruppo";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -157,13 +159,7 @@ type Lavoro = {
   richiesta: string;
   risultato: string;
   esperto: string;
-};
-
-const LAVORO_STATO: Record<string, { label: string; cls: string }> = {
-  in_attesa: { label: "⏳ In attesa", cls: "bg-amber-50 text-amber-700 ring-amber-200" },
-  in_corso: { label: "⚙️ In corso", cls: "bg-blue-50 text-blue-700 ring-blue-200" },
-  fatto: { label: "✅ Fatto", cls: "bg-green-50 text-green-700 ring-green-200" },
-  errore: { label: "⚠️ Errore", cls: "bg-red-50 text-red-700 ring-red-200" },
+  gruppo_id?: string | null;
 };
 
 const TEAM = [
@@ -622,6 +618,7 @@ export default function Dashboard() {
   const endRef = useRef<HTMLDivElement>(null);
   // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
   const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
+  const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
   function salvaPendingChat(pend: { id: string; tipo: string } | null) {
@@ -713,6 +710,7 @@ export default function Dashboard() {
     setConvId(null);
     setBase(null);
     setConvSel([]);
+    sessionGruppoRef.current = null;
     try {
       localStorage.removeItem("mycity_chat");
       localStorage.removeItem("mycity_convid");
@@ -870,13 +868,29 @@ export default function Dashboard() {
     ]);
     setLoading(true);
     try {
+      let gruppoId = convId || sessionGruppoRef.current;
+      if (!gruppoId) {
+        gruppoId = `sess_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+        sessionGruppoRef.current = gruppoId;
+      }
+      const savedConv = await persistConversazione(convId, [
+        ...messages.filter((m) => !m.prompt && !m.pending),
+        { role: "user", content: t },
+      ]);
+      if (savedConv) {
+        setConvId(savedConv);
+        gruppoId = savedConv;
+        sessionGruppoRef.current = savedConv;
+      }
+
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta, tipo: prep.tipo }),
+        body: JSON.stringify({ richiesta, tipo: prep.tipo, gruppo_id: gruppoId }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
+        salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
         pendingLavoroChatRef.current = { id: d.lavoro.id, tipo: prep.tipo };
         salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo });
@@ -1590,62 +1604,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           )}
         </section>
 
-        {/* Lavori del cervello: ponte con Claude Code sul Max */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <Brain size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Lavori del cervello (Max)</span>
-            </div>
-            {lavori.length > 0 && (
-              <button onClick={svuotaLavori} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota
-              </button>
-            )}
-          </div>
-          <p className="text-[11px] text-black/40 mb-3">
-            Compiti pesanti che esegue il cervello su Claude Code/Max, gratis. Se il cervello non è ancora acceso, restano «in attesa».
-          </p>
-          {lavori.some((lv) => {
-            if (lv.stato !== "in_attesa") return false;
-            const t = new Date(lv.created_at).getTime();
-            return !isNaN(t) && Date.now() - t > 3 * 60 * 1000;
-          }) && (
-            <div className="mb-3 rounded-xl border border-red-200 bg-red-50/80 px-3.5 py-2.5 text-[12.5px] text-red-800 leading-snug">
-              <b>⛔ Cervello spento.</b> Il lavoro è in coda da oltre 3 minuti senza partire. Sul VPS esegui:{" "}
-              <code className="bg-red-100/80 px-1 rounded text-[11px]">systemctl start mycity-worker</code>
-              {" "}(guida: <code className="text-[11px]">cervello/vps/SETUP-VPS.md</code>). Controlla anche che l&apos;AD non sia in{" "}
-              <b>Pausa</b> (Governo → Controllo).
-            </div>
-          )}
-          {lavori.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Nessun lavoro. Scrivi un compito nella chat e premi «🧠 Manda al cervello».
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {lavori.filter((lv) => lv.tipo !== "metabolizza").map((lv) => (
-                <div key={lv.id} className="border border-black/[0.07] rounded-xl p-3.5">
-                  <div className="flex items-center gap-2 text-xs mb-1.5">
-                    <span className={`px-2 py-0.5 rounded-full ring-1 font-medium ${LAVORO_STATO[lv.stato]?.cls || "bg-black/5 ring-black/10 text-black/60"}`}>
-                      {LAVORO_STATO[lv.stato]?.label || lv.stato}
-                    </span>
-                    {lv.esperto && <span className="text-black/45">{lv.esperto}</span>}
-                    <span className="ml-auto text-black/40 shrink-0">{fa(lv.updated_at || lv.created_at)}</span>
-                  </div>
-                  <div className="text-sm font-medium text-ink/85">{lv.richiesta}</div>
-                  {lv.risultato && (
-                    <div className="mt-2 text-ink/85 border-t border-black/[0.06] pt-2">
-                      <Markdown>{lv.risultato}</Markdown>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+        <LavoriCervello lavori={lavori} onSvuota={svuotaLavori} />
 
         </div>
         )}

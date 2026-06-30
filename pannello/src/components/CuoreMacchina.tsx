@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HeartPulse, Stethoscope } from "lucide-react";
 import { istante } from "@/lib/format";
 
@@ -8,6 +8,11 @@ type Cuore = {
   collegato: boolean;
   demo?: boolean;
   ultimoBattito: string | null;
+  ultimoBattitoFonte?: string | null;
+  ultimoGiro?: string | null;
+  autopilotaUltimo?: string | null;
+  workerVivo?: boolean;
+  vivo?: boolean;
   eseguiteUltimo: number;
   autopilota: boolean;
   pensiero: string | null;
@@ -21,18 +26,22 @@ function puntino(s: Stato) {
   return <span className={`inline-block w-2 h-2 rounded-full shrink-0 ${c}`} />;
 }
 
-// 🫀 Lo stato del cuore della macchina: ultimo battito, autopilota, azioni
-// automatiche dell'ultimo giro e budget AI. Tutto a colpo d'occhio.
+// 🫀 Lo stato del cuore della macchina: ultimo giro AD, autopilota, worker e budget.
 export default function CuoreMacchina() {
   const [c, setC] = useState<Cuore | null>(null);
   const [diag, setDiag] = useState<Diagnosi | null>(null);
-  const carica = () => fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
-  useEffect(() => {
-    carica();
+
+  const carica = useCallback(() => {
+    fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
     fetch("/api/diagnosi", { cache: "no-store" }).then((r) => r.json()).then(setDiag).catch(() => {});
   }, []);
 
-  // Governance: imposta il tetto di spesa AI mensile dal pannello.
+  useEffect(() => {
+    carica();
+    const t = setInterval(carica, 60_000);
+    return () => clearInterval(t);
+  }, [carica]);
+
   async function modificaTetto() {
     const att = c?.budget?.tetto ?? 50;
     const v = window.prompt("Tetto di spesa AI al mese (€). La macchina si ferma da sola al raggiungimento:", String(att));
@@ -45,25 +54,38 @@ export default function CuoreMacchina() {
 
   if (!c) return null;
 
-  const battito = c.ultimoBattito ? istante(c.ultimoBattito) : "non ancora";
+  const ultimoGiro = c.ultimoGiro ?? c.ultimoBattito;
+  const battitoLabel = ultimoGiro ? istante(ultimoGiro) : "non ancora";
+  const fonte = c.ultimoBattitoFonte ? ` · ${c.ultimoBattitoFonte}` : "";
+  const autopilotaNota =
+    c.autopilotaUltimo && c.autopilotaUltimo !== ultimoGiro
+      ? `Autopilota Vercel: ${istante(c.autopilotaUltimo)}`
+      : null;
+
   return (
     <section className="card p-3.5">
       <div className="flex items-center gap-2 flex-wrap">
         <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand-50 text-brand shrink-0">
-          <HeartPulse size={15} className={c.collegato ? "" : "opacity-50"} />
+          <HeartPulse size={15} className={c.vivo || c.collegato ? "" : "opacity-50"} />
         </span>
         <span className="t-sez">Cuore della macchina</span>
         <span
           className={`badge ${c.autopilota ? "badge-on" : "badge-off"}`}
-          title="Quando è ON, le azioni sicure 🟢 partono da sole"
+          title="Quando è ON, le azioni sicure 🟢 partono da sole al cron Vercel"
         >
           autopilota {c.autopilota ? "ON" : "OFF"}
         </span>
-        <span className="ml-auto t-eti">🕗 ultimo battito · {battito}</span>
+        <span className="ml-auto t-eti" title={`Fonte: ${c.ultimoBattitoFonte ?? "—"}`}>
+          🕗 ultimo giro AD · {battitoLabel}
+          {fonte && <span className="text-black/35">{fonte}</span>}
+        </span>
       </div>
+      {autopilotaNota && <p className="t-eti mt-1 text-right">{autopilotaNota}</p>}
       <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
         <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
-          <div className="text-[10.5px] text-black/55">Azioni auto (ultimo giro)</div>
+          <div className="text-[10.5px] text-black/55" title="Azioni 🟢 eseguite dall'autopilota al cron Vercel (non dal giro AD)">
+            Azioni auto (autopilota)
+          </div>
           <div className="text-[18px] font-semibold tracking-tight mt-0.5 tabular-nums">{c.eseguiteUltimo}</div>
         </div>
         <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
@@ -77,7 +99,10 @@ export default function CuoreMacchina() {
         </div>
         <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
           <div className="text-[10.5px] text-black/55">Stato</div>
-          <div className="text-[13px] font-medium mt-1">{c.demo ? "🧪 Demo" : c.collegato ? "🟢 Vivo" : "🟡 In prova"}</div>
+          <div className="text-[13px] font-medium mt-1">
+            {c.demo ? "🧪 Demo" : c.vivo ? "🟢 Vivo" : c.collegato ? "🟡 Collegato" : "🟡 In prova"}
+            {c.workerVivo === false && c.vivo ? " · worker spento" : ""}
+          </div>
         </div>
       </div>
       {c.pensiero && (
@@ -90,7 +115,6 @@ export default function CuoreMacchina() {
         <p className="t-eti mt-2">Collega la memoria perché il cuore batta e registri i giri. L'AI "pensante" si accende dopo, con la chiave (tetto €{c.budget?.tetto ?? 50}).</p>
       )}
 
-      {/* 🩺 Self-diagnosi: l'autonomia sta davvero girando? */}
       {diag && (
         <div className="mt-2 rounded-xl border border-black/[0.06] bg-paper/40 p-2.5">
           <div className="flex items-center gap-1.5 mb-1.5">
