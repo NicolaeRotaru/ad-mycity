@@ -150,3 +150,90 @@ body {
 .prose-readable :where(p, li) {
   color: var(--text-secondary);
 }
+
+/* Chat: bolle e markdown leggibili in light e dark */
+.chat-bubble-assistant {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.chat-bubble-pending {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.md-chat :where(p, li, td) {
+  color: var(--text-secondary);
+}
+.md-chat :where(strong, b, h1, h2, h3, h4, th) {
+  color: var(--text-primary);
+}
+.md-chat :where(em) {
+  color: var(--text-secondary);
+}
+.md-chat :where(code):not(pre code) {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.md-chat pre {
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.md-chat blockquote {
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-muted);
+}
+.md-chat hr {
+  border-color: var(--border);
+}
+.md-chat thead {
+  background: var(--bg-surface-2);
+}
+.md-chat th,
+.md-chat td {
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+/* Lista conversazioni */
+.conv-row {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  @apply rounded-xl p-3 transition;
+}
+.conv-row:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-surface-2);
+}
+.conv-row-active {
+  border-color: rgba(192, 73, 44, 0.45);
+  background: var(--brand-soft);
+}
+.conv-row-title {
+  color: var(--text-primary);
+  @apply text-sm font-medium truncate;
+}
+.conv-row-meta {
+  color: var(--text-muted);
+  @apply text-[11px];
+}
+.btn-ghost {
+  color: var(--text-muted);
+  @apply text-xs inline-flex items-center gap-1 transition hover:text-brand;
+}
+.btn-ghost-danger {
+  color: var(--text-faint);
+  @apply shrink-0 transition hover:text-red-500;
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border: 1px solid rgba(192, 73, 44, 0.35);
+  @apply shrink-0 text-xs font-medium rounded-full px-3 py-1.5 transition hover:opacity-90 active:scale-95;
+  background: var(--bg-elevated);
+}
+.dark .btn-outline-brand {
+  color: #f4a88a;
+  border-color: rgba(244, 168, 138, 0.45);
+}
