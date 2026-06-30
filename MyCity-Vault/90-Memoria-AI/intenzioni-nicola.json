@@ -1,33 +1,33 @@
 {
-  "data": "2026-07-01 00:56",
-  "sintesi": "Nicola corregge: Casa Linda = DEMO, unico negozio reale = Pane Quotidiano (Via Calzolai 25). Stallo ~158h, 1 ordine zombie €19,05 COD fermo. Soglia 168h tra ~10h. VP 3/7 tra ~66h. Nuova mossa n.1: sbloccare ordine Pane Quotidiano + completare payout Stripe.",
+  "data": "2026-07-01 01:00",
+  "sintesi": "Nicola rimanda presidio VP 3/7 e sposta focus su inserimento negozi del 6/7. Unico negozio reale oggi = Pane Quotidiano; ordine zombie €19,05 ancora fermo. Stallo ~158h.",
   "prossime_mosse": [
+    {
+      "titolo": "Inserire negozi del 6 luglio (batch onboarding)",
+      "priorita": "alta",
+      "quando": "da 6/7 — Nicola in prima persona",
+      "colore": "🔴",
+      "come": "Nicola carica negozi; AD prepara checklist onboarding done-for-you e supporto catalogo/payout.",
+      "ad_prepara": "Checklist @onboarding-negozi + kit bando #12 per ogni bottega",
+      "senior": "onboarding-negozi + vendite + finanza"
+    },
     {
       "titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano (1ª transazione reale)",
       "priorita": "alta",
-      "quando": "subito — ~6,6 giorni in limbo",
+      "quando": "in parallelo al batch 6/7",
       "colore": "🔴",
-      "come": "Pacchetto A/B in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md. Accetta+consegna COD oppure annulla con nota al buyer.",
-      "ad_prepara": "Bozze WhatsApp/email pronte; catena operations+supporto+customer-success",
+      "come": "Pacchetto A/B in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md.",
+      "ad_prepara": "Bozze WhatsApp/email pronte",
       "senior": "operations + supporto + finanza"
     },
     {
       "titolo": "Completare onboarding Stripe payout — Pane Quotidiano",
       "priorita": "alta",
-      "quando": "in parallelo al sblocco ordine",
+      "quando": "in parallelo",
       "colore": "🔴",
-      "come": "acct_1TifANEq35Z9pThc: charges+payouts ancora OFF. Serve completamento KYC lato negozio.",
+      "come": "charges+payouts OFF — completamento KYC lato negozio.",
       "ad_prepara": "Checklist payout da consegne/finanza/payout-faro.md",
       "senior": "finanza + onboarding-negozi"
-    },
-    {
-      "titolo": "Presidio Venerdì Piacentini 3/7 (tra ~66h)",
-      "priorita": "alta",
-      "quando": "entro venerdì 3/7",
-      "colore": "🔴",
-      "come": "Kit QR #11 + contenuti #7 — serve LINK lista d'attesa reale.",
-      "ad_prepara": "Checklist countdown 🟢 pronta",
-      "senior": "content-social + designer + vendite"
     },
     {
       "titolo": "Firmare le 3 decisioni di lancio",
@@ -40,19 +40,23 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05 già in sistema", "stato": "approvato, payout OFF, 5 prodotti bio — sbloccare ordine + Stripe"},
-    {"nome": "Casa Linda", "perche": "Negozio DEMO/seed — escluso da KPI e transazioni", "stato": "demo, NON usare"},
-    {"nome": "Antica Salumeria Garetti (prospect)", "perche": "Negozio-faro narrativo", "stato": "prospect, azioni 🔴 in coda"}
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale oggi — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine + Stripe"},
+    {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio", "stato": "in arrivo — priorità Nicola"},
+    {"nome": "Casa Linda", "perche": "Negozio DEMO/seed — escluso", "stato": "demo, NON usare"}
   ],
   "rischi": [
     "Stallo ~158h → 168h tra ~10h: percezione progetto morto",
-    "Buyer ordine zombie abbandonato ~6,6 giorni — unico contatto reale in sospeso",
-    "VP 3/7 tra ~66h senza link lista = presidio a conversione zero",
-    "Payout Pane Quotidiano incompleto: anche accettando l'ordine COD, il ciclo Stripe non è testato"
+    "VP 3/7 perso come finestra presidio — ok per scelta Nicola; prossima utile VP 10/17 lug",
+    "Batch 6/7 senza payout testato su Pane Quotidiano = più negozi LIVE ma stesso collo di bottiglia pagamenti"
   ],
   "serve_da_nicola": [
-    {"ambito": "Sblocco critico", "cosa_manca": "Decisione ordine zombie A/B + ok contatto negozio per payout", "domanda_per_nicola": "Ordine €19,05: accetti (A) o annulli (B)? Posso preparare il contatto a Pane Quotidiano per payout+ordine?"},
-    {"ambito": "Lancio", "cosa_manca": "3 firme 🔴 lancio", "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti?"},
-    {"ambito": "VP 3/7", "cosa_manca": "Link lista d'attesa reale", "domanda_per_nicola": "Hai il link? Senza, il presidio del 3/7 converte 0."}
-  ]
+    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi da inserire + chi fa catalogo/foto", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi? Ti preparo checklist per ognuno."},
+    {"ambito": "Sblocco critico", "cosa_manca": "Decisione ordine zombie A/B", "domanda_per_nicola": "Ordine €19,05: accetti (A) o annulli (B)?"},
+    {"ambito": "Lancio", "cosa_manca": "3 firme 🔴 lancio", "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti?"}
+  ],
+  "proposta_rimandata": {
+    "titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)",
+    "motivo": "Nicola 1/7: «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»",
+    "prossima_finestra": "VP 10/17 lug — azioni #7/#8/#11 in coda, congelate"
+  }
 }

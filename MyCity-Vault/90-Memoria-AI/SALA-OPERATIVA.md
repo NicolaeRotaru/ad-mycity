@@ -144,6 +144,11 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 00:56 · @AD · FATTO · Nicola corregge: **Casa Linda = demo**, unico negozio reale = **Pane Quotidiano** (Via Calzolai 25). Verificato live REST: 5 prodotti bio, tel. 0523388601, payout OFF, ordine zombie €19,05. Proposta Casa Linda **RITIRATA**. Aggiornati registro-realta, STATO, intenzioni-nicola, ultimo-briefing, DECISIONI.
 - 2026-07-01 00:56 · @AD · SERVE · Da Nicola: ① ordine zombie €19,05 — **A accetta o B annulla?** 🔴 · ② ok completare payout Stripe Pane Quotidiano 🔴 · ③ link lista VP 🔴 · ④ foglio-firma 🔴.
 
+### 2026-07-01 — Rimando presidio VP (01:00)
+- 2026-07-01 01:00 · @AD · FATTO · Nicola rimanda **Presidio VP 3/7** (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in coda ma non partono. Prossima finestra utile VP **10/17 lug** (se link lista pronto).
+- 2026-07-01 01:00 · @onboarding-negozi · FACCIO · Preparare checklist batch 6/7 (catalogo, payout, foto, test ordine) — 🟢 bozza in consegne/.
+- 2026-07-01 01:00 · @AD · SERVE · Da Nicola: ① **lista negozi 6/7** (nomi/quanti) · ② ordine zombie A/B 🔴 · ③ foglio-firma 🔴.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.

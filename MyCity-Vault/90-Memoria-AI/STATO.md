@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 00:56
+aggiornato: 2026-07-01 01:00
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello azioni_log 30/6 09:08)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 00:56 — CORREZIONE NICOLA: Casa Linda = DEMO.** Unico negozio reale = **Pane Quotidiano** (Via Calzolai 25). Stallo ~158h. **168h tra ~10h.** VP 3/7 tra ~66h. Collo di bottiglia aggiornato: **sbloccare ordine zombie €19,05** + **payout Stripe Pane Quotidiano** + link lista d'attesa.
+> 🧠 **1/7 01:00 — Nicola rimanda presidio VP 3/7** (focus **inserimento negozi 6/7**). Casa Linda = DEMO; unico negozio reale = **Pane Quotidiano**. Stallo ~158h. Collo di bottiglia: **sbloccare ordine zombie €19,05** + **payout Stripe Pane Quotidiano** + onboarding batch 6/7.
 
 ## I 7 numeri (live 2026-07-01 00:56 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; VP 3/7 tra ~66h senza link lista; **168h tra ~10h**; allerta temporali oggi.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,7 +49,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **Worker VPS:** serve pull `memoria-ad` per nuovo `settings.json`.
+1. **Chat 1/7 01:00** — Nicola rimanda presidio VP 3/7 (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#11 in attesa post-onboarding.
+2. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **Worker VPS:** serve pull `memoria-ad` per nuovo `settings.json`.
 2. **Giro 1/7 00:17** — 7 numeri live REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Playbook temporali 🟢. Vedi [[2026-07-01]].
 3. **Chat 1/7 00:06** — Confermato accesso live marketplace + memoria Pannello (REST OK).
 4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
@@ -57,11 +58,11 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale)
 - [ ] 🔴 **Completare payout Stripe — Pane Quotidiano** (charges+payouts OFF)
-- [ ] 🔴 **Link lista d'attesa** — sblocca presidio VP 3/7 (#6, #7, #11)
+- [ ] 🔴 **Onboarding negozi 6/7** — Nicola inserisce batch (AD prepara checklist @onboarding-negozi)
 - [ ] 🔴 Firmare le 3 decisioni di lancio — [[AZIONI-IN-ATTESA]]
 - [ ] ~~Forzare transazione Casa Linda~~ — **RITIRATA** (negozio demo)
+- [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** da Nicola 1/7 (kit #7/#11 congelati; prossima finestra utile VP **10/17 lug** se link lista pronto)
 - [ ] 🟡 **Kit "Bando ER + MyCity"** (#12, scade 21/7)
-- [ ] 🟡 **Presidio VP 3/7** — checklist in `consegne/operations/2026-06-30-checklist-countdown-vp-3-luglio.md`
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-01]]; decisioni in [[DECISIONI]].*
