@@ -82,7 +82,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
-              tab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
+              tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
             }`}
           >
             {t.icon}

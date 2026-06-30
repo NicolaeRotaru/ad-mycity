@@ -38,7 +38,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-white/10 text-black/55 dark:text-white/70 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.08] transition"
+      className="nav-tab !px-2.5 !py-2"
       aria-label={dark ? "Schermo diurno" : "Schermo notturno"}
       title={dark ? "Schermo diurno" : "Schermo notturno"}
     >
