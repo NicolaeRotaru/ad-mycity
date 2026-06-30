@@ -120,6 +120,20 @@ sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system
 # Mettere in PAUSA da remoto: nel Pannello (kill-switch) -> impostazioni.pausa = on
 ```
 
+## 🆘 Errore `.env: MyCity: command not found`
+
+Succede se in `.env` hai scritto un valore **con spazi senza virgolette**, es.:
+```bash
+GIT_AUTHOR_NAME=AD MyCity VPS   # ❌ bash prova ad eseguire "MyCity" come comando
+```
+Correggi così:
+```bash
+GIT_AUTHOR_NAME="AD MyCity VPS"   # ✅
+```
+Poi: `sudo systemctl restart mycity-worker mycity-giro.timer`
+
+**Non fare `git checkout main` sul VPS** — resta su `memoria-ad`. Il giro allinea il codice da solo.
+
 ## ⚠️ Note oneste
 - **Limiti dell'abbonamento:** sia Cursor sia Claude Max hanno tetti d'uso che si resettano ogni poche
   ore. Col solo worker (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
