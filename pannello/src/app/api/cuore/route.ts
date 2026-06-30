@@ -3,6 +3,7 @@ import { getImpostazione, memoryConnected } from "@/lib/store";
 import { getBudget, setTetto } from "@/lib/ai-budget";
 import { aiConfigurato } from "@/lib/ai";
 import { demoAttivo, cuoreDemo } from "@/lib/demo";
+import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,17 +14,27 @@ export const revalidate = 0;
 export async function GET() {
   // 🧪 Demo: cuore che "batte" con valori di esempio (marchiati demo:true).
   if (await demoAttivo()) return NextResponse.json(cuoreDemo());
-  const [ultimo, eseguite, autopilota, pensiero] = await Promise.all([
-    getImpostazione("cuore:ultimo").catch(() => null),
-    getImpostazione("cuore:eseguite").catch(() => null),
+  const [autopilota, pensiero, budget, segnali] = await Promise.all([
     getImpostazione("autopilota").catch(() => null),
     getImpostazione("cuore:pensiero").catch(() => null),
+    getBudget().catch(() => null),
+    raccogliSegnaliBattito(),
   ]);
-  const budget = await getBudget().catch(() => null);
+  const ultimoDisplay = segnali.ultimoGiro?.quando ?? segnali.autopilotaCron?.quando ?? null;
   return NextResponse.json({
     collegato: memoryConnected(),
-    ultimoBattito: ultimo,
-    eseguiteUltimo: Number(eseguite ?? 0) || 0,
+    // Card principale: ultimo giro AD reale (non solo cron Vercel mattutino).
+    ultimoBattito: ultimoDisplay,
+    ultimoBattitoFonte: segnali.ultimoGiro?.fonte ?? segnali.autopilotaCron?.fonte ?? null,
+    ultimoGiro: segnali.ultimoGiro?.quando ?? null,
+    autopilotaUltimo: segnali.autopilotaCron?.quando ?? null,
+    workerUltimo: segnali.worker?.quando ?? null,
+    workerVivo: (() => {
+      const o = oreDaQuando(segnali.worker?.quando);
+      return o != null && o <= 0.1;
+    })(),
+    vivo: macchinaViva(segnali),
+    eseguiteUltimo: segnali.eseguiteAutopilota,
     autopilota: autopilota === "on",
     pensiero: pensiero || null,
     budget,
