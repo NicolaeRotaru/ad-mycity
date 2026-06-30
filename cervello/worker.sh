@@ -40,11 +40,28 @@ sync_vault() {
       git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
       local ok=0
       for a in 1 2 3; do
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+        if git fetch "$url" "$branch" 2>/dev/null; then
+          # MERGE (non rebase): i log del vault si fondono da soli (.gitattributes merge=union).
+          # Se restano conflitti su file di CODICE (es. cervello/vps/SETUP-VPS.md) li risolviamo prendendo
+          # la versione remota (theirs) e committiamo: così il push della memoria non si blocca mai.
+          if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+            local conflitti
+            conflitti="$(git diff --name-only --diff-filter=U 2>/dev/null || true)"
+            if [ -n "$conflitti" ]; then
+              printf '%s\n' "$conflitti" | while IFS= read -r f; do
+                [ -n "$f" ] && git checkout --theirs -- "$f" 2>/dev/null || true
+              done
+              git add -A 2>/dev/null || true
+              git "${GIT_ID[@]}" commit --no-edit 2>/dev/null || git merge --abort 2>/dev/null || true
+            else
+              git merge --abort 2>/dev/null || true
+            fi
+          fi
+        fi
         if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
         sleep 2
       done
-      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (il giro recupera)." >&2
+      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (riprovo al prossimo lavoro)." >&2
     fi
   ) 9>"$LOCK" || true
 }
@@ -60,6 +77,17 @@ ai_check || { echo "[$(ts)] Motore AI non disponibile. Esegui prima cervello/vps
 echo "[$(ts)] Motore AI: $(ai_engine) ($(ai_cli_name))."
 if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then
   echo "[$(ts)] Mancano SUPABASE_URL e SUPABASE_SERVICE_KEY (progetto MEMORIA). Vedi cervello/vps/.env." >&2
+  exit 1
+fi
+
+# Sanity check: SUPABASE_URL deve essere il progetto MEMORIA (ha tabella impostazioni), NON il marketplace.
+_mem_check="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=chiave&limit=1" \
+  -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>&1 || true)"
+if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could not find the table'; then
+  echo "[$(ts)] ERRORE: SUPABASE_URL punta al DB sbagliato (marketplace?)." >&2
+  echo "[$(ts)]   URL attuale: $SUPABASE_URL" >&2
+  echo "[$(ts)]   Serve il progetto MEMORIA (xjljcsorpbqwttrejqte), NON clmpyfvpvfjgeviworth." >&2
+  echo "[$(ts)]   Copia SUPABASE_URL + SUPABASE_SERVICE_KEY da Vercel → aggiorna cervello/vps/.env → restart." >&2
   exit 1
 fi
 
@@ -140,7 +168,7 @@ $richiesta"
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
   elif [ "$rc" -ne 0 ]; then
     stato="errore"; out="$out
-[worker] claude uscito con rc=$rc."
+[worker] motore $(ai_engine) ($(ai_cli_name)) uscito con rc=$rc."
   else
     stato="fatto"
   fi
