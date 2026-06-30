@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:13
+aggiornato: 2026-07-01 01:16
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari su `memoria-ad` ✅ · **`settings.json` WebFetch globale NON su GitHub** (main e memoria-ad remoto = whitelist; correzione Nicola chat 1/7 01:13) · Cursor test ≠ worker · serve PR su `main` + `aggiorna-cervello.sh`/giro · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari ✅ · Nicola ha eseguito `aggiorna-cervello.sh` 01:16 ✓ worker attivo · **WebFetch globale ancora assente** (main = whitelist; worker non libero) · **blocco = PR su `main`** poi secondo sync · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)

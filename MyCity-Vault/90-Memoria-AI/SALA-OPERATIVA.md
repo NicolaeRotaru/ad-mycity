@@ -144,6 +144,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 00:56 · @AD · FATTO · Nicola corregge: **Casa Linda = demo**, unico negozio reale = **Pane Quotidiano** (Via Calzolai 25). Verificato live REST: 5 prodotti bio, tel. 0523388601, payout OFF, ordine zombie €19,05. Proposta Casa Linda **RITIRATA**. Aggiornati registro-realta, STATO, intenzioni-nicola, ultimo-briefing, DECISIONI.
 - 2026-07-01 00:56 · @AD · SERVE · Da Nicola: ① ordine zombie €19,05 — **A accetta o B annulla?** 🔴 · ② ok completare payout Stripe Pane Quotidiano 🔴 · ③ link lista VP 🔴 · ④ foglio-firma 🔴.
 
+### 2026-07-01 — Sync VPS WebFetch (01:16)
+- 2026-07-01 01:16 · @Nicola · FATTO · Eseguito `sudo bash cervello/vps/aggiorna-cervello.sh` (sync codice da main + restart worker).
+- 2026-07-01 01:16 · @AD · FATTO · Verifica post-sync: worker **attivo** ✓ · commit `1394219` allinea codice a main (01:13) · **`settings.json` = ancora whitelist WebFetch** (11 domini) — su `origin/main` non c'è la riga globale. Senior sul worker **non** navigano liberamente finché PR su `main` non mergiata + secondo sync.
+
 ### 2026-07-01 — Rimando presidio VP (01:00)
 - 2026-07-01 01:00 · @AD · FATTO · Nicola rimanda **Presidio VP 3/7** (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in coda ma non partono. Prossima finestra utile VP **10/17 lug** (se link lista pronto).
 - 2026-07-01 01:03 · @AD · FATTO · Nicola: «perché devo approvare?» su card onboarding 6/7 → **non serve approvazione** (lavoro suo); card ritirata da proposte Pannello.
