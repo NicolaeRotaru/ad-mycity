@@ -5,11 +5,12 @@
 #
 # Cosa fa:
 #   - crea l'utente di servizio 'mycity' (se manca)
-#   - installa git, jq, curl, Node LTS e Claude Code (CLI 'claude')
+#   - installa git, jq, curl, Node LTS e il MOTORE AI (Cursor CLI 'agent' di default, o Claude 'claude')
 #   - clona il repo in /opt/mycity/ad-mycity (o fa git pull se gia' c'e')
 #   - prepara cervello/vps/.env da .env.example (se manca)
 #   - installa e abilita le unit systemd (giro ogni 2h + worker sempre acceso)
-# Poi restano 2 passi MANUALI (li stampa alla fine): 'claude login' e i segreti in .env.
+# Motore: CERVELLO_MOTORE=cursor (default) | claude. Es:  CERVELLO_MOTORE=claude GIT_TOKEN=... bash setup.sh
+# Poi restano 2 passi MANUALI (li stampa alla fine): la chiave del motore e i segreti in .env.
 set -euo pipefail
 
 GIT_REPO="${GIT_REPO:-NicolaeRotaru/ad-mycity}"   # owner/repo (il repo e' PRIVATO)
@@ -52,14 +53,28 @@ if ! command -v node >/dev/null 2>&1; then
 fi
 echo "   node $(node -v)"
 
-echo "== 4) Claude Code (CLI 'claude') =="
-if ! command -v claude >/dev/null 2>&1; then
-  # Nome pacchetto ufficiale di Claude Code. Se cambia, vedi docs.anthropic.com/claude-code.
-  npm install -g @anthropic-ai/claude-code || {
-    echo "   ATTENZIONE: installazione di Claude Code fallita. Installalo a mano e rilancia." >&2
-  }
+echo "== 4) Motore AI =="
+# Motore di default: Cursor CLI ('agent'). CERVELLO_MOTORE=claude per restare su Claude Code.
+MOTORE="${CERVELLO_MOTORE:-cursor}"
+if [ "$MOTORE" = "cursor" ]; then
+  echo "   Motore scelto: Cursor CLI ('agent')."
+  if ! command -v agent >/dev/null 2>&1; then
+    # Installer ufficiale Cursor CLI (vedi cursor.com/docs/cli). Installa nel profilo dell'utente che lo lancia.
+    sudo -u "$APP_USER" -H bash -lc 'curl https://cursor.com/install -fsS | bash' || {
+      echo "   ATTENZIONE: installazione di Cursor CLI fallita. Installala a mano (curl https://cursor.com/install -fsS | bash) e rilancia." >&2
+    }
+  fi
+  sudo -u "$APP_USER" -H bash -lc 'command -v agent >/dev/null 2>&1 && echo "   $(agent --version 2>/dev/null || echo "agent installato")"' || true
+else
+  echo "   Motore scelto: Claude Code ('claude')."
+  if ! command -v claude >/dev/null 2>&1; then
+    # Nome pacchetto ufficiale di Claude Code. Se cambia, vedi docs.anthropic.com/claude-code.
+    npm install -g @anthropic-ai/claude-code || {
+      echo "   ATTENZIONE: installazione di Claude Code fallita. Installalo a mano e rilancia." >&2
+    }
+  fi
+  command -v claude >/dev/null 2>&1 && echo "   $(claude --version 2>/dev/null || echo 'claude installato')"
 fi
-command -v claude >/dev/null 2>&1 && echo "   $(claude --version 2>/dev/null || echo 'claude installato')"
 
 echo "== 5) Repo in $APP_DIR =="
 mkdir -p /opt/mycity
@@ -93,7 +108,22 @@ else
   echo "   $ENV_DIR/.env esiste gia' (non lo tocco)."
 fi
 
-echo "== 7) Unit systemd =="
+echo "== 7) Codice del marketplace (per radiografia/audit/tech) =="
+# Scarica una COPIA in SOLA LETTURA del repo del marketplace, così l'AD può analizzarlo.
+# Best-effort: se fallisce (rete/repo), il setup continua comunque.
+MKT_DIR="$(grep -E '^MARKETPLACE_REPO=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)"
+MKT_DIR="${MKT_DIR:-/opt/mycity/marketplace}"
+if sudo -u "$APP_USER" env \
+     MARKETPLACE_REPO="$MKT_DIR" \
+     MARKETPLACE_GIT_REPO="$(grep -E '^MARKETPLACE_GIT_REPO=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)" \
+     MARKETPLACE_BRANCH="$(grep -E '^MARKETPLACE_BRANCH=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)" \
+     node "$APP_DIR/cervello/collega-marketplace.mjs"; then
+  echo "   marketplace collegato in $MKT_DIR"
+else
+  echo "   WARN: collegamento del marketplace fallito (riprova: node cervello/collega-marketplace.mjs)." >&2
+fi
+
+echo "== 8) Unit systemd =="
 for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"
 done
@@ -106,13 +136,17 @@ cat <<EOF
 ============================================================
  QUASI FATTO. Restano 2 passi MANUALI:
 
- 1) Collega il piano Max (login interattivo, una volta sola):
-      sudo -u $APP_USER -H claude login
-    (apri l'URL mostrato, incolla il codice)
+ 1) Collega il motore AI:
+    • Cursor (default): metti CURSOR_API_KEY nel .env (passo 2) — la chiave si crea su
+      cursor.com/dashboard → API Keys. In alternativa, login interattivo una volta:
+        sudo -u $APP_USER -H agent login
+    • Claude (se CERVELLO_MOTORE=claude): login interattivo, una volta sola:
+        sudo -u $APP_USER -H claude login
+      (apri l'URL mostrato, incolla il codice)
 
  2) Inserisci i segreti:
       sudo -u $APP_USER nano $ENV_DIR/.env
-    (SUPABASE memoria, GIT_PUSH_TOKEN, GIT_REPO/GIT_BRANCH)
+    (CURSOR_API_KEY, SUPABASE memoria, GIT_PUSH_TOKEN, GIT_REPO/GIT_BRANCH)
 
  Poi accendi tutto:
       systemctl start mycity-worker.service

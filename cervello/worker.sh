@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# worker.sh — WORKER della coda "lavori" dell'AD MyCity (Claude Code, piano Max), per VPS Linux.
+# worker.sh — WORKER della coda "lavori" dell'AD MyCity (motore AI: Cursor 'agent' o Claude 'claude'), per VPS Linux.
 # Equivalente Linux di worker.ps1. Prende i lavori "in_attesa" dalla memoria Supabase, li fa
 # eseguire all'AD e ne riscrive il risultato. E' cio' che fa partire i "Approva" del Pannello.
 # Lo tiene acceso systemd (cervello/vps/mycity-worker.service, Restart=always).
@@ -14,6 +14,9 @@ cd "$REPO"
 
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
+
+# Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
+. "$SCRIPT_DIR/motore-ai.sh"
 
 ts() { date '+%H:%M:%S'; }
 
@@ -46,12 +49,15 @@ sync_vault() {
   ) 9>"$LOCK" || true
 }
 
-for dep in claude jq curl node; do
+for dep in jq curl node; do
   if ! command -v "$dep" >/dev/null 2>&1; then
     echo "[$(ts)] Manca '$dep'. Esegui prima cervello/vps/setup.sh." >&2
     exit 1
   fi
 done
+# Motore AI (Cursor 'agent' o Claude 'claude'): deve essere installato e utilizzabile.
+ai_check || { echo "[$(ts)] Motore AI non disponibile. Esegui prima cervello/vps/setup.sh." >&2; exit 1; }
+echo "[$(ts)] Motore AI: $(ai_engine) ($(ai_cli_name))."
 if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then
   echo "[$(ts)] Mancano SUPABASE_URL e SUPABASE_SERVICE_KEY (progetto MEMORIA). Vedi cervello/vps/.env." >&2
   exit 1
@@ -62,7 +68,16 @@ AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SER
 
 echo "[$(ts)] Worker AD avviato. Controllo la coda 'lavori' ogni ${INTERVALLO}s."
 
+# Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
+battito_worker() {
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:ultimo\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 while true; do
+  battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
@@ -99,15 +114,27 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
+  elif [ "$tipo" = "giro" ]; then
+    giro_prompt="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
+    if [ -z "$giro_prompt" ]; then
+      giro_prompt="Fai un GIRO DI PERLUSTRAZIONE come AD di MyCity (vedi cervello/giro.md)."
+    fi
+    prompt="$giro_prompt
+
+## Istruzione aggiuntiva
+$richiesta
+
+Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1). La memoria va sul ramo memoria-ad (mai solo su main)."
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
 $richiesta"
   fi
 
-  # 3) esegui con Claude Code (Max), con TIMEOUT (un lavoro impallato non blocca il worker per sempre).
+  # 3) esegui col motore AI (Cursor/Claude), con TIMEOUT (un lavoro impallato non blocca il worker per sempre).
   to="${WORKER_TIMEOUT:-900}"
-  out="$(timeout --kill-after=30s "$to" claude -p "$prompt" --permission-mode acceptEdits 2>&1)"; rc=$?
+  ai_build_cmd
+  out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
   if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
     stato="errore"; out="$out
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
