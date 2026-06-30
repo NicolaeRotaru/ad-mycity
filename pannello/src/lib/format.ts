@@ -83,8 +83,34 @@ export function istante(iso: string): string {
   }
 }
 
-// "Timbro" di QUANDO un dato è apparso / è stato aggiornato nel pannello:
-// "GG/MM/AAAA · HH:MM" (Europe/Rome). Accetta ISO, millisecondi o Date.
+// Tempo relativo ("5 min fa") + orario esatto in Europe/Rome. Accetta ISO o data-vault.
+export function faRelativo(iso: string | null | undefined): string {
+  if (!iso) return "mai";
+  const d = new Date(vaultToIso(iso.trim()));
+  const ms = d.getTime();
+  if (Number.isNaN(ms)) return "mai";
+  const sec = Math.max(0, (Date.now() - ms) / 1000);
+  const rel =
+    sec < 90
+      ? "poco fa"
+      : sec < 3600
+        ? `${Math.round(sec / 60)} min fa`
+        : sec < 86400
+          ? `${Math.round(sec / 3600)} h fa`
+          : `${Math.round(sec / 86400)} g fa`;
+  try {
+    const giorno = (x: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(x);
+    const opts: Intl.DateTimeFormatOptions = { timeZone: TZ_ROMA, hour: "2-digit", minute: "2-digit" };
+    if (giorno(d) !== giorno(new Date())) {
+      opts.day = "2-digit";
+      opts.month = "2-digit";
+    }
+    return `${rel} · ${new Intl.DateTimeFormat("it-IT", opts).format(d)}`;
+  } catch {
+    return rel;
+  }
+}
+
 export function timbro(quando: string | number | Date | null | undefined): string {
   // null/undefined/0/"" = nessun valore → vuoto (evita di mostrare l'epoch 1970).
   if (quando == null || quando === 0 || quando === "") return "";

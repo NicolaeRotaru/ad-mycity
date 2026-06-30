@@ -20,10 +20,11 @@ export async function GET() {
 // POST: crea un lavoro da far eseguire al cervello.
 export async function POST(req: NextRequest) {
   try {
-    const { richiesta, tipo } = await req.json();
+    const { richiesta, tipo, gruppo_id } = await req.json();
     const prep = preparaLavoro(String(richiesta || ""), tipo ? String(tipo) : undefined);
     if (!prep.richiesta.trim()) return NextResponse.json({ ok: false, error: "Richiesta vuota." }, { status: 400 });
-    const lavoro = await creaLavoro(prep.richiesta, prep.tipo);
+    const gruppoId = gruppo_id ? String(gruppo_id).trim() : undefined;
+    const lavoro = await creaLavoro(prep.richiesta, prep.tipo, gruppoId || undefined);
     if (!lavoro) {
       return NextResponse.json(
         { ok: false, error: "Database non collegato o tabella 'lavori' mancante." },

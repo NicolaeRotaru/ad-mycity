@@ -173,9 +173,17 @@ function barra(conf?: number) {
   );
 }
 
-export default function AutoCoscienza() {
+export default function AutoCoscienza({
+  fixedTab,
+  hideSwitcher = false,
+}: {
+  fixedTab?: Tab;
+  hideSwitcher?: boolean;
+} = {}) {
   const [d, setD] = useState<Dati | null>(null);
-  const [tab, setTab] = useState<Tab>("analisi");
+  const [tabInterno, setTabInterno] = useState<Tab>("analisi");
+  const tab = fixedTab ?? tabInterno;
+  const setTab = fixedTab ? () => {} : setTabInterno;
   // Risposte già date alle domande dell'AD (qid → {risposta, at}).
   const [risposte, setRisposte] = useState<Record<string, Salvata>>({});
   const onSalvata = (qid: string, risposta: string, at: string) => setRisposte((s) => ({ ...s, [qid]: { risposta, at } }));
@@ -229,14 +237,23 @@ export default function AutoCoscienza() {
     { id: "miglioramento", label: "Auto-miglioramento", icon: <Rocket size={15} />, badge: mi?.benchmark?.length || 0 },
   ];
 
+  const titoloSezione =
+    tab === "apprendimento" ? "🎓 Apprendimento" : tab === "miglioramento" ? "🚀 Auto-miglioramento" : "🔬 Auto-analisi";
+  const sottotitoloSezione =
+    tab === "apprendimento"
+      ? "Lezioni imparate e calibrazione."
+      : tab === "miglioramento"
+        ? "Confronto coi migliori, esperimenti e peer review."
+        : "Si controlla prima di consegnare — errori, domande, entità.";
+
   return (
-    <section id="auto-coscienza" className="card p-4 border-brand/20 scroll-mt-24">
+    <section id={tab === "analisi" ? "auto-coscienza" : undefined} className="card p-4 border-brand/20 scroll-mt-24">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="sez-ico"><Microscope size={16} /></span>
           <div className="min-w-0">
-            <span className="t-sez">🧠 Auto-coscienza della macchina</span>
-            <div className="t-eti">Si controlla, impara e si migliora da sola — prima di consegnare. {a?.data ? `· ultima ${dataVault(a.data)}` : ""}</div>
+            <span className="t-sez">{titoloSezione}</span>
+            <div className="t-eti">{sottotitoloSezione} {a?.data && tab === "analisi" ? `· ultima ${dataVault(a.data)}` : ap?.data && tab === "apprendimento" ? `· ultima ${dataVault(ap.data)}` : mi?.data && tab === "miglioramento" ? `· ultima ${dataVault(mi.data)}` : ""}</div>
           </div>
         </div>
         {votoFOk ? (
@@ -258,7 +275,7 @@ export default function AutoCoscienza() {
 
       {d?.collegato && (
         <>
-          {/* Tab switch */}
+          {!hideSwitcher && (
           <div className="flex flex-wrap gap-1.5 mb-3">
             {TABS.map((t) => (
               <button
@@ -274,6 +291,7 @@ export default function AutoCoscienza() {
               </button>
             ))}
           </div>
+          )}
 
           {/* ===== AUTO-ANALISI ===== */}
           {tab === "analisi" && (

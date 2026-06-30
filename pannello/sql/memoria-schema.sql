@@ -42,7 +42,8 @@ create table if not exists public.lavori (
   tipo        text not null default 'analisi',
   richiesta   text not null,
   risultato   text not null default '',
-  esperto     text not null default ''
+  esperto     text not null default '',
+  gruppo_id   text
 );
 create index if not exists lavori_created_at_idx on public.lavori (created_at desc);
 create index if not exists lavori_stato_idx on public.lavori (stato);

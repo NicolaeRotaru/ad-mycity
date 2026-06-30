@@ -20,6 +20,14 @@ type AutoAnalisi = { voto_fiducia?: number | string; trend_fiducia?: string; err
 type Radiografia = { voto_salute_architettura?: number | string; trend?: string; sintesi?: string } | null;
 type Voce = { data: string; testo: string } | null;
 
+function etichettaRitmo(data: string | undefined): string {
+  if (!data) return "";
+  const oggi = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date());
+  const giornoVoce = data.trim().slice(0, 10);
+  const etichetta = dataVault(data);
+  return giornoVoce === oggi ? `oggi · ${etichetta.split(" · ").slice(1).join(" · ") || etichetta}` : etichetta;
+}
+
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
   { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n", icon: <Package size={14} /> },
   { label: "Incasso oggi", chiave: "incasso_oggi", tipo: "euro", icon: <Euro size={14} /> },
@@ -287,7 +295,7 @@ export default function Plancia({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${dataVault(ritmo.pianoMattino.data)}` : ""}</div>
+              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${etichettaRitmo(ritmo.pianoMattino.data)}` : ""}</div>
               {ritmo.pianoMattino ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.pianoMattino.testo}</p>
               ) : (
@@ -295,7 +303,7 @@ export default function Plancia({
               )}
             </div>
             <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${dataVault(ritmo.reportSera.data)}` : ""}</div>
+              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${etichettaRitmo(ritmo.reportSera.data)}` : ""}</div>
               {ritmo.reportSera ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.reportSera.testo}</p>
               ) : (
