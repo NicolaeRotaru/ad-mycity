@@ -1,59 +1,51 @@
 {
-  "data": "2026-06-30 22:17",
-  "voto_fiducia": 88,
-  "trend_fiducia": "▲",
-  "sintesi": "Giro serale 30/6. Voto +3 (85→88): sensori marketplace RECUPERATI via REST Supabase quando MCP cieco. 7 numeri live verificati 22:17 — identici al 29/6, stallo 155h. Nessun errore di grounding o numeri orfani. Artefatto 🟢 utile: lista 10 lead food centro. Incident Supabase mgmt ops documentato (non blocca lettura). Blocco resta decisionale.",
+  "data": "2026-06-30 23:08",
+  "voto_fiducia": 87,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro notturno 30/6 23:08. Voto −1 (88→87): quarto passaggio del giorno con business invariato — onesto e corretto per L-2026-0629-03. 7 numeri live REST confermati (=). Stallo 157h (+2h). Valore aggiunto reale: checklist countdown VP 🟢 + allerta temporali 1/7 con fonte ER. Nessun errore grounding/numeri orfani.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 22:17, fonte clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 23:08, fonte clmpyfvpvfjgeviworth)",
     "coerenza": "ok",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a"
   },
-  "errori": [
-    {
-      "gravita": "bassa",
-      "titolo": "MCP marketplace cieco — mitigato con REST fallback",
-      "dettaglio": "MCP needsAuth in sessione, ma MARKETPLACE_SUPABASE env permette lettura live. Difetto AR-001 parzialmente mitigato ma non risolto (MCP resta preferito).",
-      "azione_presa": "Usato REST per 7 numeri + sentinelle + lead list. Proposta documentare fallback in giro.md.",
-      "riguarda": "salute sensori",
-      "livello_scoperta": "L1"
-    }
-  ],
+  "errori": [],
   "domande_per_nicola": [
     {
       "domanda": "Forzo la prima transazione end-to-end con Casa Linda?",
-      "perche_serve": "Stallo 155h. Unico negozio payout-ready.",
+      "perche_serve": "Stallo 157h. Unico negozio payout-ready.",
       "se_rispondi": "Attivo catena vendite+operations+finanza.",
       "gravita": "alta"
     },
     {
       "domanda": "Sblocco ordine zombie €19,05 (accetta o annulla)?",
-      "perche_serve": "Buyer fermo 6,5 giorni — pacchetto pronto.",
+      "perche_serve": "Buyer fermo ~6,6 giorni — pacchetto pronto.",
       "se_rispondi": "Eseguo opzione A o B del pacchetto operations.",
       "gravita": "alta"
     },
     {
-      "domanda": "Hai il link reale della lista d'attesa per VP 3/7?",
-      "perche_serve": "Tra 3 giorni — senza link il presidio QR converte 0.",
-      "se_rispondi": "Completo kit #7 e #11 e accodo pubblicazione.",
+      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra 48h)?",
+      "perche_serve": "Senza link il presidio QR converte 0.",
+      "se_rispondi": "Completo kit #7 e #11.",
       "gravita": "alta"
     }
   ],
   "punti_ciechi": [
     "Stripe MCP non interrogato (solo status pubblico)",
     "PostHog non collegato",
-    "Competitor/stampa/istituzioni non rifatti (cadenza settimanale)"
+    "POST tabella briefings memoria DB fallito (API key invalida in env)",
+    "Competitor/stampa non rifatti (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Documentare fallback REST in cervello/giro.md quando MCP cieco",
-    "Escalation se stallo supera 7 giorni (1/7)"
+    "Evitare 5° passaggio nello stesso giorno se numeri = e radar esterno invariato",
+    "Escalation automatica se stallo supera 168h (1/7 sera)"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",
-    "supabase_memoria": "collegato ✅",
-    "stripe": "status pubblico OK (MCP non usato)",
+    "supabase_memoria": "env presente · POST briefings ❌ (Invalid API key)",
+    "stripe": "status pubblico OK",
     "posthog": "non collegato",
     "dati_freschi": true,
     "sensori_attivi": 2

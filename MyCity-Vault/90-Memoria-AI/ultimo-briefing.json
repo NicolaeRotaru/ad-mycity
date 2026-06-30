@@ -1,16 +1,16 @@
 {
-  "data": "2026-06-30 22:17",
-  "situazione": "Giro serale 30/6: 7 numeri RIVERTIFICATI LIVE via REST Supabase — identici al 29/6. Stallo 155 ore (~6,5 giorni) senza movimento dal 24/6. Infrastruttura regge (Stripe OK; Supabase lettura dati OK nonostante incident mgmt ops oggi). Domani 1/7 pioggia/temporali; Venerdì Piacentini 3/7 tra 3 giorni (49 eventi). Blocco 100% decisionale: serve firma Nicola per Casa Linda, ordine zombie e 3 decisioni lancio.",
+  "data": "2026-06-30 23:08",
+  "situazione": "Giro notturno 30/6 23:08: 7 numeri RIVERTIFICATI LIVE via REST — identici al passaggio 22:17. Stallo 157 ore (~6,6 giorni) dal 24/6. Domani 1/7: allerta gialla temporali + caldo in attenuazione (Protezione Civile ER). Venerdì Piacentini 3/7 tra ~48 ore — checklist countdown 🟢 pronta. Blocco 100% decisionale: Casa Linda, ordine zombie €19,05, 3 firme lancio, link lista d'attesa.",
   "opportunita": [
-    {"titolo": "Prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready: uscita dallo stallo di 155h.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Venerdì Piacentini 3/7 — presidio QR", "motivo": "Tra 3 giorni, 49 eventi, sera mite: acquisizione a costo ≈0. Azioni #7 e #11 già in coda.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Buyer reale fermo 6,5 giorni — pacchetto pronto in consegne/operations/.", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "10 lead food centro pronti", "motivo": "Lista scouting 🟢 prodotta stasera — da contattare dopo la 1ª transazione con kit bando ER (21 giorni).", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Prima transazione end-to-end con Casa Linda", "motivo": "Unico payout-ready — uscita dallo stallo di 157h.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Venerdì Piacentini 3/7 — presidio QR", "motivo": "Tra 48h, 49 eventi, sera mite. Checklist operativa pronta.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Domani 1/7 temporali — leva pioggia", "motivo": "Allerta gialla ER + piovaschi pomeridiani — messaggio delivery (latente senza catalogo vero).", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Buyer reale fermo 6,6 giorni — pacchetto pronto.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico payout-ready. Stallo 155h.", "livello": "rosso"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "6,5 giorni in limbo — pacchetto pronto.", "livello": "rosso"},
-    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Foglio-firma 2 min — sblocca infrastruttura.", "livello": "rosso"},
-    {"titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)", "motivo": "Tra 3 giorni — serve link lista d'attesa.", "livello": "rosso"}
+    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico payout-ready. Stallo 157h.", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "6,6 giorni in limbo — pacchetto pronto.", "livello": "rosso"},
+    {"titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)", "motivo": "Tra 48h — serve link lista d'attesa.", "livello": "rosso"},
+    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Foglio-firma 2 min — sblocca infrastruttura.", "livello": "rosso"}
   ]
 }

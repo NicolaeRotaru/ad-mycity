@@ -119,3 +119,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 22:17 · @intelligence · FATTO · Meteo 1/7: temporali/pioggia confermati. VP 3/7 tra 3 giorni (49 eventi).
 - 2026-06-30 22:17 · @vendite · FATTO · Lista 10 lead food centro in consegne/vendite/2026-06-30-primi-10-lead-food-centro.md (🟢) — da usare post-1ª transazione con kit bando ER.
 - 2026-06-30 22:17 · @AD · SERVE · Da Nicola: ① Casa Linda 🔴 · ② ordine zombie 🔴 · ③ firme lancio 🔴 · ④ link lista d'attesa per VP 3/7 🔴 (tra 3 giorni).
+
+### 2026-06-30 — Giro notturno (23:08)
+- 2026-06-30 23:08 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 22:17). Stallo 157h (+2h). Quarto passaggio del giorno — business invariato, onesto.
+- 2026-06-30 23:08 · @operations · FATTO · Checklist countdown VP 3/7 (~48h) in consegne/operations/2026-06-30-checklist-countdown-vp-3-luglio.md.
+- 2026-06-30 23:08 · @intelligence · FATTO · Allerta gialla temporali 1/7 confermata (Protezione Civile ER). VP 3/7 countdown operativo.
+- 2026-06-30 23:08 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 · foglio-firma 🔴.

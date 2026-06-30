@@ -1,24 +1,25 @@
 # 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
 
-> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live). 🟢 note.
+> Aggiornato: **2026-06-30 23:08** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads.outreach_status=to_contact`).
 
-## Stato giro 2026-06-29 — 4 buchi azionabili
+## Stato giro 2026-06-30 — 4 buchi azionabili (priorità invariata)
 
-1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo fa ristoranti, la GDO fa supermercati, nessuno fa salumiere/fornaio/enoteca storica. Idea: pacchetto "cena del weekend con 2 botteghe". *Confidenza ~70%.* → @growth + @analista.
+1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo/GDO non coprono salumiere/fornaio/enoteca storica. → @growth + @vendite. *Confidenza ~70%.*
 
-2. 🟢 **Delivery diurno anti-caldo (11-18)** — bibite/gelato/fresco mentre la GDO consegna a slot rigidi. Finestra sfruttabile **subito** (caldo estremo 37°C oggi). → @operations + @content-social.
+2. 🟢 **Leva pioggia/temporali (1/7)** — sostituisce la finestra "anti-caldo 11-18" (caldo estremo finito). Messaggio *"piove, te la portiamo noi"* — **latente** finché non c'è catalogo vero + 1ª transazione. → @content-social + @operations.
 
-3. 🟡 **Regalo locale a domicilio (modello Cosaporto, assente a Piacenza)** — agganciato ai Venerdì Piacentini: visitatori che vogliono un prodotto piacentino consegnato. → @growth + @marketing.
+3. 🟡 **Regalo locale a domicilio (Cosaporto assente a PC)** — agganciabile ai VP 3/10/17 lug. → @growth + @marketing.
 
-4. 🆕 🟡 **Ex Scuderie — 3 spazi food premium approvati dal Comune** (gastronomia, panetteria, ortofrutta) in centro storico. Quando aprono → **3 negozi partner naturali** per MyCity. Pipeline da monitorare. → @vendite + @relazioni-istituzionali.
-   Fonte: [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/).
+4. 🟡 **Ex Scuderie — 3 spazi food premium** (gastronomia, panetteria, ortofrutta) — pipeline partner quando aprono. → @vendite.
+   Fonte: [PiacenzaSera 29/6](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/).
 
-## Spunto strutturale (ipotesi, conf. 60%)
-- **Domanda DOP/tipici slegata dal raggio:** sagre di provincia (Tortello Vigolzone 24-28 lug) segnalano forte domanda. Chi non va alla sagra = potenziale cliente per box DOP consegnati. → @growth + @analista.
+## Dati interni live (23:08)
+- **407 lead** in outreach `to_contact` — lista top 10 food centro già in `consegne/vendite/2026-06-30-primi-10-lead-food-centro.md`.
+- **0 prodotti veri** pubblicati — buchi di mercato restano ipotesi finché non partono ordini reali.
 
 ## Carburante mancante
-- Analisi immobiliare (Idealista locali commerciali) per segnali "chi molla/chi resiste" → lead caldi @vendite. Oggi portali locali bloccati 403.
-- Dati ordini food interni per blindare i buchi da 70% a fatto.
+- Analisi Idealista/immobiliare (403) per botteghe a rischio chiusura.
+- Ordini food reali per validare i buchi oltre il 70%.
 
 ---
-> Si rigenera quando le news segnalano bottega che chiude/apre o categoria/zona scoperta.
+> Si rigenera quando news o dati interni segnalano gap/zona scoperta.

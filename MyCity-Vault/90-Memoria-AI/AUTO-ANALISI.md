@@ -1,42 +1,42 @@
 ---
-data: 2026-06-30 22:17
-tipo: auto-analisi
-fonte: AD digitale — cancello di serietà (verifica avversariale)
+data: 2026-06-30 23:08
+voto_fiducia: 87
+trend: ▼
 ---
 
-# 🔬 Auto-analisi del giro — 2026-06-30 22:17
+# 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: 88 / 100 — trend ▲ (da 85)
-+3 punti: **sensori marketplace recuperati** via REST Supabase (fallback quando MCP cieco). I 7 numeri sono **live e verificati** (22:17), non baseline. Nessuna entità inventata, nessun numero orfano, nessuna 🔴 travestita da 🟢. Artefatto 🟢 utile prodotto (lista 10 lead food).
+## Voto di fiducia: **87/100** (▼ −1 vs 22:17)
+
+**Perché −1:** quarto giro del 30/6 con **business identico** (+2h stallo, numeri =). Applicata lezione L-2026-0629-03: valore aggiunto minimo ma non zero (checklist VP 🟢 + fonte ER temporali 1/7). Onestà > gonfiare il voto.
 
 ## Errori per gravità
 
-### Bassa — MCP marketplace cieco ma REST funziona
-Il MCP non è autorizzato in sessione, ma le env `MARKETPLACE_SUPABASE_*` permettono lettura live. **Azione:** usato REST come fallback; proposta 🟡 documentare in `giro.md`.
-
-Nessun errore grave o medio.
-
-## Grounding delle entità (3 strade)
-- **Casa Linda, Pane Quotidiano:** confermati live REST 22:17 (is_approved, payout status).
-- **Garetti:** scelta_ragionata (invariata).
-- **10 lead food:** confermati live da `merchants_leads` (407 totali).
+Nessun errore L1/L2/L3 in questo passaggio.
 
 ## Domande per Nicola
-1. 🔴 Forzo transazione Casa Linda? (stallo 155h)
-2. 🔴 Ordine zombie: accetti o annulli?
-3. 🔴 Link lista d'attesa per VP 3/7 (tra 3 giorni)?
+
+1. 🔴 Forzo Casa Linda per la 1ª transazione?
+2. 🔴 Ordine €19,05: accetti o annulli?
+3. 🔴 Link lista d'attesa per VP tra 48h?
 
 ## Salute della macchina
-- **Supabase marketplace:** ✅ REST live · MCP ❌
-- **Supabase memoria:** ✅ collegato
-- **Stripe:** status pubblico OK (non MCP)
-- **Dati freschi:** ✅ sì (22:17)
+
+| Sensore | Stato |
+|---------|-------|
+| Marketplace REST | ✅ live 23:08 |
+| Marketplace MCP | ❌ cieco |
+| Memoria DB POST | ❌ Invalid API key |
+| Stripe status | ✅ |
+| PostHog | ❌ |
 
 ## Punti ciechi
-- Stripe incassi dettaglio non riconciliati
-- PostHog non collegato
-- Competitor/stampa non rifatti (settimanale)
+
+- Incassi/payout Stripe dettaglio (MCP non usato)
+- Traffico sito (PostHog)
+- Tabella `briefings` memoria (POST fallito)
 
 ## Cosa miglioro al prossimo giro
-- Documentare fallback REST in giro.md
-- Se stallo >7gg domani: escalation esplicita a Nicola
+
+- Non ripetere passaggio se 7 numeri = e nessun trigger radar esterno
+- Escalation stallo >168h (domani sera)
