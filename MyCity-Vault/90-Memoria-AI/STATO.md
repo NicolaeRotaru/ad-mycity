@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:00
-fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello azioni_log 30/6 09:08)
+aggiornato: 2026-07-01 01:02
+fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 01:00 — Nicola rimanda presidio VP 3/7** (focus **inserimento negozi 6/7**). Casa Linda = DEMO; unico negozio reale = **Pane Quotidiano**. Stallo ~158h. Collo di bottiglia: **sbloccare ordine zombie €19,05** + **payout Stripe Pane Quotidiano** + onboarding batch 6/7.
+> 🧠 **1/7 01:02 — Foglio-firma lancio CHIUSO da Nicola:** (1) crea contratto 12% Pane Quotidiano ✅ bozza pronta · (2) payout-test **03/7 mattina** (lui) · (3) Stripe **sandbox** → COD fino a LIVE. Focus resta: **ordine zombie €19,05** + onboarding negozi **6/7**.
 
 ## I 7 numeri (live 2026-07-01 00:56 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
@@ -49,6 +49,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
+1. **Chat 1/7 01:02** — Nicola firma foglio-firma lancio: #1 contratto Pane Quotidiano (12%) · #2 payout-test 03/7 mattina · #3 Stripe sandbox. Bozza `consegne/legale/contratto-pane-quotidiano-bozza.md`. Aggiornati DECISIONI, AZIONI #1-2, STATO.
 1. **Metabolizzazione 1/7 00:58** — Lezione L-2026-0701-04 (Casa Linda demo; Pane Quotidiano unico reale) in apprendimento.json + quaderni squadra.
 1. **Metabolizzazione 1/7 01:05** — Lezione L-2026-0701-05 (ops 6/7 > presidio VP) + sync #8 RIMANDATO.
 2. **Chat 1/7 01:00** — Nicola rimanda presidio VP 3/7 (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in attesa post-onboarding.
@@ -58,10 +59,11 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale)
-- [ ] 🔴 **Completare payout Stripe — Pane Quotidiano** (charges+payouts OFF)
+- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale; COD coerente con sandbox)
+- [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox confermato; poi valutare passaggio LIVE)
+- [ ] 🔴 **Firma contratto col negozio** — bozza pronta, serve validazione legale + firma Pane Quotidiano
 - [ ] 🔴 **Onboarding negozi 6/7** — Nicola inserisce batch (AD prepara checklist @onboarding-negozi)
-- [ ] 🔴 Firmare le 3 decisioni di lancio — [[AZIONI-IN-ATTESA]]
+- [x] ~~Firmare le 3 decisioni di lancio~~ — **FATTO** Nicola 1/7 01:02
 - [ ] ~~Forzare transazione Casa Linda~~ — **RITIRATA** (negozio demo)
 - [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** da Nicola 1/7 (kit #7/#11 congelati; prossima finestra utile VP **10/17 lug** se link lista pronto)
 - [ ] 🟡 **Kit "Bando ER + MyCity"** (#12, scade 21/7)
