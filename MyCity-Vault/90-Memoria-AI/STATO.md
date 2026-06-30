@@ -1,17 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 00:36
+aggiornato: 2026-07-01 00:56
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello azioni_log 30/6 09:08)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 00:17 — STALLO 157,8h, DATI LIVE CONFERMATI (= vs 23:15).** Primo giro del 1/7. Business invariato dal 24/6. **Soglia 168h (7 giorni) tra ~10 ore.** **Oggi allerta gialla temporali+caldo (ER).** **VP 3/7 tra ~66 ore** (49 eventi). Collo di bottiglia: **prima transazione Casa Linda** + **ordine zombie €19,05** + **link lista d'attesa**.
+> 🧠 **1/7 00:56 — CORREZIONE NICOLA: Casa Linda = DEMO.** Unico negozio reale = **Pane Quotidiano** (Via Calzolai 25). Stallo ~158h. **168h tra ~10h.** VP 3/7 tra ~66h. Collo di bottiglia aggiornato: **sbloccare ordine zombie €19,05** + **payout Stripe Pane Quotidiano** + link lista d'attesa.
 
-## I 7 numeri (live 2026-07-01 00:17 · Supabase REST clmpyfvpvfjgeviworth)
+## I 7 numeri (live 2026-07-01 00:56 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
 |---|---|---|---|
-| Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
+| Negozi con payout attivo | **0 reali** | 1 | Casa Linda payout demo; Pane Quotidiano payout OFF |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **~6,6 giorni** |
 | Ordini pagati | **0** | 1 | COD non incassato |
@@ -54,10 +55,11 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Forzare la prima transazione con Casa Linda** — **168h tra ~10h**
-- [ ] 🔴 **Sbloccare l'ordine zombie €19,05**
+- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale)
+- [ ] 🔴 **Completare payout Stripe — Pane Quotidiano** (charges+payouts OFF)
 - [ ] 🔴 **Link lista d'attesa** — sblocca presidio VP 3/7 (#6, #7, #11)
 - [ ] 🔴 Firmare le 3 decisioni di lancio — [[AZIONI-IN-ATTESA]]
+- [ ] ~~Forzare transazione Casa Linda~~ — **RITIRATA** (negozio demo)
 - [ ] 🟡 **Kit "Bando ER + MyCity"** (#12, scade 21/7)
 - [ ] 🟡 **Presidio VP 3/7** — checklist in `consegne/operations/2026-06-30-checklist-countdown-vp-3-luglio.md`
 

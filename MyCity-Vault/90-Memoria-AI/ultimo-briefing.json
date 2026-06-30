@@ -1,16 +1,21 @@
 {
-  "data": "2026-07-01 00:17",
-  "situazione": "Giro 1/7 00:17: 7 numeri LIVE via REST — identici al passaggio 30/6 23:15. Stallo 157,8h (+1h); soglia 168h tra ~10 ore. Oggi allerta gialla temporali+caldo ER. VP 3/7 tra ~66 ore — checklist pronta, manca link lista. Blocco decisionale: Casa Linda, ordine zombie €19,05, 3 firme lancio.",
+  "data": "2026-07-01 00:56",
+  "situazione": "Nicola corregge la proposta Casa Linda: è negozio DEMO. Unico negozio reale = Pane Quotidiano (Via Calzolai 25, bio dal 1976). Stallo ~158h; 1 ordine COD €19,05 fermo da ~6,6 giorni. Payout Stripe del negozio ancora OFF.",
   "opportunita": [
-    {"titolo": "Prima transazione end-to-end con Casa Linda", "motivo": "Unico payout-ready — rompe lo stallo prima della soglia 168h (~10h).", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Venerdì Piacentini 3/7 — presidio QR", "motivo": "Tra ~66h, 49 eventi. Checklist operativa pronta.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Temporali 1/7 — leva pioggia", "motivo": "Allerta gialla ER oggi — messaggio delivery latente senza catalogo food vero.", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Buyer reale fermo ~6,6 giorni — pacchetto pronto.", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano", "motivo": "Unica transazione reale già in sistema; rompe lo stallo con negozio vero.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Completare payout Stripe Pane Quotidiano", "motivo": "Charges+payouts OFF — serve per ciclo completo post-COD.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Venerdì Piacentini 3/7 — presidio QR", "motivo": "Tra ~66h, 49 eventi. Bottega in centro (Via Calzolai).", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Temporali 1/7 — leva pioggia", "motivo": "Allerta gialla ER oggi — delivery latente se ordine sbloccato.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico payout-ready. Stallo 157,8h → 168h tra ~10h.", "livello": "rosso"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "~6,6 giorni in limbo — pacchetto pronto.", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano", "motivo": "Unico negozio reale; ordine fermo ~6,6 giorni. Pacchetto A/B pronto.", "livello": "rosso"},
+    {"titolo": "Completare onboarding Stripe payout — Pane Quotidiano", "motivo": "acct collegato ma charges+payouts OFF.", "livello": "rosso"},
     {"titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)", "motivo": "Tra ~66h — serve link lista d'attesa.", "livello": "rosso"},
     {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Foglio-firma 2 min — sblocca infrastruttura.", "livello": "rosso"}
-  ]
+  ],
+  "proposta_ritirata": {
+    "titolo": "Forzare prima transazione end-to-end con Casa Linda",
+    "motivo_ritiro": "Nicola 1/7: Casa Linda è negozio demo (UUID seed). Non esiste come bottega reale.",
+    "data_ritiro": "2026-07-01 00:56"
+  }
 }

@@ -140,6 +140,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 00:17 · @devops-sre · FATTO · Sentinella ops-02: REST marketplace OK; Supabase mgmt incident altre regioni; Stripe OK.
 - 2026-07-01 00:17 · @AD · SERVE · Da Nicola: Casa Linda 🔴 (~10h a 168h) · ordine zombie 🔴 · link lista VP 🔴 (~66h) · foglio-firma 🔴.
 
+### 2026-07-01 — Correzione Nicola (00:56)
+- 2026-07-01 00:56 · @AD · FATTO · Nicola corregge: **Casa Linda = demo**, unico negozio reale = **Pane Quotidiano** (Via Calzolai 25). Verificato live REST: 5 prodotti bio, tel. 0523388601, payout OFF, ordine zombie €19,05. Proposta Casa Linda **RITIRATA**. Aggiornati registro-realta, STATO, intenzioni-nicola, ultimo-briefing, DECISIONI.
+- 2026-07-01 00:56 · @AD · SERVE · Da Nicola: ① ordine zombie €19,05 — **A accetta o B annulla?** 🔴 · ② ok completare payout Stripe Pane Quotidiano 🔴 · ③ link lista VP 🔴 · ④ foglio-firma 🔴.
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
