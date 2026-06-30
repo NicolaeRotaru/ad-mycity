@@ -30,7 +30,28 @@
 
 ---
 
-## .env VPS — modello corretto (`cervello/vps/.env`)
+## Voglio SOLO Cursor `agent` (non Claude)
+
+1. **Chiave API** — [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys** → crea e copia
+2. Nel `.env` VPS:
+   ```bash
+   CERVELLO_MOTORE=cursor
+   CURSOR_API_KEY=cur_...la_tua_chiave...
+   ```
+3. Verifica che `agent` ci sia:
+   ```bash
+   sudo -u mycity -H bash -lc 'export PATH="$HOME/.local/bin:$PATH"; agent --version'
+   ```
+4. Test reale (deve rispondere qualcosa, non errore auth):
+   ```bash
+   sudo -u mycity -H bash -lc 'set -a; source /opt/mycity/ad-mycity/cervello/vps/.env; set +a; export PATH="$HOME/.local/bin:$PATH"; agent -p "Rispondi solo: OK"'
+   ```
+5. Riavvia: `sudo systemctl restart mycity-worker`
+6. Nei log deve comparire: `Motore AI: cursor (agent)` — **non** `claude`
+
+Se vedi `claude` → hai ancora `CERVELLO_MOTORE=auto` o `claude`, oppure `agent` non è nel PATH.
+
+---
 
 Copia e compila. **Regole sintassi:**
 - Valori con **spazi** → virgolette: `GIT_AUTHOR_NAME="AD MyCity VPS"`
@@ -38,9 +59,9 @@ Copia e compila. **Regole sintassi:**
 
 ```bash
 # --- Motore AI ---
-CERVELLO_MOTORE=auto
-# auto = usa agent se c'è, altrimenti claude (consigliato sul VPS)
-# oppure: claude | cursor (solo se sai che la CLI c'è)
+# Per usare SOLO Cursor agent (consigliato): cursor + CURSOR_API_KEY obbligatoria
+CERVELLO_MOTORE=cursor
+# Chiave API Cursor — OBBLIGATORIA su VPS (cursor.com/dashboard → API Keys)
 CURSOR_API_KEY=
 
 # --- Supabase MEMORIA (stessi valori di Vercel) ---

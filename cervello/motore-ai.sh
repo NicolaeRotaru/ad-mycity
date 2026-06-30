@@ -52,8 +52,13 @@ ai_check() {
     echo "CLI '$cli' non trovata (motore=$eng). Installala o cambia CERVELLO_MOTORE (es. claude o auto)." >&2
     return 1
   fi
+  if [ "$eng" = cursor ] && [ "${CERVELLO_MOTORE:-auto}" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
+    echo "ERRORE: CERVELLO_MOTORE=cursor ma CURSOR_API_KEY mancante nel .env." >&2
+    echo "  Crea la chiave su cursor.com/dashboard → API Keys e aggiungila a cervello/vps/.env" >&2
+    return 1
+  fi
   if [ "$eng" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
-    echo "Nota: CURSOR_API_KEY non impostata. Uso il login interattivo di 'agent' (se presente). Per il VPS, imposta CURSOR_API_KEY in cervello/vps/.env." >&2
+    echo "Nota: CURSOR_API_KEY non impostata — su VPS serve quasi sempre. cursor.com/dashboard → API Keys." >&2
   fi
   return 0
 }
