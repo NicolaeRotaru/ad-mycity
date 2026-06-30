@@ -1451,17 +1451,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
               <div className="pt-1">
-                <p className="text-sm text-black/50 mb-3">
+                <p className="t-corpo text-sm mb-3">
                   Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {TEAM.map((e) => (
-                    <div key={e.nome} className="flex items-start gap-2.5 text-xs border border-black/[0.07] bg-paper/40 rounded-xl px-3 py-2 hover:border-brand/30 hover:bg-brand-50/40 transition">
+                    <div key={e.nome} className="surface-muted flex items-start gap-2.5 text-xs px-3 py-2 hover:border-brand/30 transition">
                       <span className="text-base leading-none mt-0.5">{e.emoji}</span>
                       <span className="leading-snug">
-                        <span className="font-semibold text-ink/80">{e.nome}</span>
+                        <span className="font-semibold t-sez text-[13px]">{e.nome}</span>
                         <br />
-                        <span className="text-black/40">{e.ruolo}</span>
+                        <span className="t-eti">{e.ruolo}</span>
                       </span>
                     </div>
                   ))}
@@ -1501,7 +1501,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ) : (
                 <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
                   {m.role === "assistant" && m.esperto && (
-                    <div className="text-xs text-black/45 mb-1">
+                    <div className="t-eti text-xs mb-1">
                       {m.esperto.emoji} {m.esperto.nome}
                     </div>
                   )}
@@ -1510,16 +1510,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md bg-black/[0.04] text-black/45 text-sm">
+                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
                       <Loader2 size={14} className="animate-spin" /> sto pensando…
                     </div>
                   ) : (
-                    <div className="inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%] bg-black/[0.04] text-ink">
+                    <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
                     </div>
                   )}
                   {m.role === "assistant" && m.tools && m.tools.length > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs text-black/35 mt-1.5">
+                    <div className="flex items-center gap-1.5 text-xs t-eti mt-1.5">
                       <Wrench size={12} />
                       {m.tools.map((t) => TOOL_LABELS[t] || t).join(" · ")}
                     </div>
@@ -1528,7 +1528,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               )
             )}
             {loading && !messages.some((m) => m.pending) && (
-              <div className="flex items-center gap-2 text-black/40 text-sm">
+              <div className="flex items-center gap-2 t-eti text-sm">
                 <Loader2 size={16} className="animate-spin" /> Sto lavorando...
               </div>
             )}
@@ -1574,7 +1574,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <FileText size={14} /> Prompt (copia per Max)
               </button>
             </div>
-            <p className="text-[11px] text-black/40 px-1 leading-relaxed">
+            <p className="t-eti text-[11px] px-1 leading-relaxed">
               🧠 <b>Invia</b> = l'AD ti risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
@@ -1702,30 +1702,30 @@ const MD_COMPONENTS: Components = {
     className ? (
       <code className={className}>{children}</code>
     ) : (
-      <code className="bg-black/[0.06] rounded px-1 py-0.5 text-[0.85em] font-mono">{children}</code>
+      <code className="rounded px-1 py-0.5 text-[0.85em] font-mono" style={{ background: "var(--bg-surface-2)", color: "var(--text-primary)", border: "1px solid var(--border)" }}>{children}</code>
     ),
   pre: ({ children }) => (
-    <pre className="bg-black/[0.06] rounded-lg p-3 overflow-x-auto text-xs my-2">{children}</pre>
+    <pre className="rounded-lg p-3 overflow-x-auto text-xs my-2" style={{ background: "var(--bg-surface-2)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}>{children}</pre>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-black/15 pl-3 text-black/70 my-2">{children}</blockquote>
+    <blockquote className="border-l-2 pl-3 my-2" style={{ borderColor: "var(--border-strong)", color: "var(--text-muted)" }}>{children}</blockquote>
   ),
-  hr: () => <hr className="border-black/10 my-3" />,
+  hr: () => <hr className="my-3" style={{ borderColor: "var(--border)" }} />,
   table: ({ children }) => (
     <div className="overflow-x-auto my-2">
       <table className="w-full text-xs border-collapse">{children}</table>
     </div>
   ),
-  thead: ({ children }) => <thead className="bg-black/[0.04]">{children}</thead>,
-  th: ({ children }) => <th className="border border-black/10 px-2 py-1 text-left font-semibold">{children}</th>,
-  td: ({ children }) => <td className="border border-black/10 px-2 py-1 align-top">{children}</td>,
+  thead: ({ children }) => <thead style={{ background: "var(--bg-surface-2)" }}>{children}</thead>,
+  th: ({ children }) => <th className="px-2 py-1 text-left font-semibold" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>{children}</th>,
+  td: ({ children }) => <td className="px-2 py-1 align-top" style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}>{children}</td>,
 };
 
 // Mostra il testo dell'AI come Markdown formattato (grassetti, elenchi, tabelle)
 // invece che come testo grezzo pieno di asterischi e barrette.
 function Markdown({ children }: { children: string }) {
   return (
-    <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD_COMPONENTS}>
         {children}
       </ReactMarkdown>

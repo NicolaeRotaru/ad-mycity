@@ -150,3 +150,49 @@ body {
 .prose-readable :where(p, li) {
   color: var(--text-secondary);
 }
+
+/* Chat: bolle e markdown leggibili in light e dark */
+.chat-bubble-assistant {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.chat-bubble-pending {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.md-chat :where(p, li, td) {
+  color: var(--text-secondary);
+}
+.md-chat :where(strong, b, h1, h2, h3, h4, th) {
+  color: var(--text-primary);
+}
+.md-chat :where(em) {
+  color: var(--text-secondary);
+}
+.md-chat :where(code):not(pre code) {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.md-chat pre {
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.md-chat blockquote {
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-muted);
+}
+.md-chat hr {
+  border-color: var(--border);
+}
+.md-chat thead {
+  background: var(--bg-surface-2);
+}
+.md-chat th,
+.md-chat td {
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
