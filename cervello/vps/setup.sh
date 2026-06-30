@@ -93,7 +93,22 @@ else
   echo "   $ENV_DIR/.env esiste gia' (non lo tocco)."
 fi
 
-echo "== 7) Unit systemd =="
+echo "== 7) Codice del marketplace (per radiografia/audit/tech) =="
+# Scarica una COPIA in SOLA LETTURA del repo del marketplace, così l'AD può analizzarlo.
+# Best-effort: se fallisce (rete/repo), il setup continua comunque.
+MKT_DIR="$(grep -E '^MARKETPLACE_REPO=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)"
+MKT_DIR="${MKT_DIR:-/opt/mycity/marketplace}"
+if sudo -u "$APP_USER" env \
+     MARKETPLACE_REPO="$MKT_DIR" \
+     MARKETPLACE_GIT_REPO="$(grep -E '^MARKETPLACE_GIT_REPO=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)" \
+     MARKETPLACE_BRANCH="$(grep -E '^MARKETPLACE_BRANCH=' "$ENV_DIR/.env" 2>/dev/null | head -1 | cut -d= -f2-)" \
+     node "$APP_DIR/cervello/collega-marketplace.mjs"; then
+  echo "   marketplace collegato in $MKT_DIR"
+else
+  echo "   WARN: collegamento del marketplace fallito (riprova: node cervello/collega-marketplace.mjs)." >&2
+fi
+
+echo "== 8) Unit systemd =="
 for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"
 done

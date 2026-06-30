@@ -29,6 +29,7 @@
 - **"recupera i carrelli" / "riattiva i clienti"** → la CRM prepara i messaggi. 🟡
 
 ## 🛒 Il sito (modifica parlando)
+- **"collega il marketplace"** (alias: *"collega il sito"*, *"aggiorna il codice del sito"*) → scarico/aggiorno la copia locale del repo del marketplace (`NicolaeRotaru/mycity`) così posso analizzarlo (radiografia, audit, fix). `node cervello/collega-marketplace.mjs`. 🟢
 - **"cambia il sito: [cosa]"** → config subito, oppure codice con anteprima + tuo ok. ⚡/🛠️
 - **"audit del marketplace"** → check tecnico **rapido**: bug/rischi/frizioni principali. 🟢
 - **"radiografia"** (alias: *"analizza tutto il sito"*, *"trova tutti i bug"*) → analisi **profonda e millimetrica** di TUTTO il marketplace (13 dimensioni: sicurezza, RLS, pagamenti, privacy, performance, accessibilità, QA, AI, deploy…), **ogni problema verificato**, report per gravità in `consegne/audit/`. 🟢 *(lunga e approfondita)*

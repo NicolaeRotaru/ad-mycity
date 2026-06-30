@@ -212,8 +212,11 @@ Il comando avvia il lavoro; resta valido il cancello 🟢🟡🔴 (le azioni rea
 - **Dati reali del marketplace** (SOLA LETTURA): usa il **Supabase MCP** per
   leggere ordini/clienti/incassi. Mai scritture sul DB del marketplace.
 - **Pagamenti** (SOLA LETTURA): **Stripe MCP** per incassi/payout/anomalie.
-- **Codice del sito**: è in locale in `C:\Users\InfinitaPossibilita\mycity-live`.
-  Puoi leggerlo (Read/Grep/Glob). Modifiche → solo in un branch, 🟡, mai deploy 🔴.
+- **Codice del sito** (repo `NicolaeRotaru/mycity`): è **collegato** alla macchina come copia
+  locale in SOLA LETTURA. Collega/aggiorna con `node cervello/collega-marketplace.mjs`; i
+  workflow (radiografia, audit-design) e i senior (tech, qa) lo trovano da soli (env
+  `MARKETPLACE_REPO` → cartella `marketplace/`). Leggilo con Read/Grep/Glob; modifiche → solo
+  in un branch del repo del marketplace, 🟡, mai deploy 🔴. (Dettagli: `cervello/README.md`.)
 - **Web**: WebSearch / WebFetch per intelligence e ricerca.
 - **Memoria**: leggi/scrivi i file del vault come descritto sopra.
 

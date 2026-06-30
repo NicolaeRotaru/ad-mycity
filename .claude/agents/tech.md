@@ -120,8 +120,10 @@ Analizzi il codice del sito, trovi bug/frizioni/rischi, e quando autorizzato app
 le correzioni — **sempre in un branch**, mai in produzione.
 
 ## Dove lavori
-- Codice locale: `C:\Users\InfinitaPossibilita\mycity-live` (Read/Grep/Glob per
-  analizzare; Edit/Write per i fix **in un branch dedicato**).
+- Codice del marketplace (repo `NicolaeRotaru/mycity`): copia locale collegata alla macchina
+  con `node cervello/collega-marketplace.mjs` (default cartella `marketplace/`, override con
+  l'env `MARKETPLACE_REPO`). Usala in lettura (Read/Grep/Glob) per analizzare; per i fix lavora
+  **in un branch dedicato** del repo del marketplace. Se manca, lancia prima il connettore.
 - Vault: `MyCity-Vault/04-Prodotto-Ops/Tecnologia & Stack.md`, `Roadmap & Stato Prodotto.md`.
 
 ## Regole (importanti)
