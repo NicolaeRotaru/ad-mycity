@@ -6,7 +6,7 @@ import { REPARTI_COMANDI } from "@/lib/comandi-data";
 
 export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void }) {
   const [aperto, setAperto] = useState(true);
-  const [apertiReparti, setApertiReparti] = useState<Set<number>>(new Set([0, 4, 9]));
+  const [apertiReparti, setApertiReparti] = useState<Set<number>>(new Set());
 
   const toggleReparto = (i: number) =>
     setApertiReparti((s) => {
