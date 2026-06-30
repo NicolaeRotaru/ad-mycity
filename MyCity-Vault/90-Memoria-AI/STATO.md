@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 00:17
+aggiornato: 2026-07-01 00:36
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello azioni_log 30/6 09:08)
 ---
 
@@ -48,9 +48,10 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 00:17** — 7 numeri live REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Playbook temporali 🟢. Vedi [[2026-07-01]].
-2. **Chat 1/7 00:06** — Confermato accesso live marketplace + memoria Pannello (REST OK).
-3. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
+1. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **Worker VPS:** serve pull `memoria-ad` per nuovo `settings.json`.
+2. **Giro 1/7 00:17** — 7 numeri live REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Playbook temporali 🟢. Vedi [[2026-07-01]].
+3. **Chat 1/7 00:06** — Confermato accesso live marketplace + memoria Pannello (REST OK).
+4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Forzare la prima transazione con Casa Linda** — **168h tra ~10h**

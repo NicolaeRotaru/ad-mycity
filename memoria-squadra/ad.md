@@ -18,3 +18,6 @@ Metabolizzazione chat «riesci a vedere i db?»: confermati entrambi i Supabase 
 
 # ESITO — @AD — 2026-07-01 00:17
 Giro 1/7: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi → playbook 🟢. L-2026-0701-02 (giro con valore se evento esterno nuovo). Voto fiducia 86 ▲.
+
+# ESITO — @AD — 2026-07-01 00:36
+Metabolizzazione chat «web per tutti i senior»: Nicola chiede apprendimento continuo via web per tutti i 42 senior (multinazionale). AD ha già eseguito 🟡 (WebFetch globale, policy WEB-APPRENDIMENTO-SENIOR, mansionari). L-2026-0701-03 + preferenza Nicola. Gap: pull memoria-ad sul worker VPS.
