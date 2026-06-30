@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 00:58",
+  "data": "2026-07-01 01:05",
   "lezioni": [
+    {
+      "id": "L-2026-0701-05",
+      "testo": "**Caso-studio Nicola:** Rimanda presidio VP 3/7 (kit QR + contenuti #7/#8/#11) perché «inizierò ad inserire i negozi del 6 luglio». 5 perché: (1) bandwidth umana finita — ops batte marketing; (2) senza link lista il presidio converte 0 comunque; (3) ho spinto VP per finestra temporale ignorando che Nicola aveva lavoro concreto; (4) proposta Pannello non distingueva prerequisito ops vs urgenza evento; (5) fix: quando Nicola annuncia batch operativo (onboarding negozi), congelare leve evento/time-bound e preparare checklist/supporto ops — prossima finestra VP 10/17 lug solo se link lista pronto post-batch.",
+      "tag": ["priorita", "onboarding", "eventi", "nicola", "bandwidth"],
+      "reparto": "@onboarding-negozi",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-04",
       "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
@@ -231,10 +244,11 @@
     "Quando le azioni restano ferme chiede la lista concreta delle mani/chiavi mancanti, in ordine di impatto — non teoria (chat 30/6 «quali mani ti servono?»).",
     "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»).",
     "Vuole che tutti i senior usino il web per auto-migliorarsi, imparare e restare al passo — livello multinazionale, non solo intelligence (chat 1/7 «permetti a tutti i senior di navigare sul web»).",
-    "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano)."
+    "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano).",
+    "Con operazioni concrete in coda (es. inserimento batch negozi 6/7) rimanda leve marketing/eventi anche se la finestra temporale si chiude — ops prima del presidio VP (chat 1/7 «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»)."
   ],
   "meta": {
-    "lezioni_attive": 18,
+    "lezioni_attive": 19,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

@@ -50,7 +50,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Ultime mosse dell'AD
 1. **Metabolizzazione 1/7 00:58** — Lezione L-2026-0701-04 (Casa Linda demo; Pane Quotidiano unico reale) in apprendimento.json + quaderni squadra.
-2. **Chat 1/7 01:00** — Nicola rimanda presidio VP 3/7 (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#11 in attesa post-onboarding.
+1. **Metabolizzazione 1/7 01:05** — Lezione L-2026-0701-05 (ops 6/7 > presidio VP) + sync #8 RIMANDATO.
+2. **Chat 1/7 01:00** — Nicola rimanda presidio VP 3/7 (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in attesa post-onboarding.
 2. **Chat 1/7 00:35** — Web per tutti i senior: WebFetch globale + policy `WEB-APPRENDIMENTO-SENIOR.md` + 42 mansionari (fonte: chat Nicola 1/7). **Worker VPS:** serve pull `memoria-ad` per nuovo `settings.json`.
 2. **Giro 1/7 00:17** — 7 numeri live REST (= vs 30/6 23:15). Stallo 157,8h ▲+1h. Playbook temporali 🟢. Vedi [[2026-07-01]].
 3. **Chat 1/7 00:06** — Confermato accesso live marketplace + memoria Pannello (REST OK).
