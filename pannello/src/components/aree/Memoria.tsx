@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Microscope, Brain, TrendingUp } from "lucide-react";
-import AutoCoscienza from "@/components/AutoCoscienza";
+import { Brain, TrendingUp } from "lucide-react";
 import MemoriaViva from "@/components/MemoriaViva";
 import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 
-type Tab = "auto-coscienza" | "memoria-viva" | "scoperte";
+type Tab = "memoria-viva" | "scoperte";
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
 type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
 
@@ -35,16 +34,14 @@ function fa(iso: string | null): string {
 }
 
 export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | null; ultimoAt: string | null }) {
-  const [tab, setTab] = useState<Tab>("auto-coscienza");
+  const [tab, setTab] = useState<Tab>("memoria-viva");
 
   useEffect(() => {
     const apriDaHash = () => {
       const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
       const map: Record<string, Tab> = {
-        "memoria-auto-coscienza": "auto-coscienza",
         "memoria-memoria-viva": "memoria-viva",
         "memoria-scoperte": "scoperte",
-        "auto-coscienza": "auto-coscienza",
       };
       if (map[h]) setTab(map[h]);
     };
@@ -57,7 +54,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "memoria" || !det.sub) return;
-      const valide: Tab[] = ["auto-coscienza", "memoria-viva", "scoperte"];
+      const valide: Tab[] = ["memoria-viva", "scoperte"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_VAI, onVai);
@@ -65,7 +62,6 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
   }, []);
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={14} /> },
     { id: "memoria-viva", label: "Memoria viva", icon: <BrainIcon /> },
     { id: "scoperte", label: "Scoperte & proposte", icon: <TrendingUp size={14} /> },
   ];
@@ -75,7 +71,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="t-area">🧠 Memoria & decisioni</h2>
-          <p className="t-eti mt-0.5">Auto-coscienza, memoria viva e scoperte dell'AD — ognuna nella sua pagina.</p>
+          <p className="t-eti mt-0.5">Memoria viva e scoperte dell&apos;AD — ognuna nella sua pagina.</p>
         </div>
       </div>
 
@@ -94,9 +90,6 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
           </button>
         ))}
       </div>
-
-      {/* ===== AUTO-COSCIENZA DELLA MACCHINA ===== */}
-      {tab === "auto-coscienza" && <AutoCoscienza />}
 
       {/* ===== LA MEMORIA VIVA DELL'AD ===== */}
       {tab === "memoria-viva" && <MemoriaViva />}

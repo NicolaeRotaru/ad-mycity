@@ -12,39 +12,43 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.dark body {
+  background: linear-gradient(180deg, #1a1614 0%, #12100e 100%);
+  color: #f5f0eb;
+}
+
 /* === Sistema di leggibilità === */
-/* Gerarchia a 2 livelli + scala tipografica coerente, per non "incrociare gli
-   occhi": titolo-AREA (grande, con accento) ≠ titolo-SEZIONE (medio) ≠ corpo ≠
-   etichetta ≠ micro. I testi secondari usano un grigio con contrasto adeguato
-   (≈5.5:1), non i vecchi text-black/40. */
 @layer components {
-  .t-area   { @apply text-[19px] sm:text-[20px] font-bold tracking-tight text-ink; }
-  .t-sez    { @apply text-[15px] font-semibold tracking-tight text-ink; }
-  .t-corpo  { @apply text-[13.5px] leading-relaxed text-ink/90; }
-  .t-eti    { @apply text-[12px] text-black/55; }            /* secondario leggibile */
-  .t-micro  { @apply text-[10.5px] uppercase tracking-wide text-black/45; }
+  .t-area   { @apply text-[19px] sm:text-[20px] font-bold tracking-tight text-ink dark:text-[#f5f0eb]; }
+  .t-sez    { @apply text-[15px] font-semibold tracking-tight text-ink dark:text-[#f5f0eb]; }
+  .t-corpo  { @apply text-[13.5px] leading-relaxed text-ink/90 dark:text-white/90; }
+  .t-eti    { @apply text-[12px] text-black/55 dark:text-white/55; }
+  .t-micro  { @apply text-[10.5px] uppercase tracking-wide text-black/45 dark:text-white/45; }
 
-  /* Card standard del pannello (un solo posto da cui cambiarle tutte). */
-  .card { @apply bg-white rounded-2xl border border-black/[0.06] shadow-card; }
+  .card { @apply bg-white dark:bg-[#1e1a17] rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-card; }
 
-  /* Intestazione di SEZIONE riusabile: pastiglia icona brand + titolo. */
   .sez-head { @apply flex items-center gap-2.5; }
-  .sez-ico  { @apply grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0; }
+  .sez-ico  { @apply grid place-items-center w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand/20 text-brand shrink-0; }
 
-  /* Badge di stato (live / da collegare / conteggio). */
   .badge      { @apply text-[10.5px] tabular-nums px-1.5 py-0.5 rounded-full; }
-  .badge-on   { @apply bg-brand-50 text-brand; }
-  .badge-off  { @apply bg-black/[0.04] text-black/45; }
+  .badge-on   { @apply bg-brand-50 dark:bg-brand/20 text-brand; }
+  .badge-off  { @apply bg-black/[0.04] dark:bg-white/[0.06] text-black/45 dark:text-white/45; }
 }
 
 ::selection {
   background: rgba(192, 73, 44, 0.15);
 }
 
-/* Scrollbar discreta per le aree che scorrono (chat, diario) */
+.dark ::selection {
+  background: rgba(192, 73, 44, 0.35);
+}
+
 .scroll-soft {
   scrollbar-width: thin;
   scrollbar-color: rgba(26, 20, 16, 0.18) transparent;
+}
+.dark .scroll-soft {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 .scroll-soft::-webkit-scrollbar {
   width: 8px;
@@ -54,12 +58,16 @@ body {
   background: rgba(26, 20, 16, 0.15);
   border-radius: 999px;
 }
+.dark .scroll-soft::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
 .scroll-soft::-webkit-scrollbar-thumb:hover {
   background: rgba(26, 20, 16, 0.28);
 }
+.dark .scroll-soft::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
 
-/* 🔗 Evidenziazione della casella di destinazione quando arrivi da un link bidirezionale
-   (Da approvare ⇄ Cervello): un lampeggio breve così trovi subito la casella esatta. */
 @keyframes flashTarget {
   0% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.45); background-color: rgba(251, 191, 36, 0.16); }
   100% { box-shadow: 0 0 0 8px rgba(180, 83, 9, 0); background-color: transparent; }

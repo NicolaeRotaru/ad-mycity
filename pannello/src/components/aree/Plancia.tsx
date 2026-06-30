@@ -116,7 +116,7 @@ export default function Plancia({
       {/* 🔬 Auto-analisi: la macchina si è controllata da sola. Il livello più serio → banner in evidenza. */}
       {autoAnalisi && (
         <button
-          onClick={() => { if (typeof window !== "undefined") window.location.hash = "auto-coscienza"; onVaiA?.("memoria"); }}
+          onClick={() => { if (typeof window !== "undefined") window.location.hash = "auto-coscienza"; onVaiA?.("auto-coscienza"); }}
           className="w-full card p-3.5 text-left hover:border-brand/30 transition border-brand/20"
         >
           <div className="flex items-center gap-3">
