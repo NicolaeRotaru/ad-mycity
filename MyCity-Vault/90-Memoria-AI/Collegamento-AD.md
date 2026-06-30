@@ -30,6 +30,30 @@ Vanno solo puntati a questa repo, che è già su GitHub: `NicolaeRotaru/ad-mycit
    OBSIDIAN_BRANCH     = memoria-ad   ← il ramo dove il giro pubblica il vault (NON main: là è vecchio)
    ```
 3. **Redeploy** del pannello (Vercel) o riavvio in locale.
+   Dopo aver cambiato `OBSIDIAN_BRANCH` **devi fare Redeploy** su Vercel: salvare la variabile
+   non basta, il sito in produzione tiene ancora il valore vecchio finché non riparte.
+
+## ❓ Devo mergiare `memoria-ad` in `main` per vedere i giri nel Pannello?
+
+**No.** Il Pannello legge il vault **direttamente dal ramo `memoria-ad`** via GitHub API.
+Appena il giro fa push su `memoria-ad`, i dati sono disponibili — senza merge su `main`.
+
+## ⚠️ Errore Vercel «No GitHub account was found matching the commit author email»
+
+Questo compare sulla PR `memoria-ad → main` perché il **giro sul VPS** committa con
+`ad@mycity.local` (email non collegata a GitHub). Vercel **blocca il deploy** di quella PR.
+
+| Cosa | Ti impedisce di vedere il briefing? |
+|------|-------------------------------------|
+| Questo errore Vercel sulla PR | **No** — riguarda solo il *deploy del codice*, non la lettura del vault |
+| `OBSIDIAN_BRANCH` sbagliato o senza redeploy | **Sì** |
+| `OBSIDIAN_TOKEN` mancante o senza permessi | **Sì** |
+| Briefing più vecchio in Supabase che copre quello del vault | **Sì** (bug corretto: ora vince il più fresco) |
+
+**Fix del deploy Vercel:** sul VPS in `.env` imposta `GIT_AUTHOR_EMAIL` con la tua email
+GitHub verificata (es. `…@users.noreply.github.com`). I commit futuri del giro passeranno i check.
+
+**Non serve** mergiare la PR #103 per il Pannello. Puoi chiuderla se l'unico scopo era vedere i dati.
 
 ## ❓ Devo mergiare `memoria-ad` in `main` per vedere i giri nel Pannello?
 

@@ -25,8 +25,9 @@ ts() { date '+%H:%M:%S'; }
 # faceva 'checkout -f' e le cancellava (data loss + rischio doppio invio reale). Qui le rendiamo DUREVOLI
 # subito, sotto lo STESSO lock del giro (niente race) e con push NON-force (rebase) per non sovrascrivere il giro.
 branch="${GIT_BRANCH:-memoria-ad}"
-LOCK="$REPO/.git/mycity-sync.lock"
-GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (worker)")
+GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-ad@mycity.local}"
+GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (worker)}"
+GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 sync_vault() {
   [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ] || return 0

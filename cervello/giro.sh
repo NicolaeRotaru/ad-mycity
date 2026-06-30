@@ -40,7 +40,9 @@ fi
 # consegne/creativi). Il CODICE (pannello, cervello, agenti) arriva da 'main'. Tenendo la memoria FUORI da
 # 'main', 'main' non diverge mai e i bugfix spinti su main arrivano al server a ogni giro.
 branch="${GIT_BRANCH:-memoria-ad}"
-GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)")
+GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-ad@mycity.local}"
+GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
+GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 LOCK="$REPO/.git/mycity-sync.lock"           # serializza le operazioni git tra giro e worker (stesso working tree)
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)   # cartelle ACCUMULATE dell'AD: mai sovrascritte da main
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then

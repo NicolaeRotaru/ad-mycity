@@ -7,6 +7,8 @@ import {
   type Briefing,
 } from "@/lib/store";
 import { readVaultFile, listVaultDir } from "@/lib/vault";
+import { vaultToIso } from "@/lib/format";
+import { vaultGithubInfo } from "@/lib/obsidian";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,16 +75,39 @@ async function briefingDalVault(): Promise<BriefingRecord | null> {
   return null;
 }
 
+function tsBriefing(b: BriefingRecord | null): number {
+  if (!b?.created_at) return 0;
+  return Date.parse(vaultToIso(b.created_at)) || 0;
+}
+
+/** Sceglie il briefing più fresco tra Supabase e vault GitHub (non solo il primo disponibile). */
+function briefingPiuFresco(
+  fromDb: BriefingRecord | null,
+  fromVault: BriefingRecord | null
+): { record: BriefingRecord | null; fonte: "supabase" | "vault" | null } {
+  if (!fromDb && !fromVault) return { record: null, fonte: null };
+  if (!fromDb) return { record: fromVault, fonte: "vault" };
+  if (!fromVault) return { record: fromDb, fonte: "supabase" };
+  return tsBriefing(fromVault) >= tsBriefing(fromDb)
+    ? { record: fromVault, fonte: "vault" }
+    : { record: fromDb, fonte: "supabase" };
+}
+
 // Cio' che la dashboard mostra: l'ultimo briefing e quanto e' "attivo".
 export async function GET() {
   try {
-    const [latest, recent] = await Promise.all([
+    const vault = vaultGithubInfo();
+    const [fromDb, fromVault, recent] = await Promise.all([
       getLatestBriefing(),
+      briefingDalVault(),
       getRecentTimes(10),
     ]);
-    const ultimo = latest ?? (await briefingDalVault());
+    const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, fromVault);
     return NextResponse.json({
       memoria: memoryConnected(),
+      vaultGithub: vault.collegato,
+      vaultRamo: vault.ramo,
+      briefingFonte,
       vivo: memoryConnected() || ultimo != null,
       ultimo,
       giri: recent,
