@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 01:38",
+  "data": "2026-07-01 01:57",
   "lezioni": [
+    {
+      "id": "L-2026-0701-17",
+      "testo": "Comando «radiografia» (Nicola): eseguire workflow `.claude/workflows/radiografia.js` (13 dimensioni, sola lettura + verifica avversariale), report in `consegne/audit/AAAA-MM-GG-radiografia.md`, sintesi chat con conteggio **bloccanti/gravi/minori** e i 4 bloccanti nominali. **1/7 esito verificato:** 46 confermati (4·24·18) — (1) webhook Stripe marca checkout COMPLETED anche se insert ordine fallisce; (2) fee **€3/consegna/negozio** addebitata server-side ma assente in UI (peggio multi-negozio); (3) RLS `profiles` espone riga intera venditori (IBAN/KYC/Stripe/wallet); (4) COD lascia ordine fantasma se fallisce `order_items`. Proporre Sprint 1 🟡 (webhook+fee UI+rollback COD+varianti) e chiedere ok prima del branch; deploy produzione sempre 🔴. Non confondere con audit-design (11 dim visive) — radiografia = codice+pagamenti+RLS.",
+      "tag": ["radiografia", "audit", "marketplace", "bloccanti", "checkout", "rls", "stripe"],
+      "reparto": "@tech",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-16",
       "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
@@ -398,7 +410,7 @@
     "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37)."
   ],
   "meta": {
-    "lezioni_attive": 30,
+    "lezioni_attive": 31,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

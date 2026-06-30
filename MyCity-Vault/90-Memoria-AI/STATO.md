@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:38
+aggiornato: 2026-07-01 01:57
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -23,7 +23,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
 - 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** ✅ · policy+mansionari ✅ · **WebFetch globale live su worker** ✅ (merge `fix/webfetch-globale` + `aggiorna-cervello.sh` Nicola 1/7 01:37) · **Quaderni senior:** PR `fix/quaderni-senior` su **`main` in attesa merge** → Vercel redeploy · limiti **lato sito** restano (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`.
-- 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
+- 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate). **Radiografia marketplace 1/7:** **46 problemi confermati** (4 bloccanti · 24 gravi · 18 minori) — report `consegne/audit/2026-07-01-radiografia.md`. Bloccanti pre-live: webhook Stripe (ordine perso se insert fallisce), fee **€3/consegna/negozio** assente in UI checkout, RLS `profiles` espone IBAN/KYC/Stripe ID, COD ordine fantasma se fallisce `order_items`.
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
 | Tabella | Righe | Note |
@@ -48,8 +48,21 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | `AZIONI_LIVE` | **0** | Trasforma approvato → inviato |
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
+## Radiografia marketplace (2026-07-01 · chat Nicola «radiografia»)
+| Metrica | Valore | Fonte |
+|---|---|---|
+| Problemi confermati | **46** | workflow radiografia + verifica avversariale |
+| Bloccanti pre-live | **4** | webhook Stripe · fee UI checkout · RLS profiles · COD ghost order |
+| Gravi | **24** | soldi (doppio restore stock, chargeback, rimborsi parziali), checkout multi-negozio, sicurezza CAPTCHA/AI endpoint |
+| Minori | **18** | UX flash carrello, errori rete mascherati |
+| Report | `consegne/audit/2026-07-01-radiografia.md` | chat Nicola 1/7 |
+
+**Sprint 1 proposto (🟡 branch marketplace, in attesa ok Nicola):** fix webhook + fee UI + rollback COD + varianti duplicate checkout.
+
 ## Ultime mosse dell'AD
-1. **Metabolizzazione 1/7 01:38** — Nicola: merge PR WebFetch + `aggiorna-cervello.sh` + «apri la pr quaderni su main» → ciclo WebFetch **chiuso** (worker naviga); branch `fix/quaderni-senior` pushato (`9c5dc8e`), merge GitHub in attesa. L-2026-0701-16 + patch L-0701-03/12/13/14. Fonte: chat Nicola 1/7 01:37.
+1. **Metabolizzazione 1/7 01:57** — Nicola: «radiografia» → audit completato 46 problemi (4🔴 bloccanti); report `consegne/audit/2026-07-01-radiografia.md`; Sprint 1 🟡 proposto, deploy 🔴 solo post-firma. L-2026-0701-17. Fonte: chat Nicola 1/7.
+2. **Chat 1/7 01:57** — Nicola: «radiografia» → workflow 13 dimensioni; sintesi 4 bloccanti + piano Sprint 1–4; chiesta conferma branch fix. Fonte: chat Nicola 1/7.
+2. **Metabolizzazione 1/7 01:38** — Nicola: merge PR WebFetch + `aggiorna-cervello.sh` + «apri la pr quaderni su main» → ciclo WebFetch **chiuso** (worker naviga); branch `fix/quaderni-senior` pushato (`9c5dc8e`), merge GitHub in attesa. L-2026-0701-16 + patch L-0701-03/12/13/14. Fonte: chat Nicola 1/7 01:37.
 2. **Chat 1/7 01:37** — Nicola conferma merge PR **WebFetch globale** su `main` + esegue `aggiorna-cervello.sh`; chiede «apri la pr quaderni su main» → branch `fix/quaderni-senior` pushato, link compare GitHub. Fonte: chat Nicola 1/7 01:37.
 2. **Chat 1/7 01:34** — Nicola: «aggiungi quaderni senior» → tab **Quaderni senior** in Memoria + API `/api/memoria/quaderni` (legge `memoria-squadra/` da memoria-ad); fix `listRepoDir` in `vault.ts`. **Locale ok** · deploy Vercel = PR su **`main`**. L-2026-0701-15. Fonte: chat Nicola 1/7 01:34.
 2. **Chat 1/7 01:31** — Nicola: «rimandami la pr che non ho mergiato» → re-inviato link compare `main...fix/webfetch-globale` + post-merge `aggiorna-cervello.sh`; PR **ancora in attesa** merge GitHub. Fonte: chat Nicola 1/7 01:31.
@@ -75,6 +88,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 4. **Giro 30/6 23:15** — Nota escalation 168h 🟢. Sesto passaggio 30/6.
 
 ## Prossime priorità (da approvare)
+- [ ] 🟡 **Sprint 1 radiografia** — branch marketplace: webhook Stripe + fee €3/negozio in UI + rollback COD + varianti duplicate (proposto AD 1/7; **in attesa ok Nicola**)
+- [ ] 🔴 **Deploy fix marketplace in produzione** — solo dopo Sprint 1 + verifica env (`TURNSTILE_SECRET_KEY`, `INTERNAL_API_SECRET`, cron cron-job.org)
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale; COD coerente con sandbox)
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox confermato; poi valutare passaggio LIVE)
 - [ ] 🔴 **Firma contratto col negozio** — bozza pronta, serve validazione legale + firma Pane Quotidiano
