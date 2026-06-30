@@ -141,7 +141,7 @@ Apri nel browser (sostituisci dominio):
 | Chat: «Serve database memoria» | `SUPABASE_*` mancanti su Vercel | Imposta + redeploy |
 | Chat: «sto pensando…» ma in Lavori compare «Fatto» | Il polling chat non agganciava il lavoro (tab sospesa / ref perso) | Aggiorna Pannello (fix polling 2s + sessionStorage). Se persiste: `systemctl restart mycity-worker` |
 | Chat: giro «Fatto» ma memoria-ad su GitHub ferma | Worker **legacy in RAM** (codice vecchio) o `GIT_PUSH_TOKEN` mancante | `sudo bash cervello/vps/aggiorna-cervello.sh` sul VPS |
-| Diagnosi «Pipeline giro VECCHIA» | Worker non riavviato dopo merge su main | `aggiorna-cervello.sh` (vedi sequenza sotto) |
+| `Permission denied` su `.git/config` | `aggiorna-cervello.sh` eseguito come **root** → git di proprietà root, worker è **mycity** | `sudo chown -R mycity:mycity /opt/mycity/ad-mycity` poi `sudo systemctl restart mycity-worker` |
 | Lavori giro «errore» push memoria-ad | `GIT_PUSH_TOKEN` scaduto o email commit sbagliata | Rigenera token GitHub + `GIT_AUTHOR_EMAIL=98592323+NicolaeRotaru@users.noreply.github.com` |
 | Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
@@ -154,6 +154,7 @@ Apri nel browser (sostituisci dominio):
 ## Cosa NON fare mai sul VPS
 
 - ❌ `git checkout main` / `git pull main` (butta la memoria o crea conflitti)
+- ❌ `sudo bash aggiorna-cervello` senza fix permessi se .git è di root — usa `chown -R mycity:mycity` dopo fix
 - ❌ `export VAR=...` nel terminale (non vale per systemd — scrivi nel `.env`)
 - ❌ Merge `memoria-ad → main` per far funzionare chat o briefing
 - ❌ Confondere Supabase **memoria** con Supabase **marketplace**
