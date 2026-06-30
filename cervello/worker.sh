@@ -151,7 +151,7 @@ $richiesta"
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
   elif [ "$rc" -ne 0 ]; then
     stato="errore"; out="$out
-[worker] claude uscito con rc=$rc."
+[worker] motore $(ai_engine) ($(ai_cli_name)) uscito con rc=$rc."
   else
     stato="fatto"
   fi
