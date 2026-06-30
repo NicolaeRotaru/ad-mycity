@@ -98,6 +98,18 @@ export async function GET() {
           : `spento da ${eta(oreWorker)} — i lavori in coda non partono`,
   });
 
+  // 6c) Ultimo push memoria-ad su GitHub (il Pannello legge quel ramo, non main).
+  const ultimoPush = await getImpostazione("memoria-ad:ultimo_push").catch(() => null);
+  const orePush = oreDa(ultimoPush);
+  checks.push({
+    nome: "Push memoria-ad (GitHub)",
+    stato: orePush == null ? "giallo" : orePush <= 6 ? "verde" : orePush <= 48 ? "giallo" : "rosso",
+    dettaglio:
+      orePush == null
+        ? "nessun push registrato: verifica GIT_PUSH_TOKEN sul VPS"
+        : `ultimo push ${eta(orePush)} — merge su main NON necessario per il Pannello`,
+  });
+
   // 7) Autopilota (informativo).
   const auto = (await getImpostazione("autopilota").catch(() => null)) === "on";
   checks.push({ nome: "Autopilota", stato: auto ? "verde" : "giallo", dettaglio: auto ? "le azioni 🟢 partono da sole" : "spento: le 🟢 restano in coda" });

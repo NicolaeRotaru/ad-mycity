@@ -620,8 +620,27 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
-  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling 8s).
+  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
   const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
+  const PENDING_CHAT_KEY = "mycity_pending_lavoro";
+
+  function salvaPendingChat(pend: { id: string; tipo: string } | null) {
+    pendingLavoroChatRef.current = pend;
+    try {
+      if (pend) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(pend));
+      else sessionStorage.removeItem(PENDING_CHAT_KEY);
+    } catch {}
+  }
+
+  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string }) {
+    const l = lavoriLista.find((x) => x.id === pend.id);
+    if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
+    const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+    setMessages((m) => rispondiInChat(m, testo));
+    salvaPendingChat(null);
+    setLoading(false);
+    return true;
+  }
 
   function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
     setDiario((d) => [{ id: Date.now() + Math.random(), at: new Date().toISOString(), tipo, titolo, testo }, ...d].slice(0, 200));
@@ -809,7 +828,7 @@ export default function Dashboard() {
           setLavori(d.lavori);
           const l = d.lavori.find((x: Lavoro) => x.id === id);
           if (l && (l.stato === "fatto" || l.stato === "errore")) {
-            pendingLavoroChatRef.current = null;
+            salvaPendingChat(null);
             return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
           }
         }
@@ -860,6 +879,7 @@ export default function Dashboard() {
       if (d.ok && d.lavoro) {
         setLavori((l) => [d.lavoro, ...l]);
         pendingLavoroChatRef.current = { id: d.lavoro.id, tipo: prep.tipo };
+        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo });
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
         const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
         setMessages((m) => rispondiInChat(m, risposta));
@@ -1069,6 +1089,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     try {
       const c = localStorage.getItem("mycity_chat");
       if (c) setMessages(JSON.parse(c));
+      try {
+        const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
+        if (pendRaw) {
+          const pend = JSON.parse(pendRaw) as { id: string; tipo: string };
+          if (pend?.id) {
+            pendingLavoroChatRef.current = pend;
+            setLoading(true);
+          }
+        }
+      } catch {}
       const d = localStorage.getItem("mycity_diario");
       if (d) setDiario(JSON.parse(d));
       const b = localStorage.getItem("mycity_briefing");
@@ -1100,8 +1130,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
   }, [convId, caricato]);
 
-  // Ponte col cervello (Max): controlla i lavori ogni 8s, cosi i risultati
-  // del cervello compaiono qui appena pronti.
+  // Ponte col cervello: polling lavori — 2s se chat in attesa, 8s altrimenti.
   useEffect(() => {
     let stop = false;
     const carica = async () => {
@@ -1112,35 +1141,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           setLavori(d.lavori);
           const pend = pendingLavoroChatRef.current;
           if (pend) {
-            const l = d.lavori.find((x: Lavoro) => x.id === pend.id);
-            if (l && (l.stato === "fatto" || l.stato === "errore")) {
-              const testo =
-                l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
-              setMessages((m) => {
-                const i = m.findIndex((x) => x.pending);
-                if (i >= 0) return rispondiInChat(m, testo);
-                const ultima = m[m.length - 1];
-                if (ultima?.role === "assistant" && ultima.content.includes("Giro accodato")) {
-                  const copia = [...m];
-                  copia[copia.length - 1] = { role: "assistant", content: testo };
-                  return copia;
-                }
-                return m;
-              });
-              pendingLavoroChatRef.current = null;
-              setLoading(false);
-            }
+            risolviLavoroPendente(d.lavori, pend);
           }
         }
       } catch {}
     };
     carica();
-    const id = setInterval(carica, 8000);
+    const ms = loading || pendingLavoroChatRef.current ? 2000 : 8000;
+    const id = setInterval(carica, ms);
     return () => {
       stop = true;
       clearInterval(id);
     };
-  }, []);
+  }, [loading]);
 
 
   return (
