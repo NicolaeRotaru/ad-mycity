@@ -182,7 +182,7 @@ a mani vuote"). Programma "Senior al Top": `MyCity-Vault/07-Agenti/PIANO-SENIOR-
 
 ## ⌨️ Comandi rapidi (riconoscili SEMPRE — menù completo in `COMANDI.md`)
 Nicola lancia lavori con frasi brevi. Riconoscile anche se scritte in modo diverso ed esegui la capacità giusta:
-- **"fai un giro"** → giro (`cervello/giro.md`): leggi i dati reali (Supabase MCP), controlla le sentinelle, scrivi briefing in `90-Memoria-AI/Briefing/`, aggiorna [[STATO]].
+- **"fai un giro"** → giro (`cervello/giro.md`): leggi i dati reali (Supabase MCP), controlla le sentinelle, scrivi briefing in `90-Memoria-AI/Briefing/`, aggiorna [[STATO]]. ⚠️ **La memoria si pubblica SOLO su `memoria-ad`** (il ramo che legge il Pannello): da cloud agent apri/aggiorna la PR con **base `memoria-ad`**, mai mettere la memoria solo su `main` (vedi "DOVE PUBBLICARE" in `cervello/giro.md`).
 - **"piano del mattino" / "report della sera" / "review della settimana"** → cadenze di `cervello/ritmo.md`.
 - **"come stiamo?" / "report KPI" / "controlla i pagamenti" / "proiezione"** → analista/finanza sui dati reali.
 - **"porta [negozio] LIVE" / "trovami negozi" / "negozio in calo"** → catena vendite (+ team).
@@ -212,8 +212,11 @@ Il comando avvia il lavoro; resta valido il cancello 🟢🟡🔴 (le azioni rea
 - **Dati reali del marketplace** (SOLA LETTURA): usa il **Supabase MCP** per
   leggere ordini/clienti/incassi. Mai scritture sul DB del marketplace.
 - **Pagamenti** (SOLA LETTURA): **Stripe MCP** per incassi/payout/anomalie.
-- **Codice del sito**: è in locale in `C:\Users\InfinitaPossibilita\mycity-live`.
-  Puoi leggerlo (Read/Grep/Glob). Modifiche → solo in un branch, 🟡, mai deploy 🔴.
+- **Codice del sito** (repo `NicolaeRotaru/mycity`): è **collegato** alla macchina come copia
+  locale in SOLA LETTURA. Collega/aggiorna con `node cervello/collega-marketplace.mjs`; i
+  workflow (radiografia, audit-design) e i senior (tech, qa) lo trovano da soli (env
+  `MARKETPLACE_REPO` → cartella `marketplace/`). Leggilo con Read/Grep/Glob; modifiche → solo
+  in un branch del repo del marketplace, 🟡, mai deploy 🔴. (Dettagli: `cervello/README.md`.)
 - **Web**: WebSearch / WebFetch per intelligence e ricerca.
 - **Memoria**: leggi/scrivi i file del vault come descritto sopra.
 

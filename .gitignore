@@ -13,3 +13,7 @@ desktop.ini
 .env
 .env.local
 cervello/vps/.env
+
+# Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
+# `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.
+/marketplace/

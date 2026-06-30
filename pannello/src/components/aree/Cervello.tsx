@@ -12,6 +12,7 @@ import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import AutoCoscienza from "@/components/AutoCoscienza";
+import ParlaCasella from "@/components/ParlaCasella";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -178,6 +179,7 @@ function RadiografiaDiSe() {
                       </div>
                     );
                   })}
+                  <ParlaCasella titolo={`Dimensione: ${dim.key}`} contesto={dim.sintesi} />
                 </div>
               ))}
 
@@ -189,6 +191,7 @@ function RadiografiaDiSe() {
                       <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
                         <div className="text-[12.5px] font-medium">⚠️ {p.disastro} <span className="t-eti">· prob. {p.probabilita}</span></div>
                         {p.difesa_proposta && <div className="text-[12px] text-black/65 mt-0.5"><b>Difesa (🟡):</b> {p.difesa_proposta}</div>}
+                        <ParlaCasella titolo={`Pre-mortem: ${p.disastro}`} contesto={[p.come, p.difesa_proposta && `Difesa: ${p.difesa_proposta}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -207,6 +210,7 @@ function RadiografiaDiSe() {
                         {b.come_fanno_i_migliori && <div className="text-[12px] text-black/65 mt-1">{b.come_fanno_i_migliori}</div>}
                         {b.obiettivo && <div className="text-[12px] text-black/70 mt-0.5"><b>Obiettivo:</b> {b.obiettivo}</div>}
                         {(b.esempi || []).map((e, j) => <div key={j} className="t-eti mt-0.5">↗ {e.chi}: {e.cosa}</div>)}
+                        <ParlaCasella titolo={`Benchmark: ${b.ambito}`} contesto={[b.come_fanno_i_migliori, b.obiettivo && `Obiettivo: ${b.obiettivo}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -234,6 +238,7 @@ function RadiografiaDiSe() {
                       <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 mb-2">
                         <div className="text-[13px] font-medium break-words">❓ {testo}</div>
                         {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché:</b> {perche}</div>}
+                        <ParlaCasella titolo={`Domanda: ${(testo || "").slice(0, 60)}`} contesto={[testo, perche && `Perché: ${perche}`].filter(Boolean).join(" · ")} />
                       </div>
                     );
                   })}
@@ -284,6 +289,7 @@ function RadiografiaDiSe() {
                         <ArrowRight size={12} /> Vai all'azione collegata
                       </button>
                     )}
+                    <ParlaCasella titolo={`Difetto: ${x.titolo}`} contesto={[x.causa_radice && `Causa radice: ${x.causa_radice}`, x.fix_proposto && `Fix: ${x.fix_proposto}`].filter(Boolean).join(" · ")} />
                   </div>
                 );
               })}

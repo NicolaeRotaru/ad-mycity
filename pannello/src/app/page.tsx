@@ -107,6 +107,8 @@ import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
+import ParlaCasella from "@/components/ParlaCasella";
+import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -618,6 +620,27 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
+  const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
+  const PENDING_CHAT_KEY = "mycity_pending_lavoro";
+
+  function salvaPendingChat(pend: { id: string; tipo: string } | null) {
+    pendingLavoroChatRef.current = pend;
+    try {
+      if (pend) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(pend));
+      else sessionStorage.removeItem(PENDING_CHAT_KEY);
+    } catch {}
+  }
+
+  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string }) {
+    const l = lavoriLista.find((x) => x.id === pend.id);
+    if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
+    const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+    setMessages((m) => rispondiInChat(m, testo));
+    salvaPendingChat(null);
+    setLoading(false);
+    return true;
+  }
 
   function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
     setDiario((d) => [{ id: Date.now() + Math.random(), at: new Date().toISOString(), tipo, titolo, testo }, ...d].slice(0, 200));
@@ -794,8 +817,8 @@ export default function Dashboard() {
   // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
   // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
   // o "errore" (o dopo il timeout, senza bloccare nulla).
-  async function attendiRisposta(id: string): Promise<string> {
-    const scadenza = Date.now() + 5 * 60 * 1000; // 5 minuti di pazienza
+  async function attendiRisposta(id: string, tipo = "chat", timeoutMs = 5 * 60 * 1000): Promise<string> {
+    const scadenza = Date.now() + timeoutMs;
     while (Date.now() < scadenza) {
       await new Promise((r) => setTimeout(r, 2000));
       try {
@@ -805,6 +828,7 @@ export default function Dashboard() {
           setLavori(d.lavori);
           const l = d.lavori.find((x: Lavoro) => x.id === id);
           if (l && (l.stato === "fatto" || l.stato === "errore")) {
+            salvaPendingChat(null);
             return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
           }
         }
@@ -812,7 +836,7 @@ export default function Dashboard() {
         // rete instabile: riprovo al giro dopo
       }
     }
-    return "⌛ Ci sto ancora lavorando: la risposta arriva a breve (puoi vederla anche in «Lavori del cervello»).";
+    return messaggioLavoroInCorso(tipo);
   }
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
@@ -829,12 +853,15 @@ export default function Dashboard() {
       .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
       .join("\n");
     const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
+    const prep = preparaLavoro(t);
     const richiesta =
-      (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-      `## Nuovo messaggio di Nicola\n${t}` +
-      baseTxt +
-      `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
-      `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+      prep.tipo === "giro"
+        ? prep.richiesta
+        : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+          `## Nuovo messaggio di Nicola\n${t}` +
+          baseTxt +
+          `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+          `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
 
     setMessages((m) => [
       ...m,
@@ -846,13 +873,15 @@ export default function Dashboard() {
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta, tipo: "chat" }),
+        body: JSON.stringify({ richiesta, tipo: prep.tipo }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
         setLavori((l) => [d.lavoro, ...l]);
-        aggiungiDiario("chat", "🧠 Chat col cervello", t);
-        const risposta = await attendiRisposta(d.lavoro.id);
+        pendingLavoroChatRef.current = { id: d.lavoro.id, tipo: prep.tipo };
+        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo });
+        aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
+        const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
         setMessages((m) => rispondiInChat(m, risposta));
       } else {
         setMessages((m) =>
@@ -1021,7 +1050,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
-  useEffect(() => {
+  const caricaConversazioni = useCallback(() => {
     fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -1045,14 +1074,31 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setConvServer(false);
         setConversazioni(leggiConvLocali());
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    caricaConversazioni();
+    // 💬 "Parla con la casella" salva una chat in Conversazioni: ricarica l'elenco appena succede.
+    const onConv = () => caricaConversazioni();
+    window.addEventListener("mycity:conversazioni", onConv);
+    return () => window.removeEventListener("mycity:conversazioni", onConv);
+  }, [caricaConversazioni]);
 
   // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
   useEffect(() => {
     try {
       const c = localStorage.getItem("mycity_chat");
       if (c) setMessages(JSON.parse(c));
+      try {
+        const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
+        if (pendRaw) {
+          const pend = JSON.parse(pendRaw) as { id: string; tipo: string };
+          if (pend?.id) {
+            pendingLavoroChatRef.current = pend;
+            setLoading(true);
+          }
+        }
+      } catch {}
       const d = localStorage.getItem("mycity_diario");
       if (d) setDiario(JSON.parse(d));
       const b = localStorage.getItem("mycity_briefing");
@@ -1084,24 +1130,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
   }, [convId, caricato]);
 
-  // Ponte col cervello (Max): controlla i lavori ogni 8s, cosi i risultati
-  // del cervello compaiono qui appena pronti.
+  // Ponte col cervello: polling lavori — 2s se chat in attesa, 8s altrimenti.
   useEffect(() => {
     let stop = false;
     const carica = async () => {
       try {
         const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
-        if (!stop && Array.isArray(d.lavori)) setLavori(d.lavori);
+        if (!stop && Array.isArray(d.lavori)) {
+          setLavori(d.lavori);
+          const pend = pendingLavoroChatRef.current;
+          if (pend) {
+            risolviLavoroPendente(d.lavori, pend);
+          }
+        }
       } catch {}
     };
     carica();
-    const id = setInterval(carica, 8000);
+    const ms = loading || pendingLavoroChatRef.current ? 2000 : 8000;
+    const id = setInterval(carica, ms);
     return () => {
       stop = true;
       clearInterval(id);
     };
-  }, []);
+  }, [loading]);
 
 
   return (
@@ -1556,6 +1608,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <p className="text-[11px] text-black/40 mb-3">
             Compiti pesanti che esegue il cervello su Claude Code/Max, gratis. Se il cervello non è ancora acceso, restano «in attesa».
           </p>
+          {lavori.some((lv) => {
+            if (lv.stato !== "in_attesa") return false;
+            const t = new Date(lv.created_at).getTime();
+            return !isNaN(t) && Date.now() - t > 3 * 60 * 1000;
+          }) && (
+            <div className="mb-3 rounded-xl border border-red-200 bg-red-50/80 px-3.5 py-2.5 text-[12.5px] text-red-800 leading-snug">
+              <b>⛔ Cervello spento.</b> Il lavoro è in coda da oltre 3 minuti senza partire. Sul VPS esegui:{" "}
+              <code className="bg-red-100/80 px-1 rounded text-[11px]">systemctl start mycity-worker</code>
+              {" "}(guida: <code className="text-[11px]">cervello/vps/SETUP-VPS.md</code>). Controlla anche che l&apos;AD non sia in{" "}
+              <b>Pausa</b> (Governo → Controllo).
+            </div>
+          )}
           {lavori.length === 0 ? (
             <p className="text-sm text-black/40">
               Nessun lavoro. Scrivi un compito nella chat e premi «🧠 Manda al cervello».
@@ -1632,6 +1696,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <span className="ml-auto shrink-0">{fa(v.at)}</span>
                   </div>
                   <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
+                  <ParlaCasella titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
                 </div>
               ))}
             </div>
@@ -1744,6 +1809,7 @@ function CategoriaNumeri({
         <div className="px-3 pb-3">
           <p className="text-[11px] text-black/40 mb-2.5">{sottotitolo}</p>
           {snapshot ? <CorpoGriglia kpis={kpis} metriche={metriche} /> : <CorpoTabella kpis={kpis} metriche={metriche} />}
+          <ParlaCasella titolo={`Numeri: ${titolo}`} contesto={sottotitolo} />
         </div>
       )}
     </div>

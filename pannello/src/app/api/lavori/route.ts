@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { creaLavoro, getLavori, clearLavori, memoryConnected } from "@/lib/store";
+import { preparaLavoro } from "@/lib/comandi";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,9 +21,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const { richiesta, tipo } = await req.json();
-    const t = String(richiesta || "").trim();
-    if (!t) return NextResponse.json({ ok: false, error: "Richiesta vuota." }, { status: 400 });
-    const lavoro = await creaLavoro(t, tipo ? String(tipo) : undefined);
+    const prep = preparaLavoro(String(richiesta || ""), tipo ? String(tipo) : undefined);
+    if (!prep.richiesta.trim()) return NextResponse.json({ ok: false, error: "Richiesta vuota." }, { status: 400 });
+    const lavoro = await creaLavoro(prep.richiesta, prep.tipo);
     if (!lavoro) {
       return NextResponse.json(
         { ok: false, error: "Database non collegato o tabella 'lavori' mancante." },

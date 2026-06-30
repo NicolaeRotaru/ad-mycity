@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Microscope, Brain, TrendingUp } from "lucide-react";
 import AutoCoscienza from "@/components/AutoCoscienza";
 import MemoriaViva from "@/components/MemoriaViva";
+import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
@@ -138,6 +139,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
                           <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
                           <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
                         </div>
+                        <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={[o.motivo, `impatto ${o.impatto}`, `sforzo ${o.sforzo}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>

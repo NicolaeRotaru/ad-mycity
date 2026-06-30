@@ -16,6 +16,20 @@ export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
 }
 
+/** Ramo GitHub da cui il Pannello legge il vault (default: memoria-ad). */
+export function obsidianBranch(): string {
+  return BRANCH;
+}
+
+/** Config vault per diagnosi/UI: il Pannello legge qui, non da main. */
+export function vaultGithubInfo(): { collegato: boolean; ramo: string; repo: string | null } {
+  return {
+    collegato: obsidianConnected(),
+    ramo: BRANCH,
+    repo: OWNER && REPO ? `${OWNER}/${REPO}` : null,
+  };
+}
+
 const NON_COLLEGATO =
   "Obsidian non collegato. Servono OBSIDIAN_REPO_OWNER, OBSIDIAN_REPO e un token (OBSIDIAN_TOKEN) con accesso al repo del vault.";
 

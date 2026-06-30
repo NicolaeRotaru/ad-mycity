@@ -20,33 +20,105 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%H:%M:%S'; }
 
+WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
+export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
+
+# Se giro.sh ha allineato il codice da main, worker.sh su disco è più nuovo del processo in RAM → ricarica.
+maybe_reload_worker() {
+  local now_mtime
+  now_mtime="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)"
+  if [ "$now_mtime" != "$WORKER_LOADED_MTIME" ]; then
+    echo "[$(ts)] worker.sh aggiornato su disco — ricarico il processo (fix da main attivi)." >&2
+    exec bash "$WORKER_SCRIPT"
+  fi
+}
+
+# Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push memoria-ad).
+worker_pipeline_tag() {
+  if grep -q 'bash "\$SCRIPT_DIR/giro.sh"' "$WORKER_SCRIPT" 2>/dev/null; then
+    echo "giro-pipeline-v2"
+  else
+    echo "legacy-agent-direct"
+  fi
+}
+
+stamp_worker_info() {
+  local tag pipeline
+  pipeline="$(worker_pipeline_tag)"
+  tag="$(git log -1 --format=%h -- "$WORKER_SCRIPT" 2>/dev/null || echo "?")"
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:pipeline\",\"valore\":\"$pipeline\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:codice_rev\",\"valore\":\"$tag\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 # --- Sync conflict-safe delle scritture del vault sul ramo memoria-ad ---
 # Il worker edita i file del vault (AZIONI-IN-ATTESA → FATTO, DECISIONI). Senza questo, il giro successivo
 # faceva 'checkout -f' e le cancellava (data loss + rischio doppio invio reale). Qui le rendiamo DUREVOLI
 # subito, sotto lo STESSO lock del giro (niente race) e con push NON-force (rebase) per non sovrascrivere il giro.
 branch="${GIT_BRANCH:-memoria-ad}"
 LOCK="$REPO/.git/mycity-sync.lock"
-GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (worker)")
+GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-ad@mycity.local}"
+GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity VPS}"
+GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
+# Ritorna 0 se push ok o niente da inviare; 1 se push fallito; 2 se lock non ottenuto.
 sync_vault() {
-  [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ] || return 0
+  if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
+    echo "[$(ts)] ERRORE: GIT_PUSH_TOKEN/GIT_REPO mancanti nel .env — memoria NON pubblicata su GitHub." >&2
+    return 3
+  fi
   local url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
-  (
-    flock 9
-    git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
-    if git diff --cached --quiet 2>/dev/null; then
-      :   # niente da inviare
-    else
-      git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
-      local ok=0
-      for a in 1 2 3; do
-        git fetch "$url" "$branch" 2>/dev/null && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
-        if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
-        sleep 2
-      done
-      [ "$ok" = 1 ] || echo "[$(ts)] Worker: push del vault fallito (il giro recupera)." >&2
+  local sync_rc=0
+  exec 9>"$LOCK"
+  if ! flock -w 120 9; then
+    echo "[$(ts)] Worker: lock git occupato — sync vault rimandata." >&2
+    exec 9>&-
+    return 2
+  fi
+  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
+  if git diff --cached --quiet 2>/dev/null; then
+    exec 9>&-
+    return 0
+  fi
+  git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
+  local ok=0
+  for a in 1 2 3; do
+    if git fetch "$url" "$branch" 2>/dev/null; then
+      if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+        local conflitti
+        conflitti="$(git diff --name-only --diff-filter=U 2>/dev/null || true)"
+        if [ -n "$conflitti" ]; then
+          printf '%s\n' "$conflitti" | while IFS= read -r f; do
+            [ -n "$f" ] && git checkout --theirs -- "$f" 2>/dev/null || true
+          done
+          git add -A 2>/dev/null || true
+          git "${GIT_ID[@]}" commit --no-edit 2>/dev/null || git merge --abort 2>/dev/null || true
+        else
+          git merge --abort 2>/dev/null || true
+        fi
+      fi
     fi
-  ) 9>"$LOCK" || true
+    if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
+    sleep 2
+  done
+  exec 9>&-
+  if [ "$ok" = 1 ]; then
+    if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
+      curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+        -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+        -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
+        -d "{\"chiave\":\"memoria-ad:ultimo_push\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+        >/dev/null 2>&1 || true
+    fi
+    return 0
+  fi
+  echo "[$(ts)] Worker: push del vault fallito (riprovo al prossimo lavoro)." >&2
+  return 1
 }
 
 for dep in jq curl node; do
@@ -63,10 +135,32 @@ if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then
   exit 1
 fi
 
+# Sanity check: SUPABASE_URL deve essere il progetto MEMORIA (ha tabella impostazioni), NON il marketplace.
+_mem_check="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=chiave&limit=1" \
+  -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>&1 || true)"
+if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could not find the table'; then
+  echo "[$(ts)] ERRORE: SUPABASE_URL punta al DB sbagliato (marketplace?)." >&2
+  echo "[$(ts)]   URL attuale: $SUPABASE_URL" >&2
+  echo "[$(ts)]   Serve il progetto MEMORIA (xjljcsorpbqwttrejqte), NON clmpyfvpvfjgeviworth." >&2
+  echo "[$(ts)]   Copia SUPABASE_URL + SUPABASE_SERVICE_KEY da Vercel → aggiorna cervello/vps/.env → restart." >&2
+  exit 1
+fi
+
 INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (basso = chat reattiva)
 AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
-echo "[$(ts)] Worker AD avviato. Controllo la coda 'lavori' ogni ${INTERVALLO}s."
+if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
+  echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare su memoria-ad." >&2
+else
+  # Test rapido autenticazione GitHub (sola lettura).
+  _git_test="$(git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
+  if [ -z "$_git_test" ]; then
+    echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — push memoria-ad fallirà." >&2
+  fi
+fi
+
+echo "[$(ts)] Worker AD avviato (pipeline: $(worker_pipeline_tag)). Controllo la coda ogni ${INTERVALLO}s."
+stamp_worker_info
 
 # Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
 battito_worker() {
@@ -77,6 +171,7 @@ battito_worker() {
 }
 
 while true; do
+  maybe_reload_worker
   battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
@@ -94,6 +189,10 @@ while true; do
   tipo="$(printf '%s' "$riga" | jq -r '.[0].tipo // "analisi"')"
   richiesta="$(printf '%s' "$riga" | jq -r '.[0].richiesta // ""')"
   echo "[$(ts)] Lavoro $id ($tipo): $richiesta"
+
+  skip_sync=0
+  stato=""
+  out=""
 
   # 1) segna "in_corso"
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
@@ -115,16 +214,24 @@ $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
   elif [ "$tipo" = "giro" ]; then
-    giro_prompt="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
-    if [ -z "$giro_prompt" ]; then
-      giro_prompt="Fai un GIRO DI PERLUSTRAZIONE come AD di MyCity (vedi cervello/giro.md)."
+    # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
+    # NON usare agent diretto: senza giro.sh la memoria spesso non arriva su GitHub.
+    export GIRO_EXTRA_INSTRUCTION="$richiesta"
+    to="${WORKER_TIMEOUT_GIRO:-2700}"   # 45 min — allineato al timeout chat del Pannello
+    out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/giro.sh" 2>&1)"; rc=$?
+    skip_sync=1
+    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+      stato="errore"; out="$out
+[worker] TIMEOUT giro dopo ${to}s — interrotto."
+    elif [ "$rc" -eq 2 ]; then
+      stato="errore"; out="$out
+[worker] Memoria scritta in locale ma PUSH su memoria-ad FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
+    elif [ "$rc" -ne 0 ]; then
+      stato="errore"; out="$out
+[worker] giro.sh uscito con rc=$rc (motore AI o preparazione fallita)."
+    else
+      stato="fatto"
     fi
-    prompt="$giro_prompt
-
-## Istruzione aggiuntiva
-$richiesta
-
-Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1). La memoria va sul ramo memoria-ad (mai solo su main)."
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
@@ -132,21 +239,32 @@ $richiesta"
   fi
 
   # 3) esegui col motore AI (Cursor/Claude), con TIMEOUT (un lavoro impallato non blocca il worker per sempre).
-  to="${WORKER_TIMEOUT:-900}"
-  ai_build_cmd
-  out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
-  if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-    stato="errore"; out="$out
+  skip_sync="${skip_sync:-0}"
+  if [ "${skip_sync:-0}" != 1 ]; then
+    to="${WORKER_TIMEOUT:-900}"
+    ai_build_cmd
+    out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+      stato="errore"; out="$out
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
-  elif [ "$rc" -ne 0 ]; then
-    stato="errore"; out="$out
-[worker] claude uscito con rc=$rc."
-  else
-    stato="fatto"
+    elif [ "$rc" -ne 0 ]; then
+      stato="errore"; out="$out
+[worker] motore $(ai_engine) ($(ai_cli_name)) uscito con rc=$rc."
+    else
+      stato="fatto"
+    fi
   fi
 
-  # 3b) Se è andato bene, rendi DUREVOLI subito le scritture del vault (prima del prossimo giro).
-  [ "$stato" = "fatto" ] && sync_vault
+  # 3b) Se è andato bene, rendi DUREVOLI subito le scritture del vault (chat/azioni, non giro).
+  if [ "$stato" = "fatto" ] && [ "$skip_sync" != 1 ]; then
+    sync_rc=0
+    sync_vault || sync_rc=$?
+    if [ "$sync_rc" = 1 ] && [ "$tipo" = "esegui-azione" ]; then
+      stato="errore"
+      out="$out
+[worker] Azione eseguita ma push memoria-ad fallito — la riga AZIONI potrebbe non essere visibile nel Pannello."
+    fi
+  fi
 
   # 3c) Metabolizzazione: dopo una chat riuscita, accoda un lavoro interno che rilegge la
   #     conversazione e aggiorna la memoria (apprendimento, stato, decisioni). Invisibile a Nicola.
@@ -168,4 +286,8 @@ $richiesta"
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
     && echo "[$(ts)] Lavoro $id: $stato." \
     || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
+
+  # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.
+  [ "$tipo" = "giro" ] && maybe_reload_worker
+  stamp_worker_info
 done

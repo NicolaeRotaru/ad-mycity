@@ -90,7 +90,9 @@ Verifichi end-to-end i flussi critici: registrazione/approvazione venditore, car
 con passi per riprodurli e gravità.
 
 ## Dove lavori
-- Codice: `C:\Users\InfinitaPossibilita\mycity-live` in **SOLA LETTURA** (Read/Grep/Glob) — non
+- Codice del marketplace (repo `NicolaeRotaru/mycity`): copia locale collegata da
+  `node cervello/collega-marketplace.mjs` (default cartella `marketplace/`, env `MARKETPLACE_REPO`),
+  in **SOLA LETTURA** (Read/Grep/Glob) — non
   modificare, non toccare git/branch (lì lavorano altre sessioni). Puoi eseguire test/typecheck con
   **Bash** se non alterano i file (`npm run typecheck`, `npm test`) — chiedi prima se può interferire.
 - **Supabase MCP** (sola lettura) per verificare lo stato reale dei dati dopo un'azione.

@@ -1,8 +1,11 @@
 # 🖥️ Modo C — Il cervello MyCity sempre acceso su un VPS Linux
 
+> **Chat o briefing fermi?** Leggi prima [`CHECKLIST-VIVO.md`](CHECKLIST-VIVO.md) (guida unica, 5 min).
+
 > Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
 > Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
-> Usa il tuo **piano Max** (login interattivo una volta), non le API a pagamento.
+> Il **motore AI** è **Cursor** di default (CLI `agent`, col tuo abbonamento Cursor); in alternativa
+> Claude Code (`claude`, piano Max). Lo scegli con `CERVELLO_MOTORE` nel `.env`.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
 > ## ⚠️ LEGGI QUESTO PRIMA
@@ -13,7 +16,8 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Il tuo account **Claude Max** (per fare `claude login`).
+- Una **chiave API Cursor** (`CURSOR_API_KEY`): la crei su [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys**.
+  *(In alternativa, col motore Claude, il tuo account **Claude Max** per fare `claude login`.)*
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
@@ -55,17 +59,18 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il piano Max** (login interattivo, una volta sola):
+**2. Collega il motore AI.** Con il motore **Cursor** (default) NON serve un login interattivo:
+basta mettere `CURSOR_API_KEY` nel `.env` (passo 3). Se preferisci il login interattivo una volta:
 ```bash
-sudo -u mycity -H claude login
+sudo -u mycity -H agent login        # motore Cursor (alternativa alla CURSOR_API_KEY)
+# sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
 ```
-Apri l'URL mostrato, autorizza, incolla il codice.
 
 **3. Inserisci i segreti:**
 ```bash
 sudo -u mycity nano /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-Compila `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
+Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
 
 **4. Accendi tutto:**
 ```bash
@@ -87,9 +92,12 @@ sudo systemctl start --no-block mycity-giro.service   # parte il giro adesso
 sudo journalctl -u mycity-giro -f                     # log in diretta (Ctrl-C per uscire)
 ```
 Non serve `git pull` a mano: **il primo passo del giro allinea da solo il codice a `origin/main`**
-(pannello, cervello, agenti) — i tuoi merge entrano lì — lasciando intatto il vault. Al termine trovi
+(pannello, cervello, agenti) — i tuoi merge di **codice** entrano lì — lasciando intatto il vault. Al termine trovi
 il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo
-`memoria-ad` → visibili nel **Pannello**. ⚠️ I merge devono essere su `main`: il giro sincronizza solo da lì.
+`memoria-ad` → **visibili subito nel Pannello** (che legge quel ramo via GitHub, senza merge su main).
+
+> **Due rami, due compiti:** `memoria-ad` = memoria viva (giro, briefing, STATO) · `main` = codice.
+> Il Pannello legge `memoria-ad`. Mergiare `memoria-ad → main` **non** è necessario per vedere i giri.
 
 > Se hai cambiato i **file delle unit systemd** (`mycity-*.service`/`.timer`), ricopiali e ricarica prima:
 > `sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload`
@@ -115,8 +123,8 @@ sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system
 ```
 
 ## ⚠️ Note oneste
-- **Limiti del Max:** il Max ha tetti d'uso che si resettano ogni poche ore. Col solo worker
-  (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
+- **Limiti dell'abbonamento:** sia Cursor sia Claude Max hanno tetti d'uso che si resettano ogni poche
+  ore. Col solo worker (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
 - **Costo:** il VPS sempre acceso ha il suo costo mensile (quello che già paghi).
 - **Sicurezza:** il `.env` ha permessi `600` e non va committato. Le azioni 🔴 (soldi/messaggi reali)
   partono **solo** quando le approvi dal Pannello (`AZIONI_LIVE=0` di default).
