@@ -99,7 +99,7 @@ function RispostaBox({
             rows={2}
             autoFocus
             placeholder="Scrivi la tua risposta… arriva al cervello e chiude la domanda."
-            className="w-full text-[12.5px] rounded-lg border border-black/15 bg-white px-2.5 py-1.5 outline-none focus:border-brand/50 resize-y"
+            className="input-soft w-full text-[12.5px] resize-y"
           />
           <div className="flex items-center gap-2 flex-wrap">
             <button

@@ -19,7 +19,7 @@ export default function Aggiornato({
   if (!t) return null;
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[11px] text-black/40 whitespace-nowrap ${className}`}
+      className={`t-aggiornato ${className}`}
       title={`Apparso nel pannello: ${t}`}
     >
       🕗 {prefisso} · {t}

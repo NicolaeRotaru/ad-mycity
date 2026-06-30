@@ -58,7 +58,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
-              <span className={`inline-block text-[12px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap max-w-[92%] ${m.role === "user" ? "bg-brand text-white" : "bg-white text-ink/85 border border-black/[0.06]"}`}>
+              <span className={`inline-block text-[12px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap max-w-[92%] ${m.role === "user" ? "bg-brand text-white" : "chat-bubble-assistant"}`}>
                 {m.content}
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         onChange={(e) => setBozza(e.target.value)}
         rows={2}
         placeholder="Scrivi alla macchina su questa casella…"
-        className="w-full text-[12.5px] rounded-lg border border-black/15 bg-white px-2.5 py-1.5 outline-none focus:border-brand/50 resize-y"
+        className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">
         <button
