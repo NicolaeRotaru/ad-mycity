@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:02
+aggiornato: 2026-07-01 01:08
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** OK in Cursor (WebFetch test developers.google.com 1/7); **worker VPS** ancora da pull `memoria-ad`; `memoria-squadra/` **non** visibile in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,6 +49,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
+1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + VPS pull + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa.
+1. **Metabolizzazione 1/7 01:08** — L-2026-0701-08 (verifica + osservabilità web) + preferenza Nicola in apprendimento.json.
 1. **Metabolizzazione 1/7 01:07** — Lezione L-2026-0701-07 (impegni Nicola ≠ card 🔴) + preferenza in apprendimento.json.
 1. **Chat 1/7 01:03** — Nicola: «perché devo approvare?» su card onboarding 6/7 → **non serve** (lavoro suo); proposta ritirata dal Pannello.
 1. **Chat 1/7 01:02** — Nicola firma foglio-firma lancio: #1 contratto Pane Quotidiano (12%) · #2 payout-test 03/7 mattina · #3 Stripe sandbox. Bozza `consegne/legale/contratto-pane-quotidiano-bozza.md`. Aggiornati DECISIONI, AZIONI #1-2, STATO.

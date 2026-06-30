@@ -27,3 +27,6 @@ Metabolizzazione correzione Nicola (Pannello): **Casa Linda = demo/seed**, unico
 
 # ESITO — @AD — 2026-07-01 01:07
 Metabolizzazione chat «perché devo approvare?» (card onboarding 6/7): errore classificazione — impegno operativo Nicola ≠ azione 🔴 Pannello. Card ritirata. L-2026-0701-07 (caso_studio_nicola) + preferenza: non chiedere firma su lavoro che fa già lui. Guardrail: 🔴 solo per azioni AD su mondo esterno.
+
+# ESITO — @AD — 2026-07-01 01:08
+Metabolizzazione chat «come verifico / come vedo i dati» (web senior): Nicola vuole osservabilità post-abilitazione. Pattern risposta: (1) grep settings + pull worker + test dominio ex-whitelist; (2) output distillato in memoria-squadra/consegne/Sala Operativa — no log HTTP; gap Pannello su quaderni. L-2026-0701-08 + evidenza L-2026-0701-03.
