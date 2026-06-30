@@ -1201,15 +1201,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 border-b border-black/[0.06] dark:border-white/10 bg-paper/80 dark:bg-[#1a1614]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
               M
             </div>
             <div className="leading-tight min-w-0">
-              <h1 className="font-semibold text-[15px] tracking-tight truncate">Pannello di Controllo</h1>
-              <span className="text-xs text-black/40 dark:text-white/40">AD MyCity</span>
+              <h1 className="font-semibold text-[16px] tracking-tight truncate" style={{ color: "var(--text-primary)" }}>Pannello di Controllo</h1>
+              <span className="t-eti text-[12px]">AD MyCity</span>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -1217,7 +1217,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+                vivo ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800" : "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
               }`}
             >
               <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
@@ -1227,7 +1227,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-4 sm:py-5 space-y-4">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5">
         {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
         {(() => {
           const AREE = [
@@ -1244,16 +1244,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
           ] as const;
           return (
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {AREE.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setVista(t.id)}
-                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition ${
-                    vista === t.id
-                      ? "bg-brand text-white shadow-card"
-                      : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"
-                  }`}
+                  className={`nav-tab ${vista === t.id ? "nav-tab-active" : ""}`}
                 >
                   {t.icon}
                   <span>{t.label}</span>
@@ -1400,9 +1396,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 key={t.id}
                 type="button"
                 onClick={() => setAssistenteTab(t.id)}
-                className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
-                  assistenteTab === t.id ? "bg-brand text-white shadow-card" : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"
-                }`}
+                className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
               >
                 {t.icon}
                 {t.label}
@@ -1420,8 +1414,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <Comandi onScegli={(cmd) => setInput(cmd)} />
 
           {/* Chat */}
-          <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
+          <section className="card flex flex-col overflow-hidden">
+          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
                 <Send size={15} />
@@ -1540,14 +1534,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={endRef} />
           </div>
-          <div className="border-t border-black/[0.06] p-3 space-y-2 bg-paper/30">
+          <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <div className="flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
+                className="input-soft flex-1"
               />
               <button
                 onClick={dettaVoce}

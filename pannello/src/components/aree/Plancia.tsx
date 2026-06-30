@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer } from "lucide-react";
-import { formatta, testoPulito, dataVault, type Tipo } from "@/lib/format";
+import { formatta, testoPulito, etichettaRitmo, ritmoEODoggi, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
@@ -18,15 +18,7 @@ type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
 type AutoAnalisi = { voto_fiducia?: number | string; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
 type Radiografia = { voto_salute_architettura?: number | string; trend?: string; sintesi?: string } | null;
-type Voce = { data: string; testo: string } | null;
-
-function etichettaRitmo(data: string | undefined): string {
-  if (!data) return "";
-  const oggi = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(new Date());
-  const giornoVoce = data.trim().slice(0, 10);
-  const etichetta = dataVault(data);
-  return giornoVoce === oggi ? `oggi · ${etichetta.split(" · ").slice(1).join(" · ") || etichetta}` : etichetta;
-}
+type Voce = { data: string; testo: string; oggi?: boolean } | null;
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
   { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n", icon: <Package size={14} /> },
@@ -291,19 +283,36 @@ export default function Plancia({
         <section className="card p-4">
           <div className="sez-head mb-3">
             <span className="sez-ico"><Clock size={16} /></span>
-            <span className="t-sez">Ritmo del giorno</span>
+            <div className="min-w-0 flex-1">
+              <span className="t-sez">Ritmo del giorno</span>
+              <p className="t-eti mt-0.5">Piano del mattino e report della sera (ora di Piacenza, dal vault).</p>
+            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌅 Piano del mattino{ritmo.pianoMattino ? ` · ${etichettaRitmo(ritmo.pianoMattino.data)}` : ""}</div>
+            <div className="surface-muted p-3.5">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="t-micro">🌅 Piano del mattino</span>
+                {ritmo.pianoMattino && (
+                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.pianoMattino.data) || ritmo.pianoMattino.oggi ? "badge-on" : "badge-off"}`}>
+                    {etichettaRitmo(ritmo.pianoMattino.data)}
+                  </span>
+                )}
+              </div>
               {ritmo.pianoMattino ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.pianoMattino.testo}</p>
               ) : (
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
             </div>
-            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-              <div className="t-micro mb-1">🌙 Report della sera{ritmo.reportSera ? ` · ${etichettaRitmo(ritmo.reportSera.data)}` : ""}</div>
+            <div className="surface-muted p-3.5">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="t-micro">🌙 Report della sera</span>
+                {ritmo.reportSera && (
+                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.reportSera.data) || ritmo.reportSera.oggi ? "badge-on" : "badge-off"}`}>
+                    {etichettaRitmo(ritmo.reportSera.data)}
+                  </span>
+                )}
+              </div>
               {ritmo.reportSera ? (
                 <p className="t-corpo whitespace-pre-wrap">{ritmo.reportSera.testo}</p>
               ) : (

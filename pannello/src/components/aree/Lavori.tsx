@@ -52,7 +52,7 @@ export default function Lavori({ lavori, onSvuota }: Props) {
             type="button"
             onClick={() => setTab(t.id)}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
-              tab === t.id ? "bg-brand text-white shadow-card" : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"
+              tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
             }`}
           >
             {t.icon}
