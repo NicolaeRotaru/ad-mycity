@@ -33,7 +33,9 @@ fi
 
 # --- Prepara il ramo della memoria e ALLINEA IL CODICE a main (come giro.sh) ---
 branch="${GIT_BRANCH:-memoria-ad}"
-GIT_ID=(-c user.email="ad@mycity.local" -c user.name="AD MyCity (VPS)")
+GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-ad@mycity.local}"
+GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
+GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 LOCK="$REPO/.git/mycity-sync.lock"
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
