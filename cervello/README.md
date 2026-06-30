@@ -93,8 +93,27 @@ abbonamento (Cursor di default, o Claude Max).
 
 ---
 
+## 🔗 Collega il marketplace (per analizzare il codice del sito)
+Per fare radiografia, audit del design o un fix tech, l'AD deve **leggere il codice vero** del
+marketplace (repo `NicolaeRotaru/mycity`). Lo colleghi alla macchina con una copia locale in SOLA LETTURA:
+
+```bash
+node cervello/collega-marketplace.mjs            # clona o aggiorna la copia locale
+node cervello/collega-marketplace.mjs --status   # dice solo dov'è collegato
+```
+
+- Di default la copia finisce in `marketplace/` (ignorata da git: è un altro repo, non va versionata qui).
+- I workflow `radiografia` e `audit-design` la trovano da soli; per forzare un percorso esporta
+  `MARKETPLACE_REPO=/percorso/della/copia`.
+- Sul **VPS** ci pensa `vps/setup.sh` (la clona in `/opt/mycity/marketplace` e imposta `MARKETPLACE_REPO`).
+- Override: `MARKETPLACE_GIT_REPO` (owner/repo), `MARKETPLACE_BRANCH` (ramo). Il repo è pubblico:
+  un token serve solo se diventasse privato (`MARKETPLACE_GIT_TOKEN`).
+
+---
+
 ## Mappa
 - `motore-ai.sh` — sceglie il motore (Cursor `agent` o Claude `claude`) e costruisce il comando. Lo usano gli script `.sh`.
+- `collega-marketplace.mjs` · `marketplace-repo.mjs` — collegano/risolvono il codice del marketplace.
 - `giro.md` — il prompt del giro di perlustrazione (Modi A/B/C).
 - `giro.ps1` / `giro.sh` — esegue un giro col motore AI (Windows / Linux).
 - `worker.ps1` / `worker.sh` — worker della coda lavori (Windows / Linux).
