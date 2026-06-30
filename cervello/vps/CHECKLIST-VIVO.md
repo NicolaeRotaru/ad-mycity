@@ -139,7 +139,9 @@ Apri nel browser (sostituisci dominio):
 | Sintomo | Causa vera | Fix |
 |---------|------------|-----|
 | Chat: «Serve database memoria» | `SUPABASE_*` mancanti su Vercel | Imposta + redeploy |
-| Chat: «sto pensando…» poi timeout | **Worker spento** o in crash loop | Fix `.env` + `systemctl restart mycity-worker` |
+| Chat: «sto pensando…» ma in Lavori compare «Fatto» | Il polling chat non agganciava il lavoro (tab sospesa / ref perso) | Aggiorna Pannello (fix polling 2s + sessionStorage). Se persiste: `systemctl restart mycity-worker` |
+| Chat: giro «Fatto» ma memoria-ad su GitHub ferma | Il worker lanciava `agent` senza `giro.sh` → TL;DR sì, push no | Fix worker: giro passa da `giro.sh`. Verifica `GIT_PUSH_TOKEN` nel `.env` |
+| Lavori giro «errore» push memoria-ad | `GIT_PUSH_TOKEN` scaduto o email commit sbagliata | Rigenera token GitHub + `GIT_AUTHOR_EMAIL=98592323+NicolaeRotaru@users.noreply.github.com` |
 | Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
 | `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |

@@ -106,19 +106,43 @@ if [ -z "$PROMPT" ]; then
   echo "[$(ts)] ERRORE: cervello/giro.md non trovato/vuoto dopo l'allineamento; giro saltato." >&2
   exit 1
 fi
+# Worker chat (tipo=giro) può passare istruzioni extra via env.
+if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
+  PROMPT="$PROMPT
+
+## Istruzione aggiuntiva
+$GIRO_EXTRA_INSTRUCTION"
+fi
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine))..."
 ai_build_cmd
-"${AI_CMD[@]}" "$PROMPT" || {
-  echo "[$(ts)] Il motore AI ha restituito un errore (giro non completato)." >&2
-}
+ai_rc=0
+"${AI_CMD[@]}" "$PROMPT" || ai_rc=$?
+if [ "$ai_rc" -ne 0 ]; then
+  echo "[$(ts)] Il motore AI ha restituito un errore (rc=$ai_rc, giro non completato)." >&2
+fi
 echo "[$(ts)] Giro completato."
+
+# TL;DR per la chat (se il digest è stato scritto nel vault).
+GIRO_TLDR=""
+if [ -f "MyCity-Vault/90-Memoria-AI/ultimo-briefing.json" ] && command -v jq >/dev/null 2>&1; then
+  _data="$(jq -r '.data // empty' MyCity-Vault/90-Memoria-AI/ultimo-briefing.json 2>/dev/null || true)"
+  _sit="$(jq -r '.situazione // empty' MyCity-Vault/90-Memoria-AI/ultimo-briefing.json 2>/dev/null || true)"
+  if [ -n "$_sit" ]; then
+    GIRO_TLDR="## TL;DR — Giro ${_data:-$(ts)}
+
+$_sit"
+    printf '%s\n' "$GIRO_TLDR"
+  fi
+fi
 
 # --- Sync della memoria sul RAMO DEDICATO 'memoria-ad': commit + push (rebase, NON force) ---
 # Sotto lo STESSO lock del worker: i due non si pestano. Push NON-force con rebase, così le scritture del
 # worker (pushate su memoria-ad) NON vengono mai cancellate dal giro (col force-push le perdeva).
 # Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
-(
-  flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo giro recupera il WIP)
+GIRO_PUSH_OK=1
+GIRO_HAD_CHANGES=0
+exec 9>"$LOCK"
+if flock -w 600 9; then
   # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
   [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
     || echo "[$(ts)] ⚠️  AUTO-ANALISI NON PERSISTITA: manca auto-coscienza/auto-analisi.json — la Cabina resterà vuota (vedi passo 11 del giro)." >&2
@@ -126,6 +150,7 @@ echo "[$(ts)] Giro completato."
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
   else
+    GIRO_HAD_CHANGES=1
     git "${GIT_ID[@]}" commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
     if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
@@ -140,9 +165,35 @@ echo "[$(ts)] Giro completato."
         echo "[$(ts)] Push tentativo $attempt fallito, riprovo..." >&2
         sleep 3
       done
-      [ "$ok" = 1 ] || echo "[$(ts)] Push della memoria fallito dopo 3 tentativi (il giro successivo recupera)." >&2
+      if [ "$ok" = 1 ]; then
+        # Battito per diagnosi Pannello (ultimo push memoria-ad riuscito).
+        if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
+          curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+            -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+            -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
+            -d "{\"chiave\":\"memoria-ad:ultimo_push\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+            >/dev/null 2>&1 || true
+        fi
+      else
+        GIRO_PUSH_OK=0
+        echo "[$(ts)] ERRORE: push della memoria fallito dopo 3 tentativi." >&2
+      fi
     else
-      echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)."
+      echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)." >&2
+      GIRO_PUSH_OK=0
     fi
   fi
-) 9>"$LOCK" || true
+else
+  GIRO_PUSH_OK=0
+  echo "[$(ts)] WARN: lock git occupato troppo a lungo — sync memoria saltata (prossimo giro recupera)." >&2
+fi
+exec 9>&-
+
+# Exit code per worker.sh: fallisce se AI ko, o se c'erano modifiche ma push non riuscito.
+if [ "$ai_rc" -ne 0 ]; then
+  exit 1
+fi
+if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" != 1 ]; then
+  exit 2
+fi
+exit 0
