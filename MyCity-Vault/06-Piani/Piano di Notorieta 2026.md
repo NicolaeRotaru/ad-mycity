@@ -208,9 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
+## 🤖 Aggiornamento dell'AD — 2026-06-30 23:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 3/7 tra 3 giorni = finestra notorietà offline:** ~50-60k persone/sera, presidio QR a costo ≈0 (azioni #7, #11). Senza link lista d'attesa = zero conversione.
-- **Sant'Antonino 4/7** subito dopo VP — doppia finestra presidio (3/7 + 4/7).
-- **Earned media bloccato** finché non c'è 1 ordine reale da raccontare ("le botteghe che consegnano a casa").
+- **VP 3/7 tra ~47 ore** = finestra notorietà offline imminente (~50-60k persone/sera). Presidio QR a costo ≈0 (#7, #11). **Senza link lista = zero conversione.**
+- **Sant'Antonino 4/7** subito dopo VP — doppia finestra presidio.
+- **Earned media bloccato** finché non c'è 1 ordine reale da raccontare.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

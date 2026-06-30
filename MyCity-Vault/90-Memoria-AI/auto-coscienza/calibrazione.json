@@ -1,7 +1,11 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 00:35",
-  "per_reparto": [],
-  "registro": [],
+  "aggiornato": "2026-06-30 23:10",
+  "per_reparto": [
+    {"reparto": "@AD", "previsioni": 5, "azzeccate": 5, "punteggio": 1.0, "autonomia": "media", "nota": "Previsione 'stallo invariato' confermata 5 passaggi 30/6 — onesta, non gonfiata."}
+  ],
+  "registro": [
+    {"data": "2026-06-30 23:10", "reparto": "@AD", "previsione": "7 numeri = vs passaggio precedente", "esito": "confermato", "fonte": "REST live"}
+  ],
   "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale."
 }

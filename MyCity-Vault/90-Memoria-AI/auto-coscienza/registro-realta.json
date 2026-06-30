@@ -1,7 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-30 23:08",
-  "_nota_giro_30_06_notte": "Giro 30/6 23:08: Casa Linda e Pane Quotidiano RIVERTIFICATI live via REST (3° conferma serale). Stallo 157h (+2h). 407 lead merchants_leads outreach_status=to_contact.",
+  "aggiornato": "2026-06-30 23:10",
+  "_nota_giro_30_06_notte": "Giro 30/6 23:10: Casa Linda e Pane Quotidiano RIVERTIFICATI live via REST (4° conferma serale). Stallo ~157h (=). 407 lead. 6 carrelli con items abbandonati >4h.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -39,7 +39,7 @@
         "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
       ],
       "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
-      "ultima_verifica": "2026-06-30 23:08"
+      "ultima_verifica": "2026-06-30 23:10"
     },
     {
       "nome": "Pane Quotidiano",
@@ -53,7 +53,7 @@
         "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da ~6,6 giorni — ordine zombie)."
       ],
       "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
-      "ultima_verifica": "2026-06-30 23:08"
+      "ultima_verifica": "2026-06-30 23:10"
     },
     {
       "nome": "Antica Salumeria Garetti",

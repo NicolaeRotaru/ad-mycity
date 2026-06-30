@@ -1,13 +1,13 @@
 {
-  "data": "2026-06-30 22:17",
+  "data": "2026-06-30 23:10",
   "lezioni": [
     {
       "id": "L-2026-0630-03",
       "testo": "Quando il Supabase MCP è cieco (needsAuth), usare il fallback REST via env MARKETPLACE_SUPABASE_URL/KEY — verificato funzionante il 30/6 serale. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
       "tag": ["sensori", "fallback", "supabase", "rest"],
       "reparto": "@AD",
-      "confidenza": 0.75,
-      "evidenze": 1,
+      "confidenza": 0.8,
+      "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
@@ -42,11 +42,11 @@
       "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
       "tag": ["efficienza", "metacognizione", "sensori", "max", "onesta"],
       "reparto": "@AD",
-      "confidenza": 0.82,
-      "evidenze": 2,
+      "confidenza": 0.85,
+      "evidenze": 3,
       "fonte": "auto-analisi",
       "nato": "2026-06-29",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-06-30",
       "stato": "in-prova"
     },
     {
@@ -147,6 +147,6 @@
     "lezioni_attive": 11,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.58
+    "tasso_applicazione": 0.62
   }
 }

@@ -125,3 +125,9 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 23:08 · @operations · FATTO · Checklist countdown VP 3/7 (~48h) in consegne/operations/2026-06-30-checklist-countdown-vp-3-luglio.md.
 - 2026-06-30 23:08 · @intelligence · FATTO · Allerta gialla temporali 1/7 confermata (Protezione Civile ER). VP 3/7 countdown operativo.
 - 2026-06-30 23:08 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 · foglio-firma 🔴.
+
+### 2026-06-30 — Giro notturno (23:10)
+- 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
+- 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
+- 2026-06-30 23:10 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:10; Stripe operativo.
+- 2026-06-30 23:10 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 (~47h) · foglio-firma 🔴.

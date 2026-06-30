@@ -180,9 +180,8 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
+## 🤖 Aggiornamento dell'AD — 2026-06-30 23:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Countdown VP 3/7 (tra 3 giorni):** contenuti #7 in coda — post "I TRE VENERDÌ" + storie. Sera mite = presidio comodo. Serve link lista d'attesa.
-- **Angolo pioggia 1/7:** bozza post *"Piove? Te la portiamo noi"* — 🟢 bozza possibile, 🔴 pubblicazione. Coerente con `consegne/operations/2026-06-30-svolta-meteo-pioggia.md`.
-- **Tutti i contenuti restano bloccati** dietro consensi Garetti + link reale lista d'attesa.
+- **Countdown VP 3/7 (tra ~47h):** contenuti #7 in coda. Checklist operativa 🟢 pronta. Serve link lista d'attesa.
+- **Angolo pioggia 1/7:** allerta temporali ER confermata — bozza post latente (0 catalogo vero).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

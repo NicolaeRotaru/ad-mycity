@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-30 23:08** · Fonte: @intelligence (giro notturno 30/6, WebSearch + REST live).
+> Aggiornato: **2026-06-30 23:10** · Fonte: @intelligence (giro notturno 30/6, WebSearch + REST live).
 
 ---
 
@@ -20,7 +20,7 @@ Fonti: [Protezione Civile ER 1/7](https://protezionecivile.regione.emilia-romagn
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
-- **Venerdì 3/7 = TRA ~48 ORE** — **49 eventi** quella sera.
+- **Venerdì 3/7 = TRA ~47 ORE** — **49 eventi** quella sera.
 - Highlights: ICW Wrestling (P.za Cavalli 22:00), Tu Si Que Avis (P.za Duomo 22:00), Modoolo Square.
 - **🟢 Checklist operativa AD:** `consegne/operations/2026-06-30-checklist-countdown-vp-3-luglio.md`
 - **Effetto:** presidio offline QR a costo ≈0 (~50-60k persone/sera). Delivery vero il sabato dopo.
@@ -32,10 +32,10 @@ Fonti: [Protezione Civile ER 1/7](https://protezionecivile.regione.emilia-romagn
 
 ---
 
-## 🆕 Novità dal 30/6 (23:08)
-- **Countdown VP:** da "3 giorni" a **~48 ore** — urgenza link lista d'attesa + ok presidio.
-- **1/7:** allerta temporali ER confermata (non solo previsione meteo).
-- **Stallo business:** 157h — invariato sul DB.
+## 🆕 Novità dal 30/6 (23:10)
+- **Countdown VP:** **~47 ore** — urgenza link lista d'attesa + ok presidio invariata.
+- **1/7:** allerta temporali ER confermata (Protezione Civile 30/6 12:27).
+- **Stallo business:** ~157h — invariato sul DB (7 numeri = vs 23:08).
 
 ## 🚧 ZTL / viabilità
 - VP 3/7: centro pedonale/ZTL serale — presidio QR sì, delivery in ZTL no quella sera.

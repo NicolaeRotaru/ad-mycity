@@ -1,32 +1,32 @@
 {
-  "data": "2026-06-30 22:17",
-  "sintesi": "Stallo 155h confermato live (REST 22:17): 0 pagati, 0 consegne, 1 ordine zombie €19,05. VP 3/7 tra 3 giorni — finestra presidio che si chiude il 17/7. Domani 1/7 pioggia. La via più veloce per rompere lo stallo: forzare transazione Casa Linda (payout-ready) OPPURE sbloccare ordine Pane Quotidiano. Bando ER: 21 giorni. L'AD ha prodotto lista 10 lead food per dopo la 1ª transazione.",
+  "data": "2026-06-30 23:10",
+  "sintesi": "Stallo ~157h confermato live (REST 23:10): 0 pagati, 0 consegne, 1 ordine zombie €19,05. VP 3/7 tra ~47 ore — finestra presidio che si chiude il 17/7. Domani 1/7 temporali. La via più veloce per rompere lo stallo: forzare transazione Casa Linda (payout-ready) OPPURE sbloccare ordine Pane Quotidiano. Bando ER: 21 giorni.",
   "prossime_mosse": [
     {
       "titolo": "Forzare prima transazione end-to-end con Casa Linda (payout-ready)",
       "priorita": "alta",
-      "quando": "subito — stallo 155h",
+      "quando": "subito — stallo ~157h",
       "colore": "🔴",
       "come": "Casa Linda: acct_1TcI1vIb6nEnAk4o, stripe_payouts_enabled=true. 1 prodotto vero → ordine-test → payout.",
-      "ad_prepara": "Catena vendite+operations pronta; lista 10 lead food per il dopo",
+      "ad_prepara": "Catena vendite+operations pronta; snapshot KPI 23:10",
       "senior": "vendite + operations + finanza"
     },
     {
       "titolo": "Sbloccare ordine zombie €19,05",
       "priorita": "alta",
-      "quando": "subito — 6,5 giorni",
+      "quando": "subito — ~6,5 giorni",
       "colore": "🔴",
-      "come": "Pacchetto completo in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md — accetta o annulla con nota.",
+      "come": "Pacchetto in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md — accetta o annulla.",
       "ad_prepara": "Bozze messaggio/email al buyer (tel. 348 642 1766) pronte",
       "senior": "operations + supporto"
     },
     {
-      "titolo": "Presidio Venerdì Piacentini 3/7 (tra 3 giorni)",
+      "titolo": "Presidio Venerdì Piacentini 3/7 (tra ~47h)",
       "priorita": "alta",
       "quando": "entro venerdì 3/7",
       "colore": "🔴",
       "come": "Kit QR #11 + contenuti #7 — serve LINK lista d'attesa reale.",
-      "ad_prepara": "Azioni già in coda; eventi-picchi aggiornato",
+      "ad_prepara": "Checklist countdown 🟢 pronta",
       "senior": "content-social + designer + vendite"
     },
     {
@@ -43,7 +43,7 @@
       "priorita": "media",
       "quando": "questa settimana",
       "colore": "🟡",
-      "come": "One-pager in coda #12 — da usare coi 10 lead food pronti",
+      "come": "One-pager in coda #12",
       "ad_prepara": "Lista lead: consegne/vendite/2026-06-30-primi-10-lead-food-centro.md",
       "senior": "vendite + legale-privacy"
     }
@@ -54,9 +54,9 @@
     {"nome": "Antica Salumeria Garetti (prospect)", "perche": "Negozio-faro narrativo", "stato": "prospect, azioni 🔴 in coda"}
   ],
   "rischi": [
-    "Stallo 155h: domani supera la soglia psicologica 7 giorni",
-    "VP 3/7 tra 3 giorni senza link lista = presidio a conversione zero",
-    "Buyer ordine zombie abbandonato 6,5 giorni",
+    "Stallo ~157h: domani 1/7 supera soglia psicologica 7 giorni",
+    "VP 3/7 tra ~47h senza link lista = presidio a conversione zero",
+    "Buyer ordine zombie abbandonato ~6,5 giorni",
     "Bus factor: tutto dipende da Nicola"
   ],
   "serve_da_nicola": [

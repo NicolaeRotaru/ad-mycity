@@ -190,11 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
+## 🤖 Aggiornamento dell'AD — 2026-06-30 23:10
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **📊 7 numeri LIVE (REST 22:17):** stallo **155h**, invariato sul business. Sensori recuperati via fallback REST — MCP marketplace ancora cieco ma dati freschi sì.
-- **🌧️ Domani 1/7 temporali/pioggia** ([iLMeteo](https://www.ilmeteo.it/pdf/meteo-piacenza.pdf)): secondo giorno leva *"piove, te la portiamo noi"* — latente senza catalogo vero.
-- **🎭 VP 3/7 TRA 3 GIORNI:** countdown presidio QR — azioni #7 e #11. Serve link lista d'attesa.
-- **⚙️ Supabase incident mgmt ops 30/6:** create/resize affetti; **lettura dati OK**. Manutenzione 2/7 03-04 UTC. Stripe operativo.
-- **⛔ Collo di bottiglia:** prima transazione **Casa Linda** + sblocco ordine zombie €19,05 — pacchetti pronti.
+- **📊 7 numeri LIVE (REST 23:10):** stallo **~157h**, invariato. VP 3/7 **tra ~47 ore** — urgenza link lista.
+- **🌧️ Domani 1/7 temporali** ([Protezione Civile ER](https://protezionecivile.regione.emilia-romagna.it/novita/notizie/attualita/per-la-giornata-di-1-luglio-allerta-arancione-per-temperature-estreme-in-regione-giallo-temporali)): leva delivery latente.
+- **⛔ Collo di bottiglia:** prima transazione **Casa Linda** + sblocco ordine zombie €19,05.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
