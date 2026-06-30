@@ -21,6 +21,7 @@ export function obsidianBranch(): string {
   return BRANCH;
 }
 
+/** Config vault per diagnosi/UI: il Pannello legge qui, non da main. */
 export function vaultGithubInfo(): { collegato: boolean; ramo: string; repo: string | null } {
   return {
     collegato: obsidianConnected(),

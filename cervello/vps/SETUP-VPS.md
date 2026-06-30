@@ -90,9 +90,12 @@ sudo systemctl start --no-block mycity-giro.service   # parte il giro adesso
 sudo journalctl -u mycity-giro -f                     # log in diretta (Ctrl-C per uscire)
 ```
 Non serve `git pull` a mano: **il primo passo del giro allinea da solo il codice a `origin/main`**
-(pannello, cervello, agenti) — i tuoi merge entrano lì — lasciando intatto il vault. Al termine trovi
+(pannello, cervello, agenti) — i tuoi merge di **codice** entrano lì — lasciando intatto il vault. Al termine trovi
 il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo
-`memoria-ad` → visibili nel **Pannello**. ⚠️ I merge devono essere su `main`: il giro sincronizza solo da lì.
+`memoria-ad` → **visibili subito nel Pannello** (che legge quel ramo via GitHub, senza merge su main).
+
+> **Due rami, due compiti:** `memoria-ad` = memoria viva (giro, briefing, STATO) · `main` = codice.
+> Il Pannello legge `memoria-ad`. Mergiare `memoria-ad → main` **non** è necessario per vedere i giri.
 
 > Se hai cambiato i **file delle unit systemd** (`mycity-*.service`/`.timer`), ricopiali e ricarica prima:
 > `sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload`

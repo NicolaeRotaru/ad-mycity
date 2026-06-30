@@ -55,6 +55,23 @@ GitHub verificata (es. `…@users.noreply.github.com`). I commit futuri del giro
 
 **Non serve** mergiare la PR #103 per il Pannello. Puoi chiuderla se l'unico scopo era vedere i dati.
 
+## ❓ Devo mergiare `memoria-ad` in `main` per vedere i giri nel Pannello?
+
+**No.** Il Pannello legge il vault **direttamente dal ramo `memoria-ad`** via GitHub API
+(`OBSIDIAN_BRANCH=memoria-ad`). Appena il giro fa push su `memoria-ad`, la Cabina vede briefing,
+STATO, AZIONI, consegne — **senza alcun merge su `main`**.
+
+| Operazione | Serve per il Pannello? |
+|------------|------------------------|
+| Giro push su `memoria-ad` | ✅ Sì — è così che arrivano i dati |
+| `OBSIDIAN_BRANCH=memoria-ad` su Vercel | ✅ Sì — senza, legge `main` (dati vecchi) |
+| Merge PR giro → `memoria-ad` | ✅ Sì (se il giro è su branch `cursor/…`) |
+| Merge `memoria-ad` → `main` | ❌ No — opzionale solo per backup/sync Obsidian |
+
+**Perché esistono due rami?** `main` ospita il codice (pannello, cervello); `memoria-ad` accumula
+la memoria senza conflitti con le PR di codice. Il VPS allinea il codice da `main` a ogni giro,
+ma **non tocca** il vault su `memoria-ad`.
+
 ## ⚠️ Nota sui percorsi
 Le note stanno nella sottocartella `MyCity-Vault/`. Quindi quando il pannello scrive,
 deve usare percorsi tipo `MyCity-Vault/90-Memoria-AI/STATO.md`. L'AD ne è già a

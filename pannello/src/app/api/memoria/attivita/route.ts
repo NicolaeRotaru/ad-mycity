@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile, listVaultDir, codaTesto } from "@/lib/vault";
+import { vaultGithubInfo } from "@/lib/obsidian";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,8 +31,12 @@ export async function GET() {
   const sala = await readVaultFile("90-Memoria-AI/SALA-OPERATIVA.md");
   const decisioni = await readVaultFile("90-Memoria-AI/DECISIONI.md");
 
+  const vault = vaultGithubInfo();
   return NextResponse.json({
-    collegato: briefing != null || sala != null || decisioni != null,
+    collegato: vault.collegato && (briefing != null || sala != null || decisioni != null),
+    vaultGithub: vault.collegato,
+    ramo: vault.ramo,
+    repo: vault.repo,
     briefing,
     salaOperativa: sala ? codaTesto(sala) : "",
     decisioni: decisioni ? codaTesto(decisioni) : "",
