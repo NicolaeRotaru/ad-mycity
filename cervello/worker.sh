@@ -20,6 +20,42 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%H:%M:%S'; }
 
+WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
+export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
+
+# Se giro.sh ha allineato il codice da main, worker.sh su disco è più nuovo del processo in RAM → ricarica.
+maybe_reload_worker() {
+  local now_mtime
+  now_mtime="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)"
+  if [ "$now_mtime" != "$WORKER_LOADED_MTIME" ]; then
+    echo "[$(ts)] worker.sh aggiornato su disco — ricarico il processo (fix da main attivi)." >&2
+    exec bash "$WORKER_SCRIPT"
+  fi
+}
+
+# Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push memoria-ad).
+worker_pipeline_tag() {
+  if grep -q 'bash "\$SCRIPT_DIR/giro.sh"' "$WORKER_SCRIPT" 2>/dev/null; then
+    echo "giro-pipeline-v2"
+  else
+    echo "legacy-agent-direct"
+  fi
+}
+
+stamp_worker_info() {
+  local tag pipeline
+  pipeline="$(worker_pipeline_tag)"
+  tag="$(git log -1 --format=%h -- "$WORKER_SCRIPT" 2>/dev/null || echo "?")"
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:pipeline\",\"valore\":\"$pipeline\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:codice_rev\",\"valore\":\"$tag\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 # --- Sync conflict-safe delle scritture del vault sul ramo memoria-ad ---
 # Il worker edita i file del vault (AZIONI-IN-ATTESA → FATTO, DECISIONI). Senza questo, il giro successivo
 # faceva 'checkout -f' e le cancellava (data loss + rischio doppio invio reale). Qui le rendiamo DUREVOLI
@@ -32,7 +68,10 @@ GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 # Ritorna 0 se push ok o niente da inviare; 1 se push fallito; 2 se lock non ottenuto.
 sync_vault() {
-  [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ] || return 0
+  if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
+    echo "[$(ts)] ERRORE: GIT_PUSH_TOKEN/GIT_REPO mancanti nel .env — memoria NON pubblicata su GitHub." >&2
+    return 3
+  fi
   local url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   local sync_rc=0
   exec 9>"$LOCK"
@@ -110,7 +149,18 @@ fi
 INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (basso = chat reattiva)
 AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
-echo "[$(ts)] Worker AD avviato. Controllo la coda 'lavori' ogni ${INTERVALLO}s."
+if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
+  echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare su memoria-ad." >&2
+else
+  # Test rapido autenticazione GitHub (sola lettura).
+  _git_test="$(git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
+  if [ -z "$_git_test" ]; then
+    echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — push memoria-ad fallirà." >&2
+  fi
+fi
+
+echo "[$(ts)] Worker AD avviato (pipeline: $(worker_pipeline_tag)). Controllo la coda ogni ${INTERVALLO}s."
+stamp_worker_info
 
 # Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
 battito_worker() {
@@ -121,6 +171,7 @@ battito_worker() {
 }
 
 while true; do
+  maybe_reload_worker
   battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
@@ -235,4 +286,8 @@ $richiesta"
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
     && echo "[$(ts)] Lavoro $id: $stato." \
     || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
+
+  # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.
+  [ "$tipo" = "giro" ] && maybe_reload_worker
+  stamp_worker_info
 done

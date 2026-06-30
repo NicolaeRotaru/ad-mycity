@@ -140,7 +140,8 @@ Apri nel browser (sostituisci dominio):
 |---------|------------|-----|
 | Chat: «Serve database memoria» | `SUPABASE_*` mancanti su Vercel | Imposta + redeploy |
 | Chat: «sto pensando…» ma in Lavori compare «Fatto» | Il polling chat non agganciava il lavoro (tab sospesa / ref perso) | Aggiorna Pannello (fix polling 2s + sessionStorage). Se persiste: `systemctl restart mycity-worker` |
-| Chat: giro «Fatto» ma memoria-ad su GitHub ferma | Il worker lanciava `agent` senza `giro.sh` → TL;DR sì, push no | Fix worker: giro passa da `giro.sh`. Verifica `GIT_PUSH_TOKEN` nel `.env` |
+| Chat: giro «Fatto» ma memoria-ad su GitHub ferma | Worker **legacy in RAM** (codice vecchio) o `GIT_PUSH_TOKEN` mancante | `sudo bash cervello/vps/aggiorna-cervello.sh` sul VPS |
+| Diagnosi «Pipeline giro VECCHIA» | Worker non riavviato dopo merge su main | `aggiorna-cervello.sh` (vedi sequenza sotto) |
 | Lavori giro «errore» push memoria-ad | `GIT_PUSH_TOKEN` scaduto o email commit sbagliata | Rigenera token GitHub + `GIT_AUTHOR_EMAIL=98592323+NicolaeRotaru@users.noreply.github.com` |
 | Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
@@ -161,10 +162,16 @@ Apri nel browser (sostituisci dominio):
 
 ## Sequenza ripristino rapido (5 min)
 
-1. Correggi `/opt/mycity/ad-mycity/cervello/vps/.env` (modello sopra)
-2. `sudo systemctl restart mycity-worker`
-3. `journalctl -u mycity-worker -f` → deve dire `Worker AD avviato` (non exit)
+1. Correggi `/opt/mycity/ad-mycity/cervello/vps/.env` (modello sopra) — **GIT_PUSH_TOKEN obbligatorio**
+2. **Dopo ogni merge su main**, allinea codice + riavvia worker:
+   ```bash
+   sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh
+   ```
+3. `journalctl -u mycity-worker -n 20` → deve dire `pipeline: giro-pipeline-v2` (NON legacy)
 4. Vercel: verifica `SUPABASE_*` + `OBSIDIAN_BRANCH=memoria-ad` → Redeploy
-5. Pannello: invia «ciao» in chat → entro ~30s risposta
+5. Pannello → Diagnosi: verde su **Pipeline giro** + **Push memoria-ad**
+6. «fai un giro» → briefing e GitHub `memoria-ad` aggiornati insieme
 
-Il codice nuovo da `main` arriva al VPS **da solo** al prossimo giro (`giro-ora.sh`), senza git manuale.
+> **Perché il giro alle 20:10 non ha pushato?** Il worker girava ancora con codice **vecchio in RAM**
+> (prima del fix #108). Il TL;DR in chat era solo testo AI, non memoria su GitHub.
+> `aggiorna-cervello.sh` + un nuovo giro risolvono.

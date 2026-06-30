@@ -106,8 +106,22 @@ export async function GET() {
     stato: orePush == null ? "giallo" : orePush <= 6 ? "verde" : orePush <= 48 ? "giallo" : "rosso",
     dettaglio:
       orePush == null
-        ? "nessun push registrato: verifica GIT_PUSH_TOKEN sul VPS"
+        ? "nessun push registrato: sul VPS esegui aggiorna-cervello.sh e verifica GIT_PUSH_TOKEN"
         : `ultimo push ${eta(orePush)} — merge su main NON necessario per il Pannello`,
+  });
+
+  // 6d) Pipeline worker sul VPS: legacy = TL;DR in chat ma memoria-ad ferma.
+  const pipeline = await getImpostazione("worker:pipeline").catch(() => null);
+  const codiceRev = await getImpostazione("worker:codice_rev").catch(() => null);
+  const legacy = pipeline === "legacy-agent-direct";
+  checks.push({
+    nome: "Pipeline giro (VPS)",
+    stato: !pipeline ? "giallo" : legacy ? "rosso" : "verde",
+    dettaglio: !pipeline
+      ? "sconosciuta: riavvia il worker (aggiorna-cervello.sh)"
+      : legacy
+        ? "VECCHIA — esegui sudo bash cervello/vps/aggiorna-cervello.sh sul VPS"
+        : `attiva (${pipeline}${codiceRev ? ` · rev ${codiceRev}` : ""})`,
   });
 
   // 7) Autopilota (informativo).
