@@ -1,0 +1,16 @@
+{
+  "data": "2026-06-30 20:10",
+  "situazione": "Giro 30/6 sera 20:10. 7 numeri riverificati live via REST (identici al giro 19:44): 2 negozi approvati, 1 payout-ready, 0 ordini pagati, 0 consegne. Stallo 153,7h (~6,4 giorni). Meteo: oggi 30/6 ultimo giorno di caldo in calo (~37°C, qualche piovasco serale); dal 1/7 temporali con allerta gialla ER → leva delivery 'piove, te la portiamo noi'. Venerdì Piacentini 3/7 tra 3 giorni (49 eventi). Bando ER: 20 giorni. Nessuna nuova azione: coda già piena.",
+  "opportunita": [
+    {"titolo": "Venerdì Piacentini 3/7 — presidio QR comodo", "motivo": "49 eventi, sera mite, ~50-60k persone. Rafforza kit #7 e #11 in coda.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Temporali dal 1/7 — leva delivery pioggia", "motivo": "Allerta gialla ER + calo termico: messaggio 'piove, te la portiamo noi'. Latente senza catalogo vero.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Prima transazione Casa Linda", "motivo": "Unico payout-ready: uscita dallo stallo di 6+ giorni.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Kit Bando ER (20 giorni)", "motivo": "One-pager pronto in consegne/vendite/ — leva urgenza nei pitch.", "impatto": "medio", "sforzo": "basso"}
+  ],
+  "azioni": [
+    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Stallo 153,7h.", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 6,4 giorni: buyer nel limbo.", "livello": "rosso"},
+    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Stripe/commissione/fee — blocco da 4+ giorni.", "livello": "rosso"},
+    {"titolo": "Approvare kit Bando ER + wiring Vercel memoria", "motivo": "Kit pronto; Cabina ancora senza memoria collegata su Vercel.", "livello": "giallo"}
+  ]
+}

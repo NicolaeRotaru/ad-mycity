@@ -1,0 +1,11 @@
+{
+  "_cosa_e": "Snapshot aggiornamento sonda 30/6 19:44 — appendere a storico-salute.json nel vault",
+  "entry": {
+    "data": "2026-06-30",
+    "voto_salute": 76,
+    "difetti_aperti": 3,
+    "difetti_chiusi": 0,
+    "tipo": "sonda",
+    "nota": "RECUPERO SENSORI via REST marketplace (MCP cieco ma REST OK). 7 numeri live verificati. AR-001 in-corso: fallback REST dimostrato. Voto +3 vs 11:45 (73→76). Invariante dati_freschi verde. Volano chiude. Vault write blocked (root ownership) — bundle in consegne/ad/."
+  }
+}

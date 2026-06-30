@@ -1,0 +1,19 @@
+{
+  "data": "2026-06-30 20:10",
+  "lezioni_nuove": [
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Terzo giro stesso giorno con stessi numeri: valore = riverifica live + raffinamento radar (meteo), NON duplicare azioni in coda né riscrivere intelligence identica. Se REST conferma = baseline, dichiararlo in 5 righe e chiudere onestamente.",
+      "tag": ["efficienza", "onesta", "max", "radar"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "pattern",
+      "stato": "in-prova"
+    }
+  ],
+  "meta_update": {
+    "lezioni_attive": 12,
+    "tasso_applicazione": 0.55
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "data": "2026-06-30 17:17",
+  "sintesi": "Nicola: priorità invariata — sbloccare lo stallo (~153h). Prima transazione Casa Linda (payout-ready) OPPURE decisione su ordine zombie Pane Quotidiano €19,05. Firme lancio 🔴 ancora in attesa. VP 3/7 tra 3 giorni: presidio QR se link lista pronto. Bando ER: 20 giorni.",
+  "prossime_mosse": [
+    {"titolo": "Prima transazione Casa Linda", "quando": "subito", "come": "Checklist 10 passi in consegne/vendite/", "priorita": "alta", "ad_prepara": "Checklist pronta", "senior": "@vendite", "colore": "🔴"},
+    {"titolo": "Sblocco ordine zombie €19,05", "quando": "subito", "come": "Opzione A accetta / B annulla — pacchetto pronto", "priorita": "alta", "ad_prepara": "consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Firme lancio (3 decisioni)", "quando": "in attesa", "come": "Foglio 2 min", "priorita": "alta", "ad_prepara": "consegne/decisioni/2026-06-26-foglio-firma-lancio.md", "senior": "@AD", "colore": "🔴"},
+    {"titolo": "Presidio VP 3/7", "quando": "venerdì 3/7", "come": "Kit #7 #11 in coda", "priorita": "alta", "ad_prepara": "QR + contenuti", "senior": "@content-social", "colore": "🔴"}
+  ],
+  "primi_negozi": [
+    {"nome": "Casa Linda", "perche": "Unico payout-ready (live 30/6)", "stato": "0 ordini — DA FORZARE"},
+    {"nome": "Pane Quotidiano", "perche": "Ordine zombie €19,05", "stato": "payout off — sbloccare ordine"},
+    {"nome": "Antica Salumeria Garetti", "perche": "Negozio-faro prospect", "stato": "non nel DB, azioni 🔴 in coda"}
+  ],
+  "rischi": ["Stallo >7 giorni domani", "Buyer zombie abbandonato", "VP senza presidio"],
+  "serve_da_nicola": [
+    {"ambito": "Sblocco", "cosa_manca": "Sì/no Casa Linda + A/B ordine zombie", "domanda_per_nicola": "Procedo con Casa Linda? Ordine zombie: accetti o annulli?"},
+    {"ambito": "Vault", "cosa_manca": "Merge file staging root-owned", "domanda_per_nicola": "Eseguire merge consegne/giro/2026-06-30-1717/ su memoria-ad?"}
+  ]
+}
