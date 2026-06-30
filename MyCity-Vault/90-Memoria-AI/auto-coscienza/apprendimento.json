@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 01:34",
+  "data": "2026-07-01 01:38",
   "lezioni": [
+    {
+      "id": "L-2026-0701-16",
+      "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
+      "tag": ["webfetch", "main", "vps", "nicola", "devops", "chiusura"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-15",
       "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08.",
@@ -15,11 +27,11 @@
     },
     {
       "id": "L-2026-0701-14",
-      "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente: Cursor ≠ worker (whitelist finché PR main). Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
+      "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente al momento del giro; **post-merge WebFetch (L-2026-0701-16)** worker = Cursor per navigazione. Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
       "tag": ["web", "apprendimento", "senior", "nicola", "sintesi", "giro"],
       "reparto": "@AD",
-      "confidenza": 0.85,
-      "evidenze": 1,
+      "confidenza": 0.87,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -27,26 +39,26 @@
     },
     {
       "id": "L-2026-0701-13",
-      "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due binari distinti** (non confonderli): (1) **whitelist nostra** sul worker finché PR `fix/webfetch-globale` non è mergiata su `main` — passano solo 11 domini (stripe.com, bandi ER×3, ilpiacenza, piacenza24, paginegialle, startupitalia, 2 substack, accessibilitacentristorici); tutto il resto → «WebFetch non autorizzato»; (2) **resistenza lato sito** — resta anche dopo WebFetch globale: login-wall (IG/TikTok/FB), paywall (testo pieno Libertà/testate), anti-bot/JS (Idealista timeout), 403 intermittenti (portali locali). Test Cursor 1/7: Comune ✅ · Libertà ✅ · PiacenzaSera ✅ · developers.google.com ✅ · Idealista ❌ · Instagram ⚠️ solo titolo. Ripiego policy: WebFetch → WebSearch + URL → dichiara limite in Sala Operativa/`memoria-squadra/`. Citare anche blocchi **non-WebFetch**: Supabase/Stripe MCP, Auto-review Cursor.",
+      "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due binari distinti** (non confonderli): (1) **whitelist nostra** — **superata** 1/7 01:37 (merge `fix/webfetch-globale` + sync VPS, L-2026-0701-16); prima del merge passavano solo 11 domini; (2) **resistenza lato sito** — resta anche dopo WebFetch globale: login-wall (IG/TikTok/FB), paywall (testo pieno Libertà/testate), anti-bot/JS (Idealista timeout), 403 intermittenti (portali locali). Test Cursor 1/7: Comune ✅ · Libertà ✅ · PiacenzaSera ✅ · developers.google.com ✅ · Idealista ❌ · Instagram ⚠️ solo titolo. Ripiego policy: WebFetch → WebSearch + URL → dichiara limite in Sala Operativa/`memoria-squadra/`. Citare anche blocchi **non-WebFetch**: Supabase/Stripe MCP, Auto-review Cursor.",
       "tag": ["web", "webfetch", "limiti", "nicola", "worker", "intelligence"],
-      "reparto": "@AD",
-      "confidenza": 0.87,
-      "evidenze": 1,
-      "fonte": "chat",
-      "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
-      "stato": "attiva"
-    },
-    {
-      "id": "L-2026-0701-12",
-      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto (`github.com/.../compare/main...fix/webfetch-globale`) + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto (verificare stato remoto). Branch attuale: `fix/webfetch-globale` commit `3ccfb05`.",
-      "tag": ["git", "pr", "main", "vps", "github", "nicola", "devops"],
       "reparto": "@AD",
       "confidenza": 0.89,
       "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 01:31",
+      "ultima_conferma": "2026-07-01 01:38",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-12",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
+      "tag": ["git", "pr", "main", "vps", "github", "nicola", "devops"],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 3,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:38",
       "stato": "attiva"
     },
     {
@@ -153,11 +165,11 @@
     },
     {
       "id": "L-2026-0701-03",
-      "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7 **parziale:** policy `WEB-APPRENDIMENTO-SENIOR.md` + blocco web su 42 mansionari su `memoria-ad`; **`settings.json` WebFetch globale NON su GitHub** (né main né memoria-ad remoto — corretto Nicola 1/7 01:13, L-2026-0701-10). Regole: benchmark a due livelli, fonte+data, lezione in memoria-squadra/. Resta 🔴 messaggi/spesa/deploy. **Gap:** PR merge su **`main`** + sync VPS (`aggiorna-cervello.sh` o giro); Nicola **non** fa pull `memoria-ad` (L-2026-0701-09). Test Cursor developers.google.com ≠ prova worker.",
+      "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7 **completo:** policy `WEB-APPRENDIMENTO-SENIOR.md` + blocco web su 42 mansionari su `memoria-ad` + **`settings.json` WebFetch globale su `main`** mergiato (Nicola 1/7 01:37, L-2026-0701-16) + worker VPS sincronizzato. Regole: benchmark a due livelli, fonte+data, lezione in memoria-squadra/. Resta 🔴 messaggi/spesa/deploy. Nicola **non** fa pull `memoria-ad` (L-2026-0701-09). Osservabilità quaderni: tab Pannello in attesa merge PR `fix/quaderni-senior` (L-2026-0701-15).",
       "tag": ["web", "apprendimento", "senior", "auto-miglioramento", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.93,
-      "evidenze": 6,
+      "confidenza": 0.95,
+      "evidenze": 7,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -382,10 +394,11 @@
     "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»).",
     "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»).",
     "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»).",
-    "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»)."
+    "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»).",
+    "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37)."
   ],
   "meta": {
-    "lezioni_attive": 29,
+    "lezioni_attive": 30,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

@@ -57,3 +57,6 @@ Metabolizzazione chat «rimandami la pr che non ho mergiato»: PR `fix/webfetch-
 
 # ESITO — @AD — 2026-07-01 01:34
 Metabolizzazione chat «aggiungi quaderni senior»: Nicola accetta proposta osservabilità → vista Pannello implementata (tab Memoria + API quaderni). Chiude gap L-2026-0701-08. Deploy = PR main; dati già su memoria-ad. L-2026-0701-15 + preferenza Nicola (imperativo breve «aggiungi X»).
+
+# ESITO — @AD — 2026-07-01 01:38
+Metabolizzazione chat «merge WebFetch + aggiorna-cervello + apri pr quaderni»: Nicola chiude ciclo WebFetch (merge `fix/webfetch-globale` + script VPS) e chiede PR quaderni su main. Worker ora naviga; branch `fix/quaderni-senior` pushato, merge in attesa. L-2026-0701-16 + patch L-0701-03/12/13/14. Preferenza: batch operativi (merge+script, poi prossima PR).

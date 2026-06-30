@@ -14,3 +14,4 @@ reparto: devops-sre
 - **2026-07-01 01:19** — Fix codice (WebFetch): PR su **`main`** (base main, 1 file settings.json) — **non** memoria-ad. Nicola: delega AD («apri la PR») o GitHub UI; post-merge = `aggiorna-cervello.sh`. Fonte: chat Nicola 1/7.
 - **2026-07-01 01:23** — Branch `fix/webfetch-globale` pushato (`3ccfb05`); token VPS push ✓ API PR ✗ → Nicola merge compare GitHub. Post-merge: `aggiorna-cervello.sh` + grep WebFetch senza `domain:`. Fonte: chat Nicola 1/7.
 - **2026-07-01 01:31** — Nicola conferma PR **non ancora mergiata** («rimandami la pr») — worker resta whitelist 11 domini fino al merge su `main`. Fonte: chat Nicola 1/7.
+- **2026-07-01 01:37** — Nicola merge PR **`fix/webfetch-globale`** su `main` + `aggiorna-cervello.sh` → VPS con `"WebFetch"` globale (grep senza `domain:`). Worker/giro automatico: web libero sola lettura. Fonte: chat Nicola 1/7.

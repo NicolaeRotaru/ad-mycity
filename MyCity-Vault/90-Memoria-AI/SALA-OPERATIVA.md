@@ -163,7 +163,7 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:29 · @legale-privacy · PASSO-A @tech · CGUE **2/12/2025** (C-492/23): marketplace = titolare GDPR su dati negli annunci — mappare su catalogo/recensioni MyCity.
 - 2026-07-01 01:29 · @marketing · PASSO-A @content-social · Agentic Commerce 2026 (Casaleggio/Netcomm): cataloghi devono essere leggibili anche dagli agenti AI — schema prodotto + FAQ.
 - 2026-07-01 01:29 · @cro · PASSO-A @frontend-dev · Checkout: wallet-first su mobile +6-11% in test A/B 2026; costi consegna inaspettati = #1 abbandono EU (40,7%, Sendcloud).
-- 2026-07-01 01:29 · @AD · SERVE · Worker VPS: giro eseguito in **Cursor** (web OK). Sul worker vale solo dopo merge PR WebFetch su `main` + `aggiorna-cervello.sh`.
+- 2026-07-01 01:29 · @AD · SERVE · ~~Worker VPS: giro eseguito in **Cursor** (web OK). Sul worker vale solo dopo merge PR WebFetch su `main` + `aggiorna-cervello.sh`.~~ **RISOLTO 01:37** — Nicola merge + sync; worker naviga.
 
 ### 2026-07-01 — Vista Quaderni senior nel Pannello
 - 2026-07-01 02:15 · @AD · FACCIO · Nicola chiede «aggiungi quaderni senior» → tab in Memoria + API.

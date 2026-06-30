@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:37
+aggiornato: 2026-07-01 01:38
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** in Cursor ✅ · policy+mansionari ✅ · **WebFetch globale mergiato su `main`** ✅ (Nicola 1/7) · worker VPS allineato (`aggiorna-cervello.sh`) ✅ · **Quaderni senior:** PR `fix/quaderni-senior` su **`main` in attesa merge** → Vercel redeploy · post-merge restano limiti **lato sito** (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** ✅ · policy+mansionari ✅ · **WebFetch globale live su worker** ✅ (merge `fix/webfetch-globale` + `aggiorna-cervello.sh` Nicola 1/7 01:37) · **Quaderni senior:** PR `fix/quaderni-senior` su **`main` in attesa merge** → Vercel redeploy · limiti **lato sito** restano (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,9 +49,11 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 01:34** — Nicola: «aggiungi quaderni senior» → tab **Quaderni senior** in Memoria + API `/api/memoria/quaderni` (legge `memoria-squadra/` da memoria-ad); fix `listRepoDir` in `vault.ts`. **Locale ok** · deploy Vercel = PR su **`main`**. L-2026-0701-15. Fonte: chat Nicola 1/7 01:34.
+1. **Metabolizzazione 1/7 01:38** — Nicola: merge PR WebFetch + `aggiorna-cervello.sh` + «apri la pr quaderni su main» → ciclo WebFetch **chiuso** (worker naviga); branch `fix/quaderni-senior` pushato (`9c5dc8e`), merge GitHub in attesa. L-2026-0701-16 + patch L-0701-03/12/13/14. Fonte: chat Nicola 1/7 01:37.
+2. **Chat 1/7 01:37** — Nicola conferma merge PR **WebFetch globale** su `main` + esegue `aggiorna-cervello.sh`; chiede «apri la pr quaderni su main» → branch `fix/quaderni-senior` pushato, link compare GitHub. Fonte: chat Nicola 1/7 01:37.
+2. **Chat 1/7 01:34** — Nicola: «aggiungi quaderni senior» → tab **Quaderni senior** in Memoria + API `/api/memoria/quaderni` (legge `memoria-squadra/` da memoria-ad); fix `listRepoDir` in `vault.ts`. **Locale ok** · deploy Vercel = PR su **`main`**. L-2026-0701-15. Fonte: chat Nicola 1/7 01:34.
 2. **Chat 1/7 01:31** — Nicola: «rimandami la pr che non ho mergiato» → re-inviato link compare `main...fix/webfetch-globale` + post-merge `aggiorna-cervello.sh`; PR **ancora in attesa** merge GitHub. Fonte: chat Nicola 1/7 01:31.
-2. **Chat 1/7 01:29** — Nicola: «fai giro web a tutti i senior» → **42/42** completati; sintesi top-10 + report `consegne/ad/2026-07-01-giro-web-senior.md`; quaderni aggiornati; handoff Sala Operativa (FESR chiuso, GDPR marketplace, fee consegna checkout). Giro in **Cursor** — worker resta whitelist fino merge PR. L-2026-0701-14.
+2. **Chat 1/7 01:29** — Nicola: «fai giro web a tutti i senior» → **42/42** completati; sintesi top-10 + report `consegne/ad/2026-07-01-giro-web-senior.md`; quaderni aggiornati; handoff Sala Operativa (FESR chiuso, GDPR marketplace, fee consegna checkout). Giro iniziale in **Cursor**; worker allineato post-merge WebFetch 01:37. L-2026-0701-14.
 2. **Chat 1/7 01:25** — Nicola: «ci altri siti con webfetch a cui non puoi aderire?» → risposta a due binari: whitelist worker (11 domini fino a merge PR) vs resistenza lato sito (IG/paywall/anti-bot); test Cursor catalogati; ripiego WebSearch. L-2026-0701-13.
 2. **Chat 1/7 01:23** — Nicola: «apri la pr su main» → branch `fix/webfetch-globale` pushato (`3ccfb05`, WebFetch globale in `settings.json`); PR da mergiare su GitHub (token VPS push ✓, API PR ✗). Post-merge: `aggiorna-cervello.sh`. L-2026-0701-12.
 2. **Chat 1/7 01:19** — Nicola: «come faccio PR su main?» → playbook: fix codice su **`main`** (non memoria-ad); due vie = AD apre PR o GitHub UI 8 passi; post-merge = `aggiorna-cervello.sh`. L-2026-0701-11.
