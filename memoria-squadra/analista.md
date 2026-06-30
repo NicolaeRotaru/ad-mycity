@@ -8,4 +8,4 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- (ancora vuoto: il primo lavoro lascerà qui la prima lezione)
+- 2026-07-01 00:58 · Correzione KPI negozi (chat Nicola): contare **1 negozio REALE** (Pane Quotidiano), **0 payout reali** — Casa Linda esclusa (demo/seed) · lezione: i 7 numeri «negozi approvati» devono filtrare demo prima di escalation/proposte · fonte: chat Nicola + live REST · #analista #kpi #verita

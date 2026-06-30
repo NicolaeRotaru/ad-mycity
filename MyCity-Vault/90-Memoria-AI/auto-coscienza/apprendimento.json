@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 00:36",
+  "data": "2026-07-01 00:58",
   "lezioni": [
+    {
+      "id": "L-2026-0701-04",
+      "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
+      "tag": ["verita", "entita", "demo", "nicola", "negozi", "guardrail"],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "principio"
+    },
     {
       "id": "L-2026-0701-03",
       "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7: WebFetch globale in `.claude/settings.json`, policy `WEB-APPRENDIMENTO-SENIOR.md`, blocco web su 42 mansionari. Regole: benchmark a due livelli (Piacenza + mondo), fonte+data, lezione in memoria-squadra/, loop chiuso. Resta 🔴 messaggi/spesa/deploy. **Gap operativo:** worker VPS deve fare pull `memoria-ad` altrimenti giri automatici restano con whitelist WebFetch vecchia.",
@@ -127,10 +140,10 @@
       "tag": ["verita", "guardrail", "entita", "autonomia"],
       "reparto": "@AD",
       "confidenza": 0.9,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "auto-analisi",
       "nato": "2026-06-28",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-07-01",
       "stato": "principio"
     },
     {
@@ -217,11 +230,12 @@
     "Si aspetta che l'AD veda le sue approvazioni/rifiuti dal Pannello (chat 30/6): leggerle dal DB memoria e rifletterle nel vault, senza che debba ripeterle.",
     "Quando le azioni restano ferme chiede la lista concreta delle mani/chiavi mancanti, in ordine di impatto — non teoria (chat 30/6 «quali mani ti servono?»).",
     "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»).",
-    "Vuole che tutti i senior usino il web per auto-migliorarsi, imparare e restare al passo — livello multinazionale, non solo intelligence (chat 1/7 «permetti a tutti i senior di navigare sul web»)."
+    "Vuole che tutti i senior usino il web per auto-migliorarsi, imparare e restare al passo — livello multinazionale, non solo intelligence (chat 1/7 «permetti a tutti i senior di navigare sul web»).",
+    "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano)."
   ],
   "meta": {
-    "lezioni_attive": 17,
-    "promosse_a_principio": 3,
+    "lezioni_attive": 18,
+    "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65
   }
