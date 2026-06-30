@@ -111,3 +111,11 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 11:45 · @intelligence · FATTO · Scan live: **SVOLTA METEO — caldo finito**, oggi 30/6 e domani 1/7 pioggia (prob. 90%, max ~34°C), poi mite. **Venerdì Piacentini 3/7 confermato (49 eventi:** wrestling ICW Piazza Cavalli 22:00, Tu Si Que Avis Piazza Duomo, Modoolo clubbing, XNL 19-23). Competitor/stampa/istituzioni non rifatti (cadenza settimanale).
 - 2026-06-30 11:45 · @operations · FATTO · Nota operativa svolta meteo in `consegne/operations/2026-06-30-svolta-meteo-pioggia.md` (🟢): regola "no freschi 12-18" rilassata, leva "piove te la portiamo noi", presidio VP 3/7 ora comodo (sera fresca), piano B cargo-bike bagnato.
 - 2026-06-30 11:45 · @AD · SERVE · Da Nicola (invariato): ① ok transazione Casa Linda 🔴 · ② sblocco ordine zombie 🔴 · ③ firme lancio 🔴 · ④ autorizzare Supabase MCP / wiring Vercel 🟡. Nessuna nuova azione accodata: coda già piena e pertinente.
+
+### 2026-06-30 — Giro serale (22:17)
+- 2026-06-30 22:17 · @AD · FATTO · Giro serale: 7 numeri RIVERTIFICATI LIVE via REST Supabase (identici 29/6). Stallo 155h (+2h vs 17:17). Sensori marketplace recuperati (fallback REST quando MCP cieco).
+- 2026-06-30 22:17 · @analista · FATTO · Numeri live: 2 negozi/1 payout, 1 ordine zombie €19,05, 0 pagati/consegne/payout, 4 buyer (0 nuovi 7g), 4 carrelli abbandonati, 407 lead.
+- 2026-06-30 22:17 · @devops-sre · FATTO · Radar ops-02: Supabase incident mgmt ops 30/6 (create/resize) — REST read OK; Stripe operativo. Manutenzione Supabase 2/7 03-04 UTC.
+- 2026-06-30 22:17 · @intelligence · FATTO · Meteo 1/7: temporali/pioggia confermati. VP 3/7 tra 3 giorni (49 eventi).
+- 2026-06-30 22:17 · @vendite · FATTO · Lista 10 lead food centro in consegne/vendite/2026-06-30-primi-10-lead-food-centro.md (🟢) — da usare post-1ª transazione con kit bando ER.
+- 2026-06-30 22:17 · @AD · SERVE · Da Nicola: ① Casa Linda 🔴 · ② ordine zombie 🔴 · ③ firme lancio 🔴 · ④ link lista d'attesa per VP 3/7 🔴 (tra 3 giorni).

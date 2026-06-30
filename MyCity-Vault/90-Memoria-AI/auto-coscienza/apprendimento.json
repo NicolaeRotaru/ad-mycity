@@ -1,6 +1,18 @@
 {
-  "data": "2026-06-30 11:45",
+  "data": "2026-06-30 22:17",
   "lezioni": [
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth), usare il fallback REST via env MARKETPLACE_SUPABASE_URL/KEY — verificato funzionante il 30/6 serale. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "tag": ["sensori", "fallback", "supabase", "rest"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0630-01",
       "testo": "I sensori dati (Supabase/Stripe MCP) possono regredire da una sessione all'altra: leggibili un giorno, ciechi il giorno dopo. Quando succede, NON riportare i vecchi numeri come freschi: tienili come baseline ESPLICITA con la data dell'ultima verifica reale e mettili nei Gap. Un voto di fiducia che scende per peggioramento-sensori (non per errore) è onesto e corretto.",
@@ -132,9 +144,9 @@
     "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
   ],
   "meta": {
-    "lezioni_attive": 10,
+    "lezioni_attive": 11,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.5
+    "tasso_applicazione": 0.55
   }
 }

@@ -171,3 +171,11 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 5. **Apri il foglio pipeline + lista d'attesa per quartiere** con i 6 KPI di §1 → da 0 a ≥1 su negozi LIVE e 1° ordine.
 
 #vendite #acquisizione #negozi #piano #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **🟢 Lista 10 lead food centro pronta:** `consegne/vendite/2026-06-30-primi-10-lead-food-centro.md` (407 lead totali in DB, outreach `to_contact`). Da contattare **dopo** la 1ª transazione, con kit Bando ER (#12, scade 21/7).
+- **Priorità immediata invariata:** Casa Linda (payout-ready) per 1ª transazione — non i 10 lead.
+- **Buchi mercato confermati live:** panetteria + macelleria dominano i lead food; ortofrutta/pescheria/gastronomia ancora scoperte nel cluster centro.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

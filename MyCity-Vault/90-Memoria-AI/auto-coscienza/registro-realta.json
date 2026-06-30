@@ -1,7 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-30 11:45",
-  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno (Casa Linda, Pane Quotidiano) NON sono state riverificate oggi: 'ultima_verifica' resta al 29/6 (baseline valida, non spacciata per fresca). Aggiunte 2 entità esterne verificate live oggi: svolta meteo 30/6 e dettaglio Venerdì Piacentini 3/7.",
+  "aggiornato": "2026-06-30 22:17",
+  "_nota_giro_30_06_sera": "Giro 30/6 22:17: Casa Linda e Pane Quotidiano RIVERTIFICATI live via REST Supabase. Stallo 155h confermato. Aggiunta entità '407 lead merchants_leads'.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -34,12 +34,12 @@
       "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
       "confidenza": 0.95,
       "evidenze": [
-        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-30 22:17 via REST).",
         "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
         "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
       ],
       "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
-      "ultima_verifica": "2026-06-29 11:30"
+      "ultima_verifica": "2026-06-30 22:17"
     },
     {
       "nome": "Pane Quotidiano",
@@ -48,12 +48,12 @@
       "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
       "confidenza": 0.9,
       "evidenze": [
-        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-30 22:17 via REST).",
         "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
-        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 5 giorni — ordine zombie)."
+        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 6,5 giorni — ordine zombie)."
       ],
       "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
-      "ultima_verifica": "2026-06-29 11:30"
+      "ultima_verifica": "2026-06-30 22:17"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -112,7 +112,7 @@
         "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
       ],
       "note": "Con la sera fresca (svolta meteo), il presidio offline QR diventa comodo. Rafforza le azioni in coda #7 e #11.",
-      "ultima_verifica": "2026-06-30 11:45"
+      "ultima_verifica": "2026-06-30 22:17"
     }
   ],
   "numeri_da_non_inventare": {

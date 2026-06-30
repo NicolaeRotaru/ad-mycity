@@ -208,10 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-28 18:07
+## 🤖 Aggiornamento dell'AD — 2026-06-30 22:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **✅ PIANO SANT'ANTONINO PRONTO (artefatto):** la finestra del patrono ora è pianificata operativamente → `consegne/marketing/2026-07-04-piano-santantonino.md` (turni presidio 3-4/7, QR `santantonino_2026` + volantino A6, lista negozianti, metriche). Da attivare con Garetti LIVE + link lista + persona fisica.
-- **⭐ SETTIMANA DI SANT'ANTONINO = grande finestra di notorietà (la più grande del mese):** festa del patrono, pre-festa 27/6→3/7, **culmine sab 4/7** (fiera di bancarelle, centro pieno tutto il giorno) + **Venerdì Piacentini 3/7**. Occasione per **presidio/QR ad alto traffico** e per un **angolo PR civico** ("la festa del patrono e le botteghe del centro"): possibile aggancio earned media locale legato alla tradizione. Fonti: [piacenza24 – Antoniniane 2026](https://www.piacenza24.eu/manifestazioni-antoniniane-2026/) · [comune – Manifestazioni Antoniniane](https://www.comune.piacenza.it/it/news/manifestazioni-antoniniane). (presidio 🟡 · contatto stampa/enti 🔴)
-- **🎤 STASERA Arisa a Palazzo Farnese — ORARIO CONFERMATO ore 21:15** (cortile, piazza Cittadella 29) = picco di presenze serale in centro nelle ore fresche → presidio/QR a costo ≈0. **Finestra reale: 20:00-21:15 + post-show ~23:00.** Serve il link lista d'attesa reale (senza, il QR converte 0). Fonte: [ticketone](https://www.ticketone.it/event/arisa-live-tour-palazzo-farnese-21450766/).
-- **Finestra presidio lunga**: il centro resta animato fino a metà luglio (manifestazione + festa patrono) → presidio fisico/QR + earned media locale prolungato.
+- **VP 3/7 tra 3 giorni = finestra notorietà offline:** ~50-60k persone/sera, presidio QR a costo ≈0 (azioni #7, #11). Senza link lista d'attesa = zero conversione.
+- **Sant'Antonino 4/7** subito dopo VP — doppia finestra presidio (3/7 + 4/7).
+- **Earned media bloccato** finché non c'è 1 ordine reale da raccontare ("le botteghe che consegnano a casa").
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

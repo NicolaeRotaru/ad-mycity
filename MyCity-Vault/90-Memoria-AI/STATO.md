@@ -1,51 +1,44 @@
 ---
 tipo: stato
-aggiornato: 2026-06-30 11:45
-fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in sessione 30/6)
+aggiornato: 2026-06-30 22:17
+fonte: AD digitale (7 numeri = live REST 30/6 22:17 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **30/6 11:45 — STALLO A ~6 GIORNI.** Supabase non collegato in questa sessione → i 7 numeri restano
-> alla baseline verificata live il 29/6. Nessuna attività reale dal 24/6 08:28.
-> **Novità di oggi (web live): SVOLTA METEO — il caldo è finito.** Oggi 30/6 e domani 1/7 = **pioggia
-> (prob. 90%, max ~34°C)**, poi clima mite (29-32°C). Il fattore-guida passa da caldo a **pioggia** (leva
-> delivery più forte). **Venerdì Piacentini 3/7 confermato** (49 eventi) → presidio QR ora comodo (sera fresca).
-> Collo di bottiglia invariato: **prima transazione end-to-end con Casa Linda** (payout-ready) + ordine zombie €19,05.
+> 🧠 **30/6 22:17 — STALLO 155h, DATI LIVE RECUPERATI.** 7 numeri **riverificati live** via REST Supabase (fallback quando MCP cieco). **Invariati vs 29/6.** Ultimo evento reale: ordine €19,05 del 24/6. **VP 3/7 tra 3 giorni** (49 eventi). **Domani 1/7 pioggia/temporali** → leva delivery. Collo di bottiglia: **prima transazione Casa Linda** + **ordine zombie €19,05**.
 
-## I 7 numeri (baseline live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth — NON riverificati il 30/6)
-| Numero | Oggi (29/6) | "Riuscito" | Note |
+## I 7 numeri (live 2026-06-30 22:17 · Supabase REST clmpyfvpvfjgeviworth)
+| Numero | Oggi (30/6) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **5 giorni** |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **6,5 giorni** |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | 1 | mai eseguito |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: "samir?" il 16/6 |
 
 ## Semafori
-- 🟢 Va bene: infrastruttura pronta (Stripe, COD, onboarding, 407 lead, 250 prodotti seed); DB-memoria costruito.
-- 🟡 Da tenere d'occhio: catalogo "finto" (solo seed); ordine €19,05 zombie da 5 giorni; 4 carrelli abbandonati (12-15 gg); bando ER scade 21/7.
-- 🔴 Problema: **stallo da ~125h** (0 ordini/0 eventi dal 24/6); 3 decisioni di lancio non firmate; nessun wiring Vercel.
+- 🟢 Va bene: infrastruttura pronta (Stripe operativo, REST Supabase OK, 407 lead, 250 prodotti seed); memoria DB collegata.
+- 🟡 Da tenere d'occhio: catalogo "finto" (solo seed); ordine €19,05 zombie 6,5 gg; 4 carrelli abbandonati; bando ER 21 giorni; incident Supabase mgmt ops (non lettura dati).
+- 🔴 Problema: **stallo 155h** (0 ordini/eventi dal 24/6); 3 decisioni di lancio non firmate; VP 3/7 tra 3 giorni senza link lista d'attesa.
 
 ## Ultime mosse dell'AD
-1. **Giro 30/6 11:45** — Svolta meteo confermata live (fine caldo, pioggia oggi+domani); Venerdì Piacentini 3/7 dettagliato (49 eventi). Supabase non collegato → 7 numeri = baseline 29/6. Nota operativa svolta meteo prodotta (🟢). Vedi [[2026-06-30]].
-2. **Giri 29/6 14:24 e 16:24** — 2 passaggi leggeri a sensori ridotti (Supabase/WebFetch non autorizzati): dati immobili, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Vedi [[2026-06-29]].
-3. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C.
-4. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
-5. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
-6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
+1. **Giro 30/6 22:17** — 7 numeri live REST (identici). Stallo 155h. Lista 10 lead food centro (🟢). Incident Supabase mgmt documentato; Stripe OK. Vedi [[2026-06-30]].
+2. **Giro 30/6 17:17** — Primo passaggio con REST live; pacchetto ordine zombie prodotto.
+3. **Giro 30/6 11:45** — Svolta meteo (fine caldo, pioggia); MCP cieco → baseline 29/6.
+4. **Giri 29/6** — Stallo ~128-125h confermato; infrastruttura operativa (sentinella ops-02 OK).
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.
 - [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
-- [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (22gg alla scadenza).
-- [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
-- [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
-- [ ] 🟡 **Wiring Vercel**: env vars DB-memoria + Redeploy → spia "Memoria collegata" verde.
-- [x] ✅ Memoria costruita (28/6 20:25).
-- [x] ✅ DB marketplace ricollegato (28/6 16:46).
+- [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (21gg alla scadenza 21/7).
+- [ ] 🟡 **Presidio VP 3/7** — kit QR #11 + contenuti #7 (tra 3 giorni).
+- [ ] 🔴 Firmare le 3 decisioni di lancio — [[AZIONI-IN-ATTESA]].
+- [ ] 🟡 **Wiring Vercel** memoria (#10).
+- [x] ✅ Lista 10 lead food centro (30/6 22:17).
+- [x] ✅ Pacchetto sblocco ordine zombie (30/6 17:17).
 
 ---
-*Scritto dall'AD. Dettaglio del giro in [[2026-06-29]]; decisioni in [[DECISIONI]].*
+*Scritto dall'AD. Dettaglio in [[2026-06-30]]; decisioni in [[DECISIONI]].*

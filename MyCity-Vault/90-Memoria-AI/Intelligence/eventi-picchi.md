@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-06-30 11:45** · Fonte: @intelligence (giro del 30/6, WebSearch live).
+> Aggiornato: **2026-06-30 22:17** · Fonte: @intelligence (giro serale 30/6, WebSearch + REST live).
 > ⚠️ Libertà, IlPiacenza, PiacenzaSera e siti del Comune bloccano WebFetch (403) — dati ricostruiti via WebSearch.
 
 ---
@@ -37,7 +37,12 @@
 
 ---
 
-## 🆕 Novità dal 30/6
+## 🆕 Novità dal 30/6 (sera 22:17)
+- **VP 3/7 tra 3 giorni** — countdown operativo: serve link lista d'attesa + ok presidio entro venerdì.
+- **Domani 1/7:** temporali pomeridiani confermati ([iLMeteo bollettino 1 luglio](https://www.ilmeteo.it/pdf/meteo-piacenza.pdf)) — secondo giorno consecutivo leva pioggia.
+- **Supabase:** incident mgmt ops 30/6 (create/resize) — **non** impatta lettura dati; manutenzione programmata 2/7 03-04 UTC ([status](https://status.supabase.com/)).
+
+## 🆕 Novità dal 30/6 (mattina)
 
 - **🌦️ SVOLTA METEO CONFERMATA:** la previsione "caldo in calo da martedì" si è avverata. Oggi 30/6 e domani 1/7 = **pioggia (prob. 90%)**, poi clima mite. Fine del caldo estremo. → cambia la guida operativa (vedi §1).
 - **Ex Scuderie — 3 spazi food premium approvati dal Comune** (dal 29/6, ancora valido): gastronomia, panetteria, ortofrutta. Pipeline di 3 potenziali partner MyCity. [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)

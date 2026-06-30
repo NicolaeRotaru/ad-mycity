@@ -1,100 +1,67 @@
 {
-  "data": "2026-06-30 11:45",
-  "sintesi": "AGGIORNAMENTO 30/6: stallo a ~6 giorni (Supabase non collegato in sessione → 7 numeri = baseline 29/6). I 2 negozi reali (Casa Linda payout-ready, Pane Quotidiano) e Garetti (prospect) sono invariati. Novità di oggi: il caldo è finito (pioggia oggi+domani), e il Venerdì Piacentini 3/7 (49 eventi) avrà sera fresca → il presidio QR diventa comodo. L'unica via veloce per rompere lo stallo resta forzare la prima transazione con Casa Linda OPPURE sbloccare l'ordine zombie €19,05 di Pane Quotidiano. Bando ER scade 21/7 (21 giorni): kit #12 in coda. Piano di fondo invariato: negozio-faro → cluster 6 botteghe → domanda.",
+  "data": "2026-06-30 22:17",
+  "sintesi": "Stallo 155h confermato live (REST 22:17): 0 pagati, 0 consegne, 1 ordine zombie €19,05. VP 3/7 tra 3 giorni — finestra presidio che si chiude il 17/7. Domani 1/7 pioggia. La via più veloce per rompere lo stallo: forzare transazione Casa Linda (payout-ready) OPPURE sbloccare ordine Pane Quotidiano. Bando ER: 21 giorni. L'AD ha prodotto lista 10 lead food per dopo la 1ª transazione.",
   "prossime_mosse": [
     {
       "titolo": "Forzare prima transazione end-to-end con Casa Linda (payout-ready)",
-      "priorita": "critica",
-      "quando": "subito — stallo a 125h",
+      "priorita": "alta",
+      "quando": "subito — stallo 155h",
       "colore": "🔴",
-      "come": "Casa Linda è l'unico negozio con payout attivo (acct_1TcI1vIb6nEnAk4o). 1 prodotto vero → ordine-test → conferma → payout. È la via più veloce per testare il ciclo completo senza aspettare Garetti.",
-      "ad_prepara": "Catena vendite+operations pronta al via di Nicola",
+      "come": "Casa Linda: acct_1TcI1vIb6nEnAk4o, stripe_payouts_enabled=true. 1 prodotto vero → ordine-test → payout.",
+      "ad_prepara": "Catena vendite+operations pronta; lista 10 lead food per il dopo",
       "senior": "vendite + operations + finanza"
     },
     {
-      "titolo": "Sbloccare ordine zombie €19,05 (accettare o annullare con nota al buyer)",
-      "priorita": "critica",
-      "quando": "subito — fermo da 5 giorni",
+      "titolo": "Sbloccare ordine zombie €19,05",
+      "priorita": "alta",
+      "quando": "subito — 6,5 giorni",
       "colore": "🔴",
-      "come": "Ordine COD PENDING/NEW dal 24/6. Decidere: accettare e organizzare la consegna, o annullare con una nota cortese al buyer (9262fa38). La prima impressione del servizio è rovinata se resta nel limbo.",
-      "ad_prepara": "Bozza nota al buyer pronta; proposta di status update",
-      "senior": "operations + supporto + customer-success"
+      "come": "Pacchetto completo in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md — accetta o annulla con nota.",
+      "ad_prepara": "Bozze messaggio/email al buyer (tel. 348 642 1766) pronte",
+      "senior": "operations + supporto"
     },
     {
-      "titolo": "Kit 'Bando ER + MyCity' per onboarding negozi (scade 21/7 — 22 giorni)",
+      "titolo": "Presidio Venerdì Piacentini 3/7 (tra 3 giorni)",
       "priorita": "alta",
+      "quando": "entro venerdì 3/7",
+      "colore": "🔴",
+      "come": "Kit QR #11 + contenuti #7 — serve LINK lista d'attesa reale.",
+      "ad_prepara": "Azioni già in coda; eventi-picchi aggiornato",
+      "senior": "content-social + designer + vendite"
+    },
+    {
+      "titolo": "Firmare le 3 decisioni di lancio",
+      "priorita": "alta",
+      "quando": "in attesa da 5 giorni",
+      "colore": "🔴",
+      "come": "Foglio-firma 2 min: consegne/decisioni/2026-06-26-foglio-firma-lancio.md",
+      "ad_prepara": "Foglio consolidato pronto",
+      "senior": "vendite + finanza"
+    },
+    {
+      "titolo": "Kit Bando ER + MyCity (scade 21/7)",
+      "priorita": "media",
       "quando": "questa settimana",
       "colore": "🟡",
-      "come": "One-pager: preventivo MyCity intestabile + descrizione spesa ammissibile + mini-guida Sfinge + disclaimer. Da usare a ogni pitch come leva urgenza.",
-      "ad_prepara": "Kit accodato in AZIONI-IN-ATTESA #12",
+      "come": "One-pager in coda #12 — da usare coi 10 lead food pronti",
+      "ad_prepara": "Lista lead: consegne/vendite/2026-06-30-primi-10-lead-food-centro.md",
       "senior": "vendite + legale-privacy"
-    },
-    {
-      "titolo": "Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)",
-      "priorita": "alta",
-      "quando": "in attesa da 4 giorni",
-      "colore": "🔴",
-      "come": "Foglio-firma da 2 minuti (consegne/decisioni/2026-06-26-foglio-firma-lancio.md). Sbloccano infrastruttura e onboarding.",
-      "ad_prepara": "Foglio-firma consolidato + condizioni commerciali",
-      "senior": "vendite + finanza + legale-privacy"
-    },
-    {
-      "titolo": "Wiring Vercel memoria (2 env vars + Redeploy)",
-      "priorita": "media",
-      "quando": "quando possibile",
-      "colore": "🟡",
-      "come": "Impostare SUPABASE_URL + SUPABASE_SERVICE_KEY del progetto memoria nelle env Vercel del Pannello + Redeploy.",
-      "ad_prepara": "Istruzioni pronte in AZIONI-IN-ATTESA #10",
-      "senior": "AD + builder-automazioni"
-    },
-    {
-      "titolo": "Partire coi primi 10 dei 407 lead to_contact",
-      "priorita": "media",
-      "quando": "dopo la prima transazione riuscita",
-      "colore": "🟡",
-      "come": "Selezionare i 10 lead più caldi (cluster centro, food) e avviare il primo contatto con il kit bando ER come leva.",
-      "ad_prepara": "Lista 10 lead prioritari da merchants_leads + kit bando",
-      "senior": "vendite + intelligence"
     }
   ],
   "primi_negozi": [
-    {
-      "nome": "Casa Linda",
-      "perche": "Unico negozio approvato E payout-ready: la via più veloce per la prima transazione end-to-end",
-      "stato": "approvato nel DB, payout attivo, 0 ordini — DA FORZARE"
-    },
-    {
-      "nome": "Pane Quotidiano",
-      "perche": "Secondo negozio approvato, ha l'ordine zombie €19,05",
-      "stato": "approvato nel DB, payout NON attivo — sbloccare ordine"
-    },
-    {
-      "nome": "Antica Salumeria Garetti (prospect)",
-      "perche": "Negozio-faro narrativo scelto per gap di mercato + posizione centro + DOP",
-      "stato": "prospect (non nel DB), azioni 🔴 in attesa di firma"
-    }
+    {"nome": "Casa Linda", "perche": "Unico payout-ready — via più veloce per 1ª transazione", "stato": "approvato, payout attivo, 0 ordini — DA FORZARE"},
+    {"nome": "Pane Quotidiano", "perche": "Ordine zombie €19,05 suo", "stato": "approvato, payout off — sbloccare ordine"},
+    {"nome": "Antica Salumeria Garetti (prospect)", "perche": "Negozio-faro narrativo", "stato": "prospect, azioni 🔴 in coda"}
   ],
   "rischi": [
-    "Stallo a ~6 giorni: se non si sblocca con un'azione nei prossimi giorni, l'intero setup rischia di diventare 'progetto morto'",
-    "Bando ER scade 21/7 (21 giorni): se non si prepara il kit e non si usa come leva, si perde l'urgenza",
-    "Ordine zombie €19,05: buyer abbandonato per 5 giorni = prima impressione rovinata",
-    "Bus factor: tutto dipende da Nicola in prima persona (pitch, consegne, firme)"
+    "Stallo 155h: domani supera la soglia psicologica 7 giorni",
+    "VP 3/7 tra 3 giorni senza link lista = presidio a conversione zero",
+    "Buyer ordine zombie abbandonato 6,5 giorni",
+    "Bus factor: tutto dipende da Nicola"
   ],
   "serve_da_nicola": [
-    {
-      "ambito": "Sblocco critico",
-      "cosa_manca": "Decisione: forzare la transazione con Casa Linda (sì/no) + sbloccare l'ordine zombie (accettare/annullare)",
-      "domanda_per_nicola": "Dico sì a Casa Linda per la prima transazione? E l'ordine zombie di Pane Quotidiano: lo accetti o lo annullo con una nota al cliente?"
-    },
-    {
-      "ambito": "Lancio",
-      "cosa_manca": "Firma delle 3 decisioni 🔴 di lancio (Stripe, commissione, fee) — in attesa da 4 giorni",
-      "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti? (consegne/decisioni/2026-06-26-foglio-firma-lancio.md)"
-    },
-    {
-      "ambito": "Infrastruttura",
-      "cosa_manca": "Wiring Vercel della memoria (service key è un segreto tuo)",
-      "domanda_per_nicola": "Metti le 2 variabili su Vercel e fai Redeploy?"
-    }
+    {"ambito": "Sblocco critico", "cosa_manca": "Sì transazione Casa Linda + decisione ordine zombie", "domanda_per_nicola": "Forzo Casa Linda per la 1ª transazione? Ordine €19,05: accetti o annulli?"},
+    {"ambito": "Lancio", "cosa_manca": "3 firme 🔴 lancio", "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti?"},
+    {"ambito": "VP 3/7", "cosa_manca": "Link lista d'attesa reale", "domanda_per_nicola": "Hai il link? Senza, il presidio del 3/7 converte 0."}
   ]
 }
