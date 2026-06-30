@@ -1,5 +1,7 @@
 # 🖥️ Modo C — Il cervello MyCity sempre acceso su un VPS Linux
 
+> **Chat o briefing fermi?** Leggi prima [`CHECKLIST-VIVO.md`](CHECKLIST-VIVO.md) (guida unica, 5 min).
+
 > Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
 > Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
 > Il **motore AI** è **Cursor** di default (CLI `agent`, col tuo abbonamento Cursor); in alternativa
