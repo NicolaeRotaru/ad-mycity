@@ -26,6 +26,30 @@
       "stato": "attiva"
     },
     {
+      "id": "L-2026-0629-03",
+      "testo": "Non moltiplicare i giri nello stesso giorno se i sensori sono ciechi e fuori non è cambiato nulla: il valore aggiunto è ~zero e si brucia Max. Riconoscere la condizione (dati congelati + MCP/WebFetch non autorizzati + scan locale invariato) e produrre un passaggio MINIMO e onesto — o saltare — invece di ri-scansionare i fattori settimanali del radar o inventare novità. Un giro che dice 'niente di nuovo, la palla è a Nicola' vale più di uno gonfiato. (Confermata di nuovo al 5° passaggio del 29/6.)",
+      "tag": ["efficienza", "metacognizione", "sensori", "max", "onesta"],
+      "reparto": "@AD",
+      "confidenza": 0.82,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-29",
+      "ultima_conferma": "2026-06-29",
+      "stato": "in-prova"
+    },
+    {
+      "id": "L-2026-0629-04",
+      "testo": "Anche in un passaggio a sensori dati spenti, c'è SEMPRE un check a basso costo che vale la pena chiudere: lo stato pubblico delle piattaforme critiche (Supabase/Stripe via WebSearch) è una sentinella 🔴 ogni-giro che costa una ricerca e produce una diagnosi netta — 'lo stallo è tecnico o decisionale?'. Verificare che l'infrastruttura regge trasforma un giro vuoto in un giro con UNA conclusione utile per Nicola.",
+      "tag": ["sensori", "sentinelle", "efficienza", "diagnosi"],
+      "reparto": "@AD",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-29",
+      "ultima_conferma": "2026-06-29",
+      "stato": "in-prova"
+    },
+    {
       "id": "L-2026-0628-01",
       "testo": "Grounding delle entità a 3 strade, da fare DA SOLA prima di disturbare Nicola: (a) nei dati reali → confermata; (b) scelta ragionata con prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, mostra il perché; (c) nessun fondamento → blocca e chiedi. Solo (c) è il vero 'inventato'.",
       "tag": ["verita", "guardrail", "entita", "autonomia"],
@@ -108,7 +132,7 @@
     "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
   ],
   "meta": {
-    "lezioni_attive": 8,
+    "lezioni_attive": 10,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.5

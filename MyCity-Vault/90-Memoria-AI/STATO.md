@@ -31,10 +31,11 @@ fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in ses
 
 ## Ultime mosse dell'AD
 1. **Giro 30/6 11:45** — Svolta meteo confermata live (fine caldo, pioggia oggi+domani); Venerdì Piacentini 3/7 dettagliato (49 eventi). Supabase non collegato → 7 numeri = baseline 29/6. Nota operativa svolta meteo prodotta (🟢). Vedi [[2026-06-30]].
-2. **Giro 29/6 11:30** — Riverificati numeri (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C. Vedi [[2026-06-29]].
-3. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
-4. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
-5. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
+2. **Giri 29/6 14:24 e 16:24** — 2 passaggi leggeri a sensori ridotti (Supabase/WebFetch non autorizzati): dati immobili, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Vedi [[2026-06-29]].
+3. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C.
+4. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
+5. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
+6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.
