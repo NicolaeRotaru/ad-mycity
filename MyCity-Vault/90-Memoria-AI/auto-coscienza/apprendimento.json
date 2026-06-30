@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 01:05",
+  "data": "2026-07-01 01:06",
   "lezioni": [
+    {
+      "id": "L-2026-0701-06",
+      "testo": "**Foglio-firma lancio (Nicola 1/7 01:02):** risponde con imperativi operativi, non con le lettere A/B/C del foglio — «crea il contratto» (#1), «lo faccio 03/7 mattina» (#2), «è sandbox» (#3). 5 perché: (1) vuole artefatti e date, non checkbox astratti; (2) il payout-test lo esegue lui in calendario, non delegato all'AD; (3) Stripe sandbox è stato fattuale confermato, non scelta futura LIVE; (4) COD-first è implicito (sandbox + ordine zombie già COD); (5) fix: mappare le sue frasi alle 3 decisioni, registrare forma esatta in DECISIONI, creare subito bozza contratto per Pane Quotidiano — unico negozio reale.",
+      "tag": ["foglio-firma", "nicola", "stripe", "contratto", "payout", "comunicazione"],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-05",
       "testo": "**Caso-studio Nicola:** Rimanda presidio VP 3/7 (kit QR + contenuti #7/#8/#11) perché «inizierò ad inserire i negozi del 6 luglio». 5 perché: (1) bandwidth umana finita — ops batte marketing; (2) senza link lista il presidio converte 0 comunque; (3) ho spinto VP per finestra temporale ignorando che Nicola aveva lavoro concreto; (4) proposta Pannello non distingueva prerequisito ops vs urgenza evento; (5) fix: quando Nicola annuncia batch operativo (onboarding negozi), congelare leve evento/time-bound e preparare checklist/supporto ops — prossima finestra VP 10/17 lug solo se link lista pronto post-batch.",
@@ -189,10 +202,10 @@
       "tag": ["preference-learning", "nicola"],
       "reparto": "@AD",
       "confidenza": 0.78,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-06-28",
-      "ultima_conferma": "2026-06-30",
+      "ultima_conferma": "2026-07-01",
       "stato": "attiva"
     },
     {
@@ -245,10 +258,12 @@
     "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»).",
     "Vuole che tutti i senior usino il web per auto-migliorarsi, imparare e restare al passo — livello multinazionale, non solo intelligence (chat 1/7 «permetti a tutti i senior di navigare sul web»).",
     "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano).",
-    "Con operazioni concrete in coda (es. inserimento batch negozi 6/7) rimanda leve marketing/eventi anche se la finestra temporale si chiude — ops prima del presidio VP (chat 1/7 «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»)."
+    "Con operazioni concrete in coda (es. inserimento batch negozi 6/7) rimanda leve marketing/eventi anche se la finestra temporale si chiude — ops prima del presidio VP (chat 1/7 «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»).",
+    "Sul foglio-firma risponde con imperativi brevi e fatti («crea il contratto», «lo faccio 03/7 mattina», «è sandbox») — non con opzioni A/B/C; il payout-test Stripe lo esegue personalmente in calendario (chat 1/7 foglio-firma lancio).",
+    "Confermato Stripe sandbox sul sito: nessun incasso carta reale finché non passa a LIVE; intanto percorso COD (ordine zombie €19,05 già coerente) (chat 1/7 #3)."
   ],
   "meta": {
-    "lezioni_attive": 19,
+    "lezioni_attive": 20,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

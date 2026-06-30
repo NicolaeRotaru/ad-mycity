@@ -8,4 +8,4 @@ reparto: legale-privacy
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- (ancora vuoto: il primo lavoro lascerà qui la prima lezione)
+- 2026-07-01 01:06 · Foglio-firma #1 Nicola «crea il contratto» · bozza 12% / 0€ fissi / payout a consegna / no vincolo per **Pane Quotidiano** in `consegne/legale/contratto-pane-quotidiano-bozza.md` · restano: validazione legale ⚠️ + firma col negozio 🔴 · lezione: «crea il contratto» ≠ solo ok percentuale — serve artefatto pronto prima del pitch · #legale #contratto #pane-quotidiano
