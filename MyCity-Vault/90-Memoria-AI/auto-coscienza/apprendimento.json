@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 01:31",
+  "data": "2026-07-01 01:34",
   "lezioni": [
+    {
+      "id": "L-2026-0701-15",
+      "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08.",
+      "tag": ["pannello", "quaderni", "memoria-squadra", "nicola", "osservabilita", "deploy"],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.84,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-14",
       "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente: Cursor ≠ worker (whitelist finché PR main). Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
@@ -77,14 +89,14 @@
     },
     {
       "id": "L-2026-0701-08",
-      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Gap:** `memoria-squadra/` fuori vault → non in Pannello.",
+      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Pannello:** tab «Quaderni senior» legge `memoria-squadra/` da memoria-ad (L-2026-0701-15) — locale già ok, deploy PR su `main`.",
       "tag": ["web", "osservabilita", "verifica", "pannello", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.91,
-      "evidenze": 4,
+      "confidenza": 0.92,
+      "evidenze": 5,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:34",
       "stato": "attiva"
     },
     {
@@ -369,10 +381,11 @@
     "Delega confermata con «apri la pr su main»: AD prepara branch+push, Nicola merge su GitHub in browser (1 click) — non git locale (chat 1/7 01:23).",
     "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»).",
     "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»).",
-    "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»)."
+    "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»).",
+    "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»)."
   ],
   "meta": {
-    "lezioni_attive": 28,
+    "lezioni_attive": 29,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

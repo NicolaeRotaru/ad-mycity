@@ -54,3 +54,6 @@ Giro web 42 senior (Nicola): benchmark 2025-26, 1 riga ESITO/quaderno con URL+da
 
 # ESITO — @AD — 2026-07-01 01:31
 Metabolizzazione chat «rimandami la pr che non ho mergiato»: PR `fix/webfetch-globale` **ancora in attesa** merge Nicola su GitHub. Pattern: re-inviare link compare + post-merge `aggiorna-cervello.sh`; non assumere merge. L-2026-0701-12 evidenze++ + preferenza Nicola.
+
+# ESITO — @AD — 2026-07-01 01:34
+Metabolizzazione chat «aggiungi quaderni senior»: Nicola accetta proposta osservabilità → vista Pannello implementata (tab Memoria + API quaderni). Chiude gap L-2026-0701-08. Deploy = PR main; dati già su memoria-ad. L-2026-0701-15 + preferenza Nicola (imperativo breve «aggiungi X»).

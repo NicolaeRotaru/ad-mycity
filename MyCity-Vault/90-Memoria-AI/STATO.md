@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:33
+aggiornato: 2026-07-01 01:34
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -49,7 +49,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 01:31** — Nicola: «rimandami la pr che non ho mergiato» → re-inviato link compare `main...fix/webfetch-globale` + post-merge `aggiorna-cervello.sh`; PR **ancora in attesa** merge GitHub. Fonte: chat Nicola 1/7 01:31.
+1. **Chat 1/7 01:34** — Nicola: «aggiungi quaderni senior» → tab **Quaderni senior** in Memoria + API `/api/memoria/quaderni` (legge `memoria-squadra/` da memoria-ad); fix `listRepoDir` in `vault.ts`. **Locale ok** · deploy Vercel = PR su **`main`**. L-2026-0701-15. Fonte: chat Nicola 1/7 01:34.
+2. **Chat 1/7 01:31** — Nicola: «rimandami la pr che non ho mergiato» → re-inviato link compare `main...fix/webfetch-globale` + post-merge `aggiorna-cervello.sh`; PR **ancora in attesa** merge GitHub. Fonte: chat Nicola 1/7 01:31.
 2. **Chat 1/7 01:29** — Nicola: «fai giro web a tutti i senior» → **42/42** completati; sintesi top-10 + report `consegne/ad/2026-07-01-giro-web-senior.md`; quaderni aggiornati; handoff Sala Operativa (FESR chiuso, GDPR marketplace, fee consegna checkout). Giro in **Cursor** — worker resta whitelist fino merge PR. L-2026-0701-14.
 2. **Chat 1/7 01:25** — Nicola: «ci altri siti con webfetch a cui non puoi aderire?» → risposta a due binari: whitelist worker (11 domini fino a merge PR) vs resistenza lato sito (IG/paywall/anti-bot); test Cursor catalogati; ripiego WebSearch. L-2026-0701-13.
 2. **Chat 1/7 01:23** — Nicola: «apri la pr su main» → branch `fix/webfetch-globale` pushato (`3ccfb05`, WebFetch globale in `settings.json`); PR da mergiare su GitHub (token VPS push ✓, API PR ✗). Post-merge: `aggiorna-cervello.sh`. L-2026-0701-12.
