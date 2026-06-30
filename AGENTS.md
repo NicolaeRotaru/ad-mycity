@@ -5,19 +5,27 @@ Il mansionario operativo è `CLAUDE.md` (italiano).
 
 ## Cursor Cloud — regole critiche
 
-### Memoria: ramo `memoria-ad` (MAI `main`)
+### Memoria: ramo `memoria-ad` — come vede il Pannello
 
-Il vault (`MyCity-Vault/90-Memoria-AI/`, `consegne/`, `creativi/`, `memoria-squadra/`) vive **solo** sul ramo
-`memoria-ad`. Il Pannello legge quel ramo (`OBSIDIAN_BRANCH=memoria-ad`). Il ramo `main` è **solo codice**.
+Il vault (`MyCity-Vault/90-Memoria-AI/`, `consegne/`, `creativi/`) vive sul ramo **`memoria-ad`**.
+Il Pannello lo legge **direttamente da GitHub** su quel ramo (`OBSIDIAN_BRANCH=memoria-ad`).
+**Non serve mergiare `memoria-ad` in `main` per vedere i dati del giro nel Pannello.**
 
-**Quando esegui un giro** (`fai un giro`, `cervello/giro.md`, briefing, STATO, auto-coscienza, ecc.):
+| Cosa | Ramo | Perché |
+|------|------|--------|
+| Giro, briefing, STATO, AZIONI | `memoria-ad` | È la memoria viva che legge la Cabina |
+| Codice pannello/cervello | `main` | Deploy e fix tecnici |
+| Merge `memoria-ad → main` | Solo se **tu** lo decidi | Opzionale, per backup/Obsidian su main — **non** per il Pannello |
+
+**Quando esegui un giro** (`fai un giro`, `cervello/giro.md`, briefing, STATO, ecc.):
 
 1. **Base della PR = `memoria-ad`** — non `main`.
-2. **Branch di lavoro** — crea `cursor/giro-AAAA-MM-DD-HHMM-dca4` (o simile) **partendo da `memoria-ad`**.
+2. **Branch di lavoro** — crea `cursor/giro-AAAA-MM-DD-HHMM-3045` **partendo da `memoria-ad`**.
 3. **Dopo il push** — apri/aggiorna la PR con **base `memoria-ad`**, titolo tipo `Giro AAAA-MM-DD HH:MM`.
-4. **Non** aprire PR `memoria-ad → main` per i giri: quella merge è manuale e separata.
+4. **Merge la PR in `memoria-ad`** (non in `main`) — così il Pannello vede subito il giro.
+5. **Non** scrivere la memoria solo su `main`: la Cabina non la leggerebbe.
 
-Se parti da `main` per errore, la memoria finisce nel posto sbagliato e il Pannello non la vede.
+Se parti da `main` per errore, la memoria finisce nel posto sbagliato e il Pannello resta fermo.
 
 ### Servizi
 

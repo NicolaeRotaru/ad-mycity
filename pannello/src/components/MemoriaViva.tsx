@@ -22,6 +22,9 @@ import ParlaCasella from "@/components/ParlaCasella";
 // Sentinelle — vivono in ⚡ Azioni, l'hub delle decisioni.)
 type Attivita = {
   collegato: boolean;
+  vaultGithub?: boolean;
+  ramo?: string;
+  repo?: string | null;
   briefing: { nome: string; data?: string; testo: string } | null;
   salaOperativa: string;
   decisioni: string;
@@ -79,6 +82,7 @@ export default function MemoriaViva() {
   const [piani, setPiani] = useState<Piano[]>([]);
   const [okr, setOkr] = useState<{ northStar: string; righe: Okr[] }>({ northStar: "", righe: [] });
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
+  const [ramoVault, setRamoVault] = useState<string | null>(null);
 
   const carica = useCallback(async (silenzioso = false) => {
     if (!silenzioso) setLoading(true);
@@ -91,6 +95,7 @@ export default function MemoriaViva() {
         fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
       ]);
       setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
+      setRamoVault(at?.ramo || null);
       setStato(st.testo || "");
       setStatoAgg(st.aggiornato || "");
       setPiani(pi.piani || []);
@@ -125,6 +130,11 @@ export default function MemoriaViva() {
           <Brain />
         </span>
         <span className="text-[15px] font-semibold tracking-tight">La memoria viva dell'AD</span>
+        {ramoVault && collegato && (
+          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-brand-50 text-brand border border-brand/15" title="Il Pannello legge questo ramo su GitHub — non serve merge su main">
+            ramo {ramoVault}
+          </span>
+        )}
         <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica()}
@@ -160,10 +170,16 @@ export default function MemoriaViva() {
           <Loader2 size={16} className="animate-spin" /> Carico la memoria…
         </div>
       ) : !collegato ? (
-        <div className="text-center text-black/50 py-8 text-sm">
-          <p className="mb-1">Memoria del vault non raggiungibile.</p>
-          <p className="text-xs text-black/40">
-            In locale parte da sola (monorepo). Online imposta le variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code> verso la repo <b>ad-mycity</b>.
+        <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
+          <p className="mb-2 font-medium text-ink/80">Memoria del vault non raggiungibile.</p>
+          <p className="text-xs text-black/45 leading-relaxed">
+            Il giro salva su GitHub nel ramo <b>memoria-ad</b>. Il Pannello lo legge <b>direttamente</b> da lì
+            (variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>) — <b>non devi mergiare su main</b> per
+            vedere briefing, STATO e azioni.
+          </p>
+          <p className="text-xs text-black/40 mt-2">
+            Online: <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_BRANCH=memoria-ad</code> su Vercel.
+            Se è <code className="bg-black/[0.05] px-1 rounded">main</code>, vedi dati vecchi anche con giro fresco.
           </p>
         </div>
       ) : (

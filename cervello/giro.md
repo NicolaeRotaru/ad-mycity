@@ -3,14 +3,15 @@ Fai un GIRO DI PERLUSTRAZIONE come AD digitale di MyCity (segui CLAUDE.md).
 Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 
 > ⚠️ **DOVE PUBBLICARE (regola anti-blocco — vale SEMPRE, specie per i giri da CLOUD AGENT):**
-> La memoria del vault (STATO, briefing, `90-Memoria-AI/`, `consegne/`, `creativi/`) vive **SOLO sul ramo
-> `memoria-ad`** — è il ramo che legge il Pannello (`OBSIDIAN_BRANCH`). Il ramo **`main` è SOLO codice** e
-> non deve MAI ricevere modifiche di memoria in modo indipendente: se accade, `main` e `memoria-ad` divergono
-> sugli stessi file e la PR `memoria-ad → main` si **blocca per conflitti**.
+> La memoria del vault (STATO, briefing, `90-Memoria-AI/`, `consegne/`, `creativi/`) vive sul ramo
+> **`memoria-ad`** — è il ramo che legge il Pannello (`OBSIDIAN_BRANCH`). Il Pannello legge da GitHub
+> in tempo reale: **non serve mergiare `memoria-ad` in `main` per vedere i giri nella Cabina.**
+> Il ramo **`main` è per il CODICE** — non deve ricevere modifiche di memoria in modo indipendente:
+> se accade, `main` e `memoria-ad` divergono sugli stessi file e una futura sync diventa conflittuale.
 > - **Giro sul VPS** (`giro.sh`): già a posto, scrive su `memoria-ad`.
 > - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e poi
->   **apri/aggiorna la PR con base `memoria-ad`** (NON `main`). In alternativa, dopo il push, pubblica il
->   giro su `memoria-ad` (fast-forward). **Non lasciare la memoria solo su `main`.**
+>   **apri/aggiorna la PR con base `memoria-ad`** e **mergiala in `memoria-ad`** (NON in `main`).
+>   In alternativa, dopo il push, pubblica il giro su `memoria-ad` (fast-forward). **Non lasciare la memoria solo su `main`.**
 > - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno già `merge=union` in `.gitattributes`
 >   (si fondono senza conflitto). Gli **snapshot** (STATO.md, `auto-coscienza/*.json`, `ultimo-briefing.json`,
 >   `intenzioni-nicola.json`) NON si possono auto-fondere: la loro protezione è proprio questa regola
