@@ -21,7 +21,7 @@ Legenda stato: ✅ già nel marketplace · 🟢 gratis da collegare · 🟡 pron
 | Google Business Profile | post + risposte recensioni | marketing, pr | API/n8n | 🟢 | scheda GBP |
 | Maps/Geocoding | zone consegna | operations | Nominatim(OSM) gratis o Google free | 🟢 | (OSM nessuna chiave) |
 | Browser automation | siti senza API, scraping | intelligence, builder | browser | 🟢 | — (sul worker) |
-| WebSearch | ricerca/intelligence | intelligence, analista | nativo | ✅ | — |
+| WebSearch / WebFetch | ricerca, benchmark, apprendimento continuo | **tutti i senior** | nativo | ✅ | — |
 | QR / PDF / locandine | materiali | designer | `creativi/` | ✅ | — |
 | Marketplace interne | coupon, prodotti, nascondi, ordini, modera, risposte recensioni | growth, vendite, ops | admin API | ✅ | chiave SCRITTURA |
 | **Config sito** (banner, logo, home, pagine, vetrine) | cambia aspetto/contenuti SENZA deploy | product, designer, content | `cervello/marketplace.mjs` | ✅ | chiave SCRITTURA |

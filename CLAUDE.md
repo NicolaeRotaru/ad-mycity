@@ -217,7 +217,8 @@ Il comando avvia il lavoro; resta valido il cancello 🟢🟡🔴 (le azioni rea
   workflow (radiografia, audit-design) e i senior (tech, qa) lo trovano da soli (env
   `MARKETPLACE_REPO` → cartella `marketplace/`). Leggilo con Read/Grep/Glob; modifiche → solo
   in un branch del repo del marketplace, 🟡, mai deploy 🔴. (Dettagli: `cervello/README.md`.)
-- **Web**: WebSearch / WebFetch per intelligence e ricerca.
+- **Web**: WebSearch / WebFetch per **tutti i senior** (benchmark, apprendimento, ricerca verificabile —
+  policy `MyCity-Vault/07-Agenti/WEB-APPRENDIMENTO-SENIOR.md`) e per intelligence.
 - **Memoria**: leggi/scrivi i file del vault come descritto sopra.
 
 ---

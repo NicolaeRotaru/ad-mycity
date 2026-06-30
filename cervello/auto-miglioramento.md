@@ -26,8 +26,9 @@ Tutto questo vive in `auto-coscienza/auto-miglioramento.json` (sezione `benchmar
 ## 🔁 Il ciclo BENCHMARK → MIGLIORA → MISURA (loop chiuso)
 Per ogni lavoro importante (ambiti: contenuto, prezzo/fee, onboarding, funnel/CRO, SEO, email, PR…):
 1. **Produci** la versione attuale (il senior di reparto la fa).
-2. **Scova i migliori.** Delega a **@intelligence**: chi fa questa stessa cosa benissimo? Competitor di
-   Piacenza + i top nazionali/mondiali del settore + lo `creativi/swipe/SWIPE-FILE.md` +
+2. **Scova i migliori.** Delega al senior di reparto (o a **@intelligence** se serve scout esterno): chi fa
+   questa stessa cosa benissimo? Usa **WebSearch/WebFetch** 🟢 (tutti i senior — vedi
+   `MyCity-Vault/07-Agenti/WEB-APPRENDIMENTO-SENIOR.md`). Competitor di Piacenza + i top nazionali/mondiali del settore + lo `creativi/swipe/SWIPE-FILE.md` +
    `consegne/intelligence/5-aziende-simili-social.md` + la watchlist. Analizza hook, struttura, frequenza,
    offerta, prova sociale, ciò che li fa funzionare. Cita le fonti e salva 1-2 **esempi**.
 3. **Misura il divario.** Dai un **punteggio** al nostro e al migliore, su criteri della categoria
