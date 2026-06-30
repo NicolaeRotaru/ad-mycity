@@ -2,6 +2,20 @@ Fai un GIRO DI PERLUSTRAZIONE come AD digitale di MyCity (segui CLAUDE.md).
 
 Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 
+> ⚠️ **DOVE PUBBLICARE (regola anti-blocco — vale SEMPRE, specie per i giri da CLOUD AGENT):**
+> La memoria del vault (STATO, briefing, `90-Memoria-AI/`, `consegne/`, `creativi/`) vive **SOLO sul ramo
+> `memoria-ad`** — è il ramo che legge il Pannello (`OBSIDIAN_BRANCH`). Il ramo **`main` è SOLO codice** e
+> non deve MAI ricevere modifiche di memoria in modo indipendente: se accade, `main` e `memoria-ad` divergono
+> sugli stessi file e la PR `memoria-ad → main` si **blocca per conflitti**.
+> - **Giro sul VPS** (`giro.sh`): già a posto, scrive su `memoria-ad`.
+> - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e poi
+>   **apri/aggiorna la PR con base `memoria-ad`** (NON `main`). In alternativa, dopo il push, pubblica il
+>   giro su `memoria-ad` (fast-forward). **Non lasciare la memoria solo su `main`.**
+> - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno già `merge=union` in `.gitattributes`
+>   (si fondono senza conflitto). Gli **snapshot** (STATO.md, `auto-coscienza/*.json`, `ultimo-briefing.json`,
+>   `intenzioni-nicola.json`) NON si possono auto-fondere: la loro protezione è proprio questa regola
+>   (scriverli su un solo ramo, `memoria-ad`).
+
 Passi:
 1. Leggi i dati reali del marketplace (Supabase MCP, sola lettura): ordini e
    incassi degli ultimi 7 giorni, nuovi clienti, consegne in corso/in ritardo,
