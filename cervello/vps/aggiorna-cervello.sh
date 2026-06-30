@@ -54,6 +54,24 @@ if [ "${#code_paths[@]}" -gt 0 ]; then
   echo "[$(ts)] Codice allineato a origin/main."
 fi
 
+# Pubblica su GitHub se siamo avanti (recupero vault + allineamento codice).
+git fetch "$url" "$branch" 2>/dev/null || true
+_ahead="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
+if [ "${_ahead:-0}" -gt 0 ] 2>/dev/null; then
+  echo "[$(ts)] ▶ Push di ${_ahead} commit su origin/${branch}..."
+  _ok=0
+  for _a in 1 2 3; do
+    git fetch "$url" "$branch" 2>/dev/null \
+      && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
+    if git push "$url" "HEAD:${branch}" 2>/dev/null; then
+      echo "[$(ts)] ✓ Memoria/codice pubblicati su GitHub (ramo ${branch})."
+      _ok=1; break
+    fi
+    sleep 3
+  done
+  [ "$_ok" = 1 ] || echo "[$(ts)] ✗ Push fallito — controlla GIT_PUSH_TOKEN." >&2
+fi
+
 exec 9>&-
 
 _rev="$(git log -1 --format=%h -- cervello/worker.sh 2>/dev/null || echo "?")"
