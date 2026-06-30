@@ -18,5 +18,8 @@ Quando lavori in questa repo (sia in interattivo, sia via `agent -p` dal worker/
    accoda in `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`, NON eseguire senza la firma di Nicola.
 5. **Orario:** ogni data scritta in memoria include anche l'ora (`AAAA-MM-GG HH:MM`, fuso di Piacenza).
 6. **Niente numeri senza fonte** e ogni entità ha un fondamento (dati reali o scelta ragionata con prove).
+7. **Pubblicazione memoria (Cloud Agent / PR):** i giri e ogni scrittura nel vault vanno sul ramo
+   **`memoria-ad`**, non su `main`. Apri/aggiorna la PR con **base `memoria-ad`**. Vedi `AGENTS.md` e
+   `cervello/giro.md` → "DOVE PUBBLICARE".
 
 Parla sempre in italiano, chiaro e concreto.

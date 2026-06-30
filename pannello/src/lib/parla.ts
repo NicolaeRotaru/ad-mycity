@@ -5,6 +5,8 @@
 // stesso formato della Cabina). Notifica la Cabina di ricaricare l'elenco.
 // €0: nessuna API a pagamento, il lavoro pesante lo fa il tuo Max.
 
+import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
+
 export type ParlaMsg = { role: "user" | "assistant"; content: string };
 
 const HEADERS = { "Content-Type": "application/json" };
@@ -26,18 +28,23 @@ export async function chiediACasella(
     `## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
     `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`;
 
-  const post = await fetch("/api/lavori", { method: "POST", headers: HEADERS, body: JSON.stringify({ richiesta, tipo: "chat" }) })
+  const prep = preparaLavoro(messaggio);
+  const post = await fetch("/api/lavori", {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({ richiesta, tipo: prep.tipo }),
+  })
     .then((r) => r.json())
     .catch(() => null);
   if (!post?.ok || !post.lavoro) {
     throw new Error(post?.error || "Serve il database di memoria collegato (tabella 'lavori').");
   }
-  return attendiLavoro(post.lavoro.id);
+  return attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs);
 }
 
-// Polling ravvicinato (2s) finché il cervello marca il lavoro "fatto"/"errore" (o timeout 5 min).
-async function attendiLavoro(id: string): Promise<string> {
-  const scadenza = Date.now() + 5 * 60 * 1000;
+// Polling ravvicinato (2s) finché il cervello marca il lavoro "fatto"/"errore" (o timeout).
+async function attendiLavoro(id: string, tipo = "chat", timeoutMs = 5 * 60 * 1000): Promise<string> {
+  const scadenza = Date.now() + timeoutMs;
   while (Date.now() < scadenza) {
     await new Promise((r) => setTimeout(r, 2000));
     try {
@@ -50,7 +57,7 @@ async function attendiLavoro(id: string): Promise<string> {
       /* rete instabile: riprovo */
     }
   }
-  return "⌛ Ci sto ancora lavorando: la risposta arriva a breve (la trovi anche in «Lavori del cervello»).";
+  return messaggioLavoroInCorso(tipo);
 }
 
 // Salva/aggiorna la conversazione-con-la-casella in Conversazioni (Assistenza).

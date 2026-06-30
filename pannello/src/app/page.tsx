@@ -108,6 +108,7 @@ import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
+import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -619,6 +620,8 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling 8s).
+  const pendingLavoroChatRef = useRef<{ id: string; tipo: string } | null>(null);
 
   function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
     setDiario((d) => [{ id: Date.now() + Math.random(), at: new Date().toISOString(), tipo, titolo, testo }, ...d].slice(0, 200));
@@ -795,8 +798,8 @@ export default function Dashboard() {
   // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
   // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
   // o "errore" (o dopo il timeout, senza bloccare nulla).
-  async function attendiRisposta(id: string): Promise<string> {
-    const scadenza = Date.now() + 5 * 60 * 1000; // 5 minuti di pazienza
+  async function attendiRisposta(id: string, tipo = "chat", timeoutMs = 5 * 60 * 1000): Promise<string> {
+    const scadenza = Date.now() + timeoutMs;
     while (Date.now() < scadenza) {
       await new Promise((r) => setTimeout(r, 2000));
       try {
@@ -806,6 +809,7 @@ export default function Dashboard() {
           setLavori(d.lavori);
           const l = d.lavori.find((x: Lavoro) => x.id === id);
           if (l && (l.stato === "fatto" || l.stato === "errore")) {
+            pendingLavoroChatRef.current = null;
             return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
           }
         }
@@ -813,7 +817,7 @@ export default function Dashboard() {
         // rete instabile: riprovo al giro dopo
       }
     }
-    return "⌛ Ci sto ancora lavorando: la risposta arriva a breve (puoi vederla anche in «Lavori del cervello»).";
+    return messaggioLavoroInCorso(tipo);
   }
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
@@ -830,12 +834,15 @@ export default function Dashboard() {
       .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
       .join("\n");
     const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
+    const prep = preparaLavoro(t);
     const richiesta =
-      (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-      `## Nuovo messaggio di Nicola\n${t}` +
-      baseTxt +
-      `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
-      `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+      prep.tipo === "giro"
+        ? prep.richiesta
+        : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+          `## Nuovo messaggio di Nicola\n${t}` +
+          baseTxt +
+          `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+          `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
 
     setMessages((m) => [
       ...m,
@@ -847,13 +854,14 @@ export default function Dashboard() {
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta, tipo: "chat" }),
+        body: JSON.stringify({ richiesta, tipo: prep.tipo }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
         setLavori((l) => [d.lavoro, ...l]);
-        aggiungiDiario("chat", "🧠 Chat col cervello", t);
-        const risposta = await attendiRisposta(d.lavoro.id);
+        pendingLavoroChatRef.current = { id: d.lavoro.id, tipo: prep.tipo };
+        aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
+        const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
         setMessages((m) => rispondiInChat(m, risposta));
       } else {
         setMessages((m) =>
@@ -1100,7 +1108,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       try {
         const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
-        if (!stop && Array.isArray(d.lavori)) setLavori(d.lavori);
+        if (!stop && Array.isArray(d.lavori)) {
+          setLavori(d.lavori);
+          const pend = pendingLavoroChatRef.current;
+          if (pend) {
+            const l = d.lavori.find((x: Lavoro) => x.id === pend.id);
+            if (l && (l.stato === "fatto" || l.stato === "errore")) {
+              const testo =
+                l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+              setMessages((m) => {
+                const i = m.findIndex((x) => x.pending);
+                if (i >= 0) return rispondiInChat(m, testo);
+                const ultima = m[m.length - 1];
+                if (ultima?.role === "assistant" && ultima.content.includes("Giro accodato")) {
+                  const copia = [...m];
+                  copia[copia.length - 1] = { role: "assistant", content: testo };
+                  return copia;
+                }
+                return m;
+              });
+              pendingLavoroChatRef.current = null;
+              setLoading(false);
+            }
+          }
+        }
       } catch {}
     };
     carica();
