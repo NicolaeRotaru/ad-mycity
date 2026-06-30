@@ -11,3 +11,4 @@ reparto: devops-sre
 - **2026-07-01 01:13** — WebFetch globale **non** su GitHub remoto (main/memoria-ad = whitelist). `aggiorna-cervello.sh` sovrascrive locale da main. Verifica deploy: `git show origin/main:.claude/settings.json` — non test Cursor. Fonte: correzione Nicola chat 1/7.
 - **2026-07-01 01:16** — Nicola esegue `aggiorna-cervello.sh`: worker attivo, commit `1394219`, settings.json = whitelist (11 domini). Conferma: sync codice funziona; WebFetch libero **solo dopo** PR+merge su main. Fonte: chat Nicola 1/7.
 - **2026-07-01 01:19** — Fix codice (WebFetch): PR su **`main`** (base main, 1 file settings.json) — **non** memoria-ad. Nicola: delega AD («apri la PR») o GitHub UI; post-merge = `aggiorna-cervello.sh`. Fonte: chat Nicola 1/7.
+- **2026-07-01 01:23** — Branch `fix/webfetch-globale` pushato (`3ccfb05`); token VPS push ✓ API PR ✗ → Nicola merge compare GitHub. Post-merge: `aggiorna-cervello.sh` + grep WebFetch senza `domain:`. Fonte: chat Nicola 1/7.

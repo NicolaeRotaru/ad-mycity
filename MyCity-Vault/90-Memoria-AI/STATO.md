@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:19
+aggiornato: 2026-07-01 01:23
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari ✅ · Nicola ha eseguito `aggiorna-cervello.sh` 01:16 ✓ worker attivo · **WebFetch globale ancora assente** (main = whitelist; worker non libero) · **blocco = PR su `main`** poi secondo sync · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; bando ER **20 giorni**; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** policy+mansionari ✅ · Nicola ha eseguito `aggiorna-cervello.sh` 01:16 ✓ worker attivo · branch **`fix/webfetch-globale`** pushato (`3ccfb05`, solo `settings.json`) — **PR su `main` in attesa merge Nicola** (compare GitHub) · post-merge = secondo `aggiorna-cervello.sh` · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
@@ -49,8 +49,9 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 01:19** — Nicola: «come faccio PR su main?» → playbook: fix codice su **`main`** (non memoria-ad); due vie = AD apre PR o GitHub UI 8 passi; post-merge = `aggiorna-cervello.sh`. PR WebFetch **in attesa** (Nicola non ha ancora chiesto «apri la PR»). L-2026-0701-11.
-1. **Chat 1/7 01:16** — Nicola esegue `sudo bash cervello/vps/aggiorna-cervello.sh`: worker **attivo** ✓ · commit `1394219` allinea a main · **`settings.json` = ancora whitelist** (11 domini) — WebFetch globale assente su `origin/main`. Percorso sync **corretto** (L-2026-0701-09); blocco resta PR su `main` + secondo sync. Fonte: chat Nicola 1/7 01:16.
+1. **Chat 1/7 01:23** — Nicola: «apri la pr su main» → branch `fix/webfetch-globale` pushato (`3ccfb05`, WebFetch globale in `settings.json`); PR da mergiare su GitHub (token VPS push ✓, API PR ✗). Post-merge: `aggiorna-cervello.sh`. L-2026-0701-12.
+2. **Chat 1/7 01:19** — Nicola: «come faccio PR su main?» → playbook: fix codice su **`main`** (non memoria-ad); due vie = AD apre PR o GitHub UI 8 passi; post-merge = `aggiorna-cervello.sh`. L-2026-0701-11.
+3. **Chat 1/7 01:16** — Nicola esegue `sudo bash cervello/vps/aggiorna-cervello.sh`: worker **attivo** ✓ · commit `1394219` allinea a main · **`settings.json` = ancora whitelist** (11 domini) — WebFetch globale assente su `origin/main`. Percorso sync **corretto** (L-2026-0701-09); blocco resta PR su `main` + secondo sync. Fonte: chat Nicola 1/7 01:16.
 1. **Chat 1/7 01:13** — Nicola: «come fanno ad essere arrivate su main?» → AD ammette: **WebFetch globale non è mai stato su `main`** (DECISIONI 00:35 sovrastimata). Fatto: policy su memoria-ad. Mancante: PR `settings.json` su main. Test Cursor ingannevole (IDE ≠ worker). L-2026-0701-10.
 1. **Chat 1/7 01:11** — Nicola corregge: **non può fare pull su `memoria-ad`** (conflitti). AD corregge: binario memoria (worker) vs codice (`main`); sync VPS = `aggiorna-cervello.sh` o giro Pannello; WebFetch globale ancora da mergiare su `main`. L-2026-0701-09.
 1. **Chat 1/7 01:08** — Nicola chiede come verificare web senior e vedere output: risposta con check tecnico (settings + test @seo) e mappa osservabilità (Sala Operativa, briefing, memoria-squadra, consegne — no log HTTP). Proposta vista «Quaderni senior» in Pannello 🟡 in attesa. *(Consiglio pull memoria-ad — **errato**, corretto 01:11.)*

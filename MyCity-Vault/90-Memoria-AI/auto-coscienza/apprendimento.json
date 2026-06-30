@@ -1,13 +1,25 @@
 {
-  "data": "2026-07-01 01:19",
+  "data": "2026-07-01 01:23",
   "lezioni": [
+    {
+      "id": "L-2026-0701-12",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto (`github.com/.../compare/main...fix/webfetch-globale`) + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Branch attuale: `fix/webfetch-globale` commit `3ccfb05`.",
+      "tag": ["git", "pr", "main", "vps", "github", "nicola", "devops"],
+      "reparto": "@AD",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-11",
       "testo": "Quando Nicola chiede «come faccio PR su main?» per fix **codice** (es. WebFetch in `settings.json`), rispondere con **due percorsi chiari** — mai git locale sul VPS: (A) **delegato** — «scrivi apri la PR su main» e l'AD prepara branch da `main`, 1 file, base `main`; (B) **GitHub UI** — New branch da main → edit file → Compare & PR → merge. Regole: fix codice → **`main`**, policy/memoria → **`memoria-ad`** (già fatto); dopo merge Nicola rifà solo `aggiorna-cervello.sh`. Non confondere con pull memoria-ad (L-2026-0701-09).",
       "tag": ["git", "main", "pr", "nicola", "devops", "comunicazione"],
       "reparto": "@AD",
-      "confidenza": 0.82,
-      "evidenze": 1,
+      "confidenza": 0.86,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -109,7 +121,7 @@
       "tag": ["web", "apprendimento", "senior", "auto-miglioramento", "nicola"],
       "reparto": "@AD",
       "confidenza": 0.93,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
@@ -329,10 +341,11 @@
     "**Non** fa pull/git manuale su `memoria-ad` — crea conflitti con l'overlay del worker; aggiornamento codice VPS = `aggiorna-cervello.sh` o giro dal Pannello, zero git manuale da lui (correzione chat 1/7 «ti ricordi che non posso fare pull su memoria-ad?»).",
     "Becca incoerenze logiche nelle affermazioni dell'AD («come fanno ad essere arrivate su main?») — si aspetta verità verificabile su stato deploy/merge, non narrativa ottimistica (chat 1/7 01:13).",
     "Esegue comandi operativi semplici quando guidato correttamente (`sudo bash cervello/vps/aggiorna-cervello.sh`) — preferisce script a git manuale (confermato 1/7 01:16 post-correzione memoria-ad).",
-    "Chiede «come faccio PR su main?» quando serve un fix codice — preferisce delegare all'AD («apri la PR su main») o istruzioni GitHub passo-passo nel browser; **non** git CLI locale/VPS (chat 1/7 01:19)."
+    "Chiede «come faccio PR su main?» quando serve un fix codice — preferisce delegare all'AD («apri la PR su main») o istruzioni GitHub passo-passo nel browser; **non** git CLI locale/VPS (chat 1/7 01:19).",
+    "Delega confermata con «apri la pr su main»: AD prepara branch+push, Nicola merge su GitHub in browser (1 click) — non git locale (chat 1/7 01:23)."
   ],
   "meta": {
-    "lezioni_attive": 25,
+    "lezioni_attive": 26,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.65

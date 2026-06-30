@@ -42,3 +42,6 @@ Metabolizzazione chat completa web senior: Nicola esegue `aggiorna-cervello.sh` 
 
 # ESITO — @AD — 2026-07-01 01:19
 Metabolizzazione chat «come faccio PR su main?»: Nicola vuole percorso concreto per fix codice — delega AD o GitHub UI, zero git VPS. Playbook: branch da main, solo `settings.json` per WebFetch, base main. L-2026-0701-11 + preferenza Nicola.
+
+# ESITO — @AD — 2026-07-01 01:23
+Metabolizzazione chat «apri la pr su main»: Nicola delega — AD push branch `fix/webfetch-globale` (`3ccfb05`); PR non auto-creata (limite token VPS). L-2026-0701-12 + evidenza L-0701-11. Stato: merge Nicola su GitHub → secondo `aggiorna-cervello.sh`.
