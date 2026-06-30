@@ -7,6 +7,7 @@ import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
+import ParlaCasella from "@/components/ParlaCasella";
 
 // L'UNICO posto dove si decide e si agisce. Schede separate (niente colonna unica lunga da scrollare):
 //  🦶 Mosse di Nicola → le tue prossime mosse (dai Piani), con link all'azione da firmare.
@@ -343,6 +344,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         <button onClick={() => vaiAllAzione(m.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
                           <ArrowRight size={13} /> Vai all'azione da firmare
                         </button>
+                        <ParlaCasella titolo={`Mossa: ${m.titolo}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
                       </div>
                     </div>
                   </div>
@@ -396,6 +398,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                     </button>
                   </div>
                 )}
+                <ParlaCasella titolo={`Proposta: ${p.titolo}`} contesto={p.motivo} />
               </div>
             );
           })}
@@ -449,6 +452,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                     <button onClick={() => vaiAllAzione(al.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
                       <ArrowRight size={13} /> Vai all'azione da firmare
                     </button>
+                    <ParlaCasella titolo={`Sentinella: ${al.titolo}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
                   </div>
                 </div>
               </div>
@@ -584,6 +588,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                           <button onClick={() => decidi(a.id, "annulla")} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition"><RotateCcw size={13} /> annulla</button>
                         )}
                       </div>
+                      <ParlaCasella titolo={`Azione: ${a.titolo}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
                     </div>
                   );
                 })}

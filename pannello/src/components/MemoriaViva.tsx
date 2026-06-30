@@ -16,6 +16,7 @@ import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
+import ParlaCasella from "@/components/ParlaCasella";
 
 // La MEMORIA: ciò che l'AD sa e ricorda. (Le cose DA FARE — Mosse di Nicola, Cose da fare,
 // Sentinelle — vivono in ⚡ Azioni, l'hub delle decisioni.)
@@ -176,6 +177,7 @@ export default function MemoriaViva() {
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.briefing.testo}</Markdown>
                   </div>
+                  <ParlaCasella titolo="Ultimo briefing" contesto={(attivita.briefing.testo || "").slice(0, 800)} />
                 </details>
               )}
               {attivita.salaOperativa && (
@@ -184,6 +186,7 @@ export default function MemoriaViva() {
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.salaOperativa}</Markdown>
                   </div>
+                  <ParlaCasella titolo="Sala Operativa (squadra)" contesto={(attivita.salaOperativa || "").slice(0, 800)} />
                 </details>
               )}
               {attivita.decisioni && (
@@ -192,6 +195,7 @@ export default function MemoriaViva() {
                   <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                     <Markdown>{attivita.decisioni}</Markdown>
                   </div>
+                  <ParlaCasella titolo="Decisioni (storico)" contesto={(attivita.decisioni || "").slice(0, 800)} />
                 </details>
               )}
             </div>
@@ -219,6 +223,7 @@ export default function MemoriaViva() {
                   <div className="mt-2 max-h-96 overflow-y-auto pr-1">
                     <Markdown>{p.testo}</Markdown>
                   </div>
+                  <ParlaCasella titolo={`Piano: ${p.nome}`} contesto={(p.testo || "").slice(0, 800)} />
                 </details>
               ))}
             </div>
@@ -238,6 +243,7 @@ export default function MemoriaViva() {
                   </div>
                   <div className="text-[13px] text-ink/90">{d.cosa}</div>
                   {d.perche && <div className="text-[12px] text-black/55 mt-0.5">{d.perche}</div>}
+                  <ParlaCasella titolo={`Decisione: ${(d.cosa || "").slice(0, 50)}`} contesto={[d.cosa, d.perche, d.reparto && `Reparto: ${d.reparto}`].filter(Boolean).join(" · ")} />
                 </div>
               ))}
             </div>
@@ -261,6 +267,7 @@ export default function MemoriaViva() {
                     </div>
                     <div className="text-[12px] text-black/60">{r.kpi}</div>
                     <div className="text-[12px] text-ink/80 mt-0.5">🎯 {r.target}</div>
+                    <ParlaCasella titolo={`OKR: ${r.senior}`} contesto={[r.kpi && `KPI: ${r.kpi}`, r.target && `Target: ${r.target}`, r.budget && `Budget: ${r.budget}`].filter(Boolean).join(" · ")} />
                   </div>
                 ))}
               </div>

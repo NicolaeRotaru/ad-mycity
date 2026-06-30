@@ -107,6 +107,7 @@ import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
+import ParlaCasella from "@/components/ParlaCasella";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -1021,7 +1022,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
-  useEffect(() => {
+  const caricaConversazioni = useCallback(() => {
     fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -1045,8 +1046,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setConvServer(false);
         setConversazioni(leggiConvLocali());
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    caricaConversazioni();
+    // 💬 "Parla con la casella" salva una chat in Conversazioni: ricarica l'elenco appena succede.
+    const onConv = () => caricaConversazioni();
+    window.addEventListener("mycity:conversazioni", onConv);
+    return () => window.removeEventListener("mycity:conversazioni", onConv);
+  }, [caricaConversazioni]);
 
   // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
   useEffect(() => {
@@ -1632,6 +1640,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <span className="ml-auto shrink-0">{fa(v.at)}</span>
                   </div>
                   <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
+                  <ParlaCasella titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
                 </div>
               ))}
             </div>
@@ -1744,6 +1753,7 @@ function CategoriaNumeri({
         <div className="px-3 pb-3">
           <p className="text-[11px] text-black/40 mb-2.5">{sottotitolo}</p>
           {snapshot ? <CorpoGriglia kpis={kpis} metriche={metriche} /> : <CorpoTabella kpis={kpis} metriche={metriche} />}
+          <ParlaCasella titolo={`Numeri: ${titolo}`} contesto={sottotitolo} />
         </div>
       )}
     </div>
