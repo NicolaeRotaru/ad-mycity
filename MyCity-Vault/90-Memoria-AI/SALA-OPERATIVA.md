@@ -146,6 +146,7 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 
 ### 2026-07-01 — Rimando presidio VP (01:00)
 - 2026-07-01 01:00 · @AD · FATTO · Nicola rimanda **Presidio VP 3/7** (kit QR + contenuti): priorità = **inserire negozi del 6/7**. Proposta Pannello congelata; #7/#8/#11 in coda ma non partono. Prossima finestra utile VP **10/17 lug** (se link lista pronto).
+- 2026-07-01 01:03 · @AD · FATTO · Nicola: «perché devo approvare?» su card onboarding 6/7 → **non serve approvazione** (lavoro suo); card ritirata da proposte Pannello.
 - 2026-07-01 01:00 · @onboarding-negozi · FACCIO · Preparare checklist batch 6/7 (catalogo, payout, foto, test ordine) — 🟢 bozza in consegne/.
 - 2026-07-01 01:00 · @AD · SERVE · Da Nicola: ① **lista negozi 6/7** (nomi/quanti) · ② ordine zombie A/B 🔴 · ③ foglio-firma 🔴.
 

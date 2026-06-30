@@ -49,6 +49,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 | Meta (IG/FB) | ❌ spenta | ~16 post in coda |
 
 ## Ultime mosse dell'AD
+1. **Chat 1/7 01:03** — Nicola: «perché devo approvare?» su card onboarding 6/7 → **non serve** (lavoro suo); proposta ritirata dal Pannello.
 1. **Chat 1/7 01:02** — Nicola firma foglio-firma lancio: #1 contratto Pane Quotidiano (12%) · #2 payout-test 03/7 mattina · #3 Stripe sandbox. Bozza `consegne/legale/contratto-pane-quotidiano-bozza.md`. Aggiornati DECISIONI, AZIONI #1-2, STATO.
 1. **Metabolizzazione 1/7 00:58** — Lezione L-2026-0701-04 (Casa Linda demo; Pane Quotidiano unico reale) in apprendimento.json + quaderni squadra.
 1. **Metabolizzazione 1/7 01:05** — Lezione L-2026-0701-05 (ops 6/7 > presidio VP) + sync #8 RIMANDATO.
@@ -62,7 +63,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale; COD coerente con sandbox)
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox confermato; poi valutare passaggio LIVE)
 - [ ] 🔴 **Firma contratto col negozio** — bozza pronta, serve validazione legale + firma Pane Quotidiano
-- [ ] 🔴 **Onboarding negozi 6/7** — Nicola inserisce batch (AD prepara checklist @onboarding-negozi)
+- [ ] 🟢 **Onboarding negozi 6/7** — **Nicola inserisce** (lavoro suo, non serve approvazione Pannello); AD prepara checklist @onboarding-negozi
 - [x] ~~Firmare le 3 decisioni di lancio~~ — **FATTO** Nicola 1/7 01:02
 - [ ] ~~Forzare transazione Casa Linda~~ — **RITIRATA** (negozio demo)
 - [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** da Nicola 1/7 (kit #7/#11 congelati; prossima finestra utile VP **10/17 lug** se link lista pronto)

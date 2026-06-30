@@ -8,7 +8,6 @@
     {"titolo": "VP 10/17 lug (finestra rimandata)", "motivo": "Presidio QR + contenuti #7/#11 — solo se link lista pronto post-6/7.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Onboarding negozi 6/7", "motivo": "Nicola: «inizierò ad inserire i negozi del 6 luglio».", "livello": "rosso"},
     {"titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano", "motivo": "Unico negozio reale; ordine fermo ~6,6 giorni.", "livello": "rosso"},
     {"titolo": "Completare onboarding Stripe payout — Pane Quotidiano", "motivo": "acct collegato ma charges+payouts OFF.", "livello": "rosso"},
     {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Foglio-firma 2 min — sblocca infrastruttura.", "livello": "rosso"}
