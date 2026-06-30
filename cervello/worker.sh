@@ -105,6 +105,17 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
+  elif [ "$tipo" = "giro" ]; then
+    giro_prompt="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
+    if [ -z "$giro_prompt" ]; then
+      giro_prompt="Fai un GIRO DI PERLUSTRAZIONE come AD di MyCity (vedi cervello/giro.md)."
+    fi
+    prompt="$giro_prompt
+
+## Istruzione aggiuntiva
+$richiesta
+
+Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1). La memoria va sul ramo memoria-ad (mai solo su main)."
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
