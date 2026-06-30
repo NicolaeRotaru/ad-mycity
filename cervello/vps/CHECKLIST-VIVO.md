@@ -44,7 +44,7 @@
    ```
 4. Test reale (deve rispondere qualcosa, non errore auth):
    ```bash
-   sudo -u mycity -H bash -lc 'set -a; source /opt/mycity/ad-mycity/cervello/vps/.env; set +a; export PATH="$HOME/.local/bin:$PATH"; agent -p "Rispondi solo: OK"'
+   sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-agent.sh
    ```
 5. Riavvia: `sudo systemctl restart mycity-worker`
 6. Nei log deve comparire: `Motore AI: cursor (agent)` — **non** `claude`

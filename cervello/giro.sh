@@ -67,7 +67,13 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     #    (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
     #    impossibile resuscitare file potati dall'AD o sovrascrivere le scritture del vault. Deterministico.
     #    (La memoria resta quella del ramo memoria-ad, ripresa dal remoto al passo 1.)
-    if git fetch "$url" main 2>/dev/null; then
+    _main_ok=0
+    _main_err=""
+    for _mf in 1 2 3; do
+      if _main_err="$(git fetch "$url" main 2>&1)"; then _main_ok=1; break; fi
+      sleep 2
+    done
+    if [ "$_main_ok" = 1 ]; then
       code_paths=()
       while IFS= read -r p; do
         case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
@@ -91,7 +97,8 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
           || echo "[$(ts)] WARN: bootstrap auto-coscienza fallito, continuo." >&2
       fi
     else
-      echo "[$(ts)] WARN: fetch di main fallito: salto allineamento codice e bootstrap auto-coscienza." >&2
+      echo "[$(ts)] WARN: fetch di main fallito dopo 3 tentativi — continuo col codice già sul disco." >&2
+      [ -n "$_main_err" ] && echo "[$(ts)]   Dettaglio git: $_main_err" >&2
     fi
   ) 9>"$LOCK" || true
 else
@@ -116,9 +123,17 @@ fi
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine))..."
 ai_build_cmd
 ai_rc=0
-"${AI_CMD[@]}" "$PROMPT" || ai_rc=$?
+for _attempt in 1 2 3; do
+  ai_rc=0
+  _ai_out="$("${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
+  printf '%s\n' "$_ai_out"
+  [ "$ai_rc" -eq 0 ] && break
+  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 15s..." >&2
+  [ "$_attempt" -lt 3 ] && sleep 15
+done
 if [ "$ai_rc" -ne 0 ]; then
-  echo "[$(ts)] Il motore AI ha restituito un errore (rc=$ai_rc, giro non completato)." >&2
+  echo "[$(ts)] Il motore AI ha restituito un errore dopo 3 tentativi (rc=$ai_rc)." >&2
+  echo "[$(ts)]   Controlla CURSOR_API_KEY nel .env e: sudo -u mycity -H bash cervello/vps/test-agent.sh" >&2
 fi
 echo "[$(ts)] Giro completato."
 
@@ -189,11 +204,18 @@ else
 fi
 exec 9>&-
 
-# Exit code per worker.sh: fallisce se AI ko, o se c'erano modifiche ma push non riuscito.
-if [ "$ai_rc" -ne 0 ]; then
-  exit 1
-fi
+# Exit code per worker.sh:
+#   0 = ok (o memoria salvata nonostante AI parziale)
+#   1 = AI fallita e nessuna memoria nuova pubblicata
+#   2 = memoria scritta ma push fallito
 if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" != 1 ]; then
   exit 2
+fi
+if [ "$ai_rc" -ne 0 ]; then
+  if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" = 1 ]; then
+    echo "[$(ts)] WARN: motore AI instabile ma memoria pubblicata su GitHub." >&2
+    exit 0
+  fi
+  exit 1
 fi
 exit 0

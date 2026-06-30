@@ -67,15 +67,24 @@ ai_check() {
   return 0
 }
 
+# Esporta variabili che la CLI Cursor legge in headless (VPS systemd).
+ai_prepare_env() {
+  ai_ensure_path
+  if [ "$(ai_engine)" = cursor ] && [ -n "${CURSOR_API_KEY:-}" ]; then
+    export CURSOR_API_KEY
+  fi
+}
+
 # Costruisce il comando del motore SENZA il prompt: popola l'array globale AI_CMD.
 # Il chiamante appende il prompt come ultimo argomento, es.:  "${AI_CMD[@]}" "$prompt"
 # (così funziona anche dentro 'timeout ... "${AI_CMD[@]}" "$prompt"').
 ai_build_cmd() {
+  ai_prepare_env
   AI_CMD=()
   case "$(ai_engine)" in
     cursor)
-      # -p = non interattivo (print) · --force = applica le modifiche ai file senza chiedere (≈ acceptEdits)
-      AI_CMD=(agent -p --force)
+      # -p = non interattivo · --force = scrive file · --trust = VPS headless senza prompt workspace
+      AI_CMD=(agent -p --force --trust)
       [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
       ;;
     claude)
