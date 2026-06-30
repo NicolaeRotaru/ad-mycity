@@ -215,13 +215,23 @@ if flock -w 600 9; then
         sleep 3
       done
       if [ "$ok" = 1 ]; then
-        # Battito per diagnosi Pannello (ultimo push memoria-ad riuscito).
+        # Battito per diagnosi Pannello (ultimo push + ora giro per il Cuore).
         if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
-          curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
-            -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
-            -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
-            -d "{\"chiave\":\"memoria-ad:ultimo_push\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
-            >/dev/null 2>&1 || true
+          _now_iso="$(date -Iseconds)"
+          _giro_quando="$_now_iso"
+          if [ -f "MyCity-Vault/90-Memoria-AI/ultimo-briefing.json" ] && command -v jq >/dev/null 2>&1; then
+            _bq="$(jq -r '.data // empty' MyCity-Vault/90-Memoria-AI/ultimo-briefing.json 2>/dev/null || true)"
+            [ -n "$_bq" ] && _giro_quando="$_bq"
+          fi
+          for _pair in "memoria-ad:ultimo_push|$_now_iso" "cuore:ultimo_giro|$_giro_quando"; do
+            _chiave="${_pair%%|*}"
+            _valore="${_pair#*|}"
+            curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+              -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+              -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
+              -d "{\"chiave\":\"$_chiave\",\"valore\":\"$_valore\",\"updated_at\":\"$_now_iso\"}" \
+              >/dev/null 2>&1 || true
+          done
         fi
       else
         GIRO_PUSH_OK=0
