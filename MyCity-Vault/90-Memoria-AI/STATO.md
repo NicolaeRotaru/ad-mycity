@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 01:31
+aggiornato: 2026-07-01 01:33
 fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviworth · memoria DB · Pannello foglio-firma 1/7 01:02)
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK marketplace + memoria; Stripe operativo; 407 lead `to_contact`; fallback REST quando MCP cieco).
-- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** in Cursor ✅ · policy+mansionari ✅ · **PR `fix/webfetch-globale` su `main` ancora da mergiare** (Nicola 1/7 01:31) · worker whitelist **11 domini** fino al merge · post-merge restano limiti **lato sito** (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`; `memoria-squadra/` **non** in Pannello.
+- 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,6 gg; **6 carrelli** con items abbandonati >4h; **bando FESR Commercio ER chiuso 23/6** (tet domande — giro web 1/7) → kit #12 da rivedere prima del pitch; **onboarding negozi 6/7** (Nicola); **168h tra ~10h**; allerta temporali oggi. VP 3/7 presidio **rimandato** da Nicola. **Web senior:** giro **42/42** in Cursor ✅ · policy+mansionari ✅ · **PR `fix/webfetch-globale` su `main` ancora da mergiare** · worker whitelist **11 domini** fino al merge · **Quaderni senior:** tab Pannello 🟡 **pronta in repo** — deploy PR su **`main`** · post-merge restano limiti **lato sito** (IG/paywall/Idealista anti-bot) — ripiego WebSearch · Nicola **non** fa pull `memoria-ad`.
 - 🔴 Problema: **stallo 157,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
 
 ## DB memoria Pannello (live 2026-07-01 00:06 · REST `xjljcsorpbqwttrejqte`)
