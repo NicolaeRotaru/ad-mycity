@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-01 01:29",
+  "data": "2026-07-01 01:31",
   "lezioni": [
     {
       "id": "L-2026-0701-14",
@@ -27,14 +27,14 @@
     },
     {
       "id": "L-2026-0701-12",
-      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto (`github.com/.../compare/main...fix/webfetch-globale`) + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Branch attuale: `fix/webfetch-globale` commit `3ccfb05`.",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto (`github.com/.../compare/main...fix/webfetch-globale`) + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto (verificare stato remoto). Branch attuale: `fix/webfetch-globale` commit `3ccfb05`.",
       "tag": ["git", "pr", "main", "vps", "github", "nicola", "devops"],
       "reparto": "@AD",
-      "confidenza": 0.88,
-      "evidenze": 1,
+      "confidenza": 0.89,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:31",
       "stato": "attiva"
     },
     {
@@ -368,7 +368,8 @@
     "Chiede «come faccio PR su main?» quando serve un fix codice — preferisce delegare all'AD («apri la PR su main») o istruzioni GitHub passo-passo nel browser; **non** git CLI locale/VPS (chat 1/7 01:19).",
     "Delega confermata con «apri la pr su main»: AD prepara branch+push, Nicola merge su GitHub in browser (1 click) — non git locale (chat 1/7 01:23).",
     "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»).",
-    "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»)."
+    "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»).",
+    "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»)."
   ],
   "meta": {
     "lezioni_attive": 28,
