@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# monitora.sh — GIRO DI MONITORAGGIO WEB dell'AD MyCity (Ondata 3) con Claude Code (piano Max), VPS Linux.
+# monitora.sh — GIRO DI MONITORAGGIO WEB dell'AD MyCity (Ondata 3), motore AI Cursor 'agent' o Claude 'claude', VPS Linux.
 # Gemello di giro.sh ma LEGGERO: lancia cervello/monitora.md (solo le fonti dovute oggi del radar-fonti)
 # e aggiorna i file 90-Memoria-AI/Intelligence/*.md. Lo lancia il timer systemd (mycity-monitora.timer)
 # una volta al giorno. Riusa la stessa logica di allineamento/sync della memoria di giro.sh.
@@ -14,12 +14,12 @@ cd "$REPO"
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
+# Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
+. "$SCRIPT_DIR/motore-ai.sh"
+
 ts() { date '+%Y-%m-%d %H:%M'; }
 
-if ! command -v claude >/dev/null 2>&1; then
-  echo "[$(ts)] Claude Code (CLI 'claude') non trovato. Installalo e fai 'claude login' col tuo piano Max." >&2
-  exit 1
-fi
+ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
 
 # Kill-switch: se il Pannello ha messo l'AD in PAUSA, non monitorare.
 if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
@@ -81,9 +81,10 @@ if [ -z "$PROMPT" ]; then
   echo "[$(ts)] ERRORE: cervello/monitora.md non trovato/vuoto dopo l'allineamento; monitoraggio saltato." >&2
   exit 1
 fi
-echo "[$(ts)] Avvio monitoraggio web AD..."
-claude -p "$PROMPT" --permission-mode acceptEdits || {
-  echo "[$(ts)] Claude ha restituito un errore (monitoraggio non completato)." >&2
+echo "[$(ts)] Avvio monitoraggio web AD (motore: $(ai_engine))..."
+ai_build_cmd
+"${AI_CMD[@]}" "$PROMPT" || {
+  echo "[$(ts)] Il motore AI ha restituito un errore (monitoraggio non completato)." >&2
 }
 echo "[$(ts)] Monitoraggio completato."
 
