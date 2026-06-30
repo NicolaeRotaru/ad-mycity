@@ -114,33 +114,47 @@ fi
 
 # Esegue il giro col motore AI. L'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
 # Le azioni 🔴 restano comunque da firmare (regole in CLAUDE.md).
-# Guardia: leggi il prompt DOPO l'allineamento e abortisci se vuoto (evita il "--print con input vuoto").
-PROMPT="$(cat "$SCRIPT_DIR/giro.md" 2>/dev/null || true)"
-if [ -z "$PROMPT" ]; then
+# NON incollare tutto giro.md nel prompt (16k+ caratteri → agent instabile su VPS).
+# L'agent gira nel repo con --force: legge cervello/giro.md dal disco.
+if [ ! -s "$SCRIPT_DIR/giro.md" ]; then
   echo "[$(ts)] ERRORE: cervello/giro.md non trovato/vuoto dopo l'allineamento; giro saltato." >&2
   exit 1
 fi
-# Worker chat (tipo=giro) può passare istruzioni extra via env.
+PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
+
+## Compito
+Leggi ed esegui **per intero** il file \`cervello/giro.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).
+Scrivi sul disco tutti i file richiesti (vault, briefing, auto-coscienza, ecc.). Rispetta 🟢🟡🔴.
+La memoria va sul ramo memoria-ad (il push git lo fa giro.sh dopo di te — tu scrivi i file)."
 if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
   PROMPT="$PROMPT
 
 ## Istruzione aggiuntiva
 $GIRO_EXTRA_INSTRUCTION"
 fi
-echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine))..."
+PROMPT="$PROMPT
+
+## Risposta in chat
+Al termine restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
+
+echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine), prompt=file)..."
 ai_build_cmd
 ai_rc=0
+_ai_out=""
 for _attempt in 1 2 3; do
   ai_rc=0
   _ai_out="$("${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
   printf '%s\n' "$_ai_out"
   [ "$ai_rc" -eq 0 ] && break
-  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 15s..." >&2
-  [ "$_attempt" -lt 3 ] && sleep 15
+  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+  printf '%s\n' "$_ai_out" | tail -15 >&2
+  [ "$_attempt" -lt 3 ] && sleep 30
 done
 if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)] Il motore AI ha restituito un errore dopo 3 tentativi (rc=$ai_rc)." >&2
-  echo "[$(ts)]   Controlla CURSOR_API_KEY nel .env e: sudo -u mycity -H bash cervello/vps/test-agent.sh" >&2
+  echo "[$(ts)]   Ultimo output agent:" >&2
+  printf '%s\n' "$_ai_out" | tail -25 >&2
+  echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
 fi
 echo "[$(ts)] Giro completato."
 
