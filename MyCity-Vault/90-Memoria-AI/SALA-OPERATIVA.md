@@ -169,6 +169,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 02:15 · @AD · FACCIO · Nicola chiede «aggiungi quaderni senior» → tab in Memoria + API.
 - 2026-07-01 01:33 · @AD · FATTO · Tab **Quaderni senior** collegata in `Memoria.tsx`; API `/api/memoria/quaderni` + `listRepoDir` in `vault.ts`; parser ESITO con ora opzionale. Legge `memoria-squadra/` da ramo memoria-ad (42 senior, ultimo ESITO + espansione + ricerca). **Deploy:** PR su **`main`** (codice Pannello).
 
+### 2026-07-01 — WebFetch mergiato + PR Quaderni (01:37)
+- 2026-07-01 01:37 · @Nicola · FATTO · Merge PR **WebFetch globale** su `main` + `sudo bash aggiorna-cervello.sh` — worker VPS con `"WebFetch"` globale (verificato).
+- 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
+
 ### 2026-06-30 — Giro notturno (23:10)
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
