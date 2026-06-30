@@ -39,3 +39,6 @@ Metabolizzazione correzione Nicola «come fanno ad essere arrivate su main?»: W
 
 # ESITO — @AD — 2026-07-01 01:16
 Metabolizzazione chat completa web senior: Nicola esegue `aggiorna-cervello.sh` (percorso giusto post-correzione L-0701-09) — worker OK ma WebFetch ancora whitelist. Lezioni L-0701-09/10/08 evidenze++. Preferenza: comandi script (`aggiorna-cervello.sh`) sì, git manuale su memoria-ad no.
+
+# ESITO — @AD — 2026-07-01 01:19
+Metabolizzazione chat «come faccio PR su main?»: Nicola vuole percorso concreto per fix codice — delega AD o GitHub UI, zero git VPS. Playbook: branch da main, solo `settings.json` per WebFetch, base main. L-2026-0701-11 + preferenza Nicola.
