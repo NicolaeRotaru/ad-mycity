@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-06-30 23:15
-fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviworth)
+aggiornato: 2026-06-30 23:29
+fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviworth · Pannello azioni_log 30/6 09:08)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -22,7 +22,16 @@ fonte: AD digitale (7 numeri = live REST 30/6 23:15 · Supabase clmpyfvpvfjgeviw
 ## Semafori
 - 🟢 Va bene: infrastruttura pronta (REST Supabase OK, Stripe operativo, 407 lead `to_contact`, fallback REST quando MCP cieco).
 - 🟡 Da tenere d'occhio: catalogo seed; ordine zombie 6,5 gg; **6 carrelli** con items abbandonati >4h; bando ER 21 giorni; VP 3/7 tra ~46h senza link lista; **168h tra ~11h**.
-- 🔴 Problema: **stallo 156,8h**; 3 decisioni lancio non firmate; 0 transazioni reali.
+- 🔴 Problema: **stallo 156,8h**; 0 transazioni reali; **~20 azioni approvate in Pannello ma 0 inviate** (mani non collegate).
+
+## Pannello · approvazioni Nicola (30/6 ~09:08, fonte: chat + `azioni_log` Supabase memoria)
+| Esito | Quante | Note |
+|---|---|---|
+| ❌ Rifiutate | **2** | #10 wiring Vercel · kit earned media PR |
+| ✅ Approvate → in coda | **~20** | Es. #1–3, #9, #12 + social/marketing; ok strategico, non partite |
+| 🚀 Inviate sul mondo reale | **0** | Canali social/email non collegati |
+
+> Gap 🟡: click Pannello → DB memoria sì, vault (`DECISIONI`/`AZIONI`) no automatico — sincronizzato in metabolizzazione 30/6 23:29.
 
 ## Ultime mosse dell'AD
 1. **Giro 30/6 23:15** — Conferma live 7 numeri (= vs 23:10). Nota escalation 168h 🟢. Sesto passaggio — onesto (L-2026-0629-03). Vedi [[2026-06-30]].

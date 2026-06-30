@@ -6,3 +6,6 @@ Giro serale: fallback REST confermato → 7 numeri live, sentinelle interne veri
 
 # ESITO — @AD — 2026-06-30 23:15
 Sesto passaggio: numeri = vs 5 min fa → passaggio minimo + nota escalation 168h 🟢 (L-2026-0630-04). Stallo 156,8h. Digest memoria DB scritto. Voto fiducia 85 ▼ (ridondanza, non errori).
+
+# ESITO — @AD — 2026-06-30 23:29
+Metabolizzazione chat Nicola: approvazioni Pannello (~20 ok, 2 rifiuti #10+PR) sincronizzate in vault. Lezione L-2026-0630-05 (gap Pannello→vault). Preferenza: AD deve vedere i click Approva/Rifiuta senza ripetizione.

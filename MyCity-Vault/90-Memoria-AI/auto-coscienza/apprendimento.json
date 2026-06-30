@@ -1,6 +1,18 @@
 {
-  "data": "2026-06-30 23:15",
+  "data": "2026-06-30 23:29",
   "lezioni": [
+    {
+      "id": "L-2026-0630-05",
+      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08).",
+      "tag": ["pannello", "memoria", "sync", "approvazioni", "vault"],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0630-03",
       "testo": "Quando il Supabase MCP è cieco (needsAuth), usare il fallback REST via env MARKETPLACE_SUPABASE_URL/KEY — verificato funzionante il 30/6 serale. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
@@ -102,11 +114,11 @@
       "testo": "Il segnale più prezioso per imparare è cosa Nicola approva vs ignora: ogni firma/rifiuto è una correzione del modello. Allinea le mosse future a quel gusto.",
       "tag": ["preference-learning", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.7,
-      "evidenze": 1,
-      "fonte": "approvazione",
+      "confidenza": 0.78,
+      "evidenze": 2,
+      "fonte": "chat",
       "nato": "2026-06-28",
-      "ultima_conferma": "2026-06-28",
+      "ultima_conferma": "2026-06-30",
       "stato": "attiva"
     },
     {
@@ -153,10 +165,11 @@
   ],
   "preferenze_nicola": [
     "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
-    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
+    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito).",
+    "Si aspetta che l'AD veda le sue approvazioni/rifiuti dal Pannello (chat 30/6): leggerle dal DB memoria e rifletterle nel vault, senza che debba ripeterle."
   ],
   "meta": {
-    "lezioni_attive": 12,
+    "lezioni_attive": 13,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.65
