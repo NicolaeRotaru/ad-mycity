@@ -1,16 +1,28 @@
 {
-  "data": "2026-07-01 07:30",
+  "data": "2026-07-01 07:36",
   "lezioni": [
     {
-      "id": "L-2026-0701-25",
-      "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch locale `marketplace/` `fix/sprint-1-radiografia-2026-07-01` (commit es. `8dc0f88`), consegna `consegne/tech/sprint-1-radiografia-marketplace.md`, #13 → **IN CORSO** (non FATTO finché non merge+deploy). **Cloud Agent non pusha** su `NicolaeRotaru/mycity` — consegnare a Nicola comando push+PR esplicito. **Pre-deploy 🔴:** migrazione SQL (`107_seller_public_profiles.sql`) su Supabase prod. Extra urgenti nello stesso sprint ok se nel report Sprint 1 (varianti duplicate, stock idempotente refund). Deploy produzione = comando separato «ok deploy Sprint 1».",
-      "tag": ["radiografia", "sprint", "marketplace", "branch", "deploy", "migrazione", "nicola"],
+      "id": "L-2026-0701-26",
+      "testo": "**Push marketplace 403 (1/7 07:30):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in sola scrittura locale. Dopo ok Sprint/fix codice sito: (1) branch+commit in locale ✅; (2) consegnare a Nicola **comandi push+PR espliciti** (`git push -u origin fix/…` → PR → main) **oppure** chiedere aggiornamento token push sul VPS; (3) **non** dire «PR aperta» se push fallisce. Pattern diverso da ad-mycity (L-2026-0701-12): lì push OK, manca solo `gh pr create`.",
+      "tag": ["marketplace", "git", "push", "403", "vps", "nicola", "devops"],
       "reparto": "@tech",
-      "confidenza": 0.84,
+      "confidenza": 0.86,
       "evidenze": 1,
       "fonte": "chat",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-25",
+      "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch locale `marketplace/` `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, **6 fix**: webhook Stripe, fee €3 UI, VIEW `seller_public_profiles`, rollback COD, varianti duplicate, stock idempotente refund), consegna `consegne/tech/sprint-1-radiografia-marketplace.md`, #13 → **✅ FATTO in locale** (push PR a Nicola — vedi L-2026-0701-26). **Pre-deploy 🔴:** migrazione SQL `107_seller_public_profiles.sql` su Supabase prod + smoke test (2 negozi, carta test, S+M, fee visibile). Deploy produzione = comando separato «ok deploy Sprint 1».",
+      "tag": ["radiografia", "sprint", "marketplace", "branch", "deploy", "migrazione", "nicola"],
+      "reparto": "@tech",
+      "confidenza": 0.88,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 07:36",
       "stato": "attiva"
     },
     {
@@ -30,11 +42,11 @@
       "testo": "Dopo radiografia, quando Nicola chiede «sono in coda? / te ne occupi tu? / come correggiamo tutto?», rispondere con **modello sprint**, non 46 righe AZIONI: (1) **#13 Sprint 1** 🟡 = 4 bloccanti pre-live in un unico pacchetto; (2) gravi+minori nel report raggruppati **Sprint 2** (privacy/sicurezza) e **Sprint 3** (UX/ops) — accodati sprint per sprint dopo ok; (3) **deploy produzione sempre 🔴 separato** dal branch 🟡. Nicola approva a blocchi: `ok 13` / `ok Sprint 1` → branch; `ok deploy Sprint 1` 🔴 → prod; `ok a tutti gli sprint radiografia` → tutto il lavoro 🟡 in sequenza, deploy resta 🔴 per sprint (o unico finale se preferisce). **AD orchestra** tech+security+QA — Nicola non gestisce 46 bug singolarmente. Report = catalogo completo; coda Pannello = solo ciò che **aspetta firma per agire**.",
       "tag": ["radiografia", "approvazioni", "sprint", "coda", "nicola", "workflow", "tech"],
       "reparto": "@AD",
-      "confidenza": 0.89,
-      "evidenze": 2,
+      "confidenza": 0.91,
+      "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 07:30",
+      "ultima_conferma": "2026-07-01 07:36",
       "stato": "attiva"
     },
     {
@@ -500,7 +512,7 @@
     "Prima di decidere su card 🔴 ordine chiede identificazione esplicita negozio/buyer se non visibile in anteprima casella — «Di quale negozio è il buyer?» (chat 1/7 07:19 ordine zombie €19,05)."
   ],
   "meta": {
-    "lezioni_attive": 38,
+    "lezioni_attive": 39,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67
