@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- **2026-07-01 11:15** — **Card PR marketplace obsoleta:** Nicola «crea la PR» Sprint 1 · già **#209+#210 mergiate** su `mycity/main` (push manuale post-403 07:41) · pattern: card aperta ≠ lavoro pendente se merge avvenuto fuori AD · verificare GitHub prima · #14 token mycity resta utile per Sprint 2+ · L-0701-26 + L-0701-34 · Fonte: chat Nicola 1/7.
 - **2026-07-01 11:00** — **Secondo test merge-on-approval:** Nicola «ok merge scelta-ab universale» → push **`main` `853c33a`** (4 file Pannello, scelta_ab universale) · Vercel redeploy · pattern confermato due volte nella stessa mattina · **Decisione ordine A/B resta 🔴** · L-0701-31 + L-0701-32 evidenza+1 · Fonte: chat Nicola 1/7.
 - **2026-07-01 10:45** — **Regola permanente merge-on-approval:** Nicola «impara questo, applica sempre il flusso target» + chiede come creare token GitHub merge · istruzioni PAT fine-grained consegnate (Contents+PR R/W su `ad-mycity`+`mycity` → `GITHUB_MERGE_TOKEN` / `GIT_PUSH_TOKEN` / `MARKETPLACE_GIT_TOKEN` in `vps/.env`) · #15 in coda · L-0701-31 evidenza+1 · Fonte: chat Nicola 1/7.
 - **2026-07-01 10:36** — **Primo test merge-on-approval:** Nicola «ok merge bottoni A/B» → push diretto **`main` `c50148d`** (3 file Pannello; codice era solo VPS, nessuna PR) · Vercel redeploy auto · sync VPS: `sudo bash cervello/vps/aggiorna-cervello.sh` · **Decisione ordine A/B resta 🔴** (deploy ≠ accetta/annulla) · L-0701-31 + L-0701-32 · Fonte: chat Nicola 1/7.

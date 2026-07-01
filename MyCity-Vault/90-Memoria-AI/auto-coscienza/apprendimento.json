@@ -610,10 +610,11 @@
     "Confonde `pannello/` con repo separato — va chiarito subito: sottocartella monorepo `ad-mycity`, live su Vercel con root `pannello/`; architettura a 3 tubi git/deploy (memoria-ad / main / mycity) (chat 1/7 10:22).",
     "Dopo «ok merge [feature]» si aspetta conferma operativa (commit hash, Vercel redeploy, comando VPS sync) **e** distinzione esplicita se resta una decisione 🔴 separata (es. ordine A/B post-deploy bottoni) — non confondere deploy codice con chiusura del loop di business (chat 1/7 10:36).",
     "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45).",
-    "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso."
+    "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso.",
+    "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15)."
   ],
   "meta": {
-    "lezioni_attive": 45,
+    "lezioni_attive": 46,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67
