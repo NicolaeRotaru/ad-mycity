@@ -1,22 +1,22 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-01 04:17** · Fonte: @intelligence (giro 1/7 04:17, 3BMeteo + REST live).
+> Aggiornato: **2026-07-01 06:18** · Fonte: @intelligence (giro 1/7 06:18, METEO.IT + IlPiacenza + REST live).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 1/7 — Caldo + temporali pomeriggio
+### 1. OGGI 1/7 — Caldo attenuato + temporali / allerta giallo
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Mer 01/7 (OGGI)** | **35° / 24°** | Sereno mattina; **temporali possibili 14–15** (prob. 60–70%) | 🌧️ *"piove, te la portiamo noi"* — **latente** |
-| Gio 02/7 | ~32 / 20 | Variabile, asciutto | clima mite |
-| **Ven 03/7 (VP)** | ~33 / 20 | Variabile — **presidio VP RIMANDATO** | — |
-| Sab 04/7 | ~33 / 21 | Poca pioggia | normale |
+| **Mer 01/7 (OGGI)** | **34° / 24°** | Attenuazione caldo estremo; **temporali isolati pomeriggio** (Protezione Civile **giallo** caldo + temporali) | 🌧️ *"piove, te la portiamo noi"* — **latente** (0 transazioni) |
+| Gio 02/7 | ~31 / 18 | Variabile, calo termico | clima mite |
+| **Ven 03/7 (VP)** | ~32 / 19 | Variabile — **presidio VP RIMANDATO** | — |
+| Sab 04/7 | ~32 / 19 | Poca pioggia | normale |
 | **Dom 6/7** | **~35 / 20** | Caldo secco — **batch onboarding negozi** (Nicola) | priorità operativa + rider/freschi |
 
-Fonti: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [Allerta meteo PC](https://allertameteo.regione.emilia-romagna.it/web/piacenza)
+Fonti: [METEO.IT Piacenza](https://www.meteo.it/meteo/piacenza-33032) · [IlPiacenza meteo 1/7](https://www.ilpiacenza.it/meteo/tra-weekend-e-inizio-settimana-apice-dell-anticiclone-anche-su-piacenza-aria-piu-fresca-dal-1-luglio.html) · [Allerta meteo PC](https://allertameteo.regione.emilia-romagna.it/web/piacenza)
 
 **Ondata caldo:** nuova salita prevista **dal 7/7** — monitorare rider e catena freddo.
 
@@ -34,11 +34,9 @@ Fonti: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [Allerta me
 
 ---
 
-## 🆕 Novità giro 1/7 04:17
-- Stallo **161,8h** — soglia **168h tra ~6,2h** (countdown critico).
-- Meteo: temporali **pomeriggio** oggi (3BMeteo) — angolo delivery latente.
-- VP 3/7 **congelato** — onboarding batch **6/7** priorità Nicola (dom ~35°C).
+## 🆕 Novità giro 1/7 06:18
+- Stallo **163,8h** — soglia **168h tra ~4,2h** (countdown **massimo** — entro ~10:30).
+- Meteo: fine caldo estremo + temporali pomeriggio + doppia allerta giallo ([IlPiacenza](https://www.ilpiacenza.it/meteo/tra-weekend-e-inizio-settimana-apice-dell-anticiclone-anche-su-piacenza-aria-piu-fresca-dal-1-luglio.html)).
+- VP 3/7 **congelato** — onboarding batch **6/7** priorità Nicola.
 
-## Consigli operativi
-- Se ordine zombie sbloccato oggi con temporali: messaggio *"piove, te la portiamo noi"* pronto in playbook — serve rider copertura pomeriggio.
-- Batch 6/7: evitare onboarding massivo senza Sprint 1 (fee UI assente = abbandono checkout).
+> Azioni reali → [[AZIONI-IN-ATTESA]]. Colore 🟢 = note interne.

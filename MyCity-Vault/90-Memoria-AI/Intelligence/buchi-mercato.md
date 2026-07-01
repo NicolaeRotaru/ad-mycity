@@ -1,27 +1,28 @@
-# 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
+# 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-07-01 04:17** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads.outreach_status=to_contact`).
-
-## Stato giro 2026-07-01 — 4 buchi azionabili (priorità invariata)
-
-1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo/GDO non coprono salumiere/fornaio/enoteca storica. → @growth + @vendite. *Confidenza ~70%.*
-
-2. 🟢 **Leva pioggia/temporali (OGGI 1/7 pomeriggio)** — 3BMeteo 60–70% temporali ore 14–15. Messaggio *"piove, te la portiamo noi"* — **latente** finché non c'è 1ª transazione. → @content-social + @operations.
-
-3. 🟡 **Regalo locale a domicilio (Cosaporto assente a PC)** — agganciabile ai VP 10/17 lug. → @growth + @marketing.
-
-4. 🟡 **Ex Scuderie — 3 spazi food premium** (gastronomia, panetteria, ortofrutta) — pipeline partner quando aprono. → @vendite.
-   Fonte: [PiacenzaSera 29/6](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)
-
-## Dati interni live (1/7 04:17)
-- **407 lead** invariati — scouting **dopo** 1ª transazione (ordine zombie PQ).
-- **168h tra ~6,2h** — urgenza decisionale prima di scouting attivo.
-- **4 carrelli** abbandonati (▼−2) — frizione checkout confermata.
-- **0 prodotti faro** — buchi restano ipotesi finché non partono ordini reali.
-
-## Carburante mancante
-- Analisi Idealista/immobiliare (403) per botteghe a rischio chiusura.
-- Ordini food reali per validare i buchi oltre il 70%.
+> Aggiornato: **2026-07-01 06:18** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads.outreach_status=to_contact`).
 
 ---
-> Si rigenera quando news o dati interni segnalano gap/zona scoperta.
+
+## Priorità (ordine operativo)
+
+| # | Categoria / zona | Perché | Potenziale | Stato MyCity |
+|---|------------------|--------|------------|--------------|
+| 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale; ordine zombie fermo | Alto — 1ª transazione | **1 negozio LIVE** (PQ), 0 pagati |
+| 2 | **Salumeria / DOP** (Piazza Duomo cluster) | Glovo = 0 botteghe artigianali; Garetti = prospect faro | Alto | Prospect (Garetti, scelta ragionata) |
+| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO copre commodity, non freschi artigianali | Medio-alto | 0 negozi |
+| 4 | **Gastronomia / enoteca** | Scontrino alto, regalo locale (Cosaporto assente a PC) | Medio | 0 negozi |
+| 5 | **Zone periferiche dense** (Montale, Galleana, San Lazzaro) | Copertura rider TBD post-primo cluster centro | Medio | Non servite |
+
+---
+
+## Blocco attuale
+- **407 lead** pronti ma outreach **post-1ª-transazione** — pitch senza checkout funzionante = rischio reputazione (4 bloccanti radiografia).
+- Kit bando ER #12: FESR Commercio **chiuso 23/6** — rivedere leva prima del pitch.
+
+## Mossa collegata
+1. Sbloccare ordine zombie PQ (**~4,2h** a soglia 168h)
+2. Ok Sprint 1 radiografia
+3. Batch onboarding **6/7** (Nicola)
+
+> Dettaglio lead: `consegne/vendite/2026-06-30-primi-10-lead-food-centro.md`

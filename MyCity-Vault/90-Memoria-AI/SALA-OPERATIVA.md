@@ -176,6 +176,12 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:37 · @Nicola · FATTO · Merge PR **WebFetch globale** su `main` + `sudo bash aggiorna-cervello.sh` — worker VPS con `"WebFetch"` globale (verificato).
 - 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
 
+### 2026-07-01 — Giro AD 06:18
+- 2026-07-01 06:18 · @AD · FATTO · Giro 1/7: KPI live REST stallo 163,8h (+2h), 168h ~4,2h (~10:30). Escalation v4 🟢. Briefing + auto-coscienza.
+- 2026-07-01 06:18 · @analista · FATTO · Snapshot KPI `consegne/analista/2026-07-01-kpi-live-0618.md` (🟢)
+- 2026-07-01 06:18 · @intelligence · FATTO · eventi-picchi.md + buchi-mercato.md (countdown ~4,2h + meteo allerta giallo)
+- 2026-07-01 06:18 · @operations · SERVE · Nicola: decisione ordine zombie €19,05 A/B — **~4,2h** a soglia 168h (~10:30)
+
 ### 2026-07-01 — Giro AD 02:17
 - 2026-07-01 04:17 · @AD · FATTO · Giro 1/7: KPI live REST stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. Briefing + auto-coscienza.
 - 2026-07-01 04:17 · @analista · FATTO · Snapshot KPI `consegne/analista/2026-07-01-kpi-live-0417.md` (🟢)

@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-01 04:17",
-  "sintesi": "Nicola ha firmato foglio-firma (contratto PQ 12%, payout sandbox 03/7). Rimanda VP 3/7 e concentra onboarding negozi del 6/7. Restano da decidere URGENTI (168h ~6,2h): ordine zombie €19,05 (A/B) e ok Sprint 1 radiografia. Payout-test esegue lui il 3/7 mattina.",
+  "data": "2026-07-01 06:18",
+  "sintesi": "Nicola ha firmato foglio-firma (contratto PQ 12%, payout sandbox 03/7). Rimanda VP 3/7 e concentra onboarding negozi del 6/7. Restano URGENTISSIMI (168h ~4,2h, entro ~10:30): ordine zombie €19,05 (A/B) e ok Sprint 1 radiografia. Payout-test esegue lui il 3/7 mattina.",
   "prossime_mosse": [
     {
       "titolo": "Decidere ordine zombie €19,05 — Pane Quotidiano",
-      "quando": "URGENTE — ~6,2h a soglia 168h",
+      "quando": "URGENTISSIMO — ~4,2h a soglia 168h (~10:30)",
       "come": "Scegli A (accetta/consegna) o B (annulla) — pacchetto operations pronto",
       "priorita": "alta",
       "ad_prepara": "Bozze WhatsApp/email + catena ops/supporto/finanza",
@@ -49,17 +49,17 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine entro ~6h"},
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine entro ~4h"},
     {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio (VP rimandato)", "stato": "in arrivo — checklist AD pronta"},
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo 161,8h → 168h tra ~6,2h senza transazione",
+    "Stallo 163,8h → 168h tra ~4,2h senza transazione (probabile ~10:30)",
     "Onboarding 6/7 su checkout con 4 bloccanti = danni reputazione",
-    "Temporali pomeriggio 1/7 se si tenta consegna senza rider pronti"
+    "Temporali pomeriggio 1/7 + allerta giallo PC se si tenta consegna senza rider pronti"
   ],
   "serve_da_nicola": [
-    {"ambito": "Transazione", "cosa_manca": "Decisione ordine zombie A/B entro ~6h", "domanda_per_nicola": "Ordine €19,05: accetti e consegni (A) o annulli (B)?"},
+    {"ambito": "Transazione", "cosa_manca": "Decisione ordine zombie A/B entro ~4h", "domanda_per_nicola": "Ordine €19,05: accetti e consegni (A) o annulli (B)?"},
     {"ambito": "Tech pre-live", "cosa_manca": "Firma Sprint 1 radiografia", "domanda_per_nicola": "Ok al branch fix sui 4 bloccanti prima del batch 6/7?"},
     {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
   ],

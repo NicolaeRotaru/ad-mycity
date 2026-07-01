@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-01 04:17",
+  "data": "2026-07-01 06:18",
   "voto_fiducia": 88,
-  "trend_fiducia": "▲",
-  "sintesi": "Giro 1/7 04:17. Voto +1 (87→88): KPI live REST (= business, stallo 161,8h, 168h ~6,2h). Carrelli 4 ▼−2 verificato. Countdown escalation aggiornato v3. Nessun errore grounding. MCP cieco, REST OK. Non ripetute domande su decisioni già firmate (L-0701-19).",
+  "trend_fiducia": "=",
+  "sintesi": "Giro 1/7 06:18. Voto 88 (= 04:17): KPI live REST (= business, stallo 163,8h, 168h ~4,2h ~10:30). Escalation v4 🟢. Carrelli 4 verificati. Nessun errore grounding. MCP cieco, REST OK. L-0701-20 applicata (countdown <5h).",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 04:17, clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 06:18, clmpyfvpvfjgeviworth)",
     "coerenza": "ok (allineato DECISIONI/chat 1/7)",
     "semaforo": "ok",
     "qualita": "ok",
@@ -15,7 +15,7 @@
   "domande_per_nicola": [
     {
       "domanda": "Ordine zombie €19,05: accetti e consegni (A) o annulli (B)?",
-      "perche_serve": "Unica via 1ª transazione reale; ~6,2h a soglia 168h stallo.",
+      "perche_serve": "Unica via 1ª transazione reale; ~4,2h a soglia 168h (~10:30).",
       "se_rispondi": "Eseguo pacchetto operations opzione scelta.",
       "gravita": "alta"
     },
@@ -35,7 +35,7 @@
   "punti_ciechi": [
     "Supabase MCP cieco (REST fallback OK)",
     "PostHog non collegato",
-    "Stripe status page fetch timeout (assunto OK)",
+    "Fetch status/meteo timeout (WebSearch fallback)",
     "Competitor non ricontrollati (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
@@ -44,8 +44,8 @@
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",
-    "supabase_memoria": "env presente ✅",
-    "stripe": "status non verificato (timeout) · operativo al giro precedente ✅",
+    "supabase_memoria": "env presente ✅ · POST briefings OK",
+    "stripe": "non verificato in sessione",
     "posthog": "non collegato ❌",
     "dati_freschi": true,
     "sensori_attivi": 2

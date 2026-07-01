@@ -1,13 +1,13 @@
 {
-  "data": "2026-07-01 04:17",
+  "data": "2026-07-01 06:18",
   "lezioni": [
     {
       "id": "L-2026-0701-20",
       "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critico, «decidi ORA», ore esatte) e produrre nota escalation 🟢 aggiornata (v3, non ripetere v2). Mossa n.1 resta ordine zombie PQ finché non c'è transazione — non spostare focus su marketing/VP. Se i numeri = al giro precedente, il valore del giro è **urgenza decisionale + delta secondari** (es. carrelli 4 vs 6), non ripetere 11 sezioni identiche senza evidenziare il countdown.",
       "tag": ["stallo", "168h", "escalation", "briefing", "urgenza"],
       "reparto": "@AD",
-      "confidenza": 0.82,
-      "evidenze": 1,
+      "confidenza": 0.85,
+      "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",

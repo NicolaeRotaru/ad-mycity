@@ -1,46 +1,34 @@
 ---
-data: 2026-07-01 04:17
-voto_fiducia: 88
-trend: ▲
+data: 2026-07-01 06:18
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 04:17
+# 🔬 Auto-analisi — Giro 2026-07-01 06:18
 
-## Voto di fiducia: **88/100** (▲ +1 vs 02:17)
+## Voto di fiducia: **88/100** (trend **=** vs 04:17)
 
-**Perché:** 7 numeri live REST verificati (= business, stallo +2h → 161,8h, countdown 168h ~6,2h). Delta carrelli 4 ▼−2 documentato con query completa abandoned_carts. Entità allineate (Pane Quotidiano confermato, Casa Linda demo). Nessun numero orfano. -3: MCP cieco (mitigato REST). -5: domande 🔴 ordine zombie ancora aperte (blocco legittimo, urgenza correttamente escalata).
+**Perché:** 7 numeri live REST verificati (= business, stallo 163,8h, countdown 168h ~4,2h). Escalation v4 🟢 prodotta (L-0701-20 applicata: linguaggio massimo sotto 5h). Entità allineate (Pane Quotidiano confermato, Casa Linda demo). Nessun numero orfano. −5: MCP cieco (mitigato REST, penalità singola). Domande 🔴 ordine zombie = blocco legittimo, urgenza corretta.
 
 ## Errori per gravità
-
-| Gravità | Cosa | Azione |
-|---------|------|--------|
-| — | Nessun errore grounding/numeri in questo giro | — |
+Nessun errore nuovo intercettato in questo giro.
 
 ## Domande per Nicola
-
-1. **Ordine €19,05 A/B?** — entro ~6,2h (gravita: alta)
-2. **Ok Sprint 1 radiografia?** — 4 bloccanti prima del batch 6/7 (gravita: alta)
-3. **Quanti negozi il 6/7?** — checklist pronta (gravita: media)
+1. **Ordine zombie €19,05:** accetti e consegni (A) o annulli (B)? — **entro ~4h** (~10:30).
+2. **Ok Sprint 1 radiografia** (branch fix 4 bloccanti pre-live)?
+3. **Quanti negozi il 6/7** e quali nomi?
 
 ## Salute della macchina
-
-| Sensore | Stato |
-|---------|-------|
-| Supabase marketplace REST | ✅ live 04:17 |
-| Supabase MCP | ❌ cieco |
-| Supabase memoria env | ✅ presente |
-| Stripe status | ⚠️ fetch timeout (OK al giro precedente) |
-| PostHog | ❌ non collegato |
-| Dati freschi | ✅ sì |
-| Sensori attivi | 2/4 |
+- **Supabase marketplace:** REST live ✅ · MCP cieco ❌
+- **Supabase memoria:** env presente ✅ · POST briefings OK
+- **Stripe/PostHog:** non verificati in sessione
+- **Dati freschi:** sì (query 06:18)
+- **Sensori attivi:** 2 (REST marketplace + memoria)
 
 ## Punti ciechi
-
-- MCP marketplace cieco (REST compensa)
-- PostHog assente
-- Competitor/stampa non ricontrollati (settimanale)
+- Supabase MCP cieco (REST fallback OK)
+- PostHog non collegato
+- Fetch esterni timeout (status.supabase.com, 3BMeteo) — mitigato WebSearch
+- Competitor non ricontrollati (cadenza settimanale)
 
 ## Cosa miglioro al prossimo giro
-
-- Trigger escalation 🟡 automatica se stallo >168h
-- Riverificare stato PR quaderni su main
+- Se supera 168h (~10:30): escalation 🟡 binaria automatica in coda
+- Verificare merge PR quaderni su main
