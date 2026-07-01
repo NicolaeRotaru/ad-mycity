@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-01 18:18",
-  "voto_fiducia": 88,
-  "trend_fiducia": "=",
-  "sintesi": "Giro 1/7 18:18. Voto 88 (=): KPI live REST, stallo 175,8h (+7,8h oltre 168h). Scelta A rispettata — no A/B. Slot allineato orologio: 18:18 → finestra APERTA ORA (18:30-20:00), slot confermato in DB ordine. Sprint 1 LIVE verificato. Nessun errore grounding. MCP cieco, REST OK.",
+  "data": "2026-07-01 20:18",
+  "voto_fiducia": 87,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro 1/7 20:18. Voto 87 (▼ da 88): KPI live REST, stallo 177,8h (+9,8h oltre 168h). Finestra consegna CHIUSA — giornata a zero transazioni (previsione giro 18:18 confermata). Scelta A rispettata. Ripiano 2/7 🟢. Nessun errore grounding. MCP cieco, REST OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 18:18, clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 20:18, clmpyfvpvfjgeviworth)",
     "coerenza": "ok (allineato DECISIONI 11:05, STATO, intenzioni-nicola)",
     "semaforo": "ok",
     "qualita": "ok",
@@ -14,9 +14,9 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Eseguire #16 ORA? (finestra 18:30-20:00 APERTA) — scrivi ok 16",
-      "perche_serve": "Scelta A firmata 11:05 — ultima chance oggi per 1ª transazione; stallo +7,8h oltre 168h.",
-      "se_rispondi": "Operations esegue pacchetto #16 — WhatsApp + consegna COD entro 20:00.",
+      "domanda": "Eseguire #16 domani 2/7 mattina? — scrivi ok 16",
+      "perche_serve": "Scelta A firmata 11:05 — finestra 1/7 scaduta; stallo +9,8h oltre 168h.",
+      "se_rispondi": "Operations esegue pacchetto #16 — WhatsApp + consegna COD (ripiano 2/7).",
       "gravita": "alta"
     },
     {
@@ -26,9 +26,9 @@
       "gravita": "alta"
     },
     {
-      "domanda": "Quanti negozi inserisci il 6/7 e quali nomi?",
-      "perche_serve": "Checklist onboarding pronta — serve lista per personalizzare catalogo/contratti.",
-      "se_rispondi": "AD prepara batch done-for-you per ogni bottega.",
+      "domanda": "Sync VPS #17: 1× Console Hetzner root → install-sync-vps.sh",
+      "perche_serve": "Nicola «ok 17» 20:18 — install bloccato (mycity senza sudo).",
+      "se_rispondi": "Worker auto-sync post-merge attivo.",
       "gravita": "media"
     }
   ],
@@ -37,15 +37,15 @@
     "PostHog non collegato",
     "Stripe MCP non verificato in sessione",
     "Competitor non ricontrollati (cadenza settimanale)",
-    "Schema abandoned_carts cambiato — conteggio carrelli da playbook 12:15"
+    "Carrelli >4h: conteggio da playbook 12:15 (=4), query abandoned_carts fallita"
   ],
   "miglioramenti_prossimo_giro": [
     "Post ok 16: aggiornare 7 numeri con prima transazione",
     "Post fatto sql 107: verificare leak RLS chiuso",
-    "Documentare query REST carrelli con schema aggiornato"
+    "Verificare esito install sync VPS post-root"
   ],
   "salute_macchina": {
-    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Compute Degraded (status page)",
+    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Compute Degraded (status page, progetti esistenti OK)",
     "supabase_memoria": "env presente ✅ · POST briefings OK",
     "stripe": "non verificato in sessione",
     "posthog": "non collegato ❌",
