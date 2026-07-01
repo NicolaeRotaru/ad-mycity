@@ -163,6 +163,16 @@ export const MODULI: ModuloDef[] = [
     punti: ["Reclami aperti e tempo di risposta", "Chargeback / dispute Stripe"],
   },
   {
+    area: "mondo", gruppo: "Protezione", emoji: "🛠️", titolo: "Codice del sito (mycity)",
+    descrizione: "Il repo GitHub del marketplace: analisi, radiografia e audit del codice.",
+    fonte: "GitHub NicolaeRotaru/mycity", stato: "live", lista: "/api/marketplace/codice?azione=lista",
+    punti: [
+      "Elenco file via /api/marketplace/codice?azione=lista",
+      "Lettura file via /api/marketplace/codice?path=…",
+      "Stato collegamento in /api/diagnosi → «Codice marketplace (GitHub)»",
+    ],
+  },
+  {
     area: "mondo", gruppo: "Protezione", emoji: "🛡️", titolo: "Sicurezza & accessi",
     descrizione: "Chi può vedere cosa e lo stato di sicurezza.",
     fonte: "security / Supabase", stato: "placeholder",

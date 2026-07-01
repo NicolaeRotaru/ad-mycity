@@ -4,6 +4,7 @@ import { marketplaceDbConnected } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 import { getBudget } from "@/lib/ai-budget";
 import { vaultGithubInfo } from "@/lib/obsidian";
+import { marketplaceGithubInfo, testMarketplaceGithub } from "@/lib/github";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
@@ -39,6 +40,15 @@ export async function GET() {
   // 3) DB marketplace (i numeri reali).
   const db = marketplaceDbConnected();
   checks.push({ nome: "Dati marketplace", stato: db ? "verde" : "giallo", dettaglio: db ? "ordini/clienti leggibili" : "manca MARKETPLACE_SUPABASE_*: numeri non disponibili" });
+
+  // 3b) Codice marketplace via GitHub (analisi/audit del sito mycity).
+  const mktGh = marketplaceGithubInfo();
+  const mktTest = mktGh.collegato ? await testMarketplaceGithub() : null;
+  checks.push({
+    nome: "Codice marketplace (GitHub)",
+    stato: !mktGh.collegato ? "giallo" : mktTest?.ok ? "verde" : "rosso",
+    dettaglio: mktTest?.dettaglio ?? "manca GITHUB_TOKEN + GITHUB_OWNER + GITHUB_REPO: radiografia/audit codice non disponibile",
+  });
 
   // 4) Traffico (PostHog).
   const ph = await getPostHog().catch(() => ({ connected: false }) as any);
