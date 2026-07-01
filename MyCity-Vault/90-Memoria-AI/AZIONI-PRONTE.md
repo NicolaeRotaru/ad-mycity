@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-06-26
+aggiornato: 2026-07-01 12:00
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -63,3 +63,35 @@ preparato: 🎧 supporto + 🛡️ trust-safety
 testo:
 Ciao, ci dispiace per l'esperienza: non è lo standard che vogliamo. Ti abbiamo scritto
 in privato per sistemare subito. Grazie per il feedback, ci aiuta a migliorare.
+
+## A6 · 📞 Check-in anti-churn — Pane Quotidiano (ordine bloccato 7g)
+reparto: account-negozi
+livello: 🟡
+canale: Telefono / WhatsApp — titolare Pane Quotidiano (0523 388601)
+perche: Unico negozio REALE: ordine COD €19,05 del 24/6 fermo in NEW/PENDING da 7 giorni. Rischio churn «non vendo qui» se il titolare non vede la prima consegna. Allineato a #16 (Scelta A firmata 11:05).
+preparato: 🤝 account-negozi + 🛵 operations
+origine: playbook:negozi-calo
+testo:
+Ciao, sono [Nicola/MyCity]. Vi scrivo perché il 24 giugno è arrivato il vostro primo ordine
+su MyCity — €19,05 in contrassegno — e ci scusiamo: è rimasto in sospeso per un ritardo
+NOSTRO di piattaforma, non vostro.
+
+Oggi lo chiudiamo noi: lo accettiamo in dashboard, organizziamo la consegna al cliente e
+a consegna completata vi portiamo l'incasso (payout test giovedì 3/7 mattina).
+
+Vi chiamo oggi pomeriggio — vi va bene verso le [ORA]? Mi serve solo 2 minuti: conferma
+che l'ordine è pronto da preparare quando passiamo. Grazie per la pazienza, contiamo su di
+voi come bottega faro del quartiere.
+
+## A7 · 🌾 Upsell post-prima-consegna — Pane Quotidiano (kefir + pesto)
+reparto: account-negozi
+livello: 🟢
+canale: Messaggio dopo prima consegna completata (WhatsApp o di persona)
+perche: Dopo la prima consegna (#16) espansione catalogo = retention. Avete già 5 prodotti bio online; kefir e pesto sono i più cercati nel settore — zero attrito, proposta fatta da noi.
+preparato: 🤝 account-negozi
+origine: playbook:negozi-calo
+testo:
+Complimenti per la prima consegna MyCity! Ho visto che online avete già kefir e pesto bio —
+ottimo. Se avete altri 2-3 prodotti da banco che vendete spesso (pane integrale, focaccia…),
+mandatemi 2 foto e il prezzo: **te li carico io** entro oggi. Così la prossima spesa del
+quartiere passa anche da lì.
