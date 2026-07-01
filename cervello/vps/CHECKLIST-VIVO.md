@@ -172,12 +172,9 @@ Apri nel browser (sostituisci dominio):
 
 1. Correggi `/opt/mycity/ad-mycity/cervello/vps/.env` (modello sopra) — **GIT_PUSH_TOKEN obbligatorio**
 2. **Dopo ogni merge su main**, allinea codice + riavvia worker:
-   - **Automatico** (dopo `install-sync-vps.sh`): l'AD accoda `sync-vps` — zero cmd.
-   - **Manuale** (fallback):
    ```bash
    sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh
    ```
-   Prima volta sync auto: `sudo bash cervello/vps/install-sync-vps.sh`
 3. `journalctl -u mycity-worker -n 20` → deve dire `pipeline: giro-pipeline-v2` (NON legacy)
 4. Vercel: verifica `SUPABASE_*` + `OBSIDIAN_BRANCH=memoria-ad` → Redeploy
 5. Pannello → Diagnosi: verde su **Pipeline giro** + **Push memoria-ad**

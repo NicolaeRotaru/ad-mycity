@@ -230,20 +230,6 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
-  elif [ "$tipo" = "sync-vps" ]; then
-    # Post-merge main: allinea codice + riavvia worker (zero cmd Nicola, serve install-sync-vps.sh).
-    to=300
-    out="$(timeout --kill-after=30s "$to" bash "$SCRIPT_DIR/sync-vps.sh" 2>&1)"; rc=$?
-    skip_sync=1
-    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-      stato="errore"; out="$out
-[worker] TIMEOUT sync-vps dopo ${to}s."
-    elif [ "$rc" -ne 0 ]; then
-      stato="errore"; out="$out
-[worker] sync-vps fallito (rc=$rc). Esegui: sudo bash $SCRIPT_DIR/vps/install-sync-vps.sh"
-    else
-      stato="fatto"
-    fi
   elif [ "$tipo" = "giro" ]; then
     # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
     export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
