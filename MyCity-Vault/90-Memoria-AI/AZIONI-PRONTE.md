@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-01 12:01
+aggiornato: 2026-07-01 12:03
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -98,15 +98,16 @@ origine: playbook:recupero-carrelli
 testo:
 NON INVIARE — 2 account demo/seller. Dettaglio in consegne/crm/2026-07-01-playbook-recupero-carrelli.md.
 
-## A4 · 💌 Messaggio post-consegna (grazie + recensione)
+## A4 · ⭐ Caccia recensioni — indice playbook 1/7 12:03
 reparto: customer-success
-livello: 🟢
-canale: Messaggio in-app / email dopo la consegna
-perche: Subito dopo una buona consegna è il momento migliore per chiedere una recensione.
-preparato: 🤗 customer-success
+livello: 🟡
+canale: WhatsApp / email / in-app (DRY-RUN)
+perche: Playbook recensioni giornaliero. REST 12:03: 0 consegne completate, 0 recensioni — nessun sollecito oggi. Bozze pronte per la prima consegna (#16 Pane Quotidiano €19,05).
+preparato: 🤗 customer-success · dossier `consegne/customer-success/2026-07-01-playbook-recensioni.md`
+origine: playbook:recensioni
 testo:
-Grazie per aver ordinato su MyCity! Speriamo sia andato tutto bene 💛
-Ci lasci una recensione veloce? Aiuta i negozi del quartiere e ci vogliono 20 secondi.
+Riepilogo: 0 consegne senza recensione oggi · A13–A14 = sequenza post-consegna ordine #16 (partono DOPO `ok 16` + consegna) · A15 = skip.
+Regola: recensione solo se feedback ≠ negativo (FLUSSI §3).
 
 ## A5 · ⭐ Risposta a una recensione bassa
 reparto: supporto
@@ -175,3 +176,47 @@ Link nel primo commento → https://mycity-marketplace.com
 VISUAL (brief per designer):
 1080×1350 · metà alto = cielo/temporali · metà basso = barattolo pesto bio [FOTO PESTO PQ] · hook "La vera stella di stasera?" · badge "Fai il tuo turno da casa" · footer brand @mycity.piacenza
 Template: cervello/content-factory/templates/consiglio-mercoledi.html
+
+## A13 · 💬 Feedback post-consegna — ordine #16 Pane Quotidiano · TOUCH #1
+reparto: customer-success
+livello: 🟡
+canale: WhatsApp → 348 642 1766 · backup email/in-app
+perche: Prima transazione reale MyCity. Touch +3h da `Consegnato` — intercetta problemi prima del reclamo e abilita Touch #2 recensione solo se 👍.
+preparato: 🤗 customer-success · `consegne/customer-success/2026-07-01-playbook-recensioni.md` §Touch 1
+origine: playbook:recensioni
+blocco_invio: partire SOLO dopo esecuzione #16 (ordine consegnato e segnato in dashboard)
+cambia: Il buyer riceve messaggio di cortesia post-consegna su WhatsApp: chiede se pesto/kefir/hummus da Pane Quotidiano sono ok e apre canale per problemi.
+seguito: Se 👍 → A14 domani · se 👎 → @supporto, niente recensione finché non risolto · telefonata concierge (+2–4h) ha priorità su questo messaggio.
+testo:
+Ciao! Sono Nicola di MyCity 👋
+Ti è arrivata la spesa da Pane Quotidiano? Spero pesto e kefir siano come al banco.
+Siamo appena nati e ogni tua parola conta. Com'è andata?
+👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema
+Se qualcosa non va, rispondi qui: lo sistemo io oggi stesso.
+Grazie per aver scelto la bottega del quartiere 🧡
+
+## A14 · ⭐ Richiesta recensione — ordine #16 · TOUCH #2
+reparto: customer-success
+livello: 🟡
+canale: WhatsApp → 348 642 1766 · backup email/in-app
+perche: Picco di felicità +1 giorno dopo feedback positivo. Prima recensione verificata MyCity (legata a order_id reale) = social proof per il lancio.
+preparato: 🤗 customer-success · stesso dossier §Touch 2
+origine: playbook:recensioni
+blocco_invio: solo se A13/telefonata = feedback positivo · ordine `58094956-4b9b-49b4-9299-7a5c645d7cb3` in stato Consegnato
+cambia: Al cliente arriva il link diretto alla recensione verificata su Pane Quotidiano — 30 secondi, prima recensione di MyCity a Piacenza.
+seguito: Se recensisce → ringraziamento + passa a @content per UGC · se silenzio → 1 solo promemoria a +2g poi stop.
+testo:
+Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidiano 🌟
+👉 https://mycity-marketplace.com/orders/58094956-4b9b-49b4-9299-7a5c645d7cb3/review
+Bastano 30 secondi: stelline + una frase vera. Spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi."
+Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
+
+## A15 · ⏭️ SKIP recensioni — nessuna consegna completata oggi
+reparto: customer-success
+livello: 🟢
+canale: —
+perche: REST 1/7 12:03: 0 ordini con `delivered_at` · 0 recensioni in DB. Playbook eseguito, nessun sollecito da inviare oggi.
+preparato: 🤗 customer-success · playbook 1/7 12:03
+origine: playbook:recensioni
+testo:
+NON INVIARE oggi — zero consegne completate. Sequenza A13–A14 si attiva automaticamente dopo la prima consegna (#16).
