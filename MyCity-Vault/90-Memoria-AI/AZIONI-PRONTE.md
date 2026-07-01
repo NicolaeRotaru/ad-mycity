@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-01 12:15
+aggiornato: 2026-07-01 12:01
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -149,3 +149,29 @@ Complimenti per la prima consegna MyCity! Ho visto che online avete già kefir e
 ottimo. Se avete altri 2-3 prodotti da banco che vendete spesso (pane integrale, focaccia…),
 mandatemi 2 foto e il prezzo: **te li carico io** entro oggi. Così la prossima spesa del
 quartiere passa anche da lì.
+
+## A12 · ✍️ Post del giorno — Pesto bio + temporali ("Fai il tuo turno")
+reparto: content-social
+livello: 🔴
+canale: Instagram + Facebook feed + Storie + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Playbook contenuto del giorno 1/7. Finestra meteo reale: temporali pomeridiani oggi (STATO 11:52). Unico negozio LIVE = Pane Quotidiano. Angolo Cortilia "la vera stella" + piattaforma "Il Turno" — prodotto vero, zero citazioni inventate.
+preparato: ✍️ content-social · dossier `consegne/content/2026-07-01-playbook-contenuto-giorno.md`
+origine: playbook:contenuto-giorno
+cambia: Il post esce su IG, FB e gruppi locali entro le 14:00: cavalca i temporali di oggi e mette in luce Pane Quotidiano (pesto bio €5) con CTA ordine su mycity-marketplace.com.
+seguito: Se arrivano click/ordini, domani secondo post "Il nostro bottegaio" con foto reale PQ; @designer renderizza PNG da brief (Playwright assente oggi).
+testo:
+CAPTION IG/FB:
+☔ Temporali stasera? La cena la fai da casa. La spesa te la portiamo noi.
+La vera stella di questa cena veloce? Il Pesto Genovese Bio — quello di Pane Quotidiano, in Via Calzolai. Bio/dietetica in città dal 1976.
+Pasta fresca, due cucchiai di pesto, fine. Niente code sotto la pioggia. Paghi alla consegna se preferisci.
+👉 Fai il tuo turno: ordina da Pane Quotidiano su MyCity — link in bio / primo commento.
+La spesa che tiene viva la città. · @mycity.piacenza
+
+GRUPPI FB (tono locale):
+Stasera temporali in arrivo — chi ha voglia di uscire a fare la spesa?
+Pane Quotidiano (Via Calzolai, bio dal '76): pesto e kefir bio ordinabili su MyCity. Te li portiamo a casa, paghi alla consegna.
+Link nel primo commento → https://mycity-marketplace.com
+
+VISUAL (brief per designer):
+1080×1350 · metà alto = cielo/temporali · metà basso = barattolo pesto bio [FOTO PESTO PQ] · hook "La vera stella di stasera?" · badge "Fai il tuo turno da casa" · footer brand @mycity.piacenza
+Template: cervello/content-factory/templates/consiglio-mercoledi.html
