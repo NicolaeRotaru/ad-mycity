@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
-# ritmo-ora.sh — lancia subito una cadenza del ritmo AD e segue i log.
-# Uso: sudo bash cervello/vps/ritmo-ora.sh [mattino|sera|settimana]
+# ritmo-ora.sh — Lancia SUBITO una cadenza del ritmo (mattino | sera | settimana).
+# Da eseguire SUL VPS (Linux), come root:
+#     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
+#     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh sera
+#     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh settimana
 set -euo pipefail
 
-CADENZA="${1:-mattino}"
-case "$CADENZA" in
-  mattino|sera|settimana) ;;
-  *) echo "Uso: $0 mattino|sera|settimana" >&2; exit 2 ;;
+TIPO="${1:-}"
+case "$TIPO" in
+  mattino) UNIT=mycity-ritmo-mattino ;;
+  sera) UNIT=mycity-ritmo-sera ;;
+  settimana) UNIT=mycity-ritmo-settimana ;;
+  *)
+    echo "Uso: ritmo-ora.sh {mattino|sera|settimana}" >&2
+    exit 1
+    ;;
 esac
 
-systemctl start --no-block "mycity-ritmo-${CADENZA}.service"
-echo "▶ Ritmo $CADENZA avviato. Log (Ctrl-C per uscire):"
-exec journalctl -u "mycity-ritmo-${CADENZA}" -f
+ts() { date '+%Y-%m-%d %H:%M'; }
+
+echo "[$(ts)] ▶ Ritmo $TIPO avviato. Log (Ctrl-C per uscire):"
+systemctl start --no-block "${UNIT}.service"
+exec journalctl -u "$UNIT" -f

@@ -11,4 +11,4 @@ EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
 Environment=HOME=/home/mycity
 Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=TZ=Europe/Rome
-ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo-run.sh mattino
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo.sh mattino

@@ -84,14 +84,6 @@ Passi:
    **"Cosa ho scoperto e cosa propongo"** + il badge "Vivo" anche **senza Supabase**). Forma esatta:
    `{ "data": "AAAA-MM-GG HH:MM", "situazione": "<la Sintesi in 2-4 righe>", "opportunita": [ {"titolo":"…","motivo":"…","impatto":"alto|medio|basso","sforzo":"alto|medio|basso"} ], "azioni": [ {"titolo":"…","motivo":"…","livello":"verde|giallo|rosso"} ] }`
    (è lo stesso digest che andrebbe in Supabase: `situazione` = la Sintesi; ogni azione ha `livello`.)
-   **Scelta binaria A/B (regola Nicola 1/7):** quando la proposta chiede a Nicola di scegliere tra due opposite
-   (accetta/annulla, sì/no, merge A/merge B…), NON usare Approva/Ignora — usa `tipo: "scelta_ab"` con campi:
-   `scelta_id` (id stabile, es. `ordine-zombie-58094956`), `opzione_a`, `opzione_b`, op opzionale `contesto`
-   e `istruzioni` (cosa fa il cervello dopo il click). Il Pannello mostra bottoni **A — …** / **B — …**;
-   la scelta si persiste e la card non torna al giro successivo. Esempio:
-   `{ "titolo":"Decisione ordine zombie €19,05", "motivo":"Buyer fermo 7 giorni", "livello":"rosso",
-     "tipo":"scelta_ab", "scelta_id":"ordine-zombie-58094956", "opzione_a":"Accetta e consegna",
-     "opzione_b":"Annulla (messaggio buyer)", "contesto":"Pane Quotidiano · buyer 348… · COD €19,05" }`
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
    `SUPABASE_SERVICE_KEY`), salva lo stesso digest anche nella tabella `briefings`
    così il **Pannello di Controllo** lo mostra nella card in alto. Il report COMPLETO

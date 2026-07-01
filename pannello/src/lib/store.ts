@@ -10,12 +10,6 @@ export type Azione = {
   titolo: string;
   motivo: string;
   livello: "verde" | "giallo" | "rosso";
-  tipo?: string;
-  scelta_id?: string;
-  opzione_a?: string;
-  opzione_b?: string;
-  contesto?: string;
-  istruzioni?: string;
 };
 export type Opportunita = {
   titolo: string;
