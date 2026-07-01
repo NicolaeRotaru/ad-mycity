@@ -52,7 +52,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 | `esegui-azione.mjs verifica` | ✅ 7/7 | doppio cancello ingresso + pre-invio |
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
-| Deploy `main` + VPS | 🟡 **in attesa** | fix non ancora in produzione |
+| Deploy marketplace Render | ✅ **Sprint 1 live ~10:31** | #209+#210 · ⏳ SQL 107 policy Nicola |
+| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok · `aggiorna-cervello.sh` da lanciare |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori

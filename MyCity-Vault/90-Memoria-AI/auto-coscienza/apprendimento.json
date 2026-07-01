@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 11:01",
+  "data": "2026-07-01 11:10",
   "lezioni": [
+    {
+      "id": "L-2026-0701-34",
+      "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo merge #209+#210 Render **auto-deploy ~10:31** — «ok deploy» ≠ rifare deploy manuale. **Pattern obbligatorio:** (1) tabella verifica: health API, bundle prod (`Consegna MyCity`, `seller_public_profiles`), test anon REST su `profiles.stripe_account_id`; (2) dichiarare **codice ✅ / SQL ⏳** se migrazione non applicata; (3) **2 tubi deploy marketplace:** Render (auto post-merge) vs Supabase SQL (`107_seller_public_profiles.sql` DROP policy) — AD **senza** `MARKETPLACE_SUPABASE_WRITE_KEY` → Nicola incolla SQL in Supabase SQL Editor (~30s), poi `fatto sql 107` per verifica; (4) **separare #13 da #16** in risposta — «ok deploy sprint 1» è deploy fix, non ordine zombie (Scelta A già 11:05). Smoke test post-SQL: COD/carta test + anon 403 su profiles diretto.",
+      "tag": ["deploy", "render", "supabase", "migrazione", "sprint", "marketplace", "nicola", "verifica"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:10",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-33",
       "testo": "**Scelta A/B universale (Nicola 1/7 10:50, deploy 11:00):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile. **Deploy ESEGUITO:** Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** (4 file Pannello) · Vercel redeploy · decisione ordine €19,05 ancora 🔴 (click A/B).",
@@ -106,14 +119,14 @@
     },
     {
       "id": "L-2026-0701-25",
-      "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch locale `marketplace/` `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, **6 fix**: webhook Stripe, fee €3 UI, VIEW `seller_public_profiles`, rollback COD, varianti duplicate, stock idempotente refund), consegna `consegne/tech/sprint-1-radiografia-marketplace.md`, #13 → **✅ FATTO in locale** (push PR a Nicola — vedi L-2026-0701-26). **Pre-deploy 🔴:** migrazione SQL `107_seller_public_profiles.sql` su Supabase prod + smoke test (2 negozi, carta test, S+M, fee visibile). Deploy produzione = comando separato «ok deploy Sprint 1».",
+      "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30 → deploy 11:10):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch → PR #209+#210 mergiate su `mycity/main` · Render auto-deploy ~10:31 · verificato prod: fee UI + `seller_public_profiles` ✅ · **⏳ SQL 107** DROP policy (anon legge ancora `profiles` — vedi L-2026-0701-34). #13 → **✅ DEPLOY CODICE** · smoke test completo post-SQL. Nicola «ok deploy Sprint 1» 11:10 = firma #13 parziale (codice live, DB 1 passo).",
       "tag": ["radiografia", "sprint", "marketplace", "branch", "deploy", "migrazione", "nicola"],
       "reparto": "@tech",
-      "confidenza": 0.88,
-      "evidenze": 2,
+      "confidenza": 0.91,
+      "evidenze": 3,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 07:36",
+      "ultima_conferma": "2026-07-01 11:10",
       "stato": "attiva"
     },
     {
@@ -611,10 +624,11 @@
     "Dopo «ok merge [feature]» si aspetta conferma operativa (commit hash, Vercel redeploy, comando VPS sync) **e** distinzione esplicita se resta una decisione 🔴 separata (es. ordine A/B post-deploy bottoni) — non confondere deploy codice con chiusura del loop di business (chat 1/7 10:36).",
     "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45).",
     "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso.",
-    "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15)."
+    "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15).",
+    "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10)."
   ],
   "meta": {
-    "lezioni_attive": 46,
+    "lezioni_attive": 47,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67
