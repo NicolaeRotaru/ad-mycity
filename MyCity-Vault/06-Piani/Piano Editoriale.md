@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 00:17
+## 🤖 Aggiornamento dell'AD — 2026-07-01 02:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **OGGI 1/7 allerta temporali ER** — angolo *"piove, te la portiamo noi"* latente (0 catalogo food vero). Playbook 🟢: `consegne/operations/2026-07-01-playbook-temporali.md`
-- **Countdown VP 3/7 (tra ~66h):** contenuti #7 in coda. Serve link lista d'attesa.
-- **168h tra ~10h:** senza transazione, il presidio VP parla di un marketplace fermo.
+- **Allerta temporali OGGI 1/7** — angolo *"piove, te la portiamo noi"* latente (0 go-live). Playbook 🟢 esistente.
+- **VP 3/7 congelato** — editoriale sposta focus su **supporto onboarding 6/7** (foto/catalogo botteghe).
+- **168h ~8h** — nessun post che promette delivery finché ordine zombie non sbloccato.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

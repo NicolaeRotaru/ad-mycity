@@ -1,36 +1,48 @@
 ---
-tipo: auto-analisi
-data: 2026-07-01 00:17
+data: 2026-07-01 02:17
+voto_fiducia: 87
+trend: ▲
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 00:17
+# 🔬 AUTO-ANALISI — Giro 2026-07-01 02:17
 
-## Voto di fiducia: **86/100** (▲ +1 vs 85 del 30/6 23:15)
+## Voto di fiducia: **87/100** (▲ +1 vs 00:17)
 
-**Perché:** 7 numeri riverificati live via REST (= vs passaggio precedente). Grounding entità ok. Nessun numero orfano. Valore aggiunto del giro: playbook temporali 1/7 🟢 + snapshot KPI + aggiornamento Intelligence. Malus singolo −5 MCP cieco (REST fallback attivo). Non ho ripetuto un passaggio vuoto: business invariato ma **contesto esterno nuovo** (allerta oggi) giustifica il giro.
+**Perché:** 7 numeri live REST verificati (= business, stallo +2h documentato). Entità allineate post-correzione Casa Linda. Nessun numero orfano. Contesto Nicola (firme 01:02, VP rimandato, radiografia) integrato senza chiedere ciò che è già deciso. -3: MCP cieco (mitigato REST). -5: domande 🔴 ancora aperte su ordine zombie (blocco legittimo, non errore AD).
 
 ## Errori per gravità
-Nessun errore L1 intercettato in questo giro.
+
+| Gravità | Cosa | Azione |
+|---------|------|--------|
+| — | Nessun errore grounding/numeri in questo giro | — |
+
+**Correzioni vs passaggio 00:17:** rimosso riferimento obsoleto a Casa Linda come mossa n.1; foglio-firma non più richiesto (FATTO); VP rimandato riflesso.
 
 ## Domande per Nicola
-1. **Forzo Casa Linda entro ~10h dalla soglia 168h?** — Stallo 157,8h, unico payout-ready.
-2. **Ordine €19,05:** accetti, consegni o annulli? — Buyer fermo ~6,6 gg.
-3. **Link lista d'attesa per VP 3/7?** — Tra ~66h, senza link conversione zero.
+
+1. **Ordine €19,05 A/B?** — unica via transazione reale entro ~8h (gravita: alta)
+2. **Ok Sprint 1 radiografia?** — 4 bloccanti prima del batch 6/7 (gravita: alta)
+3. **Quanti negozi il 6/7?** — checklist pronta (gravita: media)
 
 ## Salute della macchina
-- Supabase marketplace REST: ✅ live 00:17
-- Supabase memoria: ✅ env presente
-- Supabase MCP: ❌ cieco (fallback OK)
-- Stripe: ✅ status pubblico OK
-- PostHog: ❌ non collegato
-- Dati freschi: ✅ sì (REST questo giro)
+
+| Sensore | Stato |
+|---------|-------|
+| Supabase marketplace REST | ✅ live 02:17 |
+| Supabase MCP | ❌ cieco |
+| Supabase memoria env | ✅ presente |
+| Stripe status | ✅ operativo |
+| PostHog | ❌ non collegato |
+| Dati freschi | ✅ sì |
+| Sensori attivi | 2/4 |
 
 ## Punti ciechi
-- PostHog / funnel checkout
-- Stripe MCP (solo status page)
-- Competitor live (cadenza settimanale)
-- Sentiment social (non esaustivo)
+
+- Stripe MCP / PostHog non interrogati
+- Competitor: cadenza settimanale non rifatta
+- Stato merge PR quaderni su GitHub non riverificato
 
 ## Cosa miglioro al prossimo giro
-- Non ripetere passaggio se numeri = E radar esterno invariato E nessun evento del giorno
-- Escalation automatica 🔴 se stallo supera 168h senza firma Nicola
+
+- Non ripetere domande su decisioni già prese (foglio-firma, VP)
+- Escalation automatica template se stallo >168h senza risposta

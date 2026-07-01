@@ -208,8 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 00:17
+## 🤖 Aggiornamento dell'AD — 2026-07-01 02:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 3/7 tra ~66 ore** = finestra notorietà offline. Presidio QR (#7, #11). **Senza link lista = zero conversione.**
-- **Stallo 168h tra ~10 ore** — earned media bloccato finché non c'è 1 ordine reale da raccontare.
+- **VP 3/7 RIMANDATO** (Nicola 01:00) — contenuti #7/#8 congelati. Prossima finestra **10/17 lug**.
+- **168h ~8h** senza transazione — earned media bloccato (serve 1 ordine reale da raccontare).
+- **Radiografia 46 problemi** — non uscire in PR finché Sprint 1 non chiude i 4 bloccanti.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

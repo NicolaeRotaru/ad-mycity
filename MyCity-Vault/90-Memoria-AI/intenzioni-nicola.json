@@ -1,62 +1,71 @@
 {
-  "data": "2026-07-01 01:00",
-  "sintesi": "Nicola rimanda presidio VP 3/7 e sposta focus su inserimento negozi del 6/7. Unico negozio reale oggi = Pane Quotidiano; ordine zombie €19,05 ancora fermo. Stallo ~158h.",
+  "data": "2026-07-01 02:17",
+  "sintesi": "Nicola ha firmato foglio-firma (contratto PQ 12%, payout sandbox 03/7). Rimanda VP 3/7 e concentra onboarding negozi del 6/7. Restano da decidere: ordine zombie €19,05 (A/B) e ok Sprint 1 radiografia. Payout-test esegue lui il 3/7 mattina.",
   "prossime_mosse": [
     {
       "titolo": "Inserire negozi del 6 luglio (batch onboarding)",
+      "quando": "6/7 — Nicola in prima persona",
+      "come": "Carica negozi + catalogo; AD checklist done-for-you pronta",
       "priorita": "alta",
-      "quando": "da 6/7 — Nicola in prima persona",
-      "colore": "🟢",
-      "come": "Nicola carica negozi (lavoro suo — nessuna approvazione Pannello); AD prepara checklist onboarding done-for-you e supporto catalogo/payout.",
-      "ad_prepara": "Checklist @onboarding-negozi + kit bando #12 per ogni bottega",
-      "senior": "onboarding-negozi + vendite + finanza"
+      "ad_prepara": "Checklist `consegne/onboarding/checklist-batch-6-luglio.md` + template contratto PQ",
+      "senior": "@onboarding-negozi + @vendite",
+      "colore": "🟢"
     },
     {
-      "titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano (1ª transazione reale)",
+      "titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano",
+      "quando": "urgente — ~8h a soglia 168h",
+      "come": "Scegli A (accetta/consegna) o B (annulla) — pacchetto operations pronto",
       "priorita": "alta",
-      "quando": "in parallelo al batch 6/7",
-      "colore": "🔴",
-      "come": "Pacchetto A/B in consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md.",
-      "ad_prepara": "Bozze WhatsApp/email pronte",
-      "senior": "operations + supporto + finanza"
+      "ad_prepara": "Bozze WhatsApp/email + catena ops/supporto/finanza",
+      "senior": "@operations + @supporto",
+      "colore": "🔴"
     },
     {
-      "titolo": "Completare onboarding Stripe payout — Pane Quotidiano",
+      "titolo": "Ok Sprint 1 radiografia → branch fix marketplace",
+      "quando": "prima o in parallelo al batch 6/7",
+      "come": "4 bloccanti: webhook, fee UI, COD rollback, RLS profiles",
       "priorita": "alta",
-      "quando": "in parallelo",
-      "colore": "🔴",
-      "come": "charges+payouts OFF — completamento KYC lato negozio.",
-      "ad_prepara": "Checklist payout da consegne/finanza/payout-faro.md",
-      "senior": "finanza + onboarding-negozi"
+      "ad_prepara": "Report `consegne/audit/2026-07-01-radiografia.md` + spec Sprint 1",
+      "senior": "@tech + @security",
+      "colore": "🟡"
     },
     {
-      "titolo": "Firmare le 3 decisioni di lancio",
+      "titolo": "Payout-test Stripe sandbox",
+      "quando": "03/7 mattina — Nicola esegue",
+      "come": "Flusso sandbox come da foglio-firma 01:02",
       "priorita": "alta",
-      "quando": "in attesa da 5+ giorni",
-      "colore": "🔴",
-      "come": "Foglio-firma 2 min: consegne/decisioni/2026-06-26-foglio-firma-lancio.md",
-      "ad_prepara": "Foglio consolidato pronto",
-      "senior": "vendite + finanza"
+      "ad_prepara": "Guida `consegne/finanza/payout-faro.md`",
+      "senior": "@finanza",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Merge PR Quaderni senior su main",
+      "quando": "quando possibile",
+      "come": "Compare GitHub `main...fix/quaderni-senior` → merge → Vercel redeploy",
+      "priorita": "media",
+      "ad_prepara": "Link PR già inviato 01:37",
+      "senior": "@frontend-dev",
+      "colore": "🟡"
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale oggi — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine + Stripe"},
-    {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio", "stato": "in arrivo — priorità Nicola"},
-    {"nome": "Casa Linda", "perche": "Negozio DEMO/seed — escluso", "stato": "demo, NON usare"}
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine + Stripe"},
+    {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio (VP rimandato)", "stato": "in arrivo — checklist AD pronta"},
+    {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo ~158h → 168h tra ~10h: percezione progetto morto",
-    "VP 3/7 perso come finestra presidio — ok per scelta Nicola; prossima utile VP 10/17 lug",
-    "Batch 6/7 senza payout testato su Pane Quotidiano = più negozi LIVE ma stesso collo di bottiglia pagamenti"
+    "Stallo 159,8h → 168h tra ~8h senza transazione",
+    "Onboarding 6/7 su checkout con 4 bloccanti = danni reputazione",
+    "Batch negozi senza payout PQ testato = stesso collo di bottiglia pagamenti"
   ],
   "serve_da_nicola": [
-    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi da inserire + chi fa catalogo/foto", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi? Ti preparo checklist per ognuno."},
-    {"ambito": "Sblocco critico", "cosa_manca": "Decisione ordine zombie A/B", "domanda_per_nicola": "Ordine €19,05: accetti (A) o annulli (B)?"},
-    {"ambito": "Lancio", "cosa_manca": "3 firme 🔴 lancio", "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti?"}
+    {"ambito": "Transazione", "cosa_manca": "Decisione ordine zombie A/B", "domanda_per_nicola": "Ordine €19,05: accetti e consegni (A) o annulli (B)?"},
+    {"ambito": "Tech pre-live", "cosa_manca": "Firma Sprint 1 radiografia", "domanda_per_nicola": "Ok al branch fix sui 4 bloccanti prima del batch 6/7?"},
+    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
   ],
   "proposta_rimandata": {
-    "titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)",
-    "motivo": "Nicola 1/7: «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»",
-    "prossima_finestra": "VP 10/17 lug — azioni #7/#8/#11 in coda, congelate"
+    "titolo": "Presidio Venerdì Piacentini 3/7",
+    "motivo": "Nicola 1/7 01:00: priorità inserimento negozi 6/7",
+    "prossima_finestra": "VP 10/17 lug — azioni #7/#8/#11 congelate"
   }
 }

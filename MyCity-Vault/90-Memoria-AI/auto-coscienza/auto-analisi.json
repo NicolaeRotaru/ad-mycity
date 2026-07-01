@@ -1,12 +1,12 @@
 {
-  "data": "2026-07-01 00:17",
-  "voto_fiducia": 86,
+  "data": "2026-07-01 02:17",
+  "voto_fiducia": 87,
   "trend_fiducia": "▲",
-  "sintesi": "Giro 1/7 00:17. Voto +1 (85→86): 7 numeri live REST confermati (= vs 23:15). Stallo 157,8h; soglia 168h tra ~10h. Valore aggiunto: playbook temporali 1/7 🟢 + snapshot KPI + Intelligence eventi. Nessun errore grounding/numeri orfani. MCP cieco, REST fallback OK.",
+  "sintesi": "Giro 1/7 02:17. Voto +1 (86→87): KPI live REST (= vs 00:17, stallo 159,8h). Integrato contesto Nicola post-00:17 (firme 01:02, radiografia 46, VP rimandato). Nessun errore grounding. Obsoleti corretti (Casa Linda, foglio-firma). MCP cieco, REST OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 00:17, fonte clmpyfvpvfjgeviworth)",
-    "coerenza": "ok",
+    "numeri": "ok (live REST 02:17, clmpyfvpvfjgeviworth)",
+    "coerenza": "ok (allineato DECISIONI/chat 1/7)",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a"
@@ -14,39 +14,38 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda prima della soglia 168h (~10h)?",
-      "perche_serve": "Stallo 157,8h. Unico negozio payout-ready.",
-      "se_rispondi": "Attivo catena vendite+operations+finanza.",
+      "domanda": "Ordine zombie €19,05: accetti e consegni (A) o annulli (B)?",
+      "perche_serve": "Unica via 1ª transazione reale; ~8h a soglia 168h stallo.",
+      "se_rispondi": "Eseguo pacchetto operations opzione scelta.",
       "gravita": "alta"
     },
     {
-      "domanda": "Sblocco ordine zombie €19,05 (accetta o annulla)?",
-      "perche_serve": "Buyer fermo ~6,6 giorni — pacchetto pronto.",
-      "se_rispondi": "Eseguo opzione A o B del pacchetto operations.",
+      "domanda": "Ok Sprint 1 radiografia (branch fix 4 bloccanti pre-live)?",
+      "perche_serve": "Batch negozi 6/7 su checkout rotto = rischio reputazione.",
+      "se_rispondi": "Tech apre branch marketplace con fix prioritari.",
       "gravita": "alta"
     },
     {
-      "domanda": "Hai il link reale della lista d'attesa per VP 3/7 (tra ~66h)?",
-      "perche_serve": "Senza link il presidio QR converte 0.",
-      "se_rispondi": "Completo kit #7 e #11.",
-      "gravita": "alta"
+      "domanda": "Quanti negozi inserisci il 6/7 e quali nomi?",
+      "perche_serve": "Checklist onboarding pronta — serve lista per preparare catalogo/contratti.",
+      "se_rispondi": "AD personalizza checklist per ogni bottega.",
+      "gravita": "media"
     }
   ],
   "punti_ciechi": [
-    "Stripe MCP non interrogato (solo status pubblico)",
+    "Supabase MCP cieco (REST fallback OK)",
     "PostHog non collegato",
-    "Supabase MCP marketplace cieco (REST fallback OK)",
-    "Competitor/stampa non rifatti (cadenza settimanale)"
+    "Competitor non ricontrollati (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Non fare passaggio ridondante se numeri = e nessun evento esterno nuovo",
-    "Escalation automatica se stallo supera 168h senza firma"
+    "Escalation binaria se stallo supera 168h",
+    "Non ripetere domande su decisioni già firmate"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",
-    "supabase_memoria": "env presente · briefings POST OK",
-    "stripe": "status pubblico OK",
-    "posthog": "non collegato",
+    "supabase_memoria": "env presente ✅",
+    "stripe": "status pubblico OK ✅",
+    "posthog": "non collegato ❌",
     "dati_freschi": true,
     "sensori_attivi": 2
   }

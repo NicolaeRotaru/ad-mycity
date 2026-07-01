@@ -1,20 +1,41 @@
 {
-  "data": "2026-07-01 01:00",
-  "situazione": "Nicola rimanda presidio VP 3/7: priorità = inserire negozi del 6/7. Unico negozio reale oggi = Pane Quotidiano; ordine COD €19,05 fermo ~6,6 giorni.",
+  "data": "2026-07-01 02:17",
+  "situazione": "Stallo 159,8h (+2h): 0 transazioni reali, 1 negozio vero (Pane Quotidiano), ordine zombie €19,05 fermo. Foglio-firma firmato 01:02; VP 3/7 rimandato → focus onboarding 6/7. Radiografia: 4 bloccanti pre-live. Soglia 168h tra ~8h.",
   "opportunita": [
-    {"titolo": "Onboarding batch negozi 6/7", "motivo": "Nicola inizia inserimento — scala catalogo oltre Pane Quotidiano.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano", "motivo": "Unica transazione reale già in sistema; rompe lo stallo.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Completare payout Stripe Pane Quotidiano", "motivo": "Charges+payouts OFF — serve per ciclo completo.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "VP 10/17 lug (finestra rimandata)", "motivo": "Presidio QR + contenuti #7/#11 — solo se link lista pronto post-6/7.", "impatto": "medio", "sforzo": "basso"}
+    {
+      "titolo": "Sbloccare ordine zombie Pane Quotidiano",
+      "motivo": "Contratto 12% firmato; unica via 1ª transazione reale prima delle 168h",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Sprint 1 radiografia (4 bloccanti checkout/pagamenti/RLS)",
+      "motivo": "46 problemi confermati — rischio moltiplicare negozi 6/7 su checkout rotto",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
+    {
+      "titolo": "Batch onboarding negozi 6/7",
+      "motivo": "Priorità Nicola post-VP; checklist done-for-you pronta",
+      "impatto": "alto",
+      "sforzo": "medio"
+    }
   ],
   "azioni": [
-    {"titolo": "Sbloccare ordine zombie €19,05 — Pane Quotidiano", "motivo": "Unico negozio reale; ordine fermo ~6,6 giorni.", "livello": "rosso"},
-    {"titolo": "Completare onboarding Stripe payout — Pane Quotidiano", "motivo": "acct collegato ma charges+payouts OFF.", "livello": "rosso"},
-    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Foglio-firma 2 min — sblocca infrastruttura.", "livello": "rosso"}
-  ],
-  "proposta_ritirata": {
-    "titolo": "Presidio Venerdì Piacentini 3/7 (kit QR + contenuti)",
-    "motivo_ritiro": "Nicola 1/7: rimandato — priorità inserimento negozi 6/7. Senza link lista il presidio del 3/7 non converte comunque.",
-    "data_ritiro": "2026-07-01 01:00"
-  }
+    {
+      "titolo": "Decisione ordine zombie €19,05 (A accetta / B annulla)",
+      "motivo": "Buyer fermo ~6,7 giorni — pacchetto operations pronto",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Ok Sprint 1 → branch fix marketplace (webhook, fee UI, COD rollback, RLS)",
+      "motivo": "4 bloccanti pre-live da radiografia 1/7",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Onboarding negozi 6/7 (Nicola inserisce + checklist AD)",
+      "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato",
+      "livello": "verde"
+    }
+  ]
 }

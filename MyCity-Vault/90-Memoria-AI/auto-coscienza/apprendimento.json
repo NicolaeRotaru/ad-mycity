@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 01:57",
+  "data": "2026-07-01 02:17",
   "lezioni": [
+    {
+      "id": "L-2026-0701-19",
+      "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7).",
+      "tag": ["giro", "nicola", "briefing", "coerenza", "decisioni"],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-17",
       "testo": "Comando «radiografia» (Nicola): eseguire workflow `.claude/workflows/radiografia.js` (13 dimensioni, sola lettura + verifica avversariale), report in `consegne/audit/AAAA-MM-GG-radiografia.md`, sintesi chat con conteggio **bloccanti/gravi/minori** e i 4 bloccanti nominali. **1/7 esito verificato:** 46 confermati (4·24·18) — (1) webhook Stripe marca checkout COMPLETED anche se insert ordine fallisce; (2) fee **€3/consegna/negozio** addebitata server-side ma assente in UI (peggio multi-negozio); (3) RLS `profiles` espone riga intera venditori (IBAN/KYC/Stripe/wallet); (4) COD lascia ordine fantasma se fallisce `order_items`. Proporre Sprint 1 🟡 (webhook+fee UI+rollback COD+varianti) e chiedere ok prima del branch; deploy produzione sempre 🔴. Non confondere con audit-design (11 dim visive) — radiografia = codice+pagamenti+RLS.",
@@ -410,9 +422,9 @@
     "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37)."
   ],
   "meta": {
-    "lezioni_attive": 31,
+    "lezioni_attive": 32,
     "promosse_a_principio": 4,
     "decadute": 0,
-    "tasso_applicazione": 0.65
+    "tasso_applicazione": 0.67
   }
 }

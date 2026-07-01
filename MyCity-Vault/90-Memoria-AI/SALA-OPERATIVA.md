@@ -176,7 +176,13 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:37 · @Nicola · FATTO · Merge PR **WebFetch globale** su `main` + `sudo bash aggiorna-cervello.sh` — worker VPS con `"WebFetch"` globale (verificato).
 - 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
 
-### 2026-06-30 — Giro notturno (23:10)
+### 2026-07-01 — Giro AD 02:17
+- 2026-07-01 02:17 · @analista · FATTO · KPI live REST: stallo 159,8h (+2h), 168h ~8h — snapshot `consegne/analista/2026-07-01-kpi-live-0217.md`
+- 2026-07-01 02:17 · @onboarding-negozi · FATTO · Checklist batch 6/7 🟢 → `consegne/onboarding/checklist-batch-6-luglio.md`
+- 2026-07-01 02:17 · @AD · FATTO · Nota escalation 168h v2 + briefing 02:17 + digest JSON + auto-coscienza
+- 2026-07-01 02:17 · @tech · PASSO-A Nicola · Sprint 1 radiografia (4 bloccanti) — in attesa ok branch marketplace
+- 2026-07-01 02:17 · @operations · SERVE · Nicola: decisione ordine zombie €19,05 A/B — ~8h a soglia 168h
+
 - 2026-06-30 23:10 · @AD · FATTO · Giro notturno: 7 numeri LIVE confermati (= vs 23:08). Stallo ~157h. Quinto passaggio del giorno — passaggio minimo onesto (L-2026-0629-03).
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
 - 2026-06-30 23:10 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:10; Stripe operativo.
