@@ -1,6 +1,6 @@
 # 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-07-01 06:18** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads.outreach_status=to_contact`).
+> Aggiornato: **2026-07-01 08:17** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads.outreach_status=to_contact`).
 
 ---
 
@@ -17,12 +17,12 @@
 ---
 
 ## Blocco attuale
-- **407 lead** pronti ma outreach **post-1ª-transazione** — pitch senza checkout funzionante = rischio reputazione (4 bloccanti radiografia).
+- **407 lead** pronti ma outreach **post-1ª-transazione** — pitch senza checkout funzionante = rischio reputazione (Sprint 1 non in prod).
 - Kit bando ER #12: FESR Commercio **chiuso 23/6** — rivedere leva prima del pitch.
 
 ## Mossa collegata
-1. Sbloccare ordine zombie PQ (**~4,2h** a soglia 168h)
-2. Ok Sprint 1 radiografia
+1. Sbloccare ordine zombie PQ (**~2,2h** a soglia 168h ~10:30)
+2. Push + PR Sprint 1 (codice pronto, bloccato 403)
 3. Batch onboarding **6/7** (Nicola)
 
 > Dettaglio lead: `consegne/vendite/2026-06-30-primi-10-lead-food-centro.md`

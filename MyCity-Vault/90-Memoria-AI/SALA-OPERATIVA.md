@@ -203,3 +203,16 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-06-30 23:10 · @analista · FATTO · Snapshot KPI live in consegne/analista/2026-06-30-kpi-live-2310.md (🟢). Correzione: 6 carrelli con items abbandonati >4h.
 - 2026-06-30 23:10 · @devops-sre · FATTO · Sentinella ops-02: Supabase mgmt incident 30/6 — REST read OK 23:10; Stripe operativo.
 - 2026-06-30 23:10 · @AD · SERVE · Da Nicola: invariato — Casa Linda 🔴 · ordine zombie 🔴 · link lista VP 🔴 (~47h) · foglio-firma 🔴.
+
+### 2026-07-01 — Nicola ok Sprint 1 + push PR 403 (07:30-07:41)
+- 2026-07-01 07:30 · @Nicola · FATTO · «ok Sprint 1» — autorizza branch fix 4 bloccanti radiografia marketplace.
+- 2026-07-01 07:30 · @tech · FATTO · Branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` (6 fix) + spec in `consegne/tech/sprint-1-radiografia-marketplace.md`.
+- 2026-07-01 07:41 · @Nicola · chiesto · «crea la PR» su mycity.
+- 2026-07-01 07:41 · @devops-sre · SERVE · Push GitHub **403** — PAT scrive solo ad-mycity. Accodato **#14** token write su mycity.
+
+### 2026-07-01 — Giro AD 08:17
+- 2026-07-01 08:17 · @AD · FATTO · Giro 1/7: KPI live REST stallo 165,8h (+2h), 168h ~2,2h (~10:30). Escalation v5 🟢. Briefing + auto-coscienza.
+- 2026-07-01 08:17 · @analista · FATTO · Snapshot KPI `consegne/analista/2026-07-01-kpi-live-0817.md` (🟢)
+- 2026-07-01 08:17 · @intelligence · FATTO · eventi-picchi.md aggiornato (3BMeteo 08:17 + countdown ~2,2h)
+- 2026-07-01 08:17 · @operations · SERVE · Nicola: decisione ordine zombie €19,05 A/B — **~2,2h** a soglia 168h (~10:30)
+- 2026-07-01 08:17 · @tech · SERVE · Push PR Sprint 1 **403** — #14 token o push manuale Nicola

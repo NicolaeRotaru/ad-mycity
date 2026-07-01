@@ -1,12 +1,12 @@
 {
-  "data": "2026-07-01 06:18",
-  "voto_fiducia": 88,
-  "trend_fiducia": "=",
-  "sintesi": "Giro 1/7 06:18. Voto 88 (= 04:17): KPI live REST (= business, stallo 163,8h, 168h ~4,2h ~10:30). Escalation v4 🟢. Carrelli 4 verificati. Nessun errore grounding. MCP cieco, REST OK. L-0701-20 applicata (countdown <5h).",
+  "data": "2026-07-01 08:17",
+  "voto_fiducia": 87,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro 1/7 08:17. Voto 87 (▼ da 88): KPI live REST (= business, stallo 165,8h, 168h ~2,2h ~10:30). Escalation v5 🟢. Sprint 1 ok Nicola integrato; push PR 403 documentato. Nessun errore grounding. MCP cieco, REST OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 06:18, clmpyfvpvfjgeviworth)",
-    "coerenza": "ok (allineato DECISIONI/chat 1/7)",
+    "numeri": "ok (live REST 08:17, clmpyfvpvfjgeviworth)",
+    "coerenza": "ok (allineato DECISIONI/chat 1/7 07:30-07:41)",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a"
@@ -14,15 +14,15 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Ordine zombie €19,05: accetti e consegni (A) o annulli (B)?",
-      "perche_serve": "Unica via 1ª transazione reale; ~4,2h a soglia 168h (~10:30).",
+      "domanda": "Ordine zombie €19,05 (Pane Quotidiano, buyer 348 642 1766): accetti e consegni (A) o annulli (B)?",
+      "perche_serve": "Unica via 1ª transazione reale; ~2,2h a soglia 168h (~10:30).",
       "se_rispondi": "Eseguo pacchetto operations opzione scelta.",
       "gravita": "alta"
     },
     {
-      "domanda": "Ok Sprint 1 radiografia (branch fix 4 bloccanti pre-live)?",
-      "perche_serve": "Batch negozi 6/7 su checkout rotto = rischio reputazione.",
-      "se_rispondi": "Tech apre branch marketplace con fix prioritari.",
+      "domanda": "Push + PR Sprint 1 su mycity: push manuale, ok #14 token, o aspetti?",
+      "perche_serve": "Codice pronto 07:30 — PR non creata per 403 PAT.",
+      "se_rispondi": "Tech pusha branch o accoda deploy post-PR.",
       "gravita": "alta"
     },
     {
@@ -35,12 +35,11 @@
   "punti_ciechi": [
     "Supabase MCP cieco (REST fallback OK)",
     "PostHog non collegato",
-    "Fetch status/meteo timeout (WebSearch fallback)",
     "Competitor non ricontrollati (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Se supera 168h: escalation 🟡 binaria automatica in briefing",
-    "Verificare merge PR quaderni su main"
+    "Se supera 168h: escalation binaria in DECISIONI",
+    "Verificare esito push Sprint 1"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",

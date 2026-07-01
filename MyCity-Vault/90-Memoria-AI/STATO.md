@@ -1,20 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 07:41
-fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · Sprint 1 branch 1/7 07:30 · push PR 403 07:41 · chat Nicola)
+aggiornato: 2026-07-01 08:17
+fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Supabase clmpyfvpvfjgeviworth · Sprint 1 ok 07:30 · push PR 403 07:41)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 07:41 — PR Sprint 1:** Nicola chiede PR → **push `mycity` ancora 403** (PAT scrive solo `ad-mycity`). Codice + patch pronti; accodato **#14** token write su mycity. Mossa n.1 = **tu push 2 min** O **`ok 14`** poi **`ok push Sprint 1`**.
+> 🧠 **1/7 08:17 — Giro AD:** Stallo **165,8h** (+2h). **168h tra ~2,2h (~10:30).** Nicola ok Sprint 1 07:30 — codice pronto; push PR **403** (#14 token). Mossa n.1 = **decidi ORA ordine zombie €19,05 (A/B)**.
 
-## I 7 numeri (live 2026-07-01 06:18 · Supabase REST clmpyfvpvfjgeviworth)
+## I 7 numeri (live 2026-07-01 08:17 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | Casa Linda payout demo; Pane Quotidiano payout OFF |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 5 PQ bio available; 250 seed test |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo ~6,8 gg |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo ~6,9 gg |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
@@ -40,8 +40,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori
-- 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v4 🟢; WebFetch worker ✅; guardrail 🔴 codificato in repo (self-test 7/7).
-- 🟡 Da tenere d'occhio: **Sprint 1 branch pronto** — push PR `NicolaeRotaru/mycity` + migrazione `107` + review → **`ok deploy Sprint 1`** 🔴; **deploy guardrail 🔴 su main+VPS**; **MCP Supabase cieco** (REST mitiga); **Stripe MCP assente** (pre payout 03/7); stallo **163,8h** → **168h ~4,2h**; **4 carrelli** >4h; kit bando #12; **PR Quaderni senior su `main`** (tab assente 06:31); onboarding 6/7 (Nicola); temporali + allerta giallo PC.
+- 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v5 🟢; WebFetch worker ✅; guardrail 🔴 codificato in repo (self-test 7/7); Sprint 1 codice pronto.
+- 🟡 Da tenere d'occhio: **push PR Sprint 1 bloccato 403** (#14 token); **168h ~2,2h (~10:30)**; deploy guardrail 🔴 su main+VPS; MCP Supabase cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; onboarding 6/7 (Nicola); temporali + allerta calore oggi.
 - 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti in prod** (fix in branch, non deployati); ordine zombie €19,05.
 
 ## Radiografia marketplace (2026-07-01)
@@ -49,18 +49,18 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 |---|---|---|
 | Problemi confermati | **46** (4·24·18) | `consegne/audit/2026-07-01-radiografia.md` |
 | Bloccanti pre-live | **4** | webhook · fee UI · RLS profiles · COD ghost |
-| Sprint 1 | **#13 codice pronto** · PR **bloccata 403** · patch `consegne/tech/sprint-1-radiografia-marketplace.patch` | Nicola ok 1/7 07:30 · token #14 |
+| Sprint 1 | **✅ codice pronto** (Nicola ok 07:30) · PR **bloccata 403** · patch `consegne/tech/sprint-1-radiografia-marketplace.patch` | commit `8dc0f88` |
 | Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 07:41** — Nicola «crea la PR» → push+API GitHub **403** (PAT senza write su `mycity`). Patch salvata · **#14** token in coda.
-2. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy).
+1. **Giro 1/7 08:17** — KPI live REST stallo 165,8h (+2h), 168h ~2,2h. Escalation v5 🟢. Briefing + auto-coscienza.
+2. **Chat 1/7 07:41** — Nicola «crea la PR» → push+API GitHub **403** (PAT senza write su `mycity`). Patch salvata · **#14** token in coda.
+3. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy).
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~4h / ~10:30**)
+- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~2,2h / ~10:30**)
 - [x] ~~Ok Sprint 1 radiografia~~ — codice pronto 1/7 07:30
-- [ ] 🟡 **Push + PR marketplace** — bloccato 403 · patch in `consegne/tech/` · opzione rapida sotto
-- [ ] 🟡 **#14 Token write su mycity** — sblocca push automatici futuri
+- [ ] 🟡 **Push + PR marketplace** — bloccato 403 · patch in `consegne/tech/` · push manuale o **`ok 14`**
 - [ ] 🔴 **Deploy Sprint 1** — post-review + migrazione `107_seller_public_profiles.sql` su prod
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox ✅)
 - [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`

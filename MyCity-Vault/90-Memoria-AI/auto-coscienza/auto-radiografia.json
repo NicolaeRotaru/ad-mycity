@@ -107,14 +107,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-01 06:18",
+    "data": "2026-07-01 08:17",
     "loop_chiude": true,
     "tasso_applicazione": 0.67,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 71,
+    "ore_da_ultima_completa": 73,
     "verdetto": "ok",
-    "nota": "Sonda 1/7 06:18. 4 invarianti OK: (1) loop chiude — L-0701-20 escalation v4 sotto 5h; (2) tasso 0.67; (3) giro ~2h dal precedente; (4) sentinelle: ordine zombie + 4 carrelli + 168h ~4,2h (~10:30). REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: proposta 🟡 AR-001 documentare fallback REST in giro.md."
+    "nota": "Sonda 1/7 08:17. 4 invarianti OK: (1) loop chiude — escalation v5 sotto 3h + L-0701-26 push 403; (2) tasso 0.67; (3) giro ~2h dal precedente; (4) sentinelle: ordine zombie + 4 carrelli + 168h ~2,2h (~10:30). REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: proposta 🟡 #14 token write su mycity (AR-004 nuovo)."
   },
   "meta": {
     "agenti_totali": 42,

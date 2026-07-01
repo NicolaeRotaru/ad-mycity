@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-01 06:18",
+  "aggiornato": "2026-07-01 08:17",
   "difetti": [
     {
       "id": "AR-001",
@@ -41,7 +41,20 @@
       "stato": "aperto",
       "nato": "2026-06-28",
       "chiuso_il": ""
+    },
+    {
+      "id": "AR-004",
+      "titolo": "PAT GitHub senza write su mycity: push marketplace 403 blocca PR Sprint 1",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Token fine-grained scrive solo ad-mycity; AD chiude su 'codice pronto' senza verificare push (L-0701-26).",
+      "fix_proposto": "Accodato #14 MARKETPLACE_GIT_TOKEN in cervello/vps/.env + verifica push post-ok Sprint 1.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-01",
+      "chiuso_il": ""
     }
   ],
-  "meta": { "aperti": 3, "in_corso": 0, "chiusi": 0 }
+  "meta": { "aperti": 4, "in_corso": 0, "chiusi": 0 }
 }

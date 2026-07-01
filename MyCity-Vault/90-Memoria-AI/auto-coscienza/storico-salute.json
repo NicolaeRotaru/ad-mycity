@@ -11,6 +11,7 @@
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 00:17: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi. Playbook 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 02:17: stallo 159,8h (+2h), 168h ~8h. Foglio-firma FATTO, VP rimandato, radiografia 46. Checklist 6/7 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 04:17: stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =." }
+    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =." },
+    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 4, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403." }
   ]
 }

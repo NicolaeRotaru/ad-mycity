@@ -70,5 +70,8 @@ Metabolizzazione chat «quali connessioni MCP ti mancano?» (casella salute-sens
 # ESITO — @AD — 2026-07-01 06:45
 Metabolizzazione chat post-radiografia («sono in coda? / te ne occupi tu? / come correggiamo tutto?»): Nicola vuole chiarezza su orchestrazione — non 46 righe AZIONI, approvazione a sprint (#13 = 4 bloccanti), deploy 🔴 separato, comandi brevi ok 13 / ok deploy / ok tutti gli sprint. L-2026-0701-23 + preferenza Nicola. Nessuna nuova firma.
 
+# ESITO — @AD — 2026-07-01 08:17
+Giro 1/7: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola integrato; push PR 403. Escalation v5 🟢. Voto fiducia 87 ▼ (urgenza countdown, non errori). Digest memoria DB + briefing vault scritti.
+
 # ESITO — @AD — 2026-07-01 07:36
 Metabolizzazione chat «ok Sprint 1»: Nicola firma 🟡 → branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` (6 fix) in locale; push `NicolaeRotaru/mycity` **403** (token worker). #13 → FATTO in locale. DECISIONI 07:30 già registrata. L-2026-0701-25 aggiornata (FATTO locale) + L-2026-0701-26 (push marketplace 403). Prossimo: PR Nicola → migrazione 107 → `ok deploy Sprint 1` 🔴.
