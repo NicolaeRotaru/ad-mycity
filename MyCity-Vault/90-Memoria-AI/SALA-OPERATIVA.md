@@ -265,7 +265,7 @@ Assegnazioni (1 mossa per reparto):
 - @supporto · assistenza messaggio buyer + aggiornamento stato ordine in dashboard · 🔴 con @operations
 - @customer-success · telefonata feedback entro 24h post-consegna (script `consegne/customer-success/primo-ordine-faro.md`) · 🟢 prep · messaggio 🔴 post-consegna
 - @tech · checklist deploy Sprint 1: migrazione `107_seller_public_profiles.sql` + smoke test (webhook, fee UI, RLS, COD rollback) · 🟡 prepara · deploy 🔴
-- @devops-sre · sync VPS post-merge `main` (`aggiorna-cervello.sh`) + verifica worker attivo · 🟡
+- @devops-sre · sync VPS post-merge: **codice pronto** (`install-sync-vps.sh`) · Nicola: 1× `sudo bash cervello/vps/install-sync-vps.sh` · poi AD accoda `sync-vps` automatico · 🟡
 - @qa · piano smoke test post-deploy (checkout mobile, COD, fee €3 visibile) · 🟢 prep · esecuzione post-deploy 🔴
 - @onboarding-negozi · presidio checklist `consegne/onboarding/checklist-batch-6-luglio.md` per ogni negozio inserito oggi · 🟢
 - @vendite · standby supporto negozianti 6/7 (termini 12% già firmati PQ) · 🟢

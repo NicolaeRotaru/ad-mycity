@@ -83,9 +83,9 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 **In coda (non bloccanti oggi):**
 - [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola 1/7 11:05
 - [x] ~~Deploy Sprint 1 codice~~ — **LIVE** ~10:31
-- [ ] 🟡 **Sync VPS** — `sudo bash cervello/vps/aggiorna-cervello.sh`
+- [ ] 🟡 **Sync VPS auto** — codice pronto 20:02 · **1 comando root:** `sudo bash cervello/vps/install-sync-vps.sh`
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox)
-- [ ] 🟡 **#14 token write mycity** · **#15 GITHUB_MERGE_TOKEN**
+- [ ] 🟡 **#14 token write mycity** · **#15 GITHUB_MERGE_TOKEN** (vedi AZIONI + guida sotto)
 - [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** (prossima finestra **10/17 lug**)
 
 ---
