@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 18:18
+aggiornato: 2026-07-01 19:56
 fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
 ---
 
@@ -40,7 +40,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
 | Deploy marketplace Render | ✅ **Sprint 1 live ~10:31** | #209+#210 · ⏳ SQL 107 policy Nicola |
-| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok · `aggiorna-cervello.sh` da lanciare |
+| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ (`c50148d`, `853c33a`) · VPS sync ancora manuale (`aggiorna-cervello.sh`) · target zero-cmd = #14+#15 token + sudo/hook (chat Nicola 1/7 19:56) |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori

@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-01 18:18",
-  "aggiornato": "2026-07-01 18:18",
+  "data": "2026-07-01 19:56",
+  "aggiornato": "2026-07-01 19:56",
   "lezioni": [
+    {
+      "id": "L-2026-0701-38",
+      "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge per `aggiorna-cervello.sh` (🟡 «ok configura sync VPS»). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
+      "tag": ["devops", "nicola", "automazione", "vps", "merge", "target", "consenso"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 19:56",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-37",
       "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → popolare `auto-radiografia.json` `benchmark_vs_migliori` con riferimenti verificabili (LangSmith, Devin, Sidekick) + snapshot `nostro_oggi` a **4 fasi** (Osserva/Agisci/Misura/Impara) con semafori e numeri live. **Regola:** caselle auto-coscienza con placeholder → dati reali al primo ciclo + tabella gap vs best + inventario sblocchi tier (sensori 🟡 → 1° ordine 🔴 #16 → mani LIVE 🟡/🔴). **Distinzione obbligatoria:** loop **architettura** (impara + audit di sé: tasso 0,70 · voto 76) vs loop **business** (agire→misura esito: 0 consegnati · calibrazione solo @AD). Pattern = L-21 (MCP) + L-0630-06 (mani): lista concreta priorità, non teoria.",
@@ -86,11 +99,11 @@
       "tag": ["merge", "github", "devops", "nicola", "pannello", "vps", "automazione", "permesso", "regola-permanente"],
       "reparto": "@devops-sre",
       "confidenza": 0.96,
-      "evidenze": 4,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 11:00",
+      "ultima_conferma": "2026-07-01 19:56",
       "stato": "attiva"
     },
     {
@@ -680,10 +693,11 @@
     "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10).",
     "Card onboarding 6/7 (2ª volta 11:25): «perché approvare o ignorare? sono le scelte giuste?» — **No**, Approva/Ignora non applicano; è promemoria ops già deciso (01:00 VP rimandato), ignorare senza firma; root cause = piano del mattino ha re-inserito in Proposte ciò ritirato alle 01:03 (chat 1/7 11:25).",
     "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte.",
-    "Casella benchmark AI ops (1/7 17:05): «aggiungi dati reali — cosa ti serve?» — vuole casella popolata con riferimenti verificabili + snapshot loop 4 fasi con numeri live + inventario sblocchi prioritizzato per chiudere il volano su dati business (non solo prompt); stesso pattern di salute-sensori/mani."
+    "Casella benchmark AI ops (1/7 17:05): «aggiungi dati reali — cosa ti serve?» — vuole casella popolata con riferimenti verificabili + snapshot loop 4 fasi con numeri live + inventario sblocchi prioritizzato per chiudere il volano su dati business (non solo prompt); stesso pattern di salute-sensori/mani.",
+    "Target operativo confermato (chat 1/7 19:56): AD modifica `ad-mycity` + marketplace `mycity` autonomamente **solo dopo consenso esplicito** — vuole zero GitHub browser e **zero comandi VPS** post-merge; unici passi una tantum = PAT #14+#15 + config sudo/hook («ok configura sync VPS»). Merge Pannello via «ok merge …» in chat già funzionante (2× test mattina)."
   ],
   "meta": {
-    "lezioni_attive": 51,
+    "lezioni_attive": 52,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70
