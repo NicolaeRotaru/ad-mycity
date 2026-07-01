@@ -60,7 +60,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 00:17 · Supabase clmpyfvpvfjgeviwo
 **Sprint 1 proposto (🟡 branch marketplace, in attesa ok Nicola):** fix webhook + fee UI + rollback COD + varianti duplicate checkout.
 
 ## Ultime mosse dell'AD
-1. **Metabolizzazione 1/7 01:57** — Nicola: «radiografia» → audit completato 46 problemi (4🔴 bloccanti); report `consegne/audit/2026-07-01-radiografia.md`; Sprint 1 🟡 proposto, deploy 🔴 solo post-firma. L-2026-0701-17. Fonte: chat Nicola 1/7.
+1. **Metabolizzazione 1/7 01:59** — Nicola: guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs` + 7/7 self-test; worker/autopilot/mani protetti. L-2026-0701-18.
 2. **Chat 1/7 01:57** — Nicola: «radiografia» → workflow 13 dimensioni; sintesi 4 bloccanti + piano Sprint 1–4; chiesta conferma branch fix. Fonte: chat Nicola 1/7.
 2. **Metabolizzazione 1/7 01:38** — Nicola: merge PR WebFetch + `aggiorna-cervello.sh` + «apri la pr quaderni su main» → ciclo WebFetch **chiuso** (worker naviga); branch `fix/quaderni-senior` pushato (`9c5dc8e`), merge GitHub in attesa. L-2026-0701-16 + patch L-0701-03/12/13/14. Fonte: chat Nicola 1/7 01:37.
 2. **Chat 1/7 01:37** — Nicola conferma merge PR **WebFetch globale** su `main` + esegue `aggiorna-cervello.sh`; chiede «apri la pr quaderni su main» → branch `fix/quaderni-senior` pushato, link compare GitHub. Fonte: chat Nicola 1/7 01:37.

@@ -22,7 +22,7 @@ Struttura solida e ben documentata, volano appena acceso. Tre difetti reali nel 
    sensore è cieco. *Fix 🟡:* creare un sensore "cecità dati".
 
 ## 🔮 Pre-mortem (i disastri che prevengo PRIMA)
-- 🔴-senza-firma per un bug del worker → doppio controllo del colore in `esegui-azione.mjs`.
+- ~~🔴-senza-firma per un bug del worker~~ → **CHIUSO 1/7 01:59:** `guardrail-semaforo.mjs` (doppio controllo in esegui-azione + mani + autopilot; NICOLA_FIRMA solo post-Approva; self-test `node cervello/esegui-azione.mjs verifica`).
 - Memoria corrotta nel sync git → conferma del recupero WIP + snapshot di `auto-coscienza/`.
 
 ## 🏆 Vs i migliori
