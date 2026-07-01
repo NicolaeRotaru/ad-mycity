@@ -1674,19 +1674,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={endRef} />
           </div>
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
-            <div className="flex gap-2 items-end">
-              <textarea
+            <div className="flex gap-2">
+              <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    mandaAlCervello();
-                  }
-                }}
-                rows={2}
+                onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="input-soft flex-1 resize-y min-h-[2.75rem]"
+                className="input-soft flex-1"
               />
               <button
                 onClick={dettaVoce}
@@ -1720,7 +1714,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
             <p className="t-eti text-[11px] px-1 leading-relaxed">
-              🧠 <b>Invio</b> = invia · <b>Shift+Invio</b> = a capo · l'AD risponde qui sul tuo Max (gratis) · 📋 <b>Prompt</b> = copi e incolli in Claude. Niente API a pagamento.
+              🧠 <b>Invia</b> = l'AD ti risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
           </section>
