@@ -9,15 +9,15 @@ export TZ="${TZ:-Europe/Rome}"
 RITMO_TIPO="${1:-}"
 case "$RITMO_TIPO" in
   mattino)
-    RITMO_SEZIONE="☀️ PIANO DEL MATTINO"
+    RITMO_SEZIONE_MD="PIANO DEL MATTINO"
     RITMO_TITOLO="Piano del mattino"
     ;;
   sera)
-    RITMO_SEZIONE="🌙 REPORT DELLA SERA"
+    RITMO_SEZIONE_MD="REPORT DELLA SERA"
     RITMO_TITOLO="Report della sera"
     ;;
   settimana)
-    RITMO_SEZIONE="📅 REVIEW + RETROSPETTIVA"
+    RITMO_SEZIONE_MD="REVIEW + RETROSPETTIVA"
     RITMO_TITOLO="Review settimanale"
     ;;
   *)
@@ -98,12 +98,12 @@ fi
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
 
 ## Compito
-Leggi ed esegui **per intero** la sezione **${RITMO_SEZIONE}** del file \`cervello/ritmo.md\` (aprilo dal disco con Read, NON saltare passi).
+Leggi ed esegui **per intero** la sezione «${RITMO_SEZIONE_MD}» del file cervello/ritmo.md (aprilo dal disco con Read, NON saltare passi).
 Scrivi sul disco tutti i file richiesti (vault, RITMO.md, SALA-OPERATIVA, STATO, ecc.). Rispetta 🟢🟡🔴.
 
 ## Obbligatorio per RITMO.md
-Aggiungi in fondo a \`MyCity-Vault/90-Memoria-AI/RITMO.md\` un blocco con intestazione esatta:
-\`## ${RITMO_TITOLO} · AAAA-MM-GG HH:MM\` (ora di Piacenza, con i minuti), seguito dal contenuto.
+Aggiungi in fondo a MyCity-Vault/90-Memoria-AI/RITMO.md un blocco con intestazione esatta:
+## ${RITMO_TITOLO} · AAAA-MM-GG HH:MM (ora di Piacenza, con i minuti), seguito dal contenuto.
 L'ultimo blocco con questa intestazione è quello che legge il Pannello (/api/ritmo).
 
 La memoria va sul ramo memoria-ad (il push git lo fa ritmo.sh dopo di te — tu scrivi i file).
@@ -113,15 +113,17 @@ Al termine restituisci un riepilogo breve (5-8 righe)."
 
 echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
 ai_build_cmd
+echo "[$(ts)] Comando: ${AI_CMD[*]} (prompt ${#PROMPT} caratteri)" >&2
 ai_rc=0
 _ai_out=""
+RITMO_TIMEOUT="${RITMO_TIMEOUT:-900}"
 for _attempt in 1 2 3; do
   ai_rc=0
-  _ai_out="$("${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
+  _ai_out="$(timeout --kill-after=60s "$RITMO_TIMEOUT" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
   printf '%s\n' "$_ai_out"
   [ "$ai_rc" -eq 0 ] && break
   echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
-  printf '%s\n' "$_ai_out" | tail -15 >&2
+  printf '%s\n' "$_ai_out" | tail -30 >&2
   [ "$_attempt" -lt 3 ] && sleep 30
 done
 if [ "$ai_rc" -ne 0 ]; then
