@@ -1,16 +1,17 @@
 {
-  "data": "2026-07-01 07:36",
+  "data": "2026-07-01 07:41",
   "lezioni": [
     {
       "id": "L-2026-0701-26",
-      "testo": "**Push marketplace 403 (1/7 07:30):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in sola scrittura locale. Dopo ok Sprint/fix codice sito: (1) branch+commit in locale ✅; (2) consegnare a Nicola **comandi push+PR espliciti** (`git push -u origin fix/…` → PR → main) **oppure** chiedere aggiornamento token push sul VPS; (3) **non** dire «PR aperta» se push fallisce. Pattern diverso da ad-mycity (L-2026-0701-12): lì push OK, manca solo `gh pr create`.",
-      "tag": ["marketplace", "git", "push", "403", "vps", "nicola", "devops"],
+      "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in scrittura locale. Dopo «ok Sprint 1»: (1) branch+commit in locale ✅; (2) **tentare subito** `git push` + `gh pr create` — se 403, dichiarare esplicitamente «PR NON creata» in testa alla risposta, **non** «Sprint 1 eseguito» senza PR; (3) Nicola corregge «crea la pr, non l'hai creata» — approvazione sprint = si aspetta PR, non solo patch/comandi manuali; (4) accodare **#14** token `MARKETPLACE_GIT_TOKEN` e offrire compare link + `git am` come fallback. **5 perché:** PAT fine-grained limitato ad-mycity; AD ha chiuso su «codice pronto» senza verificare push; messaggio ambiguo ha fatto credere PR esistente; Nicola delega PR come su ad-mycity (L-0701-12); fix strutturale = token write su mycity. Pattern diverso da ad-mycity: lì push OK, manca solo `gh pr create`.",
+      "tag": ["marketplace", "git", "push", "403", "vps", "nicola", "devops", "pr"],
       "reparto": "@tech",
-      "confidenza": 0.86,
-      "evidenze": 1,
+      "confidenza": 0.93,
+      "evidenze": 2,
       "fonte": "chat",
+      "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 07:41",
       "stato": "attiva"
     },
     {
@@ -509,7 +510,8 @@
     "Su pre-mortem 🔴 (messaggi negozi, payout, azioni reali) vuole fix **sistemico e immediato**, non patch sul singolo caso — «assicurati che non accada mai con nient'altro»; tolleranza zero per figura di merda verso negozi/clienti (chat 1/7 casella guardrail worker/autopilot).",
     "Dopo radiografia chiede se i bug sono in coda e come correggerli tutti — vuole chiarezza: AD orchestra i fix, lui firma **a sprint/blocchi** (non 46 card), comandi brevi (`ok 13`, `ok deploy`, `ok a tutti gli sprint radiografia`); report = elenco completo, Pannello = solo ciò che aspetta firma (chat 1/7 post-radiografia).",
     "Approva sprint radiografia con imperativo breve dopo spiegazione workflow — «ok Sprint 1» senza ripetere dettagli; si aspetta branch+commit+doc tech, push/PR marketplace a lui, deploy 🔴 solo su comando esplicito «ok deploy Sprint 1» (chat 1/7 07:30).",
-    "Prima di decidere su card 🔴 ordine chiede identificazione esplicita negozio/buyer se non visibile in anteprima casella — «Di quale negozio è il buyer?» (chat 1/7 07:19 ordine zombie €19,05)."
+    "Prima di decidere su card 🔴 ordine chiede identificazione esplicita negozio/buyer se non visibile in anteprima casella — «Di quale negozio è il buyer?» (chat 1/7 07:19 ordine zombie €19,05).",
+    "Dopo «ok Sprint 1» si aspetta che l'AD **crei la PR** sul marketplace — «crea la pr, non l'hai creata» se manca; «codice pronto»/patch/comandi `git am` non sostituiscono la PR; se push 403, dirlo subito e accodare sblocco token (#14), non far credere che la PR esista (chat 1/7 07:41)."
   ],
   "meta": {
     "lezioni_attive": 39,
