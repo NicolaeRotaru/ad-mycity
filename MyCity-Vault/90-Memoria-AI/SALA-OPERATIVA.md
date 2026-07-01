@@ -177,6 +177,8 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
 
 ### 2026-07-01 — Nicola: quaderni assenti in Memoria (06:31)
+- 2026-07-01 07:19 · @Nicola · chiesto · Casella ordine zombie: «Di quale negozio è il buyer?»
+- 2026-07-01 07:19 · @AD · FATTO · Risposta: **Pane Quotidiano** (Via Calzolai 25) — unico negozio reale; buyer tel. **348 642 1766**; ordine COD €19,05 del 24/6. Decisione A/B ancora 🔴 in attesa.
 - 2026-07-01 06:31 · @Nicola · SERVE · «dentro memoria non ci sono i quaderni dei senior» — WebFetch mergiato ✅; **PR Quaderni su `main` ancora NO** → tab assente su Pannello produzione (Vercel).
 - 2026-07-01 06:31 · @AD · FATTO · Verifica locale: API `/api/memoria/quaderni` restituisce **42 quaderni** da `memoria-squadra/` (dati OK su memoria-ad). Codice tab solo in branch `fix/quaderni-senior` (4 file `pannello/`). Push GitHub fallito (token VPS scaduto) — Nicola deve mergiare PR se branch visibile, altrimenti rinnovare PAT.
 
