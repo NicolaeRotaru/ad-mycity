@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 02:17",
+  "data": "2026-07-01 04:17",
   "lezioni": [
+    {
+      "id": "L-2026-0701-20",
+      "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critico, «decidi ORA», ore esatte) e produrre nota escalation 🟢 aggiornata (v3, non ripetere v2). Mossa n.1 resta ordine zombie PQ finché non c'è transazione — non spostare focus su marketing/VP. Se i numeri = al giro precedente, il valore del giro è **urgenza decisionale + delta secondari** (es. carrelli 4 vs 6), non ripetere 11 sezioni identiche senza evidenziare il countdown.",
+      "tag": ["stallo", "168h", "escalation", "briefing", "urgenza"],
+      "reparto": "@AD",
+      "confidenza": 0.82,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-19",
       "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7).",
@@ -422,7 +434,7 @@
     "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37)."
   ],
   "meta": {
-    "lezioni_attive": 32,
+    "lezioni_attive": 33,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67

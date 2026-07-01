@@ -177,6 +177,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
 
 ### 2026-07-01 — Giro AD 02:17
+- 2026-07-01 04:17 · @AD · FATTO · Giro 1/7: KPI live REST stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. Briefing + auto-coscienza.
+- 2026-07-01 04:17 · @analista · FATTO · Snapshot KPI `consegne/analista/2026-07-01-kpi-live-0417.md` (🟢)
+- 2026-07-01 04:17 · @intelligence · FATTO · eventi-picchi.md aggiornato (temporali pomeriggio 3BMeteo + countdown 6,2h)
+- 2026-07-01 04:17 · @operations · SERVE · Nicola: decisione ordine zombie €19,05 A/B — **~6,2h** a soglia 168h
 - 2026-07-01 02:17 · @analista · FATTO · KPI live REST: stallo 159,8h (+2h), 168h ~8h — snapshot `consegne/analista/2026-07-01-kpi-live-0217.md`
 - 2026-07-01 02:17 · @onboarding-negozi · FATTO · Checklist batch 6/7 🟢 → `consegne/onboarding/checklist-batch-6-luglio.md`
 - 2026-07-01 02:17 · @AD · FATTO · Nota escalation 168h v2 + briefing 02:17 + digest JSON + auto-coscienza

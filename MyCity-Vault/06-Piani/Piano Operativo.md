@@ -190,9 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 02:17
+## 🤖 Aggiornamento dell'AD — 2026-07-01 04:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **📊 LIVE 02:17:** stallo **159,8h** → **168h ~8h**. Allerta temporali oggi ([PC ER](https://protezionecivile.regione.emilia-romagna.it/novita/notizie/attualita/per-la-giornata-di-1-luglio-allerta-arancione-per-temperature-estreme-in-regione-giallo-temporali)).
-- **Collo di bottiglia:** ordine zombie **Pane Quotidiano** + ok **Sprint 1** radiografia (4 bloccanti).
-- **6/7:** batch onboarding negozi (Nicola) — checklist AD pronta.
+- **📊 LIVE 04:17:** stallo **161,8h** → **168h ~6,2h**. Temporali possibili pomeriggio ([3BMeteo](https://www.3bmeteo.com/meteo/piacenza)).
+- **Collo di bottiglia:** ordine zombie **Pane Quotidiano** entro ~6h + ok **Sprint 1** radiografia.
+- **6/7:** batch onboarding negozi (Nicola) — checklist AD pronta, caldo ~35°C.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

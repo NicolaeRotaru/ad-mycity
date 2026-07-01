@@ -1,14 +1,14 @@
 ---
-data: 2026-07-01 02:17
-voto_fiducia: 87
+data: 2026-07-01 04:17
+voto_fiducia: 88
 trend: ▲
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 02:17
+# 🔬 AUTO-ANALISI — Giro 2026-07-01 04:17
 
-## Voto di fiducia: **87/100** (▲ +1 vs 00:17)
+## Voto di fiducia: **88/100** (▲ +1 vs 02:17)
 
-**Perché:** 7 numeri live REST verificati (= business, stallo +2h documentato). Entità allineate post-correzione Casa Linda. Nessun numero orfano. Contesto Nicola (firme 01:02, VP rimandato, radiografia) integrato senza chiedere ciò che è già deciso. -3: MCP cieco (mitigato REST). -5: domande 🔴 ancora aperte su ordine zombie (blocco legittimo, non errore AD).
+**Perché:** 7 numeri live REST verificati (= business, stallo +2h → 161,8h, countdown 168h ~6,2h). Delta carrelli 4 ▼−2 documentato con query completa abandoned_carts. Entità allineate (Pane Quotidiano confermato, Casa Linda demo). Nessun numero orfano. -3: MCP cieco (mitigato REST). -5: domande 🔴 ordine zombie ancora aperte (blocco legittimo, urgenza correttamente escalata).
 
 ## Errori per gravità
 
@@ -16,11 +16,9 @@ trend: ▲
 |---------|------|--------|
 | — | Nessun errore grounding/numeri in questo giro | — |
 
-**Correzioni vs passaggio 00:17:** rimosso riferimento obsoleto a Casa Linda come mossa n.1; foglio-firma non più richiesto (FATTO); VP rimandato riflesso.
-
 ## Domande per Nicola
 
-1. **Ordine €19,05 A/B?** — unica via transazione reale entro ~8h (gravita: alta)
+1. **Ordine €19,05 A/B?** — entro ~6,2h (gravita: alta)
 2. **Ok Sprint 1 radiografia?** — 4 bloccanti prima del batch 6/7 (gravita: alta)
 3. **Quanti negozi il 6/7?** — checklist pronta (gravita: media)
 
@@ -28,21 +26,21 @@ trend: ▲
 
 | Sensore | Stato |
 |---------|-------|
-| Supabase marketplace REST | ✅ live 02:17 |
+| Supabase marketplace REST | ✅ live 04:17 |
 | Supabase MCP | ❌ cieco |
 | Supabase memoria env | ✅ presente |
-| Stripe status | ✅ operativo |
+| Stripe status | ⚠️ fetch timeout (OK al giro precedente) |
 | PostHog | ❌ non collegato |
 | Dati freschi | ✅ sì |
 | Sensori attivi | 2/4 |
 
 ## Punti ciechi
 
-- Stripe MCP / PostHog non interrogati
-- Competitor: cadenza settimanale non rifatta
-- Stato merge PR quaderni su GitHub non riverificato
+- MCP marketplace cieco (REST compensa)
+- PostHog assente
+- Competitor/stampa non ricontrollati (settimanale)
 
 ## Cosa miglioro al prossimo giro
 
-- Non ripetere domande su decisioni già prese (foglio-firma, VP)
-- Escalation automatica template se stallo >168h senza risposta
+- Trigger escalation 🟡 automatica se stallo >168h
+- Riverificare stato PR quaderni su main

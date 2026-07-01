@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 02:17
+## 🤖 Aggiornamento dell'AD — 2026-07-01 04:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 159,8h → 168h ~8h:** urgenza decisionale. Nota escalation v2 🟢.
-- **Esperimento E0 bloccato:** 0 traffico + PostHog assente. **Prima:** ordine zombie PQ + Sprint 1 fix checkout (fee UI = #1 abbandono EU).
-- **Batch 6/7** = nuova leva crescita post-VP rimandato — non scalare negozi su checkout rotto.
+- **Stallo 161,8h → 168h ~6,2h:** urgenza decisionale. Nota escalation v3 🟢.
+- **Esperimento E0 bloccato:** 0 traffico + PostHog assente. **Prima:** ordine zombie PQ entro ~6h + Sprint 1 fix checkout.
+- **Batch 6/7** = leva crescita post-VP rimandato — non scalare negozi su checkout rotto.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

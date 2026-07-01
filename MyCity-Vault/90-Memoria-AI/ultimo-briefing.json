@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-01 02:17",
-  "situazione": "Stallo 159,8h (+2h): 0 transazioni reali, 1 negozio vero (Pane Quotidiano), ordine zombie €19,05 fermo. Foglio-firma firmato 01:02; VP 3/7 rimandato → focus onboarding 6/7. Radiografia: 4 bloccanti pre-live. Soglia 168h tra ~8h.",
+  "data": "2026-07-01 04:17",
+  "situazione": "Stallo 161,8h (+2h): 0 transazioni reali, 1 negozio vero (Pane Quotidiano), ordine zombie €19,05 fermo. Soglia 168h tra ~6,2h — urgenza massima. Foglio-firma firmato; VP rimandato → focus onboarding 6/7. Radiografia: 4 bloccanti pre-live.",
   "opportunita": [
     {
       "titolo": "Sbloccare ordine zombie Pane Quotidiano",
-      "motivo": "Contratto 12% firmato; unica via 1ª transazione reale prima delle 168h",
+      "motivo": "Contratto 12% firmato; unica via 1ª transazione reale entro ~6h (168h stallo)",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,8 +23,8 @@
   ],
   "azioni": [
     {
-      "titolo": "Decisione ordine zombie €19,05 (A accetta / B annulla)",
-      "motivo": "Buyer fermo ~6,7 giorni — pacchetto operations pronto",
+      "titolo": "Decisione ordine zombie €19,05 (A accetta / B annulla) — entro ~6h",
+      "motivo": "Buyer fermo ~6,8 giorni — pacchetto operations pronto",
       "livello": "rosso"
     },
     {

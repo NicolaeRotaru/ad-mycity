@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-01 02:17",
-  "voto_fiducia": 87,
+  "data": "2026-07-01 04:17",
+  "voto_fiducia": 88,
   "trend_fiducia": "▲",
-  "sintesi": "Giro 1/7 02:17. Voto +1 (86→87): KPI live REST (= vs 00:17, stallo 159,8h). Integrato contesto Nicola post-00:17 (firme 01:02, radiografia 46, VP rimandato). Nessun errore grounding. Obsoleti corretti (Casa Linda, foglio-firma). MCP cieco, REST OK.",
+  "sintesi": "Giro 1/7 04:17. Voto +1 (87→88): KPI live REST (= business, stallo 161,8h, 168h ~6,2h). Carrelli 4 ▼−2 verificato. Countdown escalation aggiornato v3. Nessun errore grounding. MCP cieco, REST OK. Non ripetute domande su decisioni già firmate (L-0701-19).",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 02:17, clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 04:17, clmpyfvpvfjgeviworth)",
     "coerenza": "ok (allineato DECISIONI/chat 1/7)",
     "semaforo": "ok",
     "qualita": "ok",
@@ -15,7 +15,7 @@
   "domande_per_nicola": [
     {
       "domanda": "Ordine zombie €19,05: accetti e consegni (A) o annulli (B)?",
-      "perche_serve": "Unica via 1ª transazione reale; ~8h a soglia 168h stallo.",
+      "perche_serve": "Unica via 1ª transazione reale; ~6,2h a soglia 168h stallo.",
       "se_rispondi": "Eseguo pacchetto operations opzione scelta.",
       "gravita": "alta"
     },
@@ -35,16 +35,17 @@
   "punti_ciechi": [
     "Supabase MCP cieco (REST fallback OK)",
     "PostHog non collegato",
+    "Stripe status page fetch timeout (assunto OK)",
     "Competitor non ricontrollati (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Escalation binaria se stallo supera 168h",
-    "Non ripetere domande su decisioni già firmate"
+    "Se supera 168h: escalation 🟡 binaria automatica in briefing",
+    "Verificare merge PR quaderni su main"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",
     "supabase_memoria": "env presente ✅",
-    "stripe": "status pubblico OK ✅",
+    "stripe": "status non verificato (timeout) · operativo al giro precedente ✅",
     "posthog": "non collegato ❌",
     "dati_freschi": true,
     "sensori_attivi": 2

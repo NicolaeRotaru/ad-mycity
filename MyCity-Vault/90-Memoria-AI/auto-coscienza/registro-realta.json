@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-01 02:17",
+  "aggiornato": "2026-07-01 04:17",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -52,10 +52,11 @@
         "DB live 1/7 00:56: Via Calzolai 25, tel. 0523388601, 5 prodotti bio disponibili, is_approved=true.",
         "Stripe Connect acct_1TifANEq35Z9pThc ma stripe_payouts_enabled=false, stripe_charges_enabled=false.",
         "1 ordine zombie €19,05 COD (24/6, PENDING/NEW) — buyer tel. 348 642 1766.",
+        "DB live 1/7 04:17: stallo 161,8h; 168h tra ~6,2h; 4 carrelli abbandonati.",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
-      "note": "UNICO negozio reale su MyCity. Via 1ª transazione = sbloccare ordine zombie (contratto 12% firmato Nicola 01:02) + payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-01 02:17"
+      "note": "UNICO negozio reale su MyCity. Via 1ª transazione = sbloccare ordine zombie entro ~6h (contratto 12% firmato Nicola 01:02) + payout sandbox 03/7.",
+      "ultima_verifica": "2026-07-01 04:17"
     },
     {
       "nome": "Antica Salumeria Garetti",

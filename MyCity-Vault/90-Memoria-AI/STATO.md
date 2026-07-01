@@ -1,28 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 02:17
-fonte: AD digitale (7 numeri = live REST 1/7 02:17 · Supabase clmpyfvpvfjgeviworth · radiografia + foglio-firma Nicola 1/7)
+aggiornato: 2026-07-01 04:17
+fonte: AD digitale (7 numeri = live REST 1/7 04:17 · Supabase clmpyfvpvfjgeviworth · radiografia + foglio-firma Nicola 1/7)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 02:17 — Giro AD:** stallo **159,8h** (168h tra **~8h**). Foglio-firma **FATTO** 01:02. VP **rimandato** → onboarding **6/7**. Radiografia: **4 bloccanti**. Mossa n.1 = **ordine zombie PQ** + ok **Sprint 1**.
+> 🧠 **1/7 04:17 — Giro AD:** stallo **161,8h** (168h tra **~6,2h**). Foglio-firma **FATTO** 01:02. VP **rimandato** → onboarding **6/7**. Radiografia: **4 bloccanti**. Mossa n.1 = **ordine zombie PQ ORA** + ok **Sprint 1**.
 
-## I 7 numeri (live 2026-07-01 02:17 · Supabase REST clmpyfvpvfjgeviworth)
+## I 7 numeri (live 2026-07-01 04:17 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | Casa Linda payout demo; Pane Quotidiano payout OFF |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 5 PQ bio available; 250 seed test |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo ~6,7 gg |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo ~6,8 gg |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
 ## Semafori
-- 🟢 Va bene: REST Supabase OK; Stripe status OK; checklist onboarding 6/7 🟢; escalation 168h v2 🟢; WebFetch worker ✅.
-- 🟡 Da tenere d'occhio: stallo **159,8h** → **168h ~8h**; 6 carrelli >4h; kit bando #12 (FESR chiuso 23/6); **Sprint 1 radiografia** in attesa ok; PR quaderni su **main** in attesa merge; onboarding 6/7 (Nicola).
+- 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v3 🟢; WebFetch worker ✅.
+- 🟡 Da tenere d'occhio: stallo **161,8h** → **168h ~6,2h**; **4 carrelli** >4h (▼−2); kit bando #12 (FESR chiuso 23/6); **Sprint 1 radiografia** in attesa ok; PR quaderni su **main** in attesa merge; onboarding 6/7 (Nicola).
 - 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti pre-live** (radiografia 1/7); ordine zombie €19,05.
 
 ## Radiografia marketplace (2026-07-01)
@@ -33,15 +33,15 @@ fonte: AD digitale (7 numeri = live REST 1/7 02:17 · Supabase clmpyfvpvfjgeviwo
 | Sprint 1 proposto | 🟡 in attesa ok Nicola | branch marketplace |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 02:17** — KPI live (= vs 00:17, stallo +2h). Checklist batch 6/7 🟢. Nota escalation 168h v2. Mossa n.1 = ordine zombie + Sprint 1. Vedi [[2026-07-01]].
-2. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`. L-2026-0701-18.
-3. **Chat 1/7 01:57** — radiografia marketplace 46 problemi + Sprint 1–4 proposto.
-4. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
-5. **Chat 1/7 01:00** — VP 3/7 rimandato; priorità negozi 6/7.
-6. **Giro 1/7 00:17** — playbook temporali 🟢. Stallo 157,8h.
+1. **Giro 1/7 04:17** — KPI live (= vs 02:17, stallo +2h, 168h ~6,2h). Carrelli 4 ▼−2. Escalation v3 🟢. Mossa n.1 = ordine zombie ORA + Sprint 1. Vedi [[2026-07-01]].
+2. **Giro 1/7 02:17** — KPI live (= vs 00:17). Checklist batch 6/7 🟢. Nota escalation 168h v2.
+3. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`. L-2026-0701-18.
+4. **Chat 1/7 01:57** — radiografia marketplace 46 problemi + Sprint 1–4 proposto.
+5. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
+6. **Chat 1/7 01:00** — VP 3/7 rimandato; priorità negozi 6/7.
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale)
+- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~6h**)
 - [ ] 🟡 **Ok Sprint 1 radiografia** — branch: webhook + fee UI + rollback COD + RLS
 - [ ] 🔴 **Deploy fix marketplace** — solo post-Sprint 1 + env
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox ✅)

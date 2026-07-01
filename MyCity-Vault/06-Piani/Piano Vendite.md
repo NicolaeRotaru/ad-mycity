@@ -173,9 +173,9 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 02:17
+## 🤖 Aggiornamento dell'AD — 2026-07-01 04:17
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **168h tra ~8h** — priorità **ordine zombie Pane Quotidiano** (contratto 12% firmato 01:02). Casa Linda = demo ❌.
-- **Batch onboarding 6/7** (Nicola) — checklist 🟢 `consegne/onboarding/checklist-batch-6-luglio.md`. **Prima:** ok Sprint 1 radiografia (4 bloccanti checkout).
+- **168h tra ~6,2h** — priorità **ordine zombie Pane Quotidiano** (contratto 12% firmato). Casa Linda = demo ❌.
+- **Batch onboarding 6/7** (Nicola) — checklist 🟢 pronta. **Prima:** ok Sprint 1 radiografia (4 bloccanti checkout).
 - **407 lead** invariati — contattare dopo 1ª transazione reale. Kit bando #12: FESR chiuso 23/6.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
