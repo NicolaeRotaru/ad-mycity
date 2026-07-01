@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 07:36
-fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · Sprint 1 branch 1/7 07:30 · chat Nicola)
+aggiornato: 2026-07-01 07:41
+fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · Sprint 1 branch 1/7 07:30 · push PR 403 07:41 · chat Nicola)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 07:36 — Sprint 1 eseguito:** Nicola «ok Sprint 1» → branch `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, no deploy). Push GitHub **403** (token worker) → PR da Nicola. Stallo **163,8h** (168h ~4,2h). Mossa n.1 = **push PR** + migrazione `107` + **`ok deploy Sprint 1`** 🔴.
+> 🧠 **1/7 07:41 — PR Sprint 1:** Nicola chiede PR → **push `mycity` ancora 403** (PAT scrive solo `ad-mycity`). Codice + patch pronti; accodato **#14** token write su mycity. Mossa n.1 = **tu push 2 min** O **`ok 14`** poi **`ok push Sprint 1`**.
 
 ## I 7 numeri (live 2026-07-01 06:18 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
@@ -49,24 +49,18 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 |---|---|---|
 | Problemi confermati | **46** (4·24·18) | `consegne/audit/2026-07-01-radiografia.md` |
 | Bloccanti pre-live | **4** | webhook · fee UI · RLS profiles · COD ghost |
-| Sprint 1 | **#13 IN CORSO** · branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` | Nicola ok 1/7 07:30 · `consegne/tech/sprint-1-radiografia-marketplace.md` |
+| Sprint 1 | **#13 codice pronto** · PR **bloccata 403** · patch `consegne/tech/sprint-1-radiografia-marketplace.patch` | Nicola ok 1/7 07:30 · token #14 |
 | Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy). Push/PR a Nicola · migrazione `107` pre-prod · deploy 🔴 separato.
-2. **Chat 1/7 07:19** — Nicola (casella ordine zombie): «Di quale negozio è il buyer?» → **Pane Quotidiano** (Via Calzolai 25), buyer tel. **348 642 1766**, COD €19,05 del 24/6. Decisione A/B ancora 🔴 in attesa (~3h a 168h).
-3. **Giro 1/7 06:18** — KPI live (= vs 04:17, stallo +2h, 168h ~4,2h). Escalation v4 🟢. Mossa n.1 = ordine zombie entro ~4h + Sprint 1. Vedi [[2026-07-01]].
-4. **Giro 1/7 04:17** — KPI live (= vs 02:17). Carrelli 4 ▼−2. Escalation v3 🟢.
-5. **Giro 1/7 02:17** — Checklist batch 6/7 🟢. Nota escalation 168h v2.
-6. **Chat 1/7 06:45** — Nicola chiede workflow fix radiografia: spiegato sprint/blocchi (#13), deploy 🔴 separato, comandi `ok 13` / `ok deploy` / `ok tutti gli sprint`.
-7. **Metabolizzazione 1/7 06:29** — lezione L-0701-22 guardrail universale + quaderni builder/security.
-8. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`.
-9. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
+1. **Chat 1/7 07:41** — Nicola «crea la PR» → push+API GitHub **403** (PAT senza write su `mycity`). Patch salvata · **#14** token in coda.
+2. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy).
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~4h / ~10:30**)
-- [x] ~~Ok Sprint 1 radiografia~~ — **IN CORSO** 1/7 07:30 · branch pronto, push PR a Nicola
-- [ ] 🟡 **Push + PR marketplace** — `fix/sprint-1-radiografia-2026-07-01` → `main` (Nicola)
+- [x] ~~Ok Sprint 1 radiografia~~ — codice pronto 1/7 07:30
+- [ ] 🟡 **Push + PR marketplace** — bloccato 403 · patch in `consegne/tech/` · opzione rapida sotto
+- [ ] 🟡 **#14 Token write su mycity** — sblocca push automatici futuri
 - [ ] 🔴 **Deploy Sprint 1** — post-review + migrazione `107_seller_public_profiles.sql` su prod
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox ✅)
 - [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`

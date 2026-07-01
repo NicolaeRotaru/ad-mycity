@@ -1,0 +1,612 @@
+From 8dc0f880f028827968a2be9fa7dda5d32a9d802d Mon Sep 17 00:00:00 2001
+From: AD MyCity VPS <98592323+NicolaeRotaru@users.noreply.github.com>
+Date: Wed, 1 Jul 2026 07:28:42 +0200
+Subject: [PATCH] =?UTF-8?q?fix:=20Sprint=201=20radiografia=20=E2=80=94=20s?=
+ =?UTF-8?q?oldi,=20checkout=20e=20RLS=20vetrina?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Chiude i 4 bloccanti pre-live: webhook Stripe non marca COMPLETED su
+fallimento parziale, fee €3 visibile in checkout, VIEW seller_public_profiles
+al posto della policy profiles permissiva, rollback atomico COD su order_items.
+Include anche varianti duplicate e restore stock idempotente su charge.refunded.
+---
+ app/api/orders/cod/route.ts                   | 49 ++++++++++++++--
+ app/api/stripe/checkout/route.ts              |  5 +-
+ app/api/stripe/webhook/route.ts               | 47 +++++++++++++---
+ app/checkout/page.tsx                         |  6 +-
+ app/sitemap.ts                                | 34 ++++++-----
+ app/store/[id]/[slug]/layout.tsx              |  2 +-
+ app/store/[id]/layout.tsx                     |  2 +-
+ app/stores/page.tsx                           |  4 +-
+ components/ProductGrid.tsx                    | 15 +++--
+ components/SearchBar.tsx                      |  4 +-
+ components/StoreShowcase.tsx                  |  4 +-
+ components/checkout/OrderSummary.tsx          |  9 +++
+ components/store-sections/useStorePageData.ts |  2 +-
+ lib/queries/seller-public-profiles.ts         | 56 +++++++++++++++++++
+ migrations/107_seller_public_profiles.sql     | 43 ++++++++++++++
+ 15 files changed, 234 insertions(+), 48 deletions(-)
+ create mode 100644 lib/queries/seller-public-profiles.ts
+ create mode 100644 migrations/107_seller_public_profiles.sql
+
+diff --git a/app/api/orders/cod/route.ts b/app/api/orders/cod/route.ts
+index 07cb8e0..ab18b53 100644
+--- a/app/api/orders/cod/route.ts
++++ b/app/api/orders/cod/route.ts
+@@ -86,15 +86,16 @@ export const POST = withAuthRateLimit(
+ 
+     // --- 1. Carica i prodotti dal DB (mai trust client su prezzo/seller/stock).
+     const allProductIds = body.groups.flatMap((g) => g.items.map((i) => i.productId));
++    const uniqueProductIds = [...new Set(allProductIds)];
+     const { data: products, error: prodErr } = await supa
+       .from('products')
+       .select('id, name, price, seller_id, stock, status, has_variants')
+-      .in('id', allProductIds);
++      .in('id', uniqueProductIds);
+ 
+     if (prodErr || !products || products.length === 0) {
+       return ApiErrors.notFound('Prodotti non trovati.');
+     }
+-    if (products.length !== allProductIds.length) {
++    if (products.length !== uniqueProductIds.length) {
+       return ApiErrors.invalidRequest('Alcuni prodotti del carrello non sono più disponibili.');
+     }
+ 
+@@ -235,6 +236,29 @@ export const POST = withAuthRateLimit(
+ 
+     // --- 5. Inserisci N ordini (uno per gruppo) con il client admin.
+     const createdOrderIds: string[] = [];
++    const reservedStockPerGroup: Array<Array<{ product_id: string; variant_id: string | null; qty: number }>> = [];
++    const walletAppliedPerGroup: number[] = [];
++
++    const rollbackCreatedCodOrders = async () => {
++      for (let j = createdOrderIds.length - 1; j >= 0; j--) {
++        const oid = createdOrderIds[j];
++        await admin.from('order_items').delete().eq('order_id', oid);
++        await admin.from('orders').delete().eq('id', oid);
++        await admin.rpc('restore_stock', { p_items: reservedStockPerGroup[j] });
++        if (walletAppliedPerGroup[j] > 0) {
++          await admin.rpc('wallet_credit', {
++            p_user: user.id,
++            p_cents: walletAppliedPerGroup[j],
++            p_reason: 'order_cod_refund',
++            p_ref: oid,
++          });
++        }
++      }
++      createdOrderIds.length = 0;
++      reservedStockPerGroup.length = 0;
++      walletAppliedPerGroup.length = 0;
++    };
++
+     for (let i = 0; i < body.groups.length; i++) {
+       const g = body.groups[i];
+       const subtotal = subtotalPerGroupCents[i];
+@@ -328,9 +352,9 @@ export const POST = withAuthRateLimit(
+         .single();
+ 
+       if (orderErr || !order) {
+-        await admin.rpc('restore_stock', { p_items: groupStockItems }); // rilascia la riserva del gruppo fallito
++        await rollbackCreatedCodOrders();
++        await admin.rpc('restore_stock', { p_items: groupStockItems });
+         if (walletAppliedCents > 0) {
+-          // Storna il credito addebitato per un ordine che non è stato creato.
+           await admin.rpc('wallet_credit', {
+             p_user: user.id,
+             p_cents: walletAppliedCents,
+@@ -342,6 +366,9 @@ export const POST = withAuthRateLimit(
+         return ApiErrors.internal('Errore nella creazione ordine.');
+       }
+ 
++      reservedStockPerGroup.push(groupStockItems);
++      walletAppliedPerGroup.push(walletAppliedCents);
++
+       const itemsRows = itemsPerGroupCents[i].map((it) => ({
+         order_id: order.id,
+         product_id: it.productId,
+@@ -353,6 +380,20 @@ export const POST = withAuthRateLimit(
+       const { error: itemsErr } = await admin.from('order_items').insert(itemsRows);
+       if (itemsErr) {
+         logger.error(itemsErr, { context: 'cod-order-items-insert', orderId: order.id });
++        await admin.from('orders').delete().eq('id', order.id);
++        await admin.rpc('restore_stock', { p_items: groupStockItems });
++        if (walletAppliedCents > 0) {
++          await admin.rpc('wallet_credit', {
++            p_user: user.id,
++            p_cents: walletAppliedCents,
++            p_reason: 'order_cod_refund',
++            p_ref: order.id,
++          });
++        }
++        reservedStockPerGroup.pop();
++        walletAppliedPerGroup.pop();
++        await rollbackCreatedCodOrders();
++        return ApiErrors.internal('Errore nella creazione ordine.');
+       }
+ 
+       // Notifica in-app al venditore — nuovo ordine COD ricevuto
+diff --git a/app/api/stripe/checkout/route.ts b/app/api/stripe/checkout/route.ts
+index 486f342..9befdaa 100644
+--- a/app/api/stripe/checkout/route.ts
++++ b/app/api/stripe/checkout/route.ts
+@@ -90,15 +90,16 @@ export const POST = withAuthRateLimit({ name: 'stripe-checkout', max: 30, window
+ 
+   // --- 1. Carica tutti i prodotti dal DB in un'unica query.
+   const allProductIds = body.groups.flatMap((g) => g.items.map((i) => i.productId));
++  const uniqueProductIds = [...new Set(allProductIds)];
+   const { data: products, error: prodErr } = await supa
+     .from('products')
+     .select('id, name, price, images, seller_id, stock, status, has_variants')
+-    .in('id', allProductIds);
++    .in('id', uniqueProductIds);
+ 
+   if (prodErr || !products || products.length === 0) {
+     return ApiErrors.notFound('Prodotti non trovati.');
+   }
+-  if (products.length !== allProductIds.length) {
++  if (products.length !== uniqueProductIds.length) {
+     return ApiErrors.invalidRequest('Alcuni prodotti del carrello non sono più disponibili.');
+   }
+ 
+diff --git a/app/api/stripe/webhook/route.ts b/app/api/stripe/webhook/route.ts
+index fcce9b8..572e164 100644
+--- a/app/api/stripe/webhook/route.ts
++++ b/app/api/stripe/webhook/route.ts
+@@ -295,13 +295,29 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+     // Se la riga esiste già (es. webhook ri-eseguito), skip silenzioso.
+     if (orderErr) {
+       if (orderErr.code === '23505') {
+-        logger.info('[stripe] order già presente per (session, seller), skip', { sessionId: session.id, sellerId: g.sellerId });
+-        continue;
++        // Idempotenza retry webhook: ordine già creato in un tentativo precedente.
++        const { data: existing } = await admin
++          .from('orders')
++          .select('id')
++          .eq('stripe_session_id', session.id)
++          .eq('seller_id', g.sellerId)
++          .maybeSingle();
++        if (existing?.id) {
++          createdOrderIds.push({
++            orderId: existing.id,
++            sellerId: g.sellerId,
++            totalCents: g.totalCents,
++            itemsCount: g.items.reduce((s, it) => s + it.quantity, 0),
++          });
++          continue;
++        }
+       }
+       logger.error(orderErr, { context: 'stripe-order-insert', sellerId: g.sellerId });
+-      continue;
++      throw new Error(`stripe-order-insert failed for seller ${g.sellerId}`);
++    }
++    if (!order) {
++      throw new Error(`stripe-order-insert returned null for seller ${g.sellerId}`);
+     }
+-    if (!order) continue;
+ 
+     // order_items
+     const orderItemsRows = g.items.map((it) => ({
+@@ -315,6 +331,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+     const { error: itemsErr } = await admin.from('order_items').insert(orderItemsRows);
+     if (itemsErr) {
+       logger.error(itemsErr, { context: 'stripe-order-items-insert', orderId: order.id });
++      await admin.from('orders').delete().eq('id', order.id);
++      throw new Error(`stripe-order-items-insert failed for order ${order.id}`);
+     }
+ 
+     createdOrderIds.push({
+@@ -325,6 +343,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+     });
+   }
+ 
++  // Solo se TUTTI i gruppi hanno un ordine: altrimenti lascia PENDING e 500 → retry Stripe.
++  if (createdOrderIds.length !== groups.length) {
++    logger.error('[stripe] checkout parziale: ordini creati insufficienti', {
++      pendingCheckoutId,
++      expected: groups.length,
++      created: createdOrderIds.length,
++    });
++    throw new Error(`partial checkout: ${createdOrderIds.length}/${groups.length} orders created`);
++  }
++
+   // Traccia l'uso del coupon (server-side authoritative). handleCheckoutCompleted
+   // esce subito se il pending era già COMPLETED, quindi l'incremento è eseguito
+   // una sola volta per checkout.
+@@ -333,7 +361,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+     if (cErr) logger.warn('[stripe] increment_coupon_usage fallito', { couponCode, message: cErr.message });
+   }
+ 
+-  // Marca pending_checkout come COMPLETED (idempotenza guard per re-delivery webhook)
++  // Marca pending_checkout come COMPLETED solo a checkout interamente riuscito.
+   await admin
+     .from('pending_checkouts')
+     .update({
+@@ -616,7 +644,7 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
+   // Multi-seller: una charge può avere N ordini (uno per seller).
+   const { data: orders } = await admin
+     .from('orders')
+-    .select('id, user_id, total_price, seller_id, payout_status, stripe_transfer_id, seller_payout_cents, stripe_reversal_id')
++    .select('id, user_id, total_price, seller_id, payout_status, payment_status, stripe_transfer_id, seller_payout_cents, stripe_reversal_id')
+     .eq('stripe_payment_intent', pi);
+ 
+   if (!orders || orders.length === 0) return;
+@@ -695,9 +723,10 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
+     await admin.from('orders').update({ payout_status: 'REFUNDED' }).in('id', refundedIds);
+   }
+ 
+-  // Ripristina lo stock degli ordini annullati dal refund pieno (P0-4).
+-  for (const id of allIds) {
+-    await admin.rpc('restore_stock_for_order', { p_order_id: id });
++  // Ripristina lo stock solo se refundOrder non l'ha già fatto (evita doppio restore).
++  for (const o of orders) {
++    if (o.payment_status === 'REFUNDED') continue;
++    await admin.rpc('restore_stock_for_order', { p_order_id: o.id });
+   }
+ 
+   // Email buyer (una sola email anche se sono N ordini — è la stessa charge)
+diff --git a/app/checkout/page.tsx b/app/checkout/page.tsx
+index adda2ce..e1c4a04 100644
+--- a/app/checkout/page.tsx
++++ b/app/checkout/page.tsx
+@@ -11,7 +11,7 @@ import { toast } from 'sonner';
+ import { CartItem, getCart, clearCart, removeFromCart } from '@/lib/cart';
+ import { formatPrice } from '@/lib/format';
+ import { sizedImage } from '@/lib/image-url';
+-import { FREE_SHIPPING_THRESHOLD } from '@/lib/constants';
++import { FREE_SHIPPING_THRESHOLD, PLATFORM_DELIVERY_FEE_CENTS } from '@/lib/constants';
+ import { haversineKm, riderFee } from '@/lib/geo';
+ import { isExpressEligible } from '@/lib/products/express';
+ import { validateCoupon, type Coupon } from '@/lib/coupons';
+@@ -358,8 +358,9 @@ export default function CheckoutPage() {
+   const grandSubtotal = groups.reduce((s, g) => s + groupSubtotal(g), 0);
+   const pickupDiscount = pickupInStore ? Math.round(grandSubtotal * (PICKUP_DISCOUNT_PERCENT / 100) * 100) / 100 : 0;
+   const grandShipping = appliedCoupon?.freeShipping ? 0 : groups.reduce((s, g) => s + shippingFor(g), 0);
++  const platformDeliveryFee = pickupInStore ? 0 : groups.length * (PLATFORM_DELIVERY_FEE_CENTS / 100);
+   const discount = appliedCoupon?.discount ?? 0;
+-  const grandTotal = Math.max(0, grandSubtotal + grandShipping - discount - pickupDiscount);
++  const grandTotal = Math.max(0, grandSubtotal + grandShipping + platformDeliveryFee - discount - pickupDiscount);
+   const walletEuro = (walletCents ?? 0) / 100;
+   // Il credito si applica solo agli ordini COD in questo flusso (la carta passa da
+   // Stripe, dove il credito arriverà più avanti). Mai più del totale dell'ordine.
+@@ -803,6 +804,7 @@ export default function CheckoutPage() {
+             <OrderSummary
+               subtotal={grandSubtotal}
+               shipping={grandShipping}
++              platformDeliveryFee={platformDeliveryFee}
+               pickupDiscount={pickupDiscount}
+               couponDiscount={discount}
+               creditApplied={creditApplied}
+diff --git a/app/sitemap.ts b/app/sitemap.ts
+index 7d19b97..9c9457b 100644
+--- a/app/sitemap.ts
++++ b/app/sitemap.ts
+@@ -48,18 +48,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+     auth: { persistSession: false, autoRefreshToken: false },
+   });
+ 
+-  const [products, stores, categories] = await Promise.all([
+-    supabase
+-      .from('products')
+-      .select('id, created_at, profiles!products_seller_id_fkey ( is_approved )')
+-      .eq('status', 'available')
+-      .order('created_at', { ascending: false })
+-      .limit(5000),
++  type ProductSlug = { id: string; created_at?: string | null; seller_id?: string };
++  type StoreSlug = { id: string; created_at?: string | null };
++  type CategorySlug = { slug: string };
++
++  const [storesRes, categoriesRes] = await Promise.all([
+     supabase
+-      .from('profiles')
++      .from('seller_public_profiles')
+       .select('id, created_at')
+-      .eq('role', 'seller')
+-      .eq('is_approved', true)
+       .limit(2000),
+     supabase
+       .from('categories')
+@@ -67,12 +63,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+       .limit(200),
+   ]);
+ 
+-  type ProductSlug = { id: string; created_at?: string | null; profiles?: { is_approved?: boolean } | null };
+-  type StoreSlug = { id: string; created_at?: string | null };
+-  type CategorySlug = { slug: string };
++  const approvedSellerIds = ((storesRes.data ?? []) as StoreSlug[]).map((s) => s.id);
++  const products =
++    approvedSellerIds.length > 0
++      ? await supabase
++          .from('products')
++          .select('id, created_at, seller_id')
++          .eq('status', 'available')
++          .in('seller_id', approvedSellerIds)
++          .order('created_at', { ascending: false })
++          .limit(5000)
++      : { data: [] as ProductSlug[] };
++
++  const stores = storesRes;
++  const categories = categoriesRes;
+ 
+   const productEntries: MetadataRoute.Sitemap = ((products.data ?? []) as unknown as ProductSlug[])
+-    .filter((p) => p.profiles?.is_approved)
+     .map((p) => ({
+       url: `${APP_URL}/product/${p.id}`,
+       lastModified: p.created_at ? new Date(p.created_at) : now,
+diff --git a/app/store/[id]/[slug]/layout.tsx b/app/store/[id]/[slug]/layout.tsx
+index 8d0c042..4efbd46 100644
+--- a/app/store/[id]/[slug]/layout.tsx
++++ b/app/store/[id]/[slug]/layout.tsx
+@@ -23,7 +23,7 @@ async function fetchStore(id: string): Promise<StoreMeta | null> {
+       auth: { persistSession: false, autoRefreshToken: false },
+     });
+     const { data } = await supabase
+-      .from('profiles')
++      .from('seller_public_profiles')
+       .select('id, store_name, store_description, store_logo, is_approved, role, store_site')
+       .eq('id', id)
+       .single();
+diff --git a/app/store/[id]/layout.tsx b/app/store/[id]/layout.tsx
+index 5753682..1445330 100644
+--- a/app/store/[id]/layout.tsx
++++ b/app/store/[id]/layout.tsx
+@@ -22,7 +22,7 @@ async function fetchStore(id: string): Promise<StoreMeta | null> {
+       auth: { persistSession: false, autoRefreshToken: false },
+     });
+     const { data } = await supabase
+-      .from('profiles')
++      .from('seller_public_profiles')
+       .select('id, store_name, store_description, store_logo, store_address, is_approved, role')
+       .eq('id', id)
+       .single();
+diff --git a/app/stores/page.tsx b/app/stores/page.tsx
+index 2380d27..1a3e28c 100644
+--- a/app/stores/page.tsx
++++ b/app/stores/page.tsx
+@@ -24,10 +24,8 @@ type SortMode = 'rating' | 'name' | 'most-products';
+ 
+ const fetchStoresData = async () => {
+   const { data: storesRaw, error } = await supabase
+-    .from('profiles')
++    .from('seller_public_profiles')
+     .select('id, store_name, store_phone, store_address, store_lat, store_lng, store_logo, store_hours, store_media')
+-    .eq('is_approved', true)
+-    .not('store_name', 'is', null)
+     .order('store_name');
+   if (error) throw error;
+ 
+diff --git a/components/ProductGrid.tsx b/components/ProductGrid.tsx
+index 88324ea..9f6ed99 100644
+--- a/components/ProductGrid.tsx
++++ b/components/ProductGrid.tsx
+@@ -11,6 +11,7 @@ import { queryKeys } from '@/lib/queries/keys';
+ import SkeletonCard, { SkeletonGrid } from './SkeletonCard';
+ import ErrorState from './ErrorState';
+ import { DAY_KEYS, isOpenNow, type StoreHours } from '@/lib/store-hours';
++import { attachSellerProfiles, fetchSellerPublicMap } from '@/lib/queries/seller-public-profiles';
+ import { trackSearchPerformed } from '@/lib/analytics/events';
+ 
+ export type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'newest' | 'rating' | 'discount_desc';
+@@ -76,11 +77,9 @@ const ProductGrid = ({ categoryId, categoryIds, sellerId, search, limit, maxPric
+       let q = supabase
+         .from('products')
+         .select(`
+-          id, name, description, price, compare_at_price, images, stock, has_variants, created_at, seller_id, category_id,
+-          profiles!products_seller_id_fkey!inner ( store_name, store_hours, is_approved )
++          id, name, description, price, compare_at_price, images, stock, has_variants, created_at, seller_id, category_id
+         `)
+-        .eq('status', 'available')
+-        .eq('profiles.is_approved', true);
++        .eq('status', 'available');
+ 
+       // Ordinamento dinamico (default: created_at desc)
+       switch (sort) {
+@@ -102,7 +101,13 @@ const ProductGrid = ({ categoryId, categoryIds, sellerId, search, limit, maxPric
+       if (limit)      q = q.limit(limit);
+       const { data, error } = await q;
+       if (error) throw error;
+-      return data ?? [];
++      const rows = data ?? [];
++      const sellerMap = await fetchSellerPublicMap(
++        supabase,
++        rows.map((p) => p.seller_id as string),
++        'id, store_name, store_hours, is_approved',
++      );
++      return attachSellerProfiles(rows, sellerMap).filter((p) => p.profiles?.is_approved);
+     },
+   });
+ 
+diff --git a/components/SearchBar.tsx b/components/SearchBar.tsx
+index e4e8513..a60b451 100644
+--- a/components/SearchBar.tsx
++++ b/components/SearchBar.tsx
+@@ -57,10 +57,8 @@ export default function SearchBar({ className = '', placeholder = 'Cerca prodott
+       const [productsRes, storesRes, categoriesRes] = await Promise.all([
+         supabase.rpc('search_products_smart', { q: term, lim: 6 }),
+         supabase
+-          .from('profiles')
++          .from('seller_public_profiles')
+           .select('id, store_name, store_logo')
+-          .eq('role', 'seller')
+-          .eq('is_approved', true)
+           .ilike('store_name', pattern)
+           .limit(3),
+         supabase
+diff --git a/components/StoreShowcase.tsx b/components/StoreShowcase.tsx
+index 25ae98c..91dd5f0 100644
+--- a/components/StoreShowcase.tsx
++++ b/components/StoreShowcase.tsx
+@@ -11,10 +11,8 @@ type ProductLite = ProductPreview & { seller_id: string };
+ 
+ const fetchShowcase = async () => {
+   const { data: storesRaw, error } = await supabase
+-    .from('profiles')
++    .from('seller_public_profiles')
+     .select('id, store_name, store_address, store_logo, store_hours, store_media')
+-    .eq('is_approved', true)
+-    .not('store_name', 'is', null)
+     .limit(6);
+   if (error) throw error;
+ 
+diff --git a/components/checkout/OrderSummary.tsx b/components/checkout/OrderSummary.tsx
+index b9aae25..423cf66 100644
+--- a/components/checkout/OrderSummary.tsx
++++ b/components/checkout/OrderSummary.tsx
+@@ -15,6 +15,8 @@ import { formatPrice } from '@/lib/format';
+ type Props = {
+   subtotal: number;
+   shipping: number;
++  /** Fee piattaforma €3/consegna per negozio (solo consegna a domicilio). */
++  platformDeliveryFee?: number;
+   pickupDiscount: number;
+   couponDiscount: number;
+   /** Credito MyCity applicato (gift card / punti convertiti), in euro. */
+@@ -30,6 +32,7 @@ type Props = {
+ export function OrderSummary({
+   subtotal,
+   shipping,
++  platformDeliveryFee = 0,
+   pickupDiscount,
+   couponDiscount,
+   creditApplied = 0,
+@@ -54,6 +57,12 @@ export function OrderSummary({
+             {shipping === 0 ? 'Gratis' : formatPrice(shipping)}
+           </span>
+         </div>
++        {platformDeliveryFee > 0 && (
++          <div className="flex justify-between">
++            <span className="text-ink-600">Consegna MyCity</span>
++            <span className="font-semibold">{formatPrice(platformDeliveryFee)}</span>
++          </div>
++        )}
+         {pickupDiscount > 0 && (
+           <div className="flex justify-between text-olive-700">
+             <span>Sconto ritiro in negozio</span>
+diff --git a/components/store-sections/useStorePageData.ts b/components/store-sections/useStorePageData.ts
+index 6ed33d9..a05ec34 100644
+--- a/components/store-sections/useStorePageData.ts
++++ b/components/store-sections/useStorePageData.ts
+@@ -18,7 +18,7 @@ export function useStorePageData(id: string) {
+     queryKey: queryKeys.stores.detail(id),
+     queryFn: async () => {
+       const { data, error } = await supabase
+-        .from('profiles')
++        .from('seller_public_profiles')
+         .select('id, store_name, store_phone, store_address, store_lat, store_lng, is_approved, store_logo, store_hours, store_media, store_description, store_customization, store_site, founded_year')
+         .eq('id', id)
+         .single();
+diff --git a/lib/queries/seller-public-profiles.ts b/lib/queries/seller-public-profiles.ts
+new file mode 100644
+index 0000000..bca7f6b
+--- /dev/null
++++ b/lib/queries/seller-public-profiles.ts
+@@ -0,0 +1,56 @@
++import type { SupabaseClient } from '@supabase/supabase-js';
++
++/** Colonne vetrina esposte da seller_public_profiles (migration 107). */
++export type SellerPublicProfile = {
++  id: string;
++  store_name: string | null;
++  store_address?: string | null;
++  store_lat?: number | null;
++  store_lng?: number | null;
++  store_phone?: string | null;
++  store_logo?: string | null;
++  store_hours?: unknown;
++  store_media?: unknown;
++  store_description?: string | null;
++  is_approved?: boolean;
++  role?: string | null;
++  offers_express?: boolean | null;
++  founded_year?: number | null;
++  created_at?: string;
++};
++
++const PUBLIC_SELLER_SELECT =
++  'id, store_name, store_address, store_lat, store_lng, store_phone, store_logo, store_hours, store_media, store_description, is_approved, role, offers_express, founded_year, created_at';
++
++/** Carica le vetrine pubbliche per un insieme di seller id (batch). */
++export async function fetchSellerPublicMap(
++  supabase: SupabaseClient,
++  sellerIds: string[],
++  select = PUBLIC_SELLER_SELECT,
++): Promise<Map<string, SellerPublicProfile>> {
++  const unique = [...new Set(sellerIds.filter(Boolean))];
++  const map = new Map<string, SellerPublicProfile>();
++  if (unique.length === 0) return map;
++
++  const { data, error } = await supabase
++    .from('seller_public_profiles')
++    .select(select)
++    .in('id', unique);
++  if (error) throw error;
++
++  for (const row of (data ?? []) as SellerPublicProfile[]) {
++    map.set(row.id, row);
++  }
++  return map;
++}
++
++/** Attacca `profiles` (compat embed) da seller_public_profiles su prodotti/ordini. */
++export function attachSellerProfiles<T extends { seller_id?: string | null }>(
++  rows: T[],
++  sellerMap: Map<string, SellerPublicProfile>,
++): Array<T & { profiles: SellerPublicProfile | null }> {
++  return rows.map((row) => ({
++    ...row,
++    profiles: row.seller_id ? sellerMap.get(row.seller_id) ?? null : null,
++  }));
++}
+diff --git a/migrations/107_seller_public_profiles.sql b/migrations/107_seller_public_profiles.sql
+new file mode 100644
+index 0000000..e32ab47
+--- /dev/null
++++ b/migrations/107_seller_public_profiles.sql
+@@ -0,0 +1,43 @@
++-- 107: Sprint 1 radiografia — vetrina pubblica negozi senza leak PII/KYC/finanza
++--
++-- Problema: la policy "Anyone can view approved seller profiles" espone l'intera
++-- riga profiles (IBAN, KYC, Stripe ID, wallet) a chiunque via PostgREST.
++-- Soluzione: VIEW con sole colonne vetrina + revoca della policy permissiva.
++-- Idempotente.
++
++BEGIN;
++
++DROP POLICY IF EXISTS "Anyone can view approved seller profiles" ON public.profiles;
++
++CREATE OR REPLACE VIEW public.seller_public_profiles AS
++SELECT
++  id,
++  store_name,
++  store_address,
++  store_lat,
++  store_lng,
++  store_phone,
++  store_logo,
++  store_hours,
++  store_media,
++  store_description,
++  store_customization,
++  store_site,
++  offers_express,
++  founded_year,
++  is_approved,
++  role,
++  created_at
++FROM public.profiles
++WHERE is_approved = true
++  AND store_name IS NOT NULL
++  AND role = 'seller';
++
++COMMENT ON VIEW public.seller_public_profiles IS
++  'Vetrina pubblica negozi approvati (solo colonne non sensibili). @foreignKey (id) references public.profiles (id)';
++
++GRANT SELECT ON public.seller_public_profiles TO anon, authenticated;
++
++COMMIT;
++
++NOTIFY pgrst, 'reload schema';
+-- 
+2.53.0
+
