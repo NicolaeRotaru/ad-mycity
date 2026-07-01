@@ -1,31 +1,31 @@
 {
-  "data": "2026-07-01 11:15",
-  "situazione": "Nicola ha chiesto «crea la PR» Sprint 1 — **PR già mergiata** (#209 09:34 + #210 hotfix 10:00 su mycity/main). I 4 fix sono in codice ma **non ancora in prod** (serve migrazione 107). Scelta A ordine zombie firmata 11:05 — esecuzione #16 in attesa.",
+  "data": "2026-07-01 11:10",
+  "situazione": "Nicola «ok deploy Sprint 1» — **Render già live** (~10:31, auto da #209+#210). Fee €3 e query `seller_public_profiles` in produzione. **Manca 1 passo:** SQL 107 DROP policy (anon legge ancora colonne sensibili su `profiles`). Scelta A ordine zombie firmata 11:05 — #16 in attesa.",
   "opportunita": [
     {
-      "titolo": "Deploy Sprint 1 (4 bloccanti checkout/pagamenti/RLS)",
-      "motivo": "Codice su main da ~2h — unico passo mancante prima batch negozi 6/7",
+      "titolo": "Chiudi SQL 107 (30 secondi)",
+      "motivo": "Unico bloccante RLS rimasto — codice già usa la VIEW",
       "impatto": "alto",
-      "sforzo": "medio"
+      "sforzo": "basso"
     },
     {
       "titolo": "Completare 1ª transazione reale (ordine PQ €19,05)",
-      "motivo": "Scelta A firmata 11:05 — pacchetto operations pronto, buyer in attesa da ~7 giorni",
+      "motivo": "Scelta A firmata 11:05 — buyer in attesa da ~7 giorni",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Batch onboarding negozi 6/7",
-      "motivo": "Priorità Nicola post-VP; checklist done-for-you pronta",
+      "motivo": "Priorità Nicola post-VP; checklist pronta post-SQL 107",
       "impatto": "alto",
       "sforzo": "medio"
     }
   ],
   "azioni": [
     {
-      "titolo": "Deploy Sprint 1 in produzione (migrazione 107 + smoke test)",
-      "motivo": "PR #209+#210 mergiate — 4 bloccanti ancora attivi in prod finché non deployi",
-      "livello": "rosso"
+      "titolo": "SQL 107 — DROP policy RLS profiles (Supabase)",
+      "motivo": "Nicola ok deploy · AD verificato: policy permissiva ancora attiva",
+      "livello": "giallo"
     },
     {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna)",
@@ -34,7 +34,7 @@
     },
     {
       "titolo": "Onboarding negozi 6/7 (Nicola inserisce + checklist AD)",
-      "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato · ideale post-deploy Sprint 1",
+      "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato",
       "livello": "verde"
     }
   ],
@@ -48,6 +48,12 @@
       "esito": "mergiata",
       "pr": ["https://github.com/NicolaeRotaru/mycity/pull/209", "https://github.com/NicolaeRotaru/mycity/pull/210"],
       "at": "2026-07-01 09:34"
+    },
+    "sprint-1-deploy": {
+      "esito": "codice_live_render",
+      "at": "2026-07-01 11:10",
+      "fonte": "Nicola «ok deploy Sprint 1»",
+      "pendente": "SQL 107 DROP policy"
     }
   }
 }

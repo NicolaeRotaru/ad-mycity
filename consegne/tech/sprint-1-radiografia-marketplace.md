@@ -38,6 +38,18 @@ repo: NicolaeRotaru/mycity
 3. Verificare che IBAN/KYC non siano più leggibili via API anon su `profiles`
 4. Nicola: **`ok deploy Sprint 1`**
 
-## Prossimo
+## Verifica deploy 2026-07-01 11:10 (post-firma Nicola)
 
-Sprint 2 (privacy/sicurezza): CAPTCHA fail-closed, AI refresh, group_participants — accodato dopo review Sprint 1.
+| Check | Esito | Fonte |
+|-------|--------|-------|
+| Render auto-deploy da merge #209+#210 | ✅ ~10:31 CEST | `/api/health` uptime ~38 min |
+| Fee €3 in checkout UI (`Consegna MyCity`) | ✅ | bundle `app/checkout/page-*.js` |
+| Query vetrina → `seller_public_profiles` | ✅ | bundle `app/stores/page-*.js` |
+| VIEW `seller_public_profiles` in DB | ✅ | REST anon 200 |
+| DROP policy `Anyone can view approved seller profiles` | ❌ **mancante** | anon legge `profiles.stripe_account_id` (200) |
+| AD può eseguire SQL prod | ❌ | `MARKETPLACE_SUPABASE_WRITE_KEY` assente |
+
+**Passo rimasto (Nicola, ~30s):** Supabase progetto `clmpyfvpvfjgeviworth` → SQL Editor → incolla `migrations/107_seller_public_profiles.sql` → Run. Poi smoke: checkout COD, carta test Stripe, verifica anon non legge più `profiles` diretto.
+
+## Prossimo
+ (privacy/sicurezza): CAPTCHA fail-closed, AI refresh, group_participants — accodato dopo review Sprint 1.

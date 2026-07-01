@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 11:18
+aggiornato: 2026-07-01 11:10
 fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A ordine zombie 11:05 · Sprint 1 PR #209+#210 mergiate su mycity/main · Supabase clmpyfvpvfjgeviworth)
 ---
 
@@ -8,7 +8,9 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 
 > 🧠 **1/7 10:22 — Chat Nicola:** chiarito che **`pannello/` non è repo separato** — sottocartella `ad-mycity` (Vercel root `pannello/`). Vuole **merge automatico da AD con permesso esplicito** («ok merge …» o card Pannello) per risparmiare tempo; serve **`GITHUB_MERGE_TOKEN`** (scope merge) in `cervello/vps/.env` — accodato **#15**. Tre tubi: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→repo `mycity`→Render 🔴.
 >
-> 🧠 **1/7 11:15 — Casella Pannello «crea la PR Sprint 1»:** Nicola ripete la richiesta · **PR già fatta e mergiata** — [#209](https://github.com/NicolaeRotaru/mycity/pull/209) 09:34 + hotfix build [#210](https://github.com/NicolaeRotaru/mycity/pull/210) 10:00 · card Pannello **obsoleta** · prossimo passo 🔴 **`ok deploy Sprint 1`** (migrazione `107` + Render).
+> 🧠 **1/7 11:10 — Nicola «ok deploy Sprint 1»:** Render **già live** (~10:31, uptime verificato) · bundle prod: `Consegna MyCity` + `seller_public_profiles` ✅ · **mancava solo SQL 107** (DROP policy `Anyone can view approved seller profiles` — anon legge ancora `profiles.stripe_account_id`) · AD senza write key → Nicola incolla SQL in Supabase (30s).
+>
+> 🧠 **1/7 11:15 — Casella Pannello «crea la PR Sprint 1»:** Nicola ripete la richiesta · **PR già fatta e mergiata** — [#209](https://github.com/NicolaeRotaru/mycity/pull/209) 09:34 + hotfix build [#210](https://github.com/NicolaeRotaru/mycity/pull/210) 10:00 · card Pannello **obsoleta**.
 >
 > 🧠 **1/7 11:05 — Pannello Nicola:** **Scelta A** ordine zombie €19,05 (Pane Quotidiano · buyer 348 642 1766) — accetta e organizza consegna · decisione in [[DECISIONI]] · esecuzione accodata **#16** · **NON riproporre A/B** al prossimo giro.
 >
@@ -55,15 +57,15 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 
 ## Semafori
 - 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v5 🟢; WebFetch worker ✅; guardrail 🔴 codificato in repo (self-test 7/7); **Sprint 1 su `mycity/main`** (PR #209+#210 mergiate).
-- 🟡 Da tenere d'occhio: **#14 token write mycity** (AD push ancora 403 — Nicola ha pushato manualmente); **merge-on-approval PR API** (#15); deploy guardrail 🔴 su main+VPS; **sync VPS** (`aggiorna-cervello.sh`); MCP Supabase cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; onboarding 6/7 (Nicola); temporali + allerta calore oggi.
-- 🔴 Problema: 0 transazioni reali (consegna non ancora avvenuta); ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti ancora in prod** (codice su main, **deploy + migrazione `107` mancanti**); ordine zombie €19,05 — **Scelta A firmata 11:05**, esecuzione #16 in attesa.
+- 🟡 Da tenere d'occhio: **#14 token write mycity** (AD push ancora 403 — Nicola ha pushato manualmente); **#15 GITHUB_MERGE_TOKEN**; **SQL 107 policy** (1 passo Nicola); **sync VPS** (`aggiorna-cervello.sh`); MCP Supabase cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; onboarding 6/7 (Nicola); temporali + allerta calore oggi.
+- 🔴 Problema: 0 transazioni reali (consegna non ancora avvenuta); ~20 azioni approvate, 0 inviate (mani spente); **RLS profiles** — policy permissiva ancora attiva finché non gira SQL 107; ordine zombie €19,05 — **Scelta A firmata 11:05**, esecuzione #16 in attesa (`ok 16` + data/ora).
 
 ## Radiografia marketplace (2026-07-01)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Problemi confermati | **46** (4·24·18) | `consegne/audit/2026-07-01-radiografia.md` |
 | Bloccanti pre-live | **4** | webhook · fee UI · RLS profiles · COD ghost |
-| Sprint 1 | **✅ PR mergiata** [#209](https://github.com/NicolaeRotaru/mycity/pull/209) 09:34 + [#210](https://github.com/NicolaeRotaru/mycity/pull/210) 10:00 · su `main` · **deploy prod 🔴** | commit `03d66e6` |
+| Sprint 1 | **✅ LIVE Render ~10:31** [#209](https://github.com/NicolaeRotaru/mycity/pull/209)+[#210](https://github.com/NicolaeRotaru/mycity/pull/210) · fee UI + query `seller_public_profiles` in prod · **⏳ SQL 107 policy** | commit `5799654` |
 | Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Auto-coscienza macchina (2026-07-01 09:39 · chat Nicola)
@@ -74,8 +76,9 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 | **AR-005** (timer systemd ritmo su VPS) | ✅ chiuso (repo) | Nicola «ok timer ritmo» 09:43 · install root sul VPS ancora da lanciare |
 
 ## Ultime mosse dell'AD
-1. **Piano del mattino 1/7 11:18** — 3 priorità: #16 Scelta A · deploy Sprint 1 · batch 6/7 · SALA-OPERATIVA + RITMO aggiornati
-2. **Pannello 1/7 11:15** — Nicola «**crea la PR**» Sprint 1 · verificato GitHub: **#209 già mergiata** 09:34 (push manuale post-403 AD) · card chiusa · serve **`ok deploy Sprint 1`** 🔴
+1. **Chat 1/7 11:10** — Nicola «**ok deploy Sprint 1**» → Render già live · resta **SQL 107** (DROP policy) · smoke test post-SQL
+2. **Piano del mattino 1/7 11:18** — 3 priorità: #16 Scelta A · deploy Sprint 1 · batch 6/7 · SALA-OPERATIVA + RITMO aggiornati
+3. **Pannello 1/7 11:15** — Nicola «**crea la PR**» Sprint 1 · verificato GitHub: **#209 già mergiata** 09:34 · card obsoleta
 3. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie €19,05 → DECISIONI + **#16** (WhatsApp + dashboard + consegna COD) · card A/B **chiusa**
 4. **Chat 1/7 11:00** — Nicola «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy
 5. **Chat 1/7 10:50** — Nicola «A/B su **tutte** le scelte binarie» → `scelta-ab.ts` + API `/api/scelta-ab` + regola in `giro.md` · deploy completato 11:00
@@ -91,7 +94,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 **Obiettivo giornata:** 1° ordine consegnato + piattaforma pronta per batch 6/7.
 
 1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05** (WhatsApp buyer 348 642 1766 + dashboard PQ + consegna COD · serve **data/ora consegna** + `ok 16`)
-2. [ ] 🔴 **Deploy Sprint 1** — migrazione `107` su prod + smoke test · firma **`ok deploy Sprint 1`**
+2. [ ] 🟡 **SQL 107 policy** — Nicola incolla DROP policy in Supabase (30s) · poi smoke COD/carta test
 3. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`
 
 **In coda (non bloccanti oggi):**
