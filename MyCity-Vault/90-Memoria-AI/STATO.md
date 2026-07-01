@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 11:15
+aggiornato: 2026-07-01 11:18
 fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A ordine zombie 11:05 · Sprint 1 PR #209+#210 mergiate su mycity/main · Supabase clmpyfvpvfjgeviworth)
 ---
 
@@ -74,32 +74,34 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A o
 | **AR-005** (timer systemd ritmo su VPS) | ✅ chiuso (repo) | Nicola «ok timer ritmo» 09:43 · install root sul VPS ancora da lanciare |
 
 ## Ultime mosse dell'AD
-1. **Pannello 1/7 11:15** — Nicola «**crea la PR**» Sprint 1 · verificato GitHub: **#209 già mergiata** 09:34 (push manuale post-403 AD) · card chiusa · serve **`ok deploy Sprint 1`** 🔴
-2. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie €19,05 → DECISIONI + **#16** (WhatsApp + dashboard + consegna COD) · card A/B **chiusa**
-3. **Chat 1/7 11:00** — Nicola «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy
-4. **Chat 1/7 10:50** — Nicola «A/B su **tutte** le scelte binarie» → `scelta-ab.ts` + API `/api/scelta-ab` + regola in `giro.md` · deploy completato 11:00
-5. **Chat 1/7 10:36** — Nicola «**ok merge bottoni A/B**» → push **`main`** `c50148d` (3 file Pannello) · Vercel redeploy
-6. **Chat 1/7 10:22** — Nicola chiede architettura `pannello/` + **merge automatico con permesso** · spiegati 3 tubi git/deploy · **#15 GITHUB_MERGE_TOKEN**
-7. **Chat 1/7 10:13** — Nicola ok fix UX: bottoni **A/B** al posto di Approva/Ignora sulla proposta ordine zombie · deploy completato 10:36
-8. **Chat 1/7 09:43** — Nicola «ok timer ritmo» → unit + script in repo · AR-005 chiuso
-9. **Chat 1/7 09:39** — Nicola rettifica casella cadenza-esecuzione: tolto mycity-live · AR-002 → copertura-cieca
-10. **Giro 1/7 08:17** — KPI live REST stallo 165,8h (+2h). Escalation v5 🟢. Briefing + auto-coscienza.
-11. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti su branch marketplace (no deploy).
+1. **Piano del mattino 1/7 11:18** — 3 priorità: #16 Scelta A · deploy Sprint 1 · batch 6/7 · SALA-OPERATIVA + RITMO aggiornati
+2. **Pannello 1/7 11:15** — Nicola «**crea la PR**» Sprint 1 · verificato GitHub: **#209 già mergiata** 09:34 (push manuale post-403 AD) · card chiusa · serve **`ok deploy Sprint 1`** 🔴
+3. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie €19,05 → DECISIONI + **#16** (WhatsApp + dashboard + consegna COD) · card A/B **chiusa**
+4. **Chat 1/7 11:00** — Nicola «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy
+5. **Chat 1/7 10:50** — Nicola «A/B su **tutte** le scelte binarie» → `scelta-ab.ts` + API `/api/scelta-ab` + regola in `giro.md` · deploy completato 11:00
+6. **Chat 1/7 10:36** — Nicola «**ok merge bottoni A/B**» → push **`main`** `c50148d` (3 file Pannello) · Vercel redeploy
+7. **Chat 1/7 10:22** — Nicola chiede architettura `pannello/` + **merge automatico con permesso** · spiegati 3 tubi git/deploy · **#15 GITHUB_MERGE_TOKEN**
+8. **Chat 1/7 10:13** — Nicola ok fix UX: bottoni **A/B** al posto di Approva/Ignora sulla proposta ordine zombie · deploy completato 10:36
+9. **Chat 1/7 09:43** — Nicola «ok timer ritmo» → unit + script in repo · AR-005 chiuso
+10. **Chat 1/7 09:39** — Nicola rettifica casella cadenza-esecuzione: tolto mycity-live · AR-002 → copertura-cieca
+11. **Giro 1/7 08:17** — KPI live REST stallo 165,8h (+2h). Escalation v5 🟢. Briefing + auto-coscienza.
+12. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti su branch marketplace (no deploy).
 
-## Prossime priorità (da approvare)
-- [ ] 🔴 **Eseguire Scelta A ordine €19,05 — #16** (WhatsApp buyer 348 642 1766 + accetta dashboard PQ + consegna COD · serve [DATA/ORA])
-- [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola Pannello 1/7 11:05
-- [ ] 🟡 **Sync VPS post-merge** — `sudo bash cervello/vps/aggiorna-cervello.sh` (fix permessi `.git/config` + allinea worker)
-- [x] ~~Deploy scelta A/B universale~~ — Nicola «ok merge scelta-ab universale» 11:00 · `main` `853c33a`
-- [x] ~~Deploy bottoni A/B ordine zombie~~ — Nicola «ok merge bottoni A/B» 10:36 · `main` `c50148d`
-- [x] ~~Ok Sprint 1 radiografia~~ — codice pronto 1/7 07:30
-- [x] ~~Push + PR marketplace~~ — **PR #209 mergiata 09:34** + #210 hotfix 10:00 · Nicola push manuale post-403 AD
-- [ ] 🔴 **Deploy Sprint 1** — migrazione `107_seller_public_profiles.sql` su prod + smoke test · firma **`ok deploy Sprint 1`**
-- [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox ✅)
-- [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`
-- [x] ~~Foglio-firma lancio~~ — **FATTO** Nicola 1/7 01:02
-- [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** (prossima finestra VP **10/17 lug**)
+## Prossime priorità (Piano del mattino 1/7 11:18)
+**Obiettivo giornata:** 1° ordine consegnato + piattaforma pronta per batch 6/7.
+
+1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05** (WhatsApp buyer 348 642 1766 + dashboard PQ + consegna COD · serve **data/ora consegna** + `ok 16`)
+2. [ ] 🔴 **Deploy Sprint 1** — migrazione `107` su prod + smoke test · firma **`ok deploy Sprint 1`**
+3. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`
+
+**In coda (non bloccanti oggi):**
+- [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola 1/7 11:05
+- [ ] 🟡 **Sync VPS** — `sudo bash cervello/vps/aggiorna-cervello.sh`
+- [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox)
+- [ ] 🟡 **#14 token write mycity** · **#15 GITHUB_MERGE_TOKEN**
 - [ ] 🟡 **Kit bando #12** — rivedere post-chiusura FESR 23/6
+- [x] ~~Deploy scelta A/B universale~~ · ~~Push PR Sprint 1~~ · ~~Foglio-firma lancio~~
+- [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** (prossima finestra **10/17 lug**)
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-01]]; decisioni in [[DECISIONI]].*

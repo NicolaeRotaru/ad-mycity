@@ -29,3 +29,11 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - Numeri vs baseline 24/6: tutto fermo (2 negozi approvati / 1 payout / 0 prodotti veri / 1 ordine zombie / 0 pagati / 0 consegnati / 4 clienti). **4 giorni di silenzio totale.**
 - In coda da firmare: prima transazione Casa Linda 🔴, sblocco ordine €19,05 🔴, 3 decisioni di lancio 🔴.
 - Lezione del giorno: i sensori che cadono nascondono lo stallo. Appena tornati i dati, la verità era netta: il collo di bottiglia non è più tecnico, è **mettere in moto la prima vendita vera**.
+
+## Piano del mattino · 2026-07-01 11:18
+- **Priorità n°1:** eseguire **#16 Scelta A** — ordine zombie €19,05 Pane Quotidiano (Nicola ha firmato A 11:05): WhatsApp buyer 348 642 1766 + accetta dashboard + consegna COD → **1° ordine reale**.
+- **Priorità n°2:** **Deploy Sprint 1** in prod (PR #209+#210 mergiate su `mycity/main`) — migrazione `107` + smoke test checkout/fee/RLS/COD → prerequisito batch negozi **6/7**.
+- **Priorità n°3:** **Onboarding negozi 6/7** — Nicola inserisce botteghe; @onboarding-negozi presidia checklist catalogo/payout/foto.
+- **Sentinelle:** ordine in ritardo (in esecuzione) · 4 carrelli >4h · negozio LIVE 0 pagati · stallo >168h superato · temporali pomeriggio.
+- **Assegnazioni chiave:** @operations+#16 🔴 · @tech deploy Sprint 1 🟡/🔴 · @onboarding-negozi checklist 🟢 · @customer-success feedback post-consegna 🟢 · @analista snapshot fine giornata 🟢.
+- **Cosa serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok deploy Sprint 1`** · 🔴 **`ok 16`** · 🟡 sync VPS · 🟢 inserimento negozi 6/7.

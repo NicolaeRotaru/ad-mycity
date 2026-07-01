@@ -247,3 +247,29 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 11:05 · @operations · FACCIO · Esecuzione Scelta A: WhatsApp buyer 348 642 1766 + accetta ordine `58094956…` in dashboard + organizza consegna COD
 - 2026-07-01 11:05 · @operations · PASSO-A @customer-success · Telefonata feedback entro 24h post-consegna (script `consegne/customer-success/primo-ordine-faro.md`)
 - 2026-07-01 11:05 · @operations · SERVE · Nicola: **data/ora consegna** per sostituire [DATA/ORA] nel messaggio WhatsApp #16
+
+### 2026-07-01 — ☀️ PIANO DEL MATTINO (AD · 11:18)
+**Obiettivo del giorno:** **Prima transazione reale end-to-end** (ordine→consegna→COD €19,05) + piattaforma pronta per **batch negozi 6/7**. North Star: **1° ordine consegnato**.
+
+**Le 3 priorità:**
+1. **Eseguire #16 Scelta A** — ordine zombie Pane Quotidiano €19,05 (Nicola ha firmato A alle 11:05): WhatsApp buyer + dashboard + consegna COD.
+2. **Deploy Sprint 1 in prod** — PR #209+#210 su `mycity/main`; migrazione `107` + smoke test checkout (prerequisito sicuro per onboarding 6/7).
+3. **Batch negozi 6/7** — Nicola inserisce botteghe; squadra presidia checklist onboarding (catalogo, payout, foto).
+
+**Sentinelle attive:** ordine in ritardo (zombie, ora in esecuzione) · 4 carrelli >4h · negozio LIVE 0 pagati · stallo >168h superato ~10:30 · temporali pomeriggio (leva delivery se #16 parte).
+
+Assegnazioni (1 mossa per reparto):
+- @operations · eseguire #16: accetta ordine `58094956…` in dashboard PQ + WhatsApp buyer 348 642 1766 + organizza consegna COD · 🔴 (serve **data/ora** Nicola)
+- @supporto · assistenza messaggio buyer + aggiornamento stato ordine in dashboard · 🔴 con @operations
+- @customer-success · telefonata feedback entro 24h post-consegna (script `consegne/customer-success/primo-ordine-faro.md`) · 🟢 prep · messaggio 🔴 post-consegna
+- @tech · checklist deploy Sprint 1: migrazione `107_seller_public_profiles.sql` + smoke test (webhook, fee UI, RLS, COD rollback) · 🟡 prepara · deploy 🔴
+- @devops-sre · sync VPS post-merge `main` (`aggiorna-cervello.sh`) + verifica worker attivo · 🟡
+- @qa · piano smoke test post-deploy (checkout mobile, COD, fee €3 visibile) · 🟢 prep · esecuzione post-deploy 🔴
+- @onboarding-negozi · presidio checklist `consegne/onboarding/checklist-batch-6-luglio.md` per ogni negozio inserito oggi · 🟢
+- @vendite · standby supporto negozianti 6/7 (termini 12% già firmati PQ) · 🟢
+- @finanza · payout-test Stripe **03/7 mattina** (sandbox, programmato) · 🔴
+- @analista · snapshot KPI fine giornata (baseline pre/post prima transazione) · 🟢
+- @crm-lifecycle · prepara email recupero 4 carrelli abbandonati (DRY-RUN, mani spente) · 🟢
+- @intelligence · monitor temporali pomeriggio — se #16 parte, segnala finestra consegna · 🟢
+
+🙋 **Serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok deploy Sprint 1`** (migrazione 107 + Render) · 🔴 **`ok 16`** per avviare esecuzione · 🟡 sync VPS · 🟢 inserimento negozi 6/7 (checklist pronta, no approvazione richiesta).
