@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-01 08:17",
-  "situazione": "Stallo 165,8h (+2h): 0 transazioni reali, 1 negozio vero (Pane Quotidiano), ordine zombie €19,05 fermo. Soglia 168h tra ~2,2h (~10:30) — urgenza massima. Ok Sprint 1 07:30 — codice pronto; push PR marketplace 403 (#14 token).",
+  "data": "2026-07-01 11:05",
+  "situazione": "Nicola ha scelto **A** sull'ordine zombie €19,05 (Pane Quotidiano, buyer 348 642 1766) — decisione registrata, esecuzione accodata #16. Prossimo passo: WhatsApp buyer + accetta in dashboard + consegna COD. Ok Sprint 1 07:30 — codice pronto; push PR marketplace 403 (#14 token).",
   "opportunita": [
     {
-      "titolo": "Sbloccare ordine zombie Pane Quotidiano entro ~2,2h",
-      "motivo": "Contratto 12% firmato; unica via 1ª transazione reale prima soglia 168h (~10:30)",
+      "titolo": "Completare 1ª transazione reale (ordine PQ €19,05)",
+      "motivo": "Scelta A firmata 11:05 — pacchetto operations pronto, buyer in attesa da ~7 giorni",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,14 +23,9 @@
   ],
   "azioni": [
     {
-      "titolo": "Decisione ordine zombie €19,05 — entro ~2,2h",
-      "motivo": "Buyer fermo ~6,9 giorni — pacchetto operations pronto",
-      "livello": "rosso",
-      "tipo": "scelta_ab",
-      "scelta_id": "ordine-zombie-58094956",
-      "opzione_a": "Accetta e consegna",
-      "opzione_b": "Annulla (messaggio buyer)",
-      "contesto": "Pane Quotidiano · buyer 348 642 1766 · COD €19,05 · ordine dal 24/6"
+      "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna)",
+      "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · NON riproporre A/B",
+      "livello": "rosso"
     },
     {
       "titolo": "Push + PR Sprint 1 marketplace (webhook, fee UI, COD rollback, RLS)",
@@ -42,5 +37,12 @@
       "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato",
       "livello": "verde"
     }
-  ]
+  ],
+  "decisioni_chiuse": {
+    "ordine-zombie-58094956": {
+      "scelta": "A",
+      "at": "2026-07-01 11:05",
+      "fonte": "Nicola Pannello A/B"
+    }
+  }
 }

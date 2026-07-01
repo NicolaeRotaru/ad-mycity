@@ -239,3 +239,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 11:00 · @Nicola · chiesto · «**ok merge scelta-ab universale**»
 - 2026-07-01 11:00 · @AD · FATTO · Push `main` `853c33a` (scelta A/B universale: lib + API + Azioni collegato) · Vercel redeploy · PASSO-A Nicola: `sudo bash cervello/vps/aggiorna-cervello.sh`
 - 2026-07-01 11:00 · @operations · SERVE · Nicola: clic **A** o **B** ordine €19,05 (post-deploy ~2 min) — unica cosa che chiude la card
+
+### 2026-07-01 — Scelta A ordine zombie (Nicola Pannello 11:05)
+- 2026-07-01 11:05 · @Nicola · FATTO · **Scelta A** ordine zombie €19,05 — accetta e organizza consegna (WhatsApp buyer + dashboard Pane Quotidiano)
+- 2026-07-01 11:05 · @AD · FATTO · Registrata in [[DECISIONI]] · accodata esecuzione **#16** · aggiornati STATO + ultimo-briefing + intenzioni-nicola · **card A/B non rigenerare**
+- 2026-07-01 11:05 · @operations · FACCIO · Esecuzione Scelta A: WhatsApp buyer 348 642 1766 + accetta ordine `58094956…` in dashboard + organizza consegna COD
+- 2026-07-01 11:05 · @operations · PASSO-A @customer-success · Telefonata feedback entro 24h post-consegna (script `consegne/customer-success/primo-ordine-faro.md`)
+- 2026-07-01 11:05 · @operations · SERVE · Nicola: **data/ora consegna** per sostituire [DATA/ORA] nel messaggio WhatsApp #16

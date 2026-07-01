@@ -1,14 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 11:00
-fonte: AD digitale (7 numeri = live REST 1/7 08:17 · chat Nicola 11:00 ok merge scelta-ab → main 853c33a · 10:50 scelta_ab universale · 10:36 ok merge bottoni A/B c50148d · Supabase clmpyfvpvfjgeviworth · Sprint 1 ok 07:30)
+aggiornato: 2026-07-01 11:05
+fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A ordine zombie 11:05 · chat 11:00 ok merge scelta-ab → main 853c33a · Supabase clmpyfvpvfjgeviworth · Sprint 1 ok 07:30)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
 > 🧠 **1/7 10:22 — Chat Nicola:** chiarito che **`pannello/` non è repo separato** — sottocartella `ad-mycity` (Vercel root `pannello/`). Vuole **merge automatico da AD con permesso esplicito** («ok merge …» o card Pannello) per risparmiare tempo; serve **`GITHUB_MERGE_TOKEN`** (scope merge) in `cervello/vps/.env` — accodato **#15**. Tre tubi: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→repo `mycity`→Render 🔴.
 >
-> 🧠 **1/7 11:00 — Chat Nicola:** «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy ~2 min · bottoni A/B dinamici su **tutte** le proposte binarie · **decisione ordine €19,05 ancora 🔴** (click A o B).
+> 🧠 **1/7 11:05 — Pannello Nicola:** **Scelta A** ordine zombie €19,05 (Pane Quotidiano · buyer 348 642 1766) — accetta e organizza consegna · decisione in [[DECISIONI]] · esecuzione accodata **#16** · **NON riproporre A/B** al prossimo giro.
+>
+> 🧠 **1/7 11:00 — Chat Nicola:** «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy ~2 min · bottoni A/B dinamici su **tutte** le proposte binarie.
 >
 > 🧠 **1/7 10:50 — Chat Nicola:** «Applica A o B **ogni volta** che devo scegliere, non solo ordine zombie» · generalizzato `tipo: scelta_ab` in Pannello · deploy completato 11:00.
 >
@@ -24,7 +26,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · chat Nicola 11:00 ok merge
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | Casa Linda payout demo; Pane Quotidiano payout OFF |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 5 PQ bio available; 250 seed test |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo ~7 gg · ID `58094956…` · buyer 348 642 1766 |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · ID `58094956…` · buyer 348 642 1766 · **Scelta A firmata 11:05** · esecuzione #16 |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
@@ -52,7 +54,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · chat Nicola 11:00 ok merge
 ## Semafori
 - 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v5 🟢; WebFetch worker ✅; guardrail 🔴 codificato in repo (self-test 7/7); Sprint 1 codice pronto.
 - 🟡 Da tenere d'occhio: **push PR Sprint 1 bloccato 403** (#14 token); **merge-on-approval PR API** (#15 token — push diretto main ✅ testato 10:36); deploy guardrail 🔴 su main+VPS; **sync VPS post-merge bottoni A/B** (`aggiorna-cervello.sh`); MCP Supabase cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; onboarding 6/7 (Nicola); temporali + allerta calore oggi.
-- 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti in prod** (fix in branch, non deployati); ordine zombie €19,05 — **A/B ancora in attesa** (Nicola 10:09).
+- 🔴 Problema: 0 transazioni reali (consegna non ancora avvenuta); ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti in prod** (fix in branch, non deployati); ordine zombie €19,05 — **Scelta A firmata 11:05**, esecuzione #16 in attesa.
 
 ## Radiografia marketplace (2026-07-01)
 | Metrica | Valore | Fonte |
@@ -70,19 +72,20 @@ fonte: AD digitale (7 numeri = live REST 1/7 08:17 · chat Nicola 11:00 ok merge
 | **AR-005** (timer systemd ritmo su VPS) | ✅ chiuso (repo) | Nicola «ok timer ritmo» 09:43 · install root sul VPS ancora da lanciare |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 11:00** — Nicola «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy · **click A o B ordine ancora 🔴**
-2. **Chat 1/7 10:50** — Nicola «A/B su **tutte** le scelte binarie» → `scelta-ab.ts` + API `/api/scelta-ab` + regola in `giro.md` · deploy completato 11:00
-3. **Chat 1/7 10:36** — Nicola «**ok merge bottoni A/B**» → push **`main`** `c50148d` (3 file Pannello) · Vercel redeploy · **click A o B ordine ancora 🔴**
-4. **Chat 1/7 10:22** — Nicola chiede architettura `pannello/` + **merge automatico con permesso** · spiegati 3 tubi git/deploy · **#15 GITHUB_MERGE_TOKEN** · pattern «ok merge …» **testato con successo** su bottoni A/B
-5. **Chat 1/7 10:13** — Nicola ok fix UX: bottoni **A/B** al posto di Approva/Ignora sulla proposta ordine zombie · codice implementato · deploy completato 10:36
-6. **Chat 1/7 09:43** — Nicola «ok timer ritmo» → unit + script in repo · AR-005 chiuso · **1 comando root** sul VPS per accendere i timer.
-7. **Chat 1/7 09:39** — Nicola rettifica casella cadenza-esecuzione: tolto mycity-live · AR-002 → copertura-cieca · L-2026-0701-27.
-8. **Giro 1/7 08:17** — KPI live REST stallo 165,8h (+2h), 168h ~2,2h. Escalation v5 🟢. Briefing + auto-coscienza.
-9. **Chat 1/7 07:41** — Nicola «crea la PR» → push+API GitHub **403** (PAT senza write su `mycity`). Patch salvata · **#14** token in coda.
-10. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy).
+1. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie €19,05 → DECISIONI + **#16** (WhatsApp + dashboard + consegna COD) · card A/B **chiusa**
+2. **Chat 1/7 11:00** — Nicola «**ok merge scelta-ab universale**» → push **`main`** `853c33a` · Vercel redeploy
+3. **Chat 1/7 10:50** — Nicola «A/B su **tutte** le scelte binarie» → `scelta-ab.ts` + API `/api/scelta-ab` + regola in `giro.md` · deploy completato 11:00
+4. **Chat 1/7 10:36** — Nicola «**ok merge bottoni A/B**» → push **`main`** `c50148d` (3 file Pannello) · Vercel redeploy
+5. **Chat 1/7 10:22** — Nicola chiede architettura `pannello/` + **merge automatico con permesso** · spiegati 3 tubi git/deploy · **#15 GITHUB_MERGE_TOKEN**
+6. **Chat 1/7 10:13** — Nicola ok fix UX: bottoni **A/B** al posto di Approva/Ignora sulla proposta ordine zombie · deploy completato 10:36
+7. **Chat 1/7 09:43** — Nicola «ok timer ritmo» → unit + script in repo · AR-005 chiuso
+8. **Chat 1/7 09:39** — Nicola rettifica casella cadenza-esecuzione: tolto mycity-live · AR-002 → copertura-cieca
+9. **Giro 1/7 08:17** — KPI live REST stallo 165,8h (+2h). Escalation v5 🟢. Briefing + auto-coscienza.
+10. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti su branch marketplace (no deploy).
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale · bottoni **A/B** live su Pannello post-deploy ~2 min)
+- [ ] 🔴 **Eseguire Scelta A ordine €19,05 — #16** (WhatsApp buyer 348 642 1766 + accetta dashboard PQ + consegna COD · serve [DATA/ORA])
+- [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola Pannello 1/7 11:05
 - [ ] 🟡 **Sync VPS post-merge** — `sudo bash cervello/vps/aggiorna-cervello.sh` (fix permessi `.git/config` + allinea worker)
 - [x] ~~Deploy scelta A/B universale~~ — Nicola «ok merge scelta-ab universale» 11:00 · `main` `853c33a`
 - [x] ~~Deploy bottoni A/B ordine zombie~~ — Nicola «ok merge bottoni A/B» 10:36 · `main` `c50148d`

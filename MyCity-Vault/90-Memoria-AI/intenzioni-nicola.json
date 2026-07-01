@@ -1,13 +1,13 @@
 {
-  "data": "2026-07-01 08:17",
-  "sintesi": "Nicola ha firmato foglio-firma (contratto PQ 12%, payout sandbox 03/7) e dato ok Sprint 1 (07:30) — codice pronto, PR bloccata 403. Rimanda VP 3/7 e concentra onboarding negozi del 6/7. Resta URGENTISSIMO (~2,2h a 168h, ~10:30): ordine zombie €19,05 (A/B). Payout-test esegue lui il 3/7 mattina.",
+  "data": "2026-07-01 11:05",
+  "sintesi": "Nicola ha firmato Scelta **A** sull'ordine zombie €19,05 (11:05 Pannello): accetta e organizza consegna Pane Quotidiano. Esecuzione 🔴 accodata #16 (WhatsApp buyer 348 642 1766 + dashboard + COD). Foglio-firma e ok Sprint 1 già fatti. Rimanda VP 3/7, concentra onboarding 6/7. Payout-test esegue lui il 3/7 mattina.",
   "prossime_mosse": [
     {
-      "titolo": "Decidere ordine zombie €19,05 — Pane Quotidiano",
-      "quando": "URGENTISSIMO — ~2,2h a soglia 168h (~10:30)",
-      "come": "Scegli A (accetta/consegna) o B (annulla) — pacchetto operations pronto",
+      "titolo": "Eseguire ordine zombie €19,05 — Scelta A",
+      "quando": "subito (decisione firmata 11:05)",
+      "come": "WhatsApp buyer + accetta in dashboard Pane Quotidiano + organizza consegna COD €19,05",
       "priorita": "alta",
-      "ad_prepara": "Bozze WhatsApp/email + catena ops/supporto/finanza",
+      "ad_prepara": "Pacchetto operations pronto · #16 in coda · @customer-success script feedback",
       "senior": "@operations + @supporto",
       "colore": "🔴"
     },
@@ -49,23 +49,26 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05", "stato": "approvato, payout OFF — sbloccare ordine entro ~2,2h"},
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ordine zombie €19,05 Scelta A firmata", "stato": "approvato, payout OFF — esecuzione consegna in corso (#16)"},
     {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio (VP rimandato)", "stato": "in arrivo — checklist AD pronta"},
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo 165,8h → 168h tra ~2,2h senza transazione (probabile ~10:30)",
+    "Ordine fermo ~7 giorni — buyer potrebbe non rispondere al WhatsApp",
     "Onboarding 6/7 su checkout con 4 bloccanti = danni reputazione (Sprint 1 non in prod)",
     "Temporali pomeriggio 1/7 + allerta calore se si tenta consegna senza rider pronti"
   ],
   "serve_da_nicola": [
-    {"ambito": "Transazione", "cosa_manca": "Decisione ordine zombie A/B entro ~2,2h", "domanda_per_nicola": "Ordine €19,05 Pane Quotidiano (buyer 348 642 1766): accetti e consegni (A) o annulli (B)?"},
     {"ambito": "Tech pre-live", "cosa_manca": "Push PR Sprint 1 su mycity", "domanda_per_nicola": "Push manuale 2 min, ok #14 token, o preferisci aspettare?"},
-    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
+    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"},
+    {"ambito": "Consegna ordine PQ", "cosa_manca": "Data/ora consegna per WhatsApp buyer", "domanda_per_nicola": "Quando consegniamo? (sostituisci [DATA/ORA] nel messaggio #16)"}
   ],
   "proposta_rimandata": {
     "titolo": "Presidio Venerdì Piacentini 3/7",
     "motivo": "Nicola 1/7 01:00: priorità inserimento negozi 6/7",
     "prossima_finestra": "VP 10/17 lug — azioni #7/#8/#11 congelate"
+  },
+  "decisioni_chiuse": {
+    "ordine-zombie-58094956": {"scelta": "A", "at": "2026-07-01 11:05", "fonte": "Pannello A/B"}
   }
 }
