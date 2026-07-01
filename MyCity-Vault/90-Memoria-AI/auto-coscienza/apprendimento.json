@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-01 16:18",
-  "aggiornato": "2026-07-01 16:18",
+  "data": "2026-07-01 17:06",
+  "aggiornato": "2026-07-01 17:06",
   "lezioni": [
+    {
+      "id": "L-2026-0701-37",
+      "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → popolare `auto-radiografia.json` `benchmark_vs_migliori` con riferimenti verificabili (LangSmith, Devin, Sidekick) + snapshot `nostro_oggi` a **4 fasi** (Osserva/Agisci/Misura/Impara) con semafori e numeri live. **Regola:** caselle auto-coscienza con placeholder → dati reali al primo ciclo + tabella gap vs best + inventario sblocchi tier (sensori 🟡 → 1° ordine 🔴 #16 → mani LIVE 🟡/🔴). **Distinzione obbligatoria:** loop **architettura** (impara + audit di sé: tasso 0,70 · voto 76) vs loop **business** (agire→misura esito: 0 consegnati · calibrazione solo @AD). Pattern = L-21 (MCP) + L-0630-06 (mani): lista concreta priorità, non teoria.",
+      "tag": ["benchmark", "auto-coscienza", "volano", "nicola", "pannello", "loop"],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 17:06",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-36",
       "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
@@ -198,11 +211,11 @@
       "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**), rispondere con **inventario verificato live** — tabella: sensore | in `.mcp.json`? | stato adesso | cosa blocca. **Tre tier priorità:** ① Supabase marketplace+memoria (config ✅, ciechi: `SUPABASE_ACCESS_TOKEN` assente in `vps/.env` + click Autorizza MCP in Cursor) 🟡 · ② Stripe MCP (mai cablato — chiave `sk_test_…` + server in `.mcp.json` proposta 🟡, utile prima payout-test 03/7) · ③ PostHog MCP 🟢 opzionale a 0 ordini pagati. **Non confondere con «DB giù»:** REST marketplace HTTP 200 ✅; WebFetch globale ✅ (worker post-merge 1/7). Cursor Cloud spesso cieco finché Nicola non autorizza — worker legge via REST (L-2026-0630-03). Pattern = stesso di «quali mani ti servono?» (L-2026-0630-06): tier concreti + cosa sblocca, non teoria.",
       "tag": ["mcp", "sensori", "supabase", "stripe", "nicola", "inventario", "devops"],
       "reparto": "@AD",
-      "confidenza": 0.84,
-      "evidenze": 1,
+      "confidenza": 0.86,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 17:06",
       "stato": "attiva"
     },
     {
@@ -666,10 +679,11 @@
     "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15).",
     "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10).",
     "Card onboarding 6/7 (2ª volta 11:25): «perché approvare o ignorare? sono le scelte giuste?» — **No**, Approva/Ignora non applicano; è promemoria ops già deciso (01:00 VP rimandato), ignorare senza firma; root cause = piano del mattino ha re-inserito in Proposte ciò ritirato alle 01:03 (chat 1/7 11:25).",
-    "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte."
+    "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte.",
+    "Casella benchmark AI ops (1/7 17:05): «aggiungi dati reali — cosa ti serve?» — vuole casella popolata con riferimenti verificabili + snapshot loop 4 fasi con numeri live + inventario sblocchi prioritizzato per chiudere il volano su dati business (non solo prompt); stesso pattern di salute-sensori/mani."
   ],
   "meta": {
-    "lezioni_attive": 50,
+    "lezioni_attive": 51,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70

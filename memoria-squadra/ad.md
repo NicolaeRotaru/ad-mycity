@@ -1,3 +1,6 @@
+# ESITO — @AD — 2026-07-01 17:06
+Metabolizzazione chat casella benchmark AI ops: popolato `auto-radiografia.json` (LangSmith/Devin/Sidekick + snapshot loop). Lezione L-2026-0701-37 + evidenza L-21. Preferenza Nicola: dati reali + inventario sblocchi tier. STATO aggiornato (voto 76 · tasso 0,70 · calibrazione solo @AD).
+
 # ESITO — @AD — 2026-07-01 11:52
 Giro post-mattinata Nicola: stallo 169,4h (168h superata). Sprint 1 LIVE verificato. Scelta A rispettata — no A/B. Escalation post-168h v6 🟢. Voto fiducia 88 ▲. Lezione L-2026-0701-27 (linguaggio post-soglia).
 

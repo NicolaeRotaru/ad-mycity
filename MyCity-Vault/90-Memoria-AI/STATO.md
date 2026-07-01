@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 16:18
+aggiornato: 2026-07-01 17:06
 fonte: AD digitale (7 numeri = live REST 1/7 16:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🧠 **1/7 17:05 — Casella Pannello «Benchmark AI ops»:** Nicola chiede dati reali → popolato `auto-radiografia.json` (LangSmith, Devin, Sidekick) + snapshot loop 4 fasi · voto salute **76** ▲ (da 72) · tasso lezioni **0,70** · calibrazione **@AD 14/14** · altri reparti **0** · divario alto: loop architettura 🟢 vs loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
+>
 > 🧠 **1/7 16:18 — Giro AD:** stallo **173,8h** — **168h SUPERATA ~10:30** (+5,8h oltre). Sprint 1 **LIVE** Render (#209+#210). Scelta A ordine firmata 11:05 → **#16 in attesa** (`ok 16` + slot **sera 18:30-20:00**). SQL 107 policy ⏳ (Nicola ~30s). Temporali **15-17 in corso/fine** — **unica finestra oggi: sera post-18**.
 >
 > 🧠 **1/7 14:19 — Giro precedente:** stallo 171,8h. Finestra pranzo chiusa → #16 post-18.
@@ -58,12 +60,22 @@ fonte: AD digitale (7 numeri = live REST 1/7 16:18 · Sprint 1 LIVE Render ~10:3
 | Sprint 1 | **✅ LIVE Render ~10:31** [#209](https://github.com/NicolaeRotaru/mycity/pull/209)+[#210](https://github.com/NicolaeRotaru/mycity/pull/210) · **⏳ SQL 107 policy** | commit `5799654` |
 | Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
+## Auto-coscienza (2026-07-01 17:05 · chat Nicola casella benchmark)
+| Metrica | Valore | Fonte |
+|---|---|---|
+| Voto salute architettura | **76** ▲ (da 72 il 28/6) | `auto-radiografia.json` |
+| Tasso applicazione lezioni | **0,70** | `apprendimento.json` meta |
+| Lezioni attive | **51** | `apprendimento.json` |
+| Calibrazione previsioni | **@AD 14/14** · altri reparti **0** | registro-realta |
+| Loop business | 🔴 bloccato | 0 ordini consegnati · ~20 azioni approvate, 0 inviate |
+
 ## Ultime mosse dell'AD
-1. **Giro 1/7 16:18** — KPI live REST stallo 173,8h (+2,0h). Escalation post-168h v9 🟢. Temporali 15-17 in corso → #16 **18:30-20:00**.
-2. **Giro 1/7 14:19** — KPI live REST stallo 171,8h. Escalation v8 🟢.
-3. **Pannello 1/7 11:29** — Nicola chiarito SQL 107 ≠ secondo deploy · card ritirata
-4. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
-5. **CRM 1/7 12:15** — Playbook recupero 4 carrelli (1 buyer reale samir €10)
+1. **Pannello 1/7 17:05** — Benchmark AI ops popolato + inventario sblocchi volano (sensori → #16 → mani LIVE).
+2. **Giro 1/7 16:18** — KPI live REST stallo 173,8h (+2,0h). Escalation post-168h v9 🟢. Temporali 15-17 in corso → #16 **18:30-20:00**.
+3. **Giro 1/7 14:19** — KPI live REST stallo 171,8h. Escalation v8 🟢.
+4. **Pannello 1/7 11:29** — Nicola chiarito SQL 107 ≠ secondo deploy · card ritirata
+5. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
+6. **CRM 1/7 12:15** — Playbook recupero 4 carrelli (1 buyer reale samir €10)
 
 ## Prossime priorità (1/7 16:18)
 **Obiettivo giornata:** 1° ordine consegnato + piattaforma pronta per batch 6/7.
