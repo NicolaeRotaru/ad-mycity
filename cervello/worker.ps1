@@ -76,9 +76,11 @@ while ($true) {
 
       # 2) esegui col motore AI (prende CLAUDE.md + agenti dal repo)
       if ($lav.tipo -eq "esegui-azione") {
+        $env:NICOLA_FIRMA = "1"
         # Azione APPROVATA dal Pannello di Controllo: va eseguita davvero con le "mani".
         $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). $($lav.richiesta)`n`n" +
-                  "Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run). " +
+                  "Usa cervello/esegui-azione.mjs sul canale indicato con --firma-nicola (NICOLA_FIRMA=1 è già attivo: l'azione è approvata). " +
+                  "LIVE solo se AZIONI_LIVE=1; il guardrail (guardrail-semaforo.mjs) blocca 🔴 e canali sensibili senza firma. " +
                   "Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md. " +
                   "Restituisci a Nicola, in chiaro, COSA è partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
       } elseif ($lav.tipo -eq "giro") {

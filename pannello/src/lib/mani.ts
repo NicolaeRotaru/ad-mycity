@@ -2,14 +2,25 @@
 // Per ora: EMAIL via Resend. Sicuro per costruzione — invia DAVVERO solo se:
 //   1) c'è la chiave (RESEND_API_KEY),
 //   2) c'è un destinatario,
-//   3) l'interruttore esplicito AZIONI_LIVE ("on" o "1").
+//   3) l'interruttore esplicito AZIONI_LIVE ("on" o "1"),
+//   4) guardrail-semaforo: 🔴 e canali sensibili richiedono firmaNicola (click Approva).
 // Altrimenti: "simulata" (prova a vuoto, NON invia) o resta "in coda" col motivo.
 // Così non parte mai niente per sbaglio.
+
+import { azioniLive, verificaEsecuzione, type Livello } from "@/lib/guardrail-semaforo";
 
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
 
-type AzioneEseguibile = { titolo: string; canale: string; destinatario?: string; testo: string };
+type AzioneEseguibile = {
+  titolo: string;
+  canale: string;
+  destinatario?: string;
+  testo: string;
+  livello?: Livello | string;
+  firmaNicola?: boolean;
+  automatico?: boolean;
+};
 
 function resendConfigurato(): boolean {
   return Boolean(process.env.RESEND_API_KEY);
@@ -59,6 +70,20 @@ async function inviaEmail(a: string, oggetto: string, testo: string): Promise<{ 
 // Esegue (o mette in coda) un'azione. Non lancia mai eccezioni: torna sempre un Esito.
 export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
   const ora = oraRoma();
+  const live = azioniLive();
+  const gate = verificaEsecuzione({
+    live,
+    livello: a.livello,
+    firmaNicola: a.firmaNicola,
+    automatico: a.automatico,
+    canale: a.canale,
+    destinatario: a.destinatario,
+    testo: a.testo,
+    titolo: a.titolo,
+  });
+  if (!gate.ok) {
+    return { stato: "coda", dettaglio: `${gate.motivo} · ${ora}` };
+  }
   if (!isEmail(a.canale)) {
     return { stato: "coda", dettaglio: `Canale "${a.canale || "non indicato"}" non ancora collegato: resta in coda.` };
   }
@@ -68,8 +93,6 @@ export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
   if (!resendConfigurato()) {
     return { stato: "coda", dettaglio: "Manca la chiave email (RESEND_API_KEY): resta in coda." };
   }
-  // Accetta sia "on" sia "1": il resto del sistema (cervello/*, .env.example, docs) usa "1"/"0".
-  const live = process.env.AZIONI_LIVE === "on" || process.env.AZIONI_LIVE === "1";
   if (!live) {
     return { stato: "simulata", dettaglio: `Simulata (modalità test) → ${a.destinatario} · ${ora}. Per inviare davvero imposta AZIONI_LIVE=1.` };
   }
