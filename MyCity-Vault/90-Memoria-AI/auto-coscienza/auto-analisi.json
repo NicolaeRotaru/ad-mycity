@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-01 14:19",
+  "data": "2026-07-01 16:18",
   "voto_fiducia": 88,
   "trend_fiducia": "=",
-  "sintesi": "Giro 1/7 14:19. Voto 88 (=): KPI live REST, stallo 171,8h (+3,8h oltre 168h). Scelta A rispettata — no A/B. Finestra pranzo chiusa → #16 post-18. Sprint 1 LIVE verificato. Nessun errore grounding. MCP cieco, REST OK.",
+  "sintesi": "Giro 1/7 16:18. Voto 88 (=): KPI live REST, stallo 173,8h (+5,8h oltre 168h). Scelta A rispettata — no A/B. Slot allineato orologio (16:18 → sera 18:30-20:00). Sprint 1 LIVE verificato. Nessun errore grounding. MCP cieco, REST OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 14:19, clmpyfvpvfjgeviworth)",
+    "numeri": "ok (live REST 16:18, clmpyfvpvfjgeviworth)",
     "coerenza": "ok (allineato DECISIONI 11:05, STATO, intenzioni-nicola)",
     "semaforo": "ok",
     "qualita": "ok",
@@ -14,8 +14,8 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Slot consegna ordine PQ €19,05? (sera post-18, 18:30-20:00) + ok 16",
-      "perche_serve": "Scelta A firmata 11:05 — finestra pranzo chiusa 14:19; temporali 15-17 in corso.",
+      "domanda": "Slot consegna ordine PQ €19,05? (sera 18:30-20:00) + ok 16",
+      "perche_serve": "Scelta A firmata 11:05 — temporali 15-17 in corso alle 16:18; unica finestra utile oggi.",
       "se_rispondi": "Operations esegue pacchetto #16 — 1ª transazione reale.",
       "gravita": "alta"
     },
@@ -37,16 +37,16 @@
     "PostHog non collegato",
     "Stripe MCP non verificato in sessione",
     "Competitor non ricontrollati (cadenza settimanale)",
-    "3BMeteo timeout — meteo da IlPiacenza + Allerta ER"
+    "Schema abandoned_carts cambiato — conteggio carrelli da playbook 12:15"
   ],
   "miglioramenti_prossimo_giro": [
     "Post ok 16: aggiornare 7 numeri con prima transazione",
     "Post fatto sql 107: verificare leak RLS chiuso",
-    "Non proporre slot pranzo dopo le 14:00"
+    "Documentare query REST carrelli con schema aggiornato"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Compute Degraded (status page)",
-    "supabase_memoria": "env presente ✅ · POST briefings 201 OK",
+    "supabase_memoria": "env presente ✅ · POST briefings OK",
     "stripe": "non verificato in sessione",
     "posthog": "non collegato ❌",
     "dati_freschi": true,

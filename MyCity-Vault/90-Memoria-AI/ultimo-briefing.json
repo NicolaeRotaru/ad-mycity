@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-01 14:19",
-  "situazione": "Stallo **171,8h** — soglia 168h **superata da ~3,8h**. Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Finestra pranzo **chiusa** (14:19); temporali **15-17** — prossima consegna **sera post-18**. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
+  "data": "2026-07-01 16:18",
+  "situazione": "Stallo **173,8h** — soglia 168h **superata da ~5,8h**. Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Ore 16:18: temporali **15-17 in corso/fine** — **unica finestra oggi: sera 18:30-20:00**. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
   "opportunita": [
     {
-      "titolo": "Eseguire #16 Scelta A stasera post-18",
-      "motivo": "Decisione firmata 11:05 · stallo +3,8h oltre 168h · temporali pomeriggio in corso",
+      "titolo": "Eseguire #16 Scelta A stasera 18:30-20:00",
+      "motivo": "Decisione firmata 11:05 · stallo +5,8h oltre 168h · ultima finestra utile oggi",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,7 +23,7 @@
   ],
   "azioni": [
     {
-      "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna post-18)",
+      "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna 18:30-20:00)",
       "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · NON riproporre A/B",
       "livello": "rosso"
     }

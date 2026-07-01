@@ -308,3 +308,13 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 14:19 · @operations · FATTO · Escalation post-168h **v8** 🟢 · slot consegna **sera post-18** · `consegne/operations/2026-07-01-escalation-post-168h-v8.md`
 - 2026-07-01 14:19 · @AD · FATTO · Giro completo: briefing 14:19 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza + POST briefings memoria
 - 2026-07-01 14:19 · @AD · SERVE · Nicola: **`ok 16`** + slot **sera post-18** · **SQL 107** (~30s) · lista negozi 6/7
+
+## Giro 2026-07-01 16:18
+
+- 2026-07-01 16:18 · @analista · FATTO · KPI live REST: stallo **173,8h** (+2,0h), **168h +5,8h oltre**, 7 numeri = vs 14:19 · snapshot `consegne/analista/2026-07-01-kpi-live-1618.md`
+- 2026-07-01 16:18 · @intelligence · FATTO · Temporali 15-17 in corso ore 16:18 · #16 slot **18:30-20:00** · `Intelligence/eventi-picchi.md` + `buchi-mercato.md` aggiornati
+- 2026-07-01 16:18 · @operations · FATTO · Escalation post-168h **v9** 🟢 · `consegne/operations/2026-07-01-escalation-post-168h-v9.md`
+- 2026-07-01 16:18 · @AD · FATTO · Giro completo: briefing 16:18 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza + POST briefings memoria
+- 2026-07-01 16:18 · @AD · SERVE · Nicola: **`ok 16`** + slot **sera 18:30-20:00** · **SQL 107** (~30s) · lista negozi 6/7
+
+🙋 **Serve da Nicola:** 🔴 **`ok 16` + consegna 18:30-20:00** · 🟡 **SQL 107** (Ignora card Proposte) · 🟢 batch 6/7 (checklist pronta).

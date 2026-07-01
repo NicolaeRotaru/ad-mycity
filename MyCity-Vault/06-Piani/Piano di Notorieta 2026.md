@@ -208,9 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 14:19
+## 🤖 Aggiornamento dell'AD — 2026-07-01 16:18
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
 - **VP 3/7 RIMANDATO** — contenuti #7/#8 congelati. Prossima finestra **10/17 lug**.
-- **168h +3,8h oltre** — earned media «prima consegna» **dopo** #16 (slot **sera post-18**).
+- **168h +5,8h oltre** — earned media «prima consegna» **dopo** #16 (slot **sera 18:30-20:00**).
 - **Sprint 1 LIVE** — piattaforma pronta per raccontare la storia post-consegna.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

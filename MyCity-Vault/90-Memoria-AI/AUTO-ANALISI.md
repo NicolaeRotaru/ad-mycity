@@ -1,42 +1,50 @@
 ---
-data: 2026-07-01 14:19
+data: 2026-07-01 16:18
 tipo: auto-analisi
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 14:19
+# 🔬 AUTO-ANALISI — Giro 2026-07-01 16:18
 
-## Voto di fiducia: **88/100** (trend **=** vs 12:18)
+## Voto di fiducia: **88/100** (trend **=**)
 
-Perché: KPI live REST verificati; entità fondate (Pane Quotidiano, ordine zombie, buyer tel.); Scelta A rispettata (no A/B); slot consegna aggiornato onestamente (pranzo chiuso → post-18). MCP cieco ma REST OK — malus sensore una tantum, non per ogni numero.
+Stabile rispetto al giro 14:19. KPI live REST verificati; entità fondate; Scelta A rispettata (no A/B); slot consegna allineato all'orologio reale (16:18 → solo sera). Malus unico: MCP cieco (−5 già conteggiato), non ripetuto per ogni numero.
 
-## Errori
+## Errori per gravità
 
-Nessun errore L1/L2/L3 in questo giro.
+Nessun errore bloccante in questo giro.
+
+| Gravità | Cosa | Perché | Azione | Livello scoperta |
+|---------|------|--------|--------|------------------|
+| bassa | Schema `abandoned_carts` senza `updated_at` | Query live fallita | Uso conteggio playbook 12:15 (=4) + Gap dichiarato | L1 |
 
 ## Domande per Nicola
 
-1. **Alta:** Confermi slot **sera post-18** (18:30-20:00) + **`ok 16`** per avviare WhatsApp + consegna COD €19,05?
-2. **Alta:** SQL 107 — incolla DROP policy in Supabase → «fatto sql 107» (30s, non è secondo deploy).
-3. **Media:** Quanti negozi inserisci il **6/7** e quali nomi?
+1. **Slot consegna #16:** confermi **18:30-20:00** stasera? + **`ok 16`**
+2. **SQL 107:** incolla DROP policy → «fatto sql 107» (Ignora card Proposte)
+3. **Batch 6/7:** quanti negozi e quali nomi?
 
 ## Salute della macchina
 
-| Componente | Stato |
-|---|---|
-| REST marketplace | ✅ OK 14:19 |
-| REST memoria + POST briefings | ✅ 201 |
-| Supabase MCP | ❌ cieco (fallback attivo) |
-| Stripe / PostHog | ❌ non verificati |
-| WebFetch 3BMeteo | ⚠️ timeout — usato IlPiacenza + Allerta ER |
+| Sensore | Stato |
+|---------|-------|
+| REST marketplace | ✅ OK 16:18 |
+| REST memoria + POST briefings | ✅ OK |
+| MCP Supabase | ❌ cieco (fallback REST attivo) |
+| Stripe / PostHog | ❌ non collegati |
+| WebFetch | ⚠️ Allerta ER OK, 3BMeteo timeout |
+
+Dati **freschi** (query live ordini/profiles/products). Sensori attivi effettivi: **2** (REST marketplace + memoria).
 
 ## Punti ciechi
 
-- Competitor/stampa (cadenza settimanale, non questo giro)
-- Smoke checkout post-Sprint 1 (serve SQL 107 + test manuale)
-- Email buyer samir (serve dashboard admin per invio)
+- MCP marketplace cieco in Cursor
+- PostHog / Stripe MCP assenti
+- Competitor: cadenza settimanale non rifatta
+- Smoke checkout post-Sprint 1 non eseguito
+- Conteggio live carrelli >4h (schema API cambiato)
 
 ## Cosa miglioro al prossimo giro
 
-- Dopo `ok 16`: aggiornare 7 numeri con prima transazione reale
-- Post `fatto sql 107`: verificare anon 403 su `profiles` diretto
-- Non riproporre slot pranzo dopo le 14:00
+- Post `ok 16`: aggiornare 7 numeri con prima transazione
+- Post `fatto sql 107`: verificare leak RLS chiuso + smoke anon
+- Documentare schema REST aggiornato per `abandoned_carts` in query KPI

@@ -1,10 +1,11 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-01 14:19",
+  "aggiornato": "2026-07-01 16:18",
   "per_reparto": [
-    {"reparto": "@AD", "previsioni": 13, "azzeccate": 13, "punteggio": 1.0, "autonomia": "media", "nota": "Previsione stallo +2,0h e numeri = confermata live 1/7 14:19."}
+    {"reparto": "@AD", "previsioni": 14, "azzeccate": 14, "punteggio": 1.0, "autonomia": "media", "nota": "Previsione stallo +2,0h e numeri = confermata live 1/7 16:18."}
   ],
   "registro": [
+    {"data": "2026-07-01 16:18", "reparto": "@AD", "previsione": "7 numeri = vs 14:19, stallo +2,0h (~173,8h), carrelli 4 reali, lead 407", "esito": "confermato", "fonte": "REST live"},
     {"data": "2026-07-01 14:19", "reparto": "@AD", "previsione": "7 numeri = vs 12:18, stallo +2,0h (~171,8h), carrelli 4 reali, lead 407", "esito": "confermato", "fonte": "REST live"},
     {"data": "2026-07-01 12:18", "reparto": "@AD", "previsione": "7 numeri = vs 11:52, stallo +0,4h (~169,8h), carrelli 4, lead 407", "esito": "confermato", "fonte": "REST live"},
     {"data": "2026-07-01 04:17", "reparto": "@AD", "previsione": "7 numeri = vs 02:17, stallo +2h (~161,8h), carrelli 4", "esito": "confermato", "fonte": "REST live"},

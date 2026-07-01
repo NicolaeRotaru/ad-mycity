@@ -1,17 +1,18 @@
 {
-  "data": "2026-07-01 14:19",
+  "data": "2026-07-01 16:18",
+  "aggiornato": "2026-07-01 16:18",
   "lezioni": [
     {
       "id": "L-2026-0701-36",
       "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
       "tag": ["operations", "meteo", "slot-consegna", "onesta", "briefing"],
       "reparto": "@operations",
-      "confidenza": 0.85,
-      "evidenze": 1,
+      "confidenza": 0.88,
+      "evidenze": 2,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 14:19",
+      "ultima_conferma": "2026-07-01 16:18",
       "stato": "attiva"
     },
     {
@@ -671,6 +672,6 @@
     "lezioni_attive": 50,
     "promosse_a_principio": 4,
     "decadute": 0,
-    "tasso_applicazione": 0.68
+    "tasso_applicazione": 0.70
   }
 }
