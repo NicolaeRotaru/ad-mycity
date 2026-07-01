@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 06:45
+aggiornato: 2026-07-01 07:20
 fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · radiografia + foglio-firma Nicola 1/7)
 ---
 
@@ -53,13 +53,14 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 | Sprint 2/3 | nel report, accodati dopo ok Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 06:18** — KPI live (= vs 04:17, stallo +2h, 168h ~4,2h). Escalation v4 🟢. Mossa n.1 = ordine zombie entro ~4h + Sprint 1. Vedi [[2026-07-01]].
-2. **Giro 1/7 04:17** — KPI live (= vs 02:17). Carrelli 4 ▼−2. Escalation v3 🟢.
-3. **Giro 1/7 02:17** — Checklist batch 6/7 🟢. Nota escalation 168h v2.
-4. **Chat 1/7 06:45** — Nicola chiede workflow fix radiografia: spiegato sprint/blocchi (#13), deploy 🔴 separato, comandi `ok 13` / `ok deploy` / `ok tutti gli sprint`.
-5. **Metabolizzazione 1/7 06:29** — lezione L-0701-22 guardrail universale + quaderni builder/security.
-6. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`.
-7. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
+1. **Chat 1/7 07:19** — Nicola (casella ordine zombie): «Di quale negozio è il buyer?» → **Pane Quotidiano** (Via Calzolai 25), buyer tel. **348 642 1766**, COD €19,05 del 24/6. Decisione A/B ancora 🔴 in attesa (~3h a 168h).
+2. **Giro 1/7 06:18** — KPI live (= vs 04:17, stallo +2h, 168h ~4,2h). Escalation v4 🟢. Mossa n.1 = ordine zombie entro ~4h + Sprint 1. Vedi [[2026-07-01]].
+3. **Giro 1/7 04:17** — KPI live (= vs 02:17). Carrelli 4 ▼−2. Escalation v3 🟢.
+4. **Giro 1/7 02:17** — Checklist batch 6/7 🟢. Nota escalation 168h v2.
+5. **Chat 1/7 06:45** — Nicola chiede workflow fix radiografia: spiegato sprint/blocchi (#13), deploy 🔴 separato, comandi `ok 13` / `ok deploy` / `ok tutti gli sprint`.
+6. **Metabolizzazione 1/7 06:29** — lezione L-0701-22 guardrail universale + quaderni builder/security.
+7. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`.
+8. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~4h / ~10:30**)
