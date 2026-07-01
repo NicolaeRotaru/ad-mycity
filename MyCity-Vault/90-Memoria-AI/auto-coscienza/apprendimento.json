@@ -15,6 +15,8 @@
       "ultima_conferma": "2026-07-01 20:18",
       "stato": "attiva"
     },
+    {
+      "id": "L-2026-0701-39",
       "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = righe in `AZIONI-IN-ATTESA.md` / tab Proposte Pannello — **non** PR GitHub. **Risposta obbligatoria in 3 blocchi:** (1) tabella # → cosa sblocca (#14 `MARKETPLACE_GIT_TOKEN` PR su mycity · #15 `GITHUB_MERGE_TOKEN` merge API post-«ok merge»); (2) **dove crearli:** GitHub → Settings → Developer settings → Fine-grained tokens → repo `ad-mycity`+`mycity` · Contents+Pull requests R/W; (3) **dove incollare:** `cervello/vps/.env` + `systemctl restart mycity-worker` — **un solo PAT** copre #14+#15+push memoria. Non rimandare solo «vedi AZIONI» senza path pratico.",
       "tag": ["nicola", "coda", "token", "github", "comunicazione", "devops"],
       "reparto": "@devops-sre",
@@ -723,7 +725,7 @@
     "«Ok configura sync VPS» (1/7 20:02) = stesso pattern «ok timer ritmo»: approva infra 🟡 → AD consegna artefatto completo in repo + **un solo comando root** per attivazione; codice sync pronto, resta #17 install sul VPS."
   ],
   "meta": {
-    "lezioni_attive": 53,
+    "lezioni_attive": 54,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70
