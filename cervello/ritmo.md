@@ -54,20 +54,7 @@ Sei l'AD. Fai la REVIEW SETTIMANALE della squadra:
 Output: pagella per reparto + 3 mosse per la prossima settimana + voto salute architettura + la lettera + decisioni per Nicola.
 ```
 
-## Come schedularli
-
-### Sul VPS Linux (produzione — systemd)
-Il battito del giro usa già `cervello/vps/mycity-giro.timer` + `giro.sh` (vedi `cervello/vps/SETUP-VPS.md`).
-Per **piano mattino / report sera / review settimanale** usa lo stesso pattern:
-
-1. Script `cervello/ritmo-run.sh` + prompt in `cervello/ritmo-{mattino,sera,settimana}.md` (copia dei blocchi sopra).
-2. Unit systemd in `cervello/vps/`: `mycity-ritmo-mattino.timer` (08:00), `mycity-ritmo-sera.timer` (20:00), `mycity-ritmo-settimana.timer` (ven 18:00, Europe/Rome).
-3. Installazione: `sudo cp cervello/vps/mycity-ritmo-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload && sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer`
-4. Prova manuale: `sudo bash cervello/vps/ritmo-ora.sh mattino` (o `sera` / `settimana`).
-
-Senza timer attivi, l'AD esegue queste cadenze **su comando** (Pannello, chat, `claude -p`).
-
-### Sul PC Windows (sviluppo / backup locale)
+## Come schedularli (Windows)
 Usa lo stesso pattern di `cervello/giro.ps1`: crea `mattino.ps1` / `sera.ps1` / `settimana.ps1` che fanno
 `claude -p "<prompt sopra>" --permission-mode acceptEdits`, poi pianificali con `schtasks` (es. mattino 08:00,
-sera 20:00, settimana ven 18:00).
+sera 20:00, settimana ven 18:00). Senza scheduler, l'AD esegue queste cadenze quando glielo chiedi.
