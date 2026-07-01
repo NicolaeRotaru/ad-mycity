@@ -77,7 +77,10 @@ Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, 
 sudo systemctl start mycity-worker.service     # worker sempre attivo (chat pannello + approvazioni)
 # sudo systemctl start mycity-giro.timer       # ⛔ DISATTIVATO: giro automatico (auto-analisi)
 sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
+sudo systemctl start mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+# Ritmo: mattino 08:00 · sera 20:00 · review ven 18:00 (Europe/Rome)
 # Per un giro manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
+# Per provare il ritmo adesso: sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
 ```
 
 ## ▶️ Far partire il giro + auto-analisi ADESSO (dopo aver committato cose nuove)
@@ -105,7 +108,7 @@ il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`,
 ## Verifica che funzioni
 ```bash
 systemctl status mycity-worker --no-pager           # deve essere: active (running)
-systemctl list-timers | grep mycity                 # mostra i timer attivi (monitora; giro disattivato)
+systemctl list-timers | grep mycity                 # monitora + ritmo (mattino/sera/settimana); giro disattivato
 journalctl -u mycity-worker -n 40 --no-pager        # log del worker (chat pannello)
 ```
 Se tutto va: dopo il giro compare un nuovo file in `MyCity-Vault/90-Memoria-AI/Briefing/` e, se il
@@ -115,7 +118,8 @@ Premendo **Approva** nel Pannello, entro ~30s il worker esegue e la riga in `AZI
 ## Comandi utili
 ```bash
 # Fermare tutto
-sudo systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
+sudo systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer \
+  mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
 # Cambiare l'orario del monitoraggio: modifica OnCalendar in mycity-monitora.timer, poi ricopia + daemon-reload.
 # Cambiare la frequenza del giro: modifica OnUnitActiveSec in mycity-giro.timer, poi:
 sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system/ && sudo systemctl daemon-reload

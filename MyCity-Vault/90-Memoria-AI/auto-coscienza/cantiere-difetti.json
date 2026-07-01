@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-01 08:17",
+  "aggiornato": "2026-07-01 09:39",
   "difetti": [
     {
       "id": "AR-001",
@@ -19,7 +19,7 @@
     {
       "id": "AR-002",
       "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
-      "dimensione": "cadenza-esecuzione",
+      "dimensione": "copertura-cieca",
       "gravita": "grave",
       "impatto_crescita": "medio",
       "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
@@ -43,6 +43,19 @@
       "chiuso_il": ""
     },
     {
+      "id": "AR-005",
+      "titolo": "Ritmo mattino/sera/settimana non schedulato sul VPS Linux",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "ritmo.md documenta solo schtasks/Windows; sul VPS mancano timer systemd o cron per le tre cadenze.",
+      "fix_proposto": "Unit systemd mycity-ritmo-*.timer + ritmo-run.sh (Nicola «ok timer ritmo» 1/7 09:43).",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-01",
+      "chiuso_il": "2026-07-01"
+    },
+    {
       "id": "AR-004",
       "titolo": "PAT GitHub senza write su mycity: push marketplace 403 blocca PR Sprint 1",
       "dimensione": "salute-sensori-dati",
@@ -56,5 +69,5 @@
       "chiuso_il": ""
     }
   ],
-  "meta": { "aperti": 4, "in_corso": 0, "chiusi": 0 }
+  "meta": { "aperti": 5, "in_corso": 0, "chiusi": 0 }
 }

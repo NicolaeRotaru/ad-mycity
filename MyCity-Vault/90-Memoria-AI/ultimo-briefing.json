@@ -25,7 +25,8 @@
     {
       "titolo": "Decisione ordine zombie €19,05 (A accetta / B annulla) — entro ~2,2h",
       "motivo": "Buyer fermo ~6,9 giorni — pacchetto operations pronto",
-      "livello": "rosso"
+      "livello": "rosso",
+      "tipo": "decisione_ordine_ab"
     },
     {
       "titolo": "Push + PR Sprint 1 marketplace (webhook, fee UI, COD rollback, RLS)",

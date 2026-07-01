@@ -75,3 +75,12 @@ Giro 1/7: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola integrato
 
 # ESITO — @AD — 2026-07-01 07:36
 Metabolizzazione chat «ok Sprint 1»: Nicola firma 🟡 → branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` (6 fix) in locale; push `NicolaeRotaru/mycity` **403** (token worker). #13 → FATTO in locale. DECISIONI 07:30 già registrata. L-2026-0701-25 aggiornata (FATTO locale) + L-2026-0701-26 (push marketplace 403). Prossimo: PR Nicola → migrazione 107 → `ok deploy Sprint 1` 🔴.
+
+# ESITO — @AD — 2026-07-01 09:40
+Metabolizzazione correzione Nicola (casella cadenza-esecuzione): «mycity-live non c'entra» — finding radiografia.js era in dimensione sbagliata. AR-002 → copertura-cieca; cadenza = ritmo mattino/sera/settimana (Windows vs VPS); AR-005 aperto (timer systemd). L-2026-0701-27 (caso_studio_nicola) + preferenza: ripulire tutti i file collegati, non solo la casella.
+
+# ESITO — @AD — 2026-07-01 10:23
+Metabolizzazione chat merge-on-approval (Nicola 10:22): chiarito `pannello/` ≠ repo separato; architettura 3 tubi; Nicola vuole merge da AD con permesso esplicito. L-2026-0701-31 + #15 GITHUB_MERGE_TOKEN in AZIONI. DECISIONI 10:22 già registrata. Preferenze_nicola aggiornate.
+
+# ESITO — @AD — 2026-07-01 10:10
+Metabolizzazione chat ordine zombie (Nicola 10:09 «3ª volta»): L-2026-0701-29 (caso_studio_nicola) + evidenza L-0630-05. DECISIONI/SALA già aggiornati in risposta. STATO + preferenze_nicola. Fix UX A/B 🟡 proposto, non accodato senza ok.

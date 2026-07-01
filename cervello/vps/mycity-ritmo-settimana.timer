@@ -1,0 +1,9 @@
+[Unit]
+Description=MyCity AD — review settimanale ogni venerdì alle 18:00
+
+[Timer]
+OnCalendar=Fri *-*-* 18:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -4,25 +4,26 @@
   "tipo": "completa",
   "voto_salute_architettura": 72,
   "trend": "=",
-  "sintesi": "Prima radiografia della macchina. Architettura solida e ben documentata (42 agenti, volano di auto-coscienza appena acceso). Difetti reali da chiudere: un percorso del marketplace cablato su Windows che non gira sul VPS Linux, sensori MCP intermittenti, e il volano ancora da rodare (tasso di applicazione delle lezioni basso perché è nato adesso).",
+  "sintesi": "Prima radiografia della macchina. Architettura solida e ben documentata (42 agenti, volano di auto-coscienza appena acceso). Difetti reali da chiudere: cadenze ritmo (mattino/sera/settimana) documentate solo per Windows mentre il battito gira su Linux/VPS, sensori MCP intermittenti, e il volano ancora da rodare (tasso di applicazione delle lezioni basso perché è nato adesso).",
   "dimensioni": [
     {
       "key": "cadenza-esecuzione",
-      "voto": 70,
-      "stato": "attenzione",
-      "sintesi": "Il giro e le cadenze sono definiti, ma alcuni riferimenti sono legati a Windows.",
+      "voto": 85,
+      "stato": "ok",
+      "sintesi": "Ritmo mattino/sera/settimana: unit systemd in repo (08:00 / 20:00 / ven 18:00). Attivazione sul VPS con install-ritmo-timers.sh (Nicola ok 1/7). Giro automatico resta disattivato.",
       "findings": [
         {
-          "titolo": "Il workflow radiografia del marketplace ha il percorso cablato su Windows",
-          "dove": ".claude/workflows/radiografia.js (const REPO)",
+          "titolo": "ritmo.md documentava la schedulazione solo su Windows (schtasks), non sul VPS Linux",
+          "dove": "cervello/ritmo.md · cervello/vps/mycity-ritmo-*.timer · cervello/ritmo-run.sh",
           "severita": "grave",
-          "descrizione": "REPO = 'C:\\\\Users\\\\InfinitaPossibilita\\\\mycity-live': sul VPS Linux questo percorso non esiste, quindi la radiografia del sito fallirebbe.",
-          "impatto": "La macchina non può davvero radiografare il marketplace dal server: una capacità dichiarata ma cieca.",
-          "causa_radice": "Il percorso del codice del sito è stato scritto per il PC di Nicola, non parametrizzato per il VPS. Manca una variabile d'ambiente MARKETPLACE_REPO.",
-          "fix": "Proporre 🟡 di leggere il percorso da una env var (es. MARKETPLACE_REPO) con fallback, in radiografia.js e audit-design.js.",
+          "descrizione": "Piano del mattino, report della sera e review settimanale avevano i prompt ma mancava l'equivalente systemd sul VPS.",
+          "impatto": "Le cadenze giornaliere/settimanali dell'AD restavano manuali sul server.",
+          "causa_radice": "La documentazione del ritmo era nata su Windows; la migrazione al VPS non aveva portato i timer.",
+          "fix": "✅ Chiuso 2026-07-01 09:43: Nicola «ok timer ritmo» → creati ritmo-run.sh + unit mycity-ritmo-* in repo; attivazione VPS: `sudo bash cervello/vps/install-ritmo-timers.sh`.",
           "impatto_crescita": "medio",
           "genera": "auto-riscrittura",
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso"
         }
       ]
     },

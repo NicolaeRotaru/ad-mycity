@@ -7,6 +7,8 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-01 10:36 · deploy bottoni A/B · Nicola «ok merge bottoni A/B» → **`main` `c50148d`** live Vercel (~2 min) · bottoni A accetta / B annulla visibili post-reload · click A/B ancora 🔴 (decisione ordine ≠ deploy) · L-0701-30 · #pannello #deploy
+- 2026-07-01 10:13 · card ordine zombie · Nicola «aggiungimi A o B» · **FATTO in repo:** tipo `decisione_ordine_ab`, bottoni A accetta / B annulla + `/api/decisione-ordine` (persistenza memoria + job cervello, non dismiss sessione) · deploy main 🟡 · lezioni L-0701-29 + L-0701-30 · #pannello #ux #approvazioni
 - 2026-07-01 01:34 · vista Quaderni senior · Tab in `Memoria.tsx` + fetch `/api/memoria/quaderni`; dati da `memoria-squadra/` (ramo memoria-ad via vault); lista senior con ultimo ESITO, ricerca, espansione markdown · lezione: UI Pannello → PR **`main`**; contenuto memoria → **`memoria-ad`** — non mischiare binari · #pannello #memoria #quaderni
 - 2026-07-01 01:37 · PR **`fix/quaderni-senior`** pushato (`9c5dc8e`, 4 file) — Nicola chiede «apri la pr quaderni su main»; merge GitHub → Vercel redeploy; zero comandi VPS · #pannello #deploy
 - 2026-07-01 · giro web · Next.js 16: `revalidateTag(tag, profile)` obbligatorio (SWR); nuovo `updateTag()` per read-your-writes in Server Actions; fetch non più cached by default con Cache Components · https://nextjs.org/blog/next-16 · lezione: invalidazioni checkout/carrello vanno ridisegnate con `updateTag` dove serve feedback immediato post-azione · #nextjs #cache #server-actions

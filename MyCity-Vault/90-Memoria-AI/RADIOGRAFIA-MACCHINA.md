@@ -16,8 +16,9 @@ Struttura solida e ben documentata, volano appena acceso. Tre difetti reali nel 
 1. **🟠 grave — Sensori MCP intermittenti (impatto crescita ALTO).** Supabase/Stripe cadono spesso → la
    macchina lavora al buio sui dati reali. *Causa radice:* nessun retry/fallback quando il sensore è giù.
    *Fix 🟡:* retry + fallback + contatore "giri di cecità".
-2. **🟠 grave — Percorso del marketplace cablato su Windows (impatto MEDIO).** `radiografia.js` ha `REPO`
+2. **🟠 grave — Percorso del marketplace cablato su Windows (impatto MEDIO, dimensione `copertura-cieca`).** `radiografia.js` ha `REPO`
    sul PC di Nicola → la radiografia del sito non gira sul VPS. *Fix 🟡:* leggere il percorso da `MARKETPLACE_REPO`.
+   *(Non è cadenza-esecuzione: Nicola 1/7 — mycity-live non c'entra col ritmo del giro.)*
 3. **🟡 minore — Cecità dei sensori silenziosa (impatto MEDIO).** Nessun pezzo misura da quanti giri un
    sensore è cieco. *Fix 🟡:* creare un sensore "cecità dati".
 

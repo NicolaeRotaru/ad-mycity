@@ -10,6 +10,7 @@ export type Azione = {
   titolo: string;
   motivo: string;
   livello: "verde" | "giallo" | "rosso";
+  tipo?: string;
 };
 export type Opportunita = {
   titolo: string;

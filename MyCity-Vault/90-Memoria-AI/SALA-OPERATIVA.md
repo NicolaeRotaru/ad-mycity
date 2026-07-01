@@ -216,3 +216,20 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 08:17 · @intelligence · FATTO · eventi-picchi.md aggiornato (3BMeteo 08:17 + countdown ~2,2h)
 - 2026-07-01 08:17 · @operations · SERVE · Nicola: decisione ordine zombie €19,05 A/B — **~2,2h** a soglia 168h (~10:30)
 - 2026-07-01 08:17 · @tech · SERVE · Push PR Sprint 1 **403** — #14 token o push manuale Nicola
+
+### 2026-07-01 — Casella Pannello ordine zombie (Nicola 10:09)
+- 2026-07-01 10:09 · @Nicola · chiesto · «Perché torna da approvare? (3ª volta)»
+- 2026-07-01 10:09 · @AD · FATTO · Chiarito: nessuna A/B registrata; Approva proposta ≠ accetta ordine; foglio-firma/Sprint 1 erano altro. Serve **«A»** o **«B»** esplicito. Soglia 168h ~10:30.
+- 2026-07-01 10:09 · @operations · SERVE · Nicola: **A accetta** o **B annulla** ordine `58094956…` — ultima chiamata prima 168h
+- 2026-07-01 10:13 · @Nicola · chiesto · «Aggiungimi A o B, anzi che approva o ignora»
+- 2026-07-01 10:13 · @frontend-dev · FATTO · Bottoni **A accetta / B annulla** su proposta ordine zombie + API persistenza (`/api/decisione-ordine`) · deploy Pannello su main 🟡
+- 2026-07-01 10:13 · @operations · SERVE · Nicola: clic **A** o **B** sulla card (non più Approva generico) — ~17 min a soglia 168h (~10:30)
+- 2026-07-01 10:22 · @Nicola · chiesto · «Cos'è pannello/? Merge automatico con mio permesso? Cosa serve per VPS + PR ad-mycity + mycity?»
+- 2026-07-01 10:22 · @AD · FATTO · Spiegati 3 tubi (memoria-ad / main+Vercel / marketplace) + pipeline merge-on-approval proposta · PASSO-A @devops per token merge + card «ok merge PR»
+- 2026-07-01 10:22 · @devops · FACCIO · Proposta: bottone Pannello «Merge su main» post-ok Nicola + hook post-merge `aggiorna-cervello.sh` (VPS già collegato)
+- 2026-07-01 10:36 · @Nicola · chiesto · «**ok merge bottoni A/B**»
+- 2026-07-01 10:36 · @AD · FATTO · Push `main` `c50148d` (bottoni A/B ordine zombie) · Vercel redeploy · PASSO-A Nicola: `sudo bash cervello/vps/aggiorna-cervello.sh`
+- 2026-07-01 10:36 · @operations · SERVE · Nicola: clic **A** o **B** sulla card (post-deploy ~2 min) — soglia 168h superata ~10:30
+- 2026-07-01 10:45 · @Nicola · chiesto · «Impara flusso target sempre · come creo token GitHub merge?»
+- 2026-07-01 10:45 · @AD · FATTO · Regola permanente merge-on-approval confermata · istruzioni PAT fine-grained consegnate · `.env.example` aggiornato con `GITHUB_MERGE_TOKEN`
+- 2026-07-01 10:45 · @operations · SERVE · Nicola: **A** o **B** sull'ordine €19,05 (unica cosa che chiude la card)

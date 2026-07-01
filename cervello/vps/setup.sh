@@ -124,12 +124,18 @@ else
 fi
 
 echo "== 8) Unit systemd =="
-for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
+for unit in mycity-giro.service mycity-giro.timer mycity-worker.service \
+  mycity-monitora.service mycity-monitora.timer \
+  mycity-ritmo-mattino.service mycity-ritmo-mattino.timer \
+  mycity-ritmo-sera.service mycity-ritmo-sera.timer \
+  mycity-ritmo-settimana.service mycity-ritmo-settimana.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"
 done
+chmod +x "$APP_DIR/cervello/ritmo-run.sh" "$ENV_DIR/ritmo-ora.sh" 2>/dev/null || true
 systemctl daemon-reload
-systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer >/dev/null 2>&1 || true
-echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio web (giornaliero)."
+systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer \
+  mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer >/dev/null 2>&1 || true
+echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio (06:30) + ritmo (08/20/ven 18)."
 
 cat <<EOF
 
@@ -151,11 +157,14 @@ cat <<EOF
  Poi accendi tutto:
       systemctl start mycity-worker.service
       systemctl start mycity-giro.timer
-      systemctl start mycity-monitora.timer    # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
-      # prova subito un giro e un monitoraggio:
+      systemctl start mycity-monitora.timer    # monitoraggio web (Ondata 3, giornaliero 06:30)
+      systemctl start mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+      # prova subito un giro, monitoraggio o ritmo:
       systemctl start mycity-giro.service && journalctl -u mycity-giro -n 30 --no-pager
       systemctl start mycity-monitora.service && journalctl -u mycity-monitora -n 30 --no-pager
+      bash $ENV_DIR/ritmo-ora.sh mattino   # piano del mattino adesso (log in diretta)
 
- Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
+ Per fermare tutto:  systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer \
+   mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
 ============================================================
 EOF

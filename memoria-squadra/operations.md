@@ -8,6 +8,7 @@ reparto: operations
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-01 10:09 · casella ordine zombie €19,05 · Nicola «3ª volta che lo approvo» · causa: Approva proposta ≠ A/B; firme passate = batch/foglio-firma/Sprint 1 · serve «A» o «B» esplicito · lezione L-0701-29 · #operations #zombie #pannello #ux
 - 2026-07-01 07:19 · casella ordine zombie €19,05 · Nicola chiede negozio buyer prima di A/B · risposta: **Pane Quotidiano**, tel. 348 642 1766 · lezione: card decisione ordine deve mostrare negozio+buyer in anteprima (L-0701-24) · #operations #zombie #pannello
 - 2026-07-01 00:17 · giro temporali 1/7 · playbook operativo prodotto 🟢 · allerta 070/2026 ER · lezione: monitorare rider se consegne attive · #meteo #playbook
 - 2026-07-01 00:58 · Priorità operativa spostata su **ordine zombie €19,05 — Pane Quotidiano** (buyer tel. 348 642 1766, PENDING dal 24/6) · pacchetto pronto in `consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md` · #operations #zombie
