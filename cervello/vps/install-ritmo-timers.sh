@@ -11,6 +11,8 @@ fi
 
 ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+chmod +x "$ENV_DIR/ritmo-systemd.sh" "$ENV_DIR/ritmo-ora.sh" 2>/dev/null || true
+
 for unit in \
   mycity-ritmo-mattino.service mycity-ritmo-mattino.timer \
   mycity-ritmo-sera.service mycity-ritmo-sera.timer \
