@@ -274,4 +274,6 @@ Assegnazioni (1 mossa per reparto):
 - @crm-lifecycle · prepara email recupero 4 carrelli abbandonati (DRY-RUN, mani spente) · 🟢
 - @intelligence · monitor temporali pomeriggio — se #16 parte, segnala finestra consegna · 🟢
 
-🙋 **Serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok 16`** per avviare esecuzione · 🟡 **SQL 107** in Supabase (30s) · 🟡 sync VPS · 🟢 inserimento negozi 6/7 (checklist pronta, no approvazione richiesta).
+🙋 **Serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok 16`** per avviare esecuzione · 🟡 **SQL 107** in Supabase (30s) · 🟡 sync VPS · 🟢 inserimento negozi 6/7 (checklist pronta, **ignora card Proposte — nessuna approvazione**).
+
+- 2026-07-01 11:25 · @AD · FATTO · Nicola (2ª volta): card onboarding 6/7 con Approva/Ignora → **errore classificazione**; rimossa da `ultimo-briefing.json` azioni; resta solo in opportunità + checklist 🟢.

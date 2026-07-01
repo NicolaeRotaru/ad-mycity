@@ -326,15 +326,15 @@
     },
     {
       "id": "L-2026-0701-07",
-      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello.",
+      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello. **Recidiva 1/7 11:25:** piano del mattino ha rimesso la stessa voce in `ultimo-briefing.json` azioni → Approva/Ignora di nuovo sbagliati.",
       "tag": ["pannello", "classificazione", "nicola", "onboarding", "approvazioni", "guardrail"],
       "reparto": "@AD",
       "confidenza": 0.9,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:25",
       "stato": "attiva"
     },
     {
