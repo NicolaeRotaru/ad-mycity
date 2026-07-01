@@ -1,0 +1,10 @@
+[Unit]
+Description=MyCity AD — lancia il report della sera ogni giorno alle 20:00 (Piacenza)
+
+[Timer]
+OnCalendar=*-*-* 20:00:00
+Timezone=Europe/Rome
+Persistent=true
+
+[Install]
+WantedBy=timers.target

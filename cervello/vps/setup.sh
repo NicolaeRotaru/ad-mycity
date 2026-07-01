@@ -130,6 +130,7 @@ done
 systemctl daemon-reload
 systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer >/dev/null 2>&1 || true
 echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio web (giornaliero)."
+echo "   Per il battito quotidiano (mattino/sera/settimana): sudo bash $ENV_DIR/install-ritmo-timers.sh"
 
 cat <<EOF
 

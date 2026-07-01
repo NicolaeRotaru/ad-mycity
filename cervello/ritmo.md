@@ -54,7 +54,16 @@ Sei l'AD. Fai la REVIEW SETTIMANALE della squadra:
 Output: pagella per reparto + 3 mosse per la prossima settimana + voto salute architettura + la lettera + decisioni per Nicola.
 ```
 
-## Come schedularli (Windows)
+## Come schedularli
+
+### VPS Linux (consigliato — sempre acceso)
+```bash
+sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
+# Timer: mattino 08:00 · sera 20:00 · review ven 18:00 (fuso Europe/Rome)
+# Manuale: sudo bash .../ritmo-ora.sh {mattino|sera|settimana}
+```
+
+### Windows (PC locale)
 Usa lo stesso pattern di `cervello/giro.ps1`: crea `mattino.ps1` / `sera.ps1` / `settimana.ps1` che fanno
 `claude -p "<prompt sopra>" --permission-mode acceptEdits`, poi pianificali con `schtasks` (es. mattino 08:00,
 sera 20:00, settimana ven 18:00). Senza scheduler, l'AD esegue queste cadenze quando glielo chiedi.

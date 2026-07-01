@@ -153,6 +153,8 @@ Apri nel browser (sostituisci dominio):
 | `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |
 | Briefing vecchio | `OBSIDIAN_BRANCH=main` o no redeploy | `memoria-ad` + redeploy Vercel |
 | Errore Vercel su PR memoria-ad | email commit `ad@mycity.local` | `GIT_AUTHOR_EMAIL` nel .env VPS |
+| Ritmo mattino/sera fallisce subito (status=1) | `cervello/ritmo.sh` assente sul VPS o motore AI non risponde | `sudo bash cervello/vps/aggiorna-cervello.sh` + `install-ritmo-timers.sh` · test `ritmo-ora.sh mattino` |
+| Card «Ritmo del giorno» vuota | Nessun blocco recente in `RITMO.md` su memoria-ad | `sudo bash cervello/vps/ritmo-ora.sh mattino` o chiedi «piano del mattino» in chat |
 
 ---
 
