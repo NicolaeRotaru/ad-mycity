@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 06:29",
+  "data": "2026-07-01 06:45",
   "lezioni": [
+    {
+      "id": "L-2026-0701-23",
+      "testo": "Dopo radiografia, quando Nicola chiede «sono in coda? / te ne occupi tu? / come correggiamo tutto?», rispondere con **modello sprint**, non 46 righe AZIONI: (1) **#13 Sprint 1** 🟡 = 4 bloccanti pre-live in un unico pacchetto; (2) gravi+minori nel report raggruppati **Sprint 2** (privacy/sicurezza) e **Sprint 3** (UX/ops) — accodati sprint per sprint dopo ok; (3) **deploy produzione sempre 🔴 separato** dal branch 🟡. Nicola approva a blocchi: `ok 13` / `ok Sprint 1` → branch; `ok deploy Sprint 1` 🔴 → prod; `ok a tutti gli sprint radiografia` → tutto il lavoro 🟡 in sequenza, deploy resta 🔴 per sprint (o unico finale se preferisce). **AD orchestra** tech+security+QA — Nicola non gestisce 46 bug singolarmente. Report = catalogo completo; coda Pannello = solo ciò che **aspetta firma per agire**.",
+      "tag": ["radiografia", "approvazioni", "sprint", "coda", "nicola", "workflow", "tech"],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-22",
       "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo, assicurati che non accada mai con nient'altro — non possiamo fare figura di merda». Pre-mortem: `esegui-azione.mjs` LIVE su coda mal filtrata → messaggio/payout 🔴 senza firma. Fix 🟡 in repo: `cervello/guardrail-semaforo.mjs` (modulo unico) + doppio cancello in `esegui-azione.mjs` (ingresso + pre-invio) + `NICOLA_FIRMA=1`/`--firma-nicola` solo post-Approva Pannello in `worker.sh`/`worker.ps1` + autopilot **solo 🟢** + stesso gate in `pannello/lib/mani.ts` e `azioni.ts` (n8n). Heuristiche contenuto → 🔴 anche se mal etichettato 🟢 (email domini esterni, payout, stripe, whatsapp, deploy). Self-test: `node cervello/esegui-azione.mjs verifica` → 7/7. **Deploy main+VPS ancora 🟡** — con `AZIONI_LIVE=0` resta sicuro. Pattern: ogni nuovo esecutore (worker, autopilot, n8n, mani) deve chiamare guardrail-semaforo, non reimplementare filtri locali.",
@@ -458,10 +470,11 @@
     "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»).",
     "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37).",
     "Quando la casella salute-sensori segnala cecità chiede «quali connessioni MCP ti mancano?» — vuole inventario verificato + priorità sblocco (token Supabase → Stripe MCP → PostHog), non «i DB sono giù» (chat 1/7 01:57).",
-    "Su pre-mortem 🔴 (messaggi negozi, payout, azioni reali) vuole fix **sistemico e immediato**, non patch sul singolo caso — «assicurati che non accada mai con nient'altro»; tolleranza zero per figura di merda verso negozi/clienti (chat 1/7 casella guardrail worker/autopilot)."
+    "Su pre-mortem 🔴 (messaggi negozi, payout, azioni reali) vuole fix **sistemico e immediato**, non patch sul singolo caso — «assicurati che non accada mai con nient'altro»; tolleranza zero per figura di merda verso negozi/clienti (chat 1/7 casella guardrail worker/autopilot).",
+    "Dopo radiografia chiede se i bug sono in coda e come correggerli tutti — vuole chiarezza: AD orchestra i fix, lui firma **a sprint/blocchi** (non 46 card), comandi brevi (`ok 13`, `ok deploy`, `ok a tutti gli sprint radiografia`); report = elenco completo, Pannello = solo ciò che aspetta firma (chat 1/7 post-radiografia)."
   ],
   "meta": {
-    "lezioni_attive": 35,
+    "lezioni_attive": 36,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67

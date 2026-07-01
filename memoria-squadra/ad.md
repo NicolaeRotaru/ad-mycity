@@ -66,3 +66,6 @@ Giro completo: KPI live stallo 159,8h (+2h), integrato foglio-firma FATTO + VP r
 
 # ESITO — @AD — 2026-07-01 06:28
 Metabolizzazione chat «quali connessioni MCP ti mancano?» (casella salute-sensori-dati): inventario live — Supabase config cieco (token+auth Cursor), Stripe/PostHog mai cablati, REST ✅. L-2026-0701-21 + evidenze L-0630-03/06. Preferenza: tier concreti come «quali mani». Proposta 🟡 PR Stripe MCP in attesa ok Nicola.
+
+# ESITO — @AD — 2026-07-01 06:45
+Metabolizzazione chat post-radiografia («sono in coda? / te ne occupi tu? / come correggiamo tutto?»): Nicola vuole chiarezza su orchestrazione — non 46 righe AZIONI, approvazione a sprint (#13 = 4 bloccanti), deploy 🔴 separato, comandi brevi ok 13 / ok deploy / ok tutti gli sprint. L-2026-0701-23 + preferenza Nicola. Nessuna nuova firma.

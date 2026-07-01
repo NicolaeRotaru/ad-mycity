@@ -176,6 +176,10 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 01:37 · @Nicola · FATTO · Merge PR **WebFetch globale** su `main` + `sudo bash aggiorna-cervello.sh` — worker VPS con `"WebFetch"` globale (verificato).
 - 2026-07-01 01:37 · @AD · FATTO · Branch **`fix/quaderni-senior`** pushato su GitHub (commit `9c5dc8e`, 4 file Pannello). PR da mergiare su **`main`**: https://github.com/NicolaeRotaru/ad-mycity/compare/main...fix/quaderni-senior?expand=1
 
+### 2026-07-01 — Nicola: quaderni assenti in Memoria (06:31)
+- 2026-07-01 06:31 · @Nicola · SERVE · «dentro memoria non ci sono i quaderni dei senior» — WebFetch mergiato ✅; **PR Quaderni su `main` ancora NO** → tab assente su Pannello produzione (Vercel).
+- 2026-07-01 06:31 · @AD · FATTO · Verifica locale: API `/api/memoria/quaderni` restituisce **42 quaderni** da `memoria-squadra/` (dati OK su memoria-ad). Codice tab solo in branch `fix/quaderni-senior` (4 file `pannello/`). Push GitHub fallito (token VPS scaduto) — Nicola deve mergiare PR se branch visibile, altrimenti rinnovare PAT.
+
 ### 2026-07-01 — Giro AD 06:18
 - 2026-07-01 06:18 · @AD · FATTO · Giro 1/7: KPI live REST stallo 163,8h (+2h), 168h ~4,2h (~10:30). Escalation v4 🟢. Briefing + auto-coscienza.
 - 2026-07-01 06:18 · @analista · FATTO · Snapshot KPI `consegne/analista/2026-07-01-kpi-live-0618.md` (🟢)
