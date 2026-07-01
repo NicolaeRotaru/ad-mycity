@@ -288,3 +288,6 @@ Assegnazioni (1 mossa per reparto):
 
 - 2026-07-01 11:29 · @AD · FATTO · Nicola: card SQL 107 «perché approvare di nuovo?» → chiarito **2 tubi** (Render ✅ · Supabase SQL ⏳); firma deploy già valida; card rimossa da Proposte; anon `profiles.stripe_account_id` ancora 200.
 - 2026-07-01 11:25 · @AD · FATTO · Nicola (2ª volta): card onboarding 6/7 con Approva/Ignora → **errore classificazione**; rimossa da `ultimo-briefing.json` azioni; resta solo in opportunità + checklist 🟢.
+
+- 2026-07-01 12:15 · @crm-lifecycle · FATTO · Playbook recupero carrelli: letti 4 carrelli >4h live (REST). 1 buyer reale (samir, PQ €10) → bozze A8 touch #1 🟡 + A9 touch #2 🔴 BENVENUTO10 in AZIONI-PRONTE. 3 account demo/admin SKIP (A10–A11). Dossier `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`. NIENTE inviato.
+- 2026-07-01 12:15 · @crm-lifecycle · PASSO-A @legale-privacy · Consenso email_marketing=false su samir — validare se touch #1 è transazionale o serve opt-in prima di `ok A8`.

@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-01 12:00
+aggiornato: 2026-07-01 12:15
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -33,16 +33,70 @@ commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo.
 Mettiamo online la tua vetrina in ~20 minuti e il primo sabato la consegna è gratis.
 Ti va se passo a sistemare tutto insieme?
 
-## A3 · 🛒 Recupero carrelli abbandonati
+## A3 · 🛒 Recupero carrelli — indice playbook 1/7 12:15
 reparto: crm-lifecycle
 livello: 🟡
-canale: Email ai clienti con carrello fermo
-perche: Ci sono carrelli non completati: un promemoria con codice recupera ordini quasi persi.
-preparato: 🔁 crm-lifecycle + ✍️ copywriter
+canale: Email Resend (DRY-RUN)
+perche: 4 carrelli >4h live (REST 12:00). 1 solo buyer reale (samir, Pane Quotidiano €10). RPC cron = 0 righe (flag recovery già settato a giugno).
+preparato: 🔁 crm-lifecycle · dossier `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
+origine: playbook:recupero-carrelli
 testo:
-Oggetto: Hai lasciato qualcosa nel carrello 🛍️
-Il tuo ordine è ancora qui! Completa entro stasera e usa il codice TORNA5 per 5€ di
-sconto sopra i 25€. I negozi di Piacenza ti aspettano.
+Riepilogo: A8 = invio reale samir (touch #1 🟡) · A9–A11 = skip demo/admin.
+Codici DB attivi: BENVENUTO10 (10% 1° ordine) · SPED5 (€5 sopra €25). TORNA5 non esiste — non usare.
+
+## A8 · 🛒 Recupero carrello — samir? (Pane Quotidiano €10) · TOUCH #1
+reparto: crm-lifecycle
+livello: 🟡
+canale: Email Resend → destinatario UUID `57494b3e-fd67-4379-8b9c-90e40e39ff06` (email da auth.users / admin dashboard)
+perche: Unico buyer reale con carrello fermo 348h (3 prodotti bio PQ, €10). Ha raggiunto /checkout da iPhone. Nessun ordine completato.
+preparato: 🔁 crm-lifecycle · `consegne/crm/2026-07-01-playbook-recupero-carrelli.md` §Cliente #1
+origine: playbook:recupero-carrelli
+codice: *(nessuno — reminder puro)*
+blocco_invio: email_marketing=false → validare con @legale-privacy se transazionale o opt-in prima dell'invio
+testo:
+Oggetto: Hai lasciato qualcosa da Pane Quotidiano 🛒
+Ciao,
+hai messo nel carrello da Pane Quotidiano tre prodotti bio — pesto e kefir — e poi ti sei distratto. Capita.
+Sono ancora lì: Pesto Genovese Bio €5 · Kefir capra €2,95 · Kefir Berchtesgadener €2,05 — Totale €10 (+ consegna).
+Te li portiamo a mano, paghi alla consegna se preferisci.
+👉 Completa il tuo ordine: https://mycity-marketplace.com/cart
+Se qualcosa ti ha bloccato, rispondi a questa mail: ti aiuto io.
+Nicola — MyCity
+
+## A9 · 🛒 Recupero carrello — samir? · TOUCH #2 (con codice)
+reparto: crm-lifecycle
+livello: 🔴
+canale: Email Resend (solo se A8 non converte entro 24h)
+perche: Secondo touch con incentivo primo ordine (~€1 di sconto). Allineato a FLUSSI §6.2 e AZIONI-IN-ATTESA §crm carrello #2.
+preparato: 🔁 crm-lifecycle · stesso dossier §Cliente #1 touch #2
+origine: playbook:recupero-carrelli
+codice: BENVENUTO10
+testo:
+Oggetto: Ti tengo €1 di sconto sul carrello 🧡
+Ciao, il carrello da Pane Quotidiano è ancora qui — pesto e kefir bio, €10 di prodotti.
+Usa BENVENUTO10 al checkout: 10% sul primo ordine (~€1 in meno).
+👉 https://mycity-marketplace.com/cart
+Nicola — MyCity
+
+## A10 · ⏭️ SKIP carrello — Assistenza MyCity (admin test €7,95)
+reparto: crm-lifecycle
+livello: 🟢
+canale: —
+perche: Account admin piattaforma (`admin@piacenza-demo.local`), non cliente. Carrello test Pane Quotidiano dal 24/6.
+preparato: 🔁 crm-lifecycle · playbook 1/7 12:00
+origine: playbook:recupero-carrelli
+testo:
+NON INVIARE — account interno. Carrello: 3 prodotti PQ, €7,95.
+
+## A11 · ⏭️ SKIP carrelli demo — Casa Linda + Pane Quotidiano seller
+reparto: crm-lifecycle
+livello: 🟢
+canale: —
+perche: Seed demo (`casa.linda@piacenza-demo.local`) e auto-test negoziante PQ (€17,80 + €13,90). Non sono clienti.
+preparato: 🔁 crm-lifecycle · playbook 1/7 12:00
+origine: playbook:recupero-carrelli
+testo:
+NON INVIARE — 2 account demo/seller. Dettaglio in consegne/crm/2026-07-01-playbook-recupero-carrelli.md.
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione)
 reparto: customer-success
