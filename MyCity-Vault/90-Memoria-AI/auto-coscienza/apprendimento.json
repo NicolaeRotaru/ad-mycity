@@ -1,6 +1,18 @@
 {
-  "data": "2026-07-01 06:18",
+  "data": "2026-07-01 06:28",
   "lezioni": [
+    {
+      "id": "L-2026-0701-21",
+      "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**), rispondere con **inventario verificato live** — tabella: sensore | in `.mcp.json`? | stato adesso | cosa blocca. **Tre tier priorità:** ① Supabase marketplace+memoria (config ✅, ciechi: `SUPABASE_ACCESS_TOKEN` assente in `vps/.env` + click Autorizza MCP in Cursor) 🟡 · ② Stripe MCP (mai cablato — chiave `sk_test_…` + server in `.mcp.json` proposta 🟡, utile prima payout-test 03/7) · ③ PostHog MCP 🟢 opzionale a 0 ordini pagati. **Non confondere con «DB giù»:** REST marketplace HTTP 200 ✅; WebFetch globale ✅ (worker post-merge 1/7). Cursor Cloud spesso cieco finché Nicola non autorizza — worker legge via REST (L-2026-0630-03). Pattern = stesso di «quali mani ti servono?» (L-2026-0630-06): tier concreti + cosa sblocca, non teoria.",
+      "tag": ["mcp", "sensori", "supabase", "stripe", "nicola", "inventario", "devops"],
+      "reparto": "@AD",
+      "confidenza": 0.84,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-20",
       "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critico, «decidi ORA», ore esatte) e produrre nota escalation 🟢 aggiornata (v3, non ripetere v2). Mossa n.1 resta ordine zombie PQ finché non c'è transazione — non spostare focus su marketing/VP. Se i numeri = al giro precedente, il valore del giro è **urgenza decisionale + delta secondari** (es. carrelli 4 vs 6), non ripetere 11 sezioni identiche senza evidenziare il countdown.",
@@ -237,11 +249,11 @@
     },
     {
       "id": "L-2026-0630-06",
-      "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?», rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env.",
-      "tag": ["mani", "builder", "azioni-live", "starter-pack", "nicola"],
+      "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?» **o «quali connessioni MCP ti mancano?»** (L-2026-0701-21), rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env.",
+      "tag": ["mani", "builder", "azioni-live", "starter-pack", "nicola", "mcp"],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.8,
-      "evidenze": 1,
+      "confidenza": 0.82,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-06-30",
       "ultima_conferma": "2026-06-30",
@@ -261,14 +273,14 @@
     },
     {
       "id": "L-2026-0630-03",
-      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7. Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7 (REST HTTP 200 anche in chat MCP 01:57). Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
       "tag": ["sensori", "fallback", "supabase", "rest"],
       "reparto": "@AD",
-      "confidenza": 0.85,
-      "evidenze": 3,
+      "confidenza": 0.87,
+      "evidenze": 4,
       "fonte": "auto-analisi",
       "nato": "2026-06-30",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:57",
       "stato": "attiva"
     },
     {
@@ -431,10 +443,11 @@
     "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»).",
     "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»).",
     "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»).",
-    "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37)."
+    "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37).",
+    "Quando la casella salute-sensori segnala cecità chiede «quali connessioni MCP ti mancano?» — vuole inventario verificato + priorità sblocco (token Supabase → Stripe MCP → PostHog), non «i DB sono giù» (chat 1/7 01:57)."
   ],
   "meta": {
-    "lezioni_attive": 33,
+    "lezioni_attive": 34,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67

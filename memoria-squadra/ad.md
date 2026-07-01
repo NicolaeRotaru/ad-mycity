@@ -63,3 +63,6 @@ Metabolizzazione chat «merge WebFetch + aggiorna-cervello + apri pr quaderni»:
 
 # ESITO — @AD — 2026-07-01 02:17
 Giro completo: KPI live stallo 159,8h (+2h), integrato foglio-firma FATTO + VP rimandato + radiografia 46. Mossa n.1 = ordine zombie PQ + Sprint 1. L-2026-0701-19 (non ripetere domande obsolete). Checklist batch 6/7 🟢. Voto fiducia 87 ▲.
+
+# ESITO — @AD — 2026-07-01 06:28
+Metabolizzazione chat «quali connessioni MCP ti mancano?» (casella salute-sensori-dati): inventario live — Supabase config cieco (token+auth Cursor), Stripe/PostHog mai cablati, REST ✅. L-2026-0701-21 + evidenze L-0630-03/06. Preferenza: tier concreti come «quali mani». Proposta 🟡 PR Stripe MCP in attesa ok Nicola.

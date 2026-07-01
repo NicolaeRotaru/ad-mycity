@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 06:18
+aggiornato: 2026-07-01 06:28
 fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · radiografia + foglio-firma Nicola 1/7)
 ---
 
@@ -20,9 +20,18 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
+## Sensori MCP (inventario 2026-07-01 01:57 · chat Nicola)
+| Sensore | Config | Stato | Sblocco |
+|---|---|---|---|
+| Supabase marketplace+memoria | `.mcp.json` ✅ | ❌ cieco Cursor | `SUPABASE_ACCESS_TOKEN` in `vps/.env` + Autorizza MCP |
+| Stripe (incassi/payout) | ❌ mai cablato | assente | `sk_test_…` + server MCP in config 🟡 |
+| PostHog (funnel) | ❌ mai cablato | assente | 🟢 opzionale (0 ordini pagati) |
+| REST Supabase marketplace | env ✅ | ✅ HTTP 200 | fallback attivo (AR-001) |
+| WebFetch | globale ✅ | ✅ worker | merge 1/7 01:37 |
+
 ## Semafori
 - 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v4 🟢; WebFetch worker ✅.
-- 🟡 Da tenere d'occhio: stallo **163,8h** → **168h ~4,2h** (countdown massimo); **4 carrelli** >4h (=); kit bando #12 (FESR chiuso 23/6); **Sprint 1 radiografia** in attesa ok; PR quaderni su **main** in attesa merge; onboarding 6/7 (Nicola); temporali pomeriggio + allerta giallo PC.
+- 🟡 Da tenere d'occhio: **MCP Supabase cieco** (REST mitiga); **Stripe MCP assente** (pre payout 03/7); stallo **163,8h** → **168h ~4,2h** (countdown massimo); **4 carrelli** >4h (=); kit bando #12 (FESR chiuso 23/6); **Sprint 1 radiografia** in attesa ok; PR quaderni su **main** in attesa merge; onboarding 6/7 (Nicola); temporali pomeriggio + allerta giallo PC.
 - 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti pre-live** (radiografia 1/7); ordine zombie €19,05.
 
 ## Radiografia marketplace (2026-07-01)
