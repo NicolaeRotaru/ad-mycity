@@ -1,0 +1,28 @@
+From 34b575d6bc835e54000015258af637cd12bc4ca4 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Wed, 1 Jul 2026 07:53:33 +0000
+Subject: [PATCH] fix: typecheck seller_public_profiles query (Render build)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+La vista non è nel Database type generato: cast via unknown per
+evitare TS2352 su GenericStringError[] in next build.
+---
+ lib/queries/seller-public-profiles.ts | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lib/queries/seller-public-profiles.ts b/lib/queries/seller-public-profiles.ts
+index bca7f6b..cd16f42 100644
+--- a/lib/queries/seller-public-profiles.ts
++++ b/lib/queries/seller-public-profiles.ts
+@@ -38,7 +38,8 @@ export async function fetchSellerPublicMap(
+     .in('id', unique);
+   if (error) throw error;
+ 
+-  for (const row of (data ?? []) as SellerPublicProfile[]) {
++  const rows = (data ?? []) as unknown as SellerPublicProfile[];
++  for (const row of rows) {
+     map.set(row.id, row);
+   }
+   return map;
