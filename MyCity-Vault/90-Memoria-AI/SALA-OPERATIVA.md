@@ -219,7 +219,8 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 
 ### 2026-07-01 — Casella Pannello ordine zombie (Nicola 10:09)
 - 2026-07-01 10:09 · @Nicola · chiesto · «Perché torna da approvare? (3ª volta)»
-- 2026-07-01 10:09 · @AD · FATTO · Chiarito: nessuna A/B registrata; Approva proposta ≠ accetta ordine; foglio-firma/Sprint 1 erano altro. Serve **«A»** o **«B»** esplicito. Soglia 168h ~10:30.
+- 2026-07-01 11:15 · @AD · FATTO · Casella «crea la PR Sprint 1»: Nicola ripete richiesta · GitHub: **#209 mergiata 09:34** + **#210** hotfix build 10:00 · card Pannello obsoleta · prossimo **`ok deploy Sprint 1`** 🔴
+- 2026-07-01 11:15 · @tech · PASSO-A Nicola · **Deploy Sprint 1** — migrazione `107_seller_public_profiles.sql` + smoke test · codice già su `main`
 - 2026-07-01 10:09 · @operations · SERVE · Nicola: **A accetta** o **B annulla** ordine `58094956…` — ultima chiamata prima 168h
 - 2026-07-01 10:13 · @Nicola · chiesto · «Aggiungimi A o B, anzi che approva o ignora»
 - 2026-07-01 10:13 · @frontend-dev · FATTO · Bottoni **A accetta / B annulla** su proposta ordine zombie + API persistenza (`/api/decisione-ordine`) · deploy Pannello su main 🟡
