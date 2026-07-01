@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 07:20
-fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · radiografia + foglio-firma Nicola 1/7)
+aggiornato: 2026-07-01 07:30
+fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · Sprint 1 branch 1/7 07:30 · chat Nicola)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 06:18 — Giro AD:** stallo **163,8h** (168h tra **~4,2h**). Foglio-firma **FATTO** 01:02. VP **rimandato** → onboarding **6/7**. Radiografia: **4 bloccanti**. Mossa n.1 = **ordine zombie PQ entro ~4h** + ok **Sprint 1**.
+> 🧠 **1/7 07:30 — Sprint 1 eseguito:** Nicola «ok Sprint 1» → branch `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, no deploy). Stallo **163,8h** (168h ~4,2h). Mossa n.1 = **ordine zombie PQ** + **push PR marketplace** + migrazione `107` prima deploy 🔴.
 
 ## I 7 numeri (live 2026-07-01 06:18 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
@@ -41,31 +41,33 @@ fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation 168h v4 🟢; WebFetch worker ✅; guardrail 🔴 codificato in repo (self-test 7/7).
-- 🟡 Da tenere d'occhio: **deploy guardrail 🔴 su main+VPS** (codice in repo, non prod); **MCP Supabase cieco** (REST mitiga); **Stripe MCP assente** (pre payout 03/7); stallo **163,8h** → **168h ~4,2h** (countdown massimo); **4 carrelli** >4h (=); kit bando #12 (FESR chiuso 23/6); **Sprint 1 radiografia** in attesa ok; **PR Quaderni senior su `main` — Nicola segnala tab assente (06:31), merge ancora da fare**; onboarding 6/7 (Nicola); temporali pomeriggio + allerta giallo PC.
-- 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti pre-live** (radiografia 1/7); ordine zombie €19,05.
+- 🟡 Da tenere d'occhio: **Sprint 1 branch pronto** — push PR `NicolaeRotaru/mycity` + migrazione `107` + review → **`ok deploy Sprint 1`** 🔴; **deploy guardrail 🔴 su main+VPS**; **MCP Supabase cieco** (REST mitiga); **Stripe MCP assente** (pre payout 03/7); stallo **163,8h** → **168h ~4,2h**; **4 carrelli** >4h; kit bando #12; **PR Quaderni senior su `main`** (tab assente 06:31); onboarding 6/7 (Nicola); temporali + allerta giallo PC.
+- 🔴 Problema: 0 transazioni reali; ~20 azioni approvate, 0 inviate (mani spente); **4 bloccanti in prod** (fix in branch, non deployati); ordine zombie €19,05.
 
 ## Radiografia marketplace (2026-07-01)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Problemi confermati | **46** (4·24·18) | `consegne/audit/2026-07-01-radiografia.md` |
 | Bloccanti pre-live | **4** | webhook · fee UI · RLS profiles · COD ghost |
-| Sprint 1 in coda | **#13** 🟡 in attesa ok Nicola | branch marketplace (no deploy) |
-| Sprint 2/3 | nel report, accodati dopo ok Sprint 1 | chat Nicola 1/7 06:45 |
+| Sprint 1 | **#13 IN CORSO** · branch `fix/sprint-1-radiografia-2026-07-01` commit `8dc0f88` | Nicola ok 1/7 07:30 · `consegne/tech/sprint-1-radiografia-marketplace.md` |
+| Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Ultime mosse dell'AD
-1. **Chat 1/7 07:19** — Nicola (casella ordine zombie): «Di quale negozio è il buyer?» → **Pane Quotidiano** (Via Calzolai 25), buyer tel. **348 642 1766**, COD €19,05 del 24/6. Decisione A/B ancora 🔴 in attesa (~3h a 168h).
-2. **Giro 1/7 06:18** — KPI live (= vs 04:17, stallo +2h, 168h ~4,2h). Escalation v4 🟢. Mossa n.1 = ordine zombie entro ~4h + Sprint 1. Vedi [[2026-07-01]].
-3. **Giro 1/7 04:17** — KPI live (= vs 02:17). Carrelli 4 ▼−2. Escalation v3 🟢.
-4. **Giro 1/7 02:17** — Checklist batch 6/7 🟢. Nota escalation 168h v2.
-5. **Chat 1/7 06:45** — Nicola chiede workflow fix radiografia: spiegato sprint/blocchi (#13), deploy 🔴 separato, comandi `ok 13` / `ok deploy` / `ok tutti gli sprint`.
-6. **Metabolizzazione 1/7 06:29** — lezione L-0701-22 guardrail universale + quaderni builder/security.
-7. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`.
-8. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
+1. **Chat 1/7 07:30** — Nicola «**ok Sprint 1**» → fix 4 bloccanti + extra urgenti su branch marketplace (no deploy). Push/PR a Nicola · migrazione `107` pre-prod · deploy 🔴 separato.
+2. **Chat 1/7 07:19** — Nicola (casella ordine zombie): «Di quale negozio è il buyer?» → **Pane Quotidiano** (Via Calzolai 25), buyer tel. **348 642 1766**, COD €19,05 del 24/6. Decisione A/B ancora 🔴 in attesa (~3h a 168h).
+3. **Giro 1/7 06:18** — KPI live (= vs 04:17, stallo +2h, 168h ~4,2h). Escalation v4 🟢. Mossa n.1 = ordine zombie entro ~4h + Sprint 1. Vedi [[2026-07-01]].
+4. **Giro 1/7 04:17** — KPI live (= vs 02:17). Carrelli 4 ▼−2. Escalation v3 🟢.
+5. **Giro 1/7 02:17** — Checklist batch 6/7 🟢. Nota escalation 168h v2.
+6. **Chat 1/7 06:45** — Nicola chiede workflow fix radiografia: spiegato sprint/blocchi (#13), deploy 🔴 separato, comandi `ok 13` / `ok deploy` / `ok tutti gli sprint`.
+7. **Metabolizzazione 1/7 06:29** — lezione L-0701-22 guardrail universale + quaderni builder/security.
+8. **Metabolizzazione 1/7 01:59** — guardrail 🔴 pre-mortem → `guardrail-semaforo.mjs`.
+9. **Chat 1/7 01:02** — Nicola firma foglio-firma: contratto PQ 12% · payout 03/7 · sandbox.
 
 ## Prossime priorità (da approvare)
 - [ ] 🔴 **Sbloccare ordine zombie €19,05 — Pane Quotidiano** (1ª transazione reale — **entro ~4h / ~10:30**)
-- [ ] 🟡 **Ok Sprint 1 radiografia** — branch: webhook + fee UI + rollback COD + RLS
-- [ ] 🔴 **Deploy fix marketplace** — solo post-Sprint 1 + env
+- [x] ~~Ok Sprint 1 radiografia~~ — **IN CORSO** 1/7 07:30 · branch pronto, push PR a Nicola
+- [ ] 🟡 **Push + PR marketplace** — `fix/sprint-1-radiografia-2026-07-01` → `main` (Nicola)
+- [ ] 🔴 **Deploy Sprint 1** — post-review + migrazione `107_seller_public_profiles.sql` su prod
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox ✅)
 - [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`
 - [x] ~~Foglio-firma lancio~~ — **FATTO** Nicola 1/7 01:02
