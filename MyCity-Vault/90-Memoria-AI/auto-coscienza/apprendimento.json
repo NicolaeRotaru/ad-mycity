@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-01 11:10",
+  "data": "2026-07-01 11:26",
   "lezioni": [
     {
       "id": "L-2026-0701-34",
@@ -192,14 +192,14 @@
     },
     {
       "id": "L-2026-0701-19",
-      "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7).",
-      "tag": ["giro", "nicola", "briefing", "coerenza", "decisioni"],
+      "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7). **Estensione 1/7 11:25:** vale anche per **piano del mattino/ritmo** — onboarding 6/7 già ritirato dalle Proposte alle 01:03 (L-07) non va in `ultimo-briefing.json` azioni; recidiva = stessa frizione Approva/Ignora.",
+      "tag": ["giro", "nicola", "briefing", "coerenza", "decisioni", "piano-mattino"],
       "reparto": "@AD",
-      "confidenza": 0.86,
-      "evidenze": 1,
+      "confidenza": 0.88,
+      "evidenze": 2,
       "fonte": "auto-analisi",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:26",
       "stato": "attiva"
     },
     {
@@ -326,15 +326,15 @@
     },
     {
       "id": "L-2026-0701-07",
-      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello. **Recidiva 1/7 11:25:** piano del mattino ha rimesso la stessa voce in `ultimo-briefing.json` azioni → Approva/Ignora di nuovo sbagliati.",
-      "tag": ["pannello", "classificazione", "nicola", "onboarding", "approvazioni", "guardrail"],
+      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello. **Recidiva 1/7 11:25 (2ª volta stesso giorno):** piano del mattino 11:18 ha rimesso la voce in `ultimo-briefing.json` azioni → Nicola «sono Approva/Ignora le scelte giuste?» → **No**, ignorare card · **Guardrail pre-briefing:** prima di scrivere `azioni[]` leggere DECISIONI/intenzioni — ciò già **ritirato/chiuso** va solo in `opportunita[]` o checklist 🟢, **mai** Proposte.",
+      "tag": ["pannello", "classificazione", "nicola", "onboarding", "approvazioni", "guardrail", "recidiva", "piano-mattino"],
       "reparto": "@AD",
-      "confidenza": 0.9,
-      "evidenze": 2,
+      "confidenza": 0.93,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 11:25",
+      "ultima_conferma": "2026-07-01 11:26",
       "stato": "attiva"
     },
     {
@@ -625,7 +625,8 @@
     "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45).",
     "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso.",
     "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15).",
-    "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10)."
+    "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10).",
+    "Card onboarding 6/7 (2ª volta 11:25): «perché approvare o ignorare? sono le scelte giuste?» — **No**, Approva/Ignora non applicano; è promemoria ops già deciso (01:00 VP rimandato), ignorare senza firma; root cause = piano del mattino ha re-inserito in Proposte ciò ritirato alle 01:03 (chat 1/7 11:25)."
   ],
   "meta": {
     "lezioni_attive": 47,

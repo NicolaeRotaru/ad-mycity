@@ -87,3 +87,6 @@ Metabolizzazione chat merge-on-approval (Nicola 10:22): chiarito `pannello/` ≠
 
 # ESITO — @AD — 2026-07-01 10:10
 Metabolizzazione chat ordine zombie (Nicola 10:09 «3ª volta»): L-2026-0701-29 (caso_studio_nicola) + evidenza L-0630-05. DECISIONI/SALA già aggiornati in risposta. STATO + preferenze_nicola. Fix UX A/B 🟡 proposto, non accodato senza ok.
+
+# ESITO — @AD — 2026-07-01 11:26
+Metabolizzazione correzione Nicola (2ª card onboarding 6/7): «sono Approva/Ignora le scelte giuste?» → **No** — impegno ops suo, non Proposta. Recidiva: piano del mattino 11:18 ha re-inserito in `ultimo-briefing.json` azioni ciò ritirato 01:03. L-2026-0701-07 evidenze++ (conf. 0.93) + L-2026-0701-19 (guardrail pre-briefing). Guardrail: impegni Nicola → opportunità/checklist 🟢, mai `azioni[]` Proposte.
