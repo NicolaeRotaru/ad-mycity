@@ -248,19 +248,6 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     else
       stato="fatto"
     fi
-  elif [ "$tipo" = "sync-vps" ]; then
-    to="${WORKER_TIMEOUT_SYNC:-300}"
-    out="$(timeout --kill-after=30s "$to" bash "$SCRIPT_DIR/sync-vps.sh" 2>&1)"; rc=$?
-    skip_sync=1
-    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-      stato="errore"; out="$out
-[worker] TIMEOUT sync-vps dopo ${to}s — interrotto."
-    elif [ "$rc" -ne 0 ]; then
-      stato="errore"; out="$out
-[worker] sync-vps.sh uscito con rc=$rc."
-    else
-      stato="fatto"
-    fi
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
