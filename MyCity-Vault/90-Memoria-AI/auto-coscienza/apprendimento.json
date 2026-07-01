@@ -1,18 +1,31 @@
 {
-  "data": "2026-07-01 19:56",
-  "aggiornato": "2026-07-01 19:56",
+  "data": "2026-07-01 20:05",
+  "aggiornato": "2026-07-01 20:05",
   "lezioni": [
     {
-      "id": "L-2026-0701-38",
-      "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge per `aggiorna-cervello.sh` (🟡 «ok configura sync VPS»). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
-      "tag": ["devops", "nicola", "automazione", "vps", "merge", "target", "consenso"],
+      "id": "L-2026-0701-39",
+      "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = righe in `AZIONI-IN-ATTESA.md` / tab Proposte Pannello — **non** PR GitHub. **Risposta obbligatoria in 3 blocchi:** (1) tabella # → cosa sblocca (#14 `MARKETPLACE_GIT_TOKEN` PR su mycity · #15 `GITHUB_MERGE_TOKEN` merge API post-«ok merge»); (2) **dove crearli:** GitHub → Settings → Developer settings → Fine-grained tokens → repo `ad-mycity`+`mycity` · Contents+Pull requests R/W; (3) **dove incollare:** `cervello/vps/.env` + `systemctl restart mycity-worker` — **un solo PAT** copre #14+#15+push memoria. Non rimandare solo «vedi AZIONI» senza path pratico.",
+      "tag": ["nicola", "coda", "token", "github", "comunicazione", "devops"],
       "reparto": "@devops-sre",
-      "confidenza": 0.91,
+      "confidenza": 0.88,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 19:56",
+      "ultima_conferma": "2026-07-01 20:05",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-38",
+      "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
+      "tag": ["devops", "nicola", "automazione", "vps", "merge", "target", "consenso"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 20:05",
       "stato": "attiva"
     },
     {
@@ -694,10 +707,12 @@
     "Card onboarding 6/7 (2ª volta 11:25): «perché approvare o ignorare? sono le scelte giuste?» — **No**, Approva/Ignora non applicano; è promemoria ops già deciso (01:00 VP rimandato), ignorare senza firma; root cause = piano del mattino ha re-inserito in Proposte ciò ritirato alle 01:03 (chat 1/7 11:25).",
     "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte.",
     "Casella benchmark AI ops (1/7 17:05): «aggiungi dati reali — cosa ti serve?» — vuole casella popolata con riferimenti verificabili + snapshot loop 4 fasi con numeri live + inventario sblocchi prioritizzato per chiudere il volano su dati business (non solo prompt); stesso pattern di salute-sensori/mani.",
-    "Target operativo confermato (chat 1/7 19:56): AD modifica `ad-mycity` + marketplace `mycity` autonomamente **solo dopo consenso esplicito** — vuole zero GitHub browser e **zero comandi VPS** post-merge; unici passi una tantum = PAT #14+#15 + config sudo/hook («ok configura sync VPS»). Merge Pannello via «ok merge …» in chat già funzionante (2× test mattina)."
+    "Target operativo confermato (chat 1/7 19:56): AD modifica `ad-mycity` + marketplace `mycity` autonomamente **solo dopo consenso esplicito** — vuole zero GitHub browser e **zero comandi VPS** post-merge; unici passi una tantum = PAT #14+#15 + config sudo/hook («ok configura sync VPS»). Merge Pannello via «ok merge …» in chat già funzionante (2× test mattina).",
+    "Quando l'AD cita numeri #N in coda chiede subito «cosa sono e dove li trovo?» — vuole tabella cosa-sblocca + path GitHub PAT (Developer settings → Fine-grained) + dove incollare in `vps/.env`, non solo rimando al file AZIONI (chat 1/7 20:02).",
+    "«Ok configura sync VPS» (1/7 20:02) = stesso pattern «ok timer ritmo»: approva infra 🟡 → AD consegna artefatto completo in repo + **un solo comando root** per attivazione; codice sync pronto, resta #17 install sul VPS."
   ],
   "meta": {
-    "lezioni_attive": 52,
+    "lezioni_attive": 53,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70

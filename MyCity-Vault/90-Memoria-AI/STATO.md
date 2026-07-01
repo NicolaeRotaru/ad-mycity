@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 19:56
+aggiornato: 2026-07-01 20:05
 fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
 ---
 
@@ -40,7 +40,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
 | Deploy marketplace Render | ✅ **Sprint 1 live ~10:31** | #209+#210 · ⏳ SQL 107 policy Nicola |
-| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ (`c50148d`, `853c33a`) · VPS sync ancora manuale (`aggiorna-cervello.sh`) · target zero-cmd = #14+#15 token + sudo/hook (chat Nicola 1/7 19:56) |
+| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ (`c50148d`, `853c33a`) · sync VPS **codice pronto** 20:02 (Nicola «ok configura sync VPS») · attivazione = **#17** 1× root `install-sync-vps.sh` · restano #14+#15 PAT (chat Nicola 1/7 20:02) |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori
@@ -61,12 +61,13 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 |---|---|---|
 | Voto salute architettura | **76** = | `auto-radiografia.json` |
 | Tasso applicazione lezioni | **0,70** | `apprendimento.json` meta |
-| Lezioni attive | **51** | `apprendimento.json` |
+| Lezioni attive | **53** | `apprendimento.json` |
 | Calibrazione previsioni | **@AD 15/15** · altri reparti **0** | registro-realta |
 | Loop business | 🔴 bloccato | 0 ordini consegnati · ~20 azioni approvate, 0 inviate |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 18:18** — KPI live REST stallo 175,8h (+2,0h). Escalation post-168h v10 🟢. Finestra consegna **APERTA ORA** → #16 entro 20:00.
+1. **Chat 1/7 20:02** — Nicola «ok configura sync VPS» → sync auto in repo (#17 install) · spiegati #14/#15 (PAT fine-grained + `vps/.env`).
+2. **Giro 1/7 18:18** — KPI live REST stallo 175,8h (+2,0h). Escalation post-168h v10 🟢. Finestra consegna **APERTA ORA** → #16 entro 20:00.
 2. **Pannello 1/7 17:05** — Benchmark AI ops popolato + inventario sblocchi volano (sensori → #16 → mani LIVE).
 3. **Giro 1/7 16:18** — KPI live REST stallo 173,8h. Escalation v9 🟢. Temporali 15-17 → #16 slot 18:30-20:00.
 4. **Pannello 1/7 11:29** — Nicola chiarito SQL 107 ≠ secondo deploy · card ritirata

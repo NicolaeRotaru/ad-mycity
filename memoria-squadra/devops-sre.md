@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- **2026-07-01 20:05** — **Nicola chiede «cosa sono #14 e #15?»:** numeri = righe coda AZIONI/Pannello · #14 `MARKETPLACE_GIT_TOKEN` (PR mycity) · #15 `GITHUB_MERGE_TOKEN` (merge API) · path: GitHub Developer settings → Fine-grained PAT su entrambi i repo · incolla in `vps/.env` · un PAT copre tutto · L-0701-39 · Fonte: chat Nicola 1/7.
 - **2026-07-01 20:02** — **Sync VPS auto (Nicola «ok configura sync VPS»):** creati sudoers + `install-sync-vps.sh` + `sync-vps.sh` + `accoda-sync-vps.mjs` + tipo lavoro `sync-vps` in worker · **repo ✅** · attivazione VPS: 1× root `sudo bash cervello/vps/install-sync-vps.sh` · poi post-merge AD accoda sync senza cmd Nicola · L-0701-38 · Fonte: chat Nicola 1/7.
 - **2026-07-01 19:56** — **Target loop zero-cmd (Nicola):** conferma che vuole AD autonomo su `ad-mycity` + `mycity` con solo ok esplicito; zero cmd VPS post-merge · sblocchi: #14 token mycity · #15 merge API · sudo NOPASSWD + hook `aggiorna-cervello.sh` (🟡 «ok configura sync VPS») · merge Pannello ok chat già ✅ · L-0701-38 + L-0701-31 evidenza+1 · Fonte: chat Nicola 1/7.
 - **2026-07-01 11:29** — **Card SQL 107 post-firma:** Nicola «l'ho approvato, perché chiede di nuovo?» · «ok deploy Sprint 1» (11:10) = firma valida per **entrambi** i tubi · Render ✅ · SQL 107 ⏳ (Nicola SQL Editor, AD no write key) · Approva su card ≠ esecuzione SQL · L-0701-35 + L-0701-34 evidenza+1 · Fonte: chat Nicola 1/7.

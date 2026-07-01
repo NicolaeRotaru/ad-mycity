@@ -330,3 +330,11 @@ Assegnazioni (1 mossa per reparto):
 🙋 **Serve da Nicola:** 🔴 **`ok 16` + consegna 18:30-20:00** · 🟡 **SQL 107** (Ignora card Proposte) · 🟢 batch 6/7 (checklist pronta).
 
 - 2026-07-01 17:05 · @AD · FATTO · Casella Pannello «Benchmark: Gestione autonoma AI» — popolato `auto-radiografia.json` con esempi reali (LangSmith, Devin, Sidekick) + snapshot nostro loop (tasso 0,70 · voto 76 · REST ok/MCP cieco · 0 ordini consegnati · calibrazione solo @AD). Inventario sblocchi per Nicola in risposta casella.
+
+## Chat 2026-07-01 20:02
+
+- 2026-07-01 20:02 · @devops-sre · FATTO · Nicola «ok configura sync VPS» → `install-sync-vps.sh` + `sync-vps.sh` + `accoda-sync-vps.mjs` + worker `sync-vps` in repo · accodato **#17** (1× root install)
+- 2026-07-01 20:02 · @devops-sre · FATTO · Nicola chiede «cosa sono #14 e #15?» → spiegati come righe coda AZIONI: PAT fine-grained GitHub (Contents+PR R/W su `ad-mycity`+`mycity`) → `vps/.env` · un PAT copre tutto · L-0701-39
+- 2026-07-01 20:02 · @AD · SERVE · Nicola: **`ok 17`** (install sync VPS) + crea/incolla PAT (#14+#15) + restart worker
+
+🙋 **Serve da Nicola:** 🟡 **`ok 17`** + PAT GitHub (#14+#15) · 🔴 **`ok 16`** ordine · 🟡 **SQL 107**
