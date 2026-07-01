@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 12:18",
+  "data": "2026-07-01 14:19",
   "lezioni": [
+    {
+      "id": "L-2026-0701-36",
+      "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
+      "tag": ["operations", "meteo", "slot-consegna", "onesta", "briefing"],
+      "reparto": "@operations",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 14:19",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-35",
       "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nuovo di approvarlo?» — dopo «ok deploy Sprint 1» (11:10) la card «DROP policy RLS» ricompare in **Proposte** con Approva. **5 perché:** (1) firma deploy 🔴 autorizza **entrambi** i tubi (Render + migrazione SQL) ma il passo Supabase resta **manuale** — non è una seconda approvazione; (2) card diceva già «Nicola ok deploy · policy ancora attiva» = promemoria ops mal classificato come Proposta; (3) pulsante Approva **non esegue** SQL (AD senza `MARKETPLACE_SUPABASE_WRITE_KEY`); (4) confuso «firma» vs «esecuzione manuale a mani di Nicola»; (5) fix: passi manuali **post-firma** (SQL Supabase, script shell) → **opportunità/checklist 🟢** con tabella «codice ✅ / SQL ⏳», **mai** Proposte 🔴 ripetute; se chiede «perché di nuovo» → ignorare Approva + istruzioni SQL Editor. Collegato a L-34 (2 tubi) e L-07 (impegni ≠ Proposte).",
@@ -655,9 +668,9 @@
     "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte."
   ],
   "meta": {
-    "lezioni_attive": 49,
+    "lezioni_attive": 50,
     "promosse_a_principio": 4,
     "decadute": 0,
-    "tasso_applicazione": 0.67
+    "tasso_applicazione": 0.68
   }
 }

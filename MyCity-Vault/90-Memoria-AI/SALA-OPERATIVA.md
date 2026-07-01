@@ -302,3 +302,9 @@ Assegnazioni (1 mossa per reparto):
 
 - 2026-07-01 12:15 · @crm-lifecycle · FATTO · Playbook recupero carrelli: letti 4 carrelli >4h live (REST). 1 buyer reale (samir, PQ €10) → bozze A8 touch #1 🟡 + A9 touch #2 🔴 BENVENUTO10 in AZIONI-PRONTE. 3 account demo/admin SKIP (A10–A11). Dossier `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`. NIENTE inviato.
 - 2026-07-01 12:15 · @crm-lifecycle · PASSO-A @legale-privacy · Consenso email_marketing=false su samir — validare se touch #1 è transazionale o serve opt-in prima di `ok A8`.
+
+- 2026-07-01 14:19 · @analista · FATTO · KPI live REST: stallo **171,8h** (+2,0h), **168h +3,8h oltre**, 7 numeri = vs 12:18 · snapshot `consegne/analista/2026-07-01-kpi-live-1419.md`
+- 2026-07-01 14:19 · @intelligence · FATTO · Allerta ER 070/2026 temporali + IlPiacenza 1/7 · finestra pranzo **chiusa** → #16 **post-18** · `Intelligence/eventi-picchi.md` aggiornato
+- 2026-07-01 14:19 · @operations · FATTO · Escalation post-168h **v8** 🟢 · slot consegna **sera post-18** · `consegne/operations/2026-07-01-escalation-post-168h-v8.md`
+- 2026-07-01 14:19 · @AD · FATTO · Giro completo: briefing 14:19 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza + POST briefings memoria
+- 2026-07-01 14:19 · @AD · SERVE · Nicola: **`ok 16`** + slot **sera post-18** · **SQL 107** (~30s) · lista negozi 6/7
