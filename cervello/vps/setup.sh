@@ -132,13 +132,6 @@ systemctl enable mycity-giro.timer mycity-worker.service mycity-monitora.timer >
 echo "   unit installate e abilitate (NON ancora avviate): giro (2h) + worker + monitoraggio web (giornaliero)."
 echo "   Per il battito quotidiano (mattino/sera/settimana): sudo bash $ENV_DIR/install-ritmo-timers.sh"
 
-echo "== 8b) Sync VPS post-merge (NOPASSWD per mycity) =="
-if [ -f "$ENV_DIR/install-sync-vps.sh" ]; then
-  bash "$ENV_DIR/install-sync-vps.sh"
-else
-  echo "   install-sync-vps.sh non trovato — salto."
-fi
-
 cat <<EOF
 
 ============================================================
