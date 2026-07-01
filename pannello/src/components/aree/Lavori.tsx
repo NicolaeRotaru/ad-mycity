@@ -10,9 +10,11 @@ type Tab = "coda" | "archivio";
 type Props = {
   lavori: LavoroBase[];
   onSvuota: () => void;
+  workerVivo?: boolean | null;
+  adInPausa?: boolean;
 };
 
-export default function Lavori({ lavori, onSvuota }: Props) {
+export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Props) {
   const [tab, setTab] = useState<Tab>("coda");
 
   const filtrati = useMemo(() => {
@@ -66,7 +68,7 @@ export default function Lavori({ lavori, onSvuota }: Props) {
         ))}
       </div>
 
-      <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded />
+      <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
     </div>
   );
 }

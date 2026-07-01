@@ -25,6 +25,8 @@ type Props = {
   onSvuota: () => void;
   /** Dentro l'area Lavori: senza intestazione esterna duplicata */
   embedded?: boolean;
+  workerVivo?: boolean | null;
+  adInPausa?: boolean;
 };
 
 function statoBadge(stato: string) {
@@ -34,18 +36,29 @@ function statoBadge(stato: string) {
   );
 }
 
-export default function LavoriCervello({ lavori, onSvuota, embedded = false }: Props) {
+export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
   const mappa = useMemo(() => (typeof window !== "undefined" ? leggiMappaGruppiLocali() : {}), [lavori]);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
 
   const gruppi = useMemo(() => raggruppaLavori(lavori, mappa), [lavori, mappa]);
 
-  const cervelloSpento = lavori.some((lv) => {
-    if (lv.stato !== "in_attesa") return false;
-    const t = new Date(lv.created_at).getTime();
-    return !isNaN(t) && Date.now() - t > 3 * 60 * 1000;
+  const codaBloccata = lavori.some((lv) => {
+    const t = new Date(lv.updated_at || lv.created_at).getTime();
+    if (isNaN(t)) return false;
+    if (lv.stato === "in_attesa") return Date.now() - t > 3 * 60 * 1000;
+    if (lv.stato === "in_corso") return Date.now() - t > 10 * 60 * 1000;
+    return false;
   });
+
+  const orfani = lavori.some((lv) => {
+    if (lv.stato !== "in_corso") return false;
+    const t = new Date(lv.updated_at || lv.created_at).getTime();
+    return !isNaN(t) && Date.now() - t > 10 * 60 * 1000;
+  });
+
+  const cervelloSpento = codaBloccata && workerVivo === false;
+  const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani);
 
   function toggleGruppo(id: string) {
     setApertiGruppi((s) => ({ ...s, [id]: !s[id] }));
@@ -57,10 +70,43 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
 
   const contenuto = (
     <>
-      {cervelloSpento && (
-        <div className="mb-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 px-3.5 py-2.5 text-[12.5px] text-red-800 dark:text-red-300 leading-snug">
-          <b>⛔ Cervello spento.</b> Il lavoro è in coda da oltre 3 minuti senza partire. Sul VPS:{" "}
-          <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">systemctl start mycity-worker</code>
+      {mostraAvviso && (
+        <div className="mb-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 px-3.5 py-2.5 text-[12.5px] text-red-800 dark:text-red-300 leading-snug space-y-1.5">
+          {adInPausa ? (
+            <>
+              <b>⏸️ AD in pausa.</b> Il worker non esegue nulla finché non riattivi l&apos;AD dal Pannello (Azioni → Governo → <b>Riattiva l&apos;AD</b>).
+            </>
+          ) : orfani ? (
+            <>
+              <b>⛔ Lavori bloccati «In corso».</b> Probabilmente il worker è stato riavviato a metà giro.
+              <div>
+                Sul VPS:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">
+                  sudo -u mycity -H bash cervello/vps/recupera-lavori-orfani.sh
+                </code>{" "}
+                poi{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">sudo systemctl restart mycity-worker</code>
+              </div>
+            </>
+          ) : cervelloSpento ? (
+            <>
+              <b>⛔ Worker VPS spento.</b> I messaggi restano in coda: il Pannello accoda, ma solo il worker sul server li esegue.
+              <div>
+                SSH sul VPS e lancia:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">sudo systemctl start mycity-worker</code>
+                {" · "}verifica:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">systemctl status mycity-worker</code>
+              </div>
+              <div className="text-[11px] opacity-90">
+                Dopo un aggiornamento codice:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded">sudo bash cervello/vps/aggiorna-cervello.sh</code>
+              </div>
+            </>
+          ) : (
+            <>
+              <b>⏳ Coda lenta.</b> Un lavoro è in attesa da più di 3 minuti. Controlla lo stato del worker in alto a destra.
+            </>
+          )}
         </div>
       )}
 

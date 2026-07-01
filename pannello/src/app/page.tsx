@@ -585,6 +585,8 @@ export default function Dashboard() {
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [vivo, setVivo] = useState(false);
+  const [workerVivo, setWorkerVivo] = useState<boolean | null>(null);
+  const [adInPausa, setAdInPausa] = useState(false);
   const [giri, setGiri] = useState(0);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
@@ -1092,6 +1094,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const data = await res.json();
       setMemoria(Boolean(data.memoria));
       setVivo(Boolean(data.vivo));
+      setWorkerVivo(typeof data.workerVivo === "boolean" ? data.workerVivo : null);
+      setAdInPausa(Boolean(data.adInPausa));
       setGiri((data.giri || []).length);
       if (data.ultimo) {
         setBriefing(data.ultimo.data);
@@ -1335,11 +1339,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                vivo ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800" : "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
+                workerVivo
+                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800"
+                  : adInPausa
+                    ? "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
+                    : vivo
+                      ? "bg-red-50 text-red-700 ring-red-200 dark:bg-red-950/50 dark:text-red-300 dark:ring-red-800"
+                      : "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
               }`}
+              title={
+                workerVivo
+                  ? "Il worker sul VPS sta processando la coda chat"
+                  : adInPausa
+                    ? "L'AD è in pausa: riattivalo dal Pannello"
+                    : vivo
+                      ? "Memoria ok ma il worker VPS non batte: i lavori restano in coda"
+                      : "Memoria o giro non ancora attivi"
+              }
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
-              {vivo ? "Vivo" : "In prova"}
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                }`}
+              />
+              {workerVivo ? "Worker ON" : adInPausa ? "In pausa" : vivo ? "Worker spento" : "In prova"}
             </span>
           </div>
         </div>
@@ -1406,7 +1429,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {vista === "cervello" && <MacchinaArea />}
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
-        {vista === "lavori" && <Lavori lavori={lavori} onSvuota={svuotaLavori} />}
+        {vista === "lavori" && (
+          <Lavori lavori={lavori} onSvuota={svuotaLavori} workerVivo={workerVivo} adInPausa={adInPausa} />
+        )}
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
