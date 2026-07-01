@@ -1,9 +1,20 @@
 {
-  "data": "2026-07-01 20:05",
-  "aggiornato": "2026-07-01 20:05",
+  "data": "2026-07-01 20:18",
+  "aggiornato": "2026-07-01 20:18",
   "lezioni": [
     {
-      "id": "L-2026-0701-39",
+      "id": "L-2026-0701-40",
+      "testo": "**Finestra slot scaduta senza #16 (1/7 20:18):** alle 18:18 l'AD segnalava «ultima chance entro 20:00» — confermato: giornata chiusa a zero. **Pattern:** (1) ogni giro serale confrontare **orologio reale** vs `delivery_slot` DB; (2) se finestra chiusa → **subito** ripiano con data/ora + messaggio WhatsApp adattato (`ripiano-consegna-*.md`), non ripetere «ORA entro 20:00»; (3) escalation post-168h incrementa versione (v11) con nuova urgenza «2/7 mattina»; (4) calibrazione: previsione «alta probabilità zero oggi» se ok 16 non arriva entro T-30min finestra.",
+      "tag": ["operations", "slot", "calibrazione", "stallo", "ordine-zombie"],
+      "reparto": "@operations",
+      "confidenza": 0.82,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 20:18",
+      "stato": "attiva"
+    },
       "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = righe in `AZIONI-IN-ATTESA.md` / tab Proposte Pannello — **non** PR GitHub. **Risposta obbligatoria in 3 blocchi:** (1) tabella # → cosa sblocca (#14 `MARKETPLACE_GIT_TOKEN` PR su mycity · #15 `GITHUB_MERGE_TOKEN` merge API post-«ok merge»); (2) **dove crearli:** GitHub → Settings → Developer settings → Fine-grained tokens → repo `ad-mycity`+`mycity` · Contents+Pull requests R/W; (3) **dove incollare:** `cervello/vps/.env` + `systemctl restart mycity-worker` — **un solo PAT** copre #14+#15+push memoria. Non rimandare solo «vedi AZIONI» senza path pratico.",
       "tag": ["nicola", "coda", "token", "github", "comunicazione", "devops"],
       "reparto": "@devops-sre",

@@ -173,9 +173,9 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 18:18
+## 🤖 Aggiornamento dell'AD — 2026-07-01 20:18
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **168h +7,8h oltre** (stallo 175,8h) — priorità **#16 Scelta A ORA** (firmata 11:05) · finestra **18:30-20:00 APERTA**.
+- **168h +9,8h oltre** (stallo 177,8h) — priorità **#16 Scelta A 2/7 mattina** (firmata 11:05).
 - **Sprint 1 ✅ LIVE** Render ~10:31 — SQL 107 policy ⏳. Batch 6/7 **dopo** #16 + SQL.
 - **407 lead** invariati — outreach post-1ª-transazione. Kit bando #12: FESR chiuso 23/6.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 18:18
+## 🤖 Aggiornamento dell'AD — 2026-07-01 20:18
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 175,8h — 168h +7,8h oltre:** urgenza **#16 ORA entro 20:00** (finestra APERTA). Escalation v10 🟢.
-- **Sprint 1 LIVE** — checkout con fee UI in prod. **Prima:** #16 + SQL 107 → poi batch 6/7.
+- **Stallo 177,8h — 168h +9,8h oltre:** urgenza **#16 2/7 mattina**. Escalation v11 🟢.
+- **Giornata 1/7 a zero** — ripiano consegna pronto. **Prima:** #16 + SQL 107 → batch 6/7.
 - **Batch 6/7** = leva crescita post-VP rimandato.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
