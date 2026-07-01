@@ -309,6 +309,16 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 14:19 · @AD · FATTO · Giro completo: briefing 14:19 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza + POST briefings memoria
 - 2026-07-01 14:19 · @AD · SERVE · Nicola: **`ok 16`** + slot **sera post-18** · **SQL 107** (~30s) · lista negozi 6/7
 
+## Giro 2026-07-01 18:18
+
+- 2026-07-01 18:18 · @analista · FATTO · KPI live REST: stallo **175,8h** (+2,0h), **168h +7,8h oltre**, 7 numeri = vs 16:18 · snapshot `consegne/analista/2026-07-01-kpi-live-1818.md`
+- 2026-07-01 18:18 · @intelligence · FATTO · Temporali passati · finestra consegna **APERTA ORA (18:30-20:00)** · slot DB ordine confermato · `Intelligence/eventi-picchi.md` + `buchi-mercato.md` aggiornati
+- 2026-07-01 18:18 · @operations · FATTO · Escalation post-168h **v10** 🟢 · `consegne/operations/2026-07-01-escalation-post-168h-v10.md`
+- 2026-07-01 18:18 · @AD · FATTO · Giro completo: briefing 18:18 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza + POST briefings memoria
+- 2026-07-01 18:18 · @AD · SERVE · Nicola: **`ok 16` ORA** + consegna entro **20:00** · **SQL 107** (~30s) · lista negozi 6/7
+
+🙋 **Serve da Nicola:** 🔴 **`ok 16` + consegna ORA (18:30-20:00)** — ultima chance oggi · 🟡 **SQL 107** (Ignora card Proposte) · 🟢 batch 6/7 (checklist pronta).
+
 ## Giro 2026-07-01 16:18
 
 - 2026-07-01 16:18 · @analista · FATTO · KPI live REST: stallo **173,8h** (+2,0h), **168h +5,8h oltre**, 7 numeri = vs 14:19 · snapshot `consegne/analista/2026-07-01-kpi-live-1618.md`

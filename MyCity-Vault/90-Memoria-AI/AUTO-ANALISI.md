@@ -1,13 +1,13 @@
 ---
-data: 2026-07-01 16:18
+data: 2026-07-01 18:18
 tipo: auto-analisi
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 16:18
+# 🔬 AUTO-ANALISI — Giro 2026-07-01 18:18
 
 ## Voto di fiducia: **88/100** (trend **=**)
 
-Stabile rispetto al giro 14:19. KPI live REST verificati; entità fondate; Scelta A rispettata (no A/B); slot consegna allineato all'orologio reale (16:18 → solo sera). Malus unico: MCP cieco (−5 già conteggiato), non ripetuto per ogni numero.
+Stabile rispetto al giro 16:18. KPI live REST verificati; entità fondate; Scelta A rispettata (no A/B); slot consegna allineato all'orologio reale (18:18 → finestra **APERTA ORA**, non più «stasera post-18»). Ordine DB conferma slot «Stasera · 18:00–20:00». Malus unico: MCP cieco (−5 già conteggiato).
 
 ## Errori per gravità
 
@@ -19,7 +19,7 @@ Nessun errore bloccante in questo giro.
 
 ## Domande per Nicola
 
-1. **Slot consegna #16:** confermi **18:30-20:00** stasera? + **`ok 16`**
+1. **#16 ORA:** scrivi **`ok 16`** + avvia consegna entro **20:00**
 2. **SQL 107:** incolla DROP policy → «fatto sql 107» (Ignora card Proposte)
 3. **Batch 6/7:** quanti negozi e quali nomi?
 
@@ -27,24 +27,19 @@ Nessun errore bloccante in questo giro.
 
 | Sensore | Stato |
 |---------|-------|
-| REST marketplace | ✅ OK 16:18 |
+| REST marketplace | ✅ OK 18:18 |
+| MCP Supabase Cursor | ❌ cieco |
 | REST memoria + POST briefings | ✅ OK |
-| MCP Supabase | ❌ cieco (fallback REST attivo) |
 | Stripe / PostHog | ❌ non collegati |
-| WebFetch | ⚠️ Allerta ER OK, 3BMeteo timeout |
-
-Dati **freschi** (query live ordini/profiles/products). Sensori attivi effettivi: **2** (REST marketplace + memoria).
 
 ## Punti ciechi
 
-- MCP marketplace cieco in Cursor
-- PostHog / Stripe MCP assenti
+- MCP marketplace cieco (mitigato REST)
+- Carrelli: schema cambiato — uso playbook
 - Competitor: cadenza settimanale non rifatta
-- Smoke checkout post-Sprint 1 non eseguito
-- Conteggio live carrelli >4h (schema API cambiato)
 
 ## Cosa miglioro al prossimo giro
 
-- Post `ok 16`: aggiornare 7 numeri con prima transazione
-- Post `fatto sql 107`: verificare leak RLS chiuso + smoke anon
-- Documentare schema REST aggiornato per `abandoned_carts` in query KPI
+- Se #16 eseguito: aggiornare 7 numeri con prima transazione reale
+- Post SQL 107: smoke test RLS + checkout
+- Distinguere messaggio «finestra imminente» vs «finestra APERTA» (L-36 applicata)

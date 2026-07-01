@@ -15,6 +15,6 @@
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 4, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 1, "tipo": "sonda", "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 14:19: stallo 171,8h (+2,0h), 168h +3,8h oltre. Finestra pranzo chiusa → #16 post-18. Escalation v8 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 16:18: stallo 173,8h (+2,0h), 168h +5,8h oltre. Temporali 15-17 in corso → #16 slot 18:30-20:00. Escalation v9 🟢. REST OK, MCP cieco. Voto 76 =." }
+    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 18:18: stallo 175,8h (+2,0h), 168h +7,8h oltre. Finestra consegna APERTA ORA → #16 entro 20:00. Escalation v10 🟢. REST OK, MCP cieco. Voto 76 =." }
   ]
 }

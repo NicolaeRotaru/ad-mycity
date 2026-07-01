@@ -1,19 +1,19 @@
 {
-  "data": "2026-07-01 16:18",
-  "sintesi": "Nicola ha firmato Scelta A ordine €19,05 (11:05) — esecuzione #16 in attesa (`ok 16` + slot **sera 18:30-20:00**). Ore 16:18: temporali 15-17 in corso. Sprint 1 LIVE Render (~10:31). Stallo 173,8h (+5,8h oltre 168h). Resta SQL 107 (~30s Supabase). Batch onboarding 6/7 post-#16.",
+  "data": "2026-07-01 18:18",
+  "sintesi": "Nicola ha firmato Scelta A ordine €19,05 (11:05) — esecuzione #16 in attesa (`ok 16`). Ore **18:18**: temporali passati, **finestra consegna APERTA (18:30-20:00)** — slot già in DB ordine. Sprint 1 LIVE Render (~10:31). Stallo 175,8h (+7,8h oltre 168h). Resta SQL 107 (~30s Supabase). Batch onboarding 6/7 post-#16. Payout-test 03/7 mattina programmato.",
   "prossime_mosse": [
     {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A",
-      "quando": "stasera 18:30-20:00 (dopo temporali)",
-      "come": "WhatsApp buyer 348 642 1766 + accetta in dashboard Pane Quotidiano + organizza consegna COD €19,05",
+      "quando": "ORA — finestra 18:30-20:00 (ultima chance oggi)",
+      "come": "Scrivi `ok 16` → WhatsApp buyer 348 642 1766 + accetta in dashboard Pane Quotidiano + consegna COD €19,05",
       "priorita": "alta",
-      "ad_prepara": "Escalation post-168h v9 · pacchetto operations pronto · @customer-success script feedback",
+      "ad_prepara": "Escalation post-168h v10 🟢 · pacchetto operations pronto · @customer-success script feedback",
       "senior": "@operations + @supporto",
       "colore": "🔴"
     },
     {
       "titolo": "SQL 107 — chiudi leak RLS profiles",
-      "quando": "subito (30 secondi)",
+      "quando": "subito dopo #16 (30 secondi)",
       "come": "Supabase → SQL Editor → incolla `marketplace/migrations/107_seller_public_profiles.sql` → Run → «fatto sql 107»",
       "priorita": "alta",
       "ad_prepara": "Verifica post-SQL: policy DROP attiva · smoke checkout",
@@ -40,18 +40,18 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — Scelta A firmata 11:05, esecuzione #16", "stato": "approvato, payout OFF — consegna in attesa ok 16 sera"},
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — Scelta A firmata 11:05, esecuzione #16", "stato": "approvato, payout OFF — consegna in attesa ok 16 ORA (18:30-20:00)"},
     {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio (VP rimandato)", "stato": "in arrivo — checklist AD pronta, post-#16 + SQL 107"},
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo +5,8h oltre 168h — finestra serale = ultima chance oggi per 1ª transazione",
-    "Temporali 15-17 in corso — consegna solo post-18",
+    "Stallo +7,8h oltre 168h — dopo le 20:00 oggi chiude a zero transazioni",
+    "Buyer potrebbe non rispondere al WhatsApp dopo 7+ giorni attesa",
     "Policy RLS profiles ancora attiva finché non gira SQL 107",
-    "Buyer potrebbe non rispondere al WhatsApp dopo 7+ giorni attesa"
+    "Batch 6/7 a rischio se #16 non chiude stasera"
   ],
   "serve_da_nicola": [
-    {"ambito": "Consegna ordine PQ", "cosa_manca": "Slot **sera 18:30-20:00** + ok esecuzione", "domanda_per_nicola": "Confermi 18:30-20:00? + **`ok 16`**"},
+    {"ambito": "Consegna ordine PQ", "cosa_manca": "**`ok 16`** — finestra APERTA 18:30-20:00", "domanda_per_nicola": "Scrivi **`ok 16`** e avvia WhatsApp + consegna ORA"},
     {"ambito": "Sprint 1 deploy", "cosa_manca": "SQL 107 in Supabase (DROP policy) — codice già live", "domanda_per_nicola": "Supabase SQL Editor → incolla migration 107 → Run → scrivi «fatto sql 107»"},
     {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
   ],

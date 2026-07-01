@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 16:18
+## 🤖 Aggiornamento dell'AD — 2026-07-01 18:18
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Temporali 15-17 in corso (16:18)** — angolo delivery **sera 18:30-20:00**; niente contenuti che promettono consegna immediata ora.
+- **Temporali passati (18:18)** — angolo delivery **ORA 18:30-20:00**; post «prima consegna» possibile **stasera dopo #16**.
 - **VP 3/7 congelato** — editoriale sposta focus su **supporto onboarding 6/7**.
-- **Scelta A firmata** — post «prima consegna» possibile **dopo** #16 eseguito stasera.
+- **Scelta A firmata** — contenuto celebrativo **dopo** consegna reale (non prima).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
