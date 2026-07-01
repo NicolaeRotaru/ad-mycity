@@ -9,11 +9,12 @@ import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
-  etichettaSceltaOrdine,
-  isPropostaDecisioneOrdineAB,
-  type DecisioneOrdineSalvata,
-  type SceltaOrdineAB,
-} from "@/lib/decisione-ordine";
+  etichettaScelta,
+  isPropostaSceltaAB,
+  normalizzaPropostaSceltaAB,
+  type DecisioneSceltaSalvata,
+  type SceltaAB,
+} from "@/lib/scelta-ab";
 
 // L'UNICO posto dove si decide e si agisce. Schede separate (niente colonna unica lunga da scrollare):
 //  🦶 Mosse di Nicola → le tue prossime mosse (dai Piani), con link all'azione da firmare.
@@ -33,7 +34,17 @@ type Azione = {
   cambia?: string; seguito?: string; origine?: string;
   qualita?: { voto: "ok" | "rivedere"; problemi: string[] };
 };
-type Proposta = { titolo: string; motivo: string; livello: Livello; tipo?: string };
+type Proposta = {
+  titolo: string;
+  motivo: string;
+  livello: Livello;
+  tipo?: string;
+  scelta_id?: string;
+  opzione_a?: string;
+  opzione_b?: string;
+  contesto?: string;
+  istruzioni?: string;
+};
 type Alert = { id?: string; livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
 type Registro = { voci: VoceLog[]; stat: { totale: number; fatte: number; simulate: number; coda: number; rifiutate: number; auto: number; repartoTop: string } };
@@ -116,8 +127,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [propBusy, setPropBusy] = useState<number | null>(null);
   const [propEsito, setPropEsito] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const [propDecise, setPropDecise] = useState<Set<number>>(new Set());
-  const [ordineDecisione, setOrdineDecisione] = useState<DecisioneOrdineSalvata | null>(null);
-  const [ordineDecisioneBusy, setOrdineDecisioneBusy] = useState(false);
+  const [decisioniAB, setDecisioniAB] = useState<Record<string, DecisioneSceltaSalvata>>({});
+  const [sceltaABBusy, setSceltaABBusy] = useState(false);
 
   const carica = useCallback(async () => {
     const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
@@ -143,10 +154,10 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((i) => setIntenzioni(i)).catch(() => {});
     fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((t) => { setTodo(t.items || []); setTodoSalva(Boolean(t.salvataggio)); }).catch(() => {});
     fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((a) => setAlerts(a.alert || [])).catch(() => {});
-    fetch("/api/decisione-ordine", { cache: "no-store" })
+    fetch("/api/scelta-ab", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        if (d?.decisione?.scelta) setOrdineDecisione(d.decisione);
+        if (d?.decisioni && typeof d.decisioni === "object") setDecisioniAB(d.decisioni);
       })
       .catch(() => {});
   }, [carica]);
@@ -219,35 +230,45 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   function ignoraProposta(i: number) {
     setPropDecise((s) => new Set(s).add(i));
   }
-  async function decidiOrdineAB(i: number, p: Proposta, scelta: SceltaOrdineAB) {
-    setOrdineDecisioneBusy(true);
+  async function decidiSceltaAB(i: number, p: Proposta, scelta: SceltaAB) {
+    const config = normalizzaPropostaSceltaAB(p);
+    setSceltaABBusy(true);
     setPropBusy(i);
     try {
-      const r = await fetch("/api/decisione-ordine", {
+      const r = await fetch("/api/scelta-ab", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scelta, titolo: p.titolo }),
+        body: JSON.stringify({
+          scelta,
+          id: config.id,
+          titolo: p.titolo,
+          motivo: p.motivo,
+          opzione_a: config.opzione_a,
+          opzione_b: config.opzione_b,
+          contesto: config.contesto,
+          istruzioni: config.istruzioni,
+        }),
       }).then((x) => x.json());
       if (!r?.ok) {
         setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: r?.error || "Salvataggio fallito." } }));
         return;
       }
-      const dec = r.decisione as DecisioneOrdineSalvata;
-      setOrdineDecisione(dec);
+      const dec = r.decisione as DecisioneSceltaSalvata;
+      setDecisioniAB((prev) => ({ ...prev, [config.id]: dec }));
       setPropEsito((s) => ({
         ...s,
         [i]: {
           ok: true,
           msg: r.giaRegistrata
-            ? `✅ Già registrata: ${dec.scelta} — ${etichettaSceltaOrdine(dec.scelta)}`
-            : `✅ Registrata ${dec.scelta}. L'AD accoda l'esecuzione 🔴 al prossimo giro; la card non tornerà.`,
+            ? `✅ Già registrata: ${etichettaScelta(config, dec.scelta)}`
+            : `✅ Registrata ${dec.scelta}. L'AD accoda l'esecuzione 🔴; la card non tornerà.`,
         },
       }));
       setPropDecise((s) => new Set(s).add(i));
     } catch {
       setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: "Errore di rete." } }));
     } finally {
-      setOrdineDecisioneBusy(false);
+      setSceltaABBusy(false);
       setPropBusy(null);
     }
   }
@@ -315,7 +336,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }
 
   const daDecidere = azioni.filter((a) => !a.stato).length;
-  const proposteVive = proposte.filter((_, i) => !propDecise.has(i)).length;
+  const proposteVive = proposte.filter((p, i) => {
+    if (propDecise.has(i)) return false;
+    if (isPropostaSceltaAB(p)) {
+      const id = normalizzaPropostaSceltaAB(p).id;
+      if (decisioniAB[id]?.scelta) return false;
+    }
+    return true;
+  }).length;
   const daFareTodo = todo.filter((t) => !t.fatto);
   const mosse = intenzioni?.collegato ? intenzioni.prossime_mosse : [];
   const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
@@ -418,10 +446,11 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
           <p className="t-eti">Idee appena scoperte dall'AD nell'analisi oraria. Approvarle le trasforma in azioni concrete.</p>
           {proposte.length === 0 && <p className="text-[13px] text-black/55 py-4 text-center">Nessuna proposta fresca adesso. Compaiono dopo ogni giro dell'AD.</p>}
           {proposte.map((p, i) => {
-            const ab = isPropostaDecisioneOrdineAB(p);
-            const decisa = propDecise.has(i) || Boolean(ab && ordineDecisione?.scelta);
+            const ab = isPropostaSceltaAB(p);
+            const config = ab ? normalizzaPropostaSceltaAB(p) : null;
+            const salvata = config ? decisioniAB[config.id] : undefined;
+            const decisa = propDecise.has(i) || Boolean(ab && salvata?.scelta);
             const e = propEsito[i];
-            const sceltaRegistrata = ab ? ordineDecisione?.scelta : undefined;
             return (
               <div key={i} className={`card border ${BORDO[p.livello]} p-4 ${decisa ? "opacity-80" : ""}`}>
                 <div className="flex items-start gap-2.5">
@@ -434,34 +463,32 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       {ETICHETTA[p.livello] && <span className="t-eti">{ETICHETTA[p.livello]}</span>}
                     </div>
                     <p className="t-corpo mt-2">{p.motivo}</p>
-                    {ab && !decisa && (
-                      <p className="t-eti mt-2 text-ink/75">
-                        Pane Quotidiano · buyer 348 642 1766 · COD €19,05 · ordine dal 24/6
-                      </p>
+                    {ab && config?.contesto && !decisa && (
+                      <p className="t-eti mt-2 text-ink/75">{config.contesto}</p>
                     )}
                   </div>
                 </div>
-                {sceltaRegistrata && !e && (
+                {salvata?.scelta && config && !e && (
                   <p className="t-eti mt-2 text-green-700">
-                    ✅ Decisione {sceltaRegistrata}: {etichettaSceltaOrdine(sceltaRegistrata)}
+                    ✅ Decisione: {etichettaScelta(config, salvata.scelta)}
                   </p>
                 )}
                 {e && <p className={`t-eti mt-2 ${e.ok ? "text-green-700" : "text-ink/70"}`}>{e.msg}</p>}
-                {!decisa && ab && (
+                {!decisa && ab && config && (
                   <div className="mt-3 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
                     <button
-                      onClick={() => decidiOrdineAB(i, p, "A")}
-                      disabled={ordineDecisioneBusy || propBusy === i}
+                      onClick={() => decidiSceltaAB(i, p, "A")}
+                      disabled={sceltaABBusy || propBusy === i}
                       className="inline-flex items-center justify-center gap-1.5 bg-green-600 text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-green-700 active:scale-[0.98] transition disabled:opacity-50"
                     >
-                      {propBusy === i ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} A — Accetta e consegna
+                      {propBusy === i ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} A — {config.opzione_a}
                     </button>
                     <button
-                      onClick={() => decidiOrdineAB(i, p, "B")}
-                      disabled={ordineDecisioneBusy || propBusy === i}
+                      onClick={() => decidiSceltaAB(i, p, "B")}
+                      disabled={sceltaABBusy || propBusy === i}
                       className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl border border-red-200 bg-red-50 text-red-800 hover:bg-red-100 active:scale-[0.98] transition disabled:opacity-50"
                     >
-                      <XCircle size={15} /> B — Annulla (messaggio buyer)
+                      <XCircle size={15} /> B — {config.opzione_b}
                     </button>
                   </div>
                 )}
