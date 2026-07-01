@@ -1,0 +1,14 @@
+[Unit]
+Description=MyCity AD — review settimanale (ritmo, motore AI Cursor 'agent' o Claude 'claude')
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+Environment=HOME=/home/mycity
+Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=TZ=Europe/Rome
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo.sh settimana

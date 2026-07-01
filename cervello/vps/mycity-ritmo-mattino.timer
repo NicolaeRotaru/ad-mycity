@@ -1,0 +1,10 @@
+[Unit]
+Description=MyCity AD — lancia il piano del mattino ogni giorno alle 08:00 (Piacenza)
+
+[Timer]
+OnCalendar=*-*-* 08:00:00
+Timezone=Europe/Rome
+Persistent=true
+
+[Install]
+WantedBy=timers.target

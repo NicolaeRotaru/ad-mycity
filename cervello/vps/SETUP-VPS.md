@@ -76,8 +76,11 @@ Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, 
 ```bash
 sudo systemctl start mycity-worker.service     # worker sempre attivo (chat pannello + approvazioni)
 # sudo systemctl start mycity-giro.timer       # ⛔ DISATTIVATO: giro automatico (auto-analisi)
-sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
+sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornale 06:30)
+# Battito quotidiano (piano mattino 08:00, report sera 20:00, review ven 18:00 — fuso Piacenza):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
 # Per un giro manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
+# Per un ritmo manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
 ```
 
 ## ▶️ Far partire il giro + auto-analisi ADESSO (dopo aver committato cose nuove)
@@ -116,6 +119,9 @@ Premendo **Approva** nel Pannello, entro ~30s il worker esegue e la riga in `AZI
 ```bash
 # Fermare tutto
 sudo systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
+sudo systemctl stop mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+# Ritmo manuale (mattino | sera | settimana):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
 # Cambiare l'orario del monitoraggio: modifica OnCalendar in mycity-monitora.timer, poi ricopia + daemon-reload.
 # Cambiare la frequenza del giro: modifica OnUnitActiveSec in mycity-giro.timer, poi:
 sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system/ && sudo systemctl daemon-reload
