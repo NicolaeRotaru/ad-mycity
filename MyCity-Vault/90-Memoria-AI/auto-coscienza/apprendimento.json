@@ -1,43 +1,43 @@
 {
-  "data": "2026-07-01 10:51",
+  "data": "2026-07-01 11:01",
   "lezioni": [
     {
       "id": "L-2026-0701-33",
-      "testo": "**Scelta A/B universale (Nicola 1/7 10:50):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile.",
+      "testo": "**Scelta A/B universale (Nicola 1/7 10:50, deploy 11:00):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile. **Deploy ESEGUITO:** Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** (4 file Pannello) · Vercel redeploy · decisione ordine €19,05 ancora 🔴 (click A/B).",
       "tag": ["pannello", "ux", "scelta-ab", "nicola", "proposte"],
       "reparto": "@frontend-dev",
-      "confidenza": 0.95,
-      "evidenze": 2,
-      "fonte": "chat",
-      "caso_studio_nicola": true,
-      "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 10:51",
-      "stato": "attiva"
-    },
-    {
-      "id": "L-2026-0701-32",
-      "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 — ok merge bottoni A/B):** dopo «ok merge bottoni A/B» l'AD ha pushato su **`main`** `c50148d` (3 file Pannello) → Vercel redeploy — ma **decisione ordine A/B resta 🔴** (click A o B / messaggio buyer). **5 perché confusione:** (1) Nicola percepisce «merge» come chiusura totale; (2) deploy codice UX e accetta/annulla ordine sono binari separati; (3) card ordine zombie chiede ancora A/B post-deploy; (4) risposta AD deve tabellare «deploy ✅ / decisione ⏳» sempre; (5) soglia 168h superata ~10:30 — urgenza resta sul click A/B, non sul merge. **Variante push senza PR:** codice era **solo su VPS locale**, non su GitHub — nessuna PR da mergiare; «ok merge X» = **`git push origin main`** con `GIT_PUSH_TOKEN` esistente, non `gh pr merge`. Dichiarare commit hash + «Vercel ~2 min» + comando VPS sync separato.",
-      "tag": ["merge", "deploy", "nicola", "ordine", "pannello", "distinzione", "vps"],
-      "reparto": "@devops-sre",
-      "confidenza": 0.9,
-      "evidenze": 1,
-      "fonte": "chat",
-      "caso_studio_nicola": true,
-      "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 10:36",
-      "stato": "attiva"
-    },
-    {
-      "id": "L-2026-0701-31",
-      "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riuscito:** «ok merge bottoni A/B» → **`main` `c50148d`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
-      "tag": ["merge", "github", "devops", "nicola", "pannello", "vps", "automazione", "permesso", "regola-permanente"],
-      "reparto": "@devops-sre",
       "confidenza": 0.95,
       "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 10:45",
+      "ultima_conferma": "2026-07-01 11:00",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-32",
+      "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «ok merge bottoni A/B» → **`main` `c50148d`**; dopo «ok merge scelta-ab universale» → **`main` `853c33a`** — entrambi Vercel redeploy — ma **decisione ordine A/B resta 🔴** (click A o B / messaggio buyer). **5 perché confusione:** (1) Nicola percepisce «merge» come chiusura totale; (2) deploy codice UX e accetta/annulla ordine sono binari separati; (3) card ordine zombie chiede ancora A/B post-deploy; (4) risposta AD deve tabellare «deploy ✅ / decisione ⏳» sempre; (5) soglia 168h superata ~10:30 — urgenza resta sul click A/B, non sul merge. **Variante push senza PR:** codice era **solo su VPS locale**, non su GitHub — nessuna PR da mergiare; «ok merge X» = **`git push origin main`** con `GIT_PUSH_TOKEN` esistente, non `gh pr merge`. Dichiarare commit hash + «Vercel ~2 min» + comando VPS sync separato.",
+      "tag": ["merge", "deploy", "nicola", "ordine", "pannello", "distinzione", "vps"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.92,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:00",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-31",
+      "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
+      "tag": ["merge", "github", "devops", "nicola", "pannello", "vps", "automazione", "permesso", "regola-permanente"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.96,
+      "evidenze": 4,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:00",
       "stato": "attiva"
     },
     {

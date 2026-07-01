@@ -7,7 +7,8 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
-- 2026-07-01 10:50 · scelta A/B universale · Nicola «Applica A o B ogni volta, non solo zombie» · **FATTO in repo:** `scelta-ab.ts` + `/api/scelta-ab` + bottoni dinamici da `opzione_a`/`opzione_b`/`scelta_id`; legacy `decisione_ordine_ab` mappato · regola in `giro.md` · deploy main 🟡 · #pannello #ux #scelta-ab
+- 2026-07-01 11:00 · deploy scelta A/B universale · Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** live Vercel · bottoni A/B dinamici su tutte le proposte `tipo: scelta_ab` · click ordine €19,05 ancora 🔴 · L-0701-33 · #pannello #deploy #scelta-ab
+- 2026-07-01 10:50 · scelta A/B universale · Nicola «Applica A o B ogni volta, non solo zombie» · **FATTO in repo:** `scelta-ab.ts` + `/api/scelta-ab` + bottoni dinamici da `opzione_a`/`opzione_b`/`scelta_id`; legacy `decisione_ordine_ab` mappato · regola in `giro.md` · deploy ✅ 11:00 · #pannello #ux #scelta-ab
 - 2026-07-01 10:36 · deploy bottoni A/B · Nicola «ok merge bottoni A/B» → **`main` `c50148d`** live Vercel (~2 min) · bottoni A accetta / B annulla visibili post-reload · click A/B ancora 🔴 (decisione ordine ≠ deploy) · L-0701-30 · #pannello #deploy
 - 2026-07-01 10:13 · card ordine zombie · Nicola «aggiungimi A o B» · **FATTO in repo:** tipo `decisione_ordine_ab`, bottoni A accetta / B annulla + `/api/decisione-ordine` (persistenza memoria + job cervello, non dismiss sessione) · deploy main 🟡 · lezioni L-0701-29 + L-0701-30 · #pannello #ux #approvazioni
 - 2026-07-01 01:34 · vista Quaderni senior · Tab in `Memoria.tsx` + fetch `/api/memoria/quaderni`; dati da `memoria-squadra/` (ramo memoria-ad via vault); lista senior con ultimo ESITO, ricerca, espansione markdown · lezione: UI Pannello → PR **`main`**; contenuto memoria → **`memoria-ad`** — non mischiare binari · #pannello #memoria #quaderni

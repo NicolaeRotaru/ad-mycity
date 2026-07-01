@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- **2026-07-01 11:00** — **Secondo test merge-on-approval:** Nicola «ok merge scelta-ab universale» → push **`main` `853c33a`** (4 file Pannello, scelta_ab universale) · Vercel redeploy · pattern confermato due volte nella stessa mattina · **Decisione ordine A/B resta 🔴** · L-0701-31 + L-0701-32 evidenza+1 · Fonte: chat Nicola 1/7.
 - **2026-07-01 10:45** — **Regola permanente merge-on-approval:** Nicola «impara questo, applica sempre il flusso target» + chiede come creare token GitHub merge · istruzioni PAT fine-grained consegnate (Contents+PR R/W su `ad-mycity`+`mycity` → `GITHUB_MERGE_TOKEN` / `GIT_PUSH_TOKEN` / `MARKETPLACE_GIT_TOKEN` in `vps/.env`) · #15 in coda · L-0701-31 evidenza+1 · Fonte: chat Nicola 1/7.
 - **2026-07-01 10:36** — **Primo test merge-on-approval:** Nicola «ok merge bottoni A/B» → push diretto **`main` `c50148d`** (3 file Pannello; codice era solo VPS, nessuna PR) · Vercel redeploy auto · sync VPS: `sudo bash cervello/vps/aggiorna-cervello.sh` · **Decisione ordine A/B resta 🔴** (deploy ≠ accetta/annulla) · L-0701-31 + L-0701-32 · Fonte: chat Nicola 1/7.
 - **2026-07-01 10:22** — Merge-on-approval: Nicola vuole AD che mergia **solo dopo ok esplicito** · architettura **3 tubi** (memoria-ad / main→Vercel+VPS / mycity→Render 🔴) · `pannello/` = sottocartella `ad-mycity`, non repo · sblocco **#15 GITHUB_MERGE_TOKEN** · card «Ok merge PR #N» proposta 🟡 · L-0701-31 · Fonte: chat Nicola 1/7.

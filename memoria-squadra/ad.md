@@ -79,6 +79,9 @@ Metabolizzazione chat «ok Sprint 1»: Nicola firma 🟡 → branch `fix/sprint-
 # ESITO — @AD — 2026-07-01 09:40
 Metabolizzazione correzione Nicola (casella cadenza-esecuzione): «mycity-live non c'entra» — finding radiografia.js era in dimensione sbagliata. AR-002 → copertura-cieca; cadenza = ritmo mattino/sera/settimana (Windows vs VPS); AR-005 aperto (timer systemd). L-2026-0701-27 (caso_studio_nicola) + preferenza: ripulire tutti i file collegati, non solo la casella.
 
+# ESITO — @AD — 2026-07-01 11:01
+Metabolizzazione chat completa casella ordine zombie + merge-on-approval + scelta_ab universale: Nicola «ok merge scelta-ab universale» → `853c33a` su main. L-31/32/33 evidenze++ · DECISIONI/STATO già aggiornati 11:00. Unico blocco aperto: click A/B ordine €19,05 🔴. Pattern merge-on-approval confermato 2× (c50148d + 853c33a).
+
 # ESITO — @AD — 2026-07-01 10:23
 Metabolizzazione chat merge-on-approval (Nicola 10:22): chiarito `pannello/` ≠ repo separato; architettura 3 tubi; Nicola vuole merge da AD con permesso esplicito. L-2026-0701-31 + #15 GITHUB_MERGE_TOKEN in AZIONI. DECISIONI 10:22 già registrata. Preferenze_nicola aggiornate.
 
