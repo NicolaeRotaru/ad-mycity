@@ -318,3 +318,5 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 16:18 · @AD · SERVE · Nicola: **`ok 16`** + slot **sera 18:30-20:00** · **SQL 107** (~30s) · lista negozi 6/7
 
 🙋 **Serve da Nicola:** 🔴 **`ok 16` + consegna 18:30-20:00** · 🟡 **SQL 107** (Ignora card Proposte) · 🟢 batch 6/7 (checklist pronta).
+
+- 2026-07-01 17:05 · @AD · FATTO · Casella Pannello «Benchmark: Gestione autonoma AI» — popolato `auto-radiografia.json` con esempi reali (LangSmith, Devin, Sidekick) + snapshot nostro loop (tasso 0,70 · voto 76 · REST ok/MCP cieco · 0 ordini consegnati · calibrazione solo @AD). Inventario sblocchi per Nicola in risposta casella.

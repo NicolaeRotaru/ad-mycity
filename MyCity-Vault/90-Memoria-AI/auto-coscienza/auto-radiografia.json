@@ -87,11 +87,22 @@
   "benchmark_vs_migliori": [
     {
       "ambito": "Gestione autonoma dell'azienda con agenti AI",
-      "come_fanno_i_migliori": "I migliori sistemi di 'AI ops' chiudono il loop osserva→agisci→misura→impara su dati reali e tengono un audit continuo di sé. Da popolare con fonti reali al primo ciclo completo.",
-      "esempi": [],
+      "come_fanno_i_migliori": "Loop chiuso su telemetria reale: ogni giro legge DB/pagamenti/analytics, agisce via API approvate, misura esito vs previsione, aggiorna memoria e audit di sé. Riferimenti pubblici: LangSmith (trace→eval→deploy agenti), Cognition Devin (benchmark SWE su repo reali), Shopify Sidekick (KPI negozio live + azioni in dashboard).",
+      "esempi": [
+        { "chi": "LangSmith (LangChain)", "cosa": "Traccia ogni run agente, confronta output vs golden set, blocca regressioni prima del deploy.", "link": "https://docs.smith.langchain.com/" },
+        { "chi": "Cognition Devin", "cosa": "Agente che lavora su repo Git reali con eval automatiche (SWE-bench) — misura capacità, non solo prompt.", "link": "https://www.cognition.ai/blog/introducing-devin" },
+        { "chi": "Shopify Sidekick", "cosa": "Legge KPI vendita live del merchant e propone azioni in-product (prezzi, stock, campagne) misurate su conversione.", "link": "https://www.shopify.com/news/shopify-sidekick" }
+      ],
       "nostro_divario": "alto",
       "obiettivo": "Chiudere il volano sui dati reali (non solo sui prompt) appena gli MCP sono stabili.",
-      "primo_passo": "Stabilizzare i sensori (vedi salute-sensori-dati) per far partire la calibrazione."
+      "primo_passo": "Sbloccare sensori MCP (token Supabase) + primo ordine consegnato (#16) per far partire calibrazione reparto oltre @AD.",
+      "nostro_oggi": {
+        "fonte": "auto-coscienza + STATO 2026-07-01 16:18",
+        "loop_architettura": { "loop_chiude": true, "tasso_applicazione_lezioni": 0.70, "voto_salute": 76, "lezioni_attive": 50, "trend_salute": "72→76 dal 28/6" },
+        "loop_business": { "ordini_consegnati": 0, "ordini_pagati": 0, "calibrazione_reparti": 1, "reparto_calibrato": "@AD (14/14 previsioni confermate via REST)" },
+        "sensori": { "REST_marketplace": "ok", "MCP_Supabase_Cursor": "cieco", "MCP_Stripe": "assente", "PostHog": "assente" },
+        "loop_agire": { "azioni_approvate_non_inviate": "~20", "mani_LIVE": "spente (AZIONI_LIVE=0)" }
+      }
     }
   ],
   "salute_marketplace": {
