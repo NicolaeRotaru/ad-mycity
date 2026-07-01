@@ -248,6 +248,16 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     else
       stato="fatto"
     fi
+  elif [ "$tipo" = "sync-vps" ]; then
+    skip_sync=1
+    out="$(bash "$SCRIPT_DIR/sync-vps.sh" 2>&1)"; rc=$?
+    if [ "$rc" -eq 0 ]; then
+      stato="fatto"
+    else
+      stato="errore"
+      out="$out
+[worker] sync-vps fallito (rc=$rc). Se sudo NOPASSWD non configurato: sudo bash $SCRIPT_DIR/vps/install-sync-vps.sh (root, 1×)."
+    fi
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 

@@ -337,4 +337,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 20:02 · @devops-sre · FATTO · Nicola chiede «cosa sono #14 e #15?» → spiegati come righe coda AZIONI: PAT fine-grained GitHub (Contents+PR R/W su `ad-mycity`+`mycity`) → `vps/.env` · un PAT copre tutto · L-0701-39
 - 2026-07-01 20:02 · @AD · SERVE · Nicola: **`ok 17`** (install sync VPS) + crea/incolla PAT (#14+#15) + restart worker
 
-🙋 **Serve da Nicola:** 🟡 **`ok 17`** + PAT GitHub (#14+#15) · 🔴 **`ok 16`** ordine · 🟡 **SQL 107**
+## Chat 2026-07-01 20:18
+
+- 2026-07-01 20:18 · @AD · **Nicola «ok 17»** · Install sync tentato sul VPS → **bloccato** (`mycity` senza sudo) · handler `sync-vps` aggiunto in `worker.sh` · #17 aggiornato ⏳
+- 2026-07-01 20:18 · @AD · SERVE · Nicola: **1× Console Hetzner root** (`install-sync-vps.sh`) + PAT #14+#15
+
+🙋 **Serve da Nicola:** 🟡 **Console Hetzner root** (1 comando sync) + PAT GitHub (#14+#15) · 🔴 **`ok 16`** ordine · 🟡 **SQL 107**

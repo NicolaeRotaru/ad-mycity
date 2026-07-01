@@ -40,7 +40,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
 | Deploy marketplace Render | ✅ **Sprint 1 live ~10:31** | #209+#210 · ⏳ SQL 107 policy Nicola |
-| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ (`c50148d`, `853c33a`) · sync VPS **codice pronto** 20:02 (Nicola «ok configura sync VPS») · attivazione = **#17** 1× root `install-sync-vps.sh` · restano #14+#15 PAT (chat Nicola 1/7 20:02) |
+| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ · sync VPS **codice pronto** · Nicola **«ok 17»** 20:18 · install VPS **bloccato** (mycity senza sudo) → resta 1× root Console Hetzner · #14+#15 PAT |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori
@@ -84,7 +84,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 18:18 · Sprint 1 LIVE Render ~10:3
 **In coda (non bloccanti oggi):**
 - [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola 1/7 11:05
 - [x] ~~Deploy Sprint 1 codice~~ — **LIVE** ~10:31
-- [ ] 🟡 **Sync VPS auto** — codice pronto 20:02 · **1 comando root:** `sudo bash cervello/vps/install-sync-vps.sh`
+- [ ] 🟡 **Sync VPS auto** — Nicola ok 17 (20:18) · **bloccato:** serve 1× root → Console Hetzner → `sudo bash /opt/mycity/ad-mycity/cervello/vps/install-sync-vps.sh`
 - [ ] 🔴 **Payout-test Stripe — Nicola 03/7 mattina** (sandbox)
 - [ ] 🟡 **#14 token write mycity** · **#15 GITHUB_MERGE_TOKEN** (vedi AZIONI + guida sotto)
 - [ ] ~~Presidio VP 3/7~~ — **RIMANDATO** (prossima finestra **10/17 lug**)
