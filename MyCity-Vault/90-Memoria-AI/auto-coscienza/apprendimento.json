@@ -1,6 +1,19 @@
 {
-  "data": "2026-07-01 06:28",
+  "data": "2026-07-01 06:29",
   "lezioni": [
+    {
+      "id": "L-2026-0701-22",
+      "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo, assicurati che non accada mai con nient'altro — non possiamo fare figura di merda». Pre-mortem: `esegui-azione.mjs` LIVE su coda mal filtrata → messaggio/payout 🔴 senza firma. Fix 🟡 in repo: `cervello/guardrail-semaforo.mjs` (modulo unico) + doppio cancello in `esegui-azione.mjs` (ingresso + pre-invio) + `NICOLA_FIRMA=1`/`--firma-nicola` solo post-Approva Pannello in `worker.sh`/`worker.ps1` + autopilot **solo 🟢** + stesso gate in `pannello/lib/mani.ts` e `azioni.ts` (n8n). Heuristiche contenuto → 🔴 anche se mal etichettato 🟢 (email domini esterni, payout, stripe, whatsapp, deploy). Self-test: `node cervello/esegui-azione.mjs verifica` → 7/7. **Deploy main+VPS ancora 🟡** — con `AZIONI_LIVE=0` resta sicuro. Pattern: ogni nuovo esecutore (worker, autopilot, n8n, mani) deve chiamare guardrail-semaforo, non reimplementare filtri locali.",
+      "tag": ["guardrail", "semaforo", "esegui-azione", "nicola", "pre-mortem", "security", "worker"],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0701-21",
       "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**), rispondere con **inventario verificato live** — tabella: sensore | in `.mcp.json`? | stato adesso | cosa blocca. **Tre tier priorità:** ① Supabase marketplace+memoria (config ✅, ciechi: `SUPABASE_ACCESS_TOKEN` assente in `vps/.env` + click Autorizza MCP in Cursor) 🟡 · ② Stripe MCP (mai cablato — chiave `sk_test_…` + server in `.mcp.json` proposta 🟡, utile prima payout-test 03/7) · ③ PostHog MCP 🟢 opzionale a 0 ordini pagati. **Non confondere con «DB giù»:** REST marketplace HTTP 200 ✅; WebFetch globale ✅ (worker post-merge 1/7). Cursor Cloud spesso cieco finché Nicola non autorizza — worker legge via REST (L-2026-0630-03). Pattern = stesso di «quali mani ti servono?» (L-2026-0630-06): tier concreti + cosa sblocca, non teoria.",
@@ -444,10 +457,11 @@
     "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»).",
     "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»).",
     "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37).",
-    "Quando la casella salute-sensori segnala cecità chiede «quali connessioni MCP ti mancano?» — vuole inventario verificato + priorità sblocco (token Supabase → Stripe MCP → PostHog), non «i DB sono giù» (chat 1/7 01:57)."
+    "Quando la casella salute-sensori segnala cecità chiede «quali connessioni MCP ti mancano?» — vuole inventario verificato + priorità sblocco (token Supabase → Stripe MCP → PostHog), non «i DB sono giù» (chat 1/7 01:57).",
+    "Su pre-mortem 🔴 (messaggi negozi, payout, azioni reali) vuole fix **sistemico e immediato**, non patch sul singolo caso — «assicurati che non accada mai con nient'altro»; tolleranza zero per figura di merda verso negozi/clienti (chat 1/7 casella guardrail worker/autopilot)."
   ],
   "meta": {
-    "lezioni_attive": 34,
+    "lezioni_attive": 35,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67
