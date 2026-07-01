@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Brain, ListTodo, Archive } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
+import DiagnosticaWorker from "@/components/DiagnosticaWorker";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
 
 type Tab = "coda" | "archivio";
@@ -67,6 +68,8 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
           </button>
         ))}
       </div>
+
+      <DiagnosticaWorker />
 
       <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
     </div>

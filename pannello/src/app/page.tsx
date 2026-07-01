@@ -1312,11 +1312,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       } catch {}
     };
     carica();
+    const onLavori = () => carica();
+    window.addEventListener("mycity:lavori", onLavori);
     const ms = loading || pendingLavoroChatRef.current ? 2000 : 8000;
     const id = setInterval(carica, ms);
     return () => {
       stop = true;
       clearInterval(id);
+      window.removeEventListener("mycity:lavori", onLavori);
     };
   }, [loading]);
 
