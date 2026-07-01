@@ -1,13 +1,13 @@
 {
-  "data": "2026-07-01 11:52",
-  "sintesi": "Nicola ha firmato Scelta A ordine €19,05 (11:05) — esecuzione #16 in attesa (`ok 16` + data/ora). Sprint 1 LIVE Render (~10:31). Stallo oltre 168h (~10:30). Resta SQL 107 (~30s Supabase). Batch onboarding 6/7 post-#16. Temporali pomeriggio 15-16.",
+  "data": "2026-07-01 12:18",
+  "sintesi": "Nicola ha firmato Scelta A ordine €19,05 (11:05) — esecuzione #16 in attesa (`ok 16` + data/ora). Temporali 15-16 imminenti: slot pranzo ORA o sera post-18. Sprint 1 LIVE Render (~10:31). Stallo 169,8h (+1,8h oltre 168h). Resta SQL 107 (~30s Supabase). Batch onboarding 6/7 post-#16.",
   "prossime_mosse": [
     {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A",
-      "quando": "subito (decisione firmata 11:05) — prima temporali 15-16",
+      "quando": "subito — slot pranzo ORA (12-14) o sera post-18",
       "come": "WhatsApp buyer 348 642 1766 + accetta in dashboard Pane Quotidiano + organizza consegna COD €19,05",
       "priorita": "alta",
-      "ad_prepara": "Pacchetto operations pronto · escalation post-168h v6 · @customer-success script feedback",
+      "ad_prepara": "Escalation post-168h v7 · pacchetto operations pronto · @customer-success script feedback",
       "senior": "@operations + @supporto",
       "colore": "🔴"
     },
@@ -45,13 +45,13 @@
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo oltre 168h — ogni ora senza #16 peggiora percezione progetto",
-    "Temporali 15-16 oggi — evitare consegna in quella finestra",
+    "Stallo +1,8h oltre 168h — ogni ora senza #16 peggiora percezione progetto",
+    "Temporali 15-16 oggi — rischio consegna in quella finestra se non parte pranzo",
     "Policy RLS profiles ancora attiva finché non gira SQL 107",
     "Buyer potrebbe non rispondere al WhatsApp dopo 7 giorni attesa"
   ],
   "serve_da_nicola": [
-    {"ambito": "Consegna ordine PQ", "cosa_manca": "Data/ora consegna per WhatsApp buyer + ok esecuzione", "domanda_per_nicola": "Quando consegniamo? (pranzo o sera post-18) + **`ok 16`**"},
+    {"ambito": "Consegna ordine PQ", "cosa_manca": "Slot consegna (pranzo ORA o sera post-18) + ok esecuzione", "domanda_per_nicola": "Quando consegniamo? + **`ok 16`**"},
     {"ambito": "Sprint 1 deploy", "cosa_manca": "SQL 107 in Supabase (DROP policy) — codice già live", "domanda_per_nicola": "Supabase SQL Editor → incolla migration 107 → Run → scrivi «fatto sql 107»"},
     {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
   ],

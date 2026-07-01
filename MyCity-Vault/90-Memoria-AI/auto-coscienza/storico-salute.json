@@ -13,6 +13,6 @@
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 04:17: stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 4, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 1, "tipo": "sonda", "nota": "Giro 1/7 11:52: stallo 169,4h — 168h SUPERATA ~10:30. Sprint 1 LIVE Render ~10:31. Scelta A firmata 11:05 (#16). Escalation post-168h v6 🟢. REST OK, MCP cieco. Voto 76 =. AR-005 chiuso (timer ritmo)." }
+    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 1, "tipo": "sonda", "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =." }
   ]
 }

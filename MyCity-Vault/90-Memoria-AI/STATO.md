@@ -1,18 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 11:52
-fonte: AD digitale (7 numeri = live REST 1/7 11:52 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
+aggiornato: 2026-07-01 12:18
+fonte: AD digitale (7 numeri = live REST 1/7 12:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 11:52 — Giro AD:** stallo **169,4h** — **168h SUPERATA ~10:30**. Sprint 1 **LIVE** Render (#209+#210). Scelta A ordine firmata 11:05 → **#16 in attesa** (`ok 16` + data/ora). SQL 107 policy ⏳ (Nicola ~30s). Temporali 15-16 oggi.
+> 🧠 **1/7 12:18 — Giro AD:** stallo **169,8h** — **168h SUPERATA ~10:30** (+1,8h oltre). Sprint 1 **LIVE** Render (#209+#210). Scelta A ordine firmata 11:05 → **#16 in attesa** (`ok 16` + data/ora). SQL 107 policy ⏳ (Nicola ~30s). Temporali **15-16** oggi — slot pranzo ORA o sera post-18.
 >
-> 🧠 **1/7 11:29 — Casella Pannello «SQL 107 DROP policy»:** Nicola «l'ho approvato, perché chiede di nuovo?» · **Non è un secondo deploy** — «ok deploy Sprint 1» (11:10) = codice Render ✅ già live · **resta 1 passo manuale** Supabase (DROP policy) · verificato: anon legge ancora `profiles.stripe_account_id` · card rimossa da Proposte · **Ignora** la card · incolla SQL → scrivi «fatto sql 107»
+> 🧠 **1/7 11:29 — Casella Pannello «SQL 107 DROP policy»:** Nicola «l'ho approvato, perché chiede di nuovo?» · **Non è un secondo deploy** — «ok deploy Sprint 1» (11:10) = codice Render ✅ già live · **resta 1 passo manuale** Supabase (DROP policy) · **Ignora** la card · incolla SQL → scrivi «fatto sql 107»
 >
 > 🧠 **1/7 11:05 — Pannello Nicola:** **Scelta A** ordine zombie €19,05 (Pane Quotidiano · buyer 348 642 1766) — accetta e organizza consegna · decisione in [[DECISIONI]] · esecuzione accodata **#16** · **NON riproporre A/B**
 
-## I 7 numeri (live 2026-07-01 11:52 · Supabase REST clmpyfvpvfjgeviworth)
+## I 7 numeri (live 2026-07-01 12:18 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
@@ -24,7 +24,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 11:52 · Sprint 1 LIVE Render ~10:3
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
-## Sensori MCP (inventario 2026-07-01 11:52)
+## Sensori MCP (inventario 2026-07-01 12:18)
 | Sensore | Config | Stato | Sblocco |
 |---|---|---|---|
 | Supabase marketplace+memoria | `.mcp.json` ✅ | ❌ cieco Cursor | `SUPABASE_ACCESS_TOKEN` in `vps/.env` |
@@ -46,8 +46,8 @@ fonte: AD digitale (7 numeri = live REST 1/7 11:52 · Sprint 1 LIVE Render ~10:3
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori
-- 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation post-168h v6 🟢; WebFetch worker ✅; guardrail 🔴 codificato; **Sprint 1 LIVE Render**; Scelta A ordine firmata; `seller_public_profiles` VIEW in prod.
-- 🟡 Da tenere d'occhio: **#16 esecuzione ordine** (in attesa `ok 16`); **SQL 107 policy**; **#14/#15 token GitHub**; sync VPS; MCP cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; temporali 15-16 oggi; stallo **oltre 168h**.
+- 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation post-168h v7 🟢; playbook CRM carrelli 🟢; WebFetch worker ✅; guardrail 🔴 codificato; **Sprint 1 LIVE Render**; Scelta A ordine firmata; `seller_public_profiles` VIEW in prod.
+- 🟡 Da tenere d'occhio: **#16 esecuzione ordine** (in attesa `ok 16`); **SQL 107 policy**; **#14/#15 token GitHub**; sync VPS; MCP cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; temporali **15-16** oggi; stallo **oltre 168h (+1,8h)**.
 - 🔴 Problema: 0 transazioni reali (consegna non ancora avvenuta); ~20 azioni approvate, 0 inviate (mani spente); **RLS profiles** — policy permissiva finché non gira SQL 107.
 
 ## Radiografia marketplace (2026-07-01)
@@ -59,16 +59,16 @@ fonte: AD digitale (7 numeri = live REST 1/7 11:52 · Sprint 1 LIVE Render ~10:3
 | Sprint 2/3 | nel report, accodati dopo review Sprint 1 | chat Nicola 1/7 06:45 |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 11:52** — KPI live REST stallo 169,4h (168h superata). Escalation post-168h v6 🟢. Briefing + auto-coscienza.
-2. **Pannello 1/7 11:29** — Nicola chiarito SQL 107 ≠ secondo deploy · card ritirata
-3. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
-4. **Chat 1/7 11:10** — Nicola «ok deploy Sprint 1» → Render già live · resta SQL 107
-5. **Piano del mattino 1/7 11:18** — 3 priorità: #16 · deploy Sprint 1 ✅ · batch 6/7
+1. **Giro 1/7 12:18** — KPI live REST stallo 169,8h (+0,4h). Escalation post-168h v7 🟢. Briefing + auto-coscienza. Temporali imminenti.
+2. **Giro 1/7 11:52** — KPI live REST stallo 169,4h. Escalation v6 🟢.
+3. **Pannello 1/7 11:29** — Nicola chiarito SQL 107 ≠ secondo deploy · card ritirata
+4. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
+5. **CRM 1/7 12:15** — Playbook recupero 4 carrelli (1 buyer reale samir €10)
 
-## Prossime priorità (1/7 11:52)
+## Prossime priorità (1/7 12:18)
 **Obiettivo giornata:** 1° ordine consegnato + piattaforma pronta per batch 6/7.
 
-1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05** (WhatsApp buyer + dashboard + consegna COD · serve **data/ora** + `ok 16`) — **PRIMA temporali 15-16 se possibile**
+1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05** (WhatsApp buyer + dashboard + consegna COD · serve **data/ora** + `ok 16`) — **PRIMA temporali 15-16 — slot pranzo ORA**
 2. [ ] 🟡 **SQL 107 policy** — Nicola incolla DROP policy in Supabase (30s) → «fatto sql 107»
 3. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist `consegne/onboarding/checklist-batch-6-luglio.md`
 

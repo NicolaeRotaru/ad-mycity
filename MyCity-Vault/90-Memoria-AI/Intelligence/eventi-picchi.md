@@ -1,26 +1,26 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-01 11:52** · Fonte: @intelligence (giro 1/7 11:52, 3BMeteo + REST live).
+> Aggiornato: **2026-07-01 12:18** · Fonte: @intelligence (giro 1/7 12:18, 3BMeteo + REST live).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 1/7 — Caldo 35°C + temporali pomeriggio ⚠️
+### 1. OGGI 1/7 — Caldo 35°C + temporali pomeriggio ⚠️ URGENTE
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Mer 01/7 (OGGI)** | **35° / 24°** | Allerta calore; **temporali 15-16** (~7mm) · percepita **39°** | 🌧️ *"piove, te la portiamo noi"* — **possibile se #16 parte oggi** |
-| Gio 02/7 | ~31 / 20 | Variabile | clima mite |
+| **Mer 01/7 (OGGI)** | **35° / 24°** | **35°C ora (12:18)** · Allerta calore; **temporali 15-16** (~7mm, prob. 60%) · percepita **39°** | 🌧️ *"piove, te la portiamo noi"* — **slot pranzo ORA (12-14) o sera post-18** |
+| Gio 02/7 | ~31 / 20 | Variabile | clima mide |
 | **Ven 03/7 (VP)** | ~33 / 20 | Variabile — **presidio VP RIMANDATO** | — |
 | Sab 04/7 | ~33 / 21 | Poca pioggia | normale |
 | **Dom 6/7** | **~34 / 20** | Caldo secco — **batch onboarding negozi** (Nicola) | priorità operativa + rider/freschi |
 
-Fonti: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) (agg. **11:53**) · [Comune eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806)
+Fonti: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) (agg. **12:08**) · [Comune eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806)
 
-**Consiglio operativo #16:** consegna **pranzo (12-14)** o **sera post-18** — evitare slot 15-17 (temporali).
+**Consiglio operativo #16 (12:18):** temporali tra **~2,5h** — se consegni oggi: **pranzo ORA** (12-14) o **sera post-18**. Evitare 15-17.
 
-**🟢 Playbook:** `consegne/operations/2026-07-01-playbook-temporali.md` · Escalation post-168h: `consegne/operations/2026-07-01-escalation-post-168h-v6.md`
+**🟢 Playbook:** `consegne/operations/2026-07-01-playbook-temporali.md` · Escalation post-168h: `consegne/operations/2026-07-01-escalation-post-168h-v7.md`
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
@@ -34,8 +34,8 @@ Fonti: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) (agg. **11:53*
 
 ---
 
-## 🆕 Novità giro 1/7 11:52
-- Stallo **169,4h** — **168h SUPERATA ~10:30**.
-- Sprint 1 **LIVE** Render ~10:31 — checkout con fee UI in produzione.
+## 🆕 Novità giro 1/7 12:18
+- Stallo **169,8h** — **168h SUPERATA ~10:30** (+1,8h oltre).
+- Temporali **imminenti** (15-16) — finestra pranzo ancora aperta per #16.
 - Scelta A ordine firmata 11:05 — esecuzione #16 in attesa.
-- Meteo 3BMeteo 11:53: temporali **15-16** confermati (~7mm).
+- Sprint 1 **LIVE** Render ~10:31 — SQL 107 policy ⏳.

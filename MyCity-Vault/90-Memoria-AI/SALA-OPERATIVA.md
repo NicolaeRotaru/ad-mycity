@@ -275,6 +275,17 @@ Assegnazioni (1 mossa per reparto):
 
 ---
 
+## Giro 2026-07-01 12:18
+
+- 2026-07-01 12:18 · @analista · FATTO · KPI live REST: stallo **169,8h** (+0,4h), **168h +1,8h oltre** · snapshot `consegne/analista/2026-07-01-kpi-live-1218.md`
+- 2026-07-01 12:18 · @intelligence · FATTO · Meteo 3BMeteo 12:08: **35°C ora** · temporali **15-16 imminenti** · `Intelligence/eventi-picchi.md` aggiornato
+- 2026-07-01 12:18 · @operations · FATTO · Escalation post-168h **v7** 🟢 · slot pranzo ORA enfatizzato · `consegne/operations/2026-07-01-escalation-post-168h-v7.md`
+- 2026-07-01 12:18 · @AD · FATTO · Briefing 12:18 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza · Scelta A già firmata — **NON riproporre A/B**
+- 2026-07-01 12:18 · @AD · SERVE · Nicola: **`ok 16`** + slot consegna (pranzo ORA o sera post-18) · **SQL 107** (~30s) · lista negozi 6/7
+- @operations · monitor temporali — se #16 parte, evitare slot 15-17 · 🟢
+
+🙋 **Serve da Nicola:** 🔴 **slot pranzo ORA + `ok 16`** · 🟡 **SQL 107** (Ignora card Proposte) · 🟢 batch 6/7 (checklist pronta).
+
 ## Giro 2026-07-01 11:52
 
 - 2026-07-01 11:52 · @analista · FATTO · KPI live REST: stallo **169,4h** (+3,6h), **168h SUPERATA ~10:30**, 7 numeri = vs 08:17 · snapshot `consegne/analista/2026-07-01-kpi-live-1152.md`

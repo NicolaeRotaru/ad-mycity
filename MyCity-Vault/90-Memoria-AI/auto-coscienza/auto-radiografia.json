@@ -108,14 +108,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-01 11:52",
+    "data": "2026-07-01 12:18",
     "loop_chiude": true,
     "tasso_applicazione": 0.67,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 77,
+    "ore_da_ultima_completa": 78,
     "verdetto": "ok",
-    "nota": "Sonda 1/7 11:52. 4 invarianti OK: (1) loop chiude — escalation post-168h v6 + Scelta A rispettata (no A/B); (2) tasso 0.67; (3) giro ~3,5h dal 08:17; (4) sentinelle: stallo >168h SUPERATO + ordine zombie (#16) + 4 carrelli + temporali 15-16. REST OK, MCP cieco. Sprint 1 LIVE. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: AR-004 token write mycity ancora aperto."
+    "nota": "Sonda 1/7 12:18. 4 invarianti OK: (1) loop chiude — escalation v7 + Scelta A rispettata; (2) tasso 0.67; (3) giro ~26min dal 11:52; (4) sentinelle: stallo >168h (+1,8h) + ordine zombie (#16) + 4 carrelli + temporali imminenti 15-16. REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: AR-004 token write mycity ancora aperto."
   },
   "meta": {
     "agenti_totali": 42,

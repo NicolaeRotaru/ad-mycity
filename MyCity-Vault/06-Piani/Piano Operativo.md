@@ -190,10 +190,10 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-01 11:52
+## 🤖 Aggiornamento dell'AD — 2026-07-01 12:18
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **📊 LIVE 11:52:** stallo **169,4h** — **168h SUPERATA ~10:30**. Temporali **15-16** oggi ([3BMeteo](https://www.3bmeteo.com/meteo/piacenza)).
-- **#16 Scelta A** firmata 11:05 — esecuzione consegna **pranzo o sera post-18** (evitare temporali).
+- **📊 LIVE 12:18:** stallo **169,8h** — **168h +1,8h oltre**. Temporali **15-16 imminenti** ([3BMeteo](https://www.3bmeteo.com/meteo/piacenza)).
+- **#16 Scelta A** firmata 11:05 — **slot pranzo ORA (12-14)** o sera post-18.
 - **Sprint 1 LIVE** Render ~10:31 — SQL 107 policy ⏳ Nicola (~30s).
 - **6/7:** batch onboarding post-#16 + SQL 107.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

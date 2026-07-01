@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-01 11:52",
-  "situazione": "Stallo **169,4h** — soglia 168h **superata ~10:30**. Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
+  "data": "2026-07-01 12:18",
+  "situazione": "Stallo **169,8h** — soglia 168h **superata da ~1,8h**. Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Temporali **15-16** oggi — slot pranzo ORA o sera post-18. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
   "opportunita": [
     {
-      "titolo": "Eseguire #16 Scelta A ORA",
-      "motivo": "Decisione firmata 11:05 · buyer aspetta 7 giorni · stallo oltre 168h",
+      "titolo": "Eseguire #16 Scelta A ORA (pranzo)",
+      "motivo": "Decisione firmata 11:05 · stallo +1,8h oltre 168h · temporali tra ~3h",
       "impatto": "alto",
       "sforzo": "basso"
     },
