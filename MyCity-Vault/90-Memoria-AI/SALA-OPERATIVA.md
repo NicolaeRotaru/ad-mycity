@@ -232,4 +232,7 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 10:36 · @operations · SERVE · Nicola: clic **A** o **B** sulla card (post-deploy ~2 min) — soglia 168h superata ~10:30
 - 2026-07-01 10:45 · @Nicola · chiesto · «Impara flusso target sempre · come creo token GitHub merge?»
 - 2026-07-01 10:45 · @AD · FATTO · Regola permanente merge-on-approval confermata · istruzioni PAT fine-grained consegnate · `.env.example` aggiornato con `GITHUB_MERGE_TOKEN`
+- 2026-07-01 10:50 · @Nicola · chiesto · «Applica A o B ogni volta che devo scegliere, non solo ordine zombie»
+- 2026-07-01 10:50 · @frontend-dev · FATTO · Generalizzato `tipo: scelta_ab` + API `/api/scelta-ab` (bottoni dinamici, persistenza per `scelta_id`) · regola in `giro.md` · deploy main 🟡
+- 2026-07-01 10:50 · @operations · SERVE · Nicola: clic **A** o **B** ordine €19,05 — soglia 168h superata ~10:30
 - 2026-07-01 10:45 · @operations · SERVE · Nicola: **A** o **B** sull'ordine €19,05 (unica cosa che chiude la card)

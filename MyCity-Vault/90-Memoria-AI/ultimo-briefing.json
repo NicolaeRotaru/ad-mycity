@@ -23,10 +23,14 @@
   ],
   "azioni": [
     {
-      "titolo": "Decisione ordine zombie €19,05 (A accetta / B annulla) — entro ~2,2h",
+      "titolo": "Decisione ordine zombie €19,05 — entro ~2,2h",
       "motivo": "Buyer fermo ~6,9 giorni — pacchetto operations pronto",
       "livello": "rosso",
-      "tipo": "decisione_ordine_ab"
+      "tipo": "scelta_ab",
+      "scelta_id": "ordine-zombie-58094956",
+      "opzione_a": "Accetta e consegna",
+      "opzione_b": "Annulla (messaggio buyer)",
+      "contesto": "Pane Quotidiano · buyer 348 642 1766 · COD €19,05 · ordine dal 24/6"
     },
     {
       "titolo": "Push + PR Sprint 1 marketplace (webhook, fee UI, COD rollback, RLS)",
