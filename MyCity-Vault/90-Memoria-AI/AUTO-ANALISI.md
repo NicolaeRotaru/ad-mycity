@@ -1,33 +1,44 @@
 ---
-data: 2026-07-01 08:17
+data: 2026-07-01 11:52
+tipo: auto-analisi
 ---
 
-# 🔬 Auto-analisi — Giro 2026-07-01 08:17
+# 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: **87/100** (trend **▼** vs 06:18)
+**Voto di fiducia: 88/100** (▼ da 87 del giro 08:17 — −1 per stallo oltre 168h non risolto; +2 per allineamento post-Scelta A e verifica deploy LIVE)
 
-**Perché:** 7 numeri live REST verificati (= business, stallo 165,8h, countdown 168h ~2,2h). Escalation v5 🟢 prodotta. Entità allineate (Pane Quotidiano confermato, Casa Linda demo). Sprint 1 ok Nicola integrato. −5: MCP cieco (mitigato REST). −3: urgenza countdown sotto 3h — domanda 🔴 ancora aperta da 06:18 (calibrazione onesta, non errore).
+## Trend
+Stallo **superato** la soglia 168h — il business resta fermo ma il lavoro di questo giro è **onesto e ancorato**: KPI live REST, entità verificate, nessuna 🔴 nuova senza firma, Scelta A rispettata (no ripetizione A/B), card obsolete non riproposte.
 
 ## Errori per gravità
-Nessun errore nuovo intercettato in questo giro.
+Nessun errore nuovo di grounding o numeri orfani in questo giro.
+
+| Gravità | Cosa | Perché problema | Azione presa | Livello |
+|---------|------|-----------------|--------------|---------|
+| — | — | — | — | — |
 
 ## Domande per Nicola
-1. **Ordine zombie €19,05 (Pane Quotidiano, buyer 348 642 1766):** accetti e consegni (A) o annulli (B)? — **entro ~2,2h** (~10:30).
-2. **Push Sprint 1:** push manuale 2 min · **`ok 14`** token · o aspetti?
-3. **Quanti negozi il 6/7** e quali nomi?
+1. **Quando consegniamo l'ordine PQ?** (pranzo o sera post-18, evitando temporali 15-16) + **`ok 16`**
+2. **SQL 107:** incolla migration in Supabase → «fatto sql 107» (non seconda Approva)
+3. **Batch 6/7:** quanti negozi e quali nomi?
 
 ## Salute della macchina
-- **Supabase marketplace:** REST live ✅ · MCP cieco ❌
-- **Supabase memoria:** env presente ✅ · POST briefings OK
-- **Stripe/PostHog:** non verificati in sessione
-- **Dati freschi:** sì (query 08:17)
-- **Sensori attivi:** 2 (REST marketplace + memoria)
+| Sensore | Stato |
+|---------|-------|
+| Supabase marketplace REST | ✅ live 11:52 |
+| Supabase memoria REST | ✅ POST briefings OK |
+| Supabase MCP | ❌ cieco (fallback REST) |
+| Stripe MCP | ❌ assente |
+| PostHog | ❌ assente |
+| WebFetch | ✅ OK |
+| Dati freschi | ✅ sì (query questo giro) |
 
 ## Punti ciechi
-- Supabase MCP cieco (REST fallback OK)
-- PostHog non collegato
-- Competitor non ricontrollati (cadenza settimanale)
+- RPC `list_abandoned_carts_to_recover` vuoto — carrelli mantenuti a **4** dal giro precedente (non inventato)
+- Smoke test checkout produzione post-Sprint 1 non eseguito
+- Competitor: cadenza settimanale, non rifatto
 
 ## Cosa miglioro al prossimo giro
-- Se supera 168h: escalation 🟡 binaria automatica + nota in DECISIONI
-- Verificare esito push Sprint 1 se Nicola interviene
+- Se #16 eseguito: aggiornare KPI con 1° ordine pagato/consegnato e chiudere sentinella ordine zombie
+- Post «fatto sql 107»: verificare anon non legge `stripe_account_id`
+- Non re-inserire in Proposte promemoria ops già decisi (lezione L recidiva onboarding 6/7)

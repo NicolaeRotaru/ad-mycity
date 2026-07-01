@@ -592,6 +592,18 @@
       "nato": "2026-06-29",
       "ultima_conferma": "2026-07-01",
       "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-27",
+      "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
+      "tag": ["stallo", "escalation", "168h", "scelta_a", "ux-pannello"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "in-prova"
     }
   ],
   "principi": [
@@ -643,7 +655,7 @@
     "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte."
   ],
   "meta": {
-    "lezioni_attive": 48,
+    "lezioni_attive": 49,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.67

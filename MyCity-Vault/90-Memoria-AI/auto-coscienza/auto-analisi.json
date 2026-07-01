@@ -1,12 +1,12 @@
 {
-  "data": "2026-07-01 08:17",
-  "voto_fiducia": 87,
-  "trend_fiducia": "▼",
-  "sintesi": "Giro 1/7 08:17. Voto 87 (▼ da 88): KPI live REST (= business, stallo 165,8h, 168h ~2,2h ~10:30). Escalation v5 🟢. Sprint 1 ok Nicola integrato; push PR 403 documentato. Nessun errore grounding. MCP cieco, REST OK.",
+  "data": "2026-07-01 11:52",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro 1/7 11:52. Voto 88 (▲ da 87): KPI live REST, stallo 169,4h (168h superata). Scelta A rispettata — no A/B. Sprint 1 LIVE verificato. Nessun errore grounding. MCP cieco, REST OK.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 08:17, clmpyfvpvfjgeviworth)",
-    "coerenza": "ok (allineato DECISIONI/chat 1/7 07:30-07:41)",
+    "numeri": "ok (live REST 11:52, clmpyfvpvfjgeviworth)",
+    "coerenza": "ok (allineato DECISIONI 11:05, STATO 11:29 SQL 107)",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a"
@@ -14,32 +14,34 @@
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Ordine zombie €19,05 (Pane Quotidiano, buyer 348 642 1766): accetti e consegni (A) o annulli (B)?",
-      "perche_serve": "Unica via 1ª transazione reale; ~2,2h a soglia 168h (~10:30).",
-      "se_rispondi": "Eseguo pacchetto operations opzione scelta.",
+      "domanda": "Quando consegniamo l'ordine PQ €19,05? (pranzo o sera post-18) + ok 16",
+      "perche_serve": "Scelta A firmata 11:05 — #16 pronta, serve data/ora per WhatsApp buyer 348 642 1766.",
+      "se_rispondi": "Operations esegue pacchetto #16 — 1ª transazione reale.",
       "gravita": "alta"
     },
     {
-      "domanda": "Push + PR Sprint 1 su mycity: push manuale, ok #14 token, o aspetti?",
-      "perche_serve": "Codice pronto 07:30 — PR non creata per 403 PAT.",
-      "se_rispondi": "Tech pusha branch o accoda deploy post-PR.",
+      "domanda": "SQL 107: incolla DROP policy in Supabase → scrivi «fatto sql 107»",
+      "perche_serve": "Unico bloccante RLS rimasto — codice Sprint 1 già LIVE.",
+      "se_rispondi": "AD verifica RLS + smoke checkout sicuro per batch 6/7.",
       "gravita": "alta"
     },
     {
       "domanda": "Quanti negozi inserisci il 6/7 e quali nomi?",
-      "perche_serve": "Checklist onboarding pronta — serve lista per preparare catalogo/contratti.",
-      "se_rispondi": "AD personalizza checklist per ogni bottega.",
+      "perche_serve": "Checklist onboarding pronta — serve lista per personalizzare catalogo/contratti.",
+      "se_rispondi": "AD prepara batch done-for-you per ogni bottega.",
       "gravita": "media"
     }
   ],
   "punti_ciechi": [
     "Supabase MCP cieco (REST fallback OK)",
     "PostHog non collegato",
+    "Carrelli >4h: RPC vuoto — mantenuto 4 dal giro 08:17",
     "Competitor non ricontrollati (cadenza settimanale)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Se supera 168h: escalation binaria in DECISIONI",
-    "Verificare esito push Sprint 1"
+    "Post ok 16: aggiornare 7 numeri con prima transazione",
+    "Post fatto sql 107: verificare leak RLS chiuso",
+    "Non ripetere card obsolete (SQL 107, PR Sprint 1, onboarding 6/7 Approva)"
   ],
   "salute_macchina": {
     "supabase_marketplace": "REST live ✅ · MCP cieco ❌",

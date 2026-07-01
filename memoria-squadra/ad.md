@@ -1,4 +1,6 @@
-# ESITO — @AD — 2026-06-30 17:17
+# ESITO — @AD — 2026-07-01 11:52
+Giro post-mattinata Nicola: stallo 169,4h (168h superata). Sprint 1 LIVE verificato. Scelta A rispettata — no A/B. Escalation post-168h v6 🟢. Voto fiducia 88 ▲. Lezione L-2026-0701-27 (linguaggio post-soglia).
+
 Quando Supabase MCP è cieco ma `MARKETPLACE_SUPABASE_URL/KEY` sono in env, usare REST API come fallback obbligatorio prima di dichiarare gap dati. Evita giri "a memoria" inutili.
 
 # ESITO — @AD — 2026-06-30 22:17

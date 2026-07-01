@@ -1,7 +1,13 @@
 {
-  "data": "2026-07-01 11:29",
-  "situazione": "Nicola «ok deploy Sprint 1» — **Render già live** (~10:31, auto da #209+#210). Fee €3 e query `seller_public_profiles` in produzione. **Manca 1 passo:** SQL 107 DROP policy (anon legge ancora colonne sensibili su `profiles`). Scelta A ordine zombie firmata 11:05 — #16 in attesa.",
+  "data": "2026-07-01 11:52",
+  "situazione": "Stallo **169,4h** — soglia 168h **superata ~10:30**. Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
   "opportunita": [
+    {
+      "titolo": "Eseguire #16 Scelta A ORA",
+      "motivo": "Decisione firmata 11:05 · buyer aspetta 7 giorni · stallo oltre 168h",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
     {
       "titolo": "Chiudi SQL 107 (30 secondi)",
       "motivo": "Unico bloccante RLS rimasto — codice già usa la VIEW",
@@ -9,14 +15,8 @@
       "sforzo": "basso"
     },
     {
-      "titolo": "Completare 1ª transazione reale (ordine PQ €19,05)",
-      "motivo": "Scelta A firmata 11:05 — buyer in attesa da ~7 giorni",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
       "titolo": "Batch onboarding negozi 6/7",
-      "motivo": "Priorità Nicola post-VP; checklist pronta post-SQL 107",
+      "motivo": "Priorità Nicola post-VP; checklist pronta post-#16 + SQL 107",
       "impatto": "alto",
       "sforzo": "medio"
     }

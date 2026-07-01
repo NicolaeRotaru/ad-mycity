@@ -272,6 +272,16 @@ Assegnazioni (1 mossa per reparto):
 - @finanza · payout-test Stripe **03/7 mattina** (sandbox, programmato) · 🔴
 - @analista · snapshot KPI fine giornata (baseline pre/post prima transazione) · 🟢
 - @crm-lifecycle · prepara email recupero 4 carrelli abbandonati (DRY-RUN, mani spente) · 🟢
+
+---
+
+## Giro 2026-07-01 11:52
+
+- 2026-07-01 11:52 · @analista · FATTO · KPI live REST: stallo **169,4h** (+3,6h), **168h SUPERATA ~10:30**, 7 numeri = vs 08:17 · snapshot `consegne/analista/2026-07-01-kpi-live-1152.md`
+- 2026-07-01 11:52 · @intelligence · FATTO · Meteo 3BMeteo 11:53: 35°C + temporali 15-16 (~7mm) · `Intelligence/eventi-picchi.md` aggiornato
+- 2026-07-01 11:52 · @operations · FATTO · Escalation post-168h **v6** 🟢 · `consegne/operations/2026-07-01-escalation-post-168h-v6.md`
+- 2026-07-01 11:52 · @AD · FATTO · Briefing 11:52 + STATO + ultimo-briefing.json + intenzioni-nicola + auto-coscienza · Sprint 1 LIVE confermato · Scelta A già firmata — **NON riproporre A/B**
+- 2026-07-01 11:52 · @AD · SERVE · Nicola: **`ok 16`** + data/ora consegna · **SQL 107** (~30s) · lista negozi 6/7
 - @intelligence · monitor temporali pomeriggio — se #16 parte, segnala finestra consegna · 🟢
 
 🙋 **Serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok 16`** per avviare esecuzione · 🟡 **SQL 107** in Supabase (30s) · 🟡 sync VPS · 🟢 inserimento negozi 6/7 (checklist pronta, **ignora card Proposte — nessuna approvazione**).
