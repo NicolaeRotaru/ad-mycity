@@ -54,14 +54,7 @@ export async function POST(req: Request) {
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
-  const esito = await eseguiAzione({
-    titolo: azione.titolo,
-    canale: azione.canale,
-    destinatario: azione.destinatario,
-    testo: azione.testo,
-    livello: azione.livello,
-    firmaNicola: true,
-  });
+  const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
   const salv = (await setImpostazione(`azione:${id}`, esito.stato)) && (await setImpostazione(`azione:${id}:nota`, esito.dettaglio));
   await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
   return NextResponse.json({ ok: true, stato: esito.stato, esito: esito.dettaglio, salvataggio: salv });

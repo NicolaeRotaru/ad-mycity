@@ -217,11 +217,9 @@ while true; do
 
   # 2) costruisci il prompt (come worker.ps1)
   if [ "$tipo" = "esegui-azione" ]; then
-    export NICOLA_FIRMA=1
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). $richiesta
 
-Usa cervello/esegui-azione.mjs sul canale indicato con --firma-nicola (NICOLA_FIRMA=1 è già attivo: l'azione è approvata).
-LIVE solo se AZIONI_LIVE=1; il guardrail (guardrail-semaforo.mjs) blocca 🔴 e canali sensibili senza firma.
+Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run).
 Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md.
 Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
   elif [ "$tipo" = "metabolizza" ]; then

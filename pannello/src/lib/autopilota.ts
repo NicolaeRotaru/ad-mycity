@@ -1,7 +1,6 @@
 import { getImpostazione, getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
-import { verificaEsecuzione, azioniLive } from "@/lib/guardrail-semaforo";
 
 // Autopilota — il "battito" GRATIS della macchina (nessuna API AI, €0).
 // Esegue DA SOLO le azioni SICURE (🟢 verde) non ancora decise.
@@ -18,24 +17,7 @@ export async function eseguiAutopilota(): Promise<{ attivo: boolean; eseguite: n
 
   let eseguite = 0;
   for (const a of sicure) {
-    const gate = verificaEsecuzione({
-      live: azioniLive(),
-      livello: a.livello,
-      automatico: true,
-      canale: a.canale,
-      destinatario: a.destinatario,
-      testo: a.testo,
-      titolo: a.titolo,
-    });
-    if (!gate.ok) continue;
-    const esito = await eseguiAzione({
-      titolo: a.titolo,
-      canale: a.canale,
-      destinatario: a.destinatario,
-      testo: a.testo,
-      livello: a.livello,
-      automatico: true,
-    });
+    const esito = await eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo });
     await setImpostazione(`azione:${a.id}`, esito.stato);
     await setImpostazione(`azione:${a.id}:nota`, `🤖 (automatico) ${esito.dettaglio}`);
     await logAzione({ id: a.id, titolo: a.titolo, reparto: a.reparto, livello: a.livello, stato: esito.stato, esito: esito.dettaglio, auto: true });

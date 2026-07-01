@@ -29,7 +29,7 @@ function parseEsiti(md: string): Esito[] {
     const line = raw.trim();
     if (!line.startsWith("- ")) continue;
     const corpo = line.slice(2);
-    const m = corpo.match(/^(\d{4}-\d{2}-\d{2})\s*·\s*(.+)$/);
+    const m = corpo.match(/^(\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?)\s*·\s*(.+)$/);
     if (!m) continue;
     out.push({ data: m[1], testo: m[2].trim() });
   }

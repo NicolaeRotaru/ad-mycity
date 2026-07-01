@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer } from "lucide-react";
-import { formatta, etichettaRitmo, ritmoEODoggi, type Tipo } from "@/lib/format";
+import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import CuoreMacchina from "@/components/CuoreMacchina";
@@ -286,15 +286,23 @@ export default function Plancia({
             <span className="sez-ico"><Clock size={16} /></span>
             <div className="min-w-0 flex-1">
               <span className="t-sez">Ritmo del giorno</span>
-              <p className="t-eti mt-0.5">Piano del mattino e report della sera (ora di Piacenza, dal vault).</p>
+              <p className="t-eti mt-0.5">
+                Piano del mattino e report della sera — orario di Piacenza, dal vault{" "}
+                <code className="text-brand text-[11px]">RITMO.md</code>.
+              </p>
+              {(!ritmoEODoggi(ritmo.pianoMattino?.data) && !ritmoEODoggi(ritmo.reportSera?.data)) && (
+                <p className="text-[12px] mt-1.5 font-medium text-amber-600 dark:text-amber-400">
+                  ⚠️ Non ancora aggiornato oggi ({giornoRoma().split("-").reverse().join("/")}) — le date sotto sono l&apos;ultima scrittura nel vault.
+                </p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="surface-muted p-3.5">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="t-micro">🌅 Piano del mattino</span>
                 {ritmo.pianoMattino && (
-                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.pianoMattino.data) || ritmo.pianoMattino.oggi ? "badge-on" : "badge-off"}`}>
+                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.pianoMattino.data) ? "badge-on" : "badge-off"}`} title={ritmo.pianoMattino.data}>
                     {etichettaRitmo(ritmo.pianoMattino.data)}
                   </span>
                 )}
@@ -306,10 +314,10 @@ export default function Plancia({
               )}
             </div>
             <div className="surface-muted p-3.5">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="t-micro">🌙 Report della sera</span>
                 {ritmo.reportSera && (
-                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.reportSera.data) || ritmo.reportSera.oggi ? "badge-on" : "badge-off"}`}>
+                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.reportSera.data) ? "badge-on" : "badge-off"}`} title={ritmo.reportSera.data}>
                     {etichettaRitmo(ritmo.reportSera.data)}
                   </span>
                 )}

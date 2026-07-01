@@ -27,7 +27,6 @@ import { readFileSync, writeFileSync, appendFileSync, mkdirSync, existsSync } fr
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { publisherPer, CANALI_DISPONIBILI } from "./publishers/index.mjs";
-import { verificaEsecuzione } from "./guardrail-semaforo.mjs";
 
 const LIVE = process.env.AUTOPILOT_LIVE === "1";
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -123,20 +122,6 @@ async function giro(tutto) {
       console.log(`🔴 ${voce.id} (${voce.canale}) ACCODATO per firma di Nicola${ok ? "" : " (coda non scrivibile)"}.`);
       logga({ id: voce.id, canale: voce.canale, esito: "accodato-rosso" });
       accodate++; continue;
-    }
-
-    const gate = verificaEsecuzione({
-      live: LIVE,
-      livello: voce.colore,
-      automatico: true,
-      canale: voce.canale,
-      testo: voce.testo,
-      titolo: voce.titolo,
-    });
-    if (LIVE && !gate.ok) {
-      console.log(`🛑 ${voce.id} (${voce.canale}) BLOCCATO dal guardrail: ${gate.motivo}`);
-      logga({ id: voce.id, canale: voce.canale, esito: "bloccato-guardrail", codice: gate.codice });
-      saltate++; continue;
     }
 
     // Esegue il publisher (in dry-run stampa solo cosa farebbe).
