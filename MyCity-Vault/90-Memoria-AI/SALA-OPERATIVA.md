@@ -342,7 +342,12 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 20:18 · @AD · **Nicola «ok 17»** · Install sync tentato sul VPS → **bloccato** (`mycity` senza sudo) · handler `sync-vps` aggiunto in `worker.sh` · #17 aggiornato ⏳
 - 2026-07-01 20:18 · @AD · SERVE · Nicola: **1× Console Hetzner root** (`install-sync-vps.sh`) + PAT #14+#15
 
-🙋 **Serve da Nicola:** 🟡 **Console Hetzner root** (1 comando sync) + PAT GitHub (#14+#15) · 🔴 **`ok 16` ordine 2/7 mattina** · 🟡 **SQL 107**
+## Chat 2026-07-01 20:21
+
+- 2026-07-01 20:21 · @AD · **Nicola «ok 17» (conferma)** · Install sudoers ri-tentato → **bloccato** (mycity no sudo) · Handler `sync-vps` ✅ in `worker.sh` · #17 resta ⏳ finché root non lancia `install-sync-vps.sh`
+- 2026-07-01 20:21 · @AD · SERVE · Nicola: **Console Hetzner → root → 1 comando** (sotto) + PAT #14+#15 quando vuoi
+
+🙋 **Serve da Nicola:** 🟡 **Console Hetzner root** — incolla: `bash /opt/mycity/ad-mycity/cervello/vps/install-sync-vps.sh` · 🔴 **`ok 16` ordine 2/7 mattina** · 🟡 **SQL 107**
 
 ## Giro 2026-07-01 20:18
 

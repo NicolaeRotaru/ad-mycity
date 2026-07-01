@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 20:18
+aggiornato: 2026-07-01 20:21
 fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 20:18 — Giro AD:** stallo **177,8h** — **168h SUPERATA ~9,8h oltre** (+2,0h vs 18:18). Sprint 1 **LIVE** Render (#209+#210). Scelta A ordine firmata 11:05 → **#16 in attesa** (`ok 16`). **Finestra consegna CHIUSA** (slot 18:00–20:00 scaduto) — **giornata 1/7 a zero transazioni**. Ripiano **2/7 mattina**. SQL 107 policy ⏳ (Nicola ~30s). Sync VPS #17: Nicola «ok 17» 20:18 — install bloccato (serve 1× root Console Hetzner).
+> 🧠 **1/7 20:21 — Chat Nicola «ok 17»:** sync VPS **approvato** · codice + handler worker ✅ · install sudoers **bloccato** (mycity senza root) → **1 comando root** Console Hetzner. Stallo **177,8h**. Scelta A #16 ripiano **2/7 mattina**. SQL 107 ⏳.
 >
 > 🧠 **1/7 17:05 — Casella Pannello «Benchmark AI ops»:** popolato `auto-radiografia.json` (LangSmith, Devin, Sidekick) + snapshot loop 4 fasi · voto salute **76** ▲ (da 72) · tasso lezioni **0,70** · calibrazione **@AD 15/15** · altri reparti **0** · divario alto: loop architettura 🟢 vs loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
 
@@ -40,7 +40,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:3
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
 | Deploy marketplace Render | ✅ **Sprint 1 live ~10:31** | #209+#210 · ⏳ SQL 107 policy Nicola |
-| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ · sync VPS **codice pronto** · Nicola **«ok 17»** 20:18 · install VPS **bloccato** (mycity senza sudo) → resta 1× root Console Hetzner · #14+#15 PAT |
+| Deploy `main` Pannello + VPS sync | 🟡 **parziale** | merge ok chat ✅ · Nicola **«ok 17»** ✅ · handler worker ✅ · install sudoers **⏳ 1× root** Console Hetzner · #14+#15 PAT |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | protezione finché LIVE off |
 
 ## Semafori
@@ -68,7 +68,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:3
 
 ## Ultime mosse dell'AD
 1. **Giro 1/7 20:18** — KPI live REST stallo 177,8h (+2,0h). Finestra consegna **CHIUSA**. Escalation v11 🟢 + ripiano 2/7 🟢.
-2. **Chat 1/7 20:18** — Nicola «ok 17» → install sync bloccato (no sudo) · serve Console Hetzner root.
+2. **Chat 1/7 20:21** — Nicola «ok 17» → handler worker ✅ · install sudoers bloccato → **1× root** Console Hetzner.
 3. **Chat 1/7 20:02** — Nicola «ok configura sync VPS» → codice #17 in repo · spiegati #14/#15.
 4. **Giro 1/7 18:18** — Finestra consegna APERTA → #16 entro 20:00 (non eseguito).
 5. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
