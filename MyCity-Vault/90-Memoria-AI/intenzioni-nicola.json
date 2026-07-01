@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-01 11:10",
-  "sintesi": "Nicola «ok deploy Sprint 1» — Render già live (~10:31). Resta SQL 107 (DROP policy RLS). Scelta A ordine zombie firmata 11:05 — esecuzione #16 in attesa (data/ora + ok 16). Batch onboarding 6/7.",
+  "data": "2026-07-01 11:29",
+  "sintesi": "Nicola «ok deploy Sprint 1» — Render già live (~10:31). Resta SQL 107 (DROP policy RLS) — esecuzione manuale, NON seconda approvazione (chiarito 11:29). Scelta A ordine zombie firmata 11:05 — esecuzione #16 in attesa (data/ora + ok 16). Batch onboarding 6/7.",
   "prossime_mosse": [
     {
       "titolo": "SQL 107 — chiudi leak RLS profiles",
@@ -50,7 +50,7 @@
     "Temporali pomeriggio 1/7 + allerta calore se si tenta consegna senza rider pronti"
   ],
   "serve_da_nicola": [
-    {"ambito": "Sprint 1 deploy", "cosa_manca": "SQL 107 in Supabase (DROP policy)", "domanda_per_nicola": "Incolla il file SQL in Supabase SQL Editor e scrivi «fatto sql 107»"},
+    {"ambito": "Sprint 1 deploy", "cosa_manca": "SQL 107 in Supabase (DROP policy) — firma deploy già data 11:10", "domanda_per_nicola": "Supabase SQL Editor → incolla `107_seller_public_profiles.sql` → Run → scrivi «fatto sql 107» (non serve Approva di nuovo)"},
     {"ambito": "Consegna ordine PQ", "cosa_manca": "Data/ora consegna per WhatsApp buyer", "domanda_per_nicola": "Quando consegniamo? (sostituisci [DATA/ORA] nel messaggio #16) + **`ok 16`**"},
     {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
   ],

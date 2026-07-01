@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 11:26
+aggiornato: 2026-07-01 11:29
 fonte: AD digitale (7 numeri = live REST 1/7 08:17 · Nicola Pannello Scelta A ordine zombie 11:05 · Sprint 1 PR #209+#210 mergiate su mycity/main · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🧠 **1/7 11:29 — Casella Pannello «SQL 107 DROP policy»:** Nicola «l'ho approvato, perché chiede di nuovo?» · **Non è un secondo deploy** — «ok deploy Sprint 1» (11:10) = codice Render ✅ già live · **resta 1 passo manuale** Supabase (DROP policy) che l'AD non può eseguire (no write key) · verificato adesso: anon legge ancora `profiles.stripe_account_id` (HTTP 200) · card rimossa da Proposte (firma già data); resta in opportunità + checklist · **Ignora** la card · incolla SQL → scrivi «fatto sql 107»
+>
 > 🧠 **1/7 11:25 — Casella Pannello «Onboarding negozi 6/7» (2ª volta):** Nicola «perché approvare o ignorare? sono le scelte giuste?» · **No** — promemoria ops **suo** (VP rimandato 01:00, checklist 🟢 pronta), **non** Proposta da firmare · Approva/Ignora sbagliati · rimossa di nuovo da `ultimo-briefing.json` azioni · causa recidiva: piano del mattino 11:18 · fonte: chat Nicola 1/7 11:25
 >
 > 🧠 **1/7 10:22 — Chat Nicola:** chiarito che **`pannello/` non è repo separato** — sottocartella `ad-mycity` (Vercel root `pannello/`). Vuole **merge automatico da AD con permesso esplicito** («ok merge …» o card Pannello) per risparmiare tempo; serve **`GITHUB_MERGE_TOKEN`** (scope merge) in `cervello/vps/.env` — accodato **#15**. Tre tubi: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→repo `mycity`→Render 🔴.

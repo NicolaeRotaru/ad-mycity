@@ -276,4 +276,5 @@ Assegnazioni (1 mossa per reparto):
 
 🙋 **Serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok 16`** per avviare esecuzione · 🟡 **SQL 107** in Supabase (30s) · 🟡 sync VPS · 🟢 inserimento negozi 6/7 (checklist pronta, **ignora card Proposte — nessuna approvazione**).
 
+- 2026-07-01 11:29 · @AD · FATTO · Nicola: card SQL 107 «perché approvare di nuovo?» → chiarito **2 tubi** (Render ✅ · Supabase SQL ⏳); firma deploy già valida; card rimossa da Proposte; anon `profiles.stripe_account_id` ancora 200.
 - 2026-07-01 11:25 · @AD · FATTO · Nicola (2ª volta): card onboarding 6/7 con Approva/Ignora → **errore classificazione**; rimossa da `ultimo-briefing.json` azioni; resta solo in opportunità + checklist 🟢.

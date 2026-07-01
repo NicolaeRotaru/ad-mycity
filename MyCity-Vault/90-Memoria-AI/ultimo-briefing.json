@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-01 11:10",
+  "data": "2026-07-01 11:29",
   "situazione": "Nicola «ok deploy Sprint 1» — **Render già live** (~10:31, auto da #209+#210). Fee €3 e query `seller_public_profiles` in produzione. **Manca 1 passo:** SQL 107 DROP policy (anon legge ancora colonne sensibili su `profiles`). Scelta A ordine zombie firmata 11:05 — #16 in attesa.",
   "opportunita": [
     {
@@ -22,11 +22,6 @@
     }
   ],
   "azioni": [
-    {
-      "titolo": "SQL 107 — DROP policy RLS profiles (Supabase)",
-      "motivo": "Nicola ok deploy · AD verificato: policy permissiva ancora attiva",
-      "livello": "giallo"
-    },
     {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna)",
       "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · NON riproporre A/B",
