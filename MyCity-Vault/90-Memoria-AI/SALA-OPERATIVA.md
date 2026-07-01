@@ -236,3 +236,6 @@ Assegnazioni (1 mossa per reparto — il pacchetto è già pronto in `consegne/`
 - 2026-07-01 10:50 · @frontend-dev · FATTO · Generalizzato `tipo: scelta_ab` + API `/api/scelta-ab` (bottoni dinamici, persistenza per `scelta_id`) · regola in `giro.md` · deploy main 🟡
 - 2026-07-01 10:50 · @operations · SERVE · Nicola: clic **A** o **B** ordine €19,05 — soglia 168h superata ~10:30
 - 2026-07-01 10:45 · @operations · SERVE · Nicola: **A** o **B** sull'ordine €19,05 (unica cosa che chiude la card)
+- 2026-07-01 11:00 · @Nicola · chiesto · «**ok merge scelta-ab universale**»
+- 2026-07-01 11:00 · @AD · FATTO · Push `main` `853c33a` (scelta A/B universale: lib + API + Azioni collegato) · Vercel redeploy · PASSO-A Nicola: `sudo bash cervello/vps/aggiorna-cervello.sh`
+- 2026-07-01 11:00 · @operations · SERVE · Nicola: clic **A** o **B** ordine €19,05 (post-deploy ~2 min) — unica cosa che chiude la card
