@@ -1,0 +1,520 @@
+From 95b7e06ecbd9a893a0d2cfd7d3f4cc8f3fff9196 Mon Sep 17 00:00:00 2001
+From: Cursor Agent <cursoragent@cursor.com>
+Date: Wed, 1 Jul 2026 06:10:28 +0000
+Subject: [PATCH] Sprint 1 radiografia: soldi, checkout e RLS vetrina
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Migration 107: vista seller_storefronts + REVOKE colonne sensibili su
+  profiles per anon (Stripe/KYC/wallet non più leggibili dalla vetrina)
+- Query pubbliche vetrina → seller_storefronts
+- Checkout usa shippingForEuro (stessa fonte di COD/Stripe server-side)
+- Carrello: stima spedizione per-negozio allineata al checkout
+- Test integrazione RLS vetrina + unit test shipping multi-negozio
+---
+ app/cart/page.tsx                             | 36 ++++++++-
+ app/checkout/page.tsx                         | 28 +++----
+ app/near/page.tsx                             |  6 +-
+ app/sitemap.ts                                |  4 +-
+ app/store/[id]/[slug]/layout.tsx              |  2 +-
+ app/store/[id]/layout.tsx                     |  2 +-
+ app/store/[id]/opengraph-image.tsx            | 14 +++-
+ app/stores/page.tsx                           |  4 +-
+ components/SearchBar.tsx                      |  4 +-
+ components/StoreShowcase.tsx                  |  4 +-
+ components/home/HeroStoreCard.tsx             |  5 +-
+ components/store-sections/useStorePageData.ts |  2 +-
+ migrations/107_seller_storefronts_rls.sql     | 80 +++++++++++++++++++
+ .../security/seller-storefronts-rls.test.ts   | 55 +++++++++++++
+ tests/unit/shipping-cart-checkout.test.ts     | 36 +++++++++
+ 15 files changed, 237 insertions(+), 45 deletions(-)
+ create mode 100644 migrations/107_seller_storefronts_rls.sql
+ create mode 100644 tests/integration/security/seller-storefronts-rls.test.ts
+ create mode 100644 tests/unit/shipping-cart-checkout.test.ts
+
+diff --git a/app/cart/page.tsx b/app/cart/page.tsx
+index fbe780d..826c6ca 100644
+--- a/app/cart/page.tsx
++++ b/app/cart/page.tsx
+@@ -7,6 +7,7 @@ import { CartItem, getCart, updateQuantity, removeFromCart, cartTotal, cartCount
+ import { formatPrice } from '@/lib/format';
+ import { sizedImage } from '@/lib/image-url';
+ import { FREE_SHIPPING_THRESHOLD } from '@/lib/constants';
++import { shippingForEuro } from '@/lib/shipping';
+ import ShareCartButton from '@/components/ShareCartButton';
+ import EmptyState from '@/components/EmptyState';
+ import { FreeShippingProgress } from '@/components/ui/FreeShippingProgress';
+@@ -40,8 +41,37 @@ export default function CartPage() {
+ 
+   const total = cartTotal(items);
+   const count = cartCount(items);
+-  const freeShipping = total >= FREE_SHIPPING_THRESHOLD;
+-  const shippingCost = freeShipping ? 0 : 4.9;
++  const groupSubtotalEarly = (g: { items: CartItem[] }) =>
++    g.items.reduce((s, it) => s + it.price * it.quantity, 0);
++  const groupsEarly = (() => {
++    const groupOrder: string[] = [];
++    const groupsByStore = new Map<string, { items: CartItem[] }>();
++    for (const it of items) {
++      const key = it.sellerId ?? it.storeName ?? '__nostore__';
++      if (!groupsByStore.has(key)) {
++        groupsByStore.set(key, { items: [] });
++        groupOrder.push(key);
++      }
++      groupsByStore.get(key)!.items.push(it);
++    }
++    return groupOrder.map((k) => groupsByStore.get(k)!);
++  })();
++  const multiStoreEarly = groupsEarly.length > 1;
++  // Stima per-negozio (come al checkout): senza coordinate usa il flat di fallback.
++  const shippingCost = groupsEarly.reduce(
++    (sum, g) =>
++      sum +
++      shippingForEuro({
++        subtotal: groupSubtotalEarly(g),
++        storeLat: null,
++        storeLng: null,
++        deliveryLat: null,
++        deliveryLng: null,
++        pickupInStore: false,
++      }),
++    0,
++  );
++  const freeShipping = shippingCost === 0;
+   const finalTotal = total + shippingCost;
+ 
+   if (items.length === 0) {
+@@ -207,7 +237,7 @@ export default function CartPage() {
+                       non sono allineati. */}
+                   {freeShipping && multiStore ? 'Spedizione stimata' : 'Spedizione'}
+                   {(!freeShipping || multiStore) && (
+-                    <span className="block text-2xs text-ink-400 font-normal">stima · potrebbe variare al checkout</span>
++                    <span className="block text-2xs text-ink-400 font-normal">stima per negozio · potrebbe variare al checkout</span>
+                   )}
+                 </span>
+                 <span className={`font-semibold ${freeShipping ? 'text-olive-700' : 'text-ink-900'}`}>
+diff --git a/app/checkout/page.tsx b/app/checkout/page.tsx
+index adda2ce..b3be504 100644
+--- a/app/checkout/page.tsx
++++ b/app/checkout/page.tsx
+@@ -12,7 +12,7 @@ import { CartItem, getCart, clearCart, removeFromCart } from '@/lib/cart';
+ import { formatPrice } from '@/lib/format';
+ import { sizedImage } from '@/lib/image-url';
+ import { FREE_SHIPPING_THRESHOLD } from '@/lib/constants';
+-import { haversineKm, riderFee } from '@/lib/geo';
++import { shippingForEuro } from '@/lib/shipping';
+ import { isExpressEligible } from '@/lib/products/express';
+ import { validateCoupon, type Coupon } from '@/lib/coupons';
+ import { trackCheckoutStarted, trackCheckoutStep, trackCouponApplied, trackOrderPlaced } from '@/lib/analytics/events';
+@@ -40,9 +40,7 @@ type AddressForm = {
+   notes: string;
+ };
+ 
+-const SHIPPING_PER_ORDER = 4.9;
+ 
+-const SHIPPING_COST_FOR = (subtotal: number) => (subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_PER_ORDER);
+ 
+ export default function CheckoutPage() {
+   const router = useRouter();
+@@ -106,7 +104,7 @@ export default function CheckoutPage() {
+       );
+       if (allSellerIds.length > 0) {
+         const { data: sellers } = await supabase
+-          .from('profiles')
++          .from('seller_storefronts')
+           .select('id, store_name, store_lat, store_lng')
+           .in('id', allSellerIds);
+         for (const s of sellers ?? []) {
+@@ -176,7 +174,7 @@ export default function CheckoutPage() {
+         const sellerIds = groupsArr.map((g) => g.sellerId);
+         const [{ data: exProducts }, { data: exSellers }] = await Promise.all([
+           supabase.from('products').select('id, express_enabled').in('id', cart.map((c) => c.id)),
+-          supabase.from('profiles').select('id, offers_express').in('id', sellerIds),
++          supabase.from('seller_storefronts').select('id, offers_express').in('id', sellerIds),
+         ]);
+         if (exProducts && exSellers) {
+           const exMap = new Map<string, boolean | null>();
+@@ -331,16 +329,16 @@ export default function CheckoutPage() {
+   const PICKUP_DISCOUNT_PERCENT = 10;
+ 
+   // Distanza-based shipping per ogni gruppo, se entrambe le coords sono note
+-  const shippingFor = (g: { storeLat: number | null; storeLng: number | null; items: CartItem[] }): number => {
+-    if (pickupInStore) return 0;
+-    const subtotal = groupSubtotal(g);
+-    if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+-    if (g.storeLat && g.storeLng && form.lat && form.lng) {
+-      const km = haversineKm(g.storeLat, g.storeLng, form.lat, form.lng);
+-      return riderFee(km);
+-    }
+-    return SHIPPING_COST_FOR(subtotal);
+-  };
++  const shippingFor = (g: { storeLat: number | null; storeLng: number | null; items: CartItem[] }): number =>
++    shippingForEuro({
++      subtotal: groupSubtotal(g),
++      storeLat: g.storeLat,
++      storeLng: g.storeLng,
++      deliveryLat: form.lat,
++      deliveryLng: form.lng,
++      pickupInStore,
++      freeShipping: appliedCoupon?.freeShipping,
++    });
+ 
+   const applyCoupon = async () => {
+     setCouponError(null);
+diff --git a/app/near/page.tsx b/app/near/page.tsx
+index f640558..db6324d 100644
+--- a/app/near/page.tsx
++++ b/app/near/page.tsx
+@@ -21,10 +21,8 @@ type ProductLite = ProductPreview & { seller_id: string };
+ 
+ const fetchNearData = async () => {
+   const { data: storesRaw } = await supabase
+-    .from('profiles')
+-    .select('id, store_name, store_phone, store_address, store_lat, store_lng, store_logo, store_hours, store_media')
+-    .eq('is_approved', true)
+-    .not('store_name', 'is', null);
++    .from('seller_storefronts')
++    .select('id, store_name, store_phone, store_address, store_lat, store_lng, store_logo, store_hours, store_media');
+ 
+   const stores = (storesRaw ?? []) as Store[];
+   const storeIds = stores.map((s) => s.id);
+diff --git a/app/sitemap.ts b/app/sitemap.ts
+index 7d19b97..096cb3b 100644
+--- a/app/sitemap.ts
++++ b/app/sitemap.ts
+@@ -56,10 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+       .order('created_at', { ascending: false })
+       .limit(5000),
+     supabase
+-      .from('profiles')
++      .from('seller_storefronts')
+       .select('id, created_at')
+-      .eq('role', 'seller')
+-      .eq('is_approved', true)
+       .limit(2000),
+     supabase
+       .from('categories')
+diff --git a/app/store/[id]/[slug]/layout.tsx b/app/store/[id]/[slug]/layout.tsx
+index 8d0c042..5f46fc6 100644
+--- a/app/store/[id]/[slug]/layout.tsx
++++ b/app/store/[id]/[slug]/layout.tsx
+@@ -23,7 +23,7 @@ async function fetchStore(id: string): Promise<StoreMeta | null> {
+       auth: { persistSession: false, autoRefreshToken: false },
+     });
+     const { data } = await supabase
+-      .from('profiles')
++      .from('seller_storefronts')
+       .select('id, store_name, store_description, store_logo, is_approved, role, store_site')
+       .eq('id', id)
+       .single();
+diff --git a/app/store/[id]/layout.tsx b/app/store/[id]/layout.tsx
+index 5753682..859c7f3 100644
+--- a/app/store/[id]/layout.tsx
++++ b/app/store/[id]/layout.tsx
+@@ -22,7 +22,7 @@ async function fetchStore(id: string): Promise<StoreMeta | null> {
+       auth: { persistSession: false, autoRefreshToken: false },
+     });
+     const { data } = await supabase
+-      .from('profiles')
++      .from('seller_storefronts')
+       .select('id, store_name, store_description, store_logo, store_address, is_approved, role')
+       .eq('id', id)
+       .single();
+diff --git a/app/store/[id]/opengraph-image.tsx b/app/store/[id]/opengraph-image.tsx
+index a969f15..9f1d922 100644
+--- a/app/store/[id]/opengraph-image.tsx
++++ b/app/store/[id]/opengraph-image.tsx
+@@ -15,12 +15,18 @@ async function fetchStore(id: string): Promise<StoreOGData | null> {
+   try {
+     const supabase = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+     const { data } = await supabase
+-      .from('profiles')
+-      .select('store_name, store_description, store_logo, city')
++      .from('seller_storefronts')
++      .select('store_name, store_description, store_logo, store_address')
+       .eq('id', id)
+-      .eq('role', 'seller')
+       .single();
+-    return (data as unknown as StoreOGData) ?? null;
++    const row = data as { store_name: string | null; store_description: string | null; store_logo: string | null; store_address: string | null } | null;
++    if (!row) return null;
++    return {
++      store_name: row.store_name,
++      store_description: row.store_description,
++      store_logo: row.store_logo,
++      city: 'Piacenza',
++    };
+   } catch {
+     return null;
+   }
+diff --git a/app/stores/page.tsx b/app/stores/page.tsx
+index 2380d27..0947b26 100644
+--- a/app/stores/page.tsx
++++ b/app/stores/page.tsx
+@@ -24,10 +24,8 @@ type SortMode = 'rating' | 'name' | 'most-products';
+ 
+ const fetchStoresData = async () => {
+   const { data: storesRaw, error } = await supabase
+-    .from('profiles')
++    .from('seller_storefronts')
+     .select('id, store_name, store_phone, store_address, store_lat, store_lng, store_logo, store_hours, store_media')
+-    .eq('is_approved', true)
+-    .not('store_name', 'is', null)
+     .order('store_name');
+   if (error) throw error;
+ 
+diff --git a/components/SearchBar.tsx b/components/SearchBar.tsx
+index e4e8513..c578f74 100644
+--- a/components/SearchBar.tsx
++++ b/components/SearchBar.tsx
+@@ -57,10 +57,8 @@ export default function SearchBar({ className = '', placeholder = 'Cerca prodott
+       const [productsRes, storesRes, categoriesRes] = await Promise.all([
+         supabase.rpc('search_products_smart', { q: term, lim: 6 }),
+         supabase
+-          .from('profiles')
++          .from('seller_storefronts')
+           .select('id, store_name, store_logo')
+-          .eq('role', 'seller')
+-          .eq('is_approved', true)
+           .ilike('store_name', pattern)
+           .limit(3),
+         supabase
+diff --git a/components/StoreShowcase.tsx b/components/StoreShowcase.tsx
+index 25ae98c..371f1a8 100644
+--- a/components/StoreShowcase.tsx
++++ b/components/StoreShowcase.tsx
+@@ -11,10 +11,8 @@ type ProductLite = ProductPreview & { seller_id: string };
+ 
+ const fetchShowcase = async () => {
+   const { data: storesRaw, error } = await supabase
+-    .from('profiles')
++    .from('seller_storefronts')
+     .select('id, store_name, store_address, store_logo, store_hours, store_media')
+-    .eq('is_approved', true)
+-    .not('store_name', 'is', null)
+     .limit(6);
+   if (error) throw error;
+ 
+diff --git a/components/home/HeroStoreCard.tsx b/components/home/HeroStoreCard.tsx
+index f92c501..d3a9020 100644
+--- a/components/home/HeroStoreCard.tsx
++++ b/components/home/HeroStoreCard.tsx
+@@ -54,11 +54,8 @@ export default function HeroStoreCard() {
+       // 2) Fallback: un negozio reale approvato.
+       if (!store) {
+         const { data: s } = await supabase
+-          .from('profiles')
++          .from('seller_storefronts')
+           .select('id, store_name, store_address, store_logo, store_hours, store_media')
+-          .eq('role', 'seller')
+-          .eq('is_approved', true)
+-          .not('store_name', 'is', null)
+           .order('created_at', { ascending: false })
+           .limit(1)
+           .maybeSingle();
+diff --git a/components/store-sections/useStorePageData.ts b/components/store-sections/useStorePageData.ts
+index 6ed33d9..b9c9d35 100644
+--- a/components/store-sections/useStorePageData.ts
++++ b/components/store-sections/useStorePageData.ts
+@@ -18,7 +18,7 @@ export function useStorePageData(id: string) {
+     queryKey: queryKeys.stores.detail(id),
+     queryFn: async () => {
+       const { data, error } = await supabase
+-        .from('profiles')
++        .from('seller_storefronts')
+         .select('id, store_name, store_phone, store_address, store_lat, store_lng, is_approved, store_logo, store_hours, store_media, store_description, store_customization, store_site, founded_year')
+         .eq('id', id)
+         .single();
+diff --git a/migrations/107_seller_storefronts_rls.sql b/migrations/107_seller_storefronts_rls.sql
+new file mode 100644
+index 0000000..54d9ea7
+--- /dev/null
++++ b/migrations/107_seller_storefronts_rls.sql
+@@ -0,0 +1,80 @@
++-- 107 — RLS vetrina: superficie pubblica limitata (radiografia Sprint 1)
++--
++-- Problema: la policy "Anyone can view approved seller profiles" permetteva a
++-- `anon` di leggere QUALSIASI colonna sui profili seller approvati via PostgREST
++-- (inclusi stripe_account_id, IBAN, KYC, wallet). Basta cambiare la select.
++--
++-- Fix (due livelli):
++--  1. Vista `seller_storefronts` = API pubblica documentata per la vetrina.
++--  2. REVOKE SELECT su `profiles` per `anon`, poi GRANT solo colonne sicure.
++--     Gli embed `profiles!products_seller_id_fkey` restano possibili ma limitati
++--     alle colonne grantate. Il proprietario (authenticated) legge la propria riga
++--     intera via policy RLS + grant authenticated invariato.
++--
++-- Idempotente.
++
++-- ---------------------------------------------------------------------------
++-- 1) Vista vetrina pubblica (solo negozi approvati)
++-- ---------------------------------------------------------------------------
++CREATE OR REPLACE VIEW public.seller_storefronts AS
++SELECT
++  id,
++  role,
++  is_approved,
++  store_name,
++  store_lat,
++  store_lng,
++  store_phone,
++  store_address,
++  store_logo,
++  store_hours,
++  store_media,
++  store_description,
++  store_customization,
++  store_site,
++  founded_year,
++  offers_express,
++  created_at,
++  referral_code
++FROM public.profiles
++WHERE is_approved = true
++  AND store_name IS NOT NULL
++  AND role = 'seller';
++
++COMMENT ON VIEW public.seller_storefronts IS
++  'Vetrina pubblica negozio (Sprint 1 radiografia). Solo colonne sicure; niente Stripe/KYC/wallet.';
++
++GRANT SELECT ON public.seller_storefronts TO anon, authenticated;
++
++-- ---------------------------------------------------------------------------
++-- 2) Colonne `profiles` leggibili da anon (embed PostgREST + query dirette)
++-- ---------------------------------------------------------------------------
++REVOKE SELECT ON TABLE public.profiles FROM anon;
++
++GRANT SELECT (
++  id,
++  role,
++  is_approved,
++  store_name,
++  store_lat,
++  store_lng,
++  store_phone,
++  store_address,
++  store_logo,
++  store_hours,
++  store_media,
++  store_description,
++  store_customization,
++  store_site,
++  founded_year,
++  offers_express,
++  created_at,
++  referral_code,
++  full_name,
++  public_profile_enabled,
++  public_handle,
++  public_bio,
++  public_avatar_url
++) ON TABLE public.profiles TO anon;
++
++NOTIFY pgrst, 'reload schema';
+diff --git a/tests/integration/security/seller-storefronts-rls.test.ts b/tests/integration/security/seller-storefronts-rls.test.ts
+new file mode 100644
+index 0000000..57b3b43
+--- /dev/null
++++ b/tests/integration/security/seller-storefronts-rls.test.ts
+@@ -0,0 +1,55 @@
++import { describe, it, expect, beforeAll } from 'vitest';
++import { createClient, type SupabaseClient } from '@supabase/supabase-js';
++
++/**
++ * Migration 107 — RLS vetrina: `seller_storefronts` + colonne `profiles` limitate per anon.
++ *
++ * Verifica che un client anonimo:
++ *  - legga la vista pubblica `seller_storefronts`;
++ *  - NON legga colonne sensibili (es. stripe_account_id) su `profiles` altrui.
++ *
++ * Si salta senza env Supabase reali. Solo SELECT, nessuna mutazione.
++ */
++const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
++const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
++const hasEnv = !!(URL && ANON) && !URL.includes('placeholder') && !ANON.includes('placeholder');
++
++describe.skipIf(!hasEnv)('RLS vetrina — seller_storefronts (migration 107)', () => {
++  let anon: SupabaseClient;
++
++  beforeAll(() => {
++    anon = createClient(URL!, ANON!, { auth: { persistSession: false } });
++  });
++
++  it('anon legge almeno una riga da seller_storefronts (solo colonne sicure)', async () => {
++    const { data, error } = await anon
++      .from('seller_storefronts')
++      .select('id, store_name, is_approved')
++      .limit(1);
++    expect(error, error?.message).toBeNull();
++    // Può essere 0 righe su DB vuoto; in quel caso il test non è informativo ma non fallisce.
++    if ((data ?? []).length > 0) {
++      expect(data![0]).toHaveProperty('store_name');
++      expect(data![0]).not.toHaveProperty('stripe_account_id');
++    }
++  });
++
++  it('anon NON può leggere stripe_account_id da profiles di un seller approvato', async () => {
++    const { data: storefronts } = await anon.from('seller_storefronts').select('id').limit(1);
++    const sellerId = storefronts?.[0]?.id;
++    if (!sellerId) return; // DB senza negozi: skip implicito
++
++    const { data, error } = await anon
++      .from('profiles')
++      .select('id, stripe_account_id')
++      .eq('id', sellerId)
++      .maybeSingle();
++
++    // PostgREST nega la colonna non grantata (42501) oppure non restituisce il campo.
++    const leaked = data?.stripe_account_id != null && data.stripe_account_id !== '';
++    expect(leaked, 'stripe_account_id non deve essere leggibile da anon').toBe(false);
++    if (error) {
++      expect(error.message.toLowerCase()).toMatch(/permission|column|42501|denied/);
++    }
++  });
++});
+diff --git a/tests/unit/shipping-cart-checkout.test.ts b/tests/unit/shipping-cart-checkout.test.ts
+new file mode 100644
+index 0000000..e2240b2
+--- /dev/null
++++ b/tests/unit/shipping-cart-checkout.test.ts
+@@ -0,0 +1,36 @@
++import { describe, it, expect } from 'vitest';
++import { shippingForEuro } from '@/lib/shipping';
++import { FREE_SHIPPING_THRESHOLD, SHIPPING_PER_ORDER } from '@/lib/constants';
++
++/**
++ * Sprint 1 — carrello/checkout: stima spedizione per-negozio allineata a lib/shipping.ts
++ * (stessa fonte usata da /api/orders/cod e /api/stripe/checkout).
++ */
++describe('shippingForEuro — stima per-negozio (Sprint 1)', () => {
++  const base = {
++    storeLat: null as number | null,
++    storeLng: null as number | null,
++    deliveryLat: null as number | null,
++    deliveryLng: null as number | null,
++    pickupInStore: false,
++  };
++
++  it('soglia gratis è per subtotale del singolo negozio, non globale', () => {
++    const subA = FREE_SHIPPING_THRESHOLD - 5;
++    const subB = FREE_SHIPPING_THRESHOLD;
++    const costA = shippingForEuro({ ...base, subtotal: subA });
++    const costB = shippingForEuro({ ...base, subtotal: subB });
++    expect(costA).toBe(SHIPPING_PER_ORDER);
++    expect(costB).toBe(0);
++  });
++
++  it('multi-negozio: somma dei costi per gruppo (carrello)', () => {
++    const groups = [20, 35, 10];
++    const totalShipping = groups.reduce(
++      (sum, sub) => sum + shippingForEuro({ ...base, subtotal: sub }),
++      0,
++    );
++    // 20→4.9, 35→0, 10→4.9
++    expect(totalShipping).toBeCloseTo(SHIPPING_PER_ORDER * 2, 2);
++  });
++});
+-- 
+2.43.0
+
