@@ -1,16 +1,16 @@
 {
-  "data": "2026-07-01 11:05",
-  "situazione": "Nicola ha scelto **A** sull'ordine zombie €19,05 (Pane Quotidiano, buyer 348 642 1766) — decisione registrata, esecuzione accodata #16. Prossimo passo: WhatsApp buyer + accetta in dashboard + consegna COD. Ok Sprint 1 07:30 — codice pronto; push PR marketplace 403 (#14 token).",
+  "data": "2026-07-01 11:15",
+  "situazione": "Nicola ha chiesto «crea la PR» Sprint 1 — **PR già mergiata** (#209 09:34 + #210 hotfix 10:00 su mycity/main). I 4 fix sono in codice ma **non ancora in prod** (serve migrazione 107). Scelta A ordine zombie firmata 11:05 — esecuzione #16 in attesa.",
   "opportunita": [
+    {
+      "titolo": "Deploy Sprint 1 (4 bloccanti checkout/pagamenti/RLS)",
+      "motivo": "Codice su main da ~2h — unico passo mancante prima batch negozi 6/7",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
     {
       "titolo": "Completare 1ª transazione reale (ordine PQ €19,05)",
       "motivo": "Scelta A firmata 11:05 — pacchetto operations pronto, buyer in attesa da ~7 giorni",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Push + PR Sprint 1 (4 bloccanti checkout/pagamenti/RLS)",
-      "motivo": "Codice pronto post-ok Nicola — bloccato solo token GitHub 403 su mycity",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,18 +23,18 @@
   ],
   "azioni": [
     {
+      "titolo": "Deploy Sprint 1 in produzione (migrazione 107 + smoke test)",
+      "motivo": "PR #209+#210 mergiate — 4 bloccanti ancora attivi in prod finché non deployi",
+      "livello": "rosso"
+    },
+    {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna)",
       "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · NON riproporre A/B",
       "livello": "rosso"
     },
     {
-      "titolo": "Push + PR Sprint 1 marketplace (webhook, fee UI, COD rollback, RLS)",
-      "motivo": "Codice pronto 07:30 — PR non creata per 403",
-      "livello": "giallo"
-    },
-    {
       "titolo": "Onboarding negozi 6/7 (Nicola inserisce + checklist AD)",
-      "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato",
+      "motivo": "Scelta esplicita Nicola 1/7 — VP rimandato · ideale post-deploy Sprint 1",
       "livello": "verde"
     }
   ],
@@ -43,6 +43,11 @@
       "scelta": "A",
       "at": "2026-07-01 11:05",
       "fonte": "Nicola Pannello A/B"
+    },
+    "sprint-1-pr": {
+      "esito": "mergiata",
+      "pr": ["https://github.com/NicolaeRotaru/mycity/pull/209", "https://github.com/NicolaeRotaru/mycity/pull/210"],
+      "at": "2026-07-01 09:34"
     }
   }
 }
