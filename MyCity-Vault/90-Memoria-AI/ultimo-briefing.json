@@ -1,30 +1,30 @@
 {
-  "data": "2026-07-01 18:18",
-  "situazione": "Stallo **175,8h** — soglia 168h **superata da ~7,8h** (+2,0h vs 16:18). Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Ore **18:18**: temporali **passati** — **finestra consegna APERTA ORA (18:30-20:00)**; slot già in DB ordine. Manca SQL 107 (~30s Nicola). 0 transazioni reali.",
+  "data": "2026-07-01 20:18",
+  "situazione": "Stallo **177,8h** — soglia 168h **superata da ~9,8h** (+2,0h vs 18:18). Sprint 1 **LIVE** Render (~10:31). Scelta A ordine €19,05 **firmata 11:05** — esecuzione #16 in attesa. Ore **20:18**: finestra slot **18:00–20:00 CHIUSA** — **giornata 1/7 a zero transazioni**. Ripiano consegna **2/7 mattina**. Manca SQL 107 (~30s Nicola). Sync VPS #17 bloccato (serve 1× root).",
   "opportunita": [
     {
-      "titolo": "Eseguire #16 Scelta A ORA (18:30-20:00)",
-      "motivo": "Decisione firmata 11:05 · stallo +7,8h oltre 168h · finestra serale aperta — ultima chance oggi",
+      "titolo": "Eseguire #16 Scelta A 2/7 mattina",
+      "motivo": "Decisione firmata 11:05 · stallo +9,8h oltre 168h · ripiano pronto con messaggio WhatsApp",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Chiudi SQL 107 (30 secondi)",
-      "motivo": "Unico bloccante RLS rimasto — codice già usa la VIEW",
+      "motivo": "Unico bloccante RLS rimasto — stesso giorno di #16",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Batch onboarding negozi 6/7",
-      "motivo": "Priorità Nicola post-VP; checklist pronta post-#16 + SQL 107",
-      "impatto": "alto",
-      "sforzo": "medio"
+      "titolo": "Attiva sync VPS #17 (1× root)",
+      "motivo": "Nicola «ok 17» 20:18 — codice pronto, chiude loop post-merge",
+      "impatto": "medio",
+      "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna ORA 18:30-20:00)",
-      "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · finestra APERTA · NON riproporre A/B",
+      "titolo": "Eseguire ordine zombie €19,05 — Scelta A (WhatsApp + consegna 2/7 mattina)",
+      "motivo": "Decisione A firmata Nicola 1/7 11:05 · accodata #16 · finestra 1/7 scaduta senza esecuzione",
       "livello": "rosso"
     }
   ],
@@ -44,6 +44,11 @@
       "at": "2026-07-01 11:10",
       "fonte": "Nicola «ok deploy Sprint 1»",
       "pendente": "SQL 107 DROP policy"
+    },
+    "sync-vps": {
+      "esito": "ok_nicola_codice_pronto",
+      "at": "2026-07-01 20:18",
+      "pendente": "install 1× root Console Hetzner"
     }
   }
 }

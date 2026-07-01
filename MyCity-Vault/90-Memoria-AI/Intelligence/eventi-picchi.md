@@ -1,26 +1,26 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-01 18:18** · Fonte: @intelligence (giro 1/7 18:18, Allerta ER + IlPiacenza + REST live).
+> Aggiornato: **2026-07-01 20:18** · Fonte: @intelligence (giro 1/7 20:18, Allerta ER + REST live).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 1/7 — Caldo 35°C + temporali pomeriggio ✅ PASSATI (18:18)
+### 1. OGGI 1/7 — Finestra consegna CHIUSA (20:18)
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Mer 01/7 (OGGI)** | **35° / 24°** | Temporali **15-17 conclusi** ([Allerta 070/2026](https://allertameteo.regione.emilia-romagna.it/)) | **Finestra serale APERTA 18:30-20:00** — #16 ORA |
-| Gio 02/7 | ~31 / 20 | Stabilizzazione, meno rovesci | clima mite |
+| **Mer 01/7 (OGGI)** | **35° / 24°** | Temporali pomeridiani **passati** · slot **18:00–20:00 SCADUTO** | **Giornata a zero transazioni** |
+| **Gio 2/7** | ~31 / 20 | Stabilizzazione | **Prima finestra utile #16** (mattina/pranzo) |
 | **Ven 03/7 (VP)** | ~33 / 20 | Variabile — **presidio VP RIMANDATO** | — |
 | Sab 04/7 | ~33 / 21 | Poca pioggia | normale |
-| **Dom 6/7** | **~34 / 20** | Caldo secco — **batch onboarding negozi** (Nicola) | priorità operativa + rider/freschi |
+| **Dom 6/7** | **~34 / 20** | Caldo secco — **batch onboarding negozi** | priorità operativa + rider/freschi |
 
-Fonti: [IlPiacenza 1/7 temporali](https://www.ilpiacenza.it/meteo/irruzione-dei-temporali-calo-delle-temperature-a-piacenza-e-nel-fine-settimana-le-previsioni.html) · [Allerta meteo ER](https://allertameteo.regione.emilia-romagna.it/) · [Comune eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806)
+Fonte: [Allerta meteo ER](https://allertameteo.regione.emilia-romagna.it/web/piacenza) · [Comune eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806)
 
-**Consiglio operativo #16 (18:18):** temporali **passati** — **consegna consentita ORA** in finestra **18:30-20:00** (slot già in DB ordine «Stasera · 18:00–20:00»).
+**Consiglio operativo #16 (20:18):** ripiano **2/7 mattina** — `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`
 
-**🟢 Playbook:** `consegne/operations/2026-07-01-playbook-temporali.md` · Escalation post-168h: `consegne/operations/2026-07-01-escalation-post-168h-v10.md`
+**🟢 Playbook:** escalation v11 · ripiano 2/7 · `consegne/operations/2026-07-01-playbook-temporali.md`
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
@@ -34,7 +34,7 @@ Fonti: [IlPiacenza 1/7 temporali](https://www.ilpiacenza.it/meteo/irruzione-dei-
 
 ---
 
-## 🆕 Novità giro 1/7 18:18
-- Stallo **175,8h** (+2,0h) — **168h +7,8h oltre**.
-- Temporali **passati** — **finestra consegna APERTA** (18:30-20:00).
-- **Ultima chance oggi** per 1ª transazione — dopo le 20:00 giornata a zero.
+## 🆕 Novità giro 1/7 20:18
+- Stallo **177,8h** (+2,0h) — **168h +9,8h oltre**.
+- Finestra consegna **chiusa** — ripiano **2/7 mattina**.
+- Sync VPS #17: Nicola «ok 17» — install bloccato (serve root).
