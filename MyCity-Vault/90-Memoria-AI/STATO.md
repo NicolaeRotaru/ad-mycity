@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 07:30
+aggiornato: 2026-07-01 07:36
 fonte: AD digitale (7 numeri = live REST 1/7 06:18 · Supabase clmpyfvpvfjgeviworth · Sprint 1 branch 1/7 07:30 · chat Nicola)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **1/7 07:30 — Sprint 1 eseguito:** Nicola «ok Sprint 1» → branch `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, no deploy). Stallo **163,8h** (168h ~4,2h). Mossa n.1 = **ordine zombie PQ** + **push PR marketplace** + migrazione `107` prima deploy 🔴.
+> 🧠 **1/7 07:36 — Sprint 1 eseguito:** Nicola «ok Sprint 1» → branch `fix/sprint-1-radiografia-2026-07-01` (commit `8dc0f88`, no deploy). Push GitHub **403** (token worker) → PR da Nicola. Stallo **163,8h** (168h ~4,2h). Mossa n.1 = **push PR** + migrazione `107` + **`ok deploy Sprint 1`** 🔴.
 
 ## I 7 numeri (live 2026-07-01 06:18 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (1/7) | "Riuscito" | Note |
