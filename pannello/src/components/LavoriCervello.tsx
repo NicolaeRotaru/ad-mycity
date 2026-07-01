@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Brain, ChevronDown, ChevronRight, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
+import { vaiArea } from "@/lib/nav";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
@@ -34,42 +35,11 @@ function statoBadge(stato: string) {
 }
 
 export default function LavoriCervello({ lavori, onSvuota, embedded = false }: Props) {
-  const [mappa, setMappa] = useState<Record<string, string>>({});
+  const mappa = useMemo(() => (typeof window !== "undefined" ? leggiMappaGruppiLocali() : {}), [lavori]);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    setMappa(leggiMappaGruppiLocali());
-  }, [lavori]);
-
   const gruppi = useMemo(() => raggruppaLavori(lavori, mappa), [lavori, mappa]);
-
-  useEffect(() => {
-    setApertiGruppi((prev) => {
-      const next = { ...prev };
-      for (const g of gruppi) {
-        if (next[g.id] === undefined) {
-          next[g.id] = g.haAttivo || g.lavori.length === 1;
-        } else if (g.haAttivo) {
-          next[g.id] = true;
-        }
-      }
-      return next;
-    });
-    setApertiLavori((prev) => {
-      const next = { ...prev };
-      for (const g of gruppi) {
-        for (const lv of g.lavori) {
-          if (next[lv.id] === undefined) {
-            next[lv.id] = lv.stato === "in_corso" || lv.stato === "in_attesa";
-          } else if (lv.stato === "in_corso") {
-            next[lv.id] = true;
-          }
-        }
-      }
-      return next;
-    });
-  }, [gruppi]);
 
   const cervelloSpento = lavori.some((lv) => {
     if (lv.stato !== "in_attesa") return false;
@@ -99,7 +69,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
       ) : (
         <div className="scroll-soft space-y-2 max-h-[620px] overflow-y-auto pr-1">
           {gruppi.map((g) => {
-            const gruppoAperto = apertiGruppi[g.id] ?? g.haAttivo;
+            const gruppoAperto = apertiGruppi[g.id] === true;
             const multi = g.lavori.length > 1;
             const statoUltimo = g.lavori[g.lavori.length - 1]?.stato || "in_attesa";
 
@@ -110,10 +80,11 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
                   g.haAttivo ? "border-brand/25 bg-brand-50/20 dark:bg-brand/10" : "border-black/[0.07] dark:border-white/10 bg-white dark:bg-white/[0.03]"
                 }`}
               >
+                <div className="flex items-stretch">
                 <button
                   type="button"
                   onClick={() => toggleGruppo(g.id)}
-                  className="w-full flex items-start gap-2 p-3.5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition"
+                  className="flex-1 flex items-start gap-2 p-3.5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition min-w-0"
                 >
                   <span className="mt-0.5 text-black/40 dark:text-white/40 shrink-0">
                     {gruppoAperto ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -131,11 +102,21 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
                     <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2">{g.titolo}</div>
                   </div>
                 </button>
+                <button
+                  type="button"
+                  onClick={() => vaiArea("assistente", g.id, "chat")}
+                  className="shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border border-brand/35 text-brand rounded-lg px-2.5 py-1.5 hover:bg-brand-50/60 dark:hover:bg-brand/10 transition"
+                  title="Riprendi questa conversazione nella chat"
+                >
+                  <MessageSquare size={12} />
+                  Chat
+                </button>
+                </div>
 
                 {gruppoAperto && (
                   <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 space-y-2">
                     {g.lavori.map((lv, i) => {
-                      const lavoroAperto = apertiLavori[lv.id] ?? lv.stato === "in_corso";
+                      const lavoroAperto = apertiLavori[lv.id] === true;
                       return (
                         <div
                           key={lv.id}

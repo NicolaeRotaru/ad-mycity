@@ -52,6 +52,39 @@ export function titoloLavoro(lv: LavoroBase): string {
   return (prima || lv.richiesta).trim().slice(0, 100);
 }
 
+export type MsgChat = {
+  role: "user" | "assistant";
+  content: string;
+  pending?: boolean;
+};
+
+/** Ricostruisce i messaggi chat da un singolo lavoro (per riaprire conversazioni da Lavori). */
+export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
+  const out: MsgChat[] = [];
+  if (lv.tipo === "giro") {
+    out.push({ role: "user", content: "fai un giro" });
+  } else {
+    const nuovo = lv.richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
+    if (nuovo?.[1]?.trim()) {
+      out.push({ role: "user", content: nuovo[1].trim() });
+    } else {
+      const prima = lv.richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
+      if (prima?.trim()) out.push({ role: "user", content: prima.trim() });
+    }
+  }
+  if (lv.risultato?.trim()) {
+    out.push({ role: "assistant", content: lv.risultato.trim() });
+  } else if (lv.stato === "in_attesa" || lv.stato === "in_corso") {
+    out.push({ role: "assistant", content: "", pending: true });
+  }
+  return out;
+}
+
+/** Messaggi ordinati di tutti i lavori di un gruppo-conversazione. */
+export function messaggiDaGruppo(lavori: LavoroBase[]): MsgChat[] {
+  return lavori.flatMap((lv) => messaggiDaLavoro(lv));
+}
+
 function gruppoIdDi(lv: LavoroBase, mappa: Record<string, string>): string {
   return (lv.gruppo_id || mappa[lv.id] || "").trim() || lv.id;
 }

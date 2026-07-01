@@ -31,7 +31,7 @@ export default function Lavori({ lavori, onSvuota }: Props) {
         <div>
           <h2 className="t-area">🧠 Lavori del cervello</h2>
           <p className="t-eti mt-0.5">
-            Coda e storico dei compiti che l&apos;AD esegue sul tuo Max. Ogni conversazione è un gruppo collassabile.
+            Coda e storico dei compiti che l&apos;AD esegue sul tuo Max. Ogni conversazione è un gruppo collassabile — usa <b>Chat</b> per riaprirla nell&apos;Assistente.
           </p>
         </div>
         {lavori.length > 0 && (

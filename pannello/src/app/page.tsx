@@ -112,7 +112,7 @@ import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
-import { salvaGruppoLavoroLocale } from "@/lib/lavori-gruppo";
+import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -809,6 +809,52 @@ export default function Dashboard() {
     }
   }
 
+  /** Da Lavori → Assistente: riapre la conversazione collegata (o la ricostruisce dai lavori). */
+  async function apriChatDaGruppo(gruppoId: string) {
+    await persistConversazione(convId, messages);
+    const esistente = conversazioni.find((c) => c.id === gruppoId);
+    if (esistente) {
+      setMessages(esistente.messaggi);
+      setConvId(esistente.id);
+      setBase(null);
+      setConvSel([]);
+      sessionGruppoRef.current = esistente.id;
+      const pend = pendingLavoroChatRef.current;
+      if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
+        setLoading(true);
+      } else {
+        setLoading(false);
+      }
+      return;
+    }
+
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavori, mappa).find((x) => x.id === gruppoId);
+    if (!g) {
+      setMessages([]);
+      setConvId(gruppoId);
+      setBase(null);
+      setConvSel([]);
+      sessionGruppoRef.current = gruppoId;
+      setLoading(false);
+      return;
+    }
+
+    const msgs = messaggiDaGruppo(g.lavori) as Msg[];
+    const salvato = await persistConversazione(gruppoId, msgs);
+    setMessages(msgs);
+    setConvId(salvato || gruppoId);
+    setBase(null);
+    setConvSel([]);
+    sessionGruppoRef.current = salvato || gruppoId;
+    const pend = pendingLavoroChatRef.current;
+    if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
+      setLoading(true);
+    } else {
+      setLoading(g.haAttivo);
+    }
+  }
+
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
   // il contesto ma NON fa partire nessuna risposta, aspetta che scrivi tu.
   async function usaComeBase() {
@@ -1116,7 +1162,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setVista(det.vista);
         if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
         if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
-        if (det.vista === "assistente" && det.sub === "chat") setAssistenteTab("chat");
+        if (det.vista === "assistente" && det.sub === "chat") {
+          setAssistenteTab("chat");
+          if (det.anchor) void apriChatDaGruppo(det.anchor);
+        }
       }
       if (det.anchor) {
         const target = det.anchor;
@@ -1138,7 +1187,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     };
     window.addEventListener("mycity:vai", onVai);
     return () => window.removeEventListener("mycity:vai", onVai);
-  }, []);
+  }, [conversazioni, lavori]);
 
   useEffect(() => {
     caricaStato();
