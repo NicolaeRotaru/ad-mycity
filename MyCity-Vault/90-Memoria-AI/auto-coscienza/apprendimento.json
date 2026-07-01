@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-01 10:50",
+  "data": "2026-07-01 10:51",
   "lezioni": [
     {
       "id": "L-2026-0701-33",
@@ -7,11 +7,11 @@
       "tag": ["pannello", "ux", "scelta-ab", "nicola", "proposte"],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01 10:50",
+      "ultima_conferma": "2026-07-01 10:51",
       "stato": "attiva"
     },
     {
@@ -413,14 +413,14 @@
     },
     {
       "id": "L-2026-0630-05",
-      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = card `decisione_ordine_ab` con bottoni A/B + API persistenza (L-30, Nicola «aggiungimi A o B» 10:13).",
+      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = bottoni A/B + API persistenza (L-30 ordine zombie, **L-33 universale** `tipo: scelta_ab` su ogni scelta binaria — Nicola 10:50).",
       "tag": ["pannello", "memoria", "sync", "approvazioni", "vault"],
       "reparto": "@AD",
       "confidenza": 0.9,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "nato": "2026-06-30",
-      "ultima_conferma": "2026-07-01 10:13",
+      "ultima_conferma": "2026-07-01 10:51",
       "stato": "attiva"
     },
     {
@@ -609,7 +609,8 @@
     "Vuole che l'AD **mergi le PR al posto suo** dopo permesso esplicito («ok merge …» o card Pannello) — risparmio tempo, zero GitHub browser; **non** vuole merge automatico senza chiedere (chat 1/7 10:22). Sblocco full-auto PR API = `GITHUB_MERGE_TOKEN` (#15); push diretto su main con ok esplicito già funziona con token push esistente (confermato «ok merge bottoni A/B» 10:36 → `c50148d`).",
     "Confonde `pannello/` con repo separato — va chiarito subito: sottocartella monorepo `ad-mycity`, live su Vercel con root `pannello/`; architettura a 3 tubi git/deploy (memoria-ad / main / mycity) (chat 1/7 10:22).",
     "Dopo «ok merge [feature]» si aspetta conferma operativa (commit hash, Vercel redeploy, comando VPS sync) **e** distinzione esplicita se resta una decisione 🔴 separata (es. ordine A/B post-deploy bottoni) — non confondere deploy codice con chiusura del loop di business (chat 1/7 10:36).",
-    "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45)."
+    "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45).",
+    "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso."
   ],
   "meta": {
     "lezioni_attive": 45,
