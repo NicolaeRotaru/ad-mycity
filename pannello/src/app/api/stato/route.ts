@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   getLatestBriefing,
   getRecentTimes,
+  getImpostazione,
   memoryConnected,
   type BriefingRecord,
   type Briefing,
@@ -9,6 +10,7 @@ import {
 import { readVaultFile, listVaultDir } from "@/lib/vault";
 import { vaultToIso } from "@/lib/format";
 import { vaultGithubInfo } from "@/lib/obsidian";
+import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 import { marketplaceGithubInfo } from "@/lib/github";
 
 export const runtime = "nodejs";
@@ -99,12 +101,16 @@ export async function GET() {
   try {
     const vault = vaultGithubInfo();
     const codice = marketplaceGithubInfo();
-    const [fromDb, fromVault, recent] = await Promise.all([
+    const [fromDb, fromVault, recent, segnali, pausa] = await Promise.all([
       getLatestBriefing(),
       briefingDalVault(),
       getRecentTimes(10),
+      raccogliSegnaliBattito(),
+      getImpostazione("pausa").catch(() => null),
     ]);
     const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, fromVault);
+    const oreWorker = oreDaQuando(segnali.worker?.quando);
+    const workerVivo = oreWorker != null && oreWorker <= 0.1;
     return NextResponse.json({
       memoria: memoryConnected(),
       vaultGithub: vault.collegato,
@@ -113,11 +119,23 @@ export async function GET() {
       marketplaceRepo: codice.repo,
       marketplaceRamo: codice.ramo,
       briefingFonte,
-      vivo: memoryConnected() || ultimo != null,
+      vivo: macchinaViva(segnali),
+      workerVivo,
+      workerUltimo: segnali.worker?.quando ?? null,
+      adInPausa: pausa === "on",
       ultimo,
       giri: recent,
     });
   } catch (e: any) {
-    return NextResponse.json({ memoria: false, vivo: false, ultimo: null, giri: [], error: e.message });
+    return NextResponse.json({
+      memoria: false,
+      vivo: false,
+      workerVivo: false,
+      workerUltimo: null,
+      adInPausa: false,
+      ultimo: null,
+      giri: [],
+      error: e.message,
+    });
   }
 }

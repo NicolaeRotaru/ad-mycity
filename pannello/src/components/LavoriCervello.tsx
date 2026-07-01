@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Brain, ChevronDown, ChevronRight, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
+import { vaiArea } from "@/lib/nav";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
@@ -24,6 +25,8 @@ type Props = {
   onSvuota: () => void;
   /** Dentro l'area Lavori: senza intestazione esterna duplicata */
   embedded?: boolean;
+  workerVivo?: boolean | null;
+  adInPausa?: boolean;
 };
 
 function statoBadge(stato: string) {
@@ -33,49 +36,29 @@ function statoBadge(stato: string) {
   );
 }
 
-export default function LavoriCervello({ lavori, onSvuota, embedded = false }: Props) {
-  const [mappa, setMappa] = useState<Record<string, string>>({});
+export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
+  const mappa = useMemo(() => (typeof window !== "undefined" ? leggiMappaGruppiLocali() : {}), [lavori]);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    setMappa(leggiMappaGruppiLocali());
-  }, [lavori]);
-
   const gruppi = useMemo(() => raggruppaLavori(lavori, mappa), [lavori, mappa]);
 
-  useEffect(() => {
-    setApertiGruppi((prev) => {
-      const next = { ...prev };
-      for (const g of gruppi) {
-        if (next[g.id] === undefined) {
-          next[g.id] = g.haAttivo || g.lavori.length === 1;
-        } else if (g.haAttivo) {
-          next[g.id] = true;
-        }
-      }
-      return next;
-    });
-    setApertiLavori((prev) => {
-      const next = { ...prev };
-      for (const g of gruppi) {
-        for (const lv of g.lavori) {
-          if (next[lv.id] === undefined) {
-            next[lv.id] = lv.stato === "in_corso" || lv.stato === "in_attesa";
-          } else if (lv.stato === "in_corso") {
-            next[lv.id] = true;
-          }
-        }
-      }
-      return next;
-    });
-  }, [gruppi]);
-
-  const cervelloSpento = lavori.some((lv) => {
-    if (lv.stato !== "in_attesa") return false;
-    const t = new Date(lv.created_at).getTime();
-    return !isNaN(t) && Date.now() - t > 3 * 60 * 1000;
+  const codaBloccata = lavori.some((lv) => {
+    const t = new Date(lv.updated_at || lv.created_at).getTime();
+    if (isNaN(t)) return false;
+    if (lv.stato === "in_attesa") return Date.now() - t > 3 * 60 * 1000;
+    if (lv.stato === "in_corso") return Date.now() - t > 10 * 60 * 1000;
+    return false;
   });
+
+  const orfani = lavori.some((lv) => {
+    if (lv.stato !== "in_corso") return false;
+    const t = new Date(lv.updated_at || lv.created_at).getTime();
+    return !isNaN(t) && Date.now() - t > 10 * 60 * 1000;
+  });
+
+  const cervelloSpento = codaBloccata && workerVivo === false;
+  const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani);
 
   function toggleGruppo(id: string) {
     setApertiGruppi((s) => ({ ...s, [id]: !s[id] }));
@@ -87,10 +70,43 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
 
   const contenuto = (
     <>
-      {cervelloSpento && (
-        <div className="mb-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 px-3.5 py-2.5 text-[12.5px] text-red-800 dark:text-red-300 leading-snug">
-          <b>⛔ Cervello spento.</b> Il lavoro è in coda da oltre 3 minuti senza partire. Sul VPS:{" "}
-          <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">systemctl start mycity-worker</code>
+      {mostraAvviso && (
+        <div className="mb-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 px-3.5 py-2.5 text-[12.5px] text-red-800 dark:text-red-300 leading-snug space-y-1.5">
+          {adInPausa ? (
+            <>
+              <b>⏸️ AD in pausa.</b> Il worker non esegue nulla finché non riattivi l&apos;AD dal Pannello (Azioni → Governo → <b>Riattiva l&apos;AD</b>).
+            </>
+          ) : orfani ? (
+            <>
+              <b>⛔ Lavori bloccati «In corso».</b> Probabilmente il worker è stato riavviato a metà giro.
+              <div>
+                Sul VPS:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">
+                  sudo -u mycity -H bash cervello/vps/recupera-lavori-orfani.sh
+                </code>{" "}
+                poi{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">sudo systemctl restart mycity-worker</code>
+              </div>
+            </>
+          ) : cervelloSpento ? (
+            <>
+              <b>⛔ Worker VPS spento.</b> I messaggi restano in coda: il Pannello accoda, ma solo il worker sul server li esegue.
+              <div>
+                SSH sul VPS e lancia:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">sudo systemctl start mycity-worker</code>
+                {" · "}verifica:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded text-[11px]">systemctl status mycity-worker</code>
+              </div>
+              <div className="text-[11px] opacity-90">
+                Dopo un aggiornamento codice:{" "}
+                <code className="bg-red-100/80 dark:bg-red-900/40 px-1 rounded">sudo bash cervello/vps/aggiorna-cervello.sh</code>
+              </div>
+            </>
+          ) : (
+            <>
+              <b>⏳ Coda lenta.</b> Un lavoro è in attesa da più di 3 minuti. Controlla lo stato del worker in alto a destra.
+            </>
+          )}
         </div>
       )}
 
@@ -99,7 +115,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
       ) : (
         <div className="scroll-soft space-y-2 max-h-[620px] overflow-y-auto pr-1">
           {gruppi.map((g) => {
-            const gruppoAperto = apertiGruppi[g.id] ?? g.haAttivo;
+            const gruppoAperto = apertiGruppi[g.id] === true;
             const multi = g.lavori.length > 1;
             const statoUltimo = g.lavori[g.lavori.length - 1]?.stato || "in_attesa";
 
@@ -110,10 +126,11 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
                   g.haAttivo ? "border-brand/25 bg-brand-50/20 dark:bg-brand/10" : "border-black/[0.07] dark:border-white/10 bg-white dark:bg-white/[0.03]"
                 }`}
               >
+                <div className="flex items-stretch">
                 <button
                   type="button"
                   onClick={() => toggleGruppo(g.id)}
-                  className="w-full flex items-start gap-2 p-3.5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition"
+                  className="flex-1 flex items-start gap-2 p-3.5 text-left hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition min-w-0"
                 >
                   <span className="mt-0.5 text-black/40 dark:text-white/40 shrink-0">
                     {gruppoAperto ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
@@ -131,11 +148,21 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false }: P
                     <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2">{g.titolo}</div>
                   </div>
                 </button>
+                <button
+                  type="button"
+                  onClick={() => vaiArea("assistente", g.id, "chat")}
+                  className="shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border border-brand/35 text-brand rounded-lg px-2.5 py-1.5 hover:bg-brand-50/60 dark:hover:bg-brand/10 transition"
+                  title="Riprendi questa conversazione nella chat"
+                >
+                  <MessageSquare size={12} />
+                  Chat
+                </button>
+                </div>
 
                 {gruppoAperto && (
                   <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 space-y-2">
                     {g.lavori.map((lv, i) => {
-                      const lavoroAperto = apertiLavori[lv.id] ?? lv.stato === "in_corso";
+                      const lavoroAperto = apertiLavori[lv.id] === true;
                       return (
                         <div
                           key={lv.id}
