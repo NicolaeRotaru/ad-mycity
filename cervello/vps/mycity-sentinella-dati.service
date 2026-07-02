@@ -1,0 +1,22 @@
+[Unit]
+Description=MyCity AD — sentinella DATI (occhi a costo zero: guarda i dati reali, sveglia il cervello AI solo su evento)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+Group=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+# LIVE=1 → accoda davvero i lavori (senza, sarebbe un dry-run che non sveglia il worker).
+Environment=SENTINELLA_DATI_LIVE=1
+# Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
+Environment=TZ=Europe/Rome
+ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/sentinella-dati.mjs --live
+# È Node puro su REST (0 token): leggero e veloce. Se si impalla su rete, non deve restare appeso.
+TimeoutStartSec=120
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

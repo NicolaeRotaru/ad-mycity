@@ -4,6 +4,41 @@
 > quando un segnale supera la soglia, AGISCE nei 🟢 e ALLERTA sui 🟡/🔴.
 > ⚠️ Si attivano davvero solo quando il "cervello" gira (worker/giri schedulati in `cervello/`). Finché lo
 > lanci a mano, valgono come checklist da scorrere a ogni giro.
+
+## 👁️ La sentinella dei DATI — veglia in tempo reale a costo zero (`sentinella-dati.mjs`)
+> **Il modello OCCHI/CERVELLO** (vincolo di Nicola: *«veglia sempre, ma usa i token solo quando c'è
+> qualcosa da fare»*). Sono due cose diverse:
+>
+> - **OCCHI** = `cervello/sentinella-dati.mjs`, lanciato dal timer **`mycity-sentinella-dati.timer` ogni 2
+>   minuti** (regolabile 1-5 min). È **Node puro su REST → 0 token**. Ogni giro legge i dati reali
+>   (ordini, payout, sensori ciechi, runway…), valuta le soglie qui sotto in modo deterministico e
+>   aggiorna il proprio battito. Guardare **non costa nulla**.
+> - **CERVELLO** = il motore AI dentro `worker.sh` (già acceso 24/7, `Restart=always`). Dorme a 5s finché
+>   la coda `lavori` è vuota (**0 token**). Si sveglia **solo** quando la sentinella gli **accoda un
+>   lavoro** perché una soglia è scattata. Il modello premium parte **solo sull'evento reale**.
+>
+> **I tre freni anti-spreco** (perché la sveglia non diventi un salasso):
+> 1. **Dedup + cooldown** (default 6h): lo stesso identico problema non riaccende l'AI ogni 2 minuti;
+>    riscatta solo se peggiora (firma nuova) o dopo il cooldown. Doppio controllo anche lato DB (non
+>    accoda se un lavoro identico è già in coda → resiste al riavvio).
+> 2. **Tetto di spesa** (default 6/giorno, 2/ora) sul **volume**. Oltre il tetto non accoda: alza solo un
+>    segnale. **I 🔴 (soldi/legale) bypassano il tetto** — «sotto budget si taglia il volume, mai i controlli».
+> 3. **Kill-switch**: rispetta la PAUSA del Pannello (`impostazioni.pausa=on`) e una pausa propria
+>    (`sentinella-dati:pausa=on`).
+>
+> **Sicurezza (colore 🟢):** la sentinella accoda **solo lavori di `tipo=analisi`/proposta** — **MAI**
+> `esegui-azione`. Non fa partire nulla di reale da sola: prepara l'analisi/proposta, poi **Nicola firma**
+> le azioni 🔴. Zero doppio-invio, zero sorprese.
+>
+> **Prova a mano (dry-run, non accoda):** `node cervello/sentinella-dati.mjs` · **JSON:** `--json`.
+> **Attivare il timer sul VPS = 🔴 (Nicola):** `sudo bash cervello/vps/install-ritmo-timers.sh`.
+> **Regolabili via .env:** `SENTINELLA_DATI_COOLDOWN_ORE`, `SENTINELLA_DATI_MAX_GIORNO`,
+> `SENTINELLA_DATI_MAX_ORA`, `SENTINELLA_DATI_CALO_MIN_BASE`; la cadenza nel `.timer` (`OnUnitActiveSec`).
+>
+> **Soglie oggi LIVE nella sentinella dati** (le altre della tabella restano checklist del giro finché
+> il sensore/mano non è collegato): calo ordini −30% vs media 7g · ordine pagato senza payout (🔴) ·
+> nuovo ordine (verifica payout+consegna) · sensore dati cieco ≥3 giri · runway cassa <3 mesi (🔴).
+> La **coda-falliti/orfani** è già coperta dalla sentinella gemella `sentinella-lavori.mjs` (ogni 3 min).
 >
 > 🔭 **Sentinelle vs Radar:** qui ci sono i trigger a **soglia su dati INTERNI** (ordini, payout,
 > recensioni…). Il mondo **ESTERNO** che influenza MyCity (notizie, competitor, bandi, meteo,
