@@ -1,71 +1,65 @@
 ---
 tipo: report-giornaliero
-data: 2026-07-02 06:43
-fonte: AD digitale
-canale-dati: ⚠️ CHIUSO (Supabase MCP non autorizzato in questo giro; Stripe idem) — numeri NON riverificati
+data: 2026-07-02 21:53
+fonte: AD digitale (report di chiusura giornata)
+canale-dati: 🟡 baseline REST confermata LIVE alle 18:20 (3,5h fa) — MCP/sensori non ri-pullati questo giro (permessi assenti); stallo ricalcolato all'ora attuale, nessun numero nuovo inventato
 ---
 
-# 📊 REPORT GIORNALIERO — Giovedì 2 luglio 2026, 06:43 (Piacenza)
+# 📊 REPORT GIORNALIERO — Giovedì 2 luglio 2026, 21:53 (Piacenza)
 
 ## In una riga
-Nessun dato-live riverificabile oggi (canale Supabase/Stripe non autorizzato in questo giro): i numeri restano alla **baseline del 24/6** e vanno considerati **fermi da 6 giorni**. La cosa più urgente **non è un numero, è una firma con scadenza**: la finestra "I TRE VENERDÌ" si apre **domani 3/7** e va sbloccata **oggi**.
+Giornata di **cantiere chiuso, business ancora fermo**: la macchina si è rimessa in sesto (radiografia 42→80, #19 ruoli LIVE su Render), Nicola ha deciso di **eseguire** l'ordine zombie (Scelta A, non archiviarlo), ma alle 21:53 la **prima transazione reale non è ancora avvenuta** — stallo salito a **~205h**. La palla è nelle mani di Nicola: 3 tap e la finestra cena (già scaduta stasera) diventa domani il primo incasso.
 
 ---
 
-## 🔢 Numeri chiave (⚠️ baseline 24/6 — da riverificare appena si sblocca il canale dati)
-| Numero | Valore | Note |
-|---|---|---|
-| Ordini creati | **0** | baseline 24/6 |
-| Ordini pagati | **0** | baseline 24/6 |
-| Incassi | **0 €** | baseline 24/6 |
-| Nuovi clienti reali | **0** | baseline 24/6 |
-| Negozi LIVE (approvato + payout + ≥1 prodotto vero) | **0** | 2 approvati su 17, solo 1 con payout |
-| Prodotti VERI del faro pubblicati | **0** | i ~250 "available" sono seed/test, da ignorare |
-| Payout testato | **0** | pipeline incassa→trattiene→paga mai girata sul vivo |
+## 🔢 Numeri chiave (baseline REST confermata LIVE 18:20 · stallo ricalcolato 21:53)
+| Numero | Oggi (2/7) | "Riuscito" | Note |
+|---|---|---|---|
+| Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed, esclusa |
+| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test 03/7 mattina |
+| Prodotti VERI pubblicati (faro) | **5** | ≥5 | PQ `status=available` |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 |
+| Ordini pagati | **0** | 1 | COD non ancora incassato |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
+| Payout testato | **0** | 1 | programmato 03/7 mattina (sandbox) |
+| Clienti reali (buyer) | **4** (0 nuovi ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
+| **Stallo transazione** | **~205h** (24/6 08:28 → ora) | 0h | +3,5h dalla baseline serale 18:20 |
 
-> **Perché tutti zero:** siamo pre-lancio commerciale. Il primo sabato utile era il 27/6. Non ho la conferma live di cosa sia successo tra il 27/6 e oggi perché il canale dati è chiuso. **Questo è il buco più grave del report**: senza Supabase/Stripe autorizzati sto governando alla cieca da 6 giorni.
-
----
-
-## ✅ Mosse fatte (dalla memoria, ultimi giri)
-- **Squadra portata a livello "pro"**: rollout dello stampo v3 su tutti i 42 senior (mansionari + kit profondi strati 3-6), con revisione indipendente. La macchina-azienda è pronta; manca il **carburante reale** (foto/interviste/dati/chiavi AI).
-- **Marketing di lancio pronto a scaffale**: piano editoriale 4 settimane, 16 post, 7 flussi email/lifecycle, kit stampa, 8 reel, Content Factory (genera PNG/reel veri), Marketing Autopilot (in dry-run).
-- **2 fix sito già mergiati**: checkout mobile (la tab bar copriva "Conferma ordine", PR #199) + gruppo 1 audit-design conversione (PR #200).
-- **Kit "I TRE VENERDÌ" e storia-bottega Garetti** scritti e pronti alla pubblicazione.
-
-## ⚠️ Punti di attenzione (semafori)
-- 🔴 **Governance alla cieca**: canale dati (Supabase + Stripe) non autorizzato → nessun KPI reale da 6 giorni. **Va sbloccato oggi.**
-- 🔴 **Stripe live o sandbox?** ancora non confermato (bloccante storico dal 24/6).
-- 🟡 **Mani spente**: email (Resend), push, social publisher NON collegati → tutte le azioni marketing/CRM restano in coda, non partono.
-- 🟡 **Faro (Garetti) non ancora LIVE**: senza go-live + primo ordine, i numeri restano a zero per costruzione.
+> ⚠️ **Onestà sui dati:** i sensori non sono stati ri-pullati in questo giro (Supabase MCP e sensor-check richiedono un'autorizzazione interattiva assente in questo run). I 7 numeri sopra sono quelli **ri-pullati LIVE via REST alle 18:20 e confermati invariati** — 3,5h fa, non la vecchia baseline 24/6. L'unico valore ricalcolato è lo **stallo** (matematica sull'orario). Nessuna cifra è stata inventata.
 
 ---
 
-## 🖊️ Cose da firmare (in ordine di urgenza)
-
-### ⏰ URGENTE — scade domani 3/7
-- **"I TRE VENERDÌ" (azione #7)** 🔴 — pubblicare i 3 post nelle sere dei Venerdì Piacentini (3, 10, 17 lug). È una **finestra reale che si chiude il 17/7**; per agganciare il **primo venerdì serve l'OK entro oggi** + il **link reale della lista d'attesa**. Se salta oggi, perdiamo il primo dei tre picchi.
-
-### 🚀 Sblocco lancio (le 3 decisioni 🔴 sono in un foglio-firma da 2 minuti → `consegne/decisioni/2026-06-26-foglio-firma-lancio.md`)
-1. **Termini Garetti** 🔴 (azione #1) — commissione 12%, 0€ fissi, payout a consegna. → da qui parte il primo incasso.
-2. **Modalità payout-test** 🔴 (azione #2) — 1€ reale da stornare *oppure* ambiente test Stripe. → valida che i soldi arrivino al negozio.
-3. **Contatti primo cliente** 🟡 (azione #3) — via libera a messaggi/telefonate concierge (testi pronti).
-
-### 📣 Amplificazione (quando c'è il link lista d'attesa)
-- **Post storia-bottega Garetti "La saracinesca"** 🔴 (azione #6) — IG+FB, serve il link reale.
-- **Contatto pagine locali / organizzatori Venerdì Piacentini** 🔴 (azione #8) — ricondivisione di valore durante la finestra.
+## ✅ Mosse fatte oggi (cosa ho chiuso io)
+1. **🩻 Radiografia macchina + cantiere:** voto salute **42→80**, **18/22 difetti chiusi in codice** (branch `machine-analysis`) — battito con timeout, gate anti-invenzione sui sensori, guardiano agenti, sensore cassa, gate HACCP.
+2. **🧠 #19 ruoli LIVE:** PR #211 merged (`f84fc70`) → Render auto-deploy, fix ruoli in produzione.
+3. **🔭 3 giri di perlustrazione** (10:19, 17:01, 18:21) con delta-gate: KPI ri-verificati via REST, sonda chiusura-loop (5 quaderni fermi segnalati), briefing scritti.
+4. **🌙 Report della sera + apprendimento:** lezione **L-2026-0702 — "firma ≠ esecuzione"** (le mani non sono collegate: `ok 16` firmato alle 08:38 è rimasto fermo tutto il giorno perché nessun canale automatico lo esegue). RITMO + SALA aggiornati.
+5. **✔️ Decisione #16 risolta:** Nicola ha scelto **A = esegui** (non archiviare lo zombie) → slot spostato a cena 19–21, passi #20–#22 attivati.
 
 ---
 
-## 🎯 Raccomandazione dell'AD (le 3 mosse di oggi)
-1. **Sblocca il canale dati** (autorizza Supabase MCP + Stripe, o dammi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY`): senza, ogni report è una fotografia vecchia. È la mossa a ritorno più alto perché abilita tutte le altre.
-2. **Firma il foglio-lancio da 2 minuti** (`consegne/decisioni/2026-06-26-foglio-firma-lancio.md`) + dammi il **link lista d'attesa**: sblocca sia Garetti LIVE sia i post.
-3. **Decidi "I TRE VENERDÌ" oggi**: è l'unica cosa con una scadenza fisica a domani.
-
-> Con canale dati aperto + foglio firmato, il prossimo report ha numeri veri e la prima riga smette di essere "tutti zero".
+## 🔴 Cose da firmare / che aspettano TE (in ordine di ritorno)
+1. **#16 — Esegui il primo ordine (mano tua):** la finestra cena 19–21 di **oggi è passata**. Tre tap domani chiudono il loop:
+   - **#20** → tap link WhatsApp al buyer (348 642 1766): proponi nuovo slot + chiedi indirizzo reale.
+   - **#21** → dashboard seller: *Accetta* l'ordine + chiama Pane Quotidiano (0523 388601).
+   - **#22** → ritiro Via Calzolai 25 → consegna → incasso **COD €19,05** → segna *Consegnato* → scrivimi «consegna fatta».
+   → *Cosa cambia:* è la **prima transazione end-to-end** di MyCity (prodotto→consegna→incasso). *Se va bene:* sblocca recensione + payout-test 03/7.
+2. **R1 — Revoca il PAT GitHub** (🔴, solo tu): il token era in `.env.save`, rimosso dal repo ma **ancora nella storia git**. GitHub → Settings → Developer settings → PAT → revoca + rigenera (solo nel `.env` del VPS). È l'unica cosa che chiude davvero il buco.
+3. **R2 — Merge + deploy dei 18 fix del cantiere** (🟡): dal branch `claude/machine-analysis` a `main` + `systemctl daemon-reload` sul VPS → i fix diventano attivi.
+4. **SQL 107 — DROP policy profiles** (🟡, ~30s): sblocca RLS profiles, prerequisito del batch negozi.
+5. **Token GitHub (#14/#15):** hai già creato `github_push_token` (mycity+ad-mycity, Contents+PR R/W) → basta incollarlo in `GIT_PUSH_TOKEN` nel `.env` del VPS per sbloccare push+merge sul marketplace.
 
 ---
-### 📧 Invio email a Nicola
-**Non inviato**: la "mano" email (Resend) non è ancora collegata (`RESEND_API_KEY` mancante — vedi coda azioni CRM). Report consegnato qui e salvato in memoria. Al collegamento della chiave (via @builder-automazioni) questo report parte anche via email.
 
-*Scritto dall'AD. Baseline numeri: [[STATO]] · Azioni: [[AZIONI-IN-ATTESA]] · Decisioni: [[DECISIONI]].*
+## 🚦 Semafori di fine giornata
+- 🟢 **Va bene:** REST OK; #19 ruoli LIVE; radiografia 42→80; decisione #16 presa (esegui); token GitHub creato.
+- 🟡 **Da tenere d'occhio:** 3 tap #20–#22 (finestra cena scaduta → riprogrammare domani); merge fix cantiere; SQL 107; sync VPS (1× root Console Hetzner).
+- 🔴 **Problema:** **0 transazioni reali — stallo ~205h**. Il collo di bottiglia non è più tecnico né decisionale: è **manuale** (le mani non sono collegate, servono i 3 tap di Nicola). E il **PAT GitHub è ancora nella storia git** finché non lo revochi.
+
+---
+
+## 🎯 Domani, la mossa a massimo ritorno
+**Chiudi il primo ordine appena sveglio.** Non è un problema di dati o di codice: sono i 3 tap #20→#21→#22. Fatto quello, MyCity passa da "0 transazioni" a "provato che il modello gira" — e si sblocca la sequenza payout-test + recensione. Tutto il resto (contenuti Venerdì Piacentini, batch negozi) viene dopo il primo incasso.
+
+---
+*Report generato dall'AD digitale. Numeri: baseline REST LIVE 18:20 + stallo ricalcolato. Nessuna cifra inventata (cancello 🔬).*
