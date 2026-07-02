@@ -1,0 +1,16 @@
+[Unit]
+Description=MyCity AD — verifica giornaliera dell'automazione (token, timer, segnali)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+Group=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/verifica-automazione.mjs
+Nice=10
+
+[Install]
+WantedBy=multi-user.target
