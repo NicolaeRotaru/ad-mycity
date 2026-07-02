@@ -512,3 +512,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-03 00:27 · @AD · FATTO · Refresh +4min dal giro 00:23. Delta-gate `corrente==ultimo_pieno`: nessuna novità business (7 numeri = baseline REST 22:28 invariata; MCP+node+curl gated). Unica variazione sensori: **PostHog cieco 8 giri** (era 7). Radar non ri-verificato (meteo/eventi già live al 00:08).
 - 2026-07-03 00:27 · @AD · FATTO · Aggiornati timestamp Cabina al 00:27: briefing 2026-07-03 (passaggi 00:23/00:18/00:08 sotto separatore), STATO, ultimo-briefing, auto-analisi/AUTO-ANALISI, registro-realta, intenzioni-nicola.
 - 2026-07-03 00:27 · @AD · SERVE · Mossa n.1 confermata → STAMATTINA 3/7: Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.
+
+### 2026-07-03 — 🔭 GIRO NOTTE (AD · 00:33 · refresh)
+- 2026-07-03 00:33 · @AD · FATTO · Refresh +6min dal giro 00:27. Delta-gate 00:31 `corrente==ultimo_pieno`: nessuna novità business (7 numeri = baseline REST 22:28 invariata; MCP+node+curl gated). Unica variazione sensori: **PostHog cieco 9 giri** (era 8). Radar non ri-verificato (meteo/eventi già live al 00:08).
+- 2026-07-03 00:33 · @AD · FATTO · Aggiornati timestamp Cabina al 00:33: briefing 2026-07-03 (passaggi 00:27/00:23/00:18/00:08 sotto separatore), STATO, ultimo-briefing, auto-analisi/AUTO-ANALISI, registro-realta, intenzioni-nicola.
+- 2026-07-03 00:33 · @AD · SERVE · Mossa n.1 confermata → STAMATTINA 3/7: Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.

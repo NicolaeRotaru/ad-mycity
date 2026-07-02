@@ -335,6 +335,14 @@
       "difetti_chiusi": 20,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 8 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 9 giri"
     }
   ]
 }
