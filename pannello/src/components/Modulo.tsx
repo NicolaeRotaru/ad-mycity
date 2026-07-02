@@ -22,25 +22,40 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [mostraTutte, setMostraTutte] = useState(false);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
-  // Carica l'elenco reale solo alla prima apertura (lazy).
+  // Carica l'elenco reale all'apertura e lo tiene FRESCO finché il modulo è aperto:
+  // ricarica a ogni apertura + refresh silenzioso ogni 60s (con cache:no-store), così le liste
+  // (ordini, negozi, clienti, consegne, recensioni) non restano congelate al primo caricamento.
   useEffect(() => {
-    if (!open || !def.lista || righe !== null) return;
-    setCaricando(true);
-    fetch(def.lista)
-      .then((r) => r.json())
-      .then((d) => {
-        setRighe(Array.isArray(d.righe) ? d.righe : []);
-        setListaColl(Boolean(d.collegato));
-      })
-      .catch(() => {
-        setRighe([]);
-        setListaColl(false);
-      })
-      .finally(() => {
-        setCaricando(false);
-        setAggAt(Date.now());
-      });
-  }, [open, def.lista, righe]);
+    if (!open || !def.lista) return;
+    let vivo = true;
+    const carica = (conSpinner: boolean) => {
+      if (conSpinner) setCaricando(true);
+      fetch(def.lista!, { cache: "no-store" })
+        .then((r) => r.json())
+        .then((d) => {
+          if (!vivo) return;
+          setRighe(Array.isArray(d.righe) ? d.righe : []);
+          setListaColl(Boolean(d.collegato));
+        })
+        .catch(() => {
+          if (!vivo) return;
+          setRighe((prev) => prev ?? []); // una fetch fallita NON svuota l'elenco già mostrato
+          setListaColl(false);
+        })
+        .finally(() => {
+          if (!vivo) return;
+          setCaricando(false);
+          setAggAt(Date.now());
+        });
+    };
+    carica(righe === null); // spinner solo se non ho ancora dati; altrimenti refresh silenzioso
+    const id = setInterval(() => carica(false), 60000);
+    return () => {
+      vivo = false;
+      clearInterval(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, def.lista]);
 
   const acceso = (chiave?: string, tipo?: Tipo) =>
     Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null) &&
