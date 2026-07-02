@@ -145,6 +145,29 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
   return rows[0] || null;
 }
 
+/** Un singolo lavoro per id (o null). */
+export async function getLavoroById(id: string): Promise<Lavoro | null> {
+  if (!memoryConnected()) return null;
+  const res = await fetch(
+    `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id&id=eq.${encodeURIComponent(id)}&limit=1`,
+    { headers: headers(), cache: "no-store" }
+  );
+  if (!res.ok) return null;
+  const rows = (await res.json()) as Lavoro[];
+  return rows[0] || null;
+}
+
+/** Aggiorna stato/risultato di un lavoro. Torna true se riuscito. */
+export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato" | "risultato">>): Promise<boolean> {
+  if (!memoryConnected()) return false;
+  const res = await fetch(`${URL}/rest/v1/lavori?id=eq.${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    headers: { ...headers(), Prefer: "return=minimal" },
+    body: JSON.stringify({ ...patch, updated_at: new Date().toISOString() }),
+  });
+  return res.ok;
+}
+
 /** Ultimi lavori, dal piu' recente. */
 export async function getLavori(limit = 50): Promise<Lavoro[]> {
   if (!memoryConnected()) return [];
