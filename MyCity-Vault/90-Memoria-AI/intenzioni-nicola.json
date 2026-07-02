@@ -1,76 +1,25 @@
 {
-  "data": "2026-07-02 10:19",
-  "sintesi": "Nicola ha approvato **ok 16** (08:38) e **ok merge #19** (08:40 — PR #211 LIVE). **Passi manuali #20–#22 ancora pendenti** — finestra pranzo 12:00–13:30. Prossimi: smoke #19, **SQL 107** (~30s), sync VPS (1× root). Payout-test **03/7 mattina**. Batch negozi **6/7** dopo prima transazione.",
+  "data": "2026-07-02 16:53",
+  "sintesi": "Nicola ha già firmato ok 16 (08:38) e ok merge #19 (08:40), ma in tutta la giornata non ha eseguito i passi manuali #20–#22 (WhatsApp → dashboard → consegna COD): la finestra pranzo è passata. La sua prossima mossa reale è una scelta: chiudere stasera la prima transazione col buyer dell'ordine zombie, oppure archiviarlo e concentrarsi su payout-test 3/7 (sandbox) e batch onboarding 6/7. In parallelo deve chiudere due cose sue: revocare il PAT GitHub (R1) e far girare SQL 107.",
   "prossime_mosse": [
-    {
-      "titolo": "Completare consegna #16 — passi #20–#22",
-      "quando": "2/7 ORA — pranzo 12:00–13:30",
-      "come": "Pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` — WhatsApp → accetta dashboard → COD → «consegna fatta»",
-      "priorita": "alta",
-      "ad_prepara": "✅ ok 16 approvato 08:38 · link wa.me pronto · prodotti verificati live 10:19",
-      "senior": "@operations + @supporto",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Smoke test post-#19 ruoli acquisto",
-      "quando": "2/7 — Render LIVE da ~08:45",
-      "come": "Checklist `consegne/qa/2026-07-02-smoke-ruoli-acquisto-post-19.md`",
-      "priorita": "alta",
-      "ad_prepara": "✅ PR #211 merged · @qa esegue smoke",
-      "senior": "@qa",
-      "colore": "🟢"
-    },
-    {
-      "titolo": "SQL 107 — chiudi leak RLS profiles",
-      "quando": "2/7 — 30 secondi",
-      "come": "Supabase SQL Editor → migration 107 → «fatto sql 107»",
-      "priorita": "alta",
-      "ad_prepara": "Verifica post-SQL smoke checkout",
-      "senior": "@tech + @security",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Sync VPS #17 — install 1× root",
-      "quando": "quando possibile (Console Hetzner)",
-      "come": "sudo bash /opt/mycity/ad-mycity/cervello/vps/install-sync-vps.sh",
-      "priorita": "media",
-      "ad_prepara": "Handler worker ✅ · Nicola «ok 17» 20:18",
-      "senior": "@devops-sre",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Batch onboarding negozi 6/7",
-      "quando": "6/7 — Nicola in prima persona",
-      "come": "Carica negozi + catalogo dopo #16+#19 smoke+SQL 107",
-      "priorita": "alta",
-      "ad_prepara": "Checklist `consegne/onboarding/checklist-batch-6-luglio.md`",
-      "senior": "@onboarding-negozi + @vendite",
-      "colore": "🟢"
-    },
-    {
-      "titolo": "Payout-test Stripe sandbox",
-      "quando": "03/7 mattina",
-      "come": "Flusso sandbox come da foglio-firma 01:02",
-      "priorita": "alta",
-      "ad_prepara": "Guida `consegne/finanza/payout-faro.md`",
-      "senior": "@finanza",
-      "colore": "🔴"
-    }
+    {"titolo": "Decidere #16: eseguire (cena) o archiviare lo zombie", "quando": "stasera 2/7 (finestra cena 18–20)", "come": "tap link WhatsApp #20 al buyer 348 642 1766 → accetta ordine dashboard #21 → consegna COD €19,05 #22 → «consegna fatta»; oppure «archivia zombie»", "priorita": "alta", "ad_prepara": "pacchetto esecuzione già pronto (consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md) con slot cena aggiornabile", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Revocare il PAT GitHub (R1 · AR-004)", "quando": "appena possibile", "come": "GitHub → Settings → Developer settings → PAT → revoca il vecchio, genera nuovo (solo nel .env VPS, mai committato)", "priorita": "alta", "ad_prepara": "scan-segreti.mjs già blocca il push; .env.save rimosso dal tracking", "senior": "@security", "colore": "🔴"},
+    {"titolo": "Far girare SQL 107 (DROP policy profiles)", "quando": "oggi/domani", "come": "incolla la migration nel SQL Editor Supabase → «fatto sql 107»", "priorita": "media", "ad_prepara": "migration pronta; smoke RLS post-esecuzione", "senior": "@tech", "colore": "🟡"},
+    {"titolo": "Payout-test Stripe sandbox", "quando": "03/7 mattina (programmato)", "come": "verifica flusso payout/pagamenti in sandbox", "priorita": "alta", "ad_prepara": "consegne/finanza/payout-faro.md", "senior": "@finanza", "colore": "🔴"},
+    {"titolo": "Batch onboarding negozi", "quando": "06/7", "come": "onboarding done-for-you dei nuovi negozi dai 407 lead", "priorita": "alta", "ad_prepara": "checklist onboarding pronta; gate = prima transazione o payout-test ok", "senior": "@onboarding-negozi", "colore": "🟡"}
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ok 16 IN ESECUZIONE", "stato": "Via Calzolai 25 · ordine €19,05 COD · passi #20–#22 pendenti"},
-    {"nome": "Batch 6 luglio", "perche": "Nicola inserimento multi-negozio post-#16", "stato": "checklist AD pronta"},
-    {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity (Via Calzolai 25); contratto 12% firmato 01:02; ordine zombie €19,05 da consegnare", "stato": "attivo · payout OFF · 0 consegne"},
+    {"nome": "Batch 6/7 (nomi da definire)", "perche": "407 lead in attesa; il motore di crescita reale", "stato": "pianificato · nomi/quantità da Nicola"}
   ],
   "rischi": [
-    "Buyer potrebbe non rispondere WhatsApp dopo 8+ giorni",
-    "Indirizzo buyer placeholder «N» in DB — serve conferma in chat",
-    "RLS profiles attiva finché non gira SQL 107",
-    "Finestra pranzo si chiude ~13:30 — agire entro 11:30"
+    "Ordine zombie mai chiuso → North Star resta 0 all'infinito (loop bloccato da 8gg su un tap manuale)",
+    "PAT GitHub ancora nella storia git finché Nicola non revoca (R1)",
+    "Caldo 37°C il 6/7 sul batch freschi: serve gate catena del freddo prima del LIVE deperibili"
   ],
   "serve_da_nicola": [
-    {"ambito": "Consegna ordine PQ", "cosa_manca": "Eseguire passi #20–#22 (WhatsApp inviato? buyer risponde?)", "domanda_per_nicola": "Tap link WhatsApp nel pacchetto ok16 → quando consegnato scrivi «consegna fatta»"},
-    {"ambito": "Sicurezza RLS", "cosa_manca": "SQL 107 in Supabase", "domanda_per_nicola": "Incolla migration 107 → «fatto sql 107»"},
-    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
+    {"ambito": "Prima transazione", "cosa_manca": "esecuzione o archiviazione dell'ordine #16", "domanda_per_nicola": "Eseguo #16 stasera (cena) o archivio lo zombie e punto su payout-test 3/7 + batch 6/7?"},
+    {"ambito": "Sicurezza", "cosa_manca": "revoca del PAT GitHub", "domanda_per_nicola": "Puoi revocare ora il vecchio PAT su GitHub (R1)? È l'unica cosa che chiude il buco."},
+    {"ambito": "Onboarding", "cosa_manca": "nomi e numero dei negozi del batch 6/7", "domanda_per_nicola": "Quanti negozi e quali nomi per il batch del 6/7?"}
   ]
 }

@@ -1,50 +1,51 @@
 {
-  "data": "2026-07-02 10:19",
-  "voto_fiducia": 88,
+  "data": "2026-07-02 16:53",
+  "voto_fiducia": 84,
   "trend_fiducia": "▼",
-  "sintesi": "Giro 2/7 10:19. Voto 88 (▼ da 89): KPI live REST confermati (+1,8h stallo prevedibile post-ok 16), automazione tutto verde, meteo OK. Malus -1: ok 16 approvato 08:38 ma DB invariato (0 progresso esecuzione) — lezione L-0702-45. Nessun errore grounding. REST OK, Stripe cieco.",
+  "sintesi": "Giro 2/7 16:53. Voto 84 (▼ da 88): giro onesto ma con due limiti dichiarati. (1) Non ho potuto ri-pullare i 7 numeri live (MCP Supabase e comandi node/REST diretto gated in sessione): ho portato avanti la baseline REST 10:19 e ricalcolato SOLO lo stallo dall'ancora reale (ordine 24/6 → ~198,5h) — nessun numero inventato, tutto nei Gap. (2) Fatto emergere il vero blocco: ok 16 firmato 08:38 ma non eseguito in ~8h, finestra pranzo persa (lezione L-0702-47). Grounding entità ok (PQ confermato, zombie=PQ, nessuna entità nuova). Nessun errore di grounding.",
   "verifiche": {
-    "entita": "ok",
-    "numeri": "ok (live REST 10:19, clmpyfvpvfjgeviworth)",
-    "coerenza": "ok (allineato AZIONI #16/#19 merged, intenzioni-nicola)",
-    "semaforo": "ok (nessuna 🔴 nuova in coda oltre #20–#22 già approvati)",
+    "entita": "ok (Pane Quotidiano confermato; nessuna entità nuova introdotta; zombie = ordine PQ)",
+    "numeri": "parziale — baseline REST 10:19 portata avanti, live non ri-pullati (MCP/node gated); stallo ricalcolato da ancora 24/6; tutto dichiarato nei Gap",
+    "coerenza": "ok (allineato AZIONI-IN-ATTESA #16/#20-22, intenzioni-nicola, cantiere)",
+    "semaforo": "ok (nessuna 🔴 nuova oltre la decisione binaria #16 e R1 già in coda)",
     "qualita": "ok",
-    "benchmark": "n/a"
+    "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
   },
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Hai inviato WhatsApp #20? Buyer ha risposto?",
-      "perche_serve": "ok 16 approvato 08:38 — stallo 191,9h, DB ancora NEW/PENDING. Finestra pranzo ~90 min.",
-      "se_rispondi": "Prosegui #21–#22 → scrivi «consegna fatta».",
+      "domanda": "Eseguo #16 stasera (cena 18–20) o archivio l'ordine zombie?",
+      "perche_serve": "ok 16 firmato 08:38 ma non eseguito in ~8h; pranzo perso; stallo ~198,5h. Serve una scelta, non un altro sollecito.",
+      "se_rispondi": "Esegui #20→#22 → «consegna fatta»; oppure «archivia zombie» → focus payout-test 3/7 + batch 6/7.",
       "gravita": "alta"
     },
     {
-      "domanda": "SQL 107: incolla DROP policy → «fatto sql 107»",
-      "perche_serve": "Unico bloccante RLS post-Sprint 1 LIVE.",
-      "se_rispondi": "AD verifica RLS + smoke checkout per batch 6/7.",
+      "domanda": "Puoi revocare il PAT GitHub (R1 · AR-004)?",
+      "perche_serve": "Il token è già nella storia git: rimuovere il file non basta, solo la revoca chiude il buco.",
+      "se_rispondi": "Genera nuovo PAT solo nel .env VPS; il buco è chiuso.",
       "gravita": "alta"
     }
   ],
   "punti_ciechi": [
-    "Supabase MCP cieco in Cursor (REST fallback OK)",
-    "Stripe API cieco (STRIPE_SECRET_KEY assente)",
-    "PostHog non collegato",
-    "Sentry/Render 5xx non verificato",
-    "Smoke #19 browser non eseguito in questo giro"
+    "7 numeri live 16:53 non ri-pullati (MCP Supabase + comandi node gated in questa sessione) — baseline REST 10:19 portata avanti",
+    "verifica-automazione.mjs / sonda-volano.mjs non eseguibili qui (approvazione negata)",
+    "Esecuzione #16: nessun segnale «consegna fatta» nel log, ma nessuna conferma DB live",
+    "Stripe / PostHog / Resend non collegati (non_configurato)",
+    "Web live (meteo cena, status, sentiment) non ricontrollato questo passaggio"
   ],
   "miglioramenti_prossimo_giro": [
-    "Post «consegna fatta»: aggiornare 7 numeri con prima transazione",
-    "Post smoke #19: confermare 403 admin checkout in prod",
-    "Post fatto sql 107: query verifica policy DROP"
+    "Al primo giro VPS con node abilitato: ri-pullare i 7 numeri live e confermare/aggiornare la baseline",
+    "Verificare se #16 è stato eseguito o archiviato → aggiornare North Star",
+    "Se il micro-task manuale resta bloccato, proporre a Nicola una modalità di esecuzione diversa (non ripetere il sollecito identico)"
   ],
   "salute_macchina": {
-    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Status capacity incident (running OK)",
-    "supabase_memoria": "POST briefings OK ✅",
-    "automazione_vps": "tutto verde ✅ (verifica 10:19)",
-    "stripe": "cieco (chiave assente)",
-    "posthog": "non collegato ❌",
-    "dati_freschi": true,
-    "sensori_attivi": 2
+    "supabase": "ok",
+    "supabase_marketplace": "REST ok (ledger 16:51) · MCP cieco/gated in sessione",
+    "supabase_memoria": "scrittura via git memoria-ad",
+    "automazione_vps": "non ri-verificato questo passaggio (ultimo verde 10:19; sync 16:44/16:49)",
+    "stripe": "giù",
+    "posthog": "non collegato",
+    "dati_freschi": false,
+    "sensori_attivi": 1
   }
 }

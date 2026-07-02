@@ -452,3 +452,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 10:19 · @operations · FACCIO · **#20–#22 pendenti** — ok 16 approvato 08:38 ma WhatsApp non ancora inviato (DB invariato)
 - 2026-07-02 10:19 · @qa · FACCIO · Smoke post-#19 — Render LIVE da ~1h40 · checklist `consegne/qa/2026-07-02-smoke-ruoli-acquisto-post-19.md`
 - 2026-07-02 10:19 · @AD · SERVE · Nicola: **tap WhatsApp #20 ORA** (pranzo 12:00–13:30) · SQL 107 · «consegna fatta» post-#22
+
+### 2026-07-02 — Giro AD (16:53)
+- 2026-07-02 16:53 · @operations · FATTO · **Finestra pranzo (12:00–13:30) PERSA** — ok 16 firmato 08:38 ma #20–#22 mai eseguiti in ~8h; stallo ~198,5h (calcolo da ancora ordine 24/6)
+- 2026-07-02 16:53 · @analista · FATTO · 7 numeri = baseline REST 10:19 portata avanti (MCP/node gated in sessione, non ri-pullati live — vedi Gap); nessun numero inventato
+- 2026-07-02 16:53 · @AD · FATTO · Briefing (passaggio 16:53 in cima) + STATO + ultimo-briefing.json + auto-coscienza aggiornati
+- 2026-07-02 16:53 · @AD · SERVE · Nicola: **decisione binaria #16** — esegui stasera (cena 18–20 → «consegna fatta») **oppure** «archivia zombie» → focus payout-test 3/7 + batch 6/7
+- 2026-07-02 16:53 · @security · SERVE · Nicola: **R1 revoca PAT GitHub** (AR-004) — buco ancora in storia git
