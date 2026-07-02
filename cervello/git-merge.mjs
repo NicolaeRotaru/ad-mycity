@@ -9,7 +9,13 @@
 //
 // LIVE: AZIONI_LIVE=1 (o "on") — altrimenti dry-run come esegui-azione.mjs.
 
-import { getPullRequest, githubRequest, resolveRepoConfig } from "./git-github.mjs";
+import {
+  getPullRequest,
+  githubRequest,
+  nowPiacenza,
+  resolveRepoConfig,
+  stampSegnale,
+} from "./git-github.mjs";
 
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 
@@ -127,6 +133,8 @@ async function main() {
     console.log("→ Render deployerà il sito al merge su main.");
   }
 
+  await stampSegnale("merge", "ok", `PR #${prNum} ${cfg.slug} → ${pr.base.ref} (${result.sha.slice(0, 7)}) · ${nowPiacenza()}`);
+
   console.log(
     JSON.stringify(
       {
@@ -143,7 +151,8 @@ async function main() {
   );
 }
 
-main().catch((e) => {
+main().catch(async (e) => {
   console.error("ERRORE:", e.message || e);
+  await stampSegnale("merge", "errore", `${(e.message || e).toString().slice(0, 200)} · ${nowPiacenza()}`);
   process.exit(1);
 });
