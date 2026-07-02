@@ -133,6 +133,15 @@ if [ ! -s "$SCRIPT_DIR/giro.md" ]; then
   echo "[$(ts)] ERRORE: cervello/giro.md non trovato/vuoto dopo l'allineamento; giro saltato." >&2
   exit 1
 fi
+
+# Passi deterministici PRIMA del motore AI: sensori (retry REST + contatore cecità) e sonda volano.
+if command -v node >/dev/null 2>&1; then
+  echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
+  node "$SCRIPT_DIR/verifica-sensori.mjs" --json 2>/dev/null | tail -5 || true
+  echo "[$(ts)] Sonda volano (4 invarianti)..."
+  node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>/dev/null | tail -8 || true
+fi
+
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
 
 ## Compito
