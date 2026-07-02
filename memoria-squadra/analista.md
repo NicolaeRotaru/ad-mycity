@@ -8,7 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-01 14:19 · Giro AD: 7 numeri = vs 12:18, stallo 171,8h (+2,0h), **168h +3,8h oltre**, carrelli 4 reali = · snapshot `consegne/analista/2026-07-01-kpi-live-1419.md` · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo
+- 2026-07-02 08:36 · Giro AD: 7 numeri = vs 08:20, stallo 190,1h (+0,2h), **168h +22,1h oltre** · snapshot `consegne/analista/2026-07-02-kpi-live-0836.md` · automazione verde · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo
 - 2026-07-01 12:18 · Giro AD: 7 numeri = vs 11:52, stallo 169,8h (+0,4h), **168h +1,8h oltre**, carrelli 4 = · snapshot `consegne/analista/2026-07-01-kpi-live-1218.md` · temporali 15-16 imminenti · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo #temporali
 - 2026-07-01 11:52 · Giro AD: 7 numeri = vs 08:17, stallo 169,4h (+3,6h), **168h SUPERATA ~10:30**, carrelli 4 = · snapshot `consegne/analista/2026-07-01-kpi-live-1152.md` · Sprint 1 LIVE ▲ · Scelta A firmata · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo #post-168h
 - 2026-07-01 08:17 · Giro AD: 7 numeri = vs 06:18, stallo 165,8h (+2h), soglia 168h ~2,2h (~10:30), carrelli 4 = · snapshot `consegne/analista/2026-07-01-kpi-live-0817.md` · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo contare **1 negozio REALE** (Pane Quotidiano), **0 payout reali** — Casa Linda esclusa (demo/seed) · lezione: i 7 numeri «negozi approvati» devono filtrare demo prima di escalation/proposte · fonte: chat Nicola + live REST · #analista #kpi #verita
