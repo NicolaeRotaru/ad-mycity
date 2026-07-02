@@ -9,16 +9,10 @@
 Thumbs.db
 desktop.ini
 
-# Segreti (mai committare): i .env reali del VPS e del pannello.
-# Copre TUTTE le varianti (.env, .env.local, .env.save, .env.bak, .env.prod…) e i backup *.save,
-# tenendo però tracciati SOLO i template *.example (che NON devono mai contenere valori reali).
-# (Difetto AR-004: un cervello/vps/.env.save con un token reale era sfuggito alla vecchia regola
-#  che ignorava solo il nome esatto `.env`.)
+# Segreti (mai committare): i .env reali del VPS e del pannello
 .env
-.env.*
-!.env.example
-!**/.env.example
-*.save
+.env.local
+cervello/vps/.env
 
 # Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
 # `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.
