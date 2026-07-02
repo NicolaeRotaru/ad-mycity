@@ -146,18 +146,18 @@
   "proposte_nuovi_pezzi": [],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-02 12:20",
+    "data": "2026-07-02 14:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 107,
-    "ore_da_ultimo_briefing": 2,
-    "max_giri_ciechi_sensori": 6,
+    "ore_da_ultima_completa": 109,
+    "ore_da_ultimo_briefing": 4,
+    "max_giri_ciechi_sensori": 7,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "verdetto": "attenzione",
-    "nota": "loop ok · briefing 2h fa · cecità sensori 6 giri"
+    "nota": "loop ok · briefing 4h fa · cecità sensori 7 giri"
   },
   "meta": {
     "agenti_totali": 42,
@@ -166,6 +166,6 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-02 12:20"
+    "aggiornato": "2026-07-02 14:20"
   }
 }
