@@ -10,6 +10,8 @@ e firma le decisioni importanti.
   - `.claude/agents/` — i 40 senior (vendite, marketing, finanza, tech…).
   - `MyCity-Vault/` — la memoria (strategia, mercato, numeri, e `90-Memoria-AI/`: STATO, DECISIONI, AZIONI-IN-ATTESA, SALA-OPERATIVA, Briefing).
   - `cervello/` — gli script che lo fanno girare (giro, worker, esegui-azione, marketplace).
+    Per analizzare il codice del sito, l'AD collega il repo del marketplace (`NicolaeRotaru/mycity`)
+    con `node cervello/collega-marketplace.mjs` (copia locale in sola lettura, cartella `marketplace/`).
   - `consegne/` · `creativi/` · `memoria-squadra/` — lavori finiti, grafiche, quaderni di memoria.
 - 🖥️ **Il Pannello di Controllo** — `pannello/`: app **Next.js** (deploy su Vercel) dove Nicola
   vede tutto a colpo d'occhio (azioni da approvare, attività e briefing, stato e numeri, piani)

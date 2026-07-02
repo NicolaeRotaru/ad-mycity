@@ -1,7 +1,11 @@
 # 🖥️ Modo C — Il cervello MyCity sempre acceso su un VPS Linux
 
-> Fa girare l'AD **24/7** (giro ogni 2 ore + worker delle approvazioni) **senza dipendere dal tuo PC**.
-> Usa il tuo **piano Max** (login interattivo una volta), non le API a pagamento.
+> **Chat o briefing fermi?** Leggi prima [`CHECKLIST-VIVO.md`](CHECKLIST-VIVO.md) (guida unica, 5 min).
+
+> Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
+> Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
+> Il **motore AI** è **Cursor** di default (CLI `agent`, col tuo abbonamento Cursor); in alternativa
+> Claude Code (`claude`, piano Max). Lo scegli con `CERVELLO_MOTORE` nel `.env`.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
 > ## ⚠️ LEGGI QUESTO PRIMA
@@ -12,7 +16,8 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Il tuo account **Claude Max** (per fare `claude login`).
+- Una **chiave API Cursor** (`CURSOR_API_KEY`): la crei su [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys**.
+  *(In alternativa, col motore Claude, il tuo account **Claude Max** per fare `claude login`.)*
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
@@ -54,32 +59,57 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il piano Max** (login interattivo, una volta sola):
+**2. Collega il motore AI.** Con il motore **Cursor** (default) NON serve un login interattivo:
+basta mettere `CURSOR_API_KEY` nel `.env` (passo 3). Se preferisci il login interattivo una volta:
 ```bash
-sudo -u mycity -H claude login
+sudo -u mycity -H agent login        # motore Cursor (alternativa alla CURSOR_API_KEY)
+# sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
 ```
-Apri l'URL mostrato, autorizza, incolla il codice.
 
 **3. Inserisci i segreti:**
 ```bash
 sudo -u mycity nano /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-Compila `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
+Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
 
 **4. Accendi tutto:**
 ```bash
-sudo systemctl start mycity-worker.service     # worker sempre attivo (le approvazioni)
-sudo systemctl start mycity-giro.timer         # giro automatico ogni 2 ore
-sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornaliero 06:30)
-sudo systemctl start mycity-giro.service        # prova subito un giro adesso
-sudo systemctl start mycity-monitora.service    # prova subito un monitoraggio web
+sudo systemctl start mycity-worker.service     # worker sempre attivo (chat pannello + approvazioni)
+# sudo systemctl start mycity-giro.timer       # ⛔ DISATTIVATO: giro automatico (auto-analisi)
+sudo systemctl start mycity-monitora.timer     # monitoraggio web continuo (Ondata 3, giornale 06:30)
+# Battito quotidiano (piano mattino 08:00, report sera 20:00, review ven 18:00 — fuso Piacenza):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
+# Per un giro manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
+# Per un ritmo manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
 ```
+
+## ▶️ Far partire il giro + auto-analisi ADESSO (dopo aver committato cose nuove)
+Quando hai appena pushato funzionalità nuove su `main` e vuoi vedere subito cosa tira fuori l'AD:
+```bash
+# Scorciatoia (sincronizza il codice nuovo da main + giro + auto-analisi, con log in diretta):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
+```
+Oppure i due comandi a mano (equivalenti):
+```bash
+sudo systemctl start --no-block mycity-giro.service   # parte il giro adesso
+sudo journalctl -u mycity-giro -f                     # log in diretta (Ctrl-C per uscire)
+```
+Non serve `git pull` a mano: **il primo passo del giro allinea da solo il codice a `origin/main`**
+(pannello, cervello, agenti) — i tuoi merge di **codice** entrano lì — lasciando intatto il vault. Al termine trovi
+il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo
+`memoria-ad` → **visibili subito nel Pannello** (che legge quel ramo via GitHub, senza merge su main).
+
+> **Due rami, due compiti:** `memoria-ad` = memoria viva (giro, briefing, STATO) · `main` = codice.
+> Il Pannello legge `memoria-ad`. Mergiare `memoria-ad → main` **non** è necessario per vedere i giri.
+
+> Se hai cambiato i **file delle unit systemd** (`mycity-*.service`/`.timer`), ricopiali e ricarica prima:
+> `sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload`
 
 ## Verifica che funzioni
 ```bash
 systemctl status mycity-worker --no-pager           # deve essere: active (running)
-systemctl list-timers | grep mycity                 # mostra il prossimo giro (ogni 2h)
-journalctl -u mycity-giro -n 40 --no-pager          # log dell'ultimo giro
+systemctl list-timers | grep mycity                 # mostra i timer attivi (monitora; giro disattivato)
+journalctl -u mycity-worker -n 40 --no-pager        # log del worker (chat pannello)
 ```
 Se tutto va: dopo il giro compare un nuovo file in `MyCity-Vault/90-Memoria-AI/Briefing/` e, se il
 push è configurato, lo vedi anche nel **Pannello** (Attività & briefing / Cosa ho scoperto).
@@ -89,6 +119,9 @@ Premendo **Approva** nel Pannello, entro ~30s il worker esegue e la riga in `AZI
 ```bash
 # Fermare tutto
 sudo systemctl stop mycity-worker mycity-giro.timer mycity-monitora.timer
+sudo systemctl stop mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+# Ritmo manuale (mattino | sera | settimana):
+sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
 # Cambiare l'orario del monitoraggio: modifica OnCalendar in mycity-monitora.timer, poi ricopia + daemon-reload.
 # Cambiare la frequenza del giro: modifica OnUnitActiveSec in mycity-giro.timer, poi:
 sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system/ && sudo systemctl daemon-reload
@@ -96,8 +129,8 @@ sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-giro.timer /etc/systemd/system
 ```
 
 ## ⚠️ Note oneste
-- **Limiti del Max:** il Max ha tetti d'uso che si resettano ogni poche ore. Giro ogni 2h + worker
-  on-demand stanno larghi. Se l'uso è troppo, alza l'intervallo del giro (es. 3-4h).
+- **Limiti dell'abbonamento:** sia Cursor sia Claude Max hanno tetti d'uso che si resettano ogni poche
+  ore. Col solo worker (senza giro automatico) l'uso è minimo — i token si consumano solo quando chatti dal pannello.
 - **Costo:** il VPS sempre acceso ha il suo costo mensile (quello che già paghi).
 - **Sicurezza:** il `.env` ha permessi `600` e non va committato. Le azioni 🔴 (soldi/messaggi reali)
   partono **solo** quando le approvi dal Pannello (`AZIONI_LIVE=0` di default).

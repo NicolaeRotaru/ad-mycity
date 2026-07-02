@@ -1,0 +1,122 @@
+{
+  "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-30 11:45",
+  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno (Casa Linda, Pane Quotidiano) NON sono state riverificate oggi: 'ultima_verifica' resta al 29/6 (baseline valida, non spacciata per fresca). Aggiunte 2 entità esterne verificate live oggi: svolta meteo 30/6 e dettaglio Venerdì Piacentini 3/7.",
+  "entita": [
+    {
+      "nome": "DB Memoria (progetto Supabase ad-mycity)",
+      "tipo": "infrastruttura",
+      "stato": "confermato",
+      "fonte": "Supabase MCP → list_projects + list_tables (xjljcsorpbqwttrejqte)",
+      "confidenza": 1.0,
+      "evidenze": [
+        "Progetto Supabase reale e separato dal marketplace: ref xjljcsorpbqwttrejqte, org xwbccbdkgcmdudcuxwdc, ACTIVE_HEALTHY, creato 2026-06-28 (verificato live).",
+        "Schema applicato e verificato: 5 tabelle (briefings, diario, lavori, conversazioni, impostazioni), RLS attiva su tutte, advisor = solo INFO atteso.",
+        "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e)."
+      ],
+      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Nicola",
+      "tipo": "persona",
+      "stato": "confermato",
+      "fonte": "CLAUDE.md",
+      "confidenza": 1.0,
+      "evidenze": [],
+      "note": "Proprietario di MyCity, decisore finale (firma 🔴).",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Casa Linda",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.95,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
+        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
+      ],
+      "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Pane Quotidiano",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
+      "confidenza": 0.9,
+      "evidenze": [
+        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
+        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
+        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 5 giorni — ordine zombie)."
+      ],
+      "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Antica Salumeria Garetti",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.78,
+      "fonte_ragionamento": "consegne/intelligence/campo-aperto-faro.md (@intelligence) → consegne/vendite/pitch-garetti.md",
+      "evidenze": [
+        "Campo aperto: Glovo a Piacenza copre ~3 supermercati e ZERO botteghe artigianali — lo spazio delivery delle botteghe DOP è vuoto.",
+        "Garetti è nell'Albo Botteghe Storiche del Comune di Piacenza (>50 anni) — fatto pubblico verificabile.",
+        "Vende i 3 DOP Piacentini (Coppa, Pancetta, Salame): il prodotto-faro che differenzia MyCity dalla GDO.",
+        "Piazza Duomo 44: posizione di passaggio nel centro storico (match col profilo 'negozio-faro')."
+      ],
+      "note": "Scelta ragionata come negozio-faro: fondata su gap di mercato + fatti pubblici, NON su dati interni. È un PROSPECT (0 ordini, non nel DB). Le azioni 🔴 collegate restano da firmare nel normale flusso. Confermato assente dal DB anche al 29/6.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Ex Scuderie — 3 spazi food premium",
+      "tipo": "infrastruttura",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.65,
+      "fonte_ragionamento": "WebSearch @intelligence giro 29/6 → PiacenzaSera (https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/)",
+      "evidenze": [
+        "Il Comune ha approvato il regolamento per 3 spazi commerciali alimentari (gastronomia, panetteria, ortofrutta) nelle Ex Scuderie in centro.",
+        "Fonte: PiacenzaSera, giugno 2026.",
+        "Data di apertura NON nota: sono in fase di regolamento, non ancora operativi."
+      ],
+      "note": "Pipeline futura: quando aprono saranno 3 partner naturali per MyCity (food premium in centro). Per ora solo da monitorare, non azionabile. Confidenza 65% perché manca la data di apertura.",
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Svolta meteo 30/6 (fine caldo, pioggia)",
+      "tipo": "evento-esterno",
+      "stato": "confermato",
+      "fonte": "WebSearch @intelligence giro 30/6",
+      "confidenza": 0.9,
+      "evidenze": [
+        "Mar 30/6: acquazzoni e schiarite, prob. 90% (~2,2 mm), max ~34°C (TempoItalia, MeteoLive).",
+        "Mer 1/7: piovaschi prob. 90% (~4,5 mm), ~34°C; poi gio 2/7 asciutto ~31°C (iLMeteo, TempoItalia).",
+        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata."
+      ],
+      "note": "Fine della fase di caldo estremo (37-39°C). Il fattore-guida del delivery passa da caldo (meteo-02) a pioggia (meteo-01, peso 4).",
+      "ultima_verifica": "2026-06-30 11:45"
+    },
+    {
+      "nome": "Venerdì Piacentini 3/7 (49 eventi)",
+      "tipo": "evento-esterno",
+      "stato": "confermato",
+      "fonte": "Programma ufficiale venerdipiacentini.it (PDF) + IlPiacenza",
+      "confidenza": 0.95,
+      "evidenze": [
+        "Venerdì 3/7 = 49 eventi (programma ufficiale): ICW Wrestling Piazza Cavalli 22:00, Tu Si Que Avis Piazza Duomo 22:00, Modoolo Square clubbing.",
+        "Mostra XNL 'Oltre le Nuvole' aperta 19-23 (5€) il 3/7 (XNL Piacenza).",
+        "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
+      ],
+      "note": "Con la sera fresca (svolta meteo), il presidio offline QR diventa comodo. Rafforza le azioni in coda #7 e #11.",
+      "ultima_verifica": "2026-06-30 11:45"
+    }
+  ],
+  "numeri_da_non_inventare": {
+    "_regola": "Nessuna cifra (ordini, incassi, clienti, follower, %, ROAS, prezzi) come FATTO senza fonte ammessa. Senza fonte → 'stima' dichiarata o nei Gap.",
+    "fonti_ammesse": ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola"]
+  }
+}

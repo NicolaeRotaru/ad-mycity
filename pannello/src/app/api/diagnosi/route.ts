@@ -3,7 +3,9 @@ import { memoryConnected, getImpostazione } from "@/lib/store";
 import { marketplaceDbConnected } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 import { getBudget } from "@/lib/ai-budget";
-import { readVaultFile } from "@/lib/vault";
+import { vaultGithubInfo } from "@/lib/obsidian";
+import { marketplaceGithubInfo, testMarketplaceGithub } from "@/lib/github";
+import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,67 +18,105 @@ export const revalidate = 0;
 type Stato = "verde" | "giallo" | "rosso";
 type Check = { nome: string; stato: Stato; dettaglio: string };
 
-// Ore trascorse da una data ("AAAA-MM-GG HH:MM" o ISO). null se non parsabile.
-function oreDa(s: string | null | undefined): number | null {
-  if (!s) return null;
-  const iso = s.includes("T") ? s : s.trim().replace(" ", "T");
-  const t = new Date(iso).getTime();
-  if (isNaN(t)) return null;
-  return (Date.now() - t) / 3600000;
-}
-function eta(ore: number | null): string {
-  if (ore == null) return "mai";
-  if (ore < 1) return `${Math.round(ore * 60)} min fa`;
-  if (ore < 48) return `${Math.round(ore)} h fa`;
-  return `${Math.round(ore / 24)} giorni fa`;
-}
-
 export async function GET() {
   const checks: Check[] = [];
+  const segnali = await raccogliSegnaliBattito();
 
-  // 1) Memoria collegata (senza, i giri non si salvano).
+  // 1) Vault GitHub: da QUI il Pannello legge briefing/STATO/AZIONI (ramo memoria-ad).
+  //    Non serve merge su main: OBSIDIAN_BRANCH deve combaciare col GIT_BRANCH del giro.
+  const vault = vaultGithubInfo();
+  checks.push({
+    nome: "Vault GitHub (Pannello)",
+    stato: vault.collegato ? "verde" : "rosso",
+    dettaglio: vault.collegato
+      ? `legge ramo «${vault.ramo}» in tempo reale — merge su main NON necessario`
+      : "manca OBSIDIAN_* su Vercel: briefing e STATO non compaiono (anche se il giro gira)",
+  });
+
+  // 2) Memoria Supabase (coda lavori, briefings digest, impostazioni).
   const mem = memoryConnected();
-  checks.push({ nome: "Memoria collegata", stato: mem ? "verde" : "rosso", dettaglio: mem ? "il vault risponde" : "manca SUPABASE_URL + SERVICE_KEY: i giri non si salvano" });
+  checks.push({ nome: "Memoria Supabase", stato: mem ? "verde" : "rosso", dettaglio: mem ? "coda lavori e impostazioni attive" : "manca SUPABASE_URL + SERVICE_KEY: chat/giri non si accodano" });
 
-  // 2) DB marketplace (i numeri reali).
+  // 3) DB marketplace (i numeri reali).
   const db = marketplaceDbConnected();
   checks.push({ nome: "Dati marketplace", stato: db ? "verde" : "giallo", dettaglio: db ? "ordini/clienti leggibili" : "manca MARKETPLACE_SUPABASE_*: numeri non disponibili" });
 
-  // 3) Traffico (PostHog).
+  // 3b) Codice marketplace via GitHub (analisi/audit del sito mycity).
+  const mktGh = marketplaceGithubInfo();
+  const mktTest = mktGh.collegato ? await testMarketplaceGithub() : null;
+  checks.push({
+    nome: "Codice marketplace (GitHub)",
+    stato: !mktGh.collegato ? "giallo" : mktTest?.ok ? "verde" : "rosso",
+    dettaglio: mktTest?.dettaglio ?? "manca GITHUB_TOKEN + GITHUB_OWNER + GITHUB_REPO: radiografia/audit codice non disponibile",
+  });
+
+  // 4) Traffico (PostHog).
   const ph = await getPostHog().catch(() => ({ connected: false }) as any);
   checks.push({ nome: "Traffico (PostHog)", stato: ph?.connected ? "verde" : "giallo", dettaglio: ph?.connected ? "visite tracciate" : "non collegato: niente funnel/conversione" });
 
-  // 4) Ultimo briefing: fresco se < 24h.
-  let dataBriefing: string | null = null;
-  const raw = await readVaultFile("90-Memoria-AI/ultimo-briefing.json").catch(() => null);
-  if (raw) {
-    try {
-      dataBriefing = JSON.parse(raw)?.data ?? null;
-    } catch {
-      /* json rotto: lo segnaliamo come assente */
-    }
-  }
-  const oreBrief = oreDa(dataBriefing);
+  // 5) Ultimo briefing: fresco se < 24h (fuso Piacenza corretto).
+  const dataBriefing = segnali.ultimoGiro?.quando ?? null;
+  const oreBrief = oreDaQuando(dataBriefing);
   checks.push({
     nome: "Ultimo giro (briefing)",
     stato: oreBrief == null ? "rosso" : oreBrief <= 24 ? "verde" : oreBrief <= 72 ? "giallo" : "rosso",
-    dettaglio: oreBrief == null ? "nessun briefing salvato: lancia un giro" : `aggiornato ${eta(oreBrief)}`,
+    dettaglio: oreBrief == null ? "nessun briefing salvato: lancia un giro" : `aggiornato ${etaOre(oreBrief)}`,
   });
 
-  // 5) Ultimo battito del cuore (cron/worker).
-  const battito = await getImpostazione("cuore:ultimo").catch(() => null);
-  const oreBatt = oreDa(battito);
+  // 6) Autopilota Vercel (cron giornaliero — NON è l'ultimo giro AD sul VPS).
+  const oreBatt = oreDaQuando(segnali.autopilotaCron?.quando);
   checks.push({
-    nome: "Battito (cron)",
+    nome: "Autopilota (cron Vercel)",
     stato: oreBatt == null ? "giallo" : oreBatt <= 26 ? "verde" : oreBatt <= 72 ? "giallo" : "rosso",
-    dettaglio: oreBatt == null ? "nessun battito registrato: il cron non ha ancora girato" : `ultimo ${eta(oreBatt)}`,
+    dettaglio:
+      oreBatt == null
+        ? "nessun battito autopilota: cron /api/heartbeat non ha ancora girato"
+        : `ultimo ${etaOre(oreBatt)}${segnali.ultimoGiro ? " — il giro AD è separato (riga sopra)" : ""}`,
   });
 
-  // 6) Autopilota (informativo).
+  // 6b) Worker VPS (coda chat/lavori): senza di lui i messaggi restano «in attesa» per sempre.
+  const oreWorker = oreDaQuando(segnali.worker?.quando);
+  checks.push({
+    nome: "Worker chat (VPS)",
+    stato: oreWorker == null ? "rosso" : oreWorker <= 0.1 ? "verde" : oreWorker <= 1 ? "giallo" : "rosso",
+    dettaglio:
+      oreWorker == null
+        ? "mai partito: avvia systemctl start mycity-worker sul VPS"
+        : oreWorker <= 0.1
+          ? `vivo · battito ${etaOre(oreWorker)}`
+          : `spento da ${etaOre(oreWorker)} — i lavori in coda non partono`,
+  });
+
+  // 6c) Ultimo push memoria-ad su GitHub (il Pannello legge quel ramo, non main).
+  const orePush = oreDaQuando(segnali.pushMemoria?.quando);
+  checks.push({
+    nome: "Push memoria-ad (GitHub)",
+    stato: orePush == null ? "giallo" : orePush <= 6 ? "verde" : orePush <= 48 ? "giallo" : "rosso",
+    dettaglio:
+      orePush == null
+        ? "nessun push registrato: sul VPS esegui aggiorna-cervello.sh e verifica GIT_PUSH_TOKEN"
+        : `ultimo push ${etaOre(orePush)} — merge su main NON necessario per il Pannello`,
+  });
+
+  // 6d) Pipeline worker sul VPS: legacy = TL;DR in chat ma memoria-ad ferma.
+  const pipeline = await getImpostazione("worker:pipeline").catch(() => null);
+  const codiceRev = await getImpostazione("worker:codice_rev").catch(() => null);
+  const legacy = pipeline === "legacy-agent-direct";
+  checks.push({
+    nome: "Pipeline giro (VPS)",
+    stato: !pipeline ? "giallo" : legacy ? "rosso" : "verde",
+    dettaglio: !pipeline
+      ? "sconosciuta: riavvia il worker (aggiorna-cervello.sh)"
+      : legacy
+        ? "VECCHIA — esegui sudo bash cervello/vps/aggiorna-cervello.sh sul VPS"
+        : `attiva (${pipeline}${codiceRev ? ` · rev ${codiceRev}` : ""})`,
+  });
+
+  // 7) Autopilota (informativo).
   const auto = (await getImpostazione("autopilota").catch(() => null)) === "on";
   checks.push({ nome: "Autopilota", stato: auto ? "verde" : "giallo", dettaglio: auto ? "le azioni 🟢 partono da sole" : "spento: le 🟢 restano in coda" });
 
-  // 7) Budget AI: giallo oltre l'80%, rosso a saturazione.
+  // 8) Budget AI: giallo oltre l'80%, rosso a saturazione.
   const budget = await getBudget().catch(() => null);
   if (budget) {
     const quota = budget.tetto > 0 ? budget.speso / budget.tetto : 0;

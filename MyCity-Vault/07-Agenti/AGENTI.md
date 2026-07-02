@@ -87,16 +87,6 @@ Ogni senior ha la "Carta del Dipendente" nel suo file `.claude/agents/`. La fann
 - `cervello/sentinelle.md` — i trigger dell'iniziativa · `cervello/ritmo.md` — il battito (mattino/sera/settimana)
 - [[PLAYBOOK-ECCEZIONI]] — cosa fare quando va storto · [[RUBRICA-QUALITA]] — come si misura "fatto bene"
 
-## 🏔️ Programma "SENIOR AL TOP" — pari ai pro delle multinazionali (obiettivo di Nicola, lungo termine)
-La Carta dà il **comportamento** (uguale per tutti); la competenza + l'anima da veterano è il pezzo che mancava.
-- [[PIANO-SENIOR-AL-TOP]] — **la visione completa e il backlog**: il modello a 5 dimensioni (Livello/Altitudine · Giudizio · Carattere · Motore · Legame), tutte le modifiche da applicare, stato e ordine di rollout. Fonte unica della verità.
-- [[STAMPO-SENIOR-PRO]] — il **template** (v3): i **7 strati** del professionista + 5 dimensioni + matrice dei **15 vettori** per archetipo + bersaglio **L7-con-giudizio**. Lo applica il `@prompt-engineer`, un senior alla volta, dai motori di soldi.
-- [[VETTORI-MULTINAZIONALE]] — i 15 vettori (8 famiglie, 7 assi nuovi) che portano al livello multinazionale.
-- [[RUBRICA-LIVELLI]] — lo **strato 7**: la scala L1-L7 con scorecard e loop chiuso (lo standard con i denti).
-- [[TASTE-FILE-NICOLA]] — il **gusto di Nicola codificato**: il metro vero contro cui i senior si auto-criticano prima di consegnare.
-- **Pilota installato:** `content-social` con kit completo (`kit/content-social-KIT.md`, strati 3-6) + bersaglio L7. Modello per gli altri.
-- **✅ Rollout COMPLETO (2026-06-27):** stampo v3 (strati 1-2) **+ kit profondi (strati 3-6)** installati su **TUTTI i 42 senior** — ognuno ha il suo `kit/<ruolo>-KIT.md` (sapere + toolkit + galleria + slot carburante), tarato per ruolo, Carta intatta, verificato da revisione indipendente. Restano: il **carburante reale** (lunedì) + il **test prima/dopo** col verdetto di Nicola per dichiarare la validazione.
-
 ## Le 3 "lenti" senior del panel (vedi [[00-Index]])
 - **Lente Amazon** → catalogo, ricerca, recensioni, logistica, retention.
 - **Lente eBay** → onboarding venditori, reputazione, listing, pagamenti, dispute.

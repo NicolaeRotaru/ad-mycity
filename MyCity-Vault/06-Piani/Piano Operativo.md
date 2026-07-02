@@ -188,3 +188,12 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 *Effetto atteso sui KPI:* primi ordini chiusi a **% OK ~100%** e **on-time ≥90%** (fiducia + passaparola), batching che porta il **CM/ordine da −€0,07 a +€3,4** già dal 2° ordine/giro, **0 excursion freddo**. La leva di crescita resta la **densità nel cluster centro**, non l'allungamento dei giri.
 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-06-30 11:45
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **🌦️ SVOLTA METEO CONFERMATA (la previsione si è avverata): il caldo è FINITO.** Live di oggi: **mar 30/6 acquazzoni prob. 90% (~2,2 mm), max ~34°C** · **mer 1/7 piovaschi prob. 90% (~4,5 mm), ~34°C** · poi clima mite (29-32°C). **Conseguenza operativa:** la regola **"no freschi 12-18" si RILASSA** (niente più picco 39°C, catena del freddo non più critica); il fattore-guida diventa la **pioggia (meteo-01, peso 4)** → leva **"piove, te la portiamo noi"** (oggi+domani = 2 giorni a domanda potenziale più alta). Nota completa in `consegne/operations/2026-06-30-svolta-meteo-pioggia.md`.
+- **☔ Piano B cargo-bike col bagnato:** quando partiranno le consegne reali, prevedere impermeabili + copri-borsa + slot leggermente allungati. Oggi nessuna consegna reale in agenda → è un pre-requisito, non un'emergenza.
+- **🎭 VENERDÌ PIACENTINI 3/7 (49 eventi) con sera fresca:** il **presidio offline QR** in centro è ora **comodo** (non più sotto i 39°C). Rafforza le azioni già in coda **#7 (kit "I TRE VENERDÌ")** e **#11 (kit QR Venerdì Piacentini)**. Eventi: wrestling ICW Piazza Cavalli 22:00, Tu Si Que Avis Piazza Duomo, Modoolo clubbing. ZTL pedonale → presidio offline, delivery vero il sabato dopo.
+- **⛔ Collo di bottiglia invariato:** tutto resta latente finché non c'è **catalogo vero + primo ordine end-to-end** (Casa Linda payout-ready) e finché Supabase non è ricollegato per misurare i numeri.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

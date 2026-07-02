@@ -1,33 +1,54 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
+import { giornoRoma, vaultToIso } from "@/lib/format";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Il "ritmo" del giorno: l'ultimo Piano del mattino e l'ultimo Report della sera,
-// dal vault (90-Memoria-AI/RITMO.md). Blocchi "## Piano del mattino · AAAA-MM-GG".
-type Voce = { data: string; testo: string };
+type Voce = { data: string; testo: string; oggi: boolean };
 
-function ultimoBlocco(md: string, etichetta: string): Voce | null {
-  // Data con ora opzionale: "AAAA-MM-GG" oppure "AAAA-MM-GG HH:MM".
-  const re = new RegExp(`^##\\s+${etichetta}\\s+·\\s+(\\d{4}-\\d{2}-\\d{2}(?:[ T]\\d{2}:\\d{2})?)\\s*$`);
+function tsVoce(s: string): number {
+  return Date.parse(vaultToIso(s.trim())) || 0;
+}
+
+function estraiData(riga: string, etichetta: string): string | null {
+  const esc = etichetta.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`^##\\s+${esc}\\s+·\\s+(\\d{4}-\\d{2}-\\d{2}(?:[ T]\\d{2}:\\d{2})?)\\s*$`);
+  const m = riga.match(re);
+  return m ? m[1].trim() : null;
+}
+
+/** Tutti i blocchi per etichetta; preferisce il più recente di OGGI (Piacenza), altrimenti l'ultimo assoluto. */
+function scegliBlocco(md: string, etichetta: string): Voce | null {
   const righe = md.split("\n");
-  let trovato: Voce | null = null;
-  let cur: Voce | null = null;
+  const blocchi: Voce[] = [];
+  let cur: { data: string; testo: string } | null = null;
+
   for (const raw of righe) {
-    const m = raw.match(re);
-    if (m) {
-      cur = { data: m[1], testo: "" };
-      trovato = cur; // l'ultimo blocco con questa etichetta vince
+    const data = estraiData(raw, etichetta);
+    if (data) {
+      if (cur) blocchi.push({ ...cur, oggi: cur.data.slice(0, 10) === giornoRoma() });
+      cur = { data, testo: "" };
       continue;
     }
-    // chiude il blocco corrente quando incontra un'altra intestazione
-    if (cur && /^##\s+/.test(raw)) cur = null;
+    if (cur && /^##\s+/.test(raw)) {
+      blocchi.push({ ...cur, oggi: cur.data.slice(0, 10) === giornoRoma() });
+      cur = null;
+      continue;
+    }
     if (cur) cur.testo += (cur.testo ? "\n" : "") + raw;
   }
-  if (trovato) trovato.testo = trovato.testo.trim();
-  return trovato;
+  if (cur) blocchi.push({ ...cur, oggi: cur.data.slice(0, 10) === giornoRoma() });
+
+  if (!blocchi.length) return null;
+  for (const b of blocchi) b.testo = b.testo.trim();
+
+  const oggi = giornoRoma();
+  const diOggi = blocchi.filter((b) => b.data.slice(0, 10) === oggi);
+  const pool = diOggi.length ? diOggi : blocchi;
+  const scelto = pool.sort((a, b) => tsVoce(b.data) - tsVoce(a.data))[0];
+  return { ...scelto, oggi: scelto.data.slice(0, 10) === oggi };
 }
 
 export async function GET() {
@@ -35,7 +56,7 @@ export async function GET() {
   if (md == null) return NextResponse.json({ collegato: false, pianoMattino: null, reportSera: null });
   return NextResponse.json({
     collegato: true,
-    pianoMattino: ultimoBlocco(md, "Piano del mattino"),
-    reportSera: ultimoBlocco(md, "Report della sera"),
+    pianoMattino: scegliBlocco(md, "Piano del mattino"),
+    reportSera: scegliBlocco(md, "Report della sera"),
   });
 }

@@ -1,0 +1,47 @@
+{
+  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-06-28 16:46",
+  "difetti": [
+    {
+      "id": "AR-001",
+      "titolo": "Sensori MCP intermittenti: la macchina lavora al buio sui dati reali",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù. (28/6: il calo era anche dovuto all'abbonamento Supabase scaduto → progetto in pausa; ora pagato e ACTIVE_HEALTHY.)",
+      "fix_proposto": "Passo di retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP. Inoltre: sentinella su stato abbonamento/progetto Supabase (pausa = cecità totale).",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nota_28_06": "RIENTRATO in questo giro (sensori tornati dopo pagamento abbonamento), ma causa radice NON risolta: resta il difetto a maggior impatto crescita. È il fix proposto come prossimo dal cantiere.",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-002",
+      "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
+      "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback, in radiografia.js e audit-design.js.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-003",
+      "titolo": "La cecità dei sensori è silenziosa: manca un sensore che la misuri",
+      "dimensione": "copertura-cieca",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Nessun pezzo della macchina tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
+      "fix_proposto": "Creare (🟡) un sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    }
+  ],
+  "meta": { "aperti": 3, "in_corso": 0, "chiusi": 0 }
+}

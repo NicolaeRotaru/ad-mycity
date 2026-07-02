@@ -1,0 +1,20 @@
+# 🛡️ Anti-blocco di memoria-ad — strategia di merge per la MEMORIA del vault.
+#
+# Contesto: il vault (memoria) vive sul ramo `memoria-ad`; `main` ospita il codice.
+# Quando si apre una PR memoria-ad → main, i file di memoria toccati da entrambi i
+# rami generavano conflitti che BLOCCAVANO la PR. Per i file di memoria APPEND-ONLY
+# (log che crescono in fondo/in cima, senza riscrivere le righe vecchie) usiamo la
+# strategia `merge=union`: git tiene le righe di ENTRAMBI i lati, senza conflitto e
+# senza perdere nulla. È sicura SOLO per file testuali a righe, NON per i JSON
+# (un union su un JSON lo romperebbe) né per gli snapshot che vanno riscritti.
+#
+# Per gli snapshot (STATO.md, *.json di auto-coscienza, ultimo-briefing.json,
+# intenzioni-nicola.json) NON si usa union: la regola che li protegge è di PROCESSO
+# (vedi cervello/giro.md → "Dove pubblicare"): i giri scrivono SOLO su memoria-ad,
+# così `main` non li modifica mai in modo indipendente e il merge resta pulito.
+
+# Log append-only della memoria: niente conflitti, nessuna riga persa.
+MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md   merge=union
+MyCity-Vault/90-Memoria-AI/DECISIONI.md        merge=union
+MyCity-Vault/90-Memoria-AI/Briefing/*.md       merge=union
+MyCity-Vault/memoria-squadra/**               merge=union

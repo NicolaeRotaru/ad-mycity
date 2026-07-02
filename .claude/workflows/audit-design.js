@@ -1,3 +1,7 @@
+import { existsSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 export const meta = {
   name: 'audit-design',
   description: 'Radiografia del design: audit UX/UI completo del marketplace MyCity (11 dimensioni che coprono i 24 punti visivi/UX), in sola lettura, ogni problema verificato',
@@ -30,7 +34,18 @@ const FINDINGS = {
   required: ['dimensione', 'findings'],
 }
 
-const REPO = 'C:\\Users\\InfinitaPossibilita\\mycity-live'
+// Percorso del codice del marketplace (repo NicolaeRotaru/mycity).
+// Ordine: MARKETPLACE_REPO (env, per VPS/CI) → copia locale <ad-repo>/marketplace creata da
+// `node cervello/collega-marketplace.mjs` → fallback al vecchio path Windows del PC di Nicola.
+// Senza un percorso valido l'audit del design non gira: collega prima il marketplace.
+function resolveMarketplaceRepo() {
+  if (process.env.MARKETPLACE_REPO) return process.env.MARKETPLACE_REPO
+  const adRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
+  const local = join(adRoot, 'marketplace')
+  if (existsSync(local)) return local
+  return 'C:\\Users\\InfinitaPossibilita\\mycity-live'
+}
+const REPO = resolveMarketplaceRepo()
 
 const DIMS = [
   { key: 'layout-responsive', focus: 'layout e responsive: elementi disallineati, overflow, spaziature incoerenti, griglie rotte, breakpoint mobile/tablet/desktop' },

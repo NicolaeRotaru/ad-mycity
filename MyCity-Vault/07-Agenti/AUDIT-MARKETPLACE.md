@@ -19,6 +19,12 @@ API/backend · endpoint AI · dati/analytics · deploy/SRE.
 2. **Verifica avversariale:** ogni problema viene ricontrollato nel codice e si tengono **solo quelli veri** (scartati i falsi positivi). In caso di dubbio, si scarta.
 3. **Report:** l'AD raccoglie tutto, toglie i duplicati, ordina per **gravità** (🔴 bloccante · 🟠 grave · 🟡 minore) e salva il report in `consegne/audit/AAAA-MM-GG-radiografia.md`, poi ti mostra in chat i **bloccanti** in cima.
 
+## Prerequisito (collega il marketplace)
+La radiografia legge il **codice vero** del marketplace (repo `NicolaeRotaru/mycity`). Va prima
+**collegato** alla macchina: `node cervello/collega-marketplace.mjs` (scarica una copia locale in
+sola lettura). Sul VPS lo fa già `cervello/vps/setup.sh`. Il workflow trova il percorso da solo
+(env `MARKETPLACE_REPO` → cartella `marketplace/`); senza la copia, l'analisi del codice non gira.
+
 ## Motore
 Workflow `radiografia` → `.claude/workflows/radiografia.js` (26 agenti: 13 revisori + 13 verificatori).
 In alternativa/complemento esiste la skill `analizza-marketplace` (panel di esperti). La radiografia è

@@ -10,6 +10,7 @@
 //   node esegui-azione.mjs email <to> "<oggetto>" "<testo>"
 //   node esegui-azione.mjs notifica <userId> "<titolo>" "<corpo>" [link]
 //   node esegui-azione.mjs n8n '<json>'        (l'hub n8n instrada a WhatsApp/social/Google/ecc.)
+//   node esegui-azione.mjs github-merge ad-mycity|mycity <prNum>   (merge PR — 🔴, AZIONI_LIVE=1)
 
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
 const RESEND_KEY = process.env.RESEND_API_KEY;
@@ -66,10 +67,30 @@ async function n8n(jsonStr) {
   console.log(r.ok ? "Azione inviata a n8n" : `Errore n8n: ${r.status} ${r.text}`);
 }
 
+async function githubMerge(repoKey, prStr) {
+  const pr = Number(prStr);
+  if (repoKey !== "ad-mycity" && repoKey !== "mycity") {
+    return console.log('Uso: github-merge ad-mycity|mycity <numeroPR>');
+  }
+  if (!Number.isFinite(pr) || pr < 1) {
+    return console.log('Uso: github-merge ad-mycity|mycity <numeroPR>');
+  }
+  const { spawnSync } = await import("node:child_process");
+  const { fileURLToPath } = await import("node:url");
+  const script = fileURLToPath(new URL("./git-merge.mjs", import.meta.url));
+  const extra = LIVE ? [] : ["--dry-run"];
+  const r = spawnSync(process.execPath, [script, "--repo", repoKey, "--pr", String(pr), ...extra], {
+    stdio: "inherit",
+    env: process.env,
+  });
+  if (r.status !== 0) process.exit(r.status ?? 1);
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 if (!cmd) stato();
 else if (cmd === "telegram") await telegram(rest[0]);
 else if (cmd === "email") await email(rest[0], rest[1] || "(senza oggetto)", rest[2] || "");
 else if (cmd === "notifica") await notifica(rest[0], rest[1] || "", rest[2] || "", rest[3]);
 else if (cmd === "n8n") await n8n(rest[0]);
-else console.log('Comando sconosciuto. Uso: (niente) | telegram | email | notifica | n8n. Vedi l\'header del file.');
+else if (cmd === "github-merge") await githubMerge(rest[0], rest[1]);
+else console.log('Comando sconosciuto. Uso: (niente) | telegram | email | notifica | n8n | github-merge. Vedi l\'header del file.');

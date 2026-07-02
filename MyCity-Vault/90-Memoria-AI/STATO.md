@@ -1,56 +1,51 @@
 ---
 tipo: stato
-aggiornato: 2026-06-26 02:30
-fonte: AD digitale (dati reali Supabase + Stripe)
+aggiornato: 2026-06-30 11:45
+fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in sessione 30/6)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> Baseline del PRIMO PASSO. Verificato sul vivo (Supabase `clmpyfvpvfjgeviworth` + Stripe reale).
-> Domani (25/6) i numeri devono iniziare a muoversi da 0.
->
-> ⚠️ **26/6 — numeri NON riverificati:** nel giro del 26/6 né il Supabase MCP né la rete in
-> uscita erano autorizzati e le chiavi `SUPABASE_URL`/`SUPABASE_SERVICE_KEY` non sono configurate.
-> I 7 numeri qui sotto restano alla **baseline 24/6**, da riverificare appena un canale dati è
-> sbloccato. Oggi (ven 26/6) è la **vigilia della prima consegna** (sab 27/6), slot ordini entro 21:00.
+> 🧠 **30/6 11:45 — STALLO A ~6 GIORNI.** Supabase non collegato in questa sessione → i 7 numeri restano
+> alla baseline verificata live il 29/6. Nessuna attività reale dal 24/6 08:28.
+> **Novità di oggi (web live): SVOLTA METEO — il caldo è finito.** Oggi 30/6 e domani 1/7 = **pioggia
+> (prob. 90%, max ~34°C)**, poi clima mite (29-32°C). Il fattore-guida passa da caldo a **pioggia** (leva
+> delivery più forte). **Venerdì Piacentini 3/7 confermato** (49 eventi) → presidio QR ora comodo (sera fresca).
+> Collo di bottiglia invariato: **prima transazione end-to-end con Casa Linda** (payout-ready) + ordine zombie €19,05.
 
-## I 7 numeri del primo passo (baseline = oggi 24/6)
-| Numero | Oggi | "Riuscito" domani | Note |
+## I 7 numeri (baseline live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth — NON riverificati il 30/6)
+| Numero | Oggi (29/6) | "Riuscito" | Note |
 |---|---|---|---|
-| Negozi LIVE nel cluster (approvato + payout + ≥1 prodotto) | **0** | ≥1 | oggi 2 approvati su 17, ma solo 1 con payout |
-| Prodotti VERI del faro pubblicati | **0** | ≥5 | (250 "available" attuali = seed/test, da ignorare) |
-| Ordini creati | **0** | ≥1 | anche l'ordine-test conta come prova pipeline |
-| Ordini pagati | **0** | 1 | |
-| Payout testato | **0** | 1 | la prova che incassa-trattiene-paga gira |
-| Nuovi clienti reali | **0** | ≥1 | |
-| Consegnato (primo sabato 27/6) | **0** | 1 (sab) | concierge a mano |
+| Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
+| Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **5 giorni** |
+| Ordini pagati | **0** | 1 | COD non incassato |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
+| Payout testato | **0** | 1 | mai eseguito |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: "samir?" il 16/6 |
 
 ## Semafori
-- 🟢 Va bene: infrastruttura pronta (Stripe attivo, onboarding/COD nel codice, catalogo tecnico ok).
-- 🟡 Da tenere d'occhio: solo 1 seller con payout attivo; catalogo "sporco" di seed; email da confermare.
-- 🔴 Problema: **chiave Stripe live o sandbox?** (da confermare stasera) · branding Stripe = "boh".
+- 🟢 Va bene: infrastruttura pronta (Stripe, COD, onboarding, 407 lead, 250 prodotti seed); DB-memoria costruito.
+- 🟡 Da tenere d'occhio: catalogo "finto" (solo seed); ordine €19,05 zombie da 5 giorni; 4 carrelli abbandonati (12-15 gg); bando ER scade 21/7.
+- 🔴 Problema: **stallo da ~125h** (0 ordini/0 eventi dal 24/6); 3 decisioni di lancio non firmate; nessun wiring Vercel.
 
 ## Ultime mosse dell'AD
-1. **Giro 26/6 — 2° passaggio** (dati ancora bloccati): consolidato le 3 decisioni 🔴 in un
-   **foglio-firma da 2 minuti** `consegne/decisioni/2026-06-26-foglio-firma-lancio.md` per
-   sbloccare la prima consegna. Vedi [[2026-06-26]].
-2. **Giro 26/6 — 1° passaggio** (vigilia prima consegna): dati-live mancanti; checklist vigilia
-   in `consegne/operations/2026-06-26-vigilia-prima-consegna.md`.
-3. **MACCHINA DI MARKETING completa**: piano editoriale 4 settimane + 7 pacchetti di contenuti/copy
-   (16 post, 7 flussi email, kit stampa, 8 reel, SEO/GBP, visivo) + **Marketing Autopilot** (scheduler
-   + 5 publisher + n8n, dry-run) + **Content Factory** che genera **contenuti grafici VERI** (post PNG
-   + reel): prodotti i contenuti S1, le **5 categorie** e i **5 "vincenti dei competitor" (W1–W5)**.
-   Vedi [[2026-06-24-piano-editoriale]].
-4. **Costruttore → DNA v1.1**: capacità di auto-marketing innestata nel genoma (riusabile da ogni
-   Organismo). Comando **"contenuti pro"** salvato nel pannello.
-5. **Giro 25/6**: 7 senior → pacchetto faro pronto (pitch, contratto, QR, payout, primo ordine).
-   Decisioni 🔴 bloccanti ancora in coda (Stripe live/sandbox, fee, commissione) — [[AZIONI-IN-ATTESA]].
+1. **Giro 30/6 11:45** — Svolta meteo confermata live (fine caldo, pioggia oggi+domani); Venerdì Piacentini 3/7 dettagliato (49 eventi). Supabase non collegato → 7 numeri = baseline 29/6. Nota operativa svolta meteo prodotta (🟢). Vedi [[2026-06-30]].
+2. **Giri 29/6 14:24 e 16:24** — 2 passaggi leggeri a sensori ridotti (Supabase/WebFetch non autorizzati): dati immobili, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Vedi [[2026-06-29]].
+3. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C.
+4. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
+5. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
+6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
 
 ## Prossime priorità (da approvare)
-- [ ] STASERA: confermare Stripe live/sandbox + sistemare branding + stampare materiali + creare form/IG.
-- [ ] DOMANI 25/6 (vedi Piano del Mattino in [[SALA-OPERATIVA]]): ① Garetti LIVE · ② accendere domanda (QR+lista+storia) · ③ ordine-test fino al payout.
-- [ ] SABATO 27/6: primo ordine reale consegnato concierge.
-- [ ] ⛔ Sbloccare: Stripe live/sandbox + firme righe 1-2 di [[AZIONI-IN-ATTESA]].
+- [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.
+- [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
+- [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (22gg alla scadenza).
+- [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
+- [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
+- [ ] 🟡 **Wiring Vercel**: env vars DB-memoria + Redeploy → spia "Memoria collegata" verde.
+- [x] ✅ Memoria costruita (28/6 20:25).
+- [x] ✅ DB marketplace ricollegato (28/6 16:46).
 
 ---
-*Scritto dall'AD. Per il dettaglio operativo vedi [[2026-06-25]]; per le decisioni [[DECISIONI]].*
+*Scritto dall'AD. Dettaglio del giro in [[2026-06-29]]; decisioni in [[DECISIONI]].*

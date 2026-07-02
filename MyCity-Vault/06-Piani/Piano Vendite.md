@@ -7,6 +7,8 @@
 
 > 🔑 **Regola d'oro vendite:** acquisizione DENSA, mai dispersa. Solo cluster centro contiguo (300-500 m). Ogni richiesta fuori cluster → **lista d'attesa per quartiere**, non si firma.
 
+> 📌 **Aggiornamento AD 2026-06-29 11:30** — Nuova leva di onboarding urgente: **Bando Commercio ER** (40% fondo perduto, scade **21/7 — 22 giorni**). Kit one-pager accodato 🟡 in [[AZIONI-IN-ATTESA]] #12 (preventivo MyCity + guida Sfinge + disclaimer). Usarlo a OGNI pitch. Formula fissa: *"ti aiuto a fare domanda, mai prometto l'esito"*. In parallelo: **Ex Scuderie** (3 spazi food premium approvati dal Comune in centro) sono pipeline futura da monitorare. Stallo a ~125h: nessun negozio nuovo, via più veloce = **forzare transazione con Casa Linda** (unico payout-ready).
+
 ---
 
 ## 1. 🎯 OBIETTIVO & MISURA

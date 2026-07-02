@@ -55,14 +55,42 @@ export function vaultToIso(s: string): string {
   return `${y}-${mo}-${d}T${hh}:${mi}:00${offsetRoma(new Date(base))}`;
 }
 
+/** Giorno calendario in Europe/Rome (AAAA-MM-GG). */
+export function giornoRoma(d: Date = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(d);
+}
+
 // Vault → "GG/MM/AAAA · HH:MM" (o solo "GG/MM/AAAA" se l'ora non c'è).
 export function dataVault(s: string): string {
   const raw = (s || "").trim();
   if (!raw) return "";
   const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
-  if (!m) return raw; // formato non riconosciuto: mostralo com'è
+  if (!m) return raw;
   const [, y, mo, d, hh, mi] = m;
   return hh != null ? `${d}/${mo}/${y} · ${hh}:${mi}` : `${d}/${mo}/${y}`;
+}
+
+/** Etichetta ritmo: oggi/ieri/data · ora — senza conversioni di fuso. */
+export function etichettaRitmo(data: string | undefined): string {
+  if (!data) return "";
+  const raw = data.trim();
+  const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if (!m) return dataVault(raw) || raw;
+  const [, y, mo, d, hh, mi] = m;
+  const giornoVoce = `${y}-${mo}-${d}`;
+  const oggi = giornoRoma();
+  const ieri = giornoRoma(new Date(Date.now() - 86_400_000));
+  const ora = hh != null ? `${hh}:${mi}` : "";
+  const dataIt = `${d}/${mo}/${y}`;
+  if (giornoVoce === oggi) return ora ? `oggi · ${ora}` : "oggi";
+  if (giornoVoce === ieri) return ora ? `ieri · ${ora}` : "ieri";
+  return ora ? `${dataIt} · ${ora}` : dataIt;
+}
+
+export function ritmoEODoggi(data: string | undefined): boolean {
+  if (!data) return false;
+  const m = data.trim().match(/^(\d{4}-\d{2}-\d{2})/);
+  return !!m && m[1] === giornoRoma();
 }
 
 // ISO reale → "GG/MM · HH:MM" in Europe/Rome (così l'ora è quella di Piacenza).
@@ -83,8 +111,34 @@ export function istante(iso: string): string {
   }
 }
 
-// "Timbro" di QUANDO un dato è apparso / è stato aggiornato nel pannello:
-// "GG/MM/AAAA · HH:MM" (Europe/Rome). Accetta ISO, millisecondi o Date.
+// Tempo relativo ("5 min fa") + orario esatto in Europe/Rome. Accetta ISO o data-vault.
+export function faRelativo(iso: string | null | undefined): string {
+  if (!iso) return "mai";
+  const d = new Date(vaultToIso(iso.trim()));
+  const ms = d.getTime();
+  if (Number.isNaN(ms)) return "mai";
+  const sec = Math.max(0, (Date.now() - ms) / 1000);
+  const rel =
+    sec < 90
+      ? "poco fa"
+      : sec < 3600
+        ? `${Math.round(sec / 60)} min fa`
+        : sec < 86400
+          ? `${Math.round(sec / 3600)} h fa`
+          : `${Math.round(sec / 86400)} g fa`;
+  try {
+    const giorno = (x: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(x);
+    const opts: Intl.DateTimeFormatOptions = { timeZone: TZ_ROMA, hour: "2-digit", minute: "2-digit" };
+    if (giorno(d) !== giorno(new Date())) {
+      opts.day = "2-digit";
+      opts.month = "2-digit";
+    }
+    return `${rel} · ${new Intl.DateTimeFormat("it-IT", opts).format(d)}`;
+  } catch {
+    return rel;
+  }
+}
+
 export function timbro(quando: string | number | Date | null | undefined): string {
   // null/undefined/0/"" = nessun valore → vuoto (evita di mostrare l'epoch 1970).
   if (quando == null || quando === 0 || quando === "") return "";
