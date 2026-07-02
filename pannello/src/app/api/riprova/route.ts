@@ -22,6 +22,14 @@ export async function POST(req: NextRequest) {
     if (vecchio.stato !== "errore") {
       return NextResponse.json({ ok: false, error: `Si può riprovare solo un lavoro in errore (stato attuale: ${vecchio.stato}).` }, { status: 400 });
     }
+    // Idempotenza: se è GIÀ stato rimesso in coda (marcato "[riproposto ...]"), non riaccodarlo di
+    // nuovo — dopo un refresh la card resta in errore e il tasto Riprova ricomparirebbe, creando doppioni.
+    if ((vecchio.risultato || "").includes("[riproposto")) {
+      return NextResponse.json(
+        { ok: false, error: "Questa azione è già stata rimessa in coda. Controlla i lavori in attesa prima di riprovare.", giaRiproposto: true },
+        { status: 409 }
+      );
+    }
 
     const nota = `RIPROVA (riapprovata da Nicola dal Pannello il ${new Date().toISOString()}). Azione originale fallita:\n\n`;
     const nuovo = await creaLavoro(nota + vecchio.richiesta, vecchio.tipo, vecchio.gruppo_id ?? null);

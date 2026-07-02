@@ -1200,10 +1200,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   };
   useEffect(() => {
+    let iniz = "plancia";
     try {
       const v = localStorage.getItem("mycity_vista");
-      if (v) applicaVistaSalvata(v);
+      if (v) {
+        applicaVistaSalvata(v);
+        iniz = v === "storico" ? "assistente" : v === "auto-coscienza" ? "cervello" : v;
+      }
     } catch {}
+    // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
+    // state=null e il tasto INDIETRO fa un clic a vuoto e poi esce dal Pannello.
+    try { window.history.replaceState({ vista: iniz }, ""); } catch {}
+    ultimaVistaStoria.current = iniz;
   }, []);
   useEffect(() => {
     if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; ultimaVistaStoria.current = vista; return; } // salta il montaggio
@@ -1216,8 +1224,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, [vista]);
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
-      const v = (e.state && (e.state as { vista?: string }).vista) || null;
-      if (!v) return;
+      // Fallback a "plancia": anche una voce senza stato (es. creata da un cambio di hash nelle
+      // aree interne) riporta a un'area valida invece di far uscire dal Pannello con un clic a vuoto.
+      const v = (e.state && (e.state as { vista?: string }).vista) || "plancia";
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
     };

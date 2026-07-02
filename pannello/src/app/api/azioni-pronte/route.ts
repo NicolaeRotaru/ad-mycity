@@ -54,6 +54,20 @@ export async function POST(req: Request) {
   if (dec !== "approva") return NextResponse.json({ ok: false, error: "Decisione non valida." }, { status: 400 });
   if (!azione) return NextResponse.json({ ok: false, error: "Azione non trovata." }, { status: 404 });
 
+  // 🔴 Idempotenza: se l'azione è GIÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
+  // NON rieseguire le "mani" — un doppio clic o una ri-approvazione dopo refresh manderebbe l'azione
+  // reale (email/payout/notifica) una seconda volta.
+  const { valori: valoriPre } = await getImpostazioni();
+  const statoPre = valoriPre[`azione:${id}`] || "";
+  if (statoPre && statoPre !== "rifiutata") {
+    return NextResponse.json({
+      ok: true,
+      stato: statoDa(statoPre),
+      esito: valoriPre[`azione:${id}:nota`] || "",
+      giaFatta: true,
+    });
+  }
+
   const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
   const salv = (await setImpostazione(`azione:${id}`, esito.stato)) && (await setImpostazione(`azione:${id}:nota`, esito.dettaglio));
   await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
