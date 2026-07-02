@@ -91,19 +91,50 @@
       "ambito": "Gestione autonoma dell'azienda con agenti AI",
       "come_fanno_i_migliori": "Loop chiuso su telemetria reale: ogni giro legge DB/pagamenti/analytics, agisce via API approvate, misura esito vs previsione, aggiorna memoria e audit di sé. Riferimenti pubblici: LangSmith (trace→eval→deploy agenti), Cognition Devin (benchmark SWE su repo reali), Shopify Sidekick (KPI negozio live + azioni in dashboard).",
       "esempi": [
-        { "chi": "LangSmith (LangChain)", "cosa": "Traccia ogni run agente, confronta output vs golden set, blocca regressioni prima del deploy.", "link": "https://docs.smith.langchain.com/" },
-        { "chi": "Cognition Devin", "cosa": "Agente che lavora su repo Git reali con eval automatiche (SWE-bench) — misura capacità, non solo prompt.", "link": "https://www.cognition.ai/blog/introducing-devin" },
-        { "chi": "Shopify Sidekick", "cosa": "Legge KPI vendita live del merchant e propone azioni in-product (prezzi, stock, campagne) misurate su conversione.", "link": "https://www.shopify.com/news/shopify-sidekick" }
+        {
+          "chi": "LangSmith (LangChain)",
+          "cosa": "Traccia ogni run agente, confronta output vs golden set, blocca regressioni prima del deploy.",
+          "link": "https://docs.smith.langchain.com/"
+        },
+        {
+          "chi": "Cognition Devin",
+          "cosa": "Agente che lavora su repo Git reali con eval automatiche (SWE-bench) — misura capacità, non solo prompt.",
+          "link": "https://www.cognition.ai/blog/introducing-devin"
+        },
+        {
+          "chi": "Shopify Sidekick",
+          "cosa": "Legge KPI vendita live del merchant e propone azioni in-product (prezzi, stock, campagne) misurate su conversione.",
+          "link": "https://www.shopify.com/news/shopify-sidekick"
+        }
       ],
       "nostro_divario": "alto",
       "obiettivo": "Chiudere il volano sui dati reali (non solo sui prompt) appena gli MCP sono stabili.",
       "primo_passo": "Sbloccare sensori MCP (token Supabase) + primo ordine consegnato (#16) per far partire calibrazione reparto oltre @AD.",
       "nostro_oggi": {
         "fonte": "auto-coscienza + STATO 2026-07-01 18:18",
-        "loop_architettura": { "loop_chiude": true, "tasso_applicazione_lezioni": 0.70, "voto_salute": 76, "lezioni_attive": 50, "trend_salute": "72→76 dal 28/6" },
-        "loop_business": { "ordini_consegnati": 0, "ordini_pagati": 0, "calibrazione_reparti": 1, "reparto_calibrato": "@AD (14/14 previsioni confermate via REST)" },
-        "sensori": { "REST_marketplace": "ok", "MCP_Supabase_Cursor": "cieco", "MCP_Stripe": "assente", "PostHog": "assente" },
-        "loop_agire": { "azioni_approvate_non_inviate": "~20", "mani_LIVE": "spente (AZIONI_LIVE=0)" }
+        "loop_architettura": {
+          "loop_chiude": true,
+          "tasso_applicazione_lezioni": 0.7,
+          "voto_salute": 76,
+          "lezioni_attive": 50,
+          "trend_salute": "72→76 dal 28/6"
+        },
+        "loop_business": {
+          "ordini_consegnati": 0,
+          "ordini_pagati": 0,
+          "calibrazione_reparti": 1,
+          "reparto_calibrato": "@AD (14/14 previsioni confermate via REST)"
+        },
+        "sensori": {
+          "REST_marketplace": "ok",
+          "MCP_Supabase_Cursor": "cieco",
+          "MCP_Stripe": "assente",
+          "PostHog": "assente"
+        },
+        "loop_agire": {
+          "azioni_approvate_non_inviate": "~20",
+          "mani_LIVE": "spente (AZIONI_LIVE=0)"
+        }
       }
     }
   ],
@@ -115,21 +146,26 @@
   "proposte_nuovi_pezzi": [],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-02 10:15",
+    "data": "2026-07-02 10:19",
     "loop_chiude": true,
-    "tasso_applicazione": 0.70,
+    "tasso_applicazione": 0.7,
     "giro_a_cadenza": true,
-    "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 98,
-    "max_giri_ciechi_sensori": 0,
+    "sentinelle_scattano": false,
+    "ore_da_ultima_completa": 105,
+    "ore_da_ultimo_briefing": 2,
+    "max_giri_ciechi_sensori": 2,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "verdetto": "ok",
-    "nota": "Sonda 2/7 10:15 post-fix radiografia. Chiusi AR-001/002/003 (+ AR-005 ritmo). Implementati verifica-sensori.mjs + sonda-volano.mjs (PR #138). 4 invarianti OK: loop 70%, cadenza ok, sentinelle attive su stallo business. Resta AR-004 token mycity."
+    "nota": "loop ok · briefing 2h fa · sensori max cecità 2"
   },
   "meta": {
     "agenti_totali": 42,
     "dimensioni_critiche": 0,
     "bloccanti": 0
+  },
+  "sonda_meta": {
+    "giri_tasso_basso": 0,
+    "aggiornato": "2026-07-02 10:19"
   }
 }

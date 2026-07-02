@@ -1,24 +1,172 @@
 {
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
-    { "data": "2026-06-28", "voto_salute": 72, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "completa" },
-    { "data": "2026-06-28", "voto_salute": 75, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori dati RIENTRATI (Supabase marketplace ACTIVE_HEALTHY): l'invariante 'dati freschi' torna verde. Voto +3. Difetto AR-001 (sensori intermittenti) non chiuso ma rientrato in questo giro." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori stabili per il 2° giro consecutivo (Supabase ok, dati freschi). Tasso applicazione lezioni 0.5 (2 principi usati su 4 attivi: grounding entità + numeri con fonte). Volano chiude. Voto +1." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Passaggio 14:24: REGRESSIONE SENSORI (Supabase MCP + WebFetch non autorizzati in sessione → 1 solo sensore, dati non freschi). Conferma difetto 'salute-sensori-dati' (non chiuso). Voto invariato (difetto già contato). Nuova lezione L-2026-0629-03 su giri ridondanti a sensori ciechi, applicata subito." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Passaggio 16:24 (5° del giorno): cecità MCP persistente (Supabase+WebFetch ancora non autorizzati). Voto invariato. Positivo: sentinella 🔴 stato-piattaforme chiusa OK (Supabase+Stripe operativi) → infrastruttura non a rischio, stallo 100% decisionale. Nuova lezione L-2026-0629-04 (check status a basso costo sempre utile). 4 invarianti del volano ok." },
-    { "data": "2026-06-30", "voto_salute": 73, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "REGRESSIONE SENSORI mattina: MCP cieco. Voto −3." },
-    { "data": "2026-06-30", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Passaggio 23:15: 7 numeri = vs 23:10, stallo 156,8h. Sesto passaggio giornata — escalation 168h 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 00:17: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi. Playbook 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 02:17: stallo 159,8h (+2h), 168h ~8h. Foglio-firma FATTO, VP rimandato, radiografia 46. Checklist 6/7 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 04:17: stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 4, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 1, "tipo": "sonda", "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 14:19: stallo 171,8h (+2,0h), 168h +3,8h oltre. Finestra pranzo chiusa → #16 post-18. Escalation v8 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 18:18: stallo 175,8h (+2,0h), 168h +7,8h oltre. Finestra consegna APERTA ORA → #16 entro 20:00. Escalation v10 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-02", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 2/7 08:20: stallo 189,9h (+12,1h), 168h +21,9h oltre. Automazione tutto verde (verifica 08:20). Meteo sereno — finestra #16 pranzo APERTA. Escalation v12 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-02", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 2/7 08:36: stallo 190,1h (+0,2h), 168h +22,1h oltre. Automazione tutto verde (verifica 08:36). Meteo sereno — finestra #16 pranzo ORA. KPI live 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-02", "voto_salute": 80, "difetti_aperti": 1, "difetti_chiusi": 3, "tipo": "sonda", "nota": "Fix radiografia 10:15: chiusi AR-001 (verifica-sensori.mjs), AR-002 (MARKETPLACE_REPO), AR-003 (sensori-cecita). sonda-volano.mjs operativo. Voto +4 → 80. Resta AR-004 token mycity." }
+    {
+      "data": "2026-06-28",
+      "voto_salute": 72,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "completa"
+    },
+    {
+      "data": "2026-06-28",
+      "voto_salute": 75,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Sensori dati RIENTRATI (Supabase marketplace ACTIVE_HEALTHY): l'invariante 'dati freschi' torna verde. Voto +3. Difetto AR-001 (sensori intermittenti) non chiuso ma rientrato in questo giro."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Sensori stabili per il 2° giro consecutivo (Supabase ok, dati freschi). Tasso applicazione lezioni 0.5 (2 principi usati su 4 attivi: grounding entità + numeri con fonte). Volano chiude. Voto +1."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 14:24: REGRESSIONE SENSORI (Supabase MCP + WebFetch non autorizzati in sessione → 1 solo sensore, dati non freschi). Conferma difetto 'salute-sensori-dati' (non chiuso). Voto invariato (difetto già contato). Nuova lezione L-2026-0629-03 su giri ridondanti a sensori ciechi, applicata subito."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 16:24 (5° del giorno): cecità MCP persistente (Supabase+WebFetch ancora non autorizzati). Voto invariato. Positivo: sentinella 🔴 stato-piattaforme chiusa OK (Supabase+Stripe operativi) → infrastruttura non a rischio, stallo 100% decisionale. Nuova lezione L-2026-0629-04 (check status a basso costo sempre utile). 4 invarianti del volano ok."
+    },
+    {
+      "data": "2026-06-30",
+      "voto_salute": 73,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "REGRESSIONE SENSORI mattina: MCP cieco. Voto −3."
+    },
+    {
+      "data": "2026-06-30",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 23:15: 7 numeri = vs 23:10, stallo 156,8h. Sesto passaggio giornata — escalation 168h 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 00:17: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi. Playbook 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 02:17: stallo 159,8h (+2h), 168h ~8h. Foglio-firma FATTO, VP rimandato, radiografia 46. Checklist 6/7 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 04:17: stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 4,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 1,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 14:19: stallo 171,8h (+2,0h), 168h +3,8h oltre. Finestra pranzo chiusa → #16 post-18. Escalation v8 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 18:18: stallo 175,8h (+2,0h), 168h +7,8h oltre. Finestra consegna APERTA ORA → #16 entro 20:00. Escalation v10 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 2/7 08:20: stallo 189,9h (+12,1h), 168h +21,9h oltre. Automazione tutto verde (verifica 08:20). Meteo sereno — finestra #16 pranzo APERTA. Escalation v12 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 2/7 08:36: stallo 190,1h (+0,2h), 168h +22,1h oltre. Automazione tutto verde (verifica 08:36). Meteo sereno — finestra #16 pranzo ORA. KPI live 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 3,
+      "tipo": "sonda",
+      "nota": "Fix radiografia 10:15: chiusi AR-001 (verifica-sensori.mjs), AR-002 (MARKETPLACE_REPO), AR-003 (sensori-cecita). sonda-volano.mjs operativo. Voto +4 → 80. Resta AR-004 token mycity."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 2h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 2h fa · sensori max cecità 2"
+    }
   ]
 }

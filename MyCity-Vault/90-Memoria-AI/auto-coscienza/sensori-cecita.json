@@ -1,24 +1,35 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-02 10:15",
+  "aggiornato": "2026-07-02 10:19",
   "sensori": {
     "supabase_rest": {
-      "stato": "non_verificato",
+      "stato": "ok",
       "giri_ciechi": 0,
-      "canale": "REST marketplace (MARKETPLACE_SUPABASE_*)",
-      "dettaglio": "Aggiornato automaticamente al prossimo giro con verifica-sensori.mjs"
+      "canale": "REST marketplace",
+      "dettaglio": "orders leggibili via REST",
+      "ultimo_ok": "2026-07-02 10:19",
+      "ultimo_errore": ""
     },
     "mcp_supabase": {
       "stato": "non_verificato",
       "giri_ciechi": 0,
       "canale": "MCP Cursor/Claude",
       "dettaglio": "L'AD aggiorna con --mcp-supabase=ok|cieco in auto-analisi"
+    },
+    "stripe_api": {
+      "giri_ciechi": 2,
+      "stato": "cieco",
+      "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
+      "canale": "Stripe API",
+      "dettaglio": "STRIPE_SECRET_KEY assente — Stripe non verificabile"
     }
   },
-  "istruzioni_giro": "Esegui node cervello/verifica-sensori.mjs all'inizio del giro. Se supabase_rest ok, usa REST anche se MCP cieco.",
+  "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 0,
-    "sensori_ok": 0,
-    "max_giri_ciechi": 0
+    "giri_totali": 2,
+    "sensori_ok": 1,
+    "max_giri_ciechi": 2,
+    "sensori_totali": 2,
+    "almeno_un_dato": true
   }
 }
