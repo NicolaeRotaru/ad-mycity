@@ -11,14 +11,7 @@ fonte: i senior dell'AD
 
 ## Come si scrive (1 riga)
 `AAAA-MM-GG HH:MM · @reparto · TIPO · messaggio`
-**TIPO** = `FACCIO` · `FATTO` · `SERVE` (chiedo aiuto) · `PASSO-A @reparto` (handoff) · `RIVEDI` (chiedo peer review) · `PRE-WIRING` (allineamento prima di 🔴 multi-reparto — **Fase 3, obbligatorio**)
-
-### PRE-WIRING (Regola GM 3)
-Prima di accodare una 🔴 che tocca ≥2 reparti:
-```
-AAAA-MM-GG HH:MM · @AD · PRE-WIRING · [titolo azione]: @rep1 ✅ @rep2 ⏳ @rep3 ✅
-```
-Ogni rep risponde `FATTO · ok` o `SERVE · [cosa manca]`. Solo tutti ✅ → accoda in AZIONI-IN-ATTESA.
+**TIPO** = `FACCIO` · `FATTO` · `SERVE` (chiedo aiuto) · `PASSO-A @reparto` (handoff) · `RIVEDI` (chiedo peer review)
 
 Esempi:
 - `2026-06-25 09:10 · @growth · FACCIO · calcolo le leve sul bundle DOP`
@@ -449,9 +442,3 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 08:40 · @qa · FACCIO · Smoke post-deploy: admin 403 checkout · seller redirect senza cookie · buyer OK (checklist pronta)
 - 2026-07-02 08:40 · @crm-lifecycle · PASSO-A · Recovery carrello samir **dopo smoke #19 verde** (unico buyer reale)
 - 2026-07-02 08:40 · @AD · SERVE · Nicola: **#16 passi #20–#22** (pranzo) · **SQL 107** (~30s) · **root sync VPS**
-
-### 2026-07-02 — Fase 2+3 Piano Massimo Potenziale (Nicola)
-- 2026-07-02 10:00 · @AD · FATTO · **Fase 2 attiva:** `cervello/calibrazione.md` + `calibrazione.json` popolato (6 previsioni) · Taste File workflow · benchmark vendite/marketing/growth in `auto-miglioramento.json` · accodati fix infra #23-#25 (AR-001/002/003)
-- 2026-07-02 10:00 · @AD · FATTO · **Fase 3 attiva:** `cervello/regole-ad-gm.md` (4 regole GM) · passo 0 obbligatorio in `giro.md` · PRE-WIRING in Sala · piano `PIANO-MASSIMO-POTENZIALE.md`
-- 2026-07-02 10:00 · @AD · FATTO · Lezione L-2026-0702-01 promossa a principio · verdetto Taste File registrato (concentrazione vs volume)
-- 2026-07-02 10:00 · @AD · PASSO-A @vendite @marketing @growth · Prossima review venerdì 4/7: torneo benchmark + proposta L7 settimanale (Regola 4)

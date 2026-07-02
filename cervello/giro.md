@@ -2,12 +2,6 @@ Fai un GIRO DI PERLUSTRAZIONE come AD digitale di MyCity (segui CLAUDE.md).
 
 Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 
-> 🧠 **PASSO 0 — REGOLE GM (obbligatorio, esegui `cervello/regole-ad-gm.md`):**
-> 1. **Collo di bottiglia** — identifica UNA cosa che sblocca il resto → riga 1 del TL;DR e `azioni[0]` in `ultimo-briefing.json`.
-> 2. **Anti-rumore** — dopo il passo 1 (sensori): se ciechi + numeri immobili + coda 🔴 piena → **giro MINIMO** (sonda + check infrastruttura + ripeti collo di bottiglia; non ri-scansionare tutto).
-> 3. **Pre-wiring** — prima di accodare 🔴 multi-reparto: PRE-WIRING in SALA-OPERATIVA con ✅ da ogni @rep.
-> 4. **L7 settimanale** — il venerdì (`ritmo.md`): 1 proposta 10× pronta da firmare (Regola 4).
-
 > ⚠️ **DOVE PUBBLICARE (regola anti-blocco — vale SEMPRE, specie per i giri da CLOUD AGENT):**
 > La memoria del vault (STATO, briefing, `90-Memoria-AI/`, `consegne/`, `creativi/`) vive sul ramo
 > **`memoria-ad`** — è il ramo che legge il Pannello (`OBSIDIAN_BRANCH`). Il Pannello legge da GitHub
@@ -177,16 +171,14 @@ Passi:
 12. 📚 APPRENDIMENTO (esegui `cervello/apprendimento.md`): estrai le **lezioni riusabili** di questo giro
     dalle **8 fonti** (esiti, approvazioni/**correzioni di Nicola — casi-studio prioritari**, calibrazione,
     pattern, errori dell'auto-analisi, eccezioni, benchmark, **auto-radiografia**). Aggiorna
-    `apprendimento.json` + **`calibrazione.json`** (esegui `cervello/calibrazione.md`: nuove previsioni per
-    ogni mossa con effetto atteso; chiudi quelle scadute) + i quaderni `memoria-squadra/`. **Taste File:**
-    ogni ok/no/correzione di Nicola → riga in `TASTE-FILE-NICOLA.md` entro 1h. Applica le lezioni già al
+    `apprendimento.json` + `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
     prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
     come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`
     dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
-13. 🚀 AUTO-MIGLIORAMENTO (se lavoro importante O venerdì review): esegui `cervello/auto-miglioramento.md` —
-    benchmark coi migliori a **due livelli** sui **3 reparti soldi prioritari** (@vendite, @marketing,
-    @growth-monetizzazione) + @content-social pilota; misura divario/obiettivo/progresso; ≥3 varianti, torneo,
-    peer-review; scrivi `auto-coscienza/auto-miglioramento.json`.
+13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine):
+    esegui `cervello/auto-miglioramento.md` — benchmark coi migliori a **due livelli** (locali + mondo, via
+    @intelligence + watchlist), misura il divario con **obiettivo e progresso**, ≥3 varianti dai senior,
+    torneo+critico, peer-review; scrivi `auto-coscienza/auto-miglioramento.json`.
 14. 🩻 SONDA DI AUTO-RADIOGRAFIA (esegui la parte «sonda leggera» di `cervello/auto-radiografia.md`):
     controllo deterministico dei **4 invarianti del volano** (loop chiude? `tasso_applicazione`>0? giro a
     cadenza? sentinelle scattano?). Aggiorna il blocco `sonda` di `auto-coscienza/auto-radiografia.json` e
@@ -195,9 +187,6 @@ Passi:
     Avanza il **cantiere** (`cantiere-difetti.json`): proponi 🟡 il fix di **un** difetto aperto a maggior
     impatto sulla crescita. (La radiografia COMPLETA — workflow `.claude/workflows/auto-radiografia.js` — è
     settimanale in `ritmo.md` o su comando «radiografia di te stesso».)
-15. 🎯 CHIUSURA GM: verifica che il briefing rispetti le 4 regole (`regole-ad-gm.md`): collo di bottiglia in
-    riga 1 · giro minimo se applicabile · pre-wiring ✅ su ogni nuova 🔴 multi-reparto · calibrazione aggiornata.
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.
-**Riga 1 del TL;DR = collo di bottiglia** (Regola GM 1).

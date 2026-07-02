@@ -48,7 +48,7 @@ Sei l'AD. Fai la REVIEW SETTIMANALE della squadra:
 3. 📚 CONSOLIDAMENTO APPRENDIMENTO (cervello/apprendimento.md, sezione settimanale): distilla le lezioni
    mature in PRINCIPI, pota le decadute, accorpa le ridondanti. Aggiorna auto-coscienza/apprendimento.json
    e i quaderni memoria-squadra/ (tienili piccoli e utili).
-4. 🎯 CALIBRAZIONE (esegui `cervello/calibrazione.md` → `auto-coscienza/calibrazione.json`): confronta EFFETTO-PREVISTO vs REALE per reparto,
+4. 🎯 CALIBRAZIONE (auto-coscienza/calibrazione.json): confronta EFFETTO-PREVISTO vs REALE per reparto,
    ricalcola il punteggio e l'autonomia. Chi azzecca guadagna autonomia; chi sbaglia sistematicamente va ricalibrato.
 5. 🚀 CICLO PROFONDO DI AUTO-MIGLIORAMENTO (cervello/auto-miglioramento.md): scegli i 3 ambiti col divario
    più alto vs i migliori, fai il giro benchmark→squadra(torneo+peer-review)→misura su ciascuno, verifica

@@ -180,10 +180,6 @@ di decidere), **strategia/moat** (dove giocare / dove NO), **foresight** (effett
 multi-mese hanno percorso critico e dipendenze), **metacognizione** (distingui "senior debole" da "senior
 a mani vuote"). Programma "Senior al Top": `MyCity-Vault/07-Agenti/PIANO-SENIOR-AL-TOP.md`.
 
-> **Regole operative GM (Fase 3 — obbligatorie ogni giro):** `cervello/regole-ad-gm.md` — collo di bottiglia,
-> anti-rumore, pre-wiring, L7 settimanale. **Calibrazione (Fase 2):** `cervello/calibrazione.md`.
-> Piano: `MyCity-Vault/90-Memoria-AI/PIANO-MASSIMO-POTENZIALE.md`.
-
 ## ⌨️ Comandi rapidi (riconoscili SEMPRE — menù completo in `COMANDI.md`)
 Nicola lancia lavori con frasi brevi. Riconoscile anche se scritte in modo diverso ed esegui la capacità giusta:
 - **"fai un giro"** → giro (`cervello/giro.md`): leggi i dati reali (Supabase MCP), controlla le sentinelle, scrivi briefing in `90-Memoria-AI/Briefing/`, aggiorna [[STATO]]. ⚠️ **La memoria si pubblica SOLO su `memoria-ad`** (il ramo che legge il Pannello): da cloud agent apri/aggiorna la PR con **base `memoria-ad`**, mai mettere la memoria solo su `main` (vedi "DOVE PUBBLICARE" in `cervello/giro.md`).

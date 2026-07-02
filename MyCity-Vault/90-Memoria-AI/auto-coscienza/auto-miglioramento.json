@@ -1,115 +1,24 @@
 {
-  "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — diventare brava quanto i migliori. Benchmark per reparto, torneo, proposte auto-riscrittura. Schema in cervello/auto-coscienza.md. Fase 2 attivata 2026-07-02: benchmark su 3 reparti soldi.",
-  "data": "2026-07-02 10:00",
+  "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — diventare brava quanto i migliori. Per ogni mestiere: il divario vs i migliori (locali + mondo), un obiettivo concreto e il progresso misurato (scorecard ora, numeri veri poi), con esempi. + torneo tra senior, backlog dai difetti (②), proposte di auto-riscrittura/espansione 🟡. Schema in cervello/auto-coscienza.md.",
+  "data": "2026-06-28 01:40",
   "benchmark": [
     {
       "reparto": "@content-social",
-      "livello_attuale_L": 4,
-      "migliori": [
-        { "chi": "Cortilia (IT, filiera corta)", "livello": "locale", "esempi": [{ "cosa": "Rubrica produttore settimanale + reel ricetta", "link": "consegne/intelligence/5-aziende-simili-social.md" }] },
-        { "chi": "Bookshop.org (anti-Amazon manifesto)", "livello": "mondiale", "esempi": [{ "cosa": "Campagna Anti-Prime-Day (+600% benchmark)", "link": "consegne/content/W2-anti-blackfriday.md" }] }
-      ],
-      "divario": "medio",
-      "obiettivo": "L5 stabile entro 4 settimane: ogni post passa cancello @direttore-creativo al primo colpo.",
-      "progresso": [
-        { "data": "2026-06-28", "punteggio": 60, "fonte": "scorecard" },
-        { "data": "2026-07-02", "punteggio": 68, "fonte": "scorecard", "nota": "Kit L7 + GARETTI-kit installati; manca esito pubblicazione reale." }
-      ]
-    },
-    {
-      "reparto": "@vendite",
       "livello_attuale_L": 3,
       "migliori": [
-        { "chi": "Shopify local commerce / Square merchant onboarding", "livello": "mondiale", "esempi": [{ "cosa": "Onboarding done-for-you <48h, playbook per categoria", "link": "MyCity-Vault/07-Agenti/kit/vendite-KIT.md" }] },
-        { "chi": "Cicalia Piacenza (comparabile locale)", "livello": "locale", "esempi": [{ "cosa": "Densità negozi per quartiere, presidio fisico", "link": "MyCity-Vault/90-Memoria-AI/Intelligence/radar-concorrenti.md" }] }
+        { "chi": "(competitor locali food/delivery)", "livello": "locale", "esempi": [{ "cosa": "frequenza e hook dei post", "link": "consegne/intelligence/5-aziende-simili-social.md" }] },
+        { "chi": "(top brand di local-commerce nel mondo)", "livello": "mondiale", "esempi": [{ "cosa": "storytelling di bottega + prova sociale", "link": "creativi/swipe/SWIPE-FILE.md" }] }
       ],
       "divario": "alto",
-      "obiettivo": "L5 entro 6 settimane: 1 negozio/settimana da contatto a LIVE con playbook misurato.",
-      "progresso": [
-        { "data": "2026-07-02", "punteggio": 45, "fonte": "scorecard", "nota": "407 lead, 0 contattati; kit pronto; collo = ordine PQ €19,05 (unico negozio reale)." }
-      ]
-    },
-    {
-      "reparto": "@marketing",
-      "livello_attuale_L": 3,
-      "migliori": [
-        { "chi": "La Ruche qui dit Oui! (FR, food comunitario)", "livello": "mondiale", "esempi": [{ "cosa": "Eventi quartiere × bottega, reel produttore", "link": "consegne/intelligence/5-aziende-simili-social.md" }] },
-        { "chi": "CrowdFarming (UE, dal produttore)", "livello": "mondiale", "esempi": [{ "cosa": "BTS grezzo bottega, hook autentico", "link": "consegne/content/W4-bts-bottega.md" }] }
-      ],
-      "divario": "alto",
-      "obiettivo": "L5 entro 6 settimane: loop acquisizione con CAC misurato su 2 canali (evento + gruppi FB).",
-      "progresso": [
-        { "data": "2026-07-02", "punteggio": 50, "fonte": "scorecard", "nota": "Piano editoriale + Il Turno pronti; zero campagna live per firme 🔴." }
-      ]
-    },
-    {
-      "reparto": "@growth-monetizzazione",
-      "livello_attuale_L": 3,
-      "migliori": [
-        { "chi": "Glovo/Deliveroo (delivery locale)", "livello": "locale", "esempi": [{ "cosa": "Fee dinamica, soglia spedizione gratis, recupero carrello", "link": "MyCity-Vault/03-Funzionalità/Carrello e Checkout.md" }] },
-        { "chi": "Amazon / Booking (experimentation culture)", "livello": "mondiale", "esempi": [{ "cosa": "Test A/B con metrica unica, rollback automatico", "link": "MyCity-Vault/07-Agenti/kit/growth-monetizzazione-KIT.md" }] }
-      ],
-      "divario": "alto",
-      "obiettivo": "L5 entro 8 settimane: 1 esperimento/mese con delta misurato su conversione o scontrino.",
-      "progresso": [
-        { "data": "2026-07-02", "punteggio": 40, "fonte": "scorecard", "nota": "4 carrelli abbandonati non recuperati (DRY-RUN CRM); incentivi in coda 🔴." }
-      ]
+      "obiettivo": "Arrivare stabilmente a L5 sui contenuti entro 4 settimane, col loop confronto-post-pubblicazione.",
+      "progresso": [{ "data": "2026-06-28", "punteggio": 60, "fonte": "scorecard" }]
     }
   ],
-  "esperimenti": [
-    {
-      "id": "EXP-20260702-01",
-      "reparto": "@growth-monetizzazione",
-      "titolo": "Recupero carrelli abbandonati (4 attivi 12-15 gg)",
-      "ipotesi": "Email touch #1 entro 24h dal abbandono → ≥15% ritorno al checkout",
-      "metrica": "carrelli_recuperati",
-      "baseline": 0,
-      "target": 1,
-      "stato": "proposto",
-      "colore": "🟡",
-      "blocco": "RESEND non collegato + firma incentivo",
-      "scadenza_misura": "2026-07-16"
-    }
-  ],
+  "esperimenti": [],
   "peer_review": [],
   "proposte_auto_riscrittura": [
-    {
-      "cosa": "Parametrizzare MARKETPLACE_REPO in radiografia.js e audit-design.js",
-      "perche": "Radiografia sito cieca sul VPS Linux.",
-      "colore": "🟡",
-      "origine": "auto-radiografia",
-      "finding_id": "AR-002",
-      "dove": ".claude/workflows/radiografia.js"
-    },
-    {
-      "cosa": "Retry + fallback MCP + contatore giri-ciechi nel giro",
-      "perche": "Sensori intermittenti: la macchina lavora al buio.",
-      "colore": "🟡",
-      "origine": "auto-radiografia",
-      "finding_id": "AR-001",
-      "dove": "cervello/giro.md + cervello/sensori-cecita.mjs (nuovo)"
-    },
-    {
-      "cosa": "Integrare regole-ad-gm.md come passi 0 e 15-18 obbligatori in giro.md",
-      "perche": "Fase 3 Piano Massimo Potenziale — AD da coordinatore a GM.",
-      "colore": "🟡",
-      "origine": "loop",
-      "finding_id": "",
-      "dove": "cervello/giro.md"
-    },
-    {
-      "cosa": "Workflow Taste File: ogni ok/no Nicola → riga append in TASTE-FILE-NICOLA.md entro 1h",
-      "perche": "Zero verdetti reali raccolti: la prima bozza non impara il gusto di Nicola.",
-      "colore": "🟡",
-      "origine": "loop",
-      "finding_id": "",
-      "dove": "cervello/apprendimento.md + MyCity-Vault/07-Agenti/TASTE-FILE-NICOLA.md"
-    }
+    { "cosa": "Parametrizzare il percorso del marketplace (MARKETPLACE_REPO) in radiografia.js/audit-design.js", "perche": "Oggi è cablato su Windows: la radiografia del sito non gira sul VPS.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-002", "dove": ".claude/workflows/radiografia.js" },
+    { "cosa": "Aggiungere retry + fallback + contatore-cecità ai sensori MCP nel giro", "perche": "Gli MCP cadono spesso: la macchina lavora al buio sui dati reali.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-001", "dove": "cervello/giro.md" }
   ],
-  "ciclo_settimanale": {
-    "ultimo": "2026-06-28",
-    "prossimo": "2026-07-04",
-    "reparti_priorita": ["@vendite", "@marketing", "@growth-monetizzazione"],
-    "nota": "Benchmark su 3 reparti soldi attivato Fase 2. Review venerdì 4/7: torneo + misura divario."
-  }
+  "_nota": "Seed iniziale. Al primo ciclo completo, @intelligence popola i 'migliori' con fonti reali a due livelli, si fissano obiettivo e progresso, e parte il torneo tra varianti dei senior."
 }
