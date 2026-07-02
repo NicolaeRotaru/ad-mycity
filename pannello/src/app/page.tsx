@@ -861,6 +861,7 @@ export default function Dashboard() {
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     setMessages(msgs);
     setConvId(c.id);
+    setAssistenteTab("chat"); // apri SUBITO la chat: niente più "clicca due volte" per vederla
     setBase(null);
     setConvSel([]);
     if (daLavori.filter((m) => !m.pending).length > c.messaggi.length) {
@@ -1851,7 +1852,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
-              {conversazioni.map((c) => (
+              {/* La conversazione aperta resta in cima; le altre nell'ordine del server (più recenti prima). */}
+              {[...conversazioni]
+                .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
+                .map((c) => (
                 <div
                   key={c.id}
                   className={`conv-row flex items-center gap-3 ${convId === c.id ? "conv-row-active" : ""}`}
