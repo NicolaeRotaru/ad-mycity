@@ -48,6 +48,14 @@
 
   > Dopo la radiografia, per **sistemare** una cosa specifica basta dirmi *"sistema [il punto]"* (es. *"sistema i colori della home"*): colori/testi/home = subito (config 🟢/⚡), layout/CSS/componenti = anteprima + tuo ok (codice 🛠️). Mai deploy senza la tua firma 🔴.
 
+## 🧠 Auto-potenziamento (la macchina che si migliora e impara dai risultati)
+- **"giro operativo"** (alias: *"gira il business"*, *"mosse di oggi"*) → lancio una **flotta di senior in parallelo** (workflow `.claude/workflows/giro-operativo.js`): ogni motore di soldi propone le mosse a più alto ritorno **sui dati reali**, le verifico in modo avversariale, e ti do una **coda ordinata** (cosa parte da solo 🟢 / cosa firmi 🟡🔴). 🟢
+- **"prevedi [mossa]" / "registra previsione"** → registro un **effetto previsto** misurabile (metrica, valore atteso, entro quando) in `calibrazione.json`. `node cervello/calibrazione.mjs prevedi …`. 🟢
+- **"esito [id] = [numero]"** → chiudo la previsione col **reale**: chi azzecca guadagna autonomia (anello chiuso previsto-vs-reale). `node cervello/calibrazione.mjs esito …`. 🟢
+- **"come sto calibrando?"** → tabella per-reparto: azzeccate/previsioni, punteggio, autonomia. `node cervello/calibrazione.mjs report`. 🟢
+- **"chiudi i difetti" / "auto-fix"** → verifico nel codice quali difetti del **cantiere** sono risolti e li chiudo (il volano che si ripara, non solo si diagnostica). `node cervello/auto-fix.mjs verifica --applica`. 🟢 *(modificare il codice per risolverne uno resta 🟡 da firmare)*
+- **"quale AI per [compito]?"** → il **banco AI** sceglie il modello più economico capace (Claude solo per il ragionamento). `node cervello/banco-ai.mjs "<compito>"`. 🟢
+
 ## 🔎 Mercato
 - **"cosa fanno i concorrenti?"** → intelligence. 🟢
 - **"che opportunità ci sono?"** → intelligence + growth (eventi, meteo, bandi). 🟢

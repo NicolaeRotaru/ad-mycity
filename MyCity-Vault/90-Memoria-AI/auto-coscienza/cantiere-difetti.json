@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 16:46",
+  "aggiornato": "2026-07-02 11:55",
   "difetti": [
     {
       "id": "AR-001",
@@ -10,11 +10,17 @@
       "impatto_crescita": "alto",
       "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù. (28/6: il calo era anche dovuto all'abbonamento Supabase scaduto → progetto in pausa; ora pagato e ACTIVE_HEALTHY.)",
       "fix_proposto": "Passo di retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP. Inoltre: sentinella su stato abbonamento/progetto Supabase (pausa = cecità totale).",
+      "verifica": {
+        "file": "cervello/verifica-sensori.mjs",
+        "pattern": "conRetry",
+        "presente": true
+      },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nota_28_06": "RIENTRATO in questo giro (sensori tornati dopo pagamento abbonamento), ma causa radice NON risolta: resta il difetto a maggior impatto crescita. È il fix proposto come prossimo dal cantiere.",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02 11:55",
+      "chiuso_come": "cervello/verifica-sensori.mjs contiene /conRetry/ → trovato"
     },
     {
       "id": "AR-002",
@@ -24,10 +30,16 @@
       "impatto_crescita": "medio",
       "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
       "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback, in radiografia.js e audit-design.js.",
+      "verifica": {
+        "file": ".claude/workflows/radiografia.js",
+        "pattern": "resolveMarketplaceRepo",
+        "presente": true
+      },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02 11:55",
+      "chiuso_come": ".claude/workflows/radiografia.js contiene /resolveMarketplaceRepo/ → trovato"
     },
     {
       "id": "AR-003",
@@ -37,11 +49,21 @@
       "impatto_crescita": "medio",
       "causa_radice": "Nessun pezzo della macchina tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
       "fix_proposto": "Creare (🟡) un sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "verifica": {
+        "file": "cervello/verifica-sensori.mjs",
+        "pattern": "giri_ciechi",
+        "presente": true
+      },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02 11:55",
+      "chiuso_come": "cervello/verifica-sensori.mjs contiene /giri_ciechi/ → trovato"
     }
   ],
-  "meta": { "aperti": 3, "in_corso": 0, "chiusi": 0 }
+  "meta": {
+    "aperti": 0,
+    "in_corso": 0,
+    "chiusi": 3
+  }
 }

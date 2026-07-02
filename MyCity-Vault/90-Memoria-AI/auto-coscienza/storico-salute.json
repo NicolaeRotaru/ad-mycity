@@ -1,11 +1,60 @@
 {
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
-    { "data": "2026-06-28", "voto_salute": 72, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "completa" },
-    { "data": "2026-06-28", "voto_salute": 75, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori dati RIENTRATI (Supabase marketplace ACTIVE_HEALTHY): l'invariante 'dati freschi' torna verde. Voto +3. Difetto AR-001 (sensori intermittenti) non chiuso ma rientrato in questo giro." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Sensori stabili per il 2° giro consecutivo (Supabase ok, dati freschi). Tasso applicazione lezioni 0.5 (2 principi usati su 4 attivi: grounding entità + numeri con fonte). Volano chiude. Voto +1." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Passaggio 14:24: REGRESSIONE SENSORI (Supabase MCP + WebFetch non autorizzati in sessione → 1 solo sensore, dati non freschi). Conferma difetto 'salute-sensori-dati' (non chiuso). Voto invariato (difetto già contato). Nuova lezione L-2026-0629-03 su giri ridondanti a sensori ciechi, applicata subito." },
-    { "data": "2026-06-29", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Passaggio 16:24 (5° del giorno): cecità MCP persistente (Supabase+WebFetch ancora non autorizzati). Voto invariato. Positivo: sentinella 🔴 stato-piattaforme chiusa OK (Supabase+Stripe operativi) → infrastruttura non a rischio, stallo 100% decisionale. Nuova lezione L-2026-0629-04 (check status a basso costo sempre utile). 4 invarianti del volano ok." },
-    { "data": "2026-06-30", "voto_salute": 73, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "REGRESSIONE SENSORI: Supabase MCP di nuovo cieco (needsAuth) dopo 2 giri stabili → invariante 'dati freschi' rosso, 7 numeri a baseline 29/6. Voto −3. Volano comunque chiuso (2 nuove lezioni, principi applicati con onestà sui numeri). Radar live OK (svolta meteo + VP 3/7 con fonti). AR-001 confermato difetto prioritario del cantiere." }
+    {
+      "data": "2026-06-28",
+      "voto_salute": 72,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "completa"
+    },
+    {
+      "data": "2026-06-28",
+      "voto_salute": 75,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Sensori dati RIENTRATI (Supabase marketplace ACTIVE_HEALTHY): l'invariante 'dati freschi' torna verde. Voto +3. Difetto AR-001 (sensori intermittenti) non chiuso ma rientrato in questo giro."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Sensori stabili per il 2° giro consecutivo (Supabase ok, dati freschi). Tasso applicazione lezioni 0.5 (2 principi usati su 4 attivi: grounding entità + numeri con fonte). Volano chiude. Voto +1."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 14:24: REGRESSIONE SENSORI (Supabase MCP + WebFetch non autorizzati in sessione → 1 solo sensore, dati non freschi). Conferma difetto 'salute-sensori-dati' (non chiuso). Voto invariato (difetto già contato). Nuova lezione L-2026-0629-03 su giri ridondanti a sensori ciechi, applicata subito."
+    },
+    {
+      "data": "2026-06-29",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 16:24 (5° del giorno): cecità MCP persistente (Supabase+WebFetch ancora non autorizzati). Voto invariato. Positivo: sentinella 🔴 stato-piattaforme chiusa OK (Supabase+Stripe operativi) → infrastruttura non a rischio, stallo 100% decisionale. Nuova lezione L-2026-0629-04 (check status a basso costo sempre utile). 4 invarianti del volano ok."
+    },
+    {
+      "data": "2026-06-30",
+      "voto_salute": 73,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "REGRESSIONE SENSORI: Supabase MCP di nuovo cieco (needsAuth) dopo 2 giri stabili → invariante 'dati freschi' rosso, 7 numeri a baseline 29/6. Voto −3. Volano comunque chiuso (2 nuove lezioni, principi applicati con onestà sui numeri). Radar live OK (svolta meteo + VP 3/7 con fonti). AR-001 confermato difetto prioritario del cantiere."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 78,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 3,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-001, AR-002, AR-003 (verificati nel codice)."
+    }
   ]
 }

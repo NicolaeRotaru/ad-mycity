@@ -48,12 +48,24 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 | `sensori-cecita.json` | Contatore giri-ciechi per sensore (REST/MCP); alimenta sonda e sentinelle | `verifica-sensori.mjs` | sì (via sonda) |
 | `watchlist-riferimenti.json` | I «migliori» da tenere d'occhio (scoperti + aggiunti da Nicola) | ②/④ | sì |
 | `apprendimento.json` | Archivio lezioni (confidenza, decadimento, principi, preferenze Nicola) | ③ | sì |
-| `calibrazione.json` | Previsto-vs-reale per reparto (autonomia guadagnata azzeccando) | ③ + review | sì |
+| `calibrazione.json` | Previsto-vs-reale per reparto (autonomia guadagnata azzeccando) | `cervello/calibrazione.mjs` (U3, anello chiuso) | sì |
 | `auto-miglioramento.json` | Benchmark per disciplina (divario/obiettivo/progresso/esempi), esperimenti | ④ | sì |
 | `LETTERA-A-NICOLA.md` | La lettera settimanale in parole semplici | ② (ritmo) | sì |
 | `AUTO-ANALISI.md` / `RADIOGRAFIA-MACCHINA.md` (in `90-Memoria-AI/`) | I report umani leggibili | ①/② | sì |
 
 ---
+
+## ⚙️ I motori eseguibili del volano (non solo spec: codice che gira)
+- **`cervello/calibrazione.mjs`** (U3 — anello chiuso): registra `prevedi` (effetto atteso) e `esito` (reale),
+  calcola punteggio/autonomia per reparto in `calibrazione.json`. È ciò che fa imparare la macchina dai
+  RISULTATI, non solo dai prompt. Comandi: `prevedi | esito | scadute | report`.
+- **`cervello/auto-fix.mjs`** (U17 — il volano che si ripara): verifica nel codice se un difetto del
+  `cantiere-difetti.json` è risolto (campo `verifica`) e lo **chiude** aggiornando `storico-salute.json`.
+  Chiudere è 🟢 (bookkeeping su prova); modificare il codice per risolvere resta 🟡 (firma).
+- **`.claude/workflows/giro-operativo.js`** (U18 — flotta): fan-out dei motori di soldi → verifica
+  avversariale → sintesi AD in coda ordinata. Ogni mossa porta un effetto previsto → alimenta U3.
+- **`cervello/banco-ai.mjs`** + **`cervello/routing.json`** (U19 — routing costo/modello): `scegliModello(compito)`
+  manda il volume all'AI economica capace e tiene Claude per il ragionamento; logga l'uso per misurare il risparmio.
 
 ## 📐 I contratti dati (schema ESATTO — il Pannello e i giri dipendono da questi)
 > 🚨 **Tipi e nomi alla lettera, sempre.** I voti (`voto_fiducia`, `voto_salute_architettura`, `voto`) sono
