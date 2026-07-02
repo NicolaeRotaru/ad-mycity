@@ -426,3 +426,11 @@ Assegnazioni (1 mossa per reparto):
 🙋 **Serve da Nicola:** 🔴 **`ok 16`** · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** · 🟡 **root sync VPS** · 🟢 batch 6/7 (dopo sblocchi).
 
 - 2026-07-02 08:36 · @AD · FATTO · Piano del mattino aggiornato post-giro 08:20 · RITMO + STATO + SALA scritti · nessuna azione 🔴 eseguita (serve firma Nicola).
+
+### 2026-07-02 — ok 16 approvato (Nicola Pannello 08:38)
+- 2026-07-02 08:38 · @Nicola · FATTO · **`ok 16`** — avvia esecuzione ordine zombie €19,05 WhatsApp + consegna COD oggi pranzo
+- 2026-07-02 08:38 · @AD · FATTO · Registrata in [[DECISIONI]] · #16 → IN ESECUZIONE · accodati passi #20–#22 · pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` · proposta ok-16 **NON riproporre**
+- 2026-07-02 08:38 · @operations · FACCIO · PASSO 1: WhatsApp buyer 348 642 1766 (link wa.me pronto) · slot pranzo 12:00–13:30 · ⚠️ indirizzo placeholder in DB
+- 2026-07-02 08:38 · @operations · PASSO-A @supporto · Assistenza Nicola su dashboard PQ + chiamata negozio 0523 388601 (script A6)
+- 2026-07-02 08:38 · @operations · PASSO-A @customer-success · Post-consegna: A13 feedback + A14 recensione (attivare con «consegna fatta»)
+- 2026-07-02 08:38 · @AD · SERVE · Nicola: **tap link WhatsApp ORA** → quando consegnato scrivi **«consegna fatta»**

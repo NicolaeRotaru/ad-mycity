@@ -1,14 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 08:36
-fonte: AD digitale (7 numeri = live REST 2/7 08:36 · Supabase clmpyfvpvfjgeviworth · verifica-automazione 08:36)
+aggiornato: 2026-07-02 08:38
+fonte: AD digitale (7 numeri = live REST 2/7 08:38 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **2/7 08:36 — Giro AD:** stallo **190,1h** (+0,2h vs 08:20) — **168h +22,1h oltre**. Automazione **tutto verde** (verifica 08:36). Meteo **sereno 20–31°C** — finestra #16 **oggi pranzo ORA**. 7 numeri **=**. Mossa n.1: **`ok 16`**.
+> 🧠 **2/7 08:38 — ok 16 APPROVATO:** esecuzione #16 pranzo **avviata** · pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` · passi #20–#22 in coda · stallo **190,1h**.
 >
-> 🧠 **2/7 08:20 — Giro precedente:** stallo 189,9h. Stesse priorità #16+#19+SQL 107.
+> 🧠 **2/7 08:36 — Giro AD:** stallo 190,1h · meteo sereno · automazione verde.
 
 ## I 7 numeri (live 2026-07-02 08:36 · Supabase REST clmpyfvpvfjgeviworth)
 | Numero | Oggi (2/7) | "Riuscito" | Note |
@@ -45,7 +45,7 @@ fonte: AD digitale (7 numeri = live REST 2/7 08:36 · Supabase clmpyfvpvfjgeviwo
 
 ## Semafori
 - 🟢 Va bene: REST OK; automazione tutto verde 08:36; meteo consegna OK oggi pranzo; Sprint 1 LIVE; Scelta A firmata; memoria POST briefings OK; token GitHub push mycity OK; branch #19 su clone marketplace.
-- 🟡 Da tenere d'occhio: **#16 ripiano pranzo ORA**; **#19 deploy ruoli** (merge pendente); **SQL 107**; **#14/#15 PAT**; sync VPS (1× root); MCP cieco (REST mitiga); 1 carrello buyer reale (samir); Supabase Partially Degraded (running OK).
+- 🟡 Da tenere d'occhio: **#16 IN ESECUZIONE** (ok 16 08:38 — passi manuali #20–#22); **#19 deploy ruoli**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali** — stallo **190,1h** (+22,1h oltre 168h); loop business 🔴 (0 consegnati); RLS profiles finché non gira SQL 107.
 
 ## Auto-coscienza (2026-07-02 08:36 · giro AD)
@@ -56,23 +56,23 @@ fonte: AD digitale (7 numeri = live REST 2/7 08:36 · Supabase clmpyfvpvfjgeviwo
 | Tasso applicazione lezioni | **0,70** | `apprendimento.json` meta |
 | Lezioni attive | **58** | `apprendimento.json` |
 | Calibrazione previsioni | **@AD 16/16** | calibrazione.json |
-| Loop business | 🔴 bloccato | 0 ordini consegnati · #16 in attesa |
+| Loop business | 🔴 in corso | #16 ok 16 approvato · 0 consegnati finché non chiude #22 |
 
 ## Ultime mosse dell'AD
-1. **Giro 2/7 08:36** — KPI live REST stallo 190,1h. Automazione verde. Meteo OK #16 pranzo.
-2. **Giro 2/7 08:20** — Stesse priorità, stallo 189,9h.
-3. **Chat 2/7 08:16** — Chiarito Render vs GitHub PAT (#19).
-4. **Chat 2/7 07:35** — Fix ruoli admin/seller → branch + #19 accodato 🔴.
-5. **Giro 1/7 20:18** — Giornata 1/7 chiusa zero transazioni. Ripiano 2/7.
+1. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+2. **Giro 2/7 08:36** — KPI live REST stallo 190,1h. Automazione verde. Meteo OK #16 pranzo.
+3. **Giro 2/7 08:20** — Stesse priorità, stallo 189,9h.
+4. **Chat 2/7 08:16** — Chiarito Render vs GitHub PAT (#19).
+5. **Chat 2/7 07:35** — Fix ruoli admin/seller → branch + #19 accodato 🔴.
 
-## Prossime priorità (2/7 08:36 · giro AD)
-**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** + deploy ruoli (#19) + SQL 107.
+## Prossime priorità (2/7 08:38 · ok 16 approvato)
+**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** (#16 in esecuzione) + deploy ruoli (#19) + SQL 107.
 
-1. [ ] 🔴 **#16 — Scelta A ordine €19,05** — **`ok 16`** · WhatsApp 348 642 1766 · consegna COD **oggi pranzo**
-2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — **`ok merge fix ruoli-acquisto`** · Render auto post-merge
-3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) → «fatto sql 107»
+1. [ ] ⏳ **#16 IN ESECUZIONE** — passi #20 WhatsApp · #21 dashboard+negozio · #22 COD → scrivi «consegna fatta»
+2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — **`ok merge fix ruoli-acquisto`**
+3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s)
 4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner
-5. [ ] 🟢 **Onboarding 6/7** — checklist pronta; Nicola inserisce botteghe **dopo** #16+#19+SQL
+5. [ ] 🟢 **Onboarding 6/7** — checklist pronta; **dopo** #16+#19+SQL
 
 **Sentinelle attive:** ordine ritardo 190,1h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h · loop business 🔴.
 
