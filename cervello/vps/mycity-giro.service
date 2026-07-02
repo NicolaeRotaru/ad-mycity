@@ -15,3 +15,7 @@ Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbi
 # Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
 Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/giro.sh
+# AR-005: un motore AI appeso non deve tenere il .service attivo per sempre (oneshot non si sovrappone,
+# quindi il timer successivo non parte e il battito muore). systemd uccide il giro dopo il timeout.
+TimeoutStartSec=3600
+TimeoutStopSec=120

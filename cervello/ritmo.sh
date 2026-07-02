@@ -117,14 +117,22 @@ Al termine restituisci un riepilogo breve (5-8 righe)."
 
 echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
 ai_build_cmd
+# AR-005: timeout dentro ritmo.sh (come giro.sh) — un motore appeso non deve bloccare la cadenza.
+RITMO_AI_TIMEOUT="${RITMO_AI_TIMEOUT:-${GIRO_AI_TIMEOUT:-2700}}"
+AI_TIMEOUT=()
+command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$RITMO_AI_TIMEOUT")
 ai_rc=0
 _ai_out=""
 for _attempt in 1 2 3; do
   ai_rc=0
-  _ai_out="$("${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
+  _ai_out="$("${AI_TIMEOUT[@]}" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
   printf '%s\n' "$_ai_out"
   [ "$ai_rc" -eq 0 ] && break
-  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+  if [ "$ai_rc" = 124 ] || [ "$ai_rc" = 137 ]; then
+    echo "[$(ts)] Motore AI tentativo $_attempt ANDATO IN TIMEOUT (${RITMO_AI_TIMEOUT}s) — ucciso, riprovo tra 30s..." >&2
+  else
+    echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+  fi
   printf '%s\n' "$_ai_out" | tail -15 >&2
   [ "$_attempt" -lt 3 ] && sleep 30
 done
