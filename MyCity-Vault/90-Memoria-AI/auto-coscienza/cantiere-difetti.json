@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-02 17:01",
+  "aggiornato": "2026-07-02 23:20",
   "difetti": [
     {
       "id": "AR-004",
@@ -15,7 +15,10 @@
       "nota": "Valore NON riportato in memoria per non propagarlo. Rimuovere il file NON basta: serve la revoca su GitHub.",
       "nato": "2026-07-02",
       "chiuso_il": "",
-      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro. MANCA: revoca del PAT su GitHub (solo Nicola) + purga storia."
+      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro. MANCA: revoca del PAT su GitHub (solo Nicola) + purga storia.",
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-005",
@@ -43,7 +46,10 @@
       "stato": "in-corso",
       "nato": "2026-07-02",
       "chiuso_il": "",
-      "nota_fix": "Cancello di allocazione aggiunto in CLAUDE.md (doer-mode). MANCA: ripuntare i contenuti Garetti→Casa Linda (lavoro di reparto)."
+      "nota_fix": "Cancello di allocazione aggiunto in CLAUDE.md (doer-mode). MANCA: ripuntare i contenuti Garetti→Casa Linda (lavoro di reparto).",
+      "verifica": {
+        "tipo": "umano"
+      }
     },
     {
       "id": "AR-001",
@@ -126,10 +132,16 @@
       "causa_radice": "I dati d'esito reali e i verdetti di Nicola non arrivano nei file (servono le 'mani'/chiavi write + la firma); nessuna forcing-function obbliga a registrare scorecard+esito. Lo strato metacognizione resta decorativo.",
       "fix_proposto": "🟡 Sentinella 'chiusura-loop': dopo ogni lavoro 🟡/🔴 l'AD appende in memoria-squadra/<ruolo>.md una riga ESITO con scorecard + numero atteso→reale; sonda settimanale sui quaderni fermi. Portare a Nicola la richiesta di 'carburante' (chiavi write + verdetti).",
       "colore": "🟡",
-      "stato": "in-corso",
+      "stato": "chiuso",
       "nato": "2026-07-02",
-      "chiuso_il": "",
-      "nota_fix": "Sonda ora richiede PROVA di chiusura (evidence-based) + sentinelle volano. MANCA: rituale scorecard-per-esito dopo ogni lavoro 🟡/🔴."
+      "chiuso_il": "2026-07-02 23:20",
+      "nota_fix": "Sonda ora richiede PROVA di chiusura (evidence-based) + sentinelle volano. MANCA: rituale scorecard-per-esito dopo ogni lavoro 🟡/🔴.",
+      "verifica": {
+        "file": "cervello/chiusura-loop.mjs",
+        "pattern": "registra",
+        "presente": true
+      },
+      "chiuso_come": "cervello/chiusura-loop.mjs contiene /registra/ → fix installato (sonda cablata in giro.sh; PR #147 su main)."
     },
     {
       "id": "AR-010",
@@ -266,10 +278,16 @@
       "causa_radice": "Il giro parte a orario fisso senza confrontare lo stato col precedente; la lezione 'non moltiplicare i giri a sensori ciechi' è in memoria ma non è un gate deterministico nel runner.",
       "fix_proposto": "🟡 Delta-gate nel giro (usa verifica-sensori.mjs/sonda): se ordini/clienti/incassi/sentinelle invariati, esegui solo la sonda leggera e SALTA la parte AI pesante. Un solo modello premium per tutto → introdurre il 'banco AI' (banco-ai.md) per i compiti banali.",
       "colore": "🟡",
-      "stato": "in-corso",
+      "stato": "chiuso",
       "nato": "2026-07-02",
-      "chiuso_il": "",
-      "nota_fix": "Sensore-cassa/registry/costo agganciati al giro. MANCA: logica delta-gate salta-AI-se-nulla-di-nuovo + banco AI economico. PROVA FRESCA 2/7 17:01: giro ripartito a 8 min dal precedente con zero novità e dati live gated → passaggio a rendimento nullo. Priorità di chiusura alzata: è il difetto in-corso a impatto-efficienza più ricorrente (vedi L-2026-0702-48)."
+      "chiuso_il": "2026-07-02 23:20",
+      "nota_fix": "Sensore-cassa/registry/costo agganciati al giro. MANCA: logica delta-gate salta-AI-se-nulla-di-nuovo + banco AI economico. PROVA FRESCA 2/7 17:01: giro ripartito a 8 min dal precedente con zero novità e dati live gated → passaggio a rendimento nullo. Priorità di chiusura alzata: è il difetto in-corso a impatto-efficienza più ricorrente (vedi L-2026-0702-48).",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "DELTA-GATE",
+        "presente": true
+      },
+      "chiuso_come": "cervello/giro.sh contiene /DELTA-GATE/ → delta-gate cablato nel giro (PR #147 su main)."
     },
     {
       "id": "AR-020",
@@ -316,7 +334,7 @@
   ],
   "meta": {
     "aperti": 0,
-    "in_corso": 4,
-    "chiusi": 18
+    "in_corso": 2,
+    "chiusi": 20
   }
 }
