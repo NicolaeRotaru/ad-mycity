@@ -384,3 +384,7 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-01 20:18 · @operations · FATTO · Escalation post-168h **v11** + ripiano consegna **2/7 mattina** (finestra slot scaduta)
 - 2026-07-01 20:18 · @AD · FATTO · Briefing + STATO + ultimo-briefing.json + auto-coscienza + Intelligence eventi/buchi + piani AD
 - 2026-07-01 20:18 · @AD · SERVE · Nicola: **`ok 16` 2/7 mattina** · SQL 107 · root sync VPS
+
+## Casella #19 — Nicola chiede collegamento Render (2026-07-02 08:16)
+
+- 2026-07-02 08:16 · @AD · FATTO · Nicola «come collego il canale Render?» (card #19 deploy ruoli acquisto) → chiarito: **Render non è una mano API separata** — è già agganciato a GitHub su `mycity`; merge `main` = auto-deploy (come Sprint 1 #209+#210). Sblocco operativo = **#14+#15 PAT GitHub** su VPS, non token Render. Pulsante Approva Pannello su canale Render **non esegue** deploy (mani.ts solo email). Via: chat **`ok merge fix ruoli-acquisto-admin-seller`**. ⏳ branch locale: commit staged non pushato.
