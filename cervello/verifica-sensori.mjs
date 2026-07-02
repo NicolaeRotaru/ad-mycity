@@ -81,9 +81,20 @@ function leggiCecita() {
  * @param {string} dettaglio
  * @param {string} canale
  */
-function aggiornaSensore(prev, key, ok, dettaglio, canale) {
+function aggiornaSensore(prev, key, ok, dettaglio, canale, configurato = true) {
   const old = prev[key] || { giri_ciechi: 0 };
   const quando = nowPiacenza();
+  // Sensore senza chiave = "non_configurato": NON è una cecità, il contatore resta a 0 così non
+  // gonfia max_giri_ciechi né fa scattare la sentinella (fix del "sensore fantasma" tipo Stripe).
+  if (!configurato) {
+    return {
+      ...old,
+      stato: "non_configurato",
+      giri_ciechi: 0,
+      canale,
+      dettaglio: dettaglio.slice(0, 200),
+    };
+  }
   if (ok) {
     return {
       ...old,
@@ -125,10 +136,12 @@ async function checkSupabaseMarketplace() {
 
 async function checkStripe() {
   const key = process.env.STRIPE_SECRET_KEY?.trim();
+  // AR-003b/salute-sensori: un sensore SENZA chiave è "non configurato", NON "cieco". Contarlo come cieco
+  // gonfiava max_giri_ciechi all'infinito e faceva scattare la sentinella a vuoto (Stripe mai collegato).
   if (!key) {
-    return { ok: false, dettaglio: "STRIPE_SECRET_KEY assente — Stripe non verificabile" };
+    return { ok: false, configurato: false, dettaglio: "STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)" };
   }
-  return conRetry(async () => {
+  const r = await conRetry(async () => {
     const res = await fetch("https://api.stripe.com/v1/balance", {
       headers: { Authorization: `Bearer ${key}` },
     });
@@ -138,6 +151,46 @@ async function checkStripe() {
     }
     return { ok: true, dettaglio: "balance API ok" };
   }, "stripe_api");
+  return { ...r, configurato: true };
+}
+
+async function checkPostHog() {
+  const key = process.env.POSTHOG_API_KEY?.trim() || process.env.POSTHOG_PERSONAL_API_KEY?.trim();
+  const host = (process.env.POSTHOG_HOST?.trim() || "https://eu.posthog.com").replace(/\/$/, "");
+  // AR-022: PostHog era dichiarato sensore nella spec ma senza health-check. Se assente → non configurato.
+  if (!key) {
+    return { ok: false, configurato: false, dettaglio: "POSTHOG_API_KEY assente — funnel/conversione non monitorati" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetch(`${host}/api/projects/@current`, {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
+    }
+    return { ok: true, dettaglio: "projects API ok" };
+  }, "posthog_api");
+  return { ...r, configurato: true };
+}
+
+async function checkResend() {
+  const key = process.env.RESEND_API_KEY?.trim();
+  // AR-022: Resend sono le "mani" email reali. Se muore, le email approvate falliscono in silenzio.
+  if (!key) {
+    return { ok: false, configurato: false, dettaglio: "RESEND_API_KEY assente — invio email non monitorato" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetch("https://api.resend.com/domains", {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
+    }
+    return { ok: true, dettaglio: "domains API ok" };
+  }, "resend_api");
+  return { ...r, configurato: true };
 }
 
 async function main() {
@@ -166,7 +219,30 @@ async function main() {
     "stripe_api",
     st.ok,
     st.dettaglio,
-    "Stripe API"
+    "Stripe API",
+    st.configurato
+  );
+
+  const ph = await checkPostHog();
+  checks.push({ nome: "posthog_api", ...ph, canale: "POSTHOG_API_KEY" });
+  cecita.sensori.posthog_api = aggiornaSensore(
+    cecita.sensori,
+    "posthog_api",
+    ph.ok,
+    ph.dettaglio,
+    "PostHog API",
+    ph.configurato
+  );
+
+  const rs = await checkResend();
+  checks.push({ nome: "resend_api", ...rs, canale: "RESEND_API_KEY" });
+  cecita.sensori.resend_api = aggiornaSensore(
+    cecita.sensori,
+    "resend_api",
+    rs.ok,
+    rs.dettaglio,
+    "Resend API",
+    rs.configurato
   );
 
   const mcpSb = parseMcpFlag("supabase");
@@ -206,11 +282,17 @@ async function main() {
     );
   }
 
-  const datiOk = checks.filter((c) => c.ok);
-  const tuttiCiechi = datiOk.length === 0;
+  const configurati = checks.filter((c) => c.configurato !== false);
+  const datiOk = configurati.filter((c) => c.ok);
+  // "tutti ciechi" = nessuna FONTE DATI CONFIGURATA è leggibile. I sensori spenti (senza chiave, es.
+  // Stripe/PostHog/Resend non collegati) NON contano come cecità: erano la causa della sentinella a vuoto.
+  const tuttiCiechi = configurati.length > 0 ? datiOk.length === 0 : true;
+  // max cecità SOLO sui sensori realmente "cieco" (esclude i "non_configurato").
   const maxCecita = Math.max(
     0,
-    ...Object.values(cecita.sensori).map((s) => s.giri_ciechi || 0)
+    ...Object.values(cecita.sensori)
+      .filter((s) => s.stato === "cieco")
+      .map((s) => s.giri_ciechi || 0)
   );
 
   cecita.aggiornato = quando;
@@ -221,7 +303,8 @@ async function main() {
       : "Stripe ok ma Supabase REST cieco: limita analisi ordini; verifica MARKETPLACE_SUPABASE_* sul VPS.";
 
   cecita.meta.sensori_ok = datiOk.length;
-  cecita.meta.sensori_totali = checks.length;
+  cecita.meta.sensori_totali = configurati.length;
+  cecita.meta.sensori_non_configurati = checks.length - configurati.length;
   cecita.meta.max_giri_ciechi = maxCecita;
   cecita.meta.almeno_un_dato = !tuttiCiechi;
 

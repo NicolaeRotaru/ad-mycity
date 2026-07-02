@@ -65,9 +65,25 @@ function main() {
     sonda: {},
   });
   const storico = readJson(STORICO_PATH, { serie: [] });
+  const cantiere = readJson(join(VAULT, "cantiere-difetti.json"));
+  const calibr = readJson(join(VAULT, "calibrazione.json"));
+  const autoMig = readJson(join(VAULT, "auto-miglioramento.json"));
 
+  // AR-013: il volano non deve AUTO-CERTIFICARSI leggendo un numero che l'LLM scrive a mano.
+  // "loop chiude" richiede PROVE deterministiche di chiusura, non solo tasso_applicazione > 0:
+  //   (a) almeno un difetto del cantiere è passato a 'chiuso', OPPURE
+  //   (b) la calibrazione ha almeno una previsione registrata (previsto-vs-reale), OPPURE
+  //   (c) c'è almeno un esperimento di auto-miglioramento MISURATO.
   const tasso = Number(app.meta?.tasso_applicazione ?? 0);
-  const loopChiude = tasso > 0;
+  const difettiChiusi = Number(cantiere.meta?.chiusi ?? 0);
+  const calibrazionePiena =
+    (Array.isArray(calibr.registro) && calibr.registro.length > 0) ||
+    (Array.isArray(calibr.per_reparto) && calibr.per_reparto.length > 0);
+  const esperimentiMisurati =
+    Array.isArray(autoMig.esperimenti) &&
+    autoMig.esperimenti.some((e) => e && (e.stato === "misurato" || e.data_misura));
+  const provaChiusura = difettiChiusi > 0 || calibrazionePiena || esperimentiMisurati;
+  const loopChiude = tasso > 0 && provaChiusura;
 
   const oreBrief = oreFa(brief.data);
   const oreRad = oreFa(rad.data);
@@ -85,13 +101,17 @@ function main() {
   const serveRadiografiaCompleta = giriTassoBasso >= 3 || oreRad > 240;
 
   let verdetto = "ok";
-  if (!loopChiude || giriTassoBasso >= 3) verdetto = "serve-completa";
-  else if (!giroACadenza || maxCecita >= 3 || tasso < 0.3) verdetto = "attenzione";
+  if (giriTassoBasso >= 3 || oreRad > 240) verdetto = "serve-completa";
+  else if (!loopChiude || !giroACadenza || maxCecita >= 3 || tasso < 0.3) verdetto = "attenzione";
 
   const sonda = {
     data: quando,
     loop_chiude: loopChiude,
     tasso_applicazione: tasso,
+    prova_chiusura: provaChiusura,
+    difetti_chiusi: difettiChiusi,
+    calibrazione_piena: calibrazionePiena,
+    esperimenti_misurati: esperimentiMisurati,
     giro_a_cadenza: giroACadenza,
     sentinelle_scattano: sentinelleScattano,
     ore_da_ultima_completa: Math.round(oreRad),
@@ -101,7 +121,7 @@ function main() {
     serve_radiografia_completa: serveRadiografiaCompleta,
     verdetto,
     nota: [
-      loopChiude ? "loop ok" : "tasso_applicazione=0",
+      loopChiude ? "loop chiude (con prova)" : provaChiusura ? "tasso=0 ma c'è chiusura" : "loop NON chiude: nessuna prova (0 difetti chiusi, calibrazione vuota, 0 esperimenti misurati)",
       giroACadenza ? `briefing ${Math.round(oreBrief)}h fa` : `briefing STALE (${Math.round(oreBrief)}h)`,
       maxCecita >= 3 ? `cecità sensori ${maxCecita} giri` : `sensori max cecità ${maxCecita}`,
       giriTassoBasso >= 3 ? "tasso basso 3+ giri → radiografia completa" : null,
@@ -123,7 +143,7 @@ function main() {
     data: oggi,
     voto_salute: voto,
     difetti_aperti: difettiAperti,
-    difetti_chiusi: 0,
+    difetti_chiusi: difettiChiusi,
     tipo: "sonda",
     nota: sonda.nota,
   };
