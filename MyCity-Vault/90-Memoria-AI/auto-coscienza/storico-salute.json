@@ -175,6 +175,14 @@
       "difetti_chiusi": 0,
       "tipo": "sonda",
       "nota": "loop ok · briefing fresco · sentinelle business attive · Stripe cieco 4 giri · REST ok"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 1h fa · cecità sensori 5 giri"
     }
   ]
 }
