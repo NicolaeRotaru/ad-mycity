@@ -1,18 +1,16 @@
 {
-  "data": "2026-07-02 17:21",
-  "situazione": "Giro delta 17:21, 12 min dopo la risoluzione della decisione #16 (17:09). Novità positiva: Nicola ha scelto A (ESEGUIRE #16, non «archivia zombie»), slot spostato a cena 19:00–21:00. La prima transazione MyCity dipende ora da 1 azione manuale: tap link WhatsApp #20 → #21 accetta ordine + chiama PQ → #22 consegna COD €19,05 → «consegna fatta». Stallo ~199h (ancora ordine 24/6); 0 transazioni finché la consegna non parte. Baseline REST 10:19 portata avanti (live gated in sessione: MCP + node richiedono approvazione), nessun numero inventato.",
+  "data": "2026-07-02 18:21",
+  "situazione": "Giro serale ~20 min dopo il Report della sera (18:00). Novità positiva di MACCHINA: la nuova infrastruttura anti-giri-a-vuoto è viva — il runner ha girato sensori + delta-gate (AR-019) + sonda chiusura-loop (AR-009) e ha ri-pullato i 7 numeri LIVE via REST alle 18:20 (non più baseline portata avanti). Verdetto dati: tutto invariato ma confermato live — 1 negozio reale (Pane Quotidiano), 1 ordine (ultimo 24/6), 0 pagati/consegnati, 23 profili totali. Stallo ~202h dall'ancora ordine 24/6. Il collo di bottiglia resta la prima transazione: dipende da 1 azione manuale (#20 WhatsApp) già decisa (esegui, cena 19–21). La sonda chiusura-loop segnala 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).",
   "opportunita": [
-    {"titolo": "Chiudere #16 stasera (cena 19–21)", "motivo": "Decisa l'esecuzione: la cena è l'ultima finestra utile oggi per la prima transazione. Pacchetto ok16 già pronto e aggiornato allo slot cena — servono 5 minuti e 1 tap.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Batch onboarding 6/7", "motivo": "407 lead in attesa, checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Payout-test 3/7 mattina", "motivo": "Sblocca il flusso pagamenti in sandbox indipendentemente dall'ordine zombie.", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Chiudere #16 stasera (cena 19–21)", "motivo": "Decisa l'esecuzione: è l'ultima finestra utile oggi per la prima transazione. Pacchetto pronto, serve 1 tap WhatsApp.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Payout-test 3/7 mattina", "motivo": "Sblocca il flusso pagamenti in sandbox indipendentemente dall'ordine zombie.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Batch onboarding 6/7", "motivo": "407 lead, checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "R2 — attivare i 18 fix del cantiere", "motivo": "Merge+deploy branch machine-analysis rende attivi timeout giro, gate sensori anti-invenzione, guardiano agenti, sensore cassa: oggi scritti ma inerti.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Esegui #16 stasera — tap WhatsApp #20 (cena 19–21) → #21 → #22 → «consegna fatta»", "motivo": "È l'unico passo che sblocca 8 giorni di stallo. Tutto il resto è pronto: manca solo la mano di Nicola.", "livello": "rosso"},
+    {"titolo": "Esegui #16 stasera — tap WhatsApp #20 (cena 19–21) → #21 → #22 → «consegna fatta»", "motivo": "È l'unico passo che sblocca 8 giorni (~202h) di stallo. Tutto il resto è pronto: manca solo la mano di Nicola.", "livello": "rosso"},
     {"titolo": "R1 — Revoca il PAT GitHub (AR-004)", "motivo": "È l'unica remediation del segreto già entrato nella storia git.", "livello": "rosso"},
-    {"titolo": "SQL 107 DROP policy profiles", "motivo": "Unico bloccante RLS post-Sprint 1, prerequisito batch 6/7.", "livello": "giallo"},
-    {"titolo": "R2 — Merge+deploy fix cantiere (branch machine-analysis)", "motivo": "Attiva i 18 fix già chiusi in codice (timeout giro, gate sensori, ecc.).", "livello": "giallo"}
-  ],
-  "decisioni_registrate": [
-    {"id": "decisione-binaria-16-esegui-20-whatsapp-cena-opp", "scelta": "A", "esito": "ESEGUI #20 WhatsApp (cena 19–21), non archivia zombie", "ora": "2026-07-02 17:09", "fonte": "Nicola (Pannello A/B)", "nota": "Card decisione binaria da NON rigenerare: decisione presa."}
+    {"titolo": "R2 — Merge+deploy fix cantiere (branch machine-analysis)", "motivo": "Attiva i 18 fix già chiusi in codice.", "livello": "giallo"},
+    {"titolo": "SQL 107 DROP policy profiles", "motivo": "Unico bloccante RLS post-Sprint 1, prerequisito batch 6/7.", "livello": "giallo"}
   ]
 }

@@ -481,3 +481,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 18:00 · @analista · FATTO · Numeri vs ieri invariati (live gated MCP+node → baseline REST 10:19); stallo **~201,5h** (+~9h vs 20:18 di ieri). 1 negozio reale/0 payout/1 ordine COD/0 consegnati/4 buyer.
 - 2026-07-02 18:00 · @AD · Lezione L-2026-0702 · **firma ≠ esecuzione**: un'azione 🔴 firmata resta ferma se la «mano» reale non scatta nella stessa finestra → collo di bottiglia = mani non collegate (WhatsApp/consegna), non i sensori. Aggancio AR-019 + automazione mani.
 - 2026-07-02 18:00 · @AD · SERVE · Nicola stasera **19–21**: tap link WhatsApp #20 → #21 accetta+chiama PQ → #22 consegna COD €19,05 → «consegna fatta». In parallelo: 🔴 R1 revoca PAT GitHub · 🟡 SQL 107 · 🟡 root sync VPS #17.
+
+### 2026-07-02 — 🔭 GIRO SERALE (AD · 18:21)
+- 2026-07-02 18:21 · @AD · FATTO · Giro serale completo: letti sensori (ledger 18:20 REST ok, MCP cieco 1 giro), delta-gate (AR-019) e sonda chiusura-loop (AR-009) — **la nuova macchina anti-giri-a-vuoto è VIVA e persiste i suoi file su disco**.
+- 2026-07-02 18:21 · @analista · FATTO · **7 numeri RI-PULLATI LIVE via REST/delta-gate 18:20** (non più baseline): ordini=1, ultimo_ordine 24/6, profili=23, dati_leggibili=true → tutto invariato ma MISURATO. Stallo **~202h**.
+- 2026-07-02 18:21 · @AD · FATTO · Sonda chiusura-loop: 38 quaderni vivi · 5 fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali) · 3 vuoti (i 2 gate creativi senza quaderno = difetto AR già a cantiere).
+- 2026-07-02 18:21 · @AD · FATTO · Calibrazione @AD 18/18: previsione «0 transazioni finché #20–#22 non eseguiti» confermata dal REST live. Aggiornati STATO, briefing (passaggio 18:21 in cima), ultimo-briefing, auto-analisi (voto 84 ▲), registro-realta (evidenza live 18:20).
+- 2026-07-02 18:21 · @AD · SERVE · Nulla di nuovo di business: resta la mossa n.1 (Nicola, cena 19–21: #20→#21→#22 → «consegna fatta») + R1 revoca PAT + R2 merge fix cantiere + SQL 107.

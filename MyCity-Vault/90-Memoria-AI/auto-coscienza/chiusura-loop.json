@@ -1,0 +1,362 @@
+{
+  "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
+  "aggiornato": "2026-07-02 18:20",
+  "soglia_giorni": 7,
+  "totale": 43,
+  "vuoti": 3,
+  "fermi": 5,
+  "vivi": 38,
+  "reparti_fermi": [
+    "ad",
+    "direttore-creativo",
+    "marketing",
+    "qa-designer",
+    "relazioni-istituzionali"
+  ],
+  "quaderni": [
+    {
+      "reparto": "account-negozi",
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-01 12:00",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "ad",
+      "righe_esito": 0,
+      "ultimo_esito": null,
+      "giorni_fa": null,
+      "vuoto": true,
+      "fermo": true
+    },
+    {
+      "reparto": "ads-performance",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "ai-copywriter",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "ai-designer",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "ai-video",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "analista",
+      "righe_esito": 7,
+      "ultimo_esito": "2026-07-02 08:36",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "backend-dev",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "builder-automazioni",
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-01 01:59",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "contabilita",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "content-social",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "crm-lifecycle",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-02 07:35",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "cro",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "customer-success",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "data-engineer",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "designer",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "devops-sre",
+      "righe_esito": 22,
+      "ultimo_esito": "2026-07-02 08:17",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "direttore-creativo",
+      "righe_esito": 0,
+      "ultimo_esito": null,
+      "giorni_fa": null,
+      "vuoto": true,
+      "fermo": true
+    },
+    {
+      "reparto": "dispatch",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "dispute",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "finanza",
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-01 01:57",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "frontend-dev",
+      "righe_esito": 8,
+      "ultimo_esito": "2026-07-01 11:00",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "growth-monetizzazione",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "influencer-partnership",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "intelligence",
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "legale-privacy",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01 01:06",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "marketing",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-06-24",
+      "giorni_fa": 8,
+      "vuoto": false,
+      "fermo": true
+    },
+    {
+      "reparto": "onboarding-negozi",
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-01 11:26",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "operations",
+      "righe_esito": 7,
+      "ultimo_esito": "2026-07-01 20:18",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "pr-stampa",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "product-manager",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "prompt-engineer",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01 00:36",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "qa-designer",
+      "righe_esito": 0,
+      "ultimo_esito": null,
+      "giorni_fa": null,
+      "vuoto": true,
+      "fermo": true
+    },
+    {
+      "reparto": "qa",
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-01 01:57",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "relazioni-istituzionali",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-06-25",
+      "giorni_fa": 7,
+      "vuoto": false,
+      "fermo": true
+    },
+    {
+      "reparto": "rider-fleet",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "security",
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-02 17:30",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "seo",
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "supporto",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "tech",
+      "righe_esito": 8,
+      "ultimo_esito": "2026-07-02 07:35",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "trust-safety",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "ux-designer",
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-01",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "vendite",
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-01 01:06",
+      "giorni_fa": 2,
+      "vuoto": false,
+      "fermo": false
+    }
+  ]
+}

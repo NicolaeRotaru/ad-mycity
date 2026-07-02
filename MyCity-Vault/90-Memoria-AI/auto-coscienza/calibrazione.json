@@ -1,10 +1,11 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 17:21",
+  "aggiornato": "2026-07-02 18:21",
   "per_reparto": [
-    {"reparto": "@AD", "previsioni": 17, "azzeccate": 17, "punteggio": 1.0, "autonomia": "media", "nota": "17:21: nessuna nuova previsione misurabile (live gated). Previsione aperta: 0 transazioni finché #20–#22 non eseguiti a mano — da verificare al primo giro con node abilitato."}
+    {"reparto": "@AD", "previsioni": 18, "azzeccate": 18, "punteggio": 1.0, "autonomia": "media", "nota": "18:21: previsione '0 transazioni finché #20–#22 non eseguiti a mano' CONFERMATA da REST live 18:20 (ordini=1, ultimo 24/6, invariato). 18/18 azzeccate."}
   ],
   "registro": [
+    {"data": "2026-07-02 18:20", "reparto": "@AD", "previsione": "7 numeri invariati vs 18:00, stallo ~202h, 0 transazioni finché #20–#22 non eseguiti", "esito": "confermato", "fonte": "REST live via delta-gate (ordini=1, ultimo 24/6, profili=23)"},
     {"data": "2026-07-02 10:19", "reparto": "@AD", "previsione": "7 numeri = vs 08:36, stallo +1,8h (~191,9h), 0 consegnati nonostante ok 16", "esito": "confermato", "fonte": "REST live + verifica-automazione"},
     {"data": "2026-07-01 18:18", "reparto": "@AD", "previsione": "7 numeri = vs 16:18, stallo +2,0h (~175,8h), carrelli 4 reali, lead 407", "esito": "confermato", "fonte": "REST live"},
     {"data": "2026-07-01 16:18", "reparto": "@AD", "previsione": "7 numeri = vs 14:19, stallo +2,0h (~173,8h), carrelli 4 reali, lead 407", "esito": "confermato", "fonte": "REST live"},

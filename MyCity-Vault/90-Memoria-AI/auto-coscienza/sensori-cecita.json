@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-02 18:18",
+  "aggiornato": "2026-07-02 18:49",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-02 18:18",
+      "ultimo_ok": "2026-07-02 18:49",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -19,31 +19,35 @@
     },
     "stripe_api": {
       "giri_ciechi": 0,
-      "stato": "non_configurato",
+      "stato": "ok",
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
-      "dettaglio": "STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)"
+      "dettaglio": "balance API ok",
+      "ultimo_ok": "2026-07-02 18:49"
     },
     "posthog_api": {
-      "giri_ciechi": 0,
-      "stato": "non_configurato",
+      "giri_ciechi": 1,
+      "stato": "cieco",
       "canale": "PostHog API",
-      "dettaglio": "POSTHOG_API_KEY assente — funnel/conversione non monitorati"
+      "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
+      "ultimo_errore": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)"
     },
     "resend_api": {
       "giri_ciechi": 0,
-      "stato": "non_configurato",
+      "stato": "ok",
       "canale": "Resend API",
-      "dettaglio": "RESEND_API_KEY assente — invio email non monitorato"
+      "dettaglio": "domains API ok",
+      "ultimo_ok": "2026-07-02 18:49",
+      "ultimo_errore": ""
     }
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 14,
-    "sensori_ok": 1,
+    "giri_totali": 17,
+    "sensori_ok": 3,
     "max_giri_ciechi": 1,
-    "sensori_totali": 1,
+    "sensori_totali": 4,
     "almeno_un_dato": true,
-    "sensori_non_configurati": 3
+    "sensori_non_configurati": 0
   }
 }

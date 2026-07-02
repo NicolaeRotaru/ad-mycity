@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 18:00
-fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 portata avanti · live gated MCP+node · Supabase clmpyfvpvfjgeviworth · stallo ~201,5h da ancora 24/6 08:28)
+aggiornato: 2026-07-02 18:21
+fonte: AD digitale (Giro serale · 7 numeri RI-PULLATI LIVE via REST/delta-gate 18:20 · MCP cieco 1 giro · Supabase clmpyfvpvfjgeviworth · stallo ~202h da ancora 24/6 08:28)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -15,7 +15,7 @@ fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 port
 >
 > 🧠 **2/7 08:40 — ok merge #19:** PR #211 merged `f84fc70` → Render LIVE · smoke @qa da completare.
 
-## I 7 numeri (baseline REST 2/7 10:19 portata avanti · non ri-pullati live alle 16:53 — vedi Gap briefing)
+## I 7 numeri (RI-PULLATI LIVE via REST/delta-gate 2/7 18:20 · confermati invariati)
 | Numero | Oggi (2/7) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
@@ -23,7 +23,7 @@ fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 port
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · ok 16 firmato 08:38 · **Scelta A 17:09 = esegui (cena 19–21)** |
 | Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~201,5h** (18:00) |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~202h** (18:21) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
@@ -53,7 +53,7 @@ fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 port
 - 🟡 Da tenere d'occhio: **#16 Scelta A confermata — esegui CENA 19–21** (passi #20–#22 manuali, tap link WhatsApp); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali** — stallo **~199h** (+31h oltre 168h); pranzo perso ma **decisione presa (esegui, non archivia)** → finestra cena 19–21 aperta; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
-## Auto-coscienza (2026-07-02 17:21 · giro AD)
+## Auto-coscienza (2026-07-02 18:21 · giro AD serale)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Voto salute architettura | **42** (completa 12:09) | `auto-radiografia.json` top-level |
@@ -63,7 +63,8 @@ fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 port
 | Loop business | 🔴 in corso | ok 16 firmato ma non eseguito tutta la giornata (pranzo perso) |
 
 ## Ultime mosse dell'AD
-0. **🌙 Report della sera 2/7 18:00** — chiusura giornata: #19 MERGED (Render LIVE), cantiere radiografia 42→80, decisione #16 = esegui (cena 19–21). Numeri invariati (live gated, baseline REST 10:19), stallo **~201,5h**. Lezione L-2026-0702: firma ≠ esecuzione (mani non collegate). RITMO.md + SALA aggiornati.
+0. **🔭 Giro serale 2/7 18:21** — la nuova macchina anti-giri-a-vuoto è VIVA: girati sensori + delta-gate (AR-019) + sonda chiusura-loop (AR-009), **7 numeri ri-pullati LIVE via REST 18:20** (non più baseline): invariati e confermati (1 ordine, ultimo 24/6, 23 profili). Stallo **~202h**. Sonda chiusura-loop: 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali). Nessuna novità di business; decisione #16 = esegui cena 19–21 invariata.
+0b. **🌙 Report della sera 2/7 18:00** — chiusura giornata: #19 MERGED (Render LIVE), cantiere radiografia 42→80, decisione #16 = esegui (cena 19–21). Lezione L-2026-0702: firma ≠ esecuzione (mani non collegate). RITMO.md + SALA aggiornati.
 1. **Giro 2/7 17:21** — delta 12 min dopo la decisione #16: registrato stato «esegui», stallo ricalcolato **~199h**, timestamp/snapshot aggiornati. Live gated (MCP/node), baseline REST 10:19 avanti, nessun numero nuovo.
 1. **Decisione binaria #16 2/7 17:09** — Nicola **Scelta A (esegui, non archivia)** dal Pannello · slot → **cena 19–21** · #20–#22 attive · pacchetto + DECISIONI + coda aggiornati · card da non rigenerare.
 2. **Giro 2/7 17:01** — delta 8 min: nulla di nuovo, stallo ~198,6h · decisione binaria stasera (poi risolta 17:09). Live gated, baseline REST portata avanti.
@@ -80,7 +81,7 @@ fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 port
 4. [ ] 🟡 **R2 — Merge+deploy fix cantiere** (branch machine-analysis)
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~199h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+31h) · loop business 🔴 · voto salute architettura 42 (<60, completa già fatta 12:09).
+**Sentinelle attive:** ordine ritardo ~202h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+34h) · loop business 🔴 · voto salute architettura 42 (<60, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (2 gate creativi senza quaderno = AR a cantiere).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
