@@ -186,22 +186,79 @@ battito_worker() {
     >/dev/null 2>&1 || true
 }
 
-# Dopo un restart systemd i lavori restano «in_corso» ma nessun processo li esegue più.
-# Rimettiamoli in coda così il worker non resta in sleep 5s per sempre.
+# --- PROTEZIONE ANTI-VELENO DELLA CODA -----------------------------------------------------------
+# Sintomo storico: "il worker si impalla ogni volta che ci sono >2 lavori in coda". Causa radice:
+# il loop prende SEMPRE il lavoro in_attesa PIÙ VECCHIO (FIFO stretto) e non aveva alcun limite di
+# tentativi. Un lavoro "avvelenato" — tipicamente un `giro` (pipeline pesante da 45 min) che fa cadere
+# il worker (timeout/OOM/restart) PRIMA di scrivere l'esito — restava in testa alla coda: al riavvio
+# veniva rimesso in_attesa e ripescato all'infinito (crash-loop), tenendo bloccati TUTTI i lavori dietro.
+# Fix: al riavvio i lavori interrotti/scaduti diventano ERRORE (dead-letter) invece di essere riprovati
+# per sempre → la coda si sblocca DA SOLA e non si ri-intasa. I lavori chiusi restano visibili e
+# ri-approvabili dal Pannello (nessuna perdita silenziosa).
+
+# Soglie (override da .env). In minuti.
+SOGLIA_ORFANO_MIN="${WORKER_SOGLIA_ORFANO_MIN:-60}"      # in_corso orfano più vecchio di così → dead-letter subito
+SOGLIA_GIRO_MIN="${WORKER_SOGLIA_GIRO_MIN:-120}"         # un `giro` è puntuale: in coda da >2h = scaduto (dati cambiati)
+SOGLIA_ABBANDONO_MIN="${WORKER_SOGLIA_ABBANDONO_MIN:-2880}"  # qualsiasi altro lavoro fermo da >48h = abbandonato
+
+# Minuti trascorsi da un timestamp ISO (robusto: se il parse fallisce torna 0 = "recente", non chiude nulla).
+_eta_min() {
+  local t="$1" epoch
+  epoch="$(date -d "$t" +%s 2>/dev/null || echo 0)"
+  [ "$epoch" -gt 0 ] 2>/dev/null && echo $(( ( $(date +%s) - epoch ) / 60 )) || echo 0
+}
+
+# Chiude un lavoro in ERRORE (dead-letter) con una nota leggibile per Nicola.
+_dead_letter() {
+  local id="$1" nota="$2" body
+  body="$(jq -n --arg r "$nota" '{stato:"errore", risultato:$r}')"
+  curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 || true
+}
+
+# 1) ORFANI in_corso: a worker appena avviato NESSUN lavoro è in esecuzione, quindi ogni "in_corso" è un
+#    orfano (il processo che lo eseguiva è morto). Diamo UNA sola seconda chance ai freschi/leggeri; i già
+#    ritentati (marker nel risultato) o troppo vecchi → dead-letter, per rompere il crash-loop.
 recupera_lavori_orfani() {
-  local orfani id tipo
-  orfani="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=id,tipo,updated_at&order=updated_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  local orfani row id tipo agg ris eta
+  orfani="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=id,tipo,updated_at,risultato&order=updated_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
   printf '%s' "$orfani" | jq -c '.[]?' 2>/dev/null | while read -r row; do
-    id="$(printf '%s' "$row" | jq -r '.id // empty')"
+    id="$(printf '%s' "$row" | jq -r '.id // empty')"; [ -z "$id" ] && continue
     tipo="$(printf '%s' "$row" | jq -r '.tipo // "?"')"
-    [ -z "$id" ] && continue
-    echo "[$(ts)] Recupero lavoro orfano $id ($tipo): in_corso → in_attesa (worker riavviato)." >&2
-    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
-      -d '{"stato":"in_attesa"}' >/dev/null 2>&1 || true
+    agg="$(printf '%s' "$row" | jq -r '.updated_at // empty')"
+    ris="$(printf '%s' "$row" | jq -r '.risultato // ""')"
+    eta="$(_eta_min "$agg")"
+    if printf '%s' "$ris" | grep -q '\[recuperato' || [ "$eta" -gt "$SOGLIA_ORFANO_MIN" ] || [ "$tipo" = "giro" ]; then
+      echo "[$(ts)] Orfano $id ($tipo, ${eta}min): già ritentato/scaduto → DEAD-LETTER (errore) per sbloccare la coda." >&2
+      _dead_letter "$id" "[worker] Lavoro interrotto (worker caduto mentre lo eseguiva) e già ritentato o troppo vecchio (${eta} min) → chiuso in errore per NON bloccare la coda. Ri-approva dal Pannello se serve."
+    else
+      echo "[$(ts)] Orfano $id ($tipo, ${eta}min): 2ª chance → in_corso → in_attesa (marcato recuperato)." >&2
+      local body
+      body="$(jq -n --arg r "[recuperato 1x $(ts)] $ris" '{stato:"in_attesa", risultato:$r}')"
+      curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 || true
+    fi
+  done
+}
+
+# 2) SCADUTI in_attesa: un `giro` fermo da >SOGLIA_GIRO_MIN non ha più valore (è puntuale) ed è il veleno
+#    n.1 (il più pesante) → chiudilo. Qualsiasi altro lavoro fermo da >SOGLIA_ABBANDONO_MIN = abbandonato.
+scarta_lavori_scaduti() {
+  local vecchi row id tipo creato eta soglia
+  vecchi="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&select=id,tipo,created_at&order=created_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  printf '%s' "$vecchi" | jq -c '.[]?' 2>/dev/null | while read -r row; do
+    id="$(printf '%s' "$row" | jq -r '.id // empty')"; [ -z "$id" ] && continue
+    tipo="$(printf '%s' "$row" | jq -r '.tipo // "?"')"
+    creato="$(printf '%s' "$row" | jq -r '.created_at // empty')"
+    eta="$(_eta_min "$creato")"
+    if [ "$tipo" = "giro" ]; then soglia="$SOGLIA_GIRO_MIN"; else soglia="$SOGLIA_ABBANDONO_MIN"; fi
+    if [ "$eta" -gt "$soglia" ]; then
+      echo "[$(ts)] Scaduto $id ($tipo, ${eta}min > ${soglia}): DEAD-LETTER (errore)." >&2
+      _dead_letter "$id" "[worker] Lavoro '$tipo' rimasto in coda ${eta} min (oltre la soglia ${soglia}) → scaduto, chiuso in errore. Ri-approva dal Pannello se serve ancora."
+    fi
   done
 }
 
 recupera_lavori_orfani
+scarta_lavori_scaduti
 
 while true; do
   maybe_reload_worker
