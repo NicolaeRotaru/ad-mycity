@@ -10,6 +10,8 @@ export type LavoroBase = {
   risultato?: string;
   esperto?: string;
   gruppo_id?: string | null;
+  tentativi?: number;
+  riprova_dopo?: string | null;
 };
 
 export type GruppoLavori = {

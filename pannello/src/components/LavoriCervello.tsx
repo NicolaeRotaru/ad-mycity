@@ -36,6 +36,14 @@ function statoBadge(stato: string) {
   );
 }
 
+// Un lavoro in_attesa con riprova_dopo nel FUTURO non è bloccato: sta aspettando il ritentativo
+// automatico (auto-recovery). Torna l'istante del prossimo tentativo, o null.
+function attendeRitentativo(lv: LavoroBase): number | null {
+  if (lv.stato !== "in_attesa" || !lv.riprova_dopo) return null;
+  const t = new Date(lv.riprova_dopo).getTime();
+  return !isNaN(t) && t > Date.now() ? t : null;
+}
+
 export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
   const mappa = useMemo(() => (typeof window !== "undefined" ? leggiMappaGruppiLocali() : {}), [lavori]);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
@@ -65,6 +73,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   }
 
   const codaBloccata = lavori.some((lv) => {
+    if (attendeRitentativo(lv)) return false; // aspetta il ritentativo programmato: non è "bloccato"
     const t = new Date(lv.updated_at || lv.created_at).getTime();
     if (isNaN(t)) return false;
     if (lv.stato === "in_attesa") return Date.now() - t > 3 * 60 * 1000;
@@ -201,6 +210,15 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                               <div className="flex items-center gap-2 flex-wrap mb-0.5">
                                 {multi && <span className="text-[10px] text-black/35 dark:text-white/35 font-medium">#{i + 1}</span>}
                                 {statoBadge(lv.stato)}
+                                {(() => {
+                                  const q = attendeRitentativo(lv);
+                                  return q ? (
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800 font-medium">
+                                      ↻ ritenta ~{new Date(q).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}
+                                      {lv.tentativi ? ` · tent. ${lv.tentativi}` : ""}
+                                    </span>
+                                  ) : null;
+                                })()}
                                 <span className="ml-auto text-[10px] text-black/35 dark:text-white/35">{faRelativo(lv.updated_at || lv.created_at)}</span>
                               </div>
                               <div className="text-[13px] font-medium text-ink/80 dark:text-white/80 line-clamp-2">{titoloLavoro(lv)}</div>

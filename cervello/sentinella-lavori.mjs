@@ -19,6 +19,7 @@
 // Env:  SUPABASE_URL + SUPABASE_SERVICE_KEY (progetto MEMORIA). Opz: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.
 
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { decidiRitento } from "./retry-policy.mjs";
 
 const URL = process.env.SUPABASE_URL?.trim();
 const KEY = process.env.SUPABASE_SERVICE_KEY?.trim();
@@ -64,9 +65,42 @@ async function main() {
     process.exit(0);
   }
 
-  // 1) Azioni approvate fallite (stato=errore)
-  const errore = await q("lavori?stato=eq.errore&select=id,created_at,updated_at,tipo,richiesta,risultato&order=created_at.desc&limit=100");
-  const falliti = errore.filter((l) => TIPI_AZIONE.includes(l.tipo));
+  // 1) Lavori falliti (stato=errore) — con i campi per il ritentativo.
+  const errore = await q("lavori?stato=eq.errore&select=id,created_at,updated_at,tipo,richiesta,risultato,tentativi&order=created_at.desc&limit=100");
+
+  // 1b) AUTO-RECOVERY (rete di sicurezza): se un lavoro è fallito con un errore RITENTABILE ma è
+  //     rimasto 'errore' senza essere ri-programmato dal worker (worker morto a metà, crash, o codice
+  //     vecchio), lo ri-armo io: torna in_attesa con riprova_dopo. Regola IDENTICA al worker
+  //     (retry-policy.mjs): quota = provato-non-partito → sicuro anche 🔴; timeout su azione reale → resto fermo.
+  const nowMs = Date.now();
+  let riarmati = 0;
+  const bloccati = []; // i davvero fermi (policy = stop) → questi vanno mostrati a Nicola
+  for (const l of errore) {
+    let d = { azione: "stop" };
+    try {
+      d = decidiRitento({ tipo: l.tipo, tentativi: l.tentativi ?? 0, risultato: l.risultato, nowMs });
+    } catch {
+      /* in caso di dubbio: NON ritentare (prudenza) */
+    }
+    if (d.azione === "ritenta") {
+      await q(`lavori?id=eq.${l.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          stato: "in_attesa",
+          tentativi: d.tentativi,
+          riprova_dopo: d.quandoISO,
+          risultato: `${(l.risultato || "").slice(0, 1200)}\n[sentinella] ri-armato: tentativo ${d.tentativi} per ${d.quandoISO} — ${d.motivo} · ${quando}`,
+        }),
+      }).catch(() => {});
+      riarmati += 1;
+    } else {
+      bloccati.push(l);
+    }
+  }
+
+  // I "da riapprovare" nel Pannello = i falliti DAVVERO fermi (non più auto-ritentabili):
+  // azioni reali interrotte a metà, oppure tentativi automatici esauriti (quota/motore da sistemare).
+  const falliti = bloccati.filter((l) => TIPI_AZIONE.includes(l.tipo));
   const nuovi = falliti.filter((l) => !(l.risultato || "").includes(MARKER));
 
   const voci = falliti.map((l) => ({
@@ -116,7 +150,7 @@ async function main() {
   }
 
   // 4) Battito + ping Telegram sui nuovi
-  const sintesi = `${voci.length} approvate fallite (${nuovi.length} nuove) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
+  const sintesi = `${riarmati} ri-armati (auto-retry) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
   await stampSegnale("sentinella-lavori", voci.length > 0 ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const tgTok = process.env.TELEGRAM_BOT_TOKEN?.trim();
@@ -132,10 +166,11 @@ async function main() {
     }).catch(() => {});
   }
 
-  const out = { esito: "ok", quando, falliti: voci.length, nuovi: nuovi.length, orfani_ripresi: requeued, orfani_reali: orfaniReali, voci };
+  const out = { esito: "ok", quando, riarmati, falliti: voci.length, nuovi: nuovi.length, orfani_ripresi: requeued, orfani_reali: orfaniReali, voci };
   if (JSON_MODE) console.log(JSON.stringify(out, null, 2));
   else {
     console.log(`\n🚑 SENTINELLA LAVORI — ${quando}\n${sintesi}\n`);
+    if (riarmati) console.log(`  🔁 ${riarmati} lavoro/i ri-armati in automatico (ritentativo programmato).`);
     for (const v of voci) console.log(`  ⚠️  ${v.titolo}\n      motivo: ${v.motivo}`);
     if (!voci.length) console.log("  ✅ Nessuna azione approvata in errore.");
   }

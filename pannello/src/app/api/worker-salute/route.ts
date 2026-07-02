@@ -59,14 +59,20 @@ export async function GET() {
   const conteggi = { in_attesa: 0, in_corso: 0, fatto: 0, errore: 0 };
   let attesaPiuVecchiaMin: number | null = null;
   let corsoPiuVecchioMin: number | null = null;
+  let inRitentativo = 0;
   const now = Date.now();
 
   for (const l of lavori) {
     conteggi[l.stato as keyof typeof conteggi] = (conteggi[l.stato as keyof typeof conteggi] || 0) + 1;
+    // Un in_attesa con riprova_dopo nel futuro sta aspettando il ritentativo automatico:
+    // NON è "coda lenta" e non deve far scattare l'allarme del worker.
+    const attendeRetry =
+      l.stato === "in_attesa" && typeof l.riprova_dopo === "string" && new Date(l.riprova_dopo).getTime() > now;
+    if (attendeRetry) inRitentativo++;
     const t = new Date(l.updated_at || l.created_at).getTime();
     if (isNaN(t)) continue;
     const min = (now - t) / 60000;
-    if (l.stato === "in_attesa") {
+    if (l.stato === "in_attesa" && !attendeRetry) {
       if (attesaPiuVecchiaMin == null || min > attesaPiuVecchiaMin) attesaPiuVecchiaMin = min;
     }
     if (l.stato === "in_corso") {
@@ -113,6 +119,7 @@ export async function GET() {
     pipeline: pipeline ?? null,
     codiceRev: codiceRev ?? null,
     conteggi,
+    inRitentativo,
     attesaPiuVecchiaMin: attesaPiuVecchiaMin != null ? Math.round(attesaPiuVecchiaMin) : null,
     corsoPiuVecchioMin: corsoPiuVecchioMin != null ? Math.round(corsoPiuVecchioMin) : null,
     problema,
