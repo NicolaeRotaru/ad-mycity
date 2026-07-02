@@ -10,6 +10,9 @@ set -euo pipefail
 ts() { date '+%Y-%m-%d %H:%M'; }
 
 echo "[$(ts)] ▶ Avvio SUBITO giro + auto-analisi (il codice nuovo da main si sincronizza all'inizio del giro)..."
+# AR-019: giro MANUALE esplicito → deve girare PIENO anche se il delta-gate non vede nulla di nuovo.
+# Lascio la sentinella one-shot che giro.sh consuma per scavalcare il gate (il timer dopo torna gated).
+touch /opt/mycity/ad-mycity/cervello/vps/.giro-force 2>/dev/null || true
 # --no-block: fa partire il servizio (Type=oneshot) senza aspettare la fine, così possiamo seguire i log live.
 systemctl start --no-block mycity-giro.service
 
