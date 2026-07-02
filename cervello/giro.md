@@ -24,6 +24,11 @@ Passi:
    e lavora su ciò che hai, segnalando che servono i dati.
 2. Controlla le SENTINELLE (`cervello/sentinelle.md`) contro i dati interni: se
    un segnale supera la soglia, agisci nei 🟢 e allerta sui 🟡/🔴.
+   In più, AUTOCONTROLLO AUTOMAZIONE: esegui `node cervello/verifica-automazione.mjs --json`
+   (🟢 sola lettura). Se l'esito è "errore" (token scaduto, timer watch-main spento, ramo
+   sbagliato sul VPS, segnale automazione:* in errore), segnalalo nel briefing tra i RISCHI
+   e — se bloccante — accoda l'azione di fix 🟡 in AZIONI-IN-ATTESA. La macchina si
+   controlla da sola PRIMA che Nicola se ne accorga.
 3. Scorri il RADAR delle influenze (`cervello/radar.json`) — ora **BIDIREZIONALE**:
    a. **Fattori IN (`direzione: IN`)** — cosa ci influenza: per i `peso ≥ 4` fai un
       check live tramite l'**intelligence** sulle `fonti` (WebSearch/WebFetch); se è

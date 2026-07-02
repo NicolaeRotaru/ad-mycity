@@ -116,6 +116,37 @@ export function gitAuthUrl(cfg) {
   return `https://x-access-token:${cfg.token}@github.com/${cfg.slug}.git`;
 }
 
+// --- Segnali per il Pannello (tabella impostazioni del Supabase MEMORIA) ---
+// Ogni operazione dell'automazione lascia un battito: chiave = "automazione:<nome>",
+// valore = "ok|errore · dettaglio · AAAA-MM-GG HH:MM". Il Pannello li mostra e
+// l'AD li controlla a ogni giro (sentinella). Se Supabase non è configurato, no-op.
+
+export async function stampSegnale(nome, esito, dettaglio = "") {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) return false;
+  const valore = `${esito} · ${dettaglio}`.slice(0, 500);
+  try {
+    const res = await fetch(`${url}/rest/v1/impostazioni?on_conflict=chiave`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=minimal",
+      },
+      body: JSON.stringify({
+        chiave: `automazione:${nome}`,
+        valore,
+        updated_at: new Date().toISOString(),
+      }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 export function nowPiacenza() {
   return new Intl.DateTimeFormat("sv-SE", {
     timeZone: "Europe/Rome",

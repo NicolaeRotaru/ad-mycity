@@ -19,6 +19,7 @@ import {
   githubRequest,
   nowPiacenza,
   resolveRepoConfig,
+  stampSegnale,
 } from "./git-github.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
@@ -272,6 +273,10 @@ async function main() {
     });
   }
 
+  if (!dryRun) {
+    await stampSegnale("pr", "ok", `PR #${pr.number} ${cfg.slug} (${branch} → ${base}) · ${nowPiacenza()}`);
+  }
+
   console.log(
     JSON.stringify(
       {
@@ -290,7 +295,8 @@ async function main() {
   );
 }
 
-main().catch((e) => {
+main().catch(async (e) => {
   console.error("ERRORE:", e.message || e);
+  await stampSegnale("pr", "errore", `${(e.message || e).toString().slice(0, 200)} · ${nowPiacenza()}`);
   process.exit(1);
 });

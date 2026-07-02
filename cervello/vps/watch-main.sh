@@ -41,8 +41,20 @@ fi
 cd "$REPO"
 [ -f "$ENV_FILE" ] && set -a && . "$ENV_FILE" && set +a
 
+# Segnale per il Pannello/sentinelle: chiave automazione:watch-main nella tabella impostazioni.
+segnale() {
+  local esito="$1" dettaglio="$2"
+  if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then return 0; fi
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+    -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"automazione:watch-main\",\"valore\":\"$esito · $dettaglio · $(ts)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ERRORE: GIT_PUSH_TOKEN/GIT_REPO mancanti." >&2
+  segnale "errore" "GIT_PUSH_TOKEN/GIT_REPO mancanti nel .env"
   exit 1
 fi
 
@@ -58,6 +70,7 @@ fi
 
 if ! git fetch "$url" main 2>/dev/null; then
   echo "[$(ts)] watch-main: fetch main fallito." >&2
+  segnale "errore" "fetch main fallito (token scaduto o rete)"
   exit 1
 fi
 
@@ -72,6 +85,7 @@ fi
 
 if [ "$REMOTE_SHA" = "$LAST_SHA" ]; then
   echo "[$(ts)] watch-main: main invariato (${REMOTE_SHA:0:7})."
+  segnale "ok" "main invariato (${REMOTE_SHA:0:7})"
   exit 0
 fi
 
@@ -82,9 +96,14 @@ if [ -z "$LAST_SHA" ] && [ "$FORCE" != 1 ]; then
 fi
 
 echo "[$(ts)] watch-main: main avanzato ${LAST_SHA:0:7} → ${REMOTE_SHA:0:7} — allineo codice..."
-AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"
+if ! AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"; then
+  echo "[$(ts)] watch-main: aggiorna-cervello.sh FALLITO." >&2
+  segnale "errore" "allineamento fallito su ${REMOTE_SHA:0:7} — controlla journalctl"
+  exit 1
+fi
 echo "$REMOTE_SHA" > "$SHA_FILE"
 echo "[$(ts)] watch-main: allineamento completato."
+segnale "ok" "allineato a main ${REMOTE_SHA:0:7}"
 
 exec 9>&-
 
