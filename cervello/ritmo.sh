@@ -116,6 +116,7 @@ La memoria va sul ramo memoria-ad (il push git lo fa ritmo.sh dopo di te — tu 
 Al termine restituisci un riepilogo breve (5-8 righe)."
 
 echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
+RITMO_START="$(date +%s)"   # AR-020: inizio del motore AI, per registrare il costo della cadenza
 ai_build_cmd
 # AR-005: timeout dentro ritmo.sh (come giro.sh) — un motore appeso non deve bloccare la cadenza.
 RITMO_AI_TIMEOUT="${RITMO_AI_TIMEOUT:-${GIRO_AI_TIMEOUT:-2700}}"
@@ -175,6 +176,12 @@ else
   echo "[$(ts)] WARN: lock git occupato — sync memoria saltata." >&2
 fi
 exec 9>&-
+
+# AR-020: registra il costo di questa cadenza (durata + token se noti) nel log unico costo-ai.json.
+if command -v node >/dev/null 2>&1 && [ -n "${RITMO_START:-}" ]; then
+  _ritmo_durata=$(( $(date +%s) - RITMO_START ))
+  node "$SCRIPT_DIR/costo-ai.mjs" --tipo="ritmo-$RITMO_TIPO" --durata-sec="$_ritmo_durata" ${RITMO_TOKEN:+--token="$RITMO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+fi
 
 if [ "$RITMO_HAD_CHANGES" = 1 ] && [ "$RITMO_PUSH_OK" != 1 ]; then
   exit 2
