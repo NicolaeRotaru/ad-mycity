@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-02 23:20",
+  "aggiornato": "2026-07-02 23:50",
   "difetti": [
     {
       "id": "AR-004",
@@ -15,7 +15,7 @@
       "nota": "Valore NON riportato in memoria per non propagarlo. Rimuovere il file NON basta: serve la revoca su GitHub.",
       "nato": "2026-07-02",
       "chiuso_il": "",
-      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro. MANCA: revoca del PAT su GitHub (solo Nicola) + purga storia.",
+      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro + PRE-COMMIT HOOK .githooks/pre-commit (scan-segreti --staged blocca OGNI commit, non solo il giro) + installa-hooks.sh + wiring nel setup VPS. Testato avversarialmente (finto PAT → commit bloccato). MANCA (solo Nicola): revoca del PAT su GitHub + purga storia — il token è già nella storia git.",
       "verifica": {
         "tipo": "umano"
       }
@@ -36,17 +36,17 @@
     },
     {
       "id": "AR-006",
-      "titolo": "🔴 BLOCCANTE — Silo contenuti tutto su Garetti (prospect non firmato) mentre Casa Linda (unico payout-ready) ha 0 asset",
+      "titolo": "🔴 BLOCCANTE — Silo contenuti tutto su Garetti (prospect non firmato) mentre l'UNICO negozio reale (Pane Quotidiano) resta scoperto — Casa Linda era una demo, non un negozio",
       "dimensione": "allineamento-northstar",
       "gravita": "bloccante",
       "impatto_crescita": "alto",
-      "causa_radice": "La correzione ('usa Casa Linda') vive solo nella LETTERA-A-NICOLA, artefatto di sola lettura, senza un canale che riscriva coda/OKR/consegne. Il cancello di grounding a 3 strade è applicato ai briefing ma NON alla produzione di asset di reparto: un senior genera 12+ asset per uno 'scelta_ragionata' senza blocco. Manca il vincolo 'sforzo di reparto pesante → solo su entità confermata nel sistema'.",
-      "fix_proposto": "🟡 Cancello di allocazione nella pipeline di produzione: asset pesanti (post/QR/reel/evento) SOLO se l'entità target è 'confermata' nel registro-realtà; su 'scelta_ragionata' solo bozze-template neutre. Ripuntare subito la coda su Casa Linda. Regola: ogni scoperta della lettera che cambia il faro genera nello stesso giro un task di riscrittura di OKR/coda/STATO.",
+      "causa_radice": "La correzione del faro viveva solo nella LETTERA-A-NICOLA (sola lettura), senza un canale che riscrivesse coda/OKR/consegne, e il cancello di grounding a 3 strade era applicato ai briefing ma NON alla produzione di asset di reparto: un senior genera 12+ asset per uno 'scelta_ragionata' senza blocco. In più la mira era sbagliata (Casa Linda, che è una DEMO): l'unico negozio reale è Pane Quotidiano. Mancava il vincolo 'sforzo di reparto pesante → solo su entità confermata e reale nel registro'.",
+      "fix_proposto": "🟡 Cancello di allocazione ATTIVO nella pipeline: asset pesanti (post/QR/reel/evento) SOLO se l'entità target è 'confermata' e reale nel registro-realtà (esclude le demo); su 'scelta_ragionata' solo bozze-template neutre. Ripuntare la coda su PANE QUOTIDIANO (unico reale). Regola: ogni scoperta che cambia il faro genera nello stesso giro un task di riscrittura di OKR/coda/STATO.",
       "colore": "🟡",
       "stato": "in-corso",
       "nato": "2026-07-02",
       "chiuso_il": "",
-      "nota_fix": "Cancello di allocazione aggiunto in CLAUDE.md (doer-mode). MANCA: ripuntare i contenuti Garetti→Casa Linda (lavoro di reparto).",
+      "nota_fix": "Guardiano cervello/allocazione-check.mjs CREATO e agganciato al giro: misura gli asset pesanti per negozio, esclude le demo (Casa Linda) e fallisce sul silo (oggi: Garetti 13 vs Pane Quotidiano 2). Esempio CLAUDE.md corretto (Casa Linda→Pane Quotidiano). Coda e cantiere ripuntati su Pane Quotidiano; le 5 pubblicazioni Garetti congelate (prospect non firmato) + template neutro + skeleton pacchetto Pane Quotidiano preparati. MANCA: materia prima Pane Quotidiano da Nicola (foto/scheda/consenso) per alzare il pacchetto a livello pro.",
       "verifica": {
         "tipo": "umano"
       }
