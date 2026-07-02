@@ -1,6 +1,7 @@
-# Esecuzione ok 16 — ordine zombie €19,05 · consegna pranzo 2/7
+# Esecuzione ok 16 — ordine zombie €19,05 · consegna CENA 2/7
 
 > **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05**
+> **⚠️ Aggiornato 2/7 17:09 — DECISIONE BINARIA #16 = Scelta A (Pannello):** pranzo perso (firmato 08:38, non eseguito ~8h), Nicola ha scelto **eseguire** invece di «archivia zombie». **Slot spostato a CENA 19:00–21:00.**
 > **@operations + @supporto** · 🔴 mani reali (WhatsApp + dashboard + consegna COD)
 
 ## Dati ordine (verificati live REST 2/7 08:38)
@@ -28,15 +29,15 @@
 
 ## PASSO 1 — WhatsApp buyer (🔴 · Nicola · ORA)
 
-**Slot proposto:** **oggi pranzo 12:00–13:30**
+**Slot proposto:** **stasera 19:00–21:00** (pranzo perso — aggiornato 17:09)
 
 **Testo (copia-incolla):**
-> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **oggi a pranzo (12:00–13:30)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
+> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **stasera (19:00–21:00)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
 
 **Link diretto (1 tap):**
-https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20oggi%20a%20pranzo%20(12%3A00%E2%80%9313%3A30)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
+https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20stasera%20(19%3A00%E2%80%9321%3A00)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
 
-**Se non risponde entro 11:00:** richiama o ripianifica 18:00–20:00 (aggiornare messaggio).
+**Se non risponde entro le 20:30:** l'ordine si chiude comunque stasera (o si archivia domattina se il buyer resta irraggiungibile — non riproporre la decisione binaria).
 
 ---
 
@@ -46,7 +47,7 @@ https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20
    https://mycity-marketplace.com/seller/dashboard
    → ordine `58094956…` → **Accetta**
 2. **Chiama Pane Quotidiano** (0523 388601) — script in `AZIONI-PRONTE.md` **A6**:
-   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo oggi a pranzo. Confermate che è pronto?»
+   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo stasera. Confermate che è pronto?» *(⚠️ verificare orario chiusura Pane Quotidiano prima di chiamare)*
 3. Aggiorna **slot consegna** in app se il buyer conferma orario diverso.
 
 ---
@@ -77,7 +78,7 @@ https://mycity-marketplace.com/orders/58094956-4b9b-49b4-9299-7a5c645d7cb3/revie
 
 ## Checklist rapida Nicola (5 min)
 
-- [ ] **1.** Tap link WhatsApp → invia messaggio pranzo
+- [ ] **1.** Tap link WhatsApp → invia messaggio cena (19–21)
 - [ ] **2.** Attendi risposta buyer (indirizzo + sì)
 - [ ] **3.** Accetta ordine in dashboard PQ
 - [ ] **4.** Chiama negozio (0523 388601) — prodotti pronti

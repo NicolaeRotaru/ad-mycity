@@ -459,3 +459,13 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 16:53 · @AD · FATTO · Briefing (passaggio 16:53 in cima) + STATO + ultimo-briefing.json + auto-coscienza aggiornati
 - 2026-07-02 16:53 · @AD · SERVE · Nicola: **decisione binaria #16** — esegui stasera (cena 18–20 → «consegna fatta») **oppure** «archivia zombie» → focus payout-test 3/7 + batch 6/7
 - 2026-07-02 16:53 · @security · SERVE · Nicola: **R1 revoca PAT GitHub** (AR-004) — buco ancora in storia git
+
+### 2026-07-02 — Giro AD (17:01, delta)
+- 2026-07-02 17:01 · @AD · FATTO · Passaggio delta a 8 min dalle 16:53: nulla di materiale cambiato, live gated, stallo ~198,6h — aggiornati solo timestamp/snapshot (briefing, STATO, ultimo-briefing, auto-analisi). Nessun numero nuovo.
+- 2026-07-02 17:01 · @prompt-engineer · SERVE · Chiudere **AR-019 (delta-gate)**: questo è il caso-tipo — giro a orario fisso senza nulla di nuovo che spreca il Max. Serve la logica «niente di nuovo → salta la parte AI pesante».
+
+### 2026-07-02 — Decisione binaria #16 RISOLTA (Nicola Pannello 17:09)
+- 2026-07-02 17:09 · @Nicola · FATTO · **Scelta A** su decisione binaria #16: **ESEGUIRE #20 WhatsApp (cena)**, NON «archivia zombie» — `ok 16` firmato 08:38 non eseguito in ~8h (pranzo perso).
+- 2026-07-02 17:09 · @AD · FATTO · Registrata in [[DECISIONI]] (🔴) · coda #16/#20 aggiornata (slot → cena 19–21) · STATO aggiornato · pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` riadattato a cena · **card decisione binaria da NON rigenerare** al prossimo giro.
+- 2026-07-02 17:09 · @operations · FACCIO · Esecuzione Scelta A: passi #20 (WhatsApp buyer 348 642 1766, slot cena 19–21) → #21 (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601) → #22 (consegna COD €19,05). ⚠️ verificare orario chiusura Pane Quotidiano prima di chiamare.
+- 2026-07-02 17:09 · @operations · SERVE · Nicola (mano reale): **tap link WhatsApp #20** (in pacchetto ok16 § PASSO 1) → poi accetta ordine → consegna COD → scrivi **«consegna fatta»** (attiva concierge A13/A14).

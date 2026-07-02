@@ -1,16 +1,16 @@
 ---
-data: 2026-07-02 10:19
+data: 2026-07-02 17:01
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
 # 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: **88/100** ▼ (da 89 alle 08:36)
+## Voto di fiducia: **83/100** ▼ (da 84 alle 16:53)
 
-**Perché ▼:** KPI live REST coerenti (+1,8h stallo prevedibile); automazione VPS tutto verde 10:19; meteo verificato live; nessun errore grounding entità/numeri. Malus -1: **ok 16 approvato ma DB invariato** — firma ≠ esecuzione (L-0702-45).
+**Perché ▼:** passaggio **delta a rendimento nullo** — il giro è ripartito a soli 8 min dal precedente (16:53) senza nulla di materiale cambiato, con dati live ancora gated (MCP + `node`). Ho fatto un passaggio minimo e onesto (timestamp + snapshot, zero numeri nuovi, stallo ~198,6h dall'ancora 24/6). Malus −1 per la **dispersione**: è esattamente ciò che il delta-gate **AR-019** (in-corso) dovrebbe assorbire. Nessun errore di grounding (PQ confermato; nessuna entità nuova).
 
-**Punti ciechi dichiarati:** Stripe API cieco; MCP Cursor non verificato; smoke #19 browser non eseguito qui.
+**Punti ciechi dichiarati:** 7 numeri live non ri-pullati (MCP + node gated); Stripe/PostHog/Resend non configurati; automazione non ri-verificata live in sessione; esecuzione #16 non confermabile via DB da qui.
 
 ---
 

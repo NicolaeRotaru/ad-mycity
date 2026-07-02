@@ -1,7 +1,26 @@
 {
-  "data": "2026-07-02 12:35",
-  "aggiornato": "2026-07-02 12:35",
+  "data": "2026-07-02 17:01",
+  "aggiornato": "2026-07-02 17:01",
   "lezioni": [
+    {
+      "id": "L-2026-0702-48",
+      "testo": "**Delta-gate mancante = giri a rendimento nullo (passaggio 2/7 17:01, 8 min dopo le 16:53):** il giro è ripartito a orario/comando senza NULLA di materiale cambiato (stessi 7 numeri, dati live gated, stallo +0,1h) e ha comunque riscritto snapshot e auto-analisi. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera) e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto anche 29/6 con L-2026-0629-03).",
+      "tag": [
+        "delta-gate",
+        "efficienza-costo",
+        "AR-019",
+        "giro",
+        "dispersione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.83,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 17:01",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-03",
       "testo": "Un numero/elenco mantenuto A MANO diverge sempre (15 agenti orfani, conteggio 40 vs 42, voto copiato). Regola: ogni cosa che descrive la macchina va GENERATA dai file reali da uno script, non scritta a mano. Se la scrivo a mano, prima o poi mente.",

@@ -1,8 +1,8 @@
 {
-  "data": "2026-07-02 16:53",
-  "voto_fiducia": 84,
+  "data": "2026-07-02 17:01",
+  "voto_fiducia": 83,
   "trend_fiducia": "▼",
-  "sintesi": "Giro 2/7 16:53. Voto 84 (▼ da 88): giro onesto ma con due limiti dichiarati. (1) Non ho potuto ri-pullare i 7 numeri live (MCP Supabase e comandi node/REST diretto gated in sessione): ho portato avanti la baseline REST 10:19 e ricalcolato SOLO lo stallo dall'ancora reale (ordine 24/6 → ~198,5h) — nessun numero inventato, tutto nei Gap. (2) Fatto emergere il vero blocco: ok 16 firmato 08:38 ma non eseguito in ~8h, finestra pranzo persa (lezione L-0702-47). Grounding entità ok (PQ confermato, zombie=PQ, nessuna entità nuova). Nessun errore di grounding.",
+  "sintesi": "Giro 2/7 17:01 (passaggio delta, 8 min dopo le 16:53). Voto 83 (▼ da 84 di poco): giro onesto ma a RENDIMENTO NULLO — nulla di materiale è cambiato in 8 minuti e i dati live restano gated (MCP + node), quindi ho fatto un passaggio minimo (aggiornato timestamp e snapshot, nessun numero nuovo, stallo ~198,6h ricalcolato dall'ancora 24/6). È letteralmente il caso che il delta-gate AR-019 (ancora in-corso) dovrebbe assorbire senza far girare la parte AI pesante: il malus −1 registra proprio questa dispersione. Grounding entità ok (PQ confermato, zombie=PQ, nessuna entità nuova). Nessun errore di grounding.",
   "verifiche": {
     "entita": "ok (Pane Quotidiano confermato; nessuna entità nuova introdotta; zombie = ordine PQ)",
     "numeri": "parziale — baseline REST 10:19 portata avanti, live non ri-pullati (MCP/node gated); stallo ricalcolato da ancora 24/6; tutto dichiarato nei Gap",
@@ -27,7 +27,8 @@
     }
   ],
   "punti_ciechi": [
-    "7 numeri live 16:53 non ri-pullati (MCP Supabase + comandi node gated in questa sessione) — baseline REST 10:19 portata avanti",
+    "7 numeri live 17:01 non ri-pullati (MCP Supabase + comandi node gated in questa sessione) — baseline REST 10:19 portata avanti",
+    "Delta-gate AR-019 non ancora attivo: il giro è ripartito a 8 min dal precedente senza nulla di nuovo (dispersione da chiudere)",
     "verifica-automazione.mjs / sonda-volano.mjs non eseguibili qui (approvazione negata)",
     "Esecuzione #16: nessun segnale «consegna fatta» nel log, ma nessuna conferma DB live",
     "Stripe / PostHog / Resend non collegati (non_configurato)",

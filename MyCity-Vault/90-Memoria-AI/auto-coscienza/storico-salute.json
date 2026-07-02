@@ -231,6 +231,22 @@
       "difetti_chiusi": 18,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (7h) · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "Passaggio 17:01 (delta 8 min): nulla di nuovo, live gated (sonda-volano.mjs non eseguibile in sessione). Voto 42 = (cantiere fermo: 18 chiusi, 4 in-corso). Conferma pratica di AR-019 (delta-gate) da chiudere: giro a orario fisso senza novità."
     }
   ]
 }

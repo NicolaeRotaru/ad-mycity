@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-02 16:51",
+  "aggiornato": "2026-07-02 17:00",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-02 16:51",
+      "ultimo_ok": "2026-07-02 17:00",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -39,7 +39,7 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 9,
+    "giri_totali": 10,
     "sensori_ok": 1,
     "max_giri_ciechi": 1,
     "sensori_totali": 1,

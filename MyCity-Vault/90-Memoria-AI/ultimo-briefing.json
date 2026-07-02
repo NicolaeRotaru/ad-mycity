@@ -1,15 +1,15 @@
 {
-  "data": "2026-07-02 16:53",
-  "situazione": "Finestra pranzo PERSA: ok 16 firmato alle 08:38 ma i passi #20–#22 non sono mai stati eseguiti in tutta la giornata. Stallo ~198,5h (+6,6h, calcolo da ancora ordine 24/6), ancora 0 transazioni. Il collo di bottiglia è 1 tap WhatsApp manuale, non la piattaforma. Baseline REST 10:19 portata avanti (live non ri-pullati in sessione — MCP/node gated).",
+  "data": "2026-07-02 17:09",
+  "situazione": "Decisione binaria #16 RISOLTA alle 17:09: Nicola sceglie A (ESEGUIRE #20 WhatsApp, cena 19–21), NON «archivia zombie». ok 16 era firmato alle 08:38 ma i passi #20–#22 non erano mai stati eseguiti in ~8h (pranzo perso). Ora la palla torna a Nicola per 1 azione manuale reale (tap link WhatsApp → accetta ordine → consegna COD €19,05). Stallo ~198,6h finché la consegna non parte; ancora 0 transazioni. Baseline REST 10:19 portata avanti (live non ri-pullati in sessione — MCP/node gated).",
   "opportunita": [
-    {"titolo": "Chiudere #16 stasera (cena 18–20)", "motivo": "Pranzo perso; la cena è l'ultima finestra utile oggi per la prima transazione. Pacchetto ok16 già pronto.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Archiviare l'ordine zombie e spostare il faro", "motivo": "COD €19,05 con buyer silente da 8 giorni: inseguirlo ha rendimento calante. Liberare focus per payout-test 3/7 + batch 6/7.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Chiudere #16 stasera (cena 19–21)", "motivo": "Decisa l'esecuzione: la cena è l'ultima finestra utile oggi per la prima transazione. Pacchetto ok16 già pronto e aggiornato allo slot cena.", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Batch onboarding 6/7", "motivo": "407 lead in attesa, checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"}
   ],
   "azioni": [
-    {"titolo": "Decisione binaria #16: esegui #20 WhatsApp (cena) oppure «archivia zombie»", "motivo": "ok 16 firmato ma non eseguito in ~8h; ripetere il sollecito a vuoto non serve — serve una scelta.", "livello": "rosso"},
     {"titolo": "R1 — Revoca il PAT GitHub (AR-004)", "motivo": "È l'unica remediation del segreto già entrato nella storia git.", "livello": "rosso"},
     {"titolo": "SQL 107 DROP policy profiles", "motivo": "Unico bloccante RLS post-Sprint 1, prerequisito batch 6/7.", "livello": "giallo"}
   ],
-  "decisioni_registrate": []
+  "decisioni_registrate": [
+    {"id": "decisione-binaria-16-esegui-20-whatsapp-cena-opp", "scelta": "A", "esito": "ESEGUI #20 WhatsApp (cena 19–21), non archivia zombie", "ora": "2026-07-02 17:09", "fonte": "Nicola (Pannello A/B)", "nota": "Card decisione binaria da NON rigenerare: decisione presa."}
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-02 13:05",
+  "aggiornato": "2026-07-02 17:01",
   "difetti": [
     {
       "id": "AR-004",
@@ -269,7 +269,7 @@
       "stato": "in-corso",
       "nato": "2026-07-02",
       "chiuso_il": "",
-      "nota_fix": "Sensore-cassa/registry/costo agganciati al giro. MANCA: logica delta-gate salta-AI-se-nulla-di-nuovo + banco AI economico."
+      "nota_fix": "Sensore-cassa/registry/costo agganciati al giro. MANCA: logica delta-gate salta-AI-se-nulla-di-nuovo + banco AI economico. PROVA FRESCA 2/7 17:01: giro ripartito a 8 min dal precedente con zero novità e dati live gated → passaggio a rendimento nullo. Priorità di chiusura alzata: è il difetto in-corso a impatto-efficienza più ricorrente (vedi L-2026-0702-48)."
     },
     {
       "id": "AR-020",
