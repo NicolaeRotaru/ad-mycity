@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-02 07:35",
-  "aggiornato": "2026-07-02 07:35",
+  "data": "2026-07-02 08:17",
+  "aggiornato": "2026-07-02 08:17",
   "lezioni": [
+    {
+      "id": "L-2026-0702-43",
+      "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il canale Render?» — card #19 etichetta canale «Render (marketplace)» + UI «canale non ancora collegato». **5 perché confusione:** (1) Pannello mostra Render come canale ma `pannello/lib/mani.ts` supporta solo **email (Resend)** — pulsante Approva **non** esegue deploy; (2) Render marketplace è già agganciato a **GitHub** su `NicolaeRotaru/mycity` — merge `main` = auto-deploy (~2–5 min, es. Sprint 1 ~10:31); (3) **non esiste** (ancora) API Render che l'AD chiami direttamente; (4) sblocco operativo #19 = **#14+#15 PAT GitHub** (PR+merge) + chat **`ok merge fix ruoli-acquisto`** — pattern L-31/L-38, **non** token Render; (5) alternativa = Nicola mergia PR su GitHub → Render fa il resto. **Risposta obbligatoria:** tabella «Render già ok via GitHub · PAT non token Render · via chat ok merge · ignorare Approva su canale Render».",
+      "tag": ["render", "deploy", "pannello", "mani", "nicola", "devops", "github"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.89,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 08:17",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-41",
       "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter comprare» + «i retailer devono poter comprare in modo diverso — pulsante marketplace, per nessun altro motivo/errore il venditore deve accedere al catalogo». **5 perché gap:** (1) UI admin nascondeva carrello ma `addToCart` + API checkout/COD **aperte** → carrello test €7,95 (#2 dei «4 operativi»); (2) seller navigava `/` e prodotti come buyer → carrelli demo #3–#4; (3) briefing «4 carrelli reali operativi» = **record DB con items**, non buyer reali — **solo 1** (samir) per CRM; (4) recovery cron oggi = 0 righe (flag già settati) ma carrelli test inquinavano analisi; (5) fix obbligatorio **triplo:** UI blocco + **403 server** su checkout/COD per `role=admin` + middleware seller redirect `/seller/dashboard` senza cookie modalità acquisto (`/?shop=1`, 8h, banner «Torna al negozio»). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · deploy 🔴 #19. **Pattern:** separazione ruoli acquisto = regola product non negoziabile; implementare sempre UI **e** server; seller buyer-mode solo opt-in esplicito.",
@@ -750,10 +763,11 @@
     "Quando l'AD cita numeri #N in coda chiede subito «cosa sono e dove li trovo?» — vuole tabella cosa-sblocca + path GitHub PAT (Developer settings → Fine-grained) + dove incollare in `vps/.env`, non solo rimando al file AZIONI (chat 1/7 20:02).",
     "«Ok configura sync VPS» (1/7 20:02) = stesso pattern «ok timer ritmo»: approva infra 🟡 → AD consegna artefatto completo in repo + **un solo comando root** per attivazione; codice sync pronto, resta #17 install sul VPS.",
     "Separazione rigida ruoli acquisto: account assistenza/admin **zero acquisti** (UI + server); venditori accedono al catalogo buyer **solo** tramite pulsante esplicito «Vai al marketplace» — mai navigazione accidentale, errore o URL diretto (chat 2/7 briefing 1/7).",
-    "Su domande sui carrelli vuole distinzione netta record DB vs buyer reali — tabella con ruolo account e flag «cliente reale?»; recovery solo su buyer veri, interni/demo = SKIP (chat 2/7 «quali sono i 4 carrelli reali operativi?»)."
+    "Su domande sui carrelli vuole distinzione netta record DB vs buyer reali — tabella con ruolo account e flag «cliente reale?»; recovery solo su buyer veri, interni/demo = SKIP (chat 2/7 «quali sono i 4 carrelli reali operativi?»).",
+    "Su card canale «Render (marketplace)» chiede «come collego Render?» — si aspetta chiarimento immediato: **non serve token Render** (auto-deploy post-merge GitHub su `mycity`); sblocco = #14+#15 PAT + **`ok merge …`** in chat; pulsante Approva Pannello **non** deploya (mani.ts solo email Resend) (chat 2/7 08:16 casella #19)."
   ],
   "meta": {
-    "lezioni_attive": 56,
+    "lezioni_attive": 57,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70
