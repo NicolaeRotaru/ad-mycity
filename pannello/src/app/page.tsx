@@ -1358,13 +1358,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={endRef} />
           </div>
           <div className="border-t border-black/[0.06] p-3 space-y-2 bg-paper/30">
-            <div className="flex gap-2">
-              <input
+            <div className="flex gap-2 items-end">
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    mandaAlCervello();
+                  }
+                }}
+                rows={2}
                 placeholder="Scrivi al cervello (Max), gratis..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
+                className="flex-1 min-h-[42px] max-h-40 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition resize-y focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
               />
               <button
                 onClick={dettaVoce}
@@ -1398,7 +1404,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
             <p className="text-[11px] text-black/40 px-1 leading-relaxed">
-              🧠 <b>Invia</b> = lo fa il cervello sul tuo Max (gratis, in background) · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
+              🧠 <b>Invio</b> = invia · <b>Shift+Invio</b> = a capo · 📋 <b>Prompt</b> = copia per Max. Niente API a pagamento.
             </p>
           </div>
           </section>
