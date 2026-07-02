@@ -47,8 +47,8 @@ per svegliare il cervello sull'evento. Questa è la sentinella che ho costruito.
 
 ```
  ┌────────────────────────────────────────────────────────────────────┐
- │  OCCHI  = sentinella-dati.mjs   (timer ogni 2 min · Node su REST)   │
- │           legge ordini/payout/sensori/runway  → 0 TOKEN             │
+ │  OCCHI  = sentinella-dati.mjs   (timer ogni 1 min · Node su REST)   │
+ │           legge ordini/payout/recensioni/carrelli + salute → 0 TOKEN│
  │           valuta le soglie in modo deterministico                  │
  │                              │                                     │
  │              soglia scattata + evento NUOVO?                        │
@@ -66,7 +66,7 @@ per svegliare il cervello sull'evento. Questa è la sentinella che ho costruito.
 ```
 
 Perché questo rispetta **al 100%** il vincolo di Nicola:
-- **Guardare** = `node` puro su REST ogni 2 min → **0 token**, per sempre.
+- **Guardare** = `node` puro su REST ogni 1 min → **0 token**, per sempre.
 - **Pensare** (token) = **solo** quando la sentinella ha trovato un evento e ha accodato un lavoro.
 - Con dedup + cooldown + tetto, un problema che dura tutto il giorno = **1 sveglia**, non 720.
 
@@ -84,31 +84,46 @@ Alternative scartate (e perché):
 
 1. **`cervello/sentinella-dati.mjs`** — la sentinella dei dati. A ogni tick (0 token):
    - kill-switch (PAUSA Pannello o pausa propria) → no-op;
-   - legge lo stato reale via REST (best-effort: tabella non leggibile → salta la regola, **mai numeri
-     inventati**);
-   - valuta le **soglie** deterministiche (sotto);
-   - **dedup + cooldown (6h)** + **doppio dedup lato DB** (non accoda se un lavoro identico è già in coda);
-   - **tetto di spesa** (6/giorno, 2/ora) sul volume; **i 🔴 bypassano il tetto** (sono controlli, non volume);
+   - legge lo stato reale via REST + i JSON di auto-coscienza (best-effort: dato non leggibile → salta
+     la regola, **mai numeri inventati né falsi allarmi**);
+   - valuta le **10 soglie** deterministiche (sotto): **5 per la MACCHINA + 5 per le AZIONI** (scelta di Nicola);
+   - **dedup + cooldown per-regola** (6h default; 12-24h per i segnali lenti) + **doppio dedup lato DB**;
+   - **tetto di spesa** (8/giorno, 3/ora) sul volume; **i 🔴 bypassano il tetto** (sono controlli, non volume);
    - accoda **solo `tipo=analisi`/proposta** (⛔ mai `esegui-azione`): le azioni reali restano firma di Nicola;
-   - lascia un **battito** per il Pannello + ping Telegram opzionale sui 🔴 nuovi.
+   - alcuni segnali (worker morto) sono **solo-allerta**: avvisano su Telegram, non accodano nulla;
+   - lascia un **battito** per il Pannello (`sentinella-dati:ultimo`) + ping Telegram sui 🔴 nuovi.
 
-2. **`cervello/vps/mycity-sentinella-dati.timer`** — ogni **2 min** (`OnUnitActiveSec=2min`, regolabile 1-5).
+2. **`cervello/vps/mycity-sentinella-dati.timer`** — ogni **1 min** (`OnUnitActiveSec=1min`, regolabile 1-5).
 3. **`cervello/vps/mycity-sentinella-dati.service`** — oneshot, `SENTINELLA_DATI_LIVE=1`, TZ Europe/Rome.
 4. **`cervello/vps/install-ritmo-timers.sh`** — aggiornato: lo stesso comando installa anche la nuova sentinella.
-5. **`cervello/sentinelle.md`** — documentato il modello OCCHI/CERVELLO e le soglie oggi live.
+5. **`cervello/sentinelle.md`** — documentato il modello OCCHI/CERVELLO e le 10 soglie live.
 
-### Le soglie oggi LIVE (deterministiche)
-| Regola | Soglia | Colore | Reparto | Cosa accoda |
-|---|---|---|---|---|
-| Calo ordini | 24h < 70% media 7g (con guardia: media ≥ 3/gg) | 🟢 | analista | mini-briefing sulla causa |
-| Ordine pagato senza payout | > 0 (best-effort schema) | 🔴 | finanza | prepara proposta payout (Nicola firma) |
-| Nuovo ordine | ultimo ordine avanzato dal tick precedente | 🟢 | operations | verifica pagamento+payout+consegna |
-| Sensore dati cieco | ≥ 3 giri consecutivi | 🟡 | AD | controlla `.env` + fallback baseline |
-| Runway cassa | < 3 mesi (se misurato) | 🔴 | finanza | piano incasso/riduzione burn |
+### Le 10 sentinelle LIVE (soglie deterministiche su nomi/enum REALI del DB, verificati via schema)
 
-> Le altre righe di `sentinelle.md` (recensioni ≤2★, carrelli, 5xx Render, negozi in calo…) restano
-> **checklist del giro** finché il sensore/mano relativo non è collegato: aggiungerle alla sentinella è
-> **una regola in più** in `valutaRegole()` (schema già pronto). Sono i «carburanti» che alzano la veglia.
+**🧠 MACCHINA (auto-analisi di sé) — 5**
+| Regola | Soglia | Colore | Cosa fa |
+|---|---|---|---|
+| Worker morto | `worker:ultimo` > 3 min **e** 0 lavori in corso | 🔴 | **solo allerta** (accodare sarebbe inutile) |
+| Sensori dati ciechi | ≥ 3 giri consecutivi | 🟡 | accoda: `.env` + fallback baseline |
+| Salute architettura bassa | voto < 60 (`storico-salute.json`) | 🟡 | accoda: lancia l'auto-radiografia |
+| Radiografia di sé vecchia | > 10 giorni (`auto-radiografia.json`) | 🟡 | accoda: rifà la radiografia di sé |
+| Volano fermo | `tasso_applicazione` < 0.3 | 🟡 | accoda: capire perché il loop non applica |
+
+**💼 AZIONI (business/marketplace) — 5**
+| Regola | Soglia (colonne reali) | Colore | Cosa fa |
+|---|---|---|---|
+| Ordine pagato senza payout | `payment_status=PAID`, non-COD, `payout_at` nullo da >24h | 🔴 | accoda: proposta payout (Nicola firma) |
+| Calo ordini | 24h < 70% media 7g (guardia media ≥ 3/gg) | 🟢 | accoda: mini-briefing sulla causa |
+| Recensione ≤2★ | nuova (`reviews`+`store_reviews`, `rating≤2`) | 🟡 | accoda: bozza risposta + recupero |
+| Negozio LIVE fermo | seller `approved` >14g, 0 ordini in 14g | 🟡 | accoda: check-in anti-churn |
+| Carrello abbandonato | `recovered=false`, email non inviata, fermo >4h | 🟡 | accoda: email di recupero |
+
+> **Prova coi dati veri di oggi** (verificata in test): macchina **sana** (salute 78, volano 0.5,
+> radiografia 4gg, 0 sensori ciechi) → le 5 sentinelle macchina restano **zitte** (0 token); scattano
+> solo le azioni realmente utili (carrelli abbandonati: 4 reali · negozi LIVE fermi: sui 2 approvati).
+> È esattamente il comportamento voluto: **occhi sempre aperti, cervello acceso solo quando serve.**
+>
+> Aggiungere altre sentinelle = **una regola in più** in `valutaRegole()` (lo schema è già pronto).
 
 ---
 
@@ -132,12 +147,12 @@ node cervello/sentinella-dati.mjs
 node cervello/sentinella-dati.mjs --json     # per il Pannello / debug
 ```
 Sul VPS, quando firmi: `sudo bash cervello/vps/install-ritmo-timers.sh` e poi
-`systemctl list-timers | grep sentinella` per vedere il battito ogni 2 min.
+`systemctl list-timers | grep sentinella-dati` per vedere il battito ogni minuto.
 
 ---
 
 ## 6) Cosa serve da Nicola
 1. **Firma 🔴** per attivare il timer sul VPS (una riga in AZIONI-IN-ATTESA).
-2. (Opz.) dirmi se **2 min** va bene o preferisci 1 o 5.
+2. (Fatto) cadenza scelta: **1 minuto**.
 3. (Opz.) quali **altre soglie** vuoi live per prime (recensioni? negozi in calo? 5xx?) — le aggiungo
    come regole nuove.
