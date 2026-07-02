@@ -12,3 +12,7 @@ Environment=HOME=/home/mycity
 Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo.sh mattino
+# AR-005: un motore AI appeso non deve tenere il .service attivo per sempre (oneshot non si sovrappone,
+# quindi il timer successivo non parte e il battito muore). systemd uccide il giro dopo il timeout.
+TimeoutStartSec=3600
+TimeoutStopSec=120

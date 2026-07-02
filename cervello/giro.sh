@@ -135,11 +135,25 @@ if [ ! -s "$SCRIPT_DIR/giro.md" ]; then
 fi
 
 # Passi deterministici PRIMA del motore AI: sensori (retry REST + contatore cecità) e sonda volano.
+# AR-010/AR-011: NON ingoiamo più l'exit code dei sensori. Se sono tutti ciechi, il giro deve saperlo
+# e passare un VINCOLO HARD al motore ("non inventare numeri"), non solo una stampa buttata via.
+SENSORI_CIECHI=0
+SENSORI_VINCOLO=""
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
-  node "$SCRIPT_DIR/verifica-sensori.mjs" --json 2>/dev/null | tail -5 || true
+  _sens_out="$(node "$SCRIPT_DIR/verifica-sensori.mjs" --json 2>&1)"; _sens_rc=$?
+  printf '%s\n' "$_sens_out" | tail -6
+  if [ "$_sens_rc" -ne 0 ]; then
+    SENSORI_CIECHI=1
+    SENSORI_VINCOLO="⛔ SENSORI DATI CIECHI (verifica-sensori.mjs ha restituito 'tutti ciechi'). NON scrivere numeri nuovi come fatti: usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap. Se fuori non è cambiato nulla, fai un passaggio MINIMO e onesto invece di gonfiare il giro."
+    echo "[$(ts)] ⚠️  SENSORI CIECHI (rc=$_sens_rc): il giro girerà in modalità baseline (niente numeri nuovi)." >&2
+  fi
   echo "[$(ts)] Sonda volano (4 invarianti)..."
-  node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>/dev/null | tail -8 || true
+  node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>&1 | tail -8 || true
+  echo "[$(ts)] Sensore cassa/runway (AR-016)..."
+  node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
+  node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
 fi
 
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
@@ -154,6 +168,12 @@ if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
 ## Istruzione aggiuntiva
 $GIRO_EXTRA_INSTRUCTION"
 fi
+if [ -n "$SENSORI_VINCOLO" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo sensori (HARD — dal controllo deterministico prima di te)
+$SENSORI_VINCOLO"
+fi
 PROMPT="$PROMPT
 
 ## Risposta in chat
@@ -161,14 +181,25 @@ Al termine restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
 
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine), prompt=file)..."
 ai_build_cmd
+# AR-005: timeout DENTRO giro.sh, così vale per QUALUNQUE invocatore (timer systemd o coda worker),
+# non solo per la via-coda. Un motore AI appeso al primo tentativo non torna mai: senza questo, il
+# battito ogni-2h muore in silenzio. `timeout` (coreutils) è sempre presente su VPS Linux.
+GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-2700}"   # 45 min per tentativo
+AI_TIMEOUT=()
+command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$GIRO_AI_TIMEOUT")
+GIRO_START="$(date +%s)"
 ai_rc=0
 _ai_out=""
 for _attempt in 1 2 3; do
   ai_rc=0
-  _ai_out="$("${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
+  _ai_out="$("${AI_TIMEOUT[@]}" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
   printf '%s\n' "$_ai_out"
   [ "$ai_rc" -eq 0 ] && break
-  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+  if [ "$ai_rc" = 124 ] || [ "$ai_rc" = 137 ]; then
+    echo "[$(ts)] Motore AI tentativo $_attempt ANDATO IN TIMEOUT (${GIRO_AI_TIMEOUT}s, rc=$ai_rc) — ucciso, riprovo tra 30s..." >&2
+  else
+    echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
+  fi
   printf '%s\n' "$_ai_out" | tail -15 >&2
   [ "$_attempt" -lt 3 ] && sleep 30
 done
@@ -179,6 +210,20 @@ if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
 fi
 echo "[$(ts)] Giro completato."
+
+# AR-014: gate deterministico sui passi 11-12 del giro (auto-analisi + apprendimento). Se il motore
+# AI li ha saltati in silenzio, questi file NON risultano aggiornati in questo giro: lo diciamo forte
+# (non è un exit 0 pulito) invece di far finta di niente. Non blocca il push della memoria già scritta.
+GIRO_STEPS_OK=1
+if [ "$ai_rc" -eq 0 ]; then
+  for _rel in auto-coscienza/auto-analisi.json auto-coscienza/apprendimento.json; do
+    _p="MyCity-Vault/90-Memoria-AI/$_rel"
+    if [ ! -f "$_p" ] || [ "$(stat -c %Y "$_p" 2>/dev/null || echo 0)" -lt "$GIRO_START" ]; then
+      GIRO_STEPS_OK=0
+      echo "[$(ts)] ⚠️  PASSO DEL GIRO SALTATO: $_p mancante o non aggiornato in questo giro (vedi passi 11-12 di giro.md)." >&2
+    fi
+  done
+fi
 
 # TL;DR per la chat (se il digest è stato scritto nel vault).
 GIRO_TLDR=""
@@ -199,8 +244,22 @@ fi
 # Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
 GIRO_PUSH_OK=1
 GIRO_HAD_CHANGES=0
+# AR-021: scan-segreti PRIMA di versionare qualunque cosa. Se trova un segreto reale nei file
+# versionabili, BLOCCHIAMO commit+push del giro: meglio un giro non pubblicato che un token nella storia.
+SEGRETO_TROVATO=0
+if command -v node >/dev/null 2>&1; then
+  if ! node "$SCRIPT_DIR/scan-segreti.mjs" >/dev/null 2>&1; then
+    SEGRETO_TROVATO=1
+    echo "[$(ts)] ⛔ SCAN SEGRETI: possibile segreto nei file versionabili — sync memoria BLOCCATA." >&2
+    node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1 | tail -12 >&2 || true
+  fi
+fi
+
 exec 9>"$LOCK"
-if flock -w 600 9; then
+if [ "$SEGRETO_TROVATO" = 1 ]; then
+  GIRO_PUSH_OK=0
+  echo "[$(ts)] Giro NON pubblicato: rimuovi il segnalato dallo scan-segreti, poi rilancia." >&2
+elif flock -w 600 9; then
   # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
   [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
     || echo "[$(ts)] ⚠️  AUTO-ANALISI NON PERSISTITA: manca auto-coscienza/auto-analisi.json — la Cabina resterà vuota (vedi passo 11 del giro)." >&2
@@ -256,6 +315,18 @@ else
   echo "[$(ts)] WARN: lock git occupato troppo a lungo — sync memoria saltata (prossimo giro recupera)." >&2
 fi
 exec 9>&-
+
+# AR-020: registra il costo del giro (durata + token se noti) così la macchina non è cieca sul proprio consumo.
+if command -v node >/dev/null 2>&1 && [ -n "${GIRO_START:-}" ]; then
+  _giro_durata=$(( $(date +%s) - GIRO_START ))
+  node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro --durata-sec="$_giro_durata" ${GIRO_TOKEN:+--token="$GIRO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+fi
+
+# Segnale finale AR-014: se il motore ha girato ma ha saltato i passi 11-12, lascialo scritto nel log
+# (la memoria già prodotta viene comunque pubblicata: non si perde nulla, ma la qualità del giro è segnata).
+if [ "${GIRO_STEPS_OK:-1}" = 0 ]; then
+  echo "[$(ts)] ⚠️  QUALITÀ GIRO: auto-analisi/apprendimento non aggiornati in questo giro (passi 11-12 saltati)." >&2
+fi
 
 # Exit code per worker.sh:
 #   0 = ok (o memoria salvata nonostante AI parziale)

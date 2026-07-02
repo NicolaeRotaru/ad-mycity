@@ -35,5 +35,14 @@
 | Sensore dati cieco (REST o MCP) | ≥ 3 giri consecutivi (`sensori-cecita.json`) | AD | verifica `.env` + retry; se REST ok usa fallback; altrimenti passaggio minimo | 🟡 |
 | Giorni dall'ultima radiografia completa di sé | > 10 | AD | esegui `.claude/workflows/auto-radiografia.js` | 🟡 |
 | Difetto BLOCCANTE di sé (es. 🔴 che sfugge, segreto esposto) | qualsiasi | AD/security | **allerta immediata** a Nicola (Telegram/push) + blocca | 🔴 |
+| Segreto esposto nella repo (`scan-segreti.mjs`) | qualsiasi match | security/AD | **BLOCCA il push** del giro + allerta 🔴 (revoca la chiave) | 🔴 |
+| Runway di cassa (`cassa-runway.json`) | < 3 mesi | finanza/AD | allerta immediata: priorità a incasso/riduzione burn | 🔴 |
+| Consumo AI giornaliero (`costo-ai.json`) | > soglia (`COSTO_SOGLIA_TOKEN_GIORNO`) | prompt-engineer/AD | sposta i compiti sull'AI economica, taglia i giri ridondanti | 🟡 |
+| Drift registro agenti (`agent-registry-check.mjs`) | drift > 0 (orfani/conteggio) | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai 42 file reali | 🟡 |
+| Dispersione dalla North Star | North Star = 0 per ≥ 3 giri mentre si accumulano asset/coda | AD | STOP produzione: taglia il volume, forza il focus sull'entità confermata | 🟡 |
+| Negozio di deperibili verso LIVE senza gate compliance | prima consegna di freschi | qa/legale-privacy | blocca finché `GATE-COMPLIANCE-PRELANCIO.md` non è spuntato | 🔴 |
+| Data breach / incidente dati personali (GDPR) | qualsiasi sospetto | legale-privacy/security | **notifica Garante entro 72h** + registro incidenti; richieste interessati entro 30gg | 🔴 |
 
 > Aggiungere/affinare le soglie nel tempo (troppo sensibili = rumore; troppo alte = si perdono opportunità).
+> Le sentinelle deterministiche (segreti, cassa, costo, drift) sono alimentate dagli script in `cervello/`
+> lanciati dal giro; le altre restano checklist finché la relativa "mano"/sensore non è collegato.
