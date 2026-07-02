@@ -97,6 +97,11 @@ fi
 chown -R "$APP_USER":"$APP_USER" /opt/mycity
 chmod -R go-rwx "$APP_DIR/.git" 2>/dev/null || true   # protegge il token nel .git/config
 
+# AR-004: perimetro segreti ATTIVO — attiva il pre-commit hook versionato (.githooks/) su questo clone,
+# così ogni commit (anche manuale) passa dallo scan-segreti prima di entrare nella storia.
+sudo -u "$APP_USER" git -C "$APP_DIR" config core.hooksPath .githooks 2>/dev/null || true
+chmod +x "$APP_DIR/.githooks/"* 2>/dev/null || true
+
 echo "== 6) File dei segreti (.env) =="
 ENV_DIR="$APP_DIR/cervello/vps"
 if [ ! -f "$ENV_DIR/.env" ]; then
