@@ -154,6 +154,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
+  node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
 fi
@@ -350,9 +352,15 @@ fi
 exec 9>&-
 
 # AR-020: registra il costo del giro (durata + token se noti) così la macchina non è cieca sul proprio consumo.
+# Se il delta-gate (AR-019) ha SALTATO la parte AI, lo registriamo come "giro-saltato" con 0 token: così il
+# log costo-ai.json rende VISIBILE il risparmio (quanti giri pieni sono stati evitati perché nulla cambiava).
 if command -v node >/dev/null 2>&1 && [ -n "${GIRO_START:-}" ]; then
   _giro_durata=$(( $(date +%s) - GIRO_START ))
-  node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro --durata-sec="$_giro_durata" ${GIRO_TOKEN:+--token="$GIRO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  if [ "${RUN_AI:-1}" != 1 ]; then
+    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro-saltato --durata-sec="$_giro_durata" --token=0 --modello="delta-gate" >/dev/null 2>&1 || true
+  else
+    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro --durata-sec="$_giro_durata" ${GIRO_TOKEN:+--token="$GIRO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  fi
 fi
 
 # Segnale finale AR-014: se il motore ha girato ma ha saltato i passi 11-12, lascialo scritto nel log

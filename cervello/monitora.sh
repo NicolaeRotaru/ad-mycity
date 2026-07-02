@@ -84,11 +84,18 @@ if [ -z "$PROMPT" ]; then
   exit 1
 fi
 echo "[$(ts)] Avvio monitoraggio web AD (motore: $(ai_engine))..."
+MONITORA_START="$(date +%s)"   # AR-020: inizio del motore AI, per il costo del monitoraggio
 ai_build_cmd
 "${AI_CMD[@]}" "$PROMPT" || {
   echo "[$(ts)] Il motore AI ha restituito un errore (monitoraggio non completato)." >&2
 }
 echo "[$(ts)] Monitoraggio completato."
+
+# AR-020: registra il costo del monitoraggio (durata + token se noti) nel log unico costo-ai.json.
+if command -v node >/dev/null 2>&1 && [ -n "${MONITORA_START:-}" ]; then
+  _mon_durata=$(( $(date +%s) - MONITORA_START ))
+  node "$SCRIPT_DIR/costo-ai.mjs" --tipo=monitora --durata-sec="$_mon_durata" ${MONITORA_TOKEN:+--token="$MONITORA_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+fi
 
 # --- Sync della memoria sul ramo 'memoria-ad': commit + push (rebase, NON force) ---
 (
