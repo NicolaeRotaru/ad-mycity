@@ -173,9 +173,9 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-02 08:20
+## 🤖 Aggiornamento dell'AD — 2026-07-02 08:36
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 189,9h** (+21,9h oltre 168h) — **`ok 16` oggi pranzo** (meteo sereno 20–31°C, escalation v12).
-- **Automazione tutto verde** — deploy #19 sbloccabile con `ok merge fix ruoli-acquisto` (Render auto).
-- **SQL 107** stesso giorno di #16 — prerequisito batch 6/7 (dom 34°C).
+- **Stallo 190,1h** (+22,1h oltre 168h) — **`ok 16` oggi pranzo ORA** (meteo sereno, automazione verde 08:36).
+- **Branch #19** pronto su clone marketplace — `ok merge fix ruoli-acquisto` → Render auto.
+- **SQL 107** stesso giorno — prerequisito batch 6/7 (dom 34°C).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

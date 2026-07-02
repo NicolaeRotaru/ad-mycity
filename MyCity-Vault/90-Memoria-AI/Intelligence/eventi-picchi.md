@@ -1,12 +1,12 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-02 08:20** · Fonte: @intelligence (giro 2/7, 3BMeteo + Allerta ER + REST live).
+> Aggiornato: **2026-07-02 08:36** · Fonte: @intelligence (giro 2/7, 3BMeteo + REST live + verifica-automazione).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 2/7 — Finestra consegna APERTA (08:20)
+### 1. OGGI 2/7 — Finestra consegna APERTA (08:36)
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
@@ -18,7 +18,7 @@
 
 Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. 08:16 · [Allerta ER](https://allertameteo.regione.emilia-romagna.it/web/piacenza)
 
-**Consiglio operativo:** **`ok 16`** entro 12:00 per slot pranzo. Messaggio WhatsApp adattato in `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`.
+**Consiglio operativo:** **`ok 16`** entro **12:00** per slot pranzo. Messaggio WhatsApp in `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`.
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
@@ -32,7 +32,7 @@ Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. 08:16 · 
 
 ---
 
-## 🆕 Novità giro 2/7 08:20
-- Stallo **189,9h** (+12,1h) — **168h +21,9h oltre**.
-- Automazione **tutto verde** — worker/token/timer OK.
-- Meteo favorevole consegna oggi — priorità #16 pranzo.
+## 🆕 Novità giro 2/7 08:36
+- Stallo **190,1h** (+0,2h vs 08:20) — **168h +22,1h oltre**.
+- Automazione **tutto verde** 08:36 — infrastruttura pronta per merge #19.
+- Meteo favorevole consegna oggi — **azione umana #16** resta unico blocco.

@@ -1,18 +1,18 @@
 {
-  "data": "2026-07-02 08:20",
-  "aggiornato": "2026-07-02 08:20",
+  "data": "2026-07-02 08:36",
+  "aggiornato": "2026-07-02 08:36",
   "lezioni": [
     {
       "id": "L-2026-0702-44",
       "testo": "**Automazione tutto verde ≠ loop business chiuso (giro 2/7 08:20):** `verifica-automazione.mjs` OK (token mycity push ✓, worker ✓, timer ✓) ma **0 ordini consegnati**. **Regola:** separare sempre in briefing (1) salute **infrastruttura** (verde) vs (2) salute **business** (🔴 finché #16 pendente). Non confondere «macchina operativa» con «azienda che fattura». Automazione verde **abbassa** rischio deploy post-ok merge ma **non** sostituisce ok 16.",
       "tag": ["automazione", "loop-business", "devops", "operations", "nicola"],
       "reparto": "@AD",
-      "confidenza": 0.84,
-      "evidenze": 1,
+      "confidenza": 0.86,
+      "evidenze": 2,
       "fonte": "giro",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
-      "ultima_conferma": "2026-07-02 08:20",
+      "ultima_conferma": "2026-07-02 08:36",
       "stato": "attiva"
     },
     {

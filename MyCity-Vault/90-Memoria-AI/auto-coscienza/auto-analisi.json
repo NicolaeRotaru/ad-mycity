@@ -1,12 +1,12 @@
 {
-  "data": "2026-07-02 08:20",
+  "data": "2026-07-02 08:36",
   "voto_fiducia": 89,
-  "trend_fiducia": "▲",
-  "sintesi": "Giro 2/7 08:20. Voto 89 (▲ da 87): KPI live REST, automazione tutto verde, meteo OK #16 pranzo. Stallo 189,9h confermato (+12,1h). Nessun errore grounding. MCP cieco, REST OK. Previsione «zero transazioni 1/7» confermata (L-0701-40).",
+  "trend_fiducia": "=",
+  "sintesi": "Giro 2/7 08:36. Voto 89 (= da 08:20): KPI live REST confermati (+0,2h stallo prevedibile), automazione tutto verde 08:36, meteo OK #16 pranzo. Nessun errore grounding. MCP cieco, REST OK. Previsione «zero transazioni finché ok 16» ancora valida.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 08:20, clmpyfvpvfjgeviworth)",
-    "coerenza": "ok (allineato chat 2/7, AZIONI #16/#19, intenzioni-nicola)",
+    "numeri": "ok (live REST 08:36, clmpyfvpvfjgeviworth)",
+    "coerenza": "ok (allineato AZIONI #16/#19, intenzioni-nicola, giro 08:20)",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a"
@@ -15,13 +15,13 @@
   "domande_per_nicola": [
     {
       "domanda": "Eseguire #16 oggi pranzo? — scrivi ok 16",
-      "perche_serve": "Scelta A firmata 11:05 — stallo 189,9h (+21,9h oltre 168h). Meteo OK.",
+      "perche_serve": "Scelta A firmata 11:05 — stallo 190,1h (+22,1h oltre 168h). Meteo OK.",
       "se_rispondi": "Operations esegue WhatsApp + consegna COD oggi (escalation v12).",
       "gravita": "alta"
     },
     {
       "domanda": "Merge deploy #19 fix ruoli? — scrivi ok merge fix ruoli-acquisto",
-      "perche_serve": "Nicola 2/7 07:35 — admin zero acquisti, seller solo opt-in.",
+      "perche_serve": "Nicola 2/7 07:35 — branch pronto su clone marketplace.",
       "se_rispondi": "Merge GitHub → Render auto-deploy marketplace.",
       "gravita": "alta"
     },
@@ -36,7 +36,8 @@
     "Supabase MCP cieco in Cursor (REST fallback OK)",
     "Stripe MCP non verificato in sessione",
     "PostHog non collegato",
-    "Sentry/Render 5xx non verificato"
+    "Sentry/Render 5xx non verificato",
+    "profiles.phone null per buyer ordine — tel. da pacchetto operations"
   ],
   "miglioramenti_prossimo_giro": [
     "Post ok 16: aggiornare 7 numeri con prima transazione",
@@ -44,9 +45,9 @@
     "Post fatto sql 107: query verifica policy DROP"
   ],
   "salute_macchina": {
-    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Compute Degraded (running OK)",
+    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Status Partially Degraded (running OK)",
     "supabase_memoria": "POST briefings OK ✅",
-    "automazione_vps": "tutto verde ✅ (verifica 08:20)",
+    "automazione_vps": "tutto verde ✅ (verifica 08:36)",
     "stripe": "non verificato in sessione",
     "posthog": "non collegato ❌",
     "dati_freschi": true,

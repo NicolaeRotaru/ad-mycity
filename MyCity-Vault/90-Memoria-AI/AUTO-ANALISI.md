@@ -1,16 +1,16 @@
 ---
-data: 2026-07-02 08:20
+data: 2026-07-02 08:36
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
 # 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: **89/100** ▲ (da 87)
+## Voto di fiducia: **89/100** = (da 89 alle 08:20)
 
-**Perché ▲:** automazione VPS tutto verde (nuovo segnale positivo); KPI live REST coerenti con giro precedente (+12,1h stallo prevedibile); meteo verificato live; nessun errore grounding entità/numeri; lezioni L-0702-41/42/43 applicate nel briefing.
+**Perché =:** KPI live REST coerenti con giro 16 min prima (+0,2h stallo); automazione VPS tutto verde confermata 08:36; meteo verificato live; nessun errore grounding entità/numeri; lezioni L-0702-41/42/43/44 applicate (separazione infra vs business).
 
-**Malus assenti:** MCP Cursor ancora cieco (−5 una tantum già conteggiato in salute_macchina, non ripetuto per ogni numero).
+**Malus assenti:** variazione minima stallo prevedibile; MCP Cursor cieco già dichiarato (REST mitiga).
 
 ---
 
@@ -22,7 +22,7 @@ fonte: AD digitale (cervello/auto-analisi.md)
 
 ## Domande per Nicola
 
-1. **Alta:** `ok 16` oggi pranzo? (stallo 190h, meteo OK)
+1. **Alta:** `ok 16` oggi pranzo? (stallo 190,1h, meteo OK)
 2. **Alta:** `ok merge fix ruoli-acquisto` per #19?
 3. **Alta:** SQL 107 → «fatto sql 107»
 
@@ -33,23 +33,25 @@ fonte: AD digitale (cervello/auto-analisi.md)
 | Componente | Stato |
 |------------|-------|
 | REST marketplace | ✅ 200 |
-| REST memoria briefings | ✅ POST 201 |
-| verifica-automazione | ✅ tutto verde |
+| REST memoria briefings | ✅ 200 |
+| verifica-automazione | ✅ tutto verde 08:36 |
 | MCP Supabase Cursor | ❌ cieco |
 | Worker VPS | ✅ attivo |
+| Supabase status | 🟡 Partially Degraded (minor) |
 
 ---
 
-## Punti ciechi
+## Grounding entità (L1)
 
-- Stripe live/sandbox non interrogato in sessione
-- PostHog funnel assente
-- Concorrenti non ricontrollati (cadenza settimanale)
+| Entità | Stato | Fonte |
+|--------|-------|-------|
+| Pane Quotidiano | confermato | REST profiles + Nicola 1/7 |
+| Ordine €19,05 | confermato | REST orders `58094956…` |
+| Buyer tel. 348 642 1766 | confermato | pacchetto Scelta A firmata 11:05 |
+| samir (carrello) | confermato | REST profiles `57494b3e…` |
+| Branch #19 fix ruoli | confermato | clone marketplace locale |
+| Casa Linda | demo | Nicola 1/7 — esclusa |
 
 ---
 
-## Cosa miglioro al prossimo giro
-
-- Dopo `ok 16`: calibrazione @operations con esito reale
-- Dopo merge #19: smoke test ruoli in produzione
-- Contatore giri-ciechi MCP (difetto AR-003)
+*Prossimo giro: post-ok 16 aggiornare calibrazione @operations e 7 numeri.*

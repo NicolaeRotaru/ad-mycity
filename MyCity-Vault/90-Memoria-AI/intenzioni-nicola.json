@@ -1,13 +1,13 @@
 {
-  "data": "2026-07-02 08:20",
-  "sintesi": "Nicola oggi 2/7 punta al **1° ordine consegnato entro pranzo** (`ok 16`) e al **deploy fix ruoli** (`ok merge fix ruoli-acquisto` #19). Ha già firmato Scelta A (1/7 11:05) e chiarito regole admin/seller (2/7 07:35). In parallelo: SQL 107 (~30s), sync VPS (1× root, ok 17 dato). Payout-test **03/7 mattina**. Batch negozi **6/7** dopo piattaforma pulita. VP 3/7 rimandato → prossima finestra 10/17 lug.",
+  "data": "2026-07-02 08:36",
+  "sintesi": "Nicola oggi 2/7 punta al **1° ordine consegnato entro pranzo** (`ok 16`) e al **deploy fix ruoli** (`ok merge fix ruoli-acquisto` #19). Ha già firmato Scelta A (1/7 11:05) e chiarito regole admin/seller (2/7 07:35) + Render vs GitHub (2/7 08:16). In parallelo: SQL 107 (~30s), sync VPS (1× root, ok 17 dato). Payout-test **03/7 mattina**. Batch negozi **6/7** dopo piattaforma pulita. VP 3/7 rimandato → prossima finestra 10/17 lug.",
   "prossime_mosse": [
     {
       "titolo": "Eseguire ordine zombie €19,05 — Scelta A oggi pranzo",
       "quando": "2/7 mattina/pranzo — ORA",
       "come": "Scrivi `ok 16` → WhatsApp buyer 348 642 1766 + accetta dashboard PQ + consegna COD €19,05",
       "priorita": "alta",
-      "ad_prepara": "Escalation v12 🟢 · pacchetto operations · meteo OK",
+      "ad_prepara": "Escalation v12 🟢 · KPI live 08:36 · meteo OK",
       "senior": "@operations + @supporto",
       "colore": "🔴"
     },
@@ -16,7 +16,7 @@
       "quando": "2/7 — stesso giorno di #16",
       "come": "Scrivi `ok merge fix ruoli-acquisto` → merge GitHub → Render auto-deploy",
       "priorita": "alta",
-      "ad_prepara": "Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` staged · spec in consegne/tech/",
+      "ad_prepara": "Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` su clone marketplace · spec in consegne/tech/",
       "senior": "@tech",
       "colore": "🔴"
     },
@@ -58,15 +58,15 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — Scelta A #16 oggi", "stato": "approvato, payout OFF — consegna in attesa ok 16"},
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — Scelta A #16 oggi pranzo", "stato": "approvato Via Calzolai 25, payout OFF — consegna in attesa ok 16"},
     {"nome": "Batch 6 luglio", "perche": "Nicola inserimento multi-negozio post-#16+#19", "stato": "checklist AD pronta"},
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Stallo 189,9h — reputazione e urgenza batch 6/7",
+    "Stallo 190,1h — reputazione e urgenza batch 6/7",
     "Buyer potrebbe non rispondere WhatsApp dopo 8+ giorni",
     "RLS profiles attiva finché non gira SQL 107",
-    "Branch #19 staged ma non ancora push/merge"
+    "Branch #19 su clone locale — serve push/merge GitHub"
   ],
   "serve_da_nicola": [
     {"ambito": "Consegna ordine PQ", "cosa_manca": "**`ok 16`** — oggi pranzo", "domanda_per_nicola": "Scrivi **`ok 16`** e avvia WhatsApp + consegna oggi"},

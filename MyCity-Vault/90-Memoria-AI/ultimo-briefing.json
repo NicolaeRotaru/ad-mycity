@@ -1,16 +1,16 @@
 {
-  "data": "2026-07-02 08:20",
-  "situazione": "Stallo **189,9h** (+21,9h oltre 168h) — ancora **zero transazioni**. Automazione **tutto verde** (08:20). Meteo sereno 20–31°C: finestra **#16 oggi pranzo**. In parallelo **`ok merge fix ruoli-acquisto`** (#19). 7 numeri = vs ieri.",
+  "data": "2026-07-02 08:36",
+  "situazione": "Stallo **190,1h** (+22,1h oltre 168h) — ancora **zero transazioni**. Automazione **tutto verde** (08:36). Meteo sereno 20–31°C: finestra **#16 pranzo ORA**. Branch #19 fix ruoli pronto su clone marketplace. 7 numeri = vs 08:20.",
   "opportunita": [
     {
       "titolo": "#16 oggi pranzo — Scelta A ordine €19,05",
-      "motivo": "Firmata 11:05 · stallo 190h · meteo OK · pacchetto WhatsApp pronto",
+      "motivo": "Firmata 11:05 · stallo 190h · meteo OK · escalation v12 · pacchetto WhatsApp pronto",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Deploy #19 fix ruoli acquisto",
-      "motivo": "Nicola 2/7 07:35 · branch staged · Render auto post-merge GitHub",
+      "motivo": "Nicola 2/7 07:35 · branch locale pronto · Render auto post-merge GitHub",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -24,7 +24,7 @@
   "azioni": [
     {
       "titolo": "ok 16 — ordine zombie €19,05 WhatsApp + consegna COD oggi pranzo",
-      "motivo": "Scelta A firmata · stallo 189,9h · prima transazione MyCity",
+      "motivo": "Scelta A firmata · stallo 190,1h · prima transazione MyCity",
       "livello": "rosso"
     },
     {

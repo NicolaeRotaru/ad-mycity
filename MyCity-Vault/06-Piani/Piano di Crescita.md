@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-02 08:20
+## 🤖 Aggiornamento dell'AD — 2026-07-02 08:36
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Gate crescita:** #16 oggi → prima transazione → sblocca outreach 407 lead + recovery samir.
-- **Automazione verde** — deploy #19 via merge senza frizione tecnica.
+- **Gate crescita:** #16 oggi pranzo → prima transazione → sblocca outreach 407 lead.
+- **Automazione verde 08:36** — deploy #19 via merge senza frizione tecnica.
 - **6/7 batch** = leva densità cluster post-piattaforma pulita.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
