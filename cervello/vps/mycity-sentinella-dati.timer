@@ -1,13 +1,13 @@
 [Unit]
-Description=MyCity AD — occhi sui dati reali ogni 2 minuti (0 token; sveglia il cervello solo se scatta una soglia)
+Description=MyCity AD — occhi sui dati reali ogni 1 minuto (0 token; sveglia il cervello solo se scatta una soglia)
 
 [Timer]
-# VEGLIA IN TEMPO REALE (richiesta Nicola): la macchina guarda i dati ogni 2 minuti.
+# VEGLIA IN TEMPO REALE (scelta di Nicola: 1 minuto). La macchina guarda i dati ogni minuto.
 # È deterministico e NON usa token: il modello AI si accende SOLO quando questa sentinella
 # accoda un lavoro perché una soglia è scattata (con dedup + cooldown + tetto di spesa).
 # Cadenza regolabile nella finestra 1-5 min: alza OnUnitActiveSec se vuoi meno frequenza.
-OnBootSec=90s
-OnUnitActiveSec=2min
+OnBootSec=60s
+OnUnitActiveSec=1min
 Persistent=true
 
 [Install]
