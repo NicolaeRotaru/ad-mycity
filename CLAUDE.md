@@ -154,9 +154,12 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 > un senior produce asset pesanti (post/QR/reel/evento/kit) **SOLO se l'entità target è `confermata`** nel
 > `registro-realta.json` (reale nei dati). Se è `scelta_ragionata` (prospect non firmato, non nel DB) →
 > **solo bozze-template neutre e riusabili**, non un pacchetto completo intestato. E se una scoperta cambia
-> il **faro** (es. «usa Casa Linda, non Garetti»), quella scoperta genera **nello stesso giro** un task che
+> il **faro** (es. «usa Pane Quotidiano — unico negozio reale — non Garetti né la demo Casa Linda»), quella scoperta genera **nello stesso giro** un task che
 > riscrive coda/OKR/STATO — non resta solo nella lettera. Regola d'oro: **lo sforzo pesante va dove c'è già
 > un negozio che può incassare**, non su un'ipotesi.
+> **Guardiano attivo:** `node cervello/allocazione-check.mjs` (gira a ogni giro) misura gli asset pesanti
+> per negozio e FALLISCE (exit≠0) se una `scelta_ragionata` accumula ≥3 asset mentre un negozio
+> `confermato` payout-ready resta a 0 — il silo diventa un numero, non una scoperta che dorme nella lettera.
 
 - **🟢 reversibili** → il senior **li esegue da solo** e ti consegna l'artefatto: file finito in
   `consegne/` (documenti, post, email, dossier) o `creativi/` (grafiche/QR), query eseguita, memoria aggiornata.

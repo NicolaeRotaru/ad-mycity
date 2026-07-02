@@ -156,6 +156,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
+  node "$SCRIPT_DIR/allocazione-check.mjs" 2>&1 | tail -6 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
