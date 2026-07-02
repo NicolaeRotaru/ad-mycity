@@ -59,9 +59,11 @@ lezioni sono inutili o mal scritte → riformulale più operative. L'obiettivo n
 
 ## 🧾 Cosa scrivi (ogni giro)
 1. Aggiorna `auto-coscienza/apprendimento.json` (lezioni nuove/rafforzate/decadute, preferenze, meta).
-2. Aggiorna `auto-coscienza/calibrazione.json` con gli esiti previsto-vs-reale disponibili.
-3. Scrivi le lezioni nuove riusabili nei quaderni `memoria-squadra/<reparto>.md` (formato ESITO del README).
-4. Se una lezione è matura → proponi (🟡) la modifica al mansionario/sentinella in cui «cristallizzarla».
+2. Aggiorna `auto-coscienza/calibrazione.json` con gli esiti previsto-vs-reale disponibili (**spec completa:**
+   `cervello/calibrazione.md` — ogni 🟡/🔴 accodata deve avere una previsione misurabile).
+3. **Taste File:** ogni verdetto di Nicola → riga append in `MyCity-Vault/07-Agenti/TASTE-FILE-NICOLA.md`.
+4. Scrivi le lezioni nuove riusabili nei quaderni `memoria-squadra/<reparto>.md` (formato ESITO del README).
+5. Se una lezione è matura → proponi (🟡) la modifica al mansionario/sentinella in cui «cristallizzarla».
 
 ## 🗓️ Consolidamento settimanale (in `cervello/ritmo.md`, venerdì)
 - **Distilla**: lezioni mature → principi; riscrivi i principi in modo netto.

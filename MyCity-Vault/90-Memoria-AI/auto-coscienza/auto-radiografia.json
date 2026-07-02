@@ -119,14 +119,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-02 08:36",
+    "data": "2026-07-02 10:00",
     "loop_chiude": true,
     "tasso_applicazione": 0.70,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 98,
+    "ore_da_ultima_completa": 100,
     "verdetto": "ok",
-    "nota": "Sonda 2/7 08:36. 4 invarianti OK: (1) loop chiude — KPI live + lezioni L-0702-44 applicata (infra≠business); (2) tasso 0.70; (3) giro 16min dopo 08:20 (cadenzato); (4) sentinelle: stallo 190,1h + ordine zombie + 1 carrello buyer. Automazione tutto verde 08:36. REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: AR-001 REST mitigato — proposta documentare fallback in giro.md."
+    "nota": "Sonda 2/7 10:00 post Fase 2+3. Invarianti OK. Fase 2: calibrazione.json attivo (6 previsioni), benchmark 4 reparti soldi, Taste File workflow. Fase 3: regole-ad-gm obbligatorie in giro. Fix AR accodati #23-25. Prossima radiografia completa: review ven 4/7 se sonda OK. Collo bottiglia: #16 esecuzione pranzo."
   },
   "meta": {
     "agenti_totali": 42,
