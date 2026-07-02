@@ -29,8 +29,22 @@ const FINDINGS = {
           fix: { type: 'string', description: 'fix del PROCESSO consigliato (resta 🟡 da firmare)' },
           impatto_crescita: { type: 'string', enum: ['alto', 'medio', 'basso'], description: 'quanto frena ordini/negozi/margine' },
           genera: { type: 'string', enum: ['lezione', 'auto-riscrittura', 'sentinella', 'nuovo-pezzo', 'domanda-nicola', 'solo-report'] },
+          // AR-023: PROVA OGGETTIVA DI CHIUSURA — obbligatoria. auto-fix.mjs la rilegge a ogni giro e chiude
+          // il difetto da solo quando il fix è nel codice → il Pannello non lo mostra più "in-corso". Se il
+          // fix è provabile dal codice: {file, pattern (regex), presente:true}. Se dipende da Nicola (chiavi,
+          // firma, decisione) e NON è provabile da un file: {tipo:"umano"} (resta aperto finché chiuso a mano).
+          verifica: {
+            type: 'object',
+            description: 'prova machine-checkable di quando il difetto è risolto (file+pattern), oppure {tipo:"umano"}',
+            properties: {
+              file: { type: 'string', description: 'path relativo alla root del repo che conterrà il fix' },
+              pattern: { type: 'string', description: 'regex la cui presenza (o assenza) prova il fix' },
+              presente: { type: 'boolean', description: 'true = risolto quando il pattern è PRESENTE; false = quando è ASSENTE' },
+              tipo: { type: 'string', enum: ['umano'], description: 'usa "umano" SOLO se il fix non è provabile da un file (chiavi/firma/decisione di Nicola)' },
+            },
+          },
         },
-        required: ['titolo', 'severita', 'descrizione', 'causa_radice', 'fix', 'impatto_crescita', 'genera'],
+        required: ['titolo', 'severita', 'descrizione', 'causa_radice', 'fix', 'impatto_crescita', 'genera', 'verifica'],
       },
     },
   },

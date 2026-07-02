@@ -95,6 +95,20 @@ if [ "${#code_paths[@]}" -gt 0 ]; then
   echo "[$(ts)] Codice allineato a origin/main."
 fi
 
+# AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main
+# rileva main avanzato (≈5 min), qui allineiamo il codice E chiudiamo i difetti il cui fix è ORA presente
+# (prova verifica:{file,pattern}). La chiusura viene committata e pubblicata su memoria-ad dal push qui sotto
+# → il Pannello non mostra più "in-corso" un fix già mergiato. Sola lettura del codice + bookkeeping memoria.
+if command -v node >/dev/null 2>&1; then
+  node cervello/auto-fix.mjs verifica --applica 2>&1 | tail -6 || true
+  ac="MyCity-Vault/90-Memoria-AI/auto-coscienza"
+  if [ -n "$(git status --porcelain "$ac" 2>/dev/null)" ]; then
+    git add "$ac" 2>/dev/null || true
+    git "${GIT_ID[@]}" commit -q -m "riconcilia: chiude difetti risolti nel codice ($(ts))" 2>/dev/null || true
+    echo "[$(ts)] 🔧 Riconciliazione cantiere: difetti verificati chiusi (verranno pubblicati su ${branch})."
+  fi
+fi
+
 git fetch "$url" "$branch" 2>/dev/null || true
 _ahead="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
 if [ "${_ahead:-0}" -gt 0 ] 2>/dev/null; then
