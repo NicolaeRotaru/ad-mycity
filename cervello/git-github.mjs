@@ -1,7 +1,7 @@
 // Utilità condivise per git-pr.mjs e git-merge.mjs — GitHub API + risoluzione repo.
 // Token: GIT_PUSH_TOKEN (ad-mycity) o MARKETPLACE_GIT_TOKEN / GIT_PUSH_TOKEN (mycity).
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -13,6 +13,32 @@ import {
 
 export const AD_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const API = "https://api.github.com";
+
+// Carica cervello/vps/.env se presente, così i comandi lanciati A MANO (fuori da
+// worker/systemd, che il .env lo iniettano già) trovano comunque i segreti.
+// Le variabili GIÀ presenti nell'ambiente vincono: `AZIONI_LIVE=1 node ...` resta rispettato.
+function loadVpsEnv() {
+  const envPath = join(AD_ROOT, "cervello", "vps", ".env");
+  let raw;
+  try {
+    raw = readFileSync(envPath, "utf8");
+  } catch {
+    return; // nessun .env: ambiente già configurato altrove (Cloud Agent, CI, dev)
+  }
+  for (const line of raw.split("\n")) {
+    const t = line.trim();
+    if (!t || t.startsWith("#")) continue;
+    const eq = t.indexOf("=");
+    if (eq <= 0) continue;
+    const k = t.slice(0, eq).trim();
+    let v = t.slice(eq + 1).trim();
+    if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+      v = v.slice(1, -1);
+    }
+    if (!(k in process.env)) process.env[k] = v;
+  }
+}
+loadVpsEnv();
 
 /** @typedef {'ad-mycity' | 'mycity'} RepoKey */
 
