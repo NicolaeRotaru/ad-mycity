@@ -58,7 +58,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
       setRiprovati((s) => ({ ...s, [id]: "errore" }));
     }
   }
-  function motivoBreve(risultato: string): string {
+  function motivoBreve(risultato?: string): string {
     const righe = (risultato || "").split("\n").map((r) => r.trim()).filter(Boolean);
     const worker = [...righe].reverse().find((r) => /\[worker\]|timeout|rc=|errore|error|motore/i.test(r));
     return (worker || righe[righe.length - 1] || "il worker non ha lasciato dettagli").slice(0, 160);
