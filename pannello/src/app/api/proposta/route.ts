@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { creaLavoro, getImpostazioni, setImpostazione } from "@/lib/store";
+import { creaLavoro, getImpostazione, getImpostazioni, setImpostazione } from "@/lib/store";
 import { slugDaTitolo } from "@/lib/scelta-ab";
 
 export const runtime = "nodejs";
@@ -51,6 +51,21 @@ export async function POST(req: Request) {
   }
 
   const id = String(body?.id || "").trim() || slugDaTitolo(titolo);
+
+  // Dedup: se questa proposta è GIÀ stata approvata, non accodare un secondo lavoro (doppio clic
+  // o ri-approvazione dopo un nuovo giro). L'esecuzione reale non deve partire due volte.
+  if (decisione === "approva") {
+    const prec = await getImpostazione(`${PREFIX}${id}`);
+    if (prec) {
+      try {
+        const o = JSON.parse(prec) as DecisioneProposta;
+        if (o?.decisione === "approva") {
+          return NextResponse.json({ ok: true, id, decisione: o, salvato: true, lavoro: null, giaApprovata: true });
+        }
+      } catch { /* valore non-JSON: prosegui */ }
+    }
+  }
+
   const record: DecisioneProposta = { decisione, at: new Date().toISOString(), titolo };
   const salvato = await setImpostazione(`${PREFIX}${id}`, JSON.stringify(record));
 
