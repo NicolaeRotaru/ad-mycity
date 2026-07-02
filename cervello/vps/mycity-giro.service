@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=oneshot
 User=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
-EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 # HOME serve al motore per trovare il login/config (~/.cursor o ~/.claude)
 Environment=HOME=/home/mycity
 # PATH che include la bin utente: Cursor CLI ('agent') si installa in ~/.local/bin.

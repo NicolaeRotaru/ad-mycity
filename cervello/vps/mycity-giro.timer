@@ -1,19 +1,13 @@
 [Unit]
-Description=MyCity AD — giro di perlustrazione (DISATTIVATO: solo manuale con giro-ora.sh)
+Description=MyCity AD — giro di perlustrazione automatico (il volano dell'apprendimento)
 
 [Timer]
-# DISATTIVATO: il giro automatico ogni 2h è stato spento.
-# Il VPS ora serve SOLO per la chat del pannello (worker).
-# Per lanciare un giro manuale: sudo bash /opt/mycity/ad-mycity/cervello/vps/giro-ora.sh
-#
-# Vecchia configurazione (per riattivare: decommentare e rimuovere le righe sotto):
-# OnBootSec=5min
-# OnUnitActiveSec=2h
-# Persistent=true
-
-# Timer inattivo: nessun trigger automatico.
-# Se riattivato, partirà solo manualmente o dopo un 'systemctl start mycity-giro.service'.
+# RIATTIVATO (2026-07-02, richiesta Nicola: «massimo potenziale il prima possibile»).
+# Giro ogni 2 ore nelle ore di veglia (06-22), al minuto :20 per non sovrapporsi
+# ai timer del ritmo (06:00 / 12:00 / 18:00) e al watch-main.
+# ⚠️ Consuma quota del motore AI (Cursor/Claude): se i limiti mordono, allarga a /3 o /4.
+OnCalendar=*-*-* 06..22/2:20:00 Europe/Rome
+Persistent=true
 
 [Install]
-# NON abilitare: WantedBy commentato = il timer non parte al boot.
-# WantedBy=timers.target
+WantedBy=timers.target

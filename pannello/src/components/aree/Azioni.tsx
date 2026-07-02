@@ -12,6 +12,7 @@ import {
   etichettaScelta,
   isPropostaSceltaAB,
   normalizzaPropostaSceltaAB,
+  slugDaTitolo,
   type DecisioneSceltaSalvata,
   type PropostaSceltaAB,
   type SceltaAB,
@@ -55,6 +56,21 @@ function badgeStato(s: string): { txt: string; cls: string } | null {
   if (s === "coda") return { txt: "⏳ In coda", cls: "bg-black/[0.05] text-black/55" };
   if (s === "rifiutata") return { txt: "✕ rifiutata", cls: "bg-black/[0.05] text-black/50" };
   return null;
+}
+
+// Il pulsante Approva dice COSA succede davvero, in base al canale dell'azione:
+// merge di una PR ≠ invio email ≠ pubblicazione. Niente più "Approva e fai" generico.
+function etichettaApprova(canale: string): string {
+  const c = (canale || "").toLowerCase();
+  if (/github|\bmerge\b|\bpr\s*#?\d/.test(c)) return "Approva e mergia";
+  if (/e-?mail|mail|resend/.test(c)) return "Approva e invia";
+  if (/\big\b|instagram|\bfb\b|facebook|social|telegram|push|notif/.test(c)) return "Approva e pubblica";
+  return "Approva e fai";
+}
+
+// Id stabile di una proposta del giro (per la persistenza della decisione).
+function idProposta(p: { scelta_id?: string; titolo?: string }): string {
+  return p.scelta_id || slugDaTitolo(p.titolo || "");
 }
 const quando = istante;
 
@@ -118,6 +134,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [propBusy, setPropBusy] = useState<number | null>(null);
   const [propEsito, setPropEsito] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const [propDecise, setPropDecise] = useState<Set<number>>(new Set());
+  // Decisioni PERSISTENTI sulle proposte (Supabase impostazioni proposta:{id}):
+  // sopravvivono a refresh e ai giri successivi — la card non torna più "vergine".
+  const [propDecisioni, setPropDecisioni] = useState<Record<string, { decisione: string; at?: string }>>({});
   const [scelteDecisioni, setScelteDecisioni] = useState<Record<string, DecisioneSceltaSalvata>>({});
   const [sceltaBusy, setSceltaBusy] = useState(false);
 
@@ -149,6 +168,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       .then((r) => r.json())
       .then((d) => {
         if (d?.decisioni) setScelteDecisioni(d.decisioni);
+      })
+      .catch(() => {});
+    fetch("/api/proposta", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.decisioni) setPropDecisioni(d.decisioni);
       })
       .catch(() => {});
   }, [carica]);
@@ -202,24 +227,40 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       /* ignora */
     }
   }
+  // Approva → il CERVELLO (worker AD) la trasforma in azione concreta; la decisione è
+  // salvata in Supabase (proposta:{id}) così la card non torna mai più "vergine".
+  // (Prima passava da /api/esegui → n8n: binario morto senza n8n e zero persistenza.)
   async function approvaProposta(i: number, p: Proposta) {
     setPropBusy(i);
     try {
-      const r = await fetch("/api/esegui", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ azione: p }) }).then((x) => x.json());
-      const ok = Boolean(r?.ok);
-      const msg = r?.collegato
-        ? (ok ? `✅ Eseguito${r.risultato ? ": " + r.risultato : ""}` : `⚠️ Non riuscito${r.risultato ? ": " + r.risultato : ""}`)
-        : "📨 Mandata al cervello: la trasforma in azione concreta e ti dice i passi.";
-      setPropEsito((s) => ({ ...s, [i]: { ok, msg } }));
-      setPropDecise((s) => new Set(s).add(i));
+      const r = await fetch("/api/proposta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ decisione: "approva", id: idProposta(p), titolo: p.titolo, motivo: p.motivo, livello: p.livello }),
+      }).then((x) => x.json());
+      if (r?.ok) {
+        setPropEsito((s) => ({ ...s, [i]: { ok: true, msg: "📨 Approvata: il cervello la sta trasformando in azione concreta (vedi Lavori). Non tornerà tra le proposte." } }));
+        setPropDecise((s) => new Set(s).add(i));
+        setPropDecisioni((s) => ({ ...s, [r.id || idProposta(p)]: { decisione: "approva", at: new Date().toISOString() } }));
+        if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      } else {
+        setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: `⚠️ ${r?.error || "Approvazione non riuscita."}` } }));
+      }
     } catch {
       setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: "Errore di rete." } }));
     } finally {
       setPropBusy(null);
     }
   }
-  function ignoraProposta(i: number) {
+  function ignoraProposta(i: number, p: Proposta) {
     setPropDecise((s) => new Set(s).add(i));
+    setPropDecisioni((s) => ({ ...s, [idProposta(p)]: { decisione: "ignora", at: new Date().toISOString() } }));
+    // Persistenza best-effort: anche l'Ignora sopravvive a refresh e giri successivi.
+    fetch("/api/proposta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ decisione: "ignora", id: idProposta(p), titolo: p.titolo }),
+    }).catch(() => {});
   }
   async function decidiSceltaAB(i: number, p: Proposta, scelta: SceltaAB) {
     const config = normalizzaPropostaSceltaAB(p);
@@ -330,7 +371,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }
 
   const daDecidere = azioni.filter((a) => !a.stato).length;
-  const proposteVive = proposte.filter((_, i) => !propDecise.has(i)).length;
+  const proposteVive = proposte.filter((p, i) => !propDecise.has(i) && !propDecisioni[idProposta(p)]).length;
   const daFareTodo = todo.filter((t) => !t.fatto);
   const mosse = intenzioni?.collegato ? intenzioni.prossime_mosse : [];
   const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
@@ -436,7 +477,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
             const ab = isPropostaSceltaAB(p);
             const config = ab ? normalizzaPropostaSceltaAB(p) : null;
             const sceltaId = config?.id;
-            const decisa = propDecise.has(i) || Boolean(ab && sceltaId && scelteDecisioni[sceltaId]?.scelta);
+            const decPersistita = propDecisioni[idProposta(p)];
+            const decisa = propDecise.has(i) || Boolean(decPersistita) || Boolean(ab && sceltaId && scelteDecisioni[sceltaId]?.scelta);
             const e = propEsito[i];
             const decSalvata = sceltaId ? scelteDecisioni[sceltaId] : undefined;
             const sceltaRegistrata = decSalvata?.scelta;
@@ -460,6 +502,13 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                 {sceltaRegistrata && config && !e && (
                   <p className="t-eti mt-2 text-green-700">
                     ✅ Decisione {etichettaScelta(config, sceltaRegistrata)}
+                  </p>
+                )}
+                {decPersistita && !e && !sceltaRegistrata && (
+                  <p className={`t-eti mt-2 ${decPersistita.decisione === "approva" ? "text-green-700" : "text-ink/60"}`}>
+                    {decPersistita.decisione === "approva"
+                      ? `✅ Approvata${decPersistita.at ? " il " + quando(decPersistita.at) : ""} — il cervello la sta eseguendo (vedi Lavori).`
+                      : `✕ Ignorata${decPersistita.at ? " il " + quando(decPersistita.at) : ""}.`}
                   </p>
                 )}
                 {e && <p className={`t-eti mt-2 ${e.ok ? "text-green-700" : "text-ink/70"}`}>{e.msg}</p>}
@@ -486,7 +535,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                     <button onClick={() => approvaProposta(i, p)} disabled={propBusy === i} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50">
                       {propBusy === i ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} Approva
                     </button>
-                    <button onClick={() => ignoraProposta(i)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
+                    <button onClick={() => ignoraProposta(i, p)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
                       <XCircle size={15} /> Ignora
                     </button>
                   </div>
@@ -671,7 +720,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         {!decisa ? (
                           <>
                             <button onClick={() => decidi(a.id, "approva")} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition">
-                              <CheckCircle2 size={15} /> Approva e fai
+                              <CheckCircle2 size={15} /> {etichettaApprova(a.canale)}
                             </button>
                             <button onClick={() => decidi(a.id, "rifiuta")} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
                               <XCircle size={15} /> Rifiuta

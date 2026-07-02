@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# install-ritmo-timers.sh — Installa i timer del battito AD (mattino 08:00, sera 20:00, settimana ven 18:00).
+# install-ritmo-timers.sh — Installa i timer del battito AD
+# (mattino 06:00 · mezzogiorno 12:00 · sera 18:00 · settimana ven 15:00, fuso Europe/Rome).
 # Da eseguire SUL VPS come root, dopo un aggiornamento del repo:
 #     sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
 set -euo pipefail
@@ -13,6 +14,7 @@ ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 for unit in \
   mycity-ritmo-mattino.service mycity-ritmo-mattino.timer \
+  mycity-ritmo-mezzogiorno.service mycity-ritmo-mezzogiorno.timer \
   mycity-ritmo-sera.service mycity-ritmo-sera.timer \
   mycity-ritmo-settimana.service mycity-ritmo-settimana.timer
 do
@@ -21,8 +23,8 @@ do
 done
 
 systemctl daemon-reload
-systemctl enable mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
-systemctl start mycity-ritmo-mattino.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+systemctl enable mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+systemctl start mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
 
 echo ""
 echo "Timer ritmo attivi (fuso Europe/Rome):"

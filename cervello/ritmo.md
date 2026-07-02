@@ -3,7 +3,7 @@
 > I 3 prompt che l'AD esegue a orari fissi per dare ritmo. Lanciali con `claude -p "$(cat cervello/ritmo.md ...)"`
 > o, meglio, schedulali (vedi in fondo). Ogni cadenza scrive nel vault, così resta traccia.
 
-## ☀️ PIANO DEL MATTINO (ogni giorno ~8:00)
+## ☀️ PIANO DEL MATTINO (ogni giorno ~6:00)
 ```
 Sei l'AD di MyCity (segui CLAUDE.md). Fai il PIANO DEL MATTINO:
 1. Leggi STATO.md, AZIONI-IN-ATTESA.md, le sentinelle scattate e gli OKR-Squadra.
@@ -16,7 +16,20 @@ Sei l'AD di MyCity (segui CLAUDE.md). Fai il PIANO DEL MATTINO:
 Output: piano breve, assegnazioni per reparto, e cosa serve da Nicola.
 ```
 
-## 🌙 REPORT DELLA SERA (ogni giorno ~20:00)
+## 🕛 PUNTO DI MEZZOGIORNO (ogni giorno ~12:00)
+```
+Sei l'AD di MyCity (segui CLAUDE.md). Fai il PUNTO DI MEZZOGIORNO — il controllo di metà giornata:
+1. Riprendi il piano del mattino da RITMO.md/SALA-OPERATIVA: per ogni priorità, a che punto siamo?
+2. Controlla i dati freschi (ordini/segnali della mattina, sentinelle, coda AZIONI-IN-ATTESA ferma).
+3. CORREGGI LA ROTTA: se una priorità è bloccata, sblocca o riassegna; se è emersa un'urgenza, inseriscila.
+4. Esegui i 🟢 rapidi che sbloccano il pomeriggio; i 🟡/🔴 preparali e accodali.
+5. AGGIORNA 90-Memoria-AI/RITMO.md aggiungendo in fondo un blocco con QUESTO formato esatto:
+   `## Punto di mezzogiorno · AAAA-MM-GG HH:MM` seguito da: stato delle 3 priorità (✅/🔄/❌),
+   correzioni di rotta, cosa serve da Nicola entro sera. L'ultimo blocco vince.
+Output: punto sintetico (6-8 righe) + le correzioni fatte.
+```
+
+## 🌙 REPORT DELLA SERA (ogni giorno ~18:00)
 ```
 Sei l'AD. Fai il REPORT DELLA SERA:
 1. Leggi SALA-OPERATIVA (cosa è stato fatto) e consegne/ creati oggi.
@@ -59,11 +72,11 @@ Output: pagella per reparto + 3 mosse per la prossima settimana + voto salute ar
 ### VPS Linux (consigliato — sempre acceso)
 ```bash
 sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
-# Timer: mattino 08:00 · sera 20:00 · review ven 18:00 (fuso Europe/Rome)
-# Manuale: sudo bash .../ritmo-ora.sh {mattino|sera|settimana}
+# Timer: mattino 06:00 · mezzogiorno 12:00 · sera 18:00 · review ven 15:00 (fuso Europe/Rome)
+# Manuale: sudo bash .../ritmo-ora.sh {mattino|mezzogiorno|sera|settimana}
 ```
 
 ### Windows (PC locale)
 Usa lo stesso pattern di `cervello/giro.ps1`: crea `mattino.ps1` / `sera.ps1` / `settimana.ps1` che fanno
-`claude -p "<prompt sopra>" --permission-mode acceptEdits`, poi pianificali con `schtasks` (es. mattino 08:00,
-sera 20:00, settimana ven 18:00). Senza scheduler, l'AD esegue queste cadenze quando glielo chiedi.
+`claude -p "<prompt sopra>" --permission-mode acceptEdits`, poi pianificali con `schtasks` (es. mattino 06:00,
+mezzogiorno 12:00, sera 18:00). Senza scheduler, l'AD esegue queste cadenze quando glielo chiedi.

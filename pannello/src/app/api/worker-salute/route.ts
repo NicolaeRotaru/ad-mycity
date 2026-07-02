@@ -1,10 +1,35 @@
 import { NextResponse } from "next/server";
-import { getImpostazione, getLavori, memoryConnected } from "@/lib/store";
+import { getImpostazione, getLavori, memoryConnected, setImpostazione } from "@/lib/store";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+// POST { azione: "riavvia" } → chiede al worker di ricaricarsi (flag worker:riavvia in
+// impostazioni; il worker lo legge a ogni ciclo, spegne il flag e fa exec di sé stesso).
+// La coda non si perde: i lavori vivono in Supabase e gli in_corso vengono recuperati al riavvio.
+export async function POST(req: Request) {
+  if (!memoryConnected()) {
+    return NextResponse.json({ ok: false, error: "Memoria Supabase non collegata." }, { status: 503 });
+  }
+  let body: any = {};
+  try {
+    body = await req.json();
+  } catch {}
+  if (body?.azione !== "riavvia") {
+    return NextResponse.json({ ok: false, error: "Azione non valida (usa {azione:'riavvia'})." }, { status: 400 });
+  }
+  const salvato = await setImpostazione("worker:riavvia", "on");
+  if (!salvato) {
+    return NextResponse.json({ ok: false, error: "Impossibile scrivere il flag (tabella impostazioni)." }, { status: 502 });
+  }
+  return NextResponse.json({
+    ok: true,
+    messaggio:
+      "Riavvio richiesto: il worker si ricarica al prossimo ciclo (pochi secondi se libero; a fine lavoro se occupato). La coda non si perde.",
+  });
+}
 
 /** Diagnostica operativa coda chat — cosa vede il Pannello (stesso Supabase del worker). */
 export async function GET() {

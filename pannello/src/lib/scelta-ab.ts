@@ -46,7 +46,7 @@ export function isPropostaSceltaAB(p: PropostaSceltaAB): boolean {
   );
 }
 
-function slugDaTitolo(titolo: string): string {
+export function slugDaTitolo(titolo: string): string {
   const s = (titolo || "")
     .toLowerCase()
     .normalize("NFD")

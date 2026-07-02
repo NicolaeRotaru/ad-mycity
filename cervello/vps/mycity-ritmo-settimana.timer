@@ -1,9 +1,9 @@
 [Unit]
-Description=MyCity AD — lancia la review settimanale ogni venerdì alle 18:00 (Piacenza)
+Description=MyCity AD — lancia la review settimanale ogni venerdì alle 15:00 (Piacenza)
 
 [Timer]
-OnCalendar=Fri *-*-* 18:00:00
-Timezone=Europe/Rome
+# Ven 15:00 (spostata dalle 18:00 per non sovrapporsi al report della sera delle 18:00).
+OnCalendar=Fri *-*-* 15:00:00 Europe/Rome
 Persistent=true
 
 [Install]

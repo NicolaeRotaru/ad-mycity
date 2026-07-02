@@ -1,5 +1,5 @@
 [Unit]
-Description=MyCity AD — piano del mattino (ritmo, motore AI Cursor 'agent' o Claude 'claude')
+Description=MyCity AD — punto di mezzogiorno (ritmo, motore AI Cursor 'agent' o Claude 'claude')
 After=network-online.target
 Wants=network-online.target
 
@@ -11,4 +11,4 @@ EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 Environment=HOME=/home/mycity
 Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=TZ=Europe/Rome
-ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo.sh mattino
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/ritmo.sh mezzogiorno

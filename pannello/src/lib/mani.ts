@@ -6,10 +6,17 @@
 // Altrimenti: "simulata" (prova a vuoto, NON invia) o resta "in coda" col motivo.
 // Così non parte mai niente per sbaglio.
 
+import { creaLavoro } from "@/lib/store";
+
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
 
 type AzioneEseguibile = { titolo: string; canale: string; destinatario?: string; testo: string };
+
+/** Canale GitHub (merge PR): l'esecutore è il worker sul VPS, non il Pannello. */
+export function isCanaleGithub(canale: string): boolean {
+  return /github|\bmerge\b|\bpr\s*#?\d/i.test(canale || "");
+}
 
 function resendConfigurato(): boolean {
   return Boolean(process.env.RESEND_API_KEY);
@@ -59,6 +66,24 @@ async function inviaEmail(a: string, oggetto: string, testo: string): Promise<{ 
 // Esegue (o mette in coda) un'azione. Non lancia mai eccezioni: torna sempre un Esito.
 export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
   const ora = oraRoma();
+
+  // Canale GITHUB (merge PR): il Pannello non mergea da solo — accoda il lavoro al worker
+  // del VPS, che esegue `esegui-azione.mjs github-merge` (LIVE solo con AZIONI_LIVE=1)
+  // e poi segna la riga ✅ FATTO in AZIONI-IN-ATTESA.md.
+  if (isCanaleGithub(a.canale)) {
+    const lavoro = await creaLavoro(
+      `È stata APPROVATA dal Pannello l'azione "${a.titolo}" (canale GitHub — merge PR). ` +
+        `Ricava repo (ad-mycity o mycity) e numero PR dal contenuto qui sotto ed esegui il merge con: ` +
+        `node cervello/esegui-azione.mjs github-merge <repo> <numeroPR>. ` +
+        `Poi segna l'azione ✅ FATTO in MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md, appendi la traccia in DECISIONI.md ` +
+        `e riferisci a Nicola l'esito (sha del merge o motivo del fallimento).\n\nContenuto azione:\n${a.testo || a.titolo}`,
+      "esegui-azione"
+    );
+    return lavoro
+      ? { stato: "coda", dettaglio: `🤖 Merge affidato al cervello (worker VPS) · ${ora}. Parte in pochi secondi — esito in Lavori.` }
+      : { stato: "coda", dettaglio: "Memoria non collegata (tabella 'lavori'): impossibile passare il merge al worker." };
+  }
+
   if (!isEmail(a.canale)) {
     return { stato: "coda", dettaglio: `Canale "${a.canale || "non indicato"}" non ancora collegato: resta in coda.` };
   }

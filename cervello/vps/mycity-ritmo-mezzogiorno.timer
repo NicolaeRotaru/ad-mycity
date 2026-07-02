@@ -1,0 +1,9 @@
+[Unit]
+Description=MyCity AD — lancia il punto di mezzogiorno ogni giorno alle 12:00 (Piacenza)
+
+[Timer]
+OnCalendar=*-*-* 12:00:00 Europe/Rome
+Persistent=true
+
+[Install]
+WantedBy=timers.target

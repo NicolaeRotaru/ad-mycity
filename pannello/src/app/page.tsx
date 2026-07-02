@@ -138,6 +138,8 @@ type Conversazione = {
   created_at: string;
   updated_at: string;
 };
+// Lavoro chat in attesa di risposta, con la conversazione di destinazione.
+type PendingChat = { id: string; tipo: string; targetConvId: string };
 type DiarioVoce = {
   id: number | string;
   at: string;
@@ -635,23 +637,58 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
-  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
-  const pendingLavoroChatRef = useRef<{ id: string; tipo: string; targetConvId: string } | null>(null);
+  // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
+  // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
+  const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
+  const [pendingCount, setPendingCount] = useState(0);
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
   const convIdRef = useRef<string | null>(null);
+  const conversazioniRef = useRef<Conversazione[]>([]);
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
   useEffect(() => {
     convIdRef.current = convId;
   }, [convId]);
+  useEffect(() => {
+    conversazioniRef.current = conversazioni;
+  }, [conversazioni]);
 
-  function salvaPendingChat(pend: { id: string; tipo: string; targetConvId: string } | null) {
-    pendingLavoroChatRef.current = pend;
+  function persistPendings() {
     try {
-      if (pend) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(pend));
+      const arr = [...pendingLavoroChatRef.current.values()];
+      if (arr.length) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(arr));
       else sessionStorage.removeItem(PENDING_CHAT_KEY);
     } catch {}
+    setPendingCount(pendingLavoroChatRef.current.size);
+  }
+  function aggiungiPendingChat(pend: PendingChat) {
+    pendingLavoroChatRef.current.set(pend.id, pend);
+    persistPendings();
+  }
+  function rimuoviPendingChat(lavoroId: string) {
+    if (pendingLavoroChatRef.current.delete(lavoroId)) persistPendings();
+  }
+  function pendingPerConv(convTarget: string | null): boolean {
+    if (!convTarget) return false;
+    for (const p of pendingLavoroChatRef.current.values()) {
+      if (p.targetConvId === convTarget && !lavoroRisoltoChatRef.current.has(p.id)) return true;
+    }
+    return false;
+  }
+
+  // Fonde due versioni dello stesso thread SENZA perdere messaggi: prende la più lunga
+  // come base e appende ciò che c'è solo nell'altra. È la difesa contro la race che
+  // sovrascriveva la risposta dell'AD con uno snapshot vecchio (solo domanda).
+  function mergeThread(a: Msg[], b: Msg[]): Msg[] {
+    const pulisci = (list: Msg[]) => list.filter((m) => !m.pending && !m.prompt);
+    const pa = pulisci(a);
+    const pb = pulisci(b);
+    const base = pa.length >= pb.length ? pa : pb;
+    const altro = pa.length >= pb.length ? pb : pa;
+    const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
+    const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
+    return extra.length ? [...base, ...extra] : base;
   }
 
   function rispondiInChat(prev: Msg[], content: string): Msg[] {
@@ -693,7 +730,13 @@ export default function Dashboard() {
   /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata). */
   function instradaMessaggioChat(targetConvId: string, content: string) {
     if (convIdRef.current === targetConvId) {
-      setMessages((m) => rispondiInChat(m, content));
+      setMessages((m) => {
+        const nuovi = rispondiInChat(m, content);
+        // Persisti ANCHE quando la chat è quella attiva: prima la risposta restava solo
+        // nello stato React/localStorage e Supabase teneva la versione senza risposta.
+        void persistConversazione(targetConvId, nuovi);
+        return nuovi;
+      });
     } else {
       aggiornaMessaggiConversazione(targetConvId, content);
     }
@@ -702,17 +745,19 @@ export default function Dashboard() {
   function applicaRispostaChat(lavoroId: string, content: string, targetConvId: string) {
     if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
     lavoroRisoltoChatRef.current.add(lavoroId);
-    salvaPendingChat(null);
+    rimuoviPendingChat(lavoroId);
     instradaMessaggioChat(targetConvId, content);
-    setLoading(false);
+    if (convIdRef.current === targetConvId || !pendingPerConv(convIdRef.current)) setLoading(false);
   }
 
-  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string; targetConvId: string }) {
-    const l = lavoriLista.find((x) => x.id === pend.id);
-    if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
-    const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
-    applicaRispostaChat(pend.id, testo, pend.targetConvId);
-    return true;
+  /** Risolve TUTTI i lavori chat pendenti che risultano finiti (anche di altre conversazioni). */
+  function risolviLavoriPendenti(lavoriLista: Lavoro[]) {
+    for (const pend of [...pendingLavoroChatRef.current.values()]) {
+      const l = lavoriLista.find((x) => x.id === pend.id);
+      if (!l || (l.stato !== "fatto" && l.stato !== "errore")) continue;
+      const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+      applicaRispostaChat(pend.id, testo, pend.targetConvId);
+    }
   }
 
   function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
@@ -746,9 +791,15 @@ export default function Dashboard() {
 
   // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
   // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
+  // ANTI-RACE: prima di salvare, fonde con la versione già in memoria — uno snapshot
+  // vecchio (es. al cambio chat) non può più sovrascrivere una risposta arrivata dopo.
   async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
-    const reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
+    let reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
     if (reali.length === 0) return id;
+    if (id) {
+      const esistente = conversazioniRef.current.find((c) => c.id === id);
+      if (esistente?.messaggi?.length) reali = mergeThread(esistente.messaggi, reali);
+    }
     const titolo = titoloDa(reali);
     let newId = id;
     if (convServer) {
@@ -795,43 +846,46 @@ export default function Dashboard() {
   }
 
   // Riprende una conversazione esistente per continuarla. NON fa partire risposte.
+  // RECUPERO: fonde i messaggi salvati con quelli ricostruiti dai LAVORI della stessa
+  // conversazione (fonte di verità in Supabase) — così una risposta "persa" da una
+  // vecchia race o da un cambio chat riappare sempre.
   async function continuaConversazione(id: string) {
-    await persistConversazione(convId, messages);
+    void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
-    setMessages(c.messaggi);
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const lavoriConv = lavori.filter((l) => (l.gruppo_id || mappa[l.id] || "") === id);
+    const daLavori = lavoriConv.length ? (messaggiDaGruppo(lavoriConv) as Msg[]) : [];
+    const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
+    setMessages(msgs);
     setConvId(c.id);
     setBase(null);
     setConvSel([]);
-    const pend = pendingLavoroChatRef.current;
-    if (pend?.targetConvId === id && !lavoroRisoltoChatRef.current.has(pend.id)) {
-      setLoading(true);
-    } else {
-      setLoading(false);
+    if (daLavori.filter((m) => !m.pending).length > c.messaggi.length) {
+      void persistConversazione(c.id, msgs);
     }
+    setLoading(pendingPerConv(id));
   }
 
   /** Da Lavori → Assistente: riapre la conversazione collegata (o la ricostruisce dai lavori). */
   async function apriChatDaGruppo(gruppoId: string) {
-    await persistConversazione(convId, messages);
+    void persistConversazione(convId, messages);
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavori, mappa).find((x) => x.id === gruppoId);
+    const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const esistente = conversazioni.find((c) => c.id === gruppoId);
+
     if (esistente) {
-      setMessages(esistente.messaggi);
+      const msgs = daLavori.length ? mergeThread(esistente.messaggi, daLavori) : esistente.messaggi;
+      setMessages(msgs);
       setConvId(esistente.id);
       setBase(null);
       setConvSel([]);
       sessionGruppoRef.current = esistente.id;
-      const pend = pendingLavoroChatRef.current;
-      if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
-        setLoading(true);
-      } else {
-        setLoading(false);
-      }
+      setLoading(pendingPerConv(gruppoId));
       return;
     }
 
-    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
-    const g = raggruppaLavori(lavori, mappa).find((x) => x.id === gruppoId);
     if (!g) {
       setMessages([]);
       setConvId(gruppoId);
@@ -842,19 +896,13 @@ export default function Dashboard() {
       return;
     }
 
-    const msgs = messaggiDaGruppo(g.lavori) as Msg[];
-    const salvato = await persistConversazione(gruppoId, msgs);
-    setMessages(msgs);
+    const salvato = await persistConversazione(gruppoId, daLavori);
+    setMessages(daLavori);
     setConvId(salvato || gruppoId);
     setBase(null);
     setConvSel([]);
     sessionGruppoRef.current = salvato || gruppoId;
-    const pend = pendingLavoroChatRef.current;
-    if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
-      setLoading(true);
-    } else {
-      setLoading(g.haAttivo);
-    }
+    setLoading(pendingPerConv(gruppoId) || g.haAttivo);
   }
 
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
@@ -1013,7 +1061,7 @@ export default function Dashboard() {
       if (d.ok && d.lavoro) {
         salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
-        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
+        aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
         const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
         const timeoutMsg = messaggioLavoroInCorso(prep.tipo);
@@ -1024,7 +1072,6 @@ export default function Dashboard() {
           applicaRispostaChat(d.lavoro.id, risposta, targetConvId);
         }
       } else {
-        salvaPendingChat(null);
         instradaMessaggioChat(
           targetConvId,
           `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`
@@ -1032,7 +1079,6 @@ export default function Dashboard() {
         setLoading(false);
       }
     } catch {
-      salvaPendingChat(null);
       instradaMessaggioChat(targetConvId, "⚠️ Connessione fallita.");
       setLoading(false);
     }
@@ -1254,15 +1300,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       try {
         const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
         if (pendRaw) {
-          const pend = JSON.parse(pendRaw) as { id: string; tipo: string; targetConvId?: string };
-          if (pend?.id && pend.targetConvId) {
-            pendingLavoroChatRef.current = {
-              id: pend.id,
-              tipo: pend.tipo,
-              targetConvId: pend.targetConvId,
-            };
-            if (cid && cid === pend.targetConvId) setLoading(true);
+          const parsed = JSON.parse(pendRaw);
+          // Nuovo formato: array di pendenti. Retro-compatibile col vecchio oggetto singolo.
+          const lista = (Array.isArray(parsed) ? parsed : [parsed]) as { id: string; tipo: string; targetConvId?: string }[];
+          for (const pend of lista) {
+            if (pend?.id && pend.targetConvId) {
+              pendingLavoroChatRef.current.set(pend.id, { id: pend.id, tipo: pend.tipo, targetConvId: pend.targetConvId });
+              if (cid && cid === pend.targetConvId) setLoading(true);
+            }
           }
+          setPendingCount(pendingLavoroChatRef.current.size);
         }
       } catch {}
       const d = localStorage.getItem("mycity_diario");
@@ -1295,7 +1342,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
   }, [convId, caricato]);
 
-  // Ponte col cervello: polling lavori — 2s se chat in attesa, 8s altrimenti.
+  // Ponte col cervello: polling lavori — 2s se C'È QUALSIASI chat in attesa (anche di
+  // un'altra conversazione), 8s altrimenti. Risolve TUTTI i pendenti, non solo l'ultimo.
   useEffect(() => {
     let stop = false;
     const carica = async () => {
@@ -1304,9 +1352,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) {
           setLavori(d.lavori);
-          const pend = pendingLavoroChatRef.current;
-          if (pend) {
-            risolviLavoroPendente(d.lavori, pend);
+          if (pendingLavoroChatRef.current.size > 0) {
+            risolviLavoriPendenti(d.lavori);
           }
         }
       } catch {}
@@ -1314,14 +1361,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     carica();
     const onLavori = () => carica();
     window.addEventListener("mycity:lavori", onLavori);
-    const ms = loading || pendingLavoroChatRef.current ? 2000 : 8000;
+    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 2000 : 8000;
     const id = setInterval(carica, ms);
     return () => {
       stop = true;
       clearInterval(id);
       window.removeEventListener("mycity:lavori", onLavori);
     };
-  }, [loading]);
+  }, [loading, pendingCount]);
 
 
   return (
