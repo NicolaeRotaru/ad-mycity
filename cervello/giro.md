@@ -23,6 +23,10 @@ Passi:
    `auto-radiografia.json`. Segui `istruzioni_giro` del sensore. Se MCP Supabase/Stripe sono
    ciechi in sessione, rialimenta il contatore con
    `node cervello/verifica-sensori.mjs --mcp-supabase=ok|cieco [--mcp-stripe=ok|cieco]`.
+   > 🚦 **DELTA-GATE (AR-019):** se stai leggendo questo, il gate `cervello/delta-gate.mjs` ha già
+   > deciso che c'è qualcosa di nuovo (o è scattato l'heartbeat) → giro PIENO. Quando invece lo stato
+   > reale è invariato dall'ultimo giro pieno, giro.sh SALTA il motore AI e gira solo la sonda leggera:
+   > non moltiplicare i giri a vuoto. Lo stato del gate è in `auto-coscienza/delta-gate.json`.
 1. Leggi i dati reali del marketplace (**priorità:** REST da `verifica-sensori.mjs` se
    `supabase_rest` ok → `MARKETPLACE_SUPABASE_*`; altrimenti Supabase MCP con **3 retry** a 30s;
    se entrambi ciechi → baseline STATO + Gap, niente numeri inventati): ordini e incassi ultimi
@@ -180,6 +184,13 @@ Passi:
     prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
     come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`
     dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
+    🔁 **CHIUDI IL LOOP (AR-009 — forcing-function, NON saltarla):** per OGNI lavoro 🟡/🔴 che questo giro
+    ha prodotto/accodato, lascia una riga ESITO nel quaderno del reparto con la MANO dedicata:
+    `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard es. 8/10>" "<atteso>" "<reale>" "#tag"`.
+    (Il `reale` lo scrivi al giro dopo, quando l'esito è misurabile: atteso→reale È la calibrazione.)
+    La sonda `chiusura-loop.mjs --sonda` (già girata da giro.sh) elenca i quaderni FERMI in
+    `auto-coscienza/chiusura-loop.json`: se ce ne sono di reparti toccati oggi, riempili. I verdetti/correzioni
+    di Nicola e i numeri reali (che servono le chiavi write) sono il 'carburante' 🟡: segnalali tra le domande.
 13. 🚀 AUTO-MIGLIORAMENTO (solo se questo giro produce **lavoro importante** — contenuti, pitch, pagine):
     esegui `cervello/auto-miglioramento.md` — benchmark coi migliori a **due livelli** (locali + mondo, via
     @intelligence + watchlist), misura il divario con **obiettivo e progresso**, ≥3 varianti dai senior,

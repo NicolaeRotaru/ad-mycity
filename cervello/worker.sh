@@ -251,6 +251,10 @@ $richiesta
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
   elif [ "$tipo" = "giro" ]; then
     # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
+    # AR-019: un giro dalla CODA è ON-DEMAND (Nicola l'ha chiesto dal Pannello) → forza il giro pieno,
+    # scavalcando il delta-gate. Il throttling "niente di nuovo → salta" vale solo per la cadenza fissa
+    # del timer (mycity-giro.timer), non per i giri richiesti a mano.
+    export GIRO_FORCE=1
     export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
     to="${WORKER_TIMEOUT_GIRO:-2700}"   # 45 min — allineato al timeout chat del Pannello
     out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/giro.sh" 2>&1)"; rc=$?

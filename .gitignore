@@ -20,6 +20,9 @@ desktop.ini
 !**/.env.example
 *.save
 
+# Sentinella one-shot del delta-gate (AR-019): giro-ora.sh la crea, giro.sh la consuma. Mai versionarla.
+cervello/vps/.giro-force
+
 # Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
 # `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.
 /marketplace/
