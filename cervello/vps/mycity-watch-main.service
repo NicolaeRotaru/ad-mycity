@@ -1,0 +1,14 @@
+[Unit]
+Description=MyCity AD — controlla se main è avanzato e allinea il VPS
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+ExecStart=/bin/bash /opt/mycity/ad-mycity/cervello/vps/watch-main.sh
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

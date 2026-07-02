@@ -220,6 +220,8 @@ while true; do
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). $richiesta
 
 Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run).
+Se il canale è github/PR: node cervello/esegui-azione.mjs github-merge ad-mycity|mycity <numeroPR>
+(oppure node cervello/git-merge.mjs --repo ... --pr ...).
 Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md.
 Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
   elif [ "$tipo" = "metabolizza" ]; then
@@ -230,19 +232,6 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
-  elif [ "$tipo" = "sync-vps" ]; then
-    to="${WORKER_TIMEOUT_SYNC:-300}"
-    out="$(timeout --kill-after=30s "$to" bash "$SCRIPT_DIR/sync-vps.sh" 2>&1)"; rc=$?
-    skip_sync=1
-    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-      stato="errore"; out="$out
-[worker] TIMEOUT sync-vps dopo ${to}s — interrotto."
-    elif [ "$rc" -ne 0 ]; then
-      stato="errore"; out="$out
-[worker] sync-vps.sh uscito con rc=$rc (sudo NOPASSWD non attivo? Esegui install-sync-vps.sh come root)."
-    else
-      stato="fatto"
-    fi
   elif [ "$tipo" = "giro" ]; then
     # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
     export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
