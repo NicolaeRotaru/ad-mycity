@@ -150,14 +150,14 @@
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "giro_a_cadenza": true,
-    "sentinelle_scattano": false,
+    "sentinelle_scattano": true,
     "ore_da_ultima_completa": 105,
-    "ore_da_ultimo_briefing": 2,
+    "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 2,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "verdetto": "ok",
-    "nota": "loop ok · briefing 2h fa · sensori max cecità 2"
+    "nota": "loop ok · briefing fresco · sentinelle business attive (stallo 191,9h) · REST ok · Stripe cieco 1 giro"
   },
   "meta": {
     "agenti_totali": 42,

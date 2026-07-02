@@ -1,22 +1,22 @@
 {
-  "data": "2026-07-02 08:40",
-  "sintesi": "Nicola ha approvato **`ok merge fix ruoli-acquisto`** (08:40): PR **#211** merged su `mycity/main` **`f84fc70`** → Render auto-deploy. **`ok 16`** (08:38) ancora **in esecuzione** — passi #20–#22 pranzo. Prossimi: **SQL 107** (~30s), sync VPS (1× root). Payout-test **03/7 mattina**. Batch negozi **6/7** dopo prima transazione.",
+  "data": "2026-07-02 10:19",
+  "sintesi": "Nicola ha approvato **ok 16** (08:38) e **ok merge #19** (08:40 — PR #211 LIVE). **Passi manuali #20–#22 ancora pendenti** — finestra pranzo 12:00–13:30. Prossimi: smoke #19, **SQL 107** (~30s), sync VPS (1× root). Payout-test **03/7 mattina**. Batch negozi **6/7** dopo prima transazione.",
   "prossime_mosse": [
     {
-      "titolo": "Completare consegna #16 — passi manuali #20–#22",
+      "titolo": "Completare consegna #16 — passi #20–#22",
       "quando": "2/7 ORA — pranzo 12:00–13:30",
       "come": "Pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` — WhatsApp → accetta dashboard → COD → «consegna fatta»",
       "priorita": "alta",
-      "ad_prepara": "✅ ok 16 approvato · link wa.me pronto · prodotti verificati live",
+      "ad_prepara": "✅ ok 16 approvato 08:38 · link wa.me pronto · prodotti verificati live 10:19",
       "senior": "@operations + @supporto",
       "colore": "🔴"
     },
     {
       "titolo": "Smoke test post-#19 ruoli acquisto",
-      "quando": "2/7 — appena Render verde (~5 min post-merge)",
+      "quando": "2/7 — Render LIVE da ~08:45",
       "come": "Checklist `consegne/qa/2026-07-02-smoke-ruoli-acquisto-post-19.md`",
       "priorita": "alta",
-      "ad_prepara": "✅ PR #211 merged 08:40 · @qa esegue smoke",
+      "ad_prepara": "✅ PR #211 merged · @qa esegue smoke",
       "senior": "@qa",
       "colore": "🟢"
     },
@@ -41,7 +41,7 @@
     {
       "titolo": "Batch onboarding negozi 6/7",
       "quando": "6/7 — Nicola in prima persona",
-      "come": "Carica negozi + catalogo dopo #16+#19+SQL 107",
+      "come": "Carica negozi + catalogo dopo #16+#19 smoke+SQL 107",
       "priorita": "alta",
       "ad_prepara": "Checklist `consegne/onboarding/checklist-batch-6-luglio.md`",
       "senior": "@onboarding-negozi + @vendite",
@@ -58,15 +58,15 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — #16 IN ESECUZIONE ok 16", "stato": "Via Calzolai 25 · ordine €19,05 COD · consegna pranzo 2/7"},
-    {"nome": "Batch 6 luglio", "perche": "Nicola inserimento multi-negozio post-#16+#19", "stato": "checklist AD pronta"},
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — ok 16 IN ESECUZIONE", "stato": "Via Calzolai 25 · ordine €19,05 COD · passi #20–#22 pendenti"},
+    {"nome": "Batch 6 luglio", "perche": "Nicola inserimento multi-negozio post-#16", "stato": "checklist AD pronta"},
     {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
     "Buyer potrebbe non rispondere WhatsApp dopo 8+ giorni",
-    "Indirizzo buyer placeholder in DB — serve conferma in chat",
+    "Indirizzo buyer placeholder «N» in DB — serve conferma in chat",
     "RLS profiles attiva finché non gira SQL 107",
-    "Render deploy #19 in corso — smoke @qa appena verde"
+    "Finestra pranzo si chiude ~13:30 — agire entro 11:30"
   ],
   "serve_da_nicola": [
     {"ambito": "Consegna ordine PQ", "cosa_manca": "Eseguire passi #20–#22 (WhatsApp inviato? buyer risponde?)", "domanda_per_nicola": "Tap link WhatsApp nel pacchetto ok16 → quando consegnato scrivi «consegna fatta»"},

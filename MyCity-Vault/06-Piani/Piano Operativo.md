@@ -190,9 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-02 08:36
+## 🤖 Aggiornamento dell'AD — 2026-07-02 10:19
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 190,1h** — **`ok 16` oggi pranzo ORA** (meteo sereno, KPI live 08:36).
-- **#19 deploy ruoli** stesso giorno — branch pronto, merge via GitHub.
-- **SQL 107** — 30s, prerequisito sicurezza post-Sprint 1.
+- **Stallo 191,9h** — ok 16 in esecuzione; **#20 WhatsApp entro 11:30** per slot pranzo (meteo sereno 20–31°C).
+- **#19 LIVE** — smoke @qa + recovery samir post-verifica.
+- **SQL 107** — 30s, prerequisito consegne batch 6/7.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

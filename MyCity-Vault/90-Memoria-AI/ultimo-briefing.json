@@ -1,21 +1,43 @@
 {
-  "data": "2026-07-02 08:40",
-  "situazione": "Stallo **190,1h** — **ok 16 IN ESECUZIONE** (08:38) · **#19 MERGED** (08:40 PR #211 → Render deploy ~2–5 min). Automazione verde. Meteo sereno 20–31°C. Proposte ok-16 e ok-merge-#19 **NON riproporre**.",
+  "data": "2026-07-02 10:19",
+  "situazione": "Stallo **191,9h** (+1,8h) — **ok 16 IN ESECUZIONE** ma passi #20–#22 ancora pendenti · **#19 MERGED LIVE** (08:40). Automazione verde. Meteo sereno 20–31°C — **finestra pranzo ~90 min**. Non riproporre ok 16 / ok merge #19.",
   "opportunita": [
     {
-      "titolo": "SQL 107 (30 secondi)",
-      "motivo": "Unico bloccante RLS post-Sprint 1 LIVE",
+      "titolo": "Chiudere #16 entro pranzo",
+      "motivo": "ok 16 già firmato · pacchetto pronto · meteo OK · unico blocco = WhatsApp manuale",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Completare #16 pranzo",
-      "motivo": "Passi manuali #20–#22 — prima transazione MyCity",
+      "titolo": "Smoke #19 + SQL 107",
+      "motivo": "Piattaforma pulita post-merge · prerequisito batch 6/7 e recovery samir",
       "impatto": "alto",
-      "sforzo": "medio"
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Recovery carrello samir",
+      "motivo": "Unico buyer reale attivo — CRM a costo ≈0 post-smoke",
+      "impatto": "medio",
+      "sforzo": "basso"
     }
   ],
-  "azioni": [],
+  "azioni": [
+    {
+      "titolo": "#20 WhatsApp buyer 348 642 1766",
+      "motivo": "Primo passo consegna pranzo — ok 16 già approvato",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Smoke post-#19 ruoli acquisto",
+      "motivo": "Verificare admin 403 + seller redirect in prod",
+      "livello": "verde"
+    },
+    {
+      "titolo": "SQL 107 DROP policy profiles",
+      "motivo": "Unico bloccante RLS post-Sprint 1",
+      "livello": "giallo"
+    }
+  ],
   "decisioni_registrate": [
     "proposta:ok-16-ordine-zombie-19-05-whatsapp-consegna-cod-",
     "proposta:ok-merge-fix-ruoli-acquisto-deploy-19-marketplac"

@@ -1,16 +1,16 @@
 ---
-data: 2026-07-02 08:36
+data: 2026-07-02 10:19
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
 # 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: **89/100** = (da 89 alle 08:20)
+## Voto di fiducia: **88/100** ▼ (da 89 alle 08:36)
 
-**Perché =:** KPI live REST coerenti con giro 16 min prima (+0,2h stallo); automazione VPS tutto verde confermata 08:36; meteo verificato live; nessun errore grounding entità/numeri; lezioni L-0702-41/42/43/44 applicate (separazione infra vs business).
+**Perché ▼:** KPI live REST coerenti (+1,8h stallo prevedibile); automazione VPS tutto verde 10:19; meteo verificato live; nessun errore grounding entità/numeri. Malus -1: **ok 16 approvato ma DB invariato** — firma ≠ esecuzione (L-0702-45).
 
-**Malus assenti:** variazione minima stallo prevedibile; MCP Cursor cieco già dichiarato (REST mitiga).
+**Punti ciechi dichiarati:** Stripe API cieco; MCP Cursor non verificato; smoke #19 browser non eseguito qui.
 
 ---
 
@@ -22,36 +22,28 @@ fonte: AD digitale (cervello/auto-analisi.md)
 
 ## Domande per Nicola
 
-1. **Alta:** `ok 16` oggi pranzo? (stallo 190,1h, meteo OK)
-2. **Alta:** `ok merge fix ruoli-acquisto` per #19?
-3. **Alta:** SQL 107 → «fatto sql 107»
+1. **Alta:** WhatsApp #20 inviato? Buyer risponde? (finestra pranzo ~90 min)
+2. **Alta:** SQL 107 → «fatto sql 107»
 
 ---
 
-## Salute della macchina
-
-| Componente | Stato |
-|------------|-------|
-| REST marketplace | ✅ 200 |
-| REST memoria briefings | ✅ 200 |
-| verifica-automazione | ✅ tutto verde 08:36 |
-| MCP Supabase Cursor | ❌ cieco |
-| Worker VPS | ✅ attivo |
-| Supabase status | 🟡 Partially Degraded (minor) |
-
----
-
-## Grounding entità (L1)
+## Entità verificate (registro-realta.json)
 
 | Entità | Stato | Fonte |
 |--------|-------|-------|
-| Pane Quotidiano | confermato | REST profiles + Nicola 1/7 |
-| Ordine €19,05 | confermato | REST orders `58094956…` |
-| Buyer tel. 348 642 1766 | confermato | pacchetto Scelta A firmata 11:05 |
-| samir (carrello) | confermato | REST profiles `57494b3e…` |
-| Branch #19 fix ruoli | confermato | clone marketplace locale |
-| Casa Linda | demo | Nicola 1/7 — esclusa |
+| Pane Quotidiano | confermato | REST live 10:19 · ok 16 approvato |
+| Casa Linda | demo | UUID seed — esclusa |
+| Antica Salumeria Garetti | scelta_ragionata | campo-aperto-faro.md |
+| Buyer ordine (348 642 1766) | confermato | REST orders.delivery_phone |
 
 ---
 
-*Prossimo giro: post-ok 16 aggiornare calibrazione @operations e 7 numeri.*
+## Salute macchina
+
+- REST marketplace: ✅ · Automazione: ✅ tutto verde · Volano architettura: ✅ (tasso 0,70)
+- Loop business: 🔴 (0 consegnati nonostante ok 16)
+- Sensori: REST ok · Stripe cieco · MCP non verificato
+
+---
+
+*Prossimo giro: verificare progresso #20–#22 e aggiornare 7 numeri post-consegna.*

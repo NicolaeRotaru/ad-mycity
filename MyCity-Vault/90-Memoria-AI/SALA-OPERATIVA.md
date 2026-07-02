@@ -445,3 +445,10 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-02 — Fix radiografia macchina (Cloud Agent 10:15)
 - 2026-07-02 10:15 · @AD · FATTO · Chiusi difetti radiografia: **AR-001** (verifica-sensori.mjs retry REST + contatore cecità), **AR-002** (MARKETPLACE_REPO), **AR-003** (sensori-cecita.json + sentinella), **sonda-volano.mjs** (4 invarianti). PR codice **#138** → main · memoria → memoria-ad. Cantiere: **1 aperto** (AR-004 token mycity). Voto salute architettura **80 ▲**.
+
+### 2026-07-02 — Giro AD (10:19)
+- 2026-07-02 10:19 · @analista · FATTO · KPI live REST stallo **191,9h** (+1,8h) · 7 numeri invariati · `consegne/analista/2026-07-02-kpi-live-1019.md`
+- 2026-07-02 10:19 · @AD · FATTO · Briefing + STATO + ultimo-briefing.json + Intelligence eventi/buchi · automazione **tutto verde**
+- 2026-07-02 10:19 · @operations · FACCIO · **#20–#22 pendenti** — ok 16 approvato 08:38 ma WhatsApp non ancora inviato (DB invariato)
+- 2026-07-02 10:19 · @qa · FACCIO · Smoke post-#19 — Render LIVE da ~1h40 · checklist `consegne/qa/2026-07-02-smoke-ruoli-acquisto-post-19.md`
+- 2026-07-02 10:19 · @AD · SERVE · Nicola: **tap WhatsApp #20 ORA** (pranzo 12:00–13:30) · SQL 107 · «consegna fatta» post-#22

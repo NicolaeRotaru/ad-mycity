@@ -1,28 +1,22 @@
 {
-  "data": "2026-07-02 08:36",
-  "voto_fiducia": 89,
-  "trend_fiducia": "=",
-  "sintesi": "Giro 2/7 08:36. Voto 89 (= da 08:20): KPI live REST confermati (+0,2h stallo prevedibile), automazione tutto verde 08:36, meteo OK #16 pranzo. Nessun errore grounding. MCP cieco, REST OK. Previsione «zero transazioni finché ok 16» ancora valida.",
+  "data": "2026-07-02 10:19",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro 2/7 10:19. Voto 88 (▼ da 89): KPI live REST confermati (+1,8h stallo prevedibile post-ok 16), automazione tutto verde, meteo OK. Malus -1: ok 16 approvato 08:38 ma DB invariato (0 progresso esecuzione) — lezione L-0702-45. Nessun errore grounding. REST OK, Stripe cieco.",
   "verifiche": {
     "entita": "ok",
-    "numeri": "ok (live REST 08:36, clmpyfvpvfjgeviworth)",
-    "coerenza": "ok (allineato AZIONI #16/#19, intenzioni-nicola, giro 08:20)",
-    "semaforo": "ok",
+    "numeri": "ok (live REST 10:19, clmpyfvpvfjgeviworth)",
+    "coerenza": "ok (allineato AZIONI #16/#19 merged, intenzioni-nicola)",
+    "semaforo": "ok (nessuna 🔴 nuova in coda oltre #20–#22 già approvati)",
     "qualita": "ok",
     "benchmark": "n/a"
   },
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Eseguire #16 oggi pranzo? — scrivi ok 16",
-      "perche_serve": "Scelta A firmata 11:05 — stallo 190,1h (+22,1h oltre 168h). Meteo OK.",
-      "se_rispondi": "Operations esegue WhatsApp + consegna COD oggi (escalation v12).",
-      "gravita": "alta"
-    },
-    {
-      "domanda": "Merge deploy #19 fix ruoli? — scrivi ok merge fix ruoli-acquisto",
-      "perche_serve": "Nicola 2/7 07:35 — branch pronto su clone marketplace.",
-      "se_rispondi": "Merge GitHub → Render auto-deploy marketplace.",
+      "domanda": "Hai inviato WhatsApp #20? Buyer ha risposto?",
+      "perche_serve": "ok 16 approvato 08:38 — stallo 191,9h, DB ancora NEW/PENDING. Finestra pranzo ~90 min.",
+      "se_rispondi": "Prosegui #21–#22 → scrivi «consegna fatta».",
       "gravita": "alta"
     },
     {
@@ -34,23 +28,23 @@
   ],
   "punti_ciechi": [
     "Supabase MCP cieco in Cursor (REST fallback OK)",
-    "Stripe MCP non verificato in sessione",
+    "Stripe API cieco (STRIPE_SECRET_KEY assente)",
     "PostHog non collegato",
     "Sentry/Render 5xx non verificato",
-    "profiles.phone null per buyer ordine — tel. da pacchetto operations"
+    "Smoke #19 browser non eseguito in questo giro"
   ],
   "miglioramenti_prossimo_giro": [
-    "Post ok 16: aggiornare 7 numeri con prima transazione",
-    "Post merge #19: verificare 403 admin checkout in prod",
+    "Post «consegna fatta»: aggiornare 7 numeri con prima transazione",
+    "Post smoke #19: confermare 403 admin checkout in prod",
     "Post fatto sql 107: query verifica policy DROP"
   ],
   "salute_macchina": {
-    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Status Partially Degraded (running OK)",
+    "supabase_marketplace": "REST live ✅ · MCP cieco ❌ · Status capacity incident (running OK)",
     "supabase_memoria": "POST briefings OK ✅",
-    "automazione_vps": "tutto verde ✅ (verifica 08:36)",
-    "stripe": "non verificato in sessione",
+    "automazione_vps": "tutto verde ✅ (verifica 10:19)",
+    "stripe": "cieco (chiave assente)",
     "posthog": "non collegato ❌",
     "dati_freschi": true,
-    "sensori_attivi": 3
+    "sensori_attivi": 2
   }
 }

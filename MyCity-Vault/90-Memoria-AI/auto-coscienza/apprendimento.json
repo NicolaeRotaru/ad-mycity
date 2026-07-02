@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-02 08:36",
-  "aggiornato": "2026-07-02 08:36",
+  "data": "2026-07-02 10:19",
+  "aggiornato": "2026-07-02 10:19",
   "lezioni": [
+    {
+      "id": "L-2026-0702-45",
+      "testo": "**Firma ≠ esecuzione (giro 2/7 10:19):** Nicola approva **ok 16** alle 08:38 ma 1h40 dopo il DB è **identico** (delivery_status=NEW, payment_status=PENDING, stallo +1,8h → 191,9h). **Regola:** nel briefing separare sempre (1) **decisione firmata** vs (2) **esecuzione verificata su DB/canale**. Loop business 🔴 finché `delivered_at` null — non degradare a 🟡 solo perché ok 16 è in coda. Prossimo giro: se ok 16 approvato ma DB invariato, escalation diretta «tap WhatsApp #20 ORA» senza riproporre ok 16.",
+      "tag": ["operations", "loop-business", "nicola", "ok-16", "esecuzione"],
+      "reparto": "@AD",
+      "confidenza": 0.84,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 10:19",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-44",
       "testo": "**Automazione tutto verde ≠ loop business chiuso (giro 2/7 08:20):** `verifica-automazione.mjs` OK (token mycity push ✓, worker ✓, timer ✓) ma **0 ordini consegnati**. **Regola:** separare sempre in briefing (1) salute **infrastruttura** (verde) vs (2) salute **business** (🔴 finché #16 pendente). Non confondere «macchina operativa» con «azienda che fattura». Automazione verde **abbassa** rischio deploy post-ok merge ma **non** sostituisce ok 16.",
@@ -780,7 +793,7 @@
     "Su card canale «Render (marketplace)» chiede «come collego Render?» — si aspetta chiarimento immediato: **non serve token Render** (auto-deploy post-merge GitHub su `mycity`); sblocco = #14+#15 PAT + **`ok merge …`** in chat; pulsante Approva Pannello **non** deploya (mani.ts solo email Resend) (chat 2/7 08:16 casella #19)."
   ],
   "meta": {
-    "lezioni_attive": 58,
+    "lezioni_attive": 59,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70

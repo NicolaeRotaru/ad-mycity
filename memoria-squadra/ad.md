@@ -1,3 +1,6 @@
+# ESITO — @AD — 2026-07-02 10:19
+Giro completo: stallo 191,9h (+1,8h post-ok 16). #19 MERGED LIVE. ok 16 approvato ma passi #20–#22 pendenti. Lezione L-2026-0702-45 (firma ≠ esecuzione). Voto fiducia 88 ▼. Automazione tutto verde. KPI live REST.
+
 # ESITO — @AD — 2026-07-01 17:06
 Metabolizzazione chat casella benchmark AI ops: popolato `auto-radiografia.json` (LangSmith/Devin/Sidekick + snapshot loop). Lezione L-2026-0701-37 + evidenza L-21. Preferenza Nicola: dati reali + inventario sblocchi tier. STATO aggiornato (voto 76 · tasso 0,70 · calibrazione solo @AD).
 
