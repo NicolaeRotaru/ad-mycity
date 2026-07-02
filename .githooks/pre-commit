@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# 🔒 pre-commit — perimetro segreti ATTIVO su OGNI commit (non solo nel giro).
+#
+# Chiude la causa radice di AR-004: il perimetro segreti era difeso solo da una regola .gitignore
+# fragile (nome esatto) e da uno scan che girava solo dentro `giro.sh`. Un commit manuale — di Nicola,
+# di un senior o di un tool — poteva ancora far entrare un token nella storia. Questo hook fa passare
+# OGNI commit dallo scan-segreti sui soli file staged: se trova un segreto reale, BLOCCA il commit.
+#
+# Installazione: `git config core.hooksPath .githooks` (versionato, lo fa cervello/installa-hooks.sh
+# e il setup del VPS). Bypass di emergenza consapevole: `git commit --no-verify` (sconsigliato).
+
+set -u
+
+# Radice del repo (funziona anche se il commit parte da una sottocartella).
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+SCAN="$ROOT/cervello/scan-segreti.mjs"
+
+# Senza node o senza lo scanner non blocchiamo il lavoro: avvisiamo e lasciamo passare
+# (il giro fa comunque da seconda rete). Meglio non rompere i commit su una macchina senza node.
+if ! command -v node >/dev/null 2>&1; then
+  echo "⚠️  pre-commit: node non trovato — scan-segreti saltato (il giro resta come seconda rete)." >&2
+  exit 0
+fi
+if [ ! -f "$SCAN" ]; then
+  echo "⚠️  pre-commit: $SCAN mancante — scan-segreti saltato." >&2
+  exit 0
+fi
+
+# Scansiona SOLO i file staged (git diff --cached): veloce e mirato al commit in corso.
+if ! node "$SCAN" --staged >/dev/null 2>&1; then
+  echo "" >&2
+  echo "⛔ COMMIT BLOCCATO — possibile SEGRETO REALE nei file staged (AR-004):" >&2
+  echo "" >&2
+  node "$SCAN" --staged 2>&1 | tail -12 >&2 || true
+  echo "" >&2
+  echo "→ Rimuovi il valore dal file (usa un *.example senza valori reali), RUOTA il segreto se era" >&2
+  echo "  reale, poi ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+  exit 1
+fi
+
+exit 0
