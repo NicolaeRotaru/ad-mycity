@@ -9,10 +9,10 @@
 > **Il modello OCCHI/CERVELLO** (vincolo di Nicola: *«veglia sempre, ma usa i token solo quando c'è
 > qualcosa da fare»*). Sono due cose diverse:
 >
-> - **OCCHI** = `cervello/sentinella-dati.mjs`, lanciato dal timer **`mycity-sentinella-dati.timer` ogni 2
->   minuti** (regolabile 1-5 min). È **Node puro su REST → 0 token**. Ogni giro legge i dati reali
->   (ordini, payout, sensori ciechi, runway…), valuta le soglie qui sotto in modo deterministico e
->   aggiorna il proprio battito. Guardare **non costa nulla**.
+> - **OCCHI** = `cervello/sentinella-dati.mjs`, lanciato dal timer **`mycity-sentinella-dati.timer` ogni 1
+>   minuto** (regolabile 1-5 min). È **Node puro su REST → 0 token**. Ogni giro legge i dati reali
+>   (ordini, payout, recensioni, carrelli, negozi + la salute della macchina stessa), valuta le soglie
+>   qui sotto in modo deterministico e aggiorna il proprio battito. Guardare **non costa nulla**.
 > - **CERVELLO** = il motore AI dentro `worker.sh` (già acceso 24/7, `Restart=always`). Dorme a 5s finché
 >   la coda `lavori` è vuota (**0 token**). Si sveglia **solo** quando la sentinella gli **accoda un
 >   lavoro** perché una soglia è scattata. Il modello premium parte **solo sull'evento reale**.
@@ -35,10 +35,27 @@
 > **Regolabili via .env:** `SENTINELLA_DATI_COOLDOWN_ORE`, `SENTINELLA_DATI_MAX_GIORNO`,
 > `SENTINELLA_DATI_MAX_ORA`, `SENTINELLA_DATI_CALO_MIN_BASE`; la cadenza nel `.timer` (`OnUnitActiveSec`).
 >
-> **Soglie oggi LIVE nella sentinella dati** (le altre della tabella restano checklist del giro finché
-> il sensore/mano non è collegato): calo ordini −30% vs media 7g · ordine pagato senza payout (🔴) ·
-> nuovo ordine (verifica payout+consegna) · sensore dati cieco ≥3 giri · runway cassa <3 mesi (🔴).
-> La **coda-falliti/orfani** è già coperta dalla sentinella gemella `sentinella-lavori.mjs` (ogni 3 min).
+> **Le 10 sentinelle oggi LIVE** (5 🧠 macchina + 5 💼 azioni; soglie deterministiche su nomi/enum
+> reali del DB, verificati via schema — niente falsi allarmi):
+>
+> | 🧠 MACCHINA (auto-analisi di sé) | Soglia | Colore | Cosa fa |
+> |---|---|---|---|
+> | Worker morto | battito `worker:ultimo` > 3 min **e** 0 lavori in corso | 🔴 | **solo allerta** Telegram (accodare sarebbe inutile) |
+> | Sensori dati ciechi | ≥ 3 giri consecutivi | 🟡 | accoda: controlla `.env` + fallback baseline |
+> | Salute architettura bassa | voto < 60 (`storico-salute.json`) | 🟡 | accoda: lancia l'auto-radiografia |
+> | Radiografia di sé vecchia | > 10 giorni (`auto-radiografia.json`) | 🟡 | accoda: rifà la radiografia di sé |
+> | Volano fermo | `tasso_applicazione` lezioni < 0.3 | 🟡 | accoda: capire perché il loop non applica |
+>
+> | 💼 AZIONI (business/marketplace) | Soglia | Colore | Cosa fa |
+> |---|---|---|---|
+> | Ordine pagato senza payout | carta `PAID`, `payout_at` nullo da >24h (COD escluso) | 🔴 | accoda: prepara proposta payout (Nicola firma) |
+> | Calo ordini | 24h < 70% media 7g (guardia: media ≥ 3/gg) | 🟢 | accoda: mini-briefing sulla causa |
+> | Recensione ≤2★ | nuova dall'ultimo giro (`reviews`+`store_reviews`) | 🟡 | accoda: bozza risposta + recupero cliente |
+> | Negozio LIVE fermo | seller approvato >14g, 0 ordini in 14g | 🟡 | accoda: check-in anti-churn |
+> | Carrello abbandonato | `recovered=false`, email non inviata, fermo >4h | 🟡 | accoda: prepara email di recupero |
+>
+> Le altre righe della tabella qui sotto restano checklist del giro finché il sensore/mano non è
+> collegato. La **coda-falliti/orfani** è coperta dalla sentinella gemella `sentinella-lavori.mjs` (3 min).
 >
 > 🔭 **Sentinelle vs Radar:** qui ci sono i trigger a **soglia su dati INTERNI** (ordini, payout,
 > recensioni…). Il mondo **ESTERNO** che influenza MyCity (notizie, competitor, bandi, meteo,
