@@ -1,13 +1,13 @@
 {
-  "data": "2026-07-03 00:18",
+  "data": "2026-07-03 00:27",
   "voto_fiducia": 82,
   "trend_fiducia": "=",
-  "sintesi": "Giro notte 3/7 00:18, heartbeat +10 min dal giro 00:08. Voto 82 (=): passaggio onesto e minimale — nessuna novità di business (7 numeri invariati, stallo ~206h), quindi il valore aggiunto è tenere fresca la Cabina (timestamp briefing/STATO/snapshot al 00:18) e registrare l'unica variazione reale: PostHog ora cieco da 6 giri (era 5, opzionale). Nessun malus né bonus: è un plateau atteso, non un errore. Grounding: nessun numero ri-misurato in sessione (MCP+node+curl gated) → uso esplicitamente la baseline REST 22:28 e lo dichiaro nei Gap, zero numeri inventati. Radar non ri-verificato in questo heartbeat (meteo/eventi già live al 00:08, +10 min): scelta corretta per non sprecare il Max su un delta di 10 min. Entità confermate (Pane Quotidiano; zombie=ordine PQ; VP 3/7 confermato = oggi; Casa Linda demo esclusa; Garetti resta scelta_ragionata non azionata). Nessun errore di grounding.",
+  "sintesi": "Giro notte 3/7 00:27, refresh +4 min dal giro 00:23. Voto 82 (=): passaggio onesto e minimale — nessuna novità di business (7 numeri invariati, stallo ~206h), delta-gate corrente==ultimo_pieno. Il valore aggiunto è tenere fresca la Cabina (timestamp briefing/STATO/snapshot al 00:27) e registrare l'unica variazione reale: PostHog ora cieco da 8 giri (era 7, opzionale). Nessun malus né bonus: è un plateau atteso, non un errore. Grounding: nessun numero ri-misurato in sessione (MCP+node+curl gated) → uso esplicitamente la baseline REST 22:28 e lo dichiaro nei Gap, zero numeri inventati. Radar non ri-verificato in questo refresh (meteo/eventi già live al 00:08, +19 min): scelta corretta per non sprecare il Max su un delta ravvicinato. Entità confermate (Pane Quotidiano; zombie=ordine PQ; VP 3/7 confermato = oggi; Casa Linda demo esclusa; Garetti resta scelta_ragionata non azionata). Nessun errore di grounding.",
   "verifiche": {
     "entita": "ok (Pane Quotidiano confermato; zombie = ordine PQ €19,05; VP 3/7 = oggi, confermato; nessuna entità nuova; Casa Linda demo esclusa; Garetti scelta_ragionata/prospect non azionato)",
     "numeri": "ok — 7 numeri = baseline REST scritta da giro.sh nel delta-gate 22:28 (corrente==ultimo_pieno: ordini=1, ultimo 24/6, profili=23); NESSUN numero ri-misurato in sessione (MCP+node/curl gated) e nessuno inventato; stallo ~206h dall'ancora 24/6 08:28",
-    "coerenza": "ok (STATO 00:18, ultimo-briefing 00:18, briefing 2026-07-03 00:18 con passaggio 00:08 sotto separatore, intenzioni-nicola, registro-realta, AUTO-ANALISI.md tutti riallineati al passaggio 00:18)",
-    "semaforo": "ok (nessuna 🔴 nuova; azioni già in coda #20–#22 + R1/R2/SQL107; sentinella «sensore cieco ≥6» su PostHog opzionale — non declassa nulla)",
+    "coerenza": "ok (STATO 00:27, ultimo-briefing 00:27, briefing 2026-07-03 00:27 con passaggi 00:23/00:18/00:08 sotto separatore, intenzioni-nicola, registro-realta, AUTO-ANALISI.md tutti riallineati al passaggio 00:27)",
+    "semaforo": "ok (nessuna 🔴 nuova; azioni già in coda #20–#22 + R1/R2/SQL107; sentinella «sensore cieco ≥8» su PostHog opzionale — non declassa nulla)",
     "qualita": "ok",
     "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
   },
@@ -33,10 +33,10 @@
     }
   ],
   "punti_ciechi": [
-    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node richiede approvazione in sessione); ledger+delta-gate+chiusura-loop scritti da giro.sh (00:16/00:17/22:28) confermano REST ok",
+    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node richiede approvazione in sessione); ledger+delta-gate+chiusura-loop scritti da giro.sh (00:27/00:23/22:28) confermano REST ok",
     "MCP Supabase + curl non eseguibili in sessione → 7 numeri = baseline REST 22:28, non ri-misurati questo passaggio",
     "Esecuzione #16: nessun segnale «consegna fatta»; ordine ancora 24/6 → non eseguito, coerente col DB",
-    "PostHog cieco 6 giri (HTTP 401, key non valida): funnel/conversione non misurabili — non critico a 0 ordini pagati",
+    "PostHog cieco 8 giri (HTTP 401, key non valida): funnel/conversione non misurabili — non critico a 0 ordini pagati",
     "Stripe non collegato a costo/burn (runway N/D); fonti locali 403 su WebFetch → check istituzioni/bandi rimandato al mattino"
   ],
   "miglioramenti_prossimo_giro": [
@@ -46,11 +46,11 @@
   ],
   "salute_macchina": {
     "supabase": "ok",
-    "supabase_marketplace": "REST ok (ledger 00:16 + delta-gate 22:28, 7 numeri baseline) · MCP cieco/gated in sessione",
+    "supabase_marketplace": "REST ok (ledger 00:27 + delta-gate 22:28, 7 numeri baseline) · MCP cieco/gated in sessione",
     "supabase_memoria": "scrittura via git memoria-ad",
     "automazione_vps": "non ri-verificato live questo passaggio notturno (ultimo verde giro.sh 00:06; node gated in sessione)",
     "stripe": "ok (balance API ok nel ledger) ma non collegato a burn → runway N/D",
-    "posthog": "giù (401, cieco 6 giri)",
+    "posthog": "giù (401, cieco 8 giri)",
     "dati_freschi": true,
     "sensori_attivi": 3
   }

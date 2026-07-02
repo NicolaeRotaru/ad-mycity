@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-03 00:18",
-  "situazione": "Giro notte 3/7 00:18, heartbeat +10 min dal giro 00:08. Business invariato dal 24/6: 1 negozio reale (Pane Quotidiano), 1 ordine zombie €19,05, 0 pagati/consegnati, 23 profili, stallo ~206h (≈8,6 giorni). Nessun numero nuovo (7 numeri = baseline REST 22:28; MCP+node+curl gated in sessione, nessun numero ri-misurato né inventato). Unica variazione: PostHog cieco da 6 giri (era 5, opzionale a 0 ordini pagati). Meteo/eventi già verificati live al 00:08 (oggi 3/7 sereno favorevole; Venerdì Piacentini in corso). Collo di bottiglia 100% umano-manuale: #16 è deciso ma le 3 finestre di ieri sono saltate. Restano le 3 cose di Nicola: R1 revoca PAT, R2 merge fix, SQL 107.",
+  "data": "2026-07-03 00:27",
+  "situazione": "Giro notte 3/7 00:27, refresh +4 min dal giro 00:23. Business invariato dal 24/6: 1 negozio reale (Pane Quotidiano), 1 ordine zombie €19,05, 0 pagati/consegnati, 23 profili, stallo ~206h (≈8,6 giorni). Delta-gate corrente==ultimo_pieno: nessun numero nuovo (7 numeri = baseline REST 22:28; MCP+node+curl gated in sessione, nessun numero ri-misurato né inventato). Unica variazione: PostHog cieco da 8 giri (era 7, opzionale a 0 ordini pagati). Meteo/eventi già verificati live al 00:08 (oggi 3/7 sereno favorevole; Venerdì Piacentini in corso). Collo di bottiglia 100% umano-manuale: #16 è deciso ma le 3 finestre di ieri sono saltate. Restano le 3 cose di Nicola: R1 revoca PAT, R2 merge fix, SQL 107.",
   "opportunita": [
     {"titolo": "Chiudere #16 stamattina 3/7, accorpato al payout-test", "motivo": "Meteo favorevole + payout-test già in agenda: un solo momento a bassa frizione sblocca ~206h di stallo e porta la North Star 0→1.", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Batch onboarding 6/7", "motivo": "407 lead + checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "R2 — attivare i 18 fix del cantiere", "motivo": "Merge+deploy branch machine-analysis rende attivi timeout giro, gate sensori anti-invenzione, guardiano agenti, sensore cassa: oggi scritti ma inerti.", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Ripristinare la key PostHog", "motivo": "Funnel cieco da 6 giri (401): irrilevante ora, ma utile prima del batch 6/7 per misurare la conversione.", "impatto": "basso", "sforzo": "basso"}
+    {"titolo": "Ripristinare la key PostHog", "motivo": "Funnel cieco da 8 giri (401): irrilevante ora, ma utile prima del batch 6/7 per misurare la conversione.", "impatto": "basso", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Esegui #16 stamattina 3/7 — tap WhatsApp #20 → #21 → #22 → «consegna fatta», accorpato al payout-test", "motivo": "Decisione già presa (esegui); ieri 3 finestre saltate per frizione. Meteo oggi favorevole: una sola finestra certa stamattina chiude ~206h di stallo.", "livello": "rosso"},
