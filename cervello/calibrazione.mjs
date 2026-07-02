@@ -1,0 +1,252 @@
+#!/usr/bin/env node
+// 🎯 CALIBRAZIONE — il motore che CHIUDE l'anello sulla realtà (upgrade U3).
+// 🟢 Sola lettura sul mondo esterno: scrive solo auto-coscienza/calibrazione.json nel vault.
+//
+// Trasforma il "faccio→propongo" in "prevedo→agisco→misuro→imparo": ogni mossa importante
+// registra un EFFETTO PREVISTO (metrica, valore atteso, entro quando); quando l'esito è noto,
+// si confronta col REALE e il reparto guadagna/perde autonomia. È ciò che rende la macchina
+// capace di imparare dai RISULTATI, non solo dai propri prompt (tasso_applicazione reale).
+//
+// Uso:
+//   node cervello/calibrazione.mjs prevedi --reparto=@growth --azione="win-back 4 carrelli" \
+//        --metrica=ordini --atteso=1 --entro=2026-07-09 [--nota="..."] [--id=...]
+//   node cervello/calibrazione.mjs esito   --id=<id> --reale=2 [--nota="..."]
+//   node cervello/calibrazione.mjs scadute            # marca 'scaduta' le previsioni oltre 'entro' senza esito
+//   node cervello/calibrazione.mjs report [--json]    # tabella per-reparto + previsioni aperte
+//
+// Regola "azzeccata": |reale - atteso| / max(|atteso|,1) <= tolleranza (default 0.25).
+// Autonomia: punteggio >= 0.7 alta · >= 0.4 media · altrimenti bassa (min 3 previsioni chiuse).
+
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+
+const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
+const PATH = join(VAULT, "calibrazione.json");
+const TOLLERANZA_DEFAULT = 0.25;
+const MIN_PER_AUTONOMIA = 3;
+
+function arg(name, def = undefined) {
+  const pref = `--${name}=`;
+  const a = process.argv.find((x) => x.startsWith(pref));
+  return a ? a.slice(pref.length) : def;
+}
+
+function readCalibrazione() {
+  const base = {
+    _cosa_e:
+      "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
+    aggiornato: nowPiacenza(),
+    per_reparto: [],
+    registro: [],
+  };
+  if (!existsSync(PATH)) return base;
+  try {
+    const j = JSON.parse(readFileSync(PATH, "utf8"));
+    j.per_reparto = Array.isArray(j.per_reparto) ? j.per_reparto : [];
+    j.registro = Array.isArray(j.registro) ? j.registro : [];
+    j._cosa_e = base._cosa_e;
+    return j;
+  } catch {
+    return base;
+  }
+}
+
+function write(data) {
+  data.aggiornato = nowPiacenza();
+  mkdirSync(dirname(PATH), { recursive: true });
+  writeFileSync(PATH, JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+function normReparto(r) {
+  if (!r) return "";
+  return r.startsWith("@") ? r : `@${r}`;
+}
+
+// Ricalcola gli aggregati per_reparto dal registro (unica fonte di verità).
+function ricalcolaReparti(data) {
+  const perRep = new Map();
+  for (const e of data.registro) {
+    if (!e.reparto) continue;
+    const cur = perRep.get(e.reparto) || { reparto: e.reparto, previsioni: 0, azzeccate: 0 };
+    if (e.stato === "azzeccata" || e.stato === "mancata") {
+      cur.previsioni += 1;
+      if (e.stato === "azzeccata") cur.azzeccate += 1;
+    }
+    perRep.set(e.reparto, cur);
+  }
+  data.per_reparto = [...perRep.values()].map((r) => {
+    const punteggio = r.previsioni > 0 ? Number((r.azzeccate / r.previsioni).toFixed(2)) : 0;
+    let autonomia = "bassa";
+    if (r.previsioni >= MIN_PER_AUTONOMIA) {
+      autonomia = punteggio >= 0.7 ? "alta" : punteggio >= 0.4 ? "media" : "bassa";
+    }
+    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, autonomia };
+  });
+  data.per_reparto.sort((a, b) => b.punteggio - a.punteggio);
+}
+
+function nuovoId(reparto) {
+  const stamp = new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14);
+  return `CAL-${stamp}-${reparto.replace(/[^a-z0-9]/gi, "").slice(0, 6) || "gen"}`;
+}
+
+function cmdPrevedi(data) {
+  const reparto = normReparto(arg("reparto"));
+  const azione = arg("azione");
+  const metrica = arg("metrica");
+  const attesoRaw = arg("atteso");
+  const entro = arg("entro", "");
+  const nota = arg("nota", "");
+  if (!reparto || !azione || !metrica || attesoRaw == null) {
+    console.error(
+      "❌ Servono almeno: --reparto --azione --metrica --atteso. Es:\n" +
+        '   node cervello/calibrazione.mjs prevedi --reparto=@crm --azione="win-back" --metrica=ordini --atteso=1 --entro=2026-07-09'
+    );
+    process.exit(2);
+  }
+  const atteso = Number(attesoRaw);
+  if (Number.isNaN(atteso)) {
+    console.error(`❌ --atteso deve essere un numero (ricevuto: ${attesoRaw}).`);
+    process.exit(2);
+  }
+  const id = arg("id") || nuovoId(reparto);
+  if (data.registro.some((e) => e.id === id)) {
+    console.error(`❌ id già esistente: ${id}`);
+    process.exit(2);
+  }
+  const entry = {
+    id,
+    reparto,
+    azione,
+    metrica,
+    atteso,
+    reale: null,
+    entro,
+    tolleranza: Number(arg("tolleranza", TOLLERANZA_DEFAULT)),
+    stato: "aperta",
+    scarto_pct: null,
+    nota,
+    creato: nowPiacenza(),
+    chiuso_il: "",
+  };
+  data.registro.push(entry);
+  ricalcolaReparti(data);
+  write(data);
+  console.log(`✅ Previsione registrata [${id}] ${reparto}: ${metrica} atteso ${atteso}${entro ? ` entro ${entro}` : ""}.`);
+  console.log(`   Quando conosci l'esito:  node cervello/calibrazione.mjs esito --id=${id} --reale=<numero>`);
+}
+
+function valuta(atteso, reale, tolleranza) {
+  const scarto = Math.abs(reale - atteso) / Math.max(Math.abs(atteso), 1);
+  return { azzeccata: scarto <= tolleranza, scarto_pct: Number((scarto * 100).toFixed(1)) };
+}
+
+function cmdEsito(data) {
+  const id = arg("id");
+  const realeRaw = arg("reale");
+  if (!id || realeRaw == null) {
+    console.error("❌ Servono --id e --reale. Es: node cervello/calibrazione.mjs esito --id=CAL-... --reale=2");
+    process.exit(2);
+  }
+  const e = data.registro.find((x) => x.id === id);
+  if (!e) {
+    console.error(`❌ Previsione non trovata: ${id}`);
+    process.exit(2);
+  }
+  const reale = Number(realeRaw);
+  if (Number.isNaN(reale)) {
+    console.error(`❌ --reale deve essere un numero (ricevuto: ${realeRaw}).`);
+    process.exit(2);
+  }
+  const { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
+  e.reale = reale;
+  e.scarto_pct = scarto_pct;
+  e.stato = azzeccata ? "azzeccata" : "mancata";
+  e.chiuso_il = nowPiacenza();
+  const notaEsito = arg("nota");
+  if (notaEsito) e.nota = e.nota ? `${e.nota} · esito: ${notaEsito}` : notaEsito;
+  ricalcolaReparti(data);
+  write(data);
+  const rep = data.per_reparto.find((r) => r.reparto === e.reparto);
+  console.log(
+    `${azzeccata ? "🎯 AZZECCATA" : "❌ MANCATA"} [${id}] ${e.reparto}: atteso ${e.atteso}, reale ${reale} (scarto ${scarto_pct}%).`
+  );
+  if (rep) console.log(`   ${e.reparto}: ${rep.azzeccate}/${rep.previsioni} azzeccate · punteggio ${rep.punteggio} · autonomia ${rep.autonomia}.`);
+  console.log("   → Lezione: registra in apprendimento.json cosa ha funzionato/no (fonte: calibrazione).");
+}
+
+function cmdScadute(data) {
+  const oggi = nowPiacenza().slice(0, 10);
+  let n = 0;
+  for (const e of data.registro) {
+    if (e.stato === "aperta" && e.entro && e.entro < oggi) {
+      e.stato = "scaduta";
+      e.chiuso_il = nowPiacenza();
+      n += 1;
+    }
+  }
+  ricalcolaReparti(data);
+  write(data);
+  console.log(`⏱️  ${n} previsioni marcate 'scaduta' (oltre 'entro' senza esito). Le scadute NON contano nel punteggio: chiedono un esito o una lezione.`);
+}
+
+function cmdReport(data) {
+  ricalcolaReparti(data);
+  write(data);
+  const aperte = data.registro.filter((e) => e.stato === "aperta");
+  const scadute = data.registro.filter((e) => e.stato === "scaduta");
+  if (process.argv.includes("--json")) {
+    console.log(JSON.stringify({ per_reparto: data.per_reparto, aperte, scadute }, null, 2));
+    return;
+  }
+  console.log(`\n🎯 CALIBRAZIONE — ${data.aggiornato}\n`);
+  if (data.per_reparto.length === 0) {
+    console.log("Nessuna previsione chiusa ancora. Registra la prima: node cervello/calibrazione.mjs prevedi ...");
+  } else {
+    console.log("Reparto              Azzecc/Prev  Punteggio  Autonomia");
+    for (const r of data.per_reparto) {
+      console.log(`${r.reparto.padEnd(20)} ${String(`${r.azzeccate}/${r.previsioni}`).padEnd(12)} ${String(r.punteggio).padEnd(10)} ${r.autonomia}`);
+    }
+  }
+  console.log(`\nPrevisioni aperte: ${aperte.length}${scadute.length ? ` · scadute senza esito: ${scadute.length}` : ""}`);
+  for (const e of aperte) {
+    console.log(`  · [${e.id}] ${e.reparto}: ${e.metrica} atteso ${e.atteso}${e.entro ? ` entro ${e.entro}` : ""} — ${e.azione}`);
+  }
+}
+
+async function main() {
+  const cmd = process.argv[2];
+  const data = readCalibrazione();
+  switch (cmd) {
+    case "prevedi":
+      cmdPrevedi(data);
+      break;
+    case "esito":
+      cmdEsito(data);
+      break;
+    case "scadute":
+      cmdScadute(data);
+      break;
+    case "report":
+    case undefined:
+      cmdReport(data);
+      break;
+    default:
+      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | report`);
+      process.exit(2);
+  }
+  const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;
+  const azz = data.registro.filter((e) => e.stato === "azzeccata").length;
+  await stampSegnale(
+    "calibrazione",
+    "ok",
+    `${azz}/${chiuse} azzeccate · ${data.registro.filter((e) => e.stato === "aperta").length} aperte · ${nowPiacenza()}`
+  );
+}
+
+main().catch(async (e) => {
+  console.error("ERRORE calibrazione:", e.message || e);
+  await stampSegnale("calibrazione", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
+  process.exit(1);
+});
