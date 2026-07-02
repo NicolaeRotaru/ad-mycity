@@ -98,3 +98,6 @@ Metabolizzazione card SQL 107 (Nicola 11:29 «perché chiede di nuovo?»): firma
 
 # ESITO — @AD — 2026-07-01 11:26
 Metabolizzazione correzione Nicola (2ª card onboarding 6/7): «sono Approva/Ignora le scelte giuste?» → **No** — impegno ops suo, non Proposta. Recidiva: piano del mattino 11:18 ha re-inserito in `ultimo-briefing.json` azioni ciò ritirato 01:03. L-2026-0701-07 evidenze++ (conf. 0.93) + L-2026-0701-19 (guardrail pre-briefing). Guardrail: impegni Nicola → opportunità/checklist 🟢, mai `azioni[]` Proposte.
+
+# ESITO — @AD — 2026-07-02 08:20
+L-2026-0702-44: automazione tutto verde ≠ loop business chiuso — separare infrastruttura vs #16 pendente in ogni briefing. Voto fiducia 89 ▲. #AD #loop #automazione

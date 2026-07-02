@@ -1,43 +1,55 @@
 ---
-data: 2026-07-01 20:18
+data: 2026-07-02 08:20
 tipo: auto-analisi
+fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 AUTO-ANALISI — Giro 2026-07-01 20:18
+# 🔬 AUTO-ANALISI — Cancello di serietà
 
-## Voto di fiducia: **87/100** (trend **▼** da 88)
+## Voto di fiducia: **89/100** ▲ (da 87)
 
-Leggero calo: previsione giro 18:18 («ultima chance entro 20:00») **confermata** — giornata chiusa senza #16. Dati live REST OK; entità fondate; Scelta A rispettata. Malus: rischio materializzato (−1) + MCP cieco (−5 già conteggiato nel baseline).
+**Perché ▲:** automazione VPS tutto verde (nuovo segnale positivo); KPI live REST coerenti con giro precedente (+12,1h stallo prevedibile); meteo verificato live; nessun errore grounding entità/numeri; lezioni L-0702-41/42/43 applicate nel briefing.
+
+**Malus assenti:** MCP Cursor ancora cieco (−5 una tantum già conteggiato in salute_macchina, non ripetuto per ogni numero).
+
+---
 
 ## Errori per gravità
 
-Nessun errore bloccante in questo giro.
+*Nessun errore intercettato in questo giro.*
 
-| Gravità | Cosa | Perché | Azione | Livello scoperta |
-|---------|------|--------|--------|------------------|
-| bassa | Schema `abandoned_carts` query fallita | Colonna/filtro | Uso playbook 12:15 (=4) + Gap | L1 |
+---
 
 ## Domande per Nicola
 
-1. **#16 2/7 mattina:** scrivi **`ok 16`**
-2. **SQL 107:** incolla DROP policy → «fatto sql 107»
-3. **Sync VPS #17:** 1× root Console Hetzner → `install-sync-vps.sh`
+1. **Alta:** `ok 16` oggi pranzo? (stallo 190h, meteo OK)
+2. **Alta:** `ok merge fix ruoli-acquisto` per #19?
+3. **Alta:** SQL 107 → «fatto sql 107»
+
+---
 
 ## Salute della macchina
 
-| Sensore | Stato |
-|---------|-------|
-| REST marketplace | ✅ OK 20:18 |
+| Componente | Stato |
+|------------|-------|
+| REST marketplace | ✅ 200 |
+| REST memoria briefings | ✅ POST 201 |
+| verifica-automazione | ✅ tutto verde |
 | MCP Supabase Cursor | ❌ cieco |
-| REST memoria + POST briefings | ✅ OK |
-| Stripe / PostHog | ❌ non collegati |
+| Worker VPS | ✅ attivo |
+
+---
 
 ## Punti ciechi
 
-- MCP marketplace cieco (mitigato REST)
-- Carrelli: schema cambiato — uso playbook
-- Allerta meteo: mappe JS non leggibili in fetch statico
+- Stripe live/sandbox non interrogato in sessione
+- PostHog funnel assente
+- Concorrenti non ricontrollati (cadenza settimanale)
 
-## Benchmark
+---
 
-N/a — giro operativo KPI + ripiano consegna.
+## Cosa miglioro al prossimo giro
+
+- Dopo `ok 16`: calibrazione @operations con esito reale
+- Dopo merge #19: smoke test ruoli in produzione
+- Contatore giri-ciechi MCP (difetto AR-003)

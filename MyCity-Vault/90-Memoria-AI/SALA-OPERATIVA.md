@@ -388,3 +388,12 @@ Assegnazioni (1 mossa per reparto):
 ## Casella #19 — Nicola chiede collegamento Render (2026-07-02 08:16)
 
 - 2026-07-02 08:16 · @AD · FATTO · Nicola «come collego il canale Render?» (card #19 deploy ruoli acquisto) → chiarito: **Render non è una mano API separata** — è già agganciato a GitHub su `mycity`; merge `main` = auto-deploy (come Sprint 1 #209+#210). Sblocco operativo = **#14+#15 PAT GitHub** su VPS, non token Render. Pulsante Approva Pannello su canale Render **non esegue** deploy (mani.ts solo email). Via: chat **`ok merge fix ruoli-acquisto-admin-seller`**. ⏳ branch locale: commit staged non pushato.
+
+## Giro 2026-07-02 08:20
+
+- 2026-07-02 08:20 · @analista · FATTO · KPI live REST: stallo 189,9h (+12,1h) · 7 numeri = · 407 lead · 1 ordine COD pending
+- 2026-07-02 08:20 · @devops-sre · FATTO · verifica-automazione tutto verde: token mycity push OK · worker · timer watch-main · ramo memoria-ad
+- 2026-07-02 08:20 · @intelligence · FATTO · meteo 2/7 sereno 20–31°C — finestra #16 pranzo APERTA · eventi-picchi aggiornato
+- 2026-07-02 08:20 · @operations · FATTO · Escalation v12 stallo 190h → `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`
+- 2026-07-02 08:20 · @AD · FATTO · Giro completo: briefing + STATO + auto-coscienza + intenzioni-nicola + piani AD
+- 2026-07-02 08:20 · @AD · SERVE · Nicola: **`ok 16` oggi pranzo** · **`ok merge fix ruoli-acquisto`** · SQL 107 · root sync VPS

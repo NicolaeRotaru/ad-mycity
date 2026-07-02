@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-02 08:17",
-  "aggiornato": "2026-07-02 08:17",
+  "data": "2026-07-02 08:20",
+  "aggiornato": "2026-07-02 08:20",
   "lezioni": [
+    {
+      "id": "L-2026-0702-44",
+      "testo": "**Automazione tutto verde ≠ loop business chiuso (giro 2/7 08:20):** `verifica-automazione.mjs` OK (token mycity push ✓, worker ✓, timer ✓) ma **0 ordini consegnati**. **Regola:** separare sempre in briefing (1) salute **infrastruttura** (verde) vs (2) salute **business** (🔴 finché #16 pendente). Non confondere «macchina operativa» con «azienda che fattura». Automazione verde **abbassa** rischio deploy post-ok merge ma **non** sostituisce ok 16.",
+      "tag": ["automazione", "loop-business", "devops", "operations", "nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.84,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 08:20",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-43",
       "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il canale Render?» — card #19 etichetta canale «Render (marketplace)» + UI «canale non ancora collegato». **5 perché confusione:** (1) Pannello mostra Render come canale ma `pannello/lib/mani.ts` supporta solo **email (Resend)** — pulsante Approva **non** esegue deploy; (2) Render marketplace è già agganciato a **GitHub** su `NicolaeRotaru/mycity` — merge `main` = auto-deploy (~2–5 min, es. Sprint 1 ~10:31); (3) **non esiste** (ancora) API Render che l'AD chiami direttamente; (4) sblocco operativo #19 = **#14+#15 PAT GitHub** (PR+merge) + chat **`ok merge fix ruoli-acquisto`** — pattern L-31/L-38, **non** token Render; (5) alternativa = Nicola mergia PR su GitHub → Render fa il resto. **Risposta obbligatoria:** tabella «Render già ok via GitHub · PAT non token Render · via chat ok merge · ignorare Approva su canale Render».",
@@ -767,7 +780,7 @@
     "Su card canale «Render (marketplace)» chiede «come collego Render?» — si aspetta chiarimento immediato: **non serve token Render** (auto-deploy post-merge GitHub su `mycity`); sblocco = #14+#15 PAT + **`ok merge …`** in chat; pulsante Approva Pannello **non** deploya (mani.ts solo email Resend) (chat 2/7 08:16 casella #19)."
   ],
   "meta": {
-    "lezioni_attive": 57,
+    "lezioni_attive": 58,
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.70

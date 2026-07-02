@@ -1,6 +1,6 @@
 # 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-07-01 20:18** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads`).
+> Aggiornato: **2026-07-02 08:20** · Fonte: @intelligence + REST live (407 lead `merchants_leads`).
 
 ---
 
@@ -8,23 +8,23 @@
 
 | # | Categoria / zona | Perché | Potenziale | Stato MyCity |
 |---|------------------|--------|------------|--------------|
-| 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale; ordine zombie + Scelta A firmata | Alto — 1ª transazione | **1 negozio LIVE** (PQ), 0 pagati |
-| 2 | **Salumeria / DOP** (Piazza Duomo cluster) | Glovo = 0 botteghe artigianali; Garetti = prospect faro | Alto | Prospect (Garetti, scelta ragionata) |
-| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO copre commodity, non freschi artigianali | Medio-alto | 0 negozi |
-| 4 | **Gastronomia / enoteca** | Scontrino alto, regalo locale (Cosaporto assente a PC) | Medio | 0 negozi |
-| 5 | **Zone periferiche dense** (Montale, Galleana, San Lazzaro) | Copertura rider TBD post-primo cluster centro | Medio | Non servite |
+| 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale; #16 oggi | Alto — 1ª transazione | **1 negozio LIVE**, 0 delivered |
+| 2 | **Salumeria / DOP** (Piazza Duomo) | Glovo = 0 botteghe artigianali | Alto | Prospect (Garetti, scelta ragionata) |
+| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO ≠ freschi artigianali | Medio-alto | 0 negozi |
+| 4 | **Gastronomia / enoteca** | Scontrino alto | Medio | 0 negozi |
+| 5 | **Zone periferiche** (Montale, Galleana) | Post-primo cluster centro | Medio | Non servite |
 
 ---
 
 ## Blocco attuale
-- **407 lead** pronti — outreach **post-1ª-transazione** (#16) — pitch senza consegna reale = rischio reputazione.
-- Stallo **177,8h** (+9,8h oltre 168h) — urgenza #16 **2/7 mattina**.
-- Giornata **1/7 chiusa senza transazione** — finestra slot scaduta 20:18.
-- Sprint 1 **LIVE** (~10:31) — resta **SQL 107** policy prima batch 6/7 sicuro.
-- Kit bando ER #12: FESR Commercio **chiuso 23/6** — rivedere leva prima del pitch.
-- 1 buyer reale dormiente (**samir**, carrello €10 PQ) — recupero post-#16 (playbook CRM 🟢).
+- **407 lead** — outreach **post-1ª-transazione** (#16 oggi).
+- Stallo **189,9h** (+21,9h oltre 168h).
+- **#19** fix ruoli: prerequisito CRM pulito (1 solo carrello buyer samir).
+- Sprint 1 **LIVE** — resta **SQL 107** prima batch 6/7 sicuro.
+- Kit bando #12: FESR Commercio **chiuso 23/6** — pivot bandi.
 
-## Mossa collegata
-1. **Eseguire #16 Scelta A 2/7 mattina** (Nicola: `ok 16`)
-2. **SQL 107** — Nicola incolla DROP policy (~30s)
-3. Batch onboarding **6/7** (Nicola)
+## Mossa collegata (2/7)
+1. **`ok 16`** — consegna oggi pranzo
+2. **`ok merge fix ruoli-acquisto`** — #19
+3. **SQL 107** — «fatto sql 107»
+4. Batch **6/7** — Nicola

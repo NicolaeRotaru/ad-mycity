@@ -1,40 +1,38 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-01 20:18** · Fonte: @intelligence (giro 1/7 20:18, Allerta ER + REST live).
+> Aggiornato: **2026-07-02 08:20** · Fonte: @intelligence (giro 2/7, 3BMeteo + Allerta ER + REST live).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 1/7 — Finestra consegna CHIUSA (20:18)
+### 1. OGGI 2/7 — Finestra consegna APERTA (08:20)
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Mer 01/7 (OGGI)** | **35° / 24°** | Temporali pomeridiani **passati** · slot **18:00–20:00 SCADUTO** | **Giornata a zero transazioni** |
-| **Gio 2/7** | ~31 / 20 | Stabilizzazione | **Prima finestra utile #16** (mattina/pranzo) |
-| **Ven 03/7 (VP)** | ~33 / 20 | Variabile — **presidio VP RIMANDATO** | — |
-| Sab 04/7 | ~33 / 21 | Poca pioggia | normale |
-| **Dom 6/7** | **~34 / 20** | Caldo secco — **batch onboarding negozi** | priorità operativa + rider/freschi |
+| **Gio 2/7 (OGGI)** | **31° / 20°** | Sereno, zero pioggia | **#16 pranzo ORA** — escalation v12 |
+| Ven 03/7 | ~33 / 20 | Variabile — VP **RIMANDATO** | payout-test Nicola mattina |
+| Sab 04/7 | ~33 / 21 | Sereno | normale |
+| **Dom 6/7** | **~34 / 20** | Caldo secco — **batch onboarding** | rider + freschi |
+| Lun 7/7 | ~36 / 20 | Caldo intenso | idratazione rider |
 
-Fonte: [Allerta meteo ER](https://allertameteo.regione.emilia-romagna.it/web/piacenza) · [Comune eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806)
+Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. 08:16 · [Allerta ER](https://allertameteo.regione.emilia-romagna.it/web/piacenza)
 
-**Consiglio operativo #16 (20:18):** ripiano **2/7 mattina** — `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`
-
-**🟢 Playbook:** escalation v11 · ripiano 2/7 · `consegne/operations/2026-07-01-playbook-temporali.md`
+**Consiglio operativo:** **`ok 16`** entro 12:00 per slot pranzo. Messaggio WhatsApp adattato in `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`.
 
 ### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
-- **3/7:** Nicola ha **rimandato** presidio QR/contenuti → focus onboarding 6/7.
-- **Prossima finestra utile:** VP **10/17 lug** (~50–60k persone/sera).
-- Fonte: [Programma VP](https://www.venerdipiacentini.it/pdf/programma2026.pdf)
+- **3/7:** presidio **RIMANDATO** (Nicola 1/7 — focus onboarding 6/7).
+- **Prossima finestra:** VP **10/17 lug** (~50–60k persone/sera).
+- Fonte: [Programma VP 2026](https://www.venerdipiacentini.it/pdf/programma2026.pdf)
 
-### 3. MANIFESTAZIONI ANTONINIANE — 27 giu → 4 lug
+### 3. MANIFESTAZIONI ANTONINIANE — fino 4 lug
 
-- Festa patronale in corso — traffico centro elevato nel weekend.
+- Festa patronale in chiusura — traffico centro weekend elevato.
 
 ---
 
-## 🆕 Novità giro 1/7 20:18
-- Stallo **177,8h** (+2,0h) — **168h +9,8h oltre**.
-- Finestra consegna **chiusa** — ripiano **2/7 mattina**.
-- Sync VPS #17: Nicola «ok 17» — install bloccato (serve root).
+## 🆕 Novità giro 2/7 08:20
+- Stallo **189,9h** (+12,1h) — **168h +21,9h oltre**.
+- Automazione **tutto verde** — worker/token/timer OK.
+- Meteo favorevole consegna oggi — priorità #16 pranzo.

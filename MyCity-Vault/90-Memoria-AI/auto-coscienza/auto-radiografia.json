@@ -119,14 +119,14 @@
   ],
   "domande_per_nicola": [],
   "sonda": {
-    "data": "2026-07-01 20:18",
+    "data": "2026-07-02 08:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.70,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 90,
+    "ore_da_ultima_completa": 98,
     "verdetto": "ok",
-    "nota": "Sonda 1/7 20:18. 4 invarianti OK: (1) loop chiude — escalation v11 + ripiano 2/7 (L-36); (2) tasso 0.70; (3) giro ~2h dal 18:18; (4) sentinelle: stallo >168h (+9,8h) + ordine zombie slot SCADUTO + 4 carrelli. REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: AR-004 token write mycity + sync VPS install root pendente."
+    "nota": "Sonda 2/7 08:20. 4 invarianti OK: (1) loop chiude — escalation v12 + lezioni L-0702 applicate; (2) tasso 0.70; (3) giro ~12h dal 20:18 (accettabile); (4) sentinelle: stallo 189,9h + ordine zombie + 1 carrello buyer. Automazione tutto verde. REST OK, MCP cieco. Voto salute 76 =. Radiografia completa <10gg → no trigger. Cantiere: AR-004 token mycity OK in verifica — branch #19 push pendente."
   },
   "meta": {
     "agenti_totali": 42,

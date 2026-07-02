@@ -16,6 +16,7 @@
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 1, "tipo": "sonda", "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 14:19: stallo 171,8h (+2,0h), 168h +3,8h oltre. Finestra pranzo chiusa → #16 post-18. Escalation v8 🟢. REST OK, MCP cieco. Voto 76 =." },
     { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 18:18: stallo 175,8h (+2,0h), 168h +7,8h oltre. Finestra consegna APERTA ORA → #16 entro 20:00. Escalation v10 🟢. REST OK, MCP cieco. Voto 76 =." },
-    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =." }
+    { "data": "2026-07-01", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =." },
+    { "data": "2026-07-02", "voto_salute": 76, "difetti_aperti": 3, "difetti_chiusi": 0, "tipo": "sonda", "nota": "Giro 2/7 08:20: stallo 189,9h (+12,1h), 168h +21,9h oltre. Automazione tutto verde (verifica 08:20). Meteo sereno — finestra #16 pranzo APERTA. Escalation v12 🟢. REST OK, MCP cieco. Voto 76 =." }
   ]
 }
