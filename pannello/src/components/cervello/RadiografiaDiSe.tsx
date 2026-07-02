@@ -158,7 +158,7 @@ export default function RadiografiaDiSe() {
                     {dim.voto != null && <span className={`t-eti ml-auto tabular-nums ${votoColore(dim.voto)}`}>{dim.voto}/100</span>}
                   </div>
                   {dim.sintesi && <div className="text-[12px] text-black/65 mt-1">{dim.sintesi}</div>}
-                  {(dim.findings || []).map((f, j) => {
+                  {(dim.findings || []).filter((f) => (f as Finding & { stato?: string }).stato !== "chiuso").map((f, j) => {
                     const g = GRAV[f.severita || "minore"] || GRAV.minore;
                     return (
                       <div key={j} className={`rounded-lg border p-2.5 mt-2 ${g.cls}`}>

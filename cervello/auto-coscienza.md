@@ -45,6 +45,7 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 | `auto-radiografia.json` | Ultima radiografia di SÉ: dimensioni, pre-mortem, benchmark, voto salute | ② | sì (area Cervello) |
 | `cantiere-difetti.json` | Backlog dei difetti propri (aperto/in-corso/chiuso) portato a zero | ② | sì |
 | `storico-salute.json` | Serie storica del voto salute (trend «sto migliorando?») | ② + sonda | sì (trend) |
+| `sensori-cecita.json` | Contatore giri-ciechi per sensore (REST/MCP); alimenta sonda e sentinelle | `verifica-sensori.mjs` | sì (via sonda) |
 | `watchlist-riferimenti.json` | I «migliori» da tenere d'occhio (scoperti + aggiunti da Nicola) | ②/④ | sì |
 | `apprendimento.json` | Archivio lezioni (confidenza, decadimento, principi, preferenze Nicola) | ③ | sì |
 | `calibrazione.json` | Previsto-vs-reale per reparto (autonomia guadagnata azzeccando) | ③ + review | sì |
