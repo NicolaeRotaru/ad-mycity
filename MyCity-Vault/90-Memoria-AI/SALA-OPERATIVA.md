@@ -474,3 +474,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 17:21 · @AD · FATTO · Giro delta: registrato stato «esegui» (#16 risolta 17:09), stallo ricalcolato ~199h, aggiornati STATO · briefing 2/7 (passaggio 17:21 in cima) · ultimo-briefing.json · intenzioni-nicola.json · registro-realtà · auto-analisi (voto 82 ▼).
 - 2026-07-02 17:21 · @AD · SERVE · Nicola: **stasera 19–21 tap link WhatsApp #20** → #21 → #22 → «consegna fatta» (unica azione che sblocca ~199h di stallo). In parallelo: R1 revoca PAT GitHub.
 - 2026-07-02 17:21 · @analista · FATTO · Live gated (MCP/node): 7 numeri = baseline REST 10:19 portata avanti, nessun numero nuovo (dichiarato nei Gap del briefing).
+
+### 2026-07-02 — 🌙 REPORT DELLA SERA (AD · 18:00)
+- 2026-07-02 18:00 · @AD · FATTO · **Report della sera** scritto (RITMO.md blocco `## Report della sera · 2026-07-02 18:00` — lo legge il Pannello) + STATO aggiornato (aggiornato 18:00, stallo ~201,5h).
+- 2026-07-02 18:00 · @AD · FATTO · **Bilancio giornata:** ✅ #19 MERGED (PR #211 Render LIVE) · ✅ cantiere radiografia 18/22 chiusi (voto salute 42→80) · ✅ decisione binaria #16 risolta (Scelta A = esegui, cena 19–21). ❌ Prima transazione ancora NON avvenuta: `ok 16` firmato 08:38 ma mani WhatsApp non scattate → pranzo perso.
+- 2026-07-02 18:00 · @analista · FATTO · Numeri vs ieri invariati (live gated MCP+node → baseline REST 10:19); stallo **~201,5h** (+~9h vs 20:18 di ieri). 1 negozio reale/0 payout/1 ordine COD/0 consegnati/4 buyer.
+- 2026-07-02 18:00 · @AD · Lezione L-2026-0702 · **firma ≠ esecuzione**: un'azione 🔴 firmata resta ferma se la «mano» reale non scatta nella stessa finestra → collo di bottiglia = mani non collegate (WhatsApp/consegna), non i sensori. Aggancio AR-019 + automazione mani.
+- 2026-07-02 18:00 · @AD · SERVE · Nicola stasera **19–21**: tap link WhatsApp #20 → #21 accetta+chiama PQ → #22 consegna COD €19,05 → «consegna fatta». In parallelo: 🔴 R1 revoca PAT GitHub · 🟡 SQL 107 · 🟡 root sync VPS #17.

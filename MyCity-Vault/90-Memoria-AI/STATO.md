@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 17:21
-fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabase clmpyfvpvfjgeviworth · stallo ricalcolato da ancora 24/6)
+aggiornato: 2026-07-02 18:00
+fonte: AD digitale (Report della sera · 7 numeri = baseline REST 2/7 10:19 portata avanti · live gated MCP+node · Supabase clmpyfvpvfjgeviworth · stallo ~201,5h da ancora 24/6 08:28)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -23,7 +23,7 @@ fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabas
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · ok 16 firmato 08:38 · **Scelta A 17:09 = esegui (cena 19–21)** |
 | Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~199h** |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~201,5h** (18:00) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
@@ -63,7 +63,8 @@ fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabas
 | Loop business | 🔴 in corso | ok 16 firmato ma non eseguito tutta la giornata (pranzo perso) |
 
 ## Ultime mosse dell'AD
-0. **Giro 2/7 17:21** — delta 12 min dopo la decisione #16: registrato stato «esegui», stallo ricalcolato **~199h**, timestamp/snapshot aggiornati. Live gated (MCP/node), baseline REST 10:19 avanti, nessun numero nuovo.
+0. **🌙 Report della sera 2/7 18:00** — chiusura giornata: #19 MERGED (Render LIVE), cantiere radiografia 42→80, decisione #16 = esegui (cena 19–21). Numeri invariati (live gated, baseline REST 10:19), stallo **~201,5h**. Lezione L-2026-0702: firma ≠ esecuzione (mani non collegate). RITMO.md + SALA aggiornati.
+1. **Giro 2/7 17:21** — delta 12 min dopo la decisione #16: registrato stato «esegui», stallo ricalcolato **~199h**, timestamp/snapshot aggiornati. Live gated (MCP/node), baseline REST 10:19 avanti, nessun numero nuovo.
 1. **Decisione binaria #16 2/7 17:09** — Nicola **Scelta A (esegui, non archivia)** dal Pannello · slot → **cena 19–21** · #20–#22 attive · pacchetto + DECISIONI + coda aggiornati · card da non rigenerare.
 2. **Giro 2/7 17:01** — delta 8 min: nulla di nuovo, stallo ~198,6h · decisione binaria stasera (poi risolta 17:09). Live gated, baseline REST portata avanti.
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
