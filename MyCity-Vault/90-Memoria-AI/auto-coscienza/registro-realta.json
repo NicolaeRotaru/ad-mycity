@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 18:21",
+  "aggiornato": "2026-07-02 22:20",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -61,10 +61,11 @@
         "DB live 2/7 10:19: stallo 191,9h (+1,8h vs 08:36); ok 16 approvato ma DB invariato (NEW/PENDING); passi #20–#22 pendenti.",
         "2/7 17:09: decisione binaria #16 RISOLTA — Nicola sceglie A (ESEGUI, non archivia), slot → cena 19–21.",
         "DB live 2/7 18:20 (delta-gate REST): ordini=1, ultimo_ordine 24/6 08:28, profili totali=23, dati_leggibili=true — numeri RI-MISURATI live (non più baseline); stallo ~202h dall'ancora 24/6.",
+        "DB live 2/7 22:20 (delta-gate REST): corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) → #16 NON eseguito, finestra cena 19–21 saltata; stallo ~206h. 3ª finestra saltata oggi (pranzo+cena).",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
-      "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): consegna in finestra cena 19–21 (#20–#22 esecuzione manuale). Contratto 12% firmato 01:02. Payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-02 18:20 (REST live via delta-gate: 1 ordine, ultimo 24/6, 23 profili)"
+      "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): cena 19–21 saltata → riprogrammato a MATTINA 3/7 (#20–#22 esecuzione manuale, accorpato al payout-test). Contratto 12% firmato 01:02. Payout sandbox 03/7.",
+      "ultima_verifica": "2026-07-02 22:20 (REST live via delta-gate: 1 ordine, ultimo 24/6, 23 profili; cena saltata)"
     },
     {
       "nome": "Antica Salumeria Garetti",

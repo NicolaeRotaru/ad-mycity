@@ -488,3 +488,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 18:21 · @AD · FATTO · Sonda chiusura-loop: 38 quaderni vivi · 5 fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali) · 3 vuoti (i 2 gate creativi senza quaderno = difetto AR già a cantiere).
 - 2026-07-02 18:21 · @AD · FATTO · Calibrazione @AD 18/18: previsione «0 transazioni finché #20–#22 non eseguiti» confermata dal REST live. Aggiornati STATO, briefing (passaggio 18:21 in cima), ultimo-briefing, auto-analisi (voto 84 ▲), registro-realta (evidenza live 18:20).
 - 2026-07-02 18:21 · @AD · SERVE · Nulla di nuovo di business: resta la mossa n.1 (Nicola, cena 19–21: #20→#21→#22 → «consegna fatta») + R1 revoca PAT + R2 merge fix cantiere + SQL 107.
+
+### 2026-07-02 — 🔭 GIRO SERALE/NOTTE (AD · 22:20)
+- 2026-07-02 22:20 · @AD · FATTO · Full giro da delta-gate (cambio stato sensori: PostHog cieco 3 giri → sentinella «sensore cieco ≥3» scattata, opzionale a 0 ordini pagati). Letti ledger sensori 22:20 (REST/Stripe/Resend ok, MCP cieco 1 giro) + delta-gate + chiusura-loop.
+- 2026-07-02 22:20 · @analista · FATTO · 7 numeri LIVE via REST/delta-gate 22:20: `corrente`==`ultimo_pieno` (ordini=1, ultimo 24/6, profili=23) → invariati. Stallo **~206h**.
+- 2026-07-02 22:20 · @operations · FATTO · **Finestra cena 19–21 SALTATA: #16 non eseguito** (3ª finestra saltata oggi: pranzo+cena). Riprogrammato #16/#20 a **mattina 3/7**, accorpato al payout-test già in agenda. Aggiornati AZIONI-IN-ATTESA #16 e #20.
+- 2026-07-02 22:20 · @AD · FATTO · Aggiornati STATO (22:20), briefing (passaggio 22:20 in cima), ultimo-briefing, intenzioni-nicola, auto-analisi, storico-salute/sonda.
+- 2026-07-02 22:20 · @AD · SERVE · Mossa n.1 → domani mattina 3/7: Nicola apre link WhatsApp #20 (slot mattina) → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.

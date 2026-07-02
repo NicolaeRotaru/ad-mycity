@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-02 18:21",
-  "aggiornato": "2026-07-02 18:21",
+  "data": "2026-07-02 22:20",
+  "aggiornato": "2026-07-02 22:20",
   "lezioni": [
+    {
+      "id": "L-2026-0702-51",
+      "testo": "**Una sola finestra a bassa frizione batte molte finestre rincorse (giro notturno 2/7 22:20):** la decisione #16 (esegui) è presa da 17:09, ma in un solo giorno sono saltate 3 finestre — pranzo, poi cena 19–21 — perché ogni volta si è riproposto lo stesso tap manuale (#20 WhatsApp) sperando che partisse 'a breve'. Il collo di bottiglia NON è tecnico (pacchetto pronto da stamattina) ma di frizione/attenzione umana. **Regola:** quando un'azione manuale critica salta ≥2 volte, smetti di spostarla di poche ore e ANCORALA a un momento già in agenda a bassa frizione (qui: mattina 3/7, accorpata al payout-test già programmato). Meglio 1 finestra certa che 3 finestre 'possibili'. Corollario della lezione 'firma ≠ esecuzione' (L-2026-0702 report sera): quando le mani non sono collegate, riduci il numero di occasioni e alza la certezza di ciascuna.",
+      "tag": ["esecuzione-manuale", "frizione", "finestra-unica", "loop-business", "#16", "bandwidth-nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 3,
+      "fonte": "esiti",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 22:20",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-50",
       "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18:21):** nei passaggi pomeridiani i 7 numeri erano 'gated' (node non eseguibile in sessione) e portati avanti dalla baseline; nel giro serale il runner (giro.sh) ha scritto delta-gate.json e sensori-cecita.json con dati REST freschi (ordini=1, ultimo 24/6, profili=23), permettendo di MISURARE i numeri invece di inferirli — pur restando invariati. **Regola:** anche quando l'agente non può lanciare `node`, se giro.sh ha appena scritto delta-gate/sensori (< ~1h), USA quei campi come dato live confermato e alza la fiducia; distingui sempre 'ri-misurato' da 'portato avanti' nel briefing. Corollario di AR-019: il delta-gate non serve solo a saltare i giri vuoti, è anche la fonte-di-verità dei numeri quando l'agente è gated.",

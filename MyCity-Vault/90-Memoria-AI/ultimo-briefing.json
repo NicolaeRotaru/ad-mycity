@@ -1,14 +1,14 @@
 {
-  "data": "2026-07-02 18:21",
-  "situazione": "Giro serale ~20 min dopo il Report della sera (18:00). Novità positiva di MACCHINA: la nuova infrastruttura anti-giri-a-vuoto è viva — il runner ha girato sensori + delta-gate (AR-019) + sonda chiusura-loop (AR-009) e ha ri-pullato i 7 numeri LIVE via REST alle 18:20 (non più baseline portata avanti). Verdetto dati: tutto invariato ma confermato live — 1 negozio reale (Pane Quotidiano), 1 ordine (ultimo 24/6), 0 pagati/consegnati, 23 profili totali. Stallo ~202h dall'ancora ordine 24/6. Il collo di bottiglia resta la prima transazione: dipende da 1 azione manuale (#20 WhatsApp) già decisa (esegui, cena 19–21). La sonda chiusura-loop segnala 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).",
+  "data": "2026-07-02 22:20",
+  "situazione": "Giro serale/notte 22:20, full giro fatto scattare dal delta-gate per cambio stato sensori (PostHog cieco da 3 giri → sentinella «sensore cieco ≥3» scattata, ma opzionale a 0 ordini pagati). Business invariato e confermato LIVE via REST/delta-gate: 1 negozio reale (Pane Quotidiano), 1 ordine (ultimo 24/6), 0 pagati/consegnati, 23 profili. Fatto nuovo che conta: la finestra cena 19–21 è passata e #16 NON è stato eseguito — terza finestra saltata oggi (pranzo + cena). Stallo salito a ~206h. Il collo di bottiglia è 100% umano-manuale (1 tap WhatsApp #20), non tecnico: tutto il pacchetto è pronto. Restano invariate le 3 cose di Nicola dal cantiere radiografia (R1 revoca PAT, R2 merge fix, R3 Casa Linda).",
   "opportunita": [
-    {"titolo": "Chiudere #16 stasera (cena 19–21)", "motivo": "Decisa l'esecuzione: è l'ultima finestra utile oggi per la prima transazione. Pacchetto pronto, serve 1 tap WhatsApp.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Payout-test 3/7 mattina", "motivo": "Sblocca il flusso pagamenti in sandbox indipendentemente dall'ordine zombie.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Accorpare #16 + payout-test alla mattina 3/7", "motivo": "Le finestre pranzo e cena di oggi sono saltate: un solo momento a bassa frizione domani mattina chiude sia la prima transazione sia il test pagamenti già in agenda.", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Batch onboarding 6/7", "motivo": "407 lead, checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "R2 — attivare i 18 fix del cantiere", "motivo": "Merge+deploy branch machine-analysis rende attivi timeout giro, gate sensori anti-invenzione, guardiano agenti, sensore cassa: oggi scritti ma inerti.", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "R2 — attivare i 18 fix del cantiere", "motivo": "Merge+deploy branch machine-analysis rende attivi timeout giro, gate sensori anti-invenzione, guardiano agenti, sensore cassa: oggi scritti ma inerti.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Ripristinare la key PostHog", "motivo": "Funnel cieco da 3 giri (401): irrilevante ora, ma utile prima del batch 6/7 per misurare la conversione.", "impatto": "basso", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Esegui #16 stasera — tap WhatsApp #20 (cena 19–21) → #21 → #22 → «consegna fatta»", "motivo": "È l'unico passo che sblocca 8 giorni (~202h) di stallo. Tutto il resto è pronto: manca solo la mano di Nicola.", "livello": "rosso"},
+    {"titolo": "Esegui #16 domani mattina 3/7 — tap WhatsApp #20 → #21 → #22 → «consegna fatta», accorpato al payout-test", "motivo": "3 finestre saltate oggi: non rincorrerne un'altra stanotte. Un solo momento a bassa frizione domani mattina sblocca ~206h di stallo.", "livello": "rosso"},
     {"titolo": "R1 — Revoca il PAT GitHub (AR-004)", "motivo": "È l'unica remediation del segreto già entrato nella storia git.", "livello": "rosso"},
     {"titolo": "R2 — Merge+deploy fix cantiere (branch machine-analysis)", "motivo": "Attiva i 18 fix già chiusi in codice.", "livello": "giallo"},
     {"titolo": "SQL 107 DROP policy profiles", "motivo": "Unico bloccante RLS post-Sprint 1, prerequisito batch 6/7.", "livello": "giallo"}

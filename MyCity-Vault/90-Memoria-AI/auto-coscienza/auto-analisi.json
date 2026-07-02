@@ -1,22 +1,22 @@
 {
-  "data": "2026-07-02 18:21",
-  "voto_fiducia": 84,
-  "trend_fiducia": "▲",
-  "sintesi": "Giro serale 2/7 18:21 (~20 min dopo il Report della sera 18:00). Voto 84 (▲ da 82): giro onesto e con un vantaggio reale rispetto ai passaggi pomeridiani — i 7 numeri sono stati RI-PULLATI LIVE via REST/delta-gate alle 18:20 (ordini=1, ultimo_ordine 24/6, profili=23, dati_leggibili=true), non più 'baseline portata avanti'. Il +2 premia il salto da dati-inferiti a dati-misurati e la constatazione che la nuova infrastruttura anti-giri-a-vuoto (delta-gate AR-019 + sonda chiusura-loop AR-009) ora gira e persiste i suoi file. Nessuna novità di business: numeri invariati, stallo ~202h dall'ancora 24/6, decisione #16 = esegui (cena 19–21) invariata. Grounding entità ok: Pane Quotidiano confermato con nuova evidenza live 18:20; zombie = ordine PQ; nessuna entità nuova; Casa Linda resta demo esclusa. Nessun errore di grounding.",
+  "data": "2026-07-02 22:20",
+  "voto_fiducia": 83,
+  "trend_fiducia": "▼",
+  "sintesi": "Giro serale/notte 22:20, full giro fatto scattare dal delta-gate per cambio stato sensori (PostHog cieco 2→3 giri). Voto 83 (▼ da 84): giro onesto e ben eseguito — ha correttamente colto il fatto nuovo che conta (finestra cena 19–21 passata, #16 non eseguito, 3ª finestra saltata oggi) e ha riprogrammato #16/#20 a mattina 3/7 accorpandolo al payout-test, invece di rincorrere un'altra finestra a vuoto. Il −1 riflette che è l'ennesimo giro senza movimento della North Star (business fermo dal 24/6, stallo ~206h) — non un errore ma un plateau. Grounding: 7 numeri LIVE via delta-gate REST 22:20 (corrente==ultimo_pieno), nessun numero inventato; entità confermate (Pane Quotidiano, zombie=ordine PQ), nessuna entità nuova, Casa Linda demo esclusa, Garetti resta scelta_ragionata. Nessun errore di grounding.",
   "verifiche": {
-    "entita": "ok (Pane Quotidiano confermato — evidenza live REST 18:20: 1 ordine, ultimo 24/6, 23 profili; zombie = ordine PQ €19,05; nessuna entità nuova; Casa Linda demo esclusa; Garetti resta scelta_ragionata/prospect)",
-    "numeri": "ok — 7 numeri ri-pullati LIVE via delta-gate REST 18:20 (non più baseline); stallo ~202h ricalcolato dall'ancora 24/6; MCP cieco 1 giro ma REST copre tutti i 7 numeri; Stripe/PostHog/Resend non collegati dichiarati nei Gap",
-    "coerenza": "ok (STATO, ultimo-briefing, briefing, registro-realta, calibrazione allineati alla decisione #16 = esegui e ai numeri live 18:20)",
-    "semaforo": "ok (nessuna 🔴 nuova; decisione binaria #16 risolta; restano #20–#22 esecuzione manuale + R1/R2/SQL107 già in coda)",
+    "entita": "ok (Pane Quotidiano confermato; zombie = ordine PQ €19,05; nessuna entità nuova; Casa Linda demo esclusa; Garetti resta scelta_ragionata/prospect — non azionato)",
+    "numeri": "ok — 7 numeri LIVE via delta-gate REST 22:20 (corrente==ultimo_pieno: ordini=1, ultimo 24/6, profili=23); stallo ~206h ricalcolato dall'ancora 24/6 08:28; MCP cieco 1 giro ma REST copre tutti i 7 numeri; PostHog cieco 3 giri e Stripe/burn dichiarati nei Gap",
+    "coerenza": "ok (STATO, ultimo-briefing, briefing, intenzioni-nicola, registro-realta, AZIONI-IN-ATTESA #16/#20 tutti riallineati alla cena saltata → riprogrammazione mattina 3/7)",
+    "semaforo": "ok (nessuna 🔴 nuova; azioni già in coda #20–#22 + R1/R2/SQL107; sentinella «sensore cieco ≥3» scattata su PostHog ma opzionale — non declassa nulla)",
     "qualita": "ok",
     "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
   },
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Stasera 19–21 apri il link WhatsApp #20 e fai partire #20→#21→#22 fino a «consegna fatta»?",
-      "perche_serve": "Decisione già presa (esegui): manca solo l'unica azione manuale che sblocca 8 giorni di stallo (~202h). Tutto il pacchetto è pronto.",
-      "se_rispondi": "Prima transazione MyCity chiusa; North Star da 0→1.",
+      "domanda": "Domani mattina 3/7 apri il link WhatsApp #20 (slot mattina) e fai partire #20→#21→#22 fino a «consegna fatta», accorpandolo al payout-test?",
+      "perche_serve": "Decisione già presa (esegui), ma oggi 3 finestre saltate (pranzo+cena): meglio fissare UNA finestra a bassa frizione domani mattina che rincorrerne un'altra stanotte. Sblocca ~206h di stallo.",
+      "se_rispondi": "Prima transazione MyCity chiusa; North Star da 0→1; payout validato in un solo momento.",
       "gravita": "alta"
     },
     {
@@ -33,25 +33,25 @@
     }
   ],
   "punti_ciechi": [
-    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node richiede approvazione in sessione); ultimo verde 10:19; ledger+delta-gate scritti da giro.sh 18:20 confermano REST ok",
-    "Esecuzione #16: nessun segnale «consegna fatta» nel log; ordine ancora 24/6 (delta-gate) → non ancora eseguito, coerente col DB",
+    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node richiede approvazione in sessione); ultimo verde 10:19; ledger+delta-gate scritti da giro.sh 22:20 confermano REST ok",
+    "Esecuzione #16: nessun segnale «consegna fatta»; ordine ancora 24/6 (delta-gate) → cena saltata, non eseguito, coerente col DB",
     "MCP Supabase cieco in sessione (1 giro): REST copre i 7 numeri, ma il canale MCP resta non verificabile da qui",
-    "Stripe / PostHog / Resend non collegati (non_configurato): incassi/funnel/email/runway non monitorati",
-    "Web live (meteo domani, status, sentiment) non ricontrollato questo passaggio serale (stesso giorno del check del mattino)"
+    "PostHog cieco 3 giri (HTTP 401, key non valida): funnel/conversione non misurabili — non critico a 0 ordini pagati",
+    "Stripe non collegato a costo/burn (runway N/D); Web live (meteo domani, status) non ricontrollato questo passaggio notturno"
   ],
   "miglioramenti_prossimo_giro": [
-    "Verificare se #16 è stato eseguito stasera → aggiornare North Star (0→1 se consegnato)",
+    "Al giro del mattino 3/7: verificare se #16 è stato eseguito → aggiornare North Star (0→1 se consegnato) + ricontrollare web live (meteo, status)",
     "Al primo giro VPS con node abilitato: ri-eseguire sonda-volano + verifica-automazione e confermare i 4 invarianti",
-    "Riempire i quaderni chiusura-loop dei reparti fermi quando producono lavoro reale (marketing, relazioni-istituzionali fermi 7-8gg; creare i 2 quaderni gate creativi = fix AR a cantiere)"
+    "Ripristinare la key PostHog prima del batch 6/7 per misurare la conversione; impostare BURN_MENSILE_EUR per il runway"
   ],
   "salute_macchina": {
     "supabase": "ok",
-    "supabase_marketplace": "REST ok (ledger 18:20, 7 numeri ri-pullati live) · MCP cieco/gated in sessione (1 giro)",
+    "supabase_marketplace": "REST ok (ledger 22:20, 7 numeri live via delta-gate) · MCP cieco/gated in sessione (1 giro)",
     "supabase_memoria": "scrittura via git memoria-ad",
-    "automazione_vps": "non ri-verificato live questo passaggio (ultimo verde 10:19; commit sync 18:19; ledger scritto 18:20)",
-    "stripe": "giù",
-    "posthog": "non collegato",
+    "automazione_vps": "non ri-verificato live questo passaggio (ultimo verde 10:19; commit worker 21:56/22:03; ledger scritto 22:20)",
+    "stripe": "ok (balance API ok nel ledger) ma non collegato a burn → runway N/D",
+    "posthog": "giù (401, cieco 3 giri)",
     "dati_freschi": true,
-    "sensori_attivi": 1
+    "sensori_attivi": 3
   }
 }

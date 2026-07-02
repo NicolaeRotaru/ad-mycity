@@ -279,6 +279,22 @@
       "difetti_chiusi": 18,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 2"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 4h fa · cecità sensori 3 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "Giro 22:20 (full da delta-gate: cambio stato sensori). loop chiude (con prova) · briefing fresco (0h) · sentinelle business attive · PostHog cieco 3 giri (sentinella «sensore cieco ≥3» scattata, opzionale) · MCP cieco 1 giro · REST ok. Voto 42 = (cantiere 18 chiusi/4 in-corso, non ancora mergiato+deployato). Segnale business: 3ª finestra #16 saltata (cena) → riprogrammata mattina 3/7."
     }
   ]
 }
