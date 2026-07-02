@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 00:08",
+  "aggiornato": "2026-07-03 00:18",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -63,10 +63,11 @@
         "DB live 2/7 18:20 (delta-gate REST): ordini=1, ultimo_ordine 24/6 08:28, profili totali=23, dati_leggibili=true — numeri RI-MISURATI live (non più baseline); stallo ~202h dall'ancora 24/6.",
         "DB live 2/7 22:20 (delta-gate REST): corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) → #16 NON eseguito, finestra cena 19–21 saltata; stallo ~206h. 3ª finestra saltata oggi (pranzo+cena).",
         "Giro notte 3/7 00:08: baseline REST 22:28 invariata (MCP+node gated in sessione, nessun numero ri-misurato) → ordine ancora 24/6, stallo ~206h; finestra #16 = STAMATTINA 3/7 (meteo favorevole).",
+        "Giro notte 3/7 00:18 (heartbeat +10min): baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
       "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): 3 finestre 2/7 saltate → finestra reale STAMATTINA 3/7 (#20–#22 esecuzione manuale, accorpato al payout-test). Contratto 12% firmato 01:02. Payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-03 00:08 (baseline REST 22:28 invariata: 1 ordine, ultimo 24/6, 23 profili; MCP+node gated in sessione)"
+      "ultima_verifica": "2026-07-03 00:18 (baseline REST 22:28 invariata: 1 ordine, ultimo 24/6, 23 profili; MCP+node+curl gated in sessione)"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -125,7 +126,7 @@
         "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
       ],
       "note": "Evento CONFERMATO — OGGI 3/7 è la prima delle serate. Presidio MyCity **RIMANDATO** da Nicola 1/7 01:00 (priorità onboarding 6/7): nessuna azione pesante, ma il centro pieno facilita il ritiro dell'ordine PQ. Prossima finestra utile per un presidio: VP 10/17 lug.",
-      "ultima_verifica": "2026-07-03 00:08 (registro: oggi 3/7 = giornata VP)"
+      "ultima_verifica": "2026-07-03 00:18 (registro: oggi 3/7 = giornata VP)"
     }
   ],
   "numeri_da_non_inventare": {

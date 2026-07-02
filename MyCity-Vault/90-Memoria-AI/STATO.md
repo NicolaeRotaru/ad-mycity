@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 00:08
-fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri baseline REST 22:28 invariati · MCP+node gated in sessione · PostHog cieco 5 giri · stallo ~206h da ancora 24/6 08:28 · meteo 3/7 favorevole ri-verificato live · oggi Venerdì Piacentini)
+aggiornato: 2026-07-03 00:18
+fonte: AD digitale (Giro notte 3/7 00:18 · heartbeat +10min · 7 numeri baseline REST 22:28 invariati · MCP+node gated in sessione · PostHog cieco 6 giri · stallo ~206h da ancora 24/6 08:28 · oggi Venerdì Piacentini)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -15,7 +15,7 @@ fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri basel
 >
 > 🧠 **2/7 08:40 — ok merge #19:** PR #211 merged `f84fc70` → Render LIVE · smoke @qa da completare.
 
-## I 7 numeri (baseline REST 2/7 22:28 · invariati dal 24/6 · MCP+node gated in sessione 3/7 00:08)
+## I 7 numeri (baseline REST 2/7 22:28 · invariati dal 24/6 · MCP+node gated in sessione 3/7 00:18)
 | Numero | Oggi (3/7 00:08) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
@@ -53,7 +53,7 @@ fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri basel
 - 🟡 Da tenere d'occhio: **#16 Scelta A confermata — esegui STAMATTINA 3/7** (passi #20–#22 manuali, tap link WhatsApp, col payout-test); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali** — stallo **~206h** (+38h oltre 168h); 3 finestre del 2/7 saltate ma **decisione presa (esegui, non archivia)** + meteo 3/7 favorevole → finestra stamattina; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
-## Auto-coscienza (2026-07-03 00:08 · giro AD notte)
+## Auto-coscienza (2026-07-03 00:18 · giro AD notte heartbeat)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Voto salute architettura | **42** (completa 12:09) | `auto-radiografia.json` top-level |
@@ -63,7 +63,8 @@ fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri basel
 | Loop business | 🔴 in corso | #16 firmato ma non eseguito (3 finestre 2/7 saltate) → mattina 3/7 |
 
 ## Ultime mosse dell'AD
-0. **🔭 Giro notte 3/7 00:08** — full da delta-gate, +2h dal precedente. **Nessuna novità business** (7 numeri = baseline REST 22:28: 1 ordine, ultimo 24/6, 23 profili; MCP+node gated in sessione). **Unico dato nuovo: meteo di oggi 3/7 sereno 32°/19° (pioggia 30%) → finestra consegna favorevole**; oggi è **Venerdì Piacentini** (centro pieno, presidio rimandato ma facilita il ritiro). Stallo **~206h**. → Mossa n.1 confermata: esegui #16 **stamattina 3/7** col payout-test.
+0. **🔭 Giro notte 3/7 00:18 (heartbeat +10min)** — nessuna novità di business (7 numeri = baseline REST 22:28 invariata; MCP+node gated in sessione). Unica variazione sensori: **PostHog cieco 6 giri** (era 5). Radar non ri-verificato (meteo/eventi già live al 00:08). Aggiornati timestamp Cabina (briefing/STATO/ultimo-briefing/auto-coscienza) → Mossa n.1 confermata: esegui #16 **stamattina 3/7** col payout-test.
+0-. **🔭 Giro notte 3/7 00:08** — full da delta-gate, +2h dal precedente. **Nessuna novità business** (7 numeri = baseline REST 22:28: 1 ordine, ultimo 24/6, 23 profili; MCP+node gated in sessione). **Unico dato nuovo: meteo di oggi 3/7 sereno 32°/19° (pioggia 30%) → finestra consegna favorevole**; oggi è **Venerdì Piacentini** (centro pieno, presidio rimandato ma facilita il ritiro). Stallo **~206h**. → Mossa n.1 confermata: esegui #16 **stamattina 3/7** col payout-test.
 0a. **🔭 Giro serale/notte 2/7 22:20** — full da delta-gate (cambio stato sensori: PostHog cieco 3 giri). 7 numeri LIVE REST invariati. Finestra cena 19–21 SALTATA — #16 non eseguito (3ª finestra saltata). Stallo ~206h → riprogrammato mattina 3/7.
 0b. **🌙 Report della sera 2/7 18:00** — chiusura giornata: #19 MERGED (Render LIVE), cantiere radiografia 42→80, decisione #16 = esegui (cena 19–21). Lezione L-2026-0702: firma ≠ esecuzione (mani non collegate). RITMO.md + SALA aggiornati.
 1. **Giro 2/7 17:21** — delta 12 min dopo la decisione #16: registrato stato «esegui», stallo ricalcolato **~199h**, timestamp/snapshot aggiornati. Live gated (MCP/node), baseline REST 10:19 avanti, nessun numero nuovo.
@@ -73,7 +74,7 @@ fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri basel
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (3/7 00:08 · finestra reale = STAMATTINA 3/7)
+## Prossime priorità (3/7 00:18 · finestra reale = STAMATTINA 3/7)
 **Deciso (Scelta A):** 1° ordine consegnato. 3 finestre del 2/7 saltate → **oggi 3/7 meteo favorevole**: eseguire #16 **stamattina** insieme al payout-test già in agenda (una sola finestra certa).
 
 1. [ ] 🔴 **#16 — ESEGUI (mano Nicola) STAMATTINA 3/7:** tap link WhatsApp #20 (slot mattina) → #21 accetta ordine + chiama PQ → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test 3/7
@@ -82,7 +83,7 @@ fonte: AD digitale (Giro notte 3/7 00:08 · full da delta-gate · 7 numeri basel
 4. [ ] 🟡 **R2 — Merge+deploy fix cantiere** (branch machine-analysis)
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~206h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+38h) · loop business 🔴 · **sensore cieco ≥5 giri: PostHog (401, opzionale)** · voto salute architettura 42 (<60, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi.
+**Sentinelle attive:** ordine ritardo ~206h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+38h) · loop business 🔴 · **sensore cieco ≥6 giri: PostHog (401, opzionale)** · voto salute architettura 42 (<60, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi.
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

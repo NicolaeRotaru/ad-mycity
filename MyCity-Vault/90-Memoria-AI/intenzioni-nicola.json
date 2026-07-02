@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-03 00:08",
+  "data": "2026-07-03 00:18",
   "sintesi": "È arrivato il giorno (3/7). La decisione #16 è presa da 17:09 di ieri (ESEGUIRE, non archiviare), ma le 3 finestre del 2/7 (pranzo, poi cena 19–21) sono passate senza esecuzione: il tap WhatsApp #20 non è ancora partito. La mossa reale di Nicola resta la stessa e la finestra è ORA — STAMATTINA 3/7, con meteo favorevole (sereno 32°/19°) — meglio accorparla al payout-test già programmato per oggi, in un solo momento a bassa frizione. In parallelo deve chiudere due cose sue: revocare il PAT GitHub (R1) e far girare SQL 107. Poi batch onboarding 6/7. La lezione: fissare UNA finestra sola, non rincorrerne molte.",
   "prossime_mosse": [
     {"titolo": "ESEGUIRE #16 stamattina 3/7 — accorpato al payout-test", "quando": "stamattina 3/7 (meteo favorevole; 3 finestre 2/7 saltate)", "come": "tap link WhatsApp #20 al buyer 348 642 1766 (slot mattina) → accetta ordine dashboard #21 + chiama PQ 0523 388601 → consegna COD €19,05 #22 → «consegna fatta»", "priorita": "alta", "ad_prepara": "pacchetto esecuzione pronto (consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md); AZIONI-IN-ATTESA #16/#20 puntano a stamattina 3/7", "senior": "@operations", "colore": "🔴"},

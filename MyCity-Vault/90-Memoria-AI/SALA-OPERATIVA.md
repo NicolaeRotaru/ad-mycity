@@ -502,3 +502,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-03 00:08 · @intelligence · FATTO · Radar meteo ri-verificato live: **oggi 3/7 sereno 32°/19°, pioggia 30% → finestra consegna FAVOREVOLE**. Oggi è Venerdì Piacentini (centro pieno, presidio rimandato ma facilita il ritiro). Propagato a Intelligence/eventi-picchi.md.
 - 2026-07-03 00:08 · @AD · FATTO · Aggiornati STATO (00:08), briefing 2026-07-03, ultimo-briefing, intenzioni-nicola (finestra = stamattina), eventi-picchi, auto-analisi/registro-realta/AUTO-ANALISI, apprendimento, calibrazione (@AD 20/20).
 - 2026-07-03 00:08 · @AD · SERVE · Mossa n.1 → STAMATTINA 3/7 (meteo favorevole): Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.
+
+### 2026-07-03 — 🔭 GIRO NOTTE (AD · 00:18 · heartbeat)
+- 2026-07-03 00:18 · @AD · FATTO · Heartbeat +10min dal giro 00:08. Nessuna novità business (7 numeri = baseline REST 22:28 invariata; MCP+node+curl gated). Unica variazione sensori: **PostHog cieco 6 giri** (era 5). Radar non ri-verificato (meteo/eventi già live 10 min fa).
+- 2026-07-03 00:18 · @AD · FATTO · Aggiornati timestamp Cabina al 00:18: briefing 2026-07-03 (passaggio 00:08 sotto separatore), STATO, ultimo-briefing, auto-analisi/AUTO-ANALISI, registro-realta, intenzioni-nicola.
+- 2026-07-03 00:18 · @AD · SERVE · Mossa n.1 confermata → STAMATTINA 3/7: Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.
