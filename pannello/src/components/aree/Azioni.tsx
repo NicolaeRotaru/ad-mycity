@@ -131,9 +131,11 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [todoSalva, setTodoSalva] = useState(false);
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const [propBusy, setPropBusy] = useState<number | null>(null);
-  const [propEsito, setPropEsito] = useState<Record<number, { ok: boolean; msg: string }>>({});
-  const [propDecise, setPropDecise] = useState<Set<number>>(new Set());
+  // Stato effimero delle proposte per ID STABILE (idProposta), non per indice: così dopo un nuovo
+  // giro una proposta fresca alla stessa posizione NON eredita lo stato "decisa" di quella vecchia.
+  const [propBusy, setPropBusy] = useState<string | null>(null);
+  const [propEsito, setPropEsito] = useState<Record<string, { ok: boolean; msg: string }>>({});
+  const [propDecise, setPropDecise] = useState<Set<string>>(new Set());
   // Decisioni PERSISTENTI sulle proposte (Supabase impostazioni proposta:{id}):
   // sopravvivono a refresh e ai giri successivi — la card non torna più "vergine".
   const [propDecisioni, setPropDecisioni] = useState<Record<string, { decisione: string; at?: string }>>({});
@@ -242,30 +244,31 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // Approva → il CERVELLO (worker AD) la trasforma in azione concreta; la decisione è
   // salvata in Supabase (proposta:{id}) così la card non torna mai più "vergine".
   // (Prima passava da /api/esegui → n8n: binario morto senza n8n e zero persistenza.)
-  async function approvaProposta(i: number, p: Proposta) {
-    setPropBusy(i);
+  async function approvaProposta(_i: number, p: Proposta) {
+    const pid = idProposta(p);
+    setPropBusy(pid);
     try {
       const r = await fetch("/api/proposta", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ decisione: "approva", id: idProposta(p), titolo: p.titolo, motivo: p.motivo, livello: p.livello }),
+        body: JSON.stringify({ decisione: "approva", id: pid, titolo: p.titolo, motivo: p.motivo, livello: p.livello }),
       }).then((x) => x.json());
       if (r?.ok) {
-        setPropEsito((s) => ({ ...s, [i]: { ok: true, msg: "📨 Approvata: il cervello la sta trasformando in azione concreta (vedi Lavori). Non tornerà tra le proposte." } }));
-        setPropDecise((s) => new Set(s).add(i));
-        setPropDecisioni((s) => ({ ...s, [r.id || idProposta(p)]: { decisione: "approva", at: new Date().toISOString() } }));
+        setPropEsito((s) => ({ ...s, [pid]: { ok: true, msg: "📨 Approvata: il cervello la sta trasformando in azione concreta (vedi Lavori). Non tornerà tra le proposte." } }));
+        setPropDecise((s) => new Set(s).add(pid));
+        setPropDecisioni((s) => ({ ...s, [r.id || pid]: { decisione: "approva", at: new Date().toISOString() } }));
         if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
       } else {
-        setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: `⚠️ ${r?.error || "Approvazione non riuscita."}` } }));
+        setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: `⚠️ ${r?.error || "Approvazione non riuscita."}` } }));
       }
     } catch {
-      setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: "Errore di rete." } }));
+      setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: "Errore di rete." } }));
     } finally {
       setPropBusy(null);
     }
   }
-  function ignoraProposta(i: number, p: Proposta) {
-    setPropDecise((s) => new Set(s).add(i));
+  function ignoraProposta(_i: number, p: Proposta) {
+    setPropDecise((s) => new Set(s).add(idProposta(p)));
     setPropDecisioni((s) => ({ ...s, [idProposta(p)]: { decisione: "ignora", at: new Date().toISOString() } }));
     // Persistenza best-effort: anche l'Ignora sopravvive a refresh e giri successivi.
     fetch("/api/proposta", {
@@ -274,10 +277,11 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       body: JSON.stringify({ decisione: "ignora", id: idProposta(p), titolo: p.titolo }),
     }).catch(() => {});
   }
-  async function decidiSceltaAB(i: number, p: Proposta, scelta: SceltaAB) {
+  async function decidiSceltaAB(_i: number, p: Proposta, scelta: SceltaAB) {
     const config = normalizzaPropostaSceltaAB(p);
+    const pid = idProposta(p);
     setSceltaBusy(true);
-    setPropBusy(i);
+    setPropBusy(pid);
     try {
       const r = await fetch("/api/scelta-ab", {
         method: "POST",
@@ -296,7 +300,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         }),
       }).then((x) => x.json());
       if (!r?.ok) {
-        setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: r?.error || "Salvataggio fallito." } }));
+        setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: r?.error || "Salvataggio fallito." } }));
         return;
       }
       const dec = r.decisione as DecisioneSceltaSalvata;
@@ -304,16 +308,16 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       const eti = etichettaScelta(config, dec.scelta);
       setPropEsito((s) => ({
         ...s,
-        [i]: {
+        [pid]: {
           ok: true,
           msg: r.giaRegistrata
             ? `✅ Già registrata: ${eti}`
             : `✅ Registrata ${dec.scelta}. L'AD accoda l'esecuzione 🔴 al prossimo giro; la card non tornerà.`,
         },
       }));
-      setPropDecise((s) => new Set(s).add(i));
+      setPropDecise((s) => new Set(s).add(pid));
     } catch {
-      setPropEsito((s) => ({ ...s, [i]: { ok: false, msg: "Errore di rete." } }));
+      setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: "Errore di rete." } }));
     } finally {
       setSceltaBusy(false);
       setPropBusy(null);
@@ -383,7 +387,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }
 
   const daDecidere = azioni.filter((a) => !a.stato).length;
-  const proposteVive = proposte.filter((p, i) => !propDecise.has(i) && !propDecisioni[idProposta(p)]).length;
+  const proposteVive = proposte.filter((p) => !propDecise.has(idProposta(p)) && !propDecisioni[idProposta(p)]).length;
   const daFareTodo = todo.filter((t) => !t.fatto);
   const mosse = intenzioni?.collegato ? intenzioni.prossime_mosse : [];
   const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
@@ -489,9 +493,10 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
             const ab = isPropostaSceltaAB(p);
             const config = ab ? normalizzaPropostaSceltaAB(p) : null;
             const sceltaId = config?.id;
-            const decPersistita = propDecisioni[idProposta(p)];
-            const decisa = propDecise.has(i) || Boolean(decPersistita) || Boolean(ab && sceltaId && scelteDecisioni[sceltaId]?.scelta);
-            const e = propEsito[i];
+            const pid = idProposta(p);
+            const decPersistita = propDecisioni[pid];
+            const decisa = propDecise.has(pid) || Boolean(decPersistita) || Boolean(ab && sceltaId && scelteDecisioni[sceltaId]?.scelta);
+            const e = propEsito[pid];
             const decSalvata = sceltaId ? scelteDecisioni[sceltaId] : undefined;
             const sceltaRegistrata = decSalvata?.scelta;
             return (
@@ -528,14 +533,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                   <div className="mt-3 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
                     <button
                       onClick={() => decidiSceltaAB(i, p, "A")}
-                      disabled={sceltaBusy || propBusy === i}
+                      disabled={sceltaBusy || propBusy === pid}
                       className="inline-flex items-center justify-center gap-1.5 bg-green-600 text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-green-700 active:scale-[0.98] transition disabled:opacity-50"
                     >
-                      {propBusy === i ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} A — {config.opzione_a}
+                      {propBusy === pid ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} A — {config.opzione_a}
                     </button>
                     <button
                       onClick={() => decidiSceltaAB(i, p, "B")}
-                      disabled={sceltaBusy || propBusy === i}
+                      disabled={sceltaBusy || propBusy === pid}
                       className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl border border-red-200 bg-red-50 text-red-800 hover:bg-red-100 active:scale-[0.98] transition disabled:opacity-50"
                     >
                       <XCircle size={15} /> B — {config.opzione_b}
@@ -544,8 +549,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                 )}
                 {!decisa && !ab && (
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <button onClick={() => approvaProposta(i, p)} disabled={propBusy === i} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50">
-                      {propBusy === i ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} Approva
+                    <button onClick={() => approvaProposta(i, p)} disabled={propBusy === pid} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50">
+                      {propBusy === pid ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} Approva
                     </button>
                     <button onClick={() => ignoraProposta(i, p)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
                       <XCircle size={15} /> Ignora
