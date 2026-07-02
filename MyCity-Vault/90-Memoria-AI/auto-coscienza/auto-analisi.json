@@ -1,22 +1,22 @@
 {
-  "data": "2026-07-02 17:01",
-  "voto_fiducia": 83,
+  "data": "2026-07-02 17:21",
+  "voto_fiducia": 82,
   "trend_fiducia": "▼",
-  "sintesi": "Giro 2/7 17:01 (passaggio delta, 8 min dopo le 16:53). Voto 83 (▼ da 84 di poco): giro onesto ma a RENDIMENTO NULLO — nulla di materiale è cambiato in 8 minuti e i dati live restano gated (MCP + node), quindi ho fatto un passaggio minimo (aggiornato timestamp e snapshot, nessun numero nuovo, stallo ~198,6h ricalcolato dall'ancora 24/6). È letteralmente il caso che il delta-gate AR-019 (ancora in-corso) dovrebbe assorbire senza far girare la parte AI pesante: il malus −1 registra proprio questa dispersione. Grounding entità ok (PQ confermato, zombie=PQ, nessuna entità nuova). Nessun errore di grounding.",
+  "sintesi": "Giro 2/7 17:21 (passaggio delta, 12 min dopo la risoluzione della decisione #16 alle 17:09). Voto 82 (▼ da 83): giro onesto e con UNA novità reale da registrare (decisione binaria #16 → Scelta A: esegui, cena 19–21), ma per il resto a rendimento basso — dati live ancora gated (MCP + node), niente numeri nuovi, stallo ricalcolato ~199h dall'ancora 24/6. Il malus −1 registra la ripartenza del giro a orario ravvicinato senza nuovi dati (è il caso che il delta-gate AR-019, ancora in-corso, dovrebbe assorbire senza far girare la parte AI pesante). Grounding entità ok: Pane Quotidiano confermato, zombie = ordine PQ, nessuna entità nuova introdotta. Nessun errore di grounding.",
   "verifiche": {
-    "entita": "ok (Pane Quotidiano confermato; nessuna entità nuova introdotta; zombie = ordine PQ)",
-    "numeri": "parziale — baseline REST 10:19 portata avanti, live non ri-pullati (MCP/node gated); stallo ricalcolato da ancora 24/6; tutto dichiarato nei Gap",
-    "coerenza": "ok (allineato AZIONI-IN-ATTESA #16/#20-22, intenzioni-nicola, cantiere)",
-    "semaforo": "ok (nessuna 🔴 nuova oltre la decisione binaria #16 e R1 già in coda)",
+    "entita": "ok (Pane Quotidiano confermato; zombie = ordine PQ €19,05 del 24/6; nessuna entità nuova; Casa Linda resta demo esclusa)",
+    "numeri": "parziale — baseline REST 10:19 portata avanti, live non ri-pullati (MCP/node gated); stallo ~199h ricalcolato dall'ancora 24/6; tutto dichiarato nei Gap",
+    "coerenza": "ok (STATO, ultimo-briefing, intenzioni-nicola, briefing tutti allineati alla decisione #16 = esegui, cena 19–21)",
+    "semaforo": "ok (nessuna 🔴 nuova; la decisione binaria è risolta, restano #20–#22 esecuzione manuale + R1/SQL107 già in coda)",
     "qualita": "ok",
     "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
   },
   "errori": [],
   "domande_per_nicola": [
     {
-      "domanda": "Eseguo #16 stasera (cena 18–20) o archivio l'ordine zombie?",
-      "perche_serve": "ok 16 firmato 08:38 ma non eseguito in ~8h; pranzo perso; stallo ~198,5h. Serve una scelta, non un altro sollecito.",
-      "se_rispondi": "Esegui #20→#22 → «consegna fatta»; oppure «archivia zombie» → focus payout-test 3/7 + batch 6/7.",
+      "domanda": "Stasera 19–21 apri il link WhatsApp #20 e fai partire #20→#21→#22 fino a «consegna fatta»?",
+      "perche_serve": "Decisione già presa (esegui): manca solo l'unica azione manuale che sblocca 8 giorni di stallo (~199h). Tutto il pacchetto è pronto.",
+      "se_rispondi": "Prima transazione MyCity chiusa; North Star da 0→1.",
       "gravita": "alta"
     },
     {
@@ -27,23 +27,23 @@
     }
   ],
   "punti_ciechi": [
-    "7 numeri live 17:01 non ri-pullati (MCP Supabase + comandi node gated in questa sessione) — baseline REST 10:19 portata avanti",
-    "Delta-gate AR-019 non ancora attivo: il giro è ripartito a 8 min dal precedente senza nulla di nuovo (dispersione da chiudere)",
-    "verifica-automazione.mjs / sonda-volano.mjs non eseguibili qui (approvazione negata)",
-    "Esecuzione #16: nessun segnale «consegna fatta» nel log, ma nessuna conferma DB live",
+    "7 numeri live 17:21 non ri-pullati (MCP Supabase + comandi node gated in questa sessione) — baseline REST 10:19 portata avanti",
+    "Delta-gate AR-019 non ancora attivo: giro ripartito a 12 min dal precedente con una sola novità (decisione #16)",
+    "verifica-automazione.mjs / sonda-volano.mjs non eseguibili qui (approvazione negata); ultimo verde 10:19; sync commit 17:00/17:12",
+    "Esecuzione #16: nessun segnale «consegna fatta» nel log, nessuna conferma DB live",
     "Stripe / PostHog / Resend non collegati (non_configurato)",
     "Web live (meteo cena, status, sentiment) non ricontrollato questo passaggio"
   ],
   "miglioramenti_prossimo_giro": [
-    "Al primo giro VPS con node abilitato: ri-pullare i 7 numeri live e confermare/aggiornare la baseline",
-    "Verificare se #16 è stato eseguito o archiviato → aggiornare North Star",
-    "Se il micro-task manuale resta bloccato, proporre a Nicola una modalità di esecuzione diversa (non ripetere il sollecito identico)"
+    "Al primo giro VPS con node abilitato: ri-pullare i 7 numeri live e confermare/aggiornare la baseline REST",
+    "Verificare se #16 è stato eseguito stasera → aggiornare North Star (0→1 se consegnato)",
+    "Se il micro-task manuale resta bloccato anche dopo la decisione, proporre a Nicola una modalità di esecuzione più semplice (link one-tap in cima al Pannello)"
   ],
   "salute_macchina": {
     "supabase": "ok",
-    "supabase_marketplace": "REST ok (ledger 16:51) · MCP cieco/gated in sessione",
+    "supabase_marketplace": "REST ok (ledger 17:20) · MCP cieco/gated in sessione",
     "supabase_memoria": "scrittura via git memoria-ad",
-    "automazione_vps": "non ri-verificato questo passaggio (ultimo verde 10:19; sync 16:44/16:49)",
+    "automazione_vps": "non ri-verificato questo passaggio (ultimo verde 10:19; sync commit 17:00/17:12)",
     "stripe": "giù",
     "posthog": "non collegato",
     "dati_freschi": false,

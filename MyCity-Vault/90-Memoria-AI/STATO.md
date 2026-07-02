@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 17:09
+aggiornato: 2026-07-02 17:21
 fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabase clmpyfvpvfjgeviworth · stallo ricalcolato da ancora 24/6)
 ---
 
@@ -23,7 +23,7 @@ fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabas
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · ok 16 firmato 08:38 · **Scelta A 17:09 = esegui (cena 19–21)** |
 | Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~198,5h** |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~199h** |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 |
 
@@ -51,18 +51,19 @@ fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabas
 ## Semafori
 - 🟢 Va bene: REST OK; automazione tutto verde 10:19; meteo consegna OK pranzo; Sprint 1 LIVE; **#19 ruoli LIVE**; ok 16 approvato; memoria POST briefings OK; token GitHub push mycity OK.
 - 🟡 Da tenere d'occhio: **#16 Scelta A confermata — esegui CENA 19–21** (passi #20–#22 manuali, tap link WhatsApp); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
-- 🔴 Problema: **0 transazioni reali** — stallo **~198,5h** (+30,5h oltre 168h); pranzo perso ma **decisione presa (esegui, non archivia)** → finestra cena aperta; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
+- 🔴 Problema: **0 transazioni reali** — stallo **~199h** (+31h oltre 168h); pranzo perso ma **decisione presa (esegui, non archivia)** → finestra cena 19–21 aperta; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
-## Auto-coscienza (2026-07-02 16:53 · giro AD)
+## Auto-coscienza (2026-07-02 17:21 · giro AD)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Voto salute architettura | **42** (completa 12:09) | `auto-radiografia.json` top-level |
-| Voto fiducia giro | **84** ▼ | `auto-analisi.json` (malus: pranzo perso, esecuzione bloccata) |
+| Voto fiducia giro | **82** ▼ | `auto-analisi.json` (malus: giro delta a rendimento basso, live gated) |
 | Cantiere difetti | **18 chiusi · 4 in-corso · 0 aperti** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 17/17** | calibrazione.json |
 | Loop business | 🔴 in corso | ok 16 firmato ma non eseguito tutta la giornata (pranzo perso) |
 
 ## Ultime mosse dell'AD
+0. **Giro 2/7 17:21** — delta 12 min dopo la decisione #16: registrato stato «esegui», stallo ricalcolato **~199h**, timestamp/snapshot aggiornati. Live gated (MCP/node), baseline REST 10:19 avanti, nessun numero nuovo.
 1. **Decisione binaria #16 2/7 17:09** — Nicola **Scelta A (esegui, non archivia)** dal Pannello · slot → **cena 19–21** · #20–#22 attive · pacchetto + DECISIONI + coda aggiornati · card da non rigenerare.
 2. **Giro 2/7 17:01** — delta 8 min: nulla di nuovo, stallo ~198,6h · decisione binaria stasera (poi risolta 17:09). Live gated, baseline REST portata avanti.
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
@@ -78,7 +79,7 @@ fonte: AD digitale (7 numeri = baseline REST 2/7 10:19 portata avanti · Supabas
 4. [ ] 🟡 **R2 — Merge+deploy fix cantiere** (branch machine-analysis)
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~198,5h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+30,5h) · loop business 🔴 · voto salute architettura 42 (<60, completa già fatta 12:09).
+**Sentinelle attive:** ordine ritardo ~199h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+31h) · loop business 🔴 · voto salute architettura 42 (<60, completa già fatta 12:09).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

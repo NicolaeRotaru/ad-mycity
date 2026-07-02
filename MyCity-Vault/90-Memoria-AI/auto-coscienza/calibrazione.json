@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 10:19",
+  "aggiornato": "2026-07-02 17:21",
   "per_reparto": [
-    {"reparto": "@AD", "previsioni": 17, "azzeccate": 17, "punteggio": 1.0, "autonomia": "media", "nota": "Stallo +1,8h post-ok 16 prevedibile; 0 transazioni finché #20–#22 non eseguiti."}
+    {"reparto": "@AD", "previsioni": 17, "azzeccate": 17, "punteggio": 1.0, "autonomia": "media", "nota": "17:21: nessuna nuova previsione misurabile (live gated). Previsione aperta: 0 transazioni finché #20–#22 non eseguiti a mano — da verificare al primo giro con node abilitato."}
   ],
   "registro": [
     {"data": "2026-07-02 10:19", "reparto": "@AD", "previsione": "7 numeri = vs 08:36, stallo +1,8h (~191,9h), 0 consegnati nonostante ok 16", "esito": "confermato", "fonte": "REST live + verifica-automazione"},

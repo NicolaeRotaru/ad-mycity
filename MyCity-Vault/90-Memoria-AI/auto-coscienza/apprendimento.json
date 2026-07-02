@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-02 17:01",
-  "aggiornato": "2026-07-02 17:01",
+  "data": "2026-07-02 17:21",
+  "aggiornato": "2026-07-02 17:21",
   "lezioni": [
     {
       "id": "L-2026-0702-48",
-      "testo": "**Delta-gate mancante = giri a rendimento nullo (passaggio 2/7 17:01, 8 min dopo le 16:53):** il giro è ripartito a orario/comando senza NULLA di materiale cambiato (stessi 7 numeri, dati live gated, stallo +0,1h) e ha comunque riscritto snapshot e auto-analisi. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera) e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto anche 29/6 con L-2026-0629-03).",
+      "testo": "**Delta-gate mancante = giri a rendimento basso (passaggi 2/7 17:01 e 17:21):** il giro è ripartito a orario/comando con novità minima (17:01 nulla; 17:21 la sola decisione #16 già catturata in STATO/ultimo-briefing alle 17:09) e ha comunque riscritto snapshot e auto-analisi, coi sensori live gated. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera + delta 'cosa è cambiato') e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto 29/6 L-2026-0629-03, 2/7 17:01, 2/7 17:21).",
       "tag": [
         "delta-gate",
         "efficienza-costo",
@@ -13,8 +13,8 @@
         "dispersione"
       ],
       "reparto": "@AD",
-      "confidenza": 0.83,
-      "evidenze": 2,
+      "confidenza": 0.86,
+      "evidenze": 3,
       "fonte": "auto-analisi",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",

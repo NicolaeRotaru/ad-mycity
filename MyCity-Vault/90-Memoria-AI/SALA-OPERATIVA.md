@@ -469,3 +469,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 17:09 · @AD · FATTO · Registrata in [[DECISIONI]] (🔴) · coda #16/#20 aggiornata (slot → cena 19–21) · STATO aggiornato · pacchetto `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md` riadattato a cena · **card decisione binaria da NON rigenerare** al prossimo giro.
 - 2026-07-02 17:09 · @operations · FACCIO · Esecuzione Scelta A: passi #20 (WhatsApp buyer 348 642 1766, slot cena 19–21) → #21 (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601) → #22 (consegna COD €19,05). ⚠️ verificare orario chiusura Pane Quotidiano prima di chiamare.
 - 2026-07-02 17:09 · @operations · SERVE · Nicola (mano reale): **tap link WhatsApp #20** (in pacchetto ok16 § PASSO 1) → poi accetta ordine → consegna COD → scrivi **«consegna fatta»** (attiva concierge A13/A14).
+
+### 2026-07-02 17:21 — Giro AD (delta post-decisione #16)
+- 2026-07-02 17:21 · @AD · FATTO · Giro delta: registrato stato «esegui» (#16 risolta 17:09), stallo ricalcolato ~199h, aggiornati STATO · briefing 2/7 (passaggio 17:21 in cima) · ultimo-briefing.json · intenzioni-nicola.json · registro-realtà · auto-analisi (voto 82 ▼).
+- 2026-07-02 17:21 · @AD · SERVE · Nicola: **stasera 19–21 tap link WhatsApp #20** → #21 → #22 → «consegna fatta» (unica azione che sblocca ~199h di stallo). In parallelo: R1 revoca PAT GitHub.
+- 2026-07-02 17:21 · @analista · FATTO · Live gated (MCP/node): 7 numeri = baseline REST 10:19 portata avanti, nessun numero nuovo (dichiarato nei Gap del briefing).
