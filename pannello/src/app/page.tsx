@@ -698,14 +698,16 @@ export default function Dashboard() {
       copia[i] = { role: "assistant", content };
       return copia;
     }
-    // Il polling in background può aver già sostituito la bolla pending: aggiorna l'ultima
-    // risposta assistant invece di accodare un duplicato.
-    for (let j = prev.length - 1; j >= 0; j--) {
-      const m = prev[j];
-      if (m.role !== "assistant" || m.prompt) continue;
-      if (m.content === content) return prev;
+    // Nessuna bolla pending (es. si è cambiata chat e si è tornati): guarda SOLO l'ultimo
+    // messaggio reale. Se è già una risposta identica → dedup del polling; se è una risposta
+    // diversa (il polling aveva sostituito il pending) → aggiornala; se l'ultimo è la domanda
+    // dell'utente → ACCODA la risposta. Mai sovrascrivere la risposta di un turno precedente
+    // (era il bug: il loop all'indietro saltava la domanda e cancellava la risposta vecchia).
+    const last = prev[prev.length - 1];
+    if (last && last.role === "assistant" && !last.prompt) {
+      if (last.content === content) return prev;
       const copia = [...prev];
-      copia[j] = { role: "assistant", content };
+      copia[copia.length - 1] = { role: "assistant", content };
       return copia;
     }
     return [...prev, { role: "assistant", content }];
@@ -1181,21 +1183,46 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => clearInterval(id);
   }, [caricaStato, caricaMetriche]);
 
-  // 🧭 Vista persistente: al refresh del browser NON tornare alla Plancia, ripristina l'ultima area.
+  // 🧭 Vista persistente + cronologia del browser (il tasto INDIETRO torna all'area precedente
+  // invece di uscire dal Pannello). Non tocchiamo URL/hash: usiamo solo lo state della history,
+  // per non interferire con la navigazione a hash delle aree interne.
   const vistaPrimaVolta = useRef(true);
+  const ultimaVistaStoria = useRef<string | null>(null);
+  const applicaVistaSalvata = (v: string) => {
+    if (v === "storico") {
+      setVista("assistente");
+      setAssistenteTab("storico");
+    } else if (v === "auto-coscienza") {
+      setVista("cervello"); // valore legacy: l'area della radiografia/auto-coscienza è "cervello"
+    } else {
+      setVista(v as Vista);
+    }
+  };
   useEffect(() => {
     try {
       const v = localStorage.getItem("mycity_vista");
-      if (v === "storico") {
-        setVista("assistente");
-        setAssistenteTab("storico");
-      } else if (v) setVista(v as Vista);
+      if (v) applicaVistaSalvata(v);
     } catch {}
   }, []);
   useEffect(() => {
-    if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; return; } // salta il montaggio
+    if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; ultimaVistaStoria.current = vista; return; } // salta il montaggio
     try { localStorage.setItem("mycity_vista", vista); } catch {}
+    // Aggiunge una voce alla cronologia: così INDIETRO torna qui invece di lasciare il Pannello.
+    if (ultimaVistaStoria.current !== vista) {
+      try { window.history.pushState({ vista }, ""); } catch {}
+      ultimaVistaStoria.current = vista;
+    }
   }, [vista]);
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const v = (e.state && (e.state as { vista?: string }).vista) || null;
+      if (!v) return;
+      ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
+      applicaVistaSalvata(v);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
   // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
@@ -1464,7 +1491,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== PLANCIA ===================== */}
         {vista === "plancia" && (
-          <Plancia metriche={metriche} briefing={briefing} onVaiA={(a) => setVista(a as typeof vista)} />
+          <Plancia metriche={metriche} briefing={briefing} onVaiA={(a) => applicaVistaSalvata(a)} />
         )}
 
         {/* ===================== AZIONI (corsia operativa) ===================== */}

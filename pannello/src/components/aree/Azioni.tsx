@@ -152,6 +152,16 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     return d;
   }, []);
 
+  // Fetch "di contorno" (intenzioni/todo/alert/scelte/proposte): estratti così si possono
+  // ricaricare periodicamente insieme a carica(), non solo al montaggio.
+  const caricaContorno = useCallback(() => {
+    fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((i) => setIntenzioni(i)).catch(() => {});
+    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((t) => { setTodo(t.items || []); setTodoSalva(Boolean(t.salvataggio)); }).catch(() => {});
+    fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((a) => setAlerts(a.alert || [])).catch(() => {});
+    fetch("/api/scelta-ab", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setScelteDecisioni(d.decisioni); }).catch(() => {});
+    fetch("/api/proposta", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setPropDecisioni(d.decisioni); }).catch(() => {});
+  }, []);
+
   useEffect(() => {
     (async () => {
       const d = await carica();
@@ -161,22 +171,24 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       }
       setLoading(false);
     })();
-    fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((i) => setIntenzioni(i)).catch(() => {});
-    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((t) => { setTodo(t.items || []); setTodoSalva(Boolean(t.salvataggio)); }).catch(() => {});
-    fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((a) => setAlerts(a.alert || [])).catch(() => {});
-    fetch("/api/scelta-ab", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.decisioni) setScelteDecisioni(d.decisioni);
-      })
-      .catch(() => {});
-    fetch("/api/proposta", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.decisioni) setPropDecisioni(d.decisioni);
-      })
-      .catch(() => {});
-  }, [carica]);
+    caricaContorno();
+  }, [carica, caricaContorno]);
+
+  // Freschezza: l'area Azioni resta aperta a lungo → ricarica ogni 60s e al ritorno sulla scheda,
+  // così ciò che è già stato fatto/approvato (anche da un altro dispositivo o dal worker) non
+  // resta stantio e le novità compaiono senza dover cambiare area.
+  useEffect(() => {
+    const ricarica = () => { carica(); caricaContorno(); };
+    const id = setInterval(ricarica, 60000);
+    const onVis = () => { if (document.visibilityState === "visible") ricarica(); };
+    window.addEventListener("focus", ricarica);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("focus", ricarica);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [carica, caricaContorno]);
 
   // Salto da un'altra area (Plancia → #azioni-mosse): apri la scheda giusta.
   useEffect(() => {
