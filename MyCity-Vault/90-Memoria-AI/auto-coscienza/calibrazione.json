@@ -1,7 +1,53 @@
 {
-  "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-28 00:35",
-  "per_reparto": [],
-  "registro": [],
+  "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-07-02 11:55",
+  "per_reparto": [
+    {
+      "reparto": "@operations",
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@vendite",
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "autonomia": "bassa"
+    }
+  ],
+  "registro": [
+    {
+      "id": "CAL-20260702095539-operat",
+      "reparto": "@operations",
+      "azione": "Sbloccare l'ordine zombie €19,05 (accetta o annulla con nota al buyer)",
+      "metrica": "ordini_pagati",
+      "atteso": 1,
+      "reale": null,
+      "entro": "2026-07-09",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "1 ordine COD PENDING/NEW da giorni (Pane Quotidiano) — fonte registro-realta",
+      "creato": "2026-07-02 11:55",
+      "chiuso_il": ""
+    },
+    {
+      "id": "CAL-20260702095539-vendit",
+      "reparto": "@vendite",
+      "azione": "Portare Casa Linda LIVE: 1 prodotto vero → ordine-test → payout",
+      "metrica": "negozi_live",
+      "atteso": 1,
+      "reale": null,
+      "entro": "2026-07-12",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "Casa Linda payout-ready (stripe_payouts_enabled=true) — fonte registro-realta",
+      "creato": "2026-07-02 11:55",
+      "chiuso_il": ""
+    }
+  ],
   "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale."
 }
