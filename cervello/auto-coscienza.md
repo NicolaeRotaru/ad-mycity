@@ -115,9 +115,16 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ### `cantiere-difetti.json` (asse ②) · `storico-salute.json` · `watchlist-riferimenti.json`
 ```json
 { "aggiornato":"…","difetti":[{"id":"AR-001","titolo":"…","dimensione":"…","gravita":"…","impatto_crescita":"alto|medio|basso",
-    "causa_radice":"…","fix_proposto":"…","colore":"🟡","stato":"aperto|in-corso|chiuso","nato":"AAAA-MM-GG","chiuso_il":""}],
+    "causa_radice":"…","fix_proposto":"…","colore":"🟡","stato":"aperto|in-corso|chiuso","nato":"AAAA-MM-GG","chiuso_il":"",
+    "verifica":{"file":"cervello/x.mjs","pattern":"regex","presente":true}}],
   "meta":{"aperti":0,"in_corso":0,"chiusi":0} }
 ```
+> ⚠️ **`verifica` è OBBLIGATORIO (AR-023):** è la prova machine-checkable che permette a `auto-fix.mjs` di
+> chiudere il difetto da solo quando il fix entra nel codice (girato a ogni giro + a ogni allineamento a main,
+> poi pubblicato su `memoria-ad` → il Pannello lo vede chiuso). `{"file","pattern","presente"}` se provabile dal
+> codice (`presente:false` = risolto quando il pattern sparisce); `{"tipo":"umano"}` se dipende da chiavi/firma di
+> Nicola. Un difetto senza `verifica` non si chiuderà mai da solo — è l'anello rotto che teneva AR-009/019 «in-corso».
+
 ```json
 { "serie":[{"data":"AAAA-MM-GG","voto_salute":0,"difetti_aperti":0,"difetti_chiusi":0,"tipo":"completa|sonda"}] }
 ```

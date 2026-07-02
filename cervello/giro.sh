@@ -158,6 +158,12 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+  # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
+  # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
+  # NON dipende dal motore AI: il sync di fine giro la pubblica su memoria-ad → il Pannello (che legge
+  # quel ramo) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
+  echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
+  node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
 fi
 
 # AR-019: DELTA-GATE — "niente di nuovo → salta il giro pesante". Confronta lo stato reale
