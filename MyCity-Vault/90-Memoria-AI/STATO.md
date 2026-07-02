@@ -39,13 +39,13 @@ fonte: AD digitale (7 numeri = live REST 2/7 08:38 · Supabase clmpyfvpvfjgeviwo
 | `esegui-azione.mjs verifica` | ✅ 7/7 | doppio cancello ingresso + pre-invio |
 | Worker `NICOLA_FIRMA=1` | ✅ in repo | solo job post-Approva Pannello |
 | Autopilot | ✅ solo 🟢 | secondo gate guardrail |
-| Deploy marketplace Render | ✅ Sprint 1 LIVE ~10:31 | GitHub→Render auto · #19 via chat `ok merge` |
+| Deploy marketplace Render | ✅ Sprint 1 LIVE ~10:31 · **#19 ruoli LIVE ~08:40** | GitHub→Render auto · PR #211 `f84fc70` merged 2/7 08:40 |
 | Deploy `main` Pannello + VPS sync | 🟡 **parziale** | ok 17 ✅ · install sudoers **⏳ 1× root** |
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | AZIONI_LIVE=1 su worker (merge LIVE) |
 
 ## Semafori
-- 🟢 Va bene: REST OK; automazione tutto verde 08:36; meteo consegna OK oggi pranzo; Sprint 1 LIVE; Scelta A firmata; memoria POST briefings OK; token GitHub push mycity OK; branch #19 su clone marketplace.
-- 🟡 Da tenere d'occhio: **#16 IN ESECUZIONE** (ok 16 08:38 — passi manuali #20–#22); **#19 deploy ruoli**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
+- 🟢 Va bene: REST OK; automazione tutto verde 08:36; meteo consegna OK oggi pranzo; Sprint 1 LIVE; **#19 ruoli merged 08:40** (Render deploy in corso); Scelta A firmata; memoria POST briefings OK; token GitHub push mycity OK.
+- 🟡 Da tenere d'occhio: **#16 IN ESECUZIONE** (ok 16 08:38 — passi manuali #20–#22); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali** — stallo **190,1h** (+22,1h oltre 168h); loop business 🔴 (0 consegnati); RLS profiles finché non gira SQL 107.
 
 ## Auto-coscienza (2026-07-02 08:36 · giro AD)
@@ -59,17 +59,17 @@ fonte: AD digitale (7 numeri = live REST 2/7 08:38 · Supabase clmpyfvpvfjgeviwo
 | Loop business | 🔴 in corso | #16 ok 16 approvato · 0 consegnati finché non chiude #22 |
 
 ## Ultime mosse dell'AD
-1. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
-2. **Giro 2/7 08:36** — KPI live REST stallo 190,1h. Automazione verde. Meteo OK #16 pranzo.
-3. **Giro 2/7 08:20** — Stesse priorità, stallo 189,9h.
+1. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli admin/seller.
+2. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+3. **Giro 2/7 08:36** — KPI live REST stallo 190,1h. Automazione verde. Meteo OK #16 pranzo.
 4. **Chat 2/7 08:16** — Chiarito Render vs GitHub PAT (#19).
-5. **Chat 2/7 07:35** — Fix ruoli admin/seller → branch + #19 accodato 🔴.
+5. **Chat 2/7 07:35** — Fix ruoli admin/seller → branch + #19 accodato.
 
-## Prossime priorità (2/7 08:38 · ok 16 approvato)
-**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** (#16 in esecuzione) + deploy ruoli (#19) + SQL 107.
+## Prossime priorità (2/7 08:40 · #19 merged)
+**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** (#16 in esecuzione) + smoke #19 + SQL 107.
 
 1. [ ] ⏳ **#16 IN ESECUZIONE** — passi #20 WhatsApp · #21 dashboard+negozio · #22 COD → scrivi «consegna fatta»
-2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — **`ok merge fix ruoli-acquisto`**
+2. [x] ✅ **#19 — Deploy fix ruoli acquisto** — merged PR #211 · Render ~2–5 min · smoke @qa
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s)
 4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta; **dopo** #16+#19+SQL

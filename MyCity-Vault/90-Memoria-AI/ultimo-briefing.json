@@ -1,28 +1,23 @@
 {
-  "data": "2026-07-02 08:38",
-  "situazione": "Stallo **190,1h** — **ok 16 APPROVATO** (08:38): esecuzione #16 pranzo avviata. Automazione tutto verde. Meteo sereno 20–31°C. Branch #19 fix ruoli pronto. Proposta ok-16 **NON riproporre**.",
+  "data": "2026-07-02 08:40",
+  "situazione": "Stallo **190,1h** — **ok 16 IN ESECUZIONE** (08:38) · **#19 MERGED** (08:40 PR #211 → Render deploy ~2–5 min). Automazione verde. Meteo sereno 20–31°C. Proposte ok-16 e ok-merge-#19 **NON riproporre**.",
   "opportunita": [
-    {
-      "titolo": "Deploy #19 fix ruoli acquisto",
-      "motivo": "Nicola 2/7 07:35 · branch locale pronto · Render auto post-merge GitHub",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
     {
       "titolo": "SQL 107 (30 secondi)",
       "motivo": "Unico bloccante RLS post-Sprint 1 LIVE",
       "impatto": "alto",
       "sforzo": "basso"
-    }
-  ],
-  "azioni": [
+    },
     {
-      "titolo": "ok merge fix ruoli-acquisto — deploy #19 marketplace",
-      "motivo": "Admin zero acquisti · seller solo opt-in marketplace",
-      "livello": "rosso"
+      "titolo": "Completare #16 pranzo",
+      "motivo": "Passi manuali #20–#22 — prima transazione MyCity",
+      "impatto": "alto",
+      "sforzo": "medio"
     }
   ],
+  "azioni": [],
   "decisioni_registrate": [
-    "proposta:ok-16-ordine-zombie-19-05-whatsapp-consegna-cod-"
+    "proposta:ok-16-ordine-zombie-19-05-whatsapp-consegna-cod-",
+    "proposta:ok-merge-fix-ruoli-acquisto-deploy-19-marketplac"
   ]
 }

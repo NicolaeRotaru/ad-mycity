@@ -46,7 +46,7 @@
 
 ## Deploy
 
-🟡 **Nicola:** `ok merge fix/ruoli-acquisto-admin-seller` → PR su `mycity` → anteprima Render → ok → produzione.
+✅ **ESEGUITO 2026-07-02 08:40** — Nicola **`ok merge fix ruoli-acquisto`** · PR **#211** → `main` **`f84fc70`** · Render auto-deploy · PR doc: `consegne/tech/pr-mycity-211.md`
 
 **Test rapido post-deploy:**
 1. Login admin → apri prodotto → «Aggiungi» → toast blocco; checkout API 403.

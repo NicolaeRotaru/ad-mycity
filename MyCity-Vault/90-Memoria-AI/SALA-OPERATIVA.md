@@ -434,3 +434,11 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 08:38 · @operations · PASSO-A @supporto · Assistenza Nicola su dashboard PQ + chiamata negozio 0523 388601 (script A6)
 - 2026-07-02 08:38 · @operations · PASSO-A @customer-success · Post-consegna: A13 feedback + A14 recensione (attivare con «consegna fatta»)
 - 2026-07-02 08:38 · @AD · SERVE · Nicola: **tap link WhatsApp ORA** → quando consegnato scrivi **«consegna fatta»**
+
+### 2026-07-02 — ok merge #19 approvato (Nicola Pannello 08:40)
+- 2026-07-02 08:40 · @Nicola · FATTO · **`ok merge fix ruoli-acquisto — deploy #19 marketplace`**
+- 2026-07-02 08:40 · @tech · FATTO · Commit 14 file su branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · push GitHub · PR **#211** creata · merge su `main` **`f84fc70`** · Render auto-deploy (~2–5 min)
+- 2026-07-02 08:40 · @AD · FATTO · Registrata in [[DECISIONI]] · #19 → ✅ MERGED · proposta ok-merge-#19 **NON riproporre** · artefatti: `consegne/tech/pr-mycity-211.md` · smoke `consegne/qa/2026-07-02-smoke-ruoli-acquisto-post-19.md`
+- 2026-07-02 08:40 · @qa · FACCIO · Smoke post-deploy: admin 403 checkout · seller redirect senza cookie · buyer OK (checklist pronta)
+- 2026-07-02 08:40 · @crm-lifecycle · PASSO-A · Recovery carrello samir **dopo smoke #19 verde** (unico buyer reale)
+- 2026-07-02 08:40 · @AD · SERVE · Nicola: **#16 passi #20–#22** (pranzo) · **SQL 107** (~30s) · **root sync VPS**
