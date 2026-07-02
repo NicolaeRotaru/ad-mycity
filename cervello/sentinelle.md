@@ -32,6 +32,7 @@
 | Costo AI della squadra vs budget | >+20% | prompt-engineer | sposta i compiti sull'AI economica | 🔴 |
 | Voto salute architettura (auto-radiografia) | < 60 | AD | accoda + lancia la radiografia completa di sé | 🟡 |
 | Volano aperto (tasso_applicazione lezioni) | < 0.3 per 3 giri | AD | radiografia completa: il loop non chiude | 🟡 |
+| Sensore dati cieco (REST o MCP) | ≥ 3 giri consecutivi (`sensori-cecita.json`) | AD | verifica `.env` + retry; se REST ok usa fallback; altrimenti passaggio minimo | 🟡 |
 | Giorni dall'ultima radiografia completa di sé | > 10 | AD | esegui `.claude/workflows/auto-radiografia.js` | 🟡 |
 | Difetto BLOCCANTE di sé (es. 🔴 che sfugge, segreto esposto) | qualsiasi | AD/security | **allerta immediata** a Nicola (Telegram/push) + blocca | 🔴 |
 

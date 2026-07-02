@@ -18,10 +18,15 @@ Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 >   (scriverli su un solo ramo, `memoria-ad`).
 
 Passi:
-1. Leggi i dati reali del marketplace (Supabase MCP, sola lettura): ordini e
-   incassi degli ultimi 7 giorni, nuovi clienti, consegne in corso/in ritardo,
-   carrelli abbandonati, recensioni. Se il Supabase MCP non è disponibile, dillo
-   e lavora su ciò che hai, segnalando che servono i dati.
+0. **SENSORI & VOLANO (deterministico — già eseguito da giro.sh prima di te):** leggi
+   `MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json` e il blocco `sonda` di
+   `auto-radiografia.json`. Segui `istruzioni_giro` del sensore. Se MCP Supabase/Stripe sono
+   ciechi in sessione, rialimenta il contatore con
+   `node cervello/verifica-sensori.mjs --mcp-supabase=ok|cieco [--mcp-stripe=ok|cieco]`.
+1. Leggi i dati reali del marketplace (**priorità:** REST da `verifica-sensori.mjs` se
+   `supabase_rest` ok → `MARKETPLACE_SUPABASE_*`; altrimenti Supabase MCP con **3 retry** a 30s;
+   se entrambi ciechi → baseline STATO + Gap, niente numeri inventati): ordini e incassi ultimi
+   7 giorni, nuovi clienti, consegne in corso/in ritardo, carrelli abbandonati, recensioni.
 2. Controlla le SENTINELLE (`cervello/sentinelle.md`) contro i dati interni: se
    un segnale supera la soglia, agisci nei 🟢 e allerta sui 🟡/🔴.
    In più, AUTOCONTROLLO AUTOMAZIONE: esegui `node cervello/verifica-automazione.mjs --json`
@@ -180,13 +185,14 @@ Passi:
     @intelligence + watchlist), misura il divario con **obiettivo e progresso**, ≥3 varianti dai senior,
     torneo+critico, peer-review; scrivi `auto-coscienza/auto-miglioramento.json`.
 14. 🩻 SONDA DI AUTO-RADIOGRAFIA (esegui la parte «sonda leggera» di `cervello/auto-radiografia.md`):
-    controllo deterministico dei **4 invarianti del volano** (loop chiude? `tasso_applicazione`>0? giro a
-    cadenza? sentinelle scattano?). Aggiorna il blocco `sonda` di `auto-coscienza/auto-radiografia.json` e
-    aggiungi uno snapshot a `storico-salute.json`. Se un invariante è rotto o sono passati >10 giorni
-    dall'ultima radiografia completa → accoda 🟡 «serve la radiografia completa» e fai scattare la sentinella.
-    Avanza il **cantiere** (`cantiere-difetti.json`): proponi 🟡 il fix di **un** difetto aperto a maggior
-    impatto sulla crescita. (La radiografia COMPLETA — workflow `.claude/workflows/auto-radiografia.js` — è
-    settimanale in `ritmo.md` o su comando «radiografia di te stesso».)
+    **Prima** riesegui `node cervello/sonda-volano.mjs --json` (🟢) per aggiornare i 4 invarianti.
+    Poi verifica coerenza col lavoro del giro: loop chiude? `tasso_applicazione`>0? giro a cadenza?
+    sentinelle scattano (cecità sensori ≥3 giri)? Se `serve_radiografia_completa` o >10 giorni
+    dall'ultima completa → accoda 🟡 «serve la radiografia completa» e fai scattare la sentinella.
+    Avanza il **cantiere** (`cantiere-difetti.json`): **chiudi** i difetti il cui fix è in repo
+    (es. AR-001 retry/fallback, AR-003 contatore cecità) e proponi 🟡 il fix del prossimo aperto.
+    (La radiografia COMPLETA — workflow `.claude/workflows/auto-radiografia.js` — è settimanale in
+    `ritmo.md` o su comando «radiografia di te stesso».)
 
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.
