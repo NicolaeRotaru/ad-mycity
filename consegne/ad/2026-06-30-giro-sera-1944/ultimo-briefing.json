@@ -1,0 +1,16 @@
+{
+  "data": "2026-06-30 19:44",
+  "situazione": "Giro serale 30/6: 7 numeri RIVERIFICATI live via REST (MCP cieco ma DB risponde). Business invariato — stallo ~153h, 0 pagati/consegne/payout. Casa Linda payout-ready; ordine zombie €19,05 fermo. Meteo: pioggia da 1/7; VP 3/7 (49 eventi) comodo per presidio QR. Kit bando ER scritto.",
+  "opportunita": [
+    {"titolo": "Prima transazione Casa Linda", "motivo": "Unico payout-ready — uscita dallo zero in 1 giorno", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Venerdì Piacentini 3/7 + QR", "motivo": "49 eventi, sera fresca, ~50-60k persone", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Bando ER kit pronto (20 giorni)", "motivo": "40% fondo perduto — leva onboarding", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Pioggia 1/7 leva delivery", "motivo": "Instabilità meteo spinge consegna a casa", "impatto": "medio", "sforzo": "basso"}
+  ],
+  "azioni": [
+    {"titolo": "Forzare prima transazione Casa Linda", "motivo": "Stallo 153h — unico negozio payout-ready", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Buyer nel limbo da 153h", "livello": "rosso"},
+    {"titolo": "Firmare 3 decisioni lancio", "motivo": "Sblocca Stripe/commissioni/fee", "livello": "rosso"},
+    {"titolo": "Approvare kit Bando ER", "motivo": "consegne/vendite/kit-bando-er-mycity.md pronto", "livello": "giallo"}
+  ]
+}

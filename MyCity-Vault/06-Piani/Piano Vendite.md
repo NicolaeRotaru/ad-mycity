@@ -7,6 +7,8 @@
 
 > 🔑 **Regola d'oro vendite:** acquisizione DENSA, mai dispersa. Solo cluster centro contiguo (300-500 m). Ogni richiesta fuori cluster → **lista d'attesa per quartiere**, non si firma.
 
+> 📌 **Aggiornamento AD 2026-06-29 11:30** — Nuova leva di onboarding urgente: **Bando Commercio ER** (40% fondo perduto, scade **21/7 — 22 giorni**). Kit one-pager accodato 🟡 in [[AZIONI-IN-ATTESA]] #12 (preventivo MyCity + guida Sfinge + disclaimer). Usarlo a OGNI pitch. Formula fissa: *"ti aiuto a fare domanda, mai prometto l'esito"*. In parallelo: **Ex Scuderie** (3 spazi food premium approvati dal Comune in centro) sono pipeline futura da monitorare. Stallo a ~125h: nessun negozio nuovo, via più veloce = **forzare transazione con Casa Linda** (unico payout-ready).
+
 ---
 
 ## 1. 🎯 OBIETTIVO & MISURA
@@ -169,3 +171,11 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 5. **Apri il foglio pipeline + lista d'attesa per quartiere** con i 6 KPI di §1 → da 0 a ≥1 su negozi LIVE e 1° ordine.
 
 #vendite #acquisizione #negozi #piano #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-07-01 20:18
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **168h +9,8h oltre** (stallo 177,8h) — priorità **#16 Scelta A 2/7 mattina** (firmata 11:05).
+- **Sprint 1 ✅ LIVE** Render ~10:31 — SQL 107 policy ⏳. Batch 6/7 **dopo** #16 + SQL.
+- **407 lead** invariati — outreach post-1ª-transazione. Kit bando #12: FESR chiuso 23/6.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

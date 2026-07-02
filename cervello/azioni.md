@@ -49,3 +49,28 @@ Ads Meta / Google / TikTok · WhatsApp a volume · voce/telefonate a volume · s
 ---
 **Starter pack gratis (da accendere subito):** Email · Notifiche · Push · **Telegram** · **n8n** · **Gemini Flash** ·
 Google Sheets/Forms/Business · Browser · WebSearch · chiave **scrittura marketplace**. → la squadra agisce su quasi tutto a ~€0.
+
+---
+
+## 🔗 TAG `origine` — collega ogni azione alla casella da cui è nata (Pannello)
+Quando accodi un'azione in `AZIONI-IN-ATTESA.md` **nata da una casella precisa** del Pannello (un difetto della
+radiografia, una domanda dell'auto-analisi, una sentinella, una mossa), aggiungi nel testo dell'azione il tag
+**`{origine:TIPO:ID}`**. Il Pannello lo nasconde e ci mette un link "↗ Vai all'origine" che porta alla **casella
+esatta** (e viceversa, dalla casella un "↗ Vai all'azione"). Niente tag = nessun link preciso (degrada al generico).
+
+- **TIPO:ID ammessi:** `difetto:<id>` (l'id del cantiere, es. `AR-001`) · `domanda:<id>` (l'id della domanda) ·
+  `entita:<id>` · `sentinella:<id>` · `mossa:<n>`.
+- **Dove metterlo:** in fondo alla cella **Azione** (tabella) o nel corpo del blocco `##` — es.
+  `… portare AR-001 alla radice {origine:difetto:AR-001}`.
+- **Perché serva il salto puntuale, le caselle d'origine devono avere un id STABILE:**
+  - I **difetti** ce l'hanno già (`cantiere-difetti.json` → `id`).
+  - Le **domande** (`auto-coscienza/auto-analisi.json` → `domande_per_nicola[]`): aggiungi a ogni oggetto un campo
+    `"id"` breve e stabile (es. `"d-memoria-vps"`), e usa **lo stesso** id nel tag `{origine:domanda:d-memoria-vps}`.
+    Se ometti l'id, il Pannello ne ricava uno dal testo: il link generico funziona lo stesso, quello puntuale no.
+  - Le **entità** (`auto-coscienza/auto-analisi.json` → `registro.entita[]`, stato `da_verificare`): **stessa regola delle
+    domande** → aggiungi a ogni entità un campo `"id"` breve e stabile (es. `"e-garetti"`) e usa **lo stesso** id nel tag
+    `{origine:entita:e-garetti}`. Senza id il link puntuale NON è preciso (degrada al generico).
+  - Le **sentinelle** hanno id fissi `S-…` generati dal Pannello (`S-problemi`, `S-recensioni`, `S-noordini`,
+    `S-carrelli`, `S-dormienti`, `S-consegne-lente`, `S-pochinegozi`): usa quello nel tag `{origine:sentinella:S-carrelli}`.
+  - Le **mosse**: `<n>` è la **posizione 1-based** nell'elenco `prossime_mosse` di `intenzioni-nicola.json` (la 1ª mossa
+    = `{origine:mossa:1}`). Mantieni l'ordine stabile tra un giro e l'altro, altrimenti il link punta alla mossa sbagliata.

@@ -1,25 +1,30 @@
-# 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
+# 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-06-27 19:50** · Fonte: monitoraggio web (`cervello/monitora.md`, fonti
-> `ilpiacenza-economia` + immobiliare). 🟢 note · i contatti a lead/botteghe = 🟡/🔴 (firma Nicola).
-> Cosa contiene: categorie/zone senza offerta locale + botteghe in difficoltà (segnali da news/immobiliare),
-> da girare a @vendite come lead.
-
-## Stato giro 2026-06-27
-- **Nessuna novità rilevante oggi** dalle news economiche. La ricerca su IlPiacenza-Economia / aperture-chiusure
-  attività non ha restituito chiusure o aperture specifiche di botteghe nel centro databili a questa settimana
-  (WebFetch sui portali locali è bloccato 403 → solo WebSearch, che non ha intercettato casi singoli).
-  Niente da inventare: la scheda resta in attesa di segnali reali.
-- ⚠️ **Carburante per alzare il livello:** l'analisi immobiliare (Idealista locali commerciali, cadenza
-  settimanale) e l'accesso diretto alle pagine economia delle testate darebbero i segnali "chi molla/chi
-  resiste" → lead caldi per @vendite. Oggi 403 sui portali. Da riprovare al giro settimanale.
-
-## Spunto strutturale (ipotesi, conf. 60% — da validare sui dati interni)
-- **Domanda DOP/tipici slegata dal raggio di consegna:** le sagre di provincia (Tortello Vigolzone 24-28 lug,
-  vedi `eventi-picchi.md`) segnalano forte domanda di tipici piacentini. Chi NON va alla sagra è un potenziale
-  cliente per coppa/salame/tortello consegnati o spediti (box DOP). Non è un "buco" classico ma una fascia di
-  domanda stagionale che nessun delivery locale presidia bene. → PASSO-A @growth (box DOP già in lavorazione) +
-  @analista (verificare se i nostri dati food confermano interesse tipici).
+> Aggiornato: **2026-07-01 20:18** · Fonte: @intelligence + dati live REST (407 lead `merchants_leads`).
 
 ---
-> Si rigenera quando le news segnalano una bottega che chiude/apre o una categoria/zona scoperta.
+
+## Priorità (ordine operativo)
+
+| # | Categoria / zona | Perché | Potenziale | Stato MyCity |
+|---|------------------|--------|------------|--------------|
+| 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale; ordine zombie + Scelta A firmata | Alto — 1ª transazione | **1 negozio LIVE** (PQ), 0 pagati |
+| 2 | **Salumeria / DOP** (Piazza Duomo cluster) | Glovo = 0 botteghe artigianali; Garetti = prospect faro | Alto | Prospect (Garetti, scelta ragionata) |
+| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO copre commodity, non freschi artigianali | Medio-alto | 0 negozi |
+| 4 | **Gastronomia / enoteca** | Scontrino alto, regalo locale (Cosaporto assente a PC) | Medio | 0 negozi |
+| 5 | **Zone periferiche dense** (Montale, Galleana, San Lazzaro) | Copertura rider TBD post-primo cluster centro | Medio | Non servite |
+
+---
+
+## Blocco attuale
+- **407 lead** pronti — outreach **post-1ª-transazione** (#16) — pitch senza consegna reale = rischio reputazione.
+- Stallo **177,8h** (+9,8h oltre 168h) — urgenza #16 **2/7 mattina**.
+- Giornata **1/7 chiusa senza transazione** — finestra slot scaduta 20:18.
+- Sprint 1 **LIVE** (~10:31) — resta **SQL 107** policy prima batch 6/7 sicuro.
+- Kit bando ER #12: FESR Commercio **chiuso 23/6** — rivedere leva prima del pitch.
+- 1 buyer reale dormiente (**samir**, carrello €10 PQ) — recupero post-#16 (playbook CRM 🟢).
+
+## Mossa collegata
+1. **Eseguire #16 Scelta A 2/7 mattina** (Nicola: `ok 16`)
+2. **SQL 107** — Nicola incolla DROP policy (~30s)
+3. Batch onboarding **6/7** (Nicola)

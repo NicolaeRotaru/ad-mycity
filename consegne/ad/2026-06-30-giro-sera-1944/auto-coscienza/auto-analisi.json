@@ -1,0 +1,55 @@
+{
+  "data": "2026-06-30 19:44",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro serale 30/6. Voto +3 (85→88): i 7 numeri sono stati RIVERIFICATI live via REST marketplace (MCP cieco ma fallback REST funziona — progresso AR-001). Business invariato (stallo 153,3h). Nessun numero orfano, entità fondate live (Casa Linda payout ✅ confermato). Kit bando ER prodotto 🟢. Blocco: vault files owned by root — bundle in consegne/ad/ da sincronizzare.",
+  "verifiche": {
+    "entita": "ok",
+    "numeri": "ok (live REST 19:44)",
+    "coerenza": "ok",
+    "semaforo": "ok",
+    "qualita": "ok",
+    "benchmark": "n/a"
+  },
+  "errori": [
+    {
+      "gravita": "media",
+      "titolo": "Vault memoria non scrivibile da cloud agent (file owned by root)",
+      "dettaglio": "STATO, briefing, auto-coscienza snapshot owned by root dopo sync VPS. Scritto bundle in consegne/ad/2026-06-30-giro-sera-1944/ + POST Supabase memoria.",
+      "azione_presa": "Bundle completo + digest in DB memoria; gap documentato §11 briefing.",
+      "riguarda": "infrastruttura sync",
+      "livello_scoperta": "L1"
+    }
+  ],
+  "domande_per_nicola": [
+    {
+      "domanda": "Forzo la prima transazione con Casa Linda?",
+      "perche_serve": "153h a zero; unico payout-ready confermato live.",
+      "se_rispondi": "Attivo catena vendite+ops+finanza.",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Sblocco ordine zombie €19,05?",
+      "perche_serve": "Buyer nel limbo 153h.",
+      "se_rispondi": "Propongo nota + update status.",
+      "gravita": "alta"
+    }
+  ],
+  "punti_ciechi": [
+    "Stripe incassi non riconciliati",
+    "PostHog non collegato",
+    "Azioni offline Nicola non visibili"
+  ],
+  "miglioramenti_prossimo_giro": [
+    "Fix permessi vault per cloud agent O sync automatico bundle→memoria-ad",
+    "Dopo ok Nicola: eseguire transazione Casa Linda e misurare CM reale"
+  ],
+  "salute_macchina": {
+    "supabase_marketplace": "ok via REST (MCP cieco)",
+    "supabase_memoria": "ok (POST briefings testato)",
+    "stripe": "status pubblico ok, incassi non interrogati",
+    "posthog": "non collegato",
+    "dati_freschi": true,
+    "sensori_attivi": 2
+  }
+}

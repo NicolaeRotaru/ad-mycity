@@ -23,6 +23,8 @@ export type Blocco = {
   // Spiegazione specifica scritta dal senior (per la scheda nel Pannello).
   cambia: string;
   seguito: string;
+  // 🔗 Casella d'origine dell'azione (es. "difetto:AR-001"), per il link "vai all'origine".
+  origine: string;
 };
 export type AzionePronta = Blocco & { stato: StatoAzione; esito: string };
 
@@ -41,6 +43,7 @@ function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco
     fonte: "vault",
     cambia: a.cambia,
     seguito: a.seguito,
+    origine: a.origine,
   };
 }
 
@@ -63,7 +66,7 @@ export async function tutteLeAzioni(): Promise<Blocco[]> {
   let sentinelle: Blocco[] = [];
   try {
     const m: any = await getMetriche();
-    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const, cambia: "", seguito: "" }));
+    sentinelle = azioniDaSentinelle(m).map((s) => ({ ...s, fonte: "sentinella" as const, cambia: "", seguito: "", origine: `sentinella:${s.id}` }));
   } catch {
     sentinelle = [];
   }

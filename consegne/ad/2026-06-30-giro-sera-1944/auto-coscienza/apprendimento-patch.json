@@ -1,0 +1,21 @@
+{
+  "data": "2026-06-30 19:44",
+  "append_lezioni": [
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Quando il Supabase MCP è cieco ma MARKETPLACE_SUPABASE_* è in .env, il giro DEVE usare REST curl come fallback (già previsto in AR-001). Non tenere i numeri a baseline se REST risponde: riverificarli e alzare il voto di fiducia. Documentare il fallback nel briefing §11 Gap solo se REST fallisce.",
+      "tag": ["sensori", "REST", "fallback", "AR-001"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "esito",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    }
+  ],
+  "meta_update": {
+    "tasso_applicazione": 0.55,
+    "nota": "REST fallback applicato; principi grounding+numeri-con-fonte rispettati"
+  }
+}

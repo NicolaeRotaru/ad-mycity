@@ -1,0 +1,27 @@
+{
+  "data": "2026-06-30 19:44",
+  "sintesi": "Nicola deve ancora sbloccare lo stallo (~153h a zero): la priorità assoluta resta forzare la prima transazione con Casa Linda (payout confermato live) e decidere sull'ordine zombie €19,05 di Pane Quotidiano. Le 3 firme di lancio sono pendenti da 5+ giorni. Bando ER scade tra 20 giorni — kit pronto oggi. Venerdì Piacentini 3/7 tra 3 giorni: serve link lista d'attesa + ok presidio QR.",
+  "prossime_mosse": [
+    {"titolo": "Prima transazione Casa Linda", "quando": "subito", "come": "1 prodotto vero → ordine-test → payout (charges+payouts ✅ live)", "priorita": "alta", "ad_prepara": "Catena vendite+ops pronta", "senior": "@vendite", "colore": "🔴"},
+    {"titolo": "Sblocco ordine zombie", "quando": "subito", "come": "Accettare/consegnare o annullare con nota al buyer", "priorita": "alta", "ad_prepara": "Bozza nota pronta", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Firma foglio-lancio", "quando": "oggi", "come": "2 minuti — consegne/decisioni/2026-06-26-foglio-firma-lancio.md", "priorita": "alta", "ad_prepara": "Foglio consolidato", "senior": "@finanza", "colore": "🔴"},
+    {"titolo": "Approvare kit Bando ER", "quando": "questa settimana", "come": "Usare consegne/vendite/kit-bando-er-mycity.md nei pitch", "priorita": "alta", "ad_prepara": "Kit scritto 🟢", "senior": "@vendite", "colore": "🟡"},
+    {"titolo": "Wiring Vercel memoria", "quando": "quando possibile", "come": "2 env vars + Redeploy", "priorita": "media", "ad_prepara": "Istruzioni #10 in coda", "senior": "@AD", "colore": "🟡"}
+  ],
+  "primi_negozi": [
+    {"nome": "Casa Linda", "perche": "Unico payout-ready (verificato live 19:44)", "stato": "approvato, 18 prodotti, 0 ordini — DA FORZARE"},
+    {"nome": "Pane Quotidiano", "perche": "Ordine zombie €19,05", "stato": "approvato, payout off, 5 prodotti"},
+    {"nome": "Antica Salumeria Garetti", "perche": "Negozio-faro narrativo", "stato": "prospect, azioni 🔴 in coda"}
+  ],
+  "rischi": [
+    "Stallo 153h → percezione progetto morto",
+    "VP 3/7 tra 3 giorni senza QR/link",
+    "Bando ER non usato (20gg)",
+    "Buyer ordine zombie abbandonato"
+  ],
+  "serve_da_nicola": [
+    {"ambito": "Sblocco critico", "cosa_manca": "Ok transazione Casa Linda + decisione ordine zombie", "domanda_per_nicola": "Dico sì a Casa Linda? Ordine €19,05: accetti o annulli?"},
+    {"ambito": "Lancio", "cosa_manca": "Firma 3 decisioni", "domanda_per_nicola": "Firmi il foglio-lancio oggi?"},
+    {"ambito": "Vault sync", "cosa_manca": "File memoria owned by root — agente cloud non può scrivere vault", "domanda_per_nicola": "Eseguire sync bundle da consegne/ad/2026-06-30-giro-sera-1944/ su memoria-ad"}
+  ]
+}

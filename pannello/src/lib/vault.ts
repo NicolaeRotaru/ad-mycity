@@ -46,6 +46,45 @@ export async function readVaultFile(relPath: string): Promise<string | null> {
   return null;
 }
 
+/**
+ * Legge un file dalla RADICE del repo (non solo dal vault), es. "consegne/vendite/pitch-garetti.md".
+ * Serve per la "scheda completa" delle azioni (il contenuto vero vive in consegne/, ramo memoria-ad).
+ * Stessa logica di readVaultFile ma senza il prefisso MyCity-Vault/.
+ */
+export async function readRepoFile(relPath: string): Promise<string | null> {
+  if (obsidianConnected()) {
+    const res = await readNote(relPath);
+    return res && !isErr(res) ? res : null;
+  }
+  // LOCALE: la radice del repo è cwd (radice) o cwd/.. (se gira da pannello/).
+  for (const root of [process.cwd(), path.join(process.cwd(), "..")]) {
+    try {
+      const txt = await fs.readFile(path.join(root, relPath), "utf-8");
+      if (txt != null) return txt;
+    } catch {
+      /* provo la radice successiva */
+    }
+  }
+  return null;
+}
+
+/** Elenco dei file .md in una cartella alla radice del repo (es. "memoria-squadra", "consegne"). */
+export async function listRepoDir(relDir: string): Promise<string[]> {
+  if (obsidianConnected()) {
+    return (await listDir(relDir)) || [];
+  }
+  for (const root of [process.cwd(), path.join(process.cwd(), "..")]) {
+    try {
+      const names = await fs.readdir(path.join(root, relDir));
+      const md = names.filter((n) => n.endsWith(".md"));
+      if (md.length) return md.sort();
+    } catch {
+      /* provo la radice successiva */
+    }
+  }
+  return [];
+}
+
 /** Elenco dei file .md in una cartella del vault (es. "90-Memoria-AI/Briefing"). */
 export async function listVaultDir(relDir: string): Promise<string[]> {
   // PRODUZIONE (OBSIDIAN_*): elenca SEMPRE da GitHub (Contents API, ramo memoria-ad), MAI dal disco

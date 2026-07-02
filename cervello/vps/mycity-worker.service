@@ -1,5 +1,5 @@
 [Unit]
-Description=MyCity AD — worker della coda approvazioni (Claude Code, piano Max)
+Description=MyCity AD — worker della coda approvazioni (motore AI: Cursor 'agent' o Claude 'claude')
 After=network-online.target
 Wants=network-online.target
 
@@ -9,6 +9,8 @@ User=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
 EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
 Environment=HOME=/home/mycity
+# PATH che include la bin utente: Cursor CLI ('agent') si installa in ~/.local/bin.
+Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Fuso di Piacenza: gli orari scritti in memoria devono essere ora-di-parete italiana (non UTC).
 Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh

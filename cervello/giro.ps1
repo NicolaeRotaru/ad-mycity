@@ -1,5 +1,5 @@
-# Esegue un "giro di perlustrazione" dell'AD con Claude Code (piano Max).
-# Gira nella cartella di AD MyCity, così Claude Code prende automaticamente
+# Esegue un "giro di perlustrazione" dell'AD (motore AI: Cursor 'agent' o Claude 'claude').
+# Gira nella cartella di AD MyCity, così il motore prende automaticamente
 # CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
 
 $ErrorActionPreference = "Stop"
@@ -8,9 +8,17 @@ $ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $PSScriptRoot
 Set-Location $repo
 
-# Verifica che Claude Code sia installato e loggato (piano Max)
-if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
-  Write-Error "Claude Code (CLI 'claude') non trovato. Installalo e fai login col tuo piano Max."
+# Motore AI: Cursor 'agent' (default) o Claude 'claude'. Scelta via $env:CERVELLO_MOTORE (auto|cursor|claude).
+$motore = $env:CERVELLO_MOTORE
+if (-not $motore) { $motore = "auto" }
+if ($motore -eq "auto") {
+  if (Get-Command agent -ErrorAction SilentlyContinue) { $motore = "cursor" }
+  elseif (Get-Command claude -ErrorAction SilentlyContinue) { $motore = "claude" }
+  else { Write-Error "Nessun motore AI trovato. Installa Cursor CLI ('agent') o Claude Code ('claude')."; exit 1 }
+}
+$cli = if ($motore -eq "cursor") { "agent" } else { "claude" }
+if (-not (Get-Command $cli -ErrorAction SilentlyContinue)) {
+  Write-Error "CLI '$cli' non trovata (motore=$motore). Installala o cambia CERVELLO_MOTORE."
   exit 1
 }
 
@@ -29,10 +37,15 @@ if ($env:SUPABASE_URL -and $env:SUPABASE_SERVICE_KEY) {
 # Il prompt del giro
 $prompt = Get-Content -Raw -Path (Join-Path $PSScriptRoot "giro.md")
 
-Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Avvio giro di perlustrazione AD..."
-# acceptEdits: l'AD può scrivere nella sua memoria (il vault) senza chiedere ogni volta.
+Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Avvio giro di perlustrazione AD (motore: $motore)..."
+# Il motore può scrivere nella memoria (il vault) senza chiedere ogni volta (cursor: --force; claude: acceptEdits).
 # Le azioni 🔴 restano comunque da firmare (regole in CLAUDE.md).
-claude -p $prompt --permission-mode acceptEdits
+if ($motore -eq "cursor") {
+  if ($env:CERVELLO_MODELLO) { agent -p --force --model $env:CERVELLO_MODELLO $prompt }
+  else { agent -p --force $prompt }
+} else {
+  claude -p $prompt --permission-mode acceptEdits
+}
 Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Giro completato."
 
 # ---------------------------------------------------------------------------
@@ -43,7 +56,7 @@ Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Giro completato."
 # Cambiare intervallo (es. ogni ora), da PowerShell nella cartella cervello\:
 #   .\installa-giro.ps1 -OgniOre 1
 #
-# Richiede: PC acceso + Claude Code loggato col Max.
-# ⚠️ Onestà: il Max ha limiti d'uso che si resettano ogni poche ore. Ogni 2 ore è un buon
-#    equilibrio; 'ogni ora' 24/7 può incontrare i limiti — in quel caso resta su 2-3 ore.
+# Richiede: PC acceso + motore AI configurato (Cursor 'agent' con CURSOR_API_KEY/login, oppure Claude 'claude' col Max).
+# ⚠️ Onestà: gli abbonamenti hanno limiti d'uso. Ogni 2 ore è un buon equilibrio;
+#    'ogni ora' 24/7 può incontrare i limiti — in quel caso resta su 2-3 ore.
 # ---------------------------------------------------------------------------

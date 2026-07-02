@@ -1,301 +1,79 @@
 {
-  "data": "2026-06-27 18:54",
-  "sintesi": "Nicola sta lanciando MyCity partendo da UN negozio-faro reale, Garetti (P.za Duomo 44), che oggi (sab 27/6) deve andare LIVE e produrre il primo ordine reale consegnato a mano (concierge). Da lì costruisce in 6 settimane il \"carrello minimo vitale\" di 6 botteghe nel cluster contiguo Calzolai-Duomo-Chiapponi (pane, ortofrutta, salumi/gastronomia, macelleria, pasticceria, jolly enoteca/fioraio). In parallelo accende la domanda (lista d'attesa + QR in cassa + prima storia di bottega) e apre il fronte istituzionale (Vita in Centro entro ~7-10 giorni) usando il Bando Commercio ER (40% fondo perduto, scadenza 21/07/2026) come leva di urgenza. Disciplina di fondo: niente spesa in acquisizione finché il margine di contribuzione per ordine non è positivo; consegne dense solo nel cluster (≥2 ordini/giro). Il collo di bottiglia non è il prodotto (~90% pronto) ma domanda e densità — e tutto poggia, oggi, sulle firme di Nicola e sul link reale della lista d'attesa.",
+  "data": "2026-07-01 20:18",
+  "sintesi": "Nicola ha firmato Scelta A ordine €19,05 (11:05) — esecuzione #16 in attesa (`ok 16`). Ore **20:18**: finestra slot **18:00–20:00 CHIUSA** — **giornata 1/7 a zero transazioni**. Ripiano consegna **2/7 mattina**. Sprint 1 LIVE Render (~10:31). Stallo 177,8h (+9,8h oltre 168h). SQL 107 (~30s). Nicola «ok 17» 20:18 — sync VPS bloccato (serve 1× root). Payout-test 03/7 programmato.",
   "prossime_mosse": [
     {
-      "titolo": "Firmare il foglio-firma da 2 minuti per sbloccare il lancio (Garetti 12%/0€ fissi + payout-test + Stripe live/sandbox)",
+      "titolo": "Eseguire ordine zombie €19,05 — Scelta A",
+      "quando": "2/7 mattina — prima priorità",
+      "come": "Scrivi `ok 16` → WhatsApp buyer 348 642 1766 + accetta in dashboard Pane Quotidiano + consegna COD €19,05",
       "priorita": "alta",
-      "quando": "subito / oggi (vigilia gia passata, sab 27/6)",
-      "colore": "🔴",
-      "come": "Firma le 3 decisioni 🔴 di lancio nel foglio-firma (consegne/decisioni/2026-06-26-foglio-firma-lancio.md): conferma se la chiave Stripe è LIVE o sandbox, firma la commissione 12% + 0€ fissi + payout a consegna per Garetti, sceglie la modalità payout-test (1€ reale da stornare o ambiente test Stripe). Senza queste firme nulla parte.",
-      "ad_prepara": "Foglio-firma già consolidato + condizioni commerciali Garetti su 1 pagina + scheda payout-test pronta (consegne/vendite/pitch-garetti.md, consegne/finanza/payout-faro.md)",
-      "senior": "vendite + finanza + legale-privacy"
+      "ad_prepara": "Escalation post-168h v11 🟢 · ripiano 2/7 🟢 · pacchetto operations pronto",
+      "senior": "@operations + @supporto",
+      "colore": "🔴"
     },
     {
-      "titolo": "Portare Garetti LIVE end-to-end e fare il primo ordine reale (onboarding 20 min + ordine-test fino al payout)",
+      "titolo": "SQL 107 — chiudi leak RLS profiles",
+      "quando": "2/7 — stesso giorno di #16 (30 secondi)",
+      "come": "Supabase → SQL Editor → incolla migration 107 → Run → «fatto sql 107»",
       "priorita": "alta",
-      "quando": "oggi/entro sab 27/6",
-      "colore": "🔴",
-      "come": "Va di persona in negozio: foto prodotti, prezzi, orari, firma contratto 1 pagina, pubblica, fa un ordine-test fino al payout, poi il primo ordine reale consegnato a mano (concierge) col sacchetto etichettato per codice-ordine. Gestisce lui la consegna in cargo-bike nel centro per tenere alta la qualità.",
-      "ad_prepara": "Catena squadra pronta al via (intelligence→vendite→legale→designer→finanza→operations→customer-success); checklist onboarding 20 min; protocollo bottega Garetti + etichette codice-ordine; playbook concierge primo ordine (conferma proattiva, QC al ritiro, telefonata di feedback)",
-      "senior": "vendite (regia AD) + operations + customer-success"
+      "ad_prepara": "Verifica post-SQL: policy DROP attiva · smoke checkout",
+      "senior": "@tech + @security",
+      "colore": "🟡"
     },
     {
-      "titolo": "Aprire la lista d'attesa reale e fornire il LINK (pre-condizione che sblocca TUTTI i canali)",
+      "titolo": "Sync VPS #17 — install 1× root",
+      "quando": "quando possibile (Console Hetzner)",
+      "come": "sudo bash /opt/mycity/ad-mycity/cervello/vps/install-sync-vps.sh",
+      "priorita": "media",
+      "ad_prepara": "Codice pronto · Nicola «ok 17» 20:18 · bloccato no sudo",
+      "senior": "@devops-sre",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Inserire negozi del 6 luglio (batch onboarding)",
+      "quando": "6/7 — Nicola in prima persona",
+      "come": "Carica negozi + catalogo; AD checklist done-for-you pronta",
       "priorita": "alta",
-      "quando": "questa settimana / subito",
-      "colore": "🔴",
-      "come": "Crea/conferma il Google Form o landing lista d'attesa (1 campo + 'primi 50/10 gratis' + UTM per canale) e ne fornisce l'URL reale: senza questo link ogni post e QR converte 0. Incentivo spesa-regalo ai primi iscritti.",
-      "ad_prepara": "Form/landing lista d'attesa pronta da pubblicare (1 campo + 'primi 50 gratis' + UTM); bozza Google Form + piano IG @mycity.piacenza + scheda Google Business",
-      "senior": "builder-automazioni + frontend-dev + cro + marketing"
+      "ad_prepara": "Checklist `consegne/onboarding/checklist-batch-6-luglio.md`",
+      "senior": "@onboarding-negozi + @vendite",
+      "colore": "🟢"
     },
     {
-      "titolo": "Ottenere i consensi scritti di Garetti (nome/foto/frase + ricondivisione + QR/vetrofania in cassa)",
+      "titolo": "Payout-test Stripe sandbox",
+      "quando": "03/7 mattina — Nicola esegue",
+      "come": "Flusso sandbox come da foglio-firma 01:02",
       "priorita": "alta",
-      "quando": "al go-live, prima di qualsiasi pubblicazione",
-      "colore": "🟡",
-      "come": "Fa firmare di persona a Garetti il foglio consenso (uso nome/volto/frase reale, SÌ a ricondividere i post, OK a QR e vetrofania in cassa). In città piccola è un blocco reputazionale: niente pubblicazione senza il suo SÌ.",
-      "ad_prepara": "Foglio richiesta consenso pre-compilato per Garetti pronto da firmare; QR cassa + vetrofania + sacchetto brandizzato col link reale pronti da stampare",
-      "senior": "vendite + legale-privacy + designer"
-    },
-    {
-      "titolo": "Attivare il loop negozio: QR in cassa + vetrofania + sacchetti + incentivo 50€ 'porta i tuoi 5 clienti'",
-      "priorita": "alta",
-      "quando": "subito, durante l'onboarding di Garetti",
-      "colore": "🟡",
-      "come": "Mette il primo QR alla cassa di Garetti (UTM tracciabile), consegna vetrofania e sacchetti brandizzati; lega l'incentivo (es. voucher 50€) all'attivazione/performance — premio quando i clienti portati completano N ordini, NON alla firma. La stampa fisica resta spesa da firmare 🔴.",
-      "ad_prepara": "Kit loop negozio E1 (QR univoco + sacchetto + vetrofania + meccanica incentivo performance-gated, testo+grafiche pronte); materiale incentivo 50€",
-      "senior": "designer + vendite + growth-monetizzazione"
-    },
-    {
-      "titolo": "Pubblicare la prima Storia di bottega di Garetti (carosello + reel + post FB + Google Business)",
-      "priorita": "alta",
-      "quando": "questa settimana (solo dopo link lista + consenso)",
-      "colore": "🔴",
-      "come": "Dà l'ok a pubblicare il post 'La saracinesca' su IG+FB (FB: link nel 1° commento) con una sola CTA verso la lista d'attesa; apre IG @mycity.piacenza e Google Business. Causa civica + riprova sociale, mai spam. Pubblica solo con link reale fornito + consensi Garetti.",
-      "ad_prepara": "Bozze complete prima Storia Garetti (carosello+reel+post FB+bozza GBP in consegne/content/); PNG renderizzato 'saracinesca'; setup UTM per canale",
-      "senior": "content-social + designer + ai-video"
-    },
-    {
-      "titolo": "Dare l'ok alla settimana-tipo social (7 bozze Lun→Dom) e ai 16 post / 4 settimane",
-      "priorita": "media",
-      "quando": "prossima settimana, pubblicabile dal lunedì successivo",
-      "colore": "🔴",
-      "come": "Approva la settimana-tipo completa (Lun storia, Mer ricetta, Ven cargo-bike/ordina weekend, Dom riprova sociale) con CTA lista d'attesa; ok ai 16 post delle 4 settimane. Ritmo sostenibile (4 post forti/sett + storie). Misura clic QR/iscrizioni, non i like.",
-      "ad_prepara": "Settimana-tipo (7 bozze) + 16 post pronti in coda; banca contenuti (5 cartelle-rubrica con 2 settimane d'anticipo)",
-      "senior": "content-social"
-    },
-    {
-      "titolo": "Lanciare 'I TRE VENERDÌ' agganciato ai Venerdì Piacentini",
-      "priorita": "alta",
-      "quando": "ok entro il 3 lug; pubblicazioni 3/10/17 lug 2026 (finestra chiude 17/7)",
-      "colore": "🔴",
-      "come": "Dà l'ok lancio entro il 3 lug per pubblicare nelle 3 sere dei Venerdì Piacentini quando il centro è pieno; contatta organizzatori/pagine 'Sei di Piacenza se…' per ricondivisione di valore (mini-storia bottega, non spam). Serve link lista d'attesa.",
-      "ad_prepara": "Kit L7 pronto (consegne/content/GARETTI-kit-L7.md); proposta rubrica fissa 'Bottega × Evento'; lista pagine/organizzatori locali",
-      "senior": "content-social + relazioni-istituzionali + pr-stampa"
-    },
-    {
-      "titolo": "Scrivere mail breve a Vita in Centro e chiedere un incontro",
-      "priorita": "media",
-      "quando": "entro 7-10 giorni",
-      "colore": "🔴",
-      "come": "Invia una mail breve a Vita in Centro (porta d'ingresso ai negozi del centro + eventi Sbaracco/Via di Gusto/Natale) chiedendo incontro entro 7 giorni; cornice civica 'aiutiamo 6 botteghe del centro, costo zero'. Bozza pronta, invio reale solo con la sua firma (ogni contatto ente = 🔴).",
-      "ad_prepara": "Bozza mail Vita in Centro pronta in consegne/; nota stato-relazioni in 90-Memoria-AI/ da aggiornare dopo ogni contatto",
-      "senior": "relazioni-istituzionali"
-    },
-    {
-      "titolo": "Verificare la scadenza del Bando Commercio ER e completare il Kit candidatura da mettere sul banco",
-      "priorita": "alta",
-      "quando": "verifica oggi; kit pronto entro questa settimana; sportello fino al 21/07/2026",
-      "colore": "🟢",
-      "come": "Verifica web sul portale Sfinge/Regione che il Bando Commercio ER (40% fondo perduto, max 50k€) sia aperto fino al 21/07; usa il bando come leva di urgenza/autorità a ogni pitch con la formula fissa 'ti aiuto a fare domanda, mai prometto l'esito' (🔴). Kit = preventivo MyCity intestabile + descrizione tecnica spesa ammissibile + mini-guida Sfinge + disclaimer.",
-      "ad_prepara": "Verifica scadenza 21/07 (web); Kit candidatura commerciante (preventivo + descrizione tecnica + bozza modulo Sfinge + disclaimer); campo 'come ci hai conosciuto' nel form onboarding per misurare i negozi via canale associativo",
-      "senior": "legale-privacy + relazioni-istituzionali + vendite"
-    },
-    {
-      "titolo": "Definire i 6 slot del carrello minimo e scegliere i 3-5 Segmento-A da contattare per primi",
-      "priorita": "alta",
-      "quando": "questa settimana",
-      "colore": "🟢",
-      "come": "Assegna lo score ICP (≥8 firma per primo) ai negozi del cluster, ordina i 6 slot (1 panificio, 2 ortofrutta, 3 salumeria/gastronomia, 4 macelleria, 5 pasticceria, 6 jolly enoteca/fioraio) e parte dal Segmento A (delivery-ready, già su Glovo e stufi del 30%). Sequenza ferrea A→B→C, mai invertirla.",
-      "ad_prepara": "Lista target cluster Calzolai-Duomo-Chiapponi con nome/indirizzo/contatto + score ICP + ordinamento dei 6 slot (da 'Botteghe del Centro - Mappa')",
-      "senior": "vendite + intelligence"
-    },
-    {
-      "titolo": "Preparare i 3-5 pitch del cluster clonando il pacchetto Garetti + messaggio di primo contatto",
-      "priorita": "alta",
-      "quando": "questa settimana",
-      "colore": "🟡",
-      "come": "Clona il playbook Garetti per i 3-5 negozi Segmento-A; accoda il messaggio di primo contatto in AZIONI-IN-ATTESA. Il contatto reale resta 🟡: conferma di Nicola prima di inviare. Onestà nel pitch: vende clienti/fatturato a rischio zero, non software.",
-      "ad_prepara": "3-5 pitch clonati dal pacchetto Garetti + messaggio primo contatto accodato in AZIONI-IN-ATTESA; pacchetto onboarding clonabile (contratto 1 pagina, QR/vetrofania/sacchetti col link reale, payout-test)",
-      "senior": "vendite"
-    },
-    {
-      "titolo": "Avviare il programma referral give-get 5€+5€ già in app",
-      "priorita": "media",
-      "quando": "Settimane 3-4 / appena parte il primo sabato concierge",
-      "colore": "🟡",
-      "come": "Attiva il referral bilaterale (5€ + 5€ sul primo ordine) già presente in prodotto per spingere l'organico; orchestra i loop 2-3-4 (regala una spesa, ordine di gruppo per via, riprova sociale) misurando il tempo di ciclo, non solo il volume.",
-      "ad_prepara": "Schede di proposta loop organici E4 gift / E10 referral give-get / E13 team-buy pronte da orchestrare al primo sabato concierge",
-      "senior": "growth-monetizzazione + crm-lifecycle"
-    },
-    {
-      "titolo": "Strumentare il giorno 1 (E0) e preparare il recupero carrelli (E5) + nudge 2° ordine (E3) + win-back (E7)",
-      "priorita": "media",
-      "quando": "questa settimana",
-      "colore": "🟡",
-      "come": "Senza strumentazione nessun esperimento è leggibile: 5 eventi PostHog + UTM su ogni QR + timestamp sulla tabella orders. Prepara in n8n la sequenza recupero carrelli T+1h e T+24h SENZA sconto (solo reminder), il nudge 2° ordine come A/B (reminder vs sconto vs nulla) e lo script win-back telefonico per chi salta 2 settimane.",
-      "ad_prepara": "Piano strumentazione E0 (eventi PostHog + UTM + timestamp orders); sequenza carrelli E5 in n8n con consenso/GDPR verificato; A/B nudge E3 + script win-back E7; registro esperimenti (template Google Sheet)",
-      "senior": "builder-automazioni + crm-lifecycle + customer-success + analista"
-    },
-    {
-      "titolo": "Aprire il cruscotto settimanale (7 KPI) e congelare le assunzioni finanziarie come baseline",
-      "priorita": "media",
-      "quando": "subito / prima del primo ordine, poi ogni lunedì",
-      "colore": "🟢",
-      "come": "Apre il foglio pipeline (stato per ogni target: contattato/pitch/firma/live/1° ordine) e il cruscotto dei 7 KPI con soglie vai/fermati/non-scalare; non espande fuori cluster finché non ci sono 4-6 ordini/giro; si ferma se crescita piatta 2 settimane con retention <25%. Congela le stime (AOV 50€, comm. 12%, fee 3,50€, 7 ordini/giro) come baseline da sostituire col primo dato reale.",
-      "ad_prepara": "Foglio pipeline con i 6 KPI; cruscotto break-even cluster (soglia ~25 ordini/giorno, misura ogni lunedì); baseline congelata delle assunzioni 🟡; tabella proiezioni a 3 scenari con trigger STOP (CM<+3€ a fine Q3); riconciliazione Stripe↔orders (5 controlli)",
-      "senior": "analista + finanza + operations + builder-automazioni"
-    },
-    {
-      "titolo": "Validare la sicurezza alimentare (HACCP, attestato, notifica ASL) prima della prima consegna di deperibili",
-      "priorita": "alta",
-      "quando": "prima della prima consegna di deperibili",
-      "colore": "🔴",
-      "come": "Firma e valida la bozza HACCP (manuale + checklist temperatura al ritiro + testo notifica/SCIA ASL Piacenza); attestato HACCP anche per il fondatore-rider. Validità finale umana, non opzionale: senza, non si consegnano freschi.",
-      "ad_prepara": "Bozza manuale HACCP + checklist temperatura + testo notifica/SCIA ASL pronti in consegne/; aggiornamento PLAYBOOK-ECCEZIONI con le 6 righe operative",
-      "senior": "legale-privacy + operations"
-    },
-    {
-      "titolo": "Firmare gli impegni di consegna in checkout (cut-off 21:00 + slot AM/PM + messaggio di conferma)",
-      "priorita": "media",
-      "quando": "prima del primo ordine vero / prima della pubblicazione in checkout",
-      "colore": "🔴",
-      "come": "Valida e firma il pacchetto 'impegni di consegna' (cut-off ordini 21:00, slot AM/PM, messaggio di conferma al cliente) prima che diventino promesse reali. Modello D+1 a batch, non on-demand: sotto 2 ordini/giro NON si consegna, si accumula al giorno dopo.",
-      "ad_prepara": "Pacchetto impegni di consegna accodato in AZIONI-IN-ATTESA; regola densità formalizzata nel dispatch (≥2 ordini/giro, target 4-6) + tracciamento batch_id dal giorno 1",
-      "senior": "operations + content-social + finanza"
-    },
-    {
-      "titolo": "Firmare le 3 decisioni di prodotto che sbloccano il primo ordine (inventario unitario, fee&commissioni, raggio geofencing)",
-      "priorita": "media",
-      "quando": "questa/prossima settimana",
-      "colore": "🔴",
-      "come": "Firma: 1) inventario a quantità (campo quantity per SKU, 0 overselling sul fresco), 2) congelare fee & commissioni (~10-15% negozio + ~2,50€ cliente, impatto sul prezzo a checkout), 4) raggio in km del geofencing (cluster centro / cargo-bike ZTL). Queste 3 bloccano i dev: senza firma le spec restano monche. Niente nuove feature, anzi nascondere le extra (wallet, B2B, sponsored).",
-      "ad_prepara": "Bozza spec inventario unitario; scheda decisione fee&commissioni coi numeri; scheda decisione raggio geofencing; piano test end-to-end + checklist RLS; spec 'notifica payout inviato'; lista feature extra da nascondere via CONFIG",
-      "senior": "tech/backend-dev + finanza + operations + qa + security"
-    },
-    {
-      "titolo": "Scrivere le schede-esperimento rosse di pricing (ordine minimo E6, fee consegna E9) pronte da firmare quando c'è volume",
-      "priorita": "media",
-      "quando": "questa settimana (attivazione quando c'è traffico)",
-      "colore": "🔴",
-      "come": "Disegna ma non attiva: schede E6 (ordine minimo 15→20→25€) ed E9 (fee consegna 2,90/3,90/gratis>30€) con baseline, varianti, durata ≥2 settimane, guardrail su NSM/item-fill; peer review numeri con finanza. Si firmano solo quando arriva volume (E6/E9 ~40 ordini, membership E15 dopo 100 clienti). Niente sconti profondi (effetto Groupon).",
-      "ad_prepara": "Schede-esperimento E6 ed E9 firmabili accodate in AZIONI-IN-ATTESA con guardrail",
-      "senior": "growth-monetizzazione + finanza"
-    },
-    {
-      "titolo": "Avviare il piano di notorietà (sondaggio zero, frase-causa, comunicato + 5 giornalisti, IG/Google Business)",
-      "priorita": "media",
-      "quando": "Fase 0, Luglio sett. 1-3",
-      "colore": "🟡",
-      "come": "Fa il sondaggio zero baseline (50 persone in 3 punti città + post gruppi FB) per poter dimostrare il +50% awareness a fine anno; blocca UNA frase-causa usata identica ovunque; manda il comunicato di lancio con foto forte ai 5 giornalisti locali (Libertà/Telelibertà/PiacenzaSera/Piacenza24/IlPiacenza) offrendo l'esclusiva a Libertà. PR come priorità n.1.",
-      "ad_prepara": "Bozza comunicato + lista 5 giornalisti con contatti; kit stampa (brief foto pro, dati desertificazione -22%/12 anni con fonte da blindare); 3 varianti frase-causa; traccia sondaggio zero (8-10 domande)",
-      "senior": "pr-stampa + content-social + analista"
-    },
-    {
-      "titolo": "Prenotare lo spazio al mercatino di Natale in Piazza Cavalli",
-      "priorita": "media",
-      "quando": "da subito (si prenota con mesi d'anticipo; evento Nov-Dic)",
-      "colore": "🔴",
-      "come": "Contatta gli organizzatori (Comune/Confcommercio/Vita in Centro) per prenotare uno spazio al mercatino di Natale: il Natale è l'acceleratore principale di notorietà, lo spazio va bloccato ora.",
-      "ad_prepara": "Email di contatto organizzatori mercatino Natale Piazza Cavalli pronta in consegne/",
-      "senior": "relazioni-istituzionali"
-    },
-    {
-      "titolo": "Aprire il fronte istituzionale completo (Hub Urbano, Fornasari, Camera di Commercio) nell'ordine giusto",
-      "priorita": "media",
-      "quando": "Settimane 5-8 / dopo Vita in Centro, con traction in mano",
-      "colore": "🔴",
-      "come": "Sequenza ferrea: 1) Vita in Centro → 2) Hub Urbano/Cabina di Regia (aggancio bando 560k€, lettera d'interesse) → 3) assessore Fornasari (foto/co-annuncio civico, arrivando con traction) → 4) Camera di Commercio-PID + Confcommercio/Confesercenti/CNA. Postura sempre complementare a CompraPiacenza, mai framing 'contro'. Ogni contatto reale = 🔴, firma Nicola.",
-      "ad_prepara": "Bozze mail Fornasari + lettera d'interesse Hub Urbano + messaggi associazioni pronti in consegne/; angolo PR 'lo Stato rimborsa chi va online'",
-      "senior": "relazioni-istituzionali + pr-stampa"
-    },
-    {
-      "titolo": "Reclutare 5-10 studenti universitari (Cattolica + Politecnico) come brand-ambassador",
-      "priorita": "media",
-      "quando": "da Settembre (Fase 1-2)",
-      "colore": "🟡",
-      "come": "Recluta via bacheche e gruppi universitari brand-ambassador/stagisti in cambio di rimborso simbolico/CV/referenza, per non far dipendere dicembre dal solo fondatore.",
-      "ad_prepara": "Bozza programma brand-ambassador (testo annuncio bacheche, mansioni, rimborso simbolico)",
-      "senior": "marketing"
+      "ad_prepara": "Guida `consegne/finanza/payout-faro.md`",
+      "senior": "@finanza",
+      "colore": "🔴"
     }
   ],
   "primi_negozi": [
-    {
-      "nome": "Negozio-faro in Piazza Duomo",
-      "perche": "Primo punto di partenza per sfruttare la clientela esistente con QR in cassa, sacchetti brandizzati e offerta regalo per i vicini",
-      "stato": "da definire/contattare per primo"
-    },
-    {
-      "nome": "Panetteria / forno",
-      "perche": "Primo nell'ordine ideale di attacco dei 6 negozi del carrello minimo",
-      "stato": "idea / ordine di attacco n.1"
-    },
-    {
-      "nome": "Ortofrutta",
-      "perche": "Secondo nell'ordine ideale di attacco",
-      "stato": "idea / ordine di attacco n.2"
-    },
-    {
-      "nome": "Gastronomia / salumeria",
-      "perche": "Terzo nell'ordine ideale di attacco",
-      "stato": "idea / ordine di attacco n.3"
-    },
-    {
-      "nome": "Macelleria",
-      "perche": "Quarto nell'ordine ideale di attacco",
-      "stato": "idea / ordine di attacco n.4"
-    },
-    {
-      "nome": "Pasticceria",
-      "perche": "Quinto nell'ordine ideale di attacco",
-      "stato": "idea / ordine di attacco n.5"
-    },
-    {
-      "nome": "Enoteca o fioraio",
-      "perche": "Sesto nell'ordine ideale di attacco (carrello minimo completo)",
-      "stato": "idea / ordine di attacco n.6"
-    }
+    {"nome": "Pane Quotidiano", "perche": "UNICO negozio reale — Scelta A firmata 11:05, esecuzione #16", "stato": "approvato, payout OFF — ripiano consegna 2/7 mattina"},
+    {"nome": "Batch 6 luglio", "perche": "Nicola inizia inserimento multi-negozio (VP rimandato)", "stato": "in arrivo — checklist AD pronta, post-#16 + SQL 107"},
+    {"nome": "Casa Linda", "perche": "Negozio DEMO — esclusa", "stato": "demo, NON usare"}
   ],
   "rischi": [
-    "Bassa densita del cluster (negozi troppo spaziosi o clienti sparsi): mitigare tenendo tutti i negozi nel cluster Calzolai-Duomo-Chiapponi e usando ordini di gruppo per via",
-    "Cattiva prima esperienza cliente (problemi operativi/consegna lenta): primi 10 ordini in concierge e telefonata dopo ogni consegna",
-    "Negozi che si disintermediano (trattano col cliente fuori piattaforma): incentivi legati ai risultati dei clienti e valore logistico/recensioni",
-    "Scarsa acquisizione organica (referral mal tarati): attivare subito referral bilaterale e prova sociale di prossimita",
-    "Mancata leva istituzionale (ritardo con bando/enti deboli): contattare subito Vita in Centro e Fornasari, usare il bando 21 luglio come urgenza",
-    "Conflitto realta: il piano poggia quasi interamente sul fondatore in prima persona (mappatura, pitch, onboarding, consegne concierge) - rischio collo di bottiglia se non arriva un volontario/part-time/rider come previsto da settimana 3-4 in poi",
-    "Conflitto/incognita: il negozio-faro e le 6 botteghe specifiche NON sono ancora nominate nel piano - la prima azione 'definire l'elenco esatto' e ancora da fare"
+    "Giornata 1/7 chiusa a zero transazioni — stallo +9,8h oltre 168h",
+    "Buyer potrebbe non rispondere al WhatsApp dopo 7+ giorni attesa",
+    "Policy RLS profiles ancora attiva finché non gira SQL 107",
+    "Batch 6/7 a rischio se #16 non chiude entro 48h"
   ],
   "serve_da_nicola": [
-    {
-      "ambito": "Pagamenti / sblocco critico",
-      "cosa_manca": "Non e chiarito se la chiave Stripe in uso e LIVE o sandbox. Senza questa conferma payout-test e primo incasso reale non possono partire: e il blocco n.0 di tutto il lancio (riportato in STATO come 'boh' e in CHECKLIST come primo critico non spuntato).",
-      "domanda_per_nicola": "La chiave Stripe collegata adesso e quella LIVE (incassi veri) o sandbox? Se non lo sai, mi confermi a chi/dove guardare per verificarlo oggi?"
-    },
-    {
-      "ambito": "Vendite / negozio-faro",
-      "cosa_manca": "I termini con Garetti (commissione 12%, 0€ fissi, payout a consegna) sono pronti ma NON firmati (AZIONI-IN-ATTESA #1, 🔴). Senza il SI di Garetti su questi termini il faro non va LIVE e cade tutto il domino del cluster e della scadenza 27/6.",
-      "domanda_per_nicola": "Garetti ha gia detto SI ai termini 12% + 0€ fissi + payout a consegna, o devo ancora portarglieli a firmare? Quando ci vai di persona?"
-    },
-    {
-      "ambito": "Operations / consegna",
-      "cosa_manca": "Tutti i piani assumono 'fondatore-rider' (Nicola consegna di persona in cargo-bike) ma nessun piano conferma se la cargo-bike elettrica esiste/e disponibile ora, ne chi consegna se Nicola e assente (bus factor citato come rischio alto). Inoltre l'HACCP/attestato per consegnare deperibili e indicato come obbligatorio e NON ancora fatto.",
-      "domanda_per_nicola": "Per il primo sabato: hai gia la cargo-bike (o come consegni)? E hai l'attestato HACCP per consegnare deperibili, o il primo giro lo limitiamo a prodotti non deperibili?"
-    },
-    {
-      "ambito": "Pricing / margine primo ordine",
-      "cosa_manca": "La fee di consegna al cliente non e decisa: 3,50€ vs 0€ (primo sabato regalata). E una decisione 🔴 aperta che cambia il margine del primo ordine ed e prerequisito per rifinire il checkout (Piano Prodotto: il prezzo a checkout resta indefinito senza il numero).",
-      "domanda_per_nicola": "Fee di consegna al cliente sul primo sabato: la mettiamo a 0€ (regalata per partire) o a 3,50€? E un valore solo per il lancio o definitivo?"
-    },
-    {
-      "ambito": "Marketing / pre-condizione che sblocca tutto",
-      "cosa_manca": "Manca il LINK reale della lista d'attesa (landing/Google Form). E indicato come PRE-CONDIZIONE n.1: senza, OGNI canale social converte 0. Tutti i post Garetti (saracinesca, I TRE VENERDI) sono in attesa di questo URL. Non e chiaro se Nicola crea il form o lo deve creare un senior.",
-      "domanda_per_nicola": "Il form/landing lista d'attesa lo crei tu (Google Form / Typeform) e mi passi il link, o vuoi che lo prepari io e tu confermi solo l'URL? Mi serve l'URL reale per attivare qualsiasi canale."
-    },
-    {
-      "ambito": "Vendite / definizione cluster",
-      "cosa_manca": "Oltre a Garetti, i 6 negozi del 'carrello minimo vitale' sono ancora categorie generiche (panetteria, ortofrutta, ecc.), NON nomi e indirizzi reali del cluster Calzolai-Duomo-Chiapponi. La prima azione 'definire l'elenco esatto' e ancora da fare e blocca la macchina di acquisizione settimanale.",
-      "domanda_per_nicola": "Hai gia in mente i nomi reali dei 6 negozi del cluster (oltre Garetti), o vuoi che intelligence+vendite ti preparino una lista candidata con nome/indirizzo/contatto da cui scegli?"
-    },
-    {
-      "ambito": "Reputazione / consensi",
-      "cosa_manca": "Manca il consenso scritto di Garetti su nome, foto del volto e frase reale: senza, sono bloccati TUTTI i contenuti social su di lui (saracinesca, ritratto, reel). E un blocco reputazionale 🔴 ripetuto in piu righe della coda. Non e chiaro chi va a chiederlo ne se Garetti e d'accordo.",
-      "domanda_per_nicola": "Garetti e d'accordo a comparire con nome, foto e una sua frase nei nostri post? Glielo chiedi tu quando ci vai, o preparo io il foglio-consenso da fargli firmare?"
-    },
-    {
-      "ambito": "Finanza / budget",
-      "cosa_manca": "Nessun piano fissa un tetto di spesa autorizzato per i materiali fisici e gli incentivi del lancio: stampa contratti/QR/vetrofanie + 500 sacchetti brandizzati, incentivo '50€ porta i 5 clienti', 'primi 50 gratis' (cap ~200€), referral 5+5€ (~250€/mese), evento 'Primo Turno' (€0-300). Sono spese 🔴 separate senza un budget complessivo approvato.",
-      "domanda_per_nicola": "Quanto posso considerare autorizzato come budget di lancio (stampa materiali + sacchetti + incentivi primi clienti)? Mi dai un tetto unico, o vuoi approvare ogni spesa singolarmente?"
-    }
-  ]
+    {"ambito": "Consegna ordine PQ", "cosa_manca": "**`ok 16`** — ripiano **2/7 mattina**", "domanda_per_nicola": "Scrivi **`ok 16`** e avvia WhatsApp + consegna domani mattina"},
+    {"ambito": "Sprint 1 deploy", "cosa_manca": "SQL 107 in Supabase (DROP policy) — codice già live", "domanda_per_nicola": "Supabase SQL Editor → incolla migration 107 → Run → scrivi «fatto sql 107»"},
+    {"ambito": "Sync VPS", "cosa_manca": "1× root Console Hetzner (ok 17 dato, install fallito no sudo)", "domanda_per_nicola": "Console Hetzner root → `sudo bash …/install-sync-vps.sh`"},
+    {"ambito": "Onboarding 6/7", "cosa_manca": "Lista negozi (nomi/quanti)", "domanda_per_nicola": "Quanti negozi il 6/7 e quali nomi?"}
+  ],
+  "proposta_rimandata": {
+    "titolo": "Presidio Venerdì Piacentini 3/7",
+    "motivo": "Nicola 1/7: priorità inserimento negozi 6/7",
+    "prossima_finestra": "VP 10/17 lug — azioni #7/#8/#11 congelate"
+  },
+  "decisioni_chiuse": {
+    "ordine-zombie-58094956": {"scelta": "A", "at": "2026-07-01 11:05", "fonte": "Pannello A/B"},
+    "sprint-1-pr": {"esito": "mergiata", "pr": ["#209", "#210"], "at": "2026-07-01 09:34"},
+    "sprint-1-deploy": {"esito": "codice_live_render", "at": "2026-07-01 11:10", "nota": "SQL 107 policy ancora da girare"},
+    "sync-vps": {"esito": "ok_nicola", "at": "2026-07-01 20:18", "nota": "install bloccato — serve root"}
+  }
 }

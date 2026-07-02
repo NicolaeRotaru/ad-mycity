@@ -206,3 +206,11 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 5. **Chiedi 2 incontri**: Vita in Centro + ufficio assessore Fornasari.
 
 #notorieta #piano #pr #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-07-01 20:18
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **VP 3/7 RIMANDATO** — contenuti #7/#8 congelati. Prossima finestra **10/17 lug**.
+- **Giornata 1/7 a zero transazioni** — earned media «prima consegna» **dopo** #16 (**2/7 mattina**).
+- **Sprint 1 LIVE** — piattaforma pronta per raccontare la storia post-consegna.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

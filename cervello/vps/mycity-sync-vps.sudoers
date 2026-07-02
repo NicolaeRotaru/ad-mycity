@@ -1,0 +1,7 @@
+# MyCity AD — sync VPS post-merge senza password root.
+# Installato da install-sync-vps.sh in /etc/sudoers.d/mycity-sync-vps
+# L'utente mycity (worker) può allineare il codice da main e riavviare il servizio.
+
+mycity ALL=(root) NOPASSWD: /bin/bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh
+mycity ALL=(root) NOPASSWD: /usr/bin/systemctl restart mycity-worker
+mycity ALL=(root) NOPASSWD: /usr/bin/systemctl is-active mycity-worker

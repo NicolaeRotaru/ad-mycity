@@ -1,0 +1,76 @@
+{
+  "data": "2026-06-30 20:10",
+  "sintesi": "Nicola resta bloccato sulle stesse 3 leve critiche da 6+ giorni: (1) prima transazione end-to-end con Casa Linda (unico payout-ready), (2) sblocco ordine zombie €19,05 Pane Quotidiano, (3) firma delle 3 decisioni di lancio (Stripe/commissione/fee). In parallelo: approvare kit Bando ER (scade 21/7, 20 giorni), preparare presidio Venerdì Piacentini 3/7 (tra 3 giorni), wiring Vercel memoria. Garetti resta prospect narrativo — azioni social 🔴 in coda. AD ha pronto kit bando, checklist Casa Linda, pacchetto ordine zombie.",
+  "prossime_mosse": [
+    {
+      "titolo": "Forzare prima transazione Casa Linda",
+      "quando": "subito — stallo 153,7h",
+      "come": "1 prodotto vero → ordine-test → conferma → payout (acct_1TcI1vIb6nEnAk4o)",
+      "priorita": "alta",
+      "ad_prepara": "Checklist in consegne/vendite/checklist-prima-transazione-casa-linda.md",
+      "senior": "@vendite + @operations + @finanza",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Sbloccare ordine zombie €19,05",
+      "quando": "subito — 6,4 giorni nel limbo",
+      "come": "Accettare e consegnare, OPPURE annullare con nota cortese al buyer 9262fa38",
+      "priorita": "alta",
+      "ad_prepara": "consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md",
+      "senior": "@operations + @supporto",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Firmare foglio-lancio (3 decisioni)",
+      "quando": "in attesa da 4+ giorni",
+      "come": "2 minuti: consegne/decisioni/2026-06-26-foglio-firma-lancio.md",
+      "priorita": "alta",
+      "ad_prepara": "Foglio consolidato pronto",
+      "senior": "@vendite + @finanza",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Approvare kit Bando ER + usarlo nei pitch",
+      "quando": "questa settimana (20 giorni alla scadenza)",
+      "come": "One-pager consegne/vendite/kit-bando-er-mycity.md",
+      "priorita": "alta",
+      "ad_prepara": "Kit scritto 🟢, accodato #12",
+      "senior": "@vendite + @legale-privacy",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Presidio Venerdì Piacentini 3/7",
+      "quando": "venerdì 3/7 sera",
+      "come": "Kit QR #11 + post I TRE VENERDÌ #7 — serve link lista d'attesa reale",
+      "priorita": "alta",
+      "ad_prepara": "Azioni #7 e #11 in coda",
+      "senior": "@content-social + @designer + @vendite",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Wiring Vercel memoria",
+      "quando": "quando possibile",
+      "come": "SUPABASE_URL + SUPABASE_SERVICE_KEY progetto memoria + Redeploy",
+      "priorita": "media",
+      "ad_prepara": "Istruzioni AZIONI-IN-ATTESA #10",
+      "senior": "@AD + @builder-automazioni",
+      "colore": "🟡"
+    }
+  ],
+  "primi_negozi": [
+    {"nome": "Casa Linda", "perche": "Unico payout-ready — via più veloce per prima transazione", "stato": "approvato, payout ✅, 0 ordini — DA FORZARE"},
+    {"nome": "Pane Quotidiano", "perche": "Ha l'ordine zombie €19,05", "stato": "approvato, payout ❌ — sbloccare ordine"},
+    {"nome": "Antica Salumeria Garetti", "perche": "Negozio-faro narrativo (scelta ragionata)", "stato": "prospect, azioni 🔴 in coda"}
+  ],
+  "rischi": [
+    "Stallo 153,7h: percezione 'progetto morto' se non si sblocca entro VP 3/7",
+    "Ordine zombie: prima impressione rovinata per buyer reale",
+    "Bando ER: 20 giorni — urgenza che si consuma",
+    "Bus factor: tutto passa da Nicola in persona"
+  ],
+  "serve_da_nicola": [
+    {"ambito": "Sblocco critico", "cosa_manca": "Ok Casa Linda + decisione ordine zombie", "domanda_per_nicola": "Parto con Casa Linda per la prima transazione? L'ordine €19,05: accetti o annulli?"},
+    {"ambito": "Lancio", "cosa_manca": "Firma 3 decisioni 🔴", "domanda_per_nicola": "Firmi il foglio-lancio da 2 minuti?"},
+    {"ambito": "Infrastruttura", "cosa_manca": "Service key Vercel", "domanda_per_nicola": "Metti le 2 env memoria su Vercel e redeploy?"}
+  ]
+}

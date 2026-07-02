@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
 import { testoPulito, dataVault, istante } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
+import ParlaCasella from "@/components/ParlaCasella";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -127,7 +128,7 @@ export default function GovernoAD() {
   const decViste = decisioni.filter((d) => filtro === "tutte" || d.livello === filtro);
 
   return (
-    <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
+    <section className="card p-4">
       <div className="flex items-center gap-2.5 mb-4">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
           <Scale size={16} />
@@ -195,6 +196,7 @@ export default function GovernoAD() {
                 Spiegami perché
               </button>
               {spiega[k] && <p className="text-[12px] text-ink/80 mt-2 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[k]}</p>}
+              <ParlaCasella titolo={`Decisione: ${(d.cosa || "").slice(0, 50)}`} contesto={[d.cosa, d.perche && `Perché: ${d.perche}`, d.reparto && `Reparto: ${d.reparto}`].filter(Boolean).join(" · ")} />
             </div>
             );
           })}
@@ -252,6 +254,7 @@ export default function GovernoAD() {
               </div>
               <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{testoPulito(v.titolo)}</p>
               {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{testoPulito(v.testo)}</p>}
+              <ParlaCasella titolo={`Feed: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
             </div>
           ))}
         </div>

@@ -1,0 +1,55 @@
+{
+  "data": "2026-06-30 20:10",
+  "voto_fiducia": 89,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro 30/6 20:10. Voto +1 (88→89): terzo passaggio oggi ma onesto — 7 numeri RIVERIFICATI live REST (identici 19:44), nessun numero spacciato per fresco. Meteo raffinato con fonte (temporali da 1/7, non oggi). Applicata lezione L-2026-0629-03: passaggio minimo senza rumore, nessuna azione duplicata in coda. Entità Casa Linda/Pane Quotidiano confermate live. AR-001 avanza (REST fallback dimostrato 3 volte oggi).",
+  "verifiche": {
+    "entita": "ok",
+    "numeri": "ok (live REST 20:10)",
+    "coerenza": "ok",
+    "semaforo": "ok",
+    "qualita": "ok",
+    "benchmark": "n/a"
+  },
+  "errori": [
+    {
+      "gravita": "bassa",
+      "titolo": "Vault root-owned: memoria non scrivibile direttamente",
+      "dettaglio": "STATO, briefing, auto-analisi.json owned by root. Bundle in consegne/ad/ — sync manuale o giro.sh VPS.",
+      "azione_presa": "Bundle completo + POST Supabase briefings + README-SYNC.",
+      "riguarda": "infrastruttura",
+      "livello_scoperta": "L1"
+    }
+  ],
+  "domande_per_nicola": [
+    {
+      "domanda": "Forzo prima transazione Casa Linda?",
+      "perche_serve": "153,7h stallo, unico payout-ready.",
+      "se_rispondi": "Catena vendite+ops al via.",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Sblocco ordine zombie €19,05?",
+      "perche_serve": "6,4 giorni nel limbo — buyer reale.",
+      "se_rispondi": "Propongo nota/status update 🔴.",
+      "gravita": "alta"
+    }
+  ],
+  "punti_ciechi": [
+    "MCP sessione cieco (compensato REST)",
+    "Stripe non interrogato",
+    "Git memoria-ad non committabile da agente mycity"
+  ],
+  "miglioramenti_prossimo_giro": [
+    "Fix permessi vault/git sul VPS per chiudere il loop publish",
+    "Formalizzare fallback REST in giro.md (AR-001)"
+  ],
+  "salute_macchina": {
+    "supabase_marketplace": "ok via REST (MCP cieco)",
+    "supabase_memoria": "ok (briefings POST ✅)",
+    "stripe": "non interrogato",
+    "posthog": "non collegato",
+    "dati_freschi": true,
+    "sensori_attivi": 2
+  }
+}

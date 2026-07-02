@@ -20,6 +20,10 @@ export type AzioneAttesa = {
   // e cosa succede dopo se va bene. Se vuote, il Pannello usa i testi per-reparto.
   cambia: string;
   seguito: string;
+  // 🔗 Origine: la casella DA CUI è nata l'azione (es. "difetto:AR-001", "domanda:<id>",
+  // "sentinella:<id>", "mossa:<n>"). Il giro la scrive come tag {origine:TIPO:ID} nell'azione.
+  // Vuota se l'azione non dichiara un'origine.
+  origine: string;
 };
 
 export function livelloDi(c: string): AzioneAttesa["livello"] {
@@ -27,6 +31,16 @@ export function livelloDi(c: string): AzioneAttesa["livello"] {
   if (c.includes("🟡")) return "giallo";
   if (c.includes("🔴")) return "rosso";
   return "?";
+}
+
+// Tag {origine:TIPO:ID} che il giro mette nell'azione per legarla alla casella d'origine.
+const ORIGINE_RE = /\{\s*origine\s*:\s*([^}]+?)\s*\}/i;
+export function estraiOrigine(s: string): string {
+  const m = (s || "").match(ORIGINE_RE);
+  return m ? m[1].trim() : "";
+}
+function senzaOrigine(s: string): string {
+  return (s || "").replace(ORIGINE_RE, "").replace(/\s{2,}/g, " ").trim();
 }
 
 const DATA_RE = /\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?/;
@@ -106,19 +120,21 @@ function parseTabella(md: string): AzioneAttesa[] {
     const numero = cells[0];
     if (!/^\d+$/.test(numero)) continue; // salta intestazione e separatori
     const stato = cells[7];
+    const origine = estraiOrigine(line);
     out.push({
       numero,
       data: cells[1],
       reparto: cells[2],
-      azione: cells[3],
+      azione: senzaOrigine(cells[3]),
       colore: cells[4],
       livello: livelloDi(cells[4]),
-      contenuto: cells[5],
+      contenuto: senzaOrigine(cells[5]),
       canale: cells[6],
       stato,
       inAttesa: /attesa/i.test(stato),
       cambia: cells[8] || "",
       seguito: cells[9] || "",
+      origine,
     });
   }
   return out;
@@ -135,20 +151,22 @@ function parseSezioni(md: string): AzioneAttesa[] {
     if (inAttesaSezione(blocco)) {
       const { data, reparto, titolo } = parseHeading(cur.heading);
       const colore = /🔴/.test(blocco) ? "🔴" : "🟡";
+      const origine = estraiOrigine(blocco) || campo(blocco, ["origine", "nato da"]);
       out.push({
         numero: idSezione(data, reparto, titolo),
         data,
         reparto,
-        azione: titolo,
+        azione: senzaOrigine(titolo),
         colore,
         livello: livelloDi(colore),
         // prima riga utile del corpo come anteprima/contenuto
-        contenuto: (cur.corpo.find((r) => r.trim().length > 0) || "").trim().slice(0, 240),
+        contenuto: senzaOrigine((cur.corpo.find((r) => r.trim().length > 0) || "").trim()).slice(0, 240),
         canale: campo(blocco, ["canale", "mani"]),
         stato: "in attesa",
         inAttesa: true,
         cambia: campo(blocco, ["cosa cambia", "cambia", "conseguenza", "effetto atteso", "effetto atteso kpi"]),
         seguito: campo(blocco, ["se va bene", "seguito", "via libera"]),
+        origine,
       });
     }
     cur = null;

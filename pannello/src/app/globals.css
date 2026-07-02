@@ -2,58 +2,465 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ink-rgb: 26 20 16;
+  --paper-rgb: 250 248 245;
+  --black-rgb: 26 20 16;
+  --bg-page: #f0ebe4;
+  --bg-page-end: #e8e2da;
+  --bg-surface: #fffcf8;
+  --bg-surface-2: #f7f3ee;
+  --bg-elevated: #ffffff;
+  --text-primary: #1a1410;
+  --text-secondary: #3d342c;
+  --text-muted: #5c5248;
+  --text-faint: #7a6f64;
+  --border: rgba(26, 20, 16, 0.09);
+  --border-strong: rgba(26, 20, 16, 0.14);
+  --shadow-card: 0 1px 2px rgba(26, 20, 16, 0.04), 0 4px 16px rgba(26, 20, 16, 0.06);
+  --brand-soft: #f4ded6;
+}
+
+.dark {
+  --ink-rgb: 232 224 212;
+  --paper-rgb: 31 28 24;
+  --black-rgb: 232 224 212;
+  /* Gerarchia superfici: 4 livelli, niente bianco puro — warm charcoal */
+  --bg-page: #090807;
+  --bg-page-end: #100e0c;
+  --bg-surface: #151311;
+  --bg-surface-2: #1d1a17;
+  --bg-elevated: #26221e;
+  --bg-inset: #11100e;
+  --text-primary: #e8e0d4;
+  --text-secondary: #cfc4b6;
+  --text-muted: #a89f94;
+  --text-faint: #7d756c;
+  --border: rgba(232, 224, 212, 0.09);
+  --border-strong: rgba(232, 224, 212, 0.2);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 6px 28px rgba(0, 0, 0, 0.5);
+  --brand-soft: rgba(244, 140, 108, 0.16);
+  --brand-glow: rgba(244, 140, 108, 0.28);
+  color-scheme: dark;
+}
+
 body {
-  background: linear-gradient(180deg, #fbf9f6 0%, #f6f1ec 100%);
+  background: linear-gradient(180deg, var(--bg-page) 0%, var(--bg-page-end) 100%);
   background-attachment: fixed;
-  color: #1a1410;
+  color: var(--text-primary);
   min-height: 100vh;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.55;
 }
 
-/* === Sistema di leggibilità === */
-/* Gerarchia a 2 livelli + scala tipografica coerente, per non "incrociare gli
-   occhi": titolo-AREA (grande, con accento) ≠ titolo-SEZIONE (medio) ≠ corpo ≠
-   etichetta ≠ micro. I testi secondari usano un grigio con contrasto adeguato
-   (≈5.5:1), non i vecchi text-black/40. */
 @layer components {
-  .t-area   { @apply text-[19px] sm:text-[20px] font-bold tracking-tight text-ink; }
-  .t-sez    { @apply text-[15px] font-semibold tracking-tight text-ink; }
-  .t-corpo  { @apply text-[13.5px] leading-relaxed text-ink/90; }
-  .t-eti    { @apply text-[12px] text-black/55; }            /* secondario leggibile */
-  .t-micro  { @apply text-[10.5px] uppercase tracking-wide text-black/45; }
+  .t-area {
+    @apply text-[20px] sm:text-[21px] font-bold tracking-tight;
+    color: var(--text-primary);
+  }
+  .t-sez {
+    @apply text-[16px] font-semibold tracking-tight;
+    color: var(--text-primary);
+  }
+  .t-corpo {
+    @apply text-[14px] leading-relaxed;
+    color: var(--text-secondary);
+  }
+  .t-eti {
+    @apply text-[13px] leading-snug;
+    color: var(--text-muted);
+  }
+  .t-micro {
+    @apply text-[11px] uppercase tracking-wide font-semibold;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
 
-  /* Card standard del pannello (un solo posto da cui cambiarle tutte). */
-  .card { @apply bg-white rounded-2xl border border-black/[0.06] shadow-card; }
+  /* Righe compatte nelle card — scannable, con grassetto via FraseLista */
+  .t-riga {
+    @apply text-[13px] leading-snug;
+    color: var(--text-primary);
+  }
+  .frase-lista {
+    @apply text-[13px] leading-snug block;
+  }
+  .frase-lista-lead {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .frase-lista-rest {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
 
-  /* Intestazione di SEZIONE riusabile: pastiglia icona brand + titolo. */
+  .kpi-tile {
+    @apply rounded-xl border p-2.5;
+    border-color: var(--border);
+    background: var(--bg-surface-2);
+  }
+  .kpi-tile-off {
+    border-style: dashed;
+    opacity: 0.85;
+  }
+  .kpi-tile-label {
+    @apply flex items-center gap-1.5 text-[10.5px] leading-tight font-medium;
+    color: var(--text-muted);
+  }
+  .kpi-tile-value {
+    @apply text-[18px] font-bold tracking-tight mt-0.5 tabular-nums;
+    color: var(--text-primary);
+  }
+  .kpi-tile-value-off {
+    color: var(--text-faint);
+  }
+
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    @apply rounded-2xl;
+  }
+
+  .surface-muted {
+    background: var(--bg-surface-2);
+    border: 1px solid var(--border);
+    @apply rounded-xl;
+  }
+
+  .card-priorita {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    @apply rounded-2xl p-3.5 text-left transition;
+  }
+  .card-priorita:hover {
+    border-color: var(--border-strong);
+  }
+
   .sez-head { @apply flex items-center gap-2.5; }
-  .sez-ico  { @apply grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0; }
+  .sez-ico {
+    @apply grid place-items-center w-8 h-8 rounded-lg text-brand shrink-0;
+    background: var(--brand-soft);
+  }
 
-  /* Badge di stato (live / da collegare / conteggio). */
-  .badge      { @apply text-[10.5px] tabular-nums px-1.5 py-0.5 rounded-full; }
-  .badge-on   { @apply bg-brand-50 text-brand; }
-  .badge-off  { @apply bg-black/[0.04] text-black/45; }
+  .badge { @apply text-[11px] tabular-nums px-2 py-0.5 rounded-full font-medium; }
+  .badge-on { background: var(--brand-soft); @apply text-brand; }
+  .badge-off {
+    background: var(--bg-surface-2);
+    color: var(--text-faint);
+  }
+
+  .nav-tab {
+    @apply inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition;
+    color: var(--text-muted);
+    background: var(--bg-surface-2);
+    border: 1px solid var(--border);
+  }
+  .nav-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    border-color: var(--border-strong);
+  }
+  .nav-tab-active {
+    @apply bg-brand text-white border-brand shadow-card;
+  }
+
+  .input-soft {
+    @apply rounded-xl outline-none text-sm transition px-4 py-2.5;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
+    border: 1px solid transparent;
+  }
+  .input-soft:focus {
+    background: var(--bg-elevated);
+    border-color: rgba(192, 73, 44, 0.35);
+    @apply ring-2 ring-brand/15;
+  }
+  .input-soft::placeholder {
+    color: var(--text-faint);
+  }
 }
 
 ::selection {
-  background: rgba(192, 73, 44, 0.15);
+  background: rgba(192, 73, 44, 0.2);
 }
 
-/* Scrollbar discreta per le aree che scorrono (chat, diario) */
 .scroll-soft {
   scrollbar-width: thin;
-  scrollbar-color: rgba(26, 20, 16, 0.18) transparent;
+  scrollbar-color: var(--border-strong) transparent;
 }
-.scroll-soft::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+.scroll-soft::-webkit-scrollbar { width: 8px; height: 8px; }
 .scroll-soft::-webkit-scrollbar-thumb {
-  background: rgba(26, 20, 16, 0.15);
+  background: var(--border-strong);
   border-radius: 999px;
 }
-.scroll-soft::-webkit-scrollbar-thumb:hover {
-  background: rgba(26, 20, 16, 0.28);
+
+@keyframes flashTarget {
+  0% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.45); background-color: rgba(251, 191, 36, 0.16); }
+  100% { box-shadow: 0 0 0 8px rgba(180, 83, 9, 0); background-color: transparent; }
+}
+.flash-target {
+  animation: flashTarget 2.1s ease-out 1;
+  border-radius: 0.75rem;
+}
+
+.prose-readable :where(p, li) {
+  color: var(--text-secondary);
+}
+
+/* Chat: bolle e markdown leggibili in light e dark */
+.chat-bubble-assistant {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.chat-bubble-pending {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.md-chat :where(p, li, td) {
+  color: var(--text-secondary);
+}
+.md-chat :where(strong, b, h1, h2, h3, h4, th) {
+  color: var(--text-primary);
+}
+.md-chat :where(em) {
+  color: var(--text-secondary);
+}
+.md-chat :where(code):not(pre code) {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.md-chat pre {
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.md-chat blockquote {
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-muted);
+}
+.md-chat hr {
+  border-color: var(--border);
+}
+.md-chat thead {
+  background: var(--bg-surface-2);
+}
+.md-chat th,
+.md-chat td {
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+/* Lista conversazioni */
+.conv-row {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  @apply rounded-xl p-3 transition;
+}
+.conv-row:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-surface-2);
+}
+.conv-row-active {
+  border-color: rgba(192, 73, 44, 0.45);
+  background: var(--brand-soft);
+}
+.conv-row-title {
+  color: var(--text-primary);
+  @apply text-sm font-medium truncate;
+}
+.conv-row-meta {
+  color: var(--text-muted);
+  @apply text-[11px];
+}
+.btn-ghost {
+  color: var(--text-muted);
+  @apply text-xs inline-flex items-center gap-1 transition hover:text-brand;
+}
+.btn-ghost-danger {
+  color: var(--text-faint);
+  @apply shrink-0 transition hover:text-red-500;
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border: 1px solid rgba(192, 73, 44, 0.35);
+  @apply shrink-0 text-xs font-medium rounded-full px-3 py-1.5 transition hover:opacity-90 active:scale-95;
+  background: var(--bg-elevated);
+}
+.dark .btn-outline-brand {
+  color: #f4a88a;
+  border-color: rgba(244, 168, 138, 0.45);
+}
+
+/* ── Dark mode: superfici e testi legacy (safety net globale) ── */
+.dark .text-ink {
+  color: var(--text-primary) !important;
+}
+.dark :is(.text-ink\/70, .text-ink\/80, .text-ink\/85, .text-ink\/90) {
+  color: var(--text-secondary) !important;
+}
+
+.dark .ring-black\/\[0\.06\] {
+  --tw-ring-color: var(--border) !important;
+}
+.dark .ring-black\/10 {
+  --tw-ring-color: var(--border-strong) !important;
+}
+
+.dark .bg-brand-50,
+.dark .bg-brand-50\/20,
+.dark .bg-brand-50\/30,
+.dark .bg-brand-50\/40,
+.dark .bg-brand-50\/60,
+.dark .bg-brand-50\/70,
+.dark .bg-brand-50\/80 {
+  background-color: rgba(192, 73, 44, 0.16) !important;
+}
+.dark .hover\:bg-brand-50:hover,
+.dark .hover\:bg-brand-50\/30:hover,
+.dark .hover\:bg-brand-50\/40:hover,
+.dark .hover\:bg-brand-50\/70:hover {
+  background-color: rgba(192, 73, 44, 0.24) !important;
+}
+
+.dark .bg-red-50,
+.dark .bg-red-50\/40,
+.dark .bg-red-50\/50,
+.dark .bg-red-50\/60,
+.dark .bg-red-50\/80 {
+  background-color: rgba(127, 29, 29, 0.32) !important;
+}
+.dark .bg-amber-50,
+.dark .bg-amber-50\/40,
+.dark .bg-amber-50\/50,
+.dark .bg-amber-50\/60 {
+  background-color: rgba(120, 53, 15, 0.32) !important;
+}
+.dark .bg-green-50,
+.dark .bg-green-50\/40,
+.dark .bg-green-50\/50,
+.dark .bg-green-50\/60 {
+  background-color: rgba(20, 83, 45, 0.32) !important;
+}
+.dark .bg-red-100 { background-color: rgba(127, 29, 29, 0.4) !important; }
+.dark .bg-amber-100 { background-color: rgba(120, 53, 15, 0.4) !important; }
+.dark .bg-green-100 { background-color: rgba(20, 83, 45, 0.4) !important; }
+
+.dark .text-red-600,
+.dark .text-red-700,
+.dark .text-red-800 { color: #fca5a5 !important; }
+.dark .text-amber-600,
+.dark .text-amber-700,
+.dark .text-amber-800 { color: #fcd34d !important; }
+.dark .text-green-600,
+.dark .text-green-700 { color: #86efac !important; }
+.dark .text-amber-900 { color: #fde68a !important; }
+.dark .ring-amber-300 { --tw-ring-color: rgba(251, 191, 36, 0.45) !important; }
+.dark .bg-amber-200\/70 { background-color: rgba(120, 53, 15, 0.45) !important; }
+.dark .border-amber-300 { border-color: rgba(251, 191, 36, 0.4) !important; }
+.dark .hover\:bg-amber-100:hover { background-color: rgba(120, 53, 15, 0.45) !important; }
+
+.dark .border-red-200 { border-color: rgba(248, 113, 113, 0.35) !important; }
+.dark .border-amber-200 { border-color: rgba(251, 191, 36, 0.35) !important; }
+.dark .border-green-200 { border-color: rgba(74, 222, 128, 0.35) !important; }
+.dark .ring-red-200 { --tw-ring-color: rgba(248, 113, 113, 0.35) !important; }
+.dark .ring-amber-200 { --tw-ring-color: rgba(251, 191, 36, 0.35) !important; }
+.dark .ring-green-200 { --tw-ring-color: rgba(74, 222, 128, 0.35) !important; }
+
+.dark .placeholder\:text-black\/35::placeholder,
+.dark .placeholder\:text-black\/40::placeholder {
+  color: var(--text-faint) !important;
+}
+
+/* Markdown generico (Numeri, Memoria, report) */
+.dark .prose-readable :where(h1, h2, h3, h4, strong, b, th) {
+  color: var(--text-primary);
+}
+.dark .prose-readable :where(a) {
+  color: #f4a88a;
+}
+.dark .prose-readable :where(code):not(pre code) {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.dark .prose-readable pre {
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+/* Chip timestamp condivisa */
+.t-aggiornato {
+  color: var(--text-muted);
+  @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap font-medium;
+}
+
+/* ── Dark mode: gerarchia visiva (UX) ── */
+.dark .card,
+.dark .card-priorita {
+  border-color: var(--border-strong);
+}
+.dark .card-priorita:hover {
+  border-color: var(--brand-glow);
+  background: var(--bg-surface-2);
+}
+.dark .kpi-tile {
+  background: var(--bg-inset);
+  border-color: var(--border-strong);
+}
+.dark .sez-ico {
+  box-shadow: 0 0 0 1px var(--brand-glow);
+}
+.dark .badge-off {
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.dark .frase-lista-lead {
+  color: var(--text-primary);
+}
+.dark .frase-lista-rest {
+  color: var(--text-secondary);
+}
+.dark .t-corpo {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.dark .surface-muted {
+  background: var(--bg-inset);
+  border-color: var(--border-strong);
+}
+.dark .chat-bubble-assistant {
+  background: var(--bg-surface-2);
+  border-color: var(--border-strong);
+}
+.dark .conv-row {
+  background: var(--bg-surface-2);
+  border-color: var(--border-strong);
+}
+.dark .conv-row:hover {
+  background: var(--bg-elevated);
+}
+.dark .input-soft:focus {
+  background: var(--bg-elevated);
+  border-color: var(--brand-glow);
+}
+.dark .bg-white {
+  background-color: var(--bg-surface-2) !important;
+}
+.dark .bg-white\/5 {
+  background-color: rgba(232, 224, 212, 0.06) !important;
+}
+.dark .bg-white\/20 {
+  background-color: rgba(232, 224, 212, 0.1) !important;
+}
+.dark .bg-white\/25 {
+  background-color: rgba(232, 224, 212, 0.12) !important;
 }

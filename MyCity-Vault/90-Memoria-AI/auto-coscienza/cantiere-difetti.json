@@ -1,0 +1,73 @@
+{
+  "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-07-01 09:39",
+  "difetti": [
+    {
+      "id": "AR-001",
+      "titolo": "Sensori MCP intermittenti: la macchina lavora al buio sui dati reali",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù.",
+      "fix_proposto": "Documentare in giro.md il fallback REST (MARKETPLACE_SUPABASE env) + retry MCP + contatore giri-ciechi. Verificato funzionante 30/6 22:17.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nota_30_06_sera": "PARZIALMENTE MITIGATO: REST fallback recupera dati live quando MCP cieco. MCP resta preferito. Proposta 🟡 documentare in giro.md.",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-002",
+      "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
+      "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback, in radiografia.js e audit-design.js.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-003",
+      "titolo": "La cecità dei sensori è silenziosa: manca un sensore che la misuri",
+      "dimensione": "copertura-cieca",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Nessun pezzo della macchina tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
+      "fix_proposto": "Creare (🟡) un sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-06-28",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-005",
+      "titolo": "Ritmo mattino/sera/settimana non schedulato sul VPS Linux",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "ritmo.md documenta solo schtasks/Windows; sul VPS mancano timer systemd o cron per le tre cadenze.",
+      "fix_proposto": "Unit systemd mycity-ritmo-*.timer + ritmo-run.sh (Nicola «ok timer ritmo» 1/7 09:43).",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-01",
+      "chiuso_il": "2026-07-01"
+    },
+    {
+      "id": "AR-004",
+      "titolo": "PAT GitHub senza write su mycity: push marketplace 403 blocca PR Sprint 1",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Token fine-grained scrive solo ad-mycity; AD chiude su 'codice pronto' senza verificare push (L-0701-26).",
+      "fix_proposto": "Accodato #14 MARKETPLACE_GIT_TOKEN in cervello/vps/.env + verifica push post-ok Sprint 1.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-01",
+      "chiuso_il": ""
+    }
+  ],
+  "meta": { "aperti": 5, "in_corso": 0, "chiusi": 0 }
+}

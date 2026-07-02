@@ -2,11 +2,16 @@ import { NextResponse } from "next/server";
 import {
   getLatestBriefing,
   getRecentTimes,
+  getImpostazione,
   memoryConnected,
   type BriefingRecord,
   type Briefing,
 } from "@/lib/store";
 import { readVaultFile, listVaultDir } from "@/lib/vault";
+import { vaultToIso } from "@/lib/format";
+import { vaultGithubInfo } from "@/lib/obsidian";
+import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
+import { marketplaceGithubInfo } from "@/lib/github";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,21 +78,64 @@ async function briefingDalVault(): Promise<BriefingRecord | null> {
   return null;
 }
 
+function tsBriefing(b: BriefingRecord | null): number {
+  if (!b?.created_at) return 0;
+  return Date.parse(vaultToIso(b.created_at)) || 0;
+}
+
+/** Sceglie il briefing più fresco tra Supabase e vault GitHub (non solo il primo disponibile). */
+function briefingPiuFresco(
+  fromDb: BriefingRecord | null,
+  fromVault: BriefingRecord | null
+): { record: BriefingRecord | null; fonte: "supabase" | "vault" | null } {
+  if (!fromDb && !fromVault) return { record: null, fonte: null };
+  if (!fromDb) return { record: fromVault, fonte: "vault" };
+  if (!fromVault) return { record: fromDb, fonte: "supabase" };
+  return tsBriefing(fromVault) >= tsBriefing(fromDb)
+    ? { record: fromVault, fonte: "vault" }
+    : { record: fromDb, fonte: "supabase" };
+}
+
 // Cio' che la dashboard mostra: l'ultimo briefing e quanto e' "attivo".
 export async function GET() {
   try {
-    const [latest, recent] = await Promise.all([
+    const vault = vaultGithubInfo();
+    const codice = marketplaceGithubInfo();
+    const [fromDb, fromVault, recent, segnali, pausa] = await Promise.all([
       getLatestBriefing(),
+      briefingDalVault(),
       getRecentTimes(10),
+      raccogliSegnaliBattito(),
+      getImpostazione("pausa").catch(() => null),
     ]);
-    const ultimo = latest ?? (await briefingDalVault());
+    const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, fromVault);
+    const oreWorker = oreDaQuando(segnali.worker?.quando);
+    const workerVivo = oreWorker != null && oreWorker <= 0.1;
     return NextResponse.json({
       memoria: memoryConnected(),
-      vivo: memoryConnected() || ultimo != null,
+      vaultGithub: vault.collegato,
+      vaultRamo: vault.ramo,
+      marketplaceCodice: codice.collegato,
+      marketplaceRepo: codice.repo,
+      marketplaceRamo: codice.ramo,
+      briefingFonte,
+      vivo: macchinaViva(segnali),
+      workerVivo,
+      workerUltimo: segnali.worker?.quando ?? null,
+      adInPausa: pausa === "on",
       ultimo,
       giri: recent,
     });
   } catch (e: any) {
-    return NextResponse.json({ memoria: false, vivo: false, ultimo: null, giri: [], error: e.message });
+    return NextResponse.json({
+      memoria: false,
+      vivo: false,
+      workerVivo: false,
+      workerUltimo: null,
+      adInPausa: false,
+      ultimo: null,
+      giri: [],
+      error: e.message,
+    });
   }
 }

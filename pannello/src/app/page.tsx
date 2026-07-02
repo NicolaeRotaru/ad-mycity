@@ -89,12 +89,15 @@ import {
   CalendarDays,
   Lightbulb,
   Award,
+  Microscope,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import MemoriaViva from "@/components/MemoriaViva";
-import GovernoAD from "@/components/GovernoAD";
+import Memoria from "@/components/aree/Memoria";
+import MacchinaArea from "@/components/aree/MacchinaArea";
+import Lavori from "@/components/aree/Lavori";
+import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
@@ -106,6 +109,10 @@ import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
+import ParlaCasella from "@/components/ParlaCasella";
+import ThemeToggle from "@/components/ThemeToggle";
+import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
+import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -122,6 +129,7 @@ type Msg = {
   tools?: string[];
   esperto?: { nome: string; emoji: string };
   prompt?: boolean;
+  pending?: boolean; // bolla "sto pensando…" in attesa della risposta del cervello
 };
 type Conversazione = {
   id: string;
@@ -153,13 +161,7 @@ type Lavoro = {
   richiesta: string;
   risultato: string;
   esperto: string;
-};
-
-const LAVORO_STATO: Record<string, { label: string; cls: string }> = {
-  in_attesa: { label: "⏳ In attesa", cls: "bg-amber-50 text-amber-700 ring-amber-200" },
-  in_corso: { label: "⚙️ In corso", cls: "bg-blue-50 text-blue-700 ring-blue-200" },
-  fatto: { label: "✅ Fatto", cls: "bg-green-50 text-green-700 ring-green-200" },
-  errore: { label: "⚠️ Errore", cls: "bg-red-50 text-red-700 ring-red-200" },
+  gruppo_id?: string | null;
 };
 
 const TEAM = [
@@ -300,10 +302,10 @@ const RIDER_KPI: Kpi[] = [
 // === FINANZA & MARGINI — 8 KPI × 3 finestre ===
 // Si accendono quando colleghi Stripe/payout e i costi.
 const FINANZA_KPI: Kpi[] = [
-  { icon: <Percent size={16} />, label: "Ricavo piattaforma (commissioni)", fonte: "Stripe/ordini", tipo: "euro" },
-  { icon: <TrendingUp size={16} />, label: "Margine medio / ordine", fonte: "Stripe/costi", tipo: "euro" },
-  { icon: <Banknote size={16} />, label: "Payout ai negozi", fonte: "Stripe", tipo: "euro" },
-  { icon: <RotateCcw size={16} />, label: "Rimborsi", fonte: "Stripe", tipo: "euro" },
+  { icon: <Percent size={16} />, label: "Ricavo piattaforma (commissioni)", fonte: "Stripe/ordini", tipo: "euro", valore: "ricavo_commissione_30g" },
+  { icon: <TrendingUp size={16} />, label: "Margine medio / ordine", fonte: "Stripe/costi", tipo: "euro", valore: "cm_reale_per_ordine" },
+  { icon: <Banknote size={16} />, label: "Payout ai negozi", fonte: "Stripe", tipo: "euro", valore: "payout_completati_euro" },
+  { icon: <RotateCcw size={16} />, label: "Rimborsi", fonte: "Stripe", tipo: "euro", valore: "rimborsi_euro" },
   { icon: <ShieldAlert size={16} />, label: "Chargeback / dispute", fonte: "Stripe", tipo: "n" },
   { icon: <Truck size={16} />, label: "Costo consegne", fonte: "flotta rider", tipo: "euro" },
   { icon: <Receipt size={16} />, label: "IVA stimata", fonte: "contabilità", tipo: "euro" },
@@ -312,24 +314,24 @@ const FINANZA_KPI: Kpi[] = [
 
 // === CLIENTI & RETENTION (CRM) === — far tornare e fidelizzare i clienti
 const CLIENTI_KPI: Kpi[] = [
-  { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc" },
+  { icon: <Repeat size={16} />, label: "Tasso di riordino", fonte: "ordini", tipo: "perc", valore: "repeat_rate" },
   { icon: <UserMinus size={16} />, label: "Churn clienti", fonte: "ordini", tipo: "perc" },
-  { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro" },
-  { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n" },
+  { icon: <HandCoins size={16} />, label: "Valore cliente (LTV)", fonte: "ordini", tipo: "euro", valore: "ltv_medio" },
+  { icon: <History size={16} />, label: "Frequenza riordino", fonte: "ordini", tipo: "n", valore: "ordini_per_cliente" },
   { icon: <Mail size={16} />, label: "Email inviate", fonte: "Resend", tipo: "n" },
   { icon: <Eye size={16} />, label: "Apertura email", fonte: "Resend", tipo: "perc" },
   { icon: <RotateCcw size={16} />, label: "Win-back recuperati", fonte: "CRM", tipo: "n" },
-  { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n" },
+  { icon: <Gift size={16} />, label: "Referral / inviti", fonte: "CRM", tipo: "n", valore: "referral_totali" },
 ];
 
 // === NEGOZI & CATALOGO — 8 KPI × 3 finestre ===
 // Si accendono quando colleghi catalogo prodotti e health dei negozi.
 const NEGOZI_KPI: Kpi[] = [
-  { icon: <TrendingDown size={16} />, label: "Negozi in calo", fonte: "ordini", tipo: "n" },
-  { icon: <Boxes size={16} />, label: "Prodotti a catalogo", fonte: "catalogo", tipo: "n" },
-  { icon: <PackageX size={16} />, label: "Prodotti esauriti", fonte: "catalogo", tipo: "n" },
+  { icon: <TrendingDown size={16} />, label: "Negozi in calo", fonte: "ordini", tipo: "n", valore: "negozi_rossi" },
+  { icon: <Boxes size={16} />, label: "Prodotti a catalogo", fonte: "catalogo", tipo: "n", valore: "prodotti_totali" },
+  { icon: <PackageX size={16} />, label: "Prodotti esauriti", fonte: "catalogo", tipo: "n", valore: "prodotti_stock_zero" },
   { icon: <Store size={16} />, label: "Negozi senza ordini", fonte: "ordini", tipo: "n" },
-  { icon: <Tags size={16} />, label: "Categorie coperte", fonte: "catalogo", tipo: "n" },
+  { icon: <Tags size={16} />, label: "Categorie coperte", fonte: "catalogo", tipo: "n", valore: "categorie_coperte" },
   { icon: <Star size={16} />, label: "Recensione media negozi", fonte: "recensioni", tipo: "stelle" },
   { icon: <Clock size={16} />, label: "Tempo risposta negozio", fonte: "messaggi", tipo: "durata" },
   { icon: <UserPlus size={16} />, label: "Negozi in onboarding", fonte: "vendite", tipo: "n" },
@@ -340,8 +342,8 @@ const CONTABILITA_KPI: Kpi[] = [
   { icon: <FileText size={16} />, label: "Fatture emesse", fonte: "contabilità", tipo: "n" },
   { icon: <Receipt size={16} />, label: "Fatturato imponibile", fonte: "contabilità", tipo: "euro" },
   { icon: <Percent size={16} />, label: "IVA da versare", fonte: "contabilità", tipo: "euro" },
-  { icon: <Banknote size={16} />, label: "Payout riconciliati", fonte: "Stripe/contabilità", tipo: "perc" },
-  { icon: <RotateCcw size={16} />, label: "Note di credito", fonte: "contabilità", tipo: "n" },
+  { icon: <Banknote size={16} />, label: "Payout in attesa", fonte: "Stripe/contabilità", tipo: "n", valore: "payout_in_attesa" },
+  { icon: <RotateCcw size={16} />, label: "Note di credito / rimborsi", fonte: "contabilità", tipo: "n", valore: "rimborsi_n" },
   { icon: <CalendarClock size={16} />, label: "Scadenze fiscali", fonte: "contabilità", tipo: "n" },
 ];
 
@@ -350,8 +352,8 @@ const GROWTH_KPI: Kpi[] = [
   { icon: <FlaskConical size={16} />, label: "Esperimenti attivi", fonte: "growth", tipo: "n" },
   { icon: <ArrowUpRight size={16} />, label: "Uplift ricavo", fonte: "growth", tipo: "perc" },
   { icon: <TrendingUp size={16} />, label: "Tasso upsell", fonte: "ordini", tipo: "perc" },
-  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro" },
-  { icon: <Receipt size={16} />, label: "Scontrino post-upsell", fonte: "ordini", tipo: "euro" },
+  { icon: <Coins size={16} />, label: "Fee media consegna", fonte: "ordini", tipo: "euro", valore: "fee_consegna_media_ordine" },
+  { icon: <Receipt size={16} />, label: "Commissione media / ordine", fonte: "ordini", tipo: "euro", valore: "commissione_media_ordine" },
   { icon: <Truck size={16} />, label: "Uso soglia spedizione gratis", fonte: "ordini", tipo: "perc" },
 ];
 
@@ -427,11 +429,11 @@ const MERCATO_KPI: Kpi[] = [
 
 // === AZIENDA & SQUADRA === — la salute dell'impresa dietro MyCity
 const AZIENDA_KPI: Kpi[] = [
-  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro" },
-  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n" },
-  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro" },
-  { icon: <TrendingDown size={16} />, label: "Burn mensile", fonte: "finanza", tipo: "euro" },
-  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n" },
+  { icon: <PiggyBank size={16} />, label: "Cassa disponibile", fonte: "finanza", tipo: "euro", valore: "cassa_attuale" },
+  { icon: <CalendarClock size={16} />, label: "Runway (mesi)", fonte: "finanza", tipo: "n", valore: "runway_mesi" },
+  { icon: <Wallet size={16} />, label: "Costi fissi / mese", fonte: "finanza", tipo: "euro", valore: "burn_lordo" },
+  { icon: <TrendingDown size={16} />, label: "Burn netto mensile", fonte: "finanza", tipo: "euro", valore: "burn_netto" },
+  { icon: <Scale size={16} />, label: "Break-even (ordini/mese)", fonte: "finanza", tipo: "n", valore: "break_even_ordini_mese" },
   { icon: <Percent size={16} />, label: "Margine operativo", fonte: "finanza", tipo: "perc" },
 ];
 
@@ -559,15 +561,32 @@ function fa(iso: string | null): string {
   }
 }
 
+type Vista =
+  | "plancia"
+  | "azioni"
+  | "lavori"
+  | "cervello"
+  | "auto-coscienza"
+  | "numeri"
+  | "memoria"
+  | "persone"
+  | "operazioni"
+  | "mondo"
+  | "assistente"
+  | "storico";
+
+type AssistenteTab = "chat" | "conversazioni" | "storico";
+
 export default function Dashboard() {
-  const [vista, setVista] = useState<
-    "plancia" | "azioni" | "numeri" | "memoria" | "persone" | "operazioni" | "mondo" | "assistente" | "storico"
-  >("plancia");
+  const [vista, setVista] = useState<Vista>("plancia");
+  const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
   const [memoria, setMemoria] = useState(false);
   const [vivo, setVivo] = useState(false);
+  const [workerVivo, setWorkerVivo] = useState<boolean | null>(null);
+  const [adInPausa, setAdInPausa] = useState(false);
   const [giri, setGiri] = useState(0);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   // Quali categorie dei numeri sono aperte. Di default Salute + Marketplace
@@ -616,6 +635,85 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  // Se la chat va in timeout, continuiamo ad aggiornare la bolla quando il lavoro finisce (polling).
+  const pendingLavoroChatRef = useRef<{ id: string; tipo: string; targetConvId: string } | null>(null);
+  const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
+  const convIdRef = useRef<string | null>(null);
+  const sessionGruppoRef = useRef<string | null>(null);
+  const PENDING_CHAT_KEY = "mycity_pending_lavoro";
+
+  useEffect(() => {
+    convIdRef.current = convId;
+  }, [convId]);
+
+  function salvaPendingChat(pend: { id: string; tipo: string; targetConvId: string } | null) {
+    pendingLavoroChatRef.current = pend;
+    try {
+      if (pend) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(pend));
+      else sessionStorage.removeItem(PENDING_CHAT_KEY);
+    } catch {}
+  }
+
+  function rispondiInChat(prev: Msg[], content: string): Msg[] {
+    const i = prev.findIndex((m) => m.pending);
+    if (i !== -1) {
+      const copia = [...prev];
+      copia[i] = { role: "assistant", content };
+      return copia;
+    }
+    // Il polling in background può aver già sostituito la bolla pending: aggiorna l'ultima
+    // risposta assistant invece di accodare un duplicato.
+    for (let j = prev.length - 1; j >= 0; j--) {
+      const m = prev[j];
+      if (m.role !== "assistant" || m.prompt) continue;
+      if (m.content === content) return prev;
+      const copia = [...prev];
+      copia[j] = { role: "assistant", content };
+      return copia;
+    }
+    return [...prev, { role: "assistant", content }];
+  }
+
+  /** Applica la risposta al thread giusto (anche se Nicola ha aperto «Nuova chat» nel frattempo). */
+  function aggiornaMessaggiConversazione(targetConvId: string, content: string) {
+    setConversazioni((list) => {
+      const idx = list.findIndex((c) => c.id === targetConvId);
+      if (idx === -1) return list;
+      const c = list[idx];
+      const aggiornati = rispondiInChat(c.messaggi, content);
+      const nuovaLista = list.map((x, i) =>
+        i === idx ? { ...x, messaggi: aggiornati, updated_at: new Date().toISOString() } : x
+      );
+      if (!convServer) scriviConvLocali(nuovaLista);
+      void persistConversazione(targetConvId, aggiornati);
+      return nuovaLista;
+    });
+  }
+
+  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata). */
+  function instradaMessaggioChat(targetConvId: string, content: string) {
+    if (convIdRef.current === targetConvId) {
+      setMessages((m) => rispondiInChat(m, content));
+    } else {
+      aggiornaMessaggiConversazione(targetConvId, content);
+    }
+  }
+
+  function applicaRispostaChat(lavoroId: string, content: string, targetConvId: string) {
+    if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
+    lavoroRisoltoChatRef.current.add(lavoroId);
+    salvaPendingChat(null);
+    instradaMessaggioChat(targetConvId, content);
+    setLoading(false);
+  }
+
+  function risolviLavoroPendente(lavoriLista: Lavoro[], pend: { id: string; tipo: string; targetConvId: string }) {
+    const l = lavoriLista.find((x) => x.id === pend.id);
+    if (!l || (l.stato !== "fatto" && l.stato !== "errore")) return false;
+    const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+    applicaRispostaChat(pend.id, testo, pend.targetConvId);
+    return true;
+  }
 
   function aggiungiDiario(tipo: DiarioVoce["tipo"], titolo: string, testo: string) {
     setDiario((d) => [{ id: Date.now() + Math.random(), at: new Date().toISOString(), tipo, titolo, testo }, ...d].slice(0, 200));
@@ -649,7 +747,7 @@ export default function Dashboard() {
   // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
   // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
   async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
-    const reali = msgs.filter((m) => !m.prompt && (m.role === "user" || m.role === "assistant"));
+    const reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
     if (reali.length === 0) return id;
     const titolo = titoloDa(reali);
     let newId = id;
@@ -688,6 +786,8 @@ export default function Dashboard() {
     setConvId(null);
     setBase(null);
     setConvSel([]);
+    sessionGruppoRef.current = null;
+    setLoading(false);
     try {
       localStorage.removeItem("mycity_chat");
       localStorage.removeItem("mycity_convid");
@@ -703,6 +803,58 @@ export default function Dashboard() {
     setConvId(c.id);
     setBase(null);
     setConvSel([]);
+    const pend = pendingLavoroChatRef.current;
+    if (pend?.targetConvId === id && !lavoroRisoltoChatRef.current.has(pend.id)) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }
+
+  /** Da Lavori → Assistente: riapre la conversazione collegata (o la ricostruisce dai lavori). */
+  async function apriChatDaGruppo(gruppoId: string) {
+    await persistConversazione(convId, messages);
+    const esistente = conversazioni.find((c) => c.id === gruppoId);
+    if (esistente) {
+      setMessages(esistente.messaggi);
+      setConvId(esistente.id);
+      setBase(null);
+      setConvSel([]);
+      sessionGruppoRef.current = esistente.id;
+      const pend = pendingLavoroChatRef.current;
+      if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
+        setLoading(true);
+      } else {
+        setLoading(false);
+      }
+      return;
+    }
+
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavori, mappa).find((x) => x.id === gruppoId);
+    if (!g) {
+      setMessages([]);
+      setConvId(gruppoId);
+      setBase(null);
+      setConvSel([]);
+      sessionGruppoRef.current = gruppoId;
+      setLoading(false);
+      return;
+    }
+
+    const msgs = messaggiDaGruppo(g.lavori) as Msg[];
+    const salvato = await persistConversazione(gruppoId, msgs);
+    setMessages(msgs);
+    setConvId(salvato || gruppoId);
+    setBase(null);
+    setConvSel([]);
+    sessionGruppoRef.current = salvato || gruppoId;
+    const pend = pendingLavoroChatRef.current;
+    if (pend?.targetConvId === gruppoId && !lavoroRisoltoChatRef.current.has(pend.id)) {
+      setLoading(true);
+    } else {
+      setLoading(g.haAttivo);
+    }
   }
 
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
@@ -779,37 +931,109 @@ export default function Dashboard() {
     fetch("/api/diario", { method: "DELETE" }).catch(() => {});
   }
 
-  // Manda un compito al "cervello" (Claude Code sul Max): lo esegue in background
-  // e il risultato compare qui sotto in "Lavori del cervello". È il modo di
-  // chattare SENZA usare l'API a pagamento: lavora il tuo abbonamento Max.
+  // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
+  // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
+  // o "errore" (o dopo il timeout, senza bloccare nulla).
+  async function attendiRisposta(id: string, tipo = "chat", timeoutMs = 5 * 60 * 1000): Promise<string> {
+    const scadenza = Date.now() + timeoutMs;
+    while (Date.now() < scadenza) {
+      await new Promise((r) => setTimeout(r, 2000));
+      try {
+        const r = await fetch("/api/lavori", { cache: "no-store" });
+        const d = await r.json();
+        if (Array.isArray(d.lavori)) {
+          setLavori(d.lavori);
+          const l = d.lavori.find((x: Lavoro) => x.id === id);
+          if (l && (l.stato === "fatto" || l.stato === "errore")) {
+            return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+          }
+        }
+      } catch {
+        // rete instabile: riprovo al giro dopo
+      }
+    }
+    return messaggioLavoroInCorso(tipo);
+  }
+
+  // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
+  // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
   async function mandaAlCervello(text?: string) {
     const t = (text ?? input).trim();
     if (!t || loading) return;
     if (text === undefined) setInput("");
-    // Se hai scelto una o più conversazioni "come base", le accodo come contesto.
-    const richiesta = base?.testo ? `${t}\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : t;
+
+    // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
+    // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
+    const storia = messages
+      .filter((m) => !m.prompt && !m.pending)
+      .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
+      .join("\n");
+    const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
+    const prep = preparaLavoro(t);
+    const richiesta =
+      prep.tipo === "giro"
+        ? prep.richiesta
+        : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+          `## Nuovo messaggio di Nicola\n${t}` +
+          baseTxt +
+          `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+          `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+
     setMessages((m) => [
       ...m,
       { role: "user", content: t },
-      { role: "assistant", content: "🧠 Mandato al cervello (Max). La risposta compare qui sotto in «Lavori del cervello» appena è pronta." },
+      { role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
+    let targetConvId = convId || sessionGruppoRef.current || "";
     try {
+      let gruppoId = convId || sessionGruppoRef.current;
+      if (!gruppoId) {
+        gruppoId = `sess_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+        sessionGruppoRef.current = gruppoId;
+      }
+      targetConvId = gruppoId;
+      const savedConv = await persistConversazione(convId, [
+        ...messages.filter((m) => !m.prompt && !m.pending),
+        { role: "user", content: t },
+      ]);
+      if (savedConv) {
+        setConvId(savedConv);
+        gruppoId = savedConv;
+        sessionGruppoRef.current = savedConv;
+        targetConvId = savedConv;
+      }
+
       const res = await fetch("/api/lavori", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ richiesta }),
+        body: JSON.stringify({ richiesta, tipo: prep.tipo, gruppo_id: gruppoId }),
       });
       const d = await res.json();
       if (d.ok && d.lavoro) {
+        salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
-        aggiungiDiario("chat", "🧠 Mandato al cervello", t);
+        salvaPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
+        aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
+        const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
+        const timeoutMsg = messaggioLavoroInCorso(prep.tipo);
+        if (risposta === timeoutMsg) {
+          instradaMessaggioChat(targetConvId, risposta);
+          setLoading(false);
+        } else {
+          applicaRispostaChat(d.lavoro.id, risposta, targetConvId);
+        }
       } else {
-        setMessages((m) => [...m, { role: "assistant", content: `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}` }]);
+        salvaPendingChat(null);
+        instradaMessaggioChat(
+          targetConvId,
+          `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`
+        );
+        setLoading(false);
       }
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: "⚠️ Connessione fallita." }]);
-    } finally {
+      salvaPendingChat(null);
+      instradaMessaggioChat(targetConvId, "⚠️ Connessione fallita.");
       setLoading(false);
     }
   }
@@ -870,6 +1094,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const data = await res.json();
       setMemoria(Boolean(data.memoria));
       setVivo(Boolean(data.vivo));
+      setWorkerVivo(typeof data.workerVivo === "boolean" ? data.workerVivo : null);
+      setAdInPausa(Boolean(data.adInPausa));
       setGiri((data.giri || []).length);
       if (data.ultimo) {
         setBriefing(data.ultimo.data);
@@ -885,10 +1111,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     fetch("/api/metriche", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        // Se il marketplace non è collegato, AZZERA i KPI (prima restavano i numeri vecchi a schermo
-        // col timbro "Aggiornato" fresco — sembravano dati attuali ma non lo erano).
-        setMetriche(d && d.connected ? d : null);
-        setDatiAggiornatiAt(Date.now());
+        if (d && d.connected) {
+          setMetriche(d);
+          setDatiAggiornatiAt(Date.now());
+        } else {
+          // Poll non collegato: NON azzerare i KPI già a schermo (evitava che la pagina si
+          // accorciasse di colpo facendo SALTARE lo scroll in cima durante l'auto-refresh).
+          // Lascio anche il timbro "Aggiornato" fermo → mostra l'età VERA dei dati, non un
+          // refresh finto. Solo al PRIMO caricamento, se mai connesso, resta null (UI "non collegato").
+          setMetriche((cur) => cur);
+        }
       })
       .catch(() => {});
   }, []);
@@ -902,6 +1134,64 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }, 60000);
     return () => clearInterval(id);
   }, [caricaStato, caricaMetriche]);
+
+  // 🧭 Vista persistente: al refresh del browser NON tornare alla Plancia, ripristina l'ultima area.
+  const vistaPrimaVolta = useRef(true);
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("mycity_vista");
+      if (v === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else if (v) setVista(v as Vista);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; return; } // salta il montaggio
+    try { localStorage.setItem("mycity_vista", vista); } catch {}
+  }, [vista]);
+
+  // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
+  // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
+  useEffect(() => {
+    const onVai = (e: Event) => {
+      const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
+      if (!det?.vista) return;
+      if (det.vista === "storico") {
+        setVista("assistente");
+        setAssistenteTab("storico");
+      } else if (det.vista === "auto-coscienza") {
+        setVista("cervello");
+      } else {
+        setVista(det.vista);
+        if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
+        if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
+        if (det.vista === "assistente" && det.sub === "chat") {
+          setAssistenteTab("chat");
+          if (det.anchor) void apriChatDaGruppo(det.anchor);
+        }
+      }
+      if (det.anchor) {
+        const target = det.anchor;
+        // Ritenta: la casella può comparire dopo il cambio area, l'apertura della scheda
+        // o il caricamento dei dati. Cerco fino a ~2.4s, poi mi arrendo (nessun danno).
+        let tentativi = 0;
+        const cerca = () => {
+          const el = document.getElementById(target);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+            el.classList.add("flash-target");
+            setTimeout(() => el.classList.remove("flash-target"), 2200);
+            return;
+          }
+          if (++tentativi < 20) setTimeout(cerca, 120);
+        };
+        setTimeout(cerca, 120);
+      }
+    };
+    window.addEventListener("mycity:vai", onVai);
+    return () => window.removeEventListener("mycity:vai", onVai);
+  }, [conversazioni, lavori]);
 
   useEffect(() => {
     caricaStato();
@@ -921,7 +1211,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
-  useEffect(() => {
+  const caricaConversazioni = useCallback(() => {
     fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -945,14 +1235,36 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setConvServer(false);
         setConversazioni(leggiConvLocali());
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    caricaConversazioni();
+    // 💬 "Parla con la casella" salva una chat in Conversazioni: ricarica l'elenco appena succede.
+    const onConv = () => caricaConversazioni();
+    window.addEventListener("mycity:conversazioni", onConv);
+    return () => window.removeEventListener("mycity:conversazioni", onConv);
+  }, [caricaConversazioni]);
 
   // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
   useEffect(() => {
     try {
       const c = localStorage.getItem("mycity_chat");
       if (c) setMessages(JSON.parse(c));
+      const cid = localStorage.getItem("mycity_convid");
+      try {
+        const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
+        if (pendRaw) {
+          const pend = JSON.parse(pendRaw) as { id: string; tipo: string; targetConvId?: string };
+          if (pend?.id && pend.targetConvId) {
+            pendingLavoroChatRef.current = {
+              id: pend.id,
+              tipo: pend.tipo,
+              targetConvId: pend.targetConvId,
+            };
+            if (cid && cid === pend.targetConvId) setLoading(true);
+          }
+        }
+      } catch {}
       const d = localStorage.getItem("mycity_diario");
       if (d) setDiario(JSON.parse(d));
       const b = localStorage.getItem("mycity_briefing");
@@ -961,7 +1273,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (o.briefing) setBriefing(o.briefing);
         if (o.ultimoAt) setUltimoAt(o.ultimoAt);
       }
-      const cid = localStorage.getItem("mycity_convid");
       if (cid) setConvId(cid);
     } catch {}
     setCaricato(true);
@@ -984,78 +1295,104 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
   }, [convId, caricato]);
 
-  // Ponte col cervello (Max): controlla i lavori ogni 8s, cosi i risultati
-  // del cervello compaiono qui appena pronti.
+  // Ponte col cervello: polling lavori — 2s se chat in attesa, 8s altrimenti.
   useEffect(() => {
     let stop = false;
     const carica = async () => {
       try {
         const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
-        if (!stop && Array.isArray(d.lavori)) setLavori(d.lavori);
+        if (!stop && Array.isArray(d.lavori)) {
+          setLavori(d.lavori);
+          const pend = pendingLavoroChatRef.current;
+          if (pend) {
+            risolviLavoroPendente(d.lavori, pend);
+          }
+        }
       } catch {}
     };
     carica();
-    const id = setInterval(carica, 8000);
+    const onLavori = () => carica();
+    window.addEventListener("mycity:lavori", onLavori);
+    const ms = loading || pendingLavoroChatRef.current ? 2000 : 8000;
+    const id = setInterval(carica, ms);
     return () => {
       stop = true;
       clearInterval(id);
+      window.removeEventListener("mycity:lavori", onLavori);
     };
-  }, []);
+  }, [loading]);
 
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 border-b border-black/[0.06] bg-paper/80 backdrop-blur-md">
+      <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
               M
             </div>
             <div className="leading-tight min-w-0">
-              <h1 className="font-semibold text-[15px] tracking-tight truncate">Pannello di Controllo</h1>
-              <span className="text-xs text-black/40">AD MyCity</span>
+              <h1 className="font-semibold text-[16px] tracking-tight truncate" style={{ color: "var(--text-primary)" }}>Pannello di Controllo</h1>
+              <span className="t-eti text-[12px]">AD MyCity</span>
             </div>
           </div>
           <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
-                vivo ? "bg-green-50 text-green-700 ring-green-200" : "bg-amber-50 text-amber-700 ring-amber-200"
+                workerVivo
+                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800"
+                  : adInPausa
+                    ? "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
+                    : vivo
+                      ? "bg-red-50 text-red-700 ring-red-200 dark:bg-red-950/50 dark:text-red-300 dark:ring-red-800"
+                      : "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
               }`}
+              title={
+                workerVivo
+                  ? "Il worker sul VPS sta processando la coda chat"
+                  : adInPausa
+                    ? "L'AD è in pausa: riattivalo dal Pannello"
+                    : vivo
+                      ? "Memoria ok ma il worker VPS non batte: i lavori restano in coda"
+                      : "Memoria o giro non ancora attivi"
+              }
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${vivo ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
-              {vivo ? "Vivo" : "In prova"}
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                }`}
+              />
+              {workerVivo ? "Worker ON" : adInPausa ? "In pausa" : vivo ? "Worker spento" : "In prova"}
             </span>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-5 py-4 sm:py-5 space-y-4">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5">
         {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
         {(() => {
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+            { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
+            { id: "cervello", label: "Macchina", icon: <Cpu size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
             { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
             { id: "persone", label: "Persone", icon: <Users size={15} /> },
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-            { id: "storico", label: "Storico", icon: <History size={15} /> },
           ] as const;
           return (
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {AREE.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setVista(t.id)}
-                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition ${
-                    vista === t.id
-                      ? "bg-brand text-white shadow-card"
-                      : "bg-white text-black/60 ring-1 ring-black/[0.06] hover:bg-black/[0.03]"
-                  }`}
+                  className={`nav-tab ${vista === t.id ? "nav-tab-active" : ""}`}
                 >
                   {t.icon}
                   <span>{t.label}</span>
@@ -1089,6 +1426,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Azioni proposte={briefing?.azioni || []} />
             <Arsenale />
           </div>
+        )}
+
+        {/* ===================== MACCHINA (radiografia + auto-coscienza) ===================== */}
+        {vista === "cervello" && <MacchinaArea />}
+
+        {/* ===================== LAVORI DEL CERVELLO ===================== */}
+        {vista === "lavori" && (
+          <Lavori lavori={lavori} onSvuota={svuotaLavori} workerVivo={workerVivo} adInPausa={adInPausa} />
         )}
 
         {/* ===================== NUMERI ===================== */}
@@ -1145,67 +1490,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== MEMORIA & DECISIONI ===================== */}
         {vista === "memoria" && (
-        <div className="space-y-4">
-          <div>
-            <h2 className="t-area">🧠 Memoria & decisioni</h2>
-            <p className="t-eti mt-0.5">Cosa fare, allarmi, decisioni, OKR e cosa ha scoperto l'AD. (Le azioni da firmare sono in ⚡ Azioni.)</p>
-          </div>
-
-          {/* Memoria viva: da approvare · cose da fare · sentinelle · decisioni · OKR · attività · stato · piani */}
-          <MemoriaViva />
-
-          {/* Briefing autonomo */}
-          <section className="card p-4">
-            <div className="sez-head mb-4">
-              <span className="sez-ico"><TrendingUp size={16} /></span>
-              <div className="min-w-0">
-                <span className="t-sez">Cosa ho scoperto e cosa propongo</span>
-                <div className="t-eti">
-                  L'analisi che Claude Max fa da solo ogni ora{briefing && ultimoAt ? ` · ultima ${fa(ultimoAt)}` : ""}
-                </div>
-              </div>
-            </div>
-
-            {!briefing && (
-              <div className="text-center text-black/45 py-10">
-                <p className="mb-1">Claude Max non ha ancora salvato un'analisi.</p>
-                <p className="text-sm text-black/35">
-                  Appena fa il suo giro automatico (ogni ora), il risultato compare qui da solo.
-                </p>
-              </div>
-            )}
-
-            {briefing && (
-              <div className="space-y-5">
-                <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
-
-                {briefing.opportunita?.length > 0 && (
-                  <div>
-                    <div className="t-micro mb-2">Opportunità</div>
-                    <div className="space-y-2">
-                      {briefing.opportunita.map((o, i) => (
-                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
-                          <div className="text-sm font-medium">{o.titolo}</div>
-                          <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
-                          <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {briefing.azioni?.length > 0 && (
-                  <div className="rounded-xl border border-brand/15 bg-brand-50/30 p-3 text-[12.5px] text-ink/80">
-                    💡 Da questo giro l'AD propone <b>{briefing.azioni.length}</b> azioni. Le approvi (o le ignori) nell'area <b>⚡ Azioni → Da approvare</b>, in cima come «Proposte dal giro».
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
-        </div>
+          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
         )}
 
         {/* ===================== PERSONE ===================== */}
@@ -1236,13 +1521,40 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
         <div className="space-y-4">
+          <div>
+            <h2 className="t-area">💬 Assistente</h2>
+            <p className="t-eti mt-0.5">Chat con l&apos;AD, conversazioni salvate e storico.</p>
+          </div>
 
-          {/* Comandi: il menù di cosa puoi dire all'AD (clic → finisce nella chat) */}
-          <Comandi onScegli={(cmd) => setInput(cmd)} />
+          <div className="flex flex-wrap gap-1.5">
+            {(
+              [
+                { id: "chat" as const, label: "Chat", icon: <Send size={14} /> },
+                { id: "conversazioni" as const, label: "Conversazioni", icon: <MessagesSquare size={14} /> },
+                { id: "storico" as const, label: "Storico", icon: <History size={14} /> },
+              ] as const
+            ).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setAssistenteTab(t.id)}
+                className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
 
+          {assistenteTab === "storico" && (
+            <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
+          )}
+
+          {assistenteTab === "chat" && (
+          <>
           {/* Chat */}
-          <section className="flex flex-col bg-white rounded-2xl border border-black/[0.06] shadow-card overflow-hidden">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-black/[0.05] gap-2">
+          <section className="card flex flex-col overflow-hidden">
+          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
               <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
                 <Send size={15} />
@@ -1278,17 +1590,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
               <div className="pt-1">
-                <p className="text-sm text-black/50 mb-3">
+                <p className="t-corpo text-sm mb-3">
                   Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {TEAM.map((e) => (
-                    <div key={e.nome} className="flex items-start gap-2.5 text-xs border border-black/[0.07] bg-paper/40 rounded-xl px-3 py-2 hover:border-brand/30 hover:bg-brand-50/40 transition">
+                    <div key={e.nome} className="surface-muted flex items-start gap-2.5 text-xs px-3 py-2 hover:border-brand/30 transition">
                       <span className="text-base leading-none mt-0.5">{e.emoji}</span>
                       <span className="leading-snug">
-                        <span className="font-semibold text-ink/80">{e.nome}</span>
+                        <span className="font-semibold t-sez text-[13px]">{e.nome}</span>
                         <br />
-                        <span className="text-black/40">{e.ruolo}</span>
+                        <span className="t-eti">{e.ruolo}</span>
                       </span>
                     </div>
                   ))}
@@ -1312,11 +1624,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={i} className="text-left">
-                  <div className="text-xs text-black/45 mb-1.5 flex items-center gap-1">
+                  <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
                     <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
                   </div>
-                  <div className="border border-brand/25 bg-brand-50/60 rounded-xl p-3.5">
-                    <pre className="text-xs whitespace-pre-wrap font-sans text-ink/90 leading-relaxed">{m.content}</pre>
+                  <div className="border border-brand/25 rounded-xl p-3.5" style={{ background: "var(--brand-soft)" }}>
+                    <pre className="text-xs whitespace-pre-wrap font-sans t-corpo leading-relaxed">{m.content}</pre>
                     <button
                       onClick={() => copia(m.content)}
                       className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
@@ -1328,7 +1640,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ) : (
                 <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
                   {m.role === "assistant" && m.esperto && (
-                    <div className="text-xs text-black/45 mb-1">
+                    <div className="t-eti text-xs mb-1">
                       {m.esperto.emoji} {m.esperto.nome}
                     </div>
                   )}
@@ -1336,13 +1648,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <span className="inline-block px-4 py-2.5 rounded-2xl rounded-br-md text-sm whitespace-pre-wrap max-w-[85%] leading-relaxed bg-brand text-white shadow-card">
                       {m.content}
                     </span>
+                  ) : m.pending ? (
+                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
+                      <Loader2 size={14} className="animate-spin" /> sto pensando…
+                    </div>
                   ) : (
-                    <div className="inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%] bg-black/[0.04] text-ink">
+                    <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
                     </div>
                   )}
                   {m.role === "assistant" && m.tools && m.tools.length > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs text-black/35 mt-1.5">
+                    <div className="flex items-center gap-1.5 text-xs t-eti mt-1.5">
                       <Wrench size={12} />
                       {m.tools.map((t) => TOOL_LABELS[t] || t).join(" · ")}
                     </div>
@@ -1350,27 +1666,21 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 </div>
               )
             )}
-            {loading && (
-              <div className="flex items-center gap-2 text-black/40 text-sm">
+            {loading && !messages.some((m) => m.pending) && (
+              <div className="flex items-center gap-2 t-eti text-sm">
                 <Loader2 size={16} className="animate-spin" /> Sto lavorando...
               </div>
             )}
             <div ref={endRef} />
           </div>
-          <div className="border-t border-black/[0.06] p-3 space-y-2 bg-paper/30">
-            <div className="flex gap-2 items-end">
-              <textarea
+          <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
+            <div className="flex gap-2">
+              <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    mandaAlCervello();
-                  }
-                }}
-                rows={2}
-                placeholder="Scrivi al cervello (Max), gratis..."
-                className="flex-1 min-h-[42px] max-h-40 px-4 py-2.5 rounded-xl bg-black/[0.04] border border-transparent outline-none text-sm transition resize-y focus:bg-white focus:border-brand/30 focus:ring-2 focus:ring-brand/15"
+                onKeyDown={(e) => e.key === "Enter" && mandaAlCervello()}
+                placeholder="Scrivi all'AD (col tuo Max), gratis..."
+                className="input-soft flex-1"
               />
               <button
                 onClick={dettaVoce}
@@ -1388,7 +1698,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 disabled={loading || !input.trim()}
                 className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
-                title="Manda al cervello (Claude Code sul tuo Max): gratis, in background"
+                title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
               >
                 {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
@@ -1403,65 +1713,68 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <FileText size={14} /> Prompt (copia per Max)
               </button>
             </div>
-            <p className="text-[11px] text-black/40 px-1 leading-relaxed">
-              🧠 <b>Invio</b> = invia · <b>Shift+Invio</b> = a capo · 📋 <b>Prompt</b> = copia per Max. Niente API a pagamento.
+            <p className="t-eti text-[11px] px-1 leading-relaxed">
+              🧠 <b>Invia</b> = l'AD ti risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
           </section>
 
-        {/* Conversazioni: ricorda e riprendi le chat precedenti */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
+          <Comandi onScegli={(cmd) => setInput(cmd)} />
+          </>
+          )}
+
+          {assistenteTab === "conversazioni" && (
+        <section className="card p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+              <span className="sez-ico">
                 <MessagesSquare size={16} />
               </span>
-              <span className="text-[15px] font-semibold tracking-tight">Conversazioni</span>
+              <span className="t-sez">Conversazioni</span>
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={nuovaConversazione} className="text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition">
+              <button type="button" onClick={nuovaConversazione} className="btn-ghost">
                 <Plus size={13} /> Nuova
               </button>
               {conversazioni.length > 0 && (
-                <button onClick={svuotaConversazioni} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
+                <button type="button" onClick={svuotaConversazioni} className="btn-ghost">
                   <Trash2 size={12} /> Svuota
                 </button>
               )}
             </div>
           </div>
-          <p className="text-[11px] text-black/40 mb-3">
+          <p className="t-eti text-[11px] mb-3">
             {convServer
               ? "💾 Salvate nel database: le ritrovi anche da un altro dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."
               : "💾 Salvate su questo dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."}
           </p>
 
           {convSel.length > 0 && (
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 bg-brand-50/50 px-3 py-2">
+            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2" style={{ background: "var(--brand-soft)" }}>
               <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
               <button
+                type="button"
                 onClick={usaComeBase}
                 className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
               >
                 <Layers size={13} /> Inizia nuova con queste come base
               </button>
-              <button onClick={() => setConvSel([])} className="text-xs text-black/45 hover:text-black/70">
+              <button type="button" onClick={() => setConvSel([])} className="btn-ghost">
                 annulla
               </button>
             </div>
           )}
 
           {conversazioni.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora nessuna conversazione. Quando scrivi nella chat qui sopra, la conversazione viene salvata qui e potrai riprenderla.
+            <p className="t-eti text-sm">
+              Ancora nessuna conversazione. Quando scrivi nella chat, la conversazione viene salvata qui e potrai riprenderla.
             </p>
           ) : (
             <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
               {conversazioni.map((c) => (
                 <div
                   key={c.id}
-                  className={`flex items-center gap-3 border rounded-xl p-3 transition ${
-                    convId === c.id ? "border-brand/40 bg-brand-50/40" : "border-black/[0.07] hover:border-black/15 hover:bg-paper/40"
-                  }`}
+                  className={`conv-row flex items-center gap-3 ${convId === c.id ? "conv-row-active" : ""}`}
                 >
                   <input
                     type="checkbox"
@@ -1470,22 +1783,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     className="w-4 h-4 accent-brand shrink-0"
                     aria-label="Seleziona conversazione"
                   />
-                  <button onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                    <div className="text-sm font-medium text-ink/85 truncate">{c.titolo}</div>
-                    <div className="text-[11px] text-black/40">
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
+                    <div className="conv-row-title">{c.titolo}</div>
+                    <div className="conv-row-meta">
                       {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
                       {convId === c.id && " · in corso"}
                     </div>
                   </button>
-                  <button
-                    onClick={() => continuaConversazione(c.id)}
-                    className="shrink-0 text-xs font-medium text-brand border border-brand/30 rounded-full px-3 py-1.5 hover:bg-brand-50 active:scale-95 transition"
-                  >
+                  <button type="button" onClick={() => continuaConversazione(c.id)} className="btn-outline-brand">
                     Apri
                   </button>
                   <button
+                    type="button"
                     onClick={() => eliminaConversazione(c.id)}
-                    className="shrink-0 text-black/30 hover:text-red-500 transition"
+                    className="btn-ghost-danger"
                     aria-label="Elimina conversazione"
                   >
                     <Trash2 size={14} />
@@ -1495,108 +1806,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
         </section>
-
-        {/* Lavori del cervello: ponte con Claude Code sul Max */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <Brain size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Lavori del cervello (Max)</span>
-            </div>
-            {lavori.length > 0 && (
-              <button onClick={svuotaLavori} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota
-              </button>
-            )}
-          </div>
-          <p className="text-[11px] text-black/40 mb-3">
-            Compiti pesanti che esegue il cervello su Claude Code/Max, gratis. Se il cervello non è ancora acceso, restano «in attesa».
-          </p>
-          {lavori.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Nessun lavoro. Scrivi un compito nella chat e premi «🧠 Manda al cervello».
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {lavori.map((lv) => (
-                <div key={lv.id} className="border border-black/[0.07] rounded-xl p-3.5">
-                  <div className="flex items-center gap-2 text-xs mb-1.5">
-                    <span className={`px-2 py-0.5 rounded-full ring-1 font-medium ${LAVORO_STATO[lv.stato]?.cls || "bg-black/5 ring-black/10 text-black/60"}`}>
-                      {LAVORO_STATO[lv.stato]?.label || lv.stato}
-                    </span>
-                    {lv.esperto && <span className="text-black/45">{lv.esperto}</span>}
-                    <span className="ml-auto text-black/40 shrink-0">{fa(lv.updated_at || lv.created_at)}</span>
-                  </div>
-                  <div className="text-sm font-medium text-ink/85">{lv.richiesta}</div>
-                  {lv.risultato && (
-                    <div className="mt-2 text-ink/85 border-t border-black/[0.06] pt-2">
-                      <Markdown>{lv.risultato}</Markdown>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
           )}
-        </section>
 
         </div>
         )}
 
-        {/* ===================== SCHEDA: STORICO ===================== */}
+        {/* storico top-level: reindirizzato ad assistente → tab storico */}
         {vista === "storico" && (
-        <div className="space-y-4">
-
-        <div>
-          <h2 className="t-area">🕘 Storico & governo</h2>
-          <p className="t-eti mt-0.5">Il diario di tutto ciò che l'AD ha detto e fatto, la diretta della squadra e i controlli.</p>
-        </div>
-
-        {/* Governo dell'AD: decisioni · diretta agenti · feed · controllo */}
-        <GovernoAD />
-
-        {/* Diario: tutto cio' che l'assistente dice e fa, salvato */}
-        <section className="bg-white rounded-2xl border border-black/[0.06] shadow-card p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <History size={16} />
-              </span>
-              <span className="text-[15px] font-semibold tracking-tight">Diario — tutto ciò che dice e fa</span>
-            </div>
-            {diario.length > 0 && (
-              <button onClick={cancellaDiario} className="text-xs text-black/40 hover:text-black/70 inline-flex items-center gap-1 transition">
-                <Trash2 size={12} /> Svuota
-              </button>
-            )}
-          </div>
-          <p className="text-[11px] text-black/40 mb-3">
-            {memoria
-              ? "💾 Salvato nel database: resta anche se aggiorni la pagina o cambi dispositivo."
-              : "💾 Salvato su questo browser. Collega il database di memoria per ritrovarlo ovunque."}
-          </p>
-          {diario.length === 0 ? (
-            <p className="text-sm text-black/40">
-              Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[460px] overflow-y-auto pr-1">
-              {diario.map((v) => (
-                <div key={v.id} className="border border-black/[0.07] rounded-xl p-3.5 hover:border-black/10 hover:bg-paper/40 transition">
-                  <div className="flex items-center gap-2 text-xs text-black/40 mb-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand font-medium shrink-0">{DIARIO_TIPO[v.tipo] || v.tipo}</span>
-                    <span className="font-medium text-ink/70 truncate">{v.titolo}</span>
-                    <span className="ml-auto shrink-0">{fa(v.at)}</span>
-                  </div>
-                  <div className="text-sm text-ink/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        </div>
+          <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
       </main>
     </div>
@@ -1623,30 +1840,30 @@ const MD_COMPONENTS: Components = {
     className ? (
       <code className={className}>{children}</code>
     ) : (
-      <code className="bg-black/[0.06] rounded px-1 py-0.5 text-[0.85em] font-mono">{children}</code>
+      <code className="rounded px-1 py-0.5 text-[0.85em] font-mono" style={{ background: "var(--bg-surface-2)", color: "var(--text-primary)", border: "1px solid var(--border)" }}>{children}</code>
     ),
   pre: ({ children }) => (
-    <pre className="bg-black/[0.06] rounded-lg p-3 overflow-x-auto text-xs my-2">{children}</pre>
+    <pre className="rounded-lg p-3 overflow-x-auto text-xs my-2" style={{ background: "var(--bg-surface-2)", color: "var(--text-secondary)", border: "1px solid var(--border)" }}>{children}</pre>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-l-2 border-black/15 pl-3 text-black/70 my-2">{children}</blockquote>
+    <blockquote className="border-l-2 pl-3 my-2" style={{ borderColor: "var(--border-strong)", color: "var(--text-muted)" }}>{children}</blockquote>
   ),
-  hr: () => <hr className="border-black/10 my-3" />,
+  hr: () => <hr className="my-3" style={{ borderColor: "var(--border)" }} />,
   table: ({ children }) => (
     <div className="overflow-x-auto my-2">
       <table className="w-full text-xs border-collapse">{children}</table>
     </div>
   ),
-  thead: ({ children }) => <thead className="bg-black/[0.04]">{children}</thead>,
-  th: ({ children }) => <th className="border border-black/10 px-2 py-1 text-left font-semibold">{children}</th>,
-  td: ({ children }) => <td className="border border-black/10 px-2 py-1 align-top">{children}</td>,
+  thead: ({ children }) => <thead style={{ background: "var(--bg-surface-2)" }}>{children}</thead>,
+  th: ({ children }) => <th className="px-2 py-1 text-left font-semibold" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>{children}</th>,
+  td: ({ children }) => <td className="px-2 py-1 align-top" style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}>{children}</td>,
 };
 
 // Mostra il testo dell'AI come Markdown formattato (grassetti, elenchi, tabelle)
 // invece che come testo grezzo pieno di asterischi e barrette.
 function Markdown({ children }: { children: string }) {
   return (
-    <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD_COMPONENTS}>
         {children}
       </ReactMarkdown>
@@ -1702,6 +1919,7 @@ function CategoriaNumeri({
         <div className="px-3 pb-3">
           <p className="text-[11px] text-black/40 mb-2.5">{sottotitolo}</p>
           {snapshot ? <CorpoGriglia kpis={kpis} metriche={metriche} /> : <CorpoTabella kpis={kpis} metriche={metriche} />}
+          <ParlaCasella titolo={`Numeri: ${titolo}`} contesto={sottotitolo} />
         </div>
       )}
     </div>

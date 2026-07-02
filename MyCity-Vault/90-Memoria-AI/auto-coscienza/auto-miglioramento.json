@@ -1,0 +1,24 @@
+{
+  "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — diventare brava quanto i migliori. Per ogni mestiere: il divario vs i migliori (locali + mondo), un obiettivo concreto e il progresso misurato (scorecard ora, numeri veri poi), con esempi. + torneo tra senior, backlog dai difetti (②), proposte di auto-riscrittura/espansione 🟡. Schema in cervello/auto-coscienza.md.",
+  "data": "2026-06-28 01:40",
+  "benchmark": [
+    {
+      "reparto": "@content-social",
+      "livello_attuale_L": 3,
+      "migliori": [
+        { "chi": "(competitor locali food/delivery)", "livello": "locale", "esempi": [{ "cosa": "frequenza e hook dei post", "link": "consegne/intelligence/5-aziende-simili-social.md" }] },
+        { "chi": "(top brand di local-commerce nel mondo)", "livello": "mondiale", "esempi": [{ "cosa": "storytelling di bottega + prova sociale", "link": "creativi/swipe/SWIPE-FILE.md" }] }
+      ],
+      "divario": "alto",
+      "obiettivo": "Arrivare stabilmente a L5 sui contenuti entro 4 settimane, col loop confronto-post-pubblicazione.",
+      "progresso": [{ "data": "2026-06-28", "punteggio": 60, "fonte": "scorecard" }]
+    }
+  ],
+  "esperimenti": [],
+  "peer_review": [],
+  "proposte_auto_riscrittura": [
+    { "cosa": "Parametrizzare il percorso del marketplace (MARKETPLACE_REPO) in radiografia.js/audit-design.js", "perche": "Oggi è cablato su Windows: la radiografia del sito non gira sul VPS.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-002", "dove": ".claude/workflows/radiografia.js" },
+    { "cosa": "Aggiungere retry + fallback + contatore-cecità ai sensori MCP nel giro", "perche": "Gli MCP cadono spesso: la macchina lavora al buio sui dati reali.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-001", "dove": "cervello/giro.md" }
+  ],
+  "_nota": "Seed iniziale. Al primo ciclo completo, @intelligence popola i 'migliori' con fonti reali a due livelli, si fissano obiettivo e progresso, e parte il torneo tra varianti dei senior."
+}

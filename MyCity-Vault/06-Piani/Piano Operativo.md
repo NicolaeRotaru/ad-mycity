@@ -188,3 +188,11 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 *Effetto atteso sui KPI:* primi ordini chiusi a **% OK ~100%** e **on-time ≥90%** (fiducia + passaparola), batching che porta il **CM/ordine da −€0,07 a +€3,4** già dal 2° ordine/giro, **0 excursion freddo**. La leva di crescita resta la **densità nel cluster centro**, non l'allungamento dei giri.
 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-07-01 20:18
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **📊 LIVE 20:18:** stallo **177,8h** — **168h +9,8h oltre**. Finestra slot **CHIUSA** — ripiano **#16 2/7 mattina**.
+- **SQL 107** + sync VPS #17 (root) nello stesso sprint operativo di #16.
+- **6/7:** batch onboarding post-#16 + SQL 107.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->
