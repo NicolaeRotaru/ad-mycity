@@ -1,7 +1,20 @@
 {
-  "data": "2026-07-02 10:19",
-  "aggiornato": "2026-07-02 10:19",
+  "data": "2026-07-02 12:35",
+  "aggiornato": "2026-07-02 12:35",
   "lezioni": [
+    {
+      "id": "L-2026-0702-46",
+      "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola crea `github_push_token` (mycity+ad-mycity, Contents+PR R/W) e chiede cosa togliere da VPS/Vercel. **Regola:** prima di dire cosa rimuovere, LEGGI il codice reale — le catene di fallback dicono quali nomi-variabile servono (`git-github.mjs:78` `MARKETPLACE_GIT_TOKEN||GIT_TOKEN||GIT_PUSH_TOKEN`; `obsidian.ts:7` `OBSIDIAN_TOKEN||GITHUB_TOKEN`). Con un token unico basta impostare UN valore (`GIT_PUSH_TOKEN` su VPS, `GITHUB_TOKEN` su Vercel); le altre variabili diventano ridondanti ma NON vanno cancellate se il codice le legge per nome. **Distingui token da config di destinazione** (`OBSIDIAN_REPO_OWNER/REPO/BRANCH`, `GITHUB_OWNER/REPO` NON sono token: dicono DOVE guardare — toglierli rompe la lettura). Da cancellare solo i 2 vecchi PAT single-repo su GitHub. Nota least-privilege: Vercel passa da read-only a write → accettato per semplicità, riproponibile un token RO separato se serve rigore.",
+      "tag": ["devops", "security", "token", "config", "fallback", "nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 12:35",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0702-45",
       "testo": "**Firma ≠ esecuzione (giro 2/7 10:19):** Nicola approva **ok 16** alle 08:38 ma 1h40 dopo il DB è **identico** (delivery_status=NEW, payment_status=PENDING, stallo +1,8h → 191,9h). **Regola:** nel briefing separare sempre (1) **decisione firmata** vs (2) **esecuzione verificata su DB/canale**. Loop business 🔴 finché `delivered_at` null — non degradare a 🟡 solo perché ok 16 è in coda. Prossimo giro: se ok 16 approvato ma DB invariato, escalation diretta «tap WhatsApp #20 ORA» senza riproporre ok 16.",
