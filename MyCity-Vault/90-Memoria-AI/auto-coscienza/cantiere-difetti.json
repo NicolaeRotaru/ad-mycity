@@ -59,11 +59,49 @@
       "nato": "2026-06-28",
       "chiuso_il": "2026-07-02 11:55",
       "chiuso_come": "cervello/verifica-sensori.mjs contiene /giri_ciechi/ → trovato"
+    },
+    {
+      "id": "AR-009",
+      "titolo": "Il loop di ogni senior è inerte: vettori nei prompt ma quaderni/scorecard/TASTE-FILE vuoti su tutti i 42",
+      "dimensione": "memoria-apprendimento",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "I dati d'esito reali e i verdetti di Nicola non arrivano nei file (servono le 'mani'/chiavi write + la firma); nessuna forcing-function obbliga a registrare scorecard+esito. Lo strato metacognizione resta decorativo.",
+      "fix_proposto": "Sentinella 'chiusura-loop': dopo ogni lavoro 🟡/🔴 l'AD appende in memoria-squadra/<ruolo>.md una riga ESITO con scorecard + numero atteso→reale; sonda settimanale/di-giro sui quaderni fermi. Portare a Nicola la richiesta di 'carburante' (chiavi write + verdetti).",
+      "verifica": {
+        "file": "cervello/chiusura-loop.mjs",
+        "pattern": "registra",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-02",
+      "chiuso_il": "2026-07-02 18:10",
+      "chiuso_come": "Creato cervello/chiusura-loop.mjs (registra = appende ESITO+scorecard al quaderno; --sonda = flagga i quaderni fermi). Sonda cablata come passo deterministico in giro.sh (AR-009) e istruzione di chiusura in giro.md passo 12. Resta 🟡 per Nicola: le chiavi write + i verdetti sono il 'carburante' che riempie gli esiti coi numeri reali."
+    },
+    {
+      "id": "AR-019",
+      "titolo": "9 giri pesanti al giorno a cadenza fissa, senza delta-gate 'niente di nuovo → salta': spreco di token/Max",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Il giro parte a orario fisso (mycity-giro.timer, ogni 2h 06-22 = 9/giorno) senza confrontare lo stato col precedente; la lezione 'non moltiplicare i giri a sensori ciechi' era in memoria ma non era un gate deterministico nel runner.",
+      "fix_proposto": "Delta-gate nel giro (usa firma ordini/clienti/incassi + sensori/sentinelle): se invariato dall'ultimo giro pieno, esegui solo la sonda leggera e SALTA la parte AI pesante. Heartbeat che garantisce comunque un giro pieno ogni DELTA_GATE_MAX_ORE. Il 'banco AI' (banco-ai.mjs/routing.json) instrada i compiti banali fuori da Claude.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "DELTA-GATE",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-02",
+      "chiuso_il": "2026-07-02 18:10",
+      "chiuso_come": "Creato cervello/delta-gate.mjs (firma stato reale + confronto con l'ultimo giro pieno, exit 20 = salta) e cablato in giro.sh: se lo stato è invariato e <12h dall'ultimo pieno, il motore AI premium NON si accende (solo sonda leggera). I giri ON-DEMAND (coda Pannello via GIRO_FORCE, lancio manuale via sentinella .giro-force) scavalcano il gate; solo la cadenza fissa del timer viene throttlata. Banco AI già operativo (U19)."
     }
   ],
   "meta": {
     "aperti": 0,
     "in_corso": 0,
-    "chiusi": 3
+    "chiusi": 5
   }
 }

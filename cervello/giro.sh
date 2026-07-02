@@ -154,6 +154,29 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
+  node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+fi
+
+# AR-019: DELTA-GATE — "niente di nuovo → salta il giro pesante". Confronta lo stato reale
+# (ordini/clienti/incassi via REST + firma sentinelle) con l'ultimo giro PIENO. Se nulla è cambiato
+# (ed è passato meno di DELTA_GATE_MAX_ORE dall'ultimo giro pieno), NON accendiamo il motore AI premium:
+# gira solo la sonda leggera (già eseguita sopra). Così i ~9 giri/giorno a vuoto non bruciano token/Max.
+# Bypass (i giri ON-DEMAND girano sempre; solo la cadenza fissa del timer viene throttlata):
+#   - GIRO_FORCE=1 / DELTA_GATE_FORCE=1  → env (worker.sh lo mette per i giri dalla coda del Pannello)
+#   - sentinella one-shot cervello/vps/.giro-force → giro-ora.sh la crea per il lancio manuale sul VPS
+RUN_AI=1
+FORCE_FLAG="$SCRIPT_DIR/vps/.giro-force"
+if [ "${GIRO_FORCE:-0}" = 1 ] || [ "${DELTA_GATE_FORCE:-0}" = 1 ] || [ -f "$FORCE_FLAG" ]; then
+  [ -f "$FORCE_FLAG" ] && rm -f "$FORCE_FLAG" 2>/dev/null   # one-shot: consumala così il timer dopo torna gated
+  echo "[$(ts)] Delta-gate: BYPASS (giro forzato/on-demand) → giro pieno."
+elif command -v node >/dev/null 2>&1; then
+  _dg_out="$(node "$SCRIPT_DIR/delta-gate.mjs" 2>&1)"; _dg_rc=$?
+  printf '%s\n' "$_dg_out" | tail -4
+  if [ "$_dg_rc" = 20 ]; then
+    RUN_AI=0
+    echo "[$(ts)] ⏭️  DELTA-GATE: stato invariato dall'ultimo giro pieno → SALTO la parte AI pesante (solo sonda)."
+  fi
 fi
 
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
@@ -179,6 +202,12 @@ PROMPT="$PROMPT
 ## Risposta in chat
 Al termine restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
 
+# GIRO_START serve anche fuori dal blocco AI (costo-ai a fine giro): lo fissiamo PRIMA del gate.
+GIRO_START="$(date +%s)"
+ai_rc=0
+if [ "${RUN_AI:-1}" != 1 ]; then
+  echo "[$(ts)] Parte AI SALTATA dal delta-gate (AR-019): nessun motore premium acceso in questo giro."
+else
 echo "[$(ts)] Avvio giro di perlustrazione AD (motore: $(ai_engine), prompt=file)..."
 ai_build_cmd
 # AR-005: timeout DENTRO giro.sh, così vale per QUALUNQUE invocatore (timer systemd o coda worker),
@@ -187,7 +216,7 @@ ai_build_cmd
 GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-2700}"   # 45 min per tentativo
 AI_TIMEOUT=()
 command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$GIRO_AI_TIMEOUT")
-GIRO_START="$(date +%s)"
+GIRO_START="$(date +%s)"   # inizio effettivo del motore AI (per il costo del giro)
 ai_rc=0
 _ai_out=""
 for _attempt in 1 2 3; do
@@ -224,6 +253,10 @@ if [ "$ai_rc" -eq 0 ]; then
     fi
   done
 fi
+# AR-019: un giro PIENO è appena girato → promuovi la firma corrente a riferimento, così i prossimi
+# giri si confrontano con QUESTO stato e saltano finché ordini/clienti/incassi/sentinelle non cambiano.
+command -v node >/dev/null 2>&1 && node "$SCRIPT_DIR/delta-gate.mjs" --segna-pieno >/dev/null 2>&1 || true
+fi   # fine blocco RUN_AI (delta-gate AR-019)
 
 # TL;DR per la chat (se il digest è stato scritto nel vault).
 GIRO_TLDR=""
