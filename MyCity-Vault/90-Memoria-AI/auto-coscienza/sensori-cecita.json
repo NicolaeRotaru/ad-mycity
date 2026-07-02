@@ -1,0 +1,24 @@
+{
+  "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
+  "aggiornato": "2026-07-02 10:15",
+  "sensori": {
+    "supabase_rest": {
+      "stato": "non_verificato",
+      "giri_ciechi": 0,
+      "canale": "REST marketplace (MARKETPLACE_SUPABASE_*)",
+      "dettaglio": "Aggiornato automaticamente al prossimo giro con verifica-sensori.mjs"
+    },
+    "mcp_supabase": {
+      "stato": "non_verificato",
+      "giri_ciechi": 0,
+      "canale": "MCP Cursor/Claude",
+      "dettaglio": "L'AD aggiorna con --mcp-supabase=ok|cieco in auto-analisi"
+    }
+  },
+  "istruzioni_giro": "Esegui node cervello/verifica-sensori.mjs all'inizio del giro. Se supabase_rest ok, usa REST anche se MCP cieco.",
+  "meta": {
+    "giri_totali": 0,
+    "sensori_ok": 0,
+    "max_giri_ciechi": 0
+  }
+}

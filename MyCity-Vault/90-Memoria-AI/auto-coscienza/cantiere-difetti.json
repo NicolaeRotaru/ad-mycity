@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 08:36",
+  "aggiornato": "2026-07-02 10:15",
   "difetti": [
     {
       "id": "AR-001",
@@ -9,25 +9,24 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù.",
-      "fix_proposto": "Documentare in giro.md il fallback REST (MARKETPLACE_SUPABASE env) + retry MCP + contatore giri-ciechi. Verificato funzionante 30/6 22:17.",
+      "fix_proposto": "✅ verifica-sensori.mjs (retry REST 3× + istruzioni_giro + giro.sh) + giro.md passo 0/1.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota_30_06_sera": "PARZIALMENTE MITIGATO: REST fallback recupera dati live quando MCP cieco. MCP resta preferito. Proposta 🟡 documentare in giro.md.",
+      "stato": "chiuso",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02"
     },
     {
       "id": "AR-002",
       "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
-      "dimensione": "copertura-cieca",
+      "dimensione": "cadenza-esecuzione",
       "gravita": "grave",
       "impatto_crescita": "medio",
       "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
-      "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback, in radiografia.js e audit-design.js.",
+      "fix_proposto": "✅ marketplace-repo.mjs + MARKETPLACE_REPO in radiografia.js e audit-design.js (PR #138 area codice).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02"
     },
     {
       "id": "AR-003",
@@ -36,11 +35,11 @@
       "gravita": "minore",
       "impatto_crescita": "medio",
       "causa_radice": "Nessun pezzo della macchina tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
-      "fix_proposto": "Creare (🟡) un sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "fix_proposto": "✅ sensori-cecita.json + sentinella ≥3 giri in sentinelle.md + sonda-volano.mjs.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-06-28",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-02"
     },
     {
       "id": "AR-005",
@@ -48,7 +47,7 @@
       "dimensione": "cadenza-esecuzione",
       "gravita": "grave",
       "impatto_crescita": "medio",
-      "causa_radice": "ritmo.md documenta solo schtasks/Windows; sul VPS mancano timer systemd o cron per le tre cadenze.",
+      "causa_radice": "ritmo.md documentava solo schtasks/Windows; sul VPS mancavano timer systemd.",
       "fix_proposto": "Unit systemd mycity-ritmo-*.timer + ritmo-run.sh (Nicola «ok timer ritmo» 1/7 09:43).",
       "colore": "🟡",
       "stato": "chiuso",
@@ -69,5 +68,5 @@
       "chiuso_il": ""
     }
   ],
-  "meta": { "aperti": 5, "in_corso": 0, "chiusi": 0 }
+  "meta": { "aperti": 1, "in_corso": 0, "chiusi": 4 }
 }

@@ -442,3 +442,6 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 08:40 · @qa · FACCIO · Smoke post-deploy: admin 403 checkout · seller redirect senza cookie · buyer OK (checklist pronta)
 - 2026-07-02 08:40 · @crm-lifecycle · PASSO-A · Recovery carrello samir **dopo smoke #19 verde** (unico buyer reale)
 - 2026-07-02 08:40 · @AD · SERVE · Nicola: **#16 passi #20–#22** (pranzo) · **SQL 107** (~30s) · **root sync VPS**
+
+### 2026-07-02 — Fix radiografia macchina (Cloud Agent 10:15)
+- 2026-07-02 10:15 · @AD · FATTO · Chiusi difetti radiografia: **AR-001** (verifica-sensori.mjs retry REST + contatore cecità), **AR-002** (MARKETPLACE_REPO), **AR-003** (sensori-cecita.json + sentinella), **sonda-volano.mjs** (4 invarianti). PR codice **#138** → main · memoria → memoria-ad. Cantiere: **1 aperto** (AR-004 token mycity). Voto salute architettura **80 ▲**.
