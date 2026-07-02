@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 07:35
+aggiornato: 2026-07-02 07:51
 fonte: AD digitale (7 numeri = live REST 1/7 20:18 · chat Nicola 2/7 07:35 ruoli acquisto · Supabase clmpyfvpvfjgeviworth)
 ---
 
@@ -77,14 +77,16 @@ fonte: AD digitale (7 numeri = live REST 1/7 20:18 · chat Nicola 2/7 07:35 ruol
 4. **Giro 1/7 18:18** — Finestra consegna APERTA → #16 entro 20:00 (non eseguito).
 5. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
 
-## Prossime priorità (2/7 07:35)
-**Obiettivo oggi 2/7:** 1° ordine consegnato **in mattinata**.
+## Prossime priorità (2/7 07:51 · Piano del mattino)
+**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** + piattaforma pulita (ruoli + RLS) per batch negozi.
 
-1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05 mattina** (WhatsApp buyer + dashboard + consegna COD · serve **`ok 16`** · `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`)
-2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** (admin bloccato + seller solo pulsante · branch pronto · **`ok merge fix ruoli-acquisto`**)
-3. [ ] 🟡 **SQL 107 policy** — Nicola incolla DROP policy in Supabase (30s) → «fatto sql 107»
-4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner → `sudo bash …/install-sync-vps.sh`
-5. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist pronta post-#16
+1. [ ] 🔴 **#16 — Scelta A ordine €19,05** — ripiano mattina: WhatsApp buyer 348 642 1766 + accetta dashboard + consegna COD (**`ok 16`** · `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`)
+2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — admin zero acquisti + seller solo «Vai al marketplace» (**`ok merge fix ruoli-acquisto`** · branch pronto)
+3. [ ] 🟡 **SQL 107 policy** — DROP policy `profiles` in Supabase (~30s) → «fatto sql 107» (prerequisito sicurezza post-Sprint 1)
+4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner (`install-sync-vps.sh`) · Nicola ha già **`ok 17`**
+5. [ ] 🟢 **Onboarding 6/7** — checklist pronta; Nicola inserisce botteghe **dopo** #16+#19
+
+**Sentinelle attive oggi:** ordine in ritardo (#16) · 1 carrello buyer reale (samir, SKIP fino post-#19) · negozio LIVE 0 pagati · stallo **>177h** · loop business 🔴 (0 consegnati).
 
 **In coda (non bloccanti oggi):**
 - [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola 1/7 11:05

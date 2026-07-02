@@ -349,6 +349,35 @@ Assegnazioni (1 mossa per reparto):
 
 🙋 **Serve da Nicola:** 🟡 **Console Hetzner root** — incolla: `bash /opt/mycity/ad-mycity/cervello/vps/install-sync-vps.sh` · 🔴 **`ok 16` ordine 2/7 mattina** · 🟡 **SQL 107**
 
+### 2026-07-02 — ☀️ PIANO DEL MATTINO (AD · 07:51)
+**Obiettivo del giorno:** **Prima transazione reale end-to-end** (ordine→consegna→COD €19,05) + **piattaforma pulita** (ruoli acquisto + RLS) per il batch negozi. North Star: **1° ordine consegnato**.
+
+**Le 3 priorità:**
+1. **Eseguire #16 Scelta A** — ripiano mattina: WhatsApp buyer + accetta dashboard Pane Quotidiano + consegna COD entro pranzo (`consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`).
+2. **Deploy #19 fix ruoli acquisto** — admin zero acquisti; seller solo via «Vai al marketplace» (decisione Nicola 2/7 07:35 · branch pronto).
+3. **SQL 107 + onboarding 6/7** — policy RLS in Supabase (~30s) + checklist pronta quando Nicola inserisce botteghe.
+
+**Sentinelle attive:** ordine in ritardo (#16) · carrello abbandonato >4h (1 buyer reale samir — CRM post-#19) · negozio LIVE 0 pagati · stallo >177h · loop business 🔴.
+
+Assegnazioni (1 mossa per reparto):
+- @operations · eseguire #16: accetta ordine `58094956…` + WhatsApp 348 642 1766 + consegna COD mattina/pranzo · 🔴 (serve **`ok 16`**)
+- @supporto · assistenza messaggio buyer + stato ordine dashboard · 🔴 con @operations
+- @customer-success · telefonata feedback entro 24h post-consegna (script `consegne/customer-success/primo-ordine-faro.md`) · 🟢 prep · messaggio 🔴 post-consegna
+- @tech · deploy #19 su Render: branch `fix/ruoli-acquisto-admin-seller-2026-07-02` + smoke checkout admin/seller · 🔴 (serve **`ok merge fix ruoli-acquisto`**)
+- @qa · smoke test post-#19: admin 403 checkout · seller redirect senza cookie · buyer OK · 🟢 prep · esecuzione post-deploy 🔴
+- @devops-sre · sync VPS #17: Nicola 1× root Console Hetzner (`install-sync-vps.sh`) · handler già ✅ · 🟡
+- @security · verifica RLS post-SQL 107 (anon non legge `stripe_account_id`) · 🟡 prep
+- @crm-lifecycle · recupero carrello samir **solo dopo #19** (1 buyer reale; 3 interni SKIP) · 🟢 bozze pronte
+- @onboarding-negozi · presidio checklist `consegne/onboarding/checklist-batch-6-luglio.md` · 🟢
+- @vendite · standby supporto negozianti 6/7 · 🟢
+- @finanza · payout-test Stripe **03/7 mattina** sandbox (programmato Nicola 1/7) · 🔴
+- @analista · snapshot KPI fine giornata pre/post prima transazione · 🟢
+- @legale-privacy · validare touch samir (transazionale vs marketing) prima invio · 🟢
+
+🙋 **Serve da Nicola:** 🔴 **`ok 16`** · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (~30s) · 🟡 **Console Hetzner root** (1× install sync) · 🟢 batch 6/7 (checklist pronta, nessuna approvazione).
+
+- 2026-07-02 07:51 · @AD · FACCIO · Piano del mattino scritto · STATO + RITMO + SALA aggiornati · priorità allineate a North Star (1° ordine consegnato).
+
 ## Giro 2026-07-01 20:18
 
 - 2026-07-01 20:18 · @analista · FATTO · KPI live REST stallo 177,8h (+2,0h vs 18:18) · 168h +9,8h oltre · `consegne/analista/2026-07-01-kpi-live-2018.md`

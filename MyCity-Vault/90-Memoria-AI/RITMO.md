@@ -37,3 +37,11 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - **Sentinelle:** ordine in ritardo (in esecuzione) · 4 carrelli >4h · negozio LIVE 0 pagati · stallo >168h superato · temporali pomeriggio.
 - **Assegnazioni chiave:** @operations+#16 🔴 · @tech deploy Sprint 1 🟡/🔴 · @onboarding-negozi checklist 🟢 · @customer-success feedback post-consegna 🟢 · @analista snapshot fine giornata 🟢.
 - **Cosa serve da Nicola:** 🔴 **data/ora consegna** per WhatsApp #16 · 🔴 **`ok deploy Sprint 1`** · 🔴 **`ok 16`** · 🟡 sync VPS · 🟢 inserimento negozi 6/7.
+
+## Piano del mattino · 2026-07-02 07:51
+- **Priorità n°1:** **Eseguire #16 Scelta A** — ordine zombie €19,05 Pane Quotidiano (firmato 1/7 11:05): ripiano **2/7 mattina** WhatsApp buyer 348 642 1766 + accetta dashboard + consegna COD entro pranzo → **North Star: 1° ordine consegnato**.
+- **Priorità n°2:** **Deploy #19 fix ruoli acquisto** — admin bloccato + seller solo via «Vai al marketplace» (branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto) → CRM pulito (1 solo carrello buyer reale).
+- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) + **presidio onboarding 6/7** — piattaforma sicura e pronta per batch negozi dopo la prima transazione.
+- **Sentinelle:** ordine in ritardo · 1 carrello buyer reale (samir €10, 3 interni SKIP) · negozio LIVE 0 pagati · stallo **>177h** (+9,8h oltre 168h) · loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
+- **Assegnazioni:** @operations+#16 🔴 · @tech deploy #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
+- **Cosa serve da Nicola:** 🔴 **`ok 16`** (consegna mattina/pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× `install-sync-vps.sh`, già ok 17) · 🟢 inserimento negozi 6/7 (nessuna approvazione).
