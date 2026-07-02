@@ -77,6 +77,19 @@ Ogni difetto confermato entra/aggiorna `auto-coscienza/cantiere-difetti.json` co
 da quelli a **maggior impatto sulla crescita** (ordini/negozi/margine), non dai più facili. Tieni il conto
 `aperti vs chiusi` nel tempo: è la prova che il volano gira.
 
+> ⚠️ **PROVA DI CHIUSURA OBBLIGATORIA (AR-023) — ogni difetto nasce con il suo `verifica`.** Senza una prova
+> machine-checkable, un difetto resta «in-corso» per sempre sul Pannello anche dopo che il fix è mergiato
+> (è successo con AR-009/AR-019: chiusi nel codice ma fermi su `memoria-ad`). Perciò OGNI difetto DEVE avere:
+> - **fix provabile dal codice:** `"verifica": {"file": "cervello/x.mjs", "pattern": "regex", "presente": true}`
+>   (`presente:false` = risolto quando il pattern SPARISCE, es. un path Windows rimosso). Scegli un `pattern`
+>   che esisterà SOLO quando il fix è davvero installato (una funzione/costante/stringa del fix, non un commento).
+> - **fix che dipende da Nicola** (chiavi, firma, decisione — non provabile da un file): `"verifica": {"tipo": "umano"}`.
+>
+> Il riconciliatore `auto-fix.mjs verifica --applica` gira **ad ogni giro e ad ogni allineamento del codice a
+> main** (`giro.sh`, `aggiorna-cervello.sh`): rilegge il `verifica`, e appena il pattern compare nel codice
+> **chiude il difetto da solo** e lo pubblica su `memoria-ad` → il Pannello lo vede chiuso entro ~pochi minuti.
+> Un difetto SENZA `verifica` è un anello rotto: non chiuderà mai da solo. Non lasciarne nascere.
+
 ## 📊 Voto salute architettura (0-100) + trend
 Parte da 100 e scende: **−25** per ogni difetto bloccante, **−10** grave, **−3** minore (sui difetti
 APERTI). Confronta con l'ultima radiografia (`storico-salute.json`) → trend ▲▼=. Un voto alto va
