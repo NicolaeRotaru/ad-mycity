@@ -27,13 +27,16 @@ done
 
 if [ "$(id -un)" = "root" ]; then
   chown -R "$APP_USER:$APP_USER" "$REPO" 2>/dev/null || true
-  WATCH_MAIN_FROM_ROOT=1 sudo -u "$APP_USER" -H env WATCH_MAIN_FROM_ROOT=1 bash "$REPO/cervello/vps/watch-main.sh" "$@"
-  rc=$?
+  # rc=2 dal figlio = "allineato, riavvia il worker": è un successo, non un errore.
+  # L'assegnazione con || evita che set -e uccida il wrapper prima di gestire rc.
+  rc=0
+  WATCH_MAIN_FROM_ROOT=1 sudo -u "$APP_USER" -H env WATCH_MAIN_FROM_ROOT=1 bash "$REPO/cervello/vps/watch-main.sh" "$@" || rc=$?
   if [ "$rc" -eq 2 ]; then
     echo "[$(ts)] ▶ Riavvio mycity-worker..."
     systemctl restart mycity-worker
     sleep 2
     systemctl is-active --quiet mycity-worker && echo "[$(ts)] ✓ Worker attivo." || echo "[$(ts)] ✗ Worker non partito." >&2
+    exit 0
   fi
   exit "$rc"
 fi
@@ -96,6 +99,9 @@ if [ -z "$LAST_SHA" ] && [ "$FORCE" != 1 ]; then
 fi
 
 echo "[$(ts)] watch-main: main avanzato ${LAST_SHA:0:7} → ${REMOTE_SHA:0:7} — allineo codice..."
+# RILASCIA il lock PRIMA di chiamare aggiorna-cervello.sh: quel copione prende lo STESSO
+# lock da solo — tenerlo qui creava un deadlock (aspettava 120s e falliva sempre).
+exec 9>&-
 if ! AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"; then
   echo "[$(ts)] watch-main: aggiorna-cervello.sh FALLITO." >&2
   segnale "errore" "allineamento fallito su ${REMOTE_SHA:0:7} — controlla journalctl"
@@ -104,8 +110,6 @@ fi
 echo "$REMOTE_SHA" > "$SHA_FILE"
 echo "[$(ts)] watch-main: allineamento completato."
 segnale "ok" "allineato a main ${REMOTE_SHA:0:7}"
-
-exec 9>&-
 
 # Exit 2 = allineamento fatto, root deve riavviare il worker.
 if [ -n "${WATCH_MAIN_FROM_ROOT:-}" ]; then
