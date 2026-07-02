@@ -45,3 +45,11 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - **Sentinelle:** ordine in ritardo · 1 carrello buyer reale (samir €10, 3 interni SKIP) · negozio LIVE 0 pagati · stallo **>177h** (+9,8h oltre 168h) · loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
 - **Assegnazioni:** @operations+#16 🔴 · @tech deploy #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
 - **Cosa serve da Nicola:** 🔴 **`ok 16`** (consegna mattina/pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× `install-sync-vps.sh`, già ok 17) · 🟢 inserimento negozi 6/7 (nessuna approvazione).
+
+## Piano del mattino · 2026-07-02 08:36
+- **Priorità n°1:** **Eseguire #16 Scelta A** — ordine zombie €19,05 Pane Quotidiano (firmato 1/7 11:05): WhatsApp buyer 348 642 1766 + accetta dashboard + consegna COD **oggi pranzo** (meteo sereno 20–31°C · escalation v12) → **North Star: 1° ordine consegnato**.
+- **Priorità n°2:** **Deploy #19 fix ruoli acquisto** — admin bloccato + seller solo via «Vai al marketplace»; merge `mycity/main` → Render auto (no token Render; serve #14+#15 PAT o chat **`ok merge fix ruoli-acquisto`**).
+- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) + **presidio onboarding 6/7** — RLS pulita e checklist pronta dopo la prima transazione.
+- **Sentinelle scattate:** ordine in ritardo **189,9h** · carrello >4h (1 buyer reale samir €10 — CRM post-#19) · negozio LIVE 0 consegnati · stallo **+21,9h oltre 168h** · loop business 🔴 (0 consegnati).
+- **Assegnazioni:** @operations+#16 🔴 · @tech merge #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
+- **Cosa serve da Nicola:** 🔴 **`ok 16`** (pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× install sync, ok 17) · 🟢 batch negozi 6/7 (dopo #16+#19+SQL).

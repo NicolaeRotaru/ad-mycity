@@ -397,3 +397,32 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 08:20 · @operations · FATTO · Escalation v12 stallo 190h → `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`
 - 2026-07-02 08:20 · @AD · FATTO · Giro completo: briefing + STATO + auto-coscienza + intenzioni-nicola + piani AD
 - 2026-07-02 08:20 · @AD · SERVE · Nicola: **`ok 16` oggi pranzo** · **`ok merge fix ruoli-acquisto`** · SQL 107 · root sync VPS
+
+### 2026-07-02 — ☀️ PIANO DEL MATTINO (AD · 08:36 · aggiornamento post-giro)
+**Obiettivo del giorno:** **Prima transazione reale end-to-end** (ordine→consegna→COD €19,05) + **piattaforma pulita** (ruoli + RLS) per batch 6/7. North Star OKR: **1° ordine consegnato**.
+
+**Le 3 priorità:**
+1. **#16 Scelta A** — ripiano pranzo: WhatsApp 348 642 1766 + accetta dashboard Pane Quotidiano + COD (meteo sereno 20–31°C · escalation v12 · stallo 189,9h).
+2. **#19 fix ruoli acquisto** — merge `fix/ruoli-acquisto-admin-seller-2026-07-02` → Render auto via GitHub (no token Render; chat **`ok merge fix ruoli-acquisto`** o PAT #14+#15).
+3. **SQL 107 + onboarding 6/7** — DROP policy profiles (~30s) + checklist pronta post-prima-transazione.
+
+**Sentinelle scattate:** ordine in ritardo 189,9h · carrello >4h (samir €10 — recovery post-#19) · negozio LIVE 0 consegnati · stallo +21,9h oltre 168h · loop business 🔴.
+
+Assegnazioni (1 mossa per reparto):
+- @operations · #16: accetta ordine + WhatsApp + consegna COD pranzo · 🔴 (**`ok 16`**)
+- @supporto · assistenza buyer + stato dashboard · 🔴 con @operations
+- @customer-success · telefonata feedback entro 24h post-consegna · 🟢 prep · 🔴 post-consegna
+- @tech · merge #19 + smoke checkout admin/seller · 🔴 (**`ok merge fix ruoli-acquisto`**)
+- @qa · smoke post-#19: admin 403 checkout · seller redirect · buyer OK · 🟢 prep
+- @devops-sre · sync VPS #17: 1× root Console Hetzner · 🟡 (Nicola ok 17)
+- @security · verifica RLS post-SQL 107 · 🟡 prep
+- @crm-lifecycle · recovery samir **solo dopo #19** · 🟢 bozze pronte
+- @onboarding-negozi · checklist batch 6/7 · 🟢
+- @vendite · standby supporto negozianti · 🟢
+- @finanza · payout-test Stripe sandbox **03/7 mattina** · 🔴 (programmato)
+- @analista · snapshot KPI fine giornata pre/post prima transazione · 🟢
+- @legale-privacy · validare touch samir (transazionale vs marketing) · 🟢
+
+🙋 **Serve da Nicola:** 🔴 **`ok 16`** · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** · 🟡 **root sync VPS** · 🟢 batch 6/7 (dopo sblocchi).
+
+- 2026-07-02 08:36 · @AD · FATTO · Piano del mattino aggiornato post-giro 08:20 · RITMO + STATO + SALA scritti · nessuna azione 🔴 eseguita (serve firma Nicola).

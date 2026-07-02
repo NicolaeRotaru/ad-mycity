@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-02 08:20
-fonte: AD digitale (7 numeri = live REST 2/7 08:20 · chat Nicola 2/7 07:35+08:16 · Supabase clmpyfvpvfjgeviworth)
+aggiornato: 2026-07-02 08:36
+fonte: AD digitale (7 numeri = live REST 2/7 08:20 · piano mattino 08:36 · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -67,16 +67,16 @@ fonte: AD digitale (7 numeri = live REST 2/7 08:20 · chat Nicola 2/7 07:35+08:1
 4. **Giro 1/7 20:18** — Giornata 1/7 chiusa zero transazioni. Ripiano 2/7.
 5. **Chat 1/7 20:21** — Nicola «ok 17» → install sudoers bloccato (1× root).
 
-## Prossime priorità (2/7 08:20 · giro AD)
-**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** + deploy ruoli (#19) + SQL 107.
+## Prossime priorità (2/7 08:36 · piano del mattino)
+**Obiettivo oggi 2/7:** **1° ordine consegnato entro pranzo** + deploy ruoli (#19) + SQL 107. North Star OKR: **1° ordine reale**.
 
-1. [ ] 🔴 **#16 — Scelta A ordine €19,05** — **`ok 16`** · WhatsApp 348 642 1766 · consegna COD **oggi pranzo** (`consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`)
-2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — **`ok merge fix ruoli-acquisto`** · Render auto post-merge
+1. [ ] 🔴 **#16 — Scelta A ordine €19,05** — **`ok 16`** · WhatsApp 348 642 1766 · consegna COD **oggi pranzo** (meteo OK · escalation v12 · `consegne/operations/2026-07-02-escalation-v12-stallo-190h.md`)
+2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** — **`ok merge fix ruoli-acquisto`** · merge GitHub → Render auto (no token Render)
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) → «fatto sql 107»
-4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner
+4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner (`install-sync-vps.sh`)
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta; Nicola inserisce botteghe **dopo** #16+#19+SQL
 
-**Sentinelle attive:** ordine ritardo 189,9h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h · loop business 🔴.
+**Sentinelle attive:** ordine ritardo **189,9h** (+21,9h oltre 168h) · 1 carrello buyer reale (samir) · negozio LIVE 0 delivered · loop business 🔴.
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
