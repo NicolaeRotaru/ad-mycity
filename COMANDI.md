@@ -55,6 +55,7 @@
 - **"come sto calibrando?"** → tabella per-reparto: azzeccate/previsioni, punteggio, autonomia. `node cervello/calibrazione.mjs report`. 🟢
 - **"chiudi i difetti" / "auto-fix"** → verifico nel codice quali difetti del **cantiere** sono risolti e li chiudo (il volano che si ripara, non solo si diagnostica). `node cervello/auto-fix.mjs verifica --applica`. 🟢 *(modificare il codice per risolverne uno resta 🟡 da firmare)*
 - **"quale AI per [compito]?"** → il **banco AI** sceglie il modello più economico capace (Claude solo per il ragionamento). `node cervello/banco-ai.mjs "<compito>"`. 🟢
+- **auto-guarigione della coda** → la macchina si accorge da sola delle **azioni approvate non eseguite** (es. worker giù) e te le rimette davanti con scritto *perché* sono fallite. Nel Pannello, sulle card in "Errore", compare **🔄 Riprova** (un clic = riapprova e rimette in coda; nessuna riesecuzione automatica). Gira ogni 3 min: `cervello/sentinella-lavori.mjs` (timer `mycity-sentinella`). 🟢
 
 ## 🔎 Mercato
 - **"cosa fanno i concorrenti?"** → intelligence. 🟢
