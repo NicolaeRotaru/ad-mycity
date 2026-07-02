@@ -33,6 +33,22 @@ maybe_reload_worker() {
   fi
 }
 
+# Riavvio richiesto dal Pannello (bottone «Riavvia worker» → impostazioni.worker:riavvia = on).
+# La coda NON si perde: i lavori stanno in Supabase e recupera_lavori_orfani() rimette in
+# coda gli eventuali in_corso al riavvio. Il flag viene spento PRIMA dell'exec (niente loop).
+maybe_riavvia_da_pannello() {
+  local flag
+  flag="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.worker:riavvia&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  if printf '%s' "$flag" | grep -q '"valore":"on"'; then
+    echo "[$(ts)] Riavvio richiesto dal Pannello — spengo il flag e ricarico il worker." >&2
+    curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+      -H "Prefer: resolution=merge-duplicates,return=minimal" \
+      -d "{\"chiave\":\"worker:riavvia\",\"valore\":\"off\",\"updated_at\":\"$(date -Iseconds)\"}" \
+      >/dev/null 2>&1 || true
+    exec bash "$WORKER_SCRIPT"
+  fi
+}
+
 # Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push memoria-ad).
 worker_pipeline_tag() {
   if grep -q 'bash "\$SCRIPT_DIR/giro.sh"' "$WORKER_SCRIPT" 2>/dev/null; then
@@ -189,6 +205,7 @@ recupera_lavori_orfani
 
 while true; do
   maybe_reload_worker
+  maybe_riavvia_da_pannello
   battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"

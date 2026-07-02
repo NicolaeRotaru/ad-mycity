@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Stethoscope, RefreshCw, Unlock, Loader2 } from "lucide-react";
+import { Stethoscope, RefreshCw, Unlock, Loader2, Power } from "lucide-react";
 
 type Salute = {
   memoria: boolean;
@@ -23,6 +23,7 @@ export default function DiagnosticaWorker() {
   const [d, setD] = useState<Salute | null>(null);
   const [loading, setLoading] = useState(true);
   const [sbloccando, setSbloccando] = useState(false);
+  const [riavviando, setRiavviando] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
   const carica = useCallback(() => {
@@ -39,6 +40,27 @@ export default function DiagnosticaWorker() {
     const t = setInterval(carica, 30_000);
     return () => clearInterval(t);
   }, [carica]);
+
+  // Riavvia il worker sul VPS senza SSH: mette il flag worker:riavvia in Supabase;
+  // il worker lo legge a ogni ciclo (5s) e si ricarica. La coda resta in Supabase: zero perdite.
+  async function riavviaWorker() {
+    setRiavviando(true);
+    setMsg(null);
+    try {
+      const r = await fetch("/api/worker-salute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ azione: "riavvia" }),
+      });
+      const j = await r.json();
+      setMsg(j.messaggio || j.error || (j.ok ? "Riavvio richiesto." : "Errore"));
+      setTimeout(carica, 8000);
+    } catch {
+      setMsg("Errore di rete.");
+    } finally {
+      setRiavviando(false);
+    }
+  }
 
   async function sbloccaCoda() {
     setSbloccando(true);
@@ -148,6 +170,16 @@ export default function DiagnosticaWorker() {
             Sblocca coda
           </button>
         )}
+        <button
+          type="button"
+          onClick={riavviaWorker}
+          disabled={riavviando}
+          className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 border border-amber-300/60 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 disabled:opacity-50"
+          title="Il worker si ricarica da solo al prossimo ciclo. I lavori in coda restano in Supabase: non si perde nulla."
+        >
+          {riavviando ? <Loader2 size={12} className="animate-spin" /> : <Power size={12} />}
+          Riavvia worker
+        </button>
         <a
           href="/api/diagnosi"
           target="_blank"

@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=oneshot
 User=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
-EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 Environment=HOME=/home/mycity
 Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=TZ=Europe/Rome
