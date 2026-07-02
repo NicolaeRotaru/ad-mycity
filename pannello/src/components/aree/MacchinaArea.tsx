@@ -19,10 +19,10 @@ export default function MacchinaArea() {
   useEffect(() => {
     const daHash = () => {
       const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      if (h === "auto-coscienza" || h === "auto-radiografia" || h.startsWith("auto-")) {
-        setPagina("auto-coscienza");
-      } else if (h === "cervello" || h === "radiografia" || h.includes("radiografia")) {
+      if (h === "auto-radiografia" || h.includes("radiografia") || h === "cervello") {
         setPagina("radiografia");
+      } else if (h === "auto-coscienza" || h.startsWith("auto-")) {
+        setPagina("auto-coscienza");
       }
     };
     daHash();
