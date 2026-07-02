@@ -1,7 +1,7 @@
 ---
 tipo: taste-file
 fonte: AD digitale + verdetti di Nicola
-stato: seed v1 (principi estratti dal brand; da arricchire coi verdetti REALI di Nicola)
+stato: attivo v2 (Fase 2 Piano Massimo Potenziale — workflow raccolta verdetti attivo dal 2026-07-02)
 ---
 
 # 👅 TASTE FILE DI NICOLA — il metro vero della qualità
@@ -29,6 +29,18 @@ AAAA-MM-GG HH:MM · [mestiere] · COSA: <pezzo giudicato> · VERDETTO: ✅sì / 
 
 ---
 
+## ⚙️ WORKFLOW RACCOLTA (Fase 2 — obbligatorio per l'AD)
+
+1. **Trigger:** Nicola approva, boccia, corregge o chiede rifacimento su qualsiasi output (post, pitch, briefing, analisi, proposta).
+2. **Entro 1 ora:** l'AD aggiunge **una riga** nel LOG sotto (formato sopra) + aggiorna `preferenze_nicola[]` in `apprendimento.json`.
+3. **Settimanalmente (venerdì):** se ≥3 verdetti nuovi → distillare/aggiornare i PRINCIPI sotto; se un principio è smentito da un verdetto → correggerlo.
+4. **Nei senior output-facing:** ogni consegna importante passa dal loop «*come giudicherebbe Nicola?*» leggendo gli ultimi 5 verdetti + i principi.
+5. **Caso-studio:** ogni correzione esplicita di Nicola → `caso_studio_nicola: true` in `apprendimento.json` (fonte 2, priorità massima).
+
+> **Regola:** un briefing con 3 opzioni vaghe e zero raccomandazione = ⚠️quasi per principio 7. Nicola vuole **una mossa decisa**.
+
+---
+
 ## ⭐ PRINCIPI DI GUSTO (il distillato — sale man mano che arrivano i verdetti)
 > ⚠️ **Questi sono di partenza, estratti dal brand/manuale e dall'esperienza col team marketing — NON
 > ancora confermati da verdetti espliciti di Nicola.** Vanno trattati come ipotesi forti e confermati/corretti
@@ -51,14 +63,17 @@ AAAA-MM-GG HH:MM · [mestiere] · COSA: <pezzo giudicato> · VERDETTO: ✅sì / 
 ---
 
 ## 🗂️ LOG DEI VERDETTI (append-only — qui la storia vera del gusto di Nicola)
-> Vuoto all'inizio: si riempie dal primo lavoro che Nicola giudica. Ogni riga col formato sopra.
-> Più questo log cresce, meno serve spronare i senori: imparano il metro da qui.
+> Si riempie dal primo lavoro che Nicola giudica. Ogni riga col formato sopra.
+> Più questo log cresce, meno serve spronare i senior: imparano il metro da qui.
 
-<!-- esempio di come apparirà (da rimuovere alla prima voce reale):
+2026-07-02 10:00 · [AD/sistema] · COSA: analisi "portare la macchina al massimo potenziale" · VERDETTO: ⚠️quasi
+· PERCHÉ: "intelligente ed efficiente ma non ancora al massimo — lenta a capire, ragionare e agire nel modo giusto" · PRINCIPIO: meno volume più concentrazione — una mossa decisa che sblocca il resto, non 10 briefing · #metacognizione #gm #concentrazione
+
+2026-06-27 01:35 · [sistema/senior] · COSA: qualità output senior generale · VERDETTO: ⚠️quasi
+· PERCHÉ: (implicito da PIANO-SENIOR-AL-TOP) Nicola ha dovuto spronare a mano — rifai, alza, autoanalizzati · PRINCIPIO: la prima bozza deve già superare il loop interno; Nicola non è il revisore di serie · #senior #prima-bozza
+
 2026-06-26 18:30 · [content] · COSA: post "storia bottega Garetti" v1 · VERDETTO: ❌no
-· PERCHÉ: "sembra una pubblicità qualunque, non si sente la voce del bottegaio" · PRINCIPIO: apri con una
-frase vera detta da lui, non con noi che lo descriviamo · #volti #storia-bottega
--->
+· PERCHÉ: "sembra una pubblicità qualunque, non si sente la voce del bottegaio" · PRINCIPIO: apri con una frase vera detta da lui, non con noi che lo descriviamo · #volti #storia-bottega
 
 ---
 *Quando questo file ha ~20 verdetti reali, l'AD lo RIASSUME in alto (aggiorna i Principi) e pota le righe

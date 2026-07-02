@@ -81,6 +81,19 @@
       "stato": "attiva"
     },
     {
+      "id": "L-2026-0702-01",
+      "testo": "**Fase 2+3 Piano Massimo Potenziale (Nicola 2/7):** attivare loop impara (calibrazione previsto-vs-reale + Taste File workflow + benchmark 3 reparti soldi) e comportamento GM (collo di bottiglia riga 1, anti-rumore, pre-wiring, L7 settimanale). **Regola:** ogni giro DEVE aggiornare calibrazione.json per mosse con effetto atteso; ogni ok/no Nicola → Taste File entro 1h; briefing con 1 collo di bottiglia, non 5 priorità pari. File: `calibrazione.md`, `regole-ad-gm.md`, `PIANO-MASSIMO-POTENZIALE.md`.",
+      "tag": ["gm", "calibrazione", "massimo-potenziale", "nicola", "metacognizione"],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02",
+      "stato": "principio"
+    },
+    {
       "id": "L-2026-0701-38",
       "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
       "tag": ["devops", "nicola", "automazione", "vps", "merge", "target", "consenso"],
@@ -727,7 +740,8 @@
   "principi": [
     "Verità prima di tutto: nessuna entità o numero senza fonte verificabile.",
     "L'autonomia si guadagna azzeccando le previsioni (calibrazione).",
-    "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
+    "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola.",
+    "Concentrazione GM: una mossa al collo di bottiglia in riga 1 — non disperdere in 10 priorità pari (Fase 3)."
   ],
   "preferenze_nicola": [
     "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
@@ -777,11 +791,12 @@
     "«Ok configura sync VPS» (1/7 20:02) = stesso pattern «ok timer ritmo»: approva infra 🟡 → AD consegna artefatto completo in repo + **un solo comando root** per attivazione; codice sync pronto, resta #17 install sul VPS.",
     "Separazione rigida ruoli acquisto: account assistenza/admin **zero acquisti** (UI + server); venditori accedono al catalogo buyer **solo** tramite pulsante esplicito «Vai al marketplace» — mai navigazione accidentale, errore o URL diretto (chat 2/7 briefing 1/7).",
     "Su domande sui carrelli vuole distinzione netta record DB vs buyer reali — tabella con ruolo account e flag «cliente reale?»; recovery solo su buyer veri, interni/demo = SKIP (chat 2/7 «quali sono i 4 carrelli reali operativi?»).",
+    "Vuole macchina al massimo potenziale — meno volume più concentrazione, una mossa decisa che sblocca il resto, non 10 briefing (chat 2/7 «fai fase 2 e 3» + analisi massimo potenziale).",
     "Su card canale «Render (marketplace)» chiede «come collego Render?» — si aspetta chiarimento immediato: **non serve token Render** (auto-deploy post-merge GitHub su `mycity`); sblocco = #14+#15 PAT + **`ok merge …`** in chat; pulsante Approva Pannello **non** deploya (mani.ts solo email Resend) (chat 2/7 08:16 casella #19)."
   ],
   "meta": {
-    "lezioni_attive": 58,
-    "promosse_a_principio": 4,
+    "lezioni_attive": 59,
+    "promosse_a_principio": 5,
     "decadute": 0,
     "tasso_applicazione": 0.70
   }
