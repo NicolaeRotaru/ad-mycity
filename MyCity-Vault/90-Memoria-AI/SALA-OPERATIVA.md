@@ -495,3 +495,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-02 22:20 · @operations · FATTO · **Finestra cena 19–21 SALTATA: #16 non eseguito** (3ª finestra saltata oggi: pranzo+cena). Riprogrammato #16/#20 a **mattina 3/7**, accorpato al payout-test già in agenda. Aggiornati AZIONI-IN-ATTESA #16 e #20.
 - 2026-07-02 22:20 · @AD · FATTO · Aggiornati STATO (22:20), briefing (passaggio 22:20 in cima), ultimo-briefing, intenzioni-nicola, auto-analisi, storico-salute/sonda.
 - 2026-07-02 22:20 · @AD · SERVE · Mossa n.1 → domani mattina 3/7: Nicola apre link WhatsApp #20 (slot mattina) → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.
+
+### 2026-07-03 — 🔭 GIRO NOTTE (AD · 00:08)
+- 2026-07-03 00:08 · @AD · FATTO · Full giro da delta-gate, +2h dal precedente. Letti ledger sensori 00:06 (REST/Stripe/Resend ok, MCP cieco 1 giro, PostHog cieco 5 giri) + delta-gate 22:28 + chiusura-loop 00:06.
+- 2026-07-03 00:08 · @analista · FATTO · Nessuna novità business: 7 numeri = baseline REST 22:28 (ordini=1, ultimo 24/6, profili=23). MCP+node gated in sessione → nessun numero ri-misurato né inventato. Stallo **~206h** (≈8,6 giorni).
+- 2026-07-03 00:08 · @intelligence · FATTO · Radar meteo ri-verificato live: **oggi 3/7 sereno 32°/19°, pioggia 30% → finestra consegna FAVOREVOLE**. Oggi è Venerdì Piacentini (centro pieno, presidio rimandato ma facilita il ritiro). Propagato a Intelligence/eventi-picchi.md.
+- 2026-07-03 00:08 · @AD · FATTO · Aggiornati STATO (00:08), briefing 2026-07-03, ultimo-briefing, intenzioni-nicola (finestra = stamattina), eventi-picchi, auto-analisi/registro-realta/AUTO-ANALISI, apprendimento, calibrazione (@AD 20/20).
+- 2026-07-03 00:08 · @AD · SERVE · Mossa n.1 → STAMATTINA 3/7 (meteo favorevole): Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.

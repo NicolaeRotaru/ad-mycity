@@ -1,38 +1,33 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-02 10:19** · Fonte: @intelligence (giro 2/7, 3BMeteo + REST live + verifica-automazione).
+> Aggiornato: **2026-07-03 00:08** · Fonte: @intelligence (giro notte 3/7, iLMeteo ri-verificato live + registro-realtà VP).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### 1. OGGI 2/7 — Finestra consegna APERTA (10:19)
+### OGGI 3/7 — Finestra consegna FAVOREVOLE
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Gio 2/7 (OGGI)** | **31° / 20°** | Sereno, zero pioggia | **#20–#22 ORA** — ~90 min a slot pranzo |
-| Ven 03/7 | ~32 / 21 | Variabile — VP **RIMANDATO** | payout-test Nicola mattina |
-| Sab 04/7 | ~33 / 22 | Sereno | normale |
-| **Dom 6/7** | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + freschi |
+| **Ven 3/7 (OGGI)** | **32° / 19°** | Poco nuvoloso, pioggia 30% (0,7 mm), vento debole | **#20–#22 STAMATTINA** — meteo favorevole, ritiro Via Calzolai 25 |
+| Sab 4/7 | ~33 / 22 | Sereno | normale |
+| Dom 6/7 | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + gate catena del freddo freschi |
 | Lun 7/7 | ~36 / 22 | Caldo | idratazione rider |
 
-Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) agg. 10:08 · [Allerta ER](https://allertameteo.regione.emilia-romagna.it/web/piacenza)
+Fonte: [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (agg. giro notte 3/7).
 
-**Consiglio operativo:** eseguire **#20 WhatsApp entro 11:30** per slot pranzo 12:00–13:30. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
+**Consiglio operativo:** giornata gradevole → nessun ostacolo meteo alla consegna. Eseguire **#20 WhatsApp** in mattinata e chiudere l'ordine zombie €19,05 col payout-test. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
 
-### 2. VENERDÌ PIACENTINI — 3, 10, 17 luglio
+### VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
-- **3/7:** presidio **RIMANDATO** (Nicola 1/7 — focus onboarding 6/7).
-- **Prossima finestra:** VP **10/17 lug** (~50–60k persone/sera).
-- Fonte: [Programma VP 2026](https://www.venerdipiacentini.it/pdf/programma2026.pdf)
-
-### 3. MANIFESTAZIONI ANTONINIANE — fino 4 lug
-
-- Festa patronale in chiusura — traffico centro weekend elevato.
+- **OGGI 3/7:** Venerdì Piacentini in corso (49 eventi, centro pedonale pieno fino a tarda sera). Presidio MyCity **RIMANDATO** da Nicola (focus onboarding 6/7) — nessuna azione pesante, ma il centro affollato **facilita il ritiro** in Via Calzolai.
+- **Prossima finestra utile per un presidio:** VP **10/17 lug** (~50–60k persone/sera).
+- Fonte: [Programma VP 2026](https://www.venerdipiacentini.it/pdf/programma2026.pdf).
 
 ---
 
-## 🆕 Novità giro 2/7 10:19
-- Stallo **191,9h** (+1,8h vs 08:36) — ok 16 approvato ma **0 progresso DB** (passi manuali pendenti).
-- **#19 MERGED LIVE** 08:40 — Render deploy completato ~1h40 fa.
-- Automazione **tutto verde** 10:19 — infrastruttura pronta; blocco = esecuzione umana #20–#22.
+## 🆕 Novità giro notte 3/7 00:08
+- **Meteo di oggi favorevole** alla consegna (32°/19°, pioggia solo 30%) → carburante per chiudere #16.
+- Business invariato dal 24/6 (stallo ~206h): blocco = esecuzione umana #20–#22, non tecnica né meteo.
+- Sfondo caldo in risalita verso il 6/7 (~37°): tenere il gate catena-del-freddo per il batch freschi.

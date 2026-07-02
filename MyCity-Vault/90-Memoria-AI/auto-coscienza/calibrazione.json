@@ -1,10 +1,11 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 22:20",
+  "aggiornato": "2026-07-03 00:08",
   "per_reparto": [
-    {"reparto": "@AD", "previsioni": 19, "azzeccate": 19, "punteggio": 1.0, "autonomia": "media", "nota": "22:20: previsione '0 transazioni finché #20–#22 non eseguiti a mano; finestra rischia di saltare per frizione manuale' CONFERMATA — cena 19–21 saltata, ordine ancora 24/6 (delta-gate corrente==ultimo_pieno). 19/19 azzeccate."}
+    {"reparto": "@AD", "previsioni": 20, "azzeccate": 20, "punteggio": 1.0, "autonomia": "media", "nota": "3/7 00:08: previsione '#16 non eseguito nella notte, 7 numeri invariati' CONFERMATA — baseline REST 22:28 invariata (ordine ancora 24/6). 20/20 azzeccate."}
   ],
   "registro": [
+    {"data": "2026-07-03 00:08", "reparto": "@AD", "previsione": "7 numeri invariati vs 22:20, stallo ~206h; #16 non eseguito nella notte (frizione manuale, finestra reale = mattino)", "esito": "confermato — ordine ancora 24/6, nessun «consegna fatta»", "fonte": "baseline REST 22:28 (MCP+node gated in sessione)"},
     {"data": "2026-07-02 22:20", "reparto": "@AD", "previsione": "7 numeri invariati vs 18:20, stallo ~206h; rischio concreto che la finestra cena salti come il pranzo (frizione manuale)", "esito": "confermato — cena 19–21 saltata, #16 non eseguito", "fonte": "REST live via delta-gate (corrente==ultimo_pieno: ordini=1, ultimo 24/6, profili=23)"},
     {"data": "2026-07-02 18:20", "reparto": "@AD", "previsione": "7 numeri invariati vs 18:00, stallo ~202h, 0 transazioni finché #20–#22 non eseguiti", "esito": "confermato", "fonte": "REST live via delta-gate (ordini=1, ultimo 24/6, profili=23)"},
     {"data": "2026-07-02 10:19", "reparto": "@AD", "previsione": "7 numeri = vs 08:36, stallo +1,8h (~191,9h), 0 consegnati nonostante ok 16", "esito": "confermato", "fonte": "REST live + verifica-automazione"},

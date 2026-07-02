@@ -1,52 +1,31 @@
 ---
-data: 2026-07-02 22:20
+data: 2026-07-03 00:08
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 AUTO-ANALISI — Cancello di serietà
+# 🔬 Auto-analisi del giro — 2026-07-03 00:08 (giro notte)
 
-## Voto di fiducia: **83/100** ▼ (da 84 alle 18:21)
+## Voto di fiducia: 82/100 (=)
+Giro notte onesto e minimale, +2h dal giro delle 22:20. Nessuna novità di business (7 numeri invariati, stallo ~206h): il valore aggiunto è (1) il **passaggio di giorno** — ora è il 3/7, quindi la finestra #16 è **stamattina**, non «domani» — e (2) l'unico dato nuovo verificato live: il **meteo favorevole di oggi**, propagato a `eventi-picchi.md`. Non un errore, un plateau atteso finché non parte l'esecuzione manuale.
 
-**Perché ▼:** giro serale/notte onesto e ben eseguito — ha colto correttamente il **fatto nuovo che conta** (finestra cena 19–21 passata, **#16 non eseguito**, 3ª finestra saltata oggi) e ha **riprogrammato #16/#20 a mattina 3/7** accorpandolo al payout-test, invece di rincorrere un'altra finestra a vuoto. Il **−1** riflette che è l'ennesimo giro **senza movimento della North Star** (business fermo dal 24/6, stallo **~206h**): non un errore, un plateau. Grounding pulito: 7 numeri **LIVE via delta-gate REST 22:20** (`corrente`==`ultimo_pieno`), nessun numero inventato; PQ confermato, zombie = ordine PQ, nessuna entità nuova, Casa Linda demo esclusa, Garetti resta scelta_ragionata non azionata.
+## Verifiche (cancello di serietà a 3 livelli)
+- **Entità:** ✅ Pane Quotidiano `confermato`; ordine zombie = ordine PQ €19,05; Venerdì Piacentini 3/7 `confermato` (= oggi); Casa Linda `demo` esclusa; Garetti resta `scelta_ragionata` (prospect, non azionato). Nessuna entità nuova.
+- **Numeri:** ✅ nessun numero ri-misurato in sessione (MCP + `node`/curl gated) → uso esplicito della **baseline REST 22:28** e lo dichiaro nei Gap. **Zero numeri inventati.** Meteo 3/7 verificato via WebSearch live.
+- **Coerenza:** ✅ STATO, briefing 3/7, ultimo-briefing, intenzioni-nicola, registro-realtà, eventi-picchi riallineati al passaggio di giorno.
+- **Semaforo:** ✅ nessuna 🔴 nuova; azioni già in coda (#20–#22, R1, R2, SQL107). Sentinella «sensore cieco ≥5» (PostHog) opzionale a 0 ordini pagati.
+- **Benchmark:** n/a (nessun lavoro creativo/pitch questo giro).
 
-**Punti ciechi dichiarati:** `verifica-automazione`/`sonda-volano`/`node` non eseguibili live in sessione (giro.sh li ha girati 22:20); esecuzione #16 non confermabile da qui (ordine ancora 24/6); MCP cieco 1 giro (REST copre i 7 numeri); **PostHog cieco 3 giri (401)**; Stripe non a burn (runway N/D); web live non ricontrollato in notturna.
+## Errori trovati
+Nessuno.
 
----
+## Domande aperte per Nicola
+1. 🔴 Stamattina 3/7 apri il link WhatsApp #20 e chiudi #20→#21→#22 fino a «consegna fatta» (col payout-test)? *(Decisione già presa; manca il tap. Meteo favorevole.)*
+2. 🔴 Revochi ora il vecchio PAT su GitHub (R1 · AR-004)?
+3. 🟡 Ok a R2 (merge+deploy fix cantiere, branch machine-analysis)?
 
-## Errori per gravità
-
-*Nessun errore intercettato in questo giro.* (Segnale operativo, non errore: 3 finestre saltate oggi sulla stessa azione manuale → lezione «una sola finestra a bassa frizione», applicata riprogrammando a mattina 3/7.)
-
----
-
-## Domande per Nicola
-
-1. **Alta:** #16 deciso (esegui), cena saltata: **domani mattina 3/7** tap link WhatsApp #20 (slot mattina) → #21 → #22 → «consegna fatta», accorpato al payout-test?
-2. **Alta:** R1 — revoca il PAT GitHub (unica remediation del segreto in storia git).
-3. **Media:** R2 — ok a merge+deploy fix cantiere (branch machine-analysis)? · SQL 107 → «fatto sql 107».
-
----
-
-## Entità verificate (registro-realta.json)
-
-| Entità | Stato | Fonte |
-|--------|-------|-------|
-| Pane Quotidiano | confermato | REST live 22:20 (delta-gate) · cena saltata, #16 riprogrammato |
-| Casa Linda | demo | UUID seed — esclusa |
-| Antica Salumeria Garetti | scelta_ragionata | campo-aperto-faro.md (prospect, 0 ordini) |
-| Buyer ordine (348 642 1766) | confermato | REST orders.delivery_phone |
-
----
-
-## Salute macchina
-
-- REST marketplace: ✅ (7 numeri live 22:20) · Automazione: ✅ ultimo verde (sync commit 21:56/22:03)
-- Delta-gate (AR-019) + chiusura-loop (AR-009): ✅ vivi e persistono su disco
-- Loop business: 🔴 (0 consegnati; #16 deciso ma 3 finestre saltate oggi)
-- Sensori: REST ok · Stripe ok nel ledger (non a burn) · MCP cieco 1 giro · **PostHog cieco 3 giri (401)** · Resend ok
-- Chiusura-loop: 38 vivi · 5 fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali) · 3 vuoti
-
----
-
-*Prossimo giro (mattina 3/7): verificare progresso #20–#22 e aggiornare North Star (0→1 se consegnato); ricontrollare web live (meteo, status); tentare ripristino key PostHog.*
+## Salute della macchina
+- **Sensori:** REST ok, Stripe balance ok, Resend ok; MCP Supabase cieco/gated 1 giro; **PostHog cieco 5 giri** (401, opzionale).
+- **Loop apprendimento:** chiude (chiusura-loop 00:06: 38 quaderni vivi, 5 fermi, 3 vuoti).
+- **Loop business:** 🔴 aperto — 0 consegnati finché #16 non parte. Il blocco è umano-manuale, non tecnico né meteo.
+- **Voto salute architettura:** 42 (post-radiografia profonda; 18 fix chiusi in codice, inerti finché non deployati via R2).

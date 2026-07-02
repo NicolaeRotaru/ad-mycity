@@ -1,6 +1,7 @@
 {
-  "data": "2026-07-02 22:20",
-  "aggiornato": "2026-07-02 22:20",
+  "data": "2026-07-03 00:08",
+  "aggiornato": "2026-07-03 00:08",
+  "_nota_giro_notte_03_07": "Giro notte 3/7 00:08: nessuna lezione nuova (plateau atteso). APPLICATE al giro: L-2026-0702-51 (ancorare l'azione manuale critica a UNA finestra certa → #16 accorpato al payout-test di stamattina, non rincorrere finestre) e L-2026-0702-48/AR-019 (giro minimale quando business invariato + sensori gated: aggiornato solo timestamp/delta + l'unico dato nuovo, il meteo, senza ri-eseguire analisi pesante).",
   "lezioni": [
     {
       "id": "L-2026-0702-51",

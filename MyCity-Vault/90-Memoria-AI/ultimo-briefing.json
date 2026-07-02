@@ -1,14 +1,14 @@
 {
-  "data": "2026-07-02 22:20",
-  "situazione": "Giro serale/notte 22:20, full giro fatto scattare dal delta-gate per cambio stato sensori (PostHog cieco da 3 giri → sentinella «sensore cieco ≥3» scattata, ma opzionale a 0 ordini pagati). Business invariato e confermato LIVE via REST/delta-gate: 1 negozio reale (Pane Quotidiano), 1 ordine (ultimo 24/6), 0 pagati/consegnati, 23 profili. Fatto nuovo che conta: la finestra cena 19–21 è passata e #16 NON è stato eseguito — terza finestra saltata oggi (pranzo + cena). Stallo salito a ~206h. Il collo di bottiglia è 100% umano-manuale (1 tap WhatsApp #20), non tecnico: tutto il pacchetto è pronto. Restano invariate le 3 cose di Nicola dal cantiere radiografia (R1 revoca PAT, R2 merge fix, R3 Casa Linda).",
+  "data": "2026-07-03 00:08",
+  "situazione": "Giro notte 3/7 00:08 (+2h dal precedente), full da delta-gate. Business invariato dal 24/6: 1 negozio reale (Pane Quotidiano), 1 ordine zombie €19,05, 0 pagati/consegnati, 23 profili, stallo ~206h (≈8,6 giorni). Nessun numero nuovo (7 numeri = baseline REST 22:28, MCP+node gated in sessione). Unico dato nuovo utile: meteo di oggi 3/7 sereno 32°/19° (pioggia 30%) → finestra consegna favorevole, e oggi è Venerdì Piacentini (centro pieno, presidio già rimandato ma facilita il ritiro). Il collo di bottiglia resta 100% umano-manuale: #16 è deciso ma le 3 finestre di ieri sono saltate. Restano le 3 cose di Nicola: R1 revoca PAT, R2 merge fix, SQL 107.",
   "opportunita": [
-    {"titolo": "Accorpare #16 + payout-test alla mattina 3/7", "motivo": "Le finestre pranzo e cena di oggi sono saltate: un solo momento a bassa frizione domani mattina chiude sia la prima transazione sia il test pagamenti già in agenda.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Batch onboarding 6/7", "motivo": "407 lead, checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Chiudere #16 stamattina 3/7, accorpato al payout-test", "motivo": "Meteo favorevole + payout-test già in agenda: un solo momento a bassa frizione sblocca ~206h di stallo e porta la North Star 0→1.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Batch onboarding 6/7", "motivo": "407 lead + checklist pronta: più negozi = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "R2 — attivare i 18 fix del cantiere", "motivo": "Merge+deploy branch machine-analysis rende attivi timeout giro, gate sensori anti-invenzione, guardiano agenti, sensore cassa: oggi scritti ma inerti.", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Ripristinare la key PostHog", "motivo": "Funnel cieco da 3 giri (401): irrilevante ora, ma utile prima del batch 6/7 per misurare la conversione.", "impatto": "basso", "sforzo": "basso"}
+    {"titolo": "Ripristinare la key PostHog", "motivo": "Funnel cieco da 5 giri (401): irrilevante ora, ma utile prima del batch 6/7 per misurare la conversione.", "impatto": "basso", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Esegui #16 domani mattina 3/7 — tap WhatsApp #20 → #21 → #22 → «consegna fatta», accorpato al payout-test", "motivo": "3 finestre saltate oggi: non rincorrerne un'altra stanotte. Un solo momento a bassa frizione domani mattina sblocca ~206h di stallo.", "livello": "rosso"},
+    {"titolo": "Esegui #16 stamattina 3/7 — tap WhatsApp #20 → #21 → #22 → «consegna fatta», accorpato al payout-test", "motivo": "Decisione già presa (esegui); ieri 3 finestre saltate per frizione. Meteo oggi favorevole: una sola finestra certa stamattina chiude ~206h di stallo.", "livello": "rosso"},
     {"titolo": "R1 — Revoca il PAT GitHub (AR-004)", "motivo": "È l'unica remediation del segreto già entrato nella storia git.", "livello": "rosso"},
     {"titolo": "R2 — Merge+deploy fix cantiere (branch machine-analysis)", "motivo": "Attiva i 18 fix già chiusi in codice.", "livello": "giallo"},
     {"titolo": "SQL 107 DROP policy profiles", "motivo": "Unico bloccante RLS post-Sprint 1, prerequisito batch 6/7.", "livello": "giallo"}
