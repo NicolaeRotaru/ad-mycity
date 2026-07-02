@@ -1,9 +1,10 @@
 [Unit]
-Description=MyCity AD — lancia il piano del mattino ogni giorno alle 08:00 (Piacenza)
+Description=MyCity AD — lancia il piano del mattino ogni giorno alle 06:00 (Piacenza)
 
 [Timer]
-OnCalendar=*-*-* 08:00:00
-Timezone=Europe/Rome
+# NOTA: "Timezone=" non è una direttiva systemd valida (il vecchio file falliva in silenzio):
+# il fuso si mette DENTRO OnCalendar.
+OnCalendar=*-*-* 06:00:00 Europe/Rome
 Persistent=true
 
 [Install]

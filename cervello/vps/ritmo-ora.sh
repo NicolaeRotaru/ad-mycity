@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# ritmo-ora.sh — Lancia SUBITO una cadenza del ritmo (mattino | sera | settimana).
+# ritmo-ora.sh — Lancia SUBITO una cadenza del ritmo (mattino | mezzogiorno | sera | settimana).
 # Da eseguire SUL VPS (Linux), come root:
 #     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mattino
+#     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh mezzogiorno
 #     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh sera
 #     sudo bash /opt/mycity/ad-mycity/cervello/vps/ritmo-ora.sh settimana
 set -euo pipefail
@@ -9,10 +10,11 @@ set -euo pipefail
 TIPO="${1:-}"
 case "$TIPO" in
   mattino) UNIT=mycity-ritmo-mattino ;;
+  mezzogiorno) UNIT=mycity-ritmo-mezzogiorno ;;
   sera) UNIT=mycity-ritmo-sera ;;
   settimana) UNIT=mycity-ritmo-settimana ;;
   *)
-    echo "Uso: ritmo-ora.sh {mattino|sera|settimana}" >&2
+    echo "Uso: ritmo-ora.sh {mattino|mezzogiorno|sera|settimana}" >&2
     exit 1
     ;;
 esac

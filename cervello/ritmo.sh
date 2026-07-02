@@ -12,6 +12,10 @@ case "$RITMO_TIPO" in
     RITMO_SEZIONE="☀️ PIANO DEL MATTINO"
     RITMO_TITOLO="Piano del mattino"
     ;;
+  mezzogiorno)
+    RITMO_SEZIONE="🕛 PUNTO DI MEZZOGIORNO"
+    RITMO_TITOLO="Punto di mezzogiorno"
+    ;;
   sera)
     RITMO_SEZIONE="🌙 REPORT DELLA SERA"
     RITMO_TITOLO="Report della sera"
@@ -21,7 +25,7 @@ case "$RITMO_TIPO" in
     RITMO_TITOLO="Review settimanale"
     ;;
   *)
-    echo "Uso: ritmo.sh {mattino|sera|settimana}" >&2
+    echo "Uso: ritmo.sh {mattino|mezzogiorno|sera|settimana}" >&2
     exit 1
     ;;
 esac
