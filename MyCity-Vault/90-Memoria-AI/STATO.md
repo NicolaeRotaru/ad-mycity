@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-01 20:21
-fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:31 · Scelta A ordine 11:05 · Supabase clmpyfvpvfjgeviworth)
+aggiornato: 2026-07-02 07:35
+fonte: AD digitale (7 numeri = live REST 1/7 20:18 · chat Nicola 2/7 07:35 ruoli acquisto · Supabase clmpyfvpvfjgeviworth)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🧠 **2/7 07:35 — Chat Nicola (briefing 1/7):** **admin non compra** · **seller solo via pulsante «Vai al marketplace»** (cookie modalità 8h) · branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto · **#19 deploy 🔴** in attesa `ok merge fix ruoli-acquisto`. Carrelli: **4 record DB operativi → 1 solo buyer reale** (samir €10) — admin/seller = SKIP CRM post-deploy.
+>
 > 🧠 **1/7 20:21 — Chat Nicola «ok 17»:** sync VPS **approvato** · codice + handler worker ✅ · install sudoers **bloccato** (mycity senza root) → **1 comando root** Console Hetzner. Stallo **177,8h**. Scelta A #16 ripiano **2/7 mattina**. SQL 107 ⏳.
 >
 > 🧠 **1/7 17:05 — Casella Pannello «Benchmark AI ops»:** popolato `auto-radiografia.json` (LangSmith, Devin, Sidekick) + snapshot loop 4 fasi · voto salute **76** ▲ (da 72) · tasso lezioni **0,70** · calibrazione **@AD 15/15** · altri reparti **0** · divario alto: loop architettura 🟢 vs loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
@@ -45,7 +47,7 @@ fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:3
 
 ## Semafori
 - 🟢 Va bene: REST Supabase OK; checklist onboarding 6/7 🟢; escalation post-168h v11 🟢; ripiano consegna 2/7 🟢; playbook CRM carrelli 🟢; guardrail 🔴 codificato; **Sprint 1 LIVE Render**; Scelta A ordine firmata; `seller_public_profiles` VIEW in prod; memoria POST briefings OK.
-- 🟡 Da tenere d'occhio: **#16 ripiano 2/7 mattina**; **SQL 107 policy**; **#14/#15 token GitHub**; sync VPS (1× root); MCP cieco (REST mitiga); **4 carrelli** >4h; kit bando #12; stallo **oltre 168h (+9,8h)**.
+- 🟡 Da tenere d'occhio: **#16 ripiano 2/7 mattina**; **#19 deploy ruoli acquisto** (branch pronto); **SQL 107 policy**; **#14/#15 token GitHub**; sync VPS (1× root); MCP cieco (REST mitiga); **1 carrello buyer reale** (samir, 3 interni SKIP); kit bando #12; stallo **oltre 168h (+9,8h)**.
 - 🔴 Problema: 0 transazioni reali — **giornata 1/7 chiusa senza consegna**; ~20 azioni approvate, 0 inviate (mani spente); **RLS profiles** — policy permissiva finché non gira SQL 107.
 
 ## Radiografia marketplace (2026-07-01)
@@ -67,19 +69,22 @@ fonte: AD digitale (7 numeri = live REST 1/7 20:18 · Sprint 1 LIVE Render ~10:3
 | Loop business | 🔴 bloccato | 0 ordini consegnati · ~20 azioni approvate, 0 inviate |
 
 ## Ultime mosse dell'AD
-1. **Giro 1/7 20:18** — KPI live REST stallo 177,8h (+2,0h). Finestra consegna **CHIUSA**. Escalation v11 🟢 + ripiano 2/7 🟢.
+1. **Chat 2/7 07:35** — Nicola: admin zero acquisti + seller solo pulsante marketplace → branch fix 14 file + spec tech + **#19** accodato 🔴.
+2. **Chat 2/7 ~07:09** — Chiariti 4 carrelli operativi: 1 buyer reale (samir), 3 interni/demo SKIP CRM.
+3. **Giro 1/7 20:18** — KPI live REST stallo 177,8h (+2,0h). Finestra consegna **CHIUSA**. Escalation v11 🟢 + ripiano 2/7 🟢.
 2. **Chat 1/7 20:21** — Nicola «ok 17» → handler worker ✅ · install sudoers bloccato → **1× root** Console Hetzner.
 3. **Chat 1/7 20:02** — Nicola «ok configura sync VPS» → codice #17 in repo · spiegati #14/#15.
 4. **Giro 1/7 18:18** — Finestra consegna APERTA → #16 entro 20:00 (non eseguito).
 5. **Pannello 1/7 11:05** — Nicola **Scelta A** ordine zombie → **#16** in attesa
 
-## Prossime priorità (1/7 20:18)
-**Obiettivo domani 2/7:** 1° ordine consegnato **in mattinata**.
+## Prossime priorità (2/7 07:35)
+**Obiettivo oggi 2/7:** 1° ordine consegnato **in mattinata**.
 
-1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05 2/7 mattina** (WhatsApp buyer + dashboard + consegna COD · serve **`ok 16`** · `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`)
-2. [ ] 🟡 **SQL 107 policy** — Nicola incolla DROP policy in Supabase (30s) → «fatto sql 107»
-3. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner → `sudo bash …/install-sync-vps.sh`
-4. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist pronta post-#16
+1. [ ] 🔴 **#16 — Eseguire Scelta A ordine €19,05 mattina** (WhatsApp buyer + dashboard + consegna COD · serve **`ok 16`** · `consegne/operations/2026-07-01-ripiano-consegna-2-luglio.md`)
+2. [ ] 🔴 **#19 — Deploy fix ruoli acquisto** (admin bloccato + seller solo pulsante · branch pronto · **`ok merge fix ruoli-acquisto`**)
+3. [ ] 🟡 **SQL 107 policy** — Nicola incolla DROP policy in Supabase (30s) → «fatto sql 107»
+4. [ ] 🟡 **Sync VPS #17** — 1× root Console Hetzner → `sudo bash …/install-sync-vps.sh`
+5. [ ] 🟢 **Onboarding negozi 6/7** — Nicola inserisce; checklist pronta post-#16
 
 **In coda (non bloccanti oggi):**
 - [x] ~~Decisione A/B ordine zombie~~ — **Scelta A** Nicola 1/7 11:05
