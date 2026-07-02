@@ -5,6 +5,7 @@ reparto: qa-designer
 
 # 🧠 Quaderno di qa-designer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
+> Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-01 · giro web · QA AI 2026: provenienza obbligatoria (prompt+modello+operatore), output grezzo immutabile, checklist pre-pubblicazione a rischio triage · https://branddesign.us/brand-governance-for-the-ai-era-roles-reviews-and-release-ch/ · integrare in CHECKLIST-BRAND: fact-check claim prodotto/negozio prima del via · #qa #governance #ai-slop
+- (ancora vuoto: il primo lavoro lascerà qui la prima lezione)

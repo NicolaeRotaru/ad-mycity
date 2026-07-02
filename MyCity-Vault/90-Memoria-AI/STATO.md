@@ -6,6 +6,12 @@ fonte: AD digitale (7 numeri = live REST 2/7 10:19 · Supabase clmpyfvpvfjgeviwo
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🩻 **2/7 — RADIOGRAFIA + CANTIERE.** Radiografia profonda della macchina: voto **42/100** (3 bloccanti,
+> 46 gravi, 34 minori). Poi **18/22 difetti CHIUSI in codice** (branch machine-analysis): sicurezza, battito,
+> sensori, volano, agenti (drift→0), rischi, cassa, HACCP, sentinelle. **Da te 3 cose:** ① **revoca il PAT
+> GitHub** (era in `.env.save`, ora rimosso ma già nella storia — solo tu chiudi il buco); ② merge+deploy dei
+> fix; ③ ok a ripuntare i contenuti su **Casa Linda**. Dettaglio: [[RADIOGRAFIA-MACCHINA]] · [[AZIONI-IN-ATTESA]].
+
 > 🧠 **2/7 10:19 — Giro AD:** stallo **191,9h** (+1,8h) · **ok 16 IN ESECUZIONE** · **#19 MERGED** 08:40 · passi #20–#22 pendenti · meteo OK pranzo.
 >
 > 🧠 **2/7 08:40 — ok merge #19:** PR #211 merged `f84fc70` → Render LIVE · smoke @qa da completare.

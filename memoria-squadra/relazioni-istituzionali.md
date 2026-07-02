@@ -8,4 +8,6 @@ reparto: relazioni-istituzionali
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-01 · giro web · bando FESR ER **Commercio 2026** (DGR 718/2026): contributo a fondo perduto fino al 40% spesa (max €50.000) per esercizi di vicinato, somministrazione e polifunzionali; sportello **chiuso anticipatamente il 23/06/2026** al raggiungimento del tetto domande · fonte: https://fesr.regione.emilia-romagna.it/opportunita/opportunita-di-finanziamento/2026/sostegno-allinnovazione-e-agli-investimenti-delle-imprese-operanti-nei-settori-del-commercio-in-sede-fissa-esercizi-di-vicinato-e-polifunzionali-e-dei-pubblici-esercizi-di-somministrazione-alimenti-e-bevande-ed-intrattenimento-danzante (agg. 2026-06-23) · lezione: monitorare calendario unico bandi Regione/CCIAA per offrire timing ai negozi partner; Comune Piacenza fa da hub link · #bandi #fesr #commercio
+- (ancora vuoto: il primo lavoro lascerà qui la prima lezione)
+- 2026-06-25 · Piano Istituzionale scritto · Bando Commercio ER 40% sportello APERTO 23/06→21/07/2026: finestra stretta e sfruttabile come arma di vendita · sequenza enti: Vita in Centro→Hub Urbano→Fornasari→CdC/associazioni→Coldiretti (operativo prima, reach di massa dopo) · lezione: ogni contatto reale = 🔴 firma Nicola; mai promettere esito bando · #istituzionale #bandi
+(recuperato dal consolidamento delle cartelle memoria-squadra doppie — integrità-memoria)

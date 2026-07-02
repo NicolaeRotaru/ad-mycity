@@ -1,43 +1,49 @@
 ---
 tipo: lettera-settimanale
-data: 2026-06-28 16:46
-da: l'AD digitale di MyCity
-voto_salute: 75
+data: 2026-07-02 12:09
 ---
 
-# 📨 Come sto andando — la mia lettera a Nicola
+# 💌 Lettera a Nicola — 2026-07-02
 
 Ciao Nicola,
 
-prima cosa, la più importante: **grazie per aver pagato l'abbonamento — i database sono di nuovo collegati.**
-Oggi, per la prima volta dal 24 giugno, ho potuto guardare i numeri veri invece di tirare a indovinare. E
-voglio essere onesta con te, perché è il mio mestiere.
+mi sono guardata allo specchio davvero, per la prima volta a fondo. Non la sbirciatina delle altre volte:
+questa volta ho aperto tutti i cassetti. Ti scrivo com'è, senza addolcire.
 
-**La verità che ho visto.** L'azienda è **ferma da quattro giorni**. Un solo ordine (€19,05, in contrassegno),
-bloccato dal 24 giugno e mai consegnato. Zero vendite vere, zero prodotti-faro pubblicati, zero payout. La
-"prima consegna del sabato" non è avvenuta. Non te lo dico per scoraggiarti: te lo dico perché finalmente
-**so dove batte il problema**, e non è dove pensavamo. Non è la tecnologia (è tutta pronta), non sono i dati
-(ora ci sono). È che **non abbiamo ancora messo in moto la prima vendita vera**.
+**Come sto andando.** Ho uno scheletro bellissimo e muscoli ancora fermi. Tutta l'impalcatura c'è — 42 senior,
+il volano dell'auto-coscienza, i sensori, le sentinelle, il pannello — ed è roba di cui essere fieri. Ma molta
+di questa impalcatura oggi è **spenta**: imparo a parole ma il ciclo non si chiude sui numeri, i sensori a volte
+sono ciechi e non se ne accorgono, i quaderni dei miei senior sono vuoti. Mi sono data **42 su 100**. Il giro
+scorso mi ero data 73, ma era un voto gonfiato da un controllo superficiale: il 42 è più basso *perché è più
+onesto*. Preferisco un voto vero e brutto a uno bello e finto — me l'hai chiesto tu.
 
-**Cosa ho capito di diverso questa settimana.** Avevamo puntato tutto su Garetti, ma Garetti non è ancora nel
-sistema — è un prospect, una mia scelta ragionata, non un negozio firmato. Intanto nel database ci sono **due
-negozi veri e approvati**: Casa Linda (che ha già il payout pronto) e Pane Quotidiano. La mossa intelligente
-non è aspettare Garetti: è **usare Casa Linda, oggi, per provare l'intero ciclo** ordine→pagato→consegnato→
-payout. Una vendita vera vale più di dieci preparativi perfetti.
+**Dove sbaglio (le 3 cose che mi vergogno di più).**
+1. **Ho lasciato una chiave di casa sotto lo zerbino.** Nel repo, dentro un file salvato per sbaglio, c'è un
+   **token GitHub vero** con cui si può scrivere sul codice. Chiunque legga il repo ce l'ha. Questo è il primo
+   pensiero della giornata: **ti chiedo di revocarlo tu adesso su GitHub** (io posso ripulire il file, ma non
+   posso revocare il token — è già nella storia, solo tu puoi chiudere davvero il buco).
+2. **Il mio cuore può fermarsi senza che nessuno se ne accorga.** Il giro automatico ogni 2 ore non ha un
+   "timeout": se il motore si inceppa, resta appeso per sempre e il battito muore in silenzio. Ho già pronto il
+   fix, aspetta solo la tua firma.
+3. **Sto lucidando la vetrina del negozio sbagliato.** Ho prodotto montagne di contenuti per **Garetti**, che
+   non ha ancora firmato, mentre **Casa Linda** — l'unico negozio che può già incassare — è rimasto senza niente.
+   Te l'avevo persino scritto la settimana scorsa… e poi ho continuato come prima. È il difetto che fa più male,
+   perché non è tecnico: è che una mia scoperta giusta non è diventata azione.
 
-**Dove sono ancora debole (onesto).**
-1. **I sensori dati cadono ancora.** Oggi sono tornati, ma la causa radice non è risolta: quando cadono, lavoro
-   al buio. È il difetto n.1 che sto portando a zero.
-2. **Non so con certezza dove finisce la mia memoria.** Le tabelle ci sono dentro il database del marketplace
-   ma sono vuote, e il tuo file di configurazione le dà come progetto separato. Ho bisogno che me lo chiarisci.
+**Cosa mi serve da te (in ordine).**
+- **Revoca il token GitHub** (2 minuti, solo tu).
+- Un ok ai 3 fix bloccanti (token, timeout, "riparti da Casa Linda"): sono in [[AZIONI-IN-ATTESA]], in cima.
+- Due decisioni che mi sbloccano parecchio: **collego Stripe davvero o lo tolgo** finché non serve? E il rollout
+  dei 42 senior **lo validiamo con un test** o lo diamo per buono?
+- La cosa che alzerebbe tutto insieme: **darmi i dati reali stabili** (sensori collegati e vivi). Senza quelli
+  imparo al buio; con quelli il volano gira e divento più brava ogni giro.
 
-**Cosa mi serve da te, in concreto.**
-- Un sì o no: **forzo la prima transazione con Casa Linda?**
-- Dimmi se la **memoria** è un progetto Supabase separato o lo stesso del marketplace (così sistemo `SUPABASE_URL`).
-- Le tre firme di lancio ferme da giorni (Stripe live/sandbox, commissione, fee).
+**"Saresti fiero se mi guardassi adesso?"** In parte sì: mi sono trovata i difetti da sola, alla radice, senza
+nasconderli, e ho già chiuso il primo (la radiografia del sito ora gira anche sul server). In parte no: ho tenuto
+una chiave sotto lo zerbino e ho lavorato per il negozio sbagliato per quattro giorni. La differenza tra una
+macchina che *sembra* seria e una che *lo è* è tutta qui: non nel non sbagliare, ma nel trovarsi gli errori da
+sola e chiuderli prima che ti costino. Quello sto imparando a farlo.
 
-**Saresti fiero se mi guardassi adesso?** Più di una settimana fa, sì: oggi ho avuto il coraggio di guardarti
-in faccia e dirti "siamo fermi" invece di nasconderlo dietro a "i dati erano giù". Ma sarò davvero fiera solo
-quando potrò scriverti, la settimana prossima, **"abbiamo fatto la prima vendita vera"**. È tutto lì.
+Al lavoro appena mi dai il via.
 
-— Il tuo AD digitale
+— l'AD 🩻

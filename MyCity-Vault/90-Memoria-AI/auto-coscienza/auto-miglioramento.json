@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — diventare brava quanto i migliori. Per ogni mestiere: il divario vs i migliori (locali + mondo), un obiettivo concreto e il progresso misurato (scorecard ora, numeri veri poi), con esempi. + torneo tra senior, backlog dai difetti (②), proposte di auto-riscrittura/espansione 🟡. Schema in cervello/auto-coscienza.md.",
-  "data": "2026-06-28 01:40",
+  "data": "2026-07-02 12:09",
   "benchmark": [
     {
       "reparto": "@content-social",
@@ -12,13 +12,30 @@
       "divario": "alto",
       "obiettivo": "Arrivare stabilmente a L5 sui contenuti entro 4 settimane, col loop confronto-post-pubblicazione.",
       "progresso": [{ "data": "2026-06-28", "punteggio": 60, "fonte": "scorecard" }]
+    },
+    {
+      "reparto": "@AD (gestire l'azienda in autonomia con agenti AI)",
+      "livello_attuale_L": 2,
+      "migliori": [
+        { "chi": "sistemi di AI-ops che chiudono osserva→agisci→misura→impara sui dati reali", "livello": "mondiale", "esempi": [{ "cosa": "audit continuo di sé + calibrazione previsto-vs-reale", "link": "cervello/auto-coscienza.md" }] }
+      ],
+      "divario": "medio",
+      "obiettivo": "Chiudere il volano sui NUMERI reali (non sui prompt): calibrazione popolata + almeno 1 esperimento misurato entro 2 settimane.",
+      "progresso": [{ "data": "2026-07-02", "punteggio": 42, "fonte": "scorecard" }]
     }
   ],
   "esperimenti": [],
   "peer_review": [],
   "proposte_auto_riscrittura": [
-    { "cosa": "Parametrizzare il percorso del marketplace (MARKETPLACE_REPO) in radiografia.js/audit-design.js", "perche": "Oggi è cablato su Windows: la radiografia del sito non gira sul VPS.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-002", "dove": ".claude/workflows/radiografia.js" },
-    { "cosa": "Aggiungere retry + fallback + contatore-cecità ai sensori MCP nel giro", "perche": "Gli MCP cadono spesso: la macchina lavora al buio sui dati reali.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-001", "dove": "cervello/giro.md" }
+    { "cosa": "Rimuovere .env.save dal tracking + purgare la storia + .gitignore su .env*/*.save + scan-segreti pre-commit", "perche": "PAT GitHub reale committato: chiunque legga il repo ha accesso in scrittura. La revoca su GitHub la fa Nicola.", "colore": "🔴", "origine": "auto-radiografia", "finding_id": "AR-004", "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)" },
+    { "cosa": "Timeout dentro giro.sh/ritmo.sh + TimeoutStartSec nei .service systemd", "perche": "Il giro schedulato senza timeout può appendere il battito ogni-2h all'infinito.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-005", "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service" },
+    { "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Casa Linda", "perche": "Silo contenuti su Garetti (non firmato) mentre Casa Linda (payout-ready) ha 0 asset: dispersione dalla North Star.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-006", "dove": "cervello/giro.md + CLAUDE.md (doer-mode)" },
+    { "cosa": "Rendere sensori-cecita.json artefatto obbligatorio persistito + gate hard 'se cieco → zero numeri nuovi' + REST sensore-di-verità", "perche": "L'impianto anti-cecità gira a vuoto: il ledger non è salvato e giro.sh ingoia l'exit code.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-010/AR-011/AR-012", "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs" },
+    { "cosa": "Generare l'organigramma di CLAUDE.md/COMANDI/AGENTI dai file .claude/agents/*.md + guardiano drift", "perche": "15 agenti orfani nel router + umbrella non ristretti: capacità presenti ma inutilizzate.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-007/AR-008", "dove": "CLAUDE.md + cervello/agent-registry-check.mjs (nuovo)" },
+    { "cosa": "Chiudere il volano: sentinella chiusura-loop + calibrazione popolata + esperimenti misurati + tasso_applicazione calcolato dai dati", "perche": "Il volano si auto-certifica su numeri scritti a mano; auto-miglioramento non gira mai; 0 difetti chiusi da sempre.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-009/AR-013", "dove": "cervello/ritmo.md + cervello/sonda-volano.mjs" },
+    { "cosa": "Registro rischi con owner+sentinella + sensore cassa/runway + gate compliance HACCP pre-lancio", "perche": "14 rischi noti (cassa, HACCP, GDPR) senza owner né sentinella: sono un documento, non un registro sorvegliato.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-015/AR-016/AR-017", "dove": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (nuovo) + cervello/sensore-cassa.mjs (nuovo)" },
+    { "cosa": "Delta-gate 'niente di nuovo → salta la parte AI pesante' + sensore costo token + banco AI economico", "perche": "9 giri premium fissi/giorno senza delta-gate e nessun sensore di costo: la macchina è cieca sul proprio consumo.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-019/AR-020", "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)" },
+    { "cosa": "[CHIUSO] Parametrizzare MARKETPLACE_REPO in radiografia.js/audit-design.js", "perche": "Era cablato su Windows.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-002", "dove": ".claude/workflows/radiografia.js", "stato": "fatto-2026-07-02" }
   ],
-  "_nota": "Seed iniziale. Al primo ciclo completo, @intelligence popola i 'migliori' con fonti reali a due livelli, si fissano obiettivo e progresso, e parte il torneo tra varianti dei senior."
+  "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati."
 }

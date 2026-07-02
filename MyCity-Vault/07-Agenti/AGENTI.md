@@ -15,14 +15,12 @@ L'**AD** (Claude Code, guidato da `CLAUDE.md`) riceve l'obiettivo, lo spezza e
 Ogni senior ha **solo gli strumenti che gli servono** (minimo privilegio) e rispetta
 la regola d'oro 🟢🟡🔴.
 
-> **🌐 Web (2026-07-01):** **tutti i senior** hanno **WebSearch + WebFetch** 🟢 per benchmark,
-> apprendimento continuo e ricerca verificabile — vedi [[WEB-APPRENDIMENTO-SENIOR]].
-
-## 🗂️ Organigramma per TEAM (40 senior + AD)
+## 🗂️ Organigramma per TEAM (42 senior + AD)
 - 🧠 **Direzione:** AD
 - 🤖 **AI Lab:** prompt-engineer · ai-designer · ai-video · ai-copywriter
 - 💻 **Engineering:** tech · frontend-dev · backend-dev · data-engineer · devops-sre · qa · security · builder-automazioni
 - 📦 **Prodotto & Design:** product-manager · ux-designer · designer
+- 🚦 **Qualità & Cancelli:** direttore-creativo · qa-designer
 - 📣 **Marketing & Growth:** marketing · growth-monetizzazione · crm-lifecycle · content-social · seo · ads-performance · influencer-partnership · cro · pr-stampa · relazioni-istituzionali
 - 🤝 **Vendite & Supply:** vendite · onboarding-negozi · account-negozi
 - 🛵 **Operations:** operations · rider-fleet · dispatch
@@ -31,6 +29,7 @@ la regola d'oro 🟢🟡🔴.
 - 🔎 **Intelligence & Dati:** intelligence · analista
 - ⚖️ **Legale:** legale-privacy
 > KPI per ruolo in [[OKR-Squadra]] · capacità e cultura in [[CULTURA-SQUADRA]] · le figure rare oltre questo set si attivano on-demand.
+> **Conteggio verificato da `node cervello/agent-registry-check.mjs`** (guardiano anti-drift): 42 file reali = 42 in questa mappa. Se aggiungi/togli un agente, aggiorna QUI e in `CLAUDE.md`, poi rilancia il guardiano.
 
 ## Dettaglio nucleo per poteri (🟢🟡🔴)
 
@@ -55,7 +54,7 @@ la regola d'oro 🟢🟡🔴.
 | Senior | Cosa produce | Poteri max |
 |---|---|---|
 | 🔎 **intelligence** | concorrenti, trend, eventi, buchi di mercato | sola lettura + web 🟢 |
-| 📊 **analista** | report sui numeri, cali, opportunità | sola lettura + web 🟢 |
+| 📊 **analista** | report sui numeri, cali, opportunità | sola lettura 🟢 |
 
 ### 🛠️ Costruttori di strumenti
 | Senior | Cosa produce | Poteri max |

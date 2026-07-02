@@ -12,6 +12,23 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+
+---
+
+## 🩻 RADIOGRAFIA DELLA MACCHINA — cantiere 2/7 · PRIORITÀ
+> 18/22 difetti chiusi in codice. Restano 3 cose che richiedono TE:
+
+### 🔴 R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA
+Il file `cervello/vps/.env.save` col PAT è stato **rimosso dal repo** e lo scan-segreti ora blocca il push, ma il token **è già nella storia git**: vai su GitHub → *Settings → Developer settings → PAT* e **revocalo**, poi generane uno nuovo (solo nel `.env` del VPS, mai committato). È l’unica cosa che chiude davvero il buco.
+
+### 🟡 R2 — Merge + deploy dei fix del cantiere
+I 18 fix sono sul branch `claude/machine-analysis-ez7g3e`. Al merge in `main` + deploy VPS (`systemctl daemon-reload` per i `.service`) diventano attivi: battito con timeout, sensori col gate anti-invenzione, guardiano agenti, sensore cassa, gate HACCP, ecc.
+
+### 🟡 R3 — Ripuntare i contenuti su Casa Linda (AR-006)
+Il cancello di allocazione è in CLAUDE.md; manca il lavoro di reparto per trasformare i 5 item Garetti in template + 1 pacchetto Casa Linda (unico negozio payout-ready). Dimmi "ok" e lo preparo.
+
+---
+
 > 🟢 **Scorciatoia lancio:** le righe **1-2** (le 3 decisioni 🔴 di lancio) sono consolidate in
 > un **foglio-firma da 2 minuti** → `consegne/decisioni/2026-06-26-foglio-firma-lancio.md`. Firma lì.
 
