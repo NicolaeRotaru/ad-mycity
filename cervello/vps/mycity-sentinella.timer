@@ -1,0 +1,10 @@
+[Unit]
+Description=MyCity AD — controlla la coda ogni 3 minuti (azioni approvate non eseguite, orfani)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=3min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

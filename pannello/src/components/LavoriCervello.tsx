@@ -43,6 +43,27 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
 
   const gruppi = useMemo(() => raggruppaLavori(lavori, mappa), [lavori, mappa]);
 
+  // Auto-guarigione: riapprova un'azione APPROVATA ma FALLITA (worker giù). Un clic → nuovo lavoro in coda.
+  const [riprovati, setRiprovati] = useState<Record<string, "invio" | "fatto" | "errore">>({});
+  async function riprova(id: string) {
+    setRiprovati((s) => ({ ...s, [id]: "invio" }));
+    try {
+      const res = await fetch("/api/riprova", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      setRiprovati((s) => ({ ...s, [id]: res.ok ? "fatto" : "errore" }));
+    } catch {
+      setRiprovati((s) => ({ ...s, [id]: "errore" }));
+    }
+  }
+  function motivoBreve(risultato?: string): string {
+    const righe = (risultato || "").split("\n").map((r) => r.trim()).filter(Boolean);
+    const worker = [...righe].reverse().find((r) => /\[worker\]|timeout|rc=|errore|error|motore/i.test(r));
+    return (worker || righe[righe.length - 1] || "il worker non ha lasciato dettagli").slice(0, 160);
+  }
+
   const codaBloccata = lavori.some((lv) => {
     const t = new Date(lv.updated_at || lv.created_at).getTime();
     if (isNaN(t)) return false;
@@ -185,6 +206,27 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                               <div className="text-[13px] font-medium text-ink/80 dark:text-white/80 line-clamp-2">{titoloLavoro(lv)}</div>
                             </div>
                           </button>
+
+                          {lv.stato === "errore" && (
+                            <div className="border-t border-red-200/60 dark:border-red-900/40 bg-red-50/60 dark:bg-red-950/20 px-3 py-2 flex items-start gap-2 flex-wrap">
+                              <div className="min-w-0 flex-1 text-[12px] text-red-800 dark:text-red-300 leading-snug">
+                                <b>Approvata ma non eseguita.</b> {motivoBreve(lv.risultato)}
+                              </div>
+                              {riprovati[lv.id] === "fatto" ? (
+                                <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => riprova(lv.id)}
+                                  disabled={riprovati[lv.id] === "invio"}
+                                  className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-red-400/50 text-red-700 dark:text-red-300 rounded-lg px-2.5 py-1 hover:bg-red-100/70 dark:hover:bg-red-900/30 transition disabled:opacity-50"
+                                  title="Riapprova: rimette l'azione in coda per rieseguirla ora che il worker è attivo"
+                                >
+                                  🔄 {riprovati[lv.id] === "invio" ? "Rimetto…" : riprovati[lv.id] === "errore" ? "Riprova (ritenta)" : "Riprova"}
+                                </button>
+                              )}
+                            </div>
+                          )}
 
                           {lavoroAperto && (
                             <div className="border-t border-black/[0.05] dark:border-white/10 px-3 pb-3 pt-2 space-y-2">

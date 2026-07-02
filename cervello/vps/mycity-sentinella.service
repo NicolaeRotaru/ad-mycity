@@ -1,0 +1,15 @@
+[Unit]
+Description=MyCity AD — sentinella coda lavori (auto-guarigione azioni approvate fallite)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
+ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/sentinella-lavori.mjs
+Nice=10
+
+[Install]
+WantedBy=multi-user.target
