@@ -362,7 +362,7 @@
       "stato": "aperto",
       "nato": "2026-07-03",
       "chiuso_il": "",
-      "nota_fix": "Trovato dal giro del mattino 3/7 06:28 (lezione L-2026-0703-52). Il giro delle 06:20 è scattato 'pieno' per «cambio stato sensori» col solo incremento del contatore PostHog (opzionale). Verifica avversariale: business firma invariata nel delta-gate.json, unica differenza = max_giri_ciechi 3→10.",
+      "nota_fix": "Trovato dal giro del mattino 3/7 06:28 (lezione L-2026-0703-52). Il giro delle 06:20 è scattato 'pieno' per «cambio stato sensori» col solo incremento del contatore PostHog (opzionale). Verifica avversariale: business firma invariata nel delta-gate.json, unica differenza = max_giri_ciechi 3→10. RICONFERMATO 2 volte lo stesso giorno: giri 08:20 (11) e 10:22 (12) di nuovo pieni sul solo incremento del contatore cieco, business identico → il difetto è ricorrente e a rendimento nullo per ogni ciclo; priorità di chiusura da alzare (è oggi il difetto aperto a maggior spreco di Max). Fix ancora 🟡 (richiede modifica a cervello/delta-gate.mjs, non fatta in sessione).",
       "verifica": {
         "tipo": "codice",
         "file": "cervello/delta-gate.mjs"

@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-03 06:28",
+  "aggiornato": "2026-07-03 10:22",
+  "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
@@ -8,12 +9,12 @@
       "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
       "tag": ["delta-gate", "AR-019", "AR-024", "efficienza-costo", "sensori", "posthog", "firma-stato"],
       "reparto": "@AD",
-      "confidenza": 0.8,
-      "evidenze": 1,
+      "confidenza": 0.85,
+      "evidenze": 3,
       "fonte": "auto-radiografia",
       "caso_studio_nicola": false,
       "nato": "2026-07-03",
-      "ultima_conferma": "2026-07-03 06:28",
+      "ultima_conferma": "2026-07-03 10:22",
       "stato": "attiva"
     },
     {
