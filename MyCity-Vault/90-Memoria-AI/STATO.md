@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 11:14
-fonte: AD digitale (🔭 Giro refresh 3/7 11:14 · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 13 giri · stallo ~219h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna mattina)
+aggiornato: 2026-07-03 14:20
+fonte: AD digitale (🔭 Giro refresh 3/7 14:20 · #16 APPROVATO dal Pannello 13:29 ma NON ancora consegnato · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 15 giri · stallo ~222h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna serale post-19:00)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
