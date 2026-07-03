@@ -517,3 +517,26 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-03 00:33 · @AD · FATTO · Refresh +6min dal giro 00:27. Delta-gate 00:31 `corrente==ultimo_pieno`: nessuna novità business (7 numeri = baseline REST 22:28 invariata; MCP+node+curl gated). Unica variazione sensori: **PostHog cieco 9 giri** (era 8). Radar non ri-verificato (meteo/eventi già live al 00:08).
 - 2026-07-03 00:33 · @AD · FATTO · Aggiornati timestamp Cabina al 00:33: briefing 2026-07-03 (passaggi 00:27/00:23/00:18/00:08 sotto separatore), STATO, ultimo-briefing, auto-analisi/AUTO-ANALISI, registro-realta, intenzioni-nicola.
 - 2026-07-03 00:33 · @AD · SERVE · Mossa n.1 confermata → STAMATTINA 3/7: Nicola apre link WhatsApp #20 → #21 → #22 → «consegna fatta», col payout-test. Restano R1 revoca PAT · R2 merge fix · SQL 107.
+
+### 2026-07-03 — ☀️ PIANO DEL MATTINO (AD · 06:00)
+**Obiettivo del giorno:** **prima transazione reale end-to-end** (ordine → consegna → COD €19,05) nella finestra certa di stamattina, accorpata al payout-test. North Star: **1° ordine consegnato**. Contesto: oggi **Venerdì Piacentini**, meteo favorevole (sereno 19–32°C) → consegna comoda; le 3 finestre del 2/7 sono state saltate, stallo **~213h**.
+
+**Le 3 priorità:**
+1. 🔴 **Eseguire #16 Scelta A stamattina + payout-test** — una sola finestra, due risultati: tap WhatsApp #20 (buyer 348 642 1766) → #21 accetta ordine `58094956…` + chiama PQ 0523 388601 → #22 consegna COD €19,05 → «consegna fatta».
+2. 🔴 **R1 — revoca il PAT GitHub** (AR-004): il token è già in storia git, solo Nicola lo chiude (revoca + rigenera nel `.env` VPS).
+3. 🟡 **Piattaforma sicura per il batch 6/7** — SQL 107 (DROP policy profiles, ~30s) + R2 merge+deploy fix cantiere (branch machine-analysis).
+
+Assegnazioni (1 mossa per reparto):
+- @operations · #16 pronto (passi #20–#22), aspetta il tap di Nicola · 🔴
+- @supporto · assistenza messaggio buyer + aggiornamento stato ordine in dashboard · 🔴 con @operations
+- @finanza · payout-test Stripe sandbox accorpato a #16 (era già in agenda 03/7 mattina) · 🔴
+- @customer-success · script feedback A13/A14 pronto per il post-consegna (`consegne/customer-success/primo-ordine-faro.md`) · 🟢 prep
+- @security · nota remediation R1 pronta (passi revoca PAT) · 🔴 azione Nicola
+- @tech · SQL 107 idempotente + prep merge fix cantiere · 🟡
+- @devops-sre · sync VPS post-merge (#17, resta 1× root Console Hetzner) · 🟡
+- @data-engineer · #23 sblocco PostHog (Personal Key phx_, cieco ≥9 giri) · 🟡
+- @account-negozi · #24 fix falso positivo «negozio fermo» su Casa Linda demo · 🟡
+- @onboarding-negozi · checklist batch 6/7 pronta e presidiata · 🟢
+- @intelligence · radar VP 3/7 + finestra meteo consegna · 🟢
+- @analista · snapshot KPI baseline pre/post prima transazione · 🟢
+🙋 **Serve da Nicola stamattina:** 🔴 **eseguire #16** (#20→#21→#22) + **payout-test sandbox** · 🔴 **revocare il PAT GitHub** (R1) · 🟡 **SQL 107** + **ok merge R2** + 1× root sync VPS (#17) · 🟢 firma opzionale #23 (PostHog) e #24 (Casa Linda demo). Tutto già pronto in coda — al tuo via parte.

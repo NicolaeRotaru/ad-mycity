@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 00:33
-fonte: AD digitale (Giro notte 3/7 00:33 · refresh +6min · delta-gate 00:31 corrente==ultimo_pieno · 7 numeri baseline REST 22:28 invariati · MCP+node gated in sessione · PostHog cieco 9 giri · stallo ~206h da ancora 24/6 08:28 · oggi Venerdì Piacentini)
+aggiornato: 2026-07-03 06:00
+fonte: AD digitale (☀️ Piano del mattino 3/7 06:00 · 7 numeri baseline REST 22:28 invariati · MCP+node gated in sessione · PostHog cieco ≥9 giri · stallo ~213h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo favorevole → finestra consegna stamattina)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -77,13 +77,13 @@ fonte: AD digitale (Giro notte 3/7 00:33 · refresh +6min · delta-gate 00:31 co
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (3/7 00:33 · finestra reale = STAMATTINA 3/7)
-**Deciso (Scelta A):** 1° ordine consegnato. 3 finestre del 2/7 saltate → **oggi 3/7 meteo favorevole**: eseguire #16 **stamattina** insieme al payout-test già in agenda (una sola finestra certa).
+## Prossime priorità (☀️ Piano del mattino 3/7 06:00 · finestra reale = STAMATTINA)
+**Deciso (Scelta A):** 1° ordine consegnato. 3 finestre del 2/7 saltate → **oggi 3/7 Venerdì Piacentini + meteo favorevole (sereno 19–32°C)**: eseguire #16 **stamattina** insieme al payout-test già in agenda (una sola finestra certa, due risultati). Stallo **~213h**.
 
-1. [ ] 🔴 **#16 — ESEGUI (mano Nicola) STAMATTINA 3/7:** tap link WhatsApp #20 (slot mattina) → #21 accetta ordine + chiama PQ → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test 3/7
+1. [ ] 🔴 **#16 — ESEGUI (mano Nicola) STAMATTINA 3/7 + payout-test:** tap link WhatsApp #20 (slot mattina) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox 3/7
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
-3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s)
-4. [ ] 🟡 **R2 — Merge+deploy fix cantiere** (branch machine-analysis)
+3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
+4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco ≥9 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
 **Sentinelle attive:** ordine ritardo ~206h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+38h) · loop business 🔴 · **sensore cieco ≥9 giri: PostHog (401, opzionale)** · voto salute architettura 42 (<60, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
