@@ -1,8 +1,9 @@
-# Esecuzione ok 16 — ordine zombie €19,05 · consegna CENA 2/7
+# Esecuzione ok 16 — ordine zombie €19,05 · consegna MATTINA 3/7 (accorpata al payout-test)
 
-> **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05**
-> **⚠️ Aggiornato 2/7 17:09 — DECISIONE BINARIA #16 = Scelta A (Pannello):** pranzo perso (firmato 08:38, non eseguito ~8h), Nicola ha scelto **eseguire** invece di «archivia zombie». **Slot spostato a CENA 19:00–21:00.**
-> **@operations + @supporto** · 🔴 mani reali (WhatsApp + dashboard + consegna COD)
+> **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05** · Decisione binaria **2/7 17:09** = Scelta A (eseguire)
+> **✅ Aggiornato 3/7 — PROPOSTA DAL GIRO APPROVATA (Pannello):** «Esegui #16 oggi 3/7 in **mattinata** — tap WhatsApp #20 → #21 → #22 → «consegna fatta», **accorpato al payout-test** (#2)». Cena 19–21 del 2/7 saltata (3ª finestra persa per frizione) → riprogrammata **MATTINA 3/7**. Motivo: afa nel pomeriggio → la mattina è la finestra certa per chiudere ~219h di stallo prima del caldo.
+> **@operations + @supporto** · 🔴 mani reali (WhatsApp + dashboard + consegna COD) — **~5 min di tap per Nicola**
+> **🔗 Accorpato al payout-test (#2, riga coda):** questa prima transazione reale end-to-end È il payout-test — verifica su un caso vero l'incasso COD €19,05 e la riconciliazione (Stripe = sandbox, decisione #3 → nessun incasso carta, contanti alla consegna). Chiuso #16, @finanza/@contabilita quadrano incasso vs ordine.
 
 ## Dati ordine (verificati live REST 2/7 08:38)
 
@@ -27,17 +28,17 @@
 
 ---
 
-## PASSO 1 — WhatsApp buyer (🔴 · Nicola · ORA)
+## PASSO 1 — WhatsApp buyer (🔴 · Nicola · STAMATTINA)
 
-**Slot proposto:** **stasera 19:00–21:00** (pranzo perso — aggiornato 17:09)
+**Slot proposto:** **stamattina, consegna entro le 13** (finestra certa prima dell'afa del pomeriggio)
 
 **Testo (copia-incolla):**
-> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **stasera (19:00–21:00)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
+> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **stamattina (entro le 13)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
 
 **Link diretto (1 tap):**
-https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20stasera%20(19%3A00%E2%80%9321%3A00)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
+https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20stamattina%20(entro%20le%2013)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
 
-**Se non risponde entro le 20:30:** l'ordine si chiude comunque stasera (o si archivia domattina se il buyer resta irraggiungibile — non riproporre la decisione binaria).
+**Se non risponde entro le 12:00:** manda il ritiro dal negozio comunque pronto e riprova il tap; se il buyer resta irraggiungibile tutta la mattina si archivia in giornata (non riproporre la decisione binaria — è già firmata Scelta A).
 
 ---
 
@@ -47,7 +48,7 @@ https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20
    https://mycity-marketplace.com/seller/dashboard
    → ordine `58094956…` → **Accetta**
 2. **Chiama Pane Quotidiano** (0523 388601) — script in `AZIONI-PRONTE.md` **A6**:
-   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo stasera. Confermate che è pronto?» *(⚠️ verificare orario chiusura Pane Quotidiano prima di chiamare)*
+   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo stamattina. Confermate che è pronto?» *(⚠️ negozio aperto la mattina — orario comodo per il ritiro)*
 3. Aggiorna **slot consegna** in app se il buyer conferma orario diverso.
 
 ---
@@ -78,13 +79,14 @@ https://mycity-marketplace.com/orders/58094956-4b9b-49b4-9299-7a5c645d7cb3/revie
 
 ## Checklist rapida Nicola (5 min)
 
-- [ ] **1.** Tap link WhatsApp → invia messaggio cena (19–21)
+- [ ] **1.** Tap link WhatsApp → invia messaggio mattina (consegna entro le 13)
 - [ ] **2.** Attendi risposta buyer (indirizzo + sì)
 - [ ] **3.** Accetta ordine in dashboard PQ
 - [ ] **4.** Chiama negozio (0523 388601) — prodotti pronti
 - [ ] **5.** Ritiro + consegna + incasso €19,05 COD
 - [ ] **6.** Conferma «Consegnato» in app
 - [ ] **7.** Scrivi AD **«consegna fatta»** → attiva A13/A14
+- [ ] **8.** *(payout-test #2 accorpato)* AD segna incasso COD €19,05 in DECISIONI + @finanza/@contabilita quadrano incasso vs ordine (Stripe sandbox → nessuna carta, solo contanti riconciliati)
 
 ---
 
