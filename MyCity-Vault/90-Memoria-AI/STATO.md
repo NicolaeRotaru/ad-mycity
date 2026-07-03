@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 10:22
-fonte: AD digitale (🔭 Giro refresh 3/7 10:22 · 7 numeri baseline REST invariati dal 24/6 · MCP+node gated in sessione (probe MCP marketplace negato) · PostHog cieco 12 giri · stallo ~218h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna mattina)
+aggiornato: 2026-07-03 11:14
+fonte: AD digitale (🔭 Giro refresh 3/7 11:14 · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 13 giri · stallo ~219h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna mattina)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -15,15 +15,15 @@ fonte: AD digitale (🔭 Giro refresh 3/7 10:22 · 7 numeri baseline REST invari
 >
 > 🧠 **2/7 08:40 — ok merge #19:** PR #211 merged `f84fc70` → Render LIVE · smoke @qa da completare.
 
-## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 10:22)
-| Numero | Oggi (3/7 10:22) | "Riuscito" | Note |
+## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 11:14)
+| Numero | Oggi (3/7 11:14) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox stamattina |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **Scelta A = esegui** · **3 finestre 2/7 SALTATE** → mattina 3/7 (prima dell'afa) |
 | Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~218h** (10:22) |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~219h** (11:14) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7 mattina** (sandbox) → accorpare #16 |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
 
@@ -53,17 +53,18 @@ fonte: AD digitale (🔭 Giro refresh 3/7 10:22 · 7 numeri baseline REST invari
 - 🟡 Da tenere d'occhio: **#16 Scelta A confermata — esegui STAMATTINA 3/7** (passi #20–#22 manuali, tap link WhatsApp, col payout-test); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali** — stallo **~216h** (+48h oltre 168h); 3 finestre del 2/7 saltate ma **decisione presa (esegui, non archivia)** + meteo 3/7 favorevole → finestra stamattina; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
-## Auto-coscienza (2026-07-03 10:22 · 🔭 giro AD refresh)
+## Auto-coscienza (2026-07-03 11:14 · 🔭 giro AD refresh)
 | Metrica | Valore | Fonte |
 |---|---|---|
 | Voto salute architettura | **42** (completa 12:09 2/7) | `auto-radiografia.json` top-level |
-| Voto fiducia giro | **79** ▼ | `auto-analisi.json` (refresh onesto a valore quasi nullo: nessuna novità business/radar, live gated, unico cambio = contatore cieco PostHog) |
+| Voto fiducia giro | **79** = | `auto-analisi.json` (refresh onesto a valore quasi nullo: nessuna novità business/radar, live gated, unico cambio = contatore cieco PostHog 12→13) |
 | Cantiere difetti | **20 chiusi · 2 in-corso (umani) · 1 aperto (AR-024)** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 20/20** | calibrazione.json |
 | Loop business | 🔴 in corso | #16 firmato ma non eseguito (3 finestre 2/7 saltate) → mattina 3/7 |
 
 ## Ultime mosse dell'AD
-0. **🔭 Giro refresh 3/7 10:22** — full da delta-gate (10:20 «cambio stato sensori»: PostHog cieco **12** giri, era 11). **Nessuna novità di business:** firma invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business). MCP Supabase ri-confermato cieco **anche in questa sessione** (probe MCP marketplace negato dai permessi) → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza rispettata). Stallo **~218h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta). 2ª conferma oggi del falso-nuovo delta-gate (contatore cieco-opzionale). → Mossa n.1 confermata: esegui #16 **oggi** col payout-test.
+0. **🔭 Giro refresh 3/7 11:14** — full da delta-gate (11:13 «cambio stato sensori»: PostHog cieco **13** giri, era 12). **Nessuna novità di business:** firma invariata (ordini=1, ultimo 24/6 08:28, 23 profili) — delta-gate 10:29 ha ri-misurato LIVE `corrente==ultimo_pieno`. MCP+node/curl gated in questa sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza rispettata). Stallo **~219h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta). **3ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). → Mossa n.1 confermata: esegui #16 **oggi in mattinata** col payout-test, prima dell'afa.
+0-. **🔭 Giro refresh 3/7 10:22** — full da delta-gate (10:20 «cambio stato sensori»: PostHog cieco **12** giri, era 11). **Nessuna novità di business:** firma invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business). MCP Supabase ri-confermato cieco **anche in questa sessione** (probe MCP marketplace negato dai permessi) → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza rispettata). Stallo **~218h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta). 2ª conferma oggi del falso-nuovo delta-gate (contatore cieco-opzionale). → Mossa n.1 confermata: esegui #16 **oggi** col payout-test.
 0-. **🔭 Giro refresh 3/7 08:20** — full da delta-gate (08:20 «cambio stato sensori»: PostHog cieco **11** giri, era 10). **Nessuna novità di business:** firma invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business). MCP Supabase ri-confermato cieco **anche in questa sessione** (probe MCP marketplace negato dai permessi) → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza rispettata per non sprecare il Max). Stallo **~216h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza). → Mossa n.1 confermata: esegui #16 **stamattina** col payout-test.
 0-. **☀️ Giro del mattino 3/7 06:28** — full da delta-gate (06:20 «cambio stato sensori»: PostHog cieco 10 giri; business firma invariata: ordini=1, ultimo 24/6, 23 profili). **Dato nuovo e azionabile: meteo di oggi ri-verificato LIVE (3BMeteo/iLMeteo) → sereno 20→33°C con ALLERTA AFA nel pomeriggio (max 33° alle 17)** → la finestra consegna migliore per i freschi è **STAMATTINA**: rafforza «esegui #16 stamattina» prima del caldo pomeridiano. Oggi Venerdì Piacentini (centro pieno → ritiro facile). Stallo **~214h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza). Osservazione: il delta-gate fa scattare giri pieni sul solo incremento del contatore cieco PostHog (opzionale) → rifinitura AR-019/AR-024 in apprendimento. → Mossa n.1 confermata: esegui #16 **stamattina** col payout-test.
 0-. **🔭 Giro notte 3/7 00:33 (refresh +6min)** — **delta-gate 00:31 conferma `corrente==ultimo_pieno`** (nessun cambiamento di stato reale): 7 numeri = baseline REST 22:28 invariata; MCP+node gated in sessione. Unica variazione sensori: **PostHog cieco 9 giri** (era 8). Radar non ri-verificato (meteo/eventi già live al 00:08). Aggiornati timestamp Cabina (briefing/STATO/ultimo-briefing/auto-coscienza) → Mossa n.1 confermata: esegui #16 **stamattina 3/7** col payout-test.
@@ -80,16 +81,16 @@ fonte: AD digitale (🔭 Giro refresh 3/7 10:22 · 7 numeri baseline REST invari
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🔭 Giro refresh 3/7 10:22 · finestra reale = MATTINA, prima dell'afa)
-**Deciso (Scelta A):** 1° ordine consegnato. 3 finestre del 2/7 saltate → **oggi 3/7 Venerdì Piacentini + meteo ri-verificato LIVE al mattino (sereno 20–33°C, ALLERTA AFA nel pomeriggio)**: eseguire #16 **oggi in mattinata** insieme al payout-test già in agenda (una sola finestra certa, due risultati, e i freschi non viaggiano nel caldo del pomeriggio). Stallo **~218h**.
+## Prossime priorità (🔭 Giro refresh 3/7 11:14 · finestra reale = MATTINA residua, prima dell'afa)
+**Deciso (Scelta A):** 1° ordine consegnato. 3 finestre del 2/7 saltate → **oggi 3/7 Venerdì Piacentini + meteo ri-verificato LIVE al mattino (sereno 20–33°C, ALLERTA AFA nel pomeriggio)**: eseguire #16 **oggi in mattinata** (mezzogiorno vicino) insieme al payout-test già in agenda (una sola finestra certa, due risultati, e i freschi non viaggiano nel caldo del pomeriggio). Stallo **~219h**.
 
 1. [ ] 🔴 **#16 — ESEGUI (mano Nicola) OGGI 3/7 in mattinata + payout-test:** tap link WhatsApp #20 (slot mattina) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox 3/7
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
-4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 12 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
+4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 13 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~218h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+50h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 12 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** ordine ritardo ~219h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+51h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 13 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

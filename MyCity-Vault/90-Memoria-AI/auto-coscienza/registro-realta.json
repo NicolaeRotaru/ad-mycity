@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 10:22",
+  "aggiornato": "2026-07-03 11:14",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -67,10 +67,11 @@
         "Giro notte 3/7 00:33 (refresh +6min): delta-gate 00:31 corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) — baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
         "☀️ Giro mattino 3/7 06:28: baseline REST 06:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — MCP+node gated in sessione, nessun numero ri-misurato; ordine ancora 24/6, stallo ~214h; nessuna esecuzione #16 rilevata. Meteo oggi ri-verificato LIVE: afa nel pomeriggio → finestra consegna freschi = mattina.",
         "🔭 Giro refresh 3/7 10:22: baseline REST 10:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) invariata — MCP+node gated (probe MCP marketplace tentato e NEGATO dai permessi), nessun numero ri-misurato; ordine ancora 24/6, stallo ~218h; nessuna esecuzione #16 rilevata. Finestra #16 = mattina residua oggi, prima dell'afa.",
+        "🔭 Giro refresh 3/7 11:14: baseline REST invariata — delta-gate 10:29 ha ri-misurato LIVE `corrente==ultimo_pieno` (ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true); sensore 11:13 REST ok; MCP+node/curl gated in sessione, nessun numero ri-misurato in questo passaggio; ordine ancora 24/6, stallo ~219h; nessuna esecuzione #16 rilevata. Finestra #16 = mattina residua (mezzogiorno vicino), prima dell'afa.",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
       "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): 3 finestre 2/7 saltate → finestra reale MATTINA 3/7 (#20–#22 esecuzione manuale, accorpato al payout-test), meglio prima dell'afa pomeridiana. Contratto 12% firmato 01:02. Payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-03 10:22 (baseline REST delta-gate 10:20: 1 ordine, ultimo 24/6, 23 profili; MCP+node gated in sessione, probe MCP marketplace negato)"
+      "ultima_verifica": "2026-07-03 11:14 (baseline REST delta-gate 10:29 ri-misurato LIVE corrente==ultimo_pieno: 1 ordine, ultimo 24/6, 23 profili; sensore 11:13 REST ok; MCP+node/curl gated in sessione)"
     },
     {
       "nome": "Antica Salumeria Garetti",

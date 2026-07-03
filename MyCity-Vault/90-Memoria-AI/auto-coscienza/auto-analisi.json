@@ -1,12 +1,12 @@
 {
-  "data": "2026-07-03 10:22",
+  "data": "2026-07-03 11:14",
   "voto_fiducia": 79,
-  "trend_fiducia": "▼",
-  "sintesi": "🔭 Giro refresh 3/7 10:22 (+~2h dal precedente). Voto 79 (▼1 vs 80): giro onesto ma a valore quasi nullo — è un refresh senza novità di business (7 numeri invariati dal 24/6, stallo ~218h) né novità di radar (meteo/eventi già ri-verificati LIVE alle 06:28, non ri-controllati per rispettare la cadenza ed evitare di sprecare il Max). L'unico cambio reale è metacognitivo: per la 2ª volta OGGI il delta-gate ha fatto scattare un giro PIENO per «cambio stato sensori», ma l'unico cambio è max_giri_ciechi PostHog che cresce ogni giro (11→12) — sensore opzionale e già noto cieco → conferma ancora che è un falso 'nuovo' (rifinitura AR-019/AR-024, già in apprendimento L-2026-0703). Verifica extra in questa sessione: probe MCP marketplace tentato e NEGATO dai permessi → conferma diretta che MCP Supabase è cieco in sessione, coerente col ledger. Grounding: 7 numeri = baseline REST scritta da giro.sh (delta-gate 10:20), nessun numero ri-misurato né inventato. Entità tutte confermate (Pane Quotidiano; zombie=ordine PQ; VP 3/7=oggi; Casa Linda demo esclusa; Garetti scelta_ragionata non azionata). Nessun errore di grounding.",
+  "trend_fiducia": "=",
+  "sintesi": "🔭 Giro refresh 3/7 11:14 (+~1h dal precedente). Voto 79 (= vs 79): giro onesto ma a valore quasi nullo — è un refresh senza novità di business (7 numeri invariati dal 24/6, stallo ~219h) né novità di radar (meteo/eventi già ri-verificati LIVE alle 06:28, non ri-controllati per rispettare la cadenza ed evitare di sprecare il Max). L'unico cambio reale è metacognitivo: per la 3ª volta OGGI il delta-gate ha fatto scattare un giro PIENO per «cambio stato sensori», ma l'unico cambio è max_giri_ciechi PostHog che cresce ogni giro (12→13) — sensore opzionale e già noto cieco → conferma ancora che è un falso 'nuovo' (rifinitura AR-019/AR-024, già in apprendimento L-2026-0703). Grounding: 7 numeri = baseline REST scritta da giro.sh (delta-gate 10:29 ri-misurato LIVE, corrente==ultimo_pieno; sensore 11:13 REST ok), nessun numero ri-misurato in sessione (MCP+node/curl gated) né inventato. Entità tutte confermate (Pane Quotidiano; zombie=ordine PQ; VP 3/7=oggi; Casa Linda demo esclusa; Garetti scelta_ragionata non azionata). Nessun errore di grounding.",
   "verifiche": {
     "entita": "ok (Pane Quotidiano confermato; zombie = ordine PQ €19,05; VP 3/7 = oggi confermato; meteo oggi 3/7 già ri-confermato LIVE al mattino; nessuna entità nuova; Casa Linda demo esclusa; Garetti scelta_ragionata/prospect non azionato)",
-    "numeri": "ok — 7 numeri = baseline REST scritta da giro.sh nel delta-gate 10:20 (corrente: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true); NESSUN numero ri-misurato in sessione (MCP+node gated, probe MCP marketplace negato) e nessuno inventato; stallo ~218h dall'ancora 24/6 08:28.",
-    "coerenza": "ok (STATO 10:22, ultimo-briefing 10:22, briefing 2026-07-03 con refresh 10:22 in cima e report precedenti sotto, intenzioni-nicola 10:22, registro-realta 10:22, AUTO-ANALISI.md tutti riallineati al refresh)",
+    "numeri": "ok — 7 numeri = baseline REST scritta da giro.sh (delta-gate 10:29 ri-misurato LIVE: corrente==ultimo_pieno, ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true; sensore 11:13 REST ok); NESSUN numero ri-misurato in sessione (MCP+node/curl gated) e nessuno inventato; stallo ~219h dall'ancora 24/6 08:28.",
+    "coerenza": "ok (STATO 11:14, ultimo-briefing 11:14, briefing 2026-07-03 con refresh 11:14 in cima e report precedenti sotto, intenzioni-nicola 11:14, registro-realta 11:14, AUTO-ANALISI.md tutti riallineati al refresh)",
     "semaforo": "ok (nessuna 🔴 nuova; azioni già in coda #20–#22 + R1/R2/SQL107 + #23; sentinella «sensore cieco» su PostHog opzionale + «salute<60» pending-merge AR-024 — nessuna declassa entità o azioni)",
     "qualita": "ok",
     "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
@@ -33,10 +33,10 @@
     }
   ],
   "punti_ciechi": [
-    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node richiede approvazione in sessione); ledger+delta-gate+chiusura-loop scritti da giro.sh alle 10:20 confermano REST/Stripe/Resend ok, MCP+PostHog ciechi",
-    "MCP Supabase + node non eseguibili in sessione (probe MCP marketplace negato dai permessi) → 7 numeri = baseline REST 10:20, non ri-misurati questo passaggio",
+    "verifica-automazione.mjs / sonda-volano.mjs / verifica-sensori diretto non eseguibili qui (node/curl richiedono approvazione in sessione); sensore 11:13 + delta-gate 10:29 + sonda 11:13 scritti da giro.sh confermano REST/Stripe/Resend ok, MCP+PostHog ciechi",
+    "MCP Supabase + node/curl non eseguibili in sessione → 7 numeri = baseline REST (delta-gate 10:29 ri-misurato LIVE), non ri-misurati questo passaggio",
     "Esecuzione #16: nessun segnale «consegna fatta»; ordine ancora 24/6 → non eseguito, coerente col DB",
-    "PostHog cieco 12 giri (HTTP 401, Personal key non valida): funnel/conversione non misurabili — non critico a 0 ordini pagati",
+    "PostHog cieco 13 giri (HTTP 401, Personal key non valida): funnel/conversione non misurabili — non critico a 0 ordini pagati",
     "Stripe non collegato a costo/burn (runway N/D, manca BURN_MENSILE_EUR); fonti locali istituzionali 403 su WebFetch → check bandi rimandato"
   ],
   "miglioramenti_prossimo_giro": [
@@ -47,11 +47,11 @@
   ],
   "salute_macchina": {
     "supabase": "ok",
-    "supabase_marketplace": "REST ok (ledger 10:20 + delta-gate baseline, 7 numeri) · MCP cieco/gated in sessione (probe negato)",
+    "supabase_marketplace": "REST ok (sensore 11:13 + delta-gate 10:29 ri-misurato LIVE, 7 numeri) · MCP cieco/gated in sessione",
     "supabase_memoria": "scrittura via git memoria-ad",
     "automazione_vps": "probe deterministiche giro.sh verdi alle 10:20 (verifica-sensori/sonda/delta-gate/chiusura-loop); verifica-automazione.mjs non ri-eseguibile in sessione (node gated)",
     "stripe": "ok (balance API ok nel ledger) ma non collegato a burn → runway N/D",
-    "posthog": "giù (401, cieco 12 giri)",
+    "posthog": "giù (401, cieco 13 giri)",
     "dati_freschi": true,
     "sensori_attivi": 3
   }

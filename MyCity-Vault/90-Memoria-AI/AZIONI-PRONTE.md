@@ -68,3 +68,24 @@ preparato: 🎧 supporto + 🛡️ trust-safety
 testo:
 Ciao, ci dispiace per l'esperienza: non è lo standard che vogliamo. Ti abbiamo scritto
 in privato per sistemare subito. Grazie per il feedback, ci aiuta a migliorare.
+
+## A6 · 💚 Check-in anti-churn — Pane Quotidiano (titolare)
+reparto: account-negozi
+livello: 🟡
+canale: Telefono 0523 388601 — RIDER sulla chiamata operativa #21 (stessa telefonata, +2 min di retention), poi follow-up dopo la consegna
+perche: Unico negozio REALE su MyCity. Il suo primo ordine (COD €19,05) è fermo da ~219h (9+ giorni): stadio "no value realized", causa #1 di churn commercianti. Se il titolare pensa "qui non vendo" e molla, i negozi reali di MyCity vanno a 0. Playbook anti-churn 3/7 (0 negozi con trend −40%: il churn qui si misura sul time-to-first-value, non sul trend).
+preparato: 💚 account-negozi (lente retention) — NON duplica #16/#21: è lo strato relazione sulla stessa chiamata
+testo (rider sulla chiamata #21, dopo aver fatto accettare l'ordine):
+«Ciao, sono di MyCity. Oggi chiudiamo il vostro primo ordine e vi porto il cliente a domicilio — scusate l'attesa di questi giorni, era un rodaggio nostro, non un problema del vostro negozio. Da adesso gli ordini che arrivano ve li giro subito. Volevo dirvi che il vostro catalogo bio è esattamente quello che a Piacenza non trova nessun altro in consegna: è la ragione per cui vi ho scelti come primo negozio. Appena chiudiamo questo, vi propongo 2-3 prodotti-civetta per far ripartire il flusso. Va bene?»
+follow-up (messaggio, DOPO la consegna COD chiusa — vedi A7):
+«Fatto! Primo ordine consegnato e incassato ✅. Il sistema funziona. Vi mando la proposta prodotti per la prossima settimana.»
+
+## A7 · 📈 Upsell/riattivazione post-prima-consegna — Pane Quotidiano
+reparto: account-negozi
+livello: 🟢 (bozza pronta — parte SOLO dopo la prima consegna chiusa)
+canale: Telefono/WhatsApp al titolare, entro 48h dalla prima consegna
+perche: Subito dopo il primo valore realizzato è la finestra migliore per fissare l'abitudine e alzare il GMV: si trasforma un ordine singolo in flusso. Riduce il rischio churn agganciando il negozio a un ritmo settimanale.
+preparato: 💚 account-negozi — dipende da A6 + #16 (prima consegna)
+testo:
+«Ora che il primo ordine è andato, mettiamo a scaffale su MyCity 2-3 vostri prodotti-civetta bio (quelli che vendete di più) con una piccola spinta social del quartiere. Obiettivo: un paio di ordini a settimana costanti. Vi va se preparo io la vetrina e ne parliamo 5 minuti?»
+nota: 🟢 = creare la bozza è libero; la telefonata reale al titolare resta subordinata alla prima consegna (non anticipare).
