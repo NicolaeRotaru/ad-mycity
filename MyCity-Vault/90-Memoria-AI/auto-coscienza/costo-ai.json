@@ -1,0 +1,13 @@
+{
+  "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Non misura soldi veri, misura lo sforzo.",
+  "aggiornato": "2026-07-03 19:43",
+  "soglia_giornaliera_token": 2000000,
+  "oggi": {
+    "data": "2026-07-03",
+    "runs": 0,
+    "token_totali": 0,
+    "durata_sec_totale": 0,
+    "voci": []
+  },
+  "storico_giorni": []
+}

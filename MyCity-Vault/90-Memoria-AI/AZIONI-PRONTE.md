@@ -5,7 +5,11 @@ aggiornato: 2026-06-26
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
-# ⚡ Azioni pronte
+> ⛔ **DEPRECATO (AR-049, 3/7).** Questa NON è più una coda viva: la coda-azioni canonica e unica è
+> **[[AZIONI-IN-ATTESA]]** (letta dal Pannello). I blocchi qui sotto sono storici e possono essere **scaduti**:
+> non eseguirli da qui. File tenuto solo come archivio finché non viene rimosso.
+
+# ⚡ Azioni pronte (ARCHIVIO — non usare)
 
 ## A1 · 📨 Mail al Comune per il bando "Vita in Centro"
 reparto: relazioni-istituzionali

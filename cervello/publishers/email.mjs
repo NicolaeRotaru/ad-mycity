@@ -17,6 +17,17 @@ const KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.RESEND_FROM || "MyCity <no-reply@mycity.example>";
 const TEST_TO = process.env.EMAIL_TEST_TO;
 
+// AR-074 — Fonte-di-verità canale→rischio: il colore NON è più solo auto-dichiarato
+// nel JSON della voce, ma è legato al canale reale. L'autopilot deve usare
+// max(coloreMinimo del canale, colore della voce) prima di consegnare/inviare.
+// Email verso un destinatario reale (≠ EMAIL_TEST_TO) = 🔴 (consenso GDPR, irreversibile);
+// verso il solo TEST_TO (se stessi) = 🟢. 🟡 = da firmare Nicola.
+export function coloreMinimo(voce = {}) {
+  const to = voce.to || TEST_TO;
+  const soloTest = to && TEST_TO && to === TEST_TO;
+  return soloTest ? "🟢" : "🔴";
+}
+
 export async function pubblica(voce, ctx) {
   const testo = conUtm(voce.testo, voce.utm);
   const to = voce.to || TEST_TO; // in dry-run mostra il destinatario previsto

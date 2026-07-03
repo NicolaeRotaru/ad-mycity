@@ -2,7 +2,8 @@
 # giro.sh — GIRO DI PERLUSTRAZIONE dell'AD MyCity (motore AI: Cursor 'agent' o Claude 'claude'), per VPS Linux.
 # Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' il motore prende
 # automaticamente CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
-# Il timer automatico (mycity-giro.timer) è DISATTIVATO. Lanciare a mano con giro-ora.sh.
+# AR-060: il battito è ATTIVO. Il timer automatico (mycity-giro.timer) fa girare il giro ogni ~2h;
+# la cadenza reale è nel file .timer (unica fonte di verità). Per un giro a mano usa giro-ora.sh.
 set -uo pipefail   # niente -e: il giro deve arrivare al push anche se un passo intermedio fallisce
 
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
@@ -186,6 +187,11 @@ if command -v node >/dev/null 2>&1; then
   fi
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+  # AR-053: sweep deterministico delle previsioni SCADUTE via `node cervello/calibrazione.mjs scadute` —
+  # marca 'scaduta' quelle oltre 'entro' senza esito, così non marciscono aperte contando come 'prova'
+  # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
+  echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
+  node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su memoria-ad → il Pannello (che legge
@@ -212,6 +218,22 @@ elif command -v node >/dev/null 2>&1; then
   if [ "$_dg_rc" = 20 ]; then
     RUN_AI=0
     echo "[$(ts)] ⏭️  DELTA-GATE: stato invariato dall'ultimo giro pieno → SALTO la parte AI pesante (solo sonda)."
+  fi
+fi
+
+# AR-087: GATE-BUDGET — circuit-breaker deterministico sul costo (token). Prima di accendere il motore
+# premium leggo lo stato di `costo-ai.mjs --json`: se i token di OGGI hanno superato la soglia giornaliera,
+# DEGRADO a passaggio minimo (niente motore premium) finché il giorno non si resetta. I 🔴/controlli
+# restano attivi: sotto budget si taglia il VOLUME, non la sicurezza. I giri forzati/on-demand bypassano.
+if [ "${RUN_AI:-1}" = 1 ] && [ "${GIRO_FORCE:-0}" != 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
+  _budget_json="$(node "$SCRIPT_DIR/costo-ai.mjs" --json 2>/dev/null || true)"
+  if command -v jq >/dev/null 2>&1 && [ -n "$_budget_json" ]; then
+    _tok_oggi="$(printf '%s' "$_budget_json" | jq -r '.oggi.token_totali // 0' 2>/dev/null || echo 0)"
+    _tok_soglia="$(printf '%s' "$_budget_json" | jq -r '.soglia_giornaliera_token // 0' 2>/dev/null || echo 0)"
+    if [ "${_tok_soglia:-0}" -gt 0 ] 2>/dev/null && [ "${_tok_oggi:-0}" -gt "${_tok_soglia:-0}" ] 2>/dev/null; then
+      RUN_AI=0
+      echo "[$(ts)] ⛔ GATE-BUDGET (AR-087): token oggi ${_tok_oggi} > soglia ${_tok_soglia} → motore premium FERMATO (passaggio minimo). I 🔴/controlli restano attivi."
+    fi
   fi
 fi
 
@@ -256,7 +278,12 @@ ai_build_cmd
 # AR-005: timeout DENTRO giro.sh, così vale per QUALUNQUE invocatore (timer systemd o coda worker),
 # non solo per la via-coda. Un motore AI appeso al primo tentativo non torna mai: senza questo, il
 # battito ogni-2h muore in silenzio. `timeout` (coreutils) è sempre presente su VPS Linux.
-GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-2700}"   # 45 min per tentativo
+# AR-058: budget-tempo UNICO del giro. I 3 tentativi interni (con 2 pause da 30s) devono stare DENTRO il
+# timeout esterno (worker 2700s / systemd 3600s), altrimenti l'invocatore uccide giro.sh prima che i retry
+# si completino (retry morti). Derivo il timeout per-tentativo dal budget esterno di riferimento (2700s):
+# 3×GIRO_AI_TIMEOUT + 2×30s ≤ GIRO_BUDGET_SEC → GIRO_AI_TIMEOUT ≤ 880s. Default prudente 800s (3×800+60=2460s).
+GIRO_BUDGET_SEC="${GIRO_BUDGET_SEC:-2700}"   # budget esterno di riferimento (deve combaciare con worker/systemd)
+GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-800}"    # per tentativo; 3 tentativi + pause stanno dentro il budget esterno
 AI_TIMEOUT=()
 command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$GIRO_AI_TIMEOUT")
 GIRO_START="$(date +%s)"   # inizio effettivo del motore AI (per il costo del giro)
@@ -294,6 +321,15 @@ if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
 fi
 echo "[$(ts)] Giro completato."
+
+# AR-083: stima dei TOKEN reali del giro. Il motore agent non espone usage strutturato, quindi
+# approssimo ~4 caratteri/token su prompt+risposta e assegno GIRO_TOKEN: così costo-ai (AR-020) riceve
+# un numero VERO (non null) e la soglia da 2M può scattare per davvero (il gate-budget AR-087 la legge).
+if [ -z "${GIRO_TOKEN:-}" ]; then
+  _giro_chars=$(( ${#PROMPT} + ${#_ai_out} ))
+  GIRO_TOKEN=$(( _giro_chars / 4 ))
+  export GIRO_TOKEN
+fi
 
 # AR-014: gate deterministico sui passi 11-12 del giro (auto-analisi + apprendimento). Se il motore
 # AI li ha saltati in silenzio, questi file NON risultano aggiornati in questo giro: lo diciamo forte

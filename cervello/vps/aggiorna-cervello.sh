@@ -16,6 +16,26 @@ if [ "$(id -un)" = "root" ]; then
   echo "[$(ts)] ▶ Fix permessi repo → $APP_USER, poi allineamento senza root."
   chown -R "$APP_USER:$APP_USER" "$REPO"
   AGGIORNA_SKIP_RESTART=1 sudo -u "$APP_USER" -H env AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"
+
+  # AR-059: le unit systemd sono auto-modificabili come il codice → dopo l'allineamento
+  # ri-propaga i file .service/.timer che differiscono da quelli installati e fai
+  # 'systemctl daemon-reload', così i cambi di cadenza / nuovi timer diventano attivi
+  # (senza reload systemd continua a leggere le vecchie unit). Solo root può scriverli.
+  _units_changed=0
+  for _u in "$REPO"/cervello/vps/mycity-*.service "$REPO"/cervello/vps/mycity-*.timer; do
+    [ -f "$_u" ] || continue
+    _name="$(basename "$_u")"
+    if ! cmp -s "$_u" "/etc/systemd/system/$_name" 2>/dev/null; then
+      cp "$_u" "/etc/systemd/system/$_name"
+      echo "[$(ts)]   → unit aggiornata: $_name"
+      _units_changed=1
+    fi
+  done
+  if [ "$_units_changed" = 1 ]; then
+    systemctl daemon-reload
+    echo "[$(ts)] 🔧 Unit systemd ri-propagate + daemon-reload (cadenze aggiornate)."
+  fi
+
   echo "[$(ts)] ▶ Riavvio mycity-worker..."
   systemctl restart mycity-worker
   sleep 2

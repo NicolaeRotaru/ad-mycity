@@ -141,6 +141,7 @@ async function leggiStatoReale(state) {
     ordini_tot: null, ultimo_ordine: null, ordini_24h: null, ordini_prev7d: null,
     pagati_senza_payout: null, recensioni_basse: null, recensione_ultima: null,
     negozi_fermi: null, carrelli_da_recuperare: null,
+    ordini_slot_scaduto: null, // AR-071: ordini oltre lo slot promesso (expected_delivery scaduto, delivered_at nullo)
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
@@ -195,6 +196,14 @@ async function leggiStatoReale(state) {
     s.carrelli_da_recuperare = await conta(
       MK_URL, MK_KEY,
       `abandoned_carts?recovered=is.false&recovery_email_sent_at=is.null&last_activity=lt.${isoFa(oreMs(4))}`
+    );
+
+    // AR-071 — Puntualità consegne (promessa core del modello Glovo): ordini con lo slot promesso
+    // già scaduto (expected_delivery superato) ma non ancora consegnati (delivered_at nullo). È lo
+    // stato OPERATIVO/temporale dell'ordine, non quello contabile: prima invisibile ai sensori.
+    s.ordini_slot_scaduto = await conta(
+      MK_URL, MK_KEY,
+      `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
     );
   }
 
@@ -373,6 +382,18 @@ function valutaRegole(s, state) {
       titolo: `${s.carrelli_da_recuperare} carrelli abbandonati da recuperare (>4h)`,
       firma: String(s.carrelli_da_recuperare),
       prompt: `Sentinella azioni 💼 — CARRELLI ABBANDONATI: ${s.carrelli_da_recuperare} carrelli fermi da oltre 4h, email di recupero non ancora inviata. Prepara l'email di recupero (con l'incentivo giusto) e accodala in AZIONI-IN-ATTESA per la firma — non inviarla da solo (tocca clienti reali).`,
+    });
+  }
+
+  // A6 — Puntualità consegne (AR-071): ordini oltre lo slot promesso (expected_delivery scaduto) non
+  //      ancora consegnati (delivered_at nullo) → è la promessa core del modello Glovo che si sta
+  //      rompendo. 🟡 operations: avvisa prima che il cliente si accorga del ritardo.
+  if (s.ordini_slot_scaduto !== null && s.ordini_slot_scaduto > 0) {
+    eventi.push({
+      ambito: "azioni", chiave: "consegne_in_ritardo", colore: "🟡", reparto: "operations", cooldownOre: 6,
+      titolo: `${s.ordini_slot_scaduto} ordini oltre lo slot promesso (in ritardo, non consegnati)`,
+      firma: String(s.ordini_slot_scaduto),
+      prompt: `Sentinella azioni 💼 — CONSEGNE IN RITARDO: ci sono ${s.ordini_slot_scaduto} ordini con lo slot di consegna scaduto (expected_delivery superato) e delivered_at ancora nullo: la puntualità — la promessa core del modello Glovo — si sta rompendo. Verifica con operations lo stato di ritiro/consegna di ciascun ordine, avvisa subito il cliente e recupera il ritardo. Alimenta il KPI puntualità. Se serve un rimborso/gesto commerciale, preparalo e accodalo in AZIONI-IN-ATTESA per la firma — non eseguirlo da solo.`,
     });
   }
 

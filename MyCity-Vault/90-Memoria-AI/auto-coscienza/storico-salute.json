@@ -63,6 +63,14 @@
       "difetti_chiusi": 9,
       "tipo": "completa",
       "nota": "Radiografia PROFONDA e COMPLETA su comando di Nicola: 12/12 dimensioni verificate avversarialmente + pre-mortem (6 scenari) + benchmark (10 ambiti). (Il primo run si era fermato a 4/12 per limite di sessione, ripreso dopo il reset.) Voto 57 = media dei 12 pilastri. Calo dal 72 del 28/6 perché l'audit è molto più profondo: 74 difetti macchina confermati (1 bloccante, 39 gravi) vs i 3 del 28/6. Dimensione più critica: guardrail-semaforo (36) — l'autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE (BLOCCANTE AR-072). Grave anche la sicurezza (41): scanner-segreti che non riconosce sbp_, MCP memoria in R+W senza --read-only, merge --theirs cieco. Filo rosso: molti gate/guardiani sono fail-open o codice morto (router costo mai usato, budget token cieco, ONESTA-RULES senza guardiano, North Star/STOP solo prosa). Cantiere: 69 aperti / 9 chiusi. Il PANNELLO ha 1 bloccante (doppia esecuzione azione reale)."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 82,
+      "difetti_aperti": 5,
+      "difetti_chiusi": 73,
+      "tipo": "fix-sprint",
+      "nota": "Sprint di riparazione su comando di Nicola: 2 passate 'un-agente-per-file' + bonifiche. Chiusi 68 difetti in questo giro (da 57→82 stimato). Sintassi verificata (node --check/bash -n) su tutti i .mjs/.sh, JSON validi, scan-segreti pulito. I 30 bug del Pannello applicati nel branch (no type-check qui: anteprima prima del merge). NB: i fix sono 🟡 nel branch, non ancora mergiati: il voto si consolida al merge. Restano 5 difetti che dipendono da Nicola (STAMPO, PostHog, chiavi Supabase, giudizio previsioni)."
     }
   ]
 }

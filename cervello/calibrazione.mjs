@@ -27,6 +27,21 @@ const CECITA_PATH = join(VAULT, "sensori-cecita.json"); // AR-061
 const REGISTRO_REALTA_PATH = join(VAULT, "registro-realta.json"); // AR-062
 const TOLLERANZA_DEFAULT = 0.25;
 const MIN_PER_AUTONOMIA = 3;
+// AR-065: campione minimo per concedere autonomia "alta" (3 esiti sono troppo pochi per fidarsi).
+const MIN_CAMPIONE_ALTA = 8;
+
+// AR-065: lower-bound di Wilson (one-sided, z≈1.2816 → confidenza 90%) sulla proporzione di azzeccate.
+// Penalizza i campioni minuscoli: con pochi esiti l'intervallo di confidenza è largo e il lower_bound
+// crolla, così "ha azzeccato spesso" non basta — serve che sia SOLIDO. Evita l'autonomia "alta" al buio.
+function wilsonLowerBound(azzeccate, previsioni, z = 1.2816) {
+  if (previsioni <= 0) return 0;
+  const p = azzeccate / previsioni;
+  const z2 = z * z;
+  const denom = 1 + z2 / previsioni;
+  const centro = p + z2 / (2 * previsioni);
+  const margine = z * Math.sqrt((p * (1 - p) + z2 / (4 * previsioni)) / previsioni);
+  return Math.max(0, (centro - margine) / denom);
+}
 
 function arg(name, def = undefined) {
   const pref = `--${name}=`;
@@ -129,13 +144,20 @@ function ricalcolaReparti(data) {
   }
   data.per_reparto = [...perRep.values()].map((r) => {
     const punteggio = r.previsioni > 0 ? Number((r.azzeccate / r.previsioni).toFixed(2)) : 0;
+    // AR-065: usa il lower-bound di Wilson (intervallo di confidenza 90%) invece della proporzione grezza:
+    // con campione minuscolo il lower_bound è basso → niente autonomia "alta" su 3 esiti fortunati.
+    const lowerBound = Number(wilsonLowerBound(r.azzeccate, r.previsioni).toFixed(2));
     let autonomia = "bassa";
     if (r.previsioni >= MIN_PER_AUTONOMIA) {
-      autonomia = punteggio >= 0.7 ? "alta" : punteggio >= 0.4 ? "media" : "bassa";
+      // AR-065: soglie sul lower_bound; "alta" richiede anche un campione_minimo (MIN_CAMPIONE_ALTA),
+      // sotto il quale il tetto resta "media" per penalità sul campione piccolo.
+      if (lowerBound >= 0.7 && r.previsioni >= MIN_CAMPIONE_ALTA) autonomia = "alta";
+      else if (lowerBound >= 0.4) autonomia = "media";
+      else autonomia = "bassa";
     }
     // AR-061: con >=2/3 sensori ciechi il 'reale' è poco misurabile → cappa l'autonomia a 'media'.
     if (quotaCiechiAlta && autonomia === "alta") autonomia = "media";
-    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, autonomia };
+    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, lower_bound: lowerBound, autonomia }; // AR-065: lower_bound = confidenza (Wilson 90%)
   });
   data.per_reparto.sort((a, b) => b.punteggio - a.punteggio);
 }
