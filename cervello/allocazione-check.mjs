@@ -5,9 +5,10 @@
 // Risolve AR-006: la regola "sforzo di reparto PESANTE (post/QR/reel/evento) solo su entità CONFERMATA
 // nel sistema" viveva solo come prosa in CLAUDE.md e come correzione nella LETTERA-A-NICOLA (sola lettura).
 // Nessun canale la misurava: un senior poteva sfornare 12+ asset intestati a una 'scelta_ragionata'
-// (prospect non firmato, es. Garetti) mentre l'unica entità 'confermata' payout-ready (es. Casa Linda)
-// restava a 0 asset. Questo guardiano misura lo squilibrio a OGNI giro, come agent-registry-check per il
-// registro agenti: il silo diventa un numero, non più una scoperta che dorme in una lettera.
+// (prospect non firmato, es. Garetti) mentre l'unica entità 'confermata' payout-ready (dal 3/7:
+// Pane Quotidiano, il negozio-faro) restava a 0 asset. Questo guardiano misura lo squilibrio a OGNI giro,
+// come agent-registry-check per il registro agenti: il silo diventa un numero, non più una scoperta che
+// dorme in una lettera.
 //
 // Uso:
 //   node cervello/allocazione-check.mjs           -> report leggibile
@@ -126,9 +127,12 @@ async function main() {
     process.exit(1);
   }
 
-  // Solo i negozi VERI candidabili a produzione: le entità di test (stato "demo", es. Casa Linda) sono
-  // escluse — non sono né un target valido né un prospect da presidiare, sono fixture del marketplace.
-  const negozi = registro.entita.filter((e) => e.tipo === "negozio" && e.stato !== "demo");
+  // Solo i negozi VERI candidabili a produzione. Escluse le entità NON presidiabili: le demo/fixture
+  // del marketplace (stato "demo") e i negozi SCARTATI (stato "scartato", es. Casa Linda dopo la
+  // decisione di Nicola del 3/7 che ha eletto Pane Quotidiano a faro). Uno scartato non è né un target
+  // valido né un prospect: non deve entrare nel conteggio dell'allocazione.
+  const ESCLUSI = new Set(["demo", "scartato"]);
+  const negozi = registro.entita.filter((e) => e.tipo === "negozio" && !ESCLUSI.has(e.stato));
   const { conteggio, totaleFile } = contaAssetPerEntita(negozi);
 
   const confermati = negozi.filter((e) => e.stato === "confermato");
