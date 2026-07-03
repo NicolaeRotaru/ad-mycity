@@ -141,3 +141,13 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Serve:** una data · ok Garetti a fare il "primo turno" in piazza · mini-budget €0-300 · catena @relazioni-istituzionali + @pr-stampa + @designer + @operations.
 - **Colore:** 🔴 PROPOSTA — non eseguita. Aspetta valutazione/firma di Nicola.
 - **Stato:** PROPOSTA SUL TAVOLO.
+
+## 2026-07-03 11:34 · @content-social · 📣 Post del giorno "Il turno più lungo di Piacenza" (Pane Quotidiano) — 🔴
+- **Cosa:** pubblicare il post storia-bottega sul faro reale (partner firmato) su @mycity.piacenza (feed+storia) + gruppi FB locali. Gancio verificabile "bio dal 1976" agganciato alla piattaforma "Il Turno".
+- **Contenuto pronto + anteprima estesa:** `consegne/content/2026-07-03-POST-turno-piu-lungo-PQ.md` · blocco [[AZIONI-PRONTE]] **A8**.
+- **Cosa cambia:** primo ritratto pubblico di un negozio reale MyCity; nome/immagine di Pane Quotidiano nella campagna (città piccola).
+- **Se va bene:** il negozio ripubblica ai suoi clienti → primi iscritti caldi; parte il ritmo settimanale del motore "Volti".
+- **🔴 Due strade:** (a) versione col **nome+foto** → serve **ok del titolare** (chiedibile nella chiamata A6/#21); (b) versione **neutra tipografica** → pubblicabile subito con sola firma Nicola.
+- **Pre-condizione tecnica:** link reale in bio con UTM `turno_pq` (@builder-automazioni). **Mani social** → @builder-automazioni o pubblicazione manuale.
+- **Onestà:** gate ONESTA-RULES passato (0 numeri finti, 0 testimonianze, "1976" = fonte pubblica Vita in Centro/Pagine Gialle).
+- **Stato:** IN ATTESA DI FIRMA NICOLA.

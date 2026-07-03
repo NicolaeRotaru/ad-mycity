@@ -69,6 +69,27 @@ testo:
 Ciao, ci dispiace per l'esperienza: non è lo standard che vogliamo. Ti abbiamo scritto
 in privato per sistemare subito. Grazie per il feedback, ci aiuta a migliorare.
 
+## A8 · 📣 Post del giorno "Il turno più lungo di Piacenza" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia (9:16) + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Storia-bottega sul faro reale (partner firmato 12%). Gancio verificabile "bio dal 1976" = incarnazione letterale della piattaforma "Il Turno". Acquisizione calda a costo ≈0, ripubblicabile dal negozio. Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social — gate ONESTA-RULES passato (0 numeri finti, 0 testimonianze, "1976" fonte pubblica)
+contenuto pronto: consegne/content/2026-07-03-POST-turno-piu-lungo-PQ.md
+cosa cambia: esce il primo ritratto pubblico di un negozio reale su MyCity — nome/immagine di Pane Quotidiano associati alla campagna in una città piccola. Con consenso del titolare (versione col nome+foto) oppure in versione neutra tipografica (subito, sola firma).
+se va bene: il negozio ripubblica ai suoi clienti → primi iscritti caldi alla lista/store; si aggancia il ritmo settimanale del motore "Volti".
+testo:
+[HOOK] C'è una saracinesca in centro a Piacenza che si alza ogni mattina dal 1976.
+[CORPO] Quasi cinquant'anni fa, qui qualcuno ha deciso una cosa semplice: il cibo buono non deve arrivare
+da un magazzino fuori città, ma da una bottega dove entri, chiedi e ti fidi. Da allora quella saracinesca
+non ha saltato un turno. Perché una città-centro resta accesa solo se, a turno, qualcuno tiene aperto.
+Il bottegaio la mattina. Tu quando fai la spesa. Oggi quel turno puoi farlo anche da casa, in pochi minuti.
+[CTA] 👉 Fai il tuo turno → [LINK lista/store · UTM turno_pq]
+[FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · @mycity.piacenza · VOLTI, NON ALGORITMI
+visual: foto reale insegna/saracinesca Via Calzolai + overlay "DAL 1976 · IL TURNO PIÙ LUNGO DI PIACENZA" · fallback tipografico su palette brand (pubblicabile subito, senza foto).
+pre-condizioni: (1) 🔴 versione col NOME+foto = ok del titolare (chiedibile nella chiamata A6/#21) · (2) link reale in bio con UTM turno_pq (@builder-automazioni) · (3) versione neutra = pubblicabile con sola firma Nicola.
+stato: IN ATTESA DI FIRMA NICOLA.
+
 ## A6 · 💚 Check-in anti-churn — Pane Quotidiano (titolare)
 reparto: account-negozi
 livello: 🟡
