@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-03 20:20",
+  "aggiornato": "2026-07-03 21:21",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-03 20:20",
+      "ultimo_ok": "2026-07-03 21:21",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,10 +23,10 @@
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-03 20:20"
+      "ultimo_ok": "2026-07-03 21:21"
     },
     "posthog_api": {
-      "giri_ciechi": 18,
+      "giri_ciechi": 19,
       "stato": "cieco",
       "canale": "PostHog API",
       "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
@@ -37,17 +37,23 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-03 20:20",
+      "ultimo_ok": "2026-07-03 21:21",
       "ultimo_errore": ""
+    },
+    "sito_uptime": {
+      "giri_ciechi": 0,
+      "stato": "non_configurato",
+      "canale": "storefront GET",
+      "dettaglio": "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
     }
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 34,
+    "giri_totali": 35,
     "sensori_ok": 3,
-    "max_giri_ciechi": 18,
+    "max_giri_ciechi": 19,
     "sensori_totali": 4,
     "almeno_un_dato": true,
-    "sensori_non_configurati": 0
+    "sensori_non_configurati": 1
   }
 }

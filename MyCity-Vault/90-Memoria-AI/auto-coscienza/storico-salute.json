@@ -447,6 +447,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 18 giri · salute pending-merge 47/100 (floor 47): 1 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "voto_provvisorio": 47,
+      "voto_pieno": 47,
+      "firma": "AR-025",
+      "difetti_aperti": 1,
+      "difetti_chiusi": 21,
+      "pending_merge": 0,
+      "aperti_davvero": 1,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 19 giri · salute pending-merge 47/100 (floor 47): 1 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
     }
   ]
 }

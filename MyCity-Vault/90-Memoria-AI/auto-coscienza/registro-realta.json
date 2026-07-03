@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 20:24",
+  "aggiornato": "2026-07-03 21:21",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -71,10 +71,11 @@
         "🔭 Giro refresh 3/7 14:20: #16 APPROVATO dal Pannello alle 13:29 (registrato in intenzioni-nicola). Baseline REST 14:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) INVARIATA → l'ordine è approvato ma NON ancora consegnato (nessun segnale «consegna fatta»); MCP+node/curl gated, nessun numero ri-misurato; stallo ~222h. Finestra freschi spostata a SERA post-19:00 (picco afa 33° alle 17).",
         "🔭 Giro refresh 3/7 16:20→18:20: baseline REST invariata (delta-gate 18:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~226h. Delta-gate pieno solo per contatore cieco PostHog (15→17, opzionale): 5ª/6ª conferma oggi del falso-nuovo. Alle 18:20 caldo in calo → finestra freschi ADESSO/post-19:00, coincide col Venerdì Piacentini.",
         "🔭 Giro refresh 3/7 20:24: baseline REST invariata (delta-gate 20:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~228h. Delta-gate pieno solo per contatore cieco PostHog (17→18, opzionale): 7ª conferma oggi del falso-nuovo. Alle 20:24 caldo calato → finestra freschi APERTA ORA/post-19:00, coincide col Venerdì Piacentini (prima serata).",
+        "🔭 Giro refresh 3/7 21:21: baseline REST invariata (delta-gate/sensore 21:21: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~229h. Delta-gate pieno solo per contatore cieco PostHog (18→19, opzionale): 8ª conferma oggi del falso-nuovo. Alle 21:21 caldo calato → finestra freschi APERTA ORA/post-19:00, coincide col Venerdì Piacentini (prima serata).",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
       "note": "UNICO negozio reale su MyCity. #16 = APPROVATO dal Pannello 3/7 13:29 (decisione registrata, non da riproporre); consegna manuale #20–#22 non ancora eseguita → finestra reale SERA post-19:00 ORA imminente (fuori dal picco d'afa, centro pieno per Venerdì Piacentini), accorpato al payout-test. Contratto 12% firmato 01:02. Payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-03 20:24 (baseline REST delta-gate 20:20 invariata: 1 ordine, ultimo 24/6, 23 profili; sensore 20:20 REST ok; #16 approvato Pannello 13:29 ma consegna non avvenuta; MCP+node/curl gated in sessione)"
+      "ultima_verifica": "2026-07-03 21:21 (baseline REST invariata: 1 ordine, ultimo 24/6, 23 profili; sensore 21:21 REST ok; #16 approvato Pannello 13:29 ma consegna non avvenuta; MCP+node/curl gated in sessione)"
     },
     {
       "nome": "Antica Salumeria Garetti",
