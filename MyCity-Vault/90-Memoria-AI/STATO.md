@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 19:46
-fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13:29 ma NON ancora consegnato · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 17 giri · stallo ~226h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna serale post-19:00 ORA imminente)
+aggiornato: 2026-07-03 20:24
+fonte: AD digitale (🔭 Giro refresh 3/7 20:24 · #16 APPROVATO dal Pannello 13:29 ma NON ancora consegnato · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 18 giri · stallo ~228h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna serale post-19:00 APERTA ORA)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -17,15 +17,15 @@ fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 18:20)
-| Numero | Oggi (3/7 18:20) | "Riuscito" | Note |
+## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 20:24)
+| Numero | Oggi (3/7 20:24) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox oggi |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 APPROVATO dal Pannello 13:29** · consegna non ancora avvenuta → finestra serale post-19:00 imminente |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 APPROVATO dal Pannello 13:29** · consegna non ancora avvenuta → finestra serale post-19:00 APERTA ORA |
 | Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~226h** (18:20) |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~228h** (20:24) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7** (sandbox) → accorpare #16 |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
 
@@ -65,6 +65,7 @@ fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13
 | Loop business | 🔴 in corso | #16 approvato 13:29 ma consegna non ancora partita → finestra serale a ~3h |
 
 ## Ultime mosse dell'AD
+0. **🔭 Giro refresh 3/7 20:24** — full da delta-gate (20:20 «cambio stato sensori»: PostHog cieco **18** giri, era 17). **Nessuna novità di business vs 18:20:** firma REST invariata (delta-gate 20:20: ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~228h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **7ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 APERTA ORA** (aria più fresca, Venerdì Piacentini prima serata). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🛠️ Fix lettura vault Pannello 3/7 19:46** — su richiesta di Nicola («ad-memoria divisa da GitHub / il Pannello non legge tutti i dati nel modo corretto»): lettura GitHub **centralizzata e resiliente** (ripiego `memoria-ad`→`main` in sola lettura → mai schermo vuoto per ramo storto), **ramo servito osservabile** in `/api/stato` (`vaultRamoServito`/`vaultRipiego`), **parsing briefing tollerante** (mostra il testo anche senza sezione «Sintesi»). Verificato `tsc`+`next build` verdi + funzioni pure esercitate. **PR #167** · deploy 🔴 bloccato oggi dal limite free Vercel (~24h) · coda #28.
 0. **🔭 Giro refresh 3/7 18:20** — full da delta-gate (18:20 «cambio stato sensori»: PostHog cieco **17** giri, era 16). **Nessuna novità di business vs 16:20:** firma REST invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~226h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta). **6ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 ORA imminente** (aria più fresca, Venerdì Piacentini). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🔭 Giro refresh 3/7 16:20** — full da delta-gate (16:20 «cambio stato sensori»: PostHog cieco **16** giri, era 15). **Nessuna novità di business vs 14:20:** firma REST invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~224h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **5ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ Ora a **~3h dalla finestra serale post-19:00** (aria più fresca, Venerdì Piacentini). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) stasera col payout-test.
@@ -88,16 +89,16 @@ fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🔭 Giro refresh 3/7 18:20 · #16 approvato 13:29 · finestra reale = SERA post-19:00 ORA imminente)
-**Approvato (Pannello 13:29):** eseguire la consegna del 1° ordine. Le 3 finestre del 2/7 + mattina e pomeriggio di oggi sono passate; ora alle 18:20 il caldo cala e **la finestra serale post-19:00 è imminente** → è il momento per consegnare i freschi, col centro pieno per il **Venerdì Piacentini**, accorpando il payout-test. Manca solo il tap manuale #20. Stallo **~226h**.
+## Prossime priorità (🔭 Giro refresh 3/7 20:24 · #16 approvato 13:29 · finestra reale = SERA post-19:00 APERTA ORA)
+**Approvato (Pannello 13:29):** eseguire la consegna del 1° ordine. Le 3 finestre del 2/7 + mattina e pomeriggio di oggi sono passate; ora alle 20:24 il caldo è calato e **la finestra serale post-19:00 è APERTA** → è il momento per consegnare i freschi, col centro pieno per il **Venerdì Piacentini** (prima serata), accorpando il payout-test. Manca solo il tap manuale #20. Stallo **~228h**.
 
-1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mano Nicola) STASERA post-19:00 + payout-test:** tap link WhatsApp #20 (slot sera) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox
+1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mano Nicola) ORA post-19:00 + payout-test:** tap link WhatsApp #20 (slot sera) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
 4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 15 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~226h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+58h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 17 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** ordine ritardo ~228h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+60h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 18 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
