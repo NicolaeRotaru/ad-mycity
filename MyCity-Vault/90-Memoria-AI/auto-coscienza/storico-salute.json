@@ -52,9 +52,17 @@
       "data": "2026-07-02",
       "voto_salute": 78,
       "difetti_aperti": 0,
-      "difetti_chiusi": 3,
+      "difetti_chiusi": 5,
       "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-001, AR-002, AR-003 (verificati nel codice)."
+      "nota": "Auto-fix: chiusi AR-001, AR-002, AR-003 (11:55) + AR-009, AR-019 (18:10) — 5 totali verificati nel codice. (Corretto il 3/7: il punto registrava 3 ma il cantiere ne aveva chiusi 5 — vedi AR-046.)"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 68,
+      "difetti_aperti": 23,
+      "difetti_chiusi": 9,
+      "tipo": "completa-parziale",
+      "nota": "Radiografia PROFONDA su comando di Nicola. PARZIALE: limite di sessione (reset 11:20 UTC) → 4/12 dimensioni verificate a fondo + Pannello; 8 verifiche + pre-mortem + benchmark da completare. Voto 68 = media dei 4 pilastri verificati (coerenza-agenti 71, vettori 75, sensori 62, memoria 62), NON aggregato pieno. Calo dal 78 perché l'audit è molto più profondo del 28/6 (che trovò 3 difetti): 27 difetti macchina confermati (AR-024→050), 4 chiusi subito con bonifica memoria, 23 aperti. Filo comune: molti strati 'scritti ma non installati come binario che produce'. Il PANNELLO ha 1 bloccante (doppia esecuzione azione reale). Il voto pieno e comparabile arriva dopo il completamento delle 8 dimensioni."
     }
   ]
 }
