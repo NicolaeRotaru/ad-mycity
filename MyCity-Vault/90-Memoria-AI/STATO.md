@@ -51,7 +51,7 @@ fonte: AD digitale (🔭 Giro refresh 3/7 08:20 · 7 numeri baseline REST invari
 ## Semafori
 - 🟢 Va bene: REST OK; automazione tutto verde 10:19; meteo consegna OK pranzo; Sprint 1 LIVE; **#19 ruoli LIVE**; ok 16 approvato; memoria POST briefings OK; token GitHub push mycity OK.
 - 🟡 Da tenere d'occhio: **#16 Scelta A confermata — esegui STAMATTINA 3/7** (passi #20–#22 manuali, tap link WhatsApp, col payout-test); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
-- 🔴 Problema: **0 transazioni reali** — stallo **~206h** (+38h oltre 168h); 3 finestre del 2/7 saltate ma **decisione presa (esegui, non archivia)** + meteo 3/7 favorevole → finestra stamattina; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
+- 🔴 Problema: **0 transazioni reali** — stallo **~216h** (+48h oltre 168h); 3 finestre del 2/7 saltate ma **decisione presa (esegui, non archivia)** + meteo 3/7 favorevole → finestra stamattina; loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
 ## Auto-coscienza (2026-07-03 08:20 · 🔭 giro AD refresh)
 | Metrica | Valore | Fonte |
@@ -85,10 +85,10 @@ fonte: AD digitale (🔭 Giro refresh 3/7 08:20 · 7 numeri baseline REST invari
 1. [ ] 🔴 **#16 — ESEGUI (mano Nicola) STAMATTINA 3/7 + payout-test:** tap link WhatsApp #20 (slot mattina) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox 3/7
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
-4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 10 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
+4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 11 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~214h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+46h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 10 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** ordine ritardo ~216h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+48h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 11 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
