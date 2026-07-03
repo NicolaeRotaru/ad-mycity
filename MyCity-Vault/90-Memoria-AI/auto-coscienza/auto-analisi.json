@@ -1,12 +1,12 @@
 {
-  "data": "2026-06-30 11:45",
-  "voto_fiducia": 85,
-  "trend_fiducia": "▼",
-  "sintesi": "Giro del 30/6. Voto -3 (88→85): non per un errore di lavoro, ma per un PEGGIORAMENTO dei sensori — il Supabase MCP, leggibile live il 29/6, in questa sessione è di nuovo cieco (needsAuth). I 7 numeri NON sono riverificabili oggi: tenuti correttamente alla baseline 29/6 e dichiarati come gap di misura. Il valore aggiunto reale del giro è il radar live: confermata la SVOLTA METEO (fine caldo, pioggia oggi+domani) e il dettaglio Venerdì Piacentini 3/7 (49 eventi) — entrambe con fonti citate. Nessuna entità nuova senza fondamento, nessun numero orfano. Nessuna nuova azione accodata (coda già piena e pertinente): la svolta meteo rafforza #7 e #11. Lo stallo del business è a ~6 giorni e resta non sbloccabile dalla macchina (tutte le azioni sono 🔴 da firmare).",
+  "data": "2026-07-03 21:30",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro del 3/7 sera. Voto +3 (85→88): i sensori dati sono TORNATI (Supabase MCP leggibile live), quindi i 7 numeri sono di nuovo VERI e non ereditati — l'invariante 'dati freschi' è ripristinato. Il giro produce due scoperte solide e verificate: (1) l'ordine €19,05 del faro è passato a CANCELED alle 15:38 (fatto dal DB, canceled_at reale); (2) il faro Pane Quotidiano ha 5 prodotti 'available' reali — correzione di un errore di misura storico (il vecchio filtro status='active' contava 0 perché quell'enum non esiste; l'enum reale è 'available'). Nessuna entità nuova senza fondamento, nessun numero orfano: ogni cifra ha la query dietro. L'unico limite è che non ho potuto riverificare via Stripe il flag payout del faro (sensore Stripe cieco) né lo stato del VPS (visibile solo da lì). Coerenza: ho allineato la memoria alla decisione-faro del 3/7 (transazione reale = Pane Quotidiano, non Casa Linda come nei giri precedenti).",
   "verifiche": {
-    "entita": "ok",
-    "numeri": "ok (baseline 29/6 dichiarata, nessun numero riverificato spacciato per fresco)",
-    "coerenza": "ok",
+    "entita": "ok (Pane Quotidiano faro confermato nei dati; Casa Linda demo; nessuna entità nuova)",
+    "numeri": "ok (7 numeri riletti live dal DB, ogni numero con query citata)",
+    "coerenza": "ok (intenzioni allineate al faro: transazione su Pane Quotidiano, non Casa Linda)",
     "semaforo": "ok",
     "qualita": "ok",
     "benchmark": "n/a (nessun contenuto creativo prodotto questo giro)"
@@ -14,60 +14,42 @@
   "errori": [
     {
       "gravita": "media",
-      "titolo": "Regressione dei sensori: Supabase MCP cieco dopo essere stato leggibile il 29/6",
-      "dettaglio": "Il 29/6 i 7 numeri erano stati riverificati live; in questa sessione il MCP è needsAuth e non risponde. La cecità sui dati interni è tornata. Gestito correttamente (baseline + gap dichiarato), ma è un peggioramento dell'invariante 'dati freschi'.",
-      "azione_presa": "7 numeri tenuti a baseline 29/6 con etichetta esplicita; gap elencato in §11 del briefing; accodato 🟡 (già #10) wiring Vercel / autorizzazione MCP.",
-      "riguarda": "salute sensori",
+      "titolo": "Errore di misura storico: prodotti del faro dati a 0 per un filtro sbagliato",
+      "dettaglio": "Nei giri/baseline precedenti i 'prodotti veri del faro pubblicati' erano 0. Rileggendo lo schema, l'enum di products.status è 'available'/'draft'/'sold', non 'active': il vecchio filtro status='active' restituiva 0. In realtà Pane Quotidiano ha 5 prodotti 'available' dal 16/6. Il faro non era a mani vuote come si credeva.",
+      "azione_presa": "Corretto il numero in STATO (0→5) e nel digest; documentato l'enum reale nel briefing per non ripetere l'errore.",
+      "riguarda": "qualità dei dati / query",
+      "livello_scoperta": "L2"
+    },
+    {
+      "gravita": "media",
+      "titolo": "Ordine unico annullato: primo ordine di sempre perso",
+      "dettaglio": "L'ordine €19,05 (unico del marketplace) è passato a CANCELED alle 15:38, mai accettato né consegnato. I thread vivi ora sono zero. Non risulta chi/cosa l'ha annullato (nessun cash_collected_by, canceled_at senza attore).",
+      "azione_presa": "Registrato nel registro-realtà + STATO + briefing; riescalata la priorità 'prima transazione vera' come unica leva di sblocco.",
+      "riguarda": "efficacia operativa",
       "livello_scoperta": "L1"
     },
     {
-      "gravita": "bassa",
-      "titolo": "Stallo a ~6 giorni osservato ma non sbloccabile dalla macchina",
-      "dettaglio": "Quarto giro consecutivo: tutte le leve di sblocco (transazione Casa Linda, ordine zombie, 3 firme) sono 🔴 in attesa. La macchina ha fatto l'unico 🟢 utile possibile (nota operativa svolta meteo) ma non può smuovere il business da sola.",
-      "azione_presa": "Riescalato come priorità 🔴 in STATO/briefing/domande; prodotto comunque un artefatto 🟢 concreto.",
-      "riguarda": "efficacia operativa",
+      "gravita": "media",
+      "titolo": "Autocontrollo automazione in ERRORE: token GitHub 401 + timer VPS assenti",
+      "dettaglio": "verifica-automazione.mjs segnala token ad-mycity 401 e timer watch-main/giro/worker assenti. Parte è atteso (giro da cloud agent, non vedo i timer VPS), ma il 401 sul token è un segnale reale: se il VPS usa quel token i giri automatici e i push potrebbero essere fermi (ultimo Briefing su disco = 30/6).",
+      "azione_presa": "Segnalato tra i rischi 🟡 nel briefing e proposta l'azione di verifica VPS/devops-sre; non accodata come 🔴 perché non confermato bloccante da qui.",
+      "riguarda": "salute automazione",
       "livello_scoperta": "L1"
     }
   ],
   "domande_per_nicola": [
     {
-      "domanda": "Forzo la prima transazione end-to-end con Casa Linda (payout-ready) per uscire dallo stallo?",
-      "perche_serve": "~6 giorni a zero. Casa Linda è l'unico negozio con payout attivo: via più veloce per testare ordine→pagato→consegnato→payout.",
-      "se_rispondi": "Attivo la catena vendite+operations+finanza su Casa Linda: 1 prodotto vero → ordine-test → payout.",
+      "domanda": "Attivo il payout su Pane Quotidiano e forzo la prima transazione end-to-end sul faro?",
+      "perche_serve": "Con l'ordine unico annullato, i thread vivi sono zero. Il faro ha già 5 prodotti reali: manca solo payout + 1 ordine per validare il ciclo.",
+      "se_rispondi": "Attivo la catena finanza+onboarding+operations su Pane Quotidiano: attivazione payout → 1 ordine test → consegna → payout.",
       "gravita": "alta"
     },
     {
-      "domanda": "Sblocco l'ordine zombie €19,05 (accettare o annullare con nota al buyer)?",
-      "perche_serve": "Fermo da ~6 giorni, buyer nel limbo: la prima impressione del servizio è rovinata se resta sospeso.",
-      "se_rispondi": "Propongo la nota/email al buyer e l'aggiornamento status (🔴, tocca un cliente reale).",
-      "gravita": "alta"
-    },
-    {
-      "domanda": "Autorizzi il Supabase MCP (o metti le chiavi su Vercel)?",
-      "perche_serve": "In questa sessione il MCP è cieco: senza, ogni giro è 'a memoria' e i 7 numeri non si misurano.",
-      "se_rispondi": "Al prossimo giro rileggo i 7 numeri veri e riparto la calibrazione previsto-vs-reale.",
+      "domanda": "Il VPS è ancora vivo? Il token ad-mycity dà 401 e i timer risultano assenti.",
+      "perche_serve": "Se i giri automatici (ogni 2h) sono fermi, la Cabina non si aggiorna da sola e i push di memoria non partono. L'ultimo Briefing su disco è del 30/6.",
+      "se_rispondi": "Rigenero il token / riattivo i timer e verifico che il battito riparta.",
       "gravita": "media"
     }
   ],
-  "punti_ciechi": [
-    "Supabase marketplace non collegato in sessione: 7 numeri non riverificati (baseline 29/6).",
-    "Stripe non interrogato: incassi/payout reali non riconciliati.",
-    "PostHog non collegato: nessun dato traffico/conversione.",
-    "Azioni offline di Nicola non visibili: lo stallo potrebbe essere rotto fuori dal digitale.",
-    "Status pubblico Supabase/Stripe non ri-controllato questo giro (nessun segnale di outage)."
-  ],
-  "miglioramenti_prossimo_giro": [
-    "Se il MCP torna: rileggere i 7 numeri e verificare se l'ordine zombie €19,05 è ancora fermo.",
-    "Ri-verificare il meteo 2-3/7 (fine pioggia) + ordinanze ZTL del Venerdì Piacentini 3/7.",
-    "Se nulla si muove ancora: valutare un nuovo 🟢 ad alto valore (es. lista 10 lead prioritari pronta) per non restare solo in osservazione."
-  ],
-  "salute_macchina": {
-    "supabase": "cieco in sessione (needsAuth) — baseline 29/6",
-    "stripe": "non interrogato",
-    "supabase_marketplace": "cieco in sessione (needsAuth) — baseline 29/6",
-    "supabase_memoria": "non interrogato in sessione (scrittura su file del vault, sincronizzata via git)",
-    "posthog": "non collegato",
-    "dati_freschi": false,
-    "sensori_attivi": 1
-  }
+  "salute": "buona: sensori dati ripristinati, numeri veri, 2 scoperte verificate, memoria coerente col faro. Ombre: ordine perso, infra VPS da verificare, Stripe/REST ancora ciechi."
 }

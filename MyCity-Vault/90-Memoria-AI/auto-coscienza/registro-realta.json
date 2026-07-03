@@ -1,6 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 15:00",
+  "aggiornato": "2026-07-03 21:30",
+  "_nota_giro_03_07_sera": "Giro 3/7 21:30 (dati VERI, MCP leggibile): l'ordine €19,05 di Pane Quotidiano è passato a CANCELED (canceled_at 15:38) — primo ordine perso, thread vivi=0. CORREZIONE MISURA: il faro ha 5 prodotti 'available' reali (non 0): il vecchio filtro status='active' era sbagliato, l'enum reale è 'available'.",
   "_nota_faro_03_07": "DECISIONE DI NICOLA (3/7): il negozio-FARO è Pane Quotidiano (unico negozio REALE). Casa Linda è una DEMO → scartata come faro. Risolve il difetto AR-044 (memoria e CLAUDE.md si contraddicevano). Questo registro è ora la fonte unica del 'negozio-faro'.",
   "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno NON riverificate quel giro. Aggiunte 2 entità esterne verificate live: svolta meteo 30/6 e Venerdì Piacentini 3/7.",
   "entita": [
@@ -52,11 +53,12 @@
       "evidenze": [
         "NEGOZIO-FARO (decisione di Nicola, 3/7): è l'UNICO negozio REALE del marketplace.",
         "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
-        "Ha l'UNICO ordine reale del marketplace: €19,05 COD, fermo (PENDING/NEW) da giorni — l'ordine da sbloccare per la prima transazione end-to-end.",
-        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false: gli manca l'attivazione payout per incassare."
+        "Aveva l'UNICO ordine reale del marketplace: €19,05 COD → passato a CANCELED il 3/7 15:38 (mai accettato/consegnato, payment_status resta PENDING). Primo ordine di sempre PERSO: thread vivi=0 (riletto live 3/7 21:30).",
+        "Ha 5 PRODOTTI VERI pubblicati (status 'available': kefir, budino vaniglia, hummus, kefir capra, pesto — €2-5, stock 10, online dal 16/6). Correzione di misura: prima dati a 0 per un filtro sbagliato (status='active' non esiste; enum reale='available').",
+        "Stripe Connect collegato (acct_1TifANEq35Z9pThc), ultimo stato noto stripe_payouts_enabled=false (non riverificabile via Stripe questo giro: sensore Stripe cieco): gli manca l'attivazione payout per incassare."
       ],
-      "note": "★ FARO ★ — unico negozio reale (decisione Nicola 3/7). Qui va concentrato lo sforzo pesante. Priorità: (1) attivare il payout (Stripe), (2) sbloccare/consegnare l'ordine €19,05 (prima transazione vera), (3) pubblicare prodotti veri. Sostituisce Casa Linda come faro in STATO/OKR/allocazione.",
-      "ultima_verifica": "2026-07-03 15:00"
+      "note": "★ FARO ★ — unico negozio reale (decisione Nicola 3/7). Qui va concentrato lo sforzo pesante. Priorità aggiornata (3/7 sera): (1) attivare il payout (Stripe), (2) creare una NUOVA transazione end-to-end (l'ordine €19,05 è morto/annullato), (3) i 5 prodotti veri sono già pubblicati ✅. Sostituisce Casa Linda come faro in STATO/OKR/allocazione.",
+      "ultima_verifica": "2026-07-03 21:30"
     },
     {
       "nome": "Antica Salumeria Garetti",

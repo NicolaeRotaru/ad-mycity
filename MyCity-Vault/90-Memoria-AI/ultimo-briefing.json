@@ -1,16 +1,16 @@
 {
-  "data": "2026-06-30 11:45",
-  "situazione": "Giro del 30/6. Una novità vera e di peso: il caldo è finito — oggi e domani pioggia (prob. 90%, max ~34°C), poi clima mite. Il fattore-guida del delivery passa da caldo a pioggia. Il business resta però fermo: Supabase non collegato in questa sessione, i 7 numeri restano alla baseline del 29/6 (2 negozi approvati, 1 payout-ready, 0 ordini pagati, 0 consegne). Stallo da ~6 giorni. Venerdì Piacentini 3/7 confermato (49 eventi): con la sera fresca il presidio QR è ora comodo. Nessuna nuova azione da accodare: la coda è già piena e pertinente.",
+  "data": "2026-07-03 21:30",
+  "situazione": "Giro del 3/7 sera con DATI VERI recuperati (Supabase MCP di nuovo leggibile: chiuso il gap di misura 30/6-2/7). Due notizie di peso. NEGATIVA: l'unico ordine del marketplace — €19,05 COD di Pane Quotidiano, il faro — è stato ANNULLATO oggi alle 15:38 (mai accettato/consegnato): il primo ordine di sempre è perso, i thread vivi ora sono zero. POSITIVA: il faro Pane Quotidiano ha 5 prodotti VERI pubblicati (kefir, hummus, pesto, budino, €2-5), non 0 come si credeva (era un errore di misura). La vetrina è pronta a vendere. Il collo di bottiglia resta chirurgico e ora più urgente: attivare il payout Stripe sul faro e far girare la prima transazione vera. Flag infra: token GitHub ad-mycity 401 + timer VPS assenti (da verificare). Stallo transazioni a ~9 giorni.",
   "opportunita": [
-    {"titolo": "Venerdì Piacentini 3/7 con sera fresca = presidio QR comodo", "motivo": "49 eventi, ~50-60k persone, niente afa: il presidio offline a costo ≈0 è ora sostenibile. Rafforza i kit #7 e #11 già in coda.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Pioggia oggi+domani come leva delivery", "motivo": "Due giorni a prob. 90%: 'piove, te la portiamo noi'. Ma latente senza catalogo vero e primo ordine.", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready: è l'uscita dallo stallo di ~6 giorni.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Bando ER come leva onboarding (21 giorni alla scadenza)", "motivo": "Kit #12 pronto in coda: 40% fondo perduto, urgenza per i pitch.", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Prima transazione vera su Pane Quotidiano (vetrina già pronta)", "motivo": "Il faro ha 5 prodotti reali + storefront approvato: manca solo attivare il payout e far girare 1 ordine. È l'uscita dallo zero, ora che l'ordine zombie è morto.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Recupero carrello attivo €7,95 (toccato il 2/7)", "motivo": "Unico segnale di traffico vivo: mail di recupero vecchia (17/6) non ha funzionato, serve un secondo tentativo mirato quando Resend è attivo.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Venerdì Piacentini stasera + festival fino 11/7", "motivo": "Centro pieno: presidio QR offline (kit #7/#11) aggancia pubblico piacentino a costo circa zero. Latente finche manca il link reale della lista d'attesa.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Bando ER 40% fondo perduto (scade 21/7)", "motivo": "18 giorni: leva di urgenza per i pitch di onboarding, kit #12 gia in coda.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Forzare prima transazione end-to-end con Casa Linda", "motivo": "Unico negozio payout-ready. Uscire dallo zero dopo ~6 giorni di stallo.", "livello": "rosso"},
-    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Fermo da 6 giorni: buyer nel limbo, prima impressione rovinata.", "livello": "rosso"},
-    {"titolo": "Firmare le 3 decisioni di lancio", "motivo": "Stripe live/sandbox, commissione 12%, fee consegna: sbloccano l'infrastruttura.", "livello": "rosso"},
-    {"titolo": "Autorizzare Supabase MCP o wiring Vercel memoria", "motivo": "Tornare a vedere i 7 numeri veri: in questa sessione il MCP è cieco.", "livello": "giallo"}
+    {"titolo": "Attivare il payout Stripe su Pane Quotidiano (il faro)", "motivo": "Precondizione della prima transazione: senza payout attivo il faro non puo incassare.", "livello": "rosso"},
+    {"titolo": "Forzare la prima transazione end-to-end su Pane Quotidiano", "motivo": "1 prodotto vero -> ordine -> pagato -> consegnato -> payout. Unica leva che rompe lo stallo, ora che i thread vivi sono zero.", "livello": "rosso"},
+    {"titolo": "Verificare il VPS (token ad-mycity 401, timer/worker assenti)", "motivo": "Se il VPS gira su quel token, i giri automatici e i push di memoria potrebbero essere fermi da giorni.", "livello": "giallo"},
+    {"titolo": "Pulire la vetrina dai 227 prodotti seed orfani", "motivo": "Inquinano ricerca e vetrina rispetto ai 5 prodotti veri del faro.", "livello": "giallo"}
   ]
 }

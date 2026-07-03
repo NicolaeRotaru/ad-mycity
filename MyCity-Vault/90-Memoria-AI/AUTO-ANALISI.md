@@ -1,46 +1,40 @@
 ---
-data: 2026-06-30 11:45
+data: 2026-07-03 21:30
 tipo: auto-analisi
 fonte: AD digitale — cancello di serietà (verifica avversariale)
 ---
 
-# 🔬 Auto-analisi del giro — 2026-06-30 11:45
+# 🔬 Auto-analisi del giro — 2026-07-03 21:30
 
-## Voto di fiducia: 85 / 100 — trend ▼ (da 88)
-−3 punti, **non per un errore di lavoro ma per un peggioramento dei sensori**: il Supabase MCP, che il 29/6
-era leggibile live, in questa sessione è di nuovo cieco (needsAuth). I 7 numeri non sono riverificabili oggi:
-tenuti correttamente alla baseline del 29/6 e dichiarati come gap di misura (non come dato fresco). Il valore
-aggiunto reale del giro è il **radar live**: confermata la **svolta meteo** (fine caldo, pioggia oggi+domani)
-e il dettaglio del **Venerdì Piacentini 3/7** (49 eventi), entrambi con fonti citate. Nessuna entità nuova
-senza fondamento, nessun numero orfano, nessuna 🔴 travestita da 🟢.
+## Voto di fiducia: 88 / 100 — trend ▲ (da 85)
++3 punti: i **sensori dati sono tornati**. Il Supabase MCP risponde in sessione, quindi i 7 numeri sono di
+nuovo **misurati live** e non ereditati dalla baseline — l'invariante "dati freschi" è ripristinato dopo tre
+giri a memoria (30/6-2/7). Il giro porta due scoperte **verificate contro il DB**, non ipotesi.
 
-## Errori per gravità
+## Cosa ho verificato (a 3 livelli)
+- **Entità (grounding):** Pane Quotidiano confermato faro nei dati reali (storefront approvato, 5 prodotti
+  `available`, 1 ordine). Casa Linda = demo. Nessuna entità nuova senza fondamento. ✅
+- **Numeri:** ogni cifra dei 7 numeri ha la query dietro (nessun numero orfano). Ho **corretto** un numero
+  sbagliato ereditato (prodotti faro 0→5). ✅
+- **Coerenza:** allineato le intenzioni al faro deciso il 3/7 — la "prima transazione" ora punta su Pane
+  Quotidiano, non più su Casa Linda (che nei giri scorsi era il target: era una divergenza da sanare). ✅
+- **Semaforo / qualità:** azioni col colore giusto, nessuna 🔴 travestita da 🟢. ✅
 
-### Media — Regressione dei sensori (Supabase cieco dopo il 29/6)
-La cecità sui dati interni è tornata in questa sessione. Gestita con onestà (baseline + gap), ma è un
-peggioramento dell'invariante "dati freschi". **Azione:** 7 numeri etichettati come baseline 29/6; wiring
-Vercel / autorizzazione MCP già in coda (#10).
+## Errori / scoperte di questo giro
+1. **[media] Errore di misura storico** — i "prodotti veri del faro" erano dati a 0 per un filtro sbagliato
+   (`status='active'`, enum inesistente; quello reale è `available`). Il faro ha 5 prodotti reali dal 16/6.
+   → Corretto in STATO e digest; enum documentato nel briefing per non ripeterlo.
+2. **[media] Ordine unico annullato** — l'ordine €19,05 è passato a `CANCELED` alle 15:38 (mai accettato/
+   consegnato). Primo ordine di sempre perso; thread vivi = 0. Non risulta l'attore dell'annullamento.
+   → Registrato; riescalata "prima transazione vera" come unica leva di sblocco.
+3. **[media] Automazione in errore** — token GitHub `ad-mycity` 401 + timer VPS assenti. Parte è atteso
+   (cloud agent), ma il 401 è un segnale reale. → Rischio 🟡 nel briefing + proposta verifica VPS.
 
-### Bassa — Stallo a ~6 giorni osservato ma non sbloccabile dalla macchina
-Quarto giro: le leve di sblocco sono tutte 🔴 in attesa. **Azione:** prodotto comunque un 🟢 concreto (nota
-operativa svolta meteo) e riescalate le domande 🔴 a Nicola.
+## Domande per Nicola (bloccanti)
+- 🔴 Attivo il payout su Pane Quotidiano e forzo la prima transazione end-to-end sul faro?
+- 🟡 Il VPS è ancora vivo? (token 401, timer assenti; ultimo Briefing su disco = 30/6).
 
-Nessun errore grave. Nessuna entità inventata, nessun numero orfano.
-
-## Grounding delle entità (3 strade)
-- **Casa Linda** → `confermato` (baseline 29/6; **non riverificato oggi**, MCP cieco).
-- **Pane Quotidiano** → `confermato` (baseline 29/6; non riverificato oggi).
-- **Garetti** → `scelta_ragionata` (prospect, fondato su campo-aperto-faro.md + fatti pubblici).
-- **Ex Scuderie** → `scelta_ragionata` (3 spazi food approvati dal Comune, fonte PiacenzaSera).
-- **Svolta meteo 30/6** → fatto esterno verificato live (TempoItalia/MeteoLive/iLMeteo).
-- **Venerdì Piacentini 3/7 (49 eventi)** → fatto esterno verificato live (programma ufficiale PDF + IlPiacenza).
-
-## Domande per Nicola
-1. 🔴 **Forzo la prima transazione con Casa Linda?** — ~6 giorni a zero, unico payout-ready.
-2. 🔴 **Sblocco l'ordine zombie €19,05?** — fermo da ~6 giorni, buyer nel limbo.
-3. 🟡 **Autorizzi il Supabase MCP (o chiavi su Vercel)?** — è l'unico modo per tornare a vedere i 7 numeri.
-
-## Salute della macchina
-Sensori attivi: **1** (solo web). Supabase marketplace cieco in sessione, Stripe/PostHog non collegati,
-dati_freschi = **false**. Il volano gira (lezioni applicate, vedi apprendimento.json), ma la calibrazione
-previsto-vs-reale resta ferma finché i sensori dati non tornano stabili.
+## Salute
+**Buona.** Sensori dati ripristinati, numeri veri, due scoperte verificate, memoria coerente col faro.
+Ombre: l'ordine perso, l'infra VPS da verificare, Stripe/REST ancora ciechi (flag payout non riconfermabile).
+Benchmark: n/a questo giro (nessun contenuto creativo prodotto).

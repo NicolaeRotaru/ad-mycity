@@ -1,72 +1,63 @@
 {
-  "data": "2026-06-30 11:45",
-  "sintesi": "AGGIORNAMENTO 30/6: stallo a ~6 giorni (Supabase non collegato in sessione → 7 numeri = baseline 29/6). I 2 negozi reali (Casa Linda payout-ready, Pane Quotidiano) e Garetti (prospect) sono invariati. Novità di oggi: il caldo è finito (pioggia oggi+domani), e il Venerdì Piacentini 3/7 (49 eventi) avrà sera fresca → il presidio QR diventa comodo. L'unica via veloce per rompere lo stallo resta forzare la prima transazione con Casa Linda OPPURE sbloccare l'ordine zombie €19,05 di Pane Quotidiano. Bando ER scade 21/7 (21 giorni): kit #12 in coda. Piano di fondo invariato: negozio-faro → cluster 6 botteghe → domanda.",
+  "data": "2026-07-03 21:30",
+  "sintesi": "AGGIORNAMENTO 3/7 sera (dati veri recuperati). Il quadro cambia su due punti: (1) l'ordine zombie €19,05 è stato ANNULLATO oggi alle 15:38 — non c'è più da 'sbloccarlo', è chiuso (negativamente): serve creare una transazione NUOVA da zero; (2) con la decisione-faro del 3/7, il negozio reale è Pane Quotidiano (non Casa Linda, che è demo): la prima transazione vera va fatta sul faro. Buona notizia: il faro ha già 5 prodotti veri pubblicati e storefront approvato — la vetrina è pronta, manca solo il payout. Quindi la mossa n.1 di Nicola è attivare il payout Stripe su Pane Quotidiano e far girare 1 ordine end-to-end. Sullo sfondo: verificare che il VPS/automazione sia vivo (token 401), firmare le 3 decisioni di lancio, e usare il bando ER (scade 21/7) come leva sui primi 10 dei 407 lead.",
   "prossime_mosse": [
     {
-      "titolo": "Forzare prima transazione end-to-end con Casa Linda (payout-ready)",
+      "titolo": "Attivare il payout Stripe su Pane Quotidiano (il faro reale)",
       "priorita": "critica",
-      "quando": "subito — stallo a 125h",
+      "quando": "subito",
       "colore": "🔴",
-      "come": "Casa Linda è l'unico negozio con payout attivo (acct_1TcI1vIb6nEnAk4o). 1 prodotto vero → ordine-test → conferma → payout. È la via più veloce per testare il ciclo completo senza aspettare Garetti.",
-      "ad_prepara": "Catena vendite+operations pronta al via di Nicola",
+      "come": "Il faro ha Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma payout non attivo. Completare l'onboarding Stripe del venditore per abilitare l'incasso. Casa Linda-demo (payout già attivo) resta utile solo per collaudare tecnicamente il flusso, non come business reale.",
+      "ad_prepara": "Checklist attivazione payout + primo-incasso pronta (consegne/collaudo/2026-07-03)",
+      "senior": "finanza + onboarding-negozi"
+    },
+    {
+      "titolo": "Creare la prima transazione end-to-end vera su Pane Quotidiano",
+      "priorita": "critica",
+      "quando": "subito — thread vivi = 0 dopo l'annullamento dell'ordine",
+      "colore": "🔴",
+      "come": "1 dei 5 prodotti veri (es. Pesto Genovese €5) → ordine → pagato → consegnato → payout. Prima prova concreta che il ciclo funziona. L'ordine €19,05 è morto (annullato 15:38): questa è una transazione nuova, non un recupero.",
+      "ad_prepara": "Catena vendite+operations+finanza pronta al via",
       "senior": "vendite + operations + finanza"
     },
     {
-      "titolo": "Sbloccare ordine zombie €19,05 (accettare o annullare con nota al buyer)",
-      "priorita": "critica",
-      "quando": "subito — fermo da 5 giorni",
-      "colore": "🔴",
-      "come": "Ordine COD PENDING/NEW dal 24/6. Decidere: accettare e organizzare la consegna, o annullare con una nota cortese al buyer (9262fa38). La prima impressione del servizio è rovinata se resta nel limbo.",
-      "ad_prepara": "Bozza nota al buyer pronta; proposta di status update",
-      "senior": "operations + supporto + customer-success"
-    },
-    {
-      "titolo": "Kit 'Bando ER + MyCity' per onboarding negozi (scade 21/7 — 22 giorni)",
+      "titolo": "Verificare che il VPS/automazione sia vivo (token ad-mycity 401)",
       "priorita": "alta",
       "quando": "questa settimana",
       "colore": "🟡",
-      "come": "One-pager: preventivo MyCity intestabile + descrizione spesa ammissibile + mini-guida Sfinge + disclaimer. Da usare a ogni pitch come leva urgenza.",
-      "ad_prepara": "Kit accodato in AZIONI-IN-ATTESA #12",
-      "senior": "vendite + legale-privacy"
+      "come": "L'autocontrollo segnala token GitHub 401 + timer watch-main/giro/worker assenti. Se il VPS gira su quel token, i giri automatici (ogni 2h) e i push di memoria potrebbero essere fermi da giorni. Rigenerare il token / riattivare i timer.",
+      "ad_prepara": "Diagnosi nel briefing 3/7 §6; proposta azione devops-sre",
+      "senior": "devops-sre + builder-automazioni"
     },
     {
       "titolo": "Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)",
       "priorita": "alta",
-      "quando": "in attesa da 4 giorni",
+      "quando": "in attesa da ~7 giorni",
       "colore": "🔴",
       "come": "Foglio-firma da 2 minuti (consegne/decisioni/2026-06-26-foglio-firma-lancio.md). Sbloccano infrastruttura e onboarding.",
-      "ad_prepara": "Foglio-firma consolidato + condizioni commerciali",
+      "ad_prepara": "Foglio-firma consolidato",
       "senior": "vendite + finanza + legale-privacy"
     },
     {
-      "titolo": "Wiring Vercel memoria (2 env vars + Redeploy)",
-      "priorita": "media",
-      "quando": "quando possibile",
-      "colore": "🟡",
-      "come": "Impostare SUPABASE_URL + SUPABASE_SERVICE_KEY del progetto memoria nelle env Vercel del Pannello + Redeploy.",
-      "ad_prepara": "Istruzioni pronte in AZIONI-IN-ATTESA #10",
-      "senior": "AD + builder-automazioni"
-    },
-    {
-      "titolo": "Partire coi primi 10 dei 407 lead to_contact",
+      "titolo": "Partire coi primi 10 dei 407 lead (leva bando ER, scade 21/7)",
       "priorita": "media",
       "quando": "dopo la prima transazione riuscita",
       "colore": "🟡",
-      "come": "Selezionare i 10 lead più caldi (cluster centro, food) e avviare il primo contatto con il kit bando ER come leva.",
-      "ad_prepara": "Lista 10 lead prioritari da merchants_leads + kit bando",
+      "come": "Selezionare i 10 lead più caldi (centro, food) e avviare il primo contatto con il kit bando ER come leva d'urgenza (18 giorni alla scadenza).",
+      "ad_prepara": "Lista 10 lead prioritari + kit bando #12 in coda",
       "senior": "vendite + intelligence"
     }
   ],
   "primi_negozi": [
     {
-      "nome": "Casa Linda",
-      "perche": "Unico negozio approvato E payout-ready: la via più veloce per la prima transazione end-to-end",
-      "stato": "approvato nel DB, payout attivo, 0 ordini — DA FORZARE"
+      "nome": "Pane Quotidiano",
+      "perche": "Negozio-faro REALE (decisione Nicola 3/7): storefront approvato + 5 prodotti veri pubblicati. Manca solo il payout per incassare.",
+      "stato": "approvato, 5 prodotti available, payout NON attivo, ordine unico annullato — DA ATTIVARE payout + nuova transazione"
     },
     {
-      "nome": "Pane Quotidiano",
-      "perche": "Secondo negozio approvato, ha l'ordine zombie €19,05",
-      "stato": "approvato nel DB, payout NON attivo — sbloccare ordine"
+      "nome": "Casa Linda",
+      "perche": "DEMO (scartata come faro): payout tecnicamente attivo, utile solo per collaudare il flusso, non business reale",
+      "stato": "demo, non riceve sforzo pesante"
     },
     {
       "nome": "Antica Salumeria Garetti (prospect)",
@@ -75,26 +66,26 @@
     }
   ],
   "rischi": [
-    "Stallo a ~6 giorni: se non si sblocca con un'azione nei prossimi giorni, l'intero setup rischia di diventare 'progetto morto'",
-    "Bando ER scade 21/7 (21 giorni): se non si prepara il kit e non si usa come leva, si perde l'urgenza",
-    "Ordine zombie €19,05: buyer abbandonato per 5 giorni = prima impressione rovinata",
-    "Bus factor: tutto dipende da Nicola in prima persona (pitch, consegne, firme)"
+    "Thread vivi = 0: con l'ordine unico annullato, non c'è più nessuna transazione in corso. Ogni giorno di stallo allontana la prova che il ciclo funziona.",
+    "VPS/automazione forse ferma (token 401): la Cabina potrebbe non aggiornarsi da sola.",
+    "Bando ER scade 21/7 (18 giorni): se non si usa come leva, si perde l'urgenza sui pitch.",
+    "Bus factor: tutto dipende da Nicola in prima persona (pitch, consegne, firme)."
   ],
   "serve_da_nicola": [
     {
       "ambito": "Sblocco critico",
-      "cosa_manca": "Decisione: forzare la transazione con Casa Linda (sì/no) + sbloccare l'ordine zombie (accettare/annullare)",
-      "domanda_per_nicola": "Dico sì a Casa Linda per la prima transazione? E l'ordine zombie di Pane Quotidiano: lo accetti o lo annullo con una nota al cliente?"
-    },
-    {
-      "ambito": "Lancio",
-      "cosa_manca": "Firma delle 3 decisioni 🔴 di lancio (Stripe, commissione, fee) — in attesa da 4 giorni",
-      "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti? (consegne/decisioni/2026-06-26-foglio-firma-lancio.md)"
+      "cosa_manca": "Via libera ad attivare il payout su Pane Quotidiano e creare la prima transazione vera sul faro",
+      "domanda_per_nicola": "Attivo il payout su Pane Quotidiano e faccio girare la prima transazione end-to-end (1 dei 5 prodotti veri)?"
     },
     {
       "ambito": "Infrastruttura",
-      "cosa_manca": "Wiring Vercel della memoria (service key è un segreto tuo)",
-      "domanda_per_nicola": "Metti le 2 variabili su Vercel e fai Redeploy?"
+      "cosa_manca": "Conferma che il VPS è vivo (il token ad-mycity dà 401, i timer risultano assenti)",
+      "domanda_per_nicola": "Puoi verificare che i giri automatici (timer 2h) stiano ancora girando? Rigenero il token se serve?"
+    },
+    {
+      "ambito": "Lancio",
+      "cosa_manca": "Firma delle 3 decisioni 🔴 di lancio (Stripe, commissione, fee)",
+      "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti? (consegne/decisioni/2026-06-26-foglio-firma-lancio.md)"
     }
   ]
 }

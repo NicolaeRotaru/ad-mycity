@@ -190,10 +190,10 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-30 11:45
+## 🤖 Aggiornamento dell'AD — 2026-07-03 21:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **🌦️ SVOLTA METEO CONFERMATA (la previsione si è avverata): il caldo è FINITO.** Live di oggi: **mar 30/6 acquazzoni prob. 90% (~2,2 mm), max ~34°C** · **mer 1/7 piovaschi prob. 90% (~4,5 mm), ~34°C** · poi clima mite (29-32°C). **Conseguenza operativa:** la regola **"no freschi 12-18" si RILASSA** (niente più picco 39°C, catena del freddo non più critica); il fattore-guida diventa la **pioggia (meteo-01, peso 4)** → leva **"piove, te la portiamo noi"** (oggi+domani = 2 giorni a domanda potenziale più alta). Nota completa in `consegne/operations/2026-06-30-svolta-meteo-pioggia.md`.
-- **☔ Piano B cargo-bike col bagnato:** quando partiranno le consegne reali, prevedere impermeabili + copri-borsa + slot leggermente allungati. Oggi nessuna consegna reale in agenda → è un pre-requisito, non un'emergenza.
-- **🎭 VENERDÌ PIACENTINI 3/7 (49 eventi) con sera fresca:** il **presidio offline QR** in centro è ora **comodo** (non più sotto i 39°C). Rafforza le azioni già in coda **#7 (kit "I TRE VENERDÌ")** e **#11 (kit QR Venerdì Piacentini)**. Eventi: wrestling ICW Piazza Cavalli 22:00, Tu Si Que Avis Piazza Duomo, Modoolo clubbing. ZTL pedonale → presidio offline, delivery vero il sabato dopo.
-- **⛔ Collo di bottiglia invariato:** tutto resta latente finché non c'è **catalogo vero + primo ordine end-to-end** (Casa Linda payout-ready) e finché Supabase non è ricollegato per misurare i numeri.
+- **🌤️ Meteo: caldo torna ma senza estremi** (sab 4/7 20-33°C, lun 6/7 max ~34°C). Nessuna afa da "no-freschi": la leva delivery è tiepida. Messaggio "comodità", non "emergenza caldo". Fonte: ilmeteo.it live.
+- **🎭 Venerdì Piacentini STASERA (3/7) + festival "Dal Mississippi al Po" fino 11/7:** centro pieno → presidio offline QR (#7/#11 in coda) pertinente stasera e il 17/7. ZTL pedonale → acquisizione iscritti, non delivery in centro durante l'evento. Serve il **link reale lista d'attesa** (manca).
+- **⛔ Ordine unico ANNULLATO (3/7 15:38):** la prima consegna di sempre non avverrà (ordine €19,05 → CANCELED, mai accettato). Operativamente: **0 consegne in agenda, 0 thread vivi.** La priorità operativa n.1 diventa preparare la catena per una **transazione NUOVA sul faro** (payout → ordine test → consegna → payout), non più "sbloccare lo zombie".
+- **🩺 Da verificare: automazione VPS** (token 401, timer assenti) → i giri automatici potrebbero essere fermi. Impatto operativo: la Cabina non si aggiorna da sola finché non si conferma il battito.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

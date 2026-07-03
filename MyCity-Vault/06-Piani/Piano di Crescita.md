@@ -170,8 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-06-27 00:39
+## 🤖 Aggiornamento dell'AD — 2026-07-03 21:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Leva caldo = domanda**: con 38-39°C la consegna a casa è al massimo desiderio → momento ideale per spingere acquisizione ("col caldo non esci, te la portiamo noi"). Fonte: radar meteo live.
-- **Prima consegna felice = motore di passaparola**: blindare la catena del freddo oggi è la mossa di crescita a più alto ritorno/sforzo (primo cliente → recensione → lista d'attesa).
+- **La vetrina del faro è PRONTA (scoperta 3/7):** Pane Quotidiano ha già **5 prodotti veri pubblicati** (kefir, hummus, pesto, budino, €2-5). Il collo di bottiglia per la crescita non è più "manca il catalogo" ma **solo il payout + la prima transazione**: mossa a più alto ritorno/sforzo assoluto. Fonte: DB reale riletto live.
+- **⛔ Thread vivi = 0:** l'unico ordine (€19,05) è stato annullato il 3/7. La crescita riparte solo con **1 transazione end-to-end vera** che generi la prima recensione → il motore di passaparola oggi è a secco.
+- **Segnale debole da coltivare:** 1 carrello è stato toccato il 2/7 (€7,95). Quando Resend sarà attivo, un recupero mirato è la leva di crescita a costo ≈0 sull'unico traffico vivo.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

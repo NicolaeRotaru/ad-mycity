@@ -71,6 +71,20 @@
       "difetti_chiusi": 73,
       "tipo": "fix-sprint",
       "nota": "Sprint di riparazione su comando di Nicola: 2 passate 'un-agente-per-file' + bonifiche. Chiusi 68 difetti in questo giro (da 57→82 stimato). Sintassi verificata (node --check/bash -n) su tutti i .mjs/.sh, JSON validi, scan-segreti pulito. I 30 bug del Pannello applicati nel branch (no type-check qui: anteprima prima del merge). NB: i fix sono 🟡 nel branch, non ancora mergiati: il voto si consolida al merge. Restano 5 difetti che dipendono da Nicola (STAMPO, PostHog, chiavi Supabase, giudizio previsioni)."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 57,
+      "voto_provvisorio": 81,
+      "voto_pieno": 81,
+      "firma": "",
+      "difetti_aperti": 4,
+      "difetti_chiusi": 74,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 4,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (82h) · sensori max cecità 1 · salute pending-merge 81/100 (floor 81): 0 aperti-davvero · 0 in attesa merge · 4 bloccanti umani"
     }
   ]
 }

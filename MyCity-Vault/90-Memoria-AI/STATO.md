@@ -1,53 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-06-30 11:45
-fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in sessione 30/6)
+aggiornato: 2026-07-03 21:30
+fonte: AD digitale (7 numeri VERI — Supabase MCP clmpyfvpvfjgeviworth, riletti live 03/7 21:30)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🧠 **30/6 11:45 — STALLO A ~6 GIORNI.** Supabase non collegato in questa sessione → i 7 numeri restano
-> alla baseline verificata live il 29/6. Nessuna attività reale dal 24/6 08:28.
-> **Novità di oggi (web live): SVOLTA METEO — il caldo è finito.** Oggi 30/6 e domani 1/7 = **pioggia
-> (prob. 90%, max ~34°C)**, poi clima mite (29-32°C). Il fattore-guida passa da caldo a **pioggia** (leva
-> delivery più forte). **Venerdì Piacentini 3/7 confermato** (49 eventi) → presidio QR ora comodo (sera fresca).
-> **FARO (decisione Nicola 3/7): Pane Quotidiano = unico negozio REALE. Casa Linda = demo (scartata).**
-> Collo di bottiglia: **prima transazione end-to-end su Pane Quotidiano** — sbloccare il suo ordine €19,05 (l'unico reale) + attivargli il payout Stripe.
+> 🧠 **03/7 21:30 — DATI VERI RECUPERATI.** Stasera il Supabase MCP risponde: i 7 numeri sono di nuovo misurati live (chiuso il gap 30/6-2/7).
+> **Notizia n.1 (⛔):** l'unico ordine del marketplace — €19,05 COD di **Pane Quotidiano** (il faro) — è stato **ANNULLATO oggi alle 15:38**
+> (`delivery_status=CANCELED`, mai accettato/consegnato). Il primo ordine di sempre è **perso**; thread vivi ora = **0**.
+> **Notizia n.2 (✅):** il faro **Pane Quotidiano ha 5 prodotti VERI pubblicati** (`available`: kefir, hummus, pesto, budino — €2-5, stock 10) —
+> non 0 come si credeva (era un errore di misura: si filtrava `status='active'`, l'enum reale è `available`). La vetrina è pronta a vendere.
+> **FARO (decisione Nicola 3/7): Pane Quotidiano = unico negozio REALE. Casa Linda = demo scartata.**
+> Collo di bottiglia (invariato, ora più urgente): **attivare il payout Stripe su Pane Quotidiano + prima transazione end-to-end vera.**
 
-## I 7 numeri (baseline live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth — NON riverificati il 30/6)
-| Numero | Oggi (29/6) | "Riuscito" | Note |
+## I 7 numeri (VERI — 2026-07-03 21:30 · Supabase clmpyfvpvfjgeviworth)
+| Numero | Oggi (03/7) | "Riuscito" | Note |
 |---|---|---|---|
-| Negozi REALI | **1 (Pane Quotidiano)** | ≥1 LIVE vero | ★ FARO. Approvato, ma payout ancora da attivare. (Casa Linda = demo scartata, non conta) |
-| Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **5 giorni** |
-| Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta |
-| Payout testato | **0** | 1 | mai eseguito |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: "samir?" il 16/6 |
+| Negozi REALI (faro) | **1 (Pane Quotidiano)** | ≥1 LIVE vero | ★ FARO. Approvato; payout ancora da attivare. (2 storefront approvati tot; Casa Linda = demo) |
+| Prodotti VERI del faro pubblicati | **5** | ≥5 | ✅ obiettivo raggiunto: 5 `available` (kefir, hummus, pesto, budino), online dal 16/6 |
+| Ordini creati | **1** | ≥1 | €19,05 COD del 24/6 |
+| Ordini pagati | **0** | 1 | COD `PENDING`, mai incassato |
+| Ordini consegnati | **0** | 1 | ⛔ ordine ora `CANCELED` (annullato 03/7 15:38) |
+| Payout testato | **0** | 1 | `AWAITING_REMITTANCE`, mai eseguito |
+| Nuovi clienti reali | **0 (7g)** | crescita | 23 profili tot; ultimo nuovo 16/6; 3 negli ultimi 30g |
 
 ## Semafori
-- 🟢 Va bene: infrastruttura pronta (Stripe, COD, onboarding, 407 lead, 250 prodotti seed); DB-memoria costruito.
-- 🟡 Da tenere d'occhio: catalogo "finto" (solo seed); ordine €19,05 zombie da 5 giorni; 4 carrelli abbandonati (12-15 gg); bando ER scade 21/7.
-- 🔴 Problema: **stallo da ~125h** (0 ordini/0 eventi dal 24/6); 3 decisioni di lancio non firmate; nessun wiring Vercel.
+- 🟢 Va bene: faro con **catalogo vero pronto** (5 prodotti); infrastruttura (Stripe Connect, COD, onboarding); 407 lead; DB-memoria costruito; MCP dati leggibile stasera.
+- 🟡 Da tenere d'occhio: 227 prodotti seed "orfani" in vetrina; 4 carrelli abbandonati (1 attivo il 2/7, €7,95); **token GitHub `ad-mycity` 401 + timer VPS assenti** (giri automatici forse fermi); bando ER scade 21/7.
+- 🔴 Problema: **thread vivi = 0** (ordine unico annullato); stallo transazioni da ~9 giorni; 3 decisioni di lancio non firmate; payout faro non attivo.
 
 ## Ultime mosse dell'AD
-1. **Giro 30/6 11:45** — Svolta meteo confermata live (fine caldo, pioggia oggi+domani); Venerdì Piacentini 3/7 dettagliato (49 eventi). Supabase non collegato → 7 numeri = baseline 29/6. Nota operativa svolta meteo prodotta (🟢). Vedi [[2026-06-30]].
-2. **Giri 29/6 14:24 e 16:24** — 2 passaggi leggeri a sensori ridotti (Supabase/WebFetch non autorizzati): dati immobili, stallo ~128h. Verificato a basso costo: **Supabase + Stripe operativi** (infrastruttura non a rischio → blocco solo decisionale). Vedi [[2026-06-29]].
-3. **Giro 29/6 11:30** — Riverificati numeri live (identici): stallo a ~125h. Scan intelligence live: Ex Scuderie 🆕, bando ER (22gg), VP record, caldo 37°C.
-4. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle, verificato).
-5. **Giro 28/6 16:46** — DB marketplace ricollegato. 4 cadenze in un colpo.
-6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
+1. **Giro 03/7 21:30** — Dati VERI recuperati (MCP ok). Scoperto: ordine €19,05 **annullato** alle 15:38; faro Pane Quotidiano ha **5 prodotti veri** (corretto errore di misura). Flag automazione: token 401 + timer VPS assenti (da verificare). Vedi [[2026-07-03]].
+2. **Sessione 03/7 15:00-15:20** — FARO deciso (Pane Quotidiano; Casa Linda demo); collaudo STAMPO (indifferente); PostHog rimandato a dopo 10/7. Vedi [[DECISIONI]].
+3. **Giro 30/6 11:45** — Svolta meteo (fine caldo); Venerdì Piacentini 3/7. Supabase non collegato → 7 numeri = baseline 29/6. Vedi [[2026-06-30]].
+4. **Giri 29/6** — Riverificati numeri live; Supabase + Stripe operativi (blocco solo decisionale).
+5. **Giro 28/6 20:25** — Memoria costruita (DB separato `xjljcsorpbqwttrejqte`, 5 tabelle).
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Attivare il payout Stripe su Pane Quotidiano** (il faro reale): sblocca l'incasso.
-- [ ] 🔴 **Prima transazione end-to-end su Pane Quotidiano**: 1 prodotto vero → ordine → payout.
-- [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
-- [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (22gg alla scadenza).
-- [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.
+- [ ] 🔴 **Attivare il payout Stripe su Pane Quotidiano** (il faro): sblocca l'incasso.
+- [ ] 🔴 **Prima transazione end-to-end su Pane Quotidiano**: 1 prodotto vero → ordine → pagato → consegnato → payout.
+- [ ] 🟡 **Verificare il VPS** (token `ad-mycity` 401, timer/worker assenti): i giri automatici sono ancora vivi?
+- [ ] 🟡 **Pulire la vetrina** dai 227 prodotti seed orfani.
+- [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (18gg alla scadenza).
 - [ ] 🔴 Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione, fee) — [[AZIONI-IN-ATTESA]].
 - [ ] 🟡 **Wiring Vercel**: env vars DB-memoria + Redeploy → spia "Memoria collegata" verde.
-- [x] ✅ Memoria costruita (28/6 20:25).
-- [x] ✅ DB marketplace ricollegato (28/6 16:46).
 
 ---
-*Scritto dall'AD. Dettaglio del giro in [[2026-06-29]]; decisioni in [[DECISIONI]].*
+*Scritto dall'AD. Dettaglio del giro in [[2026-07-03]]; decisioni in [[DECISIONI]].*
