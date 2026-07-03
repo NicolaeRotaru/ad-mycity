@@ -366,6 +366,28 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     else
       stato="fatto"
     fi
+  elif [ "${tipo#ritmo-}" != "$tipo" ]; then
+    # AR-024: RECUPERO CADENZA. Una cadenza del battito (mattino|mezzogiorno|sera|settimana) saltata per
+    # rate-limit si è ri-accodata qui (vedi ritmo.sh). La ri-esegue il worker così la retry-policy della
+    # coda governa i ritentativi FINO al reset quota — invece di aspettare il timer di domani. ritmo.sh
+    # fa da sé push memoria (come giro.sh) → skip_sync=1. RITMO_FROM_WORKER=1 impedisce il doppio-accodamento.
+    sezione="${tipo#ritmo-}"
+    export RITMO_FROM_WORKER=1
+    to="${WORKER_TIMEOUT_GIRO:-2700}"
+    out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/ritmo.sh" "$sezione" 2>&1)"; rc=$?
+    skip_sync=1
+    if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+      stato="errore"; out="$out
+[worker] TIMEOUT ritmo $sezione dopo ${to}s — interrotto."
+    elif [ "$rc" -eq 2 ]; then
+      stato="errore"; out="$out
+[worker] Ritmo $sezione: memoria scritta in locale ma PUSH su memoria-ad FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
+    elif [ "$rc" -ne 0 ]; then
+      stato="errore"; out="$out
+[worker] ritmo.sh $sezione uscito con rc=$rc (motore AI o preparazione fallita)."
+    else
+      stato="fatto"
+    fi
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
