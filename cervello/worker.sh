@@ -20,6 +20,17 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 ts() { date '+%H:%M:%S'; }
 
+# AR-089: router costo — instrada un compito col router scegliModello (cervello/banco-ai.mjs) invece di
+# usare sempre il motore premium. Stampa "modello|tier|collegato(1/0)". Se node/router falliscono torna
+# vuoto → il chiamante resta sul premium (nessuna rottura). NON esegue AI: DECIDE soltanto.
+router_scegli_modello() {
+  ROUTER_COMPITO="$1" node --input-type=module 2>/dev/null <<'NODE' || true
+import { scegliModello } from "./cervello/banco-ai.mjs";
+const s = scegliModello(process.env.ROUTER_COMPITO || "");
+process.stdout.write([s.modello, s.tier, s.collegato ? "1" : "0"].join("|"));
+NODE
+}
+
 WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
 export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
 
@@ -106,16 +117,18 @@ sync_vault() {
   for a in 1 2 3; do
     if git fetch "$url" "$branch" 2>/dev/null; then
       if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-        local conflitti
-        conflitti="$(git diff --name-only --diff-filter=U 2>/dev/null || true)"
-        if [ -n "$conflitti" ]; then
-          printf '%s\n' "$conflitti" | while IFS= read -r f; do
-            [ -n "$f" ] && git checkout --theirs -- "$f" 2>/dev/null || true
-          done
-          git add -A 2>/dev/null || true
-          git "${GIT_ID[@]}" commit --no-edit 2>/dev/null || git merge --abort 2>/dev/null || true
-        else
-          git merge --abort 2>/dev/null || true
+        # AR-099: niente risoluzione cieca a favore del remoto. Prima, su conflitto, il worker prendeva
+        # SEMPRE la versione remota e cancellava il 'FATTO' appena scritto → l'azione risultava non-eseguita,
+        # con rischio
+        # di DOPPIO invio reale. Strategia sicura: abortisci il merge e RIAPPLICA il solo commit del worker
+        # sopra il remoto (rebase). Se il rebase entra in vero conflitto → abortisci e NON forzare nulla:
+        # la sync si riprova al prossimo lavoro (il lavoro non si perde, niente overwrite cieco).
+        git merge --abort 2>/dev/null || true
+        if ! git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+          git rebase --abort 2>/dev/null || true
+          echo "[$(ts)] Worker: conflitto memoria non auto-risolvibile — sync rimandata (nessun overwrite cieco)." >&2
+          exec 9>&-
+          return 1
         fi
       fi
     fi
@@ -304,6 +317,7 @@ while true; do
   skip_sync=0
   stato=""
   out=""
+  ROUTER_COMPITO_JOB=""   # AR-089: reset per-lavoro del compito-router (default = ragionamento/premium)
 
   # 1) segna "in_corso"
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
@@ -326,6 +340,10 @@ Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in
 $richiesta
 
 Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte per Nicola — aggiorna solo i file di memoria."
+    # AR-091/AR-089: la metabolizzazione è lavoro di volume (riassumere/estrarre), NON ragionamento →
+    # non deve girare sempre sul premium senza gate. La instradiamo al modello economico via il router
+    # costo scegliModello 'testi-volume'; se l'adattatore economico non è collegato → fallback premium.
+    ROUTER_COMPITO_JOB="testi-volume"
   elif [ "$tipo" = "giro" ]; then
     # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
     # AR-019: un giro dalla CODA è ON-DEMAND (Nicola l'ha chiesto dal Pannello) → forza il giro pieno,
@@ -358,8 +376,23 @@ $richiesta"
   skip_sync="${skip_sync:-0}"
   if [ "${skip_sync:-0}" != 1 ]; then
     to="${WORKER_TIMEOUT:-900}"
+    # AR-089: instrada il compito col router costo (scegliModello/banco-ai.mjs) invece di usare SEMPRE il
+    # premium. I lavori di ragionamento restano su Claude (giusto); volume/metabolizza vanno all'economico
+    # se la sua chiave è collegata e c'è l'adattatore-mani (AI_ECON_CMD). Altrimenti fallback premium.
+    compito_router="${ROUTER_COMPITO_JOB:-ragionamento}"
+    router_out="$(router_scegli_modello "$compito_router")"
+    modello_scelto="${router_out%%|*}"
+    collegato_scelto="$(printf '%s' "$router_out" | cut -d'|' -f3)"
+    node cervello/banco-ai.mjs "$compito_router" --log >/dev/null 2>&1 || true   # AR-089: misura l'uso reale in routing.json
     ai_build_cmd
-    out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+    if [ -n "$modello_scelto" ] && [ "$modello_scelto" != "claude" ] && [ "$collegato_scelto" = "1" ] && [ -n "${AI_ECON_CMD:-}" ]; then
+      echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
+      read -r -a _econ_cmd <<< "$AI_ECON_CMD"
+      out="$(timeout --kill-after=30s "$to" "${_econ_cmd[@]}" "$prompt" 2>&1)"; rc=$?
+    else
+      [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router → ${modello_scelto:-?} ma adattatore economico non collegato → fallback premium." >&2
+      out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+    fi
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       stato="errore"; out="$out
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
@@ -386,14 +419,21 @@ $richiesta"
   #     conversazione e aggiorna la memoria (apprendimento, stato, decisioni). Invisibile a Nicola.
   #     Anti-loop: scatta solo per tipo=chat; il job creato ha tipo=metabolizza → nessun loop.
   if [ "$stato" = "fatto" ] && [ "$tipo" = "chat" ]; then
-    meta_body="$(jq -n \
-      --arg richiesta "$(jq -n --arg c "$richiesta" --arg r "$out" \
-        '{conversazione:$c, risposta_ad:$r}')" \
-      '{stato:"in_attesa",tipo:"metabolizza",richiesta:$richiesta,esperto:"metabolizzazione"}')"
-    curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${AUTH[@]}" \
-      -d "$meta_body" >/dev/null 2>&1 \
-      && echo "[$(ts)] Metabolizzazione accodata per lavoro $id." \
-      || echo "[$(ts)] Metabolizzazione: non riesco ad accodare (proseguo)." >&2
+    # AR-091: gate di VALORE sulla metabolizzazione (prima scattava a OGNI chat, raddoppiando il costo
+    # anche per un saluto). Sotto la soglia minima di caratteri non c'è nulla da imparare → non accodarla.
+    meta_min_caratteri="${META_MIN_CARATTERI:-160}"
+    if [ "$(( ${#richiesta} + ${#out} ))" -lt "$meta_min_caratteri" ]; then
+      echo "[$(ts)] Metabolizzazione saltata per lavoro $id (chat < ${meta_min_caratteri} caratteri — niente da imparare)."
+    else
+      meta_body="$(jq -n \
+        --arg richiesta "$(jq -n --arg c "$richiesta" --arg r "$out" \
+          '{conversazione:$c, risposta_ad:$r}')" \
+        '{stato:"in_attesa",tipo:"metabolizza",richiesta:$richiesta,esperto:"metabolizzazione"}')"
+      curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${AUTH[@]}" \
+        -d "$meta_body" >/dev/null 2>&1 \
+        && echo "[$(ts)] Metabolizzazione accodata per lavoro $id." \
+        || echo "[$(ts)] Metabolizzazione: non riesco ad accodare (proseguo)." >&2
+    fi
   fi
 
   # 3d) AUTO-RECOVERY: se il lavoro è fallito, chiedi alla retry-policy se ritentarlo DA SOLO

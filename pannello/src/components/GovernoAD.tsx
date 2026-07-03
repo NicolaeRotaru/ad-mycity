@@ -42,6 +42,8 @@ export default function GovernoAD() {
 
   const [controllo, setControllo] = useState<{ collegato: boolean; pausa: boolean; tetto_spesa: string; spesa_attuale: string } | null>(null);
   const [salvando, setSalvando] = useState(false);
+  // BUG-radiografia (riga 46): Controllo AD (Pausa/Budget) senza catch → fallimento silenzioso sullo stop dell'AD.
+  const [erroreControllo, setErroreControllo] = useState<string | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
     setLoading(true);
@@ -106,13 +108,18 @@ export default function GovernoAD() {
 
   async function impostaControllo(chiave: string, valore: string) {
     setSalvando(true);
+    setErroreControllo(null);
     try {
-      await fetch("/api/controllo", {
+      // BUG-radiografia (riga 46): controlla l'esito e cattura gli errori, così lo stop dell'AD non fallisce in silenzio.
+      const r = await fetch("/api/controllo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chiave, valore }),
       });
+      if (!r.ok) throw new Error(`Salvataggio non riuscito (HTTP ${r.status})`);
       await carica("controllo");
+    } catch (e: any) {
+      setErroreControllo("⚠️ Non riuscito: " + (e?.message || "errore di rete") + ". Lo stato dell'AD NON è cambiato — riprova.");
     } finally {
       setSalvando(false);
     }
@@ -267,6 +274,10 @@ export default function GovernoAD() {
             <p className="text-[12px] text-black/45">
               Per usare il controllo serve la memoria Supabase con la tabella <code className="bg-black/[0.05] px-1 rounded">impostazioni</code> (chiave, valore).
             </p>
+          )}
+          {/* BUG-radiografia (riga 46): mostra l'errore invece di fallire in silenzio. */}
+          {erroreControllo && (
+            <p className="text-[12px] text-red-600 rounded-lg bg-red-50/60 border border-red-200 px-2.5 py-1.5">{erroreControllo}</p>
           )}
           <div className="flex items-center justify-between rounded-xl border border-black/[0.07] bg-paper/40 p-4">
             <div>

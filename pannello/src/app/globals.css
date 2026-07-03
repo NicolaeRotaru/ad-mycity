@@ -154,7 +154,8 @@ body {
   }
 
   .nav-tab {
-    @apply inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl transition;
+    /* fix radiografia-pannello (Mobile, globals.css:156): target touch >=44px */
+    @apply inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 min-h-[44px] rounded-xl transition;
     color: var(--text-muted);
     background: var(--bg-surface-2);
     border: 1px solid var(--border);

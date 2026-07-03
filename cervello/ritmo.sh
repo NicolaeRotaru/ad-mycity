@@ -99,6 +99,21 @@ if [ ! -s "$SCRIPT_DIR/ritmo.md" ]; then
   exit 1
 fi
 
+# AR-086: DELTA-GATE anche al ritmo (come giro.sh) — non accendere il motore premium se lo stato reale
+# è invariato dall'ultimo giro pieno (evita il cluster mattutino giro+ritmo+monitora a stato fermo).
+# Bypass: RITMO_FORCE=1 / DELTA_GATE_FORCE=1 (le cadenze on-demand girano sempre).
+RUN_AI=1
+if [ "${RITMO_FORCE:-0}" = 1 ] || [ "${DELTA_GATE_FORCE:-0}" = 1 ]; then
+  echo "[$(ts)] Delta-gate ritmo: BYPASS (forzato/on-demand) → cadenza piena."
+elif command -v node >/dev/null 2>&1; then
+  _dg_out="$(node "$SCRIPT_DIR/delta-gate.mjs" 2>&1)"; _dg_rc=$?
+  printf '%s\n' "$_dg_out" | tail -4
+  if [ "$_dg_rc" = 20 ]; then
+    RUN_AI=0
+    echo "[$(ts)] ⏭️  DELTA-GATE: stato invariato dall'ultimo giro pieno → salto il motore premium del ritmo $RITMO_TIPO."
+  fi
+fi
+
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
 
 ## Compito
@@ -115,15 +130,19 @@ La memoria va sul ramo memoria-ad (il push git lo fa ritmo.sh dopo di te — tu 
 ## Risposta in chat
 Al termine restituisci un riepilogo breve (5-8 righe)."
 
-echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
 RITMO_START="$(date +%s)"   # AR-020: inizio del motore AI, per registrare il costo della cadenza
+ai_rc=0
+_ai_out=""
+if [ "${RUN_AI:-1}" != 1 ]; then
+  # AR-086: parte AI saltata dal delta-gate — cadenza a costo ~0, la memoria resta all'ultimo blocco.
+  echo "[$(ts)] Parte AI del ritmo SALTATA dal delta-gate (AR-086): nessun motore premium acceso."
+else
+echo "[$(ts)] Avvio ritmo AD ($RITMO_TIPO, motore: $(ai_engine))..."
 ai_build_cmd
 # AR-005: timeout dentro ritmo.sh (come giro.sh) — un motore appeso non deve bloccare la cadenza.
 RITMO_AI_TIMEOUT="${RITMO_AI_TIMEOUT:-${GIRO_AI_TIMEOUT:-2700}}"
 AI_TIMEOUT=()
 command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$RITMO_AI_TIMEOUT")
-ai_rc=0
-_ai_out=""
 for _attempt in 1 2 3; do
   ai_rc=0
   _ai_out="$("${AI_TIMEOUT[@]}" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
@@ -141,6 +160,7 @@ if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)] Il motore AI ha restituito un errore dopo 3 tentativi (rc=$ai_rc)." >&2
   printf '%s\n' "$_ai_out" | tail -25 >&2
 fi
+fi   # AR-086: fine blocco RUN_AI (delta-gate del ritmo)
 echo "[$(ts)] Ritmo $RITMO_TIPO completato."
 
 RITMO_PUSH_OK=1

@@ -47,6 +47,8 @@ export default function NumeriReport() {
   const [cassa, setCassa] = useState<any>(null);
   const [anomalie, setAnomalie] = useState<Anomalia[]>([]);
   const [accodato, setAccodato] = useState<string | null>(null);
+  // BUG-radiografia (riga 46): «Genera report» senza disable durante l'invio → doppio clic = doppia accodatura.
+  const [inviando, setInviando] = useState<string | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
@@ -80,13 +82,20 @@ export default function NumeriReport() {
   }, [tab, carica]);
 
   async function generaReport(tipo: string) {
+    // BUG-radiografia (riga 46): blocca i bottoni durante l'invio per evitare la doppia accodatura.
+    if (inviando) return;
     setAccodato(null);
-    const r = await fetch("/api/report", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tipo }),
-    }).then((x) => x.json()).catch(() => ({ ok: false }));
-    setAccodato(r.ok ? tipo : "err");
+    setInviando(tipo);
+    try {
+      const r = await fetch("/api/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tipo }),
+      }).then((x) => x.json()).catch(() => ({ ok: false }));
+      setAccodato(r.ok ? tipo : "err");
+    } finally {
+      setInviando(null);
+    }
   }
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -616,11 +625,11 @@ export default function NumeriReport() {
       {tab === "report" && (
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <button onClick={() => generaReport("giornaliero")} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg bg-brand text-white shadow-card hover:bg-brand-dark transition">
-              <FileBarChart size={14} /> Genera giornaliero
+            <button onClick={() => generaReport("giornaliero")} disabled={inviando !== null} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg bg-brand text-white shadow-card hover:bg-brand-dark transition disabled:opacity-50 disabled:cursor-not-allowed">
+              {inviando === "giornaliero" ? <Loader2 size={14} className="animate-spin" /> : <FileBarChart size={14} />} Genera giornaliero
             </button>
-            <button onClick={() => generaReport("settimanale")} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg border border-brand/40 text-brand hover:bg-brand-50 transition">
-              <FileBarChart size={14} /> Genera settimanale
+            <button onClick={() => generaReport("settimanale")} disabled={inviando !== null} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg border border-brand/40 text-brand hover:bg-brand-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+              {inviando === "settimanale" ? <Loader2 size={14} className="animate-spin" /> : <FileBarChart size={14} />} Genera settimanale
             </button>
           </div>
           {accodato && accodato !== "err" && (
