@@ -85,6 +85,7 @@ import {
   Zap,
   Plug,
   Cpu,
+  FolderTree,
   Swords,
   CalendarDays,
   Lightbulb,
@@ -95,6 +96,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
+import EsploraGitHub from "@/components/aree/EsploraGitHub";
 import MacchinaArea from "@/components/aree/MacchinaArea";
 import Lavori from "@/components/aree/Lavori";
 import Storico from "@/components/aree/Storico";
@@ -575,6 +577,7 @@ type Vista =
   | "operazioni"
   | "mondo"
   | "assistente"
+  | "esplora"
   | "storico";
 
 type AssistenteTab = "chat" | "conversazioni" | "storico";
@@ -1493,6 +1496,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+            { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
           ] as const;
           return (
             <div className="flex flex-wrap gap-2">
@@ -1627,6 +1631,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         )}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
+        {vista === "esplora" && <EsploraGitHub />}
+
         {vista === "assistente" && (
         <div className="space-y-4">
           <div>
