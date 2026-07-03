@@ -1,6 +1,6 @@
 {
   "_cosa_e": "💶 CASSA / RUNWAY — mesi di autonomia = cassa disponibile / burn mensile. Rischio esistenziale n.1 (AR-016). Lo scrive cervello/sensore-cassa.mjs; una sentinella allerta sotto soglia. Sola lettura verso Stripe.",
-  "data": "2026-07-03 16:20",
+  "data": "2026-07-03 18:20",
   "cassa_disponibile_eur": 0,
   "fonte_cassa": "Stripe balance",
   "burn_mensile_eur": null,
