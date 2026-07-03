@@ -97,6 +97,7 @@ Passi:
    `MyCity-Vault/90-Memoria-AI/ultimo-briefing.json` (così la Cabina mostra la card
    **"Cosa ho scoperto e cosa propongo"** + il badge "Vivo" anche **senza Supabase**). Forma esatta:
    `{ "data": "AAAA-MM-GG HH:MM", "situazione": "<la Sintesi in 2-4 righe>", "opportunita": [ {"titolo":"…","motivo":"…","impatto":"alto|medio|basso","sforzo":"alto|medio|basso"} ], "azioni": [ {"titolo":"…","motivo":"…","livello":"verde|giallo|rosso"} ] }`
+   ✍️ Anche qui i `titolo` (azioni e opportunità) vanno scritti **in modo umano** — si leggono nelle card del Pannello (`cervello/scrittura-umana.md`): senza codici/sigle, come li diresti a Nicola.
    (è lo stesso digest che andrebbe in Supabase: `situazione` = la Sintesi; ogni azione ha `livello`.)
    Inoltre, se la **memoria** è collegata (variabili `SUPABASE_URL` +
    `SUPABASE_SERVICE_KEY`), salva lo stesso digest anche nella tabella `briefings`
@@ -114,6 +115,9 @@ Passi:
    i blocchi `##`/`###` con 🟡/🔴 (così niente resta invisibile), ma la riga-tabella è migliore perché porta
    Canale e Stato strutturati. Colonne, in quest'ordine esatto:
    `| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |`
+   - ✍️ **Il titolo (`Azione`) scrivilo come lo diresti a voce** (`cervello/scrittura-umana.md`): attacca con un
+     verbo e una cosa vera, **niente sigle/ID/path nel titolo** (`AR-004`, `phc_…`, `SQL 107`, `cervello/…:27`) →
+     quelli vanno nella colonna `Contenuto`, per chi esegue. Es: «Chiama il fornaio per confermare l'ordine», non «Accetta `58094956…`».
    - `#` = numero progressivo (solo cifre) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
    - `Colore` = l'emoji `🟡` o `🔴` · `Contenuto` = link al file in `consegne/` o testo pronto · `Canale` = email/push/in-app/manuale
    - `Stato` = deve contenere la parola **`in attesa`** (è ciò che la Cabina conta in "Da firmare").
@@ -162,6 +166,7 @@ Passi:
     }
     ```
     (Se non hai nulla di nuovo rispetto all'ultimo giro, lascia il file com'è: non sovrascriverlo con un vuoto.)
+    ✍️ I `titolo` delle `prossime_mosse` compaiono nella card "Mosse di Nicola": scrivili **umani**, senza codici (`cervello/scrittura-umana.md`).
     Le mosse 🟡/🔴 che l'AD prepara restano comunque da firmare in [[AZIONI-IN-ATTESA]] (passo 7).
 11. 🔬 AUTO-ANALISI DEL LAVORO (CANCELLO DI SERIETÀ — esegui `cervello/auto-analisi.md`): PRIMA di
     considerare chiuso il giro, **controlla il tuo stesso lavoro** con la verifica avversariale a 3 livelli.
