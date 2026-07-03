@@ -1,49 +1,1408 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 14:07",
-  "nota_giro": "Radiografia profonda 3/7 (comando Nicola). PARZIALE per limite di sessione: 4/12 dimensioni verificate a fondo → 27 difetti macchina confermati (AR-024→050). 4 chiusi subito con bonifica memoria (AR-045/046/048) + 1 consolidato (AR-047). Restano 23 aperti. Le altre 8 dimensioni + pre-mortem + benchmark si completano dopo il reset 11:20 UTC (i loro findings NON entrano nel cantiere finché non passano la verifica avversariale). Il bloccante del PANNELLO è nel report consegne/design/2026-07-03-radiografia-pannello.md, non qui.",
+  "aggiornato": "2026-07-03 15:00",
+  "nota_giro": "Radiografia profonda 3/7 COMPLETA (12/12 dim dopo la ripresa post-reset). Aggiunti 46 difetti dalle 8 dimensioni completate (AR-051→AR-096), incluso il BLOCCANTE guardrail-semaforo (autopilot pubblica i 🟡 in LIVE). Il finding 'faro' della dim allineamento-northstar è stato consolidato in AR-044 (aggiornata la sua verifica a machine-checkable). Il bloccante del PANNELLO è nel report consegne/design/. Fix tutti 🟡/🔴: firma Nicola.",
   "difetti": [
-    {"id": "AR-001", "titolo": "Sensori MCP intermittenti: la macchina lavora al buio sui dati reali", "dimensione": "salute-sensori-dati", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù.", "fix_proposto": "Retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP.", "verifica": {"file": "cervello/verifica-sensori.mjs", "pattern": "conRetry", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-06-28", "chiuso_il": "2026-07-02 11:55"},
-    {"id": "AR-002", "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS", "dimensione": "cadenza-esecuzione", "gravita": "grave", "impatto_crescita": "medio", "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.", "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback.", "verifica": {"file": ".claude/workflows/radiografia.js", "pattern": "resolveMarketplaceRepo", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-06-28", "chiuso_il": "2026-07-02 11:55"},
-    {"id": "AR-003", "titolo": "La cecità dei sensori è silenziosa: manca un sensore che la misuri", "dimensione": "copertura-cieca", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Nessun pezzo tiene il conto di da quanti giri ogni MCP/fonte è cieco.", "fix_proposto": "Sensore 'cecità dati' che alimenta la sonda e una sentinella.", "verifica": {"file": "cervello/verifica-sensori.mjs", "pattern": "giri_ciechi", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-06-28", "chiuso_il": "2026-07-02 11:55"},
-    {"id": "AR-009", "titolo": "Il loop di ogni senior è inerte: vettori nei prompt ma quaderni/scorecard vuoti", "dimensione": "memoria-apprendimento", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "I dati d'esito e i verdetti di Nicola non arrivano nei file; nessuna forcing-function obbliga a registrare scorecard+esito.", "fix_proposto": "Sentinella 'chiusura-loop' + richiesta a Nicola di chiavi write + verdetti.", "verifica": {"file": "cervello/chiusura-loop.mjs", "pattern": "registra", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-02", "chiuso_il": "2026-07-02 18:10"},
-    {"id": "AR-019", "titolo": "9 giri pesanti al giorno a cadenza fissa senza delta-gate: spreco di token/Max", "dimensione": "cadenza-esecuzione", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Il giro parte a orario fisso senza confrontare lo stato col precedente.", "fix_proposto": "Delta-gate nel giro (firma stato reale) + heartbeat + banco AI per i compiti banali.", "verifica": {"file": "cervello/giro.sh", "pattern": "DELTA-GATE", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-02", "chiuso_il": "2026-07-02 18:10"},
-
-    {"id": "AR-024", "titolo": "Il guardiano del registro agenti è orbo: match a sottostringa nasconde gli orfani", "dimensione": "coerenza-agenti", "gravita": "grave", "impatto_crescita": "medio", "causa_radice": "Il gate confronta i nomi col testo grezzo via includes(): nessuna fonte machine-readable strutturata dei riferimenti-owner, quindi pattern-matching fragile senza confine di parola.", "fix_proposto": "Matcher con confine di parola (RegExp \\bnome\\b) limitato ai bullet-roster **nome**, escludendo i blocchi connettori; oppure agents-manifest.json come fonte unica.", "verifica": {"file": "cervello/agent-registry-check.mjs", "pattern": "RegExp\\(", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-025", "titolo": "ai-video è orfano nel router principale (CLAUDE.md): owner del reel-video non univoco", "dimensione": "coerenza-agenti", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Aggiungere un agente richiede editare ≥3 registri a mano e il wiring in CLAUDE.md è stato saltato: non è una transazione atomica.", "fix_proposto": "Inserire ai-video nel roster CLAUDE.md con deferral (content-social=script → ai-video=produzione video) e nel comando 'fammi un reel'.", "verifica": {"file": "CLAUDE.md", "pattern": "\\*\\*ai-video\\*\\*", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-026", "titolo": "Conteggio senior incoerente (40 dichiarati vs 42 reali); 2 gate creativi assenti da AGENTI.md", "dimensione": "coerenza-agenti", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "Il conteggio è un numero magico hard-coded a mano invece di derivato dal count reale dei file.", "fix_proposto": "Aggiornare AGENTI.md (inserire direttore-creativo e qa-designer) e sostituire '40' con '42 senior'.", "verifica": {"file": "MyCity-Vault/07-Agenti/AGENTI.md", "pattern": "42 senior", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-027", "titolo": "AR-008 'owner unico per keyword' non applicato: description con keyword duplicate (marketing↔crm, trust-safety↔dispute)", "dimensione": "coerenza-agenti", "gravita": "grave", "impatto_crescita": "medio", "causa_radice": "La deconfliction vive nel roster CLAUDE.md ma NON nelle description che il Task-router usa per instradare; nessun check li riallinea.", "fix_proposto": "Ripulire le description + nuovo guardiano keyword-owner-check.mjs che fallisce se una keyword ha ≥2 owner senza deferral.", "verifica": {"file": ".claude/agents/trust-safety.md", "pattern": "chargeback", "presente": false}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-028", "titolo": "Sovrapposizione tech ↔ frontend/backend/ux-designer/cro sul codice-UX (owner del 'checkout' non univoco)", "dimensione": "coerenza-agenti", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "Lo split di 'tech' in specialisti non ha ristretto la description dell'owner originale, rimasta generalista.", "fix_proposto": "Restringere la description di tech al ruolo residuo (triage/fix piccoli in branch) con rimandi espliciti a frontend/backend/ux/cro/devops.", "verifica": {"tipo": "umano"}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-
-    {"id": "AR-029", "titolo": "Lo strato 7 (scorecard/calibrazione) è scritto nei prompt ma non produce: 36/41 quaderni vuoti, 0 scorecard", "dimensione": "vettori-installati", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Lo strato 7 è stato SCRITTO (doc+prompt) senza costruire il binario di scrittura che lo rende obbligatorio e misurabile: il formato ESITO canonico non ha il campo scorecard e la sonda gira con || true (avvisa, non blocca).", "fix_proposto": "(a) Campo scorecard nel formato ESITO canonico di memoria-squadra/README.md; (b) sonda chiusura-loop da avviso a gate morbido che blocca senza ESITO+scorecard.", "verifica": {"file": "memoria-squadra/README.md", "pattern": "scorecard", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-030", "titolo": "direttore-creativo e qa-designer: unici 2 di 42 senza la Carta del Dipendente standard (7 REGOLE/RITUALE/ESITO)", "dimensione": "vettori-installati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Pre-esistevano allo STAMPO e non riallineati nel rollout; nessun guardiano verifica la presenza del blocco Carta su OGNI agente.", "fix_proposto": "Aggiungere il blocco Carta standard ai due file; estendere agent-registry-check.mjs a verificare i marcatori strutturali sui 42.", "verifica": {"file": ".claude/agents/qa-designer.md", "pattern": "LE 7 REGOLE", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-031", "titolo": "I doc single-source (STAMPO/VETTORI/RUBRICA-LIVELLI) descrivono un rollout FUTURO/pilota mentre è già su 42/42", "dimensione": "vettori-installati", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "Doc scritti in fase pilota e non aggiornati dopo il rollout di massa; nessuna regola sincronizza lo stato dichiarato coi file reali.", "fix_proposto": "Aggiornare frontmatter/chiuse allo stato reale ('installato 42/42, in attesa di validazione') + mini-check sullo stato divergente.", "verifica": {"file": "MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md", "pattern": "pilota installato: content-social", "presente": false}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-032", "titolo": "Il rollout dello STAMPO ha scavalcato il proprio gate di validazione: TASTE-FILE vuoto ma 42/42 installati", "dimensione": "vettori-installati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "La sequenza 'pilota→valida→scala' non è un gate operativo, solo una raccomandazione; il rollout a costo AI zero-marginale è andato avanti senza i verdetti di Nicola.", "fix_proposto": "Decidere con Nicola: test prima/dopo ORA su 1-2 motori di soldi + primi verdetti nel TASTE-FILE, oppure accettare esplicitamente il rollout non validato.", "verifica": {"tipo": "umano"}, "colore": "🔴", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-033", "titolo": "Scorecard a due scale incompatibili: RUBRICA-LIVELLI usa 6 assi 1-5, il loop operativo usa '8/10'", "dimensione": "vettori-installati", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "RUBRICA e tooling chiusura-loop scritti separatamente senza un'unica definizione condivisa di scorecard.", "fix_proposto": "Uniformare su una scala (6 assi 1-5) riflessa nel comando registra e in giro.md, o mapping esplicito 8/10↔media.", "verifica": {"file": "cervello/giro.md", "pattern": "scorecard es. 8/10", "presente": false}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-034", "titolo": "Split-brain dei quaderni memoria-squadra: due cartelle divergenti (root canonica 41 file vs vault 2 file)", "dimensione": "vettori-installati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "La memoria-squadra è stata spostata a root ma i 2 file vecchi nel vault non sono stati migrati/rimossi; il path canonico non è dichiarato in un unico posto autorevole e nessun check ne verifica l'unicità. (Emerso da 2 dimensioni: vettori-installati + integrita-memoria.)", "fix_proposto": "Consolidare in un'unica cartella canonica (migrare/eliminare i 2 duplicati nel vault), dichiarare il path unico in README + CLAUDE.md, check di unicità.", "verifica": {"file": "memoria-squadra/README.md", "pattern": "unica cartella|percorso canonico|single-source", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-
-    {"id": "AR-035", "titolo": "Il sensore-cassa (rischio esistenziale n.1) scrive in un file che NESSUNA sentinella legge", "dimensione": "salute-sensori-dati", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Si aggiunge un SENSORE senza un test che verifichi l'esistenza di un CONSUMATORE: cassa-runway.json è scritto ma sentinella-dati.mjs non lo legge mai. I sensori nascono orfani e nessun guardiano lo nota.", "fix_proposto": "Sentinella M6 in sentinella-dati.mjs che legge cassa-runway.json → evento 🔴 finanza se runway<3 mesi. Regola: ogni *.json scritto da un sensore deve avere ≥1 lettore (guardiano capacità).", "verifica": {"file": "cervello/sentinella-dati.mjs", "pattern": "cassa-runway", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-036", "titolo": "Nessun controllo deterministico che le fonti web (radar-fonti.json/radar.json) siano vive o morte/stale", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Due classi di sensori (dati interni vs fonti web) trattate con due standard di verificabilità: solo la prima ha un guardiano deterministico a costo zero.", "fix_proposto": "Nuovo cervello/sentinella-fonti.mjs (sola lettura): HEAD/GET con retry su ogni URL → fonti-salute.json + evento 🟡 se una fonte peso≥4 è morta da N controlli.", "verifica": {"file": "cervello/sentinella-fonti.mjs", "pattern": "radar-fonti", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-037", "titolo": "Cecità dati in tempo reale non escalata: gli 'occhi' ogni minuto vedono il REST giù ma restano muti", "dimensione": "salute-sensori-dati", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Chi OSSERVA la cecità (sentinella-dati, ogni 1-5 min) non è autorizzato a REGISTRARLA/ALLERTARLA: deve aspettare il giro (processo lento) che per giunta ha il timer disattivato (giro.sh:5).", "fix_proposto": "In sentinella-dati: quando MK_URL/KEY presenti ma le letture REST falliscono → evento 🔴 'REST cieco ORA' (con cooldown) e/o aggiorna sensori-cecita.json. In alternativa tick periodico di verifica-sensori indipendente dal giro.", "verifica": {"file": "cervello/sentinella-dati.mjs", "pattern": "dati_leggibili[\\s\\S]{0,400}(colore|evento|rest_cieco)", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-038", "titolo": "La salute del canale MCP (l'unico 'intermittente') è tracciata solo se l'AI si ricorda di farlo a mano", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Quando un controllo non è automatizzabile (l'MCP è trasporto di sessione) viene delegato all'AI SENZA forcing-function → torna a essere una dichiarazione, non una misura. giro.sh:145 chiama verifica-sensori senza i flag --mcp-*.", "fix_proposto": "Rendere obbligatorio il passo --mcp-* nel giro con un gate che urla se 'non_verificato' o stantio; oppure marcare l'MCP come 'non misurabile' e non contarlo tra i canali di verità.", "verifica": {"file": "cervello/giro.sh", "pattern": "--mcp-supabase", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-039", "titolo": "Il sensore-cassa non ha un contatore di cecità: la sua non-funzionalità (Stripe+burn mancanti) è invisibile", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Manca un contratto unico 'ogni sensore persiste la durata della propria cecità e ha una sentinella sulla cecità', ripetuto ad hoc invece che condiviso.", "fix_proposto": "Persistere giri_sconosciuto in cassa-runway.json + evento 🟡 'cassa non misurabile da N giri: collega Stripe + imposta BURN_MENSILE_EUR'.", "verifica": {"file": "cervello/sensore-cassa.mjs", "pattern": "giri_sconosciut", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-040", "titolo": "PostHog è health-checkato come sensore ma nessun loop autonomo ne consuma i dati (funnel/conversione senza sentinella)", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Si confonde 'sensore raggiungibile' con 'sensore usato': l'health-check (AR-022) è stato aggiunto senza un consumatore lato loop.", "fix_proposto": "Decidere con Nicola: se PostHog è instrumentato → sentinella 'conversione checkout −X% vs baseline'; altrimenti declassare PostHog da 'sensore' a 'display Pannello'.", "verifica": {"tipo": "umano"}, "colore": "🔴", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-041", "titolo": "Due registri sovrapposti di fonti web (radar.json e radar-fonti.json) senza riconciliazione", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "I due file sono cresciuti separati e nessun linter li lega; manca il principio 'una sola verità' (presidiato per i KPI) applicato anche alle fonti web.", "fix_proposto": "Guardiano che riconcilia le due liste e segnala le URL presenti in uno solo dei due file; oppure derivare radar-fonti.json da radar.json come vista generata.", "verifica": {"file": "cervello/sentinella-fonti.mjs", "pattern": "radar\\.json", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-042", "titolo": "sensori-cecita.json disallineato dal codice: mancano posthog/resend, Stripe marcato 'cieco' con istruzioni contraddittorie", "dimensione": "salute-sensori-dati", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "verifica-sensori.mjs gira solo dentro il giro e il timer è disattivato → il file di stato è rigenerato di rado e non riflette gli aggiornamenti di codice (AR-003b/AR-022). Nessun guardiano segnala la staleness del file.", "fix_proposto": "Guardia che segnala quando sensori-cecita.json è più vecchio di X ore o non combacia coi sensori prodotti dal codice; rigenerarlo a inizio giro prima di leggerlo altrove.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json", "pattern": "resend_api", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-
-    {"id": "AR-043", "titolo": "Contratto rotto: salute_macchina senza campi supabase/stripe → i due tile del Pannello sono sempre spenti", "dimensione": "integrita-memoria", "gravita": "grave", "impatto_crescita": "medio", "causa_radice": "Nessun validatore di schema controlla i file auto-coscienza/*.json prima del commit: il contratto vive come prosa in un .md, non come schema eseguibile, quindi la 'una sola verità' dei campi non è forzata da codice. auto-analisi.json usa supabase_marketplace/supabase_memoria mentre il Pannello legge .supabase/.stripe.", "fix_proposto": "Validatore cervello/valida-contratti.mjs cablato in giro.sh che FALLISCE se un file auto-coscienza/*.json ha campi fuori dal contratto; nel frattempo scrivere il campo canonico 'supabase'.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json", "pattern": "\"supabase\"\\s*:\\s*\"", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-044", "titolo": "Una sola verità rotta sul FARO: la memoria dice Casa Linda reale/payout-ready, CLAUDE.md la chiama 'demo' e indica Pane Quotidiano", "dimensione": "integrita-memoria", "gravita": "grave", "impatto_crescita": "alto", "causa_radice": "Il 'faro' non è un'entità con single-source-of-truth: è narrato in più file (registro-realta, STATO, CLAUDE.md) aggiornati in tempi diversi, senza un check che li allinei.", "fix_proposto": "Designare registro-realta.json unica fonte del 'negozio-faro', correggere/segnare-come-ipotetico l'esempio in CLAUDE.md:157, voce 'negozio-faro' in GLOSSARIO-KPI. Serve la decisione di Nicola su QUALE sia il faro.", "verifica": {"tipo": "umano"}, "colore": "🔴", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-045", "titolo": "Report umano stantio: RADIOGRAFIA-MACCHINA.md era fermo al 28/6 (voto 72, '3 difetti aperti')", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Il .md è scritto solo dalla radiografia completa (settimanale); il cantiere/auto-fix chiude difetti a ogni giro senza rigenerare i .md leggibili.", "fix_proposto": "Far sì che la chiusura di un difetto (auto-fix) rigeneri/timbri il blocco 'difetti' di RADIOGRAFIA-MACCHINA.md, o un banner 'voto live: X · ultimo report completo: data'.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md", "pattern": "voto_salute_architettura:\\s*72", "presente": false}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-03", "chiuso_il": "2026-07-03 14:07", "chiuso_come": "Bonifica in radiografia 3/7: RADIOGRAFIA-MACCHINA.md rigenerato allo stato reale (parziale 4/12 dim, voto 68). Resta il fix di PROCESSO (rigenerazione automatica alla chiusura difetto) come proposta 🟡."},
-    {"id": "AR-046", "titolo": "storico-salute.json incompleto: l'ultimo punto registrava 3 chiusure ma il cantiere ne aveva chiuse 5", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Le chiusure delle 18:10 (AR-009/019) sono state scritte solo nel cantiere; manca un unico entry-point 'chiudi difetto' che aggiorni ATOMICAMENTE cantiere + storico.", "fix_proposto": "Un solo entry-point 'chiudi-difetto' (hook in auto-fix.mjs) che appende sempre un punto a storico; sonda che fallisce se meta.chiusi ≠ somma difetti_chiusi nello storico.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json", "pattern": "\"difetti_chiusi\":\\s*5", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-03", "chiuso_il": "2026-07-03 14:07", "chiuso_come": "Bonifica in radiografia 3/7: corretto il punto 2/7 a difetti_chiusi=5 e aggiunto il punto 3/7. Resta il fix di PROCESSO (entry-point atomico) come proposta 🟡."},
-    {"id": "AR-047", "titolo": "memoria-squadra split-brain: directory duplicata nel vault (consolidato in AR-034)", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "medio", "causa_radice": "Stesso difetto di AR-034, emerso anche dalla dimensione integrita-memoria.", "fix_proposto": "Vedi AR-034.", "verifica": {"tipo": "umano"}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-03", "chiuso_il": "2026-07-03 14:07", "chiuso_come": "Consolidato in AR-034 (stesso difetto, due dimensioni). Il lavoro vive su AR-034."},
-    {"id": "AR-048", "titolo": "auto-radiografia.json: voto top-level divergente dalla sonda e verdetto fuori-enum", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "La sonda scriveva il voto solo nella nota/prosa; nessuna validazione dell'enum di verdetto in scrittura.", "fix_proposto": "La sonda aggiorna anche voto_salute_architettura; validare l'enum di verdetto nel validatore-contratti.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json", "pattern": "\"verdetto\":\\s*\"(ok|serve-completa)\"", "presente": true}, "colore": "🟡", "stato": "chiuso", "nato": "2026-07-03", "chiuso_il": "2026-07-03 14:07", "chiuso_come": "Bonifica in radiografia 3/7: scritto verdetto entro l'enum ('serve-completa') e voto coerente. Resta il fix di PROCESSO (validatore enum) come proposta 🟡."},
-    {"id": "AR-049", "titolo": "AZIONI-PRONTE.md: coda-azioni parallela, orfana e stantia che duplica AZIONI-IN-ATTESA", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "La vecchia coda non è stata archiviata quando è nato lo standard nuovo (AZIONI-IN-ATTESA); nessuna regola 'una sola coda-azioni' né check sui file-coda orfani.", "fix_proposto": "Archiviare/eliminare AZIONI-PRONTE.md (migrando i blocchi ancora validi); dichiarare in CLAUDE.md l'unica coda canonica.", "verifica": {"tipo": "umano"}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""},
-    {"id": "AR-050", "titolo": "apprendimento.json: meta.lezioni_attive=10 gonfia il conteggio (solo 4 lezioni hanno stato 'attiva')", "dimensione": "integrita-memoria", "gravita": "minore", "impatto_crescita": "basso", "causa_radice": "meta è aggiornato a mano senza derivarlo dagli stati dell'array; nessun normalizzatore tiene meta coerente col contenuto.", "fix_proposto": "Derivare meta.{lezioni_attive,promosse_a_principio,decadute} dallo stato degli elementi nel motore che scrive apprendimento.json.", "verifica": {"file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json", "pattern": "\"lezioni_attive\":\\s*4", "presente": true}, "colore": "🟡", "stato": "aperto", "nato": "2026-07-03", "chiuso_il": ""}
+    {
+      "id": "AR-001",
+      "titolo": "Sensori MCP intermittenti: la macchina lavora al buio sui dati reali",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Connessione MCP instabile + nessun retry/fallback dichiarato quando il sensore è giù.",
+      "fix_proposto": "Retry + fallback esplicito nel giro + contatore 'giri di cecità' per ogni MCP.",
+      "verifica": {
+        "file": "cervello/verifica-sensori.mjs",
+        "pattern": "conRetry",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-06-28",
+      "chiuso_il": "2026-07-02 11:55"
+    },
+    {
+      "id": "AR-002",
+      "titolo": "Percorso del marketplace cablato su Windows: la radiografia del sito non gira sul VPS",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "REPO hardcoded al PC di Nicola, non parametrizzato per il server.",
+      "fix_proposto": "Leggere il percorso da MARKETPLACE_REPO (env) con fallback.",
+      "verifica": {
+        "file": ".claude/workflows/radiografia.js",
+        "pattern": "resolveMarketplaceRepo",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-06-28",
+      "chiuso_il": "2026-07-02 11:55"
+    },
+    {
+      "id": "AR-003",
+      "titolo": "La cecità dei sensori è silenziosa: manca un sensore che la misuri",
+      "dimensione": "copertura-cieca",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Nessun pezzo tiene il conto di da quanti giri ogni MCP/fonte è cieco.",
+      "fix_proposto": "Sensore 'cecità dati' che alimenta la sonda e una sentinella.",
+      "verifica": {
+        "file": "cervello/verifica-sensori.mjs",
+        "pattern": "giri_ciechi",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-06-28",
+      "chiuso_il": "2026-07-02 11:55"
+    },
+    {
+      "id": "AR-009",
+      "titolo": "Il loop di ogni senior è inerte: vettori nei prompt ma quaderni/scorecard vuoti",
+      "dimensione": "memoria-apprendimento",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "I dati d'esito e i verdetti di Nicola non arrivano nei file; nessuna forcing-function obbliga a registrare scorecard+esito.",
+      "fix_proposto": "Sentinella 'chiusura-loop' + richiesta a Nicola di chiavi write + verdetti.",
+      "verifica": {
+        "file": "cervello/chiusura-loop.mjs",
+        "pattern": "registra",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-02",
+      "chiuso_il": "2026-07-02 18:10"
+    },
+    {
+      "id": "AR-019",
+      "titolo": "9 giri pesanti al giorno a cadenza fissa senza delta-gate: spreco di token/Max",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Il giro parte a orario fisso senza confrontare lo stato col precedente.",
+      "fix_proposto": "Delta-gate nel giro (firma stato reale) + heartbeat + banco AI per i compiti banali.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "DELTA-GATE",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-02",
+      "chiuso_il": "2026-07-02 18:10"
+    },
+    {
+      "id": "AR-024",
+      "titolo": "Il guardiano del registro agenti è orbo: match a sottostringa nasconde gli orfani",
+      "dimensione": "coerenza-agenti",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il gate confronta i nomi col testo grezzo via includes(): nessuna fonte machine-readable strutturata dei riferimenti-owner, quindi pattern-matching fragile senza confine di parola.",
+      "fix_proposto": "Matcher con confine di parola (RegExp \\bnome\\b) limitato ai bullet-roster **nome**, escludendo i blocchi connettori; oppure agents-manifest.json come fonte unica.",
+      "verifica": {
+        "file": "cervello/agent-registry-check.mjs",
+        "pattern": "RegExp\\(",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-025",
+      "titolo": "ai-video è orfano nel router principale (CLAUDE.md): owner del reel-video non univoco",
+      "dimensione": "coerenza-agenti",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Aggiungere un agente richiede editare ≥3 registri a mano e il wiring in CLAUDE.md è stato saltato: non è una transazione atomica.",
+      "fix_proposto": "Inserire ai-video nel roster CLAUDE.md con deferral (content-social=script → ai-video=produzione video) e nel comando 'fammi un reel'.",
+      "verifica": {
+        "file": "CLAUDE.md",
+        "pattern": "\\*\\*ai-video\\*\\*",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-026",
+      "titolo": "Conteggio senior incoerente (40 dichiarati vs 42 reali); 2 gate creativi assenti da AGENTI.md",
+      "dimensione": "coerenza-agenti",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Il conteggio è un numero magico hard-coded a mano invece di derivato dal count reale dei file.",
+      "fix_proposto": "Aggiornare AGENTI.md (inserire direttore-creativo e qa-designer) e sostituire '40' con '42 senior'.",
+      "verifica": {
+        "file": "MyCity-Vault/07-Agenti/AGENTI.md",
+        "pattern": "42 senior",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-027",
+      "titolo": "AR-008 'owner unico per keyword' non applicato: description con keyword duplicate (marketing↔crm, trust-safety↔dispute)",
+      "dimensione": "coerenza-agenti",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "La deconfliction vive nel roster CLAUDE.md ma NON nelle description che il Task-router usa per instradare; nessun check li riallinea.",
+      "fix_proposto": "Ripulire le description + nuovo guardiano keyword-owner-check.mjs che fallisce se una keyword ha ≥2 owner senza deferral.",
+      "verifica": {
+        "file": ".claude/agents/trust-safety.md",
+        "pattern": "chargeback",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-028",
+      "titolo": "Sovrapposizione tech ↔ frontend/backend/ux-designer/cro sul codice-UX (owner del 'checkout' non univoco)",
+      "dimensione": "coerenza-agenti",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Lo split di 'tech' in specialisti non ha ristretto la description dell'owner originale, rimasta generalista.",
+      "fix_proposto": "Restringere la description di tech al ruolo residuo (triage/fix piccoli in branch) con rimandi espliciti a frontend/backend/ux/cro/devops.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-029",
+      "titolo": "Lo strato 7 (scorecard/calibrazione) è scritto nei prompt ma non produce: 36/41 quaderni vuoti, 0 scorecard",
+      "dimensione": "vettori-installati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Lo strato 7 è stato SCRITTO (doc+prompt) senza costruire il binario di scrittura che lo rende obbligatorio e misurabile: il formato ESITO canonico non ha il campo scorecard e la sonda gira con || true (avvisa, non blocca).",
+      "fix_proposto": "(a) Campo scorecard nel formato ESITO canonico di memoria-squadra/README.md; (b) sonda chiusura-loop da avviso a gate morbido che blocca senza ESITO+scorecard.",
+      "verifica": {
+        "file": "memoria-squadra/README.md",
+        "pattern": "scorecard",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-030",
+      "titolo": "direttore-creativo e qa-designer: unici 2 di 42 senza la Carta del Dipendente standard (7 REGOLE/RITUALE/ESITO)",
+      "dimensione": "vettori-installati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Pre-esistevano allo STAMPO e non riallineati nel rollout; nessun guardiano verifica la presenza del blocco Carta su OGNI agente.",
+      "fix_proposto": "Aggiungere il blocco Carta standard ai due file; estendere agent-registry-check.mjs a verificare i marcatori strutturali sui 42.",
+      "verifica": {
+        "file": ".claude/agents/qa-designer.md",
+        "pattern": "LE 7 REGOLE",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-031",
+      "titolo": "I doc single-source (STAMPO/VETTORI/RUBRICA-LIVELLI) descrivono un rollout FUTURO/pilota mentre è già su 42/42",
+      "dimensione": "vettori-installati",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Doc scritti in fase pilota e non aggiornati dopo il rollout di massa; nessuna regola sincronizza lo stato dichiarato coi file reali.",
+      "fix_proposto": "Aggiornare frontmatter/chiuse allo stato reale ('installato 42/42, in attesa di validazione') + mini-check sullo stato divergente.",
+      "verifica": {
+        "file": "MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md",
+        "pattern": "pilota installato: content-social",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-032",
+      "titolo": "Il rollout dello STAMPO ha scavalcato il proprio gate di validazione: TASTE-FILE vuoto ma 42/42 installati",
+      "dimensione": "vettori-installati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "La sequenza 'pilota→valida→scala' non è un gate operativo, solo una raccomandazione; il rollout a costo AI zero-marginale è andato avanti senza i verdetti di Nicola.",
+      "fix_proposto": "Decidere con Nicola: test prima/dopo ORA su 1-2 motori di soldi + primi verdetti nel TASTE-FILE, oppure accettare esplicitamente il rollout non validato.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🔴",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-033",
+      "titolo": "Scorecard a due scale incompatibili: RUBRICA-LIVELLI usa 6 assi 1-5, il loop operativo usa '8/10'",
+      "dimensione": "vettori-installati",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "RUBRICA e tooling chiusura-loop scritti separatamente senza un'unica definizione condivisa di scorecard.",
+      "fix_proposto": "Uniformare su una scala (6 assi 1-5) riflessa nel comando registra e in giro.md, o mapping esplicito 8/10↔media.",
+      "verifica": {
+        "file": "cervello/giro.md",
+        "pattern": "scorecard es. 8/10",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-034",
+      "titolo": "Split-brain dei quaderni memoria-squadra: due cartelle divergenti (root canonica 41 file vs vault 2 file)",
+      "dimensione": "vettori-installati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "La memoria-squadra è stata spostata a root ma i 2 file vecchi nel vault non sono stati migrati/rimossi; il path canonico non è dichiarato in un unico posto autorevole e nessun check ne verifica l'unicità. (Emerso da 2 dimensioni: vettori-installati + integrita-memoria.)",
+      "fix_proposto": "Consolidare in un'unica cartella canonica (migrare/eliminare i 2 duplicati nel vault), dichiarare il path unico in README + CLAUDE.md, check di unicità.",
+      "verifica": {
+        "file": "memoria-squadra/README.md",
+        "pattern": "unica cartella|percorso canonico|single-source",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-035",
+      "titolo": "Il sensore-cassa (rischio esistenziale n.1) scrive in un file che NESSUNA sentinella legge",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Si aggiunge un SENSORE senza un test che verifichi l'esistenza di un CONSUMATORE: cassa-runway.json è scritto ma sentinella-dati.mjs non lo legge mai. I sensori nascono orfani e nessun guardiano lo nota.",
+      "fix_proposto": "Sentinella M6 in sentinella-dati.mjs che legge cassa-runway.json → evento 🔴 finanza se runway<3 mesi. Regola: ogni *.json scritto da un sensore deve avere ≥1 lettore (guardiano capacità).",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "cassa-runway",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-036",
+      "titolo": "Nessun controllo deterministico che le fonti web (radar-fonti.json/radar.json) siano vive o morte/stale",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Due classi di sensori (dati interni vs fonti web) trattate con due standard di verificabilità: solo la prima ha un guardiano deterministico a costo zero.",
+      "fix_proposto": "Nuovo cervello/sentinella-fonti.mjs (sola lettura): HEAD/GET con retry su ogni URL → fonti-salute.json + evento 🟡 se una fonte peso≥4 è morta da N controlli.",
+      "verifica": {
+        "file": "cervello/sentinella-fonti.mjs",
+        "pattern": "radar-fonti",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-037",
+      "titolo": "Cecità dati in tempo reale non escalata: gli 'occhi' ogni minuto vedono il REST giù ma restano muti",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Chi OSSERVA la cecità (sentinella-dati, ogni 1-5 min) non è autorizzato a REGISTRARLA/ALLERTARLA: deve aspettare il giro (processo lento) che per giunta ha il timer disattivato (giro.sh:5).",
+      "fix_proposto": "In sentinella-dati: quando MK_URL/KEY presenti ma le letture REST falliscono → evento 🔴 'REST cieco ORA' (con cooldown) e/o aggiorna sensori-cecita.json. In alternativa tick periodico di verifica-sensori indipendente dal giro.",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "dati_leggibili[\\s\\S]{0,400}(colore|evento|rest_cieco)",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-038",
+      "titolo": "La salute del canale MCP (l'unico 'intermittente') è tracciata solo se l'AI si ricorda di farlo a mano",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Quando un controllo non è automatizzabile (l'MCP è trasporto di sessione) viene delegato all'AI SENZA forcing-function → torna a essere una dichiarazione, non una misura. giro.sh:145 chiama verifica-sensori senza i flag --mcp-*.",
+      "fix_proposto": "Rendere obbligatorio il passo --mcp-* nel giro con un gate che urla se 'non_verificato' o stantio; oppure marcare l'MCP come 'non misurabile' e non contarlo tra i canali di verità.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "--mcp-supabase",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-039",
+      "titolo": "Il sensore-cassa non ha un contatore di cecità: la sua non-funzionalità (Stripe+burn mancanti) è invisibile",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Manca un contratto unico 'ogni sensore persiste la durata della propria cecità e ha una sentinella sulla cecità', ripetuto ad hoc invece che condiviso.",
+      "fix_proposto": "Persistere giri_sconosciuto in cassa-runway.json + evento 🟡 'cassa non misurabile da N giri: collega Stripe + imposta BURN_MENSILE_EUR'.",
+      "verifica": {
+        "file": "cervello/sensore-cassa.mjs",
+        "pattern": "giri_sconosciut",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-040",
+      "titolo": "PostHog è health-checkato come sensore ma nessun loop autonomo ne consuma i dati (funnel/conversione senza sentinella)",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Si confonde 'sensore raggiungibile' con 'sensore usato': l'health-check (AR-022) è stato aggiunto senza un consumatore lato loop.",
+      "fix_proposto": "Decidere con Nicola: se PostHog è instrumentato → sentinella 'conversione checkout −X% vs baseline'; altrimenti declassare PostHog da 'sensore' a 'display Pannello'.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🔴",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-041",
+      "titolo": "Due registri sovrapposti di fonti web (radar.json e radar-fonti.json) senza riconciliazione",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "I due file sono cresciuti separati e nessun linter li lega; manca il principio 'una sola verità' (presidiato per i KPI) applicato anche alle fonti web.",
+      "fix_proposto": "Guardiano che riconcilia le due liste e segnala le URL presenti in uno solo dei due file; oppure derivare radar-fonti.json da radar.json come vista generata.",
+      "verifica": {
+        "file": "cervello/sentinella-fonti.mjs",
+        "pattern": "radar\\.json",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-042",
+      "titolo": "sensori-cecita.json disallineato dal codice: mancano posthog/resend, Stripe marcato 'cieco' con istruzioni contraddittorie",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "verifica-sensori.mjs gira solo dentro il giro e il timer è disattivato → il file di stato è rigenerato di rado e non riflette gli aggiornamenti di codice (AR-003b/AR-022). Nessun guardiano segnala la staleness del file.",
+      "fix_proposto": "Guardia che segnala quando sensori-cecita.json è più vecchio di X ore o non combacia coi sensori prodotti dal codice; rigenerarlo a inizio giro prima di leggerlo altrove.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json",
+        "pattern": "resend_api",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-043",
+      "titolo": "Contratto rotto: salute_macchina senza campi supabase/stripe → i due tile del Pannello sono sempre spenti",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Nessun validatore di schema controlla i file auto-coscienza/*.json prima del commit: il contratto vive come prosa in un .md, non come schema eseguibile, quindi la 'una sola verità' dei campi non è forzata da codice. auto-analisi.json usa supabase_marketplace/supabase_memoria mentre il Pannello legge .supabase/.stripe.",
+      "fix_proposto": "Validatore cervello/valida-contratti.mjs cablato in giro.sh che FALLISCE se un file auto-coscienza/*.json ha campi fuori dal contratto; nel frattempo scrivere il campo canonico 'supabase'.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
+        "pattern": "\"supabase\"\\s*:\\s*\"",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-044",
+      "titolo": "Una sola verità rotta sul FARO: la memoria dice Casa Linda reale/payout-ready, CLAUDE.md la chiama 'demo' e indica Pane Quotidiano",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Il 'faro' non è un'entità con single-source-of-truth: è narrato in più file (registro-realta, STATO, CLAUDE.md) aggiornati in tempi diversi, senza un check che li allinei.",
+      "fix_proposto": "Designare registro-realta.json unica fonte del 'negozio-faro'. Serve la decisione di Nicola su QUALE sia il faro.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json",
+        "pattern": "\"faro\":\\s*true",
+        "presente": true
+      },
+      "colore": "🔴",
+      "stato": "chiuso",
+      "nato": "2026-07-03",
+      "chiuso_il": "2026-07-03 15:00",
+      "chiuso_come": "DECISIONE DI NICOLA (3/7): il faro è Pane Quotidiano (unico negozio reale); Casa Linda è demo (scartata). Allineata la memoria: registro-realta.json (Pane Quotidiano faro:true / Casa Linda scartato) + STATO.md. CLAUDE.md:157 era già corretto (diceva 'demo Casa Linda' + 'Pane Quotidiano unico reale'). Resta opzionale (🟡) la voce 'negozio-faro' in GLOSSARIO-KPI e un check che allinei i file."
+    },
+    {
+      "id": "AR-045",
+      "titolo": "Report umano stantio: RADIOGRAFIA-MACCHINA.md era fermo al 28/6 (voto 72, '3 difetti aperti')",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il .md è scritto solo dalla radiografia completa (settimanale); il cantiere/auto-fix chiude difetti a ogni giro senza rigenerare i .md leggibili.",
+      "fix_proposto": "Far sì che la chiusura di un difetto (auto-fix) rigeneri/timbri il blocco 'difetti' di RADIOGRAFIA-MACCHINA.md, o un banner 'voto live: X · ultimo report completo: data'.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md",
+        "pattern": "voto_salute_architettura:\\s*72",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-03",
+      "chiuso_il": "2026-07-03 14:07",
+      "chiuso_come": "Bonifica in radiografia 3/7: RADIOGRAFIA-MACCHINA.md rigenerato allo stato reale (parziale 4/12 dim, voto 68). Resta il fix di PROCESSO (rigenerazione automatica alla chiusura difetto) come proposta 🟡."
+    },
+    {
+      "id": "AR-046",
+      "titolo": "storico-salute.json incompleto: l'ultimo punto registrava 3 chiusure ma il cantiere ne aveva chiuse 5",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Le chiusure delle 18:10 (AR-009/019) sono state scritte solo nel cantiere; manca un unico entry-point 'chiudi difetto' che aggiorni ATOMICAMENTE cantiere + storico.",
+      "fix_proposto": "Un solo entry-point 'chiudi-difetto' (hook in auto-fix.mjs) che appende sempre un punto a storico; sonda che fallisce se meta.chiusi ≠ somma difetti_chiusi nello storico.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+        "pattern": "\"difetti_chiusi\":\\s*5",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-03",
+      "chiuso_il": "2026-07-03 14:07",
+      "chiuso_come": "Bonifica in radiografia 3/7: corretto il punto 2/7 a difetti_chiusi=5 e aggiunto il punto 3/7. Resta il fix di PROCESSO (entry-point atomico) come proposta 🟡."
+    },
+    {
+      "id": "AR-047",
+      "titolo": "memoria-squadra split-brain: directory duplicata nel vault (consolidato in AR-034)",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Stesso difetto di AR-034, emerso anche dalla dimensione integrita-memoria.",
+      "fix_proposto": "Vedi AR-034.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-03",
+      "chiuso_il": "2026-07-03 14:07",
+      "chiuso_come": "Consolidato in AR-034 (stesso difetto, due dimensioni). Il lavoro vive su AR-034."
+    },
+    {
+      "id": "AR-048",
+      "titolo": "auto-radiografia.json: voto top-level divergente dalla sonda e verdetto fuori-enum",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La sonda scriveva il voto solo nella nota/prosa; nessuna validazione dell'enum di verdetto in scrittura.",
+      "fix_proposto": "La sonda aggiorna anche voto_salute_architettura; validare l'enum di verdetto nel validatore-contratti.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json",
+        "pattern": "\"verdetto\":\\s*\"(ok|serve-completa)\"",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-07-03",
+      "chiuso_il": "2026-07-03 14:07",
+      "chiuso_come": "Bonifica in radiografia 3/7: scritto verdetto entro l'enum ('serve-completa') e voto coerente. Resta il fix di PROCESSO (validatore enum) come proposta 🟡."
+    },
+    {
+      "id": "AR-049",
+      "titolo": "AZIONI-PRONTE.md: coda-azioni parallela, orfana e stantia che duplica AZIONI-IN-ATTESA",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La vecchia coda non è stata archiviata quando è nato lo standard nuovo (AZIONI-IN-ATTESA); nessuna regola 'una sola coda-azioni' né check sui file-coda orfani.",
+      "fix_proposto": "Archiviare/eliminare AZIONI-PRONTE.md (migrando i blocchi ancora validi); dichiarare in CLAUDE.md l'unica coda canonica.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-050",
+      "titolo": "apprendimento.json: meta.lezioni_attive=10 gonfia il conteggio (solo 4 lezioni hanno stato 'attiva')",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "meta è aggiornato a mano senza derivarlo dagli stati dell'array; nessun normalizzatore tiene meta coerente col contenuto.",
+      "fix_proposto": "Derivare meta.{lezioni_attive,promosse_a_principio,decadute} dallo stato degli elementi nel motore che scrive apprendimento.json.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+        "pattern": "\"lezioni_attive\":\\s*4",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-051",
+      "titolo": "tasso_applicazione è scritto a mano, nessuno lo calcola: la metrica che governa il volano è auto-dichiarata e la sua escalation è codice morto",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "tasso=0.5 perché nessuno lo calcola; nessuno lo calcola perché non esiste uno script che scriva apprendimento.json; non esiste perché la lezione non ha un campo 'usi' che leghi lezione→mossa; manca perché l'apprendimento è stato progettato come artefatto testuale dell'LLM, non come dato con contatore d'uso. Causa di sistema: la memoria dell'apprendimento non ha una forcing-function deterministica (a differenza di chiusura-loop.mjs per i quaderni), quindi la metrica che dovrebbe smascherare un loop morto è scritta dal loop stesso.",
+      "fix_proposto": "🟡 Aggiungere il campo 'usi'/'applicata_in' a ogni lezione (id-decisione/id-briefing in cui è stata usata) e uno script cervello/tasso-lezioni.mjs che calcoli tasso_applicazione = lezioni-usate-negli-ultimi-N-giri / lezioni-attive e riscriva meta in modo deterministico, cablato nel giro come la sonda. Così tasso>0 diventa una PROVA e l'escalation a tasso basso torna viva.",
+      "verifica": {
+        "file": "cervello/tasso-lezioni.mjs",
+        "pattern": "tasso_applicazione",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-052",
+      "titolo": "prova_chiusura usa contatori STOCK all-time, mai la recency: loop_chiude resta true per sempre anche se il loop è morto oggi",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Le prove sono contatori cumulativi (meta.chiusi, registro.length) presi 'così com'erano' senza finestra temporale; AR-013 ha risolto il sintomo 'non fidarti del solo tasso' aggiungendo altre prove senza chiedersi se decadono. Causa di sistema: manca il concetto di 'attività recente' nel monitor di salute, quindi una prova di vita di un mese fa vale come una di oggi.",
+      "fix_proposto": "🟡 In sonda-volano.mjs rendere prova_chiusura basata su una finestra (es. 14 giorni): almeno un difetto chiuso_il negli ultimi 14gg, OPPURE almeno una previsione CHIUSA (azzeccata/mancata) di recente, OPPURE un esperimento misurato di recente. Altrimenti verdetto 'attenzione: loop fermo', anche con contatori all-time alti.",
+      "verifica": {
+        "file": "cervello/sonda-volano.mjs",
+        "pattern": "chiusi_recenti|ultimi_?\\d+_?g|finestra",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-053",
+      "titolo": "La calibrazione non ha uno sweep automatico di esito/scadute: le previsioni marciscono aperte e contano come 'prova' pur non essendo mai misurate",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Le previsioni restano aperte perché nessuno chiama esito/scadute in automatico; la chiusura è delegata alla memoria dell'LLM; prevedi è stato agganciato al giro ma la coda esito/scadute no. Causa di sistema: il ciclo prevedi→misura è per metà deterministico (register) e per metà umano-LLM (close), e la metà mancante è proprio quella che genera l'apprendimento; inoltre la sonda accetta una previsione aperta come prova, togliendo ogni pressione a chiuderla.",
+      "fix_proposto": "🟡 Cablare 'node cervello/calibrazione.mjs scadute' a ogni giro in giro.sh (marca automaticamente le previsioni oltre 'entro') e rendere calibrazionePiena nella sonda = almeno una previsione CHIUSA (azzeccata/mancata), non semplicemente registrata. Aggiungere un promemoria deterministico che elenca le previsioni in scadenza da chiudere.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "calibrazione\\.mjs scadute",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-054",
+      "titolo": "Gli esperimenti di auto-miglioramento sono un array vuoto senza schema né motore: il loop benchmark→torneo→misura non è mai partito ed è aperto all'infinito",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "esperimenti è vuoto perché nessuno li crea; nessuno li crea perché non c'è script né gancio nel giro/ritmo; non c'è perché lo schema esperimento non è mai stato definito (puntini in auto-coscienza.md:148). Causa di sistema: l'auto-miglioramento è stato specificato come procedura testuale per l'LLM senza dato-primo (schema) né forcing-function, quindi resta uno slot vuoto che nessun controllo deterministico può riempire — e la sonda controlla un campo che non esiste.",
+      "fix_proposto": "🟡 Definire in auto-coscienza.md lo schema esperimento (id, ambito, ipotesi, varianti, metrica, atteso, stato:aperto|misurato, data_misura, delta, lezione_id) e aggiungere un gancio nel ciclo settimanale che apra ≥1 esperimento sull'ambito col divario più alto e verifichi che quelli della settimana prima siano stati misurati o chiusi (mai aperti all'infinito).",
+      "verifica": {
+        "file": "cervello/auto-coscienza.md",
+        "pattern": "data_misura",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-055",
+      "titolo": "Le proposte di auto-riscrittura non hanno lifecycle né stato: la lista contiene proposte GIÀ chiuse nel cantiere (doppione desincronizzato)",
+      "dimensione": "chiusura-volano",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La lista contiene item chiusi perché nessuno la ripulisce alla chiusura del difetto; nessuno perché la proposta non ha uno stato e non è legata al ciclo di vita del cantiere; non è legata perché proposte e difetti sono nati come due registri separati che condividono solo finding_id senza sincronizzazione. Causa di sistema: manca un owner unico dello stato di una proposta/difetto, quindi lo stesso oggetto vive in due file senza un motore che li allinei.",
+      "fix_proposto": "🟡 Aggiungere allo schema proposte_auto_riscrittura un campo 'stato' (proposta|firmata|implementata|rifiutata) e sincronizzarlo col cantiere via finding_id: quando un difetto passa a 'chiuso', la proposta collegata si marca 'implementata' e sparisce dalla coda attiva. In alternativa eliminare il doppione e far leggere al Pannello un solo registro (il cantiere) come fonte di verità.",
+      "verifica": {
+        "file": "cervello/auto-coscienza.md",
+        "pattern": "proposte_auto_riscrittura[\\s\\S]{0,120}\"stato\"",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-056",
+      "titolo": "Nessun guardiano vigila che il battito 2h (mycity-giro.timer) sia vivo: la staleness del giro è solo un display passivo nel Pannello",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "5 perché: (1) il giro muore e nessuno se ne accorge → (2) nessun processo attivo controlla la freschezza del battito → (3) verifica-automazione è nata per l'automazione PR/merge e non è mai stata estesa al giro → (4) 'macchina viva' è stato implementato come indicatore visivo nel Pannello invece che come sentinella attiva → (5) manca a monte il principio 'ogni cadenza critica ha un watchdog che la ri-arma', quindi il battito più importante è l'unico senza guardiano.",
+      "fix_proposto": "Aggiungere a verifica-automazione.mjs un check 'systemctl is-active mycity-giro.timer' + soglia di freschezza su cuore:ultimo_giro (>4h senza giro pieno = FAIL); e una sentinella che se il giro non gira da >N ore accoda un lavoro 'giro' o allerta Nicola. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/verifica-automazione.mjs",
+        "pattern": "mycity-giro\\.timer",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-057",
+      "titolo": "mycity-verifica.timer e mycity-watch-main.timer sono unit orfane: nessun installer le abilita, e verifica-automazione dà per scontato che watch-main sia attivo",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "5 perché: (1) verifica e watch-main non partono → (2) nessun installer li abilita → (3) la lista delle unit è duplicata a mano in DUE script diversi (setup.sh + install-ritmo-timers.sh) → (4) quando sono state aggiunte le unit verifica/watch-main nessuno ha aggiornato gli installer → (5) manca una fonte-di-verità unica dell'elenco unit (un manifest) da cui gli installer derivino.",
+      "fix_proposto": "Creare un unico manifest delle unit (array in un solo file, letto sia da setup.sh sia da install-ritmo-timers.sh) e includere verifica.timer + watch-main.timer nell'enable/start; in alternativa aggiungerle esplicitamente a install-ritmo-timers.sh. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/vps/install-ritmo-timers.sh",
+        "pattern": "watch-main\\.timer",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-058",
+      "titolo": "I timeout esterni (worker 2700s, systemd 3600s) sono più corti del budget dei 3 tentativi interni di giro.sh (~8160s): i retry sono di fatto morti",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "5 perché: (1) i 3 tentativi non si eseguono mai per intero → (2) l'invocatore uccide giro.sh prima → (3) i timeout sono stati fissati indipendentemente in 3 punti (worker.sh, mycity-giro.service, loop interno di giro.sh) → (4) nessuno ha sommato i tempi per verificare la coerenza del budget → (5) manca un budget-tempo unico e documentato per il giro da cui derivare tutti i timeout.",
+      "fix_proposto": "Definire un unico budget-tempo del giro e derivarne i valori: o abbassare GIRO_AI_TIMEOUT (es. 800s) così che 3 tentativi stiano dentro il timeout esterno, o alzare worker/systemd al budget interno (≥8400s). Documentare la relazione. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "budget|GIRO_AI_TIMEOUT=\\$\\{GIRO_AI_TIMEOUT:-8|GIRO_AI_TIMEOUT:-800",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-059",
+      "titolo": "aggiorna-cervello.sh non ripropaga le unit systemd: cambi di cadenza / nuovi timer restano inerti sul VPS",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "5 perché: (1) un cambio di cadenza non si attiva → (2) l'update non copia le unit né fa daemon-reload → (3) aggiorna-cervello.sh copre solo il codice applicativo, non gli artefatti di sistema → (4) la propagazione dei timer è stata delegata al setup iniziale una-tantum → (5) non è mai stato modellato che il ritmo è auto-modificabile e va ri-sincronizzato a ogni update come il codice.",
+      "fix_proposto": "aggiorna-cervello.sh, se i file unit del repo differiscono da quelli installati, deve ricopiarli in /etc/systemd/system + 'systemctl daemon-reload' + restart dei timer toccati (o richiamare gli installer). Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/vps/aggiorna-cervello.sh",
+        "pattern": "daemon-reload",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-060",
+      "titolo": "Stato e orari del battito documentati in modo contraddittorio: giro 'DISATTIVATO' vs 'RIATTIVATO', ritmo 06/12/18 vs 08/20/18",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "5 perché: (1) i documenti dicono orari/stati sbagliati → (2) sono stati toccati solo i file unit senza aggiornare i puntatori testuali → (3) lo stesso fatto (cadenza) è scritto a mano in 3+ posti (unit + commento in giro.sh + SETUP-VPS.md) → (4) nessuna regola impone di aggiornare i testi quando cambia un'unit → (5) manca il principio 'il file .timer è l'unica fonte di verità della cadenza; i testi la citano, non la duplicano'.",
+      "fix_proposto": "Allineare giro.sh:5 e SETUP-VPS.md allo stato reale (giro 2h attivo; ritmo 06/12/18+ven15) oppure rimuovere gli orari dai testi e puntare ai file .timer come unica fonte. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "timer automatico \\(mycity-giro\\.timer\\) è DISATTIVATO",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-061",
+      "titolo": "L'autonomia si guadagna anche quando i sensori che misurano il 'reale' sono ciechi",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Manca un contratto che leghi 'ogni esito misurato' allo 'stato di visibilita del sensore-fonte' al momento della misura: cmdEsito accetta un numero nudo perche calibrazione e verifica-sensori sono due sottosistemi che non si parlano.",
+      "fix_proposto": "In cmdEsito leggere sensori-cecita.json e registrare nell'entry il campo 'sensore_stato' al momento della misura; in ricalcolaReparti scontare/escludere dal punteggio gli esiti prodotti con sensore-fonte cieco e cappare l'autonomia a 'media' finche >=2/3 sensori sono ciechi. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/calibrazione.mjs",
+        "pattern": "sensori-cecita|cecita|sensore_stato",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-062",
+      "titolo": "L'esito 'reale' entra senza fonte: la macchina puo auto-alimentare il proprio punteggio",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Conflitto di interesse non mitigato: chi produce l'esito e chi ne beneficia in autonomia coincidono (l'AD stessa), e lo schema entry non ha campo 'fonte' ne requisito di provenienza machine-checkable.",
+      "fix_proposto": "Rendere --fonte obbligatorio in cmdEsito, validarlo contro fonti_ammesse di registro-realta.json e rifiutare (exit!=0) un esito senza fonte ammessa; salvare 'fonte' nell'entry cosi il Pannello lo mostra accanto al reale. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/calibrazione.mjs",
+        "pattern": "arg\\(\"fonte\"|--fonte|fonti_ammesse",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-063",
+      "titolo": "La sonda del volano si auto-certifica 'loop chiude' con previsioni ANCORA APERTE",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Il predicato di 'prova di chiusura' misura l'attivita (aver previsto), non l'apprendimento (aver chiuso con esito): intenzione e risultato non sono distinti, quindi il criterio contraddice il proprio scopo dichiarato in AR-013.",
+      "fix_proposto": "Cambiare calibrazionePiena in modo che conti SOLO previsioni chiuse con esito (stato 'azzeccata' o 'mancata'), non la mera esistenza di righe nel registro/per_reparto. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/sonda-volano.mjs",
+        "pattern": "azzeccata|mancata|stato\\s*===\\s*\"chius",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-064",
+      "titolo": "Le previsioni scadute senza esito non penalizzano: survivorship bias sul voto",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Manca accountability sulla CHIUSURA: 'non misurato' e trattato come 'neutro' invece che come debito, quindi lasciar scadere una previsione perdente e gratis.",
+      "fix_proposto": "Contare le 'scaduta' come 'mancata' nel punteggio (o cappare l'autonomia se il tasso di scadute supera es. 20%), cosi lasciar scadere una previsione non e piu gratis. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/calibrazione.mjs",
+        "pattern": "scadut\\w+[^\\n]{0,60}(mancata|penal|previsioni)",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-065",
+      "titolo": "Autonomia 'alta' concessa con soli 3 esiti (campione minuscolo, nessun intervallo di confidenza)",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Manca il concetto di CONFIDENZA STATISTICA nel voto: il design equipara 'ha azzeccato spesso' a 'e affidabile', misurando la frequenza e non la sua solidita.",
+      "fix_proposto": "Sostituire la proporzione grezza con un lower-bound (Wilson al 90%) e/o alzare MIN_PER_AUTONOMIA a >=8 per l'autonomia 'alta'; sotto quella soglia il tetto resta 'media'. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/calibrazione.mjs",
+        "pattern": "wilson|lower.?bound|intervallo|campione_minimo|penalit",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-066",
+      "titolo": "Previsioni banali/status-quo azzeccabili a costo zero (atteso=1 su entita gia payout-ready)",
+      "dimensione": "calibrazione-onesta",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Manca la nozione di 'skill vs baseline': il design conta la frequenza delle azzeccate, non la loro informativita/difficolta, quindi una tautologia vale quanto una scommessa informativa.",
+      "fix_proposto": "Richiedere in cmdPrevedi che l'atteso rappresenti un DELTA rispetto al baseline attuale (non lo status quo) e scartare/segnalare previsioni atteso=0 o gia soddisfatte al momento della registrazione. Resta 🟡 da firmare.",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-067",
+      "titolo": "Nessun sensore di raggiungibilità/uptime del sito: se il marketplace è giù, la macchina è cieca",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "La definizione operativa di 'sensore' nel sistema è 'API con chiave da interrogare via REST' (i canali che l'AD sa già leggere: DB/Stripe/PostHog/Resend), non 'punto della customer journey che se cade uccide gli ordini'. Manca a monte un inventario dei punti-di-morte del business mappati 1:1 a un sensore: la storefront raggiungibile è il primo di quei punti e non è mai stato modellato come sensore attivo (solo come fattore-news del radar).",
+      "fix_proposto": "Aggiungere un sensore-uptime (Node puro, 0 token) che fa un GET su home + un endpoint di checkout della storefront (MARKETPLACE_SITE_URL), misura status/latenza e alimenta una sentinella 🔴 'sito irraggiungibile o 5xx>2% per 5 min' → allerta Telegram immediata (come 'worker morto'). Cablarlo in verifica-sensori.mjs e in sentinella-dati.mjs. Resta 🟡 (firma Nicola).",
+      "verifica": {
+        "file": "cervello/verifica-sensori.mjs",
+        "pattern": "checkSito|storefront|MARKETPLACE_SITE_URL|checkMarketplaceUp|uptime",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-068",
+      "titolo": "I rischi 🔴 di compliance (HACCP, rider, età 18+, bus factor) non hanno owner né monitor nella macchina",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Il sistema ha un cantiere per i difetti DELLA MACCHINA (cantiere-difetti.json) e un radar per gli eventi ESTERNI, ma non ha un anello per i rischi STRUTTURALI DEL BUSINESS: il ponte 'rischio d'impresa → senior responsabile → check ricorrente' non è mai stato costruito. Il doc Rischi & Compliance non è mai stato trasformato in righe con owner+cadenza-di-review leggibili da uno script.",
+      "fix_proposto": "Creare registro-rischi.json nel vault (una riga per N1..B7) con owner senior, colore, stato-presidio (aperto/mitigato/firmato), prossima-review; farlo leggere dalla sonda del giro e alzare un 🟡 quando un rischio ALTA resta 'aperto' oltre la data di review. Ogni rischio ALTA senza owner = finding automatico.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-rischi.json",
+        "pattern": "\"owner\"",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-069",
+      "titolo": "proposte_nuovi_pezzi (l'output della dimensione META) non ha un backlog tracciato a chiusura",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Progettando il volano è stato costruito il cantiere-difetti (correzione) ma non il cantiere-pezzi (espansione): 'aggiustarsi' ha un contratto di chiusura, 'crescere' è rimasto un elenco descrittivo. 'nuovo-pezzo' è stato trattato come sotto-caso di lezione/backlog e non come entità con ciclo di vita proprio (proposto→firmato→creato→verificato).",
+      "fix_proposto": "Dare alle proposte_nuovi_pezzi lo stesso contratto dei difetti: un cantiere-pezzi.json append-only con stato (proposto/in-corso/creato/scartato) e prova di esistenza (path del file creato), riconciliato da auto-fix.mjs; la radiografia aggiorna, non sovrascrive.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-pezzi.json",
+        "pattern": "\"stato\"",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-070",
+      "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinella",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "La definizione operativa di 'sensore' è 'conta righe su una tabella DB via REST', mentre il funnel vive in PostHog (eventi), collegato come health-check ma mai come fonte di soglie. Nel passaggio da 'sensore configurato' a 'sensore che alimenta una sentinella' PostHog è rimasto a metà (configurato-ma-non-usato).",
+      "fix_proposto": "Aggiungere in sentinella-dati.mjs (o in un sensore-funnel dedicato) la lettura degli eventi PostHog checkout_start/order_completed con soglia 🟡 su drop-rate a 7gg, così cro/ux ricevono un lavoro quando la conversione crolla. Finché PostHog è non_configurato, tenerlo esplicito come 'sensore spento che alza il livello' nella lettera a Nicola.",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "posthog|funnel|checkout_start|conversione",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-071",
+      "titolo": "Puntualità delle consegne (la promessa core del modello Glovo) senza alcun sensore",
+      "dimensione": "copertura-cieca",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "I sensori sono stati costruiti sugli stati 'contabili' dell'ordine (PAID, payout) e non sullo stato 'operativo/temporale' (ritiro, in consegna, consegnato vs slot). Nella fase 0→1 con consegna concierge del fondatore la puntualità è gestita a mano e non è mai stata istituzionalizzata in un sensore, né inserita nel backlog: resterà scoperta proprio quando gli ordini cresceranno.",
+      "fix_proposto": "Aggiungere una sentinella 'ordine oltre lo slot promesso' (lettura di delivered_at/expected_delivery o stato+timestamp) che alza 🟡 a operations con l'ordine specifico prima che scada, e alimenta il KPI puntualità. Metterlo nel cantiere-pezzi con priorità legata alla crescita ordini.",
+      "verifica": {
+        "file": "cervello/sentinella-dati.mjs",
+        "pattern": "expected_delivery|delivered_at|ritard|slot.{0,15}(scadut|super)",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-072",
+      "titolo": "Autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE — contraddice \"pubblicare = 🔴\" di CLAUDE.md",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "causa_radice": "Le regole guardrail vivono in due luoghi scollegati (CLAUDE.md a parole, autopilot.mjs in codice) senza una singola fonte-di-verità canale→colore-minimo condivisa. Causa di sistema: il cancello di pubblicazione — il più critico — non ha un contratto guardrail verificato che riconcili prosa e codice, così il codice ha potuto codificare \"🟡 auto-fire\" in contraddizione col manuale senza che nulla lo segnalasse.",
+      "fix_proposto": "Rendere l'autopilot fail-closed: in LIVE pubblica da solo SOLO i 🟢 verso canali interni/te stesso; OGNI 🟡/🔴 verso canale pubblico o clienti si ACCODA in AZIONI-IN-ATTESA per la firma. Allineare header/commenti alla regola \"pubblicare=🔴\". Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/autopilot.mjs",
+        "pattern": "colore\\s*!==\\s*[\"']verde[\"']",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-073",
+      "titolo": "Gate colore fail-open: colore mancante o scritto male → l'autopilot pubblica lo stesso",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "I cancelli di sicurezza qui non seguono il principio fail-closed/whitelist applicato altrove nella macchina (es. scan-segreti, allocazione-check): il campo colore è trattato come testo libero fidato invece che come input di sicurezza validato contro un enum.",
+      "fix_proposto": "Fail-closed: validare `colore` contro l'enum {verde,giallo,rosso}; qualsiasi valore mancante o non riconosciuto va trattato come 🔴 (accoda per firma), non eseguito. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/autopilot.mjs",
+        "pattern": "[\"']verde[\"']\\s*,\\s*[\"']giallo[\"']\\s*,\\s*[\"']rosso[\"']",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-074",
+      "titolo": "Il colore è auto-dichiarato nel JSON e scollegato dal canale reale: nessuna fonte-di-verità canale→rischio",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il rischio intrinseco e irreversibile di un canale (email/social verso il pubblico) è modellato come metadato editabile a mano invece che come vincolo di sistema: manca una tabella canale→colore-minimo applicata al momento dell'invio, e il contratto scritto nell'header di email.mjs non è tradotto in codice.",
+      "fix_proposto": "Ogni publisher espone `coloreMinimo` (email a destinatario ≠ TEST = 🔴; social/gbp pubblico = 🔴 in ottica \"pubblicare=🔴\"); l'autopilot usa max(coloreMinimo del canale, colore della voce); email.mjs invia a `voce.to`≠TEST_TO SOLO se accodato/firmato. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/publishers/email.mjs",
+        "pattern": "coloreMinimo",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-075",
+      "titolo": "ONESTA-RULES senza alcun guardiano machine-checkable nel percorso di pubblicazione",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Asimmetria storica nella costruzione dei guardiani: il valore fondante del brand (verità) è affidato a una checklist umana invece che a una forcing-function deterministica agganciata al percorso di pubblicazione. Il ciclo \"Verifica (cancello di serietà 🔬)\" è descritto ma non strumentato per l'onestà.",
+      "fix_proposto": "Nuovo pezzo `cervello/onesta-check.mjs` che scansiona il testo in uscita (calendario, AZIONI-IN-ATTESA, consegne/content) per segnaposto `[...]`/`[ESEMPIO]` non risolti, cifre senza tag-fonte e parole-spia (\"già N\", \"500 famiglie\"), esce ≠0 e blocca accodamento/pubblicazione; agganciato in autopilot prima di publisher/accoda e nel giro. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/onesta-check.mjs",
+        "pattern": "segnaposto|\\[ESEMPIO\\]|fonte",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-076",
+      "titolo": "🟡 senza \"avvisa\": l'autopilot pubblica i 🟡 in LIVE ma non notifica Nicola",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "La semantica dei colori (🟡 = fai + avvisa) è definita nel manuale ma non tradotta in comportamento del runner: manca un canale di notifica post-azione dell'autopilot; il log jsonl è scambiato per notifica.",
+      "fix_proposto": "Dopo ogni azione 🟡 eseguita in LIVE, scrivere una riga \"FATTO — avviso\" in un registro visibile dal Pannello (e Telegram se collegato). Se si adotta il fix 1, il problema si estingue. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/autopilot.mjs",
+        "pattern": "avvis|notific",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-077",
+      "titolo": "\"STOP automatico se un reparto brucia budget\" è solo prosa: nessun sensore di spesa, nessun blocco reale",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Gap tra capacità dichiarata a regime e sensore mancante, non segnalato onestamente: manca un guardiano-capacità che distingua \"promesso\" da \"implementato\" per il budget, così il mansionario descrive un freno che non c'è come se fosse attivo.",
+      "fix_proposto": "Finché ads/Stripe-write sono scollegati, marcare esplicitamente la capacità come \"non attiva\" invece di \"automatica\"; quando esistono spese reali, nuovo pezzo `cervello/sentinella-budget.mjs` che somma speso vs KPI reso per reparto e, oltre soglia, accoda uno STOP 🔴. Domanda a Nicola se/quando collegare la lettura-spesa. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/sentinella-budget.mjs",
+        "pattern": "speso|budget|STOP",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-078",
+      "titolo": "esegui-azione.mjs: mano grezza senza gate colore, senza legame all'azione approvata e senza traccia in DECISIONI",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "L'invio reale non è legato per costruzione al percorso proponi→firma→registra: l'esecutore è una utility a basso livello disaccoppiata dalla coda per semplicità implementativa, e nessuno step impone la scrittura in DECISIONI, quindi il registro append-only può restare incompleto.",
+      "fix_proposto": "Legare ogni invio reale a un id-azione della coda e appendere automaticamente una riga in DECISIONI.md (data+ora, cosa, perché) al momento dell'esecuzione LIVE; opzionale passaggio da onesta-check. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/esegui-azione.mjs",
+        "pattern": "AZIONI-IN-ATTESA|DECISIONI",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-079",
+      "titolo": "Silo di allocazione conclamato ma mai corretto: 13 asset pesanti su Garetti (prospect non firmato) vs 1-2 sui negozi confermati — il guardiano esce con codice 1 ma giro.sh:160 lo scarta con `| tail -6 || true`",
+      "dimensione": "allineamento-northstar",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "allocazione-check.mjs è cablato in giro.sh come output informativo (pipe a tail + `|| true`), non come cancello: l'exit code non viene mai letto per iniettare un vincolo nel giro. Stesso pattern per agent-registry-check (:156) e guardiano-capacita (:158). Solo il delta-gate è cablato come gate vero (`_dg_rc=$?`).",
+      "fix_proposto": "In giro.sh catturare l'exit code di allocazione-check senza pipe che lo maschera (come per il delta-gate) e, se =1, iniettare un vincolo hard nel giro: «prima di accodare nuovi asset pesanti, ripunta la produzione sui negozi confermato e riduci il silo»; opzionalmente generare un task che declassa/sposta gli asset dal prospect non firmato. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "allocazione-check[\\s\\S]{0,120}(_alloc|rc=\\$\\?|VINCOLO)",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-080",
+      "titolo": "La regola ROI/STOP automatico e la North Star vivono solo come prosa in OKR-Squadra: nessuno script misura se le mosse muovono ordini/negozi/margine né ferma i reparti che bruciano sforzo senza rendere",
+      "dimensione": "allineamento-northstar",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "La North Star non è un numero calcolato da nessun sensore/guardiano: è solo un titolo nel documento OKR. I guardiani costruiti (registro agenti, allocazione, capacità, chiusura-loop) presidiano la struttura interna della macchina, ma manca il pezzo che chiude il loop economico (mossa proposta → numero-azienda mosso), quindi la regola ROI resta un buon proposito non verificabile.",
+      "fix_proposto": "Creare un guardiano North Star (cervello/north-star-check.mjs) che a ogni giro legga dal REST ordini consegnati/settimana e payout, li confronti con l'atteso delle azioni firmate, e segnali i reparti che accumulano effort senza spostare il numero (STOP soft con proposta di ribilanciamento), legandolo al costo-ai per il conto ROI. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "cervello/north-star-check.mjs",
+        "pattern": "ordini|consegnat|north",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-081",
+      "titolo": "Il pre-mortem cross-silo (\"il rischio n°1\") è un rituale manuale senza forcing-function: la coda AZIONI-IN-ATTESA non ha un campo che espliciti se una vittoria di reparto brucia margine o intasa operations",
+      "dimensione": "allineamento-northstar",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il vettore cross-silo vive come cultura nel documento AD ma non è strutturato nel canale operativo (la coda): la coda è stata progettata per spiegare l'azione a Nicola (cosa cambia/se va bene), non per arbitrare crescita-vs-margine. Senza una colonna dedicata, il pre-mortem non è verificabile né forzato.",
+      "fix_proposto": "Aggiungere alla coda AZIONI-IN-ATTESA una colonna «Impatto-sistema» (margine / carico operations / spillover a 2-3 mosse), obbligatoria per le azioni 🟡/🔴 a rischio spillover, con un check leggero che segnali le righe che ne sono prive. Resta 🟡 da firmare.",
+      "verifica": {
+        "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+        "pattern": "[Ii]mpatto.?sistema|spillover|intasa|brucia margine",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-082",
+      "titolo": "Il router costo (banco-ai.mjs / routing.json) è codice morto: nessun compito viene mai instradato al modello economico",
+      "dimensione": "efficienza-costo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "banco-ai.mjs è nato come decisore consultivo (stampa un consiglio a schermo) e non come dispatcher eseguibile; manca lo strato-mani che invoca realmente Groq/Gemini, quindi il router resta un'etichetta e non un interruttore agganciato a worker.sh.",
+      "fix_proposto": "🟡 Costruire (builder-automazioni) l'adattatore mani per i modelli economici (Groq/Gemini via chiave) e agganciare scegliModello() in worker.sh: per tipo=metabolizza/classificazione/testi-volume, se la chiave economica è collegata instrada lì, altrimenti fallback premium con log del motivo. Registrare l'uso reale in routing.json (--log esiste già).",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "scegliModello|banco-ai\\.mjs",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-083",
+      "titolo": "Il budget token (AR-020) è cieco: nessuno passa mai i token reali, la soglia da 2M non scatta mai",
+      "dimensione": "efficienza-costo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Il monitoraggio del costo è stato agganciato alla dimensione facile (tempo) e non a quella che conta per il budget (token): lo script non estrae mai il conteggio token dall'output del motore, così il parse è rimasto un TODO e il guardrail sembra attivo ma non misura la variabile giusta.",
+      "fix_proposto": "🟡 Estrarre il conteggio token dall'output del motore (claude -p --output-format json espone usage; per agent stimare da caratteri prompt+output) e assegnare *_TOKEN prima della chiamata a costo-ai; far chiamare costo-ai anche a worker.sh per chat/metabolizza/esegui-azione. Finché il parse non c'è usare una STIMA da lunghezza prompt+risposta invece di null.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "GIRO_TOKEN=",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-084",
+      "titolo": "La metabolizzazione raddoppia il costo di OGNI chat con motore premium, senza alcun gate di valore",
+      "dimensione": "efficienza-costo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "L'apprendimento è stato reso una forcing-function 'a ogni chat' senza gate costo/valore e con un solo motore disponibile: l'iniziativa buona (metabolizzare) diventa spreco sistematico perché non distingue una chat sostanziale da un saluto.",
+      "fix_proposto": "🟡 Gate su metabolizza: (a) instradarla al modello economico (scegliModello 'testi-volume'/'classificazione'); (b) saltarla se la chat è sotto una soglia minima di lunghezza/contenuto; (c) farla registrare in costo-ai.",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "metabolizz[\\s\\S]{0,400}(scegliModello|GROQ|MODELLO_ECON|length|caratteri)",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-085",
+      "titolo": "Rilanci ciechi: i loop 3× di giro.sh/ritmo.sh riprovano anche su quota ignorando retry-policy, bruciando tentativi premium a vuoto",
+      "dimensione": "efficienza-costo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Due strati di retry non coordinati (loop-shell aggiunto per i timeout AR-005 + policy-coda del worker) senza una regola unica di classificazione applicata in entrambi: l'insistenza si somma invece di essere governata.",
+      "fix_proposto": "🟡 Nel loop interno di giro.sh/ritmo.sh classificare l'errore riusando classificaErrore di retry-policy: se classe=quota interrompere subito il loop (niente 3 colpi a 30s) e lasciare la riprogrammazione alla policy del worker; ritentare in-loop solo su transitori non-quota.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "classificaErrore|classe.*quota|retry-policy",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-086",
+      "titolo": "Il delta-gate (salta il giro se nulla è cambiato) protegge solo 'giro', non ritmo né monitora: run premium a stato invariato, con cluster mattutino sovrapposto",
+      "dimensione": "efficienza-costo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Manca un throttle unico 'niente-di-nuovo→salta/riusa' applicato a TUTTI i runner premium e un coordinatore che deduplichi run ravvicinate: AR-019 è stato scritto guardando solo il timer del giro, e ritmo/monitora sono trattati come cadenze fisse dovute anziché giri throttlabili.",
+      "fix_proposto": "🟡 Estendere il delta-gate (o una variante 'soft': se stato invariato produci un report minimo senza motore premium) a ritmo.sh e monitora.sh; far leggere a ritmo/monitora l'ultimo briefing recente invece di rianalizzare da zero; riallineare gli orari per non clusterizzare 3 run premium alle 06:00-06:30.",
+      "verifica": {
+        "file": "cervello/ritmo.sh",
+        "pattern": "delta-gate",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-087",
+      "titolo": "Nessun circuit-breaker di budget: al superamento della soglia costo non si ferma né si dirada nulla",
+      "dimensione": "efficienza-costo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La governance del costo vive nella prosa (CLAUDE.md/OKR) ma non ha un guardiano deterministico che la applichi, a differenza di allocazione/registro-agenti; costo-ai è nato come contatore passivo per dare visibilità, non per governare.",
+      "fix_proposto": "🟡 Aggiungere un gate-budget: giro/ritmo/monitora leggono costo-ai.json (o una soglia %) e, se superata, degradano a passaggio minimo o allargano la cadenza finché il giorno non si resetta; i 🔴/controlli restano sempre attivi (sotto budget si taglia il volume, non la sicurezza).",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "costo-ai\\.mjs --json|COSTO_SOGLIA|budget.*stop|gate.budget",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-088",
+      "titolo": "monitora.sh incolla l'intero monitora.md nel prompt, contro la regola anti-prompt-enorme che giro.sh applica",
+      "dimensione": "efficienza-costo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Manca un'astrazione unica per costruire il prompt dei runner (i tre script condividono motore-ai.sh ma NON la costruzione del prompt): la correzione fatta su giro dopo la lezione di instabilità agent non si è propagata a monitora.",
+      "fix_proposto": "🟡 Uniformare monitora.sh al pattern puntatore (prompt corto che dice all'AI di aprire cervello/monitora.md dal disco con Read); idealmente estrarre un helper condiviso di costruzione-prompt per giro/ritmo/monitora così la regola vive in un posto solo.",
+      "verifica": {
+        "file": "cervello/monitora.sh",
+        "pattern": "cat \"\\$SCRIPT_DIR/monitora.md\"",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-089",
+      "titolo": "Lo scanner-segreti (AR-021, ultima difesa prima di committare il vault) NON riconosce il token più potente della macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Le regex sono state scritte guardando i segreti 'famosi' (Stripe/GitHub/AWS), non facendo l'inventario dei segreti REALI di QUESTA macchina. La lista REGOLE è statica e nessun test la confronta con le chiavi effettivamente presenti negli .env.example/.mcp.json. Causa di sistema: manca un controllo che tenga allineato lo scanner all'insieme reale dei segreti che il cervello maneggia.",
+      "fix_proposto": "Aggiungere a REGOLE i pattern mancanti: `sbp_[A-Za-z0-9]{20,}` (Supabase management PAT), `re_[A-Za-z0-9_]{20,}` (Resend), `\\d{6,}:AA[A-Za-z0-9_-]{30,}` (Telegram bot), `ph[xc]_[A-Za-z0-9]{30,}` (PostHog); e aggiungere una sentinella che FALLISCE se un nome-chiave presente negli *.env.example non ha una regola corrispondente nello scanner.",
+      "verifica": {
+        "file": "cervello/scan-segreti.mjs",
+        "pattern": "sbp_",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-090",
+      "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org in un'unica credenziale",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "L'MCP Supabase ufficiale nasce con il management token e si è preso quello che 'funzionava' per far partire velocemente la memoria. Non è stato ristretto dopo perché non esiste un inventario/rotazione delle credenziali con livello di privilegio richiesto. Causa di sistema: manca una policy di least-privilege sulle chiavi (una chiave = un ambito) e un registro delle credenziali.",
+      "fix_proposto": "Decisione di Nicola: (a) ruotare SUPABASE_ACCESS_TOKEN e sostituirlo con credenziali a privilegio minimo separate per progetto; (b) documentarlo in .env.example con l'ambito richiesto; (c) NON riusare lo stesso token per marketplace e memoria. Resta 🔴 (rotazione di credenziali reali = firma Nicola).",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "colore": "🔴",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-091",
+      "titolo": "L'MCP della memoria è in LETTURA+SCRITTURA senza alcun cancello: il cervello può DROP/DELETE la propria memoria via SQL",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "All'accensione serviva scrivere e si è tolto il --read-only 'per far funzionare la scrittura'. Non è stato richiuso dopo aver spostato le scritture su REST perché nessuno ha verificato che il percorso reale non usa più l'MCP per scrivere. Causa di sistema: le capacità pericolose vengono concesse per sbloccare e mai revocate quando il percorso reale cambia (creep di privilegi non riconciliato).",
+      "fix_proposto": "Aggiungere `--read-only` anche a supabase-memoria in .mcp.json (le scritture reali passano già da REST con SERVICE_KEY su tabelle specifiche, quindi non si rompe nulla). Resta 🟡 (auto-modifica config → firma Nicola).",
+      "verifica": {
+        "file": ".mcp.json",
+        "pattern": "read-only[\\s\\S]*read-only",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-092",
+      "titolo": "worker.sh risolve i conflitti di merge con `--theirs` cieco: può cancellare il 'FATTO' e causare un DOPPIO invio reale",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Si è scelta la resolution che 'non blocca mai il push', assumendo che union coprisse tutto — ma AZIONI-IN-ATTESA e gli snapshot NON sono union. Causa di sistema: la strategia di conflitto è unica per tutti i file di memoria, mentre i file hanno semantiche diverse (append-only union vs stato vs coda idempotente) che richiedono gestioni diverse.",
+      "fix_proposto": "Non usare --theirs cieco: per i file non-union (AZIONI-IN-ATTESA, STATO, JSON auto-coscienza) in caso di conflitto abortire e ri-applicare la sola riga del worker in modo idempotente, oppure marcare le azioni come eseguite con un ID idempotente nel DB (non solo nel .md) così un doppio invio è impossibile a prescindere dal merge. Resta 🟡.",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "checkout --theirs",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-093",
+      "titolo": "Il kill-switch (PAUSA) fallisce APERTO: se le credenziali memoria mancano, il giro parte lo stesso",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "basso",
+      "causa_radice": "Il controllo pausa è stato innestato dentro il blocco 'se ho le credenziali' pensato per il battito/diagnostica, non trattato come safety-gate a sé. Priorità implicita: 'il battito non si deve fermare', quindi ogni incertezza si risolve continuando. Causa di sistema: manca il principio 'i controlli di sicurezza falliscono CHIUSI' — sotto incertezza si sceglie di procedere invece di fermarsi.",
+      "fix_proposto": "Trattare la pausa come gate indipendente e fail-closed: se non riesco a leggere lo stato pausa (env mancanti o REST ko dopo retry), NON girare (o girare solo in modalità minima non-scrivente), loggando 'pausa non verificabile → mi fermo per sicurezza'. Resta 🟡.",
+      "verifica": {
+        "file": "cervello/giro.sh",
+        "pattern": "pausa non verificabile|PAUSA_FAIL_CLOSED|non verificabile.*fermo",
+        "presente": true
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-094",
+      "titolo": "La documentazione (.env.example) prescrive ancora 'force-push' su memoria-ad — la causa esatta della perdita di memoria che il codice ha già rimosso",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Il fix da force→rebase è stato applicato al codice ma non al commento dell'.env.example, perché non c'è un controllo che verifichi la coerenza tra le affermazioni della doc e il comportamento del codice sui punti di sicurezza. Causa di sistema: le correzioni di sicurezza aggiornano il codice ma non i documenti che le descrivono.",
+      "fix_proposto": "Correggere il commento in .env.example: memoria-ad usa push NON-force con rebase sotto lock (mai force-push, causa di perdita memoria). Resta 🟡.",
+      "verifica": {
+        "file": "cervello/vps/.env.example",
+        "pattern": "force-push",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-095",
+      "titolo": "Permessi in .claude/settings.json stantii e legati a un'altra macchina (path Windows) — igiene dei permessi",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La allow-list è stata popolata in una sessione locale di Nicola su Windows e mai ripulita al passaggio al VPS, perché non c'è una revisione periodica dei permessi. Causa di sistema: la allow-list cresce per accumulo di sessioni e nessuno la pota, così si scollega dall'ambiente reale.",
+      "fix_proposto": "Rimuovere le voci legate a c:\\Users\\InfinitaPossibilita e sostituire eventuali permessi con voci relative allo scopo (path della copia /marketplace/ del VPS). Resta 🟡.",
+      "verifica": {
+        "file": ".claude/settings.json",
+        "pattern": "InfinitaPossibilita",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    },
+    {
+      "id": "AR-096",
+      "titolo": "Il voto di salute architettura si auto-gonfia: +2 a ogni chiusura, solo in salita, scollegato dalla radiografia reale",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Si è aggiunto un incentivo positivo alla chiusura senza un contro-segnale (nuovi difetti, regressioni) che lo abbassi, perché il voto è un contatore locale in auto-fix invece di un output della radiografia che vede l'insieme. Causa di sistema: una metrica di salute è calcolata dal processo che ha interesse a farla salire, non da un valutatore indipendente.",
+      "fix_proposto": "Far derivare voto_salute_architettura dalla radiografia completa (aperti/gravità/nuovi difetti), non da un +2 fisso per chiusura; auto-fix aggiorna solo il conteggio chiusi e lascia il voto alla radiografia. Resta 🟡.",
+      "verifica": {
+        "file": "cervello/auto-fix.mjs",
+        "pattern": "votoPrima \\+ 2 \\* chiusiOra",
+        "presente": false
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": ""
+    }
   ],
   "meta": {
-    "aperti": 23,
+    "aperti": 68,
     "in_corso": 0,
-    "chiusi": 9,
-    "nota_conteggio": "23 aperti (AR-024→050 esclusi i 4 chiusi/consolidati oggi) + 9 chiusi (5 storici + AR-045/046/048 bonifica + AR-047 consolidato). I difetti delle 8 dimensioni non ancora verificate NON sono qui: entrano solo dopo la verifica avversariale (completamento post-reset 11:20 UTC)."
+    "chiusi": 10,
+    "nota_conteggio": "68 aperti + 10 chiusi. 12/12 dimensioni macchina verificate. AR-044 (faro) chiuso con la decisione di Nicola del 3/7. I difetti del PANNELLO stanno nel report dedicato, non qui."
   }
 }

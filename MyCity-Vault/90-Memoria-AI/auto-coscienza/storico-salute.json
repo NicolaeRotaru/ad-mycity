@@ -58,11 +58,11 @@
     },
     {
       "data": "2026-07-03",
-      "voto_salute": 68,
-      "difetti_aperti": 23,
+      "voto_salute": 57,
+      "difetti_aperti": 69,
       "difetti_chiusi": 9,
-      "tipo": "completa-parziale",
-      "nota": "Radiografia PROFONDA su comando di Nicola. PARZIALE: limite di sessione (reset 11:20 UTC) → 4/12 dimensioni verificate a fondo + Pannello; 8 verifiche + pre-mortem + benchmark da completare. Voto 68 = media dei 4 pilastri verificati (coerenza-agenti 71, vettori 75, sensori 62, memoria 62), NON aggregato pieno. Calo dal 78 perché l'audit è molto più profondo del 28/6 (che trovò 3 difetti): 27 difetti macchina confermati (AR-024→050), 4 chiusi subito con bonifica memoria, 23 aperti. Filo comune: molti strati 'scritti ma non installati come binario che produce'. Il PANNELLO ha 1 bloccante (doppia esecuzione azione reale). Il voto pieno e comparabile arriva dopo il completamento delle 8 dimensioni."
+      "tipo": "completa",
+      "nota": "Radiografia PROFONDA e COMPLETA su comando di Nicola: 12/12 dimensioni verificate avversarialmente + pre-mortem (6 scenari) + benchmark (10 ambiti). (Il primo run si era fermato a 4/12 per limite di sessione, ripreso dopo il reset.) Voto 57 = media dei 12 pilastri. Calo dal 72 del 28/6 perché l'audit è molto più profondo: 74 difetti macchina confermati (1 bloccante, 39 gravi) vs i 3 del 28/6. Dimensione più critica: guardrail-semaforo (36) — l'autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE (BLOCCANTE AR-072). Grave anche la sicurezza (41): scanner-segreti che non riconosce sbp_, MCP memoria in R+W senza --read-only, merge --theirs cieco. Filo rosso: molti gate/guardiani sono fail-open o codice morto (router costo mai usato, budget token cieco, ONESTA-RULES senza guardiano, North Star/STOP solo prosa). Cantiere: 69 aperti / 9 chiusi. Il PANNELLO ha 1 bloccante (doppia esecuzione azione reale)."
     }
   ]
 }
