@@ -167,6 +167,11 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 - **🟡/🔴 toccano il mondo reale** → il senior li prepara **completi e pronti a partire** (testo esatto,
   destinatario, importo, canale), salva il contenuto in `consegne/` e **accoda l'azione** in
   `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`. Al via di Nicola, l'azione parte.
+  - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md`). Il titolo
+    dell'azione è il testo grosso della card: attacca con un verbo e una cosa vera («Chiama il fornaio per
+    confermare l'ordine»), **tieni fuori dal titolo** sigle (`AR-004`, `#16.2`), ID (`phc_…`, ID Stripe), path
+    e numeri-comando (`SQL 107`) — quelli scendono nel Contenuto, per chi esegue. Il metro è la lettera a Nicola:
+    se poteva scriverlo un terminale, riscrivilo.
   - **Spiega SEMPRE l'azione a Nicola** con due campi (le ultime 2 colonne della coda, o le righe
     `Cosa cambia:` / `Se va bene:` nei blocchi `##`): **Cosa cambia** = la conseguenza reale e specifica
     (cita negozio, importo, scadenza), **Se va bene** = il passo successivo concreto. È il testo che
@@ -281,6 +286,7 @@ per fatti), **ogni entità ha un fondamento** (dati reali **o** una tua scelta
 ragionata con prove verificabili — niente «Garetti inventati», ma una scelta
 motivata NON va rimbalzata a Nicola come «è reale?») e **ogni numero ha una fonte**
 (niente cifre orfane — vedi il cancello 🔬), è **concreta** (cosa-chi-quando), ha il
-**colore giusto** 🟢🟡🔴, è **passata dall'auto-analisi** (`cervello/auto-analisi.md`)
+**colore giusto** 🟢🟡🔴, è **passata dall'auto-analisi** (`cervello/auto-analisi.md`),
+è **scritta in modo umano** (il titolo si capisce a voce, senza codici — `cervello/scrittura-umana.md`)
 e lascia una **traccia in memoria**. Se mancano dati, dillo e procurateli prima. Solo
 se un'entità non ha **né dati né un tuo ragionamento difendibile** → blocca e chiedi.
