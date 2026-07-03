@@ -14,6 +14,9 @@ type Salute = {
   conteggi?: Record<string, number>;
   attesaPiuVecchiaMin?: number | null;
   corsoPiuVecchioMin?: number | null;
+  attesaQuota?: boolean;
+  riprovaAlle?: string | null;
+  resetHint?: string | null;
   problema?: string | null;
   azioni?: string[];
   ok?: boolean;
@@ -88,8 +91,9 @@ export default function DiagnosticaWorker() {
 
   if (!d) return null;
 
-  const rosso = Boolean(d.problema) || d.workerVivo === false;
-  const giallo = !rosso && d.adInPausa;
+  // La coda in attesa del reset quota Claude NON è un guasto: si riparte da soli → giallo, non rosso.
+  const rosso = (Boolean(d.problema) && !d.attesaQuota) || d.workerVivo === false;
+  const giallo = !rosso && (d.adInPausa || Boolean(d.attesaQuota));
 
   return (
     <section
@@ -146,7 +150,7 @@ export default function DiagnosticaWorker() {
 
       {d.problema && (
         <div className="mt-2.5 text-[13px] leading-snug" style={{ color: "var(--text-primary)" }}>
-          <b>Probabile causa:</b> {d.problema}
+          <b>{d.attesaQuota ? "Cosa sta succedendo:" : "Probabile causa:"}</b> {d.problema}
         </div>
       )}
 
