@@ -425,6 +425,14 @@
       "difetti_chiusi": 20,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 4h fa · cecità sensori 17 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-024 (verificati nel codice)."
     }
   ]
 }

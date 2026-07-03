@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-03 19:04",
+  "aggiornato": "2026-07-03 19:51",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -341,15 +341,16 @@
       "causa_radice": "Il voto salute è congelato al valore pre-fix (42) per scelta conservativa ('non accreditare fix non ancora mergiati'), ma la sonda non distingue tre stati: (a) difetto aperto davvero, (b) chiuso-in-codice-in-attesa-di-merge, (c) bloccante che dipende SOLO da un'azione umana già accodata. Trattandoli tutti come 'aperti' il voto non si muove e la sentinella salute<60 rifà scattare l'allerta a ogni giro anche quando NON c'è nulla di nuovo da decidere (i 3 gate — merge+deploy, revoca PAT AR-004, materiale Pane Quotidiano AR-006 — sono già in AZIONI-IN-ATTESA). Manca un voto provvisorio 'pending-merge' + un dedup dell'allerta per stato invariato.",
       "fix_proposto": "🟡 In cervello/sonda-volano.mjs: calcolare un voto_provvisorio che accredita i difetti con verifica.presente già soddisfatta nel codice su memoria-ad (42→~50, i 2 bloccanti umani restano −25 l'uno), annotato 'pending-merge'; e far scattare la sentinella salute_bassa SOLO quando lo stato cambia rispetto all'ultimo snapshot (dedup su firma), non a ogni giro su condizione invariata e già accodata.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-03 19:51",
       "nota_fix": "Trovato dalla sonda della sentinella 2026-07-03: 20+ snapshot sonda consecutivi a voto 42 identico mentre il cantiere era già a 20 chiusi/2 in-corso-umani. Il volano funziona (chiude i difetti), ma il TERMOMETRO non riflette le chiusure finché non c'è merge → l'allerta perde valore di segnale.",
       "verifica": {
         "file": "cervello/sonda-volano.mjs",
         "pattern": "voto_provvisorio",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/sonda-volano.mjs contiene /voto_provvisorio/ → trovato"
     },
     {
       "id": "AR-025",
@@ -371,8 +372,8 @@
     }
   ],
   "meta": {
-    "aperti": 2,
+    "aperti": 1,
     "in_corso": 2,
-    "chiusi": 20
+    "chiusi": 21
   }
 }
