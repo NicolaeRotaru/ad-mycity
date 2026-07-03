@@ -78,7 +78,7 @@ stamp_worker_info() {
 # subito, sotto lo STESSO lock del giro (niente race) e con push NON-force (rebase) per non sovrascrivere il giro.
 branch="${GIT_BRANCH:-memoria-ad}"
 LOCK="$REPO/.git/mycity-sync.lock"
-GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-ad@mycity.local}"
+GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity VPS}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
