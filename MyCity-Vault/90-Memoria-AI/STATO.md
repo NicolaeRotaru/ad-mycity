@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 18:20
+aggiornato: 2026-07-03 19:46
 fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13:29 ma NON ancora consegnato · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 17 giri · stallo ~226h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna serale post-19:00 ORA imminente)
 ---
 
@@ -14,6 +14,8 @@ fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13
 > fix; ③ ok a ripuntare i contenuti su **Casa Linda**. Dettaglio: [[RADIOGRAFIA-MACCHINA]] · [[AZIONI-IN-ATTESA]].
 >
 > 🧠 **2/7 08:40 — ok merge #19:** PR #211 merged `f84fc70` → Render LIVE · smoke @qa da completare.
+>
+> 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
 ## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 18:20)
 | Numero | Oggi (3/7 18:20) | "Riuscito" | Note |
@@ -63,6 +65,7 @@ fonte: AD digitale (🔭 Giro refresh 3/7 18:20 · #16 APPROVATO dal Pannello 13
 | Loop business | 🔴 in corso | #16 approvato 13:29 ma consegna non ancora partita → finestra serale a ~3h |
 
 ## Ultime mosse dell'AD
+0. **🛠️ Fix lettura vault Pannello 3/7 19:46** — su richiesta di Nicola («ad-memoria divisa da GitHub / il Pannello non legge tutti i dati nel modo corretto»): lettura GitHub **centralizzata e resiliente** (ripiego `memoria-ad`→`main` in sola lettura → mai schermo vuoto per ramo storto), **ramo servito osservabile** in `/api/stato` (`vaultRamoServito`/`vaultRipiego`), **parsing briefing tollerante** (mostra il testo anche senza sezione «Sintesi»). Verificato `tsc`+`next build` verdi + funzioni pure esercitate. **PR #167** · deploy 🔴 bloccato oggi dal limite free Vercel (~24h) · coda #28.
 0. **🔭 Giro refresh 3/7 18:20** — full da delta-gate (18:20 «cambio stato sensori»: PostHog cieco **17** giri, era 16). **Nessuna novità di business vs 16:20:** firma REST invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~226h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta). **6ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 ORA imminente** (aria più fresca, Venerdì Piacentini). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🔭 Giro refresh 3/7 16:20** — full da delta-gate (16:20 «cambio stato sensori»: PostHog cieco **16** giri, era 15). **Nessuna novità di business vs 14:20:** firma REST invariata (ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~224h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **5ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ Ora a **~3h dalla finestra serale post-19:00** (aria più fresca, Venerdì Piacentini). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) stasera col payout-test.
 0R. **📅 REVIEW SETTIMANALE 3/7 15:00** — retrospettiva 27/6→3/7. Verdetto: infrastruttura verde + volano-architettura gira (20 difetti chiusi in codice, salute 42/~50 pending-merge), ma **North Star = 0 consegnati** — azienda ferma su UNA mano non collegata (#16 approvato 13:29 ≠ consegnato, 4 finestre saltate). Volano-BUSINESS ancora aperto (0 esperimenti misurati). Radiografia completa NON ri-lanciata di proposito (ultima 07-02 12:09 <27h, gate AR-019/AR-025). Pagella + 4 principi + calibrazione 24/24 in [[RITMO]]; lettera riscritta [[LETTERA-A-NICOLA]]; 2 auto-riscritture 🟡 proposte (AR-024/AR-025). 3 mosse settimana: ① 1ª transazione stasera + collegare la mano · ② chiudere AR-024/AR-025 · ③ sbloccare i 2 bloccanti umani (R1 revoca PAT + R2 merge).
