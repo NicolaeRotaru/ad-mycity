@@ -62,7 +62,10 @@ export default function AutoCoscienzaArea({ embedded = false }: { embedded?: boo
             onClick={() => {
               setTab(t.id);
               if (typeof window !== "undefined") {
-                window.location.hash = t.id === "analisi" ? "auto-coscienza" : t.id;
+                // replaceState (NON location.hash): niente voce di history "rogue" che bypassa Next
+                // e provoca il reload dell'intera pagina all'INDIETRO (bug "torna alla Plancia").
+                const hv = t.id === "analisi" ? "auto-coscienza" : t.id;
+                try { window.history.replaceState(window.history.state, "", "#" + hv); } catch {}
               }
             }}
             className={`inline-flex items-center gap-1.5 text-[12.5px] font-medium px-2.5 py-1.5 rounded-lg transition ${

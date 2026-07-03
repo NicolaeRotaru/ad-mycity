@@ -107,6 +107,25 @@ Tutto il resto presente su `memoria-ad` **non ha alcuna superficie** e resta inv
 
 ---
 
+## Causa radice #5 — [NAV] L'INDIETRO ricarica la pagina → «mi porta alla Plancia»
+Riprodotto e provato col browser (Playwright su build reale). Sequenza: Macchina → Auto-coscienza
+→ click sui sotto-tab → **INDIETRO**.
+- Next.js (App Router) tiene i suoi internals di routing in `history.state`
+  (`__NA`, `__PRIVATE_NEXTJS_INTERNALS_TREE`).
+- `page.tsx` faceva `pushState({vista})` / `replaceState({vista})` **sovrascrivendo** lo state →
+  cancellava gli internals di Next. In più i sotto-tab usavano `window.location.hash = …`, che crea
+  **voci di history "rogue"** (fragment navigation) che il router di Next non conosce.
+- Al primo **INDIETRO** Next non riconosce la voce → **hard reload dell'intera pagina** (confermato:
+  `reload = true`), che al re-mount cade sulla vista di default (Plancia).
+
+**Fix applicato (branch), verificato end-to-end (0 reload, 0 rimbalzi):**
+- `page.tsx`: le chiamate history **fondono** lo state (`{...history.state, vista}`) invece di
+  sovrascriverlo → gli internals di Next sopravvivono.
+- `MacchinaArea.tsx` / `AutoCoscienzaArea.tsx`: i sotto-tab aggiornano l'hash con `replaceState`
+  (niente voce "rogue"), non con `location.hash`.
+
+---
+
 ## Piano di fix — stato
 
 ### ✅ FATTI su branch `claude/panel-github-sync-debug-waqnl2` (build verde)
