@@ -361,19 +361,21 @@
       "causa_radice": "La firma del delta-gate (cervello/delta-gate.mjs) serializza `sensori.max_giri_ciechi` come parte dello stato reale. Se un sensore resta cieco, quel contatore cresce di 1 a ogni giro → la firma differisce SEMPRE dall'ultimo_pieno → il gate classifica 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando ordini/incassi/clienti/sentinelle-azionabili sono identici. Il delta-gate (AR-019) doveva eliminare i giri a vuoto, ma non distingue una cecità NUOVA/critica da un contatore che semplicemente avanza su un sensore OPZIONALE (PostHog, non-critico a 0 ordini pagati). Verificato su delta-gate.json: ultimo_pieno max_giri_ciechi=3, corrente=10, decisione ripetuta 'esegui_pieno' per stato sensori mentre la firma di business (ordini=1, ultimo 24/6, clienti=23) è invariata.",
       "fix_proposto": "🟡 Nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no), non il contatore incrementale; oppure escludere del tutto max_giri_ciechi dalla firma di business e gestire la cecità con la sola sentinella dedicata (già esistente). Così un sensore già-noto-cieco non forza giri pieni. Complementare ad AR-024 (che agisce lato sonda/alert, non lato firma delta-gate).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
-      "nota_fix": "Trovato dal giro del mattino 3/7 06:28 (lezione L-2026-0703-52). Il giro delle 06:20 è scattato 'pieno' per «cambio stato sensori» col solo incremento del contatore PostHog (opzionale). Verifica avversariale: business firma invariata nel delta-gate.json, unica differenza = max_giri_ciechi 3→10. RICONFERMATO 2 volte lo stesso giorno: giri 08:20 (11) e 10:22 (12) di nuovo pieni sul solo incremento del contatore cieco, business identico → il difetto è ricorrente e a rendimento nullo per ogni ciclo; priorità di chiusura da alzare (è oggi il difetto aperto a maggior spreco di Max). Fix ancora 🟡 (richiede modifica a cervello/delta-gate.mjs, non fatta in sessione).",
+      "chiuso_il": "2026-07-04",
+      "nota_fix": "Trovato dal giro del mattino 3/7 06:28 (lezione L-2026-0703-52): il giro scattava 'pieno' col solo incremento del contatore PostHog (opzionale), business identico → rendimento nullo per ciclo. FIX INSTALLATO NEL CODICE (commit 34e7bd4, 3/7 21:59 'allinea codice a main'): cervello/delta-gate.mjs → firmaSensori() ora esclude `max_giri_ciechi` dalla firma e serializza SOLO lo stato booleano per sensore (cieco sì/no); la riga incriminata `max_giri_ciechi: Number(cecita…)` è stata rimossa dal return. La cecità prolungata resta coperta dall'heartbeat (MAX_ORE). Verifica avversariale 4/7: `grep max_giri_ciechi` sul file lo trova solo in 3 COMMENTI, mai nella firma serializzata (firmaStringa→f.sensori={stati,almeno_un_dato}). Un sensore già-noto-cieco non forza più giri pieni. Chiuso-in-codice: si accredita al voto pieno con merge+deploy sul percorso-giro.",
       "verifica": {
         "tipo": "codice",
-        "file": "cervello/delta-gate.mjs"
+        "file": "cervello/delta-gate.mjs",
+        "pattern": "max_giri_ciechi: Number\\(cecita",
+        "presente": false
       }
     }
   ],
   "meta": {
-    "aperti": 1,
+    "aperti": 0,
     "in_corso": 2,
-    "chiusi": 21
+    "chiusi": 22
   }
 }
