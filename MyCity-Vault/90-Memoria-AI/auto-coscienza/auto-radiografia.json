@@ -1705,14 +1705,31 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-03 14:30",
+    "data": "2026-07-03 21:28",
     "loop_chiude": true,
-    "tasso_applicazione": 0.4,
+    "tasso_applicazione": 0.5,
+    "prova_chiusura": true,
+    "finestra_recency_gg": 14,
+    "difetti_chiusi": 74,
+    "difetti_chiusi_recenti": 74,
+    "calibrazione_piena": false,
+    "esperimenti_misurati": false,
     "giro_a_cadenza": false,
-    "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 0,
-    "verdetto": "ok",
-    "nota": "Radiografia completa 12/12 conclusa. giro_a_cadenza=false: il timer del giro risulta disattivato (confermato da cadenza-esecuzione + salute-sensori). Prossima completa: settimanale."
+    "sentinelle_scattano": false,
+    "ore_da_ultima_completa": 7,
+    "ore_da_ultimo_briefing": 82,
+    "max_giri_ciechi_sensori": 1,
+    "giri_tasso_basso": 0,
+    "serve_radiografia_completa": false,
+    "salute_stato": "pending-merge",
+    "voto_provvisorio": 81,
+    "voto_pieno": 81,
+    "pending_merge": 0,
+    "aperti_davvero": 0,
+    "bloccanti_umani": 4,
+    "salute_firma": "",
+    "verdetto": "attenzione",
+    "nota": "loop chiude (con prova) · briefing STALE (82h) · sensori max cecità 1 · salute pending-merge 81/100 (floor 81): 0 aperti-davvero · 0 in attesa merge · 4 bloccanti umani"
   },
   "meta": {
     "agenti_totali": 42,
@@ -1734,5 +1751,9 @@
       "efficienza-costo": 44,
       "rischio-sicurezza-se": 41
     }
+  },
+  "sonda_meta": {
+    "giri_tasso_basso": 0,
+    "aggiornato": "2026-07-03 21:28"
   }
 }

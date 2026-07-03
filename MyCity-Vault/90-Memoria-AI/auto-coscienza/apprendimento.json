@@ -1,5 +1,5 @@
 {
-  "data": "2026-06-30 11:45",
+  "data": "2026-07-03 21:30",
   "lezioni": [
     {
       "id": "L-2026-0630-01",
@@ -169,6 +169,43 @@
       "fonte": "radar",
       "nato": "2026-06-29",
       "ultima_conferma": "2026-06-29",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0703-01",
+      "testo": "Un filtro su un valore enum SBAGLIATO restituisce 0 in silenzio e quello 0 diventa un 'fatto' che si propaga per giorni. I prodotti del faro erano dati a 0 perche si filtrava products.status='active', un enum inesistente (i valori reali sono available/draft/sold): il faro aveva 5 prodotti veri dal 16/6. LEZIONE: prima di fidarti di un COUNT filtrato per stato, verifica gli enum reali dallo schema (information_schema o SELECT DISTINCT status). Uno zero sospetto va sempre falsificato, non ereditato.",
+      "tag": [
+        "numeri",
+        "query",
+        "verita",
+        "schema",
+        "calibrazione",
+        "dati"
+      ],
+      "reparto": "@analista",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-03",
+      "ultima_conferma": "2026-07-03",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0703-02",
+      "testo": "Quando i sensori dati tornano leggibili dopo giri a memoria, la PRIMA cosa da fare e riverificare gli stati che erano congelati: non solo i conteggi, ma lo stato degli oggetti aperti (ordini, carrelli). Stasera cosi ho scoperto che l'ordine unico €19,05 era passato a CANCELED alle 15:38 mentre la memoria lo dava ancora PENDING/NEW. Un thread dato 'fermo' puo essere in realta 'morto': riverificalo appena i sensori tornano.",
+      "tag": [
+        "sensori",
+        "stato",
+        "ordini",
+        "verita",
+        "recency"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.8,
+      "evidenze": 1,
+      "fonte": "esiti",
+      "nato": "2026-07-03",
+      "ultima_conferma": "2026-07-03",
       "stato": "attiva"
     }
   ],
