@@ -11,7 +11,8 @@
 //   1) Calcola una FIRMA dello stato reale MISURABILE via REST (le stesse cose che il giro analizza):
 //      - ordini: conteggio totale + timestamp dell'ultimo ordine (nuovi ordini = nuovi incassi/attività)
 //      - clienti: conteggio (best-effort; null se la tabella non è leggibile → non blocca)
-//      - sentinelle/sensori: firma della cecità (quali sensori ciechi + max giri ciechi) + coda falliti
+//      - sentinelle/sensori: firma della cecità = STATO booleano per sensore (cieco sì/no), NON la
+//        durata (il contatore max_giri_ciechi è escluso: crescerebbe a ogni giro e forzerebbe un pieno)
 //   2) Confronta la firma con quella dell'ULTIMO GIRO PIENO (non l'ultimo giro: così si salta
 //      finché non cambia davvero qualcosa rispetto all'ultima analisi completa).
 //   3) Decide:
@@ -102,17 +103,24 @@ async function ultimoTimestamp(url, key, table, col = "created_at") {
 }
 
 // Firma della cecità/sentinelle dai dati DETERMINISTICI già scritti da verifica-sensori.mjs.
+// [REVIEW 3/7] AR-019 rientrava da una porta laterale: `max_giri_ciechi` è un CONTATORE che cresce
+// di 1 a ogni giro finché un sensore resta cieco. Metterlo nella firma faceva sì che un sensore
+// OPZIONALE/non-critico già-noto-cieco (es. PostHog 401) spostasse la firma a OGNI ciclo → giro pieno
+// forzato ogni volta, a rendimento nullo. La firma deve catturare i CAMBI DI STATO (una visibilità che
+// si accende/spegne), non la DURATA della cecità: perciò entra solo lo STATO booleano per sensore
+// (cieco sì/no) — mai il contatore incrementale. La cecità prolungata è già coperta dall'heartbeat
+// (MAX_ORE), che fa ripartire il giro comunque dopo N ore senza pieno.
 function firmaSensori() {
   const cecita = readJson(CECITA_PATH, {});
   const sensori = cecita.sensori || {};
-  // Solo lo STATO per sensore (ok/cieco/non_configurato): un cambio di visibilità sposta la firma.
+  // Stato booleano per sensore (ok/cieco/non_configurato): un cambio di visibilità sposta la firma.
   const stati = Object.keys(sensori)
     .sort()
     .map((k) => `${k}:${sensori[k]?.stato || "?"}`)
     .join(",");
   return {
     stati,
-    max_giri_ciechi: Number(cecita.meta?.max_giri_ciechi ?? 0),
+    // NB: `max_giri_ciechi` (contatore incrementale) volutamente ESCLUSO dalla firma — vedi sopra.
     almeno_un_dato: cecita.meta?.almeno_un_dato !== false,
   };
 }
