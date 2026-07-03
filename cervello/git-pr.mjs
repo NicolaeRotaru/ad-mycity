@@ -190,7 +190,7 @@ async function main() {
     process.exit(1);
   }
 
-  const authorEmail = process.env.GIT_AUTHOR_EMAIL || "ad@mycity.local";
+  const authorEmail = process.env.GIT_AUTHOR_EMAIL || "98592323+NicolaeRotaru@users.noreply.github.com";
   const authorName = process.env.GIT_AUTHOR_NAME || "AD MyCity";
   const gitEnv = {
     GIT_AUTHOR_EMAIL: authorEmail,
