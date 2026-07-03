@@ -196,7 +196,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   useEffect(() => {
     const apriDaHash = () => {
       const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = { "azioni-mosse": "mosse", "azioni-proposte": "proposte", "azioni-dafare": "dafare", "azioni-sentinelle": "sentinelle", "azioni-approvare": "approvare" };
+      const map: Record<string, Tab> = { "azioni-mosse": "mosse", "azioni-proposte": "proposte", "azioni-dafare": "dafare", "azioni-sentinelle": "sentinelle", "azioni-approvare": "approvare", "azioni-registro": "registro" };
       if (map[h]) setTab(map[h]);
     };
     apriDaHash();
@@ -422,7 +422,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         {tabs.map((t) => (
           <button
             key={t.id}
-            onClick={() => setTab(t.id)}
+            onClick={() => {
+              setTab(t.id);
+              // Timbra una voce di cronologia per la scheda: così il tasto INDIETRO del mouse
+              // torna alla scheda precedente invece di saltare fuori alla Plancia (vedi page.tsx).
+              if (typeof window !== "undefined") window.location.hash = `azioni-${t.id}`;
+            }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
             }`}
