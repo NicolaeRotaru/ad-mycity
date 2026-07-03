@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 16:25",
+  "aggiornato": "2026-07-03 20:15",
   "nota_giro": "Radiografia profonda 3/7 COMPLETA (12/12 dim dopo la ripresa post-reset). Aggiunti 46 difetti dalle 8 dimensioni completate (AR-051→AR-096), incluso il BLOCCANTE guardrail-semaforo (autopilot pubblica i 🟡 in LIVE). Il finding 'faro' della dim allineamento-northstar è stato consolidato in AR-044 (aggiornata la sua verifica a machine-checkable). Il bloccante del PANNELLO è nel report consegne/design/. Fix tutti 🟡/🔴: firma Nicola.",
   "difetti": [
     {
@@ -1362,9 +1362,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 20:15",
+      "chiuso_come": "Aggiunto --read-only alla connessione supabase-memoria in .mcp.json: il cervello non puo piu DROP/DELETE la memoria via SQL (le scritture vere passano da REST). Le due --read-only ora presenti."
     },
     {
       "id": "AR-092",
@@ -1463,9 +1464,9 @@
     }
   ],
   "meta": {
-    "aperti": 5,
+    "aperti": 4,
     "in_corso": 0,
-    "chiusi": 73,
-    "nota_conteggio": "5 aperti + 73 chiusi su 78. Radiografia 3/7 chiusa: 2 passate di fix (un-agente-per-file) + bonifiche. I 5 rimasti dipendono TUTTI da Nicola: AR-032 (verdetto STAMPO), AR-040 (PostHog dopo 10/7), AR-066 (giudizio su previsioni banali), AR-090+AR-091 (chiavi Supabase: separazione + memoria read-only). I 30 bug del Pannello sono applicati nel branch (da anteprima prima del merge)."
+    "chiusi": 74,
+    "nota_conteggio": "4 aperti + 74 chiusi su 78. Restano SOLO punti che dipendono da Nicola: AR-090 (creare chiavi Supabase separate), AR-032 (verdetto STAMPO), AR-040 (PostHog dopo 10/7), AR-066 (ok alla regola anti-previsioni-banali). Vedi consegne/decisioni/2026-07-03-foglio-firma-5-punti.md."
   }
 }
