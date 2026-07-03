@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-03 12:21",
+  "aggiornato": "2026-07-03 14:32",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-07-03",
-    "runs": 11,
+    "runs": 12,
     "token_totali": 0,
-    "durata_sec_totale": 4289,
+    "durata_sec_totale": 4994,
     "voci": [
       {
         "quando": "2026-07-03 00:16",
@@ -82,6 +82,13 @@
         "quando": "2026-07-03 12:21",
         "tipo": "giro",
         "durata_sec": 67,
+        "token": null,
+        "modello": "claude"
+      },
+      {
+        "quando": "2026-07-03 14:32",
+        "tipo": "giro",
+        "durata_sec": 705,
         "token": null,
         "modello": "claude"
       }
