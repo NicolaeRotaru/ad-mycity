@@ -77,9 +77,18 @@ function minutiBackoff(classe, tentativi) {
 }
 
 // Decide cosa fare di un lavoro fallito.
-//   { tipo, tentativi, risultato, nowMs } → { azione:"ritenta"|"stop", tentativi, quandoISO, classe, motivo, maxTent }
-export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs } = {}) {
+//   { tipo, tentativi, risultato, nowMs, errorAtMs } → { azione:"ritenta"|"stop", tentativi, quandoISO, classe, motivo, maxTent }
+//   errorAtMs = quando l'errore è AVVENUTO (updated_at del lavoro). Serve a calcolare l'istante
+//   giusto del reset quota: vedi il commento sul punto 3) qui sotto.
+export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, errorAtMs } = {}) {
   const now = Number.isFinite(nowMs) ? nowMs : Date.now();
+  // Riferimento per calcolare l'ISTANTE del reset ("resets 2:30am"): il momento in cui l'errore è
+  // avvenuto, NON "adesso". Quando la sentinella rivaluta un errore DOPO che l'ora di reset è già
+  // passata (es. errore prima delle 2:30, sentinella alle 2:36), usare "adesso" farebbe scattare la
+  // regola "già passato oggi → la prossima è domani" e spingerebbe il ritentativo di +24h — mentre la
+  // quota si è GIÀ resettata e il lavoro potrebbe ripartire subito. Ancorando al momento dell'errore,
+  // l'istante calcolato cade nel passato → il worker lo riprende immediatamente.
+  const refMs = Number.isFinite(errorAtMs) ? errorAtMs : now;
   const tent = Number.isFinite(+tentativi) ? +tentativi : 0;
   const { classe, resetHint } = classificaErrore(risultato);
   const preEsec = TIPI_PRE_ESECUZIONE.has(tipo);
@@ -115,8 +124,9 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs } = {
     };
   }
 
-  // 3) Quando ritentare: se il messaggio dà l'ora di reset, aspettiamo QUELLA; altrimenti backoff.
-  const daOrario = classe === "quota" && resetHint ? istanteDaOrario(resetHint, now) : null;
+  // 3) Quando ritentare: se il messaggio dà l'ora di reset, aspettiamo QUELLA (ancorata al momento
+  //    dell'errore → vedi refMs sopra); altrimenti backoff dal momento attuale.
+  const daOrario = classe === "quota" && resetHint ? istanteDaOrario(resetHint, refMs) : null;
   const quandoMs = daOrario ?? now + minutiBackoff(classe, tent) * 60 * 1000;
 
   return {
@@ -138,10 +148,12 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs } = {
 // --- CLI: `decidi` legge da env (RP_TIPO/RP_TENTATIVI/RP_RISULTATO) e stampa una riga JSON ---
 const isMain = import.meta.url === `file://${process.argv[1]}`;
 if (isMain && process.argv[2] === "decidi") {
+  const errAt = Date.parse(process.env.RP_ERROR_AT || "");
   const out = decidiRitento({
     tipo: process.env.RP_TIPO || "",
     tentativi: process.env.RP_TENTATIVI || "0",
     risultato: process.env.RP_RISULTATO || "",
+    errorAtMs: Number.isFinite(errAt) ? errAt : undefined,
   });
   process.stdout.write(JSON.stringify(out));
   process.exit(0);
@@ -153,6 +165,15 @@ if (isMain && process.argv[2] === "--self-test") {
     { tipo: "esegui-azione", tentativi: 0, risultato: "[worker] TIMEOUT dopo 900s — lavoro interrotto." },
     { tipo: "giro", tentativi: 0, risultato: "[worker] TIMEOUT giro dopo 2700s." },
     { tipo: "proposta", tentativi: 6, risultato: "session limit resets 9:30pm" },
+    // Reset già passato quando si rivaluta l'errore: deve dare un istante NEL PASSATO (retry subito),
+    // non a +24h. errorAt 02:10, reset 2:30am, "adesso" 02:36 → riprova_dopo ~02:32 (passato) = subito.
+    {
+      tipo: "esegui-azione",
+      tentativi: 0,
+      risultato: "You've hit your session limit · resets 2:30am (Europe/Rome) [worker] rc=1.",
+      errorAtMs: new Date("2026-07-03T00:10:00Z").getTime(),
+      nowMs: new Date("2026-07-03T00:36:00Z").getTime(),
+    },
   ];
   for (const c of casi) console.log(JSON.stringify(c), "→", JSON.stringify(decidiRitento(c)));
   process.exit(0);

@@ -78,7 +78,17 @@ async function main() {
   for (const l of errore) {
     let d = { azione: "stop" };
     try {
-      d = decidiRitento({ tipo: l.tipo, tentativi: l.tentativi ?? 0, risultato: l.risultato, nowMs });
+      // errorAtMs = quando il lavoro è passato a 'errore' (updated_at): ancora l'ora di reset quota
+      // al momento dell'errore, non ad "adesso" (evita il ritentativo spinto a +24h quando la
+      // sentinella rivaluta dopo che il reset è già passato — cfr. retry-policy.mjs).
+      const errAt = Date.parse(l.updated_at || l.created_at || "");
+      d = decidiRitento({
+        tipo: l.tipo,
+        tentativi: l.tentativi ?? 0,
+        risultato: l.risultato,
+        nowMs,
+        errorAtMs: Number.isFinite(errAt) ? errAt : undefined,
+      });
     } catch {
       /* in caso di dubbio: NON ritentare (prudenza) */
     }

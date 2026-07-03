@@ -98,6 +98,63 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
     setApertiLavori((s) => ({ ...s, [id]: !s[id] }));
   }
 
+  // Banda rossa "approvata ma non eseguita" + bottone Riprova. `diretto` = mostrata sotto l'header
+  // del gruppo (conversazione a 1 messaggio), senza il bordo che la aggancia a una card interna.
+  function bandaErrore(lv: LavoroBase, diretto = false) {
+    if (lv.stato !== "errore") return null;
+    return (
+      <div className={`${diretto ? "rounded-lg border" : "border-t"} border-red-200/60 dark:border-red-900/40 bg-red-50/60 dark:bg-red-950/20 px-3 py-2 flex items-start gap-2 flex-wrap`}>
+        <div className="min-w-0 flex-1 text-[12px] text-red-800 dark:text-red-300 leading-snug">
+          <b>Approvata ma non eseguita.</b> {motivoBreve(lv.risultato)}
+        </div>
+        {riprovati[lv.id] === "fatto" ? (
+          <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => riprova(lv.id)}
+            disabled={riprovati[lv.id] === "invio"}
+            className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-red-400/50 text-red-700 dark:text-red-300 rounded-lg px-2.5 py-1 hover:bg-red-100/70 dark:hover:bg-red-900/30 transition disabled:opacity-50"
+            title="Riapprova: rimette l'azione in coda per rieseguirla ora che il worker è attivo"
+          >
+            🔄 {riprovati[lv.id] === "invio" ? "Rimetto…" : riprovati[lv.id] === "errore" ? "Riprova (ritenta)" : "Riprova"}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // Corpo del messaggio: Richiesta + Risposta. `diretto` = reso subito sotto l'header del gruppo
+  // (nessun padding/bordo di card interna: lo dà già il contenitore del gruppo).
+  function corpoLavoro(lv: LavoroBase, diretto = false) {
+    return (
+      <div className={`space-y-2 ${diretto ? "" : "border-t border-black/[0.05] dark:border-white/10 px-3 pb-3 pt-2"}`}>
+        <div className="text-[13px] text-ink/80 dark:text-white/80 whitespace-pre-wrap break-words">
+          <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1">Richiesta</span>
+          {lv.richiesta}
+        </div>
+        {lv.risultato && (
+          <div className="text-ink/85 dark:text-white/85 border-t border-black/[0.06] dark:border-white/10 pt-2 text-[13px] prose-sm dark:prose-invert max-w-none">
+            <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1 not-prose">Risposta</span>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{lv.risultato}</ReactMarkdown>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Badge "↻ ritenta ~HH:MM" per un lavoro in attesa del ritentativo automatico.
+  function badgeRitentativo(lv: LavoroBase) {
+    const q = attendeRitentativo(lv);
+    if (!q) return null;
+    return (
+      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800 font-medium">
+        ↻ ritenta ~{new Date(q).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}
+        {lv.tentativi ? ` · tent. ${lv.tentativi}` : ""}
+      </span>
+    );
+  }
+
   const contenuto = (
     <>
       {mostraAvviso && (
@@ -168,10 +225,12 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       {statoBadge(statoUltimo)}
-                      {multi && (
+                      {multi ? (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50">
                           {g.lavori.length} messaggi · stessa chat
                         </span>
+                      ) : (
+                        badgeRitentativo(g.lavori[0])
                       )}
                       <span className="ml-auto text-[11px] text-black/40 dark:text-white/40 shrink-0">{faRelativo(g.ultimoAt)}</span>
                     </div>
@@ -189,8 +248,17 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                 </button>
                 </div>
 
-                {gruppoAperto && (
-                  <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 space-y-2">
+                {gruppoAperto && !multi && (
+                  // Conversazione a UN solo messaggio: l'header del gruppo È il messaggio →
+                  // mostro il contenuto DIRETTAMENTE, senza una seconda card da riaprire.
+                  <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 pt-2.5 space-y-2">
+                    {bandaErrore(g.lavori[0], true)}
+                    {corpoLavoro(g.lavori[0], true)}
+                  </div>
+                )}
+
+                {gruppoAperto && multi && (
+                  <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 pt-2 space-y-2">
                     {g.lavori.map((lv, i) => {
                       const lavoroAperto = apertiLavori[lv.id] === true;
                       return (
@@ -208,58 +276,17 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                             </span>
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                                {multi && <span className="text-[10px] text-black/35 dark:text-white/35 font-medium">#{i + 1}</span>}
+                                <span className="text-[10px] text-black/35 dark:text-white/35 font-medium">#{i + 1}</span>
                                 {statoBadge(lv.stato)}
-                                {(() => {
-                                  const q = attendeRitentativo(lv);
-                                  return q ? (
-                                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800 font-medium">
-                                      ↻ ritenta ~{new Date(q).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}
-                                      {lv.tentativi ? ` · tent. ${lv.tentativi}` : ""}
-                                    </span>
-                                  ) : null;
-                                })()}
+                                {badgeRitentativo(lv)}
                                 <span className="ml-auto text-[10px] text-black/35 dark:text-white/35">{faRelativo(lv.updated_at || lv.created_at)}</span>
                               </div>
                               <div className="text-[13px] font-medium text-ink/80 dark:text-white/80 line-clamp-2">{titoloLavoro(lv)}</div>
                             </div>
                           </button>
 
-                          {lv.stato === "errore" && (
-                            <div className="border-t border-red-200/60 dark:border-red-900/40 bg-red-50/60 dark:bg-red-950/20 px-3 py-2 flex items-start gap-2 flex-wrap">
-                              <div className="min-w-0 flex-1 text-[12px] text-red-800 dark:text-red-300 leading-snug">
-                                <b>Approvata ma non eseguita.</b> {motivoBreve(lv.risultato)}
-                              </div>
-                              {riprovati[lv.id] === "fatto" ? (
-                                <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => riprova(lv.id)}
-                                  disabled={riprovati[lv.id] === "invio"}
-                                  className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-red-400/50 text-red-700 dark:text-red-300 rounded-lg px-2.5 py-1 hover:bg-red-100/70 dark:hover:bg-red-900/30 transition disabled:opacity-50"
-                                  title="Riapprova: rimette l'azione in coda per rieseguirla ora che il worker è attivo"
-                                >
-                                  🔄 {riprovati[lv.id] === "invio" ? "Rimetto…" : riprovati[lv.id] === "errore" ? "Riprova (ritenta)" : "Riprova"}
-                                </button>
-                              )}
-                            </div>
-                          )}
-
-                          {lavoroAperto && (
-                            <div className="border-t border-black/[0.05] dark:border-white/10 px-3 pb-3 pt-2 space-y-2">
-                              <div className="text-[13px] text-ink/80 dark:text-white/80 whitespace-pre-wrap break-words">
-                                <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1">Richiesta</span>
-                                {lv.richiesta}
-                              </div>
-                              {lv.risultato && (
-                                <div className="text-ink/85 dark:text-white/85 border-t border-black/[0.06] dark:border-white/10 pt-2 text-[13px] prose-sm dark:prose-invert max-w-none">
-                                  <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1 not-prose">Risposta</span>
-                                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{lv.risultato}</ReactMarkdown>
-                                </div>
-                              )}
-                            </div>
-                          )}
+                          {bandaErrore(lv)}
+                          {lavoroAperto && corpoLavoro(lv)}
                         </div>
                       );
                     })}
