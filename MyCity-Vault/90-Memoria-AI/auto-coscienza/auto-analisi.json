@@ -62,9 +62,10 @@
     "Se nulla si muove ancora: valutare un nuovo 🟢 ad alto valore (es. lista 10 lead prioritari pronta) per non restare solo in osservazione."
   ],
   "salute_macchina": {
+    "supabase": "cieco in sessione (needsAuth) — baseline 29/6",
+    "stripe": "non interrogato",
     "supabase_marketplace": "cieco in sessione (needsAuth) — baseline 29/6",
     "supabase_memoria": "non interrogato in sessione (scrittura su file del vault, sincronizzata via git)",
-    "stripe": "non interrogato",
     "posthog": "non collegato",
     "dati_freschi": false,
     "sensori_attivi": 1

@@ -18,6 +18,10 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ## Coda
 > Le ultime 2 colonne (**Cosa cambia · Se va bene**) sono la spiegazione che compare nella card del Pannello:
 > scrivile in parole semplici per Nicola. Sono opzionali — se vuote, il Pannello mette un testo per-reparto.
+>
+> ⚠️ **Impatto sistema (AR-081 · pre-mortem cross-silo):** se una mossa di reparto rischia di **brucia margine**
+> o **intasa operations** (spillover su altri silos), segnalalo in "Cosa cambia" con `⚠️ impatto sistema: …`.
+> È la forcing-function della visione olistica (AD-VETTORI-SISTEMA): una vittoria di reparto non deve costare all'azienda.
 
 | # | Data e ora | Reparto | Azione (pronta) | Colore | Contenuto | Canale | Stato | Cosa cambia | Se va bene |
 |---|---|---|---|---|---|---|---|---|---|

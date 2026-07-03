@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-02 11:55",
+  "aggiornato": "2026-07-03 16:10",
   "sensori": {
     "supabase_rest": {
       "giri_ciechi": 1,
@@ -23,14 +23,29 @@
       "ultimo_errore": "",
       "canale": "MCP Cursor/Claude",
       "dettaglio": "MCP Supabase raggiungibile in sessione"
+    },
+    "posthog_api": {
+      "giri_ciechi": 0,
+      "stato": "non_configurato",
+      "ultimo_errore": "POSTHOG non collegato (abbonamento dopo il 10/7)",
+      "canale": "PostHog",
+      "dettaglio": "sensore non configurato: non conta come cieco"
+    },
+    "resend_api": {
+      "giri_ciechi": 0,
+      "stato": "non_configurato",
+      "ultimo_errore": "RESEND_API_KEY assente",
+      "canale": "Resend email",
+      "dettaglio": "sensore non configurato"
     }
   },
   "meta": {
     "giri_totali": 1,
     "sensori_ok": 1,
-    "sensori_totali": 3,
+    "sensori_totali": 5,
     "max_giri_ciechi": 1,
     "almeno_un_dato": true
   },
-  "istruzioni_giro": "Stripe ok ma Supabase REST cieco: limita analisi ordini; verifica MARKETPLACE_SUPABASE_* sul VPS."
+  "istruzioni_giro": "Stripe ok ma Supabase REST cieco: limita analisi ordini; verifica MARKETPLACE_SUPABASE_* sul VPS.",
+  "_nota_bonifica": "AR-042 (3/7): aggiunti posthog_api e resend_api (AR-022). Il file resta rigenerato da verifica-sensori a ogni giro."
 }
