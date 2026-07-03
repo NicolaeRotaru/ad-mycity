@@ -1483,7 +1483,7 @@
     "Il voto 42 è una stima onesta dell'AD (la formula automatica dava 0, essa stessa un difetto segnalato in calibrazione-onesta): è indicativo, non riproducibile finché il calcolo del voto non è sistemato."
   ],
   "sonda": {
-    "data": "2026-07-03 06:20",
+    "data": "2026-07-03 08:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
@@ -1492,13 +1492,13 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 18,
-    "ore_da_ultimo_briefing": 6,
-    "max_giri_ciechi_sensori": 10,
+    "ore_da_ultima_completa": 20,
+    "ore_da_ultimo_briefing": 2,
+    "max_giri_ciechi_sensori": 11,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "verdetto": "attenzione",
-    "nota": "loop chiude (con prova) · briefing 6h fa · cecità sensori 10 giri"
+    "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 11 giri"
   },
   "meta": {
     "agenti_totali": 42,
@@ -1507,7 +1507,7 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-03 06:20"
+    "aggiornato": "2026-07-03 08:20"
   },
   "cantiere_progress": {
     "aggiornato": "2026-07-02 13:05",
