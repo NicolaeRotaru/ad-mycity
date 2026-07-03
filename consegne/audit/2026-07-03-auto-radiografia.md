@@ -1,43 +1,38 @@
 ---
 tipo: auto-radiografia (archivio)
-data: 2026-07-03 14:07
-voto_salute: 68
-tipo_run: completa-parziale (4/12 dimensioni verificate; 8 + pre-mortem + benchmark da completare dopo il reset 11:20 UTC)
-workflow: .claude/workflows/auto-radiografia.js — 16/26 agenti done, 10 falliti per limite sessione
+data: 2026-07-03 14:30
+voto_salute: 57
+tipo_run: completa (12/12 dimensioni + pre-mortem + benchmark)
+workflow: .claude/workflows/auto-radiografia.js — 26/26 agenti done (ripreso dopo il limite di sessione del primo run)
 colore: 🟢 analisi · 🟡 fix (firma Nicola)
 ---
 
-# 🩻 Auto-radiografia della macchina — archivio 3/7/2026
+# 🩻 Auto-radiografia della macchina — archivio 3/7/2026 (completa)
 
 Report umano completo: `MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md`.
-Dati machine-readable: `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json` + `cantiere-difetti.json`.
+Dati machine-readable: `auto-coscienza/auto-radiografia.json` + `cantiere-difetti.json`.
 
 ## Sintesi
-Radiografia profonda su comando di Nicola. Il limite di sessione (reset 11:20 UTC) ha completato review+verifica solo su **4/12 dimensioni** e saltato pre-mortem + benchmark. **27 difetti macchina confermati** (verifica avversariale superata). Voto 68 = media dei 4 pilastri verificati (non aggregato pieno). L'audit è molto più profondo del 28/6 (che trovò 3 difetti).
+Radiografia profonda su comando di Nicola, **12/12 dimensioni** verificate avversarialmente + pre-mortem (6) + benchmark (10). **74 difetti confermati** (1 bloccante, 39 gravi, 34 minori). Voto 57 = media dei 12 pilastri (era 72 il 28/6, che però trovò solo 3 difetti). Cantiere: 69 aperti / 9 chiusi.
 
-**Filo rosso:** molti strati sono «scritti/descritti ma non installati come binario che produce». Radice comune: mancano guardiani/validatori deterministici.
+## Voti per dimensione
+coerenza-agenti 71 · vettori-installati 75 · salute-sensori-dati 62 · integrità-memoria 62 · chiusura-volano 57 · cadenza-esecuzione 57 · calibrazione-onesta 61 · copertura-cieca 50 · **guardrail-semaforo 36 (CRITICO)** · allineamento-northstar 67 · efficienza-costo 44 · rischio-sicurezza-se 41.
 
-## Difetti GRAVI confermati (impatto crescita alto in grassetto)
-| ID | Dimensione | Titolo | Impatto |
-|---|---|---|---|
-| AR-024 | coerenza-agenti | Guardiano registro orbo (includes a sottostringa) | medio |
-| AR-027 | coerenza-agenti | AR-008 owner-unico-per-keyword non applicato nelle description | medio |
-| **AR-029** | vettori-installati | Strato 7 (scorecard) scritto ma non produce: 36/41 quaderni vuoti | **alto** |
-| **AR-035** | salute-sensori-dati | Sensore-cassa scrive un file che nessuna sentinella legge | **alto** |
-| **AR-037** | salute-sensori-dati | Cecità dati real-time non escalata (occhi muti, timer giro spento) | **alto** |
-| AR-043 | integrita-memoria | Contratto salute_macchina rotto → tile Supabase/Stripe sempre spenti | medio |
-| **AR-044** | integrita-memoria | Faro contraddittorio: Casa Linda (memoria) vs Pane Quotidiano (CLAUDE.md) | **alto** |
+## 🔴 Bloccante
+**AR-072 — L'autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE** (`autopilot.mjs:120`, gate blocca solo `rosso`). Contro «pubblicare = 🔴». Fix: gate fail-closed (solo `verde` passa).
 
-## Minori confermati: AR-025/026/028 (coerenza), AR-030/031/032/033/034 (vettori), AR-036/038/039/040/041/042 (sensori), AR-045/046/047/048/049/050 (memoria).
-Chiusi in questo giro (bonifica memoria 🟢): AR-045, AR-046, AR-048, AR-047.
+## Gravi ad impatto ALTO (estratto)
+- Sicurezza: scanner-segreti non riconosce `sbp_` (AR-096); MCP memoria R+W senza `--read-only` → DROP memoria (AR-098); merge `--theirs` cieco → doppio invio (AR-099).
+- Sensori: nessun uptime del sito (AR-084); funnel/conversione senza sensore (AR-087); puntualità consegne senza sensore (AR-088); sensore-cassa sordo (AR-035); cecità dati muta (AR-037).
+- Volano/calibrazione: autonomia guadagnata coi sensori ciechi (AR-061); esito senza fonte auto-alimenta il punteggio (AR-062); strato 7 che non impara (AR-029).
+- Allineamento: silo allocazione 13 asset su Garetti vs 1-2 confermati, exit scartato da giro.sh (AR-081); North Star solo prosa (AR-082); faro contraddittorio (AR-044).
+- Costo: router economico codice morto (AR-089); budget token cieco (AR-090); metabolizzazione raddoppia il costo (AR-091).
 
-## Dimensioni da completare dopo il reset (findings grezzi, NON verificati → non nel cantiere)
-`chiusura-volano`, `cadenza-esecuzione`, `calibrazione-onesta`, `copertura-cieca`, **`guardrail-semaforo`** (🔴), `allineamento-northstar`, `efficienza-costo`, **`rischio-sicurezza-se`** (🔴). + **pre-mortem** + **benchmark vs i migliori**.
+## Pre-mortem (6): memoria corrotta pubblicata · destinatario/importo sbagliato · doppia esecuzione · pubblicazione automatica non voluta · kill-switch fail-open · loop che brucia budget.
 
-## Domande per Nicola
-1. Negozio-faro: Casa Linda o Pane Quotidiano? (AR-044)
-2. STAMPO su 42/42 non validato: test prima/dopo ora, o accetti non-validato? (AR-032)
-3. PostHog è instrumentato? (AR-040)
+## Benchmark — divari ALTI: contenuti (0 asset pubblicati) · onboarding (0 negozi a incasso) · funnel (1 ordine fermo) · CRM (0 flow attivi) · consegne (0 consegne reali). Il gap coi migliori non è di sofisticazione, è di FARE la prima cosa vera.
 
-## Pannello (audit dedicato)
+## Domande per Nicola (4): faro (Casa Linda vs Pane Quotidiano, AR-044) · STAMPO non validato (AR-032) · PostHog instrumentato? (AR-040) · token `sbp_` unico super-privilegiato (AR-097).
+
+## Pannello
 `consegne/design/2026-07-03-radiografia-pannello.md` — 30 bug, **1 bloccante** («Annulla» → doppia esecuzione azione reale), 11 gravi.
