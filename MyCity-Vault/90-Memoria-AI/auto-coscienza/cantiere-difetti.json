@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-03 02:42",
+  "aggiornato": "2026-07-03 02:48",
   "difetti": [
     {
       "id": "AR-004",
@@ -330,10 +330,29 @@
       "nato": "2026-07-02",
       "chiuso_il": "2026-07-02",
       "nota_fix": "checkPostHog + checkResend in verifica-sensori.mjs; sensore spento = non_configurato (niente falsa cecità)."
+    },
+    {
+      "id": "AR-024",
+      "titolo": "La salute resta inchiodata a 42 e la sentinella «salute bassa» riscatta ogni 2h su una condizione già interamente in coda: le 20 chiusure-in-codice non sono accreditate finché non c'è merge+deploy (alert fatigue)",
+      "dimensione": "chiusura-volano",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Il voto salute è congelato al valore pre-fix (42) per scelta conservativa ('non accreditare fix non ancora mergiati'), ma la sonda non distingue tre stati: (a) difetto aperto davvero, (b) chiuso-in-codice-in-attesa-di-merge, (c) bloccante che dipende SOLO da un'azione umana già accodata. Trattandoli tutti come 'aperti' il voto non si muove e la sentinella salute<60 rifà scattare l'allerta a ogni giro anche quando NON c'è nulla di nuovo da decidere (i 3 gate — merge+deploy, revoca PAT AR-004, materiale Pane Quotidiano AR-006 — sono già in AZIONI-IN-ATTESA). Manca un voto provvisorio 'pending-merge' + un dedup dell'allerta per stato invariato.",
+      "fix_proposto": "🟡 In cervello/sonda-volano.mjs: calcolare un voto_provvisorio che accredita i difetti con verifica.presente già soddisfatta nel codice su memoria-ad (42→~50, i 2 bloccanti umani restano −25 l'uno), annotato 'pending-merge'; e far scattare la sentinella salute_bassa SOLO quando lo stato cambia rispetto all'ultimo snapshot (dedup su firma), non a ogni giro su condizione invariata e già accodata.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": "",
+      "nota_fix": "Trovato dalla sonda della sentinella 2026-07-03: 20+ snapshot sonda consecutivi a voto 42 identico mentre il cantiere era già a 20 chiusi/2 in-corso-umani. Il volano funziona (chiude i difetti), ma il TERMOMETRO non riflette le chiusure finché non c'è merge → l'allerta perde valore di segnale.",
+      "verifica": {
+        "file": "cervello/sonda-volano.mjs",
+        "pattern": "voto_provvisorio",
+        "presente": true
+      }
     }
   ],
   "meta": {
-    "aperti": 0,
+    "aperti": 1,
     "in_corso": 2,
     "chiusi": 20
   }
