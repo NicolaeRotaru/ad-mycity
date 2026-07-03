@@ -221,12 +221,23 @@ async function leggiStatoReale(state) {
 
   const storico = readJson(STORICO_PATH, {});
   const serie = Array.isArray(storico.serie) ? storico.serie : [];
-  s.salute_voto = serie.length ? Number(serie[serie.length - 1]?.voto_salute ?? null) : null;
+  const ultimoSnap = serie.length ? serie[serie.length - 1] : null;
+  s.salute_voto = ultimoSnap ? Number(ultimoSnap.voto_salute ?? null) : null;
 
   const rad = readJson(RADIOGRAFIA_PATH, {});
   s.radiografia_ore = rad.data ? oreDa(rad.data) : null;
 
   const sonda = rad.sonda || {};
+  // Firma dello stato DECIDIBILE (ID dei difetti 'aperti-davvero', scritta dalla sonda): serve
+  // a svegliare salute_bassa SOLO quando c'è qualcosa di NUOVO da decidere, non a ogni giro su
+  // pending-merge/bloccanti-umani già in coda. Preferisci l'ultimo snapshot storico (durevole su
+  // memoria-ad), poi la sonda in radiografia; null se nessuna delle due l'ha ancora scritta.
+  const firmaSnap = ultimoSnap && ultimoSnap.firma != null ? ultimoSnap.firma : sonda.salute_firma;
+  s.salute_firma = firmaSnap != null ? String(firmaSnap) : null;
+  s.salute_provvisorio = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;
+  s.salute_pending_merge = typeof sonda.pending_merge === "number" ? sonda.pending_merge : null;
+  s.salute_aperti_davvero = typeof sonda.aperti_davvero === "number" ? sonda.aperti_davvero : null;
+  s.salute_bloccanti_umani = typeof sonda.bloccanti_umani === "number" ? sonda.bloccanti_umani : null;
   const appr = readJson(APPRENDIMENTO_PATH, {});
   const tasso = typeof sonda.tasso_applicazione === "number"
     ? sonda.tasso_applicazione
@@ -272,14 +283,28 @@ function valutaRegole(s, state) {
     });
   }
 
-  // M3 — Salute architettura bassa (voto < 60).
+  // M3 — Salute architettura bassa (voto < 60). Dedup su firma di STATO DECIDIBILE per curare
+  //      l'alert-fatigue: la sonda distingue i difetti (a) aperti-davvero da (b) chiusi-in-codice-
+  //      in-attesa-di-merge e (c) bloccanti umani già in AZIONI-IN-ATTESA. Se resta bassa SOLO per
+  //      (b)+(c) — firma vuota — NON c'è nulla di NUOVO da decidere: non svegliare il cervello.
+  //      Altrimenti sveglia UNA volta e ripeti solo se la firma cambia (dedupPersistente = niente
+  //      re-fire a ogni giro/scadenza cooldown su condizione invariata e già accodata).
   if (typeof s.salute_voto === "number" && s.salute_voto < SALUTE_MIN) {
-    eventi.push({
-      ambito: "macchina", chiave: "salute_bassa", colore: "🟡", reparto: "AD", cooldownOre: 24,
-      titolo: `Voto salute architettura ${s.salute_voto} (< ${SALUTE_MIN})`,
-      firma: String(s.salute_voto),
-      prompt: `Sentinella macchina 🧠 — SALUTE BASSA: il voto salute dell'architettura è ${s.salute_voto} (< ${SALUTE_MIN}). Esegui la radiografia completa di te stessa (.claude/workflows/auto-radiografia.js), porta i difetti alla radice nel cantiere e mostra a Nicola i bloccanti per impatto sulla crescita.`,
-    });
+    const firmaNota = s.salute_firma != null;               // la sonda ha già scritto la firma?
+    const nienteDaDecidere = firmaNota && s.salute_firma.length === 0;
+    if (!nienteDaDecidere) {
+      const ctx = s.salute_provvisorio != null
+        ? ` Provvisorio 'pending-merge' ${s.salute_provvisorio}/100: ${s.salute_aperti_davvero ?? "?"} difetti aperti-davvero (da lavorare), ${s.salute_pending_merge ?? "?"} già chiusi-in-codice in attesa di merge+deploy, ${s.salute_bloccanti_umani ?? "?"} bloccanti che dipendono da Nicola (già in AZIONI-IN-ATTESA).`
+        : "";
+      eventi.push({
+        ambito: "macchina", chiave: "salute_bassa", colore: "🟡", reparto: "AD",
+        cooldownOre: 24, dedupPersistente: true,
+        titolo: `Voto salute architettura ${s.salute_voto} (< ${SALUTE_MIN})`,
+        // firma = stato decidibile (ID dei difetti (a)), NON il voto: il merge dei pending non ri-sveglia.
+        firma: firmaNota ? s.salute_firma : String(s.salute_voto),
+        prompt: `Sentinella macchina 🧠 — SALUTE BASSA: il voto salute dell'architettura è ${s.salute_voto} (< ${SALUTE_MIN}).${ctx} Concentrati sui difetti aperti-davvero: portali alla radice nel cantiere (o esegui la radiografia completa, .claude/workflows/auto-radiografia.js) e mostra a Nicola i bloccanti per impatto sulla crescita. I fix già in codice si accreditano al merge+deploy: non serve rifare l'analisi finché lo stato non cambia.`,
+      });
+    }
   }
 
   // M4 — Radiografia di sé vecchia (> 10 giorni).
@@ -406,9 +431,15 @@ function giornoDa(quando) { return String(quando).slice(0, 10); }
 function valutaCooldown(ev, state) {
   const r = state.regole[ev.chiave] || {};
   const cd = typeof ev.cooldownOre === "number" ? ev.cooldownOre : COOLDOWN_ORE;
-  if (r.ultimo_accodato_iso && r.ultima_firma === ev.firma) {
-    const dt = Date.now() - new Date(r.ultimo_accodato_iso).getTime();
-    if (dt < oreMs(cd)) return { ok: false, motivo: `cooldown (${cd}h, stessa firma)` };
+  if (r.ultima_firma === ev.firma) {
+    // dedupPersistente: stessa firma = stesso stato → NON ri-scattare MAI finché lo stato non
+    // cambia (nessun re-fire alla scadenza del cooldown). È la cura all'alert-fatigue su una
+    // condizione invariata e già interamente in coda (es. salute_bassa da soli pending-merge).
+    if (ev.dedupPersistente) return { ok: false, motivo: "stato invariato (dedup su firma)" };
+    if (r.ultimo_accodato_iso) {
+      const dt = Date.now() - new Date(r.ultimo_accodato_iso).getTime();
+      if (dt < oreMs(cd)) return { ok: false, motivo: `cooldown (${cd}h, stessa firma)` };
+    }
   }
   return { ok: true };
 }

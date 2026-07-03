@@ -107,6 +107,32 @@ function main() {
   const sensoriOk = Number(cecita.meta?.sensori_ok ?? 0);
   const sentinelleScattano = maxCecita >= 3 || sensoriOk === 0;
 
+  // ═══ Voto provvisorio 'pending-merge' + firma dello stato DECIDIBILE (fix alert-fatigue) ═══
+  // Regola-radice della card: un difetto aperto può stare in 3 stati diversi, ma la sonda li
+  // trattava tutti come "aperti" → il voto restava congelato e la sentinella salute_bassa
+  // ri-scattava a ogni giro su una condizione già interamente in coda (alert fatigue).
+  //   (a) APERTO DAVVERO      → il fix NON è ancora nel codice (verifica.presente !== true)
+  //   (b) CHIUSO-IN-CODICE    → fix già su memoria-ad, manca solo merge+deploy (verifica.presente === true)
+  //   (c) BLOCCANTE UMANO     → dipende SOLO da un'azione umana già in AZIONI-IN-ATTESA (verifica.tipo === "umano")
+  // Fix: (1) accredita i (b) in un voto_provvisorio 'pending-merge'; (2) la firma di stato è
+  // la SOLA lista dei (a) — l'unico lavoro NUOVO da decidere. (b) aspettano il merge, (c)
+  // aspettano Nicola: nessuno dei due è "nuovo da decidere". Firma vuota = niente da decidere.
+  const PESO_GRAVITA = { bloccante: 25, grave: 10, minore: 3 };
+  const difetti = Array.isArray(cantiere.difetti) ? cantiere.difetti : [];
+  const apertiDifetti = difetti.filter((d) => d && d.stato !== "chiuso");
+  const isPendingMerge = (d) => d.verifica && d.verifica.presente === true; // (b)
+  const isBloccanteUmano = (d) => d.verifica && d.verifica.tipo === "umano"; // (c)
+  const isApertoDavvero = (d) => !isPendingMerge(d) && !isBloccanteUmano(d); // (a)
+  const penalita = (arr) => arr.reduce((s, d) => s + (PESO_GRAVITA[d.gravita] || 0), 0);
+  const pendingMerge = apertiDifetti.filter(isPendingMerge);
+  const bloccantiUmani = apertiDifetti.filter(isBloccanteUmano);
+  const apertiDavvero = apertiDifetti.filter(isApertoDavvero);
+  // Scala cantiere (100 − penalità), l'unica in cui "accredito i pending-merge" e il "−25 a
+  // bloccante" hanno senso. Diagnostica: NON tocca voto_salute_architettura (media dei 12 pilastri).
+  const votoPieno = Math.max(0, 100 - penalita(apertiDifetti)); // pessimistico: tutto conta finché non è merge+deploy
+  const votoProvvisorio = Math.max(0, 100 - penalita(apertiDavvero) - penalita(bloccantiUmani)); // accredita i (b)
+  const saluteFirma = apertiDavvero.map((d) => d.id).filter(Boolean).sort().join(",");
+
   // Traccia giri consecutivi con tasso basso
   rad.sonda_meta = rad.sonda_meta || {};
   const prevBassi = Number(rad.sonda_meta.giri_tasso_basso || 0);
@@ -134,11 +160,20 @@ function main() {
     max_giri_ciechi_sensori: maxCecita,
     giri_tasso_basso: giriTassoBasso,
     serve_radiografia_completa: serveRadiografiaCompleta,
+    // Voto provvisorio 'pending-merge' + scomposizione a/b/c dei difetti (scala cantiere).
+    salute_stato: "pending-merge",
+    voto_provvisorio: votoProvvisorio,
+    voto_pieno: votoPieno,
+    pending_merge: pendingMerge.length,   // (b) chiusi-in-codice: accreditati nel provvisorio
+    aperti_davvero: apertiDavvero.length, // (a) l'unico lavoro NUOVO da decidere
+    bloccanti_umani: bloccantiUmani.length, // (c) già in AZIONI-IN-ATTESA
+    salute_firma: saluteFirma,            // firma dello stato decidibile (ID dei (a))
     verdetto,
     nota: [
       loopChiude ? "loop chiude (con prova)" : provaChiusura ? "tasso=0 ma c'è chiusura" : "loop NON chiude: nessuna prova (0 difetti chiusi, calibrazione vuota, 0 esperimenti misurati)",
       giroACadenza ? `briefing ${Math.round(oreBrief)}h fa` : `briefing STALE (${Math.round(oreBrief)}h)`,
       maxCecita >= 3 ? `cecità sensori ${maxCecita} giri` : `sensori max cecità ${maxCecita}`,
+      `salute pending-merge ${votoProvvisorio}/100 (floor ${votoPieno}): ${apertiDavvero.length} aperti-davvero · ${pendingMerge.length} in attesa merge · ${bloccantiUmani.length} bloccanti umani`,
       giriTassoBasso >= 3 ? "tasso basso 3+ giri → radiografia completa" : null,
     ]
       .filter(Boolean)
@@ -150,19 +185,35 @@ function main() {
 
   writeJson(RAD_PATH, rad);
 
+  // La SERIE storica resta sulla scala del voto completa (media dei 12 pilastri) per coerenza:
+  // il voto_provvisorio (scala cantiere) viaggia come campo diagnostico a parte, non mescolato.
   const voto = Number(rad.voto_salute_architettura ?? 72);
-  const difettiAperti = readJson(join(VAULT, "cantiere-difetti.json")).meta?.aperti ?? 0;
+  const difettiAperti = cantiere.meta?.aperti ?? apertiDifetti.length;
   const ultimoSnap = storico.serie?.[storico.serie.length - 1];
   const oggi = quando.slice(0, 10);
   const nuovoSnap = {
     data: oggi,
     voto_salute: voto,
+    voto_provvisorio: votoProvvisorio,
+    voto_pieno: votoPieno,
+    firma: saluteFirma,
     difetti_aperti: difettiAperti,
     difetti_chiusi: difettiChiusi,
+    pending_merge: pendingMerge.length,
+    aperti_davvero: apertiDavvero.length,
+    bloccanti_umani: bloccantiUmani.length,
     tipo: "sonda",
     nota: sonda.nota,
   };
-  if (!ultimoSnap || ultimoSnap.data !== oggi || ultimoSnap.nota !== sonda.nota) {
+  // Dedup del punto storico: nuovo snapshot solo se cambia lo stato DECIDIBILE (firma) o il voto —
+  // non un punto identico a ogni giro su condizione invariata.
+  if (
+    !ultimoSnap ||
+    ultimoSnap.data !== oggi ||
+    ultimoSnap.nota !== sonda.nota ||
+    (ultimoSnap.firma ?? "") !== saluteFirma ||
+    ultimoSnap.voto_salute !== voto
+  ) {
     storico.serie = storico.serie || [];
     storico.serie.push(nuovoSnap);
     if (storico.serie.length > 90) storico.serie = storico.serie.slice(-90);
@@ -184,6 +235,8 @@ function main() {
     console.log(`Loop chiude:        ${loopChiude ? "✅" : "❌"} (tasso ${Math.round(tasso * 100)}%)`);
     console.log(`Giro a cadenza:     ${giroACadenza ? "✅" : "❌"} (briefing ${Math.round(oreBrief)}h fa)`);
     console.log(`Sentinelle:         ${sentinelleScattano ? "⚠️  scattate" : "✅ quiete"}`);
+    console.log(`Salute pending-merge:${votoProvvisorio}/100 (floor ${votoPieno}) — ${apertiDavvero.length} aperti-davvero · ${pendingMerge.length} in attesa merge · ${bloccantiUmani.length} bloccanti umani`);
+    console.log(`Firma stato decidibile: ${saluteFirma || "(vuota → niente di nuovo da decidere)"}`);
     console.log(`Verdetto:           ${verdetto}`);
     if (serveRadiografiaCompleta) {
       console.log("\n→ Accoda 🟡 radiografia completa di sé (ritmo settimanale o su comando).");

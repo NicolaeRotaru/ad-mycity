@@ -17,7 +17,7 @@ import ParlaCasella from "@/components/ParlaCasella";
 
 type Finding = { titolo?: string; dove?: string; severita?: string; descrizione?: string; impatto?: string; causa_radice?: string; fix?: string; impatto_crescita?: string; genera?: string };
 type Dimensione = { key?: string; voto?: number; stato?: string; sintesi?: string; findings?: Finding[] };
-type Difetto = { id?: string; titolo?: string; dimensione?: string; gravita?: string; impatto_crescita?: string; causa_radice?: string; fix_proposto?: string; stato?: string; nato?: string; chiuso_il?: string };
+type Difetto = { id?: string; titolo?: string; dimensione?: string; gravita?: string; impatto_crescita?: string; causa_radice?: string; fix_proposto?: string; stato?: string; nato?: string; chiuso_il?: string; nota_fix?: string; nota?: string; verifica?: { tipo?: string; file?: string; pattern?: string }; chiuso_come?: string };
 type PreMortem = { disastro?: string; probabilita?: string; come?: string; difesa_proposta?: string };
 type Bench = { ambito?: string; come_fanno_i_migliori?: string; esempi?: { chi?: string; cosa?: string; link?: string }[]; nostro_divario?: string; obiettivo?: string; primo_passo?: string };
 type Radiografia = {
@@ -276,11 +276,18 @@ export default function RadiografiaDiSe() {
                       <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                       <span className="text-[10px] font-bold text-black/50">{g.label}</span>
                       {x.impatto_crescita && <span className={`text-[10px] px-1.5 rounded ${IMPATTO[x.impatto_crescita] || ""}`}>crescita {x.impatto_crescita}</span>}
+                      {x.stato === "in-corso" && (
+                        <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 ring-1 ring-blue-200" title="Il lavoro tecnico è fatto; resta un'azione umana per chiudere">
+                          <Wrench size={10} /> fix fatto — attende Nicola
+                        </span>
+                      )}
                       <span className="t-eti ml-auto">{x.id}</span>
                     </div>
                     <div className="text-[12.5px] font-medium mt-1">{x.titolo}</div>
                     {x.causa_radice && <div className="text-[12px] text-black/60 mt-1"><b>Causa radice:</b> {x.causa_radice}</div>}
                     {x.fix_proposto && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {x.fix_proposto}</div>}
+                    {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>🔧 Già fatto nel codice:</b> {x.nota_fix}</div>}
+                    {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
                     {azId && (
                       <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
                         <ArrowRight size={12} /> Vai all'azione collegata

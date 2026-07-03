@@ -85,6 +85,7 @@ import {
   Zap,
   Plug,
   Cpu,
+  FolderTree,
   Swords,
   CalendarDays,
   Lightbulb,
@@ -95,6 +96,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
+import EsploraGitHub from "@/components/aree/EsploraGitHub";
 import MacchinaArea from "@/components/aree/MacchinaArea";
 import Lavori from "@/components/aree/Lavori";
 import Storico from "@/components/aree/Storico";
@@ -585,6 +587,7 @@ type Vista =
   | "operazioni"
   | "mondo"
   | "assistente"
+  | "esplora"
   | "storico";
 
 type AssistenteTab = "chat" | "conversazioni" | "storico";
@@ -1204,8 +1207,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
     // state=null e il tasto INDIETRO fa un clic a vuoto e poi esce dal Pannello.
-    // URL senza hash (pathname+search): un solo canale di cronologia. (contratto nav)
-    try { window.history.replaceState({ vista: iniz, sub: undefined }, "", window.location.pathname + window.location.search); } catch {}
+    // MERGE con lo stato esistente: Next.js (App Router) tiene i suoi internals in history.state
+    // (__NA, __PRIVATE_NEXTJS_INTERNALS_TREE). Sovrascrivere lo state li cancella → al primo INDIETRO
+    // Next non riconosce la voce e fa un RELOAD dell'intera pagina (ti sbatte fuori dall'area). Fondendo
+    // preserviamo gli internals e la navigazione resta client-side.
+    try { window.history.replaceState({ ...(window.history.state || {}), vista: iniz }, ""); } catch {}
     ultimaVistaStoria.current = iniz;
   }, []);
   useEffect(() => {
@@ -1215,7 +1221,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     // pushState con URL = pathname+search (niente hash): il cambio AREA non trascina residui
     // di hash di una scheda precedente (che facevano fare un clic a vuoto). (bug #2/#4)
     if (ultimaVistaStoria.current !== vista) {
-      try { window.history.pushState({ vista, sub: undefined }, "", window.location.pathname + window.location.search); } catch {}
+      try { window.history.pushState({ ...(window.history.state || {}), vista }, ""); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
@@ -1227,7 +1233,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
       const st = e.state as { vista?: string; sub?: string } | null;
-      const v = st?.vista || ultimaVistaStoria.current || "plancia";
+      // Voce SENZA stato = navigazione a hash interna a un'area (impostare window.location.hash
+      // crea una voce con state=null e fa scattare ANCHE popstate, non solo hashchange — es. le
+      // tab Radiografia ⇄ Auto-coscienza). Non è un "torna alla plancia": resta nell'area corrente
+      // e timbra la voce con la vista attuale, così il tasto INDIETRO la conosce e non esce a vuoto.
+      if (!st?.vista) {
+        try { window.history.replaceState({ ...(window.history.state || {}), vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
+        return;
+      }
+      const v = st.vista;
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
@@ -1504,6 +1518,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+            { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
           ] as const;
           return (
             <div className="flex flex-wrap gap-2">
@@ -1638,6 +1653,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         )}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
+        {vista === "esplora" && <EsploraGitHub />}
+
         {vista === "assistente" && (
         <div className="space-y-4">
           <div>

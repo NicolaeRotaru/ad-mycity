@@ -108,7 +108,8 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
   "salute_marketplace":{"voto":0,"da":"consegne/audit/…","sintesi":"…"},
   "proposte_nuovi_pezzi":[{"cosa":"sensore|agente|capacità|sentinella","perche":"…","colore":"🟡"}],
   "domande_per_nicola":[{"domanda":"…","perche_serve":"…","se_rispondi":"…","gravita":"…"}],
-  "sonda":{"loop_chiude":true,"tasso_applicazione":0.0,"giro_a_cadenza":true,"sentinelle_scattano":true,"ore_da_ultima_completa":0,"verdetto":"ok|serve-completa"},
+  "sonda":{"loop_chiude":true,"tasso_applicazione":0.0,"giro_a_cadenza":true,"sentinelle_scattano":true,"ore_da_ultima_completa":0,
+    "salute_stato":"pending-merge","voto_provvisorio":0,"voto_pieno":0,"pending_merge":0,"aperti_davvero":0,"bloccanti_umani":0,"salute_firma":"AR-…,AR-…","verdetto":"ok|serve-completa"},
   "meta":{"agenti_totali":42,"dimensioni_critiche":0,"bloccanti":0} }
 ```
 
@@ -126,8 +127,14 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 > Nicola. Un difetto senza `verifica` non si chiuderà mai da solo — è l'anello rotto che teneva AR-009/019 «in-corso».
 
 ```json
-{ "serie":[{"data":"AAAA-MM-GG","voto_salute":0,"difetti_aperti":0,"difetti_chiusi":0,"tipo":"completa|sonda"}] }
+{ "serie":[{"data":"AAAA-MM-GG","voto_salute":0,"difetti_aperti":0,"difetti_chiusi":0,"tipo":"completa|sonda",
+  "voto_provvisorio":0,"voto_pieno":0,"firma":"AR-…,AR-…","pending_merge":0,"aperti_davvero":0,"bloccanti_umani":0}] }
 ```
+> **`voto_salute` resta la scala del voto completa (media dei 12 pilastri)** per coerenza della serie; il
+> `voto_provvisorio` 'pending-merge' (scala cantiere: `100 − penalità` con i (b) `presente:true` **accreditati**,
+> `voto_pieno` = pessimistico con tutto conteggiato) e la `firma` (ID dei difetti (a) **aperti-davvero**, l'unico
+> lavoro NUOVO da decidere) viaggiano come campi diagnostici. La sentinella `salute_bassa` si sveglia SOLO quando la
+> `firma` cambia (dedup su stato): non a ogni giro su condizione invariata e già in `AZIONI-IN-ATTESA`.
 ```json
 { "scoperti":[{"mestiere":"…","chi":"…","perche":"…","fonte":"link"}], "aggiunti_da_nicola":[{"chi":"…","note":"…"}] }
 ```
