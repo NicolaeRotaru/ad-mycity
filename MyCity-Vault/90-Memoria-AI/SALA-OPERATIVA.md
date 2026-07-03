@@ -556,3 +556,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-03 13:29 · @operations · PASSO-A Nicola · 🔴 mani reali stamattina (~5 min): tap link WhatsApp buyer 348 642 1766 → accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 → ritiro Via Calzolai 25 + consegna + incasso €19,05 COD → «Consegnato» in app → scrivi AD **«consegna fatta»**.
 - 2026-07-03 13:29 · @finanza · FACCIO · Payout-test accorpato: a consegna fatta, quadra incasso COD €19,05 vs ordine (Stripe sandbox, nessuna carta) — prima riconciliazione su caso reale.
 - 2026-07-03 13:29 · @customer-success · standby · A13 feedback (+3h) → A14 recensione (+1g) gated su «consegna fatta» (#27). @crm-lifecycle: riaggancio carrello samir €10 (#26) dopo la consegna.
+
+### 2026-07-03 14:20 — Giro refresh: #16 approvato ma non ancora consegnato
+- 2026-07-03 14:20 · @AD · FATTO · Giro refresh 14:20 (full da delta-gate «cambio stato sensori», PostHog cieco 13→15). Unica novità reale: **#16 APPROVATO dal Pannello 13:29** — ma firma REST 14:20 invariata (ordini=1, ultimo 24/6, 23 profili): approvato ≠ consegnato. Aggiornati STATO/briefing/ultimo-briefing/auto-analisi/registro-realta/intenzioni al 14:20. Stallo ~222h. 4ª conferma oggi del falso-nuovo delta-gate.
+- 2026-07-03 14:20 · @operations · PASSO-A Nicola · ⏰ finestra freschi spostata a **stasera post-19:00** (picco afa 33° alle 17 → i freschi non viaggiano nel caldo; centro pieno per Venerdì Piacentini). Tap #20→#21→#22→«consegna fatta» invariato, solo lo slot cambia da mattina a sera.
+- 2026-07-03 14:20 · @intelligence · FATTO · radar non ri-verificato (meteo/eventi già LIVE alle 06:28, cadenza rispettata per non sprecare il Max): oggi VP 3/7 confermato, afa pomeridiana confermata.
