@@ -6,7 +6,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: "#C0492C", dark: "#A23A20", 50: "#FBF1ED", 100: "#F4DED6" },
+        brand: { DEFAULT: "#B15C43", dark: "#964A34", 50: "#FAF2EE", 100: "#F0DED6" },
         ink: "rgb(var(--ink-rgb) / <alpha-value>)",
         paper: "rgb(var(--paper-rgb) / <alpha-value>)",
         black: "rgb(var(--black-rgb) / <alpha-value>)",

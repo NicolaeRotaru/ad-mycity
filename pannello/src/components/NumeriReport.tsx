@@ -155,7 +155,7 @@ export default function NumeriReport() {
                   <span className="text-xs uppercase tracking-wide text-black/40">Ordini / giorno (30g)</span>
                   <span className="text-[12px] text-black/45">Proiezione mese: <b className="text-ink">{trend.proiezione?.ordini_mese}</b></span>
                 </div>
-                <Barre valori={trend.serie.map((d) => d.ordini)} colore="#C0492C" />
+                <Barre valori={trend.serie.map((d) => d.ordini)} colore="#B15C43" />
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
@@ -282,7 +282,7 @@ export default function NumeriReport() {
                   <span className="text-xs uppercase tracking-wide text-black/40">Ordini per ora del giorno</span>
                   {pattern.ora_di_punta != null && <span className="text-[12px] text-black/45">Punta: <b className="text-ink">{String(pattern.ora_di_punta).padStart(2, "0")}:00</b></span>}
                 </div>
-                <Barre valori={pattern.per_ora} colore="#C0492C" />
+                <Barre valori={pattern.per_ora} colore="#B15C43" />
                 <div className="flex justify-between text-[10px] text-black/35 mt-0.5"><span>00</span><span>06</span><span>12</span><span>18</span><span>23</span></div>
               </div>
               <div>
