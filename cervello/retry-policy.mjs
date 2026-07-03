@@ -28,8 +28,13 @@ export const MAX_TENTATIVI_ALTRO = 3; // timeout/transitori: qualche colpo, poi 
 
 // Tipi che NON azionano le "mani" reali: al massimo rifanno lavoro 🟢 (o accodano bozze che
 // Nicola rivede comunque). Per loro anche un timeout è sicuro da ritentare.
+// AR-024: le cadenze del battito (ritmo-mattino|mezzogiorno|sera|settimana) sono pre-esecuzione —
+//   scrivono solo memoria e accodano eventuali 🔴 che Nicola firma comunque → ritentabili in sicurezza.
+//   Servono qui perché quando una cadenza salta per rate-limit si ri-accoda come lavoro (vedi ritmo.sh)
+//   e dev'essere trattata come "sicura da rifare", non come azione reale 🔴.
 const TIPI_PRE_ESECUZIONE = new Set([
   "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "proposta", "rifiuta-azione",
+  "ritmo-mattino", "ritmo-mezzogiorno", "ritmo-sera", "ritmo-settimana",
 ]);
 // L'UNICO tipo che aziona davvero le mani 🔴 (email/payout via esegui-azione.mjs):
 // ritenta SOLO se è provato che non è partito (errore di quota). Tutto il resto → manuale.
@@ -165,6 +170,8 @@ if (isMain && process.argv[2] === "--self-test") {
     { tipo: "esegui-azione", tentativi: 0, risultato: "[worker] TIMEOUT dopo 900s — lavoro interrotto." },
     { tipo: "giro", tentativi: 0, risultato: "[worker] TIMEOUT giro dopo 2700s." },
     { tipo: "proposta", tentativi: 6, risultato: "session limit resets 9:30pm" },
+    // AR-024: cadenza del battito saltata per rate-limit → deve ritentare dopo il reset (non "stop").
+    { tipo: "ritmo-sera", tentativi: 0, risultato: "You've hit your session limit · resets 9:30pm (Europe/Rome) [worker] ritmo.sh sera uscito con rc=1." },
     // Reset già passato quando si rivaluta l'errore: deve dare un istante NEL PASSATO (retry subito),
     // non a +24h. errorAt 02:10, reset 2:30am, "adesso" 02:36 → riprova_dopo ~02:32 (passato) = subito.
     {
