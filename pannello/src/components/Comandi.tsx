@@ -48,7 +48,7 @@ export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void
                   key={r.nome}
                   className="rounded-xl border overflow-hidden transition"
                   style={{
-                    borderColor: open ? "rgba(192, 73, 44, 0.35)" : "var(--border)",
+                    borderColor: open ? "rgba(177, 92, 67, 0.35)" : "var(--border)",
                     background: open ? "var(--bg-surface-2)" : "var(--bg-surface)",
                   }}
                 >
@@ -85,7 +85,7 @@ export default function Comandi({ onScegli }: { onScegli?: (cmd: string) => void
                             className="w-full text-left rounded-lg border px-3 py-2.5 transition hover:border-brand/40"
                             style={{
                               background: c.evidenzia ? "var(--brand-soft)" : "var(--bg-elevated)",
-                              borderColor: c.evidenzia ? "rgba(192, 73, 44, 0.3)" : "var(--border)",
+                              borderColor: c.evidenzia ? "rgba(177, 92, 67, 0.3)" : "var(--border)",
                             }}
                           >
                             <div className="flex items-center gap-1.5 flex-wrap">
