@@ -11,12 +11,13 @@ fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in ses
 > **Novità di oggi (web live): SVOLTA METEO — il caldo è finito.** Oggi 30/6 e domani 1/7 = **pioggia
 > (prob. 90%, max ~34°C)**, poi clima mite (29-32°C). Il fattore-guida passa da caldo a **pioggia** (leva
 > delivery più forte). **Venerdì Piacentini 3/7 confermato** (49 eventi) → presidio QR ora comodo (sera fresca).
-> Collo di bottiglia invariato: **prima transazione end-to-end con Casa Linda** (payout-ready) + ordine zombie €19,05.
+> **FARO (decisione Nicola 3/7): Pane Quotidiano = unico negozio REALE. Casa Linda = demo (scartata).**
+> Collo di bottiglia: **prima transazione end-to-end su Pane Quotidiano** — sbloccare il suo ordine €19,05 (l'unico reale) + attivargli il payout Stripe.
 
 ## I 7 numeri (baseline live 2026-06-29 ~11:20 · Supabase clmpyfvpvfjgeviworth — NON riverificati il 30/6)
 | Numero | Oggi (29/6) | "Riuscito" | Note |
 |---|---|---|---|
-| Negozi approvati (con payout) | **2 approvati / 1 payout** | ≥1 LIVE vero | Casa Linda (payout ok) + Pane Quotidiano |
+| Negozi REALI | **1 (Pane Quotidiano)** | ≥1 LIVE vero | ★ FARO. Approvato, ma payout ancora da attivare. (Casa Linda = demo scartata, non conta) |
 | Prodotti VERI del faro pubblicati | **0** | ≥5 | 250 "available" = seed/test, 7 draft, 1 sold |
 | Ordini creati | **1** | ≥1 | COD €19,05 del 24/6, fermo su PENDING/NEW da **5 giorni** |
 | Ordini pagati | **0** | 1 | COD non incassato |
@@ -38,7 +39,8 @@ fonte: AD digitale (7 numeri = baseline live 29/6; Supabase NON collegato in ses
 6. Confermate nel registro: Casa Linda, Pane Quotidiano (nei dati) + DB Memoria + Garetti (scelta_ragionata).
 
 ## Prossime priorità (da approvare)
-- [ ] 🔴 **Forzare la prima transazione con Casa Linda** (payout-ready): 1 prodotto vero → ordine-test → payout.
+- [ ] 🔴 **Attivare il payout Stripe su Pane Quotidiano** (il faro reale): sblocca l'incasso.
+- [ ] 🔴 **Prima transazione end-to-end su Pane Quotidiano**: 1 prodotto vero → ordine → payout.
 - [ ] 🔴 **Sbloccare l'ordine zombie €19,05** (accettare o annullare con nota al buyer).
 - [ ] 🟡 **Kit "Bando ER + MyCity"** — leva onboarding urgente (22gg alla scadenza).
 - [ ] 🟡 Partire coi primi 10 dei **407 lead `to_contact`**.

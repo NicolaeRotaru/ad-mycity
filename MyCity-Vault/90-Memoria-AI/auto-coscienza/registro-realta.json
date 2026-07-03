@@ -1,7 +1,8 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-06-30 11:45",
-  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno (Casa Linda, Pane Quotidiano) NON sono state riverificate oggi: 'ultima_verifica' resta al 29/6 (baseline valida, non spacciata per fresca). Aggiunte 2 entità esterne verificate live oggi: svolta meteo 30/6 e dettaglio Venerdì Piacentini 3/7.",
+  "aggiornato": "2026-07-03 15:00",
+  "_nota_faro_03_07": "DECISIONE DI NICOLA (3/7): il negozio-FARO è Pane Quotidiano (unico negozio REALE). Casa Linda è una DEMO → scartata come faro. Risolve il difetto AR-044 (memoria e CLAUDE.md si contraddicevano). Questo registro è ora la fonte unica del 'negozio-faro'.",
+  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno NON riverificate quel giro. Aggiunte 2 entità esterne verificate live: svolta meteo 30/6 e Venerdì Piacentini 3/7.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -30,30 +31,32 @@
     {
       "nome": "Casa Linda",
       "tipo": "negozio",
-      "stato": "confermato",
-      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
-      "confidenza": 0.95,
+      "stato": "scartato",
+      "fonte": "conferma di Nicola (2026-07-03) — è un seller DEMO/di test",
+      "confidenza": 1.0,
       "evidenze": [
-        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
-        "stripe_payouts_enabled=true: è l'UNICO negozio approvato con il payout già attivo (acct_1TcI1vIb6nEnAk4o).",
-        "26 prodotti nel DB (18 available), 0 ordini effettivi attribuiti."
+        "DECISIONE DI NICOLA (3/7): Casa Linda è una DEMO, non un negozio reale. È un seller di test creato nel DB.",
+        "Nel DB risulta is_approved=true e stripe_payouts_enabled=true (acct_1TcI1vIb6nEnAk4o), ma sono dati di test: l'approvazione nel DB NON significa business reale.",
+        "0 ordini reali attribuiti (coerente con 'demo')."
       ],
-      "note": "Negozio reale e payout-ready: candidato n.1 per la prima transazione end-to-end. Stato invariato dal 28/6.",
-      "ultima_verifica": "2026-06-29 11:30"
+      "note": "SCARTATO come faro/negozio reale: è demo confermata da Nicola. NON riceve sforzo pesante (post/QR/eventi intestati). Tecnicamente resta utile solo per collaudare il flusso payout in ambiente di test. Superata la contraddizione con CLAUDE.md:157 (che la chiamava giustamente 'demo').",
+      "ultima_verifica": "2026-07-03 15:00"
     },
     {
       "nome": "Pane Quotidiano",
       "tipo": "negozio",
       "stato": "confermato",
-      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles",
-      "confidenza": 0.9,
+      "faro": true,
+      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles + conferma di Nicola (2026-07-03)",
+      "confidenza": 1.0,
       "evidenze": [
+        "NEGOZIO-FARO (decisione di Nicola, 3/7): è l'UNICO negozio REALE del marketplace.",
         "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
-        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false.",
-        "Ha 1 ordine attribuito (€19,05 COD, PENDING/NEW da 5 giorni — ordine zombie)."
+        "Ha l'UNICO ordine reale del marketplace: €19,05 COD, fermo (PENDING/NEW) da giorni — l'ordine da sbloccare per la prima transazione end-to-end.",
+        "Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma stripe_payouts_enabled=false: gli manca l'attivazione payout per incassare."
       ],
-      "note": "Secondo seller approvato. Per essere LIVE-vero gli manca payout + prodotti veri pubblicati. L'ordine zombie €19,05 è suo.",
-      "ultima_verifica": "2026-06-29 11:30"
+      "note": "★ FARO ★ — unico negozio reale (decisione Nicola 3/7). Qui va concentrato lo sforzo pesante. Priorità: (1) attivare il payout (Stripe), (2) sbloccare/consegnare l'ordine €19,05 (prima transazione vera), (3) pubblicare prodotti veri. Sostituisce Casa Linda come faro in STATO/OKR/allocazione.",
+      "ultima_verifica": "2026-07-03 15:00"
     },
     {
       "nome": "Antica Salumeria Garetti",

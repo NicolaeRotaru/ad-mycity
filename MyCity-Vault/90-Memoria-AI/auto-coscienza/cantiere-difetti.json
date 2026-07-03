@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 14:30",
+  "aggiornato": "2026-07-03 15:00",
   "nota_giro": "Radiografia profonda 3/7 COMPLETA (12/12 dim dopo la ripresa post-reset). Aggiunti 46 difetti dalle 8 dimensioni completate (AR-051→AR-096), incluso il BLOCCANTE guardrail-semaforo (autopilot pubblica i 🟡 in LIVE). Il finding 'faro' della dim allineamento-northstar è stato consolidato in AR-044 (aggiornata la sua verifica a machine-checkable). Il bloccante del PANNELLO è nel report consegne/design/. Fix tutti 🟡/🔴: firma Nicola.",
   "difetti": [
     {
@@ -454,16 +454,17 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "causa_radice": "Il 'faro' non è un'entità con single-source-of-truth: è narrato in più file (registro-realta, STATO, CLAUDE.md) aggiornati in tempi diversi, senza un check che li allinei.",
-      "fix_proposto": "Designare registro-realta.json unica fonte del 'negozio-faro', correggere/segnare-come-ipotetico l'esempio in CLAUDE.md:157, voce 'negozio-faro' in GLOSSARIO-KPI. Serve la decisione di Nicola su QUALE sia il faro.",
+      "fix_proposto": "Designare registro-realta.json unica fonte del 'negozio-faro'. Serve la decisione di Nicola su QUALE sia il faro.",
       "verifica": {
-        "file": "CLAUDE.md",
-        "pattern": "demo Casa Linda",
-        "presente": false
+        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json",
+        "pattern": "\"faro\":\\s*true",
+        "presente": true
       },
       "colore": "🔴",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 15:00",
+      "chiuso_come": "DECISIONE DI NICOLA (3/7): il faro è Pane Quotidiano (unico negozio reale); Casa Linda è demo (scartata). Allineata la memoria: registro-realta.json (Pane Quotidiano faro:true / Casa Linda scartato) + STATO.md. CLAUDE.md:157 era già corretto (diceva 'demo Casa Linda' + 'Pane Quotidiano unico reale'). Resta opzionale (🟡) la voce 'negozio-faro' in GLOSSARIO-KPI e un check che allinei i file."
     },
     {
       "id": "AR-045",
@@ -1399,9 +1400,9 @@
     }
   ],
   "meta": {
-    "aperti": 69,
+    "aperti": 68,
     "in_corso": 0,
-    "chiusi": 9,
-    "nota_conteggio": "69 aperti + 9 chiusi. 12/12 dimensioni macchina verificate. I difetti del PANNELLO stanno nel report dedicato, non qui."
+    "chiusi": 10,
+    "nota_conteggio": "68 aperti + 10 chiusi. 12/12 dimensioni macchina verificate. AR-044 (faro) chiuso con la decisione di Nicola del 3/7. I difetti del PANNELLO stanno nel report dedicato, non qui."
   }
 }
