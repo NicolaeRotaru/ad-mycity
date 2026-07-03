@@ -120,6 +120,10 @@ export type Lavoro = {
   risultato: string;
   esperto: string;
   gruppo_id?: string | null;
+  /** Quante volte il worker ha già ri-provato in automatico (auto-recovery). */
+  tentativi?: number;
+  /** Se valorizzato e nel futuro: il lavoro è in ATTESA DI RITENTATIVO (non è bloccato). */
+  riprova_dopo?: string | null;
 };
 
 /** Crea un lavoro per il cervello. Torna la riga creata, o null se non collegato. */
@@ -149,7 +153,7 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
 export async function getLavoroById(id: string): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
   const res = await fetch(
-    `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id&id=eq.${encodeURIComponent(id)}&limit=1`,
+    `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo&id=eq.${encodeURIComponent(id)}&limit=1`,
     { headers: headers(), cache: "no-store" }
   );
   if (!res.ok) return null;
@@ -171,7 +175,7 @@ export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato
 /** Ultimi lavori, dal piu' recente. */
 export async function getLavori(limit = 50): Promise<Lavoro[]> {
   if (!memoryConnected()) return [];
-  const q = `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id&order=created_at.desc&limit=${limit}`;
+  const q = `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo&order=created_at.desc&limit=${limit}`;
   let res = await fetch(q, { headers: headers(), cache: "no-store" });
   if (!res.ok) {
     res = await fetch(

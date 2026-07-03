@@ -203,6 +203,19 @@ recupera_lavori_orfani() {
 
 recupera_lavori_orfani
 
+# Auto-recovery: il DB memoria ha i campi tentativi/riprova_dopo? (migration pannello/sql/lavori-retry.sql)
+# Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
+# reset quota/backoff. Se no (DB non ancora migrato), degrada al comportamento classico
+# (fallito → errore, riprova manuale) senza rompersi.
+HAS_RETRY_COLS=0
+_retry_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>&1 || true)"
+if ! printf '%s' "$_retry_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+  HAS_RETRY_COLS=1
+  echo "[$(ts)] Auto-recovery ON (campi tentativi/riprova_dopo presenti)."
+else
+  echo "[$(ts)] Auto-recovery OFF (manca la migration lavori-retry.sql) — i falliti restano 'errore' (riprova manuale)." >&2
+fi
+
 while true; do
   maybe_reload_worker
   maybe_riavvia_da_pannello
@@ -213,7 +226,14 @@ while true; do
     sleep "$INTERVALLO"; continue
   fi
 
-  riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  # Prendi il prossimo lavoro in coda. Con l'auto-recovery attivo, SALTA quelli che stanno
+  # aspettando l'ora di ritentativo (riprova_dopo nel futuro) → non bruciano i tentativi a vuoto.
+  if [ "$HAS_RETRY_COLS" = 1 ]; then
+    now_z="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  else
+    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  fi
   id="$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null || true)"
 
   if [ -z "$id" ]; then
@@ -319,12 +339,39 @@ $richiesta"
       || echo "[$(ts)] Metabolizzazione: non riesco ad accodare (proseguo)." >&2
   fi
 
-  # 4) riscrivi il risultato col VERO stato (fatto|errore): un lavoro fallito NON risulta più "fatto"
-  #    (così è visibile a Nicola e ri-approvabile, e le azioni reali 🔴 non si perdono in silenzio).
-  body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
-  curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
-    && echo "[$(ts)] Lavoro $id: $stato." \
-    || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
+  # 3d) AUTO-RECOVERY: se il lavoro è fallito, chiedi alla retry-policy se ritentarlo DA SOLO
+  #     (quota/transitori = provato non-partito → sicuro, anche per le 🔴) o fermarti (azione reale
+  #     interrotta a metà → lascia 'errore' e attendi il "Riprova" manuale). Fonte unica della regola:
+  #     cervello/retry-policy.mjs (stessa logica che usa la sentinella).
+  retry_quando=""; retry_tent=""; motivo_retry=""
+  if [ "$stato" = "errore" ] && [ "$HAS_RETRY_COLS" = 1 ]; then
+    tent_ora="$(printf '%s' "$riga" | jq -r '.[0].tentativi // 0' 2>/dev/null || echo 0)"
+    decis="$(RP_TIPO="$tipo" RP_TENTATIVI="$tent_ora" RP_RISULTATO="$out" \
+      timeout 20s node "$SCRIPT_DIR/retry-policy.mjs" decidi 2>/dev/null || echo '{}')"
+    if [ "$(printf '%s' "$decis" | jq -r '.azione // "stop"' 2>/dev/null)" = "ritenta" ]; then
+      retry_quando="$(printf '%s' "$decis" | jq -r '.quandoISO // empty' 2>/dev/null)"
+      retry_tent="$(printf '%s' "$decis" | jq -r '.tentativi // empty' 2>/dev/null)"
+      motivo_retry="$(printf '%s' "$decis" | jq -r '.motivo // "ritento"' 2>/dev/null)"
+      echo "[$(ts)] Lavoro $id fallito → auto-retry #$retry_tent alle $retry_quando ($motivo_retry)." >&2
+    fi
+  fi
+
+  # 4) riscrivi l'esito. Se la policy ha deciso un ritentativo → torna 'in_attesa' con riprova_dopo
+  #    (il worker lo salta finché non scatta l'ora, così NON perdi il lavoro e NON bruci quota).
+  #    Altrimenti scrivi il VERO stato (fatto|errore): un fallito non risulta "fatto", resta
+  #    visibile a Nicola e le azioni reali 🔴 non si perdono in silenzio.
+  if [ -n "$retry_quando" ]; then
+    body="$(jq -n --arg r "$out" --argjson t "${retry_tent:-1}" --arg q "$retry_quando" --arg m "${motivo_retry:-ritento}" \
+      '{stato:"in_attesa", tentativi:$t, riprova_dopo:$q, risultato:($r + "\n[auto-retry] tentativo " + ($t|tostring) + " programmato per " + $q + " — " + $m)}')"
+    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
+      && echo "[$(ts)] Lavoro $id: ri-programmato (tentativo $retry_tent alle $retry_quando)." \
+      || echo "[$(ts)] Lavoro $id: non sono riuscito a programmare il ritentativo." >&2
+  else
+    body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
+    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
+      && echo "[$(ts)] Lavoro $id: $stato." \
+      || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
+  fi
 
   # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.
   [ "$tipo" = "giro" ] && maybe_reload_worker

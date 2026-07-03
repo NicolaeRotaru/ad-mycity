@@ -7,6 +7,8 @@ Wants=network-online.target
 Type=oneshot
 User=mycity
 WorkingDirectory=/opt/mycity/ad-mycity
+# Fuso Piacenza: l'orario di reset quota ("resets 9:30pm (Europe/Rome)") va letto come ora italiana.
+Environment=TZ=Europe/Rome
 EnvironmentFile=-/opt/mycity/ad-mycity/cervello/vps/.env
 ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/sentinella-lavori.mjs
 Nice=10
