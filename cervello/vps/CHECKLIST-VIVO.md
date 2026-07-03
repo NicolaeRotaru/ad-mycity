@@ -152,7 +152,7 @@ Apri nel browser (sostituisci dominio):
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
 | `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |
 | Briefing vecchio | `OBSIDIAN_BRANCH=main` o no redeploy | `memoria-ad` + redeploy Vercel |
-| Errore Vercel su PR memoria-ad | email commit `ad@mycity.local` | `GIT_AUTHOR_EMAIL` nel .env VPS |
+| Errore Vercel su PR (email autore) | commit con email non-GitHub | RISOLTO: default ora `98592323+NicolaeRotaru@users.noreply.github.com` in tutti gli script. Per un mittente diverso: `GIT_AUTHOR_EMAIL` nel .env VPS (dev'essere un'email associata a un account GitHub) |
 | Ritmo mattino/sera fallisce subito (status=1) | `cervello/ritmo.sh` assente sul VPS o motore AI non risponde | `sudo bash cervello/vps/aggiorna-cervello.sh` + `install-ritmo-timers.sh` · test `ritmo-ora.sh mattino` |
 | Card «Ritmo del giorno» vuota | Nessun blocco recente in `RITMO.md` su memoria-ad | `sudo bash cervello/vps/ritmo-ora.sh mattino` o chiedi «piano del mattino» in chat |
 
