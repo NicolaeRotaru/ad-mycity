@@ -12,7 +12,7 @@
 //
 // Exit: 0 = ok/attenzione/sconosciuto · 1 = runway critico (< soglia)
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -81,6 +81,20 @@ async function main() {
     stato = runwayMesi < SOGLIA_ALLERTA_MESI ? "critico" : runwayMesi < 6 ? "attenzione" : "ok";
   }
 
+  // AR-039: contatore di cecità del sensore-cassa. Persiste per quanti giri consecutivi la cassa
+  // è "sconosciuta" (Stripe non collegato o BURN_MENSILE_EUR non impostato), così la non-funzionalità
+  // del sensore non resta invisibile e una sentinella può allertare 🟡 sotto soglia.
+  let giriSconosciuto = 0;
+  if (existsSync(OUT_PATH)) {
+    try {
+      const prev = JSON.parse(readFileSync(OUT_PATH, "utf8"));
+      giriSconosciuto = Number(prev.giri_sconosciuto) || 0;
+    } catch {
+      giriSconosciuto = 0;
+    }
+  }
+  giriSconosciuto = stato === "sconosciuto" ? giriSconosciuto + 1 : 0; // AR-039
+
   const note = [
     cassa.nota,
     burnEur == null ? "burn mensile non impostato (env BURN_MENSILE_EUR): runway non calcolabile" : `burn ${burnEur}€/mese`,
@@ -92,7 +106,7 @@ async function main() {
     stato === "critico"
       ? "RUNWAY CRITICO: allerta finanza/Nicola. Priorità assoluta a incasso/riduzione burn."
       : stato === "sconosciuto"
-        ? "Runway non calcolabile: collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS."
+        ? `Runway non calcolabile da ${giriSconosciuto} giri (AR-039): collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS.`
         : "Runway sotto controllo: rivedi al prossimo giro.";
 
   const doc = {
@@ -105,6 +119,7 @@ async function main() {
     runway_mesi: runwayMesi,
     soglia_allerta_mesi: SOGLIA_ALLERTA_MESI,
     stato,
+    giri_sconosciuto: giriSconosciuto, // AR-039: da quanti giri consecutivi la cassa è "sconosciuta"
     note,
     istruzioni,
   };
@@ -113,7 +128,7 @@ async function main() {
   writeFileSync(OUT_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
 
   const sintesi =
-    runwayMesi != null ? `runway ${runwayMesi} mesi (${stato})` : `runway sconosciuto (${note})`;
+    runwayMesi != null ? `runway ${runwayMesi} mesi (${stato})` : `runway sconosciuto da ${giriSconosciuto} giri (${note})`; // AR-039
   await stampSegnale(
     "cassa-runway",
     stato === "critico" ? "errore" : stato === "sconosciuto" ? "warn" : "ok",

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 15:00",
+  "aggiornato": "2026-07-03 20:15",
   "nota_giro": "Radiografia profonda 3/7 COMPLETA (12/12 dim dopo la ripresa post-reset). Aggiunti 46 difetti dalle 8 dimensioni completate (AR-051→AR-096), incluso il BLOCCANTE guardrail-semaforo (autopilot pubblica i 🟡 in LIVE). Il finding 'faro' della dim allineamento-northstar è stato consolidato in AR-044 (aggiornata la sua verifica a machine-checkable). Il bloccante del PANNELLO è nel report consegne/design/. Fix tutti 🟡/🔴: firma Nicola.",
   "difetti": [
     {
@@ -107,9 +107,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-025",
@@ -125,9 +126,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-026",
@@ -143,9 +145,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-027",
@@ -161,9 +164,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-028",
@@ -177,9 +181,10 @@
         "tipo": "umano"
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:25",
+      "chiuso_come": "Description di tech.md ristretta al ruolo residuo (triage/fix piccoli in branch) con rimandi agli specialisti. Fix applicato (verifica umana)."
     },
     {
       "id": "AR-029",
@@ -195,9 +200,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-030",
@@ -213,9 +219,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-031",
@@ -231,9 +238,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-032",
@@ -265,9 +273,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-034",
@@ -283,9 +292,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-035",
@@ -301,9 +311,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-036",
@@ -319,9 +330,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-037",
@@ -337,9 +349,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-038",
@@ -355,9 +368,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-039",
@@ -373,9 +387,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-040",
@@ -407,9 +422,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-042",
@@ -425,9 +441,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-043",
@@ -443,9 +460,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-044",
@@ -552,9 +570,10 @@
         "tipo": "umano"
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:25",
+      "chiuso_come": "AZIONI-PRONTE.md marcata DEPRECATA con banner: la coda canonica unica è AZIONI-IN-ATTESA. Rimosso il rischio di eseguire azioni stantie."
     },
     {
       "id": "AR-050",
@@ -570,9 +589,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-051",
@@ -588,9 +608,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-052",
@@ -606,9 +627,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-053",
@@ -624,9 +646,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-054",
@@ -642,9 +665,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-055",
@@ -660,9 +684,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-056",
@@ -678,9 +703,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-057",
@@ -696,9 +722,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-058",
@@ -714,9 +741,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-059",
@@ -732,9 +760,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-060",
@@ -750,9 +779,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-061",
@@ -768,9 +798,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-062",
@@ -786,9 +817,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-063",
@@ -804,9 +836,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-064",
@@ -822,9 +855,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-065",
@@ -840,9 +874,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-066",
@@ -874,9 +909,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-068",
@@ -892,9 +928,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-069",
@@ -910,9 +947,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-070",
@@ -928,9 +966,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-071",
@@ -946,9 +985,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-072",
@@ -964,9 +1004,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-073",
@@ -982,9 +1023,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-074",
@@ -1000,9 +1042,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-075",
@@ -1018,9 +1061,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-076",
@@ -1036,9 +1080,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-077",
@@ -1054,9 +1099,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-078",
@@ -1072,9 +1118,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-079",
@@ -1090,9 +1137,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-080",
@@ -1108,9 +1156,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-081",
@@ -1126,9 +1175,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-082",
@@ -1144,9 +1194,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-083",
@@ -1162,9 +1213,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-084",
@@ -1180,9 +1232,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-085",
@@ -1198,9 +1251,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-086",
@@ -1216,9 +1270,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-087",
@@ -1234,9 +1289,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:20",
+      "chiuso_come": "Fix radiografia 3/7 (seconda passata / bonifica): verifica soddisfatta. 🟡 nel branch."
     },
     {
       "id": "AR-088",
@@ -1252,9 +1308,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-089",
@@ -1270,9 +1327,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-090",
@@ -1304,9 +1362,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 20:15",
+      "chiuso_come": "Aggiunto --read-only alla connessione supabase-memoria in .mcp.json: il cervello non puo piu DROP/DELETE la memoria via SQL (le scritture vere passano da REST). Le due --read-only ora presenti."
     },
     {
       "id": "AR-092",
@@ -1322,9 +1381,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-093",
@@ -1340,9 +1400,10 @@
         "presente": true
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-094",
@@ -1358,9 +1419,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-095",
@@ -1376,9 +1438,10 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     },
     {
       "id": "AR-096",
@@ -1394,15 +1457,16 @@
         "presente": false
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-03 16:00",
+      "chiuso_come": "Fix radiografia 3/7 (workflow ripara-difetti, un agente per file): verifica machine-checkable soddisfatta. 🟡 nel branch, da mergiare."
     }
   ],
   "meta": {
-    "aperti": 68,
+    "aperti": 4,
     "in_corso": 0,
-    "chiusi": 10,
-    "nota_conteggio": "68 aperti + 10 chiusi. 12/12 dimensioni macchina verificate. AR-044 (faro) chiuso con la decisione di Nicola del 3/7. I difetti del PANNELLO stanno nel report dedicato, non qui."
+    "chiusi": 74,
+    "nota_conteggio": "4 aperti + 74 chiusi su 78. Restano SOLO punti che dipendono da Nicola: AR-090 (creare chiavi Supabase separate), AR-032 (verdetto STAMPO), AR-040 (PostHog dopo 10/7), AR-066 (ok alla regola anti-previsioni-banali). Vedi consegne/decisioni/2026-07-03-foglio-firma-5-punti.md."
   }
 }

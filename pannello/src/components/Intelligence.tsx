@@ -28,6 +28,8 @@ export default function Intelligence() {
   const [alert, setAlert] = useState<{ collegato: boolean; alert: Alert[] } | null>(null);
   const [cache, setCache] = useState<Record<string, { presente: boolean; testo: string }>>({});
   const [accodato, setAccodato] = useState<string | null>(null);
+  // BUG-radiografia (riga 46): «Aggiorna analisi» senza disable durante l'invio → doppio clic = doppia accodatura.
+  const [inviando, setInviando] = useState<Tab | null>(null);
 
   const carica = useCallback(async (t: Tab) => {
     setLoading(true);
@@ -51,13 +53,20 @@ export default function Intelligence() {
   }, [tab, carica]);
 
   async function rigenera(t: Tab) {
+    // BUG-radiografia (riga 46): blocca il bottone durante l'invio per evitare la doppia accodatura.
+    if (inviando) return;
     setAccodato(null);
-    const r = await fetch("/api/intelligence", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tipo: t }),
-    }).then((x) => x.json()).catch(() => ({ ok: false }));
-    setAccodato(r.ok ? t : `err:${t}`);
+    setInviando(t);
+    try {
+      const r = await fetch("/api/intelligence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tipo: t }),
+      }).then((x) => x.json()).catch(() => ({ ok: false }));
+      setAccodato(r.ok ? t : `err:${t}`);
+    } finally {
+      setInviando(null);
+    }
   }
 
   return (
@@ -127,9 +136,10 @@ export default function Intelligence() {
             <p className="text-[12px] text-black/45">Ultimo risultato salvato dall'AD. Premi “Aggiorna analisi” per rigenerarlo.</p>
             <button
               onClick={() => rigenera(tab)}
-              className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg bg-brand text-white shadow-card hover:bg-brand-dark transition"
+              disabled={inviando !== null}
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg bg-brand text-white shadow-card hover:bg-brand-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <RefreshCw size={14} /> Aggiorna analisi
+              {inviando === tab ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />} Aggiorna analisi
             </button>
           </div>
           {accodato === tab && (

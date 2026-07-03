@@ -1,0 +1,56 @@
+{
+  "_cosa_e": "🧩 CANTIERE DEI PEZZI — il backlog delle CAPACITÀ/STRUMENTI nuovi che alla macchina mancano (guardiani, sensori, adattatori, connettori). Complementare al cantiere-difetti (che chiude i difetti): qui vivono i PEZZI DA COSTRUIRE, portati da 'proposto' a 'fatto'. Nato con AR-086. Ogni costruzione è 🟡 (firma Nicola). Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-07-03 15:00",
+  "pezzi": [
+    {
+      "id": "PZ-001",
+      "titolo": "keyword-owner-check.mjs — guardiano 'owner unico per keyword' sulle description",
+      "perche": "Il router instrada sulle description, dove la deconfliction AR-008 non era applicata (AR-027).",
+      "owner": "prompt-engineer",
+      "colore": "🟡",
+      "stato": "fatto",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "PZ-002",
+      "titolo": "sentinella-fonti.mjs — controllo deterministico vivo/morto delle fonti web",
+      "perche": "Le fonti web di radar-fonti.json non avevano un guardiano a costo zero come i sensori interni (AR-036).",
+      "owner": "data-engineer",
+      "colore": "🟡",
+      "stato": "fatto",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "PZ-003",
+      "titolo": "valida-contratti.mjs — validatore schema dei file auto-coscienza/*.json",
+      "perche": "Il contratto viveva come prosa .md: campi fuori schema spegnevano i tile del Pannello (AR-043).",
+      "owner": "backend-dev",
+      "colore": "🟡",
+      "stato": "fatto",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "PZ-004",
+      "titolo": "north-star-check.mjs — misura deterministica di ordini/negozi/margine",
+      "perche": "Serve un guardiano che tenga sotto controllo la stella polare a ogni giro (AR-082).",
+      "owner": "analista",
+      "colore": "🟡",
+      "stato": "fatto",
+      "impatto_crescita": "alto",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "PZ-005",
+      "titolo": "Adattatore mani per i modelli economici (Groq/Gemini) agganciato a worker.sh",
+      "perche": "Il router costo è codice morto finché manca lo strato-mani che invoca i modelli economici (AR-082 lato dispatcher).",
+      "owner": "builder-automazioni",
+      "colore": "🟡",
+      "stato": "proposto",
+      "impatto_crescita": "medio",
+      "nato": "2026-07-03"
+    }
+  ]
+}

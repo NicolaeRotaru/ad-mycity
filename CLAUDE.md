@@ -109,6 +109,7 @@ Per richieste generiche, strategiche o multi-reparto, gestisci tu (AD).
 - 🤳 **influencer-partnership** — micro-influencer e partnership locali, co-marketing, codici sconto, barter.
 - ✍️ **content-social** — calendario, post, reel, caption, copy (guida l'**ai-copywriter** per il volume).
 - 🖋️ **ai-copywriter** — testi in massa a basso costo (schede prodotto, varianti caption/email) sotto content-social.
+- 🎬 **ai-video** — produzione video/reel in volume: content-social scrive lo **script** → **ai-video** monta/renderizza il video (owner unico del reel-video; per script/calendario resta content-social). <!-- AR-025: ai-video wired nel roster con deferral -->
 - 🔍 **seo** — farsi trovare su Google/Maps: SEO locale, schema.org, Google Business Profile, keyword di quartiere.
 - 🎨 **designer** — QR, locandine, vetrofanie, sacchetti, grafiche (usa `creativi/`).
 - 📰 **pr-stampa** — comunicati, giornalisti locali, kit stampa.

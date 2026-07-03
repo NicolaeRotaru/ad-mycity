@@ -1,0 +1,39 @@
+{
+  "_cosa_e": "🛡️ REGISTRO RISCHI — il libro mastro dei rischi di compliance/legale/finanziari che la macchina sorveglia. Ogni rischio ha un OWNER (il senior responsabile), una probabilità, un impatto e una mitigazione. Nato con AR-085 per rendere i rischi un elenco vivo e assegnato invece di prosa sparsa. Le azioni reali di mitigazione restano 🔴/🟡 (firma Nicola). Schema in cervello/auto-coscienza.md.",
+  "aggiornato": "2026-07-03 15:00",
+  "rischi": [
+    {
+      "id": "RSK-001",
+      "titolo": "GDPR: base giuridica e consensi sui dati dei 407 lead 'to_contact'",
+      "categoria": "privacy",
+      "owner": "legale-privacy",
+      "probabilita": "media",
+      "impatto": "alto",
+      "stato": "aperto",
+      "mitigazione": "Verificare fonte/consenso dei lead prima di qualsiasi contatto reale; registro trattamenti + informativa. Contatto massivo resta 🔴.",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "RSK-002",
+      "titolo": "HACCP / etichettatura alimentare sui prodotti food del faro (Pane Quotidiano)",
+      "categoria": "sicurezza-alimentare",
+      "owner": "legale-privacy",
+      "probabilita": "media",
+      "impatto": "medio",
+      "stato": "aperto",
+      "mitigazione": "Checklist HACCP e allergeni per le schede prodotto food prima del pubblico. Bozze a cura di legale-privacy, validità finale umana 🔴.",
+      "nato": "2026-07-03"
+    },
+    {
+      "id": "RSK-003",
+      "titolo": "Pagamenti: modalità Stripe live vs sandbox + commissione/fee non firmate",
+      "categoria": "finanziario",
+      "owner": "finanza",
+      "probabilita": "alta",
+      "impatto": "alto",
+      "stato": "aperto",
+      "mitigazione": "Le 3 decisioni di lancio (live/sandbox, commissione, fee) sono in AZIONI-IN-ATTESA come 🔴: nessun incasso reale finché non firmate.",
+      "nato": "2026-07-03"
+    }
+  ]
+}

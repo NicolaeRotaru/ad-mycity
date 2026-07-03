@@ -33,6 +33,21 @@ function leggiTesto(rel) {
   return existsSync(p) ? readFileSync(p, "utf8") : "";
 }
 
+/**
+ * AR-024: un agente conta come "citato dal router" SOLO se compare come voce-roster a confine
+ * di parola, NON come sottostringa. Il vecchio `testo.includes(nome)` era orbo: un nome corto
+ * (es. "qa" dentro "quadratura") o un nome citato solo in un blocco-connettore "(→ usa **X**)"
+ * mascherava l'orfano. Qui: (1) tolgo i blocchi-connettori "(→ ... )" — chi appare solo lì è un
+ * deferral, non un owner nel roster; (2) match a confine di parola via RegExp sul nome esatto.
+ * @param {string} testo
+ * @param {string} nome
+ */
+function citatoNelRoster(testo, nome) {
+  const soloRoster = testo.replace(/\([^)]*\)/g, "");
+  const nomeEsc = nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp("\\b" + nomeEsc + "\\b").test(soloRoster); // AR-024: confine di parola, non sottostringa
+}
+
 async function main() {
   const quando = nowPiacenza();
 
@@ -42,14 +57,16 @@ async function main() {
     .map((f) => f.replace(/\.md$/, ""))
     .sort();
 
-  // 2. Contenuto dei file "registro" tenuti a mano (match semplice della stringa esatta del nome).
+  // 2. Contenuto dei file "registro" tenuti a mano (match a confine di parola sul roster — AR-024).
   const claude = leggiTesto("CLAUDE.md");
   const comandi = leggiTesto("COMANDI.md");
   const agentiMd = leggiTesto("MyCity-Vault/07-Agenti/AGENTI.md");
 
   // 3. Orfani = agenti reali con 0 occorrenze SIA in CLAUDE.md SIA in COMANDI.md:
   //    il router principale (mansionario dell'AD + menù comandi) non li vede affatto.
-  const orfani = agentiReali.filter((n) => !claude.includes(n) && !comandi.includes(n));
+  const orfani = agentiReali.filter(
+    (n) => !citatoNelRoster(claude, n) && !citatoNelRoster(comandi, n) // AR-024: confine di parola sul roster, non includes()
+  );
 
   // 4. Assenti da AGENTI.md = agenti reali non citati nella mappa-organigramma leggibile del vault.
   const assentiDaAgentiMd = agentiReali.filter((n) => !agentiMd.includes(n));

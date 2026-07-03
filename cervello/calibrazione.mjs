@@ -10,7 +10,7 @@
 // Uso:
 //   node cervello/calibrazione.mjs prevedi --reparto=@growth --azione="win-back 4 carrelli" \
 //        --metrica=ordini --atteso=1 --entro=2026-07-09 [--nota="..."] [--id=...]
-//   node cervello/calibrazione.mjs esito   --id=<id> --reale=2 [--nota="..."]
+//   node cervello/calibrazione.mjs esito   --id=<id> --reale=2 --fonte="Supabase MCP" [--nota="..."]
 //   node cervello/calibrazione.mjs scadute            # marca 'scaduta' le previsioni oltre 'entro' senza esito
 //   node cervello/calibrazione.mjs report [--json]    # tabella per-reparto + previsioni aperte
 //
@@ -23,13 +23,74 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const PATH = join(VAULT, "calibrazione.json");
+const CECITA_PATH = join(VAULT, "sensori-cecita.json"); // AR-061
+const REGISTRO_REALTA_PATH = join(VAULT, "registro-realta.json"); // AR-062
 const TOLLERANZA_DEFAULT = 0.25;
 const MIN_PER_AUTONOMIA = 3;
+// AR-065: campione minimo per concedere autonomia "alta" (3 esiti sono troppo pochi per fidarsi).
+const MIN_CAMPIONE_ALTA = 8;
+
+// AR-065: lower-bound di Wilson (one-sided, z≈1.2816 → confidenza 90%) sulla proporzione di azzeccate.
+// Penalizza i campioni minuscoli: con pochi esiti l'intervallo di confidenza è largo e il lower_bound
+// crolla, così "ha azzeccato spesso" non basta — serve che sia SOLIDO. Evita l'autonomia "alta" al buio.
+function wilsonLowerBound(azzeccate, previsioni, z = 1.2816) {
+  if (previsioni <= 0) return 0;
+  const p = azzeccate / previsioni;
+  const z2 = z * z;
+  const denom = 1 + z2 / previsioni;
+  const centro = p + z2 / (2 * previsioni);
+  const margine = z * Math.sqrt((p * (1 - p) + z2 / (4 * previsioni)) / previsioni);
+  return Math.max(0, (centro - margine) / denom);
+}
 
 function arg(name, def = undefined) {
   const pref = `--${name}=`;
   const a = process.argv.find((x) => x.startsWith(pref));
   return a ? a.slice(pref.length) : def;
+}
+
+function readJsonSafe(path, fallback) {
+  if (!existsSync(path)) return fallback;
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch {
+    return fallback;
+  }
+}
+
+// AR-062: fonti ammesse per un esito misurato ("nessun numero senza fonte").
+function fontiAmmesse() {
+  const reg = readJsonSafe(REGISTRO_REALTA_PATH, {});
+  const f = reg?.numeri_da_non_inventare?.fonti_ammesse;
+  return Array.isArray(f) && f.length
+    ? f
+    : ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola"];
+}
+
+// AR-061: stato di cecità dei sensori-dati + quota ciechi (>=2/3 → misura del 'reale' inaffidabile).
+function statoSensori() {
+  const cec = readJsonSafe(CECITA_PATH, {});
+  const sensori = cec?.sensori || {};
+  const chiavi = Object.keys(sensori);
+  const tot = Number(cec?.meta?.sensori_totali ?? chiavi.length) || 0;
+  let ciechi = 0;
+  for (const k of chiavi) if (sensori[k]?.stato === "cieco") ciechi += 1;
+  return { sensori, ciechi, tot, quotaCiechiAlta: tot > 0 && ciechi / tot >= 2 / 3 };
+}
+
+// AR-061: mappa la fonte di un esito al sensore automatico corrispondente e ne legge lo stato.
+function sensoreStatoPerFonte(fonte) {
+  const { sensori } = statoSensori();
+  const mappa = {
+    "Supabase MCP": ["mcp_supabase", "supabase_rest"],
+    "Stripe MCP": ["stripe_api"],
+    PostHog: ["posthog"],
+  };
+  const chiavi = mappa[fonte];
+  if (!chiavi) return "n/d"; // fonti umane (documento firmato, conferma di Nicola): non da sensore automatico
+  if (chiavi.some((k) => sensori[k]?.stato === "ok")) return "ok";
+  if (chiavi.some((k) => sensori[k])) return "cieco";
+  return "sconosciuto";
 }
 
 function readCalibrazione() {
@@ -65,11 +126,17 @@ function normReparto(r) {
 
 // Ricalcola gli aggregati per_reparto dal registro (unica fonte di verità).
 function ricalcolaReparti(data) {
+  const { quotaCiechiAlta } = statoSensori(); // AR-061
   const perRep = new Map();
   for (const e of data.registro) {
     if (!e.reparto) continue;
     const cur = perRep.get(e.reparto) || { reparto: e.reparto, previsioni: 0, azzeccate: 0 };
     if (e.stato === "azzeccata" || e.stato === "mancata") {
+      // AR-061: un esito misurato con sensore-fonte cieco NON conta nel punteggio (autonomia non si guadagna al buio).
+      if (e.sensore_stato === "cieco") {
+        perRep.set(e.reparto, cur);
+        continue;
+      }
       cur.previsioni += 1;
       if (e.stato === "azzeccata") cur.azzeccate += 1;
     }
@@ -77,11 +144,20 @@ function ricalcolaReparti(data) {
   }
   data.per_reparto = [...perRep.values()].map((r) => {
     const punteggio = r.previsioni > 0 ? Number((r.azzeccate / r.previsioni).toFixed(2)) : 0;
+    // AR-065: usa il lower-bound di Wilson (intervallo di confidenza 90%) invece della proporzione grezza:
+    // con campione minuscolo il lower_bound è basso → niente autonomia "alta" su 3 esiti fortunati.
+    const lowerBound = Number(wilsonLowerBound(r.azzeccate, r.previsioni).toFixed(2));
     let autonomia = "bassa";
     if (r.previsioni >= MIN_PER_AUTONOMIA) {
-      autonomia = punteggio >= 0.7 ? "alta" : punteggio >= 0.4 ? "media" : "bassa";
+      // AR-065: soglie sul lower_bound; "alta" richiede anche un campione_minimo (MIN_CAMPIONE_ALTA),
+      // sotto il quale il tetto resta "media" per penalità sul campione piccolo.
+      if (lowerBound >= 0.7 && r.previsioni >= MIN_CAMPIONE_ALTA) autonomia = "alta";
+      else if (lowerBound >= 0.4) autonomia = "media";
+      else autonomia = "bassa";
     }
-    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, autonomia };
+    // AR-061: con >=2/3 sensori ciechi il 'reale' è poco misurabile → cappa l'autonomia a 'media'.
+    if (quotaCiechiAlta && autonomia === "alta") autonomia = "media";
+    return { reparto: r.reparto, previsioni: r.previsioni, azzeccate: r.azzeccate, punteggio, lower_bound: lowerBound, autonomia }; // AR-065: lower_bound = confidenza (Wilson 90%)
   });
   data.per_reparto.sort((a, b) => b.punteggio - a.punteggio);
 }
@@ -159,10 +235,22 @@ function cmdEsito(data) {
     console.error(`❌ --reale deve essere un numero (ricevuto: ${realeRaw}).`);
     process.exit(2);
   }
+  // AR-062: nessun esito senza fonte ammessa (chi conia autonomia non può auto-alimentarsi).
+  const fonte = arg("fonte");
+  const ammesse = fontiAmmesse();
+  if (!fonte || !ammesse.includes(fonte)) {
+    console.error(
+      `❌ Serve --fonte tra le ammesse (nessun numero senza fonte): ${ammesse.join(" | ")}.\n` +
+        `   Es: node cervello/calibrazione.mjs esito --id=${id} --reale=${realeRaw} --fonte="Supabase MCP"`
+    );
+    process.exit(2);
+  }
   const { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
   e.reale = reale;
   e.scarto_pct = scarto_pct;
   e.stato = azzeccata ? "azzeccata" : "mancata";
+  e.fonte = fonte; // AR-062: provenienza dell'esito (mostrata nel Pannello accanto al reale)
+  e.sensore_stato = sensoreStatoPerFonte(fonte); // AR-061: stato del sensore-fonte al momento della misura
   e.chiuso_il = nowPiacenza();
   const notaEsito = arg("nota");
   if (notaEsito) e.nota = e.nota ? `${e.nota} · esito: ${notaEsito}` : notaEsito;

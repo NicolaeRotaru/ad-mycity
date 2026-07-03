@@ -31,6 +31,9 @@ export type AzionePronta = Blocco & { stato: StatoAzione; esito: string };
 // Mappa una riga della coda AZIONI-IN-ATTESA.md nel formato Blocco della corsia.
 function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco {
   return {
+    // BUG #6 (radiografia 2026-07-03): `a.numero` è ora un id STABILE derivato dal contenuto
+    // (idSezione, sia per le righe-tabella sia per le sezioni), non il numero di riga posizionale:
+    // così la chiave decisione `azione:<id>` resta agganciata all'azione giusta dopo un rinumero.
     id: a.numero,
     titolo: a.azione,
     reparto: a.reparto,

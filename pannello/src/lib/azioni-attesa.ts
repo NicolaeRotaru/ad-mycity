@@ -117,15 +117,21 @@ function parseTabella(md: string): AzioneAttesa[] {
     if (!line.startsWith("|")) continue;
     const cells = line.split("|").slice(1, -1).map((c) => c.trim());
     if (cells.length < 8) continue;
-    const numero = cells[0];
-    if (!/^\d+$/.test(numero)) continue; // salta intestazione e separatori
+    const rigaNum = cells[0];
+    if (!/^\d+$/.test(rigaNum)) continue; // salta intestazione e separatori
     const stato = cells[7];
     const origine = estraiOrigine(line);
+    const data = cells[1];
+    const reparto = cells[2];
+    const azione = senzaOrigine(cells[3]);
+    // BUG #6 (radiografia 2026-07-03): la chiave decisione `azione:<id>` deve agganciarsi al
+    // CONTENUTO, non al numero di riga posizionale (che il giro rinumera). Usa lo stesso id STABILE
+    // delle sezioni così un'azione nuova non eredita lo stato «fatta/rifiutata» di una vecchia.
     out.push({
-      numero,
-      data: cells[1],
-      reparto: cells[2],
-      azione: senzaOrigine(cells[3]),
+      numero: idSezione(data, reparto, azione),
+      data,
+      reparto,
+      azione,
       colore: cells[4],
       livello: livelloDi(cells[4]),
       contenuto: senzaOrigine(cells[5]),

@@ -77,12 +77,22 @@ else
 fi
 
 # Esegue il monitoraggio (LEGGERO: solo le fonti dovute oggi). acceptEdits: scrive nel vault senza chiedere.
-# Guardia: leggi il prompt DOPO l'allineamento e abortisci se è vuoto (evita il "--print con input vuoto").
-PROMPT="$(cat "$SCRIPT_DIR/monitora.md" 2>/dev/null || true)"
-if [ -z "$PROMPT" ]; then
+# AR-088: NON incollare tutto monitora.md nel prompt (come fa giro.sh): l'agent su VPS è instabile con
+# prompt enormi. Prompt corto a PUNTATORE — l'AI apre cervello/monitora.md dal disco con Read.
+# Guardia: verifica DOPO l'allineamento che il file esista e non sia vuoto (evita run a vuoto).
+if [ ! -s "$SCRIPT_DIR/monitora.md" ]; then
   echo "[$(ts)] ERRORE: cervello/monitora.md non trovato/vuoto dopo l'allineamento; monitoraggio saltato." >&2
   exit 1
 fi
+PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
+
+## Compito
+Leggi ed esegui **per intero** il file \`cervello/monitora.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).
+Scrivi sul disco i file richiesti in MyCity-Vault/90-Memoria-AI/Intelligence/. Rispetta 🟢🟡🔴.
+La memoria va sul ramo memoria-ad (il push git lo fa monitora.sh dopo di te — tu scrivi i file).
+
+## Risposta in chat
+Al termine restituisci un riepilogo breve (5-8 righe)."
 echo "[$(ts)] Avvio monitoraggio web AD (motore: $(ai_engine))..."
 MONITORA_START="$(date +%s)"   # AR-020: inizio del motore AI, per il costo del monitoraggio
 ai_build_cmd

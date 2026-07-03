@@ -88,12 +88,12 @@ function verificaFix(dif) {
 
 function bumpSalute(chiusiOra, note) {
   if (chiusiOra <= 0) return;
+  // AR-096: il voto NON si auto-gonfia più qui (era +2 fisso a ogni chiusura, solo in salita, scritto
+  // dal processo che ha interesse a farlo salire). Il voto_salute_architettura resta un output della
+  // radiografia completa (che vede aperti/gravità/nuovi difetti): auto-fix lo LEGGE come-è, non lo tocca,
+  // e si limita ad aggiornare il conteggio dei difetti chiusi nello storico.
   const rad = readJson(RAD, {});
-  const votoPrima = Number(rad.voto_salute_architettura ?? 72);
-  const voto = Math.min(100, votoPrima + 2 * chiusiOra);
-  rad.voto_salute_architettura = voto;
-  rad.trend = voto > votoPrima ? "▲" : rad.trend || "=";
-  writeJson(RAD, rad);
+  const voto = Number(rad.voto_salute_architettura ?? 72);
 
   const cantiere = readJson(CANTIERE, { meta: {} });
   const storico = readJson(STORICO, { serie: [] });
@@ -108,7 +108,7 @@ function bumpSalute(chiusiOra, note) {
   });
   if (storico.serie.length > 90) storico.serie = storico.serie.slice(-90);
   writeJson(STORICO, storico);
-  console.log(`📈 Salute architettura ${votoPrima} → ${voto} (+${2 * chiusiOra}) · ${chiusiOra} difetti chiusi (primo giro di chiusura del volano).`);
+  console.log(`📈 ${chiusiOra} difetti chiusi · voto salute (dalla radiografia, non gonfiato): ${voto}.`);
 }
 
 async function cmdVerifica(cantiere) {

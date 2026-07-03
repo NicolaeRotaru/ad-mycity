@@ -5,7 +5,7 @@ import { History, BookOpen } from "lucide-react";
 import GovernoAD from "@/components/GovernoAD";
 import ParlaCasella from "@/components/ParlaCasella";
 import { Trash2 } from "lucide-react";
-import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "governo" | "diario";
 
@@ -34,21 +34,22 @@ type Props = {
 export default function Storico({ diario, memoria, onSvuotaDiario, fa }: Props) {
   const [tab, setTab] = useState<Tab>("governo");
 
+  // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
+  // (EVENTO_VAI): niente più window.location.hash. (contratto nav)
   useEffect(() => {
-    const onVai = (e: Event) => {
-      const det = (e as CustomEvent<DettaglioVai>).detail;
+    const applica = (det: { vista?: string; sub?: string } | undefined) => {
       if (det?.vista !== "assistente" && det?.vista !== "storico") return;
       if (det.sub === "diario") setTab("diario");
       else if (det.sub === "governo") setTab("governo");
     };
+    const onVai = (e: Event) => applica((e as CustomEvent<DettaglioVai>).detail);
+    const onSub = (e: Event) => applica((e as CustomEvent<DettaglioSub>).detail);
     window.addEventListener(EVENTO_VAI, onVai);
-    return () => window.removeEventListener(EVENTO_VAI, onVai);
-  }, []);
-
-  useEffect(() => {
-    const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-    if (h === "storico-diario") setTab("diario");
-    if (h === "storico-governo") setTab("governo");
+    window.addEventListener(EVENTO_SUB, onSub);
+    return () => {
+      window.removeEventListener(EVENTO_VAI, onVai);
+      window.removeEventListener(EVENTO_SUB, onSub);
+    };
   }, []);
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -70,7 +71,7 @@ export default function Storico({ diario, memoria, onSvuotaDiario, fa }: Props) 
             type="button"
             onClick={() => {
               setTab(t.id);
-              if (typeof window !== "undefined") window.location.hash = `storico-${t.id}`;
+              vaiSub("storico", t.id); // voce di cronologia per la scheda (contratto nav)
             }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "bg-brand text-white shadow-card" : "bg-white dark:bg-white/5 text-black/60 dark:text-white/60 ring-1 ring-black/[0.06] dark:ring-white/10 hover:bg-black/[0.03] dark:hover:bg-white/[0.06]"

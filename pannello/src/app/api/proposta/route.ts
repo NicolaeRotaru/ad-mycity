@@ -92,5 +92,23 @@ export async function POST(req: Request) {
     }
   }
 
+  // «Ignora» senza memoria collegata: NON fingere successo. Se setImpostazione è fallito la
+  // decisione non è persistita e la proposta rispunterebbe identica al refresh → propaga salvato:false
+  // e rispondi ok:false (503), come già fa il ramo "approva" quando il cervello non parte.
+  // [fix radiografia-pannello 2026-07-03 — «Ignora» proposta senza memoria finge successo]
+  if (decisione === "ignora" && !salvato) {
+    return NextResponse.json(
+      {
+        ok: false,
+        id,
+        decisione: record,
+        salvato: false,
+        lavoro,
+        error: "Memoria non collegata: decisione non salvata. Riprova quando la memoria è collegata.",
+      },
+      { status: 503 }
+    );
+  }
+
   return NextResponse.json({ ok: true, id, decisione: record, salvato, lavoro });
 }

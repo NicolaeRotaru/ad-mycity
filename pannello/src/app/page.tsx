@@ -113,8 +113,17 @@ import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import ThemeToggle from "@/components/ThemeToggle";
-import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
+import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
+import { ripristinaSub, vaiSub } from "@/lib/nav";
+
+// Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
+// (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
+// non si scambiano il contenuto. (radiografia: key={i} → id stabile)
+let _msgSeq = 0;
+function nuovoIdMsg(): string {
+  return `m${Date.now().toString(36)}${(_msgSeq++).toString(36)}`;
+}
 
 type Livello = "verde" | "giallo" | "rosso";
 type Azione = { titolo: string; motivo: string; livello: Livello };
@@ -126,6 +135,7 @@ type Opportunita = {
 };
 type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: Azione[] };
 type Msg = {
+  id?: string; // key React stabile (vedi nuovoIdMsg): niente più key={i}
   role: "user" | "assistant";
   content: string;
   tools?: string[];
@@ -698,7 +708,9 @@ export default function Dashboard() {
     const i = prev.findIndex((m) => m.pending);
     if (i !== -1) {
       const copia = [...prev];
-      copia[i] = { role: "assistant", content };
+      // Mantiene lo STESSO id della bolla pending: la key React resta invariata e il
+      // contenuto non "salta" su un'altra bolla quando arriva la risposta.
+      copia[i] = { ...prev[i], role: "assistant", content, pending: false };
       return copia;
     }
     // Nessuna bolla pending (es. si è cambiata chat e si è tornati): guarda SOLO l'ultimo
@@ -710,10 +722,10 @@ export default function Dashboard() {
     if (last && last.role === "assistant" && !last.prompt) {
       if (last.content === content) return prev;
       const copia = [...prev];
-      copia[copia.length - 1] = { role: "assistant", content };
+      copia[copia.length - 1] = { ...last, role: "assistant", content };
       return copia;
     }
-    return [...prev, { role: "assistant", content }];
+    return [...prev, { id: nuovoIdMsg(), role: "assistant", content }];
   }
 
   /** Applica la risposta al thread giusto (anche se Nicola ha aperto «Nuova chat» nel frattempo). */
@@ -985,28 +997,16 @@ export default function Dashboard() {
     fetch("/api/diario", { method: "DELETE" }).catch(() => {});
   }
 
-  // Aspetta che il cervello finisca QUESTO lavoro e ne restituisce il risultato.
-  // Polling ravvicinato (2s) così la chat sembra in tempo reale; si ferma a "fatto"
-  // o "errore" (o dopo il timeout, senza bloccare nulla).
-  async function attendiRisposta(id: string, tipo = "chat", timeoutMs = 5 * 60 * 1000): Promise<string> {
-    const scadenza = Date.now() + timeoutMs;
-    while (Date.now() < scadenza) {
-      await new Promise((r) => setTimeout(r, 2000));
-      try {
-        const r = await fetch("/api/lavori", { cache: "no-store" });
-        const d = await r.json();
-        if (Array.isArray(d.lavori)) {
-          setLavori(d.lavori);
-          const l = d.lavori.find((x: Lavoro) => x.id === id);
-          if (l && (l.stato === "fatto" || l.stato === "errore")) {
-            return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
-          }
-        }
-      } catch {
-        // rete instabile: riprovo al giro dopo
-      }
+  // Confronto leggero fra due liste di lavori: evita di rimpiazzare lo stato con un array
+  // NUOVO ma identico (che scatenerebbe un re-render globale ad ogni tick di polling).
+  function lavoriUguali(a: Lavoro[], b: Lavoro[]): boolean {
+    if (a === b) return true;
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      const x = a[i], y = b[i];
+      if (x.id !== y.id || x.stato !== y.stato || x.updated_at !== y.updated_at || x.risultato !== y.risultato) return false;
     }
-    return messaggioLavoroInCorso(tipo);
+    return true;
   }
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
@@ -1035,8 +1035,8 @@ export default function Dashboard() {
 
     setMessages((m) => [
       ...m,
-      { role: "user", content: t },
-      { role: "assistant", content: "", pending: true },
+      { id: nuovoIdMsg(), role: "user", content: t },
+      { id: nuovoIdMsg(), role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
     let targetConvId = convId || sessionGruppoRef.current || "";
@@ -1069,14 +1069,8 @@ export default function Dashboard() {
         setLavori((l) => [d.lavoro, ...l]);
         aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
-        const risposta = await attendiRisposta(d.lavoro.id, prep.tipo, prep.timeoutMs);
-        const timeoutMsg = messaggioLavoroInCorso(prep.tipo);
-        if (risposta === timeoutMsg) {
-          instradaMessaggioChat(targetConvId, risposta);
-          setLoading(false);
-        } else {
-          applicaRispostaChat(d.lavoro.id, risposta, targetConvId);
-        }
+        // Niente polling dedicato qui: il POLLER UNICO (/api/lavori) risolve questo pendente
+        // e instrada la risposta nel thread giusto — prima si sdoppiava (2 fetch/s). (bug #11)
       } else {
         instradaMessaggioChat(
           targetConvId,
@@ -1125,7 +1119,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const t = input.trim();
     if (!t) return;
     const p = generaPrompt(t);
-    setMessages((m) => [...m, { role: "user", content: t }, { role: "assistant", content: p, prompt: true }]);
+    setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: t }, { id: nuovoIdMsg(), role: "assistant", content: p, prompt: true }]);
     setInput("");
     aggiungiDiario("chat", "📋 Prompt per Claude Max", p);
   }
@@ -1224,14 +1218,21 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     if (vistaPrimaVolta.current) { vistaPrimaVolta.current = false; ultimaVistaStoria.current = vista; return; } // salta il montaggio
     try { localStorage.setItem("mycity_vista", vista); } catch {}
     // Aggiunge una voce alla cronologia: così INDIETRO torna qui invece di lasciare il Pannello.
+    // pushState con URL = pathname+search (niente hash): il cambio AREA non trascina residui
+    // di hash di una scheda precedente (che facevano fare un clic a vuoto). (bug #2/#4)
     if (ultimaVistaStoria.current !== vista) {
       try { window.history.pushState({ ...(window.history.state || {}), vista }, ""); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
+  // 🧭 Handler popstate CENTRALE (contratto nav): ogni voce di cronologia — sia il cambio AREA
+  // sia il cambio SOTTO-SCHEDA — porta state={vista, sub}. Rileggo entrambi e li ripristino:
+  // setVista + (per la scheda interna) ripristinaSub → le aree ascoltano EVENTO_SUB e riaprono
+  // la scheda giusta. Nel ramo con state mancante NON faccio "return" muto: ripristino la vista
+  // di default, così il tasto INDIETRO non resta mai un clic morto. (bug #2/#3/#4)
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
-      const st = e.state as { vista?: string } | null;
+      const st = e.state as { vista?: string; sub?: string } | null;
       // Voce SENZA stato = navigazione a hash interna a un'area (impostare window.location.hash
       // crea una voce con state=null e fa scattare ANCHE popstate, non solo hashchange — es. le
       // tab Radiografia ⇄ Auto-coscienza). Non è un "torna alla plancia": resta nell'area corrente
@@ -1243,30 +1244,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const v = st.vista;
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
+      // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
+      if (v === "assistente") {
+        const tab = (st?.sub as AssistenteTab) || "chat";
+        setAssistenteTab(["chat", "conversazioni", "storico"].includes(tab) ? tab : "chat");
+      }
+      if (st?.sub) ripristinaSub(v, st.sub);
+      // Stato mancante (voce base o legacy): la vista di default è già stata applicata sopra,
+      // e ristampo lo stato sulla voce così i prossimi INDIETRO la conoscono.
+      if (!st?.vista) {
+        try { window.history.replaceState({ vista: v, sub: st?.sub }, "", window.location.pathname + window.location.search); } catch {}
+      }
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  // 🧭 Schede dell'Assistente ⇄ tasto INDIETRO: come le altre aree, ogni scheda timbra una voce
-  // di cronologia (hash) così INDIETRO riapre la scheda precedente invece di uscire dall'area.
-  useEffect(() => {
-    const apriDaHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, AssistenteTab> = {
-        "assistente-chat": "chat",
-        "assistente-conversazioni": "conversazioni",
-        "assistente-storico": "storico",
-      };
-      if (map[h]) setAssistenteTab(map[h]);
-    };
-    apriDaHash();
-    window.addEventListener("hashchange", apriDaHash);
-    return () => window.removeEventListener("hashchange", apriDaHash);
-  }, []);
-
   // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
   // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
+  // Il listener è montato UNA volta (deps []): senza, veniva smontato/rimontato ad ogni tick di
+  // polling (deps [conversazioni, lavori]) — spreco e possibili eventi persi. Per leggere sempre
+  // l'ultima apriChatDaGruppo uso un ref aggiornato ad ogni render.
+  const apriChatRef = useRef(apriChatDaGruppo);
+  apriChatRef.current = apriChatDaGruppo;
   useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
@@ -1282,7 +1282,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
         if (det.vista === "assistente" && det.sub === "chat") {
           setAssistenteTab("chat");
-          if (det.anchor) void apriChatDaGruppo(det.anchor);
+          if (det.anchor) void apriChatRef.current(det.anchor);
         }
       }
       if (det.anchor) {
@@ -1305,7 +1305,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     };
     window.addEventListener("mycity:vai", onVai);
     return () => window.removeEventListener("mycity:vai", onVai);
-  }, [conversazioni, lavori]);
+  }, []);
 
   useEffect(() => {
     caricaStato();
@@ -1419,7 +1419,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         const r = await fetch("/api/lavori", { cache: "no-store" });
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) {
-          setLavori(d.lavori);
+          // Aggiorna SOLO se la lista è davvero cambiata: un array nuovo ma identico
+          // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
+          setLavori((prev) => (lavoriUguali(prev, d.lavori) ? prev : d.lavori));
           if (pendingLavoroChatRef.current.size > 0) {
             risolviLavoriPendenti(d.lavori);
           }
@@ -1455,6 +1457,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="ml-auto flex items-center gap-2">
             <ThemeToggle />
             <Aggiornato at={datiAggiornatiAt} prefisso="dati" className="hidden sm:inline-flex" />
+            {/* Mobile: solo il pallino di stato Worker/AD (la pill piena è sm+). (bug #9) */}
+            <span
+              className={`sm:hidden w-2.5 h-2.5 rounded-full shrink-0 ${
+                workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+              }`}
+              aria-label="Stato worker"
+              title={
+                workerVivo
+                  ? "Worker ON: sta processando la coda"
+                  : adInPausa
+                    ? "L'AD è in pausa"
+                    : vivo
+                      ? "Worker spento: i lavori restano in coda"
+                      : "In prova: memoria o giro non ancora attivi"
+              }
+            />
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
                 workerVivo
@@ -1657,7 +1675,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 type="button"
                 onClick={() => {
                   setAssistenteTab(t.id);
-                  if (typeof window !== "undefined") window.location.hash = `assistente-${t.id}`;
+                  // Timbra una voce di cronologia per la scheda (niente più hash). (contratto nav)
+                  vaiSub("assistente", t.id);
                 }}
                 className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
               >
@@ -1744,7 +1763,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             {messages.map((m, i) =>
               m.prompt ? (
-                <div key={i} className="text-left">
+                <div key={m.id ?? i} className="text-left">
                   <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
                     <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
                   </div>
@@ -1759,7 +1778,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   </div>
                 </div>
               ) : (
-                <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
+                <div key={m.id ?? i} className={m.role === "user" ? "text-right" : "text-left"}>
                   {m.role === "assistant" && m.esperto && (
                     <div className="t-eti text-xs mb-1">
                       {m.esperto.emoji} {m.esperto.nome}
@@ -1812,7 +1831,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 onClick={dettaVoce}
                 disabled={ascoltando}
-                className={`px-3 rounded-xl border transition active:scale-95 ${
+                className={`min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border transition active:scale-95 ${
                   ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
                 }`}
                 aria-label="Detta a voce"
@@ -1823,7 +1842,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 onClick={() => mandaAlCervello()}
                 disabled={loading || !input.trim()}
-                className="bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
+                className="min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
                 title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
               >

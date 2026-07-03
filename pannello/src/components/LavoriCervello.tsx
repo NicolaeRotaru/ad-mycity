@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -45,7 +45,20 @@ function attendeRitentativo(lv: LavoroBase): number | null {
 }
 
 export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
-  const mappa = useMemo(() => (typeof window !== "undefined" ? leggiMappaGruppiLocali() : {}), [lavori]);
+  // [fix radiografia-pannello 2026-07-03 — perf: useMemo con dip [lavori] rileggeva localStorage a ogni tick
+  // ma NON reagiva ai veri cambi della mappa-gruppi. Ora è stato reattivo, riletto solo sugli eventi giusti.]
+  const [mappa, setMappa] = useState<Record<string, string>>({});
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const aggiorna = () => setMappa(leggiMappaGruppiLocali());
+    aggiorna();
+    window.addEventListener("mycity:lavori", aggiorna);
+    window.addEventListener("storage", aggiorna);
+    return () => {
+      window.removeEventListener("mycity:lavori", aggiorna);
+      window.removeEventListener("storage", aggiorna);
+    };
+  }, []);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
 
@@ -61,7 +74,13 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
-      setRiprovati((s) => ({ ...s, [id]: res.ok ? "fatto" : "errore" }));
+      // [fix radiografia-pannello 2026-07-03 — «Riprova» restava in errore + 409 non mostrato]
+      // 409 = il backend l'ha GIÀ rimessa in coda (idempotenza): è comunque "in coda", non un errore.
+      const ok = res.ok || res.status === 409;
+      setRiprovati((s) => ({ ...s, [id]: ok ? "fatto" : "errore" }));
+      // Il backend porta il vecchio lavoro a "fatto": rinfresca subito la lista così esce da "errore"
+      // e la card non resta stale fino al prossimo poll.
+      if (ok && typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
     } catch {
       setRiprovati((s) => ({ ...s, [id]: "errore" }));
     }
@@ -107,7 +126,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
         <div className="min-w-0 flex-1 text-[12px] text-red-800 dark:text-red-300 leading-snug">
           <b>Approvata ma non eseguita.</b> {motivoBreve(lv.risultato)}
         </div>
-        {riprovati[lv.id] === "fatto" ? (
+        {(riprovati[lv.id] === "fatto" || (lv.risultato || "").includes("[riproposto")) ? (
           <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
         ) : (
           <button

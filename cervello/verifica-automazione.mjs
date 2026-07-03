@@ -116,8 +116,17 @@ async function main() {
       worker === "active" ? "ok" : "fail",
       worker === "active" ? "attivo ✓" : `stato: ${worker || "assente"}`
     );
+    // AR-056: il battito 2h (giro) è la cadenza più critica — vigila che il timer sia vivo.
+    const giroTimer = sh("systemctl", ["is-active", "mycity-giro.timer"]);
+    add(
+      "timer giro (battito 2h)",
+      giroTimer === "active" ? "ok" : "fail",
+      giroTimer === "active" ? "attivo ✓" : `stato: ${giroTimer || "assente"} — systemctl enable --now mycity-giro.timer`
+    );
   } else {
+    // AR-056
     add("timer watch-main", "warn", "systemd assente (non-VPS): verifica sul server");
+    add("timer giro (battito 2h)", "warn", "systemd assente (non-VPS): verifica mycity-giro.timer sul server");
   }
 
   // 5) Segnali recenti su Supabase (battiti dell'automazione)

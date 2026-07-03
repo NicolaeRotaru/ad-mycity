@@ -74,15 +74,28 @@ function main() {
   //   (a) almeno un difetto del cantiere è passato a 'chiuso', OPPURE
   //   (b) la calibrazione ha almeno una previsione registrata (previsto-vs-reale), OPPURE
   //   (c) c'è almeno un esperimento di auto-miglioramento MISURATO.
+  // AR-052: la prova di vita del loop guarda la RECENCY (finestra), non lo stock all-time.
+  // AR-063: e conta solo previsioni CHIUSE con esito (apprendimento), non righe ancora aperte (intenzione).
+  const finestraGg = 14; // AR-052: finestra di recency (giorni)
+  const oreFinestra = finestraGg * 24;
   const tasso = Number(app.meta?.tasso_applicazione ?? 0);
-  const difettiChiusi = Number(cantiere.meta?.chiusi ?? 0);
-  const calibrazionePiena =
-    (Array.isArray(calibr.registro) && calibr.registro.length > 0) ||
-    (Array.isArray(calibr.per_reparto) && calibr.per_reparto.length > 0);
+  const difettiChiusi = Number(cantiere.meta?.chiusi ?? 0); // all-time, per storico/output
+  const difettiCantiere = Array.isArray(cantiere.difetti) ? cantiere.difetti : [];
+  const difettiChiusiRecenti = difettiCantiere.filter(
+    (d) => d && d.stato === "chiuso" && oreFa(d.chiuso_il) <= oreFinestra
+  ).length; // AR-052
+  // AR-063: solo previsioni con esito reale (azzeccata/mancata), non la mera esistenza di righe.
+  const previsioniChiuse = Array.isArray(calibr.registro)
+    ? calibr.registro.filter((e) => e && (e.stato === "azzeccata" || e.stato === "mancata"))
+    : [];
+  const previsioniChiuseRecenti = previsioniChiuse.filter((e) => oreFa(e.chiuso_il) <= oreFinestra); // AR-052
+  const calibrazionePiena = previsioniChiuseRecenti.length > 0;
   const esperimentiMisurati =
     Array.isArray(autoMig.esperimenti) &&
-    autoMig.esperimenti.some((e) => e && (e.stato === "misurato" || e.data_misura));
-  const provaChiusura = difettiChiusi > 0 || calibrazionePiena || esperimentiMisurati;
+    autoMig.esperimenti.some(
+      (e) => e && (e.stato === "misurato" || e.data_misura) && oreFa(e.data_misura || e.chiuso_il) <= oreFinestra
+    ); // AR-052 + AR-063
+  const provaChiusura = difettiChiusiRecenti > 0 || calibrazionePiena || esperimentiMisurati;
   const loopChiude = tasso > 0 && provaChiusura;
 
   const oreBrief = oreFa(brief.data);
@@ -135,7 +148,9 @@ function main() {
     loop_chiude: loopChiude,
     tasso_applicazione: tasso,
     prova_chiusura: provaChiusura,
+    finestra_recency_gg: finestraGg, // AR-052
     difetti_chiusi: difettiChiusi,
+    difetti_chiusi_recenti: difettiChiusiRecenti, // AR-052
     calibrazione_piena: calibrazionePiena,
     esperimenti_misurati: esperimentiMisurati,
     giro_a_cadenza: giroACadenza,

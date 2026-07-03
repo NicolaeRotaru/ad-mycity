@@ -37,8 +37,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "Memoria non collegata: impossibile rimettere in coda." }, { status: 503 });
     }
 
-    // Marca il vecchio come riproposto (resta 'errore' nello storico, ma non più "da riapprovare").
+    // Marca il vecchio come RIPROPOSTO: porta lo stato a "fatto" così esce dallo stato "errore"
+    // (il Pannello mostra il tasto "Riprova" SOLO per stato === "errore", vedi LavoriCervello.tsx)
+    // e NON ricompare più "da riprovare" dopo un refresh. Il marcatore in `risultato` resta come
+    // traccia storica del rimbalzo in coda.
+    // [fix radiografia-pannello 2026-07-03 — «Riprova» resta in errore dopo refresh]
     await patchLavoro(jobId, {
+      stato: "fatto",
       risultato: `${(vecchio.risultato || "").slice(0, 1500)}\n[riproposto come ${nuovo.id} il ${new Date().toISOString()}]`,
     });
 

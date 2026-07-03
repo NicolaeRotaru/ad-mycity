@@ -7,7 +7,7 @@ import QuaderniSenior from "@/components/QuaderniSenior";
 import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
-import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "scoperte" | "quaderni-senior";
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
@@ -37,30 +37,26 @@ function fa(iso: string | null): string {
 export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | null; ultimoAt: string | null }) {
   const [tab, setTab] = useState<Tab>("memoria-viva");
 
+  // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
+  // (EVENTO_VAI da vaiArea): niente più window.location.hash. (contratto nav)
   useEffect(() => {
-    const apriDaHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = {
-        "memoria-memoria-viva": "memoria-viva",
-        "memoria-scoperte": "scoperte",
-        "memoria-quaderni-senior": "quaderni-senior",
-      };
-      if (map[h]) setTab(map[h]);
+    const valide: Tab[] = ["memoria-viva", "scoperte", "quaderni-senior"];
+    const onSub = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioSub>).detail;
+      if (det?.vista !== "memoria" || !det.sub) return;
+      if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
-    apriDaHash();
-    window.addEventListener("hashchange", apriDaHash);
-    return () => window.removeEventListener("hashchange", apriDaHash);
-  }, []);
-
-  useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "memoria" || !det.sub) return;
-      const valide: Tab[] = ["memoria-viva", "scoperte", "quaderni-senior"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
+    window.addEventListener(EVENTO_SUB, onSub);
     window.addEventListener(EVENTO_VAI, onVai);
-    return () => window.removeEventListener(EVENTO_VAI, onVai);
+    return () => {
+      window.removeEventListener(EVENTO_SUB, onSub);
+      window.removeEventListener(EVENTO_VAI, onVai);
+    };
   }, []);
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -85,8 +81,8 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
             key={t.id}
             onClick={() => {
               setTab(t.id);
-              // Voce di cronologia per la scheda → INDIETRO torna alla scheda, non alla Plancia.
-              if (typeof window !== "undefined") window.location.hash = `memoria-${t.id}`;
+              // Voce di cronologia per la scheda → INDIETRO torna alla scheda, non alla Plancia. (contratto nav)
+              vaiSub("memoria", t.id);
             }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"

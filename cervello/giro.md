@@ -186,7 +186,7 @@ Passi:
     dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
     🔁 **CHIUDI IL LOOP (AR-009 — forcing-function, NON saltarla):** per OGNI lavoro 🟡/🔴 che questo giro
     ha prodotto/accodato, lascia una riga ESITO nel quaderno del reparto con la MANO dedicata:
-    `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard es. 8/10>" "<atteso>" "<reale>" "#tag"`.
+    `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard: 6 assi 1-5 come [[RUBRICA-LIVELLI]]>" "<atteso>" "<reale>" "#tag"`. <!-- AR-033: scorecard uniformata alla RUBRICA (6 assi 1-5), niente più "8/10" -->
     (Il `reale` lo scrivi al giro dopo, quando l'esito è misurabile: atteso→reale È la calibrazione.)
     La sonda `chiusura-loop.mjs --sonda` (già girata da giro.sh) elenca i quaderni FERMI in
     `auto-coscienza/chiusura-loop.json`: se ce ne sono di reparti toccati oggi, riempili. I verdetti/correzioni
