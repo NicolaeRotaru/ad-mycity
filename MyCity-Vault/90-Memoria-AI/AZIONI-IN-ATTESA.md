@@ -21,6 +21,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ### 🔴 R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA
 Il file `cervello/vps/.env.save` col PAT è stato **rimosso dal repo**, il `.gitignore` è esteso (`.env*`/`*.save`) e ora c'è un **pre-commit hook** (`.githooks/pre-commit`) che passa **ogni commit** dallo scan-segreti e lo blocca — non più solo il giro. Ma il token **è già nella storia git**: vai su GitHub → *Settings → Developer settings → PAT* e **revocalo**, poi generane uno nuovo (solo nel `.env` del VPS, mai committato). È l'unica cosa che chiude davvero il buco.
 
+> **Decisione Nicola 2026-07-03 (Pannello):** *"Genera nuovo PAT solo nel `.env` VPS."* → nuovo PAT solo in `cervello/vps/.env` (`GIT_PUSH_TOKEN`), non condiviso con Vercel.
+> ⚠️ **Trappola da rispettare nella sequenza:** oggi lo STESSO token serve anche al **Pannello su Vercel** (`GITHUB_TOKEN`, `obsidian.ts`). Se revochi e metti il nuovo solo nel VPS, il Pannello va **cieco** (non legge più `memoria-ad` né il codice per radiografia/audit). Ordine corretto: 1) genera nuovo PAT (repo ad-mycity+mycity, Contents R/W + PR R/W) → VPS `.env`; 2) dai a Vercel un suo valore in `GITHUB_TOKEN` (consigliato: 2° PAT **read-only** = least-privilege, oppure lo stesso nuovo PAT); 3) **solo allora REVOCA il vecchio** su GitHub. Tutto 🔴, solo Nicola.
+
 ### 🟡 R2 — Merge + deploy dei fix del cantiere
 I fix di codice sono sui branch del cantiere. Al merge in `main` + deploy VPS (`systemctl daemon-reload` per i `.service`) diventano attivi: battito con timeout, sensori col gate anti-invenzione, guardiano agenti, sensore cassa, gate HACCP, **pre-commit hook segreti (AR-004)** e **guardiano allocazione (AR-006)**.
 
