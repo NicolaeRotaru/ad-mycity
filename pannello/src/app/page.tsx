@@ -1241,6 +1241,23 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
+  // 🧭 Schede dell'Assistente ⇄ tasto INDIETRO: come le altre aree, ogni scheda timbra una voce
+  // di cronologia (hash) così INDIETRO riapre la scheda precedente invece di uscire dall'area.
+  useEffect(() => {
+    const apriDaHash = () => {
+      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
+      const map: Record<string, AssistenteTab> = {
+        "assistente-chat": "chat",
+        "assistente-conversazioni": "conversazioni",
+        "assistente-storico": "storico",
+      };
+      if (map[h]) setAssistenteTab(map[h]);
+    };
+    apriDaHash();
+    window.addEventListener("hashchange", apriDaHash);
+    return () => window.removeEventListener("hashchange", apriDaHash);
+  }, []);
+
   // 🔗 Link bidirezionali fra aree: un componente chiede "portami all'area X (e alla casella Y)".
   // Es: una domanda nel Cervello → "Vai alle Azioni"; un'azione da firmare → "Vedi nel Cervello".
   useEffect(() => {
@@ -1628,7 +1645,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setAssistenteTab(t.id)}
+                onClick={() => {
+                  setAssistenteTab(t.id);
+                  if (typeof window !== "undefined") window.location.hash = `assistente-${t.id}`;
+                }}
                 className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
               >
                 {t.icon}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Brain, ListTodo, Archive } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
@@ -17,6 +17,19 @@ type Props = {
 
 export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Props) {
   const [tab, setTab] = useState<Tab>("coda");
+
+  // Sincronizza la scheda col tasto INDIETRO del mouse: ogni click di scheda timbra una voce
+  // di cronologia (hash) e tornando indietro si riapre la scheda precedente, non la Plancia.
+  useEffect(() => {
+    const apriDaHash = () => {
+      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
+      const map: Record<string, Tab> = { "lavori-coda": "coda", "lavori-archivio": "archivio" };
+      if (map[h]) setTab(map[h]);
+    };
+    apriDaHash();
+    window.addEventListener("hashchange", apriDaHash);
+    return () => window.removeEventListener("hashchange", apriDaHash);
+  }, []);
 
   const filtrati = useMemo(() => {
     if (tab === "coda") return lavori.filter((l) => l.stato === "in_attesa" || l.stato === "in_corso");
@@ -53,7 +66,10 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
           <button
             key={t.id}
             type="button"
-            onClick={() => setTab(t.id)}
+            onClick={() => {
+              setTab(t.id);
+              if (typeof window !== "undefined") window.location.hash = `lavori-${t.id}`;
+            }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
             }`}

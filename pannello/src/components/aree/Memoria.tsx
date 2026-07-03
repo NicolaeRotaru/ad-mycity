@@ -83,7 +83,11 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
         {tabs.map((t) => (
           <button
             key={t.id}
-            onClick={() => setTab(t.id)}
+            onClick={() => {
+              setTab(t.id);
+              // Voce di cronologia per la scheda → INDIETRO torna alla scheda, non alla Plancia.
+              if (typeof window !== "undefined") window.location.hash = `memoria-${t.id}`;
+            }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
             }`}
