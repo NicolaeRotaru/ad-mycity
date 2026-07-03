@@ -106,3 +106,13 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 | A13 | Touch 1 feedback ordine #16 |
 | A14 | Touch 2 recensione ordine #16 |
 | A15 | SKIP — nessuna consegna completata oggi |
+
+---
+
+## Ri-esecuzione 2026-07-03 11:40 (playbook:recensioni)
+
+**Snapshot invariato** (live gated in sessione: node/REST + MCP marketplace entrambi ciechi → baseline REST STATO 3/7 11:14, zero numeri inventati):
+- Ordini consegnati: **0** → **consegne completate senza recensione: 0**. Nessun cliente reale da sollecitare oggi.
+- Prima consegna imminente ancora **#16** (Pane Quotidiano, COD €19,05, buyer WhatsApp 348 642 1766), programmata **mattina 3/7** con il payout-test.
+
+**Correzione gap:** il run 1/7 dichiarava A13/A14 «accodati», ma non erano mai finiti nella coda. Oggi **materializzati davvero**: blocchi **A13/A14** aggiunti in `AZIONI-PRONTE.md` + **riga #27** nella coda canonica `AZIONI-IN-ATTESA.md` (gated su #16 consegnato). Le bozze restano identiche a quelle qui sopra (voce Vicino Orgoglioso).

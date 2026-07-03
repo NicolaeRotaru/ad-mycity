@@ -110,3 +110,33 @@ preparato: 💚 account-negozi — dipende da A6 + #16 (prima consegna)
 testo:
 «Ora che il primo ordine è andato, mettiamo a scaffale su MyCity 2-3 vostri prodotti-civetta bio (quelli che vendete di più) con una piccola spinta social del quartiere. Obiettivo: un paio di ordini a settimana costanti. Vi va se preparo io la vetrina e ne parliamo 5 minuti?»
 nota: 🟢 = creare la bozza è libero; la telefonata reale al titolare resta subordinata alla prima consegna (non anticipare).
+
+## A13 · 💬 Touch 1 post-consegna — feedback (ordine #16 Pane Quotidiano)
+reparto: customer-success
+livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
+canale: WhatsApp 348 642 1766 (già usato per #16) · backup email/in-app
+perche: +3h dalla consegna è la finestra per intercettare un problema PRIMA che diventi reclamo, e per filtrare il ramo 👎 (non chiedere recensione a chi è insoddisfatto). Regola d'oro FLUSSI §3: recensione solo se feedback ≠ negativo.
+preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 1
+pre-condizione: ordine `58094956…` segnato **Consegnato** in dashboard (dipende da #16/#22)
+cosa cambia: il primo cliente reale MyCity riceve un check post-consegna; se qualcosa non va lo sistemiamo in giornata invece di perderlo.
+se va bene: feedback 👍 → parte A14 (richiesta recensione); feedback 👎 → handoff @supporto, A14 sospesa.
+testo:
+Ciao! Sono Nicola di MyCity 👋 Ti è arrivata la spesa da Pane Quotidiano? Spero pesto e kefir
+siano come al banco. Siamo appena nati e ogni tua parola conta: com'è andata?
+👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema. Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
+
+## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (ordine #16 Pane Quotidiano)
+reparto: customer-success
+livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
+canale: WhatsApp 348 642 1766 + email/in-app
+perche: subito dopo una buona consegna è il momento migliore per chiedere la recensione. Sarebbe la **prima recensione verificata di MyCity a Piacenza**: social proof che aiuta l'acquisizione dei prossimi clienti e la fiducia nel faro reale.
+preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 2
+pre-condizione: (1) A13 con feedback 👍 · (2) +1 giorno dalla consegna · (3) link recensione reale attivo (verificare l'URL ordine sul dominio LIVE prima dell'invio)
+cosa cambia: il cliente lascia stelline + una frase vera su Pane Quotidiano → prima recensione pubblica reale sul marketplace.
+se va bene: social proof sulla scheda del negozio faro; base per referral/riordino (aggancio a #26 carrello samir).
+testo:
+Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidiano 🌟
+👉 [link recensione ordine — verificare URL LIVE]
+Bastano 30 secondi: stelline + una frase vera (spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi").
+Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
+promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
