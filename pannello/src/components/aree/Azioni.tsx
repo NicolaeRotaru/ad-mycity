@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert } from "lucide-react";
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
-import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
+import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
@@ -125,6 +125,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
+  // Busy-lock: id delle azioni con una decisione (approva/rifiuta/annulla) in volo → evita
+  // doppi click e doppie POST mentre la richiesta è in corso. (bug: nessun busy-lock)
+  const [decidendo, setDecidendo] = useState<Set<string>>(new Set());
+  // Decisioni/spunte LOCALI (ottimistiche) da riapplicare quando l'auto-refresh a 60s ricarica
+  // dal server: senza memoria collegata il server non le persiste e le sovrascriverebbe. Si
+  // auto-puliscono appena il server conferma lo stesso stato. (bug #7: merge, non overwrite)
+  const decisiLocaliRef = useRef<Map<string, { stato: Stato; esito: string }>>(new Map());
+  const spuntateLocaliRef = useRef<Map<string, boolean>>(new Map());
 
   const [intenzioni, setIntenzioni] = useState<Intenzioni | null>(null);
   const [todo, setTodo] = useState<TodoItem[]>([]);
@@ -145,7 +153,15 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const carica = useCallback(async () => {
     const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
     if (d) {
-      setAzioni(d.azioni || []);
+      // Riapplica le decisioni locali che il server non ha (ancora) persistito: se il server
+      // riporta l'azione ancora "da decidere" ("") ma qui l'abbiamo decisa, tengo la nostra;
+      // se il server ha una decisione sua, mi fido e pulisco il locale. (bug #7)
+      setAzioni((d.azioni || []).map((a: Azione) => {
+        const loc = decisiLocaliRef.current.get(a.id);
+        if (!loc) return a;
+        if (a.stato !== "") { decisiLocaliRef.current.delete(a.id); return a; }
+        return { ...a, ...loc };
+      }));
       setSalvataggio(Boolean(d.salvataggio));
       setCollegato(Boolean(d.collegato));
       setAutopilota(Boolean(d.autopilota));
@@ -158,7 +174,17 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // ricaricare periodicamente insieme a carica(), non solo al montaggio.
   const caricaContorno = useCallback(() => {
     fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((i) => setIntenzioni(i)).catch(() => {});
-    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((t) => { setTodo(t.items || []); setTodoSalva(Boolean(t.salvataggio)); }).catch(() => {});
+    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((t) => {
+      // Riapplica le spunte locali non ancora persistite dal server (bug #7): auto-pulizia
+      // quando il server conferma lo stesso valore.
+      setTodo((t.items || []).map((it: TodoItem) => {
+        const loc = spuntateLocaliRef.current.get(it.id);
+        if (loc === undefined) return it;
+        if (loc === it.fatto) { spuntateLocaliRef.current.delete(it.id); return it; }
+        return { ...it, fatto: loc };
+      }));
+      setTodoSalva(Boolean(t.salvataggio));
+    }).catch(() => {});
     fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((a) => setAlerts(a.alert || [])).catch(() => {});
     fetch("/api/scelta-ab", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setScelteDecisioni(d.decisioni); }).catch(() => {});
     fetch("/api/proposta", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setPropDecisioni(d.decisioni); }).catch(() => {});
@@ -192,29 +218,26 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     };
   }, [carica, caricaContorno]);
 
-  // Salto da un'altra area (Plancia → #azioni-mosse): apri la scheda giusta.
+  // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
+  // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
-    const apriDaHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = { "azioni-mosse": "mosse", "azioni-proposte": "proposte", "azioni-dafare": "dafare", "azioni-sentinelle": "sentinelle", "azioni-approvare": "approvare", "azioni-registro": "registro" };
-      if (map[h]) setTab(map[h]);
+    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
+    const onSub = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioSub>).detail;
+      if (det?.vista !== "azioni" || !det.sub) return;
+      if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
-    apriDaHash();
-    window.addEventListener("hashchange", apriDaHash);
-    return () => window.removeEventListener("hashchange", apriDaHash);
-  }, []);
-
-  // Link bidirezionali: quando si arriva nell'area Azioni puntando una scheda specifica, aprila
-  // (es. da un difetto/domanda nel Cervello → "vai all'azione" apre "Da approvare").
-  useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "azioni" || !det.sub) return;
-      const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
+    window.addEventListener(EVENTO_SUB, onSub);
     window.addEventListener(EVENTO_VAI, onVai);
-    return () => window.removeEventListener(EVENTO_VAI, onVai);
+    return () => {
+      window.removeEventListener(EVENTO_SUB, onSub);
+      window.removeEventListener(EVENTO_VAI, onVai);
+    };
   }, []);
 
   useEffect(() => {
@@ -229,16 +252,41 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   function patch(id: string, p: Partial<Azione>) {
     setAzioni((list) => list.map((a) => (a.id === id ? { ...a, ...p } : a)));
   }
+  // Registra/aggiorna la decisione locale (o la rimuove se torna "da decidere").
+  function ricordaLocale(id: string, stato: Stato, esito: string) {
+    if (stato === "") decisiLocaliRef.current.delete(id);
+    else decisiLocaliRef.current.set(id, { stato, esito });
+  }
   async function decidi(id: string, dec: "approva" | "rifiuta" | "annulla") {
-    if (dec === "approva") patch(id, { stato: "coda", esito: "Invio in corso…" });
-    else if (dec === "rifiuta") patch(id, { stato: "rifiutata", esito: "" });
-    else patch(id, { stato: "", esito: "" });
+    // Busy-lock: se c'è già una decisione in volo per questa azione, ignora il click. (bug: no busy-lock)
+    if (decidendo.has(id)) return;
+    const prev = azioni.find((a) => a.id === id);
+    const prevStato: Stato = prev?.stato ?? "";
+    const prevEsito = prev?.esito ?? "";
+    const target: { stato: Stato; esito: string } =
+      dec === "approva" ? { stato: "coda", esito: "Invio in corso…" }
+      : dec === "rifiuta" ? { stato: "rifiutata", esito: "" }
+      : { stato: "", esito: "" };
+    setDecidendo((s) => new Set(s).add(id));
+    patch(id, target);            // update ottimistico
+    ricordaLocale(id, target.stato, target.esito);
     try {
       const r = await fetch("/api/azioni-pronte", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, decisione: dec }) }).then((x) => x.json());
-      if (r && typeof r.stato === "string") patch(id, { stato: r.stato as Stato, esito: r.esito || "" });
-      setRegistro(null);
+      if (r && typeof r.stato === "string") {
+        patch(id, { stato: r.stato as Stato, esito: r.esito || "" });
+        ricordaLocale(id, r.stato as Stato, r.esito || "");
+        setRegistro(null);
+      } else {
+        // Risposta non valida: rollback allo stato precedente + avviso. (bug: catch vuoto → card bloccata)
+        patch(id, { stato: prevStato, esito: "⚠️ Non riuscito, riprova." });
+        ricordaLocale(id, prevStato, prevEsito);
+      }
     } catch {
-      /* ignora */
+      // Rete caduta: rollback, così Nicola non crede di aver messo in coda un'azione 🔴 mai registrata.
+      patch(id, { stato: prevStato, esito: "⚠️ Non riuscito, riprova." });
+      ricordaLocale(id, prevStato, prevEsito);
+    } finally {
+      setDecidendo((s) => { const n = new Set(s); n.delete(id); return n; });
     }
   }
   // Approva → il CERVELLO (worker AD) la trasforma in azione concreta; la decisione è
@@ -337,6 +385,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   async function spunta(item: TodoItem) {
     const nuovo = !item.fatto;
     setTodo((list) => list.map((t) => (t.id === item.id ? { ...t, fatto: nuovo } : t)));
+    // Ricorda la spunta localmente: l'auto-refresh a 60s non la cancella più. (bug #7)
+    spuntateLocaliRef.current.set(item.id, nuovo);
     try {
       await fetch("/api/memoria/todo", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: item.id, fatto: nuovo }) });
     } catch {
@@ -424,9 +474,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
             key={t.id}
             onClick={() => {
               setTab(t.id);
-              // Timbra una voce di cronologia per la scheda: così il tasto INDIETRO del mouse
-              // torna alla scheda precedente invece di saltare fuori alla Plancia (vedi page.tsx).
-              if (typeof window !== "undefined") window.location.hash = `azioni-${t.id}`;
+              // Timbra una voce di cronologia per la scheda (pushState, non più hash): il tasto
+              // INDIETRO torna alla scheda precedente invece di saltare alla Plancia. (contratto nav)
+              vaiSub("azioni", t.id);
             }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
@@ -741,15 +791,15 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       <div className="mt-3 flex flex-wrap items-center gap-2">
                         {!decisa ? (
                           <>
-                            <button onClick={() => decidi(a.id, "approva")} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition">
-                              <CheckCircle2 size={15} /> {etichettaApprova(a.canale)}
+                            <button onClick={() => decidi(a.id, "approva")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                              {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
                             </button>
-                            <button onClick={() => decidi(a.id, "rifiuta")} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
+                            <button onClick={() => decidi(a.id, "rifiuta")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
                               <XCircle size={15} /> Rifiuta
                             </button>
                           </>
                         ) : (
-                          <button onClick={() => decidi(a.id, "annulla")} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition"><RotateCcw size={13} /> annulla</button>
+                          <button onClick={() => decidi(a.id, "annulla")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
                         )}
                       </div>
                       <ParlaCasella titolo={`Azione: ${a.titolo}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />

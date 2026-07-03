@@ -12,6 +12,31 @@ if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
   console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'memoria-ad'. Impostalo esplicitamente su Vercel.");
 }
 
+// Ramo di RIPIEGO in sola lettura. La memoria vera vive su BRANCH (memoria-ad): il giro
+// pubblica SOLO lì e il Pannello scrive SOLO lì. Ma se un file/una cartella non esiste su
+// quel ramo (branch assente, giro che ha pubblicato su main per sbaglio, propagazione in
+// corso) la lettura tornava `null` e il dato SPARIVA dallo schermo in silenzio: è la causa
+// radice dei ripetuti "il Pannello non vede i dati". Rete di sicurezza: se BRANCH non ha il
+// file, riprova su OVERRIDE (default 'main') così NON si mostra mai schermo vuoto per un
+// disallineamento di ramo. Ogni lettura registra il ramo che l'ha servita (ramoUltimaLettura)
+// → la deriva diventa VISIBILE invece che nascosta. NB: vale solo in LETTURA; le scritture
+// restano ancorate a BRANCH.
+const RAMO_RIPIEGO = process.env.OBSIDIAN_BRANCH_FALLBACK || "main";
+
+// Ordine di tentativo in lettura: prima la memoria fresca, poi il ripiego (se diverso).
+function ramiLettura(): string[] {
+  return BRANCH === RAMO_RIPIEGO ? [BRANCH] : [BRANCH, RAMO_RIPIEGO];
+}
+
+// Diagnostica: da quale ramo è arrivato l'ULTIMO dato letto, e se è stato usato il ripiego.
+let _ramoUltimaLettura: string | null = null;
+let _ripiegoUsato = false;
+
+/** Ramo che ha effettivamente servito l'ultima lettura (null se nessuna lettura riuscita). */
+export function ramoUltimaLettura(): { ramo: string | null; ripiego: boolean } {
+  return { ramo: _ramoUltimaLettura, ripiego: _ripiegoUsato };
+}
+
 export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
 }
@@ -19,6 +44,32 @@ export function obsidianConnected(): boolean {
 /** Ramo GitHub da cui il Pannello legge il vault (default: memoria-ad). */
 export function obsidianBranch(): string {
   return BRANCH;
+}
+
+/**
+ * GET resiliente sulla Contents API: prova i rami [BRANCH, ripiego] e ritorna la PRIMA
+ * risposta ok, annotando quale ramo l'ha servita. Ritorna null solo se il path manca su
+ * TUTTI i rami (allora sì, il dato non esiste davvero da nessuna parte). Un errore di rete
+ * su un ramo non fa sparire il dato: si prova il successivo.
+ */
+async function contentsGet(pathRepo: string): Promise<{ dati: any; ramo: string } | null> {
+  const enc = encodeURIComponent(pathRepo);
+  for (const ramo of ramiLettura()) {
+    try {
+      const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${enc}?ref=${ramo}`, {
+        headers: h(),
+        cache: "no-store",
+      });
+      if (!r.ok) continue;
+      const dati = await r.json();
+      _ramoUltimaLettura = ramo;
+      _ripiegoUsato = ramo !== BRANCH;
+      return { dati, ramo };
+    } catch {
+      /* rete/parse fallita su questo ramo: provo il successivo */
+    }
+  }
+  return null;
 }
 
 /** Config vault per diagnosi/UI: il Pannello legge qui, non da main. */
@@ -46,20 +97,27 @@ function h(extra?: Record<string, string>) {
 /** Elenco delle note (.md), con filtro opzionale sul percorso. */
 export async function listNotes(filtro?: string): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;
-  try {
-    const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, { headers: h(), cache: "no-store" })).json();
-    if (!ref.object) return `Errore: ${ref.message || "branch non trovato"}`;
-    const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
-    const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
-    let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
-    if (filtro) {
-      const f = filtro.toLowerCase();
-      note = note.filter((p) => p.toLowerCase().includes(f));
+  // Prova BRANCH e, se il ramo non risponde, il ripiego: come per le letture di file,
+  // meglio l'elenco da 'main' che nessun elenco per un disallineamento di ramo.
+  for (const ramo of ramiLettura()) {
+    try {
+      const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${ramo}`, { headers: h(), cache: "no-store" })).json();
+      if (!ref.object) continue;
+      const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+      const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
+      let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
+      _ramoUltimaLettura = ramo;
+      _ripiegoUsato = ramo !== BRANCH;
+      if (filtro) {
+        const f = filtro.toLowerCase();
+        note = note.filter((p) => p.toLowerCase().includes(f));
+      }
+      return note.length ? `Note Obsidian (${note.length}):\n${note.join("\n")}` : "Nessuna nota trovata.";
+    } catch {
+      /* provo il ramo successivo */
     }
-    return note.length ? `Note Obsidian (${note.length}):\n${note.join("\n")}` : "Nessuna nota trovata.";
-  } catch (e: any) {
-    return `Errore: ${e.message}`;
   }
+  return "Errore: nessun ramo leggibile per il vault.";
 }
 
 /**
@@ -69,41 +127,23 @@ export async function listNotes(filtro?: string): Promise<string> {
  */
 export async function listDir(dir: string): Promise<string[] | null> {
   if (!obsidianConnected()) return null;
-  try {
-    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
-      headers: h(),
-      cache: "no-store",
-    });
-    if (!r.ok) return null;
-    const d: any = await r.json();
-    if (!Array.isArray(d)) return null;
-    return d
-      .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
-      .map((x: any) => x.name as string)
-      .sort();
-  } catch {
-    return null;
-  }
+  const got = await contentsGet(dir);
+  if (!got || !Array.isArray(got.dati)) return null;
+  return got.dati
+    .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
+    .map((x: any) => x.name as string)
+    .sort();
 }
 
 /** Voci di una cartella (file .md E sottocartelle), per camminare l'albero in modo ricorsivo. */
 export async function listDirEntries(dir: string): Promise<{ name: string; type: "file" | "dir" }[] | null> {
   if (!obsidianConnected()) return null;
-  try {
-    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(dir)}?ref=${BRANCH}`, {
-      headers: h(),
-      cache: "no-store",
-    });
-    if (!r.ok) return null;
-    const d: any = await r.json();
-    if (!Array.isArray(d)) return null;
-    return d
-      .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
-      .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  } catch {
-    return null;
-  }
+  const got = await contentsGet(dir);
+  if (!got || !Array.isArray(got.dati)) return null;
+  return got.dati
+    .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
+    .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /** Contenuto di una nota. */
@@ -111,9 +151,9 @@ export async function readNote(path: string): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;
   if (!path) return "Indica il percorso della nota.";
   try {
-    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`, { headers: h(), cache: "no-store" });
-    const d: any = await r.json();
-    if (!r.ok || !d.content) return `Nota non trovata: ${path}`;
+    const got = await contentsGet(path);
+    const d: any = got?.dati;
+    if (!d || !d.content) return `Nota non trovata: ${path}`;
     const text = Buffer.from(d.content, "base64").toString("utf-8");
     // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
     // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
@@ -140,12 +180,9 @@ export async function esploraPath(p: string): Promise<
   if (!obsidianConnected()) return { tipo: "errore", errore: NON_COLLEGATO };
   const clean = (p || "").replace(/^\/+|\/+$/g, "");
   try {
-    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(clean)}?ref=${BRANCH}`, {
-      headers: h(),
-      cache: "no-store",
-    });
-    if (!r.ok) return { tipo: "errore", errore: `GitHub ${r.status}: percorso non trovato su ${BRANCH}` };
-    const d: any = await r.json();
+    const got = await contentsGet(clean);
+    if (!got) return { tipo: "errore", errore: `percorso non trovato su ${ramiLettura().join(" né ")}` };
+    const d: any = got.dati;
     if (Array.isArray(d)) {
       const voci = d
         .filter((x: any) => x?.type === "file" || x?.type === "dir")

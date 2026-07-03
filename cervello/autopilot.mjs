@@ -108,6 +108,8 @@ async function giro(tutto) {
   }
   console.log(`🛰️  Autopilot: ${daFare.length} voci da processare — ${LIVE ? "LIVE" : "DRY-RUN"}\n`);
 
+  // AR-073: whitelist dei colori validi del semaforo (usata dal cancello fail-closed sotto).
+  const COLORI_VALIDI = ["verde", "giallo", "rosso"];
   let pubblicate = 0, accodate = 0, saltate = 0;
   for (const voce of daFare) {
     const pub = publisherPer(voce.canale);
@@ -116,11 +118,15 @@ async function giro(tutto) {
       saltate++; continue;
     }
 
-    // CANCELLO 🔴: in LIVE le voci rosse non partono mai da sole → si accodano per la firma.
-    if (LIVE && voce.colore === "rosso") {
+    // CANCELLO SEMAFORO — FAIL-CLOSED (AR-072/AR-073): in LIVE parte da solo SOLO il verde.
+    // Giallo, rosso, colore mancante o scritto male → si accoda per la firma di Nicola. Mai sorprese.
+    // (Prima il gate bloccava solo "rosso" e lasciava auto-pubblicare i gialli/colori sconosciuti.)
+    if (LIVE && voce.colore !== "verde") {
+      const noto = COLORI_VALIDI.includes(voce.colore);
+      const c = voce.colore || "(colore mancante)";
       const ok = accoda(voce);
-      console.log(`🔴 ${voce.id} (${voce.canale}) ACCODATO per firma di Nicola${ok ? "" : " (coda non scrivibile)"}.`);
-      logga({ id: voce.id, canale: voce.canale, esito: "accodato-rosso" });
+      console.log(`🚦 ${voce.id} (${voce.canale}) colore "${c}"${noto ? "" : " [NON riconosciuto]"} ≠ verde → ACCODATO per firma di Nicola${ok ? "" : " (coda non scrivibile)"}.`);
+      logga({ id: voce.id, canale: voce.canale, colore: voce.colore, esito: "accodato-non-verde" });
       accodate++; continue;
     }
 

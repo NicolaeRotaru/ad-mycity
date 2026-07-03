@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2 } from "lucide-react";
 import { chiediACasella, salvaConversazioneCasella, type ParlaMsg } from "@/lib/parla";
 
@@ -16,10 +16,51 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const [salvata, setSalvata] = useState(false);
   const [err, setErr] = useState("");
 
+  // 🐛 Bug #5 (radiografia 2026-07-03): la risposta del box spariva cambiando sezione,
+  // perché `msgs` è stato locale e al rimontaggio ripartiva da []. La conversazione è però
+  // già salvata in Conversazioni sotto il titolo `💬 {titolo}` (thread stabile dal titolo):
+  // al montaggio la ricarichiamo (server → fallback localStorage) e ripopoliamo msgs+convId,
+  // così recuperiamo anche il convId reale e i salvataggi successivi fanno upsert sullo stesso thread.
+  useEffect(() => {
+    let annullato = false;
+    const chiave = `💬 ${titolo}`; // id thread stabile dal titolo
+    (async () => {
+      // 1) server
+      try {
+        const d = await fetch("/api/conversazioni", { cache: "no-store" }).then((r) => r.json());
+        const c = Array.isArray(d?.conversazioni) ? d.conversazioni.find((x: any) => x.titolo === chiave) : null;
+        if (c) {
+          if (!annullato) {
+            setMsgs(Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : []);
+            setConvId(c.id != null ? String(c.id) : null);
+          }
+          return;
+        }
+      } catch {
+        /* rete instabile: passo al locale */
+      }
+      // 2) fallback locale (stesso formato della Cabina)
+      try {
+        const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
+        const c = Array.isArray(list) ? list.find((x: any) => x.titolo === chiave) : null;
+        if (c && !annullato) {
+          setMsgs(Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : []);
+          setConvId(c.id != null ? String(c.id) : null);
+        }
+      } catch {
+        /* localStorage non disponibile */
+      }
+    })();
+    return () => {
+      annullato = true;
+    };
+  }, [titolo]);
+
   async function invia() {
     const testo = bozza.trim();
     if (!testo || inviando) return;
     setErr("");
+    setSalvata(false); // 🐛 Bug #5: azzera la spunta "salvata" all'inizio di ogni invio
     setBozza("");
     const storia = msgs;
     const conMio: ParlaMsg[] = [...msgs, { role: "user", content: testo }];
@@ -34,6 +75,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       setSalvata(true);
     } catch (e: any) {
       setErr(e?.message || "Non riuscito.");
+      setBozza(testo); // 🐛 Bug #5: non perdere la bozza se l'invio fallisce, ripristinala
     } finally {
       setInviando(false);
     }

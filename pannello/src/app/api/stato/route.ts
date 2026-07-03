@@ -9,7 +9,7 @@ import {
 } from "@/lib/store";
 import { readVaultFile, listVaultDir } from "@/lib/vault";
 import { vaultToIso } from "@/lib/format";
-import { vaultGithubInfo } from "@/lib/obsidian";
+import { vaultGithubInfo, ramoUltimaLettura } from "@/lib/obsidian";
 import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 import { marketplaceGithubInfo } from "@/lib/github";
 
@@ -31,6 +31,22 @@ function estraiSintesi(md: string): string {
   let start = lines.findIndex((l) => /^#{1,3}\s*\d*\.?\s*Sintesi\b/i.test(l));
   if (start < 0) start = lines.findIndex((l) => /TL;?DR/i.test(l));
   if (start < 0) return "";
+  // Degrado gentile: se il briefing NON ha una sezione "Sintesi"/"TL;DR" (template diverso),
+  // non restituire vuoto — mostra comunque il primo blocco di testo utile del file, così un
+  // briefing scritto "fuori formato" resta LEGGIBILE nel Pannello invece di sparire.
+  if (start < 0) {
+    const corpo: string[] = [];
+    let dentroFm = false;
+    for (const l of lines) {
+      const t = l.trim();
+      if (t === "---") { dentroFm = !dentroFm; continue; } // salta il frontmatter
+      if (dentroFm) continue;
+      if (!t || /^#{1,6}\s/.test(t)) continue; // salta righe vuote e titoli
+      corpo.push(l);
+      if (corpo.join("\n").length > 400) break;
+    }
+    return corpo.join("\n").trim().slice(0, 800);
+  }
   const out: string[] = [];
   for (let i = start + 1; i < lines.length; i++) {
     if (/^#{1,3}\s/.test(lines[i]) || /^---\s*$/.test(lines[i])) break;
@@ -109,12 +125,18 @@ export async function GET() {
       getImpostazione("pausa").catch(() => null),
     ]);
     const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, fromVault);
+    // Da quale ramo il vault ha SERVITO davvero i dati (dopo le letture qui sopra): se è il
+    // ripiego (main) invece del ramo memoria, è un campanello che il giro non sta pubblicando
+    // su memoria-ad — visibile nel Pannello invece che nascosto.
+    const lettura = ramoUltimaLettura();
     const oreWorker = oreDaQuando(segnali.worker?.quando);
     const workerVivo = oreWorker != null && oreWorker <= 0.1;
     return NextResponse.json({
       memoria: memoryConnected(),
       vaultGithub: vault.collegato,
       vaultRamo: vault.ramo,
+      vaultRamoServito: lettura.ramo,
+      vaultRipiego: lettura.ripiego,
       marketplaceCodice: codice.collegato,
       marketplaceRepo: codice.repo,
       marketplaceRamo: codice.ramo,

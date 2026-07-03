@@ -193,6 +193,24 @@ async function checkResend() {
   return { ...r, configurato: true };
 }
 
+// AR-084 (cantiere AR-067): sensore di raggiungibilità/uptime della storefront. Se il marketplace è
+// giù la macchina è cieca sugli ordini e nessun sensore lo diceva. GET su MARKETPLACE_SITE_URL (Node
+// puro, 0 token). Senza URL → non configurato (non è una cecità). Resta 🟡 (firma Nicola).
+async function checkSito() {
+  const url = process.env.MARKETPLACE_SITE_URL?.trim();
+  if (!url) {
+    return { ok: false, configurato: false, dettaglio: "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetch(url, { method: "GET", redirect: "follow" });
+    if (!res.ok) {
+      return { ok: false, dettaglio: `HTTP ${res.status} su ${url}` };
+    }
+    return { ok: true, dettaglio: `storefront raggiungibile (HTTP ${res.status})` };
+  }, "sito_uptime");
+  return { ...r, configurato: true };
+}
+
 async function main() {
   const quando = nowPiacenza();
   const cecita = leggiCecita();
@@ -243,6 +261,18 @@ async function main() {
     rs.dettaglio,
     "Resend API",
     rs.configurato
+  );
+
+  // AR-084 (cantiere AR-067): storefront reachability come sensore attivo.
+  const sito = await checkSito();
+  checks.push({ nome: "sito_uptime", ...sito, canale: "MARKETPLACE_SITE_URL" });
+  cecita.sensori.sito_uptime = aggiornaSensore(
+    cecita.sensori,
+    "sito_uptime",
+    sito.ok,
+    sito.dettaglio,
+    "storefront GET",
+    sito.configurato
   );
 
   const mcpSb = parseMcpFlag("supabase");

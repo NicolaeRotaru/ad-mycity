@@ -43,6 +43,20 @@ export async function POST(req: Request) {
   const azione = (await tutteLeAzioni()).find((a) => a.id === id);
 
   if (dec === "rifiuta" || dec === "annulla") {
+    // 🔴 BLOCCANTE (radiografia 3/7): "annulla" NON deve azzerare lo stato di un'azione GIÀ ESEGUITA.
+    // Prima lo faceva incondizionatamente: annulla → ri-approva ri-eseguiva le "mani" (doppio merge/email/payout).
+    // Ora: annulla consentito SOLO se l'azione non è ancora partita ('' o 'rifiutata'); altrimenti 409.
+    if (dec === "annulla") {
+      const { valori: valoriPre } = await getImpostazioni();
+      const statoPre = valoriPre[`azione:${id}`] || "";
+      const giaEseguita = statoPre && statoPre !== "rifiutata"; // fatta / simulata / coda = già avviata
+      if (giaEseguita) {
+        return NextResponse.json(
+          { ok: false, giaEseguita: true, stato: statoDa(statoPre), error: "Azione già eseguita: non è annullabile (eviterebbe un doppio invio reale)." },
+          { status: 409 },
+        );
+      }
+    }
     const stato = dec === "rifiuta" ? "rifiutata" : "";
     const salv = (await setImpostazione(`azione:${id}`, stato)) && (await setImpostazione(`azione:${id}:nota`, ""));
     if (dec === "rifiuta" && azione) {

@@ -26,6 +26,7 @@ const STAGED_ONLY = process.argv.includes("--staged");
 const REGOLE = [
   { nome: "GitHub fine-grained PAT", re: /github_pat_11[A-Za-z0-9]{20,}/g },
   { nome: "GitHub classic/OAuth token", re: /gh[pousr]_[A-Za-z0-9]{36,}/g },
+  { nome: "Supabase management token (sbp_)", re: /sbp_[A-Za-z0-9]{20,}/g },
   { nome: "Stripe secret/live key", re: /sk_live_[A-Za-z0-9]{20,}/g },
   { nome: "Stripe restricted key", re: /rk_live_[A-Za-z0-9]{20,}/g },
   { nome: "Supabase/JWT service_role", re: /eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}/g },

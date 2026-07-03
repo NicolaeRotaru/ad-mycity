@@ -152,8 +152,15 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ```json
 { "data":"…","benchmark":[{"reparto":"@…","livello_attuale_L":0,"migliori":[{"chi":"…","livello":"locale|mondiale","esempi":[{"cosa":"…","link":"…"}]}],
     "divario":"alto|medio|basso","obiettivo":"arrivare a L… entro …","progresso":[{"data":"…","punteggio":0,"fonte":"scorecard|numeri-reali"}]}],
-  "esperimenti":[…],"peer_review":[…],"proposte_auto_riscrittura":[{"cosa":"…","perche":"…","colore":"🟡","origine":"auto-radiografia|loop","finding_id":"…","dove":".claude/agents/…"}] }
+  "esperimenti":[{"id":"…","ambito":"@…","ipotesi":"…","varianti":["…"],"metrica":"…","atteso":"…","stato":"aperto|misurato|chiuso","data_misura":"AAAA-MM-GG","delta":"…","lezione_id":"…"}],
+  "peer_review":[…],"proposte_auto_riscrittura":[{"cosa":"…","stato":"proposta|firmata|implementata|rifiutata","perche":"…","colore":"🟡","origine":"auto-radiografia|loop","finding_id":"…","dove":".claude/agents/…"}] }
 ```
+> ⚠️ **Lifecycle esperimenti (AR-054):** ogni esperimento nasce `stato:aperto` e DEVE chiudersi (`misurato`/`chiuso`)
+> con la sua `data_misura` — così il torneo benchmark→misura non resta aperto all'infinito. Il ciclo settimanale
+> apre ≥1 esperimento sull'ambito col divario più alto e verifica che quelli della settimana prima siano stati misurati.
+> ⚠️ **Lifecycle proposte (AR-055):** ogni `proposte_auto_riscrittura` ha uno `stato` (`proposta`→`firmata`→`implementata`/`rifiutata`)
+> sincronizzato col cantiere via `finding_id`: quando il difetto passa a `chiuso`, la proposta collegata si marca `implementata`
+> e sparisce dalla coda attiva (niente doppioni desincronizzati). 🟡 firma Nicola.
 
 ---
 

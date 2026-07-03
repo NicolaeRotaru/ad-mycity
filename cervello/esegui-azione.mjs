@@ -12,7 +12,29 @@
 //   node esegui-azione.mjs n8n '<json>'        (l'hub n8n instrada a WhatsApp/social/Google/ecc.)
 //   node esegui-azione.mjs github-merge ad-mycity|mycity <prNum>   (merge PR — 🔴, AZIONI_LIVE=1)
 
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
+
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
+// AR-078: ogni mano reale è 🟡 e va legata al percorso proponi→firma→registra.
+// L'azione LIVE deve citare l'id della coda AZIONI-IN-ATTESA (env AZIONE_ID) e
+// lasciare traccia append-only in DECISIONI.md. Vault = memoria della macchina.
+const AZIONE_ID = process.env.AZIONE_ID || "(non collegata a AZIONI-IN-ATTESA)";
+const VAULT = fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/", import.meta.url));
+
+// AR-078: traccia in DECISIONI.md (data+ora, cosa, perché) al momento dell'esecuzione LIVE.
+function tracciaDecisione(cosa) {
+  if (!LIVE) return; // in DRY-RUN non si tocca il mondo → niente traccia
+  try {
+    const now = new Date();
+    const p = (n) => String(n).padStart(2, "0");
+    const ts = `${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())} ${p(now.getHours())}:${p(now.getMinutes())}`;
+    const riga = `- ${ts} · 🟡 · [AD/esegui-azione] · MANO ESEGUITA (LIVE): ${cosa} · azione coda AZIONI-IN-ATTESA: ${AZIONE_ID} · —\n`;
+    fs.appendFileSync(new URL("DECISIONI.md", "file://" + VAULT), riga);
+  } catch (e) {
+    console.log(`[avviso] traccia DECISIONI non scritta: ${e.message}`);
+  }
+}
 const RESEND_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM = process.env.RESEND_FROM || "MyCity <no-reply@mycity.example>";
 const MKT_URL = process.env.MARKETPLACE_SUPABASE_URL;
@@ -42,6 +64,7 @@ async function telegram(testo) {
   if (!LIVE || !TG_TOKEN || !TG_CHAT) return console.log(`[DRY-RUN] TELEGRAM → ${testo}`);
   const r = await post(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { "Content-Type": "application/json" }, { chat_id: TG_CHAT, text: testo });
   console.log(r.ok ? "Telegram inviato" : `Errore Telegram: ${r.status} ${r.text}`);
+  if (r.ok) tracciaDecisione(`Telegram → "${testo}"`); // AR-078
 }
 
 async function email(to, subject, text) {
@@ -49,6 +72,7 @@ async function email(to, subject, text) {
   if (!LIVE || !RESEND_KEY) return console.log(`[DRY-RUN] EMAIL → ${to}\n  oggetto: ${subject}\n  testo: ${text}`);
   const r = await post("https://api.resend.com/emails", { Authorization: `Bearer ${RESEND_KEY}`, "Content-Type": "application/json" }, { from: RESEND_FROM, to, subject, text });
   console.log(r.ok ? `Email inviata a ${to}` : `Errore email: ${r.status} ${r.text}`);
+  if (r.ok) tracciaDecisione(`Email → ${to} · oggetto: ${subject}`); // AR-078
 }
 
 async function notifica(userId, title, body, link) {
@@ -56,6 +80,7 @@ async function notifica(userId, title, body, link) {
   if (!LIVE || !MKT_URL || !MKT_WRITE_KEY) return console.log(`[DRY-RUN] NOTIFICA → utente ${userId}\n  ${title}: ${body}${link ? "  (" + link + ")" : ""}`);
   const r = await post(`${MKT_URL}/rest/v1/notifications`, { apikey: MKT_WRITE_KEY, Authorization: `Bearer ${MKT_WRITE_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" }, { user_id: userId, title, body, link });
   console.log(r.ok ? `Notifica creata per ${userId}` : `Errore notifica: ${r.status} ${r.text}`);
+  if (r.ok) tracciaDecisione(`Notifica in-app → utente ${userId} · ${title}`); // AR-078
 }
 
 // Hub universale: l'AD manda un'azione json a n8n, che la instrada (whatsapp/social/google/...).
@@ -65,6 +90,7 @@ async function n8n(jsonStr) {
   if (!LIVE || !N8N) return console.log(`[DRY-RUN] n8n → ${JSON.stringify(payload)}`);
   const r = await post(N8N, { "Content-Type": "application/json" }, { ...payload, fonte: "mycity-AD" });
   console.log(r.ok ? "Azione inviata a n8n" : `Errore n8n: ${r.status} ${r.text}`);
+  if (r.ok) tracciaDecisione(`n8n hub → ${JSON.stringify(payload).slice(0, 120)}`); // AR-078
 }
 
 async function githubMerge(repoKey, prStr) {

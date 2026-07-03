@@ -2,7 +2,8 @@
 # giro.sh — GIRO DI PERLUSTRAZIONE dell'AD MyCity (motore AI: Cursor 'agent' o Claude 'claude'), per VPS Linux.
 # Equivalente Linux di giro.ps1. Gira nella cartella del repo, cosi' il motore prende
 # automaticamente CLAUDE.md, gli agenti .claude/agents/ e la memoria del vault.
-# Il timer automatico (mycity-giro.timer) è DISATTIVATO. Lanciare a mano con giro-ora.sh.
+# AR-060: il battito è ATTIVO. Il timer automatico (mycity-giro.timer) fa girare il giro ogni ~2h;
+# la cadenza reale è nel file .timer (unica fonte di verità). Per un giro a mano usa giro-ora.sh.
 set -uo pipefail   # niente -e: il giro deve arrivare al push anche se un passo intermedio fallisce
 
 # Fuso di Piacenza: gli orari scritti in memoria (data:, SALA, AZIONI, commit) devono essere
@@ -33,9 +34,16 @@ if [ -f "$REPO/.git/config" ] && ! test -w "$REPO/.git/config" 2>/dev/null; then
 fi
 
 # Kill-switch: se il Pannello ha messo l'AD in PAUSA (impostazioni.pausa = on), non girare.
+# AR-100: il controllo PAUSA è FAIL-CLOSED. Se lo stato pausa NON è leggibile (curl fallisce / HTTP≠2xx),
+# NON proseguiamo al buio: meglio un giro saltato che un giro che parte mentre Nicola ha messo PAUSA.
 if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" \
-    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null || true)"
+    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null)"; _pausa_rc=$?
+  if [ "$_pausa_rc" -ne 0 ]; then
+    # AR-100: PAUSA_FAIL_CLOSED — pausa non verificabile → fermati (non girare al buio).
+    echo "[$(ts)] ⛔ PAUSA_FAIL_CLOSED: stato pausa non verificabile (curl rc=$_pausa_rc) — giro FERMATO per sicurezza (pausa non verificabile)." >&2
+    exit 0
+  fi
   if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
     echo "[$(ts)] AD in PAUSA (kill-switch): giro saltato."
     exit 0
@@ -139,10 +147,21 @@ fi
 # e passare un VINCOLO HARD al motore ("non inventare numeri"), non solo una stampa buttata via.
 SENSORI_CIECHI=0
 SENSORI_VINCOLO=""
+ALLOC_VINCOLO=""   # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
-  _sens_out="$(node "$SCRIPT_DIR/verifica-sensori.mjs" --json 2>&1)"; _sens_rc=$?
+  # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
+  # canale MCP a verifica-sensori con i flag --mcp-* (forcing-function): se la sessione AD ha appena
+  # usato l'MCP mette GIRO_MCP_SUPABASE/GIRO_MCP_STRIPE=ok|cieco e lo inoltriamo; altrimenti NON
+  # inventiamo uno stato (resta 'non_verificato' e sotto urliamo che l'MCP non conta come verità).
+  MCP_FLAGS=()
+  [ -n "${GIRO_MCP_SUPABASE:-}" ] && MCP_FLAGS+=(--mcp-supabase="$GIRO_MCP_SUPABASE")
+  [ -n "${GIRO_MCP_STRIPE:-}" ] && MCP_FLAGS+=(--mcp-stripe="$GIRO_MCP_STRIPE")
+  _sens_out="$(node "$SCRIPT_DIR/verifica-sensori.mjs" --json "${MCP_FLAGS[@]}" 2>&1)"; _sens_rc=$?
   printf '%s\n' "$_sens_out" | tail -6
+  if [ "${#MCP_FLAGS[@]}" -eq 0 ]; then
+    echo "[$(ts)] ⚠️  AR-038: MCP non verificato in questo giro (nessun GIRO_MCP_*) → resta 'non_verificato', NON conta come canale di verità (la fonte è il REST)." >&2
+  fi
   if [ "$_sens_rc" -ne 0 ]; then
     SENSORI_CIECHI=1
     SENSORI_VINCOLO="⛔ SENSORI DATI CIECHI (verifica-sensori.mjs ha restituito 'tutti ciechi'). NON scrivere numeri nuovi come fatti: usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap. Se fuori non è cambiato nulla, fai un passaggio MINIMO e onesto invece di gonfiare il giro."
@@ -157,9 +176,22 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
-  node "$SCRIPT_DIR/allocazione-check.mjs" 2>&1 | tail -6 || true
+  # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
+  # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
+  # payout-ready è a 0) passiamo un vincolo hard al motore, invece di ingoiare l'errore in silenzio.
+  _alloc_out="$(node "$SCRIPT_DIR/allocazione-check.mjs" 2>&1)"; _alloc_rc=$?
+  printf '%s\n' "$_alloc_out" | tail -6
+  if [ "$_alloc_rc" -ne 0 ]; then
+    ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
+    echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+  # AR-053: sweep deterministico delle previsioni SCADUTE via `node cervello/calibrazione.mjs scadute` —
+  # marca 'scaduta' quelle oltre 'entro' senza esito, così non marciscono aperte contando come 'prova'
+  # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
+  echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
+  node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su memoria-ad → il Pannello (che legge
@@ -189,6 +221,22 @@ elif command -v node >/dev/null 2>&1; then
   fi
 fi
 
+# AR-087: GATE-BUDGET — circuit-breaker deterministico sul costo (token). Prima di accendere il motore
+# premium leggo lo stato di `costo-ai.mjs --json`: se i token di OGGI hanno superato la soglia giornaliera,
+# DEGRADO a passaggio minimo (niente motore premium) finché il giorno non si resetta. I 🔴/controlli
+# restano attivi: sotto budget si taglia il VOLUME, non la sicurezza. I giri forzati/on-demand bypassano.
+if [ "${RUN_AI:-1}" = 1 ] && [ "${GIRO_FORCE:-0}" != 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
+  _budget_json="$(node "$SCRIPT_DIR/costo-ai.mjs" --json 2>/dev/null || true)"
+  if command -v jq >/dev/null 2>&1 && [ -n "$_budget_json" ]; then
+    _tok_oggi="$(printf '%s' "$_budget_json" | jq -r '.oggi.token_totali // 0' 2>/dev/null || echo 0)"
+    _tok_soglia="$(printf '%s' "$_budget_json" | jq -r '.soglia_giornaliera_token // 0' 2>/dev/null || echo 0)"
+    if [ "${_tok_soglia:-0}" -gt 0 ] 2>/dev/null && [ "${_tok_oggi:-0}" -gt "${_tok_soglia:-0}" ] 2>/dev/null; then
+      RUN_AI=0
+      echo "[$(ts)] ⛔ GATE-BUDGET (AR-087): token oggi ${_tok_oggi} > soglia ${_tok_soglia} → motore premium FERMATO (passaggio minimo). I 🔴/controlli restano attivi."
+    fi
+  fi
+fi
+
 PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
 
 ## Compito
@@ -207,6 +255,13 @@ if [ -n "$SENSORI_VINCOLO" ]; then
 ## Vincolo sensori (HARD — dal controllo deterministico prima di te)
 $SENSORI_VINCOLO"
 fi
+if [ -n "$ALLOC_VINCOLO" ]; then
+  # AR-081: il vincolo dell'allocazione-check arriva al motore come regola hard, non come log ingoiato.
+  PROMPT="$PROMPT
+
+## Vincolo allocazione sforzo (HARD — dal guardiano allocazione-check prima di te)
+$ALLOC_VINCOLO"
+fi
 PROMPT="$PROMPT
 
 ## Risposta in chat
@@ -223,7 +278,12 @@ ai_build_cmd
 # AR-005: timeout DENTRO giro.sh, così vale per QUALUNQUE invocatore (timer systemd o coda worker),
 # non solo per la via-coda. Un motore AI appeso al primo tentativo non torna mai: senza questo, il
 # battito ogni-2h muore in silenzio. `timeout` (coreutils) è sempre presente su VPS Linux.
-GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-2700}"   # 45 min per tentativo
+# AR-058: budget-tempo UNICO del giro. I 3 tentativi interni (con 2 pause da 30s) devono stare DENTRO il
+# timeout esterno (worker 2700s / systemd 3600s), altrimenti l'invocatore uccide giro.sh prima che i retry
+# si completino (retry morti). Derivo il timeout per-tentativo dal budget esterno di riferimento (2700s):
+# 3×GIRO_AI_TIMEOUT + 2×30s ≤ GIRO_BUDGET_SEC → GIRO_AI_TIMEOUT ≤ 880s. Default prudente 800s (3×800+60=2460s).
+GIRO_BUDGET_SEC="${GIRO_BUDGET_SEC:-2700}"   # budget esterno di riferimento (deve combaciare con worker/systemd)
+GIRO_AI_TIMEOUT="${GIRO_AI_TIMEOUT:-800}"    # per tentativo; 3 tentativi + pause stanno dentro il budget esterno
 AI_TIMEOUT=()
 command -v timeout >/dev/null 2>&1 && AI_TIMEOUT=(timeout --kill-after=60s "$GIRO_AI_TIMEOUT")
 GIRO_START="$(date +%s)"   # inizio effettivo del motore AI (per il costo del giro)
@@ -234,12 +294,24 @@ for _attempt in 1 2 3; do
   _ai_out="$("${AI_TIMEOUT[@]}" "${AI_CMD[@]}" "$PROMPT" 2>&1)" || ai_rc=$?
   printf '%s\n' "$_ai_out"
   [ "$ai_rc" -eq 0 ] && break
-  if [ "$ai_rc" = 124 ] || [ "$ai_rc" = 137 ]; then
-    echo "[$(ts)] Motore AI tentativo $_attempt ANDATO IN TIMEOUT (${GIRO_AI_TIMEOUT}s, rc=$ai_rc) — ucciso, riprovo tra 30s..." >&2
-  else
-    echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc) — riprovo tra 30s..." >&2
-  fi
   printf '%s\n' "$_ai_out" | tail -15 >&2
+  # AR-092: NON riprovare ciecamente. Chiedi a retry-policy.mjs (fonte unica: classificaErrore) SE
+  # questo errore va ritentato — così un errore non-ritentabile o esaurito si ferma subito invece di
+  # bruciare 3 rilanci fissi. Il tipo 'giro' è pre-esecuzione (0 rischio doppio-invio reale).
+  _rp_azione="ritenta"; _rp_classe="?"
+  if command -v node >/dev/null 2>&1; then
+    _rp_risultato="rc=$ai_rc $(printf '%s' "$_ai_out" | tail -c 4000)"
+    _rp_json="$(RP_TIPO=giro RP_TENTATIVI="$_attempt" RP_RISULTATO="$_rp_risultato" \
+      node "$SCRIPT_DIR/retry-policy.mjs" decidi 2>/dev/null || true)"
+    case "$_rp_json" in *'"azione":"stop"'*) _rp_azione="stop" ;; esac
+    _c="$(printf '%s' "$_rp_json" | grep -o '"classe":"[^"]*"' | head -1 | cut -d'"' -f4)"
+    [ -n "$_c" ] && _rp_classe="$_c"
+  fi
+  if [ "$_rp_azione" = "stop" ]; then
+    echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc, classe=$_rp_classe) — retry-policy dice STOP: non ritento a vuoto." >&2
+    break
+  fi
+  echo "[$(ts)] Motore AI tentativo $_attempt fallito (rc=$ai_rc, classe=$_rp_classe) — retry-policy dice RITENTA, riprovo tra 30s..." >&2
   [ "$_attempt" -lt 3 ] && sleep 30
 done
 if [ "$ai_rc" -ne 0 ]; then
@@ -249,6 +321,15 @@ if [ "$ai_rc" -ne 0 ]; then
   echo "[$(ts)]   Se test-agent.sh passa ma il giro no: journalctl -u mycity-worker -n 50" >&2
 fi
 echo "[$(ts)] Giro completato."
+
+# AR-083: stima dei TOKEN reali del giro. Il motore agent non espone usage strutturato, quindi
+# approssimo ~4 caratteri/token su prompt+risposta e assegno GIRO_TOKEN: così costo-ai (AR-020) riceve
+# un numero VERO (non null) e la soglia da 2M può scattare per davvero (il gate-budget AR-087 la legge).
+if [ -z "${GIRO_TOKEN:-}" ]; then
+  _giro_chars=$(( ${#PROMPT} + ${#_ai_out} ))
+  GIRO_TOKEN=$(( _giro_chars / 4 ))
+  export GIRO_TOKEN
+fi
 
 # AR-014: gate deterministico sui passi 11-12 del giro (auto-analisi + apprendimento). Se il motore
 # AI li ha saltati in silenzio, questi file NON risultano aggiornati in questo giro: lo diciamo forte

@@ -5,6 +5,7 @@ import { Brain, ListTodo, Archive } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
+import { EVENTO_SUB, vaiSub, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "coda" | "archivio";
 
@@ -18,17 +19,17 @@ type Props = {
 export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Props) {
   const [tab, setTab] = useState<Tab>("coda");
 
-  // Sincronizza la scheda col tasto INDIETRO del mouse: ogni click di scheda timbra una voce
-  // di cronologia (hash) e tornando indietro si riapre la scheda precedente, non la Plancia.
+  // Sincronizza la scheda col tasto INDIETRO: ogni click di scheda timbra una voce di
+  // cronologia (pushState, non più hash) e il popstate centrale riemette EVENTO_SUB che
+  // qui riapre la scheda precedente, non la Plancia. (contratto nav)
   useEffect(() => {
-    const apriDaHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = { "lavori-coda": "coda", "lavori-archivio": "archivio" };
-      if (map[h]) setTab(map[h]);
+    const onSub = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioSub>).detail;
+      if (det?.vista !== "lavori" || !det.sub) return;
+      if (det.sub === "coda" || det.sub === "archivio") setTab(det.sub);
     };
-    apriDaHash();
-    window.addEventListener("hashchange", apriDaHash);
-    return () => window.removeEventListener("hashchange", apriDaHash);
+    window.addEventListener(EVENTO_SUB, onSub);
+    return () => window.removeEventListener(EVENTO_SUB, onSub);
   }, []);
 
   const filtrati = useMemo(() => {
@@ -68,7 +69,7 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
             type="button"
             onClick={() => {
               setTab(t.id);
-              if (typeof window !== "undefined") window.location.hash = `lavori-${t.id}`;
+              vaiSub("lavori", t.id); // voce di cronologia per la scheda (contratto nav)
             }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"

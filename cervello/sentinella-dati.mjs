@@ -71,6 +71,7 @@ const CECITA_PATH = join(VAULT, "sensori-cecita.json");
 const STORICO_PATH = join(VAULT, "storico-salute.json");
 const RADIOGRAFIA_PATH = join(VAULT, "auto-radiografia.json");
 const APPRENDIMENTO_PATH = join(VAULT, "apprendimento.json");
+const CASSA_RUNWAY_PATH = join(VAULT, "cassa-runway.json"); // AR-035: la sentinella M6 LEGGE il file del sensore-cassa
 
 // ---------- util ----------
 function readJson(path, fallback = {}) {
@@ -140,10 +141,13 @@ async function leggiStatoReale(state) {
     ordini_tot: null, ultimo_ordine: null, ordini_24h: null, ordini_prev7d: null,
     pagati_senza_payout: null, recensioni_basse: null, recensione_ultima: null,
     negozi_fermi: null, carrelli_da_recuperare: null,
+    ordini_slot_scaduto: null, // AR-071: ordini oltre lo slot promesso (expected_delivery scaduto, delivered_at nullo)
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
     sensori_max_ciechi: 0, salute_voto: null, radiografia_ore: null, volano_tasso: null,
+    // AR-035: cassa/runway (rischio esistenziale n.1) — la sentinella deve LEGGERE cassa-runway.json
+    runway_mesi: null, runway_stato: null, runway_soglia: null,
   };
 
   // ===== BUSINESS (marketplace, sola lettura) =====
@@ -193,6 +197,14 @@ async function leggiStatoReale(state) {
       MK_URL, MK_KEY,
       `abandoned_carts?recovered=is.false&recovery_email_sent_at=is.null&last_activity=lt.${isoFa(oreMs(4))}`
     );
+
+    // AR-071 — Puntualità consegne (promessa core del modello Glovo): ordini con lo slot promesso
+    // già scaduto (expected_delivery superato) ma non ancora consegnati (delivered_at nullo). È lo
+    // stato OPERATIVO/temporale dell'ordine, non quello contabile: prima invisibile ai sensori.
+    s.ordini_slot_scaduto = await conta(
+      MK_URL, MK_KEY,
+      `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
+    );
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
@@ -231,6 +243,13 @@ async function leggiStatoReale(state) {
     ? sonda.tasso_applicazione
     : (typeof appr.meta?.tasso_applicazione === "number" ? appr.meta.tasso_applicazione : null);
   s.volano_tasso = tasso;
+
+  // AR-035 — cassa/runway: leggo cassa-runway.json (scritto da sensore-cassa.mjs). Chiude il buco
+  // "sensore senza consumatore": il file esiste da tempo ma nessuna sentinella lo leggeva.
+  const cassa = readJson(CASSA_RUNWAY_PATH, {});
+  s.runway_mesi = typeof cassa.runway_mesi === "number" ? cassa.runway_mesi : null;
+  s.runway_stato = typeof cassa.stato === "string" ? cassa.stato : null;
+  s.runway_soglia = typeof cassa.soglia_allerta_mesi === "number" ? cassa.soglia_allerta_mesi : null;
 
   return s;
 }
@@ -309,6 +328,31 @@ function valutaRegole(s, state) {
     });
   }
 
+  // M6 — Cassa/runway critico (AR-035): rischio esistenziale n.1. Legge cassa-runway.json (sensore-cassa).
+  //      🔴 finanza quando lo stato è "critico" (runway < soglia di allerta) → soldi, esistenza dell'azienda.
+  if (s.runway_stato === "critico" && typeof s.runway_mesi === "number") {
+    const soglia = s.runway_soglia ?? 3;
+    eventi.push({
+      ambito: "macchina", chiave: "cassa_runway_critico", colore: "🔴", reparto: "finanza", cooldownOre: 12,
+      titolo: `Runway cassa ${s.runway_mesi} mesi (< ${soglia}): rischio esistenziale`,
+      firma: String(s.runway_mesi),
+      prompt: `Sentinella macchina 🧠 — CASSA/RUNWAY CRITICO: il runway è ${s.runway_mesi} mesi, sotto la soglia di allerta (${soglia} mesi) — dato da cassa-runway.json (sensore-cassa). È il rischio esistenziale n.1. Rivedi con finanza cassa disponibile e burn mensile, prepara il piano (taglio burn / incasso / fundraising) e porta a Nicola le opzioni con la raccomandazione. NON muovere denaro da solo.`,
+    });
+  }
+
+  // M7 — REST cieco ORA (AR-037): MK_URL/KEY sono CONFIGURATE ma le letture REST del marketplace
+  //      falliscono in tempo reale (s.dati_leggibili === false). Gli "occhi" ogni minuto vedono il REST
+  //      giù: non restano muti né aspettano il giro (timer lento) — allertano SUBITO. SOLO-ALLERTA con
+  //      cooldown corto: avvisa e basta, non ha senso accodare un'analisi se i dati non si leggono.
+  if (MK_URL && MK_KEY && s.dati_leggibili === false) {
+    eventi.push({
+      ambito: "macchina", chiave: "rest_cieco", colore: "🔴", reparto: "AD", soloAllerta: true, cooldownOre: 0.5,
+      titolo: "REST marketplace cieco ORA (credenziali presenti, letture fallite)",
+      firma: giornoDa(new Date().toISOString()) + "H" + new Date().getHours(),
+      prompt: `Sentinella macchina 🧠 — REST CIECO ORA: MARKETPLACE_SUPABASE_URL/KEY sono configurate ma le letture REST del marketplace falliscono in questo momento (dati_leggibili=false). Gli occhi sono ciechi sul business proprio ora. Controlla subito connettività/credenziali/rate-limit del Supabase marketplace. Finché è cieco NON scrivere numeri nuovi come fatti (usa baseline STATO + Gap).`,
+    });
+  }
+
   // ══════════ 💼 AZIONI (5) ══════════
 
   // A1 — Ordine pagato (carta) senza payout dopo 24h → 🔴 soldi fermi.
@@ -363,6 +407,18 @@ function valutaRegole(s, state) {
       titolo: `${s.carrelli_da_recuperare} carrelli abbandonati da recuperare (>4h)`,
       firma: String(s.carrelli_da_recuperare),
       prompt: `Sentinella azioni 💼 — CARRELLI ABBANDONATI: ${s.carrelli_da_recuperare} carrelli fermi da oltre 4h, email di recupero non ancora inviata. Prepara l'email di recupero (con l'incentivo giusto) e accodala in AZIONI-IN-ATTESA per la firma — non inviarla da solo (tocca clienti reali).`,
+    });
+  }
+
+  // A6 — Puntualità consegne (AR-071): ordini oltre lo slot promesso (expected_delivery scaduto) non
+  //      ancora consegnati (delivered_at nullo) → è la promessa core del modello Glovo che si sta
+  //      rompendo. 🟡 operations: avvisa prima che il cliente si accorga del ritardo.
+  if (s.ordini_slot_scaduto !== null && s.ordini_slot_scaduto > 0) {
+    eventi.push({
+      ambito: "azioni", chiave: "consegne_in_ritardo", colore: "🟡", reparto: "operations", cooldownOre: 6,
+      titolo: `${s.ordini_slot_scaduto} ordini oltre lo slot promesso (in ritardo, non consegnati)`,
+      firma: String(s.ordini_slot_scaduto),
+      prompt: `Sentinella azioni 💼 — CONSEGNE IN RITARDO: ci sono ${s.ordini_slot_scaduto} ordini con lo slot di consegna scaduto (expected_delivery superato) e delivered_at ancora nullo: la puntualità — la promessa core del modello Glovo — si sta rompendo. Verifica con operations lo stato di ritiro/consegna di ciascun ordine, avvisa subito il cliente e recupera il ritardo. Alimenta il KPI puntualità. Se serve un rimborso/gesto commerciale, preparalo e accodalo in AZIONI-IN-ATTESA per la firma — non eseguirlo da solo.`,
     });
   }
 
