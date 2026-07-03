@@ -6,6 +6,31 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// Firma "quota esaurita / limite di sessione" nel risultato di un lavoro. Stesso vocabolario della
+// retry-policy (cervello/retry-policy.mjs → classificaErrore): se la coda è ferma per QUESTO, la causa
+// è la quota Claude, non un guasto del worker o un .env sbagliato.
+const QUOTA_RE =
+  /session limit|hit your (usage|session) limit|out of usage|you'?re out of usage|rate[ _-]?limit|too many requests|\b429\b|overloaded|insufficient_quota|quota|credit balance|billing/i;
+
+/** Estrae l'ora di reset dal messaggio ("resets 2:30am (Europe/Rome)" → "2:30am"). */
+function estraiResetHint(t: string): string | null {
+  const m = String(t).match(/resets?\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)/i);
+  return m ? m[1].trim() : null;
+}
+
+/** Un ISO → "GG/MM HH:MM" nell'ora di Piacenza (Europe/Rome). */
+function formattaOraRoma(iso: string): string | null {
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) return null;
+  return new Date(t).toLocaleString("it-IT", {
+    timeZone: "Europe/Rome",
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 // POST { azione: "riavvia" } → chiede al worker di ricaricarsi (flag worker:riavvia in
 // impostazioni; il worker lo legge a ogni ciclo, spegne il flag e fa exec di sé stesso).
 // La coda non si perde: i lavori vivono in Supabase e gli in_corso vengono recuperati al riavvio.
@@ -60,6 +85,13 @@ export async function GET() {
   let attesaPiuVecchiaMin: number | null = null;
   let corsoPiuVecchioMin: number | null = null;
   let inRitentativo = 0;
+  // Quota/session-limit del motore Claude: la causa vera del "worker fermo" è quasi sempre qui,
+  // scritta nel risultato dei lavori in coda ("You've hit your session limit · resets 2:30am").
+  // La riconosciamo con la STESSA regola della retry-policy (cervello/retry-policy.mjs) così il
+  // Pannello dice la verità invece di indovinare ".env ≠ Vercel / impallato".
+  let quotaInAttesa = 0;
+  let resetHint: string | null = null;
+  let riprovaMinISO: string | null = null;
   const now = Date.now();
 
   for (const l of lavori) {
@@ -69,6 +101,17 @@ export async function GET() {
     const attendeRetry =
       l.stato === "in_attesa" && typeof l.riprova_dopo === "string" && new Date(l.riprova_dopo).getTime() > now;
     if (attendeRetry) inRitentativo++;
+    if (l.stato === "in_attesa") {
+      if (QUOTA_RE.test(l.risultato || "")) {
+        quotaInAttesa++;
+        resetHint = resetHint || estraiResetHint(l.risultato || "");
+      }
+      if (typeof l.riprova_dopo === "string" && new Date(l.riprova_dopo).getTime() > now) {
+        if (riprovaMinISO == null || new Date(l.riprova_dopo).getTime() < new Date(riprovaMinISO).getTime()) {
+          riprovaMinISO = l.riprova_dopo;
+        }
+      }
+    }
     const t = new Date(l.updated_at || l.created_at).getTime();
     if (isNaN(t)) continue;
     const min = (now - t) / 60000;
@@ -80,8 +123,14 @@ export async function GET() {
     }
   }
 
+  // La quota è la causa dominante quando almeno metà dei lavori in coda porta la firma "session limit".
+  const quotaDominante = quotaInAttesa > 0 && quotaInAttesa >= Math.ceil((conteggi.in_attesa || 0) / 2);
+  const riprovaAlle = riprovaMinISO ? formattaOraRoma(riprovaMinISO) : null;
+
   const azioni: string[] = [];
   let problema: string | null = null;
+  // true = i lavori sono quota-limited e ripartono da soli al reset (stato "in attesa", non un guasto).
+  let attesaQuota = false;
 
   if (adInPausa) {
     problema = "L'AD è in pausa: il worker gira ma non esegue lavori.";
@@ -100,6 +149,21 @@ export async function GET() {
     problema = `${conteggi.in_corso} lavoro/i bloccati «In corso» da oltre 10 minuti.`;
     azioni.push("Usa il pulsante «Sblocca coda» qui sotto");
     azioni.push("Oppure VPS: sudo -u mycity -H bash .../recupera-lavori-orfani.sh");
+  } else if (quotaDominante && ((inRitentativo ?? 0) > 0 || (attesaPiuVecchiaMin ?? 0) > 3)) {
+    // CAUSA VERA (letta dai lavori): il motore Claude ha esaurito il limite di sessione/quota.
+    // NON è un guasto e NON è ".env ≠ Vercel": la coda riparte da sola al reset. Lo diciamo con calma.
+    attesaQuota = true;
+    problema =
+      `Il motore Claude ha esaurito il limite di sessione/quota della sottoscrizione. ` +
+      `I ${conteggi.in_attesa} lavori in coda NON sono impallati: aspettano il reset e ripartono da soli` +
+      `${riprovaAlle ? ` (prossimo ritentativo ${riprovaAlle})` : resetHint ? ` (reset ${resetHint})` : ""}.`;
+    azioni.push(
+      `Nessun intervento tecnico: la coda si svuota da sola al reset${resetHint ? ` (${resetHint})` : ""}.`
+    );
+    azioni.push(
+      "Se si ripete ogni giorno, il volume di lavori supera il piano Claude → alza il piano (Max) oppure riduci i giri/metabolizza automatici."
+    );
+    azioni.push("Per controllare la quota: sul VPS lancia `claude` e guarda /status (o attendi il reset indicato).");
   } else if ((conteggi.in_attesa ?? 0) > 0 && (attesaPiuVecchiaMin ?? 0) > 3 && workerVivo) {
     problema = "Worker vivo ma la coda non si muove — motore AI impallato sul lavoro corrente o .env VPS ≠ Vercel.";
     azioni.push("Verifica che SUPABASE_URL sul VPS sia lo stesso host mostrato qui sotto");
@@ -120,6 +184,9 @@ export async function GET() {
     codiceRev: codiceRev ?? null,
     conteggi,
     inRitentativo,
+    attesaQuota,
+    riprovaAlle,
+    resetHint,
     attesaPiuVecchiaMin: attesaPiuVecchiaMin != null ? Math.round(attesaPiuVecchiaMin) : null,
     corsoPiuVecchioMin: corsoPiuVecchioMin != null ? Math.round(corsoPiuVecchioMin) : null,
     problema,
