@@ -1,6 +1,7 @@
 {
   "_cosa_e": "🚀 AUTO-MIGLIORAMENTO — diventare brava quanto i migliori. Per ogni mestiere: il divario vs i migliori (locali + mondo), un obiettivo concreto e il progresso misurato (scorecard ora, numeri veri poi), con esempi. + torneo tra senior, backlog dai difetti (②), proposte di auto-riscrittura/espansione 🟡. Schema in cervello/auto-coscienza.md.",
-  "data": "2026-07-02 12:09",
+  "data": "2026-07-03 15:00",
+  "_review_settimanale_03_07": "REVIEW SETTIMANALE 3/7 15:00 — i 3 ambiti col divario più alto vs i migliori: (1) @AD/AI-ops (L2, divario MEDIO): il volano-architettura chiude (20 difetti chiusi in codice), ma il volano-BUSINESS NON ha ancora 1 esito misurato — 'esperimenti' è ancora []. Onestà della settimana: AR-013 ha installato la forcing-function ma nessun esperimento è girato, quindi il loop osserva→agisci→MISURA→impara non ha chiuso sui NUMERI (0 consegnati). Verifica loop-chiuso esperimenti scorsa settimana: NEGATIVA (nessun esperimento da misurare). (2) @content-social (L3, divario ALTO): sbloccabile solo con materia prima reale PQ + chiavi AI. (3) Esecuzione ultimo-miglio (ambito emergente, non un mestiere ma una capacità): gap più grande = la mano manuale non automatizzata → 4 finestre #16 saltate in 2 giorni. Mossa: il 1° esperimento misurabile della prossima settimana è la 1ª transazione stessa (baseline pre/post #16). Torneo/peer-review tra senior: rinviato finché non c'è 1 esito di business reale da confrontare (evita torneo su ipotesi, coerente col cancello di allocazione AR-006).",
   "benchmark": [
     {
       "reparto": "@content-social",
@@ -21,12 +22,17 @@
       ],
       "divario": "medio",
       "obiettivo": "Chiudere il volano sui NUMERI reali (non sui prompt): calibrazione popolata + almeno 1 esperimento misurato entro 2 settimane.",
-      "progresso": [{ "data": "2026-07-02", "punteggio": 42, "fonte": "scorecard" }]
+      "progresso": [
+        { "data": "2026-07-02", "punteggio": 42, "fonte": "scorecard" },
+        { "data": "2026-07-03", "punteggio": 42, "fonte": "review-settimanale", "nota": "Calibrazione popolata e perfetta (24/24), ma 0 esperimenti misurati: il volano-business resta aperto. Punteggio invariato finché non c'è 1 esito reale (1ª transazione = 1° esperimento)." }
+      ]
     }
   ],
   "esperimenti": [],
   "peer_review": [],
   "proposte_auto_riscrittura": [
+    { "cosa": "[REVIEW 3/7] Delta-gate: per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no) nella firma, non il contatore incrementale max_giri_ciechi", "perche": "Un sensore opzionale già-noto-cieco (PostHog 401) forza un giro pieno a ogni ciclo perché il suo contatore cresce di 1 → firma sempre diversa dall'ultimo_pieno. AR-019 rientrato da una porta laterale: spreco di Max a rendimento nullo, ricorrente (4 conferme il 3/7).", "colore": "🟡", "origine": "review-settimanale", "finding_id": "AR-025", "dove": "cervello/delta-gate.mjs" },
+    { "cosa": "[REVIEW 3/7] Sonda-volano: voto_provvisorio 'pending-merge' che accredita i difetti già chiusi in codice (42→~50) + dedup della sentinella salute_bassa su firma di stato invariata", "perche": "Il voto resta inchiodato a 42 e l'allerta 'salute<60' riscatta ogni 2h su una condizione identica e già interamente in coda (i 3 gate sono in AZIONI-IN-ATTESA) → alert fatigue, l'allerta perde valore di segnale.", "colore": "🟡", "origine": "review-settimanale", "finding_id": "AR-024", "dove": "cervello/sonda-volano.mjs" },
     { "cosa": "Rimuovere .env.save dal tracking + purgare la storia + .gitignore su .env*/*.save + scan-segreti pre-commit", "perche": "PAT GitHub reale committato: chiunque legga il repo ha accesso in scrittura. La revoca su GitHub la fa Nicola.", "colore": "🔴", "origine": "auto-radiografia", "finding_id": "AR-004", "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)" },
     { "cosa": "Timeout dentro giro.sh/ritmo.sh + TimeoutStartSec nei .service systemd", "perche": "Il giro schedulato senza timeout può appendere il battito ogni-2h all'infinito.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-005", "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service" },
     { "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Casa Linda", "perche": "Silo contenuti su Garetti (non firmato) mentre Casa Linda (payout-ready) ha 0 asset: dispersione dalla North Star.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-006", "dove": "cervello/giro.md + CLAUDE.md (doer-mode)" },

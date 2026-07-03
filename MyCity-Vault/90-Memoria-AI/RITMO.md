@@ -79,3 +79,38 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
   - ✅ **Cascata post-#16 completamente armata** (novità vera dalle 06:00, non sensori): i playbook senior hanno accodato stamattina **#25** (anti-churn Pane Quotidiano, aggancio alla stessa chiamata #21), **#27** (recensione A13/A14 concierge) e **#26** (recupero carrello samir €10) — tutti **correttamente gated su «#16 consegnato»**. Effetto: **un solo tap di Nicola** ora produce ordine consegnato + negozio ingaggiato + recensione + 2° acquisto, non solo la consegna.
   - ✅ **Nessun giro pieno moltiplicato** (rispetto L-2026-0629-03): sensori node/curl/MCP gated in sessione, business invariato già ri-misurato ai giri 08:20/10:22/11:14 → baseline REST portata avanti, zero numeri inventati.
 - **Cosa serve da Nicola entro sera:** 🔴 **eseguire #16 al pranzo ORA / primo pomeriggio** (tap WhatsApp #20 → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05) insieme al **payout-test sandbox** — è l'unica mossa che sposta la North Star · 🔴 **revocare il PAT GitHub** (R1) · 🟡 **SQL 107** (~30s) + **ok merge R2** cantiere · 🟢 opzionali #23 (PostHog) e #24 (falso positivo Casa Linda). Al tuo tap, la cascata #25/#27/#26 parte da sola.
+
+## Review settimanale · 2026-07-03 15:00
+**La settimana in una riga:** infrastruttura verde e volano-architettura che gira (20 difetti chiusi in codice, radiografia onesta 42), ma **l'azienda è ferma su UNA mano non collegata** — il tap WhatsApp di #16 è di Nicola e non è ancora scattato (approvato dal Pannello alle 13:29, non consegnato). North Star = **0 ordini consegnati**, stallo **~222h**.
+
+**📊 Pagella per reparto (target OKR vs reale):**
+- 🧠 **@AD** — 🟡 previsioni **24/24 azzeccate** (calibrazione perfetta), volano-architettura chiude; ma North Star (1° ordine entro 27/6) **mancata** → il valore prodotto non ha ancora spostato il numero. Metacognizione ok: so *perché* siamo fermi (mani non collegate), non è un senior debole.
+- 🛠️ **@tech / 🚢 @devops-sre** — 🟢 Sprint 1 LIVE, **#19 ruoli-acquisto MERGED** (PR #211), cantiere radiografia 18/22 chiusi in codice. Miglior reparto della settimana.
+- 🔒 **@security** — 🔴 **1 critica aperta**: PAT GitHub in storia git (AR-004). Il fix in codice c'è (scan-segreti + pre-commit hook), ma la remediation vera (revoca) è di Nicola e pende da 2 giorni.
+- 🛵 **@operations** — 🔴 **0 consegne**: #16 pronto e riproposto **4 volte** (3 finestre 2/7 + mattina 3/7), sempre saltato. Non è un difetto di preparazione (pacchetto pronto dal 2/7), è frizione umana sull'ultimo miglio.
+- 🤝 **@vendite** — 🔴 +2 negozi LIVE target → **0 nuovi** (1 reale, Pane Quotidiano). Congelato correttamente in attesa della 1ª transazione (batch 6/7).
+- 💶 **@finanza** — 🟡 payout-test **accorpato a #16**, parte solo quando parte la consegna.
+- ✍️ **@content-social / 🎨 creativi** — 🟡 bloccati bene dal cancello di allocazione (AR-006): asset pesanti solo su PQ confermato; manca la materia prima (foto/scheda/consenso) da Nicola.
+- 📣 marketing · 🔎 intelligence · 📊 analista · ✅ qa · 🚪 onboarding-negozi — 🟡 **prep-ready ma gated** sulla 1ª transazione (o su PostHog cieco per i numeri di funnel). Non misurabili finché non si consegna.
+
+**🩻 Voto salute architettura: 42/100** (provvisorio **~50** al merge+deploy). *Radiografia completa NON ri-lanciata di proposito*: l'ultima è di **ieri 12:09** (<27h), l'architettura è statica e la gate di efficienza (AR-019/AR-025) vieta re-run pesanti senza novità → snapshot a livello sonda, il Max si spende dove rende. Cantiere: **20 chiusi · 2 in-corso umani** (AR-004 revoca PAT, AR-006 materiale PQ) · **2 aperti** (AR-024 voto congelato/alert-fatigue, AR-025 delta-gate scatta pieno sul contatore cieco opzionale).
+
+**🎯 Calibrazione:** @AD **24/24** azzeccate, autonomia *media*. Previsione della settimana confermata a ogni giro: *business invariato finché la mano manuale non parte*. Il rischio non è la lettura dei dati (perfetta) ma l'**esecuzione dell'ultimo miglio**.
+
+**📚 Apprendimento (principi distillati questa settimana):**
+1. **Firma ≠ esecuzione** (L-2026-0702-45/51): quando le mani non sono collegate, un 🔴 firmato degrada in coda morta. Rimedio: **1 finestra certa a bassa frizione** invece di N finestre rincorse.
+2. **Un controllo vale solo se persiste un artefatto e può fare da gate** (L-2026-0702-02): stampe ingoiate ed exit-code `|| true` = controllo che non c'è.
+3. **Tutto ciò che descrive la macchina va GENERATO dai file, non scritto a mano** (L-2026-0702-03): a mano, prima o poi mente.
+4. **Una scoperta che cambia il faro deve riscrivere coda/OKR/STATO nello stesso giro** (L-2026-0702-01), o non è successa.
+
+**🚀 Auto-miglioramento — i 3 divari più alti vs i migliori + loop chiuso?**
+- Il **volano BUSINESS non ha ancora 1 esito misurato** (`esperimenti: []` vuoto): l'onestà della settimana. AR-013 ha installato la forcing-function, ma zero esperimenti girati → il loop osserva→agisci→**misura**→impara non ha chiuso sui numeri (0 consegnati). Divario vs AI-ops mondiale: **medio**, tutto sull'esecuzione.
+- @content-social (L3, divario alto): sbloccato solo dalla materia prima reale + chiavi AI.
+- **Esecuzione ultimo-miglio** (ambito emergente): il gap più grande non è un mestiere, è la **mano manuale non automatizzata** — 4 finestre saltate in 2 giorni.
+
+**🎬 Le 3 mosse per la prossima settimana:**
+1. 🔴 **Far avvenire la 1ª transazione stasera** (#16 post-19:00, fuori afa) e — a monte — **collegare la mano** (rituale a bassa frizione o automazione WhatsApp) così l'ultimo miglio non dipenda da un tap che salta.
+2. 🟡 **Chiudere i 2 difetti aperti di architettura**: AR-025 (delta-gate: per i sensori opzionali usa lo stato booleano, non il contatore → stop giri pieni a vuoto sul rumore PostHog) + AR-024 (voto provvisorio pending-merge + dedup allerta salute).
+3. 🔴/🟡 **Sbloccare i 2 bloccanti umani**: revoca PAT (R1) + merge R2 fix cantiere → salute 42→~50 e piattaforma sicura per il **batch negozi 6/7**.
+
+**🙋 Decisioni per Nicola:** 🔴 **esegui #16 stasera** + payout-test · 🔴 **revoca il PAT GitHub** · 🟡 **ok merge R2** (fix cantiere) + **SQL 107** · 🟡 firma le 2 auto-riscritture (AR-024/AR-025, dettaglio nella lettera) · 🟢 dammi la **materia prima di Pane Quotidiano** (foto/scheda/consenso) per alzare i contenuti a livello pro. Lettera completa in [[LETTERA-A-NICOLA]].
