@@ -61,7 +61,10 @@ export default function MacchinaArea() {
             onClick={() => {
               setPagina(p.id);
               if (typeof window !== "undefined") {
-                window.location.hash = p.id === "radiografia" ? "auto-radiografia" : "auto-coscienza";
+                // replaceState (NON location.hash): aggiorna l'hash SENZA creare una voce di history
+                // "rogue" che bypassa il router di Next → altrimenti l'INDIETRO ricarica la pagina.
+                const hv = p.id === "radiografia" ? "auto-radiografia" : "auto-coscienza";
+                try { window.history.replaceState(window.history.state, "", "#" + hv); } catch {}
               }
             }}
             className={`nav-tab ${pagina === p.id ? "nav-tab-active" : ""}`}

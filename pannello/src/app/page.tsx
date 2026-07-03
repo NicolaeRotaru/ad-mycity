@@ -1213,7 +1213,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
     // state=null e il tasto INDIETRO fa un clic a vuoto e poi esce dal Pannello.
-    try { window.history.replaceState({ vista: iniz }, ""); } catch {}
+    // MERGE con lo stato esistente: Next.js (App Router) tiene i suoi internals in history.state
+    // (__NA, __PRIVATE_NEXTJS_INTERNALS_TREE). Sovrascrivere lo state li cancella → al primo INDIETRO
+    // Next non riconosce la voce e fa un RELOAD dell'intera pagina (ti sbatte fuori dall'area). Fondendo
+    // preserviamo gli internals e la navigazione resta client-side.
+    try { window.history.replaceState({ ...(window.history.state || {}), vista: iniz }, ""); } catch {}
     ultimaVistaStoria.current = iniz;
   }, []);
   useEffect(() => {
@@ -1221,7 +1225,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     try { localStorage.setItem("mycity_vista", vista); } catch {}
     // Aggiunge una voce alla cronologia: così INDIETRO torna qui invece di lasciare il Pannello.
     if (ultimaVistaStoria.current !== vista) {
-      try { window.history.pushState({ vista }, ""); } catch {}
+      try { window.history.pushState({ ...(window.history.state || {}), vista }, ""); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
@@ -1233,7 +1237,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       // tab Radiografia ⇄ Auto-coscienza). Non è un "torna alla plancia": resta nell'area corrente
       // e timbra la voce con la vista attuale, così il tasto INDIETRO la conosce e non esce a vuoto.
       if (!st?.vista) {
-        try { window.history.replaceState({ vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
+        try { window.history.replaceState({ ...(window.history.state || {}), vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
         return;
       }
       const v = st.vista;
