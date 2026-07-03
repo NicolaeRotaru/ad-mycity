@@ -352,6 +352,14 @@
       "difetti_chiusi": 20,
       "tipo": "sentinella",
       "nota": "Sentinella salute_bassa (firma=42) 02:48. NON è una regressione: il 42 è un blocco volontario 'finché non mergiato+deployato'. Cantiere alla radice: 20 chiusi in codice (su memoria-ad/PR), 2 in-corso bloccati SOLO su Nicola (AR-004 revoca PAT, AR-006 materiale Pane Quotidiano). Voto provvisorio reale ~50 (2 bloccanti umani × −25) al merge+deploy. NON rilanciata la radiografia completa (24 agenti): ultima completa 07-02 12:09 (<24h), doctrine=settimanale, e la gate di efficienza AR-019 vieta re-run pesanti senza novità — la diagnosi è già completa e i 3 gate sono già in AZIONI-IN-ATTESA (R1/R2/R3). Nuovo difetto trovato: AR-024 (voto congelato + allerta non-dedup → alert fatigue)."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 6h fa · cecità sensori 10 giri"
     }
   ]
 }

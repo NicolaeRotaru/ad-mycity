@@ -1,12 +1,12 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-03 06:19",
+  "aggiornato": "2026-07-03 06:22",
   "regole": {
     "sensori_ciechi": {
-      "ultima_firma": "9",
-      "ultimo_accodato": "2026-07-03 02:36",
-      "ultimo_accodato_iso": "2026-07-03T00:36:35.265Z",
-      "ultimo_job": "468bcc79-6c82-46f5-accf-090c9e3fc9e1",
+      "ultima_firma": "10",
+      "ultimo_accodato": "2026-07-03 06:20",
+      "ultimo_accodato_iso": "2026-07-03T04:20:52.538Z",
+      "ultimo_job": "023fbc09-e9d2-4b1d-8802-f1a70ac6e5a0",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -36,34 +36,17 @@
   },
   "accodati_giorno": {
     "giorno": "2026-07-03",
-    "n": 3
+    "n": 4
   },
   "accodati_ts": [
     "2026-07-03T00:36:35.265Z",
     "2026-07-03T00:36:35.265Z",
-    "2026-07-03T00:36:35.265Z"
+    "2026-07-03T00:36:35.265Z",
+    "2026-07-03T04:20:52.538Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 196,
+  "tick": 199,
   "storia": [
-    {
-      "quando": "2026-07-03 04:31",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-03 04:32",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-03 04:33",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-03 04:35",
       "eventi": 3,
@@ -645,10 +628,28 @@
       "eventi": 3,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-03 06:20",
+      "eventi": 3,
+      "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-03 06:21",
+      "eventi": 3,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-03 06:22",
+      "eventi": 3,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-03 06:19",
+    "quando": "2026-07-03 06:22",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -656,8 +657,8 @@
     "recensioni_basse": 0,
     "negozi_fermi": 1,
     "carrelli": null,
-    "worker_eta_min": 0,
-    "sensori_max_ciechi": 9,
+    "worker_eta_min": 2,
+    "sensori_max_ciechi": 10,
     "salute_voto": 42,
     "radiografia_gg": 1,
     "volano_tasso": 0.7
