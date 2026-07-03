@@ -78,8 +78,11 @@ export default function Plancia({
   const daFare = todo.filter((t) => !t.fatto);
   const ordP: Record<string, number> = { alta: 0, media: 1, bassa: 2 };
   const mosseOrd = [...mosse].sort((a, b) => (ordP[a.priorita || "media"] ?? 1) - (ordP[b.priorita || "media"] ?? 1));
-  const vaiAMosse = () => {
-    if (typeof window !== "undefined") window.location.hash = "azioni-mosse";
+  // Salto all'area Azioni puntando la scheda giusta (l'hash apre il tab corretto:
+  // vedi la mappa in Azioni.tsx → apriDaHash). Così ogni card della Plancia porta
+  // esattamente alla pagina che mostra, non solo all'area generica.
+  const vaiAzioni = (hash: string) => {
+    if (typeof window !== "undefined") window.location.hash = hash;
     onVaiA?.("azioni");
   };
   const cell = (chiave: string, tipo: Tipo) => {
@@ -166,7 +169,7 @@ export default function Plancia({
       {/* 4 priorità: firmare · mosse di Nicola · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Da firmare */}
-        <button onClick={() => onVaiA?.("azioni")} className="card-priorita hover:border-brand/30">
+        <button onClick={() => vaiAzioni("azioni-approvare")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><PenLine size={16} /></span>
             <span className="t-sez">Da firmare</span>
@@ -185,7 +188,7 @@ export default function Plancia({
         </button>
 
         {/* Mosse di Nicola */}
-        <button onClick={vaiAMosse} className="card-priorita hover:border-brand/30">
+        <button onClick={() => vaiAzioni("azioni-mosse")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><Footprints size={16} /></span>
             <span className="t-sez">Mosse di Nicola</span>
@@ -204,7 +207,7 @@ export default function Plancia({
         </button>
 
         {/* Allarmi */}
-        <button onClick={() => onVaiA?.("memoria")} className="card-priorita hover:border-brand/30">
+        <button onClick={() => vaiAzioni("azioni-sentinelle")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><ShieldAlert size={16} /></span>
             <span className="t-sez">Allarmi</span>
@@ -223,7 +226,7 @@ export default function Plancia({
         </button>
 
         {/* Cose da fare */}
-        <button onClick={() => onVaiA?.("memoria")} className="card-priorita hover:border-brand/30">
+        <button onClick={() => vaiAzioni("azioni-dafare")} className="card-priorita hover:border-brand/30">
           <div className="flex items-center gap-2">
             <span className="sez-ico"><ListTodo size={16} /></span>
             <span className="t-sez">Cose da fare</span>
