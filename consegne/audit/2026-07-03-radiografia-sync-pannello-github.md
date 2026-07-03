@@ -13,13 +13,20 @@ gravita: BLOCCANTE
 > Sintomi concreti citati: (1) AR-004 e AR-006 restano BLOCCANTI anche se risolti+PR;
 > (2) non si riesce a navigare dentro Auto-coscienza (riporta alla Plancia).
 
+## ⚠️ Correzione onesta (dopo verifica sul remoto aggiornato)
+La prima stima "75 commit / 64 file indietro" era misurata contro un `origin/main` **vecchio
+nel clone**. Con `main` aggiornato (5e9efa8), il codice del Pannello su `memoria-ad` risulta
+**quasi allineato** (1 file in `pannello/src`: `guardrail-semaforo.ts`; 9 file in `cervello/`).
+Quindi il ponte di sync del codice **funziona più di quanto sembrasse**. Il difetto vero non è
+"tutto indietro", ma è **più insidioso e provato**: le CANCELLAZIONI non si propagano.
+
 ## Verdetto in una riga
-**Tutti i sintomi hanno UNA causa madre:** il Pannello è servito dal ramo **`memoria-ad`**,
-il cui **codice** è disallineato da `main` di **75 commit / 64 file** in `pannello/`. L'unico
-ponte che copia il codice di `main` su `memoria-ad` è un job shell sul VPS
-(`cervello/vps/aggiorna-cervello.sh`) — fragile e attualmente in ritardo. Quando lagga o
-fallisce, il Pannello serve **codice e riconciliazioni vecchie**. Le altre due anomalie
-(coverage e display) sono aggravanti indipendenti.
+Il Pannello è servito dal ramo **`memoria-ad`**, allineato a `main` da un job shell sul VPS
+(`aggiorna-cervello.sh`) che **(a)** non propaga le cancellazioni (`git checkout` non elimina),
+**(b)** silenzia gli errori git. Prova regina: `cervello/vps/.env.save` (il PAT di AR-004) è
+stato **rimosso su `main` ma è ancora VIVO su `memoria-ad`**. Aggiungi due gap indipendenti —
+il Pannello **nasconde `nota_fix`** (i difetti sembrano non lavorati) e legge solo un **set
+fisso di percorsi** (tutto il resto su GitHub è invisibile).
 
 ---
 
@@ -37,37 +44,43 @@ Il punto 4 è l'anello debole: se salta, i fix di `main` non arrivano mai al Pan
 
 ---
 
-## Causa radice #1 — [MADRE] Il codice del Pannello vive su `memoria-ad`, in ritardo su `main`
-**Prove:**
-- `origin/memoria-ad` è indietro di **75 commit** che toccano `pannello/` rispetto a `main`.
-- Diff `pannello/src`: **64 file, +1093 / −5298** tra i due rami.
-- Il fix di navigazione `8bfebd7` ("cambiare tab Radiografia/Auto-coscienza non riporta più
-  alla Plancia") **NON è presente su `memoria-ad`** → il bug nav è ancora vivo sul Pannello.
+## Causa radice #1 — [MADRE] Il ponte VPS non propaga le cancellazioni + silenzia gli errori
+Il Pannello (Vercel) è servito da `memoria-ad`; `aggiorna-cervello.sh` copia il codice di `main`
+con `git checkout FETCH_HEAD -- <code_paths>`.
 
-**Perché il ponte è fragile (`aggiorna-cervello.sh`):**
+**Prova regina (verificata):** `cervello/vps/.env.save` — il file col PAT reale di AR-004 —
+è **assente su `main`** (rimosso) ma **ancora PRESENTE su `memoria-ad`**. Motivo: `git checkout
+<tree> -- <path>` porta aggiunte/modifiche ma **non elimina** i file che main ha cancellato.
+Conseguenze: (1) il segreto resta esposto sul ramo che serve il Pannello; (2) qualsiasi file
+che main elimina come parte di un fix (componenti vecchi, route deprecate) **sopravvive** sul
+Pannello e può essere quello servito.
+
+**Fragilità aggiuntive di `aggiorna-cervello.sh`:**
 - Dipende dal **VPS acceso** e dal worker systemd sano; se giù, zero allineamento.
-- Silenzia gli errori git con `2>/dev/null` (righe 83, 87, 112): un `git fetch main`
-  fallito lascia `FETCH_HEAD` = memoria-ad (fetch precedente, riga 83) e l'"allineamento"
-  diventa un **no-op silenzioso** (allinea memoria-ad a se stesso).
-- Usa `git checkout FETCH_HEAD -- <path>`: **non può cancellare** i file che `main` ha
-  eliminato → componenti vecchi restano su `memoria-ad` (es. `Storico.tsx`,
-  `RadiografiaDiSe.tsx` in versioni disallineate) e possono essere quelli serviti.
+- Silenzia gli errori con `2>/dev/null`: un `git fetch main` fallito lasciava `FETCH_HEAD` =
+  memoria-ad (fetch precedente) → "allineamento" **no-op silenzioso** (memoria-ad su se stesso).
 
-**Effetto:** «hai aggiunto un sacco di fix ma il pannello non li legge».
+**Fix applicato (branch):** `aggiorna-cervello.sh` ora **propaga le cancellazioni**
+(`git diff --diff-filter=D` + `git rm`) e **non silenzia** il fetch di main (salta l'allineamento
+con errore esplicito invece di fingere successo).
 
 ---
 
-## Causa radice #2 — La riconciliazione dei difetti gira contro codice STALE
-`cervello/auto-fix.mjs` chiude un difetto solo se il suo `verifica:{file,pattern}` **matcha
-nel codice del checkout locale** (sul VPS = codice di `memoria-ad`).
-- AR-004, AR-006 e AR-024 **hanno** il campo `verifica` → dovrebbero auto-chiudersi quando
-  il fix è presente. Restano `in-corso`/`aperto` perché il riconciliatore legge il codice di
-  `memoria-ad`, che **non contiene** ancora i fix di `main` (scan-segreti / pre-commit hook /
-  `allocazione-check.mjs`). → è la stessa causa #1.
-- AR-024 nel Pannello **già lo dice**: «le 20 chiusure-in-codice non sono accreditate finché
-  non c'è merge+deploy». La salute resta inchiodata a 42.
+## Causa radice #2 — AR-004/AR-006 sono aperti CORRETTAMENTE, ma il Pannello nasconde il perché
+Verificato nel `cantiere-difetti.json`:
+- **AR-004 e AR-006** hanno `verifica: {"tipo":"umano"}` → per `auto-fix.mjs` sono **manuali**,
+  NON auto-chiudibili: attendono un'azione di Nicola (AR-004 = revoca del PAT; AR-006 = giudizio
+  sul faro/allocazione). Restare `in-corso` è **corretto**. Il problema è che i loro `nota_fix`
+  («fix tecnico già fatto — manca solo l'azione umana X») **non vengono mostrati** dal Pannello.
+- **AR-024**: `verifica` cerca `voto_provvisorio` in `sonda-volano.mjs`, pattern **assente su
+  ENTRAMBI** i rami → il fix non è ancora scritto: aperto correttamente.
 
-**Effetto:** AR-004/AR-006 mostrati BLOCCANTI anche se il fix tecnico è fatto.
+Quindi NON è (qui) un problema di sync: è **display**. Il Pannello mostra solo `causa_radice` +
+`fix_proposto`, mai `nota_fix` né lo stato «attende Nicola» → tu leggi "BLOCCANTE" e pensi che
+nulla sia stato fatto.
+
+**Fix applicato (branch):** `RadiografiaDiSe.tsx` ora mostra `nota_fix` e un badge
+«🔧 fix fatto — attende Nicola» sugli `in-corso`.
 
 ---
 
@@ -94,37 +107,37 @@ Tutto il resto presente su `memoria-ad` **non ha alcuna superficie** e resta inv
 
 ---
 
-## Piano di fix (in ordine di leva)
+## Piano di fix — stato
 
-### A. STRUTTURALE (risolve #1 e #2 alla radice) — decisione di Nicola
-**Deploy del CODICE del Pannello da `main`, lettura DATI da `memoria-ad`.**
-- Su Vercel: **Production Branch = `main`** (root `pannello/`). Il codice è sempre fresco al merge.
-- `OBSIDIAN_BRANCH=memoria-ad` resta invariato → i dati/memoria restano freschi via API.
-- Il VPS **non deve più copiare codice** su `memoria-ad` (elimina l'anello debole).
-- Il riconciliatore `auto-fix.mjs` va fatto girare contro il codice di **`main`** (non memoria-ad),
-  così i difetti si chiudono al merge del fix.
-- Richiede la mano di Nicola (impostazione Vercel). Verifica in 5 secondi: Vercel → Project →
-  Settings → Git → *Production Branch*.
+### ✅ FATTI su branch `claude/panel-github-sync-debug-waqnl2` (build verde)
+- **Ponte sync (#1):** `aggiorna-cervello.sh` propaga le **cancellazioni** e non silenzia il
+  fetch di main. Al prossimo giro il `.env.save` sparisce da `memoria-ad` e i file eliminati da
+  un fix non sopravvivono più.
+- **Display (#2/#3):** `RadiografiaDiSe.tsx` mostra `nota_fix` + badge «🔧 fix fatto — attende
+  Nicola».
+- **Copertura (#4):** nuova area **"GitHub"** (`EsploraGitHub.tsx` + `/api/repo/esplora`):
+  browser in sola lettura su TUTTO l'albero del repo (ramo memoria-ad). Ogni file è raggiungibile.
 
-### B. HARDENING del ponte (se si vuole tenere `memoria-ad` come ramo di deploy)
-- `aggiorna-cervello.sh`: togliere i `2>/dev/null` sui fetch critici, fallire forte se
-  `git fetch main` non aggiorna, e **propagare le cancellazioni** (usare `git checkout` +
-  rimozione dei file assenti in main, o un `git read-tree`/rsync della sottocartella).
-- Esporre nel Pannello lo **stato dell'ultima sync** (SHA di main allineato + timestamp), così
-  un ritardo è visibile invece che silenzioso.
+### 🔴 RICHIEDE NICOLA (non automatizzabile)
+- **AR-004 — revoca il PAT** su GitHub e generane uno nuovo mai committato. Rimuovere il file
+  NON basta: il token è già nella storia git. (Poi: purga storia con BFG/filter-repo.)
+- **Verifica Vercel:** Settings → Git → *Production Branch*. Se è `memoria-ad`, valuta l'opzione A.
+- **Redeploy:** se il bug nav persiste, forza un redeploy (il fix nav è già nel codice servito).
 
-### C. DISPLAY (sicuro, additivo) — risolve #3
-- `RadiografiaDiSe.tsx`: aggiungere `nota_fix` al tipo `Difetto` e mostrarlo, con stato chiaro
-  «🔧 fix fatto — attende Nicola: <azione>» per gli `in-corso`.
+### 🟡 DA DECIDERE — architettura (opzione A, la cura definitiva)
+Deploy del **codice** del Pannello da `main`, lettura **dati** da `memoria-ad`. Disaccoppia la
+freschezza del codice dalla salute del VPS. Elimina del tutto la classe di bug #1. Richiede il
+cambio di Production Branch su Vercel + far girare `auto-fix.mjs` contro `main`.
 
-### D. COPERTURA (sicuro, additivo) — risolve #4 e la richiesta-titolo
-- Nuova area **"Esplora GitHub"**: browser in sola lettura sull'albero di `memoria-ad`
-  (riusa `listVaultDirEntries` + Contents API). Garantisce che **ogni file su GitHub sia
-  raggiungibile dal Pannello**, senza dover cablare a mano ogni nuovo tipo di artefatto.
-
----
+### 🟢 ALTRI fix additivi candidati (tua domanda "ce ne sono altri?")
+- **E — Stato sync visibile:** mostrare nel Pannello lo SHA di `main` allineato + timestamp
+  dell'ultima sync, così un ritardo si vede invece di essere silenzioso.
+- **F — Riconciliatore contro `main`:** `auto-fix.mjs verifica` legge il codice di `main` (non la
+  copia di memoria-ad) → i difetti auto-verificabili si chiudono al merge, non al deploy.
+- **G — Superfici mirate:** agganciare `consegne/audit`, `consegne/design`, `Intelligence/`,
+  `RADIOGRAFIA-MACCHINA.md` alle aree esistenti (oltre al browser generico D).
 
 ## Raccomandazione
-Fare **A** (la cura vera: disaccoppia codice-freshness dal VPS) + **C** e **D** (additivi,
-sicuri, li implemento subito su branch). **B** solo se Nicola vuole restare su `memoria-ad`
-come ramo di deploy. Senza **A**, ogni fix futuro continuerà a dipendere dalla salute del VPS.
+Ho già chiuso #1/#2/#3/#4 sul branch. La **cura definitiva** resta **A** (deploy codice da main):
+finché il Pannello dipende dal ponte VPS, ogni fix futuro dipende dalla salute del VPS. Nel
+frattempo E+F rendono i ritardi **visibili** e la riconciliazione **istantanea al merge**.

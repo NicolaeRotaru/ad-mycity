@@ -17,6 +17,7 @@ export type VistaNav =
   | "operazioni"
   | "mondo"
   | "assistente"
+  | "esplora"
   | "storico"; // legacy: reindirizza ad assistente → storico
 
 export const EVENTO_VAI = "mycity:vai";

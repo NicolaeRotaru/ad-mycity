@@ -126,6 +126,46 @@ export async function readNote(path: string): Promise<string> {
   }
 }
 
+/**
+ * Esplora un percorso QUALSIASI del repo sul ramo del Pannello (memoria-ad).
+ * Cartella → elenco voci (file + sottocartelle, ogni tipo, non solo .md); file → contenuto decodificato.
+ * Serve all'area "Esplora GitHub": garantisce che OGNI file su GitHub sia raggiungibile dal Pannello,
+ * senza dover cablare a mano una route per ogni nuovo tipo di artefatto (audit, design, intelligence…).
+ */
+export async function esploraPath(p: string): Promise<
+  | { tipo: "dir"; path: string; voci: { name: string; type: "file" | "dir"; size?: number; path: string }[] }
+  | { tipo: "file"; path: string; contenuto: string; troppoLungo: boolean }
+  | { tipo: "errore"; errore: string }
+> {
+  if (!obsidianConnected()) return { tipo: "errore", errore: NON_COLLEGATO };
+  const clean = (p || "").replace(/^\/+|\/+$/g, "");
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(clean)}?ref=${BRANCH}`, {
+      headers: h(),
+      cache: "no-store",
+    });
+    if (!r.ok) return { tipo: "errore", errore: `GitHub ${r.status}: percorso non trovato su ${BRANCH}` };
+    const d: any = await r.json();
+    if (Array.isArray(d)) {
+      const voci = d
+        .filter((x: any) => x?.type === "file" || x?.type === "dir")
+        .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir", size: x.size as number, path: x.path as string }))
+        // cartelle prima, poi file; ordine alfabetico dentro ciascun gruppo.
+        .sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === "dir" ? -1 : 1));
+      return { tipo: "dir", path: clean, voci };
+    }
+    if (d?.content) {
+      const MAXB = 400000;
+      const buf = Buffer.from(d.content, "base64");
+      const troppoLungo = buf.length > MAXB;
+      return { tipo: "file", path: clean, contenuto: buf.subarray(0, MAXB).toString("utf-8"), troppoLungo };
+    }
+    return { tipo: "errore", errore: "percorso non leggibile (né cartella né file di testo)" };
+  } catch (e: any) {
+    return { tipo: "errore", errore: e.message || "errore GitHub" };
+  }
+}
+
 /** Crea o aggiorna/aggiunge a una nota. */
 export async function writeNote(path: string, content: string, aggiungi = false): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;

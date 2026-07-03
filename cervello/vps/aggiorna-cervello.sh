@@ -84,15 +84,27 @@ git fetch "$url" "$branch" 2>/dev/null \
   && git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null \
   || git checkout -f -B "$branch" 2>/dev/null || true
 
-git fetch "$url" main 2>/dev/null
-code_paths=()
-while IFS= read -r p; do
-  case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
-done < <(git ls-tree --name-only FETCH_HEAD)
-if [ "${#code_paths[@]}" -gt 0 ]; then
-  git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null || true
-  git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
-  echo "[$(ts)] Codice allineato a origin/main."
+# Fetch di main NON silenziato: se fallisce, FETCH_HEAD resterebbe quello di $branch (riga sopra)
+# e l'"allineamento" diventerebbe un no-op silenzioso (allinea memoria-ad a se stesso). Fermiamoci.
+if ! git fetch "$url" main; then
+  echo "[$(ts)] ✗ ERRORE: git fetch main fallito — allineamento codice SALTATO (evito no-op silenzioso). Controlla rete/GIT_PUSH_TOKEN." >&2
+else
+  code_paths=()
+  while IFS= read -r p; do
+    case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
+  done < <(git ls-tree --name-only FETCH_HEAD)
+  if [ "${#code_paths[@]}" -gt 0 ]; then
+    # 1) Porta da main aggiunte + modifiche dei path di CODICE.
+    git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null || true
+    # 2) Propaga le CANCELLAZIONI: git checkout NON rimuove i file che main ha eliminato
+    #    (es. cervello/vps/.env.save di AR-004) → restavano vivi sul ramo che serve il Pannello.
+    #    Rimuoviamo esplicitamente i file presenti qui (HEAD) ma assenti su main (FETCH_HEAD).
+    while IFS= read -r f; do
+      [ -n "$f" ] && git rm -q -f --ignore-unmatch -- "$f" 2>/dev/null || true
+    done < <(git diff --name-only --diff-filter=D HEAD FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null)
+    git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
+    echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
+  fi
 fi
 
 # AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main
