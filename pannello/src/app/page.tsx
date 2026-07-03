@@ -1224,9 +1224,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, [vista]);
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
-      // Fallback a "plancia": anche una voce senza stato (es. creata da un cambio di hash nelle
-      // aree interne) riporta a un'area valida invece di far uscire dal Pannello con un clic a vuoto.
-      const v = (e.state && (e.state as { vista?: string }).vista) || "plancia";
+      const st = e.state as { vista?: string } | null;
+      // Voce SENZA stato = navigazione a hash interna a un'area (impostare window.location.hash
+      // crea una voce con state=null e fa scattare ANCHE popstate, non solo hashchange — es. le
+      // tab Radiografia ⇄ Auto-coscienza). Non è un "torna alla plancia": resta nell'area corrente
+      // e timbra la voce con la vista attuale, così il tasto INDIETRO la conosce e non esce a vuoto.
+      if (!st?.vista) {
+        try { window.history.replaceState({ vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
+        return;
+      }
+      const v = st.vista;
       ultimaVistaStoria.current = v; // evita che l'effetto [vista] ri-aggiunga la voce (niente loop)
       applicaVistaSalvata(v);
     };
