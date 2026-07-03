@@ -39,8 +39,8 @@
   --border: rgba(232, 224, 212, 0.09);
   --border-strong: rgba(232, 224, 212, 0.2);
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 6px 28px rgba(0, 0, 0, 0.5);
-  --brand-soft: rgba(244, 140, 108, 0.16);
-  --brand-glow: rgba(244, 140, 108, 0.28);
+  --brand-soft: rgba(214, 143, 119, 0.16);
+  --brand-glow: rgba(214, 143, 119, 0.26);
   color-scheme: dark;
 }
 
@@ -176,7 +176,7 @@ body {
   }
   .input-soft:focus {
     background: var(--bg-elevated);
-    border-color: rgba(192, 73, 44, 0.35);
+    border-color: rgba(177, 92, 67, 0.35);
     @apply ring-2 ring-brand/15;
   }
   .input-soft::placeholder {
@@ -185,7 +185,7 @@ body {
 }
 
 ::selection {
-  background: rgba(192, 73, 44, 0.2);
+  background: rgba(177, 92, 67, 0.2);
 }
 
 .scroll-soft {
@@ -268,7 +268,7 @@ body {
   background: var(--bg-surface-2);
 }
 .conv-row-active {
-  border-color: rgba(192, 73, 44, 0.45);
+  border-color: rgba(177, 92, 67, 0.45);
   background: var(--brand-soft);
 }
 .conv-row-title {
@@ -289,13 +289,13 @@ body {
 }
 .btn-outline-brand {
   color: var(--brand);
-  border: 1px solid rgba(192, 73, 44, 0.35);
+  border: 1px solid rgba(177, 92, 67, 0.35);
   @apply shrink-0 text-xs font-medium rounded-full px-3 py-1.5 transition hover:opacity-90 active:scale-95;
   background: var(--bg-elevated);
 }
 .dark .btn-outline-brand {
-  color: #f4a88a;
-  border-color: rgba(244, 168, 138, 0.45);
+  color: #d9a390;
+  border-color: rgba(214, 162, 144, 0.45);
 }
 
 /* ── Dark mode: superfici e testi legacy (safety net globale) ── */
@@ -320,13 +320,13 @@ body {
 .dark .bg-brand-50\/60,
 .dark .bg-brand-50\/70,
 .dark .bg-brand-50\/80 {
-  background-color: rgba(192, 73, 44, 0.16) !important;
+  background-color: rgba(177, 92, 67, 0.16) !important;
 }
 .dark .hover\:bg-brand-50:hover,
 .dark .hover\:bg-brand-50\/30:hover,
 .dark .hover\:bg-brand-50\/40:hover,
 .dark .hover\:bg-brand-50\/70:hover {
-  background-color: rgba(192, 73, 44, 0.24) !important;
+  background-color: rgba(177, 92, 67, 0.24) !important;
 }
 
 .dark .bg-red-50,
@@ -383,7 +383,7 @@ body {
   color: var(--text-primary);
 }
 .dark .prose-readable :where(a) {
-  color: #f4a88a;
+  color: #d9a390;
 }
 .dark .prose-readable :where(code):not(pre code) {
   background: var(--bg-surface-2);
