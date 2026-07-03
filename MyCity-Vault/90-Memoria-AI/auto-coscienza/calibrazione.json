@@ -1,10 +1,11 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. Si riempie quando le mosse hanno un esito misurabile. Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 00:08",
+  "aggiornato": "2026-07-03 06:28",
   "per_reparto": [
-    {"reparto": "@AD", "previsioni": 20, "azzeccate": 20, "punteggio": 1.0, "autonomia": "media", "nota": "3/7 00:08: previsione '#16 non eseguito nella notte, 7 numeri invariati' CONFERMATA — baseline REST 22:28 invariata (ordine ancora 24/6). 20/20 azzeccate."}
+    {"reparto": "@AD", "previsioni": 21, "azzeccate": 21, "punteggio": 1.0, "autonomia": "media", "nota": "3/7 06:28: previsione notturna '#16 non eseguito prima del mattino, 7 numeri invariati' CONFERMATA — baseline REST 06:20 invariata (ordine ancora 24/6). 21/21 azzeccate."}
   ],
   "registro": [
+    {"data": "2026-07-03 06:28", "reparto": "@AD", "previsione": "7 numeri invariati vs notte, stallo ~214h; #16 non eseguito prima del mattino (frizione manuale); finestra reale = stamattina, prima dell'afa pomeridiana", "esito": "confermato — ordine ancora 24/6, nessun «consegna fatta»", "fonte": "baseline REST delta-gate 06:20 (MCP+node gated in sessione)"},
     {"data": "2026-07-03 00:08", "reparto": "@AD", "previsione": "7 numeri invariati vs 22:20, stallo ~206h; #16 non eseguito nella notte (frizione manuale, finestra reale = mattino)", "esito": "confermato — ordine ancora 24/6, nessun «consegna fatta»", "fonte": "baseline REST 22:28 (MCP+node gated in sessione)"},
     {"data": "2026-07-02 22:20", "reparto": "@AD", "previsione": "7 numeri invariati vs 18:20, stallo ~206h; rischio concreto che la finestra cena salti come il pranzo (frizione manuale)", "esito": "confermato — cena 19–21 saltata, #16 non eseguito", "fonte": "REST live via delta-gate (corrente==ultimo_pieno: ordini=1, ultimo 24/6, profili=23)"},
     {"data": "2026-07-02 18:20", "reparto": "@AD", "previsione": "7 numeri invariati vs 18:00, stallo ~202h, 0 transazioni finché #20–#22 non eseguiti", "esito": "confermato", "fonte": "REST live via delta-gate (ordini=1, ultimo 24/6, profili=23)"},

@@ -1,23 +1,23 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-03 00:08** · Fonte: @intelligence (giro notte 3/7, iLMeteo ri-verificato live + registro-realtà VP).
+> Aggiornato: **2026-07-03 06:28** · Fonte: @intelligence (☀️ giro del mattino 3/7, 3BMeteo/iLMeteo ri-verificato LIVE + registro-realtà VP).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### OGGI 3/7 — Finestra consegna FAVOREVOLE
+### OGGI 3/7 — Consegna: FINESTRA MATTUTINA (afa nel pomeriggio)
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Ven 3/7 (OGGI)** | **32° / 19°** | Poco nuvoloso, pioggia 30% (0,7 mm), vento debole | **#20–#22 STAMATTINA** — meteo favorevole, ritiro Via Calzolai 25 |
+| **Ven 3/7 (OGGI)** | **33° (ore 17) / 20° (ore 6)** | Sereno tutto il giorno, **ALLERTA AFA pomeriggio**, UV 6,5 | **#20–#22 STAMATTINA** — freschi al riparo dal caldo, ritiro Via Calzolai 25 |
 | Sab 4/7 | ~33 / 22 | Sereno | normale |
 | Dom 6/7 | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + gate catena del freddo freschi |
 | Lun 7/7 | ~36 / 22 | Caldo | idratazione rider |
 
-Fonte: [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (agg. giro notte 3/7).
+Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (ri-verificato live mattino 3/7).
 
-**Consiglio operativo:** giornata gradevole → nessun ostacolo meteo alla consegna. Eseguire **#20 WhatsApp** in mattinata e chiudere l'ordine zombie €19,05 col payout-test. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
+**Consiglio operativo:** la temperatura sale fino a 33° con allerta afa nel pomeriggio → **la finestra migliore per portare pane/freschi è la mattina**. Eseguire **#20 WhatsApp** in mattinata e chiudere l'ordine zombie €19,05 col payout-test, prima del caldo. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
 
 ### VENERDÌ PIACENTINI — 3, 10, 17 luglio
 
@@ -27,7 +27,8 @@ Fonte: [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (agg. giro nott
 
 ---
 
-## 🆕 Novità giro notte 3/7 00:08
-- **Meteo di oggi favorevole** alla consegna (32°/19°, pioggia solo 30%) → carburante per chiudere #16.
-- Business invariato dal 24/6 (stallo ~206h): blocco = esecuzione umana #20–#22, non tecnica né meteo.
+## 🆕 Novità ☀️ giro del mattino 3/7 06:28
+- **Meteo di oggi ri-verificato LIVE:** sereno 20→33°C, **allerta afa nel pomeriggio** → la consegna dei freschi va fatta **stamattina**, non a metà pomeriggio.
+- Business invariato dal 24/6 (stallo ~214h): il blocco è l'esecuzione umana #20–#22, non tecnica né meteo.
 - Sfondo caldo in risalita verso il 6/7 (~37°): tenere il gate catena-del-freddo per il batch freschi.
+- Venerdì Piacentini oggi (49 eventi): centro pieno tutto il giorno → il ritiro in Via Calzolai resta agevole.

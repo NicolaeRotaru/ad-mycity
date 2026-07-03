@@ -540,3 +540,7 @@ Assegnazioni (1 mossa per reparto):
 - @intelligence · radar VP 3/7 + finestra meteo consegna · 🟢
 - @analista · snapshot KPI baseline pre/post prima transazione · 🟢
 🙋 **Serve da Nicola stamattina:** 🔴 **eseguire #16** (#20→#21→#22) + **payout-test sandbox** · 🔴 **revocare il PAT GitHub** (R1) · 🟡 **SQL 107** + **ok merge R2** + 1× root sync VPS (#17) · 🟢 firma opzionale #23 (PostHog) e #24 (Casa Linda demo). Tutto già pronto in coda — al tuo via parte.
+
+- 2026-07-03 06:28 · @intelligence · FATTO · ☀️ giro mattino: meteo oggi ri-verificato LIVE (sereno 20-33°, ALLERTA AFA pomeriggio) → finestra consegna freschi = STAMATTINA; Venerdì Piacentini oggi (centro pieno, ritiro facile)
+- 2026-07-03 06:28 · @AD · FATTO · giro pieno da delta-gate (cambio stato sensori: PostHog cieco 10 giri); business invariato dal 24/6 (1 ordine, stallo ~214h); Cabina riallineata (briefing/STATO/snapshot 06:28)
+- 2026-07-03 06:28 · @AD · PASSO-A · Nicola: esegui #16 stamattina (prima dell'afa) + payout-test; R1 revoca PAT; R2 merge fix; SQL 107 — tutto già in coda

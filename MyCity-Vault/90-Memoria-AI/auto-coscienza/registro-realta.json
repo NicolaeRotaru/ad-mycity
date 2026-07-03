@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 00:33",
+  "aggiornato": "2026-07-03 06:28",
   "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
@@ -65,10 +65,11 @@
         "Giro notte 3/7 00:08: baseline REST 22:28 invariata (MCP+node gated in sessione, nessun numero ri-misurato) → ordine ancora 24/6, stallo ~206h; finestra #16 = STAMATTINA 3/7 (meteo favorevole).",
         "Giro notte 3/7 00:18 (heartbeat +10min): baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
         "Giro notte 3/7 00:33 (refresh +6min): delta-gate 00:31 corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) — baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
+        "☀️ Giro mattino 3/7 06:28: baseline REST 06:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — MCP+node gated in sessione, nessun numero ri-misurato; ordine ancora 24/6, stallo ~214h; nessuna esecuzione #16 rilevata. Meteo oggi ri-verificato LIVE: afa nel pomeriggio → finestra consegna freschi = mattina.",
         "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle)."
       ],
-      "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): 3 finestre 2/7 saltate → finestra reale STAMATTINA 3/7 (#20–#22 esecuzione manuale, accorpato al payout-test). Contratto 12% firmato 01:02. Payout sandbox 03/7.",
-      "ultima_verifica": "2026-07-03 00:33 (delta-gate 00:31 corrente==ultimo_pieno: 1 ordine, ultimo 24/6, 23 profili; MCP+node+curl gated in sessione)"
+      "note": "UNICO negozio reale su MyCity. Decisione #16 = ESEGUI (2/7 17:09): 3 finestre 2/7 saltate → finestra reale STAMATTINA 3/7 (#20–#22 esecuzione manuale, accorpato al payout-test), meglio prima dell'afa pomeridiana. Contratto 12% firmato 01:02. Payout sandbox 03/7.",
+      "ultima_verifica": "2026-07-03 06:28 (baseline REST delta-gate 06:20: 1 ordine, ultimo 24/6, 23 profili; MCP+node gated in sessione)"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -110,10 +111,11 @@
       "evidenze": [
         "Mar 30/6: acquazzoni e schiarite, prob. 90% (~2,2 mm), max ~34°C (TempoItalia, MeteoLive).",
         "Mer 1/7: piovaschi prob. 90% (~4,5 mm), ~34°C; poi gio 2/7 asciutto ~31°C (iLMeteo, TempoItalia).",
-        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata."
+        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata.",
+        "Aggiornamento LIVE 3/7 06:28 (3BMeteo/iLMeteo): oggi sereno 20→33°C, ALLERTA AFA nel pomeriggio (max 33° alle 17), UV 6,5 → caldo di nuovo in risalita; il fattore-guida del delivery torna 'caldo' (meteo-02). Finestra freschi = mattina."
       ],
-      "note": "Fine della fase di caldo estremo (37-39°C). Il fattore-guida del delivery passa da caldo (meteo-02) a pioggia (meteo-01, peso 4).",
-      "ultima_verifica": "2026-06-30 11:45"
+      "note": "Fine della fase di caldo estremo (37-39°C) a fine giugno; da inizio luglio il caldo risale (oggi 3/7 max 33° con afa pomeridiana, weekend verso ~37°). Fattore-guida delivery: caldo (meteo-02) → consegnare i freschi la mattina + gate catena del freddo per il batch 6/7.",
+      "ultima_verifica": "2026-07-03 06:28"
     },
     {
       "nome": "Venerdì Piacentini 3/7 (49 eventi)",
@@ -127,7 +129,7 @@
         "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
       ],
       "note": "Evento CONFERMATO — OGGI 3/7 è la prima delle serate. Presidio MyCity **RIMANDATO** da Nicola 1/7 01:00 (priorità onboarding 6/7): nessuna azione pesante, ma il centro pieno facilita il ritiro dell'ordine PQ. Prossima finestra utile per un presidio: VP 10/17 lug.",
-      "ultima_verifica": "2026-07-03 00:18 (registro: oggi 3/7 = giornata VP)"
+      "ultima_verifica": "2026-07-03 06:28 (registro: oggi 3/7 = giornata VP)"
     }
   ],
   "numeri_da_non_inventare": {

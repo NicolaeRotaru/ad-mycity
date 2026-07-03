@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-03 06:20",
+  "aggiornato": "2026-07-03 06:28",
   "difetti": [
     {
       "id": "AR-004",
@@ -349,10 +349,28 @@
         "pattern": "voto_provvisorio",
         "presente": true
       }
+    },
+    {
+      "id": "AR-025",
+      "titolo": "Delta-gate: la firma dello stato include il contatore giri-ciechi, così un sensore OPZIONALE già-noto-cieco (PostHog) forza un giro pieno a ogni ciclo — AR-019 rientrato da una porta laterale",
+      "dimensione": "efficienza-costo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "La firma del delta-gate (cervello/delta-gate.mjs) serializza `sensori.max_giri_ciechi` come parte dello stato reale. Se un sensore resta cieco, quel contatore cresce di 1 a ogni giro → la firma differisce SEMPRE dall'ultimo_pieno → il gate classifica 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando ordini/incassi/clienti/sentinelle-azionabili sono identici. Il delta-gate (AR-019) doveva eliminare i giri a vuoto, ma non distingue una cecità NUOVA/critica da un contatore che semplicemente avanza su un sensore OPZIONALE (PostHog, non-critico a 0 ordini pagati). Verificato su delta-gate.json: ultimo_pieno max_giri_ciechi=3, corrente=10, decisione ripetuta 'esegui_pieno' per stato sensori mentre la firma di business (ordini=1, ultimo 24/6, clienti=23) è invariata.",
+      "fix_proposto": "🟡 Nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no), non il contatore incrementale; oppure escludere del tutto max_giri_ciechi dalla firma di business e gestire la cecità con la sola sentinella dedicata (già esistente). Così un sensore già-noto-cieco non forza giri pieni. Complementare ad AR-024 (che agisce lato sonda/alert, non lato firma delta-gate).",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-07-03",
+      "chiuso_il": "",
+      "nota_fix": "Trovato dal giro del mattino 3/7 06:28 (lezione L-2026-0703-52). Il giro delle 06:20 è scattato 'pieno' per «cambio stato sensori» col solo incremento del contatore PostHog (opzionale). Verifica avversariale: business firma invariata nel delta-gate.json, unica differenza = max_giri_ciechi 3→10.",
+      "verifica": {
+        "tipo": "codice",
+        "file": "cervello/delta-gate.mjs"
+      }
     }
   ],
   "meta": {
-    "aperti": 1,
+    "aperti": 2,
     "in_corso": 2,
     "chiusi": 20
   }
