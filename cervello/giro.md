@@ -12,6 +12,9 @@ Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 > - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e poi
 >   **apri/aggiorna la PR con base `memoria-ad`** e **mergiala in `memoria-ad`** (NON in `main`).
 >   In alternativa, dopo il push, pubblica il giro su `memoria-ad` (fast-forward). **Non lasciare la memoria solo su `main`.**
+> - **Guardiano attivo (non è più solo una convenzione):** il workflow CI `.github/workflows/guard-memoria.yml`
+>   BLOCCA ogni PR verso `main` che tocca `MyCity-Vault/`, `consegne/`, `creativi/` o `memoria-squadra/`.
+>   Se il check fallisce, la memoria è finita sul ramo sbagliato: riapri la PR con base `memoria-ad`.
 > - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno già `merge=union` in `.gitattributes`
 >   (si fondono senza conflitto). Gli **snapshot** (STATO.md, `auto-coscienza/*.json`, `ultimo-briefing.json`,
 >   `intenzioni-nicola.json`) NON si possono auto-fondere: la loro protezione è proprio questa regola
