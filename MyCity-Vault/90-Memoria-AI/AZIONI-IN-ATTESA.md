@@ -132,3 +132,16 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Serve da Nicola (🔴):** firma migrazioni su DB live · deploy Render · dati reali Titolare · DPA Anthropic (zero-retention) · dominio email verificato (RESEND_FROM) · chiave Upstash · numero WhatsApp reale · decisione modello approvazione venditori · toggle Leaked-Password ON.
 - **Colore:** 🟢 il piano (creato) · 🔴 l'applicazione in produzione (da firmare).
 - **Stato:** PRONTO — in attesa del via all'Onda 0.
+
+
+<!-- SUPERVISIONE-NEGOZI:INIZIO -->
+### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-04 22:10)
+Report completo con comandi pronti: `consegne/supervisione/2026-07-04-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
+
+| Azione (pronta) | Colore | Quanti | Cosa cambia | Se va bene |
+|---|---|---|---|---|
+| Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione corretta ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passo al gruppo successivo. |
+| Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno | 🟡 | 242 | 242 schede oggi incomplete mostrano unità di misura corretta ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passo al gruppo successivo. |
+
+> Approva scrivendo **«ok riempi [unità/condizione/…]»** oppure **«ok a tutte le proposte di supervisione»**.
+<!-- SUPERVISIONE-NEGOZI:FINE -->
