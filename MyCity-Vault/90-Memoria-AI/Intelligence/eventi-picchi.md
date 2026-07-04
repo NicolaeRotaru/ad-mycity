@@ -1,34 +1,45 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-03 06:28** · Fonte: @intelligence (☀️ giro del mattino 3/7, 3BMeteo/iLMeteo ri-verificato LIVE + registro-realtà VP).
+> Aggiornato: **2026-07-04 11:30** · Fonte: @intelligence (giro 4/7, iLMeteo + IlPiacenza ri-verificati LIVE + registro-realtà).
+
+---
+
+## 🎉 OGGI 4/7 — SANT'ANTONINO, patrono di Piacenza (evento cittadino grande)
+
+- **Fiera di Sant'Antonino:** **250 bancarelle** nel centro storico, di cui **33 alimentari** (176 lungo il Pubblico Passeggio, 32 viale Palmerio, 17 piazzale Genova, 19 corso Vittorio Emanuele, 6 via Alberici).
+- **Mercato settimanale** in piazza Cavalli e piazza Duomo (come di consueto).
+- **Messa solenne** ore 11 in Duomo (vescovo Cevolotto) + onorificenza "Antonino d'Oro 2026".
+- **Mostra "Oltre le nuvole"** a XNL fino al 5/7 (visite guidate il sabato mattina).
+- ⚠️ **ZTL/viabilità:** dalle **6 del 4/7 alle 2 del 5/7** vietata la circolazione ai veicoli **> 35 quintali** nella zona di rilevanza urbanistica. **Non tocca** consegne a piedi/bici/scooter → il ritiro/consegna dell'ordine PQ resta agevole.
+
+**Leva per MyCity (oggi):** centro pienissimo tutto il giorno → **ottima finestra per la consegna a piedi/bici** del primo ordine (#16) da Via Calzolai 25, e giornata ad alta visibilità in centro. Presidio pesante **NON** attivato (allocazione: sforzo pesante solo su negozi confermati; Pane Quotidiano è confermato ma il presidio-evento resta rimandato da Nicola, focus onboarding 6/7). Spunto editoriale leggero → Piano Editoriale/Notorietà.
+
+Fonte: [IlPiacenza — Fiera Sant'Antonino 4/7](https://www.ilpiacenza.it/attualita/fiera-sant-antonino-piacenza-4-luglio-2026-info-mercato-messa.html).
 
 ---
 
 ## 🌦️ Picchi meteo (prossimi 7 giorni)
 
-### OGGI 3/7 — Consegna: FINESTRA MATTUTINA (afa nel pomeriggio)
+### OGGI 4/7 — Consegna: finestra MATTUTINA/SERALE (afa pomeridiana)
 
 | Giorno | Max / Min | Condizioni | Leva delivery |
 |--------|-----------|------------|---------------|
-| **Ven 3/7 (OGGI)** | **33° (ore 17) / 20° (ore 6)** | Sereno tutto il giorno, **ALLERTA AFA pomeriggio**, UV 6,5 | **#20–#22 STAMATTINA** — freschi al riparo dal caldo, ritiro Via Calzolai 25 |
-| Sab 4/7 | ~33 / 22 | Sereno | normale |
-| Dom 6/7 | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + gate catena del freddo freschi |
+| **Sab 4/7 (OGGI)** | **33° (ore 17) / 20° (ore 6)** | Sereno tutto il giorno, caldo, UV 6,5 alle 14 | **#21–#22 in mattinata o dopo le 18** — freschi al riparo dal picco d'afa, ritiro Via Calzolai 25 |
+| Dom 5/7 | ~34 / 21 | Sereno/caldo | normale |
+| **Dom 6/7** | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + gate catena del freddo freschi |
 | Lun 7/7 | ~36 / 22 | Caldo | idratazione rider |
 
-Fonte: [3BMeteo Piacenza](https://www.3bmeteo.com/meteo/piacenza) · [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (ri-verificato live mattino 3/7).
+Fonte: [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (ri-verificato live 4/7).
 
-**Consiglio operativo:** la temperatura sale fino a 33° con allerta afa nel pomeriggio → **la finestra migliore per portare pane/freschi è la mattina**. Eseguire **#20 WhatsApp** in mattinata e chiudere l'ordine zombie €19,05 col payout-test, prima del caldo. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
+**Consiglio operativo:** la temperatura sale a 33° con picco alle 17 → per pane/freschi la finestra migliore è **mattina** (ora) o **dopo le 18**. Chiudere l'ordine zombie €19,05 (#21–#22) col payout-test accorpato. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
 
-### VENERDÌ PIACENTINI — 3, 10, 17 luglio
-
-- **OGGI 3/7:** Venerdì Piacentini in corso (49 eventi, centro pedonale pieno fino a tarda sera). Presidio MyCity **RIMANDATO** da Nicola (focus onboarding 6/7) — nessuna azione pesante, ma il centro affollato **facilita il ritiro** in Via Calzolai.
-- **Prossima finestra utile per un presidio:** VP **10/17 lug** (~50–60k persone/sera).
+### Venerdì Piacentini — prossime serate 10, 17 luglio
+- La serata del 3/7 è passata (presidio rimandato). **Prossima finestra utile per un presidio:** VP **10/17 lug** (~50–60k persone/sera). Kit QR pronto (coda #11, rimandato).
 - Fonte: [Programma VP 2026](https://www.venerdipiacentini.it/pdf/programma2026.pdf).
 
 ---
 
-## 🆕 Novità ☀️ giro del mattino 3/7 06:28
-- **Meteo di oggi ri-verificato LIVE:** sereno 20→33°C, **allerta afa nel pomeriggio** → la consegna dei freschi va fatta **stamattina**, non a metà pomeriggio.
-- Business invariato dal 24/6 (stallo ~214h): il blocco è l'esecuzione umana #20–#22, non tecnica né meteo.
-- Sfondo caldo in risalita verso il 6/7 (~37°): tenere il gate catena-del-freddo per il batch freschi.
-- Venerdì Piacentini oggi (49 eventi): centro pieno tutto il giorno → il ritiro in Via Calzolai resta agevole.
+## 🆕 Novità giro 4/7 11:30
+- **Sant'Antonino OGGI** (patrono, Fiera 250 bancarelle): centro pieno → finestra ideale per **consegnare #16 a piedi/bici** e chiudere lo stallo. È la vera novità del giorno.
+- Business invariato dal 24/6 (stallo **~243h ≈ 10 giorni**): il blocco resta l'esecuzione umana #21–#22, non tecnica né meteo.
+- Caldo in risalita verso il 6/7 (~37°): tenere il gate catena-del-freddo per il batch freschi.

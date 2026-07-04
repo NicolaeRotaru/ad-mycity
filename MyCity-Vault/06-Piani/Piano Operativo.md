@@ -190,9 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-03 06:28
+## 🤖 Aggiornamento dell'AD — 2026-07-04 11:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo ~214h** — 3 finestre 2/7 saltate. **Meteo di oggi ri-verificato LIVE: sereno 20→33°C con ALLERTA AFA nel pomeriggio** → la finestra consegna per i freschi è **la mattina**: eseguire **#20→#22 stamattina**, accorpato al payout-test (una sola finestra certa, prima del caldo).
-- **Oggi è Venerdì Piacentini** — centro pieno tutto il giorno: facilita il ritiro PQ in Via Calzolai (nessun presidio, rimandato).
-- **SQL 107** — 30s, prerequisito consegne batch 6/7 (dom 6/7, previsto ~37° → **gate catena del freddo** obbligatorio per i freschi, GATE-COMPLIANCE-PRELANCIO già pronto).
+- **Stallo ~243h (≈10 giorni)** — #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano solo #21–#22. **Meteo 4/7 sereno 20→33°C, picco afa alle 17** → finestra consegna freschi = **mattina o dopo le 18**, accorpata al payout-test (una sola finestra certa).
+- **OGGI Sant'Antonino** — centro pienissimo tutto il giorno: facilita il ritiro PQ in Via Calzolai a piedi/bici. **ZTL solo mezzi >35q** (dalle 6 alle 2 del 5/7): non tocca consegne leggere.
+- **SQL 107** — prerequisito consegne batch 6/7 (dom 6/7, previsto ~37° → **gate catena del freddo** obbligatorio per i freschi, GATE-COMPLIANCE-PRELANCIO già pronto).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

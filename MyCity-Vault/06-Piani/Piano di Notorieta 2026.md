@@ -208,9 +208,9 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 #notorieta #piano #pr #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-02 10:19
+## 🤖 Aggiornamento dell'AD — 2026-07-04 11:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Earned media «prima consegna»** — gate #20–#22 oggi pranzo (ok 16 approvato 08:38).
-- **VP 10/17 lug** — unica finestra VP rimasta (3/7 saltato).
-- **#19 LIVE** — narrativa credibile solo con transazione reale oggi.
+- **OGGI Sant'Antonino (patrono, Fiera 250 bancarelle, centro pieno)** — occasione di visibilità in centro; nessun presidio pesante (rimandato da Nicola, focus onboarding 6/7). Fonte: `Intelligence/eventi-picchi.md`.
+- **Earned media «prima consegna»** — l'angolo PR più forte scatta al «consegna fatta» di #16 (prima transazione MyCity end-to-end).
+- **VP 10/17 lug** — unica finestra VP rimasta (3/7 passato). Kit QR pronto (coda #11, rimandato).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

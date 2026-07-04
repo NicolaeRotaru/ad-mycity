@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-04 04:51
-fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegui #21-#22» → **WhatsApp #20 INVIATO**, #16 IN CONSEGNA · restano le mani manuali #21 accetta ordine + #22 consegna COD €19,05 → «Consegnato» · al «consegna fatta» North Star 0→1 + payout-test #2 + recensione #27 + carrello #26 · firma REST DB non ri-misurata in sessione, MCP+node/curl gated)
+aggiornato: 2026-07-04 11:30
+fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stallo ~243h · #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna COD €19,05 · **novità: OGGI Sant'Antonino patrono → centro pieno, finestra consegna ideale** · firma REST 11:30 invariata, MCP+node/curl gated → baseline REST, zero numeri inventati)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🎉 **4/7 11:30 — OGGI È SANT'ANTONINO (patrono di Piacenza):** Fiera 250 bancarelle (33 alimentari), mercato piazza Cavalli/Duomo, centro pienissimo tutto il giorno. La ZTL (mezzi >35q dalle 6) **non tocca** consegne a piedi/bici → la consegna di **#16** da Via Calzolai 25 è facilissima oggi. Meteo sereno 20→33°, picco afa alle 17 → freschi in mattinata o dopo le 18. **Business invariato dal 24/6** (firma REST 11:30: ordini=1, ultimo 24/6, 23 clienti; stallo ~243h ≈ 10 giorni). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Dettaglio: [[2026-07-04]].
+>
 > 🚚 **4/7 04:51 — #16 IN CONSEGNA — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
 >
 > ✅ **2/7 17:09 — DECISIONE BINARIA #16 RISOLTA — Scelta A (Pannello):** Nicola sceglie **ESEGUIRE**, non «archivia zombie». `ok 16` era firmato alle 08:38 ma non eseguito in ~8h (pranzo perso) → la card chiedeva una scelta netta. **Slot spostato a CENA 19:00–21:00.** Azioni #20→#21→#22 attive (WhatsApp buyer + accetta ordine dashboard PQ + consegna COD €19,05). Pacchetto aggiornato · card decisione binaria **da NON rigenerare**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20.
@@ -19,7 +21,7 @@ fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegu
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (baseline REST · invariati dal 24/6 · MCP+node gated in sessione 3/7 21:21)
+## I 7 numeri (baseline REST · invariati dal 24/6 · giro.sh 4/7 11:30 · MCP+node gated in sessione)
 | Numero | Oggi (3/7 21:21) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
@@ -67,6 +69,7 @@ fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegu
 | Loop business | 🔴 in corso | #16 IN CONSEGNA — WhatsApp #20 fatto (4/7 04:51), restano #21 accetta + #22 consegna → «Consegnato» |
 
 ## Ultime mosse dell'AD
+0. **🔭 Giro AD 4/7 11:30** — primo giro pieno della giornata (i passaggi 06:00–10:20 saltati dal delta-gate; alle 09:40/09:50 doer R1/R2 dal Pannello). **Nessuna novità di business:** firma REST 11:30 invariata (ordini=1, ultimo 24/6 08:28, 23 clienti) → #16 ancora IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna. Stallo **~243h ≈ 10 giorni**. **Novità reale del giorno: OGGI 4/7 è Sant'Antonino** (patrono, Fiera 250 bancarelle, centro pieno) → finestra consegna ideale a piedi/bici, ZTL solo mezzi pesanti. Meteo sereno 20→33° (afa 17). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Aggiornati eventi-picchi (Sant'Antonino) + snapshot Cabina. → Mossa n.1 confermata: **esegui la consegna di #16 OGGI** (mattina o dopo le 18) col payout-test.
 0. **🚚 Risposta all'auto-analisi 4/7 04:51 — «prosegui #21-#22»** — Nicola risponde alla domanda «Hai inviato WhatsApp #20? Buyer ha risposto?» con **«prosegui #21-#22»**. Applicato: **#20 → ✅ FATTO** (WhatsApp al buyer 348 642 1766 inviato, contatto avvenuto); **#21 → 🔄 IN ESECUZIONE** (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601); **#22 → 🔄 IN ESECUZIONE** (consegna COD €19,05 → «Consegnato»); **#16 → IN CONSEGNA**. Restano 🔴 le mani manuali di Nicola (accettazione + consegna fisica). Registrato in [[DECISIONI]] + [[AZIONI-IN-ATTESA]] + registro-realta + intenzioni + auto-analisi. La firma REST del DB non è ri-misurata in sessione (MCP+node/curl gated) → l'ordine risulta «Consegnato» e la North Star passa 0→1 solo al «consegna fatta». **Domanda «WhatsApp #20?» chiusa — non riproporre.**
 0. **🔭 Giro refresh 3/7 21:21** — full da delta-gate (20:29 «cambio stato sensori»: PostHog cieco **19** giri, era 18). **Nessuna novità di business vs 20:24:** firma REST invariata (delta-gate/sensore 21:21: ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~229h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **8ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 APERTA ORA** (aria più fresca, Venerdì Piacentini prima serata). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🔭 Giro refresh 3/7 20:24** — full da delta-gate (20:20 «cambio stato sensori»: PostHog cieco **18** giri, era 17). **Nessuna novità di business vs 18:20:** firma REST invariata (delta-gate 20:20: ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~228h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **7ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 APERTA ORA** (aria più fresca, Venerdì Piacentini prima serata). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
@@ -93,16 +96,16 @@ fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegu
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🔭 Giro refresh 3/7 21:21 · #16 approvato 13:29 · finestra reale = SERA post-19:00 APERTA ORA)
-**Approvato (Pannello 13:29):** eseguire la consegna del 1° ordine. Le 3 finestre del 2/7 + mattina e pomeriggio di oggi sono passate; ora alle 21:21 il caldo è calato e **la finestra serale post-19:00 è APERTA** → è il momento per consegnare i freschi, col centro pieno per il **Venerdì Piacentini** (prima serata), accorpando il payout-test. Manca solo il tap manuale #20. Stallo **~229h**.
+## Prossime priorità (🔭 Giro AD 4/7 11:30 · #16 IN CONSEGNA · OGGI Sant'Antonino → centro pieno)
+**#16 IN CONSEGNA (WhatsApp #20 fatto 04:51):** eseguire la consegna del 1° ordine. Restano solo le mani manuali #21–#22. **Oggi il centro è pienissimo per Sant'Antonino** (patrono, Fiera 250 bancarelle) → il ritiro/consegna a piedi da Via Calzolai 25 è agevole; ZTL solo mezzi >35q (non tocca bici/piedi). Meteo sereno con afa alle 17 → consegna in mattinata o dopo le 18. Accorpa il payout-test. Stallo **~243h ≈ 10 giorni**.
 
-1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mano Nicola) ORA post-19:00 + payout-test:** tap link WhatsApp #20 (slot sera) → #21 accetta ordine + chiama PQ 0523 388601 → #22 consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox · stallo ~229h
+1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mani Nicola) OGGI (mattina o post-18) + payout-test:** #21 accetta ordine `58094956…` in dashboard PQ + chiama PQ 0523 388601 → #22 ritiro Via Calzolai 25 → consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox · stallo ~243h
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
 4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 15 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
 
-**Sentinelle attive:** ordine ritardo ~229h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+61h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 19 giri, opzionale)** · voto salute architettura 42 (<60, pending-merge AR-024, completa già fatta 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** ordine ritardo ~243h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+75h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 24 giri, opzionale)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

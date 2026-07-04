@@ -1,12 +1,12 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-04 11:28",
+  "aggiornato": "2026-07-04 11:40",
   "regole": {
     "sensori_ciechi": {
-      "ultima_firma": "23",
-      "ultimo_accodato": "2026-07-04 10:21",
-      "ultimo_accodato_iso": "2026-07-04T08:21:17.985Z",
-      "ultimo_job": "5490be9e-daca-44f5-9833-996d4f543bd8",
+      "ultima_firma": "24",
+      "ultimo_accodato": "2026-07-04 11:31",
+      "ultimo_accodato_iso": "2026-07-04T09:31:03.832Z",
+      "ultimo_job": "f982b698-87c2-46ec-aa1f-69899223821f",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -27,16 +27,16 @@
       "ambito": "azioni"
     },
     "worker_morto": {
-      "ultima_firma": "2026-07-04T09:41:22+02:00",
-      "ultimo_accodato": "2026-07-04 09:46",
-      "ultimo_accodato_iso": "2026-07-04T07:46:05.801Z",
+      "ultima_firma": "2026-07-04T11:29:58+02:00",
+      "ultimo_accodato": "2026-07-04 11:40",
+      "ultimo_accodato_iso": "2026-07-04T09:40:08.925Z",
       "colore": "🔴",
       "soloAllerta": true
     }
   },
   "accodati_giorno": {
     "giorno": "2026-07-04",
-    "n": 7
+    "n": 8
   },
   "accodati_ts": [
     "2026-07-03T00:36:35.265Z",
@@ -53,59 +53,12 @@
     "2026-07-04T00:37:31.247Z",
     "2026-07-04T04:00:35.832Z",
     "2026-07-04T08:05:01.936Z",
-    "2026-07-04T08:21:17.985Z"
+    "2026-07-04T08:21:17.985Z",
+    "2026-07-04T09:31:03.832Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 1631,
+  "tick": 1639,
   "storia": [
-    {
-      "quando": "2026-07-04 09:26",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 1
-    },
-    {
-      "quando": "2026-07-04 09:27",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:28",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:30",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:31",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:32",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:33",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 09:34",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 1
-    },
     {
       "quando": "2026-07-04 09:36",
       "eventi": 2,
@@ -657,10 +610,58 @@
       "eventi": 2,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:31",
+      "eventi": 2,
+      "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:32",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:33",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:34",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:36",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:37",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:38",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 11:40",
+      "eventi": 3,
+      "accodati": 0,
+      "allertati": 1
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-04 11:28",
+    "quando": "2026-07-04 11:40",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -668,8 +669,8 @@
     "recensioni_basse": 0,
     "negozi_fermi": 1,
     "carrelli": null,
-    "worker_eta_min": 0,
-    "sensori_max_ciechi": 23,
+    "worker_eta_min": 10,
+    "sensori_max_ciechi": 24,
     "salute_voto": 44,
     "radiografia_gg": 2,
     "volano_tasso": 0.7
