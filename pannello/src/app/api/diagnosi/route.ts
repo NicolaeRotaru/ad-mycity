@@ -3,7 +3,7 @@ import { memoryConnected, getImpostazione } from "@/lib/store";
 import { marketplaceDbConnected } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 import { getBudget } from "@/lib/ai-budget";
-import { vaultGithubInfo } from "@/lib/obsidian";
+import { vaultGithubInfo, testVaultGithub } from "@/lib/obsidian";
 import { marketplaceGithubInfo, testMarketplaceGithub } from "@/lib/github";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
@@ -23,14 +23,18 @@ export async function GET() {
   const segnali = await raccogliSegnaliBattito();
 
   // 1) Vault GitHub: da QUI il Pannello legge briefing/STATO/AZIONI (ramo memoria-ad).
-  //    Non serve merge su main: OBSIDIAN_BRANCH deve combaciare col GIT_BRANCH del giro.
+  //    Non basta "env presenti": facciamo un test REALE (GET /repos + /git/ref/heads/BRANCH)
+  //    così un token scaduto o un ramo inesistente diventano ROSSO invece di un falso verde.
   const vault = vaultGithubInfo();
+  const vaultTest = vault.collegato ? await testVaultGithub() : null;
   checks.push({
     nome: "Vault GitHub (Pannello)",
-    stato: vault.collegato ? "verde" : "rosso",
-    dettaglio: vault.collegato
-      ? `legge ramo «${vault.ramo}» in tempo reale — merge su main NON necessario`
-      : "manca OBSIDIAN_* su Vercel: briefing e STATO non compaiono (anche se il giro gira)",
+    stato: !vault.collegato ? "rosso" : vaultTest?.ok ? "verde" : "rosso",
+    dettaglio: !vault.collegato
+      ? "manca OBSIDIAN_* su Vercel: briefing e STATO non compaiono (anche se il giro gira)"
+      : vaultTest?.ok
+        ? `${vaultTest.dettaglio} — legge in tempo reale, merge su main NON necessario`
+        : `accesso KO: ${vaultTest?.dettaglio ?? "token o ramo non validi"} — briefing/STATO non compaiono`,
   });
 
   // 2) Memoria Supabase (coda lavori, briefings digest, impostazioni).

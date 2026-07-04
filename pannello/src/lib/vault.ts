@@ -3,7 +3,13 @@
 // ripiega sulla GitHub API tramite gli strumenti obsidian.* (variabili OBSIDIAN_*).
 import { promises as fs } from "fs";
 import path from "path";
-import { readNote, listDir, listDirEntries, obsidianConnected } from "./obsidian";
+import { readNote, leggiNota, listDir, listDirEntries, obsidianConnected, type StatoLettura } from "./obsidian";
+
+// Esito tipizzato di una lettura del vault: oltre al testo porta lo STATO (ok/assente/
+// github-giu/auth) e il RAMO che l'ha servita, così i chiamanti (es. /api/stato) distinguono
+// "il dato non c'è" da "GitHub è giù / token morto" senza indovinare da un `null`. In locale
+// (disco) lo stato è ok/assente e ramo="disco".
+export type EsitoVault = { stato: StatoLettura; testo: string | null; ramo: string | null; dettaglio?: string };
 
 const ERR_PREFIXES = [
   "Obsidian non collegato",
@@ -44,6 +50,28 @@ export async function readVaultFile(relPath: string): Promise<string | null> {
     }
   }
   return null;
+}
+
+/**
+ * Come readVaultFile ma con ESITO tipizzato: dice se il dato c'è (ok), se manca davvero
+ * (assente) o se non lo sappiamo perché GitHub ha rifiutato/era giù (auth/github-giu), e da
+ * quale ramo è arrivato. Serve a /api/stato per mostrare il ramo servito (deriva del giro)
+ * senza stato globale, e per non spacciare un buco di rete per "nessun dato".
+ */
+export async function readVaultFileEsito(relPath: string): Promise<EsitoVault> {
+  if (obsidianConnected()) {
+    return await leggiNota(`MyCity-Vault/${relPath}`);
+  }
+  // LOCALE (monorepo senza OBSIDIAN_*): leggi da disco.
+  for (const root of vaultRoots()) {
+    try {
+      const txt = await fs.readFile(path.join(root, relPath), "utf-8");
+      if (txt != null) return { stato: "ok", testo: txt, ramo: "disco" };
+    } catch {
+      /* provo la radice successiva */
+    }
+  }
+  return { stato: "assente", testo: null, ramo: null };
 }
 
 /**

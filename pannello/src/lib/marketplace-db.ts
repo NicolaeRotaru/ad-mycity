@@ -84,23 +84,35 @@ export async function marketplaceSelect(table: string, qs: string): Promise<any[
   return selectRows(table, qs);
 }
 
-async function selectRows(table: string, qs: string): Promise<any[]> {
-  // Resiliente: se una tabella non e' leggibile, non blocca le altre metriche. MA logghiamo l'errore:
-  // così un 4xx/5xx/RLS (tabella/colonna sbagliata, permessi) è DISTINGUIBILE da "nessun dato" nei log Vercel,
-  // invece di mascherarsi da lista vuota con connected:true. (Badge "dati non affidabili": rifinitura di lunedì col DB su.)
+/**
+ * Lettura con ESITO esplicito: `{ rows, ok }`. FIX verità-dati (zero silenzioso): prima ogni errore
+ * (4xx/5xx/RLS/rete) veniva ingoiato in `[]`, INDISTINGUIBILE da "0 reale" — un DB rotto sembrava un
+ * marketplace vuoto. Ora l'esito è chiaro: `ok:false` = query FALLITA (i conteggi a valle NON sono
+ * affidabili, non sono "0 reale"); `ok:true` con `rows:[]` = zero vero (query riuscita, nessuna riga).
+ * Sola lettura: solo GET. Logghiamo comunque l'errore (visibile nei log Vercel).
+ */
+async function selectRowsEsito(table: string, qs: string): Promise<{ rows: any[]; ok: boolean }> {
   try {
     const res = await fetch(`${URL}/rest/v1/${table}?${qs}`, { headers: headers(), cache: "no-store" });
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       console.error(`[marketplace-db] query '${table}' fallita: ${res.status} ${body.slice(0, 200)}`);
-      return [];
+      return { rows: [], ok: false };
     }
     const d = await res.json();
-    return Array.isArray(d) ? d : [];
+    return { rows: Array.isArray(d) ? d : [], ok: true };
   } catch (e: any) {
     console.error(`[marketplace-db] query '${table}' errore di rete: ${e?.message || e}`);
-    return [];
+    return { rows: [], ok: false };
   }
+}
+
+/**
+ * Wrapper retro-compatibile: ritorna SOLO le righe. I chiamati che non devono distinguere
+ * "0 reale" da "0 per errore" restano invariati; chi deve distinguere usa `selectRowsEsito`.
+ */
+async function selectRows(table: string, qs: string): Promise<any[]> {
+  return (await selectRowsEsito(table, qs)).rows;
 }
 
 export type Metriche = {
@@ -118,12 +130,20 @@ export async function getMetriche(): Promise<Metriche> {
   if (await demoAttivo()) return metricheDemo();
   if (!marketplaceDbConnected()) return { connected: false };
   try {
-    const [orders, profiles, carts, reviews] = await Promise.all([
-      selectRows("orders", "select=total_price,payment_status,delivery_status,created_at,delivered_at,user_id&limit=10000"),
-      selectRows("profiles", "select=role,created_at&limit=10000"),
-      selectRows("abandoned_carts", "select=recovered,created_at&limit=10000"),
-      selectRows("store_reviews", "select=rating&limit=10000"),
+    const [ordersR, profilesR, cartsR, reviewsR] = await Promise.all([
+      selectRowsEsito("orders", "select=total_price,payment_status,delivery_status,created_at,delivered_at,user_id&limit=10000"),
+      selectRowsEsito("profiles", "select=role,created_at&limit=10000"),
+      selectRowsEsito("abandoned_carts", "select=recovered,created_at&limit=10000"),
+      selectRowsEsito("store_reviews", "select=rating&limit=10000"),
     ]);
+    const orders = ordersR.rows;
+    const profiles = profilesR.rows;
+    const carts = cartsR.rows;
+    const reviews = reviewsR.rows;
+    // FIX verità-dati: se una query CRITICA (orders/profiles) è fallita, i conteggi qui sotto sono
+    // "0 per errore", non "0 reale" → marca il dato inaffidabile (campo AGGIUNTIVO, retro-compatibile:
+    // i vecchi consumatori ignorano il campo; il Pannello può mostrare un badge "dati non affidabili").
+    const dati_affidabili = ordersR.ok && profilesR.ok;
 
     const now = Date.now();
     const d7 = now - 7 * 86400000;
@@ -135,8 +155,11 @@ export async function getMetriche(): Promise<Metriche> {
     const notFailed = (o: any) => o.payment_status !== "FAILED";
     const paid = (o: any) => o.payment_status === "PAID";
     const num = (v: any) => Number(v) || 0;
+    // FIX €NaN a monte: qualunque aggregato numerico passa da fin() → mai NaN/Infinity in uscita
+    // (che il Pannello formatterebbe come "€ NaN"). Un valore non finito diventa 0, non si propaga.
+    const fin = (n: number) => (Number.isFinite(n) ? n : 0);
     // Media dello scontrino sugli ordini PAID in una finestra temporale.
-    const media = (arr: any[]) => (arr.length ? arr.reduce((s, o) => s + num(o.total_price), 0) / arr.length : 0);
+    const media = (arr: any[]) => fin(arr.length ? arr.reduce((s, o) => s + num(o.total_price), 0) / arr.length : 0);
 
     const paidAll = orders.filter(paid);
     const paidOggi = orders.filter((o) => paid(o) && isOggi(o.created_at));
@@ -156,6 +179,8 @@ export async function getMetriche(): Promise<Metriche> {
 
     return {
       connected: true,
+      // FIX verità-dati: false se orders o profiles non sono stati letti (0 = errore, non 0 reale).
+      dati_affidabili,
       // --- Ordini (oggi / 7g / 30g) ---
       ordini_oggi: orders.filter((o) => notFailed(o) && isOggi(o.created_at)).length,
       ordini_7g: orders.filter((o) => notFailed(o) && t(o.created_at) >= d7).length,
@@ -196,9 +221,9 @@ export async function getMetriche(): Promise<Metriche> {
       consegne_oggi: orders.filter((o) => o.delivered_at && isOggi(o.delivered_at)).length,
       consegne_7g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d7).length,
       consegne_30g: orders.filter((o) => o.delivered_at && t(o.delivered_at) >= d30).length,
-      tempo_consegna_min: delivered.length
+      tempo_consegna_min: fin(delivered.length
         ? Math.round(delivered.reduce((s, o) => s + Math.max(0, t(o.delivered_at) - t(o.created_at)) / 60000, 0) / delivered.length)
-        : 0,
+        : 0),
       problemi: orders.filter((o) => o.delivery_status === "CANCELED").length,
       annullati_oggi: orders.filter((o) => o.delivery_status === "CANCELED" && isOggi(o.created_at)).length,
       annullati_7g: orders.filter((o) => o.delivery_status === "CANCELED" && t(o.created_at) >= d7).length,
