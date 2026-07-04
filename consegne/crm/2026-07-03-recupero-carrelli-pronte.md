@@ -8,7 +8,14 @@ voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook completo `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 ---
 
-# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40)
+# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47)
+
+> 🔁 **Ri-esecuzione playbook 2026-07-04 11:47:** finding **invariato**. Business fermo dal 24/6 (STATO,
+> firma REST 11:30); letture live gated in sessione (MCP write/read non concesso, curl non approvato) →
+> riuso dello snapshot REST verificato 1/7 12:00, **nessun numero nuovo inventato**. Resta **1 solo
+> carrello recuperabile reale** (samir). Bozze già pronte sotto, già accodate come **#26** ([[AZIONI-IN-ATTESA]])
+> e **A3** ([[AZIONI-PRONTE]]) — **non ri-accodo** (anti-doppione AR-008). Gate immutato: parte **solo dopo
+> #16 consegnato** (stesso unico cliente).
 
 ## Situazione reale (con fonte)
 | Metrica | Valore | Fonte |
