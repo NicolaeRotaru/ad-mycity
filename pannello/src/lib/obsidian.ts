@@ -18,23 +18,14 @@ if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
 // corso) la lettura tornava `null` e il dato SPARIVA dallo schermo in silenzio: è la causa
 // radice dei ripetuti "il Pannello non vede i dati". Rete di sicurezza: se BRANCH non ha il
 // file, riprova su OVERRIDE (default 'main') così NON si mostra mai schermo vuoto per un
-// disallineamento di ramo. Ogni lettura registra il ramo che l'ha servita (ramoUltimaLettura)
-// → la deriva diventa VISIBILE invece che nascosta. NB: vale solo in LETTURA; le scritture
-// restano ancorate a BRANCH.
+// disallineamento di ramo. Ogni lettura riporta nel valore di ritorno il ramo che l'ha servita
+// (niente più stato globale condiviso) → la deriva diventa VISIBILE invece che nascosta.
+// NB: vale solo in LETTURA; le scritture restano ancorate a BRANCH.
 const RAMO_RIPIEGO = process.env.OBSIDIAN_BRANCH_FALLBACK || "main";
 
 // Ordine di tentativo in lettura: prima la memoria fresca, poi il ripiego (se diverso).
 function ramiLettura(): string[] {
   return BRANCH === RAMO_RIPIEGO ? [BRANCH] : [BRANCH, RAMO_RIPIEGO];
-}
-
-// Diagnostica: da quale ramo è arrivato l'ULTIMO dato letto, e se è stato usato il ripiego.
-let _ramoUltimaLettura: string | null = null;
-let _ripiegoUsato = false;
-
-/** Ramo che ha effettivamente servito l'ultima lettura (null se nessuna lettura riuscita). */
-export function ramoUltimaLettura(): { ramo: string | null; ripiego: boolean } {
-  return { ramo: _ramoUltimaLettura, ripiego: _ripiegoUsato };
 }
 
 export function obsidianConnected(): boolean {
@@ -46,30 +37,136 @@ export function obsidianBranch(): string {
   return BRANCH;
 }
 
+// ── Fetch con timeout (fix osservabilità) ─────────────────────────────────
+// Una richiesta GitHub appesa NON deve bloccare la route fino al 504 di Vercel:
+// un AbortController la taglia dopo TIMEOUT_MS e la trattiamo come "github-giu".
+const TIMEOUT_MS = 5000;
+function isAbort(e: any): boolean {
+  return e?.name === "AbortError" || /abort/i.test(String(e?.message || ""));
+}
+async function fetchTimeout(url: string, opts: RequestInit = {}): Promise<Response> {
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...opts, signal: ac.signal });
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+// ── Esito tipizzato di una lettura (fix verità) ───────────────────────────
+// Prima ogni fallimento collassava in `null` → impossibile distinguere "il file
+// non c'è" da "GitHub è giù / token morto". Ora l'esito è discriminato:
+//  ok        → dato presente (con il ramo che l'ha servito)
+//  assente   → 404 su TUTTI i rami: il file non esiste davvero
+//  auth      → 401/403 (token morto, permessi, rate limit): NON sappiamo se esiste
+//  github-giu→ rete/timeout/5xx: NON sappiamo se esiste
+export type StatoLettura = "ok" | "assente" | "github-giu" | "auth";
+export type EsitoContents =
+  | { stato: "ok"; dati: any; ramo: string }
+  | { stato: "assente" }
+  | { stato: "github-giu"; dettaglio?: string }
+  | { stato: "auth"; dettaglio?: string };
+
+// Priorità nel decidere l'esito aggregato tra più rami: un errore "duro"
+// (auth / github-giu) pesa più di "assente", perché su errore non possiamo
+// affermare che il file manchi.
+function peggiore(a: EsitoContents, b: EsitoContents): EsitoContents {
+  const rank: Record<StatoLettura, number> = { ok: 0, assente: 1, "github-giu": 2, auth: 3 };
+  return rank[b.stato] > rank[a.stato] ? b : a;
+}
+
 /**
  * GET resiliente sulla Contents API: prova i rami [BRANCH, ripiego] e ritorna la PRIMA
- * risposta ok, annotando quale ramo l'ha servita. Ritorna null solo se il path manca su
- * TUTTI i rami (allora sì, il dato non esiste davvero da nessuna parte). Un errore di rete
- * su un ramo non fa sparire il dato: si prova il successivo.
+ * risposta ok, annotando quale ramo l'ha servita. Se nessun ramo dà ok, ritorna l'esito
+ * più "grave" incontrato: 'assente' solo se ogni ramo ha risposto 404 (il dato non c'è
+ * davvero); 'auth'/'github-giu' se GitHub ha rifiutato o non era raggiungibile — così il
+ * dato non "sparisce in silenzio" e i chiamanti sanno perché.
  */
-async function contentsGet(pathRepo: string): Promise<{ dati: any; ramo: string } | null> {
+async function contentsGet(pathRepo: string): Promise<EsitoContents> {
   const enc = encodeURIComponent(pathRepo);
+  let acc: EsitoContents = { stato: "assente" };
   for (const ramo of ramiLettura()) {
     try {
-      const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${enc}?ref=${ramo}`, {
+      const r = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/contents/${enc}?ref=${ramo}`, {
         headers: h(),
         cache: "no-store",
       });
-      if (!r.ok) continue;
-      const dati = await r.json();
-      _ramoUltimaLettura = ramo;
-      _ripiegoUsato = ramo !== BRANCH;
-      return { dati, ramo };
-    } catch {
-      /* rete/parse fallita su questo ramo: provo il successivo */
+      if (r.ok) {
+        const dati = await r.json();
+        return { stato: "ok", dati, ramo };
+      }
+      if (r.status === 404) {
+        // il file non è su QUESTO ramo: provo il prossimo, l'accumulatore resta 'assente'
+        continue;
+      }
+      if (r.status === 401 || r.status === 403) {
+        // token morto / permessi insufficienti / rate limit: gli altri rami risponderebbero
+        // uguale → inutile insistere, è un problema di accesso, non del singolo ramo.
+        return { stato: "auth", dettaglio: `GitHub ${r.status}` };
+      }
+      // 5xx o altri codici: GitHub instabile
+      acc = peggiore(acc, { stato: "github-giu", dettaglio: `GitHub ${r.status}` });
+    } catch (e: any) {
+      acc = peggiore(acc, { stato: "github-giu", dettaglio: isAbort(e) ? "timeout" : "rete" });
     }
   }
-  return null;
+  return acc;
+}
+
+/**
+ * Verifica REALE dell'accesso al vault su GitHub (per la diagnosi, non solo "env presenti"):
+ * una GET su /repos/{owner}/{repo} prova che il token legge davvero il repo, e una GET su
+ * /git/ref/heads/{BRANCH} prova che il ramo da cui il Pannello legge esiste. ROSSO su 401/403
+ * o se il ramo manca — così la diagnosi non mente dicendo "verde" con un token scaduto.
+ */
+export async function testVaultGithub(): Promise<{ ok: boolean; ramoEsiste: boolean; dettaglio: string }> {
+  if (!obsidianConnected()) {
+    return { ok: false, ramoEsiste: false, dettaglio: "mancano OBSIDIAN_REPO_OWNER, OBSIDIAN_REPO o OBSIDIAN_TOKEN" };
+  }
+  try {
+    const r = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}`, { headers: h(), cache: "no-store" });
+    if (!r.ok) {
+      const d: any = await r.json().catch(() => ({}));
+      return { ok: false, ramoEsiste: false, dettaglio: `GitHub ${r.status}: ${d.message || "accesso negato al repo del vault"}` };
+    }
+    const repo: any = await r.json();
+    const rr = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, { headers: h(), cache: "no-store" });
+    if (!rr.ok) {
+      if (rr.status === 401 || rr.status === 403) {
+        return { ok: false, ramoEsiste: false, dettaglio: `GitHub ${rr.status}: token senza permesso sui rami` };
+      }
+      return { ok: false, ramoEsiste: false, dettaglio: `token OK ma il ramo «${BRANCH}» non esiste su ${repo.full_name} — il Pannello leggerebbe a vuoto` };
+    }
+    return {
+      ok: true,
+      ramoEsiste: true,
+      dettaglio: `${repo.full_name} · ramo «${BRANCH}» OK${repo.private ? " · privato" : ""}`,
+    };
+  } catch (e: any) {
+    return { ok: false, ramoEsiste: false, dettaglio: isAbort(e) ? "timeout GitHub (>5s)" : e.message || "GitHub non raggiungibile" };
+  }
+}
+
+/**
+ * Lettura tipizzata di una nota: come readNote ma restituisce l'esito discriminato e il ramo
+ * che l'ha servita, senza appoggiarsi a stato globale. Usata da /api/stato per sapere da quale
+ * ramo arriva il dato (ripiego = deriva del giro) e da chi vuole distinguere assente/giù.
+ */
+export async function leggiNota(
+  path: string
+): Promise<{ stato: StatoLettura; testo: string | null; ramo: string | null; dettaglio?: string }> {
+  if (!obsidianConnected()) return { stato: "auth", testo: null, ramo: null, dettaglio: "non collegato" };
+  if (!path) return { stato: "assente", testo: null, ramo: null };
+  const esito = await contentsGet(path);
+  if (esito.stato !== "ok") {
+    return { stato: esito.stato, testo: null, ramo: null, dettaglio: "dettaglio" in esito ? esito.dettaglio : undefined };
+  }
+  const d: any = esito.dati;
+  if (!d || !d.content) return { stato: "assente", testo: null, ramo: esito.ramo };
+  const text = Buffer.from(d.content, "base64").toString("utf-8");
+  const MAX = 200000;
+  return { stato: "ok", testo: text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text, ramo: esito.ramo };
 }
 
 /** Config vault per diagnosi/UI: il Pannello legge qui, non da main. */
@@ -101,13 +198,11 @@ export async function listNotes(filtro?: string): Promise<string> {
   // meglio l'elenco da 'main' che nessun elenco per un disallineamento di ramo.
   for (const ramo of ramiLettura()) {
     try {
-      const ref: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${ramo}`, { headers: h(), cache: "no-store" })).json();
+      const ref: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/ref/heads/${ramo}`, { headers: h(), cache: "no-store" })).json();
       if (!ref.object) continue;
-      const commit: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
-      const tree: any = await (await fetch(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
+      const commit: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/commits/${ref.object.sha}`, { headers: h(), cache: "no-store" })).json();
+      const tree: any = await (await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/git/trees/${commit.tree.sha}?recursive=1`, { headers: h(), cache: "no-store" })).json();
       let note: string[] = (tree.tree || []).filter((t: any) => t.type === "blob" && t.path.endsWith(".md")).map((t: any) => t.path);
-      _ramoUltimaLettura = ramo;
-      _ripiegoUsato = ramo !== BRANCH;
       if (filtro) {
         const f = filtro.toLowerCase();
         note = note.filter((p) => p.toLowerCase().includes(f));
@@ -128,7 +223,7 @@ export async function listNotes(filtro?: string): Promise<string> {
 export async function listDir(dir: string): Promise<string[] | null> {
   if (!obsidianConnected()) return null;
   const got = await contentsGet(dir);
-  if (!got || !Array.isArray(got.dati)) return null;
+  if (got.stato !== "ok" || !Array.isArray(got.dati)) return null;
   return got.dati
     .filter((x: any) => x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md"))
     .map((x: any) => x.name as string)
@@ -139,31 +234,35 @@ export async function listDir(dir: string): Promise<string[] | null> {
 export async function listDirEntries(dir: string): Promise<{ name: string; type: "file" | "dir" }[] | null> {
   if (!obsidianConnected()) return null;
   const got = await contentsGet(dir);
-  if (!got || !Array.isArray(got.dati)) return null;
+  if (got.stato !== "ok" || !Array.isArray(got.dati)) return null;
   return got.dati
     .filter((x: any) => x?.type === "dir" || (x?.type === "file" && typeof x.name === "string" && x.name.endsWith(".md")))
     .map((x: any) => ({ name: x.name as string, type: x.type as "file" | "dir" }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** Contenuto di una nota. */
+/** Contenuto di una nota. Restituisce testo, oppure una stringa d'errore (prefissi in ERR_PREFIXES di vault.ts). */
 export async function readNote(path: string): Promise<string> {
   if (!obsidianConnected()) return NON_COLLEGATO;
   if (!path) return "Indica il percorso della nota.";
-  try {
-    const got = await contentsGet(path);
-    const d: any = got?.dati;
-    if (!d || !d.content) return `Nota non trovata: ${path}`;
-    const text = Buffer.from(d.content, "base64").toString("utf-8");
-    // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
-    // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
-    // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
-    // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
-    const MAX = 200000;
-    return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
-  } catch (e: any) {
-    return `Errore: ${e.message}`;
+  const got = await contentsGet(path);
+  if (got.stato !== "ok") {
+    // Distinzione onesta: 'assente' = file non c'è; 'auth'/'github-giu' = NON lo sappiamo,
+    // GitHub ha rifiutato o era irraggiungibile → parola "Errore" così i chiamanti (isErr)
+    // non confondono un buco di rete con un file cancellato.
+    if (got.stato === "assente") return `Nota non trovata: ${path}`;
+    if (got.stato === "auth") return `Errore: GitHub ha rifiutato l'accesso (${got.dettaglio || "token/permessi"}).`;
+    return `Errore: GitHub non raggiungibile (${got.dettaglio || "rete"}).`;
   }
+  const d: any = got.dati;
+  if (!d || !d.content) return `Nota non trovata: ${path}`;
+  const text = Buffer.from(d.content, "base64").toString("utf-8");
+  // Rete di sicurezza contro file patologici. NON tagliare i file del vault (piani/briefing
+  // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
+  // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
+  // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
+  const MAX = 200000;
+  return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
 }
 
 /**
@@ -181,7 +280,15 @@ export async function esploraPath(p: string): Promise<
   const clean = (p || "").replace(/^\/+|\/+$/g, "");
   try {
     const got = await contentsGet(clean);
-    if (!got) return { tipo: "errore", errore: `percorso non trovato su ${ramiLettura().join(" né ")}` };
+    if (got.stato !== "ok") {
+      const perche =
+        got.stato === "assente"
+          ? `percorso non trovato su ${ramiLettura().join(" né ")}`
+          : got.stato === "auth"
+            ? `GitHub ha rifiutato l'accesso (${got.dettaglio || "token/permessi"})`
+            : `GitHub non raggiungibile (${got.dettaglio || "rete"})`;
+      return { tipo: "errore", errore: perche };
+    }
     const d: any = got.dati;
     if (Array.isArray(d)) {
       const voci = d
@@ -211,7 +318,7 @@ export async function writeNote(path: string, content: string, aggiungi = false)
   try {
     let sha: string | undefined;
     let esistente = "";
-    const cur = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`, { headers: h(), cache: "no-store" });
+    const cur = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`, { headers: h(), cache: "no-store" });
     if (cur.ok) {
       const d: any = await cur.json();
       sha = d.sha;
@@ -224,7 +331,7 @@ export async function writeNote(path: string, content: string, aggiungi = false)
       branch: BRANCH,
     };
     if (sha) body.sha = sha;
-    const put = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}`, {
+    const put = await fetchTimeout(`${API}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}`, {
       method: "PUT",
       headers: h({ "Content-Type": "application/json" }),
       body: JSON.stringify(body),

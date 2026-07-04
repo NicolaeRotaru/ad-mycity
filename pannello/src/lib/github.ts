@@ -28,16 +28,31 @@ export function marketplaceGithubInfo(): { collegato: boolean; ramo: string; rep
   };
 }
 
+// Timeout sulle fetch GitHub: una richiesta appesa NON deve bloccare la route fino al 504
+// di Vercel. AbortController la taglia dopo TIMEOUT_MS e l'errore risale ai chiamanti (che
+// già lo trasformano in un messaggio "Errore GitHub").
+const TIMEOUT_MS = 5000;
 async function gh<T>(token: string, path: string): Promise<T> {
-  const res = await fetch(`${API}${path}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "mycity-assistant",
-    },
-    cache: "no-store",
-  });
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), TIMEOUT_MS);
+  let res: Response;
+  try {
+    res = await fetch(`${API}${path}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "mycity-assistant",
+      },
+      cache: "no-store",
+      signal: ac.signal,
+    });
+  } catch (e: any) {
+    if (e?.name === "AbortError") throw new Error(`GitHub timeout (>${TIMEOUT_MS / 1000}s)`);
+    throw e;
+  } finally {
+    clearTimeout(t);
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(`GitHub ${res.status}: ${data.message || "errore"}`);
   return data as T;
