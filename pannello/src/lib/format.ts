@@ -155,16 +155,26 @@ export function timbro(quando: string | number | Date | null | undefined): strin
 
 export function formatta(v: any, tipo?: Tipo): string {
   if (v === undefined || v === null) return "—";
-  if (tipo === "euro") return "€ " + Number(v).toLocaleString("it-IT", { maximumFractionDigits: 2 });
+  if (tipo === "euro") {
+    // Guardia: un valore non numerico (es. stringa vuota, "n/d") diventava "€ NaN" a
+    // schermo. Meglio il trattino neutro che un finto importo rotto.
+    const n = Number(v);
+    if (Number.isNaN(n)) return "—";
+    return "€ " + n.toLocaleString("it-IT", { maximumFractionDigits: 2 });
+  }
   if (tipo === "durata") {
     const min = Number(v);
-    if (!min) return "—";
+    if (!min || Number.isNaN(min)) return "—";
     return min >= 60 ? `${Math.floor(min / 60)}h ${Math.round(min % 60)}m` : `${Math.round(min)} min`;
   }
   if (tipo === "stelle") {
     const r = Number(v);
     return r > 0 ? `${r}/5` : "—";
   }
-  if (tipo === "perc") return `${Number(v)}%`;
+  if (tipo === "perc") {
+    const n = Number(v);
+    if (Number.isNaN(n)) return "—";
+    return `${n}%`;
+  }
   return String(v);
 }

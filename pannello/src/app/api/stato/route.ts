@@ -7,9 +7,9 @@ import {
   type BriefingRecord,
   type Briefing,
 } from "@/lib/store";
-import { readVaultFile, listVaultDir } from "@/lib/vault";
+import { readVaultFileEsito, listVaultDir } from "@/lib/vault";
 import { vaultToIso } from "@/lib/format";
-import { vaultGithubInfo, ramoUltimaLettura } from "@/lib/obsidian";
+import { vaultGithubInfo } from "@/lib/obsidian";
 import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 import { marketplaceGithubInfo } from "@/lib/github";
 
@@ -58,18 +58,21 @@ function estraiSintesi(md: string): string {
 // Fallback quando Supabase non ha il briefing (es. memoria giù): ripiega sul vault.
 // 1) il digest strutturato che il giro scrive in ultimo-briefing.json;
 // 2) in mancanza, la Sintesi estratta dall'ultimo Briefing/AAAA-MM-GG.md.
-async function briefingDalVault(): Promise<BriefingRecord | null> {
-  const raw = await readVaultFile("90-Memoria-AI/ultimo-briefing.json");
-  if (raw) {
+// Restituisce anche il RAMO che ha servito il briefing letto dal vault: così la GET
+// può segnalare se il dato è arrivato dal ripiego (main) invece che da memoria-ad —
+// senza appoggiarsi a stato globale del modulo obsidian.
+async function briefingDalVault(): Promise<{ record: BriefingRecord | null; ramo: string | null }> {
+  const esJson = await readVaultFileEsito("90-Memoria-AI/ultimo-briefing.json");
+  if (esJson.stato === "ok" && esJson.testo) {
     try {
-      const j = JSON.parse(raw);
+      const j = JSON.parse(esJson.testo);
       const data: Briefing = {
         situazione: String(j.situazione ?? ""),
         opportunita: Array.isArray(j.opportunita) ? j.opportunita : [],
         azioni: Array.isArray(j.azioni) ? j.azioni : [],
       };
       if (data.situazione || data.opportunita.length || data.azioni.length) {
-        return { created_at: String(j.data ?? ""), data };
+        return { record: { created_at: String(j.data ?? ""), data }, ramo: esJson.ramo };
       }
     } catch {
       /* JSON rotto: passo al fallback markdown */
@@ -80,18 +83,21 @@ async function briefingDalVault(): Promise<BriefingRecord | null> {
     .sort()
     .reverse();
   if (files.length) {
-    const md = await readVaultFile(`90-Memoria-AI/Briefing/${files[0]}`);
-    if (md) {
-      const sintesi = estraiSintesi(md);
+    const esMd = await readVaultFileEsito(`90-Memoria-AI/Briefing/${files[0]}`);
+    if (esMd.stato === "ok" && esMd.testo) {
+      const sintesi = estraiSintesi(esMd.testo);
       if (sintesi) {
         return {
-          created_at: dataFrontmatter(md),
-          data: { situazione: sintesi, opportunita: [], azioni: [] },
+          record: {
+            created_at: dataFrontmatter(esMd.testo),
+            data: { situazione: sintesi, opportunita: [], azioni: [] },
+          },
+          ramo: esMd.ramo,
         };
       }
     }
   }
-  return null;
+  return { record: null, ramo: null };
 }
 
 function tsBriefing(b: BriefingRecord | null): number {
@@ -117,18 +123,23 @@ export async function GET() {
   try {
     const vault = vaultGithubInfo();
     const codice = marketplaceGithubInfo();
-    const [fromDb, fromVault, recent, segnali, pausa] = await Promise.all([
+    const [fromDb, vaultBrief, recent, segnali, pausa] = await Promise.all([
       getLatestBriefing(),
       briefingDalVault(),
       getRecentTimes(10),
       raccogliSegnaliBattito(),
       getImpostazione("pausa").catch(() => null),
     ]);
-    const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, fromVault);
-    // Da quale ramo il vault ha SERVITO davvero i dati (dopo le letture qui sopra): se è il
-    // ripiego (main) invece del ramo memoria, è un campanello che il giro non sta pubblicando
-    // su memoria-ad — visibile nel Pannello invece che nascosto.
-    const lettura = ramoUltimaLettura();
+    const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, vaultBrief.record);
+    // Da quale ramo il vault ha SERVITO davvero il briefing: se è il ripiego (main) invece del
+    // ramo memoria (memoria-ad), è un campanello che il giro non sta pubblicando su memoria-ad
+    // — reso VISIBILE nel Pannello invece che nascosto. Preso dal valore di ritorno, non da
+    // stato globale del modulo (che in serverless è condiviso tra richieste e falserebbe).
+    const ramoServito = vaultBrief.ramo;
+    const lettura = {
+      ramo: ramoServito,
+      ripiego: ramoServito != null && ramoServito !== "disco" && ramoServito !== vault.ramo,
+    };
     const oreWorker = oreDaQuando(segnali.worker?.quando);
     const workerVivo = oreWorker != null && oreWorker <= 0.1;
     return NextResponse.json({
