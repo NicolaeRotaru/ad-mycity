@@ -26,6 +26,15 @@ process.env.TZ = process.env.TZ || "Europe/Rome";
 export const MAX_TENTATIVI_QUOTA = 6; // la quota si resetta da sola: vale la pena insistere.
 export const MAX_TENTATIVI_ALTRO = 3; // timeout/transitori: qualche colpo, poi fermati.
 
+// Finestra di sessione dei motori AI (Claude Max / Cursor) = ROLLING ~5h: il reset della quota è
+// SEMPRE entro poche ore, MAI a 24h. Se un orario di reset esplicito ("resets 2:30am") viene
+// interpretato come DOMANI — perché l'errore è stato registrato appena DOPO quell'ora — il
+// ritentativo verrebbe spinto a +24h e il lavoro resterebbe fermo tutto il giorno con la quota
+// ORMAI libera (il bug osservato in Pannello: "resets 2:30am" → riprova_dopo il giorno dopo).
+// Questo tetto lo impedisce: oltre la finestra, il reset è già passato → ritenta subito.
+export const MAX_ATTESA_QUOTA_MIN = 360; // 6h (5h finestra + margine): oltre = reset già trascorso.
+export const MAX_ATTESA_QUOTA_MS = MAX_ATTESA_QUOTA_MIN * 60 * 1000;
+
 // Tipi che NON azionano le "mani" reali: al massimo rifanno lavoro 🟢 (o accodano bozze che
 // Nicola rivede comunque). Per loro anche un timeout è sicuro da ritentare.
 // AR-024: le cadenze del battito (ritmo-mattino|mezzogiorno|sera|settimana) sono pre-esecuzione —
@@ -131,7 +140,13 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
 
   // 3) Quando ritentare: se il messaggio dà l'ora di reset, aspettiamo QUELLA (ancorata al momento
   //    dell'errore → vedi refMs sopra); altrimenti backoff dal momento attuale.
-  const daOrario = classe === "quota" && resetHint ? istanteDaOrario(resetHint, refMs) : null;
+  const daOrarioRaw = classe === "quota" && resetHint ? istanteDaOrario(resetHint, refMs) : null;
+  // La finestra di sessione è rolling (~5h): un istante di reset oltre MAX_ATTESA_QUOTA è finito
+  // "domani" solo perché l'errore è avvenuto appena DOPO l'orario indicato → la quota si è già
+  // liberata. In quel caso NON aspettare ~24h: ritenta col backoff breve (la macchina riprende da
+  // sola non appena il limite cade), invece di lasciare il lavoro fermo tutto il giorno.
+  const resetGiaPassato = daOrarioRaw != null && daOrarioRaw - refMs > MAX_ATTESA_QUOTA_MS;
+  const daOrario = resetGiaPassato ? null : daOrarioRaw;
   const quandoMs = daOrario ?? now + minutiBackoff(classe, tent) * 60 * 1000;
 
   return {
@@ -143,9 +158,11 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
     quandoISO: new Date(quandoMs).toISOString(),
     motivo:
       classe === "quota"
-        ? resetHint
-          ? `quota esaurita — ritento dopo il reset (${resetHint})`
-          : "quota esaurita — ritento col backoff"
+        ? resetGiaPassato
+          ? `quota esaurita — reset (${resetHint}) già trascorso: ritento subito col backoff`
+          : resetHint
+            ? `quota esaurita — ritento dopo il reset (${resetHint})`
+            : "quota esaurita — ritento col backoff"
         : `${classe} su lavoro sicuro — ritento col backoff`,
   };
 }
@@ -180,6 +197,16 @@ if (isMain && process.argv[2] === "--self-test") {
       risultato: "You've hit your session limit · resets 2:30am (Europe/Rome) [worker] rc=1.",
       errorAtMs: new Date("2026-07-03T00:10:00Z").getTime(),
       nowMs: new Date("2026-07-03T00:36:00Z").getTime(),
+    },
+    // BUG del Pannello: l'errore è stato registrato APPENA DOPO il reset (02:36 > 2:30am). Senza il
+    // tetto, "2:30am" finiva domani → riprova_dopo a +24h (lavoro fermo tutto il giorno). Ora deve
+    // capire che il reset è già passato e ritentare col backoff breve (minuti, non un giorno).
+    {
+      tipo: "esegui-azione",
+      tentativi: 0,
+      risultato: "You've hit your session limit · resets 2:30am (Europe/Rome) [worker] motore claude (claude) uscito con rc=1.",
+      errorAtMs: new Date("2026-07-03T00:36:00Z").getTime(),
+      nowMs: new Date("2026-07-03T00:36:30Z").getTime(),
     },
   ];
   for (const c of casi) console.log(JSON.stringify(c), "→", JSON.stringify(decidiRitento(c)));

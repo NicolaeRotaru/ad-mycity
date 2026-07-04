@@ -19,7 +19,7 @@
 // Env:  SUPABASE_URL + SUPABASE_SERVICE_KEY (progetto MEMORIA). Opz: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.
 
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { decidiRitento } from "./retry-policy.mjs";
+import { decidiRitento, MAX_ATTESA_QUOTA_MS } from "./retry-policy.mjs";
 
 const URL = process.env.SUPABASE_URL?.trim();
 const KEY = process.env.SUPABASE_SERVICE_KEY?.trim();
@@ -108,6 +108,30 @@ async function main() {
     }
   }
 
+  // 1c) RETE DI SICUREZZA sui ritentativi GIÀ PROGRAMMATI (self-healing): un lavoro di quota può
+  //     essere rimasto schedulato a +24h — da codice vecchio o da un reset "resets 2:30am"
+  //     interpretato come domani perché l'errore è stato registrato appena dopo quell'ora. La
+  //     finestra di sessione dei motori AI è ~5h: qualsiasi riprova_dopo oltre MAX_ATTESA_QUOTA è
+  //     stantìo, la quota è ormai libera. Lo riporto a ORA così il worker lo riprende DA SOLO,
+  //     invece di lasciarlo fermo tutto il giorno. Tocco solo i ritentativi di quota (reset
+  //     limitato nel tempo); i backoff di altro tipo restano dove sono.
+  const capISO = new Date(nowMs + MAX_ATTESA_QUOTA_MS).toISOString();
+  const lontani = await q(
+    `lavori?stato=eq.in_attesa&riprova_dopo=gt.${capISO}&select=id,tipo,riprova_dopo,risultato&order=riprova_dopo.asc&limit=50`
+  );
+  let sbloccati = 0;
+  for (const l of lontani) {
+    if (!/quota|session limit|out of usage|rate.?limit|\b429\b|hit your (usage|session) limit/i.test(l.risultato || "")) continue;
+    await q(`lavori?id=eq.${l.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        riprova_dopo: new Date(nowMs).toISOString(),
+        risultato: `${(l.risultato || "").slice(0, 1400)}\n[sentinella] reset quota ormai trascorso (era programmato ${l.riprova_dopo}, oltre la finestra di sessione ~5h) → sbloccato ORA, il worker lo riprende. ${quando}`,
+      }),
+    }).catch(() => {});
+    sbloccati += 1;
+  }
+
   // I "da riapprovare" nel Pannello = i falliti DAVVERO fermi (non più auto-ritentabili):
   // azioni reali interrotte a metà, oppure tentativi automatici esauriti (quota/motore da sistemare).
   const falliti = bloccati.filter((l) => TIPI_AZIONE.includes(l.tipo));
@@ -160,7 +184,7 @@ async function main() {
   }
 
   // 4) Battito + ping Telegram sui nuovi
-  const sintesi = `${riarmati} ri-armati (auto-retry) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
+  const sintesi = `${riarmati} ri-armati (auto-retry) · ${sbloccati} sbloccati (reset quota passato) · ${voci.length} fermi da riapprovare (${nuovi.length} nuovi) · ${requeued} orfani ripresi · ${orfaniReali} reali da riapprovare`;
   await stampSegnale("sentinella-lavori", voci.length > 0 ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const tgTok = process.env.TELEGRAM_BOT_TOKEN?.trim();
@@ -176,11 +200,12 @@ async function main() {
     }).catch(() => {});
   }
 
-  const out = { esito: "ok", quando, riarmati, falliti: voci.length, nuovi: nuovi.length, orfani_ripresi: requeued, orfani_reali: orfaniReali, voci };
+  const out = { esito: "ok", quando, riarmati, sbloccati, falliti: voci.length, nuovi: nuovi.length, orfani_ripresi: requeued, orfani_reali: orfaniReali, voci };
   if (JSON_MODE) console.log(JSON.stringify(out, null, 2));
   else {
     console.log(`\n🚑 SENTINELLA LAVORI — ${quando}\n${sintesi}\n`);
     if (riarmati) console.log(`  🔁 ${riarmati} lavoro/i ri-armati in automatico (ritentativo programmato).`);
+    if (sbloccati) console.log(`  ⏩ ${sbloccati} lavoro/i sbloccati (reset quota ormai passato) → il worker li riprende.`);
     for (const v of voci) console.log(`  ⚠️  ${v.titolo}\n      motivo: ${v.motivo}`);
     if (!voci.length) console.log("  ✅ Nessuna azione approvata in errore.");
   }
