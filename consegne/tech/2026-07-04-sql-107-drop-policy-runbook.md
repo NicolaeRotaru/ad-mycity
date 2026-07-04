@@ -71,6 +71,14 @@ COMMIT;
 NOTIFY pgrst, 'reload schema';
 ```
 
+## ⚑ Aggiornamento 2026-07-04 05:23 — passa in carico all'AD
+Nicola, rispondendo all'auto-analisi, ha **ritirato la Strada B** («incolla tu →
+"fatto sql 107"»): **«AD verifica RLS + smoke checkout per batch 6/7»**. La palla
+è dell'AD: applicare 107 → verificare l'RLS → smoke checkout. La firma resta quella
+del 2/7 17:30 (nessuna firma nuova). Unico blocco = la **mano** (strumento MCP write
+o giro VPS). Verifica RLS + smoke checkout consolidati in un solo comando:
+`bash consegne/qa/2026-07-04-verifica-rls-smoke-checkout.sh` (vedi coda #32).
+
 ## Due strade per farlo partire (30 secondi)
 - **Strada A — l'AD lo esegue:** concedi il permesso allo strumento
   `mcp__supabase-marketplace__apply_migration` (o `execute_sql`) → al giro

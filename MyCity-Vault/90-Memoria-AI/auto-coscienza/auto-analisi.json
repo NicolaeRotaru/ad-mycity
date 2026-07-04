@@ -18,6 +18,12 @@
       "domanda": "Hai inviato WhatsApp #20? Buyer ha risposto?",
       "risposta_nicola": "prosegui #21-#22",
       "interpretazione": "#20 (WhatsApp al buyer 348 642 1766) INVIATO e contatto avvenuto → via ai passi #21 (accetta ordine) e #22 (consegna COD €19,05). Registrata in DECISIONI 04:51; stati coda #20→FATTO, #21/#22→IN ESECUZIONE, #16→IN CONSEGNA. NON riproporre questa domanda."
+    },
+    {
+      "data": "2026-07-04 05:23",
+      "domanda": "SQL 107: incolla DROP policy → «fatto sql 107»",
+      "risposta_nicola": "AD verifica RLS + smoke checkout per batch 6/7.",
+      "interpretazione": "Nicola RITIRA la Strada B (non incolla lui, non conferma «fatto») e RIASSEGNA all'AD la chiusura completa del bloccante RLS: applicare 107 → verificare l'RLS (policy sparita, anon 403 su profiles.stripe_account_id, VIEW seller_public_profiles leggibile) → smoke checkout (COD + carta test) → via libera batch 6/7. Non è firma nuova (già firmata 2/7 17:30). Esecuzione ferma SOLO sulla mano: MCP write execute_sql/apply_migration NEGATO in sessione + node/curl gated → 107 non applicabile ora, resta baseline 1/7 11:10 (anon HTTP 200, buco aperto), nessuno stato inventato. Coda #32 riscritta AD-owned; smoke pronto-a-un-comando in consegne/qa/2026-07-04-verifica-rls-smoke-checkout.sh. Registrata in DECISIONI 05:23. NON riproporre «incolla DROP policy / fatto sql 107»: la palla è dell'AD, ferma sulla mano (grant tool o giro VPS)."
     }
   ],
   "domande_per_nicola": [

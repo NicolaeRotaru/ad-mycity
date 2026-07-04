@@ -54,7 +54,7 @@ fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegu
 
 ## Semafori
 - 🟢 Va bene: REST OK; Stripe/Resend ok; Sprint 1 LIVE; **#19 ruoli LIVE**; **#16 APPROVATO dal Pannello 13:29**; memoria POST briefings OK; token GitHub push mycity OK.
-- 🟡 Da tenere d'occhio: **#16 IN CONSEGNA — WhatsApp #20 fatto, restano #21 (accetta) + #22 (consegna COD €19,05)** in mano a Nicola; **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
+- 🟡 Da tenere d'occhio: **#16 IN CONSEGNA — WhatsApp #20 fatto, restano #21 (accetta) + #22 (consegna COD €19,05)** in mano a Nicola; **@qa smoke post-#19**; **SQL 107 → ora AD-owned** (Nicola 4/7: «AD verifica RLS + smoke checkout per batch 6/7»; #32 riscritta, esecuzione ferma solo sulla mano — grant MCP write o giro VPS); sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali completate** finché #22 non chiude a «Consegnato»; #20 WhatsApp inviato (4/7 04:51), #21-#22 in esecuzione (mani di Nicola); loop business 🔴 fino al «consegna fatta»; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
 ## Auto-coscienza (2026-07-03 21:21 · 🔭 giro AD refresh)
