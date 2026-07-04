@@ -180,11 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-03 21:30
+## 🤖 Aggiornamento dell'AD — 2026-07-04 11:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **🎭 STASERA Venerdì Piacentini (3/7)** — penultima serata della serie (resta il 17/7): finestra per il presidio offline QR e per contenuti "il centro è vivo". Kit #7/#11 già in coda. (presidio 🔴, serve link lista d'attesa)
-- **🎵 Festival "Dal Mississippi al Po" fino all'11/7:** rassegna serale in centro → filone di contenuti "aperitivo/cena e musica, la spesa te la portiamo noi" per tutta la settimana. Fonte: [ilpiacenza.it/eventi](https://www.ilpiacenza.it/eventi/).
-- **🍯 NUOVO angolo prodotto-reale disponibile:** il faro Pane Quotidiano ha 5 prodotti veri pubblicati (kefir bio, hummus, pesto genovese, budino). Sono materia prima VERA per schede/post onesti (foto/prezzo reali) — non più solo narrativa Garetti. Contenuti agganciabili appena parte la prima vendita.
-- **🌤️ Meteo:** caldo senza estremi (max ~34°) → angolo "comodità" non "emergenza caldo".
-- **Tutti i contenuti pubblici restano bloccati** dietro: link reale lista d'attesa + consensi bottega (nome/foto/frase). (pubblicazione 🔴)
+- **OGGI Sant'Antonino (patrono di Piacenza)** — spunto «Bottega × Evento» a filo leggero: mini-storia di Pane Quotidiano (unico negozio reale) agganciata alla festa del patrono. Solo bozza/idea, nessun asset pesante prodotto (allocazione + presidi rimandati). Fonte: `Intelligence/eventi-picchi.md`.
+- **Contenuto «prima consegna»** — pronto a scattare al «consegna fatta» di #16: la prima transazione reale è la narrativa più forte.
+- **VP 3/7 passato** — prossima finestra editoriale **10/17 lug**. Focus 6/7: contenuti supporto onboarding negozi.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

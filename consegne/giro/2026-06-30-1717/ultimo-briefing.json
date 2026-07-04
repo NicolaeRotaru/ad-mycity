@@ -1,0 +1,16 @@
+{
+  "data": "2026-06-30 17:17",
+  "situazione": "Giro pomeriggio 30/6: 7 numeri RIVERTIFICATI live via Supabase REST — identici al 29/6. Stallo ~153h (~6,5 giorni) a zero operativo. Blocco decisionale: infrastruttura ok. Meteo in transizione da 1/7. VP 3/7 tra 3 giorni.",
+  "opportunita": [
+    {"titolo": "Prima transazione Casa Linda", "motivo": "Unico payout-ready — uscita dallo zero.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "6,5 giorni nel limbo.", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "VP 3/7 presidio QR", "motivo": "49 eventi, sera mite.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Temporali 1-3/7", "motivo": "Leva pioggia delivery.", "impatto": "medio", "sforzo": "basso"}
+  ],
+  "azioni": [
+    {"titolo": "Forzare prima transazione Casa Linda", "motivo": "Checklist pronta.", "livello": "rosso"},
+    {"titolo": "Sbloccare ordine zombie €19,05", "motivo": "Pacchetto A/B pronto.", "livello": "rosso"},
+    {"titolo": "Firmare 3 decisioni lancio", "motivo": "Foglio 2 min.", "livello": "rosso"},
+    {"titolo": "Wiring Vercel memoria", "motivo": "#10 in coda.", "livello": "giallo"}
+  ]
+}

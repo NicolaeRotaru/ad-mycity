@@ -171,3 +171,11 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 5. **Apri il foglio pipeline + lista d'attesa per quartiere** con i 6 KPI di §1 → da 0 a ≥1 su negozi LIVE e 1° ordine.
 
 #vendite #acquisizione #negozi #piano #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-07-02 10:19
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **Stallo 191,9h** — ok 16 **approvato** ma passi #20–#22 manuali pendenti; outreach 407 lead **post-prima-transazione**.
+- **#19 MERGED LIVE** (08:40) — piattaforma pulita per batch 6/7.
+- **SQL 107** (~30s) — prerequisito sicurezza prima onboarding dom 6/7 (~37°C).
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

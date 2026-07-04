@@ -1,0 +1,55 @@
+{
+  "data": "2026-06-30 17:17",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲",
+  "sintesi": "Giro 30/6 pomeriggio. Voto +3 (85→88): recupero sensori via REST marketplace — 7 numeri riverificati live, nessun numero spacciato per fresco. Entità Casa Linda/Pane Quotidiano confermate. Stallo ~153h documentato. Prodotti 🟢 utili (pacchetto ordine + checklist Casa Linda). Nessuna 🔴 eseguita. Meteo raffinato vs mattina (svolta da 1/7, non pioggia tutto oggi).",
+  "verifiche": {
+    "entita": "ok",
+    "numeri": "ok (live REST 17:17)",
+    "coerenza": "ok",
+    "semaforo": "ok",
+    "qualita": "ok",
+    "benchmark": "n/a"
+  },
+  "errori": [
+    {
+      "gravita": "bassa",
+      "titolo": "File snapshot vault root-owned — merge manuale su memoria-ad",
+      "dettaglio": "STATO.md, ultimo-briefing.json, auto-analisi.json non scrivibili da agente mycity. Staging in consegne/giro/2026-06-30-1717/.",
+      "azione_presa": "Bundle staging + briefing 2026-06-30-1717-giro.md + POST digest DB memoria.",
+      "riguarda": "infrastruttura git",
+      "livello_scoperta": "L1"
+    }
+  ],
+  "domande_per_nicola": [
+    {
+      "domanda": "Forzo prima transazione Casa Linda?",
+      "perche_serve": "153h stallo, unico payout-ready.",
+      "se_rispondi": "Catena vendite+ops al via.",
+      "gravita": "alta"
+    },
+    {
+      "domanda": "Ordine zombie: accetti o annulli?",
+      "perche_serve": "6,5 gg nel limbo.",
+      "se_rispondi": "Pacchetto pronto in consegne/operations/.",
+      "gravita": "alta"
+    }
+  ],
+  "punti_ciechi": [
+    "Stripe incassi non riconciliati",
+    "PostHog assente",
+    "Git memoria-ad: permessi root su snapshot"
+  ],
+  "miglioramenti_prossimo_giro": [
+    "Fallback REST quando MCP cieco (lezione applicata)",
+    "Merge staging → snapshot vault su memoria-ad"
+  ],
+  "salute_macchina": {
+    "supabase_marketplace": "ok via REST",
+    "supabase_memoria": "ok (digest POST)",
+    "stripe": "status ok, non interrogato",
+    "posthog": "non collegato",
+    "dati_freschi": true,
+    "sensori_attivi": 2
+  }
+}

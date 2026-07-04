@@ -1,24 +1,30 @@
-# 🕳️ Buchi di mercato — categorie/zone scoperte e botteghe a rischio
+# 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-06-29 11:30** · Fonte: @intelligence (giro del 29/6, WebSearch live). 🟢 note.
-
-## Stato giro 2026-06-29 — 4 buchi azionabili
-
-1. 🟡 **Bottega fresca del centro con consegna serale/weekend** — Glovo fa ristoranti, la GDO fa supermercati, nessuno fa salumiere/fornaio/enoteca storica. Idea: pacchetto "cena del weekend con 2 botteghe". *Confidenza ~70%.* → @growth + @analista.
-
-2. 🟢 **Delivery diurno anti-caldo (11-18)** — bibite/gelato/fresco mentre la GDO consegna a slot rigidi. Finestra sfruttabile **subito** (caldo estremo 37°C oggi). → @operations + @content-social.
-
-3. 🟡 **Regalo locale a domicilio (modello Cosaporto, assente a Piacenza)** — agganciato ai Venerdì Piacentini: visitatori che vogliono un prodotto piacentino consegnato. → @growth + @marketing.
-
-4. 🆕 🟡 **Ex Scuderie — 3 spazi food premium approvati dal Comune** (gastronomia, panetteria, ortofrutta) in centro storico. Quando aprono → **3 negozi partner naturali** per MyCity. Pipeline da monitorare. → @vendite + @relazioni-istituzionali.
-   Fonte: [PiacenzaSera](https://www.piacenzasera.it/2026/06/nelle-ex-scuderie-tre-spazi-commerciali-alimentari-e-prodotti-di-qualita-arriva-il-regolamento/651698/).
-
-## Spunto strutturale (ipotesi, conf. 60%)
-- **Domanda DOP/tipici slegata dal raggio:** sagre di provincia (Tortello Vigolzone 24-28 lug) segnalano forte domanda. Chi non va alla sagra = potenziale cliente per box DOP consegnati. → @growth + @analista.
-
-## Carburante mancante
-- Analisi immobiliare (Idealista locali commerciali) per segnali "chi molla/chi resiste" → lead caldi @vendite. Oggi portali locali bloccati 403.
-- Dati ordini food interni per blindare i buchi da 70% a fatto.
+> Aggiornato: **2026-07-02 10:19** · Fonte: @intelligence + REST live (407 lead `merchants_leads`).
 
 ---
-> Si rigenera quando le news segnalano bottega che chiude/apre o categoria/zona scoperta.
+
+## Priorità (ordine operativo)
+
+| # | Categoria / zona | Perché | Potenziale | Stato MyCity |
+|---|------------------|--------|------------|--------------|
+| 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale; #16 ok 16 in esecuzione | Alto — 1ª transazione | **1 negozio LIVE**, 0 delivered |
+| 2 | **Salumeria / DOP** (Piazza Duomo) | Glovo = 0 botteghe artigianali | Alto | Prospect (Garetti, scelta ragionata) |
+| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO ≠ freschi artigianali | Medio-alto | 0 negozi |
+| 4 | **Gastronomia / enoteca** | Scontrino alto | Medio | 0 negozi |
+| 5 | **Zone periferiche** (Montale, Galleana) | Post-primo cluster centro | Medio | Non servite |
+
+---
+
+## Blocco attuale
+- **407 lead** — outreach **post-1ª-transazione** (#20–#22 oggi pranzo).
+- Stallo **191,9h** (+23,9h oltre 168h).
+- **#19 fix ruoli LIVE** (merged 08:40) — smoke @qa + SQL 107 prima batch 6/7.
+- Sprint 1 **LIVE** — resta **SQL 107** (~30s).
+- Kit bando #12: FESR Commercio **chiuso 23/6** — pivot bandi.
+
+## Mossa collegata (2/7 10:19)
+1. **#20–#22** — consegna oggi pranzo (ok 16 già firmato)
+2. **Smoke #19** — verifica ruoli in prod
+3. **SQL 107** — «fatto sql 107»
+4. Batch **6/7** — Nicola

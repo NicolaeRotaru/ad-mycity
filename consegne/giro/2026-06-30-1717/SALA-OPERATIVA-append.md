@@ -1,0 +1,6 @@
+- 2026-06-30 17:17 · @AD · FATTO · Giro pomeriggio: **7 numeri riverificati LIVE** via Supabase REST (identici 29/6). Stallo ~153h. Meteo raffinato (svolta da 1/7).
+- 2026-06-30 17:17 · @analista · FATTO · Confermato: 1 ordine COD €19,05 PENDING/NEW, 0 pagati/consegne/payout, 4 carrelli abbandonati, 407 lead to_contact.
+- 2026-06-30 17:17 · @operations · FATTO · Pacchetto sblocco ordine zombie → consegne/operations/pacchetto-sblocco-ordine-zombie-19-05.md (🟢).
+- 2026-06-30 17:17 · @vendite · FATTO · Checklist prima transazione Casa Linda → consegne/vendite/checklist-prima-transazione-casa-linda.md (🟢).
+- 2026-06-30 17:17 · @devops-sre · FATTO · Status Supabase/Stripe ok (incidente creation progetti altre regioni, non impatta lettura).
+- 2026-06-30 17:17 · @AD · SERVE · Nicola: ① Casa Linda 🔴 · ② ordine zombie 🔴 · ③ firme lancio 🔴 · ④ merge staging vault (permessi root).

@@ -1,52 +1,135 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-02 11:55",
+  "aggiornato": "2026-07-04 16:20",
   "per_reparto": [
     {
-      "reparto": "@operations",
+      "reparto": "@AD",
       "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
-      "autonomia": "bassa"
-    },
-    {
-      "reparto": "@vendite",
-      "previsioni": 0,
-      "azzeccate": 0,
-      "punteggio": 0,
+      "lower_bound": 0,
       "autonomia": "bassa"
     }
   ],
   "registro": [
     {
-      "id": "CAL-20260702095539-operat",
-      "reparto": "@operations",
-      "azione": "Sbloccare l'ordine zombie €19,05 (accetta o annulla con nota al buyer)",
-      "metrica": "ordini_pagati",
-      "atteso": 1,
-      "reale": null,
-      "entro": "2026-07-09",
-      "tolleranza": 0.25,
-      "stato": "aperta",
-      "scarto_pct": null,
-      "nota": "1 ordine COD PENDING/NEW da giorni (Pane Quotidiano) — fonte registro-realta",
-      "creato": "2026-07-02 11:55",
-      "chiuso_il": ""
+      "data": "2026-07-04 11:30",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 3/7 21:21, stallo ~243h; #16 IN CONSEGNA (WhatsApp #20 fatto 04:51) ma non ancora consegnato — la finestra oggi è favorevole (Sant'Antonino, centro pieno). Novità reale: evento cittadino grande OGGI 4/7 verificato alla fonte",
+      "esito": "atteso — da confermare al prossimo giro (se «consegna fatta» → North Star 0→1)",
+      "fonte": "baseline REST giro.sh 11:30 (MCP+node/curl gated) + WebSearch IlPiacenza/iLMeteo"
     },
     {
-      "id": "CAL-20260702095539-vendit",
-      "reparto": "@vendite",
-      "azione": "Portare Casa Linda LIVE: 1 prodotto vero → ordine-test → payout",
-      "metrica": "negozi_live",
-      "atteso": 1,
-      "reale": null,
-      "entro": "2026-07-12",
-      "tolleranza": 0.25,
-      "stato": "aperta",
-      "scarto_pct": null,
-      "nota": "Casa Linda payout-ready (stripe_payouts_enabled=true) — fonte registro-realta",
-      "creato": "2026-07-02 11:55",
-      "chiuso_il": ""
+      "data": "2026-07-03 21:21",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 20:24, stallo ~229h; #16 approvato 13:29 non ancora consegnato (finestra serale post-19:00 aperta ma tap non ancora dato); giro pieno scattato solo per contatore cieco PostHog 18→19 (8ª conferma oggi del falso-nuovo delta-gate)",
+      "esito": "confermato — ordine ancora 24/6, firma REST 21:21 invariata, nessun «consegna fatta»",
+      "fonte": "baseline REST delta-gate/sensore 21:21 (MCP+node/curl gated in sessione)"
+    },
+    {
+      "data": "2026-07-03 20:24",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 18:20, stallo ~228h; #16 approvato 13:29 non ancora consegnato (finestra serale post-19:00 aperta ma tap non ancora dato); giro pieno scattato solo per contatore cieco PostHog 17→18 (7ª conferma oggi del falso-nuovo delta-gate)",
+      "esito": "confermato — ordine ancora 24/6, firma REST 20:20 invariata, nessun «consegna fatta»",
+      "fonte": "baseline REST delta-gate 20:20 (MCP+node/curl gated in sessione)"
+    },
+    {
+      "data": "2026-07-03 15:00",
+      "reparto": "@AD",
+      "previsione": "REVIEW SETTIMANALE: business invariato tutta la settimana (0 consegnati, stallo cresce ~2h/giro) finché la mano manuale #16 non parte; infrastruttura verde ≠ loop business chiuso; salute resta 42 finché non c'è merge+deploy",
+      "esito": "confermato — 7 numeri = baseline REST 24/6 per tutta la settimana; #16 approvato 13:29 ma non consegnato; 20 fix in codice non ancora accreditati (voto 42, provvisorio ~50)",
+      "fonte": "baseline REST + cantiere/storico-salute (settimana 27/6→3/7)"
+    },
+    {
+      "data": "2026-07-03 11:14",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 10:22, stallo ~219h; #16 non ancora eseguito (mattina che scorre verso mezzogiorno); giro pieno scattato solo per contatore cieco PostHog 12→13 (3ª conferma oggi del falso-nuovo delta-gate)",
+      "esito": "confermato — ordine ancora 24/6, delta-gate 10:29 corrente==ultimo_pieno, nessun «consegna fatta»",
+      "fonte": "baseline REST delta-gate 10:29 ri-misurato LIVE (MCP+node/curl gated in sessione)"
+    },
+    {
+      "data": "2026-07-03 06:28",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs notte, stallo ~214h; #16 non eseguito prima del mattino (frizione manuale); finestra reale = stamattina, prima dell'afa pomeridiana",
+      "esito": "confermato — ordine ancora 24/6, nessun «consegna fatta»",
+      "fonte": "baseline REST delta-gate 06:20 (MCP+node gated in sessione)"
+    },
+    {
+      "data": "2026-07-03 00:08",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 22:20, stallo ~206h; #16 non eseguito nella notte (frizione manuale, finestra reale = mattino)",
+      "esito": "confermato — ordine ancora 24/6, nessun «consegna fatta»",
+      "fonte": "baseline REST 22:28 (MCP+node gated in sessione)"
+    },
+    {
+      "data": "2026-07-02 22:20",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 18:20, stallo ~206h; rischio concreto che la finestra cena salti come il pranzo (frizione manuale)",
+      "esito": "confermato — cena 19–21 saltata, #16 non eseguito",
+      "fonte": "REST live via delta-gate (corrente==ultimo_pieno: ordini=1, ultimo 24/6, profili=23)"
+    },
+    {
+      "data": "2026-07-02 18:20",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs 18:00, stallo ~202h, 0 transazioni finché #20–#22 non eseguiti",
+      "esito": "confermato",
+      "fonte": "REST live via delta-gate (ordini=1, ultimo 24/6, profili=23)"
+    },
+    {
+      "data": "2026-07-02 10:19",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 08:36, stallo +1,8h (~191,9h), 0 consegnati nonostante ok 16",
+      "esito": "confermato",
+      "fonte": "REST live + verifica-automazione"
+    },
+    {
+      "data": "2026-07-01 18:18",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 16:18, stallo +2,0h (~175,8h), carrelli 4 reali, lead 407",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-07-01 16:18",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 14:19, stallo +2,0h (~173,8h), carrelli 4 reali, lead 407",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-07-01 14:19",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 12:18, stallo +2,0h (~171,8h), carrelli 4 reali, lead 407",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-07-01 12:18",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 11:52, stallo +0,4h (~169,8h), carrelli 4, lead 407",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-07-01 04:17",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 02:17, stallo +2h (~161,8h), carrelli 4",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-07-01 02:17",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 00:17, stallo +2h (~159,8h)",
+      "esito": "confermato",
+      "fonte": "REST live"
+    },
+    {
+      "data": "2026-06-30 23:15",
+      "reparto": "@AD",
+      "previsione": "7 numeri = vs 23:10, stallo +0.1h",
+      "esito": "confermato",
+      "fonte": "REST live"
     }
   ],
   "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale."

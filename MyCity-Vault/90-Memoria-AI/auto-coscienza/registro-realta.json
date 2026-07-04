@@ -1,9 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 21:30",
-  "_nota_giro_03_07_sera": "Giro 3/7 21:30 (dati VERI, MCP leggibile): l'ordine €19,05 di Pane Quotidiano è passato a CANCELED (canceled_at 15:38) — primo ordine perso, thread vivi=0. CORREZIONE MISURA: il faro ha 5 prodotti 'available' reali (non 0): il vecchio filtro status='active' era sbagliato, l'enum reale è 'available'.",
-  "_nota_faro_03_07": "DECISIONE DI NICOLA (3/7): il negozio-FARO è Pane Quotidiano (unico negozio REALE). Casa Linda è una DEMO → scartata come faro. Risolve il difetto AR-044 (memoria e CLAUDE.md si contraddicevano). Questo registro è ora la fonte unica del 'negozio-faro'.",
-  "_nota_giro_30_06": "Giro 30/6: Supabase MCP non collegato in sessione → le entità a dato interno NON riverificate quel giro. Aggiunte 2 entità esterne verificate live: svolta meteo 30/6 e Venerdì Piacentini 3/7.",
+  "aggiornato": "2026-07-04 11:30",
+  "_nota_giro_01_07": "Giro 1/7 00:56: Nicola corregge — Casa Linda = negozio DEMO (UUID seed 11111111…). Unico negozio REALE in MyCity = Pane Quotidiano (Via Calzolai 25). Proposta transazione Casa Linda RITIRATA.",
   "entita": [
     {
       "nome": "DB Memoria (progetto Supabase ad-mycity)",
@@ -32,33 +30,54 @@
     {
       "nome": "Casa Linda",
       "tipo": "negozio",
-      "stato": "scartato",
-      "fonte": "conferma di Nicola (2026-07-03) — è un seller DEMO/di test",
+      "stato": "demo",
+      "fonte": "conferma di Nicola (1/7 00:56) + Supabase clmpyfvpvfjgeviworth → profiles",
       "confidenza": 1.0,
       "evidenze": [
-        "DECISIONE DI NICOLA (3/7): Casa Linda è una DEMO, non un negozio reale. È un seller di test creato nel DB.",
-        "Nel DB risulta is_approved=true e stripe_payouts_enabled=true (acct_1TcI1vIb6nEnAk4o), ma sono dati di test: l'approvazione nel DB NON significa business reale.",
-        "0 ordini reali attribuiti (coerente con 'demo')."
+        "Nicola (1/7): «casa linda non esiste, è un negozio demo».",
+        "UUID seed `11111111-1111-1111-1111-cccccccc0001`; prodotti seed incoerenti (libri + integratori).",
+        "stripe_payouts_enabled=true ma negozio fittizio — NON usare per transazioni reali."
       ],
-      "note": "SCARTATO come faro/negozio reale: è demo confermata da Nicola. NON riceve sforzo pesante (post/QR/eventi intestati). Tecnicamente resta utile solo per collaudare il flusso payout in ambiente di test. Superata la contraddizione con CLAUDE.md:157 (che la chiamava giustamente 'demo').",
-      "ultima_verifica": "2026-07-03 15:00"
+      "note": "Negozio DEMO/test. La proposta «forzare transazione Casa Linda» è RITIRATA. Non contattare, non usare per KPI negozi reali.",
+      "ultima_verifica": "2026-07-01 00:56"
     },
     {
       "nome": "Pane Quotidiano",
       "tipo": "negozio",
       "stato": "confermato",
-      "faro": true,
-      "fonte": "Supabase clmpyfvpvfjgeviworth → profiles + conferma di Nicola (2026-07-03)",
-      "confidenza": 1.0,
+      "fonte": "conferma di Nicola (1/7) + Supabase clmpyfvpvfjgeviworth → profiles + fonti pubbliche",
+      "confidenza": 0.98,
       "evidenze": [
-        "NEGOZIO-FARO (decisione di Nicola, 3/7): è l'UNICO negozio REALE del marketplace.",
-        "Seller con is_approved=true nei dati reali (riverificato live 2026-06-29 ~11:20).",
-        "Aveva l'UNICO ordine reale del marketplace: €19,05 COD → passato a CANCELED il 3/7 15:38 (mai accettato/consegnato, payment_status resta PENDING). Primo ordine di sempre PERSO: thread vivi=0 (riletto live 3/7 21:30).",
-        "Ha 5 PRODOTTI VERI pubblicati (status 'available': kefir, budino vaniglia, hummus, kefir capra, pesto — €2-5, stock 10, online dal 16/6). Correzione di misura: prima dati a 0 per un filtro sbagliato (status='active' non esiste; enum reale='available').",
-        "Stripe Connect collegato (acct_1TifANEq35Z9pThc), ultimo stato noto stripe_payouts_enabled=false (non riverificabile via Stripe questo giro: sensore Stripe cieco): gli manca l'attivazione payout per incassare."
+        "Nicola (1/7): «l'unico negozio reale dentro mycity è pane quotidiano».",
+        "DB live 1/7 00:56: Via Calzolai 25, tel. 0523388601, 5 prodotti bio disponibili, is_approved=true.",
+        "Stripe Connect acct_1TifANEq35Z9pThc ma stripe_payouts_enabled=false, stripe_charges_enabled=false.",
+        "1 ordine zombie €19,05 COD (24/6, PENDING/NEW) — buyer tel. 348 642 1766.",
+        "DB live 1/7 04:17: stallo 161,8h; 168h tra ~6,2h; 4 carrelli abbandonati.",
+        "DB live 1/7 06:18: stallo 163,8h; 168h tra ~4,2h (~10:30); 4 carrelli abbandonati (=).",
+        "DB live 1/7 08:17: stallo 165,8h; 168h tra ~2,2h (~10:30); 4 carrelli abbandonati (=); Sprint 1 codice pronto.",
+        "DB live 1/7 20:18: stallo 177,8h; 168h +9,8h oltre; slot 18:00–20:00 SCADUTO; giornata a zero transazioni.",
+        "DB live 2/7 08:20: stallo 189,9h; 168h +21,9h oltre; meteo sereno — finestra pranzo APERTA; automazione VPS tutto verde.",
+        "DB live 2/7 08:38: ok 16 APPROVATO — #16 IN ESECUZIONE pranzo 12:00–13:30; indirizzo buyer placeholder in DB.",
+        "DB live 2/7 10:19: stallo 191,9h (+1,8h vs 08:36); ok 16 approvato ma DB invariato (NEW/PENDING); passi #20–#22 pendenti.",
+        "2/7 17:09: decisione binaria #16 RISOLTA — Nicola sceglie A (ESEGUI, non archivia), slot → cena 19–21.",
+        "DB live 2/7 18:20 (delta-gate REST): ordini=1, ultimo_ordine 24/6 08:28, profili totali=23, dati_leggibili=true — numeri RI-MISURATI live (non più baseline); stallo ~202h dall'ancora 24/6.",
+        "DB live 2/7 22:20 (delta-gate REST): corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) → #16 NON eseguito, finestra cena 19–21 saltata; stallo ~206h. 3ª finestra saltata oggi (pranzo+cena).",
+        "Giro notte 3/7 00:08: baseline REST 22:28 invariata (MCP+node gated in sessione, nessun numero ri-misurato) → ordine ancora 24/6, stallo ~206h; finestra #16 = STAMATTINA 3/7 (meteo favorevole).",
+        "Giro notte 3/7 00:18 (heartbeat +10min): baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
+        "Giro notte 3/7 00:33 (refresh +6min): delta-gate 00:31 corrente==ultimo_pieno (ordini=1, ultimo 24/6, profili=23) — baseline REST 22:28 invariata, nessun numero ri-misurato (MCP+node+curl gated); ordine ancora 24/6, stallo ~206h; nessuna esecuzione #16 rilevata.",
+        "☀️ Giro mattino 3/7 06:28: baseline REST 06:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — MCP+node gated in sessione, nessun numero ri-misurato; ordine ancora 24/6, stallo ~214h; nessuna esecuzione #16 rilevata. Meteo oggi ri-verificato LIVE: afa nel pomeriggio → finestra consegna freschi = mattina.",
+        "🔭 Giro refresh 3/7 10:22: baseline REST 10:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) invariata — MCP+node gated (probe MCP marketplace tentato e NEGATO dai permessi), nessun numero ri-misurato; ordine ancora 24/6, stallo ~218h; nessuna esecuzione #16 rilevata. Finestra #16 = mattina residua oggi, prima dell'afa.",
+        "🔭 Giro refresh 3/7 11:14: baseline REST invariata — delta-gate 10:29 ha ri-misurato LIVE `corrente==ultimo_pieno` (ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true); sensore 11:13 REST ok; MCP+node/curl gated in sessione, nessun numero ri-misurato in questo passaggio; ordine ancora 24/6, stallo ~219h; nessuna esecuzione #16 rilevata. Finestra #16 = mattina residua (mezzogiorno vicino), prima dell'afa.",
+        "🔭 Giro refresh 3/7 14:20: #16 APPROVATO dal Pannello alle 13:29 (registrato in intenzioni-nicola). Baseline REST 14:20 (delta-gate: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) INVARIATA → l'ordine è approvato ma NON ancora consegnato (nessun segnale «consegna fatta»); MCP+node/curl gated, nessun numero ri-misurato; stallo ~222h. Finestra freschi spostata a SERA post-19:00 (picco afa 33° alle 17).",
+        "🔭 Giro refresh 3/7 16:20→18:20: baseline REST invariata (delta-gate 18:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~226h. Delta-gate pieno solo per contatore cieco PostHog (15→17, opzionale): 5ª/6ª conferma oggi del falso-nuovo. Alle 18:20 caldo in calo → finestra freschi ADESSO/post-19:00, coincide col Venerdì Piacentini.",
+        "🔭 Giro refresh 3/7 20:24: baseline REST invariata (delta-gate 20:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~228h. Delta-gate pieno solo per contatore cieco PostHog (17→18, opzionale): 7ª conferma oggi del falso-nuovo. Alle 20:24 caldo calato → finestra freschi APERTA ORA/post-19:00, coincide col Venerdì Piacentini (prima serata).",
+        "🔭 Giro refresh 3/7 21:21: baseline REST invariata (delta-gate/sensore 21:21: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora APPROVATO 13:29 ma NON consegnato; MCP+node/curl gated, nessun numero ri-misurato; stallo ~229h. Delta-gate pieno solo per contatore cieco PostHog (18→19, opzionale): 8ª conferma oggi del falso-nuovo. Alle 21:21 caldo calato → finestra freschi APERTA ORA/post-19:00, coincide col Venerdì Piacentini (prima serata).",
+        "Fonte pubblica: alimenti bio/dietetici dal 1976, zona Piazza Cavalli (Vita in Centro, Pagine Gialle).",
+        "4/7 04:51: Nicola risponde all'auto-analisi «prosegui #21-#22» → PASSO 1 chiuso: WhatsApp #20 al buyer 348 642 1766 INVIATO, contatto avvenuto. #16 passa da 'pronto al tap' a IN CONSEGNA: restano #21 (accetta ordine `58094956…` in dashboard + chiama PQ 0523 388601) e #22 (consegna COD €19,05 → «Consegnato»), mani manuali di Nicola. Firma REST del DB non ancora ri-misurata in sessione (MCP/node gated) → ordine risulta 'Consegnato' solo dopo il tap #22: North Star 0→1 al «consegna fatta».",
+        "🔭 Giro AD 4/7 11:30: baseline REST invariata (giro.sh 11:30: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — #16 ancora IN CONSEGNA (WhatsApp #20 fatto 04:51), nessun segnale «consegna fatta»; MCP+node/curl gated, nessun numero ri-misurato; stallo ~243h ≈ 10 giorni. Finestra consegna OGGI agevolata da Sant'Antonino (centro pieno, ritiro Via Calzolai 25 a piedi); ZTL solo mezzi >35q. Nessuna esecuzione #16 rilevata dopo le 04:51."
       ],
-      "note": "★ FARO ★ — unico negozio reale (decisione Nicola 3/7). Qui va concentrato lo sforzo pesante. Priorità aggiornata (3/7 sera): (1) attivare il payout (Stripe), (2) creare una NUOVA transazione end-to-end (l'ordine €19,05 è morto/annullato), (3) i 5 prodotti veri sono già pubblicati ✅. Sostituisce Casa Linda come faro in STATO/OKR/allocazione.",
-      "ultima_verifica": "2026-07-03 21:30"
+      "note": "UNICO negozio reale su MyCity. #16 IN CONSEGNA: WhatsApp #20 FATTO (Nicola «prosegui #21-#22» 4/7 04:51), restano l'accettazione ordine #21 e la consegna COD #22 (mani di Nicola). La domanda auto-analisi «WhatsApp #20 inviato?» è RISOLTA — non riproporre. Al «consegna fatta»: payout-test #2 (sandbox), recensione #27, carrello samir #26. Contratto 12% firmato 01:02.",
+      "ultima_verifica": "2026-07-04 04:51 (Nicola «prosegui #21-#22»: #20 WhatsApp inviato, #21-#22 in esecuzione; firma REST DB non ri-misurata in sessione, MCP+node/curl gated)"
     },
     {
       "nome": "Antica Salumeria Garetti",
@@ -100,10 +119,11 @@
       "evidenze": [
         "Mar 30/6: acquazzoni e schiarite, prob. 90% (~2,2 mm), max ~34°C (TempoItalia, MeteoLive).",
         "Mer 1/7: piovaschi prob. 90% (~4,5 mm), ~34°C; poi gio 2/7 asciutto ~31°C (iLMeteo, TempoItalia).",
-        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata."
+        "Coerente con la previsione del giro 29/6 ('caldo in calo da martedì'): la svolta si è avverata.",
+        "Aggiornamento LIVE 3/7 06:28 (3BMeteo/iLMeteo): oggi sereno 20→33°C, ALLERTA AFA nel pomeriggio (max 33° alle 17), UV 6,5 → caldo di nuovo in risalita; il fattore-guida del delivery torna 'caldo' (meteo-02). Finestra freschi = mattina."
       ],
-      "note": "Fine della fase di caldo estremo (37-39°C). Il fattore-guida del delivery passa da caldo (meteo-02) a pioggia (meteo-01, peso 4).",
-      "ultima_verifica": "2026-06-30 11:45"
+      "note": "Fine della fase di caldo estremo (37-39°C) a fine giugno; da inizio luglio il caldo risale (oggi 3/7 max 33° con afa pomeridiana, weekend verso ~37°). Fattore-guida delivery: caldo (meteo-02) → consegnare i freschi la mattina + gate catena del freddo per il batch 6/7.",
+      "ultima_verifica": "2026-07-03 06:28"
     },
     {
       "nome": "Venerdì Piacentini 3/7 (49 eventi)",
@@ -116,8 +136,24 @@
         "Mostra XNL 'Oltre le Nuvole' aperta 19-23 (5€) il 3/7 (XNL Piacenza).",
         "250 eventi totali sulle 5 serate (record), centro pedonale + pieno fino a tarda sera."
       ],
-      "note": "Con la sera fresca (svolta meteo), il presidio offline QR diventa comodo. Rafforza le azioni in coda #7 e #11.",
-      "ultima_verifica": "2026-06-30 11:45"
+      "note": "Evento CONFERMATO — OGGI 3/7 è la prima delle serate. Presidio MyCity **RIMANDATO** da Nicola 1/7 01:00 (priorità onboarding 6/7): nessuna azione pesante, ma il centro pieno facilita il ritiro dell'ordine PQ. Prossima finestra utile per un presidio: VP 10/17 lug.",
+      "ultima_verifica": "2026-07-03 06:28 (registro: oggi 3/7 = giornata VP)"
+    },
+    {
+      "nome": "Sant'Antonino 4/7 (patrono di Piacenza · Fiera)",
+      "tipo": "evento-esterno",
+      "stato": "confermato",
+      "fonte": "WebSearch @intelligence 4/7 → IlPiacenza",
+      "confidenza": 0.95,
+      "evidenze": [
+        "OGGI sab 4/7: festa del patrono Sant'Antonino. Fiera con 250 bancarelle di cui 33 alimentari (176 Pubblico Passeggio, 32 viale Palmerio, 17 piazzale Genova, 19 corso Vittorio Emanuele, 6 via Alberici).",
+        "Mercato settimanale piazza Cavalli e piazza Duomo; messa solenne ore 11 in Duomo + onorificenza 'Antonino d'Oro 2026'.",
+        "Mostra 'Oltre le nuvole' a XNL fino al 5/7 (visite guidate sabato mattina).",
+        "Viabilità: dalle 6 del 4/7 alle 2 del 5/7 vietata circolazione veicoli >35 quintali nella zona di rilevanza urbanistica (non tocca consegne a piedi/bici/scooter).",
+        "Fonte: IlPiacenza (https://www.ilpiacenza.it/attualita/fiera-sant-antonino-piacenza-4-luglio-2026-info-mercato-messa.html)."
+      ],
+      "note": "Evento cittadino grande OGGI 4/7 → centro pienissimo tutto il giorno: finestra ideale per la consegna a piedi/bici del primo ordine PQ (Via Calzolai 25). Nessun presidio pesante (allocazione + presidi rimandati da Nicola). Spunto editoriale leggero → Piano Editoriale/Notorietà.",
+      "ultima_verifica": "2026-07-04 11:30"
     }
   ],
   "numeri_da_non_inventare": {

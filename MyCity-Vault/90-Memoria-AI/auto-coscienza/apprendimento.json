@@ -1,6 +1,1100 @@
 {
-  "data": "2026-07-03 21:30",
+  "data": "2026-07-03 06:28",
+  "aggiornato": "2026-07-04 11:30",
+  "_nota_giro_ad_04_07_1130": "🔭 Giro AD 4/7 11:30: nessuna lezione NUOVA da distillare, ma una RINFINITURA operativa di L-2026-0702-48/AR-019 (giro minimale con business invariato): anche in un refresh, il radar-eventi va RI-CONTROLLATO a ogni NUOVO giorno di calendario, non solo 'a cadenza'. Oggi il check ha fatto emergere Sant'Antonino (patrono, Fiera 250 bancarelle, centro pieno) — un evento cittadino grande che cambia in meglio la finestra di consegna di #16, e che una regola 'meteo/eventi già visti stamattina, salto' avrebbe mancato (ieri era un altro giorno). Corollario: la 'cadenza' vale per la stessa fonte nello stesso giorno, NON attraverso il confine di mezzanotte. RINFORZATA L-2026-0702-51/P1 (#16 a UNA finestra certa: oggi la finestra migliore è resa esplicita dall'evento, mattina o post-18 fuori dall'afa). APPLICATE: L-2026-0702-50 (campi delta-gate/sensori di giro.sh 11:30 come dato live confermato, non ri-misurato); vincolo allocazione rispettato (nessun asset pesante: giro di sola memoria).",
+  "_nota_giro_refresh_03_07_2121": "🔭 Giro refresh 3/7 21:21: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 8ª conferma OGGI (06:28→10:22→11:14→14:20→16:20→18:20→20:24→21:21): il giro pieno è scattato di nuovo solo perché PostHog è passato 18→19; business/sentinelle identici (firma REST 21:21 invariata: ordini=1, ultimo 24/6 08:28, 23 profili). Rifinitura AR-019/AR-025 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51/P1 (#16 a UNA finestra certa = serale post-19:00 + payout-test); L-2026-0702-48/AR-019 (giro minimale); L-2026-0702-50 (campi delta-gate/sensori di giro.sh 21:21 come dato live confermato).",
+  "_nota_giro_refresh_03_07_2024": "🔭 Giro refresh 3/7 20:24: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 7ª conferma OGGI (06:28→10:22→11:14→14:20→16:20→18:20→20:24): il giro pieno è scattato di nuovo solo perché PostHog è passato 17→18; business/sentinelle identici (firma REST 20:20 invariata: ordini=1, ultimo 24/6 08:28, 23 profili). Resta la candidata di rifinitura AR-019/AR-025 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51/P1 (ancora #16 a UNA finestra certa = serale post-19:00 + payout-test); L-2026-0702-48/AR-019 (giro minimale: timestamp+delta, no analisi pesante rifatta); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 20:20 come dato live confermato, non ri-misurato).",
+  "_consolidamento_settimanale_03_07": "📚 CONSOLIDAMENTO SETTIMANALE 3/7 15:00 — lezioni mature distillate in 4 PRINCIPI (durano oltre il caso): (P1) FIRMA ≠ ESECUZIONE — con le mani non collegate un 🔴 firmato degrada in coda morta; rimedio: 1 finestra certa a bassa frizione, non N rincorse (fonde L-2026-0702-45 + L-2026-0702-51 + L-2026-0701-40). (P2) UN CONTROLLO VALE SOLO SE PERSISTE UN ARTEFATTO E FA DA GATE — stampe ingoiate/`|| true`/ledger non committato = controllo assente (L-2026-0702-02). (P3) CIÒ CHE DESCRIVE LA MACCHINA VA GENERATO DAI FILE, NON A MANO — a mano prima o poi mente (L-2026-0702-03). (P4) UNA SCOPERTA CHE CAMBIA IL FARO DEVE RISCRIVERE CODA/OKR/STATO NELLO STESSO GIRO, o non è successa (L-2026-0702-01). POTATE/ACCORPATE: le varianti 'delta-gate scatta a vuoto' (L-2026-0702-48, L-2026-0703-52) confluiscono nel difetto AR-025 (fix proposto in review) — restano come evidenza, non si moltiplicano. CASI-STUDIO NICOLA prioritari (già in memoria): config=cambia-valore-non-togli-variabili (L-2026-0702-46), merge-on-approval regola permanente (L-2026-0701-31), A/B su decisioni binarie (L-2026-0701-33), ruoli-acquisto admin/seller (L-2026-0702-41), voto onesto-brutto > bello-finto (lettera 2/7). Nessuna lezione NUOVA nella review: settimana di esecuzione bloccata, non di scoperta.",
+  "_nota_giro_refresh_03_07_1114": "🔭 Giro refresh 3/7 11:14: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 3ª conferma OGGI (08:20 → 10:22 → 11:14): il giro pieno è scattato di nuovo solo perché PostHog è passato 12→13; business/sentinelle identici (delta-gate 10:29 ri-misurato LIVE corrente==ultimo_pieno). La lezione sale a 4 evidenze e resta la candidata di rifinitura AR-019/AR-024 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
+  "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
+  "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0703-52",
+      "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
+      "tag": ["delta-gate", "AR-019", "AR-024", "efficienza-costo", "sensori", "posthog", "firma-stato"],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 8,
+      "fonte": "auto-radiografia",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-03",
+      "ultima_conferma": "2026-07-03 21:21",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-51",
+      "testo": "**Una sola finestra a bassa frizione batte molte finestre rincorse (giro notturno 2/7 22:20):** la decisione #16 (esegui) è presa da 17:09, ma in un solo giorno sono saltate 3 finestre — pranzo, poi cena 19–21 — perché ogni volta si è riproposto lo stesso tap manuale (#20 WhatsApp) sperando che partisse 'a breve'. Il collo di bottiglia NON è tecnico (pacchetto pronto da stamattina) ma di frizione/attenzione umana. **Regola:** quando un'azione manuale critica salta ≥2 volte, smetti di spostarla di poche ore e ANCORALA a un momento già in agenda a bassa frizione (qui: mattina 3/7, accorpata al payout-test già programmato). Meglio 1 finestra certa che 3 finestre 'possibili'. Corollario della lezione 'firma ≠ esecuzione' (L-2026-0702 report sera): quando le mani non sono collegate, riduci il numero di occasioni e alza la certezza di ciascuna.",
+      "tag": ["esecuzione-manuale", "frizione", "finestra-unica", "loop-business", "#16", "bandwidth-nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 3,
+      "fonte": "esiti",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 22:20",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-50",
+      "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18:21):** nei passaggi pomeridiani i 7 numeri erano 'gated' (node non eseguibile in sessione) e portati avanti dalla baseline; nel giro serale il runner (giro.sh) ha scritto delta-gate.json e sensori-cecita.json con dati REST freschi (ordini=1, ultimo 24/6, profili=23), permettendo di MISURARE i numeri invece di inferirli — pur restando invariati. **Regola:** anche quando l'agente non può lanciare `node`, se giro.sh ha appena scritto delta-gate/sensori (< ~1h), USA quei campi come dato live confermato e alza la fiducia; distingui sempre 'ri-misurato' da 'portato avanti' nel briefing. Corollario di AR-019: il delta-gate non serve solo a saltare i giri vuoti, è anche la fonte-di-verità dei numeri quando l'agente è gated.",
+      "tag": ["delta-gate", "AR-019", "sensori", "REST-live", "giro", "fiducia-dati"],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 1,
+      "fonte": "esiti",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 18:21",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-49",
+      "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola aveva già dato la firma («eseguilo tu io lo approvo»), ma l'esecuzione era ferma per un motivo TECNICO diverso — il permesso di sessione dello strumento `apply_migration` non era concesso. Continuare a spiegare/chiedere la firma quando manca solo il permesso strumento fa perdere tempo a Nicola. **Regola:** quando un'azione 🔴 è bloccata, diagnostica QUALE dei due manca — (a) firma di Nicola, oppure (b) permesso di sessione dello strumento — e proponi lo sblocco GIUSTO (concedi permesso strumento vs firma), più sempre un piano B manuale (es. incollare la SQL nel SQL Editor). Non delegare a Nicola una firma che ha già dato.",
+      "tag": [
+        "semaforo-rosso",
+        "permessi-strumento",
+        "firma-nicola",
+        "diagnosi-blocco",
+        "efficienza"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 17:30",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-48",
+      "testo": "**Delta-gate mancante = giri a rendimento basso (passaggi 2/7 17:01 e 17:21):** il giro è ripartito a orario/comando con novità minima (17:01 nulla; 17:21 la sola decisione #16 già catturata in STATO/ultimo-briefing alle 17:09) e ha comunque riscritto snapshot e auto-analisi, coi sensori live gated. **Regola:** quando ordini/clienti/incassi/sentinelle sono invariati rispetto all'ultimo passaggio E i sensori live sono gated, il valore aggiunto è ~0 → fare SOLO il passaggio minimo (timestamp + sonda leggera + delta 'cosa è cambiato') e NON ri-eseguire l'analisi pesante. È esattamente AR-019 (delta-gate, ancora in-corso): finché non è un gate deterministico nel runner, la macchina spreca il Max. Priorità di chiusura alta perché è ricorrente (visto 29/6 L-2026-0629-03, 2/7 17:01, 2/7 17:21).",
+      "tag": [
+        "delta-gate",
+        "efficienza-costo",
+        "AR-019",
+        "giro",
+        "dispersione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 4,
+      "fonte": "auto-analisi",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "nota_18_21": "2/7 18:21: delta-gate.json ORA scritto su disco dal runner (AR-019 materializzato) — la macchina osservata funzionare. Resta da attivare come GATE hard che salta la parte AI (oggi valuta ma il giro pieno gira comunque via R2/deploy).",
+      "ultima_conferma": "2026-07-02 18:21",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-03",
+      "testo": "Un numero/elenco mantenuto A MANO diverge sempre (15 agenti orfani, conteggio 40 vs 42, voto copiato). Regola: ogni cosa che descrive la macchina va GENERATA dai file reali da uno script, non scritta a mano. Se la scrivo a mano, prima o poi mente.",
+      "tag": [
+        "coerenza",
+        "single-source-of-truth",
+        "automazione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.8,
+      "evidenze": 2,
+      "fonte": "auto-radiografia",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-02",
+      "testo": "Un controllo che scrive output effimero (stampa ingoiata, ledger non committato, exit-code con || true) è come non averlo: gira a vuoto e dà falsi positivi. Un controllo vale solo se il suo esito è un artefatto PERSISTITO e un GATE che può bloccare. Distinguere errore-che-può-passare da errore-che-deve-fermare.",
+      "tag": [
+        "sensori",
+        "gate",
+        "verita",
+        "persistenza"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 3,
+      "fonte": "auto-radiografia",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-01",
+      "testo": "Una scoperta che cambia il faro (es. usa Casa Linda, non Garetti) NON deve restare solo nella LETTERA-A-NICOLA: finché non riscrive coda/OKR/STATO nello stesso giro, la produzione continua sul bersaglio sbagliato. Ogni correzione strategica va propagata a valle con un task concreto, o non è successa.",
+      "tag": [
+        "northstar",
+        "propagazione",
+        "azione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "auto-radiografia",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-46",
+      "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola crea `github_push_token` (mycity+ad-mycity, Contents+PR R/W) e chiede cosa togliere da VPS/Vercel. **Regola:** prima di dire cosa rimuovere, LEGGI il codice reale — le catene di fallback dicono quali nomi-variabile servono (`git-github.mjs:78` `MARKETPLACE_GIT_TOKEN||GIT_TOKEN||GIT_PUSH_TOKEN`; `obsidian.ts:7` `OBSIDIAN_TOKEN||GITHUB_TOKEN`). Con un token unico basta impostare UN valore (`GIT_PUSH_TOKEN` su VPS, `GITHUB_TOKEN` su Vercel); le altre variabili diventano ridondanti ma NON vanno cancellate se il codice le legge per nome. **Distingui token da config di destinazione** (`OBSIDIAN_REPO_OWNER/REPO/BRANCH`, `GITHUB_OWNER/REPO` NON sono token: dicono DOVE guardare — toglierli rompe la lettura). Da cancellare solo i 2 vecchi PAT single-repo su GitHub. Nota least-privilege: Vercel passa da read-only a write → accettato per semplicità, riproponibile un token RO separato se serve rigore.",
+      "tag": [
+        "devops",
+        "security",
+        "token",
+        "config",
+        "fallback",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 12:35",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-45",
+      "testo": "**Firma ≠ esecuzione (giro 2/7 10:19):** Nicola approva **ok 16** alle 08:38 ma 1h40 dopo il DB è **identico** (delivery_status=NEW, payment_status=PENDING, stallo +1,8h → 191,9h). **Regola:** nel briefing separare sempre (1) **decisione firmata** vs (2) **esecuzione verificata su DB/canale**. Loop business 🔴 finché `delivered_at` null — non degradare a 🟡 solo perché ok 16 è in coda. Prossimo giro: se ok 16 approvato ma DB invariato, escalation diretta «tap WhatsApp #20 ORA» senza riproporre ok 16.",
+      "tag": [
+        "operations",
+        "loop-business",
+        "nicola",
+        "ok-16",
+        "esecuzione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.84,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 10:19",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-44",
+      "testo": "**Automazione tutto verde ≠ loop business chiuso (giro 2/7 08:20):** `verifica-automazione.mjs` OK (token mycity push ✓, worker ✓, timer ✓) ma **0 ordini consegnati**. **Regola:** separare sempre in briefing (1) salute **infrastruttura** (verde) vs (2) salute **business** (🔴 finché #16 pendente). Non confondere «macchina operativa» con «azienda che fattura». Automazione verde **abbassa** rischio deploy post-ok merge ma **non** sostituisce ok 16.",
+      "tag": [
+        "automazione",
+        "loop-business",
+        "devops",
+        "operations",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 2,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 08:36",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-43",
+      "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il canale Render?» — card #19 etichetta canale «Render (marketplace)» + UI «canale non ancora collegato». **5 perché confusione:** (1) Pannello mostra Render come canale ma `pannello/lib/mani.ts` supporta solo **email (Resend)** — pulsante Approva **non** esegue deploy; (2) Render marketplace è già agganciato a **GitHub** su `NicolaeRotaru/mycity` — merge `main` = auto-deploy (~2–5 min, es. Sprint 1 ~10:31); (3) **non esiste** (ancora) API Render che l'AD chiami direttamente; (4) sblocco operativo #19 = **#14+#15 PAT GitHub** (PR+merge) + chat **`ok merge fix ruoli-acquisto`** — pattern L-31/L-38, **non** token Render; (5) alternativa = Nicola mergia PR su GitHub → Render fa il resto. **Risposta obbligatoria:** tabella «Render già ok via GitHub · PAT non token Render · via chat ok merge · ignorare Approva su canale Render».",
+      "tag": [
+        "render",
+        "deploy",
+        "pannello",
+        "mani",
+        "nicola",
+        "devops",
+        "github"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.89,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 08:17",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-41",
+      "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter comprare» + «i retailer devono poter comprare in modo diverso — pulsante marketplace, per nessun altro motivo/errore il venditore deve accedere al catalogo». **5 perché gap:** (1) UI admin nascondeva carrello ma `addToCart` + API checkout/COD **aperte** → carrello test €7,95 (#2 dei «4 operativi»); (2) seller navigava `/` e prodotti come buyer → carrelli demo #3–#4; (3) briefing «4 carrelli reali operativi» = **record DB con items**, non buyer reali — **solo 1** (samir) per CRM; (4) recovery cron oggi = 0 righe (flag già settati) ma carrelli test inquinavano analisi; (5) fix obbligatorio **triplo:** UI blocco + **403 server** su checkout/COD per `role=admin` + middleware seller redirect `/seller/dashboard` senza cookie modalità acquisto (`/?shop=1`, 8h, banner «Torna al negozio»). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · deploy 🔴 #19. **Pattern:** separazione ruoli acquisto = regola product non negoziabile; implementare sempre UI **e** server; seller buyer-mode solo opt-in esplicito.",
+      "tag": [
+        "ruoli",
+        "admin",
+        "seller",
+        "checkout",
+        "middleware",
+        "nicola",
+        "crm",
+        "carrelli"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 07:35",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0702-42",
+      "testo": "**Carrelli «operativi» — terminologia (Nicola 2/7, domanda informativa):** nel playbook CRM «4 reali operativi» = 4 record `user_carts` con items >4h (esclusi 2 seed Verde Casa). **Distinzione obbligatoria in briefing/chat:** tabella con colonna «cliente reale?» — **1 solo buyer** (samir €10, UUID `57494b3e…`, 0 ordini, `/checkout` iPhone); #2 admin test · #3–#4 seller/demo = **SKIP** recovery (A10–A11). Non contare i 4 come lead CRM; mossa recovery = A8 solo su samir, dopo #16 + ok legale consenso.",
+      "tag": [
+        "crm",
+        "carrelli",
+        "terminologia",
+        "recovery",
+        "nicola"
+      ],
+      "reparto": "@crm-lifecycle",
+      "confidenza": 0.87,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-02",
+      "ultima_conferma": "2026-07-02 07:35",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-40",
+      "testo": "**Finestra slot scaduta senza #16 (1/7 20:18):** alle 18:18 l'AD segnalava «ultima chance entro 20:00» — confermato: giornata chiusa a zero. **Pattern:** (1) ogni giro serale confrontare **orologio reale** vs `delivery_slot` DB; (2) se finestra chiusa → **subito** ripiano con data/ora + messaggio WhatsApp adattato (`ripiano-consegna-*.md`), non ripetere «ORA entro 20:00»; (3) escalation post-168h incrementa versione (v11) con nuova urgenza «2/7 mattina»; (4) calibrazione: previsione «alta probabilità zero oggi» se ok 16 non arriva entro T-30min finestra.",
+      "tag": [
+        "operations",
+        "slot",
+        "calibrazione",
+        "stallo",
+        "ordine-zombie"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.82,
+      "evidenze": 1,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 20:18",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-39",
+      "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = righe in `AZIONI-IN-ATTESA.md` / tab Proposte Pannello — **non** PR GitHub. **Risposta obbligatoria in 3 blocchi:** (1) tabella # → cosa sblocca (#14 `MARKETPLACE_GIT_TOKEN` PR su mycity · #15 `GITHUB_MERGE_TOKEN` merge API post-«ok merge»); (2) **dove crearli:** GitHub → Settings → Developer settings → Fine-grained tokens → repo `ad-mycity`+`mycity` · Contents+Pull requests R/W; (3) **dove incollare:** `cervello/vps/.env` + `systemctl restart mycity-worker` — **un solo PAT** copre #14+#15+push memoria. Non rimandare solo «vedi AZIONI» senza path pratico.",
+      "tag": [
+        "nicola",
+        "coda",
+        "token",
+        "github",
+        "comunicazione",
+        "devops"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 20:05",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-38",
+      "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
+      "tag": [
+        "devops",
+        "nicola",
+        "automazione",
+        "vps",
+        "merge",
+        "target",
+        "consenso"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 20:05",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-37",
+      "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → popolare `auto-radiografia.json` `benchmark_vs_migliori` con riferimenti verificabili (LangSmith, Devin, Sidekick) + snapshot `nostro_oggi` a **4 fasi** (Osserva/Agisci/Misura/Impara) con semafori e numeri live. **Regola:** caselle auto-coscienza con placeholder → dati reali al primo ciclo + tabella gap vs best + inventario sblocchi tier (sensori 🟡 → 1° ordine 🔴 #16 → mani LIVE 🟡/🔴). **Distinzione obbligatoria:** loop **architettura** (impara + audit di sé: tasso 0,70 · voto 76) vs loop **business** (agire→misura esito: 0 consegnati · calibrazione solo @AD). Pattern = L-21 (MCP) + L-0630-06 (mani): lista concreta priorità, non teoria.",
+      "tag": [
+        "benchmark",
+        "auto-coscienza",
+        "volano",
+        "nicola",
+        "pannello",
+        "loop"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 17:06",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-36",
+      "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
+      "tag": [
+        "operations",
+        "meteo",
+        "slot-consegna",
+        "onesta",
+        "briefing"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.89,
+      "evidenze": 3,
+      "fonte": "giro",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 18:18",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-35",
+      "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nuovo di approvarlo?» — dopo «ok deploy Sprint 1» (11:10) la card «DROP policy RLS» ricompare in **Proposte** con Approva. **5 perché:** (1) firma deploy 🔴 autorizza **entrambi** i tubi (Render + migrazione SQL) ma il passo Supabase resta **manuale** — non è una seconda approvazione; (2) card diceva già «Nicola ok deploy · policy ancora attiva» = promemoria ops mal classificato come Proposta; (3) pulsante Approva **non esegue** SQL (AD senza `MARKETPLACE_SUPABASE_WRITE_KEY`); (4) confuso «firma» vs «esecuzione manuale a mani di Nicola»; (5) fix: passi manuali **post-firma** (SQL Supabase, script shell) → **opportunità/checklist 🟢** con tabella «codice ✅ / SQL ⏳», **mai** Proposte 🔴 ripetute; se chiede «perché di nuovo» → ignorare Approva + istruzioni SQL Editor. Collegato a L-34 (2 tubi) e L-07 (impegni ≠ Proposte).",
+      "tag": [
+        "pannello",
+        "classificazione",
+        "nicola",
+        "supabase",
+        "deploy",
+        "rls",
+        "sprint",
+        "post-firma"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:29",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-34",
+      "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo merge #209+#210 Render **auto-deploy ~10:31** — «ok deploy» ≠ rifare deploy manuale. **Pattern obbligatorio:** (1) tabella verifica: health API, bundle prod (`Consegna MyCity`, `seller_public_profiles`), test anon REST su `profiles.stripe_account_id`; (2) dichiarare **codice ✅ / SQL ⏳** se migrazione non applicata; (3) **2 tubi deploy marketplace:** Render (auto post-merge) vs Supabase SQL (`107_seller_public_profiles.sql` DROP policy) — AD **senza** `MARKETPLACE_SUPABASE_WRITE_KEY` → Nicola incolla SQL in Supabase SQL Editor (~30s), poi `fatto sql 107` per verifica; (4) **separare #13 da #16** in risposta — «ok deploy sprint 1» è deploy fix, non ordine zombie (Scelta A già 11:05). Smoke test post-SQL: COD/carta test + anon 403 su profiles diretto.",
+      "tag": [
+        "deploy",
+        "render",
+        "supabase",
+        "migrazione",
+        "sprint",
+        "marketplace",
+        "nicola",
+        "verifica"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:29",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-33",
+      "testo": "**Scelta A/B universale (Nicola 1/7 10:50, deploy 11:00):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile. **Deploy ESEGUITO:** Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** (4 file Pannello) · Vercel redeploy · decisione ordine €19,05 ancora 🔴 (click A/B).",
+      "tag": [
+        "pannello",
+        "ux",
+        "scelta-ab",
+        "nicola",
+        "proposte"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:00",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-32",
+      "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «ok merge bottoni A/B» → **`main` `c50148d`**; dopo «ok merge scelta-ab universale» → **`main` `853c33a`** — entrambi Vercel redeploy — ma **decisione ordine A/B resta 🔴** (click A o B / messaggio buyer). **5 perché confusione:** (1) Nicola percepisce «merge» come chiusura totale; (2) deploy codice UX e accetta/annulla ordine sono binari separati; (3) card ordine zombie chiede ancora A/B post-deploy; (4) risposta AD deve tabellare «deploy ✅ / decisione ⏳» sempre; (5) soglia 168h superata ~10:30 — urgenza resta sul click A/B, non sul merge. **Variante push senza PR:** codice era **solo su VPS locale**, non su GitHub — nessuna PR da mergiare; «ok merge X» = **`git push origin main`** con `GIT_PUSH_TOKEN` esistente, non `gh pr merge`. Dichiarare commit hash + «Vercel ~2 min» + comando VPS sync separato.",
+      "tag": [
+        "merge",
+        "deploy",
+        "nicola",
+        "ordine",
+        "pannello",
+        "distinzione",
+        "vps"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.92,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:00",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-31",
+      "testo": "**Merge-on-approval — REGOLA PERMANENTE (Nicola 1/7 10:22, testato 10:36+11:00, fissato 10:45):** «c'è modo che fai merge tu? però chiedimi permesso» → poi «**impara questo, applica sempre il flusso target — risparmia tempo**». Vuole **zero GitHub browser**, **non** delegare giudizio. **Pattern obbligatorio su ogni deploy 🟡:** AD prepara branch+PR **oppure** codice locale → card «Merge PR #N?» **oppure** chat «ok merge [nome]» → AD merge/push → Vercel redeploy → (opz.) `aggiorna-cervello.sh`. **Test riusciti:** «ok merge bottoni A/B» → **`main` `c50148d`** · «ok merge scelta-ab universale» → **`main` `853c33a`**. **Mai merge/push senza ok esplicito.** Chiede guida pratica PAT fine-grained (Contents+PR R/W su `ad-mycity`+`mycity`) → #15 + `.env.example`. Architettura **3 tubi**: memoria→`memoria-ad` · codice→`main`→Vercel+VPS · marketplace→`mycity`→Render 🔴. **`pannello/` ≠ repo separato**.",
+      "tag": [
+        "merge",
+        "github",
+        "devops",
+        "nicola",
+        "pannello",
+        "vps",
+        "automazione",
+        "permesso",
+        "regola-permanente"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.96,
+      "evidenze": 5,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 19:56",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-30",
+      "testo": "**Nicola 1/7 10:13 — ordine zombie €19,05:** «aggiungimi A o B, anzi che approva o ignora» — dopo spiegazione «perché torna» (L-29) non basta chiarire: vuole **fix Pannello immediato** 🟡. Implementato: card `decisione_ordine_ab` con **A — Accetta e consegna** / **B — Annulla**; API `/api/decisione-ordine` → memoria + job cervello (DECISIONI + accoda esecuzione 🔴). **Deploy ESEGUITO** 10:36 (`main` `c50148d`, Nicola «ok merge bottoni A/B»). **Decisione ordine A/B ancora 🔴** — deploy UX ≠ click A/B. Pattern: scelta binaria di dominio = etichette A/B sul bottone, mai Approva/Ignora generico.",
+      "tag": [
+        "pannello",
+        "ux",
+        "nicola",
+        "ordine",
+        "frontend",
+        "approvazioni"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 10:36",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-29",
+      "testo": "**Caso-studio Nicola (1/7 10:09 — ordine zombie €19,05):** «Ormai è la 3ª volta che lo approvo, perché torna?» — percepisce di aver già deciso ma la card ricompare ogni giro (~2h). **5 perché:** (1) non ha MAI risposto «A» o «B» — le firme erano batch 30/6 (~20 azioni), foglio-firma 01:02, ok Sprint 1 07:30 (cose diverse); (2) pulsante «Approva» su Proposta Pannello **non registra** la decisione di dominio (A accetta / B annulla) — nasconde solo in sessione; (3) nessuna riga in DECISIONI/AZIONI per accetta/annulla ordine; (4) il giro rigenera la card finché ordine resta PENDING in DB; (5) fix: card 🔴 decisione ordine = bottoni **A/B espliciti** (o parsing «A»/«B» in chat → DECISIONI + accoda esecuzione 🔴); mai far credere che «Approva» generico chiuda il loop. **Pattern Nicola:** quando la stessa card torna, chiede causa radice + tabella firme passate vs decisione mancante — non vuole ri-cliccare a vuoto.",
+      "tag": [
+        "pannello",
+        "approvazioni",
+        "nicola",
+        "operations",
+        "ux",
+        "ordine",
+        "zombie"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 10:13",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-28",
+      "testo": "**Ok timer ritmo (Nicola 1/7 09:43 — casella cadenza-esecuzione):** dopo rettifica classificazione (L-27) AD propone AR-005 opzionale 🟡 — Nicola «ok timer ritmo» (3 parole). Si aspetta: (1) implementazione **completa in repo** (`ritmo-run.sh`, prompt `ritmo-*.md`, unit `mycity-ritmo-*.timer`, `install-ritmo-timers.sh`, doc); (2) AR-005 chiuso in cantiere + dimensione Pannello → ok; (3) **un solo comando root** VPS (`sudo bash cervello/vps/install-ritmo-timers.sh`), stile `aggiorna-cervello.sh`; (4) kill-switch pausa Pannello rispettato nel runner. Orari: mattino 08:00 · sera 20:00 · ven 18:00 Europe/Rome. Pattern: approva infra 🟡 da casella con imperativo breve «ok [nome]» quando la proposta è chiara — come «ok Sprint 1» / «apri la pr».",
+      "tag": [
+        "ritmo",
+        "systemd",
+        "vps",
+        "nicola",
+        "cadenza",
+        "devops",
+        "approvazioni"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.87,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 09:43",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-27",
+      "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
+      "tag": [
+        "auto-radiografia",
+        "cadenza",
+        "classificazione",
+        "nicola",
+        "pannello",
+        "ritmo",
+        "vps",
+        "hardcoded-path",
+        "cross-platform",
+        "guardiano",
+        "forcing-function"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-04 10:05",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-26",
+      "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in scrittura locale. Dopo «ok Sprint 1»: (1) branch+commit in locale ✅; (2) **tentare subito** `git push` + `gh pr create` — se 403, dichiarare esplicitamente «PR NON creata» in testa alla risposta, **non** «Sprint 1 eseguito» senza PR; (3) Nicola corregge «crea la pr, non l'hai creata» — approvazione sprint = si aspetta PR, non solo patch/comandi manuali; (4) accodare **#14** token `MARKETPLACE_GIT_TOKEN` e offrire compare link + `git am` come fallback. **5 perché:** PAT fine-grained limitato ad-mycity; AD ha chiuso su «codice pronto» senza verificare push; messaggio ambiguo ha fatto credere PR esistente; Nicola delega PR come su ad-mycity (L-0701-12); fix strutturale = token write su mycity. Pattern diverso da ad-mycity: lì push OK, manca solo `gh pr create`.",
+      "tag": [
+        "marketplace",
+        "git",
+        "push",
+        "403",
+        "vps",
+        "nicola",
+        "devops",
+        "pr"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.93,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 07:41",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-25",
+      "testo": "**Esecuzione Sprint 1 post-ok Nicola (1/7 07:30 → deploy 11:10):** dopo «ok Sprint 1» / «ok 13», AD orchestra tech+security → branch → PR #209+#210 mergiate su `mycity/main` · Render auto-deploy ~10:31 · verificato prod: fee UI + `seller_public_profiles` ✅ · **⏳ SQL 107** DROP policy (anon legge ancora `profiles` — vedi L-2026-0701-34). #13 → **✅ DEPLOY CODICE** · smoke test completo post-SQL. Nicola «ok deploy Sprint 1» 11:10 = firma #13 parziale (codice live, DB 1 passo).",
+      "tag": [
+        "radiografia",
+        "sprint",
+        "marketplace",
+        "branch",
+        "deploy",
+        "migrazione",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.91,
+      "evidenze": 3,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:10",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-24",
+      "testo": "Su card 🔴 **decisione ordine** (es. zombie €19,05): se l'anteprima casella non nomina **negozio + buyer**, Nicola chiede prima di rispondere A/B («Di quale negozio è il buyer?»). Risposta chat = tabella con negozio reale (Pane Quotidiano), tel. buyer, importo/data/stato + link pacchetto operations; **poi** riproporre A/B. Non assumere che ricordi il contesto da briefing precedenti — la casella deve essere autosufficiente.",
+      "tag": [
+        "pannello",
+        "casella",
+        "operations",
+        "ordine",
+        "nicola",
+        "chiarimento"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.78,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-23",
+      "testo": "Dopo radiografia, quando Nicola chiede «sono in coda? / te ne occupi tu? / come correggiamo tutto?», rispondere con **modello sprint**, non 46 righe AZIONI: (1) **#13 Sprint 1** 🟡 = 4 bloccanti pre-live in un unico pacchetto; (2) gravi+minori nel report raggruppati **Sprint 2** (privacy/sicurezza) e **Sprint 3** (UX/ops) — accodati sprint per sprint dopo ok; (3) **deploy produzione sempre 🔴 separato** dal branch 🟡. Nicola approva a blocchi: `ok 13` / `ok Sprint 1` → branch; `ok deploy Sprint 1` 🔴 → prod; `ok a tutti gli sprint radiografia` → tutto il lavoro 🟡 in sequenza, deploy resta 🔴 per sprint (o unico finale se preferisce). **AD orchestra** tech+security+QA — Nicola non gestisce 46 bug singolarmente. Report = catalogo completo; coda Pannello = solo ciò che **aspetta firma per agire**.",
+      "tag": [
+        "radiografia",
+        "approvazioni",
+        "sprint",
+        "coda",
+        "nicola",
+        "workflow",
+        "tech"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.91,
+      "evidenze": 3,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 07:36",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-22",
+      "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo, assicurati che non accada mai con nient'altro — non possiamo fare figura di merda». Pre-mortem: `esegui-azione.mjs` LIVE su coda mal filtrata → messaggio/payout 🔴 senza firma. Fix 🟡 in repo: `cervello/guardrail-semaforo.mjs` (modulo unico) + doppio cancello in `esegui-azione.mjs` (ingresso + pre-invio) + `NICOLA_FIRMA=1`/`--firma-nicola` solo post-Approva Pannello in `worker.sh`/`worker.ps1` + autopilot **solo 🟢** + stesso gate in `pannello/lib/mani.ts` e `azioni.ts` (n8n). Heuristiche contenuto → 🔴 anche se mal etichettato 🟢 (email domini esterni, payout, stripe, whatsapp, deploy). Self-test: `node cervello/esegui-azione.mjs verifica` → 7/7. **Deploy main+VPS ancora 🟡** — con `AZIONI_LIVE=0` resta sicuro. Pattern: ogni nuovo esecutore (worker, autopilot, n8n, mani) deve chiamare guardrail-semaforo, non reimplementare filtri locali.",
+      "tag": [
+        "guardrail",
+        "semaforo",
+        "esegui-azione",
+        "nicola",
+        "pre-mortem",
+        "security",
+        "worker"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-21",
+      "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**), rispondere con **inventario verificato live** — tabella: sensore | in `.mcp.json`? | stato adesso | cosa blocca. **Tre tier priorità:** ① Supabase marketplace+memoria (config ✅, ciechi: `SUPABASE_ACCESS_TOKEN` assente in `vps/.env` + click Autorizza MCP in Cursor) 🟡 · ② Stripe MCP (mai cablato — chiave `sk_test_…` + server in `.mcp.json` proposta 🟡, utile prima payout-test 03/7) · ③ PostHog MCP 🟢 opzionale a 0 ordini pagati. **Non confondere con «DB giù»:** REST marketplace HTTP 200 ✅; WebFetch globale ✅ (worker post-merge 1/7). Cursor Cloud spesso cieco finché Nicola non autorizza — worker legge via REST (L-2026-0630-03). Pattern = stesso di «quali mani ti servono?» (L-2026-0630-06): tier concreti + cosa sblocca, non teoria.",
+      "tag": [
+        "mcp",
+        "sensori",
+        "supabase",
+        "stripe",
+        "nicola",
+        "inventario",
+        "devops"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 17:06",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-20",
+      "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critico, «decidi ORA», ore esatte) e produrre nota escalation 🟢 aggiornata (v3, non ripetere v2). Mossa n.1 resta ordine zombie PQ finché non c'è transazione — non spostare focus su marketing/VP. Se i numeri = al giro precedente, il valore del giro è **urgenza decisionale + delta secondari** (es. carrelli 4 vs 6), non ripetere 11 sezioni identiche senza evidenziare il countdown.",
+      "tag": [
+        "stallo",
+        "168h",
+        "escalation",
+        "briefing",
+        "urgenza"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.85,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-19",
+      "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7). **Estensione 1/7 11:25:** vale anche per **piano del mattino/ritmo** — onboarding 6/7 già ritirato dalle Proposte alle 01:03 (L-07) non va in `ultimo-briefing.json` azioni; recidiva = stessa frizione Approva/Ignora.",
+      "tag": [
+        "giro",
+        "nicola",
+        "briefing",
+        "coerenza",
+        "decisioni",
+        "piano-mattino"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.88,
+      "evidenze": 2,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:26",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-17",
+      "testo": "Comando «radiografia» (Nicola): eseguire workflow `.claude/workflows/radiografia.js` (13 dimensioni, sola lettura + verifica avversariale), report in `consegne/audit/AAAA-MM-GG-radiografia.md`, sintesi chat con conteggio **bloccanti/gravi/minori** e i 4 bloccanti nominali. **1/7 esito verificato:** 46 confermati (4·24·18) — (1) webhook Stripe marca checkout COMPLETED anche se insert ordine fallisce; (2) fee **€3/consegna/negozio** addebitata server-side ma assente in UI (peggio multi-negozio); (3) RLS `profiles` espone riga intera venditori (IBAN/KYC/Stripe/wallet); (4) COD lascia ordine fantasma se fallisce `order_items`. Proporre Sprint 1 🟡 (webhook+fee UI+rollback COD+varianti) e chiedere ok prima del branch; deploy produzione sempre 🔴. Non confondere con audit-design (11 dim visive) — radiografia = codice+pagamenti+RLS.",
+      "tag": [
+        "radiografia",
+        "audit",
+        "marketplace",
+        "bloccanti",
+        "checkout",
+        "rls",
+        "stripe"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-16",
+      "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
+      "tag": [
+        "webfetch",
+        "main",
+        "vps",
+        "nicola",
+        "devops",
+        "chiusura"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-15",
+      "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08. **Rinforzo 4/7:** ho dichiarato «vista Quaderni pronta nel Pannello» ma il branch `fix/quaderni-senior` **non era mai stato pushato né mergiato su `main`** → Nicola «dentro memoria non ci sono i quaderni». Stessa trappola di L-2026-0701-10: `npm run dev` locale la mostrava, Vercel no. **Mai dire «è nel Pannello» finché il branch non è su GitHub E mergiato su `main`** (verifica `git ls-remote` / link compare), non basta averlo committato in locale.",
+      "tag": [
+        "pannello",
+        "quaderni",
+        "memoria-squadra",
+        "nicola",
+        "osservabilita",
+        "deploy"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.88,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-04 09:57",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-14",
+      "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente al momento del giro; **post-merge WebFetch (L-2026-0701-16)** worker = Cursor per navigazione. Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
+      "tag": [
+        "web",
+        "apprendimento",
+        "senior",
+        "nicola",
+        "sintesi",
+        "giro"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.87,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-13",
+      "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due binari distinti** (non confonderli): (1) **whitelist nostra** — **superata** 1/7 01:37 (merge `fix/webfetch-globale` + sync VPS, L-2026-0701-16); prima del merge passavano solo 11 domini; (2) **resistenza lato sito** — resta anche dopo WebFetch globale: login-wall (IG/TikTok/FB), paywall (testo pieno Libertà/testate), anti-bot/JS (Idealista timeout), 403 intermittenti (portali locali). Test Cursor 1/7: Comune ✅ · Libertà ✅ · PiacenzaSera ✅ · developers.google.com ✅ · Idealista ❌ · Instagram ⚠️ solo titolo. Ripiego policy: WebFetch → WebSearch + URL → dichiara limite in Sala Operativa/`memoria-squadra/`. Citare anche blocchi **non-WebFetch**: Supabase/Stripe MCP, Auto-review Cursor.",
+      "tag": [
+        "web",
+        "webfetch",
+        "limiti",
+        "nicola",
+        "worker",
+        "intelligence"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.89,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:38",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-12",
+      "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
+      "tag": [
+        "git",
+        "pr",
+        "main",
+        "vps",
+        "github",
+        "nicola",
+        "devops"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.93,
+      "evidenze": 4,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 10:22",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-11",
+      "testo": "Quando Nicola chiede «come faccio PR su main?» per fix **codice** (es. WebFetch in `settings.json`), rispondere con **due percorsi chiari** — mai git locale sul VPS: (A) **delegato** — «scrivi apri la PR su main» e l'AD prepara branch da `main`, 1 file, base `main`; (B) **GitHub UI** — New branch da main → edit file → Compare & PR → merge. Regole: fix codice → **`main`**, policy/memoria → **`memoria-ad`** (già fatto); dopo merge Nicola rifà solo `aggiorna-cervello.sh`. Non confondere con pull memoria-ad (L-2026-0701-09).",
+      "tag": [
+        "git",
+        "main",
+        "pr",
+        "nicola",
+        "devops",
+        "comunicazione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-10",
+      "testo": "**Caso-studio Nicola:** «Come fanno ad essere arrivate le modifiche WebFetch su main?» — ha beccato incoerenza: AD aveva parlato come se `settings.json` fosse già su `main`, ma **non c'è mai stato** (né PR né merge). 5 perché: (1) ho registrato «ESEGUITO» in DECISIONI 00:35 includendo settings.json senza verificare GitHub remoto; (2) test Cursor su developers.google.com OK **ingannava** — Cursor usa tool IDE, **non** legge `.claude/settings.json` del repo; (3) `aggiorna-cervello.sh` 01:13 ha sovrascritto da `main` → whitelist tornata; (4) policy+mansionari su `memoria-ad` sì, riga WebFetch globale no; (5) fix: **mai** dire «su main» / «dopo merge» senza `git show origin/main:…`; verifica worker = grep VPS post-sync, **non** test in Cursor; dichiarare esplicitamente cosa è fatto (policy) vs mancante (settings.json su main). **Ricorrenza 4/7 (Pannello):** stessa dinamica sui Quaderni senior — dichiarato «pronta nel Pannello» ma branch `fix/quaderni-senior` mai pushato/mergiato → Nicola «non ci sono i quaderni». Il principio è generale, non solo WebFetch: **prima di dire «fatto/attivo/in produzione» verifica l'artefatto DOVE gira davvero** (git remoto per `main`/Vercel, grep VPS per il worker), mai in base al locale/Cursor/`npm run dev`.",
+      "tag": [
+        "web",
+        "main",
+        "verifica",
+        "nicola",
+        "guardrail",
+        "cursor",
+        "worker",
+        "vercel",
+        "pannello"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-04 09:57",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-09",
+      "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Correzione dopo consiglio sbagliato di `git pull memoria-ad` sul VPS per aggiornare WebFetch. 5 perché: (1) ho confuso binario **memoria** (`memoria-ad`, overlay automatico worker) con binario **codice** (`main`, es. `.claude/settings.json`); (2) Nicola non deve toccare git — pull manuale su memoria-ad confligge col giro; (3) L-2026-0701-03 e L-2026-0701-08 ripetevano l'errore; (4) ogni giro fa già fetch memoria-ad + overlay codice da main; (5) fix: **mai** dire a Nicola pull/checkout su `memoria-ad`. Aggiornamento codice VPS = `cervello/vps/aggiorna-cervello.sh` o «fai un giro» Pannello; verifica = `grep WebFetch settings.json`. WebFetch globale ancora solo locale finché PR non mergiata su **main**.",
+      "tag": [
+        "vps",
+        "git",
+        "memoria-ad",
+        "main",
+        "nicola",
+        "guardrail",
+        "devops"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.94,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-08",
+      "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Pannello:** tab «Quaderni senior» legge `memoria-squadra/` da memoria-ad (L-2026-0701-15) — locale già ok, deploy PR su `main`.",
+      "tag": [
+        "web",
+        "osservabilita",
+        "verifica",
+        "pannello",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 5,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 01:34",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-07",
+      "testo": "**Caso-studio Nicola:** «Perché devo approvare?» su card «Onboarding negozi 6/7» — la sua frase «inizierò ad inserire i negozi del 6 luglio» era stata rimessa in coda Pannello come 🔴 da firmare. **Errore:** impegno operativo **suo** (carica negozi), non azione AD su canali esterni. 5 perché: (1) ho confuso *registrare* l'intenzione con *chiedere firma*; (2) il Pannello non distingue «Nicola farà X» vs «AD propone X al mondo»; (3) L-2026-0701-05 copriva priorità ops ma non il guardrail approvazioni; (4) frizione inutile quando Nicola ha già deciso; (5) fix: **mai** accodare 🔴 per impegni/calendario di Nicola — solo per azioni AD (social, email, spesa, deploy). Ruoli: Nicola inserisce negozi · AD prepara checklist/kit (#12 🟢). Card ritirata da proposte Pannello. **Recidiva 1/7 11:25 (2ª volta stesso giorno):** piano del mattino 11:18 ha rimesso la voce in `ultimo-briefing.json` azioni → Nicola «sono Approva/Ignora le scelte giuste?» → **No**, ignorare card · **Guardrail pre-briefing:** prima di scrivere `azioni[]` leggere DECISIONI/intenzioni — ciò già **ritirato/chiuso** va solo in `opportunita[]` o checklist 🟢, **mai** Proposte.",
+      "tag": [
+        "pannello",
+        "classificazione",
+        "nicola",
+        "onboarding",
+        "approvazioni",
+        "guardrail",
+        "recidiva",
+        "piano-mattino"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.93,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01 11:26",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-06",
+      "testo": "**Foglio-firma lancio (Nicola 1/7 01:02):** risponde con imperativi operativi, non con le lettere A/B/C del foglio — «crea il contratto» (#1), «lo faccio 03/7 mattina» (#2), «è sandbox» (#3). 5 perché: (1) vuole artefatti e date, non checkbox astratti; (2) il payout-test lo esegue lui in calendario, non delegato all'AD; (3) Stripe sandbox è stato fattuale confermato, non scelta futura LIVE; (4) COD-first è implicito (sandbox + ordine zombie già COD); (5) fix: mappare le sue frasi alle 3 decisioni, registrare forma esatta in DECISIONI, creare subito bozza contratto per Pane Quotidiano — unico negozio reale.",
+      "tag": [
+        "foglio-firma",
+        "nicola",
+        "stripe",
+        "contratto",
+        "payout",
+        "comunicazione"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.86,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-05",
+      "testo": "**Caso-studio Nicola:** Rimanda presidio VP 3/7 (kit QR + contenuti #7/#8/#11) perché «inizierò ad inserire i negozi del 6 luglio». 5 perché: (1) bandwidth umana finita — ops batte marketing; (2) senza link lista il presidio converte 0 comunque; (3) ho spinto VP per finestra temporale ignorando che Nicola aveva lavoro concreto; (4) proposta Pannello non distingueva prerequisito ops vs urgenza evento; (5) fix: quando Nicola annuncia batch operativo (onboarding negozi), congelare leve evento/time-bound e preparare checklist/supporto ops — prossima finestra VP 10/17 lug solo se link lista pronto post-batch.",
+      "tag": [
+        "priorita",
+        "onboarding",
+        "eventi",
+        "nicola",
+        "bandwidth"
+      ],
+      "reparto": "@onboarding-negozi",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-04",
+      "testo": "**Caso-studio Nicola:** Casa Linda trattata come negozio reale perché approvata+payout attivo nel DB — Nicola corregge: **è demo/seed** (UUID 11111111…, catalogo finto). **Unico negozio reale oggi = Pane Quotidiano** (Via Calzolai 25, tel. 0523 388601, 5 prodotti bio, payout OFF, ordine zombie €19,05 COD). 5 perché: (1) ho confuso presenza DB con entità reale; (2) non ho controllato segnali seed; (3) registro-realta le aveva entrambe «confermate» solo da query; (4) processo KPI non distingue demo da LIVE; (5) fix: contare come REALE solo negozi confermati da Nicola o verificabili sul campo (Maps/tel/prodotti veri) — demo esclusi da proposte 🔴 e dai 7 numeri. Proposta «Forzare transazione Casa Linda» RITIRATA → priorità ordine zombie Pane Quotidiano.",
+      "tag": [
+        "verita",
+        "entita",
+        "demo",
+        "nicola",
+        "negozi",
+        "guardrail"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "principio"
+    },
+    {
+      "id": "L-2026-0701-03",
+      "testo": "Nicola vuole senior da multinazionale con apprendimento continuo via web — non solo @intelligence. Eseguito 🟡 1/7 **completo:** policy `WEB-APPRENDIMENTO-SENIOR.md` + blocco web su 42 mansionari su `memoria-ad` + **`settings.json` WebFetch globale su `main`** mergiato (Nicola 1/7 01:37, L-2026-0701-16) + worker VPS sincronizzato. Regole: benchmark a due livelli, fonte+data, lezione in memoria-squadra/. Resta 🔴 messaggi/spesa/deploy. Nicola **non** fa pull `memoria-ad` (L-2026-0701-09). Osservabilità quaderni: tab Pannello in attesa merge PR `fix/quaderni-senior` (L-2026-0701-15).",
+      "tag": [
+        "web",
+        "apprendimento",
+        "senior",
+        "auto-miglioramento",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 7,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-02",
+      "testo": "Quando il business è in stallo (= numeri identici tra giri) ma c'è un evento esterno NUOVO del giorno (es. allerta meteo oggi vs 'domani' ieri), il giro ha valore se produce artefatti operativi 🟢 (playbook, snapshot KPI) — non se ripete solo il digest. Altrimenti applicare L-2026-0629-03 (passaggio minimo).",
+      "tag": [
+        "giro",
+        "efficienza",
+        "meteo",
+        "artefatti"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.7,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0701-01",
+      "testo": "Da worker (chiavi in cervello/vps/.env) l'AD legge ENTRAMBI i Supabase via REST anche senza SUPABASE_ACCESS_TOKEN per MCP: marketplace clmpyfvpvfjgeviworth (sola lettura) e memoria Pannello xjljcsorpbqwttrejqte. Quando Nicola chiede «vedi i db?», rispondere con tabella progetti + conteggi live e distinguere: (a) sensori AD = OK; (b) Cabina Vercel = wiring env (#10 rifiutato 30/6), non assenza del DB.",
+      "tag": [
+        "sensori",
+        "supabase",
+        "memoria",
+        "pannello",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "chat",
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0630-06",
+      "testo": "Con ~20 azioni approvate e 0 inviate, la causa radice non è solo Meta/social: sul worker TUTTE le mani sono spente (Telegram, Resend, n8n, notifiche) e AZIONI_LIVE=0 (kill-switch voluto). Il starter pack minimo per la prima azione ✅ è Telegram + Resend + AZIONI_LIVE=1; i social (~16 post) servono Meta via n8n o API diretta; il marketplace write key sblocca notifiche/coupon. Alcune azioni approvate (#1-3, #9) non richiedono chiavi — sono passi umani o prodotto (link lista d'attesa). Quando Nicola chiede «quali mani ti servono?» **o «quali connessioni MCP ti mancano?»** (L-2026-0701-21), rispondere con tier concreti + cosa sblocca ciascuna, non solo elenco env.",
+      "tag": [
+        "mani",
+        "builder",
+        "azioni-live",
+        "starter-pack",
+        "nicola",
+        "mcp"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.82,
+      "evidenze": 2,
+      "fonte": "chat",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0630-05",
+      "testo": "Le approvazioni/rifiuti del Pannello finiscono in Supabase memoria (`azione:{n}`, `azioni_log`) ma NON aggiornano da soli il vault (`AZIONI-IN-ATTESA.md`, `DECISIONI.md`). L'AD può leggerle dal DB memoria; a ogni giro/metabolizzazione deve sincronizzarle nel vault. Non riproporre azioni rifiutate (#10 wiring Vercel, kit PR earned media — rifiutate 30/6 09:08). **Estensione 1/7:** «Approva» su Proposta non persiste scelta di dominio (L-29); fix 🟡 = bottoni A/B + API persistenza (L-30 ordine zombie, **L-33 universale** `tipo: scelta_ab` su ogni scelta binaria — Nicola 10:50).",
+      "tag": [
+        "pannello",
+        "memoria",
+        "sync",
+        "approvazioni",
+        "vault"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.9,
+      "evidenze": 4,
+      "fonte": "chat",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-07-01 10:51",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Quando il Supabase MCP è cieco (needsAuth / manca SUPABASE_ACCESS_TOKEN), usare il fallback REST via env in cervello/vps/.env — marketplace MARKETPLACE_SUPABASE_URL/KEY e memoria Pannello — verificato funzionante 30/6 serale e 1/7 (REST HTTP 200 anche in chat MCP 01:57). Documentare in giro.md: MCP preferito, REST fallback obbligatorio prima di dichiarare 'sensori ciechi'.",
+      "tag": [
+        "sensori",
+        "fallback",
+        "supabase",
+        "rest"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.87,
+      "evidenze": 4,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-07-01 01:57",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0630-01",
       "testo": "I sensori dati (Supabase/Stripe MCP) possono regredire da una sessione all'altra: leggibili un giorno, ciechi il giorno dopo. Quando succede, NON riportare i vecchi numeri come freschi: tienili come baseline ESPLICITA con la data dell'ultima verifica reale e mettili nei Gap. Un voto di fiducia che scende per peggioramento-sensori (non per errore) è onesto e corretto.",
@@ -48,11 +1142,11 @@
         "onesta"
       ],
       "reparto": "@AD",
-      "confidenza": 0.82,
-      "evidenze": 2,
+      "confidenza": 0.88,
+      "evidenze": 4,
       "fonte": "auto-analisi",
       "nato": "2026-06-29",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-06-30",
       "stato": "in-prova"
     },
     {
@@ -83,10 +1177,10 @@
       ],
       "reparto": "@AD",
       "confidenza": 0.9,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "auto-analisi",
       "nato": "2026-06-28",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-07-01",
       "stato": "principio"
     },
     {
@@ -130,11 +1224,11 @@
         "nicola"
       ],
       "reparto": "@AD",
-      "confidenza": 0.7,
-      "evidenze": 1,
-      "fonte": "approvazione",
+      "confidenza": 0.78,
+      "evidenze": 3,
+      "fonte": "chat",
       "nato": "2026-06-28",
-      "ultima_conferma": "2026-06-28",
+      "ultima_conferma": "2026-07-01",
       "stato": "attiva"
     },
     {
@@ -155,58 +1249,57 @@
       "stato": "in-prova"
     },
     {
+      "id": "L-2026-0630-04",
+      "testo": "Quando lo stallo si avvicina a soglie psicologiche (168h = 7 giorni), produrre una nota escalation 🟢 con countdown esplicito vale più di un altro giro identico: dà a Nicola un trigger temporale concreto senza inventare novità.",
+      "tag": [
+        "stallo",
+        "escalation",
+        "efficienza",
+        "nicola"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.65,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "nato": "2026-06-30",
+      "ultima_conferma": "2026-06-30",
+      "stato": "in-prova"
+    },
+    {
       "id": "L-2026-0629-02",
-      "testo": "Le opportunità esterne (bandi, eventi, aperture) hanno finestre temporali reali: vanno accodate CON la scadenza visibile, non solo come 'opportunità'. Il bando ER scade il 21/7 — 22 giorni — e ogni giro senza azione accorcia la finestra.",
+      "testo": "Le opportunità esterne (bandi, eventi, aperture) hanno finestre temporali reali: vanno accodate CON la scadenza visibile, non solo come 'opportunità'. **Aggiornamento giro web 1/7:** bando FESR ER Commercio 2026 (40% fondo perduto) **chiuso anticipatamente 23/6/2026** al tetto domande — kit #12 e pitch vendite da rivedere prima di promettere fondi. Monitorare calendario bandi via @relazioni-istituzionali + web; ogni giro senza verifica accorcia la credibilità col negozio.",
       "tag": [
         "urgenza",
         "opportunita",
         "bandi",
-        "tempo"
+        "tempo",
+        "fesr"
       ],
       "reparto": "@vendite",
-      "confidenza": 0.7,
-      "evidenze": 1,
+      "confidenza": 0.82,
+      "evidenze": 2,
       "fonte": "radar",
       "nato": "2026-06-29",
-      "ultima_conferma": "2026-06-29",
+      "ultima_conferma": "2026-07-01",
       "stato": "attiva"
     },
     {
-      "id": "L-2026-0703-01",
-      "testo": "Un filtro su un valore enum SBAGLIATO restituisce 0 in silenzio e quello 0 diventa un 'fatto' che si propaga per giorni. I prodotti del faro erano dati a 0 perche si filtrava products.status='active', un enum inesistente (i valori reali sono available/draft/sold): il faro aveva 5 prodotti veri dal 16/6. LEZIONE: prima di fidarti di un COUNT filtrato per stato, verifica gli enum reali dallo schema (information_schema o SELECT DISTINCT status). Uno zero sospetto va sempre falsificato, non ereditato.",
+      "id": "L-2026-0701-27",
+      "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
       "tag": [
-        "numeri",
-        "query",
-        "verita",
-        "schema",
-        "calibrazione",
-        "dati"
+        "stallo",
+        "escalation",
+        "168h",
+        "scelta_a",
+        "ux-pannello"
       ],
-      "reparto": "@analista",
-      "confidenza": 0.85,
+      "reparto": "@AD",
+      "confidenza": 0.75,
       "evidenze": 1,
       "fonte": "auto-analisi",
-      "nato": "2026-07-03",
-      "ultima_conferma": "2026-07-03",
-      "stato": "attiva"
-    },
-    {
-      "id": "L-2026-0703-02",
-      "testo": "Quando i sensori dati tornano leggibili dopo giri a memoria, la PRIMA cosa da fare e riverificare gli stati che erano congelati: non solo i conteggi, ma lo stato degli oggetti aperti (ordini, carrelli). Stasera cosi ho scoperto che l'ordine unico €19,05 era passato a CANCELED alle 15:38 mentre la memoria lo dava ancora PENDING/NEW. Un thread dato 'fermo' puo essere in realta 'morto': riverificalo appena i sensori tornano.",
-      "tag": [
-        "sensori",
-        "stato",
-        "ordini",
-        "verita",
-        "recency"
-      ],
-      "reparto": "@operations",
-      "confidenza": 0.8,
-      "evidenze": 1,
-      "fonte": "esiti",
-      "nato": "2026-07-03",
-      "ultima_conferma": "2026-07-03",
-      "stato": "attiva"
+      "nato": "2026-07-01",
+      "ultima_conferma": "2026-07-01",
+      "stato": "in-prova"
     }
   ],
   "principi": [
@@ -216,12 +1309,60 @@
   ],
   "preferenze_nicola": [
     "Vuole una macchina serissima che non faccia errori piccoli ma dannosi (esplicito).",
-    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito)."
+    "Vuole che la macchina si auto-analizzi, impari da sola e si auto-migliori confrontandosi coi migliori (esplicito).",
+    "Si aspetta che l'AD veda le sue approvazioni/rifiuti dal Pannello (chat 30/6): leggerle dal DB memoria e rifletterle nel vault, senza che debba ripeterle.",
+    "Quando le azioni restano ferme chiede la lista concreta delle mani/chiavi mancanti, in ordine di impatto — non teoria (chat 30/6 «quali mani ti servono?»).",
+    "Chiede conferma esplicita su cosa l'AD può vedere (marketplace + memoria Pannello) vs cosa manca sul deploy Vercel — vuole tabella progetti + conteggi live, non ambiguità (chat 1/7 «riesci a vedere i db?»).",
+    "Vuole che tutti i senior usino il web per auto-migliorarsi, imparare e restare al passo — livello multinazionale, non solo intelligence (chat 1/7 «permetti a tutti i senior di navigare sul web»).",
+    "Corregge subito negozi demo/trattati come reali: chiede di cercare e informarsi sul negozio VERO sul campo (chat 1/7: Casa Linda = demo, unico reale = Pane Quotidiano).",
+    "Con operazioni concrete in coda (es. inserimento batch negozi 6/7) rimanda leve marketing/eventi anche se la finestra temporale si chiude — ops prima del presidio VP (chat 1/7 «inizierò ad inserire i negozi del 6 luglio, questa cosa va rimandata»).",
+    "Sul foglio-firma risponde con imperativi brevi e fatti («crea il contratto», «lo faccio 03/7 mattina», «è sandbox») — non con opzioni A/B/C; il payout-test Stripe lo esegue personalmente in calendario (chat 1/7 foglio-firma lancio).",
+    "Confermato Stripe sandbox sul sito: nessun incasso carta reale finché non passa a LIVE; intanto percorso COD (ordine zombie €19,05 già coerente) (chat 1/7 #3).",
+    "Non vuole approvare ciò che fa già lui (inserimento negozi, payout in calendario): «perché devo approvare?» = segnale che l'AD ha classificato male — correggere subito e ritirare la card, non spiegare perché serve firma (chat 1/7 card onboarding 6/7).",
+    "Dopo abilitazioni tecniche (es. web senior) chiede subito come **verificare che funzioni** e **dove vedere cosa hanno trovato** — vuole osservabilità concreta (check + percorsi file/Pannello), non solo «fidati del processo» (chat 1/7 «come a verificarlo? e come faccio a vedere i dati?»).",
+    "**Non** fa pull/git manuale su `memoria-ad` — crea conflitti con l'overlay del worker; aggiornamento codice VPS = `aggiorna-cervello.sh` o giro dal Pannello, zero git manuale da lui (correzione chat 1/7 «ti ricordi che non posso fare pull su memoria-ad?»).",
+    "Becca incoerenze logiche nelle affermazioni dell'AD («come fanno ad essere arrivate su main?») — si aspetta verità verificabile su stato deploy/merge, non narrativa ottimistica (chat 1/7 01:13).",
+    "Esegue comandi operativi semplici quando guidato correttamente (`sudo bash cervello/vps/aggiorna-cervello.sh`) — preferisce script a git manuale (confermato 1/7 01:16 post-correzione memoria-ad).",
+    "Chiede «come faccio PR su main?» quando serve un fix codice — preferisce delegare all'AD («apri la PR su main») o istruzioni GitHub passo-passo nel browser; **non** git CLI locale/VPS (chat 1/7 01:19).",
+    "Delega confermata con «apri la pr su main»: AD prepara branch+push, Nicola merge su GitHub in browser (1 click) — non git locale (chat 1/7 01:23).",
+    "Dopo abilitazione web chiede quali siti **non** aderiscono a WebFetch — vuole catalogo concreto (whitelist vs paywall/login/anti-bot), non risposta generica (chat 1/7 «ci altri siti con webfetch a cui non puoi aderire?»).",
+    "Chiede giro web a tutti i senior e vuole **sintesi distillata** (top insight + dove trovare il dettaglio), non log HTTP o 42 risposte grezze — «dimmi cosa hanno imparato» = report + quaderni, non pacchetti raw (chat 1/7 «fai fare a tutti i senior un giro sul web»).",
+    "Se perde o non completa una PR, chiede «rimandami la PR» — vuole il **link compare diretto** + passi minimi (merge + script), non ripetizione lunga dell'intero contesto (chat 1/7 «rimandami la pr che non ho mergiato»).",
+    "Quando l'AD propone visibilità Cabina per output senior (es. quaderni), conferma con imperativo breve «aggiungi X» — vuole vedere le lezioni nel Pannello, non aprire GitHub (chat 1/7 «aggiungi quaderni senior»).",
+    "Completa fix infrastruttura in sequenza quando guidato: merge PR compare + `aggiorna-cervello.sh` nello stesso messaggio, poi chiede il passo successivo («apri la pr quaderni su main») — preferisce batch operativi chiari, non git manuale (chat 1/7 01:37).",
+    "Quando la casella salute-sensori segnala cecità chiede «quali connessioni MCP ti mancano?» — vuole inventario verificato + priorità sblocco (token Supabase → Stripe MCP → PostHog), non «i DB sono giù» (chat 1/7 01:57).",
+    "Su pre-mortem 🔴 (messaggi negozi, payout, azioni reali) vuole fix **sistemico e immediato**, non patch sul singolo caso — «assicurati che non accada mai con nient'altro»; tolleranza zero per figura di merda verso negozi/clienti (chat 1/7 casella guardrail worker/autopilot).",
+    "Dopo radiografia chiede se i bug sono in coda e come correggerli tutti — vuole chiarezza: AD orchestra i fix, lui firma **a sprint/blocchi** (non 46 card), comandi brevi (`ok 13`, `ok deploy`, `ok a tutti gli sprint radiografia`); report = elenco completo, Pannello = solo ciò che aspetta firma (chat 1/7 post-radiografia).",
+    "Approva sprint radiografia con imperativo breve dopo spiegazione workflow — «ok Sprint 1» senza ripetere dettagli; si aspetta branch+commit+doc tech, push/PR marketplace a lui, deploy 🔴 solo su comando esplicito «ok deploy Sprint 1» (chat 1/7 07:30).",
+    "Prima di decidere su card 🔴 ordine chiede identificazione esplicita negozio/buyer se non visibile in anteprima casella — «Di quale negozio è il buyer?» (chat 1/7 07:19 ordine zombie €19,05).",
+    "Dopo «ok Sprint 1» si aspetta che l'AD **crei la PR** sul marketplace — «crea la pr, non l'hai creata» se manca; «codice pronto»/patch/comandi `git am` non sostituiscono la PR; se push 403, dirlo subito e accodare sblocco token (#14), non far credere che la PR esista (chat 1/7 07:41).",
+    "Corregge classificazione errata nelle caselle auto-radiografia con imperativo secco («non c'entra niente X, toglila ovunque») — si aspetta ripulitura concettuale su **tutti** i file collegati (JSON cantiere, ritmo, report), non solo riscrittura della singola casella Pannello (chat 1/7 09:39 cadenza-esecuzione vs mycity-live).",
+    "Dopo proposta 🟡 chiara da casella Pannello (es. timer systemd ritmo), approva con imperativo breve «ok [nome]» — si aspetta artefatto completo in repo + un comando root per attivazione VPS, non spiegazioni lunghe (chat 1/7 «ok timer ritmo»).",
+    "Quando la stessa proposta 🔴 torna dopo click «Approva», chiede subito «perché torna?» — si aspetta che ogni firma conti; se la card ricompare = bug UX/processo da spiegare con tabella firme passate vs decisione mancante (A/B), non una nuova richiesta generica (chat 1/7 10:09 ordine zombie €19,05).",
+    "Su decisioni binarie (ordine accetta/annulla) chiede bottoni **A/B espliciti** al posto di Approva/Ignora — «aggiungimi A o B» = implementare subito in Pannello, non solo spiegare il bug (chat 1/7 10:13 ordine zombie €19,05).",
+    "Vuole che l'AD **mergi le PR al posto suo** dopo permesso esplicito («ok merge …» o card Pannello) — risparmio tempo, zero GitHub browser; **non** vuole merge automatico senza chiedere (chat 1/7 10:22). Sblocco full-auto PR API = `GITHUB_MERGE_TOKEN` (#15); push diretto su main con ok esplicito già funziona con token push esistente (confermato «ok merge bottoni A/B» 10:36 → `c50148d`).",
+    "Confonde `pannello/` con repo separato — va chiarito subito: sottocartella monorepo `ad-mycity`, live su Vercel con root `pannello/`; architettura a 3 tubi git/deploy (memoria-ad / main / mycity) (chat 1/7 10:22).",
+    "Dopo «ok merge [feature]» si aspetta conferma operativa (commit hash, Vercel redeploy, comando VPS sync) **e** distinzione esplicita se resta una decisione 🔴 separata (es. ordine A/B post-deploy bottoni) — non confondere deploy codice con chiusura del loop di business (chat 1/7 10:36).",
+    "Comando «impara questo / applica sempre il flusso target» = elevare il workflow proposto a **regola operativa permanente** dell'AD — merge-on-approval obbligatorio su ogni deploy codice 🟡; quando chiede «come creo il token merge» vuole guida pratica step-by-step (PAT fine-grained, repo selezionati, 3 variabili env VPS), non solo accodare #15 (chat 1/7 10:45).",
+    "**Ogni scelta binaria** nel Pannello deve usare bottoni **A — … / B — …** espliciti (`tipo: scelta_ab`), non Approva/Ignora generico — vale per ordine zombie, merge, sì/no, tutto (chat 1/7 10:50 «Applica A o B ogni volta»). Generalizzare subito, non caso-per-caso.",
+    "Ripete richieste da card Pannello obsolete (es. «crea la PR» quando #209+#210 già mergiate) — l'AD deve **verificare stato reale GitHub/deploy** prima di rispondere, dichiarare «card obsoleta» e indicare il passo successivo concreto (`ok deploy Sprint 1`), non riaprire workflow già chiuso (chat 1/7 11:15).",
+    "Su «ok deploy Sprint 1» (#13) si aspetta **tabella verifica produzione** (cosa è già live post-merge Render vs cosa manca) — non chiedere ridistribuzione se auto-deploy già partito; migrazione SQL = passo Nicola ~30s in Supabase se AD senza write key; distinguere sempre #13 deploy da #16 ordine zombie (chat 1/7 11:10).",
+    "Card onboarding 6/7 (2ª volta 11:25): «perché approvare o ignorare? sono le scelte giuste?» — **No**, Approva/Ignora non applicano; è promemoria ops già deciso (01:00 VP rimandato), ignorare senza firma; root cause = piano del mattino ha re-inserito in Proposte ciò ritirato alle 01:03 (chat 1/7 11:25).",
+    "Card SQL 107 (1/7 11:29): «l'ho approvato, perché chiede di nuovo?» — firma «ok deploy Sprint 1» (11:10) copre anche migrazione SQL; passo Supabase = esecuzione manuale ~30s, **non** seconda approvazione; card Approva su promemoria post-firma = frizione — va in checklist/opportunità con istruzioni operative, non Proposte.",
+    "Casella benchmark AI ops (1/7 17:05): «aggiungi dati reali — cosa ti serve?» — vuole casella popolata con riferimenti verificabili + snapshot loop 4 fasi con numeri live + inventario sblocchi prioritizzato per chiudere il volano su dati business (non solo prompt); stesso pattern di salute-sensori/mani.",
+    "Target operativo confermato (chat 1/7 19:56): AD modifica `ad-mycity` + marketplace `mycity` autonomamente **solo dopo consenso esplicito** — vuole zero GitHub browser e **zero comandi VPS** post-merge; unici passi una tantum = PAT #14+#15 + config sudo/hook («ok configura sync VPS»). Merge Pannello via «ok merge …» in chat già funzionante (2× test mattina).",
+    "Quando l'AD cita numeri #N in coda chiede subito «cosa sono e dove li trovo?» — vuole tabella cosa-sblocca + path GitHub PAT (Developer settings → Fine-grained) + dove incollare in `vps/.env`, non solo rimando al file AZIONI (chat 1/7 20:02).",
+    "«Ok configura sync VPS» (1/7 20:02) = stesso pattern «ok timer ritmo»: approva infra 🟡 → AD consegna artefatto completo in repo + **un solo comando root** per attivazione; codice sync pronto, resta #17 install sul VPS.",
+    "Separazione rigida ruoli acquisto: account assistenza/admin **zero acquisti** (UI + server); venditori accedono al catalogo buyer **solo** tramite pulsante esplicito «Vai al marketplace» — mai navigazione accidentale, errore o URL diretto (chat 2/7 briefing 1/7).",
+    "Su domande sui carrelli vuole distinzione netta record DB vs buyer reali — tabella con ruolo account e flag «cliente reale?»; recovery solo su buyer veri, interni/demo = SKIP (chat 2/7 «quali sono i 4 carrelli reali operativi?»).",
+    "Su card canale «Render (marketplace)» chiede «come collego Render?» — si aspetta chiarimento immediato: **non serve token Render** (auto-deploy post-merge GitHub su `mycity`); sblocco = #14+#15 PAT + **`ok merge …`** in chat; pulsante Approva Pannello **non** deploya (mani.ts solo email Resend) (chat 2/7 08:16 casella #19).",
+    "**Data operativa spostata: parte a inserire i negozi DOPO giovedì 9/7/2026** (era 6/7) perché attende il reset dei limiti settimanali di Claude — le stesse quote frenano anche le routine automatiche dell'AD (chat 4/7). Corollario: fino al 9/7 pochi giri, niente pilota automatico che brucia budget.",
+    "Chiede se l'AD aggiorna GitHub+Pannello **da solo o va detto ogni volta** (chat 4/7): risposta calibrata attesa = distinguere 🟢 (aggiornare memoria su `memoria-ad` + dati Pannello = reversibile, l'AD lo fa senza chiedere) da «automatico dal nulla» (serve un innesco: o «fai un giro» o un cron schedulato 🟡 da proporre prima di attivare). **Vincolo verità:** l'automazione consuma le stesse quote Claude → «poco e mirato» (max 1 giro/giorno) batte «sempre acceso»; mai vendere l'automatico come gratis. I 🔴 restano firma sua."
   ],
   "meta": {
-    "lezioni_attive": 4,
-    "promosse_a_principio": 3,
+    "lezioni_attive": 63,
+    "promosse_a_principio": 4,
     "decadute": 0,
-    "tasso_applicazione": 0.5
+    "tasso_applicazione": 0.7
   }
 }

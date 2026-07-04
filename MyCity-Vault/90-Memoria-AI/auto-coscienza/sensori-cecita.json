@@ -1,51 +1,60 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-03 16:10",
+  "aggiornato": "2026-07-04 16:20",
   "sensori": {
     "supabase_rest": {
-      "giri_ciechi": 1,
-      "stato": "cieco",
-      "ultimo_errore": "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env",
+      "stato": "ok",
+      "giri_ciechi": 0,
       "canale": "REST marketplace",
-      "dettaglio": "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env"
-    },
-    "stripe_api": {
-      "giri_ciechi": 1,
-      "stato": "cieco",
-      "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
-      "canale": "Stripe API",
-      "dettaglio": "STRIPE_SECRET_KEY assente — Stripe non verificabile"
+      "dettaglio": "orders leggibili via REST",
+      "ultimo_ok": "2026-07-04 16:20",
+      "ultimo_errore": ""
     },
     "mcp_supabase": {
+      "stato": "cieco",
+      "giri_ciechi": 1,
+      "canale": "MCP Cursor/Claude",
+      "dettaglio": "MCP Supabase cieco (permission stream closed / needsAuth)",
+      "ultimo_errore": "MCP Supabase cieco (permission stream closed / needsAuth)"
+    },
+    "stripe_api": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-07-02 11:55",
-      "ultimo_errore": "",
-      "canale": "MCP Cursor/Claude",
-      "dettaglio": "MCP Supabase raggiungibile in sessione"
+      "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
+      "canale": "Stripe API",
+      "dettaglio": "balance API ok",
+      "ultimo_ok": "2026-07-04 16:20"
     },
     "posthog_api": {
-      "giri_ciechi": 0,
-      "stato": "non_configurato",
-      "ultimo_errore": "POSTHOG non collegato (abbonamento dopo il 10/7)",
-      "canale": "PostHog",
-      "dettaglio": "sensore non configurato: non conta come cieco"
+      "giri_ciechi": 27,
+      "stato": "cieco",
+      "canale": "PostHog API",
+      "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
+      "ultimo_errore": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)"
     },
     "resend_api": {
       "giri_ciechi": 0,
+      "stato": "ok",
+      "canale": "Resend API",
+      "dettaglio": "domains API ok",
+      "ultimo_ok": "2026-07-04 16:20",
+      "ultimo_errore": ""
+    },
+    "sito_uptime": {
+      "giri_ciechi": 0,
       "stato": "non_configurato",
-      "ultimo_errore": "RESEND_API_KEY assente",
-      "canale": "Resend email",
-      "dettaglio": "sensore non configurato"
+      "canale": "storefront GET",
+      "dettaglio": "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
     }
   },
+  "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 1,
-    "sensori_ok": 1,
-    "sensori_totali": 5,
-    "max_giri_ciechi": 1,
-    "almeno_un_dato": true
-  },
-  "istruzioni_giro": "Stripe ok ma Supabase REST cieco: limita analisi ordini; verifica MARKETPLACE_SUPABASE_* sul VPS.",
-  "_nota_bonifica": "AR-042 (3/7): aggiunti posthog_api e resend_api (AR-022). Il file resta rigenerato da verifica-sensori a ogni giro."
+    "giri_totali": 43,
+    "sensori_ok": 3,
+    "max_giri_ciechi": 27,
+    "sensori_totali": 4,
+    "almeno_un_dato": true,
+    "sensori_non_configurati": 1,
+    "dati_ordini_ciechi": false
+  }
 }

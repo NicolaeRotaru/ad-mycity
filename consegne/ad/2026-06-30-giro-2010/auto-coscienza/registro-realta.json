@@ -1,0 +1,53 @@
+{
+  "_cosa_e": "📒 REGISTRO DI REALTÀ — aggiornato giro 30/6 20:10",
+  "aggiornato": "2026-06-30 20:10",
+  "_nota_giro_30_06_2010": "Entità negozi riverificate live REST 20:10. Meteo: temporali da 1/7 (allerta gialla ER).",
+  "entita": [
+    {
+      "nome": "Casa Linda",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase REST → profiles",
+      "confidenza": 0.98,
+      "evidenze": [
+        "is_approved=true, stripe_charges_enabled=true, stripe_payouts_enabled=true (acct_1TcI1vIb6nEnAk4o) — verificato 30/6 20:10.",
+        "26 prodotti (18 available, 7 draft, 1 sold), 0 ordini."
+      ],
+      "ultima_verifica": "2026-06-30 20:10"
+    },
+    {
+      "nome": "Pane Quotidiano",
+      "tipo": "negozio",
+      "stato": "confermato",
+      "fonte": "Supabase REST → profiles",
+      "confidenza": 0.95,
+      "evidenze": [
+        "is_approved=true, stripe_payouts_enabled=false (acct_1TifANEq35Z9pThc) — verificato 30/6 20:10.",
+        "1 ordine COD €19,05 PENDING/NEW dal 24/6 (153,7h)."
+      ],
+      "ultima_verifica": "2026-06-30 20:10"
+    },
+    {
+      "nome": "Antica Salumeria Garetti",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "consegne/intelligence/campo-aperto-faro.md",
+      "confidenza": 0.78,
+      "fonte_ragionamento": "campo-aperto-faro.md + pitch-garetti.md",
+      "evidenze": ["Prospect non nel DB", "Albo Botteghe Storiche", "3 DOP Piacentini"],
+      "ultima_verifica": "2026-06-29 11:30"
+    },
+    {
+      "nome": "Temporali Emilia-Romagna 1/7/2026",
+      "tipo": "evento_meteo",
+      "stato": "confermato",
+      "fonte": "WebSearch → Meteo.it / iLMeteo",
+      "confidenza": 0.85,
+      "evidenze": ["Allerta gialla ER segnalata per 1/7", "Calo termico vs ondata caldo giugno"],
+      "ultima_verifica": "2026-06-30 20:10"
+    }
+  ],
+  "numeri_da_non_inventare": [
+    {"nome": "7 numeri KPI", "fonte": "REST clmpyfvpvfjgeviworth 30/6 20:10", "nota": "2/1 negozi, 0 pagati, stallo 153,7h"}
+  ]
+}

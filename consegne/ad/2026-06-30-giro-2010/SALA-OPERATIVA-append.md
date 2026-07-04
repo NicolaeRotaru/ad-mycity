@@ -1,0 +1,4 @@
+- 2026-06-30 20:10 · @AD · FATTO · Giro sera 20:10: **7 numeri riverificati live** REST (identici 19:44, stallo 153,7h). Meteo raffinato: temporali **da 1/7** (allerta gialla ER). Bundle memoria in `consegne/ad/2026-06-30-giro-2010/`.
+- 2026-06-30 20:10 · @analista · FATTO · KPI snapshot aggiornato 20:10: 2/1 negozi, 0 pagati, 407 lead fermi, 0 recensioni.
+- 2026-06-30 20:10 · @intelligence · FATTO · Radar meteo live: oggi caldo in calo (~37°C); picco pioggia/temporali spostato al **1/7** vs previsione mattutina.
+- 2026-06-30 20:10 · @AD · SERVE · Da Nicola (invariato): ① Casa Linda 🔴 · ② ordine zombie 🔴 · ③ firme lancio 🔴 · ④ kit bando ER 🟡 · ⑤ VP 3/7 🟡/🔴.

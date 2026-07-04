@@ -1,0 +1,8 @@
+{
+  "aggiornato": "2026-06-30 17:17",
+  "entita_riverificate_oggi": [
+    {"nome": "Casa Linda", "stato": "confermato", "ultima_verifica": "2026-06-30 17:17", "fonte": "Supabase REST profiles+products"},
+    {"nome": "Pane Quotidiano", "stato": "confermato", "ultima_verifica": "2026-06-30 17:17", "fonte": "Supabase REST orders+profiles"},
+    {"nome": "Ordine €19,05", "stato": "confermato", "id": "58094956-4b9b-49b4-9299-7a5c645d7cb3", "ultima_verifica": "2026-06-30 17:17"}
+  ]
+}

@@ -46,45 +46,547 @@
       "difetti_aperti": 3,
       "difetti_chiusi": 0,
       "tipo": "sonda",
-      "nota": "REGRESSIONE SENSORI: Supabase MCP di nuovo cieco (needsAuth) dopo 2 giri stabili → invariante 'dati freschi' rosso, 7 numeri a baseline 29/6. Voto −3. Volano comunque chiuso (2 nuove lezioni, principi applicati con onestà sui numeri). Radar live OK (svolta meteo + VP 3/7 con fonti). AR-001 confermato difetto prioritario del cantiere."
+      "nota": "REGRESSIONE SENSORI mattina: MCP cieco. Voto −3."
+    },
+    {
+      "data": "2026-06-30",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Passaggio 23:15: 7 numeri = vs 23:10, stallo 156,8h. Sesto passaggio giornata — escalation 168h 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 00:17: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi. Playbook 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 02:17: stallo 159,8h (+2h), 168h ~8h. Foglio-firma FATTO, VP rimandato, radiografia 46. Checklist 6/7 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 04:17: stallo 161,8h (+2h), 168h ~6,2h. Carrelli 4 ▼−2. Escalation v3 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 06:18: stallo 163,8h (+2h), 168h ~4,2h (~10:30). Carrelli 4 =. Escalation v4 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 4,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 08:17: stallo 165,8h (+2h), 168h ~2,2h (~10:30). Sprint 1 ok Nicola, push PR 403. Escalation v5 🟢. REST OK, MCP cieco. Voto 76 =. Nuovo difetto AR-004 push marketplace 403."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 1,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 12:18: stallo 169,8h (+0,4h), 168h +1,8h oltre. Temporali imminenti 15-16. Escalation post-168h v7 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 14:19: stallo 171,8h (+2,0h), 168h +3,8h oltre. Finestra pranzo chiusa → #16 post-18. Escalation v8 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 18:18: stallo 175,8h (+2,0h), 168h +7,8h oltre. Finestra consegna APERTA ORA → #16 entro 20:00. Escalation v10 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-01",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =."
     },
     {
       "data": "2026-07-02",
-      "voto_salute": 78,
-      "difetti_aperti": 0,
-      "difetti_chiusi": 5,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-001, AR-002, AR-003 (11:55) + AR-009, AR-019 (18:10) — 5 totali verificati nel codice. (Corretto il 3/7: il punto registrava 3 ma il cantiere ne aveva chiusi 5 — vedi AR-046.)"
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 2/7 08:20: stallo 189,9h (+12,1h), 168h +21,9h oltre. Automazione tutto verde (verifica 08:20). Meteo sereno — finestra #16 pranzo APERTA. Escalation v12 🟢. REST OK, MCP cieco. Voto 76 =."
     },
     {
-      "data": "2026-07-03",
-      "voto_salute": 57,
-      "difetti_aperti": 69,
-      "difetti_chiusi": 9,
+      "data": "2026-07-02",
+      "voto_salute": 76,
+      "difetti_aperti": 3,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "Giro 2/7 08:36: stallo 190,1h (+0,2h), 168h +22,1h oltre. Automazione tutto verde (verifica 08:36). Meteo sereno — finestra #16 pranzo ORA. KPI live 🟢. REST OK, MCP cieco. Voto 76 =."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 3,
+      "tipo": "sonda",
+      "nota": "Fix radiografia 10:15: chiusi AR-001 (verifica-sensori.mjs), AR-002 (MARKETPLACE_REPO), AR-003 (sensori-cecita). sonda-volano.mjs operativo. Voto +4 → 80. Resta AR-004 token mycity."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 2h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 2h fa · sensori max cecità 2"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing fresco · sentinelle business attive · Stripe cieco 4 giri · REST ok"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 1h fa · cecità sensori 5 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 2h fa · cecità sensori 6 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing 4h fa · cecità sensori 7 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 80,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 0,
+      "tipo": "sonda",
+      "nota": "loop ok · briefing STALE (6h) · cecità sensori 8 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 22,
+      "difetti_chiusi": 1,
       "tipo": "completa",
-      "nota": "Radiografia PROFONDA e COMPLETA su comando di Nicola: 12/12 dimensioni verificate avversarialmente + pre-mortem (6 scenari) + benchmark (10 ambiti). (Il primo run si era fermato a 4/12 per limite di sessione, ripreso dopo il reset.) Voto 57 = media dei 12 pilastri. Calo dal 72 del 28/6 perché l'audit è molto più profondo: 74 difetti macchina confermati (1 bloccante, 39 gravi) vs i 3 del 28/6. Dimensione più critica: guardrail-semaforo (36) — l'autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE (BLOCCANTE AR-072). Grave anche la sicurezza (41): scanner-segreti che non riconosce sbp_, MCP memoria in R+W senza --read-only, merge --theirs cieco. Filo rosso: molti gate/guardiani sono fail-open o codice morto (router costo mai usato, budget token cieco, ONESTA-RULES senza guardiano, North Star/STOP solo prosa). Cantiere: 69 aperti / 9 chiusi. Il PANNELLO ha 1 bloccante (doppia esecuzione azione reale)."
+      "nota": "Radiografia profonda (12 dim, 26 agenti): 3 BLOCCANTI, 46 gravi, 34 minori. Crollo dal seed NON è peggioramento: prima volta guardata a fondo. Bloccanti AR-004/005/006."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "cantiere",
+      "nota": "Cantiere: 18/22 difetti chiusi in codice. 4 in-corso (AR-004 revoca PAT, AR-006 Casa Linda, AR-009 scorecard, AR-019 delta-gate). Voto 42 finché non mergiato+deployato."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (7h) · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "Passaggio 17:01 (delta 8 min): nulla di nuovo, live gated (sonda-volano.mjs non eseguibile in sessione). Voto 42 = (cantiere fermo: 18 chiusi, 4 in-corso). Conferma pratica di AR-019 (delta-gate) da chiudere: giro a orario fisso senza novità."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "Passaggio 17:21 (delta 12 min): UNA novità reale (decisione #16 RISOLTA → esegui, cena 19–21), resto invariato. Live gated (sonda-volano.mjs non eseguibile in sessione). Voto 42 = (cantiere fermo: 18 chiusi, 4 in-corso). Ulteriore conferma pratica di AR-019 (delta-gate) da chiudere: giri ravvicinati con novità minima."
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 1"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 2"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 4h fa · cecità sensori 3 giri"
+    },
+    {
+      "data": "2026-07-02",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 18,
+      "tipo": "sonda",
+      "nota": "Giro 22:20 (full da delta-gate: cambio stato sensori). loop chiude (con prova) · briefing fresco (0h) · sentinelle business attive · PostHog cieco 3 giri (sentinella «sensore cieco ≥3» scattata, opzionale) · MCP cieco 1 giro · REST ok. Voto 42 = (cantiere 18 chiusi/4 in-corso, non ancora mergiato+deployato). Segnale business: 3ª finestra #16 saltata (cena) → riprogrammata mattina 3/7."
     },
     {
       "data": "2026-07-03",
-      "voto_salute": 82,
-      "difetti_aperti": 5,
-      "difetti_chiusi": 73,
-      "tipo": "fix-sprint",
-      "nota": "Sprint di riparazione su comando di Nicola: 2 passate 'un-agente-per-file' + bonifiche. Chiusi 68 difetti in questo giro (da 57→82 stimato). Sintassi verificata (node --check/bash -n) su tutti i .mjs/.sh, JSON validi, scan-segreti pulito. I 30 bug del Pannello applicati nel branch (no type-check qui: anteprima prima del merge). NB: i fix sono 🟡 nel branch, non ancora mergiati: il voto si consolida al merge. Restano 5 difetti che dipendono da Nicola (STAMPO, PostHog, chiavi Supabase, giudizio previsioni)."
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 4 giri"
     },
     {
       "data": "2026-07-03",
-      "voto_salute": 57,
-      "voto_provvisorio": 81,
-      "voto_pieno": 81,
-      "firma": "",
-      "difetti_aperti": 4,
-      "difetti_chiusi": 74,
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 5 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 6 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 7 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 8 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 0,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 9 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "voto_provvisorio_pending_merge": 50,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 20,
+      "tipo": "sentinella",
+      "nota": "Sentinella salute_bassa (firma=42) 02:48. NON è una regressione: il 42 è un blocco volontario 'finché non mergiato+deployato'. Cantiere alla radice: 20 chiusi in codice (su memoria-ad/PR), 2 in-corso bloccati SOLO su Nicola (AR-004 revoca PAT, AR-006 materiale Pane Quotidiano). Voto provvisorio reale ~50 (2 bloccanti umani × −25) al merge+deploy. NON rilanciata la radiografia completa (24 agenti): ultima completa 07-02 12:09 (<24h), doctrine=settimanale, e la gate di efficienza AR-019 vieta re-run pesanti senza novità — la diagnosi è già completa e i 3 gate sono già in AZIONI-IN-ATTESA (R1/R2/R3). Nuovo difetto trovato: AR-024 (voto congelato + allerta non-dedup → alert fatigue)."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 6h fa · cecità sensori 10 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 11 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 12 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 13 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 14 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 3h fa · cecità sensori 15 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "voto_provvisorio_pending_merge": 50,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "review",
+      "nota": "REVIEW SETTIMANALE 15:00. Radiografia completa NON ri-lanciata di proposito: ultima completa 07-02 12:09 (<27h), architettura statica, gate efficienza AR-019/AR-025 vieta re-run pesanti senza novità → snapshot a livello sonda (il Max si spende dove rende). Cantiere: 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024 voto congelato/alert-fatigue, AR-025 delta-gate su contatore cieco opzionale). Voto fermo a 42 (blocco volontario 'finché non mergiato+deployato'); provvisorio ~50 al merge. Verdetto settimana: volano-ARCHITETTURA gira (20 fix), volano-BUSINESS NON ha ancora 1 esito misurato (0 consegnati, esperimenti=[])."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 16 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 42,
+      "difetti_aperti": 2,
+      "difetti_chiusi": 20,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 4h fa · cecità sensori 17 giri"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "difetti_aperti": 1,
+      "difetti_chiusi": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-024 (verificati nel codice)."
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "voto_provvisorio": 47,
+      "voto_pieno": 47,
+      "firma": "AR-025",
+      "difetti_aperti": 1,
+      "difetti_chiusi": 21,
+      "pending_merge": 0,
+      "aperti_davvero": 1,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · cecità sensori 18 giri · salute pending-merge 47/100 (floor 47): 1 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "voto_provvisorio": 47,
+      "voto_pieno": 47,
+      "firma": "AR-025",
+      "difetti_aperti": 1,
+      "difetti_chiusi": 21,
+      "pending_merge": 0,
+      "aperti_davvero": 1,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 19 giri · salute pending-merge 47/100 (floor 47): 1 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-03",
+      "voto_salute": 44,
+      "voto_provvisorio": 47,
+      "voto_pieno": 47,
+      "firma": "AR-025",
+      "difetti_aperti": 1,
+      "difetti_chiusi": 21,
+      "pending_merge": 0,
+      "aperti_davvero": 1,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 20 giri · salute pending-merge 47/100 (floor 47): 1 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 47,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "AR-025-chiuso",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
       "pending_merge": 0,
       "aperti_davvero": 0,
-      "bloccanti_umani": 4,
+      "bloccanti_umani": 2,
+      "tipo": "riconciliazione",
+      "nota": "Sentinella salute_bassa (44, firma AR-025) analizzata alla radice: l'unico 'aperto-davvero' era un FANTASMA di bookkeeping. Il fix di AR-025 (escludere max_giri_ciechi dalla firma del delta-gate) è GIÀ nel codice dal commit 34e7bd4 (3/7 21:59, 'allinea codice a main') — verificato avversarialmente: `grep max_giri_ciechi` lo trova solo in 3 commenti, mai nella firma serializzata. Causa-radice del falso-aperto: la voce AR-025 aveva una `verifica` SENZA `pattern`, così auto-fix.mjs (che richiede file+pattern) la classificava 'manuale' e non l'accreditava mai → restava 'aperto' e ri-scattava la sentinella salute<60 a ogni giro (recidiva della lezione AR-024: il termometro deve riflettere il codice). FIX-META: aggiunto `verifica.pattern` ('max_giri_ciechi: Number\\(cecita', presente:false) → ora è auto-verificabile e i prossimi giri lo tengono chiuso da soli. Cantiere ora: 22 chiusi · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale Pane Quotidiano) · 0 aperti-davvero. Voto pieno reale 50/100 (2 bloccanti umani × −25); sale a 100 SOLO con le 2 firme di Nicola + merge/deploy. Nessun difetto software resta da lavorare: la palla è tutta su Nicola."
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (82h) · sensori max cecità 1 · salute pending-merge 81/100 (floor 81): 0 aperti-davvero · 0 in attesa merge · 4 bloccanti umani"
+      "nota": "loop chiude (con prova) · briefing STALE (9h) · cecità sensori 21 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (11h) · cecità sensori 22 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (13h) · cecità sensori 23 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (14h) · cecità sensori 24 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 1h fa · cecità sensori 25 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 3h fa · cecità sensori 26 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 5h fa · cecità sensori 27 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
     }
   ]
 }

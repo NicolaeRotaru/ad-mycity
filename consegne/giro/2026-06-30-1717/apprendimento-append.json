@@ -1,0 +1,19 @@
+{
+  "data": "2026-06-30 17:17",
+  "lezioni_nuove": [
+    {
+      "id": "L-2026-0630-03",
+      "testo": "Fallback REST marketplace: se MCP sessione è cieco ma MARKETPLACE_SUPABASE_URL/KEY sono in env, interrogare REST PRIMA di dichiarare gap dati. Il giro 17:17 ha recuperato i 7 numeri così — differenza tra giro utile e giro 'a memoria'.",
+      "tag": ["sensori", "fallback", "REST", "efficienza"],
+      "reparto": "@AD",
+      "confidenza": 0.75,
+      "evidenze": 1,
+      "fonte": "esito",
+      "stato": "attiva"
+    }
+  ],
+  "meta": {
+    "lezioni_attive": 12,
+    "tasso_applicazione": 0.55
+  }
+}

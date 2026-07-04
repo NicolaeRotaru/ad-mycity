@@ -1,0 +1,21 @@
+{
+  "sonda_patch": {
+    "data": "2026-06-30 20:10",
+    "loop_chiude": true,
+    "tasso_applicazione": 0.55,
+    "giro_a_cadenza": true,
+    "sentinelle_scattano": true,
+    "ore_da_ultima_completa": 66,
+    "verdetto": "ok",
+    "nota": "Sonda 30/6 20:10. 4 invarianti OK: (1) loop chiude, (2) tasso_applicazione 0.55 (REST fallback + lezione anti-rumore), (3) giro a cadenza, (4) sentinelle ordine-zombie+carrelli. Dati freschi ✅ via REST. MCP cieco ma AR-001 in-corso. Voto salute 77 (+1 vs 11:45). <10gg radiografia completa. Cantiere: formalizzare REST in giro.md."
+  },
+  "storico_append": {
+    "data": "2026-06-30",
+    "voto_salute": 77,
+    "difetti_aperti": 2,
+    "difetti_in_corso": 1,
+    "difetti_chiusi": 0,
+    "tipo": "sonda",
+    "nota": "Giro 20:10: REST OK 3° passaggio oggi. Invariante dati_freschi verde. Voto +1 (76→77). AR-001 avanza."
+  }
+}

@@ -1,91 +1,25 @@
 {
-  "data": "2026-07-03 21:30",
-  "sintesi": "AGGIORNAMENTO 3/7 sera (dati veri recuperati). Il quadro cambia su due punti: (1) l'ordine zombie €19,05 è stato ANNULLATO oggi alle 15:38 — non c'è più da 'sbloccarlo', è chiuso (negativamente): serve creare una transazione NUOVA da zero; (2) con la decisione-faro del 3/7, il negozio reale è Pane Quotidiano (non Casa Linda, che è demo): la prima transazione vera va fatta sul faro. Buona notizia: il faro ha già 5 prodotti veri pubblicati e storefront approvato — la vetrina è pronta, manca solo il payout. Quindi la mossa n.1 di Nicola è attivare il payout Stripe su Pane Quotidiano e far girare 1 ordine end-to-end. Sullo sfondo: verificare che il VPS/automazione sia vivo (token 401), firmare le 3 decisioni di lancio, e usare il bando ER (scade 21/7) come leva sui primi 10 dei 407 lead.",
+  "data": "2026-07-04 11:30",
+  "sintesi": "4/7 11:30 — Il primo ordine è IN CONSEGNA: stamattina (04:51) Nicola ha risposto «prosegui #21-#22» e il WhatsApp al buyer (#20) è partito. Restano solo le sue mani manuali: accettare l'ordine in dashboard PQ (#21) e portare i €19,05 COD al cliente (#22). Oggi il centro è pienissimo per Sant'Antonino (patrono, Fiera 250 bancarelle): il ritiro/consegna a piedi da Via Calzolai 25 è facilissimo — la finestra è ora, in mattinata, o dopo le 18 (fuori dal picco d'afa delle 17). In parallelo deve chiudere due cose sue: revocare il vecchio PAT GitHub (R1, approvata dal Pannello 09:40) e dare il via al merge dei fix (R2, approvata 09:50); più SQL 107 (RLS) ora AD-owned. Poi batch onboarding 6/7. La lezione che si ripete: approvazione ≠ esecuzione — serve chiudere UNA finestra sola, e oggi c'è quella giusta.",
   "prossime_mosse": [
-    {
-      "titolo": "Attivare il payout Stripe su Pane Quotidiano (il faro reale)",
-      "priorita": "critica",
-      "quando": "subito",
-      "colore": "🔴",
-      "come": "Il faro ha Stripe Connect collegato (acct_1TifANEq35Z9pThc) ma payout non attivo. Completare l'onboarding Stripe del venditore per abilitare l'incasso. Casa Linda-demo (payout già attivo) resta utile solo per collaudare tecnicamente il flusso, non come business reale.",
-      "ad_prepara": "Checklist attivazione payout + primo-incasso pronta (consegne/collaudo/2026-07-03)",
-      "senior": "finanza + onboarding-negozi"
-    },
-    {
-      "titolo": "Creare la prima transazione end-to-end vera su Pane Quotidiano",
-      "priorita": "critica",
-      "quando": "subito — thread vivi = 0 dopo l'annullamento dell'ordine",
-      "colore": "🔴",
-      "come": "1 dei 5 prodotti veri (es. Pesto Genovese €5) → ordine → pagato → consegnato → payout. Prima prova concreta che il ciclo funziona. L'ordine €19,05 è morto (annullato 15:38): questa è una transazione nuova, non un recupero.",
-      "ad_prepara": "Catena vendite+operations+finanza pronta al via",
-      "senior": "vendite + operations + finanza"
-    },
-    {
-      "titolo": "Verificare che il VPS/automazione sia vivo (token ad-mycity 401)",
-      "priorita": "alta",
-      "quando": "questa settimana",
-      "colore": "🟡",
-      "come": "L'autocontrollo segnala token GitHub 401 + timer watch-main/giro/worker assenti. Se il VPS gira su quel token, i giri automatici (ogni 2h) e i push di memoria potrebbero essere fermi da giorni. Rigenerare il token / riattivare i timer.",
-      "ad_prepara": "Diagnosi nel briefing 3/7 §6; proposta azione devops-sre",
-      "senior": "devops-sre + builder-automazioni"
-    },
-    {
-      "titolo": "Firmare le 3 decisioni di lancio (Stripe live/sandbox, commissione 12%, fee consegna)",
-      "priorita": "alta",
-      "quando": "in attesa da ~7 giorni",
-      "colore": "🔴",
-      "come": "Foglio-firma da 2 minuti (consegne/decisioni/2026-06-26-foglio-firma-lancio.md). Sbloccano infrastruttura e onboarding.",
-      "ad_prepara": "Foglio-firma consolidato",
-      "senior": "vendite + finanza + legale-privacy"
-    },
-    {
-      "titolo": "Partire coi primi 10 dei 407 lead (leva bando ER, scade 21/7)",
-      "priorita": "media",
-      "quando": "dopo la prima transazione riuscita",
-      "colore": "🟡",
-      "come": "Selezionare i 10 lead più caldi (centro, food) e avviare il primo contatto con il kit bando ER come leva d'urgenza (18 giorni alla scadenza).",
-      "ad_prepara": "Lista 10 lead prioritari + kit bando #12 in coda",
-      "senior": "vendite + intelligence"
-    }
+    {"titolo": "Consegnare oggi il primo ordine (#16) — manca solo accettare e consegnare", "quando": "oggi 4/7 (mattina o dopo le 18): centro pieno per Sant'Antonino", "come": "accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 (#21) → ritiro Via Calzolai 25 → consegna COD €19,05 → «Consegnato» in app (#22) → scrivi «consegna fatta»", "priorita": "alta", "ad_prepara": "#20 WhatsApp INVIATO (04:51, registrato in DECISIONI); #16 IN CONSEGNA; artefatto consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md §PASSO 2–4; payout-test #2 accorpato; al «consegna fatta» → #27 recensione + #26 carrello samir", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Revocare il PAT GitHub (R1 · AR-004)", "quando": "appena possibile", "come": "GitHub → Settings → Developer settings → PAT → revoca il vecchio, genera nuovo (solo nel .env VPS, mai committato)", "priorita": "alta", "ad_prepara": "scan-segreti.mjs già blocca il push; .env.save rimosso dal tracking", "senior": "@security", "colore": "🔴"},
+    {"titolo": "Far girare SQL 107 (DROP policy profiles)", "quando": "oggi/domani", "come": "incolla la migration nel SQL Editor Supabase → «fatto sql 107»", "priorita": "media", "ad_prepara": "migration pronta; smoke RLS post-esecuzione", "senior": "@tech", "colore": "🟡"},
+    {"titolo": "Payout-test Stripe sandbox", "quando": "03/7 mattina (programmato)", "come": "verifica flusso payout/pagamenti in sandbox", "priorita": "alta", "ad_prepara": "consegne/finanza/payout-faro.md", "senior": "@finanza", "colore": "🔴"},
+    {"titolo": "Batch onboarding negozi", "quando": "06/7", "come": "onboarding done-for-you dei nuovi negozi dai 407 lead", "priorita": "alta", "ad_prepara": "checklist onboarding pronta; gate = prima transazione o payout-test ok", "senior": "@onboarding-negozi", "colore": "🟡"}
   ],
   "primi_negozi": [
-    {
-      "nome": "Pane Quotidiano",
-      "perche": "Negozio-faro REALE (decisione Nicola 3/7): storefront approvato + 5 prodotti veri pubblicati. Manca solo il payout per incassare.",
-      "stato": "approvato, 5 prodotti available, payout NON attivo, ordine unico annullato — DA ATTIVARE payout + nuova transazione"
-    },
-    {
-      "nome": "Casa Linda",
-      "perche": "DEMO (scartata come faro): payout tecnicamente attivo, utile solo per collaudare il flusso, non business reale",
-      "stato": "demo, non riceve sforzo pesante"
-    },
-    {
-      "nome": "Antica Salumeria Garetti (prospect)",
-      "perche": "Negozio-faro narrativo scelto per gap di mercato + posizione centro + DOP",
-      "stato": "prospect (non nel DB), azioni 🔴 in attesa di firma"
-    }
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity (Via Calzolai 25); contratto 12% firmato 01:02; ordine zombie €19,05 da consegnare", "stato": "attivo · payout OFF · 0 consegne"},
+    {"nome": "Batch 6/7 (nomi da definire)", "perche": "407 lead in attesa; il motore di crescita reale", "stato": "pianificato · nomi/quantità da Nicola"}
   ],
   "rischi": [
-    "Thread vivi = 0: con l'ordine unico annullato, non c'è più nessuna transazione in corso. Ogni giorno di stallo allontana la prova che il ciclo funziona.",
-    "VPS/automazione forse ferma (token 401): la Cabina potrebbe non aggiornarsi da sola.",
-    "Bando ER scade 21/7 (18 giorni): se non si usa come leva, si perde l'urgenza sui pitch.",
-    "Bus factor: tutto dipende da Nicola in prima persona (pitch, consegne, firme)."
+    "Ordine zombie mai chiuso → North Star resta 0 all'infinito: 3 finestre saltate in un giorno mostrano che il rischio non è tecnico ma di frizione sull'unico tap manuale",
+    "PAT GitHub ancora nella storia git finché Nicola non revoca (R1)",
+    "Caldo 37°C il 6/7 sul batch freschi: serve gate catena del freddo prima del LIVE deperibili"
   ],
   "serve_da_nicola": [
-    {
-      "ambito": "Sblocco critico",
-      "cosa_manca": "Via libera ad attivare il payout su Pane Quotidiano e creare la prima transazione vera sul faro",
-      "domanda_per_nicola": "Attivo il payout su Pane Quotidiano e faccio girare la prima transazione end-to-end (1 dei 5 prodotti veri)?"
-    },
-    {
-      "ambito": "Infrastruttura",
-      "cosa_manca": "Conferma che il VPS è vivo (il token ad-mycity dà 401, i timer risultano assenti)",
-      "domanda_per_nicola": "Puoi verificare che i giri automatici (timer 2h) stiano ancora girando? Rigenero il token se serve?"
-    },
-    {
-      "ambito": "Lancio",
-      "cosa_manca": "Firma delle 3 decisioni 🔴 di lancio (Stripe, commissione, fee)",
-      "domanda_per_nicola": "Firmi il foglio-firma da 2 minuti? (consegne/decisioni/2026-06-26-foglio-firma-lancio.md)"
-    }
+    {"ambito": "Prima transazione", "cosa_manca": "#20 WhatsApp FATTO (Nicola «prosegui #21-#22» 4/7 04:51) — restano #21 (accetta ordine in dashboard) e #22 (consegna COD €19,05 → «Consegnato»)", "domanda_per_nicola": "WhatsApp inviato: ora accetta l'ordine `58094956…` in dashboard PQ + chiama 0523 388601 (#21) e consegna COD €19,05 (#22); quando fatto scrivi «consegna fatta» → parte A13/A14 (#27) + riaggancio carrello samir (#26) + payout-test #2."},
+    {"ambito": "Sicurezza", "cosa_manca": "revoca del PAT GitHub", "domanda_per_nicola": "Puoi revocare ora il vecchio PAT su GitHub (R1)? È l'unica cosa che chiude il buco."},
+    {"ambito": "Onboarding", "cosa_manca": "nomi e numero dei negozi del batch 6/7", "domanda_per_nicola": "Quanti negozi e quali nomi per il batch del 6/7?"}
   ]
 }

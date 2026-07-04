@@ -190,10 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-03 21:30
+## 🤖 Aggiornamento dell'AD — 2026-07-04 11:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **🌤️ Meteo: caldo torna ma senza estremi** (sab 4/7 20-33°C, lun 6/7 max ~34°C). Nessuna afa da "no-freschi": la leva delivery è tiepida. Messaggio "comodità", non "emergenza caldo". Fonte: ilmeteo.it live.
-- **🎭 Venerdì Piacentini STASERA (3/7) + festival "Dal Mississippi al Po" fino 11/7:** centro pieno → presidio offline QR (#7/#11 in coda) pertinente stasera e il 17/7. ZTL pedonale → acquisizione iscritti, non delivery in centro durante l'evento. Serve il **link reale lista d'attesa** (manca).
-- **⛔ Ordine unico ANNULLATO (3/7 15:38):** la prima consegna di sempre non avverrà (ordine €19,05 → CANCELED, mai accettato). Operativamente: **0 consegne in agenda, 0 thread vivi.** La priorità operativa n.1 diventa preparare la catena per una **transazione NUOVA sul faro** (payout → ordine test → consegna → payout), non più "sbloccare lo zombie".
-- **🩺 Da verificare: automazione VPS** (token 401, timer assenti) → i giri automatici potrebbero essere fermi. Impatto operativo: la Cabina non si aggiorna da sola finché non si conferma il battito.
+- **Stallo ~243h (≈10 giorni)** — #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano solo #21–#22. **Meteo 4/7 sereno 20→33°C, picco afa alle 17** → finestra consegna freschi = **mattina o dopo le 18**, accorpata al payout-test (una sola finestra certa).
+- **OGGI Sant'Antonino** — centro pienissimo tutto il giorno: facilita il ritiro PQ in Via Calzolai a piedi/bici. **ZTL solo mezzi >35q** (dalle 6 alle 2 del 5/7): non tocca consegne leggere.
+- **SQL 107** — prerequisito consegne batch 6/7 (dom 6/7, previsto ~37° → **gate catena del freddo** obbligatorio per i freschi, GATE-COMPLIANCE-PRELANCIO già pronto).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

@@ -1,0 +1,17 @@
+{
+  "sonda_update": {
+    "data": "2026-06-30 19:44",
+    "loop_chiude": true,
+    "tasso_applicazione": 0.55,
+    "giro_a_cadenza": true,
+    "sentinelle_scattano": true,
+    "ore_da_ultima_completa": 66,
+    "verdetto": "ok",
+    "nota": "Sonda serale 30/6 19:44. RECUPERO: REST marketplace OK (7 numeri live). MCP cieco ma invariante dati_freschi verde via fallback. 4 invarianti OK. AR-001 in-corso (REST dimostrato). Voto salute 76 (+3). <10gg da radiografia completa. Cantiere: AR-001 — formalizzare fallback in giro.md."
+  },
+  "cantiere_proposta": {
+    "id": "AR-001",
+    "fix": "Documentare passo REST obbligatorio quando MCP cieco in giro.md",
+    "colore": "🟡"
+  }
+}

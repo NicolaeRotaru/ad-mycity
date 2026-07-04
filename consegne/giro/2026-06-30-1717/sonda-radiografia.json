@@ -1,0 +1,23 @@
+{
+  "data": "2026-06-30 17:17",
+  "sonda": {
+    "data": "2026-06-30 17:17",
+    "invarianti": {
+      "loop_chiude": true,
+      "tasso_applicazione_ok": true,
+      "giro_cadenza_ok": true,
+      "sentinelle_scattano": true
+    },
+    "dettaglio": {
+      "loop_chiude": "Lezione REST-fallback applicata; artefatti 🟢 prodotti",
+      "tasso_applicazione": 0.55,
+      "giro_cadenza": "Briefing 17:17 stesso giorno mattina 11:45",
+      "sentinelle": "3 scattate verificate live (ordine, carrelli, negozio 0 ordini)"
+    },
+    "dati_freschi": true,
+    "giorni_ultima_radiografia_completa": 2,
+    "serve_radiografia_completa": false,
+    "voto_sonda": 78,
+    "nota": "Recupero sensori REST: invariante dati_freschi torna verde. AR-001 parzialmente mitigato (fallback REST), MCP sessione ancora cieco."
+  }
+}

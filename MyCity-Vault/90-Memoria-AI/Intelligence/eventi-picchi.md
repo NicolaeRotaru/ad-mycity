@@ -1,24 +1,45 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-03 21:30** · Fonte: @intelligence (giro del 3/7 sera, WebSearch live).
-> ⚠️ Libertà, IlPiacenza, PiacenzaSera e siti del Comune bloccano WebFetch (403) — dati ricostruiti via WebSearch.
+> Aggiornato: **2026-07-04 11:30** · Fonte: @intelligence (giro 4/7, iLMeteo + IlPiacenza ri-verificati LIVE + registro-realtà).
 
 ---
 
-## 🌦️ Picchi meteo (prossimi giorni) — il caldo torna, MA senza estremi
-- **Sab 4/7:** sereno, 20-33°C. Sole al mattino, caldo nel pomeriggio.
-- **Dom 5/7:** alta pressione, soleggiato e caldo ma senza picchi.
-- **Lun 6/7:** max ~34°C.
-- **Lettura delivery:** clima caldo ma **non afoso/estremo** → la leva "fa troppo caldo, te la portiamo noi" è **tiepida**, non forte come i 37°C di fine giugno. Non serve la regola "no freschi 12-18". Fonte: [ilmeteo.it](https://www.ilmeteo.it/meteo/piacenza).
+## 🎉 OGGI 4/7 — SANT'ANTONINO, patrono di Piacenza (evento cittadino grande)
 
-## 🎉 Eventi centro (prossimi 7-14 giorni)
-- **Venerdì Piacentini — stasera 3/7** (serata in corso): il centro storico è pieno. Secondo il piano restano le sere del **3/7 e 17/7**. Presidio QR offline (kit #7/#11 in coda) pertinente stasera e il 17/7.
-- **Festival "Dal Mississippi al Po" — fino all'11/7:** rassegna musicale in centro, richiama pubblico serale.
-- **Mostra XNL "Oltre le nuvole" — fino al 5/7:** visite guidate il sabato mattina.
-- **Sab 4/7:** Messa per Sant'Antonino (11:00, con il Vescovo) → passaggio in centro; "Notte sull'Aserei" all'Osservatorio di Lazzarello (fuori città).
-- Fonte: [ilpiacenza.it/eventi](https://www.ilpiacenza.it/eventi/).
+- **Fiera di Sant'Antonino:** **250 bancarelle** nel centro storico, di cui **33 alimentari** (176 lungo il Pubblico Passeggio, 32 viale Palmerio, 17 piazzale Genova, 19 corso Vittorio Emanuele, 6 via Alberici).
+- **Mercato settimanale** in piazza Cavalli e piazza Duomo (come di consueto).
+- **Messa solenne** ore 11 in Duomo (vescovo Cevolotto) + onorificenza "Antonino d'Oro 2026".
+- **Mostra "Oltre le nuvole"** a XNL fino al 5/7 (visite guidate il sabato mattina).
+- ⚠️ **ZTL/viabilità:** dalle **6 del 4/7 alle 2 del 5/7** vietata la circolazione ai veicoli **> 35 quintali** nella zona di rilevanza urbanistica. **Non tocca** consegne a piedi/bici/scooter → il ritiro/consegna dell'ordine PQ resta agevole.
 
-## 🛵 Consigli operativi
-- **Stasera/17-7 (Venerdì Piacentini):** presidio offline con QR "ordina e te lo portiamo" davanti alle botteghe aperte — NON delivery in ZTL durante l'evento (strade chiuse), ma acquisizione iscritti a costo ≈0. Serve il **link reale della lista d'attesa** (manca a Nicola).
-- **Weekend caldo ma non estremo:** messaggio delivery "comodità" più che "emergenza caldo". Prodotti freschi del faro (kefir, hummus) coerenti col caldo.
-- **Nessun picco di domanda misurabile lato nostro:** 0 ordini attivi, quindi questi eventi sono opportunità di **acquisizione**, non di gestione-picco.
+**Leva per MyCity (oggi):** centro pienissimo tutto il giorno → **ottima finestra per la consegna a piedi/bici** del primo ordine (#16) da Via Calzolai 25, e giornata ad alta visibilità in centro. Presidio pesante **NON** attivato (allocazione: sforzo pesante solo su negozi confermati; Pane Quotidiano è confermato ma il presidio-evento resta rimandato da Nicola, focus onboarding 6/7). Spunto editoriale leggero → Piano Editoriale/Notorietà.
+
+Fonte: [IlPiacenza — Fiera Sant'Antonino 4/7](https://www.ilpiacenza.it/attualita/fiera-sant-antonino-piacenza-4-luglio-2026-info-mercato-messa.html).
+
+---
+
+## 🌦️ Picchi meteo (prossimi 7 giorni)
+
+### OGGI 4/7 — Consegna: finestra MATTUTINA/SERALE (afa pomeridiana)
+
+| Giorno | Max / Min | Condizioni | Leva delivery |
+|--------|-----------|------------|---------------|
+| **Sab 4/7 (OGGI)** | **33° (ore 17) / 20° (ore 6)** | Sereno tutto il giorno, caldo, UV 6,5 alle 14 | **#21–#22 in mattinata o dopo le 18** — freschi al riparo dal picco d'afa, ritiro Via Calzolai 25 |
+| Dom 5/7 | ~34 / 21 | Sereno/caldo | normale |
+| **Dom 6/7** | **~37 / 21** | Caldo intenso — **batch onboarding** | rider + gate catena del freddo freschi |
+| Lun 7/7 | ~36 / 22 | Caldo | idratazione rider |
+
+Fonte: [iLMeteo Piacenza](https://www.ilmeteo.it/meteo/piacenza) (ri-verificato live 4/7).
+
+**Consiglio operativo:** la temperatura sale a 33° con picco alle 17 → per pane/freschi la finestra migliore è **mattina** (ora) o **dopo le 18**. Chiudere l'ordine zombie €19,05 (#21–#22) col payout-test accorpato. Pacchetto: `consegne/operations/2026-07-02-esecuzione-ok16-pranzo.md`.
+
+### Venerdì Piacentini — prossime serate 10, 17 luglio
+- La serata del 3/7 è passata (presidio rimandato). **Prossima finestra utile per un presidio:** VP **10/17 lug** (~50–60k persone/sera). Kit QR pronto (coda #11, rimandato).
+- Fonte: [Programma VP 2026](https://www.venerdipiacentini.it/pdf/programma2026.pdf).
+
+---
+
+## 🆕 Novità giro 4/7 11:30
+- **Sant'Antonino OGGI** (patrono, Fiera 250 bancarelle): centro pieno → finestra ideale per **consegnare #16 a piedi/bici** e chiudere lo stallo. È la vera novità del giorno.
+- Business invariato dal 24/6 (stallo **~243h ≈ 10 giorni**): il blocco resta l'esecuzione umana #21–#22, non tecnica né meteo.
+- Caldo in risalita verso il 6/7 (~37°): tenere il gate catena-del-freddo per il batch freschi.
