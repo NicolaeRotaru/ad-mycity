@@ -50,87 +50,64 @@ if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
   fi
 fi
 
-# --- Prepara il ramo della memoria e ALLINEA IL CODICE a main (PRIMA del giro) ---
-# Modello: il VPS lavora sul ramo dedicato 'memoria-ad' (vault accumulato: STATO/DECISIONI/briefing +
-# consegne/creativi). Il CODICE (pannello, cervello, agenti) arriva da 'main'. Tenendo la memoria FUORI da
-# 'main', 'main' non diverge mai e i bugfix spinti su main arrivano al server a ogni giro.
-branch="${GIT_BRANCH:-memoria-ad}"
+# --- RAMO UNICO: allinea codice+memoria all'ultimo remoto (PRIMA del giro), in modo NON distruttivo ---
+# Modello a ramo unico (Fase 2): codice E memoria vivono su UN SOLO ramo = 'main' (OBSIDIAN_BRANCH=main,
+# GIT_BRANCH=main). Non c'è più il ramo 'memoria-ad' separato né l'allineamento del codice da main: siamo
+# GIÀ su main. Qui ci portiamo all'ultimo commit remoto (bugfix + memoria pushata altrove) SENZA azzerare
+# le scritture locali non ancora pushate — niente 'checkout -f' distruttivo che le perderebbe.
+branch="${GIT_BRANCH:-main}"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 LOCK="$REPO/.git/mycity-sync.lock"           # serializza le operazioni git tra giro e worker (stesso working tree)
-MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)   # cartelle ACCUMULATE dell'AD: mai sovrascritte da main
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
   (
     flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
-    # Fix B: se un giro precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
-    # ramo memoria-ad), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
-    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    # Fix B (PRESERVATA): se un giro precedente è morto lasciando scritture del vault NON committate,
+    # committale ORA — così il rebase/merge qui sotto non le trova come modifiche pendenti (fallirebbe) e
+    # non vanno perse. Il push finale del giro le pubblica.
+    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un giro interrotto ($(ts))" 2>/dev/null || true
     fi
-    # Commit locali non pushati: pubblicali prima del checkout -f (altrimenti si perdono).
-    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
-      git fetch "$url" "$branch" 2>/dev/null || true
-      _ahead_pre="$(git rev-list --count "FETCH_HEAD..HEAD" 2>/dev/null || echo 0)"
-      if [ "${_ahead_pre:-0}" -gt 0 ] 2>/dev/null; then
-        echo "[$(ts)] ▶ Push di ${_ahead_pre} commit pendenti su origin/${branch}..."
-        for _ap in 1 2 3; do
-          git fetch "$url" "$branch" 2>/dev/null \
-            && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }
-          git push "$url" "HEAD:${branch}" 2>/dev/null && break
-          sleep 3
-        done
-      fi
-    fi
-    # 1) Mettiti sul ramo della memoria, dall'accumulato remoto (include le scritture pushate dal worker).
-    if git fetch "$url" "$branch" 2>/dev/null; then
-      git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
-    else
-      git checkout -f -B "$branch" 2>/dev/null || true   # primo giro: il ramo remoto non esiste ancora
-    fi
-    # 2) Allinea SOLO il CODICE a main (NIENTE merge, e soprattutto NIENTE checkout delle cartelle di
-    #    memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
-    #    (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
-    #    impossibile resuscitare file potati dall'AD o sovrascrivere le scritture del vault. Deterministico.
-    #    (La memoria resta quella del ramo memoria-ad, ripresa dal remoto al passo 1.)
-    _main_ok=0
-    _main_err=""
+    # Portati all'ultimo remoto in modo NON distruttivo: fetch + rebase (fallback merge --no-edit). I commit
+    # locali non pushati restano DENTRO HEAD (rebase li riapplica sopra il remoto) — nessuna scrittura persa.
+    _fetch_ok=0
+    _fetch_err=""
     for _mf in 1 2 3; do
-      if _main_err="$(git fetch "$url" main 2>&1)"; then _main_ok=1; break; fi
+      if _fetch_err="$(git fetch "$url" "$branch" 2>&1)"; then _fetch_ok=1; break; fi
       sleep 2
     done
-    if [ "$_main_ok" = 1 ]; then
-      code_paths=()
-      while IFS= read -r p; do
-        case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
-      done < <(git ls-tree --name-only FETCH_HEAD)
-      if [ "${#code_paths[@]}" -gt 0 ] && git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null; then
-        git "${GIT_ID[@]}" commit -q -m "giro: allinea codice a main (vault intatto) ($(ts))" 2>/dev/null || true
-        echo "[$(ts)] Codice allineato a origin/main (solo codice, vault intatto)."
+    if [ "$_fetch_ok" = 1 ]; then
+      _cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)"
+      if [ "$_cur" = "$branch" ]; then
+        # Siamo sul ramo: rebase dei commit locali sopra l'ultimo remoto. Se il rebase entra in conflitto
+        # (snapshot toccato da due parti) abortisci e prova un merge non distruttivo; se anche il merge
+        # confligge abortisci e resta sul locale — il push finale (rebase-retry) riproverà, niente si perde.
+        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ramo unico: allineato a origin/${branch} via rebase (scritture locali preservate)."
+        else
+          git rebase --abort 2>/dev/null || true
+          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+            echo "[$(ts)] Ramo unico: allineato a origin/${branch} via merge (rebase in conflitto)."
+          else
+            git merge --abort 2>/dev/null || true
+            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
+          fi
+        fi
       else
-        echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
-      fi
-      # Bootstrap-if-absent dell'AUTO-COSCIENZA dallo scaffold di main. Il vault vive su memoria-ad e NON viene
-      # mai sovrascritto da main; MA se la CARTELLA auto-coscienza non esiste ancora su memoria-ad (ramo fresco,
-      # l'AD non l'ha mai creata) la prendo UNA TANTUM da main: cosi' la Cabina ha una base e l'auto-analisi ha
-      # il registro-realta da leggere per il grounding. SOLO se la CARTELLA manca -> appena esiste l'AD ne e'
-      # padrone e il giro non la tocca piu' (niente resurrezione di un file che l'AD ha potato di proposito).
-      # (FETCH_HEAD qui = main.) Resta staged: lo committa il sync della memoria a fine giro, su memoria-ad.
-      ac="MyCity-Vault/90-Memoria-AI/auto-coscienza"
-      if [ ! -d "$ac" ] && git cat-file -e "FETCH_HEAD:$ac/auto-analisi.json" 2>/dev/null; then
-        git checkout FETCH_HEAD -- "$ac" 2>/dev/null \
-          && echo "[$(ts)] Bootstrap auto-coscienza: scaffold preso da main (cartella mancante su $branch)." \
-          || echo "[$(ts)] WARN: bootstrap auto-coscienza fallito, continuo." >&2
+        # Detached/primo giro: portati sul ramo dall'accumulato remoto.
+        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ramo unico: HEAD portato su ${branch} da origin/${branch}."
       fi
     else
-      echo "[$(ts)] WARN: fetch di main fallito dopo 3 tentativi — continuo col codice già sul disco." >&2
-      [ -n "$_main_err" ] && echo "[$(ts)]   Dettaglio git: $_main_err" >&2
+      echo "[$(ts)] WARN: fetch di ${branch} fallito dopo 3 tentativi — continuo col codice/memoria già sul disco." >&2
+      [ -n "$_fetch_err" ] && echo "[$(ts)]   Dettaglio git: $_fetch_err" >&2
     fi
   ) 9>"$LOCK" || true
 else
-  echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: niente allineamento codice/memoria (solo locale)." >&2
+  echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: niente allineamento remoto (solo locale)." >&2
 fi
 
 # Esegue il giro col motore AI. L'AD scrive nella sua memoria (il vault) senza chiedere ogni volta.
@@ -202,8 +179,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
-  # NON dipende dal motore AI: il sync di fine giro la pubblica su memoria-ad → il Pannello (che legge
-  # quel ramo) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
+  # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
+  # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
 fi
@@ -250,7 +227,7 @@ PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/age
 ## Compito
 Leggi ed esegui **per intero** il file \`cervello/giro.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).
 Scrivi sul disco tutti i file richiesti (vault, briefing, auto-coscienza, ecc.). Rispetta 🟢🟡🔴.
-La memoria va sul ramo memoria-ad (il push git lo fa giro.sh dopo di te — tu scrivi i file)."
+La memoria va sul ramo main — ramo unico, codice+memoria insieme (il push git lo fa giro.sh dopo di te — tu scrivi i file)."
 if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
   PROMPT="$PROMPT
 
@@ -370,10 +347,10 @@ $_sit"
   fi
 fi
 
-# --- Sync della memoria sul RAMO DEDICATO 'memoria-ad': commit + push (rebase, NON force) ---
+# --- Sync della memoria sul RAMO UNICO 'main': commit + push (rebase, NON force) ---
 # Sotto lo STESSO lock del worker: i due non si pestano. Push NON-force con rebase, così le scritture del
-# worker (pushate su memoria-ad) NON vengono mai cancellate dal giro (col force-push le perdeva).
-# Il Pannello legge questo ramo via OBSIDIAN_BRANCH. 'main' resta intatto (la memoria non vive li').
+# worker (già pushate) NON vengono mai cancellate dal giro (col force-push le perdeva). Ramo unico:
+# codice e memoria vivono entrambi su 'main' — è il ramo che il Pannello legge via OBSIDIAN_BRANCH=main.
 GIRO_PUSH_OK=1
 GIRO_HAD_CHANGES=0
 # AR-021: scan-segreti PRIMA di versionare qualunque cosa. Se trova un segreto reale nei file
