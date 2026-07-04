@@ -19,7 +19,7 @@ export type VistaNav =
   | "assistente"
   | "esplora"
   | "report"
-  | "storico"; // legacy: reindirizza ad assistente → storico
+  | "storico"; // area a sé: diario + governo/diretta (schede Governo & diretta / Diario)
 
 export const EVENTO_VAI = "mycity:vai";
 // 🧭 CONTRATTO DI NAVIGAZIONE: le sotto-schede non usano più window.location.hash.
