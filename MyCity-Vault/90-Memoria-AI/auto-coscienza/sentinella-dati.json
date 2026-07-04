@@ -1,12 +1,12 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-04 10:02",
+  "aggiornato": "2026-07-04 10:05",
   "regole": {
     "sensori_ciechi": {
-      "ultima_firma": "20",
-      "ultimo_accodato": "2026-07-04 06:00",
-      "ultimo_accodato_iso": "2026-07-04T04:00:35.832Z",
-      "ultimo_job": "6122238c-874d-4355-b15a-3a779cd1b326",
+      "ultima_firma": "22",
+      "ultimo_accodato": "2026-07-04 10:05",
+      "ultimo_accodato_iso": "2026-07-04T08:05:01.936Z",
+      "ultimo_job": "c2b85917-15af-4f29-948d-1f02235fef4f",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -36,7 +36,7 @@
   },
   "accodati_giorno": {
     "giorno": "2026-07-04",
-    "n": 5
+    "n": 6
   },
   "accodati_ts": [
     "2026-07-03T00:36:35.265Z",
@@ -51,23 +51,12 @@
     "2026-07-03T22:00:16.867Z",
     "2026-07-03T22:09:03.546Z",
     "2026-07-04T00:37:31.247Z",
-    "2026-07-04T04:00:35.832Z"
+    "2026-07-04T04:00:35.832Z",
+    "2026-07-04T08:05:01.936Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 1562,
+  "tick": 1564,
   "storia": [
-    {
-      "quando": "2026-07-04 08:05",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-04 08:06",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-04 08:07",
       "eventi": 2,
@@ -655,10 +644,22 @@
       "eventi": 2,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 10:03",
+      "eventi": 2,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-04 10:05",
+      "eventi": 2,
+      "accodati": 1,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-04 10:02",
+    "quando": "2026-07-04 10:05",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -666,7 +667,7 @@
     "recensioni_basse": 0,
     "negozi_fermi": 1,
     "carrelli": null,
-    "worker_eta_min": 2,
+    "worker_eta_min": 1,
     "sensori_max_ciechi": 22,
     "salute_voto": 44,
     "radiografia_gg": 2,
