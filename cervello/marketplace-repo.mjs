@@ -5,11 +5,7 @@
 // Ordine di risoluzione del PERCORSO locale del codice:
 //   1) MARKETPLACE_REPO       → percorso esplicito (VPS/CI), vince su tutto
 //   2) <ad-repo>/marketplace  → checkout locale creato da `node cervello/collega-marketplace.mjs`
-//
-// NIENTE percorsi cablati per una macchina specifica (né Windows né altro): il fallback è
-// SEMPRE il checkout standard <ad-repo>/marketplace, cross-platform. Se non c'è, i chiamanti
-// controllano `existsSync(<path>/.git)` e mostrano «NON collegato → collega-marketplace.mjs».
-// (Un guardiano — no-path-cablati-check.mjs — impedisce che un path assoluto rientri nel codice.)
+//   3) il vecchio path Windows del PC di Nicola (fallback storico)
 //
 // SOLA LETTURA: l'AD analizza il marketplace, non lo modifica da qui.
 
@@ -27,12 +23,15 @@ export const MARKETPLACE_BRANCH = process.env.MARKETPLACE_BRANCH || "main";
 // Percorso di default del checkout locale, accanto al codice dell'AD.
 export const DEFAULT_CHECKOUT = join(AD_ROOT, "marketplace");
 
+// Fallback storico: la cartella sul PC di Nicola (vale solo su quel Windows).
+const WINDOWS_FALLBACK = "C:\\Users\\InfinitaPossibilita\\mycity-live";
+
 // Restituisce il percorso del codice del marketplace su QUESTA macchina.
-// Ritorna SEMPRE un percorso cross-platform: la env esplicita o il checkout standard.
-// Mai un percorso legato a una macchina specifica.
 export function resolveMarketplaceRepo() {
   if (process.env.MARKETPLACE_REPO) return process.env.MARKETPLACE_REPO;
-  return DEFAULT_CHECKOUT;
+  if (existsSync(join(DEFAULT_CHECKOUT, ".git"))) return DEFAULT_CHECKOUT;
+  if (existsSync(DEFAULT_CHECKOUT)) return DEFAULT_CHECKOUT;
+  return WINDOWS_FALLBACK;
 }
 
 // true se nel percorso risolto c'è davvero un repo git con dentro il codice.
