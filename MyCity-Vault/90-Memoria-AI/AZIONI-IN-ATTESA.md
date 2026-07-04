@@ -121,3 +121,11 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Serve:** una data · ok Garetti a fare il "primo turno" in piazza · mini-budget €0-300 · catena @relazioni-istituzionali + @pr-stampa + @designer + @operations.
 - **Colore:** 🔴 PROPOSTA — non eseguita. Aspetta valutazione/firma di Nicola.
 - **Stato:** PROPOSTA SUL TAVOLO.
+
+## Bonifica marketplace — 102 problemi (piano pronto da applicare)
+- **Cosa:** pacchetto di fix turnkey per tutti e 102 i problemi della radiografia (12 workstream, 23 migrazioni SQL, 4 file corretti). Entry-point: `consegne/bonifica/PIANO-DI-BONIFICA.md`; tabella 🔴 nel §6.
+- **Cosa cambia:** applicando l'Onda 0 il sito torna deployabile (B3), il catalogo torna acquistabile per gli shopper (B2), si chiude il furto del wallet (B1) e l'auto-approvazione venditori senza KYC (B4).
+- **Se va bene:** apro un branch/PR nel repo del marketplace per workstream, nell'ordine delle 4 ondate, con i test come cancello; le migrazioni prima su staging poi — con firma — sul DB live.
+- **Serve da Nicola (🔴):** firma migrazioni su DB live · deploy Render · dati reali Titolare · DPA Anthropic (zero-retention) · dominio email verificato (RESEND_FROM) · chiave Upstash · numero WhatsApp reale · decisione modello approvazione venditori · toggle Leaked-Password ON.
+- **Colore:** 🟢 il piano (creato) · 🔴 l'applicazione in produzione (da firmare).
+- **Stato:** PRONTO — in attesa del via all'Onda 0.
