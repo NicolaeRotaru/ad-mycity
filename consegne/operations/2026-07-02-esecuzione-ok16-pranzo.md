@@ -1,6 +1,8 @@
-# Esecuzione ok 16 — ordine zombie €19,05 · consegna MATTINA sab 4/7 (accorpata al payout-test)
+# Esecuzione ok 16 — ordine zombie €19,05 · consegna STASERA cena 19–21 sab 4/7 (accorpata al payout-test)
 
-> **🚚 STATO 2026-07-04 04:51 — #20 FATTO, si prosegue a #21-#22:** Nicola risponde all'auto-analisi «Hai inviato WhatsApp #20?» con **«prosegui #21-#22»** → **PASSO 1 (WhatsApp) chiuso: inviato, contatto col buyer avvenuto**. Ora le mani manuali di Nicola sono **§PASSO 2 (#21 accetta ordine in dashboard + chiama PQ)** e **§PASSO 3–4 (#22 consegna COD €19,05 → «Consegnato»)**. Al «consegna fatta» → payout-test #2 + recensione A13/A14 (#27) + carrello samir (#26). Registrato in [[DECISIONI]] 04:51.
+> **🌙 STATO 2026-07-04 09:31 — PROPOSTA DAL GIRO APPROVATA (Pannello): «Esegui #16 stasera — tap WhatsApp #20 (cena 19–21) → #21 → #22 → "consegna fatta"».** Nicola firma l'esecuzione serale (🔴). **Piano stasera:** finestra consegna **19:00–21:00** (negozio + freschi ok di sera, no caldo, buyer a casa dopo il lavoro del sabato). #20 era già stato inviato stamattina (04:51 «prosegui #21-#22»); se il buyer **non ha ancora bloccato indirizzo+orario**, il tap serale qui sotto (PASSO 1) riconferma la consegna per le 19–21. Poi mani di Nicola: **§PASSO 2 (#21 accetta ordine + chiama PQ)** → **§PASSO 3 (#22 consegna COD €19,05 → «Consegnato»)**. Al «consegna fatta» → payout-test #2 + recensione A13/A14 (#27) + carrello samir (#26). Registrato in [[DECISIONI]] 09:31.
+>
+> **🚚 STATO precedente 2026-07-04 04:51 — #20 FATTO, si prosegue a #21-#22:** Nicola risponde all'auto-analisi «Hai inviato WhatsApp #20?» con **«prosegui #21-#22»** → **PASSO 1 (WhatsApp) chiuso: inviato, contatto col buyer avvenuto**. (Il tap serale qui sotto è la riconferma per lo slot 19–21, non un secondo primo-contatto.)
 >
 > **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05** · Decisione binaria **2/7 17:09** = Scelta A (eseguire) · proposta #16 3/7 13:29
 > **✅ Aggiornato 2026-07-04 04:38 — PROPOSTA DAL GIRO #20 APPROVATA (Pannello):** «#20 WhatsApp buyer 348 642 1766 — primo passo consegna pranzo, ok 16 già approvato». Le finestre di giovedì 3/7 (mattina/pomeriggio/sera) sono passate senza il tap → **riprogrammata a STAMATTINA sabato 4/7 (entro le 13)**. Motivo: Pane Quotidiano è aperto la mattina (facile ritiro) e i freschi vanno consegnati prima del caldo pomeridiano. Artefatto rigenerato con lo slot di oggi. Stallo ~236h — chiuderlo è la mossa #1.
@@ -30,17 +32,17 @@
 
 ---
 
-## PASSO 1 — WhatsApp buyer (🔴 · Nicola · STAMATTINA sab 4/7) ✅ APPROVATO #20
+## PASSO 1 — WhatsApp buyer (🔴 · Nicola · STASERA cena 19–21) ✅ APPROVATO (proposta 4/7 09:31)
 
-**Slot proposto:** **oggi sabato, consegna entro le 13** (negozio aperto la mattina, freschi prima del caldo)
+**Slot proposto:** **stasera, consegna tra le 19:00 e le 21:00** (buyer a casa dopo il sabato, freschi ok di sera senza caldo)
 
 **Testo (copia-incolla):**
-> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **oggi in mattinata (entro le 13)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
+> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno è ancora pronto. Possiamo consegnartelo **stasera tra le 19 e le 21**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
 
 **Link diretto (1 tap):**
-https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20oggi%20in%20mattinata%20(entro%20le%2013)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
+https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20%C3%A8%20ancora%20pronto.%20Possiamo%20consegnartelo%20stasera%20tra%20le%2019%20e%20le%2021%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
 
-**Se non risponde entro le 12:00:** tieni comunque il ritiro dal negozio pronto e riprova il tap nel pomeriggio (slot fresco post-caldo); se il buyer resta irraggiungibile tutta la giornata si archivia (non riproporre la decisione binaria — è già firmata Scelta A).
+**Se non risponde entro le 20:00:** tieni comunque il ritiro dal negozio pronto e, se il buyer conferma tardi, sposta di poco lo slot; se resta irraggiungibile tutta la sera si riprova domani (non riproporre la decisione binaria — è già firmata Scelta A).
 
 ---
 
@@ -50,7 +52,7 @@ https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20
    https://mycity-marketplace.com/seller/dashboard
    → ordine `58094956…` → **Accetta**
 2. **Chiama Pane Quotidiano** (0523 388601) — script in `AZIONI-PRONTE.md` **A6**:
-   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo stamattina. Confermate che è pronto?» *(⚠️ negozio aperto la mattina — orario comodo per il ritiro)*
+   > «C'è un ordine MyCity da preparare: 4 prodotti bio (pesto + kefir + hummus), €19,05 contrassegno. Passiamo a ritirarlo/consegnarlo **stasera verso le 19**. Confermate che è pronto?» *(⚠️ verifica orario di chiusura del negozio sabato sera — se chiude presto, ritira prima e consegna 19–21)*
 3. Aggiorna **slot consegna** in app se il buyer conferma orario diverso.
 
 ---
@@ -81,7 +83,7 @@ https://mycity-marketplace.com/orders/58094956-4b9b-49b4-9299-7a5c645d7cb3/revie
 
 ## Checklist rapida Nicola (5 min)
 
-- [ ] **1.** Tap link WhatsApp → invia messaggio mattina (consegna entro le 13)
+- [ ] **1.** Tap link WhatsApp → invia messaggio serale (consegna 19–21)
 - [ ] **2.** Attendi risposta buyer (indirizzo + sì)
 - [ ] **3.** Accetta ordine in dashboard PQ
 - [ ] **4.** Chiama negozio (0523 388601) — prodotti pronti
