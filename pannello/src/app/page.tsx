@@ -107,6 +107,7 @@ import Comandi from "@/components/Comandi";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import Documenti from "@/components/aree/Documenti";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
@@ -588,6 +589,7 @@ type Vista =
   | "mondo"
   | "assistente"
   | "esplora"
+  | "report"
   | "storico";
 
 type AssistenteTab = "chat" | "conversazioni" | "storico";
@@ -1510,6 +1512,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           const AREE = [
             { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
             { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+            { id: "report", label: "Report", icon: <FileText size={15} /> },
             { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
             { id: "cervello", label: "Macchina", icon: <Cpu size={15} /> },
             { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
@@ -1561,6 +1564,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <Arsenale />
           </div>
         )}
+
+        {/* ===================== REPORT & PIANI (documenti in consegne/) ===================== */}
+        {vista === "report" && <Documenti />}
 
         {/* ===================== MACCHINA (radiografia + auto-coscienza) ===================== */}
         {vista === "cervello" && <MacchinaArea />}
