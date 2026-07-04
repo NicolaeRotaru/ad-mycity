@@ -170,6 +170,11 @@ if command -v node >/dev/null 2>&1; then
     ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
     echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
   fi
+  echo "[$(ts)] Supervisione negozi & prodotti (dati mancanti → proposte da firmare)..."
+  # Veglia ogni negozio e ogni prodotto, trova i dati mancanti e ACCODA le proposte 🟡 di riempimento
+  # (autofill deducibile) in AZIONI-IN-ATTESA — sola lettura del marketplace, niente scrive sul DB, mai
+  # tocca campi sensibili (legale/fiscale/IBAN/KYC/Stripe/consensi). Non è un gate: || true.
+  node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | tail -6 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
   # AR-053: sweep deterministico delle previsioni SCADUTE via `node cervello/calibrazione.mjs scadute` —

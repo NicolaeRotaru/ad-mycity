@@ -1,0 +1,85 @@
+{
+  "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
+  "aggiornato": "2026-07-04 22:10",
+  "conteggi": {
+    "negozi": 17,
+    "negozi_approvati": 2,
+    "prodotti": 258,
+    "autofill_proposte": 494,
+    "da_procurare": 34
+  },
+  "proposte": [
+    {
+      "tabella": "products",
+      "campo": "condition",
+      "valore": "nuovo",
+      "n": 252,
+      "perche": "proposto \"nuovo\": è il valore prevalente reale (merce di negozio nuova)",
+      "note": [
+        "escludi prima gli articoli di seconda mano (metti \"usato\" a quelli): il default nuovo non vale per l'usato"
+      ]
+    },
+    {
+      "tabella": "products",
+      "campo": "unit",
+      "valore": "pezzo",
+      "n": 242,
+      "perche": "proposto \"pezzo\": è l'unico valore di unità già usato sul sito (precedente reale)",
+      "note": [
+        "categoria \"Frutta e Verdura\" a peso: valuta se è meglio kg/etto prima di confermare",
+        "categoria \"Salumeria\" a peso: valuta se è meglio kg/etto prima di confermare",
+        "categoria \"Latticini & Formaggi\" a peso: valuta se è meglio kg/etto prima di confermare",
+        "categoria \"Pasta fresca\" a peso: valuta se è meglio kg/etto prima di confermare"
+      ]
+    }
+  ],
+  "da_procurare": [
+    {
+      "etichetta": "città",
+      "motivo": "serve materia prima reale",
+      "n": 17
+    },
+    {
+      "etichetta": "descrizione vetrina",
+      "motivo": "serve la voce/storia reale del negozio",
+      "n": 15
+    },
+    {
+      "etichetta": "logo",
+      "motivo": "serve materia prima reale",
+      "n": 1
+    },
+    {
+      "etichetta": "foto prodotto",
+      "motivo": "serve materia prima reale",
+      "n": 1
+    }
+  ],
+  "report": "consegne/supervisione/2026-07-04-supervisione.md",
+  "storia": [
+    {
+      "quando": "2026-07-04 22:10",
+      "negozi": 17,
+      "negozi_approvati": 2,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-04 22:10",
+      "negozi": 17,
+      "negozi_approvati": 2,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-04 22:10",
+      "negozi": 17,
+      "negozi_approvati": 2,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    }
+  ]
+}
