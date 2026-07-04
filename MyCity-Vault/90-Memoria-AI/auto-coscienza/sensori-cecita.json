@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-04 12:20",
+  "aggiornato": "2026-07-04 14:20",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-04 12:20",
+      "ultimo_ok": "2026-07-04 14:20",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,10 +23,10 @@
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-04 12:20"
+      "ultimo_ok": "2026-07-04 14:20"
     },
     "posthog_api": {
-      "giri_ciechi": 25,
+      "giri_ciechi": 26,
       "stato": "cieco",
       "canale": "PostHog API",
       "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
@@ -37,7 +37,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-04 12:20",
+      "ultimo_ok": "2026-07-04 14:20",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -49,9 +49,9 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 41,
+    "giri_totali": 42,
     "sensori_ok": 3,
-    "max_giri_ciechi": 25,
+    "max_giri_ciechi": 26,
     "sensori_totali": 4,
     "almeno_un_dato": true,
     "sensori_non_configurati": 1
