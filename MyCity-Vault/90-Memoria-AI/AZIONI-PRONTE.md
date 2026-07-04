@@ -172,3 +172,25 @@ testo (script telefonata):
 testo (backup WhatsApp/in-app, se non risponde):
 Buongiorno, sono Nicola di MyCity 👋 Vi scrivo solo per dirvi che il primo ordine sta tardando ad arrivare al cliente: la colpa è nostra, stiamo rodando le consegne in questi primi giorni — il vostro negozio e il catalogo sono a posto. Vi ho scelti come primo negozio di Piacenza perché il vostro bio dal '76, a domicilio, non lo fa nessun altro qui. Appena chiudiamo questa prima consegna vi seguo io per far partire il flusso. Non dovete fare nulla, ci penso io. Volevo che lo sapeste da me, non da un silenzio. A prestissimo 🌾
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A15 · 📣 Post del giorno "Il turno del sabato" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Post del giorno (sabato 4/7) sul faro reale. Angolo utilità/weekend agganciato a "Il Turno", **complementare** ad A8 (storia-bottega): quella racconta il *chi/perché*, questo spinge l'*azione del sabato* + iscrizione lista. Nemico chiaro "magazzino fuori città" (swipe #1). Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA-RULES passato (solo "bio dal 1976" fonte pubblica, 0 numeri finti, 0 testimonianze)
+contenuto pronto: consegne/content/2026-07-04-POST-turno-del-sabato-PQ.md
+cosa cambia: esce il post del sabato del negozio reale su MyCity → spinta iscrizioni nel weekend a costo ≈0, ripubblicabile dal negozio; complementa il ritratto di ieri senza duplicarlo.
+se va bene: il negozio ripubblica ai suoi clienti → primi iscritti caldi alla lista; si consolida il ritmo settimanale del motore "Volti/Il Turno".
+testo:
+[HOOK] È sabato. A Piacenza qualcuno ha già alzato la saracinesca per te.
+[CORPO] Il sabato è il giorno della spesa. Puoi farla come tutti — in auto, fuori porta, davanti a uno scaffale
+che non ti conosce. Oppure puoi farla dalle botteghe del centro, quelle vere: da Pane Quotidiano, che il cibo buono
+lo mette a Piacenza dal 1976, non lo fa arrivare da un magazzino a chilometri da qui. Una città-centro resta accesa
+solo se, a turno, qualcuno tiene aperto. Il bottegaio lo fa dalla mattina. Tu il tuo turno lo fai facendo la spesa
+dalle sue mani — oggi anche da casa, senza ZTL, senza giri: te la portiamo noi.
+[CTA] 👉 Fai il tuo turno del sabato → [LINK lista d'attesa · UTM turno_sabato] — i primi 50 iscritti hanno la prima consegna gratis.
+[FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · @mycity.piacenza · VOLTI, NON ALGORITMI
+visual: versione neutra TIPOGRAFICA su palette brand ("È SABATO. FAI IL TUO TURNO." + "dal 1976 · da casa, senza ZTL") = pubblicabile subito senza foto; versione col NOME+foto insegna Via Calzolai = solo con ok titolare. Zero giallo-Glovo/arancio-Amazon.
+pre-condizioni: (1) versione neutra = pubblicabile con sola firma Nicola · (2) versione col nome+foto = ok titolare (chiedibile in A6/#21) · (3) link reale lista in bio con UTM turno_sabato (@builder-automazioni). Coda canonica = riga #30 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.
