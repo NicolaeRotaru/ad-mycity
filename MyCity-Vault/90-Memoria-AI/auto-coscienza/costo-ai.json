@@ -1,142 +1,29 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-03 22:21",
+  "aggiornato": "2026-07-04 06:00",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-07-03",
-    "runs": 18,
-    "token_totali": 971,
-    "durata_sec_totale": 7152,
+    "data": "2026-07-04",
+    "runs": 1,
+    "token_totali": 0,
+    "durata_sec_totale": 1,
     "voci": [
       {
-        "quando": "2026-07-03 00:16",
-        "tipo": "giro",
-        "durata_sec": 595,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 00:23",
-        "tipo": "giro",
-        "durata_sec": 370,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 00:31",
-        "tipo": "giro",
-        "durata_sec": 282,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 00:37",
-        "tipo": "giro",
-        "durata_sec": 348,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 06:02",
+        "quando": "2026-07-04 06:00",
         "tipo": "ritmo-mattino",
-        "durata_sec": 132,
+        "durata_sec": 1,
         "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 06:31",
-        "tipo": "giro",
-        "durata_sec": 659,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 08:27",
-        "tipo": "giro",
-        "durata_sec": 446,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 10:29",
-        "tipo": "giro",
-        "durata_sec": 552,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 11:24",
-        "tipo": "giro",
-        "durata_sec": 653,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 12:03",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 185,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 12:21",
-        "tipo": "giro",
-        "durata_sec": 67,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 14:32",
-        "tipo": "giro",
-        "durata_sec": 705,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 15:07",
-        "tipo": "ritmo-settimana",
-        "durata_sec": 439,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 18:01",
-        "tipo": "ritmo-sera",
-        "durata_sec": 68,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 18:29",
-        "tipo": "giro",
-        "durata_sec": 527,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 20:29",
-        "tipo": "giro",
-        "durata_sec": 559,
-        "token": null,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 21:29",
-        "tipo": "giro",
-        "durata_sec": 495,
-        "token": 715,
-        "modello": "claude"
-      },
-      {
-        "quando": "2026-07-03 22:21",
-        "tipo": "giro",
-        "durata_sec": 70,
-        "token": 256,
         "modello": "claude"
       }
     ]
   },
   "storico_giorni": [
+    {
+      "data": "2026-07-03",
+      "runs": 18,
+      "token_totali": 971,
+      "durata_sec_totale": 7152
+    },
     {
       "data": "2026-07-02",
       "runs": 5,

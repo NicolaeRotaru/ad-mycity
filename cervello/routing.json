@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-02 12:45",
+  "aggiornato": "2026-07-04 06:00",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -8,15 +8,90 @@
     "a_consumo": "per-messaggio/per-minuto (WhatsApp, SMS, TTS premium)"
   },
   "regole": [
-    { "compito": "ragionamento", "descrizione": "decisioni, strategia, coordinamento, sintesi dell'AD, giudizio", "modello": "claude", "tier": "forfait", "perche": "la migliore sul difficile a costo fisso" },
-    { "compito": "vision-prodotto", "descrizione": "foto→nome/prezzo/categoria, structured output da immagine", "modello": "gemini-flash", "tier": "centesimi", "perche": "ottimo su foto imperfette, ~€0,10-0,50 a negozio", "chiave": "GEMINI_API_KEY" },
-    { "compito": "immagini", "descrizione": "generazione grafiche social/locandine/mockup", "modello": "gemini-imagen", "tier": "centesimi", "perche": "immagini buone a basso costo", "chiave": "GEMINI_API_KEY" },
-    { "compito": "testi-volume", "descrizione": "descrizioni prodotto, varianti caption, bozze email di massa, riassunti", "modello": "groq-llama", "tier": "gratis", "perche": "gratis/bassissimo e veloce sul volume", "chiave": "GROQ_API_KEY", "fallback": "deepseek" },
-    { "compito": "classificazione", "descrizione": "router, tag, smistamento, sentiment, dedup", "modello": "gemini-flash-lite", "tier": "gratis", "perche": "compito semplice ad alto volume", "chiave": "GEMINI_API_KEY", "fallback": "groq-llama" },
-    { "compito": "trascrizione", "descrizione": "note vocali → testo", "modello": "whisper", "tier": "centesimi", "perche": "accurato e cheap", "chiave": "OPENAI_API_KEY" },
-    { "compito": "voce", "descrizione": "TTS messaggi vocali", "modello": "google-tts", "tier": "gratis", "perche": "free tier sufficiente", "chiave": "GOOGLE_TTS_KEY", "fallback": "elevenlabs-free" },
-    { "compito": "traduzione", "descrizione": "multilingua", "modello": "gemini-flash-lite", "tier": "gratis", "perche": "gratis e sufficiente", "chiave": "GEMINI_API_KEY" },
-    { "compito": "ricerca-web", "descrizione": "intelligence, verifica fatti", "modello": "websearch", "tier": "gratis", "perche": "nativo, gratis" }
+    {
+      "compito": "ragionamento",
+      "descrizione": "decisioni, strategia, coordinamento, sintesi dell'AD, giudizio",
+      "modello": "claude",
+      "tier": "forfait",
+      "perche": "la migliore sul difficile a costo fisso"
+    },
+    {
+      "compito": "vision-prodotto",
+      "descrizione": "foto→nome/prezzo/categoria, structured output da immagine",
+      "modello": "gemini-flash",
+      "tier": "centesimi",
+      "perche": "ottimo su foto imperfette, ~€0,10-0,50 a negozio",
+      "chiave": "GEMINI_API_KEY"
+    },
+    {
+      "compito": "immagini",
+      "descrizione": "generazione grafiche social/locandine/mockup",
+      "modello": "gemini-imagen",
+      "tier": "centesimi",
+      "perche": "immagini buone a basso costo",
+      "chiave": "GEMINI_API_KEY"
+    },
+    {
+      "compito": "testi-volume",
+      "descrizione": "descrizioni prodotto, varianti caption, bozze email di massa, riassunti",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "perche": "gratis/bassissimo e veloce sul volume",
+      "chiave": "GROQ_API_KEY",
+      "fallback": "deepseek"
+    },
+    {
+      "compito": "classificazione",
+      "descrizione": "router, tag, smistamento, sentiment, dedup",
+      "modello": "gemini-flash-lite",
+      "tier": "gratis",
+      "perche": "compito semplice ad alto volume",
+      "chiave": "GEMINI_API_KEY",
+      "fallback": "groq-llama"
+    },
+    {
+      "compito": "trascrizione",
+      "descrizione": "note vocali → testo",
+      "modello": "whisper",
+      "tier": "centesimi",
+      "perche": "accurato e cheap",
+      "chiave": "OPENAI_API_KEY"
+    },
+    {
+      "compito": "voce",
+      "descrizione": "TTS messaggi vocali",
+      "modello": "google-tts",
+      "tier": "gratis",
+      "perche": "free tier sufficiente",
+      "chiave": "GOOGLE_TTS_KEY",
+      "fallback": "elevenlabs-free"
+    },
+    {
+      "compito": "traduzione",
+      "descrizione": "multilingua",
+      "modello": "gemini-flash-lite",
+      "tier": "gratis",
+      "perche": "gratis e sufficiente",
+      "chiave": "GEMINI_API_KEY"
+    },
+    {
+      "compito": "ricerca-web",
+      "descrizione": "intelligence, verifica fatti",
+      "modello": "websearch",
+      "tier": "gratis",
+      "perche": "nativo, gratis"
+    }
   ],
-  "log": []
+  "log": [
+    {
+      "quando": "2026-07-04 06:00",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    }
+  ],
+  "uso": {
+    "claude": 1
+  }
 }
