@@ -4,9 +4,17 @@ titolo: R2 — Merge + deploy dei fix del cantiere (attivare in main i fix macch
 data: 2026-07-04 09:50
 reparto: AD/DevOps-SRE
 colore: 🔴 (merge in main → auto-deploy VPS; irreversibile-morbido, con rollback)
-stato: pronto — approvato dal Pannello (R2), aspetta la mano/il via di Nicola
-proposta: r2-merge-deploy-fix-cantiere-branch-machine-anal
+stato: pronto — approvato dal Pannello (R2) 09:41 · ri-approvato 12:25 («Metti in salvo i fix del cantiere in main»), aspetta la mano/il via di Nicola
+proposta: r2-merge-deploy-fix-cantiere-branch-machine-anal · metti-in-salvo-i-fix-del-cantiere-in-main-r2
+rotta-confermata: Strada B (code-only via PR) — verifica locale 2026-07-04 12:25
 ---
+
+> **↻ Aggiornamento 2026-07-04 12:25 (ri-approvazione Pannello).** Verifica locale di
+> questo giro (rete chiusa, solo ref locali): il branch scoped `claude/machine-analysis-ez7g3e`
+> **non è più tra i ref** (Strada A morta); `marketplace` è un **gitlink `160000` `8dc0f88`**
+> da escludere; la divergenza reale su `cervello/` è **89 file, +9326/−200**. ➡️ **Rotta
+> confermata: Strada B** (§2 🅱️). Strada A resta solo come fallback se `git ls-remote` a rete
+> aperta mostrasse ancora il branch. Nient'altro da decidere: manca solo la **mano** (rete/git push).
 
 # 🔴 R2 — Merge + deploy dei fix del cantiere
 
