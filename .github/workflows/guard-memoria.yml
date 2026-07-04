@@ -1,0 +1,46 @@
+name: Guardiano memoria — un solo scrittore
+
+# Regola (CLAUDE.md + cervello/giro.md "DOVE PUBBLICARE"):
+#   la MEMORIA del vault ha UN SOLO scrittore = il ramo 'memoria-ad' (quello che legge il Pannello).
+#   'main' è per il CODICE. Se la memoria arriva su 'main' in modo indipendente, i due rami divergono
+#   sugli stessi file e il Pannello (che legge 'memoria-ad') non vede mai quelle modifiche.
+# Questo guardiano BLOCCA ogni PR verso 'main' che tocca le cartelle di memoria: le manda su 'memoria-ad'.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  memoria-solo-su-memoria-ad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: La memoria va su 'memoria-ad', non su 'main'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || true
+
+          # Le stesse 4 cartelle che giro.sh tratta come MEM_DIRS (memoria accumulata dell'AD).
+          CAMBIATI="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          echo "File modificati dal PR:"
+          echo "$CAMBIATI" | sed 's/^/  /'
+
+          VIETATI="$(printf '%s\n' "$CAMBIATI" | grep -E '^(MyCity-Vault|consegne|creativi|memoria-squadra)/' || true)"
+
+          if [ -n "$VIETATI" ]; then
+            echo ""
+            echo "::error title=Memoria su main non ammessa::La memoria ha UN SOLO scrittore: il ramo 'memoria-ad' (che il Pannello legge in tempo reale via GitHub). Sposta queste modifiche su 'memoria-ad' — apri/aggiorna la PR con base 'memoria-ad', NON 'main'. (Vedi cervello/giro.md 'DOVE PUBBLICARE'.)"
+            echo ""
+            echo "Modifiche di memoria non ammesse su 'main':"
+            printf '%s\n' "$VIETATI" | sed 's/^/  ✗ /'
+            exit 1
+          fi
+
+          echo ""
+          echo "OK: il PR tocca solo codice. Nessuna modifica di memoria su 'main'."
