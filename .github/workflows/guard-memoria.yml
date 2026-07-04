@@ -1,10 +1,12 @@
-name: Guardiano memoria — un solo scrittore
+name: Guardiano memoria — preferisci memoria-ad
 
 # Regola (CLAUDE.md + cervello/giro.md "DOVE PUBBLICARE"):
 #   la MEMORIA del vault ha UN SOLO scrittore = il ramo 'memoria-ad' (quello che legge il Pannello).
-#   'main' è per il CODICE. Se la memoria arriva su 'main' in modo indipendente, i due rami divergono
-#   sugli stessi file e il Pannello (che legge 'memoria-ad') non vede mai quelle modifiche.
-# Questo guardiano BLOCCA ogni PR verso 'main' che tocca le cartelle di memoria: le manda su 'memoria-ad'.
+#   'main' è per il CODICE.
+# Questo check AVVISA (non blocca) quando un PR verso 'main' tocca la memoria: la strada giusta è
+# base 'memoria-ad'. La rete di sicurezza è il workflow 'forward-memoria': anche se la memoria finisce
+# su 'main', porta le NUOVE consegne su 'memoria-ad' → l'AD le legge comunque. Qui avvisiamo soltanto
+# per non lasciar divergere i due rami e per ricordare la strada giusta (niente red-X bloccante).
 
 on:
   pull_request:
@@ -35,11 +37,11 @@ jobs:
 
           if [ -n "$VIETATI" ]; then
             echo ""
-            echo "::error title=Memoria su main non ammessa::La memoria ha UN SOLO scrittore: il ramo 'memoria-ad' (che il Pannello legge in tempo reale via GitHub). Sposta queste modifiche su 'memoria-ad' — apri/aggiorna la PR con base 'memoria-ad', NON 'main'. (Vedi cervello/giro.md 'DOVE PUBBLICARE'.)"
+            echo "::warning title=Memoria su main::Questo PR mette memoria su 'main'. La strada giusta è base 'memoria-ad' (il ramo che il Pannello legge). Le NUOVE consegne verranno comunque portate su 'memoria-ad' dal workflow 'forward-memoria', ma per non far divergere i rami usa base 'memoria-ad'. (Vedi cervello/giro.md 'DOVE PUBBLICARE'.)"
             echo ""
-            echo "Modifiche di memoria non ammesse su 'main':"
-            printf '%s\n' "$VIETATI" | sed 's/^/  ✗ /'
-            exit 1
+            echo "Memoria toccata da questo PR (andrà auto-forwardata su memoria-ad):"
+            printf '%s\n' "$VIETATI" | sed 's/^/  • /'
+            exit 0
           fi
 
           echo ""
