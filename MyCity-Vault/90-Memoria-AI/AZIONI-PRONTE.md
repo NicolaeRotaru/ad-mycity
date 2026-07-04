@@ -140,3 +140,20 @@ Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidian
 Bastano 30 secondi: stelline + una frase vera (spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi").
 Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
+
+## A9 · 💚 Rassicurazione standalone al titolare — Pane Quotidiano (parte anche se l'ordine è ancora fermo)
+reparto: account-negozi
+livello: 🔴/🟡 (tocca un commerciante reale → si accoda; la bozza è 🟢)
+canale: Telefono 0523 388601 (Via Calzolai 25) · backup WhatsApp/in-app — chiama NICOLA/account, non il rider
+perche: Unico negozio REALE su MyCity, LIVE con catalogo ma a 0 incassi da ~9+ giorni (stadio "no value realized", causa #1 di churn commercianti). A6 è agganciata alla chiamata di consegna #21: se #16 continua a slittare (5+ finestre saltate), #21 non parte, A6 non parte, e il titolare resta a contatto ZERO mentre matura la frustrazione. A9 è il tocco che parte PRIMA/INDIPENDENTE per tenere caldo il faro senza scaricargli addosso l'attesa. NON duplica A6 (strato-relazione SULLA chiamata #21) né A7 (upsell post-prima-consegna): li precede e li protegge.
+preparato: 💚 account-negozi — deliverable completo in consegne/account-negozi/2026-07-04-anti-churn-standalone-pane-quotidiano.md · gate onestà passato (0 numeri finti, 0 promesse di volume; si cita solo il vero: bio dal '76, contratto 12%, rodaggio)
+pre-condizioni: parte SOLO se #16 slitta ancora (ordine non consegnato / #21 non ancora partita al mattino). Se #16 si chiude → salta A9, vai a A6/A7. Non serve link/UTM/asset: è pura relazione telefonica.
+cosa cambia: l'unico negozio reale riceve un contatto umano di rassicurazione PRIMA che l'attesa diventi "qui non vendo, mollo". Ci prendiamo noi la colpa del ritardo (logistica nostra, non problema del negozio) e gli diciamo che è stato scelto. Protegge la relazione nella finestra di rischio a costo ≈ 0 (una telefonata).
+se va bene: negozio ingaggiato e paziente fino alla consegna di #16 → poi si aggancia A6 (check-in su #21) e A7 (upsell) → flusso settimanale. Retention del faro reale mantenuta 1/1.
+testo (script telefonata):
+«Buongiorno, sono Nicola di MyCity — quello del vostro negozio online. La chiamo solo per due minuti. Volevo dirvi di persona che il primo ordine sta tardando ad arrivare a casa del cliente, e la colpa è nostra, non vostra: stiamo mettendo a punto le consegne in questi primi giorni. Il vostro negozio funziona, il catalogo è a posto, il problema è tutto dal lato nostro e lo stiamo chiudendo. Vi ho scelti come primo negozio di Piacenza per un motivo preciso: il vostro bio, quello vero dal '76, in consegna a domicilio a Piacenza non lo fa nessun altro. Appena chiudiamo questa prima consegna — questione di giorni — vi seguo io personalmente per far partire il flusso. Volevo che lo sapeste da una voce, non da un silenzio. C'è qualcosa che nel frattempo posso sistemare per voi dal mio lato?»
+[se freddo/infastidito] «Vi capisco, l'attesa è colpa nostra e me ne prendo la responsabilità. Vi richiamo io appena il primo ordine è consegnato — non dovete fare nulla, ci penso io.»
+[chiusura] «Grazie della pazienza. Siete in buone mani. A prestissimo.»
+testo (backup WhatsApp/in-app, se non risponde):
+Buongiorno, sono Nicola di MyCity 👋 Vi scrivo solo per dirvi che il primo ordine sta tardando ad arrivare al cliente: la colpa è nostra, stiamo rodando le consegne in questi primi giorni — il vostro negozio e il catalogo sono a posto. Vi ho scelti come primo negozio di Piacenza perché il vostro bio dal '76, a domicilio, non lo fa nessun altro qui. Appena chiudiamo questa prima consegna vi seguo io per far partire il flusso. Non dovete fare nulla, ci penso io. Volevo che lo sapeste da me, non da un silenzio. A prestissimo 🌾
+stato: IN ATTESA DI FIRMA NICOLA.
