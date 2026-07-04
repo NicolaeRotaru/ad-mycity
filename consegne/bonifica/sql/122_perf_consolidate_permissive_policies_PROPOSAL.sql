@@ -1,0 +1,81 @@
+-- =============================================================================
+-- 122_perf_consolidate_permissive_policies_PROPOSAL.sql
+-- WS-PERF · advisor "multiple_permissive_policies" (155 combinazioni ruolo+cmd
+--           con >1 policy PERMISSIVE → Postgres le OR-a e valuta OGNUNA per riga)
+-- Colore: 🔴 PROPOSTA — questo file è INTERAMENTE COMMENTATO: applicarlo è un
+--          no-op. La riscrittura RLS è di WS-DB-RLS (108-119) + firma @security.
+--          Qui do la STRATEGIA + 3 esempi concreti pronti da validare.
+-- =============================================================================
+--
+-- CAUSA-RADICE: per ogni tupla scansionata, Postgres esegue OGNI policy
+-- permissiva applicabile a quel ruolo+comando e ne fa l'OR. Con 2-3 policy per
+-- comando la RLS costa 2-3x in CPU per riga. Consolidare = UNA policy per
+-- (ruolo, comando) la cui USING/CHECK è l'OR delle condizioni originali.
+--
+-- STRATEGIA GENERALE (da ripetere per ogni tabella segnalata):
+--   1. Raggruppa le policy per (roles, cmd).
+--   2. Se >1 permissiva nello stesso gruppo → creane UNA il cui predicato è
+--      l'OR dei predicati originali (mantieni SEMPRE la forma (SELECT auth.uid())).
+--   3. Elimina i duplicati esatti (stessa condizione ripetuta) — guadagno netto.
+--   4. Non fondere policy con ruoli diversi (es. authenticated vs anon) né
+--      permissive con restrictive.
+--   5. Verifica con la matrice accessi PRIMA/DOPO (proprietario, estraneo,
+--      venditore, rider, admin) — deve dare risultati identici.
+--
+-- MISURA ATTESA: da 2-3 valutazioni di policy per riga a 1 sulle tabelle ad
+-- alto traffico (orders, products, profiles) → meno CPU su liste/ordini/catalogo.
+-- -----------------------------------------------------------------------------
+
+-- ============================ ESEMPIO 1: orders (SELECT) =====================
+-- PRIMA (3 policy permissive SELECT, ruolo public):
+--   • "Users can view their own orders"        USING (user_id = (SELECT auth.uid()))
+--   • "Sellers can view their store orders"    USING (seller_id = (SELECT auth.uid()))
+--   • "Riders can view available and own orders"
+--        USING (((delivery_status = ANY(ARRAY['ACCEPTED','READY'])) AND rider_id IS NULL)
+--               OR rider_id = (SELECT auth.uid()))
+-- DOPO (1 policy = OR delle tre):
+-- DROP POLICY IF EXISTS "Users can view their own orders"        ON public.orders;
+-- DROP POLICY IF EXISTS "Sellers can view their store orders"    ON public.orders;
+-- DROP POLICY IF EXISTS "Riders can view available and own orders" ON public.orders;
+-- CREATE POLICY orders_select_consolidated ON public.orders
+--   FOR SELECT USING (
+--        user_id  = (SELECT auth.uid())
+--     OR seller_id = (SELECT auth.uid())
+--     OR rider_id  = (SELECT auth.uid())
+--     OR ((delivery_status = ANY (ARRAY['ACCEPTED'::text,'READY'::text])) AND rider_id IS NULL)
+--   );
+-- ⚠️ Le policy UPDATE di orders ("Sellers can update…", "Riders can update…")
+--    restano separate: comando diverso, non rientrano in questo gruppo.
+
+-- ============================ ESEMPIO 2: products (SELECT) ===================
+-- Qui c'è anche un DUPLICATO ESATTO da eliminare subito:
+--   • "Seller sees own products"            USING (seller_id = (SELECT auth.uid()))
+--   • "Sellers can view their own products" USING (seller_id = (SELECT auth.uid()))  ← identica
+--   • (+ la policy pubblica di lettura "prodotti available", separata, DA TENERE)
+-- DOPO: droppa il duplicato, mantieni una sola policy "own" + quella pubblica.
+-- DROP POLICY IF EXISTS "Sellers can view their own products" ON public.products;
+--   -- "Seller sees own products" resta come unica policy owner-read.
+--   -- NON toccare la policy di lettura pubblica dei prodotti available.
+
+-- ============================ ESEMPIO 3: profiles (SELECT) ===================
+-- PRIMA (3 policy permissive SELECT, ruolo public):
+--   • "Public profile read"  USING (public_profile_enabled = true OR (SELECT auth.uid()) = id)
+--   • "Users can view their own profile"  USING ((SELECT auth.uid()) = id)   ← già coperta sopra
+--   • "Riders can view buyer of assigned orders"
+--        USING (EXISTS(SELECT 1 FROM orders WHERE orders.user_id = profiles.id
+--                       AND orders.rider_id = (SELECT auth.uid())))
+-- DOPO (1 policy = OR; la "own" è ridondante e sparisce nell'OR):
+-- DROP POLICY IF EXISTS "Public profile read"                 ON public.profiles;
+-- DROP POLICY IF EXISTS "Users can view their own profile"    ON public.profiles;
+-- DROP POLICY IF EXISTS "Riders can view buyer of assigned orders" ON public.profiles;
+-- CREATE POLICY profiles_select_consolidated ON public.profiles
+--   FOR SELECT USING (
+--        public_profile_enabled = true
+--     OR (SELECT auth.uid()) = id
+--     OR EXISTS (SELECT 1 FROM public.orders
+--                WHERE orders.user_id = profiles.id
+--                  AND orders.rider_id = (SELECT auth.uid()))
+--   );
+--
+-- ROLLBACK: ricreare le policy originali separate (elencate nei blocchi PRIMA).
+-- =============================================================================

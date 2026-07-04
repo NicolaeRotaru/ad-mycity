@@ -1,0 +1,69 @@
+-- =============================================================================
+-- 123_perf_unused_index_drops_PROPOSAL.sql
+-- WS-PERF · advisor "unused_index" (64 indici con idx_scan = 0)
+-- Colore: 🔴 PROPOSTA — file INTERAMENTE COMMENTATO (applicarlo = no-op).
+--          NON droppare nulla adesso. Vedi CAUTELE.
+-- =============================================================================
+--
+-- CAUSA-RADICE: 64 indici (esclusi 37 UNIQUE + 28 PRIMARY KEY, che NON vanno mai
+-- toccati) risultano con 0 scansioni in pg_stat_user_indexes. Occupano spazio e
+-- rallentano ogni INSERT/UPDATE (vanno mantenuti anche se mai letti).
+--
+-- ⚠️ CAUTELA #1 — "unused" è INAFFIDABILE se le statistiche sono giovani:
+--   idx_scan=0 può voler dire solo "resettato di recente / traffico ancora
+--   basso", non "inutile". Prima di droppare, confermare 0 scansioni su una
+--   FINESTRA REALE di traffico (>= 1-2 settimane) rileggendo pg_stat_user_indexes.
+--
+-- ⚠️ CAUTELA #2 — NON droppare gli indici che COPRONO UNA FOREIGN KEY:
+--   sono monocolonna su colonne *_id / *_by create APPOSTA per soddisfare
+--   l'advisor "unindexed_foreign_keys" (lo stesso che risolviamo nel file 120).
+--   Droppandoli si ri-genererebbe quel warning e si rischiano lock su cascade
+--   delete. TENERE (esempi, lista non esaustiva):
+--     idx_disputes_against_id, idx_disputes_resolved_by, idx_messages_sender_id,
+--     idx_group_participants_user_id, idx_group_orders_organizer_id,
+--     idx_reviews_user_id, idx_rider_reviews_user_id, idx_store_reviews_user_id,
+--     idx_recently_viewed_product_id, idx_user_achievements_achievement_id,
+--     idx_subscription_orders_seller_id, idx_shop_of_month_selected_by,
+--     idx_returns_decided_by, idx_product_questions_answered_by,
+--     idx_cod_reconciliations_reviewed_by, idx_orders_cash_collected_by,
+--     idx_contact_messages_handled_by, zone_code_uses_user_idx, ... (tutti i *_by/*_user_id).
+--   REGOLA: se l'indice è monocolonna su una colonna che è FK → TIENILO.
+--
+-- ⚠️ CAUTELA #3 — NON droppare gli indici a supporto di UNIQUE/vincoli:
+--   già esclusi da questa lista (indisunique/indisprimary). Non aggiungerli.
+--
+-- ⚠️ CAUTELA #4 — indici a supporto di lookup RARI ma CRITICI (webhook/cron/
+--   riconciliazione) possono avere idx_scan basso perché usati poco, non perché
+--   inutili. TENERE per prudenza:
+--     orders_stripe_pi_idx, orders_stripe_session_idx, orders_transfer_group_idx,
+--     orders_rider_payout_release_idx, pending_checkouts_session_idx,
+--     stripe_event_log_type_idx, subscription_orders_next_delivery_idx,
+--     notifications_pending_push (idx), referrals_code_idx, zone_codes_zip_status_idx.
+--   Questi sono su percorsi soldi/idempotenza: il costo di NON averli sotto
+--   carico supera di gran lunga il risparmio.
+--
+-- CANDIDATI PIÙ SICURI (indici secondari NON-FK su tabelle di osservabilità /
+-- basso valore, da droppare SOLO dopo aver riconfermato idx_scan=0 su finestra
+-- reale — de-commentare uno alla volta e misurare):
+--   -- DROP INDEX IF EXISTS public.activity_events_ip_idx;
+--   -- DROP INDEX IF EXISTS public.activity_events_actor_idx;
+--   -- DROP INDEX IF EXISTS public.activity_events_type_idx;
+--   -- DROP INDEX IF EXISTS public.activity_events_target_idx;
+--   -- DROP INDEX IF EXISTS public.activity_events_anon_idx;
+--   -- DROP INDEX IF EXISTS public.uptime_checks_status_idx;        -- idx_uptime_checks_status
+--   -- DROP INDEX IF EXISTS public.idx_uptime_checks_target_time;
+--   -- DROP INDEX IF EXISTS public.audit_target_idx;
+--   -- DROP INDEX IF EXISTS public.idx_telegram_chats_role;
+--   -- DROP INDEX IF EXISTS public.idx_telegram_chats_merchant;
+--   -- DROP INDEX IF EXISTS public.idx_products_tags;              -- valutare: GIN tags, se search non lo usa
+--   -- DROP INDEX IF EXISTS public.categories_sort_idx;
+--
+-- MISURA ATTESA: -N indici mantenuti su ogni INSERT/UPDATE delle tabelle
+-- toccate (write più veloci) + spazio recuperato. Impatto modesto oggi: la
+-- maggior parte pesa 8-16 kB. NON è una priorità: rimandare a dopo il fix FK.
+--
+-- ROLLBACK: ricreare l'indice droppato con la sua definizione originale
+--   (recuperabile da pg_get_indexdef PRIMA del drop — salvarla nel log).
+-- RACCOMANDAZIONE WS-PERF: NON eseguire ora. Solo dopo finestra di traffico
+-- reale + spot-check per-indice. Priorità bassa.
+-- =============================================================================
