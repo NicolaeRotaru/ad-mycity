@@ -175,6 +175,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano path cablati (nessuna cartella di un PC nel codice)..."
+  node "$SCRIPT_DIR/no-path-cablati-check.mjs" 2>&1 | tail -6 || true
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
   # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
   # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
