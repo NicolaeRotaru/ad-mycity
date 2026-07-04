@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-04 09:57 · vista Quaderni senior NON in produzione · Nicola «dentro memoria non ci sono i quaderni» · atteso: tab live su Vercel · reale: branch `fix/quaderni-senior` (1 commit, 4 file) **non mergiato su `main`** → Vercel non la mostra (girava solo in `npm run dev` locale) · lezione: **stessa trappola L-2026-0701-10** — «pronto nel Pannello» va detto solo dopo push+merge su `main` verificati (`git ls-remote`/compare), mai in base al locale · L-2026-0701-15 · #pannello #quaderni #deploy #verifica
 - 2026-07-01 11:00 · deploy scelta A/B universale · Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** live Vercel · bottoni A/B dinamici su tutte le proposte `tipo: scelta_ab` · click ordine €19,05 ancora 🔴 · L-0701-33 · #pannello #deploy #scelta-ab
 - 2026-07-01 10:50 · scelta A/B universale · Nicola «Applica A o B ogni volta, non solo zombie» · **FATTO in repo:** `scelta-ab.ts` + `/api/scelta-ab` + bottoni dinamici da `opzione_a`/`opzione_b`/`scelta_id`; legacy `decisione_ordine_ab` mappato · regola in `giro.md` · deploy ✅ 11:00 · #pannello #ux #scelta-ab
 - 2026-07-01 10:36 · deploy bottoni A/B · Nicola «ok merge bottoni A/B» → **`main` `c50148d`** live Vercel (~2 min) · bottoni A accetta / B annulla visibili post-reload · click A/B ancora 🔴 (decisione ordine ≠ deploy) · L-0701-30 · #pannello #deploy

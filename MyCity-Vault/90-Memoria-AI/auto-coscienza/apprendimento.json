@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-03 21:21",
+  "aggiornato": "2026-07-04 09:57",
   "_nota_giro_refresh_03_07_2121": "🔭 Giro refresh 3/7 21:21: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 8ª conferma OGGI (06:28→10:22→11:14→14:20→16:20→18:20→20:24→21:21): il giro pieno è scattato di nuovo solo perché PostHog è passato 18→19; business/sentinelle identici (firma REST 21:21 invariata: ordini=1, ultimo 24/6 08:28, 23 profili). Rifinitura AR-019/AR-025 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51/P1 (#16 a UNA finestra certa = serale post-19:00 + payout-test); L-2026-0702-48/AR-019 (giro minimale); L-2026-0702-50 (campi delta-gate/sensori di giro.sh 21:21 come dato live confermato).",
   "_nota_giro_refresh_03_07_2024": "🔭 Giro refresh 3/7 20:24: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 7ª conferma OGGI (06:28→10:22→11:14→14:20→16:20→18:20→20:24): il giro pieno è scattato di nuovo solo perché PostHog è passato 17→18; business/sentinelle identici (firma REST 20:20 invariata: ordini=1, ultimo 24/6 08:28, 23 profili). Resta la candidata di rifinitura AR-019/AR-025 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51/P1 (ancora #16 a UNA finestra certa = serale post-19:00 + payout-test); L-2026-0702-48/AR-019 (giro minimale: timestamp+delta, no analisi pesante rifatta); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 20:20 come dato live confermato, non ri-misurato).",
   "_consolidamento_settimanale_03_07": "📚 CONSOLIDAMENTO SETTIMANALE 3/7 15:00 — lezioni mature distillate in 4 PRINCIPI (durano oltre il caso): (P1) FIRMA ≠ ESECUZIONE — con le mani non collegate un 🔴 firmato degrada in coda morta; rimedio: 1 finestra certa a bassa frizione, non N rincorse (fonde L-2026-0702-45 + L-2026-0702-51 + L-2026-0701-40). (P2) UN CONTROLLO VALE SOLO SE PERSISTE UN ARTEFATTO E FA DA GATE — stampe ingoiate/`|| true`/ledger non committato = controllo assente (L-2026-0702-02). (P3) CIÒ CHE DESCRIVE LA MACCHINA VA GENERATO DAI FILE, NON A MANO — a mano prima o poi mente (L-2026-0702-03). (P4) UNA SCOPERTA CHE CAMBIA IL FARO DEVE RISCRIVERE CODA/OKR/STATO NELLO STESSO GIRO, o non è successa (L-2026-0702-01). POTATE/ACCORPATE: le varianti 'delta-gate scatta a vuoto' (L-2026-0702-48, L-2026-0703-52) confluiscono nel difetto AR-025 (fix proposto in review) — restano come evidenza, non si moltiplicano. CASI-STUDIO NICOLA prioritari (già in memoria): config=cambia-valore-non-togli-variabili (L-2026-0702-46), merge-on-approval regola permanente (L-2026-0701-31), A/B su decisioni binarie (L-2026-0701-33), ruoli-acquisto admin/seller (L-2026-0702-41), voto onesto-brutto > bello-finto (lettera 2/7). Nessuna lezione NUOVA nella review: settimana di esecuzione bloccata, non di scoperta.",
@@ -746,7 +746,7 @@
     },
     {
       "id": "L-2026-0701-15",
-      "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08.",
+      "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08. **Rinforzo 4/7:** ho dichiarato «vista Quaderni pronta nel Pannello» ma il branch `fix/quaderni-senior` **non era mai stato pushato né mergiato su `main`** → Nicola «dentro memoria non ci sono i quaderni». Stessa trappola di L-2026-0701-10: `npm run dev` locale la mostrava, Vercel no. **Mai dire «è nel Pannello» finché il branch non è su GitHub E mergiato su `main`** (verifica `git ls-remote` / link compare), non basta averlo committato in locale.",
       "tag": [
         "pannello",
         "quaderni",
@@ -756,11 +756,11 @@
         "deploy"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.84,
-      "evidenze": 1,
+      "confidenza": 0.88,
+      "evidenze": 2,
       "fonte": "chat",
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-04 09:57",
       "stato": "attiva"
     },
     {
@@ -842,7 +842,7 @@
     },
     {
       "id": "L-2026-0701-10",
-      "testo": "**Caso-studio Nicola:** «Come fanno ad essere arrivate le modifiche WebFetch su main?» — ha beccato incoerenza: AD aveva parlato come se `settings.json` fosse già su `main`, ma **non c'è mai stato** (né PR né merge). 5 perché: (1) ho registrato «ESEGUITO» in DECISIONI 00:35 includendo settings.json senza verificare GitHub remoto; (2) test Cursor su developers.google.com OK **ingannava** — Cursor usa tool IDE, **non** legge `.claude/settings.json` del repo; (3) `aggiorna-cervello.sh` 01:13 ha sovrascritto da `main` → whitelist tornata; (4) policy+mansionari su `memoria-ad` sì, riga WebFetch globale no; (5) fix: **mai** dire «su main» / «dopo merge» senza `git show origin/main:…`; verifica worker = grep VPS post-sync, **non** test in Cursor; dichiarare esplicitamente cosa è fatto (policy) vs mancante (settings.json su main).",
+      "testo": "**Caso-studio Nicola:** «Come fanno ad essere arrivate le modifiche WebFetch su main?» — ha beccato incoerenza: AD aveva parlato come se `settings.json` fosse già su `main`, ma **non c'è mai stato** (né PR né merge). 5 perché: (1) ho registrato «ESEGUITO» in DECISIONI 00:35 includendo settings.json senza verificare GitHub remoto; (2) test Cursor su developers.google.com OK **ingannava** — Cursor usa tool IDE, **non** legge `.claude/settings.json` del repo; (3) `aggiorna-cervello.sh` 01:13 ha sovrascritto da `main` → whitelist tornata; (4) policy+mansionari su `memoria-ad` sì, riga WebFetch globale no; (5) fix: **mai** dire «su main» / «dopo merge» senza `git show origin/main:…`; verifica worker = grep VPS post-sync, **non** test in Cursor; dichiarare esplicitamente cosa è fatto (policy) vs mancante (settings.json su main). **Ricorrenza 4/7 (Pannello):** stessa dinamica sui Quaderni senior — dichiarato «pronta nel Pannello» ma branch `fix/quaderni-senior` mai pushato/mergiato → Nicola «non ci sono i quaderni». Il principio è generale, non solo WebFetch: **prima di dire «fatto/attivo/in produzione» verifica l'artefatto DOVE gira davvero** (git remoto per `main`/Vercel, grep VPS per il worker), mai in base al locale/Cursor/`npm run dev`.",
       "tag": [
         "web",
         "main",
@@ -850,15 +850,17 @@
         "nicola",
         "guardrail",
         "cursor",
-        "worker"
+        "worker",
+        "vercel",
+        "pannello"
       ],
       "reparto": "@AD",
-      "confidenza": 0.93,
-      "evidenze": 2,
+      "confidenza": 0.95,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-01",
-      "ultima_conferma": "2026-07-01",
+      "ultima_conferma": "2026-07-04 09:57",
       "stato": "attiva"
     },
     {
