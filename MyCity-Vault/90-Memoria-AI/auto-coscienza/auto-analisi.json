@@ -12,11 +12,19 @@
     "benchmark": "n/a (nessun lavoro creativo/pitch in questo giro)"
   },
   "errori": [],
+  "risposte_registrate": [
+    {
+      "data": "2026-07-04 04:51",
+      "domanda": "Hai inviato WhatsApp #20? Buyer ha risposto?",
+      "risposta_nicola": "prosegui #21-#22",
+      "interpretazione": "#20 (WhatsApp al buyer 348 642 1766) INVIATO e contatto avvenuto → via ai passi #21 (accetta ordine) e #22 (consegna COD €19,05). Registrata in DECISIONI 04:51; stati coda #20→FATTO, #21/#22→IN ESECUZIONE, #16→IN CONSEGNA. NON riproporre questa domanda."
+    }
+  ],
   "domande_per_nicola": [
     {
-      "domanda": "#16 è approvato dal Pannello (13:29): la finestra serale post-19:00 è APERTA ORA — apri il link WhatsApp #20 e chiudi #20→#21→#22 fino a «consegna fatta», accorpando il payout-test?",
-      "perche_serve": "La decisione è registrata; manca solo l'esecuzione manuale (~5 min). Il caldo è calato: consegnare i freschi ora è ottimale. Una finestra certa sblocca ~229h di stallo e porta la North Star 0→1.",
-      "se_rispondi": "Prima transazione MyCity chiusa; payout validato nello stesso momento.",
+      "domanda": "#16 è IN CONSEGNA: WhatsApp #20 fatto, ora #21 (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601) e #22 (consegna COD €19,05 → «Consegnato»). Quando l'hai consegnato scrivi «consegna fatta» → partono payout-test #2, recensione (#27) e riaggancio carrello samir (#26).",
+      "perche_serve": "Restano solo le mani manuali di #21-#22; al «consegna fatta» la North Star passa 0→1 e si sbloccano i downstream.",
+      "se_rispondi": "Prima transazione MyCity chiusa end-to-end; payout validato nello stesso momento.",
       "gravita": "alta"
     },
     {

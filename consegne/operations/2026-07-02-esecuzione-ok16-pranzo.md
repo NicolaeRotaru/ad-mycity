@@ -1,5 +1,7 @@
 # Esecuzione ok 16 — ordine zombie €19,05 · consegna MATTINA sab 4/7 (accorpata al payout-test)
 
+> **🚚 STATO 2026-07-04 04:51 — #20 FATTO, si prosegue a #21-#22:** Nicola risponde all'auto-analisi «Hai inviato WhatsApp #20?» con **«prosegui #21-#22»** → **PASSO 1 (WhatsApp) chiuso: inviato, contatto col buyer avvenuto**. Ora le mani manuali di Nicola sono **§PASSO 2 (#21 accetta ordine in dashboard + chiama PQ)** e **§PASSO 3–4 (#22 consegna COD €19,05 → «Consegnato»)**. Al «consegna fatta» → payout-test #2 + recensione A13/A14 (#27) + carrello samir (#26). Registrato in [[DECISIONI]] 04:51.
+>
 > **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05** · Decisione binaria **2/7 17:09** = Scelta A (eseguire) · proposta #16 3/7 13:29
 > **✅ Aggiornato 2026-07-04 04:38 — PROPOSTA DAL GIRO #20 APPROVATA (Pannello):** «#20 WhatsApp buyer 348 642 1766 — primo passo consegna pranzo, ok 16 già approvato». Le finestre di giovedì 3/7 (mattina/pomeriggio/sera) sono passate senza il tap → **riprogrammata a STAMATTINA sabato 4/7 (entro le 13)**. Motivo: Pane Quotidiano è aperto la mattina (facile ritiro) e i freschi vanno consegnati prima del caldo pomeridiano. Artefatto rigenerato con lo slot di oggi. Stallo ~236h — chiuderlo è la mossa #1.
 > **@operations + @supporto** · 🔴 mani reali (WhatsApp + dashboard + consegna COD) — **~5 min di tap per Nicola**

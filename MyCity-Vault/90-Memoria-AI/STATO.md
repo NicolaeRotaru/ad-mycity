@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-03 21:21
-fonte: AD digitale (🔭 Giro refresh 3/7 21:21 · #16 APPROVATO dal Pannello 13:29 ma NON ancora consegnato · 7 numeri baseline REST invariati dal 24/6 · MCP+node/curl gated in sessione · PostHog cieco 19 giri · stallo ~229h da ancora 24/6 08:28 · oggi Venerdì Piacentini · meteo già ri-verificato LIVE al mattino: sereno 20-33° + AFA pomeriggio → finestra consegna serale post-19:00 APERTA ORA)
+aggiornato: 2026-07-04 04:51
+fonte: AD digitale (📌 4/7 04:51 · Nicola risponde all'auto-analisi «prosegui #21-#22» → **WhatsApp #20 INVIATO**, #16 IN CONSEGNA · restano le mani manuali #21 accetta ordine + #22 consegna COD €19,05 → «Consegnato» · al «consegna fatta» North Star 0→1 + payout-test #2 + recensione #27 + carrello #26 · firma REST DB non ri-misurata in sessione, MCP+node/curl gated)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🚚 **4/7 04:51 — #16 IN CONSEGNA — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
+>
 > ✅ **2/7 17:09 — DECISIONE BINARIA #16 RISOLTA — Scelta A (Pannello):** Nicola sceglie **ESEGUIRE**, non «archivia zombie». `ok 16` era firmato alle 08:38 ma non eseguito in ~8h (pranzo perso) → la card chiedeva una scelta netta. **Slot spostato a CENA 19:00–21:00.** Azioni #20→#21→#22 attive (WhatsApp buyer + accetta ordine dashboard PQ + consegna COD €19,05). Pacchetto aggiornato · card decisione binaria **da NON rigenerare**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20.
 >
 > 🩻 **2/7 — RADIOGRAFIA + CANTIERE.** Radiografia profonda della macchina: voto **42/100** (3 bloccanti,
@@ -23,7 +25,7 @@ fonte: AD digitale (🔭 Giro refresh 3/7 21:21 · #16 APPROVATO dal Pannello 13
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox oggi |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 APPROVATO dal Pannello 13:29** · consegna non ancora avvenuta → finestra serale post-19:00 APERTA ORA |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 IN CONSEGNA** — WhatsApp #20 fatto (Nicola «prosegui #21-#22» 4/7 04:51) · restano #21 accetta + #22 consegna → «Consegnato» |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~229h** (21:21) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7** (sandbox) → accorpare #16 |
@@ -52,8 +54,8 @@ fonte: AD digitale (🔭 Giro refresh 3/7 21:21 · #16 APPROVATO dal Pannello 13
 
 ## Semafori
 - 🟢 Va bene: REST OK; Stripe/Resend ok; Sprint 1 LIVE; **#19 ruoli LIVE**; **#16 APPROVATO dal Pannello 13:29**; memoria POST briefings OK; token GitHub push mycity OK.
-- 🟡 Da tenere d'occhio: **#16 approvato — manca solo la consegna manuale #20–#22** (tap link WhatsApp, finestra serale post-19:00 col payout-test); **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
-- 🔴 Problema: **0 transazioni reali** — stallo **~229h** (+61h oltre 168h); #16 approvato 13:29 ma consegna non ancora partita; finestra serale post-19:00 ORA imminente (freschi fuori dall'afa); loop business 🔴 finché #20–#22 non partono a mano; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
+- 🟡 Da tenere d'occhio: **#16 IN CONSEGNA — WhatsApp #20 fatto, restano #21 (accetta) + #22 (consegna COD €19,05)** in mano a Nicola; **@qa smoke post-#19**; **SQL 107**; sync VPS (1× root); 1 carrello buyer reale (samir).
+- 🔴 Problema: **0 transazioni reali completate** finché #22 non chiude a «Consegnato»; #20 WhatsApp inviato (4/7 04:51), #21-#22 in esecuzione (mani di Nicola); loop business 🔴 fino al «consegna fatta»; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
 ## Auto-coscienza (2026-07-03 21:21 · 🔭 giro AD refresh)
 | Metrica | Valore | Fonte |
@@ -62,9 +64,10 @@ fonte: AD digitale (🔭 Giro refresh 3/7 21:21 · #16 APPROVATO dal Pannello 13
 | Voto fiducia giro | **80** = | `auto-analisi.json` (refresh onesto: nessuna novità business vs 16:20; live gated; contatore cieco PostHog 16→17, 6ª conferma del falso-nuovo) |
 | Cantiere difetti | **20 chiusi · 2 in-corso (umani) · 1 aperto (AR-024)** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 20/20** | calibrazione.json |
-| Loop business | 🔴 in corso | #16 approvato 13:29 ma consegna non ancora partita → finestra serale a ~3h |
+| Loop business | 🔴 in corso | #16 IN CONSEGNA — WhatsApp #20 fatto (4/7 04:51), restano #21 accetta + #22 consegna → «Consegnato» |
 
 ## Ultime mosse dell'AD
+0. **🚚 Risposta all'auto-analisi 4/7 04:51 — «prosegui #21-#22»** — Nicola risponde alla domanda «Hai inviato WhatsApp #20? Buyer ha risposto?» con **«prosegui #21-#22»**. Applicato: **#20 → ✅ FATTO** (WhatsApp al buyer 348 642 1766 inviato, contatto avvenuto); **#21 → 🔄 IN ESECUZIONE** (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601); **#22 → 🔄 IN ESECUZIONE** (consegna COD €19,05 → «Consegnato»); **#16 → IN CONSEGNA**. Restano 🔴 le mani manuali di Nicola (accettazione + consegna fisica). Registrato in [[DECISIONI]] + [[AZIONI-IN-ATTESA]] + registro-realta + intenzioni + auto-analisi. La firma REST del DB non è ri-misurata in sessione (MCP+node/curl gated) → l'ordine risulta «Consegnato» e la North Star passa 0→1 solo al «consegna fatta». **Domanda «WhatsApp #20?» chiusa — non riproporre.**
 0. **🔭 Giro refresh 3/7 21:21** — full da delta-gate (20:29 «cambio stato sensori»: PostHog cieco **19** giri, era 18). **Nessuna novità di business vs 20:24:** firma REST invariata (delta-gate/sensore 21:21: ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~229h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **8ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 APERTA ORA** (aria più fresca, Venerdì Piacentini prima serata). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🔭 Giro refresh 3/7 20:24** — full da delta-gate (20:20 «cambio stato sensori»: PostHog cieco **18** giri, era 17). **Nessuna novità di business vs 18:20:** firma REST invariata (delta-gate 20:20: ordini=1, ultimo 24/6 08:28, 23 profili; `corrente==ultimo_pieno` sul business) → **#16 ancora APPROVATO (Pannello 13:29) ma NON consegnato**. MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Meteo/eventi non ri-controllati (già LIVE al mattino, cadenza). Stallo **~228h**. Timestamp Cabina riallineati (briefing/STATO/ultimo-briefing/auto-coscienza/registro-realta/intenzioni). **7ª conferma oggi** del falso-nuovo delta-gate (contatore cieco-opzionale PostHog). ⏰ **Finestra serale post-19:00 APERTA ORA** (aria più fresca, Venerdì Piacentini prima serata). → Mossa n.1 confermata: esegui la **consegna** di #16 (già approvata) ADESSO col payout-test.
 0. **🛠️ Fix lettura vault Pannello 3/7 19:46** — su richiesta di Nicola («ad-memoria divisa da GitHub / il Pannello non legge tutti i dati nel modo corretto»): lettura GitHub **centralizzata e resiliente** (ripiego `memoria-ad`→`main` in sola lettura → mai schermo vuoto per ramo storto), **ramo servito osservabile** in `/api/stato` (`vaultRamoServito`/`vaultRipiego`), **parsing briefing tollerante** (mostra il testo anche senza sezione «Sintesi»). Verificato `tsc`+`next build` verdi + funzioni pure esercitate. **PR #167** · deploy 🔴 bloccato oggi dal limite free Vercel (~24h) · coda #28.
