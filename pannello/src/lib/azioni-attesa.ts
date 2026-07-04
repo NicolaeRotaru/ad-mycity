@@ -54,6 +54,23 @@ function idSezione(data: string, reparto: string, titolo: string): string {
   return "S" + (h >>> 0).toString(36);
 }
 
+// Una heading `##`/`###` è PURA DOCUMENTAZIONE (NON un'azione) se non porta alcun segnale d'azione:
+//   • nell'heading: una data, un @reparto o un semaforo 🟢🟡🔴, OPPURE
+//   • nel corpo: un campo Stato:/Colore:, "in attesa", "via libera", "data proposta", "pronto"
+//     o una checkbox 🔴/🟡 da firmare.
+// Le sezioni-manuale della coda ("## Come approvare", "## Coda") non hanno né l'uno né l'altro:
+// così NON diventano più card fantasma con "Canale non indicato". Le azioni vere (heading con
+// data/@reparto/semaforo, o corpo con Stato:/Colore:/"in attesa") restano tutte.
+function isSezioneDocumentazione(heading: string, blocco: string): boolean {
+  const h = heading.replace(/^#{2,3}\s+/, "");
+  const headingHaSegnale = DATA_RE.test(h) || /@[a-z0-9-]/i.test(h) || /[🟢🟡🔴]/.test(h);
+  const corpoHaSegnale =
+    /\b(in attesa|via libera|data proposta|pronto)\b/i.test(blocco) ||
+    /^[\s>*\-]*\*{0,2}(stato|colore)\*{0,2}\s*:/im.test(blocco) ||
+    /\[\s*\]\s*[🔴🟡🟢]/.test(blocco);
+  return !headingHaSegnale && !corpoHaSegnale;
+}
+
 // Una sezione conta come "in attesa" se contiene 🟡/🔴 e NON è dichiarata FATTA.
 // IMPORTANTE: una ✅ nel CORPO (spunta di una pre-condizione) NON deve scartare l'azione: conta lo STATO
 // esplicito. Se c'è "in attesa (di firma)" → è in attesa; "fatta" solo se una riga Stato: lo dichiara.
@@ -154,7 +171,7 @@ function parseSezioni(md: string): AzioneAttesa[] {
   const chiudi = () => {
     if (!cur) return;
     const blocco = cur.heading + "\n" + cur.corpo.join("\n");
-    if (inAttesaSezione(blocco)) {
+    if (inAttesaSezione(blocco) && !isSezioneDocumentazione(cur.heading, blocco)) {
       const { data, reparto, titolo } = parseHeading(cur.heading);
       const colore = /🔴/.test(blocco) ? "🔴" : "🟡";
       const origine = estraiOrigine(blocco) || campo(blocco, ["origine", "nato da"]);
@@ -181,7 +198,10 @@ function parseSezioni(md: string): AzioneAttesa[] {
     if (/^#{2,3}\s+/.test(raw)) {
       chiudi();
       cur = { heading: raw, corpo: [] };
-    } else if (cur) {
+    } else if (cur && !/^\s*\|/.test(raw)) {
+      // Le righe-tabella (|…|) sono già gestite da parseTabella: non le lasciamo
+      // assorbire da una sezione, altrimenti "## Coda" ingoia l'intera tabella e
+      // diventa una card fantasma piena di 🟡/🔴 e "in attesa".
       cur.corpo.push(raw);
     }
   }
