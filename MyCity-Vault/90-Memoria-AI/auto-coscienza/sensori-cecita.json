@@ -26,11 +26,11 @@
       "ultimo_ok": "2026-07-04 22:20"
     },
     "posthog_api": {
-      "giri_ciechi": 31,
-      "stato": "cieco",
+      "giri_ciechi": 0,
+      "stato": "non_configurato",
       "canale": "PostHog API",
-      "dettaglio": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)",
-      "ultimo_errore": "HTTP 401: {\"type\":\"authentication_error\",\"code\":\"authentication_failed\",\"detail\":\"Personal API key found in request Authorization  (dopo 3 tentativi)"
+      "dettaglio": "Chiave phc_ (Project/capture, non legge le analytics) commentata in vps/.env. PostHog resta scollegato fino a dopo il 10/7 (decisione Nicola #17: serve abbonamento + Personal API key phx_). Non è una cecità: sensore spento come da decisione.",
+      "ultimo_errore": ""
     },
     "resend_api": {
       "giri_ciechi": 0,
@@ -51,10 +51,10 @@
   "meta": {
     "giri_totali": 47,
     "sensori_ok": 3,
-    "max_giri_ciechi": 31,
-    "sensori_totali": 4,
+    "max_giri_ciechi": 1,
+    "sensori_totali": 3,
     "almeno_un_dato": true,
-    "sensori_non_configurati": 1,
+    "sensori_non_configurati": 2,
     "dati_ordini_ciechi": false
   }
 }
