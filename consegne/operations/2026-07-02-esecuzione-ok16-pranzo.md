@@ -1,7 +1,7 @@
-# Esecuzione ok 16 — ordine zombie €19,05 · consegna MATTINA 3/7 (accorpata al payout-test)
+# Esecuzione ok 16 — ordine zombie €19,05 · consegna MATTINA sab 4/7 (accorpata al payout-test)
 
-> **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05** · Decisione binaria **2/7 17:09** = Scelta A (eseguire)
-> **✅ Aggiornato 3/7 — PROPOSTA DAL GIRO APPROVATA (Pannello):** «Esegui #16 oggi 3/7 in **mattinata** — tap WhatsApp #20 → #21 → #22 → «consegna fatta», **accorpato al payout-test** (#2)». Cena 19–21 del 2/7 saltata (3ª finestra persa per frizione) → riprogrammata **MATTINA 3/7**. Motivo: afa nel pomeriggio → la mattina è la finestra certa per chiudere ~219h di stallo prima del caldo.
+> **Approvato:** Nicola Pannello **2/7 08:38** (`ok 16`) · Scelta A già firmata **1/7 11:05** · Decisione binaria **2/7 17:09** = Scelta A (eseguire) · proposta #16 3/7 13:29
+> **✅ Aggiornato 2026-07-04 04:38 — PROPOSTA DAL GIRO #20 APPROVATA (Pannello):** «#20 WhatsApp buyer 348 642 1766 — primo passo consegna pranzo, ok 16 già approvato». Le finestre di giovedì 3/7 (mattina/pomeriggio/sera) sono passate senza il tap → **riprogrammata a STAMATTINA sabato 4/7 (entro le 13)**. Motivo: Pane Quotidiano è aperto la mattina (facile ritiro) e i freschi vanno consegnati prima del caldo pomeridiano. Artefatto rigenerato con lo slot di oggi. Stallo ~236h — chiuderlo è la mossa #1.
 > **@operations + @supporto** · 🔴 mani reali (WhatsApp + dashboard + consegna COD) — **~5 min di tap per Nicola**
 > **🔗 Accorpato al payout-test (#2, riga coda):** questa prima transazione reale end-to-end È il payout-test — verifica su un caso vero l'incasso COD €19,05 e la riconciliazione (Stripe = sandbox, decisione #3 → nessun incasso carta, contanti alla consegna). Chiuso #16, @finanza/@contabilita quadrano incasso vs ordine.
 
@@ -28,17 +28,17 @@
 
 ---
 
-## PASSO 1 — WhatsApp buyer (🔴 · Nicola · STAMATTINA)
+## PASSO 1 — WhatsApp buyer (🔴 · Nicola · STAMATTINA sab 4/7) ✅ APPROVATO #20
 
-**Slot proposto:** **stamattina, consegna entro le 13** (finestra certa prima dell'afa del pomeriggio)
+**Slot proposto:** **oggi sabato, consegna entro le 13** (negozio aperto la mattina, freschi prima del caldo)
 
 **Testo (copia-incolla):**
-> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **stamattina (entro le 13)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
+> Ciao! Siamo MyCity — il tuo ordine da Pane Quotidiano del 24 giugno era rimasto in sospeso, ci scusiamo per il ritardo. Possiamo consegnartelo **oggi in mattinata (entro le 13)**? Rispondi sì e confermami **indirizzo e citofono** — li avevamo persi in piattaforma. — Nicola, MyCity
 
 **Link diretto (1 tap):**
-https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20stamattina%20(entro%20le%2013)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
+https://wa.me/393486421766?text=Ciao!%20Siamo%20MyCity%20%E2%80%94%20il%20tuo%20ordine%20da%20Pane%20Quotidiano%20del%2024%20giugno%20era%20rimasto%20in%20sospeso%2C%20ci%20scusiamo%20per%20il%20ritardo.%20Possiamo%20consegnartelo%20oggi%20in%20mattinata%20(entro%20le%2013)%3F%20Rispondi%20s%C3%AC%20e%20confermami%20indirizzo%20e%20citofono%20%E2%80%94%20li%20avevamo%20persi%20in%20piattaforma.%20%E2%80%94%20Nicola%2C%20MyCity
 
-**Se non risponde entro le 12:00:** manda il ritiro dal negozio comunque pronto e riprova il tap; se il buyer resta irraggiungibile tutta la mattina si archivia in giornata (non riproporre la decisione binaria — è già firmata Scelta A).
+**Se non risponde entro le 12:00:** tieni comunque il ritiro dal negozio pronto e riprova il tap nel pomeriggio (slot fresco post-caldo); se il buyer resta irraggiungibile tutta la giornata si archivia (non riproporre la decisione binaria — è già firmata Scelta A).
 
 ---
 
