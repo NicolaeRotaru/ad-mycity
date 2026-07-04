@@ -116,3 +116,13 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 - Prima consegna imminente ancora **#16** (Pane Quotidiano, COD €19,05, buyer WhatsApp 348 642 1766), programmata **mattina 3/7** con il payout-test.
 
 **Correzione gap:** il run 1/7 dichiarava A13/A14 «accodati», ma non erano mai finiti nella coda. Oggi **materializzati davvero**: blocchi **A13/A14** aggiunti in `AZIONI-PRONTE.md` + **riga #27** nella coda canonica `AZIONI-IN-ATTESA.md` (gated su #16 consegnato). Le bozze restano identiche a quelle qui sopra (voce Vicino Orgoglioso).
+
+---
+
+## Ri-esecuzione 2026-07-04 04:40 (playbook:recensioni)
+
+**Finding invariato** (live gated in sessione: MCP marketplace + node/REST/curl entrambi bloccati dai permessi → baseline REST STATO 3/7 21:21, zero numeri inventati):
+- **Consegne completate in tutto il marketplace: 0** (`Ordini consegnati=0`, «nessuna consegna mai avvenuta», stallo ~230h) → **recensioni da sollecitare oggi: 0**. Nessun cliente reale, niente destinatari inventati.
+- L'unica consegna che accenderà la sequenza resta **#16** (Pane Quotidiano, COD €19,05, buyer WhatsApp 348 642 1766): **approvata dal Pannello 3/7 13:29 ma non ancora consegnata** (approvato ≠ consegnato).
+
+**Nessun doppione (AR-008):** il messaggio post-consegna è già preparato e armato — **A13** (Touch 1: grazie + feedback, +3h) → se 👍 **A14** (Touch 2: richiesta recensione, +1g). Coda canonica = **riga #27**, già presente e ora ri-verificata/aggiornata. Non creo una seconda riga: aggiorno lo stato della stessa. Parte automaticamente quando #16 passa a `Consegnato`.
