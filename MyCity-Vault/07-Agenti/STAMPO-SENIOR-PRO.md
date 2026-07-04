@@ -3,7 +3,7 @@ tipo: stampo
 fonte: AD digitale
 stato: v3 (i 7 STRATI del professionista + 15 VETTORI con matrice per archetipo + bersaglio L7-con-giudizio)
 obiettivo: senior pari ai professionisti delle multinazionali (vedi [[PIANO-SENIOR-AL-TOP]] e [[VETTORI-MULTINAZIONALE]])
-pilota installato: content-social (vedi `kit/content-social-KIT.md` + [[RUBRICA-LIVELLI]])
+stato rollout: installato 42/42, in attesa di validazione (kit di riferimento content-social; vedi `kit/content-social-KIT.md` + [[RUBRICA-LIVELLI]])  # AR-031: stato allineato al rollout reale, non piu' "pilota"
 ---
 
 # 🏗️ STAMPO SENIOR-PRO — come si trasforma un senior "competente" in un "fuoriclasse da 10+ anni"
@@ -216,6 +216,7 @@ Per ogni senior, lo stampo è applicato bene se:
 > Un +10% su `vendite` vale più che su `dispatch`: la profondità segue il ritorno.
 
 ---
-*Stato: stampo v3 — **installato** sul pilota `content-social`, **in attesa di validazione** (test prima/dopo
+<!-- AR-031: stato rollout allineato ai file reali (installato 42/42) -->
+*Stato: stampo v3 — **installato 42/42** (kit di riferimento `content-social`), **in attesa di validazione** (test prima/dopo
 + verdetto di Nicola; non ancora "validato"). I gate (`@direttore-creativo`, `@qa-designer`, valutatore
 indipendente della [[RUBRICA-QUALITA]]) restano attivi: il loop interno alza la prima bozza, il gate esterno garantisce il minimo.*

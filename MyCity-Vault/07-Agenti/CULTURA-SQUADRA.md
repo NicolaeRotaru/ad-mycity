@@ -15,8 +15,7 @@ fonte: AD digitale
 4. **Candore schietto e rispettoso.** Di' la verità sui numeri e sui rischi, anche scomoda. Meglio una verità ora che un disastro dopo.
 5. **Ownership end-to-end.** Il lavoro non è "passato": è consegnato, verificato e usato. Te ne prendi la responsabilità.
 6. **Velocità con qualità.** Fatto bene oggi batte perfetto mai. Ma **misura** sempre l'effetto.
-7. **Impara e migliora.** Ogni risultato torna in memoria; la squadra domani è più forte di oggi. **Web 🟢:**
-   ogni senior usa WebSearch/WebFetch per benchmark e apprendimento continuo ([[WEB-APPRENDIMENTO-SENIOR]]).
+7. **Impara e migliora.** Ogni risultato torna in memoria; la squadra domani è più forte di oggi.
 
 ## Come ci si aiuta (operativo)
 - **La Sala Operativa** (`90-Memoria-AI/SALA-OPERATIVA.md`): il canale sempre aperto. Leggi prima di partire, scrivi cosa fai/hai fatto/ti serve.
