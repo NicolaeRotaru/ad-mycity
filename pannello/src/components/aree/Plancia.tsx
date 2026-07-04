@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
@@ -9,6 +9,7 @@ import { vaiArea } from "@/lib/nav";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
+import Bussola from "@/components/Bussola";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -21,6 +22,13 @@ type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: s
 type AutoAnalisi = { voto_fiducia?: number | string; trend_fiducia?: string; errori?: any[]; domande_per_nicola?: any[]; sintesi?: string } | null;
 type Radiografia = { voto_salute_architettura?: number | string; trend?: string; sintesi?: string } | null;
 type Voce = { data: string; testo: string; oggi?: boolean } | null;
+type Doc = { file: string; titolo: string; data: string | null; etichetta?: string };
+
+function dataItBreve(d: string | null): string {
+  if (!d) return "";
+  const [y, m, g] = d.split("-");
+  return `${g}/${m}`;
+}
 
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
   { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n", icon: <Package size={14} /> },
@@ -52,6 +60,7 @@ export default function Plancia({
   const [radiografia, setRadiografia] = useState<Radiografia>(null);
   const [difettiAperti, setDifettiAperti] = useState<number>(0);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
+  const [documenti, setDocumenti] = useState<Doc[]>([]);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
   useEffect(() => {
@@ -68,6 +77,7 @@ export default function Plancia({
         setDifettiAperti(d.collegato ? (d.cantiere?.difetti || []).filter((x: any) => x.stato !== "chiuso").length : 0);
       }).catch(() => {});
       fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
+      fetch("/api/consegne", { cache: "no-store" }).then((r) => r.json()).then((d) => setDocumenti(d.recenti || [])).catch(() => {});
       setAggAt(Date.now());
     };
     carica();
@@ -97,6 +107,9 @@ export default function Plancia({
         </div>
         <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
+
+      {/* 🧭 Bussola: "dove trovo cosa" — la mappa del Pannello a portata di clic */}
+      <Bussola />
 
       {/* 🫀 Stato del cuore della macchina */}
       <CuoreMacchina />
@@ -242,6 +255,34 @@ export default function Plancia({
           </div>
         </button>
       </div>
+
+      {/* 📄 Report & piani dell'AD: gli ultimi documenti prodotti (consegne/), apribili in un clic */}
+      <section className="card p-4">
+        <div className="sez-head mb-3">
+          <span className="sez-ico"><FileText size={16} /></span>
+          <span className="t-sez">Report &amp; piani dell&apos;AD</span>
+          <button onClick={() => vaiArea("report")} className="ml-auto t-eti hover:text-brand transition">tutti i documenti →</button>
+        </div>
+        {documenti.length === 0 ? (
+          <p className="t-eti">Le radiografie, i piani e gli audit che l&apos;AD produce compaiono qui, pronti da leggere.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {documenti.slice(0, 4).map((d) => (
+              <button
+                key={d.file}
+                onClick={() => vaiArea("report", undefined, d.file)}
+                className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+              >
+                <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
+                  <span className="block t-eti mt-0.5 truncate">{d.etichetta}{d.data ? ` · ${dataItBreve(d.data)}` : ""}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* KPI chiave */}
       <section className="card p-4">
