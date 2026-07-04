@@ -109,7 +109,7 @@ stato: IN ATTESA DI FIRMA NICOLA.
 reparto: account-negozi
 livello: 🟡
 canale: Telefono 0523 388601 — RIDER sulla chiamata operativa #21 (stessa telefonata, +2 min di retention), poi follow-up dopo la consegna
-perche: Unico negozio REALE su MyCity. Il suo primo ordine (COD €19,05) è fermo da ~219h (9+ giorni): stadio "no value realized", causa #1 di churn commercianti. Se il titolare pensa "qui non vendo" e molla, i negozi reali di MyCity vanno a 0. Playbook anti-churn 3/7 (0 negozi con trend −40%: il churn qui si misura sul time-to-first-value, non sul trend).
+perche: Unico negozio REALE su MyCity. Il suo primo ordine (COD €19,05) è fermo da ~243h (~10 giorni): stadio "no value realized", causa #1 di churn commercianti. Se il titolare pensa "qui non vendo" e molla, i negozi reali di MyCity vanno a 0. Playbook anti-churn 4/7 (0 negozi con trend −40%: il churn qui si misura sul time-to-first-value, non sul trend). Registro: consegne/account-negozi/2026-07-04-playbook-anti-churn.md.
 preparato: 💚 account-negozi (lente retention) — NON duplica #16/#21: è lo strato relazione sulla stessa chiamata
 testo (rider sulla chiamata #21, dopo aver fatto accettare l'ordine):
 «Ciao, sono di MyCity. Oggi chiudiamo il vostro primo ordine e vi porto il cliente a domicilio — scusate l'attesa di questi giorni, era un rodaggio nostro, non un problema del vostro negozio. Da adesso gli ordini che arrivano ve li giro subito. Volevo dirvi che il vostro catalogo bio è esattamente quello che a Piacenza non trova nessun altro in consegna: è la ragione per cui vi ho scelti come primo negozio. Appena chiudiamo questo, vi propongo 2-3 prodotti-civetta per far ripartire il flusso. Va bene?»
