@@ -1,0 +1,77 @@
+name: Auto-forward memoria (main → memoria-ad)
+
+# GARANZIA "impossibile che l'AD non legga un merge".
+# Il Pannello/AD legge la memoria dal ramo 'memoria-ad'. Se un PR di memoria finisce comunque su 'main'
+# (radiografie, giri, consegne dei senior…), questo workflow porta AUTOMATICAMENTE quelle NUOVE consegne
+# su 'memoria-ad', così l'AD le legge lo stesso.
+#
+# SICUREZZA (per non litigare col worker che possiede memoria-ad):
+#   - forwarda SOLO i file toccati DA QUESTO push (delta), non "tutto ciò che manca" → niente resurrezione
+#     di file che l'AD ha potato di proposito.
+#   - forwarda SOLO i file ASSENTI su memoria-ad → mai sovrascrive gli snapshot del worker (STATO, AZIONI…).
+#   - best-effort: se il push fallisce non rompe nulla (exit 0 con warning).
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  forward:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Porta le nuove consegne su memoria-ad
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          set -uo pipefail
+          MEMDIRS="MyCity-Vault consegne creativi memoria-squadra"
+          git fetch --no-tags origin memoria-ad 2>/dev/null || { echo "::warning::memoria-ad non raggiungibile"; exit 0; }
+
+          # push iniziale/force: 'before' può non essere un commit valido → usa il parent
+          if ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            BEFORE="$(git rev-parse "${AFTER}^" 2>/dev/null || echo "$AFTER")"
+          fi
+
+          CHANGED="$(git diff --name-only --diff-filter=d "$BEFORE" "$AFTER" -- $MEMDIRS 2>/dev/null || true)"
+          if [ -z "$CHANGED" ]; then echo "Nessuna memoria in questo push. Ok."; exit 0; fi
+
+          git checkout -B _fwd origin/memoria-ad
+          TOFWD=""
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            # SOLO se assente su memoria-ad (aggiunta pura: non tocco gli snapshot del worker)
+            if ! git cat-file -e "origin/memoria-ad:$f" 2>/dev/null; then
+              git checkout "$AFTER" -- "$f" 2>/dev/null && TOFWD="$TOFWD $f"
+            fi
+          done <<< "$CHANGED"
+
+          if [ -z "$TOFWD" ]; then
+            echo "Le memorie di questo push esistono già su memoria-ad (o sono snapshot: li lascio al worker). Ok."
+            exit 0
+          fi
+
+          N="$(echo $TOFWD | wc -w)"
+          git config user.email "98592323+NicolaeRotaru@users.noreply.github.com"
+          git config user.name "AD MyCity (auto-forward)"
+          git commit -q -m "auto-forward: ${N} nuove consegne da main → memoria-ad (il ramo che l'AD legge)"
+
+          for i in 1 2 3 4 5; do
+            if git push origin _fwd:memoria-ad 2>/dev/null; then
+              echo "✅ Forwardati ${N} file su memoria-ad:"; printf '%s\n' $TOFWD | sed 's/^/  → /'
+              exit 0
+            fi
+            echo "push respinto (worker?), retry $i…"
+            git fetch --no-tags origin memoria-ad 2>/dev/null
+            git rebase origin/memoria-ad 2>/dev/null || git rebase --abort 2>/dev/null || true
+            sleep $((i*3))
+          done
+          echo "::warning::auto-forward: push su memoria-ad fallito dopo i retry — i file restano su main, riprova al prossimo push"
+          exit 0
