@@ -1,0 +1,144 @@
+# Render config — Production (web) + Preview deploy su PR.
+#
+# Esperti: SRE: "Preview deploy = staging gratis per ogni PR.
+# Catch regression PRIMA di merge."
+#
+# Per applicare: aprire Render dashboard → New → Blueprint → select repo
+# → questo file viene parsato automaticamente.
+
+# Preview environment automatici per ogni PR. NB: la vecchia sintassi a livello
+# service (previewsEnabled / previewsExpireAfterDays) è DEPRECATA da Render e fa
+# fallire il parsing del Blueprint ("field not found in type file.Service").
+# Va usata questa sezione `previews` a livello root.
+previews:
+  generation: automatic
+
+services:
+  - type: web
+    name: mycity-marketplace
+    runtime: node
+    plan: starter # $7/mese; per traffico reale → $25 standard
+    # ⚠️ Scale-out (più istanze): configurare PRIMA UPSTASH_* qui sotto, altrimenti
+    # il rate-limit in-memory non è condiviso tra istanze ed è aggirabile (🟠-12).
+    # NB regione: DB Supabase in Paris (aws eu-west-3). Frankfurt↔Paris ≈ +10ms/round-trip:
+    # accettabile. Se in futuro il DB si sposta, riallineare qui la region.
+    region: frankfurt # EU per GDPR + latenza Italia
+    branch: main
+    autoDeploy: true
+    # B3 (BLOCCANTE): --include=dev forza l'install delle devDependencies (autoprefixer,
+    # postcss, @types, eslint-config-next) necessarie a `next build`, ANCHE con
+    # NODE_ENV=production (che di default farebbe `npm ci` con --omit=dev). Il flag
+    # --legacy-peer-deps è ridondante col .npmrc ma esplicitato per parità con la CI.
+    buildCommand: npm ci --include=dev --legacy-peer-deps && npm run build
+    startCommand: npm start
+    # Health check sull'endpoint che verifica DAVVERO il DB + env critiche + freschezza cron
+    # (ritorna 503 se degradato). NON usare "/" : la home può rispondere 200
+    # con dati cached anche a DB irraggiungibile, mascherando un outage.
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Cintura+bretelle a B3: garantisce che npm non ometta le devDependencies in build.
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
+      # Critical vars (devi settare manualmente nel dashboard):
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      # Onboarding Connect venditori (lib/env.ts:40). Senza → onboarding payout rotto.
+      - key: STRIPE_CONNECT_CLIENT_ID
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      # 🔴 Mittente email su dominio VERIFICATO (DKIM/SPF/DMARC). NON lasciare il
+      # default no-reply@example.com (lib/env.ts:44): Resend rifiuta l'invio →
+      # tutte le email transazionali falliscono in silenzio. Es: "MyCity <ordini@mycity.it>"
+      - key: RESEND_FROM
+        sync: false
+      - key: RESEND_REPLY_TO
+        sync: false
+      - key: SUPPORT_EMAIL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_TURNSTILE_SITE_KEY
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      # Secret per chiamate interne server→server (lib/api/middleware).
+      - key: INTERNAL_API_SECRET
+        sync: false
+      # Web Push (cron send-push). Senza → invio push è no-op silenzioso (lib/push/send.ts).
+      - key: NEXT_PUBLIC_VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: NEXT_PUBLIC_POSTHOG_KEY
+        sync: false
+      - key: NEXT_PUBLIC_POSTHOG_HOST
+        sync: false
+      - key: NEXT_PUBLIC_GA_MEASUREMENT_ID
+        sync: false
+      - key: NEXT_PUBLIC_SENTRY_DSN
+        sync: false
+      # Upload source map Sentry al deploy (altrimenti stack trace minificati).
+      # Necessari SOLO se NEXT_PUBLIC_SENTRY_DSN è impostato.
+      - key: SENTRY_AUTH_TOKEN
+        sync: false
+      - key: SENTRY_ORG
+        sync: false
+      - key: SENTRY_PROJECT
+        sync: false
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://mycity-marketplace.com
+      - key: NEXT_PUBLIC_WHATSAPP_NUMBER
+        sync: false
+      # Rate-limit distribuito (Upstash Redis). Opzionale su singola istanza
+      # (fallback in-memory), OBBLIGATORIO prima dello scale-out (🟠-12).
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+
+# =============================================================================
+# CRON JOBS — Attualmente su cron-job.org (esterno, gratis). SENZA scheduler
+# NON girano e /api/health ora se ne accorge (cron-freshness check → 503 degradato,
+# l'uptime monitor esterno intercetta lo scheduler morto). Consigliato migrarli a
+# Render Cron (a pagamento) per averli IaC + retry + log nativi. Ogni job fa un
+# POST autenticato con header: Authorization: Bearer <CRON_SECRET>.
+#
+# Endpoint (POST) + cadenza consigliata:
+#   /api/cron/release-payouts     ogni 15 min  (paga il seller ~1h dopo la consegna)
+#   /api/cron/process-deletions   1×/giorno 04:00
+#   /api/cron/send-emails         ogni 10 min
+#   /api/cron/send-push           ogni 5 min
+#   /api/cron/expire-checkouts    ogni 30 min
+#   /api/cron/expire-stale-orders ogni 30 min
+#   /api/cron/abandoned-carts     ogni 1 ora
+#   /api/cron/operational-alerts  ogni 15 min  (dead-man switch degli altri cron)
+#   /api/cron/external-price-alerts  ogni 1 ora
+#
+# Template Render Cron (esempio, quando si migra da cron-job.org):
+#   - type: cron
+#     name: release-payouts
+#     runtime: node
+#     schedule: "*/15 * * * *"
+#     buildCommand: npm ci --include=dev --legacy-peer-deps
+#     startCommand: curl -fsS -X POST -H "Authorization: Bearer $CRON_SECRET" https://mycity-marketplace.com/api/cron/release-payouts
+#     envVars:
+#       - key: CRON_SECRET
+#         sync: false
+# =============================================================================
