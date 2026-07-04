@@ -2,26 +2,21 @@ Fai un GIRO DI PERLUSTRAZIONE come AD digitale di MyCity (segui CLAUDE.md).
 
 Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 
-> ⚠️ **DOVE PUBBLICARE (regola anti-blocco — vale SEMPRE, specie per i giri da CLOUD AGENT):**
-> La memoria del vault (STATO, briefing, `90-Memoria-AI/`, `consegne/`, `creativi/`) vive sul ramo
-> **`memoria-ad`** — è il ramo che legge il Pannello (`OBSIDIAN_BRANCH`). Il Pannello legge da GitHub
-> in tempo reale: **non serve mergiare `memoria-ad` in `main` per vedere i giri nella Cabina.**
-> Il ramo **`main` è per il CODICE** — non deve ricevere modifiche di memoria in modo indipendente:
-> se accade, `main` e `memoria-ad` divergono sugli stessi file e una futura sync diventa conflittuale.
-> - **Giro sul VPS** (`giro.sh`): già a posto, scrive su `memoria-ad`.
-> - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e poi
->   **apri/aggiorna la PR con base `memoria-ad`** e **mergiala in `memoria-ad`** (NON in `main`).
->   In alternativa, dopo il push, pubblica il giro su `memoria-ad` (fast-forward). **Non lasciare la memoria solo su `main`.**
-> - **Rete di sicurezza automatica (non è più solo una convenzione):** due workflow CI.
->   `guard-memoria.yml` **avvisa** quando un PR verso `main` tocca `MyCity-Vault/`, `consegne/`, `creativi/`
->   o `memoria-squadra/` (ricordandoti la strada giusta: base `memoria-ad`). `forward-memoria.yml`
->   **porta automaticamente su `memoria-ad`** le NUOVE consegne che finiscono comunque su `main` (solo
->   aggiunte, mai sovrascrive gli snapshot del worker) → così l'AD le legge lo stesso. Resta comunque
->   corretto pubblicare la memoria con base `memoria-ad`.
-> - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno già `merge=union` in `.gitattributes`
+> ⚠️ **DOVE PUBBLICARE (RAMO UNICO — Fase 2):**
+> C'è **UN SOLO ramo = `main`**: codice E memoria vivono insieme lì. Il Pannello lo legge via
+> `OBSIDIAN_BRANCH=main` e il worker vi scrive via `GIT_BRANCH=main`. Non esiste più il ramo separato
+> `memoria-ad`: niente due rami che divergono, niente merge/forward tra rami.
+> - **Giro sul VPS** (`giro.sh`): scrive la memoria su `main` (commit + push non-force con rebase, sotto
+>   lo stesso lock del worker — le scritture non si pestano).
+> - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e
+>   **apri/aggiorna la PR con base `main`**, poi mergiala in `main`. Nient'altro da fare: è il ramo unico.
+> - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno `merge=union` in `.gitattributes`
 >   (si fondono senza conflitto). Gli **snapshot** (STATO.md, `auto-coscienza/*.json`, `ultimo-briefing.json`,
->   `intenzioni-nicola.json`) NON si possono auto-fondere: la loro protezione è proprio questa regola
->   (scriverli su un solo ramo, `memoria-ad`).
+>   `intenzioni-nicola.json`) NON si auto-fondono: su ramo unico il push è NON-force con rebase, così le
+>   scritture già pushate non vengono mai cancellate; se due scritture toccano lo stesso snapshot in
+>   contemporanea, il push perde-e-riprova (rebase-retry) invece di sovrascrivere.
+> - I vecchi workflow `guard-memoria.yml` / `forward-memoria.yml` (che tenevano allineati i due rami) sono
+>   stati **rimossi**: su ramo unico non servono più (anzi `forward-memoria` creerebbe commit `_fwd` a vuoto).
 
 Passi:
 0. **SENSORI & VOLANO (deterministico — già eseguito da giro.sh prima di te):** leggi
