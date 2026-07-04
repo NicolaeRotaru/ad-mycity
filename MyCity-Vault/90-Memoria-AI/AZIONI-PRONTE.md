@@ -38,16 +38,31 @@ commissione 12%, 0€ costi fissi, payout a consegna confermata, nessun vincolo.
 Mettiamo online la tua vetrina in ~20 minuti e il primo sabato la consegna è gratis.
 Ti va se passo a sistemare tutto insieme?
 
-## A3 · 🛒 Recupero carrelli abbandonati
+## A3 · 🛒 Recupero carrello — samir (unico cliente reale, €10 Pane Quotidiano)
 reparto: crm-lifecycle
-livello: 🟡
-canale: Email ai clienti con carrello fermo
-perche: Ci sono carrelli non completati: un promemoria con codice recupera ordini quasi persi.
-preparato: 🔁 crm-lifecycle + ✍️ copywriter
-testo:
-Oggetto: Hai lasciato qualcosa nel carrello 🛍️
-Il tuo ordine è ancora qui! Completa entro stasera e usa il codice TORNA5 per 5€ di
-sconto sopra i 25€. I negozi di Piacenza ti aspettano.
+livello: 🟡 (Touch #1 senza sconto) · 🔴 (Touch #2 col codice)
+canale: Email al buyer samir — indirizzo da recuperare da /admin/users (chiave anon non lo legge)
+perche: Un solo carrello recuperabile REALE (verificato REST 1/7 12:00, conf. 2/7 10:19, letture live gated 3/7 → nessun numero nuovo). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6. Gli altri 3 record `abandoned_carts` = admin/seller-autotest/seed Casa Linda → SKIP (non clienti). Un promemoria caldo può riportarlo a un 2° acquisto invece del silenzio.
+preparato: 🔁 crm-lifecycle + ✍️ copywriter — testo pieno + sequenza in `consegne/crm/2026-07-03-recupero-carrelli-pronte.md`
+cosa cambia: l'unico cliente reale riceve un promemoria del carrello da €10 (pesto + kefir bio di Pane Quotidiano). Da mandare come ri-aggancio caldo DOPO la prima consegna #16, non come promo fredda.
+se va bene: samir torna → primo cliente con 2 ordini, base per riordino/referral; se muto dopo Touch #2, si archivia.
+pre-condizioni: parte SOLO dopo #16 consegnato (stesso cliente: prima chiudi il 1° ordine) · ok @legale-privacy sul consenso (`email_marketing=false`, transazionale vs marketing) · email da /admin/users · mani Resend accese (→ builder-automazioni). Finché non attive, resta in coda.
+testo (Touch #1 — reminder consenso-safe, senza sconto · 🟡):
+Oggetto: Hai lasciato qualcosa da Pane Quotidiano 🛒
+Ciao, hai messo nel carrello da Pane Quotidiano tre prodotti bio — pesto e kefir — e poi ti sei distratto.
+Capita 😊 Sono ancora lì: 1× Pesto Genovese Bio €5,00 · 1× Kefir di latte di capra bio €2,95 ·
+1× Berchtesgadener Land kefir bio 400g €2,05 — totale €10,00 (+ consegna a domicilio, paghi alla consegna se
+preferisci). 👉 Completa il tuo ordine. Se qualcosa ti ha bloccato (consegna, pagamento, orari), rispondi a
+questa mail: ti aiuto io. A presto, Nicola — MyCity, le botteghe di Piacenza.
+Codice: nessuno (reminder transazionale, rischio legale minore con consenso marketing off).
+testo (Touch #2 — solo se #1 non converte entro 24h · 🔴):
+Oggetto: Ti tengo €1 di sconto sul carrello 🧡
+Ciao, il carrello da Pane Quotidiano è ancora qui — pesto e kefir bio, €10,00. Per darti una mano: usa il
+codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Completa l'ordine con BENVENUTO10.
+Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
+Nicola — MyCity.
+Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
+stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #26 in [[AZIONI-IN-ATTESA]].
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione)
 reparto: customer-success
