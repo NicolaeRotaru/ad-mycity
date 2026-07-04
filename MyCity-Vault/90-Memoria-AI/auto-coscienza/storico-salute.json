@@ -489,6 +489,20 @@
       "bloccanti_umani": 2,
       "tipo": "riconciliazione",
       "nota": "Sentinella salute_bassa (44, firma AR-025) analizzata alla radice: l'unico 'aperto-davvero' era un FANTASMA di bookkeeping. Il fix di AR-025 (escludere max_giri_ciechi dalla firma del delta-gate) è GIÀ nel codice dal commit 34e7bd4 (3/7 21:59, 'allinea codice a main') — verificato avversarialmente: `grep max_giri_ciechi` lo trova solo in 3 commenti, mai nella firma serializzata. Causa-radice del falso-aperto: la voce AR-025 aveva una `verifica` SENZA `pattern`, così auto-fix.mjs (che richiede file+pattern) la classificava 'manuale' e non l'accreditava mai → restava 'aperto' e ri-scattava la sentinella salute<60 a ogni giro (recidiva della lezione AR-024: il termometro deve riflettere il codice). FIX-META: aggiunto `verifica.pattern` ('max_giri_ciechi: Number\\(cecita', presente:false) → ora è auto-verificabile e i prossimi giri lo tengono chiuso da soli. Cantiere ora: 22 chiusi · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale Pane Quotidiano) · 0 aperti-davvero. Voto pieno reale 50/100 (2 bloccanti umani × −25); sale a 100 SOLO con le 2 firme di Nicola + merge/deploy. Nessun difetto software resta da lavorare: la palla è tutta su Nicola."
+    },
+    {
+      "data": "2026-07-04",
+      "voto_salute": 44,
+      "voto_provvisorio": 50,
+      "voto_pieno": 50,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (9h) · cecità sensori 21 giri · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
     }
   ]
 }
