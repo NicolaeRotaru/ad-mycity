@@ -194,3 +194,26 @@ dalle sue mani — oggi anche da casa, senza ZTL, senza giri: te la portiamo noi
 visual: versione neutra TIPOGRAFICA su palette brand ("È SABATO. FAI IL TUO TURNO." + "dal 1976 · da casa, senza ZTL") = pubblicabile subito senza foto; versione col NOME+foto insegna Via Calzolai = solo con ok titolare. Zero giallo-Glovo/arancio-Amazon.
 pre-condizioni: (1) versione neutra = pubblicabile con sola firma Nicola · (2) versione col nome+foto = ok titolare (chiedibile in A6/#21) · (3) link reale lista in bio con UTM turno_sabato (@builder-automazioni). Coda canonica = riga #30 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A16 · 📣 Post del giorno "Oggi la città festeggia sé stessa" (Sant'Antonino × Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia (9:16) + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Contenuto del giorno che cavalca il momento unico di OGGI — Sant'Antonino, patrono di Piacenza (fiera ~250 bancarelle, centro pieno, snapshot reale [[STATO]] 4/7). Principio swipe #2 "cavalcare il momento": incopiabile da Amazon (è la festa DI Piacenza), agganciato a "Il Turno", sul faro reale Pane Quotidiano. NON duplica A8 (storia-bottega) né A15 (utilità sabato): angolo nuovo e a scadenza di giornata. Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA-RULES passato (Sant'Antonino patrono il 4/7 e "bio dal 1976" = fatti pubblici, 0 numeri finti, 0 testimonianze, festa citata con rispetto)
+contenuto pronto: consegne/content/2026-07-04-POST-santantonino-PQ.md
+cosa cambia: MyCity si fa vedere nel giorno di massima attenzione locale, associando il negozio reale (Pane Quotidiano) alla festa della città — costo ≈0, ripubblicabile dal negozio.
+se va bene: reach nel picco di oggi + primi iscritti caldi alla lista; si consolida il ritmo del motore "Volti/Il Turno".
+testo:
+[HOOK] Oggi Piacenza festeggia sé stessa. E una città si tiene viva in un modo solo: qualcuno tiene aperto.
+[CORPO] È Sant'Antonino, il nostro patrono. Il centro è pieno, la fiera anche. Ma la città non vive un giorno
+solo: vive ogni mattina, quando una saracinesca si alza. Pane Quotidiano lo fa a Piacenza dal 1976 — il cibo
+buono qui non arriva da un magazzino a chilometri, arriva da una bottega dove entri, chiedi e ti fidi. Una
+città-centro resta accesa solo se, a turno, qualcuno alza la saracinesca. Il bottegaio la mattina. Tu quando fai
+la spesa. Oggi che festeggiamo Piacenza, il modo più vero per festeggiarla è tenerla viva: fai la tua spesa dalle
+sue botteghe — anche da casa, te la portiamo noi.
+[CTA] 👉 Fai il tuo turno → [LINK lista d'attesa · UTM turno_santantonino]
+[FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · @mycity.piacenza · VOLTI, NON ALGORITMI
+visual: versione neutra TIPOGRAFICA su palette brand ("OGGI PIACENZA FESTEGGIA SÉ STESSA" + "si tiene viva ogni mattina · dal 1976 · fai il tuo turno", nessun simbolo religioso) = pubblicabile subito senza foto; versione col NOME+foto insegna Via Calzolai = solo con ok titolare. Zero giallo-Glovo/arancio-Amazon.
+pre-condizioni: (1) versione neutra = pubblicabile con sola firma Nicola · (2) versione col nome+foto = ok titolare (chiedibile in A6/#21) · (3) link reale lista in bio con UTM turno_santantonino (@builder-automazioni). ⏰ **A scadenza di giornata: vale solo oggi 4/7** — se non firmato entro sera, decade. Coda canonica = riga #36 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.
