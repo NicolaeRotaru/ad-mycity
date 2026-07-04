@@ -1,6 +1,10 @@
 {
   "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- .",
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
+  },
   "crons": [
     { "path": "/api/heartbeat", "schedule": "0 9 * * *" },
     { "path": "/api/report?genera=giornaliero", "schedule": "7 19 * * *" }
