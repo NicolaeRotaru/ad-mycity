@@ -592,7 +592,7 @@ type Vista =
   | "report"
   | "storico";
 
-type AssistenteTab = "chat" | "conversazioni" | "storico";
+type AssistenteTab = "chat" | "conversazioni";
 
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
@@ -1189,10 +1189,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   const vistaPrimaVolta = useRef(true);
   const ultimaVistaStoria = useRef<string | null>(null);
   const applicaVistaSalvata = (v: string) => {
-    if (v === "storico") {
-      setVista("assistente");
-      setAssistenteTab("storico");
-    } else if (v === "auto-coscienza") {
+    if (v === "auto-coscienza") {
       setVista("cervello"); // valore legacy: l'area della radiografia/auto-coscienza è "cervello"
     } else {
       setVista(v as Vista);
@@ -1204,7 +1201,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const v = localStorage.getItem("mycity_vista");
       if (v) {
         applicaVistaSalvata(v);
-        iniz = v === "storico" ? "assistente" : v === "auto-coscienza" ? "cervello" : v;
+        iniz = v === "auto-coscienza" ? "cervello" : v;
       }
     } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
@@ -1249,7 +1246,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
       if (v === "assistente") {
         const tab = (st?.sub as AssistenteTab) || "chat";
-        setAssistenteTab(["chat", "conversazioni", "storico"].includes(tab) ? tab : "chat");
+        setAssistenteTab(["chat", "conversazioni"].includes(tab) ? tab : "chat");
       }
       if (st?.sub) ripristinaSub(v, st.sub);
       // Stato mancante (voce base o legacy): la vista di default è già stata applicata sopra,
@@ -1273,14 +1270,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
       if (!det?.vista) return;
-      if (det.vista === "storico") {
-        setVista("assistente");
-        setAssistenteTab("storico");
-      } else if (det.vista === "auto-coscienza") {
+      if (det.vista === "auto-coscienza") {
         setVista("cervello");
       } else {
         setVista(det.vista);
-        if (det.vista === "assistente" && det.sub === "storico") setAssistenteTab("storico");
         if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
         if (det.vista === "assistente" && det.sub === "chat") {
           setAssistenteTab("chat");
@@ -1521,6 +1514,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
             { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
             { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+            { id: "storico", label: "Storico", icon: <History size={15} /> },
             { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
           ] as const;
           return (
@@ -1665,7 +1659,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         <div className="space-y-4">
           <div>
             <h2 className="t-area">💬 Assistente</h2>
-            <p className="t-eti mt-0.5">Chat con l&apos;AD, conversazioni salvate e storico.</p>
+            <p className="t-eti mt-0.5">Chat con l&apos;AD e conversazioni salvate.</p>
           </div>
 
           <div className="flex flex-wrap gap-1.5">
@@ -1673,7 +1667,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               [
                 { id: "chat" as const, label: "Chat", icon: <Send size={14} /> },
                 { id: "conversazioni" as const, label: "Conversazioni", icon: <MessagesSquare size={14} /> },
-                { id: "storico" as const, label: "Storico", icon: <History size={14} /> },
               ] as const
             ).map((t) => (
               <button
@@ -1691,10 +1684,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             ))}
           </div>
-
-          {assistenteTab === "storico" && (
-            <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
-          )}
 
           {assistenteTab === "chat" && (
           <>
@@ -1966,7 +1955,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
         )}
 
-        {/* storico top-level: reindirizzato ad assistente → tab storico */}
+        {/* Storico: area a sé (come l'Assistente), col suo header e le sue schede Governo/Diario */}
         {vista === "storico" && (
           <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
