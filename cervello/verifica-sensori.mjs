@@ -317,6 +317,11 @@ async function main() {
   // "tutti ciechi" = nessuna FONTE DATI CONFIGURATA è leggibile. I sensori spenti (senza chiave, es.
   // Stripe/PostHog/Resend non collegati) NON contano come cecità: erano la causa della sentinella a vuoto.
   const tuttiCiechi = configurati.length > 0 ? datiOk.length === 0 : true;
+  // FIX gate-verità (AR-011): il freno "niente numeri inventati" NON deve dipendere da "almeno un sensore
+  // qualsiasi vivo" (uptime/stripe/posthog possono essere ok mentre supabase_rest è cieco → ordini/clienti
+  // sarebbero comunque ciechi). Esponiamo un segnale SPECIFICO sulla fonte-di-verità dei dati: se
+  // supabase_rest non è 'ok', i numeri ordini/clienti sono ciechi. giro.sh legge questo flag per il vincolo HARD.
+  const datiOrdiniCiechi = !sb.ok;
   // max cecità SOLO sui sensori realmente "cieco" (esclude i "non_configurato").
   const maxCecita = Math.max(
     0,
@@ -337,6 +342,7 @@ async function main() {
   cecita.meta.sensori_non_configurati = checks.length - configurati.length;
   cecita.meta.max_giri_ciechi = maxCecita;
   cecita.meta.almeno_un_dato = !tuttiCiechi;
+  cecita.meta.dati_ordini_ciechi = datiOrdiniCiechi;   // FIX gate-verità: fonte-di-verità (supabase_rest) cieca?
 
   mkdirSync(dirname(CECITA_PATH), { recursive: true });
   writeFileSync(CECITA_PATH, JSON.stringify(cecita, null, 2) + "\n", "utf8");
@@ -355,6 +361,9 @@ async function main() {
     istruzioni_giro: cecita.istruzioni_giro,
     sensori: cecita.sensori,
     max_giri_ciechi: maxCecita,
+    // FIX gate-verità: giro.sh legge questo flag (grep nel JSON) per il vincolo HARD indipendentemente
+    // dall'exit-code (che è 0 se un QUALSIASI sensore configurato è vivo, anche solo l'uptime).
+    datiOrdiniCiechi,
   };
 
   if (JSON_MODE) {

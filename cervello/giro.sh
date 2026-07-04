@@ -166,6 +166,14 @@ if command -v node >/dev/null 2>&1; then
     SENSORI_CIECHI=1
     SENSORI_VINCOLO="⛔ SENSORI DATI CIECHI (verifica-sensori.mjs ha restituito 'tutti ciechi'). NON scrivere numeri nuovi come fatti: usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap. Se fuori non è cambiato nulla, fai un passaggio MINIMO e onesto invece di gonfiare il giro."
     echo "[$(ts)] ⚠️  SENSORI CIECHI (rc=$_sens_rc): il giro girerà in modalità baseline (niente numeri nuovi)." >&2
+  # FIX gate-verità (AR-011): il freno HARD deve dipendere SPECIFICAMENTE da supabase_rest (la fonte-di-verità
+  # di ordini/clienti), NON dall'exit-code — che è 0 se un QUALSIASI sensore configurato è vivo (basta l'uptime
+  # del sito o Stripe). Se supabase_rest è cieco ma un altro sensore regge, _sens_rc=0 ma i NUMERI ordini/clienti
+  # sono ciechi lo stesso: leggiamo datiOrdiniCiechi dal JSON e imponiamo comunque "niente numeri nuovi".
+  elif printf '%s' "$_sens_out" | grep -q '"datiOrdiniCiechi": *true'; then
+    SENSORI_CIECHI=1
+    SENSORI_VINCOLO="⛔ FONTE-DI-VERITÀ DATI CIECA: supabase_rest (ordini/clienti via REST) NON è 'ok', anche se altri sensori (uptime/stripe/posthog) reggono. I numeri ordini/clienti/incassi sono ciechi: NON scriverli come fatti nuovi. Usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap."
+    echo "[$(ts)] ⚠️  SUPABASE_REST CIECO (datiOrdiniCiechi=true, ma altri sensori vivi): vincolo HARD 'niente numeri nuovi' comunque attivo." >&2
   fi
   echo "[$(ts)] Sonda volano (4 invarianti)..."
   node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>&1 | tail -8 || true
@@ -379,10 +387,33 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
+# FIX onestà-agganciata (AR-075): l'onesta-check era strumentato ma MAI chiamato nel percorso di
+# pubblicazione della memoria. Prima del commit lo eseguiamo su STATO.md + l'ultimo briefing (gli artefatti
+# che la Cabina mostra a Nicola), riusando il pattern di scan-segreti. Default: WARN FORTE che marca il
+# giro NON-onesto senza bloccare — la memoria interna non è customer-facing e l'onesta-check può avere falsi
+# positivi sui numeri baseline. Con ONESTA_BLOCCA=1 blocca il push esattamente come un segreto.
+ONESTA_BLOCK=0
+if command -v node >/dev/null 2>&1; then
+  _onesta_files=()
+  [ -f "MyCity-Vault/90-Memoria-AI/STATO.md" ] && _onesta_files+=("MyCity-Vault/90-Memoria-AI/STATO.md")
+  _ultimo_brief="$(ls -t MyCity-Vault/90-Memoria-AI/Briefing/*.md 2>/dev/null | head -1)"
+  [ -n "$_ultimo_brief" ] && _onesta_files+=("$_ultimo_brief")
+  if [ "${#_onesta_files[@]}" -gt 0 ] && ! node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" >/dev/null 2>&1; then
+    echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
+    node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1 | tail -12 >&2 || true
+    if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
+      ONESTA_BLOCK=1
+      echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
+    else
+      echo "[$(ts)] ⚠️  Giro marcato NON-ONESTO (WARN forte, push non bloccato). Imposta ONESTA_BLOCCA=1 per bloccarlo." >&2
+    fi
+  fi
+fi
+
 exec 9>"$LOCK"
-if [ "$SEGRETO_TROVATO" = 1 ]; then
+if [ "$SEGRETO_TROVATO" = 1 ] || [ "$ONESTA_BLOCK" = 1 ]; then
   GIRO_PUSH_OK=0
-  echo "[$(ts)] Giro NON pubblicato: rimuovi il segnalato dallo scan-segreti, poi rilancia." >&2
+  echo "[$(ts)] Giro NON pubblicato: risolvi quanto segnalato (scan-segreti / onesta-check), poi rilancia." >&2
 elif flock -w 600 9; then
   # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
   [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
