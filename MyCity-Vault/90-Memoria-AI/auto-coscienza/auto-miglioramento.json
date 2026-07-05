@@ -7,41 +7,169 @@
       "reparto": "@content-social",
       "livello_attuale_L": 3,
       "migliori": [
-        { "chi": "(competitor locali food/delivery)", "livello": "locale", "esempi": [{ "cosa": "frequenza e hook dei post", "link": "consegne/intelligence/5-aziende-simili-social.md" }] },
-        { "chi": "(top brand di local-commerce nel mondo)", "livello": "mondiale", "esempi": [{ "cosa": "storytelling di bottega + prova sociale", "link": "creativi/swipe/SWIPE-FILE.md" }] }
+        {
+          "chi": "(competitor locali food/delivery)",
+          "livello": "locale",
+          "esempi": [
+            {
+              "cosa": "frequenza e hook dei post",
+              "link": "consegne/intelligence/5-aziende-simili-social.md"
+            }
+          ]
+        },
+        {
+          "chi": "(top brand di local-commerce nel mondo)",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "storytelling di bottega + prova sociale",
+              "link": "creativi/swipe/SWIPE-FILE.md"
+            }
+          ]
+        }
       ],
       "divario": "alto",
       "obiettivo": "Arrivare stabilmente a L5 sui contenuti entro 4 settimane, col loop confronto-post-pubblicazione.",
-      "progresso": [{ "data": "2026-06-28", "punteggio": 60, "fonte": "scorecard" }]
+      "progresso": [
+        {
+          "data": "2026-06-28",
+          "punteggio": 60,
+          "fonte": "scorecard"
+        }
+      ]
     },
     {
       "reparto": "@AD (gestire l'azienda in autonomia con agenti AI)",
       "livello_attuale_L": 2,
       "migliori": [
-        { "chi": "sistemi di AI-ops che chiudono osserva→agisci→misura→impara sui dati reali", "livello": "mondiale", "esempi": [{ "cosa": "audit continuo di sé + calibrazione previsto-vs-reale", "link": "cervello/auto-coscienza.md" }] }
+        {
+          "chi": "sistemi di AI-ops che chiudono osserva→agisci→misura→impara sui dati reali",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "audit continuo di sé + calibrazione previsto-vs-reale",
+              "link": "cervello/auto-coscienza.md"
+            }
+          ]
+        }
       ],
       "divario": "medio",
       "obiettivo": "Chiudere il volano sui NUMERI reali (non sui prompt): calibrazione popolata + almeno 1 esperimento misurato entro 2 settimane.",
       "progresso": [
-        { "data": "2026-07-02", "punteggio": 42, "fonte": "scorecard" },
-        { "data": "2026-07-03", "punteggio": 42, "fonte": "review-settimanale", "nota": "Calibrazione popolata e perfetta (24/24), ma 0 esperimenti misurati: il volano-business resta aperto. Punteggio invariato finché non c'è 1 esito reale (1ª transazione = 1° esperimento)." }
+        {
+          "data": "2026-07-02",
+          "punteggio": 42,
+          "fonte": "scorecard"
+        },
+        {
+          "data": "2026-07-03",
+          "punteggio": 42,
+          "fonte": "review-settimanale",
+          "nota": "Calibrazione popolata e perfetta (24/24), ma 0 esperimenti misurati: il volano-business resta aperto. Punteggio invariato finché non c'è 1 esito reale (1ª transazione = 1° esperimento)."
+        }
       ]
     }
   ],
   "esperimenti": [],
   "peer_review": [],
   "proposte_auto_riscrittura": [
-    { "cosa": "[REVIEW 3/7] Delta-gate: per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no) nella firma, non il contatore incrementale max_giri_ciechi", "perche": "Un sensore opzionale già-noto-cieco (PostHog 401) forza un giro pieno a ogni ciclo perché il suo contatore cresce di 1 → firma sempre diversa dall'ultimo_pieno. AR-019 rientrato da una porta laterale: spreco di Max a rendimento nullo, ricorrente (4 conferme il 3/7).", "colore": "🟡", "origine": "review-settimanale", "finding_id": "AR-025", "dove": "cervello/delta-gate.mjs" },
-    { "cosa": "[REVIEW 3/7] Sonda-volano: voto_provvisorio 'pending-merge' che accredita i difetti già chiusi in codice (42→~50) + dedup della sentinella salute_bassa su firma di stato invariata", "perche": "Il voto resta inchiodato a 42 e l'allerta 'salute<60' riscatta ogni 2h su una condizione identica e già interamente in coda (i 3 gate sono in AZIONI-IN-ATTESA) → alert fatigue, l'allerta perde valore di segnale.", "colore": "🟡", "origine": "review-settimanale", "finding_id": "AR-024", "dove": "cervello/sonda-volano.mjs" },
-    { "cosa": "Rimuovere .env.save dal tracking + purgare la storia + .gitignore su .env*/*.save + scan-segreti pre-commit", "perche": "PAT GitHub reale committato: chiunque legga il repo ha accesso in scrittura. La revoca su GitHub la fa Nicola.", "colore": "🔴", "origine": "auto-radiografia", "finding_id": "AR-004", "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)" },
-    { "cosa": "Timeout dentro giro.sh/ritmo.sh + TimeoutStartSec nei .service systemd", "perche": "Il giro schedulato senza timeout può appendere il battito ogni-2h all'infinito.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-005", "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service" },
-    { "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Casa Linda", "perche": "Silo contenuti su Garetti (non firmato) mentre Casa Linda (payout-ready) ha 0 asset: dispersione dalla North Star.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-006", "dove": "cervello/giro.md + CLAUDE.md (doer-mode)" },
-    { "cosa": "Rendere sensori-cecita.json artefatto obbligatorio persistito + gate hard 'se cieco → zero numeri nuovi' + REST sensore-di-verità", "perche": "L'impianto anti-cecità gira a vuoto: il ledger non è salvato e giro.sh ingoia l'exit code.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-010/AR-011/AR-012", "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs" },
-    { "cosa": "Generare l'organigramma di CLAUDE.md/COMANDI/AGENTI dai file .claude/agents/*.md + guardiano drift", "perche": "15 agenti orfani nel router + umbrella non ristretti: capacità presenti ma inutilizzate.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-007/AR-008", "dove": "CLAUDE.md + cervello/agent-registry-check.mjs (nuovo)" },
-    { "cosa": "Chiudere il volano: sentinella chiusura-loop + calibrazione popolata + esperimenti misurati + tasso_applicazione calcolato dai dati", "perche": "Il volano si auto-certifica su numeri scritti a mano; auto-miglioramento non gira mai; 0 difetti chiusi da sempre.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-009/AR-013", "dove": "cervello/ritmo.md + cervello/sonda-volano.mjs" },
-    { "cosa": "Registro rischi con owner+sentinella + sensore cassa/runway + gate compliance HACCP pre-lancio", "perche": "14 rischi noti (cassa, HACCP, GDPR) senza owner né sentinella: sono un documento, non un registro sorvegliato.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-015/AR-016/AR-017", "dove": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (nuovo) + cervello/sensore-cassa.mjs (nuovo)" },
-    { "cosa": "Delta-gate 'niente di nuovo → salta la parte AI pesante' + sensore costo token + banco AI economico", "perche": "9 giri premium fissi/giorno senza delta-gate e nessun sensore di costo: la macchina è cieca sul proprio consumo.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-019/AR-020", "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)" },
-    { "cosa": "[CHIUSO] Parametrizzare MARKETPLACE_REPO in radiografia.js/audit-design.js", "perche": "Era cablato su Windows.", "colore": "🟡", "origine": "auto-radiografia", "finding_id": "AR-002", "dove": ".claude/workflows/radiografia.js", "stato": "fatto-2026-07-02" }
+    {
+      "cosa": "[REVIEW 3/7] Delta-gate: per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no) nella firma, non il contatore incrementale max_giri_ciechi",
+      "perche": "Un sensore opzionale già-noto-cieco (PostHog 401) forza un giro pieno a ogni ciclo perché il suo contatore cresce di 1 → firma sempre diversa dall'ultimo_pieno. AR-019 rientrato da una porta laterale: spreco di Max a rendimento nullo, ricorrente (4 conferme il 3/7).",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "AR-025",
+      "dove": "cervello/delta-gate.mjs"
+    },
+    {
+      "cosa": "[REVIEW 3/7] Sonda-volano: voto_provvisorio 'pending-merge' che accredita i difetti già chiusi in codice (42→~50) + dedup della sentinella salute_bassa su firma di stato invariata",
+      "perche": "Il voto resta inchiodato a 42 e l'allerta 'salute<60' riscatta ogni 2h su una condizione identica e già interamente in coda (i 3 gate sono in AZIONI-IN-ATTESA) → alert fatigue, l'allerta perde valore di segnale.",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "AR-024",
+      "dove": "cervello/sonda-volano.mjs"
+    },
+    {
+      "cosa": "Rimuovere .env.save dal tracking + purgare la storia + .gitignore su .env*/*.save + scan-segreti pre-commit",
+      "perche": "PAT GitHub reale committato: chiunque legga il repo ha accesso in scrittura. La revoca su GitHub la fa Nicola.",
+      "colore": "🔴",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-004",
+      "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)"
+    },
+    {
+      "cosa": "Timeout dentro giro.sh/ritmo.sh + TimeoutStartSec nei .service systemd",
+      "perche": "Il giro schedulato senza timeout può appendere il battito ogni-2h all'infinito.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-005",
+      "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service"
+    },
+    {
+      "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Casa Linda",
+      "perche": "Silo contenuti su Garetti (non firmato) mentre Casa Linda (payout-ready) ha 0 asset: dispersione dalla North Star.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-006",
+      "dove": "cervello/giro.md + CLAUDE.md (doer-mode)"
+    },
+    {
+      "cosa": "Rendere sensori-cecita.json artefatto obbligatorio persistito + gate hard 'se cieco → zero numeri nuovi' + REST sensore-di-verità",
+      "perche": "L'impianto anti-cecità gira a vuoto: il ledger non è salvato e giro.sh ingoia l'exit code.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-010/AR-011/AR-012",
+      "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs"
+    },
+    {
+      "cosa": "Generare l'organigramma di CLAUDE.md/COMANDI/AGENTI dai file .claude/agents/*.md + guardiano drift",
+      "perche": "15 agenti orfani nel router + umbrella non ristretti: capacità presenti ma inutilizzate.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-007/AR-008",
+      "dove": "CLAUDE.md + cervello/agent-registry-check.mjs (nuovo)"
+    },
+    {
+      "cosa": "Chiudere il volano: sentinella chiusura-loop + calibrazione popolata + esperimenti misurati + tasso_applicazione calcolato dai dati",
+      "perche": "Il volano si auto-certifica su numeri scritti a mano; auto-miglioramento non gira mai; 0 difetti chiusi da sempre.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-009/AR-013",
+      "dove": "cervello/ritmo.md + cervello/sonda-volano.mjs"
+    },
+    {
+      "cosa": "Registro rischi con owner+sentinella + sensore cassa/runway + gate compliance HACCP pre-lancio",
+      "perche": "14 rischi noti (cassa, HACCP, GDPR) senza owner né sentinella: sono un documento, non un registro sorvegliato.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-015/AR-016/AR-017",
+      "dove": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (nuovo) + cervello/sensore-cassa.mjs (nuovo)"
+    },
+    {
+      "cosa": "Delta-gate 'niente di nuovo → salta la parte AI pesante' + sensore costo token + banco AI economico",
+      "perche": "9 giri premium fissi/giorno senza delta-gate e nessun sensore di costo: la macchina è cieca sul proprio consumo.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-019/AR-020",
+      "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)"
+    },
+    {
+      "cosa": "[CHIUSO] Parametrizzare MARKETPLACE_REPO in radiografia.js/audit-design.js",
+      "perche": "Era cablato su Windows.",
+      "colore": "🟡",
+      "origine": "auto-radiografia",
+      "finding_id": "AR-002",
+      "dove": ".claude/workflows/radiografia.js",
+      "stato": "fatto-2026-07-02"
+    }
   ],
-  "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati."
+  "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
+  "meta_esperimenti": {
+    "aggiornato": "2026-07-05 06:20",
+    "totale": 0,
+    "aperti": 0,
+    "in_scadenza": 0,
+    "misurati": 0,
+    "chiusi": 0
+  }
 }
