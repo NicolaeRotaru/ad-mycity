@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚦 DELTA-GATE (AR-019): firma dello stato reale per saltare i giri pesanti quando NULLA è cambiato dall'ultimo giro pieno. Scritto da cervello/delta-gate.mjs.",
-  "aggiornato": "2026-07-05 20:20",
+  "aggiornato": "2026-07-05 22:20",
   "ultimo_pieno": {
     "firma": {
       "ordini": 1,
@@ -25,8 +25,8 @@
     },
     "dati_leggibili": true
   },
-  "giri_saltati_consecutivi": 7,
-  "giri_valutati": 38,
+  "giri_saltati_consecutivi": 8,
+  "giri_valutati": 39,
   "storia": [
     {
       "quando": "2026-07-02 18:20",
@@ -217,12 +217,17 @@
       "quando": "2026-07-05 20:20",
       "esegui_pieno": false,
       "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 22:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
     }
   ],
   "ultima_decisione": {
-    "quando": "2026-07-05 20:20",
+    "quando": "2026-07-05 22:20",
     "esegui_pieno": false,
     "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno",
-    "ore_da_pieno": 9
+    "ore_da_pieno": 11
   }
 }
