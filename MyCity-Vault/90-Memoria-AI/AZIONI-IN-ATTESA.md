@@ -134,6 +134,22 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Stato:** PRONTO — in attesa del via all'Onda 0.
 
 
+## 🟡 Accendi le notifiche in tasca: crea il bot Telegram così ti scrivo io quando c'è da firmare
+- **Data:** 2026-07-05 05:10
+- **Cosa:** dal piano "chiudi i loop" (tuo ordine in chat): la macchina ora sa mandarti su Telegram ogni azione 🟡/🔴 nuova che finisce in coda (una volta sola, niente doppioni). Il codice è pronto e testato in dry-run — mancano solo le 2 chiavi.
+- **Come (5 minuti):** ① su Telegram apri **@BotFather** → `/newbot` → copia il token · ② scrivi un messaggio al tuo bot, poi apri `https://api.telegram.org/bot<TOKEN>/getUpdates` e copia il `chat.id` · ③ metti `TELEGRAM_BOT_TOKEN=` e `TELEGRAM_CHAT_ID=` in `cervello/vps/.env` sul VPS · ④ prova: `node cervello/notifica-approvazioni.mjs --test` (ti arriva il messaggio di prova).
+- **Cosa cambia:** non devi più aprire il Pannello per scoprire che c'è una firma che ti aspetta: ti squilla in tasca col titolo e il "cosa cambia". Il collo di bottiglia firma→azione (l'ordine #16 fermo per ore) si accorcia.
+- **Se va bene:** al primo run reale recuperi in un colpo tutte le azioni in coda mai notificate; poi ogni giro ti manda solo le nuove. Prossimo passo possibile (da firmare a parte): rispondere "ok 16" al bot per approvare dal telefono.
+- **Stato:** in attesa
+
+## 🟡 Attiva il guardiano esterno: un servizio gratuito ti avvisa se la macchina si spegne
+- **Data:** 2026-07-05 05:10
+- **Cosa:** il giro ora manda un "battito" a un watchdog FUORI dalla macchina (PZ-007). Se il VPS o il timer muoiono, il battito smette di arrivare e il servizio ti manda l'allarme — è l'unico guasto che i controlli interni non possono coprire (se muore il VPS, muore anche il controllore).
+- **Come (5 minuti):** ① account gratuito su **healthchecks.io** (o UptimeRobot heartbeat) · ② crea un check "giro MyCity" con periodo 4 ore e grace 2 ore · ③ copia l'URL di ping in `HEARTBEAT_PING_URL=` in `cervello/vps/.env` · ④ (consigliato) imposta l'avviso via Telegram/email.
+- **Cosa cambia:** se il cuore della macchina si ferma (VPS giù, timer spento, giro che crasha in loop), lo scopri in ~2 ore da un allarme, non dopo giorni di Cabina ferma.
+- **Se va bene:** l'auto-guarigione ha l'ultimo anello: guasti interni li vede la macchina, guasti totali li vede il guardiano esterno.
+- **Stato:** in attesa
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-04 22:10)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-04-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
