@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-05 17:30",
+  "aggiornato": "2026-07-05 17:35",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "31",
@@ -58,38 +58,8 @@
     "2026-07-04T22:00:39.668Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 2990,
+  "tick": 2995,
   "storia": [
-    {
-      "quando": "2026-07-05 15:28",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-05 15:29",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-05 15:30",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-05 15:31",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-05 15:34",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-05 15:35",
       "eventi": 0,
@@ -659,10 +629,40 @@
       "eventi": 0,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-05 17:31",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-05 17:32",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-05 17:33",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-05 17:34",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-05 17:35",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-05 17:30",
+    "quando": "2026-07-05 17:35",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
