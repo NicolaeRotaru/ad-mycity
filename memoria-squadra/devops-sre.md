@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-05 05:09 · Piano chiudi-i-loop: battito esterno (PZ-007) in giro.sh + POSTHOG_OFF (PZ-006, ordine Nicola) + sentinella-budget cablata (PZ-012) · 6 assi: correttezza 5, completezza 4, azionabilita 5, onesta 5, stile 4, riuso 4 · atteso 3 agganci deterministici nel giro → reale bash -n verde; ping condizionato a HEARTBEAT_PING_URL (attende account) · #piano-loop
 - **2026-07-02 08:17** — **Nicola «come collego Render?» (casella #19):** Render marketplace **già** collegato GitHub→auto-deploy su merge `mycity/main` · **no token Render** per AD · Pannello canale Render + Approva = **non operativo** (`mani.ts` solo Resend) · sblocco deploy AD = #14+#15 PAT + chat `ok merge …` · branch #19 staged non pushato · L-0702-43 · Fonte: chat Nicola 2/7.
 - **2026-07-01 20:05** — **Nicola chiede «cosa sono #14 e #15?»:** numeri = righe coda AZIONI/Pannello · #14 `MARKETPLACE_GIT_TOKEN` (PR mycity) · #15 `GITHUB_MERGE_TOKEN` (merge API) · path: GitHub Developer settings → Fine-grained PAT su entrambi i repo · incolla in `vps/.env` · un PAT copre tutto · L-0701-39 · Fonte: chat Nicola 1/7.
 - **2026-07-01 20:02** — **Sync VPS auto (Nicola «ok configura sync VPS»):** creati sudoers + `install-sync-vps.sh` + `sync-vps.sh` + `accoda-sync-vps.mjs` + tipo lavoro `sync-vps` in worker · **repo ✅** · attivazione VPS: 1× root `sudo bash cervello/vps/install-sync-vps.sh` · poi post-merge AD accoda sync senza cmd Nicola · L-0701-38 · Fonte: chat Nicola 1/7.

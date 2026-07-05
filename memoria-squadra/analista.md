@@ -8,6 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-05 05:09 · Piano chiudi-i-loop: esperimenti-check.mjs (PZ-010) + diario del perché su previsioni mancate (PZ-011) · 6 assi: correttezza 5, completezza 4, azionabilita 5, onesta 5, stile 4, riuso 5 · atteso sweep chiude/data gli esperimenti + causa obbligatoria → reale test: exit 1 su esperimento scaduto, causa salvata su mancata · #piano-loop
 - 2026-07-02 08:36 · Giro AD: 7 numeri = vs 08:20, stallo 190,1h (+0,2h), **168h +22,1h oltre** · snapshot `consegne/analista/2026-07-02-kpi-live-0836.md` · automazione verde · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo
 - 2026-07-01 12:18 · Giro AD: 7 numeri = vs 11:52, stallo 169,8h (+0,4h), **168h +1,8h oltre**, carrelli 4 = · snapshot `consegne/analista/2026-07-01-kpi-live-1218.md` · temporali 15-16 imminenti · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo #temporali
 - 2026-07-01 11:52 · Giro AD: 7 numeri = vs 08:17, stallo 169,4h (+3,6h), **168h SUPERATA ~10:30**, carrelli 4 = · snapshot `consegne/analista/2026-07-01-kpi-live-1152.md` · Sprint 1 LIVE ▲ · Scelta A firmata · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo #post-168h

@@ -246,6 +246,25 @@ function cmdEsito(data) {
     process.exit(2);
   }
   const { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
+  // PZ-011 (piano "chiudi i loop" — diario del perché): una previsione MANCATA non si chiude senza la
+  // causa. Sbagliare è ammesso; sbagliare senza capire PERCHÉ no: è la differenza tra calibrarsi e capirsi.
+  //   --causa=modello  → il ragionamento era sbagliato (previsione mal costruita)
+  //   --causa=dato     → il dato di partenza era sporco/mancante (sensore, definizione KPI)
+  //   --causa=mondo    → è successo qualcosa di esterno/imprevedibile (evento, meteo, decisione umana)
+  const CAUSE = ["modello", "dato", "mondo"];
+  const causa = arg("causa");
+  if (!azzeccata) {
+    if (!causa || !CAUSE.includes(causa)) {
+      console.error(
+        `❌ Previsione MANCATA (atteso ${e.atteso}, reale ${reale}): serve --causa=${CAUSE.join("|")} (+ --causa-nota="1 riga sul perché").\n` +
+          `   Es: node cervello/calibrazione.mjs esito --id=${id} --reale=${realeRaw} --fonte="${arg("fonte") || "…"}" --causa=dato --causa-nota="il sensore era cieco quel giorno"`
+      );
+      process.exit(2);
+    }
+    e.causa = causa;
+    const causaNota = arg("causa-nota");
+    if (causaNota) e.causa_nota = causaNota;
+  }
   e.reale = reale;
   e.scarto_pct = scarto_pct;
   e.stato = azzeccata ? "azzeccata" : "mancata";
@@ -277,6 +296,61 @@ function cmdScadute(data) {
   ricalcolaReparti(data);
   write(data);
   console.log(`⏱️  ${n} previsioni marcate 'scaduta' (oltre 'entro' senza esito). Le scadute NON contano nel punteggio: chiedono un esito o una lezione.`);
+}
+
+// PZ-013 (piano "chiudi i loop") — SEMAFORO DINAMICO, lato proposta. Il semaforo 🟢🟡🔴 era statico;
+// la calibrazione già misura chi azzecca (Wilson ≥0.7 su ≥8 esiti = autonomia "alta" GUADAGNATA).
+// Questo comando trasforma quella prova in una PROPOSTA 🟡 in AZIONI-IN-ATTESA: "promuovi i 🟡 di
+// routine di @reparto a 🟢". MAI auto-applicata (ogni auto-modifica è 🟡, firma Nicola); dedup in
+// calibrazione.json (promozioni_proposte) così ogni reparto viene proposto UNA volta finché lo stato regge.
+function cmdPromozioni(data) {
+  const accoda = process.argv.includes("--accoda");
+  const CODA = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  ricalcolaReparti(data);
+  data.promozioni_proposte = data.promozioni_proposte || {};
+
+  const candidati = data.per_reparto.filter(
+    (r) => r.autonomia === "alta" && !data.promozioni_proposte[r.reparto]
+  );
+  // Un reparto che perde l'autonomia "alta" esce dal registro proposte: se la riguadagna, si ripropone.
+  for (const rep of Object.keys(data.promozioni_proposte)) {
+    const r = data.per_reparto.find((x) => x.reparto === rep);
+    if (!r || r.autonomia !== "alta") delete data.promozioni_proposte[rep];
+  }
+
+  if (!candidati.length) {
+    write(data);
+    console.log("🚦 Semaforo dinamico: nessun reparto NUOVO con autonomia 'alta' guadagnata — nessuna proposta.");
+    return;
+  }
+
+  for (const r of candidati) {
+    const quando = nowPiacenza();
+    const blocco =
+      `\n## 🟡 Dai più autonomia a ${r.reparto}: se lo ha dimostrato coi numeri, i suoi lavori di routine partono da soli\n` +
+      `- **Data:** ${quando}\n` +
+      `- **Prova (calibrazione):** ${r.azzeccate}/${r.previsioni} previsioni azzeccate · punteggio ${r.punteggio} · confidenza Wilson ${r.lower_bound} (≥0.7 su ≥${MIN_CAMPIONE_ALTA} esiti reali = autonomia GUADAGNATA, non a simpatia).\n` +
+      `- **Cosa cambia:** le azioni 🟡 di ROUTINE di ${r.reparto} (bozze, aggiornamenti interni, contenuti non pubblici) passano a 🟢 "fai e annota". I 🔴 (soldi, clienti reali, pubblicazioni) restano 🔴 con la tua firma, sempre.\n` +
+      `- **Se va bene:** meno card in coda per te, il reparto lavora più veloce; al primo esito MANCATO l'autonomia riscende da sola (la calibrazione continua a misurare).\n` +
+      `- **Come:** rispondi "ok promozione ${r.reparto}" — l'AD aggiorna il mansionario del senior (auto-modifica 🟡). {origine:mossa:promozione-${r.reparto.replace(/^@/, "")}}\n` +
+      `- **Stato:** in attesa\n`;
+    if (accoda) {
+      if (!existsSync(CODA)) {
+        mkdirSync(dirname(CODA), { recursive: true });
+        writeFileSync(CODA, "# ⏳ AZIONI IN ATTESA (firma di Nicola)\n");
+      }
+      const testo = readFileSync(CODA, "utf8");
+      // Anti-doppione anche cross-run: se un blocco per questo reparto è già in coda, non riaccodare.
+      if (!testo.includes(`Dai più autonomia a ${r.reparto}`)) {
+        writeFileSync(CODA, testo.trimEnd() + "\n" + blocco, "utf8");
+      }
+      data.promozioni_proposte[r.reparto] = quando;
+      console.log(`🚦 ${r.reparto}: autonomia ALTA guadagnata (${r.azzeccate}/${r.previsioni}, Wilson ${r.lower_bound}) → proposta 🟡 accodata per la firma.`);
+    } else {
+      console.log(`🚦 ${r.reparto}: candidato alla promozione (${r.azzeccate}/${r.previsioni}, Wilson ${r.lower_bound}). Con --accoda la proposta va in AZIONI-IN-ATTESA.`);
+    }
+  }
+  write(data);
 }
 
 function cmdReport(data) {
@@ -315,6 +389,9 @@ async function main() {
       break;
     case "scadute":
       cmdScadute(data);
+      break;
+    case "promozioni":
+      cmdPromozioni(data);
       break;
     case "report":
     case undefined:

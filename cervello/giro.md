@@ -185,7 +185,11 @@ Passi:
     vuota e tutto il tuo lavoro di analisi è invisibile.** Le domande 🔴/bloccanti vanno anche in [[AZIONI-IN-ATTESA]] e in `serve_da_nicola`.
 12. 📚 APPRENDIMENTO (esegui `cervello/apprendimento.md`): estrai le **lezioni riusabili** di questo giro
     dalle **8 fonti** (esiti, approvazioni/**correzioni di Nicola — casi-studio prioritari**, calibrazione,
-    pattern, errori dell'auto-analisi, eccezioni, benchmark, **auto-radiografia**). Aggiorna
+    pattern, errori dell'auto-analisi, eccezioni, benchmark, **auto-radiografia**). 👅 **TASTE-FILE (PZ-009):**
+    se in questo giro Nicola ha espresso UN QUALSIASI verdetto/correzione/gusto (anche una frase in chat:
+    «questo è troppo da scaffale», «ok ma il titolo no»), registralo SUBITO con la mano dedicata:
+    `node cervello/taste-file.mjs registra <mestiere> "<cosa>" <si|quasi|no> "<perche>" ["<principio>"]`
+    e crea la lezione con `caso_studio_nicola=true` (vale doppio). Aggiorna
     `apprendimento.json` + `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
     prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
     come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`

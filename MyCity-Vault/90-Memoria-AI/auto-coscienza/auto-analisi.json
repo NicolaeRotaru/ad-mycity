@@ -48,11 +48,7 @@
   ],
   "salute_macchina": {
     "supabase": "ok",
-    "supabase_marketplace": "REST ok (sensore 11:30 + delta-gate, 7 numeri) · MCP cieco/gated in sessione",
-    "supabase_memoria": "scrittura via git memoria-ad",
-    "automazione_vps": "probe deterministiche giro.sh verdi alle 11:30 (verifica-sensori/sonda/delta-gate/chiusura-loop); verifica-automazione.mjs non ri-eseguibile in sessione (node gated)",
-    "stripe": "ok (balance API ok nel ledger) ma non collegato a burn → runway N/D",
-    "posthog": "giù (401, cieco 24 giri)",
+    "stripe": "ok",
     "dati_freschi": true,
     "sensori_attivi": 3
   }

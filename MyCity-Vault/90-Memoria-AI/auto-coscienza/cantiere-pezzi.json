@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🧩 CANTIERE DEI PEZZI — il backlog delle CAPACITÀ/STRUMENTI nuovi che alla macchina mancano (guardiani, sensori, adattatori, connettori). Complementare al cantiere-difetti (che chiude i difetti): qui vivono i PEZZI DA COSTRUIRE, portati da 'proposto' a 'fatto'. Nato con AR-086. Ogni costruzione è 🟡 (firma Nicola). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 15:00",
+  "aggiornato": "2026-07-05 05:10",
   "pezzi": [
     {
       "id": "PZ-001",
@@ -42,15 +42,114 @@
       "impatto_crescita": "alto",
       "nato": "2026-07-03"
     },
-    {
-      "id": "PZ-005",
-      "titolo": "Adattatore mani per i modelli economici (Groq/Gemini) agganciato a worker.sh",
-      "perche": "Il router costo è codice morto finché manca lo strato-mani che invoca i modelli economici (AR-082 lato dispatcher).",
-      "owner": "builder-automazioni",
-      "colore": "🟡",
-      "stato": "proposto",
-      "impatto_crescita": "medio",
-      "nato": "2026-07-03"
-    }
-  ]
+  {
+   "id": "PZ-005",
+   "titolo": "Adattatore mani per i modelli economici (Groq/Gemini) agganciato a worker.sh",
+   "perche": "Il router costo è codice morto finché manca lo strato-mani che invoca i modelli economici (AR-082 lato dispatcher).",
+   "owner": "builder-automazioni",
+   "colore": "🟡",
+   "stato": "proposto",
+   "impatto_crescita": "medio",
+   "nato": "2026-07-03"
+  },
+  {
+   "id": "PZ-006",
+   "titolo": "Interruttore POSTHOG_OFF — PostHog spento su decisione di Nicola (5/7)",
+   "perche": "Nicola non può usare PostHog per ora: il sensore va spento in modo esplicito (non_configurato, zero rumore/card), riattivabile solo con suo ok.",
+   "owner": "data-engineer",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "basso",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/verifica-sensori.mjs", "pattern": "POSTHOG_OFF", "presente": true }
+  },
+  {
+   "id": "PZ-007",
+   "titolo": "Battito esterno — giro.sh pinga un watchdog FUORI dalla macchina (HEARTBEAT_PING_URL)",
+   "perche": "Se il VPS muore, muore anche il controllore interno (verifica-automazione): serve un anello esterno che avvisi Nicola quando il cuore si ferma. Codice fatto; serve l'account gratuito healthchecks.io/UptimeRobot (in coda).",
+   "owner": "devops-sre",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "medio",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/giro.sh", "pattern": "HEARTBEAT_PING_URL", "presente": true }
+  },
+  {
+   "id": "PZ-008",
+   "titolo": "Gate chiusura-loop nel giro — FATTO in Sala OGGI ⇒ ESITO nel quaderno, sennò vincolo hard",
+   "perche": "36/40 quaderni erano stub vuoti: la sonda informava ma nessuno pretendeva. Ora chi lavora DEVE lasciare l'esito (atteso→reale = la calibrazione), o il motore riceve il vincolo.",
+   "owner": "prompt-engineer",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "alto",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/chiusura-loop.mjs", "pattern": "--gate", "presente": true }
+  },
+  {
+   "id": "PZ-009",
+   "titolo": "taste-file.mjs — la mano che registra i verdetti di Nicola (log del gusto non più vuoto)",
+   "perche": "Il LOG DEI VERDETTI era vuoto: ogni correzione di Nicola andava persa. Ora c'è la mano deterministica (registra + sonda nel giro) e il passo 12 del giro la chiama esplicitamente.",
+   "owner": "prompt-engineer",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "alto",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/taste-file.mjs", "pattern": "LOG DEI VERDETTI", "presente": true }
+  },
+  {
+   "id": "PZ-010",
+   "titolo": "esperimenti-check.mjs — sweep che chiude gli esperimenti a scadenza (AR-054 eseguibile)",
+   "perche": "Il lifecycle esperimenti (aperto→misurato) era delegato alla memoria dell'LLM nel ciclo settimanale: nessun esperimento si sarebbe mai chiuso. Gemello di calibrazione scadute.",
+   "owner": "analista",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "medio",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/esperimenti-check.mjs", "pattern": "in_scadenza", "presente": true }
+  },
+  {
+   "id": "PZ-011",
+   "titolo": "Diario del perché — una previsione MANCATA non si chiude senza --causa=modello|dato|mondo",
+   "perche": "La calibrazione registrava il numero sbagliato ma non il perché: è la differenza tra calibrarsi e capirsi. La causa alimenta le lezioni (apprendimento fonte=calibrazione).",
+   "owner": "analista",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "medio",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/calibrazione.mjs", "pattern": "causa_nota", "presente": true }
+  },
+  {
+   "id": "PZ-012",
+   "titolo": "sentinella-budget cablata nel giro — il freno di spesa per reparto gira davvero a ogni giro",
+   "perche": "AR-077 l'aveva costruita ma NON era chiamata da giro.sh: un freno scritto e mai girato è un freno finto. Finché non c'è spesa collegata dice onestamente 'sensore non attivo'.",
+   "owner": "finanza",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "medio",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/giro.sh", "pattern": "sentinella-budget", "presente": true }
+  },
+  {
+   "id": "PZ-013",
+   "titolo": "Semaforo dinamico — autonomia 'alta' guadagnata (Wilson ≥0.7 su ≥8 esiti) → proposta 🟡 di promozione giallo→verde",
+   "perche": "Il semaforo era statico: chi dimostra coi numeri di azzeccare non guadagnava nulla. Ora la calibrazione genera la proposta (mai auto-applicata: firma Nicola; al primo esito mancato l'autonomia riscende da sola).",
+   "owner": "prompt-engineer",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "alto",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/calibrazione.mjs", "pattern": "cmdPromozioni", "presente": true }
+  },
+  {
+   "id": "PZ-014",
+   "titolo": "notifica-approvazioni.mjs — le cose da firmare arrivano a Nicola su Telegram (richiesta sua, 5/7)",
+   "perche": "Il collo di bottiglia n.1 è il tempo firma→azione (#16 fermo per ore con Nicola lontano dal Pannello). Ogni azione 🟡/🔴 nuova in coda squilla UNA volta in tasca; senza chiavi resta in dry-run e recupera tutto al collegamento.",
+   "owner": "builder-automazioni",
+   "colore": "🟡",
+   "stato": "fatto",
+   "impatto_crescita": "alto",
+   "nato": "2026-07-05",
+   "verifica": { "file": "cervello/notifica-approvazioni.mjs", "pattern": "estraiAzioni", "presente": true }
+  }
+ ]
 }

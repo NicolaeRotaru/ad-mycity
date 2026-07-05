@@ -210,16 +210,64 @@ function lista() {
   }
 }
 
+// --- C) GATE (PZ-008, piano "chiudi i loop"): FORCING-FUNCTION del giro. ---
+// La sonda (B) informa; il gate PRETENDE: incrocia la SALA-OPERATIVA di OGGI con i quaderni.
+// Un reparto che oggi ha scritto `FATTO` in Sala DEVE avere un ESITO fresco (oggi/ieri) nel suo
+// quaderno — altrimenti il loop atteso→reale resta decorativo (il difetto-radice AR-009).
+// Exit 1 + elenco dei reparti inadempienti: giro.sh lo trasforma in VINCOLO HARD per il motore
+// ("registra gli ESITI prima di chiudere il giro"), come già fa con sensori e allocazione.
+async function gate() {
+  const quando = nowPiacenza();
+  const oggi = quando.slice(0, 10);
+  const salaPath = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md");
+  if (!existsSync(salaPath)) {
+    console.log("🔁 gate: SALA-OPERATIVA.md assente — niente da verificare.");
+    process.exit(0);
+  }
+  // Righe canoniche di oggi con FATTO: `- AAAA-MM-GG HH:MM · @reparto · FATTO · msg`
+  const attiviOggi = new Set();
+  for (const riga of readFileSync(salaPath, "utf8").split("\n")) {
+    const m = riga.match(/^-\s*(\d{4}-\d{2}-\d{2})[^·]*·\s*@([a-z0-9-]+)\s*·\s*FATTO\b/i);
+    if (m && m[1] === oggi) attiviOggi.add(m[2].toLowerCase());
+  }
+  const inadempienti = [];
+  for (const reparto of [...attiviOggi].sort()) {
+    const { path } = quadernoPath(reparto);
+    const a = analizzaQuaderno(path);
+    // ESITO "fresco" = datato oggi o ieri (il lavoro può chiudersi a cavallo di mezzanotte).
+    const fresco = a.ultimo && giorniFa(a.ultimo) <= 1.5;
+    if (!fresco) inadempienti.push({ reparto, ultimo_esito: a.ultimo || "mai" });
+  }
+  const out = { quando, oggi, attivi_oggi: [...attiviOggi].sort(), inadempienti };
+  await stampSegnale(
+    "chiusura-loop-gate",
+    inadempienti.length ? "warn" : "ok",
+    `${attiviOggi.size} reparti FATTO oggi · ${inadempienti.length} senza ESITO · ${quando}`
+  );
+  if (JSON_MODE) {
+    console.log(JSON.stringify(out, null, 2));
+  } else if (inadempienti.length) {
+    console.log(`\n🔁 GATE CHIUSURA-LOOP — ${inadempienti.length} reparti con FATTO in Sala OGGI ma SENZA ESITO nel quaderno:`);
+    for (const q of inadempienti) console.log(`   • @${q.reparto} (ultimo esito: ${q.ultimo_esito})`);
+    console.log(`   → registra ORA: node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>"`);
+  } else {
+    console.log(`✅ gate chiusura-loop: tutti i reparti attivi oggi (${attiviOggi.size}) hanno l'ESITO nel quaderno.`);
+  }
+  process.exit(inadempienti.length ? 1 : 0);
+}
+
 const cmd = process.argv[2];
 if (cmd === "registra") {
   registra(process.argv.slice(3));
 } else if (process.argv.includes("--sonda")) {
   await sonda();
+} else if (process.argv.includes("--gate")) {
+  await gate();
 } else if (process.argv.includes("--lista")) {
   lista();
 } else {
   console.error(
-    'Uso:\n  node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" ["#tag"]\n  node cervello/chiusura-loop.mjs --sonda [--json]\n  node cervello/chiusura-loop.mjs --lista'
+    'Uso:\n  node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" ["#tag"]\n  node cervello/chiusura-loop.mjs --sonda [--json]\n  node cervello/chiusura-loop.mjs --gate [--json]\n  node cervello/chiusura-loop.mjs --lista'
   );
   process.exit(2);
 }
