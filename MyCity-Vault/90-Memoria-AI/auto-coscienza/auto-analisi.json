@@ -1,51 +1,32 @@
 {
-  "data": "2026-07-06 16:47",
-  "voto_fiducia": 82,
-  "trend_fiducia": "▲",
-  "_nota_16_47": "Passaggio-refresh 16:47: delta-gate ri-scattato ma firma REST identica al giro pieno 16:45 → nessuna novità di business, nessun giro a vuoto duplicato. Lavoro reale del passaggio = chiusura dei 2 gate HARD lasciati aperti da giro.sh: (1) chiusura-loop @intelligence (FATTO 16:45 senza ESITO → riga canonica aggiunta a mano in memoria-squadra/intelligence.md, node gated); (2) allocazione — confermato NESSUN asset pesante prodotto, sbilanciamento Garetti storico, non aggiunto nulla a entità non confermate. Voto 82 invariato: stato invariato.",
-  "sintesi": "Giro AD 6/7 16:45, primo giro pieno dopo la pausa limiti Claude (ultimo pieno 4/7 11:30). Voto 82 (▲ di 1 vs 81): refresh onesto con DUE elementi reali e verificati — (1) la correzione strutturale già assorbita alle 16:15 (ordine #16 ANNULLATO, non 'in consegna'), che questo giro ho propagato agli snapshot rimasti indietro (registro-realta, intenzioni, auto-analisi erano fermi al 4/7 11:30 con #16 'in consegna'); (2) intelligence LIVE via WebSearch — restano i Venerdì Piacentini 10/7 e 17/7 (post-9/7) e meteo caldo stabile 35°C con afa. Firma REST invariata (giro.sh 16:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) → nessun ordine nuovo, stallo ~294h ≈ 12 giorni, North Star 0. Nessun numero ri-misurato in sessione (MCP+node/curl gated) né inventato. Entità tutte fondate: Pane Quotidiano confermato (#16 annullato), Casa Linda demo esclusa, Garetti scelta_ragionata NON azionato, VP 10/17 confermati alla fonte (venerdipiacentini.it + Comune). Vincolo allocazione RISPETTATO: giro di sola memoria + un file intelligence, nessun asset pesante intestato a entità non confermate. Loop chiuso: registrato l'ESITO @ad (era conteggiato vuoto per formato-header).",
-  "verifiche": {
-    "entita": "ok (Pane Quotidiano confermato, #16 ANNULLATO allineato al DB live del Pannello; zombie = ordine PQ €19,05 del 24/6 non riesumabile; Casa Linda demo esclusa; Garetti scelta_ragionata/prospect NON azionato; Venerdì Piacentini 10/7 e 17/7 confermati via venerdipiacentini.it + Comune di Piacenza; meteo caldo via iLMeteo/3BMeteo; nessuna entità nuova senza fondamento)",
-    "numeri": "ok — 7 numeri = baseline REST scritta da giro.sh (sensore 16:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true; REST ok); NESSUN numero ri-misurato in sessione (MCP+node/curl gated) né inventato; stallo ~294h; le date VP e la temperatura 35°C sono citate con fonte web LIVE",
-    "coerenza": "ok (STATO 16:45, ultimo-briefing 16:45, briefing 2026-07-06 16:45, registro-realta 16:45 con #16 corretto ad ANNULLATO, intenzioni-nicola 16:45, eventi-picchi 16:45, AUTO-ANALISI.md riallineati; corretta la deriva degli snapshot fermi al 4/7 che tenevano #16 'in consegna')",
-    "semaforo": "ok (nessuna 🔴 nuova; nessuna azione nuova accodata — la coda è già completa e ri-ancorata al '1° ordine reale (NON #16)'; #16 annullato → decadute #16/#21/#22; restano da firmare R1/#34 revoca PAT e R2/#35 merge; sentinelle 'PostHog spento' e 'salute<60 pending-merge' non declassano entità/azioni)",
-    "qualita": "ok",
-    "benchmark": "n/a (nessun lavoro creativo/pitch prodotto in questo giro — solo memoria + refresh intelligence)"
-  },
-  "errori": [],
+  "data": "2026-07-07 00:30",
+  "voto_fiducia": 85,
+  "trend_fiducia": "▲ +3 vs 82 (16:47): primo giro con numeri CONFERMATI DAL VIVO dopo giorni di baseline tramandata, e con AR-102+fix Vercel già in produzione",
+  "sintesi": "Giro pieno notturno da cloud, on-demand di Nicola. MCP marketplace VIVO: 3 query dirette (sola lettura) confermano la baseline — 1 ordine (annullato), 0 in 7g, 23 profili, 258 prodotti, 407 lead, 12 eventi/7g. Guardiani tutti verdi. Registro-fatti popolato con 8 fatti fondati (ognuno con fonte), guardiano coerenza-fatti exit 0. Nessuna card nuova accodata (anti-doppione). Memoria completa scritta e pubblicata via PR.",
+  "verifiche": [
+    "Entità: Pane Quotidiano confermato (unico reale); Casa Linda demo esclusa; nessuna entità nuova introdotta in questo giro.",
+    "Numeri: TUTTI con fonte MCP live (query 23:45–00:29) — zero numeri inventati; coincidono con baseline REST 6/7 → nessuna deriva.",
+    "Coerenza: STATO, briefing 2026-07-07, ultimo-briefing, SALA, DECISIONI, registro-fatti tutti allineati al passaggio 00:30; guardiano coerenza-fatti verde (8 fatti, 0 cacce aperte).",
+    "Semaforo: nessuna azione 🔴 eseguita; solo scritture di memoria (🟢) + PR da firmare (🟡/🔴 di Nicola)."
+  ],
+  "errori": [
+    "2 chiamate MCP cadute per transitorio (permission stream) — gestite con retry; il dettaglio-riga di #16 non riletto (fonte resta verifica live 6/7 11:11 + alert Pannello).",
+    "Nella verifica quota Vercel di ieri sera i primi timestamp erano calcolati male (epoch nel futuro → 0 risultati): corretto PRIMA di trarre conclusioni — lezione: mai fidarsi di un risultato-zero senza controprova."
+  ],
   "risposte_registrate": [],
   "domande_per_nicola": [
-    {
-      "domanda": "Confermi che l'ordine #16 è ANNULLATO (come mostra l'alert del Pannello) e che quindi il 1° ordine reale va CREATO ex-novo, non riesumato? La memoria è già allineata così.",
-      "perche_serve": "È il perno di tutta la coda: se #16 è annullato, il collo di bottiglia diventa generare domanda vera (post VEN 10/7 + lista) dopo il 9/7, non 'consegnare #16'.",
-      "se_rispondi": "La North Star riparte con obiettivo pulito: 1° ordine reale su PQ, poi consegna + payout-test su quel caso.",
-      "gravita": "media"
-    },
-    {
-      "domanda": "Puoi revocare il PAT GitHub (R1 · AR-004 · #34, ri-approvata dal Pannello 4/7 15:33)?",
-      "perche_serve": "Il token è già nella storia git: rimuovere il file non basta, solo la revoca chiude il buco. Runbook anti-blackout pronto.",
-      "se_rispondi": "Genera nuovo PAT solo nel .env VPS; il buco è chiuso.",
-      "gravita": "alta"
-    },
-    {
-      "domanda": "Ok a R2 (merge+deploy fix cantiere in main · #35, Strada B code-only via PR) al prossimo giro VPS con rete aperta?",
-      "perche_serve": "I 20 fix sono attivi sul main-branch ma main è ~116 commit indietro: alla prossima sync verrebbero cancellati. R2 li mette in salvo.",
-      "se_rispondi": "I fix restano al sicuro; il termometro salute può risalire da 44.",
-      "gravita": "media"
-    }
+    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta — se c'è già la risposta, la registro nel registro-fatti e la chiudo)"
   ],
   "punti_ciechi": [
-    "MCP Supabase + node/curl non eseguibili in sessione (approvazione negata) → 7 numeri = baseline REST scritta da giro.sh, non ri-misurati in questo passaggio; delta-gate/sensore/chiusura-loop 16:20 confermano REST/Stripe/Resend ok, MCP cieco, PostHog non_configurato",
-    "Esito consegna #16: allineato ad ANNULLATO dal DB live del Pannello (alert «1 consegne annullate»); nessun canale in sessione per riverificare direttamente delivery_status",
-    "Stripe non collegato a costo/burn (runway N/D, manca BURN_MENSILE_EUR)",
-    "Concorrenti locali non ri-scansionati (cadenza + quota Max; nessun operativo prima del 9/7) → radar-concorrenti e buchi-mercato invariati",
-    "chiusura-loop.mjs registra non eseguibile via node in sessione → ESITO @ad (16:40) e @intelligence (16:47) scritti a mano nel quaderno col formato canonico (riga '- data · … · atteso→reale · #tag'); al prossimo giro con node abilitato ri-lanciare --sonda per riconteggiare"
+    "Stripe non configurato (payout/cassa non misurabili — 'non_configurato', non cieco)",
+    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g)",
+    "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)",
+    "Cablaggio AR-102 sul VPS non ancora osservato live (primo giro VPS post-merge non ancora girato)"
   ],
   "miglioramenti_prossimo_giro": [
-    "Al prossimo giro VPS con node abilitato: ri-eseguire sonda-volano + verifica-automazione e confermare i 4 invarianti; ri-lanciare chiusura-loop.mjs --sonda per riconteggiare @ad (ora ha la riga ESITO canonica)",
-    "Verificare se dopo il 9/7 nasce il 1° ordine reale su PQ → aggiornare North Star 0→1 e chiudere il loop business",
-    "Se Nicola riparte operativo: agganciare il 1° post 'Il Turno' al Venerdì Piacentino del 10/7 (finestra-città naturale)",
-    "Rifinitura delta-gate (L-2026-0703): escludere l'incremento del contatore di un sensore OPZIONALE dalla firma che decide giro-pieno-vs-salta"
+    "Verificare L2: timestamp fresco in auto-coscienza/coerenza-fatti.json scritto DAL VPS (prova che il gate gira nel giro reale)",
+    "Misurare quota Vercel post-reset: 0 deployment dai push di memoria (API list_deployments)",
+    "Se Nicola risponde sulla causa dell'annullo #16 → registrare il fatto e chiudere la domanda"
   ],
   "salute_macchina": {
     "supabase_rest": "ok",
