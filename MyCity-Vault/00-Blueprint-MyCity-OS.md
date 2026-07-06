@@ -166,12 +166,14 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 > **🛠️ Stato di costruzione — aggiornato 2026-07-06 16:46.** Le capacità non restano descrizioni: si
 > convertono in **codice che gira**, una alla volta, appena hanno dati reali su cui lavorare (mai
 > codice finto su dati che non esistono).
-> - **Costruite e funzionanti (7):** #4 · #12 · #13 · #23 · #30 · #37 · #38 — lanciabili con `node cervello/…`,
->   girano sui dati reali della macchina (sola lettura). Marcate 🛠️ **COSTRUITA** qui sotto.
+> - **Costruite e VIVE (7):** #4 · #12 · #13 · #23 · #30 · #37 · #38 — **cablate nel giro** (girano a ogni
+>   ciclo, sola lettura) + lanciabili a mano con `node cervello/…`. Marcate 🛠️ **COSTRUITA** qui sotto.
 > - **In attesa del loro carburante (le altre 46):** aspettano un trigger reale prima di poter
 >   *funzionare* — la **prima consegna** (gli organi su ordini/clienti), **≥5–10 negozi** (rete e
 >   servizi-negozio), **≥12 mesi di storico** (le capacità cognitive), il **via libera legale**
 >   (credito/mutua/profiling). Ognuna sale di stato quando il suo cancello è passato, mai prima.
+> - **Cancelli vegliati dalla macchina:** `node cervello/sblocco-capacita.mjs` misura i 6 cancelli di
+>   realtà e segnala il momento in cui una capacità chiusa diventa costruibile (oggi tutti chiusi: 0 consegne).
 
 ### 🧬 Le 38 Capacità di Frontiera — la macchina-organismo
 

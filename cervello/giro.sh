@@ -215,6 +215,35 @@ if command -v node >/dev/null 2>&1; then
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
+
+  # === CAPACITÀ VIVE + GUARDIANI ORFANI ORA CABLATI NEL BATTITO (sola lettura, informativi) ===
+  # Resi vivi su richiesta di Nicola (6/7): girano a ogni giro e lasciano il loro esito nel log/Cabina.
+  # NON sono gate (|| true): non bloccano il giro — trasformarli in gate hard è un passo successivo (🟡).
+  # Guardiani read-only che erano ORFANI dal battito (audit 6/7):
+  echo "[$(ts)] ⭐ North Star (ordini/negozi/margine — era orfana dal battito)..."
+  node "$SCRIPT_DIR/north-star-check.mjs" 2>&1 | tail -6 || true
+  echo "[$(ts)] Guardiano owner-keyword (anti-doppione AR-008/AR-027)..."
+  node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043)..."
+  node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1 | tail -4 || true
+  # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
+  echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
+  node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | tail -3 || true
+  echo "[$(ts)] 🪙 #30 Metabolismo (costo AI per organo)..."
+  node "$SCRIPT_DIR/metabolismo.mjs" 2>&1 | tail -3 || true
+  echo "[$(ts)] 💶 #13 Bilancio Vivo (margine per ordine)..."
+  node "$SCRIPT_DIR/bilancio-vivo.mjs" 2>&1 | tail -3 || true
+  echo "[$(ts)] 🦠 #12 Sistema Immunitario (red team sicurezza)..."
+  node "$SCRIPT_DIR/sistema-immunitario.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] ⚡ #23 Midollo Spinale (riflessi proposti)..."
+  node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | tail -3 || true
+  echo "[$(ts)] 🛌 #37 Letargo (livello di degradazione)..."
+  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | tail -3 || true
+  echo "[$(ts)] ⏪ #4 Macchina del Tempo (replay della giornata)..."
+  node "$SCRIPT_DIR/macchina-del-tempo.mjs" 2>&1 | tail -2 || true
+  # Il tracker che veglia i cancelli di sblocco delle 46 capacità ancora chiuse:
+  echo "[$(ts)] 🔓 Sblocco capacità (cancelli di realtà delle 46 chiuse)..."
+  node "$SCRIPT_DIR/sblocco-capacita.mjs" 2>&1 | tail -5 || true
 fi
 
 # AR-019: DELTA-GATE — "niente di nuovo → salta il giro pesante". Confronta lo stato reale
