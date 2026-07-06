@@ -1,17 +1,14 @@
 {
-  "data": "2026-07-06 12:04",
-  "situazione": "MCP Supabase è tornato leggibile: ho verificato i numeri dal vivo. Scoperta grossa: l'ordine #16 (COD €19,05) è stato ANNULLATO il 3/7 — mai accettato, mai consegnato — mentre la macchina lo inseguiva ancora il 4/7 perché l'MCP era cieco. Business fermo da 12 giorni, North Star ancora 0. La leva trascurata sono 407 lead di negozi mai contattati: ne ho pronti 27 food con telefono per l'onboarding che parte dopo il 9/7.",
+  "data": "2026-07-06 16:47",
+  "situazione": "Business fermo dal 24/6 (~12 giorni): 1 negozio reale (Pane Quotidiano), 0 pagati / 0 consegnati. La correzione di oggi è assorbita — l'ordine #16 è ANNULLATO (delivery_status=CANCELED), non 'in consegna': memoria allineata al DB live del Pannello alle 16:15. La 1ª transazione MyCity è ancora tutta da far nascere, lo zombie non si riesuma. Firma REST invariata (ordini=1, ultimo 24/6, 23 clienti). Novità intelligence LIVE: restano due Venerdì Piacentini, il 10/7 e il 17/7, entrambi dopo il 9/7 (quando Nicola riparte); meteo caldo stabile 35°C con afa. MCP+node gated in sessione → 7 numeri = baseline REST, zero numeri inventati.",
   "opportunita": [
-    {"titolo": "27 botteghe food già pronte da chiamare", "motivo": "Su 407 lead mai toccati, 27 food hanno già il telefono: shortlist per l'onboarding di Nicola dopo il 9/7", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Primo ordine di prova pulito su Pane Quotidiano", "motivo": "Con #16 morto serve una transazione che chiuda davvero il ciclo, per portare la North Star da 0 a 1 su un negozio reale", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Secondo negozio nella verticale del faro", "motivo": "Fornai e trattorie tipiche = stesso profilo di Pane Quotidiano, dove abbiamo già un caso da raccontare", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Aggancio ai Venerdì Piacentini del 10 e 17 luglio", "motivo": "Centro pieno le sere: finestra buona per un primo presidio con Pane Quotidiano", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano nel Venerdì del 10 luglio", "motivo": "Il centro è pieno per il Venerdì Piacentino proprio quando Nicola riparte: post 'Il Turno' + lista d'attesa (già in coda) su un momento reale generano la prima domanda, poi consegna + payout-test. Sposta la North Star 0→1.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Batch onboarding delle botteghe food dal 13 luglio", "motivo": "27 botteghe mappate (dossier delle 6 prioritarie pronto) e bando Commercio ER al 40% a fondo perduto che scade il 21/7: più negozi reali = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Mettere in salvo i 20 fix della macchina in main", "motivo": "I fix girano sul main-branch ma main è ~116 commit indietro: una sync li cancellerebbe. Renderli canonici protegge il giro e fa risalire la salute da 44.", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Ho preparato la lista delle 27 botteghe food da chiamare", "motivo": "Pronta per quando Nicola parte con l'inserimento negozi dopo il 9/7", "livello": "verde"},
-    {"titolo": "Ho allineato la memoria: l'ordine #16 è annullato, non in consegna", "motivo": "La macchina lo dava ancora vivo perché l'MCP era cieco", "livello": "verde"},
-    {"titolo": "Fai un primo ordine di prova su Pane Quotidiano e attiva il payout-test", "motivo": "Al posto del morto #16, per chiudere davvero il primo ciclo soldi", "livello": "rosso"},
-    {"titolo": "Dal 9/7 chiama le prime 6 botteghe della lista di priorità", "motivo": "Fornai e trattorie tipiche: stessa verticale del faro", "livello": "rosso"},
-    {"titolo": "Fai leggere alla sentinella anche lo stato di annullamento degli ordini", "motivo": "Così un ordine cancellato scatta un allarme invece di restare invisibile", "livello": "giallo"}
+    {"titolo": "Dopo il 9/7, fai nascere il primo ordine vero su Pane Quotidiano", "motivo": "Non riesumare #16 (annullato): serve un ordine reale, agganciato al Venerdì del 10 luglio con post e lista d'attesa. È la mossa che porta la North Star da 0 a 1.", "livello": "rosso"},
+    {"titolo": "Revoca il vecchio token GitHub (R1)", "motivo": "È già nella storia git: solo la revoca chiude il buco. Runbook anti-blackout pronto.", "livello": "rosso"},
+    {"titolo": "Metti in salvo i fix della macchina in main (R2)", "motivo": "Rende canonici i 20 fix già attivi prima che una sync li cancelli.", "livello": "rosso"}
   ]
 }

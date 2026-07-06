@@ -1,72 +1,34 @@
 ---
-data: 2026-07-06 12:04
+data: 2026-07-06 16:47
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-> **🔭 Refresh 12:04 (conferma):** quarto passaggio dopo il pieno delle 11:11. Il delta-gate 12:03 conferma `corrente==ultimo_pieno` (ordini=1, ultimo 24/6, clienti=23) e i sensori 12:03 sono tutti ok → nessun giro a vuoto, solo timestamp Cabina riallineati. Voto **87 =**. Vincolo allocazione rispettato + nota di governo: i 5 asset Garetti in coda (#1/#6-9/#11) restano template neutri finché il prospect non firma; sforzo pesante su PQ (#21). Nessun lavoro 🟡/🔴 nuovo prodotto in questo passaggio → coda AZIONI-IN-ATTESA invariata, nessuna riga ESITO nuova da chiudere. Analisi sostanziale invariata ↓.
+> 🔄 **Passaggio-refresh 16:47** — delta-gate ri-scattato ma **firma REST identica** al giro pieno 16:45 (ordini=1, ultimo 24/6, 23 clienti) → nessuna novità di business, nessun giro a vuoto duplicato. Lavoro reale del passaggio: chiusi i **2 gate HARD** lasciati aperti da giro.sh → (1) **chiusura-loop @intelligence** (il FATTO radar delle 16:45 era senza ESITO: riga canonica aggiunta a mano, `node` gated); (2) **allocazione** — confermato **nessun asset pesante prodotto**, sbilanciamento Garetti storico, nulla aggiunto a entità non confermate. Voto invariato (82): stato invariato.
 
-# 🔬 Auto-analisi del giro — 2026-07-06 11:54 (🔭 giro refresh)
+# 🔬 Auto-analisi del giro — 2026-07-06 16:45 (🔭 giro AD)
 
-## Voto di fiducia: 87/100 (= vs 88)
-Giro **refresh 43 min dopo il pieno delle 11:11**. Nessuna novità di business: la firma delta-gate è **stabile dal 06:24** (ordini=1, ultimo 24/6, clienti=23) e i sensori 11:53 sono tutti ok (REST/MCP/Stripe/Resend). Il giro **non ha ri-inseguito numeri già misurati** né prodotto asset pesanti; ha fatto tre cose oneste: **① chiuso il loop di apprendimento** del giro pieno — ESITO registrato per @analista e @intelligence (avevano FATTO alle 11:11 senza esito → gate chiusura-loop rispettato); **② scoricato in calibrazione** la previsione 4/7 **SMENTITA** (#16 dato «in consegna» era in realtà già annullato dal 3/7 — L-2026-0706); **③ riallineato i timestamp** Cabina. Il quadro sostanziale è quello delle 11:11: #16 ANNULLATO, business fermo 12 giorni, North Star 0, 407 lead con shortlist 27 food pronta. Voto stabile (non sale) perché le lacune del pieno restano: attore annullamento #16 ignoto, Stripe non interrogato, 380 lead senza contatto.
+## Voto di fiducia: 82/100 (▲ +1)
+Primo giro pieno dopo la pausa limiti Claude (ultimo pieno 4/7 11:30). Voto 82 (▲ di 1 vs 81): refresh onesto con **due elementi reali e verificati**.
+1. **Correzione strutturale già assorbita** — l'ordine **#16 è ANNULLATO** (`delivery_status=CANCELED`, alert Pannello «1 consegne annullate»), non «in consegna»: allineamento approvato da Nicola dal Pannello alle 16:15. Questo giro ho **propagato la verità agli snapshot rimasti indietro** (registro-realta, intenzioni-nicola, auto-analisi erano fermi al 4/7 11:30 e tenevano ancora #16 «IN CONSEGNA»): era una **deriva di coerenza** e l'ho chiusa.
+2. **Intelligence LIVE (WebSearch)** — restano i **Venerdì Piacentini 10/7 e 17/7** (entrambi dopo il 9/7, quando Nicola riparte) e meteo **caldo stabile 35°C + afa** (anticiclone delle Azzorre). Rinfrescato `eventi-picchi.md`, che mostrava ancora Sant'Antonino (4/7, passato) come «OGGI».
 
-## Cancelli hard di questo giro
-- ✅ **Allocazione (allocazione-check):** ZERO asset pesanti intestati a `scelta_ragionata` (Garetti non toccato). Lo sforzo resta sul negozio confermato (PQ) e sul prospecting neutro (shortlist).
-- ✅ **Chiusura-loop (chiusura-loop --gate):** ESITO scritto nei quaderni di @analista e @intelligence per il lavoro FATTO oggi.
-- ⚠️ **Nota esecuzione:** `node`/script gated in questa sessione → ESITO e sonda scritti a mano nei file (non via `chiusura-loop.mjs`/`sonda-volano.mjs`); i contatori JSON derivati si riallineano al prossimo giro con rete aperta (Gap).
-
-## Domande aperte per Nicola (invariate dal pieno 11:11)
-1. 🔴 **Chi/perché ha annullato #16** il 3/7 15:38?
-2. 🔴 **Attivo il payout-test su Pane Quotidiano** per il prossimo ordine-prova (coda #21)?
-3. 🔴 **Dal 9/7 chiamo le prime 6 botteghe** della shortlist Priorità A (coda #22)?
-
----
-
-# 🔬 Auto-analisi del giro — 2026-07-06 11:11 (🔭 giro AD · MCP VIVO)
-
-## Voto di fiducia: 88/100 (▲ +7)
-Giro pieno con **MCP Supabase leggibile in sessione**: i 7 numeri sono **ri-misurati dal vivo**, non baseline. Il salto di voto (81→88) è dovuto al fatto che il giro ha **corretto un errore reale che dormiva in memoria**: l'ordine #16 risulta **CANCELED dal 3/7 15:38** (`accepted_at=NULL`, `delivered_at=NULL`), mentre il 3-4/7 la macchina lo dava «in consegna» e ne inseguiva la consegna. È il fallimento-tipo che l'auto-analisi deve scovare: una narrativa tenuta viva da un **sensore cieco** (MCP down + REST che conta solo il *numero* di ordini, non lo stato). Nessun numero inventato — tutti live. Vincolo allocazione rispettato: la shortlist 27 lead è prospecting neutro, non un pacchetto pesante intestato a un negozio non confermato. Il voto non è più alto perché resta una lacuna vera: non so **chi/perché** ha annullato #16, e Stripe non è stato interrogato in sessione.
-
-## Errore trovato (grave)
-⛔ **La memoria ha inseguito per ~2 giorni un ordine morto.** #16 annullato 3/7 15:38, ma STATO/briefing/intenzioni fino al 4/7 dicevano «esegui la consegna oggi». Causa-radice: MCP cieco + REST che non legge `delivery_status`/`canceled_at`. **Correzione applicata:** memoria riallineata su tutti i file + accodata azione 🟡 #23 (la sentinella dati deve allarmare su CANCELED). Lezione **L-2026-0706**: *un conteggio invariato non significa «nulla è cambiato» — lo stato può cambiare senza cambiare il conteggio.*
+Firma REST invariata (giro.sh 16:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) → nessun ordine nuovo, stallo ~294h ≈ 12 giorni, North Star 0. Nessun numero ri-misurato in sessione (MCP + `node`/`curl` gated) né inventato. **Vincolo allocazione rispettato:** giro di sola memoria + un file intelligence, nessun asset pesante intestato a entità non confermate (Garetti `scelta_ragionata` non azionato). **Loop chiuso:** registrato l'ESITO @ad (era conteggiato «vuoto» solo per formato-header — usava `# ESITO` invece della riga `- data · …`).
 
 ## Verifiche (cancello di serietà a 3 livelli)
-- **Entità:** ✅ Pane Quotidiano `confermato` live (5 prodotti available, is_approved, seller dell'ordine annullato); 27 lead shortlist = `merchants_leads` reali con telefono; Casa Linda `demo` esclusa; Garetti `scelta_ragionata` non azionato. Nessuna entità nuova senza fondamento.
-- **Numeri:** ✅ 7 numeri **ri-misurati LIVE** (MCP Supabase): ordini=1 (CANCELED), pagati=0, consegnati=0, payout=0, profili=23 (0 nuovi 7g), 407 lead to_contact, 4 carrelli, 12 eventi sito 7g. Zero inventati.
-- **Coerenza:** ✅ STATO, briefing 2026-07-06, ultimo-briefing (+ riga DB briefings), registro-realtà, intenzioni-nicola, eventi-picchi, SALA, coda #21-#23 tutti al passaggio 11:11.
-- **Semaforo:** ✅ nuove 🔴 #21 (ordine-prova PQ + payout) e #22 (contatti shortlist dal 9/7); 🟡 #23 (sentinella delivery_status); shortlist prodotta = 🟢, contatto reale = 🔴 alla firma.
-- **Benchmark:** n/a (prospecting operativo, non lavoro creativo).
+- **Entità:** ✅ Pane Quotidiano `confermato` con **#16 ANNULLATO** allineato al DB live; zombie = ordine PQ €19,05 del 24/6, non riesumabile; **VP 10/7 e 17/7 `confermati`** (venerdipiacentini.it + Comune di Piacenza); meteo caldo `confermato` (iLMeteo/3BMeteo); Casa Linda `demo` esclusa; **Garetti `scelta_ragionata` NON azionato**. Nessuna entità nuova senza fondamento.
+- **Numeri:** ✅ 7 numeri = baseline REST scritta da giro.sh; **zero numeri ri-misurati in sessione** (MCP+node/curl gated) e **zero inventati**; stallo ~294h. Le date VP e i 35°C sono citati con **fonte web LIVE**.
+- **Coerenza:** ✅ STATO, briefing 2026-07-06, ultimo-briefing, registro-realta (#16→ANNULLATO), intenzioni-nicola, eventi-picchi, questa auto-analisi tutti al passaggio 16:45. Corretta la deriva degli snapshot fermi al 4/7.
+- **Semaforo:** ✅ nessuna 🔴 nuova; **nessuna azione nuova accodata** (la coda è già completa e ri-ancorata al «1° ordine reale (NON #16)»); restano da firmare R1/#34 (revoca PAT) e R2/#35 (merge fix).
+- **Benchmark:** n/a (nessun lavoro creativo/pitch in questo giro).
 
-## Domande aperte per Nicola
-1. 🔴 **Chi/perché ha annullato #16** il 3/7 15:38? (tu, il buyer o un automatismo?) — cambia la lettura del primo ordine.
-2. 🔴 **Attivo il payout-test su Pane Quotidiano** per il prossimo ordine-prova (coda #21)?
-3. 🔴 **Dal 9/7 chiamo le prime 6 botteghe** della shortlist Priorità A (coda #22)?
+## Errori di grounding rilevati: nessuno
+La sola incoerenza trovata era **temporale/di stato** (snapshot fermi al 4/7 con #16 «in consegna» vs verità 6/7 «annullato») — corretta in questo giro, non un'entità inventata.
 
----
-
-## (storico) Auto-analisi — 2026-07-04 11:30 (🔭 giro AD)
-
-### Voto di fiducia: 81/100 (▲ +1)
-Primo giro pieno della giornata (i passaggi 06:00–10:20 sono stati saltati dal delta-gate; alle 09:40/09:50 il doer ha lavorato R1/R2 dal Pannello). Voto 81 (▲ di 1 vs 80): refresh onesto **con UNA novità reale e verificata alla fonte** — OGGI 4/7 è **Sant'Antonino**, patrono di Piacenza (Fiera 250 bancarelle, centro pieno), confermato via IlPiacenza; meteo 4/7 ri-verificato LIVE (iLMeteo: sereno 20→33°, afa alle 17). La firma REST (giro.sh 11:30: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) è invariata → #16 resta **IN CONSEGNA** (WhatsApp #20 fatto 04:51) ma **non consegnato** (nessun segnale «consegna fatta»), coerente col ledger; non ho spacciato l'invio del WhatsApp per una consegna. Stallo ~243h ≈ 10 giorni. Nessun numero ri-misurato in sessione (MCP + `node`/`curl` gated) né inventato. Vincolo allocazione rispettato: giro di sola memoria, nessun asset pesante prodotto; lo sforzo resta puntato sul negozio confermato (PQ, #16).
-
-## Verifiche (cancello di serietà a 3 livelli)
-- **Entità:** ✅ Pane Quotidiano `confermato`; ordine zombie = ordine PQ €19,05; **Sant'Antonino 4/7 `confermato`** (fonte pubblica IlPiacenza); meteo 4/7 `confermato` LIVE; Casa Linda `demo` esclusa; Garetti resta `scelta_ragionata` (prospect, non azionato). Nessuna entità nuova senza fondamento.
-- **Numeri:** ✅ nessun numero ri-misurato in sessione (MCP + `node`/`curl` gated) → uso esplicito della **baseline REST** scritta da giro.sh (delta-gate/sensore 11:30) e lo dichiaro nei Gap. **Zero numeri inventati.** #16 IN CONSEGNA è un fatto di processo (WhatsApp #20 inviato), non una consegna: firma REST invariata → consegna non avvenuta.
-- **Coerenza:** ✅ STATO, briefing 2026-07-04, ultimo-briefing, registro-realtà, intenzioni-nicola, calibrazione tutti al passaggio 11:30.
-- **Semaforo:** ✅ nessuna 🔴 nuova; #16 IN CONSEGNA — resta la sola consegna manuale #21–#22 + payout-test; azioni R1 (approvata 09:40), R2 (approvata 09:50), SQL107 (AD-owned) in coda. Sentinella «sensore cieco» (PostHog, 24 giri) opzionale a 0 ordini pagati; «salute<60» pending-merge R2 — non declassano nulla.
-- **Benchmark:** n/a (nessun lavoro creativo/pitch questo giro).
-
-## Errori trovati
-Nessuno.
-
-## Domande aperte per Nicola
-1. 🔴 #16 è IN CONSEGNA (WhatsApp #20 fatto): oggi il centro è pieno per Sant'Antonino → chiudi #21 (accetta ordine) → #22 (consegna COD €19,05) fino a «consegna fatta» (col payout-test), in mattinata o dopo le 18? *(Manca solo la mano. ~10 giorni di stallo su un tap.)*
-2. 🔴 Revochi ora il vecchio PAT su GitHub (R1 · AR-004, approvata 09:40)?
-3. 🟡 Ok a R2 (merge+deploy fix cantiere in main, approvata 09:50) al prossimo giro VPS con rete aperta?
+## Domande aperte (→ [[AZIONI-IN-ATTESA]] / serve_da_nicola)
+- 🔴 **R1 · #34** — revoca del PAT GitHub (unica remediation del segreto in storia git).
+- 🔴 **R2 · #35** — via libera al merge dei fix del cantiere in main (Strada B code-only via PR) al prossimo giro VPS con rete aperta.
+- 🟡 **Conferma #16 annullato** — la memoria è già allineata così; il 1° ordine reale va CREATO ex-novo.
 
 ## Salute della macchina
-- **Sensori:** REST ok, Stripe balance ok, Resend ok; MCP Supabase cieco/gated in sessione; **PostHog cieco 24 giri** (401, Personal key non valida, opzionale).
-- **Loop apprendimento:** chiude (chiusura-loop 11:30: 38 quaderni vivi, 5 fermi, 3 vuoti). Lezione rinforzata: L-2026-0702 «approvazione ≠ esecuzione» (oggi #16 IN CONSEGNA ma ancora non consegnato) + L-2026-0703 delta-gate. Le righe ESITO chiusura-loop per i 5 quaderni fermi restano rimandate al primo giro VPS con `node` abilitato (mano gated in sessione; nessun lavoro 🟡/🔴 nuovo prodotto questo giro).
-- **Loop business:** 🔴 aperto — 0 consegnati finché la consegna di #16 non parte. Il blocco è umano-manuale, non tecnico né meteo. Oggi la finestra è particolarmente favorevole (Sant'Antonino, centro pieno).
-- **Voto salute architettura:** 44 (sonda 4/7; 22 fix chiusi in codice, provvisorio ~50 pending-merge R2; 2 bloccanti umani R1/R2).
+REST/Stripe/Resend ✅ · MCP Supabase cieco (1 giro, in sessione) · PostHog `non_configurato` (spento da Nicola 5/7) · **loop business 🔴 aperto** (0 transazioni, #16 annullato) · voto salute architettura **44** (pending-merge R2) · cantiere: **20 chiusi · 2 in-corso umani · 2 aperti** (AR-024/AR-025).
