@@ -11,13 +11,11 @@
 //
 // Così la macchina è "sveglia" 24/7 a costo ~0, e il modello premium parte solo sull'evento reale.
 //
-// SENTINELLE in due gruppi (7 MACCHINA + 7 AZIONI):
+// 10 SENTINELLE, due gruppi (scelta di Nicola: 5 per la MACCHINA + 5 per le AZIONI):
 //   🧠 MACCHINA (auto-analisi di sé):   worker morto · sensori ciechi · salute architettura bassa ·
-//                                       radiografia di sé vecchia · volano dell'apprendimento fermo ·
-//                                       cassa/runway critico (🔴) · REST cieco ORA (🔴)
+//                                       radiografia di sé vecchia · volano dell'apprendimento fermo
 //   💼 AZIONI (business/marketplace):    ordine pagato senza payout (🔴) · calo ordini · recensione ≤2★ ·
-//                                       negozio LIVE fermo 14g · carrello abbandonato · consegna in ritardo ·
-//                                       ordine ANNULLATO (delivery_status=CANCELED, prima invisibile)
+//                                       negozio LIVE fermo 14g · carrello abbandonato da recuperare
 //
 // COSA FA A OGNI TICK (deterministico, sola lettura):
 //   1) Kill-switch (PAUSA Pannello o pausa propria) → no-op.
@@ -144,7 +142,6 @@ async function leggiStatoReale(state) {
     pagati_senza_payout: null, recensioni_basse: null, recensione_ultima: null,
     negozi_fermi: null, carrelli_da_recuperare: null,
     ordini_slot_scaduto: null, // AR-071: ordini oltre lo slot promesso (expected_delivery scaduto, delivered_at nullo)
-    annullati_nuovi: null, annullo_ultimo: null, // ordini con delivery_status=CANCELED comparsi dall'ultimo giro
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
@@ -208,23 +205,6 @@ async function leggiStatoReale(state) {
       MK_URL, MK_KEY,
       `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
     );
-
-    // Ordini ANNULLATI (delivery_status=CANCELED): prima invisibili agli occhi. È lo stato di
-    // annullamento dell'ordine — un ordine cancellato non scattava nessun allarme, restava muto.
-    // Watermark su canceled_at (come le recensioni): conto solo gli annullamenti NUOVI dall'ultimo
-    // visto, così l'unico annullamento storico (l'ordine di test) non ri-spara ogni minuto.
-    const dopoAnn = state.ultimo_annullo_visto;
-    if (dopoAnn) {
-      s.annullati_nuovi = await conta(
-        MK_URL, MK_KEY,
-        `orders?delivery_status=eq.CANCELED&canceled_at=gt.${encodeURIComponent(dopoAnn)}`
-      );
-    } else {
-      s.annullati_nuovi = 0; // primo giro: fisso la baseline (sotto), non sparo sullo storico
-    }
-    // canceled_at dell'ultimo annullamento in assoluto (per avanzare la baseline)
-    const ultimoAnn = await fetchRows(MK_URL, MK_KEY, `orders?delivery_status=eq.CANCELED&select=canceled_at&order=canceled_at.desc&limit=1`);
-    s.annullo_ultimo = ultimoAnn?.[0]?.canceled_at || null;
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
@@ -442,20 +422,6 @@ function valutaRegole(s, state) {
     });
   }
 
-  // A7 — Ordine ANNULLATO (delivery_status=CANCELED) nuovo. È lo stato di annullamento dell'ordine:
-  //      prima gli occhi non lo leggevano, quindi un ordine cancellato restava invisibile e non
-  //      scattava nessun allarme. 🟡 operations: capire chi ha annullato e perché, l'impatto su
-  //      cliente e negozio, e — se era pagato con carta — che il rimborso sia partito (altrimenti
-  //      preparare la proposta e accodarla; MAI muovere denaro da soli).
-  if (s.annullati_nuovi !== null && s.annullati_nuovi > 0) {
-    eventi.push({
-      ambito: "azioni", chiave: "ordine_annullato", colore: "🟡", reparto: "operations", cooldownOre: 6,
-      titolo: `${s.annullati_nuovi} ordini annullati nuovi (consegna CANCELED)`,
-      firma: `${s.annullati_nuovi}@${s.annullo_ultimo || "?"}`,
-      prompt: `Sentinella azioni 💼 — ORDINE ANNULLATO: ${s.annullati_nuovi} ordini con delivery_status=CANCELED comparsi dall'ultimo giro. Un ordine annullato prima non scattava nessun allarme (gli occhi non leggevano lo stato di annullamento). Verifica chi l'ha annullato e perché (buyer prima della conferma / seller reject / rider / admin), l'impatto su cliente e negozio; se l'ordine era pagato con carta controlla che il rimborso sia partito — altrimenti preparalo e accodalo in AZIONI-IN-ATTESA per la firma di Nicola. NON muovere denaro da solo. NB: finché è ancora solo l'ordine di test COD (€19,05, Pane Quotidiano, 24/6) non è un cliente reale — annotalo e non contattare nessuno.`,
-    });
-  }
-
   return eventi;
 }
 
@@ -596,15 +562,12 @@ async function main() {
   // memoria del tick
   if (s.recensione_ultima) state.ultima_recensione_vista = s.recensione_ultima;
   else if (!state.ultima_recensione_vista) state.ultima_recensione_vista = nowIso; // baseline primo giro
-  if (s.annullo_ultimo) state.ultimo_annullo_visto = s.annullo_ultimo;
-  else if (!state.ultimo_annullo_visto) state.ultimo_annullo_visto = nowIso; // baseline primo giro annullamenti
   state.tick = (state.tick || 0) + 1;
   state.aggiornato = quando;
   state.ultimo_stato = {
     quando, dati_leggibili: s.dati_leggibili,
     ordini_tot: s.ordini_tot, ordini_24h: s.ordini_24h, pagati_senza_payout: s.pagati_senza_payout,
     recensioni_basse: s.recensioni_basse, negozi_fermi: (s.negozi_fermi || []).length, carrelli: s.carrelli_da_recuperare,
-    ordini_slot_scaduto: s.ordini_slot_scaduto, annullati_nuovi: s.annullati_nuovi,
     worker_eta_min: s.worker_eta_min, sensori_max_ciechi: s.sensori_max_ciechi, salute_voto: s.salute_voto,
     radiografia_gg: s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) : null, volano_tasso: s.volano_tasso,
   };
@@ -642,7 +605,7 @@ async function main() {
   } else {
     console.log(`\n👁️  SENTINELLA DATI — ${quando} ${LIVE ? "(LIVE)" : "(DRY-RUN)"}`);
     console.log(`   🧠 macchina: worker ${s.worker_eta_min ?? "?"}min · sensori ciechi ${s.sensori_max_ciechi} · salute ${s.salute_voto ?? "?"} · radiografia ${s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) + "gg" : "?"} · volano ${s.volano_tasso ?? "?"}`);
-    console.log(`   💼 azioni: ${s.dati_leggibili ? `ordini ${s.ordini_tot} · payout-fermi ${s.pagati_senza_payout} · rec≤2★ ${s.recensioni_basse} · negozi-fermi ${(s.negozi_fermi || []).length} · carrelli ${s.carrelli_da_recuperare} · annullati-nuovi ${s.annullati_nuovi}` : "⛔ dati non leggibili (REST cieco)"}`);
+    console.log(`   💼 azioni: ${s.dati_leggibili ? `ordini ${s.ordini_tot} · payout-fermi ${s.pagati_senza_payout} · rec≤2★ ${s.recensioni_basse} · negozi-fermi ${(s.negozi_fermi || []).length} · carrelli ${s.carrelli_da_recuperare}` : "⛔ dati non leggibili (REST cieco)"}`);
     if (!eventi.length) console.log(`   ✅ Nessun evento oltre soglia. Cervello a riposo (0 token).`);
     for (const a of accodati) console.log(`   ${a.colore} ${a.ambito === "macchina" ? "🧠" : "💼"} ACCODATO [${a.reparto}] ${a.titolo} → job ${a.job}`);
     for (const a of allertati) console.log(`   ${a.colore} 🚨 ALLERTA (solo avviso) ${a.titolo}`);

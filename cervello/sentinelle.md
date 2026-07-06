@@ -35,7 +35,7 @@
 > **Regolabili via .env:** `SENTINELLA_DATI_COOLDOWN_ORE`, `SENTINELLA_DATI_MAX_GIORNO`,
 > `SENTINELLA_DATI_MAX_ORA`, `SENTINELLA_DATI_CALO_MIN_BASE`; la cadenza nel `.timer` (`OnUnitActiveSec`).
 >
-> **Le sentinelle oggi LIVE** (7 🧠 macchina + 7 💼 azioni; soglie deterministiche su nomi/enum
+> **Le 10 sentinelle oggi LIVE** (5 🧠 macchina + 5 💼 azioni; soglie deterministiche su nomi/enum
 > reali del DB, verificati via schema — niente falsi allarmi):
 >
 > | 🧠 MACCHINA (auto-analisi di sé) | Soglia | Colore | Cosa fa |
@@ -45,8 +45,6 @@
 > | Salute architettura bassa | voto < 60 (`storico-salute.json`) | 🟡 | accoda: lancia l'auto-radiografia |
 > | Radiografia di sé vecchia | > 10 giorni (`auto-radiografia.json`) | 🟡 | accoda: rifà la radiografia di sé |
 > | Volano fermo | `tasso_applicazione` lezioni < 0.3 | 🟡 | accoda: capire perché il loop non applica |
-> | Cassa/runway critico | `runway_mesi` < soglia (`cassa-runway.json`) | 🔴 | accoda: piano cassa/burn (Nicola firma) |
-> | REST cieco ORA | credenziali presenti ma letture REST fallite | 🔴 | **solo allerta** Telegram (dati non leggibili) |
 >
 > | 💼 AZIONI (business/marketplace) | Soglia | Colore | Cosa fa |
 > |---|---|---|---|
@@ -55,8 +53,6 @@
 > | Recensione ≤2★ | nuova dall'ultimo giro (`reviews`+`store_reviews`) | 🟡 | accoda: bozza risposta + recupero cliente |
 > | Negozio LIVE fermo | seller approvato >14g, 0 ordini in 14g | 🟡 | accoda: check-in anti-churn |
 > | Carrello abbandonato | `recovered=false`, email non inviata, fermo >4h | 🟡 | accoda: prepara email di recupero |
-> | Consegne in ritardo | `expected_delivery` scaduto, `delivered_at` nullo | 🟡 | accoda: recupera ritardo + avvisa cliente |
-> | Ordine annullato | `delivery_status=CANCELED`, `canceled_at` nuovo dall'ultimo giro | 🟡 | accoda: causa + (se pagato) rimborso da firmare |
 >
 > Le altre righe della tabella qui sotto restano checklist del giro finché il sensore/mano non è
 > collegato. La **coda-falliti/orfani** è coperta dalla sentinella gemella `sentinella-lavori.mjs` (3 min).

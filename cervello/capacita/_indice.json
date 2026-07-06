@@ -1,0 +1,282 @@
+{
+  "_cosa_e": "Indice delle 46 capacità-scaffold generate da genera-capacita.mjs",
+  "totale": 46,
+  "capacita": [
+    {
+      "n": 1,
+      "nome": "Il Gemello Digitale",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-01-il-gemello-digitale.mjs"
+    },
+    {
+      "n": 2,
+      "nome": "Un mini-AD per ogni negoziante",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-02-un-mini-ad-per-ogni-negoziante.mjs"
+    },
+    {
+      "n": 3,
+      "nome": "Il Concierge di Spesa",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-03-il-concierge-di-spesa.mjs"
+    },
+    {
+      "n": 5,
+      "nome": "L'Anticipo Predittivo",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-05-lanticipo-predittivo.mjs"
+    },
+    {
+      "n": 6,
+      "nome": "L'Auto-espansione dell'Organico",
+      "gate": "G1",
+      "file": "cervello/capacita/cap-06-lauto-espansione-dellorganico.mjs"
+    },
+    {
+      "n": 7,
+      "nome": "Il Genoma Replicabile",
+      "gate": "G6",
+      "file": "cervello/capacita/cap-07-il-genoma-replicabile.mjs"
+    },
+    {
+      "n": 8,
+      "nome": "I Micro-esperimenti a Bandito",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-08-i-micro-esperimenti-a-bandito.mjs"
+    },
+    {
+      "n": 9,
+      "nome": "Il Catasto Vivo della Domanda",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-09-il-catasto-vivo-della-domanda.mjs"
+    },
+    {
+      "n": 10,
+      "nome": "La Camera di Negoziazione delle Botteghe",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-10-la-camera-di-negoziazione-delle-botteghe.mjs"
+    },
+    {
+      "n": 11,
+      "nome": "La Spesa che si Riordina da Sola",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-11-la-spesa-che-si-riordina-da-sola.mjs"
+    },
+    {
+      "n": 14,
+      "nome": "Il Tuo Doppio",
+      "gate": "G1",
+      "file": "cervello/capacita/cap-14-il-tuo-doppio.mjs"
+    },
+    {
+      "n": 15,
+      "nome": "Le Squadre-Lampo",
+      "gate": "G1",
+      "file": "cervello/capacita/cap-15-le-squadre-lampo.mjs"
+    },
+    {
+      "n": 16,
+      "nome": "La Macchina che Insegna",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-16-la-macchina-che-insegna.mjs"
+    },
+    {
+      "n": 17,
+      "nome": "Il Prezzo Onesto Dinamico",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-17-il-prezzo-onesto-dinamico.mjs"
+    },
+    {
+      "n": 18,
+      "nome": "Il Registro Civico della Fiducia",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-18-il-registro-civico-della-fiducia.mjs"
+    },
+    {
+      "n": 19,
+      "nome": "L'Orecchio della Città",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-19-lorecchio-della-citta.mjs"
+    },
+    {
+      "n": 20,
+      "nome": "Il Sismografo",
+      "gate": "G1",
+      "file": "cervello/capacita/cap-20-il-sismografo.mjs"
+    },
+    {
+      "n": 21,
+      "nome": "L'Almanacco",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-21-lalmanacco.mjs"
+    },
+    {
+      "n": 22,
+      "nome": "Il Consiglio dei Piacentini",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-22-il-consiglio-dei-piacentini.mjs"
+    },
+    {
+      "n": 24,
+      "nome": "Il Catalogo che si Scrive da Solo",
+      "gate": "G1",
+      "file": "cervello/capacita/cap-24-il-catalogo-che-si-scrive-da-solo.mjs"
+    },
+    {
+      "n": 25,
+      "nome": "Il Magazzino Diffuso",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-25-il-magazzino-diffuso.mjs"
+    },
+    {
+      "n": 26,
+      "nome": "La Staffetta",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-26-la-staffetta.mjs"
+    },
+    {
+      "n": 27,
+      "nome": "La Tesoreria di Rete",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-27-la-tesoreria-di-rete.mjs"
+    },
+    {
+      "n": 28,
+      "nome": "Il Gruppo d'Acquisto Autonomo",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-28-il-gruppo-dacquisto-autonomo.mjs"
+    },
+    {
+      "n": 29,
+      "nome": "Il Dividendo del Volano",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-29-il-dividendo-del-volano.mjs"
+    },
+    {
+      "n": 31,
+      "nome": "Il Passaporto del Prodotto",
+      "gate": "G2b",
+      "file": "cervello/capacita/cap-31-il-passaporto-del-prodotto.mjs"
+    },
+    {
+      "n": 32,
+      "nome": "Il Quotidiano del Commercio",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-32-il-quotidiano-del-commercio.mjs"
+    },
+    {
+      "n": 33,
+      "nome": "L'Angelo Custode Normativo",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-33-langelo-custode-normativo.mjs"
+    },
+    {
+      "n": 34,
+      "nome": "La Memoria delle Botteghe",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-34-la-memoria-delle-botteghe.mjs"
+    },
+    {
+      "n": 35,
+      "nome": "La Rete di Mutuo Soccorso",
+      "gate": "G2",
+      "file": "cervello/capacita/cap-35-la-rete-di-mutuo-soccorso.mjs"
+    },
+    {
+      "n": 36,
+      "nome": "L'Evoluzione in Ombra",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-36-levoluzione-in-ombra.mjs"
+    },
+    {
+      "n": 39,
+      "nome": "Il Modello del Mondo",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-39-il-modello-del-mondo.mjs"
+    },
+    {
+      "n": 40,
+      "nome": "Lo Scienziato",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-40-lo-scienziato.mjs"
+    },
+    {
+      "n": 41,
+      "nome": "La Sala dei Mille Futuri",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-41-la-sala-dei-mille-futuri.mjs"
+    },
+    {
+      "n": 42,
+      "nome": "Il Protocollo",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-42-il-protocollo.mjs"
+    },
+    {
+      "n": 43,
+      "nome": "Il Circuito del Credito",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-43-il-circuito-del-credito.mjs"
+    },
+    {
+      "n": 44,
+      "nome": "La Mutua Algoritmica",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-44-la-mutua-algoritmica.mjs"
+    },
+    {
+      "n": 45,
+      "nome": "La Produzione a Domanda",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-45-la-produzione-a-domanda.mjs"
+    },
+    {
+      "n": 46,
+      "nome": "Il Sistema Nervoso Fisico",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-46-il-sistema-nervoso-fisico.mjs"
+    },
+    {
+      "n": 47,
+      "nome": "Sapere senza Guardare",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-47-sapere-senza-guardare.mjs"
+    },
+    {
+      "n": 48,
+      "nome": "L'Onestà Dimostrabile",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-48-lonesta-dimostrabile.mjs"
+    },
+    {
+      "n": 49,
+      "nome": "Un Agente per Ogni Cittadino",
+      "gate": "G5",
+      "file": "cervello/capacita/cap-49-un-agente-per-ogni-cittadino.mjs"
+    },
+    {
+      "n": 50,
+      "nome": "La Macchina che fa Ricerca su Sé Stessa",
+      "gate": "G3",
+      "file": "cervello/capacita/cap-50-la-macchina-che-fa-ricerca-su-se-stessa.mjs"
+    },
+    {
+      "n": 51,
+      "nome": "La Costituzione Vivente",
+      "gate": "G6",
+      "file": "cervello/capacita/cap-51-la-costituzione-vivente.mjs"
+    },
+    {
+      "n": 52,
+      "nome": "La Pianificazione Generazionale",
+      "gate": "G6",
+      "file": "cervello/capacita/cap-52-la-pianificazione-generazionale.mjs"
+    },
+    {
+      "n": 53,
+      "nome": "Il Compilatore d'Impresa",
+      "gate": "G6",
+      "file": "cervello/capacita/cap-53-il-compilatore-dimpresa.mjs"
+    }
+  ]
+}
