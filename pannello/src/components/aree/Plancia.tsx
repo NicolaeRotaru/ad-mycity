@@ -16,7 +16,7 @@ import Autopilota from "@/components/Autopilota";
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
 // e l'ultima analisi dell'AD in poche righe. Tutto da fonti reali già pronte.
 
-type Azione = { numero: string; reparto: string; azione: string; livello: string; inAttesa: boolean };
+type Azione = { id: string; titolo: string; livello: string; reparto?: string; stato: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
@@ -68,7 +68,8 @@ export default function Plancia({
     // Ricarica anche a intervalli: i dati arrivano dal vault (giro) e cambiano mentre si è fermi sulla home.
     // Il timbro "Aggiornato" si rinfresca a ogni giro del polling, non solo al mount.
     const carica = () => {
-      fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
+      // Stessa fonte dell'area Azioni (include le sentinelle) → il conteggio "da firmare" coincide.
+      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
       fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
       fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
       fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
@@ -86,7 +87,9 @@ export default function Plancia({
     return () => clearInterval(id);
   }, []);
 
-  const daFirmare = azioni.filter((a) => a.inAttesa);
+  // "Da firmare" = azioni ancora da decidere (stato vuoto): STESSO conteggio del badge
+  // "Da approvare" dell'area Azioni (che fa filter(!stato)). Un solo numero ovunque.
+  const daFirmare = azioni.filter((a) => !a.stato);
   const daFare = todo.filter((t) => !t.fatto);
   const ordP: Record<string, number> = { alta: 0, media: 1, bassa: 2 };
   const mosseOrd = [...mosse].sort((a, b) => (ordP[a.priorita || "media"] ?? 1) - (ordP[b.priorita || "media"] ?? 1));
@@ -231,9 +234,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
             {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.numero} className="flex items-start gap-2 t-riga">
+              <div key={a.id} className="flex items-start gap-2 t-riga">
                 <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <FraseLista testo={a.azione} />
+                <FraseLista testo={a.titolo} />
               </div>
             ))}
             {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
