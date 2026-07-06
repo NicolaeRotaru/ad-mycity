@@ -215,7 +215,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 🧬 **Evoluzione — durare e migliorarsi**
 36. **L'Evoluzione in Ombra** — varianti di sé provate in shadow sui dati veri; la vincente proposta per la firma.
 37. **Il Letargo** — degradazione con grazia: se quota, fondi o sensori calano, spegne il superfluo e tiene il nucleo vitale.
-38. **Il Guardiano del Tuo Tempo** — misura quali decisioni servivano davvero a Nicola: il KPI del «Nicola sempre più leggero».
+38. **Il Guardiano del Tuo Tempo** — misura quali decisioni servivano davvero a Nicola: il KPI del «Nicola sempre più leggero». · 🛠️ **COSTRUITA** — gira sui dati reali: `node cervello/guardiano-tempo.mjs` (sola lettura; da cablare nel giro).
 
 ### 🏙️ Le 15 Capacità di Civiltà — la macchina-infrastruttura
 
