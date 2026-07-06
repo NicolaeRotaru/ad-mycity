@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getMetriche, getMargineReale } from "@/lib/marketplace-db";
 import { getImpostazione } from "@/lib/store";
+import { calcolaUnitEconomics } from "@/lib/economia";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,12 +25,11 @@ export async function GET() {
   const ordini7 = Number(m.ordini_7g || 0);
 
   const ricavoPiattaforma7 = (gmv7 * commissione) / 100;
-  const marginePerOrdine = (scontrino * commissione) / 100; // solo commissione (lordo logistica)
-  // Contribuzione = commissione + fee incassata − costo di consegna: dice se un ordine
-  // GUADAGNA o PERDE (target dei Piani: +3-4€/ordine prima di scalare).
-  const cmPerOrdine = marginePerOrdine + feeCliente - costoConsegna;
-  // Break-even sul margine di CONTRIBUZIONE (più onesto del solo margine commissione).
-  const breakEvenOrdiniMese = costoFisso > 0 && cmPerOrdine > 0 ? Math.ceil(costoFisso / cmPerOrdine) : null;
+  // Margini per ordine + break-even: una sola verità (lib/economia), condivisa con /api/metriche.
+  const ue = calcolaUnitEconomics({ scontrino, commissione, costoFisso, feeCliente, costoConsegna });
+  const marginePerOrdine = ue.margine_per_ordine;
+  const cmPerOrdine = ue.cm_per_ordine;
+  const breakEvenOrdiniMese = ue.break_even_ordini_mese;
 
   // Margine REALE dai campi in centesimi degli ordini (commissione e fee davvero incassate).
   const reale = await getMargineReale(costoConsegna).catch(() => ({ connected: false }));
