@@ -166,9 +166,9 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 > **🛠️ Stato di costruzione — aggiornato 2026-07-06 16:46.** Le capacità non restano descrizioni: si
 > convertono in **codice che gira**, una alla volta, appena hanno dati reali su cui lavorare (mai
 > codice finto su dati che non esistono).
-> - **Costruite e funzionanti (5):** #4 · #12 · #23 · #30 · #38 — lanciabili con `node cervello/…`,
+> - **Costruite e funzionanti (7):** #4 · #12 · #13 · #23 · #30 · #37 · #38 — lanciabili con `node cervello/…`,
 >   girano sui dati reali della macchina (sola lettura). Marcate 🛠️ **COSTRUITA** qui sotto.
-> - **In attesa del loro carburante (le altre 48):** aspettano un trigger reale prima di poter
+> - **In attesa del loro carburante (le altre 46):** aspettano un trigger reale prima di poter
 >   *funzionare* — la **prima consegna** (gli organi su ordini/clienti), **≥5–10 negozi** (rete e
 >   servizi-negozio), **≥12 mesi di storico** (le capacità cognitive), il **via libera legale**
 >   (credito/mutua/profiling). Ognuna sale di stato quando il suo cancello è passato, mai prima.
@@ -188,7 +188,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 10. **La Camera di Negoziazione delle Botteghe** — gli agenti negoziano bozze di bundle win-win; l'accordo lo firmano i negozianti.
 11. **La Spesa che si Riordina da Sola** — il riordino previsto, con un solo tap del cliente per confermare (mai a sua insaputa).
 12. **Il Sistema Immunitario** — red team permanente: attacchi simulati (frodi, recensioni finte, manipolazione dei prompt). · 🛠️ **COSTRUITA** — `node cervello/sistema-immunitario.mjs` (difese + bloccanti aperti dal cantiere).
-13. **Il Bilancio Vivo** — ogni ordine sa quanto rende, al centesimo, in tempo reale (contrassegno incluso).
+13. **Il Bilancio Vivo** — ogni ordine sa quanto rende, al centesimo, in tempo reale (contrassegno incluso). · 🛠️ **COSTRUITA** — `node cervello/bilancio-vivo.mjs` (margine realizzato vs potenziale sugli ordini reali).
 14. **Il Tuo Doppio** — il modello di come decide Nicola, per pre-ordinare la coda; non firma mai al posto suo.
 15. **Le Squadre-Lampo** — task-force temporanee su un evento (meteo, festa), che poi si sciolgono.
 16. **La Macchina che Insegna** — micro-lezioni cucite sui dati del singolo negozio.
@@ -224,7 +224,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 
 🧬 **Evoluzione — durare e migliorarsi**
 36. **L'Evoluzione in Ombra** — varianti di sé provate in shadow sui dati veri; la vincente proposta per la firma.
-37. **Il Letargo** — degradazione con grazia: se quota, fondi o sensori calano, spegne il superfluo e tiene il nucleo vitale.
+37. **Il Letargo** — degradazione con grazia: se quota, fondi o sensori calano, spegne il superfluo e tiene il nucleo vitale. · 🛠️ **COSTRUITA** — `node cervello/letargo.mjs` (livello di degradazione su 4 assi reali).
 38. **Il Guardiano del Tuo Tempo** — misura quali decisioni servivano davvero a Nicola: il KPI del «Nicola sempre più leggero». · 🛠️ **COSTRUITA** — gira sui dati reali: `node cervello/guardiano-tempo.mjs` (sola lettura; da cablare nel giro).
 
 ### 🏙️ Le 15 Capacità di Civiltà — la macchina-infrastruttura
