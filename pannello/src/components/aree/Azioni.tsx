@@ -7,6 +7,7 @@ import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
+import { codiceAzione } from "@/lib/azioni-attesa";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
   etichettaScelta,
@@ -682,6 +683,15 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       <div className="flex items-start gap-2.5">
                         <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
                         <div className="min-w-0 flex-1">
+                          {/* 🔖 Codice STABILE e pronunciabile della casella (es. "A-42"): resta lo
+                              stesso finché l'azione è in coda, così Nicola e l'AD parlano della
+                              stessa card. Ben visibile in alto, prima del titolo. */}
+                          <span
+                            className="inline-flex items-center gap-1 mb-1 font-mono text-[12px] font-bold tracking-wider text-brand bg-brand-50 ring-1 ring-brand/20 rounded-md px-1.5 py-0.5 select-all"
+                            title="Codice fisso di questa casella — citalo in chat per indicarla"
+                          >
+                            🔖 {codiceAzione(a.id)}
+                          </span>
                           {/* testoPulito: via gli asterischi ** del markdown e l'emoji di livello iniziale (fix #3) */}
                           <div className="t-sez leading-snug">{testoPulito(a.titolo)}</div>
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">

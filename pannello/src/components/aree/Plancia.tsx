@@ -6,6 +6,7 @@ import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea, type VistaNav } from "@/lib/nav";
+import { codiceAzione } from "@/lib/azioni-attesa";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
@@ -236,6 +237,7 @@ export default function Plancia({
             {daFirmare.slice(0, 3).map((a) => (
               <div key={a.id} className="flex items-start gap-2 t-riga">
                 <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
+                <span className="mt-0.5 shrink-0 font-mono text-[10px] font-bold text-brand tabular-nums" title="Codice fisso della casella">{codiceAzione(a.id)}</span>
                 <FraseLista testo={a.titolo} />
               </div>
             ))}
