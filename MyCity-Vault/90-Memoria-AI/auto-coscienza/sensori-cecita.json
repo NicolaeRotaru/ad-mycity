@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-06 10:20",
+  "aggiornato": "2026-07-06 11:11",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
@@ -11,10 +11,11 @@
       "ultimo_errore": ""
     },
     "mcp_supabase": {
-      "stato": "cieco",
-      "giri_ciechi": 1,
+      "stato": "ok",
+      "giri_ciechi": 0,
       "canale": "MCP Cursor/Claude",
-      "dettaglio": "MCP Supabase cieco (permission stream closed / needsAuth)",
+      "dettaglio": "MCP Supabase raggiungibile in sessione (giro AD 6/7 11:11: letti live orders/profiles/merchants_leads del progetto clmpyfvpvfjgeviworth)",
+      "ultimo_ok": "2026-07-06 11:11",
       "ultimo_errore": "MCP Supabase cieco (permission stream closed / needsAuth)"
     },
     "stripe_api": {
@@ -47,12 +48,12 @@
       "dettaglio": "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
     }
   },
-  "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
+  "istruzioni_giro": "REST ok + MCP Supabase ok (letto live 6/7 11:11): dati ordini verificati dal vivo. Segnala nei Gap solo Stripe payout (non interrogato in sessione) e PostHog (non configurato).",
   "meta": {
-    "giri_totali": 60,
-    "sensori_ok": 3,
-    "max_giri_ciechi": 1,
-    "sensori_totali": 3,
+    "giri_totali": 61,
+    "sensori_ok": 4,
+    "max_giri_ciechi": 0,
+    "sensori_totali": 4,
     "almeno_un_dato": true,
     "sensori_non_configurati": 2,
     "dati_ordini_ciechi": false
