@@ -1,0 +1,46 @@
+# 🚀 Deploy del Pannello su Vercel — SOLO quando pannello/ cambia davvero.
+#
+# PERCHÉ ESISTE (quota Vercel, 2026-07-06): il VPS pusha la memoria su main ogni ~5 minuti.
+# Con i deploy git di Vercel accesi, OGNI push creava un deployment (anche se la build veniva
+# saltata dall'ignoreCommand, la CREAZIONE conta nella quota Hobby di 100/giorno → quota morta
+# entro mezzogiorno). Fix in due pezzi:
+#   1. pannello/vercel.json → "git": { "deploymentEnabled": false }  (Vercel ignora i push)
+#   2. QUESTA action → scatta SOLO sui push a main che toccano pannello/** e chiama il
+#      Deploy Hook di Vercel. Risultato: deployment creati solo quando serve davvero.
+#
+# SETUP (una volta sola, ~2 minuti):
+#   1. Vercel → progetto ad-mycity → Settings → Git → Deploy Hooks →
+#      Create Hook: nome "deploy-pannello", branch "main" → copia l'URL.
+#   2. GitHub → repo ad-mycity → Settings → Secrets and variables → Actions →
+#      New repository secret: nome VERCEL_DEPLOY_HOOK_URL, valore = l'URL copiato.
+# Finché il secret manca, l'action fallisce con un messaggio chiaro (nessun deploy silenzioso perso).
+#
+# Deploy manuale: tab Actions → "Deploy Pannello su Vercel" → Run workflow.
+
+name: Deploy Pannello su Vercel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pannello/**"
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chiama il Deploy Hook di Vercel
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::Secret VERCEL_DEPLOY_HOOK_URL mancante. Crea il Deploy Hook su Vercel (Settings → Git → Deploy Hooks, branch main) e salvalo come secret del repo — istruzioni in testa a questo file."
+            exit 1
+          fi
+          code=$(curl -sS -X POST "$HOOK" -o /dev/null -w "%{http_code}")
+          echo "Deploy Hook chiamato → HTTP $code"
+          if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+            echo "::error::Il Deploy Hook ha risposto HTTP $code (quota Vercel esaurita? hook cancellato?)."
+            exit 1
+          fi
