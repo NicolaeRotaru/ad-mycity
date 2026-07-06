@@ -106,6 +106,7 @@ pre-condizioni: (1) 🔴 versione col NOME+foto = ok del titolare (chiedibile ne
 stato: IN ATTESA DI FIRMA NICOLA.
 
 ## A6 · 💚 Check-in anti-churn — Pane Quotidiano (titolare)
+⚠️ **SUPERATA il 2026-07-06 12:28 → sostituita da A17.** Premessa morta: lo script diceva «oggi chiudiamo il vostro primo ordine e vi porto il cliente», ma l'ordine #16 è stato ANNULLATO il 3/7. NON usare questo testo. Usa A17.
 reparto: account-negozi
 livello: 🟡
 canale: Telefono 0523 388601 — RIDER sulla chiamata operativa #21 (stessa telefonata, +2 min di retention), poi follow-up dopo la consegna
