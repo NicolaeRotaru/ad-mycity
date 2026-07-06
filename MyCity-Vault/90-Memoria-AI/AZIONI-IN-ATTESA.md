@@ -229,6 +229,23 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Stato:** REGOLA ATTIVA — si applica al primo onboarding dopo il 9/7.
 
 
+## 2026-07-06 23:55 · @frontend-dev → @devops-sre · 🟡 Metti il codice fisso «#A42 — nome» su ogni card del Pannello (branch + verifica + PR)
+- **Cosa:** ho scritto la modifica che dà a ogni casella del Pannello un'etichetta STABILE visibile nel formato «#codice — nome» (codice + nome sempre insieme, come chiesto). File toccati: `pannello/src/lib/azioni-attesa.ts` (il codice ora è `#A42` col cancelletto + helper `etichettaCasella`), `pannello/src/components/aree/Azioni.tsx` (codice inline col titolo nella card "Da approvare"), `pannello/src/components/aree/Plancia.tsx` (codice + «—» nella lista "Da firmare"). Il codice deriva dall'hash del contenuto dell'azione: NON si rinumera a ogni giro.
+- **Perché serve la tua mano:** nella mia sessione i comandi git/typecheck/browser sono bloccati, quindi il branch NON è ancora creato e la modifica NON è stata provata a video. I comandi pronti (copia-incolla dal VPS) sono qui sotto.
+- **Colore:** 🟡 — modifica UI in un branch, **nessun deploy**. La PR resta da mergiare a mano (Vercel redeploy solo dopo merge su `main`).
+- **Canale/mani:** terminale VPS (git + `npm run dev` per la prova a video) → poi PR su GitHub.
+- **Comandi (VPS, cartella `/opt/mycity/ad-mycity`):**
+  1. `git checkout -b pannello/etichetta-stabile-card`
+  2. `git add pannello/src/lib/azioni-attesa.ts pannello/src/components/aree/Azioni.tsx pannello/src/components/aree/Plancia.tsx`
+  3. `cd pannello && npm run build` (verifica typecheck+build verdi) poi `cd ..`
+  4. `cd pannello && npm run dev` → apri http://localhost:3000, vai su "Azioni → Da approvare" e sulla Plancia "Da firmare": controlla che ogni card mostri «#codice — nome» sulla stessa riga e che il codice non cambi ricaricando.
+  5. `git commit -m "Pannello: etichetta stabile #codice — nome su ogni card della coda"`
+  6. `git push -u origin pannello/etichetta-stabile-card` poi apri la PR su `main` (NO deploy diretto).
+- **Cosa cambia:** quando l'AD ti scrive «guarda #A42» tu trovi subito quella card nel Pannello — oggi le caselle non hanno numero e non le ritrovi.
+- **Se va bene:** merghi la PR su `main`, Vercel ripubblica, il codice è visibile in produzione su ogni card.
+- **Stato:** IN ATTESA — branch/verifica/PR da eseguire (bloccati nella mia sessione).
+
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-06 22:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-06-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
