@@ -70,7 +70,13 @@ L'assistente potra' leggere le note (per contesto) e scriverne/aggiornarle.
 3. `npm run dev` → apri http://localhost:3000
 
 ## Online (Vercel)
-Il repo e collegato a Vercel: ogni push su `main` pubblica il sito.
+Il repo e collegato a Vercel, ma i deploy automatici da git sono SPENTI
+(`vercel.json` → `deploymentEnabled: false`): il VPS pusha la memoria su `main`
+ogni pochi minuti e ogni push creerebbe un deployment che brucia la quota
+giornaliera (100/giorno sul piano Hobby). Il deploy parte SOLO quando cambia
+`pannello/**`, via GitHub Action (`.github/workflows/deploy-pannello.yml`) che
+chiama il Deploy Hook di Vercel (secret `VERCEL_DEPLOY_HOOK_URL` — setup in
+testa al file dell'action).
 Il Pannello **legge e mostra** cio' che il cervello-Max salva in memoria; non genera
 nulla via API. Per la memoria/chat:
 1. Vercel → Project → Settings → Environment Variables

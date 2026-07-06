@@ -127,7 +127,7 @@ async function main() {
   console.log(`  ${pr.html_url}`);
 
   if (cfg.key === "ad-mycity") {
-    console.log("→ Vercel deployerà il Pannello al merge su main (se base=main).");
+    console.log("→ Pannello: se il merge tocca pannello/, l'action deploy-pannello chiama il Deploy Hook Vercel (i deploy git sono spenti per non bruciare la quota).");
     console.log("→ VPS: watch-main.sh allineerà il codice entro pochi minuti.");
   } else {
     console.log("→ Render deployerà il sito al merge su main.");
