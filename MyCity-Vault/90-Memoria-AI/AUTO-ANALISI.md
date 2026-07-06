@@ -1,10 +1,10 @@
 ---
-data: 2026-07-06 11:58
+data: 2026-07-06 12:04
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-> **🔭 Refresh 11:58 (conferma):** terzo passaggio dell'ora, firma delta-gate ancora invariata dal 06:24, sensori tutti ok → nessun giro a vuoto, solo timestamp Cabina riallineati. Voto **87 =**. Vincolo allocazione rispettato + nota di governo: i 5 asset Garetti in coda (#1/#6-9/#11) restano template neutri finché il prospect non firma; sforzo pesante su PQ (#21). Analisi sostanziale invariata ↓.
+> **🔭 Refresh 12:04 (conferma):** quarto passaggio dopo il pieno delle 11:11. Il delta-gate 12:03 conferma `corrente==ultimo_pieno` (ordini=1, ultimo 24/6, clienti=23) e i sensori 12:03 sono tutti ok → nessun giro a vuoto, solo timestamp Cabina riallineati. Voto **87 =**. Vincolo allocazione rispettato + nota di governo: i 5 asset Garetti in coda (#1/#6-9/#11) restano template neutri finché il prospect non firma; sforzo pesante su PQ (#21). Nessun lavoro 🟡/🔴 nuovo prodotto in questo passaggio → coda AZIONI-IN-ATTESA invariata, nessuna riga ESITO nuova da chiudere. Analisi sostanziale invariata ↓.
 
 # 🔬 Auto-analisi del giro — 2026-07-06 11:54 (🔭 giro refresh)
 
