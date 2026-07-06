@@ -11,15 +11,33 @@ import {
 } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 import { getImpostazione } from "@/lib/store";
+import { demoAttivo } from "@/lib/demo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// Cache in-memory (per istanza server): /api/metriche faceva ~7 scansioni della
+// tabella `orders` A OGNI chiamata, senza cache — la causa principale della lentezza.
+// Ora una risposta calcolata resta valida per TTL_MS, così i cambi d'area, i tab
+// multipli e i re-render non ripagano ogni volta il costo pieno. La demo (cookie
+// per-utente) NON entra mai in questa cache condivisa: è sempre calcolata a parte.
+const TTL_MS = 45_000;
+let CACHE: { ts: number; data: any } | null = null;
+
 // Le metriche del cruscotto: dati del marketplace (mycity) + traffico (PostHog)
 // + retention, health negozi, catalogo, payout, acquisizione, margine, cassa.
 // Tutto in una sola risposta, così il cockpit KPI mostra TUTTI i dati disponibili.
 export async function GET() {
+  // Demo: dipende da un cookie per-utente → mai dalla cache condivisa.
+  if (await demoAttivo()) {
+    return NextResponse.json(await getMetriche());
+  }
+  // Cache ancora fresca: rispondi subito, niente scansioni del DB.
+  if (CACHE && Date.now() - CACHE.ts < TTL_MS) {
+    return NextResponse.json(CACHE.data);
+  }
+
   const m: any = await getMetriche();
   if (m.demo) return NextResponse.json(m);
 
@@ -138,5 +156,7 @@ export async function GET() {
   m.marketplace_collegato = marketplaceCollegato;
   m.traffico_collegato = Boolean(ph.connected);
   m.connected = marketplaceCollegato || Boolean(ph.connected);
+
+  CACHE = { ts: Date.now(), data: m };
   return NextResponse.json(m);
 }
