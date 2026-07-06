@@ -235,9 +235,11 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
             {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.id} className="flex items-start gap-2 t-riga">
+              <div key={a.id} className="flex items-start gap-1.5 t-riga">
                 <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <span className="mt-0.5 shrink-0 font-mono text-[10px] font-bold text-brand tabular-nums" title="Codice fisso della casella">{codiceAzione(a.id)}</span>
+                {/* «#codice — nome»: codice fisso sempre accanto al titolo, così la card è citabile */}
+                <span className="mt-0.5 shrink-0 font-mono text-[10px] font-bold text-brand tabular-nums" title="Codice fisso della casella — citalo in chat">{codiceAzione(a.id)}</span>
+                <span className="mt-0.5 shrink-0 text-black/25 text-[10px]">—</span>
                 <FraseLista testo={a.titolo} />
               </div>
             ))}

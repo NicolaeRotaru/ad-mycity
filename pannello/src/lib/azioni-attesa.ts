@@ -54,14 +54,15 @@ function idSezione(data: string, reparto: string, titolo: string): string {
   return "S" + (h >>> 0).toString(36);
 }
 
-// 🔖 Codice STABILE e PRONUNCIABILE mostrato sulla card ("A-42"), così Nicola e l'AD parlano
+// 🔖 Codice STABILE e PRONUNCIABILE mostrato sulla card ("#A42"), così Nicola e l'AD parlano
 // della STESSA casella (in chat, a voce). È una funzione PURA dell'id stabile `S<hash>`: finché
 // il contenuto dell'azione non cambia, il codice resta identico da un giro all'altro — NON è un
 // indice posizionale che si rinumera (era la lamentela di Nicola: «nessuna casella è numerata»).
-// Formato: 1 lettera A-Z + 2 cifre 00-99 → spazio di 2.600 codici. Con una coda tipica di <20
-// azioni la probabilità di collisione (compleanno) è <1%; e anche in caso di collisione il codice
-// è solo un'etichetta parlata: il vero handle interno resta l'id completo `S<hash>` (i pulsanti
-// Approva/Rifiuta usano quello), quindi nessun rischio funzionale.
+// Formato: prefisso "#" + 1 lettera A-Z + 2 cifre 00-99 → spazio di 2.600 codici (il "#A3" chiesto
+// da Nicola è la FORMA; qui 2 cifre allargano lo spazio e riducono le collisioni). Con una coda
+// tipica di <20 azioni la probabilità di collisione (compleanno) è <1%; e anche in caso di
+// collisione il codice è solo un'etichetta parlata: il vero handle interno resta l'id completo
+// `S<hash>` (i pulsanti Approva/Rifiuta usano quello), quindi nessun rischio funzionale.
 export function codiceAzione(id: string): string {
   // Rehash dell'id stabile per spargere bene lettera e cifre anche su id molto simili.
   let h = 0;
@@ -70,7 +71,14 @@ export function codiceAzione(id: string): string {
   const u = h >>> 0;
   const lettera = String.fromCharCode(65 + (u % 26)); // A-Z
   const numero = Math.floor(u / 26) % 100; // 00-99
-  return `${lettera}-${String(numero).padStart(2, "0")}`;
+  return `#${lettera}${String(numero).padStart(2, "0")}`;
+}
+
+// Etichetta completa «#codice — nome» richiesta da Nicola: codice e nome SEMPRE insieme, mai il
+// solo codice. Usala dove serve una stringa unica (es. testo parlato, tooltip); nella UI le due
+// parti si stilizzano separate ma restano sulla stessa riga.
+export function etichettaCasella(id: string, nome: string): string {
+  return `${codiceAzione(id)} — ${nome}`.trim();
 }
 
 // Una heading `##`/`###` è PURA DOCUMENTAZIONE (NON un'azione) se non porta alcun segnale d'azione:
