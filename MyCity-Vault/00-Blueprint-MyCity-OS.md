@@ -163,12 +163,12 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 > **[[2026-07-06-piano-piramide-infrastruttura-completa|Piano della Piramide]]**.
 > Il semaforo vale su ognuna: **soldi veri, clienti reali e produzione restano 🔴, firma di Nicola.**
 
-> **🛠️ Stato di costruzione — aggiornato 2026-07-06 16:46.** Le capacità non restano descrizioni: si
-> convertono in **codice che gira**, una alla volta, appena hanno dati reali su cui lavorare (mai
-> codice finto su dati che non esistono).
+> **🛠️ Stato di costruzione — aggiornato 2026-07-06 17:28.** **Tutte le 53 esistono ora come codice**
+> (cruscotto: `node cervello/capacita.mjs`): **7 VIVE** (codice pieno, girano nel giro) + **46 SCAFFOLD**
+> (engine registrato in `cervello/capacita/`, gira e riporta onestamente cosa aspetta — mai dati finti).
 > - **Costruite e VIVE (7):** #4 · #12 · #13 · #23 · #30 · #37 · #38 — **cablate nel giro** (girano a ogni
 >   ciclo, sola lettura) + lanciabili a mano con `node cervello/…`. Marcate 🛠️ **COSTRUITA** qui sotto.
-> - **In attesa del loro carburante (le altre 46):** aspettano un trigger reale prima di poter
+> - **46 SCAFFOLD, in attesa del carburante:** esistono come codice, ma aspettano un trigger reale per
 >   *funzionare* — la **prima consegna** (gli organi su ordini/clienti), **≥5–10 negozi** (rete e
 >   servizi-negozio), **≥12 mesi di storico** (le capacità cognitive), il **via libera legale**
 >   (credito/mutua/profiling). Ognuna sale di stato quando il suo cancello è passato, mai prima.

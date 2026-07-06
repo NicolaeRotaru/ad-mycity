@@ -244,6 +244,8 @@ if command -v node >/dev/null 2>&1; then
   # Il tracker che veglia i cancelli di sblocco delle 46 capacità ancora chiuse:
   echo "[$(ts)] 🔓 Sblocco capacità (cancelli di realtà delle 46 chiuse)..."
   node "$SCRIPT_DIR/sblocco-capacita.mjs" 2>&1 | tail -5 || true
+  echo "[$(ts)] 🧬 Cruscotto 53 capacità (7 vive + 46 scaffold)..."
+  node "$SCRIPT_DIR/capacita.mjs" 2>&1 | tail -3 || true
 fi
 
 # AR-019: DELTA-GATE — "niente di nuovo → salta il giro pesante". Confronta lo stato reale
