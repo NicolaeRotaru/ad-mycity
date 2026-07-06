@@ -163,18 +163,18 @@ Ciao! Sono Nicola di MyCity 👋 Ti è arrivata la spesa da Pane Quotidiano? Spe
 siano come al banco. Siamo appena nati e ogni tua parola conta: com'è andata?
 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema. Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
 
-## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (ordine #16 Pane Quotidiano)
+## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (primo ordine consegnato · Pane Quotidiano)
 reparto: customer-success
 livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
-canale: WhatsApp 348 642 1766 + email/in-app
+canale: WhatsApp/telefono del cliente + email/in-app
 perche: subito dopo una buona consegna è il momento migliore per chiedere la recensione. Sarebbe la **prima recensione verificata di MyCity a Piacenza**: social proof che aiuta l'acquisizione dei prossimi clienti e la fiducia nel faro reale.
 preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 2
-pre-condizione: (1) A13 con feedback 👍 · (2) +1 giorno dalla consegna · (3) link recensione reale attivo (verificare l'URL ordine sul dominio LIVE prima dell'invio)
+pre-condizione: (1) A13 con feedback 👍 · (2) +1 giorno dalla consegna · (3) link recensione reale: `https://mycity-marketplace.com/orders/{ID-ORDINE-PROVA}/review` (pagina VERIFICATA nel codice: `app/orders/[id]/review/page.tsx` — stelle negozio 1-5 + rider + commento) → sostituire `{ID-ORDINE-PROVA}` con l'UUID del **nuovo** ordine-prova PQ (NON `58094956…`, annullato) e aprirlo LIVE prima dell'invio.
 cosa cambia: il cliente lascia stelline + una frase vera su Pane Quotidiano → prima recensione pubblica reale sul marketplace.
-se va bene: social proof sulla scheda del negozio faro; base per referral/riordino (aggancio a #26 carrello samir).
+se va bene: social proof sulla scheda del negozio faro; base per referral/riordino (aggancio a #27 carrello samir).
 testo:
 Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidiano 🌟
-👉 [link recensione ordine — verificare URL LIVE]
+👉 https://mycity-marketplace.com/orders/{ID-ORDINE-PROVA}/review  ← inserire l'UUID dell'ordine-prova consegnato · verificare LIVE
 Bastano 30 secondi: stelline + una frase vera (spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi").
 Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
