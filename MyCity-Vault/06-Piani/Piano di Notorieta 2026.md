@@ -210,7 +210,7 @@ Filosofia: **80% earned/owned/ambassador (≈€0), 20% materiali fisici.**
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
 ## 🤖 Aggiornamento dell'AD — 2026-07-06 16:45
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Venerdì Piacentini 10/7 e 17/7 = le due finestre-città per il primo presidio leggero** — entrambe cadono dopo il 9/7, quando Nicola riparte: il 10/7 è l'occasione naturale per il primo presidio/QR quando c'è un negozio reale che può incassare. Nessun asset pesante ora (allocazione: PQ unico reale). Fonte: `Intelligence/eventi-picchi.md` (WebSearch LIVE 6/7).
+- **Venerdì Piacentini 10/7 e 17/7 = le finestre-città per il primo presidio leggero** — Nicola riparte il 13/7, quindi il **10/7 cade PRIMA della ripresa**: la finestra-città utile per il primo presidio/QR è il **17/7**, quando c'è un negozio reale che può incassare. Nessun asset pesante ora (allocazione: PQ unico reale). Fonte: `Intelligence/eventi-picchi.md` (WebSearch LIVE 6/7).
 - **Earned media «prima transazione»** — l'angolo PR più forte scatta quando NASCE e si consegna il **1° ordine reale ex-novo** (#16 è annullato, non consegnato). Kit stampa pronto a scattare su quel caso.
 - **Bando Commercio ER (40% fondo perduto, scade 21/7)** — leva di notizia locale a doppio uso: candidatura + gancio con giornali/associazioni per la visita botteghe del 13/7.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

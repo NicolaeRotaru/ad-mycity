@@ -20,6 +20,6 @@
 
 ## 🆕 Novità giro 6/7 11:11
 - **La finestra Sant'Antonino (4/7) è passata** e con essa l'ipotesi «consegna #16 durante la fiera»: **l'ordine #16 era già annullato dal 3/7** → nessuna consegna era possibile. Rimosso dagli eventi azionabili.
-- **Prossima finestra utile: Venerdì Piacentini 10/7** — da usare per il **primo presidio con Pane Quotidiano**, non più per un ordine morto. Ultima serata 17/7.
-- **Nessun picco meteo rilevante** guida il giro: il vincolo non è meteo né evento, è **avere un ordine reale da consegnare** (oggi zero in volo) e **negozi da onboardare** (parte dopo il 9/7).
+- **Prossima finestra utile: Venerdì Piacentini 17/7** — da usare per il **primo presidio con Pane Quotidiano**: Nicola riparte il 13/7, quindi il 10/7 cade prima della ripresa. Ultima serata 17/7.
+- **Nessun picco meteo rilevante** guida il giro: il vincolo non è meteo né evento, è **avere un ordine reale da consegnare** (oggi zero in volo) e **negozi da onboardare** (parte dal 13/7).
 - Spunto editoriale: **sagra del tortello** = aggancio «prodotto tipico piacentino a domicilio» per il Piano Editoriale.
