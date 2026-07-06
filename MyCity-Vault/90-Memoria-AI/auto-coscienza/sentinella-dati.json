@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-06 16:42",
+  "aggiornato": "2026-07-06 16:49",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "27",
@@ -27,16 +27,24 @@
       "ambito": "azioni"
     },
     "worker_morto": {
-      "ultima_firma": "2026-07-06T16:27:07+02:00",
-      "ultimo_accodato": "2026-07-06 16:31",
-      "ultimo_accodato_iso": "2026-07-06T14:31:04.107Z",
+      "ultima_firma": "2026-07-06T16:41:12+02:00",
+      "ultimo_accodato": "2026-07-06 16:45",
+      "ultimo_accodato_iso": "2026-07-06T14:45:53.909Z",
       "colore": "🔴",
       "soloAllerta": true
+    },
+    "ordine_annullato": {
+      "ultima_firma": "1@2026-07-03T15:38:22.921293+00:00",
+      "ultimo_accodato": "2026-07-06 16:45",
+      "ultimo_accodato_iso": "2026-07-06T14:45:53.909Z",
+      "ultimo_job": "e759ae2e-6f2a-445f-8487-c08faa651b3b",
+      "colore": "🟡",
+      "ambito": "azioni"
     }
   },
   "accodati_giorno": {
     "giorno": "2026-07-06",
-    "n": 1
+    "n": 2
   },
   "accodati_ts": [
     "2026-07-03T00:36:35.265Z",
@@ -55,47 +63,12 @@
     "2026-07-04T08:05:01.936Z",
     "2026-07-04T08:21:17.985Z",
     "2026-07-04T09:31:03.832Z",
-    "2026-07-06T12:26:08.932Z"
+    "2026-07-06T12:26:08.932Z",
+    "2026-07-06T14:45:53.909Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 1989,
+  "tick": 1995,
   "storia": [
-    {
-      "quando": "2026-07-06 14:42",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 14:43",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 14:44",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 14:46",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 14:47",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 14:48",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-06 14:49",
       "eventi": 1,
@@ -659,10 +632,46 @@
       "eventi": 0,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 16:43",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 16:44",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 16:45",
+      "eventi": 2,
+      "accodati": 1,
+      "allertati": 1
+    },
+    {
+      "quando": "2026-07-06 16:47",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 16:48",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 16:49",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-06 16:42",
+    "quando": "2026-07-06 16:49",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -670,12 +679,14 @@
     "recensioni_basse": 0,
     "negozi_fermi": 0,
     "carrelli": null,
-    "worker_eta_min": 1,
+    "ordini_slot_scaduto": null,
+    "annullati_nuovi": 0,
+    "worker_eta_min": 9,
     "sensori_max_ciechi": 1,
     "salute_voto": 44,
     "radiografia_gg": 4,
     "volano_tasso": 0.7
   },
   "ultima_annullamento_vista": "2026-07-03T15:38:22.921293+00:00",
-  "ultimo_annullo_visto": "2026-06-24T08:28:40.166644+00:00"
+  "ultimo_annullo_visto": "2026-07-03T15:38:22.921293+00:00"
 }
