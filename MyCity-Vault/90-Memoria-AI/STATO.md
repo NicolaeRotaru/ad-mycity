@@ -12,7 +12,7 @@ fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello ·
 >
 > ⛔ **6/7 11:11 — L'ORDINE #16 È STATO ANNULLATO (3/7 15:38):** letto **dal vivo** (MCP Supabase risponde in questa sessione, era dato cieco). L'unico ordine reale (COD €19,05) risulta `delivery_status=CANCELED`, `canceled_at=2026-07-03 15:38`, **mai accettato, mai consegnato**. La macchina lo ha inseguito ancora il 4/7 («esegui la consegna oggi») senza saperlo perché l'MCP era cieco e il REST conta solo il *numero* di ordini, non lo stato. **Non c'è più nessuna consegna da eseguire.** North Star ancora **0**, business fermo da **12 giorni** (ultimo ordine 24/6). Domanda per Nicola: **chi/perché ha annullato #16?** Dettaglio: [[2026-07-06]].
 >
-> 🎯 **6/7 — LA LEVA TRASCURATA: 407 lead negozi nel DB, TUTTI mai contattati.** Ne ho estratti **27 food con telefono già pronto** → `consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`, in ordine di priorità per l'onboarding che Nicola avvia dopo il 9/7. **Mossa n.1 cambiata:** non più «consegna #16» (morto), ma ripartire dalla pipeline — shortlist onboarding + primo ordine-prova PQ chiuso davvero col payout-test.
+> 🎯 **6/7 — LA LEVA TRASCURATA: 407 lead negozi nel DB, TUTTI mai contattati.** Ne ho estratti **27 food con telefono già pronto** → `consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`, in ordine di priorità per l'onboarding che Nicola avvia dal 13/7 (di persona). **Mossa n.1 cambiata:** non più «consegna #16» (morto), ma ripartire dalla pipeline — shortlist onboarding + primo ordine-prova PQ chiuso davvero col payout-test.
 >
 > 📅 **6/7 — Eventi:** prossimo **Venerdì Piacentini venerdì 10/7** (poi 17/7, ultima data) → centro pieno le sere, finestra buona per primo presidio con PQ.
 >
@@ -130,7 +130,7 @@ fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello ·
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
 3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch negozi
 4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco) · **#24 falso positivo Casa Linda demo** — firma opzionale
-5. [ ] 🟢 **Onboarding botteghe (dopo 9/7)** — checklist pronta (indipendente dallo zombie); visita 6 botteghe 13/7
+5. [ ] 🟢 **Onboarding botteghe (dal 13/7)** — checklist pronta (indipendente dallo zombie); visita 6 botteghe 13/7
 6. [ ] 🟡 **Sentinella dati legga `delivery_status`/`canceled_at`** (#40 in coda) — così un annullamento scatta un allarme e non resta invisibile (causa-radice del loop cieco)
 7. [ ] 🟢 **Arricchisci i 380 lead senza telefono** (batch, quando Nicola supera i 27 pronti)
 

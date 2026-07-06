@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-07 00:15",
+  "aggiornato": "2026-07-07 00:37",
   "fatti": [
     {
       "id": "onboarding.botteghe-food",
@@ -23,7 +23,10 @@
         { "valore": "dopo il 9/7/2026 (attende reset limiti Claude)", "fino_a": "2026-07-07 00:15" }
       ],
       "caccia": [
-        { "pattern": "dopo il 9/7", "dal": "2026-07-07 00:15" }
+        { "pattern": "avvia dopo il 9/7", "dal": "2026-07-07 00:15" },
+        { "pattern": "quando Nicola riparte", "dal": "2026-07-07 00:15" },
+        { "pattern": "Onboarding botteghe (dopo 9/7)", "dal": "2026-07-07 00:15" },
+        { "pattern": "Dopo il 9/7, fai nascere", "dal": "2026-07-07 00:15" }
       ],
       "esenzioni": [
         "MyCity-Vault/90-Memoria-AI/Report/"
