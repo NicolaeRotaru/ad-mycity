@@ -28,6 +28,7 @@ import {
   MessagesSquare,
   Layers,
   Home,
+  Menu,
   Mic,
   Mail,
   Target,
@@ -596,6 +597,11 @@ type AssistenteTab = "chat" | "conversazioni";
 
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
+  // Sidebar a sinistra, richiudibile: su desktop parte aperta, su telefono chiusa (drawer).
+  const [navAperta, setNavAperta] = useState(true);
+  useEffect(() => {
+    if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
+  }, []);
   const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
@@ -1437,6 +1443,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setNavAperta((v) => !v)}
+            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04]"
+            style={{ color: "var(--text-muted)" }}
+            aria-label="Apri o chiudi il menù"
+            title="Menù"
+          >
+            <Menu size={18} />
+          </button>
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
               M
@@ -1496,39 +1511,81 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5">
-        {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
-        {(() => {
-          const AREE = [
-            { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
-            { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
-            { id: "report", label: "Report", icon: <FileText size={15} /> },
-            { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-            { id: "cervello", label: "Macchina", icon: <Cpu size={15} /> },
-            { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
-            { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
-            { id: "persone", label: "Persone", icon: <Users size={15} /> },
-            { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
-            { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
-            { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-            { id: "storico", label: "Storico", icon: <History size={15} /> },
-            { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
-          ] as const;
-          return (
-            <div className="flex flex-wrap gap-2">
-              {AREE.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setVista(t.id)}
-                  className={`nav-tab ${vista === t.id ? "nav-tab-active" : ""}`}
-                >
-                  {t.icon}
-                  <span>{t.label}</span>
-                </button>
-              ))}
-            </div>
-          );
-        })()}
+      {/* Layout a due colonne: sidebar (richiudibile) + contenuto. Niente è stato tolto:
+          tutte le aree ci sono, solo raggruppate e con nomi chiari. */}
+      <div className="flex flex-1 min-h-0 items-stretch">
+        {navAperta && (
+          <button
+            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            onClick={() => setNavAperta(false)}
+            aria-label="Chiudi il menù"
+          />
+        )}
+
+        <aside
+          className={`fixed lg:static z-40 top-0 left-0 h-[100dvh] lg:h-auto lg:self-stretch shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
+            navAperta ? "w-64 translate-x-0" : "w-64 -translate-x-full lg:w-0"
+          }`}
+          style={{ background: "var(--bg-surface)", borderRight: "1px solid var(--border)" }}
+        >
+          <nav className="w-64 h-full overflow-y-auto scroll-soft p-3 flex flex-col gap-1">
+            {(() => {
+              const GRUPPI: { gruppo: string | null; voci: { id: Vista; label: string; icon: React.ReactNode }[] }[] = [
+                {
+                  gruppo: null,
+                  voci: [
+                    { id: "plancia", label: "Home", icon: <Home size={16} /> },
+                    { id: "azioni", label: "Azioni", icon: <Zap size={16} /> },
+                  ],
+                },
+                {
+                  gruppo: "Approfondisci",
+                  voci: [
+                    { id: "numeri", label: "Numeri", icon: <BarChart3 size={16} /> },
+                    { id: "persone", label: "Negozi & clienti", icon: <Users size={16} /> },
+                    { id: "operazioni", label: "Operazioni", icon: <Truck size={16} /> },
+                    { id: "mondo", label: "Mercato", icon: <Globe size={16} /> },
+                    { id: "report", label: "Report", icon: <FileText size={16} /> },
+                  ],
+                },
+                {
+                  gruppo: "Macchina & memoria",
+                  voci: [
+                    { id: "cervello", label: "Controllo", icon: <Cpu size={16} /> },
+                    { id: "lavori", label: "Lavori", icon: <Brain size={16} /> },
+                    { id: "memoria", label: "Memoria", icon: <Layers size={16} /> },
+                    { id: "storico", label: "Storico", icon: <History size={16} /> },
+                    { id: "assistente", label: "Assistente", icon: <Send size={16} /> },
+                    { id: "esplora", label: "GitHub", icon: <FolderTree size={16} /> },
+                  ],
+                },
+              ];
+              return GRUPPI.map((g) => (
+                <div key={g.gruppo ?? "top"} className="flex flex-col gap-1">
+                  {g.gruppo && <div className="t-micro px-2 pt-3 pb-1">{g.gruppo}</div>}
+                  {g.voci.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => {
+                        setVista(v.id);
+                        if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
+                      }}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13.5px] font-medium text-left transition ${
+                        vista === v.id ? "bg-brand text-white shadow-card" : "hover:bg-black/[0.04]"
+                      }`}
+                      style={vista === v.id ? undefined : { color: "var(--text-muted)" }}
+                    >
+                      {v.icon}
+                      <span className="truncate">{v.label}</span>
+                    </button>
+                  ))}
+                </div>
+              ));
+            })()}
+          </nav>
+        </aside>
+
+        <main className="flex-1 min-w-0 max-w-5xl mx-auto w-full px-4 sm:px-6 py-5 sm:py-6 space-y-5">
 
         {/* 🧪 Modalità demo: prova la macchina viva senza chiavi (banner + interruttore) */}
         <DemoBanner />
@@ -1957,6 +2014,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
       </main>
+      </div>
     </div>
   );
 }
