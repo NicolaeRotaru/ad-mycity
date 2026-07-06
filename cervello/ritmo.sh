@@ -103,8 +103,13 @@ fi
 # è invariato dall'ultimo giro pieno (evita il cluster mattutino giro+ritmo+monitora a stato fermo).
 # Bypass: RITMO_FORCE=1 / DELTA_GATE_FORCE=1 (le cadenze on-demand girano sempre).
 RUN_AI=1
-if [ "${RITMO_FORCE:-0}" = 1 ] || [ "${DELTA_GATE_FORCE:-0}" = 1 ]; then
-  echo "[$(ts)] Delta-gate ritmo: BYPASS (forzato/on-demand) → cadenza piena."
+# (fix "il giro non si aggiorna") Le cadenze UMANE giornaliere (mattino/sera) e la settimanale sono
+# digest che Nicola si aspetta OGNI volta: NON vanno gated sul delta dei dati. Con 0 ordini la "firma"
+# del delta-gate resta invariata → il report non veniva MAI riscritto e il Pannello restava fermo
+# all'ultima data (es. mattino 03/07, sera 02/07). Il delta-gate resta solo sul mezzogiorno (alta
+# frequenza, per tagliare il rumore) → il Piano del mattino / Report della sera si riscrivono sempre.
+if [ "${RITMO_FORCE:-0}" = 1 ] || [ "${DELTA_GATE_FORCE:-0}" = 1 ] || [ "$RITMO_TIPO" = mattino ] || [ "$RITMO_TIPO" = sera ] || [ "$RITMO_TIPO" = settimana ]; then
+  echo "[$(ts)] Delta-gate ritmo: BYPASS (cadenza umana giornaliera/forzata) → cadenza piena."
 elif command -v node >/dev/null 2>&1; then
   _dg_out="$(node "$SCRIPT_DIR/delta-gate.mjs" 2>&1)"; _dg_rc=$?
   printf '%s\n' "$_dg_out" | tail -4

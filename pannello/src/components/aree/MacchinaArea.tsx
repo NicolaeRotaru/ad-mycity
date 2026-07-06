@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Cpu, Microscope } from "lucide-react";
 import RadiografiaDiSe from "@/components/cervello/RadiografiaDiSe";
 import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
-import { EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Pagina = "radiografia" | "auto-coscienza";
 
@@ -16,18 +16,17 @@ const PAGINE: { id: Pagina; label: string; icon: React.ReactNode }[] = [
 export default function MacchinaArea() {
   const [pagina, setPagina] = useState<Pagina>("radiografia");
 
+  // Ripristino della pagina col tasto INDIETRO: il popstate centrale (page.tsx) riemette
+  // EVENTO_SUB per la vista "cervello"; qui riapriamo la pagina giusta. (contratto nav unico —
+  // niente più #hash nell'URL, che era la fonte residua dei salti all'INDIETRO). (bug #2/#4)
   useEffect(() => {
-    const daHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      if (h === "auto-radiografia" || h.includes("radiografia") || h === "cervello") {
-        setPagina("radiografia");
-      } else if (h === "auto-coscienza" || h.startsWith("auto-")) {
-        setPagina("auto-coscienza");
-      }
+    const onSub = (e: Event) => {
+      const det = (e as CustomEvent<DettaglioSub>).detail;
+      if (det?.vista !== "cervello" || !det.sub) return;
+      if (det.sub === "radiografia" || det.sub === "auto-coscienza") setPagina(det.sub);
     };
-    daHash();
-    window.addEventListener("hashchange", daHash);
-    return () => window.removeEventListener("hashchange", daHash);
+    window.addEventListener(EVENTO_SUB, onSub);
+    return () => window.removeEventListener(EVENTO_SUB, onSub);
   }, []);
 
   useEffect(() => {
@@ -60,12 +59,9 @@ export default function MacchinaArea() {
             type="button"
             onClick={() => {
               setPagina(p.id);
-              if (typeof window !== "undefined") {
-                // replaceState (NON location.hash): aggiorna l'hash SENZA creare una voce di history
-                // "rogue" che bypassa il router di Next → altrimenti l'INDIETRO ricarica la pagina.
-                const hv = p.id === "radiografia" ? "auto-radiografia" : "auto-coscienza";
-                try { window.history.replaceState(window.history.state, "", "#" + hv); } catch {}
-              }
+              // Voce di cronologia PULITA (vaiSub fonde lo state di Next, niente #hash nell'URL):
+              // l'INDIETRO torna alla pagina precedente invece di ricaricare/saltare. (bug #2/#4)
+              vaiSub("cervello", p.id);
             }}
             className={`nav-tab ${pagina === p.id ? "nav-tab-active" : ""}`}
           >

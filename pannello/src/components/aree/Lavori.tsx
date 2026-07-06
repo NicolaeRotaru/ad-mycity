@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Brain, ListTodo, Archive } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
+import ComandiVPS from "@/components/ComandiVPS";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
 import { EVENTO_SUB, vaiSub, type DettaglioSub } from "@/lib/nav";
 
@@ -90,6 +91,8 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
       </div>
 
       <DiagnosticaWorker />
+
+      <ComandiVPS />
 
       <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
     </div>

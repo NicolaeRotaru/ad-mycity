@@ -393,6 +393,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       if (score > bestScore) { bestScore = score; best = a; }
     }
     setTab("approvare");
+    // Timbra la voce di cronologia per la scheda (come i tab): così dopo "Vai all'azione da
+    // firmare" il tasto INDIETRO torna alla scheda di prima, non a un'altra pagina. (bug #4)
+    vaiSub("azioni", "approvare");
     if (best && bestScore > 0) {
       const id = best.id;
       setAperte((s) => new Set(s).add(id));
