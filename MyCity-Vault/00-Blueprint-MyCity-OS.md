@@ -163,13 +163,23 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 > **[[2026-07-06-piano-piramide-infrastruttura-completa|Piano della Piramide]]**.
 > Il semaforo vale su ognuna: **soldi veri, clienti reali e produzione restano 🔴, firma di Nicola.**
 
+> **🛠️ Stato di costruzione — aggiornato 2026-07-06 16:46.** Le capacità non restano descrizioni: si
+> convertono in **codice che gira**, una alla volta, appena hanno dati reali su cui lavorare (mai
+> codice finto su dati che non esistono).
+> - **Costruite e funzionanti (5):** #4 · #12 · #23 · #30 · #38 — lanciabili con `node cervello/…`,
+>   girano sui dati reali della macchina (sola lettura). Marcate 🛠️ **COSTRUITA** qui sotto.
+> - **In attesa del loro carburante (le altre 48):** aspettano un trigger reale prima di poter
+>   *funzionare* — la **prima consegna** (gli organi su ordini/clienti), **≥5–10 negozi** (rete e
+>   servizi-negozio), **≥12 mesi di storico** (le capacità cognitive), il **via libera legale**
+>   (credito/mutua/profiling). Ognuna sale di stato quando il suo cancello è passato, mai prima.
+
 ### 🧬 Le 38 Capacità di Frontiera — la macchina-organismo
 
 **Il nucleo (1–18) — si gestisce, serve, cresce**
 1. **Il Gemello Digitale** — simula la mossa (e l'intera azienda) prima di farla davvero.
 2. **Un mini-AD per ogni negoziante** — il fornaio scrive su WhatsApp e il suo assistente aggiorna catalogo e foto, nei binari della macchina.
 3. **Il Concierge di Spesa** — «la spesa per la carbonara per 4» → un carrello multi-negozio composto da una frase.
-4. **La Macchina del Tempo** — replay cliccabile di ogni decisione, fino alla fonte del dato che l'ha causata.
+4. **La Macchina del Tempo** — replay cliccabile di ogni decisione, fino alla fonte del dato che l'ha causata. · 🛠️ **COSTRUITA** — `node cervello/macchina-del-tempo.mjs` (ricostruisce la giornata dai briefing+DECISIONI).
 5. **L'Anticipo Predittivo** — la domanda prevista per ogni negozio, per fascia oraria.
 6. **L'Auto-espansione dell'Organico** — prepara il 44° senior, lo mette in prova su lavoro 🟢, lo misura e chiede la firma per assumerlo.
 7. **Il Genoma Replicabile** — «incolla il DNA» sulla seconda città: stessi principi, dati e Stelle propri.
@@ -177,7 +187,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 9. **Il Catasto Vivo della Domanda** — la mappa della domanda inespressa: decide quale negozio reclutare dopo, con prove.
 10. **La Camera di Negoziazione delle Botteghe** — gli agenti negoziano bozze di bundle win-win; l'accordo lo firmano i negozianti.
 11. **La Spesa che si Riordina da Sola** — il riordino previsto, con un solo tap del cliente per confermare (mai a sua insaputa).
-12. **Il Sistema Immunitario** — red team permanente: attacchi simulati (frodi, recensioni finte, manipolazione dei prompt).
+12. **Il Sistema Immunitario** — red team permanente: attacchi simulati (frodi, recensioni finte, manipolazione dei prompt). · 🛠️ **COSTRUITA** — `node cervello/sistema-immunitario.mjs` (difese + bloccanti aperti dal cantiere).
 13. **Il Bilancio Vivo** — ogni ordine sa quanto rende, al centesimo, in tempo reale (contrassegno incluso).
 14. **Il Tuo Doppio** — il modello di come decide Nicola, per pre-ordinare la coda; non firma mai al posto suo.
 15. **Le Squadre-Lampo** — task-force temporanee su un evento (meteo, festa), che poi si sciolgono.
@@ -194,7 +204,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 22. **Il Consiglio dei Piacentini** — un panel simulato di cittadini per testare le mosse *(gate legale-privacy)*.
 
 💪 **Muscoli — agire nel mondo**
-23. **Il Midollo Spinale** — riflessi rapidi (<1 min) sulle sentinelle, come playbook pre-firmati.
+23. **Il Midollo Spinale** — riflessi rapidi (<1 min) sulle sentinelle, come playbook pre-firmati. · 🛠️ **COSTRUITA** — `node cervello/midollo-spinale.mjs` (propone i riflessi dallo stato sentinelle; non esegue).
 24. **Il Catalogo che si Scrive da Solo** — foto dello scaffale → schede e prezzi proposti.
 25. **Il Magazzino Diffuso** — l'inventario federato tra le botteghe della rete.
 26. **La Staffetta** — logistica peer-to-peer tra negozi e rider.
@@ -203,7 +213,7 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 27. **La Tesoreria di Rete** — prevede i buchi di cassa dei negozi (gli anticipi veri arrivano più avanti, col via libera legale).
 28. **Il Gruppo d'Acquisto Autonomo** — aggrega e negozia bozze d'acquisto «da grande»; l'ordine lo firmano i negozianti.
 29. **Il Dividendo del Volano** — redistribuisce il valore creato dalla rete (calcolo 🟢, erogazione 🔴).
-30. **Il Metabolismo** — misura il costo AI per organo contro la resa, e affama i processi sterili.
+30. **Il Metabolismo** — misura il costo AI per organo contro la resa, e affama i processi sterili. · 🛠️ **COSTRUITA** — `node cervello/metabolismo.mjs` (consumo reale per organo/modello vs soglia).
 
 🏛️ **Fiducia — meritare la città**
 31. **Il Passaporto del Prodotto** — provenienza e storia verificabile di ogni prodotto.
