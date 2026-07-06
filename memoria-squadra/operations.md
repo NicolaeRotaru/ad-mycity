@@ -18,3 +18,6 @@ reparto: operations
 
 # ESITO — @operations — 2026-07-02 08:20
 Giro 2/7: stallo 189,9h (+12,1h). Meteo sereno — finestra pranzo APERTA. Escalation v12 🟢. Mossa: ok 16 oggi pranzo WhatsApp 348 642 1766. #operations #zombie #meteo
+
+# ESITO — @operations — 2026-07-06 14:10
+2026-07-06 · Piano Piramide Fase 1 mossa 2 · Scritto Modello di consegna v1 (consegne/operations/2026-07-06-modello-consegna-v1.md): 4 opzioni con formule (0 costi reali esistenti — 0 consegne mai completate), raccomandazione A+D subito / B col negoziante / C rider a trigger >5 ordini-sett ×2 settimane · Lezione: il costo per consegna oggi NON è misurabile dal DB (mancano consegnato_da, picked_up_at, costo_consegna_cents) → ponte = registro manuale dalla #16 · #operations #modello-consegna #fase1
