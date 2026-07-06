@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText, BarChart3, Globe, History, Layers } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
-import { vaiArea } from "@/lib/nav";
+import { vaiArea, type VistaNav } from "@/lib/nav";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
@@ -108,6 +108,44 @@ export default function Plancia({
         </div>
         <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
+
+      {/* 🗺️ Anteprima di tutto: ogni area a colpo d'occhio, con "vedi →" (in aggiunta, niente rimosso) */}
+      <section className="card p-4">
+        <div className="sez-head mb-3">
+          <span className="sez-ico"><Layers size={16} /></span>
+          <span className="t-sez">Anteprima — ogni area a colpo d&apos;occhio</span>
+        </div>
+        {(() => {
+          const cell = (chiave: string, tipo: Tipo) =>
+            metriche && metriche[chiave] !== undefined && metriche[chiave] !== null ? formatta(metriche[chiave], tipo) : "—";
+          const aree: { id: VistaNav; sub?: string; label: string; icon: React.ReactNode; stat: string }[] = [
+            { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} />, stat: `Incasso 7g ${cell("incasso_7g", "euro")}` },
+            { id: "persone", label: "Negozi & clienti", icon: <Users size={15} />, stat: `${cell("negozi", "n")} negozi · ${cell("clienti", "n")} clienti` },
+            { id: "operazioni", label: "Operazioni", icon: <Truck size={15} />, stat: `${cell("consegne_in_corso", "n")} consegne in corso` },
+            { id: "mondo", label: "Mercato", icon: <Globe size={15} />, stat: "Concorrenti · eventi · opportunità" },
+            { id: "cervello", label: "Controllo", icon: <Cpu size={15} />, stat: `${difettiAperti} difetti aperti · worker` },
+            { id: "storico", label: "Attività & storia", icon: <History size={15} />, stat: "Cosa ha fatto l'AD" },
+          ];
+          return (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              {aree.map((a) => (
+                <button
+                  key={a.id}
+                  onClick={() => vaiArea(a.id, undefined, a.sub)}
+                  className="text-left surface-muted p-3 rounded-xl border border-transparent hover:border-brand/30 transition"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand-50 text-brand shrink-0">{a.icon}</span>
+                    <span className="t-sez text-[13px] truncate">{a.label}</span>
+                    <span className="ml-auto t-eti shrink-0">→</span>
+                  </div>
+                  <div className="mt-1.5 t-eti tabular-nums">{a.stat}</div>
+                </button>
+              ))}
+            </div>
+          );
+        })()}
+      </section>
 
       {/* 🧭 Bussola: "dove trovo cosa" — la mappa del Pannello a portata di clic */}
       <Bussola />
