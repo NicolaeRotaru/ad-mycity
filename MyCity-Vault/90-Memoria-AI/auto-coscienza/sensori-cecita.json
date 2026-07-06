@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-06 11:11",
+  "aggiornato": "2026-07-06 11:45",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-06 10:20",
+      "ultimo_ok": "2026-07-06 11:45",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -24,7 +24,7 @@
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-06 10:20"
+      "ultimo_ok": "2026-07-06 11:45"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -38,7 +38,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-06 10:20",
+      "ultimo_ok": "2026-07-06 11:45",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -48,12 +48,12 @@
       "dettaglio": "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
     }
   },
-  "istruzioni_giro": "REST ok + MCP Supabase ok (letto live 6/7 11:11): dati ordini verificati dal vivo. Segnala nei Gap solo Stripe payout (non interrogato in sessione) e PostHog (non configurato).",
+  "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 61,
-    "sensori_ok": 4,
+    "giri_totali": 62,
+    "sensori_ok": 3,
     "max_giri_ciechi": 0,
-    "sensori_totali": 4,
+    "sensori_totali": 3,
     "almeno_un_dato": true,
     "sensori_non_configurati": 2,
     "dati_ordini_ciechi": false
