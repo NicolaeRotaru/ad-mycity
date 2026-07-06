@@ -652,3 +652,12 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-06 11:11 · @vendite · FATTO · shortlist 27 botteghe food con telefono estratta dai 407 lead → consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md (pronta per onboarding post-9/7)
 - 2026-07-06 11:11 · @intelligence · FATTO · radar eventi: prossimi Venerdì Piacentini 10/7 e 17/7 (ultima) → finestre presidio; Sant'Antonino 4/7 passato (e #16 era già morto)
 - 2026-07-06 11:11 · @ad · SERVE · da Nicola: ① chi/perché ha annullato #16 il 3/7? · ② ok payout-test PQ per ordine-prova (#21) · ③ via ai contatti shortlist dal 9/7 (#22)
+
+### 2026-07-06 — 🕛 PUNTO DI MEZZOGIORNO (AD · 12:00)
+- 2026-07-06 12:00 · @ad · FATTO · Punto di mezzogiorno: MCP Supabase ancora VIVO; firma business INVARIATA dalle 11:11 (delta-gate 12:00: ordini=1, ultimo 24/6 08:28, 23 clienti; corrente==ultimo_pieno) → nessuna consegna emersa, zero numeri inventati. Stallo North Star ~292h. RITMO.md + STATO aggiornati.
+- 2026-07-06 12:00 · @ad · FATTO · Stato 3 priorità: ❌ #21 primo ordine-prova PQ (pending mani Nicola) · ⏸ #22 shortlist (gated by design al 9/7) · ❌ #23 sentinella delivery_status (pending firma, causa-radice loop cieco).
+- 2026-07-06 12:00 · @ad · FATTO · Correzione di rotta: scorporato #21 (ordine-prova su PQ già reale, fattibile OGGI) da #22 (nuovi negozi dal 9/7) → non rimandare in blocco tutto al 9/7; il payout-test si può chiudere ora.
+- 2026-07-06 12:00 · @ad · FATTO · Nessun giro pieno moltiplicato (AR-025): delta-gate scattato solo per cambio sensore MCP cieco→ok, non per novità business.
+- 2026-07-06 12:00 · @ad · SERVE · da Nicola entro sera: 🔴 #21 ordine-prova PQ + payout-test (oggi, non serve aspettare 9/7) · 🟡 #23 firma sentinella delivery_status · 🔴 R1 revoca PAT + 🟡 R2 merge cantiere.
+- 2026-07-06 11:58 · @ad · FATTO · Refresh di conferma (3° passaggio dell'ora): firma delta-gate invariata dal 06:24, sensori tutti ok → zero novità business, nessun asset pesante prodotto. Timestamp Cabina riallineati a 11:58 (STATO, ultimo-briefing, auto-analisi, AUTO-ANALISI, briefing 6/7). Vincolo allocazione rispettato.
+- 2026-07-06 11:58 · @ad · RIVEDI · Nota di governo: i 5 asset Garetti in coda (#1/#6-9/#11) sono pre-prodotti per un prospect non firmato → congelati come template neutri finché non firma; lo sforzo pesante va su Pane Quotidiano (#21).

@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-06 11:11",
+  "data": "2026-07-06 11:58",
   "situazione": "MCP Supabase è tornato leggibile: ho verificato i numeri dal vivo. Scoperta grossa: l'ordine #16 (COD €19,05) è stato ANNULLATO il 3/7 — mai accettato, mai consegnato — mentre la macchina lo inseguiva ancora il 4/7 perché l'MCP era cieco. Business fermo da 12 giorni, North Star ancora 0. La leva trascurata sono 407 lead di negozi mai contattati: ne ho pronti 27 food con telefono per l'onboarding che parte dopo il 9/7.",
   "opportunita": [
     {"titolo": "27 botteghe food già pronte da chiamare", "motivo": "Su 407 lead mai toccati, 27 food hanno già il telefono: shortlist per l'onboarding di Nicola dopo il 9/7", "impatto": "alto", "sforzo": "basso"},
