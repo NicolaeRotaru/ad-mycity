@@ -23,6 +23,7 @@ const RIGHE: Riga[] = [
   { q: "Ordini, consegne, catalogo e campagne", area: "operazioni", dove: "Operazioni" },
   { q: "Concorrenti, mercato, eventi e rischi", area: "mondo", dove: "Mondo" },
   { q: "Parlare con l'AD (chiedere qualcosa)", area: "assistente", dove: "Assistente" },
+  { q: "Il diario e lo storico di cosa ha detto e fatto l'AD", area: "storico", dove: "Storico" },
   { q: "Il codice del sito", area: "esplora", dove: "GitHub" },
 ];
 

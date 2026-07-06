@@ -155,11 +155,16 @@ async function checkStripe() {
 }
 
 async function checkPostHog() {
+  // Decisione Nicola 2026-07-05 (chat "togli PostHog"): sensore SPENTO finché non lo riattiva lui.
+  // POSTHOG_OFF=1 (o chiave assente) → non_configurato: niente check, niente rumore, niente card.
+  if (process.env.POSTHOG_OFF === "1") {
+    return { ok: false, configurato: false, dettaglio: "PostHog SPENTO su decisione di Nicola (5/7) — riattivare solo su suo ok (POSTHOG_OFF=0 + Personal API key)" };
+  }
   const key = process.env.POSTHOG_API_KEY?.trim() || process.env.POSTHOG_PERSONAL_API_KEY?.trim();
   const host = (process.env.POSTHOG_HOST?.trim() || "https://eu.posthog.com").replace(/\/$/, "");
   // AR-022: PostHog era dichiarato sensore nella spec ma senza health-check. Se assente → non configurato.
   if (!key) {
-    return { ok: false, configurato: false, dettaglio: "POSTHOG_API_KEY assente — funnel/conversione non monitorati" };
+    return { ok: false, configurato: false, dettaglio: "POSTHOG_API_KEY assente — sensore spento (decisione Nicola 5/7: non usarlo per ora), nessuna azione da accodare" };
   }
   const r = await conRetry(async () => {
     const res = await fetch(`${host}/api/projects/@current`, {

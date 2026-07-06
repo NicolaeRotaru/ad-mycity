@@ -17,7 +17,9 @@ const LAVORO_STATO: Record<string, { label: string; cls: string }> = {
   in_attesa: { label: "⏳ In attesa", cls: "bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800" },
   in_corso: { label: "⚙️ In corso", cls: "bg-blue-50 text-blue-700 ring-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:ring-blue-800" },
   fatto: { label: "✅ Fatto", cls: "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/40 dark:text-green-300 dark:ring-green-800" },
-  errore: { label: "⚠️ Errore", cls: "bg-red-50 text-red-700 ring-red-200 dark:bg-red-950/40 dark:text-red-300 dark:ring-red-800" },
+  // Un lavoro fallito NON è un "errore" morto: è pronto per essere riapprovato (un clic → torna
+  // in coda). Lo mostriamo come stato d'attesa (ambra), non come allarme rosso. (fix #6)
+  errore: { label: "🔄 Da riapprovare", cls: "bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800" },
 };
 
 type Props = {
@@ -107,7 +109,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   });
 
   const cervelloSpento = codaBloccata && workerVivo === false;
-  const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani);
+  // (fix #5) Coda ferma MA il worker risulta acceso: prima non compariva NESSUNA spiegazione
+  // accanto ai lavori fermi (l'utente vedeva "Worker ON" e tutto "in attesa" senza capire perché).
+  const codaFermaMaVivo = codaBloccata && workerVivo !== false && !adInPausa && !orfani;
+  const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani || codaFermaMaVivo);
 
   function toggleGruppo(id: string) {
     setApertiGruppi((s) => ({ ...s, [id]: !s[id] }));
@@ -117,14 +122,16 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
     setApertiLavori((s) => ({ ...s, [id]: !s[id] }));
   }
 
-  // Banda rossa "approvata ma non eseguita" + bottone Riprova. `diretto` = mostrata sotto l'header
-  // del gruppo (conversazione a 1 messaggio), senza il bordo che la aggancia a una card interna.
+  // Banda "da riapprovare" + bottone Riapprova. `diretto` = mostrata sotto l'header del gruppo
+  // (conversazione a 1 messaggio), senza il bordo che la aggancia a una card interna.
+  // (fix #6) Non più un allarme rosso: un lavoro non andato in porto è semplicemente pronto per
+  // essere rimesso in coda con un clic. Colore ambra (attesa), tono rassicurante.
   function bandaErrore(lv: LavoroBase, diretto = false) {
     if (lv.stato !== "errore") return null;
     return (
-      <div className={`${diretto ? "rounded-lg border" : "border-t"} border-red-200/60 dark:border-red-900/40 bg-red-50/60 dark:bg-red-950/20 px-3 py-2 flex items-start gap-2 flex-wrap`}>
-        <div className="min-w-0 flex-1 text-[12px] text-red-800 dark:text-red-300 leading-snug">
-          <b>Approvata ma non eseguita.</b> {motivoBreve(lv.risultato)}
+      <div className={`${diretto ? "rounded-lg border" : "border-t"} border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/20 px-3 py-2 flex items-start gap-2 flex-wrap`}>
+        <div className="min-w-0 flex-1 text-[12px] text-amber-800 dark:text-amber-300 leading-snug">
+          <b>Non è partita: da riapprovare.</b> Il primo tentativo non è andato a buon fine ({motivoBreve(lv.risultato)}). Nulla è stato inviato — dai di nuovo l&apos;ok e torna in coda.
         </div>
         {(riprovati[lv.id] === "fatto" || (lv.risultato || "").includes("[riproposto")) ? (
           <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
@@ -133,10 +140,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
             type="button"
             onClick={() => riprova(lv.id)}
             disabled={riprovati[lv.id] === "invio"}
-            className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-red-400/50 text-red-700 dark:text-red-300 rounded-lg px-2.5 py-1 hover:bg-red-100/70 dark:hover:bg-red-900/30 transition disabled:opacity-50"
-            title="Riapprova: rimette l'azione in coda per rieseguirla ora che il worker è attivo"
+            className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-amber-400/60 text-amber-800 dark:text-amber-300 rounded-lg px-2.5 py-1 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition disabled:opacity-50"
+            title="Riapprova: rimette l'azione in coda per eseguirla di nuovo"
           >
-            🔄 {riprovati[lv.id] === "invio" ? "Rimetto…" : riprovati[lv.id] === "errore" ? "Riprova (ritenta)" : "Riprova"}
+            🔄 {riprovati[lv.id] === "invio" ? "Rimetto in coda…" : riprovati[lv.id] === "errore" ? "Riprova ancora" : "Riapprova"}
           </button>
         )}
       </div>
@@ -177,7 +184,13 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   const contenuto = (
     <>
       {mostraAvviso && (
-        <div className="mb-3 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 px-3.5 py-2.5 text-[12.5px] text-red-800 dark:text-red-300 leading-snug space-y-1.5">
+        <div
+          className={`mb-3 rounded-xl border px-3.5 py-2.5 text-[12.5px] leading-snug space-y-1.5 ${
+            codaFermaMaVivo
+              ? "border-amber-200 dark:border-amber-900/50 bg-amber-50/80 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300"
+              : "border-red-200 dark:border-red-900/50 bg-red-50/80 dark:bg-red-950/30 text-red-800 dark:text-red-300"
+          }`}
+        >
           {adInPausa ? (
             <>
               <b>⏸️ AD in pausa.</b> Il worker non esegue nulla finché non riattivi l&apos;AD dal Pannello (Azioni → Governo → <b>Riattiva l&apos;AD</b>).
@@ -210,7 +223,11 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
             </>
           ) : (
             <>
-              <b>⏳ Coda lenta.</b> Un lavoro è in attesa da più di 3 minuti. Controlla lo stato del worker in alto a destra.
+              <b>⏳ Il worker risulta acceso, ma la coda è ferma da qualche minuto.</b> I lavori li mette in
+              coda il Pannello, ma a eseguirli è il worker sul tuo server: qui batte ancora, quindi è quasi
+              sempre una di due cose — è impegnato su un lavoro lungo, oppure Claude ha finito il credito
+              della sessione e riparte da solo al reset. Guarda «Stato worker» qui sopra per il dettaglio;
+              se resta bloccato, usa <b>Riavvia worker</b>.
             </>
           )}
         </div>

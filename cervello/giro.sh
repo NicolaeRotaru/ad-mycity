@@ -125,6 +125,7 @@ fi
 SENSORI_CIECHI=0
 SENSORI_VINCOLO=""
 ALLOC_VINCOLO=""   # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
+LOOP_VINCOLO=""    # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -170,13 +171,44 @@ if command -v node >/dev/null 2>&1; then
     ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
     echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
   fi
+  echo "[$(ts)] Supervisione negozi & prodotti (dati mancanti → proposte da firmare)..."
+  # Veglia ogni negozio e ogni prodotto, trova i dati mancanti e ACCODA le proposte 🟡 di riempimento
+  # (autofill deducibile) in AZIONI-IN-ATTESA — sola lettura del marketplace, niente scrive sul DB, mai
+  # tocca campi sensibili (legale/fiscale/IBAN/KYC/Stripe/consensi). Non è un gate: || true.
+  node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | tail -6 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
+  # PZ-008 (piano "chiudi i loop"): GATE chiusura-loop — chi ha scritto FATTO in Sala OGGI deve avere
+  # l'ESITO nel quaderno. Se manca, il motore riceve un VINCOLO HARD (stesso pattern di allocazione-check):
+  # il loop atteso→reale smette di essere decorativo.
+  echo "[$(ts)] Gate chiusura-loop (FATTO in Sala ⇒ ESITO nel quaderno)..."
+  _loop_out="$(node "$SCRIPT_DIR/chiusura-loop.mjs" --gate 2>&1)"; _loop_rc=$?
+  printf '%s\n' "$_loop_out" | tail -6
+  if [ "$_loop_rc" -ne 0 ]; then
+    LOOP_VINCOLO="⛔ LOOP NON CHIUSO (chiusura-loop --gate rc=$_loop_rc): reparti con FATTO in SALA-OPERATIVA oggi ma SENZA riga ESITO nel loro quaderno memoria-squadra. PRIMA di chiudere questo giro, registra l'ESITO per ognuno con: node cervello/chiusura-loop.mjs registra <reparto> \"<contesto>\" \"<scorecard>\" \"<atteso>\" \"<reale>\". Il loop atteso→reale è la calibrazione: senza, l'azienda non impara."
+    echo "[$(ts)] ⚠️  PZ-008: gate chiusura-loop FALLITO (rc=$_loop_rc) → passo un vincolo hard al motore." >&2
+  fi
   # AR-053: sweep deterministico delle previsioni SCADUTE via `node cervello/calibrazione.mjs scadute` —
   # marca 'scaduta' quelle oltre 'entro' senza esito, così non marciscono aperte contando come 'prova'
   # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
   echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
   node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
+  # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
+  echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
+  node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | tail -2 || true
+  # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
+  # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
+  echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
+  node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1 | tail -4 || true
+  # PZ-013: SEMAFORO DINAMICO — i reparti con autonomia 'alta' GUADAGNATA (Wilson ≥0.7 su ≥8 esiti
+  # reali) generano una PROPOSTA 🟡 di promozione giallo→verde in AZIONI-IN-ATTESA. Mai auto-applicata:
+  # la firma resta a Nicola. È l'autonomia a punti che si espande sulle prove, non a simpatia.
+  echo "[$(ts)] Semaforo dinamico: proposte di promozione da calibrazione (PZ-013)..."
+  node "$SCRIPT_DIR/calibrazione.mjs" promozioni --accoda 2>&1 | tail -4 || true
+  # PZ-010: sweep esperimenti — chiude a scadenza gli esperimenti aperti di auto-miglioramento.json
+  # (AR-054: nessun esperimento resta aperto all'infinito; la misura non è delegata alla memoria dell'LLM).
+  echo "[$(ts)] Sweep esperimenti in scadenza (AR-054)..."
+  node "$SCRIPT_DIR/esperimenti-check.mjs" 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
@@ -246,6 +278,13 @@ if [ -n "$ALLOC_VINCOLO" ]; then
 
 ## Vincolo allocazione sforzo (HARD — dal guardiano allocazione-check prima di te)
 $ALLOC_VINCOLO"
+fi
+if [ -n "${LOOP_VINCOLO:-}" ]; then
+  # PZ-008: il gate chiusura-loop arriva al motore come regola hard (registra gli ESITI, non rimandare).
+  PROMPT="$PROMPT
+
+## Vincolo chiusura-loop (HARD — dal gate chiusura-loop prima di te)
+$LOOP_VINCOLO"
 fi
 PROMPT="$PROMPT
 
@@ -464,6 +503,26 @@ fi
 # (la memoria già prodotta viene comunque pubblicata: non si perde nulla, ma la qualità del giro è segnata).
 if [ "${GIRO_STEPS_OK:-1}" = 0 ]; then
   echo "[$(ts)] ⚠️  QUALITÀ GIRO: auto-analisi/apprendimento non aggiornati in questo giro (passi 11-12 saltati)." >&2
+fi
+
+# 📲 NOTIFICA APPROVAZIONI (richiesta Nicola 5/7): le azioni 🟡/🔴 nuove in coda gli arrivano su
+# Telegram (dedup: ogni azione squilla una volta). 🟢 avviso a Nicola stesso; senza chiavi = dry-run.
+# Va DOPO il sync: la coda notificata è quella definitiva del giro. Non blocca mai (|| true).
+if command -v node >/dev/null 2>&1; then
+  echo "[$(ts)] Notifica approvazioni (Telegram → Nicola)..."
+  node "$SCRIPT_DIR/notifica-approvazioni.mjs" 2>&1 | tail -3 || true
+fi
+
+# PZ-007 (piano "chiudi i loop"): BATTITO ESTERNO. Ping a un watchdog FUORI dalla macchina
+# (healthchecks.io / UptimeRobot heartbeat): se il VPS o il timer muoiono, il ping smette di arrivare
+# e il servizio esterno avvisa Nicola — l'ultimo anello che il controllore interno non può coprire
+# (se muore il VPS muore anche verifica-automazione). Senza HEARTBEAT_PING_URL non fa nulla.
+if [ -n "${HEARTBEAT_PING_URL:-}" ]; then
+  if curl -fsS -m 10 --retry 2 "$HEARTBEAT_PING_URL" >/dev/null 2>&1; then
+    echo "[$(ts)] Battito esterno inviato (watchdog fuori-macchina)."
+  else
+    echo "[$(ts)] WARN: ping del battito esterno fallito (HEARTBEAT_PING_URL irraggiungibile)." >&2
+  fi
 fi
 
 # Exit code per worker.sh:

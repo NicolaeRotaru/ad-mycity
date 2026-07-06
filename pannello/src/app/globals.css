@@ -465,3 +465,28 @@ body {
 .dark .bg-white\/25 {
   background-color: rgba(232, 224, 212, 0.12) !important;
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   🌙 Comfort notturno (fix #1 — "colore fosforescente, impossibile leggere")
+   Il terracotta pieno #B15C43 usato come TESTO/link è troppo saturo e a basso
+   contrasto sul fondo quasi nero: di notte "brucia" gli occhi e si legge male.
+   In dark tutti gli accenti-testo passano a una clay chiara e desaturata: stesso
+   carattere di brand, ma leggibile e senza glow. (I riempimenti bg-brand e i
+   pallini di stato restano invariati: sono superfici, non testo da leggere.)
+   ────────────────────────────────────────────────────────────────────────── */
+.dark {
+  --brand-ink: #e0ac9a; /* accento-testo leggibile e calmo sul fondo scuro */
+}
+.dark .text-brand,
+.dark .hover\:text-brand:hover,
+.dark .prose-readable :where(a),
+.dark .md-chat :where(a) {
+  color: var(--brand-ink) !important;
+}
+/* Bordi/anelli d'accento: un filo più tenui, così non "vibrano" nel buio. */
+.dark .border-brand\/15,
+.dark .border-brand\/20,
+.dark .border-brand\/25,
+.dark .border-brand\/30 {
+  border-color: rgba(224, 172, 154, 0.22) !important;
+}
