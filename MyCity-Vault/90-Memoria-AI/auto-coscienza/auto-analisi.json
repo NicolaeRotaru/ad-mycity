@@ -1,7 +1,8 @@
 {
-  "data": "2026-07-06 16:45",
+  "data": "2026-07-06 16:47",
   "voto_fiducia": 82,
   "trend_fiducia": "▲",
+  "_nota_16_47": "Passaggio-refresh 16:47: delta-gate ri-scattato ma firma REST identica al giro pieno 16:45 → nessuna novità di business, nessun giro a vuoto duplicato. Lavoro reale del passaggio = chiusura dei 2 gate HARD lasciati aperti da giro.sh: (1) chiusura-loop @intelligence (FATTO 16:45 senza ESITO → riga canonica aggiunta a mano in memoria-squadra/intelligence.md, node gated); (2) allocazione — confermato NESSUN asset pesante prodotto, sbilanciamento Garetti storico, non aggiunto nulla a entità non confermate. Voto 82 invariato: stato invariato.",
   "sintesi": "Giro AD 6/7 16:45, primo giro pieno dopo la pausa limiti Claude (ultimo pieno 4/7 11:30). Voto 82 (▲ di 1 vs 81): refresh onesto con DUE elementi reali e verificati — (1) la correzione strutturale già assorbita alle 16:15 (ordine #16 ANNULLATO, non 'in consegna'), che questo giro ho propagato agli snapshot rimasti indietro (registro-realta, intenzioni, auto-analisi erano fermi al 4/7 11:30 con #16 'in consegna'); (2) intelligence LIVE via WebSearch — restano i Venerdì Piacentini 10/7 e 17/7 (post-9/7) e meteo caldo stabile 35°C con afa. Firma REST invariata (giro.sh 16:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) → nessun ordine nuovo, stallo ~294h ≈ 12 giorni, North Star 0. Nessun numero ri-misurato in sessione (MCP+node/curl gated) né inventato. Entità tutte fondate: Pane Quotidiano confermato (#16 annullato), Casa Linda demo esclusa, Garetti scelta_ragionata NON azionato, VP 10/17 confermati alla fonte (venerdipiacentini.it + Comune). Vincolo allocazione RISPETTATO: giro di sola memoria + un file intelligence, nessun asset pesante intestato a entità non confermate. Loop chiuso: registrato l'ESITO @ad (era conteggiato vuoto per formato-header).",
   "verifiche": {
     "entita": "ok (Pane Quotidiano confermato, #16 ANNULLATO allineato al DB live del Pannello; zombie = ordine PQ €19,05 del 24/6 non riesumabile; Casa Linda demo esclusa; Garetti scelta_ragionata/prospect NON azionato; Venerdì Piacentini 10/7 e 17/7 confermati via venerdipiacentini.it + Comune di Piacenza; meteo caldo via iLMeteo/3BMeteo; nessuna entità nuova senza fondamento)",
@@ -38,7 +39,7 @@
     "Esito consegna #16: allineato ad ANNULLATO dal DB live del Pannello (alert «1 consegne annullate»); nessun canale in sessione per riverificare direttamente delivery_status",
     "Stripe non collegato a costo/burn (runway N/D, manca BURN_MENSILE_EUR)",
     "Concorrenti locali non ri-scansionati (cadenza + quota Max; nessun operativo prima del 9/7) → radar-concorrenti e buchi-mercato invariati",
-    "chiusura-loop.mjs registra non eseguibile via node in sessione → ESITO @ad scritto a mano nel quaderno col formato canonico (riga '- data · … · atteso→reale · #tag')"
+    "chiusura-loop.mjs registra non eseguibile via node in sessione → ESITO @ad (16:40) e @intelligence (16:47) scritti a mano nel quaderno col formato canonico (riga '- data · … · atteso→reale · #tag'); al prossimo giro con node abilitato ri-lanciare --sonda per riconteggiare"
   ],
   "miglioramenti_prossimo_giro": [
     "Al prossimo giro VPS con node abilitato: ri-eseguire sonda-volano + verifica-automazione e confermare i 4 invarianti; ri-lanciare chiusura-loop.mjs --sonda per riconteggiare @ad (ora ha la riga ESITO canonica)",

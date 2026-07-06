@@ -1,8 +1,10 @@
 ---
-data: 2026-07-06 16:45
+data: 2026-07-06 16:47
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
+
+> 🔄 **Passaggio-refresh 16:47** — delta-gate ri-scattato ma **firma REST identica** al giro pieno 16:45 (ordini=1, ultimo 24/6, 23 clienti) → nessuna novità di business, nessun giro a vuoto duplicato. Lavoro reale del passaggio: chiusi i **2 gate HARD** lasciati aperti da giro.sh → (1) **chiusura-loop @intelligence** (il FATTO radar delle 16:45 era senza ESITO: riga canonica aggiunta a mano, `node` gated); (2) **allocazione** — confermato **nessun asset pesante prodotto**, sbilanciamento Garetti storico, nulla aggiunto a entità non confermate. Voto invariato (82): stato invariato.
 
 # 🔬 Auto-analisi del giro — 2026-07-06 16:45 (🔭 giro AD)
 

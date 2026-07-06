@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-06 16:45",
+  "data": "2026-07-06 16:47",
   "situazione": "Business fermo dal 24/6 (~12 giorni): 1 negozio reale (Pane Quotidiano), 0 pagati / 0 consegnati. La correzione di oggi è assorbita — l'ordine #16 è ANNULLATO (delivery_status=CANCELED), non 'in consegna': memoria allineata al DB live del Pannello alle 16:15. La 1ª transazione MyCity è ancora tutta da far nascere, lo zombie non si riesuma. Firma REST invariata (ordini=1, ultimo 24/6, 23 clienti). Novità intelligence LIVE: restano due Venerdì Piacentini, il 10/7 e il 17/7, entrambi dopo il 9/7 (quando Nicola riparte); meteo caldo stabile 35°C con afa. MCP+node gated in sessione → 7 numeri = baseline REST, zero numeri inventati.",
   "opportunita": [
     {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano nel Venerdì del 10 luglio", "motivo": "Il centro è pieno per il Venerdì Piacentino proprio quando Nicola riparte: post 'Il Turno' + lista d'attesa (già in coda) su un momento reale generano la prima domanda, poi consegna + payout-test. Sposta la North Star 0→1.", "impatto": "alto", "sforzo": "basso"},
