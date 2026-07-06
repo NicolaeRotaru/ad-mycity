@@ -217,3 +217,28 @@ sue botteghe — anche da casa, te la portiamo noi.
 visual: versione neutra TIPOGRAFICA su palette brand ("OGGI PIACENZA FESTEGGIA SÉ STESSA" + "si tiene viva ogni mattina · dal 1976 · fai il tuo turno", nessun simbolo religioso) = pubblicabile subito senza foto; versione col NOME+foto insegna Via Calzolai = solo con ok titolare. Zero giallo-Glovo/arancio-Amazon.
 pre-condizioni: (1) versione neutra = pubblicabile con sola firma Nicola · (2) versione col nome+foto = ok titolare (chiedibile in A6/#21) · (3) link reale lista in bio con UTM turno_santantonino (@builder-automazioni). ⏰ **A scadenza di giornata: vale solo oggi 4/7** — se non firmato entro sera, decade. Coda canonica = riga #36 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A17 · 🧡 Accendi il "porta un amico" (5€ a te, 5€ al tuo amico) e manda il primo invito
+reparto: crm-lifecycle
+livello: 🔴 (incentivo in denaro/credito reale)
+canale: Email/WhatsApp all'invitante (Resend, oggi spento) + pagina Invita amici già live nel sito
+perche: Il loop give-get è GIÀ costruito nel codice (referrals mig.015, premio €5 su consegna mig.089, welcome €5 mig.029, no self-referral mig.092, pagina /profile/referral). Serve solo firma sull'incentivo + le mani email. Costo reale incrementale ≈ €5 per cliente nuovo che riceve davvero un ordine — più economico e più caldo di un click pagato.
+preparato: 🔁 crm-lifecycle + 🛡️ trust-safety (anti-frode) — playbook completo + messaggi in consegne/crm/2026-07-06-playbook-referral.md
+cosa cambia: si accende il programma referral e parte il primo invito al primo cliente reale (samir, dopo che riceve #16): 5€ a lui se un amico ordina e riceve, 5€ all'amico di benvenuto. Anti-frode già in codice (premio solo su ordine consegnato, no auto-invito).
+se va bene: primo cliente porta un vicino → crescita organica a CAC ≈€5, il canale meno costoso che abbiamo; base per il volano "un cliente ne porta un altro".
+pre-condizioni: parte SOLO quando (1) #16 è "Consegnato" (serve ≥1 cliente con un ordine ricevuto) · (2) il cliente è confermato contento (A13 👍) · (3) mani Resend accese (@builder-automazioni) · (4) faro = Pane Quotidiano (i testi parlano di PQ, non Garetti/Casa Linda). Finché non veri, resta in coda.
+testo (invito a chi invita · 🔴):
+Oggetto: Porta un vicino da Pane Quotidiano — 5€ a te, 5€ a lui 🧡
+Ciao [Nome], ti è arrivato il pane e i prodotti di Pane Quotidiano? Fai una cosa bella: dillo a un vicino.
+Quando una persona che inviti fa il suo primo ordine e lo riceve, 5€ vanno a lui e 5€ vanno a te, accreditati
+in automatico. Ecco il tuo link personale da girare su WhatsApp o di persona: 👉 [LINK-INVITO ?ref=TUO-CODICE].
+Ogni vicino che ordina è una bottega del centro che incassa. Non è solo uno sconto: è Piacenza che si tiene su
+a vicenda. 🧡 Grazie, Nicola — MyCity.
+testo (messaggio che riceve l'invitato · si applica il welcome €5 automatico):
+Oggetto: [Nome] ti regala 5€ sulla spesa delle botteghe di Piacenza 🧡
+Ciao, [Nome] ti ha invitato su MyCity — e con il suo invito hai 5€ sul tuo primo ordine. MyCity ti riporta a
+casa le vere botteghe del centro: si parte da Pane Quotidiano, pane fresco e prodotti bio, ordinati dal telefono
+e portati a mano. Paghi anche alla consegna. 👉 [Usa i tuoi 5€ — iscriviti e ordina]. Le botteghe del centro
+stanno sparendo. Con un ordine, le tieni aperte. Benvenuto tra i vicini, Nicola — MyCity.
+anti-frode (già in codice): premio solo su ordine CONSEGNATO (mig.089, no crea-annulla) · no self-referral CHECK+RLS (mig.092) · un premio per invitato (UNIQUE) · welcome solo ≥€10 (mig.029). Da aggiungere a volume (🟡 branch): tetto 5 invitati/7g, flag stesso indirizzo/telefono, soglia minima sul premio invitante, clawback su rimborso.
+stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #37 in [[AZIONI-IN-ATTESA]].
