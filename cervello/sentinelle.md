@@ -53,8 +53,6 @@
 > | Recensione ≤2★ | nuova dall'ultimo giro (`reviews`+`store_reviews`) | 🟡 | accoda: bozza risposta + recupero cliente |
 > | Negozio LIVE fermo | seller approvato >14g, 0 ordini in 14g | 🟡 | accoda: check-in anti-churn |
 > | Carrello abbandonato | `recovered=false`, email non inviata, fermo >4h | 🟡 | accoda: prepara email di recupero |
-> | Consegna in ritardo (AR-071) | `expected_delivery` scaduto, `delivered_at` nullo | 🟡 | accoda: verifica ritiro/consegna + avvisa cliente |
-> | Ordine annullato | `delivery_status=CANCELED` NUOVO dall'ultimo giro (baseline-gated) | 🟡 | accoda: verifica il motivo + chiudi il loop col cliente/rimborso |
 >
 > Le altre righe della tabella qui sotto restano checklist del giro finché il sensore/mano non è
 > collegato. La **coda-falliti/orfani** è coperta dalla sentinella gemella `sentinella-lavori.mjs` (3 min).
