@@ -51,7 +51,7 @@ fi
 cd "$REPO"
 [ -f "$ENV_FILE" ] && set -a && . "$ENV_FILE" && set +a
 
-branch="${GIT_BRANCH:-memoria-ad}"
+branch="${GIT_BRANCH:-main}"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity VPS}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
@@ -105,7 +105,7 @@ git fetch "$url" "$branch" 2>/dev/null \
   || git checkout -f -B "$branch" 2>/dev/null || true
 
 # Fetch di main NON silenziato: se fallisce, FETCH_HEAD resterebbe quello di $branch (riga sopra)
-# e l'"allineamento" diventerebbe un no-op silenzioso (allinea memoria-ad a se stesso). Fermiamoci.
+# e l'"allineamento" diventerebbe un no-op silenzioso (allinea il ramo a se stesso). Fermiamoci.
 if ! git fetch "$url" main; then
   echo "[$(ts)] ✗ ERRORE: git fetch main fallito — allineamento codice SALTATO (evito no-op silenzioso). Controlla rete/GIT_PUSH_TOKEN." >&2
 else
@@ -129,7 +129,7 @@ fi
 
 # AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main
 # rileva main avanzato (≈5 min), qui allineiamo il codice E chiudiamo i difetti il cui fix è ORA presente
-# (prova verifica:{file,pattern}). La chiusura viene committata e pubblicata su memoria-ad dal push qui sotto
+# (prova verifica:{file,pattern}). La chiusura viene committata e pubblicata sul ramo della memoria (main) dal push qui sotto
 # → il Pannello non mostra più "in-corso" un fix già mergiato. Sola lettura del codice + bookkeeping memoria.
 if command -v node >/dev/null 2>&1; then
   node cervello/auto-fix.mjs verifica --applica 2>&1 | tail -6 || true

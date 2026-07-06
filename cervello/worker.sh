@@ -60,7 +60,7 @@ maybe_riavvia_da_pannello() {
   fi
 }
 
-# Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push memoria-ad).
+# Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push della memoria).
 worker_pipeline_tag() {
   if grep -q 'bash "\$SCRIPT_DIR/giro.sh"' "$WORKER_SCRIPT" 2>/dev/null; then
     echo "giro-pipeline-v2"
@@ -83,11 +83,11 @@ stamp_worker_info() {
     >/dev/null 2>&1 || true
 }
 
-# --- Sync conflict-safe delle scritture del vault sul ramo memoria-ad ---
+# --- Sync conflict-safe delle scritture del vault sul ramo unico main ---
 # Il worker edita i file del vault (AZIONI-IN-ATTESA → FATTO, DECISIONI). Senza questo, il giro successivo
 # faceva 'checkout -f' e le cancellava (data loss + rischio doppio invio reale). Qui le rendiamo DUREVOLI
 # subito, sotto lo STESSO lock del giro (niente race) e con push NON-force (rebase) per non sovrascrivere il giro.
-branch="${GIT_BRANCH:-memoria-ad}"
+branch="${GIT_BRANCH:-main}"
 LOCK="$REPO/.git/mycity-sync.lock"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity VPS}"
@@ -179,12 +179,12 @@ INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (bas
 AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
-  echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare su memoria-ad." >&2
+  echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
 else
   # Test rapido autenticazione GitHub (sola lettura).
   _git_test="$(git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
   if [ -z "$_git_test" ]; then
-    echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — push memoria-ad fallirà." >&2
+    echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — il push della memoria fallirà." >&2
   fi
 fi
 
@@ -350,7 +350,7 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     # costo scegliModello 'testi-volume'; se l'adattatore economico non è collegato → fallback premium.
     ROUTER_COMPITO_JOB="testi-volume"
   elif [ "$tipo" = "giro" ]; then
-    # Pipeline COMPLETA: allinea codice + AI + push memoria-ad (come giro.sh manuale).
+    # Pipeline COMPLETA: allinea codice + AI + push memoria su main (come giro.sh manuale).
     # AR-019: un giro dalla CODA è ON-DEMAND (Nicola l'ha chiesto dal Pannello) → forza il giro pieno,
     # scavalcando il delta-gate. Il throttling "niente di nuovo → salta" vale solo per la cadenza fissa
     # del timer (mycity-giro.timer), non per i giri richiesti a mano.
@@ -364,7 +364,7 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
 [worker] TIMEOUT giro dopo ${to}s — interrotto."
     elif [ "$rc" -eq 2 ]; then
       stato="errore"; out="$out
-[worker] Memoria scritta in locale ma PUSH su memoria-ad FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
+[worker] Memoria scritta in locale ma PUSH su main FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
     elif [ "$rc" -ne 0 ]; then
       stato="errore"; out="$out
 [worker] giro.sh uscito con rc=$rc (motore AI o preparazione fallita)."
@@ -386,7 +386,7 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
 [worker] TIMEOUT ritmo $sezione dopo ${to}s — interrotto."
     elif [ "$rc" -eq 2 ]; then
       stato="errore"; out="$out
-[worker] Ritmo $sezione: memoria scritta in locale ma PUSH su memoria-ad FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
+[worker] Ritmo $sezione: memoria scritta in locale ma PUSH su main FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
     elif [ "$rc" -ne 0 ]; then
       stato="errore"; out="$out
 [worker] ritmo.sh $sezione uscito con rc=$rc (motore AI o preparazione fallita)."
@@ -438,7 +438,7 @@ $richiesta"
     if [ "$sync_rc" = 1 ] && [ "$tipo" = "esegui-azione" ]; then
       stato="errore"
       out="$out
-[worker] Azione eseguita ma push memoria-ad fallito — la riga AZIONI potrebbe non essere visibile nel Pannello."
+[worker] Azione eseguita ma push memoria fallito — la riga AZIONI potrebbe non essere visibile nel Pannello."
     fi
   fi
 

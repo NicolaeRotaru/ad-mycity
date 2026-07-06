@@ -169,7 +169,7 @@ export async function GET() {
     azioni.push("Verifica che SUPABASE_URL sul VPS sia lo stesso host mostrato qui sotto");
     azioni.push("journalctl -u mycity-worker -f (guarda se compare «Lavoro … in_corso»)");
   } else if (pipeline === "legacy-agent-direct") {
-    problema = "Worker con pipeline vecchia — i giri non pushano memoria-ad.";
+    problema = "Worker con pipeline vecchia — i giri non pushano la memoria su main.";
     azioni.push("VPS: sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh");
   }
 

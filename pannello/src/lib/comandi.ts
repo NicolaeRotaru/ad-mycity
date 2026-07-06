@@ -12,7 +12,7 @@ export function isComandoGiro(testo: string): boolean {
 export const PROMPT_GIRO =
   "Fai un GIRO DI PERLUSTRAZIONE come AD digitale di MyCity (esegui cervello/giro.md per intero): " +
   "leggi i dati reali, controlla le sentinelle, scrivi il briefing completo, aggiorna STATO e la memoria. " +
-  "Pubblica la memoria sul ramo memoria-ad (PR con base memoria-ad). Il Pannello legge quel ramo via GitHub: non serve merge su main. " +
+  "Pubblica la memoria sul RAMO UNICO main (da cloud agent: PR con base main, poi merge). Il Pannello legge main via GitHub. " +
   "Al termine restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1).";
 
 export function preparaLavoro(
@@ -32,7 +32,7 @@ export function messaggioLavoroInCorso(tipo: string): string {
   if (tipo === "giro") {
     return (
       "🔄 **Giro accodato** — un giro completo richiede 15–45 minuti.\n\n" +
-      "La memoria va sul ramo **`memoria-ad`** (il Pannello la legge da lì via GitHub — **non serve merge su main**). " +
+      "La memoria va sul **ramo unico `main`** (il Pannello legge da lì via GitHub). " +
       "Segui l'avanzamento in **«Lavori del cervello»**; quando finisce, la risposta compare anche qui."
     );
   }

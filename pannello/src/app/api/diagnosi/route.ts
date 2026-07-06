@@ -22,7 +22,7 @@ export async function GET() {
   const checks: Check[] = [];
   const segnali = await raccogliSegnaliBattito();
 
-  // 1) Vault GitHub: da QUI il Pannello legge briefing/STATO/AZIONI (ramo memoria-ad).
+  // 1) Vault GitHub: da QUI il Pannello legge briefing/STATO/AZIONI (ramo unico main).
   //    Non basta "env presenti": facciamo un test REALE (GET /repos + /git/ref/heads/BRANCH)
   //    così un token scaduto o un ramo inesistente diventano ROSSO invece di un falso verde.
   const vault = vaultGithubInfo();
@@ -91,10 +91,10 @@ export async function GET() {
           : `spento da ${etaOre(oreWorker)} — i lavori in coda non partono`,
   });
 
-  // 6c) Ultimo push memoria-ad su GitHub (il Pannello legge quel ramo, non main).
+  // 6c) Ultimo push della memoria su GitHub (chiave storica «memoria-ad:ultimo_push», oggi il giro pusha su main).
   const orePush = oreDaQuando(segnali.pushMemoria?.quando);
   checks.push({
-    nome: "Push memoria-ad (GitHub)",
+    nome: "Push memoria (GitHub)",
     stato: orePush == null ? "giallo" : orePush <= 6 ? "verde" : orePush <= 48 ? "giallo" : "rosso",
     dettaglio:
       orePush == null
@@ -102,7 +102,7 @@ export async function GET() {
         : `ultimo push ${etaOre(orePush)} — merge su main NON necessario per il Pannello`,
   });
 
-  // 6d) Pipeline worker sul VPS: legacy = TL;DR in chat ma memoria-ad ferma.
+  // 6d) Pipeline worker sul VPS: legacy = TL;DR in chat ma memoria ferma su GitHub.
   const pipeline = await getImpostazione("worker:pipeline").catch(() => null);
   const codiceRev = await getImpostazione("worker:codice_rev").catch(() => null);
   const legacy = pipeline === "legacy-agent-direct";

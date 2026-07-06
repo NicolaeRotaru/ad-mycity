@@ -1,4 +1,4 @@
-// Segnali vitali dell'AD: unifica cuore cron, giro VPS, worker e push memoria-ad.
+// Segnali vitali dell'AD: unifica cuore cron, giro VPS, worker e push della memoria.
 import { vaultToIso } from "@/lib/format";
 import { getImpostazione } from "@/lib/store";
 import { readVaultFile } from "@/lib/vault";
@@ -66,7 +66,7 @@ export async function raccogliSegnaliBattito(): Promise<{
   }
 
   const autopilotaCron = segnale(cuoreUltimo, "autopilota Vercel");
-  const pushMemoria = segnale(push, "push memoria-ad");
+  const pushMemoria = segnale(push, "push memoria");
   const worker = segnale(workerUltimo, "worker VPS");
   const daBriefing = segnale(briefingData, "giro AD (briefing)");
   const daGiroKey = segnale(cuoreGiro, "giro AD (VPS)");

@@ -80,8 +80,8 @@ echo "== 5) Repo in $APP_DIR =="
 mkdir -p /opt/mycity
 if [ -d "$APP_DIR/.git" ]; then
   # Aggiorna il remote col token (repo privato) e riallinea il CODICE a origin/$REPO_BRANCH (di solito main).
-  # La memoria vive sul ramo dedicato 'memoria-ad', che giro.sh ricostruisce da remoto a ogni giro:
-  # quindi qui possiamo riallineare main senza rischio di perdere il vault. Niente '|| true' muto: logghiamo.
+  # RAMO UNICO (Fase 2): codice e memoria vivono entrambi su 'main'; il giro committa/pusha con
+  # rebase non-force sotto lock, quindi il riallineamento non perde il vault. Niente '|| true' muto: logghiamo.
   git -C "$APP_DIR" remote set-url origin "$CLONE_URL"
   if git -C "$APP_DIR" fetch origin "$REPO_BRANCH" 2>/dev/null \
      && git -C "$APP_DIR" checkout -f "$REPO_BRANCH" 2>/dev/null \

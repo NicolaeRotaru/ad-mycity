@@ -5,23 +5,25 @@ const API = "https://api.github.com";
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;
-// Il giro scrive il vault sul ramo 'memoria-ad' (cervello/giro.sh, GIT_BRANCH:-memoria-ad), MAI su 'main'.
-// Quindi il default deve essere 'memoria-ad': con default 'main' la Cabina leggerebbe un vault congelato.
-const BRANCH = process.env.OBSIDIAN_BRANCH || "memoria-ad";
+// RAMO UNICO (Fase 2, cervello/giro.md): codice E memoria vivono insieme su 'main' — il giro
+// (giro.sh, GIT_BRANCH:-main) e il worker scrivono lì, il Pannello legge lì. Il vecchio ramo
+// separato 'memoria-ad' è in pensione: con default 'memoria-ad' la Cabina leggerebbe un vault
+// congelato al giorno del trasloco (è il "il Pannello non legge da main").
+const BRANCH = process.env.OBSIDIAN_BRANCH || "main";
 if (!process.env.OBSIDIAN_BRANCH && OWNER && REPO && TOKEN) {
-  console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'memoria-ad'. Impostalo esplicitamente su Vercel.");
+  console.warn("[obsidian] OBSIDIAN_BRANCH non impostato: uso 'main' (ramo unico). Impostalo esplicitamente su Vercel.");
 }
 
-// Ramo di RIPIEGO in sola lettura. La memoria vera vive su BRANCH (memoria-ad): il giro
-// pubblica SOLO lì e il Pannello scrive SOLO lì. Ma se un file/una cartella non esiste su
-// quel ramo (branch assente, giro che ha pubblicato su main per sbaglio, propagazione in
-// corso) la lettura tornava `null` e il dato SPARIVA dallo schermo in silenzio: è la causa
-// radice dei ripetuti "il Pannello non vede i dati". Rete di sicurezza: se BRANCH non ha il
-// file, riprova su OVERRIDE (default 'main') così NON si mostra mai schermo vuoto per un
-// disallineamento di ramo. Ogni lettura riporta nel valore di ritorno il ramo che l'ha servita
-// (niente più stato globale condiviso) → la deriva diventa VISIBILE invece che nascosta.
+// Ramo di RIPIEGO in sola lettura. La memoria vera vive su BRANCH (main): il giro pubblica
+// lì e il Pannello scrive SOLO lì. Ma se un file/una cartella non esiste su quel ramo
+// (scrittura rimasta sul vecchio 'memoria-ad' durante la transizione, propagazione in corso)
+// la lettura tornava `null` e il dato SPARIVA dallo schermo in silenzio: è la causa radice
+// dei ripetuti "il Pannello non vede i dati". Rete di sicurezza: se BRANCH non ha il file,
+// riprova sul ripiego (default 'memoria-ad' finché la transizione non è chiusa) così NON si
+// mostra mai schermo vuoto per un disallineamento di ramo. Ogni lettura riporta nel valore di
+// ritorno il ramo che l'ha servita → la deriva diventa VISIBILE invece che nascosta.
 // NB: vale solo in LETTURA; le scritture restano ancorate a BRANCH.
-const RAMO_RIPIEGO = process.env.OBSIDIAN_BRANCH_FALLBACK || "main";
+const RAMO_RIPIEGO = process.env.OBSIDIAN_BRANCH_FALLBACK || "memoria-ad";
 
 // Ordine di tentativo in lettura: prima la memoria fresca, poi il ripiego (se diverso).
 function ramiLettura(): string[] {
@@ -32,7 +34,7 @@ export function obsidianConnected(): boolean {
   return Boolean(OWNER && REPO && TOKEN);
 }
 
-/** Ramo GitHub da cui il Pannello legge il vault (default: memoria-ad). */
+/** Ramo GitHub da cui il Pannello legge il vault (default: main, ramo unico). */
 export function obsidianBranch(): string {
   return BRANCH;
 }
@@ -169,7 +171,7 @@ export async function leggiNota(
   return { stato: "ok", testo: text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text, ramo: esito.ramo };
 }
 
-/** Config vault per diagnosi/UI: il Pannello legge qui, non da main. */
+/** Config vault per diagnosi/UI: il ramo da cui il Pannello legge davvero. */
 export function vaultGithubInfo(): { collegato: boolean; ramo: string; repo: string | null } {
   return {
     collegato: obsidianConnected(),
@@ -266,7 +268,7 @@ export async function readNote(path: string): Promise<string> {
 }
 
 /**
- * Esplora un percorso QUALSIASI del repo sul ramo del Pannello (memoria-ad).
+ * Esplora un percorso QUALSIASI del repo sul ramo del Pannello (main, ramo unico).
  * Cartella → elenco voci (file + sottocartelle, ogni tipo, non solo .md); file → contenuto decodificato.
  * Serve all'area "Esplora GitHub": garantisce che OGNI file su GitHub sia raggiungibile dal Pannello,
  * senza dover cablare a mano una route per ogni nuovo tipo di artefatto (audit, design, intelligence…).

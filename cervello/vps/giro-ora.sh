@@ -18,5 +18,5 @@ systemctl start --no-block mycity-giro.service
 
 echo "[$(ts)] ▶ Log in diretta (Ctrl-C per smettere di seguire; il giro continua in background):"
 echo "        Al termine cerca il nuovo briefing in MyCity-Vault/90-Memoria-AI/Briefing/ e AUTO-ANALISI.md,"
-echo "        oppure guardalo nel Pannello (ramo memoria-ad)."
+echo "        oppure guardalo nel Pannello (ramo unico main)."
 exec journalctl -u mycity-giro -f

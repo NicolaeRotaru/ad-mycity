@@ -122,7 +122,7 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 ```
 > ⚠️ **`verifica` è OBBLIGATORIO (AR-023):** è la prova machine-checkable che permette a `auto-fix.mjs` di
 > chiudere il difetto da solo quando il fix entra nel codice (girato a ogni giro + a ogni allineamento a main,
-> poi pubblicato su `memoria-ad` → il Pannello lo vede chiuso). `{"file","pattern","presente"}` se provabile dal
+> poi pubblicato su `main`, ramo unico → il Pannello lo vede chiuso). `{"file","pattern","presente"}` se provabile dal
 > codice (`presente:false` = risolto quando il pattern sparisce); `{"tipo":"umano"}` se dipende da chiavi/firma di
 > Nicola. Un difetto senza `verifica` non si chiuderà mai da solo — è l'anello rotto che teneva AR-009/019 «in-corso».
 

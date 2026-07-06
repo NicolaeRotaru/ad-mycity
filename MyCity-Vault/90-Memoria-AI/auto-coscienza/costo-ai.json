@@ -1,71 +1,43 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-06 14:20",
+  "aggiornato": "2026-07-06 18:20",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-07-06",
-    "runs": 9,
-    "token_totali": 1005,
-    "durata_sec_totale": 959,
+    "runs": 5,
+    "token_totali": 1725,
+    "durata_sec_totale": 2029,
     "voci": [
       {
-        "quando": "2026-07-06 06:04",
+        "quando": "2026-07-06 14:44",
         "tipo": "ritmo-mattino",
-        "durata_sec": 254,
-        "token": null,
-        "modello": "cursor"
-      },
-      {
-        "quando": "2026-07-06 06:24",
-        "tipo": "giro",
-        "durata_sec": 254,
-        "token": 286,
-        "modello": "cursor"
-      },
-      {
-        "quando": "2026-07-06 06:27",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 1,
-        "token": null,
-        "modello": "cursor"
-      },
-      {
-        "quando": "2026-07-06 08:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 2,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-06 10:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 2,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-06 12:03",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 210,
+        "durata_sec": 68,
         "token": null,
         "modello": "claude"
       },
       {
-        "quando": "2026-07-06 12:07",
+        "quando": "2026-07-06 16:31",
         "tipo": "giro",
-        "durata_sec": 232,
-        "token": 719,
+        "durata_sec": 284,
+        "token": 840,
         "modello": "claude"
       },
       {
-        "quando": "2026-07-06 12:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 2,
-        "token": 0,
-        "modello": "delta-gate"
+        "quando": "2026-07-06 16:42",
+        "tipo": "giro",
+        "durata_sec": 1345,
+        "token": 885,
+        "modello": "claude"
       },
       {
-        "quando": "2026-07-06 14:20",
+        "quando": "2026-07-06 18:05",
+        "tipo": "ritmo-sera",
+        "durata_sec": 330,
+        "token": null,
+        "modello": "claude"
+      },
+      {
+        "quando": "2026-07-06 18:20",
         "tipo": "giro-saltato",
         "durata_sec": 2,
         "token": 0,
@@ -75,16 +47,10 @@
   },
   "storico_giorni": [
     {
-      "data": "2026-07-05",
-      "runs": 14,
-      "token_totali": 595,
-      "durata_sec_totale": 1038
-    },
-    {
       "data": "2026-07-04",
-      "runs": 14,
+      "runs": 9,
       "token_totali": 796,
-      "durata_sec_totale": 635
+      "durata_sec_totale": 625
     },
     {
       "data": "2026-07-03",

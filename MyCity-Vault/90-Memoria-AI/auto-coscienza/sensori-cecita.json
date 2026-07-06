@@ -1,21 +1,20 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-06 14:20",
+  "aggiornato": "2026-07-06 18:20",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-06 14:20",
+      "ultimo_ok": "2026-07-06 18:20",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
-      "stato": "ok",
-      "giri_ciechi": 0,
+      "stato": "cieco",
+      "giri_ciechi": 1,
       "canale": "MCP Cursor/Claude",
-      "dettaglio": "MCP Supabase raggiungibile in sessione (giro AD 6/7 11:11: letti live orders/profiles/merchants_leads del progetto clmpyfvpvfjgeviworth)",
-      "ultimo_ok": "2026-07-06 11:11",
+      "dettaglio": "MCP Supabase cieco (permission stream closed / needsAuth)",
       "ultimo_errore": "MCP Supabase cieco (permission stream closed / needsAuth)"
     },
     "stripe_api": {
@@ -24,21 +23,22 @@
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-06 14:20"
+      "ultimo_ok": "2026-07-06 18:20"
     },
     "posthog_api": {
       "giri_ciechi": 0,
       "stato": "non_configurato",
       "canale": "PostHog API",
       "dettaglio": "POSTHOG_API_KEY assente — sensore spento (decisione Nicola 5/7: non usarlo per ora), nessuna azione da accodare",
-      "ultimo_errore": ""
+      "ultimo_errore": "",
+      "nota_riconciliazione": "2026-07-06 15:58 AD: contatore 27 era congelato al giro del 2026-07-04 16:20 (ultimo giro completo prima della pausa limiti Claude), quindi PRECEDE la decisione 5/7 di togliere PostHog. Riconciliato a mano alla verità; sarà riscritto dal prossimo verifica-sensori.mjs alla ripresa dei giri."
     },
     "resend_api": {
       "giri_ciechi": 0,
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-06 14:20",
+      "ultimo_ok": "2026-07-06 18:20",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -50,9 +50,9 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 66,
+    "giri_totali": 46,
     "sensori_ok": 3,
-    "max_giri_ciechi": 0,
+    "max_giri_ciechi": 1,
     "sensori_totali": 3,
     "almeno_un_dato": true,
     "sensori_non_configurati": 2,

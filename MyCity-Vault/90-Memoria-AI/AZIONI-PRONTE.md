@@ -320,3 +320,46 @@ se va bene: traffico organico locale "a costo zero" verso la vetrina PQ e verso 
 serve da Nicola: (1) ok a rivendicare/gestire i due profili · (2) ok del titolare PQ per la sua scheda · (3) orari + foto reali PQ.
 dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§4). Coda canonica = riga #32 in [[AZIONI-IN-ATTESA]].
 stato: PRONTA — campi da compilare al via, nessuna pubblicazione fatta.
+
+## A17 · 🧡 Accendi il "porta un amico" (5€ a te, 5€ al tuo amico) e manda il primo invito
+reparto: crm-lifecycle
+livello: 🔴 (incentivo in denaro/credito reale)
+canale: Email/WhatsApp all'invitante (Resend, oggi spento) + pagina Invita amici già live nel sito
+perche: Il loop give-get è GIÀ costruito nel codice (referrals mig.015, premio €5 su consegna mig.089, welcome €5 mig.029, no self-referral mig.092, pagina /profile/referral). Serve solo firma sull'incentivo + le mani email. Costo reale incrementale ≈ €5 per cliente nuovo che riceve davvero un ordine — più economico e più caldo di un click pagato.
+preparato: 🔁 crm-lifecycle + 🛡️ trust-safety (anti-frode) — playbook completo + messaggi in consegne/crm/2026-07-06-playbook-referral.md
+cosa cambia: si accende il programma referral e parte il primo invito al primo cliente reale (samir, dopo che riceve #16): 5€ a lui se un amico ordina e riceve, 5€ all'amico di benvenuto. Anti-frode già in codice (premio solo su ordine consegnato, no auto-invito).
+se va bene: primo cliente porta un vicino → crescita organica a CAC ≈€5, il canale meno costoso che abbiamo; base per il volano "un cliente ne porta un altro".
+pre-condizioni: parte SOLO quando (1) #16 è "Consegnato" (serve ≥1 cliente con un ordine ricevuto) · (2) il cliente è confermato contento (A13 👍) · (3) mani Resend accese (@builder-automazioni) · (4) faro = Pane Quotidiano (i testi parlano di PQ, non Garetti/Casa Linda). Finché non veri, resta in coda.
+testo (invito a chi invita · 🔴):
+Oggetto: Porta un vicino da Pane Quotidiano — 5€ a te, 5€ a lui 🧡
+Ciao [Nome], ti è arrivato il pane e i prodotti di Pane Quotidiano? Fai una cosa bella: dillo a un vicino.
+Quando una persona che inviti fa il suo primo ordine e lo riceve, 5€ vanno a lui e 5€ vanno a te, accreditati
+in automatico. Ecco il tuo link personale da girare su WhatsApp o di persona: 👉 [LINK-INVITO ?ref=TUO-CODICE].
+Ogni vicino che ordina è una bottega del centro che incassa. Non è solo uno sconto: è Piacenza che si tiene su
+a vicenda. 🧡 Grazie, Nicola — MyCity.
+testo (messaggio che riceve l'invitato · si applica il welcome €5 automatico):
+Oggetto: [Nome] ti regala 5€ sulla spesa delle botteghe di Piacenza 🧡
+Ciao, [Nome] ti ha invitato su MyCity — e con il suo invito hai 5€ sul tuo primo ordine. MyCity ti riporta a
+casa le vere botteghe del centro: si parte da Pane Quotidiano, pane fresco e prodotti bio, ordinati dal telefono
+e portati a mano. Paghi anche alla consegna. 👉 [Usa i tuoi 5€ — iscriviti e ordina]. Le botteghe del centro
+stanno sparendo. Con un ordine, le tieni aperte. Benvenuto tra i vicini, Nicola — MyCity.
+anti-frode (già in codice): premio solo su ordine CONSEGNATO (mig.089, no crea-annulla) · no self-referral CHECK+RLS (mig.092) · un premio per invitato (UNIQUE) · welcome solo ≥€10 (mig.029). Da aggiungere a volume (🟡 branch): tetto 5 invitati/7g, flag stesso indirizzo/telefono, soglia minima sul premio invitante, clawback su rimborso.
+stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #37 in [[AZIONI-IN-ATTESA]].
+
+## A24 · 🛡️ Bollino «Negozio Verificato MyCity» — lo standard di fiducia della città
+> (nato come «A18» nella coda del VPS: rinumerato A24 nella riconciliazione del 6/7 per collisione col A18 «scout 3 botteghe» — i vecchi rimandi «A18 bollino» puntano qui)
+reparto: trust-safety (owner) · legale-privacy (claim) · content-social (bozze)
+livello: 🟢 (definire lo standard — fatto) · 🔴 (assegnarlo/mostrarlo a video e annunciarlo — firma Nicola)
+canale: vetrina negozio sul sito (bollino) + annuncio IG @mycity.piacenza/gruppi FB + messaggio al titolare
+perche: La fiducia è il fossato di MyCity contro Glovo (che consegna da supermercati anonimi). Un bollino con 5 criteri verificabili — identità reale, negozio attivo, pagamenti sicuri, consegna provata, regole rispettate — dice al cliente «di questo negozio ti puoi fidare, ci mettiamo la faccia noi». Diventa lo standard d'ingresso per l'ondata di negozi dopo il 9/7.
+preparato: 🛡️ trust-safety + ⚖️ legale-privacy + ✍️ content-social — standard completo + criteri + eligibilità + bozze in `consegne/trust-safety/2026-07-06-badge-negozio-verificato.md`
+idoneità reale (2026-07-06): **0 negozi Verificati oggi, 1 candidato** = Pane Quotidiano (unico negozio reale). PQ ha 3/5 pilastri (identità ✅, catalogo ✅, contratto ✅); mancano **payout attivo** (Stripe OFF) e **≥1 consegna** (#16 in consegna). Casa Linda = demo (esclusa), Garetti = prospect non nel DB (non idoneo). PQ diventa il **1° Negozio Verificato di Piacenza** nell'istante in cui #16 è consegnato + payout acceso — combacia con la North Star di oggi.
+cosa cambia: nasce lo standard di fiducia cittadino; il primo negozio reale che consegna si guadagna il bollino a video → i clienti hanno un segnale di garanzia visibile. Nessun negozio dichiarato "verificato" senza averlo meritato.
+se va bene: il badge diventa il rito di qualità dell'onboarding post-9/7 (entri → payout+catalogo → 1ª consegna → bollino); l'annuncio pubblico crea il posizionamento «la spesa di cui ti fidi» incopiabile da Amazon/Glovo.
+pre-condizioni: (1) 🔴 annuncio pubblico parte SOLO con ≥1 negozio davvero verificato (oggi: dopo #16 consegnato + payout PQ ON) — annunciare "lo standard" con 0 verificati sfonda il gate ONESTÀ · (2) 🔴 mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (3) 🟡 corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
+testo (annuncio pubblico · 🔴 · bozza neutra):
+[HOOK] A Piacenza è nato un bollino che prima non c'era: Negozio Verificato.
+[CORPO] Comprare online da una bottega è bello solo se ti puoi fidare. Cinque regole chiare: negozio reale, pagamento sicuro, consegna provata, regole rispettate. Chi le rispetta tutte prende il bollino 🛡️. Chi lo tradisce lo perde. Non è un adesivo che regaliamo: è una garanzia che ci mettiamo noi.
+[CTA] 👉 Cerca il bollino 🛡️ quando fai la spesa su MyCity.
+[FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · VOLTI, NON ALGORITMI
+stato: STANDARD DEFINITO (🟢) — assegnazione + annuncio IN ATTESA DI FIRMA NICOLA. Coda canonica = riga #38 in [[AZIONI-IN-ATTESA]].

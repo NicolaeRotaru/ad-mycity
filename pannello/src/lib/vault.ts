@@ -33,9 +33,9 @@ function vaultRoots(): string[] {
 
 /** Legge un file del vault (percorso relativo a MyCity-Vault/, es. "90-Memoria-AI/STATO.md"). */
 export async function readVaultFile(relPath: string): Promise<string | null> {
-  // PRODUZIONE (OBSIDIAN_* configurate): leggi SEMPRE da GitHub (ramo OBSIDIAN_BRANCH, es. memoria-ad),
-  // MAI dal disco. Su Vercel il repo è clonato da `main`, che ha MyCity-Vault/ coi file VECCHI (i briefing
-  // del giro stanno su memoria-ad): se leggessimo dal disco prenderemmo main e non vedremmo gli aggiornamenti.
+  // PRODUZIONE (OBSIDIAN_* configurate): leggi SEMPRE da GitHub (ramo OBSIDIAN_BRANCH, oggi main),
+  // MAI dal disco: il clone di build di Vercel è fermo al deploy — leggendo da disco i briefing
+  // nuovi (pushati su main DOPO il deploy) non si vedrebbero fino al redeploy.
   if (obsidianConnected()) {
     const res = await readNote(`MyCity-Vault/${relPath}`);
     return res && !isErr(res) ? res : null;
@@ -76,7 +76,7 @@ export async function readVaultFileEsito(relPath: string): Promise<EsitoVault> {
 
 /**
  * Legge un file dalla RADICE del repo (non solo dal vault), es. "consegne/vendite/pitch-garetti.md".
- * Serve per la "scheda completa" delle azioni (il contenuto vero vive in consegne/, ramo memoria-ad).
+ * Serve per la "scheda completa" delle azioni (il contenuto vero vive in consegne/, ramo unico main).
  * Stessa logica di readVaultFile ma senza il prefisso MyCity-Vault/.
  */
 export async function readRepoFile(relPath: string): Promise<string | null> {
@@ -115,8 +115,8 @@ export async function listRepoDir(relDir: string): Promise<string[]> {
 
 /** Elenco dei file .md in una cartella del vault (es. "90-Memoria-AI/Briefing"). */
 export async function listVaultDir(relDir: string): Promise<string[]> {
-  // PRODUZIONE (OBSIDIAN_*): elenca SEMPRE da GitHub (Contents API, ramo memoria-ad), MAI dal disco
-  // (il clone di build è di `main` → cartelle coi file vecchi). Disco solo in locale.
+  // PRODUZIONE (OBSIDIAN_*): elenca SEMPRE da GitHub (Contents API, ramo unico main), MAI dal disco
+  // (il clone di build è fermo al deploy → cartelle coi file vecchi). Disco solo in locale.
   if (obsidianConnected()) {
     return (await listDir(`MyCity-Vault/${relDir}`)) || [];
   }
