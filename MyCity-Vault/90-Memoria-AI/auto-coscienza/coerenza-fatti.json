@@ -1,0 +1,18 @@
+{
+  "data": "2026-07-06 22:28",
+  "esito": "ok",
+  "fatti_totali": 0,
+  "cacce_aperte": 0,
+  "file_scansionati": 0,
+  "incoerenze": [],
+  "cacce": [],
+  "esenzioni_default": [
+    "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
+    "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
+    "MyCity-Vault/90-Memoria-AI/Briefing/",
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/",
+    "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
+    "memoria-squadra/"
+  ],
+  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+}

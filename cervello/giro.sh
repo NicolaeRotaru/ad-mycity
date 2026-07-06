@@ -126,6 +126,7 @@ SENSORI_CIECHI=0
 SENSORI_VINCOLO=""
 ALLOC_VINCOLO=""   # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
 LOOP_VINCOLO=""    # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
+FATTI_VINCOLO=""   # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -209,6 +210,17 @@ if command -v node >/dev/null 2>&1; then
   # (AR-054: nessun esperimento resta aperto all'infinito; la misura non è delegata alla memoria dell'LLM).
   echo "[$(ts)] Sweep esperimenti in scadenza (AR-054)..."
   node "$SCRIPT_DIR/esperimenti-check.mjs" 2>&1 | tail -4 || true
+  # AR-102: GATE COERENZA-FATTI — fonte unica della verità + propagazione a cascata. Ogni fatto-chiave
+  # vive in registro-fatti.json; quando cambia, il valore VECCHIO entra in "caccia" e questo gate
+  # FALLISCE finché una copia vecchia resta in un file VIVO (coda, STATO, piani, intenzioni, consegne).
+  # Stesso pattern di allocazione-check/chiusura-loop: rc≠0 → vincolo HARD al motore, mai log ingoiato.
+  echo "[$(ts)] Gate coerenza-fatti (fonte unica della verità, AR-102)..."
+  _fatti_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _fatti_rc=$?
+  printf '%s\n' "$_fatti_out" | tail -8
+  if [ "$_fatti_rc" -ne 0 ]; then
+    FATTI_VINCOLO="⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente."
+    echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
+  fi
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
@@ -316,6 +328,13 @@ if [ -n "${LOOP_VINCOLO:-}" ]; then
 
 ## Vincolo chiusura-loop (HARD — dal gate chiusura-loop prima di te)
 $LOOP_VINCOLO"
+fi
+if [ -n "${FATTI_VINCOLO:-}" ]; then
+  # AR-102: il gate coerenza-fatti arriva al motore come regola hard (propaga PRIMA di chiudere il giro).
+  PROMPT="$PROMPT
+
+## Vincolo coerenza-fatti (HARD — dal gate coerenza-fatti prima di te)
+$FATTI_VINCOLO"
 fi
 PROMPT="$PROMPT
 

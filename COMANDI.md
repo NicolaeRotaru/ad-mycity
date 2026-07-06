@@ -76,6 +76,12 @@
 - **"ok [numero]" / "approva [azione]"** → eseguo l'azione approvata. ▶️
 - **"collega [Telegram / Gemini / …]"** → ti guido a collegare una "mano". 🟢
 - **"sblocca Garetti"** → la lista esatta dei passi per il primo negozio. 🟢
+- **"cambia il fatto: [cosa] = [nuovo valore]"** (es. *"l'onboarding è il 9/7, non il 6/7"*) → aggiorno la
+  **fonte unica della verità** (`registro-fatti.json`), riscrivo NELLO STESSO lavoro ogni file vivo che
+  citava il valore vecchio (coda, STATO, piani, intenzioni, calendario) e verifico col guardiano
+  `coerenza-fatti` che non resti NESSUNA copia vecchia. La storia (decisioni, briefing) resta intatta. 🟢
+- **"i fatti sono allineati?" / "controlla la coerenza"** → eseguo `node cervello/coerenza-fatti.mjs` e ti
+  mostro se qualche file vivo cita ancora un valore superato (gira comunque da solo a ogni giro). 🟢
 
 ---
 💡 Puoi sempre inventarne di nuovi: se mi dici *"d'ora in poi quando scrivo X fai Y"*, lo aggiungo a questa lista.
