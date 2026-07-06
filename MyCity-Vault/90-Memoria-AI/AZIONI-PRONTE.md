@@ -12,19 +12,12 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 > mosse) referenziato da lì, NON una seconda coda parallela. Quando accodi un'azione nuova, mettila in
 > `AZIONI-IN-ATTESA.md`; se serve l'anteprima lunga, linkala qui. Non duplicare lo stato di approvazione.
 
-## A1 · 📨 Mail al Comune per il bando "Vita in Centro"
+## A1 · ⛔ RITIRATA (6/7/2026 14:45) — il "bando Vita in Centro rimborso 50% materiali" NON esiste
 reparto: relazioni-istituzionali
-livello: 🟡
-canale: Email all'Ufficio Commercio del Comune di Piacenza
-perche: Bando aperto: rimborso fino al 50% sui materiali (vetrofanie, volantini, QR). Scade a fine mese — candidarsi ora è un vantaggio quasi gratis.
-preparato: ✍️ copywriter + ⚖️ legale
-testo:
-Oggetto: MyCity — adesione al bando "Vita in Centro"
-Spett.le Ufficio Commercio,
-siamo MyCity, il marketplace dei negozi di Piacenza. Vorremmo aderire al bando per i
-materiali di promozione del commercio di vicinato. In allegato la nostra adesione e i
-preventivi. Restiamo a disposizione per ogni informazione.
-Cordiali saluti — MyCity
+livello: ⛔ non inviare
+motivo del ritiro: La verifica web del 6/7/2026 (`consegne/relazioni-istituzionali/2026-07-06-playbook-bandi-mail-istituzioni.md`) ha accertato che **non esiste alcun bando/contributo comunale "Vita in Centro" che rimborsi il 50% dei materiali**. "Vita in Centro" è un'**associazione di commercianti** partner dell'Hub Urbano, NON un ente che eroga rimborsi. Inviare questa mail avrebbe fatto chiedere al Comune un bando inesistente (danno di credibilità).
+sostituita da: **riga 39 di [[AZIONI-IN-ATTESA]]** (mail verificate all'Ufficio Commercio del Comune + Unione Commercianti, agganciate al **vero** bando: Bando Commercio ER fondo perduto fino a €50.000, sportello aperto fino al 21/7/2026). Il rimborso materiali per i negozi, semmai, passa da quel bando (spesa ammissibile) o dagli interventi dell'Hub — non da un rimborso comunale a sportello.
+nota per #33 (kit capillarità): rimuovere/riscrivere l'aggancio «bando Vita in Centro dimezza i materiali» — stessa fonte inesistente.
 
 ## A2 · 🤝 Proposta di onboarding alla bottega Garetti
 reparto: vendite

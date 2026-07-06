@@ -68,7 +68,7 @@ Il bando Hub 26-27 (candidatura Comuni) è **scaduto il 15/4**: **NON possiamo c
 ## (c) 📨 MAIL PRONTA #2 — Unione Commercianti Piacenza (la porta che apre i negozi dell'Hub)
 
 **Perché anche questa:** l'Unione Commercianti è **capofila del partenariato dell'Hub** e raccoglie le adesioni delle imprese ([fonte](https://www.ilpiacenza.it/attualita/contributi-a-imprese-del-centro-storico-cittadino-adesione-gratuita-all-hub-urbano-entro-il-7-marzo.html)). È **la porta più veloce ai negozi**: un loro ok apre decine di botteghe in blocco. Complementare al kit Confcommercio già in coda (2026-06-27), che tiene la sua ragione (guida online) — questo aggancia l'Hub + il bando.
-**Destinatario:** Unione Commercianti Piacenza — **email/segreteria da reperire** su unionecommerciantipc.it (contatto reale non verificato via web in questa sessione → segnaposto).
+**Destinatario reale (verificato 6/7/2026):** **Unione Commercianti Piacenza** — **direzione@unionecommerciantipc.it** · tel. 0523 461852 · Strada Bobbiese 2, 29100 Piacenza. (Alt.: commerciale@unionecommerciantipc.it 0523 461833 · Ufficio Soci tesseramento@unionecommerciantipc.it 0523 461834.) [Fonte: contatti Unione Commercianti PC](https://www.unionecommerciantipc.it/contatti-unione-commercianti/)
 
 **Oggetto:** MyCity per i negozi dell'Hub Urbano — vendita online + consegna, e una mano sul Bando Commercio 21/7
 
@@ -94,7 +94,7 @@ Il bando Hub 26-27 (candidatura Comuni) è **scaduto il 15/4**: **NON possiamo c
 ## (d) 🙋 Cosa serve da Nicola
 
 1. **OK all'invio 🔴** della Mail #1 (Comune — margherita.maini@comune.piacenza.it): è l'unico contatto reale già verificato. Decidi se partire da qui o dalla PEC SUAP.
-2. **Reperire l'email della segreteria Unione Commercianti Piacenza** (su unionecommerciantipc.it) per la Mail #2 — oppure autorizzi me a cercarla in un prossimo giro.
+2. ~~Reperire l'email della segreteria Unione Commercianti Piacenza~~ ✅ **FATTO 6/7 14:45:** contatto reale trovato e inserito — `direzione@unionecommerciantipc.it` (0523 461852). Mail #2 ora completa.
 3. **Firma della mail:** telefono + email + sito ufficiali MyCity (i segnaposto `[telefono]/[email]/[sito]`).
 4. **Esempio da citare:** confermare quale negozio reale citare come "esempio già funzionante" — da memoria è **Pane Quotidiano** (unico confermato), **non** Garetti (prospect non firmato). Meglio non nominare negozi non confermati.
 5. **Decisione su A1/#33:** approvi la correzione? Il presunto "bando Vita in Centro rimborso 50% materiali" non esiste come fonte → togliere/riscrivere quell'aggancio nel kit capillarità.
