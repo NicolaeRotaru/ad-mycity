@@ -11,15 +11,34 @@ import {
 } from "@/lib/marketplace-db";
 import { getPostHog } from "@/lib/posthog";
 import { getImpostazione } from "@/lib/store";
+import { demoAttivo } from "@/lib/demo";
+import { calcolaRunway, calcolaUnitEconomics } from "@/lib/economia";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// Cache in-memory (per istanza server): /api/metriche faceva ~7 scansioni della
+// tabella `orders` A OGNI chiamata, senza cache — la causa principale della lentezza.
+// Ora una risposta calcolata resta valida per TTL_MS, così i cambi d'area, i tab
+// multipli e i re-render non ripagano ogni volta il costo pieno. La demo (cookie
+// per-utente) NON entra mai in questa cache condivisa: è sempre calcolata a parte.
+const TTL_MS = 45_000;
+let CACHE: { ts: number; data: any } | null = null;
+
 // Le metriche del cruscotto: dati del marketplace (mycity) + traffico (PostHog)
 // + retention, health negozi, catalogo, payout, acquisizione, margine, cassa.
 // Tutto in una sola risposta, così il cockpit KPI mostra TUTTI i dati disponibili.
 export async function GET() {
+  // Demo: dipende da un cookie per-utente → mai dalla cache condivisa.
+  if (await demoAttivo()) {
+    return NextResponse.json(await getMetriche());
+  }
+  // Cache ancora fresca: rispondi subito, niente scansioni del DB.
+  if (CACHE && Date.now() - CACHE.ts < TTL_MS) {
+    return NextResponse.json(CACHE.data);
+  }
+
   const m: any = await getMetriche();
   if (m.demo) return NextResponse.json(m);
 
@@ -112,31 +131,35 @@ export async function GET() {
     m.giorno_di_punta = pt.giorno_di_punta;
   }
 
-  // --- Cassa / Runway ---
-  const cassa = Number(cassaStr || "0");
-  const burnLordo = Number(burnStr || "0");
-  const ricavo30 = Number(m.ricavo_commissione_30g || 0);
-  const burnNetto = burnLordo - ricavo30;
-  if (cassa > 0 || burnLordo > 0 || ricavo30 > 0) {
-    m.cassa_attuale = Math.round(cassa * 100) / 100;
-    m.burn_lordo = Math.round(burnLordo * 100) / 100;
-    m.burn_netto = Math.round(burnNetto * 100) / 100;
-    m.runway_mesi = burnNetto > 0 && cassa > 0 ? Math.round((cassa / burnNetto) * 10) / 10 : null;
+  // --- Cassa / Runway (una sola verità: lib/economia, stessa fonte di /api/metriche/cassa) ---
+  const rw = calcolaRunway(Number(cassaStr || "0"), Number(burnStr || "0"), Number(m.ricavo_commissione_30g || 0));
+  if (rw.collegato) {
+    m.cassa_attuale = rw.cassa_attuale;
+    m.burn_lordo = rw.burn_lordo;
+    m.burn_netto = rw.burn_netto;
+    m.runway_mesi = rw.runway_mesi;
   }
 
-  // --- Unit economics (break-even) ---
-  const commissione = Number(await getImpostazione("commissione").catch(() => null) || "12");
-  const costoFisso = Number(await getImpostazione("costo_fisso").catch(() => null) || "0");
-  const feeCliente = Number(await getImpostazione("fee_consegna_cliente").catch(() => null) || "0");
-  const costoConsegna = Number(await getImpostazione("costo_consegna").catch(() => null) || "0");
-  const scontrino = Number(m.scontrino_medio || 0);
-  const marginePerOrdine = (scontrino * commissione) / 100;
-  const cmPerOrdine = marginePerOrdine + feeCliente - costoConsegna;
-  m.break_even_ordini_mese = costoFisso > 0 && cmPerOrdine > 0 ? Math.ceil(costoFisso / cmPerOrdine) : null;
+  // --- Unit economics / break-even (una sola verità: lib/economia, come /api/metriche/unit) ---
+  const [commissione, costoFisso, feeCliente, costoConsegna] = await Promise.all([
+    getImpostazione("commissione").catch(() => null),
+    getImpostazione("costo_fisso").catch(() => null),
+    getImpostazione("fee_consegna_cliente").catch(() => null),
+    getImpostazione("costo_consegna").catch(() => null),
+  ]);
+  m.break_even_ordini_mese = calcolaUnitEconomics({
+    scontrino: Number(m.scontrino_medio || 0),
+    commissione: Number(commissione || "12"),
+    costoFisso: Number(costoFisso || "0"),
+    feeCliente: Number(feeCliente || "0"),
+    costoConsegna: Number(costoConsegna || "0"),
+  }).break_even_ordini_mese;
 
   // --- Flag ---
   m.marketplace_collegato = marketplaceCollegato;
   m.traffico_collegato = Boolean(ph.connected);
   m.connected = marketplaceCollegato || Boolean(ph.connected);
+
+  CACHE = { ts: Date.now(), data: m };
   return NextResponse.json(m);
 }
