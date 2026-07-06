@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-04 11:30
+## 🤖 Aggiornamento dell'AD — 2026-07-06 16:45
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **OGGI Sant'Antonino (patrono di Piacenza)** — spunto «Bottega × Evento» a filo leggero: mini-storia di Pane Quotidiano (unico negozio reale) agganciata alla festa del patrono. Solo bozza/idea, nessun asset pesante prodotto (allocazione + presidi rimandati). Fonte: `Intelligence/eventi-picchi.md`.
-- **Contenuto «prima consegna»** — pronto a scattare al «consegna fatta» di #16: la prima transazione reale è la narrativa più forte.
-- **VP 3/7 passato** — prossima finestra editoriale **10/17 lug**. Focus 6/7: contenuti supporto onboarding negozi.
+- **Aggancia il 1° post «Il Turno» al Venerdì Piacentino del 10/7** — è la prima finestra-città dopo che Nicola riparte (post-9/7) e coincide col momento in cui serve spingere la 1ª domanda reale su Pane Quotidiano. Restano solo VP **10/7 e 17/7** (Sant'Antonino 4/7 passato). Fonte: `Intelligence/eventi-picchi.md` (WebSearch LIVE 6/7).
+- **Correzione narrativa #16** — l'ordine è **annullato**, non consegnato: l'angolo «prima consegna» scatta quando NASCE e si consegna il **1° ordine reale ex-novo** (non riesumare lo zombie). La narrativa forte resta «la prima transazione vera di MyCity».
+- **Tema di stagione** — «food tradizionale piacentino» (tortello Vigolzone, botteghe storiche): coerente con «Il Turno», buon serbatoio di contenuti a costo ≈0 per luglio.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

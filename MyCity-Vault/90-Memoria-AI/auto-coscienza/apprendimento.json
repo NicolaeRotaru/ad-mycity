@@ -10,6 +10,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0706-54",
+      "testo": "**Una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso passaggio, non solo a STATO (giro 6/7 16:45):** l'allineamento «#16 annullato» del 16:15 aveva corretto STATO.md e la coda, ma gli snapshot NON auto-fondibili (registro-realta.json, intenzioni-nicola.json, auto-analisi.json) erano rimasti fermi al 4/7 con #16 ancora «IN CONSEGNA». Risultato: la Cabina leggeva due verità in contraddizione (STATO=annullato vs registro=in consegna). 5 perché: (1) il doer del 16:15 ha toccato STATO+coda ma non i .json di auto-coscienza; (2) questi file sono snapshot che NON hanno merge=union, quindi non si allineano da soli; (3) manca un check che verifichi la coerenza dello stato di un'entità-chiave tra STATO e registro-realta; (4) così una correzione parziale lascia deriva silenziosa fino al giro dopo; (5) **regola/fix:** ogni correzione di stato di un'entità (specie #16/PQ) deve toccare STATO + registro-realta + intenzioni + ultimo-briefing + auto-analisi nello STESSO giro; candidato guardiano: un check che confronta lo stato di #16 in STATO vs registro-realta e FALLISCE se divergono. Corollario di P4 (una scoperta che cambia il faro riscrive tutto nello stesso giro).",
+      "tag": ["coerenza-snapshot", "deriva-silenziosa", "registro-realta", "#16", "cabina", "guardiano"],
+      "reparto": "@AD",
+      "confidenza": 0.82,
+      "evidenze": 1,
+      "fonte": "auto-analisi",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-06",
+      "ultima_conferma": "2026-07-06 16:45",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0706-53",
       "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pannello 6/7 15:52):** il sensore ha letto Pane Quotidiano — unico negozio reale, 0 incassi da ~12 giorni + ordine annullato il 3/7 — come 'rischio abbandono MASSIMO' e ha generato un'azione anti-churn (chiama il fornaio). Nicola corregge: **«non c'è bisogno con PQ, li conosco e aspettano finché tutto non è pronto»**. 5 perché: (1) il sensore modella l'abbandono solo su segnali-dati (giorni-senza-incasso, ordine annullato); (2) non conosce l'accordo umano fuori dal DB (il titolare aspetta di proposito); (3) il registro-realtà marca PQ 'confermato' ma non porta il campo 'relazione gestita da Nicola / in attesa concordata'; (4) così ogni negozio reale-ma-fermo diventa un falso positivo di churn; (5) **fix:** prima di generare anti-churn/retention su un negozio, verifica se è una attesa concordata gestita direttamente da Nicola — se sì, l'inattività NON è abbandono e non si accoda alcuna telefonata. Applicato: chiuse #25 (A6 check-in) e #29 (A9 tocco post-annullamento); resta solo A7 (upsell 🟢) come crescita DOPO la 1ª consegna, non come retention. Vedi memoria [[pane-quotidiano-non-e-churn]].",
       "tag": ["churn", "falso-positivo", "sensori", "pane-quotidiano", "retention", "relazione-umana", "account-negozi"],

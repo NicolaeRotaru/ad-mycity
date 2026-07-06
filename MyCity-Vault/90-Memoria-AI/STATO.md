@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-07-06 16:15
+aggiornato: 2026-07-06 16:45
 fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello · **#16 ANNULLATO (delivery_status=CANCELED nel DB, non "in consegna")** — la macchina lo dava vivo perché l'MCP era cieco; ora corretto · North Star resta 0 consegnati, il 1° ordine reale va CREATO ex-novo, non "consegnato" · MCP marketplace ancora gated in sessione → fonte = alert Pannello CANCELED + firma Nicola, zero numeri inventati)
 ---
 
@@ -61,16 +61,17 @@ fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello ·
 - 🟡 Da tenere d'occhio: **@qa smoke post-#19**; **SQL 107 → ora AD-owned** (Nicola 4/7: «AD verifica RLS + smoke checkout per batch 6/7»; #32 riscritta, esecuzione ferma solo sulla mano — grant MCP write o giro VPS); sync VPS (1× root); 1 carrello buyer reale (samir).
 - 🔴 Problema: **0 transazioni reali completate** — l'unico ordine (#16) è **annullato**, quindi il 1° ordine vero è ancora tutto da CREARE (non c'è una consegna da eseguire); loop business 🔴 finché non nasce+si consegna un ordine reale; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
-## Auto-coscienza (2026-07-03 21:21 · 🔭 giro AD refresh)
+## Auto-coscienza (2026-07-06 16:45 · 🔭 giro AD)
 | Metrica | Valore | Fonte |
 |---|---|---|
-| Voto salute architettura | **42** (completa 12:09 2/7) | `auto-radiografia.json` top-level |
-| Voto fiducia giro | **80** = | `auto-analisi.json` (refresh onesto: nessuna novità business vs 16:20; live gated; contatore cieco PostHog 16→17, 6ª conferma del falso-nuovo) |
+| Voto salute architettura | **44** (completa 12:09 2/7) | `auto-radiografia.json` top-level |
+| Voto fiducia giro | **82** ▲ | `auto-analisi.json` (refresh onesto: business fermo; propagata verità #16 annullato agli snapshot fermi al 4/7; intelligence LIVE VP 10/17 + caldo 35°) |
 | Cantiere difetti | **20 chiusi · 2 in-corso (umani) · 1 aperto (AR-024)** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 20/20** | calibrazione.json |
 | Loop business | 🔴 in corso | #16 **ANNULLATO** — nessuna consegna da eseguire; il 1° ordine reale va creato ex-novo |
 
 ## Ultime mosse dell'AD
+0. **🔭 Giro AD 6/7 16:45** — primo giro pieno dopo la pausa limiti Claude (ultimo pieno 4/7 11:30). **Nessuna novità di business:** firma REST invariata (giro.sh 16:20: ordini=1, ultimo 24/6 08:28, 23 clienti, dati_leggibili=true) → 0 ordini nuovi, stallo ~294h ≈ **12 giorni**, North Star 0. **Propagata la verità #16 ANNULLATO agli snapshot rimasti indietro** (registro-realta, intenzioni-nicola, auto-analisi erano fermi al 4/7 e tenevano #16 «in consegna»): deriva di coerenza chiusa. **Intelligence LIVE (WebSearch):** restano i **Venerdì Piacentini 10/7 e 17/7** (entrambi dopo il 9/7, quando Nicola riparte) + meteo **caldo stabile 35°C con afa** (anticiclone Azzorre) → freschi la mattina, catena del freddo per il batch food 13/7. Rinfrescato `eventi-picchi.md` (tolto Sant'Antonino, passato). **Loop chiuso:** registrato l'ESITO @ad (era conteggiato «vuoto» solo per formato-header). MCP+node/curl gated → baseline REST, zero numeri inventati. Nessuna azione nuova accodata (coda già completa e ri-ancorata). → Mossa n.1: dopo il 9/7 far NASCERE il 1° ordine reale su PQ, agganciato al VEN 10/7.
 0. **✅ Allineamento memoria: #16 ANNULLATO 6/7 16:15** — Nicola approva dal Pannello la proposta dal giro «Ho allineato la memoria: l'ordine #16 è annullato, non in consegna» (🟢). **Causa:** per giorni la macchina ha dato #16 come «IN CONSEGNA / da consegnare» perché l'**MCP era cieco** e riportava la baseline REST; il Pannello legge il DB live e mostra l'alert «1 consegne annullate» = `delivery_status=CANCELED` su quell'unico ordine (COD €19,05, PQ, 24/6). **Applicato (🟢):** corretti frontmatter, 7 numeri (Ordini creati = 1 *annullato*), semafori, loop business e priorità; **decadute** le azioni #16/#20/#21/#22 (esegui consegna) in [[AZIONI-IN-ATTESA]] e la cascata gated su «#16 consegnato» (#27/#26/#37/#30/#36) — restano valide solo se agganciate a un **ordine reale nuovo**. **North Star invariata (0 consegnati):** il 1° ordine va CREATO ex-novo, non riesumato. Le card «esegui #16» non si rigenerano. Registrato in [[DECISIONI]] (`proposta:ho-allineato-la-memoria-l-ordine-16-e-annullato-`, non riproporre) + [[SALA-OPERATIVA]]. MCP marketplace ancora gated in sessione → fonte = alert Pannello CANCELED + firma Nicola, zero numeri inventati.
 0. **🔎 SEO vetrine approvata 6/7 16:10** — Nicola dal Pannello: «lo approvo e devi farlo con tutti i negozi». Applicato: ① riempimento vetrina **Pane Quotidiano** (unico negozio reale) accodato — `store_description` (bio dal 1976, pane/pesto/kefir bio, consegna a domicilio Piacenza) + `store_address` (Via Calzolai 25) via `marketplace.mjs aggiorna` CONFIG reversibile, solo fatti verificati (no "senza glutine"). ② "Tutti i negozi" = **regola-standing**: SEO-fill obbligatorio in onboarding → le 6 botteghe dal 13/7 nascono ottimizzate. ③ **Casa Linda esclusa** (demo). Candore: la casella citava file/azione "A21" inesistenti → creato doc reale `consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` + 2 voci in [[AZIONI-IN-ATTESA]]. Esecuzione DB gated in chat → parte via Pannello/giro autorizzato. Dettaglio: [[DECISIONI]].
 0. **🗓️ Piano Nicola + patto automazione 4/7 15:40** — chat: Nicola **parte a inserire i negozi DOPO giovedì 9/7/2026** (era 6/7), attende il reset dei limiti settimanali di Claude. Chiede se l'AD aggiorna GitHub+Pannello da solo o va detto ogni volta. **Risposta/patto:** aggiornare memoria (`memoria-ad`) + dati Pannello = 🟢, l'AD lo fa da solo quando gira; «automatico dal nulla» no → serve un innesco («fai un giro») o un cron 🟡 da proporre prima di attivare. **Vincolo:** l'automazione brucia le stesse quote Claude → «poco e mirato» (max 1 giro/giorno), mai spacciarla come gratis; i 🔴 restano firma sua. Dal 9/7 l'AD potrà proporre una **routine giornaliera 🟡**. Registrato in [[DECISIONI]] + preferenze_nicola.
@@ -110,7 +111,7 @@ fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello ·
 4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco) · **#24 falso positivo Casa Linda demo** — firma opzionale
 5. [ ] 🟢 **Onboarding botteghe (dopo 9/7)** — checklist pronta (indipendente dallo zombie); visita 6 botteghe 13/7
 
-**Sentinelle attive:** #16 **annullato** (non più «ordine in ritardo»: era rumore da dati-test) · 1 carrello buyer reale (samir) · negozio LIVE 0 delivered · loop business 🔴 (0 ordini reali) · **sensore cieco ≥3 giri: PostHog (401, opzionale — SPENTO da Nicola)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** #16 **annullato** (non più «ordine in ritardo»: era rumore da dati-test) · 1 carrello buyer reale (samir) · negozio LIVE 0 delivered · loop business 🔴 (0 ordini reali) · **sensore cieco ≥3 giri: PostHog (401, opzionale — SPENTO da Nicola)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 4 quaderni fermi (direttore-creativo, marketing, qa-designer, relazioni-istituzionali) — **@ad chiuso 6/7 16:40** con riga ESITO canonica.
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
