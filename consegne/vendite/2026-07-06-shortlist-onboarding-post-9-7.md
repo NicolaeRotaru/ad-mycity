@@ -2,7 +2,7 @@
 
 > **Fonte:** `merchants_leads` del marketplace (Supabase live, giro AD 2026-07-06 11:11). Su **407 lead totali**,
 > tutti in stato `to_contact` (mai lavorati), questi **27 sono food/grocery con numero di telefono già presente** →
-> chiamabili subito, senza prima cercare il contatto. Nicola parte con l'inserimento negozi **dopo il 9/7**: questa
+> chiamabili subito, senza prima cercare il contatto. Nicola parte con l'inserimento negozi **dal 13/7**: questa
 > è la lista da cui pescare, in ordine di priorità per il modello MyCity (delivery locale).
 >
 > 🎨 **Colore:** produrre questa lista = 🟢 (dato reale riorganizzato). **Chiamare/scrivere ai negozi = 🔴** (contatto
