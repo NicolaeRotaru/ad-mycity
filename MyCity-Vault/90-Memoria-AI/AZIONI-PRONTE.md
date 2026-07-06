@@ -105,6 +105,28 @@ visual: foto reale insegna/saracinesca Via Calzolai + overlay "DAL 1976 · IL TU
 pre-condizioni: (1) 🔴 versione col NOME+foto = ok del titolare (chiedibile nella chiamata A6/#21) · (2) link reale in bio con UTM turno_pq (@builder-automazioni) · (3) versione neutra = pubblicabile con sola firma Nicola.
 stato: IN ATTESA DI FIRMA NICOLA.
 
+## A18 · 🔎 Scout negozi — 3 botteghe per le categorie mancanti del cluster-spesa
+reparto: vendite
+livello: 🟢 (produrre lista+pitch = prospecting neutro) · 🔴 (contatto reale ai negozi = firma Nicola, dal 9/7)
+canale: Telefono/di persona ai 3 titolari (manuale) — dopo il 9/7
+perche: Il cluster reale è 1 solo negozio (Pane Quotidiano = panetteria/bio) e la shortlist 27 è satura di ristorazione delivery (dove Glovo/JustEat già competono). Mancano le botteghe della SPESA FRESCA che rendono MyCity "fai la spesa dal centro" e non un clone del food-delivery — il vero moat locale (Glovo a Piacenza = ~3 supermercati, 0 botteghe artigianali). Le 3 categorie mancanti: ortofrutta · salumeria/DOP · formaggi & gastronomia. Con queste + PQ il piacentino fa una spesa completa in un carrello solo.
+preparato: 🔎 intelligence (fondamento fatti pubblici) + 🤝 vendite (pitch) — deliverable completo: `consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md`
+i 3 target (scelta_ragionata su fatti pubblici, prospect NON nel DB):
+  ① Ortofrutta → Peretti Frutta e Verdura, Via Alberici Fratelli (negozio storico centro, Vita in Centro).
+  ② Salumeria/DOP → Antica Salumeria Garetti, Piazza Duomo 44 (Albo Botteghe Storiche, 3 DOP piacentini) — già pilastro coda #1/A2, qui confermata come categoria.
+  ③ Formaggi & gastronomia → Caseificio Amendolara, Via Trento 7 (dal 1939, formaggi + culatello Zibello + gastronomia).
+cosa cambia: la pipeline vendite mira alle categorie che costruiscono il carrello-spesa attorno al faro, invece di inseguire pizza/sushi dove c'è più concorrenza. Alla firma partono 3 chiamate mirate con pitch già pronto.
+se va bene: anche 1-2 sì e MyCity diventa "la spesa completa del centro" (pane+frutta+salumi+formaggi) — offerta che nessun'altra app in città ha, e riduce il rischio "un solo negozio reale".
+condizioni di lancio (comuni ai 3): commissione 12% · 0€ costi fissi · payout a consegna · vetrina done-for-you ~20 min (<48h) · primo ordine di prova offerto · agganci: Bando ER 40% (scade 21/7) + Venerdì Piacentini 10/17 lug.
+pitch ① Peretti (ortofrutta):
+«Buongiorno, sono di MyCity, portiamo a casa dei piacentini la spesa dai negozi del centro — come già con Pane Quotidiano in Via Calzolai. La vostra frutta e verdura fresca è quello che la gente vuole ricevere a casa ogni settimana, e in consegna a Piacenza non la fa nessuno. Zero costi fissi, commissione solo sul venduto. Vi va se vi porto la vetrina online pronta e facciamo un primo ordine di prova questa settimana?»
+pitch ② Garetti (salumeria/DOP):
+«Buongiorno, sono di MyCity. I vostri salumi DOP — Coppa, Pancetta, Salame piacentino — a Piacenza nessuno li consegna a domicilio: è il motivo per cui vi ho pensati per primi in questa categoria. Zero costi fissi, commissione solo sul venduto, vetrina pronta in 20 minuti. C'è anche un bando che copre il 40% della digitalizzazione, scade il 21/7. Vi va se passo a mostrarvi come funziona e facciamo un ordine di prova?»
+pitch ③ Amendolara (formaggi/gastronomia):
+«Buongiorno, sono di MyCity, consegniamo a casa dei piacentini la spesa dalle botteghe del centro. I vostri formaggi e la gastronomia pronta sono perfetti per chi la sera vuole qualcosa di buono senza uscire — e dalle botteghe vere, in consegna, non lo fa nessuno. Zero costi fissi, commissione solo quando vendete, vetrina pronta in 20 minuti e primo ordine di prova offerto. Vi va se ve la preparo e ne parliamo 5 minuti?»
+cancello AR-006: prospect non firmati → SOLO pitch-template neutri, nessun asset pesante intestato; lo sforzo pesante resta su Pane Quotidiano (coda #21). Al sì del titolare l'entità passa a `confermato` e si intesta la vetrina.
+stato: PRONTA — nessun contatto inviato. Coda canonica = riga #25 in [[AZIONI-IN-ATTESA]]. Contatto reale dal 9/7.
+
 ## A6 · 💚 Check-in anti-churn — Pane Quotidiano (titolare)
 ⚠️ **SUPERATA il 2026-07-06 12:28 → sostituita da A17.** Premessa morta: lo script diceva «oggi chiudiamo il vostro primo ordine e vi porto il cliente», ma l'ordine #16 è stato ANNULLATO il 3/7. NON usare questo testo. Usa A17.
 reparto: account-negozi
