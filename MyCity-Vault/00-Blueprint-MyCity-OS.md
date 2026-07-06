@@ -1,8 +1,8 @@
 ---
 tipo: blueprint
 fonte: AD digitale (bozza per Nicola)
-aggiornato: 2026-06-27 18:14
-nota: "La descrizione completa di MyCity-OS: identità, leggi, anatomia, leve, livelli, roadmap. Bozza: Nicola la corregge e la fa sua."
+aggiornato: 2026-07-06 16:11
+nota: "La descrizione completa di MyCity-OS: identità, leggi, anatomia, leve, livelli, roadmap, le 53 capacità. Bozza: Nicola la corregge e la fa sua."
 ---
 
 # 🌐 MyCity-OS — Il Blueprint completo
@@ -151,24 +151,118 @@ Ogni livello **non rifà** il precedente: ci costruisce sopra.
 - **Fase 5 — Apprendimento**: impara dai risultati, pota, migliora i prompt.
 - **Fase 6 — Scala & multi-città**: più automazioni, più mani, più mercati; deleghe più ampie man mano che cresce la fiducia.
 
-## 12. Il carburante (cosa alza il livello)
+---
+
+## 12. Le 53 Capacità — l'anatomia della visione completa
+
+> Le **Leggi** sono il *carattere*, gli **8 organi** sono il *corpo di oggi*. Queste **53 capacità** sono
+> ciò che quel corpo **diventa al massimo**: **38 di Frontiera** (la macchina come *organismo* che vive di
+> Piacenza) + **15 di Civiltà** (la macchina come *infrastruttura* su cui Piacenza vive). Si costruiscono
+> **dal basso**, una alla volta, ognuna nutrita da realtà vera: qui c'è il **cosa**; la **sequenza per
+> fasi, i cancelli di realtà e la tracciabilità** stanno nel
+> **[[2026-07-06-piano-piramide-infrastruttura-completa|Piano della Piramide]]**.
+> Il semaforo vale su ognuna: **soldi veri, clienti reali e produzione restano 🔴, firma di Nicola.**
+
+### 🧬 Le 38 Capacità di Frontiera — la macchina-organismo
+
+**Il nucleo (1–18) — si gestisce, serve, cresce**
+1. **Il Gemello Digitale** — simula la mossa (e l'intera azienda) prima di farla davvero.
+2. **Un mini-AD per ogni negoziante** — il fornaio scrive su WhatsApp e il suo assistente aggiorna catalogo e foto, nei binari della macchina.
+3. **Il Concierge di Spesa** — «la spesa per la carbonara per 4» → un carrello multi-negozio composto da una frase.
+4. **La Macchina del Tempo** — replay cliccabile di ogni decisione, fino alla fonte del dato che l'ha causata.
+5. **L'Anticipo Predittivo** — la domanda prevista per ogni negozio, per fascia oraria.
+6. **L'Auto-espansione dell'Organico** — prepara il 44° senior, lo mette in prova su lavoro 🟢, lo misura e chiede la firma per assumerlo.
+7. **Il Genoma Replicabile** — «incolla il DNA» sulla seconda città: stessi principi, dati e Stelle propri.
+8. **I Micro-esperimenti a Bandito** — il budget si auto-alloca su ciò che rende, dentro tetti pre-firmati.
+9. **Il Catasto Vivo della Domanda** — la mappa della domanda inespressa: decide quale negozio reclutare dopo, con prove.
+10. **La Camera di Negoziazione delle Botteghe** — gli agenti negoziano bozze di bundle win-win; l'accordo lo firmano i negozianti.
+11. **La Spesa che si Riordina da Sola** — il riordino previsto, con un solo tap del cliente per confermare (mai a sua insaputa).
+12. **Il Sistema Immunitario** — red team permanente: attacchi simulati (frodi, recensioni finte, manipolazione dei prompt).
+13. **Il Bilancio Vivo** — ogni ordine sa quanto rende, al centesimo, in tempo reale (contrassegno incluso).
+14. **Il Tuo Doppio** — il modello di come decide Nicola, per pre-ordinare la coda; non firma mai al posto suo.
+15. **Le Squadre-Lampo** — task-force temporanee su un evento (meteo, festa), che poi si sciolgono.
+16. **La Macchina che Insegna** — micro-lezioni cucite sui dati del singolo negozio.
+17. **Il Prezzo Onesto Dinamico** — prezzi che si muovono e si spiegano in chiaro (il cambio resta 🔴, o dentro forchette pre-firmate).
+18. **Il Registro Civico della Fiducia** — reputazione portabile: il badge «Verificato MyCity» come standard cittadino.
+
+**Le cinque famiglie del corpo (19–38)**
+
+👁️ **Sensi — percepire la città**
+19. **L'Orecchio della Città** — ascolta i segnali pubblici della città *(prima passa da @legale-privacy)*.
+20. **Il Sismografo** — segnali deboli di churn da login e attività *(il tono, solo dopo il gate legale-privacy)*.
+21. **L'Almanacco** — la memoria stagionale e ricorrente della domanda (si nutre dello storico).
+22. **Il Consiglio dei Piacentini** — un panel simulato di cittadini per testare le mosse *(gate legale-privacy)*.
+
+💪 **Muscoli — agire nel mondo**
+23. **Il Midollo Spinale** — riflessi rapidi (<1 min) sulle sentinelle, come playbook pre-firmati.
+24. **Il Catalogo che si Scrive da Solo** — foto dello scaffale → schede e prezzi proposti.
+25. **Il Magazzino Diffuso** — l'inventario federato tra le botteghe della rete.
+26. **La Staffetta** — logistica peer-to-peer tra negozi e rider.
+
+🩸 **Sangue — far scorrere il valore**
+27. **La Tesoreria di Rete** — prevede i buchi di cassa dei negozi (gli anticipi veri arrivano più avanti, col via libera legale).
+28. **Il Gruppo d'Acquisto Autonomo** — aggrega e negozia bozze d'acquisto «da grande»; l'ordine lo firmano i negozianti.
+29. **Il Dividendo del Volano** — redistribuisce il valore creato dalla rete (calcolo 🟢, erogazione 🔴).
+30. **Il Metabolismo** — misura il costo AI per organo contro la resa, e affama i processi sterili.
+
+🏛️ **Fiducia — meritare la città**
+31. **Il Passaporto del Prodotto** — provenienza e storia verificabile di ogni prodotto.
+32. **Il Quotidiano del Commercio** — il racconto settimanale della città generato dai dati veri.
+33. **L'Angelo Custode Normativo** — HACCP, fisco e GDPR vegliati, con l'avviso prima della multa (bozze 🟡; validità finale umana).
+34. **La Memoria delle Botteghe** — il sapere delle botteghe senza eredi, conservato per la successione (col consenso del bottegaio).
+35. **La Rete di Mutuo Soccorso** — negozio in difficoltà → la rete lo solleva.
+
+🧬 **Evoluzione — durare e migliorarsi**
+36. **L'Evoluzione in Ombra** — varianti di sé provate in shadow sui dati veri; la vincente proposta per la firma.
+37. **Il Letargo** — degradazione con grazia: se quota, fondi o sensori calano, spegne il superfluo e tiene il nucleo vitale.
+38. **Il Guardiano del Tuo Tempo** — misura quali decisioni servivano davvero a Nicola: il KPI del «Nicola sempre più leggero».
+
+### 🏙️ Le 15 Capacità di Civiltà — la macchina-infrastruttura
+
+🧠 **Capire il mondo**
+39. **Il Modello del Mondo** — il modello vivo di Piacenza che risponde ai controfattuali («e se la ZTL si allarga?»).
+40. **Lo Scienziato** — motore causale: ipotesi → esperimenti naturali → leggi del commercio locale.
+41. **La Sala dei Mille Futuri** — scenari in massa contro cui ogni strategia deve sopravvivere.
+
+🌍 **Diventare infrastruttura**
+42. **Il Protocollo** — lo standard aperto con cui qualunque agente esterno si collega e negozia: da piattaforma a lingua.
+43. **Il Circuito del Credito** — liquidità condivisa dentro la rete *(territorio regolamentato: solo con legale e partner autorizzati)*.
+44. **La Mutua Algoritmica** — rischio condiviso dentro la rete *(territorio regolamentato)*.
+45. **La Produzione a Domanda** — la domanda aggregata di domani detta stasera quanto produrre.
+46. **Il Sistema Nervoso Fisico** — IoT: il frigo che si autodenuncia (HACCP), i contapersone, i locker.
+47. **Sapere senza Guardare** — apprendimento federato + privacy differenziale: impara da tutti senza vedere i dati di nessuno.
+48. **L'Onestà Dimostrabile** — le promesse della macchina verificabili matematicamente da terzi: le promesse come teoremi.
+
+🧬 **Trascendere sé stessa**
+49. **Un Agente per Ogni Cittadino** — ogni piacentino col suo agente personale che negozia con la rete.
+50. **La Macchina che fa Ricerca su Sé Stessa** — legge le novità dell'AI, propone upgrade della propria architettura, li prova in ombra.
+51. **La Costituzione Vivente** — le 18 Leggi come codice eseguibile e auto-emendabile (ogni emendamento firmato).
+52. **La Pianificazione Generazionale** — strategie a orizzonte 2040 portate avanti senza dimenticare.
+53. **Il Compilatore d'Impresa** — descrivi un'azienda a parole e la macchina la compila; MyCity è la prima frase di quel linguaggio.
+
+> **In una riga:** le prime 38 fanno di MyCity un *organismo* che vive di Piacenza; le altre 15 lo
+> trasformano nell'*infrastruttura* su cui Piacenza vive. In cima, sempre, una persona sola al timone.
+
+---
+
+## 13. Il carburante (cosa alza il livello)
 1. **Le chiavi** (AI per il worker + le mani). 2. **I dati veri** (già collegati). 3. **La materia prima reale**: foto vere, frasi vere dei negozianti, numeri ufficiali. Con questi, la qualità sale da "buona" a "agenzia internazionale".
 
-## 13. L'economia: si paga da sola
+## 14. L'economia: si paga da sola
 Parti piccolo, misuri il ritorno, e **solo se rende** alzi il livello. STOP se brucia. La macchina deve **finanziare la propria crescita** — non un costo che lievita, ma un motore che si ripaga.
 
-## 14. Il fossato: perché diventa imbattibile
+## 15. Il fossato: perché diventa imbattibile
 Memoria che si accumula + onestà + radicamento locale + effetto-rete + auto-miglioramento. Ognuno è un muro; insieme sono inattaccabili. Più va avanti, più è difficile da raggiungere.
 
-## 15. Il confine umano (resta di Nicola)
+## 16. Il confine umano (resta di Nicola)
 Trattative vere, fiducia profonda, responsabilità legale, scommesse di visione, giudizio etico finale. La macchina **prepara e propone**; Nicola **decide e firma**. Questo non è un limite: è ciò che lo tiene padrone.
 
-## 16. Sicurezza, governance, fiducia
+## 17. Sicurezza, governance, fiducia
 Dati clienti protetti (RLS, GDPR), pagamenti sicuri, segreti gestiti, ruoli e permessi, piano B per gli imprevisti. Senza questo nessuno darebbe le chiavi a una macchina: con questo, si può.
 
 ---
 
-## 17. Un giorno nella vita di MyCity-OS (quando è tutta accesa)
+## 18. Un giorno nella vita di MyCity-OS (quando è tutta accesa)
 - **08:00** — Piano del mattino: legge i numeri della notte, fissa le 3 priorità, prepara le mosse.
 - **Mattina** — pubblica i contenuti del giorno, scrive ai negozi giusti, intercetta un carrello abbandonato, prepara l'email al Comune per un bando (in coda firma).
 - **Ore di punta** — sorveglia consegne e ordini; un rider è in ritardo → riorganizza il giro.
