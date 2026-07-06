@@ -774,7 +774,7 @@ export default function Dashboard() {
     for (const pend of [...pendingLavoroChatRef.current.values()]) {
       const l = lavoriLista.find((x) => x.id === pend.id);
       if (!l || (l.stato !== "fatto" && l.stato !== "errore")) continue;
-      const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+      const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : "(risposta vuota)");
       applicaRispostaChat(pend.id, testo, pend.targetConvId);
     }
   }
@@ -1220,7 +1220,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     // pushState con URL = pathname+search (niente hash): il cambio AREA non trascina residui
     // di hash di una scheda precedente (che facevano fare un clic a vuoto). (bug #2/#4)
     if (ultimaVistaStoria.current !== vista) {
-      try { window.history.pushState({ ...(window.history.state || {}), vista }, ""); } catch {}
+      // URL = pathname+search (niente hash): cambiando AREA non trasciniamo il residuo di hash
+      // di una scheda interna precedente (era una fonte del "clic a vuoto" nel tasto INDIETRO).
+      try { window.history.pushState({ ...(window.history.state || {}), vista }, "", window.location.pathname + window.location.search); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
@@ -1249,11 +1251,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setAssistenteTab(["chat", "conversazioni"].includes(tab) ? tab : "chat");
       }
       if (st?.sub) ripristinaSub(v, st.sub);
-      // Stato mancante (voce base o legacy): la vista di default è già stata applicata sopra,
-      // e ristampo lo stato sulla voce così i prossimi INDIETRO la conoscono.
-      if (!st?.vista) {
-        try { window.history.replaceState({ vista: v, sub: st?.sub }, "", window.location.pathname + window.location.search); } catch {}
-      }
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
@@ -1455,7 +1452,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {/* Mobile: solo il pallino di stato Worker/AD (la pill piena è sm+). (bug #9) */}
             <span
               className={`sm:hidden w-2.5 h-2.5 rounded-full shrink-0 ${
-                workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                workerVivo ? "bg-emerald-600" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
               }`}
               aria-label="Stato worker"
               title={
@@ -1471,7 +1468,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
                 workerVivo
-                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800"
+                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-emerald-950/40 dark:text-emerald-400/90 dark:ring-emerald-900/60"
                   : adInPausa
                     ? "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
                     : vivo
@@ -1490,7 +1487,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             >
               <span
                 className={`w-1.5 h-1.5 rounded-full ${
-                  workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                  workerVivo ? "bg-emerald-600" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
                 }`}
               />
               {workerVivo ? "Worker ON" : adInPausa ? "In pausa" : vivo ? "Worker spento" : "In prova"}

@@ -10,6 +10,7 @@ import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
 import Bussola from "@/components/Bussola";
+import Autopilota from "@/components/Autopilota";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -176,6 +177,9 @@ export default function Plancia({
           </div>
         </button>
       )}
+
+      {/* 🤖 Autopilota: qui nella Plancia (fix #4), non più sepolto in "Da approvare" */}
+      <Autopilota />
 
       {/* 4 priorità: firmare · mosse di Nicola · allarmi · da fare */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">

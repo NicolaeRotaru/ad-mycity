@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-04 22:20",
+  "aggiornato": "2026-07-06 14:20",
   "per_reparto": [
     {
       "reparto": "@AD",
@@ -13,11 +13,18 @@
   ],
   "registro": [
     {
+      "data": "2026-07-06 11:54",
+      "reparto": "@AD",
+      "previsione": "Giro refresh 43 min dopo il pieno delle 11:11: business invariato (delta-gate firma stabile dal 06:24 — ordini=1, ultimo 24/6, clienti=23); nessuna nuova transazione; #16 resta ANNULLATO (non più «in consegna»). Nessun asset pesante nuovo (vincolo allocazione rispettato). Loop chiuso per analista+intelligence.",
+      "esito": "atteso — da confermare al prossimo giro",
+      "fonte": "delta-gate 10:20 (corrente==ultimo_pieno) + sensori 11:53 (REST/MCP/Stripe/Resend ok) + giro pieno 11:11 già misurato live"
+    },
+    {
       "data": "2026-07-04 11:30",
       "reparto": "@AD",
       "previsione": "7 numeri invariati vs 3/7 21:21, stallo ~243h; #16 IN CONSEGNA (WhatsApp #20 fatto 04:51) ma non ancora consegnato — la finestra oggi è favorevole (Sant'Antonino, centro pieno). Novità reale: evento cittadino grande OGGI 4/7 verificato alla fonte",
-      "esito": "atteso — da confermare al prossimo giro (se «consegna fatta» → North Star 0→1)",
-      "fonte": "baseline REST giro.sh 11:30 (MCP+node/curl gated) + WebSearch IlPiacenza/iLMeteo"
+      "esito": "SMENTITO sulla premessa — il 6/7 (MCP vivo) si è scoperto che #16 era già CANCELED dal 3/7 15:38: non era «in consegna», era morto. La previsione «se consegna fatta → North Star 0→1» era su un ordine annullato (macchina cieca sull'MCP). Lezione L-2026-0706: mai dare per vivo uno stato non ri-misurato.",
+      "fonte": "baseline REST giro.sh 11:30 (MCP+node/curl gated) → corretto da MCP live 6/7 11:11"
     },
     {
       "data": "2026-07-03 21:21",
@@ -132,5 +139,6 @@
       "fonte": "REST live"
     }
   ],
-  "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale."
+  "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale.",
+  "promozioni_proposte": {}
 }

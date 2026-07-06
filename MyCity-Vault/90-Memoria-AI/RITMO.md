@@ -114,3 +114,18 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 3. 🔴/🟡 **Sbloccare i 2 bloccanti umani**: revoca PAT (R1) + merge R2 fix cantiere → salute 42→~50 e piattaforma sicura per il **batch negozi 6/7**.
 
 **🙋 Decisioni per Nicola:** 🔴 **esegui #16 stasera** + payout-test · 🔴 **revoca il PAT GitHub** · 🟡 **ok merge R2** (fix cantiere) + **SQL 107** · 🟡 firma le 2 auto-riscritture (AR-024/AR-025, dettaglio nella lettera) · 🟢 dammi la **materia prima di Pane Quotidiano** (foto/scheda/consenso) per alzare i contenuti a livello pro. Lettera completa in [[LETTERA-A-NICOLA]].
+
+## Punto di mezzogiorno · 2026-07-06 12:00
+**Contesto:** stamattina (giro 11:11, MCP Supabase VIVO) è emerso che **l'ordine #16 è annullato dal 3/7 15:38** — la macchina l'ha inseguito morto per 2 giorni perché l'MCP era cieco. Faro riscritto: si riparte dalla **pipeline** (407 lead) + un **primo ordine-prova pulito su Pane Quotidiano**. A mezzogiorno confermo: **MCP ancora VIVO** e la firma business è **invariata** dalle 11:11 (delta-gate 12:00: ordini=1, ultimo 24/6 08:28, 23 clienti; `corrente==ultimo_pieno` sul business) → nessuna consegna emersa, zero numeri inventati. Stallo North Star **~292h ≈ 12 giorni**.
+
+**Stato delle 3 priorità del giorno (ripivot 11:11):**
+1. ❌ **Primo ordine-prova su PQ + payout-test (#21) — non eseguito.** Aspetta le mani di Nicola (accetta ordine in dashboard PQ → consegna → payout-test). È l'unica mossa che sposta la North Star 0→1 su un negozio reale. Nessun ordine nuovo nel DB a mezzogiorno.
+2. ⏸ **Contatti shortlist 27 food (#22) — gated by design fino al 9/7.** Non è un blocco: Nicola parte con l'onboarding dopo giovedì 9/7 (reset limiti). Lista + pitch pronti in `consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`.
+3. ❌ **Sentinella legga `delivery_status`/`canceled_at` (#23) — pending firma.** È la **causa-radice** del loop cieco su #16: oggi la sentinella conta solo il *numero* di ordini, non lo stato → un annullamento resta invisibile. Codice pronto in coda.
+
+**Correzioni di rotta fatte a mezzogiorno:**
+- 🔄 **Scorporata la priorità n.1 dalla data del 9/7:** il primo ordine-prova su PQ (#21) **NON deve aspettare il 9/7** — PQ è già reale e il payout-test si fa oggi, mentre i *nuovi* negozi (#22) partono dopo il 9/7 come da piano di Nicola. Distinguere «attivare il negozio che ho» (ora) da «acquisire i prossimi» (dal 9/7) evita di rimandare tutto in blocco.
+- ✅ **Nessun giro pieno moltiplicato (AR-025):** il delta-gate ha fatto scattare il pieno a mezzogiorno solo per il **cambio sensore** (MCP cieco→ok), non per novità di business → business ri-confermato invariato, zero numeri inventati. Coerente con la lezione L-2026-0629-03.
+- ✅ **Ripivot 11:11 confermato:** #16 resta morto, nessuna narrativa «esegui #16» da riproporre; la coda punta al primo ordine-prova pulito.
+
+**Cosa serve da Nicola entro sera:** 🔴 **#21 primo ordine-prova su PQ + payout-test** (fattibile oggi, non serve aspettare il 9/7 — è l'unica mossa che porta la North Star a 1) · 🟡 **#23 firma sentinella `delivery_status`** (chiude la causa-radice del loop cieco — è la lezione di oggi) · 🔴 **revoca il PAT GitHub** (R1, AR-004) + 🟡 **merge R2** fix cantiere · 📌 promemoria: la shortlist 27 food (#22) parte dal **9/7** come da tuo piano. Domanda ancora aperta dalle 11:11: **chi/perché ha annullato #16?**

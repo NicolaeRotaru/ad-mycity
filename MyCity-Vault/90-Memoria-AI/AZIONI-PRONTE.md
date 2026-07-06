@@ -12,19 +12,12 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 > mosse) referenziato da lì, NON una seconda coda parallela. Quando accodi un'azione nuova, mettila in
 > `AZIONI-IN-ATTESA.md`; se serve l'anteprima lunga, linkala qui. Non duplicare lo stato di approvazione.
 
-## A1 · 📨 Mail al Comune per il bando "Vita in Centro"
+## A1 · ⛔ RITIRATA (6/7/2026 14:45) — il "bando Vita in Centro rimborso 50% materiali" NON esiste
 reparto: relazioni-istituzionali
-livello: 🟡
-canale: Email all'Ufficio Commercio del Comune di Piacenza
-perche: Bando aperto: rimborso fino al 50% sui materiali (vetrofanie, volantini, QR). Scade a fine mese — candidarsi ora è un vantaggio quasi gratis.
-preparato: ✍️ copywriter + ⚖️ legale
-testo:
-Oggetto: MyCity — adesione al bando "Vita in Centro"
-Spett.le Ufficio Commercio,
-siamo MyCity, il marketplace dei negozi di Piacenza. Vorremmo aderire al bando per i
-materiali di promozione del commercio di vicinato. In allegato la nostra adesione e i
-preventivi. Restiamo a disposizione per ogni informazione.
-Cordiali saluti — MyCity
+livello: ⛔ non inviare
+motivo del ritiro: La verifica web del 6/7/2026 (`consegne/relazioni-istituzionali/2026-07-06-playbook-bandi-mail-istituzioni.md`) ha accertato che **non esiste alcun bando/contributo comunale "Vita in Centro" che rimborsi il 50% dei materiali**. "Vita in Centro" è un'**associazione di commercianti** partner dell'Hub Urbano, NON un ente che eroga rimborsi. Inviare questa mail avrebbe fatto chiedere al Comune un bando inesistente (danno di credibilità).
+sostituita da: **riga 39 di [[AZIONI-IN-ATTESA]]** (mail verificate all'Ufficio Commercio del Comune + Unione Commercianti, agganciate al **vero** bando: Bando Commercio ER fondo perduto fino a €50.000, sportello aperto fino al 21/7/2026). Il rimborso materiali per i negozi, semmai, passa da quel bando (spesa ammissibile) o dagli interventi dell'Hub — non da un rimborso comunale a sportello.
+nota per #33 (kit capillarità): rimuovere/riscrivere l'aggancio «bando Vita in Centro dimezza i materiali» — stessa fonte inesistente.
 
 ## A2 · 🤝 Proposta di onboarding alla bottega Garetti
 reparto: vendite
@@ -44,9 +37,9 @@ livello: 🟡 (Touch #1 senza sconto) · 🔴 (Touch #2 col codice)
 canale: Email al buyer samir — indirizzo da recuperare da /admin/users (chiave anon non lo legge)
 perche: Un solo carrello recuperabile REALE (verificato REST 1/7 12:00, conf. 2/7 10:19, letture live gated 3/7 → nessun numero nuovo). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6. Gli altri 3 record `abandoned_carts` = admin/seller-autotest/seed Casa Linda → SKIP (non clienti). Un promemoria caldo può riportarlo a un 2° acquisto invece del silenzio.
 preparato: 🔁 crm-lifecycle + ✍️ copywriter — testo pieno + sequenza in `consegne/crm/2026-07-03-recupero-carrelli-pronte.md`
-cosa cambia: l'unico cliente reale riceve un promemoria del carrello da €10 (pesto + kefir bio di Pane Quotidiano). Da mandare come ri-aggancio caldo DOPO la prima consegna #16, non come promo fredda.
+cosa cambia: l'unico cliente reale riceve un promemoria del carrello da €10 (pesto + kefir bio di Pane Quotidiano). Ri-aggancio caldo, non promo fredda. ⚠️ **Aggiornato 6/7 12:48:** il gate «dopo #16 consegnato» è MORTO — l'ordine #16 di samir è stato ANNULLATO il 3/7. Nuovo gate: parte quando Pane Quotidiano torna evadibile (ordine-prova #21 chiuso), così il carrello non spinge samir verso una **2ª delusione**. Le mail NON citano #16.
 se va bene: samir torna → primo cliente con 2 ordini, base per riordino/referral; se muto dopo Touch #2, si archivia.
-pre-condizioni: parte SOLO dopo #16 consegnato (stesso cliente: prima chiudi il 1° ordine) · ok @legale-privacy sul consenso (`email_marketing=false`, transazionale vs marketing) · email da /admin/users · mani Resend accese (→ builder-automazioni). Finché non attive, resta in coda.
+pre-condizioni: parte SOLO dopo che PQ è di nuovo evadibile (ordine-prova #21 chiuso: accetta→consegna→payout-test) · ok @legale-privacy sul consenso (`email_marketing=false`, transazionale vs marketing) · email da /admin/users (chiave anon non la legge) · mani Resend accese (→ builder-automazioni). Finché non attive, resta in coda.
 testo (Touch #1 — reminder consenso-safe, senza sconto · 🟡):
 Oggetto: Hai lasciato qualcosa da Pane Quotidiano 🛒
 Ciao, hai messo nel carrello da Pane Quotidiano tre prodotti bio — pesto e kefir — e poi ti sei distratto.
@@ -62,7 +55,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #26 in [[AZIONI-IN-ATTESA]].
+stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #27** in [[AZIONI-IN-ATTESA]] (la vecchia #26 è stata riusata il 6/7 per l'anti-churn del negozio PQ → questo carrello ri-accodato come #27, 6/7 12:48).
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione)
 reparto: customer-success
@@ -105,7 +98,30 @@ visual: foto reale insegna/saracinesca Via Calzolai + overlay "DAL 1976 · IL TU
 pre-condizioni: (1) 🔴 versione col NOME+foto = ok del titolare (chiedibile nella chiamata A6/#21) · (2) link reale in bio con UTM turno_pq (@builder-automazioni) · (3) versione neutra = pubblicabile con sola firma Nicola.
 stato: IN ATTESA DI FIRMA NICOLA.
 
+## A18 · 🔎 Scout negozi — 3 botteghe per le categorie mancanti del cluster-spesa
+reparto: vendite
+livello: 🟢 (produrre lista+pitch = prospecting neutro) · 🔴 (contatto reale ai negozi = firma Nicola, dal 9/7)
+canale: Telefono/di persona ai 3 titolari (manuale) — dopo il 9/7
+perche: Il cluster reale è 1 solo negozio (Pane Quotidiano = panetteria/bio) e la shortlist 27 è satura di ristorazione delivery (dove Glovo/JustEat già competono). Mancano le botteghe della SPESA FRESCA che rendono MyCity "fai la spesa dal centro" e non un clone del food-delivery — il vero moat locale (Glovo a Piacenza = ~3 supermercati, 0 botteghe artigianali). Le 3 categorie mancanti: ortofrutta · salumeria/DOP · formaggi & gastronomia. Con queste + PQ il piacentino fa una spesa completa in un carrello solo.
+preparato: 🔎 intelligence (fondamento fatti pubblici) + 🤝 vendite (pitch) — deliverable completo: `consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md`
+i 3 target (scelta_ragionata su fatti pubblici, prospect NON nel DB):
+  ① Ortofrutta → Peretti Frutta e Verdura, Via Alberici Fratelli (negozio storico centro, Vita in Centro).
+  ② Salumeria/DOP → Antica Salumeria Garetti, Piazza Duomo 44 (Albo Botteghe Storiche, 3 DOP piacentini) — già pilastro coda #1/A2, qui confermata come categoria.
+  ③ Formaggi & gastronomia → Caseificio Amendolara, Via Trento 7 (dal 1939, formaggi + culatello Zibello + gastronomia).
+cosa cambia: la pipeline vendite mira alle categorie che costruiscono il carrello-spesa attorno al faro, invece di inseguire pizza/sushi dove c'è più concorrenza. Alla firma partono 3 chiamate mirate con pitch già pronto.
+se va bene: anche 1-2 sì e MyCity diventa "la spesa completa del centro" (pane+frutta+salumi+formaggi) — offerta che nessun'altra app in città ha, e riduce il rischio "un solo negozio reale".
+condizioni di lancio (comuni ai 3): commissione 12% · 0€ costi fissi · payout a consegna · vetrina done-for-you ~20 min (<48h) · primo ordine di prova offerto · agganci: Bando ER 40% (scade 21/7) + Venerdì Piacentini 10/17 lug.
+pitch ① Peretti (ortofrutta):
+«Buongiorno, sono di MyCity, portiamo a casa dei piacentini la spesa dai negozi del centro — come già con Pane Quotidiano in Via Calzolai. La vostra frutta e verdura fresca è quello che la gente vuole ricevere a casa ogni settimana, e in consegna a Piacenza non la fa nessuno. Zero costi fissi, commissione solo sul venduto. Vi va se vi porto la vetrina online pronta e facciamo un primo ordine di prova questa settimana?»
+pitch ② Garetti (salumeria/DOP):
+«Buongiorno, sono di MyCity. I vostri salumi DOP — Coppa, Pancetta, Salame piacentino — a Piacenza nessuno li consegna a domicilio: è il motivo per cui vi ho pensati per primi in questa categoria. Zero costi fissi, commissione solo sul venduto, vetrina pronta in 20 minuti. C'è anche un bando che copre il 40% della digitalizzazione, scade il 21/7. Vi va se passo a mostrarvi come funziona e facciamo un ordine di prova?»
+pitch ③ Amendolara (formaggi/gastronomia):
+«Buongiorno, sono di MyCity, consegniamo a casa dei piacentini la spesa dalle botteghe del centro. I vostri formaggi e la gastronomia pronta sono perfetti per chi la sera vuole qualcosa di buono senza uscire — e dalle botteghe vere, in consegna, non lo fa nessuno. Zero costi fissi, commissione solo quando vendete, vetrina pronta in 20 minuti e primo ordine di prova offerto. Vi va se ve la preparo e ne parliamo 5 minuti?»
+cancello AR-006: prospect non firmati → SOLO pitch-template neutri, nessun asset pesante intestato; lo sforzo pesante resta su Pane Quotidiano (coda #21). Al sì del titolare l'entità passa a `confermato` e si intesta la vetrina.
+stato: PRONTA — nessun contatto inviato. Coda canonica = riga #25 in [[AZIONI-IN-ATTESA]]. Contatto reale dal 9/7.
+
 ## A6 · 💚 Check-in anti-churn — Pane Quotidiano (titolare)
+⚠️ **SUPERATA il 2026-07-06 12:41 → sostituita dalla riga #26 in [[AZIONI-IN-ATTESA]].** Premessa morta: lo script diceva «oggi chiudiamo il vostro primo ordine e vi porto il cliente», ma l'ordine #16 è stato ANNULLATO il 3/7. NON usare questo testo. Usa lo script post-annullamento §3 di `consegne/account-negozi/2026-07-06-anti-churn-pane-quotidiano-post-annullamento.md` (coda #26).
 reparto: account-negozi
 livello: 🟡
 canale: Telefono 0523 388601 — RIDER sulla chiamata operativa #21 (stessa telefonata, +2 min di retention), poi follow-up dopo la consegna
@@ -126,13 +142,13 @@ testo:
 «Ora che il primo ordine è andato, mettiamo a scaffale su MyCity 2-3 vostri prodotti-civetta bio (quelli che vendete di più) con una piccola spinta social del quartiere. Obiettivo: un paio di ordini a settimana costanti. Vi va se preparo io la vetrina e ne parliamo 5 minuti?»
 nota: 🟢 = creare la bozza è libero; la telefonata reale al titolare resta subordinata alla prima consegna (non anticipare).
 
-## A13 · 💬 Touch 1 post-consegna — feedback (ordine #16 Pane Quotidiano)
+## A13 · 💬 Touch 1 post-consegna — feedback (primo ordine consegnato · Pane Quotidiano)
 reparto: customer-success
 livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
-canale: WhatsApp 348 642 1766 (già usato per #16) · backup email/in-app
+canale: WhatsApp/telefono del cliente dell'ordine (dal profilo ordine) · backup email/in-app
 perche: +3h dalla consegna è la finestra per intercettare un problema PRIMA che diventi reclamo, e per filtrare il ramo 👎 (non chiedere recensione a chi è insoddisfatto). Regola d'oro FLUSSI §3: recensione solo se feedback ≠ negativo.
 preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 1
-pre-condizione: ordine `58094956…` segnato **Consegnato** in dashboard (dipende da #16/#22)
+pre-condizione: il **primo ordine-prova PQ** (coda #21: accetta→consegna→payout-test) segnato **Consegnato** in dashboard. ⚠️ **Aggiornato 6/7 13:35:** il vecchio gate «ordine `58094956…` / #16» è MORTO — #16 annullato il 3/7. L'order_id reale sarà quello del **nuovo** ordine-prova, da leggere alla consegna.
 cosa cambia: il primo cliente reale MyCity riceve un check post-consegna; se qualcosa non va lo sistemiamo in giornata invece di perderlo.
 se va bene: feedback 👍 → parte A14 (richiesta recensione); feedback 👎 → handoff @supporto, A14 sospesa.
 testo:
@@ -140,23 +156,24 @@ Ciao! Sono Nicola di MyCity 👋 Ti è arrivata la spesa da Pane Quotidiano? Spe
 siano come al banco. Siamo appena nati e ogni tua parola conta: com'è andata?
 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema. Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
 
-## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (ordine #16 Pane Quotidiano)
+## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (primo ordine consegnato · Pane Quotidiano)
 reparto: customer-success
 livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
-canale: WhatsApp 348 642 1766 + email/in-app
+canale: WhatsApp/telefono del cliente + email/in-app
 perche: subito dopo una buona consegna è il momento migliore per chiedere la recensione. Sarebbe la **prima recensione verificata di MyCity a Piacenza**: social proof che aiuta l'acquisizione dei prossimi clienti e la fiducia nel faro reale.
 preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 2
-pre-condizione: (1) A13 con feedback 👍 · (2) +1 giorno dalla consegna · (3) link recensione reale attivo (verificare l'URL ordine sul dominio LIVE prima dell'invio)
+pre-condizione: (1) A13 con feedback 👍 · (2) +1 giorno dalla consegna · (3) link recensione reale: `https://mycity-marketplace.com/orders/{ID-ORDINE-PROVA}/review` (pagina VERIFICATA nel codice: `app/orders/[id]/review/page.tsx` — stelle negozio 1-5 + rider + commento) → sostituire `{ID-ORDINE-PROVA}` con l'UUID del **nuovo** ordine-prova PQ (NON `58094956…`, annullato) e aprirlo LIVE prima dell'invio.
 cosa cambia: il cliente lascia stelline + una frase vera su Pane Quotidiano → prima recensione pubblica reale sul marketplace.
-se va bene: social proof sulla scheda del negozio faro; base per referral/riordino (aggancio a #26 carrello samir).
+se va bene: social proof sulla scheda del negozio faro; base per referral/riordino (aggancio a #27 carrello samir).
 testo:
 Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidiano 🌟
-👉 [link recensione ordine — verificare URL LIVE]
+👉 https://mycity-marketplace.com/orders/{ID-ORDINE-PROVA}/review  ← inserire l'UUID dell'ordine-prova consegnato · verificare LIVE
 Bastano 30 secondi: stelline + una frase vera (spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi").
 Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
 
 ## A9 · 💚 Rassicurazione standalone al titolare — Pane Quotidiano (parte anche se l'ordine è ancora fermo)
+⚠️ **SUPERATA il 2026-07-06 12:41 → sostituita dalla riga #26 in [[AZIONI-IN-ATTESA]].** Premessa morta: lo script diceva «il primo ordine sta tardando ad arrivare», ma l'ordine #16 è stato ANNULLATO il 3/7 (non "in ritardo"). NON usare questo testo. Usa lo script post-annullamento §3 di `consegne/account-negozi/2026-07-06-anti-churn-pane-quotidiano-post-annullamento.md` (coda #26).
 reparto: account-negozi
 livello: 🔴/🟡 (tocca un commerciante reale → si accoda; la bozza è 🟢)
 canale: Telefono 0523 388601 (Via Calzolai 25) · backup WhatsApp/in-app — chiama NICOLA/account, non il rider
@@ -217,3 +234,89 @@ sue botteghe — anche da casa, te la portiamo noi.
 visual: versione neutra TIPOGRAFICA su palette brand ("OGGI PIACENZA FESTEGGIA SÉ STESSA" + "si tiene viva ogni mattina · dal 1976 · fai il tuo turno", nessun simbolo religioso) = pubblicabile subito senza foto; versione col NOME+foto insegna Via Calzolai = solo con ok titolare. Zero giallo-Glovo/arancio-Amazon.
 pre-condizioni: (1) versione neutra = pubblicabile con sola firma Nicola · (2) versione col nome+foto = ok titolare (chiedibile in A6/#21) · (3) link reale lista in bio con UTM turno_santantonino (@builder-automazioni). ⏰ **A scadenza di giornata: vale solo oggi 4/7** — se non firmato entro sera, decade. Coda canonica = riga #36 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A19 · 🎯 Accendi MyCity Punti (fedeltà spendibile su tutta la rete)
+reparto: growth-monetizzazione
+livello: 🔴 (tocca i soldi — il montepremi punti è costo di margine)
+canale: banner home (config) + scheda "I miei punti" nell'account cliente (codice, frontend-dev) + email annuncio (Resend)
+perche: Un cliente che compra da un negozio guadagna un vantaggio spendibile in TUTTI i negozi MyCity → moat locale che Amazon non copia e che alza frequenza + scontrino. Oggi però la rete è 1 negozio e 0 transazioni: si prepara la meccanica, non si lancia.
+preparato: 🚀 growth + 💶 finanza (economia) + 🧾 contabilita (passività punti) + 🔁 crm + 🎨 designer (comunicazione)
+meccanica:
+- Accumulo: 1 punto ogni €1 speso su qualunque negozio. 1 punto = €0,02 (cashback effettivo 2%, default da validare @finanza).
+- Spesa: valgono su TUTTA la rete. Soglia riscatto 100 punti = €2. Tetto uso 30–50% del carrello (il negozio incassa sempre una quota reale). Scadenza 12 mesi (riduce liability, obbligo trasparenza Codice del Consumo).
+- Chi paga: il MARGINE MyCity, NON il negozio. Al riscatto il negozio incassa pieno; MyCity scala dal proprio take. Registro `punti_liability` (deferred), breakage a scadenza = ricavo.
+- Bonus onboarding: nessun coupon nuovo (budget €0), riuso `BENVENUTO10` già a DB.
+cosa cambia: ⚠️ impatto sistema — cashback 2% finanziato dal margine ≈ 2/12 ≈ 17% delle commissioni sul venduto che matura punti. Sostenibile SOLO se l'incrementale (holdout, @analista) ripaga il costo → @finanza fissa il % PRIMA del lancio, non a intuito.
+se va bene: quando la rete arriva (≥5 negozi), la leva di fidelizzazione è già scritta e firmabile in 2 minuti; misurata con holdout per il dato incrementale reale (non il lordo).
+gate di lancio (tutte e 4): (1) ≥5 negozi reali con payout · (2) flusso ordini reali avviato (#21 chiuso end-to-end) · (3) Stripe write collegato · (4) % e tetti validati @finanza.
+dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte A). Coda canonica = riga #28 in [[AZIONI-IN-ATTESA]].
+stato: ⏸ ARMATO — meccanica pronta, nessun lancio finché il gate non è verde.
+
+## A20 · 🎁 Vendi le Gift Card MyCity (incasso anticipato)
+reparto: growth-monetizzazione → legale-privacy / contabilita
+livello: 🔴 (incasso reale + passività fiscale — firma Nicola)
+canale: pagina "Gift Card" sul marketplace (frontend-dev) + Stripe (incasso) + email/PDF "Regala Piacenza"
+perche: Gift card digitali €10/€25/€50 spendibili su tutta la rete = incasso anticipato (cassa positiva upfront senza debito) + prodotto-regalo che porta clienti nuovi ("Regala Piacenza", welfare aziendale locale B2B). Il non-usato dopo scadenza = breakage → ricavo.
+preparato: 🚀 growth + ⚖️ legale-privacy (IVA/termini) + 🧾 contabilita (deferred revenue) + 🛡️ trust-safety (anti-frode) + 🧰 builder (mani)
+meccanica:
+- Incasso subito l'intero importo; il negozio è pagato SOLO al riscatto, sul venduto reale. Scadenza dichiarata in chiaro. Codici a uso singolo.
+- Fiscale (da confermare @legale + @contabilita): spendibili su categorie a IVA diversa → buono MULTIUSO (art. 6-ter DPR 633/72) = IVA all'UTILIZZO, non all'emissione. Registro passività `giftcard_liability`.
+- Anti-frode (@trust-safety): limite acquisto/giorno, blocco rivendita massiva, watch chargeback.
+cosa cambia: entrano soldi veri oggi che poi girano nelle botteghe reali — non su Amazon. Ma serve il sì fiscale (IVA multiuso) e la mano Stripe write (oggi sola lettura) prima di vendere una sola card.
+se va bene: carburante di cassa senza debito + un canale di acquisizione clienti nuovi (chi riceve il regalo scopre la rete).
+gate di lancio: (1) parere @legale-privacy + @contabilita su IVA/termini · (2) Stripe write + generatore codici (@builder) · (3) tabella `gift_cards` + redemption al checkout.
+dettaglio: consegne/growth/2026-07-06-playbook-fedelta-di-rete.md (Parte B). Coda canonica = riga #29 in [[AZIONI-IN-ATTESA]].
+stato: ⏸ ARMATO — nessuna vendita finché Stripe write e parere fiscale non ci sono.
+
+## A21 · 🔎 SEO locale — riempi i campi vetrina di Pane Quotidiano (la leva n.1, reversibile)
+reparto: seo → tech (esecuzione config)
+livello: 🟡 (config sul marketplace, backup per riga → reversibile)
+canale: corsia CONFIG `node cervello/marketplace.mjs aggiorna profiles <id-PQ> '<json>'` (mai deploy, mai DB clienti)
+perche: Ho letto il codice del sito (`app/store/[id]/layout.tsx` + `page.tsx`): titolo, meta-descrizione, Open Graph e lo schema.org `Store` sono TUTTI derivati dai campi vetrina nel DB (`store_name`, `store_description`, `store_address`). Due scoperte verificate: (a) il titolo aggiunge "**a Piacenza**" SOLO se `store_address` è pieno (riga 46 del layout) → local intent gratis; (b) se `store_description` è vuota esce una descrizione generica → oggi PQ non intercetta nessuna keyword. Riempire questi campi migliora in un colpo solo meta-title, meta-description, OG **e** lo schema.org — senza toccare codice.
+preparato: 🔎 seo — testi veri (fatti pubblici PQ, ≤160 char) + verifica del meccanismo nel codice. Deliverable: `consegne/seo/2026-07-06-playbook-seo-locale-PQ.md`
+le 5 ricerche ad alto intento intercettate (stime scala Piacenza, verità in Search Console post-live):
+  ① prodotti bio a domicilio Piacenza / dove comprare biologico a Piacenza (~40–120/mese, concorrenza bassa) → pagina PQ
+  ② alimenti dietetici Piacenza / negozio dietetico centro (~20–60, molto bassa) → pagina PQ
+  ③ spesa bio online Piacenza / biologico consegna a casa (~30–90, bassa-media) → home/categoria bio
+  ④ prodotti senza glutine Piacenza (~40–110, bassa) → pagina PQ ⚠️ SOSPESA finché Nicola/PQ non conferma la linea senza glutine (non inventiamo il catalogo)
+  ⑤ negozi del centro storico Piacenza con consegna a casa (~30–80, bassa) → pagina PQ (Via Calzolai, centro)
+campi da scrivere (tutti veri; l'esecutore fa PRIMA `node cervello/marketplace.mjs leggi` per confermare l'id seller PQ `c0b240c0…` e i valori attuali):
+  store_description → «Pane Quotidiano: alimenti biologici e dietetici a Piacenza dal 1976, in Via Calzolai 25 (centro). Prodotti bio per mangiar sano — su MyCity con consegna locale o ritiro in negozio.» (≈155 char)
+  store_address → «Via Calzolai 25, 29121 Piacenza (PC)» (già a DB per la parte via/telefono — confermare che il campo che alimenta il title sia pieno)
+  store_phone → «0523 388601»
+  (store_lat / store_lng → SOLO se geocodifica reale di Via Calzolai 25 confermata; non inventiamo coordinate)
+cosa cambia: la pagina di Pane Quotidiano smette di uscire "generica" su Google: title con "a Piacenza", meta-descrizione ricca di parole vere (biologici, dietetici, bio, consegna) e schema.org con indirizzo/telefono pieni. Reversibile (backup per riga).
+se va bene: PQ inizia a comparire per le ricerche 1–2–5; con Search Console (gratis) misuriamo impression/click veri a 30/90 gg e capiamo dove spingere.
+cancello AR-006: PQ è `confermato` (unico negozio reale) → pacchetto pieno intestato = legittimo. Nessun campo legale/fiscale/IBAN toccato.
+dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§0-2). Coda canonica = riga #30 in [[AZIONI-IN-ATTESA]].
+stato: PRONTA — testi pronti, nessuna scrittura fatta. Aspetta il via.
+
+## A22 · 🧩 SEO tecnica — completa lo schema.org e correggi l'URL canonico (in branch)
+reparto: seo → frontend-dev / tech
+livello: 🟡 (patch codice in un branch del repo marketplace, test come cancello — mai deploy senza firma 🔴)
+canale: branch `marketplace/` → anteprima → merge (owner: frontend-dev/tech); cancello = `tests/e2e/06-seo-and-a11y.spec.ts`
+perche: Lo schema.org `Store` (LocalBusiness) JSON-LD esiste già (`app/store/[id]/page.tsx`) ma è affamato di dati e ha un bug che lo rende invisibile ai crawler. Sistemarlo alza la qualità del risultato locale ("rich result", local pack).
+i 4 interventi (in ordine di impatto):
+  ① Bug URL canonico: lo schema usa `window.location.href` → `undefined` lato server, il crawler non vede l'URL. Costruire l'URL canonico server-side. (SEO tecnica, alto impatto, basso rischio)
+  ② `openingHours` assente → aggiungere `openingHoursSpecification`. SERVE: orari reali di apertura di PQ (procura da Nicola/PQ) — forte per il local pack.
+  ③ `@type` generico `Store` → per food-bio usare `GroceryStore`/`HealthFoodStore` (data-driven dalla categoria).
+  ④ `Product` + `Offer` JSON-LD sulle schede prodotto (prezzo, disponibilità) → rich result. + `BreadcrumbList`/`CollectionPage` sulla categoria.
+cosa cambia: lo schema.org di ogni negozio (a partire da PQ) esce completo e leggibile dai motori: telefono, indirizzo, orari, tipo corretto, prodotti con prezzo. Migliora come MyCity appare su Google/Maps.
+se va bene: base tecnica SEO solida e riusabile per OGNI negozio futuro, non solo PQ — si scrive una volta e vale per tutta la rete.
+serve da Nicola: orari reali di PQ (per ②) + firma al merge/deploy (🔴).
+dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§3). Coda canonica = riga #31 in [[AZIONI-IN-ATTESA]].
+stato: PRONTA (specifica) — nessun codice scritto. Alla firma apro il branch.
+
+## A23 · 📍 SEO locale — rivendica i due Google Business Profile (PQ + MyCity)
+reparto: seo → relazioni con il titolare PQ
+livello: 🔴 (scheda pubblica reale del negozio + creazione scheda MyCity — serve OK Nicola E titolare PQ)
+canale: Google Business Profile (rivendica/verifica scheda PQ · crea scheda MyCity service-area)
+perche: Per le ricerche "vicino a me" / local pack, il Google Business Profile è la leva locale più forte, più del sito. PQ (attività dal 1976) è quasi certamente già mappata → si rivendica, non si crea da zero.
+le 2 schede:
+  ① Pane Quotidiano — rivendicare/verificare la scheda esistente: categoria "Negozio di alimenti naturali/biologici", orari reali, foto, link alla vetrina MyCity, post "ora consegniamo a domicilio con MyCity". È la scheda del NEGOZIO → serve l'ok del titolare, non è nostra.
+  ② MyCity — creare la scheda "MyCity — marketplace dei negozi di Piacenza" come service-area business (zona Piacenza), categoria "Servizio di consegna spesa", link al sito, descrizione con keyword.
+cosa cambia: PQ e MyCity diventano trovabili su Google Maps e nel "local pack" per chi cerca spesa/bio a Piacenza — il canale che porta più clic locali. I campi esatti (nome, categorie, descrizione, orari, foto) li preparo al via; non pubblico nulla senza firma.
+se va bene: traffico organico locale "a costo zero" verso la vetrina PQ e verso MyCity; misurato in GBP Insights (gratis).
+serve da Nicola: (1) ok a rivendicare/gestire i due profili · (2) ok del titolare PQ per la sua scheda · (3) orari + foto reali PQ.
+dettaglio: consegne/seo/2026-07-06-playbook-seo-locale-PQ.md (§4). Coda canonica = riga #32 in [[AZIONI-IN-ATTESA]].
+stato: PRONTA — campi da compilare al via, nessuna pubblicazione fatta.

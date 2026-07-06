@@ -1,32 +1,32 @@
 {
   "_cosa_e": "🚦 DELTA-GATE (AR-019): firma dello stato reale per saltare i giri pesanti quando NULLA è cambiato dall'ultimo giro pieno. Scritto da cervello/delta-gate.mjs.",
-  "aggiornato": "2026-07-04 22:20",
+  "aggiornato": "2026-07-06 14:20",
   "ultimo_pieno": {
     "firma": {
       "ordini": 1,
       "ultimo_ordine": "2026-06-24T08:28:40.166644+00:00",
       "clienti": 23,
       "sensori": {
-        "stati": "mcp_supabase:cieco,posthog_api:cieco,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok",
+        "stati": "mcp_supabase:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok",
         "almeno_un_dato": true
       },
       "dati_leggibili": true
     },
-    "firma_str": "{\"ordini\":1,\"ultimo_ordine\":\"2026-06-24T08:28:40.166644+00:00\",\"clienti\":23,\"sensori\":{\"stati\":\"mcp_supabase:cieco,posthog_api:cieco,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok\",\"almeno_un_dato\":true}}",
-    "quando": "2026-07-04 11:40"
+    "firma_str": "{\"ordini\":1,\"ultimo_ordine\":\"2026-06-24T08:28:40.166644+00:00\",\"clienti\":23,\"sensori\":{\"stati\":\"mcp_supabase:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok\",\"almeno_un_dato\":true}}",
+    "quando": "2026-07-06 12:07"
   },
   "corrente": {
     "ordini": 1,
     "ultimo_ordine": "2026-06-24T08:28:40.166644+00:00",
     "clienti": 23,
     "sensori": {
-      "stati": "mcp_supabase:cieco,posthog_api:cieco,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok",
+      "stati": "mcp_supabase:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:non_configurato,stripe_api:ok,supabase_rest:ok",
       "almeno_un_dato": true
     },
     "dati_leggibili": true
   },
-  "giri_saltati_consecutivi": 9,
-  "giri_valutati": 25,
+  "giri_saltati_consecutivi": 2,
+  "giri_valutati": 48,
   "storia": [
     {
       "quando": "2026-07-02 18:20",
@@ -152,12 +152,127 @@
       "quando": "2026-07-04 22:20",
       "esegui_pieno": false,
       "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 06:00",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-05 06:19",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-05 06:20",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-05 06:21",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-05 08:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 10:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 12:00",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 12:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 14:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 16:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 18:00",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 18:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 20:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-05 22:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-06 06:00",
+      "esegui_pieno": true,
+      "motivo": "heartbeat: 18h dall'ultimo giro pieno (>12h)"
+    },
+    {
+      "quando": "2026-07-06 06:19",
+      "esegui_pieno": true,
+      "motivo": "heartbeat: 19h dall'ultimo giro pieno (>12h)"
+    },
+    {
+      "quando": "2026-07-06 06:20",
+      "esegui_pieno": true,
+      "motivo": "heartbeat: 19h dall'ultimo giro pieno (>12h)"
+    },
+    {
+      "quando": "2026-07-06 06:27",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-06 08:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-06 10:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-06 12:00",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-07-06 12:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
+    },
+    {
+      "quando": "2026-07-06 14:20",
+      "esegui_pieno": false,
+      "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno"
     }
   ],
   "ultima_decisione": {
-    "quando": "2026-07-04 22:20",
+    "quando": "2026-07-06 14:20",
     "esegui_pieno": false,
     "motivo": "nulla di nuovo: stato invariato dall'ultimo giro pieno",
-    "ore_da_pieno": 11
+    "ore_da_pieno": 2
   }
 }

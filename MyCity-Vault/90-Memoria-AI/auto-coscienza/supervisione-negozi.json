@@ -1,9 +1,9 @@
 {
   "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
-  "aggiornato": "2026-07-04 22:10",
+  "aggiornato": "2026-07-06 14:20",
   "conteggi": {
     "negozi": 17,
-    "negozi_approvati": 2,
+    "negozi_approvati": 1,
     "prodotti": 258,
     "autofill_proposte": 494,
     "da_procurare": 34
@@ -55,7 +55,7 @@
       "n": 1
     }
   ],
-  "report": "consegne/supervisione/2026-07-04-supervisione.md",
+  "report": "consegne/supervisione/2026-07-06-supervisione.md",
   "storia": [
     {
       "quando": "2026-07-04 22:10",
@@ -77,6 +77,150 @@
       "quando": "2026-07-04 22:10",
       "negozi": 17,
       "negozi_approvati": 2,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 06:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 08:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 10:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 11:45",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 12:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 14:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 16:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 18:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 20:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-05 22:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 06:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 08:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 10:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 11:45",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 11:53",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 12:03",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 12:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-06 14:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
       "prodotti": 258,
       "autofill_proposte": 494,
       "da_procurare": 34
