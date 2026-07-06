@@ -1483,7 +1483,7 @@
     "Il voto 42 è una stima onesta dell'AD (la formula automatica dava 0, essa stessa un difetto segnalato in calibrazione-onesta): è indicativo, non riproducibile finché il calcolo del voto non è sistemato."
   ],
   "sonda": {
-    "data": "2026-07-06 11:45",
+    "data": "2026-07-06 11:53",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
@@ -1516,7 +1516,7 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-06 11:45"
+    "aggiornato": "2026-07-06 11:53"
   },
   "cantiere_progress": {
     "aggiornato": "2026-07-02 13:05",

@@ -1,7 +1,24 @@
 ---
-data: 2026-07-06 11:11
+data: 2026-07-06 11:54
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
+---
+
+# 🔬 Auto-analisi del giro — 2026-07-06 11:54 (🔭 giro refresh)
+
+## Voto di fiducia: 87/100 (= vs 88)
+Giro **refresh 43 min dopo il pieno delle 11:11**. Nessuna novità di business: la firma delta-gate è **stabile dal 06:24** (ordini=1, ultimo 24/6, clienti=23) e i sensori 11:53 sono tutti ok (REST/MCP/Stripe/Resend). Il giro **non ha ri-inseguito numeri già misurati** né prodotto asset pesanti; ha fatto tre cose oneste: **① chiuso il loop di apprendimento** del giro pieno — ESITO registrato per @analista e @intelligence (avevano FATTO alle 11:11 senza esito → gate chiusura-loop rispettato); **② scoricato in calibrazione** la previsione 4/7 **SMENTITA** (#16 dato «in consegna» era in realtà già annullato dal 3/7 — L-2026-0706); **③ riallineato i timestamp** Cabina. Il quadro sostanziale è quello delle 11:11: #16 ANNULLATO, business fermo 12 giorni, North Star 0, 407 lead con shortlist 27 food pronta. Voto stabile (non sale) perché le lacune del pieno restano: attore annullamento #16 ignoto, Stripe non interrogato, 380 lead senza contatto.
+
+## Cancelli hard di questo giro
+- ✅ **Allocazione (allocazione-check):** ZERO asset pesanti intestati a `scelta_ragionata` (Garetti non toccato). Lo sforzo resta sul negozio confermato (PQ) e sul prospecting neutro (shortlist).
+- ✅ **Chiusura-loop (chiusura-loop --gate):** ESITO scritto nei quaderni di @analista e @intelligence per il lavoro FATTO oggi.
+- ⚠️ **Nota esecuzione:** `node`/script gated in questa sessione → ESITO e sonda scritti a mano nei file (non via `chiusura-loop.mjs`/`sonda-volano.mjs`); i contatori JSON derivati si riallineano al prossimo giro con rete aperta (Gap).
+
+## Domande aperte per Nicola (invariate dal pieno 11:11)
+1. 🔴 **Chi/perché ha annullato #16** il 3/7 15:38?
+2. 🔴 **Attivo il payout-test su Pane Quotidiano** per il prossimo ordine-prova (coda #21)?
+3. 🔴 **Dal 9/7 chiamo le prime 6 botteghe** della shortlist Priorità A (coda #22)?
+
 ---
 
 # 🔬 Auto-analisi del giro — 2026-07-06 11:11 (🔭 giro AD · MCP VIVO)
