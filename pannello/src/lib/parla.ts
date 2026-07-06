@@ -51,7 +51,7 @@ async function attendiLavoro(id: string, tipo = "chat", timeoutMs = 5 * 60 * 100
       const d = await fetch("/api/lavori", { cache: "no-store" }).then((r) => r.json());
       const l = Array.isArray(d.lavori) ? d.lavori.find((x: any) => x.id === id) : null;
       if (l && (l.stato === "fatto" || l.stato === "errore")) {
-        return l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+        return l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : "(risposta vuota)");
       }
     } catch {
       /* rete instabile: riprovo */

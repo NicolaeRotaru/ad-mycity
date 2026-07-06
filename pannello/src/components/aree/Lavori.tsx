@@ -32,14 +32,17 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
     return () => window.removeEventListener(EVENTO_SUB, onSub);
   }, []);
 
+  // (fix #6) I lavori falliti sono "da riapprovare": stanno nella corsia ATTIVA ("In coda"),
+  // non nell'Archivio (che tiene solo i lavori completati). Così l'azione da fare è sott'occhio.
+  const inCoda = (l: LavoroBase) => l.stato === "in_attesa" || l.stato === "in_corso" || l.stato === "errore";
   const filtrati = useMemo(() => {
-    if (tab === "coda") return lavori.filter((l) => l.stato === "in_attesa" || l.stato === "in_corso");
-    return lavori.filter((l) => l.stato === "fatto" || l.stato === "errore");
+    if (tab === "coda") return lavori.filter(inCoda);
+    return lavori.filter((l) => l.stato === "fatto");
   }, [lavori, tab]);
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode; n: number }[] = [
-    { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: lavori.filter((l) => l.stato === "in_attesa" || l.stato === "in_corso").length },
-    { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: lavori.filter((l) => l.stato === "fatto" || l.stato === "errore").length },
+    { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: lavori.filter(inCoda).length },
+    { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: lavori.filter((l) => l.stato === "fatto").length },
   ];
 
   return (

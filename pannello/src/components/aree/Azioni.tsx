@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, ChevronDown, ChevronRight, Bot, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert } from "lucide-react";
 import { istante, testoPulito } from "@/lib/format";
-import { spiegaAzione } from "@/lib/spiega-azione";
+import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
@@ -85,31 +85,17 @@ function chiavi(s: string): string[] {
   return ((s || "").toLowerCase().match(/[a-zàèéìòù0-9]{4,}/g) || []).filter((w) => !STOP.has(w));
 }
 
-// La scheda «Se approvi, ecco cosa succede» dentro una card della coda: finestra
-// che si apre e si chiude (chiusa di default), così la card resta compatta.
-function Scheda({ a, open, onToggle }: { a: Azione; open: boolean; onToggle: () => void }) {
-  return (
-    <div className="mt-2.5 rounded-lg border border-brand/15 bg-brand-50/40 px-3 py-2.5">
-      <button
-        onClick={onToggle}
-        aria-expanded={open}
-        className="w-full flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide"
-      >
-        {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
-        Se approvi, ecco cosa succede
-      </button>
-      {open && (
-        <div className="mt-1.5 space-y-1.5">
-          {spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito }).map((r) => (
-            <p key={r.etichetta} className="text-[11.5px] leading-relaxed text-ink/80">
-              <span className="mr-1">{r.ico}</span>
-              <span className="font-semibold text-ink/90">{r.etichetta}:</span> {r.testo}
-            </p>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+// Le righe del riquadro «In parole semplici» dentro ogni card della coda (fix #3):
+// il "cosa farà" e "come lo fa" ora sono SEMPRE visibili, non più nascosti in una tendina.
+// Prende le voci giuste da spiegaAzione() e le mostra con etichette a misura d'uomo.
+function righeInParoleSemplici(a: Azione): { ico: string; etichetta: string; testo: string }[] {
+  const s = spiegaAzione({ reparto: a.reparto, azione: a.titolo, canale: a.canale, contenuto: a.perche, livello: a.livello, cambia: a.cambia, seguito: a.seguito });
+  const testoDi = (et: string) => s.find((r) => r.etichetta === et)?.testo || "";
+  return [
+    { ico: "🎯", etichetta: "Cosa farà", testo: testoDi("Cosa cambia") },
+    { ico: "✋", etichetta: "Come lo fa", testo: testoDi("Come agisce") },
+    { ico: "➡️", etichetta: "Se va bene", testo: testoDi("Se va bene") },
+  ].filter((r) => r.testo);
 }
 
 export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
@@ -117,11 +103,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
-  const [autopilota, setAutopilota] = useState(false);
   const [loading, setLoading] = useState(true);
   const [aperte, setAperte] = useState<Set<string>>(new Set());
-  // Finestre «Se approvi, ecco cosa succede» aperte (chiuse di default → card compatta).
-  const [schedeAperte, setSchedeAperte] = useState<Set<string>>(new Set());
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [aggAt, setAggAt] = useState<number | null>(null);
@@ -164,7 +147,6 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       }));
       setSalvataggio(Boolean(d.salvataggio));
       setCollegato(Boolean(d.collegato));
-      setAutopilota(Boolean(d.autopilota));
     } else setCollegato(false);
     setAggAt(Date.now());
     return d;
@@ -371,17 +353,6 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       setPropBusy(null);
     }
   }
-  async function toggleAutopilota() {
-    const nuovo = !autopilota;
-    setAutopilota(nuovo);
-    try {
-      await fetch("/api/azioni-pronte/autopilota", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ attiva: nuovo }) });
-      await carica();
-      setRegistro(null);
-    } catch {
-      /* ignora */
-    }
-  }
   async function spunta(item: TodoItem) {
     const nuovo = !item.fatto;
     setTodo((list) => list.map((t) => (t.id === item.id ? { ...t, fatto: nuovo } : t)));
@@ -395,13 +366,6 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }
   const toggle = (id: string) =>
     setAperte((s) => {
-      const n = new Set(s);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
-      return n;
-    });
-  const toggleScheda = (id: string) =>
-    setSchedeAperte((s) => {
       const n = new Set(s);
       if (n.has(id)) n.delete(id);
       else n.add(id);
@@ -680,15 +644,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         <>
           <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
             <Zap size={15} className="text-brand mt-0.5 shrink-0" />
-            <span>Quando approvi, l'azione parte dalle «mani»: invia <b>davvero</b> solo con la chiave e l'interruttore attivi; altrimenti la <b>simula</b> o resta <b>in coda</b>. <b>Mai invii per sbaglio.</b></span>
-          </div>
-
-          {/* Autopilota */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button onClick={toggleAutopilota} className={`inline-flex items-center gap-2 text-[12.5px] font-medium px-3 py-2 rounded-xl border transition ${autopilota ? "border-brand/40 bg-brand-50 text-brand" : "border-black/10 text-black/60 hover:bg-black/[0.04]"}`}>
-              <Bot size={15} /> Autopilota azioni sicure 🟢: <b>{autopilota ? "ON" : "OFF"}</b>
-            </button>
-            <span className="t-eti">Quando è ON, le mosse 🟢 partono da sole e te le segno. Restano sicure: senza modalità live, simula.</span>
+            <span>Quando approvi, l'azione parte dalle «mani»: invia <b>davvero</b> solo con la chiave e l'interruttore attivi; altrimenti la <b>simula</b> o resta <b>in coda</b>. <b>Mai invii per sbaglio.</b> <span className="text-ink/60">(L&apos;autopilota per le mosse sicure 🟢 ora è nella Plancia.)</span></span>
           </div>
 
           {loading && <div className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" /> Carico le azioni…</div>}
@@ -723,9 +679,10 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       <div className="flex items-start gap-2.5">
                         <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
                         <div className="min-w-0 flex-1">
-                          <div className="t-sez leading-snug">{a.titolo}</div>
+                          {/* testoPulito: via gli asterischi ** del markdown e l'emoji di livello iniziale (fix #3) */}
+                          <div className="t-sez leading-snug">{testoPulito(a.titolo)}</div>
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
-                            <span className="badge badge-off">{a.reparto}</span>
+                            <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
                             {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
                             {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
                             {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
@@ -735,25 +692,30 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
                       </div>
 
-                      <p className="t-corpo mt-2">{a.perche}</p>
-                      <div className="t-eti mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5">
-                        {a.preparato && <span>preparato da {a.preparato}</span>}
-                        {a.canale && <span>· canale: {a.canale}</span>}
-                      </div>
+                      {/* Il "perché" come prosa leggibile. Se è solo un riferimento a un file
+                          (es. "consegne/vendite/pitch.md (Parte C)") lo nascondiamo: è gergo — il
+                          contenuto vero si apre con "Leggi il testo esatto" qui sotto. (fix #3) */}
                       {(() => {
-                        const o = risolviOrigine(a.origine);
-                        if (o) {
-                          return (
-                            <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                              <ArrowRight size={12} /> Vai all'origine: {o.etichetta}
-                            </button>
-                          );
-                        }
-                        // Senza tag origine: link generico al Cervello (auto-coscienza).
+                        const p = testoPulito(a.perche);
+                        const soloRiferimento = /^(consegne|creativi)\/\S+(\s*\([^)]*\))?$/.test(p);
+                        return p && !soloRiferimento ? <p className="t-corpo mt-2">{p}</p> : null;
+                      })()}
+
+                      {/* 🗣️ In parole semplici — cosa farà e come lo farà (fix #3): SEMPRE in vista,
+                          non più nascosto in una tendina. È la risposta a "non capisco cosa farà". */}
+                      {!decisa && (() => {
+                        const righe = righeInParoleSemplici(a);
+                        if (righe.length === 0) return null;
                         return (
-                          <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                            <ArrowRight size={12} /> Perché l'ho proposta? Vedi nel Cervello
-                          </button>
+                          <div className="mt-2.5 surface-muted p-3 space-y-1.5">
+                            <div className="t-micro">🗣️ In parole semplici</div>
+                            {righe.map((r) => (
+                              <p key={r.etichetta} className="text-[12.5px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                                <span className="mr-1">{r.ico}</span>
+                                <span className="font-semibold" style={{ color: "var(--text-primary)" }}>{r.etichetta}:</span> {r.testo}
+                              </p>
+                            ))}
+                          </div>
                         );
                       })()}
 
@@ -761,14 +723,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                         <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
                       )}
 
-                      {/* 📄 Scheda completa: il documento VERO che il senior eseguirà */}
+                      {/* 📄 Il testo VERO che verrà inviato (il percorso tecnico del file resta nascosto). */}
                       {path && (
                         <div className="mt-2.5">
                           <button onClick={() => apriScheda(a.id, path)} className="inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline">
-                            <FileText size={13} /> Apri scheda completa <span className="text-black/40 font-normal">({path})</span>
+                            <FileText size={13} /> Leggi il testo esatto che verrà inviato
                           </button>
-                          {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> carico il documento…</p>}
-                          {sch?.err && <p className="t-eti mt-1 text-amber-700">Documento non disponibile ({sch.err}). Serve la memoria collegata.</p>}
+                          {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
+                          {sch?.err && <p className="t-eti mt-1 text-amber-700">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
                           {sch?.testo && (
                             <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/30 pl-3 bg-paper/50 rounded-r-lg py-2 max-h-96 overflow-y-auto">{sch.testo}</pre>
                           )}
@@ -779,13 +741,32 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       {a.testo && !path && (
                         <div className="mt-2.5">
                           <button onClick={() => toggle(a.id)} className="t-eti hover:text-brand inline-flex items-center gap-1 transition">
-                            {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} Anteprima del testo
+                            {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} Leggi il testo esatto che verrà inviato
                           </button>
                           {open && <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/20 pl-3 bg-paper/40 rounded-r-lg py-2">{a.testo}</pre>}
                         </div>
                       )}
 
-                      {!decisa && <Scheda a={a} open={schedeAperte.has(a.id)} onToggle={() => toggleScheda(a.id)} />}
+                      {/* Riga minuta in fondo: da quando è pronta + da dove nasce (dettagli, non gergo in evidenza) */}
+                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5">
+                        {a.preparato && <span className="t-eti">Pronta dal {a.preparato}</span>}
+                        {(() => {
+                          const o = risolviOrigine(a.origine);
+                          if (o) {
+                            return (
+                              <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                                <ArrowRight size={12} /> Da dove nasce: {o.etichetta}
+                              </button>
+                            );
+                          }
+                          return (
+                            <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                              <ArrowRight size={12} /> Perché te la propongo
+                            </button>
+                          );
+                        })()}
+                      </div>
+
                       {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
 
                       <div className="mt-3 flex flex-wrap items-center gap-2">

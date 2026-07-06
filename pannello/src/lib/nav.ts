@@ -45,10 +45,20 @@ export function vaiArea(vista: VistaNav, anchor?: string, sub?: string) {
 
 // Cambio SOTTO-SCHEDA (contratto nav): pushState({vista, sub}) SENZA toccare l'hash,
 // così l'URL non trascina residui e ogni INDIETRO è un passo visibile. (bug #2/#4)
+//
+// ⚠️ CAUSA-RADICE del bug "INDIETRO mi porta ad altre pagine": Next.js (App Router) tiene i
+// SUOI internals di routing dentro history.state (__NA, __PRIVATE_NEXTJS_INTERNALS_TREE).
+// Se qui sovrascrivessimo lo state con un oggetto pulito {vista, sub}, cancelleremmo quegli
+// internals: al primo INDIETRO Next non riconosce più la voce e fa un RELOAD/salto di pagina.
+// Perciò FONDIAMO con lo state esistente, esattamente come fa page.tsx per il cambio area.
 export function vaiSub(vista: string, sub: string) {
   if (typeof window === "undefined") return;
   try {
-    window.history.pushState({ vista, sub }, "", window.location.pathname + window.location.search);
+    window.history.pushState(
+      { ...(window.history.state || {}), vista, sub },
+      "",
+      window.location.pathname + window.location.search,
+    );
   } catch {}
 }
 
