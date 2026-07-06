@@ -25,7 +25,9 @@
       "caccia": [
         { "pattern": "dopo il 9/7", "dal": "2026-07-07 00:15" }
       ],
-      "esenzioni": []
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/Report/"
+      ]
     },
     {
       "id": "negozio.faro",

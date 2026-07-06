@@ -37,7 +37,7 @@ precedente ha raggiunto la sua soglia di liquidità.
 Da botteghe food a **tutti i negozi** (casa, cura personale, sport, giochi…).
 - **Obiettivo-cancello:** ~20-30 negozi attivi + ordini ricorrenti reali + consegna che gira.
 - **Prossima mossa vera:** i 6 dossier botteghe (visita di persona 13/7). Densità prima dell'ampiezza.
-- **Cosa serve da te:** iscrivere i negozi (il collo di bottiglia sei tu, dopo il 9/7).
+- **Cosa serve da te:** iscrivere i negozi (il collo di bottiglia sei tu, dal 13/7).
 
 ### Strato 2 — Servizi (Anno 2, dopo il cancello 1)
 La persona offre il proprio mestiere: avvocato, muratore, idraulico, estetista…
