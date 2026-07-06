@@ -2088,8 +2088,15 @@ function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
         </thead>
         <tbody>
           {kpis.map((k) => {
+            // Due tipi di KPI: a FINESTRA (oggi/7g/30g) e a VALORE SINGOLO (snapshot "adesso":
+            // cassa, runway, LTV, ricavo commissioni, negozi in calo…). Questi ultimi hanno solo
+            // `valore` e prima restavano "—" perché la tabella leggeva SOLO oggi/sett/mese: dati
+            // reali già calcolati dal server che non venivano mostrati. Ora li accendiamo come
+            // una cifra unica che occupa le tre colonne, etichettata "adesso". (fix dati-spenti)
+            const soloValore = !k.oggi && !k.sett && !k.mese && Boolean(k.valore);
             const celle = [cella(k.oggi, k.tipo), cella(k.sett, k.tipo), cella(k.mese, k.tipo)];
-            const acceso = celle.some((c) => c.on);
+            const cellaValore = cella(k.valore, k.tipo);
+            const acceso = soloValore ? cellaValore.on : celle.some((c) => c.on);
             return (
               <tr key={k.label} className="bg-paper/40 hover:bg-brand-50/30 transition">
                 <td className="rounded-l-xl border-y border-l border-black/[0.06] py-2 pl-2.5">
@@ -2105,14 +2112,21 @@ function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
                     </span>
                   </div>
                 </td>
-                {celle.map((c, i) => (
-                  <td
-                    key={i}
-                    className={`border-y border-black/[0.06] text-right px-2 tabular-nums ${i === 2 ? "rounded-r-xl border-r pr-2.5" : ""}`}
-                  >
-                    <span className={`text-[15px] font-semibold tracking-tight ${c.on ? "text-ink" : "text-black/20"}`}>{c.v}</span>
+                {soloValore ? (
+                  <td colSpan={3} className="border-y border-r border-black/[0.06] text-right px-2 tabular-nums rounded-r-xl pr-2.5">
+                    <span className={`text-[15px] font-semibold tracking-tight ${cellaValore.on ? "text-ink" : "text-black/20"}`}>{cellaValore.v}</span>
+                    {cellaValore.on && <span className="ml-1.5 text-[9px] uppercase tracking-wide text-black/30 align-middle">adesso</span>}
                   </td>
-                ))}
+                ) : (
+                  celle.map((c, i) => (
+                    <td
+                      key={i}
+                      className={`border-y border-black/[0.06] text-right px-2 tabular-nums ${i === 2 ? "rounded-r-xl border-r pr-2.5" : ""}`}
+                    >
+                      <span className={`text-[15px] font-semibold tracking-tight ${c.on ? "text-ink" : "text-black/20"}`}>{c.v}</span>
+                    </td>
+                  ))
+                )}
               </tr>
             );
           })}
