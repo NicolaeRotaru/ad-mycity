@@ -1,29 +1,28 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-06 18:20",
+  "aggiornato": "2026-07-06 22:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
-  "fermi": 4,
-  "vivi": 39,
+  "fermi": 3,
+  "vivi": 40,
   "reparti_fermi": [
     "direttore-creativo",
     "marketing",
-    "qa-designer",
-    "relazioni-istituzionali"
+    "qa-designer"
   ],
   "quaderni": [
     {
       "reparto": "account-negozi",
       "righe_esito": 6,
       "ultimo_esito": "2026-07-04 08:40",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "ad",
-      "righe_esito": 1,
+      "righe_esito": 2,
       "ultimo_esito": "2026-07-06 16:40",
       "giorni_fa": 0,
       "vuoto": false,
@@ -63,9 +62,9 @@
     },
     {
       "reparto": "analista",
-      "righe_esito": 7,
-      "ultimo_esito": "2026-07-02 08:36",
-      "giorni_fa": 4,
+      "righe_esito": 9,
+      "ultimo_esito": "2026-07-06 11:54",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -79,9 +78,9 @@
     },
     {
       "reparto": "builder-automazioni",
-      "righe_esito": 3,
-      "ultimo_esito": "2026-07-01 01:59",
-      "giorni_fa": 6,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-05 05:09",
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -95,9 +94,9 @@
     },
     {
       "reparto": "content-social",
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 5,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-03",
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -105,7 +104,7 @@
       "reparto": "crm-lifecycle",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-02 07:35",
-      "giorni_fa": 4,
+      "giorni_fa": 5,
       "vuoto": false,
       "fermo": false
     },
@@ -143,9 +142,9 @@
     },
     {
       "reparto": "devops-sre",
-      "righe_esito": 22,
-      "ultimo_esito": "2026-07-02 08:17",
-      "giorni_fa": 4,
+      "righe_esito": 24,
+      "ultimo_esito": "2026-07-06 20:32",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -185,7 +184,7 @@
       "reparto": "frontend-dev",
       "righe_esito": 9,
       "ultimo_esito": "2026-07-04 09:57",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -207,9 +206,9 @@
     },
     {
       "reparto": "intelligence",
-      "righe_esito": 4,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 5,
+      "righe_esito": 5,
+      "ultimo_esito": "2026-07-06 11:54",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -231,9 +230,9 @@
     },
     {
       "reparto": "onboarding-negozi",
-      "righe_esito": 4,
-      "ultimo_esito": "2026-07-01 11:26",
-      "giorni_fa": 5,
+      "righe_esito": 5,
+      "ultimo_esito": "2026-07-03",
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -263,9 +262,9 @@
     },
     {
       "reparto": "prompt-engineer",
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-01 00:36",
-      "giorni_fa": 6,
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-05 05:09",
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -287,11 +286,11 @@
     },
     {
       "reparto": "relazioni-istituzionali",
-      "righe_esito": 1,
-      "ultimo_esito": "2026-06-25",
-      "giorni_fa": 11,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-06 14:20",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "rider-fleet",
@@ -311,7 +310,7 @@
     },
     {
       "reparto": "seo",
-      "righe_esito": 4,
+      "righe_esito": 5,
       "ultimo_esito": "2026-07-06 16:08",
       "giorni_fa": 0,
       "vuoto": false,
@@ -329,7 +328,7 @@
       "reparto": "tech",
       "righe_esito": 8,
       "ultimo_esito": "2026-07-02 07:35",
-      "giorni_fa": 4,
+      "giorni_fa": 5,
       "vuoto": false,
       "fermo": false
     },
@@ -351,7 +350,7 @@
     },
     {
       "reparto": "vendite",
-      "righe_esito": 7,
+      "righe_esito": 8,
       "ultimo_esito": "2026-07-06 16:35",
       "giorni_fa": 0,
       "vuoto": false,
