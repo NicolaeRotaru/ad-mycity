@@ -647,3 +647,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-05 05:10 · @analista · FATTO · esperimenti-check.mjs (PZ-010: sweep scadenze AR-054) + diario del perché (PZ-011: previsione mancata ⇒ --causa=modello|dato|mondo obbligatoria)
 - 2026-07-05 05:10 · @devops-sre · FATTO · battito esterno (PZ-007: giro.sh pinga HEARTBEAT_PING_URL) + interruttore POSTHOG_OFF (PZ-006) + sentinella-budget cablata nel giro (PZ-012)
 - 2026-07-05 05:10 · @ad · SERVE · da Nicola: ① bot Telegram (@BotFather, 5 min) + TELEGRAM_BOT_TOKEN/CHAT_ID nel .env del VPS · ② account gratuito healthchecks.io/UptimeRobot + HEARTBEAT_PING_URL · dettagli in AZIONI-IN-ATTESA
+- 2026-07-06 11:11 · @ad · FATTO · giro pieno: MCP Supabase VIVO in sessione → 7 numeri letti live; scoperto ordine #16 ANNULLATO 3/7 15:38 (mai accettato/consegnato) — narrativa «esegui #16» era su un ordine morto
+- 2026-07-06 11:11 · @analista · FATTO · lettura live marketplace: 1 ordine (annullato), 0 pagati/consegnati/payout, 23 profili (0 nuovi 7g), 407 lead tutti to_contact, 4 carrelli stale, 12 eventi sito 7g
+- 2026-07-06 11:11 · @vendite · FATTO · shortlist 27 botteghe food con telefono estratta dai 407 lead → consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md (pronta per onboarding post-9/7)
+- 2026-07-06 11:11 · @intelligence · FATTO · radar eventi: prossimi Venerdì Piacentini 10/7 e 17/7 (ultima) → finestre presidio; Sant'Antonino 4/7 passato (e #16 era già morto)
+- 2026-07-06 11:11 · @ad · SERVE · da Nicola: ① chi/perché ha annullato #16 il 3/7? · ② ok payout-test PQ per ordine-prova (#21) · ③ via ai contatti shortlist dal 9/7 (#22)

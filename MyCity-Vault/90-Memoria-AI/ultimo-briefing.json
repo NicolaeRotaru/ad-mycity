@@ -1,14 +1,17 @@
 {
-  "data": "2026-07-04 11:30",
-  "situazione": "Business fermo dal 24/6: 1 negozio reale (Pane Quotidiano), 1 ordine zombie €19,05, 0 pagati / 0 consegnati, stallo ~243h (≈10 giorni). Firma REST invariata (giro.sh 11:30: ordini=1, ultimo 24/6, 23 clienti). #16 è IN CONSEGNA: il WhatsApp al buyer è stato inviato stamattina (Nicola «prosegui #21-#22» 04:51), restano solo l'accettazione ordine (#21) e la consegna fisica COD €19,05 (#22), mani manuali di Nicola. Novità del giorno: OGGI 4/7 è Sant'Antonino, patrono di Piacenza — Fiera 250 bancarelle, centro pienissimo → la consegna a piedi/bici da Via Calzolai 25 è facilissima (la ZTL tocca solo i mezzi pesanti). Meteo sereno 20→33°, afa alle 17 → consegna mattina o dopo le 18. MCP+node/curl gated in sessione → 7 numeri = baseline REST, zero numeri inventati.",
+  "data": "2026-07-06 11:11",
+  "situazione": "MCP Supabase è tornato leggibile: ho verificato i numeri dal vivo. Scoperta grossa: l'ordine #16 (COD €19,05) è stato ANNULLATO il 3/7 — mai accettato, mai consegnato — mentre la macchina lo inseguiva ancora il 4/7 perché l'MCP era cieco. Business fermo da 12 giorni, North Star ancora 0. La leva trascurata sono 407 lead di negozi mai contattati: ne ho pronti 27 food con telefono per l'onboarding che parte dopo il 9/7.",
   "opportunita": [
-    {"titolo": "Chiudere oggi la prima transazione (#16 è già in consegna)", "motivo": "Il WhatsApp al buyer è fatto e Sant'Antonino riempie il centro: la consegna a piedi è facilissima oggi. Sblocca ~243h di stallo, porta la North Star 0→1 e valida il payout nello stesso passaggio.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Batch onboarding del 6 luglio", "motivo": "407 lead e checklist pronta: più negozi = più ordini, indipendente dallo zombie. Il bando Commercio ER (40% fondo perduto, scade il 21/7) è una leva di vendita.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Mettere in salvo i fix del cantiere (R2)", "motivo": "I 20 fix sono già attivi sul ramo memoria-ad ma main è 116 commit indietro: alla prossima sync verrebbero cancellati. Renderli canonici in main li protegge.", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "27 botteghe food già pronte da chiamare", "motivo": "Su 407 lead mai toccati, 27 food hanno già il telefono: shortlist per l'onboarding di Nicola dopo il 9/7", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Primo ordine di prova pulito su Pane Quotidiano", "motivo": "Con #16 morto serve una transazione che chiuda davvero il ciclo, per portare la North Star da 0 a 1 su un negozio reale", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Secondo negozio nella verticale del faro", "motivo": "Fornai e trattorie tipiche = stesso profilo di Pane Quotidiano, dove abbiamo già un caso da raccontare", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Aggancio ai Venerdì Piacentini del 10 e 17 luglio", "motivo": "Centro pieno le sere: finestra buona per un primo presidio con Pane Quotidiano", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Consegna oggi il primo ordine (#16) e chiudi lo stallo", "motivo": "Manca solo accettare l'ordine in dashboard e portare i €19,05 COD al cliente. Centro pieno per Sant'Antonino, freschi fuori dal picco d'afa.", "livello": "rosso"},
-    {"titolo": "Revoca il vecchio token GitHub (R1)", "motivo": "È già nella storia git: solo la revoca chiude davvero il buco. Runbook anti-blackout pronto.", "livello": "rosso"},
-    {"titolo": "Metti in salvo i fix del cantiere in main (R2)", "motivo": "Rende canonici i 20 fix già attivi su memoria-ad prima che una sync li cancelli.", "livello": "giallo"}
+    {"titolo": "Ho preparato la lista delle 27 botteghe food da chiamare", "motivo": "Pronta per quando Nicola parte con l'inserimento negozi dopo il 9/7", "livello": "verde"},
+    {"titolo": "Ho allineato la memoria: l'ordine #16 è annullato, non in consegna", "motivo": "La macchina lo dava ancora vivo perché l'MCP era cieco", "livello": "verde"},
+    {"titolo": "Fai un primo ordine di prova su Pane Quotidiano e attiva il payout-test", "motivo": "Al posto del morto #16, per chiudere davvero il primo ciclo soldi", "livello": "rosso"},
+    {"titolo": "Dal 9/7 chiama le prime 6 botteghe della lista di priorità", "motivo": "Fornai e trattorie tipiche: stessa verticale del faro", "livello": "rosso"},
+    {"titolo": "Fai leggere alla sentinella anche lo stato di annullamento degli ordini", "motivo": "Così un ordine cancellato scatta un allarme invece di restare invisibile", "livello": "giallo"}
   ]
 }

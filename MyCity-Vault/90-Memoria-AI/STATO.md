@@ -1,12 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-04 11:30
-fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stallo ~243h · #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna COD €19,05 · **novità: OGGI Sant'Antonino patrono → centro pieno, finestra consegna ideale** · firma REST 11:30 invariata, MCP+node/curl gated → baseline REST, zero numeri inventati)
+aggiornato: 2026-07-06 11:11
+fonte: AD digitale (🔭 6/7 11:11 giro AD · **MCP Supabase VIVO in sessione → dati letti live** · **SCOPERTA: ordine #16 ANNULLATO il 3/7 15:38** — mai accettato, mai consegnato · business fermo da 12 giorni · North Star ancora 0 · **407 lead negozi mai contattati → shortlist 27 food pronta**)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🎉 **4/7 11:30 — OGGI È SANT'ANTONINO (patrono di Piacenza):** Fiera 250 bancarelle (33 alimentari), mercato piazza Cavalli/Duomo, centro pienissimo tutto il giorno. La ZTL (mezzi >35q dalle 6) **non tocca** consegne a piedi/bici → la consegna di **#16** da Via Calzolai 25 è facilissima oggi. Meteo sereno 20→33°, picco afa alle 17 → freschi in mattinata o dopo le 18. **Business invariato dal 24/6** (firma REST 11:30: ordini=1, ultimo 24/6, 23 clienti; stallo ~243h ≈ 10 giorni). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Dettaglio: [[2026-07-04]].
+> ⛔ **6/7 11:11 — L'ORDINE #16 È STATO ANNULLATO (3/7 15:38):** letto **dal vivo** (MCP Supabase risponde in questa sessione, era dato cieco). L'unico ordine reale (COD €19,05) risulta `delivery_status=CANCELED`, `canceled_at=2026-07-03 15:38`, **mai accettato, mai consegnato**. La macchina lo ha inseguito ancora il 4/7 («esegui la consegna oggi») senza saperlo perché l'MCP era cieco e il REST conta solo il *numero* di ordini, non lo stato. **Non c'è più nessuna consegna da eseguire.** North Star ancora **0**, business fermo da **12 giorni** (ultimo ordine 24/6). Domanda per Nicola: **chi/perché ha annullato #16?** Dettaglio: [[2026-07-06]].
+>
+> 🎯 **6/7 — LA LEVA TRASCURATA: 407 lead negozi nel DB, TUTTI mai contattati.** Ne ho estratti **27 food con telefono già pronto** → `consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`, in ordine di priorità per l'onboarding che Nicola avvia dopo il 9/7. **Mossa n.1 cambiata:** non più «consegna #16» (morto), ma ripartire dalla pipeline — shortlist onboarding + primo ordine-prova PQ chiuso davvero col payout-test.
+>
+> 📅 **6/7 — Eventi:** prossimo **Venerdì Piacentini venerdì 10/7** (poi 17/7, ultima data) → centro pieno le sere, finestra buona per primo presidio con PQ.
 >
 > 🚚 **4/7 04:51 — #16 IN CONSEGNA — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
 >
@@ -21,17 +25,18 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (baseline REST · invariati dal 24/6 · giro.sh 4/7 11:30 · MCP+node gated in sessione)
-| Numero | Oggi (3/7 21:21) | "Riuscito" | Note |
+## I 7 numeri (VERIFICATI LIVE · MCP Supabase 6/7 11:11)
+| Numero | Oggi (6/7 11:11, live) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
-| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox oggi |
+| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · serve payout-test |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 IN CONSEGNA** — WhatsApp #20 fatto (Nicola «prosegui #21-#22» 4/7 04:51) · restano #21 accetta + #22 consegna → «Consegnato» |
-| Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~229h** (21:21) |
-| Payout testato | **0** | 1 | payout-test Nicola **03/7** (sandbox) → accorpare #16 |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 ANNULLATO il 3/7 15:38** (mai accettato/consegnato) — l'ordine è morto |
+| Ordini pagati | **0** | 1 | COD mai incassato |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~291h ≈ 12 giorni** |
+| Payout testato | **0** | 1 | da fare su un ordine-prova PQ pulito |
+| Nuovi clienti reali (7g) | **0** | crescita | ultimo nuovo 16/6 · 23 profili totali |
+| **Lead negozi nel DB** | **407** (tutti `to_contact`) | lavorarli | 🆕 mai contattati · 27 food con tel → shortlist pronta |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |
@@ -69,6 +74,7 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 | Loop business | 🔴 in corso | #16 IN CONSEGNA — WhatsApp #20 fatto (4/7 04:51), restano #21 accetta + #22 consegna → «Consegnato» |
 
 ## Ultime mosse dell'AD
+0. **🔭 Giro AD 6/7 11:11 — MCP VIVO + scoperta #16 annullato.** Per la prima volta da giorni l'MCP Supabase risponde in sessione → 7 numeri letti **live**. **Scoperta:** l'ordine #16 è `CANCELED` dal **3/7 15:38** (mai accettato/consegnato) → tutta la narrativa «esegui #16» del 3-4/7 era su un ordine già morto (macchina cieca sull'MCP). North Star ancora 0, business fermo da 12 giorni. **Leva nuova:** 407 lead negozi tutti `to_contact` → estratta **shortlist 27 food con telefono** (`consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`) per l'onboarding post-9/7. Mossa n.1 ripivotata: pipeline + primo ordine-prova PQ pulito. Domanda a Nicola: chi ha annullato #16? Aggiornati STATO, briefing 6/7, registro-realtà, auto-analisi, intenzioni, eventi-picchi, SALA.
 0. **🗓️ Piano Nicola + patto automazione 4/7 15:40** — chat: Nicola **parte a inserire i negozi DOPO giovedì 9/7/2026** (era 6/7), attende il reset dei limiti settimanali di Claude. Chiede se l'AD aggiorna GitHub+Pannello da solo o va detto ogni volta. **Risposta/patto:** aggiornare memoria (`memoria-ad`) + dati Pannello = 🟢, l'AD lo fa da solo quando gira; «automatico dal nulla» no → serve un innesco («fai un giro») o un cron 🟡 da proporre prima di attivare. **Vincolo:** l'automazione brucia le stesse quote Claude → «poco e mirato» (max 1 giro/giorno), mai spacciarla come gratis; i 🔴 restano firma sua. Dal 9/7 l'AD potrà proporre una **routine giornaliera 🟡**. Registrato in [[DECISIONI]] + preferenze_nicola.
 0. **🔭 Giro AD 4/7 11:30** — primo giro pieno della giornata (i passaggi 06:00–10:20 saltati dal delta-gate; alle 09:40/09:50 doer R1/R2 dal Pannello). **Nessuna novità di business:** firma REST 11:30 invariata (ordini=1, ultimo 24/6 08:28, 23 clienti) → #16 ancora IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna. Stallo **~243h ≈ 10 giorni**. **Novità reale del giorno: OGGI 4/7 è Sant'Antonino** (patrono, Fiera 250 bancarelle, centro pieno) → finestra consegna ideale a piedi/bici, ZTL solo mezzi pesanti. Meteo sereno 20→33° (afa 17). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Aggiornati eventi-picchi (Sant'Antonino) + snapshot Cabina. → Mossa n.1 confermata: **esegui la consegna di #16 OGGI** (mattina o dopo le 18) col payout-test.
 0. **🚚 Risposta all'auto-analisi 4/7 04:51 — «prosegui #21-#22»** — Nicola risponde alla domanda «Hai inviato WhatsApp #20? Buyer ha risposto?» con **«prosegui #21-#22»**. Applicato: **#20 → ✅ FATTO** (WhatsApp al buyer 348 642 1766 inviato, contatto avvenuto); **#21 → 🔄 IN ESECUZIONE** (accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601); **#22 → 🔄 IN ESECUZIONE** (consegna COD €19,05 → «Consegnato»); **#16 → IN CONSEGNA**. Restano 🔴 le mani manuali di Nicola (accettazione + consegna fisica). Registrato in [[DECISIONI]] + [[AZIONI-IN-ATTESA]] + registro-realta + intenzioni + auto-analisi. La firma REST del DB non è ri-misurata in sessione (MCP+node/curl gated) → l'ordine risulta «Consegnato» e la North Star passa 0→1 solo al «consegna fatta». **Domanda «WhatsApp #20?» chiusa — non riproporre.**
@@ -97,14 +103,14 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🔭 Giro AD 4/7 11:30 · #16 IN CONSEGNA · OGGI Sant'Antonino → centro pieno)
-**#16 IN CONSEGNA (WhatsApp #20 fatto 04:51):** eseguire la consegna del 1° ordine. Restano solo le mani manuali #21–#22. **Oggi il centro è pienissimo per Sant'Antonino** (patrono, Fiera 250 bancarelle) → il ritiro/consegna a piedi da Via Calzolai 25 è agevole; ZTL solo mezzi >35q (non tocca bici/piedi). Meteo sereno con afa alle 17 → consegna in mattinata o dopo le 18. Accorpa il payout-test. Stallo **~243h ≈ 10 giorni**.
+## Prossime priorità (🔭 Giro AD 6/7 11:11 · #16 ANNULLATO → ripivot su pipeline)
+**#16 è morto (annullato 3/7):** non c'è più una consegna da eseguire. Si riparte dalla **pipeline vendite** (407 lead mai toccati) e da un **primo ordine-prova su PQ chiuso davvero**. Onboarding di Nicola parte dopo il **9/7**; **Venerdì Piacentini 10/7 e 17/7** = finestre di città.
 
-1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mani Nicola) OGGI (mattina o post-18) + payout-test:** #21 accetta ordine `58094956…` in dashboard PQ + chiama PQ 0523 388601 → #22 ritiro Via Calzolai 25 → consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox · stallo ~243h
-2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
-3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
-4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 15 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
-5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
+1. [ ] 🔴 **Primo ordine-prova su Pane Quotidiano + payout-test** — al posto del morto #16: ordine pulito accetta→consegna→payout, per portare la North Star 0→1 su un negozio reale
+2. [ ] 🔴 **Via ai contatti shortlist dal 9/7** — chiama le prime 6 botteghe di Priorità A (`consegne/vendite/2026-07-06-shortlist-onboarding-post-9-7.md`)
+3. [ ] 🟡 **Sentinella dati legga `delivery_status`/`canceled_at`** — così un annullamento scatta un allarme e non resta invisibile (causa-radice del loop cieco)
+4. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) + 🟡 **R2 merge/deploy fix cantiere** (branch machine-analysis)
+5. [ ] 🟢 **Arricchisci i 380 lead senza telefono** (batch, quando Nicola supera i 27 pronti)
 
 **Sentinelle attive:** ordine ritardo ~243h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+75h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 24 giri, opzionale)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
