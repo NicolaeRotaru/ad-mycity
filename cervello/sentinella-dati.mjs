@@ -142,6 +142,7 @@ async function leggiStatoReale(state) {
     pagati_senza_payout: null, recensioni_basse: null, recensione_ultima: null,
     negozi_fermi: null, carrelli_da_recuperare: null,
     ordini_slot_scaduto: null, // AR-071: ordini oltre lo slot promesso (expected_delivery scaduto, delivered_at nullo)
+    ordini_annullati: null, annullamento_ultimo: null, // ordini passati a delivery_status=CANCELED dall'ultimo giro
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
@@ -205,6 +206,25 @@ async function leggiStatoReale(state) {
       MK_URL, MK_KEY,
       `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
     );
+
+    // Ordini ANNULLATI nuovi: passati a delivery_status=CANCELED dall'ultimo giro visto. Prima erano
+    // invisibili (si guardava solo il conteggio ordini, mai lo stato di annullamento): un ordine
+    // cancellato spariva in silenzio. Enum reale verificato: delivery_status IN (...,'CANCELED'), colonna
+    // temporale canceled_at (migration 011_orders_delivery.sql). Come le recensioni, uso una baseline al
+    // primo giro (canceled_at > ultimo visto): l'ordine-zombie di test già annullato NON riaccende
+    // l'alert ogni minuto — scattano solo gli annullamenti NUOVI dopo la baseline.
+    const dopoAnn = state.ultima_annullamento_vista;
+    if (dopoAnn) {
+      s.ordini_annullati = await conta(
+        MK_URL, MK_KEY,
+        `orders?delivery_status=eq.CANCELED&canceled_at=gt.${encodeURIComponent(dopoAnn)}`
+      );
+    } else {
+      s.ordini_annullati = 0; // primo giro: fisso la baseline (sotto), non sparo sullo storico (zombie di test)
+    }
+    // timestamp dell'ultimo annullamento in assoluto (per avanzare la baseline)
+    const ultimoAnn = await fetchRows(MK_URL, MK_KEY, `orders?delivery_status=eq.CANCELED&select=canceled_at&order=canceled_at.desc.nullslast&limit=1`);
+    s.annullamento_ultimo = ultimoAnn?.[0]?.canceled_at || null;
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
@@ -422,6 +442,19 @@ function valutaRegole(s, state) {
     });
   }
 
+  // A7 — Ordine ANNULLATO: un ordine è passato a "annullato" (delivery_status=CANCELED) dall'ultimo
+  //      giro. Prima restava invisibile ai sensori — ora scatta un allarme. 🟡 operations: capire il
+  //      perché (rottura di stock, negozio che rifiuta, ripensamento del cliente, mancata accettazione
+  //      entro lo slot) e, se c'è un cliente reale o un rimborso, prepararlo per la firma di Nicola.
+  if (s.ordini_annullati !== null && s.ordini_annullati > 0) {
+    eventi.push({
+      ambito: "azioni", chiave: "ordine_annullato", colore: "🟡", reparto: "operations", cooldownOre: 6,
+      titolo: `${s.ordini_annullati} ordini annullati dall'ultimo giro`,
+      firma: `${s.ordini_annullati}@${s.annullamento_ultimo || "?"}`,
+      prompt: `Sentinella azioni 💼 — ORDINE ANNULLATO: ${s.ordini_annullati} ordini sono passati a "annullato" (delivery_status=CANCELED) dall'ultimo controllo. Un annullamento non deve restare invisibile: per ciascuno verifica il motivo (rottura di stock, rifiuto del negozio, ripensamento del cliente, mancata accettazione entro lo slot) e l'importo coinvolto. Se c'è un cliente reale da recuperare o un rimborso da gestire, preparalo e accodalo in AZIONI-IN-ATTESA per la firma — non eseguirlo da solo (tocca clienti/soldi reali). Avvisa l'AD se emerge una causa ricorrente (un negozio che annulla spesso, un prodotto sempre esaurito).`,
+    });
+  }
+
   return eventi;
 }
 
@@ -562,12 +595,15 @@ async function main() {
   // memoria del tick
   if (s.recensione_ultima) state.ultima_recensione_vista = s.recensione_ultima;
   else if (!state.ultima_recensione_vista) state.ultima_recensione_vista = nowIso; // baseline primo giro
+  if (s.annullamento_ultimo) state.ultima_annullamento_vista = s.annullamento_ultimo;
+  else if (!state.ultima_annullamento_vista) state.ultima_annullamento_vista = nowIso; // baseline primo giro (no zombie)
   state.tick = (state.tick || 0) + 1;
   state.aggiornato = quando;
   state.ultimo_stato = {
     quando, dati_leggibili: s.dati_leggibili,
     ordini_tot: s.ordini_tot, ordini_24h: s.ordini_24h, pagati_senza_payout: s.pagati_senza_payout,
     recensioni_basse: s.recensioni_basse, negozi_fermi: (s.negozi_fermi || []).length, carrelli: s.carrelli_da_recuperare,
+    ordini_annullati: s.ordini_annullati,
     worker_eta_min: s.worker_eta_min, sensori_max_ciechi: s.sensori_max_ciechi, salute_voto: s.salute_voto,
     radiografia_gg: s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) : null, volano_tasso: s.volano_tasso,
   };
