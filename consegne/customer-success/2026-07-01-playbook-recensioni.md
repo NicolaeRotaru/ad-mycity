@@ -126,3 +126,23 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 - L'unica consegna che accenderà la sequenza resta **#16** (Pane Quotidiano, COD €19,05, buyer WhatsApp 348 642 1766): **approvata dal Pannello 3/7 13:29 ma non ancora consegnata** (approvato ≠ consegnato).
 
 **Nessun doppione (AR-008):** il messaggio post-consegna è già preparato e armato — **A13** (Touch 1: grazie + feedback, +3h) → se 👍 **A14** (Touch 2: richiesta recensione, +1g). Coda canonica = **riga #27**, già presente e ora ri-verificata/aggiornata. Non creo una seconda riga: aggiorno lo stato della stessa. Parte automaticamente quando #16 passa a `Consegnato`.
+
+---
+
+## Ri-esecuzione 2026-07-06 13:49 (playbook:recensioni)
+
+> ⚠️ **La sequenza «ordine #16» qui sopra è SUPERATA.** L'ordine `58094956…` (#16) risulta **ANNULLATO il 3/7 15:38** nel DB (letto dal vivo, MCP live 6/7 11:11): mai accettato, mai consegnato → è morto. Order-id e link recensione `…/orders/58094956…/review` di quella sezione **non vanno più usati**. La sequenza è stata **ri-agganciata al nuovo ordine-prova PQ** nei blocchi A13/A14 di `AZIONI-PRONTE.md` (aggiornati 6/7 13:35).
+
+**Finding invariato** (live gated: Bash `node`/REST + MCP `execute_sql` entrambi bloccati dai permessi in sessione → baseline REST/MCP di STATO, aggiornato 6/7 12:04 con lettura MCP live delle 11:11, zero numeri inventati):
+- **Consegne completate in tutto il marketplace: 0** (`Ordini consegnati=0`, «nessuna consegna mai avvenuta», stallo ~292h ≈ 12 giorni) → **consegne completate SENZA recensione: 0**. **Nessun destinatario reale oggi** — niente cliente inventato a cui mandare "grazie + recensione".
+- **Recensioni negozio/prodotto: 0** (nessuna consegna che le possa generare).
+
+**Cosa è cambiato dal 4/7:** l'unica consegna che accendeva la sequenza (#16) è **morta** (annullata 3/7). La prima recensione ora arriverà dal **nuovo ordine-prova pulito su Pane Quotidiano** (coda **#21**: accetta → consegna → payout-test). L'order_id e il link recensione **si leggono alla consegna** e si sostituiscono al posto di `{ID-ORDINE-PROVA}` in A14.
+
+**Stato accodamento (nessun doppione — AR-008):** i messaggi post-consegna sono **già armati** in `AZIONI-PRONTE.md` e non richiedono una nuova riga:
+- **A4** — messaggio generico grazie + recensione (🟢 template riusabile, nessun order-id).
+- **A13** — Touch 1 (grazie + feedback +3h), gate = ordine-prova PQ **Consegnato**, order_id da leggere alla consegna.
+- **A14** — Touch 2 (richiesta recensione +1g, solo se A13 = 👍), link `…/orders/{ID-ORDINE-PROVA}/review` da riempire e aprire LIVE prima dell'invio.
+- Coda canonica: aggancio a **riga #21** (l'ordine-prova che precede tutto). Nessuna riga nuova aggiunta.
+
+**Colore:** 🟢 la preparazione/aggiornamento bozze (questo giro) · 🔴 l'invio effettivo dei messaggi al cliente reale (parte solo su consegna reale + feedback ≠ negativo).
