@@ -774,7 +774,7 @@ export default function Dashboard() {
     for (const pend of [...pendingLavoroChatRef.current.values()]) {
       const l = lavoriLista.find((x) => x.id === pend.id);
       if (!l || (l.stato !== "fatto" && l.stato !== "errore")) continue;
-      const testo = l.risultato || (l.stato === "errore" ? "⚠️ Errore nell'esecuzione." : "(risposta vuota)");
+      const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : "(risposta vuota)");
       applicaRispostaChat(pend.id, testo, pend.targetConvId);
     }
   }
@@ -1220,7 +1220,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     // pushState con URL = pathname+search (niente hash): il cambio AREA non trascina residui
     // di hash di una scheda precedente (che facevano fare un clic a vuoto). (bug #2/#4)
     if (ultimaVistaStoria.current !== vista) {
-      try { window.history.pushState({ ...(window.history.state || {}), vista }, ""); } catch {}
+      // URL = pathname+search (niente hash): cambiando AREA non trasciniamo il residuo di hash
+      // di una scheda interna precedente (era una fonte del "clic a vuoto" nel tasto INDIETRO).
+      try { window.history.pushState({ ...(window.history.state || {}), vista }, "", window.location.pathname + window.location.search); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
@@ -1455,7 +1457,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {/* Mobile: solo il pallino di stato Worker/AD (la pill piena è sm+). (bug #9) */}
             <span
               className={`sm:hidden w-2.5 h-2.5 rounded-full shrink-0 ${
-                workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                workerVivo ? "bg-emerald-600" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
               }`}
               aria-label="Stato worker"
               title={
@@ -1490,7 +1492,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             >
               <span
                 className={`w-1.5 h-1.5 rounded-full ${
-                  workerVivo ? "bg-green-500 animate-pulse" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
+                  workerVivo ? "bg-emerald-600" : adInPausa ? "bg-amber-500" : vivo ? "bg-red-500" : "bg-amber-500"
                 }`}
               />
               {workerVivo ? "Worker ON" : adInPausa ? "In pausa" : vivo ? "Worker spento" : "In prova"}

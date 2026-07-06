@@ -133,10 +133,16 @@ export default function DiagnosticaWorker() {
           </div>
           {d.conteggi && (
             <div className="flex flex-wrap gap-2 mt-2 text-[11px]">
-              {(["in_attesa", "in_corso", "fatto", "errore"] as const).map((k) =>
+              {([
+                ["in_attesa", "in attesa"],
+                ["in_corso", "in corso"],
+                ["fatto", "fatti"],
+                // (fix #6) i falliti si chiamano "da riapprovare", non "errore".
+                ["errore", "da riapprovare"],
+              ] as const).map(([k, etichetta]) =>
                 (d.conteggi?.[k] ?? 0) > 0 ? (
                   <span key={k} className="badge badge-off">
-                    {k.replace("_", " ")}: {d.conteggi![k]}
+                    {etichetta}: {d.conteggi![k]}
                   </span>
                 ) : null
               )}

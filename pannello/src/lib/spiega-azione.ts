@@ -50,6 +50,21 @@ function repartoBase(r: string): string {
   return m ? m[0] : s;
 }
 
+// Nome AMICHEVOLE del reparto per il Pannello (fix #3): trasforma lo slug tecnico
+// "content-social→relazioni-istituzionali/pr-stampa" in "Content & Social" leggibile.
+// Se lo slug non è mappato, ripulisce comunque i separatori tecnici (→ / | -) e lo capitalizza.
+export function nomeReparto(reparto: string): string {
+  const base = repartoBase(reparto);
+  const noto = SENIOR[base]?.nome;
+  if (noto) return noto;
+  const grezzo = (reparto || "").split(/[→/|(]/)[0].trim();
+  if (!grezzo) return "Un senior";
+  return grezzo
+    .split(/[-\s]+/)
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
 // Pulisce il canale: se è solo un trattino/segnaposto vuoto, lo tratta come "non indicato".
 // IMPORTANTE: non tocca i trattini DENTRO le parole (es. "go-live", "17-20").
 export function canalePulito(canale: string): string {
