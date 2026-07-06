@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-06 23:20",
+  "aggiornato": "2026-07-07 00:30",
   "_nota_giro_ad_06_07_1645": "🔭 Giro AD 6/7 16:45 (primo pieno dopo la pausa limiti): 1 lezione NUOVA (L-2026-0706-54, coerenza-snapshot: una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso giro, non solo a STATO — registro-realta/intenzioni/auto-analisi erano fermi al 4/7 con #16 'in consegna'). APPLICATE: P4 (scoperta che cambia il faro riscrive tutto nello stesso giro → propagata #16 annullato ovunque); L-2026-0703-52/AR-025 (delta-gate scattato pieno anche stavolta ma business invariato → giro minimale su memoria + un refresh intelligence LIVE giustificato dal confine di giorno: VP 10/7-17/7 + caldo 35°); vincolo allocazione rispettato (nessun asset pesante, Garetti non azionato). Loop @ad chiuso con riga ESITO canonica.",
   "_nota_giro_ad_04_07_1130": "🔭 Giro AD 4/7 11:30: nessuna lezione NUOVA da distillare, ma una RINFINITURA operativa di L-2026-0702-48/AR-019 (giro minimale con business invariato): anche in un refresh, il radar-eventi va RI-CONTROLLATO a ogni NUOVO giorno di calendario, non solo 'a cadenza'. Oggi il check ha fatto emergere Sant'Antonino (patrono, Fiera 250 bancarelle, centro pieno) — un evento cittadino grande che cambia in meglio la finestra di consegna di #16, e che una regola 'meteo/eventi già visti stamattina, salto' avrebbe mancato (ieri era un altro giorno). Corollario: la 'cadenza' vale per la stessa fonte nello stesso giorno, NON attraverso il confine di mezzanotte. RINFORZATA L-2026-0702-51/P1 (#16 a UNA finestra certa: oggi la finestra migliore è resa esplicita dall'evento, mattina o post-18 fuori dall'afa). APPLICATE: L-2026-0702-50 (campi delta-gate/sensori di giro.sh 11:30 come dato live confermato, non ri-misurato); vincolo allocazione rispettato (nessun asset pesante: giro di sola memoria).",
   "_nota_giro_refresh_03_07_2121": "🔭 Giro refresh 3/7 21:21: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 8ª conferma OGGI (06:28→10:22→11:14→14:20→16:20→18:20→20:24→21:21): il giro pieno è scattato di nuovo solo perché PostHog è passato 18→19; business/sentinelle identici (firma REST 21:21 invariata: ordini=1, ultimo 24/6 08:28, 23 profili). Rifinitura AR-019/AR-025 PRIORITARIA (escludere l'incremento del contatore cieco di un sensore OPZIONALE dalla firma giro-pieno-vs-salta). APPLICATE: L-2026-0702-51/P1 (#16 a UNA finestra certa = serale post-19:00 + payout-test); L-2026-0702-48/AR-019 (giro minimale); L-2026-0702-50 (campi delta-gate/sensori di giro.sh 21:21 come dato live confermato).",
@@ -13,7 +13,15 @@
     {
       "id": "L-2026-0706-57",
       "testo": "**Caso-studio Nicola — mai citargli i «#N» interni: le caselle del Pannello NON sono numerate (chat 6/7):** in risposta alla casella referral l'AD ha scritto «aspetto il 1° ordine vero, non il #16»; Nicola: «qual è il #16? aggiungi il numero a tutte le caselle, perché mi indichi il 16 però nessuna casella è numerata». 5 perché: (1) l'AD usa i #N della sua coda interna (AZIONI-IN-ATTESA) come riferimento parlando con Nicola; (2) quei #N NON compaiono sulle card del Pannello e per giunta si RINUMERANO a ogni giro → per Nicola sono privi di aggancio; (3) manca la disciplina di tradurre i riferimenti interni in linguaggio-card prima di parlargli (stessa famiglia di scrittura-umana: fuori dal messaggio sigle/ID/numeri-comando); (4) così ogni #N citato è una domanda in più per lui, non un chiarimento; (5) **regola/fix:** quando parli con Nicola non citare mai i #N interni — descrivi la casella a parole («la card referral», «l'ordine-zombie €19,05 annullato»); se serve un identificatore visibile, va messo STABILE sulla card (codice per-reparto tipo CRM-3, non un contatore che si rinumera). **RISOLTA + CORRETTA da Nicola (chat 6/7 23:xx):** ① scelto il formato **etichetta STABILE** (opzione 2) — codice derivato dal CONTENUTO dell'azione, resta uguale finché la card è in coda; reso come «#codice — nome» in entrambe le viste (Da approvare + Da firmare). ② **Nicola corregge il fix «smetto di citarti numeri»:** NON vuole che io smetta di citare i numeri — vuole che citi SEMPRE **sia il codice CHE il nome/contenuto** insieme («non smettere di citarmi numeri… seno cita sia il numero che nome/contenuto»), perché il numero rende la card più facile da individuare. Regola aggiornata: mai il #N interno VOLATILE da solo, ma sempre codice-STABILE + nome. Codice pronto ma NON committato (branch/build/anteprima gated in sessione → serve ok di Nicola o handoff devops-sre). Vedi [[caselle-pannello-non-numerate]]. Parente di L-2026-0706-55 (caselle che citano artefatti inesistenti).",
-      "tag": ["caselle-pannello", "numerazione", "scrittura-umana", "riferimenti-interni", "candore", "nicola", "frontend-dev"],
+      "tag": [
+        "caselle-pannello",
+        "numerazione",
+        "scrittura-umana",
+        "riferimenti-interni",
+        "candore",
+        "nicola",
+        "frontend-dev"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 2,
@@ -26,7 +34,15 @@
     {
       "id": "L-2026-0706-56",
       "testo": "**Correzione Nicola — non ridurre la VISIONE agli esempi che dà, ragiona all'intero spazio (chat 6/7 18:34):** l'AD aveva incorniciato la città-online in **3 strati** (retail→servizi→C2C) prendendo per esaustivi i 3 esempi che Nicola aveva citato; Nicola corregge «**ci sono altri strati, ragionaci bene, crea una strategia ben studiata**». Rivisto: ~11 verticali su uno **Strato 0 trasversale** (identità+reputazione+wallet+consegna+dato). 5 perché: (1) ho letto gli esempi di Nicola come la lista completa, non come semi illustrativi; (2) un numero tondo (3) sembrava una cornice pulita e mi ci sono ancorato; (3) non ho aperto lo spazio ('quali altri verticali vive una città?') prima di consegnare; (4) così ho dato una versione sottodimensionata di una richiesta di visione; (5) **regola/fix:** su una richiesta di VISIONE/strategia tratta gli esempi come seed, poi mappa l'intero spazio (verticali + fondamenta trasversali) PRIMA di proporre la sequenza; quando Nicola dice 'ragionaci bene' vuole la versione esaustiva e ben studiata, non la sintesi comoda del primo taglio. Vedi [[visione-mycity-citta-online]].",
-      "tag": ["visione", "strategia", "esaustivita", "ancoraggio", "citta-online", "corporate-strategy", "nicola"],
+      "tag": [
+        "visione",
+        "strategia",
+        "esaustivita",
+        "ancoraggio",
+        "citta-online",
+        "corporate-strategy",
+        "nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.85,
       "evidenze": 1,
@@ -39,7 +55,15 @@
     {
       "id": "L-2026-0706-55",
       "testo": "**Le caselle del Pannello citano file/azioni INESISTENTI — verifica sempre prima di consegnare (chat 6/7):** in un solo giorno 3 caselle hanno rimandato ad artefatti fabbricati — «A21» (SEO vetrine 16:10), «A23» + `consegne/seo/2026-07-06-playbook-seo-locale-PQ.md §4` (Scheda Google 16:08), e un playbook §3 mai creato — mentre il piano vero era altrove (`PACCHETTO-SEO-LOCALE.md`, `2026-07-06-riempimento-vetrine-SEO.md`). 5 perché: (1) il generatore-caselle inventa un ID-azione e un path 'plausibili' invece di leggere quelli reali in [[AZIONI-PRONTE]]/`consegne/`; (2) l'ID/path suona verosimile → passa inosservato; (3) manca un check che validi che ogni file/azione citato in una casella ESISTA davvero; (4) così la casella promette a Nicola un documento che non c'è (perdita di fiducia); (5) **regola/fix:** prima di consegnare qualsiasi riferimento (path file, ID azione tipo A21/#39), VERIFICA che esista con Read/Glob — se non c'è, crea il doc reale e correggi la citazione con candore, mai lasciare il rimando fantasma. Candidato guardiano: linter che estrae i path/ID dalle caselle e fallisce sui riferimenti orfani. Ricorrente: 3 evidenze lo stesso giorno.",
-      "tag": ["candore", "riferimenti-fantasma", "caselle-pannello", "azioni-inesistenti", "verifica", "guardiano", "seo"],
+      "tag": [
+        "candore",
+        "riferimenti-fantasma",
+        "caselle-pannello",
+        "azioni-inesistenti",
+        "verifica",
+        "guardiano",
+        "seo"
+      ],
       "reparto": "@AD",
       "confidenza": 0.85,
       "evidenze": 3,
@@ -52,7 +76,14 @@
     {
       "id": "L-2026-0706-54",
       "testo": "**Una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso passaggio, non solo a STATO (giro 6/7 16:45):** l'allineamento «#16 annullato» del 16:15 aveva corretto STATO.md e la coda, ma gli snapshot NON auto-fondibili (registro-realta.json, intenzioni-nicola.json, auto-analisi.json) erano rimasti fermi al 4/7 con #16 ancora «IN CONSEGNA». Risultato: la Cabina leggeva due verità in contraddizione (STATO=annullato vs registro=in consegna). 5 perché: (1) il doer del 16:15 ha toccato STATO+coda ma non i .json di auto-coscienza; (2) questi file sono snapshot che NON hanno merge=union, quindi non si allineano da soli; (3) manca un check che verifichi la coerenza dello stato di un'entità-chiave tra STATO e registro-realta; (4) così una correzione parziale lascia deriva silenziosa fino al giro dopo; (5) **regola/fix:** ogni correzione di stato di un'entità (specie #16/PQ) deve toccare STATO + registro-realta + intenzioni + ultimo-briefing + auto-analisi nello STESSO giro; candidato guardiano: un check che confronta lo stato di #16 in STATO vs registro-realta e FALLISCE se divergono. Corollario di P4 (una scoperta che cambia il faro riscrive tutto nello stesso giro).",
-      "tag": ["coerenza-snapshot", "deriva-silenziosa", "registro-realta", "#16", "cabina", "guardiano"],
+      "tag": [
+        "coerenza-snapshot",
+        "deriva-silenziosa",
+        "registro-realta",
+        "#16",
+        "cabina",
+        "guardiano"
+      ],
       "reparto": "@AD",
       "confidenza": 0.82,
       "evidenze": 1,
@@ -65,7 +96,15 @@
     {
       "id": "L-2026-0706-53",
       "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pannello 6/7 15:52):** il sensore ha letto Pane Quotidiano — unico negozio reale, 0 incassi da ~12 giorni + ordine annullato il 3/7 — come 'rischio abbandono MASSIMO' e ha generato un'azione anti-churn (chiama il fornaio). Nicola corregge: **«non c'è bisogno con PQ, li conosco e aspettano finché tutto non è pronto»**. 5 perché: (1) il sensore modella l'abbandono solo su segnali-dati (giorni-senza-incasso, ordine annullato); (2) non conosce l'accordo umano fuori dal DB (il titolare aspetta di proposito); (3) il registro-realtà marca PQ 'confermato' ma non porta il campo 'relazione gestita da Nicola / in attesa concordata'; (4) così ogni negozio reale-ma-fermo diventa un falso positivo di churn; (5) **fix:** prima di generare anti-churn/retention su un negozio, verifica se è una attesa concordata gestita direttamente da Nicola — se sì, l'inattività NON è abbandono e non si accoda alcuna telefonata. Applicato: chiuse #25 (A6 check-in) e #29 (A9 tocco post-annullamento); resta solo A7 (upsell 🟢) come crescita DOPO la 1ª consegna, non come retention. Vedi memoria [[pane-quotidiano-non-e-churn]].",
-      "tag": ["churn", "falso-positivo", "sensori", "pane-quotidiano", "retention", "relazione-umana", "account-negozi"],
+      "tag": [
+        "churn",
+        "falso-positivo",
+        "sensori",
+        "pane-quotidiano",
+        "retention",
+        "relazione-umana",
+        "account-negozi"
+      ],
       "reparto": "@account-negozi",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -78,7 +117,15 @@
     {
       "id": "L-2026-0703-52",
       "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
-      "tag": ["delta-gate", "AR-019", "AR-024", "efficienza-costo", "sensori", "posthog", "firma-stato"],
+      "tag": [
+        "delta-gate",
+        "AR-019",
+        "AR-024",
+        "efficienza-costo",
+        "sensori",
+        "posthog",
+        "firma-stato"
+      ],
       "reparto": "@AD",
       "confidenza": 0.85,
       "evidenze": 8,
@@ -91,7 +138,14 @@
     {
       "id": "L-2026-0702-51",
       "testo": "**Una sola finestra a bassa frizione batte molte finestre rincorse (giro notturno 2/7 22:20):** la decisione #16 (esegui) è presa da 17:09, ma in un solo giorno sono saltate 3 finestre — pranzo, poi cena 19–21 — perché ogni volta si è riproposto lo stesso tap manuale (#20 WhatsApp) sperando che partisse 'a breve'. Il collo di bottiglia NON è tecnico (pacchetto pronto da stamattina) ma di frizione/attenzione umana. **Regola:** quando un'azione manuale critica salta ≥2 volte, smetti di spostarla di poche ore e ANCORALA a un momento già in agenda a bassa frizione (qui: mattina 3/7, accorpata al payout-test già programmato). Meglio 1 finestra certa che 3 finestre 'possibili'. Corollario della lezione 'firma ≠ esecuzione' (L-2026-0702 report sera): quando le mani non sono collegate, riduci il numero di occasioni e alza la certezza di ciascuna.",
-      "tag": ["esecuzione-manuale", "frizione", "finestra-unica", "loop-business", "#16", "bandwidth-nicola"],
+      "tag": [
+        "esecuzione-manuale",
+        "frizione",
+        "finestra-unica",
+        "loop-business",
+        "#16",
+        "bandwidth-nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.8,
       "evidenze": 3,
@@ -104,7 +158,14 @@
     {
       "id": "L-2026-0702-50",
       "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18:21):** nei passaggi pomeridiani i 7 numeri erano 'gated' (node non eseguibile in sessione) e portati avanti dalla baseline; nel giro serale il runner (giro.sh) ha scritto delta-gate.json e sensori-cecita.json con dati REST freschi (ordini=1, ultimo 24/6, profili=23), permettendo di MISURARE i numeri invece di inferirli — pur restando invariati. **Regola:** anche quando l'agente non può lanciare `node`, se giro.sh ha appena scritto delta-gate/sensori (< ~1h), USA quei campi come dato live confermato e alza la fiducia; distingui sempre 'ri-misurato' da 'portato avanti' nel briefing. Corollario di AR-019: il delta-gate non serve solo a saltare i giri vuoti, è anche la fonte-di-verità dei numeri quando l'agente è gated.",
-      "tag": ["delta-gate", "AR-019", "sensori", "REST-live", "giro", "fiducia-dati"],
+      "tag": [
+        "delta-gate",
+        "AR-019",
+        "sensori",
+        "REST-live",
+        "giro",
+        "fiducia-dati"
+      ],
       "reparto": "@AD",
       "confidenza": 0.8,
       "evidenze": 1,
@@ -1366,6 +1427,36 @@
       "nato": "2026-07-01",
       "ultima_conferma": "2026-07-01",
       "stato": "in-prova"
+    },
+    {
+      "id": "L-2026-0707-01",
+      "testo": "Su Vercel Hobby la quota giornaliera conta le CREAZIONI di deployment, non le build: un ignoreCommand salta la build ma il deployment CANCELED consuma quota lo stesso. Con push frequenti (memoria ogni ~5 min) l'unico fix vero è deploymentEnabled:false + Deploy Hook con path-filter (Action su pannello/**). Verifica sempre sul contatore reale (API list_deployments), mai sull'intuizione.",
+      "tag": [
+        "vercel",
+        "quota",
+        "infrastruttura",
+        "causa-radice"
+      ]
+    },
+    {
+      "id": "L-2026-0707-02",
+      "testo": "I fatti-chiave hanno UNA casa sola (registro-fatti.json, AR-102): quando un fatto cambia, registralo con caccia contestuale (mai data/numero secchi) e propaga NELLO STESSO lavoro ogni file vivo; il guardiano coerenza-fatti blocca il giro finché resta una copia vecchia. Il caso #16-zombie (giorni di lavoro morto su un ordine annullato) non può più restare silenzioso: è la lezione L-2026-0706 trasformata in codice.",
+      "tag": [
+        "ar-102",
+        "coerenza",
+        "memoria",
+        "fonte-unica"
+      ]
+    },
+    {
+      "id": "L-2026-0707-03",
+      "testo": "Una PR duplicata riaperta da un automatismo (residuo memoria-ad #206→#208) non si insegue chiudendo PR una a una: alla seconda ricomparsa si cerca il lavoro/job che la rigenera e si spegne alla radice. E prima di chiudere/mergiare una PR di memoria, verificare file per file CHI ha la versione più fresca: mergiare snapshot vecchi sovrascrive memoria viva.",
+      "tag": [
+        "git",
+        "pr",
+        "automazione",
+        "memoria"
+      ]
     }
   ],
   "principi": [
@@ -1440,5 +1531,6 @@
     "promosse_a_principio": 4,
     "decadute": 0,
     "tasso_applicazione": 0.7
-  }
+  },
+  "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
