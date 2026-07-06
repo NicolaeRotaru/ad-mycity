@@ -112,6 +112,6 @@ inventato, nessuna promessa a clienti che non esistono ancora. Si accende quando
 
 ## 🧭 Prossimo passo concreto (coerente con la rotta reale)
 Non serve decidere i punti oggi. Serve **avere una rete**: chiudere il ciclo end-to-end su Pane Quotidiano
-(coda #21) e portare i primi negozi dalla shortlist dopo il 9/7 (coda #22/#25). **Questo playbook è il
+(coda #21) e portare i primi negozi dalla shortlist dal 13/7 (coda #22/#25). **Questo playbook è il
 "pronto all'uso" che si accende da solo appena quei numeri esistono** — così, quando la rete arriva, non
 partiamo da zero: la leva di fidelizzazione è già scritta e firmabile in 2 minuti.

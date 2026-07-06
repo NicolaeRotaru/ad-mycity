@@ -13,7 +13,7 @@ approvazione: Nicola 2026-07-06 «lo approvo e devi farlo con tutti i negozi» (
 > **La verità dei numeri (baseline STATO, sensori live gated in sessione):** oggi nel DB c'è **UN solo negozio
 > reale** = **Pane Quotidiano** (contratto firmato 1/7). **Casa Linda = demo/seed → esclusa** (riempirla di testi
 > SEO metterebbe un negozio finto nell'indice di Google: si fa il contrario). **Garetti = prospect non nel DB →
-> niente da riempire.** Le altre botteghe (lista 27, 10 verificate) entrano **dopo il 9/7** (visita 13/7).
+> niente da riempire.** Le altre botteghe (lista 27, 10 verificate) entrano **dal 13/7** (visita di persona).
 >
 > Perciò **"farlo con tutti i negozi" oggi = 1 riempimento reale (PQ) + una regola che lo rende AUTOMATICO
 > per ogni negozio nuovo**, così le 6 botteghe che entrano dal 13/7 nascono già ottimizzate. Lo sforzo pesante

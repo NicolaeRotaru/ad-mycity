@@ -14,7 +14,7 @@ fonte_dati: registro-realta.json (2026-07-04) · STATO.md (2026-07-04) · Supaba
 > faccia delle botteghe. Un cliente compra online da uno sconosciuto **solo se qualcuno garantisce**. Il bollino
 > «Negozio Verificato» è quella garanzia: dice al cliente *«questo negozio è reale, paga sicuro, consegna davvero
 > e rispetta le regole — ci mettiamo la faccia noi»*. È lo **standard di qualità cittadino** con cui entra ogni
-> nuovo negozio dell'ondata dopo il 9/7.
+> nuovo negozio dell'ondata dal 13/7.
 
 ---
 
@@ -59,7 +59,7 @@ prima transazione reale **è** ciò che sblocca il primo badge. Non c'è nulla d
 
 > ⚠️ **Perché NON annuncio "lo standard della città" adesso:** dichiarare pubblicamente uno "standard verificato"
 > con **0 negozi verificati** sarebbe puffery e sfonderebbe il gate ONESTÀ. Lo standard si **definisce ora** (pronto
-> per l'ondata dopo il 9/7) e si **annuncia quando c'è ≥1 negozio che lo porta davvero.** Prima il fatto, poi la voce.
+> per l'ondata dal 13/7) e si **annuncia quando c'è ≥1 negozio che lo porta davvero.** Prima il fatto, poi la voce.
 
 ---
 
@@ -86,7 +86,7 @@ prima transazione reale **è** ciò che sblocca il primo badge. Non c'è nulla d
 > *(tooltip)* «Abbiamo verificato che questo negozio è reale, che paghi protetto e che consegna davvero. Se
 > qualcosa non va, il bollino si sospende.»
 
-### 4d) Onboarding dopo il 9/7 — il badge come standard d'ingresso
+### 4d) Onboarding dal 13/7 — il badge come standard d'ingresso
 Ogni negozio della nuova ondata riceve la **checklist dei 5 pilastri** come traguardo dei primi 30 giorni:
 entri → attivi payout + pubblichi catalogo → chiudi la prima consegna → **prendi il bollino**. Diventa il rito di
 qualità con cui la città capisce che MyCity non è un elenco a caso, ma negozi garantiti uno per uno.
