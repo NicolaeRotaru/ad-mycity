@@ -8,14 +8,27 @@ voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook completo `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 ---
 
-# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47)
+# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47 · aggiornato 2026-07-06 12:48)
 
-> 🔁 **Ri-esecuzione playbook 2026-07-04 11:47:** finding **invariato**. Business fermo dal 24/6 (STATO,
-> firma REST 11:30); letture live gated in sessione (MCP write/read non concesso, curl non approvato) →
-> riuso dello snapshot REST verificato 1/7 12:00, **nessun numero nuovo inventato**. Resta **1 solo
-> carrello recuperabile reale** (samir). Bozze già pronte sotto, già accodate come **#26** ([[AZIONI-IN-ATTESA]])
-> e **A3** ([[AZIONI-PRONTE]]) — **non ri-accodo** (anti-doppione AR-008). Gate immutato: parte **solo dopo
-> #16 consegnato** (stesso unico cliente).
+> 🔁 **Ri-esecuzione playbook 2026-07-06 12:48 — CAMBIO DI CANCELLO (l'ordine #16 è annullato).**
+> Il finding di dati è **invariato**: resta **1 solo carrello recuperabile reale** (samir, €10). Ma due cose
+> sono cambiate dall'ultimo giro:
+> 1. **Il gate «parte solo dopo #16 consegnato» è MORTO.** L'ordine #16 di samir è stato ANNULLATO il 3/7
+>    (letto live 6/7 11:11), mai consegnato → aspettare quella consegna significa non partire mai. **Nuovo
+>    gate:** parte quando Pane Quotidiano torna **evadibile** (ordine-prova #21 chiuso: accetta→consegna→payout-test),
+>    così il carrello non spinge samir verso una **2ª delusione**. Le mail sotto **non citano #16** — restano
+>    valide così come sono.
+> 2. **La riga di coda è cambiata da #26 a #27.** La vecchia #26 è stata riusata il 6/7 12:41 per l'anti-churn
+>    del *negozio* (@account-negozi, telefonata al fornaio). Il recupero carrello del *cliente* è quindi
+>    **ri-accodato come #27** in [[AZIONI-IN-ATTESA]] + blocco **A3** in [[AZIONI-PRONTE]] (nessun doppione, AR-008:
+>    target diverso — buyer samir, non il seller).
+>
+> Business fermo dal 24/6 (STATO); letture live gated in sessione oggi (MCP non concesso, bash non approvato)
+> → riuso dello snapshot REST verificato 1/7 12:00, stabile 2-3-4/7, **nessun numero nuovo inventato**.
+
+> ⚠️ **Nota sequenza (aggiornata 6/7):** il testo sotto dice ancora «primo ordine in consegna stamattina» —
+> quella premessa è superata (#16 annullato). Vale la logica del riquadro qui sopra: recovery **dopo #21**,
+> non dopo #16.
 
 ## Situazione reale (con fonte)
 | Metrica | Valore | Fonte |
