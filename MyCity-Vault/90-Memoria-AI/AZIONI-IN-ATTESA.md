@@ -187,3 +187,20 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Se va bene:** diventa il rito di qualità dell'onboarding dei negozi dopo il 9/7 (entri → payout+catalogo → 1ª consegna → bollino).
 - **🔴 Pre-condizioni (onestà):** (a) annuncio pubblico **solo con ≥1 negozio davvero verificato** — mai "lo standard della città" con 0 verificati · (b) mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (c) 🟡 corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
 - **Stato:** STANDARD DEFINITO (🟢). Assegnazione + annuncio **IN ATTESA DI FIRMA NICOLA** (condizionati alla prima consegna reale).
+
+## 2026-07-06 16:10 · @seo→@tech · 🔎 Riempi la vetrina di Pane Quotidiano con le parole cercate su Google — APPROVATA
+- **Cosa:** scrivere `store_description` (bio dal 1976, pane/pesto/kefir bio, bottega del centro, consegna a domicilio Piacenza) + `store_address` (Via Calzolai 25, Piacenza) sul profilo PQ, così title/meta/OG/schema del sito intercettano *prodotti bio a Piacenza · spesa bio online · pane bio a domicilio · botteghe del centro con consegna*. Comando + JSON pronti in `consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` §1.
+- **Approvazione:** Nicola 2026-07-06 «lo approvo e devi farlo con tutti i negozi» (Pannello).
+- **Colore:** 🟡 — CONFIG marketplace (`marketplace.mjs aggiorna profiles`), **mai DB clienti, mai deploy**. Backup automatico per riga → **reversibile** (rollback dal backup).
+- **Canale/mani:** `node cervello/marketplace.mjs aggiorna` — esegue via Pannello/giro autorizzato (il comando è gated nella chat: prima `leggi` conferma id `c0b240c0…` + valori attuali, poi `aggiorna`).
+- **Cosa cambia:** la scheda di Pane Quotidiano su Google smette di uscire con testo generico e inizia a intercettare 5 ricerche bio/consegna del centro — traffico organico gratis verso l'unico negozio reale che può incassare.
+- **Se va bene:** stessa cosa in automatico su ogni negozio nuovo (regola-standing sotto) → le 6 botteghe dal 13/7 nascono già ottimizzate.
+- **Onestà:** solo fatti verificati (bio dal 1976, indirizzo reale, prodotti a catalogo). "Senza glutine/dietetico" **NON inserito** — linea da confermare col titolare.
+- **Stato:** IN ATTESA DI ESECUZIONE (config autorizzato).
+
+## 2026-07-06 16:10 · @onboarding-negozi → @seo · 🟢 Regola-standing: SEO-fill nell'onboarding di OGNI negozio
+- **Cosa:** rendere il riempimento vetrina (`store_description` con le parole cercate + `store_address` pieno) un **passo obbligatorio del go-live** di ogni negozio nuovo. Handoff: @onboarding-negozi raccoglie i campi reali → @seo compila il template (`consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` §2) → proposta 🟡 col comando pronto → firma → `aggiorna`.
+- **Colore:** 🟢 regola di processo (l'esecuzione per-negozio resta 🟡 firma).
+- **Cosa cambia:** "farlo con tutti i negozi" diventa automatico, non un secondo giro manuale; ogni bottega dal 13/7 nasce già ottimizzata per Google.
+- **Casa Linda (demo):** esclusa in modo permanente finché resta seed — non si mette un negozio finto nell'indice.
+- **Stato:** REGOLA ATTIVA — si applica al primo onboarding dopo il 9/7.
