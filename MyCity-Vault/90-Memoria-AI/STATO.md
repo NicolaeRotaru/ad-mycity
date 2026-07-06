@@ -1,11 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-07-04 11:30
-fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stallo ~243h · #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna COD €19,05 · **novità: OGGI Sant'Antonino patrono → centro pieno, finestra consegna ideale** · firma REST 11:30 invariata, MCP+node/curl gated → baseline REST, zero numeri inventati)
+aggiornato: 2026-07-06 14:00
+fonte: AD digitale (🚨 6/7 14:00 misura fresca via Supabase MCP: ordine #16 CANCELED dal 3/7 17:38, mai accettato → #21/#22 non più eseguibili, nuova #33 in coda · Piano della Piramide scritto+verificato (panel 3 lenti), firma in coda #34 · REST env assenti in sessione cloud → lettura via MCP, zero numeri inventati)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🚨 **6/7 14:00 — MISURA FRESCA (Supabase MCP): L'ORDINE #16 È CANCELLATO NEL DATABASE.**
+> `delivery_status=CANCELED` · `canceled_at=2026-07-03 17:38` ora IT · `accepted_at=null` — il primo
+> ordine è **morto in attesa il 3/7 pomeriggio, PRIMA del «prosegui #21-#22» del 4/7 04:51**: mai
+> accettato in 9 giorni. Le azioni #21 (accetta) e #22 (consegna) **non sono più eseguibili** →
+> sostituite dalla **#33 🔴: richiama il buyer e rifate l'ordine insieme** (o ordine-test di Nicola).
+> Altri numeri 6/7 14:00 (fonte MCP): profili 23 · prodotti disponibili 250 · profili-venditore (incl.
+> demo) 17 · buyer con ordini 1 · ordini totali 1 (il cancellato). **North Star resta 0.**
+> Oggi inoltre: **Piano della Piramide** scritto, passato dal panel avversariale a 3 lenti e riveduto
+> (`consegne/strategia/2026-07-06-piano-piramide-infrastruttura-completa.md`, firma in coda **#34**);
+> preparati **Modello di consegna v1** (`consegne/operations/`) e **Accendi lo storico**
+> (`consegne/analista/`); coda +#33-#36; CHECKLIST-NICOLA rinnovata (era ferma al 26/6). Ledger sensori
+> ripristinato alla verità VPS del 4/7 22:20 (la cecità della sessione cloud non è la morte dei sensori).
+>
 > 🎉 **4/7 11:30 — OGGI È SANT'ANTONINO (patrono di Piacenza):** Fiera 250 bancarelle (33 alimentari), mercato piazza Cavalli/Duomo, centro pienissimo tutto il giorno. La ZTL (mezzi >35q dalle 6) **non tocca** consegne a piedi/bici → la consegna di **#16** da Via Calzolai 25 è facilissima oggi. Meteo sereno 20→33°, picco afa alle 17 → freschi in mattinata o dopo le 18. **Business invariato dal 24/6** (firma REST 11:30: ordini=1, ultimo 24/6, 23 clienti; stallo ~243h ≈ 10 giorni). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Dettaglio: [[2026-07-04]].
 >
 > 🚚 **4/7 04:51 — #16 IN CONSEGNA — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
@@ -27,7 +40,7 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
 | Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox oggi |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 IN CONSEGNA** — WhatsApp #20 fatto (Nicola «prosegui #21-#22» 4/7 04:51) · restano #21 accetta + #22 consegna → «Consegnato» |
+| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · ⚠️ **CANCELLATO il 3/7 17:38, mai accettato** (misura MCP 6/7 14:00) → **#33**: richiamare il buyer e rifare l'ordine |
 | Ordini pagati | **0** | 1 | COD non incassato |
 | Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~229h** (21:21) |
 | Payout testato | **0** | 1 | payout-test Nicola **03/7** (sandbox) → accorpare #16 |

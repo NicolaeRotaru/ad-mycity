@@ -104,3 +104,6 @@ Metabolizzazione correzione Nicola (2ª card onboarding 6/7): «sono Approva/Ign
 
 # ESITO — @AD — 2026-07-02 08:20
 L-2026-0702-44: automazione tutto verde ≠ loop business chiuso — separare infrastruttura vs #16 pendente in ogni briefing. Voto fiducia 89 ▲. #AD #loop #automazione
+
+## Esiti
+- 2026-07-06 14:03 · Piano Piramide + avvio Fase 0 · piano verificato da panel 3 lenti; 2 doc Fase 1 pronti; misura fresca MCP · atteso atteso: memoria allineata e coda pronta per la firma → reale reale: scoperto #16 CANCELED dal 3/7 — coda e STATO corretti, #33-36 accodate · #piano #fase0
