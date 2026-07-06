@@ -2,7 +2,7 @@
 tipo: azioni-pronte-recupero-carrelli
 reparto: crm-lifecycle
 data: 2026-07-03 11:40
-fonte: snapshot REST verificato 2026-07-01 12:00 (`user_carts`+`abandoned_carts`+`profiles`) · confermato KPI 2026-07-02 10:19 · letture live MCP/curl gated in sessione 3/7 → riuso dato verificato, nessun numero nuovo inventato
+fonte: snapshot REST verificato 2026-07-01 12:00 (`user_carts`+`abandoned_carts`+`profiles`) · confermato KPI 2026-07-02 10:19 · letture live MCP/curl gated in sessione 3/7 → riuso dato verificato, nessun numero nuovo inventato · **ri-confermato 2026-07-06 13:12** (sentinella-dati live, `dati_leggibili=true`): `ordini_tot=1`, `ordini_24h=0` → nessun NUOVO carrello recuperabile comparso, il finding «1 solo cliente reale» regge
 stato: DRY-RUN — bozze pronte, NESSUN INVIO
 voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook completo `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
