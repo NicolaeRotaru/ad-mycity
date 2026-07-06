@@ -158,6 +158,7 @@ Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
 
 ## A9 · 💚 Rassicurazione standalone al titolare — Pane Quotidiano (parte anche se l'ordine è ancora fermo)
+⚠️ **SUPERATA il 2026-07-06 12:28 → sostituita da A17.** Premessa morta: lo script diceva «il primo ordine sta tardando ad arrivare», ma l'ordine #16 è stato ANNULLATO il 3/7 (non "in ritardo"). NON usare questo testo. Usa A17.
 reparto: account-negozi
 livello: 🔴/🟡 (tocca un commerciante reale → si accoda; la bozza è 🟢)
 canale: Telefono 0523 388601 (Via Calzolai 25) · backup WhatsApp/in-app — chiama NICOLA/account, non il rider
