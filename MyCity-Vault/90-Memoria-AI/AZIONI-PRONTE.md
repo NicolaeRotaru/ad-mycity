@@ -149,13 +149,13 @@ testo:
 «Ora che il primo ordine è andato, mettiamo a scaffale su MyCity 2-3 vostri prodotti-civetta bio (quelli che vendete di più) con una piccola spinta social del quartiere. Obiettivo: un paio di ordini a settimana costanti. Vi va se preparo io la vetrina e ne parliamo 5 minuti?»
 nota: 🟢 = creare la bozza è libero; la telefonata reale al titolare resta subordinata alla prima consegna (non anticipare).
 
-## A13 · 💬 Touch 1 post-consegna — feedback (ordine #16 Pane Quotidiano)
+## A13 · 💬 Touch 1 post-consegna — feedback (primo ordine consegnato · Pane Quotidiano)
 reparto: customer-success
 livello: 🔴 (messaggio a cliente reale — coperto da coda #3 già firmata 30/6; 🟢 la bozza)
-canale: WhatsApp 348 642 1766 (già usato per #16) · backup email/in-app
+canale: WhatsApp/telefono del cliente dell'ordine (dal profilo ordine) · backup email/in-app
 perche: +3h dalla consegna è la finestra per intercettare un problema PRIMA che diventi reclamo, e per filtrare il ramo 👎 (non chiedere recensione a chi è insoddisfatto). Regola d'oro FLUSSI §3: recensione solo se feedback ≠ negativo.
 preparato: 🤗 customer-success — testo completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md` § Touch 1
-pre-condizione: ordine `58094956…` segnato **Consegnato** in dashboard (dipende da #16/#22)
+pre-condizione: il **primo ordine-prova PQ** (coda #21: accetta→consegna→payout-test) segnato **Consegnato** in dashboard. ⚠️ **Aggiornato 6/7 13:35:** il vecchio gate «ordine `58094956…` / #16» è MORTO — #16 annullato il 3/7. L'order_id reale sarà quello del **nuovo** ordine-prova, da leggere alla consegna.
 cosa cambia: il primo cliente reale MyCity riceve un check post-consegna; se qualcosa non va lo sistemiamo in giornata invece di perderlo.
 se va bene: feedback 👍 → parte A14 (richiesta recensione); feedback 👎 → handoff @supporto, A14 sospesa.
 testo:
