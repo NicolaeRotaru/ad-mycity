@@ -177,3 +177,12 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Pre-condizione tecnica:** link reale in bio con UTM `turno_pq` (@builder-automazioni). **Mani social** → @builder-automazioni o pubblicazione manuale.
 - **Onestà:** gate ONESTA-RULES passato (0 numeri finti, 0 testimonianze, "1976" = fonte pubblica Vita in Centro/Pagine Gialle).
 - **Stato:** IN ATTESA DI FIRMA NICOLA.
+
+## 2026-07-06 15:10 · @trust-safety · 🛡️ Dai il bollino «Negozio Verificato» al primo negozio che se lo merita (#38)
+- **Cosa:** far nascere il bollino «Negozio Verificato MyCity» — lo standard di fiducia della città (5 criteri verificabili nei dati) — e assegnarlo al primo negozio che li rispetta tutti. Standard, criteri, idoneità e bozze pronti in `consegne/trust-safety/2026-07-06-badge-negozio-verificato.md` · anteprima estesa [[AZIONI-PRONTE]] **A18**.
+- **I 5 criteri (tutti verificabili):** ① identità reale (P.IVA/sede + KYC Stripe) · ② bottega attiva e approvata (≥5 prodotti veri) · ③ pagamenti sicuri (payout Stripe ON) · ④ consegna provata (≥1 consegnato, 0 dispute) · ⑤ regole rispettate (contratto+GDPR, 0 segnalazioni). Il badge si **perde** se un pilastro cade → così vale qualcosa.
+- **Idoneità reale oggi (2026-07-06):** **0 verificati, 1 candidato = Pane Quotidiano** (3/5 pilastri; mancano payout ON + 1ª consegna). Casa Linda = demo (esclusa), Garetti = prospect non nel DB (non idoneo). PQ diventa il **1° Negozio Verificato di Piacenza** appena #16 è consegnato + payout acceso.
+- **Cosa cambia:** nasce lo standard di fiducia cittadino e il primo negozio reale che consegna si guadagna un bollino visibile a video → segnale di garanzia per i clienti, fossato contro Glovo/Amazon.
+- **Se va bene:** diventa il rito di qualità dell'onboarding dei negozi dopo il 9/7 (entri → payout+catalogo → 1ª consegna → bollino).
+- **🔴 Pre-condizioni (onestà):** (a) annuncio pubblico **solo con ≥1 negozio davvero verificato** — mai "lo standard della città" con 0 verificati · (b) mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (c) 🟡 corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
+- **Stato:** STANDARD DEFINITO (🟢). Assegnazione + annuncio **IN ATTESA DI FIRMA NICOLA** (condizionati alla prima consegna reale).
