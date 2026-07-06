@@ -58,8 +58,9 @@ Emilia-Romagna **40% a fondo perduto, scade il 21/7** → il kit per candidarsi 
 **Giornata B — in auto, oltre il Po** (~10-15 min):
 6. **Trattoria dei Pescatori** — Loc. Malpaga 21, **Calendasco** — *#1 di Calendasco. ⚠️ fuori raggio consegna urbana → NON promettere la consegna: vendere **vetrina + prenotazione + asporto**.*
 
-**Prima di uscire (2 min, @analista):** verifica sui dati Supabase l'indirizzo esatto di **Pane Quotidiano**
-per dire con precisione *"siamo già online a X metri da qui"* (l'aggancio-prossimità più forte).
+**Aggancio-prossimità (verificato sui dati):** **Pane Quotidiano è in Via Calzolai 25**, centro storico —
+a poche centinaia di metri da La Forchetta (Via Borghetto) e La Dispensa (Largo Gioia). Frase pronta:
+*"Siamo già online con una bottega vera qui in Via Calzolai, a due passi — te la mostro dal telefono."*
 
 ---
 ---
@@ -201,8 +202,8 @@ la consegna urbana.** Il prodotto giusto per loro è **vetrina + prenotazione on
 **Leva a scadenza (per chi vuole digitalizzarsi sul serio):**
 - **Bando Commercio Emilia-Romagna, 40% a fondo perduto, scade il 21/7.** Kit pronto: `consegne/vendite/kit-bando-er-mycity.md`. → chi è interessato va "chiuso" entro ~15/7.
 
-**La prova che è vero:** *"C'è già **Pane Quotidiano**, bottega vera del centro, online su MyCity e che riceve
-ordini. È a [X metri] da qui — te lo mostro dal telefono."* → verifica l'indirizzo esatto con @analista prima di uscire.
+**La prova che è vero:** *"C'è già **Pane Quotidiano**, bottega vera in **Via Calzolai 25**, online su MyCity
+e che riceve ordini. È a due passi da qui — te lo mostro dal telefono."* (indirizzo verificato sui dati reali.)
 
 ---
 
