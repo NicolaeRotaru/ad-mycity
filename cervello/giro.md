@@ -215,5 +215,25 @@ Passi:
     (La radiografia COMPLETA — workflow `.claude/workflows/auto-radiografia.js` — è settimanale in
     `ritmo.md` o su comando «radiografia di te stesso».)
 
+15. 🧭 COERENZA DEI FATTI (AR-102 — fonte unica della verità, PRIMA di chiudere il giro):
+    i fatti-chiave del business vivono in `MyCity-Vault/90-Memoria-AI/registro-fatti.json` — UNA casa
+    sola; tutti gli altri file li citano. In questo passo:
+    a. **Registra i cambi:** se in questo giro un fatto-chiave è cambiato (specialmente da una
+       risposta/correzione di Nicola: nuova data, nuovo negozio faro, nuova soglia/prezzo deciso),
+       aggiornalo SUBITO: `node cervello/coerenza-fatti.mjs registra <id> "<nuovo valore>" --caccia "<frase col valore vecchio>" --fonte "<da dove viene>"`.
+       ⚠️ La caccia dev'essere una **frase contestuale** («onboarding: 2026-07-06»), MAI una data/numero
+       secchi (falsi positivi ovunque) — il tool li rifiuta.
+    b. **Propaga a cascata NELLO STESSO GIRO:** riscrivi ogni file VIVO che cita il valore vecchio
+       (AZIONI-IN-ATTESA, STATO, 06-Piani, intenzioni-nicola.json, ultimo-briefing.json,
+       CHECKLIST-NICOLA, calendario editoriale, consegne/ pendenti). La storia (DECISIONI, Briefing,
+       SALA-OPERATIVA, quaderni, auto-coscienza) NON si riscrive: è esente.
+    c. **Verifica col guardiano:** `node cervello/coerenza-fatti.mjs` deve passare (exit 0). Se elenca
+       copie vecchie, riscrivile e riesegui finché è pulito; le cacce bonificate (0 copie) chiudile con
+       `chiudi-caccia <id>`. (giro.sh lo esegue anche PRIMA di te: se ti è arrivato il vincolo
+       «MEMORIA INCOERENTE», questo passo è OBBLIGATORIO, non facoltativo.)
+    d. **Se il registro è vuoto/scarno, popolalo:** estrai i 5-15 fatti-chiave correnti dalla memoria
+       (STATO, coda, piani, decisioni recenti) e registrali con la loro `fonte`. Solo fatti FONDATI
+       (dato reale o decisione firmata) — mai riempirlo di ipotesi.
+
 In cima al briefing metti un **TL;DR di 5 righe** per Nicola (cosa hai trovato + le 1-3 mosse
 che consigli): è il riassunto veloce sopra il report completo, non un sostituto.

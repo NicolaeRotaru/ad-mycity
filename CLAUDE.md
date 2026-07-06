@@ -83,6 +83,18 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 > deve poter sapere **al minuto** quando è apparso ogni dato nella Cabina. Mai
 > solo la data secca.
 
+> 🧭 **Fonte unica della verità (AR-102 — vale per OGNI lavoro, non solo il giro):** i fatti-chiave
+> del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vivono in
+> `MyCity-Vault/90-Memoria-AI/registro-fatti.json` — UNA casa sola; gli altri file li **citano**.
+> Quando un fatto cambia (specialmente da una risposta/correzione di Nicola su una card): ① registralo
+> SUBITO con `node cervello/coerenza-fatti.mjs registra <id> "<nuovo valore>" --caccia "<frase col
+> valore vecchio>" --fonte "…"` (caccia = frase contestuale, mai data/numero secchi); ② **nello stesso
+> lavoro** riscrivi ogni file VIVO che cita il valore vecchio (coda, STATO, piani, intenzioni,
+> calendario, consegne pendenti); ③ verifica con `node cervello/coerenza-fatti.mjs` finché passa
+> (exit 0). Il guardiano gira a ogni giro e FALLISCE se una copia vecchia resta in un file vivo —
+> una copia vecchia lasciata in giro è una bugia che il Pannello mostra a Nicola. La storia
+> (DECISIONI, Briefing, SALA-OPERATIVA, quaderni) NON si riscrive: è esente.
+
 > Regola: la cartella `90-Memoria-AI/` è tua. Il resto del vault è di Nicola —
 > lì proponi modifiche, non riscrivi senza chiedere (🟡).
 
