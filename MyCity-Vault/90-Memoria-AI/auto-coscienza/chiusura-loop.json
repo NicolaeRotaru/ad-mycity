@@ -1,16 +1,15 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-06 12:20",
+  "aggiornato": "2026-07-06 14:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
-  "fermi": 4,
-  "vivi": 39,
+  "fermi": 3,
+  "vivi": 40,
   "reparti_fermi": [
     "direttore-creativo",
     "marketing",
-    "qa-designer",
-    "relazioni-istituzionali"
+    "qa-designer"
   ],
   "quaderni": [
     {
@@ -177,7 +176,7 @@
       "reparto": "finanza",
       "righe_esito": 3,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -217,7 +216,7 @@
       "reparto": "legale-privacy",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:06",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -281,17 +280,17 @@
       "reparto": "qa",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "relazioni-istituzionali",
-      "righe_esito": 1,
-      "ultimo_esito": "2026-06-25",
-      "giorni_fa": 11,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-06 14:20",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "rider-fleet",
@@ -311,9 +310,9 @@
     },
     {
       "reparto": "seo",
-      "righe_esito": 3,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 5,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-06 13:05",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
