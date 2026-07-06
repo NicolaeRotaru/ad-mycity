@@ -84,7 +84,7 @@ while ($true) {
       } elseif ($lav.tipo -eq "giro") {
         $giroMd = Join-Path $PSScriptRoot "giro.md"
         $giroPrompt = if (Test-Path $giroMd) { Get-Content $giroMd -Raw } else { "Fai un GIRO DI PERLUSTRAZIONE come AD di MyCity." }
-        $prompt = "$giroPrompt`n`n## Istruzione aggiuntiva`n$($lav.richiesta)`n`nRestituisci a Nicola il TL;DR del briefing. La memoria va sul ramo memoria-ad (mai solo su main)."
+        $prompt = "$giroPrompt`n`n## Istruzione aggiuntiva`n$($lav.richiesta)`n`nRestituisci a Nicola il TL;DR del briefing. La memoria va sul RAMO UNICO main (Fase 2)."
       } else {
         $prompt = "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:`n`n$($lav.richiesta)"
       }

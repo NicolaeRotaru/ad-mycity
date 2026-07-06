@@ -90,13 +90,15 @@ async function main() {
     add("clone marketplace", "warn", `assente in ${mktPath} — node cervello/collega-marketplace.mjs`);
   }
 
-  // 3) Ramo del repo AD (sul VPS deve essere memoria-ad; altrove è informativo)
+  // 3) Ramo del repo AD (RAMO UNICO Fase 2: sul VPS deve essere main; altrove è informativo)
   const branch = sh("git", ["rev-parse", "--abbrev-ref", "HEAD"], AD_ROOT);
   const onVps = existsSync("/opt/mycity/ad-mycity");
-  if (branch === "memoria-ad") {
-    add("ramo repo AD", "ok", "memoria-ad ✓");
+  if (branch === "main") {
+    add("ramo repo AD", "ok", "main (ramo unico) ✓");
+  } else if (branch === "memoria-ad") {
+    add("ramo repo AD", "fail", "sei sul VECCHIO ramo 'memoria-ad' — Fase 2 = ramo unico 'main': metti GIT_BRANCH=main nel .env e rilancia aggiorna-cervello.sh (deriva ramo!)");
   } else if (onVps && AD_ROOT.startsWith("/opt/mycity")) {
-    add("ramo repo AD", "fail", `sei su '${branch}' — sul VPS deve essere memoria-ad (deriva ramo!)`);
+    add("ramo repo AD", "fail", `sei su '${branch}' — sul VPS deve essere main (deriva ramo!)`);
   } else {
     add("ramo repo AD", "warn", `'${branch}' (non-VPS: ok se sei in sviluppo)`);
   }

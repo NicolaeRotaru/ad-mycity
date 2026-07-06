@@ -4,7 +4,7 @@
 // Uso:
 //   node cervello/git-pr.mjs --repo ad-mycity --base main --branch cursor/fix-x --title "Fix X"
 //   node cervello/git-pr.mjs --repo mycity --base main --title "Fix carrello" --accoda
-//   node cervello/git-pr.mjs --repo ad-mycity --base memoria-ad --branch cursor/giro-2026-07-01 --dry-run
+//   node cervello/git-pr.mjs --repo ad-mycity --base main --branch cursor/giro-2026-07-01 --dry-run
 //
 // Env: GIT_PUSH_TOKEN, GIT_REPO (ad-mycity) · MARKETPLACE_GIT_TOKEN, MARKETPLACE_REPO (mycity)
 //      GIT_AUTHOR_EMAIL, GIT_AUTHOR_NAME (commit)
@@ -29,7 +29,7 @@ function usage() {
 
 Opzioni:
   --repo ad-mycity|mycity   Repo target (obbligatorio)
-  --base RAMO               Base PR (default: main; memoria-ad per vault)
+  --base RAMO               Base PR (default: main — ramo unico, vale anche per il vault)
   --branch RAMO             Head branch (default: branch git corrente nel cwd del repo)
   --title TESTO             Titolo PR (default: messaggio ultimo commit o branch)
   --body TESTO              Corpo PR (markdown)

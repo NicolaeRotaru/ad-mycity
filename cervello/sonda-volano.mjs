@@ -112,7 +112,7 @@ function main() {
   // trattava tutti come "aperti" → il voto restava congelato e la sentinella salute_bassa
   // ri-scattava a ogni giro su una condizione già interamente in coda (alert fatigue).
   //   (a) APERTO DAVVERO      → il fix NON è ancora nel codice (verifica.presente !== true)
-  //   (b) CHIUSO-IN-CODICE    → fix già su memoria-ad, manca solo merge+deploy (verifica.presente === true)
+  //   (b) CHIUSO-IN-CODICE    → fix già committato sul ramo della memoria (main), manca solo il deploy (verifica.presente === true)
   //   (c) BLOCCANTE UMANO     → dipende SOLO da un'azione umana già in AZIONI-IN-ATTESA (verifica.tipo === "umano")
   // Fix: (1) accredita i (b) in un voto_provvisorio 'pending-merge'; (2) la firma di stato è
   // la SOLA lista dei (a) — l'unico lavoro NUOVO da decidere. (b) aspettano il merge, (c)

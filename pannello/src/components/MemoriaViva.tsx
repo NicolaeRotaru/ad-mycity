@@ -173,13 +173,13 @@ export default function MemoriaViva() {
         <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
           <p className="mb-2 font-medium text-ink/80">Memoria del vault non raggiungibile.</p>
           <p className="text-xs text-black/45 leading-relaxed">
-            Il giro salva su GitHub nel ramo <b>memoria-ad</b>. Il Pannello lo legge <b>direttamente</b> da lì
-            (variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>) — <b>non devi mergiare su main</b> per
-            vedere briefing, STATO e azioni.
+            Il giro salva su GitHub nel <b>ramo unico main</b>. Il Pannello lo legge <b>direttamente</b> da lì
+            (variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>): briefing, STATO e azioni
+            compaiono appena il giro pusha.
           </p>
           <p className="text-xs text-black/40 mt-2">
-            Online: <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_BRANCH=memoria-ad</code> su Vercel.
-            Se è <code className="bg-black/[0.05] px-1 rounded">main</code>, vedi dati vecchi anche con giro fresco.
+            Online: <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_BRANCH=main</code> su Vercel.
+            Se punta ancora al vecchio <code className="bg-black/[0.05] px-1 rounded">memoria-ad</code>, vedi dati fermi al trasloco.
           </p>
         </div>
       ) : (

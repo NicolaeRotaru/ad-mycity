@@ -335,7 +335,7 @@ a mani vuote"). Programma "Senior al Top": `MyCity-Vault/07-Agenti/PIANO-SENIOR-
 
 ## ⌨️ Comandi rapidi (riconoscili SEMPRE — menù completo in `COMANDI.md`)
 Nicola lancia lavori con frasi brevi. Riconoscile anche se scritte in modo diverso ed esegui la capacità giusta:
-- **"fai un giro"** → giro (`cervello/giro.md`): leggi i dati reali (Supabase MCP), controlla le sentinelle, scrivi briefing in `90-Memoria-AI/Briefing/`, aggiorna [[STATO]]. ⚠️ **La memoria si pubblica SOLO su `memoria-ad`** (il ramo che legge il Pannello): da cloud agent apri/aggiorna la PR con **base `memoria-ad`**, mai mettere la memoria solo su `main` (vedi "DOVE PUBBLICARE" in `cervello/giro.md`).
+- **"fai un giro"** → giro (`cervello/giro.md`): leggi i dati reali (Supabase MCP), controlla le sentinelle, scrivi briefing in `90-Memoria-AI/Briefing/`, aggiorna [[STATO]]. ⚠️ **RAMO UNICO (Fase 2): la memoria si pubblica su `main`** (il ramo che legge il Pannello): dal VPS commit+push diretto su `main` (rebase, non-force); da cloud agent apri/aggiorna la PR con **base `main`** e falla mergiare. Il vecchio ramo separato `memoria-ad` è in pensione (vedi "DOVE PUBBLICARE" in `cervello/giro.md`).
 - **"piano del mattino" / "report della sera" / "review della settimana"** → cadenze di `cervello/ritmo.md`.
 - **"come stiamo?" / "report KPI" / "controlla i pagamenti" / "proiezione"** → analista/finanza sui dati reali.
 - **"porta [negozio] LIVE" / "trovami negozi" / "negozio in calo"** → catena vendite (+ team).

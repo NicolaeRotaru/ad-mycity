@@ -32,7 +32,7 @@ if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
 fi
 
 # --- Prepara il ramo della memoria e ALLINEA IL CODICE a main (come giro.sh) ---
-branch="${GIT_BRANCH:-memoria-ad}"
+branch="${GIT_BRANCH:-main}"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
@@ -43,7 +43,7 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   (
     flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
     # Fix B: se un run precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
-    # ramo memoria-ad), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
+    # ramo della memoria), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
     if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
@@ -58,7 +58,7 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     # memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
     # (MyCity-Vault/consegne/creativi/memoria-squadra) non viene MAI toccato dall'allineamento →
     # impossibile resuscitare file potati dall'AD o sovrascrivere scritture del vault. Deterministico,
-    # niente conflitti. (La memoria resta quella del ramo memoria-ad, ripresa dal remoto sopra.)
+    # niente conflitti. (La memoria resta quella del ramo unico main, ripresa dal remoto sopra.)
     if git fetch "$url" main 2>/dev/null; then
       code_paths=()
       while IFS= read -r p; do
@@ -89,7 +89,7 @@ PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/age
 ## Compito
 Leggi ed esegui **per intero** il file \`cervello/monitora.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).
 Scrivi sul disco i file richiesti in MyCity-Vault/90-Memoria-AI/Intelligence/. Rispetta 🟢🟡🔴.
-La memoria va sul ramo memoria-ad (il push git lo fa monitora.sh dopo di te — tu scrivi i file).
+La memoria va sul RAMO UNICO main (il push git lo fa monitora.sh dopo di te — tu scrivi i file).
 
 ## Risposta in chat
 Al termine restituisci un riepilogo breve (5-8 righe)."
@@ -107,7 +107,7 @@ if command -v node >/dev/null 2>&1 && [ -n "${MONITORA_START:-}" ]; then
   node "$SCRIPT_DIR/costo-ai.mjs" --tipo=monitora --durata-sec="$_mon_durata" ${MONITORA_TOKEN:+--token="$MONITORA_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
 fi
 
-# --- Sync della memoria sul ramo 'memoria-ad': commit + push (rebase, NON force) ---
+# --- Sync della memoria sul ramo unico 'main': commit + push (rebase, NON force) ---
 (
   flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo monitoraggio recupera il WIP)
   git add -A 2>/dev/null || true

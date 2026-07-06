@@ -96,11 +96,12 @@ sudo journalctl -u mycity-giro -f                     # log in diretta (Ctrl-C p
 ```
 Non serve `git pull` a mano: **il primo passo del giro allinea da solo il codice a `origin/main`**
 (pannello, cervello, agenti) — i tuoi merge di **codice** entrano lì — lasciando intatto il vault. Al termine trovi
-il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo
-`memoria-ad` → **visibili subito nel Pannello** (che legge quel ramo via GitHub, senza merge su main).
+il nuovo briefing in `MyCity-Vault/90-Memoria-AI/Briefing/` + `AUTO-ANALISI.md`, pushati sul ramo unico
+`main` → **visibili subito nel Pannello** (che legge quel ramo via GitHub).
 
-> **Due rami, due compiti:** `memoria-ad` = memoria viva (giro, briefing, STATO) · `main` = codice.
-> Il Pannello legge `memoria-ad`. Mergiare `memoria-ad → main` **non** è necessario per vedere i giri.
+> **RAMO UNICO (Fase 2):** codice E memoria vivono insieme su `main` — il giro committa/pusha lì
+> (rebase, non-force, sotto lock) e il Pannello legge lì (`OBSIDIAN_BRANCH=main`). Il vecchio ramo
+> separato `memoria-ad` è in pensione: niente più due rami che divergono, niente merge/forward.
 
 > Se hai cambiato i **file delle unit systemd** (`mycity-*.service`/`.timer`), ricopiali e ricarica prima:
 > `sudo cp /opt/mycity/ad-mycity/cervello/vps/mycity-*.{service,timer} /etc/systemd/system/ && sudo systemctl daemon-reload`
