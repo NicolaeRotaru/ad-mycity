@@ -592,7 +592,8 @@ type Vista =
   | "assistente"
   | "esplora"
   | "report"
-  | "storico";
+  | "storico"
+  | "attivita";
 
 type AssistenteTab = "chat" | "conversazioni";
 
@@ -604,6 +605,9 @@ export default function Dashboard() {
     if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
   }, []);
   const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
+  // Consolidamento: "Attività" (Lavori/Diario/Memoria) e "Controllo" (Macchina/GitHub) con sotto-schede.
+  const [attivitaTab, setAttivitaTab] = useState<"lavori" | "storico" | "memoria">("lavori");
+  const [controlloTab, setControlloTab] = useState<"macchina" | "github">("macchina");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
@@ -1559,11 +1563,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   gruppo: "Macchina & memoria",
                   voci: [
                     { id: "cervello", label: "Controllo", icon: <Cpu size={16} /> },
-                    { id: "lavori", label: "Lavori", icon: <Brain size={16} /> },
-                    { id: "memoria", label: "Memoria", icon: <Layers size={16} /> },
-                    { id: "storico", label: "Storico", icon: <History size={16} /> },
+                    { id: "attivita", label: "Attività & storia", icon: <History size={16} /> },
                     { id: "assistente", label: "Assistente", icon: <Send size={16} /> },
-                    { id: "esplora", label: "GitHub", icon: <FolderTree size={16} /> },
                   ],
                 },
               ];
@@ -1623,8 +1624,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== REPORT & PIANI (documenti in consegne/) ===================== */}
         {vista === "report" && <Documenti />}
 
-        {/* ===================== MACCHINA (radiografia + auto-coscienza) ===================== */}
-        {vista === "cervello" && <MacchinaArea />}
+        {/* ===================== CONTROLLO (Macchina + GitHub, in schede) ===================== */}
+        {vista === "cervello" && (
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-1.5">
+              {(
+                [
+                  { id: "macchina", label: "Macchina", icon: <Cpu size={14} /> },
+                  { id: "github", label: "Codice (GitHub)", icon: <FolderTree size={14} /> },
+                ] as const
+              ).map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setControlloTab(t.id)}
+                  className={`nav-tab ${controlloTab === t.id ? "nav-tab-active" : ""}`}
+                >
+                  {t.icon}
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            {controlloTab === "macchina" ? <MacchinaArea /> : <EsploraGitHub />}
+          </div>
+        )}
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
         {vista === "lavori" && (
@@ -1686,6 +1709,38 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== MEMORIA & DECISIONI ===================== */}
         {vista === "memoria" && (
           <Memoria briefing={briefing} ultimoAt={ultimoAt} />
+        )}
+
+        {/* ===================== ATTIVITÀ (Lavori + Diario/decisioni + Memoria, in schede) ===================== */}
+        {vista === "attivita" && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="t-area">🕘 Attività &amp; storia</h2>
+              <p className="t-eti mt-0.5">Cosa ha fatto l&apos;AD, le decisioni prese e la memoria — in un posto solo.</p>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {(
+                [
+                  { id: "lavori", label: "Lavori", icon: <Brain size={14} /> },
+                  { id: "storico", label: "Diario & decisioni", icon: <History size={14} /> },
+                  { id: "memoria", label: "Memoria", icon: <Layers size={14} /> },
+                ] as const
+              ).map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setAttivitaTab(t.id)}
+                  className={`nav-tab ${attivitaTab === t.id ? "nav-tab-active" : ""}`}
+                >
+                  {t.icon}
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            {attivitaTab === "lavori" && <Lavori lavori={lavori} onSvuota={svuotaLavori} workerVivo={workerVivo} adInPausa={adInPausa} />}
+            {attivitaTab === "storico" && <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />}
+            {attivitaTab === "memoria" && <Memoria briefing={briefing} ultimoAt={ultimoAt} />}
+          </div>
         )}
 
         {/* ===================== PERSONE ===================== */}
