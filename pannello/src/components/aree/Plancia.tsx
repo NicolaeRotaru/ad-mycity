@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText, BarChart3, Globe, History, Layers } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
-import { vaiArea } from "@/lib/nav";
+import { vaiArea, type VistaNav } from "@/lib/nav";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
@@ -16,7 +16,7 @@ import Autopilota from "@/components/Autopilota";
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
 // e l'ultima analisi dell'AD in poche righe. Tutto da fonti reali già pronte.
 
-type Azione = { numero: string; reparto: string; azione: string; livello: string; inAttesa: boolean };
+type Azione = { id: string; titolo: string; livello: string; reparto?: string; stato: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
@@ -68,7 +68,8 @@ export default function Plancia({
     // Ricarica anche a intervalli: i dati arrivano dal vault (giro) e cambiano mentre si è fermi sulla home.
     // Il timbro "Aggiornato" si rinfresca a ogni giro del polling, non solo al mount.
     const carica = () => {
-      fetch("/api/memoria/azioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
+      // Stessa fonte dell'area Azioni (include le sentinelle) → il conteggio "da firmare" coincide.
+      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
       fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
       fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
       fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
@@ -86,7 +87,9 @@ export default function Plancia({
     return () => clearInterval(id);
   }, []);
 
-  const daFirmare = azioni.filter((a) => a.inAttesa);
+  // "Da firmare" = azioni ancora da decidere (stato vuoto): STESSO conteggio del badge
+  // "Da approvare" dell'area Azioni (che fa filter(!stato)). Un solo numero ovunque.
+  const daFirmare = azioni.filter((a) => !a.stato);
   const daFare = todo.filter((t) => !t.fatto);
   const ordP: Record<string, number> = { alta: 0, media: 1, bassa: 2 };
   const mosseOrd = [...mosse].sort((a, b) => (ordP[a.priorita || "media"] ?? 1) - (ordP[b.priorita || "media"] ?? 1));
@@ -108,6 +111,44 @@ export default function Plancia({
         </div>
         <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
+
+      {/* 🗺️ Anteprima di tutto: ogni area a colpo d'occhio, con "vedi →" (in aggiunta, niente rimosso) */}
+      <section className="card p-4">
+        <div className="sez-head mb-3">
+          <span className="sez-ico"><Layers size={16} /></span>
+          <span className="t-sez">Anteprima — ogni area a colpo d&apos;occhio</span>
+        </div>
+        {(() => {
+          const cell = (chiave: string, tipo: Tipo) =>
+            metriche && metriche[chiave] !== undefined && metriche[chiave] !== null ? formatta(metriche[chiave], tipo) : "—";
+          const aree: { id: VistaNav; sub?: string; label: string; icon: React.ReactNode; stat: string }[] = [
+            { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} />, stat: `Incasso 7g ${cell("incasso_7g", "euro")}` },
+            { id: "persone", label: "Negozi & clienti", icon: <Users size={15} />, stat: `${cell("negozi", "n")} negozi · ${cell("clienti", "n")} clienti` },
+            { id: "operazioni", label: "Operazioni", icon: <Truck size={15} />, stat: `${cell("consegne_in_corso", "n")} consegne in corso` },
+            { id: "mondo", label: "Mercato", icon: <Globe size={15} />, stat: "Concorrenti · eventi · opportunità" },
+            { id: "cervello", label: "Controllo", icon: <Cpu size={15} />, stat: `${difettiAperti} difetti aperti · worker` },
+            { id: "storico", label: "Attività & storia", icon: <History size={15} />, stat: "Cosa ha fatto l'AD" },
+          ];
+          return (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              {aree.map((a) => (
+                <button
+                  key={a.id}
+                  onClick={() => vaiArea(a.id, undefined, a.sub)}
+                  className="text-left surface-muted p-3 rounded-xl border border-transparent hover:border-brand/30 transition"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand-50 text-brand shrink-0">{a.icon}</span>
+                    <span className="t-sez text-[13px] truncate">{a.label}</span>
+                    <span className="ml-auto t-eti shrink-0">→</span>
+                  </div>
+                  <div className="mt-1.5 t-eti tabular-nums">{a.stat}</div>
+                </button>
+              ))}
+            </div>
+          );
+        })()}
+      </section>
 
       {/* 🧭 Bussola: "dove trovo cosa" — la mappa del Pannello a portata di clic */}
       <Bussola />
@@ -193,9 +234,9 @@ export default function Plancia({
           <div className="mt-2 space-y-1">
             {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
             {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.numero} className="flex items-start gap-2 t-riga">
+              <div key={a.id} className="flex items-start gap-2 t-riga">
                 <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <FraseLista testo={a.azione} />
+                <FraseLista testo={a.titolo} />
               </div>
             ))}
             {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
