@@ -19,6 +19,16 @@ solo se il precedente è **liquido**. **La sequenza È la strategia.** Aprire tr
 Unico dato reale oggi: **1 negozio (Pane Quotidiano), 0 consegne.** Tutte le soglie qui sotto sono
 **ipotesi di lavoro da tarare con te**, non numeri veri.
 
+## 🎯 Principio-cardine (deciso con Nicola, 2026-07-06 18:4x) — "gioca dove i big non giocano"
+Non si entra frontalmente dove Glovo/JustEat/Amazon sono forti (pizza, sushi, McDonald's, catene, elettronica).
+Si entra dalla **long tail locale che loro ignorano** perché non scala per loro ma È la città:
+**bar, enoteche, gastronomie, pasticcerie, panetterie, torrefazioni, botteghe**. Questo criterio filtra
+OGNI strato: dentro solo ciò che è (a) radicato nel territorio, (b) trascurato dai colossi, (c) difendibile
+con la rete locale. Corollario sulla ristorazione (chiude il bivio 1b): **entra SÌ, ma dalla porta del
+bar/enoteca/gastronomia** (aperitivo, tagliere, bottiglia, colazione, pausa pranzo di quartiere) — NON dal
+food-delivery classico dove si combatte a margini sottili contro chi ha già la flotta. Il moat è essere
+*insostituibili sul locale*, non *più economici sul mainstream*.
+
 ---
 
 ## 1. La mappa completa degli strati
