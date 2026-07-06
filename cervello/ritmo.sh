@@ -58,7 +58,7 @@ if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
   fi
 fi
 
-branch="${GIT_BRANCH:-memoria-ad}"
+branch="${GIT_BRANCH:-main}"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
@@ -130,7 +130,7 @@ Aggiungi in fondo a \`MyCity-Vault/90-Memoria-AI/RITMO.md\` un blocco con intest
 \`## ${RITMO_TITOLO} · AAAA-MM-GG HH:MM\` (ora di Piacenza, con i minuti), seguito dal contenuto.
 L'ultimo blocco con questa intestazione è quello che legge il Pannello (/api/ritmo).
 
-La memoria va sul ramo memoria-ad (il push git lo fa ritmo.sh dopo di te — tu scrivi i file).
+La memoria va sul RAMO UNICO main (il push git lo fa ritmo.sh dopo di te — tu scrivi i file).
 
 ## Risposta in chat
 Al termine restituisci un riepilogo breve (5-8 righe)."
@@ -161,7 +161,7 @@ accoda_recupero_cadenza() {
     echo "[$(ts)] Cadenza $tipo già in coda (recupero) — non duplico." >&2
     return 0
   fi
-  local richiesta="Recupero automatico della cadenza «$RITMO_TITOLO» saltata per rate-limit del motore AI. Riesegui la sezione ritmo '$RITMO_TIPO' e pubblica la memoria su memoria-ad."
+  local richiesta="Recupero automatico della cadenza «$RITMO_TITOLO» saltata per rate-limit del motore AI. Riesegui la sezione ritmo '$RITMO_TIPO' e pubblica la memoria sul ramo unico main."
   local body; body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg q "$quando" \
     '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:"ritmo", tentativi:1, riprova_dopo:$q}')"
   if curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1; then

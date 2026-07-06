@@ -8,7 +8,7 @@ import { obsidianConnected, listDir, listDirEntries } from "@/lib/obsidian";
 // Il Pannello finora leggeva solo il vault (MyCity-Vault/) e il DB del marketplace:
 // tutto ciò che l'AD PRODUCE (consegne/*) restava invisibile qui. Questa API li rende
 // leggibili nel Pannello — così quando l'AD dice "vedi il §6 del piano" hai dove aprirlo.
-// Legge da disco in locale e da GitHub (ramo memoria-ad) in produzione, come il resto.
+// Legge da disco in locale e da GitHub (ramo unico main) in produzione, come il resto.
 
 export const dynamic = "force-dynamic";
 

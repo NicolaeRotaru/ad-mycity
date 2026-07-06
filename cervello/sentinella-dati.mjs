@@ -230,8 +230,8 @@ async function leggiStatoReale(state) {
   const sonda = rad.sonda || {};
   // Firma dello stato DECIDIBILE (ID dei difetti 'aperti-davvero', scritta dalla sonda): serve
   // a svegliare salute_bassa SOLO quando c'è qualcosa di NUOVO da decidere, non a ogni giro su
-  // pending-merge/bloccanti-umani già in coda. Preferisci l'ultimo snapshot storico (durevole su
-  // memoria-ad), poi la sonda in radiografia; null se nessuna delle due l'ha ancora scritta.
+  // pending-merge/bloccanti-umani già in coda. Preferisci l'ultimo snapshot storico (durevole sul
+  // ramo della memoria, main), poi la sonda in radiografia; null se nessuna delle due l'ha ancora scritta.
   const firmaSnap = ultimoSnap && ultimoSnap.firma != null ? ultimoSnap.firma : sonda.salute_firma;
   s.salute_firma = firmaSnap != null ? String(firmaSnap) : null;
   s.salute_provvisorio = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;

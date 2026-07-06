@@ -152,7 +152,7 @@ export default function QuaderniSenior() {
           <p className="mb-2 font-medium text-ink/80">Quaderni non raggiungibili.</p>
           <p className="text-xs text-black/45 leading-relaxed">
             I file stanno in <code className="bg-black/[0.05] px-1 rounded">memoria-squadra/</code> sul ramo{" "}
-            <b>memoria-ad</b> (come il vault). Servono le variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>{" "}
+            <b>unico main</b> (come il vault). Servono le variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>{" "}
             su Vercel — stesse del resto della memoria.
           </p>
         </div>

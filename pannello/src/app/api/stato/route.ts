@@ -59,7 +59,7 @@ function estraiSintesi(md: string): string {
 // 1) il digest strutturato che il giro scrive in ultimo-briefing.json;
 // 2) in mancanza, la Sintesi estratta dall'ultimo Briefing/AAAA-MM-GG.md.
 // Restituisce anche il RAMO che ha servito il briefing letto dal vault: così la GET
-// può segnalare se il dato è arrivato dal ripiego (main) invece che da memoria-ad —
+// può segnalare se il dato è arrivato dal ripiego (il vecchio memoria-ad) invece che da main —
 // senza appoggiarsi a stato globale del modulo obsidian.
 async function briefingDalVault(): Promise<{ record: BriefingRecord | null; ramo: string | null }> {
   const esJson = await readVaultFileEsito("90-Memoria-AI/ultimo-briefing.json");
@@ -131,8 +131,8 @@ export async function GET() {
       getImpostazione("pausa").catch(() => null),
     ]);
     const { record: ultimo, fonte: briefingFonte } = briefingPiuFresco(fromDb, vaultBrief.record);
-    // Da quale ramo il vault ha SERVITO davvero il briefing: se è il ripiego (main) invece del
-    // ramo memoria (memoria-ad), è un campanello che il giro non sta pubblicando su memoria-ad
+    // Da quale ramo il vault ha SERVITO davvero il briefing: se è il ripiego (vecchio memoria-ad)
+    // invece del ramo unico (main), è un campanello che qualcosa scrive ancora sul ramo vecchio
     // — reso VISIBILE nel Pannello invece che nascosto. Preso dal valore di ritorno, non da
     // stato globale del modulo (che in serverless è condiviso tra richieste e falserebbe).
     const ramoServito = vaultBrief.ramo;

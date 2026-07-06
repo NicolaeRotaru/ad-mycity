@@ -1,6 +1,6 @@
 "use client";
 
-// 🗂️ Esplora GitHub — browser in SOLA LETTURA su tutto l'albero del repo (ramo memoria-ad).
+// 🗂️ Esplora GitHub — browser in SOLA LETTURA su tutto l'albero del repo (ramo unico main).
 // Perché esiste: il Pannello mostrava solo un set fisso di file cablati a mano; tutto il resto
 // presente su GitHub (consegne/audit, design, intelligence, RADIOGRAFIA-MACCHINA.md…) restava
 // invisibile. Qui ogni file del repo è raggiungibile, senza dover aggiungere una route per ognuno.
@@ -52,7 +52,7 @@ export default function EsploraGitHub() {
           <FolderTree size={18} /> Esplora GitHub
         </h2>
         <p className="text-sm text-black/50 dark:text-white/50">
-          Tutto il repo, in sola lettura, dal ramo che alimenta il Pannello (memoria-ad). Nulla resta nascosto.
+          Tutto il repo, in sola lettura, dal ramo che alimenta il Pannello (main). Nulla resta nascosto.
         </p>
       </div>
 
