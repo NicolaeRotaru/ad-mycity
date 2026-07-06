@@ -1,6 +1,37 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-06 22:28",
-  "fatti": []
+  "aggiornato": "2026-07-06 23:55",
+  "fatti": [
+    {
+      "id": "onboarding.botteghe-food",
+      "nome": "Onboarding 6 botteghe food — data e modalità",
+      "valore": "13/7/2026, Nicola ci va DI PERSONA (non chiama)",
+      "fonte": "Nicola, memoria AD + dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "aggiornato": "2026-07-06 23:55",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "ripresa.lavoro-operativo",
+      "nome": "Ripresa lavoro operativo di Nicola (inserimento negozi)",
+      "valore": "dopo il 9/7/2026 (attende reset limiti Claude)",
+      "fonte": "Nicola, memoria AD (piano inserimento negozi dopo 9/7)",
+      "aggiornato": "2026-07-06 23:55",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "negozio.faro",
+      "nome": "Negozio faro (unico negozio reale attivo)",
+      "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa)",
+      "fonte": "dati marketplace (Supabase REST) + memoria AD",
+      "aggiornato": "2026-07-06 23:55",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    }
+  ]
 }
