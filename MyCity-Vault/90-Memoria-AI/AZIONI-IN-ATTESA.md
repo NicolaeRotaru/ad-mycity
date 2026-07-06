@@ -204,3 +204,16 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Cosa cambia:** "farlo con tutti i negozi" diventa automatico, non un secondo giro manuale; ogni bottega dal 13/7 nasce già ottimizzata per Google.
 - **Casa Linda (demo):** esclusa in modo permanente finché resta seed — non si mette un negozio finto nell'indice.
 - **Stato:** REGOLA ATTIVA — si applica al primo onboarding dopo il 9/7.
+
+
+<!-- SUPERVISIONE-NEGOZI:INIZIO -->
+### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-06 16:20)
+Report completo con comandi pronti: `consegne/supervisione/2026-07-06-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
+
+| Azione (pronta) | Colore | Quanti | Cosa cambia | Se va bene |
+|---|---|---|---|---|
+| Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione corretta ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passo al gruppo successivo. |
+| Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno | 🟡 | 242 | 242 schede oggi incomplete mostrano unità di misura corretta ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passo al gruppo successivo. |
+
+> Approva scrivendo **«ok riempi [unità/condizione/…]»** oppure **«ok a tutte le proposte di supervisione»**.
+<!-- SUPERVISIONE-NEGOZI:FINE -->

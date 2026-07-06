@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-04 16:20",
+  "aggiornato": "2026-07-06 16:20",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-04 16:20",
+      "ultimo_ok": "2026-07-06 16:20",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,13 +23,13 @@
       "ultimo_errore": "STRIPE_SECRET_KEY assente — Stripe non verificabile",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-04 16:20"
+      "ultimo_ok": "2026-07-06 16:20"
     },
     "posthog_api": {
       "giri_ciechi": 0,
       "stato": "non_configurato",
       "canale": "PostHog API",
-      "dettaglio": "PostHog SPENTO su decisione di Nicola (5/7, chat 'togli PostHog'): chiave rimossa dal .env → sensore non_configurato, non cieco. Riattivare solo su suo ok (Personal API key phx_ + POSTHOG_OFF=0).",
+      "dettaglio": "POSTHOG_API_KEY assente — sensore spento (decisione Nicola 5/7: non usarlo per ora), nessuna azione da accodare",
       "ultimo_errore": "",
       "nota_riconciliazione": "2026-07-06 15:58 AD: contatore 27 era congelato al giro del 2026-07-04 16:20 (ultimo giro completo prima della pausa limiti Claude), quindi PRECEDE la decisione 5/7 di togliere PostHog. Riconciliato a mano alla verità; sarà riscritto dal prossimo verifica-sensori.mjs alla ripresa dei giri."
     },
@@ -38,7 +38,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-04 16:20",
+      "ultimo_ok": "2026-07-06 16:20",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -50,10 +50,10 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 43,
+    "giri_totali": 44,
     "sensori_ok": 3,
-    "max_giri_ciechi": 0,
-    "sensori_totali": 4,
+    "max_giri_ciechi": 1,
+    "sensori_totali": 3,
     "almeno_un_dato": true,
     "sensori_non_configurati": 2,
     "dati_ordini_ciechi": false
