@@ -5,6 +5,7 @@ import {
   Send,
   Loader2,
   Wrench,
+  X,
   TrendingUp,
   CheckCircle2,
   Package,
@@ -28,6 +29,7 @@ import {
   MessagesSquare,
   Layers,
   Home,
+  Menu,
   Mic,
   Mail,
   Target,
@@ -596,6 +598,11 @@ type AssistenteTab = "chat" | "conversazioni";
 
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
+  // Sidebar a sinistra, richiudibile: su desktop parte aperta, su telefono chiusa (drawer).
+  const [navAperta, setNavAperta] = useState(true);
+  useEffect(() => {
+    if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
+  }, []);
   const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
@@ -652,6 +659,12 @@ export default function Dashboard() {
   }
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
+  const [chatFluttuante, setChatFluttuante] = useState(false);
+  const chatFabEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (chatFluttuante) chatFabEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, chatFluttuante]);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
@@ -1437,6 +1450,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setNavAperta((v) => !v)}
+            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04]"
+            style={{ color: "var(--text-muted)" }}
+            aria-label="Apri o chiudi il menù"
+            title="Menù"
+          >
+            <Menu size={18} />
+          </button>
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-card shrink-0">
               M
@@ -1496,39 +1518,81 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5">
-        {/* Navigazione: tutte le aree sempre visibili (va a capo, niente scroll nascosto) */}
-        {(() => {
-          const AREE = [
-            { id: "plancia", label: "Plancia", icon: <Home size={15} /> },
-            { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
-            { id: "report", label: "Report", icon: <FileText size={15} /> },
-            { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-            { id: "cervello", label: "Macchina", icon: <Cpu size={15} /> },
-            { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
-            { id: "memoria", label: "Memoria", icon: <Brain size={15} /> },
-            { id: "persone", label: "Persone", icon: <Users size={15} /> },
-            { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
-            { id: "mondo", label: "Mondo", icon: <Globe size={15} /> },
-            { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-            { id: "storico", label: "Storico", icon: <History size={15} /> },
-            { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
-          ] as const;
-          return (
-            <div className="flex flex-wrap gap-2">
-              {AREE.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setVista(t.id)}
-                  className={`nav-tab ${vista === t.id ? "nav-tab-active" : ""}`}
-                >
-                  {t.icon}
-                  <span>{t.label}</span>
-                </button>
-              ))}
-            </div>
-          );
-        })()}
+      {/* Layout a due colonne: sidebar (richiudibile) + contenuto. Niente è stato tolto:
+          tutte le aree ci sono, solo raggruppate e con nomi chiari. */}
+      <div className="flex flex-1 min-h-0 items-stretch">
+        {navAperta && (
+          <button
+            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            onClick={() => setNavAperta(false)}
+            aria-label="Chiudi il menù"
+          />
+        )}
+
+        <aside
+          className={`fixed lg:static z-40 top-0 left-0 h-[100dvh] lg:h-auto lg:self-stretch shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
+            navAperta ? "w-64 translate-x-0" : "w-64 -translate-x-full lg:w-0"
+          }`}
+          style={{ background: "var(--bg-surface)", borderRight: "1px solid var(--border)" }}
+        >
+          <nav className="w-64 h-full overflow-y-auto scroll-soft p-3 flex flex-col gap-1">
+            {(() => {
+              const GRUPPI: { gruppo: string | null; voci: { id: Vista; label: string; icon: React.ReactNode }[] }[] = [
+                {
+                  gruppo: null,
+                  voci: [
+                    { id: "plancia", label: "Home", icon: <Home size={16} /> },
+                    { id: "azioni", label: "Azioni", icon: <Zap size={16} /> },
+                  ],
+                },
+                {
+                  gruppo: "Approfondisci",
+                  voci: [
+                    { id: "numeri", label: "Numeri", icon: <BarChart3 size={16} /> },
+                    { id: "persone", label: "Negozi & clienti", icon: <Users size={16} /> },
+                    { id: "operazioni", label: "Operazioni", icon: <Truck size={16} /> },
+                    { id: "mondo", label: "Mercato", icon: <Globe size={16} /> },
+                    { id: "report", label: "Report", icon: <FileText size={16} /> },
+                  ],
+                },
+                {
+                  gruppo: "Macchina & memoria",
+                  voci: [
+                    { id: "cervello", label: "Controllo", icon: <Cpu size={16} /> },
+                    { id: "lavori", label: "Lavori", icon: <Brain size={16} /> },
+                    { id: "memoria", label: "Memoria", icon: <Layers size={16} /> },
+                    { id: "storico", label: "Storico", icon: <History size={16} /> },
+                    { id: "assistente", label: "Assistente", icon: <Send size={16} /> },
+                    { id: "esplora", label: "GitHub", icon: <FolderTree size={16} /> },
+                  ],
+                },
+              ];
+              return GRUPPI.map((g) => (
+                <div key={g.gruppo ?? "top"} className="flex flex-col gap-1">
+                  {g.gruppo && <div className="t-micro px-2 pt-3 pb-1">{g.gruppo}</div>}
+                  {g.voci.map((v) => (
+                    <button
+                      key={v.id}
+                      onClick={() => {
+                        setVista(v.id);
+                        if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
+                      }}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13.5px] font-medium text-left transition ${
+                        vista === v.id ? "bg-brand text-white shadow-card" : "hover:bg-black/[0.04]"
+                      }`}
+                      style={vista === v.id ? undefined : { color: "var(--text-muted)" }}
+                    >
+                      {v.icon}
+                      <span className="truncate">{v.label}</span>
+                    </button>
+                  ))}
+                </div>
+              ));
+            })()}
+          </nav>
+        </aside>
+
+        <main className="flex-1 min-w-0 max-w-5xl mx-auto w-full px-4 sm:px-6 py-5 sm:py-6 space-y-5">
 
         {/* 🧪 Modalità demo: prova la macchina viva senza chiavi (banner + interruttore) */}
         <DemoBanner />
@@ -1957,6 +2021,116 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
         )}
       </main>
+      </div>
+
+      {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
+      {!chatFluttuante && vista !== "assistente" && (
+        <button
+          onClick={() => setChatFluttuante(true)}
+          className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
+          aria-label="Parla con l'AD"
+        >
+          <Send size={16} /> Parla con l&apos;AD
+          {pendingCount > 0 && <span className="w-2 h-2 rounded-full bg-white/90 animate-pulse" />}
+        </button>
+      )}
+      {chatFluttuante && (
+        <div
+          className="fixed right-3 bottom-3 sm:right-6 sm:bottom-6 z-50 w-[min(400px,calc(100vw-24px))] h-[min(560px,calc(100dvh-90px))] card flex flex-col overflow-hidden"
+          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}
+        >
+          <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
+            <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
+            <div className="leading-tight min-w-0 flex-1">
+              <div className="text-[14px] font-semibold tracking-tight truncate">Parla con l&apos;AD</div>
+              <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
+            </div>
+            <button
+              onClick={() => {
+                setVista("assistente");
+                setChatFluttuante(false);
+              }}
+              className="btn-ghost text-[11px] shrink-0"
+              title="Apri la chat intera (con conversazioni ed esperti)"
+            >
+              chat intera →
+            </button>
+            <button
+              onClick={() => setChatFluttuante(false)}
+              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              aria-label="Chiudi la chat"
+            >
+              <X size={15} />
+            </button>
+          </div>
+          <div className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
+            {messages.filter((m) => !m.prompt).length === 0 && (
+              <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
+            )}
+            {messages
+              .filter((m) => !m.prompt)
+              .map((m, i) => (
+                <div key={m.id ?? i} className={m.role === "user" ? "text-right" : "text-left"}>
+                  {m.role === "user" ? (
+                    <span className="inline-block px-3.5 py-2 rounded-2xl rounded-br-md text-[13px] whitespace-pre-wrap max-w-[85%] leading-relaxed bg-brand text-white shadow-card">
+                      {m.content}
+                    </span>
+                  ) : m.pending ? (
+                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
+                      <Loader2 size={13} className="animate-spin" /> sto pensando…
+                    </div>
+                  ) : (
+                    <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
+                      <Markdown>{m.content}</Markdown>
+                    </div>
+                  )}
+                </div>
+              ))}
+            {loading && !messages.some((m) => m.pending) && (
+              <div className="flex items-center gap-2 t-eti text-[13px]">
+                <Loader2 size={14} className="animate-spin" /> Sto lavorando...
+              </div>
+            )}
+            <div ref={chatFabEndRef} />
+          </div>
+          <div className="border-t p-2.5" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
+            <div className="flex gap-2 items-end">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    mandaAlCervello();
+                  }
+                }}
+                rows={1}
+                placeholder="Scrivi all'AD…"
+                className="input-soft flex-1 min-h-[40px] max-h-28 resize-y text-[13px]"
+              />
+              <button
+                onClick={dettaVoce}
+                disabled={ascoltando}
+                className={`min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border transition active:scale-95 ${
+                  ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
+                }`}
+                aria-label="Detta a voce"
+                title="Detta a voce"
+              >
+                <Mic size={16} />
+              </button>
+              <button
+                onClick={() => mandaAlCervello()}
+                disabled={!input.trim() || loading}
+                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
+                aria-label="Invia"
+              >
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
