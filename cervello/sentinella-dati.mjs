@@ -11,11 +11,12 @@
 //
 // Così la macchina è "sveglia" 24/7 a costo ~0, e il modello premium parte solo sull'evento reale.
 //
-// 10 SENTINELLE, due gruppi (scelta di Nicola: 5 per la MACCHINA + 5 per le AZIONI):
+// SENTINELLE, due gruppi (scelta di Nicola: MACCHINA + AZIONI):
 //   🧠 MACCHINA (auto-analisi di sé):   worker morto · sensori ciechi · salute architettura bassa ·
 //                                       radiografia di sé vecchia · volano dell'apprendimento fermo
 //   💼 AZIONI (business/marketplace):    ordine pagato senza payout (🔴) · calo ordini · recensione ≤2★ ·
-//                                       negozio LIVE fermo 14g · carrello abbandonato da recuperare
+//                                       negozio LIVE fermo 14g · carrello abbandonato da recuperare ·
+//                                       consegna in ritardo (AR-071) · ordine annullato (delivery_status=CANCELED)
 //
 // COSA FA A OGNI TICK (deterministico, sola lettura):
 //   1) Kill-switch (PAUSA Pannello o pausa propria) → no-op.
@@ -142,6 +143,7 @@ async function leggiStatoReale(state) {
     pagati_senza_payout: null, recensioni_basse: null, recensione_ultima: null,
     negozi_fermi: null, carrelli_da_recuperare: null,
     ordini_slot_scaduto: null, // AR-071: ordini oltre lo slot promesso (expected_delivery scaduto, delivered_at nullo)
+    ordini_annullati_nuovi: null, annullo_ultimo: null, // ordini con consegna ANNULLATA (delivery_status=CANCELED), solo i NUOVI dopo la baseline
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
@@ -205,6 +207,23 @@ async function leggiStatoReale(state) {
       MK_URL, MK_KEY,
       `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
     );
+
+    // Ordini con consegna ANNULLATA (delivery_status=CANCELED): prima INVISIBILI ai sensori della
+    // macchina (nessuna regola li leggeva) → un ordine cancellato restava un buco. Ora scattano un
+    // allarme. Baseline-gated come le recensioni basse: conto solo gli annullamenti NUOVI (created_at
+    // dopo l'ultimo visto) → l'ordine-zombie di test (COD Pane Quotidiano, 24/6) NON fa falso allarme.
+    const dopoAnnullo = state.ultimo_annullo_visto;
+    if (dopoAnnullo) {
+      s.ordini_annullati_nuovi = await conta(
+        MK_URL, MK_KEY,
+        `orders?delivery_status=eq.CANCELED&created_at=gt.${encodeURIComponent(dopoAnnullo)}`
+      );
+    } else {
+      s.ordini_annullati_nuovi = 0; // primo giro: fisso la baseline (sotto), non sparo sullo storico
+    }
+    // timestamp dell'annullamento più recente in assoluto (per avanzare la baseline)
+    const ultimoAnnullo = await fetchRows(MK_URL, MK_KEY, `orders?delivery_status=eq.CANCELED&select=created_at&order=created_at.desc&limit=1`);
+    s.annullo_ultimo = ultimoAnnullo?.[0]?.created_at || null;
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
@@ -422,6 +441,19 @@ function valutaRegole(s, state) {
     });
   }
 
+  // A7 — Ordini ANNULLATI (approvato da Nicola dal Pannello, giro del 2026-07-06): un ordine con
+  //      consegna annullata (delivery_status=CANCELED) prima restava invisibile ai sensori della
+  //      macchina. Ora scatta un allarme 🟡 operations. Baseline-gated → solo gli annullamenti NUOVI
+  //      (non l'ordine-zombie di test): niente falso allarme sullo storico.
+  if (s.ordini_annullati_nuovi !== null && s.ordini_annullati_nuovi > 0) {
+    eventi.push({
+      ambito: "azioni", chiave: "ordine_annullato", colore: "🟡", reparto: "operations", cooldownOre: 6,
+      titolo: `${s.ordini_annullati_nuovi} ${s.ordini_annullati_nuovi === 1 ? "ordine annullato" : "ordini annullati"} da gestire`,
+      firma: String(s.annullo_ultimo || s.ordini_annullati_nuovi),
+      prompt: `Sentinella azioni 💼 — ORDINE ANNULLATO: ci ${s.ordini_annullati_nuovi === 1 ? "è 1 ordine" : `sono ${s.ordini_annullati_nuovi} ordini`} con la consegna annullata (delivery_status=CANCELED) dopo l'ultimo giro. Verifica con operations il motivo di ciascun annullamento (negozio chiuso, rider mancante, cliente che disdice, errore) e chiudi il loop col cliente perché non lo perdiamo. Se l'ordine era già pagato, controlla che il rimborso sia partito e che NON resti un payout al negozio su un ordine annullato. Se serve un rimborso o un gesto commerciale verso il cliente, preparalo e accodalo in AZIONI-IN-ATTESA per la firma di Nicola — non eseguirlo da solo.`,
+    });
+  }
+
   return eventi;
 }
 
@@ -510,7 +542,7 @@ async function main() {
     _cosa_e: "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
     aggiornato: quando, regole: {},
     accodati_giorno: { giorno: giornoDa(quando), n: 0 }, accodati_ts: [],
-    ultima_recensione_vista: null, tick: 0, storia: [],
+    ultima_recensione_vista: null, ultimo_annullo_visto: null, tick: 0, storia: [],
   });
   state.regole = state.regole || {};
 
@@ -562,12 +594,15 @@ async function main() {
   // memoria del tick
   if (s.recensione_ultima) state.ultima_recensione_vista = s.recensione_ultima;
   else if (!state.ultima_recensione_vista) state.ultima_recensione_vista = nowIso; // baseline primo giro
+  if (s.annullo_ultimo) state.ultimo_annullo_visto = s.annullo_ultimo;
+  else if (!state.ultimo_annullo_visto) state.ultimo_annullo_visto = nowIso; // baseline primo giro
   state.tick = (state.tick || 0) + 1;
   state.aggiornato = quando;
   state.ultimo_stato = {
     quando, dati_leggibili: s.dati_leggibili,
     ordini_tot: s.ordini_tot, ordini_24h: s.ordini_24h, pagati_senza_payout: s.pagati_senza_payout,
     recensioni_basse: s.recensioni_basse, negozi_fermi: (s.negozi_fermi || []).length, carrelli: s.carrelli_da_recuperare,
+    ordini_annullati_nuovi: s.ordini_annullati_nuovi,
     worker_eta_min: s.worker_eta_min, sensori_max_ciechi: s.sensori_max_ciechi, salute_voto: s.salute_voto,
     radiografia_gg: s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) : null, volano_tasso: s.volano_tasso,
   };

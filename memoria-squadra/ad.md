@@ -1,3 +1,6 @@
+## Esiti
+- 2026-07-06 16:40 · Allineamento memoria: #16 annullato (delivery_status=CANCELED), non in consegna — corretti STATO/7numeri/semafori, decadute #16/#21/#22, cascata (#27/#26/#37) ri-ancorata al 1° ordine reale · grounding 5, verita 5, coerenza 5, colore 5, utilita 4, scrittura 4 · atteso memoria coerente col DB live del Pannello, zero card zombie #16 rigenerate, North Star resta 0 → reale da misurare al prossimo giro (verificare che il Pannello non mostri più #16 come «in consegna») · #memoria #zombie #16
+
 # ESITO — @AD — 2026-07-02 10:19
 Giro completo: stallo 191,9h (+1,8h post-ok 16). #19 MERGED LIVE. ok 16 approvato ma passi #20–#22 pendenti. Lezione L-2026-0702-45 (firma ≠ esecuzione). Voto fiducia 88 ▼. Automazione tutto verde. KPI live REST.
 
