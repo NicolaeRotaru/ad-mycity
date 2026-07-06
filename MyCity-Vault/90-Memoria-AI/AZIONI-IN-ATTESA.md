@@ -230,7 +230,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-06 18:20)
+### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-06 20:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-06-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
 
 | Azione (pronta) | Colore | Quanti | Cosa cambia | Se va bene |
