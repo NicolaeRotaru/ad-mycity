@@ -1,14 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-07-04 11:30
-fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stallo ~243h · #16 IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna COD €19,05 · **novità: OGGI Sant'Antonino patrono → centro pieno, finestra consegna ideale** · firma REST 11:30 invariata, MCP+node/curl gated → baseline REST, zero numeri inventati)
+aggiornato: 2026-07-06 16:15
+fonte: AD digitale (✅ 6/7 16:15 allineamento memoria approvato dal Pannello · **#16 ANNULLATO (delivery_status=CANCELED nel DB, non "in consegna")** — la macchina lo dava vivo perché l'MCP era cieco; ora corretto · North Star resta 0 consegnati, il 1° ordine reale va CREATO ex-novo, non "consegnato" · MCP marketplace ancora gated in sessione → fonte = alert Pannello CANCELED + firma Nicola, zero numeri inventati)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> ✅ **6/7 16:15 — MEMORIA ALLINEATA: l'ordine #16 è ANNULLATO, non "in consegna".** Proposta dal giro **APPROVATA da Nicola dal Pannello** (🟢 verde). Per giorni la macchina ha dato #16 come «IN CONSEGNA / da consegnare oggi» perché l'**MCP era cieco** e leggeva la baseline REST vecchia; il Pannello, che legge il DB live, mostra invece l'alert **«1 consegne annullate»** = `delivery_status=CANCELED` su quell'unico ordine (COD €19,05, Pane Quotidiano, 24/6). **Verità a terra:** #16 **NON si consegna** — è annullato. Decadono le azioni #16/#20/#21/#22 (esegui consegna) e tutta la cascata che era gated su «#16 consegnato» (#27 recensione, #26 carrello samir, #37 referral, #30/#36 post). **Il primo ordine reale va CREATO da zero** (nuovo ordine vero, non riesumare lo zombie). North Star = **0 consegnati, invariata**. Le vecchie card «esegui #16 stasera/oggi» **non vanno più rigenerate**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]].
+>
 > 🎉 **4/7 11:30 — OGGI È SANT'ANTONINO (patrono di Piacenza):** Fiera 250 bancarelle (33 alimentari), mercato piazza Cavalli/Duomo, centro pienissimo tutto il giorno. La ZTL (mezzi >35q dalle 6) **non tocca** consegne a piedi/bici → la consegna di **#16** da Via Calzolai 25 è facilissima oggi. Meteo sereno 20→33°, picco afa alle 17 → freschi in mattinata o dopo le 18. **Business invariato dal 24/6** (firma REST 11:30: ordini=1, ultimo 24/6, 23 clienti; stallo ~243h ≈ 10 giorni). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Dettaglio: [[2026-07-04]].
 >
-> 🚚 **4/7 04:51 — #16 IN CONSEGNA — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
+> 🚚 **4/7 04:51 — [⛔ SUPERATO il 6/7 16:15: #16 risulta ANNULLATO nel DB — vedi banner in cima] #16 "in consegna" — Nicola «prosegui #21-#22»:** alla domanda auto-analisi «Hai inviato WhatsApp #20? Buyer ha risposto?» Nicola risponde **«prosegui #21-#22»** → **#20 WhatsApp INVIATO**, contatto col buyer avvenuto. Restano le mani manuali di Nicola: **#21** accetta ordine `58094956…` in dashboard PQ + chiama 0523 388601 · **#22** consegna COD €19,05 → «Consegnato». Al «consegna fatta»: North Star 0→1 + payout-test #2 + A13/A14 (#27) + carrello samir (#26). Domanda «WhatsApp #20?» **RISOLTA — non riproporre**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20/#21/#22.
 >
 > ✅ **2/7 17:09 — DECISIONE BINARIA #16 RISOLTA — Scelta A (Pannello):** Nicola sceglie **ESEGUIRE**, non «archivia zombie». `ok 16` era firmato alle 08:38 ma non eseguito in ~8h (pranzo perso) → la card chiedeva una scelta netta. **Slot spostato a CENA 19:00–21:00.** Azioni #20→#21→#22 attive (WhatsApp buyer + accetta ordine dashboard PQ + consegna COD €19,05). Pacchetto aggiornato · card decisione binaria **da NON rigenerare**. Dettaglio: [[DECISIONI]] · [[AZIONI-IN-ATTESA]] #16/#20.
 >
@@ -21,17 +23,17 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (baseline REST · invariati dal 24/6 · giro.sh 4/7 11:30 · MCP+node gated in sessione)
-| Numero | Oggi (3/7 21:21) | "Riuscito" | Note |
+## I 7 numeri (baseline REST · invariati dal 24/6 · allineamento 6/7 16:15 · MCP+node gated in sessione)
+| Numero | Oggi (6/7 16:15) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa |
-| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox oggi |
+| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox |
 | Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` |
-| Ordini creati | **1** | ≥1 | COD €19,05 del 24/6 · **#16 IN CONSEGNA** — WhatsApp #20 fatto (Nicola «prosegui #21-#22» 4/7 04:51) · restano #21 accetta + #22 consegna → «Consegnato» |
-| Ordini pagati | **0** | 1 | COD non incassato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · stallo **~229h** (21:21) |
-| Payout testato | **0** | 1 | payout-test Nicola **03/7** (sandbox) → accorpare #16 |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
+| Ordini creati | **1** (annullato) | ≥1 valido | COD €19,05 del 24/6 · **#16 ANNULLATO** (`delivery_status=CANCELED`, alert Pannello) — non è "in consegna": il 1° ordine reale va CREATO ex-novo |
+| Ordini pagati | **0** | 1 | COD mai incassato · l'unico ordine è annullato |
+| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · #16 annullato, non consegnabile |
+| Payout testato | **0** | 1 | payout-test sandbox da fare su un ordine vero (non su #16 zombie) |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali (test/team) |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |
@@ -55,9 +57,9 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 | Kill-switch `AZIONI_LIVE=0` | ✅ attivo | AZIONI_LIVE=1 su worker (merge LIVE) |
 
 ## Semafori
-- 🟢 Va bene: REST OK; Stripe/Resend ok; Sprint 1 LIVE; **#19 ruoli LIVE**; **#16 APPROVATO dal Pannello 13:29**; memoria POST briefings OK; token GitHub push mycity OK.
-- 🟡 Da tenere d'occhio: **#16 IN CONSEGNA — WhatsApp #20 fatto, restano #21 (accetta) + #22 (consegna COD €19,05)** in mano a Nicola; **@qa smoke post-#19**; **SQL 107 → ora AD-owned** (Nicola 4/7: «AD verifica RLS + smoke checkout per batch 6/7»; #32 riscritta, esecuzione ferma solo sulla mano — grant MCP write o giro VPS); sync VPS (1× root); 1 carrello buyer reale (samir).
-- 🔴 Problema: **0 transazioni reali completate** finché #22 non chiude a «Consegnato»; #20 WhatsApp inviato (4/7 04:51), #21-#22 in esecuzione (mani di Nicola); loop business 🔴 fino al «consegna fatta»; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
+- 🟢 Va bene: REST OK; Stripe/Resend ok; Sprint 1 LIVE; **#19 ruoli LIVE**; **memoria allineata su #16 annullato 6/7 16:15**; memoria POST briefings OK; token GitHub push mycity OK.
+- 🟡 Da tenere d'occhio: **@qa smoke post-#19**; **SQL 107 → ora AD-owned** (Nicola 4/7: «AD verifica RLS + smoke checkout per batch 6/7»; #32 riscritta, esecuzione ferma solo sulla mano — grant MCP write o giro VPS); sync VPS (1× root); 1 carrello buyer reale (samir).
+- 🔴 Problema: **0 transazioni reali completate** — l'unico ordine (#16) è **annullato**, quindi il 1° ordine vero è ancora tutto da CREARE (non c'è una consegna da eseguire); loop business 🔴 finché non nasce+si consegna un ordine reale; RLS profiles finché non gira SQL 107; **PAT GitHub ancora in storia git (R1)**.
 
 ## Auto-coscienza (2026-07-03 21:21 · 🔭 giro AD refresh)
 | Metrica | Valore | Fonte |
@@ -66,9 +68,10 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 | Voto fiducia giro | **80** = | `auto-analisi.json` (refresh onesto: nessuna novità business vs 16:20; live gated; contatore cieco PostHog 16→17, 6ª conferma del falso-nuovo) |
 | Cantiere difetti | **20 chiusi · 2 in-corso (umani) · 1 aperto (AR-024)** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 20/20** | calibrazione.json |
-| Loop business | 🔴 in corso | #16 IN CONSEGNA — WhatsApp #20 fatto (4/7 04:51), restano #21 accetta + #22 consegna → «Consegnato» |
+| Loop business | 🔴 in corso | #16 **ANNULLATO** — nessuna consegna da eseguire; il 1° ordine reale va creato ex-novo |
 
 ## Ultime mosse dell'AD
+0. **✅ Allineamento memoria: #16 ANNULLATO 6/7 16:15** — Nicola approva dal Pannello la proposta dal giro «Ho allineato la memoria: l'ordine #16 è annullato, non in consegna» (🟢). **Causa:** per giorni la macchina ha dato #16 come «IN CONSEGNA / da consegnare» perché l'**MCP era cieco** e riportava la baseline REST; il Pannello legge il DB live e mostra l'alert «1 consegne annullate» = `delivery_status=CANCELED` su quell'unico ordine (COD €19,05, PQ, 24/6). **Applicato (🟢):** corretti frontmatter, 7 numeri (Ordini creati = 1 *annullato*), semafori, loop business e priorità; **decadute** le azioni #16/#20/#21/#22 (esegui consegna) in [[AZIONI-IN-ATTESA]] e la cascata gated su «#16 consegnato» (#27/#26/#37/#30/#36) — restano valide solo se agganciate a un **ordine reale nuovo**. **North Star invariata (0 consegnati):** il 1° ordine va CREATO ex-novo, non riesumato. Le card «esegui #16» non si rigenerano. Registrato in [[DECISIONI]] (`proposta:ho-allineato-la-memoria-l-ordine-16-e-annullato-`, non riproporre) + [[SALA-OPERATIVA]]. MCP marketplace ancora gated in sessione → fonte = alert Pannello CANCELED + firma Nicola, zero numeri inventati.
 0. **🔎 SEO vetrine approvata 6/7 16:10** — Nicola dal Pannello: «lo approvo e devi farlo con tutti i negozi». Applicato: ① riempimento vetrina **Pane Quotidiano** (unico negozio reale) accodato — `store_description` (bio dal 1976, pane/pesto/kefir bio, consegna a domicilio Piacenza) + `store_address` (Via Calzolai 25) via `marketplace.mjs aggiorna` CONFIG reversibile, solo fatti verificati (no "senza glutine"). ② "Tutti i negozi" = **regola-standing**: SEO-fill obbligatorio in onboarding → le 6 botteghe dal 13/7 nascono ottimizzate. ③ **Casa Linda esclusa** (demo). Candore: la casella citava file/azione "A21" inesistenti → creato doc reale `consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` + 2 voci in [[AZIONI-IN-ATTESA]]. Esecuzione DB gated in chat → parte via Pannello/giro autorizzato. Dettaglio: [[DECISIONI]].
 0. **🗓️ Piano Nicola + patto automazione 4/7 15:40** — chat: Nicola **parte a inserire i negozi DOPO giovedì 9/7/2026** (era 6/7), attende il reset dei limiti settimanali di Claude. Chiede se l'AD aggiorna GitHub+Pannello da solo o va detto ogni volta. **Risposta/patto:** aggiornare memoria (`memoria-ad`) + dati Pannello = 🟢, l'AD lo fa da solo quando gira; «automatico dal nulla» no → serve un innesco («fai un giro») o un cron 🟡 da proporre prima di attivare. **Vincolo:** l'automazione brucia le stesse quote Claude → «poco e mirato» (max 1 giro/giorno), mai spacciarla come gratis; i 🔴 restano firma sua. Dal 9/7 l'AD potrà proporre una **routine giornaliera 🟡**. Registrato in [[DECISIONI]] + preferenze_nicola.
 0. **🔭 Giro AD 4/7 11:30** — primo giro pieno della giornata (i passaggi 06:00–10:20 saltati dal delta-gate; alle 09:40/09:50 doer R1/R2 dal Pannello). **Nessuna novità di business:** firma REST 11:30 invariata (ordini=1, ultimo 24/6 08:28, 23 clienti) → #16 ancora IN CONSEGNA (WhatsApp #20 fatto 04:51), restano #21 accetta + #22 consegna. Stallo **~243h ≈ 10 giorni**. **Novità reale del giorno: OGGI 4/7 è Sant'Antonino** (patrono, Fiera 250 bancarelle, centro pieno) → finestra consegna ideale a piedi/bici, ZTL solo mezzi pesanti. Meteo sereno 20→33° (afa 17). MCP+node/curl gated in sessione → baseline REST, zero numeri inventati. Aggiornati eventi-picchi (Sant'Antonino) + snapshot Cabina. → Mossa n.1 confermata: **esegui la consegna di #16 OGGI** (mattina o dopo le 18) col payout-test.
@@ -98,16 +101,16 @@ fonte: AD digitale (🔭 4/7 11:30 giro AD · business invariato dal 24/6, stall
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🔭 Giro AD 4/7 11:30 · #16 IN CONSEGNA · OGGI Sant'Antonino → centro pieno)
-**#16 IN CONSEGNA (WhatsApp #20 fatto 04:51):** eseguire la consegna del 1° ordine. Restano solo le mani manuali #21–#22. **Oggi il centro è pienissimo per Sant'Antonino** (patrono, Fiera 250 bancarelle) → il ritiro/consegna a piedi da Via Calzolai 25 è agevole; ZTL solo mezzi >35q (non tocca bici/piedi). Meteo sereno con afa alle 17 → consegna in mattinata o dopo le 18. Accorpa il payout-test. Stallo **~243h ≈ 10 giorni**.
+## Prossime priorità (✅ Allineamento 6/7 16:15 · #16 ANNULLATO · il 1° ordine reale va CREATO ex-novo)
+**#16 è annullato:** non c'è più una consegna da «eseguire». La prima transazione reale MyCity è ancora **tutta da far nascere** — un ordine vero (nuovo cliente o riordino) su Pane Quotidiano, poi consegna + payout-test su quel caso reale. Lo zombie €19,05 del 24/6 non si riesuma. Il collo di bottiglia non è più «il tap di Nicola su #16» ma **generare domanda reale** (post/SEO/lista d'attesa già in coda) e avere PQ pronto (payout ON). Stallo sul 1° ordine reale: mai avvenuto.
 
-1. [ ] 🔴 **#16 — ESEGUI LA CONSEGNA (mani Nicola) OGGI (mattina o post-18) + payout-test:** #21 accetta ordine `58094956…` in dashboard PQ + chiama PQ 0523 388601 → #22 ritiro Via Calzolai 25 → consegna COD €19,05 → scrivi «consegna fatta» · accorpato al payout-test sandbox · stallo ~243h
+1. [ ] 🔴 **Far nascere il 1° ordine reale** — non riesumare #16: serve un ordine vero su PQ (spinta domanda: post «Il Turno», SEO vetrine, lista d'attesa) → poi consegna + payout-test su quel caso. È la mossa che sposta la North Star 0→1.
 2. [ ] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — l'unica remediation del segreto in storia git
-3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch 6/7
-4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco 15 giri) · **#24 falso positivo Casa Linda demo** — firma opzionale
-5. [ ] 🟢 **Onboarding 6/7** — checklist pronta (indipendente dallo zombie)
+3. [ ] 🟡 **SQL 107 policy** — DROP policy profiles (~30s) + **R2 merge+deploy fix cantiere** (branch machine-analysis) → piattaforma sicura per batch negozi
+4. [ ] 🟡 **#23 PostHog** (Personal Key phx_, cieco) · **#24 falso positivo Casa Linda demo** — firma opzionale
+5. [ ] 🟢 **Onboarding botteghe (dopo 9/7)** — checklist pronta (indipendente dallo zombie); visita 6 botteghe 13/7
 
-**Sentinelle attive:** ordine ritardo ~243h · 1 carrello buyer reale · negozio LIVE 0 delivered · stallo >168h (+75h) · loop business 🔴 · **sensore cieco ≥3 giri: PostHog (401, cieco 24 giri, opzionale)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
+**Sentinelle attive:** #16 **annullato** (non più «ordine in ritardo»: era rumore da dati-test) · 1 carrello buyer reale (samir) · negozio LIVE 0 delivered · loop business 🔴 (0 ordini reali) · **sensore cieco ≥3 giri: PostHog (401, opzionale — SPENTO da Nicola)** · voto salute architettura 44 (<60, pending-merge R2, completa già fatta 2/7 12:09) · chiusura-loop 5 quaderni fermi (ad, direttore-creativo, marketing, qa-designer, relazioni-istituzionali).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
