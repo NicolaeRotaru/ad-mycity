@@ -240,7 +240,12 @@ recupera_lavori_orfani() {
     agg="$(printf '%s' "$row" | jq -r '.updated_at // empty')"
     ris="$(printf '%s' "$row" | jq -r '.risultato // ""')"
     eta="$(_eta_min "$agg")"
-    if printf '%s' "$ris" | grep -q '\[recuperato' || [ "$eta" -gt "$SOGLIA_ORFANO_MIN" ] || [ "$tipo" = "giro" ]; then
+    # (fix "lascia il lavoro a metà") Prima il `giro` veniva SEMPRE cestinato (errore) al primo
+    # riavvio del worker (il watch-main lo riavvia ogni volta che main avanza, uccidendo il giro
+    # in corso). Ora il giro ha la STESSA seconda chance degli altri: il marker `[recuperato` +
+    # SOGLIA_ORFANO_MIN evitano comunque il crash-loop, ma un giro interrotto UNA volta riparte
+    # invece di morire a metà.
+    if printf '%s' "$ris" | grep -q '\[recuperato' || [ "$eta" -gt "$SOGLIA_ORFANO_MIN" ]; then
       echo "[$(ts)] Orfano $id ($tipo, ${eta}min): già ritentato/scaduto → DEAD-LETTER (errore) per sbloccare la coda." >&2
       _dead_letter "$id" "[worker] Lavoro interrotto (worker caduto mentre lo eseguiva) e già ritentato o troppo vecchio (${eta} min) → chiuso in errore per NON bloccare la coda. Ri-approva dal Pannello se serve."
     else

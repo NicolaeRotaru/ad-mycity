@@ -17,23 +17,6 @@ export default function AutoCoscienzaArea({ embedded = false }: { embedded?: boo
   const [tab, setTab] = useState<Tab>("analisi");
 
   useEffect(() => {
-    const apriDaHash = () => {
-      const h = (typeof window !== "undefined" ? window.location.hash : "").replace("#", "");
-      const map: Record<string, Tab> = {
-        "auto-coscienza": "analisi",
-        analisi: "analisi",
-        apprendimento: "apprendimento",
-        miglioramento: "miglioramento",
-        "memoria-auto-coscienza": "analisi",
-      };
-      if (map[h]) setTab(map[h]);
-    };
-    apriDaHash();
-    window.addEventListener("hashchange", apriDaHash);
-    return () => window.removeEventListener("hashchange", apriDaHash);
-  }, []);
-
-  useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "auto-coscienza" && det?.vista !== "memoria") return;
@@ -59,15 +42,9 @@ export default function AutoCoscienzaArea({ embedded = false }: { embedded?: boo
           <button
             key={t.id}
             type="button"
-            onClick={() => {
-              setTab(t.id);
-              if (typeof window !== "undefined") {
-                // replaceState (NON location.hash): niente voce di history "rogue" che bypassa Next
-                // e provoca il reload dell'intera pagina all'INDIETRO (bug "torna alla Plancia").
-                const hv = t.id === "analisi" ? "auto-coscienza" : t.id;
-                try { window.history.replaceState(window.history.state, "", "#" + hv); } catch {}
-              }
-            }}
+            // Tab interne di 3° livello: stato locale, niente #hash nell'URL (era una fonte
+            // residua di salti col tasto INDIETRO). La navigazione tra aree resta sul contratto nav.
+            onClick={() => setTab(t.id)}
             className={`inline-flex items-center gap-1.5 text-[12.5px] font-medium px-2.5 py-1.5 rounded-lg transition ${
               tab === t.id ? "nav-tab-active bg-brand text-white" : "nav-tab"
             }`}

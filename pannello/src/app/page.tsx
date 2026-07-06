@@ -1251,11 +1251,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setAssistenteTab(["chat", "conversazioni"].includes(tab) ? tab : "chat");
       }
       if (st?.sub) ripristinaSub(v, st.sub);
-      // Stato mancante (voce base o legacy): la vista di default è già stata applicata sopra,
-      // e ristampo lo stato sulla voce così i prossimi INDIETRO la conoscono.
-      if (!st?.vista) {
-        try { window.history.replaceState({ vista: v, sub: st?.sub }, "", window.location.pathname + window.location.search); } catch {}
-      }
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
@@ -1473,7 +1468,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <span
               className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ring-1 ${
                 workerVivo
-                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/50 dark:text-green-300 dark:ring-green-800"
+                  ? "bg-green-50 text-green-700 ring-green-200 dark:bg-emerald-950/40 dark:text-emerald-400/90 dark:ring-emerald-900/60"
                   : adInPausa
                     ? "bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:ring-amber-800"
                     : vivo
