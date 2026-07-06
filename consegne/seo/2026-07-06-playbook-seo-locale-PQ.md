@@ -103,6 +103,12 @@ Post go-live, in **Google Search Console** + **GBP Insights** (gratis): impressi
 media, ricerche "scoperta" della scheda PQ. Obiettivo realistico a 90 gg: top-3 locale per le ricerche 1–2–4,
 prime pagine su 3 e 5. **Nessun numero dichiarato come fatto finché non è in Search Console.**
 
+## ✅ Accodato per la firma (2026-07-06 13:05)
+Le azioni di questo playbook sono ora nella coda da approvare — dettaglio in `[[AZIONI-PRONTE]]`, card in `[[AZIONI-IN-ATTESA]]`:
+- **#30 / A21** 🟡 — riempi i campi vetrina PQ (config `marketplace.mjs`, reversibile) → §0-2.
+- **#31 / A22** 🟡 — completa lo schema.org + fix URL canonico (branch, test come cancello) → §3.
+- **#32 / A23** 🔴 — rivendica i due Google Business Profile (PQ + MyCity) → §4.
+
 ## 🍞 Carburante che alza il tetto (da Nicola/PQ)
 1. **Nomi esatti dei 5 prodotti bio** + foto → schede prodotto ottimizzate e `Product` schema veri.
 2. **Orari di apertura reali di PQ** → `openingHours` nello schema (forte per il local pack).

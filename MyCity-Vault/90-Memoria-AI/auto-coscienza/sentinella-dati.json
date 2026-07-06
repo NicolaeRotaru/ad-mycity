@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-06 12:54",
+  "aggiornato": "2026-07-06 13:00",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "31",
@@ -27,9 +27,9 @@
       "ambito": "azioni"
     },
     "worker_morto": {
-      "ultima_firma": "2026-07-06T12:50:15+02:00",
-      "ultimo_accodato": "2026-07-06 12:54",
-      "ultimo_accodato_iso": "2026-07-06T10:54:08.477Z",
+      "ultima_firma": "2026-07-06T12:55:34+02:00",
+      "ultimo_accodato": "2026-07-06 13:00",
+      "ultimo_accodato_iso": "2026-07-06T11:00:05.473Z",
       "colore": "🔴",
       "soloAllerta": true
     }
@@ -58,32 +58,8 @@
     "2026-07-04T22:00:39.668Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 3902,
+  "tick": 3906,
   "storia": [
-    {
-      "quando": "2026-07-06 10:51",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 10:53",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 10:54",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-06 10:55",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-06 10:56",
       "eventi": 0,
@@ -659,10 +635,34 @@
       "eventi": 1,
       "accodati": 0,
       "allertati": 1
+    },
+    {
+      "quando": "2026-07-06 12:56",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 12:57",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 12:59",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-06 13:00",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 1
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-06 12:54",
+    "quando": "2026-07-06 13:00",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -670,7 +670,7 @@
     "recensioni_basse": 0,
     "negozi_fermi": 0,
     "carrelli": null,
-    "worker_eta_min": 4,
+    "worker_eta_min": 5,
     "sensori_max_ciechi": 0,
     "salute_voto": 44,
     "radiografia_gg": 4,
