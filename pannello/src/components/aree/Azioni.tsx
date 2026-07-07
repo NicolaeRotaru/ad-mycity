@@ -314,15 +314,25 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       setPropBusy(null);
     }
   }
-  function ignoraProposta(_i: number, p: Proposta) {
-    setPropDecise((s) => new Set(s).add(idProposta(p)));
-    setPropDecisioni((s) => ({ ...s, [idProposta(p)]: { decisione: "ignora", at: new Date().toISOString() } }));
-    // Persistenza best-effort: anche l'Ignora sopravvive a refresh e giri successivi.
-    fetch("/api/proposta", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ decisione: "ignora", id: idProposta(p), titolo: p.titolo }),
-    }).catch(() => {});
+  async function ignoraProposta(_i: number, p: Proposta) {
+    const pid = idProposta(p);
+    // Ottimistico: nascondi subito la card…
+    setPropDecise((s) => new Set(s).add(pid));
+    setPropDecisioni((s) => ({ ...s, [pid]: { decisione: "ignora", at: new Date().toISOString() } }));
+    try {
+      const r = await fetch("/api/proposta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ decisione: "ignora", id: pid, titolo: p.titolo }),
+      }).then((x) => x.json());
+      if (!r?.ok) throw new Error(r?.error || "non salvato");
+    } catch (e: any) {
+      // …ma se il salvataggio FALLISCE, ROLLBACK: senza, la card "fingeva" di essere sparita e al
+      // refresh rispuntava vergine. Ora torna visibile con il motivo. (AR-034)
+      setPropDecise((s) => { const n = new Set(s); n.delete(pid); return n; });
+      setPropDecisioni((s) => { const n = { ...s }; delete n[pid]; return n; });
+      setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: `⚠️ Ignora non salvato (${e?.message === "non salvato" ? "memoria non collegata" : "errore di rete"}). Riprova.` } }));
+    }
   }
   async function decidiSceltaAB(_i: number, p: Proposta, scelta: SceltaAB) {
     const config = normalizzaPropostaSceltaAB(p);
