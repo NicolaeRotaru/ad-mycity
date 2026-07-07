@@ -759,8 +759,11 @@ export default function Dashboard() {
     });
   }
 
-  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata). */
-  function instradaMessaggioChat(targetConvId: string, content: string) {
+  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata).
+   *  Torna TRUE se la risposta è stata davvero applicata, FALSE se il thread non è raggiungibile
+   *  ora (conversazione non ancora nell'elenco): in quel caso il chiamante NON deve marcare il
+   *  lavoro come risolto, così riprova al prossimo giro di polling invece di perdere la risposta. */
+  function instradaMessaggioChat(targetConvId: string, content: string): boolean {
     if (convIdRef.current === targetConvId) {
       setMessages((m) => {
         const nuovi = rispondiInChat(m, content);
@@ -769,16 +772,25 @@ export default function Dashboard() {
         void persistConversazione(targetConvId, nuovi);
         return nuovi;
       });
-    } else {
-      aggiornaMessaggiConversazione(targetConvId, content);
+      return true;
     }
+    // Chat NON attiva: applicabile solo se la conversazione è già nell'elenco caricato. Se non c'è,
+    // aggiornaMessaggiConversazione sarebbe un no-op (idx === -1) → risposta persa. Segnaliamo il fallimento.
+    if (!conversazioniRef.current.some((c) => c.id === targetConvId)) return false;
+    aggiornaMessaggiConversazione(targetConvId, content);
+    return true;
   }
 
   function applicaRispostaChat(lavoroId: string, content: string, targetConvId: string) {
     if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
+    // FIX (bolla «sto pensando…» eterna): marca il lavoro "risolto" e togli il pending SOLO se la
+    // risposta è stata DAVVERO applicata. Prima marcava risolto PRIMA di applicare: se la conversazione
+    // target non era nell'elenco, l'aggiornamento era un no-op → risposta persa, lavoro chiuso come
+    // risolto (niente retry) e bolla eterna. Ora, se non applicabile, resta pendente e riprova al
+    // prossimo giro di polling (quando la conversazione si sarà caricata).
+    if (!instradaMessaggioChat(targetConvId, content)) return;
     lavoroRisoltoChatRef.current.add(lavoroId);
     rimuoviPendingChat(lavoroId);
-    instradaMessaggioChat(targetConvId, content);
     if (convIdRef.current === targetConvId || !pendingPerConv(convIdRef.current)) setLoading(false);
   }
 
