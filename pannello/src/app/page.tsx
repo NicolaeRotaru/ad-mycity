@@ -989,6 +989,9 @@ export default function Dashboard() {
   }
 
   async function eliminaConversazione(id: string) {
+    // Conferma: il cestino è piccolo (14px) e sta accanto ad «Apri» → su mobile un tocco sbagliato
+    // cancellava una conversazione PER SEMPRE, senza rete di sicurezza. (mobile/a11y)
+    if (typeof window !== "undefined" && !window.confirm("Eliminare questa conversazione? Non si può annullare.")) return;
     if (convServer) {
       fetch("/api/conversazioni", {
         method: "DELETE",
@@ -1009,6 +1012,8 @@ export default function Dashboard() {
   }
 
   function svuotaConversazioni() {
+    // Conferma: «Svuota» cancella TUTTE le conversazioni in un colpo → irreversibile. (mobile/a11y)
+    if (typeof window !== "undefined" && !window.confirm("Svuotare TUTTE le conversazioni? Non si può annullare.")) return;
     if (convServer) {
       fetch("/api/conversazioni", {
         method: "DELETE",
@@ -2049,7 +2054,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       {!chatFluttuante && vista !== "assistente" && (
         <button
           onClick={() => setChatFluttuante(true)}
-          className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
+          className="fixed right-4 sm:right-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
+          // safe-area iPhone (PWA): senza, il bottone finisce sotto la barra del gesto home. (mobile)
+          style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
           aria-label="Parla con l'AD"
         >
           <Send size={16} /> Parla con l&apos;AD
@@ -2058,8 +2065,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       )}
       {chatFluttuante && (
         <div
-          className="fixed right-3 bottom-3 sm:right-6 sm:bottom-6 z-50 w-[min(400px,calc(100vw-24px))] h-[min(560px,calc(100dvh-90px))] card flex flex-col overflow-hidden"
-          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}
+          className="fixed right-3 sm:right-6 z-50 w-[min(400px,calc(100vw-24px))] h-[min(560px,calc(100dvh-90px))] card flex flex-col overflow-hidden"
+          // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
+          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
