@@ -1,6 +1,10 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-06 11:11** · Fonte: @intelligence (giro AD 6/7 · piacenzasera.it + venerdipiacentini.it + comune.piacenza.it).
+> Aggiornato: **2026-07-07 06:22** · Fonte: @intelligence (giro AD mattino 7/7 · ilmeteo.it + 3bmeteo.com + ilpiacenza.it + venerdipiacentini.it).
+
+## 🌡️ Meteo di oggi (7/7) — fattore-guida delivery
+- **Poco nuvoloso, caldo: max 35°C alle 18, min 21°C alle 6, UV 7,4 alle 14** (iLMeteo/3BMeteo). Venti deboli da Est.
+- **Operativo:** finestra migliore per i freschi = **mattina** (prima del picco delle 18); per il batch food del 13/7 servirà il **gate catena del freddo** sui deperibili. Nessun maltempo/allerta che alzi la domanda di consegna oggi.
 
 ---
 
@@ -20,6 +24,6 @@
 
 ## 🆕 Novità giro 6/7 11:11
 - **La finestra Sant'Antonino (4/7) è passata** e con essa l'ipotesi «consegna #16 durante la fiera»: **l'ordine #16 era già annullato dal 3/7** → nessuna consegna era possibile. Rimosso dagli eventi azionabili.
-- **Prossima finestra utile: Venerdì Piacentini 10/7** — da usare per il **primo presidio con Pane Quotidiano**, non più per un ordine morto. Ultima serata 17/7.
-- **Nessun picco meteo rilevante** guida il giro: il vincolo non è meteo né evento, è **avere un ordine reale da consegnare** (oggi zero in volo) e **negozi da onboardare** (parte dopo il 9/7).
+- **Prossima finestra utile: Venerdì Piacentini 17/7** — da usare per il **primo presidio con Pane Quotidiano**: Nicola riparte il 13/7, quindi il 10/7 cade prima della ripresa. Ultima serata 17/7.
+- **Nessun picco meteo rilevante** guida il giro: il vincolo non è meteo né evento, è **avere un ordine reale da consegnare** (oggi zero in volo) e **negozi da onboardare** (parte dal 13/7).
 - Spunto editoriale: **sagra del tortello** = aggancio «prodotto tipico piacentino a domicilio» per il Piano Editoriale.

@@ -693,3 +693,34 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-06 18:00 · @analista · FATTO · 7 numeri **invariati vs ieri** — 1 negozio reale · 0 payout · 5 prodotti · 1 ordine (annullato) · 0 pagati/consegnati/payout · 4 buyer. Live gated in sessione (MCP + node/curl) → **baseline REST 16:20 portata avanti** (ordini=1, ultimo 24/6 08:28, 23 clienti, dati_leggibili=true), zero numeri inventati. Stallo 1° ordine **~297h ≈ 12,4 giorni**. North Star 0.
 - 2026-07-06 18:00 · @AD · FATTO · **Lezione L-2026-0706:** un sensore cieco che tramanda una lettura vecchia crea un fatto-zombie (#16 «in consegna» per giorni = lavoro morto) → incrocia col Pannello (legge il vivo) e propaga la correzione a TUTTI gli snapshot nello stesso giro.
 - 2026-07-06 18:00 · @AD · SERVE · Nicola (dopo il 9/7, business): **far nascere il 1° ordine reale su PQ** (VEN 10/7) · visita 6 botteghe 13/7 (#39). Sicurezza aperta: 🔴 R1 revoca PAT · 🟡 SQL 107+RLS (#32) · 🟡 R2 merge cantiere (serve sessione rete+push) · 🟡 #40 accendere timer sentinella.
+- 2026-07-07 00:30 · @AD · FATTO · Giro pieno NOTTURNO da cloud (on-demand di Nicola): guardiani tutti verdi (registro-agenti, capacità, allocazione, chiusura-loop gate, calibrazione, coerenza-fatti AR-102, automazione) · MCP Supabase LIVE in sessione (sensore rialimentato --mcp-supabase=ok).
+- 2026-07-07 00:30 · @analista · FATTO · 7 numeri CONFERMATI DAL VIVO via MCP (23:45–00:29): ordini=1 (annullato, 0 in 7g) · 23 profili (0 nuovi 7g) · 258 prodotti · 407 lead · 8 carrelli attivi / 4 abbandonati · 0 recensioni · 12 eventi/7g (traffico ~zero). Invariati vs baseline REST — upgrade: da baseline tramandata a verità live.
+- 2026-07-07 00:30 · @tech · FATTO · AR-102 e fix quota Vercel SU MAIN (PR #207/#210 mergiate da Nicola ieri sera) · registro-fatti popolato con 8 fatti fondati (guardiano verde, exit 0) · ESITI atteso→reale registrati nel quaderno tech.
+- 2026-07-07 00:30 · @AD · SERVE · Nicola: merge della PR-memoria di questo giro · restano 🔴 R1 revoca PAT e 🟡 #53 conferma OBSIDIAN_BRANCH=main su Vercel. Verifica live del gate AR-102 sul VPS: al prossimo giro (se ne occupa l'AD col check-in).
+- 2026-07-07 01:36 · @AD · FATTO · Proposta approvata dal Pannello «Mergia la memoria di questo giro nel ramo principale» trasformata in azione. Merge nel ramo principale **già fatto in locale** (commit 5c50543a su `main` VPS: briefing 07/07 + STATO). Manca solo la **pubblicazione su `origin/main`** (1599 commit avanti) → accodata pronta come **#54** (comando non-force+rebase, landmine `marketplace` verificato non tracciato). Rete/git-push chiusa dal sandbox in sessione. Decisione registrata (non riproporre). Copre la riga «SERVE: merge PR-memoria di questo giro».
+
+### 2026-07-07 01:44 — 🗄️ Proposta «Marca come fatta la card sul binario di lettura» APPROVATA (Pannello, giallo) → doer
+- 2026-07-07 01:44 · @AD · FATTO · Chiusa formalmente la **card #53** (RAMO UNICO — Pannello legge da `main`): era già ✅ FATTO (le 2 mani Vercel+VPS le ha fatte Nicola), la proposta la ritira dalla coda. Marcata **CHIUSA/RITIRATA** in [[AZIONI-IN-ATTESA]], decisione registrata in [[DECISIONI]] (`proposta:marca-come-fatta-la-card-sul-binario-di-lettura-` → **non riproporre**).
+- 2026-07-07 01:44 · @AD · FATTO · **Nessuna azione 🟡/🔴 nuova**: il mondo reale (env Vercel `OBSIDIAN_BRANCH=main` + VPS `GIT_BRANCH=main`) era già toccato da Nicola; questo lavoro è solo memoria (🟢). Loop chiuso.
+- 2026-07-07 01:44 · @AD · SERVE · Nicola: nulla su questa card. Resta aperta a parte la pubblicazione della memoria di stanotte su `origin/main` → **#54** («ok 54» o giro VPS con rete).
+
+### 2026-07-07 06:22 — ☀️ Giro del mattino (VPS · heartbeat)
+- 2026-07-07 06:22 · @AD · FATTO · Giro heartbeat (14h dall'ultimo pieno): stato reale INVARIATO dal notturno — firma REST 06:20 ordini=1 (annullato), ultimo 24/6, 23 clienti; business fermo, North Star 0. Nessun giro a vuoto moltiplicato.
+- 2026-07-07 06:22 · @intelligence · FATTO · Radar LIVE cadenza giornaliera: meteo oggi 35°C (max 18:00, afa, UV 7,4) → freschi la mattina + gate freddo batch 13/7; Venerdì Piacentini confermati (10/7 e 17/7, finestra utile 17/7). Rinfrescato eventi-picchi.md.
+- 2026-07-07 06:22 · @security · FATTO · Propagata la buona notizia: R1 (revoca vecchio PAT GitHub) FATTA da Nicola (chat 7/7) → buco AR-004 chiuso. Aggiornati STATO, coda #34/R1, intenzioni.
+- 2026-07-07 06:22 · @AD · FATTO · Nessuna card 🟡/🔴 nuova (anti-doppione AR-008: coda a 23). Solo memoria (🟢): STATO, briefing 07/07, ultimo-briefing, auto-analisi (obbligatori), registro-realta, intenzioni, eventi-picchi.
+- 2026-07-07 06:22 · @AD · SERVE · Nicola: 🔴 R2 metti in salvo i 20 fix in main (prossimo giro VPS con rete aperta) · verifica a occhio Pannello hosted post-revoca PAT · domanda storica: chi ha annullato #16? La pubblicazione della memoria su origin/main la fa giro.sh dopo questo giro (chiude di fatto il #54 rimasto dal cloud).
+
+### 2026-07-07 06:50 — ☀️ PIANO DEL MATTINO (AD)
+**Obiettivo del giorno:** proteggere e preparare la mossa che sposta la North Star (1° ordine reale su PQ, ripresa 13/7 → finestra VEN 17/7), niente forzature sul business fermo. North Star **0**, firma REST invariata dal 24/6.
+**Le 3 priorità:** ① 🔴 far nascere il 1° ordine reale su Pane Quotidiano (gated 13/7, aggancio 17/7; oggi si tiene pronta la domanda) · ② 🟡 piattaforma sicura prima del batch 6 botteghe (R2 merge fix cantiere + SQL 107 RLS profiles) · ③ 🟡 pronti al 13/7 + accendere la sentinella ordini-annullati (#40, chiude la causa-radice del loop cieco).
+
+Assegnazioni (1 mossa per reparto):
+- @onboarding-negozi/@vendite · 🟢 dossier + schede-cheat 6 botteghe pronti e stampabili per la visita di persona 13/7 (nessun asset pesante nuovo, AR-006)
+- @seo · 🟢 riempimento vetrine PQ (store_description + store_address) pronto ad applicarsi al rientro (esecuzione DB gated → via Pannello/giro VPS)
+- @content-social · 🟢 bozze "Il Turno" PQ (post sabato #30) pronte a spingere domanda alla ripresa · pubblicazione 🔴
+- @devops-sre · 🟡 prepara sessione VPS rete/git per R2 (branch→PR→merge i 20 fix cantiere in main, prima che watch-main li spazzi)
+- @security/@qa · 🟡 SQL 107 + verifica RLS profiles + smoke checkout (#32, AD-owned firmato) → aspetta grant MCP write o giro VPS
+- @data-engineer · 🟡 accendi il timer sentinella ordini-annullati (#40, legge delivery_status/canceled_at)
+- @analista · 🟢 sorveglia i 7 numeri via REST a ogni giro; bandiera alla nascita del 1° ordine reale
+🙋 Serve da Nicola: 🟡 ok R2 (merge fix cantiere in main, sessione VPS con rete) · 🟡 SQL 107 (grant MCP write o giro VPS) · 🟡 accendi #40 · 👁️ verifica a occhio il Pannello hosted mostra il giro di oggi (residuo post-revoca PAT) · 📌 ripresa operativa 13/7, primo aggancio ordine PQ = VEN 17/7.

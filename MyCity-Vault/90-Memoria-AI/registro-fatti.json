@@ -1,6 +1,121 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-06 22:28",
-  "fatti": []
+  "aggiornato": "2026-07-07 00:55",
+  "fatti": [
+    {
+      "id": "bando.commercio-er.scadenza",
+      "nome": "Scadenza bando Commercio ER (40% fondo perduto)",
+      "valore": "2026-07-21",
+      "fonte": "Briefing 6/7 16:47",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "eventi.venerdi-piacentini",
+      "nome": "Prossimi Venerdì Piacentini",
+      "valore": "2026-07-10 e 2026-07-17 (ultima data)",
+      "fonte": "Intelligence eventi-picchi 6/7",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "memoria.ramo",
+      "nome": "Ramo di pubblicazione della memoria",
+      "valore": "main (ramo unico dal 2026-07-06 21:11)",
+      "fonte": "PR #205/#206 + commit VPS verificati",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "negozio.faro",
+      "nome": "Negozio faro (unico negozio reale attivo)",
+      "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa)",
+      "fonte": "dati marketplace (Supabase REST) + memoria AD",
+      "aggiornato": "2026-07-06 23:55",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "northstar.consegnati",
+      "nome": "Ordini consegnati (North Star)",
+      "valore": "0",
+      "fonte": "DB marketplace LIVE via MCP 2026-07-06 23:45 (1 ordine totale, annullato)",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "onboarding.botteghe-food",
+      "nome": "Onboarding 6 botteghe food — data e modalità",
+      "valore": "13/7/2026, Nicola ci va DI PERSONA (non chiama)",
+      "fonte": "Nicola, memoria AD + dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "aggiornato": "2026-07-06 23:55",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "ordine16.stato",
+      "nome": "Stato ordine #16 (COD 19,05 € del 24/6)",
+      "valore": "annullato il 2026-07-03 15:38 (delivery_status=CANCELED) — non riesumare: il 1° ordine reale va creato ex-novo",
+      "fonte": "DB live 6/7 11:11 + approvazione Nicola dal Pannello 6/7 16:15",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "ripresa.lavoro-operativo",
+      "nome": "Ripresa lavoro operativo di Nicola (inserimento negozi)",
+      "valore": "13/7/2026 (Nicola riprende il lavoro operativo di inserimento negozi)",
+      "fonte": "Nicola, chat 2026-07-07 (ripresa lavoro 13/7)",
+      "aggiornato": "2026-07-07 00:15",
+      "storia": [
+        {
+          "valore": "dopo il 9/7/2026 (attende reset limiti Claude)",
+          "fino_a": "2026-07-07 00:15"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "avvia dopo il 9/7",
+          "dal": "2026-07-07 00:15"
+        },
+        {
+          "pattern": "quando Nicola riparte",
+          "dal": "2026-07-07 00:15"
+        },
+        {
+          "pattern": "Onboarding botteghe (dopo 9/7)",
+          "dal": "2026-07-07 00:15"
+        },
+        {
+          "pattern": "Dopo il 9/7, fai nascere",
+          "dal": "2026-07-07 00:15"
+        }
+      ],
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/Report/"
+      ]
+    },
+    {
+      "id": "vercel.deploy",
+      "nome": "Regola deploy Pannello su Vercel",
+      "valore": "solo quando pannello/ cambia, via Deploy Hook (Action deploy-pannello)",
+      "fonte": "PR #210 mergiata da Nicola 6/7 23:19",
+      "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    }
+  ]
 }

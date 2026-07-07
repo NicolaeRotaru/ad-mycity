@@ -50,6 +50,7 @@ const ESENZIONI_DEFAULT = [
   "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
   "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
   "MyCity-Vault/90-Memoria-AI/Briefing/",
+  "MyCity-Vault/90-Memoria-AI/Report/",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/",
   "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
   "memoria-squadra/",

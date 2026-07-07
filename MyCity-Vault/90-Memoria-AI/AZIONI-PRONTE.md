@@ -100,8 +100,8 @@ stato: IN ATTESA DI FIRMA NICOLA.
 
 ## A18 · 🔎 Scout negozi — 3 botteghe per le categorie mancanti del cluster-spesa
 reparto: vendite
-livello: 🟢 (produrre lista+pitch = prospecting neutro) · 🔴 (contatto reale ai negozi = firma Nicola, dal 9/7)
-canale: Telefono/di persona ai 3 titolari (manuale) — dopo il 9/7
+livello: 🟢 (produrre lista+pitch = prospecting neutro) · 🔴 (contatto reale ai negozi = firma Nicola, dal 13/7)
+canale: Telefono/di persona ai 3 titolari (manuale) — dal 13/7
 perche: Il cluster reale è 1 solo negozio (Pane Quotidiano = panetteria/bio) e la shortlist 27 è satura di ristorazione delivery (dove Glovo/JustEat già competono). Mancano le botteghe della SPESA FRESCA che rendono MyCity "fai la spesa dal centro" e non un clone del food-delivery — il vero moat locale (Glovo a Piacenza = ~3 supermercati, 0 botteghe artigianali). Le 3 categorie mancanti: ortofrutta · salumeria/DOP · formaggi & gastronomia. Con queste + PQ il piacentino fa una spesa completa in un carrello solo.
 preparato: 🔎 intelligence (fondamento fatti pubblici) + 🤝 vendite (pitch) — deliverable completo: `consegne/vendite/2026-07-06-scout-negozi-categorie-mancanti.md`
 i 3 target (scelta_ragionata su fatti pubblici, prospect NON nel DB):
@@ -351,7 +351,7 @@ stato: BOZZE PRONTE — NESSUN INVIO. Coda canonica = riga #37 in [[AZIONI-IN-AT
 reparto: trust-safety (owner) · legale-privacy (claim) · content-social (bozze)
 livello: 🟢 (definire lo standard — fatto) · 🔴 (assegnarlo/mostrarlo a video e annunciarlo — firma Nicola)
 canale: vetrina negozio sul sito (bollino) + annuncio IG @mycity.piacenza/gruppi FB + messaggio al titolare
-perche: La fiducia è il fossato di MyCity contro Glovo (che consegna da supermercati anonimi). Un bollino con 5 criteri verificabili — identità reale, negozio attivo, pagamenti sicuri, consegna provata, regole rispettate — dice al cliente «di questo negozio ti puoi fidare, ci mettiamo la faccia noi». Diventa lo standard d'ingresso per l'ondata di negozi dopo il 9/7.
+perche: La fiducia è il fossato di MyCity contro Glovo (che consegna da supermercati anonimi). Un bollino con 5 criteri verificabili — identità reale, negozio attivo, pagamenti sicuri, consegna provata, regole rispettate — dice al cliente «di questo negozio ti puoi fidare, ci mettiamo la faccia noi». Diventa lo standard d'ingresso per l'ondata di negozi dal 13/7.
 preparato: 🛡️ trust-safety + ⚖️ legale-privacy + ✍️ content-social — standard completo + criteri + eligibilità + bozze in `consegne/trust-safety/2026-07-06-badge-negozio-verificato.md`
 idoneità reale (2026-07-06): **0 negozi Verificati oggi, 1 candidato** = Pane Quotidiano (unico negozio reale). PQ ha 3/5 pilastri (identità ✅, catalogo ✅, contratto ✅); mancano **payout attivo** (Stripe OFF) e **≥1 consegna** (#16 in consegna). Casa Linda = demo (esclusa), Garetti = prospect non nel DB (non idoneo). PQ diventa il **1° Negozio Verificato di Piacenza** nell'istante in cui #16 è consegnato + payout acceso — combacia con la North Star di oggi.
 cosa cambia: nasce lo standard di fiducia cittadino; il primo negozio reale che consegna si guadagna il bollino a video → i clienti hanno un segnale di garanzia visibile. Nessun negozio dichiarato "verificato" senza averlo meritato.

@@ -1,7 +1,7 @@
 # 📞 Le 27 botteghe food da chiamare — scheda operativa di chiamata
 
 > Preparato: **2026-07-06 15:40** · @vendite + @AD (doer da proposta Pannello approvata) · 🟢 preparare la lista/script · 🟡 la chiamata reale (firma Nicola)
-> Serve la proposta approvata dal Pannello: *«Ho preparato la lista delle 27 botteghe food da chiamare»* → contesto: **pronta per l'inserimento negozi dopo il 9/7**.
+> Serve la proposta approvata dal Pannello: *«Ho preparato la lista delle 27 botteghe food da chiamare»* → contesto: **pronta per l'inserimento negozi dal 13/7**.
 > Fonte dati: Supabase `merchants_leads` — **407 lead totali** `outreach_status=to_contact` (misura live REST 30/6 22:17, ri-citata nei giri fino al 2/7). Sola lettura, nessuna scrittura sul DB.
 
 ---
@@ -22,7 +22,7 @@ La proposta parla di **27 botteghe food**: è il sotto-insieme *food* dei 407 le
 >        '%deli%','%cheese%','%grocer%','%pastic%','%fish%','%green%','%fruit%','%market%']))
 > ORDER BY score DESC NULLS LAST, business_name;
 > ```
-> Il risultato riempie le righe 11-27 (e conferma il conteggio esatto del sotto-insieme food). Finché non gira, si chiama sui **10 verificati** — bastano per partire dopo il 9/7.
+> Il risultato riempie le righe 11-27 (e conferma il conteggio esatto del sotto-insieme food). Finché non gira, si chiama sui **10 verificati** — bastano per partire dal 13/7.
 
 ---
 
@@ -88,7 +88,7 @@ così la demo "guarda, funziona già in centro" è credibile), poi le categorie 
 - **Leva a scadenza:** il **bando Commercio ER (40% fondo perduto) scade il 21/7** → chi vuole candidarsi va contattato entro ~15/7.
 
 ## 🙋 Cosa serve da Nicola
-1. **Via libera a chiamare** dopo il 9/7 (il "sì" alla campagna → sblocca #39).
+1. **Via libera a chiamare** dal 13/7 (il "sì" alla campagna → sblocca #39).
 2. Se vuoi le altre **17 botteghe** nome-per-nome: un **giro con dati live** o il grant MCP `execute_sql` (query già pronta sopra) — poi le aggiungo in 1 minuto.
 3. (Opzionale) se hai già dei **numeri di telefono** di qualche bottega, dammeli: salto la ricerca su Maps.
 

@@ -9,7 +9,7 @@
 > 🧭 **Stato di realtà su cui poggia tutto (registro-realtà + STATO, verificati live 6/7 11:11):**
 > - 1 negozio reale approvato: **Pane Quotidiano**, 5 prodotti attivi.
 > - **0 ordini consegnati, 0 pagati, 0 payout.** L'unico ordine (COD €19,05, 24/6) è stato **ANNULLATO il 3/7** — mai accettato, mai consegnato.
-> - Onboarding di altri negozi: parte **dopo il 9/7/2026**.
+> - Onboarding di altri negozi: parte **dal 13/7/2026**.
 > → **Traction reale ≈ 0.** Qualsiasi comunicato che dica "il marketplace che già consegna in città" sarebbe una **bugia che il primo cronista smonta con una telefonata.** Perciò l'angolo qui è **AVVIO + causa civica**, non "risultati".
 
 ---
@@ -154,7 +154,7 @@ Nicola — MyCity
 
 **Perché.** Il mestiere dice che una notizia debole spesa con la testata dominante ti costa il rapporto per la volta che conta. Oggi la storia ha **un solo negozio, zero ordini consegnati e l'unico ordine annullato**: regge come "parte oggi", ma è fragile — se il cronista di Libertà chiede *"quanti negozi? quanti ordini?"*, la risposta onesta ("uno, zero") sgonfia il pezzo e brucia il primo contatto con la testata da cui dipende il 70% della reach. In una città piccola quel contatto lo si spende **una volta sola**.
 
-**Cosa cambia dopo il 9/7.** L'onboarding riparte (shortlist di 27 negozi food pronta) e c'è il primo ordine-prova PQ da chiudere davvero col payout. Bastano **2-3 botteghe reali online + 1 primo ordine consegnato** perché la stessa storia diventi *"non è un'idea, è già un movimento che consegna"* — a prova di ogni domanda. Aggancio d'attualità ancora vivo: **Venerdì Piacentini del 17/7** (ultima serata) è la finestra ideale per l'uscita.
+**Cosa cambia dal 13/7.** L'onboarding riparte (shortlist di 27 negozi food pronta) e c'è il primo ordine-prova PQ da chiudere davvero col payout. Bastano **2-3 botteghe reali online + 1 primo ordine consegnato** perché la stessa storia diventi *"non è un'idea, è già un movimento che consegna"* — a prova di ogni domanda. Aggancio d'attualità ancora vivo: **Venerdì Piacentini del 17/7** (ultima serata) è la finestra ideale per l'uscita.
 
 **Piano concreto:**
 1. **Questa settimana (🟢, già fatto qui):** playbook pronto, campi da completare identificati, ok titolare PQ da raccogliere. Nessun invio.
@@ -167,7 +167,7 @@ Nicola — MyCity
 
 ## 🔴 AZIONI REALI DA FIRMARE (per Nicola)
 1. **Autorizzazione citazione + nome del titolare del Pane Quotidiano** — 🔴 (prerequisito per nominare il negozio).
-2. **Invio email esclusiva a Libertà** (+ proposta Telelibertà) — 🔴 (consigliato: **dopo il 9/7**, vedi timing).
+2. **Invio email esclusiva a Libertà** (+ proposta Telelibertà) — 🔴 (consigliato: **dal 13/7**, vedi timing).
 3. **Invio email alle 3 testate online** — 🔴 (dopo l'uscita Libertà o 48h).
 4. **Completare i campi [INSERIRE]:** numero, email, sito, fonte del dato -22%, data di lancio, nomi giornalisti ri-verificati.
 5. *(Opz.)* Richiesta citazione assessore → via @relazioni-istituzionali.

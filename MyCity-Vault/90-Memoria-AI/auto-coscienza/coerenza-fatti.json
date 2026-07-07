@@ -1,15 +1,41 @@
 {
-  "data": "2026-07-06 22:28",
+  "data": "2026-07-07 08:20",
   "esito": "ok",
-  "fatti_totali": 0,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
+  "fatti_totali": 9,
+  "cacce_aperte": 4,
+  "file_scansionati": 470,
   "incoerenze": [],
-  "cacce": [],
+  "cacce": [
+    {
+      "fatto": "ripresa.lavoro-operativo",
+      "pattern": "avvia dopo il 9/7",
+      "dal": "2026-07-07 00:15",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "ripresa.lavoro-operativo",
+      "pattern": "quando Nicola riparte",
+      "dal": "2026-07-07 00:15",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "ripresa.lavoro-operativo",
+      "pattern": "Onboarding botteghe (dopo 9/7)",
+      "dal": "2026-07-07 00:15",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "ripresa.lavoro-operativo",
+      "pattern": "Dopo il 9/7, fai nascere",
+      "dal": "2026-07-07 00:15",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
     "MyCity-Vault/90-Memoria-AI/Briefing/",
+    "MyCity-Vault/90-Memoria-AI/Report/",
     "MyCity-Vault/90-Memoria-AI/auto-coscienza/",
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"

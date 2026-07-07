@@ -1,34 +1,30 @@
 ---
-data: 2026-07-06 16:47
+data: 2026-07-07 06:22
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-> 🔄 **Passaggio-refresh 16:47** — delta-gate ri-scattato ma **firma REST identica** al giro pieno 16:45 (ordini=1, ultimo 24/6, 23 clienti) → nessuna novità di business, nessun giro a vuoto duplicato. Lavoro reale del passaggio: chiusi i **2 gate HARD** lasciati aperti da giro.sh → (1) **chiusura-loop @intelligence** (il FATTO radar delle 16:45 era senza ESITO: riga canonica aggiunta a mano, `node` gated); (2) **allocazione** — confermato **nessun asset pesante prodotto**, sbilanciamento Garetti storico, nulla aggiunto a entità non confermate. Voto invariato (82): stato invariato.
+# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 06:22 (giro del mattino · heartbeat)
 
-# 🔬 Auto-analisi del giro — 2026-07-06 16:45 (🔭 giro AD)
+## Voto di fiducia: **85/100** (= vs notturno 00:30)
+Heartbeat mattutino onesto: i numeri erano già confermati dal vivo stanotte, oggi ho verificato LIVE solo ciò che cambia di giorno (meteo, eventi) e ho propagato una correzione reale (R1 fatta). Nessun giro a vuoto, nessun numero inventato.
 
-## Voto di fiducia: 82/100 (▲ +1)
-Primo giro pieno dopo la pausa limiti Claude (ultimo pieno 4/7 11:30). Voto 82 (▲ di 1 vs 81): refresh onesto con **due elementi reali e verificati**.
-1. **Correzione strutturale già assorbita** — l'ordine **#16 è ANNULLATO** (`delivery_status=CANCELED`, alert Pannello «1 consegne annullate»), non «in consegna»: allineamento approvato da Nicola dal Pannello alle 16:15. Questo giro ho **propagato la verità agli snapshot rimasti indietro** (registro-realta, intenzioni-nicola, auto-analisi erano fermi al 4/7 11:30 e tenevano ancora #16 «IN CONSEGNA»): era una **deriva di coerenza** e l'ho chiusa.
-2. **Intelligence LIVE (WebSearch)** — restano i **Venerdì Piacentini 10/7 e 17/7** (entrambi dopo il 9/7, quando Nicola riparte) e meteo **caldo stabile 35°C + afa** (anticiclone delle Azzorre). Rinfrescato `eventi-picchi.md`, che mostrava ancora Sant'Antonino (4/7, passato) come «OGGI».
+## Cosa ho controllato (verifica avversariale a 3 livelli)
+1. **Fatti & numeri** — La firma REST 06:20 (ordini=1, ultimo 24/6, 23 clienti) è invariata; i 4 numeri non-REST (prodotti 258, lead 407, carrelli 8/4, recensioni 0) sono la **conferma live MCP di stanotte**, NON ri-misurati ora perché l'MCP è cieco in sessione — e l'ho dichiarato nei Gap invece di spacciarlo per lettura fresca. Meteo (35°C) ed eventi (Venerdì Piacentini 17/7) verificati LIVE con link.
+2. **Entità (grounding a 3 strade)** — Pane Quotidiano `confermato` (unico reale), Casa Linda `demo` esclusa, Garetti `scelta_ragionata` (prospect non firmato → asset pesanti congelati, vincolo allocazione rispettato). Nessuna entità nuova, nessun "Garetti inventato".
+3. **Coerenza & colore** — Tutti gli snapshot Cabina allineati alle 06:22; solo scritture di memoria (🟢); nessuna azione reale eseguita; nessuna card nuova accodata (anti-doppione, coda a 23).
 
-Firma REST invariata (giro.sh 16:20: ordini=1, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) → nessun ordine nuovo, stallo ~294h ≈ 12 giorni, North Star 0. Nessun numero ri-misurato in sessione (MCP + `node`/`curl` gated) né inventato. **Vincolo allocazione rispettato:** giro di sola memoria + un file intelligence, nessun asset pesante intestato a entità non confermate (Garetti `scelta_ragionata` non azionato). **Loop chiuso:** registrato l'ESITO @ad (era conteggiato «vuoto» solo per formato-header — usava `# ESITO` invece della riga `- data · …`).
+## Errori/limiti di questo giro
+- MCP marketplace cieco in sessione → 4 numeri non ri-misurati (gap dichiarato).
+- Gli snapshot davano ancora "PAT nella storia git": **corretto** propagando R1 fatta (Nicola l'ha revocato, chat 7/7).
 
-## Verifiche (cancello di serietà a 3 livelli)
-- **Entità:** ✅ Pane Quotidiano `confermato` con **#16 ANNULLATO** allineato al DB live; zombie = ordine PQ €19,05 del 24/6, non riesumabile; **VP 10/7 e 17/7 `confermati`** (venerdipiacentini.it + Comune di Piacenza); meteo caldo `confermato` (iLMeteo/3BMeteo); Casa Linda `demo` esclusa; **Garetti `scelta_ragionata` NON azionato**. Nessuna entità nuova senza fondamento.
-- **Numeri:** ✅ 7 numeri = baseline REST scritta da giro.sh; **zero numeri ri-misurati in sessione** (MCP+node/curl gated) e **zero inventati**; stallo ~294h. Le date VP e i 35°C sono citati con **fonte web LIVE**.
-- **Coerenza:** ✅ STATO, briefing 2026-07-06, ultimo-briefing, registro-realta (#16→ANNULLATO), intenzioni-nicola, eventi-picchi, questa auto-analisi tutti al passaggio 16:45. Corretta la deriva degli snapshot fermi al 4/7.
-- **Semaforo:** ✅ nessuna 🔴 nuova; **nessuna azione nuova accodata** (la coda è già completa e ri-ancorata al «1° ordine reale (NON #16)»); restano da firmare R1/#34 (revoca PAT) e R2/#35 (merge fix).
-- **Benchmark:** n/a (nessun lavoro creativo/pitch in questo giro).
-
-## Errori di grounding rilevati: nessuno
-La sola incoerenza trovata era **temporale/di stato** (snapshot fermi al 4/7 con #16 «in consegna» vs verità 6/7 «annullato») — corretta in questo giro, non un'entità inventata.
-
-## Domande aperte (→ [[AZIONI-IN-ATTESA]] / serve_da_nicola)
-- 🔴 **R1 · #34** — revoca del PAT GitHub (unica remediation del segreto in storia git).
-- 🔴 **R2 · #35** — via libera al merge dei fix del cantiere in main (Strada B code-only via PR) al prossimo giro VPS con rete aperta.
-- 🟡 **Conferma #16 annullato** — la memoria è già allineata così; il 1° ordine reale va CREATO ex-novo.
+## Domande per Nicola
+- **R2**: ok a mettere in salvo i 20 fix in `main` al prossimo giro VPS con rete aperta?
+- Dopo la revoca del PAT, il **Pannello hosted** mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token).
+- Storica: chi/perché ha annullato l'ordine #16 il 3/7?
 
 ## Salute della macchina
-REST/Stripe/Resend ✅ · MCP Supabase cieco (1 giro, in sessione) · PostHog `non_configurato` (spento da Nicola 5/7) · **loop business 🔴 aperto** (0 transazioni, #16 annullato) · voto salute architettura **44** (pending-merge R2) · cantiere: **20 chiusi · 2 in-corso umani · 2 aperti** (AR-024/AR-025).
+REST ok · Stripe ok · Resend ok · MCP Supabase cieco (1 giro, sessione) · PostHog spento (scelta Nicola) · uptime non monitorato. Voto salute architettura **44** (pending-merge R2). Loop business 🔴 aperto (0 transazioni reali). Cantiere: 20 chiusi · **R1 FATTA** · 1 in-corso umano (AR-006 materiale PQ) · 2 aperti (AR-024/AR-025).
+
+## Benchmark (il lavoro è al livello dei migliori?)
+Nessun lavoro pesante prodotto in questo giro (heartbeat), quindi il filo-benchmark non si applica. La disciplina giusta qui è **non moltiplicare i giri a vuoto**: verificato solo il delta reale, aggiornato solo ciò che serve alla Cabina, coda intatta.

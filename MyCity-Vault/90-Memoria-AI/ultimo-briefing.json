@@ -1,14 +1,36 @@
 {
-  "data": "2026-07-06 16:47",
-  "situazione": "Business fermo dal 24/6 (~12 giorni): 1 negozio reale (Pane Quotidiano), 0 pagati / 0 consegnati. La correzione di oggi è assorbita — l'ordine #16 è ANNULLATO (delivery_status=CANCELED), non 'in consegna': memoria allineata al DB live del Pannello alle 16:15. La 1ª transazione MyCity è ancora tutta da far nascere, lo zombie non si riesuma. Firma REST invariata (ordini=1, ultimo 24/6, 23 clienti). Novità intelligence LIVE: restano due Venerdì Piacentini, il 10/7 e il 17/7, entrambi dopo il 9/7 (quando Nicola riparte); meteo caldo stabile 35°C con afa. MCP+node gated in sessione → 7 numeri = baseline REST, zero numeri inventati.",
+  "data": "2026-07-07 06:22",
+  "situazione": "Giro del mattino sul VPS, scattato per heartbeat (14h dall'ultimo pieno): lo stato reale è identico a stanotte — business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Verificato live solo ciò che cambia ogni giorno: oggi 35°C con afa (freschi la mattina) e Venerdì Piacentini confermati (ultima finestra utile il 17/7). Buona notizia dalla chat: hai revocato il vecchio PAT GitHub (R1) → il buco di sicurezza è chiuso. Nessuna card nuova: la coda ne ha già 23 e copre le priorità; la partita si gioca dal 13/7.",
   "opportunita": [
-    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano nel Venerdì del 10 luglio", "motivo": "Il centro è pieno per il Venerdì Piacentino proprio quando Nicola riparte: post 'Il Turno' + lista d'attesa (già in coda) su un momento reale generano la prima domanda, poi consegna + payout-test. Sposta la North Star 0→1.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Batch onboarding delle botteghe food dal 13 luglio", "motivo": "27 botteghe mappate (dossier delle 6 prioritarie pronto) e bando Commercio ER al 40% a fondo perduto che scade il 21/7: più negozi reali = più ordini, indipendente dallo zombie.", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Mettere in salvo i 20 fix della macchina in main", "motivo": "I fix girano sul main-branch ma main è ~116 commit indietro: una sync li cancellerebbe. Renderli canonici protegge il giro e fa risalire la salute da 44.", "impatto": "medio", "sforzo": "basso"}
+    {
+      "titolo": "Far nascere il primo ordine vero su Pane Quotidiano al Venerdì del 17 luglio",
+      "motivo": "Centro pieno la sera, sei operativo dal 13/7, post e presidio già pronti in coda: è la mossa che porta la North Star da 0 a 1 (il 10/7 cade prima della tua ripresa).",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Partire con le 27 botteghe food dal 13 luglio",
+      "motivo": "407 lead nel DB, dossier delle 6 prioritarie pronto, e il bando regionale al 40% scade il 21/7: è l'aggancio perfetto per il pitch nelle visite di persona.",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
+    {
+      "titolo": "Portare traffico fisico al lancio, non aspettare il sito",
+      "motivo": "Il sito fa ~12 eventi in 7 giorni: il primo ordine nasce da QR, presidio e passaparola al Venerdì, non dalla ricerca organica.",
+      "impatto": "alto",
+      "sforzo": "medio"
+    }
   ],
   "azioni": [
-    {"titolo": "Dopo il 9/7, fai nascere il primo ordine vero su Pane Quotidiano", "motivo": "Non riesumare #16 (annullato): serve un ordine reale, agganciato al Venerdì del 10 luglio con post e lista d'attesa. È la mossa che porta la North Star da 0 a 1.", "livello": "rosso"},
-    {"titolo": "Revoca il vecchio token GitHub (R1)", "motivo": "È già nella storia git: solo la revoca chiude il buco. Runbook anti-blackout pronto.", "livello": "rosso"},
-    {"titolo": "Metti in salvo i fix della macchina in main (R2)", "motivo": "Rende canonici i 20 fix già attivi prima che una sync li cancelli.", "livello": "rosso"}
+    {
+      "titolo": "Metti in salvo i fix della macchina nel ramo principale",
+      "motivo": "I 20 fix del cantiere restano solo sul ramo di lavoro: al prossimo giro sul VPS con rete aperta vanno resi canonici in main, o rischiano di essere spazzati via.",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Controlla a occhio che il Pannello online mostri il giro di oggi",
+      "motivo": "Hai revocato il vecchio token GitHub: se il Pannello hosted è diventato cieco, Vercel condivideva quel token — dagli un suo token di sola lettura e rifai il Redeploy.",
+      "livello": "giallo"
+    }
   ]
 }

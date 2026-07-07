@@ -4,9 +4,9 @@ titolo: R2 — Merge + deploy dei fix del cantiere (attivare in main i fix macch
 data: 2026-07-04 09:50
 reparto: AD/DevOps-SRE
 colore: 🔴 (merge in main → auto-deploy VPS; irreversibile-morbido, con rollback)
-stato: pronto — approvato dal Pannello (R2) 09:41 · ri-approvato 12:25 («Metti in salvo i fix del cantiere in main»), aspetta la mano/il via di Nicola
-proposta: r2-merge-deploy-fix-cantiere-branch-machine-anal · metti-in-salvo-i-fix-del-cantiere-in-main-r2
-rotta-confermata: Strada B (code-only via PR) — verifica locale 2026-07-04 12:25
+stato: pronto — approvato 09:41 · ri-approvato 12:25 · **RI-APPROVATO 2026-07-07 00:51** («Metti in salvo i fix della macchina in main (R2)»); aspetta solo un GIT_PUSH_TOKEN valido (si chiude dentro R1)
+proposta: r2-merge-deploy-fix-cantiere-branch-machine-anal · metti-in-salvo-i-fix-del-cantiere-in-main-r2 · metti-in-salvo-i-fix-della-macchina-in-main-r2
+rotta-confermata: 2026-07-07 — **PUSH FAST-FORWARD `main`→`origin/main` (1576 commit)**. I fix sono già canonici in `main` locale (ramo unico); Strada A/B code-only OBSOLETE. Si risolve dentro R1 (token).
 ---
 
 > **↻ Aggiornamento 2026-07-04 12:25 (ri-approvazione Pannello).** Verifica locale di
@@ -15,6 +15,48 @@ rotta-confermata: Strada B (code-only via PR) — verifica locale 2026-07-04 12:
 > da escludere; la divergenza reale su `cervello/` è **89 file, +9326/−200**. ➡️ **Rotta
 > confermata: Strada B** (§2 🅱️). Strada A resta solo come fallback se `git ls-remote` a rete
 > aperta mostrasse ancora il branch. Nient'altro da decidere: manca solo la **mano** (rete/git push).
+
+---
+
+> ## ⭐ AGGIORNAMENTO 2026-07-07 00:51 — LA PREMESSA È CAMBIATA: R2 ora è un semplice push (ri-approvato dal Pannello, 🔴)
+> Nicola ha **ri-approvato** dal Pannello «Metti in salvo i fix della macchina in main (R2)». Verifica
+> locale di OGGI sul VPS (checkout su `main`) — **il mondo è cambiato da quando ho scritto §2 sotto**:
+>
+> 1. **Siamo nel mondo a RAMO UNICO `main`** (Nicola ha messo `GIT_BRANCH=main` il 7/7). Il VPS gira su
+>    `main`, i commit del worker atterrano su `main`. `memoria-ad` è in pensione.
+> 2. **I 20 fix del cantiere sono GIÀ canonici in `main` (locale)** — verificato file per file:
+>    `scan-segreti.mjs`, `sensore-cassa.mjs`, `allocazione-check.mjs`, `agent-registry-check.mjs`,
+>    `coerenza-fatti.mjs`, `.githooks/pre-commit` → tutti presenti in `main`. **Non serve più nessuna
+>    cherry-pick code-only: Strada A e Strada B qui sotto sono OBSOLETE.**
+> 3. **La mina `marketplace` NON è nel tree di `main`** (`git cat-file -e main:marketplace` → assente). Ok.
+> 4. **Il gap unico:** `main` locale è **1576 commit avanti a `origin/main`** (fast-forward pulito,
+>    `origin/main` è antenato di `main`). L'auto-push del VPS è **fermo** perché `GIT_PUSH_TOKEN` è rotto
+>    (è lo stesso token compromesso di R1). Ecco perché `origin/main` è rimasto indietro.
+>
+> ### ⚠️ Il pericolo è REALE e ora più acuto (è questo che «una sync cancella»)
+> `aggiorna-cervello.sh:103-105` fa `git checkout -f -B main FETCH_HEAD` **dopo** aver tentato il push
+> (righe 84-101). Se un `git fetch` riuscisse ma il `git push` fallisse, il ramo `main` locale verrebbe
+> **resettato a `origin/main` (1576 commit indietro) → i fix verrebbero SPAZZATI VIA**. Oggi il pericolo è
+> **dormiente** solo perché token rotto = fetch **e** push falliscono insieme → scatta il fallback innocuo
+> `|| git checkout -f -B main` (no-op) che salva i commit locali. È un grilletto armato: si scarica bene
+> solo facendo **riuscire il push**.
+>
+> ### ✅ Azione corretta OGGI (sostituisce §2)
+> **Far riuscire il push fast-forward di `main` su `origin/main`.** Nel mondo a ramo unico è quello che il
+> VPS fa già da solo (`aggiorna-cervello.sh:93,152` → `git push "$url" HEAD:main`): basta un
+> **`GIT_PUSH_TOKEN` valido**. Comando equivalente a mano (da `/opt/mycity/ad-mycity`, con token valido):
+> ```bash
+> git push https://x-access-token:${GIT_PUSH_TOKEN}@github.com/NicolaeRotaru/ad-mycity.git HEAD:main
+> ```
+> Non-force, fast-forward (1576 commit) → `origin/main` raggiunge `main`, i fix diventano canonici sul
+> remoto e il reset di riga 104 diventa innocuo (FETCH_HEAD == HEAD).
+>
+> ### 🔗 R2 si RISOLVE DENTRO R1
+> La «mano» che serve a R2 **è la stessa di R1**: appena R1 mette un PAT valido in `GIT_PUSH_TOKEN` (`.env`
+> del VPS), il **prossimo tick di `watch-main` (~5 min) pubblica da solo i 1576 commit** → R2 si chiude
+> automaticamente. In pratica: **fai R1 e R2 viene dietro.** Non serve nessuna PR, nessun merge, nessun
+> `github-merge`. Rollback resta `git revert` sul remoto se qualcosa sul Pannello hosted andasse storto,
+> ma essendo un fast-forward di stato già in produzione sul VPS, il rischio è minimo.
 
 # 🔴 R2 — Merge + deploy dei fix del cantiere
 
