@@ -685,8 +685,12 @@ export default function Dashboard() {
   function persistPendings() {
     try {
       const arr = [...pendingLavoroChatRef.current.values()];
-      if (arr.length) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(arr));
-      else sessionStorage.removeItem(PENDING_CHAT_KEY);
+      // localStorage (non sessionStorage): i messaggi della chat vivono in localStorage e sopravvivono
+      // al RIAVVIO del browser; se i pending stessero in sessionStorage (cancellato al riavvio) la bolla
+      // «sto pensando…» resterebbe eterna, senza nessuno che la risolve. Stessa durata dei messaggi.
+      if (arr.length) localStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(arr));
+      else localStorage.removeItem(PENDING_CHAT_KEY);
+      sessionStorage.removeItem(PENDING_CHAT_KEY); // pulizia del vecchio canale
     } catch {}
     setPendingCount(pendingLavoroChatRef.current.size);
   }
@@ -759,8 +763,11 @@ export default function Dashboard() {
     });
   }
 
-  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata). */
-  function instradaMessaggioChat(targetConvId: string, content: string) {
+  /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata).
+   *  Torna TRUE se la risposta è stata davvero applicata, FALSE se il thread non è raggiungibile
+   *  ora (conversazione non ancora nell'elenco): in quel caso il chiamante NON deve marcare il
+   *  lavoro come risolto, così riprova al prossimo giro di polling invece di perdere la risposta. */
+  function instradaMessaggioChat(targetConvId: string, content: string): boolean {
     if (convIdRef.current === targetConvId) {
       setMessages((m) => {
         const nuovi = rispondiInChat(m, content);
@@ -769,16 +776,25 @@ export default function Dashboard() {
         void persistConversazione(targetConvId, nuovi);
         return nuovi;
       });
-    } else {
-      aggiornaMessaggiConversazione(targetConvId, content);
+      return true;
     }
+    // Chat NON attiva: applicabile solo se la conversazione è già nell'elenco caricato. Se non c'è,
+    // aggiornaMessaggiConversazione sarebbe un no-op (idx === -1) → risposta persa. Segnaliamo il fallimento.
+    if (!conversazioniRef.current.some((c) => c.id === targetConvId)) return false;
+    aggiornaMessaggiConversazione(targetConvId, content);
+    return true;
   }
 
   function applicaRispostaChat(lavoroId: string, content: string, targetConvId: string) {
     if (lavoroRisoltoChatRef.current.has(lavoroId)) return;
+    // FIX (bolla «sto pensando…» eterna): marca il lavoro "risolto" e togli il pending SOLO se la
+    // risposta è stata DAVVERO applicata. Prima marcava risolto PRIMA di applicare: se la conversazione
+    // target non era nell'elenco, l'aggiornamento era un no-op → risposta persa, lavoro chiuso come
+    // risolto (niente retry) e bolla eterna. Ora, se non applicabile, resta pendente e riprova al
+    // prossimo giro di polling (quando la conversazione si sarà caricata).
+    if (!instradaMessaggioChat(targetConvId, content)) return;
     lavoroRisoltoChatRef.current.add(lavoroId);
     rimuoviPendingChat(lavoroId);
-    instradaMessaggioChat(targetConvId, content);
     if (convIdRef.current === targetConvId || !pendingPerConv(convIdRef.current)) setLoading(false);
   }
 
@@ -1371,7 +1387,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (c) setMessages(JSON.parse(c));
       const cid = localStorage.getItem("mycity_convid");
       try {
-        const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
+        // localStorage (nuovo canale, sopravvive al riavvio) con fallback a sessionStorage per le
+        // sessioni aperte prima del fix — così un pending in volo non si perde durante la migrazione.
+        const pendRaw = localStorage.getItem(PENDING_CHAT_KEY) || sessionStorage.getItem(PENDING_CHAT_KEY);
         if (pendRaw) {
           const parsed = JSON.parse(pendRaw);
           // Nuovo formato: array di pendenti. Retro-compatibile col vecchio oggetto singolo.
