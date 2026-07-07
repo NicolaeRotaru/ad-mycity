@@ -240,11 +240,24 @@ recupera_lavori_orfani() {
     agg="$(printf '%s' "$row" | jq -r '.updated_at // empty')"
     ris="$(printf '%s' "$row" | jq -r '.risultato // ""')"
     eta="$(_eta_min "$agg")"
+    # AR-026 (sicurezza, prima di AZIONI_LIVE): un'AZIONE REALE approvata (esegui-azione|proposta)
+    # interrotta a metà NON deve MAI ripartire da sola — potrebbe essere già partita (email/payout
+    # inviati) ma non ancora marcata FATTO → riesecuzione = doppio invio. Regola IDENTICA a
+    # retry-policy.mjs (MAI auto-retry per esegui-azione) e a sentinella-lavori.mjs (orfano azione →
+    # 'errore, riapprova'). Solo il worker la violava dando a TUTTI i tipi la 2ª chance. Va sempre in
+    # dead-letter con nota "riapprova": la firma di Nicola dal Pannello è l'unica ripartenza lecita.
+    case " esegui-azione proposta " in
+      *" $tipo "*)
+        echo "[$(ts)] Orfano $id ($tipo, ${eta}min): AZIONE REALE interrotta → NON la ri-eseguo da sola (rischio doppio invio) → riapprova dal Pannello." >&2
+        _dead_letter "$id" "[worker] Azione reale '$tipo' interrotta a metà (worker caduto mentre la eseguiva): potrebbe essere già partita → NON rieseguita in automatico per evitare un doppio invio. Riapprova dal Pannello se serve ancora."
+        continue
+        ;;
+    esac
     # (fix "lascia il lavoro a metà") Prima il `giro` veniva SEMPRE cestinato (errore) al primo
     # riavvio del worker (il watch-main lo riavvia ogni volta che main avanza, uccidendo il giro
     # in corso). Ora il giro ha la STESSA seconda chance degli altri: il marker `[recuperato` +
     # SOGLIA_ORFANO_MIN evitano comunque il crash-loop, ma un giro interrotto UNA volta riparte
-    # invece di morire a metà.
+    # invece di morire a metà. (I tipi-azione sono già usciti sopra: qui restano solo i pre-esecuzione.)
     if printf '%s' "$ris" | grep -q '\[recuperato' || [ "$eta" -gt "$SOGLIA_ORFANO_MIN" ]; then
       echo "[$(ts)] Orfano $id ($tipo, ${eta}min): già ritentato/scaduto → DEAD-LETTER (errore) per sbloccare la coda." >&2
       _dead_letter "$id" "[worker] Lavoro interrotto (worker caduto mentre lo eseguiva) e già ritentato o troppo vecchio (${eta} min) → chiuso in errore per NON bloccare la coda. Ri-approva dal Pannello se serve."
