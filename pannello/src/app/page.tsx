@@ -675,12 +675,11 @@ export default function Dashboard() {
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
-  useEffect(() => {
-    convIdRef.current = convId;
-  }, [convId]);
-  useEffect(() => {
-    conversazioniRef.current = conversazioni;
-  }, [conversazioni]);
+  // Mirror SINCRONI (assegnati in render, non in useEffect): un useEffect aggiorna il ref DOPO il commit,
+  // quindi al cambio-chat convIdRef restava indietro di un tick e una risposta in arrivo veniva instradata
+  // (e salvata) nella conversazione SBAGLIATA. Assegnandoli in render restano sempre allineati allo stato.
+  convIdRef.current = convId;
+  conversazioniRef.current = conversazioni;
 
   function persistPendings() {
     try {
