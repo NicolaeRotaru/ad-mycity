@@ -19,15 +19,23 @@
 // Env:  SUPABASE_URL + SUPABASE_SERVICE_KEY (progetto MEMORIA). Opz: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID.
 
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { decidiRitento, MAX_ATTESA_QUOTA_MS } from "./retry-policy.mjs";
+import { decidiRitento, MAX_ATTESA_QUOTA_MS, TIPI_PRE_ESECUZIONE } from "./retry-policy.mjs";
 
 const URL = process.env.SUPABASE_URL?.trim();
 const KEY = process.env.SUPABASE_SERVICE_KEY?.trim();
 const JSON_MODE = process.argv.includes("--json");
 
 const TIPI_AZIONE = ["proposta", "esegui-azione"]; // job che eseguono un'azione approvata
-const TIPI_ORFANO_SICURO = ["giro", "chat", "metabolizza", "analisi"]; // requeue sicuro
-const ORFANO_MIN = 10; // minuti oltre i quali un in_corso è considerato orfano
+// Orfano "sicuro" da ri-accodare = QUALUNQUE tipo pre-esecuzione (giro, chat, metabolizza,
+// analisi, ritmo-mattino/mezzogiorno/sera/settimana, playbook, risposta…) tranne le azioni reali 🔴.
+// Fonte UNICA: TIPI_PRE_ESECUZIONE di retry-policy.mjs (AR-024). Prima era una lista scritta a mano
+// che aveva DIMENTICATO i ritmo-*: le cadenze in esecuzione venivano marcate "errore" a metà, così
+// «Rigenera Piano del mattino / Report della sera» finivano in "da riapprovare" senza motivo. (fix issue 5)
+const TIPI_ORFANO_SICURO = [...TIPI_PRE_ESECUZIONE].filter((t) => !TIPI_AZIONE.includes(t));
+// Soglia orfano allineata al worker (SOGLIA_ORFANO_MIN=60) e SOPRA il runtime reale dei job pesanti:
+// giro e ritmo girano fino a ~45 min (WORKER_TIMEOUT_GIRO=2700s). Con 10 min la sentinella (che gira
+// ogni 3 min) agguantava job ANCORA in esecuzione, uccidendoli e ri-eseguendoli in loop. (fix issue 5)
+const ORFANO_MIN = 60; // minuti oltre i quali un in_corso è considerato orfano
 const MARKER = "[sentinella:segnalata]";
 
 function headers() {

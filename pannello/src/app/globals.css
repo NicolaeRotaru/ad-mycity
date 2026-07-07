@@ -65,13 +65,19 @@ body {
     @apply text-[16px] font-semibold tracking-tight;
     color: var(--text-primary);
   }
+  /* overflow-wrap:anywhere su TUTTO il testo di corpo: una frase o un token lunghissimo
+     (es. "delta-gate corrente==ultimo_pieno", un path, un id) non esce più dalla casella —
+     riduce il min-content del testo così anche dentro un flex senza min-w-0 il testo si spezza
+     invece di sfondare la card e comparire la scrollbar orizzontale. (fix «frase che esce») */
   .t-corpo {
     @apply text-[14px] leading-relaxed;
     color: var(--text-secondary);
+    overflow-wrap: anywhere;
   }
   .t-eti {
     @apply text-[13px] leading-snug;
     color: var(--text-muted);
+    overflow-wrap: anywhere;
   }
   .t-micro {
     @apply text-[11px] uppercase tracking-wide font-semibold;
@@ -83,9 +89,11 @@ body {
   .t-riga {
     @apply text-[13px] leading-snug;
     color: var(--text-primary);
+    overflow-wrap: anywhere;
   }
   .frase-lista {
     @apply text-[13px] leading-snug block;
+    overflow-wrap: anywhere;
   }
   .frase-lista-lead {
     font-weight: 600;

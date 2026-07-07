@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Stethoscope, RefreshCw, Unlock, Loader2, Power } from "lucide-react";
+import { Stethoscope, RefreshCw, Unlock, Loader2, Power, Play, Sunrise, Moon, Terminal } from "lucide-react";
 
 type Salute = {
   memoria: boolean;
@@ -27,7 +27,37 @@ export default function DiagnosticaWorker() {
   const [loading, setLoading] = useState(true);
   const [sbloccando, setSbloccando] = useState(false);
   const [riavviando, setRiavviando] = useState(false);
+  const [busyCmd, setBusyCmd] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+
+  // Comandi macchina che mettono in coda un lavoro (il worker li esegue sul VPS): giro + cadenze ritmo.
+  // Spostati QUI dentro la casella «Stato worker» (richiesta di Nicola): i comandi del worker stanno
+  // accanto allo stato del worker; i «Risultati recenti» vivono ora in una pagina separata (area Lavori).
+  const COMANDI_LAVORO: { id: string; label: string; icon: React.ReactNode }[] = [
+    { id: "giro", label: "Fai un giro", icon: <Play size={14} /> },
+    { id: "ritmo-mattino", label: "Rigenera Piano del mattino", icon: <Sunrise size={14} /> },
+    { id: "ritmo-sera", label: "Rigenera Report della sera", icon: <Moon size={14} /> },
+  ];
+
+  async function mandaComando(comando: string) {
+    if (busyCmd) return;
+    setBusyCmd(comando);
+    setMsg(null);
+    try {
+      const r = await fetch("/api/comando-vps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ comando }),
+      }).then((x) => x.json());
+      setMsg(r?.ok ? (r.messaggio || "Comando messo in coda.") : (r?.error || "Comando non riuscito."));
+      if (r?.ok) setTimeout(carica, 1200);
+      if (r?.ok && typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+    } catch {
+      setMsg("Errore di rete.");
+    } finally {
+      setBusyCmd(null);
+    }
+  }
 
   const carica = useCallback(() => {
     setLoading(true);
@@ -168,36 +198,55 @@ export default function DiagnosticaWorker() {
         </ol>
       )}
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        {(d.conteggi?.in_corso ?? 0) > 0 && (
+      {/* 🎛️ Comandi macchina — spostati QUI dentro la casella dello Stato worker (richiesta di Nicola).
+          Li esegue il worker sul VPS: se acceso partono subito, altrimenti restano in coda e ripartono
+          da soli. I «Risultati recenti» sono nella pagina «Risultati» (area Lavori). */}
+      <div className="mt-3 pt-2.5 border-t" style={{ borderColor: "var(--border)" }}>
+        <div className="t-micro flex items-center gap-1.5 mb-2"><Terminal size={12} /> Comandi macchina</div>
+        <div className="flex flex-wrap gap-2">
+          {COMANDI_LAVORO.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => mandaComando(c.id)}
+              disabled={busyCmd != null}
+              className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 border text-black/70 dark:text-white/70 hover:bg-black/[0.04] dark:hover:bg-white/[0.05] disabled:opacity-50"
+              style={{ borderColor: "var(--border-strong)" }}
+            >
+              {busyCmd === c.id ? <Loader2 size={12} className="animate-spin" /> : c.icon}
+              {c.label}
+            </button>
+          ))}
+          {(d.conteggi?.in_corso ?? 0) > 0 && (
+            <button
+              type="button"
+              onClick={sbloccaCoda}
+              disabled={sbloccando}
+              className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-lg px-3 py-1.5 hover:bg-brand-dark disabled:opacity-50"
+            >
+              {sbloccando ? <Loader2 size={12} className="animate-spin" /> : <Unlock size={12} />}
+              Sblocca coda
+            </button>
+          )}
           <button
             type="button"
-            onClick={sbloccaCoda}
-            disabled={sbloccando}
-            className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-lg px-3 py-1.5 hover:bg-brand-dark disabled:opacity-50"
+            onClick={riavviaWorker}
+            disabled={riavviando}
+            className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 border border-amber-300/60 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 disabled:opacity-50"
+            title="Il worker si ricarica da solo al prossimo ciclo. I lavori in coda restano in Supabase: non si perde nulla."
           >
-            {sbloccando ? <Loader2 size={12} className="animate-spin" /> : <Unlock size={12} />}
-            Sblocca coda
+            {riavviando ? <Loader2 size={12} className="animate-spin" /> : <Power size={12} />}
+            Riavvia worker
           </button>
-        )}
-        <button
-          type="button"
-          onClick={riavviaWorker}
-          disabled={riavviando}
-          className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 border border-amber-300/60 text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 disabled:opacity-50"
-          title="Il worker si ricarica da solo al prossimo ciclo. I lavori in coda restano in Supabase: non si perde nulla."
-        >
-          {riavviando ? <Loader2 size={12} className="animate-spin" /> : <Power size={12} />}
-          Riavvia worker
-        </button>
-        <a
-          href="/api/diagnosi"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-brand hover:underline self-center"
-        >
-          Apri diagnosi completa (JSON)
-        </a>
+          <a
+            href="/api/diagnosi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-brand hover:underline self-center"
+          >
+            Apri diagnosi completa (JSON)
+          </a>
+        </div>
       </div>
 
       {msg && <p className="t-eti mt-2 text-[12px]">{msg}</p>}

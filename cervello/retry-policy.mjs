@@ -41,7 +41,10 @@ export const MAX_ATTESA_QUOTA_MS = MAX_ATTESA_QUOTA_MIN * 60 * 1000;
 //   scrivono solo memoria e accodano eventuali 🔴 che Nicola firma comunque → ritentabili in sicurezza.
 //   Servono qui perché quando una cadenza salta per rate-limit si ri-accoda come lavoro (vedi ritmo.sh)
 //   e dev'essere trattata come "sicura da rifare", non come azione reale 🔴.
-const TIPI_PRE_ESECUZIONE = new Set([
+// Esportata: è la fonte UNICA dei tipi "pre-esecuzione" (sicuri da rifare). La riusa anche
+// sentinella-lavori.mjs per decidere quali orfani ri-accodare, così la lista non si sdoppia
+// e non dimentica più le cadenze ritmo-* (era la causa dei giro/ritmo marcati "errore" a metà).
+export const TIPI_PRE_ESECUZIONE = new Set([
   "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "proposta", "rifiuta-azione",
   "ritmo-mattino", "ritmo-mezzogiorno", "ritmo-sera", "ritmo-settimana",
 ]);

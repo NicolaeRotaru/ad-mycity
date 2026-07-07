@@ -403,8 +403,8 @@ export default function AutoCoscienza({
                             {e.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {e.livello_scoperta}</span>}
                             {e.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{e.azione_presa}</span>}
                           </div>
-                          <div className="text-[13px] font-medium mt-1">{e.titolo}</div>
-                          {e.dettaglio && <div className="text-[12px] text-black/65 mt-0.5">{e.dettaglio}</div>}
+                          <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{e.titolo}</div>
+                          {e.dettaglio && <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{e.dettaglio}</div>}
                           {e.riguarda && <div className="t-eti mt-1">riguarda: {e.riguarda}</div>}
                           <ParlaCasella titolo={`Errore: ${e.titolo}`} contesto={[e.dettaglio, e.riguarda && `riguarda: ${e.riguarda}`].filter(Boolean).join(" · ")} />
                         </div>

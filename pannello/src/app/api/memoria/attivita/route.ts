@@ -22,14 +22,17 @@ export async function GET() {
     .filter((f) => !f.startsWith("_"))
     .sort()
     .reverse();
+  // Le 3 letture sono indipendenti → in PARALLELO (prima erano 3 await in fila = 3 round-trip
+  // GitHub sequenziali). Il briefing è l'ultimo file per nome; sala e decisioni sono file fissi.
+  const [briefingTesto, sala, decisioni] = await Promise.all([
+    files.length ? readVaultFile(`90-Memoria-AI/Briefing/${files[0]}`) : Promise.resolve(null),
+    readVaultFile("90-Memoria-AI/SALA-OPERATIVA.md"),
+    readVaultFile("90-Memoria-AI/DECISIONI.md"),
+  ]);
   let briefing: { nome: string; data: string; testo: string } | null = null;
-  if (files.length) {
-    const testo = await readVaultFile(`90-Memoria-AI/Briefing/${files[0]}`);
-    if (testo) briefing = { nome: files[0].replace(/\.md$/, ""), data: dataFrontmatter(testo), testo };
+  if (files.length && briefingTesto) {
+    briefing = { nome: files[0].replace(/\.md$/, ""), data: dataFrontmatter(briefingTesto), testo: briefingTesto };
   }
-
-  const sala = await readVaultFile("90-Memoria-AI/SALA-OPERATIVA.md");
-  const decisioni = await readVaultFile("90-Memoria-AI/DECISIONI.md");
 
   const vault = vaultGithubInfo();
   return NextResponse.json({

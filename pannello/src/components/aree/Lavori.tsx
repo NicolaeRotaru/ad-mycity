@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Brain, ListTodo, Archive } from "lucide-react";
+import { ListTodo, Archive, Terminal } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
 import ComandiVPS from "@/components/ComandiVPS";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
 import { EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioSub } from "@/lib/nav";
 
-type Tab = "coda" | "archivio";
+type Tab = "coda" | "archivio" | "risultati";
 
 type Props = {
   lavori: LavoroBase[];
@@ -26,11 +26,11 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
   useEffect(() => {
     // Al MOUNT consuma il sub parcheggiato (INDIETRO scattato prima che l'area fosse montata).
     const pend = consumaSubPendente("lavori");
-    if (pend === "coda" || pend === "archivio") setTab(pend);
+    if (pend === "coda" || pend === "archivio" || pend === "risultati") setTab(pend);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "lavori" || !det.sub) return;
-      if (det.sub === "coda" || det.sub === "archivio") setTab(det.sub);
+      if (det.sub === "coda" || det.sub === "archivio" || det.sub === "risultati") setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_SUB, onSub);
     return () => window.removeEventListener(EVENTO_SUB, onSub);
@@ -44,9 +44,10 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
     return lavori.filter((l) => l.stato === "fatto");
   }, [lavori, tab]);
 
-  const tabs: { id: Tab; label: string; icon: React.ReactNode; n: number }[] = [
+  const tabs: { id: Tab; label: string; icon: React.ReactNode; n?: number }[] = [
     { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: lavori.filter(inCoda).length },
     { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: lavori.filter((l) => l.stato === "fatto").length },
+    { id: "risultati", label: "Risultati", icon: <Terminal size={14} /> },
   ];
 
   return (
@@ -84,7 +85,7 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
           >
             {t.icon}
             {t.label}
-            {t.n > 0 && (
+            {(t.n ?? 0) > 0 && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded-full tabular-nums ${tab === t.id ? "bg-white/20" : "bg-black/5 dark:bg-white/10"}`}>
                 {t.n}
               </span>
@@ -93,11 +94,15 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
         ))}
       </div>
 
+      {/* Stato del worker + i comandi macchina (spostati QUI dentro, richiesta di Nicola). */}
       <DiagnosticaWorker />
 
-      <ComandiVPS />
-
-      <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
+      {/* «Risultati» = pagina a sé con l'esito dei comandi; le altre schede mostrano la coda dei lavori. */}
+      {tab === "risultati" ? (
+        <ComandiVPS />
+      ) : (
+        <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
+      )}
     </div>
   );
 }
