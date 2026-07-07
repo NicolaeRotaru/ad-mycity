@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-07 10:11 · Round 2: 2 bug dei guardiani (allocazione-check AR-039, verifica-sensori AR-035) · 24 test verdi (20 bats + 4 node) · atteso guardiano allocazione non gonfia più i conteggi; verifica-sensori non clobbera lo stato del VPS → reale fix in codice sul branch, provati end-to-end sul repo reale · #round2 #guardiani
 - 2026-07-02 07:35 · fix ruoli acquisto · Nicola (briefing 1/7): admin **403** checkout/COD + UI blocco · seller solo `/?shop=1` cookie 8h + middleware redirect · branch `fix/ruoli-acquisto-admin-seller-2026-07-02` (14 file, typecheck OK, non pushato) · spec `consegne/tech/2026-07-02-ruoli-acquisto-admin-seller.md` · #19 deploy 🔴 · lezione: ruoli acquisto = UI+server+middleware, mai solo navbar · L-0702-41 · #ruoli #admin #seller #middleware
 - 2026-07-01 11:10 · ok deploy Sprint 1 · Nicola firma #13 · Render **già live ~10:31** (auto post-merge #209+#210) · verificato: fee €3 UI + query `seller_public_profiles` in bundle prod · **SQL 107 mancante** — anon legge ancora `profiles.stripe_account_id` · AD senza write key → Nicola SQL Editor · L-0701-34 + L-0701-25 · #deploy #107 #rls
 - 2026-07-01 11:15 · card PR obsoleta · Nicola «crea la PR» da casella Sprint 1 · GitHub: **#209 mergiata 09:34** + **#210** hotfix 10:00 (push manuale post-403) · codice su `mycity/main` · prossimo **`ok deploy Sprint 1`** 🔴 (migrazione `107` + smoke test) · lezione: verificare GitHub prima di rispondere a card PR · #209 #deploy #stale-card

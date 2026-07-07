@@ -559,14 +559,14 @@
       "causa_radice": "Lo stato dei sensori è un file condiviso su git scritto da chiunque esegua lo script, senza identità dell'ambiente: manca la distinzione tra «verificato e fallito» e «non verificabile da qui» perché il guardiano è nato quando girava in un solo posto (il VPS).",
       "fix_proposto": "🟡 Se TUTTE le env dei sensori sono assenti (ambiente non configurato), non toccare i contatori: scrivere solo un campo `ultimo_run_non_verificabile` con ambiente+ora, o uscire con nota. In alternativa marcare lo stato `non_verificabile_da_questo_ambiente` senza incrementare giri_ciechi né azzerare ultimo_ok.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nota": "Successo in questo run (ripristinato con git checkout prima del commit).",
       "nato": "2026-07-07 09:13",
       "chiuso_il": "",
-      "nota_fix": "",
+      "nota_fix": "FIX sul branch: checkSupabaseMarketplace→configurato:false quando chiavi assenti + guard scriviStato sulla scrittura del file e sul segnale. Provato: da sessione senza chiavi il file resta byte-identico. Test: cervello/test/sensori-non-clobber.bats (4 verdi).",
       "verifica": {
         "file": "cervello/verifica-sensori.mjs",
-        "pattern": "non_verificabile",
+        "pattern": "scriviStato",
         "presente": true
       }
     },
@@ -629,6 +629,26 @@
         "pattern": "PAUSA_FAIL_CLOSED",
         "presente": true
       }
+    },
+    {
+      "id": "AR-039",
+      "titolo": "allocazione-check conta un asset per OGNI negozio nominato: conteggio gonfiato e falso allarme-silo",
+      "dimensione": "guardiani-a-mano",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "Attribuzione per-menzione (alias.some(...includes)) invece che per intestazione: manca il concetto di entità primaria del file (frontmatter negozio: o alias più frequente).",
+      "fix_proposto": "entitaPrimaria(): attribuzione esclusiva (frontmatter negozio: → altrimenti più citato → a parità il confermato). FATTO sul branch.",
+      "colore": "🟡",
+      "stato": "in-corso",
+      "nota": "Fix nel commit 54cddef (nel messaggio di commit etichettato AR-031 per svista: AR-031 nel cantiere è vendite.md). Effetto reale: Garetti 22→12, PQ 14→13.",
+      "nato": "\"2026-07-07",
+      "chiuso_il": "",
+      "nota_fix": "Prova: run reale del guardiano (attribuzione corretta) + cervello/test/allocazione-attribuzione.mjs (4/4).",
+      "verifica": {
+        "file": "cervello/allocazione-check.mjs",
+        "pattern": "function entitaPrimaria",
+        "presente": true
+      }
     }
   ],
   "meta": {
@@ -637,5 +657,6 @@
     "chiusi": 22
   },
   "_radiografia_07_07": "Radiografia TOTALE del 2026-07-07 09:13 (4 flussi: 11 dimensioni macchina verificate + deep-dive worker + deep-dive memoria + audit Pannello 8 dimensioni): aggiunti AR-026..AR-036 (3 bloccanti, 8 gravi impatto-alto, aggregati per causa-radice). I ~129 difetti restanti (gravi-medio e minori) vivono in auto-radiografia.json e nei referti consegne/audit/2026-07-07-*.md. Dimensione allineamento-northstar e benchmark NON coperti (limite sessione): da recuperare.",
-  "_round1_worker": "Round 1 (sicurezza worker) COMPLETO al \"2026-07-07: AR-026/027/028/037/038 corretti in codice sul branch e provati con bats (16 test verdi). Tutti in-corso: il merge in main di Nicola li chiude (auto-fix.mjs rilegge verifica). Prossimo: Round 2 (sistema immunitario memoria)."
+  "_round1_worker": "Round 1 (sicurezza worker) COMPLETO al \"2026-07-07: AR-026/027/028/037/038 corretti in codice sul branch e provati con bats (16 test verdi). Tutti in-corso: il merge in main di Nicola li chiude (auto-fix.mjs rilegge verifica). Prossimo: Round 2 (sistema immunitario memoria).",
+  "_round2_memoria": "Round 2 (sistema immunitario memoria) in corso dal \"2026-07-07: fatti i 2 bug dei guardiani — AR-039 (allocazione-check attribuzione esclusiva) e AR-035 (verifica-sensori no-clobber cross-ambiente), entrambi in-corso con test. Restano nel Round 2: seeding registro-fatti (AR-029), riscrittura Collegamento-AD, rigenerazione checklist (AR-030), riconciliazione Stripe, consolidamento memoria-squadra."
 }
