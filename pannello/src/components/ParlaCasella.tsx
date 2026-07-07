@@ -1,8 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2 } from "lucide-react";
 import { chiediACasella, salvaConversazioneCasella, type ParlaMsg } from "@/lib/parla";
+
+// 🚀 AR-036: cache CONDIVISA della lista conversazioni tra TUTTE le istanze di ParlaCasella.
+// Prima ogni casella fetchava /api/conversazioni al proprio mount → con decine di caselle per pagina
+// erano decine/centinaia di richieste identiche. Ora: una sola richiesta (dedup delle chiamate in volo)
+// + cache breve (10s). Il fetch parte solo quando una casella viene aperta (vedi effetto sotto).
+let convCache: { at: number; data: Array<{ id?: string | number; titolo?: string; messaggi?: unknown }> } | null = null;
+let convInFlight: Promise<Array<{ id?: string | number; titolo?: string; messaggi?: unknown }>> | null = null;
+async function fetchConversazioniCondiviso() {
+  if (convCache && Date.now() - convCache.at < 10000) return convCache.data;
+  if (convInFlight) return convInFlight;
+  convInFlight = fetch("/api/conversazioni", { cache: "no-store" })
+    .then((r) => r.json())
+    .then((d) => {
+      const arr = Array.isArray(d?.conversazioni) ? d.conversazioni : [];
+      convCache = { at: Date.now(), data: arr };
+      return arr;
+    })
+    .catch(() => convCache?.data ?? [])
+    .finally(() => { convInFlight = null; });
+  return convInFlight;
+}
 
 // 💬 Pulsante "Parla con questa casella" — riutilizzabile su OGNI casella del Pannello.
 // Chiuso di default: un click lo apre. Manda il messaggio (col contesto della casella) a
@@ -21,14 +42,20 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // già salvata in Conversazioni sotto il titolo `💬 {titolo}` (thread stabile dal titolo):
   // al montaggio la ricarichiamo (server → fallback localStorage) e ripopoliamo msgs+convId,
   // così recuperiamo anche il convId reale e i salvataggi successivi fanno upsert sullo stesso thread.
+  // AR-036: carica la storia della casella SOLO quando la apri (non a ogni mount di ogni casella),
+  // e via la cache condivisa (una sola richiesta anche se apri più box). La maggior parte delle caselle
+  // non viene mai aperta → zero fetch. Carica una volta per casella.
+  const caricatoRef = useRef(false);
   useEffect(() => {
+    if (!aperto || caricatoRef.current) return;
+    caricatoRef.current = true;
     let annullato = false;
     const chiave = `💬 ${titolo}`; // id thread stabile dal titolo
     (async () => {
-      // 1) server
+      // 1) server (lista condivisa, cache + dedup)
       try {
-        const d = await fetch("/api/conversazioni", { cache: "no-store" }).then((r) => r.json());
-        const c = Array.isArray(d?.conversazioni) ? d.conversazioni.find((x: any) => x.titolo === chiave) : null;
+        const arr = await fetchConversazioniCondiviso();
+        const c = arr.find((x) => x.titolo === chiave);
         if (c) {
           if (!annullato) {
             setMsgs(Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : []);
@@ -54,7 +81,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     return () => {
       annullato = true;
     };
-  }, [titolo]);
+  }, [aperto, titolo]);
 
   async function invia() {
     const testo = bozza.trim();
