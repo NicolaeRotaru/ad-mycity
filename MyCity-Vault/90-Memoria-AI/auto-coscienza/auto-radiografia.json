@@ -1483,31 +1483,31 @@
     "Il voto 42 è una stima onesta dell'AD (la formula automatica dava 0, essa stessa un difetto segnalato in calibrazione-onesta): è indicativo, non riproducibile finché il calcolo del voto non è sistemato."
   ],
   "sonda": {
-    "data": "2026-07-06 22:20",
+    "data": "2026-07-07 08:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 22,
-    "difetti_chiusi_recenti": 22,
+    "difetti_chiusi": 23,
+    "difetti_chiusi_recenti": 23,
     "calibrazione_piena": false,
     "esperimenti_misurati": false,
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 106,
-    "ore_da_ultimo_briefing": 6,
+    "ore_da_ultima_completa": 116,
+    "ore_da_ultimo_briefing": 2,
     "max_giri_ciechi_sensori": 1,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
-    "voto_provvisorio": 50,
-    "voto_pieno": 50,
+    "voto_provvisorio": 75,
+    "voto_pieno": 75,
     "pending_merge": 0,
     "aperti_davvero": 0,
-    "bloccanti_umani": 2,
+    "bloccanti_umani": 1,
     "salute_firma": "",
     "verdetto": "ok",
-    "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 1 · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
   "meta": {
     "agenti_totali": 42,
@@ -1516,7 +1516,7 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-06 22:20"
+    "aggiornato": "2026-07-07 08:20"
   },
   "cantiere_progress": {
     "aggiornato": "2026-07-02 13:05",
