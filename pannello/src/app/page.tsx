@@ -685,8 +685,12 @@ export default function Dashboard() {
   function persistPendings() {
     try {
       const arr = [...pendingLavoroChatRef.current.values()];
-      if (arr.length) sessionStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(arr));
-      else sessionStorage.removeItem(PENDING_CHAT_KEY);
+      // localStorage (non sessionStorage): i messaggi della chat vivono in localStorage e sopravvivono
+      // al RIAVVIO del browser; se i pending stessero in sessionStorage (cancellato al riavvio) la bolla
+      // «sto pensando…» resterebbe eterna, senza nessuno che la risolve. Stessa durata dei messaggi.
+      if (arr.length) localStorage.setItem(PENDING_CHAT_KEY, JSON.stringify(arr));
+      else localStorage.removeItem(PENDING_CHAT_KEY);
+      sessionStorage.removeItem(PENDING_CHAT_KEY); // pulizia del vecchio canale
     } catch {}
     setPendingCount(pendingLavoroChatRef.current.size);
   }
@@ -1383,7 +1387,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (c) setMessages(JSON.parse(c));
       const cid = localStorage.getItem("mycity_convid");
       try {
-        const pendRaw = sessionStorage.getItem(PENDING_CHAT_KEY);
+        // localStorage (nuovo canale, sopravvive al riavvio) con fallback a sessionStorage per le
+        // sessioni aperte prima del fix — così un pending in volo non si perde durante la migrazione.
+        const pendRaw = localStorage.getItem(PENDING_CHAT_KEY) || sessionStorage.getItem(PENDING_CHAT_KEY);
         if (pendRaw) {
           const parsed = JSON.parse(pendRaw);
           // Nuovo formato: array di pendenti. Retro-compatibile col vecchio oggetto singolo.
