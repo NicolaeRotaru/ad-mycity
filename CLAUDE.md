@@ -115,7 +115,7 @@ Per richieste generiche, strategiche o multi-reparto, gestisci tu (AD).
 - 🏪 **onboarding-negozi** — mette online un nuovo negozio (done-for-you <48h): vetrina, catalogo iniziale, payout, primo incasso di test.
 - 💚 **account-negozi** — retention e crescita dei negozi GIÀ attivi: health score, check-in, anti-churn, upsell del catalogo.
 - 📣 **marketing** — acquisizione/brand/SEO-strategia (→ carrelli/win-back = **crm-lifecycle**; leve di ricavo/pricing = **growth-monetizzazione**; ads a pagamento = **ads-performance**).
-- 🚀 **growth-monetizzazione** — esperimenti ROI: pricing, upsell, fee dinamica, soglie spedizione.
+- 🚀 **growth-monetizzazione** — esperimenti ROI a maggior ritorno: upsell/cross-sell, bundle, scontrino medio (→ carrelli/win-back = **crm-lifecycle**; prezzi/commissioni/fee dinamica/soglie spedizione con modelli = **pricing-scientist**; churn negozi attivi = **account-negozi**).
 - 🔁 **crm-lifecycle** — owner di recupero carrelli, win-back dormienti, email di ciclo di vita, referral, riordino.
 - 💸 **ads-performance** — campagne a pagamento (Meta/Google/TikTok), budget, ROAS/CPA, retargeting.
 - 🤳 **influencer-partnership** — micro-influencer e partnership locali, co-marketing, codici sconto, barter.
