@@ -57,15 +57,23 @@ Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
 stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #26** in [[AZIONI-IN-ATTESA]] (crm-lifecycle, «Riporta indietro il cliente che ha lasciato un carrello da €10»). ⚠️ Corretto 7/7 12:12: il puntatore diceva «#27» ma #27 è la richiesta-recensione (customer-success) — il recupero-carrello è la #26. **Ri-verificato 7/7 vs lettura live MCP 00:29: 4 carrelli abbandonati invariati, 1 solo recuperabile reale (samir €10) → finding stabile, business fermo dal 24/6.**
 
-## A4 · 💌 Messaggio post-consegna (grazie + recensione)
+## A4 · 💌 Messaggio post-consegna (grazie + recensione) — MODELLO NEUTRO RIUSABILE
 reparto: customer-success
-livello: 🟢
-canale: Messaggio in-app / email dopo la consegna
-perche: Subito dopo una buona consegna è il momento migliore per chiedere una recensione.
-preparato: 🤗 customer-success
-testo:
-Grazie per aver ordinato su MyCity! Speriamo sia andato tutto bene 💛
-Ci lasci una recensione veloce? Aiuta i negozi del quartiere e ci vogliono 20 secondi.
+livello: 🟢 (template neutro riusabile) · l'invio a un cliente reale è 🔴 e vive nelle istanze A13/A14
+canale: WhatsApp/email/in-app al cliente dopo la consegna
+perche: Subito dopo una buona consegna è la finestra migliore per (1) intercettare un problema e (2) chiedere la recensione solo a chi è contento. Questo è il **modello neutro** con segnaposti — si istanzia in 30 secondi per QUALSIASI negozio (PQ dal 17/7 e le 6 botteghe food dal 13/7), non solo per Pane Quotidiano.
+preparato: 🤗 customer-success — playbook completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md`
+gate (vale per ogni istanza): parte SOLO su un ordine **realmente consegnato** (delivery_status=delivered). Regola d'oro FLUSSI §3: la richiesta recensione (Touch 2) parte **solo se il feedback del Touch 1 non è negativo**. Segnaposti da riempire coi dati veri dell'ordine: [NEGOZIO] · [PRODOTTO/I] · [LINK-RECENSIONE = /orders/{UUID-ordine}/review, aperto LIVE prima dell'invio].
+riuso: card canonica in coda = **#27** [[AZIONI-IN-ATTESA]]; le istanze PQ pronte = **A13** (Touch 1) + **A14** (Touch 2). Per un altro negozio: copia A13/A14, sostituisci i segnaposti, tieni lo stesso gate.
+testo (Touch 1 · feedback, +3h dalla consegna):
+Ciao! Sono Nicola di MyCity 👋 Ti è arrivata la spesa da [NEGOZIO]? Spero [PRODOTTO/I] sia come al banco.
+Siamo appena nati e ogni tua parola conta: com'è andata? 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema.
+Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
+testo (Touch 2 · recensione, +1 giorno · SOLO se Touch 1 è 👍):
+Buongiorno! Come promesso, ecco il link per lasciare due righe su [NEGOZIO] 🌟
+👉 [LINK-RECENSIONE]  ← verificare LIVE prima dell'invio
+Bastano 30 secondi: stelline + una frase vera. Sarebbe una delle prime recensioni verificate di MyCity a Piacenza — grazie di cuore!
+stato: MODELLO PRONTO — nessun invio. Oggi (7/7) **0 consegne completate nel marketplace** (unico ordine annullato il 3/7) → nessun cliente reale da sollecitare; il primo invio scatta alla prima consegna reale (PQ, finestra Venerdì 17/7).
 
 ## A5 · ⭐ Risposta a una recensione bassa
 reparto: supporto
