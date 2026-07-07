@@ -1,27 +1,30 @@
 ---
-data: 2026-07-07 00:30
+data: 2026-07-07 06:22
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 Auto-analisi del giro — 2026-07-07 00:30 (🔭 giro pieno notturno, cloud on-demand)
+# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 06:22 (giro del mattino · heartbeat)
 
-## Voto di fiducia: 85/100 (▲ +3)
-Primo giro dopo giorni in cui i numeri erano **confermati dal vivo** e non tramandati: l'MCP marketplace risponde in sessione (sensore rialimentato) e le 3 query dirette coincidono con la baseline REST — nessuna deriva, nessun fatto-zombie nuovo. In più le due fondamenta di ieri sera (AR-102 e fix quota Vercel) sono **su `main`**, mergiate da Nicola, e il `registro-fatti.json` è passato da vuoto a **8 fatti fondati** col guardiano verde.
+## Voto di fiducia: **85/100** (= vs notturno 00:30)
+Heartbeat mattutino onesto: i numeri erano già confermati dal vivo stanotte, oggi ho verificato LIVE solo ciò che cambia di giorno (meteo, eventi) e ho propagato una correzione reale (R1 fatta). Nessun giro a vuoto, nessun numero inventato.
 
-## Verifiche (cancello di serietà a 3 livelli)
-- **Entità:** ✅ Pane Quotidiano `confermato` (unico negozio reale); Casa Linda demo esclusa; **nessuna entità nuova** introdotta in questo giro.
-- **Numeri:** ✅ tutti con fonte **MCP live** (query 23:45–00:29, sola lettura): ordini=1 (annullato), 0 in 7g, 23 profili (0 nuovi), 258 prodotti, 407 lead, 8/4 carrelli, 0 recensioni, 12 eventi/7g. Zero numeri inventati.
-- **Coerenza:** ✅ STATO, Briefing 2026-07-07, ultimo-briefing.json, SALA, DECISIONI, registro-fatti allineati al passaggio 00:30; `coerenza-fatti` exit 0 (8 fatti, 0 cacce aperte).
-- **Semaforo:** ✅ solo scritture di memoria (🟢); nessuna 🔴 eseguita; il merge della PR-memoria resta a Nicola.
-- **Benchmark:** n/a (giro operativo, nessun lavoro creativo).
+## Cosa ho controllato (verifica avversariale a 3 livelli)
+1. **Fatti & numeri** — La firma REST 06:20 (ordini=1, ultimo 24/6, 23 clienti) è invariata; i 4 numeri non-REST (prodotti 258, lead 407, carrelli 8/4, recensioni 0) sono la **conferma live MCP di stanotte**, NON ri-misurati ora perché l'MCP è cieco in sessione — e l'ho dichiarato nei Gap invece di spacciarlo per lettura fresca. Meteo (35°C) ed eventi (Venerdì Piacentini 17/7) verificati LIVE con link.
+2. **Entità (grounding a 3 strade)** — Pane Quotidiano `confermato` (unico reale), Casa Linda `demo` esclusa, Garetti `scelta_ragionata` (prospect non firmato → asset pesanti congelati, vincolo allocazione rispettato). Nessuna entità nuova, nessun "Garetti inventato".
+3. **Coerenza & colore** — Tutti gli snapshot Cabina allineati alle 06:22; solo scritture di memoria (🟢); nessuna azione reale eseguita; nessuna card nuova accodata (anti-doppione, coda a 23).
 
-## Errori rilevati (miei, di questo giro/serata)
-1. **2 chiamate MCP cadute** per transitorio di connessione → gestite con retry; il dettaglio-riga dell'ordine #16 non riletto stanotte (fonte resta la verifica live del 6/7 11:11 + alert Pannello — nessun segnale contrario).
-2. **Timestamp Vercel sbagliati al primo colpo** nella verifica quota di ieri sera (epoch calcolata nel futuro → 0 risultati): corretto PRIMA di trarre conclusioni. Lezione: un risultato-zero senza controprova non è una prova.
+## Errori/limiti di questo giro
+- MCP marketplace cieco in sessione → 4 numeri non ri-misurati (gap dichiarato).
+- Gli snapshot davano ancora "PAT nella storia git": **corretto** propagando R1 fatta (Nicola l'ha revocato, chat 7/7).
 
 ## Domande per Nicola
-- **Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38?** (storica, ancora aperta — con la risposta la registro nel registro-fatti e non la ripropongo più)
+- **R2**: ok a mettere in salvo i 20 fix in `main` al prossimo giro VPS con rete aperta?
+- Dopo la revoca del PAT, il **Pannello hosted** mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token).
+- Storica: chi/perché ha annullato l'ordine #16 il 3/7?
 
 ## Salute della macchina
-Guardiani tutti verdi · MCP marketplace vivo in sessione · punti ciechi noti: Stripe non configurato, PostHog assente, uptime storefront non monitorato, cablaggio AR-102 sul VPS da osservare al primo giro reale (verifica L2 al prossimo giro, con check-in armato).
+REST ok · Stripe ok · Resend ok · MCP Supabase cieco (1 giro, sessione) · PostHog spento (scelta Nicola) · uptime non monitorato. Voto salute architettura **44** (pending-merge R2). Loop business 🔴 aperto (0 transazioni reali). Cantiere: 20 chiusi · **R1 FATTA** · 1 in-corso umano (AR-006 materiale PQ) · 2 aperti (AR-024/AR-025).
+
+## Benchmark (il lavoro è al livello dei migliori?)
+Nessun lavoro pesante prodotto in questo giro (heartbeat), quindi il filo-benchmark non si applica. La disciplina giusta qui è **non moltiplicare i giri a vuoto**: verificato solo il delta reale, aggiornato solo ciò che serve alla Cabina, coda intatta.

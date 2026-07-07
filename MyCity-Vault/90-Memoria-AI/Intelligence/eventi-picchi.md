@@ -1,6 +1,10 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-06 11:11** · Fonte: @intelligence (giro AD 6/7 · piacenzasera.it + venerdipiacentini.it + comune.piacenza.it).
+> Aggiornato: **2026-07-07 06:22** · Fonte: @intelligence (giro AD mattino 7/7 · ilmeteo.it + 3bmeteo.com + ilpiacenza.it + venerdipiacentini.it).
+
+## 🌡️ Meteo di oggi (7/7) — fattore-guida delivery
+- **Poco nuvoloso, caldo: max 35°C alle 18, min 21°C alle 6, UV 7,4 alle 14** (iLMeteo/3BMeteo). Venti deboli da Est.
+- **Operativo:** finestra migliore per i freschi = **mattina** (prima del picco delle 18); per il batch food del 13/7 servirà il **gate catena del freddo** sui deperibili. Nessun maltempo/allerta che alzi la domanda di consegna oggi.
 
 ---
 

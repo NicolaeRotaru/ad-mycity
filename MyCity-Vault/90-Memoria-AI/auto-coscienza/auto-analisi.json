@@ -1,31 +1,35 @@
 {
-  "data": "2026-07-07 00:30",
+  "data": "2026-07-07 06:22",
   "voto_fiducia": 85,
-  "trend_fiducia": "▲ +3 vs 82 (16:47): primo giro con numeri CONFERMATI DAL VIVO dopo giorni di baseline tramandata, e con AR-102+fix Vercel già in produzione",
-  "sintesi": "Giro pieno notturno da cloud, on-demand di Nicola. MCP marketplace VIVO: 3 query dirette (sola lettura) confermano la baseline — 1 ordine (annullato), 0 in 7g, 23 profili, 258 prodotti, 407 lead, 12 eventi/7g. Guardiani tutti verdi. Registro-fatti popolato con 8 fatti fondati (ognuno con fonte), guardiano coerenza-fatti exit 0. Nessuna card nuova accodata (anti-doppione). Memoria completa scritta e pubblicata via PR.",
+  "trend_fiducia": "= 85 vs notturno 00:30: heartbeat mattutino onesto — numeri confermati dal vivo stanotte, meteo/eventi ri-verificati LIVE oggi, nessun giro a vuoto e nessun numero inventato",
+  "sintesi": "Giro del mattino sul VPS scattato per heartbeat (14h dall'ultimo pieno 16:42). Stato reale INVARIATO dal notturno: business fermo dal 24/6, 1 ordine annullato, 0 in 7g, 23 profili, North Star 0. Verificato LIVE solo il radar a cadenza giornaliera (meteo 35°C, Venerdì Piacentini 17/7). Propagata la buona notizia R1 (PAT revocato da Nicola). Nessuna card nuova (anti-doppione: coda a 23). Solo scritture di memoria (🟢).",
   "verifiche": [
-    "Entità: Pane Quotidiano confermato (unico reale); Casa Linda demo esclusa; nessuna entità nuova introdotta in questo giro.",
-    "Numeri: TUTTI con fonte MCP live (query 23:45–00:29) — zero numeri inventati; coincidono con baseline REST 6/7 → nessuna deriva.",
-    "Coerenza: STATO, briefing 2026-07-07, ultimo-briefing, SALA, DECISIONI, registro-fatti tutti allineati al passaggio 00:30; guardiano coerenza-fatti verde (8 fatti, 0 cacce aperte).",
-    "Semaforo: nessuna azione 🔴 eseguita; solo scritture di memoria (🟢) + PR da firmare (🟡/🔴 di Nicola)."
+    "Entità: Pane Quotidiano confermato (unico reale); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità nuova introdotta.",
+    "Numeri: firma REST 06:20 (ordini=1, ultimo 24/6, 23 clienti, dati_leggibili=true); i 4 numeri non-REST sono la conferma live MCP di stanotte (00:29), NON ri-misurati ora (MCP cieco in sessione) e dichiarati come tali — zero numeri inventati.",
+    "Radar: meteo (35°C, iLMeteo/3BMeteo) ed eventi (Venerdì Piacentini 10/7-17/7, ilpiacenza/venerdipiacentini) verificati LIVE con link in Fonti; coerenti con registro-fatti (eventi.venerdi-piacentini).",
+    "Coerenza: STATO, briefing 2026-07-07, ultimo-briefing, intenzioni, eventi-picchi, SALA tutti allineati al passaggio 06:22; guardiano coerenza-fatti verde (nessun vincolo 'memoria incoerente' passato da giro.sh).",
+    "Allocazione (vincolo HARD ricevuto): nessun asset pesante prodotto in questo giro; lo sbilanciamento è storico (Garetti prospect ha ≥3 asset, PQ confermato ha payout OFF) → rispettato, solo memoria."
   ],
   "errori": [
-    "2 chiamate MCP cadute per transitorio (permission stream) — gestite con retry; il dettaglio-riga di #16 non riletto (fonte resta verifica live 6/7 11:11 + alert Pannello).",
-    "Nella verifica quota Vercel di ieri sera i primi timestamp erano calcolati male (epoch nel futuro → 0 risultati): corretto PRIMA di trarre conclusioni — lezione: mai fidarsi di un risultato-zero senza controprova."
+    "MCP marketplace cieco in questa sessione (permessi non concessi): i 4 numeri non-REST non ri-misurati ora → segnalato nei Gap, non spacciato per lettura fresca.",
+    "R1 dava ancora 'PAT nella storia git' negli snapshot: corretto in questo giro (Nicola l'ha revocato, chat 7/7) → propagato a STATO/coda/intenzioni."
   ],
-  "risposte_registrate": [],
+  "risposte_registrate": [
+    "Nicola (chat 7/7): ha revocato il vecchio PAT GitHub → R1/#34 chiusa, buco AR-004 chiuso."
+  ],
   "domande_per_nicola": [
-    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta — se c'è già la risposta, la registro nel registro-fatti e la chiudo)"
+    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta)",
+    "Dopo la revoca del PAT, il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token)"
   ],
   "punti_ciechi": [
+    "MCP marketplace cieco in sessione (i 4 numeri non-REST = conferma live di stanotte, non ri-misurati)",
     "Stripe non configurato (payout/cassa non misurabili — 'non_configurato', non cieco)",
-    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g)",
-    "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)",
-    "Cablaggio AR-102 sul VPS non ancora osservato live (primo giro VPS post-merge non ancora girato)"
+    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g dal notturno)",
+    "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)"
   ],
   "miglioramenti_prossimo_giro": [
+    "Se torna il grant MCP marketplace o un giro con node aperto → ri-misurare i 4 numeri non-REST dal vivo e azzerare il gap",
     "Verificare L2: timestamp fresco in auto-coscienza/coerenza-fatti.json scritto DAL VPS (prova che il gate gira nel giro reale)",
-    "Misurare quota Vercel post-reset: 0 deployment dai push di memoria (API list_deployments)",
     "Se Nicola risponde sulla causa dell'annullo #16 → registrare il fatto e chiudere la domanda"
   ],
   "salute_macchina": {
@@ -37,6 +41,6 @@
     "sito_uptime": "non_configurato",
     "loop_business": "aperto (0 transazioni reali; #16 annullato)",
     "voto_salute_architettura": 44,
-    "cantiere_difetti": "20 chiusi · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025)"
+    "cantiere_difetti": "20 chiusi · 1 in-corso umano (AR-006 materiale PQ) · R1 FATTA (PAT revocato 7/7) · 2 aperti (AR-024, AR-025)"
   }
 }

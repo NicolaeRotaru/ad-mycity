@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-06 16:45",
-  "sintesi": "Nicola riparte operativo dal 13/7. La correzione di oggi cambia il punto di partenza: l'ordine #16 è ANNULLATO, non 'in consegna' — quindi NON c'è una consegna da eseguire, la 1ª transazione MyCity è tutta da far nascere. Il piano di Nicola: (1) dal 13/7 va DI PERSONA dalle 6 botteghe food prioritarie del centro (non le chiama) col dossier pronto, sfruttando il bando Commercio ER (40% fondo perduto, scade 21/7); (2) far nascere il 1° ordine reale su Pane Quotidiano, per cui l'AD gli prepara la spinta di domanda (post 'Il Turno' agganciato al Venerdì Piacentini del 17/7 — il 10/7 cade prima della ripresa — + SEO vetrina + lista d'attesa). Restano due sue firme di sicurezza: revocare il vecchio PAT GitHub (R1) e dare il via al merge dei fix in main (R2).",
+  "data": "2026-07-07 06:22",
+  "sintesi": "Nicola riparte operativo dal 13/7. Punto di partenza: l'ordine #16 è ANNULLATO, non 'in consegna' — la 1ª transazione MyCity è tutta da far nascere. Il piano di Nicola: (1) dal 13/7 va DI PERSONA dalle 6 botteghe food prioritarie del centro (non le chiama) col dossier pronto, sfruttando il bando Commercio ER (40% fondo perduto, scade 21/7); (2) far nascere il 1° ordine reale su Pane Quotidiano, per cui l'AD gli prepara la spinta di domanda (post 'Il Turno' agganciato al Venerdì Piacentini del 17/7 — il 10/7 cade prima della ripresa — + SEO vetrina + lista d'attesa). Sicurezza: R1 (revoca del vecchio PAT GitHub) è FATTA (chat 7/7) → AR-004 chiuso; resta la sua firma per R2 (mettere in salvo i 20 fix in main).",
   "prossime_mosse": [
     {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "quando": "dal 13/7, aggancio al Venerdì Piacentini del 17/7 (il 10/7 cade prima della ripresa)", "come": "l'AD prepara post 'Il Turno' + lista d'attesa; Nicola dà il via alla pubblicazione (🔴) e segue il primo ordine → consegna + payout-test su quel caso reale", "priorita": "alta", "ad_prepara": "post #30/#36 (bozze pronte), SEO vetrina PQ, lista d'attesa; eventi-picchi con VP 17/7", "senior": "@content-social", "colore": "🔴"},
     {"titolo": "Visitare di persona le 6 botteghe food prioritarie", "quando": "13/7", "come": "visita in negozio (non telefonata) con dossier profondo per bottega + kit bando ER; chi dice sì → onboarding done-for-you <48h", "priorita": "alta", "ad_prepara": "dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md + kit-bando-er-mycity.md", "senior": "@vendite", "colore": "🟡"},
-    {"titolo": "Revocare il vecchio PAT GitHub (R1)", "quando": "appena possibile", "come": "GitHub → revoca il vecchio PAT, genera il nuovo (solo nel .env VPS, mai committato) seguendo il runbook anti-blackout", "priorita": "alta", "ad_prepara": "consegne/security/2026-07-04-R1-revoca-pat-github-runbook.md (#34)", "senior": "@security", "colore": "🔴"},
-    {"titolo": "Dare il via al merge dei fix in main (R2)", "quando": "prossimo giro VPS con rete aperta", "come": "merge Strada B code-only via PR; deploy automatico via watch-main", "priorita": "media", "ad_prepara": "consegne/devops/2026-07-04-R2-merge-deploy-cantiere-runbook.md (#35)", "senior": "@devops-sre", "colore": "🔴"}
+    {"titolo": "Dare il via al merge dei fix in main (R2)", "quando": "prossimo giro VPS con rete aperta", "come": "merge Strada B code-only via PR; deploy automatico via watch-main", "priorita": "media", "ad_prepara": "consegne/devops/2026-07-04-R2-merge-deploy-cantiere-runbook.md (#35)", "senior": "@devops-sre", "colore": "🔴"},
+    {"titolo": "Verificare che il Pannello online mostri ancora i dati dopo la revoca del PAT", "quando": "appena possibile", "come": "aprire il Pannello hosted: se cieco → Vercel condivideva il vecchio token, dargli un suo PAT read-only in GITHUB_TOKEN + Redeploy", "priorita": "media", "ad_prepara": "nota in coda #34/R1 (verifica a occhio)", "senior": "@devops-sre", "colore": "🟡"}
   ],
   "primi_negozi": [
     {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity (Via Calzolai 25); contratto 12% firmato. Il 1° ordine reale va CREATO qui (lo zombie #16 è annullato)", "stato": "attivo · payout OFF · 0 consegne · 0 ordini validi"},
@@ -13,12 +13,12 @@
   ],
   "rischi": [
     "North Star resta 0 finché non NASCE un ordine reale: il collo di bottiglia ora è generare domanda (non 'consegnare #16', che è annullato)",
-    "PAT GitHub ancora nella storia git finché Nicola non revoca (R1)",
-    "Caldo 35°C + afa sul batch food del 13/7: serve gate catena del freddo prima del LIVE dei deperibili"
+    "Caldo 35°C + afa sul batch food del 13/7: serve gate catena del freddo prima del LIVE dei deperibili",
+    "R2 non ancora mergiato: i 20 fix restano su memoria-ad, a rischio di essere spazzati via alla prossima avanzata di main"
   ],
   "serve_da_nicola": [
     {"ambito": "Prima transazione", "cosa_manca": "il 1° ordine reale va creato ex-novo (l'ordine #16 è annullato, non c'è più una consegna da eseguire)", "domanda_per_nicola": "Dal 13/7 diamo il via al post 'Il Turno' sul Venerdì Piacentini del 17/7 + lista d'attesa per far nascere il 1° ordine vero su Pane Quotidiano? (il 10/7 cade prima della tua ripresa)"},
-    {"ambito": "Sicurezza", "cosa_manca": "revoca del PAT GitHub (R1)", "domanda_per_nicola": "Puoi revocare ora il vecchio PAT su GitHub? È l'unica cosa che chiude il buco (il token è già nella storia git)."},
-    {"ambito": "Fix macchina", "cosa_manca": "via libera al merge R2", "domanda_per_nicola": "Ok a mettere in salvo i 20 fix in main (R2) al prossimo giro VPS con rete aperta?"}
+    {"ambito": "Fix macchina", "cosa_manca": "via libera al merge R2", "domanda_per_nicola": "Ok a mettere in salvo i 20 fix in main (R2) al prossimo giro VPS con rete aperta?"},
+    {"ambito": "Sicurezza (verifica)", "cosa_manca": "conferma che il Pannello hosted vede ancora i dati dopo la revoca del PAT", "domanda_per_nicola": "Dopo che hai revocato il vecchio PAT, il Pannello online mostra ancora il giro di oggi? Se è cieco Vercel condivideva quel token e va dato un suo PAT read-only."}
   ]
 }

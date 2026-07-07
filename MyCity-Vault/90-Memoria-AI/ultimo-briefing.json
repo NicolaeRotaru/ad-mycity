@@ -1,40 +1,35 @@
 {
-  "data": "2026-07-07 00:40",
-  "situazione": "Giro notturno on-demand con l'MCP finalmente VIVO: i 7 numeri sono confermati dal vivo e coincidono con la baseline — 1 ordine totale (annullato il 3/7), 0 ordini in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, traffico quasi zero (12 eventi in 7 giorni). Le fondamenta di ieri sera sono in produzione: fonte unica della verità col suo guardiano e stop ai deployment fantasma su Vercel. E il sistema ha già corretto il suo primo fatto dal vivo: Nicola riparte il 13/7 (non il 9/7 come dicevano i miei appunti) → la finestra per il primo ordine vero è il Venerdì 17/7, e la correzione è propagata a briefing, stato e registro nello stesso giro.",
+  "data": "2026-07-07 06:22",
+  "situazione": "Giro del mattino sul VPS, scattato per heartbeat (14h dall'ultimo pieno): lo stato reale è identico a stanotte — business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Verificato live solo ciò che cambia ogni giorno: oggi 35°C con afa (freschi la mattina) e Venerdì Piacentini confermati (ultima finestra utile il 17/7). Buona notizia dalla chat: hai revocato il vecchio PAT GitHub (R1) → il buco di sicurezza è chiuso. Nessuna card nuova: la coda ne ha già 23 e copre le priorità; la partita si gioca dal 13/7.",
   "opportunita": [
     {
       "titolo": "Far nascere il primo ordine vero su Pane Quotidiano al Venerdì del 17 luglio",
-      "motivo": "Centro pieno la sera, Nicola operativo dal 13/7, post e presidio già pronti in coda: è la mossa che porta la North Star da 0 a 1 (il 10/7 cade prima della sua ripresa).",
+      "motivo": "Centro pieno la sera, sei operativo dal 13/7, post e presidio già pronti in coda: è la mossa che porta la North Star da 0 a 1 (il 10/7 cade prima della tua ripresa).",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Partire con le 27 botteghe food dal 13 luglio",
-      "motivo": "407 lead confermati dal vivo stanotte, dossier delle 6 prioritarie pronto, e il bando regionale al 40% scade il 21/7: è l'aggancio perfetto per il pitch nelle visite di persona.",
+      "motivo": "407 lead nel DB, dossier delle 6 prioritarie pronto, e il bando regionale al 40% scade il 21/7: è l'aggancio perfetto per il pitch nelle visite di persona.",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
       "titolo": "Portare traffico fisico al lancio, non aspettare il sito",
-      "motivo": "Il sito ha fatto 12 eventi in 7 giorni: il primo ordine nasce da QR, presidio e passaparola al Venerdì, non dalla ricerca organica.",
+      "motivo": "Il sito fa ~12 eventi in 7 giorni: il primo ordine nasce da QR, presidio e passaparola al Venerdì, non dalla ricerca organica.",
       "impatto": "alto",
       "sforzo": "medio"
     }
   ],
   "azioni": [
     {
-      "titolo": "Mergia la memoria di questo giro nel ramo principale",
-      "motivo": "Il giro è stato fatto dal cloud: finché non mergi la sua PR, il Pannello non vede briefing e stato aggiornati.",
-      "livello": "giallo"
-    },
-    {
-      "titolo": "Revoca il vecchio token GitHub",
-      "motivo": "È ancora l'unico buco di sicurezza aperto: la revoca lo chiude in 2 minuti, solo tu puoi farla.",
+      "titolo": "Metti in salvo i fix della macchina nel ramo principale",
+      "motivo": "I 20 fix del cantiere restano solo sul ramo di lavoro: al prossimo giro sul VPS con rete aperta vanno resi canonici in main, o rischiano di essere spazzati via.",
       "livello": "rosso"
     },
     {
-      "titolo": "Marca come fatta la card sul binario di lettura del Pannello",
-      "motivo": "Hai già risolto tu le due impostazioni (Vercel e VPS): la card #53 in coda va solo chiusa, così non ti viene più riproposta.",
+      "titolo": "Controlla a occhio che il Pannello online mostri il giro di oggi",
+      "motivo": "Hai revocato il vecchio token GitHub: se il Pannello hosted è diventato cieco, Vercel condivideva quel token — dagli un suo token di sola lettura e rifai il Redeploy.",
       "livello": "giallo"
     }
   ]

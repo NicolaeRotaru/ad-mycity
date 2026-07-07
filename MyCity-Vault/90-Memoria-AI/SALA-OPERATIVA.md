@@ -703,3 +703,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-07 01:44 · @AD · FATTO · Chiusa formalmente la **card #53** (RAMO UNICO — Pannello legge da `main`): era già ✅ FATTO (le 2 mani Vercel+VPS le ha fatte Nicola), la proposta la ritira dalla coda. Marcata **CHIUSA/RITIRATA** in [[AZIONI-IN-ATTESA]], decisione registrata in [[DECISIONI]] (`proposta:marca-come-fatta-la-card-sul-binario-di-lettura-` → **non riproporre**).
 - 2026-07-07 01:44 · @AD · FATTO · **Nessuna azione 🟡/🔴 nuova**: il mondo reale (env Vercel `OBSIDIAN_BRANCH=main` + VPS `GIT_BRANCH=main`) era già toccato da Nicola; questo lavoro è solo memoria (🟢). Loop chiuso.
 - 2026-07-07 01:44 · @AD · SERVE · Nicola: nulla su questa card. Resta aperta a parte la pubblicazione della memoria di stanotte su `origin/main` → **#54** («ok 54» o giro VPS con rete).
+
+### 2026-07-07 06:22 — ☀️ Giro del mattino (VPS · heartbeat)
+- 2026-07-07 06:22 · @AD · FATTO · Giro heartbeat (14h dall'ultimo pieno): stato reale INVARIATO dal notturno — firma REST 06:20 ordini=1 (annullato), ultimo 24/6, 23 clienti; business fermo, North Star 0. Nessun giro a vuoto moltiplicato.
+- 2026-07-07 06:22 · @intelligence · FATTO · Radar LIVE cadenza giornaliera: meteo oggi 35°C (max 18:00, afa, UV 7,4) → freschi la mattina + gate freddo batch 13/7; Venerdì Piacentini confermati (10/7 e 17/7, finestra utile 17/7). Rinfrescato eventi-picchi.md.
+- 2026-07-07 06:22 · @security · FATTO · Propagata la buona notizia: R1 (revoca vecchio PAT GitHub) FATTA da Nicola (chat 7/7) → buco AR-004 chiuso. Aggiornati STATO, coda #34/R1, intenzioni.
+- 2026-07-07 06:22 · @AD · FATTO · Nessuna card 🟡/🔴 nuova (anti-doppione AR-008: coda a 23). Solo memoria (🟢): STATO, briefing 07/07, ultimo-briefing, auto-analisi (obbligatori), registro-realta, intenzioni, eventi-picchi.
+- 2026-07-07 06:22 · @AD · SERVE · Nicola: 🔴 R2 metti in salvo i 20 fix in main (prossimo giro VPS con rete aperta) · verifica a occhio Pannello hosted post-revoca PAT · domanda storica: chi ha annullato #16? La pubblicazione della memoria su origin/main la fa giro.sh dopo questo giro (chiude di fatto il #54 rimasto dal cloud).
