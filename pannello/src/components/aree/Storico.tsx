@@ -5,7 +5,7 @@ import { History, BookOpen } from "lucide-react";
 import GovernoAD from "@/components/GovernoAD";
 import ParlaCasella from "@/components/ParlaCasella";
 import { Trash2 } from "lucide-react";
-import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "governo" | "diario";
 
@@ -42,6 +42,9 @@ export default function Storico({ diario, memoria, onSvuotaDiario, fa }: Props) 
       if (det.sub === "diario") setTab("diario");
       else if (det.sub === "governo") setTab("governo");
     };
+    // Al MOUNT consuma il sub parcheggiato (INDIETRO scattato prima che l'area fosse montata).
+    const pend = consumaSubPendente("storico");
+    if (pend === "diario" || pend === "governo") setTab(pend);
     const onVai = (e: Event) => applica((e as CustomEvent<DettaglioVai>).detail);
     const onSub = (e: Event) => applica((e as CustomEvent<DettaglioSub>).detail);
     window.addEventListener(EVENTO_VAI, onVai);

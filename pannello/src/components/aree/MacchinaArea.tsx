@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Cpu, Microscope } from "lucide-react";
 import RadiografiaDiSe from "@/components/cervello/RadiografiaDiSe";
 import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
-import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Pagina = "radiografia" | "auto-coscienza";
 
@@ -20,6 +20,9 @@ export default function MacchinaArea() {
   // EVENTO_SUB per la vista "cervello"; qui riapriamo la pagina giusta. (contratto nav unico —
   // niente più #hash nell'URL, che era la fonte residua dei salti all'INDIETRO). (bug #2/#4)
   useEffect(() => {
+    // Al MOUNT consuma la pagina parcheggiata (INDIETRO scattato prima che l'area fosse montata).
+    const pend = consumaSubPendente("cervello");
+    if (pend === "radiografia" || pend === "auto-coscienza") setPagina(pend);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "cervello" || !det.sub) return;

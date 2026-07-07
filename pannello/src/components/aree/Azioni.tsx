@@ -5,7 +5,7 @@ import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2,
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
-import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
+import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import { codiceAzione } from "@/lib/azioni-attesa";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -205,6 +205,10 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
     const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
+    // Al MOUNT consuma il sub parcheggiato (vaiArea/INDIETRO scattati prima che l'area fosse montata):
+    // senza, l'evento sincrono si perdeva e l'area apriva "mosse" invece della scheda richiesta.
+    const pend = consumaSubPendente("azioni");
+    if (pend && valide.includes(pend as Tab)) setTab(pend as Tab);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "azioni" || !det.sub) return;

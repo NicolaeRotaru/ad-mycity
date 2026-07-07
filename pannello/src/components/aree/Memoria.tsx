@@ -7,7 +7,7 @@ import QuaderniSenior from "@/components/QuaderniSenior";
 import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
-import { EVENTO_VAI, EVENTO_SUB, vaiSub, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
+import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "scoperte" | "quaderni-senior";
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
@@ -41,6 +41,9 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
   // (EVENTO_VAI da vaiArea): niente più window.location.hash. (contratto nav)
   useEffect(() => {
     const valide: Tab[] = ["memoria-viva", "scoperte", "quaderni-senior"];
+    // Al MOUNT consuma il sub parcheggiato (vaiArea/INDIETRO scattati prima del montaggio dell'area).
+    const pend = consumaSubPendente("memoria");
+    if (pend && valide.includes(pend as Tab)) setTab(pend as Tab);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "memoria" || !det.sub) return;
