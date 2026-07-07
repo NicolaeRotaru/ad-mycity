@@ -724,3 +724,8 @@ Assegnazioni (1 mossa per reparto):
 - @data-engineer · 🟡 accendi il timer sentinella ordini-annullati (#40, legge delivery_status/canceled_at)
 - @analista · 🟢 sorveglia i 7 numeri via REST a ogni giro; bandiera alla nascita del 1° ordine reale
 🙋 Serve da Nicola: 🟡 ok R2 (merge fix cantiere in main, sessione VPS con rete) · 🟡 SQL 107 (grant MCP write o giro VPS) · 🟡 accendi #40 · 👁️ verifica a occhio il Pannello hosted mostra il giro di oggi (residuo post-revoca PAT) · 📌 ripresa operativa 13/7, primo aggancio ordine PQ = VEN 17/7.
+
+### 2026-07-07 10:40 — 🔴 Proposta «Metti in salvo i fix della macchina nel ramo principale» APPROVATA (Pannello) → doer
+- 2026-07-07 10:40 · @devops-sre · FATTO · Trasformata in azione. Verificato: i 20 fix del cantiere sono **già in `main` locale** (merge PR #212) → l'azione è un **fast-forward `git push origin main`** (✅ origin/main antenato di main, 1831 avanti/0 dietro, `marketplace` non nel tree = niente landmine). È lo **stesso push di #54** (memoria) → una sola azione, no doppioni (AR-008).
+- 2026-07-07 10:40 · @devops-sre · FATTO · Riga **#35** aggiornata (firma 07/07 + meccanica semplificata + verifiche sicurezza); artefatto `consegne/devops/2026-07-07-R2-metti-in-salvo-fix-verifica.md` (supera runbook 04-07); decisione registrata in [[DECISIONI]] (`proposta:metti-in-salvo-i-fix-della-macchina-nel-ramo-pri` → non riproporre).
+- 2026-07-07 10:40 · @AD · SERVE · Nicola: il **`git push origin main`** (🔴) resta in coda #35, gated sulla rete — parte al **giro VPS con rete aperta** o al tuo **«ok 35»**. In questa sessione i comandi git di rete sono negati. Un solo push pubblica i 20 fix + la memoria e chiude #35 e #54.
