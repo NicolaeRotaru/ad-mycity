@@ -32,6 +32,14 @@ function dataItBreve(d: string | null): string {
   return `${g}/${m}`;
 }
 
+// Un «trend» sano è un token breve (freccia/parola/±numero). Il giro a volte ci infila una frase intera:
+// nel badge shrink-0 accanto al titolo quel testo lungo sfonda la card. L'API già lo sanifica; questo è
+// il paracadute lato UI: mostralo solo se è davvero corto e senza punteggiatura di frase. (fix overflow)
+function trendBreve(v: unknown): string {
+  const t = String(v ?? "").trim();
+  return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
+}
+
 const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.ReactNode }[] = [
   { label: "Ordini oggi", chiave: "ordini_oggi", tipo: "n", icon: <Package size={14} /> },
   { label: "Incasso oggi", chiave: "incasso_oggi", tipo: "euro", icon: <Euro size={14} /> },
@@ -172,11 +180,13 @@ export default function Plancia({
           <div className="flex items-center gap-3">
             <span className="sez-ico"><Microscope size={16} /></span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
+              {/* flex-wrap + badge shrink-0 corto: su mobile stretto il badge va a capo SOTTO il titolo,
+                  il titolo resta SEMPRE leggibile per intero e niente sfonda la card (fix overflow). */}
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <span className="t-sez">Auto-analisi della macchina</span>
                 {Number.isFinite(Number(autoAnalisi.voto_fiducia)) && (
-                  <span className={`text-[12px] font-bold tabular-nums shrink-0 ${Number(autoAnalisi.voto_fiducia) >= 80 ? "text-green-600" : Number(autoAnalisi.voto_fiducia) >= 60 ? "text-amber-600" : "text-red-600"}`}>
-                    fiducia {Number(autoAnalisi.voto_fiducia)}/100 {autoAnalisi.trend_fiducia || ""}
+                  <span className={`text-[12px] font-bold tabular-nums shrink-0 whitespace-nowrap ${Number(autoAnalisi.voto_fiducia) >= 80 ? "text-green-600" : Number(autoAnalisi.voto_fiducia) >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    fiducia {Number(autoAnalisi.voto_fiducia)}/100{trendBreve(autoAnalisi.trend_fiducia) ? ` ${trendBreve(autoAnalisi.trend_fiducia)}` : ""}
                   </span>
                 )}
               </div>
@@ -203,11 +213,11 @@ export default function Plancia({
           <div className="flex items-center gap-3">
             <span className="sez-ico"><Cpu size={16} /></span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                 <span className="t-sez">Radiografia della macchina</span>
                 {Number.isFinite(Number(radiografia.voto_salute_architettura)) && (
-                  <span className={`text-[12px] font-bold tabular-nums shrink-0 ${Number(radiografia.voto_salute_architettura) >= 80 ? "text-green-600" : Number(radiografia.voto_salute_architettura) >= 60 ? "text-amber-600" : "text-red-600"}`}>
-                    salute {Number(radiografia.voto_salute_architettura)}/100 {radiografia.trend || ""}
+                  <span className={`text-[12px] font-bold tabular-nums shrink-0 whitespace-nowrap ${Number(radiografia.voto_salute_architettura) >= 80 ? "text-green-600" : Number(radiografia.voto_salute_architettura) >= 60 ? "text-amber-600" : "text-red-600"}`}>
+                    salute {Number(radiografia.voto_salute_architettura)}/100{trendBreve(radiografia.trend) ? ` ${trendBreve(radiografia.trend)}` : ""}
                   </span>
                 )}
               </div>

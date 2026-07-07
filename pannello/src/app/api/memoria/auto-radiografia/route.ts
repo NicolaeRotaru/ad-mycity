@@ -21,6 +21,22 @@ async function leggiJson(rel: string): Promise<any | null> {
   }
 }
 
+// 🧹 Come per l'auto-analisi: il giro a volte scrive un voto sporco o un'intera frase in `trend`.
+// Nel banner compatto della Plancia (badge shrink-0) quel testo lungo sfonda la card. Sanifichiamo
+// ALLA FONTE: voto salute → intero 0-100, trend → token breve (freccia/parola), mai una frase.
+function sanificaRadiografia(r: any): void {
+  if (!r || typeof r !== "object") return;
+  const m = String(r.voto_salute_architettura ?? "").match(/-?\d+/);
+  if (m) {
+    const n = Math.round(Number(m[0]));
+    if (Number.isFinite(n)) r.voto_salute_architettura = Math.max(0, Math.min(100, n));
+  }
+  if (r.trend != null) {
+    const t = String(r.trend).trim();
+    r.trend = t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
+  }
+}
+
 export async function GET() {
   const [radiografia, cantiere, storico, watchlist, lettera] = await Promise.all([
     leggiJson(`${BASE}/auto-radiografia.json`),
@@ -30,6 +46,7 @@ export async function GET() {
     readVaultFile(`${BASE}/LETTERA-A-NICOLA.md`),
   ]);
 
+  sanificaRadiografia(radiografia); // voto→intero 0-100, trend→token breve (niente frasi che sfondano il banner)
   const collegato = Boolean(radiografia || cantiere);
   if (!collegato) {
     return NextResponse.json({

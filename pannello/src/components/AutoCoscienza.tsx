@@ -163,6 +163,14 @@ function votoColore(v?: number) {
   return "text-red-600";
 }
 
+// Un «trend» sano è un token breve. Il giro a volte ci scrive una frase intera: nel blocco shrink-0 a
+// destra del titolo quella frase non si stringe → schiaccia il titolo a 1 carattere per riga (testo
+// verticale). L'API già lo sanifica; questo è il paracadute UI. (fix «scritta in verticale»)
+function trendBreve(v: unknown): string {
+  const t = String(v ?? "").trim();
+  return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
+}
+
 function barra(conf?: number) {
   const pct = Math.round((conf ?? 0) * 100);
   const c = pct >= 80 ? "bg-green-500" : pct >= 50 ? "bg-amber-500" : "bg-black/30";
@@ -257,9 +265,9 @@ export default function AutoCoscienza({
           </div>
         </div>
         {votoFOk ? (
-          <div className="text-right shrink-0">
+          <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoF)}`}>{votoF}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti">fiducia {a?.trend_fiducia || ""}</div>
+            <div className="t-eti truncate">fiducia {trendBreve(a?.trend_fiducia)}</div>
           </div>
         ) : a ? (
           <div className="text-right shrink-0 max-w-[44%]">

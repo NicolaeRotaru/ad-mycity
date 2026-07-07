@@ -48,6 +48,14 @@ function votoColore(v?: number) {
   return "text-red-600";
 }
 
+// Un «trend» sano è un token breve. Il giro a volte ci scrive una frase intera: nel blocco shrink-0
+// a destra del titolo quella frase non si stringe → schiaccia il titolo a 1 carattere per riga
+// (testo verticale) e sfonda la card. L'API già lo sanifica; questo è il paracadute UI. (fix verticale)
+function trendBreve(v: unknown): string {
+  const t = String(v ?? "").trim();
+  return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
+}
+
 export default function RadiografiaDiSe() {
   const [d, setD] = useState<Dati | null>(null);
   const [tab, setTab] = useState<Tab>("dimensioni");
@@ -108,9 +116,9 @@ export default function RadiografiaDiSe() {
           </div>
         </div>
         {votoSOk && (
-          <div className="text-right shrink-0">
+          <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoS)}`}>{votoS}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti">salute {r?.trend || ""}</div>
+            <div className="t-eti truncate">salute {trendBreve(r?.trend)}</div>
           </div>
         )}
       </div>
