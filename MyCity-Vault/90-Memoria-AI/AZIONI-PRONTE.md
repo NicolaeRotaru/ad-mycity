@@ -363,3 +363,19 @@ testo (annuncio pubblico · 🔴 · bozza neutra):
 [CTA] 👉 Cerca il bollino 🛡️ quando fai la spesa su MyCity.
 [FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · VOLTI, NON ALGORITMI
 stato: STANDARD DEFINITO (🟢) — assegnazione + annuncio IN ATTESA DI FIRMA NICOLA. Coda canonica = riga #38 in [[AZIONI-IN-ATTESA]].
+
+## A25 · 💚 Arma l'anti-churn PRIMA dell'onda del 13/7 (health-score sui negozi)
+reparto: account-negozi (owner) · devops-sre / data-engineer (sentinella)
+livello: 🟡 (accende una sentinella/health-score in sola lettura sul marketplace — nessuna scrittura, nessun contatto a clienti/negozi)
+canale: giro.sh (blocco health-score negozi, sola lettura) + card «negozio a rischio» nel Pannello quando una soglia scatta
+perche: **Playbook anti-churn 7/7 — verdetto onesto: 0 negozi in calo oggi** (1 solo negozio reale, Pane Quotidiano, senza storico ordini da cui calare; PQ **non è churn** ed è già stato chiuso da Nicola il 6/7, righe #25/#29). Il churn diventa reale dal **13/7**, quando entrano le 6 botteghe food. La causa #1 di churn dei commercianti non è il calo, è il **"no value realized"**: entra, mette il catalogo, non riceve il primo ordine, molla. Armare l'health-score PRIMA dell'onda protegge le 6 botteghe dal giorno 1, invece di accorgersene quando una ha già mollato.
+preparato: 💚 account-negozi — registro + soglie + template check-in neutro in `consegne/account-negozi/2026-07-07-playbook-anti-churn.md`
+soglie (per negozio reale, dal go-live · sola lettura):
+  - 🟡 no-value: LIVE con catalogo ma **0 ordini a 5 giorni** dal go-live → check-in «ti porto il primo ordine di prova»
+  - 🟡 silenzio: aveva ordini, ora **0 da 14g** → check-in + micro-spinta domanda
+  - 🔴 churn: **0 da 30g** o «tolgo il negozio» → chiamata di recupero + diagnosi frizione (payout/catalogo/consegne)
+  - gate AR-006: prospect non firmati → solo template neutri; l'health-score si accende quando la bottega è `confermata` (nel DB)
+cosa cambia: la macchina veglia da sola il time-to-first-value di ogni bottega dell'onda 13/7 e alza una card «negozio a rischio» sul Pannello quando una supera una soglia — così il check-in parte in tempo, non a molla persa. Sola lettura, nessun contatto automatico: ogni telefonata reale resta una card da firmare.
+se va bene: le 6 botteghe del 13/7 non ammutoliscono nel silenzio; il primo negozio che rischia il "no value" riceve la spinta (ordine di prova + post) prima di mollare. Riusabile per ogni negozio futuro.
+non-duplicato: non tocca #25/#29 (anti-churn PQ, chiuse da Nicola) né #40 (sentinella ordini annullati) — è la lente **salute/retention negozi**, che oggi non esiste come sensore.
+stato: PRONTA — spec + soglie pronte, nessun codice scritto e nessun contatto inviato. Alla firma si cabla il blocco health-score nel giro. Coda canonica = riga #56 in [[AZIONI-IN-ATTESA]].

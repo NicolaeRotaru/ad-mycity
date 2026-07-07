@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-07 11:53",
+  "aggiornato": "2026-07-07 11:58",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "27",
@@ -27,9 +27,9 @@
       "ambito": "azioni"
     },
     "worker_morto": {
-      "ultima_firma": "2026-07-07T11:48:30+02:00",
-      "ultimo_accodato": "2026-07-07 11:53",
-      "ultimo_accodato_iso": "2026-07-07T09:53:08.932Z",
+      "ultima_firma": "2026-07-07T11:53:18+02:00",
+      "ultimo_accodato": "2026-07-07 11:57",
+      "ultimo_accodato_iso": "2026-07-07T09:57:27.099Z",
       "colore": "🔴",
       "soloAllerta": true
     },
@@ -67,38 +67,8 @@
     "2026-07-06T14:45:53.909Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 2827,
+  "tick": 2832,
   "storia": [
-    {
-      "quando": "2026-07-07 09:44",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-07 09:46",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-07 09:48",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-07 09:49",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-07 09:51",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-07 09:52",
       "eventi": 0,
@@ -668,10 +638,40 @@
       "eventi": 1,
       "accodati": 0,
       "allertati": 1
+    },
+    {
+      "quando": "2026-07-07 11:54",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-07 11:55",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-07 11:56",
+      "eventi": 0,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-07 11:57",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 1
+    },
+    {
+      "quando": "2026-07-07 11:58",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-07 11:53",
+    "quando": "2026-07-07 11:58",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
