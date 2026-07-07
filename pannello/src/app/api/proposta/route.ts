@@ -69,6 +69,26 @@ export async function POST(req: Request) {
   const record: DecisioneProposta = { decisione, at: new Date().toISOString(), titolo };
   const salvato = await setImpostazione(`${PREFIX}${id}`, JSON.stringify(record));
 
+  // AR-034: la decisione persistita (proposta:{id}) è ciò che protegge dal DOPPIO lavoro (vedi il dedup
+  // sopra). Se NON è stata salvata, NON procedere: rispondi ok:false PRIMA di creare qualsiasi lavoro.
+  // Prima l'approva creava comunque il lavoro anche con salvataggio fallito e rispondeva ok:true → al
+  // refresh il dedup non trovava il record e una ri-approvazione creava un SECONDO lavoro (doppia
+  // esecuzione). Ora la riprova è sicura (nessun lavoro orfano). Vale anche per «ignora» (che altrimenti
+  // fingeva successo e la card rispuntava vergine al refresh).
+  if (!salvato) {
+    return NextResponse.json(
+      {
+        ok: false,
+        id,
+        decisione: record,
+        salvato: false,
+        lavoro: null,
+        error: "Memoria non collegata: decisione non salvata. Riprova quando la memoria è collegata.",
+      },
+      { status: 503 }
+    );
+  }
+
   let lavoro = null;
   if (decisione === "approva") {
     lavoro = await creaLavoro(
@@ -90,24 +110,6 @@ export async function POST(req: Request) {
         { status: 503 }
       );
     }
-  }
-
-  // «Ignora» senza memoria collegata: NON fingere successo. Se setImpostazione è fallito la
-  // decisione non è persistita e la proposta rispunterebbe identica al refresh → propaga salvato:false
-  // e rispondi ok:false (503), come già fa il ramo "approva" quando il cervello non parte.
-  // [fix radiografia-pannello 2026-07-03 — «Ignora» proposta senza memoria finge successo]
-  if (decisione === "ignora" && !salvato) {
-    return NextResponse.json(
-      {
-        ok: false,
-        id,
-        decisione: record,
-        salvato: false,
-        lavoro,
-        error: "Memoria non collegata: decisione non salvata. Riprova quando la memoria è collegata.",
-      },
-      { status: 503 }
-    );
   }
 
   return NextResponse.json({ ok: true, id, decisione: record, salvato, lavoro });
