@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, Fragment } from "react";
+import { useState, useRef, useEffect, useCallback, memo, Fragment } from "react";
 import {
   Send,
   Loader2,
@@ -2206,7 +2206,11 @@ const MD_COMPONENTS: Components = {
 
 // Mostra il testo dell'AI come Markdown formattato (grassetti, elenchi, tabelle)
 // invece che come testo grezzo pieno di asterischi e barrette.
-function Markdown({ children }: { children: string }) {
+// memo: la resa Markdown è costosa (ReactMarkdown ri-parsa a ogni render). `children` è una stringa
+// (primitiva) → con memo, digitare in chat (che ri-renderizza tutto il Pannello per via dello state
+// `input`) NON ri-parsa più il Markdown di tutte le bolle esistenti: si ridisegna solo la bolla il cui
+// contenuto è cambiato. Toglie il lag di digitazione. (Round 5 — perf percepita)
+const Markdown = memo(function Markdown({ children }: { children: string }) {
   return (
     <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD_COMPONENTS}>
@@ -2214,7 +2218,7 @@ function Markdown({ children }: { children: string }) {
       </ReactMarkdown>
     </div>
   );
-}
+});
 
 // Una CATEGORIA di numeri come TENDINA. Chiusa = solo titolo + quanti dati sono
 // già collegati (badge); aperta = la tabella (oggi/7g/30g) o, se snapshot, una
