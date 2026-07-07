@@ -101,6 +101,10 @@ function righeInParoleSemplici(a: Azione): { ico: string; etichetta: string; tes
 
 export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [tab, setTab] = useState<Tab>("mosse");
+  // Ref sempre aggiornato alla scheda corrente: serve al refresh periodico (che non può dipendere da
+  // `tab` senza ri-creare l'intervallo) per sapere se il Registro è quello visibile e va rinfrescato.
+  const tabRef = useRef<Tab>(tab);
+  tabRef.current = tab;
   const [azioni, setAzioni] = useState<Azione[]>([]);
   const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
@@ -173,6 +177,17 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     fetch("/api/proposta", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setPropDecisioni(d.decisioni); }).catch(() => {});
   }, []);
 
+  // Carica (o RICARICA) il registro delle azioni. Definito PRIMA degli effetti che lo usano (era in
+  // TDZ). Estratto in useCallback così il refresh periodico può tenerlo fresco: prima il registro si
+  // caricava UNA sola volta (`!registro`) e il tick a 60s non lo toccava → restava stantio (le azioni
+  // già fatte non sparivano dal registro). (sintomo c)
+  const caricaRegistro = useCallback(() => {
+    return fetch("/api/azioni-registro", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => setRegistro({ voci: d.voci || [], stat: d.stat || {} }))
+      .catch(() => setRegistro((prev) => prev ?? { voci: [], stat: { totale: 0, fatte: 0, simulate: 0, coda: 0, rifiutate: 0, auto: 0, repartoTop: "" } }));
+  }, []);
+
   useEffect(() => {
     (async () => {
       const d = await carica();
@@ -189,7 +204,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // così ciò che è già stato fatto/approvato (anche da un altro dispositivo o dal worker) non
   // resta stantio e le novità compaiono senza dover cambiare area.
   useEffect(() => {
-    const ricarica = () => { carica(); caricaContorno(); };
+    // Rinfresca anche il REGISTRO quando è la scheda visibile: prima restava stantio perché il tick
+    // non lo toccava (sintomo c). Se non sei sul Registro non lo scarica inutilmente.
+    const ricarica = () => { carica(); caricaContorno(); if (tabRef.current === "registro") void caricaRegistro(); };
     const id = setInterval(ricarica, 60000);
     const onVis = () => { if (document.visibilityState === "visible") ricarica(); };
     window.addEventListener("focus", ricarica);
@@ -199,7 +216,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       window.removeEventListener("focus", ricarica);
       document.removeEventListener("visibilitychange", onVis);
     };
-  }, [carica, caricaContorno]);
+  }, [carica, caricaContorno, caricaRegistro]);
 
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
@@ -228,13 +245,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   }, []);
 
   useEffect(() => {
-    if (tab === "registro" && !registro) {
-      fetch("/api/azioni-registro", { cache: "no-store" })
-        .then((r) => r.json())
-        .then((d) => setRegistro({ voci: d.voci || [], stat: d.stat || {} }))
-        .catch(() => setRegistro({ voci: [], stat: { totale: 0, fatte: 0, simulate: 0, coda: 0, rifiutate: 0, auto: 0, repartoTop: "" } }));
-    }
-  }, [tab, registro]);
+    if (tab === "registro" && !registro) void caricaRegistro();
+  }, [tab, registro, caricaRegistro]);
 
   function patch(id: string, p: Partial<Azione>) {
     setAzioni((list) => list.map((a) => (a.id === id ? { ...a, ...p } : a)));
