@@ -8,7 +8,9 @@ voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook completo `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 ---
 
-# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47 · aggiornato 2026-07-06 12:48)
+# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47 · aggiornato 2026-07-06 12:48 · **ri-verificato 2026-07-07 12:12**)
+
+> ✅ **Ri-verifica 2026-07-07 12:12 (playbook ri-eseguito su richiesta).** Confronto con la lettura **live MCP 7/7 00:29** (STATO): **4 carrelli abbandonati totali, invariati** — nessun NUOVO carrello reale comparso (0 ordini, business fermo dal 24/6). Il finding regge: **1 solo carrello recuperabile reale (samir, €10)**, gli altri 3 = admin/seller-test/demo → SKIP. Bozze (Touch #1 + #2, oggetto+corpo+codice) **già pronte** e **già accodate** → coda **#26** in [[AZIONI-IN-ATTESA]] + blocco **A3** in [[AZIONI-PRONTE]]. **Nessun invio.** Corretto un puntatore sbagliato in A3 (diceva «#27», che è la recensione; il carrello è #26). Nessun doppione creato (AR-008).
 
 > 🔁 **Ri-esecuzione playbook 2026-07-06 12:48 — CAMBIO DI CANCELLO (l'ordine #16 è annullato).**
 > Il finding di dati è **invariato**: resta **1 solo carrello recuperabile reale** (samir, €10). Ma due cose

@@ -55,7 +55,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #27** in [[AZIONI-IN-ATTESA]] (la vecchia #26 è stata riusata il 6/7 per l'anti-churn del negozio PQ → questo carrello ri-accodato come #27, 6/7 12:48).
+stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #26** in [[AZIONI-IN-ATTESA]] (crm-lifecycle, «Riporta indietro il cliente che ha lasciato un carrello da €10»). ⚠️ Corretto 7/7 12:12: il puntatore diceva «#27» ma #27 è la richiesta-recensione (customer-success) — il recupero-carrello è la #26. **Ri-verificato 7/7 vs lettura live MCP 00:29: 4 carrelli abbandonati invariati, 1 solo recuperabile reale (samir €10) → finding stabile, business fermo dal 24/6.**
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione)
 reparto: customer-success
