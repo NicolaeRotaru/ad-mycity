@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-07 10:20",
+  "aggiornato": "2026-07-07 11:25",
   "per_reparto": [
     {
       "reparto": "@AD",
@@ -12,6 +12,13 @@
     }
   ],
   "registro": [
+    {
+      "data": "2026-07-07 11:28",
+      "reparto": "@AD",
+      "previsione": "7 numeri invariati vs mattino 06:22 e notturno 00:30 (business fermo dal 24/6, North Star 0); giro stabile senza card nuove né asset pesanti; corretta la deriva di coerenza su R2 (fix già in main locale) e chiusi i loop dei 5 reparti attivi oggi",
+      "esito": "confermato — firma REST 11:25 invariata (ordini=1 annullato, ultimo 24/6, 23 clienti); MCP marketplace cieco in sessione (probe negato), i 4 numeri non-REST = conferma live di stanotte",
+      "fonte": "REST giro.sh 11:25 (MCP marketplace gated in sessione) + SALA @devops 10:40 (framing R2)"
+    },
     {
       "data": "2026-07-04 11:30",
       "reparto": "@AD",

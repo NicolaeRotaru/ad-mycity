@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-07 06:22",
-  "situazione": "Giro del mattino sul VPS, scattato per heartbeat (14h dall'ultimo pieno): lo stato reale è identico a stanotte — business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Verificato live solo ciò che cambia ogni giorno: oggi 35°C con afa (freschi la mattina) e Venerdì Piacentini confermati (ultima finestra utile il 17/7). Buona notizia dalla chat: hai revocato il vecchio PAT GitHub (R1) → il buco di sicurezza è chiuso. Nessuna card nuova: la coda ne ha già 23 e copre le priorità; la partita si gioca dal 13/7.",
+  "data": "2026-07-07 11:40",
+  "situazione": "Quarto passaggio della giornata (notturno 00:30 · mattino 06:22 · pieno VPS 11:28 · refresh 11:40), a stato invariato: business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Il refresh delle 11:40 conferma la firma identica (nessuna novità di business, delta-gate corrente==ultimo_pieno) — riallineo la Cabina all'ora senza fabbricare novità. MCP marketplace cieco in sessione → i dati-ordine dal REST (ok), gli altri 4 numeri sono la conferma dal vivo di stanotte, zero numeri inventati. Nessuna card nuova. La partita vera si gioca dal 13/7: far nascere il 1° ordine vero su Pane Quotidiano al Venerdì Piacentino del 17/7.",
   "opportunita": [
     {
       "titolo": "Far nascere il primo ordine vero su Pane Quotidiano al Venerdì del 17 luglio",
@@ -15,16 +15,16 @@
       "sforzo": "medio"
     },
     {
-      "titolo": "Portare traffico fisico al lancio, non aspettare il sito",
-      "motivo": "Il sito fa ~12 eventi in 7 giorni: il primo ordine nasce da QR, presidio e passaparola al Venerdì, non dalla ricerca organica.",
-      "impatto": "alto",
-      "sforzo": "medio"
+      "titolo": "Un solo push mette al sicuro i fix e sblocca il voto salute",
+      "motivo": "I 20 fix sono già nel ramo principale in locale: pubblicarli online li rende canonici (sicurezza + salute architettura) e nello stesso colpo pubblica la memoria e fa vedere il giro di oggi sul Pannello.",
+      "impatto": "medio",
+      "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Metti in salvo i fix della macchina nel ramo principale",
-      "motivo": "I 20 fix del cantiere restano solo sul ramo di lavoro: al prossimo giro sul VPS con rete aperta vanno resi canonici in main, o rischiano di essere spazzati via.",
+      "titolo": "Pubblica online i fix della macchina e la memoria in un colpo solo",
+      "motivo": "I 20 fix sono già nel ramo principale in locale: un solo invio online li rende canonici e pubblica anche la memoria di oggi. Lo fa il giro dopo aver scritto, con la rete aperta, oppure con un tuo ok.",
       "livello": "rosso"
     },
     {

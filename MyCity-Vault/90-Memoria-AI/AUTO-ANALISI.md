@@ -1,30 +1,30 @@
 ---
-data: 2026-07-07 06:22
+data: 2026-07-07 11:40
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 06:22 (giro del mattino · heartbeat)
+# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 11:40 (refresh VPS · stato invariato)
 
-## Voto di fiducia: **85/100** (= vs notturno 00:30)
-Heartbeat mattutino onesto: i numeri erano già confermati dal vivo stanotte, oggi ho verificato LIVE solo ciò che cambia di giorno (meteo, eventi) e ho propagato una correzione reale (R1 fatta). Nessun giro a vuoto, nessun numero inventato.
+## Voto di fiducia: **86/100** (= vs pieno 11:28)
+Refresh onesto a 12 min dal pieno: delta-gate `corrente==ultimo_pieno`, nessuna novità di business. Ho confermato la firma e riallineato la Cabina all'ora **senza fabbricare novità né rimisurare a vuoto** — il candore su "non c'è nulla di nuovo" vale più di un finto ritrovamento. Nessun numero inventato, nessun asset pesante (vincolo allocazione HARD rispettato), nessuna card nuova (anti-doppione).
 
 ## Cosa ho controllato (verifica avversariale a 3 livelli)
-1. **Fatti & numeri** — La firma REST 06:20 (ordini=1, ultimo 24/6, 23 clienti) è invariata; i 4 numeri non-REST (prodotti 258, lead 407, carrelli 8/4, recensioni 0) sono la **conferma live MCP di stanotte**, NON ri-misurati ora perché l'MCP è cieco in sessione — e l'ho dichiarato nei Gap invece di spacciarlo per lettura fresca. Meteo (35°C) ed eventi (Venerdì Piacentini 17/7) verificati LIVE con link.
-2. **Entità (grounding a 3 strade)** — Pane Quotidiano `confermato` (unico reale), Casa Linda `demo` esclusa, Garetti `scelta_ragionata` (prospect non firmato → asset pesanti congelati, vincolo allocazione rispettato). Nessuna entità nuova, nessun "Garetti inventato".
-3. **Coerenza & colore** — Tutti gli snapshot Cabina allineati alle 06:22; solo scritture di memoria (🟢); nessuna azione reale eseguita; nessuna card nuova accodata (anti-doppione, coda a 23).
+1. **Fatti & numeri** — Firma REST 11:25 (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true) invariata; i 4 numeri non-REST (258 prodotti, 407 lead, 8/4 carrelli, 0 recensioni) sono la **conferma live MCP di stanotte** (00:29), NON ri-misurati ora perché l'MCP è cieco in sessione (probe `execute_sql` **negato** dai permessi) — dichiarato nei Gap, non spacciato per lettura fresca. Radar meteo/eventi già LIVE alle 06:22 (cadenza rispettata).
+2. **Entità (grounding a 3 strade)** — Nessuna entità nuova. Pane Quotidiano `confermato` (unico reale), Casa Linda `demo` esclusa, Garetti `scelta_ragionata` (prospect non firmato → asset pesanti congelati, vincolo allocazione HARD rispettato). Nessun "Garetti inventato".
+3. **Coerenza & colore** — Corretta la **deriva di coerenza su R2**: gli snapshot davano "i 20 fix restano su memoria-ad, a rischio", ma la verità (SALA @devops 10:40) è che sono **già in `main` locale** (PR #212) e manca solo il push su origin/main = stesso push della memoria (#35=#54). Propagato a STATO, briefing, ultimo-briefing, intenzioni, auto-analisi. Solo scritture di memoria (🟢), nessuna azione reale eseguita, nessuna card nuova (anti-doppione).
 
 ## Errori/limiti di questo giro
-- MCP marketplace cieco in sessione → 4 numeri non ri-misurati (gap dichiarato).
-- Gli snapshot davano ancora "PAT nella storia git": **corretto** propagando R1 fatta (Nicola l'ha revocato, chat 7/7).
+- MCP marketplace cieco in sessione (probe negato) → 4 numeri non ri-misurati (gap dichiarato).
+- La deriva R2 era rimasta stale dal mattino: è un **framing** (non un fatto-chiave numerico), quindi il guardiano coerenza-fatti non la intercetta → l'ho corretta a mano. Punto di attenzione per il volano.
 
 ## Domande per Nicola
-- **R2**: ok a mettere in salvo i 20 fix in `main` al prossimo giro VPS con rete aperta?
-- Dopo la revoca del PAT, il **Pannello hosted** mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token).
+- **R2/#35**: ok a un solo `git push origin main` che pubblica i 20 fix (già in main locale) + la memoria di oggi?
+- Dopo la revoca del PAT, il **Pannello hosted** mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → #55).
 - Storica: chi/perché ha annullato l'ordine #16 il 3/7?
 
 ## Salute della macchina
-REST ok · Stripe ok · Resend ok · MCP Supabase cieco (1 giro, sessione) · PostHog spento (scelta Nicola) · uptime non monitorato. Voto salute architettura **44** (pending-merge R2). Loop business 🔴 aperto (0 transazioni reali). Cantiere: 20 chiusi · **R1 FATTA** · 1 in-corso umano (AR-006 materiale PQ) · 2 aperti (AR-024/AR-025).
+REST ok · Stripe ok · Resend ok · MCP Supabase cieco (1 giro, sessione, probe negato) · PostHog spento (scelta Nicola) · uptime non monitorato. Voto salute architettura **44** (pending-push R2). Loop business 🔴 aperto (0 transazioni reali). Cantiere: 20 chiusi · **R1 FATTA** · 1 in-corso umano (AR-006 materiale PQ) · 2 aperti (AR-024/AR-025).
 
 ## Benchmark (il lavoro è al livello dei migliori?)
-Nessun lavoro pesante prodotto in questo giro (heartbeat), quindi il filo-benchmark non si applica. La disciplina giusta qui è **non moltiplicare i giri a vuoto**: verificato solo il delta reale, aggiornato solo ciò che serve alla Cabina, coda intatta.
+Nessun lavoro pesante prodotto (giro a stato invariato) → il filo-benchmark non si applica. La disciplina giusta qui è **non moltiplicare i giri a vuoto**: confermato il delta reale, corretta una deriva di coerenza, chiusi i loop, aggiornata solo la Cabina, coda intatta.
