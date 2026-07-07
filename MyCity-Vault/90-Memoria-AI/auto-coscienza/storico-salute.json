@@ -791,6 +791,14 @@
       "difetti_chiusi": 23,
       "tipo": "completa",
       "nota": "radiografia Opus: 74 difetti macchina + 87 marketplace"
+    },
+    {
+      "data": "2026-07-08",
+      "voto_salute": 0,
+      "difetti_aperti": 7,
+      "difetti_chiusi": 11,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-026, AR-027, AR-028, AR-029, AR-031, AR-032, AR-033, AR-035, AR-036, AR-038, AR-039 (verificati nel codice)."
     }
   ]
 }
