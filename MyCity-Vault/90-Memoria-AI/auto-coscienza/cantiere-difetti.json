@@ -12,11 +12,11 @@
       "causa_radice": "Il perimetro segreti è protetto da UNA regola fragile (.gitignore col nome esatto 'cervello/vps/.env'), non da uno scan attivo: la variante '.env.save' con valore reale è sfuggita ed è entrata nella storia git. Nessun pre-commit hook né scan-segreti.",
       "fix_proposto": "1) Nicola REVOCA subito il PAT su GitHub e ne genera uno nuovo (mai committato) — è l'UNICA remediation efficace: il token è già nella storia. 2) git rm --cached .env.save + purga storia (BFG/filter-repo). 3) .gitignore → .env* e *.save. 4) Regola: i template si chiamano solo *.example, mai valori reali.",
       "colore": "🔴",
-      "stato": "in-corso",
-      "nota": "Valore NON riportato in memoria per non propagarlo. Rimuovere il file NON basta: serve la revoca su GitHub.",
+      "stato": "chiuso",
+      "nota": "Valore NON riportato in memoria per non propagarlo. CHIUSO 2026-07-07: Nicola ha revocato il vecchio PAT su GitHub (chat 7/7) → il token nella storia git è ora carta straccia.",
       "nato": "2026-07-02",
-      "chiuso_il": "",
-      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro + PRE-COMMIT HOOK .githooks/pre-commit (scan-segreti --staged blocca OGNI commit, non solo il giro) + installa-hooks.sh + wiring nel setup VPS. Testato avversarialmente (finto PAT → commit bloccato). MANCA (solo Nicola): revoca del PAT su GitHub + purga storia — il token è già nella storia git.",
+      "chiuso_il": "2026-07-07",
+      "nota_fix": ".env.save RIMOSSO dal tracking + .gitignore esteso (.env*/*.save) + scan-segreti.mjs nel giro + PRE-COMMIT HOOK .githooks/pre-commit (scan-segreti --staged blocca OGNI commit, non solo il giro) + installa-hooks.sh + wiring nel setup VPS. Testato avversarialmente (finto PAT → commit bloccato). REMEDIATION UMANA FATTA 7/7: Nicola ha revocato il PAT su GitHub (chat) → buco chiuso. Resta opzionale la purga storia (BFG/filter-repo), non più bloccante ora che il token è revocato.",
       "verifica": {
         "tipo": "umano"
       }
@@ -375,7 +375,8 @@
   ],
   "meta": {
     "aperti": 0,
-    "in_corso": 2,
-    "chiusi": 22
+    "in_corso": 1,
+    "chiusi": 23,
+    "_nota_07_07": "AR-004 CHIUSO 2026-07-07: Nicola ha revocato il vecchio PAT GitHub (chat) → remediation umana completata. Resta in-corso solo AR-006 (materiale reale di Pane Quotidiano, umano)."
   }
 }
