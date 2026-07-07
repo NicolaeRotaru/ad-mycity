@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-07 09:13",
+  "aggiornato": "\"2026-07-07",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -381,14 +381,14 @@
       "causa_radice": "1) Perché l'azione riparte da sola? La 2ª chance non filtra il tipo. 2) Perché non filtra? Il fix «lascia il lavoro a metà» (pensato per il giro ucciso da watch-main) è stato applicato a tutti i tipi. 3) Perché a tutti? Si è assunto che 'in_corso a worker appena avviato = processo morto = sicuro riprovare'. 4) Perché l'assunzione è sbagliata? Un'azione reale può essere partita a metà (inviata ma non marcata), e può esserci un secondo worker. 5) Causa di sistema: la regola di sicurezza vive in retry-policy.mjs ma il recupero orfani all'avvio NON passa dalla retry-policy — due cervelli per la stessa decisione (violazione della loro stessa regola 'fonte unica').",
       "fix_proposto": "🟡 Nel ramo 2ª-chance di recupera_lavori_orfani: se tipo ∈ {esegui-azione, proposta} → SEMPRE dead-letter con nota 'interrotto a metà — riapprova dal Pannello' (identico alla sentinella), mai requeue automatico. Meglio ancora: far decidere la retry-policy (RP_TIPO/RP_RISULTATO) anche qui, così la regola resta in un posto solo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nota": "Da chiudere PRIMA di accendere AZIONI_LIVE=1. Prova: worker.sh:252-255 `echo \"[$(ts)] Orfano $id ($tipo, ${eta}min): 2ª chance → in_corso → in_attesa (marcato recuperato).\" ... body=\"$(jq -n --arg r \"[recuperato 1x $(ts)] $ris\" '{stato:\"in_attesa\", risultato:$r}')\"` — ness",
       "nato": "2026-07-07 09:13",
       "chiuso_il": "",
-      "nota_fix": "",
+      "nota_fix": "FIX in codice sul branch claude/machine-ad-panel-diagnostics-8bl2jk: recupera_lavori_orfani esclude esegui-azione|proposta (case-guard) → dead-letter/riapprova, mai in_attesa. Prova: cervello/test/worker-orfani.bats (2 test verdi npx bats).",
       "verifica": {
         "file": "cervello/worker.sh",
-        "pattern": "orfan[oi].*(riapprova|dead-letter)|ORFANO_RIAPPROVA",
+        "pattern": "esegui-azione proposta",
         "presente": true
       }
     },
@@ -401,14 +401,14 @@
       "causa_radice": "1) Perché il worker muore a metà lavoro? Perché watch-main lo riavvia. 2) Perché lo riavvia? Perché main è avanzato. 3) Perché main è avanzato? Quasi sempre per un push del VPS stesso. 4) Perché watch-main non lo sa? Confronta SHA remoto con l'ultimo visto, mai con l'HEAD locale. 5) Causa di sistema: il watchdog di allineamento è stato progettato quando il codice arrivava solo da fuori (cloud/PC); col ramo unico Fase 2 (codice+memoria su main) ogni battito di memoria è diventato un falso segnale di 'codice nuovo'.",
       "fix_proposto": "🟡 In watch-main.sh, prima di chiamare aggiorna-cervello: se REMOTE_SHA == HEAD locale (git rev-parse HEAD), aggiorna solo SHA_FILE ed esci senza riavvio. In più: riavviare solo se sono cambiati file di CODICE (git diff --name-only HEAD..FETCH_HEAD escluse MyCity-Vault/consegne/creativi/memoria-squadra) e fare drain (aspettare che il worker sia idle, o usare il flag worker:riavvia già esistente invece di systemctl restart secco).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nota": "Causa-radice dei lavori uccisi a metà (10-20 riavvii/giorno).",
       "nato": "2026-07-07 09:13",
       "chiuso_il": "",
-      "nota_fix": "",
+      "nota_fix": "FIX sul branch: watch-main.sh short-circuit se REMOTE_SHA==HEAD locale (push del VPS) + SOLO_MEMORIA (nessun riavvio se cambiata solo memoria). Prova: cervello/test/watch-main-solo-memoria.bats (4 test verdi).",
       "verifica": {
         "file": "cervello/vps/watch-main.sh",
-        "pattern": "rev-parse HEAD",
+        "pattern": "SOLO_MEMORIA",
         "presente": true
       }
     },
@@ -421,15 +421,15 @@
       "causa_radice": "1) Perché si perdono commit? checkout -f -B resetta il ramo al remoto. 2) Perché c'è quel checkout? Era l'allineamento della Fase 1, quando il ramo memoria era separato e il locale andava azzerato al remoto. 3) Perché non è stato aggiornato? La migrazione a ramo unico (Fase 2) ha riscritto giro.sh e worker.sh ma non ritmo.sh. 4) Perché nessuno se n'è accorto? Il danno è visibile solo nella finestra 'push fallito + ritmo prima del giro successivo', e il commit di recupero due righe sopra dà l'illusione della protezione. 5) Causa di sistema: la stessa logica git è duplicata in 4 script (giro/ritmo/worker/aggiorna-cervello) invece di vivere in una funzione condivisa — i fix arrivano a macchia di leopardo.",
       "fix_proposto": "🟡 Sostituire in ritmo.sh il blocco 75-91 con la stessa strategia non distruttiva di giro.sh:75-107 (commit pendenti → fetch → rebase, fallback merge --no-edit, mai reset del ramo), o meglio estrarre la funzione di allineamento in un file condiviso (es. cervello/git-sync.sh) sourced da giro.sh/ritmo.sh/worker.sh.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nota": "Perdita silenziosa di memoria 3-4 finestre/giorno; un FATTO cancellato può causare doppia esecuzione reale.",
       "nato": "2026-07-07 09:13",
       "chiuso_il": "",
-      "nota_fix": "",
+      "nota_fix": "FIX sul branch: ritmo.sh usa rebase non-distruttivo (come giro.sh) al posto di checkout -f -B → i commit di memoria non pushati sopravvivono. Prova: cervello/test/ritmo-non-distruttivo.bats (3 test verdi).",
       "verifica": {
         "file": "cervello/ritmo.sh",
-        "pattern": "checkout -f -B",
-        "presente": false
+        "pattern": "rebase FETCH_HEAD",
+        "presente": true
       }
     },
     {
@@ -596,5 +596,6 @@
     "in_corso": 2,
     "chiusi": 22
   },
-  "_radiografia_07_07": "Radiografia TOTALE del 2026-07-07 09:13 (4 flussi: 11 dimensioni macchina verificate + deep-dive worker + deep-dive memoria + audit Pannello 8 dimensioni): aggiunti AR-026..AR-036 (3 bloccanti, 8 gravi impatto-alto, aggregati per causa-radice). I ~129 difetti restanti (gravi-medio e minori) vivono in auto-radiografia.json e nei referti consegne/audit/2026-07-07-*.md. Dimensione allineamento-northstar e benchmark NON coperti (limite sessione): da recuperare."
+  "_radiografia_07_07": "Radiografia TOTALE del 2026-07-07 09:13 (4 flussi: 11 dimensioni macchina verificate + deep-dive worker + deep-dive memoria + audit Pannello 8 dimensioni): aggiunti AR-026..AR-036 (3 bloccanti, 8 gravi impatto-alto, aggregati per causa-radice). I ~129 difetti restanti (gravi-medio e minori) vivono in auto-radiografia.json e nei referti consegne/audit/2026-07-07-*.md. Dimensione allineamento-northstar e benchmark NON coperti (limite sessione): da recuperare.",
+  "_round1_worker": "Round 1 (sicurezza worker) del \"2026-07-07: AR-026/027/028 corretti in codice sul branch e provati con bats (9 test verdi). In-corso = fix pronti, il merge in main di Nicola li chiude (auto-fix.mjs rilegge verifica). Restano nel Round 1: claim atomico coda + pausa fail-closed nel worker."
 }
