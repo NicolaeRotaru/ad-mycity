@@ -589,6 +589,46 @@
         "pattern": "cache|Context|useSWR|condivis",
         "presente": true
       }
+    },
+    {
+      "id": "AR-037",
+      "titolo": "Claim della coda non atomico: due worker possono eseguire lo stesso lavoro due volte",
+      "dimensione": "worker-deep-dive",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "GET lista + PATCH stato solo per id, senza compare-and-set né lock: la coda è nata single-consumer (worker.ps1) e la concorrenza non è mai entrata nel modello.",
+      "fix_proposto": "Claim compare-and-set: PATCH id + stato=eq.in_attesa con Prefer: return=representation, procedi solo se la riga torna. FATTO sul branch.",
+      "colore": "🟡",
+      "stato": "in-corso",
+      "nota": "",
+      "nato": "\"2026-07-07",
+      "chiuso_il": "",
+      "nota_fix": "FIX sul branch: claim atomico in worker.sh. Prova: cervello/test/worker-claim-pausa.bats (test A1-A3).",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "id=eq.$id&stato=eq.in_attesa",
+        "presente": true
+      }
+    },
+    {
+      "id": "AR-038",
+      "titolo": "Kill-switch PAUSA fail-open nel worker (il componente che esegue le azioni reali)",
+      "dimensione": "worker-deep-dive",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "|| true sul curl della pausa: il fix AR-100 fail-closed era stato applicato solo al giro, non al worker (fix per-sintomo non propagato).",
+      "fix_proposto": "Cattura rc del curl pausa: se rc!=0 → non prendere lavori nel ciclo. FATTO sul branch.",
+      "colore": "🟡",
+      "stato": "in-corso",
+      "nota": "",
+      "nato": "\"2026-07-07",
+      "chiuso_il": "",
+      "nota_fix": "FIX sul branch: PAUSA_FAIL_CLOSED in worker.sh. Prova: cervello/test/worker-claim-pausa.bats (test B1-B4).",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "PAUSA_FAIL_CLOSED",
+        "presente": true
+      }
     }
   ],
   "meta": {
@@ -597,5 +637,5 @@
     "chiusi": 22
   },
   "_radiografia_07_07": "Radiografia TOTALE del 2026-07-07 09:13 (4 flussi: 11 dimensioni macchina verificate + deep-dive worker + deep-dive memoria + audit Pannello 8 dimensioni): aggiunti AR-026..AR-036 (3 bloccanti, 8 gravi impatto-alto, aggregati per causa-radice). I ~129 difetti restanti (gravi-medio e minori) vivono in auto-radiografia.json e nei referti consegne/audit/2026-07-07-*.md. Dimensione allineamento-northstar e benchmark NON coperti (limite sessione): da recuperare.",
-  "_round1_worker": "Round 1 (sicurezza worker) del \"2026-07-07: AR-026/027/028 corretti in codice sul branch e provati con bats (9 test verdi). In-corso = fix pronti, il merge in main di Nicola li chiude (auto-fix.mjs rilegge verifica). Restano nel Round 1: claim atomico coda + pausa fail-closed nel worker."
+  "_round1_worker": "Round 1 (sicurezza worker) COMPLETO al \"2026-07-07: AR-026/027/028/037/038 corretti in codice sul branch e provati con bats (16 test verdi). Tutti in-corso: il merge in main di Nicola li chiude (auto-fix.mjs rilegge verifica). Prossimo: Round 2 (sistema immunitario memoria)."
 }
