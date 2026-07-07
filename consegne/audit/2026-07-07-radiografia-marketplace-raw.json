@@ -1,0 +1,1322 @@
+{
+  "summary": "Radiografia del marketplace MyCity: analisi profonda a 13 dimensioni (sola lettura) con ogni problema verificato",
+  "agentCount": 26,
+  "logs": [],
+  "result": [
+    {
+      "dimensione": "architettura",
+      "findings": [
+        {
+          "titolo": "TTL del pending_checkout (2h) disallineato dalla sessione Stripe (24h): ordini creati su stock già rilasciato → overselling",
+          "severita": "bloccante",
+          "descrizione": "VERIFICATO. createMultiSellerCheckoutSession (lib/stripe/client.ts:168-193) NON imposta expires_at sulla sessione Stripe → vale il default Stripe (~24h). Ma pending_checkouts.expires_at ha DEFAULT now()+interval '2 hours' (migrations/042_multi_seller_checkout.sql:43) e il cron expire-checkouts dopo 2h marca il pending EXPIRED e chiama restore_stock (app/api/cron/expire-checkouts/route.ts:29,53). Lo stock è realmente riservato in fase di checkout (app/api/stripe/checkout/route.ts:324 reserve_stock). Se il buyer paga tra 2h e 24h, Stripe emette checkout.session.completed: handleCheckoutCompleted (app/api/stripe/webhook/route.ts:210) esce SOLO se pending.status==='COMPLETED' — NON gestisce EXPIRED/CANCELED — quindi prosegue e crea gli ordini SENZA ri-riservare né ri-verificare lo stock (righe 247-292). Lo stock era già ripristinato (ed eventualmente rivenduto).",
+          "impatto": "Overselling reale e corruzione d'inventario: un ordine pagato viene creato mentre l'articolo è stato rimesso a scaffale (e magari già venduto ad altri). Anche senza rivendita, l'inventario risulta disponibile per un pezzo in realtà venduto → overselling garantito sul buyer successivo. Colpisce ogni sessione pagata oltre le 2h dalla creazione.",
+          "fix": "Allineare i due TTL: passare expires_at a stripe.checkout.sessions.create uguale o inferiore alla scadenza del pending_checkout, e/o far chiamare al cron stripe.checkout.sessions.expire() prima di ripristinare lo stock. In più, in handleCheckoutCompleted trattare esplicitamente EXPIRED/CANCELED: ri-riservare lo stock atomicamente (reserve_stock) prima di creare gli ordini e fallire con rimborso se non più disponibile.",
+          "file": "app/api/stripe/webhook/route.ts:210 · app/api/cron/expire-checkouts/route.ts:29 · lib/stripe/client.ts:168-193 (nessun expires_at) · migrations/042_multi_seller_checkout.sql:43 · app/api/stripe/checkout/route.ts:324"
+        },
+        {
+          "titolo": "Compenso del rider accoppiato allo shipping_cost cliente: rider non pagato sugli ordini con spedizione gratuita",
+          "severita": "grave",
+          "descrizione": "VERIFICATO. releaseRiderPayout (lib/stripe/payout.ts:161) calcola il compenso del rider come feeCents = round(order.shipping_cost*100) e se ≤0 ritorna INVALID_AMOUNT senza transfer (riga 162). Ma shipping_cost è il prezzo di spedizione MOSTRATO AL CLIENTE, che shippingForEuro (lib/shipping.ts:28-29) azzera quando pickupInStore, coupon free-shipping o subtotal >= FREE_SHIPPING_THRESHOLD. Il valore finisce su orders.shipping_cost (webhook route.ts:265, da g.shippingCents). Costo cliente e compenso operativo del rider sono la STESSA colonna: quando divergono (promo/soglia spedizione gratis) su un ordine consegnato da un rider, il rider riceve €0.",
+          "impatto": "Su ogni ordine a carta con spedizione gratuita (subtotale ≥ soglia o coupon free-shipping) ma con consegna fisica reale, il rider assegnato riceve €0 pur avendo consegnato. Problema di equità/retention rider e costo operativo non coperto; scala con l'AOV.",
+          "fix": "Disaccoppiare il compenso del rider dal prezzo di spedizione cliente: calcolarlo sempre da riderFee(distanzaKm) (lib/geo.ts) o da una tariffa dedicata, indipendentemente dallo sconto spedizione mostrato al buyer. Persistere un campo rider_fee_cents separato da shipping_cost alla creazione ordine.",
+          "file": "lib/stripe/payout.ts:161-162 · lib/shipping.ts:28-29 · app/api/stripe/webhook/route.ts:265"
+        },
+        {
+          "titolo": "reverseOrderTransfer consente un solo reversal per ordine: rimborsi parziali multipli non fanno claw-back al venditore",
+          "severita": "grave",
+          "descrizione": "VERIFICATO. reverseOrderTransfer (lib/stripe/payout.ts:248-250) esce no-op (reversedCents 0) se order.stripe_reversal_id è già valorizzato, e usa idempotencyKey fisso reversal_${order.id} (riga 260). Dopo il PRIMO storno parziale la colonna è settata, quindi qualsiasi secondo rimborso parziale sullo stesso ordine (returns/[id]/decide → refundOrder, oppure admin/disputes/resolve → refundOrder) NON storna la quota venditore corrispondente: refundOrder crea un nuovo refund Stripe (idempotencyKey per-importo, righe 408) rimborsando il buyer, ma il claw-back al seller viene saltato. Più resi sequenziali per lo stesso ordine sono possibili: returns/create blocca solo un reso OPEN alla volta (create/route.ts:56-64), non i resi successivi dopo la chiusura del primo.",
+          "impatto": "Perdita finanziaria silenziosa per la piattaforma: sul secondo (e successivi) rimborso parziale il buyer viene ristorato ma il venditore trattiene la sua quota già trasferita → MyCity copre la differenza di tasca propria, senza errore.",
+          "fix": "Rendere il reversal incrementale: idempotencyKey per-rimborso (es. reversal_${order.id}_${refundedTotalCents}), accumulare un reversed_amount_cents invece di un singolo flag, e togliere il guard basato sulla sola presenza di stripe_reversal_id in favore di un confronto sulla quota già stornata.",
+          "file": "lib/stripe/payout.ts:245-268 · lib/stripe/payout.ts:410-414 (refundOrder) · app/api/returns/[id]/decide/route.ts:85-92 · app/api/returns/create/route.ts:56-64"
+        },
+        {
+          "titolo": "Deriva d'arrotondamento tra addebito reale Stripe (amount_off unico) e orders.total_price (sconto pro-rata per gruppo)",
+          "severita": "minore",
+          "descrizione": "VERIFICATO. Nel checkout Stripe lo sconto è UN solo Coupon amount_off = totalDiscountCents applicato all'intera sessione (lib/stripe/client.ts:158), mentre il DB scompone lo sconto per gruppo con Math.round(couponDiscountCents*portion) + Math.round(pickupDiscountCents*portion) (app/api/stripe/checkout/route.ts:294-295) e salva total_price = group.totalCents/100 sugli ordini (webhook:264). La somma dei pro-rata arrotondati può differire da totalDiscountCents di ±(numero gruppi) centesimi, quindi la somma dei orders.total_price non coincide sempre con l'importo realmente addebitato da Stripe.",
+          "impatto": "Su carrelli multi-seller con coupon, la riconciliazione incassi/ordini presenta scarti di pochi centesimi non spiegati; rumore in contabilità e report finanza, non una perdita sostanziale.",
+          "fix": "Distribuire lo sconto per gruppo con un algoritmo largest-remainder che garantisca somma esatta = totalDiscountCents, oppure persistere l'addebito effettivo della sessione (amount_total Stripe) come fonte di verità per la riconciliazione.",
+          "file": "app/api/stripe/checkout/route.ts:283-315 · lib/stripe/client.ts:156-166"
+        },
+        {
+          "titolo": "Ripristino stock su scadenza checkout: guard non-atomico nel webhook vs UPDATE atomico nel cron → doppio restore in race",
+          "severita": "minore",
+          "descrizione": "VERIFICATO. handleCheckoutExpired (app/api/stripe/webhook/route.ts:875-886) fa SELECT → controllo status!=='PENDING' → restore_stock → UPDATE EXPIRED: sequenza non atomica (read-check-act). Il cron gemello expire-checkouts usa invece UPDATE ... WHERE status='PENDING' ... RETURNING (atomico, route.ts:27-32) e poi restore. Se checkout.session.expired e il cron elaborano lo stesso pending nella stessa finestra, entrambi possono superare il proprio guard e chiamare restore_stock due volte. Finestra pratica stretta (il cron flippa EXPIRED a 2h mentre il webhook expired arriva a ~24h), ma il difetto di atomicità è reale e verificabile.",
+          "impatto": "Stock riservato ripristinato in doppio → inventario gonfiato (overselling potenziale a valle). Finestra stretta (richiede webhook expired e cron concomitanti sullo stesso checkout), impatto limitato.",
+          "fix": "Rendere atomico anche il path webhook: UPDATE pending_checkouts SET status='EXPIRED' WHERE id=$1 AND status='PENDING' RETURNING groups, e ripristinare lo stock SOLO se la RETURNING ha restituito la riga (come già fa il cron).",
+          "file": "app/api/stripe/webhook/route.ts:871-887 · app/api/cron/expire-checkouts/route.ts:27-56"
+        },
+        {
+          "titolo": "withInternalAuth accetta la SERVICE_ROLE_KEY come secret d'header: blast-radius del segreto DB esteso a un header HTTP",
+          "severita": "minore",
+          "descrizione": "VERIFICATO. withInternalAuth (lib/api/middleware.ts:241) confronta l'header x-internal-secret con process.env.INTERNAL_API_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY. Il fallback (documentato come retro-compatibilità 🟡-1 alle righe 235-236) fa sì che la chiave service-role — la credenziale più potente del sistema, che bypassa RLS — sia un valore valido da inviare in chiaro in un header applicativo. Finché INTERNAL_API_SECRET non è configurato, il segreto DB viaggia come token API.",
+          "impatto": "Superficie di esposizione ampliata per la credenziale più sensibile: un leak dell'header in log/proxy/error equivale a un leak della service-role key. Accoppiamento fragile tra auth interna e segreto infrastrutturale.",
+          "fix": "Rendere INTERNAL_API_SECRET obbligatorio (fail-closed se assente) e rimuovere il fallback alla service-role key; ruotare il secret dedicato indipendentemente.",
+          "file": "lib/api/middleware.ts:239-247"
+        },
+        {
+          "titolo": "Documentazione del periodo di hold payout incoerente lungo la money-path (1h / 24h / 3gg)",
+          "severita": "minore",
+          "descrizione": "VERIFICATO. La logica di rilascio payout usa HOLD_HOURS=1 (app/api/cron/release-payouts/route.ts:10) e il commento 'consegna +1h' (riga 26), mentre lib/stripe/client.ts:37 documenta lo stesso flusso SCT come 'consegna +24h' e il commento in lib/stripe/payout.ts:14 cita 'batch +3gg'. Tre valori diversi (1h / 24h / 3gg) per lo stesso invariante sul percorso denaro.",
+          "impatto": "Nessun bug funzionale immediato, ma rischio di manutenzione: chi modifica la policy di hold può fidarsi del commento sbagliato e reintrodurre finestre di claw-back errate. Coerenza cross-modulo della fonte-di-verità compromessa.",
+          "fix": "Centralizzare la policy di hold in un'unica costante commentata e aggiornare/rimuovere i commenti divergenti in client.ts e payout.ts.",
+          "file": "app/api/cron/release-payouts/route.ts:10,26 · lib/stripe/client.ts:37 · lib/stripe/payout.ts:14"
+        }
+      ]
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "findings": [
+        {
+          "titolo": "Injection HTML/XSS nei blocchi JSON-LD (schema.org) via JSON.stringify non-escaped",
+          "severita": "grave",
+          "descrizione": "Le pagine prodotto/negozio/categoria e il componente Breadcrumb iniettano dati controllati dal venditore dentro <script type=\"application/ld+json\"> usando JSON.stringify grezzo dentro dangerouslySetInnerHTML, senza escape del contesto HTML. Punti CONFERMATI nel codice reale: app/product/[id]/page.tsx:392 (productSchema con product.name e product.description), app/store/[id]/page.tsx:94 (localBusinessSchema con store_name), app/category/[slug]/page.tsx:254 e :295 (breadcrumbSchema), components/ui/Breadcrumb.tsx:63 (schema costruito da item.label = nome prodotto/negozio). JSON.stringify NON esegue escaping di '<','>','/', quindi una stringa come </script><img src=x onerror=...> chiude il tag <script> e inietta HTML arbitrario. Injection stored cross-utente: un venditore ostile colpisce ogni acquirente che apre la sua scheda.",
+          "impatto": "Un venditore ostile puo deturpare le pagine viste dai clienti, iniettare form di phishing, <style> di UI-redressing (style-src consente 'unsafe-inline' in prod e dev), <meta http-equiv=refresh> di redirect verso siti truffa. In produzione la CSP nonce+strict-dynamic (middleware.ts:70) blocca l'esecuzione di <script> iniettati e gli handler inline (onerror), riducendo l'impatto a defacement/phishing/redirect; ma in sviluppo la CSP usa 'unsafe-inline' 'unsafe-eval' (middleware.ts:69) -> XSS completo, e qualunque futura eccezione CSP riapre l'esecuzione. Danno reputazionale e rischio frode sui clienti.",
+          "fix": "Serializzare il JSON-LD in modo sicuro per il contesto HTML: dopo JSON.stringify sostituire i caratteri pericolosi, es. .replace(/</g,'\\\\u003c').replace(/>/g,'\\\\u003e').replace(/&/g,'\\\\u0026').replace(/ /g,'\\\\u2028').replace(/ /g,'\\\\u2029'). Centralizzare in un helper condiviso jsonLdScript(schema) usato in tutti i punti (product/store/category/Breadcrumb), o usare serialize-javascript. Inoltre limitare i caratteri di controllo su name/store_name in scrittura come difesa in profondita.",
+          "file": "app/product/[id]/page.tsx:392 (+ app/store/[id]/page.tsx:94, app/category/[slug]/page.tsx:254 e :295, components/ui/Breadcrumb.tsx:63)",
+          "impatto_extra": ""
+        },
+        {
+          "titolo": "withInternalAuth usa la SUPABASE_SERVICE_ROLE_KEY come segreto di autenticazione HTTP (fallback)",
+          "severita": "minore",
+          "descrizione": "CONFERMATO in lib/api/middleware.ts:241: il wrapper withInternalAuth confronta l'header x-internal-secret con process.env.INTERNAL_API_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY. Finche INTERNAL_API_SECRET non e configurato (il default per retro-compatibilita, come documentato nel commento :235-237), la chiave service-role — la credenziale che bypassa tutta la RLS e da accesso completo al DB — viene trasmessa in un header HTTP a ogni chiamata server-to-server. Il confronto e a tempo costante (secretsMatch) e fallisce-chiuso, ma il problema e l'ampliamento del blast-radius: la chiave master del DB viaggia sulla rete e finisce negli header dei caller.",
+          "impatto": "Se un log applicativo o un proxy registra gli header, o se un caller interno viene compromesso, si espone direttamente la chiave service-role (accesso totale al DB, bypass RLS, dati clienti/pagamenti). Rischio limitato perche e un fallback documentato e gli endpoint sono server-to-server, ma la credenziale piu potente non dovrebbe mai essere riutilizzata come segreto di API ne lasciare il server.",
+          "fix": "Rendere INTERNAL_API_SECRET obbligatorio (fail se assente, come gia fa withCronAuth con CRON_SECRET a :220) e rimuovere il fallback a SUPABASE_SERVICE_ROLE_KEY; generare un segreto dedicato rotabile indipendentemente. Verificare che nessun logger registri gli header x-internal-secret/Authorization.",
+          "file": "lib/api/middleware.ts:241"
+        }
+      ]
+    },
+    {
+      "dimensione": "rls-database",
+      "findings": [
+        {
+          "titolo": "La policy 'Riders can view available and own orders' espone i dati personali di ogni cliente a chiunque (anche anonimo)",
+          "severita": "bloccante",
+          "file": "migrations/019_rider_visibility.sql:15-19 (prima def. in 011_orders_delivery.sql:120)",
+          "descrizione": "VERIFICATO. La policy SELECT su public.orders e': USING ((delivery_status IN ('ACCEPTED','READY') AND rider_id IS NULL) OR rider_id = auth.uid()). Il primo ramo NON referenzia auth.uid() e la policy non ha ne' clausola TO ne' controllo di ruolo. Le policy RLS sono permissive (OR): qualsiasi utente autenticato — e il ruolo anon con la anon key — puo' selezionare da orders filtrando delivery_status IN ('ACCEPTED','READY') e leggere ogni ordine in attesa di rider (delivery_full_name, delivery_phone, delivery_address, delivery_city, delivery_zip, delivery_lat/lng, delivery_notes, total_price). Verificata l'intera catena fino alla 107: nessuna migrazione successiva restringe la policy (058 tocca solo le policy INSERT).",
+          "impatto": "Violazione GDPR grave: nome, telefono e indirizzo di casa di ogni cliente con un ordine ACCEPTED/READY sono leggibili da un qualsiasi account o da un anonimo con la anon key. Rischio stalking/furto dati, danno reputazionale e sanzionatorio.",
+          "fix": "Ristrutturare la policy: il ramo 'ordini disponibili' accessibile SOLO a rider approvati, es. USING ( rider_id = auth.uid() OR ( delivery_status IN ('ACCEPTED','READY') AND rider_id IS NULL AND EXISTS(SELECT 1 FROM profiles WHERE id=auth.uid() AND role='rider' AND is_approved) ) ) + aggiungere TO authenticated. Meglio: esporre la coda ordini disponibili via RPC SECURITY DEFINER che restituisce solo campi minimi (zona, importo) e rivela PII solo dopo il claim."
+        },
+        {
+          "titolo": "La migrazione 020 referenzia due colonne inesistenti: fallisce in transazione e NON applica le restrizioni RLS previste",
+          "severita": "grave",
+          "file": "migrations/020_security_hardening_and_indexes.sql:51 e :82",
+          "descrizione": "VERIFICATO. Riga 51: la policy 'Rider reviews readable by involved parties' usa 'reviewer_id = auth.uid()', ma rider_reviews ha la colonna 'user_id' (014:96), non 'reviewer_id' (che non compare in nessun'altra migrazione). Riga 82: la policy su group_participants usa 'group_participants.group_id', ma la colonna reale e' 'group_order_id' (015:26). L'intera 020 e' avvolta in BEGIN...COMMIT: alla prima colonna inesistente la transazione va in errore e fa ROLLBACK di TUTTO il file. Restano quindi attive le vecchie policy permissive 'Anyone can read rider reviews' (014, USING true) e 'Anyone reads participants' (015, USING true) e non vengono creati i 9 indici. Nota: 020 tenta di droppare 'Anyone reads rider reviews'/'Anyone can view rider reviews' che non corrispondono al nome reale creato in 014 ('Anyone can read rider reviews'), quindi la permissiva resterebbe pubblica anche se la tx non fallisse.",
+          "impatto": "Le recensioni rider (feedback interno) e la lista completa dei partecipanti ai gruppi d'acquisto restano leggibili pubblicamente, contrariamente all'intento. Mancano 9 indici di performance (notifications, reviews, favorites, coupons, ecc.).",
+          "fix": "Correggere 'reviewer_id' -> 'user_id' e 'group_participants.group_id' -> 'group_participants.group_order_id'; allineare i nomi delle policy da droppare a quelli reali ('Anyone can read rider reviews'); ri-eseguire la migrazione e verificare rimozione delle permissive e creazione degli indici."
+        },
+        {
+          "titolo": "La policy 'Public profile read' espone l'intera riga profiles (IBAN, codice fiscale, KYC, Stripe) per chi attiva il profilo pubblico",
+          "severita": "grave",
+          "file": "migrations/033_buyer_public_profile_zone_codes.sql:30-31",
+          "descrizione": "VERIFICATO. USING (public_profile_enabled = true OR auth.uid() = id) su public.profiles: e' row-level, non column-level, quindi se public_profile_enabled=true ogni colonna della riga diventa leggibile da chiunque (anon incluso) via PostgREST. La riga profiles contiene dati sensibili verificati: legal_fiscal_code, legal_residence_addr, business_vat_number, billing_iban (021), stripe_account_id, kyc_*, wallet_balance_cents (087). La 107 ha corretto la stessa classe di problema per i venditori (DROP 'Anyone can view approved seller profiles' + VIEW a colonne whitelist) ma ha lasciato intatta questa policy: 'Public profile read' compare solo in 033 e non viene mai droppata dopo.",
+          "impatto": "Esposizione di dati fiscali/finanziari/KYC (IBAN, codice fiscale, stripe_account_id) a chiunque, per ogni profilo con opt-in attivo (incluso un seller che attiva il profilo pubblico). Violazione GDPR/privacy.",
+          "fix": "Rimuovere la policy permissiva e servire i campi pubblici tramite una VIEW dedicata a colonne whitelist (id, public_handle, public_bio, public_avatar_url) con GRANT SELECT a anon/authenticated, come in 107 per i venditori. Sulla tabella base tenere solo 'auth.uid() = id' e le policy staff."
+        },
+        {
+          "titolo": "Un buyer puo' auto-assegnarsi role='rider' e fare 'claim' di ordini reali senza essere un rider approvato",
+          "severita": "grave",
+          "file": "migrations/061_p0_security_rls_state_machine_reviews.sql:41-46 (enforce_profile_update_rules) + 011/019 policy rider",
+          "descrizione": "VERIFICATO. Il trigger enforce_profile_update_rules blocca solo NEW.role='admin' e il passaggio di is_approved a true (piu' i campi Stripe/KYC); non impedisce a un utente di cambiare il proprio role in 'rider' o 'seller'. Le policy rider su orders (011/019) non controllano role ne' is_approved, e il ramo 'claim' di enforce_order_update_rules consente rider_id NULL->auth.uid() alla transizione READY->ASSIGNED per QUALSIASI uid, senza alcun controllo di ruolo. Un utente qualsiasi puo' quindi claimare un ordine READY altrui diventandone il rider_id e ottenere lettura legittima dei dati del buyer.",
+          "impatto": "Broken access control: intercettazione/ostruzione (griefing) delle consegne legittime, harvesting mirato di PII cliente, aggiramento dell'onboarding/KYC rider.",
+          "fix": "Nel trigger consentire il cambio verso 'rider' solo come candidatura (approvazione staff) o vietarlo dal self-update; vincolare il claim e le policy rider a EXISTS(profiles role='rider' AND is_approved) e verificare la stessa condizione nel ramo READY->ASSIGNED di enforce_order_update_rules."
+        },
+        {
+          "titolo": "Il trigger update_group_quantity non valida quantita', stato OPEN ne' scadenza: un utente puo' forzare COMPLETED con una quantita' arbitraria",
+          "severita": "minore",
+          "file": "migrations/015_competitive_moats.sql:60-83 (update_group_quantity) + policy 'Users join groups'",
+          "descrizione": "VERIFICATO. La policy INSERT su group_participants controlla solo user_id = auth.uid(); il CHECK di riga richiede solo quantity > 0. Il trigger AFTER INSERT somma NEW.quantity a current_quantity e, se >= target_quantity, imposta status='COMPLETED', senza verificare che il gruppo sia OPEN, che deadline > now(), ne' un tetto di quantita' per utente. La 063 revoca solo EXECUTE della funzione ad anon/authenticated: non impedisce al trigger di scattare all'INSERT. Un partecipante puo' iscriversi con quantity enorme per portare istantaneamente il gruppo a COMPLETED e sbloccare lo sconto.",
+          "impatto": "Manipolazione dei gruppi d'acquisto: sblocco fraudolento dello sconto di gruppo senza partecipanti reali; possibile perdita di margine.",
+          "fix": "Aggiungere alla policy/trigger un limite di quantita' per utente e verificare che il gruppo sia OPEN e non scaduto (deadline > now()) prima di accettare l'iscrizione e ricalcolare il contatore."
+        },
+        {
+          "titolo": "disputes.order_id senza foreign key verso orders",
+          "severita": "minore",
+          "file": "migrations/027_growth_engagement_foundations.sql:331",
+          "descrizione": "VERIFICATO. La tabella disputes definisce 'order_id uuid NOT NULL' come colonna nuda, senza REFERENCES public.orders(id). A differenza di opener_id/against_id/resolved_by (tutti con FK a profiles), order_id non ha integrita' referenziale: e' possibile creare dispute che puntano a ordini inesistenti e restano dispute orfane se un ordine viene cancellato. Nessuna migrazione successiva aggiunge la FK. (La descrizione originale citava buyer_id/seller_id: le colonne reali sono opener_id/against_id, ma la sostanza — order_id senza FK mentre le altre uuid ce l'hanno — e' confermata.)",
+          "impatto": "Integrita' dati: dispute orfane/incoerenti nella dashboard admin e nella riconciliazione dei chargeback.",
+          "fix": "Aggiungere ALTER TABLE public.disputes ADD CONSTRAINT disputes_order_fk FOREIGN KEY (order_id) REFERENCES public.orders(id) ON DELETE CASCADE (o SET NULL con order_id nullable), previa bonifica delle righe orfane."
+        },
+        {
+          "titolo": "Policy UPDATE su orders senza WITH CHECK: la protezione dei campi monetari dipende interamente dal trigger",
+          "severita": "minore",
+          "file": "migrations/011_orders_delivery.sql:113-135 ('Sellers can update their store orders', 'Riders can update assigned or claim free orders')",
+          "descrizione": "VERIFICATO. Le policy UPDATE di seller e rider su orders usano solo USING senza WITH CHECK. Oggi la manomissione di total_price/payment_status/payout/PII e' impedita dal trigger enforce_order_update_rules (061), ma e' un anti-pattern di difesa in profondita': se quel trigger venisse disabilitato/rimosso (o non ricreato in un ripristino), le policy da sole permetterebbero a seller e rider di modificare qualunque colonna della riga.",
+          "impatto": "Difesa in profondita' assente sui campi denaro/PII degli ordini; un errore operativo sul trigger riaprirebbe una escalation critica.",
+          "fix": "Aggiungere WITH CHECK espliciti alle policy (es. seller: WITH CHECK (seller_id = auth.uid())) e/o congelare le colonne sensibili anche via GRANT a livello di colonna, cosi' la protezione non dipende solo dal trigger."
+        },
+        {
+          "titolo": "restore_stock / restore_stock_for_order non sono idempotenti: rischio di ripristino multiplo dello stock",
+          "severita": "minore",
+          "file": "migrations/062_atomic_stock_reservation.sql (restore_stock, restore_stock_for_order)",
+          "descrizione": "VERIFICATO a livello di codice. reserve_stock decrementa con guard atomica (stock >= qty), ma le funzioni di ripristino fanno un semplice 'stock = stock + qty' senza marcatore di stato/idempotenza. Se un ripristino viene invocato piu' di una volta per lo stesso ordine/sessione (es. retry webhook Stripe fallito + cron di pulizia sessioni scadute che chiamano restore_stock sullo stesso checkout), lo stock viene riaccreditato piu' volte. Nota: cancel_order e seller_reject_order sono protetti dal gate di stato (secondo invio -> TOO_LATE), ma la restore_stock 'raw' per le sessioni Stripe scadute non ha alcun guard visibile a livello DB.",
+          "impatto": "Sovrastima dello stock -> overselling successivo, ordini su merce inesistente e ondata di rimborsi (lo stesso rischio che la 062 voleva chiudere).",
+          "fix": "Rendere il ripristino idempotente: tracciare lo stato 'reserved/restored' per ordine (o un ledger stock append-only con vincolo di unicita' per ordine) e ripristinare solo se la riserva risulta ancora attiva."
+        }
+      ]
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "findings": [
+        {
+          "titolo": "Chargeback VINTO dopo payout già rilasciato: il venditore non viene mai ripagato (soldi persi)",
+          "severita": "bloccante",
+          "file": "app/api/stripe/webhook/route.ts:836-841 (handleDisputeClosed ramo 'won') + lib/stripe/payout.ts:264-270 (reverseOrderTransfer → payout_status='REVERSED') + app/api/cron/release-payouts/route.ts:57-65",
+          "descrizione": "Verificato nel codice. Alla charge.dispute.created, se l'ordine era già payout_status='TRANSFERRED', reverseOrderTransfer fa il claw-back del transfer e imposta payout_status='REVERSED'. Se poi la contestazione viene VINTA, handleDisputeClosed nel ramo 'won' esegue SOLO update({ dispute_status: 'WON' }) e non tocca payout_status. Il cron release-payouts seleziona esclusivamente payout_status IN ('HELD','PENDING_SELLER_ONBOARDING'): un ordine rimasto 'REVERSED' non rientra mai nei candidati e non viene MAI ri-pagato. La notifica dice 'Payout sbloccato' ma nessun meccanismo lo riabilita. Con hold di sola 1h, alla comparsa del chargeback la maggior parte degli ordini è già TRANSFERRED: scenario ordinario.",
+          "impatto": "Su ogni chargeback vinto relativo a un ordine il cui payout era già partito, il reversal restituisce i fondi ALLA PIATTAFORMA e il venditore non li riottiene mai. La piattaforma trattiene indebitamente il netto del venditore: danno diretto ai negozi, alla fiducia, con contenzioso probabile.",
+          "fix": "Nel ramo 'won' di handleDisputeClosed, per gli ordini con payout_status='REVERSED' (o stripe_reversal_id valorizzato) ripristinare lo stato a 'HELD' azzerando stripe_reversal_id, così il cron ri-emette il transfer; oppure emettere direttamente un nuovo transfer al venditore. Coprire con test il caso TRANSFERRED→REVERSED→won (il test esistente copre solo HELD)."
+        },
+        {
+          "titolo": "Race scadenza pending (2h) vs sessione Stripe (24h): stock ripristinato e poi ri-venduto → overselling e incasso su merce inesistente",
+          "severita": "bloccante",
+          "file": "migrations/042_multi_seller_checkout.sql:43 (expires_at DEFAULT now()+2h) · app/api/cron/expire-checkouts/route.ts:27-59 · lib/stripe/client.ts:167-193 (sessions.create senza expires_at) · app/api/stripe/webhook/route.ts:210-213",
+          "descrizione": "Verificato. La Checkout Session è creata (lib/stripe/client.ts) senza expires_at → vive il default Stripe di ~24h. Il pending_checkout scade a 2h (default DB) e il cron expire-checkouts lo marca EXPIRED e RIPRISTINA lo stock via restore_stock. handleCheckoutCompleted salta solo se pending.status === 'COMPLETED' (riga 210-213): con status 'EXPIRED' PROSEGUE e crea comunque gli ordini, e nel webhook non c'è alcuna ri-riserva dello stock (nessun reserve_stock). Quindi il buyer può pagare nella finestra 2h-24h dopo che lo stock è già tornato a magazzino.",
+          "impatto": "Overselling reale: l'ultimo pezzo restituito a stock può essere comprato da un altro buyer, poi arriva anche il pagamento tardivo del primo → merce venduta due volte, incassi su merce inesistente, valanga di rimborsi. Vanifica la riserva atomica del checkout.",
+          "fix": "Impostare expires_at sulla Checkout Session allineato al pending (es. now()+2h, min 30 min richiesto da Stripe) così la sessione non è pagabile dopo la scadenza. In aggiunta, in handleCheckoutCompleted trattare status='EXPIRED' ri-riservando lo stock prima di creare gli ordini, o rifiutare/rimborsare se non più disponibile."
+        },
+        {
+          "titolo": "Admin cancella ordine COD/non pagato: stock NON ripristinato e credito wallet perso",
+          "severita": "grave",
+          "file": "app/api/admin/orders/[id]/cancel/route.ts:65-73 (ramo else)",
+          "descrizione": "Verificato. Nel ramo else (ordine COD o carta non pagata) l'annullo admin fa solo UPDATE di delivery_status='CANCELED' (+ payment_status FAILED se PENDING). NON chiama restore_stock_for_order e NON storna wallet_applied_cents (che nemmeno viene selezionato). Il ramo carta-pagata passa da refundOrder che invece ripristina stock e storna wallet. Il gemello expire-stale-orders/route.ts:83-99 ripristina stock E storna il wallet in entrambi i percorsi: comportamento incoerente. Nessun trigger DB su orders→CANCELED ripristina lo stock (solo le RPC lo fanno, e questa route non le usa).",
+          "impatto": "Ogni annullo amministrativo di un ordine COD (flusso principale del marketplace) lascia lo stock decrementato per sempre (inventario fantasma, overselling) e, se il buyer aveva usato credito MyCity, glielo brucia senza restituzione. Doppio danno: integrità stock + soldi del cliente.",
+          "fix": "Nel ramo else chiamare admin.rpc('restore_stock_for_order', { p_order_id: order.id }) e, se wallet_applied_cents > 0, admin.rpc('wallet_credit', ...) con p_ref=order.id (reason es. 'order_admin_canceled'), replicando esattamente expire-stale-orders. Aggiungere wallet_applied_cents alla select."
+        },
+        {
+          "titolo": "L'evento webhook viene marcato processed=true anche quando l'handler esce in silenzio: 'pagato ma nessun ordine' senza retry né alert",
+          "severita": "grave",
+          "file": "app/api/stripe/webhook/route.ts:141-146 (update processed=true + 200) · 191-193, 204-206, 221-223 (handleCheckoutCompleted: return, non throw)",
+          "descrizione": "Verificato. handleCheckoutCompleted usa return (non throw) quando manca pending_checkout_id (191-193), quando il pending non è trovato (204-206) e quando groups è vuoto/non-array (221-223). L'handler ritorna senza eccezione, quindi il try nel POST prosegue, imposta stripe_event_log.processed=true (141-145) e risponde 200: Stripe non ritenterà mai l'evento. Solo il ramo 'partial checkout' (throw a riga ~340/353) forza correttamente il retry.",
+          "impatto": "Se il pending_checkout è stato eliminato/scaduto o i dati sono corrotti, il buyer risulta addebitato (checkout.session.completed = pagamento riuscito) ma nessun ordine viene creato, l'evento è marcato processato e non c'è né retry né notifica: soldi presi senza consegna, difficilissimi da riconciliare a mano.",
+          "fix": "In questi rami di dato mancante/incoerente fare throw (come il ramo partial) così l'evento resta processed=false e Stripe ritenta / va in Sentry; in alternativa notificare esplicitamente gli admin prima di ritornare."
+        },
+        {
+          "titolo": "stripe_charge_id recuperato best-effort: se il retrieve del PaymentIntent fallisce, i transfer partono senza source_transaction",
+          "severita": "minore",
+          "file": "app/api/stripe/webhook/route.ts:232-241 · lib/stripe/payout.ts:116 e 197 (source_transaction solo if order.stripe_charge_id)",
+          "descrizione": "Verificato. In handleCheckoutCompleted lo stripe_charge_id è ricavato con un retrieve del PaymentIntent avvolto in try/catch che su errore lascia stripeChargeId=null. In releaseOrderPayout e releaseRiderPayout il source_transaction è aggiunto solo con spread condizionale `...(order.stripe_charge_id ? { source_transaction: order.stripe_charge_id } : {})`, quindi con charge_id nullo il transfer attinge al saldo generale della piattaforma anziché legarsi alla charge specifica.",
+          "impatto": "Per ordini multi-seller o con saldo piattaforma basso, i transfer senza source_transaction possono fallire (fondi non ancora available) o mal-allocare la liquidità; perdita di tracciabilità charge→transfer nella riconciliazione SCT.",
+          "fix": "Se il retrieve fallisce, non rendere l'ordine pagabile con charge_id null: ritentare il recupero del charge_id in releaseOrderPayout (retrieve del PI da stripe_payment_intent) prima del transfer, o rendere l'evento ritentabile finché il charge_id non è disponibile."
+        },
+        {
+          "titolo": "Lo sconto coupon e lo sconto ritiro sono interamente a carico del venditore nel calcolo del payout",
+          "severita": "minore",
+          "file": "lib/stripe/client.ts:287-297 (computeOrderSplit) · app/api/stripe/checkout/route.ts:296-299 (totalCents net di couponPortion/pickupPortion) · lib/coupons.ts (tabella coupons senza seller_id)",
+          "descrizione": "Verificato. In checkout g.totalCents è persistito già al netto di couponPortionCents e pickupPortionCents. computeOrderSplit calcola subtotalCents = totalCents - deliveryFee - shipping = subtotale GIÀ scontato, e da lì deriva commissione (10%) e netto venditore (90%). Quindi il venditore incassa il 90% del subtotale scontato: assorbe il 90% di ogni coupon e sconto ritiro, la piattaforma solo il 10%. La tabella coupons (lib/coupons.ts) è globale/di piattaforma (nessun seller_id o financed_by): sono promozioni MyCity, ma il costo grava sul venditore. Il commento in client.ts dichiara 'netto venditore = 90% del subtotale' in contrasto col comportamento effettivo.",
+          "impatto": "I coupon sono promozioni della piattaforma ma il venditore ne subisce il costo (payout ridotto) senza saperlo, con possibili contestazioni sui pagamenti; resta comunque una divergenza tra codice e documentazione da chiarire e formalizzare.",
+          "fix": "Decidere e documentare chi finanzia coupon vs sconto ritiro. Se il coupon è a carico piattaforma, calcolare commissione e netto venditore sul subtotale PIENO (pre-sconto) e scalare lo sconto dalla quota piattaforma; allineare il commento a client.ts al comportamento effettivo."
+        }
+      ]
+    },
+    {
+      "dimensione": "privacy-legale",
+      "findings": [
+        {
+          "titolo": "Sentry (session replay + tracing) parte SENZA consenso e non è dichiarato nella cookie policy",
+          "severita": "grave",
+          "descrizione": "lib/analytics/sentry.tsx inizializza Sentry al mount di SentryProvider (montato sempre in app/layout.tsx:148) con replaysSessionSampleRate: 0.05, replaysOnErrorSampleRate: 1.0 e tracesSampleRate: 0.1, SENZA alcun controllo di consenso: initSentry() non chiama mai readConsent()/parseConsentCookie. A differenza di GoogleAnalytics/posthog/ActivityTracker, tutti gated sul consenso analytics. Il session replay è tracciamento comportamentale non essenziale che per le Linee Guida cookie del Garante (2021) e l'art. 122 D.Lgs. 196/2003 richiede consenso preventivo. Non è elencato nella cookie policy (app/cookies/page.tsx elenca solo _ga come analytics), e il commento in lib/consent.ts classifica 'Sentry performance' come categoria 'analytics' — quindi il gate manca proprio dove il loro stesso modello lo prevede. VERIFICATO nel codice reale.",
+          "fix": "Caricare Sentry (o almeno replay+tracing) solo dopo readConsent()?.analytics === true, reagendo a 'mc:consent-change' come gli altri wrapper; in assenza di consenso disabilitare replay e tracing. Aggiungere Sentry (replay/performance) alla tabella cookie/analytics nella cookie policy.",
+          "file": "lib/analytics/sentry.tsx (initSentry ~righe 26-63, SentryProvider) + app/layout.tsx:148 + app/cookies/page.tsx:63-70",
+          "impatto": "Registrazione della sessione di ogni visitatore prima e a prescindere dal consenso: violazione ePrivacy/art.122, esposizione a sanzione del Garante e reclami; incoerenza con la cookie policy pubblicata."
+        },
+        {
+          "titolo": "Cookie di tracciamento persistente mc_vid non dichiarato nella cookie policy; analytics presentati come 'anonimi' ma sono pseudonimi",
+          "severita": "grave",
+          "descrizione": "app/api/track/route.ts imposta un cookie di prima parte mc_vid (httpOnly, max-age 1 anno) il cui scopo dichiarato nei commenti è 'correlare le visite ricorrenti di uno stesso anonimo e collegarlo all'account quando fa login' — profilazione cross-sessione e cross-identità. mc_vid NON compare nella cookie policy (app/cookies/page.tsx: la sezione analytics elenca solo _ga). La policy afferma 'Statistiche aggregate anonime' (cookies/page.tsx) e 'Analytics aggregati' (privacy/page.tsx:89), ma activity_events memorizza IP, user-agent, città, path, referrer e anon_id legati anche all'account: dati personali pseudonimi, non anonimi. VERIFICATO.",
+          "fix": "Elencare mc_vid nella cookie policy con finalità reale (profilazione/correlazione cross-sessione), durata e base giuridica (consenso); correggere 'anonime' in 'pseudonime/aggregate' o rendere davvero anonimi i dati; riconsiderare la durata di 1 anno.",
+          "file": "app/api/track/route.ts:23-24,142-151 + app/cookies/page.tsx:63-70 + app/privacy/page.tsx:89",
+          "impatto": "Difetto di trasparenza su un identificatore di profilazione persistente: consenso non informato, claim 'anonimo' contestabile come pratica scorretta, reclami/ispezione Garante."
+        },
+        {
+          "titolo": "L'informativa privacy garantisce 'nessun dato personale dell'acquirente' ad Anthropic, ma il codice invia recensioni e domande dei clienti all'AI",
+          "severita": "grave",
+          "descrizione": "app/privacy/page.tsx:106 dichiara: 'Anthropic PBC ... analisi immagini prodotto via AI (solo immagini caricate dai venditori; nessun dato personale dell'acquirente)'. In realtà app/api/ai/reviews-summary/route.ts invia ad Anthropic il testo integrale delle recensioni dei clienti (UGC che può contenere PII) e app/api/ai/answer-qa/route.ts invia la 'Domanda dell'acquirente' testuale. Entrambi contenuti generati dall'acquirente inoltrati a un sub-responsabile USA, in contraddizione con l'informativa. Verificato che il provider AI è solo Anthropic (@anthropic-ai/sdk in lib/ai/client.ts; nessun OpenAI/Gemini attivo), quindi l'elenco sub-responsabili è corretto sul 'chi' ma falso sul 'cosa'. VERIFICATO.",
+          "fix": "Correggere l'informativa: dichiarare che ad Anthropic possono essere inviati anche contenuti generati dagli acquirenti (recensioni, domande) per assistenza al venditore, con base giuridica; in alternativa rimuovere PII dal testo prima dell'invio o rendere l'AI opt-out.",
+          "file": "app/privacy/page.tsx:106 vs app/api/ai/reviews-summary/route.ts:79-88 + app/api/ai/answer-qa/route.ts:59-72",
+          "impatto": "Informativa inesatta su un trasferimento extra-UE di dati dell'acquirente: violazione artt. 13-14 GDPR, base informativa inadeguata verso l'interessato."
+        },
+        {
+          "titolo": "Newsletter senza double opt-in né prova del consenso: iscrivibile qualsiasi email di terzi",
+          "severita": "grave",
+          "descrizione": "components/NewsletterForm.tsx inserisce direttamente in newsletter_subscribers solo { email } dal client con anon key (setSubscribed subito, nessuna conferma). La RLS 'Anyone can subscribe' (migrations/070_storage_and_rls_hardening.sql:103-111) accetta qualunque email formalmente valida (char_length 3-254, '@' non iniziale) senza verificarne la titolarità. Nessuna email di conferma (double opt-in) né colonna di prova del consenso: lib/database.types.ts:992-1017 mostra newsletter_subscribers con soli id/email/user_id/city/active/created_at — nessun consent_ts, ip, confirmed_at, source o versione informativa. Conseguenze: chiunque può iscrivere l'email altrui; il titolare non può dimostrare il consenso (art. 7.1 GDPR). VERIFICATO.",
+          "fix": "Introdurre double opt-in (active=false finché non si conferma via link email a scadenza) e memorizzare la prova del consenso (timestamp, IP, versione informativa, fonte). Bloccare l'auto-iscrizione di email non confermate.",
+          "file": "components/NewsletterForm.tsx:31-33 + migrations/070_storage_and_rls_hardening.sql:103-111 + lib/database.types.ts:992-1017",
+          "impatto": "Marketing senza consenso dimostrabile e possibile iscrizione fraudolenta di terzi: sanzioni Garante su email marketing, reclami spam, impossibilità di provare la liceità."
+        },
+        {
+          "titolo": "Retention analytics dichiarata (14 mesi) non applicata: anon_id, geo e path restano a tempo indefinito",
+          "severita": "grave",
+          "descrizione": "L'informativa dichiara 'Analytics aggregati: 14 mesi' e 'log accessi: 12 mesi' (app/privacy/page.tsx:87,89). Il cron app/api/cron/process-deletions/route.ts:75-89 però, oltre i 14/12 mesi, azzera SOLO ip e user_agent di activity_events/audit_logs; non cancella né anonimizza gli altri campi. In activity_events restano indefinitamente anon_id (il tracker persistente mc_vid), country, city, path e referrer: un profilo comportamentale pseudonimo che sopravvive alla retention dichiarata. VERIFICATO.",
+          "fix": "Nel cron, oltre 14 mesi cancellare le righe 'visitor' di activity_events (o azzerare anche anon_id/path/referrer/city), non solo ip/ua; allineare l'enforcement ai periodi dichiarati.",
+          "file": "app/api/cron/process-deletions/route.ts:75-89 + lib/activity.ts",
+          "impatto": "Violazione del principio di limitazione della conservazione (art. 5.1.e) e incoerenza con l'informativa: dati di navigazione pseudonimi trattenuti oltre il termine promesso."
+        },
+        {
+          "titolo": "Il cookie persistente mc_vid viene impostato sugli eventi 'auth' lato server senza gate di consenso",
+          "severita": "minore",
+          "descrizione": "In app/api/track/route.ts il gate di consenso analytics è applicato solo agli eventi di categoria 'visitor' (if category === 'visitor' → controlla consent.analytics). Per gli eventi 'auth' (login/logout/signup) la route prosegue e imposta comunque il cookie di tracciamento persistente mc_vid (max-age 1 anno). Il gate client blocca senza consenso, ma se l'endpoint viene chiamato direttamente il cookie di correlazione viene scritto senza consenso — difetto di defense-in-depth. VERIFICATO.",
+          "fix": "Impostare/aggiornare mc_vid solo quando il consenso analytics è presente nel cookie mc_consent, indipendentemente dalla categoria; oppure separare l'id di sessione necessario dal tracker di profilazione mc_vid.",
+          "file": "app/api/track/route.ts:87-90,104-109,142-151",
+          "impatto": "Possibile impostazione di un identificatore di tracciamento persistente senza consenso lato server; superficie di contestazione ePrivacy, mitigata dal gate client."
+        },
+        {
+          "titolo": "Accettazione di Termini e Informativa privacy al signup non registrata lato server (nessuna prova né versione)",
+          "severita": "minore",
+          "descrizione": "Il form di registrazione mostra la checkbox required 'Ho letto e accetto Termini e Informativa' (app/sign-up/page.tsx:180-182, con validazione client-side/toast a riga 51), ma la route app/api/auth/signup/route.ts riceve e valida solo email, password e captchaToken: non registra alcuna prova (timestamp, versione documenti, IP) dell'accettazione. La checkbox è solo client-side e aggirabile. VERIFICATO.",
+          "fix": "Persistere lato server, all'atto della registrazione, la prova di accettazione (versione TOS/privacy, timestamp, eventualmente IP) su colonna/tabella dedicata; validare la presenza del flag anche server-side.",
+          "file": "app/api/auth/signup/route.ts + app/sign-up/page.tsx:180-182",
+          "impatto": "Impossibile dimostrare quale versione dei documenti l'utente ha accettato in caso di contestazione o modifica dei termini; accountability debole (art. 7 GDPR)."
+        },
+        {
+          "titolo": "Form newsletter senza link all'informativa privacy accanto al punto di raccolta",
+          "severita": "minore",
+          "descrizione": "components/NewsletterForm.tsx raccoglie l'email per finalità di marketing mostrando solo un 'blurb' descrittivo (t('blurb')) senza alcun link all'Informativa privacy né una nota sul trattamento. Il Garante richiede l'informativa (almeno sintetica con link) al momento della raccolta del dato per il marketing. VERIFICATO.",
+          "fix": "Aggiungere accanto al campo email un link all'Informativa privacy e una riga di informativa breve (finalità marketing, titolare, diritti/revoca).",
+          "file": "components/NewsletterForm.tsx:60-91",
+          "impatto": "Difetto di trasparenza al momento della raccolta (artt. 12-13 GDPR) per il trattamento di marketing."
+        }
+      ]
+    },
+    {
+      "dimensione": "performance",
+      "findings": [
+        {
+          "titolo": "Griglie di ricerca e categoria scaricano l'intero catalogo senza limit",
+          "severita": "grave",
+          "descrizione": "CONFERMATO. In components/ProductGrid.tsx:101 il `.limit()` viene applicato SOLO se la prop `limit` è passata. Le griglie principali di /search (app/search/page.tsx:474) e /category/[slug] (app/category/[slug]/page.tsx:432 via gridProps:238, che NON contiene limit) non passano alcun limit → la select('id,name,description,price,compare_at_price,images,stock,...').eq('status','available') ritorna fino al cap PostgREST (~1000 righe) con gli array images. Poi fetchSellerPublicMap carica i profili di tutti i seller trovati (riga 106) e i filtri onlyOpenStores/minRating/onlyPromo/onlyInStock + l'ordinamento per rating/sconto girano client-side sull'intero set (righe 199-232). CORREZIONE: il caso /promozioni citato nell'originale NON è il caso peggiore — app/promozioni/page.tsx usa la RPC active_promo_products con p_limit:60 (riga 38) per la lista vera; il ProductGrid onlyPromo (riga 91) è solo il fallback dello stato vuoto (items.length===0). Il problema resta reale e grave su /search e /category.",
+          "impatto": "Payload di rete e parsing/hydration crescenti linearmente col catalogo, nessuna paginazione: SRP e pagine categoria diventano sempre più lente man mano che i negozi caricano prodotti. Effetto diretto su bounce e conversione nelle pagine di scoperta.",
+          "fix": "Introdurre paginazione server-side (range/keyset) o un limit di default (es. 48) con 'carica altri', e spostare i filtri promo/stock/rating e l'ordinamento per rating lato DB/RPC invece del filtro client-side sull'intero catalogo.",
+          "file": "components/ProductGrid.tsx:74-107,101 (query); app/search/page.tsx:474; app/category/[slug]/page.tsx:238,432"
+        },
+        {
+          "titolo": "N+1 di RPC product_active_discount nel checkout (Stripe e contrassegno)",
+          "severita": "minore",
+          "descrizione": "CONFERMATO nel codice. lib/promotions.ts:17-24: fetchActiveDiscounts fa Promise.all(unique.map(id => client.rpc('product_active_discount', { p_product: id }))) → una RPC per ogni prodotto del carrello. Invocata in app/api/stripe/checkout/route.ts:110 e app/api/orders/cod/route.ts:106, mentre lo stesso route carica prodotti/varianti in batch (.in(...)). CORREZIONE DI SEVERITÀ: l'originale la marca 'grave' con 'latenza proporzionale al numero di articoli', ma le chiamate sono in Promise.all (parallele), quindi la latenza è ~quella di una singola RPC, non N sequenziali; l'impatto reale è N esecuzioni di funzione DB + N richieste HTTP concorrenti per checkout, su carrelli tipicamente piccoli. Resta un anti-pattern da correggere ma va declassato a minore.",
+          "impatto": "N esecuzioni di funzione DB e N richieste concorrenti per ogni checkout, in entrambi i flussi di pagamento; sotto picco aumenta il carico DB nel punto più critico, ma la latenza percepita è contenuta dalla parallelizzazione.",
+          "fix": "Sostituire con una singola RPC batch product_active_discount(p_product_ids uuid[]) che ritorna (product_id, discount) — stesso pattern array già usato da product_rating_stats/active_promo_products. Da N query a 1.",
+          "file": "lib/promotions.ts:17-24; app/api/stripe/checkout/route.ts:110; app/api/orders/cod/route.ts:106"
+        },
+        {
+          "titolo": "Tutte le recensioni del prodotto caricate senza limit e mediate in JS",
+          "severita": "grave",
+          "descrizione": "CONFERMATO. app/product/[id]/page.tsx:119-125: la query reviews.select('id,rating,comment,created_at,user_id,photo_urls,verified_purchase').eq('product_id',id).order('verified_purchase').order('created_at') NON ha .limit() → scarica ogni recensione del prodotto. avgRating (riga 254-256) è calcolato con reviews.reduce(...) / reviews.length client-side, e photoReviewCount/visibleReviews (righe 260+) filtrano/ordinano sullo stesso set completo. La RPC aggregata product_rating_stats esiste ed è già usata in ProductGrid (components/ProductGrid.tsx:132) ma qui non è sfruttata per media/conteggio.",
+          "impatto": "Sui prodotti con molte recensioni il PDP scarica un payload pesante e il main thread esegue sort/reduce sull'intero set, degradando LCP/INP sulle pagine prodotto più trafficate.",
+          "fix": "Aggiungere .limit(20-50) con paginazione ('mostra altre recensioni') e usare product_rating_stats per media e conteggio, invece di caricare e sommare tutte le righe.",
+          "file": "app/product/[id]/page.tsx:116-126,254-256"
+        },
+        {
+          "titolo": "Immagine hero della home non prioritizzata (LCP ritardato)",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. components/home/HeroStoreCard.tsx:119: l'Image cover dell'hero-store-card è <Image src={sizedImage(cover,'hero')} fill unoptimized ...> senza priority né fetchPriority (grep conferma zero occorrenze di priority/fetchPriority/loading nel file), quindi Next la tratta come lazy. Il PDP gestisce correttamente il caso con priority={i===0} (app/product/[id]/page.tsx:420). Se l'hero-store-card è above-the-fold ed è l'elemento LCP della home, il lazy-load ne ritarda il rendering.",
+          "impatto": "Se l'immagine cover dell'hero è l'elemento LCP, il lazy-load peggiora il Largest Contentful Paint sulla pagina più visitata.",
+          "fix": "Aggiungere priority (o loading='eager' + fetchPriority='high') all'immagine cover dell'hero above-the-fold.",
+          "file": "components/home/HeroStoreCard.tsx:119"
+        },
+        {
+          "titolo": "unoptimized senza srcset: su mobile si scaricano immagini a larghezza fissa desktop",
+          "severita": "minore",
+          "descrizione": "CONFERMATO con correzione di ambito. Le <Image> con unoptimized (verificate: components/home/HeroStoreCard.tsx:119 cover 'hero'=1200px e :180 thumb; app/product/[id]/page.tsx:422 detail e :475 thumb gallery) usano sizedImage() che delega il resize al render API Supabase con UNA larghezza fissa per categoria; con unoptimized Next NON genera srcset per DPR/breakpoint, quindi l'attributo sizes è di fatto ignorato. CORREZIONE all'originale: NON è vero che 'tutte' le Image con sizedImage passano unoptimized — HomeSectionRenderer.tsx:410,438 e la foto recensione a app/product/[id]/page.tsx:994 usano sizedImage SENZA unoptimized (quindi lì Next ottimizza e genera srcset). Il difetto vale per il sottoinsieme unoptimized (soprattutto la cover hero 1200px servita anche a slot mobile ~384px).",
+          "impatto": "Byte extra su mobile e immagini più pesanti del necessario per gli asset unoptimized above-the-fold (cover hero); il sizes dà falsa impressione di responsività ma non produce srcset.",
+          "fix": "Costruire un srcSet manuale con più larghezze via sizedImage (o un loader Next custom verso il render API Supabase con la width richiesta) sugli asset unoptimized, così sizes diventa effettivo.",
+          "file": "components/home/HeroStoreCard.tsx:119,180; app/product/[id]/page.tsx:422,475; lib/image-url.ts"
+        },
+        {
+          "titolo": "select('*') sul prodotto del PDP include la colonna tsvector search_tsv",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. app/product/[id]/page.tsx:87-89: la query del PDP usa products.select('*, categories(...), profiles!...(...)').eq('id',id).single(). Il '*' include tutte le colonne, tra cui search_tsv (tsvector, definita in migrations/027_growth_engagement_foundations.sql:366) mai usata dalla UI. È una singola riga per PDP, quindi l'overhead è modesto ma reale e moltiplicato per il traffico.",
+          "impatto": "Payload leggermente più grande per ogni PDP (una riga con tsvector + campi interni) senza beneficio funzionale.",
+          "fix": "Elencare esplicitamente le colonne usate dalla pagina invece di '*', escludendo search_tsv e altri campi interni.",
+          "file": "app/product/[id]/page.tsx:87-89"
+        },
+        {
+          "titolo": "Marker Leaflet caricati da CDN esterno unpkg.com a runtime",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. components/NearbyStoresMap.tsx:52-54: L.Icon.Default.mergeOptions usa iconRetinaUrl/iconUrl/shadowUrl puntati a https://unpkg.com/leaflet@1.9.4/dist/images/... invece che self-hosted; non esistono copie locali in public/ (ls public non trova marker/leaflet). Dipendenza da CDN terzo per asset statici delle icone marker.",
+          "impatto": "Latenza aggiuntiva e punto di fragilità (unpkg lento/irraggiungibile o bloccato da CSP/ad-block) sul rendering della mappa dei negozi vicini; richieste cross-origin non necessarie.",
+          "fix": "Copiare le tre immagini marker in public/ e referenziarle localmente.",
+          "file": "components/NearbyStoresMap.tsx:52-54"
+        }
+      ]
+    },
+    {
+      "dimensione": "frontend-ux",
+      "findings": [
+        {
+          "titolo": "Dopo il pagamento con carta l'utente può vedere «Non hai ancora ordini»",
+          "severita": "grave",
+          "descrizione": "Al rientro da Stripe (?stripe=success) gli ordini sono creati dal webhook, che può arrivare con qualche secondo di ritardo. La pagina /orders usa React Query con staleTime 30s (QueryProvider), refetchOnWindowFocus:false e nessun polling. Il redirect da Stripe è un caricamento pagina completo, quindi fetchOrders parte subito. StripeReturnHandler mostra il toast «Pagamento completato» e fa router.replace('/orders') SENZA invalidare o refetchare la query. Se fetchOrders risolve prima che il webhook abbia scritto l'ordine, orders.length===0 e il buyer vede l'empty-state «Non hai ancora ordini» pur avendo pagato; la lista NON si aggiorna finché non ricarica a mano.",
+          "impatto": "Cliente che ha appena pagato crede di aver perso soldi/ordine: panico, ticket di supporto, possibili tentativi di riacquisto (doppio pagamento). Danno diretto alla fiducia nel momento più critico del funnel.",
+          "fix": "Su ?stripe=success invalidare/refetchare queryKeys.orders.all e fare un breve polling (refetchInterval finché appare almeno un ordine recente, timeout ~15s), oppure mostrare uno stato «Stiamo confermando il tuo ordine…» finché il param success è presente, invece dell'empty-state.",
+          "file": "app/orders/page.tsx:67-94, 104-107, 164-179 + components/providers/QueryProvider.tsx:12-21"
+        },
+        {
+          "titolo": "Fascia «Adesso · Express (~30–45 min)» sempre selezionabile anche senza negozi express",
+          "severita": "grave",
+          "descrizione": "Il day-tile «Adesso» con badge Express è renderizzato incondizionatamente (DeliverySlotPicker 91-97). In checkout la variabile expressStores (calcolata dai flag offers_express/express_enabled) governa SOLO un banner informativo (checkout 636-641), ma NON disabilita né nasconde il tile «Adesso». L'utente può quindi scegliere «Adesso» e resolveSlotLabel restituisce NOW_LABEL «Adesso · arrivo in ~30–45 min» (DeliverySlotPicker 44, 203) che finisce persistito su orders.delivery_slot anche quando nessun negozio del carrello offre l'express (consegna reale 24–48h).",
+          "impatto": "Promessa di consegna falsa (~30–45 min) su ordini che arriveranno in 1-2 giorni: reclami, dispute, resi «consegna troppo in ritardo», erosione di fiducia. È esattamente la scarsità/urgenza finta che il resto del componente dichiara di voler evitare.",
+          "fix": "Passare expressAvailable (expressStores.length>0) al DeliverySlotPicker e disabilitare/nascondere il tile «Adesso» quando è false, con fallback automatico a 'today'/'tomorrow'.",
+          "file": "components/checkout/DeliverySlotPicker.tsx:91-97, 44, 203 + app/checkout/page.tsx:315-319, 636-641, 651-658"
+        },
+        {
+          "titolo": "Checkout: il form #checkout-form resta `hidden` con validazione → submit muore senza feedback",
+          "severita": "grave",
+          "descrizione": "Quando si seleziona un indirizzo salvato (editing=false) il <form id=\"checkout-form\"> riceve la classe `hidden` (display:none) ma i suoi Input mantengono l'attributo `required` (Field.tsx:104) e — soprattutto — gli errori per-campo vengono renderizzati DENTRO il form nascosto. I due pulsanti di conferma (OrderSummary 90-93 e barra sticky mobile 829-835) sono esterni al form e lo submittano via form=\"checkout-form\". La pagina indirizzi (/profile/addresses) valida solo `required`, NON il formato, mentre il checkout richiede phone ≥8 cifre e zip esattamente 5 cifre (validateAddress). Quindi un indirizzo salvato con phone/zip malformato (ma non vuoto) passa il salvataggio ma fallisce validateAddress in handleSubmit: setErrors scrive l'errore, ma il messaggio è dentro il form nascosto (invisibile) e el.focus()/scrollIntoView agiscono su un campo non visibile (no-op). Il bottone «Conferma ordine» sembra morto e nessun feedback appare. (Variante nativa: su un required davvero vuoto il browser lancia «An invalid form control is not focusable» e blocca in silenzio — meno probabile perché le colonne sono NOT NULL.)",
+          "impatto": "Ordine impossibile da concludere, senza alcun feedback a video, per gli utenti con un indirizzo salvato che ha dati fuori formato: abbandono diretto del checkout. Difficile da diagnosticare perché l'happy path (indirizzo completo e valido) funziona.",
+          "fix": "Non far vivere la validazione dentro un form nascosto: aprire automaticamente il form (editing=true) e mostrare gli errori quando l'indirizzo selezionato non passa validateAddress; oppure rimuovere `required` quando il form è hidden e affidarsi a validateAddress; oppure spostare la resa degli errori fuori dal contenitore nascosto.",
+          "file": "components/checkout/ShippingAddressForm.tsx:132, 140-183 + components/ui/Field.tsx:104 + app/checkout/page.tsx:549-559, 829-835 + components/checkout/OrderSummary.tsx:90-93"
+        },
+        {
+          "titolo": "Fascia di consegna «Oggi» già trascorsa può essere salvata sull'ordine",
+          "severita": "minore",
+          "descrizione": "slotDay default = 'today' e slotTodayTime = SLOT_DEFAULTS.todayTime (getter valutato una volta al mount). A tarda ora todayTimesAvailable() è [] e defaultTodayTime() ripiega su TODAY_SLOTS[0].label (una fascia passata, es. «In giornata · 15:00–18:00»). L'effetto nel picker riallinea la selezione solo se todayTimes.length>0, altrimenti esce subito (DeliverySlotPicker 80-85) lasciando il valore stale. La UI mostra «Nessuna fascia disponibile per oggi — scegli Domani» ma se l'utente conferma senza toccare nulla, resolveSlotLabel('today', todayTime,…) restituisce comunque la fascia passata, che finisce su orders.delivery_slot.",
+          "impatto": "Ordini con finestra di consegna già scaduta/impossibile: confonde rider/negozio e il cliente, sporca il dato delivery_slot.",
+          "fix": "Quando le fasce di oggi sono esaurite, forzare day='tomorrow' (o azzerare todayTime) invece di lasciare il default stale; oppure in resolveSlotLabel ignorare todayTime se non è tra le fasce ancora disponibili.",
+          "file": "app/checkout/page.tsx:315-319 + components/checkout/DeliverySlotPicker.tsx:80-85, 119-122, 204, 211-221"
+        },
+        {
+          "titolo": "Pagina reso: input file non resettato e nessun gate su ordine non consegnato",
+          "severita": "minore",
+          "descrizione": "1) L'<input type=file> non azzera e.target.value dopo l'upload (onChange 153-161): riselezionare la STESSA foto non rilancia onChange, quindi non si può ricaricare/ritentare lo stesso file. 2) La pagina carica delivery_status (query 38-42) ma NON lo controlla: mostra il form completo per qualsiasi ordine visibile all'utente. Il copy promette «14 giorni dalla consegna» ma un ordine non ancora consegnato porta comunque al form, e l'errore emerge solo dopo il submit lato API. 3) Nessun limite di dimensione/tipo lato client oltre ad accept=\"image/*\".",
+          "impatto": "Frustrazione nel ricaricare foto; utenti che compilano un reso destinato a fallire (ordine non consegnato) con feedback tardivo; upload di file troppo grandi scoperti solo a valle.",
+          "fix": "Resettare e.target.value in onChange dopo uploadPhoto; gate client-side: se order.delivery_status !== 'DELIVERED' mostrare uno stato dedicato invece del form; validare dimensione/tipo file prima dell'upload.",
+          "file": "app/orders/[id]/return/page.tsx:36-46, 48-63, 153-161"
+        },
+        {
+          "titolo": "CTA sticky mobile mostra «Non disponibile» quando serve solo scegliere la variante",
+          "severita": "minore",
+          "descrizione": "La sticky riceve available={canAdd} e canAdd = !isOutOfStock && !needsVariantChoice && mayPurchase (product page 294): è false anche quando manca solo la scelta della variante (needsVariantChoice=true). StickyAddToCart allora rende il bottone disabilitato con testo «Non disponibile» (99-104), mentre il prodotto è disponibile e va solo scelta taglia/colore più in alto. La CTA principale in-page gestisce bene il caso mostrando «Scegli le opzioni» (product page 790), la sticky no.",
+          "impatto": "Su mobile l'utente crede che il prodotto sia esaurito e abbandona, invece di scorrere su e scegliere la variante: perdita di conversione.",
+          "fix": "Passare alla sticky uno stato distinto (es. label 'Scegli le opzioni' con onAdd che scrolla al selettore varianti) quando needsVariantChoice è true, invece del generico 'Non disponibile'.",
+          "file": "app/product/[id]/page.tsx:294, 790, 1031-1041 + components/StickyAddToCart.tsx:99-104"
+        }
+      ]
+    },
+    {
+      "dimensione": "accessibilita",
+      "findings": [
+        {
+          "titolo": "Bottoni interattivi annidati dentro un <a> (Link) nella card prodotto",
+          "severita": "grave",
+          "descrizione": "CONFERMATO. In components/ProductCard.tsx l'intera card è un <Link> (elemento <a>, riga 111) e al suo interno ci sono due <button> reali: il cuore preferiti (riga 135) e l'aggiungi-al-carrello (riga 187). Annidare contenuto interattivo dentro un'ancora è HTML non valido e rompe l'accessibilità: gli screen reader annunciano controlli annidati incoerenti e la navigazione da tastiera (Tab, attivazione con Invio/Spazio) diventa imprevedibile. I click funzionano solo grazie a preventDefault/stopPropagation manuali (handleFav righe 83-84, handleAdd righe 70-71); a riga 69 quando hasVariants è true la funzione fa `return` PRIMA di chiamarli, quindi il click bubbla e naviga alla scheda (comportamento voluto per scegliere le opzioni, ma conferma che la logica dipende da hack sul bubbling). È il pattern più diffuso del marketplace (griglia prodotti ovunque), quindi l'impatto è ampio.",
+          "impatto": "Utenti da tastiera e screen reader non distinguono/attivano in modo affidabile le azioni «preferiti» e «aggiungi al carrello», due funzioni chiave del funnel d'acquisto. Rischio conversione e non-conformità EAA/WCAG 4.1.2.",
+          "fix": "Non annidare <button> dentro <a>. Trasformare la card in un contenitore non interattivo con un overlay-link (un <a> in absolute inset-0 con testo accessibile per il titolo) e posizionare i <button> come fratelli sopra l'overlay (z-index maggiore); oppure un solo link sul titolo/immagine con i bottoni fuori dall'ancora. Target tap ≥44px già ok (h-11 w-11)."
+        },
+        {
+          "titolo": "Autocomplete ricerca senza semantica combobox e senza navigazione da tastiera / Esc",
+          "severita": "grave",
+          "descrizione": "CONFERMATO. In components/SearchBar.tsx l'input (righe 156-166) ha solo aria-label=\"Cerca\": niente role=combobox, aria-expanded, aria-controls, aria-activedescendant. Il pannello suggerimenti è una <ul> semplice (riga 189) senza role=listbox e gli item senza role=option. Non c'è alcun handler onKeyDown: nessuna navigazione con frecce su/giù tra i suggerimenti (il commento riga 32 dichiara «keyboard nav … — MVP: clic», non implementata) e — nonostante il commento riga 31 dichiari «tasto Esc chiude» — NON esiste handler per Escape: il dropdown si chiude solo con click esterno (mousedown, righe 133-142). Un utente da tastiera non può chiudere il pannello con Esc né muoversi nei suggerimenti.",
+          "impatto": "Screen reader non ricevono l'annuncio di «X suggerimenti disponibili» né possono muoversi nella lista come listbox; utenti da tastiera non navigano i suggerimenti con le frecce né chiudono con Esc. La ricerca è la porta d'ingresso principale al catalogo.",
+          "fix": "Implementare il pattern ARIA Combobox: input con role=combobox, aria-expanded, aria-controls verso la <ul> (role=listbox), ogni suggerimento role=option con id, aria-activedescendant aggiornato dalle frecce ↑/↓ (Invio apre l'evidenziato). Aggiungere onKeyDown per Escape che chiude e riporta il focus all'input, allineando il comportamento al commento già scritto."
+        },
+        {
+          "titolo": "Menu account: aria-haspopup=\"menu\" ma markup senza role menu e senza Esc / return-focus",
+          "severita": "grave",
+          "descrizione": "CONFERMATO. In components/Navbar.tsx il bottone del menu account dichiara aria-haspopup=\"menu\" (riga 272) e aria-expanded (riga 273), promettendo semantica di menu, ma il pannello aperto è un <div> con una <ul> di <Link> normali (righe 322-337): mancano role=menu / role=menuitem, la navigazione con frecce, la chiusura con Escape e il ritorno del focus al bottone alla chiusura. Il pannello si chiude solo su click esterno (mousedown, righe 255-261) o cambio rotta. Essendo non-modale, con la tastiera il focus può uscire nel contenuto sottostante mentre il menu resta visivamente aperto.",
+          "impatto": "Screen reader annunciano un «menu» che non si comporta da menu (mismatch fuorviante); utenti da tastiera non lo chiudono con Esc né riprendono il focus in modo prevedibile. Riguarda logout, ordini, impostazioni account.",
+          "fix": "O si adotta il pattern menu completo (role=menu/menuitem, frecce ↑/↓, Esc + focus di ritorno al trigger), oppure — più coerente col markup a link — si rimuove aria-haspopup=\"menu\" trattandolo come disclosure (solo aria-expanded), aggiungendo comunque un handler Escape con return-focus."
+        },
+        {
+          "titolo": "Modal: la focus-trap è erroneamente disattivata quando closeOnEsc={false} (difetto latente)",
+          "severita": "minore",
+          "descrizione": "CONFERMATO come difetto di codice, ma attualmente non manifesto. In components/ui/Modal.tsx lo stesso useEffect (riga 74) protegge con la guardia `if (!open || !closeOnEsc) return;` sia la gestione di Escape sia la focus-trap del Tab (righe 80-94): se un chiamante passasse closeOnEsc={false} si disabiliterebbe ANCHE il trapping del focus, facendo uscire il Tab sul contenuto di sfondo pur trattandosi di un dialog con aria-modal=\"true\". Il trap dovrebbe dipendere solo da `open`. VERIFICA: nessun chiamante nel repo passa closeOnEsc={false} — tutte le istanze <Modal> usano il default true — quindi oggi il bug non si attiva mai; è un difetto latente in un primitivo condiviso. Per questo abbasso la severità da grave a minore.",
+          "impatto": "Nessun impatto utente attuale (nessun caller disattiva Esc). Diventerebbe una violazione WCAG 2.4.3/2.1.2 non appena qualcuno usasse l'opzione pubblica closeOnEsc={false}.",
+          "fix": "Separare le responsabilità: focus-trap del Tab in un effetto gated solo su `open`, chiusura con Escape in un effetto separato gated su `open && closeOnEsc`."
+        },
+        {
+          "titolo": "Barra di navigazione mobile senza aria-current sulla voce attiva",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. In components/MobileTabBar.tsx lo stato attivo è calcolato (pathActive/matchedHref, righe 109-113 e 163-168) e reso solo visivamente (colore primary + barretta, riga 149), ma i <Link> attivi (riga 192) non espongono aria-current=\"page\". Nessun aria-current presente nel componente.",
+          "impatto": "Gli utenti screen reader non sanno in quale sezione si trovano nella navigazione principale mobile (orientamento ridotto). WCAG 1.3.1 / best practice di stato.",
+          "fix": "Aggiungere aria-current={active ? 'page' : undefined} sul <Link> a riga 192; per i bottoni isAccount/isSupport affidarsi ad aria-expanded (già presente)."
+        },
+        {
+          "titolo": "Textarea del form recensione senza etichetta accessibile",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. In app/product/[id]/page.tsx la textarea del commento recensione (righe 899-905) ha solo un placeholder («Scrivi un commento (opzionale)…») e nessun <label> associato né aria-label/aria-labelledby. Il placeholder non è un nome accessibile e sparisce quando si digita.",
+          "impatto": "Gli screen reader annunciano un campo di testo senza nome; chi ha difficoltà cognitive perde il contesto una volta iniziato a scrivere. WCAG 1.3.1/4.1.2/3.3.2.",
+          "fix": "Aggiungere aria-label=\"Commento della recensione\" (o una <label> visibile/sr-only con htmlFor) alla textarea."
+        },
+        {
+          "titolo": "ConfirmDialog: nessuna focus-trap, nessun return-focus e Invio globale conferma anche le azioni distruttive",
+          "severita": "minore",
+          "descrizione": "CONFERMATO. In components/ConfirmDialog.tsx il dialog (role=dialog + aria-modal, righe 107-109), usato anche per azioni danger (annullamenti/eliminazioni), non implementa focus-trap né ripristino del focus all'elemento che l'ha aperto. L'handler a livello document (righe 73-76) intercetta Invio e chiama SEMPRE closeWith(true): premere Invio da qualunque punto conferma l'azione, rischioso su un dialog distruttivo; con Tab il focus può uscire sullo sfondo. Il bottone conferma ha autoFocus (riga 155) ma l'handler globale rende il focus irrilevante per l'attivazione con Invio.",
+          "impatto": "Utenti da tastiera/screen reader possono uscire dal dialog (focus retrostante) e, con un Invio riflesso, confermare per errore un'azione irreversibile; alla chiusura il focus non torna al punto d'origine. WCAG 2.4.3/2.1.2.",
+          "fix": "Aggiungere focus-trap sul contenitore mentre è aperto e ripristinare il focus al trigger alla chiusura; limitare la conferma con Invio al solo bottone focalizzato (già autoFocus) invece che a livello document, così l'Invio globale non attiva azioni danger."
+        }
+      ]
+    },
+    {
+      "dimensione": "qa-flussi",
+      "findings": [
+        {
+          "titolo": "Il rifiuto venditore di un ordine CARTA gia pagato NON rimborsa il cliente",
+          "severita": "bloccante",
+          "file": "app/seller/orders/[id]/page.tsx:181 ; migrations/062_atomic_stock_reservation.sql:115 (seller_reject_order)",
+          "descrizione": "Confermato nel codice: la RPC seller_reject_order porta l'ordine a CANCELED e chiama solo restore_stock_for_order + notifica, senza alcun refund Stripe. Gli ordini carta sono creati dal webhook gia pagati (payment_status='PAID', delivery_status='NEW') e seller_reject_order accetta stato NEW/ACCEPTED, quindi un carta pagato puo essere rifiutato senza rimborso. Il percorso admin (app/api/admin/orders/[id]/cancel) e il cron expire-stale-orders invece invocano refundOrder. La notifica al buyer recita 'Niente addebiti' (o solo il motivo) mentre il cliente e gia stato addebitato.",
+          "impatto": "Il cliente paga, il negozio rifiuta e i soldi restano bloccati senza rimborso automatico finche un admin non interviene a mano: perdita di fiducia, possibili chargeback, messaggio ingannevole. E il difetto piu grave sui flussi di denaro.",
+          "fix": "In seller_reject_order (o in un wrapper API server-side che il pulsante Rifiuta chiama al posto della RPC diretta) rilevare gli ordini carta pagati e invocare refundOrder (refund Stripe + claw-back se TRANSFERRED + email) prima/insieme al passaggio a CANCELED, come fa admin/orders/[id]/cancel. Correggere il testo della notifica per il caso carta ('Rimborso in corso')."
+        },
+        {
+          "titolo": "Il credito wallet (gift card/punti) NON viene restituito su annullo o rifiuto di un ordine COD",
+          "severita": "grave",
+          "file": "migrations/062_atomic_stock_reservation.sql:88 (cancel_order) e :115 (seller_reject_order) ; app/api/orders/cod/route.ts:296-336",
+          "descrizione": "Confermato: nel COD con useCredit il wallet viene addebitato (wallet_debit) e salvato in orders.wallet_applied_cents (cod route ~296-336). Le RPC cancel_order (annullo buyer) e seller_reject_order (rifiuto negozio) eseguono solo restore_stock_for_order e NON stornano il credito con wallet_credit. Solo il cron expire-stale-orders esegue lo storno (wallet_credit con p_reason 'order_auto_canceled').",
+          "impatto": "Un cliente che paga un ordine COD in parte con credito MyCity e poi lo annulla (o se lo vede rifiutare dal negozio prima dell'accettazione) perde il credito scalato: sparisce senza contropartita. Ammanco reale sul saldo del cliente su un'azione comunissima.",
+          "fix": "In cancel_order e seller_reject_order, dopo restore_stock_for_order, se orders.wallet_applied_cents>0 chiamare wallet_credit(user_id, wallet_applied_cents, 'order_canceled_refund', order_id) in modo idempotente (ref = order_id), come gia fa il cron."
+        },
+        {
+          "titolo": "I rimborsi parziali non riducono il payout del venditore (over-payment)",
+          "severita": "grave",
+          "file": "lib/stripe/payout.ts:245-268 (reverseOrderTransfer) e :410-431 (refundOrder update) ; app/api/cron/release-payouts/route.ts + lib/stripe/payout.ts:114 (releaseOrderPayout)",
+          "descrizione": "Confermato: su rimborso PARZIALE (isFull=false) refundOrder aggiorna refunded_amount_cents ma NON decrementa orders.seller_payout_cents. (1) Se il payout e ancora HELD, reverseOrderTransfer e no-op (richiede payout_status='TRANSFERRED') e releaseOrderPayout paga poi l'INTERO order.seller_payout_cents; una volta risolto il reso lo sblocco avviene sull'importo pieno. (2) Se il payout e gia TRANSFERRED, un SECONDO rimborso parziale sullo stesso ordine e no-op perche reverseOrderTransfer early-returna su order.stripe_reversal_id gia valorizzato e l'idempotencyKey reversal_${order.id} restituirebbe comunque la stessa reversal.",
+          "impatto": "La piattaforma assorbe la quota-venditore di ogni rimborso parziale su ordine non ancora liquidato e la quota di tutti i rimborsi parziali successivi al primo su ordini gia liquidati. Perdita economica sistematica su resi/parziali, difficile da riconciliare.",
+          "fix": "Sui rimborsi parziali ridurre seller_payout_cents della quota-venditore rimborsata (o tenere un campo seller_reversed_cents) cosi il cron paga solo il residuo; usare idempotencyKey di reversal per-importo (es. reversal_${order.id}_${cum}) e accumulare i reversal invece dell'early-return sul solo stripe_reversal_id."
+        },
+        {
+          "titolo": "Coupon: over-redemption per race su max_uses e first_order_only",
+          "severita": "grave",
+          "file": "lib/coupons.ts:57-75 ; migrations/058_marketplace_security_hardening.sql:24 (increment_coupon_usage) ; app/api/orders/cod/route.ts:458 ; app/api/stripe/webhook/route.ts:359",
+          "descrizione": "Confermato: validateCoupon controlla uses_count>=max_uses e first_order_only in lettura, ma increment_coupon_usage e un semplice UPDATE uses_count=uses_count+1 senza guardia/cap, invocato alla FINE dopo la creazione ordine (cod:458, webhook:359). Le due operazioni non sono atomiche: richieste concorrenti dello stesso utente leggono tutte uses_count sotto soglia (e count ordini=0 per first_order_only, ancor piu nel flusso carta dove l'ordine esiste solo dopo il webhook), passano tutte la validazione, poi incrementano.",
+          "impatto": "Un coupon 'valido una sola volta' o a tiratura limitata puo essere riscattato piu volte in un burst concorrente: sconti oltre il budget previsto, abuso del primo-ordine. Perdita di margine controllabile solo a posteriori.",
+          "fix": "Rendere l'incremento atomico e condizionato: UPDATE coupons SET uses_count=uses_count+1 WHERE code=? AND (max_uses IS NULL OR uses_count<max_uses) RETURNING, riservando il conteggio PRIMA di creare l'ordine e annullando la riserva su fallimento; per first_order_only un vincolo/lock su (coupon,user)."
+        },
+        {
+          "titolo": "rider/cash-confirm non verifica delivery_status: incasso confermabile prima della consegna",
+          "severita": "minore",
+          "file": "app/api/rider/cash-confirm/route.ts:50-104",
+          "descrizione": "Confermato: il docstring dichiara un controllo server-side su delivery_status PICKED_UP/OUT_FOR_DELIVERY/DELIVERED, ma la update atomica filtra solo per id, rider_id e cash_confirmed_at IS NULL. Un rider puo registrare l'incasso su un ordine ancora NEW/ACCEPTED. La riconciliazione (upsertReconciliation) filtra pero per delivered_at, quindi un incasso confermato prima della consegna non entra nell'atteso della giornata.",
+          "impatto": "Contanti registrati fuori sequenza e non riconciliati; possibile uso improprio o dati incoerenti nella cassa COD. Impatto contenuto perche la UI espone il pulsante solo a consegna avvenuta, ma l'API e aperta.",
+          "fix": "Aggiungere alla update atomica la condizione .in('delivery_status', ['PICKED_UP','OUT_FOR_DELIVERY','DELIVERED']) coerente con il docstring."
+        },
+        {
+          "titolo": "Reso: la finestra dei 14 giorni viene saltata se delivered_at e NULL",
+          "severita": "minore",
+          "file": "app/api/returns/create/route.ts:47-54",
+          "descrizione": "Confermato: il vincolo dei 14 giorni e applicato solo dentro if (order.delivered_at). Un ordine con delivery_status='DELIVERED' ma delivered_at NULL (es. impostato a mano da admin, import, o path che non usa verify_delivery_code) aggira del tutto il limite temporale del recesso. Il percorso normale valorizza delivered_at insieme allo stato, ma qualsiasi scrittura amministrativa che sposta lo stato senza timestamp apre il buco.",
+          "impatto": "Possibilita di aprire resi/recessi oltre termine su ordini con timestamp mancante; contenzioso sui rimborsi tardivi.",
+          "fix": "Se delivery_status='DELIVERED' ma delivered_at e NULL, rifiutare (dato incoerente) o usare created_at come fallback; garantire l'invariante DELIVERED => delivered_at NOT NULL a livello DB."
+        },
+        {
+          "titolo": "Checkout carta: drift di arrotondamento tra sconto applicato da Stripe e totali per-ordine",
+          "severita": "minore",
+          "file": "app/api/stripe/checkout/route.ts:283-338,377 ; lib/stripe/client.ts:156-166",
+          "descrizione": "Confermato: lo sconto verso Stripe e un unico coupon amount_off = totalDiscountCents (clampato a subtotale+spedizione-1) distribuito da Stripe; i totali per-ordine persistiti usano Math.round(couponDiscountCents*portion) e Math.round(pickupDiscountCents*portion) sui valori NON clampati. pending_checkouts.total_cents = somma dei totalCents persistiti (riga 338), mentre Stripe riceve totalDiscountCents clampato (riga 377). Con clamp attivo (sconto ~100%) l'addebito Stripe risulta piu alto della somma dei total_price; anche senza clamp l'allocazione per-ordine puo divergere di qualche centesimo per il diverso arrotondamento.",
+          "impatto": "Riconciliazione imperfetta tra importo realmente incassato e somma dei total_price ordine; basi errate (di centesimi, o piu col clamp) per refund/payout per-ordine. Impatto economico piccolo ma reale su edge di sconti elevati.",
+          "fix": "Derivare i total_price per-ordine dalla stessa ripartizione usata verso Stripe (o ricostruire dall'importo effettivo di sessione/line item a webhook) e verificare che la somma == importo Stripe; gestire esplicitamente il caso clamp propagandolo ai totali persistiti."
+        }
+      ]
+    },
+    {
+      "dimensione": "api-backend",
+      "findings": [
+        {
+          "titolo": "Rimborso COD non limitato al residuo: over-accredito del wallet oltre il totale ordine",
+          "severita": "grave",
+          "descrizione": "In `lib/stripe/payout.ts` `refundOrder()` clampa l'importo SOLO al totale ordine (riga 331: `safeAmountCents = Math.max(0, Math.min(opts.amountCents, orderTotalCents))`), NON al residuo rimborsabile (`orderTotalCents - refunded_amount_cents`). Poi calcola `newRefundedTotal = (order.refunded_amount_cents ?? 0) + safeAmountCents` (riga 335) e per gli ordini COD accredita `safeAmountCents` sul wallet del buyer via `wallet_credit` (righe 362-367) senza alcun backstop esterno. Sul percorso carta lo stesso difetto e mascherato perche `stripe.refunds.create` rifiuta un rimborso cumulativo superiore alla charge (righe 397-409) e inoltre il refund pieno imposta `delivery_status='CANCELED'` (riga 426), bloccando nuovi resi; sul COD nessuna di queste reti esiste. Verificato: `app/api/returns/create/route.ts` blocca solo UN reso APERTO per ordine (stati REQUESTED/APPROVED/SHIPPED_BACK/RECEIVED, righe 56-64), quindi dopo che un reso passa a REFUNDED se ne puo aprire un altro; per il COD `refundOrder` NON imposta `delivery_status='CANCELED'` (commento esplicito riga 376), cosi l'ordine resta DELIVERED e supera il controllo di `returns/create` (riga 47) entro 14 gg (riga 53). L'idempotencyKey COD e `return_<id>` (diverso per ogni reso, `decide/route.ts` riga 90), quindi il ref del `wallet_credit` cambia tra resi distinti e non deduplica.",
+          "impatto": "Perdita finanziaria reale a carico della piattaforma: un venditore (che decide i propri resi) o admin puo approvare piu resi parziali/totali sullo stesso ordine COD e accreditare al buyer credito MyCity spendibile per un totale che eccede il valore dell'ordine (es. 200 EUR di credito su un ordine da 100 EUR). Anche in assenza di dolo e una falla di integrita contabile: `refunded_amount_cents` puo superare il totale ordine. Vettore di frode sfruttabile da buyer+seller in collusione.",
+          "fix": "Clampare al residuo: `const remaining = orderTotalCents - (order.refunded_amount_cents ?? 0); const safeAmountCents = Math.max(0, Math.min(opts.amountCents, remaining));` e rifiutare (throw / 409) se `remaining <= 0`. In `app/api/returns/[id]/decide/route.ts` validare inoltre `refundAmountCents` contro il residuo dell'ordine prima di chiamare refundOrder.",
+          "file": "lib/stripe/payout.ts:331 (e app/api/returns/[id]/decide/route.ts)"
+        },
+        {
+          "titolo": "gift-cards/checkout: idempotencyKey Stripe include Date.now() -> idempotenza annullata",
+          "severita": "minore",
+          "descrizione": "In `app/api/gift-cards/checkout/route.ts` (riga 81) la Checkout Session e creata con `{ idempotencyKey: `giftcard_${user.id}_${amountCents}_${body.recipientEmail}_${Date.now()}` }`. Includere `Date.now()` rende la chiave unica a ogni invocazione: l'idempotency-key non deduplica mai nulla (doppio click / retry di rete generano due sessioni Stripe distinte). L'intento dichiarato dell'idempotency-key e esattamente evitare i duplicati su retry.",
+          "impatto": "Basso: solo una sessione viene poi effettivamente pagata, ma si creano sessioni di checkout doppie e l'intera protezione e inefficace. Anti-pattern che vanifica la difesa prevista.",
+          "fix": "Rimuovere `Date.now()` dalla chiave (renderla deterministica sul contenuto della richiesta, es. hash di buyer+amount+recipient+message) cosi un retry entro la finestra Stripe (24h) riusa la stessa sessione.",
+          "file": "app/api/gift-cards/checkout/route.ts:81"
+        },
+        {
+          "titolo": "health endpoint pubblico espone nomi di env var mancanti e messaggi d'errore del DB",
+          "severita": "minore",
+          "descrizione": "`app/api/health/route.ts` e pubblico (senza auth, per i monitor - commento riga 21) e restituisce nel JSON l'intero oggetto `checks` (righe 50-58), incluso `checks.env.error = missingEnv.join(',')` (riga 44 - nomi delle variabili d'ambiente critiche mancanti) e `checks.db.error = error?.message` (riga 32 - messaggio grezzo dell'errore Supabase). Il commento nel file stesso prescrive l'opposto (riga 14): 'Non esporre version, build hash, env. Solo status + timestamp'.",
+          "impatto": "Information disclosure a basso rischio verso chiunque: rivela quali configurazioni sono assenti e dettagli interni del layer DB, utili a un attaccante in fase di ricognizione. Contraddice la policy dichiarata dell'endpoint.",
+          "fix": "Restituire pubblicamente solo `status`+`timestamp`+booleani per-check (ok true/false), spostando i dettagli (nomi env, messaggi DB) nei soli log server. In alternativa gate dei dettagli dietro un secret header.",
+          "file": "app/api/health/route.ts:32,44"
+        },
+        {
+          "titolo": "KYC upload: estensione file presa dal nome utente senza sanitizzazione, usata nel path storage",
+          "severita": "minore",
+          "descrizione": "In `app/api/kyc/upload-document/route.ts` (riga 43) il path e costruito con `const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'; const path = `${user.id}/${kind}-${Date.now()}.${ext}`` (riga 44). `ext` deriva dal nome file fornito dal client e non e validato contro un set di estensioni ammesse ne ristretto a caratteri alfanumerici (a differenza del `content-type`, validato contro ALLOWED_MIME alla riga 39). Un nome file confezionato (es. contenente `.` e `/`) puo iniettare caratteri, inclusi slash, nel segmento finale del path oggetto.",
+          "impatto": "Basso: user.id (UUID) e kind (allowlist riga 36) delimitano la cartella, ma un'estensione non sanitizzata puo produrre nomi di oggetto imprevisti nel bucket privato 'kyc-docs' (path parzialmente controllato dall'utente), con potenziali sorprese di storage/serving.",
+          "fix": "Derivare l'estensione dal `file.type` gia validato (mappa mime->ext) oppure fare allowlist: `const ext = ({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'})[file.type] ?? 'bin';`, ignorando del tutto `file.name`.",
+          "file": "app/api/kyc/upload-document/route.ts:43-44"
+        },
+        {
+          "titolo": "Webhook Stripe: email e notifiche post-ordine non protette da try/catch dopo il commit del checkout",
+          "severita": "minore",
+          "descrizione": "In `app/api/stripe/webhook/route.ts` `handleCheckoutCompleted` marca il `pending_checkout` come COMPLETED (righe 365-372) PRIMA del ciclo di invio email/notifiche buyer+seller (righe 375-408), che usano `await` nudi senza try/catch (`admin.auth.admin.getUserById` riga 389, `sendEmail` righe 386/398, `notifications.insert` riga 402). Se una di queste chiamate rigetta a meta ciclo (es. errore rete), l'handler lancia -> 500 -> Stripe ritenta, ma al retry `handleCheckoutCompleted` esce subito (pending gia COMPLETED, righe 210-213) e le notifiche/email rimanenti non vengono MAI reinviate. Il commento le dichiara 'best-effort' (riga 374) ma non c'e il try/catch che lo garantisca.",
+          "impatto": "Basso e condizionato (dipende dal fatto che sendEmail/insert rigettino invece di ritornare errore): in un checkout multi-seller, un errore transitorio sull'ordine #2 puo lasciare venditore/acquirente senza notifica/email di conferma, in modo permanente.",
+          "fix": "Avvolgere ogni invio email/notifica in un try/catch per-iterazione, cosi un fallimento best-effort non fa fallire l'handler ne perde le notifiche successive.",
+          "file": "app/api/stripe/webhook/route.ts:375-408"
+        },
+        {
+          "titolo": "sponsored/checkout e seller/subscription/checkout: nessuna idempotencyKey Stripe",
+          "severita": "minore",
+          "descrizione": "`app/api/sponsored/checkout/route.ts` (riga 59) e `app/api/seller/subscription/checkout/route.ts` (riga 48) chiamano `stripe.checkout.sessions.create({...})` senza passare alcuna `idempotencyKey` (secondo argomento opzioni assente). Un doppio invio / retry crea sessioni Stripe duplicate. Il rate-limit per-utente mitiga l'abuso ma non l'idempotenza vera e propria.",
+          "impatto": "Basso: solo una sessione viene pagata, ma si generano sessioni doppie; incoerente con gli altri flussi di pagamento del progetto (checkout ordini, gift-card) che l'idempotenza la prevedono.",
+          "fix": "Passare una idempotencyKey deterministica coerente col contenuto (es. `sponsored_${user.id}_${productId}_${weeks}` e `sub_${user.id}`) come secondo argomento di sessions.create, riusando la stessa entro la finestra di retry.",
+          "file": "app/api/sponsored/checkout/route.ts:59 e app/api/seller/subscription/checkout/route.ts:48"
+        }
+      ]
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "findings": [
+        {
+          "titolo": "Gli endpoint AI più costosi (Sonnet + web_search) usano il rate limiter in-memory sincrono, ignorando Upstash",
+          "severita": "grave",
+          "file": "app/api/ai/improve-product/route.ts:225; app/api/ai/diagnose/route.ts:90; app/api/ai/barcode-lookup/route.ts:62; app/api/ai/variants/route.ts:63; app/api/ai/seo/route.ts:52; app/api/ai/voice-product/route.ts:54; app/api/ai/reviews-summary/route.ts:57; app/api/ai/answer-qa/route.ts:47; app/api/ai/translate/route.ts:56; app/api/ai/copilot/route.ts:75; app/api/ai/catalog-create-bulk/route.ts:53; app/api/ai/catalog-batch/start/route.ts:35; app/api/ai/catalog-batch/apply/route.ts:32",
+          "descrizione": "VERIFICATO. Questi endpoint chiamano rateLimit() (versione sincrona in-memory di lib/rate-limit.ts) invece di rateLimitAsync(). La funzione sincrona guarda solo la Map locale 'buckets' e non consulta mai Upstash. Proprio i più cari sono coinvolti: improve-product (route:287), diagnose (route:115) e barcode-lookup (route:98) usano tutti MODELS.smart (= 'claude-sonnet-4-5', client.ts:21) + tool web_search (web_search_20250305). Al contrario description/catalog-create/catalog-apply/product-chat/catalog-chat/catalog-batch-status usano correttamente rateLimitAsync. Conseguenze reali confermate: (a) i counter in-memory si azzerano ad ogni restart/deploy (autoDeploy Render), resettando i cap orari; (b) su più istanze il cap effettivo si moltiplica per il numero di istanze; (c) barcode-lookup ha finestra di soli 10 minuti con max 20 → fino a 120 chiamate Sonnet+web_search/ora per utente. Anche configurando Upstash (come raccomanda render.yaml per lo scale-out) questi endpoint continuerebbero a ignorarlo.",
+          "impatto": "Spesa AI incontrollata: un seller approvato (o account compromesso) può moltiplicare le chiamate Sonnet+web_search oltre i cap previsti sfruttando restart e/o istanze multiple, con costo diretto a carico di MyCity e nessun tetto distribuito reale.",
+          "fix": "Sostituire rateLimit() con await rateLimitAsync() in tutti gli endpoint AI (sono già handler async). Uniformare a description/catalog-chat/product-chat/catalog-create che usano già rateLimitAsync; in alternativa deprecare la versione sincrona per le route a pagamento."
+        },
+        {
+          "titolo": "Nessun tetto di spesa aggregato né circuit-breaker sulle chiamate AI",
+          "severita": "grave",
+          "file": "lib/ai/run.ts:168-178 (runMessage) + tutti gli endpoint app/api/ai/*",
+          "descrizione": "VERIFICATO. Esiste solo un rate limit PER-UTENTE PER-ENDPOINT. Non c'è alcun budget aggregato (per-seller cross-endpoint, per-organizzazione o globale) né kill-switch a soglia di costo. runMessage() calcola estCostEur (run.ts:168) e lo logga in 'ai_usage' (run.ts:172-178) ma non lo somma né lo confronta con alcun limite (grep su budget/circuit/kill-switch/spend non trova alcun gate). Un singolo seller può sommare i cap dei vari endpoint tutti su Sonnet+web_search (improve-product 20/h + diagnose 20/h + barcode 20/10min + product-chat 25/h + catalog-chat 25/h + catalog-batch), senza tetto complessivo. L'unico freno è rimuovere manualmente ANTHROPIC_API_KEY, cioè spegnere tutto.",
+          "impatto": "Esposizione finanziaria non limitata: abuso o bug del client possono generare molte decine/centinaia di euro di chiamate Sonnet in poche ore senza che nulla si fermi o allerti automaticamente.",
+          "fix": "Aggiungere in runMessage un accumulatore di costo persistito (per seller e globale/giornaliero) su Supabase/Upstash con soglia di stop (503 'budget AI esaurito') e alert. Sfruttare estCostEur già calcolato; soglie configurabili via env."
+        },
+        {
+          "titolo": "imageUrls controllati dal client passati ad Anthropic come source 'url' con sola validazione http(s)",
+          "severita": "minore",
+          "file": "lib/ai/productContext.ts:22-27 e 69 (sanitizeImageUrls, usato da seo/diagnose/translate/variants/answer-qa); app/api/ai/improve-product/route.ts:238-240 e 277; app/api/ai/product-chat/route.ts:221; app/api/ai/catalog-chat/route.ts:254-265",
+          "descrizione": "VERIFICATO. Gli URL immagine arrivano dal body del client e sono filtrati solo con /^https?:\\/\\//i (productContext.ts:24, improve-product:239). Vengono poi inviati ad Anthropic come blocchi image {source:{type:'url',url}} (productContext.ts:69, improve-product:277, product-chat:221, catalog-chat:254+). Un seller autenticato può quindi far scaricare al servizio Anthropic (con la nostra API key) URL arbitrari, non necessariamente immagini del proprio catalogo né del dominio dell'app. Non è SSRF verso l'infra MyCity (il fetch lo fa Anthropic), ma consente di usare il nostro account per fetch arbitrari e, con fino a 4 immagini remote di dimensione qualsiasi, di gonfiare i token di input (costo) senza controllo di dimensione/host.",
+          "impatto": "Costo aggiuntivo e uso improprio dell'account AI; possibile invio di URL non appartenenti al seller. Impatto contenuto perché il fetch è lato Anthropic e l'endpoint richiede seller approvato.",
+          "fix": "Restringere gli URL al dominio dello storage dell'app (Supabase Storage / CDN), rifiutando gli altri; in modalità focus/catalog usare solo le immagini prese dal DB e non quelle passate liberamente dal client."
+        },
+        {
+          "titolo": "Il piano di copilot ammette fino a 200 modifiche ma l'unico path di scrittura applica un prodotto per volta a 60/h",
+          "severita": "minore",
+          "file": "app/api/ai/copilot/route.ts:70 (MAX_CHANGES=200) vs app/api/ai/catalog-apply/route.ts:29 (max 60/h, singolo productId); components/seller/CatalogCopilot.tsx:106-108",
+          "descrizione": "VERIFICATO. copilot restituisce fino a 200 changes (MAX_CHANGES=200), ma catalog-apply scrive UN solo productId per chiamata (ApplyBody={productId,patch}) ed è limitato a 60 applicazioni/ora. CatalogCopilot.tsx applica i changes in loop una chiamata catalog-apply per prodotto (righe 106-108). Un piano di massa >60 modifiche non è quindi applicabile per intero entro il rate limit e non esiste un endpoint di apply bulk equivalente per i changes del copilot (catalog-batch/apply è un flusso job separato, non collegato ai changes del copilot). Inoltre copilot stesso usa rateLimit() sincrono (route:73).",
+          "impatto": "Funzionalità 'modifiche di massa' promessa dalla UI ma non completabile per cataloghi grandi: superate le 60 applicazioni/ora il loop inizia a ricevere 429 e il venditore resta a metà, con incoerenza tra piano proposto e modifiche effettivamente scritte.",
+          "fix": "Introdurre un endpoint di apply bulk transazionale (riusa resolveAiPatch in loop server-side con verifica seller_id) e/o allineare MAX_CHANGES al limite realmente applicabile, comunicando il tetto in UI."
+        },
+        {
+          "titolo": "gcIfNeeded del rate limiter può non liberare memoria e crescere illimitatamente",
+          "severita": "minore",
+          "file": "lib/rate-limit.ts:24-34",
+          "descrizione": "VERIFICATO. gcIfNeeded elimina solo i bucket 'stale' (times vuoto o ultimo accesso da >1h). Se la Map supera MAX_KEYS (50.000) ma tutte le chiavi sono recenti e non vuote, il ciclo non elimina nulla e la Map continua a crescere: il break scatta solo quando buckets.size scende sotto la soglia, cosa che con chiavi tutte fresche non avviene mai. Le route AI usano user.id (bounded dai seller), ma lo stesso limiter in-memory è condiviso col fallback sincrono degli endpoint keyati per IP (signin/signup/contact usano rateLimitAsync che, quando Upstash NON è configurato — stato attuale — ricade su rateLimit() e popola la stessa Map). Sotto un flood di IP distinti la Map può crescere oltre MAX_KEYS senza eviction.",
+          "impatto": "Possibile crescita non limitata della memoria (degrado/OOM) sotto molte chiavi distinte attive quando Upstash non è configurato, indebolendo la robustezza su cui poggia il rate limiting.",
+          "fix": "Rendere il GC realmente limitante: superato MAX_KEYS con chiavi tutte 'fresche', evictare comunque le meno recenti (LRU) fino a rientrare sotto soglia; oppure spostare il limiter su Upstash con TTL nativo."
+        }
+      ]
+    },
+    {
+      "dimensione": "dati-analytics",
+      "findings": [
+        {
+          "titolo": "14 eventi su 27 del catalogo non vengono MAI emessi (funnel seller/rider e discovery ciechi)",
+          "severita": "grave",
+          "file": "lib/analytics/events.ts (trackSignedIn, trackSignedOut, trackStoreViewed, trackCategoryViewed, trackOrderCanceled, trackFavoriteAdded, trackReviewSubmitted, trackReferralSent, trackShareCart, trackSellerOnboardingStarted, trackSellerOnboardingCompleted, trackSellerOrderAccepted, trackRiderOrderAccepted, trackRiderDeliveryCompleted)",
+          "descrizione": "Verificato con grep su app/components/lib: 14 helper del 'single source of truth' sono definiti ma NON chiamati da nessun punto fuori events.ts (0 usi ciascuno). Le feature relative esistono davvero: app/store/[id], app/favorites, app/profile/referral, app/seller/reviews, app/seller/orders, app/rider/orders, app/rider/onboarding. Non sono placeholder: è instrumentazione mancante.",
+          "impatto": "Interi funnel restituiscono zero pur esistendo il prodotto: funnel venditore (onboarding→accetta ordine) e rider (accetta→consegna) completamente invisibili; store_viewed/category_viewed impediscono di misurare la scoperta; favorite/review/referral/order_canceled non misurano engagement e retention. Il catalogo eventi esiste ma le dashboard sono vuote → decisioni su dati fantasma.",
+          "fix": "Cablare gli helper nei rispettivi punti d'azione (store_viewed nella pagina store, seller_onboarding_* nel flusso seller, *_order_accepted negli handler 'Accetta', rider_delivery_completed alla consegna, ecc.), oppure rimuovere dal catalogo gli eventi che non si intende tracciare per mantenerlo veritiero."
+        },
+        {
+          "titolo": "order_placed incoerente tra carta e COD: id di dominio diverso e valore stimato client-side",
+          "severita": "grave",
+          "file": "app/orders/page.tsx:84 (carta) e app/checkout/page.tsx:434 (COD)",
+          "descrizione": "Confermato: per la carta trackOrderPlaced usa il Stripe Checkout Session id (cs_..., preso da searchParams session_id) sia come order_id PostHog sia come transaction_id GA4; per il COD usa createdOrders[0], l'UUID reale dell'ordine dal DB. Inoltre il 'value' è client-side in entrambi: carta = p.valueCents dallo stash mc_pending_purchase; COD = Math.round(grandTotal*100). L'API COD ritorna solo orderIds, non il totale ricalcolato server-side, che quindi non viene usato.",
+          "impatto": "Due namespace di ID diversi nello stesso evento: impossibile fare join di order_placed con la tabella orders per gli ordini a carta; si mischiano cs_... con UUID nelle analisi. Il fatturato in analytics diverge da quello reale ogni volta che il server ricalcola un totale diverso (coupon rivalidato, prezzo cambiato) → GMV/ROAS non affidabili.",
+          "fix": "Usare sempre l'order_id reale del DB come order_id/transaction_id (per la carta recuperarlo dal webhook o da un endpoint dopo il redirect). Far ritornare all'API COD il totale server-side e tracciare quello, non la stima client."
+        },
+        {
+          "titolo": "L'evento GA4 'purchase' non include l'array items → report e-commerce prodotto vuoti",
+          "severita": "grave",
+          "file": "lib/analytics/events.ts (ga('purchase', ...) in trackOrderPlaced e ga('begin_checkout', ...) in trackCheckoutStarted)",
+          "descrizione": "Confermato: il fan-out GA4 di trackOrderPlaced ('purchase') invia transaction_id, currency, value, payment_type, coupon ma NON il campo items; begin_checkout invia solo currency e value, senza items. view_item e add_to_cart invece includono items.",
+          "impatto": "In GA4 la reportistica e-commerce a livello prodotto (Item revenue, Product performance, cosa è stato comprato) è vuota per i purchase: si vede cosa è stato visto/aggiunto ma non cosa è stato acquistato. Attribuzione prodotto→ricavo rotta, impossibile ottimizzare catalogo/ads sui best seller reali.",
+          "fix": "Passare le righe del carrello a trackOrderPlaced e includerle come items nel purchase (item_id, item_name, price, quantity, item_brand=storeName). Aggiungere items anche a begin_checkout."
+        },
+        {
+          "titolo": "error_shown non tracciato sulla maggioranza dei rami d'errore (rete, sessione, rate-limit, HTTP)",
+          "severita": "grave",
+          "file": "lib/errors.ts (friendlyError: rami duplicate key, foreign key, permission denied/RLS, network/fetch/timeout, rate limit, jwt/token/expired, e i rami e.status 401/403/404/429/5xx)",
+          "descrizione": "Confermato: friendlyError chiama trackErrorShown solo per i codici Supabase mappati e nel ramo 'cleaned' finale. Tutti i rami che intercettano messaggi comuni via regex (duplicate key, foreign key, permission denied, network, rate limit, jwt/session) ritornano SENZA tracciare, così come tutti i rami e.status HTTP.",
+          "impatto": "error_shown sotto-riporta proprio le classi di errore più frequenti e dannose (connessione persa, sessione scaduta, permessi, troppe richieste, errori server). La dashboard errori dà un quadro falsato: sembra tutto sano mentre gli utenti sbattono su errori invisibili → conversioni perse senza saperlo.",
+          "fix": "Chiamare trackErrorShown con un codice sintetico ('network','rate_limit','session_expired','http_401', ecc.) in ogni ramo prima del return, così ogni errore mostrato genera esattamente un evento."
+        },
+        {
+          "titolo": "A/B test: la variante è taggata solo sull'evento di esposizione, non registrata come super/person property",
+          "severita": "minore",
+          "file": "lib/analytics/events.ts (trackExperimentExposed) + lib/analytics/posthog.tsx",
+          "descrizione": "Confermato: trackExperimentExposed imposta home_hero_variant solo come property dell'evento experiment_exposed; non c'è alcun posthog.register né person property (il tipo PostHogLike non espone nemmeno register). Gli eventi di conversione a valle non portano il tag della variante. Il commento a events.ts che dice 'la conversione si lega via le property home_hero_variant' è fuorviante. NB: l'esperimento È usato (components/home/ExperimentExposure.tsx). Severità ridotta da grave a minore perché una funnel PostHog può comunque segmentare filtrando lo step di esposizione per-persona — non è del tutto inanalizzabile, ma resta friction e commento ingannevole.",
+          "impatto": "Impossibile fare un semplice breakdown di order_placed per variante A vs B; l'analisi richiede funnel per-persona e il commento induce in errore chi manutiene → rischio di conclusioni errate sul test.",
+          "fix": "Alla assegnazione registrare la variante come super property persistente (posthog.register({ home_hero_variant: variant })) o person property, oppure usare le Experiments native di PostHog con feature flag; correggere il commento."
+        },
+        {
+          "titolo": "checkout_started / begin_checkout emesso a ogni mount della pagina checkout (nessun dedup)",
+          "severita": "minore",
+          "file": "app/checkout/page.tsx:49-57",
+          "descrizione": "Confermato: trackCheckoutStarted è chiamato in un useEffect([]) che gira a ogni montaggio di /checkout, senza deduplica per sessione/carrello. Refresh, navigazione avanti/indietro o rientro dopo login rifanno partire l'evento. ProductViewTracker invece deduplica via sessionStorage (mc_viewed_...), qui no.",
+          "impatto": "Il primo gradino del funnel di checkout è gonfiato: begin_checkout/checkout_started conta più dei checkout reali, abbassando artificialmente il tasso checkout→purchase e falsando l'analisi di abbandono.",
+          "fix": "Deduplicare per sessione/hash-carrello con sessionStorage (come ProductViewTracker), o emettere l'evento alla prima interazione reale col checkout invece che al mount."
+        },
+        {
+          "titolo": "Chi accetta il consenso analytics dopo il login non viene re-identificato (eventi anonimi con identified_only)",
+          "severita": "minore",
+          "file": "components/hooks/useProfile.ts:27-46 + lib/analytics/posthog.tsx (person_profiles: 'identified_only')",
+          "descrizione": "Confermato: identify() è invocato solo al primo getUser e sull'evento SIGNED_IN; non c'è listener su mc:consent-change. Con identified_only e utente già loggato che concede il consenso DOPO, l'identify iniziale era un no-op (getPosthog ritorna null senza consenso) e non viene ripetuto finché non fa logout/login.",
+          "impatto": "Gli eventi post-consenso restano anonimi/non attaccati a un person profile fino al prossimo login: funnel per-utente, retention e stitching anonimo→identificato lacunosi proprio per chi accetta il tracking a sessione avviata.",
+          "fix": "Rieseguire identify(userId) all'evento mc:consent-change quando il consenso passa a granted e c'è già un utente in sessione (nel listener di posthog.tsx o in useProfile)."
+        },
+        {
+          "titolo": "Il gating GA lato app non funziona: lo stub gtag esiste sempre, il no-op di ga() non blocca mai",
+          "severita": "minore",
+          "file": "lib/analytics/events.ts (ga()) + components/GoogleAnalytics.tsx (script ga-consent-default beforeInteractive)",
+          "descrizione": "Confermato: ga() si protegge con 'if (!window.gtag) return', ma lo script Consent Mode beforeInteractive definisce window.gtag = gtag SEMPRE quando NEXT_PUBLIC_GA_MEASUREMENT_ID è settato, anche senza consenso. Quindi window.gtag esiste sempre e la guardia non blocca mai. Il commento in events.ts ('ga() è no-op se gtag non è presente', 'doppio gating') afferma il contrario.",
+          "impatto": "Gli eventi e-commerce vengono spinti nel dataLayer indipendentemente dallo stato di consenso dell'app: la protezione reale è solo il Consent Mode di Google (denied), non la doppia gate documentata. Documentazione fuorviante per chi manutiene.",
+          "fix": "Gate esplicito in ga() sul consenso reale (readConsent().analytics) prima del push e correggere il commento; oppure affidarsi consapevolmente al solo Consent Mode e documentarlo."
+        },
+        {
+          "titolo": "Unità di prezzo incoerenti tra eventi PostHog dello stesso funnel + email (PII) inviata nei trait",
+          "severita": "minore",
+          "file": "lib/analytics/events.ts (product_viewed vs add_to_cart/order_placed) + components/hooks/useProfile.ts:35,43",
+          "descrizione": "Confermato: product_viewed invia 'price' in EURO (app/product/[id]/page.tsx passa price = Number(product.price), euri), mentre add_to_cart invia 'price_cents' in CENTESIMI e order_placed 'total_cents'. Stesso funnel, unità e naming diversi. Inoltre useProfile chiama identify(uid, { email }): l'email in chiaro finisce nei person profile PostHog.",
+          "impatto": "Analisi cross-evento sul valore prodotto rischiano errori di 100x se si assume la stessa unità; il naming ambiguo ('price' senza suffisso) porta a bug di reportistica. L'email nei trait è PII in uno strumento di analytics (rischio GDPR/minimizzazione), pur essendo gated dal consenso.",
+          "fix": "Uniformare a *_cents ovunque (product_viewed → price_cents) o documentare l'unità di ogni property; evitare l'email come trait a PostHog (usare solo user_id o un hash) salvo necessità comprovata."
+        },
+        {
+          "titolo": "signup_completed emesso alla richiesta di registrazione, prima della conferma email e dell'identify",
+          "severita": "minore",
+          "file": "app/sign-up/page.tsx:90",
+          "descrizione": "Confermato: trackSignupCompleted parte subito dopo supabase.auth.signUp, seguito da router.push('/auth/verify-email'); il flusso richiede conferma email. L'account non è ancora attivato e l'utente non è ancora identificato in PostHog (identify avviene solo dopo il login post-conferma), quindi l'evento è anonimo con identified_only.",
+          "impatto": "signup_completed conta le intenzioni di registrazione, non gli account attivati: il numeratore del funnel di acquisizione è sovrastimato; l'evento inoltre è anonimo, non legato al futuro profilo.",
+          "fix": "Emettere signup_completed (o un signup_confirmed) nel callback di conferma email (app/auth/callback) dove l'utente è attivo e identificabile, o aggiungere una property 'pending_confirmation' per distinguere le fasi."
+        }
+      ]
+    },
+    {
+      "dimensione": "deploy-sre",
+      "findings": [
+        {
+          "titolo": "Build su Render fragile: buildCommand disallineato dal CI (manca --legacy-peer-deps) e NODE_ENV=production che omette le devDependencies necessarie al build",
+          "severita": "grave",
+          "file": "render.yaml:26 (buildCommand) + render.yaml:33-34 (NODE_ENV=production); cfr. .github/workflows/ci.yml:25-28",
+          "descrizione": "render.yaml:26 usa `buildCommand: npm ci && npm run build`, mentre TUTTI i job del CI installano con `npm ci --legacy-peer-deps` e il commento in ci.yml:25-26 dichiara esplicitamente che senza `--legacy-peer-deps` l'install FALLISCE per i peer-conflict di Storybook. Inoltre render.yaml:33-34 imposta `NODE_ENV: production` come env di servizio (attivo anche in build su Render): con questo valore npm ha di default `omit=dev`, quindi non installa le devDependencies. Verificato in package.json: autoprefixer, tailwind-scrollbar-hide, eslint, eslint-config-next, @types/node, @types/react, @types/react-dom sono TUTTI in devDependencies; postcss.config.js richiede autoprefixer, tailwind.config.ts:224 fa require('tailwind-scrollbar-hide'), e next.config.js NON ha né typescript.ignoreBuildErrors né eslint.ignoreDuringBuilds (quindi `next build` esegue type-check+lint e serve @types/eslint). In entrambi gli scenari il deploy è fragile: con le devDeps → npm ci fallisce per i peer di Storybook; senza (NODE_ENV) → il build salta perché mancano autoprefixer/tailwind-scrollbar-hide/@types.",
+          "impatto": "Deploy in produzione che può rompersi (build fallito → nessun aggiornamento del sito) o comportarsi diversamente dal CI, vanificando il valore del CI come gate anti-regressione.",
+          "fix": "Allineare render.yaml al CI e forzare le devDeps al build: `buildCommand: npm ci --legacy-peer-deps --include=dev && npm run build`. In alternativa spostare autoprefixer, tailwind-scrollbar-hide, @types/*, eslint-config-next in dependencies e rimuovere la divergenza sul flag peer-deps."
+        },
+        {
+          "titolo": "Cron interamente esterni e non versionati: se lo scheduler manca, payout/email/cancellazioni GDPR non girano mai — e il dead-man's switch dipende da un cron esterno",
+          "severita": "grave",
+          "file": "render.yaml:73-92 (blocco cron solo commentato) + lib/cron-health.ts:8-11,38-48",
+          "descrizione": "Confermato: render.yaml non definisce alcun servizio scheduler — gli 8+ cron (release-payouts, process-deletions GDPR, send-emails, send-push, expire-checkouts, expire-stale-orders, abandoned-carts, operational-alerts, external-price-alerts) sono solo documentati come commento e vanno agganciati a mano su cron-job.org (\"Senza scheduler questi cron NON girano\"). Il dead-man's switch (staleCrons in cron-health.ts) è a sua volta valutato dal cron operational-alerts e, come ammette il commento a cron-health.ts:9-11, non può vigilare su sé stesso. Inoltre staleCrons (cron-health.ts:44-46, `if (!ts) continue`) IGNORA i cron senza heartbeat: prima che lo scheduler sia configurato la prima volta il silenzio è totale (il seed dipende dalla migration 095).",
+          "impatto": "Rischio silenzioso ad alto impatto: payout mai rilasciati, email transazionali/lifecycle non spedite, checkout scaduti non liberati e cancellazioni account GDPR (Art.17) mai eseguite — senza alcun allarme se lo scheduler o l'intero operational-alerts sono giù. L'unico monitor indipendente (uptime su /api/health) non verifica lo stato dei cron.",
+          "fix": "Definire i cron come risorsa versionata e monitorabile (blocco `- type: cron` su Render o pg_cron/Edge Functions schedulate) e aggiungere un check esterno indipendente sul heartbeat dei cron (es. endpoint letto da UptimeRobot) che non passi da operational-alerts."
+        },
+        {
+          "titolo": "process-deletions: il fallback di anonimizzazione lascia i dati KYC (nome legale, CF, IBAN) mentre l'utente auth viene cancellato e l'esito è contato come 'ok'",
+          "severita": "grave",
+          "file": "app/api/cron/process-deletions/route.ts:107-142 (KYC_FIELDS def. 48-66)",
+          "descrizione": "Confermato nel codice. Nel loop, se l'update completo `{...SAFE_FIELDS, ...KYC_FIELDS}` fallisce (route.ts:108), si fa fallback al solo SAFE_FIELDS (righe 110-115): in quel ramo i KYC_FIELDS (legal_first_name, legal_last_name, legal_fiscal_code, billing_iban, business_vat_number, ecc.) NON vengono azzerati. Subito dopo `admin.auth.admin.deleteUser` (riga 134) fa l'hard-delete e, se riesce, `results.ok++` (riga 142): l'account risulta cancellato con successo pur avendo lasciato in `profiles` la PII legale/finanziaria più sensibile. Il fallimento del primo update è solo `logger.warn` (riga 109), quindi passa inosservato.",
+          "impatto": "Violazione GDPR Art.17 (PII sensibile conservata dopo cancellazione dichiarata completata) e possibile riga profilo orfana con IBAN/CF ma senza utente auth. Si manifesta proprio nei casi di errore parziale del DB, i più difficili da notare.",
+          "fix": "Se l'update completo fallisce, NON procedere all'hard-delete: marcare l'account come 'anonimizzazione fallita', contarlo tra i failed e riprovare al giro successivo. La deleteUser deve avvenire solo dopo che TUTTA la PII (SAFE+KYC+free-text) è stata rimossa con successo."
+        },
+        {
+          "titolo": "Middleware fail-open: senza le env Supabase le rotte protette (/admin, /seller, /rider, /profile) vengono servite senza controllo di ruolo",
+          "severita": "grave",
+          "file": "middleware.ts:170 (+ 49-50, 162-168)",
+          "descrizione": "Confermato: SUPABASE_URL/KEY letti a module-load (middleware.ts:49-50). In middleware, dopo aver calcolato needsAuth (riga 163), alla riga 170 `if (!SUPABASE_URL || !SUPABASE_KEY) return res;` PRIMA di ogni enforcement auth/ruolo → fail-open. Aggravante verificata: l'health check (app/api/health/route.ts:38-42) include tra le requiredEnv NEXT_PUBLIC_SUPABASE_URL ma NON NEXT_PUBLIC_SUPABASE_ANON_KEY; quindi un'istanza a cui manca solo l'ANON_KEY passa l'health (200) e riceve traffico, ma il middleware serve /admin,/seller,/rider senza gate. Il resto del middleware è invece fail-closed (profilo assente → redirect).",
+          "impatto": "Con env parziali le pagine admin/seller/rider vengono renderizzate senza gate server-side (resta solo la RLS a valle come rete). È esattamente lo scenario di deploy sbagliato in cui vuoi fallire chiuso, non aperto.",
+          "fix": "Se le rotte sono protette (needsAuth) e le env Supabase mancano, restituire un redirect a pagina di manutenzione/errore invece di `return res`. Per i prefissi /admin,/seller,/rider,/profile il default deve essere deny; aggiungere anche ANON_KEY tra le requiredEnv dell'health check."
+        },
+        {
+          "titolo": "Health check senza timeout sulla query DB: un blip transitorio di Supabase manda l'istanza in 503 e può bloccare il deploy o innescare restart",
+          "severita": "minore",
+          "file": "app/api/health/route.ts:28-33 + render.yaml:31 (healthCheckPath: /api/health)",
+          "descrizione": "Confermato: l'health check esegue `admin.from('categories').select('id').limit(1)` (route.ts:31) senza AbortController né timeout applicativo, e ritorna 503 se degradato. Render usa questo endpoint come gate (render.yaml:31): durante un deploy attende un 200 prima di spostare il traffico e marca unhealthy sui 503. Un rallentamento/blip transitorio di Supabase (indipendente dalla salute dell'app) può quindi impedire il completamento di un deploy o marcare down un'istanza sana; se il DB si impianta, l'handler resta appeso.",
+          "impatto": "Deploy che non diventa mai healthy durante un rallentamento DB (rollback/blocco release) o istanza sana marcata down, anche se potrebbe servire pagine cache/statiche. Accoppiamento stretto tra disponibilità DB e liveness dell'app.",
+          "fix": "Aggiungere un timeout esplicito (AbortController, es. 2-3s) alla query e distinguere liveness da readiness (es. un /api/live senza DB per la liveness, tenendo /api/health con DB+timeout per readiness/monitor esterno)."
+        },
+        {
+          "titolo": "Dead-man's switch non copre external-price-alerts: se questo cron muore, nessun allarme",
+          "severita": "minore",
+          "file": "lib/cron-health.ts:20-28 (CRON_MAX_STALENESS_MIN) vs render.yaml:88",
+          "descrizione": "Confermato: render.yaml:88 pianifica external-price-alerts ogni ora, ma la mappa CRON_MAX_STALENESS_MIN in cron-health.ts (release-payouts, send-emails, send-push, expire-checkouts, expire-stale-orders, abandoned-carts, process-deletions) NON lo include; anche operational-alerts è assente (per design, non può auto-vigilarsi). staleCrons itera solo sulle soglie definite, quindi un heartbeat mancante/vecchio di external-price-alerts non viene mai segnalato.",
+          "impatto": "Un cron che riprezza/aggiorna stock dei prodotti importati può smettere di girare senza che nessuno se ne accorga: prezzi/disponibilità stantii mostrati ai clienti.",
+          "fix": "Aggiungere 'external-price-alerts' alla mappa CRON_MAX_STALENESS_MIN (e monitorare operational-alerts da un canale esterno indipendente), assicurandosi che il seed dei heartbeat lo includa."
+        },
+        {
+          "titolo": "Sentry lato client inizializzato in un provider React invece che via config Sentry v10: errori pre-mount/hydration non catturati e tunnelRoute inefficace",
+          "severita": "minore",
+          "file": "lib/analytics/sentry.tsx:24-61,84-93 + next.config.js:99 (tunnelRoute); assenza di instrumentation-client.ts / sentry.client.config.ts",
+          "descrizione": "Confermato: @sentry/nextjs ^10.53.1. Esistono solo instrumentation.ts (server/edge) + sentry.server.config.ts + sentry.edge.config.ts; NON esistono instrumentation-client.ts né sentry.client.config.ts. L'init client è fatto a mano in un useEffect di SentryProvider (sentry.tsx:84-93 chiama initSentry). Conseguenze: (a) errori prima del mount del provider o durante l'hydration non vengono catturati; (b) il tunnelRoute '/monitoring' di next.config.js:99 non è usato dall'init client (Sentry.init in sentry.tsx:29-60 non imposta `tunnel`), quindi il bypass ad-blocker è solo teorico; (c) l'auto-instrumentation client di Next non è wired. Il server è invece corretto.",
+          "impatto": "Buchi di osservabilità lato browser proprio nelle fasi più fragili (hydration/first render) e discrepanza tra ciò che next.config.js promette (tunnel) e ciò che il client fa. Meno visibilità sui bug utente in produzione.",
+          "fix": "Spostare l'init client in instrumentation-client.ts (o sentry.client.config.ts) come previsto da @sentry/nextjs v10, impostando lì `tunnel: '/monitoring'` coerente con next.config.js, e lasciare al provider solo eventuali hook applicativi."
+        },
+        {
+          "titolo": "NEXT_PUBLIC_APP_URL hardcoded a un dominio custom nel blueprint",
+          "severita": "minore",
+          "file": "render.yaml:62-63",
+          "descrizione": "Confermato: NEXT_PUBLIC_APP_URL è fissato inline a `https://mycity-marketplace.com` (render.yaml:62-63). Se il custom domain non è (ancora) collegato al servizio Render, l'URL servito di default sarebbe *.onrender.com: link nelle email, redirect di Stripe Checkout e link negli alert operativi (che usano NEXT_PUBLIC_APP_URL) punterebbero a un dominio non servito. Nota: è anche una delle requiredEnv dell'health check, quindi resta valorizzato ma verso un host potenzialmente non ancora attivo.",
+          "impatto": "Link email/redirect pagamento potenzialmente rotti finché il custom domain non è attivo e puntato al servizio; difficile da notare perché build/health passano comunque.",
+          "fix": "Confermare che il custom domain sia collegato al servizio prima del go-live, oppure impostare il valore effettivamente servito. Meglio: verificare a runtime (es. nell'health check) la coerenza tra host servito e NEXT_PUBLIC_APP_URL."
+        }
+      ]
+    }
+  ],
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Radiografia"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verifica"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "rivedi:architettura",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "ac63bbb9c99e6d674",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783452355470,
+      "queuedAt": 1783452355448,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Architettura (struttura, accoppiamenti, duplicazioni, coere…",
+      "promptPreview": "Sei un revisore SENIOR esperto di architettura: struttura del codice, accoppiamenti, duplicazioni, coerenza, dipendenze fragili, dead code.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-pattern…",
+      "lastProgressAt": 1783452677210,
+      "tokens": 140592,
+      "toolCalls": 26,
+      "durationMs": 321740,
+      "resultPreview": "{\"dimensione\":\"Architettura (struttura, accoppiamenti, duplicazioni, coerenza, dipendenze fragili, dead code)\",\"findings\":[{\"titolo\":\"TTL del pending_checkout (2h) disallineato dalla sessione Stripe (24h): ordini creati su stock già rilasciato → overselling\",\"severita\":\"bloccante\",\"descrizione\":\"`createMultiSellerCheckoutSession` (lib/stripe/client.ts) NON imposta `expires_at` sulla sessione Strip…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "rivedi:sicurezza-auth",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a1caadeb247e710f5",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783452355472,
+      "queuedAt": 1783452355448,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Sicurezza & Autorizzazione (auth, IDOR, secret, validazione…",
+      "promptPreview": "Sei un revisore SENIOR esperto di sicurezza e autorizzazione: auth, withAdminAuth/withSellerAuth, IDOR/accessi non controllati, secret esposti, validazione input, XSS/CSRF/SSRF.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensi…",
+      "lastProgressAt": 1783452658480,
+      "tokens": 132071,
+      "toolCalls": 32,
+      "durationMs": 303008,
+      "resultPreview": "{\"dimensione\":\"Sicurezza & Autorizzazione (auth, IDOR, secret, validazione input, XSS/CSRF/SSRF)\",\"findings\":[{\"titolo\":\"Injection HTML/XSS nei blocchi JSON-LD (schema.org) via JSON.stringify non-escaped\",\"severita\":\"grave\",\"descrizione\":\"Le pagine prodotto/negozio/categoria e il componente Breadcrumb iniettano dati controllati dal venditore dentro <script type=\\\"application/ld+json\\\"> usando JSON…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "rivedi:rls-database",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a3ecbbee4529cddad",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783452658482,
+      "queuedAt": 1783452355448,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "RLS e database (migrazioni SQL in migrations/) — isolamento…",
+      "promptPreview": "Sei un revisore SENIOR esperto di RLS e database (leggi le migrazioni SQL in migrations/): policy che isolano ogni venditore/cliente, tabelle senza RLS, migrazioni incoerenti, integrità dati.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI del…",
+      "lastProgressAt": 1783453034964,
+      "tokens": 156723,
+      "toolCalls": 20,
+      "durationMs": 376482,
+      "resultPreview": "{\"dimensione\":\"RLS e database (migrazioni SQL in migrations/) — isolamento venditore/cliente/rider, integrità dati, coerenza policy\",\"findings\":[{\"titolo\":\"La policy 'Riders can view available and own orders' espone i dati personali di ogni cliente a chiunque (anche anonimo)\",\"severita\":\"bloccante\",\"file\":\"migrations/019_rider_visibility.sql:15-19 (prima def. in 011_orders_delivery.sql:120)\",\"desc…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "rivedi:pagamenti-stripe",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a717461208a6f33cd",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783452677211,
+      "queuedAt": 1783452355448,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Pagamenti / Stripe Connect (Separate Charges & Transfers): …",
+      "promptPreview": "Sei un revisore SENIOR esperto di pagamenti/Stripe Connect: charges & transfers, firma webhook, payout, COD, refund, doppi addebiti, race condition sui soldi, application_fee.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimension…",
+      "lastProgressAt": 1783452975644,
+      "tokens": 153661,
+      "toolCalls": 27,
+      "durationMs": 298433,
+      "resultPreview": "{\"dimensione\":\"Pagamenti / Stripe Connect (Separate Charges & Transfers): checkout, webhook, firma, payout venditore/rider, COD, refund, dispute/chargeback, application_fee, race sui soldi\",\"findings\":[{\"titolo\":\"Chargeback VINTO dopo payout già rilasciato: il venditore non viene mai ripagato (soldi persi)\",\"severita\":\"bloccante\",\"file\":\"app/api/stripe/webhook/route.ts:827-853 (handleDisputeClosed…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "rivedi:privacy-legale",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "ae11da6edf9a5b6f3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783452975647,
+      "queuedAt": 1783452355448,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Privacy / GDPR / Legale IT-EU (consensi, cookie, informativ…",
+      "promptPreview": "Sei un revisore SENIOR esperto di privacy/GDPR e legale IT-EU: dati personali, consensi, cookie, conservazione/cancellazione, informative, base giuridica.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, risch…",
+      "lastProgressAt": 1783453303184,
+      "tokens": 110776,
+      "toolCalls": 35,
+      "durationMs": 327537,
+      "resultPreview": "{\"dimensione\":\"Privacy / GDPR / Legale IT-EU (consensi, cookie, informative, base giuridica, conservazione, diritti dell'interessato)\",\"findings\":[{\"titolo\":\"Sentry (session replay + tracing) parte SENZA consenso e non è dichiarato nella cookie policy\",\"severita\":\"grave\",\"descrizione\":\"lib/analytics/sentry.tsx inizializza Sentry al mount di SentryProvider (montato sempre in app/layout.tsx:148) con…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "rivedi:performance",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "aebfbf758031b6ac2",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783453034967,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Performance (query N+1, over-fetch/payload, indici, caching…",
+      "promptPreview": "Sei un revisore SENIOR esperto di performance: query N+1, indici mancanti, payload/over-fetch, caching, bundle pesanti, Core Web Vitals, immagini.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-…",
+      "lastProgressAt": 1783453371680,
+      "tokens": 124047,
+      "toolCalls": 40,
+      "durationMs": 336713,
+      "resultPreview": "{\"dimensione\":\"Performance (query N+1, over-fetch/payload, indici, caching, immagini, Core Web Vitals, bundle)\",\"findings\":[{\"titolo\":\"Catalogo intero scaricato senza limit su ricerca, categoria e promozioni\",\"severita\":\"grave\",\"file\":\"components/ProductGrid.tsx:74-107 (query); chiamanti senza limit: app/search/page.tsx:474, app/category/[slug]/page.tsx:238+432 (gridProps), app/promozioni/page.tsx…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "rivedi:frontend-ux",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a682014f7432fb3a3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783453303187,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Frontend / UX — flussi buyer (carrello, checkout, ordini, r…",
+      "promptPreview": "Sei un revisore SENIOR esperto di frontend/UX: bug UI, stati di errore/loading mancanti, mobile/PWA, form, link rotti, flussi che si bloccano.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-patt…",
+      "lastProgressAt": 1783453678775,
+      "tokens": 154905,
+      "toolCalls": 45,
+      "durationMs": 375587,
+      "resultPreview": "{\"dimensione\":\"Frontend / UX — flussi buyer (carrello, checkout, ordini, resi, ricerca, prodotto)\",\"findings\":[{\"titolo\":\"Dopo il pagamento con carta l'utente può vedere «Non hai ancora ordini»\",\"severita\":\"grave\",\"file\":\"app/orders/page.tsx:67-94, 164-179 + components/providers/QueryProvider.tsx:19-21\",\"descrizione\":\"Al rientro da Stripe (?stripe=success) gli ordini sono creati dal webhook, che p…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "rivedi:accessibilita",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "aa1fcb056e883fc51",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783453371683,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Accessibilità (a11y): alt text, contrasto, navigazione da t…",
+      "promptPreview": "Sei un revisore SENIOR esperto di accessibilità (a11y): alt text, contrasto, navigazione da tastiera, ruoli/aria, focus.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-pattern, casi limite non g…",
+      "lastProgressAt": 1783453698945,
+      "tokens": 117147,
+      "toolCalls": 35,
+      "durationMs": 327261,
+      "resultPreview": "{\"dimensione\":\"Accessibilità (a11y): alt text, contrasto, navigazione da tastiera, ruoli/ARIA, focus\",\"findings\":[{\"titolo\":\"Bottoni interattivi annidati dentro un <a> (Link) nella card prodotto\",\"severita\":\"grave\",\"file\":\"components/ProductCard.tsx:111 (Link) + :135 (cuore preferiti) + :187 (aggiungi al carrello)\",\"descrizione\":\"L'intera card è un <Link> (elemento <a>) e al suo interno ci sono du…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "rivedi:qa-flussi",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a64a33b3a2e366d0e",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783453678777,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "QA e flussi critici del marketplace: casi limite non gestit…",
+      "promptPreview": "Sei un revisore SENIOR esperto di QA e flussi critici: casi limite non gestiti nei flussi chiave (onboarding venditore, catalogo, carrello, checkout carta e COD, payout, stato ordine), copertura test, regressioni.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutt…",
+      "lastProgressAt": 1783454029725,
+      "tokens": 149917,
+      "toolCalls": 32,
+      "durationMs": 350947,
+      "resultPreview": "{\"dimensione\":\"QA e flussi critici del marketplace: casi limite non gestiti in checkout, ordini, payout, resi e rimborsi\",\"findings\":[{\"titolo\":\"Il rifiuto venditore di un ordine CARTA già pagato NON rimborsa il cliente\",\"severita\":\"bloccante\",\"file\":\"app/seller/orders/[id]/page.tsx:181 ; migrations/062_atomic_stock_reservation.sql:115 (seller_reject_order)\",\"descrizione\":\"Gli ordini carta vengono…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "rivedi:api-backend",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "adf096eccb69de915",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783453698947,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "API/backend — route handler, validazione input (zod), gesti…",
+      "promptPreview": "Sei un revisore SENIOR esperto di API/backend: route handler, validazione input (zod), gestione errori, rate limiting, idempotenza, status code, timeout.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi…",
+      "lastProgressAt": 1783454002697,
+      "tokens": 189331,
+      "toolCalls": 22,
+      "durationMs": 303750,
+      "resultPreview": "{\"dimensione\":\"API/backend — route handler, validazione input (zod), gestione errori, rate limiting, idempotenza, status code, timeout\",\"findings\":[{\"titolo\":\"Rimborso COD non limitato al residuo: over-accredito del wallet oltre il totale ordine\",\"severita\":\"grave\",\"descrizione\":\"In `lib/stripe/payout.ts` `refundOrder()` clampa l'importo SOLO al totale ordine (riga 331: `safeAmountCents = Math.min…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "rivedi:ai-endpoints",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "a587d44569bff2229",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454002700,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Endpoint AI (app/api/ai/*) — prompt injection, output non v…",
+      "promptPreview": "Sei un revisore SENIOR esperto di endpoint AI (app/api/ai/*): prompt injection, output non validato, rate limit/costi, esposizione chiavi, abuso.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-p…",
+      "lastProgressAt": 1783454241049,
+      "tokens": 131643,
+      "toolCalls": 29,
+      "durationMs": 238349,
+      "resultPreview": "{\"dimensione\":\"Endpoint AI (app/api/ai/*) — prompt injection, output non validato, rate limit/costi, abuso\",\"findings\":[{\"titolo\":\"Gli endpoint AI più costosi (Sonnet + web_search) usano il rate limiter in-memory non distribuito, aggirando Upstash\",\"severita\":\"grave\",\"file\":\"app/api/ai/improve-product/route.ts:225; app/api/ai/diagnose/route.ts:90; app/api/ai/barcode-lookup/route.ts:62; app/api/ai/…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "rivedi:dati-analytics",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "aa00197093d24eb44",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454029727,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Dati & Analytics — eventi PostHog/GA4, tracking, affidabili…",
+      "promptPreview": "Sei un revisore SENIOR esperto di dati/analytics: eventi PostHog mancanti o errati, tracking incoerente, metriche non affidabili.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-pattern, casi lim…",
+      "lastProgressAt": 1783454350206,
+      "tokens": 113397,
+      "toolCalls": 27,
+      "durationMs": 320478,
+      "resultPreview": "{\"dimensione\":\"Dati & Analytics — eventi PostHog/GA4, tracking, affidabilità metriche\",\"findings\":[{\"titolo\":\"14 eventi su 27 del catalogo non vengono MAI emessi (funnel seller/rider e discovery ciechi)\",\"severita\":\"grave\",\"file\":\"lib/analytics/events.ts:42-46, 58-59, 66-67, 124-125, 139-169\",\"descrizione\":\"Il file events.ts è dichiarato 'single source of truth' del funnel, ma 14 helper sono defin…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "rivedi:deploy-sre",
+      "phaseIndex": 1,
+      "phaseTitle": "Radiografia",
+      "agentId": "aa78d7355cc51aeca",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454241053,
+      "queuedAt": 1783452355449,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Deploy / SRE — render.yaml, CI (GitHub Actions), health che…",
+      "promptPreview": "Sei un revisore SENIOR esperto di deploy/SRE: render.yaml e CI, health check, variabili d'ambiente mancanti/critiche, logging, monitoraggio, rollback, gestione errori in produzione.\nAnalizza in SOLA LETTURA il marketplace MyCity nel repo `/home/user/mycity` (usa Read/Grep/Glob).\n⛔ NON modificare nulla, nessun git, nessun file.\nCerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dim…",
+      "lastProgressAt": 1783454540923,
+      "tokens": 109687,
+      "toolCalls": 26,
+      "durationMs": 299870,
+      "resultPreview": "{\"dimensione\":\"Deploy / SRE — render.yaml, CI (GitHub Actions), health check, variabili d'ambiente, logging/Sentry, monitoraggio cron, rollback e gestione errori in produzione\",\"findings\":[{\"titolo\":\"Il build su Render è a rischio: comando disallineato dal CI e NODE_ENV=production che sfronda le devDependencies necessarie al build\",\"severita\":\"grave\",\"file\":\"render.yaml:26 (buildCommand) + render.…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 14,
+      "label": "verifica:sicurezza-auth",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ad42e74ff3082f235",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454350208,
+      "queuedAt": 1783452658489,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "sicurezza-auth",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"sicurezza-auth\":\n[\n  {\n    \"titolo\": \"Injection HTML/XSS nei blocchi JSON-LD (schema.org) via JSON.stringify non-escaped\",\n    \"severita\": \"grave\",\n    \"descrizione\": \"Le pagine prodotto/negozio/categoria e il componente Breadcrumb iniettano dati controllati dal venditore dentro <script type=\\\"application/ld+…",
+      "lastProgressAt": 1783454412044,
+      "tokens": 55350,
+      "toolCalls": 7,
+      "durationMs": 61836,
+      "resultPreview": "{\"dimensione\":\"sicurezza-auth\",\"findings\":[{\"titolo\":\"Injection HTML/XSS nei blocchi JSON-LD (schema.org) via JSON.stringify non-escaped\",\"severita\":\"grave\",\"descrizione\":\"Le pagine prodotto/negozio/categoria e il componente Breadcrumb iniettano dati controllati dal venditore dentro <script type=\\\"application/ld+json\\\"> usando JSON.stringify grezzo dentro dangerouslySetInnerHTML, senza escape del …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 15,
+      "label": "verifica:architettura",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a10bdbdd816a5e3a3",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454412047,
+      "queuedAt": 1783452677218,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "architettura",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"architettura\":\n[\n  {\n    \"titolo\": \"TTL del pending_checkout (2h) disallineato dalla sessione Stripe (24h): ordini creati su stock già rilasciato → overselling\",\n    \"severita\": \"bloccante\",\n    \"descrizione\": \"`createMultiSellerCheckoutSession` (lib/stripe/client.ts) NON imposta `expires_at` sulla sessione S…",
+      "lastProgressAt": 1783454626090,
+      "tokens": 92850,
+      "toolCalls": 17,
+      "durationMs": 214043,
+      "resultPreview": "{\"dimensione\":\"architettura\",\"findings\":[{\"titolo\":\"TTL del pending_checkout (2h) disallineato dalla sessione Stripe (24h): ordini creati su stock già rilasciato → overselling\",\"severita\":\"bloccante\",\"descrizione\":\"VERIFICATO. createMultiSellerCheckoutSession (lib/stripe/client.ts:168-193) NON imposta expires_at sulla sessione Stripe → vale il default Stripe (~24h). Ma pending_checkouts.expires_at…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 16,
+      "label": "verifica:pagamenti-stripe",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ab56d1a6d2493f33d",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454540926,
+      "queuedAt": 1783452975655,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "pagamenti-stripe",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"pagamenti-stripe\":\n[\n  {\n    \"titolo\": \"Chargeback VINTO dopo payout già rilasciato: il venditore non viene mai ripagato (soldi persi)\",\n    \"severita\": \"bloccante\",\n    \"file\": \"app/api/stripe/webhook/route.ts:827-853 (handleDisputeClosed, ramo 'won') + lib/stripe/payout.ts:245-268 (reverseOrderTransfer) + a…",
+      "lastProgressAt": 1783454710239,
+      "tokens": 75459,
+      "toolCalls": 12,
+      "durationMs": 169313,
+      "resultPreview": "{\"dimensione\":\"pagamenti-stripe\",\"findings\":[{\"titolo\":\"Chargeback VINTO dopo payout già rilasciato: il venditore non viene mai ripagato (soldi persi)\",\"severita\":\"bloccante\",\"file\":\"app/api/stripe/webhook/route.ts:836-841 (handleDisputeClosed ramo 'won') + lib/stripe/payout.ts:264-270 (reverseOrderTransfer → payout_status='REVERSED') + app/api/cron/release-payouts/route.ts:57-65\",\"descrizione\":\"V…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 17,
+      "label": "verifica:rls-database",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a8522ff54ff0b81f0",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454626093,
+      "queuedAt": 1783453034974,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "rls-database",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"rls-database\":\n[\n  {\n    \"titolo\": \"La policy 'Riders can view available and own orders' espone i dati personali di ogni cliente a chiunque (anche anonimo)\",\n    \"severita\": \"bloccante\",\n    \"file\": \"migrations/019_rider_visibility.sql:15-19 (prima def. in 011_orders_delivery.sql:120)\",\n    \"descrizione\": \"La…",
+      "lastProgressAt": 1783454892041,
+      "tokens": 85000,
+      "toolCalls": 21,
+      "durationMs": 265948,
+      "resultPreview": "{\"dimensione\":\"rls-database\",\"findings\":[{\"titolo\":\"La policy 'Riders can view available and own orders' espone i dati personali di ogni cliente a chiunque (anche anonimo)\",\"severita\":\"bloccante\",\"file\":\"migrations/019_rider_visibility.sql:15-19 (prima def. in 011_orders_delivery.sql:120)\",\"descrizione\":\"VERIFICATO. La policy SELECT su public.orders e': USING ((delivery_status IN ('ACCEPTED','READ…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 18,
+      "label": "verifica:privacy-legale",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ad7b0de8caaf642ec",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454710242,
+      "queuedAt": 1783453303201,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "privacy-legale",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"privacy-legale\":\n[\n  {\n    \"titolo\": \"Sentry (session replay + tracing) parte SENZA consenso e non è dichiarato nella cookie policy\",\n    \"severita\": \"grave\",\n    \"descrizione\": \"lib/analytics/sentry.tsx inizializza Sentry al mount di SentryProvider (montato sempre in app/layout.tsx:148) con replaysSessionSam…",
+      "lastProgressAt": 1783454832622,
+      "tokens": 67803,
+      "toolCalls": 12,
+      "durationMs": 122379,
+      "resultPreview": "{\"dimensione\":\"privacy-legale\",\"findings\":[{\"titolo\":\"Sentry (session replay + tracing) parte SENZA consenso e non è dichiarato nella cookie policy\",\"severita\":\"grave\",\"descrizione\":\"lib/analytics/sentry.tsx inizializza Sentry al mount di SentryProvider (montato sempre in app/layout.tsx:148) con replaysSessionSampleRate: 0.05, replaysOnErrorSampleRate: 1.0 e tracesSampleRate: 0.1, SENZA alcun cont…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 19,
+      "label": "verifica:performance",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ae07dad2c38bc05aa",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454832624,
+      "queuedAt": 1783453371695,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "performance",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"performance\":\n[\n  {\n    \"titolo\": \"Catalogo intero scaricato senza limit su ricerca, categoria e promozioni\",\n    \"severita\": \"grave\",\n    \"file\": \"components/ProductGrid.tsx:74-107 (query); chiamanti senza limit: app/search/page.tsx:474, app/category/[slug]/page.tsx:238+432 (gridProps), app/promozioni/page.t…",
+      "lastProgressAt": 1783455006071,
+      "tokens": 70785,
+      "toolCalls": 13,
+      "durationMs": 173446,
+      "resultPreview": "{\"dimensione\":\"performance\",\"findings\":[{\"titolo\":\"Griglie di ricerca e categoria scaricano l'intero catalogo senza limit\",\"severita\":\"grave\",\"descrizione\":\"CONFERMATO. In components/ProductGrid.tsx:101 il `.limit()` viene applicato SOLO se la prop `limit` è passata. Le griglie principali di /search (app/search/page.tsx:474) e /category/[slug] (app/category/[slug]/page.tsx:432 via gridProps:238, c…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 20,
+      "label": "verifica:frontend-ux",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a363b3a9685907442",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783454892043,
+      "queuedAt": 1783453678785,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "frontend-ux",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"frontend-ux\":\n[\n  {\n    \"titolo\": \"Dopo il pagamento con carta l'utente può vedere «Non hai ancora ordini»\",\n    \"severita\": \"grave\",\n    \"file\": \"app/orders/page.tsx:67-94, 164-179 + components/providers/QueryProvider.tsx:19-21\",\n    \"descrizione\": \"Al rientro da Stripe (?stripe=success) gli ordini sono crea…",
+      "lastProgressAt": 1783455173839,
+      "tokens": 105734,
+      "toolCalls": 17,
+      "durationMs": 281795,
+      "resultPreview": "{\"dimensione\":\"frontend-ux\",\"findings\":[{\"titolo\":\"Dopo il pagamento con carta l'utente può vedere «Non hai ancora ordini»\",\"severita\":\"grave\",\"descrizione\":\"Al rientro da Stripe (?stripe=success) gli ordini sono creati dal webhook, che può arrivare con qualche secondo di ritardo. La pagina /orders usa React Query con staleTime 30s (QueryProvider), refetchOnWindowFocus:false e nessun polling. Il r…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 21,
+      "label": "verifica:accessibilita",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ab3cebb1bc40c3d43",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455006074,
+      "queuedAt": 1783453698955,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "accessibilita",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"accessibilita\":\n[\n  {\n    \"titolo\": \"Bottoni interattivi annidati dentro un <a> (Link) nella card prodotto\",\n    \"severita\": \"grave\",\n    \"file\": \"components/ProductCard.tsx:111 (Link) + :135 (cuore preferiti) + :187 (aggiungi al carrello)\",\n    \"descrizione\": \"L'intera card è un <Link> (elemento <a>) e al su…",
+      "lastProgressAt": 1783455109146,
+      "tokens": 76988,
+      "toolCalls": 9,
+      "durationMs": 103071,
+      "resultPreview": "{\"dimensione\":\"accessibilita\",\"findings\":[{\"titolo\":\"Bottoni interattivi annidati dentro un <a> (Link) nella card prodotto\",\"severita\":\"grave\",\"descrizione\":\"CONFERMATO. In components/ProductCard.tsx l'intera card è un <Link> (elemento <a>, riga 111) e al suo interno ci sono due <button> reali: il cuore preferiti (riga 135) e l'aggiungi-al-carrello (riga 187). Annidare contenuto interattivo dentro…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 22,
+      "label": "verifica:api-backend",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "ade3209280b74132b",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455109149,
+      "queuedAt": 1783454002706,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "api-backend",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"api-backend\":\n[\n  {\n    \"titolo\": \"Rimborso COD non limitato al residuo: over-accredito del wallet oltre il totale ordine\",\n    \"severita\": \"grave\",\n    \"descrizione\": \"In `lib/stripe/payout.ts` `refundOrder()` clampa l'importo SOLO al totale ordine (riga 331: `safeAmountCents = Math.min(opts.amountCents, ord…",
+      "lastProgressAt": 1783455237855,
+      "tokens": 69319,
+      "toolCalls": 11,
+      "durationMs": 128705,
+      "resultPreview": "{\"dimensione\":\"api-backend\",\"findings\":[{\"titolo\":\"Rimborso COD non limitato al residuo: over-accredito del wallet oltre il totale ordine\",\"severita\":\"grave\",\"descrizione\":\"In `lib/stripe/payout.ts` `refundOrder()` clampa l'importo SOLO al totale ordine (riga 331: `safeAmountCents = Math.max(0, Math.min(opts.amountCents, orderTotalCents))`), NON al residuo rimborsabile (`orderTotalCents - refunded…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 23,
+      "label": "verifica:qa-flussi",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "adba02fe5130646df",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455173842,
+      "queuedAt": 1783454029736,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "qa-flussi",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"qa-flussi\":\n[\n  {\n    \"titolo\": \"Il rifiuto venditore di un ordine CARTA già pagato NON rimborsa il cliente\",\n    \"severita\": \"bloccante\",\n    \"file\": \"app/seller/orders/[id]/page.tsx:181 ; migrations/062_atomic_stock_reservation.sql:115 (seller_reject_order)\",\n    \"descrizione\": \"Gli ordini carta vengono cre…",
+      "lastProgressAt": 1783455374007,
+      "tokens": 82192,
+      "toolCalls": 17,
+      "durationMs": 200165,
+      "resultPreview": "{\"dimensione\":\"qa-flussi\",\"findings\":[{\"titolo\":\"Il rifiuto venditore di un ordine CARTA gia pagato NON rimborsa il cliente\",\"severita\":\"bloccante\",\"file\":\"app/seller/orders/[id]/page.tsx:181 ; migrations/062_atomic_stock_reservation.sql:115 (seller_reject_order)\",\"descrizione\":\"Confermato nel codice: la RPC seller_reject_order porta l'ordine a CANCELED e chiama solo restore_stock_for_order + noti…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 24,
+      "label": "verifica:ai-endpoints",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a19d7803763ceedd8",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455237857,
+      "queuedAt": 1783454241064,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "ai-endpoints",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"ai-endpoints\":\n[\n  {\n    \"titolo\": \"Gli endpoint AI più costosi (Sonnet + web_search) usano il rate limiter in-memory non distribuito, aggirando Upstash\",\n    \"severita\": \"grave\",\n    \"file\": \"app/api/ai/improve-product/route.ts:225; app/api/ai/diagnose/route.ts:90; app/api/ai/barcode-lookup/route.ts:62; app/…",
+      "lastProgressAt": 1783455448589,
+      "tokens": 73211,
+      "toolCalls": 18,
+      "durationMs": 210732,
+      "resultPreview": "{\"dimensione\":\"ai-endpoints\",\"findings\":[{\"titolo\":\"Gli endpoint AI più costosi (Sonnet + web_search) usano il rate limiter in-memory sincrono, ignorando Upstash\",\"severita\":\"grave\",\"file\":\"app/api/ai/improve-product/route.ts:225; app/api/ai/diagnose/route.ts:90; app/api/ai/barcode-lookup/route.ts:62; app/api/ai/variants/route.ts:63; app/api/ai/seo/route.ts:52; app/api/ai/voice-product/route.ts:54…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 25,
+      "label": "verifica:dati-analytics",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a61dbc507f946cf8f",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455374010,
+      "queuedAt": 1783454350214,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "dati-analytics",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"dati-analytics\":\n[\n  {\n    \"titolo\": \"14 eventi su 27 del catalogo non vengono MAI emessi (funnel seller/rider e discovery ciechi)\",\n    \"severita\": \"grave\",\n    \"file\": \"lib/analytics/events.ts:42-46, 58-59, 66-67, 124-125, 139-169\",\n    \"descrizione\": \"Il file events.ts è dichiarato 'single source of truth'…",
+      "lastProgressAt": 1783455565492,
+      "tokens": 73863,
+      "toolCalls": 15,
+      "durationMs": 191482,
+      "resultPreview": "{\"dimensione\":\"dati-analytics\",\"findings\":[{\"titolo\":\"14 eventi su 27 del catalogo non vengono MAI emessi (funnel seller/rider e discovery ciechi)\",\"severita\":\"grave\",\"file\":\"lib/analytics/events.ts (trackSignedIn, trackSignedOut, trackStoreViewed, trackCategoryViewed, trackOrderCanceled, trackFavoriteAdded, trackReviewSubmitted, trackReferralSent, trackShareCart, trackSellerOnboardingStarted, tra…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 26,
+      "label": "verifica:deploy-sre",
+      "phaseIndex": 2,
+      "phaseTitle": "Verifica",
+      "agentId": "a21de029b0c27a817",
+      "model": "claude-opus-4-8[1m]",
+      "state": "done",
+      "startedAt": 1783455448592,
+      "queuedAt": 1783454540935,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "deploy-sre",
+      "promptPreview": "Sei un VERIFICATORE avversariale e scettico. Ecco i problemi segnalati per la dimensione \"deploy-sre\":\n[\n  {\n    \"titolo\": \"Il build su Render è a rischio: comando disallineato dal CI e NODE_ENV=production che sfronda le devDependencies necessarie al build\",\n    \"severita\": \"grave\",\n    \"file\": \"render.yaml:26 (buildCommand) + render.yaml:33-34 (NODE_ENV=production); confronta .github/workflows/ci…",
+      "lastProgressAt": 1783455606458,
+      "tokens": 66549,
+      "toolCalls": 8,
+      "durationMs": 157866,
+      "resultPreview": "{\"dimensione\":\"deploy-sre\",\"findings\":[{\"titolo\":\"Build su Render fragile: buildCommand disallineato dal CI (manca --legacy-peer-deps) e NODE_ENV=production che omette le devDependencies necessarie al build\",\"severita\":\"grave\",\"file\":\"render.yaml:26 (buildCommand) + render.yaml:33-34 (NODE_ENV=production); cfr. .github/workflows/ci.yml:25-28\",\"descrizione\":\"render.yaml:26 usa `buildCommand: npm ci…"
+    }
+  ],
+  "totalTokens": 2779000,
+  "totalToolCalls": 573
+}
