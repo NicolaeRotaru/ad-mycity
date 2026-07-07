@@ -68,3 +68,37 @@ export function ripristinaSub(vista: string, sub: string) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new CustomEvent<DettaglioSub>(EVENTO_SUB, { detail: { vista, sub } }));
 }
+
+// 🧭 BUFFER DEI SUB PENDENTI (fix "INDIETRO / vai-all'azione apre la scheda sbagliata").
+// vaiArea() e ripristinaSub() dispatchano EVENTO_VAI/EVENTO_SUB in modo SINCRONO, ma l'area di
+// destinazione spesso NON è ancora montata (page.tsx fa setVista, e React monta l'area solo DOPO,
+// per via del batching): il listener EVENTO_SUB dell'area non esiste ancora e il sub va perso →
+// l'area apre la scheda di default invece di quella richiesta. Qui parcheggiamo l'ultimo sub; ogni
+// area lo consuma al MOUNT (consumaSubPendente). Stesso principio del buffer di Documenti.tsx,
+// generalizzato a tutte le aree con schede (Azioni, Lavori, Memoria, Cervello, Storico).
+//
+// Finestra di FRESCHEZZA: onoriamo il sub solo se è stato impostato da poco (< SUB_TTL_MS prima del
+// mount). Così un cambio-area dal MENU (setVista diretto, senza sub) NON riapre una scheda vecchia
+// rimasta nel buffer: il valore stantio è scaduto → l'area parte dal suo default.
+const SUB_TTL_MS = 3000;
+let subPendente: { vista: string; sub: string; at: number } | null = null;
+if (typeof window !== "undefined") {
+  const cattura = (e: Event) => {
+    const det = (e as CustomEvent).detail as { vista?: string; sub?: string } | undefined;
+    if (det?.vista && det.sub) subPendente = { vista: det.vista, sub: det.sub, at: Date.now() };
+  };
+  window.addEventListener(EVENTO_VAI, cattura);
+  window.addEventListener(EVENTO_SUB, cattura);
+}
+
+/**
+ * Da chiamare al MOUNT di un'area con schede: restituisce (e consuma) il sub parcheggiato per quella
+ * vista se è fresco, altrimenti null (→ l'area usa il suo default). Idempotente: consuma una volta sola.
+ */
+export function consumaSubPendente(vista: string): string | null {
+  if (!subPendente || subPendente.vista !== vista) return null;
+  if (Date.now() - subPendente.at > SUB_TTL_MS) return null;
+  const s = subPendente.sub;
+  subPendente = null;
+  return s;
+}

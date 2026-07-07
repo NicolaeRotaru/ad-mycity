@@ -6,7 +6,7 @@ import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
 import ComandiVPS from "@/components/ComandiVPS";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
-import { EVENTO_SUB, vaiSub, type DettaglioSub } from "@/lib/nav";
+import { EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "coda" | "archivio";
 
@@ -24,6 +24,9 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
   // cronologia (pushState, non più hash) e il popstate centrale riemette EVENTO_SUB che
   // qui riapre la scheda precedente, non la Plancia. (contratto nav)
   useEffect(() => {
+    // Al MOUNT consuma il sub parcheggiato (INDIETRO scattato prima che l'area fosse montata).
+    const pend = consumaSubPendente("lavori");
+    if (pend === "coda" || pend === "archivio") setTab(pend);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "lavori" || !det.sub) return;
