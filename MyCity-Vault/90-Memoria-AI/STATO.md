@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-07 11:49
-fonte: AD digitale (🔄 7/7 11:49 refresh VPS — stato INVARIATO dal pieno 11:28 · business fermo dal 24/6, North Star 0 · delta-gate corrente==ultimo_pieno · **R2 chiarito**: i 20 fix sono già in main LOCALE (PR #212), resta solo pubblicarli su origin/main = stesso push della memoria (#35=#54) · meteo LIVE 35°C afa · Venerdì Piacentini ultima finestra 17/7 · MCP marketplace cieco in sessione, REST ok → zero numeri inventati)
+aggiornato: 2026-07-07 13:35
+fonte: AD digitale (🔄 7/7 13:35 — business INVARIATO dal 24/6, North Star 0 · **R2/#35 FATTO** (Nicola: «l'ho fatto» 13:35): `git push origin main` eseguito → i 20 fix (PR #212) canonici su origin/main + memoria di oggi (#54) pubblicata nello stesso push; #35 e #54 chiuse insieme. Non verificato dal VPS in sessione (fetch/push gated) → prova del nove a video = Pannello hosted mostra fix+giro; se «Vault GitHub» ROSSO parte card token #55 · meteo LIVE 35°C afa · Venerdì Piacentini ultima finestra 17/7 · MCP marketplace cieco in sessione, REST ok → zero numeri inventati)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
@@ -76,7 +76,7 @@ fonte: AD digitale (🔄 7/7 11:49 refresh VPS — stato INVARIATO dal pieno 11:
 ## Semafori
 - 🟢 Va bene: REST OK; Stripe/Resend ok; Sprint 1 LIVE; **#19 ruoli LIVE**; **memoria allineata su #16 annullato 6/7 16:15**; memoria POST briefings OK; token GitHub push mycity OK.
 - 🟡 Da tenere d'occhio: **@qa smoke post-#19**; **SQL 107 → ora AD-owned** (Nicola 4/7: «AD verifica RLS + smoke checkout per batch 6/7»; #32 riscritta, esecuzione ferma solo sulla mano — grant MCP write o giro VPS); sync VPS (1× root); 1 carrello buyer reale (samir).
-- 🔴 Problema: **0 transazioni reali completate** — l'unico ordine (#16) è **annullato**, quindi il 1° ordine vero è ancora tutto da CREARE (non c'è una consegna da eseguire); loop business 🔴 finché non nasce+si consegna un ordine reale; RLS profiles finché non gira SQL 107. **R1 (revoca PAT GitHub) FATTA 7/7** → AR-004 chiuso; resta **R2 = pubblicare i 20 fix (già in `main` locale, PR #212) su `origin/main`** — stesso push della memoria (#35=#54).
+- 🔴 Problema: **0 transazioni reali completate** — l'unico ordine (#16) è **annullato**, quindi il 1° ordine vero è ancora tutto da CREARE (non c'è una consegna da eseguire); loop business 🔴 finché non nasce+si consegna un ordine reale; RLS profiles finché non gira SQL 107. **R1 (revoca PAT GitHub) FATTA 7/7** → AR-004 chiuso. **R2/#35 FATTO 7/7 13:35** (Nicola: «l'ho fatto») → i 20 fix (PR #212) canonici su `origin/main` + memoria di oggi (#54) nello stesso push; **cantiere bloccanti umani → 0**. Prova del nove a video: Pannello hosted mostra fix+giro (se «Vault GitHub» ROSSO → card token #55).
 
 ## Auto-coscienza (2026-07-07 11:49 · 🔄 refresh VPS, stato invariato)
 | Metrica | Valore | Fonte |
