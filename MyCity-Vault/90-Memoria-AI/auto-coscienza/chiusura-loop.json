@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-07 11:25",
+  "aggiornato": "2026-07-07 11:48",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
@@ -22,9 +22,9 @@
     },
     {
       "reparto": "ad",
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-06 16:40",
-      "giorni_fa": 1,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-07 11:40",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -62,9 +62,9 @@
     },
     {
       "reparto": "analista",
-      "righe_esito": 9,
-      "ultimo_esito": "2026-07-06 11:54",
-      "giorni_fa": 1,
+      "righe_esito": 10,
+      "ultimo_esito": "2026-07-07 11:28",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -142,9 +142,9 @@
     },
     {
       "reparto": "devops-sre",
-      "righe_esito": 24,
-      "ultimo_esito": "2026-07-06 20:32",
-      "giorni_fa": 1,
+      "righe_esito": 25,
+      "ultimo_esito": "2026-07-07 11:28",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -206,9 +206,9 @@
     },
     {
       "reparto": "intelligence",
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-06 11:54",
-      "giorni_fa": 1,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-07 11:28",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -302,9 +302,9 @@
     },
     {
       "reparto": "security",
-      "righe_esito": 6,
-      "ultimo_esito": "2026-07-02 17:30",
-      "giorni_fa": 5,
+      "righe_esito": 7,
+      "ultimo_esito": "2026-07-07 11:28",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },

@@ -1,13 +1,13 @@
 ---
-data: 2026-07-07 11:40
+data: 2026-07-07 11:49
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 11:40 (refresh VPS · stato invariato)
+# 🔬 AUTO-ANALISI DEL GIRO — 2026-07-07 11:49 (refresh VPS · stato invariato)
 
 ## Voto di fiducia: **86/100** (= vs pieno 11:28)
-Refresh onesto a 12 min dal pieno: delta-gate `corrente==ultimo_pieno`, nessuna novità di business. Ho confermato la firma e riallineato la Cabina all'ora **senza fabbricare novità né rimisurare a vuoto** — il candore su "non c'è nulla di nuovo" vale più di un finto ritrovamento. Nessun numero inventato, nessun asset pesante (vincolo allocazione HARD rispettato), nessuna card nuova (anti-doppione).
+Refresh onesto a 9 min dal refresh 11:40 (21 min dal pieno): delta-gate `corrente==ultimo_pieno`, nessuna novità di business. Ho confermato la firma e riallineato la Cabina all'ora **senza fabbricare novità né rimisurare a vuoto** — il candore su "non c'è nulla di nuovo" vale più di un finto ritrovamento. Nessun numero inventato, nessun asset pesante (vincolo allocazione HARD rispettato), nessuna card nuova (anti-doppione).
 
 ## Cosa ho controllato (verifica avversariale a 3 livelli)
 1. **Fatti & numeri** — Firma REST 11:25 (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true) invariata; i 4 numeri non-REST (258 prodotti, 407 lead, 8/4 carrelli, 0 recensioni) sono la **conferma live MCP di stanotte** (00:29), NON ri-misurati ora perché l'MCP è cieco in sessione (probe `execute_sql` **negato** dai permessi) — dichiarato nei Gap, non spacciato per lettura fresca. Radar meteo/eventi già LIVE alle 06:22 (cadenza rispettata).

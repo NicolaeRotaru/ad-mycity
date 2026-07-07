@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-07 11:40",
-  "situazione": "Quarto passaggio della giornata (notturno 00:30 · mattino 06:22 · pieno VPS 11:28 · refresh 11:40), a stato invariato: business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Il refresh delle 11:40 conferma la firma identica (nessuna novità di business, delta-gate corrente==ultimo_pieno) — riallineo la Cabina all'ora senza fabbricare novità. MCP marketplace cieco in sessione → i dati-ordine dal REST (ok), gli altri 4 numeri sono la conferma dal vivo di stanotte, zero numeri inventati. Nessuna card nuova. La partita vera si gioca dal 13/7: far nascere il 1° ordine vero su Pane Quotidiano al Venerdì Piacentino del 17/7.",
+  "data": "2026-07-07 11:49",
+  "situazione": "Quinto passaggio della giornata (notturno 00:30 · mattino 06:22 · pieno VPS 11:28 · refresh 11:40 · refresh 11:49), a stato invariato: business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Il refresh delle 11:49 conferma la firma identica (nessuna novità di business, delta-gate corrente==ultimo_pieno) — riallineo la Cabina all'ora senza fabbricare novità. MCP marketplace cieco in sessione → i dati-ordine dal REST (ok), gli altri 4 numeri sono la conferma dal vivo di stanotte, zero numeri inventati. Nessuna card nuova. La partita vera si gioca dal 13/7: far nascere il 1° ordine vero su Pane Quotidiano al Venerdì Piacentino del 17/7.",
   "opportunita": [
     {
       "titolo": "Far nascere il primo ordine vero su Pane Quotidiano al Venerdì del 17 luglio",
