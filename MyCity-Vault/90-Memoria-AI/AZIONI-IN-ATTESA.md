@@ -257,3 +257,36 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-06-supervisio
 
 > Approva scrivendo **«ok riempi [unità/condizione/…]»** oppure **«ok a tutte le proposte di supervisione»**.
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+
+## 🟡 Metti in sicurezza il worker prima di qualsiasi azione reale (pacchetto AR-026/027/028)
+- **Data proposta:** 2026-07-07 09:15
+- **Reparto:** devops-sre + tech
+- **Stato:** IN ATTESA — 2026-07-07 09:15
+- **Contenuto:** 3 fix nel cervello, preparati dalla radiografia totale del 7/7: ① gli orfani di tipo esegui-azione/proposta NON ripartono mai da soli (vanno in «riapprova dal Pannello», come già fa la sentinella); ② watch-main non riavvia più il worker per i push fatti dal VPS stesso (confronto con HEAD locale + riavvio solo su file di codice); ③ ritmo.sh perde il checkout -f distruttivo e usa lo stesso allineamento non-distruttivo di giro.sh. Dettaglio: cantiere AR-026/027/028 + RADIOGRAFIA-MACCHINA.md.
+- **Cosa cambia:** il worker smette di uccidere i propri lavori a metà (~10-20 riavvii/giorno oggi) e sparisce il rischio che un'email o un'azione vera parta DUE volte quando accenderemo le azioni live.
+- **Se va bene:** si può pianificare AZIONI_LIVE=1 sul primo canale reale (email Resend) senza rischio di doppi invii.
+
+## 🟡 Ripara la chat e le approvazioni del Pannello (pacchetto AR-033/034 + navigazione)
+- **Data proposta:** 2026-07-07 09:15
+- **Reparto:** frontend-dev
+- **Stato:** IN ATTESA — 2026-07-07 09:15
+- **Contenuto:** i fix dei 3 fastidi che vivi ogni giorno, localizzati nel codice: la bolla «sto pensando…» eterna e le risposte che spariscono (4 razze nella chat), l'«ok» ottimista che può creare due lavori per la stessa approvazione, il tasto INDIETRO/i link che aprono la scheda sbagliata. Referto completo: consegne/audit/2026-07-07-audit-pannello.md (73 bug, 9 cause-radice, fix file:riga).
+- **Cosa cambia:** le risposte del cervello non spariscono più cambiando chat o riaprendo il telefono, le cose già fatte escono dalle liste, e l'INDIETRO ti porta dove ti aspetti.
+- **Se va bene:** il Pannello diventa affidabile come cabina quotidiana e si può usare dal telefono senza sorprese.
+
+## 🟡 Riaccendi il sistema immunitario della memoria (pacchetto AR-029/030 + riconciliazioni)
+- **Data proposta:** 2026-07-07 09:15
+- **Reparto:** AD + bi-lead
+- **Stato:** IN ATTESA — 2026-07-07 09:15
+- **Contenuto:** seeding del registro-fatti con i 6-8 fatti vivi già firmati (ripartenza dopo il 9/7, Venerdì Piacentini 10/7 e 17/7, visita botteghe 13/7, bando ER 21/7, faro Pane Quotidiano, commissione 12%, ramo unico main) con caccia armata su ciascuno; riscrittura della guida Collegamento-AD (dice ancora di puntare al ramo pensionato); rigenerazione della checklist personale dalle azioni vive; riconciliazione delle 4 versioni dello stato Stripe.
+- **Cosa cambia:** il guardiano di coerenza smette di dare verde «a vuoto» e le superfici che il Pannello ti mostra (checklist, guida, calibrazione) tornano a dire la verità.
+- **Se va bene:** ogni fatto nuovo che decidi finisce in UNA casa sola e le copie vecchie vengono cacciate in automatico a ogni giro.
+
+## 🟡 Decidi la sorte del ramo Windows del worker (worker.ps1 / giro.ps1)
+- **Data proposta:** 2026-07-07 09:15
+- **Reparto:** devops-sre
+- **Stato:** IN ATTESA — 2026-07-07 09:15
+- **Contenuto:** i gemelli Windows sono rimasti indietro di generazioni: saltano tutti i cancelli di verità, non pushano la memoria e marcano «fatto» anche i lavori falliti. Opzione A (consigliata): pensionarli — README aggiornato «solo VPS» e i file diventano un avviso. Opzione B: riscriverli come involucro sottile della stessa pipeline del VPS.
+- **Cosa cambia:** sparisce il rischio che riaccendendo il PC di casa un secondo worker esegua gli stessi lavori due volte con regole vecchie.
+- **Se va bene:** un solo worker, una sola pipeline, una sola verità su cosa è stato eseguito.

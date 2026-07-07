@@ -643,6 +643,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 1 · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-07 09:13",
+      "voto_salute": 0,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "",
+      "difetti_aperti": 11,
+      "difetti_chiusi": 22,
+      "pending_merge": 0,
+      "aperti_davvero": 11,
+      "bloccanti_umani": 2,
+      "tipo": "completa",
+      "nota": "radiografia TOTALE (macchina+worker+memoria+pannello): 140 difetti verificati, +11 in cantiere (AR-026..AR-036), 3 bloccanti nuovi. Voto crollato per profondità dell'esame, non per peggioramento."
     }
   ]
 }
