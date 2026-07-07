@@ -710,3 +710,17 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-07 06:22 · @security · FATTO · Propagata la buona notizia: R1 (revoca vecchio PAT GitHub) FATTA da Nicola (chat 7/7) → buco AR-004 chiuso. Aggiornati STATO, coda #34/R1, intenzioni.
 - 2026-07-07 06:22 · @AD · FATTO · Nessuna card 🟡/🔴 nuova (anti-doppione AR-008: coda a 23). Solo memoria (🟢): STATO, briefing 07/07, ultimo-briefing, auto-analisi (obbligatori), registro-realta, intenzioni, eventi-picchi.
 - 2026-07-07 06:22 · @AD · SERVE · Nicola: 🔴 R2 metti in salvo i 20 fix in main (prossimo giro VPS con rete aperta) · verifica a occhio Pannello hosted post-revoca PAT · domanda storica: chi ha annullato #16? La pubblicazione della memoria su origin/main la fa giro.sh dopo questo giro (chiude di fatto il #54 rimasto dal cloud).
+
+### 2026-07-07 06:50 — ☀️ PIANO DEL MATTINO (AD)
+**Obiettivo del giorno:** proteggere e preparare la mossa che sposta la North Star (1° ordine reale su PQ, ripresa 13/7 → finestra VEN 17/7), niente forzature sul business fermo. North Star **0**, firma REST invariata dal 24/6.
+**Le 3 priorità:** ① 🔴 far nascere il 1° ordine reale su Pane Quotidiano (gated 13/7, aggancio 17/7; oggi si tiene pronta la domanda) · ② 🟡 piattaforma sicura prima del batch 6 botteghe (R2 merge fix cantiere + SQL 107 RLS profiles) · ③ 🟡 pronti al 13/7 + accendere la sentinella ordini-annullati (#40, chiude la causa-radice del loop cieco).
+
+Assegnazioni (1 mossa per reparto):
+- @onboarding-negozi/@vendite · 🟢 dossier + schede-cheat 6 botteghe pronti e stampabili per la visita di persona 13/7 (nessun asset pesante nuovo, AR-006)
+- @seo · 🟢 riempimento vetrine PQ (store_description + store_address) pronto ad applicarsi al rientro (esecuzione DB gated → via Pannello/giro VPS)
+- @content-social · 🟢 bozze "Il Turno" PQ (post sabato #30) pronte a spingere domanda alla ripresa · pubblicazione 🔴
+- @devops-sre · 🟡 prepara sessione VPS rete/git per R2 (branch→PR→merge i 20 fix cantiere in main, prima che watch-main li spazzi)
+- @security/@qa · 🟡 SQL 107 + verifica RLS profiles + smoke checkout (#32, AD-owned firmato) → aspetta grant MCP write o giro VPS
+- @data-engineer · 🟡 accendi il timer sentinella ordini-annullati (#40, legge delivery_status/canceled_at)
+- @analista · 🟢 sorveglia i 7 numeri via REST a ogni giro; bandiera alla nascita del 1° ordine reale
+🙋 Serve da Nicola: 🟡 ok R2 (merge fix cantiere in main, sessione VPS con rete) · 🟡 SQL 107 (grant MCP write o giro VPS) · 🟡 accendi #40 · 👁️ verifica a occhio il Pannello hosted mostra il giro di oggi (residuo post-revoca PAT) · 📌 ripresa operativa 13/7, primo aggancio ordine PQ = VEN 17/7.
