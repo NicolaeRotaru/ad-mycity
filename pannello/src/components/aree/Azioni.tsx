@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Clock } from "lucide-react";
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
@@ -27,7 +27,7 @@ import {
 //  🖊️ Da approvare → la coda pronta dei senior, con scheda completa + qualità + cosa-fa.
 //  📒 Registro → lo storico dei risultati.
 
-type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "approvare" | "registro";
+type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "approvare" | "incoda" | "registro";
 type Livello = "verde" | "giallo" | "rosso" | "?";
 type Stato = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 type Azione = {
@@ -221,7 +221,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
-    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "registro"];
+    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "incoda", "registro"];
     // Al MOUNT consuma il sub parcheggiato (vaiArea/INDIETRO scattati prima che l'area fosse montata):
     // senza, l'evento sincrono si perdeva e l'area apriva "mosse" invece della scheda richiesta.
     const pend = consumaSubPendente("azioni");
@@ -430,7 +430,12 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     }
   }
 
-  const daDecidere = azioni.filter((a) => !a.stato).length;
+  // «Da approvare» = solo ciò che aspetta la firma di Nicola (stato vuoto). Le azioni GIÀ decise ma
+  // FERME in attesa del canale/mani (stato "coda") vanno in una finestra separata «In coda»: non
+  // devono più affollare la coda da firmare. (richiesta di Nicola: azioni ferme in un'altra finestra)
+  const daFirmare = azioni.filter((a) => !a.stato);
+  const daDecidere = daFirmare.length;
+  const ferme = azioni.filter((a) => a.stato === "coda");
   const proposteVive = proposte.filter((p) => !propDecise.has(idProposta(p)) && !propDecisioni[idProposta(p)]).length;
   const daFareTodo = todo.filter((t) => !t.fatto);
   const mosse = intenzioni?.collegato ? intenzioni.prossime_mosse : [];
@@ -448,8 +453,144 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     { id: "dafare", label: "Cose da fare", icon: <ListTodo size={14} />, badge: daFareTodo.length || undefined },
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} />, badge: alerts.length || undefined },
     { id: "approvare", label: "Da approvare", icon: <ListChecks size={14} />, badge: daDecidere || undefined },
+    { id: "incoda", label: "In coda", icon: <Clock size={14} />, badge: ferme.length || undefined },
     { id: "registro", label: "Registro", icon: <BookOpen size={14} /> },
   ];
+
+  // Card di una singola azione — estratta così la usano SIA «Da approvare» (azioni da firmare)
+  // SIA «In coda» (azioni ferme già decise), senza duplicare ~120 righe di markup.
+  const cardAzione = (a: Azione) => {
+    const decisa = a.stato !== "";
+    const open = aperte.has(a.id);
+    const b = badgeStato(a.stato);
+    const path = estraiPath(a.testo) || estraiPath(a.perche);
+    const sch = schede[a.id];
+    return (
+      <div id={`azione-${a.id}`} key={a.id} className={`card border ${BORDO[a.livello]} p-4 scroll-mt-24 ${decisa ? "opacity-80" : ""}`}>
+        <div className="flex items-start gap-2.5">
+          <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
+          <div className="min-w-0 flex-1">
+            {/* 🔖 Etichetta «#codice — nome» (richiesta di Nicola): codice STABILE e
+                pronunciabile (es. "#A42") SEMPRE insieme al titolo, sulla stessa riga.
+                Il codice resta lo stesso finché l'azione è in coda, così Nicola e l'AD
+                parlano della stessa card. testoPulito: via gli ** del markdown e
+                l'emoji di livello iniziale. */}
+            <div className="t-sez leading-snug">
+              <span
+                className="font-mono text-[12px] font-bold tracking-wide text-brand select-all mr-1"
+                title="Codice fisso di questa casella — citalo in chat per indicarla"
+              >
+                {codiceAzione(a.id)}
+              </span>
+              <span className="text-black/30 mr-1">—</span>
+              {testoPulito(a.titolo)}
+            </div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
+              <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
+              {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
+              {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
+              {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
+              {a.qualita?.voto === "ok" && !decisa && <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>}
+            </div>
+          </div>
+          {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
+        </div>
+
+        {/* Il "perché" come prosa leggibile. Se è solo un riferimento a un file
+            (es. "consegne/vendite/pitch.md (Parte C)") lo nascondiamo: è gergo — il
+            contenuto vero si apre con "Leggi il testo esatto" qui sotto. (fix #3) */}
+        {(() => {
+          const p = testoPulito(a.perche);
+          const soloRiferimento = /^(consegne|creativi)\/\S+(\s*\([^)]*\))?$/.test(p);
+          return p && !soloRiferimento ? <p className="t-corpo mt-2">{p}</p> : null;
+        })()}
+
+        {/* 🗣️ In parole semplici — cosa farà e come lo farà (fix #3): SEMPRE in vista,
+            non più nascosto in una tendina. È la risposta a "non capisco cosa farà". */}
+        {!decisa && (() => {
+          const righe = righeInParoleSemplici(a);
+          if (righe.length === 0) return null;
+          return (
+            <div className="mt-2.5 surface-muted p-3 space-y-1.5">
+              <div className="t-micro">🗣️ In parole semplici</div>
+              {righe.map((r) => (
+                <p key={r.etichetta} className="text-[12.5px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  <span className="mr-1">{r.ico}</span>
+                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>{r.etichetta}:</span> {r.testo}
+                </p>
+              ))}
+            </div>
+          );
+        })()}
+
+        {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
+          <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
+        )}
+
+        {/* 📄 Il testo VERO che verrà inviato (il percorso tecnico del file resta nascosto). */}
+        {path && (
+          <div className="mt-2.5">
+            <button onClick={() => apriScheda(a.id, path)} className="inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline">
+              <FileText size={13} /> Leggi il testo esatto che verrà inviato
+            </button>
+            {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
+            {sch?.err && <p className="t-eti mt-1 text-amber-700">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
+            {sch?.testo && (
+              <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/30 pl-3 bg-paper/50 rounded-r-lg py-2 max-h-96 overflow-y-auto">{sch.testo}</pre>
+            )}
+          </div>
+        )}
+
+        {/* Anteprima breve (se il contenuto NON è un percorso ma testo vero) */}
+        {a.testo && !path && (
+          <div className="mt-2.5">
+            <button onClick={() => toggle(a.id)} className="t-eti hover:text-brand inline-flex items-center gap-1 transition">
+              {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} Leggi il testo esatto che verrà inviato
+            </button>
+            {open && <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/20 pl-3 bg-paper/40 rounded-r-lg py-2">{a.testo}</pre>}
+          </div>
+        )}
+
+        {/* Riga minuta in fondo: da quando è pronta + da dove nasce (dettagli, non gergo in evidenza) */}
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5">
+          {a.preparato && <span className="t-eti">Pronta dal {a.preparato}</span>}
+          {(() => {
+            const o = risolviOrigine(a.origine);
+            if (o) {
+              return (
+                <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                  <ArrowRight size={12} /> Da dove nasce: {o.etichetta}
+                </button>
+              );
+            }
+            return (
+              <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                <ArrowRight size={12} /> Perché te la propongo
+              </button>
+            );
+          })()}
+        </div>
+
+        {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
+
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {!decisa ? (
+            <>
+              <button onClick={() => decidi(a.id, "approva")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
+              </button>
+              <button onClick={() => decidi(a.id, "rifiuta")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                <XCircle size={15} /> Rifiuta
+              </button>
+            </>
+          ) : (
+            <button onClick={() => decidi(a.id, "annulla")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
+          )}
+        </div>
+        <ParlaCasella titolo={`Azione: ${a.titolo}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -681,9 +822,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
           {!loading && !collegato && azioni.length === 0 && (
             <div className="card p-4 text-sm text-black/55">Le azioni le accoda l'AD in <code className="bg-black/[0.06] px-1 rounded">90-Memoria-AI/AZIONI-IN-ATTESA.md</code>. Memoria non raggiungibile ora.</div>
           )}
-          {!loading && collegato && azioni.length === 0 && <div className="card p-4 text-sm text-black/55">Nessuna azione pronta adesso. Quando l'AD prepara una mossa, compare qui.</div>}
+          {!loading && collegato && daFirmare.length === 0 && (
+            <div className="card p-4 text-sm text-black/55">
+              Niente da firmare adesso. 👍
+              {ferme.length > 0 && <> Le <b>{ferme.length}</b> azioni già decise ma in attesa del canale sono nella finestra <b>In coda</b>.</>}
+            </div>
+          )}
 
-          {!loading && azioni.length > 0 && (
+          {!loading && daFirmare.length > 0 && (
             <>
               <div className="t-micro flex items-center gap-1.5">
                 <ListChecks size={13} className="text-brand" /> Coda pronta dai senior · {daDecidere} da firmare
@@ -698,141 +844,33 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
               )}
 
               <div className="space-y-2.5">
-                {azioni.map((a) => {
-                  const decisa = a.stato !== "";
-                  const open = aperte.has(a.id);
-                  const b = badgeStato(a.stato);
-                  const path = estraiPath(a.testo) || estraiPath(a.perche);
-                  const sch = schede[a.id];
-                  return (
-                    <div id={`azione-${a.id}`} key={a.id} className={`card border ${BORDO[a.livello]} p-4 scroll-mt-24 ${decisa ? "opacity-80" : ""}`}>
-                      <div className="flex items-start gap-2.5">
-                        <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
-                        <div className="min-w-0 flex-1">
-                          {/* 🔖 Etichetta «#codice — nome» (richiesta di Nicola): codice STABILE e
-                              pronunciabile (es. "#A42") SEMPRE insieme al titolo, sulla stessa riga.
-                              Il codice resta lo stesso finché l'azione è in coda, così Nicola e l'AD
-                              parlano della stessa card. testoPulito: via gli ** del markdown e
-                              l'emoji di livello iniziale. */}
-                          <div className="t-sez leading-snug">
-                            <span
-                              className="font-mono text-[12px] font-bold tracking-wide text-brand select-all mr-1"
-                              title="Codice fisso di questa casella — citalo in chat per indicarla"
-                            >
-                              {codiceAzione(a.id)}
-                            </span>
-                            <span className="text-black/30 mr-1">—</span>
-                            {testoPulito(a.titolo)}
-                          </div>
-                          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
-                            <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
-                            {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
-                            {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
-                            {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
-                            {a.qualita?.voto === "ok" && !decisa && <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>}
-                          </div>
-                        </div>
-                        {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
-                      </div>
-
-                      {/* Il "perché" come prosa leggibile. Se è solo un riferimento a un file
-                          (es. "consegne/vendite/pitch.md (Parte C)") lo nascondiamo: è gergo — il
-                          contenuto vero si apre con "Leggi il testo esatto" qui sotto. (fix #3) */}
-                      {(() => {
-                        const p = testoPulito(a.perche);
-                        const soloRiferimento = /^(consegne|creativi)\/\S+(\s*\([^)]*\))?$/.test(p);
-                        return p && !soloRiferimento ? <p className="t-corpo mt-2">{p}</p> : null;
-                      })()}
-
-                      {/* 🗣️ In parole semplici — cosa farà e come lo farà (fix #3): SEMPRE in vista,
-                          non più nascosto in una tendina. È la risposta a "non capisco cosa farà". */}
-                      {!decisa && (() => {
-                        const righe = righeInParoleSemplici(a);
-                        if (righe.length === 0) return null;
-                        return (
-                          <div className="mt-2.5 surface-muted p-3 space-y-1.5">
-                            <div className="t-micro">🗣️ In parole semplici</div>
-                            {righe.map((r) => (
-                              <p key={r.etichetta} className="text-[12.5px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                                <span className="mr-1">{r.ico}</span>
-                                <span className="font-semibold" style={{ color: "var(--text-primary)" }}>{r.etichetta}:</span> {r.testo}
-                              </p>
-                            ))}
-                          </div>
-                        );
-                      })()}
-
-                      {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
-                        <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
-                      )}
-
-                      {/* 📄 Il testo VERO che verrà inviato (il percorso tecnico del file resta nascosto). */}
-                      {path && (
-                        <div className="mt-2.5">
-                          <button onClick={() => apriScheda(a.id, path)} className="inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline">
-                            <FileText size={13} /> Leggi il testo esatto che verrà inviato
-                          </button>
-                          {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
-                          {sch?.err && <p className="t-eti mt-1 text-amber-700">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
-                          {sch?.testo && (
-                            <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/30 pl-3 bg-paper/50 rounded-r-lg py-2 max-h-96 overflow-y-auto">{sch.testo}</pre>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Anteprima breve (se il contenuto NON è un percorso ma testo vero) */}
-                      {a.testo && !path && (
-                        <div className="mt-2.5">
-                          <button onClick={() => toggle(a.id)} className="t-eti hover:text-brand inline-flex items-center gap-1 transition">
-                            {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} Leggi il testo esatto che verrà inviato
-                          </button>
-                          {open && <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/20 pl-3 bg-paper/40 rounded-r-lg py-2">{a.testo}</pre>}
-                        </div>
-                      )}
-
-                      {/* Riga minuta in fondo: da quando è pronta + da dove nasce (dettagli, non gergo in evidenza) */}
-                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5">
-                        {a.preparato && <span className="t-eti">Pronta dal {a.preparato}</span>}
-                        {(() => {
-                          const o = risolviOrigine(a.origine);
-                          if (o) {
-                            return (
-                              <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                                <ArrowRight size={12} /> Da dove nasce: {o.etichetta}
-                              </button>
-                            );
-                          }
-                          return (
-                            <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
-                              <ArrowRight size={12} /> Perché te la propongo
-                            </button>
-                          );
-                        })()}
-                      </div>
-
-                      {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
-
-                      <div className="mt-3 flex flex-wrap items-center gap-2">
-                        {!decisa ? (
-                          <>
-                            <button onClick={() => decidi(a.id, "approva")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                              {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
-                            </button>
-                            <button onClick={() => decidi(a.id, "rifiuta")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                              <XCircle size={15} /> Rifiuta
-                            </button>
-                          </>
-                        ) : (
-                          <button onClick={() => decidi(a.id, "annulla")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
-                        )}
-                      </div>
-                      <ParlaCasella titolo={`Azione: ${a.titolo}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
-                    </div>
-                  );
-                })}
+                {daFirmare.map((a) => cardAzione(a))}
               </div>
 
               {!salvataggio && <p className="t-eti">⚠️ Le decisioni non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.</p>}
+            </>
+          )}
+        </>
+      )}
+
+      {/* ===== IN CODA (azioni ferme, già decise, in attesa del canale) ===== */}
+      {tab === "incoda" && (
+        <>
+          <div className="rounded-xl border border-amber-200/70 bg-amber-50/50 dark:border-amber-900/40 dark:bg-amber-950/20 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
+            <Clock size={15} className="text-amber-600 mt-0.5 shrink-0" />
+            <span>Azioni <b>già decise</b> ma <b>ferme</b>: aspettano che il canale/le «mani» siano collegati (o il worker acceso). Non servono più tra quelle da firmare — partono da sole appena il canale è pronto. Puoi <b>annullarle</b> da qui.</span>
+          </div>
+
+          {loading && <div className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" /> Carico le azioni…</div>}
+          {!loading && ferme.length === 0 && (
+            <div className="card p-4 text-sm text-black/55 flex items-center gap-2"><CheckCircle2 size={15} className="text-green-600" /> Nessuna azione ferma. Quando ne approvi una e il canale non è ancora collegato, la trovi qui.</div>
+          )}
+          {!loading && ferme.length > 0 && (
+            <>
+              <div className="t-micro flex items-center gap-1.5"><Clock size={13} className="text-amber-600" /> {ferme.length} {ferme.length === 1 ? "azione ferma" : "azioni ferme"} in attesa del canale</div>
+              <div className="space-y-2.5">
+                {ferme.map((a) => cardAzione(a))}
+              </div>
             </>
           )}
         </>

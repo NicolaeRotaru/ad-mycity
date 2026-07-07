@@ -150,6 +150,13 @@ export default function RadiografiaDiSe() {
           {/* === RADIOGRAFIA (dimensioni + pre-mortem + benchmark + proposte + domande) === */}
           {tab === "dimensioni" && (
             <div className="space-y-3">
+              {/* Difesa: se il file radiografia c'è ma non è parsabile (troncato in lettura, era il
+                  bug del cap a 200k) la sezione restava MUTA e vuota → disorientante. Ora lo dice. */}
+              {!(r?.dimensioni?.length) && !(r?.pre_mortem?.length) && !(r?.benchmark_vs_migliori?.length) && (
+                <p className="t-eti py-4 text-center">
+                  La radiografia non è caricabile in questo momento (file troppo grande in lettura, oppure non ancora rigenerata dopo l&apos;ultima analisi). Le dimensioni ricompaiono al prossimo aggiornamento.
+                </p>
+              )}
               {(r?.dimensioni || []).map((dim, i) => (
                 <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
                   <div className="flex items-center gap-2">

@@ -84,28 +84,31 @@ export default function MemoriaViva() {
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [ramoVault, setRamoVault] = useState<string | null>(null);
 
-  const carica = useCallback(async (silenzioso = false) => {
+  // Caricamento PROGRESSIVO (fix «memoria lentissima»): prima si aspettava `Promise.all` di 5 fetch
+  // — lo spinner restava finché finiva il PIÙ LENTO (piani, molte letture da GitHub). Ora ogni fetch
+  // riempie la sua fetta appena risolve: il tab attivo compare subito e i piani si popolano in
+  // sottofondo. Lo spinner sparisce non appena arriva il primo dato utile (vedi condizione in render).
+  const carica = useCallback((silenzioso = false) => {
     if (!silenzioso) setLoading(true);
-    try {
-      const [at, st, pi, de, ok] = await Promise.all([
-        fetch("/api/memoria/attivita", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false })),
-        fetch("/api/memoria/stato", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, testo: "" })),
-        fetch("/api/memoria/piani", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, piani: [] })),
-        fetch("/api/memoria/decisioni", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, decisioni: [] })),
-        fetch("/api/memoria/okr", { cache: "no-store" }).then((r) => r.json()).catch(() => ({ collegato: false, righe: [] })),
-      ]);
-      setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
-      setRamoVault(at?.ramo || null);
-      setStato(st.testo || "");
-      setStatoAgg(st.aggiornato || "");
-      setPiani(pi.piani || []);
-      setDecisioni(de.decisioni || []);
-      setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] });
-      setCollegato(Boolean(at?.collegato || st.collegato || pi.collegato || de.collegato || ok.collegato));
-      setAggAt(Date.now());
-    } finally {
-      setLoading(false);
-    }
+    let rimasti = 5;
+    const fine = () => { rimasti -= 1; if (rimasti === 0) { setLoading(false); setAggAt(Date.now()); } };
+    const vivo = (v: unknown) => { if (v) setCollegato(true); };
+    const j = (r: Response) => r.json();
+
+    fetch("/api/memoria/attivita", { cache: "no-store" }).then(j).catch(() => ({ collegato: false }))
+      .then((at) => {
+        setAttivita(at && (at.briefing || at.salaOperativa || at.decisioni) ? at : at?.collegato ? at : null);
+        setRamoVault(at?.ramo || null);
+        vivo(at?.collegato);
+      }).finally(fine);
+    fetch("/api/memoria/stato", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, testo: "" }))
+      .then((st) => { setStato(st.testo || ""); setStatoAgg(st.aggiornato || ""); vivo(st.collegato); }).finally(fine);
+    fetch("/api/memoria/piani", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, piani: [] }))
+      .then((pi) => { setPiani(pi.piani || []); vivo(pi.collegato); }).finally(fine);
+    fetch("/api/memoria/decisioni", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, decisioni: [] }))
+      .then((de) => { setDecisioni(de.decisioni || []); vivo(de.collegato); }).finally(fine);
+    fetch("/api/memoria/okr", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, righe: [] }))
+      .then((ok) => { setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] }); vivo(ok.collegato); }).finally(fine);
   }, []);
 
   useEffect(() => {

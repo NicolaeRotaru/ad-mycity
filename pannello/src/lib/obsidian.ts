@@ -167,7 +167,11 @@ export async function leggiNota(
   const d: any = esito.dati;
   if (!d || !d.content) return { stato: "assente", testo: null, ramo: esito.ramo };
   const text = Buffer.from(d.content, "base64").toString("utf-8");
-  const MAX = 200000;
+  // Rete di sicurezza contro file patologici. Il cap era 200000: troppo basso per i JSON grossi
+  // (es. auto-radiografia.json ~215k caratteri) → troncarli a metà stringa produce JSON INVALIDO e
+  // la radiografia "spariva". La Contents API serve inline i file fino a 1 MB, quindi alziamo il cap
+  // ben oltre i file veri restando comunque un tetto contro letture multi-MB.
+  const MAX = 1_000_000;
   return { stato: "ok", testo: text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text, ramo: esito.ramo };
 }
 
@@ -263,7 +267,10 @@ export async function readNote(path: string): Promise<string> {
   // arrivano a decine di KB): un cap basso (era 12000) buttava la CODA dei file, dove sta il
   // blocco "Aggiornamento dell'AD" dei Piani e la fine dei briefing. Le route limitano da sole
   // (codaTesto) quando serve, quindi qui restituiamo praticamente sempre il file INTERO.
-  const MAX = 200000;
+  // Cap alzato a 1 MB (era 200k): i JSON grossi come auto-radiografia.json (~215k) venivano
+  // troncati a metà stringa → JSON invalido → sezione radiografia vuota. La Contents API serve
+  // inline fino a 1 MB, quindi il tetto resta una difesa senza corrompere i file veri.
+  const MAX = 1_000_000;
   return text.length > MAX ? text.slice(0, MAX) + "\n[...troncato]" : text;
 }
 
