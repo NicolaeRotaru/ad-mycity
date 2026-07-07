@@ -137,4 +137,26 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - **Lezione del giorno (L-2026-0706):** un sensore cieco che tramanda una lettura vecchia crea un **fatto-zombie** che genera lavoro morto. #16 è stato dato «in consegna» per giorni (4 finestre di consegna rincorse + cascata #27/#26/#37 armata) mentre nel DB era **annullato dal 24/6** — la macchina non lo vedeva perché l'MCP era cieco e la baseline REST veniva portata avanti. **Regola:** quando un sensore è cieco, incrocia col canale che legge il vivo (il Pannello lo segnalava con l'alert «1 consegne annullate») e, alla correzione, **propaga la verità a TUTTI gli snapshot nello stesso giro** — non lasciare registro-realta/intenzioni/auto-analisi fermi indietro, o la deriva di coerenza rigenera lo zombie. Aggancio: AR-001 (fallback REST) + #40 (sentinella annullati) + gate anti-invenzione.
 - **Domani/prossimi passi:** business fermo per patto — Nicola riparte operativo **dopo giovedì 9/7** (reset limiti Claude). Fino ad allora: max 1 giro/giorno (poco e mirato), memoria su `memoria-ad` 🟢, tutti i 🔴 restano firma sua. Prima mossa al rientro: **far nascere il 1° ordine reale su PQ** agganciato al **Venerdì Piacentini 10/7**, poi consegna + payout-test; in parallelo **visita 6 botteghe 13/7** (2° negozio reale). Prerequisiti di sicurezza ancora aperti: R1 (revoca PAT) + SQL 107 (RLS profiles).
 
-## Piano del mattino · 2026-07-07 06:30
+## Piano del mattino · 2026-07-07 06:50
+**Contesto:** business fermo dal 24/6, **North Star 0** (firma REST 06:20 invariata: ordini=1 *annullato*, ultimo 24/6, 23 clienti, `dati_leggibili=true` · MCP write non concesso in sessione → zero numeri inventati). 1 negozio reale (Pane Quotidiano, payout OFF, 5 prodotti), 407 lead mai contattati. **Patto:** Nicola riparte operativo **il 13/7** (onboarding 6 botteghe food **di persona**); fino ad allora i 🔴 restano firma sua e non si forza il business. **Buona notizia propagata:** R1 (revoca vecchio PAT GitHub) **FATTA** → buco AR-004 chiuso, resta solo R2 (merge fix in main). Meteo oggi **35°C afa**; Venerdì Piacentini **10/7 e 17/7** → il 10/7 cade prima della ripresa, quindi la **prima finestra utile è VEN 17/7**.
+
+**Le 3 priorità del giorno (spostano la North Star, o proteggono chi la sposterà):**
+1. 🔴 **Far nascere il 1° ordine reale su Pane Quotidiano** — l'unica mossa che porta la North Star 0→1. Non si riesuma lo zombie #16: serve domanda vera. **Parte operativa dalla ripresa 13/7, aggancio VEN 17/7**; oggi si tiene pronta la domanda (vetrine SEO + post "Il Turno" già in coda), non si esegue.
+2. 🟡 **Piattaforma sicura PRIMA del batch 6 botteghe (13/7)** — R2 (mettere in salvo i 20 fix del cantiere in `main`) + SQL 107 (RLS `profiles`, #32): far entrare 6 negozi nuovi su una piattaforma che ancora espone dati sensibili sarebbe un rischio.
+3. 🟡 **Pronti al 13/7 + chiudere la causa-radice del loop cieco** — dossier/schede-cheat 6 botteghe già pronte per la visita di persona · accendere la sentinella ordini-annullati (#40) così un `CANCELED` non resti mai più invisibile.
+
+**Assegnazioni (1 mossa per reparto):**
+- 🚪 **onboarding-negozi / vendite** · 🟢 tieni pronti e stampabili dossier + schede-cheat delle 6 botteghe (Osteria Carducci, La Forchetta, Tre Ganasce, La Dispensa, Trattoria dei Pescatori, Tigellabella) per la visita di persona del 13/7. Niente asset pesanti nuovi (prospect non firmati, AR-006).
+- 🔍 **seo** · 🟢 il riempimento vetrine di Pane Quotidiano (`store_description` + `store_address`, solo fatti verificati) è pronto ad essere applicato al rientro; esecuzione DB gated → parte via Pannello/giro VPS autorizzato.
+- ✍️ **content-social** · 🟢 tieni pronte le bozze "Il Turno" di PQ (post del sabato #30) per spingere domanda alla ripresa; la pubblicazione resta 🔴.
+- 🛡️ **devops-sre** · 🟡 prepara una sessione VPS con rete/git aperti per **R2**: crea branch → PR → merge dei 20 fix del cantiere in `main` (metterli in salvo prima che `watch-main` li spazzi via da `memoria-ad`). Runbook pronto.
+- 🔒 **security / qa** · 🟡 **SQL 107 + verifica RLS `profiles` + smoke checkout** (#32, AD-owned e già firmato): applicalo appena c'è la mano (grant MCP write o giro VPS) → anon non legge più IBAN/KYC/Stripe.
+- 📈 **data-engineer** · 🟡 accendi il timer della **sentinella ordini-annullati** (#40, legge `delivery_status`/`canceled_at`): chiude la causa-radice del loop cieco su #16.
+- 📊 **analista** · 🟢 sorveglia i 7 numeri via REST a ogni giro e alza subito la bandiera alla nascita del 1° ordine reale su PQ.
+
+**🙋 Cosa serve da Nicola:**
+- 🟡 in una sessione VPS con rete aperta: **ok R2** (merge i 20 fix del cantiere in `main`) — è l'ultimo bloccante di piattaforma prima del batch.
+- 🟡 **SQL 107** (grant MCP write o un giro sul VPS) → chiude l'RLS su `profiles` prima delle 6 botteghe nuove.
+- 🟡 **accendi #40** (timer sentinella ordini-annullati).
+- 👁️ verifica a occhio: il **Pannello hosted mostra il giro di oggi?** (unico residuo dopo la revoca del PAT — se cieco, Vercel condivideva il token → dargli un PAT read-only + Redeploy).
+- 📌 promemoria del patto: ripresa operativa **13/7**; primo aggancio ordine reale su PQ = **VEN 17/7**.
