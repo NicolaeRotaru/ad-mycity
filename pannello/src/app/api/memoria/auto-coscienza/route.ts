@@ -62,6 +62,31 @@ function normalizza(d: { apprendimento: any; registro: any }) {
   }
 }
 
+// 🧹 SANIFICA i campi «header» dell'auto-analisi. Il giro a volte scrive un'INTERA FRASE dentro
+// trend_fiducia (es. "= 86: refresh onesto +9min dal refresh 11:40 — …") o un voto sporco tipo
+// "86: refresh…". Renderizzati nei badge compatti del Pannello (shrink-0) quei mattoni di testo
+// SFONDANO la card e schiacciano il titolo accanto a 1 carattere per riga (testo verticale). Qui li
+// riportiamo al contratto ALLA FONTE — così TUTTI i consumatori (Plancia + Auto-coscienza + futuri)
+// ricevono un voto intero 0-100 e un trend che è SOLO un token breve (freccia/parola/±numero), mai una
+// frase. Non inventa nulla: taglia il rumore. (fix «scritte che escono / testo verticale», per sempre)
+function primoIntero(v: any): number | null {
+  const m = String(v ?? "").match(/-?\d+/);
+  if (!m) return null;
+  const n = Math.round(Number(m[0]));
+  return Number.isFinite(n) ? n : null;
+}
+function trendBreve(v: any): string {
+  const t = String(v ?? "").trim();
+  // Un trend legittimo è corto e senza punteggiatura di frase (. : ; —). Tutto il resto = deriva del giro.
+  return t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";
+}
+function sanificaAnalisi(a: any): void {
+  if (!a || typeof a !== "object") return;
+  const voto = primoIntero(a.voto_fiducia);
+  if (voto != null) a.voto_fiducia = Math.max(0, Math.min(100, voto));
+  if (a.trend_fiducia != null) a.trend_fiducia = trendBreve(a.trend_fiducia);
+}
+
 // 🩺 Un'auto-analisi è «affidabile» solo se ha davvero contenuto: un voto numerico in [0,100] E una
 // sintesi non vuota. I giri rotti del VPS scrivono { voto_fiducia: 7, sintesi: "", salute: null }:
 // un guscio vuoto. Restituire false fa sì che il Pannello NON mostri quel «7/100» come fosse credibile.
@@ -91,6 +116,7 @@ export async function GET() {
     });
   }
   normalizza({ apprendimento, registro });
+  sanificaAnalisi(analisi); // voto→intero 0-100, trend→token breve (niente frasi che sfondano la card)
   // 🩺 Segnaliamo al Pannello se l'auto-analisi è un guscio vuoto (giro rotto): così mostra uno stato
   // «in aggiornamento» invece di un allarmante e falso «7/100». Il dato grezzo resta, ma marcato.
   const analisi_affidabile = analisiAffidabile(analisi);

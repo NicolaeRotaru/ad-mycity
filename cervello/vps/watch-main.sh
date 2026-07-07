@@ -13,13 +13,17 @@ REPO="${REPO:-/opt/mycity/ad-mycity}"
 ENV_FILE="$REPO/cervello/vps/.env"
 APP_USER="${APP_USER:-mycity}"
 FORCE=0
+RESTART_NOW=0   # default: reload GRAZIOSO del worker (mai un kill a metà lavoro). --restart-now = hard.
 
 for arg in "$@"; do
   case "$arg" in
     --force) FORCE=1 ;;
+    --restart-now) RESTART_NOW=1 ;;
     --help|-h)
-      echo "Usage: watch-main.sh [--force]"
+      echo "Usage: watch-main.sh [--force] [--restart-now]"
       echo "  Confronta origin/main con l'ultimo SHA visto; se avanzato → aggiorna-cervello.sh"
+      echo "  Default: reload GRAZIOSO del worker (flag worker:riavvia — riparte TRA un lavoro e l'altro)."
+      echo "  --restart-now: riavvio HARD immediato (systemctl) — può interrompere un lavoro in corso."
       exit 0
       ;;
   esac
@@ -53,6 +57,35 @@ segnale() {
     -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
     -d "{\"chiave\":\"automazione:watch-main\",\"valore\":\"$esito · $dettaglio · $(ts)\",\"updated_at\":\"$(date -Iseconds)\"}" \
     >/dev/null 2>&1 || true
+}
+
+# 🔑 CAUSA-RADICE dei «lavori morti a metà» (azioni approvate finite in «da riapprovare»): quando main
+# avanzava con un cambio di CODICE, watch-main faceva `systemctl restart mycity-worker` — un kill HARD
+# (SIGTERM) che interrompeva il lavoro IN CORSO (giro/chat/azione approvata). L'azione reale interrotta
+# NON riparte da sola (giustamente: rischio doppio invio) → resta ferma in errore/«riapprova». AR-027
+# aveva già tolto il riavvio per i push di SOLA memoria; qui chiudiamo anche i push di codice.
+#
+# Reload GRAZIOSO: invece di ammazzare il worker, alziamo il flag `worker:riavvia` (lo STESSO del bottone
+# «Riavvia worker» del Pannello). Il worker lo raccoglie in cima al suo loop — cioè SOLO tra un lavoro e
+# l'altro — e si ri-exec da solo con il codice già allineato su disco: nessun lavoro interrotto, coda mai
+# persa. Ritorna 0 se il flag è stato scritto, 1 altrimenti (SUPABASE assente → il chiamante fa fallback).
+richiedi_riavvio_worker() {
+  if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then return 1; fi
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+    -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:riavvia\",\"valore\":\"on\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1
+}
+
+# Decide COSA fare dopo un allineamento: "nessuno" (era solo memoria → codice invariato), "hard"
+# (--restart-now: riavvio immediato richiesto a mano) o "grazioso" (default: reload tra un lavoro e
+# l'altro). Pura, senza effetti collaterali → testabile in isolamento (test/watch-main-reload-grazioso.bats).
+decidi_azione_riavvio() {
+  local solo_memoria="$1" restart_now="$2"
+  if [ "$solo_memoria" = 1 ]; then echo "nessuno"; return; fi
+  if [ "$restart_now" = 1 ]; then echo "hard"; return; fi
+  echo "grazioso"
 }
 
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
@@ -134,15 +167,34 @@ echo "$REMOTE_SHA" > "$SHA_FILE"
 echo "[$(ts)] watch-main: allineamento completato."
 segnale "ok" "allineato a main ${REMOTE_SHA:0:7}"
 
-# Exit 2 = allineamento fatto, root deve riavviare il worker. Ma se erano SOLO file di memoria
-# (AR-027), il codice è invariato → exit 0 (nessun riavvio).
-if [ "$SOLO_MEMORIA" = 1 ]; then
-  echo "[$(ts)] watch-main: erano solo file di memoria — codice invariato, NON riavvio il worker."
-  segnale "ok" "solo memoria allineata (${REMOTE_SHA:0:7}) — nessun riavvio"
-  exit 0
-fi
-if [ -n "${WATCH_MAIN_FROM_ROOT:-}" ]; then
-  exit 2
-fi
-echo "[$(ts)]   Riavvio worker (root): sudo systemctl restart mycity-worker"
-exit 0
+# Codice allineato: ora il worker deve girare col codice nuovo. Ma NIENTE kill a metà lavoro.
+case "$(decidi_azione_riavvio "$SOLO_MEMORIA" "$RESTART_NOW")" in
+  nessuno)
+    # AR-027: erano SOLO file di memoria → codice invariato → nessun riavvio.
+    echo "[$(ts)] watch-main: erano solo file di memoria — codice invariato, NON riavvio il worker."
+    segnale "ok" "solo memoria allineata (${REMOTE_SHA:0:7}) — nessun riavvio"
+    exit 0
+    ;;
+  hard)
+    # Escape hatch MANUALE (--restart-now): riavvio hard immediato — può interrompere un lavoro in corso.
+    echo "[$(ts)] watch-main: --restart-now → riavvio HARD del worker (può interrompere un lavoro in corso)."
+    segnale "ok" "allineato ${REMOTE_SHA:0:7} — riavvio hard richiesto (--restart-now)"
+    if [ -n "${WATCH_MAIN_FROM_ROOT:-}" ]; then exit 2; fi
+    echo "[$(ts)]   Riavvio worker (root): sudo systemctl restart mycity-worker"
+    exit 0
+    ;;
+  grazioso)
+    # DEFAULT: reload grazioso via flag worker:riavvia. Il worker riparte tra un lavoro e l'altro,
+    # senza uccidere il lavoro in corso → le azioni approvate non finiscono più in «da riapprovare».
+    if richiedi_riavvio_worker; then
+      echo "[$(ts)] watch-main: reload grazioso richiesto (flag worker:riavvia) — il worker riparte tra un lavoro e l'altro, senza ucciderne uno a metà."
+      segnale "ok" "allineato ${REMOTE_SHA:0:7} — reload grazioso worker (nessun kill)"
+    else
+      # SUPABASE non raggiungibile: non posso alzare il flag → fallback al riavvio hard (raro).
+      echo "[$(ts)] watch-main: flag worker:riavvia non scritto (SUPABASE assente?) — fallback riavvio hard." >&2
+      segnale "warn" "allineato ${REMOTE_SHA:0:7} — flag reload non scritto, fallback hard"
+      if [ -n "${WATCH_MAIN_FROM_ROOT:-}" ]; then exit 2; fi
+    fi
+    exit 0
+    ;;
+esac

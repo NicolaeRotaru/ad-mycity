@@ -62,20 +62,30 @@ export async function GET(req: NextRequest) {
   }
 
   const files = (await listRepoDir(CARTELLA)).filter((f) => f !== "README.md");
-  const quaderni: Quaderno[] = [];
 
-  for (const file of files) {
-    const nome = file.replace(/\.md$/, "");
-    const testo = await readRepoFile(`${CARTELLA}/${file}`);
-    if (!testo) continue;
-    const esiti = parseEsiti(testo);
-    quaderni.push({
-      senior: nome,
-      reparto: repartoDaFrontmatter(testo, nome),
-      ultimoEsito: esiti[0] || null,
-      totaleEsiti: esiti.length,
-      esiti: esiti.slice(0, 8),
-    });
+  // ⚡ I quaderni sono ~120 file: leggerli UNO A UNO (await in un for) faceva ~120 round-trip
+  // GitHub SEQUENZIALI → la lista ci metteva decine di secondi a caricarsi. Li leggiamo in
+  // PARALLELO a lotti (pool da 12): stessa quantità di richieste, ma concorrenti → carica in
+  // pochi secondi, senza sfondare i limiti secondari di GitHub. (fix «quaderni lentissimi»)
+  const LOTTO = 12;
+  const quaderni: Quaderno[] = [];
+  for (let i = 0; i < files.length; i += LOTTO) {
+    const parti = await Promise.all(
+      files.slice(i, i + LOTTO).map(async (file): Promise<Quaderno | null> => {
+        const nome = file.replace(/\.md$/, "");
+        const testo = await readRepoFile(`${CARTELLA}/${file}`);
+        if (!testo) return null;
+        const esiti = parseEsiti(testo);
+        return {
+          senior: nome,
+          reparto: repartoDaFrontmatter(testo, nome),
+          ultimoEsito: esiti[0] || null,
+          totaleEsiti: esiti.length,
+          esiti: esiti.slice(0, 8),
+        };
+      }),
+    );
+    for (const q of parti) if (q) quaderni.push(q);
   }
 
   quaderni.sort((a, b) => {
