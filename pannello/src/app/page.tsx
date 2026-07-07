@@ -675,12 +675,11 @@ export default function Dashboard() {
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
-  useEffect(() => {
-    convIdRef.current = convId;
-  }, [convId]);
-  useEffect(() => {
-    conversazioniRef.current = conversazioni;
-  }, [conversazioni]);
+  // Mirror SINCRONI (assegnati in render, non in useEffect): un useEffect aggiorna il ref DOPO il commit,
+  // quindi al cambio-chat convIdRef restava indietro di un tick e una risposta in arrivo veniva instradata
+  // (e salvata) nella conversazione SBAGLIATA. Assegnandoli in render restano sempre allineati allo stato.
+  convIdRef.current = convId;
+  conversazioniRef.current = conversazioni;
 
   function persistPendings() {
     try {
@@ -867,9 +866,14 @@ export default function Dashboard() {
     setConversazioni((list) => {
       const esiste = list.find((c) => c.id === newId);
       const created_at = esiste?.created_at || new Date().toISOString();
+      // ANTI-RACE al COMMIT: dopo l'`await fetch`, `list` è lo stato PIÙ fresco. Se nel frattempo è
+      // arrivata una risposta (dal poller), rifondiamo con la versione corrente invece di sovrascriverla
+      // con lo snapshot `reali` di PRIMA dell'await → la risposta non si perde. Prima il merge era solo
+      // al momento della chiamata (riga sopra), ma la scrittura avveniva col vecchio snapshot dopo l'await.
+      const messaggiFinali = esiste?.messaggi?.length ? mergeThread(esiste.messaggi, reali) : reali;
       const altri = list.filter((c) => c.id !== newId);
       const nuova: Conversazione[] = [
-        { id: newId as string, titolo, messaggi: reali, created_at, updated_at: new Date().toISOString() },
+        { id: newId as string, titolo, messaggi: messaggiFinali, created_at, updated_at: new Date().toISOString() },
         ...altri,
       ];
       if (!convServer) scriviConvLocali(nuova);
