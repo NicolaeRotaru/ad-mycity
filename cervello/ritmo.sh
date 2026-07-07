@@ -68,26 +68,39 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   (
     flock -w 600 9 || exit 0
-    if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    # AR-028: allineamento NON distruttivo, identico a giro.sh. Prima il `checkout -f -B FETCH_HEAD`
+    # committava le scritture pendenti e SUBITO DOPO resettava il ramo al remoto, ORFANANDO quel commit
+    # e qualunque commit locale non ancora pushato (memoria di un giro il cui push era fallito, righe
+    # FATTO di azioni) → perdita silenziosa di memoria e rischio doppia esecuzione. Ora: committa il
+    # pendente, poi REBASE sopra il remoto (i commit locali restano in HEAD e li pubblica il push finale).
+    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da ritmo interrotto ($(ts))" 2>/dev/null || true
     fi
-    if git fetch "$url" "$branch" 2>/dev/null; then
-      git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
-    else
-      git checkout -f -B "$branch" 2>/dev/null || true
-    fi
-    if git fetch "$url" main 2>/dev/null; then
-      code_paths=()
-      while IFS= read -r p; do
-        case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
-      done < <(git ls-tree --name-only FETCH_HEAD)
-      if [ "${#code_paths[@]}" -gt 0 ] && git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null; then
-        git "${GIT_ID[@]}" commit -q -m "ritmo: allinea codice a main (vault intatto) ($(ts))" 2>/dev/null || true
-        echo "[$(ts)] Codice allineato a origin/main (solo codice, vault intatto)."
+    _fetch_ok=0
+    for _mf in 1 2 3; do
+      if git fetch "$url" "$branch" 2>/dev/null; then _fetch_ok=1; break; fi
+      sleep 2
+    done
+    if [ "$_fetch_ok" = 1 ]; then
+      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)" = "$branch" ]; then
+        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ritmo: allineato a origin/${branch} via rebase (scritture locali preservate)."
+        else
+          git rebase --abort 2>/dev/null || true
+          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+            echo "[$(ts)] Ritmo: allineato a origin/${branch} via merge (rebase in conflitto)."
+          else
+            git merge --abort 2>/dev/null || true
+            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
+          fi
+        fi
       else
-        echo "[$(ts)] WARN: allineamento del codice fallito, continuo col codice attuale." >&2
+        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ritmo: HEAD portato su ${branch} da origin/${branch}."
       fi
+    else
+      echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria su disco." >&2
     fi
   ) 9>"$LOCK" || true
 else

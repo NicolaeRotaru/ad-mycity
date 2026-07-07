@@ -120,7 +120,10 @@ async function checkSupabaseMarketplace() {
   const url = process.env.MARKETPLACE_SUPABASE_URL?.trim();
   const key = process.env.MARKETPLACE_SUPABASE_KEY?.trim();
   if (!url || !key) {
-    return { ok: false, dettaglio: "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env" };
+    // AR-035: chiavi assenti = ambiente NON configurato (es. sessione cloud senza .env), NON una cecità
+    // del VPS. Prima tornava una "cecità" secca che, scritta nel file condiviso, sovrascriveva lo stato
+    // reale del VPS con una FALSA cecità. Coerente con Stripe/Resend/Sito (tutti configurato:false).
+    return { ok: false, configurato: false, dettaglio: "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)" };
   }
   return conRetry(async () => {
     const res = await fetch(`${url}/rest/v1/orders?select=id&limit=1`, {
@@ -232,7 +235,8 @@ async function main() {
     "supabase_rest",
     sb.ok,
     sb.dettaglio,
-    "REST marketplace"
+    "REST marketplace",
+    sb.configurato   // AR-035: se le chiavi mancano, non è cecità → non gonfia i giri_ciechi
   );
 
   const st = await checkStripe();
@@ -349,14 +353,24 @@ async function main() {
   cecita.meta.almeno_un_dato = !tuttiCiechi;
   cecita.meta.dati_ordini_ciechi = datiOrdiniCiechi;   // FIX gate-verità: fonte-di-verità (supabase_rest) cieca?
 
-  mkdirSync(dirname(CECITA_PATH), { recursive: true });
-  writeFileSync(CECITA_PATH, JSON.stringify(cecita, null, 2) + "\n", "utf8");
+  // AR-035: scrivi lo stato condiviso (quello che il Pannello mostra a Nicola) SOLO se questo è un vero
+  // ambiente-sensori (almeno una chiave presente) o è un aggiornamento MCP esplicito. Da una sessione
+  // cloud senza chiavi NON tocchiamo il file: altrimenti una falsa cecità sovrascrive lo stato reale del VPS.
+  const ambienteConfigurato = checks.some((c) => c.configurato !== false);
+  const aggiornamentoMcp = mcpSb !== null || mcpStripe !== null;
+  const scriviStato = ambienteConfigurato || aggiornamentoMcp;
+  if (scriviStato) {
+    mkdirSync(dirname(CECITA_PATH), { recursive: true });
+    writeFileSync(CECITA_PATH, JSON.stringify(cecita, null, 2) + "\n", "utf8");
+  }
 
   const sintesi = tuttiCiechi
     ? `TUTTI CIECHI · max ${maxCecita} giri consecutivi`
     : `${datiOk.length}/${checks.length} ok · max cecità ${maxCecita} giri`;
 
-  await stampSegnale("sensori", tuttiCiechi ? "errore" : "ok", `${sintesi} · ${quando}`);
+  if (scriviStato) {
+    await stampSegnale("sensori", tuttiCiechi ? "errore" : "ok", `${sintesi} · ${quando}`);
+  }
 
   const out = {
     esito: tuttiCiechi ? "cieco" : "ok",
@@ -369,6 +383,7 @@ async function main() {
     // FIX gate-verità: giro.sh legge questo flag (grep nel JSON) per il vincolo HARD indipendentemente
     // dall'exit-code (che è 0 se un QUALSIASI sensore configurato è vivo, anche solo l'uptime).
     datiOrdiniCiechi,
+    stato_persistito: scriviStato,   // AR-035: false = ambiente non configurato, file del VPS preservato
   };
 
   if (JSON_MODE) {
@@ -379,7 +394,9 @@ async function main() {
       console.log(`${c.ok ? "✅" : "❌"} ${c.nome.padEnd(18)} ${c.dettaglio}`);
     }
     console.log(`\n${cecita.istruzioni_giro}`);
-    console.log(`\nScritto: ${CECITA_PATH}`);
+    console.log(scriviStato
+      ? `\nScritto: ${CECITA_PATH}`
+      : `\n⏭️  Ambiente senza chiavi sensore: NON aggiorno ${CECITA_PATH} (preservo lo stato del VPS — AR-035).`);
     if (maxCecita >= 3) {
       console.log(`\n⚠️  Sentinella: almeno un sensore cieco da ${maxCecita} giri consecutivi.`);
     }

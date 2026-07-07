@@ -240,11 +240,24 @@ recupera_lavori_orfani() {
     agg="$(printf '%s' "$row" | jq -r '.updated_at // empty')"
     ris="$(printf '%s' "$row" | jq -r '.risultato // ""')"
     eta="$(_eta_min "$agg")"
+    # AR-026 (sicurezza, prima di AZIONI_LIVE): un'AZIONE REALE approvata (esegui-azione|proposta)
+    # interrotta a metà NON deve MAI ripartire da sola — potrebbe essere già partita (email/payout
+    # inviati) ma non ancora marcata FATTO → riesecuzione = doppio invio. Regola IDENTICA a
+    # retry-policy.mjs (MAI auto-retry per esegui-azione) e a sentinella-lavori.mjs (orfano azione →
+    # 'errore, riapprova'). Solo il worker la violava dando a TUTTI i tipi la 2ª chance. Va sempre in
+    # dead-letter con nota "riapprova": la firma di Nicola dal Pannello è l'unica ripartenza lecita.
+    case " esegui-azione proposta " in
+      *" $tipo "*)
+        echo "[$(ts)] Orfano $id ($tipo, ${eta}min): AZIONE REALE interrotta → NON la ri-eseguo da sola (rischio doppio invio) → riapprova dal Pannello." >&2
+        _dead_letter "$id" "[worker] Azione reale '$tipo' interrotta a metà (worker caduto mentre la eseguiva): potrebbe essere già partita → NON rieseguita in automatico per evitare un doppio invio. Riapprova dal Pannello se serve ancora."
+        continue
+        ;;
+    esac
     # (fix "lascia il lavoro a metà") Prima il `giro` veniva SEMPRE cestinato (errore) al primo
     # riavvio del worker (il watch-main lo riavvia ogni volta che main avanza, uccidendo il giro
     # in corso). Ora il giro ha la STESSA seconda chance degli altri: il marker `[recuperato` +
     # SOGLIA_ORFANO_MIN evitano comunque il crash-loop, ma un giro interrotto UNA volta riparte
-    # invece di morire a metà.
+    # invece di morire a metà. (I tipi-azione sono già usciti sopra: qui restano solo i pre-esecuzione.)
     if printf '%s' "$ris" | grep -q '\[recuperato' || [ "$eta" -gt "$SOGLIA_ORFANO_MIN" ]; then
       echo "[$(ts)] Orfano $id ($tipo, ${eta}min): già ritentato/scaduto → DEAD-LETTER (errore) per sbloccare la coda." >&2
       _dead_letter "$id" "[worker] Lavoro interrotto (worker caduto mentre lo eseguiva) e già ritentato o troppo vecchio (${eta} min) → chiuso in errore per NON bloccare la coda. Ri-approva dal Pannello se serve."
@@ -296,7 +309,16 @@ while true; do
   maybe_riavvia_da_pannello
   battito_worker
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
-  pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  # FAIL-CLOSED (come AR-100 nel giro): se lo stato pausa NON è leggibile (errore transitorio sulla
+  # query impostazioni), NON prendere lavori in questo ciclo — meglio un ciclo saltato che eseguire
+  # un'azione reale mentre Nicola crede di aver messo in PAUSA. Prima il `|| true` rendeva il worker
+  # fail-OPEN proprio nel componente che tocca il mondo (esegui-azione).
+  _pausa_rc=0
+  pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null)" || _pausa_rc=$?
+  if [ "$_pausa_rc" -ne 0 ]; then
+    echo "[$(ts)] ⛔ PAUSA_FAIL_CLOSED: stato pausa non verificabile (rc=$_pausa_rc) — non prendo lavori in questo ciclo." >&2
+    sleep "$INTERVALLO"; continue
+  fi
   if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
     sleep "$INTERVALLO"; continue
   fi
@@ -324,9 +346,17 @@ while true; do
   out=""
   ROUTER_COMPITO_JOB=""   # AR-089: reset per-lavoro del compito-router (default = ragionamento/premium)
 
-  # 1) segna "in_corso"
-  curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
-    -d '{"stato":"in_corso"}' >/dev/null 2>&1 || true
+  # 1) CLAIM ATOMICO (compare-and-set): prendi il lavoro SOLO se è ANCORA in_attesa. Con
+  #    return=representation la PATCH torna la riga solo se l'ha aggiornata QUESTO worker; se un altro
+  #    consumer (2° worker, worker.ps1, o un lancio manuale) l'ha già presa fra il GET e qui, torna []
+  #    → lo saltiamo. Senza il filtro stato=eq.in_attesa due worker eseguivano lo stesso lavoro due
+  #    volte (doppio invio reale con AZIONI_LIVE=1). Niente più `|| true` che ingoiava il claim perso.
+  claimed="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_attesa" "${AUTH[@]}" \
+    -H "Prefer: return=representation" -d '{"stato":"in_corso"}' 2>/dev/null || true)"
+  if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
+    echo "[$(ts)] Lavoro $id: claim perso (già preso da un altro worker o non più in_attesa) — salto." >&2
+    continue
+  fi
 
   # 2) costruisci il prompt (come worker.ps1)
   if [ "$tipo" = "esegui-azione" ]; then

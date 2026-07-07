@@ -87,7 +87,45 @@ function fileRicorsivi(relDir) {
   return out;
 }
 
-/** Conta quanti file pesanti "intestano" ciascuna entità (nome/alias nel path o nel testo). */
+/**
+ * AR-031: entità PRIMARIA di un file (attribuzione ESCLUSIVA — un file conta per UNA sola entità).
+ * Prima l'attribuzione era per-menzione (`alias.some(...includes)`): un post di Pane Quotidiano che
+ * cita "Garetti" in una nota veniva contato ANCHE come asset di Garetti → conteggio gonfiato e falso
+ * allarme-silo. Ora: ① se c'è il frontmatter `negozio:` vince quello; ② altrimenti l'entità con più
+ * occorrenze (il nome intero pesa di più della singola parola); a parità → il negozio confermato.
+ * Torna il nome dell'entità, o null se nessuna la intesta davvero.
+ */
+export function entitaPrimaria(blob, entitaNegozi) {
+  const aliasCache = entitaNegozi.map((ent) => ({ ent, aliases: aliasDi(ent.nome).map((a) => a.toLowerCase()) }));
+
+  // ① frontmatter `negozio:` — la fonte più forte di intestazione
+  const fm = blob.match(/^\s*negozio:\s*(.+)$/m);
+  if (fm) {
+    const val = fm[1];
+    let best = null, bestLen = 0;
+    for (const { ent, aliases } of aliasCache) {
+      for (const a of aliases) {
+        if (val.includes(a) && a.length > bestLen) { best = ent; bestLen = a.length; }
+      }
+    }
+    if (best) return best.nome;
+  }
+
+  // ② altrimenti: l'entità più citata nel blob (nome intero ×3, parola singola ×1); parità → confermato
+  let best = null, bestScore = 0;
+  for (const { ent, aliases } of aliasCache) {
+    let score = 0;
+    for (const a of aliases) {
+      const occ = blob.split(a).length - 1;
+      score += occ * (a.includes(" ") ? 3 : 1);
+    }
+    if (score > bestScore) { best = ent; bestScore = score; }
+    else if (score === bestScore && score > 0 && best && ent.stato === "confermato" && best.stato !== "confermato") { best = ent; }
+  }
+  return bestScore > 0 ? best.nome : null;
+}
+
+/** Conta quanti file pesanti "intestano" ciascuna entità — attribuzione ESCLUSIVA (un file → una entità). */
 function contaAssetPerEntita(entitaNegozi) {
   // Pre-carica i file pesanti una sola volta (path + testo per i file leggibili).
   const files = [];
@@ -107,10 +145,12 @@ function contaAssetPerEntita(entitaNegozi) {
   }
 
   const conteggio = {};
-  for (const ent of entitaNegozi) {
-    const alias = aliasDi(ent.nome).map((a) => a.toLowerCase());
-    const match = files.filter((f) => alias.some((a) => f.blob.includes(a)));
-    conteggio[ent.nome] = { stato: ent.stato, n: match.length, esempi: match.slice(0, 4).map((m) => m.rel) };
+  for (const ent of entitaNegozi) conteggio[ent.nome] = { stato: ent.stato, n: 0, esempi: [] };
+  for (const f of files) {
+    const nome = entitaPrimaria(f.blob, entitaNegozi);
+    if (!nome || !conteggio[nome]) continue; // file non intestato a nessun negozio presidiato → non conta
+    conteggio[nome].n++;
+    if (conteggio[nome].esempi.length < 4) conteggio[nome].esempi.push(f.rel);
   }
   return { conteggio, totaleFile: files.length };
 }
@@ -192,7 +232,10 @@ async function main() {
   process.exit(violazioni > 0 ? 1 : 0);
 }
 
-main().catch((e) => {
-  console.error("ERRORE allocazione-check:", e?.message || e);
-  process.exit(1);
-});
+// Esegui main() solo se lanciato come script (non quando importato da un test).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((e) => {
+    console.error("ERRORE allocazione-check:", e?.message || e);
+    process.exit(1);
+  });
+}

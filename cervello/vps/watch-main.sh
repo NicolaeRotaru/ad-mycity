@@ -92,10 +92,33 @@ if [ "$REMOTE_SHA" = "$LAST_SHA" ]; then
   exit 0
 fi
 
+# AR-027: NON riavviare il worker per i push fatti dal VPS stesso. Col ramo unico (Fase 2) il
+# giro/worker committano la MEMORIA su main ~9-13 volte/giorno: prima ogni push faceva avanzare main →
+# watch-main riavviava il worker uccidendo il giro/chat in corso (10-20 kill/giorno, causa-radice dei
+# lavori morti a metà). Ora: se il commit remoto è ESATTAMENTE il nostro HEAD locale, l'abbiamo
+# prodotto noi → aggiorna solo lo SHA visto ed esci, nessun allineamento e nessun riavvio.
+LOCAL_HEAD="$(git rev-parse HEAD 2>/dev/null || true)"
+if [ -n "$LOCAL_HEAD" ] && [ "$REMOTE_SHA" = "$LOCAL_HEAD" ]; then
+  echo "$REMOTE_SHA" > "$SHA_FILE"
+  echo "[$(ts)] watch-main: main = HEAD locale (push del VPS stesso, ${REMOTE_SHA:0:7}) — nessun riavvio."
+  segnale "ok" "main = push del VPS (${REMOTE_SHA:0:7})"
+  exit 0
+fi
+
 if [ -z "$LAST_SHA" ] && [ "$FORCE" != 1 ]; then
   echo "$REMOTE_SHA" > "$SHA_FILE"
   echo "[$(ts)] watch-main: primo avvio — memorizzato ${REMOTE_SHA:0:7} (usa --force per allineare subito)."
   exit 0
+fi
+
+# AR-027 (2° caso): se un ALTRO ambiente ha pushato SOLO file di memoria (vault/consegne/creativi/
+# memoria-squadra) e nessun file di CODICE, allineo il repo ma NON riavvio il worker: il codice è
+# invariato, riavviare ucciderebbe un lavoro in corso per niente. Stessa whitelist della sync del worker.
+BASE_SHA="$LAST_SHA"; [ -z "$BASE_SHA" ] && BASE_SHA="$LOCAL_HEAD"
+SOLO_MEMORIA=0
+if [ -n "$BASE_SHA" ] && ! git diff --name-only "$BASE_SHA" "$REMOTE_SHA" 2>/dev/null \
+     | grep -qvE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/'; then
+  SOLO_MEMORIA=1
 fi
 
 echo "[$(ts)] watch-main: main avanzato ${LAST_SHA:0:7} → ${REMOTE_SHA:0:7} — allineo codice..."
@@ -111,7 +134,13 @@ echo "$REMOTE_SHA" > "$SHA_FILE"
 echo "[$(ts)] watch-main: allineamento completato."
 segnale "ok" "allineato a main ${REMOTE_SHA:0:7}"
 
-# Exit 2 = allineamento fatto, root deve riavviare il worker.
+# Exit 2 = allineamento fatto, root deve riavviare il worker. Ma se erano SOLO file di memoria
+# (AR-027), il codice è invariato → exit 0 (nessun riavvio).
+if [ "$SOLO_MEMORIA" = 1 ]; then
+  echo "[$(ts)] watch-main: erano solo file di memoria — codice invariato, NON riavvio il worker."
+  segnale "ok" "solo memoria allineata (${REMOTE_SHA:0:7}) — nessun riavvio"
+  exit 0
+fi
 if [ -n "${WATCH_MAIN_FROM_ROOT:-}" ]; then
   exit 2
 fi
