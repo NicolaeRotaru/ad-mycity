@@ -27,50 +27,30 @@ Vanno solo puntati a questa repo, che è già su GitHub: `NicolaeRotaru/ad-mycit
    OBSIDIAN_REPO_OWNER = NicolaeRotaru
    OBSIDIAN_REPO       = ad-mycity
    OBSIDIAN_TOKEN      = github_pat_...   (il token del passo 1)
-   OBSIDIAN_BRANCH     = memoria-ad   ← il ramo dove il giro pubblica il vault (NON main: là è vecchio)
+   OBSIDIAN_BRANCH     = main   ← RAMO UNICO: da Fase 2 la memoria si pubblica su `main`. Il vecchio
+                                   ramo separato `memoria-ad` è IN PENSIONE, non usarlo più.
    ```
 3. **Redeploy** del pannello (Vercel) o riavvio in locale.
    Dopo aver cambiato `OBSIDIAN_BRANCH` **devi fare Redeploy** su Vercel: salvare la variabile
    non basta, il sito in produzione tiene ancora il valore vecchio finché non riparte.
 
-## ❓ Devo mergiare `memoria-ad` in `main` per vedere i giri nel Pannello?
+## ❓ Ramo unico: dove vive la memoria?
 
-**No.** Il Pannello legge il vault **direttamente dal ramo `memoria-ad`** via GitHub API.
-Appena il giro fa push su `memoria-ad`, i dati sono disponibili — senza merge su `main`.
+Da **Fase 2** c'è **UN solo ramo = `main`**: il giro pubblica lì sia il codice sia la memoria (vault,
+consegne). Il vecchio ramo separato `memoria-ad` è **in pensione** — non puntarci più il Pannello.
+
+| Cosa | Valore giusto |
+|------|---------------|
+| `OBSIDIAN_BRANCH` su Vercel | **`main`** (con `memoria-ad` la Cabina leggerebbe un ramo morto) |
+| Dove pubblica il giro | `main` — dal VPS: commit+push diretto (rebase, non-force); da cloud agent: PR con base `main` fatta mergiare |
+| Merge `memoria-ad → main` | non serve più: `memoria-ad` è pensionato |
 
 ## ⚠️ Errore Vercel «No GitHub account was found matching the commit author email»
 
-Questo compare sulla PR `memoria-ad → main` perché il **giro sul VPS** committa con
-`ad@mycity.local` (email non collegata a GitHub). Vercel **blocca il deploy** di quella PR.
-
-| Cosa | Ti impedisce di vedere il briefing? |
-|------|-------------------------------------|
-| Questo errore Vercel sulla PR | **No** — riguarda solo il *deploy del codice*, non la lettura del vault |
-| `OBSIDIAN_BRANCH` sbagliato o senza redeploy | **Sì** |
-| `OBSIDIAN_TOKEN` mancante o senza permessi | **Sì** |
-| Briefing più vecchio in Supabase che copre quello del vault | **Sì** (bug corretto: ora vince il più fresco) |
-
-**Fix del deploy Vercel:** sul VPS in `.env` imposta `GIT_AUTHOR_EMAIL` con la tua email
-GitHub verificata (es. `…@users.noreply.github.com`). I commit futuri del giro passeranno i check.
-
-**Non serve** mergiare la PR #103 per il Pannello. Puoi chiuderla se l'unico scopo era vedere i dati.
-
-## ❓ Devo mergiare `memoria-ad` in `main` per vedere i giri nel Pannello?
-
-**No.** Il Pannello legge il vault **direttamente dal ramo `memoria-ad`** via GitHub API
-(`OBSIDIAN_BRANCH=memoria-ad`). Appena il giro fa push su `memoria-ad`, la Cabina vede briefing,
-STATO, AZIONI, consegne — **senza alcun merge su `main`**.
-
-| Operazione | Serve per il Pannello? |
-|------------|------------------------|
-| Giro push su `memoria-ad` | ✅ Sì — è così che arrivano i dati |
-| `OBSIDIAN_BRANCH=memoria-ad` su Vercel | ✅ Sì — senza, legge `main` (dati vecchi) |
-| Merge PR giro → `memoria-ad` | ✅ Sì (se il giro è su branch `cursor/…`) |
-| Merge `memoria-ad` → `main` | ❌ No — opzionale solo per backup/sync Obsidian |
-
-**Perché esistono due rami?** `main` ospita il codice (pannello, cervello); `memoria-ad` accumula
-la memoria senza conflitti con le PR di codice. Il VPS allinea il codice da `main` a ogni giro,
-ma **non tocca** il vault su `memoria-ad`.
+Compare quando un commit del **giro sul VPS** usa un'email non collegata a GitHub (es. `ad@mycity.local`)
+→ Vercel blocca il *deploy del codice* (non la lettura del vault). **Fix:** sul VPS in `.env` imposta
+`GIT_AUTHOR_EMAIL` con la tua email GitHub verificata (es. `…@users.noreply.github.com`); i commit futuri
+del giro passeranno i check.
 
 ## ⚠️ Nota sui percorsi
 Le note stanno nella sottocartella `MyCity-Vault/`. Quindi quando il pannello scrive,
