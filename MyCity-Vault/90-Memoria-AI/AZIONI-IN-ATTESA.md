@@ -289,7 +289,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Canale/mani:** terminale VPS, @devops-sre, in un branch → prova con la skill `verify` (bats sugli script) → commit.
 - **Cosa cambia:** una memoria incoerente o mezza-scritta viene TRATTENUTA sul server invece di finire su `main`; il caso peggiore diventa «un giro non pubblicato + una notifica», mai un dato falso in Cabina.
 - **Se va bene:** ogni giro futuro pubblica solo memoria coerente e integra; il rischio pre-mortem della casella è chiuso alla radice.
-- **Stato:** IN ATTESA DI FIRMA.
+- **Stato:** ✅ FIRMATA da Nicola («ok», 2026-07-08 23:48) — ora IN ESECUZIONE. Codice scritto e riletto a mano (`giro.sh` modificato + `vault-sanita.mjs` + `avviso-telegram.mjs` + test bats `gate-coerenza-vault-pre-push.bats`), **non ancora provato a runtime** (bash -n / node --check / bats gated in sessione). Restano da Nicola: approvare le verifiche, isolare i 4 file nel branch `ops/gate-coerenza-vault-pre-push` (oggi mescolati col lavoro AR-103), merge (🟡), e confermare `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` in `cervello/vps/.env` (altrimenti l'avviso resta dry-run).
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
