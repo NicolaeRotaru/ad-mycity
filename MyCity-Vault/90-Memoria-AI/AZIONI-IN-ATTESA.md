@@ -12,6 +12,25 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+---
+
+### 🟡 #59 — Togli dalla macchina tutto ciò che usa le API AI a pagamento
+**Cosa cambia:** spariscono i pezzi di codice che chiamerebbero API AI a consumo (generazione immagini/video/testi) — così non c'è più modo di far partire una spesa "credito AI". Sparisce anche la chiave Cursor inutilizzata dal server. L'AD continua a funzionare identico: gira già sul piano fisso Claude, non su un'API a consumo.
+**Se va bene:** apro un branch con la rimozione (nessun file toccato sul ramo vivo finché non approvi il merge), poi tu revochi la chiave Cursor su cursor.com. Diventa impossibile, per costruzione, che un giro o l'autopilot brucino credito AI.
+
+- **Colore:** 🟡 (auto-modifica del cervello → firma prima, mai da sola).
+- **Cosa RIMUOVO in branch** (sono tutte "API AI a pagamento"):
+  - `cervello/content-factory/ai/gemini-image.mjs`, `…/canva.mjs`, `…/ai-video.mjs` (connettori generazione a pagamento — oggi scheletri DRY-RUN dormienti, nessuna chiave).
+  - `cervello/banco-ai.mjs` + `cervello/banco-ai.md` + `cervello/routing.json` (il "router" che sceglie tra Gemini/Groq/OpenAI/Whisper/ElevenLabs — ha senso solo se usi quelle API).
+  - Il ramo **Cursor** in `cervello/motore-ai.sh` (`CURSOR_API_KEY` = API a consumo) → il motore resta fisso su Claude (forfait), com'è già ora.
+  - Le sezioni "contenuti pro / modalità mondiale" in `CLAUDE.md` e `COMANDI.md` che promettono foto/video AI → riscritte su "solo rendering locale con template, niente API AI".
+  - Aggancio in `cervello/worker.sh` al router `banco-ai` (righe AR-089).
+- **Cosa NON tocco:** il motore Claude che fa vivere l'AD (è il piano fisso con cui parli ora); i publisher email/telegram/facebook (canali, non AI); Supabase/Stripe; il rendering grafico locale `content-factory/render*.mjs` (template, niente AI).
+- **Cosa TENGO (consiglio):** i sensori `costo-ai.mjs` + `sentinella-budget.mjs` (+ metabolismo/letargo) — **non sono API AI**, sono la guardia-budget che questa casella chiedeva. Se li vuoi via comunque, dimmelo.
+- **Azione TUA (🔴 credenziale):** revoca `CURSOR_API_KEY` su cursor.com (è viva) e toglila dal `.env` del VPS. Io dal repo non tocco il `.env` (vive solo sul server).
+- **Resta valido a prescindere (non è AI):** l'autopilot deve rifiutare il LIVE su canali a pagamento (WhatsApp/SMS) senza budget-cap esplicito, e de-duplicare le voci del calendario. Lo tengo in cantiere separato.
+- Traccia: [[DECISIONI]] 2026-07-08 23:40 · casella «Pre-mortem: Loop che brucia budget».
+
 
 ---
 
