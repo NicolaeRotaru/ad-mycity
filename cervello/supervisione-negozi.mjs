@@ -325,18 +325,20 @@ function scriviReport(scan, quando) {
       const idsFile = join(idsDir, `${data}-${g.tabella}-${g.campo}-${String(g.valore).replace(/[^a-z0-9]+/gi, "_")}.json`);
       writeFileSync(idsFile, JSON.stringify(g.ids, null, 0) + "\n");
       const idsRel = idsFile.slice(AD_ROOT.length + 1);
+      const batchId = `sup-${data}-${g.tabella}-${g.campo}`;
       L.push(`### ${titoloUmano(g)}`);
-      L.push(`- **Perché:** ${g.perche}.`);
+      L.push(`- **Valore DEDOTTO** (non fornito dal negozio): «${g.valore}». ${g.perche}.`);
       if (g.note.length) L.push(`- **Attenzione:** ${g.note.join(" · ")}.`);
       L.push(`- **Esempi:** ${g.esempi.join(", ")}${g.n > g.esempi.length ? ", …" : ""}.`);
-      L.push(`- **Reversibile:** ogni riga viene salvata in backup prima della modifica.`);
-      L.push(`- **Comando pronto** (dopo il tuo ok, con \`AZIONI_LIVE=1\`):`);
+      L.push(`- **Reversibile:** ogni riga viene salvata in un backup VERSIONATO (mai sovrascritto) prima della modifica.`);
+      L.push(`- **Comando pronto** (dopo il tuo ok su QUESTO gruppo, con \`AZIONI_LIVE=1\`):`);
       L.push("```bash");
-      L.push(`# ${g.n} righe · elenco ID: ${idsRel}`);
+      L.push(`# ${g.n} righe · elenco ID: ${idsRel} · batch annullabile: ${batchId}`);
       L.push(`for id in $(node -e "console.log(require('./${idsRel}').join('\\n'))"); do \\`);
-      L.push(`  AZIONI_LIVE=1 node cervello/marketplace.mjs aggiorna ${g.tabella} "$id" '${JSON.stringify({ [g.campo]: g.valore })}'; \\`);
+      L.push(`  BATCH_ID=${batchId} AZIONI_LIVE=1 node cervello/marketplace.mjs aggiorna ${g.tabella} "$id" '${JSON.stringify({ [g.campo]: g.valore })}'; \\`);
       L.push(`done`);
-      L.push("```\n");
+      L.push(`# Annullare tutto il gruppo:  AZIONI_LIVE=1 node cervello/marketplace.mjs annulla-batch ${batchId}`);
+      L.push(`\`\`\`\n`);
     }
   }
 
@@ -366,22 +368,31 @@ function accodaAzioni(scan, quando, reportRel) {
   if (!existsSync(AZIONI_PATH)) return false;
   const gruppi = [...scan.gruppiProdotti, ...scan.gruppiNegozi];
   const righe = [MARCA_INIZIO];
-  righe.push(`### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato ${quando})`);
+  righe.push(`## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato ${quando})`);
   if (!gruppi.length) {
     righe.push(`Nessuna proposta di riempimento automatico in questo giro. Report: [[${reportRel}]].`);
   } else {
-    righe.push(`Report completo con comandi pronti: \`${reportRel}\`. Tutte 🟡, reversibili (backup per riga).`);
+    righe.push(`Report completo con comandi pronti: \`${reportRel}\`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).`);
     righe.push(``);
-    righe.push(`| Azione (pronta) | Colore | Quanti | Cosa cambia | Se va bene |`);
-    righe.push(`|---|---|---|---|---|`);
+    // Un blocco ### per GRUPPO = una firma indipendente per lotto (AR-103 aggancia il consenso al
+    // singolo blocco). Niente "ok a tutte" sulle scritture al database: si approva un gruppo alla volta.
     for (const g of gruppi) {
-      const cosaCambia = `${g.n} schede oggi incomplete mostrano ${g.etichetta} corretta ai clienti.`;
-      const seVaBene = `Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passo al gruppo successivo.`;
-      righe.push(`| ${titoloUmano(g)} | 🟡 | ${g.n} | ${cosaCambia} | ${seVaBene} |`);
+      const cosaCambia = `${g.n} schede oggi incomplete mostrano ${g.etichetta} = «${g.valore}» (valore dedotto) ai clienti.`;
+      const seVaBene = `Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch.`;
+      righe.push(`### 🟡 ${titoloUmano(g)}`);
+      righe.push(``);
+      righe.push(`| Colore | Quanti | Cosa cambia | Se va bene |`);
+      righe.push(`|---|---|---|---|`);
+      righe.push(`| 🟡 | ${g.n} | ${cosaCambia} | ${seVaBene} |`);
+      righe.push(``);
+      righe.push(`Approva **solo questo gruppo**: «ok riempi ${g.etichetta}». Comando e undo nel report.`);
+      righe.push(``);
     }
   }
   righe.push(``);
-  righe.push(`> Approva scrivendo **«ok riempi [unità/condizione/…]»** oppure **«ok a tutte le proposte di supervisione»**.`);
+  righe.push(`> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo`);
+  righe.push(`> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima`);
+  righe.push(`> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).`);
   righe.push(MARCA_FINE);
   const blocco = righe.join("\n");
 

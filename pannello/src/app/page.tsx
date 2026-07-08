@@ -661,6 +661,8 @@ export default function Dashboard() {
   const endRef = useRef<HTMLDivElement>(null);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
+  // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
+  const [fabConvOpen, setFabConvOpen] = useState(false);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (chatFluttuante) chatFabEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -892,8 +894,8 @@ export default function Dashboard() {
     sessionGruppoRef.current = null;
     setLoading(false);
     try {
-      localStorage.removeItem("mycity_chat");
-      localStorage.removeItem("mycity_convid");
+      sessionStorage.removeItem("mycity_chat");
+      sessionStorage.removeItem("mycity_convid");
     } catch {}
   }
 
@@ -1389,12 +1391,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => window.removeEventListener("mycity:conversazioni", onConv);
   }, [caricaConversazioni]);
 
-  // Persistenza locale: chat, diario e briefing restano salvati e si ritrovano al refresh.
+  // Persistenza della SESSIONE: la chat aperta e la conversazione attiva stanno in sessionStorage,
+  // non in localStorage. Così restano mentre uso il sito (cambio area, refresh), ma quando CHIUDO e
+  // RIAPRO il sito riparto da una chat NUOVA e pulita (sessionStorage si azzera a fine sessione).
+  // Lo storico NON si perde: ogni scambio è già salvato in Conversazioni (server o mycity_conversazioni).
+  // Diario e briefing restano invece in localStorage (memoria persistente, si ritrovano al refresh).
   useEffect(() => {
     try {
-      const c = localStorage.getItem("mycity_chat");
+      // Pulizia una-tantum: vecchie copie della chat corrente in localStorage (prima del passaggio
+      // a sessionStorage) verrebbero altrimenti ignorate ma resterebbero lì a occupare spazio.
+      localStorage.removeItem("mycity_chat");
+      localStorage.removeItem("mycity_convid");
+      const c = sessionStorage.getItem("mycity_chat");
       if (c) setMessages(JSON.parse(c));
-      const cid = localStorage.getItem("mycity_convid");
+      const cid = sessionStorage.getItem("mycity_convid");
       try {
         // localStorage (nuovo canale, sopravvive al riavvio) con fallback a sessionStorage per le
         // sessioni aperte prima del fix — così un pending in volo non si perde durante la migrazione.
@@ -1426,7 +1436,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, []);
 
   useEffect(() => {
-    if (caricato) try { localStorage.setItem("mycity_chat", JSON.stringify(messages)); } catch {}
+    if (caricato) try { sessionStorage.setItem("mycity_chat", JSON.stringify(messages)); } catch {}
   }, [messages, caricato]);
   useEffect(() => {
     if (caricato) try { localStorage.setItem("mycity_diario", JSON.stringify(diario)); } catch {}
@@ -1437,8 +1447,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (!caricato) return;
     try {
-      if (convId) localStorage.setItem("mycity_convid", convId);
-      else localStorage.removeItem("mycity_convid");
+      if (convId) sessionStorage.setItem("mycity_convid", convId);
+      else sessionStorage.removeItem("mycity_convid");
     } catch {}
   }, [convId, caricato]);
 
@@ -2076,6 +2086,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
             </div>
             <button
+              onClick={() => { nuovaConversazione(); setFabConvOpen(false); }}
+              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              aria-label="Nuova chat"
+              title="Nuova chat"
+            >
+              <Plus size={16} />
+            </button>
+            <button
+              onClick={() => setFabConvOpen((v) => !v)}
+              className={`grid place-items-center w-7 h-7 rounded-lg transition shrink-0 ${fabConvOpen ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.05]"}`}
+              aria-label="Le tue conversazioni"
+              title="Le tue conversazioni"
+            >
+              <MessageSquare size={15} />
+            </button>
+            <button
               onClick={() => {
                 setVista("assistente");
                 setChatFluttuante(false);
@@ -2093,6 +2119,33 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <X size={15} />
             </button>
           </div>
+          {fabConvOpen ? (
+            <div className="scroll-soft flex-1 overflow-y-auto p-2.5">
+              <button
+                onClick={() => { nuovaConversazione(); setFabConvOpen(false); }}
+                className="w-full mb-2 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12.5px] font-medium py-2 hover:bg-brand/[0.05] transition"
+              >
+                <Plus size={14} /> Nuova chat
+              </button>
+              {conversazioni.length === 0 ? (
+                <p className="t-eti text-[12px] px-1 py-4 text-center">Ancora nessuna conversazione salvata.</p>
+              ) : (
+                <ul className="space-y-1">
+                  {conversazioni.map((c) => (
+                    <li key={c.id}>
+                      <button
+                        onClick={() => { continuaConversazione(c.id); setFabConvOpen(false); }}
+                        className={`w-full text-left rounded-lg px-2.5 py-2 transition ${c.id === convId ? "bg-brand/10 text-brand" : "hover:bg-black/[0.04]"}`}
+                      >
+                        <span className={`block truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>{c.titolo || "Conversazione"}</span>
+                        <span className="t-eti text-[10.5px]">{new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ) : (
           <div className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
             {messages.filter((m) => !m.prompt).length === 0 && (
               <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
@@ -2159,6 +2212,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           </div>
+          )}
         </div>
       )}
     </div>

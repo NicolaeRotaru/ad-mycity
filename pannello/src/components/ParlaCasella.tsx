@@ -140,8 +140,16 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       <textarea
         value={bozza}
         onChange={(e) => setBozza(e.target.value)}
+        onKeyDown={(e) => {
+          // 💬 Come una chat vera: Invio = manda · Maiusc+Invio = va a capo.
+          // Guardia IME (isComposing): non inviare mentre si sta componendo un carattere (es. accenti/tastiere CJK).
+          if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+            e.preventDefault();
+            invia();
+          }
+        }}
         rows={2}
-        placeholder="Scrivi alla macchina su questa casella…"
+        placeholder="Scrivi alla macchina su questa casella…  (Invio = invia · Maiusc+Invio = a capo)"
         className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">

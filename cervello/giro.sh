@@ -476,10 +476,49 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
+# AR-104: GATE COERENZA-FATTI + SANITÀ VAULT come CANCELLO BLOCCANTE del push (non più solo vincolo soft
+# al motore). Gira ORA, DOPO che l'AI ha scritto: è lo stato REALE che sta per finire su main e che il
+# Pannello mostrerà a Nicola. Se la memoria è incoerente (una copia vecchia di un fatto è rimasta) o il
+# vault è "sporco" (marcatori di conflitto, file a 0 byte, frontmatter/JSON rotti) → NON pubblichiamo:
+# meglio memoria vecchia sul Pannello che memoria che MENTE. Stesso stile di scan-segreti/onesta-check:
+# rc catturato esplicitamente, MAI `|| true` che ingoia il fallimento del gate (AR-081/AR-010).
+# FAIL-CLOSED: se un check non riesce a girare (node assente / crash), trattiamo come "non pubblicare".
+MEMORIA_INCOERENTE=0
+_gate_motivi=""
+if command -v node >/dev/null 2>&1; then
+  # (1) coerenza-fatti RIeseguita sullo stato scritto dall'AI (la 1ª esecuzione, riga ~218, era pre-scrittura).
+  _cf_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _cf_rc=$?
+  if [ "$_cf_rc" -ne 0 ]; then
+    MEMORIA_INCOERENTE=1
+    _gate_motivi="${_gate_motivi}coerenza-fatti rc=$_cf_rc (una copia vecchia di un fatto è rimasta in un file vivo); "
+    echo "[$(ts)] ⛔ COERENZA-FATTI (pre-push): memoria incoerente (rc=$_cf_rc) — sync BLOCCATA." >&2
+    printf '%s\n' "$_cf_out" | tail -8 >&2
+  fi
+  # (2) sanità del vault (l'INTERA 90-Memoria-AI: robusto e semplice — copre anche i file non ancora staged).
+  _vs_out="$(node "$SCRIPT_DIR/vault-sanita.mjs" "MyCity-Vault/90-Memoria-AI" 2>&1)"; _vs_rc=$?
+  if [ "$_vs_rc" -ne 0 ]; then
+    MEMORIA_INCOERENTE=1
+    _gate_motivi="${_gate_motivi}vault-sanità rc=$_vs_rc (vault sporco: conflitti/0-byte/frontmatter o JSON rotti); "
+    echo "[$(ts)] ⛔ VAULT-SANITÀ (pre-push): vault sporco (rc=$_vs_rc) — sync BLOCCATA." >&2
+    printf '%s\n' "$_vs_out" | tail -12 >&2
+  fi
+else
+  # FAIL-CLOSED: senza node non posso verificare né coerenza né sanità → non pubblicare.
+  MEMORIA_INCOERENTE=1
+  _gate_motivi="${_gate_motivi}node non disponibile: impossibile verificare coerenza/sanità (fail-closed); "
+  echo "[$(ts)] ⛔ GATE MEMORIA (pre-push): node non disponibile — sync BLOCCATA (fail-closed)." >&2
+fi
+# Avviso a Nicola SUBITO (Telegram, stesso canale di notifica-approvazioni; senza chiavi = dry-run).
+if [ "$MEMORIA_INCOERENTE" = 1 ] && command -v node >/dev/null 2>&1; then
+  node "$SCRIPT_DIR/avviso-telegram.mjs" \
+    "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato ($(ts)). Dettaglio: ${_gate_motivi}La memoria resta solo sul server, il Pannello NON mostra dati non verificati." \
+    2>&1 | tail -2 || true
+fi
+
 exec 9>"$LOCK"
-if [ "$SEGRETO_TROVATO" = 1 ] || [ "$ONESTA_BLOCK" = 1 ]; then
+if [ "$SEGRETO_TROVATO" = 1 ] || [ "$ONESTA_BLOCK" = 1 ] || [ "$MEMORIA_INCOERENTE" = 1 ]; then
   GIRO_PUSH_OK=0
-  echo "[$(ts)] Giro NON pubblicato: risolvi quanto segnalato (scan-segreti / onesta-check), poi rilancia." >&2
+  echo "[$(ts)] Giro NON pubblicato: memoria incoerente / vault sporco — risolvi quanto segnalato (coerenza-fatti / vault-sanità / scan-segreti / onesta-check), poi rilancia." >&2
 elif flock -w 600 9; then
   # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
   [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
@@ -578,7 +617,13 @@ fi
 # Exit code per worker.sh:
 #   0 = ok (o memoria salvata nonostante AI parziale)
 #   1 = AI fallita e nessuna memoria nuova pubblicata
-#   2 = memoria scritta ma push fallito
+#   2 = memoria scritta ma push fallito, OPPURE gate memoria (AR-104) ha bloccato la pubblicazione
+# AR-104: se il gate coerenza/sanità ha bloccato il push, NON deve essere un successo silenzioso —
+# anche se GIRO_HAD_CHANGES=0 (non siamo arrivati al commit). exit 2 = "memoria NON pubblicata".
+if [ "${MEMORIA_INCOERENTE:-0}" = 1 ]; then
+  echo "[$(ts)] ⛔ GATE MEMORIA (AR-104): pubblicazione bloccata — exit 2 (non è un successo)." >&2
+  exit 2
+fi
 if [ "$GIRO_HAD_CHANGES" = 1 ] && [ "$GIRO_PUSH_OK" != 1 ]; then
   exit 2
 fi

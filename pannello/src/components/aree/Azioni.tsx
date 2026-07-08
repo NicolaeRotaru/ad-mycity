@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Clock } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Clock, Megaphone } from "lucide-react";
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
@@ -27,7 +27,7 @@ import {
 //  🖊️ Da approvare → la coda pronta dei senior, con scheda completa + qualità + cosa-fa.
 //  📒 Registro → lo storico dei risultati.
 
-type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "approvare" | "incoda" | "registro";
+type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "avvisi" | "approvare" | "incoda" | "registro";
 type Livello = "verde" | "giallo" | "rosso" | "?";
 type Stato = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 type Azione = {
@@ -39,6 +39,8 @@ type Azione = {
 };
 type Proposta = PropostaSceltaAB & { titolo: string; motivo: string; livello: Livello };
 type Alert = { id?: string; livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
+// 📣 Avviso della macchina (casella): ciò che sarebbe andato su Telegram (es. «giro non pubblicato»).
+type Avviso = { at: string; testo: string; canale?: string };
 type VoceLog = { at: string; id: string; titolo: string; reparto: string; livello: string; stato: string; esito: string; auto: boolean };
 type Registro = { voci: VoceLog[]; stat: { totale: number; fatte: number; simulate: number; coda: number; rifiutate: number; auto: number; repartoTop: string } };
 type Mossa = { titolo: string; quando?: string; come?: string; priorita?: "alta" | "media" | "bassa"; ad_prepara?: string; senior?: string; colore?: string };
@@ -126,6 +128,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [todo, setTodo] = useState<TodoItem[]>([]);
   const [todoSalva, setTodoSalva] = useState(false);
   const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [avvisi, setAvvisi] = useState<Avviso[]>([]);
 
   // Stato effimero delle proposte per ID STABILE (idProposta), non per indice: così dopo un nuovo
   // giro una proposta fresca alla stessa posizione NON eredita lo stato "decisa" di quella vecchia.
@@ -173,6 +176,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       setTodoSalva(Boolean(t.salvataggio));
     }).catch(() => {});
     fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((a) => setAlerts(a.alert || [])).catch(() => {});
+    fetch("/api/avvisi", { cache: "no-store" }).then((r) => r.json()).then((a) => setAvvisi(a.avvisi || [])).catch(() => {});
     fetch("/api/scelta-ab", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setScelteDecisioni(d.decisioni); }).catch(() => {});
     fetch("/api/proposta", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setPropDecisioni(d.decisioni); }).catch(() => {});
   }, []);
@@ -221,7 +225,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
-    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "approvare", "incoda", "registro"];
+    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "avvisi", "approvare", "incoda", "registro"];
     // Al MOUNT consuma il sub parcheggiato (vaiArea/INDIETRO scattati prima che l'area fosse montata):
     // senza, l'evento sincrono si perdeva e l'area apriva "mosse" invece della scheda richiesta.
     const pend = consumaSubPendente("azioni");
@@ -452,6 +456,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     { id: "proposte", label: "Proposte dal giro", icon: <Lightbulb size={14} />, badge: proposteVive || undefined },
     { id: "dafare", label: "Cose da fare", icon: <ListTodo size={14} />, badge: daFareTodo.length || undefined },
     { id: "sentinelle", label: "Sentinelle", icon: <ShieldAlert size={14} />, badge: alerts.length || undefined },
+    { id: "avvisi", label: "Avvisi", icon: <Megaphone size={14} />, badge: avvisi.length || undefined },
     { id: "approvare", label: "Da approvare", icon: <ListChecks size={14} />, badge: daDecidere || undefined },
     { id: "incoda", label: "In coda", icon: <Clock size={14} />, badge: ferme.length || undefined },
     { id: "registro", label: "Registro", icon: <BookOpen size={14} /> },
@@ -807,6 +812,37 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ===== AVVISI (casella della macchina — futuri messaggi Telegram) ===== */}
+      {tab === "avvisi" && (
+        <div className="space-y-2.5">
+          <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
+            <Megaphone size={15} className="text-brand mt-0.5 shrink-0" />
+            <span>La <b>casella</b> dove la macchina ti lascia i suoi avvisi (es. «memoria incoerente, giro non pubblicato»). Quando collegheremo <b>Telegram</b> gli stessi messaggi ti arriveranno anche sul telefono — per ora restano qui, così non se ne perde nessuno.</span>
+          </div>
+          {avvisi.length === 0 && (
+            <p className="text-[13px] text-green-700 py-4 text-center flex items-center justify-center gap-1.5">
+              <CheckCircle2 size={15} /> Nessun avviso. Quando la macchina ha qualcosa da dirti, compare qui.
+            </p>
+          )}
+          {avvisi.map((av, i) => (
+            <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+              <div className="flex items-start gap-2">
+                <Megaphone size={15} className="mt-0.5 shrink-0 text-amber-600" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-[13px] text-ink/90 leading-snug whitespace-pre-wrap">{testoPulito(av.testo)}</div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
+                    {av.at && <span className="t-eti">{quando(av.at)}</span>}
+                    <span className="badge badge-off" title="Dove è stato recapitato">
+                      {av.canale === "telegram+casella" ? "📮 casella + Telegram" : "📮 casella"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
