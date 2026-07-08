@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-08 10:32",
+  "aggiornato": "2026-07-08 11:06",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "27",
@@ -70,164 +70,8 @@
     "2026-07-08T08:28:48.694Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 3737,
+  "tick": 3763,
   "storia": [
-    {
-      "quando": "2026-07-08 08:31",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:32",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:33",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:34",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:35",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:36",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:38",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:39",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:40",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:41",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:43",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:44",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:45",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:47",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:48",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:49",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:50",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:51",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:52",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:53",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:55",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:56",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:57",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:58",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 08:59",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-08 09:01",
-      "eventi": 0,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-08 09:02",
       "eventi": 0,
@@ -671,10 +515,166 @@
       "eventi": 1,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:33",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:34",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:36",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:37",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:38",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:40",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:41",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:42",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:44",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:45",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:46",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:48",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:49",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:50",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:52",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:53",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:54",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:56",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:57",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 10:58",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:00",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:01",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:03",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:04",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:05",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-08 11:06",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-08 10:32",
+    "quando": "2026-07-08 11:06",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -682,7 +682,7 @@
     "recensioni_basse": 0,
     "negozi_fermi": 1,
     "carrelli": null,
-    "worker_eta_min": 4,
+    "worker_eta_min": 0,
     "sensori_max_ciechi": 1,
     "salute_voto": 0,
     "radiografia_gg": 1,
