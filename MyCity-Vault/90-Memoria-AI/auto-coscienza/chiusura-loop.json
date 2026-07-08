@@ -1,18 +1,38 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-08 11:07",
+  "aggiornato": "2026-07-08 12:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
-  "fermi": 6,
-  "vivi": 37,
+  "fermi": 26,
+  "vivi": 17,
   "reparti_fermi": [
+    "ads-performance",
+    "ai-copywriter",
+    "ai-designer",
+    "ai-video",
+    "backend-dev",
+    "contabilita",
+    "cro",
+    "customer-success",
+    "data-engineer",
+    "designer",
     "direttore-creativo",
+    "dispatch",
+    "dispute",
     "finanza",
+    "growth-monetizzazione",
+    "influencer-partnership",
     "legale-privacy",
     "marketing",
+    "pr-stampa",
+    "product-manager",
     "qa-designer",
-    "qa"
+    "qa",
+    "rider-fleet",
+    "supporto",
+    "trust-safety",
+    "ux-designer"
   ],
   "quaderni": [
     {
@@ -37,7 +57,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "ai-copywriter",
@@ -45,7 +65,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "ai-designer",
@@ -53,7 +73,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "ai-video",
@@ -61,7 +81,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "analista",
@@ -77,7 +97,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "builder-automazioni",
@@ -93,7 +113,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "content-social",
@@ -117,7 +137,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "customer-success",
@@ -125,7 +145,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "data-engineer",
@@ -133,7 +153,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "designer",
@@ -141,7 +161,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "devops-sre",
@@ -165,7 +185,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "dispute",
@@ -173,7 +193,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "finanza",
@@ -187,7 +207,7 @@
       "reparto": "frontend-dev",
       "righe_esito": 12,
       "ultimo_esito": "2026-07-06 23:55",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -197,7 +217,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "influencer-partnership",
@@ -205,7 +225,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "intelligence",
@@ -253,7 +273,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "product-manager",
@@ -261,7 +281,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "prompt-engineer",
@@ -301,7 +321,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "security",
@@ -325,7 +345,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "tech",
@@ -341,7 +361,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "ux-designer",
@@ -349,7 +369,7 @@
       "ultimo_esito": "2026-07-01",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "vendite",
