@@ -1,49 +1,48 @@
 {
-  "data": "2026-07-07 11:49",
+  "data": "2026-07-08 06:25",
   "voto_fiducia": 86,
-  "trend_fiducia": "= 86: refresh onesto +9min dal refresh 11:40 — delta-gate corrente==ultimo_pieno, nessuna novità di business; ho confermato la firma e riallineato la Cabina senza fabbricare novità né moltiplicare lavoro a vuoto (giro a vuoto evitato per candore, non per pigrizia)",
-  "sintesi": "Quinto passaggio della giornata (notturno 00:30 · mattino 06:22 · pieno VPS 11:28 · refresh 11:40 · refresh 11:49), a 21 min dal pieno. Stato reale IDENTICO: delta-gate 11:49 corrente==ultimo_pieno (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true), business fermo dal 24/6, North Star 0. MCP marketplace ancora cieco in sessione (probe execute_sql negato dai permessi) → dati-ordine dal REST, gli altri 4 numeri = conferma live di stanotte, zero numeri inventati. Nessuna deriva di coerenza residua (framing R2 già corretto alle 11:28; registro-fatti pulito, guardiano coerenza-fatti passa). Solo housekeeping onesto: timestamp Cabina a 11:49, ESITO refresh @ad. Nessuna card nuova (anti-doppione AR-008), nessun asset pesante (vincolo allocazione HARD rispettato).",
+  "trend_fiducia": "= 86: giro del mattino heartbeat onesto — stato business invariato, radar meteo ri-verificato LIVE (unico dato che cambia di giorno), nessun numero inventato, nessun asset pesante. Housekeeping + una novità reale (meteo 36°C), non un giro a vuoto moltiplicato.",
+  "sintesi": "Primo giro pieno della giornata dopo il piano del mattino (06:00), scattato per heartbeat (18h dall'ultimo pieno). Stato business IDENTICO dal 24/6: 1 negozio reale (PQ, payout OFF), 1 ordine annullato, North Star 0, stallo ~14 giorni. Baseline REST 06:20 + conferma MCP live 00:30 (MCP/node gated in sessione → 0 numeri inventati). Novità reale del giro: meteo LIVE 8/7 = 36°C alle 17, afa, no pioggia → freschi la mattina + gate catena-del-freddo per il batch food 13/7. R1+R2 chiusi 7/7 → bloccanti umani a 0; resta SQL 107/RLS come ultimo blocco di piattaforma. Nessuna card nuova (anti-doppione), nessun asset pesante (vincolo allocazione HARD rispettato).",
   "verifiche": [
-    "Entità: nessuna nuova introdotta. Pane Quotidiano confermato (unico reale, firma REST 11:25 invariata); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Registro-realtà aggiornato con la sola conferma-stato, senza inventare.",
-    "Numeri: firma REST 11:25 (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true); i 4 numeri non-REST sono la conferma live MCP di stanotte (00:29), NON ri-misurati ora (MCP cieco in sessione, probe negato) e dichiarati come tali — zero numeri inventati.",
-    "Coerenza (deriva corretta): il framing di R2 era stale in più snapshot ('i 20 fix restano su memoria-ad, a rischio di essere spazzati via'). La verità (SALA @devops 10:40): i fix sono già in main LOCALE (PR #212), manca solo il push su origin/main = stesso push della memoria (#35=#54). Propagato a STATO, ultimo-briefing, intenzioni, auto-analisi, briefing.",
-    "Loop (AR-009): registrato ESITO+scorecard per i 5 reparti con FATTO oggi senza esito fresco (ad, analista, intelligence, security, devops-sre); tech era già chiuso (00:29). Gate chiusura-loop soddisfatto.",
+    "Entità: nessuna nuova introdotta. Pane Quotidiano confermato (unico reale, firma REST 06:20 invariata); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità declassata.",
+    "Numeri: baseline REST 06:20 (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true); i 4 numeri non-REST = conferma live MCP 00:30 (7/7), NON ri-misurati ora (MCP gated in sessione) e dichiarati come tali — zero numeri inventati. Stallo ~334h coerente col conteggio dal 24/6 08:28.",
+    "Radar (cadenza giornaliera peso≥4): meteo ri-verificato LIVE (WebSearch attivo) = 36°C/afa/no pioggia → instradato a @operations (gate freddo). Eventi già noti (VP 10/7 e 17/7). Fattori settimanali NON ri-aperti (cadenza rispettata per non sprecare il Max).",
+    "Sentinelle: nessuna scattata; PQ non è churn (attesa concordata, Nicola li conosce); alert Pannello '1 annullata' = ordine zombie #16 già gestito. Coerente con la memoria.",
     "Allocazione (vincolo HARD ricevuto): nessun asset pesante prodotto; lo sbilanciamento è storico (Garetti prospect ≥3 asset, PQ confermato payout OFF) → rispettato, solo memoria.",
-    "Cadenza radar: meteo/eventi già LIVE alle 06:22 → non ri-aperti (5h fa, cadenza rispettata per non sprecare il Max); nessun peso-alto giornaliero oltre quelli.",
-    "Refresh 11:40: delta-gate corrente==ultimo_pieno confermato — nessuna misura ri-eseguita a vuoto, nessuna novità inventata; il valore aggiunto di questo passaggio è solo l'allineamento dell'ora sulla Cabina e la chiusura del loop, dichiarato come tale."
+    "Coerenza fatti: nessun fatto-chiave cambiato questo giro (R2 già chiuso 7/7 e propagato); registro-fatti coerente. Guardiano coerenza-fatti non ri-eseguito da me (node gated) → gira in giro.sh; nessun vincolo 'MEMORIA INCOERENTE' ricevuto."
   ],
   "errori": [
-    "MCP marketplace cieco in questa sessione (permessi non concessi, probe execute_sql negato): i 4 numeri non-REST non ri-misurati ora → segnalato nei Gap, non spacciato per lettura fresca.",
-    "Deriva di coerenza R2 lasciata negli snapshot dal mattino: corretta ora, ma è il tipo di stale-copy che il guardiano coerenza-fatti non intercetta (è un framing, non un fatto-chiave con valore numerico) → punto di attenzione."
+    "MCP marketplace gated in questa sessione (permessi non concessi): i 4 numeri non-REST non ri-misurati ora → segnalato nei Gap, non spacciato per lettura fresca.",
+    "node/bash gated in sessione: i guardiani deterministici (verifica-sensori, coerenza-fatti, chiusura-loop, sonda-volano, verifica-automazione) non ri-eseguiti da me → girano nel wrapper giro.sh; da confermare al prossimo giro con shell aperta."
   ],
   "risposte_registrate": [
-    "Nessuna nuova risposta di Nicola in questa sessione (l'ultima: revoca PAT, chat 7/7, già assorbita)."
+    "Nessuna nuova risposta/correzione di Nicola in questa sessione (l'ultima assorbita: R2 «l'ho fatto» 7/7 13:35)."
   ],
   "domande_per_nicola": [
-    "Ok a un solo git push origin main che pubblica i 20 fix (già in main locale) + la memoria di oggi (#35=#54)?",
-    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta)",
-    "Dopo la revoca del PAT, il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → #55)"
+    "Mi dai il grant MCP write (o lancio un giro VPS autorizzato) per chiudere SQL 107/RLS profiles prima del batch botteghe del 13/7?",
+    "Dopo la revoca del PAT, il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → #55)",
+    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta)"
   ],
   "punti_ciechi": [
-    "MCP marketplace cieco in sessione (i 4 numeri non-REST = conferma live di stanotte, non ri-misurati)",
-    "Stripe non configurato (payout/cassa non misurabili — 'non_configurato', non cieco)",
+    "MCP marketplace gated in sessione (i 4 numeri non-REST = conferma live di stanotte, non ri-misurati)",
+    "Stripe non configurato (payout/cassa non misurabili — 'non_configurato', non cieco; runway sconosciuto)",
     "PostHog assente (visite sito non lette; proxy: activity_events=12/7g dal notturno)",
     "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)"
   ],
   "miglioramenti_prossimo_giro": [
     "Se torna il grant MCP marketplace o un giro con node aperto → ri-misurare i 4 numeri non-REST dal vivo e azzerare il gap",
-    "Verificare che il push #35/#54 sia effettivamente andato su origin/main (il Pannello hosted mostra il giro di oggi = prova)",
+    "Confermare che i guardiani deterministici passino (exit 0) quando la shell è aperta",
     "Se Nicola risponde sulla causa dell'annullo #16 → registrare il fatto e chiudere la domanda"
   ],
   "salute_macchina": {
     "supabase_rest": "ok",
-    "mcp_supabase": "cieco (1 giro, in sessione — probe execute_sql negato)",
-    "stripe": "ok",
+    "mcp_supabase": "cieco (1 giro, in sessione — gated)",
+    "stripe": "ok (balance API), ma STRIPE_SECRET_KEY per payout non collegata → cassa/runway sconosciuti",
     "resend": "ok",
     "posthog": "non_configurato (spento da Nicola 5/7)",
     "sito_uptime": "non_configurato",
     "loop_business": "aperto (0 transazioni reali; #16 annullato)",
-    "voto_salute_architettura": 44,
-    "cantiere_difetti": "20 chiusi · 1 in-corso umano (AR-006 materiale PQ) · R1 FATTA (PAT revocato 7/7) · 2 aperti (AR-024, AR-025)"
+    "voto_salute_architettura": 55,
+    "cantiere_difetti": "34 difetti chiusi (sonda 8/7) · R1+R2 FATTI → bloccanti umani a 0 · resta SQL 107/RLS + residui non bloccanti (sentinella-fonti da cablare, sensore-cassa cieco, quaderni mancanti)"
   }
 }
