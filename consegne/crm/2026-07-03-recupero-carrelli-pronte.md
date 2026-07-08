@@ -8,7 +8,9 @@ voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook completo `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 ---
 
-# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47 · aggiornato 2026-07-06 12:48 · **ri-verificato 2026-07-07 12:12**)
+# 🛒 Recupero carrelli — pacchetto pronto (3/7 11:40 · ri-verificato 2026-07-04 11:47 · aggiornato 2026-07-06 12:48 · ri-verificato 2026-07-07 12:12 · **ri-verificato 2026-07-08 11:20**)
+
+> ✅ **Ri-verifica 2026-07-08 11:20 (playbook ri-eseguito su richiesta).** Letture live gated in sessione (né `node`/REST né MCP concessi → nessun numero ri-misurato a vuoto). Baseline dal sensore scritto oggi `auto-coscienza/sentinella-dati.json` (**8/7 11:15**, `dati_leggibili=true`): `ordini_tot=1`, `ordini_24h=0`, `negozi_fermi=1`, business **invariato dal 24/6**. **Nessun NUOVO carrello reale comparso** → il finding regge: **1 solo carrello recuperabile reale (samir, €10)**, gli altri 3 = admin/seller-test/demo → SKIP. Bozze (Touch #1 oggetto+corpo · Touch #2 oggetto+corpo+codice `BENVENUTO10`) **già pronte** e **già accodate** → coda **#26** in [[AZIONI-IN-ATTESA]] + blocco **A3** in [[AZIONI-PRONTE]]. **Nessun invio, nessun doppione (AR-008).**
 
 > ✅ **Ri-verifica 2026-07-07 12:12 (playbook ri-eseguito su richiesta).** Confronto con la lettura **live MCP 7/7 00:29** (STATO): **4 carrelli abbandonati totali, invariati** — nessun NUOVO carrello reale comparso (0 ordini, business fermo dal 24/6). Il finding regge: **1 solo carrello recuperabile reale (samir, €10)**, gli altri 3 = admin/seller-test/demo → SKIP. Bozze (Touch #1 + #2, oggetto+corpo+codice) **già pronte** e **già accodate** → coda **#26** in [[AZIONI-IN-ATTESA]] + blocco **A3** in [[AZIONI-PRONTE]]. **Nessun invio.** Corretto un puntatore sbagliato in A3 (diceva «#27», che è la recensione; il carrello è #26). Nessun doppione creato (AR-008).
 
