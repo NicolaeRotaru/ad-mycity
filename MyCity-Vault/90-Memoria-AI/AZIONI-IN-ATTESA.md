@@ -37,6 +37,15 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 ### 🟡 R3 — Ripuntare i contenuti su Pane Quotidiano (AR-006) · ✅ IN CORSO
 **Correzione di rotta:** Casa Linda era una **demo**, non un negozio. L'**unico negozio reale** su MyCity è **Pane Quotidiano** (contratto firmato 1/7). Il cancello di allocazione è ora **attivo** (`cervello/allocazione-check.mjs`, gira a ogni giro). Fatto in questo giro: **pubblicazioni Garetti pesanti congelate/rimandate** (righe 6-8, 11 — prospect non firmato → solo bozze-template; la riga 9 resta come da tua approvazione del 30/6), **template neutro riusabile** creato (`consegne/content/TEMPLATE-bottega-riusabile.md`) e **skeleton pacchetto Pane Quotidiano** creato (`consegne/content/PANE-QUOTIDIANO-pacchetto.md`). **Serve da te:** foto/scheda/consenso di Pane Quotidiano per portare il pacchetto a livello pro (i segnaposti `[SERVE DA NICOLA]` dicono cosa manca).
 
+### 🩻 R4 — Firma 6 fix di salute della macchina (radiografia Opus del 7/7) · ⏳ IN ATTESA DI FIRMA
+> La radiografia profonda del 7/7 ha trovato **74 difetti macchina**: 34 già chiusi in codice, 6 in attesa di merge, **1 aperto-davvero già risolto oggi** (AR-030, checklist rigenerata) e **6 bloccanti che aspettano la tua firma** — sono auto-modifiche, per regola non le applico da sola. In ordine di **impatto sulla crescita**:
+> 1. 🟡 **Il contatore dei costi AI è cieco** (AR-043) — registra ~882 token per un giro da 20 min (sottostima ~1000×): non possiamo decidere niente su costo/valore finché mente. Fix: leggere l'usage reale del motore (`--output-format json`).
+> 2. 🟡 **Il volano non misura mai gli esiti** (AR-040/041/042) — 18 previsioni loggate ma 0 entrano nel punteggio (schema incompatibile) e nessun codice apre un esperimento: autonomia reparti ferma a 0 da sempre. Fix: ponte previsto→misura obbligatorio nel giro.
+> 3. 🟡 **Il giro può pubblicare il proprio codice senza firma** (AR-044) — `git add -A` mette in produzione anche eventuali auto-modifiche del motore. Fix: guardiano-integrità che blocca il push se tocca codice fuori dalla memoria.
+> 4. 🟡 **Pannello: "approva/ignora" risponde ok anche se il salvataggio fallisce** (AR-034) — con le azioni reali accese = rischio doppio invio. Fix: rollback della card + chiave di idempotenza (da chiudere insieme al claim atomico worker).
+> 5. 🟡 **Checklist di Nicola — la radice** (AR-030) — il sintomo è risolto (rigenerata oggi), ma senza un guardiano che la rigeneri dalla coda a ogni report della sera torna stantia. Fix: (a) freschezza nel giro, oppure (b) far derivare la checklist dal parser della coda nel Pannello (elimina la copia).
+> Dettaglio e causa-radice di ciascuno: `MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json` (AR-030, AR-034, AR-040→044). **Cosa cambia:** finché non firmi, il termometro-salute resta gated (voto pieno 0, provvisorio 55) e il volano-business non misura un solo esito. **Se va bene:** con le firme la macchina inizia a misurare il proprio costo e i propri risultati, e non può più modificarsi di nascosto.
+
 ---
 
 > 🟢 **Scorciatoia lancio:** le righe **1-2** (le 3 decisioni 🔴 di lancio) sono consolidate in
@@ -251,8 +260,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-07 22:20)
-Report completo con comandi pronti: `consegne/supervisione/2026-07-07-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
+### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-08 06:20)
+Report completo con comandi pronti: `consegne/supervisione/2026-07-08-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
 
 | Azione (pronta) | Colore | Quanti | Cosa cambia | Se va bene |
 |---|---|---|---|---|

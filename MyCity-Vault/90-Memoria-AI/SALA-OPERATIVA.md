@@ -769,3 +769,10 @@ Assegnazioni (1 mossa per reparto):
 - @data-engineer · 🟡 accendi il timer sentinella ordini-annullati (#40, legge delivery_status/canceled_at)
 - @devops-sre · 👁️/🟢 verifica a occhio Pannello hosted (/api/diagnosi «Vault GitHub») ora che origin/main è avanzato dopo R2 → il giro di oggi si vede? Se ROSSO → #55 · + 🟢 bash cervello/installa-hooks.sh su questo checkout
 🙋 Serve da Nicola: 🟡 SQL 107 (grant MCP write o giro VPS) = unico bloccante di piattaforma rimasto prima delle 6 botteghe · 👁️ verifica 30s Pannello hosted (/api/diagnosi → «Vault GitHub» verde? se ROSSO → #55 token Vercel) · 🟡 accendi #40 · 🟢 `bash cervello/installa-hooks.sh` · 📌 ripresa operativa 13/7 (visita 6 botteghe di persona), primo aggancio ordine PQ = VEN 17/7.
+
+### 🔭 Giro del mattino — 2026-07-08 06:25 (VPS · heartbeat)
+- 2026-07-08 06:25 · @ad · FATTO · giro pieno heartbeat: business INVARIATO dal 24/6 (1 negozio reale, 1 ordine annullato, North Star 0, stallo ~14gg). Baseline REST 06:20 + conferma MCP live 00:30 (MCP/node gated → 0 numeri inventati). Nessuna card nuova, nessun asset pesante (vincolo allocazione HARD rispettato).
+- 2026-07-08 06:25 · @intelligence · FATTO · radar LIVE meteo oggi 36°C alle 17, afa (UV 7.3), no pioggia → freschi la mattina + gate catena-del-freddo per il batch food 13/7; Venerdì Piacentini 10/7 e 17/7 (finestra utile 17/7). eventi-picchi rinfrescato.
+- 2026-07-08 06:25 · @analista · FATTO · nessuna sentinella scattata; 7 numeri invariati; PQ non churn (attesa concordata); alert Pannello «1 annullata» = ordine zombie #16 già gestito.
+- 2026-07-08 06:25 · @ad · PASSO-A @security · SQL 107/RLS profiles (#32) resta l'ultimo bloccante di piattaforma prima del batch 13/7: serve grant MCP write o giro VPS autorizzato.
+🙋 Serve da Nicola: 🟡 SQL 107 (#32) · 👁️ verifica 30s Pannello hosted (/api/diagnosi «Vault GitHub») · 🟡 accendi #40 sentinella annullati · 🟢 bash cervello/installa-hooks.sh · 📌 ripresa operativa 13/7, primo aggancio ordine PQ = VEN 17/7.

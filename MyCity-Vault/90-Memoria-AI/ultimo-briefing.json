@@ -1,36 +1,14 @@
 {
-  "data": "2026-07-07 11:49",
-  "situazione": "Quinto passaggio della giornata (notturno 00:30 · mattino 06:22 · pieno VPS 11:28 · refresh 11:40 · refresh 11:49), a stato invariato: business fermo dal 24/6, 1 solo ordine (annullato), 0 in 7 giorni, 23 profili, 258 prodotti, 407 lead mai contattati, North Star 0. Il refresh delle 11:49 conferma la firma identica (nessuna novità di business, delta-gate corrente==ultimo_pieno) — riallineo la Cabina all'ora senza fabbricare novità. MCP marketplace cieco in sessione → i dati-ordine dal REST (ok), gli altri 4 numeri sono la conferma dal vivo di stanotte, zero numeri inventati. Nessuna card nuova. La partita vera si gioca dal 13/7: far nascere il 1° ordine vero su Pane Quotidiano al Venerdì Piacentino del 17/7.",
+  "data": "2026-07-08 06:25",
+  "situazione": "Business INVARIATO dal 24/6: 1 negozio reale (Pane Quotidiano, payout OFF), 1 ordine annullato, North Star 0 consegnati, stallo ~14 giorni. Piattaforma tecnicamente al sicuro (R1+R2 chiusi 7/7, bloccanti umani a 0). Resta un solo rischio-piattaforma prima del batch 6 botteghe: SQL 107/RLS profiles. Meteo oggi 36°C con afa: freschi la mattina + gate catena-del-freddo per il batch food del 13/7. Nessuna sentinella scattata, nessun numero nuovo, nessun asset pesante.",
   "opportunita": [
-    {
-      "titolo": "Far nascere il primo ordine vero su Pane Quotidiano al Venerdì del 17 luglio",
-      "motivo": "Centro pieno la sera, sei operativo dal 13/7, post e presidio già pronti in coda: è la mossa che porta la North Star da 0 a 1 (il 10/7 cade prima della tua ripresa).",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Partire con le 27 botteghe food dal 13 luglio",
-      "motivo": "407 lead nel DB, dossier delle 6 prioritarie pronto, e il bando regionale al 40% scade il 21/7: è l'aggancio perfetto per il pitch nelle visite di persona.",
-      "impatto": "alto",
-      "sforzo": "medio"
-    },
-    {
-      "titolo": "Un solo push mette al sicuro i fix e sblocca il voto salute",
-      "motivo": "I 20 fix sono già nel ramo principale in locale: pubblicarli online li rende canonici (sicurezza + salute architettura) e nello stesso colpo pubblica la memoria e fa vedere il giro di oggi sul Pannello.",
-      "impatto": "medio",
-      "sforzo": "basso"
-    }
+    {"titolo": "Portare online 6 botteghe food il 13/7", "motivo": "407 lead mai contattati; dossier e schede-cheat pronti; è il moltiplicatore dell'offerta", "impatto": "alto", "sforzo": "medio"},
+    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — cascata già in coda", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Vetrine SEO di Pane Quotidiano già approvate", "motivo": "descrizione e indirizzo pronti; regola-standing per le botteghe che entrano dal 13/7", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {
-      "titolo": "Pubblica online i fix della macchina e la memoria in un colpo solo",
-      "motivo": "I 20 fix sono già nel ramo principale in locale: un solo invio online li rende canonici e pubblica anche la memoria di oggi. Lo fa il giro dopo aver scritto, con la rete aperta, oppure con un tuo ok.",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Controlla a occhio che il Pannello online mostri il giro di oggi",
-      "motivo": "Hai revocato il vecchio token GitHub: se il Pannello hosted è diventato cieco, Vercel condivideva quel token — dagli un suo token di sola lettura e rifai il Redeploy.",
-      "livello": "giallo"
-    }
+    {"titolo": "Chiudere l'ultimo blocco di sicurezza del sito prima delle 6 botteghe", "motivo": "SQL 107/RLS profiles: unico rischio di piattaforma rimasto", "livello": "giallo"},
+    {"titolo": "Dare un'occhiata di 30 secondi al Pannello online", "motivo": "verificare che «Vault GitHub» sia verde dopo il push di ieri; se rosso serve il token Vercel", "livello": "giallo"},
+    {"titolo": "Tenere pronto il primo ordine reale su Pane Quotidiano", "motivo": "esecuzione dal 13/7, aggancio al Venerdì Piacentini del 17/7", "livello": "rosso"}
   ]
 }

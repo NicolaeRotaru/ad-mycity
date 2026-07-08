@@ -799,6 +799,20 @@
       "difetti_chiusi": 11,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-026, AR-027, AR-028, AR-029, AR-031, AR-032, AR-033, AR-035, AR-036, AR-038, AR-039 (verificati nel codice)."
+    },
+    {
+      "data": "2026-07-08",
+      "voto_salute": 0,
+      "voto_provvisorio": 55,
+      "voto_pieno": 0,
+      "firma": "AR-030",
+      "difetti_aperti": 7,
+      "difetti_chiusi": 34,
+      "pending_merge": 6,
+      "aperti_davvero": 1,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 1 aperti-davvero · 6 in attesa merge · 2 bloccanti umani"
     }
   ]
 }

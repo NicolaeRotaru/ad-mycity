@@ -2,7 +2,33 @@
   "_cosa_e": "🩻 AUTO-RADIOGRAFIA — l'ultima radiografia COMPLETA della macchina su sé stessa. La legge il Pannello. Schema in cervello/auto-coscienza.md.",
   "data": "2026-07-07 22:21",
   "tipo": "completa",
-  "sonda": null,
+  "sonda": {
+    "data": "2026-07-08 06:20",
+    "loop_chiude": true,
+    "tasso_applicazione": 0.7,
+    "prova_chiusura": true,
+    "finestra_recency_gg": 14,
+    "difetti_chiusi": 34,
+    "difetti_chiusi_recenti": 34,
+    "calibrazione_piena": false,
+    "esperimenti_misurati": false,
+    "giro_a_cadenza": false,
+    "sentinelle_scattano": false,
+    "ore_da_ultima_completa": 8,
+    "ore_da_ultimo_briefing": 19,
+    "max_giri_ciechi_sensori": 1,
+    "giri_tasso_basso": 0,
+    "serve_radiografia_completa": false,
+    "salute_stato": "pending-merge",
+    "voto_provvisorio": 55,
+    "voto_pieno": 0,
+    "pending_merge": 6,
+    "aperti_davvero": 1,
+    "bloccanti_umani": 2,
+    "salute_firma": "AR-030",
+    "verdetto": "attenzione",
+    "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 1 aperti-davvero · 6 in attesa merge · 2 bloccanti umani"
+  },
   "voto_salute_architettura": 0,
   "salute_marketplace": {
     "fonte": "consegne/audit/2026-07-07-radiografia.md",
@@ -1674,5 +1700,9 @@
     "dimensioni_critiche": 4,
     "bloccanti": 5,
     "motore": "workflow auto-radiografia (agenti Opus), run wf_8791749c-a35"
+  },
+  "sonda_meta": {
+    "giri_tasso_basso": 0,
+    "aggiornato": "2026-07-08 06:20"
   }
 }

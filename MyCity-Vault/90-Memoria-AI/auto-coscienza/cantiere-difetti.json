@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-08 01:13",
+  "aggiornato": "2026-07-08 06:20",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -465,15 +465,13 @@
       "causa_radice": "Checklist generata una volta il 26/6 e mai rigenerata → perché nessuna cadenza del ritmo/giro la include (giro.md scrive STATO/briefing/coda, non la checklist) → perché nacque come export manuale → perché non esiste un guardiano di freschezza sui file che il Pannello serve → un file servito a Nicola può invecchiare all'infinito senza allarme.",
       "fix_proposto": "🟡 Rigenerare la checklist dalle azioni vive (⏳ della coda) e agganciarla al report della sera come output obbligatorio; in alternativa farla derivare direttamente dal parser della coda nel Pannello, eliminando la copia.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "Ripropone firme già date (commissione 12% firmata l'1/7) e date scadute.",
+      "stato": "in-corso",
+      "nota": "Ripropone firme già date (commissione 12% firmata l'1/7) e date scadute. SINTOMO RISOLTO 2026-07-08 06:21: checklist rigenerata a mano dalla coda viva (era ferma al 26/6 → ora riflette le 12 voci vive: merge #167/#131, firma negozio PQ, materiale PQ, sync VPS, hook segreti, SQL 107, i 6 fix-salute AR-040..044/AR-034, visita botteghe 13/7, bando ER 21/7; rimosse le voci morte: token già revocato, Garetti-launch 27/6, Stripe-sandbox già deciso, PostHog spento). RADICE ANCORA APERTA: senza una cadenza/guardiano che la rigeneri, torna stantia domani — serve il fix strutturale firmato (vedi nota_fix). La verifica NON è più il solo test sulla data (lezione AR-024/AR-025: il termometro non deve auto-chiudersi sul sintomo).",
       "nato": "2026-07-07 09:13",
       "chiuso_il": "",
-      "nota_fix": "",
+      "nota_fix": "🟡 firma Nicola — DUE strade per la radice: (a) guardiano di freschezza nel giro (giro.sh/ritmo.sh) che rigenera CHECKLIST-NICOLA.md dalle voci ⏳ della coda a ogni report della sera e FALLISCE se il file è più vecchio dell'ultimo giro; oppure (b) far derivare la checklist direttamente dal parser della coda nel Pannello, eliminando la copia-file. Accodato in AZIONI-IN-ATTESA (R4). Chiude quando la strada scelta è firmata e in codice.",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md",
-        "pattern": "aggiornato: 2026-06-26",
-        "presente": false
+        "tipo": "umano"
       }
     },
     {
