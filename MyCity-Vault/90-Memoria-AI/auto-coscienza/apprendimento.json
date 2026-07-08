@@ -267,6 +267,7 @@
     {
       "id": "L-2026-0702-49",
       "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola aveva già dato la firma («eseguilo tu io lo approvo»), ma l'esecuzione era ferma per un motivo TECNICO diverso — il permesso di sessione dello strumento `apply_migration` non era concesso. Continuare a spiegare/chiedere la firma quando manca solo il permesso strumento fa perdere tempo a Nicola. **Regola:** quando un'azione 🔴 è bloccata, diagnostica QUALE dei due manca — (a) firma di Nicola, oppure (b) permesso di sessione dello strumento — e proponi lo sblocco GIUSTO (concedi permesso strumento vs firma), più sempre un piano B manuale (es. incollare la SQL nel SQL Editor). Non delegare a Nicola una firma che ha già dato.",
+      "_evidenza_2": "Ripetuta col caso tabella `conversazioni` (chat 9/7 01:20): Nicola aveva già detto «procedi con la tabella e la verifica nel browser» (firma 🟡 data), ma l'esecuzione era ferma per il permesso di sessione su `supabase-memoria` (create table negato) e su `npm` (Playwright). L'AD ha diagnosticato bene il blocco come PERMESSO-strumento — non ha ri-chiesto la firma — e ha offerto il piano B manuale (incollare lo SQL idempotente nel SQL Editor del progetto memoria). La regola ha retto.",
       "tag": [
         "semaforo-rosso",
         "permessi-strumento",
@@ -275,12 +276,12 @@
         "efficienza"
       ],
       "reparto": "@AD",
-      "confidenza": 0.75,
-      "evidenze": 1,
+      "confidenza": 0.85,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-02",
-      "ultima_conferma": "2026-07-02 17:30",
+      "ultima_conferma": "2026-07-09 01:20",
       "stato": "attiva"
     },
     {
