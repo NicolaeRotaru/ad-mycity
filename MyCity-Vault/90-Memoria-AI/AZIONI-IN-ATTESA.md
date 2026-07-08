@@ -261,6 +261,18 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Stato:** IN ATTESA — branch/verifica/PR da eseguire (bloccati nella mia sessione).
 
 
+## 2026-07-08 23:03 · @devops-sre → 🟡 Blocca il push del giro se la memoria è incoerente (gate coerenza-fatti + sanità del vault)
+- **Cosa:** due innesti in `cervello/giro.sh`, sullo STESSO meccanismo che già blocca su segreti/onestà (`GIRO_PUSH_OK=0`, righe 445-482):
+  1. **Ri-eseguire `coerenza-fatti.mjs` prima del push** (accanto a scan-segreti/onesta-check, dopo che l'AI ha scritto — non solo a inizio giro alla riga 217, dove l'AI non ha ancora bonificato). Se `rc≠0` → memoria NON pubblicata su `main` + Telegram «memoria incoerente, giro non pubblicato» via `notifica-approvazioni.mjs`.
+  2. **Check di sanità pre-commit del vault:** frontmatter valido, nessun marcatore di conflitto `<<<<<<`/`>>>>>>`, nessun file del vault a 0 byte. Se fallisce → blocca il commit del vault.
+- **Perché:** oggi il gate coerenza-fatti è solo un vincolo testuale passato all'AI (righe 217-222): se l'AI non bonifica tutte le copie vecchie di un fatto, il valore vecchio resta e il push parte comunque → il Pannello lo mostra a Nicola come vero. Idem per uno snapshot sporco da rebase/merge in conflitto (righe 88-96) o scritture a metà auto-committate (righe 68-72).
+- **Colore:** 🟡 — auto-modifica di `giro.sh` in un branch. Firma obbligatoria (regola: mai toccarsi da sola). **Nessun deploy** (è lo script del VPS, non il sito).
+- **Canale/mani:** terminale VPS, @devops-sre, in un branch → prova con la skill `verify` (bats sugli script) → commit.
+- **Cosa cambia:** una memoria incoerente o mezza-scritta viene TRATTENUTA sul server invece di finire su `main`; il caso peggiore diventa «un giro non pubblicato + una notifica», mai un dato falso in Cabina.
+- **Se va bene:** ogni giro futuro pubblica solo memoria coerente e integra; il rischio pre-mortem della casella è chiuso alla radice.
+- **Stato:** IN ATTESA DI FIRMA.
+
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
 ### 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-08 22:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-08-supervisione.md`. Tutte 🟡, reversibili (backup per riga).
