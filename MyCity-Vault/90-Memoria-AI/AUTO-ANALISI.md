@@ -1,17 +1,17 @@
 ---
-data: 2026-07-08 06:25
+data: 2026-07-08 11:12
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 Auto-analisi del giro — 8 luglio 2026 06:25
+# 🔬 Auto-analisi del giro — 8 luglio 2026 11:12 (refresh)
 
-**Voto di fiducia: 86/100** (= stabile). Giro del mattino heartbeat, onesto.
+**Voto di fiducia: 86/100** (= stabile). Refresh a stato invariato, onesto.
 
 ## Cosa ho verificato (avversariale, 3 livelli)
 1. **Entità fondate.** Nessuna entità nuova. Pane Quotidiano confermato (unico reale). Casa Linda demo esclusa. Garetti resta `scelta_ragionata` (prospect non firmato) → asset pesanti congelati. Nessun «Garetti inventato», nessuna azione declassata.
-2. **Numeri con fonte.** 7 numeri = baseline REST 06:20 + conferma MCP live 00:30 (7/7). MCP gated in sessione → i 4 numeri non-REST NON ri-misurati, dichiarati come conferma di stanotte. **Zero numeri inventati.**
-3. **Benchmark.** Nessun lavoro «importante» (contenuti/pitch/pagine) prodotto questo giro → auto-miglioramento non dovuto. Housekeeping + refresh radar meteo LIVE, al livello atteso per un giro di stato invariato.
+2. **Numeri con fonte.** 7 numeri = baseline REST 11:07 (`supabase_rest=ok`, `dati_ordini_ciechi=false`) + conferma MCP live 00:30 (7/7). MCP/node gated in sessione → i 4 numeri non-REST NON ri-misurati, dichiarati come conferma di stanotte. **Zero numeri inventati.** Delta-gate `corrente==ultimo_pieno` → nessun numero ri-misurato a vuoto.
+3. **Benchmark.** Nessun lavoro «importante» (contenuti/pitch/pagine) prodotto questo giro → auto-miglioramento non dovuto. Housekeeping puro; radar giornaliero (meteo) già coperto LIVE alle 06:25 (cadenza rispettata, non ri-aperto a 5h) — al livello atteso per un refresh di stato invariato.
 
 ## Errori / punti di attenzione
 - MCP marketplace e `node`/`bash` gated in sessione → guardiani deterministici non ri-eseguiti da me (girano in `giro.sh`). Segnalato nei Gap del briefing.

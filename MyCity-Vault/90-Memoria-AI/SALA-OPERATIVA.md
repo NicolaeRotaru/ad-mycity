@@ -776,3 +776,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-08 06:25 · @analista · FATTO · nessuna sentinella scattata; 7 numeri invariati; PQ non churn (attesa concordata); alert Pannello «1 annullata» = ordine zombie #16 già gestito.
 - 2026-07-08 06:25 · @ad · PASSO-A @security · SQL 107/RLS profiles (#32) resta l'ultimo bloccante di piattaforma prima del batch 13/7: serve grant MCP write o giro VPS autorizzato.
 🙋 Serve da Nicola: 🟡 SQL 107 (#32) · 👁️ verifica 30s Pannello hosted (/api/diagnosi «Vault GitHub») · 🟡 accendi #40 sentinella annullati · 🟢 bash cervello/installa-hooks.sh · 📌 ripresa operativa 13/7, primo aggancio ordine PQ = VEN 17/7.
+
+### 🔄 Refresh — 2026-07-08 11:12 (VPS · stato invariato)
+- 2026-07-08 11:12 · @ad · FATTO · refresh dopo prelude giro.sh (sensori 11:07): delta-gate corrente==ultimo_pieno (1 ordine annullato, ultimo 24/6, 23 clienti, dati_leggibili=true) → 0 ordini nuovi, North Star 0, stallo ~14gg. Allineati snapshot Cabina (STATO/briefing/ultimo-briefing/auto-analisi/registro-realta/intenzioni). Nessuna card nuova (coda piena), nessun asset pesante (allocazione HARD rispettata).
+- 2026-07-08 11:12 · @intelligence · FATTO · radar giornaliero (meteo) già coperto LIVE alle 06:25 → cadenza rispettata, non ri-aperto a 5h (WebSearch gated + risparmio Max). Nessuna novità esterna.
+🙋 Serve da Nicola: invariato — 🟡 SQL 107 (#32) = ultimo bloccante piattaforma · 👁️ verifica 30s Pannello hosted · 🟡 #40 · 🟢 installa-hooks.sh · 📌 ripresa 13/7, primo ordine PQ = VEN 17/7.

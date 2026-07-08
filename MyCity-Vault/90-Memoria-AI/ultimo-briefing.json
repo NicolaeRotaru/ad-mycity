@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-08 06:25",
-  "situazione": "Business INVARIATO dal 24/6: 1 negozio reale (Pane Quotidiano, payout OFF), 1 ordine annullato, North Star 0 consegnati, stallo ~14 giorni. Piattaforma tecnicamente al sicuro (R1+R2 chiusi 7/7, bloccanti umani a 0). Resta un solo rischio-piattaforma prima del batch 6 botteghe: SQL 107/RLS profiles. Meteo oggi 36°C con afa: freschi la mattina + gate catena-del-freddo per il batch food del 13/7. Nessuna sentinella scattata, nessun numero nuovo, nessun asset pesante.",
+  "data": "2026-07-08 11:12",
+  "situazione": "Refresh a stato invariato (dopo il giro del mattino delle 06:25): delta-gate corrente==ultimo_pieno, 0 ordini nuovi, North Star 0, stallo ~14 giorni. 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Piattaforma al sicuro (R1+R2 chiusi 7/7, bloccanti umani a 0); resta un solo rischio-piattaforma prima del batch 6 botteghe: SQL 107/RLS profiles. Radar giornaliero (meteo 36°C/afa) già coperto stamattina, cadenza rispettata. Nessuna sentinella, nessun numero ri-misurato a vuoto, nessuna card nuova, nessun asset pesante.",
   "opportunita": [
     {"titolo": "Portare online 6 botteghe food il 13/7", "motivo": "407 lead mai contattati; dossier e schede-cheat pronti; è il moltiplicatore dell'offerta", "impatto": "alto", "sforzo": "medio"},
     {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — cascata già in coda", "impatto": "alto", "sforzo": "basso"},
