@@ -1,14 +1,14 @@
 {
-  "data": "2026-07-08 11:12",
-  "situazione": "Refresh a stato invariato (dopo il giro del mattino delle 06:25): delta-gate corrente==ultimo_pieno, 0 ordini nuovi, North Star 0, stallo ~14 giorni. 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Piattaforma al sicuro (R1+R2 chiusi 7/7, bloccanti umani a 0); resta un solo rischio-piattaforma prima del batch 6 botteghe: SQL 107/RLS profiles. Radar giornaliero (meteo 36°C/afa) già coperto stamattina, cadenza rispettata. Nessuna sentinella, nessun numero ri-misurato a vuoto, nessuna card nuova, nessun asset pesante.",
+  "data": "2026-07-09 00:20",
+  "situazione": "Giro heartbeat a stato invariato: business fermo dal 24/6 (~15 giorni), North Star 0, 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Oggi 9/7 è il reset dei limiti Claude (fatto interno): la ripresa operativa resta al 13/7 — 4 giorni. Radar LIVE: nuova ondata di calore ~38°C con afa → per il batch food del 13/7 serve il gate catena-del-freddo. Venerdì Piacentini domani 10/7 (cade prima della ripresa) e 17/7 (finestra utile per il 1° ordine). Piattaforma al sicuro (bloccanti umani a 0); resta solo SQL 107/RLS profiles. Nessuna sentinella nuova, nessuna card nuova, nessun asset pesante.",
   "opportunita": [
+    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — la cascata è già in coda, gated solo sul 1° ordine reale", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Portare online 6 botteghe food il 13/7", "motivo": "407 lead mai contattati; dossier e schede-cheat pronti; è il moltiplicatore dell'offerta", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — cascata già in coda", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Vetrine SEO di Pane Quotidiano già approvate", "motivo": "descrizione e indirizzo pronti; regola-standing per le botteghe che entrano dal 13/7", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
+    {"titolo": "Tenere pronto il primo ordine reale su Pane Quotidiano", "motivo": "esecuzione dal 13/7, aggancio al Venerdì Piacentini del 17/7", "livello": "rosso"},
     {"titolo": "Chiudere l'ultimo blocco di sicurezza del sito prima delle 6 botteghe", "motivo": "SQL 107/RLS profiles: unico rischio di piattaforma rimasto", "livello": "giallo"},
-    {"titolo": "Dare un'occhiata di 30 secondi al Pannello online", "motivo": "verificare che «Vault GitHub» sia verde dopo il push di ieri; se rosso serve il token Vercel", "livello": "giallo"},
-    {"titolo": "Tenere pronto il primo ordine reale su Pane Quotidiano", "motivo": "esecuzione dal 13/7, aggancio al Venerdì Piacentini del 17/7", "livello": "rosso"}
+    {"titolo": "Dare un'occhiata di 30 secondi al Pannello online", "motivo": "verificare che «Vault GitHub» sia verde dopo il push del 7/7; se rosso serve il token Vercel", "livello": "giallo"}
   ]
 }

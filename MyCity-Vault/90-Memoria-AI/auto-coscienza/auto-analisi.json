@@ -1,19 +1,19 @@
 {
-  "data": "2026-07-08 11:12",
+  "data": "2026-07-09 00:20",
   "voto_fiducia": 86,
-  "trend_fiducia": "= 86: refresh onesto a stato invariato — delta-gate corrente==ultimo_pieno, nessun numero ri-misurato a vuoto, radar giornaliero (meteo) già coperto alle 06:25 (cadenza rispettata), nessun asset pesante. Housekeeping puro, non un giro a vuoto moltiplicato.",
-  "sintesi": "Secondo passaggio della giornata (dopo il giro del mattino 06:25), scattato dopo il prelude giro.sh (sensori 11:07). Stato business IDENTICO dal 24/6: 1 negozio reale (PQ, payout OFF), 1 ordine annullato, North Star 0, stallo ~14 giorni. Baseline REST 11:07 (supabase_rest=ok, dati_ordini_ciechi=false) + conferma MCP live 00:30/7/7 (MCP/node gated in sessione → 0 numeri inventati). Radar giornaliero meteo già verificato LIVE alle 06:25 (36°C/afa/no pioggia) → non ri-aperto a 5h. R1+R2 chiusi 7/7 → bloccanti umani a 0; resta SQL 107/RLS come ultimo blocco di piattaforma. Nessuna card nuova (anti-doppione), nessun asset pesante (vincolo allocazione HARD rispettato).",
+  "trend_fiducia": "= 86: giro heartbeat onesto a stato invariato — delta-gate ha saltato 7 giri consecutivi prima di questo, 0 numeri ri-misurati a vuoto, radar meteo verificato LIVE (unica novità reale), nessun asset pesante. Novità del giro esclusivamente esterna (meteo) + interna non-business (reset limiti Claude): tracciate come tali, non gonfiate.",
+  "sintesi": "Primo giro pieno dopo il report della sera 8/7 18:00 (scatto per heartbeat, ~18h). Stato business IDENTICO dal 24/6: 1 negozio reale (PQ, payout OFF), 1 ordine annullato, North Star 0, stallo ~15 giorni. Baseline REST (sensori 00:11, supabase_rest=ok, dati_ordini_ciechi=false) + conferma MCP live 00:30/7/7 (MCP/node gated in sessione → 0 numeri inventati). Oggi 9/7 = reset limiti Claude (fatto interno, non business): ripresa operativa confermata al 13/7 (4 giorni). Radar meteo verificato LIVE (nuova ondata di calore ~38°C/afa). Nessuna card nuova (anti-doppione), nessun asset pesante (vincolo allocazione HARD rispettato).",
   "verifiche": [
-    "Entità: nessuna nuova introdotta. Pane Quotidiano confermato (unico reale, firma REST 06:20 invariata); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità declassata.",
-    "Numeri: baseline REST 06:20 (ordini=1 annullato, ultimo 24/6, 23 clienti, dati_leggibili=true); i 4 numeri non-REST = conferma live MCP 00:30 (7/7), NON ri-misurati ora (MCP gated in sessione) e dichiarati come tali — zero numeri inventati. Stallo ~334h coerente col conteggio dal 24/6 08:28.",
-    "Radar (cadenza giornaliera peso≥4): meteo GIÀ verificato LIVE alle 06:25 (36°C/afa/no pioggia) → cadenza giornaliera soddisfatta, non ri-aperto a 5h di distanza (WebSearch gated in questa sessione + risparmio Max). Eventi già noti (VP 10/7 e 17/7). Fattori settimanali NON ri-aperti (cadenza rispettata).",
+    "Entità: nessuna nuova introdotta. Pane Quotidiano confermato (unico reale, firma REST invariata dal 24/6); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità declassata. Le entità evento-esterno (VP, Sant'Antonino) sono passate ma restano storia coerente.",
+    "Numeri: baseline REST (sensori 00:11: ordini=1 annullato, ultimo 24/6 08:28, 23 clienti, dati_leggibili=true); i 4 numeri non-REST = conferma live MCP 00:30 (7/7), NON ri-misurati ora (MCP gated) e dichiarati come tali — zero numeri inventati. Stallo ~15gg (~352h) coerente col conteggio dal 24/6 08:28.",
+    "Radar (cadenza giornaliera peso≥4): meteo VERIFICATO LIVE via WebSearch (nuova ondata di calore ~38°C, afa) → aggiornato in eventi-picchi.md. Eventi noti (VP domani 10/7 e 17/7). Fattori settimanali NON ri-aperti (cadenza rispettata, risparmio Max a business fermo).",
     "Sentinelle: nessuna scattata; PQ non è churn (attesa concordata, Nicola li conosce); alert Pannello '1 annullata' = ordine zombie #16 già gestito. Coerente con la memoria.",
-    "Allocazione (vincolo HARD ricevuto): nessun asset pesante prodotto; lo sbilanciamento è storico (Garetti prospect ≥3 asset, PQ confermato payout OFF) → rispettato, solo memoria.",
-    "Coerenza fatti: nessun fatto-chiave cambiato questo giro (R2 già chiuso 7/7 e propagato); registro-fatti coerente. Guardiano coerenza-fatti non ri-eseguito da me (node gated) → gira in giro.sh; nessun vincolo 'MEMORIA INCOERENTE' ricevuto."
+    "Allocazione (vincolo HARD ricevuto da allocazione-check rc=1): nessun asset pesante prodotto; lo sbilanciamento è storico (Garetti prospect ≥3 asset, PQ confermato payout OFF) → rispettato, solo memoria e radar.",
+    "Coerenza fatti: nessun fatto-chiave cambiato questo giro (9/7 reset limiti Claude era già previsto nella memoria; ripresa 13/7 invariata). Registro-fatti coerente. Guardiano coerenza-fatti non ri-eseguito da me (node gated) → gira in giro.sh; nessun vincolo 'MEMORIA INCOERENTE' ricevuto."
   ],
   "errori": [
     "MCP marketplace gated in questa sessione (permessi non concessi): i 4 numeri non-REST non ri-misurati ora → segnalato nei Gap, non spacciato per lettura fresca.",
-    "node/bash gated in sessione: i guardiani deterministici (verifica-sensori, coerenza-fatti, chiusura-loop, sonda-volano, verifica-automazione) non ri-eseguiti da me → girano nel wrapper giro.sh; da confermare al prossimo giro con shell aperta."
+    "node/bash gated in sessione: i guardiani deterministici (verifica-automazione, coerenza-fatti, chiusura-loop, sonda-volano) non ri-eseguiti da me → girano nel wrapper giro.sh; da confermare al prossimo giro con shell aperta."
   ],
   "risposte_registrate": [
     "Nessuna nuova risposta/correzione di Nicola in questa sessione (l'ultima assorbita: R2 «l'ho fatto» 7/7 13:35)."
@@ -21,28 +21,29 @@
   "domande_per_nicola": [
     "Mi dai il grant MCP write (o lancio un giro VPS autorizzato) per chiudere SQL 107/RLS profiles prima del batch botteghe del 13/7?",
     "Dopo la revoca del PAT, il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → #55)",
-    "Chi/perché ha annullato l'ordine #16 il 3/7 alle 15:38? (domanda storica ancora aperta)"
+    "Dal 13/7 diamo il via al post 'Il Turno' sul Venerdì del 17/7 + lista d'attesa per far nascere il 1° ordine vero su PQ?"
   ],
   "punti_ciechi": [
-    "MCP marketplace gated in sessione (i 4 numeri non-REST = conferma live di stanotte, non ri-misurati)",
-    "Stripe non configurato (payout/cassa non misurabili — 'non_configurato', non cieco; runway sconosciuto)",
-    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g dal notturno)",
-    "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)"
+    "MCP marketplace gated in sessione (i 4 numeri non-REST = conferma live del 7/7, non ri-misurati)",
+    "Stripe non configurato per payout/incassi (cassa/runway non misurabili — 'non_configurato', non cieco; runway sconosciuto)",
+    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g dal notturno 7/7)",
+    "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)",
+    "Autocontrollo automazione non eseguito da me (node gated) → non so da qui se il timer degli 'occhi' sentinella-dati è attivo"
   ],
   "miglioramenti_prossimo_giro": [
-    "Se torna il grant MCP marketplace o un giro con node aperto → ri-misurare i 4 numeri non-REST dal vivo e azzerare il gap",
+    "Se torna il grant MCP marketplace o un giro con node aperto → ri-misurare i 4 numeri non-REST dal vivo e confermare l'esito di verifica-automazione",
     "Confermare che i guardiani deterministici passino (exit 0) quando la shell è aperta",
-    "Se Nicola risponde sulla causa dell'annullo #16 → registrare il fatto e chiudere la domanda"
+    "Al 13/7 (ripresa): passare da manutenzione a esecuzione — attivare la spinta di domanda su PQ per il VEN 17/7"
   ],
   "salute_macchina": {
     "supabase_rest": "ok",
-    "mcp_supabase": "cieco (1 giro, in sessione — gated)",
+    "mcp_supabase": "cieco (in sessione — gated)",
     "stripe": "ok (balance API), ma STRIPE_SECRET_KEY per payout non collegata → cassa/runway sconosciuti",
     "resend": "ok",
     "posthog": "non_configurato (spento da Nicola 5/7)",
     "sito_uptime": "non_configurato",
     "loop_business": "aperto (0 transazioni reali; #16 annullato)",
     "voto_salute_architettura": 55,
-    "cantiere_difetti": "34 difetti chiusi (sonda 8/7) · R1+R2 FATTI → bloccanti umani a 0 · resta SQL 107/RLS + residui non bloccanti (sentinella-fonti da cablare, sensore-cassa cieco, quaderni mancanti)"
+    "cantiere_difetti": "34 difetti chiusi (sonda) · R1+R2 FATTI → bloccanti umani a 0 · resta SQL 107/RLS + residui non bloccanti (sentinella-fonti da cablare, sensore-cassa cieco, quaderni mancanti)"
   }
 }
