@@ -12,6 +12,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0709-68",
+      "testo": "**Regola stabile consolidata — niente crescita/traffico/asset pesante verso il marketplace prima di un negozio reale evadibile (chat 9/7, 3 card di fila):** in un solo pomeriggio Nicola ha dato lo STESSO ordine — «rimanda a quando inserisco il primo negozio» — a tre card di crescita CRM/marketing consecutive: #52 mail Hub Urbano (11:45), #46 post 'Il Lunedì della Bottega' (12:05), #37 referral give-get 5€+5€ (12:12). Tre ripetizioni identiche → non è più una preferenza per-card ma una REGOLA di sistema. Principio: finché non c'è una bottega reale dentro MyCity che può ricevere l'ordine ed evaderlo, ogni leva che porta gente/attenzione sul marketplace (post, mail istituzionali, inviti referral, campagne) va PARCHEGGIATA — mandare traffico su un marketplace senza offerta evadibile brucia i primi iscritti caldi e la credibilità. Corollari già emersi nello stesso filone: (a) il referral in più ha un secondo gate a valle — serve un 1° ordine consegnato + un cliente contento (un invitante credibile) + mani Resend accese → è una delle ULTIME leve, non la prima; (b) coerente con AR-006 (allocazione: sforzo pesante dove c'è un negozio che incassa) e con L-2026-0709-67 (il vero collo di bottiglia oggi è il mezzo di consegna, quindi 'evadibile' include anche la logistica). **Fix/regola riusabile:** da ora l'AD applica questo gate IN AUTONOMIA alle nuove card di crescita/CRM/marketing verso il marketplace — le tiene fuori dalle 'da approvare' con gate esplicito 'dopo la prima bottega evadibile', senza richiedere ogni volta a Nicola; le ripesca automaticamente quando la prima bottega è online. Le azioni NON si cancellano (loop già nel codice), si parcheggiano. Vedi [[referral-porta-amico-dopo-prima-bottega]], [[post-lunedi-bottega-dopo-prima-bottega]], [[hub-urbano-mail-dopo-prima-bottega]], [[piano-nicola-inserimento-negozi-dopo-9lug]], DECISIONI 9/7 11:45/12:05/12:12.",
+      "tag": [
+        "nicola",
+        "regola-stabile",
+        "crescita-dopo-bottega",
+        "negozio-evadibile",
+        "allocazione-AR-006",
+        "referral",
+        "crm-lifecycle",
+        "gate-autonomo",
+        "caso-studio"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-09",
+      "ultima_conferma": "2026-07-09 12:12",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0709-67",
       "testo": "**Caso-studio Nicola — «porta la bottega LIVE» ha un prerequisito NASCOSTO: la capacità di consegna (chat 9/7):** per settimane il blocco alla ripresa operativa era stato attribuito ai limiti Claude (9/7 = reset) e alla piattaforma tecnica; poi Nicola svela il vero collo di bottiglia: «non andrò a contattare le 6 botteghe nemmeno il 13, perché mi mancano i soldi per una bici elettrica per fare consegne, non posso farla a piedi la consegna, ci impiego troppo. tu mi puoi aiutare in qualche modo?». Cioè: anche con negozio + catalogo + payout pronti, senza un MEZZO fisico non si evade l'ordine → l'onboarding non serve a nulla se poi la consegna non parte. 5 perché: (1) l'AD aveva modellato la ripresa come gated solo da limiti-Claude/tecnica, dando per scontata la capacità di consegna (un asset FISICO fuori dal DB e dalla piattaforma); (2) il piano 13/7 anticipava l'onboarding senza mai verificare COME si consegna il primo ordine reale; (3) la logistica di last-mile era assunta, non censita tra i prerequisiti; (4) risultato: la visita 13/7 salta all'ultimo per un vincolo mai messo a bilancio → tempo perso su dossier/kit che restano in attesa; (5) **regola/fix riusabile:** prima di pianificare qualsiasi onboarding/ripresa food, censire ESPLICITAMENTE la catena completa fino all'incasso — negozio→catalogo→payout→**MEZZO DI CONSEGNA**→primo ordine; se manca il mezzo, o (a) si sblocca il mezzo (bando/finanza-agevolata/usato) o (b) si riprogetta il modello per non richiederlo ORA (**ritiro-prima-consegna-dopo / clicca-e-ritira** → consegna a domicilio solo quando arriva la bici). Un prerequisito fisico mancante blocca l'intera catena a valle: va trattato come bloccante di pari rango a quelli tecnici, non come dettaglio operativo. Vedi [[piano-nicola-inserimento-negozi-dopo-9lug]], DECISIONI 9/7 12:20 (decisione:mezzo-consegna-ritiro-prima-o-aspetta-bici).",
       "tag": [
