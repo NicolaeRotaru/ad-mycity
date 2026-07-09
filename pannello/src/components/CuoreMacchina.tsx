@@ -20,6 +20,28 @@ type Cuore = {
 };
 type Stato = "verde" | "giallo" | "rosso";
 type Diagnosi = { salute: Stato; checks: { nome: string; stato: Stato; dettaglio: string }[] };
+// 🪙 Consumo VERO della macchina (token/sforzo del piano Claude Max), da /api/costo (fonte cervello/costo-ai.mjs).
+// Rimpiazza il vecchio "Budget AI €/mese" (sempre €0 ora che non ci sono API a pagamento): non misura soldi,
+// misura lo sforzo — e quanti giri il delta-gate ha evitato (il risparmio che la macchina si guadagna imparando).
+type Costo = {
+  collegato: boolean;
+  soglia_giornaliera_token?: number;
+  oggi?: {
+    token_totali?: number;
+    runs?: number;
+    soglia_pct?: number | null;
+    soglia_superata?: boolean;
+    giri_pieni?: number;
+    giri_saltati?: number;
+    risparmio_giri_pct?: number | null;
+  };
+};
+
+function nFmt(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(n >= 10_000_000 ? 0 : 1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(n >= 10_000 ? 0 : 1)}k`;
+  return String(n);
+}
 
 function puntino(s: Stato) {
   const c = s === "verde" ? "bg-green-500" : s === "giallo" ? "bg-amber-500" : "bg-red-500";
@@ -30,10 +52,12 @@ function puntino(s: Stato) {
 export default function CuoreMacchina() {
   const [c, setC] = useState<Cuore | null>(null);
   const [diag, setDiag] = useState<Diagnosi | null>(null);
+  const [costo, setCosto] = useState<Costo | null>(null);
 
   const carica = useCallback(() => {
     fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
     fetch("/api/diagnosi", { cache: "no-store" }).then((r) => r.json()).then(setDiag).catch(() => {});
+    fetch("/api/costo", { cache: "no-store" }).then((r) => r.json()).then(setCosto).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -42,18 +66,10 @@ export default function CuoreMacchina() {
     return () => clearInterval(t);
   }, [carica]);
 
-  async function modificaTetto() {
-    const att = c?.budget?.tetto ?? 50;
-    const v = window.prompt("Tetto di spesa AI al mese (€). La macchina si ferma da sola al raggiungimento:", String(att));
-    if (v == null) return;
-    const n = Number(v.replace(",", "."));
-    if (Number.isNaN(n) || n < 0) return;
-    await fetch("/api/cuore", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tetto: n }) }).catch(() => {});
-    carica();
-  }
-
   if (!c) return null;
 
+  const co = costo?.oggi;
+  const soglia = Number(costo?.soglia_giornaliera_token || 0);
   const ultimoGiro = c.ultimoGiro ?? c.ultimoBattito;
   const battitoLabel = ultimoGiro ? istante(ultimoGiro) : "non ancora";
   const fonte = c.ultimoBattitoFonte ? ` · ${c.ultimoBattitoFonte}` : "";
@@ -90,12 +106,23 @@ export default function CuoreMacchina() {
         </div>
         <div className="kpi-tile">
           <div className="flex items-center gap-1.5">
-            <div className="kpi-tile-label">Budget AI questo mese</div>
-            <button onClick={modificaTetto} className="ml-auto text-[10.5px] text-brand hover:underline" title="Imposta il tetto di spesa AI">modifica</button>
+            <div className="kpi-tile-label" title="Token consumati OGGI dal cervello (piano Claude Max) vs la soglia giornaliera. Non sono soldi: è lo sforzo. Fonte: cervello/costo-ai.mjs">
+              🪙 Sforzo oggi (token)
+            </div>
+            {co?.risparmio_giri_pct != null && (
+              <span className="ml-auto text-[10.5px] text-green-600" title="Quota di giri che il delta-gate ha SALTATO perché nulla era cambiato: sforzo risparmiato che la macchina si guadagna imparando a non ripetersi">
+                −{co.risparmio_giri_pct}% giri
+              </span>
+            )}
           </div>
-          <div className="kpi-tile-value">
-            {c.budget ? `€${c.budget.speso} / ${c.budget.tetto}` : "—"}
+          <div className={`kpi-tile-value ${co?.soglia_superata ? "text-red-600" : ""}`}>
+            {costo?.collegato && co
+              ? `${nFmt(Number(co.token_totali || 0))}${soglia ? ` / ${nFmt(soglia)}` : ""}`
+              : "—"}
           </div>
+          {costo?.collegato && co?.soglia_pct != null && (
+            <div className="t-micro mt-0.5">{co.soglia_pct}% della soglia · {co.giri_pieni ?? 0} giri pieni</div>
+          )}
         </div>
         <div className="kpi-tile">
           <div className="kpi-tile-label">Stato</div>
@@ -112,7 +139,7 @@ export default function CuoreMacchina() {
         </div>
       )}
       {!c.collegato && (
-        <p className="t-eti mt-2">Collega la memoria perché il cuore batta e registri i giri. L'AI "pensante" si accende dopo, con la chiave (tetto €{c.budget?.tetto ?? 50}).</p>
+        <p className="t-eti mt-2">Collega la memoria perché il cuore batta e registri i giri. Il cervello gira sul piano Claude Max (costo fisso): la casella «Sforzo oggi» mostra i token consumati, non soldi.</p>
       )}
 
       {diag && (

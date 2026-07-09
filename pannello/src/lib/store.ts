@@ -114,7 +114,7 @@ export type Lavoro = {
   id: string;
   created_at: string;
   updated_at: string;
-  stato: "in_attesa" | "in_corso" | "fatto" | "errore";
+  stato: "in_attesa" | "in_corso" | "fatto" | "errore" | "annullato";
   tipo: string;
   richiesta: string;
   risultato: string;
@@ -170,6 +170,33 @@ export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato
     body: JSON.stringify({ ...patch, updated_at: new Date().toISOString() }),
   });
   return res.ok;
+}
+
+/**
+ * Annulla un lavoro SOLO se è ancora in uno degli stati ammessi (compare-and-set atomico,
+ * lo STESSO meccanismo con cui il worker "claima" un in_attesa). Torna la riga aggiornata se
+ * l'annullo ha "preso", null se lo stato è cambiato sotto di noi (es. il worker l'ha appena preso
+ * → ora in_corso) o la memoria non è collegata. È questa CAS che rende l'annullo privo di race:
+ * se il lavoro è già passato in_corso, il filtro non combacia e NON lo tocchiamo.
+ */
+export async function annullaLavoroSeStato(
+  id: string,
+  statiAmmessi: string[],
+  risultato: string
+): Promise<Lavoro | null> {
+  if (!memoryConnected()) return null;
+  const inFiltro = statiAmmessi.map((s) => encodeURIComponent(s)).join(",");
+  const res = await fetch(
+    `${URL}/rest/v1/lavori?id=eq.${encodeURIComponent(id)}&stato=in.(${inFiltro})`,
+    {
+      method: "PATCH",
+      headers: { ...headers(), Prefer: "return=representation" },
+      body: JSON.stringify({ stato: "annullato", risultato, updated_at: new Date().toISOString() }),
+    }
+  );
+  if (!res.ok) return null;
+  const rows = (await res.json()) as Lavoro[];
+  return rows[0] || null;
 }
 
 /** Ultimi lavori, dal piu' recente. */

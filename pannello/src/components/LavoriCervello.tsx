@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2 } from "lucide-react";
+import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2, Ban } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
-import { vaiArea } from "@/lib/nav";
+import ChatCasella from "@/components/ChatCasella";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
+  messaggiDaLavoro,
   raggruppaLavori,
   titoloLavoro,
 } from "@/lib/lavori-gruppo";
@@ -20,6 +21,7 @@ const LAVORO_STATO: Record<string, { label: string; cls: string }> = {
   // Un lavoro fallito NON è un "errore" morto: è pronto per essere riapprovato (un clic → torna
   // in coda). Lo mostriamo come stato d'attesa (ambra), non come allarme rosso. (fix #6)
   errore: { label: "🔄 Da riapprovare", cls: "bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800" },
+  annullato: { label: "🚫 Annullato", cls: "bg-black/5 text-black/50 ring-black/10 dark:bg-white/10 dark:text-white/50 dark:ring-white/15" },
 };
 
 type Props = {
@@ -63,6 +65,8 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   }, []);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
+  // Chat in-place per gruppo: la casella È una chat che si apre/chiude SUL POSTO (niente salto all'Assistente).
+  const [chatAperta, setChatAperta] = useState<Record<string, boolean>>({});
 
   const gruppi = useMemo(() => raggruppaLavori(lavori, mappa), [lavori, mappa]);
 
@@ -86,6 +90,60 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
     } catch {
       setRiprovati((s) => ({ ...s, [id]: "errore" }));
     }
+  }
+  // Annulla un lavoro ancora in coda (in_attesa) o fallito (errore): un clic → esce dalla coda.
+  // Il server annulla SOLO ciò che non è ancora partito (CAS atomico): se il worker l'ha già preso,
+  // torna "giaCorso" e lo spieghiamo, senza fingere di averlo fermato.
+  const [annullati, setAnnullati] = useState<Record<string, "invio" | "fatto" | "giaCorso" | "errore">>({});
+  async function annulla(id: string) {
+    setAnnullati((s) => ({ ...s, [id]: "invio" }));
+    try {
+      const res = await fetch("/api/lavori/annulla", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const j = await res.json().catch(() => ({} as any));
+      if ((res.ok && j?.ok) || j?.giaAnnullato) {
+        setAnnullati((s) => ({ ...s, [id]: "fatto" }));
+        // Rinfresca subito: il lavoro annullato lascia la corsia attiva senza attendere il prossimo poll.
+        if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      } else if (j?.giaInCorso) {
+        setAnnullati((s) => ({ ...s, [id]: "giaCorso" }));
+      } else {
+        setAnnullati((s) => ({ ...s, [id]: "errore" }));
+      }
+    } catch {
+      setAnnullati((s) => ({ ...s, [id]: "errore" }));
+    }
+  }
+  // Bottone Annulla per un lavoro annullabile (in_attesa o errore). Reso null negli altri casi.
+  function bottoneAnnulla(lv: LavoroBase) {
+    if (lv.stato !== "in_attesa" && lv.stato !== "errore" && lv.stato !== "in_corso") return null;
+    const st = annullati[lv.id];
+    if (st === "fatto") return null; // sparirà al refresh; nel frattempo non mostrare più il bottone
+    if (st === "giaCorso") {
+      return (
+        <span className="shrink-0 self-center mr-2.5 text-[11px] text-amber-700 dark:text-amber-400" title="Il worker lo sta già eseguendo">
+          già in esecuzione
+        </span>
+      );
+    }
+    return (
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          annulla(lv.id);
+        }}
+        disabled={st === "invio"}
+        className="shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border border-black/10 dark:border-white/15 text-black/50 dark:text-white/50 rounded-lg px-2.5 py-1.5 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] hover:text-black/70 dark:hover:text-white/70 transition disabled:opacity-50"
+        title="Annulla questo lavoro: se non è ancora partito, esce dalla coda"
+      >
+        <Ban size={12} />
+        {st === "invio" ? "Annullo…" : st === "errore" ? "Riprova" : "Annulla"}
+      </button>
+    );
   }
   function motivoBreve(risultato?: string): string {
     const righe = (risultato || "").split("\n").map((r) => r.trim()).filter(Boolean);
@@ -120,6 +178,19 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
 
   function toggleLavoro(id: string) {
     setApertiLavori((s) => ({ ...s, [id]: !s[id] }));
+  }
+
+  function toggleChat(id: string) {
+    setChatAperta((s) => ({ ...s, [id]: !s[id] }));
+  }
+
+  // «Hai già risposto»: in un gruppo con più di un lavoro, ogni lavoro extra nasce da una TUA
+  // risposta. Restituisce l'anteprima dell'ultima cosa che hai scritto, per il badge a colpo d'occhio.
+  function tuaUltimaRisposta(g: { lavori: LavoroBase[] }): string | null {
+    if (g.lavori.length < 2) return null;
+    const ultimo = g.lavori[g.lavori.length - 1];
+    const mioMsg = messaggiDaLavoro(ultimo).find((m) => m.role === "user")?.content;
+    return mioMsg ? mioMsg.trim().slice(0, 80) : null;
   }
 
   // Banda "da riapprovare" + bottone Riapprova. `diretto` = mostrata sotto l'header del gruppo
@@ -241,6 +312,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
             const gruppoAperto = apertiGruppi[g.id] === true;
             const multi = g.lavori.length > 1;
             const statoUltimo = g.lavori[g.lavori.length - 1]?.stato || "in_attesa";
+            // Il lavoro da annullare = l'ultimo ancora "vivo" del gruppo (in coda / in corso / da riapprovare).
+            const daAnnullare = [...g.lavori].reverse().find((l) => ["in_attesa", "in_corso", "errore"].includes(l.stato));
+            const chatOn = chatAperta[g.id] === true;
+            const miaRisposta = tuaUltimaRisposta(g);
 
             return (
               <div
@@ -268,21 +343,38 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                       ) : (
                         badgeRitentativo(g.lavori[0])
                       )}
+                      {miaRisposta && (
+                        <span
+                          className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-50 text-green-700 ring-1 ring-green-200 dark:bg-green-950/40 dark:text-green-300 dark:ring-green-800 font-medium max-w-[60%] truncate"
+                          title={`Hai già risposto: «${miaRisposta}»`}
+                        >
+                          ✅ hai già risposto: «{miaRisposta}»
+                        </span>
+                      )}
                       <span className="ml-auto text-[11px] text-black/40 dark:text-white/40 shrink-0">{faRelativo(g.ultimoAt)}</span>
                     </div>
                     <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2">{g.titolo}</div>
                   </div>
                 </button>
+                {daAnnullare && bottoneAnnulla(daAnnullare)}
                 <button
                   type="button"
-                  onClick={() => vaiArea("assistente", g.id, "chat")}
-                  className="shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border border-brand/35 text-brand rounded-lg px-2.5 py-1.5 hover:bg-brand-50/60 dark:hover:bg-brand/10 transition"
-                  title="Riprendi questa conversazione nella chat"
+                  onClick={() => toggleChat(g.id)}
+                  className={`shrink-0 self-center mr-2.5 inline-flex items-center gap-1 text-[11px] font-medium border rounded-lg px-2.5 py-1.5 transition ${
+                    chatOn
+                      ? "border-brand bg-brand text-white"
+                      : "border-brand/35 text-brand hover:bg-brand-50/60 dark:hover:bg-brand/10"
+                  }`}
+                  title="Apri la chat di questa casella qui sotto (si apre e si chiude sul posto)"
                 >
                   <MessageSquare size={12} />
-                  Chat
+                  {chatOn ? "Chiudi chat" : "Chat"}
                 </button>
                 </div>
+
+                {chatOn && (
+                  <ChatCasella gruppoId={g.id} lavori={g.lavori} onChiudi={() => toggleChat(g.id)} />
+                )}
 
                 {gruppoAperto && !multi && (
                   // Conversazione a UN solo messaggio: l'header del gruppo È il messaggio →

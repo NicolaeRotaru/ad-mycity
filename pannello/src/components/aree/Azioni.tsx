@@ -578,6 +578,13 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
 
         {decisa && a.esito && <p className="t-eti mt-2 text-ink/70">{a.esito}</p>}
 
+        {/* Azione TORNATA in Da approvare dopo un annullo dai Lavori: mostra sopra il perché (nota "↩️…"). */}
+        {!decisa && a.esito && (
+          <div className="mt-2 rounded-lg border border-amber-200 dark:border-amber-900/50 bg-amber-50/70 dark:bg-amber-950/20 px-3 py-2 text-[12px] leading-snug text-amber-800 dark:text-amber-300">
+            {a.esito}
+          </div>
+        )}
+
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {!decisa ? (
             <>

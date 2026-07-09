@@ -74,6 +74,10 @@ export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
       if (prima?.trim()) out.push({ role: "user", content: prima.trim() });
     }
   }
+  if (lv.stato === "annullato") {
+    out.push({ role: "assistant", content: "🚫 Messaggio annullato." });
+    return out;
+  }
   if (lv.risultato?.trim()) {
     out.push({ role: "assistant", content: lv.risultato.trim() });
   } else if (lv.stato === "in_attesa" || lv.stato === "in_corso") {
@@ -95,6 +99,7 @@ function statoGruppo(lavori: LavoroBase[]): string {
   if (lavori.some((l) => l.stato === "in_corso")) return "in_corso";
   if (lavori.some((l) => l.stato === "in_attesa")) return "in_attesa";
   if (lavori.some((l) => l.stato === "errore")) return "errore";
+  if (lavori.every((l) => l.stato === "annullato")) return "annullato";
   return "fatto";
 }
 
