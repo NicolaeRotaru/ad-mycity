@@ -48,8 +48,8 @@ chat_e_complesso() {
   case "$q" in
     *analiz*|*analisi*|*radiograf*|*audit*|*proiezion*|*forecast*|*prevision*|*strateg*|*scenario*|\
     *budget*|*spend*|*€*|*euro*|*margin*|*prezz*|*commission*|*fattur*|*payout*|*incass*|*bilancio*|\
-    *campagn*|*ads*|*contenuti pro*|*modalità mondiale*|*decid*|*decision*|*valuta*|*conviene*|\
-    *piano*|*negozi*|*onboard*|*sblocca*|*cambia il sito*|*modifica*|*design*|*bug*|*legale*|*contratt*|\
+    *campagn*|*ads*|*"contenuti pro"*|*"modalità mondiale"*|*decid*|*decision*|*valuta*|*conviene*|\
+    *piano*|*negozi*|*onboard*|*sblocca*|*"cambia il sito"*|*modifica*|*design*|*bug*|*legale*|*contratt*|\
     *report*|*kpi*|*quanti*|*quanto*|*perché*|*perche*)
       return 0 ;;
   esac
@@ -163,7 +163,7 @@ sync_vault() {
   exec 9>&-
   if [ "$ok" = 1 ]; then
     if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
-      curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
+      curl -fsS --connect-timeout 10 --max-time 30 -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
         -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
         -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
         -d "{\"chiave\":\"memoria-ad:ultimo_push\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
@@ -190,7 +190,7 @@ if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_SERVICE_KEY:-}" ]; then
 fi
 
 # Sanity check: SUPABASE_URL deve essere il progetto MEMORIA (ha tabella impostazioni), NON il marketplace.
-_mem_check="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=chiave&limit=1" \
+_mem_check="$(curl -fsS --connect-timeout 10 --max-time 30 "$SUPABASE_URL/rest/v1/impostazioni?select=chiave&limit=1" \
   -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>&1 || true)"
 if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could not find the table'; then
   echo "[$(ts)] ERRORE: SUPABASE_URL punta al DB sbagliato (marketplace?)." >&2
@@ -201,7 +201,16 @@ if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could
 fi
 
 INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (basso = chat reattiva)
-AUTH=(-H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
+# ROOT-CAUSE FIX (worker-outage 2026-07-09): tutte le curl del worker giravano SENZA timeout.
+# Una sola chiamata REST bloccata su un socket mezzo-aperto (rete che cade a metà, connessione TCP
+# stabilita ma risposta mai arrivata) impiccava il loop PER SEMPRE: nessun `timeout` la copre e, con
+# systemd Type=simple, il processo resta "attivo" → Restart=always non scatta mai. Il battito si
+# congela e la coda si ferma (sintomo: worker:ultimo fermo, lavori in_attesa con tentativi=0).
+# Difesa: --connect-timeout + --max-time su OGNI curl. Le metto in AUTH così valgono per tutte le
+# chiamate autenticate (curl accetta opzioni e URL in qualsiasi ordine); le 2 curl senza AUTH
+# (sanity-check memoria e stamp del push) le fisso a mano.
+CURL_TIMEOUT=(--connect-timeout 10 --max-time 30)
+AUTH=("${CURL_TIMEOUT[@]}" -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
@@ -222,6 +231,15 @@ battito_worker() {
     -H "Prefer: resolution=merge-duplicates,return=minimal" \
     -d "{\"chiave\":\"worker:ultimo\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
     >/dev/null 2>&1 || true
+}
+
+# Battito verso systemd (watchdog hardware del cervello). Se il .service ha WatchdogSec=N, systemd
+# aspetta un WATCHDOG=1 entro N secondi: se il loop si impicca (qualsiasi causa, non solo curl),
+# systemd ammazza e RIAVVIA il worker da solo — la rete di sicurezza che il 9/7 è mancata.
+# No-op fuori da systemd (WATCHDOG_USEC assente) o se systemd-notify non c'è: non rompe nulla.
+battito_systemd() {
+  [ -n "${WATCHDOG_USEC:-}" ] || return 0
+  command -v systemd-notify >/dev/null 2>&1 && systemd-notify WATCHDOG=1 2>/dev/null || true
 }
 
 # --- PROTEZIONE ANTI-VELENO DELLA CODA -----------------------------------------------------------
@@ -333,6 +351,7 @@ while true; do
   maybe_reload_worker
   maybe_riavvia_da_pannello
   battito_worker
+  battito_systemd
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   # FAIL-CLOSED (come AR-100 nel giro): se lo stato pausa NON è leggibile (errore transitorio sulla
   # query impostazioni), NON prendere lavori in questo ciclo — meglio un ciclo saltato che eseguire
