@@ -2,6 +2,10 @@
 Description=MyCity AD — worker della coda approvazioni (motore AI: Cursor 'agent' o Claude 'claude')
 After=network-online.target
 Wants=network-online.target
+# Riavvii infiniti: dopo un burst di crash (es. rc=1 ripetuti quando si tocca il tetto quota Claude)
+# il default di systemd (StartLimitBurst) mette il servizio in stato 'failed' e SMETTE di riavviarlo.
+# Il cervello dell'azienda non deve mai restare spento per questo → nessun tetto ai riavvii.
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -16,6 +20,16 @@ Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
 Restart=always
 RestartSec=10
+# WATCHDOG (worker-outage 2026-07-09): worker.sh manda WATCHDOG=1 a ogni giro del loop
+# (battito_systemd). Se il loop si impicca — curl/rete/git bloccati senza timeout — e non manda il
+# battito entro WatchdogSec, systemd ammazza e RIAVVIA il processo. È la rete di sicurezza che il
+# 9/7 è mancata: con Type=simple systemd vedeva il processo "attivo" anche se era congelato, quindi
+# Restart=always non scattava mai. Il valore DEVE superare il lavoro legittimo più lungo
+# (giro/ritmo: timeout 2700s + 60s kill ≈ 2760s) o ucciderebbe un giro sano → 3300s (55 min).
+# NotifyAccess=all perché il battito arriva dal binario systemd-notify (processo figlio), non dal
+# processo principale della shell.
+WatchdogSec=3300
+NotifyAccess=all
 
 [Install]
 WantedBy=multi-user.target
