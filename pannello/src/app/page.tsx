@@ -1086,7 +1086,9 @@ export default function Dashboard() {
   // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
   async function mandaAlCervello(text?: string) {
     const t = (text ?? input).trim();
-    if (!t || loading) return;
+    // ⏩ CHAT MULTIPLA (stile Claude): niente più blocco mentre l'AD pensa — puoi mandare
+    // il 2°/3° messaggio subito; il turno vecchio viene sostituito e quello nuovo legge tutto.
+    if (!t) return;
     if (text === undefined) setInput("");
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
@@ -1106,13 +1108,29 @@ export default function Dashboard() {
           `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
           `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
 
+    // Se c'era già una bolla "sto pensando" (o un parziale in streaming), la togliamo:
+    // il turno nuovo risponderà a TUTTI i messaggi insieme, con una sola bolla in fondo.
     setMessages((m) => [
-      ...m,
+      ...m.filter((x) => !x.pending),
       { id: nuovoIdMsg(), role: "user", content: t },
       { id: nuovoIdMsg(), role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
     let targetConvId = convId || sessionGruppoRef.current || "";
+    // ⏩ I messaggi-chat di QUESTA conversazione ancora in lavorazione vengono sostituiti:
+    // il worker ferma la generazione vecchia (interrompi-e-ripensa) e il turno nuovo — che
+    // nella storia contiene anche il messaggio precedente — risponde a tutto. Le risposte
+    // dei turni sostituiti non vanno mai applicate (le marchiamo subito come risolte).
+    for (const p of [...pendingLavoroChatRef.current.values()]) {
+      if (p.tipo !== "chat" || p.targetConvId !== targetConvId) continue;
+      lavoroRisoltoChatRef.current.add(p.id);
+      rimuoviPendingChat(p.id);
+      fetch("/api/lavori/sostituisci", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: p.id }),
+      }).catch(() => {});
+    }
     try {
       let gruppoId = convId || sessionGruppoRef.current;
       if (!gruppoId) {
@@ -1972,7 +1990,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
               <button
                 onClick={() => mandaAlCervello()}
-                disabled={loading || !input.trim()}
+                disabled={!input.trim()}
                 className="min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
                 title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
@@ -2250,7 +2268,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
               <button
                 onClick={() => mandaAlCervello()}
-                disabled={!input.trim() || loading}
+                disabled={!input.trim()}
                 className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
                 aria-label="Invia"
               >

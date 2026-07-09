@@ -337,20 +337,35 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # FAIL-SAFE: se lo stream non dà testo (CLI che non supporta il formato) o esce male, si ricade
 # sull'esecuzione normale (cattura piena) → la risposta finale è SEMPRE quella autorevole.
 rispondi_chat_stream() {
-  local to="$1" tmpf acc pidc cmd
+  local to="$1" tmpf acc pidc cmd st
+  CHAT_SOSTITUITA=0
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   tmpf="$(mktemp)"
   timeout --kill-after=30s "$to" "${cmd[@]}" --output-format stream-json --verbose --include-partial-messages "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
   while kill -0 "$pidc" 2>/dev/null; do
     sleep 1.5
+    # ⏩ CHAT MULTIPLA (interrompi-e-ripensa, come claude.ai): se Nicola manda un ALTRO messaggio
+    # mentre stiamo ancora generando, il Pannello segna QUESTO lavoro come sostituito (stato non è
+    # più in_corso). Fermiamo subito la generazione: il turno nuovo, già in coda, contiene TUTTA la
+    # conversazione (messaggio vecchio + nuovo) e risponde a entrambi insieme. Guardia [ -n "$st" ]:
+    # se la lettura fallisce (rete), NON uccidiamo per sbaglio — si continua a generare.
+    st="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&select=stato" "${AUTH[@]}" 2>/dev/null | jq -r '.[0].stato // empty' 2>/dev/null)"
+    if [ -n "$st" ] && [ "$st" != "in_corso" ]; then
+      echo "[$(ts)] Lavoro $id (chat): sostituito da un nuovo messaggio di Nicola — fermo la generazione." >&2
+      kill "$pidc" 2>/dev/null
+      CHAT_SOSTITUITA=1
+      break
+    fi
     acc="$(_estrai_stream "$tmpf")"
     if [ -n "$acc" ]; then
-      curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
+      # il parziale atterra SOLO se il lavoro è ancora in_corso (mai sopra un lavoro sostituito).
+      curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
         -d "$(jq -n --arg r "$acc" '{risultato:$r}')" >/dev/null 2>&1 || true
     fi
   done
-  wait "$pidc"; rc=$?
+  wait "$pidc" 2>/dev/null; rc=$?
+  if [ "$CHAT_SOSTITUITA" = 1 ]; then rm -f "$tmpf"; out=""; rc=0; return 0; fi
   out="$(_estrai_stream "$tmpf")"
   rm -f "$tmpf"
   if [ -z "$out" ]; then
@@ -646,6 +661,12 @@ $richiesta"
       if [ "${CHAT_STREAM:-1}" = 1 ]; then
         echo "[$(ts)] Lavoro $id (chat): qualità massima + streaming."
         rispondi_chat_stream "$to"   # popola out, rc e scrive i parziali nel Pannello
+        if [ "${CHAT_SOSTITUITA:-0}" = 1 ]; then
+          # Il lavoro è stato sostituito da un messaggio più nuovo: NON scrivere esiti sopra
+          # l'annullamento del Pannello, niente metabolizzazione. Il turno nuovo risponde a tutto.
+          echo "[$(ts)] Lavoro $id (chat): chiuso come sostituito — passo al messaggio nuovo."
+          continue
+        fi
       elif [ -n "${CHAT_MODELLO:-}" ]; then
         echo "[$(ts)] Lavoro $id (chat): qualità massima → $CHAT_MODELLO."
         out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO" "$prompt" 2>&1)"; rc=$?
