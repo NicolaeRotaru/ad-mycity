@@ -9,12 +9,18 @@ import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgCha
 
 const HEADERS = { "Content-Type": "application/json" };
 
-// Polling ravvicinato (2s) finché il cervello marca il lavoro "fatto"/"errore" (o timeout).
-// Copia della logica di parla.ts, qui agganciata al gruppo-conversazione della casella.
-async function attendiLavoro(id: string, tipo: string, timeoutMs: number): Promise<string> {
+// Polling ravvicinato (1,5s) finché il cervello marca il lavoro "fatto"/"errore" (o timeout).
+// STREAMING (step 2): mentre il lavoro è "in_corso", il worker scrive la risposta PARZIALE nel campo
+// risultato; qui la passiamo a onParziale così la chat la mostra crescere parola-per-parola.
+async function attendiLavoro(
+  id: string,
+  tipo: string,
+  timeoutMs: number,
+  onParziale?: (testo: string) => void,
+): Promise<string> {
   const scadenza = Date.now() + timeoutMs;
   while (Date.now() < scadenza) {
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 1500));
     try {
       const d = await fetch("/api/lavori", { cache: "no-store" }).then((r) => r.json());
       const l = Array.isArray(d.lavori) ? d.lavori.find((x: any) => x.id === id) : null;
@@ -23,6 +29,8 @@ async function attendiLavoro(id: string, tipo: string, timeoutMs: number): Promi
           ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte."
           : "(risposta vuota)");
       }
+      // risposta che sta arrivando: mostra il testo parziale.
+      if (l && l.stato === "in_corso" && l.risultato && onParziale) onParziale(l.risultato);
     } catch {
       /* rete instabile: riprovo */
     }
@@ -49,6 +57,8 @@ export default function ChatCasella({
   const [bozza, setBozza] = useState("");
   const [inviando, setInviando] = useState(false);
   const [err, setErr] = useState("");
+  // Testo che arriva parola-per-parola mentre Claude risponde (streaming).
+  const [streamingText, setStreamingText] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,13 +94,18 @@ export default function ChatCasella({
       salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);
       // Avvisa l'Archivio che è comparso un lavoro nuovo (contatore/stato del gruppo).
       if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
-      const risposta = await attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs);
+      setStreamingText("");
+      const risposta = await attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs, (parziale) =>
+        setStreamingText(parziale),
+      );
       setMsgs((m) => [...m, { role: "assistant", content: risposta }]);
+      setStreamingText("");
       if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
     } catch (e: any) {
       // Non perdere il messaggio: lo lascio come bolla e spiego l'errore, con la bozza pronta a ripartire.
       setErr(e?.message || "Non riuscito.");
       setBozza(testo);
+      setStreamingText("");
     } finally {
       setInviando(false);
     }
@@ -122,7 +137,17 @@ export default function ChatCasella({
         </div>
       )}
 
-      {inviando && (
+      {/* Risposta che arriva parola-per-parola (streaming) */}
+      {inviando && streamingText && (
+        <div className="text-left">
+          <span className="inline-block text-[12.5px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left chat-bubble-assistant prose-sm dark:prose-invert max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{streamingText}</ReactMarkdown>
+            <span className="ml-0.5 animate-pulse">▍</span>
+          </span>
+        </div>
+      )}
+
+      {inviando && !streamingText && (
         <p className="t-eti flex items-center gap-1">
           <Loader2 size={12} className="animate-spin" /> Claude Max sta rispondendo…
         </p>
