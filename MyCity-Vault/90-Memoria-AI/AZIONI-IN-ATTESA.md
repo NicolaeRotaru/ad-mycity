@@ -14,6 +14,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #60 — Metti le variabili di Storage su Vercel e fai partire il deploy (foto/file in chat) · ⏳ IN ATTESA · accodata 2026-07-09 23:11
+**Cosa cambia:** con queste variabili la chat del Pannello inizia ad accettare **foto e file (PDF/documenti)** — li carica su Supabase Storage e li mostra in conversazione. Senza variabili + deploy, il codice c'è ma resta spento online.
+**Se va bene:** provo l'upload nel browser sul Pannello vero e ti mostro che una foto e un PDF arrivano davvero, prima di dichiararlo fatto.
+
+- **Colore:** 🔴 (tocca la produzione: dashboard Vercel + deploy online).
+- **Superficie:** usi **Vercel online** → le variabili vanno in **Vercel → Progetto del Pannello → Settings → Environment Variables** (non sul VPS).
+- **Passo A — variabili su Vercel** (Nicola, ~3 min): apri Settings → Environment Variables e verifica/aggiungi le chiavi Supabase del progetto **memoria** che servono allo Storage:
+  - `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` (progetto memoria) — se già presenti per la chat, sono queste.
+  - la chiave di **service role** lato server per scrivere nel bucket (nome esatto lo confermo quando ho pronto il branch del codice).
+  - il bucket Storage dedicato (es. `chat-allegati`) creato sul progetto memoria.
+  > Nota: i nomi esatti li fisso io quando finisco il codice nel branch — questa card è il segnaposto perché il passo non si perda. Non aggiungere nulla alla cieca finché non ti do la lista chiusa.
+- **Passo B — deploy** (Nicola, 1 clic): dopo aver salvato le variabili, **Redeploy** dell'ultimo commit del Pannello su Vercel, così il codice foto/file va online.
+- **Cosa NON faccio io:** non ho le mani sulla dashboard Vercel né sul deploy in produzione → li firmi tu. Io preparo il codice nel branch e ti do la lista esatta delle variabili.
+- Traccia: [[DECISIONI]] 2026-07-09 23:11 · richiesta Nicola «aggiungi foto e file in chat».
+
+---
+
 ### 🟡 #59 — Togli dalla macchina tutto ciò che usa le API AI a pagamento
 **Cosa cambia:** spariscono i pezzi di codice che chiamerebbero API AI a consumo (generazione immagini/video/testi) — così non c'è più modo di far partire una spesa "credito AI". Sparisce anche la chiave Cursor inutilizzata dal server. L'AD continua a funzionare identico: gira già sul piano fisso Claude, non su un'API a consumo.
 **Se va bene:** apro un branch con la rimozione (nessun file toccato sul ramo vivo finché non approvi il merge), poi tu revochi la chiave Cursor su cursor.com. Diventa impossibile, per costruzione, che un giro o l'autopilot brucino credito AI.
