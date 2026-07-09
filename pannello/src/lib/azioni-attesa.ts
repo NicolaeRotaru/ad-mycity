@@ -43,6 +43,32 @@ function senzaOrigine(s: string): string {
   return (s || "").replace(ORIGINE_RE, "").replace(/\s{2,}/g, " ").trim();
 }
 
+// ✍️ Pulizia UMANA del titolo mostrato (regola cervello/scrittura-umana.md, mossa 2): toglie dal
+// TITOLO le sigle interne (AR-004, #59/#16.2), gli ID tecnici (phc_…, chiavi Stripe, numeri-ordine
+// lunghi), i path di file (…​.mjs/.env) e i numeri-comando (SQL 107). NON tocca: prezzi, %, telefoni,
+// date, nomi, né il codice-casella #A42 (lettera+cifre, che il Pannello mostra apposta). È SOLO per
+// la visualizzazione: il titolo grezzo resta la fonte del codice-casella (idSezione) e il "Contenuto"
+// coi dettagli tecnici precisi resta intatto per chi esegue.
+export function pulisciTitolo(s: string): string {
+  let t = s || "";
+  t = t.replace(/^[\s🟢🟡🔴🩻🛡️🔎📣🚀🚨🐙✍️💶🧾]*\s*/u, "");
+  t = t.replace(/\b(?:phc|phx|pi|cs|re|ch|cus|sub|acct|evt|prod|price|seti|pm)_[A-Za-z0-9]{6,}\b/g, "");
+  t = t.replace(/\bSQL\s?\d+\b/gi, "");
+  t = t.replace(/\bAR-\d+\b/g, "");
+  t = t.replace(/#\d+(?:\.\d+)?\b/g, ""); // #59, #16.2 sì; #A42 (lettera dopo #) NO
+  t = t.replace(/\b[\w./@-]+\.(?:mjs|tsx?|jsx?|sh|json|env|sql|md|css|patch|png|webp)(?::\d+)?\b/gi, "");
+  t = t.replace(/\b(?:cervello|pannello|consegne|creativi|src|MyCity-Vault)\/[\w./@-]+/g, "");
+  t = t.replace(/\b\d{7,}\b/g, ""); // ID/ordini lunghi, non prezzi/telefoni
+  t = t.replace(/\s*=\s*(?=[·,;:)\]]|$)/g, ""); // "= " orfano dopo un codice tolto
+  t = t.replace(/\(\s*[·,;:\-–—.]*\s*\)/g, "");
+  t = t.replace(/\[\s*\]/g, "");
+  t = t.replace(/\s*·\s*(?=·|$)/g, " ");
+  t = t.replace(/\s{2,}/g, " ");
+  t = t.replace(/^\s*[·|:\-–—]+\s*/, "");
+  t = t.replace(/\s*[·|:\-–—]+\s*$/, "");
+  return t.trim() || (s || "").trim(); // se per assurdo svuota tutto, tieni l'originale
+}
+
 const DATA_RE = /\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?/;
 
 // Id STABILE per le sezioni: derivato dal contenuto (data|reparto|titolo), non dalla posizione.
@@ -167,15 +193,16 @@ function parseTabella(md: string): AzioneAttesa[] {
     const origine = estraiOrigine(line);
     const data = cells[1];
     const reparto = cells[2];
-    const azione = senzaOrigine(cells[3]);
+    const azioneRaw = senzaOrigine(cells[3]);
     // BUG #6 (radiografia 2026-07-03): la chiave decisione `azione:<id>` deve agganciarsi al
     // CONTENUTO, non al numero di riga posizionale (che il giro rinumera). Usa lo stesso id STABILE
     // delle sezioni così un'azione nuova non eredita lo stato «fatta/rifiutata» di una vecchia.
+    // L'id resta sul titolo GREZZO (così il codice-casella non cambia); il display è ripulito.
     out.push({
-      numero: idSezione(data, reparto, azione),
+      numero: idSezione(data, reparto, azioneRaw),
       data,
       reparto,
-      azione,
+      azione: pulisciTitolo(azioneRaw),
       colore: cells[4],
       livello: livelloDi(cells[4]),
       contenuto: senzaOrigine(cells[5]),
@@ -206,7 +233,7 @@ function parseSezioni(md: string): AzioneAttesa[] {
         numero: idSezione(data, reparto, titolo),
         data,
         reparto,
-        azione: senzaOrigine(titolo),
+        azione: pulisciTitolo(senzaOrigine(titolo)),
         colore,
         livello: livelloDi(colore),
         // prima riga utile del corpo come anteprima/contenuto
