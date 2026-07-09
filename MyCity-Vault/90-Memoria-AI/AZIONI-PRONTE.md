@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-08 11:26
+aggiornato: 2026-07-09 11:30
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -73,7 +73,7 @@ testo (Touch 2 · recensione, +1 giorno · SOLO se Touch 1 è 👍):
 Buongiorno! Come promesso, ecco il link per lasciare due righe su [NEGOZIO] 🌟
 👉 [LINK-RECENSIONE]  ← verificare LIVE prima dell'invio
 Bastano 30 secondi: stelline + una frase vera. Sarebbe una delle prime recensioni verificate di MyCity a Piacenza — grazie di cuore!
-stato: MODELLO PRONTO — nessun invio. **Ri-verificato 2026-07-08 11:26** (playbook recensioni ripassato): **0 consegne completate nel marketplace** — `delivery_status=delivered` = 0, `reviews` = 0 (baseline STATO, conf. live MCP 7/7 00:29; MCP/node gated in sessione oggi → 0 numeri inventati). L'unico ordine (#16) è annullato il 3/7, non è una consegna. → **Nessun cliente reale da sollecitare oggi**: mandare un messaggio-recensione a un cliente inesistente sarebbe il vero "inventato" (blocco). Il primo invio scatta alla prima consegna reale (PQ, finestra Venerdì 17/7): istanze pronte = A13 (Touch 1) + A14 (Touch 2), coda canonica #27.
+stato: MODELLO PRONTO — nessun invio. **Ri-verificato 2026-07-09 11:30** (playbook recensioni ripassato): **0 consegne completate nel marketplace** — `delivery_status=delivered` = 0, `reviews` = 0 (baseline STATO, conf. live MCP 7/7 00:29; delta-gate corrente==ultimo_pieno = business fermo dal 24/6; MCP/node gated in sessione oggi → 0 numeri inventati). L'unico ordine (#16) è annullato il 3/7, non è una consegna. → **Nessun cliente reale da sollecitare oggi**: mandare un messaggio-recensione a un cliente inesistente sarebbe il vero "inventato" (blocco). Il primo invio scatta alla prima consegna reale (PQ, finestra Venerdì 17/7): istanze pronte = A13 (Touch 1) + A14 (Touch 2), coda canonica #27.
 
 ## A5 · ⭐ Risposta a una recensione bassa
 reparto: supporto

@@ -146,3 +146,22 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 - Coda canonica: aggancio a **riga #21** (l'ordine-prova che precede tutto). Nessuna riga nuova aggiunta.
 
 **Colore:** 🟢 la preparazione/aggiornamento bozze (questo giro) · 🔴 l'invio effettivo dei messaggi al cliente reale (parte solo su consegna reale + feedback ≠ negativo).
+
+---
+
+## Ri-esecuzione 2026-07-09 11:30 (playbook:recensioni)
+
+**Finding invariato** (live gated in sessione: Bash `node`/REST + Supabase MCP `execute_sql` entrambi bloccati dai permessi → baseline STATO confermata dal vivo MCP 7/7 00:29, delta-gate `corrente==ultimo_pieno` = business fermo dal 24/6, **zero numeri inventati**):
+
+| Metrica | Valore | Fonte |
+|---|---|---|
+| Ordini totali in DB | **1** (annullato 3/7) | baseline STATO · conf. MCP live 7/7 00:29 |
+| Consegne completate (`delivery_status=delivered`) | **0** | idem |
+| Recensioni (`reviews` / `store_reviews`) | **0** | idem |
+| **Consegne completate SENZA recensione** | **0** | nessun destinatario reale oggi |
+
+- **Nessun cliente reale a cui mandare "grazie + recensione"** — l'unico ordine (#16) è annullato, non è una consegna. Mandare il messaggio a un cliente inesistente sarebbe il vero "inventato" → **blocco corretto**, non chiedo a Nicola.
+- **Nessun doppione (AR-008):** il messaggio post-consegna è **già preparato e armato** — modello neutro riusabile **A4** + istanze PQ **A13** (Touch 1 feedback +3h) → se 👍 **A14** (Touch 2 recensione +1g). Coda canonica = **riga #27** in `AZIONI-IN-ATTESA.md` (una sola card, gate ri-ancorato 6/7 al 1° ordine reale consegnato, NON #16). **Non aggiungo righe nuove**: aggiorno la data di ri-verifica.
+- **Quando scatta:** alla prima consegna reale — finestra **Venerdì 17/7** su Pane Quotidiano (ripresa operativa 13/7). All'atto della consegna si legge l'UUID dell'ordine e si riempie `[LINK-RECENSIONE] = /orders/{UUID}/review` in A14, verificandolo LIVE prima dell'invio.
+
+**Colore:** 🟢 la ri-verifica/traccia di oggi · 🔴 l'invio (solo su consegna reale + feedback ≠ negativo).
