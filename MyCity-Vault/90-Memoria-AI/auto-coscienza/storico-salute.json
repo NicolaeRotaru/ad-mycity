@@ -7,14 +7,6 @@
       "difetti_aperti": 3,
       "difetti_chiusi": 0,
       "tipo": "sonda",
-      "nota": "Giro 1/7 00:17: 7 numeri = vs 23:15, stallo 157,8h. Allerta temporali oggi. Playbook 🟢. REST OK, MCP cieco. Voto 76 =."
-    },
-    {
-      "data": "2026-07-01",
-      "voto_salute": 76,
-      "difetti_aperti": 3,
-      "difetti_chiusi": 0,
-      "tipo": "sonda",
       "nota": "Giro 1/7 02:17: stallo 159,8h (+2h), 168h ~8h. Foglio-firma FATTO, VP rimandato, radiografia 46. Checklist 6/7 🟢. REST OK, MCP cieco. Voto 76 =."
     },
     {
@@ -968,6 +960,20 @@
       "bloccanti_umani": 3,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 0 aperti-davvero · 6 in attesa merge · 3 bloccanti umani"
+    },
+    {
+      "data": "2026-07-09",
+      "voto_salute": 0,
+      "voto_provvisorio": 55,
+      "voto_pieno": 0,
+      "firma": "",
+      "difetti_aperti": 6,
+      "difetti_chiusi": 34,
+      "pending_merge": 6,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 3,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 3h fa · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 0 aperti-davvero · 6 in attesa merge · 3 bloccanti umani"
     }
   ]
 }
