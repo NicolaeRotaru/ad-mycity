@@ -2146,6 +2146,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               )}
             </div>
           ) : (
+          <>
           <div className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
             {messages.filter((m) => !m.prompt).length === 0 && (
               <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
@@ -2212,6 +2213,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           </div>
+          </>
           )}
         </div>
       )}
