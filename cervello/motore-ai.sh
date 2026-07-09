@@ -90,7 +90,15 @@ ai_build_cmd() {
       [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
       ;;
     claude)
-      AI_CMD=(claude -p --permission-mode acceptEdits)
+      # --permission-mode acceptEdits auto-accetta SOLO le modifiche ai file. In headless (-p) non c'è
+      # nessuno a cui chiedere: ogni Bash resta bloccato → la macchina non riusciva ad aprire PR né a
+      # far partire le scritture DB firmate (era la "grossa difficoltà a scrivere su supabase e github").
+      # Qui sblocchiamo SOLO gli script sicuri: git-pr (apre PR — il merge resta l'ok di Nicola) e i
+      # tool DB/mani che HANNO GIÀ dentro il cancello di firma (marketplace.mjs / esegui-azione.mjs:
+      # DRY-RUN finché non c'è AZIONI_LIVE=1 + AZIONE_ID firmato + allowlist). Niente 'git push' libero:
+      # il push autenticato lo fa solo git-pr.mjs, su un branch di PR, mai su main. Override: AI_ALLOWED_TOOLS.
+      local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-pr.mjs:*),Bash(node cervello/git-github.mjs:*),Bash(node cervello/marketplace.mjs:*),Bash(node cervello/esegui-azione.mjs:*),Bash(git add:*),Bash(git commit:*),Bash(git checkout:*),Bash(git switch:*),Bash(git branch:*),Bash(git status:*),Bash(git diff:*),Bash(git stash:*)}"
+      AI_CMD=(claude -p --permission-mode acceptEdits --allowedTools "$_allowed")
       [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
       ;;
   esac

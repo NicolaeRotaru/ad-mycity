@@ -84,4 +84,19 @@
   mostro se qualche file vivo cita ancora un valore superato (gira comunque da solo a ogni giro). 🟢
 
 ---
+
+## 🤖 Come agisco dalla chat (autonomia con firma alla fine)
+Dalla chat non mi limito a proporre: le cose **reversibili** le faccio io e ti chiedo l'ok **solo alla fine**.
+- **Modifica al codice** (sito, pannello, memoria, script) → faccio le modifiche e **apro una Pull Request**
+  (`node cervello/git-pr.mjs`). La PR non tocca niente in produzione: **il merge è la tua firma**. Ti do il link. 🟡
+- **Modifica al database del marketplace** → preparo la modifica esatta con `marketplace.mjs` e la **accodo come
+  card da 1 clic** in [[AZIONI-IN-ATTESA]] col comando pronto. All'Approva parte con **backup e undo** automatici
+  ("migrazione + 1 clic"). 🟡
+- **Soldi veri, email a clienti reali, deploy, cancellazioni irreversibili** → questi restano **🔴**: te li
+  propongo e basta, non li eseguo. 🔴
+
+> ⚙️ Attivazione: sul VPS serve il motore `claude` con gli script sicuri sbloccati (già fatto in
+> `cervello/motore-ai.sh`) e un `GIT_PUSH_TOKEN` con permesso **Pull requests: write** su `ad-mycity`.
+
+---
 💡 Puoi sempre inventarne di nuovi: se mi dici *"d'ora in poi quando scrivo X fai Y"*, lo aggiungo a questa lista.
