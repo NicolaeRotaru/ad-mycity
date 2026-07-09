@@ -118,7 +118,7 @@ import ParlaCasella from "@/components/ParlaCasella";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
-import { ripristinaSub, vaiSub } from "@/lib/nav";
+import { ripristinaSub } from "@/lib/nav";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -594,8 +594,6 @@ type Vista =
   | "report"
   | "storico";
 
-type AssistenteTab = "chat" | "conversazioni";
-
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
   // Sidebar a sinistra, richiudibile: su desktop parte aperta, su telefono chiusa (drawer).
@@ -603,7 +601,9 @@ export default function Dashboard() {
   useEffect(() => {
     if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
   }, []);
-  const [assistenteTab, setAssistenteTab] = useState<AssistenteTab>("chat");
+  // Conversazioni: cassetto a scomparsa da SINISTRA dentro la chat (stile Claude).
+  // Su desktop è un pannello laterale; su telefono riempie tutta la chat.
+  const [convDrawerAperto, setConvDrawerAperto] = useState(false);
   const [briefing, setBriefing] = useState<Briefing | null>(null);
   const [ultimoAt, setUltimoAt] = useState<string | null>(null);
   const [datiAggiornatiAt, setDatiAggiornatiAt] = useState<number | null>(null);
@@ -944,7 +944,7 @@ export default function Dashboard() {
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     setMessages(msgs);
     setConvId(c.id);
-    setAssistenteTab("chat"); // apri SUBITO la chat: niente più "clicca due volte" per vederla
+    setConvDrawerAperto(false); // aprendo una conversazione, richiudo il cassetto e mostro subito la chat
     setBase(null);
     setConvSel([]);
     if (daLavori.filter((m) => !m.pending).length > c.messaggi.length) {
@@ -1336,8 +1336,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       applicaVistaSalvata(v);
       // Ripristina la sotto-scheda: l'assistente qui, le altre aree via EVENTO_SUB.
       if (v === "assistente") {
-        const tab = (st?.sub as AssistenteTab) || "chat";
-        setAssistenteTab(["chat", "conversazioni"].includes(tab) ? tab : "chat");
+        // Conversazioni ora è un cassetto, non una scheda: il tasto "indietro" lo apre/chiude.
+        setConvDrawerAperto(st?.sub === "conversazioni");
       }
       if (st?.sub) ripristinaSub(v, st.sub);
     };
@@ -1360,9 +1360,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setVista("cervello");
       } else {
         setVista(det.vista);
-        if (det.vista === "assistente" && det.sub === "conversazioni") setAssistenteTab("conversazioni");
+        if (det.vista === "assistente" && det.sub === "conversazioni") setConvDrawerAperto(true);
         if (det.vista === "assistente" && det.sub === "chat") {
-          setAssistenteTab("chat");
+          setConvDrawerAperto(false);
           if (det.anchor) void apriChatRef.current(det.anchor);
         }
       }
@@ -1440,20 +1440,35 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => window.removeEventListener("mycity:conversazioni", onConv);
   }, [caricaConversazioni]);
 
-  // Persistenza della SESSIONE: la chat aperta e la conversazione attiva stanno in sessionStorage,
-  // non in localStorage. Così restano mentre uso il sito (cambio area, refresh), ma quando CHIUDO e
-  // RIAPRO il sito riparto da una chat NUOVA e pulita (sessionStorage si azzera a fine sessione).
-  // Lo storico NON si perde: ogni scambio è già salvato in Conversazioni (server o mycity_conversazioni).
-  // Diario e briefing restano invece in localStorage (memoria persistente, si ritrovano al refresh).
+  // 🆕 Prima chat all'apertura = l'ULTIMA CHE HO CREATO (non l'ultima aperta). Appena le conversazioni
+  // sono caricate apro quella con la data di creazione più recente. Una volta sola per sessione: se sto
+  // già in una chat (es. sono arrivato qui da "Lavori" o ho appena scritto) NON la scavalco.
+  const chatInizialeFattaRef = useRef(false);
+  useEffect(() => {
+    if (!caricato || chatInizialeFattaRef.current) return;
+    if (conversazioni.length === 0) return; // niente da aprire: resto sulla chat vuota
+    chatInizialeFattaRef.current = true;
+    if (convId || messages.length > 0) return; // sono già dentro una chat: non forzo
+    const piuRecente = [...conversazioni].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    )[0];
+    if (piuRecente) void continuaConversazione(piuRecente.id);
+  }, [caricato, conversazioni, convId, messages.length]);
+
+  // Persistenza della SESSIONE: i messaggi vivono in sessionStorage (restano al refresh, si azzerano a
+  // fine sessione). NON si ricorda più "l'ultima chat aperta": all'apertura si riparte dall'ultima
+  // conversazione creata (effetto qui sopra). Lo storico non si perde: ogni scambio è già in Conversazioni.
+  // Diario e briefing restano in localStorage (memoria persistente, si ritrovano al refresh).
   useEffect(() => {
     try {
       // Pulizia una-tantum: vecchie copie della chat corrente in localStorage (prima del passaggio
       // a sessionStorage) verrebbero altrimenti ignorate ma resterebbero lì a occupare spazio.
       localStorage.removeItem("mycity_chat");
       localStorage.removeItem("mycity_convid");
-      const c = sessionStorage.getItem("mycity_chat");
-      if (c) setMessages(JSON.parse(c));
-      const cid = sessionStorage.getItem("mycity_convid");
+      // 🆕 All'apertura NON si ripristina più "l'ultima chat aperta": la prima chat è l'ULTIMA CHE HO
+      // CREATO (vedi l'effetto qui sotto), così riparto sempre dal filo più fresco, non da dove ero.
+      sessionStorage.removeItem("mycity_chat");
+      sessionStorage.removeItem("mycity_convid");
       try {
         // localStorage (nuovo canale, sopravvive al riavvio) con fallback a sessionStorage per le
         // sessioni aperte prima del fix — così un pending in volo non si perde durante la migrazione.
@@ -1465,7 +1480,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           for (const pend of lista) {
             if (pend?.id && pend.targetConvId) {
               pendingLavoroChatRef.current.set(pend.id, { id: pend.id, tipo: pend.tipo, targetConvId: pend.targetConvId });
-              if (cid && cid === pend.targetConvId) setLoading(true);
             }
           }
           setPendingCount(pendingLavoroChatRef.current.size);
@@ -1479,7 +1493,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (o.briefing) setBriefing(o.briefing);
         if (o.ultimoAt) setUltimoAt(o.ultimoAt);
       }
-      if (cid) setConvId(cid);
     } catch {}
     setCaricato(true);
   }, []);
@@ -1493,13 +1506,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (caricato && briefing) try { localStorage.setItem("mycity_briefing", JSON.stringify({ briefing, ultimoAt })); } catch {}
   }, [briefing, ultimoAt, caricato]);
-  useEffect(() => {
-    if (!caricato) return;
-    try {
-      if (convId) sessionStorage.setItem("mycity_convid", convId);
-      else sessionStorage.removeItem("mycity_convid");
-    } catch {}
-  }, [convId, caricato]);
+  // (Rimosso) Non si memorizza più "l'ultima chat aperta": all'apertura riparto sempre dall'ultima creata.
 
   // Ponte col cervello: polling lavori — 2s se C'È QUALSIASI chat in attesa (anche di
   // un'altra conversazione), 8s altrimenti. Risolve TUTTI i pendenti, non solo l'ultimo.
@@ -1809,38 +1816,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <p className="t-eti mt-0.5">Chat con l&apos;AD e conversazioni salvate.</p>
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
-            {(
-              [
-                { id: "chat" as const, label: "Chat", icon: <Send size={14} /> },
-                { id: "conversazioni" as const, label: "Conversazioni", icon: <MessagesSquare size={14} /> },
-              ] as const
-            ).map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => {
-                  setAssistenteTab(t.id);
-                  // Timbra una voce di cronologia per la scheda (niente più hash). (contratto nav)
-                  vaiSub("assistente", t.id);
-                }}
-                className={`nav-tab ${assistenteTab === t.id ? "nav-tab-active" : ""}`}
-              >
-                {t.icon}
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          {assistenteTab === "chat" && (
-          <>
-          {/* Chat */}
-          <section className="card flex flex-col overflow-hidden">
+          {/* Chat con cassetto "Conversazioni" a scomparsa da SINISTRA (stile Claude): il tasto a
+              sinistra lo apre. La section è `relative` così il cassetto la copre tutta. */}
+          <section className="card flex flex-col overflow-hidden relative">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
-              <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-                <Send size={15} />
-              </span>
+              <button
+                onClick={() => setConvDrawerAperto(true)}
+                className="grid place-items-center w-8 h-8 rounded-lg text-black/50 hover:bg-black/[0.05] hover:text-brand transition shrink-0"
+                aria-label="Le tue conversazioni"
+                title="Le tue conversazioni"
+              >
+                <MessagesSquare size={17} />
+              </button>
               <div className="leading-tight min-w-0">
                 <div className="text-[15px] font-semibold tracking-tight truncate">Parla con l'assistente</div>
                 {convId && (
@@ -2012,99 +2000,111 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               🧠 <b>Invio</b> = invia · <b>Shift+Invio</b> = a capo — l&apos;AD risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
             </p>
           </div>
-          </section>
 
-          <Comandi onScegli={(cmd) => setInput(cmd)} />
-          </>
-          )}
-
-          {assistenteTab === "conversazioni" && (
-        <section className="card p-4 sm:p-5">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <span className="sez-ico">
-                <MessagesSquare size={16} />
-              </span>
-              <span className="t-sez">Conversazioni</span>
+          {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
+              Su telefono riempie tutta la chat (w-full); su desktop è un pannello laterale (sm:w-[340px]). */}
+          <div
+            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${convDrawerAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            onClick={() => setConvDrawerAperto(false)}
+            aria-hidden="true"
+          />
+          <aside
+            className={`absolute inset-y-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${convDrawerAperto ? "translate-x-0" : "-translate-x-full"}`}
+            style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
+            aria-hidden={!convDrawerAperto}
+          >
+            <div className="px-4 py-3 flex items-center justify-between border-b gap-2 shrink-0" style={{ borderColor: "var(--border)" }}>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="sez-ico"><MessagesSquare size={15} /></span>
+                <span className="t-sez">Conversazioni</span>
+              </div>
+              <button
+                onClick={() => setConvDrawerAperto(false)}
+                className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+                aria-label="Chiudi conversazioni"
+                title="Chiudi"
+              >
+                <X size={16} />
+              </button>
             </div>
-            <div className="flex items-center gap-3">
-              <button type="button" onClick={nuovaConversazione} className="btn-ghost">
-                <Plus size={13} /> Nuova
+            <div className="px-3 py-2.5 flex items-center gap-2 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
+              <button
+                type="button"
+                onClick={() => { void nuovaConversazione(); setConvDrawerAperto(false); }}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12.5px] font-medium py-2 hover:bg-brand/[0.05] transition"
+              >
+                <Plus size={14} /> Nuova chat
               </button>
               {conversazioni.length > 0 && (
-                <button type="button" onClick={svuotaConversazioni} className="btn-ghost">
+                <button type="button" onClick={svuotaConversazioni} className="btn-ghost shrink-0">
                   <Trash2 size={12} /> Svuota
                 </button>
               )}
             </div>
-          </div>
-          <p className="t-eti text-[11px] mb-3">
-            {convServer
-              ? "💾 Salvate nel database: le ritrovi anche da un altro dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."
-              : "💾 Salvate su questo dispositivo. Apri una conversazione per continuarla, oppure spunta una o più conversazioni e usale come base per una chat nuova."}
-          </p>
-
-          {convSel.length > 0 && (
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2" style={{ background: "var(--brand-soft)" }}>
-              <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
-              <button
-                type="button"
-                onClick={usaComeBase}
-                className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
-              >
-                <Layers size={13} /> Inizia nuova con queste come base
-              </button>
-              <button type="button" onClick={() => setConvSel([])} className="btn-ghost">
-                annulla
-              </button>
-            </div>
-          )}
-
-          {conversazioni.length === 0 ? (
-            <p className="t-eti text-sm">
-              Ancora nessuna conversazione. Quando scrivi nella chat, la conversazione viene salvata qui e potrai riprenderla.
-            </p>
-          ) : (
-            <div className="scroll-soft space-y-2 max-h-[420px] overflow-y-auto pr-1">
-              {/* La conversazione aperta resta in cima; le altre nell'ordine del server (più recenti prima). */}
-              {[...conversazioni]
-                .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
-                .map((c) => (
-                <div
-                  key={c.id}
-                  className={`conv-row flex items-center gap-3 ${convId === c.id ? "conv-row-active" : ""}`}
+            {convSel.length > 0 && (
+              <div className="m-2.5 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2 shrink-0" style={{ background: "var(--brand-soft)" }}>
+                <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
+                <button
+                  type="button"
+                  onClick={() => { void usaComeBase(); setConvDrawerAperto(false); }}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium bg-brand text-white rounded-full px-3 py-1.5 hover:bg-brand-dark active:scale-95 transition"
                 >
-                  <input
-                    type="checkbox"
-                    checked={convSel.includes(c.id)}
-                    onChange={() => toggleSel(c.id)}
-                    className="w-4 h-4 accent-brand shrink-0"
-                    aria-label="Seleziona conversazione"
-                  />
-                  <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                    <div className="conv-row-title">{c.titolo}</div>
-                    <div className="conv-row-meta">
-                      {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
-                      {convId === c.id && " · in corso"}
-                    </div>
-                  </button>
-                  <button type="button" onClick={() => continuaConversazione(c.id)} className="btn-outline-brand">
-                    Apri
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => eliminaConversazione(c.id)}
-                    className="btn-ghost-danger"
-                    aria-label="Elimina conversazione"
+                  <Layers size={13} /> Usa come base
+                </button>
+                <button type="button" onClick={() => setConvSel([])} className="btn-ghost">
+                  annulla
+                </button>
+              </div>
+            )}
+            {conversazioni.length === 0 ? (
+              <p className="t-eti text-[12.5px] px-3 py-6 text-center">
+                Ancora nessuna conversazione. Quando scrivi nella chat, la salvo qui e potrai riprenderla.
+              </p>
+            ) : (
+              <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
+                {/* La conversazione aperta resta in cima; le altre nell'ordine del server (più recenti prima). */}
+                {[...conversazioni]
+                  .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
+                  .map((c) => (
+                  <div
+                    key={c.id}
+                    className={`conv-row flex items-center gap-2.5 ${convId === c.id ? "conv-row-active" : ""}`}
                   >
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-          )}
+                    <input
+                      type="checkbox"
+                      checked={convSel.includes(c.id)}
+                      onChange={() => toggleSel(c.id)}
+                      className="w-4 h-4 accent-brand shrink-0"
+                      aria-label="Seleziona conversazione"
+                    />
+                    <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
+                      <div className="conv-row-title">{c.titolo}</div>
+                      <div className="conv-row-meta">
+                        {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
+                        {convId === c.id && " · in corso"}
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => eliminaConversazione(c.id)}
+                      className="btn-ghost-danger shrink-0"
+                      aria-label="Elimina conversazione"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <p className="t-eti text-[10.5px] px-3 py-2 border-t leading-relaxed shrink-0" style={{ borderColor: "var(--border)" }}>
+              {convServer
+                ? "💾 Salvate nel database: le ritrovi da ogni dispositivo."
+                : "💾 Salvate su questo dispositivo."}
+            </p>
+          </aside>
+          </section>
+
+          <Comandi onScegli={(cmd) => setInput(cmd)} />
 
         </div>
         )}
@@ -2175,34 +2175,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <X size={15} />
             </button>
           </div>
-          {fabConvOpen ? (
-            <div className="scroll-soft flex-1 overflow-y-auto p-2.5">
-              <button
-                onClick={() => { nuovaConversazione(); setFabConvOpen(false); }}
-                className="w-full mb-2 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12.5px] font-medium py-2 hover:bg-brand/[0.05] transition"
-              >
-                <Plus size={14} /> Nuova chat
-              </button>
-              {conversazioni.length === 0 ? (
-                <p className="t-eti text-[12px] px-1 py-4 text-center">Ancora nessuna conversazione salvata.</p>
-              ) : (
-                <ul className="space-y-1">
-                  {conversazioni.map((c) => (
-                    <li key={c.id}>
-                      <button
-                        onClick={() => { continuaConversazione(c.id); setFabConvOpen(false); }}
-                        className={`w-full text-left rounded-lg px-2.5 py-2 transition ${c.id === convId ? "bg-brand/10 text-brand" : "hover:bg-black/[0.04]"}`}
-                      >
-                        <span className={`block truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>{c.titolo || "Conversazione"}</span>
-                        <span className="t-eti text-[10.5px]">{new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ) : (
-          <>
+          {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
           <div className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
             {messages.filter((m) => !m.prompt).length === 0 && (
               <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
@@ -2276,8 +2249,57 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           </div>
-          </>
-          )}
+          {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
+          <div
+            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            onClick={() => setFabConvOpen(false)}
+            aria-hidden="true"
+          />
+          <aside
+            className={`absolute inset-y-0 left-0 z-30 w-full flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
+            style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
+            aria-hidden={!fabConvOpen}
+          >
+            <div className="px-4 py-3 flex items-center justify-between border-b gap-2 shrink-0" style={{ borderColor: "var(--border)" }}>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="sez-ico"><MessagesSquare size={15} /></span>
+                <span className="t-sez">Conversazioni</span>
+              </div>
+              <button
+                onClick={() => setFabConvOpen(false)}
+                className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+                aria-label="Chiudi conversazioni"
+                title="Chiudi"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <button
+              onClick={() => { void nuovaConversazione(); setFabConvOpen(false); }}
+              className="m-2.5 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12.5px] font-medium py-2 hover:bg-brand/[0.05] transition shrink-0"
+            >
+              <Plus size={14} /> Nuova chat
+            </button>
+            {conversazioni.length === 0 ? (
+              <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
+            ) : (
+              <ul className="scroll-soft flex-1 overflow-y-auto px-2.5 pb-2.5 space-y-1">
+                {[...conversazioni]
+                  .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
+                  .map((c) => (
+                  <li key={c.id}>
+                    <button
+                      onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
+                      className={`w-full text-left rounded-lg px-2.5 py-2 transition ${c.id === convId ? "bg-brand/10 text-brand" : "hover:bg-black/[0.04]"}`}
+                    >
+                      <span className={`block truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>{c.titolo || "Conversazione"}</span>
+                      <span className="t-eti text-[10.5px]">{new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
         </div>
       )}
     </div>
