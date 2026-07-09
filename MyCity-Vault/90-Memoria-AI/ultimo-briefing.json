@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-09 00:20",
-  "situazione": "Giro heartbeat a stato invariato: business fermo dal 24/6 (~15 giorni), North Star 0, 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Oggi 9/7 è il reset dei limiti Claude (fatto interno): la ripresa operativa resta al 13/7 — 4 giorni. Radar LIVE: nuova ondata di calore ~38°C con afa → per il batch food del 13/7 serve il gate catena-del-freddo. Venerdì Piacentini domani 10/7 (cade prima della ripresa) e 17/7 (finestra utile per il 1° ordine). Piattaforma al sicuro (bloccanti umani a 0); resta solo SQL 107/RLS profiles. Nessuna sentinella nuova, nessuna card nuova, nessun asset pesante.",
+  "data": "2026-07-09 11:15",
+  "situazione": "Refresh sul VPS a stato invariato (~11h dopo il giro pieno delle 00:20): business fermo dal 24/6 (~15,5 giorni), North Star 0, 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Delta-gate corrente==ultimo_pieno: nessuna novità di business. 4 giorni alla ripresa operativa (13/7). Radar meteo già coperto LIVE alle 00:20 (~38°C/afa → gate catena-del-freddo per il batch food del 13/7); Venerdì Piacentini 10/7 (cade prima della ripresa) e 17/7 (finestra utile per il 1° ordine). Piattaforma al sicuro (bloccanti umani a 0); resta solo SQL 107/RLS profiles (chiusura da coordinare SQL+codice). Nessuna sentinella nuova, nessuna card nuova, nessun asset pesante; loop chiusi per @ad/@intelligence/@analista.",
   "opportunita": [
     {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — la cascata è già in coda, gated solo sul 1° ordine reale", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Portare online 6 botteghe food il 13/7", "motivo": "407 lead mai contattati; dossier e schede-cheat pronti; è il moltiplicatore dell'offerta", "impatto": "alto", "sforzo": "medio"},
@@ -8,7 +8,7 @@
   ],
   "azioni": [
     {"titolo": "Tenere pronto il primo ordine reale su Pane Quotidiano", "motivo": "esecuzione dal 13/7, aggancio al Venerdì Piacentini del 17/7", "livello": "rosso"},
-    {"titolo": "Chiudere l'ultimo blocco di sicurezza del sito prima delle 6 botteghe", "motivo": "SQL 107/RLS profiles: unico rischio di piattaforma rimasto", "livello": "giallo"},
+    {"titolo": "Chiudere l'ultimo blocco di sicurezza del sito prima delle 6 botteghe", "motivo": "SQL 107/RLS profiles: unico rischio di piattaforma rimasto, da chiudere in modo coordinato SQL+codice", "livello": "giallo"},
     {"titolo": "Dare un'occhiata di 30 secondi al Pannello online", "motivo": "verificare che «Vault GitHub» sia verde dopo il push del 7/7; se rosso serve il token Vercel", "livello": "giallo"}
   ]
 }
