@@ -14,6 +14,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+## 2026-07-09 23:30 · @devops-sre → 🔴 Accendi gli allegati in chat su Vercel (variabili + Redeploy)
+Il codice degli allegati (foto + file nella chat con l'AD) è pronto nel branch. Perché funzioni online servono due passi che tocco NON posso fare io (sono nella dashboard Vercel): li devi fare tu, in 5 minuti.
+
+**Passo 1 — Metti due variabili su Vercel** (Project → Settings → Environment Variables, ambiente *Production*). Sono quelle del progetto Supabase **MEMORIA** (NON il marketplace), le stesse che hai sul VPS in `cervello/vps/.env`:
+- `SUPABASE_URL` = l'URL del progetto memoria (`https://…​.supabase.co`)
+- `SUPABASE_SERVICE_KEY` = la service_role key del progetto memoria (segreta, resta solo sul server)
+
+Servono perché la route `/api/allegato` carica il file nel bucket privato `chat-allegati` con quella chiave. Il bucket si crea da solo al primo upload: nessun passo manuale sul database.
+
+**Passo 2 — Fai il Redeploy** (Deployments → ultimo deploy → Redeploy) così Vercel builda il codice nuovo del Pannello con gli allegati.
+
+- **Cosa cambia:** dopo questi due passi potrai allegarmi foto e PDF/documenti direttamente dalla chat, e io li leggo. Finché non li fai, il pulsante graffetta compare ma l'upload dà errore.
+- **Se va bene:** provalo tu dal browser (allega una foto, mandamela) → se la vedo, è fatto; poi mergiamo il branch su `main`.
+- **Colore:** 🔴 — tocca la produzione (variabili + deploy). Lo firmi/fai tu; io non entro nella dashboard.
+
+---
+
 ### 🔴 #60 — Metti le variabili di Storage su Vercel e fai partire il deploy (foto/file in chat) · ⏳ IN ATTESA · accodata 2026-07-09 23:11
 **Cosa cambia:** con queste variabili la chat del Pannello inizia ad accettare **foto e file (PDF/documenti)** — li carica su Supabase Storage e li mostra in conversazione. Senza variabili + deploy, il codice c'è ma resta spento online.
 **Se va bene:** provo l'upload nel browser sul Pannello vero e ti mostro che una foto e un PDF arrivano davvero, prima di dichiararlo fatto.
