@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, X } from "lucide-react";
+import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
@@ -59,7 +59,19 @@ export default function ChatCasella({
   const [err, setErr] = useState("");
   // Testo che arriva parola-per-parola mentre Claude risponde (streaming).
   const [streamingText, setStreamingText] = useState("");
+  // 📎 Foto/file scelti da Nicola, in attesa di partire col prossimo messaggio.
+  const [allegati, setAllegati] = useState<File[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
+
+  function aggiungiFile(lista: FileList | null) {
+    if (!lista || lista.length === 0) return;
+    setErr("");
+    setAllegati((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
+  }
+  function togliAllegato(i: number) {
+    setAllegati((prev) => prev.filter((_, idx) => idx !== i));
+  }
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -67,18 +79,41 @@ export default function ChatCasella({
 
   async function invia() {
     const testo = bozza.trim();
-    if (!testo || inviando) return;
+    const daCaricare = allegati;
+    if ((!testo && daCaricare.length === 0) || inviando) return;
     setErr("");
     setBozza("");
+    setAllegati([]);
     const storia = msgs.map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`).join("\n");
-    setMsgs((m) => [...m, { role: "user", content: testo }]);
+    // Nella bolla mostro il testo + i nomi degli allegati (così la conversazione resta leggibile).
+    const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
+    const bollaUtente = [testo, nomiAllegati].filter(Boolean).join("\n");
+    setMsgs((m) => [...m, { role: "user", content: bollaUtente }]);
     setInviando(true);
     try {
-      const prep = preparaLavoro(testo);
+      // 1) Carico prima gli allegati sullo storage, poi mando al cervello solo i loro percorsi.
+      let bloccoAllegati = "";
+      if (daCaricare.length > 0) {
+        const fd = new FormData();
+        fd.append("gruppo_id", gruppoId);
+        daCaricare.forEach((f) => fd.append("file", f));
+        const up = await fetch("/api/allegato", { method: "POST", body: fd })
+          .then((r) => r.json())
+          .catch(() => null);
+        if (!up?.ok) throw new Error(up?.error || "Caricamento degli allegati non riuscito.");
+        const righe = (up.allegati as Array<{ nome: string; tipo: string; percorso: string }>)
+          .map((a) => `@ALLEGATO nome="${a.nome}" tipo="${a.tipo}" percorso="${a.percorso}"`)
+          .join("\n");
+        bloccoAllegati =
+          `\n\n## Allegati di Nicola\nNicola ha allegato ${up.allegati.length} file a questo messaggio ` +
+          `(foto o documenti). Sono nello storage: aprili e tienine conto nella risposta.\n${righe}`;
+      }
+      const prep = preparaLavoro(testo || "Guarda gli allegati");
       const richiesta =
         (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-        `## Nuovo messaggio di Nicola\n${testo}\n\n` +
-        `## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+        `## Nuovo messaggio di Nicola\n${testo || "(nessun testo — vedi allegati)"}` +
+        bloccoAllegati +
+        `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
         `Se Nicola dice di aver completato un passo, aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
       const post = await fetch("/api/lavori", {
         method: "POST",
@@ -105,6 +140,7 @@ export default function ChatCasella({
       // Non perdere il messaggio: lo lascio come bolla e spiego l'errore, con la bozza pronta a ripartire.
       setErr(e?.message || "Non riuscito.");
       setBozza(testo);
+      setAllegati(daCaricare);
       setStreamingText("");
     } finally {
       setInviando(false);
@@ -153,6 +189,45 @@ export default function ChatCasella({
         </p>
       )}
 
+      {/* 📎 Anteprima degli allegati scelti, prima di inviare */}
+      {allegati.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {allegati.map((f, i) => {
+            const isImg = f.type.startsWith("image/");
+            return (
+              <span
+                key={i}
+                className="inline-flex items-center gap-1 text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md pl-1.5 pr-1 py-1 max-w-[180px]"
+                title={f.name}
+              >
+                {isImg ? <ImageIcon size={12} /> : <FileText size={12} />}
+                <span className="truncate">{f.name}</span>
+                <button
+                  onClick={() => togliAllegato(i)}
+                  disabled={inviando}
+                  className="hover:text-red-600 transition disabled:opacity-40"
+                  aria-label={`Togli ${f.name}`}
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            );
+          })}
+        </div>
+      )}
+
+      <input
+        ref={fileRef}
+        type="file"
+        multiple
+        accept="image/*,application/pdf,.txt,.csv,.md"
+        className="hidden"
+        onChange={(e) => {
+          aggiungiFile(e.target.files);
+          e.target.value = ""; // permette di riscegliere lo stesso file
+        }}
+      />
+
       <textarea
         value={bozza}
         onChange={(e) => setBozza(e.target.value)}
@@ -169,8 +244,16 @@ export default function ChatCasella({
       />
       <div className="flex items-center gap-2 flex-wrap">
         <button
+          onClick={() => fileRef.current?.click()}
+          disabled={inviando || allegati.length >= 6}
+          title="Allega foto o file (max 6)"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 disabled:opacity-50 transition"
+        >
+          <Paperclip size={13} /> Allega
+        </button>
+        <button
           onClick={invia}
-          disabled={inviando || !bozza.trim()}
+          disabled={inviando || (!bozza.trim() && allegati.length === 0)}
           className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
         >
           {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia a Claude Max

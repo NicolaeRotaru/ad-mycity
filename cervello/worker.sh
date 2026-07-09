@@ -294,6 +294,44 @@ _estrai_stream() {
   jq -rR 'fromjson? // empty | select(.type=="stream_event") | .event.delta.text // empty' "$f" 2>/dev/null | tr -d '\r'
 }
 
+# 📎 ALLEGATI CHAT: se la richiesta contiene righe "@ALLEGATO ... percorso=..." (foto/file caricati dal
+# Pannello nello storage), le scarica in una cartella temporanea con la service key e stampa un blocco di
+# istruzioni con i PERCORSI LOCALI, così Claude li apre con lo strumento Read (le foto le VEDE, i PDF/testi
+# li legge). Best-effort e fail-safe: un download fallito è solo segnalato, non blocca mai la chat.
+# Sicurezza: accetta solo il bucket previsto e caratteri di percorso sicuri (niente path-traversal/SSRF).
+prepara_allegati_chat() {
+  local testo="$1"
+  printf '%s' "$testo" | grep -q '@ALLEGATO ' || return 0
+  local dir="/tmp/mycity-allegati/${id:-chat}"
+  rm -rf "$dir" 2>/dev/null || true
+  mkdir -p "$dir" 2>/dev/null || return 0
+  local out_block="" n=0 riga percorso nome tipo base local_path
+  while IFS= read -r riga; do
+    case "$riga" in *"@ALLEGATO "*) : ;; *) continue ;; esac
+    percorso="$(printf '%s' "$riga" | sed -n 's/.*percorso="\([^"]*\)".*/\1/p')"
+    nome="$(printf '%s' "$riga" | sed -n 's/.*nome="\([^"]*\)".*/\1/p')"
+    tipo="$(printf '%s' "$riga" | sed -n 's/.*tipo="\([^"]*\)".*/\1/p')"
+    case "$percorso" in chat-allegati/*) : ;; *) continue ;; esac
+    printf '%s' "$percorso" | grep -qE '^chat-allegati/[A-Za-z0-9._/-]+$' || continue
+    base="$(printf '%s' "${nome:-file}" | tr -c 'A-Za-z0-9._-' '_' | tail -c 80)"
+    n=$((n + 1))
+    local_path="$dir/${n}-${base}"
+    if curl -fsS "${CURL_TIMEOUT[@]}" "$SUPABASE_URL/storage/v1/object/$percorso" \
+      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+      -o "$local_path" 2>/dev/null; then
+      out_block="$out_block
+- $local_path  (${tipo:-file})"
+    else
+      out_block="$out_block
+- (download fallito per ${nome:-file})"
+    fi
+  done <<<"$testo"
+  [ "$n" -eq 0 ] && return 0
+  printf '%s' "
+## File allegati (già scaricati sul disco — GUARDALI prima di rispondere)
+Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strumento Read (le foto le vedi, i PDF/testi li leggi) e tienine conto:$out_block"
+}
+
 # Esegue la chat in streaming: mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato
 # (stato resta in_corso) così nel Pannello compare parola per parola. Popola le globali out, rc.
 # FAIL-SAFE: se lo stream non dà testo (CLI che non supporta il formato) o esce male, si ricade
@@ -572,6 +610,10 @@ Se proponi un'azione che tocca il mondo reale (soldi, email a clienti, deploy, p
 
 ## Conversazione
 $richiesta"
+    # 📎 Se Nicola ha allegato foto/file, scaricali e di' a Claude di aprirli col Read.
+    _alleg_block="$(prepara_allegati_chat "$richiesta")"
+    [ -n "$_alleg_block" ] && prompt="$prompt
+$_alleg_block"
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
