@@ -282,16 +282,36 @@ battito_systemd() {
 
 # ── CHAT IN STREAMING (Strada A, step 2) ─────────────────────────────────────────────────────────
 # Estrae il testo dagli eventi stream-json accumulati finora nel file $1. Salta le righe incomplete
-# o non-JSON (fromjson? // empty) → non produce MAI testo sballato, al massimo un prefisso più corto.
-# Priorità (una sola fonte, niente testo doppio): evento "result" finale → messaggi "assistant"
-# completi → delta di testo ("stream_event"). Durante lo streaming esistono solo i delta.
+# o non-JSON (fromjson? // empty | objects) → non produce MAI testo sballato, al massimo un prefisso
+# più corto. Priorità: ① testo di TUTTI i messaggi "assistant" top-level (risposta intera anche
+# quando l'AD usa uno strumento a metà) → ② delta live ("stream_event") → ③ evento "result"
+# (solo fallback estremo). Durante lo streaming del primo messaggio esistono solo i delta.
 _estrai_stream() {
   local f="$1" t
-  t="$(jq -rR 'fromjson? // empty | select(.type=="result") | .result // empty' "$f" 2>/dev/null | tail -1)"
+  # 🔑 RISPOSTA INTERA = il testo di TUTTI i messaggi assistant TOP-LEVEL, in ordine — NON
+  # l'evento finale "result". Quando l'AD legge un dato a metà risposta (Read/Grep non chiedono
+  # permesso, e il prompt chat dice "se ti serve un dato reale leggilo"), la CLI spezza la
+  # risposta in PIÙ messaggi; "result" contiene SOLO l'ultimo. Preferire "result" (com'era
+  # prima) faceva COLLASSARE la risposta nella sola coda a fine generazione: in chat si vedeva
+  # il testo crescere e poi sparire («non mi mostra tutta la risposta»). Il filtro
+  # parent_tool_use_id tiene FUORI i messaggi interni dei subagent (Task): nella risposta a
+  # Nicola va solo la voce dell'AD, come già garantiva il vecchio "result".
+  t="$(jq -Rrn '[inputs | fromjson? // empty | objects
+                 | select(.type=="assistant") | select((.parent_tool_use_id // null) == null)
+                 | (.message.content[]? | objects | select(.type=="text") | .text)] | join("\n\n")' \
+        "$f" 2>/dev/null)"
   [ -n "$t" ] && { printf '%s' "$t"; return; }
-  t="$(jq -rR 'fromjson? // empty | select(.type=="assistant") | [.message.content[]? | select(.type=="text") | .text] | join("")' "$f" 2>/dev/null)"
+  # Nessun messaggio ancora completato: mostra i delta dello streaming. -j (non -r): i delta
+  # vanno INCOLLATI senza a-capo — con -r ogni frammento finiva su una riga sua e le parole
+  # si spezzavano a video (il testo «sballato» mentre scrive).
+  t="$(jq -Rj 'fromjson? // empty | objects | select(.type=="stream_event")
+               | select((.parent_tool_use_id // null) == null) | (.event.delta.text? // empty)' \
+        "$f" 2>/dev/null | tr -d '\r')"
   [ -n "$t" ] && { printf '%s' "$t"; return; }
-  jq -rR 'fromjson? // empty | select(.type=="stream_event") | .event.delta.text // empty' "$f" 2>/dev/null | tr -d '\r'
+  # Fallback estremo (run senza streaming / formati vecchi): l'ULTIMO evento "result", INTERO —
+  # niente `tail -1` riga-per-riga, che tagliava un result multilinea all'ultima riga.
+  jq -Rrn '[inputs | fromjson? // empty | objects | select(.type=="result") | .result // empty] | last // empty' \
+    "$f" 2>/dev/null
 }
 
 # 📎 ALLEGATI CHAT: se la richiesta contiene righe "@ALLEGATO ... percorso=..." (foto/file caricati dal
