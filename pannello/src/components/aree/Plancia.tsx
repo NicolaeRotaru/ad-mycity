@@ -6,7 +6,7 @@ import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea, type VistaNav } from "@/lib/nav";
-import { codiceAzione } from "@/lib/azioni-attesa";
+import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import CuoreMacchina from "@/components/CuoreMacchina";
 import StatoMacchina from "@/components/StatoMacchina";
 import Volano from "@/components/Volano";
@@ -250,7 +250,7 @@ export default function Plancia({
                 {/* «#codice — nome»: codice fisso sempre accanto al titolo, così la card è citabile */}
                 <span className="mt-0.5 shrink-0 font-mono text-[10px] font-bold text-brand tabular-nums" title="Codice fisso della casella — citalo in chat">{codiceAzione(a.id)}</span>
                 <span className="mt-0.5 shrink-0 text-black/25 text-[10px]">—</span>
-                <FraseLista testo={a.titolo} />
+                <FraseLista testo={pulisciTitolo(a.titolo)} />
               </div>
             ))}
             {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
@@ -269,7 +269,7 @@ export default function Plancia({
             {mosseOrd.slice(0, 3).map((m, i) => (
               <div key={i} className="flex items-start gap-2 t-riga">
                 <span className="mt-0.5 shrink-0 text-base">{m.colore || "•"}</span>
-                <FraseLista testo={m.titolo} />
+                <FraseLista testo={pulisciTitolo(m.titolo)} />
               </div>
             ))}
             {mosseOrd.length > 3 && <p className="t-eti">+{mosseOrd.length - 3} altre…</p>}

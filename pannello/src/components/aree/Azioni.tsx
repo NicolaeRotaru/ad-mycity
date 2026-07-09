@@ -7,7 +7,7 @@ import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
-import { codiceAzione } from "@/lib/azioni-attesa";
+import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
   etichettaScelta,
@@ -488,7 +488,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                 {codiceAzione(a.id)}
               </span>
               <span className="text-black/30 mr-1">—</span>
-              {testoPulito(a.titolo)}
+              {pulisciTitolo(testoPulito(a.titolo))}
             </div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
               <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
@@ -653,7 +653,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                     <div className="flex items-start gap-2">
                       <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
                       <div className="min-w-0 flex-1">
-                        <div className="text-[13px] font-semibold text-ink/90">{m.colore ? `${m.colore} ` : ""}{m.titolo}</div>
+                        <div className="text-[13px] font-semibold text-ink/90">{m.colore ? `${m.colore} ` : ""}{pulisciTitolo(m.titolo)}</div>
                         <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/50 mt-0.5">
                           {m.quando && <span>🗓️ {m.quando}</span>}
                           {m.senior && <span className="text-brand">{m.senior}</span>}
@@ -706,7 +706,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                 <div className="flex items-start gap-2.5">
                   <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[p.livello]}`} />
                   <div className="min-w-0 flex-1">
-                    <div className="t-sez leading-snug">{p.titolo}</div>
+                    <div className="t-sez leading-snug">{pulisciTitolo(p.titolo)}</div>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                       <span className="badge badge-on">💡 dal giro</span>
                       {ab && <span className="badge bg-red-50 text-red-700">A / B</span>}
@@ -807,7 +807,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                 <div className="flex items-start gap-2">
                   <ShieldAlert size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
                   <div className="min-w-0 flex-1">
-                    <div className="text-[13px] font-semibold text-ink/90">{rosso ? "🔴" : "🟡"} {al.titolo}</div>
+                    <div className="text-[13px] font-semibold text-ink/90">{rosso ? "🔴" : "🟡"} {pulisciTitolo(al.titolo)}</div>
                     <div className="text-[12px] text-black/60 mt-0.5">{al.perche}</div>
                     <div className="text-[12px] text-ink/80 mt-1">→ {al.cosaFare}</div>
                     <button onClick={() => vaiAllAzione(al.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
