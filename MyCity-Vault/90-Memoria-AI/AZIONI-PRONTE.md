@@ -372,6 +372,23 @@ testo (annuncio pubblico · 🔴 · bozza neutra):
 [FIRMA] La spesa che tiene viva la città. — MyCity Piacenza · VOLTI, NON ALGORITMI
 stato: STANDARD DEFINITO (🟢) — assegnazione + annuncio IN ATTESA DI FIRMA NICOLA. Coda canonica = riga #38 in [[AZIONI-IN-ATTESA]].
 
+## A26 · 📣 Post del giorno "Il tuo ordine ha un nome" (motore Volti, non algoritmi)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia (9:16) + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Post del giorno (9/7) sotto la piattaforma "Il Turno", faccia **motore "Volti, non algoritmi"** (swipe #3: il volto prima del prodotto). Pilastro DIVERSO dai due già usati (7/7 causa/A8-manifesto #57 · 8/7 comodità/ZTL #59): dice il *chi* c'è dietro l'ordine — una persona con un nome, non un algoritmo/magazzino anonimo. Nemico chiaro (swipe #1), autenticità grezza (swipe #7). Domanda-ghigliottina "poteva farlo Amazon?" → no (Amazon È l'algoritmo).
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA-RULES passato (0 numeri finti, 0 testimonianze, figure archetipiche non spacciate per negozi attivi, CTA + visual con segnaposto)
+contenuto pronto: consegne/content/2026-07-09-post-del-giorno-volti-non-algoritmi.md
+cosa cambia: esce il 3° contenuto della rubrica "Il Turno", sul lato *chi* (volti, non algoritmi) → differenzia MyCity dal delivery anonimo a costo ≈0, senza promettere numeri che non abbiamo. Neutro (nessun negozio intestato → nessun consenso bottega, cancello allocazione AR-006 ok).
+se va bene: terzo mattone di notorietà + iscrizioni tracciabili via UTM; con #57 e #59 la rubrica ha tre pilastri diversi in fila (causa · comodità · volti) e regge come appuntamento settimanale.
+testo (versione Gruppi FB — link nel 1° commento):
+Quando ordini online, di solito dall'altra parte c'è un algoritmo: un magazzino grande come un paese, a centinaia di chilometri da qui, dove nessuno sa chi sei. A Piacenza può funzionare diversamente. Sto costruendo MyCity: quando ordini, la tua spesa la prepara una persona vera. Il fornaio che alza la saracinesca alle sei. Il salumiere che ti taglia la coppa come piace a te. Gente del centro, con un nome e una faccia — non un carrello automatico. Perché una città-centro resta accesa solo se, a turno, qualcuno la tiene aperta. Il bottegaio la mattina. Tu quando fai la spesa. La tua spesa è il tuo turno — e dall'altra parte c'è sempre qualcuno, non un algoritmo. Cerco le prime 50 famiglie del centro: per loro la prima consegna è gratis. 👉 (nel 1° commento) Iscriviti alla lista d'attesa. La spesa che tiene viva la città. Fai il tuo turno.
+testo (caption IG/FB Pagina):
+Il tuo ordine non lo prepara un algoritmo. 🙌 Lo prepara una persona vera: il fornaio, il salumiere, la bottega del centro di Piacenza. Gente con un nome e una faccia, non un magazzino anonimo. La stessa comodità di ordinare da casa — ma dall'altra parte c'è qualcuno che ti conosce. La tua spesa è il tuo turno. Cerchiamo le prime 50 famiglie del centro. Link in bio. La spesa che tiene viva la città. Fai il tuo turno.
+visual: mani di un bottegaio che incartano/porgono un pacco spesa su banco di bottega (inquadratura sul gesto, NESSUN volto → neutro, nessun consenso); variante contrasto split braccio-robotico vs mani-bottega ("Due modi di ricevere la spesa. Uno ha un nome."). Overlay: "Il tuo ordine ha un nome." + "Volti, non algoritmi". Palette calda brand; VIETATO giallo-Glovo/arancio-Amazon/blu-tech. Fallback tipografico pubblicabile subito senza foto.
+pre-condizioni: (1) versione neutra tipografica = pubblicabile con sola firma Nicola · (2) foto mani/gesto o via libera a immagine AI dichiarata (col volto reale → serve ok titolare, diventa il ponte verso l'angolo "ritratto") · (3) link reale lista d'attesa in bio/1° commento con UTM (@builder-automazioni) — è il tappo n.1 di ogni post. Coda canonica = riga #60 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.
+
 ## A25 · 💚 Arma l'anti-churn PRIMA dell'onda del 13/7 (health-score sui negozi)
 reparto: account-negozi (owner) · devops-sre / data-engineer (sentinella)
 livello: 🟡 (accende una sentinella/health-score in sola lettura sul marketplace — nessuna scrittura, nessun contatto a clienti/negozi)
