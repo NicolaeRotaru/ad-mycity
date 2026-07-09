@@ -1,110 +1,122 @@
 ---
 titolo: Radar concorrenti — Piacenza (delivery / grocery / botteghe online)
-data: 2026-07-04 15:42
-autore: "@intelligence"
+data: 2026-07-09 12:41
+autore: "@intelligence + AD"
 tipo: intelligence-competitiva
 stato: 🟢 sola lettura — le mosse le firma Nicola
 ---
 
 # 🛰️ Radar concorrenti — Piacenza (delivery / grocery / botteghe online)
 
-> Aggiornato **2026-07-04 15:42** (fuso Piacenza) · @intelligence · WebSearch/WebFetch live.
-> Sostituisce la versione del 29/6 (arricchita con fee reali e fonti datate).
-> Legenda: **[FATTO]** = fonte primaria/datata · **[STIMA]** = inferenza o fonte secondaria, confidenza indicata.
+> Aggiornato **2026-07-09 12:41** (fuso Piacenza) · @intelligence · WebSearch/WebFetch live.
+> Rifresca la versione del 04/07: **novità** = Foodracers (player regionale attivo a PC), Glovo Prime salito a **7,99 €** (era 5,99 €), Uber Eats **confermato fuori dall'Italia**, fee Amazon-Cortilia dettagliate.
+> Legenda: **[FATTO]** = fonte primaria/datata · **[STIMA]** = inferenza/fonte secondaria · **[non verif.]** = da confermare prima di costruirci una mossa.
 
 ---
 
 ## 🎯 TL;DR (per Nicola)
 
+**Il quadro in 2 frasi.** A Piacenza il food-delivery è presidiato da 3 player (Glovo, Just Eat, Foodracers), tutti concentrati su **ristoranti + qualche supermercato generico**; sul grocery a domicilio è appena entrato un colosso, **Amazon-Cortilia** (freschi di qualità, già attivo). Il vuoto che lasciano scoperto è sempre lo stesso: **nessuno vende le botteghe artigianali piacentine come catalogo ordinabile-pagabile-consegnabile** — l'unica iniziativa "compra locale" (CompraPiacenza) è una vetrina-contatti, non un marketplace che incassa e consegna.
+
 **3 minacce principali**
-1. **Cortilia dentro Amazon copre già Piacenza** (Emilia-Romagna, store Amazon lanciato mag-2025, espansione mag-2026): è il player col brand + logistica + traffico più forte che punta al "fresco di qualità / km-0", cioè il *nostro* terreno. **[FATTO]**
-2. **Glovo** resta l'aggregatore dominante e generico (food + spesa + parafarmacia, "<1h"), con abbonamento **Prime a 5,99 €/mese** che abitua il cliente al "consegna gratis". **[FATTO]**
-3. **GDO a domicilio matura e a basso costo percepito**: Esselunga a Casa (**6,90–7,90 €**), EasyCoop, Conad — coprono la "spesa settimanale" a prezzi standard. **[FATTO]**
+1. **Amazon-Cortilia già a Piacenza** con 4.500 freschi "alta qualità": colosso + logistica + traffico che punta al *nostro* terreno (fresco/km-0). **[FATTO]**
+2. **Glovo Prime a 7,99 €/mese** (gratis sopra 10 €): abitua il cliente al "consegna gratis" proprio sull'ordine piccolo e frequente che vorremmo presidiare. **[FATTO]**
+3. **Just Eat** con commissione bassa (~15%) e **rider dipendenti** a Piacenza: se allarga oltre i ristoranti ha già base logistica + prezzo aggressivo verso i negozi. **[FATTO]**
 
 **3 punti deboli da attaccare**
-1. **Offerta locale frammentata e artigianale**: decine di botteghe/km-0 piacentine consegnano oggi **solo via WhatsApp/telefono**, senza catalogo né checkout (Erbucchio, BioVivo, Cascina Brontola, Salumeria Montanari…). Domanda reale, zero piattaforma che le aggreghi. **[FATTO]**
-2. **Nessun player "regalo/bottega premium a domicilio" a Piacenza** (modello Cosaporto = solo grandi città). Segmento vacante. **[STIMA 70%]**
-3. **Gli aggregatori non hanno relazione col negoziante** e prendono commissioni alte (~25-30% stimato): margine e fiducia sono il nostro cuneo. **[STIMA 65%]**
+1. **Offerta locale frammentata e senza piattaforma**: botteghe/gastronomie/km-0 consegnano oggi solo via telefono/WhatsApp/e-commerce isolato (Salumeria Montanari, Caseificio Amendolara…). Domanda reale, zero aggregatore che le venda. **[FATTO]**
+2. **CompraPiacenza è solo una vetrina**: il cliente manda una "proposta d'ordine", poi si accorda fuori piattaforma — niente checkout, pagamento o consegna. Ha già radunato i negozi ma non converte. **[FATTO]**
+3. **Gli aggregatori non hanno relazione col negoziante** e alzano le soglie (Amazon gratis solo sopra 90-109 €): l'ordine piccolo e il rapporto umano sono il nostro cuneo. **[FATTO/STIMA]**
 
-**3 mosse (dettaglio in fondo):** 🟢 aggregare 3 botteghe km-0 "orfane di piattaforma" · 🟡 pacchetto "spesa del contadino piacentino" a fee zero-per-il-negozio · 🟢 posizionamento anti-Cortilia sul "vero artigiano del centro, non il box standard".
+**3 mosse (dettaglio in fondo):** 🟢 adottare 3 botteghe "orfane di piattaforma" · 🟢 ereditare la lista negozi di CompraPiacenza (bisogno già dimostrato) · 🟢 posizionamento "l'ordine piccolo e locale che Amazon scoraggia".
 
 ---
 
 ## 🗺️ Schede concorrenti
 
-### Delivery / aggregatori globali
+### 1) 🛵 Food/grocery delivery (nazionali & regionali)
 
-| Player | Categoria | Copertura Piacenza | Prezzi/fee (con fonte) | Promo/abbonamenti | Novità recenti | Punto debole sfruttabile |
-|---|---|---|---|---|---|---|
-| **Glovo** | Aggregatore multi-categoria (food, spesa, parafarmacia, fiori) | Sì, attivo (pagine città food + spesa) **[FATTO]** ¹ | Fee consegna **variabile per distanza** (non pubblica un tariffario fisso) **[FATTO]** ². Commissione al ristorante **~25-30%** **[STIMA 60%]** ³ | **Prime 5,99 €/mese** = consegna gratis (min 10 € risto / 20 € spesa); trial 30 gg; "Prime Basic" 3 consegne gratis/mese **[FATTO]** ⁴ | Nessuna novità Piacenza-specifica giu-lug 2026 | Generico, **zero relazione col negoziante**, fee alte, nessuna bottega artigiana del centro. Non "cura" il prodotto. |
-| **Just Eat** | Aggregatore food (+ grocery partner) | Sì, attivo (CAP 29121/29122); modello **rider dipendenti** attivo da **set-2023** (~21 assunzioni) **[FATTO]** ⁵ | Fee consegna **decisa dal singolo ristorante** (es. da 1,50 € a gratis) **[FATTO]** ⁶ | Promo per ristorante, variabili | Crescita storica ristoranti (+75% → ~70 partner nel 2022) **[FATTO, dato vecchio]** ⁵ | Solo ristorazione/asporto; **niente botteghe alimentari artigiane né spesa fresca del contadino**. |
-| **Deliveroo / Uber Eats** | Aggregatori food | **Non confermati attivi a Piacenza** nel 2025-26 (nessuna fonte recente) **[STIMA — da confermare]** ⁷ | n/d | n/d | n/d | Se assenti/deboli, meno pressione sul food; ma non è il nostro campo. |
-
-### GDO / supermercati a domicilio
-
-| Player | Copertura Piacenza | Prezzi/fee (con fonte) | Ordine minimo | Punto debole sfruttabile |
+| Player | Copertura Piacenza | Prezzi/fee (fonte) | Novità/promo | Punto debole sfruttabile |
 |---|---|---|---|---|
-| **Esselunga a Casa** | Sì (PC nelle 22 province coperte) **[FATTO]** ⁸ | Consegna **7,90 €** (<110 € spesa) / **6,90 €** (≥110 €); over-70 **3,45 €**; disabili gratis **[FATTO]** ⁸ | n/d (assortimento ~12.000 art.) | Supermercato standard, **niente artigiano/DOP/bottega**, slot rigidi. |
-| **EasyCoop (Coop)** | Sì, 6 gg/sett **[FATTO]** ⁹ | Contributo consegna riducibile/azzerabile con promo/abbonamento **[FATTO]** ⁹ | **50 €** **[FATTO]** ⁹ | GDO standardizzata; **soglia 50 € alta** per l'acquisto d'impulso locale. |
-| **Conad Spesa a Casa** | Sì (Spesa a Casa + Ordina e Ritira) **[FATTO]** ¹⁰ | n/d | n/d | GDO, nessuna bottega. |
-| **Cortilia (su Amazon + app)** | **Sì** — Emilia-Romagna incl. Piacenza; store Amazon lanciato mag-2025, espansione mag-2026 **[FATTO]** ¹¹ | n/d (spesso 15 € sconto promo Amazon) **[FATTO parziale]** ¹¹ | n/d | **La minaccia più diretta al nostro claim "fresco/km-0"**: ha brand + logistica + traffico Amazon. MA: catena nazionale, box standardizzato, **non "la bottega di Piacenza" né relazione col negoziante locale**. |
+| **Glovo** | ✅ Sì — food, spesa, parafarmacia, fiori, panifici **[FATTO]** | Consegna ~+30% sul prezzo del locale; **Glovo Prime 7,99 €/mese** = gratis sopra 10 € da locali selezionati **[FATTO]**. Commissione ai ristoranti citata **~23%** **[STIMA]** | Prime spinto su food+spesa | Assortimento generico (catene, non botteghe artigiane); **zero relazione col negoziante**; è un tubo di consegna, non "la città online" |
+| **Just Eat** | ✅ Sì — 91 tipi di cucina, ~70 ristoranti partner (2022, +75% YoY) **[FATTO]** | **Commissione ristoranti ~15%** (più bassa di Glovo) **[FATTO]** | **Rider dipendenti** attivati a PC (9ª città ER) | Solo ristorazione: niente botteghe/artigianato/spesa fresca; brand globale senza identità piacentina; il negozio è un listino, non un partner |
+| **Foodracers** (regionale) | ✅ Sì, radicato — **>15.000 consegne nel 1° anno**, partner reali (Eataly, trattorie, pub) **[FATTO]** | Fee **[non verif.]** (non pubblicata online) | Presenza locale storica, accordi con locali rinomati | Solo ristoranti; nessuna verticale spesa/botteghe; brand piccolo, sotto pressione dei big |
+| **Deliveroo** | ⚠️ Attivo in Italia (partnership Esselunga) ma copertura **PC non verif.** | [non verif.] | — | Se assente da PC, oggi non è minaccia diretta |
+| **Uber Eats** | ❌ **Uscito dall'Italia** (stop food dal 15/07/2023) **[FATTO]** | — | — | Non è un concorrente: mercato che ha lasciato |
 
-### Locale / botteghe piacentine (già online o consegna diretta)
+### 2) 🛒 GDO / grocery con consegna o ritiro
 
-| Realtà | Cosa fa | Copertura | Come vende | Punto rilevante per MyCity |
-|---|---|---|---|---|
-| **Botteghe km-0 / contadini** (Erbucchio, BioVivo, Cascina Brontola, Azienda Monastero, Mamma che Verdura, Patrizia Montanari…) | Verdura di stagione, uova bio, formaggi, conserve, box | Piacenza città + comuni limitrofi; giorni fissi (es. giovedì) **[FATTO]** ¹² | **WhatsApp/telefono/Instagram**, spesso **consegna gratis**, nessun catalogo online né checkout **[FATTO]** ¹² | **GAP D'ORO**: domanda reale + offerta ricca **senza piattaforma che le aggreghi**. Qui MyCity non compete, *organizza*. |
-| **Salumeria Montanari, Piccolo Forno, Panetteria Groppi, Caseificio Amendolara, Salumaio Valla…** | Gastronomia, pane/focaccia, salumi, formaggi tipici | Piacenza | Consegna diretta / ordini telefonici; qualcuno "ordina online" grezzo **[FATTO]** ¹³ | Botteghe di fiducia già disposte a consegnare → **prospect di catalogo pronti**. |
-| **CompraPiacenza.it** | Vetrina digitale (CNA/Confcommercio/Comune) | Piacenza | Vetrina, **non transazionale** | **Dormiente** (nessun aggiornamento 2026 trovato) **[STIMA 60%]**. Se ferma → il "digitale locale transazionale" resta scoperto. |
-| **Iniziative Comune/Confcommercio** (#Comprovicino, "Pronto Spesa Comune") | Elenchi negozi che consegnano; assistenza anziani | Piacenza | Liste/telefono, nate in emergenza 2020 | Non sono una piattaforma di vendita: **infrastruttura assente**, è un elenco. Possibile alleato (relazioni-istituzionali), non concorrente. |
+| Player | Copertura Piacenza | Prezzi/fee (fonte) | Punto debole sfruttabile |
+|---|---|---|---|
+| **Amazon-Cortilia** | ✅ **Già attivo** (PC tra le città operative, comunicato Amazon 12/05/2026) **[FATTO]** | **Gratis sopra 109 €**; 6,99 € sopra 89 €; 8,99 € tra 49–88,99 €; Prime gratis sopra 90 €; **no Prime obbligatorio**; **15 € sconto 1° ordine**; 4.500 freschi "alta qualità" **[FATTO]** | Soglie alte (90–109 € per gratis) → **taglia fuori l'ordine piccolo/quotidiano**; catalogo di filiera Cortilia, **non le botteghe di Piacenza**; nessun rapporto umano col negoziante |
+| **Conad (Spesa a Casa)** | ✅ Sì — domicilio + Ordina e Ritira (8 punti area PC) **[FATTO]** | Costo/minimo **[non verif.]** (solo al checkout; num. 800 740 495) | Spesa generica di supermercato; nessun prodotto artigianale; esperienza impersonale |
+| **Esselunga a Casa** | ⚠️ Attiva in ER, **copertura PC città da verif. al CAP** **[non verif.]** | [non verif.] | Catena, non locale; slot rigidi |
+| **Carrefour / Coop / Il Gigante** | Carrefour [non verif.] · **Coop: NO** (PC non nelle province coperte) **[FATTO]** · Il Gigante [non verif.] | [non verif.] | — |
+| **Bennet** | ⚠️ Bennet Drive esiste ma disponibilità PC [non verif.]; è **click&collect, non consegna** | [non verif.] | Solo ritiro, non consegna a casa |
+
+### 3) 🏛️ Marketplace / iniziative locali
+
+| Nome | Cosa è davvero | Punto debole sfruttabile |
+|---|---|---|
+| **CompraPiacenza.it** (Comune + CCIAA + CNA + Confesercenti + Confcommercio) | **Vetrina-contatti, NON marketplace**: il cliente manda una "proposta d'ordine", poi si accorda col negoziante **fuori piattaforma** per pagamento e consegna. Gratis. Nato 2020 (Covid), **nessuna novità 2024–25** nelle fonti (bassa vitalità) **[FATTO]** | **Buco enorme**: niente checkout, pagamento online, logistica. È un elenco. MyCity fa ciò che loro non fanno — **ordinare, pagare, ricevere davvero** — e la lista negozi è già aggregata → prospect pronti |
+
+### 4) 🧀 Botteghe piacentine che vendono online da sole
+
+| Realtà | Come vende | Rilevanza per MyCity |
+|---|---|---|
+| **Salumeria Montanari (Eugenio)** | E-commerce proprio (salumi DOP, culatello, salame piacentino) + consegna propria **[FATTO]** | Fa da sola su spedizione/regalo nazionale; **manca il quotidiano cittadino**. MyCity porta traffico di città + consegna locale che una bottega singola non regge |
+| **Gastronomie/salumerie/rosticcerie/caseifici** (Caseificio Amendolara, botteghe Via Roma…) | Consegna "fai-da-te" via telefono, nessun e-commerce strutturato **[FATTO]** | Frammentate, senza tecnologia né visibilità: **il target perfetto** — vetrina + checkout + rider senza investimento loro |
+
+> **Verificato:** singole botteghe con delivery proprio esistono ma sono **isolate**. Nessuna aggregazione ordinabile → il buco d'offerta è confermato: MyCity qui **non compete, organizza**.
 
 ---
 
-## 📈 Contesto di mercato (trend 2025-2026, rilevante per una città media)
+## 🟢 Dove MyCity vince (leve concrete sui buchi trovati)
 
-- **e-commerce Food & Grocery Italia +8,5% 2025** vs 2024 (sopra la media prodotti +6%). **[FATTO]** ¹⁴
-- **Quick-commerce** cresciuto da 69 M€ (2021) a >300 M€ (2024), atteso +26% ordini e infrastruttura +50% nel 2025. **[FATTO]** ¹⁴
-- **Glovo** dichiara copertura >800 città e penetrazione ~65% popolazione, spinge sull'espansione. **[FATTO]** ¹⁴
-- **Just Eat** ha quasi raddoppiato le città italiane 2023→2024 (~50 città). **[FATTO]** ¹⁴
-- **Lettura:** la torta cresce a doppia cifra e i grandi puntano proprio alle città medie come Piacenza. Non possiamo ignorarli, ma **il fresco-artigiano-locale è la fetta che loro standardizzano e noi possiamo curare**.
+1. **L'unico marketplace delle botteghe artigiane locali** — Glovo/Just Eat = catene e ristoranti; Amazon-Cortilia = filiera generica; CompraPiacenza = solo vetrina. MyCity è l'unico che vende *il salame piacentino della bottega X* ordinabile-pagabile-consegnabile.
+2. **L'ordine piccolo e quotidiano** — Amazon (gratis sopra 90-109 €) e la GDO puntano alla spesa grande. MyCity presidia l'ordine da 10-30 € (pane, gastronomia, formaggi) che i big scoraggiano.
+3. **Il rapporto col negoziante** — i nazionali trattano il negozio come un listino; MyCity è "done-for-you" col negoziante come partner: moat relazionale che Amazon/Glovo non replicano da remoto.
+4. **Ereditare i negozi di CompraPiacenza** — hanno già radunato i commercianti ma non convertono (niente checkout). MyCity è l'anello mancante: prospect-list già aggregata, bisogno dimostrato.
+5. **Consegna fresca serale/locale** — nessun competitor presidia chiaramente la gastronomia fresca di bottega in fascia serale con rapporto diretto (**da confermare sui nostri dati**).
+
+> ⚠️ **Candore (verifica avversariale):** *non* competiamo su prezzo puro né su velocità (<1h) — lì Glovo/Amazon vincono. Il cuneo regge **solo** con qualità del catalogo artigiano + affidabilità della consegna. Se scendiamo su quel terreno, perdiamo.
 
 ---
 
-## 🟢 Dove MyCity vince (leve differenzianti)
+## ⚠️ Minacce da tenere d'occhio
 
-1. **Iperlocale vero**: la bottega di *Piacenza*, non il box nazionale né lo scaffale GDO. Cortilia/Esselunga non hanno il salumiere e il fornaio del centro storico.
-2. **Botteghe vere aggregate in un solo posto**: oggi il cliente deve conoscere 10 numeri WhatsApp diversi. MyCity = un catalogo, un checkout, una consegna.
-3. **Fiducia + relazione col negoziante**: gli aggregatori sono anonimi e prendono ~25-30%; noi diamo margine e volto al negozio.
-4. **Margine per il negozio**: il nostro modello può battere Glovo sulla fee al merchant → argomento di vendita diretto verso le botteghe.
-5. **Causa civica "Il Turno" / "Piacenza non è in vendita"**: nessun competitor nazionale può rivendicarla.
-
-> ⚠️ **Candore (verifica avversariale):** *non* competiamo su prezzo puro né su velocità (<1h) — lì Glovo/Esselunga vincono. Il nostro cuneo regge **solo** se manteniamo qualità del catalogo artigiano + affidabilità della consegna. Se scendiamo su quel terreno, perdiamo.
+1. **Amazon-Cortilia già a Piacenza** coi freschi "di qualità": la più seria. Da monitorare se scende sull'ordine piccolo o aggiunge produttori locali.
+2. **Glovo Prime (7,99 €/mese, gratis sopra 10 €)**: abbassa la barriera all'ordine frequente e piccolo, la fascia che vorremmo presidiare. Se Glovo firma botteghe locali, invade il nostro spazio.
+3. **Just Eat (~15% commissione + rider dipendenti)**: se si allarga oltre i ristoranti ha già base logistica e prezzo aggressivo verso i negozi.
 
 ---
 
 ## 🚀 3 mosse consigliate (prossime 2 settimane)
 
-1. 🟢 **"Adotta 3 botteghe orfane di piattaforma"** — @vendite/@onboarding contattano 3 realtà km-0/gastronomie che oggi consegnano solo via WhatsApp (lista sopra, fonte ¹²/¹³) e le mettono a catalogo done-for-you. *Cosa cambia:* trasformiamo domanda reale già esistente in ordini su MyCity. *Impatto stimato:* +3 negozi attivi, base per i primi ordini ricorrenti. *Prima mossa:* short-list + pitch "zero fee di ingresso, ti porto i clienti che già ti scrivono su WhatsApp".
-2. 🟡 **Pacchetto "Spesa del contadino piacentino"** — @growth+@content: box curato aggregando 2-3 produttori locali, consegna programmata (giorno fisso, come già fanno loro) → intercetta chi oggi usa EasyCoop (min 50 €) o Cortilia ma vuole il *vero* locale. *Da firmare* perché tocca pricing/margine.
-3. 🟢 **Posizionamento anti-Cortilia** — @marketing prepara l'angolo "Non un box qualsiasi: la bottega di Piacenza, con nome e volto" da usare quando Cortilia/Amazon spingono in zona. *Cosa cambia:* difendiamo il claim "fresco/km-0" prima che lo occupi un nazionale.
+> Coerenza col piano: l'onboarding delle 6 botteghe food è al **13/7** e Nicola ci va di persona ([[piano-nicola-inserimento-negozi-dopo-9lug]]). Queste mosse **preparano** quel giro, non aprono traffico verso il marketplace prima che ci sia un negozio evadibile.
+
+1. 🟢 **"Adotta 3 botteghe orfane di piattaforma"** — @vendite/@onboarding preparano lo short-list + pitch "zero fee d'ingresso, ti porto i clienti che già ti scrivono su WhatsApp" per le realtà che oggi consegnano solo a mano. *Cosa cambia:* trasformiamo domanda reale già esistente in ordini su MyCity. *Se va bene:* aggancio alla visita del 13/7.
+2. 🟢 **Ereditare CompraPiacenza** — @relazioni-istituzionali + @vendite usano la lista negozi già aggregata (bisogno dimostrato, offerta a metà) come bacino di prospect: "loro ti mostrano, noi ti facciamo incassare e consegnare".
+3. 🟢 **Posizionamento anti-Amazon/Cortilia** — @marketing prepara l'angolo "L'ordine piccolo e locale che il colosso scoraggia: la bottega di Piacenza, con nome e volto". *Cosa cambia:* difendiamo il claim fresco/km-0 e la fascia sotto-90 € prima che la occupi un nazionale.
 
 > Azioni 🟡/🔴 → si accodano in [[AZIONI-IN-ATTESA]] e le firma Nicola.
 
 ---
 
-## 📎 Fonti (consultate 2026-07-04)
+## 🔬 Da verificare prima di costruirci una mossa (candore)
+Restano **[non verif.]**: fee di **Foodracers**; costo/minimo **Conad** a PC; copertura PC di **Deliveroo/Esselunga/Carrefour/Il Gigante/Bennet**; la **data esatta** di avvio Amazon-Cortilia a Piacenza (il comunicato mag-2026 la dà "già attiva" senza data d'esordio). Prossimo passo ad alto valore: **incrociare questi buchi coi nostri dati Supabase** (categorie negozi attivi, fasce orarie ordini) via @analista, per dimensionare quale buco vale di più.
 
-1. Glovo Piacenza — glovoapp.com/it/it/piacenza (food) e /categories/spesa_4
-2. Glovo — costo consegna variabile per distanza: glovoapp.com/docs/it/faq/
-3. Commissione ~25-30% al ristorante — movylo.com/it/come-funziona-glovo (fonte secondaria → STIMA)
-4. Glovo Prime 5,99 €/mese — glovoapp.com/it/en/prime/
-5. Just Eat Piacenza rider dipendenti (~21, set-2023; +75% ristoranti→70 nel 2022) — usarci.it + newsroom.justeattakeaway.com
-6. Just Eat costo consegna deciso dal ristorante — justeat.it/area/29121-piacenza + assistenza Just Eat
-7. Deliveroo/Uber Eats a Piacenza — nessuna fonte recente (ubereats.com/it/location, deliveroo.it) → da confermare
-8. Esselunga a Casa 6,90/7,90 €, over-70 3,45 €, 22 province incl. Piacenza — tuttoesselunga.com/esselunga-a-casa + gdoweek.it
-9. EasyCoop Piacenza, min 50 €, 6 gg — ilpiacenza.it (EasyCoop) + easycoop.com/l/piacenza
-10. Conad Spesa a Casa Piacenza — spesaonline.conad.it/aree-coperte-dal-servizio/piacenza
-11. Cortilia su Amazon copre Piacenza (mag-2025 / espansione mag-2026) — press.aboutamazon.com/it/2026/5 + technoretail.it + tuttotech.net
-12. Botteghe km-0 con consegna diretta Piacenza — considerovalore.it/spesa-a-domicilio-piacenza
-13. Salumerie/gastronomie/forni Piacenza — salumeriamontanari.it + ilpiacenza.it (attività che consegnano)
-14. Trend Food&Grocery/quick-commerce Italia 2025-26 — consorzionetcomm.it + mark-up.it + economyup.it
+---
+
+## 📎 Fonti (consultate 2026-07-09)
+- **Glovo** Piacenza — glovoapp.com/it/it/piacenza · Prime 7,99 €: glovoapp.com/en/it/glovo-prime + gdoweek.it + foodcommunity.it
+- **Just Eat** Piacenza (rider dipendenti, ~15%, 91 cucine) — justeat.it/domicilio/piacenza + usarci.it
+- **Uber Eats** uscita Italia 15/07/2023 — fanpage.it + milanofinanza.it
+- **Deliveroo** Italia attiva (partnership Esselunga) — en.wikipedia.org/wiki/Deliveroo
+- **Foodracers** Piacenza (>15.000 ordini 1° anno) — foodracers.com/it/cities/piacenza + ilpiacenza.it
+- **Amazon-Cortilia** (PC attiva, fee, 15 € sconto) — press.aboutamazon.com/it/2026/5 (comunicato 12/05/2026)
+- **Conad Spesa a Casa** Piacenza — spesaonline.conad.it/aree-coperte-dal-servizio/piacenza
+- **Esselunga a Casa** — esselunga.it/it-it/servizi-utili/consegna-a-domicilio.html
+- **Bennet Drive** — bennet.com/Servizio_Bennet_Drive
+- **CompraPiacenza** — comprapiacenza.it + piacenza.cna.it/comprapiacenza-vetrina-digitale
+- **Salumeria Montanari** — salumeriamontanari.it
