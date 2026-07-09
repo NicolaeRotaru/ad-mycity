@@ -31,6 +31,31 @@ process.stdout.write([s.modello, s.tier, s.collegato ? "1" : "0"].join("|"));
 NODE
 }
 
+# CORSIA VELOCE CHAT — la chiacchiera semplice va su un modello VELOCE (Sonnet), il lavoro
+# difficile resta su Opus. Serve a rendere la chat del Pannello reattiva senza perdere qualità
+# sui compiti che ragionano. L'ESCALATION è automatica: chat_e_complesso() fiuta i segnali di
+# «compito difficile» (analisi, numeri, soldi, decisioni, pipeline pesanti, messaggi lunghi) →
+# in quel caso NON usa il veloce, resta sul premium. Nel dubbio, sale su Opus (mai il contrario).
+CHAT_MODELLO_VELOCE="${CHAT_MODELLO_VELOCE:-claude-sonnet-4-6}"
+
+# Ritorna 0 (=complesso → premium/Opus) se la richiesta chat mostra segnali di lavoro pesante,
+# 1 (=semplice → modello veloce) altrimenti. Volutamente PRUDENTE: al minimo dubbio → complesso.
+chat_e_complesso() {
+  local q; q="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
+  # Messaggio lungo = probabile ragionamento vero.
+  [ "${#q}" -gt 280 ] && return 0
+  # Parole-spia di compiti che ragionano o toccano soldi/decisioni/pipeline pesanti.
+  case "$q" in
+    *analiz*|*analisi*|*radiograf*|*audit*|*proiezion*|*forecast*|*prevision*|*strateg*|*scenario*|\
+    *budget*|*spend*|*€*|*euro*|*margin*|*prezz*|*commission*|*fattur*|*payout*|*incass*|*bilancio*|\
+    *campagn*|*ads*|*contenuti pro*|*modalità mondiale*|*decid*|*decision*|*valuta*|*conviene*|\
+    *piano*|*negozi*|*onboard*|*sblocca*|*cambia il sito*|*modifica*|*design*|*bug*|*legale*|*contratt*|\
+    *report*|*kpi*|*quanti*|*quanto*|*perché*|*perche*)
+      return 0 ;;
+  esac
+  return 1
+}
+
 WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
 export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
 
@@ -446,6 +471,12 @@ $richiesta"
       echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
       read -r -a _econ_cmd <<< "$AI_ECON_CMD"
       out="$(timeout --kill-after=30s "$to" "${_econ_cmd[@]}" "$prompt" 2>&1)"; rc=$?
+    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ] && [ -z "${CERVELLO_MODELLO:-}" ] && ! chat_e_complesso "$richiesta"; then
+      # CORSIA VELOCE: chiacchiera semplice → modello veloce (Sonnet). L'escalation è già decisa:
+      # chat_e_complesso ha detto «non è pesante», quindi qui usiamo il veloce. I compiti difficili
+      # (che chat_e_complesso intercetta) cadono nel ramo premium sotto e restano su Opus.
+      echo "[$(ts)] Lavoro $id (chat): corsia veloce → $CHAT_MODELLO_VELOCE."
+      out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO_VELOCE" "$prompt" 2>&1)"; rc=$?
     else
       [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router → ${modello_scelto:-?} ma adattatore economico non collegato → fallback premium." >&2
       out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
