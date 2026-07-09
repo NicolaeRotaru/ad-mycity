@@ -69,6 +69,12 @@ reload_worker_sicuro() {
   local motivo="$1"
   if bash -n "$WORKER_SCRIPT" 2>/dev/null; then
     echo "[$(ts)] $motivo — worker.sh valido, ricarico il processo." >&2
+    # FIX loop-di-ricarica (worker-outage 2026-07-09, 2° episodio): allinea l'mtime "caricato" alla
+    # versione che stiamo per eseguire, PRIMA dell'exec. Senza questo, il processo ricaricato eredita
+    # il vecchio WORKER_LOADED_MTIME, vede il file su disco "più nuovo" e si ri-ricarica all'infinito
+    # → il loop non raggiunge mai battito_worker → heartbeat congelato, worker bloccato. Fu proprio il
+    # merge del fix a cambiare worker.sh e innescare questo difetto preesistente.
+    export WORKER_LOADED_MTIME="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)"
     exec bash "$WORKER_SCRIPT"
   fi
   local errore; errore="$(bash -n "$WORKER_SCRIPT" 2>&1 | head -3 | tr '\n' ' ')"
