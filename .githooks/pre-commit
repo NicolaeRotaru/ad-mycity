@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# 🔒 pre-commit — perimetro segreti ATTIVO su OGNI commit (non solo nel giro).
+# 🔒 pre-commit — due cancelli su OGNI commit (non solo nel giro):
+#   1) 🩺 SINTASSI shell: nessun .sh/.bash rotto entra nella storia (worker-outage 2026-07-09).
+#   2) 🔑 SEGRETI: nessun token reale entra nella storia (AR-004).
 #
-# Chiude la causa radice di AR-004: il perimetro segreti era difeso solo da una regola .gitignore
-# fragile (nome esatto) e da uno scan che girava solo dentro `giro.sh`. Un commit manuale — di Nicola,
-# di un senior o di un tool — poteva ancora far entrare un token nella storia. Questo hook fa passare
-# OGNI commit dallo scan-segreti sui soli file staged: se trova un segreto reale, BLOCCA il commit.
+# Ordine voluto: la sintassi gira PER PRIMA e serve solo `bash` — così vale anche sulle macchine
+# senza node, dove lo scan-segreti si limita ad avvisare. Un cancello che si spegne se manca uno
+# strumento non è un cancello.
 #
 # Installazione: `git config core.hooksPath .githooks` (versionato, lo fa cervello/installa-hooks.sh
 # e il setup del VPS). Bypass di emergenza consapevole: `git commit --no-verify` (sconsigliato).
@@ -15,8 +16,40 @@ set -u
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 SCAN="$ROOT/cervello/scan-segreti.mjs"
 
-# Senza node o senza lo scanner non blocchiamo il lavoro: avvisiamo e lasciamo passare
-# (il giro fa comunque da seconda rete). Meglio non rompere i commit su una macchina senza node.
+# ─────────────────────────────────────────────────────────────────────────────
+# 1) 🩺 GATE DI SINTASSI SHELL — la causa radice del worker-outage del 2026-07-09 fu un worker.sh con
+#    un errore di sintassi (case *contenuti pro* con spazio non quotato) committato e spinto su main:
+#    sul VPS bash non riusciva più a leggerlo e il worker moriva a ogni avvio. Difesa: ogni .sh/.bash
+#    staged DEVE passare `bash -n` (solo sintassi, non esegue nulla) PRIMA di entrare nella storia.
+if command -v bash >/dev/null 2>&1; then
+  _sh_rotti=""
+  while IFS= read -r f; do
+    case "$f" in
+      *.sh|*.bash) ;;
+      *) continue ;;
+    esac
+    # Controlla il CONTENUTO STAGED (git show :file), cioè ciò che verrà davvero committato.
+    if ! git show ":$f" 2>/dev/null | bash -n 2>/dev/null; then
+      _sh_rotti="$_sh_rotti $f"
+    fi
+  done < <(git diff --cached --name-only --diff-filter=ACM)
+  if [ -n "$_sh_rotti" ]; then
+    echo "" >&2
+    echo "⛔ COMMIT BLOCCATO — errore di SINTASSI shell (bash -n) in:$_sh_rotti" >&2
+    for f in $_sh_rotti; do
+      echo "  → $f:" >&2
+      git show ":$f" 2>/dev/null | bash -n 2>&1 | head -3 | sed 's/^/     /' >&2 || true
+    done
+    echo "" >&2
+    echo "Correggi la sintassi e ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+    exit 1
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 2) 🔑 GATE SEGRETI (AR-004) — nessun token reale nella storia. Senza node o senza lo scanner non
+#    blocchiamo il lavoro: avvisiamo e lasciamo passare (il giro fa da seconda rete). Meglio non
+#    rompere i commit su una macchina senza node.
 if ! command -v node >/dev/null 2>&1; then
   echo "⚠️  pre-commit: node non trovato — scan-segreti saltato (il giro resta come seconda rete)." >&2
   exit 0
