@@ -799,11 +799,42 @@ export default function Dashboard() {
     if (convIdRef.current === targetConvId || !pendingPerConv(convIdRef.current)) setLoading(false);
   }
 
+  /** STREAMING: mentre il lavoro è "in_corso", il worker scrive la risposta parziale in risultato.
+   *  Qui la versiamo dentro la bolla "sto pensando" (che resta pending) così Nicola vede il testo
+   *  crescere parola-per-parola. Niente persistenza: è transitorio, la versione finale la salva
+   *  applicaRispostaChat quando il lavoro è "fatto". */
+  function aggiornaPendingParziale(targetConvId: string, parziale: string) {
+    if (!parziale) return;
+    const rimpiazza = (msgs: Msg[]): Msg[] => {
+      const i = msgs.findIndex((x) => x.pending);
+      if (i === -1 || msgs[i].content === parziale) return msgs;
+      const copia = [...msgs];
+      copia[i] = { ...msgs[i], content: parziale };
+      return copia;
+    };
+    if (convIdRef.current === targetConvId) {
+      setMessages((m) => rimpiazza(m));
+      return;
+    }
+    setConversazioni((list) => {
+      const idx = list.findIndex((c) => c.id === targetConvId);
+      if (idx === -1) return list;
+      const nuovi = rimpiazza(list[idx].messaggi);
+      if (nuovi === list[idx].messaggi) return list;
+      return list.map((x, k) => (k === idx ? { ...x, messaggi: nuovi } : x));
+    });
+  }
+
   /** Risolve TUTTI i lavori chat pendenti che risultano finiti (anche di altre conversazioni). */
   function risolviLavoriPendenti(lavoriLista: Lavoro[]) {
     for (const pend of [...pendingLavoroChatRef.current.values()]) {
       const l = lavoriLista.find((x) => x.id === pend.id);
-      if (!l || (l.stato !== "fatto" && l.stato !== "errore")) continue;
+      if (!l) continue;
+      if (l.stato !== "fatto" && l.stato !== "errore") {
+        // ancora in lavorazione: se c'è già del testo parziale, mostralo crescere.
+        if (l.stato === "in_corso" && l.risultato) aggiornaPendingParziale(pend.targetConvId, l.risultato);
+        continue;
+      }
       const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : "(risposta vuota)");
       applicaRispostaChat(pend.id, testo, pend.targetConvId);
     }
@@ -1882,9 +1913,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
-                      <Loader2 size={14} className="animate-spin" /> sto pensando…
-                    </div>
+                    m.content ? (
+                      <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
+                        <Markdown>{m.content}</Markdown>
+                        <span className="ml-0.5 animate-pulse">▍</span>
+                      </div>
+                    ) : (
+                      <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
+                        <Loader2 size={14} className="animate-spin" /> sto pensando…
+                      </div>
+                    )
                   ) : (
                     <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
@@ -2160,9 +2198,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
-                      <Loader2 size={13} className="animate-spin" /> sto pensando…
-                    </div>
+                    m.content ? (
+                      <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
+                        <Markdown>{m.content}</Markdown>
+                        <span className="ml-0.5 animate-pulse">▍</span>
+                      </div>
+                    ) : (
+                      <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
+                        <Loader2 size={13} className="animate-spin" /> sto pensando…
+                      </div>
+                    )
                   ) : (
                     <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
