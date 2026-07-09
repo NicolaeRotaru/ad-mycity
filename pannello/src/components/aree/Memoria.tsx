@@ -6,6 +6,7 @@ import MemoriaViva from "@/components/MemoriaViva";
 import QuaderniSenior from "@/components/QuaderniSenior";
 import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
+import { pulisciTitolo } from "@/lib/azioni-attesa";
 import Aggiornato from "@/components/Aggiornato";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
@@ -135,7 +136,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
                   <div className="space-y-2">
                     {briefing.opportunita.map((o, i) => (
                       <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 hover:bg-brand-50/40 transition">
-                        <div className="text-sm font-medium">{o.titolo}</div>
+                        <div className="text-sm font-medium">{pulisciTitolo(o.titolo)}</div>
                         <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
                         <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
                           <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
