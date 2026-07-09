@@ -36,6 +36,14 @@ if [ "$(id -un)" = "root" ]; then
   rc=0
   WATCH_MAIN_FROM_ROOT=1 sudo -u "$APP_USER" -H env WATCH_MAIN_FROM_ROOT=1 bash "$REPO/cervello/vps/watch-main.sh" "$@" || rc=$?
   if [ "$rc" -eq 2 ]; then
+    # GATE DI SINTASSI PRIMA DEL RIAVVIO (worker-outage 2026-07-09): non riavviare MAI il worker in
+    # una versione di worker.sh che non parsa — riavvieremmo un cervello morto (crash-loop). Se è
+    # rotta, NON tocchiamo il worker (resta su la versione sana già in esecuzione) e lo diciamo forte.
+    if ! bash -n "$REPO/cervello/worker.sh" 2>/dev/null; then
+      echo "[$(ts)] ⛔ NON riavvio: worker.sh appena allineato NON parsa. Tengo su la versione in esecuzione." >&2
+      bash -n "$REPO/cervello/worker.sh" 2>&1 | head -3 >&2 || true
+      exit 1
+    fi
     echo "[$(ts)] ▶ Riavvio mycity-worker..."
     systemctl restart mycity-worker
     sleep 2

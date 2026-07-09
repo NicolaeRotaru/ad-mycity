@@ -59,13 +59,36 @@ chat_e_complesso() {
 WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
 export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
 
+# Ricarica SICURA del worker (worker-outage 2026-07-09). PRIMA di sostituire il processo con la
+# versione su disco, verifica che quella versione PARSI (bash -n). Se è rotta (es. un errore di
+# sintassi come *contenuti pro* senza virgolette) NON facciamo exec: teniamo in vita il processo
+# BUONO già in RAM, alziamo un allarme visibile nel Pannello, e non ritentiamo a ogni giro (finché
+# il file non cambia di nuovo). Così un worker.sh rotto non può PIÙ spegnere il cervello: al massimo
+# resta in esecuzione la versione precedente, sana, e la chat continua a rispondere.
+reload_worker_sicuro() {
+  local motivo="$1"
+  if bash -n "$WORKER_SCRIPT" 2>/dev/null; then
+    echo "[$(ts)] $motivo — worker.sh valido, ricarico il processo." >&2
+    exec bash "$WORKER_SCRIPT"
+  fi
+  local errore; errore="$(bash -n "$WORKER_SCRIPT" 2>&1 | head -3 | tr '\n' ' ')"
+  echo "[$(ts)] ⛔ RELOAD RIFIUTATO: worker.sh su disco NON parsa ($errore). Resto sulla versione sana in RAM." >&2
+  # Non ritentare a ogni ciclo: aggiorna l'mtime visto così riproviamo solo se il file cambia ancora.
+  WORKER_LOADED_MTIME="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo "$WORKER_LOADED_MTIME")"
+  # Allarme nel Pannello (best-effort): Nicola vede subito che un fix è arrivato rotto.
+  curl -fsS -X POST \
+    "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:reload-rifiutato\",\"valore\":\"worker.sh rotto su disco — resto sulla versione sana · $(date '+%Y-%m-%d %H:%M')\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+}
+
 # Se giro.sh ha allineato il codice da main, worker.sh su disco è più nuovo del processo in RAM → ricarica.
 maybe_reload_worker() {
   local now_mtime
   now_mtime="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)"
   if [ "$now_mtime" != "$WORKER_LOADED_MTIME" ]; then
-    echo "[$(ts)] worker.sh aggiornato su disco — ricarico il processo (fix da main attivi)." >&2
-    exec bash "$WORKER_SCRIPT"
+    reload_worker_sicuro "worker.sh aggiornato su disco (fix da main)"
   fi
 }
 
@@ -81,7 +104,7 @@ maybe_riavvia_da_pannello() {
       -H "Prefer: resolution=merge-duplicates,return=minimal" \
       -d "{\"chiave\":\"worker:riavvia\",\"valore\":\"off\",\"updated_at\":\"$(date -Iseconds)\"}" \
       >/dev/null 2>&1 || true
-    exec bash "$WORKER_SCRIPT"
+    reload_worker_sicuro "riavvio richiesto dal Pannello"
   fi
 }
 
