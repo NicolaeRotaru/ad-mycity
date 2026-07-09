@@ -939,8 +939,13 @@ export default function Dashboard() {
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
-    const lavoriConv = lavori.filter((l) => (l.gruppo_id || mappa[l.id] || "") === id);
-    const daLavori = lavoriConv.length ? (messaggiDaGruppo(lavoriConv) as Msg[]) : [];
+    // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
+    // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
+    // la lista più lunga, mostrava l'intera conversazione capovolta. raggruppaLavori ordina i lavori del
+    // gruppo per created_at ASC (ed esclude i job interni "metabolizza"), come già fa apriChatDaGruppo →
+    // thread in ordine cronologico.
+    const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
+    const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     setMessages(msgs);
     setConvId(c.id);
