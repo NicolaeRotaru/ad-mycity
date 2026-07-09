@@ -7,14 +7,6 @@
       "difetti_aperti": 3,
       "difetti_chiusi": 0,
       "tipo": "sonda",
-      "nota": "Passaggio 14:24: REGRESSIONE SENSORI (Supabase MCP + WebFetch non autorizzati in sessione → 1 solo sensore, dati non freschi). Conferma difetto 'salute-sensori-dati' (non chiuso). Voto invariato (difetto già contato). Nuova lezione L-2026-0629-03 su giri ridondanti a sensori ciechi, applicata subito."
-    },
-    {
-      "data": "2026-06-29",
-      "voto_salute": 76,
-      "difetti_aperti": 3,
-      "difetti_chiusi": 0,
-      "tipo": "sonda",
       "nota": "Passaggio 16:24 (5° del giorno): cecità MCP persistente (Supabase+WebFetch ancora non autorizzati). Voto invariato. Positivo: sentinella 🔴 stato-piattaforme chiusa OK (Supabase+Stripe operativi) → infrastruttura non a rischio, stallo 100% decisionale. Nuova lezione L-2026-0629-04 (check status a basso costo sempre utile). 4 invarianti del volano ok."
     },
     {
@@ -944,6 +936,20 @@
       "bloccanti_umani": 3,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (6h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 0 aperti-davvero · 6 in attesa merge · 3 bloccanti umani"
+    },
+    {
+      "data": "2026-07-09",
+      "voto_salute": 0,
+      "voto_provvisorio": 55,
+      "voto_pieno": 0,
+      "firma": "",
+      "difetti_aperti": 6,
+      "difetti_chiusi": 34,
+      "pending_merge": 6,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 3,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (8h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 0 aperti-davvero · 6 in attesa merge · 3 bloccanti umani"
     }
   ]
 }
