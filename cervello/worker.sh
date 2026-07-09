@@ -241,6 +241,15 @@ INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (bas
 CURL_TIMEOUT=(--connect-timeout 10 --max-time 30)
 AUTH=("${CURL_TIMEOUT[@]}" -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
 
+# CORSIA del worker (Strada A, step 2). Due valori:
+#   all  (default) → il worker fa tutto: chat, giro, ritmo, metabolizza, azioni.
+#   chat           → worker DEDICATO che prende SOLO le chat. Si installa come 2° servizio
+#                    (mycity-worker-chat.service) accanto a quello principale: così, anche mentre
+#                    il worker "all" è impegnato in un giro da 45 minuti, le tue chat vengono
+#                    risposte SUBITO dal worker-chat. Il claim atomico impedisce che i due prendano
+#                    lo stesso lavoro. Chi resta "all" continua a gestire chat come fallback.
+WORKER_LANE="${WORKER_LANE:-all}"
+
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
 else
@@ -269,6 +278,47 @@ battito_worker() {
 battito_systemd() {
   [ -n "${WATCHDOG_USEC:-}" ] || return 0
   command -v systemd-notify >/dev/null 2>&1 && systemd-notify WATCHDOG=1 2>/dev/null || true
+}
+
+# ── CHAT IN STREAMING (Strada A, step 2) ─────────────────────────────────────────────────────────
+# Estrae il testo dagli eventi stream-json accumulati finora nel file $1. Salta le righe incomplete
+# o non-JSON (fromjson? // empty) → non produce MAI testo sballato, al massimo un prefisso più corto.
+# Priorità (una sola fonte, niente testo doppio): evento "result" finale → messaggi "assistant"
+# completi → delta di testo ("stream_event"). Durante lo streaming esistono solo i delta.
+_estrai_stream() {
+  local f="$1" t
+  t="$(jq -rR 'fromjson? // empty | select(.type=="result") | .result // empty' "$f" 2>/dev/null | tail -1)"
+  [ -n "$t" ] && { printf '%s' "$t"; return; }
+  t="$(jq -rR 'fromjson? // empty | select(.type=="assistant") | [.message.content[]? | select(.type=="text") | .text] | join("")' "$f" 2>/dev/null)"
+  [ -n "$t" ] && { printf '%s' "$t"; return; }
+  jq -rR 'fromjson? // empty | select(.type=="stream_event") | .event.delta.text // empty' "$f" 2>/dev/null | tr -d '\r'
+}
+
+# Esegue la chat in streaming: mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato
+# (stato resta in_corso) così nel Pannello compare parola per parola. Popola le globali out, rc.
+# FAIL-SAFE: se lo stream non dà testo (CLI che non supporta il formato) o esce male, si ricade
+# sull'esecuzione normale (cattura piena) → la risposta finale è SEMPRE quella autorevole.
+rispondi_chat_stream() {
+  local to="$1" tmpf acc pidc cmd
+  cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
+  tmpf="$(mktemp)"
+  timeout --kill-after=30s "$to" "${cmd[@]}" --output-format stream-json --verbose --include-partial-messages "$prompt" >"$tmpf" 2>/dev/null &
+  pidc=$!
+  while kill -0 "$pidc" 2>/dev/null; do
+    sleep 1.5
+    acc="$(_estrai_stream "$tmpf")"
+    if [ -n "$acc" ]; then
+      curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" \
+        -d "$(jq -n --arg r "$acc" '{risultato:$r}')" >/dev/null 2>&1 || true
+    fi
+  done
+  wait "$pidc"; rc=$?
+  out="$(_estrai_stream "$tmpf")"
+  rm -f "$tmpf"
+  if [ -z "$out" ]; then
+    # streaming non disponibile/vuoto → esecuzione normale, risposta finale garantita corretta.
+    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
+  fi
 }
 
 # --- PROTEZIONE ANTI-VELENO DELLA CODA -----------------------------------------------------------
@@ -412,6 +462,10 @@ while true; do
   fi
   riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   if [ -z "$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
+    if [ "$WORKER_LANE" = chat ]; then
+      # Worker dedicato solo-chat: nessuna chat in attesa → non prende altri tipi, aspetta.
+      sleep "$INTERVALLO"; continue
+    fi
     riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   fi
   id="$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null || true)"
@@ -545,8 +599,12 @@ $richiesta"
       # CHAT = MASSIMA QUALITÀ (Strada A): il tuo Claude Max, modello forte (Opus), non più Sonnet.
       # La "corsia veloce" su Sonnet era la causa delle risposte "stupide/strane": la togliamo. La
       # velocità ora viene dalla PRECEDENZA in coda e dal prompt snello, non dal degradare il modello.
-      # CHAT_MODELLO opzionale per fissare esplicitamente il modello (es. un Opus preciso); vuoto = premium.
-      if [ -n "${CHAT_MODELLO:-}" ]; then
+      # STREAMING (step 2): la risposta compare parola-per-parola. CHAT_STREAM=0 per spegnerlo senza
+      # toccare il codice; CHAT_MODELLO opzionale per fissare un modello preciso (vuoto = premium).
+      if [ "${CHAT_STREAM:-1}" = 1 ]; then
+        echo "[$(ts)] Lavoro $id (chat): qualità massima + streaming."
+        rispondi_chat_stream "$to"   # popola out, rc e scrive i parziali nel Pannello
+      elif [ -n "${CHAT_MODELLO:-}" ]; then
         echo "[$(ts)] Lavoro $id (chat): qualità massima → $CHAT_MODELLO."
         out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO" "$prompt" 2>&1)"; rc=$?
       else

@@ -1,0 +1,31 @@
+[Unit]
+# Worker DEDICATO SOLO ALLA CHAT (Strada A, step 2). Gira ACCANTO a mycity-worker.service: il worker
+# principale fa i lavori pesanti (giro/ritmo/metabolizza/azioni), questo prende SOLO le chat — così
+# le tue domande nel Pannello ricevono risposta SUBITO anche mentre è in corso un giro da 45 minuti.
+# Il claim atomico sulla coda impedisce che i due worker prendano lo stesso lavoro.
+Description=MyCity AD — worker DEDICATO alla chat del Pannello (risposte sempre reattive)
+After=network-online.target
+Wants=network-online.target
+# Nessun tetto ai riavvii (come il worker principale).
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=mycity
+WorkingDirectory=/opt/mycity/ad-mycity
+EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env
+Environment=HOME=/home/mycity
+Environment=PATH=/home/mycity/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=TZ=Europe/Rome
+# LA corsia: questo processo prende solo i lavori tipo=chat.
+Environment=WORKER_LANE=chat
+ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
+Restart=always
+RestartSec=10
+# Watchdog: come il worker principale, systemd riavvia se il loop si blocca. La chat non fa lavori
+# lunghi come il giro, quindi un margine più stretto va bene, ma teniamo 3300s per semplicità/uniformità.
+WatchdogSec=3300
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
