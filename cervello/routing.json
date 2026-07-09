@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-09 20:43",
+  "aggiornato": "2026-07-09 21:47",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -1965,10 +1965,17 @@
       "modello": "groq-llama",
       "tier": "gratis",
       "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-09 21:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
     }
   ],
   "uso": {
-    "claude": 196,
+    "claude": 197,
     "groq-llama": 73
   }
 }
