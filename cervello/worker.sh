@@ -392,11 +392,21 @@ while true; do
 
   # Prendi il prossimo lavoro in coda. Con l'auto-recovery attivo, SALTA quelli che stanno
   # aspettando l'ora di ritentativo (riprova_dopo nel futuro) → non bruciano i tentativi a vuoto.
+  #
+  # PRECEDENZA CHAT (Strada A — Claude Max nel Pannello): Nicola aspetta la risposta IN DIRETTA, quindi
+  # una chat in attesa passa SEMPRE davanti a giro/ritmo/metabolizza (lavori di fondo). Prima si cercava
+  # solo il più vecchio in assoluto (FIFO stretto): una metabolizzazione o un ritmo accodati prima della
+  # tua domanda la facevano aspettare. Ora: prima si prova a prendere una chat; se non ce n'è, si prende
+  # il più vecchio di qualsiasi tipo (i lavori di fondo continuano quando non stai chattando).
   if [ "$HAS_RETRY_COLS" = 1 ]; then
     now_z="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+    _rtry="&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)"
   else
-    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+    _rtry=""
+  fi
+  riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  if [ -z "$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
+    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   fi
   id="$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null || true)"
 
@@ -490,6 +500,18 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     else
       stato="fatto"
     fi
+  elif [ "$tipo" = "chat" ]; then
+    # CHAT IN DIRETTA (Strada A): Nicola sta parlando col suo AD nel Pannello. Prompt SNELLO e
+    # conversazionale — niente rituale del "ciclo AD", niente lettura obbligata dell'intero vault:
+    # si risponde alla domanda in modo diretto e utile, come Claude Max. Il personaggio resta (CLAUDE.md
+    # è caricato dal progetto); qui diciamo solo COME rispondere → risposte pertinenti, non "cose inutili".
+    prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello.
+Rispondi in italiano, diretto, concreto e utile — è una conversazione vera, non un report.
+Vai al punto: niente preamboli, niente rituali, niente analisi enormi se non te le chiede. Se ti serve un dato reale leggilo, altrimenti rispondi e basta.
+Se proponi un'azione che tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni) NON eseguirla: proponila chiaramente e segna che serve la sua approvazione (🔴).
+
+## Conversazione
+$richiesta"
   else
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
 
@@ -513,12 +535,18 @@ $richiesta"
       echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
       read -r -a _econ_cmd <<< "$AI_ECON_CMD"
       out="$(timeout --kill-after=30s "$to" "${_econ_cmd[@]}" "$prompt" 2>&1)"; rc=$?
-    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ] && [ -z "${CERVELLO_MODELLO:-}" ] && ! chat_e_complesso "$richiesta"; then
-      # CORSIA VELOCE: chiacchiera semplice → modello veloce (Sonnet). L'escalation è già decisa:
-      # chat_e_complesso ha detto «non è pesante», quindi qui usiamo il veloce. I compiti difficili
-      # (che chat_e_complesso intercetta) cadono nel ramo premium sotto e restano su Opus.
-      echo "[$(ts)] Lavoro $id (chat): corsia veloce → $CHAT_MODELLO_VELOCE."
-      out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO_VELOCE" "$prompt" 2>&1)"; rc=$?
+    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ] && [ -z "${CERVELLO_MODELLO:-}" ]; then
+      # CHAT = MASSIMA QUALITÀ (Strada A): il tuo Claude Max, modello forte (Opus), non più Sonnet.
+      # La "corsia veloce" su Sonnet era la causa delle risposte "stupide/strane": la togliamo. La
+      # velocità ora viene dalla PRECEDENZA in coda e dal prompt snello, non dal degradare il modello.
+      # CHAT_MODELLO opzionale per fissare esplicitamente il modello (es. un Opus preciso); vuoto = premium.
+      if [ -n "${CHAT_MODELLO:-}" ]; then
+        echo "[$(ts)] Lavoro $id (chat): qualità massima → $CHAT_MODELLO."
+        out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO" "$prompt" 2>&1)"; rc=$?
+      else
+        echo "[$(ts)] Lavoro $id (chat): qualità massima → modello premium."
+        out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+      fi
     else
       [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router → ${modello_scelto:-?} ma adattatore economico non collegato → fallback premium." >&2
       out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
