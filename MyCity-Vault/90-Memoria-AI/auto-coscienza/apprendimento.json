@@ -235,13 +235,14 @@
         "devops-sre"
       ],
       "reparto": "@AD",
-      "confidenza": 0.94,
-      "evidenze": 2,
+      "confidenza": 0.95,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-09",
-      "ultima_conferma": "2026-07-09 01:10",
+      "ultima_conferma": "2026-07-09 21:00",
       "_evidenza_2": "Applicata nella feature Annulla-lavoro (chat 9/7 01:10): typecheck/browser gated in sessione → l'AD NON ha committato, ha dichiarato onestamente «non provato», ha proposto /verify o lo sblocco di tsc invece di spacciare per verde. La regola scrivo→testo→committo-solo-se-verde ha retto anche col runner bloccato.",
+      "_evidenza_3": "Applicata sulla chat-veloce (chat 9/7 ~21:00): `npx bats` + il cronometro Opus-vs-Sonnet gated dal dead-lock della chat-Pannello → l'AD ha verificato il classificatore `chat_e_complesso` LEGGENDO il codice reale (8/8 casi giusti) ma ha dichiarato onestamente «non ho i secondi prima/dopo, e non li invento», e ha chiesto lo sblocco minimo (2 righe `Bash(npx bats cervello/test/:*)` + `Bash(node --test:*)` in `.claude/settings.local.json`) invece di spacciare per cronometrato un dato letto. La regola ha retto: verifica-da-codice ≠ verifica-a-runtime, e l'AD non ha confuso le due. Vedi [[chat-pannello-non-mostra-box-permessi]].",
       "stato": "attiva"
     },
     {
