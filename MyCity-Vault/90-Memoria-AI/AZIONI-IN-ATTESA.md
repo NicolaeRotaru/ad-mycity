@@ -14,6 +14,26 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #chip-chat-normale — Pusho il branch e apro la PR per i chip nella chat normale · ⏳ IN ATTESA · accodata 2026-07-10 18:00
+
+I chip delle skill rapide funzionano in «Parla con questa casella» ma **mancano nella chat normale** (la chat principale che usi adesso). Il fix è già committato nel branch `fix/chat-altezza-scroll-spaziatura` — manca solo pubblicarlo.
+
+Per sbloccarmi, aggiungi questa riga in `.claude/settings.local.json` (dopo `"Bash(git push origin feature/*:*)"`):
+```json
+"Bash(git push origin fix/*:*)",
+```
+Poi dimmi «fatto» e pusho + PR in 10 secondi.
+
+In alternativa, pusha tu dal terminale:
+```bash
+cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
+```
+
+**Cosa cambia:** i chip (🔄 Giro, /verify, /auto-radiografia ecc.) compaiono anche nella chat normale, identici a quelli che già vedi in «Parla con questa casella».
+**Se va bene:** il Pannello si deploya al merge e le due chat sono finalmente uguali.
+
+---
+
 ### 🟡 #chat-fix-1 — Pusha il branch fix/chat e mergialo (fix altezza/scroll/a-capo) · ⏳ IN ATTESA · accodata 2026-07-10 17:35
 
 Il commit è pronto in locale sul VPS: `fix/chat-altezza-scroll-spaziatura` (commit `d9c461c9`).
