@@ -714,6 +714,24 @@ export default function Dashboard() {
     if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
   }
+  // 🔧 Fix universale chat (v4 — stesso comportamento di ParlaCasella/ChatCasella):
+  // ① quando apri l'Assistente vai all'ULTIMO messaggio, non all'inizio;
+  // ② a ogni messaggio nuovo segui il fondo SOLO se eri già in fondo (stickFullRef/stickFabRef,
+  //    aggiornati dall'onScroll): chi è risalito a rileggere non viene mai strappato giù.
+  // (Il tracker c'era già ma nessun effect lo consumava: lo scroll era rimasto smontato.)
+  useEffect(() => {
+    if (vista !== "assistente") return;
+    requestAnimationFrame(() => {
+      const el = scrollBoxRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+    });
+  }, [vista]);
+  useEffect(() => {
+    const el = scrollBoxRef.current;
+    if (el && stickFullRef.current) el.scrollTop = el.scrollHeight;
+    const fab = chatFabBoxRef.current;
+    if (fab && stickFabRef.current) fab.scrollTop = fab.scrollHeight;
+  }, [messages]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
@@ -1945,7 +1963,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           )}
-          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[400px] max-h-[820px]">
+          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-[260px] max-h-[60vh]">
             {messages.length === 0 && (
               <div className="pt-1">
                 <p className="t-corpo text-sm mb-3">
@@ -2478,11 +2496,13 @@ function AnteprimaAllegati({ allegati, onTogli }: { allegati: File[]; onTogli: (
 }
 
 const MD_COMPONENTS: Components = {
-  p: ({ children }) => <p className="my-2">{children}</p>,
+  // Spaziatura STRETTA (fix universale v4, come le chat delle caselle): niente «doppi a capo»
+  // percepiti tra i paragrafi delle risposte AI.
+  p: ({ children }) => <p className="my-1">{children}</p>,
   strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
   em: ({ children }) => <em className="italic">{children}</em>,
-  ul: ({ children }) => <ul className="list-disc pl-5 my-2 space-y-1">{children}</ul>,
-  ol: ({ children }) => <ol className="list-decimal pl-5 my-2 space-y-1">{children}</ol>,
+  ul: ({ children }) => <ul className="list-disc pl-5 my-1 space-y-0.5">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-5 my-1 space-y-0.5">{children}</ol>,
   li: ({ children }) => <li className="leading-relaxed">{children}</li>,
   h1: ({ children }) => <h3 className="font-semibold text-[15px] mt-3 mb-1.5">{children}</h3>,
   h2: ({ children }) => <h3 className="font-semibold text-[15px] mt-3 mb-1.5">{children}</h3>,
