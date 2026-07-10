@@ -14,6 +14,30 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-5bloccanti — Pubblica i 5 fix bloccanti del marketplace su GitHub e apri la PR · ⏳ IN ATTESA · accodata 2026-07-10 19:45
+
+I fix sono già scritti nei file del marketplace locale (`/opt/mycity/ad-mycity/marketplace/`). Manca solo il commit + push + PR.
+
+**Cosa ho fixato (tutti e 5 verificati nel codice dalla radiografia del 07/07):**
+1. `migrations/108_fix_rider_rls.sql` — RLS rider: chiunque (anche anonimo) poteva leggere nome/indirizzo/telefono dei clienti in consegna → ora solo i rider approvati vedono la coda ordini
+2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) + `app/seller/orders/[id]/page.tsx` — rifiuto venditore su ordine pagato con carta: prima nessun rimborso; ora il nuovo endpoint API rimborsa Stripe prima di annullare
+3. `lib/stripe/client.ts` — aggiunto `expires_at` alla sessione Stripe (110 min, allineato al TTL del pending_checkout di 2h): prima la sessione viveva 24h e lo stock veniva rimesso a scaffale dopo 2h → overselling garantito
+4. `app/api/stripe/webhook/route.ts` — (a) gestione pending EXPIRED nel webhook: pagamento tardivo dopo scadenza → rimborso immediato invece di creare ordini su stock non riservato; (b) chargeback vinto: gli ordini con payout_status='REVERSED' ora tornano a 'HELD' così il cron li ri-paga al venditore
+5. `lib/stripe/payout.ts` — rimborso COD: clamp al **residuo rimborsabile** (totale − già rimborsato) invece che al solo totale → impossibile fare più rimborsi che sommati eccedono il valore dell'ordine
+
+**Cosa cambia:** 4 buchi di sicurezza/pagamento bloccanti chiusi. I clienti sono protetti (GDPR), i venditori vengono rimborsati correttamente, l'overselling è impossibile.
+**Se va bene:** il sito non ha più nessuno dei 4 bloccanti unici trovati dalla radiografia.
+
+**Per pubblicare (comando da eseguire sul VPS dal terminale, ~10 secondi):**
+```bash
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo mycity --base main --branch fix/5-bloccanti-sicurezza --title "fix: 5 bloccanti sicurezza e pagamenti (radiografia 07/07)" --accoda
+```
+
+- **Colore:** 🟡 (modifica al codice del sito → branch+PR, merge firma tu).
+- **Il merge lo fai tu dal Pannello** dopo aver letto il diff.
+
+---
+
 ### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
 Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
