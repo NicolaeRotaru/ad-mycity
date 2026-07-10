@@ -190,6 +190,17 @@ async function main() {
     process.exit(1);
   }
 
+  // Il branch da pubblicare deve ESISTERE in locale. Prima si pushava `HEAD:<branch>`: con
+  // --branch X lanciato mentre HEAD era su main, su X finiva il CONTENUTO DI MAIN (10/7 sera:
+  // branch-fantasma identici a main, PR vuote, Nicola in loop a rilanciare comandi). Ora si
+  // pubblica sempre refs/heads/<branch>, e se manca → errore chiaro subito.
+  const branchCorrente = gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) || "";
+  const sulBranch = branchCorrente === branch;
+  if (!gitOrNull(["rev-parse", "--verify", "--quiet", `refs/heads/${branch}`], cfg.cwd)) {
+    console.error(`ERRORE: il branch locale '${branch}' non esiste. Crealo prima (git checkout -b ${branch}) o indica quello giusto con --branch.`);
+    process.exit(1);
+  }
+
   const authorEmail = process.env.GIT_AUTHOR_EMAIL || "98592323+NicolaeRotaru@users.noreply.github.com";
   const authorName = process.env.GIT_AUTHOR_NAME || "AD MyCity";
   const gitEnv = {
@@ -202,7 +213,7 @@ async function main() {
   const dirty = gitOrNull(["status", "--porcelain"], cfg.cwd);
   const hasChanges = Boolean(dirty?.trim());
 
-  if (hasChanges && !dryRun) {
+  if (hasChanges && !dryRun && sulBranch) {
     const msg = String(args.message || args.title || `chore: ${branch}`);
     try {
       git(["add", "-A"], cfg.cwd);
@@ -214,24 +225,28 @@ async function main() {
     }
   } else if (hasChanges && dryRun) {
     console.log("[DRY-RUN] Committerebbe modifiche pendenti nel repo.");
+  } else if (hasChanges && !sulBranch) {
+    // HEAD è su un ALTRO ramo (es. main): mai committare lì il pendente — si pubblicherebbe
+    // sporco sulla base o si mischierebbero lavori. Il pendente resta dov'è, intatto.
+    console.warn(`⚠️  Modifiche non committate su '${branchCorrente}' lasciate intatte: pubblico solo refs/heads/${branch}.`);
   }
 
   if (!noPush && !dryRun) {
     const url = gitAuthUrl(cfg);
     try {
-      git(["push", url, `HEAD:${branch}`], cfg.cwd);
+      git(["push", url, `refs/heads/${branch}:refs/heads/${branch}`], cfg.cwd);
       console.log(`✓ Push ${branch} → origin`);
     } catch (e) {
       console.error("ERRORE push:", sanitize(e, cfg.token));
       process.exit(1);
     }
   } else if (!noPush && dryRun) {
-    console.log(`[DRY-RUN] Push HEAD:${branch} su ${cfg.slug}`);
+    console.log(`[DRY-RUN] Push refs/heads/${branch} su ${cfg.slug}`);
   }
 
   const title =
     String(args.title || "") ||
-    gitOrNull(["log", "-1", "--format=%s"], cfg.cwd) ||
+    gitOrNull(["log", "-1", "--format=%s", `refs/heads/${branch}`], cfg.cwd) ||
     branch;
   const body =
     String(args.body || "") ||
@@ -247,6 +262,22 @@ async function main() {
       pr = existing;
       console.log(`✓ PR esistente #${pr.number}: ${pr.html_url}`);
     } else {
+      // Prima di creare la PR: il branch ha davvero commit oltre la base? Un branch già
+      // mergiato (o identico alla base) darebbe una PR vuota (GitHub 422 «No commits
+      // between…»): meglio dirlo in chiaro che rilanciare comandi a vuoto.
+      let avanti = null;
+      try {
+        git(["fetch", gitAuthUrl(cfg), base], cfg.cwd);
+        avanti = gitOrNull(["rev-list", "--count", `FETCH_HEAD..refs/heads/${branch}`], cfg.cwd);
+      } catch {
+        /* fetch base fallito: si tenta comunque la creazione, GitHub farà da giudice */
+      }
+      if (avanti === "0") {
+        console.log(`✓ Niente da pubblicare: '${branch}' non ha commit oltre '${base}' — probabilmente è GIÀ stato mergiato. Nessuna PR creata.`);
+        await stampSegnale("pr", "ok", `niente da pubblicare: ${branch} già dentro ${base} · ${nowPiacenza()}`);
+        console.log(JSON.stringify({ ok: true, repo: cfg.slug, branch, base, pr: null, giaDentro: true }, null, 2));
+        return;
+      }
       pr = await githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -390,11 +390,27 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
 contesto_macchina_chat() {
-  local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni blocco
+  local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni blocco origine_riga
   branch_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
   commit_ora="$(git log -1 --format='%h · %s' 2>/dev/null || echo '?')"
   dirty_n="$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')"
   dirty_top="$(git status --porcelain 2>/dev/null | head -3 | awk '{print $NF}' | paste -sd ', ' - 2>/dev/null)"
+  # 🌐 REFS FRESCHI (anti-loop del 10/7 sera): il remote è SENZA credenziali di proposito, quindi
+  # il `git fetch` fatto dalla chat fallisce e i refs restano CONGELATI — la chat ha negato 4 volte
+  # una PR già mergiata «verificando» su un origin/main vecchio di un'ora, facendo ripetere a
+  # Nicola la stessa azione. Qui è il WORKER (che ha il token nel .env) ad aggiornare
+  # refs/remotes/origin/main PRIMA di ogni turno; e se il fetch fallisce, il blocco LO DICE:
+  # la chat sa che i suoi refs possono essere vecchi e non conclude «non è su GitHub».
+  origine_riga=""
+  if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
+    if timeout 20s git fetch "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" "+main:refs/remotes/origin/main" 2>/dev/null; then
+      origine_riga="- origin/main aggiornato ADESSO dal worker: $(git log -1 --format='%h · %s' refs/remotes/origin/main 2>/dev/null | head -c 110)"
+    else
+      origine_riga="- ⚠️ origin/main NON aggiornabile in questo momento (fetch fallito): i refs remoti locali possono essere VECCHI — vietato concludere «non è su GitHub» o «main è fermo»; dillo a Nicola."
+    fi
+  else
+    origine_riga="- ⚠️ Token git assente nell'ambiente: i refs remoti locali possono essere VECCHI — vietato concludere «non è su GitHub» senza dichiararlo."
+  fi
   coda=""; segnali=""
   if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
     coda="$(curl -fsS --connect-timeout 8 --max-time 20 \
@@ -411,6 +427,7 @@ contesto_macchina_chat() {
   blocco="## CONTESTO MACCHINA (raccolto ADESSO dal worker: fidati di questo, non dei ricordi di sessione)
 - Ora: $(date '+%Y-%m-%d %H:%M') (Europe/Rome)
 - Repo: branch \`$branch_ora\` · ultimo commit: $commit_ora
+$origine_riga
 - File modificati non committati: ${dirty_n:-0}${dirty_top:+ ($dirty_top)}"
   [ -n "$coda" ] && blocco="$blocco
 - Coda lavori ultime 24h: $coda"
@@ -729,6 +746,7 @@ REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa dann
 3. Ogni sessione chat parte da ZERO: non ricordi le chat precedenti né lo stato del disco. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read).
 4. Nessun numero inventato: ogni cifra ha una fonte (file, query, comando) o dichiari che manca.
 5. Se ti accorgi di aver sbagliato in un turno precedente, dillo esplicitamente e correggi: l'errore ammesso ripara, quello nascosto si moltiplica.
+6. ANTI-LOOP: se Nicola segnala lo STESSO problema per la seconda volta (o più), NON ripetere la stessa istruzione o verifica già fallita — dichiara «sto girando in tondo», elenca cosa è già stato provato nella conversazione, e cambia strada: un dato diverso, uno strumento diverso, o chiedi a Nicola il pezzo che ti manca. Ridare identico un consiglio già fallito due volte è di per sé l'errore più grave.
 
 AZIONI:
 - Tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni)? NON eseguirla: proponila chiaramente e segna che serve la firma di Nicola (🔴).
