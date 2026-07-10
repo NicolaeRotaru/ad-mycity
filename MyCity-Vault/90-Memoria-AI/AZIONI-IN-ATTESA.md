@@ -36,7 +36,7 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 
 ### 🟡 #chat-fix-1 — Pusha il branch fix/chat e mergialo (fix altezza/scroll/a-capo) · ⏳ IN ATTESA · accodata 2026-07-10 17:35
 
-Il commit è pronto in locale sul VPS: `fix/chat-altezza-scroll-spaziatura` (commit `d9c461c9`).
+Branch confermato da Nicola (chat 2026-07-10 18:12): **`fix/rimuovi-autoscroll-chat`** (esiste su locale + origin). Il branch `fix/chat-altezza-scroll-spaziatura` non esiste né in locale né su origin.
 Fix inclusi: altezza fissa della finestra messaggi, scroll al fondo all'apertura, scroll al fondo dopo ogni risposta (non più "a capo").
 
 Per pushare e creare la PR, dal terminale sul VPS:
@@ -223,6 +223,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 > Mappa: #21→#41 (ordine-prova PQ) · #24→#42 (win-back) · #25→#43 (scout 3 botteghe) · #28→#44 (punti) · #29→#45 (gift card) · #29→#46 (post lunedì) · #31→#47 (schema.org) · #33→#48 (kit fisico) · #34→#49 (semina QR) · #35→#50 (report dati) · #36→#51 (gate badge nel codice) · #39→#52 (mail istituzioni).
 > Non importate perché superate da decisioni successive di Nicola o già in coda: chiamate alle 6 botteghe (16:35: ci va di persona il 13/7), anti-churn PQ (15:52: chiusa), sentinella annullati (≡#40), carrello samir (≡#26), SEO vetrina (≡blocchi 16:10), scheda Google MyCity (16:08: parcheggiata), comunicazione badge (≡blocco standard).
 
+| 61 | 2026-07-10 18:13 | @tech | Merge PR #252 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/252 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
