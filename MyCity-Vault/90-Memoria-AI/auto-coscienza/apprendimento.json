@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0710-86",
+      "testo": "**PR sul marketplace fallisce se il branch locale è già merged (chat 10/7, turno fix 5 bloccanti):** l'AD ha scritto 5 fix nei file del marketplace ma non ha potuto aprire la PR perché il branch locale era `fix/ruoli-acquisto-admin-seller-2026-07-02` (già merged in main). `git -C marketplace/ checkout -b fix/nuovo` non è in allowlist → impossibile creare un branch dal CWD dell'AD. Il lavoro è rimasto uncommitted. Correzione di Nicola: 'Non mi hai aperto la PR con i fix'. Regola fissa: PRIMA di scrivere qualsiasi file nel marketplace, verificare che il branch locale sia NUOVO (non merged) con `git -C marketplace/ branch` e `git -C marketplace/ log --oneline origin/main..HEAD`. Se il branch è sbagliato, chiedere a Nicola di eseguire `cd /opt/mycity/ad-mycity/marketplace && git checkout -b fix/nome` dal terminale, poi procedere con `node cervello/git-pr.mjs --repo mycity`.",
+      "tag": ["marketplace", "branch", "merged", "git-checkout", "allowlist", "pr", "uncommitted", "5-bloccanti", "correzione-nicola"],
+      "reparto": "@AD",
+      "confidenza": 0.99,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 20:20",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0710-85",
       "testo": "**Nicola vuole che l'AD resti in ascolto fino a verifica live (chat 10/7 ~18:55):** dopo aver creato una PR, Nicola ha chiesto esplicitamente 'riesci a restare sempre in ascolto finché tutto non è finito? così controlli sempre che tutto sia andato correttamente'. Questo significa: non fermarsi dopo 'PR creata' — monitorare attivamente che il merge arrivi, che Vercel buildi, e che la modifica sia visibile nel Pannello prima di dichiarare il lavoro finito. Il loop di follow-through è parte del lavoro, non optional.",
       "tag": ["workflow", "follow-through", "ascolto", "verifica-live", "pannello", "vercel", "preferenza-nicola"],
