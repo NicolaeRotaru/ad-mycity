@@ -34,20 +34,23 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 
 ---
 
-### 🟡 #chat-fix-1 — Pusha il branch fix/chat e mergialo (fix altezza/scroll/a-capo) · ⏳ IN ATTESA · accodata 2026-07-10 17:35
+### 🟡 #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · ⏳ IN ATTESA · accodata 2026-07-10 17:35, aggiornata 2026-07-10 23:59
 
-Branch confermato da Nicola (chat 2026-07-10 18:12): **`fix/rimuovi-autoscroll-chat`** (esiste su locale + origin). Il branch `fix/chat-altezza-scroll-spaziatura` non esiste né in locale né su origin.
-Fix inclusi: altezza fissa della finestra messaggi, scroll al fondo all'apertura, scroll al fondo dopo ogni risposta (non più "a capo").
+Branch: **`fix/chat-altezza-scroll-spaziatura`** — commit `d9c461c9` (UX chat) + `7a2f717b` (motore-ai Cursor disabilitato in auto). Esiste in locale ma NON ancora su origin.
+
+Fix inclusi nel branch:
+- Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
+- `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
 
 Per pushare e creare la PR, dal terminale sul VPS:
 ```bash
 cd /opt/mycity/ad-mycity
-node cervello/git-pr.mjs --repo ad-mycity --base main --title "Fix chat: altezza fissa, scroll al fondo, nessun ritorno all'inizio"
+node cervello/git-pr.mjs --repo ad-mycity --base main --title "Fix chat: altezza fissa, scroll al fondo, Cursor disabilitato in auto"
 ```
-Poi mergi la PR dal Pannello GitHub.
+Poi riavvia il worker dal Pannello (sezione Worker → "Riavvia worker") per applicare il fix motore-ai senza aspettare il deploy.
 
-**Cosa cambia:** la chat casella avrà sempre la stessa altezza (nuova o con storico), si apre già sull'ultimo messaggio, e non torna all'inizio dopo ogni risposta di Claude.
-**Se va bene:** il Pannello si deploya da solo al merge e i 3 problemi spariscono.
+**Cosa cambia:** (1) la chat ha sempre la stessa altezza, si apre sull'ultimo messaggio, non torna in cima dopo ogni risposta. (2) Cursor non si attiva più in automatico — solo se Nicola lo chiede esplicitamente.
+**Se va bene:** il Pannello si deploya al merge e tutti e 3 i problemi UX spariscono; "module_not_found" non torna più.
 
 ---
 

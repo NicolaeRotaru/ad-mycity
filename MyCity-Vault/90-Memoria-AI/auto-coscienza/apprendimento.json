@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0710-79",
+      "testo": "**Cursor CLI (`agent`) in PATH causa 'model not found' / 'module_not_found' quando CERVELLO_MOTORE non è esplicitamente `claude` (chat 10/7):** Nicola ha chiesto di impedire a Cursor di attivarsi senza richiesta. Il worker usava la logica `auto` di `motore-ai.sh` che preferiva `agent` (Cursor) se installato. Fix strutturale: in modalità `auto`, Claude viene scelto per primo; Cursor gira SOLO se `CERVELLO_MOTORE=cursor` è esplicitamente impostato nel .env. Se 'module_not_found' si ripresenta: (1) verificare `CERVELLO_MOTORE` nel .env; (2) riavviare il worker dal Pannello (ricarica l'env senza aspettare un deploy). Il 'module_not_found' dal DB = worker che gira ancora con l'env vecchio prima che la variabile fosse settata — la soluzione è il riavvio, non un re-build.",
+      "tag": ["cursor", "agent-cli", "model-not-found", "module-not-found", "motore-ai", "CERVELLO_MOTORE", "worker", "riavvio"],
+      "reparto": "@devops-sre",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 23:59",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0710-78",
       "testo": "**Verificare sempre che il branch esista su origin prima di dare una PR URL (chat 10/7, PR fix/chat-altezza-scroll-spaziatura):** l'AD ha suggerito prima il branch sbagliato (`fix/rimuovi-autoscroll-chat` invece di `fix/chat-altezza-scroll-spaziatura`), poi ha dato una URL per un branch che non era ancora pushato su origin — Nicola ha aperto il link e ha trovato una pagina vuota. Causa: l'AD ha assunto che il branch esistesse su origin senza verificarlo con `git branch -r | grep <nome>` o `git ls-remote origin <nome>`. **Regola fissa, SEMPRE:** prima di dare a Nicola qualsiasi URL GitHub `compare/main...<branch>` o qualsiasi branch name per una PR, eseguire `git ls-remote origin <nome-branch>` e verificare che ritorni un hash. Se il branch non è su origin, comunicarlo subito e indicare il comando di push (`git push origin <nome-branch>`) da eseguire prima di aprire il link. Una pagina vuota su GitHub causa confusione e fa perdere tempo.",
       "tag": ["git", "branch", "pr", "origin", "ls-remote", "verifica-branch", "pannello", "AD"],
