@@ -205,6 +205,17 @@ const COMANDI_RAPIDI: { label: string; testo: string }[] = [
   { label: "📊 Come stiamo?", testo: "come stiamo?" },
 ];
 
+// Skill rapide: compaiono sopra la textarea quando l'input e' vuoto.
+const SKILL_RAPIDE: { label: string; cmd: string }[] = [
+  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
+  { label: "✅ Verifica", cmd: "/verify" },
+  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
+  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
+  { label: "🔍 Ricerca", cmd: "/deep-research " },
+  { label: "🛡️ Sicurezza", cmd: "/security-review" },
+  { label: "📅 Pianifica", cmd: "/schedule " },
+];
+
 const TOOL_LABELS: Record<string, string> = {
   web_search: "Ricerca web",
   marketplace_elenco_file: "Elenco file del sito",
@@ -2029,6 +2040,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
+            {input === "" && (
+              <div className="flex flex-wrap gap-1.5">
+                {SKILL_RAPIDE.map((s) => (
+                  <button
+                    key={s.label}
+                    onClick={() => setInput(s.cmd)}
+                    className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
