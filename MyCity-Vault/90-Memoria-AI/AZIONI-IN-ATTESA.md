@@ -36,13 +36,31 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 
 ### ✅ #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · FATTO 2026-07-10 18:10
 
-PR #251 creata da Nicola: https://github.com/NicolaeRotaru/ad-mycity/pull/251
+PR #251 MERGIATA (Nicola, 10/7 ~18:15). Fix deployati su Vercel.
 
 Fix inclusi:
 - Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
 - `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
 
-⏳ Da fare: Nicola deve mergare la PR + riavviare il worker dal Pannello (sezione Worker → "Riavvia worker") per eliminare il `module_not_found`.
+⚠️ `module_not_found` segnalato ancora da Nicola dopo il merge (10/7 ~23:59) → vedi azione `#worker-restart` qui sotto.
+
+---
+
+### 🟡 #worker-restart — Riavvia i worker per eliminare il module_not_found · ⏳ IN ATTESA · accodata 2026-07-11 00:00
+
+Il PR #251 è stato mergato e deployato, ma Nicola vede ancora `module_not_found` nella chat. Causa: i processi worker sul VPS girano ancora con l'env vecchio (senza `CERVELLO_MOTORE=claude` caricato) perché non sono stati riavviati dopo il deploy.
+
+**Opzione A — dal Pannello** (1 clic): Pannello → sezione Worker → «Riavvia worker».
+
+**Opzione B — dal terminale VPS** (~10 secondi):
+```bash
+sudo systemctl restart mycity-worker mycity-worker-chat
+```
+
+**Cosa cambia:** i worker ripartono leggendo l'`.env` aggiornato con `CERVELLO_MOTORE=claude` → `module_not_found` sparisce.
+**Se va bene:** apri la chat del Pannello e scrivi «come stai?» — se rispondo normalmente, è risolto.
+
+- **Colore:** 🟡 (riavvia un processo di produzione, senza toccare codice).
 
 ---
 
