@@ -57,6 +57,14 @@ Il worker inietta le prime ~8 righe di questo file in OGNI turno di chat (blocco
   non trasformarle in workaround. Se un tentativo è stato bloccato da permessi o hook di sicurezza, la
   lezione da scrivere è «quella strada è vietata» — MAI il modo di aggirarla. (Il 10/7 la lezione su gh
   è stata riscritta nel suo contrario, con dentro l'aggiramento: è l'errore che questo divieto spegne.)
+- ⚠️ Una DIAGNOSI TECNICA diventa lezione SOLO se confermata: da Nicola, o da una prova diretta
+  causa→effetto. «Ho cambiato X e poi ha funzionato» NON basta (correlazione ≠ causa): verifica QUALE
+  meccanismo ha agito davvero prima di scriverla. E se una tua modifica è stata REVERTITA (una PR di
+  revert con spiegazione, una correzione dell'AD cloud), la lezione è il PERCHÉ del revert — mai
+  registrare come lezione la modifica revertita. (Il 10/7 sera «deploymentEnabled: true» è entrato
+  nelle lezioni come fix, mentre il deploy era partito per merito della GitHub Action: veleno n.2.)
+- Prima di aggiungere una lezione, RILEGGI le esistenti e DECISIONI.md: se la nuova contraddice una
+  lezione-divieto o una decisione registrata, NON scriverla — segnala il conflitto a Nicola in risposta.
 
 ## Regole ferree
 
