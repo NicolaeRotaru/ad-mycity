@@ -26,8 +26,10 @@ ai_engine() {
     cursor) echo cursor ;;
     claude) echo claude ;;
     *)
-      if command -v agent >/dev/null 2>&1; then echo cursor
-      elif command -v claude >/dev/null 2>&1; then echo claude
+      # auto: Claude è il motore principale. Cursor ('agent') si usa SOLO se esplicitamente
+      # richiesto con CERVELLO_MOTORE=cursor — mai in automatico (Nicola 2026-07-10).
+      if command -v claude >/dev/null 2>&1; then echo claude
+      elif command -v agent >/dev/null 2>&1; then echo cursor
       else echo none; fi
       ;;
   esac
