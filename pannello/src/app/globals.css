@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 :root {
+  /* Altezza della testata sticky: il menù laterale bloccato, la sua linguetta e il velo
+     del drawer partono da qui per non coprire MAI la barra in alto. Il valore vero viene
+     misurato a runtime (ResizeObserver in page.tsx); questo è il fallback al primo paint. */
+  --altezza-testata: 69px;
   --ink-rgb: 26 20 16;
   --paper-rgb: 250 248 245;
   --black-rgb: 26 20 16;
@@ -190,6 +194,14 @@ body {
   }
   .input-soft::placeholder {
     color: var(--text-faint);
+  }
+
+  /* Chip timestamp condivisa. DEVE stare dentro @layer components: fuori dal layer
+     il suo inline-flex vinceva (ordine di sorgente) su utility come `hidden` e la chip
+     in testata restava visibile anche su telefono, schiacciando il titolo. */
+  .t-aggiornato {
+    color: var(--text-muted);
+    @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap font-medium;
   }
 }
 
@@ -406,12 +418,6 @@ body {
   background: var(--bg-surface-2);
   color: var(--text-secondary);
   border: 1px solid var(--border);
-}
-
-/* Chip timestamp condivisa */
-.t-aggiornato {
-  color: var(--text-muted);
-  @apply inline-flex items-center gap-1 text-[11px] whitespace-nowrap font-medium;
 }
 
 /* ── Dark mode: gerarchia visiva (UX) ── */
