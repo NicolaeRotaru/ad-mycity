@@ -34,25 +34,15 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 
 ---
 
-### 🟡 #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · ⏳ IN ATTESA · accodata 2026-07-10 17:35, aggiornata 2026-07-10 23:59
+### ✅ #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · FATTO 2026-07-10 18:10
 
-Branch: **`fix/chat-altezza-scroll-spaziatura`** — commit `d9c461c9` (UX chat) + `7a2f717b` (motore-ai Cursor disabilitato in auto). Esiste in locale ma NON ancora su origin.
+PR #251 creata da Nicola: https://github.com/NicolaeRotaru/ad-mycity/pull/251
 
-Fix inclusi nel branch:
+Fix inclusi:
 - Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
 - `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
 
-Per pushare e creare la PR, dal terminale sul VPS (stash dei file non committati, poi checkout del branch fix, poi apri la PR):
-```bash
-cd /opt/mycity/ad-mycity && \
-git stash && \
-git checkout fix/chat-altezza-scroll-spaziatura && \
-node cervello/git-pr.mjs --repo ad-mycity --base main --title "Fix chat: altezza fissa, scroll al fondo, Cursor disabilitato in auto"
-```
-Poi riavvia il worker dal Pannello (sezione Worker → "Riavvia worker") per applicare il fix motore-ai senza aspettare il deploy.
-
-**Cosa cambia:** (1) la chat ha sempre la stessa altezza, si apre sull'ultimo messaggio, non torna in cima dopo ogni risposta. (2) Cursor non si attiva più in automatico — solo se Nicola lo chiede esplicitamente.
-**Se va bene:** il Pannello si deploya al merge e tutti e 3 i problemi UX spariscono; "module_not_found" non torna più.
+⏳ Da fare: Nicola deve mergare la PR + riavviare il worker dal Pannello (sezione Worker → "Riavvia worker") per eliminare il `module_not_found`.
 
 ---
 
