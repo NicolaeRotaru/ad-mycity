@@ -37,6 +37,19 @@ Branch non era su GitHub. Fix ripushato tramite PR #255.
 
 ---
 
+### 🟡 #trigger-build-pannello — Committa un trigger su pannello/ per forzare il build Vercel · ⏳ IN ATTESA · accodata 2026-07-10 19:00
+
+I 3 fix UX di `ParlaCasella.tsx` (altezza compatta, scroll all'ultimo messaggio, niente doppi a capo) + il fix `vercel.json` (deploy sbloccati) sono su `origin/main` via PR #257, ma **Vercel non ha ancora buildato** — Nicola non vede le modifiche nel Pannello.
+
+**Cosa faccio:** creo un commit con 1 riga su `pannello/.deploy-trigger` e lo pusho su `main` (già in allowlist come `git push origin main`).
+
+**Cosa cambia:** Vercel riceve il webhook, vede `pannello/` cambiato, builda il codice con la config aggiornata (`deploymentEnabled: main→true`) — in 1-2 minuti il Pannello mostra i 3 fix.
+**Se va bene:** apri il Pannello, apri una casella → la chat è compatta e parte dall'ultimo messaggio.
+
+- **Colore:** 🟡 (push su main, 1 riga in un file trigger, nessun codice cambiato).
+
+---
+
 ### 🟡 #chip-chat-normale — Pusho il branch e apro la PR per i chip nella chat normale · ⏳ IN ATTESA · accodata 2026-07-10 18:00
 
 I chip delle skill rapide funzionano in «Parla con questa casella» ma **mancano nella chat normale** (la chat principale che usi adesso). Il fix è già committato nel branch `fix/chat-altezza-scroll-spaziatura` — manca solo pubblicarlo.

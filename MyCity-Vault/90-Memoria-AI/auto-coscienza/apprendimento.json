@@ -31,15 +31,15 @@
     },
     {
       "id": "L-2026-0710-84",
-      "testo": "**`pannello/vercel.json` con `deploymentEnabled.main: false` blocca TUTTI i build Vercel, codice incluso (chat 10/7 ~18:50):** trovata la causa radice per cui il Pannello non si aggiornava da ore nonostante le PR mergiata. Il campo `\"deploymentEnabled\": {\"main\": false}` era stato aggiunto per fermare i deploy dei commit di memoria, ma è ridondante e distruttivo: l'`ignoreCommand` già skippa i commit di sola-memoria confrontando i file in `pannello/`. Con `main: false`, Vercel ignora OGNI push su main, incluso il codice reale. Sintomo tipico: PR mergiata, commit visibile su GitHub, Vercel non reagisce. Fix: `main: false` → `true`. L'ignoreCommand si occupa da solo dei commit di sola-memoria.",
-      "tag": ["vercel", "vercel.json", "deploymentEnabled", "deploy-bloccato", "pannello", "ignoreCommand", "causa-radice"],
+      "testo": "**`pannello/vercel.json` con `deploymentEnabled.main: false` blocca TUTTI i build Vercel, codice incluso (chat 10/7 ~18:50):** trovata la causa radice per cui il Pannello non si aggiornava da ore nonostante le PR mergiata. Il campo `\"deploymentEnabled\": {\"main\": false}` era stato aggiunto per fermare i deploy dei commit di memoria, ma è ridondante e distruttivo: l'`ignoreCommand` già skippa i commit di sola-memoria confrontando i file in `pannello/`. Con `main: false`, Vercel ignora OGNI push su main, incluso il codice reale. Sintomo tipico: PR mergiata, commit visibile su GitHub, Vercel non reagisce. Fix: `main: false` → `true`. L'ignoreCommand si occupa da solo dei commit di sola-memoria. ADDENDUM (chat 10/7 ~19:00): dopo aver portato `deploymentEnabled` a `true`, se Vercel aveva già valutato la config vecchia per il push con il fix, NON builda comunque — serve un commit trigger aggiuntivo su `pannello/` (es. una riga in `pannello/.deploy-trigger`) per forzare il primo build con la nuova config.",
+      "tag": ["vercel", "vercel.json", "deploymentEnabled", "deploy-bloccato", "pannello", "ignoreCommand", "causa-radice", "commit-trigger"],
       "reparto": "@devops-sre",
       "confidenza": 0.99,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-10",
-      "ultima_conferma": "2026-07-10 18:50",
+      "ultima_conferma": "2026-07-10 19:00",
       "stato": "attiva"
     },
     {
