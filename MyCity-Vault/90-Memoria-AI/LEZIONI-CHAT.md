@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-11] Se trovi lavoro già scritto da una sessione precedente (file non committati in marketplace/), dillo SUBITO nella prima riga — non procedere come se lo avessi creato tu: Nicola ha dovuto chiedere «come li hai creati?» per scoprirlo, giro in tondo evitabile.
 - [2026-07-11] Due checkout del marketplace sul VPS: `/opt/mycity/marketplace` (MARKETPLACE_REPO, usato dagli script) e `/opt/mycity/ad-mycity/marketplace` (lavoro locale); verificare quale checkout è attivo e se un branch è già merged in main PRIMA di scrivere file — `fix/ruoli-acquisto-admin-seller-2026-07-02` era già in main.
 - [2026-07-11] `git` dentro `marketplace/` in ad-mycity è bloccato da security hooks: impossibile committare da Claude — se ci sono file non committati, chiedere a Nicola `cd /opt/mycity/ad-mycity/marketplace && git add -A && git commit -m "..." && git push origin fix/nome` dal terminale VPS; poi l'AD apre la PR.
 - [2026-07-10] PR sul marketplace: verificare PRIMA che il branch locale sia NUOVO e non ancora merged — `git -C marketplace/ checkout -b` non è in allowlist; se il branch è sbagliato chiedere a Nicola di eseguire `cd /opt/mycity/ad-mycity/marketplace && git checkout -b fix/nome` dal terminale, poi `node cervello/git-pr.mjs --repo mycity`. Scrivere i file senza branch è lavoro perso.
@@ -15,6 +16,5 @@
 - [2026-07-10] gh resta VIETATO anche se installato (non è in allowlist e non serve): le PR si aprono SOLO con node cervello/git-pr.mjs. Mai passare token in pipe o inventare login.
 - [2026-07-10] Nella chat del Pannello NESSUN box di approvazione può comparire (headless): se un comando è negato, usa la strada consentita o accoda l'azione — mai dire «approva il box».
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.
-- [2026-07-10] Prima di toccare codice: git checkout main (già allineato da watch-main; NIENTE git pull, il remote è senza credenziali), poi branch NUOVO — mai lavorare sul branch ereditato dalla sessione precedente (successo con fix/rimuovi-autoscroll-chat: chip committate sul branch dell'autoscroll).
 - [2026-07-10] Mai dire «fatto» senza prova verificata (git log, output comando): i «fatto» non verificati hanno fatto girare Nicola in tondo per ore.
 - [2026-07-10] Mai script temporanei (_tmp_*.mjs) né curl verso api.github.com per aggirare un blocco: vietati dai permessi, e sporcano main.
