@@ -166,7 +166,17 @@ sync_vault() {
     exec 9>&-
     return 0
   fi
-  git "${GIT_ID[@]}" commit -q -m "worker: lavoro ${id:-?} ($(ts))" 2>/dev/null || true
+  # Titolo umano nel commit: la richiesta del lavoro (una riga, max ~60), non il solo UUID.
+  # Taglio a 60 BYTE + iconv -c (scarta una eventuale lettera accentata spezzata in coda):
+  # indipendente dal locale del servizio — `cut -c`/`${var:0:60}` in locale C spezzano l'UTF-8.
+  local titolo_breve scrub_utf8
+  titolo_breve="$(printf '%s' "${richiesta:-}" | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 60)"
+  # NB: iconv (glibc) con -c stampa il prefisso valido ma esce ≠0 sul byte spezzato in coda:
+  # niente `||` sullo stesso stdout (duplicherebbe il testo) — si prende l'output se non vuoto.
+  scrub_utf8="$(printf '%s' "$titolo_breve" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null || true)"
+  [ -n "$scrub_utf8" ] && titolo_breve="$scrub_utf8"
+  [ -z "$titolo_breve" ] && titolo_breve="lavoro ${id:-?}"
+  git "${GIT_ID[@]}" commit -q -m "worker: ${titolo_breve} (${id:-?} · $(ts))" 2>/dev/null || true
   local ok=0
   for a in 1 2 3; do
     if git fetch "$url" "$branch" 2>/dev/null; then
