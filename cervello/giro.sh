@@ -60,6 +60,8 @@ GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.githu
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 LOCK="$REPO/.git/mycity-sync.lock"           # serializza le operazioni git tra giro e worker (stesso working tree)
+# AR-044: perimetro-memoria — solo queste cartelle entrano in git (il codice non si auto-modifica).
+MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
   (
@@ -68,7 +70,7 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     # committale ORA — così il rebase/merge qui sotto non le trova come modifiche pendenti (fallirebbe) e
     # non vanno perse. Il push finale del giro le pubblica.
     if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-      git add -A 2>/dev/null || true
+      git add -A "${MEM_DIRS[@]}" 2>/dev/null || true  # AR-044: solo memoria, mai codice
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un giro interrotto ($(ts))" 2>/dev/null || true
     fi
     # Portati all'ultimo remoto in modo NON distruttivo: fetch + rebase (fallback merge --no-edit). I commit
@@ -124,9 +126,11 @@ fi
 # e passare un VINCOLO HARD al motore ("non inventare numeri"), non solo una stampa buttata via.
 SENSORI_CIECHI=0
 SENSORI_VINCOLO=""
-ALLOC_VINCOLO=""   # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
-LOOP_VINCOLO=""    # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
-FATTI_VINCOLO=""   # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
+ALLOC_VINCOLO=""      # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
+LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
+FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
+CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
+CAL_VINCOLO=""        # AR-042: vincolo calibrazione senza voci strutturate (schema legacy)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -194,9 +198,51 @@ if command -v node >/dev/null 2>&1; then
   # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
   echo "[$(ts)] Calibrazione: sweep previsioni scadute (AR-053)..."
   node "$SCRIPT_DIR/calibrazione.mjs" scadute 2>&1 | tail -4 || true
+  # AR-042: guardiano schema calibrazione — verifica che almeno una voce abbia il campo 'stato'
+  # (lo schema CLI, non lo schema legacy a mano). Se il registro è tutto voci legacy, il motore di autonomia
+  # gira su dati vuoti → passiamo un vincolo hard al motore di usare la CLI.
+  echo "[$(ts)] Guardiano schema calibrazione (AR-042)..."
+  _cal_file="MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json"
+  if [ -f "$_cal_file" ] && command -v node >/dev/null 2>&1; then
+    # AR-040: prima archivia le voci legacy (senza id/stato valido) così il conteggio è pulito.
+    echo "[$(ts)] Archivia voci calibrazione legacy (AR-040)..."
+    node "$SCRIPT_DIR/calibrazione.mjs" archivia-legacy 2>&1 | tail -2 || true
+    _cal_strutturate="$(node -e "
+      const c=JSON.parse(require('fs').readFileSync('$_cal_file','utf8'));
+      const arr=c.previsioni||c.registro||[];
+      console.log(arr.filter(v=>v.stato).length);
+    " 2>/dev/null || echo 0)"
+    if [ "${_cal_strutturate:-0}" = "0" ]; then
+      # AR-040/AR-042: registro vuoto → apri automaticamente UNA previsione baseline (non delegare al motore).
+      echo "[$(ts)] ⚙️  AR-040: registro vuoto, autoprevedi la prima previsione baseline..."
+      node "$SCRIPT_DIR/calibrazione.mjs" autoprevedi 2>&1 | tail -3 || true
+      # Rileggi dopo autoprevedi
+      _cal_strutturate="$(node -e "
+        const c=JSON.parse(require('fs').readFileSync('$_cal_file','utf8'));
+        const arr=c.previsioni||c.registro||[];
+        console.log(arr.filter(v=>v.stato).length);
+      " 2>/dev/null || echo 0)"
+      if [ "${_cal_strutturate:-0}" = "0" ]; then
+        CAL_VINCOLO="⛔ CALIBRAZIONE SPENTA (AR-042): calibrazione.json ha ancora 0 voci con campo 'stato' dopo autoprevedi. OBBLIGO: chiama 'node cervello/calibrazione.mjs prevedi --reparto=@AD --azione=... --metrica=... --atteso=... --entro=AAAA-MM-GG'. NON scrivere a mano nel JSON."
+        echo "[$(ts)] ⚠️  AR-042: calibrazione.json senza voci strutturate dopo autoprevedi → vincolo hard." >&2
+      else
+        echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate (dopo autoprevedi)."
+      fi
+    else
+      echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate."
+    fi
+  fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
   node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | tail -2 || true
+  # AR-030: freschezza CHECKLIST-NICOLA.md — se è stantia (>2 giorni), il motore riceve un VINCOLO.
+  echo "[$(ts)] Freschezza checklist Nicola (AR-030)..."
+  _checklist_out="$(node "$SCRIPT_DIR/freschezza-checklist.mjs" 2>&1)"; _checklist_rc=$?
+  printf '%s\n' "$_checklist_out" | tail -3
+  if [ "$_checklist_rc" -ne 0 ]; then
+    CHECKLIST_VINCOLO="$(printf '%s\n' "$_checklist_out" | head -1)"
+    echo "[$(ts)] ⚠️  AR-030: checklist stantia → vincolo hard al motore." >&2
+  fi
   # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
   echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
@@ -336,6 +382,20 @@ if [ -n "${FATTI_VINCOLO:-}" ]; then
 ## Vincolo coerenza-fatti (HARD — dal gate coerenza-fatti prima di te)
 $FATTI_VINCOLO"
 fi
+if [ -n "${CHECKLIST_VINCOLO:-}" ]; then
+  # AR-030: la checklist di Nicola è stantia → il motore deve rigenerarla in questo giro.
+  PROMPT="$PROMPT
+
+## Vincolo checklist Nicola (HARD — AR-030: stantia oltre 2 giorni)
+$CHECKLIST_VINCOLO"
+fi
+if [ -n "${CAL_VINCOLO:-}" ]; then
+  # AR-042: il registro calibrazione ha solo voci legacy → il motore deve usare la CLI prevedi.
+  PROMPT="$PROMPT
+
+## Vincolo calibrazione (HARD — AR-042: 0 voci strutturate nel registro)
+$CAL_VINCOLO"
+fi
 PROMPT="$PROMPT
 
 ## Risposta in chat
@@ -396,13 +456,23 @@ if [ "$ai_rc" -ne 0 ]; then
 fi
 echo "[$(ts)] Giro completato."
 
-# AR-083: stima dei TOKEN reali del giro. Il motore agent non espone usage strutturato, quindi
-# approssimo ~4 caratteri/token su prompt+risposta e assegno GIRO_TOKEN: così costo-ai (AR-020) riceve
-# un numero VERO (non null) e la soglia da 2M può scattare per davvero (il gate-budget AR-087 la legge).
+# AR-083 / AR-043: stima token del giro. La CLI ('agent'/'claude -p') non espone usage strutturato,
+# quindi la MISURA REALE non è disponibile. La stima precedente (chars/4) contava solo prompt+risposta
+# visibile (AR-043: ~882 token per un giro da 20 minuti → sottostima di ~1000×, perché i tool-read
+# non appaiono nell'output ma consumano la maggior parte dei token).
+# Stima migliorata: durata × throughput empirico (Claude Opus heavy ≈ 5000 token/min in modalità agente).
+# Resta una STIMA: passa --stima a costo-ai.mjs così i gate non la trattano come misura.
 if [ -z "${GIRO_TOKEN:-}" ]; then
+  _giro_durata_sec=$(( $(date +%s) - GIRO_START ))
+  _giro_durata_min=$(( _giro_durata_sec / 60 + 1 ))
   _giro_chars=$(( ${#PROMPT} + ${#_ai_out} ))
-  GIRO_TOKEN=$(( _giro_chars / 4 ))
-  export GIRO_TOKEN
+  # Usa il massimo tra: durata×5000 token/min e chars/4 (floor a 50.000 per i giri brevi con file pesanti)
+  _token_durata=$(( _giro_durata_min * 5000 ))
+  _token_chars=$(( _giro_chars / 4 ))
+  GIRO_TOKEN=$(( _token_durata > _token_chars ? _token_durata : _token_chars ))
+  [ "$GIRO_TOKEN" -lt 50000 ] && GIRO_TOKEN=50000
+  GIRO_TOKEN_STIMA=1  # AR-043: dichiarato stima (non misura) → gate-budget non si fida ciecamente
+  export GIRO_TOKEN GIRO_TOKEN_STIMA
 fi
 
 # AR-014: gate deterministico sui passi 11-12 del giro (auto-analisi + apprendimento). Se il motore
@@ -523,7 +593,16 @@ elif flock -w 600 9; then
   # Guardia auto-coscienza: l'auto-analisi DEVE aver persistito il verdetto qui (la Cabina lo legge da questo file).
   [ -f "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json" ] \
     || echo "[$(ts)] ⚠️  AUTO-ANALISI NON PERSISTITA: manca auto-coscienza/auto-analisi.json — la Cabina resterà vuota (vedi passo 11 del giro)." >&2
-  git add -A 2>/dev/null || true          # stage di TUTTO (il .env e' gitignored, resta fuori)
+  # AR-044: guardiano-integrità — stage SOLO le cartelle di memoria, mai il codice del cervello.
+  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
+  # Sicurezza aggiuntiva: se nonostante il perimetro un file di codice è staged, lo tolgo e segnalo.
+  _codice_staged="$(git diff --cached --name-only 2>/dev/null | grep -vE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/' | head -5 || true)"
+  if [ -n "$_codice_staged" ]; then
+    echo "[$(ts)] ⛔ GUARDIANO-INTEGRITÀ (AR-044): file di CODICE nello stage — rimossi per sicurezza:" >&2
+    echo "$_codice_staged" >&2
+    git reset HEAD -- . 2>/dev/null || true
+    git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
+  fi
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
   else
@@ -584,7 +663,9 @@ if command -v node >/dev/null 2>&1 && [ -n "${GIRO_START:-}" ]; then
   if [ "${RUN_AI:-1}" != 1 ]; then
     node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro-saltato --durata-sec="$_giro_durata" --token=0 --modello="delta-gate" >/dev/null 2>&1 || true
   else
-    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro --durata-sec="$_giro_durata" ${GIRO_TOKEN:+--token="$GIRO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+    # AR-043: --stima se GIRO_TOKEN_STIMA=1 (stima durata×throughput, non misura reale dalla CLI).
+    _stima_flag="${GIRO_TOKEN_STIMA:+--stima}"
+    node "$SCRIPT_DIR/costo-ai.mjs" --tipo=giro --durata-sec="$_giro_durata" ${GIRO_TOKEN:+--token="$GIRO_TOKEN"} --modello="$(ai_engine)" ${_stima_flag:-} >/dev/null 2>&1 || true
   fi
 fi
 

@@ -190,10 +190,18 @@ Passi:
     «questo è troppo da scaffale», «ok ma il titolo no»), registralo SUBITO con la mano dedicata:
     `node cervello/taste-file.mjs registra <mestiere> "<cosa>" <si|quasi|no> "<perche>" ["<principio>"]`
     e crea la lezione con `caso_studio_nicola=true` (vale doppio). Aggiorna
-    `apprendimento.json` + `calibrazione.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
+    `apprendimento.json` + i quaderni `memoria-squadra/`. Applica le lezioni già al
     prossimo giro (è il volano). ⚠️ **Rispetta i nomi di campo del contratto** (`testo` non `lezione`, voti
     come NUMERI, stato registro `confermato|scelta_ragionata|da_verificare`): ogni `auto-coscienza/*.json`
     dev'essere JSON valido e non vuoto, altrimenti il Pannello mostra la sezione vuota (vedi `auto-coscienza.md`).
+    ⚠️ **CALIBRAZIONE (AR-040/042 — OBBLIGO): NON scrivere previsioni a mano in calibrazione.json.**
+    Il motore di autonomia legge SOLO le voci con il campo `stato` (azzeccata/mancata/scaduta), che esistono SOLO
+    se usi la CLI. Le voci scritte a mano (schema legacy: {data, reparto, previsione, esito}) sono invisibili al
+    punteggio → l'autonomia dei reparti resta 0 per sempre. USA SEMPRE:
+    - Quando proponi un'azione con esito atteso: `node cervello/calibrazione.mjs prevedi --reparto=@<reparto> --azione="<cosa fai>" --metrica=<kpi> --atteso=<numero> --entro=<AAAA-MM-GG>`
+    - Al giro dopo, quando l'esito è noto: `node cervello/calibrazione.mjs esito --id=<CAL-...> --reale=<numero> --fonte="Supabase MCP"`
+    Se sei incerto sul valore atteso, usa una stima dichiarata: meglio una previsione imperfetta nella CLI che
+    nessuna previsione nel registro.
     🔁 **CHIUDI IL LOOP (AR-009 — forcing-function, NON saltarla):** per OGNI lavoro 🟡/🔴 che questo giro
     ha prodotto/accodato, lascia una riga ESITO nel quaderno del reparto con la MANO dedicata:
     `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard: 6 assi 1-5 come [[RUBRICA-LIVELLI]]>" "<atteso>" "<reale>" "#tag"`. <!-- AR-033: scorecard uniformata alla RUBRICA (6 assi 1-5), niente più "8/10" -->

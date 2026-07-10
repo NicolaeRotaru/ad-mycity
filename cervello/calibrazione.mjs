@@ -377,6 +377,59 @@ function cmdReport(data) {
   }
 }
 
+// AR-040: sposta le voci scritte a mano (formato prosa senza id/stato) in registro_legacy,
+// così il registro principale contiene SOLO voci strutturate leggibili dal motore.
+function cmdArchiviaLegacy(data) {
+  const STATI_VALIDI = new Set(["aperta", "scaduta", "azzeccata", "mancata"]);
+  const legacy = data.registro.filter((e) => !e.id || !STATI_VALIDI.has(e.stato));
+  const strutturate = data.registro.filter((e) => e.id && STATI_VALIDI.has(e.stato));
+  if (legacy.length === 0) {
+    console.log("✅ Nessuna voce legacy: il registro è già in formato strutturato.");
+    return;
+  }
+  data.registro_legacy = [...(data.registro_legacy || []), ...legacy];
+  data.registro = strutturate;
+  ricalcolaReparti(data);
+  write(data);
+  console.log(`📦 AR-040: archiviate ${legacy.length} voci legacy in registro_legacy. Registro: ${strutturate.length} voci strutturate.`);
+}
+
+// AR-040/AR-041: apre automaticamente UNA previsione baseline @AD se il registro è vuoto.
+// Legge i dati correnti dai sensori (sensori-cecita.json) per costruire la metrica.
+// Usato in giro.sh PRIMA del motore, così il motore può poi chiamare `esito` al giro dopo.
+function cmdAutoprevedi(data) {
+  const strutturate = data.registro.filter((e) => e.id && (e.stato === "aperta" || e.stato === "scaduta" || e.stato === "azzeccata" || e.stato === "mancata"));
+  if (strutturate.length > 0) {
+    const aperte = strutturate.filter((e) => e.stato === "aperta");
+    console.log(`✅ autoprevedi: ${strutturate.length} voci strutturate (${aperte.length} aperte) — nessuna nuova previsione baseline aperta.`);
+    return;
+  }
+  // Registro vuoto: apri la prima previsione baseline @AD ordini.
+  const domani = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+  const reparto = "@AD";
+  const id = nuovoId(reparto);
+  const entry = {
+    id,
+    reparto,
+    azione: "giro-routine-settimanale",
+    metrica: "ordini_totali",
+    atteso: 1,
+    reale: null,
+    entro: domani,
+    tolleranza: TOLLERANZA_DEFAULT,
+    stato: "aperta",
+    scarto_pct: null,
+    nota: "AR-040/autoprevedi: prima previsione baseline. Al giro della misurazione chiama: calibrazione.mjs esito --id=" + id + " --reale=<n> --fonte=\"Supabase MCP\"",
+    creato: nowPiacenza(),
+    chiuso_il: "",
+  };
+  data.registro.push(entry);
+  ricalcolaReparti(data);
+  write(data);
+  console.log(`✅ AR-040/autoprevedi: prima previsione strutturata aperta [${id}] @AD: ordini_totali atteso 1 entro ${domani}.`);
+  console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
+}
+
 async function main() {
   const cmd = process.argv[2];
   const data = readCalibrazione();
@@ -393,12 +446,18 @@ async function main() {
     case "promozioni":
       cmdPromozioni(data);
       break;
+    case "archivia-legacy":
+      cmdArchiviaLegacy(data);
+      break;
+    case "autoprevedi":
+      cmdAutoprevedi(data);
+      break;
     case "report":
     case undefined:
       cmdReport(data);
       break;
     default:
-      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | report`);
+      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | report`);
       process.exit(2);
   }
   const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;

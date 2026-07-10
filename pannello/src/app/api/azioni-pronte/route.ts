@@ -85,5 +85,13 @@ export async function POST(req: Request) {
   const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
   const salv = (await setImpostazione(`azione:${id}`, esito.stato)) && (await setImpostazione(`azione:${id}:nota`, esito.dettaglio));
   await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
+  // AR-034: se il salvataggio Supabase fallisce, ok:false → il client fa rollback invece di mostrare
+  // "ok" su una card che al refresh torna vergine (rischio doppio invio con AZIONI_LIVE=1).
+  if (!salv) {
+    return NextResponse.json(
+      { ok: false, stato: esito.stato, esito: esito.dettaglio, salvataggio: false, error: "Salvataggio stato fallito — riprova." },
+      { status: 503 }
+    );
+  }
   return NextResponse.json({ ok: true, stato: esito.stato, esito: esito.dettaglio, salvataggio: salv });
 }

@@ -73,10 +73,18 @@ function main() {
     const tokRaw = getFlag("token");
     const token = tokRaw != null && !Number.isNaN(Number(tokRaw)) ? Number(tokRaw) : null;
     const modello = getFlag("modello");
-    stato.oggi.voci.push({ quando, tipo, durata_sec: durata, token, modello: modello || null });
+    // AR-043: --stima = il conteggio token è una stima (non una misura reale dalla CLI).
+    // Le stime finiscono in un contatore separato e NON alzano token_totali usato dai gate.
+    const isStima = process.argv.includes("--stima");
+    const voce = { quando, tipo, durata_sec: durata, token, modello: modello || null };
+    if (isStima) voce.stima_grezza = true;
+    stato.oggi.voci.push(voce);
     stato.oggi.runs += 1;
     stato.oggi.durata_sec_totale += durata;
-    if (token != null) stato.oggi.token_totali += token;
+    if (token != null && !isStima) stato.oggi.token_totali += token;
+    if (isStima && token != null) {
+      stato.oggi.token_stimati = (stato.oggi.token_stimati || 0) + token;
+    }
   }
 
   stato.aggiornato = quando;

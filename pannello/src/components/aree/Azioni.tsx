@@ -275,13 +275,14 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     ricordaLocale(id, target.stato, target.esito);
     try {
       const r = await fetch("/api/azioni-pronte", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, decisione: dec }) }).then((x) => x.json());
-      if (r && typeof r.stato === "string") {
+      // AR-034: ok:false = salvataggio fallito → rollback (evita "ok" su card non persistita → doppio invio).
+      if (r && r.ok !== false && typeof r.stato === "string") {
         patch(id, { stato: r.stato as Stato, esito: r.esito || "" });
         ricordaLocale(id, r.stato as Stato, r.esito || "");
         setRegistro(null);
       } else {
-        // Risposta non valida: rollback allo stato precedente + avviso. (bug: catch vuoto → card bloccata)
-        patch(id, { stato: prevStato, esito: "⚠️ Non riuscito, riprova." });
+        const msg = r?.error ? `⚠️ ${r.error}` : "⚠️ Non riuscito, riprova.";
+        patch(id, { stato: prevStato, esito: msg });
         ricordaLocale(id, prevStato, prevEsito);
       }
     } catch {

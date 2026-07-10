@@ -27,6 +27,27 @@ const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-migli
 const JSON_MODE = process.argv.includes("--json");
 const GIORNI_DEFAULT = Number(process.env.ESPERIMENTI_GIORNI || 7);
 
+// --apri: apre un nuovo esperimento dalla CLI (AR-041 — il motore chiama questo invece di scrivere a mano).
+//   node cervello/esperimenti-check.mjs --apri --ambito=onboarding --metrica=negozi_live --atteso=1 [--giorni=14]
+function argVal(name) {
+  const a = process.argv.find((v) => v.startsWith(`--${name}=`));
+  return a ? a.split("=").slice(1).join("=") : null;
+}
+if (process.argv.includes("--apri")) {
+  const ambito = argVal("ambito") || "generico";
+  const metrica = argVal("metrica") || "non specificata";
+  const atteso = argVal("atteso") || "1";
+  const giorni = Number(argVal("giorni") || GIORNI_DEFAULT);
+  const id = `EXP-${Date.now().toString(36).toUpperCase()}`;
+  const data_misura = isoPiu(giorni);
+  let dati = existsSync(PATH) ? JSON.parse(readFileSync(PATH, "utf8")) : {};
+  if (!Array.isArray(dati.esperimenti)) dati.esperimenti = [];
+  dati.esperimenti.push({ id, stato: "aperto", ambito, metrica, atteso, data_misura, aperto_il: nowPiacenza() });
+  writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  console.log(`✅ Esperimento ${id} aperto: ${metrica} atteso ${atteso} entro ${data_misura}`);
+  process.exit(0);
+}
+
 function isoPiu(giorni) {
   const d = new Date(Date.now() + giorni * 86400000);
   return d.toISOString().slice(0, 10);
@@ -95,12 +116,15 @@ async function main() {
       console.log(`   Da MISURARE in questo giro (scrivi delta + stato 'misurato' in auto-miglioramento.json):`);
       for (const e of inScadenza) console.log(`   • [${e.id}] ${e.ambito}: ${e.metrica} atteso ${e.atteso} — misura entro ${e.data_misura}`);
     } else if (aperti.length === 0) {
-      console.log("   Nessun esperimento aperto. Il ciclo settimanale ne apre ≥1 sull'ambito col divario più alto (AR-054).");
+      console.log("⛔ AR-041: NESSUN ESPERIMENTO APERTO — il ciclo osserva→impara non misura mai nulla.");
+      console.log("   VINCOLO: in questo giro apri ≥1 esperimento sull'ambito col divario più alto.");
+      console.log("   Es: node cervello/esperimenti-check.mjs --apri --ambito=onboarding --metrica=negozi_live --atteso=1 --giorni=7");
     } else {
       console.log("   ✅ Tutti gli esperimenti aperti hanno una scadenza futura.");
     }
   }
-  process.exit(inScadenza.length ? 1 : 0);
+  // AR-041: array vuoto = volano spento → exit 1 (giro.sh può farne vincolo hard al motore).
+  process.exit(inScadenza.length > 0 || aperti.length === 0 ? 1 : 0);
 }
 
 main().catch(async (e) => {
