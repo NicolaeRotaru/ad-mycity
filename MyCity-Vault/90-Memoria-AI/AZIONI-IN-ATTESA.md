@@ -14,7 +14,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — Committa i 37 fix in ad-mycity/marketplace e apri la PR · ⏳ IN ATTESA · aggiornata 2026-07-11 00:30
+### 🟡 #pr-5bloccanti — Committa i 37 fix in ad-mycity/marketplace e apri la PR · ✅ APPROVATA DA NICOLA («commitali», 11/7 ~01:00) · ancora bloccata: serve il terminale VPS · aggiornata 2026-07-11 01:00
 
 I fix sono scritti in **37 file** nel checkout `/opt/mycity/ad-mycity/marketplace/` (branch `fix/5-bloccanti-sicurezza`) ma NON sono ancora committati — `git` in quel checkout è bloccato da security hooks, quindi non posso committare da Claude.
 
