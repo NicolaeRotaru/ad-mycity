@@ -2,7 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2 } from "lucide-react";
-import { chiediACasella, salvaConversazioneCasella, type ParlaMsg } from "@/lib/parla";
+import {
+  attendiEsitoLavoro,
+  creaLavoroCasella,
+  fondiMessaggi,
+  recuperaThreadDaLavori,
+  salvaConversazioneCasella,
+  type ParlaMsg,
+} from "@/lib/parla";
 
 // 🚀 AR-036: cache CONDIVISA della lista conversazioni tra TUTTE le istanze di ParlaCasella.
 // Prima ogni casella fetchava /api/conversazioni al proprio mount → con decine di caselle per pagina
@@ -26,8 +33,11 @@ async function fetchConversazioniCondiviso() {
 }
 
 // 💬 Pulsante "Parla con questa casella" — riutilizzabile su OGNI casella del Pannello.
-// Chiuso di default: un click lo apre. Manda il messaggio (col contesto della casella) a
-// Claude Max, mostra la risposta sul posto, e salva la conversazione in Assistenza → Conversazioni.
+// Chiuso di default: un click lo apre. Salva SUBITO la conversazione in Assistenza →
+// Conversazioni (col messaggio di Nicola), poi manda il messaggio (col contesto della
+// casella) a Claude Max nello stesso gruppo, mostra la risposta sul posto e completa il
+// thread salvato. Se la pagina si chiude prima della risposta, il thread resta in lista
+// e la risposta si ripesca dai lavori alla prossima apertura.
 export default function ParlaCasella({ titolo, contesto }: { titolo: string; contesto?: string }) {
   const [aperto, setAperto] = useState(false);
   const [bozza, setBozza] = useState("");
@@ -44,39 +54,55 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // così recuperiamo anche il convId reale e i salvataggi successivi fanno upsert sullo stesso thread.
   // AR-036: carica la storia della casella SOLO quando la apri (non a ogni mount di ogni casella),
   // e via la cache condivisa (una sola richiesta anche se apri più box). La maggior parte delle caselle
-  // non viene mai aperta → zero fetch. Carica una volta per casella.
+  // non viene mai aperta → zero fetch. Carica una volta per casella (si ritenta solo se il giro
+  // precedente è stato annullato chiudendo il box a metà caricamento).
   const caricatoRef = useRef(false);
   useEffect(() => {
     if (!aperto || caricatoRef.current) return;
-    caricatoRef.current = true;
     let annullato = false;
     const chiave = `💬 ${titolo}`; // id thread stabile dal titolo
     (async () => {
+      let salvati: ParlaMsg[] = [];
+      let cid: string | null = null;
       // 1) server (lista condivisa, cache + dedup)
       try {
         const arr = await fetchConversazioniCondiviso();
         const c = arr.find((x) => x.titolo === chiave);
         if (c) {
-          if (!annullato) {
-            setMsgs(Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : []);
-            setConvId(c.id != null ? String(c.id) : null);
-          }
-          return;
+          salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
+          cid = c.id != null ? String(c.id) : null;
         }
       } catch {
         /* rete instabile: passo al locale */
       }
       // 2) fallback locale (stesso formato della Cabina)
-      try {
-        const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
-        const c = Array.isArray(list) ? list.find((x: any) => x.titolo === chiave) : null;
-        if (c && !annullato) {
-          setMsgs(Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : []);
-          setConvId(c.id != null ? String(c.id) : null);
+      if (!cid && salvati.length === 0) {
+        try {
+          const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
+          const c = Array.isArray(list) ? list.find((x: any) => x.titolo === chiave) : null;
+          if (c) {
+            salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
+            cid = c.id != null ? String(c.id) : null;
+          }
+        } catch {
+          /* localStorage non disponibile */
         }
-      } catch {
-        /* localStorage non disponibile */
       }
+      if (annullato) return;
+      caricatoRef.current = true;
+      if (salvati.length || cid) {
+        setMsgs(salvati);
+        setConvId(cid);
+      }
+      // 3) 🩹 RECUPERO: risposta arrivata quando la pagina era chiusa → vive solo nei lavori
+      //    (stesso gruppo_id, o stessa casella per i lavori nati prima del collegamento).
+      //    Se il thread completo è più lungo di quello salvato, mostralo e RISALVALO in
+      //    Conversazioni, così la lista dell'Assistente torna a dire la verità.
+      const completi = await recuperaThreadDaLavori(titolo, cid, salvati);
+      if (!completi) return;
+      if (!annullato) setMsgs((cur) => fondiMessaggi(cur, completi));
+      const id = await salvaConversazioneCasella(cid, chiave, completi);
+      if (!annullato && id) setConvId(id);
     })();
     return () => {
       annullato = true;
@@ -89,17 +115,34 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     setErr("");
     setSalvata(false); // 🐛 Bug #5: azzera la spunta "salvata" all'inizio di ogni invio
     setBozza("");
-    const storia = msgs;
-    const conMio: ParlaMsg[] = [...msgs, { role: "user", content: testo }];
+    const chiave = `💬 ${titolo}`;
+    const storia = msgs.filter((m) => !m.pending);
+    const conMio: ParlaMsg[] = [...storia, { role: "user", content: testo }];
     setMsgs(conMio);
     setInviando(true);
     try {
-      const risposta = await chiediACasella(titolo, contesto || "", storia, testo);
-      const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: risposta }];
-      setMsgs(completa);
-      const id = await salvaConversazioneCasella(convId, `💬 ${titolo}`, completa);
-      setConvId(id);
+      // ① Salva SUBITO la conversazione: compare in Assistente → Conversazioni col messaggio
+      //    di Nicola anche se la risposta arriverà quando questa pagina non ci sarà più.
+      //    (Prima si salvava solo a risposta ricevuta: un refresh nel mezzo = thread mai
+      //    salvato, lavoro presente in Archivio ma conversazione assente dalla lista.)
+      const id = (await salvaConversazioneCasella(convId, chiave, conMio)) ?? convId;
+      if (id) setConvId(id);
       setSalvata(true);
+      // ② Il lavoro nasce nello STESSO gruppo della conversazione (gruppo_id): Archivio e
+      //    Assistente restano collegati e la risposta è sempre ricostruibile dai lavori.
+      const lavoro = await creaLavoroCasella(titolo, contesto || "", storia, testo, id);
+      // ③ Aspetta la risposta e completa il thread salvato.
+      const esito = await attendiEsitoLavoro(lavoro.id, lavoro.tipo, lavoro.timeoutMs);
+      if (esito.definitiva) {
+        const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: esito.testo }];
+        setMsgs(completa);
+        const idFinale = await salvaConversazioneCasella(id, chiave, completa);
+        if (idFinale) setConvId(idFinale);
+      } else {
+        // Tempo scaduto: l'avviso resta solo a schermo (pending, non salvato) — la risposta
+        // vera verrà ripescata dai lavori alla prossima apertura della casella/conversazione.
+        setMsgs([...conMio, { role: "assistant", content: esito.testo, pending: true }]);
+      }
     } catch (e: any) {
       setErr(e?.message || "Non riuscito.");
       setBozza(testo); // 🐛 Bug #5: non perdere la bozza se l'invio fallisce, ripristinala
