@@ -14,39 +14,35 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — Committa i 37 fix in ad-mycity/marketplace e apri la PR · ✅ APPROVATA DA NICOLA («commitali», 11/7 ~01:00) · ancora bloccata: serve il terminale VPS · aggiornata 2026-07-11 01:00
+### 🟡 #pr-5bloccanti — Push branch fix/5-bloccanti-sicurezza su GitHub e apri la PR · ✅ Passo 1 (commit) FATTO da Nicola (11/7 ~01:30, hash 987b85b) · Manca: push + PR · aggiornata 2026-07-11 01:30
 
-I fix sono scritti in **37 file** nel checkout `/opt/mycity/ad-mycity/marketplace/` (branch `fix/5-bloccanti-sicurezza`) ma NON sono ancora committati — `git` in quel checkout è bloccato da security hooks, quindi non posso committare da Claude.
+**✅ Commit fatto (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 inserzioni, 117 cancellazioni. Migrazioni incluse: 108_fix_rider_rls, 109_fix_rider_self_assign, 110_fix_public_profile_rls, 111_fix_020_broken_policies, 112_fix_wallet_on_cancel_reject, 113_fix_coupon_atomic, 114_newsletter_consent, 115_fix_reversal_incremental.
 
-**Cosa è già fixato (verificato nel codice, 11/7):**
-1. `migrations/108_fix_rider_rls.sql` — RLS rider: chiunque (anche anonimo) poteva leggere nome/indirizzo/telefono dei clienti in consegna → ora solo i rider approvati vedono la coda ordini **(B2 chiuso)**
-2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) + `app/seller/orders/[id]/page.tsx` — rifiuto venditore su ordine pagato con carta: prima nessun rimborso; ora il nuovo endpoint API rimborsa Stripe prima di annullare **(B4 chiuso)**
-3. `lib/stripe/client.ts` + `webhook/route.ts` — TTL sessione Stripe allineato al pending_checkout (110 min); gestione EXPIRED; chargeback vinto → payout ri-emesso **(B1 + B3 chiusi)**
-4. `lib/stripe/payout.ts` — rimborso COD: clamp al residuo rimborsabile → impossibile over-accreditare il wallet **(G1 chiuso)**
-5. `middleware.ts` — fail-closed: senza variabili Supabase blocca l'accesso alle pagine admin/seller/rider **(G11 chiuso)**
-6. `migrations/109_fix_profile_public.sql` — profilo pubblico non espone più IBAN/CF/stripe_account_id **(G10 chiuso)**
-7. Coupon check atomico (db transaction) → impossibile riscattare lo stesso coupon in parallelo **(G8 chiuso)**
-8. Wallet su cancel ordine COD: ripristino automatico del credito **(G4 chiuso)**
-9. XSS JSON-LD: escape dei dati venditore nei blocchi strutturati **(G12 chiuso)**
+**Cosa è fixato (nel commit 987b85b):**
+1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
+2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) — rifiuto venditore rimborsa Stripe automaticamente **(B4 chiuso)**
+3. `migrations/110` — profilo pubblico non espone IBAN/CF/stripe_account_id **(G10 chiuso)**
+4. `migrations/111` — fix migrazione 020 broken (RLS recensioni rider + 9 indici) **(G13 chiuso)**
+5. `migrations/112` — wallet ripristinato su cancel/reject COD **(G4 chiuso)**
+6. `migrations/113` — coupon check atomico, impossibile doppio riscatto **(G8 chiuso)**
+7. `migrations/114` — newsletter double opt-in **(G17 chiuso)**
+8. `migrations/115` — rimborsi incrementali scalano correttamente il payout venditore **(G5 chiuso)**
+9. `middleware.ts` — fail-closed senza variabili Supabase **(G11 chiuso)**
+10. XSS JSON-LD: escape dati venditore **(G12 chiuso)**
 
-**Nota checkouts:** `fix/ruoli-acquisto-admin-seller-2026-07-02` è già merged in main — quei fix sono già in produzione.
-
-**Per sbloccare — Passo 1 (Nicola, ~60 secondi dal terminale VPS):**
+**⏳ Passo 2 — Push + PR (da eseguire):**
 ```bash
-git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace
-git config --global user.email "nicolaflorea50@gmail.com"
-git config --global user.name "AD MyCity"
+cd /opt/mycity/ad-mycity/marketplace && MARKETPLACE_REPO=/opt/mycity/ad-mycity/marketplace node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo mycity --base main --branch fix/5-bloccanti-sicurezza --title "fix: sprint 2 radiografia — B2 B4 G4 G5 G8 G10 G11 G12 G13 G17" --accoda
+```
+Oppure dal terminale VPS diretto:
+```bash
 cd /opt/mycity/ad-mycity/marketplace
-git add -A
-git commit -m "fix: sprint 2 radiografia — B2 B4 G4 G8 G9 G10 G11 G12 G13"
 git push origin fix/5-bloccanti-sicurezza
 ```
-> ℹ️ Il safe.directory è il primo blocco (dir owned da mycity ma stai come root). Il user.email è il secondo (root non ha identità git globale). Servono tutti e tre i config prima del commit.
+Poi l'AD apre la PR da GitHub CLI o git-pr.mjs.
 
-**Passo 2 (AD, dopo il tuo «fatto»):** apro la PR su GitHub.
-
-**Cosa cambia:** tutti e 4 i bloccanti + 5 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimorsati correttamente, overselling impossibile, coupon sicuri.
-**Se va bene:** il sito supera i controlli di sicurezza della radiografia senza i buchi più critici.
+**Cosa cambia:** 4 bloccanti + 8 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimborsati correttamente, coupon sicuri, newsletter conforme.
+**Se va bene:** PR mergiata da Nicola → migrazioni applicate al DB → sito sicuro.
 
 - **Colore:** 🟡 (modifica al codice del sito → branch+PR, merge firma tu).
 - **Il merge lo fai tu dal Pannello** dopo aver letto il diff.
