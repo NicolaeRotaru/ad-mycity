@@ -43,7 +43,16 @@ incrementa `evidenze` e `confidenza`, non duplicare.
 | `MyCity-Vault/90-Memoria-AI/DECISIONI.md` | Append-only, con data/ora |
 | `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` | Righe completate → FATTO |
 | `MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json` | Lezioni + preferenze |
+| `MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md` | ⭐ Le lezioni che la PROSSIMA chat deve avere davanti |
 | `memoria-squadra/<reparto>.md` | Lezioni per reparto specifico |
+
+### ⭐ LEZIONI-CHAT.md — il circuito che chiude il loop
+Il worker inietta le prime ~8 righe di questo file in OGNI turno di chat (blocco CONTESTO MACCHINA):
+è l'unico posto dove una lezione raggiunge DAVVERO la chat successiva. Regole:
+- Solo lezioni **operative per la chat** (errori da non ripetere, regole emerse, correzioni di Nicola).
+- Una riga per lezione, formato: `- [AAAA-MM-GG] lezione in una frase, concreta e verificabile.`
+- La più recente IN CIMA (subito dopo l'intestazione). Se una lezione esiste già, NON duplicarla.
+- Tienilo POTATO: massimo 12 righe di lezione — quando aggiungi, elimina la più vecchia o la più debole.
 
 ## Regole ferree
 
