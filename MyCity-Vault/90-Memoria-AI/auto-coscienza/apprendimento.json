@@ -29,7 +29,7 @@
       "ultima_conferma": "2026-07-10 23:58",
       "stato": "attiva",
       "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile.",
-      "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati. Serve 'Bash(git push origin fix/*:*)' in settings.local.json."
+      "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip."
     },
     {
       "id": "L-2026-0710-76",
