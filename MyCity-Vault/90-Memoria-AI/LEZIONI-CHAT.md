@@ -3,17 +3,18 @@
 > Mantenuto dalla metabolizzazione (`cervello/metabolizza.md`). Massimo 12 righe di lezione,
 > la più recente in cima. Il worker inietta le prime ~8 in OGNI turno di chat (blocco
 > CONTESTO MACCHINA): è qui che una lezione smette di essere una nota e diventa comportamento.
+> ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
+> un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-10] "model not found" = il CLI Cursor (`agent`) stava girando al posto di Claude; verificare sempre che `CERVELLO_MOTORE=claude` sia nel `.env` — se manca o vale `auto` con `agent` installato, il worker sceglie Cursor e va in errore. Fix: riavviare il worker dopo aver confermato il valore nel `.env`.
-- [2026-07-10] Prima di dare una PR URL o suggerire un branch name, verificare SEMPRE che il branch esista su origin (`git branch -r | grep <nome>` o `git ls-remote origin <nome>`): se il branch non è stato pushato, il link su GitHub mostra una pagina vuota e Nicola gira a vuoto.
-- [2026-07-10] Il «terminale Claude Code» Nicola NON ce l'ha installato e non sa cos'è — usa SOLO il Pannello web; MAI dirgli «approva il box nel terminale» o «apri Claude Code»: se serve un'approvazione, dire «aggiungi questa riga a settings.local.json» oppure «lancia dal terminale SSH del VPS».
-- [2026-07-10] Chat UX (3 preferenze fisse Nicola per ChatCasella/ParlaCasella): altezza compatta (max-h-44, uguale alla nuova chat), scroll automatico all'ultimo messaggio all'apertura, spaziatura ridotta nelle risposte AI (paragrafi my-0.5, non margini prose default) — tutte e 3 vanno replicate su ENTRAMBE le componenti nello stesso commit.
-- [2026-07-10] Allegati PNG in chat del Pannello: l'AD NON riesce ad aprirli (manca il permesso read sul path chat-allegati/); se Nicola allega uno screenshot, chiedere una descrizione a parole invece di provare ad aprirlo.
-- [2026-07-10] BUG + FIX PARZIALE — chip skill rapide: (a) in ParlaCasella/ChatCasella i chip SI VEDONO ma il click NON popola la textarea (bug ancora aperto — debuggare onClick/textareaRef/value={bozza}); (b) nella chat principale (page.tsx, commit 65bee0a8) e nella chat fluttuante (commit 3f68c4b1) i chip MANCAVANO — aggiunti nel branch fix/chat-altezza-scroll-spaziatura, NON pushato: aggiungere `"Bash(git push origin fix/*:*)"` a settings.local.json.
-- [2026-07-10] ParlaCasella e ChatCasella devono essere SEMPRE identiche dal punto di vista di Nicola ("la chat della casella e chat dell'archivio deve essere la stessa cosa") — ogni modifica UI a una va applicata all'altra nello stesso commit.
-
+- [2026-07-10] Il remote origin è volutamente SENZA token: git pull/fetch/push diretti falliscono APPOSTA — pubblicare = node cervello/git-pr.mjs; main lo tiene fresco watch-main ogni 5 minuti.
+- [2026-07-10] gh resta VIETATO anche se installato (non è in allowlist e non serve): le PR si aprono SOLO con node cervello/git-pr.mjs. Mai passare token in pipe o inventare login.
+- [2026-07-10] Feature che «non appare» dopo un deploy: prima di diagnosticare il build, guida Nicola all'interazione ESATTA (i chip skill sono solo in «💬 Parla con questa casella» a textarea vuota) — conferma il punto esatto prima di assumere il deploy rotto.
+- [2026-07-10] ParlaCasella e ChatCasella devono restare IDENTICHE per Nicola («la chat della casella e quella dell'archivio sono la stessa cosa»): ogni modifica UI a una va applicata all'altra nello stesso commit.
+- [2026-07-10] Se `.claude/settings.local.json` sparisce: o un checkout verso un branch che lo TRACCIA (es. feature/skill-rapide-chat — .gitignore protegge solo file untracked: git stash prima, e verifica con git ls-tree) o un tuo stesso Write — rileggi il file dopo ogni scrittura.
 - [2026-07-10] Nella chat del Pannello NESSUN box di approvazione può comparire (headless): se un comando è negato, usa la strada consentita o accoda l'azione — mai dire «approva il box».
-- [2026-07-10] `"Bash(git push origin fix/*:*)"` non è nell'allowlist di default (c'è solo `feature/*`): commit su branch fix/* restano bloccati finché Nicola non aggiunge la riga in settings.local.json — documentarlo come azione in attesa, non tentare workaround.
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.
+- [2026-07-10] Prima di toccare codice: git checkout main (già allineato da watch-main; NIENTE git pull, il remote è senza credenziali), poi branch NUOVO — mai lavorare sul branch ereditato dalla sessione precedente (successo con fix/rimuovi-autoscroll-chat: chip committate sul branch dell'autoscroll).
 - [2026-07-10] Mai dire «fatto» senza prova verificata (git log, output comando): i «fatto» non verificati hanno fatto girare Nicola in tondo per ore.
+- [2026-07-10] Mai commit «forza build» su main: il deploy del Pannello parte da solo al merge; se il Pannello sembra vecchio, controlla i segnali automazione e dillo a Nicola.
 - [2026-07-10] Mai script temporanei (_tmp_*.mjs) né curl verso api.github.com per aggirare un blocco: vietati dai permessi, e sporcano main.
+- [2026-07-09] I numeri senza fonte sono bugie: ogni cifra citata in chat ha un file/query/comando dietro, oppure si dichiara che manca.
