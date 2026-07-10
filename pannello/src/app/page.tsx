@@ -93,6 +93,8 @@ import {
   Lightbulb,
   Award,
   Microscope,
+  Paperclip,
+  Image as ImageIcon,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -658,6 +660,17 @@ export default function Dashboard() {
     rec.start();
   }
   const [loading, setLoading] = useState(false);
+  // 📎 Foto/file allegati al prossimo messaggio della chat (condivisi tra chat intera e fluttuante:
+  // è visibile una superficie sola per volta). Vengono caricati sullo storage in mandaAlCervello.
+  const [allegatiChat, setAllegatiChat] = useState<File[]>([]);
+  const fileChatRef = useRef<HTMLInputElement>(null);
+  function aggiungiAllegatiChat(lista: FileList | null) {
+    if (!lista || lista.length === 0) return;
+    setAllegatiChat((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
+  }
+  function togliAllegatoChat(i: number) {
+    setAllegatiChat((prev) => prev.filter((_, idx) => idx !== i));
+  }
   const endRef = useRef<HTMLDivElement>(null);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
@@ -1091,10 +1104,15 @@ export default function Dashboard() {
   // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
   async function mandaAlCervello(text?: string) {
     const t = (text ?? input).trim();
+    // 📎 Allegati SOLO per l'invio diretto dalla casella (non per i comandi programmatici con `text`).
+    const daCaricare = text === undefined ? allegatiChat : [];
     // ⏩ CHAT MULTIPLA (stile Claude): niente più blocco mentre l'AD pensa — puoi mandare
     // il 2°/3° messaggio subito; il turno vecchio viene sostituito e quello nuovo legge tutto.
-    if (!t) return;
-    if (text === undefined) setInput("");
+    if (!t && daCaricare.length === 0) return;
+    if (text === undefined) {
+      setInput("");
+      setAllegatiChat([]);
+    }
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
     // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
@@ -1103,21 +1121,16 @@ export default function Dashboard() {
       .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
       .join("\n");
     const baseTxt = base?.testo ? `\n\n## Contesto (conversazioni scelte come base)\n${base.testo}` : "";
-    const prep = preparaLavoro(t);
-    const richiesta =
-      prep.tipo === "giro"
-        ? prep.richiesta
-        : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-          `## Nuovo messaggio di Nicola\n${t}` +
-          baseTxt +
-          `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
-          `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+    const prep = preparaLavoro(t || "Guarda gli allegati");
+    // Nella bolla mostro il testo + i nomi degli allegati (così la conversazione resta leggibile).
+    const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
+    const bollaUtente = [t, nomiAllegati].filter(Boolean).join("\n");
 
     // Se c'era già una bolla "sto pensando" (o un parziale in streaming), la togliamo:
     // il turno nuovo risponderà a TUTTI i messaggi insieme, con una sola bolla in fondo.
     setMessages((m) => [
       ...m.filter((x) => !x.pending),
-      { id: nuovoIdMsg(), role: "user", content: t },
+      { id: nuovoIdMsg(), role: "user", content: bollaUtente },
       { id: nuovoIdMsg(), role: "assistant", content: "", pending: true },
     ]);
     setLoading(true);
@@ -1145,7 +1158,7 @@ export default function Dashboard() {
       targetConvId = gruppoId;
       const savedConv = await persistConversazione(convId, [
         ...messages.filter((m) => !m.prompt && !m.pending),
-        { role: "user", content: t },
+        { role: "user", content: bollaUtente },
       ]);
       if (savedConv) {
         setConvId(savedConv);
@@ -1153,6 +1166,34 @@ export default function Dashboard() {
         sessionGruppoRef.current = savedConv;
         targetConvId = savedConv;
       }
+
+      // 📎 Carico prima gli allegati sullo storage, poi mando al cervello solo i loro percorsi
+      // (il worker sul VPS li riscarica e li fa leggere/guardare a Claude).
+      let bloccoAllegati = "";
+      if (daCaricare.length > 0) {
+        const fd = new FormData();
+        fd.append("gruppo_id", gruppoId);
+        daCaricare.forEach((f) => fd.append("file", f));
+        const up = await fetch("/api/allegato", { method: "POST", body: fd })
+          .then((r) => r.json())
+          .catch(() => null);
+        if (!up?.ok) throw new Error(up?.error || "Caricamento degli allegati non riuscito.");
+        const righe = (up.allegati as Array<{ nome: string; tipo: string; percorso: string }>)
+          .map((a) => `@ALLEGATO nome="${a.nome}" tipo="${a.tipo}" percorso="${a.percorso}"`)
+          .join("\n");
+        bloccoAllegati =
+          `\n\n## Allegati di Nicola\nNicola ha allegato ${up.allegati.length} file a questo messaggio ` +
+          `(foto o documenti). Sono nello storage: aprili e tienine conto nella risposta.\n${righe}`;
+      }
+      const richiesta =
+        prep.tipo === "giro"
+          ? prep.richiesta
+          : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+            `## Nuovo messaggio di Nicola\n${t || "(nessun testo — vedi allegati)"}` +
+            baseTxt +
+            bloccoAllegati +
+            `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+            `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
 
       const res = await fetch("/api/lavori", {
         method: "POST",
@@ -1164,7 +1205,7 @@ export default function Dashboard() {
         salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
         aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
-        aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", t);
+        aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", bollaUtente);
         // Niente polling dedicato qui: il POLLER UNICO (/api/lavori) risolve questo pendente
         // e instrada la risposta nel thread giusto — prima si sdoppiava (2 fetch/s). (bug #11)
       } else {
@@ -1174,8 +1215,10 @@ export default function Dashboard() {
         );
         setLoading(false);
       }
-    } catch {
-      instradaMessaggioChat(targetConvId, "⚠️ Connessione fallita.");
+    } catch (e: any) {
+      // Non perdere gli allegati: li rimetto in coda così Nicola può riprovare.
+      if (daCaricare.length > 0) setAllegatiChat(daCaricare);
+      instradaMessaggioChat(targetConvId, `⚠️ ${e?.message || "Connessione fallita."}`);
       setLoading(false);
     }
   }
@@ -1956,6 +1999,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={endRef} />
           </div>
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
+            <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
@@ -1971,6 +2015,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 className="input-soft flex-1 min-h-[42px] max-h-40 resize-y"
               />
               <button
+                onClick={() => fileChatRef.current?.click()}
+                disabled={allegatiChat.length >= 6}
+                className="min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95 disabled:opacity-40"
+                aria-label="Allega foto o file"
+                title="Allega foto o file (max 6)"
+              >
+                <Paperclip size={18} />
+              </button>
+              <button
                 onClick={dettaVoce}
                 disabled={ascoltando}
                 className={`min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border transition active:scale-95 ${
@@ -1983,7 +2036,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
               <button
                 onClick={() => mandaAlCervello()}
-                disabled={!input.trim()}
+                disabled={!input.trim() && allegatiChat.length === 0}
                 className="min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
                 title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
@@ -2121,6 +2174,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </main>
       </div>
 
+      {/* 📎 Input file NASCOSTO condiviso tra la chat intera e quella fluttuante (una sola è visibile per volta). */}
+      <input
+        ref={fileChatRef}
+        type="file"
+        multiple
+        accept="image/*,application/pdf,.txt,.csv,.md"
+        className="hidden"
+        onChange={(e) => {
+          aggiungiAllegatiChat(e.target.files);
+          e.target.value = ""; // permette di riscegliere lo stesso file
+        }}
+      />
+
       {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
       {!chatFluttuante && vista !== "assistente" && (
         <button
@@ -2136,7 +2202,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       )}
       {chatFluttuante && (
         <div
-          className="fixed right-3 sm:right-6 z-50 w-[min(400px,calc(100vw-24px))] h-[min(560px,calc(100dvh-90px))] card flex flex-col overflow-hidden"
+          className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
           // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
           style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
         >
@@ -2219,6 +2285,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={chatFabEndRef} />
           </div>
           <div className="border-t p-2.5" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
+            <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
@@ -2234,6 +2301,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 className="input-soft flex-1 min-h-[40px] max-h-28 resize-y text-[13px]"
               />
               <button
+                onClick={() => fileChatRef.current?.click()}
+                disabled={allegatiChat.length >= 6}
+                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95 disabled:opacity-40"
+                aria-label="Allega foto o file"
+                title="Allega foto o file (max 6)"
+              >
+                <Paperclip size={16} />
+              </button>
+              <button
                 onClick={dettaVoce}
                 disabled={ascoltando}
                 className={`min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border transition active:scale-95 ${
@@ -2246,7 +2322,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
               <button
                 onClick={() => mandaAlCervello()}
-                disabled={!input.trim()}
+                disabled={!input.trim() && allegatiChat.length === 0}
                 className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
                 aria-label="Invia"
               >
@@ -2307,6 +2383,31 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </aside>
         </div>
       )}
+    </div>
+  );
+}
+
+// 📎 Riga di anteprima degli allegati scelti (foto/file), prima di inviare — con la ✕ per toglierli.
+function AnteprimaAllegati({ allegati, onTogli }: { allegati: File[]; onTogli: (i: number) => void }) {
+  if (allegati.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {allegati.map((f, i) => {
+        const isImg = f.type.startsWith("image/");
+        return (
+          <span
+            key={i}
+            className="inline-flex items-center gap-1 text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md pl-1.5 pr-1 py-1 max-w-[180px]"
+            title={f.name}
+          >
+            {isImg ? <ImageIcon size={12} /> : <FileText size={12} />}
+            <span className="truncate">{f.name}</span>
+            <button onClick={() => onTogli(i)} className="hover:text-red-600 transition" aria-label={`Togli ${f.name}`}>
+              <X size={12} />
+            </button>
+          </span>
+        );
+      })}
     </div>
   );
 }
