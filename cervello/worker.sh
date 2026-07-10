@@ -67,6 +67,21 @@ export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT"
 # resta in esecuzione la versione precedente, sana, e la chat continua a rispondere.
 reload_worker_sicuro() {
   local motivo="$1"
+  # 🛡️ GATE DI PROVENIENZA (anti-manomissione, 10/7): si ricarica SOLO codice arrivato da git —
+  # cioè da una PR mergiata che watch-main ha portato su disco. Un worker.sh che NON corrisponde
+  # alla versione committata (HEAD) è stato toccato fuori dalle rotaie (una sessione chat PUÒ
+  # scrivere file: acceptEdits): eseguirlo significherebbe lasciare che la macchina riscriva le
+  # proprie regole da sola. NON lo eseguiamo — allarme nel Pannello e si resta sulla versione sana.
+  if ! git diff --quiet HEAD -- "$WORKER_SCRIPT" 2>/dev/null; then
+    echo "[$(ts)] ⛔ RELOAD RIFIUTATO: worker.sh su disco NON corrisponde alla versione committata (modificato fuori da una PR). Resto sulla versione sana in RAM." >&2
+    WORKER_LOADED_MTIME="$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo "$WORKER_LOADED_MTIME")"
+    curl -fsS -X POST \
+      "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+      -H "Prefer: resolution=merge-duplicates,return=minimal" \
+      -d "{\"chiave\":\"worker:reload-rifiutato\",\"valore\":\"worker.sh manomesso su disco (diverso da HEAD) — resto sulla versione sana · $(date '+%Y-%m-%d %H:%M')\",\"updated_at\":\"$(date -Iseconds)\"}" \
+      >/dev/null 2>&1 || true
+    return 0
+  fi
   if bash -n "$WORKER_SCRIPT" 2>/dev/null; then
     echo "[$(ts)] $motivo — worker.sh valido, ricarico il processo." >&2
     # FIX loop-di-ricarica (worker-outage 2026-07-09, 2° episodio): allinea l'mtime "caricato" alla
@@ -717,7 +732,7 @@ REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa dann
 
 AZIONI:
 - Tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni)? NON eseguirla: proponila chiaramente e segna che serve la firma di Nicola (🔴).
-- Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: parti da main aggiornato (git checkout main && git pull --rebase), git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). Dopo la PR torna su main (git checkout main): la sessione successiva non deve ereditare il tuo branch.
+- Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: parti da main (git checkout main — è GIÀ allineato: watch-main lo aggiorna ogni 5 minuti; NIENTE git pull o fetch, il remote è volutamente senza credenziali), git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). Dopo la PR torna su main (git checkout main): la sessione successiva non deve ereditare il tuo branch.
 
 LA TUA CASSETTA DEGLI ATTREZZI (non esiste altro — non inventare strumenti):
 - Sei in modalità HEADLESS: NESSUN box di approvazione può comparire a Nicola. Se un comando è negato, non dire mai «approva il box»: usa la strada consentita, oppure accoda l'azione in AZIONI-IN-ATTESA e spiega cosa serve.
