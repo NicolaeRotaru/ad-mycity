@@ -38,6 +38,7 @@ import {
   Wallet,
   MousePointer,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   Clock,
   Star,
@@ -598,10 +599,29 @@ type Vista =
 
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
-  // Sidebar a sinistra, richiudibile: su desktop parte aperta, su telefono chiusa (drawer).
+  // Sidebar a sinistra, richiudibile e BLOCCATA: non scorre con la pagina (sticky sotto la
+  // testata su desktop, drawer sotto la testata su telefono) e non copre mai la barra in alto.
+  // Su desktop parte aperta, su telefono chiusa.
   const [navAperta, setNavAperta] = useState(true);
   useEffect(() => {
     if (typeof window !== "undefined") setNavAperta(window.innerWidth >= 1024);
+  }, []);
+  // Altezza VERA della testata → CSS var --altezza-testata: menù, linguetta e velo del
+  // drawer partono esattamente sotto la barra. Misurata (non stimata) perché la testata
+  // può cambiare altezza (pill di stato, wrap, zoom); fallback 69px in globals.css.
+  const headerRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const misura = () =>
+      document.documentElement.style.setProperty(
+        "--altezza-testata",
+        `${Math.ceil(el.getBoundingClientRect().height)}px`
+      );
+    misura();
+    const ro = new ResizeObserver(misura);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
   // Conversazioni: cassetto a scomparsa da SINISTRA dentro la chat (stile Claude).
   // Su desktop è un pannello laterale; su telefono riempie tutta la chat.
@@ -1589,13 +1609,16 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
+      <header ref={headerRef} className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
+          {/* Hamburger solo su telefono: su desktop il menù si apre/chiude con la
+              linguetta attaccata al suo bordo (più sotto). */}
           <button
             onClick={() => setNavAperta((v) => !v)}
-            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04]"
+            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04] lg:hidden"
             style={{ color: "var(--text-muted)" }}
             aria-label="Apri o chiudi il menù"
+            aria-expanded={navAperta}
             title="Menù"
           >
             <Menu size={18} />
@@ -1660,18 +1683,20 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </header>
 
       {/* Layout a due colonne: sidebar (richiudibile) + contenuto. Niente è stato tolto:
-          tutte le aree ci sono, solo raggruppate e con nomi chiari. */}
+          tutte le aree ci sono, solo raggruppate e con nomi chiari.
+          La sidebar è BLOCCATA: parte sotto la testata (mai coperta) e segue lo scroll
+          per tutta la pagina — sticky su desktop, drawer fisso su telefono. */}
       <div className="flex flex-1 min-h-0 items-stretch">
         {navAperta && (
           <button
-            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            className="fixed inset-x-0 bottom-0 top-[var(--altezza-testata)] z-30 bg-black/40 lg:hidden"
             onClick={() => setNavAperta(false)}
             aria-label="Chiudi il menù"
           />
         )}
 
         <aside
-          className={`fixed lg:static z-40 top-0 left-0 h-[100dvh] lg:h-auto lg:self-stretch shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
+          className={`fixed lg:sticky z-40 top-[var(--altezza-testata)] left-0 h-[calc(100dvh-var(--altezza-testata))] lg:self-start shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
             navAperta ? "w-64 translate-x-0" : "w-64 -translate-x-full lg:w-0"
           }`}
           style={{ background: "var(--bg-surface)", borderRight: "1px solid var(--border)" }}
@@ -1682,29 +1707,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {
                   gruppo: null,
                   voci: [
-                    { id: "plancia", label: "Home", icon: <Home size={16} /> },
-                    { id: "azioni", label: "Azioni", icon: <Zap size={16} /> },
+                    { id: "plancia", label: "Home", icon: <Home size={15} /> },
+                    { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
                   ],
                 },
                 {
                   gruppo: "Approfondisci",
                   voci: [
-                    { id: "numeri", label: "Numeri", icon: <BarChart3 size={16} /> },
-                    { id: "persone", label: "Negozi & clienti", icon: <Users size={16} /> },
-                    { id: "operazioni", label: "Operazioni", icon: <Truck size={16} /> },
-                    { id: "mondo", label: "Mercato", icon: <Globe size={16} /> },
-                    { id: "report", label: "Report", icon: <FileText size={16} /> },
+                    { id: "numeri", label: "Numeri", icon: <BarChart3 size={15} /> },
+                    { id: "persone", label: "Negozi & clienti", icon: <Users size={15} /> },
+                    { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
+                    { id: "mondo", label: "Mercato", icon: <Globe size={15} /> },
+                    { id: "report", label: "Report", icon: <FileText size={15} /> },
                   ],
                 },
                 {
                   gruppo: "Macchina & memoria",
                   voci: [
-                    { id: "cervello", label: "Controllo", icon: <Cpu size={16} /> },
-                    { id: "lavori", label: "Lavori", icon: <Brain size={16} /> },
-                    { id: "memoria", label: "Memoria", icon: <Layers size={16} /> },
-                    { id: "storico", label: "Storico", icon: <History size={16} /> },
-                    { id: "assistente", label: "Assistente", icon: <Send size={16} /> },
-                    { id: "esplora", label: "GitHub", icon: <FolderTree size={16} /> },
+                    { id: "cervello", label: "Controllo", icon: <Cpu size={15} /> },
+                    { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
+                    { id: "memoria", label: "Memoria", icon: <Layers size={15} /> },
+                    { id: "storico", label: "Storico", icon: <History size={15} /> },
+                    { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+                    { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
                   ],
                 },
               ];
@@ -1718,7 +1743,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                         setVista(v.id);
                         if (typeof window !== "undefined" && window.innerWidth < 1024) setNavAperta(false);
                       }}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13.5px] font-medium text-left transition ${
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[12.5px] font-medium text-left transition ${
                         vista === v.id ? "bg-brand text-white shadow-card" : "hover:bg-black/[0.04]"
                       }`}
                       style={vista === v.id ? undefined : { color: "var(--text-muted)" }}
@@ -1732,6 +1757,28 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             })()}
           </nav>
         </aside>
+
+        {/* Linguetta apri/chiudi attaccata al bordo del menù (solo desktop): sporge per
+            metà sul contenuto, resta a metà schermo mentre scorri (fixed) e cambia
+            simbolo: ‹ = chiudi il menù, › = aprilo. Su telefono resta l'hamburger.
+            Il left segue la larghezza del menù (w-64 aperto → left-64). */}
+        <button
+          onClick={() => setNavAperta((v) => !v)}
+          className={`hidden lg:grid place-items-center fixed z-40 top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-14 rounded-full border transition-[left] duration-200 hover:text-brand ${
+            navAperta ? "left-64" : "left-0"
+          }`}
+          style={{
+            background: "var(--bg-elevated)",
+            borderColor: "var(--border-strong)",
+            color: "var(--text-muted)",
+            boxShadow: "var(--shadow-card)",
+          }}
+          aria-label={navAperta ? "Chiudi il menù" : "Apri il menù"}
+          aria-expanded={navAperta}
+          title={navAperta ? "Chiudi il menù" : "Apri il menù"}
+        >
+          {navAperta ? <ChevronLeft size={15} /> : <ChevronRight size={15} />}
+        </button>
 
         <main className="flex-1 min-w-0 max-w-5xl mx-auto w-full px-4 sm:px-6 py-5 sm:py-6 space-y-5">
 
