@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0710-78",
+      "testo": "**Verificare sempre che il branch esista su origin prima di dare una PR URL (chat 10/7, PR fix/chat-altezza-scroll-spaziatura):** l'AD ha suggerito prima il branch sbagliato (`fix/rimuovi-autoscroll-chat` invece di `fix/chat-altezza-scroll-spaziatura`), poi ha dato una URL per un branch che non era ancora pushato su origin — Nicola ha aperto il link e ha trovato una pagina vuota. Causa: l'AD ha assunto che il branch esistesse su origin senza verificarlo con `git branch -r | grep <nome>` o `git ls-remote origin <nome>`. **Regola fissa, SEMPRE:** prima di dare a Nicola qualsiasi URL GitHub `compare/main...<branch>` o qualsiasi branch name per una PR, eseguire `git ls-remote origin <nome-branch>` e verificare che ritorni un hash. Se il branch non è su origin, comunicarlo subito e indicare il comando di push (`git push origin <nome-branch>`) da eseguire prima di aprire il link. Una pagina vuota su GitHub causa confusione e fa perdere tempo.",
+      "tag": ["git", "branch", "pr", "origin", "ls-remote", "verifica-branch", "pannello", "AD"],
+      "reparto": "@AD",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 18:00",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0710-77",
       "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
       "tag": ["bug-aperto", "chip-skill", "click-handler", "setBozza", "textareaRef", "pannello", "ParlaCasella", "ChatCasella", "page.tsx", "fluttuante", "tutti-4-componenti"],
