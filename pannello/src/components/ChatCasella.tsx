@@ -1,13 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
+import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 
 const HEADERS = { "Content-Type": "application/json" };
+
+const SKILL_RAPIDE = [
+  { label: "🔄 Giro", cmd: "fai un giro" },
+  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
+  { label: "✅ Verifica", cmd: "/verify" },
+  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
+  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
+  { label: "🔍 Ricerca", cmd: "/deep-research " },
+  { label: "🛡️ Sicurezza", cmd: "/security-review" },
+  { label: "📅 Pianifica", cmd: "/schedule " },
+];
 
 // Polling ravvicinato (1,5s) finché il cervello marca il lavoro "fatto"/"errore" (o timeout).
 // STREAMING (step 2): mentre il lavoro è "in_corso", il worker scrive la risposta PARZIALE nel campo
@@ -62,6 +73,7 @@ export default function ChatCasella({
   // 📎 Foto/file scelti da Nicola, in attesa di partire col prossimo messaggio.
   const [allegati, setAllegati] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function aggiungiFile(lista: FileList | null) {
     if (!lista || lista.length === 0) return;
@@ -224,7 +236,24 @@ export default function ChatCasella({
         }}
       />
 
+      {/* Skill rapide — compaiono solo a bozza vuota */}
+      {!bozza && !inviando && (
+        <div className="flex flex-wrap gap-1">
+          <span className="t-eti inline-flex items-center gap-0.5 opacity-50"><Zap size={10} /></span>
+          {SKILL_RAPIDE.map((s) => (
+            <button
+              key={s.cmd}
+              onClick={() => { setBozza(s.cmd); setTimeout(() => textareaRef.current?.focus(), 0); }}
+              className="text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md px-2 py-0.5 hover:bg-brand/15 dark:hover:bg-brand/25 transition"
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <textarea
+        ref={textareaRef}
         value={bozza}
         onChange={(e) => setBozza(e.target.value)}
         onKeyDown={(e) => {
