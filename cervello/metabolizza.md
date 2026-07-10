@@ -53,6 +53,10 @@ Il worker inietta le prime ~8 righe di questo file in OGNI turno di chat (blocco
 - Una riga per lezione, formato: `- [AAAA-MM-GG] lezione in una frase, concreta e verificabile.`
 - La più recente IN CIMA (subito dopo l'intestazione). Se una lezione esiste già, NON duplicarla.
 - Tienilo POTATO: massimo 12 righe di lezione — quando aggiungi, elimina la più vecchia o la più debole.
+- ⚠️ Le lezioni che VIETANO strumenti o scorciatoie sono INTOCCABILI: non riscriverle, non ammorbidirle,
+  non trasformarle in workaround. Se un tentativo è stato bloccato da permessi o hook di sicurezza, la
+  lezione da scrivere è «quella strada è vietata» — MAI il modo di aggirarla. (Il 10/7 la lezione su gh
+  è stata riscritta nel suo contrario, con dentro l'aggiramento: è l'errore che questo divieto spegne.)
 
 ## Regole ferree
 
