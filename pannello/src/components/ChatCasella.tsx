@@ -74,11 +74,22 @@ export default function ChatCasella({
   const [allegati, setAllegati] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll all'ultimo messaggio all'apertura e a ogni nuova risposta
+  function scrollBottom() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }
+
+  // Scroll al fondo subito all'apertura (anche con storico lungo)
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    requestAnimationFrame(scrollBottom);
+  }, []);
+
+  // Scroll al fondo a ogni nuovo messaggio o testo in streaming
+  useEffect(() => {
+    scrollBottom();
   }, [msgs, streamingText]);
 
   function aggiungiFile(lista: FileList | null) {
@@ -171,8 +182,9 @@ export default function ChatCasella({
         </button>
       </div>
 
-      {msgs.length > 0 && (
-        <div className="scroll-soft space-y-1.5 max-h-44 overflow-y-auto pr-1">
+      {/* Contenitore messaggi a altezza FISSA: nuova e vecchia chat hanno lo stesso ingombro */}
+      <div ref={scrollRef} className="scroll-soft h-36 overflow-y-auto pr-1">
+        <div className="space-y-1.5">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
               <span
@@ -194,33 +206,32 @@ export default function ChatCasella({
               </span>
             </div>
           ))}
-          <div ref={bottomRef} />
-        </div>
-      )}
 
-      {/* Risposta che arriva parola-per-parola (streaming) */}
-      {inviando && streamingText && (
-        <div className="text-left">
-          <span className="inline-block text-[12.5px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left chat-bubble-assistant prose-sm dark:prose-invert max-w-none">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                p: ({node, ...props}) => <p className="my-0.5" {...props} />,
-                ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
-                ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
-                li: ({node, ...props}) => <li className="my-0" {...props} />,
-              }}
-            >{streamingText}</ReactMarkdown>
-            <span className="ml-0.5 animate-pulse">▍</span>
-          </span>
-        </div>
-      )}
+          {/* Risposta in arrivo parola per parola (streaming) */}
+          {inviando && streamingText && (
+            <div className="text-left">
+              <span className="inline-block text-[12.5px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left chat-bubble-assistant prose-sm dark:prose-invert max-w-none">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    p: ({node, ...props}) => <p className="my-0.5" {...props} />,
+                    ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
+                    ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
+                    li: ({node, ...props}) => <li className="my-0" {...props} />,
+                  }}
+                >{streamingText}</ReactMarkdown>
+                <span className="ml-0.5 animate-pulse">▍</span>
+              </span>
+            </div>
+          )}
 
-      {inviando && !streamingText && (
-        <p className="t-eti flex items-center gap-1">
-          <Loader2 size={12} className="animate-spin" /> Claude Max sta rispondendo…
-        </p>
-      )}
+          {inviando && !streamingText && (
+            <p className="t-eti flex items-center gap-1">
+              <Loader2 size={12} className="animate-spin" /> Claude Max sta rispondendo…
+            </p>
+          )}
+        </div>
+      </div>
 
       {/* 📎 Anteprima degli allegati scelti, prima di inviare */}
       {allegati.length > 0 && (
