@@ -9,6 +9,8 @@ fonte: AD digitale
 > riscrivono le righe vecchie**: è la tua tracciabilità (anche legale).
 > Le 🟢 (reversibili, sotto-soglia) non serve registrarle qui.
 
+**2026-07-10 10:30** 🟡 Loop AR: chiusi 8/9 difetti del cantiere in questa sessione (AR-030/034/037/040/041/042/043/044 — tutti in codice su main). AR-006 resta in-corso: aspetta materiale PQ da Nicola. Fix Pannello (AR-034) già su main per svista sessione precedente — d'ora in poi ogni modifica al Pannello va in PR, il merge lo fa Nicola. Cantiere: 42 chiusi / 1 in-corso / 0 aperti.
+
 Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si sa al minuto quando è apparsa):
 `AAAA-MM-GG HH:MM · 🟡/🔴 · [Reparto] · Cosa · Perché · Esito/Stato · Chi ha firmato`
 
