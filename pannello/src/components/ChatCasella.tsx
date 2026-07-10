@@ -74,6 +74,12 @@ export default function ChatCasella({
   const [allegati, setAllegati] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Scroll all'ultimo messaggio all'apertura e a ogni nuova risposta
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs, streamingText]);
 
   function aggiungiFile(lista: FileList | null) {
     if (!lista || lista.length === 0) return;
@@ -166,7 +172,7 @@ export default function ChatCasella({
       </div>
 
       {msgs.length > 0 && (
-        <div className="scroll-soft space-y-1.5 max-h-72 overflow-y-auto pr-1">
+        <div className="scroll-soft space-y-1.5 max-h-44 overflow-y-auto pr-1">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
               <span
@@ -174,10 +180,21 @@ export default function ChatCasella({
                   m.role === "user" ? "bg-brand text-white" : "chat-bubble-assistant prose-sm dark:prose-invert max-w-none"
                 }`}
               >
-                {m.role === "user" ? m.content : <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>}
+                {m.role === "user" ? m.content : (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({node, ...props}) => <p className="my-0.5" {...props} />,
+                      ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
+                      ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
+                      li: ({node, ...props}) => <li className="my-0" {...props} />,
+                    }}
+                  >{m.content}</ReactMarkdown>
+                )}
               </span>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
       )}
 
@@ -185,7 +202,15 @@ export default function ChatCasella({
       {inviando && streamingText && (
         <div className="text-left">
           <span className="inline-block text-[12.5px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left chat-bubble-assistant prose-sm dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{streamingText}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                p: ({node, ...props}) => <p className="my-0.5" {...props} />,
+                ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
+                ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
+                li: ({node, ...props}) => <li className="my-0" {...props} />,
+              }}
+            >{streamingText}</ReactMarkdown>
             <span className="ml-0.5 animate-pulse">▍</span>
           </span>
         </div>
