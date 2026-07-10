@@ -100,6 +100,28 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
   fi
 fi
 
+# 🛡️ RACE col lavoro vivo (10/7): se una sessione chat sta lavorando ORA su un branch fix/*
+# (HEAD fuori da main con commit fresco, oppure modifiche di CODICE non committate), il
+# checkout -f qui sotto le strapperebbe HEAD da sotto i piedi (il commit atterra su main
+# locale — successo alle 18:05 con fix/chat-parla-casella-ux) e il -f SCARTEREBBE le modifiche
+# non committate. In quel caso RIMANDIAMO l'allineamento (exit 3): watch-main NON segna lo SHA
+# come visto e riprova tra 5 minuti. Fuga anti-stallo: un branch fermo da >30 min e senza
+# sporco di codice è abbandonato → si allinea comunque come prima.
+_cur_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$branch")"
+if [ "$_cur_branch" != "$branch" ] && [ "$_cur_branch" != "HEAD" ]; then
+  _tip_epoch="$(git log -1 --format=%ct 2>/dev/null || echo 0)"
+  _tip_age_min=$(( ( $(date +%s) - _tip_epoch ) / 60 ))
+  _dirty_codice=0
+  if git status --porcelain 2>/dev/null | cut -c4- | grep -qvE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/'; then
+    _dirty_codice=1
+  fi
+  if [ "$_tip_age_min" -lt 30 ] || [ "$_dirty_codice" = 1 ]; then
+    echo "[$(ts)] ⏸ Allineamento RIMANDATO: lavoro in corso sul branch '$_cur_branch' (ultimo commit ${_tip_age_min} min fa, sporco codice=$_dirty_codice) — riprovo al prossimo watch-main."
+    exit 3
+  fi
+  echo "[$(ts)] Branch '$_cur_branch' fermo da ${_tip_age_min} min e senza sporco di codice: lo considero abbandonato, allineo a main."
+fi
+
 git fetch "$url" "$branch" 2>/dev/null \
   && git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null \
   || git checkout -f -B "$branch" 2>/dev/null || true

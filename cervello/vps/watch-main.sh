@@ -166,7 +166,16 @@ echo "[$(ts)] watch-main: main avanzato ${LAST_SHA:0:7} → ${REMOTE_SHA:0:7} �
 # RILASCIA il lock PRIMA di chiamare aggiorna-cervello.sh: quel copione prende lo STESSO
 # lock da solo — tenerlo qui creava un deadlock (aspettava 120s e falliva sempre).
 exec 9>&-
-if ! AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh"; then
+_agg_rc=0
+AGGIORNA_SKIP_RESTART=1 bash "$REPO/cervello/vps/aggiorna-cervello.sh" || _agg_rc=$?
+if [ "$_agg_rc" -eq 3 ]; then
+  # rc=3 = lavoro VIVO su un branch (una chat sta preparando una PR): l'allineamento è solo
+  # RIMANDATO. Non segniamo lo SHA come visto → si riprova al prossimo giro (5 min). Non è un
+  # errore: niente allarme rosso nel Pannello.
+  echo "[$(ts)] watch-main: allineamento rimandato (lavoro in corso su un branch) — riprovo al prossimo giro."
+  segnale "ok" "allineamento rimandato: lavoro vivo su un branch (${REMOTE_SHA:0:7} in attesa)"
+  exit 0
+elif [ "$_agg_rc" -ne 0 ]; then
   echo "[$(ts)] watch-main: aggiorna-cervello.sh FALLITO." >&2
   segnale "errore" "allineamento fallito su ${REMOTE_SHA:0:7} — controlla journalctl"
   exit 1
