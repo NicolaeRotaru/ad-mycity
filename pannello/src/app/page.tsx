@@ -2156,10 +2156,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* La conversazione aperta resta in cima; le altre nell'ordine del server (più recenti prima). */}
-                {[...conversazioni]
-                  .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
-                  .map((c) => (
+                {/* Ordine del server (più recenti prima), stabile: la chat aperta resta al suo posto, evidenziata da conv-row-active. */}
+                {conversazioni.map((c) => (
                   <div
                     key={c.id}
                     className={`conv-row flex items-center gap-2.5 ${convId === c.id ? "conv-row-active" : ""}`}
@@ -2402,9 +2400,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <ul className="scroll-soft flex-1 overflow-y-auto px-2.5 pb-2.5 space-y-1">
-                {[...conversazioni]
-                  .sort((a, b) => (a.id === convId ? -1 : 0) - (b.id === convId ? -1 : 0))
-                  .map((c) => (
+                {conversazioni.map((c) => (
                   <li key={c.id}>
                     <button
                       onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
