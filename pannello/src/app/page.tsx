@@ -38,7 +38,6 @@ import {
   Wallet,
   MousePointer,
   ChevronDown,
-  ChevronLeft,
   ChevronRight,
   Clock,
   Star,
@@ -95,6 +94,7 @@ import {
   Award,
   Microscope,
   Paperclip,
+  Maximize2,
   Image as ImageIcon,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
@@ -692,13 +692,24 @@ export default function Dashboard() {
     setAllegatiChat((prev) => prev.filter((_, idx) => idx !== i));
   }
   const endRef = useRef<HTMLDivElement>(null);
+  // 📜 "Segui in fondo" solo se sei GIÀ in fondo: se sei salito a rileggere la chat,
+  // una nuova risposta NON ti strappa giù (resti dove stai leggendo). I ref tengono
+  // lo stato PRIMA che arrivi il nuovo messaggio (l'onScroll aggiorna, l'effect legge).
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
+  const chatFabBoxRef = useRef<HTMLDivElement>(null);
+  const stickFullRef = useRef(true);
+  const stickFabRef = useRef(true);
+  function vicinoAlFondo(el: HTMLElement | null) {
+    if (!el) return true;
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+  }
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (chatFluttuante) chatFabEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatFluttuante && stickFabRef.current) chatFabEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, chatFluttuante]);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
@@ -1290,7 +1301,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (stickFullRef.current) endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
   const caricaStato = useCallback(async () => {
@@ -1611,11 +1622,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     <div className="min-h-screen flex flex-col">
       <header ref={headerRef} className="sticky top-0 z-20 backdrop-blur-md border-b" style={{ borderColor: "var(--border)", background: "color-mix(in srgb, var(--bg-page) 88%, transparent)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-5 py-3 flex items-center gap-3">
-          {/* Hamburger solo su telefono: su desktop il menù si apre/chiude con la
-              linguetta attaccata al suo bordo (più sotto). */}
+          {/* Icona menù nella barra in alto: apre/chiude il menù laterale su tutti i
+              formati (desktop e telefono). */}
           <button
             onClick={() => setNavAperta((v) => !v)}
-            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04] lg:hidden"
+            className="grid place-items-center w-9 h-9 rounded-xl shrink-0 transition hover:bg-black/[0.04]"
             style={{ color: "var(--text-muted)" }}
             aria-label="Apri o chiudi il menù"
             aria-expanded={navAperta}
@@ -1757,28 +1768,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             })()}
           </nav>
         </aside>
-
-        {/* Linguetta apri/chiudi attaccata al bordo del menù (solo desktop): sporge per
-            metà sul contenuto, resta a metà schermo mentre scorri (fixed) e cambia
-            simbolo: ‹ = chiudi il menù, › = aprilo. Su telefono resta l'hamburger.
-            Il left segue la larghezza del menù (w-64 aperto → left-64). */}
-        <button
-          onClick={() => setNavAperta((v) => !v)}
-          className={`hidden lg:grid place-items-center fixed z-40 top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-14 rounded-full border transition-[left] duration-200 hover:text-brand ${
-            navAperta ? "left-64" : "left-0"
-          }`}
-          style={{
-            background: "var(--bg-elevated)",
-            borderColor: "var(--border-strong)",
-            color: "var(--text-muted)",
-            boxShadow: "var(--shadow-card)",
-          }}
-          aria-label={navAperta ? "Chiudi il menù" : "Apri il menù"}
-          aria-expanded={navAperta}
-          title={navAperta ? "Chiudi il menù" : "Apri il menù"}
-        >
-          {navAperta ? <ChevronLeft size={15} /> : <ChevronRight size={15} />}
-        </button>
 
         <main className="flex-1 min-w-0 max-w-5xl mx-auto w-full px-4 sm:px-6 py-5 sm:py-6 space-y-5">
 
@@ -1952,7 +1941,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           )}
-          <div className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
+          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
             {messages.length === 0 && (
               <div className="pt-1">
                 <p className="t-corpo text-sm mb-3">
@@ -2057,9 +2046,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     mandaAlCervello();
                   }
                 }}
-                rows={2}
+                rows={4}
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="input-soft flex-1 min-h-[42px] max-h-40 resize-y"
+                className="input-soft flex-1 min-h-[82px] max-h-40 resize-y"
               />
               <button
                 onClick={() => fileChatRef.current?.click()}
@@ -2280,10 +2269,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 setVista("assistente");
                 setChatFluttuante(false);
               }}
-              className="btn-ghost text-[11px] shrink-0"
+              className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
+              aria-label="Apri la chat intera"
               title="Apri la chat intera (con conversazioni ed esperti)"
             >
-              chat intera →
+              <Maximize2 size={15} />
             </button>
             <button
               onClick={() => setChatFluttuante(false)}
@@ -2294,7 +2284,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
-          <div className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
             {messages.filter((m) => !m.prompt).length === 0 && (
               <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
             )}
@@ -2343,9 +2333,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     mandaAlCervello();
                   }
                 }}
-                rows={1}
+                rows={3}
                 placeholder="Scrivi all'AD…"
-                className="input-soft flex-1 min-h-[40px] max-h-28 resize-y text-[13px]"
+                className="input-soft flex-1 min-h-[78px] max-h-28 resize-y text-[13px]"
               />
               <button
                 onClick={() => fileChatRef.current?.click()}
