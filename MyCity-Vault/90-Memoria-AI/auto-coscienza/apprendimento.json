@@ -78,11 +78,33 @@
       ],
       "reparto": "@AD",
       "confidenza": 0.98,
-      "evidenze": 3,
+      "evidenze": 4,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-10",
-      "ultima_conferma": "2026-07-10 21:30",
+      "ultima_conferma": "2026-07-10 22:30",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0710-75",
+      "testo": "**git checkout sovrascrive settings.local.json quando il file è TRACCIATO nel branch target (chat 10/7, terza sovrascrittura della sessione):** durante il tentativo di risolvere i conflitti della PR #247, l'AD ha fatto `git checkout feature/skill-rapide-chat`. Risultato: settings.local.json è stato sovrascritto con la versione vecchia del branch. Causa: il file era tracciato nella history del branch (prima di essere aggiunto a .gitignore), quindi git lo ripristina alla versione del branch ignorando il .gitignore locale. Questo contraddirebbe L-2026-0710-71 (causa = Write tool) che era PARZIALE. Entrambe le cause sono reali: (a) il Write tool sovrascrive se non si include tutto il contenuto; (b) git checkout ripristina se il file è tracked nel branch target. **Regola riusabile:** prima di fare checkout di un branch diverso, verificare con `git ls-tree <branch> .claude/settings.local.json` che il file non esista nel branch; se esiste, usare `git checkout <branch> -- .` con attenzione o fare stash del file prima. La soluzione permanente: rimuovere il file dalla history di tutti i branch con `git rm --cached .claude/settings.local.json` su ogni branch che lo tiene tracciato.",
+      "tag": [
+        "settings-local",
+        "git-checkout",
+        "file-tracked",
+        "gitignore-limite",
+        "sovrascrittura",
+        "PR-conflitti",
+        "pannello",
+        "permessi"
+      ],
+      "reparto": "@AD",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 22:30",
       "stato": "attiva"
     },
     {
