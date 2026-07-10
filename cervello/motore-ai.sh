@@ -102,7 +102,9 @@ ai_build_cmd() {
       AI_CMD=(claude -p --permission-mode acceptEdits)
       if [ "${AI_ALLOW_ACTIONS:-1}" = 1 ]; then
         local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-pr.mjs:*),Bash(node cervello/git-github.mjs:*),Bash(node cervello/marketplace.mjs:*),Bash(node cervello/esegui-azione.mjs:*),Bash(git add:*),Bash(git commit:*),Bash(git checkout:*),Bash(git switch:*),Bash(git branch:*),Bash(git status:*),Bash(git diff:*),Bash(git stash:*)}"
-        AI_CMD+=(--allowedTools "$_allowed")
+        # Forma con =: --allowedTools è variadico (<tools...>) — separato dal valore ingoierebbe
+        # anche il prompt posizionale che segue (motore muto, rc=1 su metabolizza/giro/ritmo).
+        AI_CMD+=("--allowedTools=$_allowed")
       fi
       [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
       ;;
