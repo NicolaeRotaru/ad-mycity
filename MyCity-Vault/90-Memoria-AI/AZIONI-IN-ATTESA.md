@@ -42,9 +42,10 @@ Fix inclusi nel branch:
 - Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
 - `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
 
-Per pushare e creare la PR, dal terminale sul VPS:
+Per pushare e creare la PR, dal terminale sul VPS (prima checkout del branch fix, poi apri la PR):
 ```bash
-cd /opt/mycity/ad-mycity
+cd /opt/mycity/ad-mycity && \
+git checkout fix/chat-altezza-scroll-spaziatura && \
 node cervello/git-pr.mjs --repo ad-mycity --base main --title "Fix chat: altezza fissa, scroll al fondo, Cursor disabilitato in auto"
 ```
 Poi riavvia il worker dal Pannello (sezione Worker → "Riavvia worker") per applicare il fix motore-ai senza aspettare il deploy.
