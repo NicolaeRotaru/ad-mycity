@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0710-81",
+      "testo": "**git stash obbligatorio prima di git checkout su un branch diverso quando ci sono file non committati (chat 10/7):** Nicola ha eseguito `git checkout fix/chat-altezza-scroll-spaziatura` e ha ricevuto 'error: Your local changes to the following files would be overwritten by checkout'. I file non committati (LEZIONI-CHAT.md, sentinella-dati.json, routing.json) bloccano il checkout. Regola fissa: quando si deve cambiare branch con modifiche in corso, sempre `git stash` prima, poi checkout, poi il comando successivo (git-pr.mjs o altro). Sequenza corretta: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`. I file stashati possono essere recuperati con `git stash pop` dopo il checkout se servono ancora sul branch fix.",
+      "tag": ["git-stash", "checkout", "branch", "uncommitted-files", "overwritten", "errore", "git-pr.mjs"],
+      "reparto": "@AD",
+      "confidenza": 0.99,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 18:30",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0710-80",
       "testo": "**git-pr.mjs legge il branch CORRENTE, non quello che vuoi aprire (chat 10/7):** Nicola ha lanciato `node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'` da `main` e ha ricevuto 'ERRORE: head e base sono lo stesso ramo (main)'. Il problema è che git-pr.mjs usa il branch su cui SEI (HEAD), non un parametro `--head` separato. Regola fissa: SEMPRE fare `git checkout fix/<branch>` (o feature/<branch>) PRIMA di lanciare git-pr.mjs. Il comando corretto è: `cd /opt/mycity/ad-mycity && git checkout fix/<nome> && node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'`. Da non confondere con git push che accetta `origin <branch>` esplicitamente.",
       "tag": ["git-pr.mjs", "branch", "pr", "checkout", "head", "main", "stesso-ramo", "errore"],
