@@ -368,6 +368,46 @@ prepara_allegati_chat() {
 Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strumento Read (le foto le vedi, i PDF/testi li leggi) e tienine conto:$out_block"
 }
 
+# 🧭 CONTESTO-MACCHINA (chat): blocco di realtà che il worker inietta in OGNI turno di chat.
+# Lo raccoglie il CODICE (git + coda + segnali + lezioni), non il modello: la chat parte sempre
+# sapendo dove si trova — branch attuale, file sporchi, lavori in errore, lezioni già imparate —
+# invece di riscoprirlo (o sbagliarlo) a ogni sessione, visto che ogni sessione parte da zero.
+# Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
+# mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
+contesto_macchina_chat() {
+  local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni blocco
+  branch_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+  commit_ora="$(git log -1 --format='%h · %s' 2>/dev/null || echo '?')"
+  dirty_n="$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')"
+  dirty_top="$(git status --porcelain 2>/dev/null | head -3 | awk '{print $NF}' | paste -sd ', ' - 2>/dev/null)"
+  coda=""; segnali=""
+  if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
+    coda="$(curl -fsS --connect-timeout 8 --max-time 20 \
+      "$SUPABASE_URL/rest/v1/lavori?select=stato&created_at=gte.$(date -u -d '-24 hours' +%Y-%m-%dT%H:%M:%SZ)" \
+      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null \
+      | jq -r 'group_by(.stato) | map("\(.[0].stato) \(length)") | join(" · ")' 2>/dev/null || true)"
+    segnali="$(curl -fsS --connect-timeout 8 --max-time 20 \
+      "$SUPABASE_URL/rest/v1/impostazioni?select=chiave,valore&chiave=like.automazione:*&order=updated_at.desc&limit=15" \
+      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null \
+      | jq -r '.[] | select(.valore | test("^(errore|warn)")) | "  - \(.chiave | sub("automazione:";"")): \(.valore[0:90])"' 2>/dev/null \
+      | head -4 || true)"
+  fi
+  lezioni="$(grep '^- ' MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md 2>/dev/null | head -8 || true)"
+  blocco="## CONTESTO MACCHINA (raccolto ADESSO dal worker: fidati di questo, non dei ricordi di sessione)
+- Ora: $(date '+%Y-%m-%d %H:%M') (Europe/Rome)
+- Repo: branch \`$branch_ora\` · ultimo commit: $commit_ora
+- File modificati non committati: ${dirty_n:-0}${dirty_top:+ ($dirty_top)}"
+  [ -n "$coda" ] && blocco="$blocco
+- Coda lavori ultime 24h: $coda"
+  [ -n "$segnali" ] && blocco="$blocco
+- Segnali automazione con problemi:
+$segnali"
+  [ -n "$lezioni" ] && blocco="$blocco
+- Lezioni recenti da rispettare (MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md):
+$lezioni"
+  printf '%s' "$blocco"
+}
+
 # Esegue la chat in streaming: mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato
 # (stato resta in_corso) così nel Pannello compare parola per parola. Popola le globali out, rc.
 # FAIL-SAFE: se lo stream non dà testo (CLI che non supporta il formato) o esce male, si ricade
@@ -677,7 +717,20 @@ REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa dann
 
 AZIONI:
 - Tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni)? NON eseguirla: proponila chiaramente e segna che serve la firma di Nicola (🔴).
-- Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). git-pr.mjs è l'unica mano per pubblicare.
+- Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: parti da main aggiornato (git checkout main && git pull --rebase), git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). Dopo la PR torna su main (git checkout main): la sessione successiva non deve ereditare il tuo branch.
+
+LA TUA CASSETTA DEGLI ATTREZZI (non esiste altro — non inventare strumenti):
+- Sei in modalità HEADLESS: NESSUN box di approvazione può comparire a Nicola. Se un comando è negato, non dire mai «approva il box»: usa la strada consentita, oppure accoda l'azione in AZIONI-IN-ATTESA e spiega cosa serve.
+- Le PR si aprono SOLO con node cervello/git-pr.mjs. La CLI gh NON è installata e NON va installata. Il merge lo fa solo Nicola dal Pannello.
+- MAI chiedere a Nicola di allargare i permessi (niente regole larghe tipo git push:* o curl:*): se qualcosa è bloccato, è bloccato apposta.
+- MAI installare software (sudo, apt, npm -g) e MAI creare script temporanei (_tmp_*.mjs) per aggirare un blocco.
+- Il deploy del Pannello parte da solo dopo il merge su main: NON committare «forza build» — se il Pannello sembra vecchio, dillo a Nicola e controlla i segnali automazione."
+    # 🧭 Realtà della macchina raccolta dal worker (branch, sporco, coda, segnali, lezioni).
+    _ctx_block="$(contesto_macchina_chat 2>/dev/null || true)"
+    [ -n "$_ctx_block" ] && prompt="$prompt
+
+$_ctx_block"
+    prompt="$prompt
 
 ## Conversazione
 $richiesta"
@@ -771,6 +824,15 @@ $richiesta"
 - Branch: \`$_chat_branch\` · ultimo commit: $_chat_commit
 - File modificati non ancora committati: $_chat_mod_n${_chat_mod_top:+ ($_chat_mod_top)}"
     fi
+  fi
+
+  # 3a-ter) ERRORE CHAT IN LINGUA UMANA: se il motore della chat muore, Nicola non deve leggere
+  # solo il vomito tecnico della CLI — prima una riga chiara su cosa fare, poi il dettaglio.
+  if [ "$tipo" = "chat" ] && [ "$stato" = "errore" ]; then
+    out="⚠️ Il motore della chat si è fermato prima di finire. Il tuo messaggio NON è perso: riprova a inviarlo tra qualche secondo. Se succede di nuovo, dimmi «il motore chat si è fermato di nuovo» e indago nei log.
+
+Dettaglio tecnico (per la diagnosi):
+$out"
   fi
 
   # 3b) Se è andato bene, rendi DUREVOLI subito le scritture del vault (chat/azioni, non giro).
