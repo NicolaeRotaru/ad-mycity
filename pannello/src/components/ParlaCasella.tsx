@@ -1,6 +1,8 @@
 "use client";
-// v3 — chip skill rapide (deploy trigger)
+// v4 — altezza compatta (h-36) + scroll al fondo all'apertura + spaziatura ridotta AI
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2, Zap } from "lucide-react";
 import {
   attendiEsitoLavoro,
@@ -58,6 +60,11 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const [salvata, setSalvata] = useState(false);
   const [err, setErr] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  function scrollBottom() {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }
 
   // 🐛 Bug #5 (radiografia 2026-07-03): la risposta del box spariva cambiando sezione,
   // perché `msgs` è stato locale e al rimontaggio ripartiva da []. La conversazione è però
@@ -121,6 +128,16 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     };
   }, [aperto, titolo]);
 
+  // Scroll al fondo quando si apre la chat (mostra gli ultimi messaggi, non l'inizio)
+  useEffect(() => {
+    if (aperto) requestAnimationFrame(scrollBottom);
+  }, [aperto]);
+
+  // Scroll al fondo a ogni nuovo messaggio
+  useEffect(() => {
+    scrollBottom();
+  }, [msgs]);
+
   async function invia() {
     const testo = bozza.trim();
     if (!testo || inviando) return;
@@ -178,17 +195,28 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         <button onClick={() => setAperto(false)} className="ml-auto t-eti hover:text-brand normal-case">chiudi</button>
       </div>
 
-      {msgs.length > 0 && (
-        <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+      {/* Altezza fissa uguale a ChatCasella — scroll al fondo all'apertura */}
+      <div ref={scrollRef} className="scroll-soft h-36 overflow-y-auto pr-1">
+        <div className="space-y-1.5">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
-              <span className={`inline-block text-[12px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap max-w-[92%] ${m.role === "user" ? "bg-brand text-white" : "chat-bubble-assistant"}`}>
-                {m.content}
+              <span className={`inline-block text-[12px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left ${m.role === "user" ? "bg-brand text-white" : "chat-bubble-assistant prose-sm dark:prose-invert max-w-none"}`}>
+                {m.role === "user" ? m.content : (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({node, ...props}) => <p className="my-0.5" {...props} />,
+                      ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
+                      ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
+                      li: ({node, ...props}) => <li className="my-0" {...props} />,
+                    }}
+                  >{m.content}</ReactMarkdown>
+                )}
               </span>
             </div>
           ))}
         </div>
-      )}
+      </div>
 
       {inviando && <p className="t-eti flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> Claude Max sta rispondendo…</p>}
 
