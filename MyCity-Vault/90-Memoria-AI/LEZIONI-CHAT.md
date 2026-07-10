@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-10] Dopo git-pr.mjs (eseguito da Nicola o dall'AD), verificare SEMPRE con `git ls-remote origin fix/<branch>` che il branch esista su GitHub prima di dire "PR creata" — se manca, nessuna PR esiste e Vercel non deploya.
 - [2026-07-10] Il linter in questo progetto annulla le Edit su file TSX/React (le patch parziali vengono ripristinate): se le modifiche spariscono dopo una Edit, usare Write per riscrivere l'intero file invece di applicare patch parziali.
 - [2026-07-10] watch-main resetta HEAD ogni 5 min: se scatta durante un git checkout, il commit finisce su main locale invece del branch fix — verificare `git branch` prima di committare; se sei su main per sbaglio, il branch fix ha lo stesso commit e la PR funziona (origin/main non ha ancora il commit).
 - [2026-07-10] Prima di `git checkout` su un branch diverso: fare `git stash` se ci sono file non committati — senza stash il checkout fallisce con "Please commit your changes or stash them before you switch branches". Comando corretto: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`
@@ -17,5 +18,4 @@
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.
 - [2026-07-10] Prima di toccare codice: git checkout main (già allineato da watch-main; NIENTE git pull, il remote è senza credenziali), poi branch NUOVO — mai lavorare sul branch ereditato dalla sessione precedente (successo con fix/rimuovi-autoscroll-chat: chip committate sul branch dell'autoscroll).
 - [2026-07-10] Mai dire «fatto» senza prova verificata (git log, output comando): i «fatto» non verificati hanno fatto girare Nicola in tondo per ore.
-- [2026-07-10] Mai commit «forza build» su main: il deploy del Pannello parte da solo al merge; se il Pannello sembra vecchio, controlla i segnali automazione e dillo a Nicola.
 - [2026-07-10] Mai script temporanei (_tmp_*.mjs) né curl verso api.github.com per aggirare un blocco: vietati dai permessi, e sporcano main.

@@ -14,20 +14,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-252 — Mergia la PR per sistemare la chat laterale (altezza, scroll, a capo) · ⏳ IN ATTESA · accodata 2026-07-10 18:35
+### ❌ #pr-252 — ANNULLATA: branch mai arrivato su GitHub · 2026-07-10 18:35
 
-**PR #252** — branch `fix/chat-parla-casella-ux` → `main`
+La PR #252 era stata annunciata ma il branch `fix/chat-parla-casella-ux` non è mai stato pushato su GitHub (origin/main fermo al commit delle 17:32). Vercel non ha deployato nulla. Il fix ParlaCasella.tsx (altezza, scroll, spaziatura) resta in locale. Nicola ha visto mergiare PR #251 (già chiusa).
 
-Cosa risolve (3 problemi segnalati da Nicola):
-1. La finestra della chat era troppo alta — ora ha la stessa altezza di una nuova chat (`h-36`)
-2. Aprendo la chat partiva dall'inizio dei messaggi — ora scorre automaticamente all'ultimo messaggio
-3. Le risposte andavano a capo con righe vuote extra — ora il testo è compatto senza doppi a capo
-
-**Cosa cambia:** la chat laterale (quella dentro le caselle del Pannello) si comporta come ti aspetti.
-**Se va bene:** il Pannello si deploya da solo dopo il merge. Verifica aprendo una casella e scorrendo nella chat.
-
-- **Colore:** 🟡 (tocca il codice del Pannello in produzione via merge).
-- **Come mergi:** apri [PR #252 su GitHub](https://github.com/NicolaeRotaru/ad-mycity/pull/252) e clicca "Merge pull request".
+**Prossimo passo:** nella prossima sessione, pushare il branch con `node cervello/git-pr.mjs --branch fix/chat-parla-casella-ux --base main --accoda` e verificare con `git ls-remote origin fix/chat-parla-casella-ux` prima di annunciare la PR.
 
 ---
 
