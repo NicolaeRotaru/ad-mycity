@@ -11,6 +11,9 @@ fonte: AD digitale
 
 **2026-07-10 10:30** 🟡 Loop AR: chiusi 8/9 difetti del cantiere in questa sessione (AR-030/034/037/040/041/042/043/044 — tutti in codice su main). AR-006 resta in-corso: aspetta materiale PQ da Nicola. Fix Pannello (AR-034) già su main per svista sessione precedente — d'ora in poi ogni modifica al Pannello va in PR, il merge lo fa Nicola. Cantiere: 42 chiusi / 1 in-corso / 0 aperti.
 
+- 2026-07-10 18:00 · 🟡 · [Frontend-dev/Pannello] · Chip skill rapide aggiunti in ParlaCasella e ChatCasella (8 chip: Giro, Loop 30m, Verifica, Audit Pannello, Radiografia, Ricerca, Sicurezza, Pianifica — visibili solo con bozza vuota) · Nicola ha richiesto di aggiungere le skill disponibili nella chat del Pannello · Commit in feature/deploy-chip-pannello, codice su origin/main; PR #247 con conflitti su vault (non su codice Pannello) in attesa di risoluzione o chiusura · Nicola (chat 10/7 — «apri pr»)
+- 2026-07-10 18:00 · 🟡 · [DevOps/Infra] · Identificato difetto critico: `.claude/settings.local.json` era tracciato nel repo e veniva sovrascritto da git checkout — perso due volte i permessi che Nicola aveva aggiunto. Fix proposto: aggiungere al .gitignore · Sovrascrittura ha costretto Nicola a rincollare il contenuto più volte nella stessa chat · Da applicare (non ancora fatto) · —
+
 Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si sa al minuto quando è apparsa):
 `AAAA-MM-GG HH:MM · 🟡/🔴 · [Reparto] · Cosa · Perché · Esito/Stato · Chi ha firmato`
 
