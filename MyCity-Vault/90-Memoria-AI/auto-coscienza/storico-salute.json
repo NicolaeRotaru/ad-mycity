@@ -2,14 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-01",
-      "voto_salute": 76,
-      "difetti_aperti": 3,
-      "difetti_chiusi": 0,
-      "tipo": "sonda",
-      "nota": "Giro 1/7 20:18: stallo 177,8h (+2,0h), 168h +9,8h oltre. Finestra CHIUSA — giornata a zero. Escalation v11 + ripiano 2/7 🟢. Nicola ok 17 — sync install bloccato (no sudo). REST OK, MCP cieco. Voto 76 =."
-    },
-    {
       "data": "2026-07-02",
       "voto_salute": 76,
       "difetti_aperti": 3,
@@ -1016,6 +1008,20 @@
       "bloccanti_umani": 1,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (23h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    },
+    {
+      "data": "2026-07-10",
+      "voto_salute": 0,
+      "voto_provvisorio": 75,
+      "voto_pieno": 75,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 42,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 1,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (25h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     }
   ]
 }
