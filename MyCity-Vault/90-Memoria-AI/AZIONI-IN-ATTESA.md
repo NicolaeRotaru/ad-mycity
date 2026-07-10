@@ -14,11 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ❌ #pr-252 — ANNULLATA: branch mai arrivato su GitHub · 2026-07-10 18:35
+### ⏳ #pr-255 — FIX ParlaCasella.tsx: PR su GitHub, Vercel NON ha deployato · 2026-07-10 18:46
 
-La PR #252 era stata annunciata ma il branch `fix/chat-parla-casella-ux` non è mai stato pushato su GitHub (origin/main fermo al commit delle 17:32). Vercel non ha deployato nulla. Il fix ParlaCasella.tsx (altezza, scroll, spaziatura) resta in locale. Nicola ha visto mergiare PR #251 (già chiusa).
+PR #255 creata da Nicola via `node cervello/git-pr.mjs`. Nicola ha confermato che auto-merge è DISABILITATO sulla repo — i merge "automatici" visti erano PR del worker, non il fix. Vercel ancora fermo: `origin/main` al commit pre-fix.
 
-**Prossimo passo:** nella prossima sessione, pushare il branch con `node cervello/git-pr.mjs --branch fix/chat-parla-casella-ux --base main --accoda` e verificare con `git ls-remote origin fix/chat-parla-casella-ux` prima di annunciare la PR.
+Fix inclusi in `ParlaCasella.tsx`: altezza `h-36` (uguale a ChatCasella), scroll automatico all'ultimo messaggio all'apertura, nessun doppio a capo nelle risposte (ReactMarkdown).
+
+**Prossimo passo:** Nicola mergia PR #255 da GitHub → https://github.com/NicolaeRotaru/ad-mycity/pull/255
+
+---
+
+### ❌ #pr-252 — ANNULLATA: sostituita dalla #255 · 2026-07-10 18:35
+
+Branch non era su GitHub. Fix ripushato tramite PR #255.
 
 ---
 
