@@ -18,17 +18,18 @@
   "lezioni": [
     {
       "id": "L-2026-0710-77",
-      "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata.",
-      "tag": ["bug-aperto", "chip-skill", "click-handler", "setBozza", "textareaRef", "pannello", "ParlaCasella", "ChatCasella"],
+      "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
+      "tag": ["bug-aperto", "chip-skill", "click-handler", "setBozza", "textareaRef", "pannello", "ParlaCasella", "ChatCasella", "page.tsx", "fluttuante", "tutti-4-componenti"],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-10",
       "ultima_conferma": "2026-07-10 23:58",
       "stato": "attiva",
-      "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile."
+      "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile.",
+      "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati. Serve 'Bash(git push origin fix/*:*)' in settings.local.json."
     },
     {
       "id": "L-2026-0710-76",

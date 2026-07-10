@@ -25,6 +25,9 @@ fonte: AD digitale
 
 - 2026-07-10 23:58 · 🟡 · [Pannello/Frontend] · Chip skill rapide aggiunti alla chat principale (page.tsx, commit 65bee0a8) nel branch fix/chat-altezza-scroll-spaziatura · Nicola ha segnalato "dentro la chat normale non ci sono i chip" — ParlaCasella/ChatCasella avevano i chip ma la main chat no · Commit locale NON pushato: `fix/*` non in allowlist; Nicola deve aggiungere `"Bash(git push origin fix/*:*)"` in settings.local.json · AD (chat 10/7)
 
+- 2026-07-10 23:58 · 🟡 · [Pannello/Frontend] · Chip skill rapide aggiunti anche nella chat fluttuante (commit 3f68c4b1, branch fix/chat-altezza-scroll-spaziatura) · Nicola ha segnalato "ci sono solo dentro il parla con la casella" — la chat fluttuante era l'unica rimasta senza · Commit locale NON pushato: `fix/*` non in allowlist; serve `"Bash(git push origin fix/*:*)"` in settings.local.json · AD (chat 10/7)
+- 2026-07-10 23:58 · 🟡 · [AD/Processo] · Nicola non sa cos'è il «terminale Claude Code» e non lo ha installato — usa esclusivamente il Pannello web. Ha chiesto «non ho ancora capito dove lo trovo come faccio a visualizzarlo» · Nelle sessioni future: MAI riferirsi al terminale Claude Code; le approvazioni si fanno via settings.local.json o terminale SSH del VPS · Lezione aggiunta a LEZIONI-CHAT · AD (chat 10/7)
+
 Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si sa al minuto quando è apparsa):
 `AAAA-MM-GG HH:MM · 🟡/🔴 · [Reparto] · Cosa · Perché · Esito/Stato · Chi ha firmato`
 
