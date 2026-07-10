@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0710-82",
+      "testo": "**watch-main può sovrascrivere HEAD durante un checkout, mandando il commit su main locale (chat 10/7):** il processo watch-main gira ogni ~5 minuti e fa un git reset/pull su main. Se scatta proprio mentre l'AD è in mezzo a un git checkout di un branch fix, HEAD può essere resettato su main — e il commit successivo atterra su main locale invece del branch voluto. Recovery: se ci si accorge che il commit è sia su main locale che sul branch fix, la PR da fix verso origin/main funziona comunque (origin/main non ha ancora il commit, quindi il diff su GitHub è corretto). Prevenzione: verificare `git branch` subito prima di fare il commit, non solo dopo il checkout. Se watch-main ha già resettato, rifare il checkout del branch fix prima di committare. Nota: git reset è bloccato dall'allowlist, quindi il recovery post-commit su main locale dipende dal fatto che il branch fix abbia già lo stesso commit.",
+      "tag": ["watch-main", "git-checkout", "main-locale", "commit-su-main", "branch-fix", "PR", "recovery"],
+      "reparto": "@AD",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-10",
+      "ultima_conferma": "2026-07-10 20:00",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0710-81",
       "testo": "**git stash obbligatorio prima di git checkout su un branch diverso quando ci sono file non committati (chat 10/7):** Nicola ha eseguito `git checkout fix/chat-altezza-scroll-spaziatura` e ha ricevuto 'error: Your local changes to the following files would be overwritten by checkout'. I file non committati (LEZIONI-CHAT.md, sentinella-dati.json, routing.json) bloccano il checkout. Regola fissa: quando si deve cambiare branch con modifiche in corso, sempre `git stash` prima, poi checkout, poi il comando successivo (git-pr.mjs o altro). Sequenza corretta: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`. I file stashati possono essere recuperati con `git stash pop` dopo il checkout se servono ancora sul branch fix.",
       "tag": ["git-stash", "checkout", "branch", "uncommitted-files", "overwritten", "errore", "git-pr.mjs"],

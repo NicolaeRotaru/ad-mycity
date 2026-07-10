@@ -6,8 +6,8 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-10] watch-main resetta HEAD ogni 5 min: se scatta durante un git checkout, il commit finisce su main locale invece del branch fix — verificare `git branch` prima di committare; se sei su main per sbaglio, il branch fix ha lo stesso commit e la PR funziona (origin/main non ha ancora il commit).
 - [2026-07-10] Prima di `git checkout` su un branch diverso: fare `git stash` se ci sono file non committati — senza stash il checkout fallisce con "Please commit your changes or stash them before you switch branches". Comando corretto: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`
-- [2026-07-10] git-pr.mjs legge il branch CORRENTE — per aprire una PR su un branch fix fare PRIMA `git checkout fix/<branch>`, poi lanciare git-pr.mjs; se sei su main dà errore "head e base sono lo stesso ramo (main)".
 - [2026-07-10] Cursor CLI (`agent`) installato nel PATH causa "model not found" quando `CERVELLO_MOTORE` non è esplicitamente `claude` — motore-ai.sh ora preferisce Claude in auto, Cursor solo se `CERVELLO_MOTORE=cursor` esplicito. Se "module_not_found" torna: riavvia il worker (ricarica l'env), non toccare il codice.
 - [2026-07-10] Il remote origin è volutamente SENZA token: git pull/fetch/push diretti falliscono APPOSTA — pubblicare = node cervello/git-pr.mjs; main lo tiene fresco watch-main ogni 5 minuti.
 - [2026-07-10] gh resta VIETATO anche se installato (non è in allowlist e non serve): le PR si aprono SOLO con node cervello/git-pr.mjs. Mai passare token in pipe o inventare login.
