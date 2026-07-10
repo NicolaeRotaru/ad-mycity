@@ -62,7 +62,6 @@ export default function ChatCasella({
   // 📎 Foto/file scelti da Nicola, in attesa di partire col prossimo messaggio.
   const [allegati, setAllegati] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
-  const endRef = useRef<HTMLDivElement>(null);
 
   function aggiungiFile(lista: FileList | null) {
     if (!lista || lista.length === 0) return;
@@ -73,9 +72,7 @@ export default function ChatCasella({
     setAllegati((prev) => prev.filter((_, idx) => idx !== i));
   }
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs, inviando]);
+
 
   async function invia() {
     const testo = bozza.trim();
@@ -169,7 +166,6 @@ export default function ChatCasella({
               </span>
             </div>
           ))}
-          <div ref={endRef} />
         </div>
       )}
 

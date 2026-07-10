@@ -708,9 +708,6 @@ export default function Dashboard() {
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (chatFluttuante && stickFabRef.current) chatFabEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, chatFluttuante]);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
@@ -1299,10 +1296,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       navigator.clipboard.writeText(testo);
     } catch {}
   }
-
-  useEffect(() => {
-    if (stickFullRef.current) endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
 
   const caricaStato = useCallback(async () => {
     try {
