@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-09 22:20",
+  "aggiornato": "2026-07-10 06:20",
   "per_reparto": [
     {
       "reparto": "@AD",
@@ -12,6 +12,25 @@
     }
   ],
   "registro": [
+    {
+      "id": "CAL-20260710042004-AD",
+      "reparto": "@AD",
+      "azione": "giro-routine-settimanale",
+      "metrica": "ordini_totali",
+      "atteso": 1,
+      "reale": null,
+      "entro": "2026-07-17",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "AR-040/autoprevedi: prima previsione baseline. Al giro della misurazione chiama: calibrazione.mjs esito --id=CAL-20260710042004-AD --reale=<n> --fonte=\"Supabase MCP\"",
+      "creato": "2026-07-10 06:20",
+      "chiuso_il": ""
+    }
+  ],
+  "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale.",
+  "promozioni_proposte": {},
+  "registro_legacy": [
     {
       "data": "2026-07-07 11:28",
       "reparto": "@AD",
@@ -138,7 +157,5 @@
       "esito": "confermato",
       "fonte": "REST live"
     }
-  ],
-  "_nota": "Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo: ogni azione proposta porta un 'effetto previsto' che verrà confrontato col reale.",
-  "promozioni_proposte": {}
+  ]
 }

@@ -3,31 +3,31 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-09 22:20",
+    "data": "2026-07-10 06:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 34,
-    "difetti_chiusi_recenti": 34,
+    "difetti_chiusi": 42,
+    "difetti_chiusi_recenti": 42,
     "calibrazione_piena": false,
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 48,
-    "ore_da_ultimo_briefing": 11,
+    "ore_da_ultima_completa": 56,
+    "ore_da_ultimo_briefing": 19,
     "max_giri_ciechi_sensori": 1,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
-    "voto_provvisorio": 55,
-    "voto_pieno": 0,
-    "pending_merge": 6,
+    "voto_provvisorio": 75,
+    "voto_pieno": 75,
+    "pending_merge": 0,
     "aperti_davvero": 0,
-    "bloccanti_umani": 3,
+    "bloccanti_umani": 1,
     "salute_firma": "",
     "verdetto": "attenzione",
-    "nota": "loop chiude (con prova) · briefing STALE (11h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 0 aperti-davvero · 6 in attesa merge · 3 bloccanti umani"
+    "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
   "voto_salute_architettura": 0,
   "salute_marketplace": {
@@ -1703,6 +1703,6 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-09 22:20"
+    "aggiornato": "2026-07-10 06:20"
   }
 }
