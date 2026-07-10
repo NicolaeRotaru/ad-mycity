@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "git": { "deploymentEnabled": { "main": true } },
+  "git": { "deploymentEnabled": { "main": false } },
   "ignoreCommand": "git cat-file -e ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} 2>/dev/null && git diff --quiet ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD -- . || exit 1",
   "crons": [
     { "path": "/api/heartbeat", "schedule": "0 9 * * *" },
