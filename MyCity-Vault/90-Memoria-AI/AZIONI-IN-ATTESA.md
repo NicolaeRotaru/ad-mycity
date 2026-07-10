@@ -14,6 +14,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #chat-fix-1 — Pusha il branch fix/chat e mergialo (fix altezza/scroll/a-capo) · ⏳ IN ATTESA · accodata 2026-07-10 17:35
+
+Il commit è pronto in locale sul VPS: `fix/chat-altezza-scroll-spaziatura` (commit `d9c461c9`).
+Fix inclusi: altezza fissa della finestra messaggi, scroll al fondo all'apertura, scroll al fondo dopo ogni risposta (non più "a capo").
+
+Per pushare e creare la PR, dal terminale sul VPS:
+```bash
+cd /opt/mycity/ad-mycity
+node cervello/git-pr.mjs --repo ad-mycity --base main --title "Fix chat: altezza fissa, scroll al fondo, nessun ritorno all'inizio"
+```
+Poi mergi la PR dal Pannello GitHub.
+
+**Cosa cambia:** la chat casella avrà sempre la stessa altezza (nuova o con storico), si apre già sull'ultimo messaggio, e non torna all'inizio dopo ogni risposta di Claude.
+**Se va bene:** il Pannello si deploya da solo al merge e i 3 problemi spariscono.
+
+---
+
 ## 2026-07-09 23:30 · @devops-sre → 🔴 Accendi gli allegati in chat su Vercel (variabili + Redeploy)
 Il codice degli allegati (foto + file nella chat con l'AD) è pronto nel branch. Perché funzioni online servono due passi che tocco NON posso fare io (sono nella dashboard Vercel): li devi fare tu, in 5 minuti.
 

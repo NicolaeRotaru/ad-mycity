@@ -4,6 +4,7 @@
 > la più recente in cima. Il worker inietta le prime ~8 in OGNI turno di chat (blocco
 > CONTESTO MACCHINA): è qui che una lezione smette di essere una nota e diventa comportamento.
 
+- [2026-07-10] `.claude/settings.local.*` è già nel `.gitignore` (riga 28) — se il file sparisce lo sta sovrascrivendo l'AD con il proprio Write tool, NON git checkout: dopo ogni Write su settings.local.json rileggerlo per confermare il contenuto intatto.
 - [2026-07-10] gh è ora installato sul VPS ma l'auth via `echo "$TOKEN" | gh auth login` fallisce (hook sicurezza blocca $VAR): per creare PR usare `curl` all'API GitHub (token già nel remote URL) o aprire il banner direttamente su github.com.
 - [2026-07-10] Nella chat del Pannello NESSUN box di approvazione può comparire (headless): se un comando è negato, usa la strada consentita o accoda l'azione — mai dire «approva il box».
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.

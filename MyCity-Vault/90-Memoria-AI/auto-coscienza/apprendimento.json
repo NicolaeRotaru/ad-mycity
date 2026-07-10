@@ -65,7 +65,7 @@
     },
     {
       "id": "L-2026-0710-71",
-      "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` cancellato da `git checkout` per la seconda volta (chat 10/7, chip skill rapide):** nonostante la lezione `settings-local-in-gitignore` fosse già in memoria dal 10/7 mattina, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file è stato sovrascritto DUE volte nella stessa chat, costringendo Nicola a rincollare il contenuto tre volte. La lezione c'era, il fix (.gitignore) NON era mai stato applicato — questo è l'anti-pattern: sapere ma non fare. **5 perché:** (1) il fix `git rm --cached .claude/settings.local.json` + riga in `.gitignore` è stato classificato come 'da fare dopo' → MAI fatto; (2) la memoria dice 'fix proposto non ancora fatto al 10/7' ma l'AD non ha bloccato il checkout e non ha applicato il fix prima di partire; (3) ogni `git checkout` di un branch che contiene una versione più vecchia del file sovrascrive l'ultima versione sul disco; (4) il file è SPECIFICO del VPS e dell'utente → non ha senso che stia in git; (5) la lezione in memoria NON era abbinata a un'AZIONE BLOCCANTE (il checkout era proibito finché non fosse in .gitignore). **Regola/fix riusabile consolidato:** (a) PRIMA di ogni `git checkout`, verificare se `.claude/settings.local.json` è tracciato nel branch di destinazione: `git show <branch>:.claude/settings.local.json 2>/dev/null` — se risponde, fare stash o applicare il fix .gitignore prima; (b) il fix strutturale va applicato NELLA STESSA SESSIONE in cui si scopre il problema, non rimandato; (c) una lezione in memoria accompagnata da 'fix non ancora applicato' è un debito tecnico che va chiuso nello stesso giro.",
+      "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
       "tag": [
         "settings-local",
         "gitignore",
@@ -78,11 +78,11 @@
       ],
       "reparto": "@AD",
       "confidenza": 0.98,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-10",
-      "ultima_conferma": "2026-07-10 18:30",
+      "ultima_conferma": "2026-07-10 21:30",
       "stato": "attiva"
     },
     {
