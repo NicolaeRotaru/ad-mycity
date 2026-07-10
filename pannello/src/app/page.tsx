@@ -2339,6 +2339,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <div className="border-t p-2.5" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
+            {input === "" && (
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {SKILL_RAPIDE.map((s) => (
+                  <button
+                    key={s.label}
+                    onClick={() => setInput(s.cmd)}
+                    className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
