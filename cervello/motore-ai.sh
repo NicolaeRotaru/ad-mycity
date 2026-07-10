@@ -87,7 +87,7 @@ ai_build_cmd() {
     cursor)
       # -p = non interattivo · --force = scrive file · --trust = VPS headless senza prompt workspace
       AI_CMD=(agent -p --force --trust)
-      [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
+      if [ -n "${CERVELLO_MODELLO:-}" ]; then AI_CMD+=(--model "$CERVELLO_MODELLO"); fi
       ;;
     claude)
       # --permission-mode acceptEdits auto-accetta SOLO le modifiche ai file. In headless (-p) non c'è
@@ -99,12 +99,23 @@ ai_build_cmd() {
       # 'git push' libero: il push autenticato lo fa solo git-pr.mjs, su un branch di PR, mai su main.
       # AI_ALLOW_ACTIONS: la chat lo mette a 0 (conversazione pulita, niente mani, streaming intatto);
       # i lavori a 1 (default). Override della lista: AI_ALLOWED_TOOLS.
-      AI_CMD=(claude -p --permission-mode acceptEdits)
+      #
+      # ⚠️ ORDINE OBBLIGATORIO (bug 2026-07-09/10, ha spento giro/metabolizza/azioni per una notte intera):
+      # --allowedTools della CLI claude è VARIADICO (accetta più valori separati da spazio). Se resta
+      # l'ULTIMA opzione, si mangia anche il PROMPT che il chiamante appende dopo ("${AI_CMD[@]}" "$prompt")
+      # → la CLI risponde «Input must be provided either through stdin or as a prompt argument» e OGNI
+      # lavoro con le mani armate muore alla partenza. Per questo --allowedTools va PRIMA di
+      # --permission-mode (opzione a valore singolo che CHIUDE la lista variadica). Mai riordinare.
+      # Test di guardia: cervello/test/motore-ai-allowedtools.bats
+      AI_CMD=(claude -p)
       if [ "${AI_ALLOW_ACTIONS:-1}" = 1 ]; then
         local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-pr.mjs:*),Bash(node cervello/git-github.mjs:*),Bash(node cervello/marketplace.mjs:*),Bash(node cervello/esegui-azione.mjs:*),Bash(git add:*),Bash(git commit:*),Bash(git checkout:*),Bash(git switch:*),Bash(git branch:*),Bash(git status:*),Bash(git diff:*),Bash(git stash:*)}"
         AI_CMD+=(--allowedTools "$_allowed")
       fi
-      [ -n "${CERVELLO_MODELLO:-}" ] && AI_CMD+=(--model "$CERVELLO_MODELLO")
+      AI_CMD+=(--permission-mode acceptEdits)
+      # `if` esplicito (non `[ ] &&`): l'ultima riga della funzione non deve MAI lasciare rc=1
+      # quando il modello non è impostato — sotto `set -e` spegnerebbe il chiamante.
+      if [ -n "${CERVELLO_MODELLO:-}" ]; then AI_CMD+=(--model "$CERVELLO_MODELLO"); fi
       ;;
   esac
 }

@@ -169,8 +169,14 @@ sync_vault() {
   # Titolo umano nel commit: la richiesta del lavoro (una riga, max ~60), non il solo UUID.
   # Taglio a 60 BYTE + iconv -c (scarta una eventuale lettera accentata spezzata in coda):
   # indipendente dal locale del servizio — `cut -c`/`${var:0:60}` in locale C spezzano l'UTF-8.
-  local titolo_breve scrub_utf8
-  titolo_breve="$(printf '%s' "${richiesta:-}" | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | head -c 60)"
+  local titolo_breve scrub_utf8 titolo_grezzo
+  # La chat del Pannello incapsula la richiesta («## Conversazione finora / Nicola: … / AD: …»):
+  # il titolo utile è l'ULTIMO messaggio di Nicola, non l'intestazione tecnica della busta.
+  titolo_grezzo="${richiesta:-}"
+  [ "${titolo_grezzo#*Nicola:}" != "$titolo_grezzo" ] && titolo_grezzo="${titolo_grezzo##*Nicola:}"
+  titolo_breve="$(printf '%s' "$titolo_grezzo" | tr '\n' ' ' \
+    | sed 's/^[[:space:]]*//; s/^##[[:space:]]*//; s/^Nuovo messaggio di Nicola[[:space:]]*//; s/^Conversazione finora[[:space:]]*//; s/[[:space:]]*$//' \
+    | head -c 60)"
   # NB: iconv (glibc) con -c stampa il prefisso valido ma esce ≠0 sul byte spezzato in coda:
   # niente `||` sullo stesso stdout (duplicherebbe il testo) — si prende l'output se non vuoto.
   scrub_utf8="$(printf '%s' "$titolo_breve" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null || true)"
@@ -578,6 +584,16 @@ while true; do
     continue
   fi
 
+  # 📸 IMPRONTA-VERITÀ (chat): fotografa lo stato del repo PRIMA del lavoro. A fine turno, se il
+  # repo è cambiato, il worker (codice, non l'AD) appende in chat lo stato REALE — così un «fatto»
+  # non verificato dell'AD non può più passare inosservato a Nicola, e il turno successivo (che
+  # rilegge la conversazione) riparte dalla verità del disco invece che dai ricordi della sessione.
+  _chat_head_prima=""; _chat_dirty_prima=""
+  if [ "$tipo" = "chat" ]; then
+    _chat_head_prima="$(git log -1 --format=%h 2>/dev/null || echo '')"
+    _chat_dirty_prima="$(git status --porcelain 2>/dev/null | sort | md5sum | cut -d' ' -f1)"
+  fi
+
   # 2) costruisci il prompt (come worker.ps1)
   if [ "$tipo" = "esegui-azione" ]; then
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). $richiesta
@@ -651,7 +667,17 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello.
 Rispondi in italiano, diretto, concreto e utile — è una conversazione vera, non un report.
 Vai al punto: niente preamboli, niente rituali, niente analisi enormi se non te le chiede. Se ti serve un dato reale leggilo, altrimenti rispondi e basta.
-Se proponi un'azione che tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni) NON eseguirla: proponila chiaramente e segna che serve la sua approvazione (🔴).
+
+REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa danni veri):
+1. MAI dire «fatto» senza aver verificato coi tuoi occhi: dopo ogni modifica mostra la prova (riga di git log, path del file, output del comando). Se non hai potuto verificare, scrivi «non verificato» — non fingere.
+2. Se un comando fallisce o un permesso è negato, dillo SUBITO con l'errore esatto. Mai far finta di niente, mai aggirare il blocco con script improvvisati o curl verso GitHub.
+3. Ogni sessione chat parte da ZERO: non ricordi le chat precedenti né lo stato del disco. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read).
+4. Nessun numero inventato: ogni cifra ha una fonte (file, query, comando) o dichiari che manca.
+5. Se ti accorgi di aver sbagliato in un turno precedente, dillo esplicitamente e correggi: l'errore ammesso ripara, quello nascosto si moltiplica.
+
+AZIONI:
+- Tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni)? NON eseguirla: proponila chiaramente e segna che serve la firma di Nicola (🔴).
+- Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). git-pr.mjs è l'unica mano per pubblicare.
 
 ## Conversazione
 $richiesta"
@@ -660,7 +686,8 @@ $richiesta"
     [ -n "$_alleg_block" ] && prompt="$prompt
 $_alleg_block"
   else
-    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴:
+    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴.
+Se il lavoro tocca il CODICE: branch dedicato + node cervello/git-pr.mjs --repo ad-mycity --accoda (mai commit o push su main; il merge lo firma Nicola dal Pannello).
 
 $richiesta"
   fi
@@ -722,6 +749,27 @@ $richiesta"
 [worker] motore $(ai_engine) ($(ai_cli_name)) uscito con rc=$rc."
     else
       stato="fatto"
+    fi
+  fi
+
+  # 3a-bis) 📸 IMPRONTA-VERITÀ (chat): se in questo turno il repo è cambiato (commit nuovo o file
+  # toccati), appendi alla risposta lo stato REALE letto dal disco. È il controllo del worker, non
+  # parole del modello: rende visibile a Nicola ogni effetto collaterale, anche quello non dichiarato.
+  # (Prima di sync_vault, che committando la memoria sporcherebbe la misura del SOLO lavoro dell'AD.)
+  if [ "$tipo" = "chat" ] && [ "$stato" = "fatto" ] && [ -n "$out" ]; then
+    _chat_head_dopo="$(git log -1 --format=%h 2>/dev/null || echo '')"
+    _chat_dirty_dopo="$(git status --porcelain 2>/dev/null | sort | md5sum | cut -d' ' -f1)"
+    if [ "$_chat_head_dopo" != "$_chat_head_prima" ] || [ "$_chat_dirty_dopo" != "$_chat_dirty_prima" ]; then
+      _chat_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+      _chat_commit="$(git log -1 --format='%h · %s' 2>/dev/null || echo '?')"
+      _chat_mod_n="$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')"
+      _chat_mod_top="$(git status --porcelain 2>/dev/null | head -3 | awk '{print $NF}' | paste -sd ', ' -)"
+      out="$out
+
+---
+🔎 **Verifica automatica del worker** (stato reale del repo dopo questo turno, non parole dell'AD):
+- Branch: \`$_chat_branch\` · ultimo commit: $_chat_commit
+- File modificati non ancora committati: $_chat_mod_n${_chat_mod_top:+ ($_chat_mod_top)}"
     fi
   fi
 
