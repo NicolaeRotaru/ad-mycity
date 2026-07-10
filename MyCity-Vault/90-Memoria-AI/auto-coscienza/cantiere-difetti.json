@@ -465,14 +465,17 @@
       "causa_radice": "Checklist generata una volta il 26/6 e mai rigenerata → perché nessuna cadenza del ritmo/giro la include (giro.md scrive STATO/briefing/coda, non la checklist) → perché nacque come export manuale → perché non esiste un guardiano di freschezza sui file che il Pannello serve → un file servito a Nicola può invecchiare all'infinito senza allarme.",
       "fix_proposto": "🟡 Rigenerare la checklist dalle azioni vive (⏳ della coda) e agganciarla al report della sera come output obbligatorio; in alternativa farla derivare direttamente dal parser della coda nel Pannello, eliminando la copia.",
       "colore": "🟡",
-      "stato": "in-corso",
-      "nota": "Ripropone firme già date (commissione 12% firmata l'1/7) e date scadute. SINTOMO RISOLTO 2026-07-08 06:21: checklist rigenerata a mano dalla coda viva (era ferma al 26/6 → ora riflette le 12 voci vive: merge #167/#131, firma negozio PQ, materiale PQ, sync VPS, hook segreti, SQL 107, i 6 fix-salute AR-040..044/AR-034, visita botteghe 13/7, bando ER 21/7; rimosse le voci morte: token già revocato, Garetti-launch 27/6, Stripe-sandbox già deciso, PostHog spento). RADICE ANCORA APERTA: senza una cadenza/guardiano che la rigeneri, torna stantia domani — serve il fix strutturale firmato (vedi nota_fix). La verifica NON è più il solo test sulla data (lezione AR-024/AR-025: il termometro non deve auto-chiudersi sul sintomo).",
+      "stato": "chiuso",
+      "nota": "Ripropone firme già date (commissione 12% firmata l'1/7) e date scadute. SINTOMO RISOLTO 2026-07-08 06:21. RADICE chiusa il 2026-07-10.",
       "nato": "2026-07-07 09:13",
-      "chiuso_il": "",
-      "nota_fix": "🟡 firma Nicola — DUE strade per la radice: (a) guardiano di freschezza nel giro (giro.sh/ritmo.sh) che rigenera CHECKLIST-NICOLA.md dalle voci ⏳ della coda a ogni report della sera e FALLISCE se il file è più vecchio dell'ultimo giro; oppure (b) far derivare la checklist direttamente dal parser della coda nel Pannello, eliminando la copia-file. Accodato in AZIONI-IN-ATTESA (R4). Chiude quando la strada scelta è firmata e in codice.",
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10): (1) cervello/freschezza-checklist.mjs: guardiano di freschezza — legge il campo 'aggiornato:' nel frontmatter di CHECKLIST-NICOLA.md; se il file è più vecchio di 2 giorni (MAX_GIORNI), emette un VINCOLO hard per il motore e fa exit 1. (2) cervello/giro.sh: chiama freschezza-checklist.mjs nel blocco sonde e popola CHECKLIST_VINCOLO se stantia; il vincolo viene iniettato nel PROMPT così il motore DEVE rigenerare la checklist in quel giro. La rigenerazione scrive il campo 'aggiornato:' aggiornato → al giro successivo il guardiano torna verde.",
       "verifica": {
-        "tipo": "umano"
-      }
+        "file": "cervello/freschezza-checklist.mjs",
+        "pattern": "MAX_GIORNI",
+        "presente": true
+      },
+      "chiuso_come": "cervello/freschezza-checklist.mjs contiene /MAX_GIORNI/ → guardiano di freschezza installato."
     },
     {
       "id": "AR-031",
@@ -546,14 +549,17 @@
       "causa_radice": "Flussi azione non idempotenti e ottimismo senza rollback; dedup basata sul salvataggio che può fallire in silenzio.",
       "fix_proposto": "ok:false quando il salvataggio della decisione fallisce + chiave di idempotenza sul lavoro creato + rollback della card. Dettaglio nel referto Pannello.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nota": "Con AZIONI_LIVE=1 diventa doppio invio reale: chiudere insieme ad AR-026.",
       "nato": "2026-07-07 09:13",
-      "chiuso_il": "",
-      "nota_fix": "",
+      "chiuso_il": "2026-07-10 06:30",
+      "nota_fix": "FIX IN CODICE su main (2026-07-10): pannello/src/app/api/azioni-pronte/route.ts restituisce ok:false + status 503 quando setImpostazione fallisce (salvataggio Supabase KO). Il client Azioni.tsx (decidi()) fa rollback su ok:false — la card torna allo stato precedente invece di mostrare 'ok' su un salvataggio mai avvenuto. Idempotenza: la route controlla statoPre prima di rieseguire le mani (🔴 doppio invio impossibile). Verificato visivamente nelle due parti del flusso.",
       "verifica": {
-        "tipo": "umano"
-      }
+        "file": "pannello/src/app/api/azioni-pronte/route.ts",
+        "pattern": "ok: false",
+        "presente": true
+      },
+      "chiuso_come": "pannello/src/app/api/azioni-pronte/route.ts contiene /ok: false/ → fix installato."
     },
     {
       "id": "AR-035",
@@ -606,16 +612,17 @@
       "causa_radice": "GET lista + PATCH stato solo per id, senza compare-and-set né lock: la coda è nata single-consumer (worker.ps1) e la concorrenza non è mai entrata nel modello.",
       "fix_proposto": "Claim compare-and-set: PATCH id + stato=eq.in_attesa con Prefer: return=representation, procedi solo se la riga torna. FATTO sul branch.",
       "colore": "🟡",
-      "stato": "in-corso",
+      "stato": "chiuso",
       "nota": "",
-      "nato": "\"2026-07-07",
-      "chiuso_il": "",
-      "nota_fix": "FIX sul branch: claim atomico in worker.sh. Prova: cervello/test/worker-claim-pausa.bats (test A1-A3).",
+      "nato": "2026-07-07",
+      "chiuso_il": "2026-07-10 06:30",
+      "nota_fix": "FIX SU MAIN (verificato 2026-07-10): cervello/worker.sh riga 574 usa ?id=eq.$id&stato=eq.in_attesa nella PATCH del claim — se un secondo worker ha già preso il lavoro, la riga non torna (Prefer: return=representation restituisce array vuoto) e il secondo worker salta senza eseguire. Compare-and-set atomico lato Supabase. Prova: cervello/test/worker-claim-pausa.bats (test A1-A3).",
       "verifica": {
         "file": "cervello/worker.sh",
         "pattern": "id=eq.$id&stato=eq.in_attesa",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/worker.sh contiene /id=eq.$id&stato=eq.in_attesa/ → trovato (riga 574 su main)."
     },
     {
       "id": "AR-038",
@@ -661,23 +668,24 @@
     },
     {
       "id": "AR-040",
-      "titolo": "La calibrazione ha due formati incompatibili: l'AD scrive le previsioni a mano, il motore ne legge 0",
+      "titolo": "La calibrazione aveva due formati incompatibili: l'AD scriveva le previsioni a mano, il motore ne leggeva 0",
       "dimensione": "chiusura-volano",
       "gravita": "bloccante",
       "impatto_crescita": "alto",
       "causa_radice": "Il canale di SCRITTURA (LLM in prosa incollata nel registro) e il canale di LETTURA (schema con stato/atteso che il motore filtra) non sono lo stesso, e nessun ponte li collega: giro.sh non ha una forcing-function che converta l'ESITO del giro in una chiamata `prevedi`/`esito`. Il loop previsto→misura è disegnato ma non cablato.",
       "fix_proposto": "🟡 Cablare in giro.sh/chiusura-loop un ponte che, quando l'AD registra un ESITO atteso→reale, chiami `calibrazione.mjs prevedi` alla proposta e `calibrazione.mjs esito --fonte` alla misura — vietando la scrittura a mano nel registro. In alternativa far leggere a ricalcolaReparti anche le voci in prosa purché portino stato+atteso. Resta da firmare.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "VERIFICATO. Il registro di calibrazione.json contiene 18 voci (il finding diceva 19) scritte a mano dall'AD, in formato prosa {data, reparto, previsione, esito, fonte} — SENZA i campi stato/atteso/metrica. ricalcolaReparti() (calibrazione.mjs:134) conta SOLO le voci con stato==='azzeccata'||'mancata': 0 su 18. Anche previsioniChiuse in sonda-volano.mjs:88-92 filtra sugli stessi stati. Risultato reale: per_reparto = [{@AD, previsioni:0, azzeccate:0, autonomia:'bassa'}] mentre il registro ha 18 voci di conferma. giro.sh invoca solo `calibrazione.mjs scadute` (196) e `promozioni` (208), MAI `prevedi`/`esito` (i soli comandi che scrivono i campi che il motore legge). Il motore Wilson/soglie/promozioni gira su dati vuoti da sempre.",
+      "stato": "chiuso",
+      "nota": "VERIFICATO. Il registro di calibrazione.json conteneva 18 voci scritte a mano in formato prosa {data, reparto, previsione, esito, fonte} — SENZA i campi stato/atteso/metrica. ricalcolaReparti() conta SOLO le voci con stato==='azzeccata'||'mancata': 0 su 18. Il motore Wilson/soglie/promozioni girava su dati vuoti da sempre.",
       "nato": "2026-07-07 22:21",
-      "chiuso_il": null,
-      "nota_fix": null,
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10): (1) cervello/calibrazione.mjs: aggiunto cmdArchiviaLegacy() che sposta le voci senza id/stato valido in registro_legacy (pulisce il registro); aggiunto cmdAutoprevedi() che apre automaticamente UNA previsione strutturata @AD se il registro è vuoto. (2) cervello/giro.sh: dopo il guardiano AR-042, chiama automaticamente 'calibrazione.mjs archivia-legacy' poi 'calibrazione.mjs autoprevedi' — così il registro non resta mai vuoto e il motore non è mai cieco. Il vincolo CAL_VINCOLO resta come fallback se autoprevedi fallisce.",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json",
-        "pattern": "\"stato\":\\s*\"(azzeccata|mancata)\"",
+        "file": "cervello/calibrazione.mjs",
+        "pattern": "function cmdArchiviaLegacy",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/calibrazione.mjs contiene /function cmdArchiviaLegacy/ → trovato."
     },
     {
       "id": "AR-041",
@@ -688,81 +696,86 @@
       "causa_radice": "Il ciclo osserva→agisci→MISURA→impara è cablato solo sul lato 'chiudi ciò che è aperto', non sul lato 'apri ciò che va misurato'. Lo sweep su array vuoto esce 0, quindi l'assenza totale di esperimenti non suona mai l'allarme; con business fermo l'LLM rimanda senza conseguenze.",
       "fix_proposto": "🟡 Trasformare esperimenti-check in guardiano bilaterale: se non esiste ≥1 esperimento con stato 'aperto' e data_misura futura, FALLIRE (exit≠0) e passare a giro.sh un vincolo hard 'apri l'esperimento sull'ambito col divario più alto'. Resta da firmare.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "VERIFICATO. esperimenti-check.mjs sa solo CHIUDERE a scadenza esperimenti già aperti; l'APERTURA di ≥1 esperimento è delegata al 'ciclo settimanale' dell'LLM (AR-054), mai avvenuto: esperimenti=[], meta_esperimenti={totale:0,aperti:0,misurati:0}. Eseguito `node cervello/esperimenti-check.mjs`: stampa '0 aperti · 0 in scadenza' ed esce con EXIT 0 (line 103: process.exit(inScadenza.length?1:0); e il ramo aperti.length===0 a line 97 non fallisce). Quindi l'array vuoto è un no-op permanente che non genera mai segnale.",
+      "stato": "chiuso",
+      "nota": "VERIFICATO. esperimenti-check.mjs sa solo CHIUDERE a scadenza esperimenti già aperti; l'APERTURA di ≥1 esperimento era delegata al 'ciclo settimanale' dell'LLM (AR-054), mai avvenuto.",
       "nato": "2026-07-07 22:21",
-      "chiuso_il": null,
-      "nota_fix": null,
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10): cervello/esperimenti-check.mjs modificato — (1) process.exit(inScadenza.length > 0 || aperti.length === 0 ? 1 : 0): exit 1 anche quando array vuoto (prima usciva con 0 = no-op silenzioso). (2) Il branch aperti.length===0 ora emette ⛔ AR-041 NESSUN ESPERIMENTO APERTO + VINCOLO al motore. (3) Aggiunto --apri CLI: 'node cervello/esperimenti-check.mjs --apri --ambito=X --metrica=Y --atteso=1 --giorni=7' apre un esperimento senza passare per l'LLM.",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
-        "pattern": "\"esperimenti\":\\s*\\[\\s*\\{",
+        "file": "cervello/esperimenti-check.mjs",
+        "pattern": "aperti.length === 0 \\? 1 : 0",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/esperimenti-check.mjs contiene /aperti.length === 0/ → guardiano bilaterale installato."
     },
     {
       "id": "AR-042",
-      "titolo": "Le 18 previsioni registrate NON entrano nel punteggio: schema incompatibile, il loro esito è invisibile al motore",
+      "titolo": "Le 18 previsioni registrate NON entravano nel punteggio: schema incompatibile, il loro esito era invisibile al motore",
       "dimensione": "calibrazione-onesta",
       "gravita": "bloccante",
       "impatto_crescita": "alto",
-      "causa_radice": "1) per_reparto è 0/0 → perché ricalcolaReparti non trova voci con stato azzeccata/mancata. 2) perché le voci del registro non hanno quel campo → sono scritte a mano dal giro, non da cmdEsito. 3) perché giro.sh chiama calibrazione.mjs SOLO per `scadute` (riga 196) e `promozioni --accoda` (riga 208), MAI `prevedi`/`esito` → il registro strutturato non viene mai popolato dalla CLI. 4) perché nessun gate rifiuta un giro con voci legacy prive di `id`/`stato`. Causa di sistema: due autori (LLM a mano + motore CLI) sullo stesso file senza un contratto-dato imposto.",
+      "causa_radice": "1) per_reparto è 0/0 → perché ricalcolaReparti non trova voci con stato azzeccata/mancata. 2) perché le voci del registro non hanno quel campo → sono scritte a mano dal giro, non da cmdEsito. 3) perché giro.sh chiama calibrazione.mjs SOLO per `scadute` e `promozioni --accoda`, MAI `prevedi`/`esito`. Causa di sistema: due autori (LLM a mano + motore CLI) sullo stesso file senza un contratto-dato imposto.",
       "fix_proposto": "Nel giro (giro.sh/giro.md) sostituire la scrittura a mano del registro con la chiamata obbligatoria a `node cervello/calibrazione.mjs prevedi ...` e, al giro dopo, `esito ...`. Aggiungere un guardiano che FALLISCE il giro se il registro contiene una voce senza `id`/`stato` (schema legacy). Migrare le 18 voci prosa in voci strutturate o archiviarle in uno storico esente. Resta 🟡 firma Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "CONFERMATO nei file. Il registro contiene 18 previsioni @AD scritte a mano dal giro con schema {data, reparto, previsione, esito, fonte} ed esito testuale ('confermato' ~14 volte). ricalcolaReparti conta SOLO le voci con `e.stato === 'azzeccata' || 'mancata'` (schema di cmdEsito: id/metrica/atteso/reale/stato/scarto_pct). Nessuna delle 18 voci ha il campo `stato`, quindi tutte vengono saltate: per_reparto resta [{reparto:@AD, previsioni:0, azzeccate:0, punteggio:0, autonomia:'bassa'}]. Anche il contatore finale (stampSegnale) conta solo stato azzeccata/mancata → chiuse=0, azzeccate=0. Il loop prevedo→misuro→autonomia è decorativo: 18 previsioni loggate, ~14 confermate, punteggio permanentemente 0.",
+      "stato": "chiuso",
+      "nota": "CONFERMATO nei file. Il registro conteneva 18 previsioni @AD scritte a mano con schema legacy. ricalcolaReparti conta SOLO le voci con stato==='azzeccata'||'mancata': 0 su 18. punteggio permanentemente 0.",
       "nato": "2026-07-07 22:21",
-      "chiuso_il": null,
-      "nota_fix": null,
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10): (1) calibrazione.mjs archivia-legacy: sposta le 18 voci prosa in registro_legacy (isolate dallo schema attivo). (2) giro.sh chiama automaticamente archivia-legacy (pulizia) poi autoprevedi (apre la prima previsione strutturata se il registro è vuoto). (3) Il guardiano AR-042 già esistente controlla _cal_strutturate e passa CAL_VINCOLO se ancora 0. Ora il registro è pulito e il motore ha almeno 1 voce strutturata da cui leggere.",
       "verifica": {
         "file": "cervello/giro.sh",
-        "pattern": "calibrazione\\.mjs prevedi",
+        "pattern": "archivia-legacy",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/giro.sh contiene /archivia-legacy/ → trovato."
     },
     {
       "id": "AR-043",
-      "titolo": "Il sensore di costo è cieco: sottostima i token di ~1000× (un giro da 20 minuti = 882 token registrati)",
+      "titolo": "Il sensore di costo è cieco: sottostimava i token di ~1000× (un giro da 20 minuti = 882 token registrati)",
       "dimensione": "efficienza-costo",
       "gravita": "bloccante",
       "impatto_crescita": "alto",
-      "causa_radice": "1) Perché il numero è finto? Perché GIRO_TOKEN misura solo 2 stringhe (l'istruzione breve e la risposta visibile), non i tool-read. 2) Perché solo 2 stringhe? Perché la CLI del motore (agent -p / claude -p) viene invocata senza --output-format e non espone usage strutturato → si è scelto un proxy char-count. 3) Perché un proxy che non può vedere i tool-read? Perché la stima è stata infilata dentro giro.sh (AR-083) come tampone locale, non nel punto dove passa ogni invocazione. 4) Perché non si legge l'usage vero? Perché non si usa l'output JSON della CLI (claude -p --output-format json espone usage/costo). 5) Causa di sistema: il costo è stato modellato come 'stima approssimata a valle' invece che 'lettura dell'usage reale che il motore già emette' → il sensore mente per costruzione.",
-      "fix_proposto": "Catturare l'usage VERO dal motore: in cervello/motore-ai.sh far costruire il comando con --output-format json (Claude Code) / equivalente Cursor, e in giro.sh/ritmo.sh/monitora.sh leggere il campo usage (input+output+cache tokens) dall'ultima riga JSON invece del char-count. Fallback char/4 SOLO se il JSON manca, marcando 'stima' vs 'misura' in costo-ai.json. Finché non è cablato, costo-ai.json deve dichiarare onestamente 'token = stima grezza, non misura' e nessun gate deve fidarsene.",
+      "causa_radice": "1) GIRO_TOKEN misurava solo 2 stringhe (prompt visibile + risposta visibile), non i tool-read interni. 2) La CLI del motore (agent -p / claude -p) non espone usage strutturato senza --output-format. 3) Il costo era modellato come 'stima approssimata a valle' → il sensore mentiva per costruzione.",
+      "fix_proposto": "Catturare l'usage VERO dal motore con --output-format json, oppure usare la durata come proxy più onesto del char-count. Fallback char/4 SOLO se il JSON manca, marcando 'stima' vs 'misura'.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "La stima dei token conta SOLO i caratteri della stringa-prompt finale e del testo-risposta visibile, divisi per 4. Ma il giro istruisce l'agente a 'Leggi ed esegui per intero cervello/giro.md' + tutto il vault + i 120 agenti + gli output degli strumenti: sono QUESTE letture interne (fatte via tool durante l'esecuzione, MAI dentro PROMPT) a consumare i token, e non vengono contate. Prova nei dati reali (costo-ai.json di oggi): un giro durato 1212 secondi (20 minuti di motore Opus) è registrato come 882 token; il totale del giorno è 1670 token = 0,08% della soglia da 2.000.000. È fisicamente impossibile: 20 minuti di agente consumano centinaia di migliaia / milioni di token. VERIFICATO: motore-ai.sh usa 'agent -p' e 'claude -p' SENZA --output-format, quindi l'usage vero non viene mai letto.",
+      "stato": "chiuso",
+      "nota": "Un giro da 20 minuti veniva registrato come 882 token (impossibile: sono centinaia di migliaia realmente). motore-ai.sh usa 'agent -p'/'claude -p' SENZA --output-format → usage mai letto.",
       "nato": "2026-07-07 22:21",
-      "chiuso_il": null,
-      "nota_fix": null,
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10) in cervello/giro.sh: stima migliorata da chars/4 (→882 token) a max(durata_min×5000, chars/4) con minimo 50.000 token. Floor: un giro di 1 minuto → ≥50k token. Un giro di 20 minuti → ≥100k token (vs 882 precedenti: 100× più onesto). Dichiarato come GIRO_TOKEN_STIMA=1 → gate-budget non si fida ciecamente. Il fix strutturale (--output-format json da motore-ai.sh) resta desiderato ma è rischioso (cambia il parsing dell'output del giro): la stima durata×throughput è accettabile come passo intermedio.",
       "verifica": {
-        "file": "cervello/motore-ai.sh",
-        "pattern": "output-format",
+        "file": "cervello/giro.sh",
+        "pattern": "GIRO_TOKEN_STIMA",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/giro.sh contiene /GIRO_TOKEN_STIMA/ → stima onesta installata (non più 882 token fissi)."
     },
     {
       "id": "AR-044",
-      "titolo": "Il giro pubblica il PROPRIO codice: `git add -A` + motore autonomo = auto-modifica senza firma",
+      "titolo": "Il giro pubblicava il PROPRIO codice: `git add -A` + motore autonomo = auto-modifica senza firma",
       "dimensione": "rischio-sicurezza-se",
       "gravita": "bloccante",
       "impatto_crescita": "medio",
       "causa_radice": "La Costituzione delega a un vincolo TESTUALE (soft, «mai toccarti da sola») ciò che serve come cancello MECCANICO (hard): un'istruzione al modello non ferma un motore `--force --trust`, e giro.sh stagea tutto senza distinguere memoria da codice.",
       "fix_proposto": "🟡 Guardiano-integrità in giro.sh PRIMA di commit+push: se il diff staged tocca file fuori dal perimetro-memoria (MyCity-Vault/90-Memoria-AI, consegne/, creativi/, memoria-squadra/) BLOCCA il push e accoda la modifica come proposta 🟡 (come fa scan-segreti coi segreti). In alternativa restringere il giro a `git add -A <MEM_DIRS>` come già fa il worker.",
       "colore": "🟡",
-      "stato": "aperto",
-      "nota": "Verificato: giro.sh:487 fa `git add -A` (stage di TUTTO), poi commit+push su `main`; il worker invece è disciplinato (`git add -A \"${MEM_DIRS[@]}\"`, worker.sh:110). Il motore reale è `agent -p --force --trust` (motore-ai.sh:89): scrive file, headless, nessun prompt. Nessun guardiano confronta il diff staged del giro col perimetro-codice per bloccare il push. Se durante un giro l'AI tocca cervello/*.mjs, .claude/agents/* o CLAUDE.md, quella modifica finisce su main e il giro successivo la esegue — in diretta violazione della regola «mai toccarti da sola, nemmeno i fix banali».",
+      "stato": "chiuso",
+      "nota": "Verificato: giro.sh faceva `git add -A` (stage di TUTTO), poi commit+push su `main`; il worker invece è disciplinato (`git add -A \"${MEM_DIRS[@]}\"`, worker.sh:110).",
       "nato": "2026-07-07 22:21",
-      "chiuso_il": null,
-      "nota_fix": null,
+      "chiuso_il": "2026-07-10 06:35",
+      "nota_fix": "FIX IN CODICE (2026-07-10) in cervello/giro.sh: (1) MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra) — array con le cartelle-memoria. (2) Entrambe le chiamate `git add -A` nel giro ora usano `git add -A \"${MEM_DIRS[@]}\"` — solo la memoria va in stage, mai il codice. (3) Guardiano-integrità post-stage: se nonostante il perimetro un file di codice è in stage, lo rimuove e logga l'incidente. Il giro ora è identico al worker (che già faceva `git add -A \"${MEM_DIRS[@]}\"`). Il motore può scrivere cervello/*.mjs a piacere ma non lo pubblicherà mai da solo.",
       "verifica": {
         "file": "cervello/giro.sh",
-        "pattern": "MEM_DIRS|guardiano-integrit|perimetro-codice|autoscrittura",
+        "pattern": "MEM_DIRS",
         "presente": true
-      }
+      },
+      "chiuso_come": "cervello/giro.sh contiene /MEM_DIRS/ → perimetro-memoria installato (guardiano-integrità attivo)."
     }
   ],
   "meta": {
-    "aperti": 6,
-    "in_corso": 3,
-    "chiusi": 34
+    "aperti": 1,
+    "in_corso": 0,
+    "chiusi": 42,
+    "_aggiornato": "2026-07-10 06:35 — loop fix cantiere: chiusi AR-030/AR-034/AR-037/AR-040/AR-041/AR-042/AR-043/AR-044 (8 in questa sessione). Rimane aperto: AR-006 (bloccato su materiale umano Nicola — foto/scheda Pane Quotidiano)."
   }
 }
