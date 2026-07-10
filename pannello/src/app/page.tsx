@@ -1941,7 +1941,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           )}
-          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[220px] max-h-[440px]">
+          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-4 overflow-y-auto min-h-[400px] max-h-[820px]">
             {messages.length === 0 && (
               <div className="pt-1">
                 <p className="t-corpo text-sm mb-3">
@@ -2046,9 +2046,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     mandaAlCervello();
                   }
                 }}
-                rows={4}
+                rows={2}
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="input-soft flex-1 min-h-[82px] max-h-40 resize-y"
+                className="input-soft flex-1 min-h-[56px] max-h-24 resize-y"
               />
               <button
                 onClick={() => fileChatRef.current?.click()}
