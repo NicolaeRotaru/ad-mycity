@@ -3134,10 +3134,17 @@
       "modello": "groq-llama",
       "tier": "gratis",
       "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 06:01",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
     }
   ],
   "uso": {
     "claude": 244,
-    "groq-llama": 192
+    "groq-llama": 193
   }
 }
