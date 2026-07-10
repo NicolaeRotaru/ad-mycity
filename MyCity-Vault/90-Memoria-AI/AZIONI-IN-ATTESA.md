@@ -14,6 +14,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-252 — Mergia la PR per sistemare la chat laterale (altezza, scroll, a capo) · ⏳ IN ATTESA · accodata 2026-07-10 18:35
+
+**PR #252** — branch `fix/chat-parla-casella-ux` → `main`
+
+Cosa risolve (3 problemi segnalati da Nicola):
+1. La finestra della chat era troppo alta — ora ha la stessa altezza di una nuova chat (`h-36`)
+2. Aprendo la chat partiva dall'inizio dei messaggi — ora scorre automaticamente all'ultimo messaggio
+3. Le risposte andavano a capo con righe vuote extra — ora il testo è compatto senza doppi a capo
+
+**Cosa cambia:** la chat laterale (quella dentro le caselle del Pannello) si comporta come ti aspetti.
+**Se va bene:** il Pannello si deploya da solo dopo il merge. Verifica aprendo una casella e scorrendo nella chat.
+
+- **Colore:** 🟡 (tocca il codice del Pannello in produzione via merge).
+- **Come mergi:** apri [PR #252 su GitHub](https://github.com/NicolaeRotaru/ad-mycity/pull/252) e clicca "Merge pull request".
+
+---
+
 ### 🟡 #chip-chat-normale — Pusho il branch e apro la PR per i chip nella chat normale · ⏳ IN ATTESA · accodata 2026-07-10 18:00
 
 I chip delle skill rapide funzionano in «Parla con questa casella» ma **mancano nella chat normale** (la chat principale che usi adesso). Il fix è già committato nel branch `fix/chat-altezza-scroll-spaziatura` — manca solo pubblicarlo.
