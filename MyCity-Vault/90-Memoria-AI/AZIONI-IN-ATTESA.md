@@ -229,6 +229,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 > Non importate perché superate da decisioni successive di Nicola o già in coda: chiamate alle 6 botteghe (16:35: ci va di persona il 13/7), anti-churn PQ (15:52: chiusa), sentinella annullati (≡#40), carrello samir (≡#26), SEO vetrina (≡blocchi 16:10), scheda Google MyCity (16:08: parcheggiata), comunicazione badge (≡blocco standard).
 
 | 61 | 2026-07-10 18:13 | @tech | Merge PR #252 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/252 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 62 | 2026-07-10 18:27 | @tech | Merge PR #255 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/255 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
