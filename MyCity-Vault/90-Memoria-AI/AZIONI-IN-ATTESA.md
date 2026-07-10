@@ -14,38 +14,40 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — Push branch fix/5-bloccanti-sicurezza su GitHub e apri la PR · ✅ Passo 1 (commit) FATTO da Nicola (11/7 ~01:30, hash 987b85b) · Manca: push + PR · aggiornata 2026-07-11 01:30
+### 🟡 #pr-5bloccanti — PR #212 aperta (fix/5-bloccanti-sicurezza → main) ma ha CONFLITTI di merge · Serve rebase dal terminale VPS · aggiornata 2026-07-11 01:45
 
-**✅ Commit fatto (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 inserzioni, 117 cancellazioni. Migrazioni incluse: 108_fix_rider_rls, 109_fix_rider_self_assign, 110_fix_public_profile_rls, 111_fix_020_broken_policies, 112_fix_wallet_on_cancel_reject, 113_fix_coupon_atomic, 114_newsletter_consent, 115_fix_reversal_incremental.
+**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ Push fatto. ✅ PR #212 aperta su GitHub.
 
-**Cosa è fixato (nel commit 987b85b):**
+**⚠️ Problema attuale:** PR #212 ha conflitti di merge — `main` è avanzato dal 1/7 (data del commit Sprint 1 nel branch). GitHub non riesce a mergiarla in automatico.
+
+**Cosa è fixato (nei commit del branch):**
 1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
-2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) — rifiuto venditore rimborsa Stripe automaticamente **(B4 chiuso)**
+2. `app/api/seller/orders/[id]/reject/route.ts` — rifiuto venditore rimborsa Stripe automaticamente **(B4 chiuso)**
 3. `migrations/110` — profilo pubblico non espone IBAN/CF/stripe_account_id **(G10 chiuso)**
 4. `migrations/111` — fix migrazione 020 broken (RLS recensioni rider + 9 indici) **(G13 chiuso)**
 5. `migrations/112` — wallet ripristinato su cancel/reject COD **(G4 chiuso)**
-6. `migrations/113` — coupon check atomico, impossibile doppio riscatto **(G8 chiuso)**
+6. `migrations/113` — coupon check atomico **(G8 chiuso)**
 7. `migrations/114` — newsletter double opt-in **(G17 chiuso)**
-8. `migrations/115` — rimborsi incrementali scalano correttamente il payout venditore **(G5 chiuso)**
+8. `migrations/115` — rimborsi incrementali scalano payout venditore **(G5 chiuso)**
 9. `middleware.ts` — fail-closed senza variabili Supabase **(G11 chiuso)**
 10. XSS JSON-LD: escape dati venditore **(G12 chiuso)**
 
-**⏳ Passo 2 — Push + PR (da eseguire):**
-```bash
-cd /opt/mycity/ad-mycity/marketplace && MARKETPLACE_REPO=/opt/mycity/ad-mycity/marketplace node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo mycity --base main --branch fix/5-bloccanti-sicurezza --title "fix: sprint 2 radiografia — B2 B4 G4 G5 G8 G10 G11 G12 G13 G17" --accoda
-```
-Oppure dal terminale VPS diretto:
+**⏳ Passo da fare — Rebase per risolvere i conflitti:**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
-git push origin fix/5-bloccanti-sicurezza
+git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace
+git fetch origin
+git rebase origin/main
+# risolvere eventuali conflitti, poi:
+git push --force-with-lease origin fix/5-bloccanti-sicurezza
 ```
-Poi l'AD apre la PR da GitHub CLI o git-pr.mjs.
+Dopo il rebase, la PR #212 sarà verde e mergiabile.
 
+**PR:** https://github.com/NicolaeRotaru/mycity/pull/212
 **Cosa cambia:** 4 bloccanti + 8 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimborsati correttamente, coupon sicuri, newsletter conforme.
-**Se va bene:** PR mergiata da Nicola → migrazioni applicate al DB → sito sicuro.
+**Se va bene:** Nicola mergia la PR → migrazioni applicate al DB → sito sicuro.
 
-- **Colore:** 🟡 (modifica al codice del sito → branch+PR, merge firma tu).
-- **Il merge lo fai tu dal Pannello** dopo aver letto il diff.
+- **Colore:** 🟡 (il rebase è sul codice del sito → il merge lo fai tu).
 
 ---
 
