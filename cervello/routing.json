@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-10 18:41",
+  "aggiornato": "2026-07-10 19:12",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -83,69 +83,6 @@
     }
   ],
   "log": [
-    {
-      "quando": "2026-07-05 00:00",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 00:02",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 05:32",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 05:48",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 11:49",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 11:50",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 11:51",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 11:52",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-05 11:53",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
     {
       "quando": "2026-07-05 12:06",
       "compito": "ragionamento",
@@ -3582,10 +3519,73 @@
       "modello": "groq-llama",
       "tier": "gratis",
       "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 18:48",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-10 18:48",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 18:51",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-10 18:51",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 18:54",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-10 18:57",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 18:59",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-10 19:02",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-10 19:12",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
     }
   ],
   "uso": {
-    "claude": 260,
-    "groq-llama": 240
+    "claude": 256,
+    "groq-llama": 244
   }
 }
