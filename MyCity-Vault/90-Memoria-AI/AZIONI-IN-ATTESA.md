@@ -31,13 +31,17 @@ I fix sono scritti in **37 file** nel checkout `/opt/mycity/ad-mycity/marketplac
 
 **Nota checkouts:** `fix/ruoli-acquisto-admin-seller-2026-07-02` è già merged in main — quei fix sono già in produzione.
 
-**Per sbloccare — Passo 1 (Nicola, ~30 secondi dal terminale VPS):**
+**Per sbloccare — Passo 1 (Nicola, ~60 secondi dal terminale VPS):**
 ```bash
+git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace
+git config --global user.email "nicolaflorea50@gmail.com"
+git config --global user.name "AD MyCity"
 cd /opt/mycity/ad-mycity/marketplace
 git add -A
-git commit -m "fix: sprint 2 radiografia — B1 B2 B3 B4 G1 G4 G8 G10 G11 G12"
+git commit -m "fix: sprint 2 radiografia — B2 B4 G4 G8 G9 G10 G11 G12 G13"
 git push origin fix/5-bloccanti-sicurezza
 ```
+> ℹ️ Il safe.directory è il primo blocco (dir owned da mycity ma stai come root). Il user.email è il secondo (root non ha identità git globale). Servono tutti e tre i config prima del commit.
 
 **Passo 2 (AD, dopo il tuo «fatto»):** apro la PR su GitHub.
 

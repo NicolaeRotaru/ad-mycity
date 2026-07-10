@@ -6,7 +6,17 @@ fonte: AD digitale (🌙 9/7 18:00 REPORT DELLA SERA: giornata di chiusura della
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> ⚠️ **11/7 ~00:45 — 37 FIX RADIOGRAFIA: COMMIT BLOCCATO DA "dubious ownership" — fix dato a Nicola.** Nicola ha eseguito i comandi dal terminale VPS ma ha ottenuto `fatal: detected dubious ownership in repository at '/opt/mycity/ad-mycity/marketplace'` (la dir appartiene a un utente diverso da `root`). **Fix dato (4 comandi da eseguire in sequenza):** ① `git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace` ② `cd /opt/mycity/ad-mycity/marketplace` ③ `git add -A` ④ `git commit -m "fix: sprint 2 radiografia — B2 B4 G4 G8 G9 G10 G11 G12 G13" && git push origin fix/5-bloccanti-sicurezza` → poi scrivere «fatto» e l'AD apre la PR. I 37 file coprono: B2 (dati clienti esposti), B4 (rimborso mancante su rifiuto), G4 (wallet su cancel), G8 (coupon atomico), G9 (auto-rider), G10 (IBAN esposto), G11 (middleware fail-open), G12 (XSS JSON-LD), G13 (migrazione 020 mancante). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` già in main (fix precedenti in produzione). **Origine dei 37 file:** scritti da una sessione worker precedente, trovati non committati dall'AD 11/7 00:30.
+> ⚠️ **11/7 ~01:30 — 37 FIX RADIOGRAFIA: COMMIT ANCORA BLOCCATO — serve git config user come root.** Nicola ha corretto il "dubious ownership" con `git config --global --add safe.directory …` ma poi ha ricevuto `fatal: unable to auto-detect email address (got 'root@ubuntu-4gb-nbg1-1.(none)')` — perché `root` non ha user.email/user.name configurati globalmente. **Fix completo (6 comandi, in ordine):**
+> ```bash
+> git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace
+> git config --global user.email "nicolaflorea50@gmail.com"
+> git config --global user.name "AD MyCity"
+> cd /opt/mycity/ad-mycity/marketplace
+> git add -A
+> git commit -m "fix: sprint 2 radiografia — B2 B4 G4 G8 G9 G10 G11 G12 G13"
+> git push origin fix/5-bloccanti-sicurezza
+> ```
+> → poi scrivere «fatto» e l'AD apre la PR. I 37 file coprono: B2 (dati clienti esposti), B4 (rimborso mancante su rifiuto), G4 (wallet su cancel), G8 (coupon atomico), G9 (auto-rider), G10 (IBAN esposto), G11 (middleware fail-open), G12 (XSS JSON-LD), G13 (migrazione 020 mancante). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` già in main (fix precedenti in produzione). **Origine dei 37 file:** scritti da una sessione worker precedente, trovati non committati dall'AD 11/7 00:30.
 >
 > ⚠️ **10/7 ~19:00 — FIX PARLACASELLA NON VISIBILI NEL PANNELLO — serve commit trigger Vercel.** PR #257 mergiata (auto-merge): `vercel.json: main→true` + `ParlaCasella.tsx` (altezza h-36, scroll all'ultimo messaggio, niente doppi a capo) su `origin/main` confermati. MA Vercel non ha buildato: probabile causa — Vercel aveva già valutato la config `deploymentEnabled: main: false` prima che il fix arrivasse, ignorando anche quel push. **Prossimo passo:** commit trigger su `pannello/.deploy-trigger` per forzare il primo build con la nuova config (azione `#trigger-build-pannello`). Coda immediata: `#trigger-build-pannello` · `#worker-restart` · `#chip-chat-normale` · `#32 SQL 107` · VEN 17/7 1° ordine PQ.
 >
