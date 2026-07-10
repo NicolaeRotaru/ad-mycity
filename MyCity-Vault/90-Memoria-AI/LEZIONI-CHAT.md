@@ -4,7 +4,8 @@
 > la più recente in cima. Il worker inietta le prime ~8 in OGNI turno di chat (blocco
 > CONTESTO MACCHINA): è qui che una lezione smette di essere una nota e diventa comportamento.
 
-- [2026-07-10] BUG APERTO — chip skill rapide VISIBILI in ParlaCasella/ChatCasella ma il click NON popola la textarea: deploy ok (commit f6f85911 su Vercel), causa probabile nel handler onClick/setBozza o textareaRef non collegato al DOM. Prima di altro lavoro su questi file, debugga il component.
+- [2026-07-10] Allegati PNG in chat del Pannello: l'AD NON riesce ad aprirli (manca il permesso read sul path chat-allegati/); se Nicola allega uno screenshot, chiedere una descrizione a parole invece di provare ad aprirlo.
+- [2026-07-10] BUG APERTO — chip skill rapide VISIBILI in ParlaCasella/ChatCasella ma il click NON popola la textarea: confermato con screenshot di Nicola (deploy ok, commit f6f85911). Debuggare onClick handler, textareaRef, value={bozza} — questi tre punti in ParlaCasella.tsx righe 35-44.
 - [2026-07-10] Feature non appare post-deploy: prima di diagnosticare il build, guidare Nicola all'interazione ESATTA (i chip skill rapide sono solo in "💬 Parla con questa casella" con textarea vuota — non nell'Archivio né sulla home del Pannello). Confermare la location prima di assumere deploy rotto.
 - [2026-07-10] ParlaCasella e ChatCasella devono essere SEMPRE identiche dal punto di vista di Nicola ("la chat della casella e chat dell'archivio deve essere la stessa cosa") — ogni modifica UI a una va applicata all'altra nello stesso commit.
 - [2026-07-10] git checkout su un branch che TRACCIA settings.local.json lo sovrascrive anche se il file è in .gitignore — .gitignore protegge solo file UNTRACKED; se il branch target ha il file già tracked (es. feature/skill-rapide-chat), checkout lo ripristina alla versione del branch. Fix: fare git stash prima di checkout, e verificare con git ls-tree che il branch non abbia il file.
@@ -14,5 +15,4 @@
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.
 - [2026-07-10] Prima di toccare codice: git checkout main && git pull --rebase, poi branch NUOVO — mai lavorare sul branch ereditato dalla sessione precedente (successo con fix/rimuovi-autoscroll-chat: chip committate sul branch dell'autoscroll).
 - [2026-07-10] Mai dire «fatto» senza prova verificata (git log, output comando): i «fatto» non verificati hanno fatto girare Nicola in tondo per ore.
-- [2026-07-10] Mai commit «forza build» su main: il deploy del Pannello parte da solo al merge; se il Pannello sembra vecchio, controlla i segnali automazione e dillo a Nicola.
 - [2026-07-10] Mai script temporanei (_tmp_*.mjs) né curl verso api.github.com per aggirare un blocco: vietati dai permessi, e sporcano main.
