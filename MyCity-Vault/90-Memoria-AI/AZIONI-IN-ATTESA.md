@@ -14,13 +14,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ⏳ #pr-255 — FIX ParlaCasella.tsx: PR su GitHub, Vercel NON ha deployato · 2026-07-10 18:46
+### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
-PR #255 creata da Nicola via `node cervello/git-pr.mjs`. Nicola ha confermato che auto-merge è DISABILITATO sulla repo — i merge "automatici" visti erano PR del worker, non il fix. Vercel ancora fermo: `origin/main` al commit pre-fix.
+Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
 
-Fix inclusi in `ParlaCasella.tsx`: altezza `h-36` (uguale a ChatCasella), scroll automatico all'ultimo messaggio all'apertura, nessun doppio a capo nelle risposte (ReactMarkdown).
+---
 
-**Prossimo passo:** Nicola mergia PR #255 da GitHub → https://github.com/NicolaeRotaru/ad-mycity/pull/255
+### ⏳ #pr-257 — FIX URGENTE: vercel.json deploymentEnabled + ParlaCasella UX · 2026-07-10 18:50
+
+**Causa radice trovata:** `pannello/vercel.json` aveva `"deploymentEnabled": {"main": false}` — bloccava TUTTI i build Vercel da main. Nessun deploy funzionava da settimane per questo motivo.
+
+**PR #257** contiene:
+1. `vercel.json`: `main: false` → `true` — sblocca i build Vercel
+2. `ParlaCasella.tsx`: altezza `h-36`, scroll al fondo all'apertura, nessun doppio a capo (ReactMarkdown)
+
+**Mergia tu la #257:** https://github.com/NicolaeRotaru/ad-mycity/pull/257
+
+**Cosa cambia:** Vercel torna a deployare normalmente + 3 fix UX della chat nel Pannello.
+**Se va bene:** il Pannello online si aggiorna in 1-2 minuti dopo il merge.
 
 ---
 
