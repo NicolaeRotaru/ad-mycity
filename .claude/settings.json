@@ -3,7 +3,32 @@
     "allow": [
       "WebSearch",
       "WebFetch",
-      "PowerShell(Get-PSDrive C | Select-Object Used,Free,@{N='FreeGB';E={[math]::Round\\($_.Free/1GB,2\\)}},@{N='UsedGB';E={[math]::Round\\($_.Used/1GB,2\\)}})"
+      "PowerShell(Get-PSDrive C | Select-Object Used,Free,@{N='FreeGB';E={[math]::Round\\($_.Free/1GB,2\\)}},@{N='UsedGB';E={[math]::Round\\($_.Used/1GB,2\\)}})",
+      "Bash(curl:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git fetch:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git rebase:*)",
+      "Bash(git pull --rebase:*)",
+      "Bash(git cat-file:*)",
+      "Bash(git diff:*)",
+      "Bash(node cervello/*.mjs:*)",
+      "Bash(bash cervello/*.sh:*)",
+      "Bash(node --test:*)",
+      "Bash(npx bats:*)",
+      "mcp__supabase-marketplace__list_tables",
+      "mcp__supabase-marketplace__list_migrations",
+      "mcp__supabase-marketplace__get_logs",
+      "mcp__supabase-memoria__list_tables",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "mcp__claude_ai_Vercel__get_project"
     ]
   }
 }

@@ -20,6 +20,13 @@ desktop.ini
 !**/.env.example
 *.save
 
+# Permessi LOCALI di Claude Code: file per-macchina che Claude riscrive da solo a ogni
+# approvazione. Era tracciato in git → i checkout -f di monitora/aggiorna-cervello e i commit
+# di recupero lo facevano ping-pongare, cancellando le regole aggiunte a mano sul VPS.
+# Le regole STABILI e condivise vivono in .claude/settings.json (versionato); questo resta fuori.
+# (Copre anche la variante .jso: un salvataggio col nome monco era finito committato.)
+.claude/settings.local.*
+
 # Sentinella one-shot del delta-gate (AR-019): giro-ora.sh la crea, giro.sh la consuma. Mai versionarla.
 cervello/vps/.giro-force
 
