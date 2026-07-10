@@ -63,6 +63,10 @@ GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.githu
 GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-AD MyCity (VPS)}"
 GIT_ID=(-c user.email="$GIT_AUTHOR_EMAIL" -c user.name="$GIT_AUTHOR_NAME")
 LOCK="$REPO/.git/mycity-sync.lock"
+# AR-044: perimetro-memoria — il ritmo committa SOLO queste cartelle (come giro.sh e worker.sh).
+# Il vecchio `git add -A` globale spazzava su main anche codice e file temporanei lasciati in giro
+# dalle sessioni chat (es. _tmp_create_pr.mjs finito su main il 10/7) — mai più.
+MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
@@ -74,7 +78,7 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     # FATTO di azioni) → perdita silenziosa di memoria e rischio doppia esecuzione. Ora: committa il
     # pendente, poi REBASE sopra il remoto (i commit locali restano in HEAD e li pubblica il push finale).
     if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-      git add -A 2>/dev/null || true
+      git add -A "${MEM_DIRS[@]}" 2>/dev/null || true  # AR-044: solo memoria, mai codice
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da ritmo interrotto ($(ts))" 2>/dev/null || true
     fi
     _fetch_ok=0
@@ -228,7 +232,7 @@ RITMO_PUSH_OK=1
 RITMO_HAD_CHANGES=0
 exec 9>"$LOCK"
 if flock -w 600 9; then
-  git add -A 2>/dev/null || true
+  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true  # AR-044: solo memoria, mai codice
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
   else

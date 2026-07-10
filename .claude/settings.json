@@ -11,7 +11,10 @@
       "Bash(git remote:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push origin main:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash:*)",
       "Bash(git rebase:*)",
       "Bash(git pull --rebase:*)",
       "Bash(git cat-file:*)",
@@ -29,6 +32,10 @@
       "mcp__claude_ai_Vercel__list_deployments",
       "mcp__claude_ai_Vercel__get_deployment",
       "mcp__claude_ai_Vercel__get_project"
+    ],
+    "deny": [
+      "Bash(git push*main*)",
+      "Bash(*api.github.com*)"
     ]
   }
 }

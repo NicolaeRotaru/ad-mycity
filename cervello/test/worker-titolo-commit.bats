@@ -54,6 +54,18 @@ esegui_blocco() {
   [[ "$titolo" == "worker: ciao Nicola (id-1 · 12:00:00)" ]]
 }
 
+@test "busta chat con storia: il titolo è l'ULTIMO messaggio di Nicola, non l'intestazione" {
+  esegui_blocco $'## Conversazione finora\nNicola: aggiungimi le skill dentro la chat\nAD: fatto, ci penso io\nNicola: non le vedo ancora' "id-2"
+  titolo="$(git log -1 --format=%s)"
+  [[ "$titolo" == "worker: non le vedo ancora (id-2 · 12:00:00)" ]]
+}
+
+@test "busta chat primo messaggio ('## Nuovo messaggio di Nicola'): via l'intestazione tecnica" {
+  esegui_blocco $'## Nuovo messaggio di Nicola\nmi dà molto fastidio che ogni volta la chat scatta in giù' "id-3"
+  titolo="$(git log -1 --format=%s)"
+  [[ "$titolo" == "worker: mi dà molto fastidio che ogni volta la chat scatta in giù (id-3 · 12:00:00)" ]]
+}
+
 @test "guardia anti-drift: worker.sh contiene taglio a 60 byte + scrub iconv + nuovo formato -m" {
   grep -q 'head -c 60' "$WORKER"
   grep -q 'iconv -f UTF-8 -t UTF-8 -c' "$WORKER"

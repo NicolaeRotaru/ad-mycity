@@ -30,6 +30,11 @@ desktop.ini
 # Sentinella one-shot del delta-gate (AR-019): giro-ora.sh la crea, giro.sh la consuma. Mai versionarla.
 cervello/vps/.giro-force
 
+# File temporanei lasciati dalle sessioni AI (script di prova, appunti): mai su main.
+# (Il 10/7 un _tmp_create_pr.mjs improvvisato da una chat era finito committato dallo spazzino del ritmo.)
+_tmp_*
+**/_tmp_*
+
 # Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
 # `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.
 /marketplace/
