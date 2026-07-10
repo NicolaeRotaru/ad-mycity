@@ -1,5 +1,5 @@
 "use client";
-
+// v2 — chip skill rapide
 import { useState, useEffect, useRef } from "react";
 import { MessageSquarePlus, Send, Loader2, CheckCircle2, Zap } from "lucide-react";
 import {
