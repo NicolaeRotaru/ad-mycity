@@ -14,24 +14,35 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — Pubblica i 5 fix bloccanti del marketplace su GitHub e apri la PR · ⏳ IN ATTESA · accodata 2026-07-10 19:45
+### 🟡 #pr-5bloccanti — Committa i 37 fix in ad-mycity/marketplace e apri la PR · ⏳ IN ATTESA · aggiornata 2026-07-11 00:30
 
-I fix sono già scritti nei file del marketplace locale (`/opt/mycity/ad-mycity/marketplace/`). Manca solo il commit + push + PR.
+I fix sono scritti in **37 file** nel checkout `/opt/mycity/ad-mycity/marketplace/` (branch `fix/5-bloccanti-sicurezza`) ma NON sono ancora committati — `git` in quel checkout è bloccato da security hooks, quindi non posso committare da Claude.
 
-**Cosa ho fixato (tutti e 5 verificati nel codice dalla radiografia del 07/07):**
-1. `migrations/108_fix_rider_rls.sql` — RLS rider: chiunque (anche anonimo) poteva leggere nome/indirizzo/telefono dei clienti in consegna → ora solo i rider approvati vedono la coda ordini
-2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) + `app/seller/orders/[id]/page.tsx` — rifiuto venditore su ordine pagato con carta: prima nessun rimborso; ora il nuovo endpoint API rimborsa Stripe prima di annullare
-3. `lib/stripe/client.ts` — aggiunto `expires_at` alla sessione Stripe (110 min, allineato al TTL del pending_checkout di 2h): prima la sessione viveva 24h e lo stock veniva rimesso a scaffale dopo 2h → overselling garantito
-4. `app/api/stripe/webhook/route.ts` — (a) gestione pending EXPIRED nel webhook: pagamento tardivo dopo scadenza → rimborso immediato invece di creare ordini su stock non riservato; (b) chargeback vinto: gli ordini con payout_status='REVERSED' ora tornano a 'HELD' così il cron li ri-paga al venditore
-5. `lib/stripe/payout.ts` — rimborso COD: clamp al **residuo rimborsabile** (totale − già rimborsato) invece che al solo totale → impossibile fare più rimborsi che sommati eccedono il valore dell'ordine
+**Cosa è già fixato (verificato nel codice, 11/7):**
+1. `migrations/108_fix_rider_rls.sql` — RLS rider: chiunque (anche anonimo) poteva leggere nome/indirizzo/telefono dei clienti in consegna → ora solo i rider approvati vedono la coda ordini **(B2 chiuso)**
+2. `app/api/seller/orders/[id]/reject/route.ts` (nuovo) + `app/seller/orders/[id]/page.tsx` — rifiuto venditore su ordine pagato con carta: prima nessun rimborso; ora il nuovo endpoint API rimborsa Stripe prima di annullare **(B4 chiuso)**
+3. `lib/stripe/client.ts` + `webhook/route.ts` — TTL sessione Stripe allineato al pending_checkout (110 min); gestione EXPIRED; chargeback vinto → payout ri-emesso **(B1 + B3 chiusi)**
+4. `lib/stripe/payout.ts` — rimborso COD: clamp al residuo rimborsabile → impossibile over-accreditare il wallet **(G1 chiuso)**
+5. `middleware.ts` — fail-closed: senza variabili Supabase blocca l'accesso alle pagine admin/seller/rider **(G11 chiuso)**
+6. `migrations/109_fix_profile_public.sql` — profilo pubblico non espone più IBAN/CF/stripe_account_id **(G10 chiuso)**
+7. Coupon check atomico (db transaction) → impossibile riscattare lo stesso coupon in parallelo **(G8 chiuso)**
+8. Wallet su cancel ordine COD: ripristino automatico del credito **(G4 chiuso)**
+9. XSS JSON-LD: escape dei dati venditore nei blocchi strutturati **(G12 chiuso)**
 
-**Cosa cambia:** 4 buchi di sicurezza/pagamento bloccanti chiusi. I clienti sono protetti (GDPR), i venditori vengono rimborsati correttamente, l'overselling è impossibile.
-**Se va bene:** il sito non ha più nessuno dei 4 bloccanti unici trovati dalla radiografia.
+**Nota checkouts:** `fix/ruoli-acquisto-admin-seller-2026-07-02` è già merged in main — quei fix sono già in produzione.
 
-**Per pubblicare (comando da eseguire sul VPS dal terminale, ~10 secondi):**
+**Per sbloccare — Passo 1 (Nicola, ~30 secondi dal terminale VPS):**
 ```bash
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo mycity --base main --branch fix/5-bloccanti-sicurezza --title "fix: 5 bloccanti sicurezza e pagamenti (radiografia 07/07)" --accoda
+cd /opt/mycity/ad-mycity/marketplace
+git add -A
+git commit -m "fix: sprint 2 radiografia — B1 B2 B3 B4 G1 G4 G8 G10 G11 G12"
+git push origin fix/5-bloccanti-sicurezza
 ```
+
+**Passo 2 (AD, dopo il tuo «fatto»):** apro la PR su GitHub.
+
+**Cosa cambia:** tutti e 4 i bloccanti + 5 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimorsati correttamente, overselling impossibile, coupon sicuri.
+**Se va bene:** il sito supera i controlli di sicurezza della radiografia senza i buchi più critici.
 
 - **Colore:** 🟡 (modifica al codice del sito → branch+PR, merge firma tu).
 - **Il merge lo fai tu dal Pannello** dopo aver letto il diff.
