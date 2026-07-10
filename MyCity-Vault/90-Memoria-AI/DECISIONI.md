@@ -23,6 +23,8 @@ fonte: AD digitale
 - 2026-07-10 23:58 · 🟡 · [Pannello/Bug] · Nicola ha confermato con screenshot: i chip sono VISIBILI sopra la textarea (deploy ok), ma cliccandoli la textarea rimane vuota — il click non popola la bozza · Bug confermato visivamente; l'AD non è riuscito ad aprire l'allegato PNG per mancanza di permesso ("permesso mancante"), ma ha capito dal testo · BUG APERTO: debuggare onClick handler / textareaRef / value={bozza} in ParlaCasella.tsx e ChatCasella.tsx · —
 - 2026-07-10 23:30 · 🟡 · [Preferenza Nicola] · Nicola ha chiarito: "la chat della casella e chat dell'archivio deve essere la stessa cosa" — le due componenti ParlaCasella e ChatCasella devono essere identiche dal suo punto di vista; ogni modifica UI a una va applicata all'altra nello stesso commit · Corretto immediatamente (chip aggiunti a entrambe) · Fatto · Nicola (chat 10/7)
 
+- 2026-07-10 23:58 · 🟡 · [Pannello/Frontend] · Chip skill rapide aggiunti alla chat principale (page.tsx, commit 65bee0a8) nel branch fix/chat-altezza-scroll-spaziatura · Nicola ha segnalato "dentro la chat normale non ci sono i chip" — ParlaCasella/ChatCasella avevano i chip ma la main chat no · Commit locale NON pushato: `fix/*` non in allowlist; Nicola deve aggiungere `"Bash(git push origin fix/*:*)"` in settings.local.json · AD (chat 10/7)
+
 Formato di ogni riga (**metti SEMPRE data E ora** `AAAA-MM-GG HH:MM`, così si sa al minuto quando è apparsa):
 `AAAA-MM-GG HH:MM · 🟡/🔴 · [Reparto] · Cosa · Perché · Esito/Stato · Chi ha firmato`
 
