@@ -81,8 +81,11 @@ ai_prepare_env() {
   # PENSA prima di rispondere su ogni corsia (chat, giro, lavori): più lento di qualche secondo,
   # molto più giusto. Il pensiero NON finisce nella risposta a Nicola (_estrai_stream prende solo
   # i blocchi text). Override: CERVELLO_THINKING_TOKENS nel .env (0 = spento, com'era prima).
+  # 💸 PENSIERO MIRATO (efficienza): il thinking serve dove si RAGIONA (chat, giro, lavori), NON sui
+  # compiti di solo VOLUME (metabolizzare = riassumere; diagnosi errore = tradurre): lì bruciava budget
+  # a vuoto. Il chiamante può abbassarlo per-lavoro con AI_THINKING (0 = spento); default = quello del .env.
   if [ "$(ai_engine)" = claude ]; then
-    local _think="${CERVELLO_THINKING_TOKENS:-8000}"
+    local _think="${AI_THINKING:-${CERVELLO_THINKING_TOKENS:-8000}}"
     if [ "$_think" != 0 ]; then export MAX_THINKING_TOKENS="$_think"; else unset MAX_THINKING_TOKENS; fi
   fi
   # Headless VPS: niente browser login.
