@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> ⚠️ **12/7 ~01:39 — Pannello: 10 modifiche mergiate dal worker su main NON visibili su Vercel.** Nicola ha segnalato che le ultime 10 modifiche del Pannello (mergiate automaticamente dal worker su main) non si vedono online. Meccanismo deploy: push su `pannello/` → GitHub Action `deploy-pannello.yml` → secret `VERCEL_DEPLOY_HOOK_URL` → Vercel builda. Se l'Action è rossa o il secret manca/scaduto, le modifiche restano su GitHub ma non vanno in produzione. Passo diagnostico in attesa: Nicola verifica GitHub → tab Actions → "Deploy Pannello su Vercel" (verde ✅ o rossa ❌). Fonte: chat Nicola 12/7 01:39. Diagnosi NON ancora confermata.
+>
 > 💬 **12/7 01:10 — PR #290 aperta: sezione "Report & Piani" dedicata nel sidebar.** Nicola ha chiesto una pagina archivio con il bottone sotto il titolo "Report & Piani". PR #290 sposta "Archivio" in sezione propria fuori da "Approfondisci". In attesa merge Nicola. Fonte: chat Nicola 12/7 01:08.
 >
 > ✅ **12/7 00:41 — PR #287 MERGIATA — "Archivio" ora nel menu del Pannello.** Nicola ha confermato il merge. Deploy partito automaticamente. La voce "Report" è ora "Archivio" con icona cartella — da lì si accede al piano crescita in `strategia/`. Fonte: chat Nicola 12/7 00:41 («ok l'ho margiata»).
