@@ -35,17 +35,13 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --ac
 
 ---
 
-### 🟡 #pr-290-report-piani — Mergia PR #290: sezione "Report & Piani" dedicata nel sidebar · ⏳ IN ATTESA · accodata 2026-07-12 01:10
+### ❌ #pr-290-report-piani — CHIUDERE SENZA MERGE · PR #290 basata su malinteso · 2026-07-12 01:39
 
-**Cosa fa:** sposta "Archivio" (già rinominato da "Report") fuori dal gruppo "Approfondisci" e lo mette in una sezione autonoma "Report & Piani" nel menu laterale sinistro. Così nel sidebar vedi un'intestazione separata "Report & Piani" con il bottone "Archivio" sotto — esattamente come ha chiesto Nicola.
+**Cosa è successo:** PR #290 spostava "Archivio" in una sezione dedicata "Report & Piani" nel sidebar. Nicola ha chiarito che NON vuole quella sezione — vuole rimettere "Archivio" com'era prima (dentro "Approfondisci"). La PR #290 va chiusa su GitHub **senza mergiare**.
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/290
-**Branch:** `feat/report-piani-sidebar`
+**Cosa voleva davvero Nicola:** un navigatore visuale dentro la pagina Archivio — tipo albero di cartelle (Esplora File Windows) dove si vede `consegne/ → strategia/ → PIANO-CRESCITA-12-MESI.md`. Ha chiesto di scegliere tra opzione A (albero navigabile) e opzione B (schede con card in evidenza) — scelta ancora in sospeso.
 
-**Cosa cambia:** il sidebar mostra una sezione dedicata "Report & Piani" — entra direttamente in `strategia/PIANO-CRESCITA-12-MESI.md` e in tutti i file di `consegne/` con un click.
-**Se va bene:** Nicola mergia #290 → deploy automatico → sidebar aggiornato nel Pannello.
-
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+**Da fare:** Nicola chiude PR #290 su GitHub senza mergiare · poi sceglie opzione A o B per il navigatore.
 
 ---
 
