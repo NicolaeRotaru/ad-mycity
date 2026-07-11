@@ -101,6 +101,8 @@ decisione_gate() { # $1 = rc coerenza, $2 = rc sanità → echo "BLOCCA:motivo" 
 @test "avviso-telegram in dry-run (senza chiavi) → exit 0 e stampa il messaggio" {
   need_node
   unset TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID
+  # AVVISI_FILE: la casella va in una cartella temporanea — il test NON deve sporcare il vault vero.
+  export AVVISI_FILE="$BATS_TEST_TMPDIR/avvisi-macchina.json"
   run node "$AT" "⚠️ MyCity: memoria incoerente, giro NON pubblicato (test)."
   [ "$status" -eq 0 ]
   echo "$output" | grep -q "DRY-RUN"

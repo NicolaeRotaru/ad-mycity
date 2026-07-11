@@ -75,6 +75,16 @@ ai_prepare_env() {
   if [ "$(ai_engine)" = cursor ] && [ -n "${CURSOR_API_KEY:-}" ]; then
     export CURSOR_API_KEY
   fi
+  # 🧠 RAGIONAMENTO ESTESO (thinking) — il motivo per cui il cervello «non ragionava»: la CLI
+  # partiva senza budget di pensiero, quindi rispondeva d'istinto invece di ragionare prima di
+  # agire (come fa Claude Code in sessione interattiva). Con MAX_THINKING_TOKENS la CLI Claude
+  # PENSA prima di rispondere su ogni corsia (chat, giro, lavori): più lento di qualche secondo,
+  # molto più giusto. Il pensiero NON finisce nella risposta a Nicola (_estrai_stream prende solo
+  # i blocchi text). Override: CERVELLO_THINKING_TOKENS nel .env (0 = spento, com'era prima).
+  if [ "$(ai_engine)" = claude ]; then
+    local _think="${CERVELLO_THINKING_TOKENS:-8000}"
+    if [ "$_think" != 0 ]; then export MAX_THINKING_TOKENS="$_think"; else unset MAX_THINKING_TOKENS; fi
+  fi
   # Headless VPS: niente browser login.
   export CI="${CI:-true}"
 }
