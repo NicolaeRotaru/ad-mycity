@@ -2244,11 +2244,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </button>
       )}
       {chatFluttuante && (
-        <div
-          className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
-          // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
-          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
-        >
+        <>
+          {/* Overlay trasparente: click fuori dalla chat = chiudi */}
+          <div className="fixed inset-0 z-40" onClick={() => setChatFluttuante(false)} aria-hidden="true" />
+          <div
+            className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
+            // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
+            style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+          >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
             <div className="leading-tight min-w-0 flex-1">
@@ -2427,7 +2430,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </ul>
             )}
           </aside>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
