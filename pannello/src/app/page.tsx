@@ -1541,20 +1541,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => window.removeEventListener("mycity:conversazioni", onConv);
   }, [caricaConversazioni]);
 
-  // 🆕 Prima chat all'apertura = l'ULTIMA CHE HO CREATO (non l'ultima aperta). Appena le conversazioni
-  // sono caricate apro quella con la data di creazione più recente. Una volta sola per sessione: se sto
-  // già in una chat (es. sono arrivato qui da "Lavori" o ho appena scritto) NON la scavalco.
-  const chatInizialeFattaRef = useRef(false);
-  useEffect(() => {
-    if (!caricato || chatInizialeFattaRef.current) return;
-    if (conversazioni.length === 0) return; // niente da aprire: resto sulla chat vuota
-    chatInizialeFattaRef.current = true;
-    if (convId || messages.length > 0) return; // sono già dentro una chat: non forzo
-    const piuRecente = [...conversazioni].sort(
-      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    )[0];
-    if (piuRecente) void continuaConversazione(piuRecente.id);
-  }, [caricato, conversazioni, convId, messages.length]);
+  // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
+  // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
+  // (stato React), ma non viene ripristinata alla riapertura del browser/tab.
 
   // Persistenza della SESSIONE: i messaggi vivono in sessionStorage (restano al refresh, si azzerano a
   // fine sessione). NON si ricorda più "l'ultima chat aperta": all'apertura si riparte dall'ultima
