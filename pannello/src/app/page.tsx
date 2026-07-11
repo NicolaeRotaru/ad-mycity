@@ -2244,6 +2244,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </button>
       )}
       {chatFluttuante && (
+        <>
+        {/* Overlay trasparente: chiude la chat fluttuante al click fuori */}
+        <div className="fixed inset-0 z-40" onClick={() => setChatFluttuante(false)} aria-hidden />
         <div
           className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
           // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
@@ -2428,6 +2431,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
           </aside>
         </div>
+        </>
       )}
     </div>
   );
