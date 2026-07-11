@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **12/7 00:26 — PR #286 ha conflitti → branch pulito `fix/chat-fluttuante-chiudi-fuori-v2`, commit locale pronto.** Screenshot #955 di Nicola mostrava conflitti su `sentinella-dati.json`+`routing.json`. Nuovo branch senza quei file, solo `page.tsx` modificato (4 righe overlay). Serve approvazione push + nuova PR. PR #286 da chiudere. Azione `#pr-chat-fluttuante-v2` aggiornata. Fonte: chat Nicola 12/7 00:26.
+>
 > 💬 **12/7 00:12 — PR #285 aperta: fix screenshot — path spostato da /tmp/ a .allegati-chat/.** Gli screenshot mandati da Nicola via chat del Pannello finivano in /tmp/ (inaccessibile all'AD). PR #285 sposta il download in .allegati-chat/ dentro il progetto; dopo il merge l'AD legge gli screenshot direttamente. In attesa merge Nicola. Fonte: chat Nicola 12/7 00:12.
 >
 > 💬 **12/7 00:05 — PR #284 aperta: "Report" → "Archivio" nel menu Pannello.** Nicola cercava i file di `consegne/` nel Pannello e non sapeva che la pagina "Report" lo faceva già. PR #284 rinomina la voce con icona cartella. In attesa merge Nicola. Azione `#pr-284-archivio` accodata. Fonte: chat Nicola 12/7 00:05.

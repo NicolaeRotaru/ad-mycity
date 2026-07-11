@@ -14,15 +14,18 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-286-chat-overlay — Mergia PR #286: click fuori dalla chat fluttuante la chiude · ⏳ IN ATTESA · accodata 2026-07-12 00:17
+### 🟡 #pr-chat-fluttuante-v2 — Approva push e nuova PR: click fuori dalla chat fluttuante la chiude · ⏳ IN ATTESA · aggiornata 2026-07-12 00:25
 
-**Cosa fa:** aggiunge un overlay trasparente (`z-40`) che copre tutto lo schermo dietro la chat fluttuante (`z-50`). Cliccando fuori dalla chat → il click colpisce l'overlay → la chat si chiude. Per riaprirla: cliccare l'icona chat.
+**Cosa fa:** overlay trasparente (`z-40`) dietro la chat fluttuante (`z-50`). Click fuori → chiude la chat. Fix in branch pulito senza conflitti.
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/286
-**Branch:** `fix/chat-fluttuante-chiudi-fuori`
+⚠️ **PR #286 HA CONFLITTI** (visto in screenshot #955 da Nicola): conflitti su `sentinella-dati.json` e `routing.json` — file aggiornati continuamente dal worker. PR #286 va CHIUSA.
 
-**Cosa cambia:** la chat si comporta come un drawer/modal nativo — clicchi fuori e sparisce, senza bisogno di trovare la X.
-**Se va bene:** Nicola mergia #286 su GitHub → deploy automatico → comportamento attivo sul Pannello.
+**Nuovo branch:** `fix/chat-fluttuante-chiudi-fuori-v2`
+**Commit locale pronto** (page.tsx, 4 righe aggiunte, JSX `<>` / `</>` bilanciati).
+**Serve da Nicola:** approvare `git push origin fix/chat-fluttuante-chiudi-fuori-v2` → poi `node cervello/git-pr.mjs --repo ad-mycity --base main --accoda` → poi mergia la nuova PR.
+
+**Cosa cambia:** la chat si comporta come un drawer nativo — clicchi fuori e sparisce.
+**Se va bene:** nuova PR creata → Nicola mergia → deploy automatico.
 
 - **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
 
