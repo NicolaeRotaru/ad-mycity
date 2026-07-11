@@ -14,20 +14,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-chat-fluttuante-v2 — Approva push e nuova PR: click fuori dalla chat fluttuante la chiude · ⏳ IN ATTESA · aggiornata 2026-07-12 00:25
+### ✅ #pr-chat-fluttuante-v2 — FATTO 2026-07-12 00:42 · Fix già su main (commit 4bcdd5c5) — nessuna PR da mergiare
 
-**Cosa fa:** overlay trasparente (`z-40`) dietro la chat fluttuante (`z-50`). Click fuori → chiude la chat. Fix in branch pulito senza conflitti.
+Il sistema di recupero ha committato il fix direttamente su main prima che fosse possibile mergiare la PR #286. **PR #286 va chiusa su GitHub (è superata — la modifica è già live).**
 
-⚠️ **PR #286 HA CONFLITTI** (visto in screenshot #955 da Nicola): conflitti su `sentinella-dati.json` e `routing.json` — file aggiornati continuamente dal worker. PR #286 va CHIUSA.
-
-**Nuovo branch:** `fix/chat-fluttuante-chiudi-fuori-v2`
-**Commit locale pronto** (page.tsx, 4 righe aggiunte, JSX `<>` / `</>` bilanciati).
-**Serve da Nicola:** approvare `git push origin fix/chat-fluttuante-chiudi-fuori-v2` → poi `node cervello/git-pr.mjs --repo ad-mycity --base main --accoda` → poi mergia la nuova PR.
-
-**Cosa cambia:** la chat si comporta come un drawer nativo — clicchi fuori e sparisce.
-**Se va bene:** nuova PR creata → Nicola mergia → deploy automatico.
-
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+- **Colore:** 🟢 (già su main)
 
 ---
 
