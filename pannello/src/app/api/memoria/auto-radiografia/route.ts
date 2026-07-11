@@ -31,6 +31,15 @@ function sanificaRadiografia(r: any): void {
     const n = Math.round(Number(m[0]));
     if (Number.isFinite(n)) r.voto_salute_architettura = Math.max(0, Math.min(100, n));
   }
+  // Difesa sul baco del 2026-07-07 (voto scritto a 0 dalla completa): un voto <=0 con
+  // pilastri votati è impossibile per definizione (è la loro media) → ricalcolala qui,
+  // così l'header non mostra mai più "0/100" per un dato corrotto alla fonte.
+  const voti = (Array.isArray(r.dimensioni) ? r.dimensioni : [])
+    .map((d: any) => Number(d?.voto))
+    .filter((v: number) => Number.isFinite(v) && v > 0);
+  if (!(Number(r.voto_salute_architettura) > 0) && voti.length) {
+    r.voto_salute_architettura = Math.round(voti.reduce((s: number, v: number) => s + v, 0) / voti.length);
+  }
   if (r.trend != null) {
     const t = String(r.trend).trim();
     r.trend = t.length > 0 && t.length <= 24 && !/[.:;—]/.test(t) ? t : "";

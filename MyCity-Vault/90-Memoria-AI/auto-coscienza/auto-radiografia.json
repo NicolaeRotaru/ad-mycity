@@ -29,7 +29,7 @@
     "verdetto": "ok",
     "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
-  "voto_salute_architettura": 0,
+  "voto_salute_architettura": 51,
   "salute_marketplace": {
     "fonte": "consegne/audit/2026-07-07-radiografia.md",
     "findings": 87,
