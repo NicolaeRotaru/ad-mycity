@@ -14,20 +14,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push (token hardcoded) poi il merge · aggiornata 2026-07-11 03:30
+### 🟡 #pr-5bloccanti — PR #212: ⚠️ Manca PAT con scope mycity + rebase corretto · aggiornata 2026-07-11 04:00
 
-**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
+**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase dal terminale VPS fatto. ⚠️ Push ha risposto "Everything up-to-date" — branch già in sync con origin PRIMA del fetch → PR ha ancora conflitti.
 
-**⚠️ Push fallito (tentativo precedente):** il `grep GIT_PUSH_TOKEN ... | cut -d= -f2` include anche la riga-commento sopra al token nel `.env`, causando "url contains a newline in its password component". Fix: hardcodare il token direttamente.
+**Causa radice:** `GIT_PUSH_TOKEN` in `cervello/vps/.env` ha scope su `ad-mycity`, NON su `NicolaeRotaru/mycity`. Serve un PAT separato.
 
-**⏳ Passo finale rimasto — eseguire dal terminale VPS:**
+**⏳ Passi per chiudere — dal terminale VPS (in ordine):**
+
+1. **Crea un nuovo PAT** su [github.com/settings/tokens](https://github.com/settings/tokens):
+   - Tipo: Fine-grained · Repository: `NicolaeRotaru/mycity` · Permesso: `Contents: Read and write`
+
+2. **Esegui sul VPS:**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
-git remote set-url origin "https://NicolaeRotaru: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@github.com/NicolaeRotaru/mycity.git"
+git remote set-url origin "https://NicolaeRotaru:IL_NUOVO_PAT@github.com/NicolaeRotaru/mycity.git"
+git fetch origin
+git rebase origin/main
 git push --force-with-lease origin fix/5-bloccanti-sicurezza
 ```
-⚠️ **Attenzione scope token**: questo PAT ha permessi su `ad-mycity`, non è sicuro che abbia permessi su `NicolaeRotaru/mycity`. Se fallisce con "Invalid token", serve un nuovo PAT con `Contents: R/W` su `NicolaeRotaru/mycity` — crearne uno da github.com/settings/tokens.
-Dopo il push riuscito, la PR #212 sarà verde e mergiabile da Nicola su GitHub.
+
+3. **Mergia la PR #212** su GitHub: [https://github.com/NicolaeRotaru/mycity/pull/212](https://github.com/NicolaeRotaru/mycity/pull/212)
 
 **Cosa è fixato (nei commit del branch):**
 1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
