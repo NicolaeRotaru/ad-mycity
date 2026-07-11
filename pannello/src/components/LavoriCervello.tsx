@@ -320,8 +320,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
             return (
               <div
                 key={g.id}
-                className={`border rounded-xl overflow-hidden transition-colors ${
-                  g.haAttivo ? "border-brand/25 bg-brand-50/20 dark:bg-brand/10" : "border-black/[0.07] dark:border-white/10 bg-white dark:bg-white/[0.03]"
+                className={`rounded-xl overflow-hidden transition-colors ${
+                  g.haAttivo
+                    ? "border-2 border-brand/50 bg-brand-50/30 dark:bg-brand/12 shadow-sm shadow-brand/10"
+                    : "border border-black/[0.07] dark:border-white/10 bg-white dark:bg-white/[0.03]"
                 }`}
               >
                 <div className="flex items-stretch">
@@ -335,6 +337,9 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
+                      {g.haAttivo && (
+                        <span className="w-2 h-2 rounded-full bg-brand animate-pulse shrink-0" title="In elaborazione" />
+                      )}
                       {statoBadge(statoUltimo)}
                       {multi ? (
                         <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50">
@@ -386,7 +391,12 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                 )}
 
                 {gruppoAperto && multi && (
-                  <div className="border-t border-black/[0.06] dark:border-white/10 px-3 pb-3 pt-2 space-y-2">
+                  <div className="border-t border-black/[0.10] dark:border-white/15 bg-black/[0.015] dark:bg-white/[0.02] px-3 pb-3 pt-2.5 space-y-2">
+                    <div className="text-[10px] uppercase tracking-wider font-semibold text-black/35 dark:text-white/35 pb-1.5 flex items-center gap-1.5">
+                      <span className="w-3 h-px bg-black/20 dark:bg-white/20 rounded" />
+                      Storico messaggi ({g.lavori.length})
+                      <span className="w-3 h-px bg-black/20 dark:bg-white/20 rounded" />
+                    </div>
                     {g.lavori.map((lv, i) => {
                       const lavoroAperto = apertiLavori[lv.id] === true;
                       return (
