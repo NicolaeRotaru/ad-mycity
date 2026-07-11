@@ -155,6 +155,21 @@ sync_vault() {
     exec 9>&-
     return 2
   fi
+  # 🛡️ GUARDIA RAMO (radiografia 2026-07-11): sync_vault fa `git push HEAD:main`. Se una chat che
+  # tocca il codice ha lasciato il worktree su un branch `fix/*` (perché killata a metà o perché non
+  # è tornata su main), quel push manderebbe su `main` — e in DEPLOY — commit di CODICE non ancora
+  # revisionati, saltando la PR. Qui rifiutiamo di pubblicare da un ramo ≠ main e proviamo a tornare
+  # su main (le modifiche di memoria non committate seguono il checkout): la memoria si pubblicherà
+  # al prossimo giro, sana, da main. Ritorno 2 (=rimandata, benigno): NON flippa un esegui-azione in
+  # errore (solo rc=1 lo fa), così non si innesca il falso «Riprova» → doppio invio.
+  local cur_branch
+  cur_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+  if [ "$cur_branch" != "$branch" ]; then
+    echo "[$(ts)] ⛔ sync_vault: HEAD è su '$cur_branch', non su '$branch' — NON pubblico (eviterei di spingere codice non revisionato su $branch). Provo a tornare su $branch." >&2
+    git checkout "$branch" 2>/dev/null || echo "[$(ts)] sync_vault: checkout $branch fallito (worktree occupato) — riprovo al prossimo lavoro." >&2
+    exec 9>&-
+    return 2
+  fi
   git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
   if git diff --cached --quiet 2>/dev/null; then
     exec 9>&-
@@ -586,6 +601,15 @@ $(printf '%s' "$errore_txt" | tail -c 3000)" 2>/dev/null)"
 SOGLIA_ORFANO_MIN="${WORKER_SOGLIA_ORFANO_MIN:-60}"      # in_corso orfano più vecchio di così → dead-letter subito
 SOGLIA_GIRO_MIN="${WORKER_SOGLIA_GIRO_MIN:-120}"         # un `giro` è puntuale: in coda da >2h = scaduto (dati cambiati)
 SOGLIA_ABBANDONO_MIN="${WORKER_SOGLIA_ABBANDONO_MIN:-2880}"  # qualsiasi altro lavoro fermo da >48h = abbandonato
+# 🛡️ GRAZIA ORFANI (radiografia 2026-07-11, difetto due-worker): recupera_lavori_orfani gira
+# all'avvio di OGNI worker e presume di essere l'unico consumer. Con mycity-worker + mycity-worker-chat
+# insieme, l'avvio/reload di uno vedeva «in_corso» un lavoro che l'ALTRO sta ancora eseguendo e lo
+# cestinava o ri-accodava → doppia esecuzione (chat) o azione reale marcata «riapprova» MENTRE gira
+# (rischio doppio invio). Un lavoro più giovane di questa soglia viene LASCIATO IN PACE: si assume vivo
+# sull'altro worker. Un orfano davvero morto e fresco aspetta solo di superare la grazia, poi rientra
+# nel recupero normale. (Non elimina del tutto il problema per i lavori lunghi non-chat: la cura
+# completa è un owner/heartbeat per-lavoro — vedi radiografia, gruppo A.)
+SOGLIA_ORFANO_GRACE_MIN="${WORKER_ORFANO_GRACE_MIN:-4}"
 
 # Minuti trascorsi da un timestamp ISO (robusto: se il parse fallisce torna 0 = "recente", non chiude nulla).
 _eta_min() {
@@ -619,6 +643,15 @@ recupera_lavori_orfani() {
     # retry-policy.mjs (MAI auto-retry per esegui-azione) e a sentinella-lavori.mjs (orfano azione →
     # 'errore, riapprova'). Solo il worker la violava dando a TUTTI i tipi la 2ª chance. Va sempre in
     # dead-letter con nota "riapprova": la firma di Nicola dal Pannello è l'unica ripartenza lecita.
+    # 🛡️ GRAZIA (fix due-worker): un in_corso ancora FRESCO è quasi certamente VIVO sull'altro worker
+    # (worker + worker-chat girano insieme). Non toccarlo: né dead-letter (cesterebbe un'azione reale
+    # mentre parte) né 2ª chance (doppia esecuzione). Se è davvero orfano, al prossimo avvio avrà
+    # superato la grazia e rientrerà nel recupero. Va PRIMA del ramo azione: nemmeno un'azione reale
+    # freschissima va marcata «riapprova» se sta ancora girando altrove.
+    if [ "$eta" -lt "$SOGLIA_ORFANO_GRACE_MIN" ]; then
+      echo "[$(ts)] Orfano $id ($tipo, ${eta}min < grazia ${SOGLIA_ORFANO_GRACE_MIN}min): LASCIO in_corso — probabilmente vivo sull'altro worker." >&2
+      continue
+    fi
     case " esegui-azione proposta " in
       *" $tipo "*)
         echo "[$(ts)] Orfano $id ($tipo, ${eta}min): AZIONE REALE interrotta → NON la ri-eseguo da sola (rischio doppio invio) → riapprova dal Pannello." >&2
@@ -1066,15 +1099,23 @@ $out"
   #    (il worker lo salta finché non scatta l'ora, così NON perdi il lavoro e NON bruci quota).
   #    Altrimenti scrivi il VERO stato (fatto|errore): un fallito non risulta "fatto", resta
   #    visibile a Nicola e le azioni reali 🔴 non si perdono in silenzio.
+  #
+  # 🛡️ GUARDIA STATO=IN_CORSO (radiografia 2026-07-11): la PATCH finale scriveva l'esito SENZA
+  # controllare che il lavoro fosse ancora in_corso. Se nella finestra tra la fine della generazione
+  # e questa scrittura il Pannello aveva SOSTITUITO/ANNULLATO il lavoro (nuovo messaggio di Nicola →
+  # stato ≠ in_corso), l'esito vecchio lo RESUSCITAVA come «fatto»/«errore» col testo di un turno che
+  # Nicola aveva già superato. Col filtro &stato=eq.in_corso la scrittura tocca la riga SOLO se è
+  # ancora in lavorazione: se è stata sostituita, no-op silenzioso (al messaggio nuovo pensa il suo
+  # turno). Vale per tutte le corsie: un lavoro claimato è in_corso finché non lo chiudiamo noi.
   if [ -n "$retry_quando" ]; then
     body="$(jq -n --arg r "$out" --argjson t "${retry_tent:-1}" --arg q "$retry_quando" --arg m "${motivo_retry:-ritento}" \
       '{stato:"in_attesa", tentativi:$t, riprova_dopo:$q, risultato:($r + "\n[auto-retry] tentativo " + ($t|tostring) + " programmato per " + $q + " — " + $m)}')"
-    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
+    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
       && echo "[$(ts)] Lavoro $id: ri-programmato (tentativo $retry_tent alle $retry_quando)." \
       || echo "[$(ts)] Lavoro $id: non sono riuscito a programmare il ritentativo." >&2
   else
     body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
-    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
+    curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 \
       && echo "[$(ts)] Lavoro $id: $stato." \
       || echo "[$(ts)] Lavoro $id: non sono riuscito a riscrivere il risultato." >&2
   fi
