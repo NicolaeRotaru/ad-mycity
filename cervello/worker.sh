@@ -408,7 +408,7 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
 contesto_macchina_chat() {
-  local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni blocco origine_riga
+  local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni decisioni azioni_aperte blocco origine_riga
   branch_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
   commit_ora="$(git log -1 --format='%h · %s' 2>/dev/null || echo '?')"
   dirty_n="$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')"
@@ -442,6 +442,18 @@ contesto_macchina_chat() {
       | head -4 || true)"
   fi
   lezioni="$(grep '^- ' MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md 2>/dev/null | head -8 || true)"
+  # Ultime decisioni: solo il titolo (tutto fino a punto fermo), tronco a 160 char, ultime 5
+  decisioni="$(grep '^- 2026-' MyCity-Vault/90-Memoria-AI/DECISIONI.md 2>/dev/null \
+    | tail -5 \
+    | sed 's/\*\*\([^*]*\)\*\*.*/→ \1/' \
+    | cut -c1-160 \
+    || true)"
+  # Azioni ancora in attesa (titoli con ⏳, non quelle segnate FATTO)
+  azioni_aperte="$(grep '^### ' MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md 2>/dev/null \
+    | grep -v 'FATTO\|✅' \
+    | sed 's/^### //' \
+    | cut -c1-120 \
+    || true)"
   blocco="## CONTESTO MACCHINA (raccolto ADESSO dal worker: fidati di questo, non dei ricordi di sessione)
 - Ora: $(date '+%Y-%m-%d %H:%M') (Europe/Rome)
 - Repo: branch \`$branch_ora\` · ultimo commit: $commit_ora
@@ -455,6 +467,12 @@ $segnali"
   [ -n "$lezioni" ] && blocco="$blocco
 - Lezioni recenti da rispettare (MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md):
 $lezioni"
+  [ -n "$decisioni" ] && blocco="$blocco
+- Ultime decisioni prese (DECISIONI.md — verifica qui prima di dire «non so se è già stato fatto»):
+$decisioni"
+  [ -n "$azioni_aperte" ] && blocco="$blocco
+- Azioni ancora in coda (AZIONI-IN-ATTESA.md — non ri-accodare se è già qui):
+$azioni_aperte"
   printf '%s' "$blocco"
 }
 
