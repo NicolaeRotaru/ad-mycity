@@ -14,6 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-288-scroll-chat — Mergia PR #288: fix chat si apre dall'inizio invece che dall'ultimo messaggio · ⏳ IN ATTESA · accodata 2026-07-12 00:57
+
+**Cosa fa:** quando aprivi una conversazione vecchia, la chat si apriva dall'inizio invece che dall'ultimo messaggio. Causa radice: `stickFullRef` era `false` (ci eri risalito su) → lo scroll al fondo veniva saltato al caricamento. Fix: aggiunto `forzaScrollRef` che ignora `stickFullRef` e forza lo scroll al fondo ad ogni cambio/caricamento di conversazione + `requestAnimationFrame` per aspettare che il DOM sia pronto.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/288
+**File modificato:** `pannello/src/components/ChatCasella.tsx`
+
+**Cosa cambia:** la chat si apre sempre all'ultimo messaggio, non dall'inizio della conversazione.
+**Se va bene:** Nicola mergia #288 su GitHub → deploy automatico → chat corretta nel Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-archivio-sezioni-chiuse — Pusha il branch e apri PR: sezioni Archivio chiuse di default · ⏳ IN ATTESA · accodata 2026-07-12 00:46
 
 **Cosa fa:** le sezioni dell'Archivio (account-negozi, Audit & radiografie, ecc.) partono chiuse invece di aperte. Clicchi sul titolo → si apre; clicchi ancora → si richiude. Freccia ruota di 180°. La ricerca mostra i risultati comunque.
