@@ -187,7 +187,17 @@ function main() {
 
   // La SERIE storica resta sulla scala del voto completa (media dei 12 pilastri) per coerenza:
   // il voto_provvisorio (scala cantiere) viaggia come campo diagnostico a parte, non mescolato.
-  const voto = Number(rad.voto_salute_architettura ?? 72);
+  // Baco 2026-07-07: la completa aveva scritto voto_salute_architettura=0 e ogni sonda ha copiato
+  // 0 nello storico per 4 giorni (Andamento a zero). Un voto non valido (<=0/NaN) NON si propaga:
+  // si ricalcola dalla media dei pilastri — la stessa scala — e solo in ultima istanza 72.
+  const votoGrezzo = Number(rad.voto_salute_architettura);
+  const votiPilastri = (Array.isArray(rad.dimensioni) ? rad.dimensioni : [])
+    .map((d) => Number(d?.voto))
+    .filter((v) => Number.isFinite(v) && v > 0);
+  const mediaPilastri = votiPilastri.length
+    ? Math.round(votiPilastri.reduce((s, v) => s + v, 0) / votiPilastri.length)
+    : null;
+  const voto = Number.isFinite(votoGrezzo) && votoGrezzo > 0 ? votoGrezzo : mediaPilastri ?? 72;
   const difettiAperti = cantiere.meta?.aperti ?? apertiDifetti.length;
   const ultimoSnap = storico.serie?.[storico.serie.length - 1];
   const oggi = quando.slice(0, 10);

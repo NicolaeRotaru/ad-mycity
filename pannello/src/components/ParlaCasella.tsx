@@ -183,8 +183,8 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   return (
     <div className="mt-2 rounded-lg border border-brand/15 bg-brand-50/30 p-2.5 space-y-2">
       <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide">
-        <MessageSquarePlus size={12} /> Parla con: <span className="normal-case font-medium truncate">{titolo}</span>
-        <button onClick={() => setAperto(false)} className="ml-auto t-eti hover:text-brand normal-case">chiudi</button>
+        <MessageSquarePlus size={12} className="shrink-0" /> <span className="shrink-0">Parla con:</span> <span className="normal-case font-medium truncate min-w-0">{titolo}</span>
+        <button onClick={() => setAperto(false)} className="ml-auto shrink-0 whitespace-nowrap t-eti hover:text-brand normal-case">chiudi</button>
       </div>
 
       {/* Altezza fissa uguale a ChatCasella — scroll al fondo all'apertura */}

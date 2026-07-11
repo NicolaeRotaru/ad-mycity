@@ -96,7 +96,17 @@ export default function RadiografiaDiSe() {
   const aperti = (cantiere?.difetti || []).filter((x) => x.stato !== "chiuso");
   const chiusi = (cantiere?.difetti || []).filter((x) => x.stato === "chiuso");
   const serie = d?.storico?.serie || [];
-  const maxVoto = 100;
+  // 📈 Andamento LEGGIBILE: lo storico grezzo ha più radiografie nello stesso giorno →
+  // qui si tiene UNA voce per giorno (l'ultima) e si mostrano al massimo le ultime 3 settimane.
+  // Prima il grafico era rotto due volte: barre con height in % dentro una colonna senza
+  // altezza definita (= sempre 0px, grafico vuoto) e 60+ colonne con etichette strizzate a «0.».
+  const perGiorno = new Map<string, (typeof serie)[number]>();
+  for (const s of serie) {
+    const giorno = String(s?.data || "").slice(0, 10);
+    if (giorno) perGiorno.set(giorno, { ...s, data: giorno }); // la successiva sovrascrive: resta l'ultima del giorno
+  }
+  const serieGiorni = [...perGiorno.values()].sort((a, b) => String(a.data).localeCompare(String(b.data))).slice(-21);
+  const BARRA_MAX_PX = 96; // il grafico è alto h-28 (112px): 96px di barra + etichetta data
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: "dimensioni", label: "Radiografia", icon: <Cpu size={15} />, badge: r?.dimensioni?.length || 0 },
@@ -188,6 +198,17 @@ export default function RadiografiaDiSe() {
                         {f.causa_radice && <div className="text-[12px] text-black/60 mt-1"><b>Causa radice:</b> {f.causa_radice}</div>}
                         {f.fix && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {f.fix}</div>}
                         {f.dove && <div className="t-eti mt-0.5 font-mono">{f.dove}</div>}
+                        {/* Ogni problema ha la SUA chat: si parla del singolo difetto, non della dimensione intera. */}
+                        <ParlaCasella
+                          titolo={`Problema: ${(f.titolo || "").slice(0, 60)}`}
+                          contesto={[
+                            dim.key && `Dimensione: ${dim.key}`,
+                            f.descrizione,
+                            f.causa_radice && `Causa radice: ${f.causa_radice}`,
+                            f.fix && `Fix proposto: ${f.fix}`,
+                            f.dove && `Dove: ${f.dove}`,
+                          ].filter(Boolean).join(" · ")}
+                        />
                       </div>
                     );
                   })}
@@ -331,24 +352,37 @@ export default function RadiografiaDiSe() {
           {/* === STORICO / ANDAMENTO === */}
           {tab === "storico" && (
             <div className="space-y-3">
-              <div className="t-eti">Voto di salute settimana su settimana — sto migliorando?</div>
-              <div className="flex items-end gap-1.5 h-28">
-                {serie.length === 0 && <p className="t-eti">Ancora un solo punto. La serie cresce a ogni radiografia.</p>}
-                {serie.map((s, i) => (
-                  <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0">
-                    <div className="w-full rounded-t bg-brand/70" style={{ height: `${Math.max(4, ((s.voto_salute || 0) / maxVoto) * 100)}%` }} title={`${s.voto_salute}/100`} />
-                    <span className="text-[9px] text-black/40 truncate w-full text-center">{(s.data || "").slice(5)}</span>
-                  </div>
-                ))}
-              </div>
+              <div className="t-eti">Voto di salute giorno per giorno (ultime 3 settimane) — sto migliorando?</div>
+              {serieGiorni.length === 0 && <p className="t-eti">Ancora nessun punto. La serie cresce a ogni radiografia.</p>}
+              {serieGiorni.length > 0 && (
+                <div className="flex items-end gap-1.5">
+                  {serieGiorni.map((s, i) => {
+                    const voto = Number(s.voto_salute) || 0;
+                    return (
+                      <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0" title={`${s.data}: ${voto}/100 · ${s.difetti_aperti ?? "–"} aperti · ${s.difetti_chiusi ?? "–"} chiusi`}>
+                        <span className={`text-[9px] tabular-nums ${votoColore(voto)}`}>{voto}</span>
+                        <div className="w-full max-w-[26px] rounded-t bg-brand/70" style={{ height: `${Math.max(3, Math.round((voto / 100) * BARRA_MAX_PX))}px` }} />
+                        <span className="text-[9px] text-black/40 w-full text-center whitespace-nowrap">{String(s.data).slice(8, 10)}/{String(s.data).slice(5, 7)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               <div className="space-y-1">
-                {serie.slice().reverse().map((s, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[12px]">
-                    <span className="t-eti w-20">{s.data}</span>
-                    <span className={`tabular-nums font-medium ${votoColore(s.voto_salute)}`}>{s.voto_salute}/100</span>
-                    <span className="t-eti ml-auto">{s.difetti_aperti} aperti · {s.difetti_chiusi} chiusi</span>
-                  </div>
-                ))}
+                {serieGiorni.slice().reverse().map((s, i, arr) => {
+                  const prec = arr[i + 1]; // il giorno prima (lista dal più recente)
+                  const delta = prec ? (Number(s.voto_salute) || 0) - (Number(prec.voto_salute) || 0) : 0;
+                  return (
+                    <div key={i} className="flex items-center gap-2 text-[12px]">
+                      <span className="t-eti w-20">{s.data}</span>
+                      <span className={`tabular-nums font-medium ${votoColore(s.voto_salute)}`}>{s.voto_salute}/100</span>
+                      {prec && delta !== 0 && (
+                        <span className={`text-[11px] tabular-nums ${delta > 0 ? "text-green-600" : "text-red-600"}`}>{delta > 0 ? `▲ +${delta}` : `▼ ${delta}`}</span>
+                      )}
+                      <span className="t-eti ml-auto">{s.difetti_aperti} aperti · {s.difetti_chiusi} chiusi</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

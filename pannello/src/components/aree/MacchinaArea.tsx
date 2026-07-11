@@ -1,15 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Cpu, Microscope } from "lucide-react";
+import { Cpu, Microscope, Store } from "lucide-react";
 import RadiografiaDiSe from "@/components/cervello/RadiografiaDiSe";
+import RadiografiaMarketplace from "@/components/cervello/RadiografiaMarketplace";
 import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
-type Pagina = "radiografia" | "auto-coscienza";
+// Le pagine del reparto «La macchina»: la radiografia della MACCHINA (l'AD stessa — agenti,
+// prompt, sensori, memoria; il worker sul VPS è solo il suo braccio), la radiografia del
+// MARKETPLACE (l'audit profondo del sito) e l'auto-coscienza.
+type Pagina = "radiografia" | "marketplace" | "auto-coscienza";
+const PAGINE_VALIDE: Pagina[] = ["radiografia", "marketplace", "auto-coscienza"];
 
 const PAGINE: { id: Pagina; label: string; icon: React.ReactNode }[] = [
-  { id: "radiografia", label: "Radiografia", icon: <Cpu size={15} /> },
+  { id: "radiografia", label: "Radiografia macchina", icon: <Cpu size={15} /> },
+  { id: "marketplace", label: "Radiografia marketplace", icon: <Store size={15} /> },
   { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
 ];
 
@@ -22,11 +28,11 @@ export default function MacchinaArea() {
   useEffect(() => {
     // Al MOUNT consuma la pagina parcheggiata (INDIETRO scattato prima che l'area fosse montata).
     const pend = consumaSubPendente("cervello");
-    if (pend === "radiografia" || pend === "auto-coscienza") setPagina(pend);
+    if (PAGINE_VALIDE.includes(pend as Pagina)) setPagina(pend as Pagina);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "cervello" || !det.sub) return;
-      if (det.sub === "radiografia" || det.sub === "auto-coscienza") setPagina(det.sub);
+      if (PAGINE_VALIDE.includes(det.sub as Pagina)) setPagina(det.sub as Pagina);
     };
     window.addEventListener(EVENTO_SUB, onSub);
     return () => window.removeEventListener(EVENTO_SUB, onSub);
@@ -39,7 +45,7 @@ export default function MacchinaArea() {
       if (det.vista === "auto-coscienza" || det.vista === "memoria") {
         setPagina("auto-coscienza");
       } else if (det.vista === "cervello") {
-        setPagina(det.sub === "auto-coscienza" ? "auto-coscienza" : "radiografia");
+        setPagina(PAGINE_VALIDE.includes(det.sub as Pagina) ? (det.sub as Pagina) : "radiografia");
       }
     };
     window.addEventListener(EVENTO_VAI, onVai);
@@ -51,7 +57,7 @@ export default function MacchinaArea() {
       <div>
         <h2 className="t-area">🧠 La macchina</h2>
         <p className="t-eti mt-0.5">
-          Radiografia architetturale e auto-coscienza — due pagine distinte, stesso reparto.
+          Radiografia della macchina, radiografia del marketplace e auto-coscienza — tre pagine distinte, stesso reparto.
         </p>
       </div>
 
@@ -74,16 +80,23 @@ export default function MacchinaArea() {
         ))}
       </div>
 
-      {pagina === "radiografia" ? (
+      {pagina === "radiografia" && (
         <div className="space-y-3">
           <p className="t-eti">
-            Analisi a 12 dimensioni: difetti, cantiere, lettera a Nicola e andamento nel tempo.
+            La macchina (l&apos;AD: agenti, prompt, sensori, memoria) analizza sé stessa a 12 dimensioni: difetti, cantiere, lettera a Nicola e andamento nel tempo.
           </p>
           <RadiografiaDiSe />
         </div>
-      ) : (
-        <AutoCoscienzaArea embedded />
       )}
+      {pagina === "marketplace" && (
+        <div className="space-y-3">
+          <p className="t-eti">
+            L&apos;audit profondo del SITO mycity a 13 dimensioni (sola lettura, ogni problema verificato): architettura, sicurezza, RLS, pagamenti, privacy, performance, UX, a11y, QA, API, AI, dati e deploy.
+          </p>
+          <RadiografiaMarketplace />
+        </div>
+      )}
+      {pagina === "auto-coscienza" && <AutoCoscienzaArea embedded />}
     </div>
   );
 }
