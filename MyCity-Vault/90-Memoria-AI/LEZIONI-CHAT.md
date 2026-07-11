@@ -6,9 +6,9 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-12] Supabase Memoria MCP è ora connesso (mcp__supabase-memoria__apply_migration disponibile): l'AD può creare la tabella `conversazioni` da solo — ma è ancora 🔴 (schema change su DB prod). Proporre «posso farlo io ora» e aspettare l'ok di Nicola prima di eseguire.
+- [2026-07-12] Nicola approva 🔴 in chat — "io le cose col pallino rosso te le firmo anche in chat" (12/7 00:39): risposta diretta ("sì", "fallo tu", "ok") equivale a firma; non serve il Pannello. Quando Nicola approva in chat, esegui e annota in DECISIONI.md.
+- [2026-07-12] Supabase Memoria MCP è ora connesso (mcp__supabase-memoria__apply_migration disponibile): l'AD può creare la tabella `conversazioni` da solo — ma è ancora 🔴 (schema change su DB prod). Nicola ha già approvato «fallo tu» (12/7): alla prossima apertura di chat, eseguire apply_migration se la tabella non esiste ancora.
 - [2026-07-12] Sul VPS il processo watch-main fa `git pull --rebase` ogni ~5 min e azzera i file non committati: dopo ogni Edit, committa SUBITO nello stesso turno prima del prossimo reset.
-- [2026-07-12] Gli screenshot via `@ALLEGATO` con `percorso="chat-allegati/..."` sono già leggibili dall'AD (il worker li salva nel filesystem del progetto); PR #285 consolida il path in `.allegati-chat/`. Il problema `/tmp/` era del primo screenshot #954 (vecchio meccanismo) — non blocca il secondo (#955 era leggibile e letto con successo).
 - [2026-07-12] Prima di costruire una nuova sezione nel Pannello, verificare se esiste già con nome diverso: la pagina "Report" faceva GIÀ quello che Nicola ha chiesto per "Archivio consegne" — bastava rinominarla.
 - [2026-07-11] La chat del Pannello deve essere session-scoped: riaprire/ricaricare la pagina = chat nuova (sessionStorage, non localStorage); navigare tra sezioni nella stessa sessione = mantiene la conversazione. Anche se la tabella `conversazioni` esiste, l'auto-ripristino all'apertura va DISABILITATO.
 - [2026-07-11] Se un branch PR ha conflitti nel codice reale e `git-pr.mjs` non supporta force-push: creare un branch NUOVO (nome diverso), ri-applicare le modifiche con Edit (🟢), aprire nuova PR, aggiungere nota di chiusura sulla vecchia.

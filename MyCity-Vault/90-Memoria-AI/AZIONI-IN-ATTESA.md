@@ -73,6 +73,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ### 🔴 #crea-tabella-conversazioni — Crea la tabella mancante per salvare le chat nel Pannello · ⏳ IN ATTESA · accodata 2026-07-11 16:10
 
+⚡ **APPROVATA in chat da Nicola il 12/7 00:35 ("fallo tu")** — firma data. Il MCP Supabase Memoria è connesso (`apply_migration` disponibile). L'AD può eseguire direttamente nel prossimo turno.
+
 **Problema:** le chat del Pannello si perdono a ogni ricarica perché la tabella `conversazioni` non esiste nel DB Memoria. Il codice è pronto, la tabella no.
 
 **Passi — firma Nicola (2 opzioni):**

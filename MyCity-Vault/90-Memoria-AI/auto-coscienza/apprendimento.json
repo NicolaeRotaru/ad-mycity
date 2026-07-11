@@ -17,6 +17,19 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0712-89",
+      "testo": "**Nicola approva le azioni 🔴 direttamente in chat (12/7 00:39):** ha dichiarato «io le cose col pallino rosso te le firmo anche in chat, approvando quello che mi dici». La risposta diretta (es. «sì», «fallo tu», «ok») equivale a firma valida; non serve aspettare un click nel Pannello. Questo cambia il processo operativo: quando un'azione 🔴 viene proposta in chat e Nicola risponde affermativamente, procedere e annotare in DECISIONI.md con data/ora e «Nicola (chat gg/mm HH:MM)». Il Pannello rimane il canale preferito per la visibilità storica, ma non è l'unico gate.",
+      "tag": ["governance", "approvazione-chat", "rosso", "firma", "processo", "nicola", "caso-studio"],
+      "reparto": "@AD",
+      "confidenza": 0.99,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-12",
+      "ultima_conferma": "2026-07-12 00:39",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0711-88",
       "testo": "**Commit in /opt/mycity/ad-mycity/marketplace come root dà 'dubious ownership' — fix: safe.directory (chat 11/7):** quando si prova a committare in un repo che appartiene a un utente diverso da quello corrente (es. dir owned by `mycity` ma si esegue come `root`), git rifiuta con `fatal: detected dubious ownership`. Fix: eseguire `git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace` UNA VOLTA, poi i normali `git add/commit/push` funzionano. Questo è diverso dal blocco Claude sui permessi (quello è sempre attivo): il `safe.directory` risolve solo il commit da terminale come root. Dare sempre entrambi i comandi insieme: il safe.directory come primo passo, poi add+commit.",
       "tag": ["git", "dubious-ownership", "safe.directory", "root", "marketplace", "vps", "terminale", "ad-mycity"],
