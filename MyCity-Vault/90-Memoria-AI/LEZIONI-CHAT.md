@@ -6,7 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-12] I file allegati da Nicola via chat del Pannello arrivano con percorso "chat-allegati/…" che il worker VPS NON può leggere (non è un path locale). Chiedere a Nicola di descrivere l'allegato a parole finché il sistema allegati (tabella conversazioni + Vercel SUPABASE_URL/SERVICE_KEY + redeploy) non è completamente funzionante.
+- [2026-07-12] Gli screenshot di Nicola dalla chat del Pannello finivano in /tmp/ (path non accessibile all'AD). PR #285 sposta il download in .allegati-chat/ dentro il progetto — finché non è mergiata, chiedere a Nicola di descrivere lo screenshot a parole.
 - [2026-07-12] Prima di costruire una nuova sezione nel Pannello, verificare se esiste già con nome diverso: la pagina "Report" faceva GIÀ quello che Nicola ha chiesto per "Archivio consegne" — bastava rinominarla.
 - [2026-07-11] La chat del Pannello deve essere session-scoped: riaprire/ricaricare la pagina = chat nuova (sessionStorage, non localStorage); navigare tra sezioni nella stessa sessione = mantiene la conversazione. Anche se la tabella `conversazioni` esiste, l'auto-ripristino all'apertura va DISABILITATO.
 - [2026-07-11] Se un branch PR ha conflitti nel codice reale e `git-pr.mjs` non supporta force-push: creare un branch NUOVO (nome diverso), ri-applicare le modifiche con Edit (🟢), aprire nuova PR, aggiungere nota di chiusura sulla vecchia.
