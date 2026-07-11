@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **12/7 00:05 — PR #284 aperta: "Report" → "Archivio" nel menu Pannello.** Nicola cercava i file di `consegne/` nel Pannello e non sapeva che la pagina "Report" lo faceva già. PR #284 rinomina la voce con icona cartella. In attesa merge Nicola. Azione `#pr-284-archivio` accodata. Fonte: chat Nicola 12/7 00:05.
+>
 > 💬 **11/7 23:30 — SCENARIO OTTIMISTICO 12 MESI stabilito (riferimento condiviso con Nicola).** Ipotesi 100% successo, luglio 2026–giugno 2027: GMV ~1,3M€ · ricavi MyCity ~387k€ · margine ~169k€ · 58 negozi · 15k clienti. Gate critico: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Assunzioni: scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Fonte: chat Nicola 11/7 23:30.
 >
 > 💬 **11/7 23:00 — CHAT: bici in riparazione, avvio negozi "forse prossima settimana".** Nicola ha scritto: «sto riparando la bici elettrica, forse prossima settimana inserisco i negozi». Primo segnale positivo: c'è azione attiva sul mezzo (non più acquisto bloccato). Timeline orientativa: settimana 14-18 luglio 2026. Business INVARIATO. Fonte: chat Nicola 11/7 23:00.

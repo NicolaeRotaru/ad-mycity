@@ -14,6 +14,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-284-archivio — Mergia PR #284: rinomina "Report" → "Archivio" nel menu del Pannello · ⏳ IN ATTESA · accodata 2026-07-12 00:05
+
+**Cosa fa:** la pagina "Report" nel menu laterale del Pannello esiste già e mostra tutta la cartella `consegne/` con le sottocartelle (strategia, marketing, intelligence, audit...). Nicola non la trovava perché il nome era "Report", non "Archivio". Questa PR cambia solo:
+- Label: "Report" → "Archivio"
+- Icona: da lista a cartella (più evocativa)
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/284
+**Branch:** `feat/archivio-consegne-menu`
+
+**Cosa cambia:** Nicola clicca "Archivio" nel menu e trova subito il piano crescita, i post, gli audit — senza cercare file nel terminale.
+**Se va bene:** Nicola mergia #284 su GitHub → deploy automatico → la voce "Archivio" appare nel menu con icona cartella.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-276-grafica-chat-coda — Mergia PR #276: grafica "In coda" migliorata (3 livelli distinti) · ⏳ IN ATTESA · accodata 2026-07-11 16:20
 
 **Cosa fa:** migliora la distinzione visiva tra i 3 livelli della card "In coda" nel Pannello:
