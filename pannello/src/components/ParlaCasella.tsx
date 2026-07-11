@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { MessageSquarePlus, Send, Loader2, CheckCircle2, Zap } from "lucide-react";
+import { MessageSquarePlus, Send, Loader2, CheckCircle2 } from "lucide-react";
+import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import {
   attendiEsitoLavoro,
   creaLavoroCasella,
@@ -34,17 +35,6 @@ async function fetchConversazioniCondiviso() {
   return convInFlight;
 }
 
-const SKILL_RAPIDE = [
-  { label: "🔄 Giro", cmd: "fai un giro" },
-  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
-  { label: "✅ Verifica", cmd: "/verify" },
-  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
-  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
-  { label: "🔍 Ricerca", cmd: "/deep-research " },
-  { label: "🛡️ Sicurezza", cmd: "/security-review" },
-  { label: "📅 Pianifica", cmd: "/schedule " },
-];
-
 // 💬 Pulsante "Parla con questa casella" — riutilizzabile su OGNI casella del Pannello.
 // Chiuso di default: un click lo apre. Salva SUBITO la conversazione in Assistenza →
 // Conversazioni (col messaggio di Nicola), poi manda il messaggio (col contesto della
@@ -59,6 +49,8 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const [convId, setConvId] = useState<string | null>(null);
   const [salvata, setSalvata] = useState(false);
   const [err, setErr] = useState("");
+  // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto a Invia).
+  const [skillAperte, setSkillAperte] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -220,21 +212,16 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
 
       {inviando && <p className="t-eti flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> Claude Max sta rispondendo…</p>}
 
-      {/* Skill rapide — compaiono solo a bozza vuota */}
-      {!bozza && !inviando && (
-        <div className="flex flex-wrap gap-1">
-          <span className="t-eti inline-flex items-center gap-0.5 opacity-50"><Zap size={10} /></span>
-          {SKILL_RAPIDE.map((s) => (
-            <button
-              key={s.cmd}
-              onClick={() => { setBozza(s.cmd); setTimeout(() => textareaRef.current?.focus(), 0); }}
-              className="text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md px-2 py-0.5 hover:bg-brand/15 dark:hover:bg-brand/25 transition"
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* ⚡ Finestra Skill & comandi — si apre/chiude dentro la chat dal pulsante ⚡ */}
+      <FinestraComandiSkill
+        aperta={skillAperte}
+        onChiudi={() => setSkillAperte(false)}
+        onScegli={(cmd) => {
+          setBozza(cmd);
+          setSkillAperte(false);
+          setTimeout(() => textareaRef.current?.focus(), 0);
+        }}
+      />
 
       <textarea
         ref={textareaRef}
@@ -253,6 +240,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">
+        <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
         <button
           onClick={invia}
           disabled={inviando || !bozza.trim()}

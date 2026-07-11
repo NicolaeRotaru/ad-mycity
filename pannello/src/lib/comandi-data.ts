@@ -4,6 +4,20 @@
 export type Comando = { cmd: string; desc: string; evidenzia?: boolean; punti?: string[] };
 export type Reparto = { nome: string; comandi: Comando[] };
 
+// ⚡ Skill rapide: le scorciatoie che riempiono l'input della chat con un tocco.
+// UNA casa sola per tutte le chat (Assistente, chat fluttuante, caselle) — prima
+// erano copiate in 3 file e andavano tenute allineate a mano.
+export const SKILL_RAPIDE: { label: string; cmd: string }[] = [
+  { label: "🔄 Giro", cmd: "fai un giro" },
+  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
+  { label: "✅ Verifica", cmd: "/verify" },
+  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
+  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
+  { label: "🔍 Ricerca", cmd: "/deep-research " },
+  { label: "🛡️ Sicurezza", cmd: "/security-review" },
+  { label: "📅 Pianifica", cmd: "/schedule " },
+];
+
 export const REPARTI_COMANDI: Reparto[] = [
   {
     nome: "📅 Ogni giorno (ritmo)",
