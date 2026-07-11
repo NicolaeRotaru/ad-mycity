@@ -14,6 +14,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-archivio-sezioni-chiuse — Pusha il branch e apri PR: sezioni Archivio chiuse di default · ⏳ IN ATTESA · accodata 2026-07-12 00:46
+
+**Cosa fa:** le sezioni dell'Archivio (account-negozi, Audit & radiografie, ecc.) partono chiuse invece di aperte. Clicchi sul titolo → si apre; clicchi ancora → si richiude. Freccia ruota di 180°. La ricerca mostra i risultati comunque.
+
+**Branch locale:** `fix/archivio-sezioni-chiuse-default` · commit `35524d20` (SOLO LOCALE — non pushato)
+**File modificato:** `pannello/src/app/archivio/Documenti.tsx`
+
+**Per sbloccare — scegli una delle due:**
+- (A) Dal VPS: `git push origin fix/archivio-sezioni-chiuse-default` → poi apri PR su GitHub
+- (B) In chat: scrivi **"ok pr archivio sezioni"** → l'AD esegue `node cervello/git-pr.mjs --repo ad-mycity --base main --accoda`
+
+**Cosa cambia:** l'Archivio si apre pulito — vedi solo i titoli delle sezioni; espandi solo quelle che ti servono.
+**Se va bene:** Nicola mergia la PR → deploy automatico → Archivio aggiornato nel Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### ✅ #pr-chat-fluttuante-v2 — FATTO 2026-07-12 00:42 · Fix già su main (commit 4bcdd5c5) — nessuna PR da mergiare
 
 Il sistema di recupero ha committato il fix direttamente su main prima che fosse possibile mergiare la PR #286. **PR #286 va chiusa su GitHub (è superata — la modifica è già live).**
