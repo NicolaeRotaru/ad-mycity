@@ -138,7 +138,7 @@ Il sistema di recupero ha committato il fix direttamente su main prima che fosse
 
 ---
 
-### 🔴 #crea-tabella-conversazioni — Crea la tabella mancante per salvare le chat nel Pannello · ⏳ IN ATTESA · accodata 2026-07-11 16:10
+### ✅ #crea-tabella-conversazioni — FATTO 2026-07-12 01:30 · Nicola ha eseguito il SQL su Supabase SQL Editor · tabella `conversazioni` + index + RLS + policy creati nel DB Memoria
 
 ⚡ **APPROVATA in chat da Nicola il 12/7 00:35 ("fallo tu")** — firma data. Il MCP Supabase Memoria è connesso (`apply_migration` disponibile). L'AD può eseguire direttamente nel prossimo turno.
 
