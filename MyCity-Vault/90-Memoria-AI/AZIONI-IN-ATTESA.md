@@ -39,6 +39,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/274
 **Branch:** `fix/memoria-chat-precedenti` · commit `ce7e3742`
+**⚠️ Aggiornamento 2026-07-11 17:00:** conflitto su `sentinella-dati.json` risolto con `git merge origin/main` nel branch. Branch pushato. PR senza conflitti — pronta al merge.
 
 **Cosa cambia:** l'AD diventa più autonomo — controlla da solo la storia delle chat invece di chiedere a Nicola "l'hai già fatto?".
 **Se va bene:** Nicola mergia → deploy Vercel → da quel momento ogni chat ha la memoria delle sessioni precedenti.
