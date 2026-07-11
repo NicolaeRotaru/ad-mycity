@@ -819,12 +819,15 @@ scarta_lavori_scaduti() {
 # il recupero orfani rispetta la proprietà (un worker non tocca gli in_corso VIVI dell'altro). Se no
 # (DB non ancora migrato), degrada alla logica di sola grazia-per-età (già sicura). Va PRIMA del
 # recupero orfani, che la usa.
+# ⚠️ RILEVAZIONE POSITIVA, non a grep sull'errore (worker-outage 2026-07-11 sera): con `curl -f` un
+# 400 di PostgREST NON stampa il corpo ("does not exist…") ma solo "curl: (22) … error: 400" → il grep
+# non matchava mai e il probe dichiarava la colonna PRESENTE anche quando mancava. Da lì OGNI claim
+# PATCH includeva worker_owner → 400 → «claim perso» all'infinito: worker vivo (batteva) ma coda ferma.
+# Regola: la feature si accende SOLO su HTTP 200 esplicito; qualunque errore (400, rete, timeout) →
+# modalità degradata, che è sicura. Mai dedurre «c'è» dall'assenza di un messaggio d'errore.
 HAS_OWNER_COL=0
-_owner_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>&1 || true)"
-# 🔒 FAIL-CLOSED (come HAS_RETRY_COLS): «presente» solo se è un array REST valido; vuoto/errore di rete
-# → OFF (recupero orfani a sola grazia-per-età, già sicuro). Mai attivare la proprietà su una probe cieca.
-if printf '%s' "$_owner_probe" | grep -qE '^[[:space:]]*\[' \
-   && ! printf '%s' "$_owner_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+_owner_probe_http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
+if [ "$_owner_probe_http" = 200 ]; then
   HAS_OWNER_COL=1
   echo "[$(ts)] Proprietà lavori ON (colonna worker_owner presente) — recupero orfani per-worker."
 else
@@ -852,14 +855,11 @@ find /tmp/mycity-allegati -maxdepth 1 -mindepth 1 -mtime +1 -exec rm -rf {} + 2>
 # Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
 # reset quota/backoff. Se no (DB non ancora migrato), degrada al comportamento classico
 # (fallito → errore, riprova manuale) senza rompersi.
+# (stessa rilevazione POSITIVA del probe owner: solo HTTP 200 accende la feature — un probe che
+# fallisce per qualsiasi motivo lascia la modalità degradata, che funziona sempre)
 HAS_RETRY_COLS=0
-_retry_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>&1 || true)"
-# 🔒 FAIL-CLOSED (radiografia 2026-07-11): consideriamo le colonne presenti SOLO se la risposta è un
-# array REST valido (inizia con '['). Prima bastava «nessun errore-colonna», così una curl fallita per
-# RETE (risposta vuota) veniva letta come «colonne presenti» → su un DB non migrato la coda si fermava
-# per sempre col battito vivo. Vuoto/errore → OFF (degrada a retry manuale, che non blocca mai nulla).
-if printf '%s' "$_retry_probe" | grep -qE '^[[:space:]]*\[' \
-   && ! printf '%s' "$_retry_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+_retry_probe_http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
+if [ "$_retry_probe_http" = 200 ]; then
   HAS_RETRY_COLS=1
   echo "[$(ts)] Auto-recovery ON (campi tentativi/riprova_dopo presenti)."
 else
@@ -941,8 +941,12 @@ while true; do
   #    volte (doppio invio reale con AZIONI_LIVE=1). Niente più `|| true` che ingoiava il claim perso.
   #    🪪 Nel claim marchiamo worker_owner=WORKER_ID (solo se il DB è migrato): così il recupero orfani
   #    sa che questo in_corso è NOSTRO e l'altro worker non lo tocca finché siamo vivi.
-  _claim_body='{"stato":"in_corso"}'
-  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" '{stato:"in_corso", worker_owner:$o}')"
+  #    ⏱️ Il claim timbra anche updated_at (il DB non ha trigger che lo aggiorni da solo): l'età di un
+  #    in_corso — usata dal recupero orfani e dalla sentinella (ORFANO_MIN=60) — deve partire da QUANDO
+  #    il lavoro è stato preso, non da quando è stato accodato. Senza questo, un lavoro rimasto in coda
+  #    >60 min (es. dopo un'interruzione) veniva ucciso dalla sentinella APPENA iniziava a girare.
+  _claim_body="$(jq -n --arg t "$(date -Iseconds)" '{stato:"in_corso", updated_at:$t}')"
+  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" --arg t "$(date -Iseconds)" '{stato:"in_corso", worker_owner:$o, updated_at:$t}')"
   claimed="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_attesa" "${AUTH[@]}" \
     -H "Prefer: return=representation" -d "$_claim_body" 2>/dev/null || true)"
   if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
