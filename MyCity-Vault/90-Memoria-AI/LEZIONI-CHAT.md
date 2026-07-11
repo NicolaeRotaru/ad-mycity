@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-12] Il recovery system del VPS NON distingue memoria da codice Pannello: qualsiasi file modificato e non committato può finire su main. Fix in PR #289 (`giro.sh` rimuove `pannello/` e `cervello/` dallo staging quando su main). Finché non è mergiata: per codice Pannello crea branch + commita NELLA STESSA sequenza di tool call, subito dopo ogni Edit.
 - [2026-07-12] Per codice Pannello: crea il branch PRIMA della prima Edit — mai lavorare su main. Se il commit atterra su main per errore: `git checkout -b fix/nome` (porta il commit nel branch) → `git checkout main` → `git reset --hard HEAD~1` (rimuove il commit da main). Non fare `reset` su main PRIMA di creare il branch: azzera il working tree e si perdono le modifiche.
 - [2026-07-12] Quando dai a Nicola un comando da eseguire sul VPS, usa SEMPRE il path assoluto (es. `node /opt/mycity/ad-mycity/cervello/git-pr.mjs`) — evita l'errore "cannot find module" se Nicola si trova in una directory diversa dal progetto.
 - [2026-07-12] Nicola approva 🔴 in chat — "io le cose col pallino rosso te le firmo anche in chat" (12/7 00:39): risposta diretta ("sì", "fallo tu", "ok") equivale a firma; non serve il Pannello. Quando Nicola approva in chat, esegui e annota in DECISIONI.md.

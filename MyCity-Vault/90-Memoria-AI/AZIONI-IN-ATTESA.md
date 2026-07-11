@@ -14,6 +14,21 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-289-guard-pannello-main — Mergia PR #289: blocca commit accidentali di codice Pannello su main · ⏳ IN ATTESA · accodata 2026-07-12 01:05
+
+**Cosa fa:** aggiunge una guard in `giro.sh` — il file che gestisce i commit automatici del sistema di recupero VPS. Quando il sistema si trova su main, prima di committare rimuove dallo staging tutti i file di `pannello/` e `cervello/`. Anche se Claude sbaglia branch, il codice Pannello non finisce mai su main da solo.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/289
+**Branch:** `fix/guard-pannello-su-main`
+**File modificato:** `cervello/giro.sh` (6 righe aggiunte)
+
+**Cosa cambia:** il sistema di recupero non potrà più far atterrare modifiche al Pannello direttamente su main — come successo con il commit "Chiudi la chat fluttuante cliccando fuori" (12/7 01:00).
+**Se va bene:** Nicola mergia #289 → da quel momento il recovery system è sicuro.
+
+- **Colore:** 🟡 (codice → merge a cura di Nicola)
+
+---
+
 ### 🟡 #pr-288-scroll-chat — Mergia PR #288: fix chat si apre dall'inizio invece che dall'ultimo messaggio · ⏳ IN ATTESA · accodata 2026-07-12 00:57
 
 **Cosa fa:** quando aprivi una conversazione vecchia, la chat si apriva dall'inizio invece che dall'ultimo messaggio. Causa radice: `stickFullRef` era `false` (ci eri risalito su) → lo scroll al fondo veniva saltato al caricamento. Fix: aggiunto `forzaScrollRef` che ignora `stickFullRef` e forza lo scroll al fondo ad ogni cambio/caricamento di conversazione + `requestAnimationFrame` per aspettare che il DOM sia pronto.
