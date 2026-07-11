@@ -14,6 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-286-chat-overlay — Mergia PR #286: click fuori dalla chat fluttuante la chiude · ⏳ IN ATTESA · accodata 2026-07-12 00:17
+
+**Cosa fa:** aggiunge un overlay trasparente (`z-40`) che copre tutto lo schermo dietro la chat fluttuante (`z-50`). Cliccando fuori dalla chat → il click colpisce l'overlay → la chat si chiude. Per riaprirla: cliccare l'icona chat.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/286
+**Branch:** `fix/chat-fluttuante-chiudi-fuori`
+
+**Cosa cambia:** la chat si comporta come un drawer/modal nativo — clicchi fuori e sparisce, senza bisogno di trovare la X.
+**Se va bene:** Nicola mergia #286 su GitHub → deploy automatico → comportamento attivo sul Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-284-archivio — Mergia PR #284: rinomina "Report" → "Archivio" nel menu del Pannello · ⏳ IN ATTESA · accodata 2026-07-12 00:05
 
 **Cosa fa:** la pagina "Report" nel menu laterale del Pannello esiste già e mostra tutta la cartella `consegne/` con le sottocartelle (strategia, marketing, intelligence, audit...). Nicola non la trovava perché il nome era "Report", non "Archivio". Questa PR cambia solo:
