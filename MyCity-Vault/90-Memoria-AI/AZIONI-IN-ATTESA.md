@@ -14,6 +14,42 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ IN ATTESA · accodata 2026-07-11 15:30
+
+**Contenuto completo:** `consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md`
+
+**Testo pronto (versione Gruppi Facebook — dal profilo personale del fondatore):**
+
+> Lunedì mattina mi alzo presto, prendo la bici e giro nel centro storico di Piacenza.
+>
+> Busso alle saracinesche delle botteghe che voglio portare su MyCity. Di persona.
+>
+> Non mando una mail. Non pago un agente. Ci vado io.
+>
+> Perché se dico ai piacentini "la tua spesa la prepara qualcuno del centro", devo conoscere il centro anch'io. Devo sapere come si chiama il panettiere, a che ora alza la saracinesca, cosa va tenuto in fresco.
+>
+> Questa settimana le prime botteghe. La prossima, vi dico chi c'è.
+>
+> Un marketplace di Piacenza costruito a Piacenza — un negozio alla volta.
+>
+> *La spesa che tiene viva la città. Fai il tuo turno.*
+>
+> (nel 1° commento il link)
+
+**Prima del post servono da Nicola (👁️ due minuti):**
+1. **Link lista d'attesa** — incollalo qui e la macchina aggiunge il 1° commento al testo
+2. **Visual** — opzione rapida: testo *"Lunedì mattina ci vado di persona."* su sfondo cotto-brand (si prepara in 5 minuti col template); oppure una foto tua in bici/piedi per il centro
+
+**Timing suggerito:** sabato pomeriggio (oggi) o domenica mattina — finestra migliore per i gruppi FB; il lunedì 13/7 diventa "atteso".
+
+**Cosa cambia:** primo post BTS-fondatore della serie "Il Turno" — mostra la faccia di chi costruisce il marketplace, non solo il prodotto. Angolo impossibile da copiare per Amazon.
+**Se va bene:** commenti con "ci sono anch'io" + click lista d'attesa → follow-up naturale lunedì sera con "ecco le botteghe che ho incontrato" (post #5 già pianificato).
+
+- **Colore:** 🔴 (pubblicazione su profilo personale / pagina — firma Nicola prima)
+- **Canale:** Gruppi Facebook locali piacentini (profilo personale) + Instagram/Facebook Pagina MyCity
+
+---
+
 ### 🟡 #pr-5bloccanti — PR #212: ⚠️ Manca PAT con scope mycity + rebase corretto · aggiornata 2026-07-11 04:00
 
 **✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase dal terminale VPS fatto. ⚠️ Push ha risposto "Everything up-to-date" — branch già in sync con origin PRIMA del fetch → PR ha ancora conflitti.
