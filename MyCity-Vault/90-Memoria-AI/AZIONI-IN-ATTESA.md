@@ -14,6 +14,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #recensioni-trigger — Attiva il messaggio "grazie + recensione" automatico dopo ogni consegna · ⏳ IN ATTESA · accodata 2026-07-11 15:50
+
+**Template pronto:** `consegne/customer-success/2026-07-11-template-email-recensione.md`
+
+**Situazione attuale (dati reali 11/7):**
+- Ordini con `delivery_status = 'delivered'`: **0** (nessuna consegna completata)
+- Recensioni in DB: **0** (tabella `reviews` e `store_reviews` entrambe vuote)
+- L'unico ordine è quello zombie CANCELED (€19,05, PQ, 24/6) — non va contattato
+
+**Cosa attivare:** costruire l'automazione in **n8n** (o webhook Supabase) che su cambio `delivery_status → delivered` invia l'email template via Resend, dopo 15–30 minuti. Delegare a **builder-automazioni** quando dai il via.
+
+**Cosa cambia:** ogni cliente che riceve la spesa riceve entro 30 minuti un ringraziamento + link recensione. Non costa nulla (Resend già configurato). Genera le prime stelle sul marketplace.
+**Se va bene:** le prime recensioni compaiono entro 24h dal primo ordine reale del 17/7. Stima: 1 recensione ogni 5 consegne nelle prime settimane.
+
+- **Colore:** 🟡 (tocca Resend — email a clienti reali; l'automazione è nuova)
+- **Attiva quando:** primo negozio online post-13/7, prima di accettare ordini reali
+
+---
+
 ### 🔴 #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ IN ATTESA · accodata 2026-07-11 15:30
 
 **Contenuto completo:** `consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md`
