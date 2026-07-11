@@ -1,20 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon, Zap } from "lucide-react";
+import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-
-const SKILL_RAPIDE = [
-  { label: "🔄 Giro", cmd: "fai un giro" },
-  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
-  { label: "✅ Verifica", cmd: "/verify" },
-  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
-  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
-  { label: "🔍 Ricerca", cmd: "/deep-research " },
-  { label: "🛡️ Sicurezza", cmd: "/security-review" },
-  { label: "📅 Pianifica", cmd: "/schedule " },
-];
+import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 
@@ -72,6 +62,8 @@ export default function ChatCasella({
   const [streamingText, setStreamingText] = useState("");
   // 📎 Foto/file scelti da Nicola, in attesa di partire col prossimo messaggio.
   const [allegati, setAllegati] = useState<File[]>([]);
+  // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto ad Allega/Invia).
+  const [skillAperte, setSkillAperte] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -272,21 +264,16 @@ export default function ChatCasella({
         }}
       />
 
-      {/* Skill rapide — compaiono solo a bozza vuota */}
-      {!bozza && !inviando && (
-        <div className="flex flex-wrap gap-1">
-          <span className="t-eti inline-flex items-center gap-0.5 opacity-50"><Zap size={10} /></span>
-          {SKILL_RAPIDE.map((s) => (
-            <button
-              key={s.cmd}
-              onClick={() => { setBozza(s.cmd); setTimeout(() => textareaRef.current?.focus(), 0); }}
-              className="text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md px-2 py-0.5 hover:bg-brand/15 dark:hover:bg-brand/25 transition"
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* ⚡ Finestra Skill & comandi — si apre/chiude dentro la chat dal pulsante ⚡ */}
+      <FinestraComandiSkill
+        aperta={skillAperte}
+        onChiudi={() => setSkillAperte(false)}
+        onScegli={(cmd) => {
+          setBozza(cmd);
+          setSkillAperte(false);
+          setTimeout(() => textareaRef.current?.focus(), 0);
+        }}
+      />
 
       <textarea
         ref={textareaRef}
@@ -304,6 +291,7 @@ export default function ChatCasella({
         className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">
+        <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
         <button
           onClick={() => fileRef.current?.click()}
           disabled={inviando || allegati.length >= 6}
