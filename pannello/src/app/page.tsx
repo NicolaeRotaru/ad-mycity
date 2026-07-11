@@ -705,15 +705,18 @@ export default function Dashboard() {
   const chatFabBoxRef = useRef<HTMLDivElement>(null);
   const stickFullRef = useRef(true);
   const stickFabRef = useRef(true);
+  // Quando si cambia/carica una conversazione, forza lo scroll al fondo
+  // anche se stickFullRef è false (l'utente era risalito nella chat precedente).
+  const forzaScrollRef = useRef(false);
   function vicinoAlFondo(el: HTMLElement | null) {
     if (!el) return true;
     return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
   }
-  // 🔧 Fix universale chat (v4 — stesso comportamento di ParlaCasella/ChatCasella):
+  // 🔧 Fix universale chat (v5):
   // ① quando apri l'Assistente vai all'ULTIMO messaggio, non all'inizio;
   // ② a ogni messaggio nuovo segui il fondo SOLO se eri già in fondo (stickFullRef/stickFabRef,
   //    aggiornati dall'onScroll): chi è risalito a rileggere non viene mai strappato giù.
-  // (Il tracker c'era già ma nessun effect lo consumava: lo scroll era rimasto smontato.)
+  // ③ quando carichi/cambi conversazione (forzaScrollRef=true), vai sempre all'ultimo.
   useEffect(() => {
     if (vista !== "assistente") return;
     requestAnimationFrame(() => {
@@ -722,10 +725,14 @@ export default function Dashboard() {
     });
   }, [vista]);
   useEffect(() => {
+    const forza = forzaScrollRef.current;
+    forzaScrollRef.current = false;
     const el = scrollBoxRef.current;
-    if (el && stickFullRef.current) el.scrollTop = el.scrollHeight;
     const fab = chatFabBoxRef.current;
-    if (fab && stickFabRef.current) fab.scrollTop = fab.scrollHeight;
+    requestAnimationFrame(() => {
+      if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
+      if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
+    });
   }, [messages]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
@@ -1018,6 +1025,7 @@ export default function Dashboard() {
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
+    forzaScrollRef.current = true;
     setMessages(msgs);
     setConvId(c.id);
     setConvDrawerAperto(false); // aprendo una conversazione, richiudo il cassetto e mostro subito la chat
@@ -1039,6 +1047,7 @@ export default function Dashboard() {
 
     if (esistente) {
       const msgs = daLavori.length ? mergeThread(esistente.messaggi, daLavori) : esistente.messaggi;
+      forzaScrollRef.current = true;
       setMessages(msgs);
       setConvId(esistente.id);
       setBase(null);
@@ -1059,6 +1068,7 @@ export default function Dashboard() {
     }
 
     const salvato = await persistConversazione(gruppoId, daLavori);
+    forzaScrollRef.current = true;
     setMessages(daLavori);
     setConvId(salvato || gruppoId);
     setBase(null);
