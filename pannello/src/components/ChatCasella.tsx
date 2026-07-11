@@ -169,7 +169,7 @@ export default function ChatCasella({
     <div className="border-t border-brand/15 bg-brand-50/20 dark:bg-brand/[0.06] px-3 pb-3 pt-2.5 space-y-2">
       <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide">
         💬 Chat con questa casella
-        <button onClick={onChiudi} className="ml-auto normal-case inline-flex items-center gap-1 text-black/40 dark:text-white/40 hover:text-brand transition">
+        <button onClick={onChiudi} className="ml-auto shrink-0 whitespace-nowrap normal-case inline-flex items-center gap-1 text-black/40 dark:text-white/40 hover:text-brand transition">
           <X size={12} /> chiudi
         </button>
       </div>
