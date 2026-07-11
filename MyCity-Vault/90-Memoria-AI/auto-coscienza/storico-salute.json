@@ -4,30 +4,6 @@
     {
       "data": "2026-07-02",
       "voto_salute": 42,
-      "difetti_aperti": 22,
-      "difetti_chiusi": 1,
-      "tipo": "completa",
-      "nota": "Radiografia profonda (12 dim, 26 agenti): 3 BLOCCANTI, 46 gravi, 34 minori. Crollo dal seed NON è peggioramento: prima volta guardata a fondo. Bloccanti AR-004/005/006."
-    },
-    {
-      "data": "2026-07-02",
-      "voto_salute": 42,
-      "difetti_aperti": 0,
-      "difetti_chiusi": 18,
-      "tipo": "cantiere",
-      "nota": "Cantiere: 18/22 difetti chiusi in codice. 4 in-corso (AR-004 revoca PAT, AR-006 Casa Linda, AR-009 scorecard, AR-019 delta-gate). Voto 42 finché non mergiato+deployato."
-    },
-    {
-      "data": "2026-07-02",
-      "voto_salute": 42,
-      "difetti_aperti": 0,
-      "difetti_chiusi": 18,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (7h) · sensori max cecità 1"
-    },
-    {
-      "data": "2026-07-02",
-      "voto_salute": 42,
       "difetti_aperti": 0,
       "difetti_chiusi": 18,
       "tipo": "sonda",
@@ -1110,6 +1086,20 @@
       "bloccanti_umani": 1,
       "tipo": "sonda",
       "nota": "giro pomeriggio 14:30 (cloud) · loop chiude · coerenza-fatti OK (confermato, 8 cacce chiuse) · briefing 0h fa · sensori max cecità 1 · salute 75/100"
+    },
+    {
+      "data": "2026-07-11",
+      "voto_salute": 0,
+      "voto_provvisorio": 75,
+      "voto_pieno": 75,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 42,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 1,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     }
   ]
 }
