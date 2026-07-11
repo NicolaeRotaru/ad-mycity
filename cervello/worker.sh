@@ -31,30 +31,9 @@ process.stdout.write([s.modello, s.tier, s.collegato ? "1" : "0"].join("|"));
 NODE
 }
 
-# CORSIA VELOCE CHAT — la chiacchiera semplice va su un modello VELOCE (Sonnet), il lavoro
-# difficile resta su Opus. Serve a rendere la chat del Pannello reattiva senza perdere qualità
-# sui compiti che ragionano. L'ESCALATION è automatica: chat_e_complesso() fiuta i segnali di
-# «compito difficile» (analisi, numeri, soldi, decisioni, pipeline pesanti, messaggi lunghi) →
-# in quel caso NON usa il veloce, resta sul premium. Nel dubbio, sale su Opus (mai il contrario).
-CHAT_MODELLO_VELOCE="${CHAT_MODELLO_VELOCE:-claude-sonnet-4-6}"
-
-# Ritorna 0 (=complesso → premium/Opus) se la richiesta chat mostra segnali di lavoro pesante,
-# 1 (=semplice → modello veloce) altrimenti. Volutamente PRUDENTE: al minimo dubbio → complesso.
-chat_e_complesso() {
-  local q; q="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
-  # Messaggio lungo = probabile ragionamento vero.
-  [ "${#q}" -gt 280 ] && return 0
-  # Parole-spia di compiti che ragionano o toccano soldi/decisioni/pipeline pesanti.
-  case "$q" in
-    *analiz*|*analisi*|*radiograf*|*audit*|*proiezion*|*forecast*|*prevision*|*strateg*|*scenario*|\
-    *budget*|*spend*|*€*|*euro*|*margin*|*prezz*|*commission*|*fattur*|*payout*|*incass*|*bilancio*|\
-    *campagn*|*ads*|*"contenuti pro"*|*"modalità mondiale"*|*decid*|*decision*|*valuta*|*conviene*|\
-    *piano*|*negozi*|*onboard*|*sblocca*|*"cambia il sito"*|*modifica*|*design*|*bug*|*legale*|*contratt*|\
-    *report*|*kpi*|*quanti*|*quanto*|*perché*|*perche*)
-      return 0 ;;
-  esac
-  return 1
-}
+# (La vecchia «corsia veloce chat» — classificatore chat_e_complesso + CHAT_MODELLO_VELOCE — è
+# stata RIMOSSA: la chat gira sempre sul modello premium (Strada A) e quel codice non era più
+# chiamato da nessuno. Il codice morto inganna chi legge: meglio niente che un finto instradatore.)
 
 WORKER_SCRIPT="$SCRIPT_DIR/worker.sh"
 export WORKER_LOADED_MTIME="${WORKER_LOADED_MTIME:-$(stat -c %Y "$WORKER_SCRIPT" 2>/dev/null || echo 0)}"
@@ -420,8 +399,9 @@ prepara_allegati_chat() {
 Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strumento Read (le foto le vedi, i PDF/testi li leggi) e tienine conto:$out_block"
 }
 
-# 🧭 CONTESTO-MACCHINA (chat): blocco di realtà che il worker inietta in OGNI turno di chat.
-# Lo raccoglie il CODICE (git + coda + segnali + lezioni), non il modello: la chat parte sempre
+# 🧭 CONTESTO-MACCHINA: blocco di realtà che il worker inietta in OGNI turno di chat E in ogni
+# lavoro AI (esegui-azione, analisi…). Lo raccoglie il CODICE (git + coda + segnali + lezioni),
+# non il modello: l'AD parte sempre
 # sapendo dove si trova — branch attuale, file sporchi, lavori in errore, lezioni già imparate —
 # invece di riscoprirlo (o sbagliarlo): anche con la memoria di sessione (--resume) i ricordi
 # possono essere VECCHI — questo blocco è la fotografia fresca che vince sempre sui ricordi.
@@ -483,7 +463,7 @@ $lezioni"
 # prossimo turno). Mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato (stato
 # resta in_corso) così nel Pannello compare parola per parola.
 _chat_stream_run() {
-  local to="$1" sid="$2" tmpf acc pidc cmd st
+  local to="$1" sid="$2" tmpf acc pidc cmd st pensando=0
   CHAT_SOSTITUITA=0; CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "$sid" ] && cmd+=(--resume "$sid")
@@ -509,6 +489,13 @@ _chat_stream_run() {
       # il parziale atterra SOLO se il lavoro è ancora in_corso (mai sopra un lavoro sostituito).
       curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
         -d "$(jq -n --arg r "$acc" '{risultato:$r}')" >/dev/null 2>&1 || true
+    elif [ "$pensando" = 0 ] && grep -q '"thinking' "$tmpf" 2>/dev/null; then
+      # 💭 RAGIONAMENTO VISIBILE (come claude.ai): col thinking attivo il primo testo può arrivare
+      # dopo decine di secondi di silenzio — Nicola vedeva il nulla e pensava «si è bloccato».
+      # Una sola scrittura (poi arrivano i veri parziali che la sovrascrivono).
+      pensando=1
+      curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
+        -d "$(jq -n '{risultato:"💭 Sto ragionando sulla tua richiesta…"}')" >/dev/null 2>&1 || true
     fi
   done
   wait "$pidc" 2>/dev/null; rc=$?
@@ -538,6 +525,51 @@ rispondi_chat_stream() {
     local cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
     out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
   fi
+}
+
+# Chat SENZA streaming (CHAT_STREAM=0) ma CON memoria di sessione: usa --output-format json per
+# catturare insieme risposta e session_id (il formato testo non lo espone). Fail-safe identico
+# allo stream: resume fallito → sessione nuova; json non disponibile → run testo semplice, com'era.
+rispondi_chat_json() {
+  local to="$1" cmd raw
+  CHAT_NUOVA_SESSIONE=""
+  cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
+  [ -n "${CHAT_RESUME_SID:-}" ] && cmd+=(--resume "$CHAT_RESUME_SID")
+  raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>&1)"; rc=$?
+  out="$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)"
+  CHAT_NUOVA_SESSIONE="$(printf '%s' "$raw" | jq -r '.session_id // empty' 2>/dev/null)"
+  if { [ -z "$out" ] || [ "$rc" -ne 0 ]; } && [ -n "${CHAT_RESUME_SID:-}" ]; then
+    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ripresa (rc=$rc) — riparto con una sessione nuova." >&2
+    CHAT_RESUME_SID=""
+    cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
+    raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>&1)"; rc=$?
+    out="$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)"
+    CHAT_NUOVA_SESSIONE="$(printf '%s' "$raw" | jq -r '.session_id // empty' 2>/dev/null)"
+  fi
+  if [ -z "$out" ]; then
+    # json non disponibile (CLI vecchia/errore) → run testo semplice, comportamento pre-memoria.
+    cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
+    out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
+  fi
+}
+
+# 🩺 DIAGNOSI UMANA DEGLI ERRORI: quando un lavoro muore, Nicola non deve decifrare il dump della
+# CLI — è il lamento n.1 («spiegazioni difficili da capire»). Una SECONDA passata AI, breve e senza
+# mani, traduce l'errore in 2-3 frasi semplici + il rimedio. Guardrail: salta se l'errore è di
+# quota/rate-limit (anche la diagnosi fallirebbe e la retry-policy già lo gestisce); timeout 120s;
+# se la diagnosi non esce, si tiene il testo di prima (mai peggio di prima). Stampa la diagnosi.
+diagnosi_errore() {
+  local errore_txt="$1" diag
+  printf '%s' "$errore_txt" | grep -qiE 'rate.?limit|quota|overloaded|429|usage limit' && return 0
+  AI_ALLOW_ACTIONS=0 ai_build_cmd
+  diag="$(timeout --kill-after=15s 120 "${AI_CMD[@]}" \
+    "Un lavoro interno del sistema MyCity è fallito. Spiega a Nicola (il proprietario, NON un tecnico) in 2-3 frasi semplici e in italiano: cosa è probabilmente andato storto e cosa conviene fare adesso. Niente sigle, niente percorsi, niente gergo. Solo le frasi, senza titoli.
+
+Errore grezzo:
+$(printf '%s' "$errore_txt" | tail -c 3000)" 2>/dev/null)"
+  # ripristina il comando armato per il resto del loop (ai_build_cmd sopra l'ha ricostruito senza mani)
+  ai_build_cmd
+  printf '%s' "$diag"
 }
 
 # --- PROTEZIONE ANTI-VELENO DELLA CODA -----------------------------------------------------------
@@ -631,6 +663,13 @@ scarta_lavori_scaduti() {
 
 recupera_lavori_orfani
 scarta_lavori_scaduti
+
+# 🧹 IGIENE SESSIONI: con la memoria di sessione (--resume) ogni turno di chat lascia un file di
+# sessione sul disco del VPS (~/.claude/projects/…): senza pulizia crescono per sempre. All'avvio
+# si buttano quelli fermi da più di WORKER_SESSIONI_GIORNI (default 14): una conversazione ferma
+# da 2 settimane riparte semplicemente senza memoria di sessione (fallback già gestito) — nessun
+# dato di business vive lì, solo la memoria di lavoro dei turni.
+find "${HOME:-/root}/.claude/projects" -name '*.jsonl' -mtime "+${WORKER_SESSIONI_GIORNI:-14}" -delete 2>/dev/null || true
 
 # Auto-recovery: il DB memoria ha i campi tentativi/riprova_dopo? (migration pannello/sql/lavori-retry.sql)
 # Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
@@ -735,7 +774,10 @@ Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altri
 Se il canale è github/PR: node cervello/esegui-azione.mjs github-merge ad-mycity|mycity <numeroPR>
 (oppure node cervello/git-merge.mjs --repo ... --pr ...).
 Poi aggiorna MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (riga -> stato ✅ FATTO) e appendi la traccia in DECISIONI.md.
-Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in dry-run, cosa partirebbe."
+Restituisci a Nicola, in chiaro, COSA e' partito (canale, destinatario) o, se in dry-run, cosa partirebbe.
+MAI dire «fatto/partito» senza la prova (output del comando): se qualcosa fallisce, dillo con l'errore esatto.
+
+$(contesto_macchina_chat 2>/dev/null || true)"
   elif [ "$tipo" = "metabolizza" ]; then
     meta_prompt="$(cat "$SCRIPT_DIR/metabolizza.md" 2>/dev/null || echo "Metabolizza la conversazione.")"
     prompt="$meta_prompt
@@ -858,8 +900,11 @@ Se il lavoro tocca il CODICE: branch dedicato + node cervello/git-pr.mjs --repo 
 
 COME LAVORI (vale quanto il risultato):
 - PRIMA di eseguire, ragiona: qual è il risultato che serve davvero a Nicola? qual è la strada più corta per ottenerlo? cosa può andare storto?
+- Per i compiti PESANTI (ricerca, analisi multi-file, più reparti) delega ai senior in .claude/agents/ (strumento Task), anche in parallelo — poi sintetizza tu. Non fare tutto in serie da solo.
 - MAI dire «fatto» senza la prova (output del comando, riga di git log, path del file scritto). Se non hai verificato, scrivi «non verificato».
 - Il risultato per Nicola si scrive in parole semplici: prima riga = l'esito come lo diresti a voce; sigle, ID, hash e percorsi vanno in fondo sotto «🔧 Dettagli tecnici».
+
+$(contesto_macchina_chat 2>/dev/null || true)
 
 $richiesta"
   fi
@@ -887,10 +932,12 @@ $richiesta"
       echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
       read -r -a _econ_cmd <<< "$AI_ECON_CMD"
       out="$(timeout --kill-after=30s "$to" "${_econ_cmd[@]}" "$prompt" 2>&1)"; rc=$?
-    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ] && [ -z "${CERVELLO_MODELLO:-}" ]; then
+    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ]; then
       # CHAT = MASSIMA QUALITÀ (Strada A): il tuo Claude Max, modello forte (Opus), non più Sonnet.
       # La "corsia veloce" su Sonnet era la causa delle risposte "stupide/strane": la togliamo. La
       # velocità ora viene dalla PRECEDENZA in coda e dal prompt snello, non dal degradare il modello.
+      # (Vale anche con CERVELLO_MODELLO fissato nel .env: prima quel caso cadeva nel fallback e
+      # perdeva streaming + memoria di sessione — AI_CMD porta già il --model giusto.)
       # STREAMING (step 2): la risposta compare parola-per-parola. CHAT_STREAM=0 per spegnerlo senza
       # toccare il codice; CHAT_MODELLO opzionale per fissare un modello preciso (vuoto = premium).
       if [ "${CHAT_STREAM:-1}" = 1 ]; then
@@ -902,16 +949,15 @@ $richiesta"
           echo "[$(ts)] Lavoro $id (chat): chiuso come sostituito — passo al messaggio nuovo."
           continue
         fi
-        # 🧵 aggiorna la mappa conversazione→sessione: ogni run genera un session id NUOVO (anche
-        # in resume), quindi si salva sempre l'ultimo — il prossimo turno riprende da qui.
-        salva_sessione_chat "$gruppo_id" "${CHAT_NUOVA_SESSIONE:-}"
-      elif [ -n "${CHAT_MODELLO:-}" ]; then
-        echo "[$(ts)] Lavoro $id (chat): qualità massima → $CHAT_MODELLO."
-        out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO" "$prompt" 2>&1)"; rc=$?
       else
-        echo "[$(ts)] Lavoro $id (chat): qualità massima → modello premium."
-        out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
+        # Chat senza streaming (CHAT_STREAM=0 e/o CHAT_MODELLO fissato): stessa memoria di
+        # sessione dello streaming, via --output-format json (risposta + session_id insieme).
+        echo "[$(ts)] Lavoro $id (chat): qualità massima → ${CHAT_MODELLO:-modello premium}${CHAT_RESUME_SID:+ + memoria di sessione ($CHAT_RESUME_SID)}."
+        rispondi_chat_json "$to"
       fi
+      # 🧵 aggiorna la mappa conversazione→sessione: ogni run genera un session id NUOVO (anche
+      # in resume), quindi si salva sempre l'ultimo — il prossimo turno riprende da qui.
+      salva_sessione_chat "$gruppo_id" "${CHAT_NUOVA_SESSIONE:-}"
     else
       [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router → ${modello_scelto:-?} ma adattatore economico non collegato → fallback premium." >&2
       out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
@@ -949,15 +995,19 @@ $richiesta"
   fi
 
   # 3a-ter) ERRORE IN LINGUA UMANA: se il motore muore, Nicola non deve leggere solo il vomito
-  # tecnico della CLI — prima una riga chiara su cosa è successo e cosa fare, poi il dettaglio
-  # (che resta in coda: serve alla diagnosi e alla retry-policy, che ci cerca dentro i pattern).
-  if [ "$tipo" = "chat" ] && [ "$stato" = "errore" ]; then
-    out="⚠️ Il motore della chat si è fermato prima di finire. Il tuo messaggio NON è perso: riprova a inviarlo tra qualche secondo. Se succede di nuovo, dimmi «il motore chat si è fermato di nuovo» e indago nei log.
+  # tecnico della CLI — prima una spiegazione chiara (🩺 diagnosi AI, se ottenibile; altrimenti la
+  # riga standard), poi il dettaglio grezzo (che resta in coda: serve alla retry-policy, che ci
+  # cerca dentro i pattern, e a chi indaga).
+  if [ "$stato" = "errore" ] && { [ "$tipo" = "chat" ] || [ "$skip_sync" != 1 ]; }; then
+    _diag="$(diagnosi_errore "$out" 2>/dev/null || true)"
+    if [ "$tipo" = "chat" ]; then
+      _intro="⚠️ Il motore della chat si è fermato prima di finire. Il tuo messaggio NON è perso: riprova a inviarlo tra qualche secondo. Se succede di nuovo, dimmi «il motore chat si è fermato di nuovo» e indago nei log."
+    else
+      _intro="⚠️ Questo lavoro si è fermato prima di finire. Non è perso: se non riparte da solo (ritentativo automatico), puoi rilanciarlo dal Pannello con «Riprova»."
+    fi
+    out="$_intro${_diag:+
 
-Dettaglio tecnico (per la diagnosi):
-$out"
-  elif [ "$stato" = "errore" ] && [ "$skip_sync" != 1 ]; then
-    out="⚠️ Questo lavoro si è fermato prima di finire. Non è perso: se non riparte da solo (ritentativo automatico), puoi rilanciarlo dal Pannello con «Riprova».
+🩺 Cosa è successo (in parole semplici): $_diag}
 
 Dettaglio tecnico (per la diagnosi):
 $out"
