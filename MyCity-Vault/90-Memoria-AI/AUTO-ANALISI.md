@@ -27,7 +27,7 @@ Giro pieno onesto. Baseline REST 06:20 confermata. 0 asset pesanti su entità no
 1. Trigger-build Pannello + worker-restart (prima del 13/7)
 2. PAT NicolaeRotaru/mycity per PR #212
 3. Gate catena freddo con PQ per caldo 40°C il 15-17/7
-4. Bando ER scade 21/7 — decisione entro ~15/7
+4. ~~Bando ER 21/7~~ — ⛔ CHIUSO il 23/6/2026 (nessuna azione possibile sul bando)
 
 ---
 

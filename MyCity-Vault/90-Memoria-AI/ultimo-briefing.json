@@ -1,14 +1,14 @@
 {
-  "data": "2026-07-11 11:47",
-  "situazione": "Business invariato dal 24/6: 1 negozio reale (PQ), North Star 0, stallo ~412h. 2 giorni alla ripresa operativa (13/7), 6 giorni al VEN 17/7 (target 1° ordine). Dato LIVE stamattina: retail piacentino −2,3% Q1/−6,6% Q2 (fonte IlPiacenza/CCIAA) — da usare come urgenza nel pitch del 13/7. Pannello non buildato + worker con module_not_found: da sbloccare prima del 13/7. Allerta temporali ARPAE SAB 11/7.",
+  "data": "2026-07-11 12:30",
+  "situazione": "Business invariato dal 24/6 (North Star 0, stallo ~417h). Due fatti chiave del giro: ⛔ bando ER CHIUSO il 23/6 (rimosso da tutti i file vivi — pitch 13/7 aggiornato con retail −6,6% Q2 + caldo 40°C); anti-churn worker 6 botteghe food committato 12:05. Ripresa Nicola lunedì 13/7. Target: 1° ordine reale su PQ al Venerdì Piacentini 17/7.",
   "opportunita": [
-    {"titolo": "Retail piacentino −6,6% Q2: MyCity è la lifeline delle botteghe", "motivo": "Dato LIVE: retail −2,3% Q1 2026 (10× peggio della media ER), previsione −6,6% Q2. Usarlo nel pitch del 13/7: «MyCity non è un extra, è la sopravvivenza».", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Venerdì Piacentini 17/7 — finestra target per il 1° ordine PQ", "motivo": "Ultima data VP: centro pieno la sera, caldo ≤38°C = argomento consegna a casa. Samir (buyer nel DB) da chiamare venerdì per il 1° ordine reale.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "55 locali sfitti nel centro storico — 55 lead passivi", "motivo": "Da scansionare dopo il batch 13/7. −94 negozi in 13 anni, 1 su 5 a rischio chiusura 2035.", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Retail piacentino −6,6% Q2: urgenza di mercato reale per il pitch del 13/7", "motivo": "Commercio al dettaglio piacentino cede il 6,6% Q2 2026 (10× peggio media ER). Ogni bottega visitata è a rischio chiusura. MyCity è la lifeline, non un extra.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Caldo 40°C il 15-17/7: argomento di vendita immediato al posto del bando chiuso", "motivo": "Ondata di calore confermata 15-17/7: 'consegna a casa al fresco' è un beneficio tangibile per freschi. Sostituisce il bando ER caduto come urgenza nel pitch.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "55 locali sfitti + 407 lead mai contattati: pipeline enorme post 13/7", "motivo": "Dopo le 6 botteghe prioritarie ci sono 27 food qualificati nel DB e 55 spazi sfitti da trasformare in opportunità di acquisizione.", "impatto": "alto", "sforzo": "medio"}
   ],
   "azioni": [
-    {"titolo": "Sblocca il Pannello prima del 13/7 (trigger-build + worker-restart)", "motivo": "Il Pannello online è fermo e il worker mostra module_not_found. Servono 2 azioni rapide prima che Nicola arrivi dalle botteghe.", "livello": "giallo"},
-    {"titolo": "Mergia i 37 fix di sicurezza (PR #212)", "motivo": "4 bloccanti sicurezza aperti sul sito live. Serve solo un nuovo PAT con scope mycity.", "livello": "giallo"},
-    {"titolo": "Visita le 6 botteghe food il 13/7 con dossier aggiornato (−6,6%)", "motivo": "Prima tappa della ripresa operativa. Dossier già pronto + aggiungi dato retail per pitch urgenza.", "livello": "giallo"}
+    {"titolo": "Sblocca il Pannello prima che Nicola parta lunedì (trigger-build + worker-restart)", "motivo": "Il Pannello non builda da giorni. Il worker ha un module_not_found. Nicola deve vedere la Cabina funzionante prima di arrivare dalle botteghe.", "livello": "giallo"},
+    {"titolo": "Aggiorna il dossier 6 botteghe: fuori il bando ER, dentro il dato −6,6%", "motivo": "Il bando ER è chiuso dal 23/6. Le schede-cheat da stampare il 13/7 devono usare il nuovo pitch: retail in crisi + caldo estivo.", "livello": "verde"},
+    {"titolo": "Mergia PR #212 (37 fix sicurezza) prima del batch botteghe", "motivo": "4 bloccanti sicurezza aperti sul sito live prima di aprire a 6 nuovi negozi. Serve PAT NicolaeRotaru/mycity.", "livello": "rosso"}
   ]
 }
