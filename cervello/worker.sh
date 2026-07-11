@@ -803,9 +803,15 @@ scarta_lavori_scaduti() {
 # il recupero orfani rispetta la proprietà (un worker non tocca gli in_corso VIVI dell'altro). Se no
 # (DB non ancora migrato), degrada alla logica di sola grazia-per-età (già sicura). Va PRIMA del
 # recupero orfani, che la usa.
+# ⚠️ RILEVAZIONE POSITIVA, non a grep sull'errore (worker-outage 2026-07-11 sera): con `curl -f` un
+# 400 di PostgREST NON stampa il corpo ("does not exist…") ma solo "curl: (22) … error: 400" → il grep
+# non matchava mai e il probe dichiarava la colonna PRESENTE anche quando mancava. Da lì OGNI claim
+# PATCH includeva worker_owner → 400 → «claim perso» all'infinito: worker vivo (batteva) ma coda ferma.
+# Regola: la feature si accende SOLO su HTTP 200 esplicito; qualunque errore (400, rete, timeout) →
+# modalità degradata, che è sicura. Mai dedurre «c'è» dall'assenza di un messaggio d'errore.
 HAS_OWNER_COL=0
-_owner_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>&1 || true)"
-if ! printf '%s' "$_owner_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+_owner_probe_http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
+if [ "$_owner_probe_http" = 200 ]; then
   HAS_OWNER_COL=1
   echo "[$(ts)] Proprietà lavori ON (colonna worker_owner presente) — recupero orfani per-worker."
 else
@@ -826,9 +832,11 @@ find "${HOME:-/root}/.claude/projects" -name '*.jsonl' -mtime "+${WORKER_SESSION
 # Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
 # reset quota/backoff. Se no (DB non ancora migrato), degrada al comportamento classico
 # (fallito → errore, riprova manuale) senza rompersi.
+# (stessa rilevazione POSITIVA del probe owner: solo HTTP 200 accende la feature — un probe che
+# fallisce per qualsiasi motivo lascia la modalità degradata, che funziona sempre)
 HAS_RETRY_COLS=0
-_retry_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>&1 || true)"
-if ! printf '%s' "$_retry_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+_retry_probe_http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
+if [ "$_retry_probe_http" = 200 ]; then
   HAS_RETRY_COLS=1
   echo "[$(ts)] Auto-recovery ON (campi tentativi/riprova_dopo presenti)."
 else
