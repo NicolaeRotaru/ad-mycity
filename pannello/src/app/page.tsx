@@ -108,7 +108,7 @@ import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
-import Comandi from "@/components/Comandi";
+import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
@@ -205,16 +205,10 @@ const COMANDI_RAPIDI: { label: string; testo: string }[] = [
   { label: "📊 Come stiamo?", testo: "come stiamo?" },
 ];
 
-// Skill rapide: compaiono sopra la textarea quando l'input e' vuoto.
-const SKILL_RAPIDE: { label: string; cmd: string }[] = [
-  { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
-  { label: "✅ Verifica", cmd: "/verify" },
-  { label: "📋 Audit Pannello", cmd: "/audit-pannello" },
-  { label: "🔬 Radiografia", cmd: "/auto-radiografia" },
-  { label: "🔍 Ricerca", cmd: "/deep-research " },
-  { label: "🛡️ Sicurezza", cmd: "/security-review" },
-  { label: "📅 Pianifica", cmd: "/schedule " },
-];
+// ⚡ Skill & comandi: non più chip fisse sopra la textarea + card in fondo alla pagina —
+// ora vivono in una FINESTRA che si apre/chiude dentro la chat dal pulsante ⚡ nella
+// riga dei pulsanti (allega · voce · invia). Dati in @/lib/comandi-data (SKILL_RAPIDE
+// + REPARTI_COMANDI), finestra in @/components/FinestraComandiSkill.
 
 const TOOL_LABELS: Record<string, string> = {
   web_search: "Ricerca web",
@@ -734,6 +728,12 @@ export default function Dashboard() {
   }, [messages]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
+  // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
+  const [skillAperte, setSkillAperte] = useState(false);
+  function scegliSkill(cmd: string) {
+    setInput(cmd);
+    setSkillAperte(false);
+  }
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
@@ -2058,19 +2058,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
-            {input === "" && (
-              <div className="flex flex-wrap gap-1.5">
-                {SKILL_RAPIDE.map((s) => (
-                  <button
-                    key={s.label}
-                    onClick={() => setInput(s.cmd)}
-                    className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            )}
+            <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
@@ -2085,6 +2073,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 placeholder="Scrivi all'AD (col tuo Max), gratis..."
                 className="input-soft flex-1 min-h-[56px] max-h-24 resize-y"
               />
+              <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} />
               <button
                 onClick={() => fileChatRef.current?.click()}
                 disabled={allegatiChat.length >= 6}
@@ -2232,8 +2221,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </aside>
           </section>
 
-          <Comandi onScegli={(cmd) => setInput(cmd)} />
-
         </div>
         )}
 
@@ -2357,19 +2344,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <div className="border-t p-2.5" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
-            {input === "" && (
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {SKILL_RAPIDE.map((s) => (
-                  <button
-                    key={s.label}
-                    onClick={() => setInput(s.cmd)}
-                    className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/70 rounded-full px-2.5 py-1 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className={skillAperte ? "mb-2" : ""}>
+              <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
+            </div>
             <div className="flex gap-2 items-end">
               <textarea
                 value={input}
@@ -2384,6 +2361,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 placeholder="Scrivi all'AD…"
                 className="input-soft flex-1 min-h-[78px] max-h-28 resize-y text-[13px]"
               />
+              <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={40} icona={16} />
               <button
                 onClick={() => fileChatRef.current?.click()}
                 disabled={allegatiChat.length >= 6}
