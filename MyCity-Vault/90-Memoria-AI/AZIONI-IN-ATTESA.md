@@ -219,6 +219,19 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
+### 🟡 #pr-270-errori-undefined — Mergia PR #270: caselle AutoCoscienza mostrano testo vero degli errori · ⏳ IN ATTESA · accodata 2026-07-11 15:39
+
+**Cosa cambia:** le caselle "Errore: undefined" nel Pannello (sezione AutoCoscienza) mostrano ora il testo reale dell'errore (es. "MCP marketplace gated in sessione..."). Bug: il giro scriveva `errori` come array di stringhe, il componente cercava `.titolo` su ciascuna → undefined.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/270
+
+**Cosa cambia:** il Pannello smette di mostrare caselle vuote con "Errore: undefined" — ogni errore ha il suo titolo leggibile.
+**Se va bene:** Nicola mergia la PR → deploy Vercel → caselle mostrano il testo degli errori.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu).
+
+---
+
 ### 🟡 #pr-269-chat-height — Mergia PR #269: chat delle caselle più compatta · ⏳ IN ATTESA · accodata 2026-07-11 15:37
 
 **Cosa cambia:** l'area messaggi nella chat delle caselle passa da 144px (`h-36`) a 96px (`h-24`) — un terzo di spazio in meno, il campo di testo rimane dov'è. Tocca `ChatCasella.tsx` (e la componente gemella se presente).
