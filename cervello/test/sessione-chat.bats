@@ -79,3 +79,46 @@ EOF
   grep -q 'RIPRENDE una tua sessione precedente' "$WORKER"
   grep -q 'parte da ZERO' "$WORKER"
 }
+
+# ── 8. Anche la chat NON-stream ha la memoria di sessione (via --output-format json) ────────────
+@test "worker: percorso chat non-stream cablato su rispondi_chat_json (memoria anche lì)" {
+  grep -q 'rispondi_chat_json "\$to"' "$WORKER"
+  grep -q -- '--output-format json' "$WORKER"
+}
+
+# ── 9. Igiene: le sessioni vecchie si puliscono all'avvio (il disco non cresce per sempre) ──────
+@test "worker: pulizia sessioni con WORKER_SESSIONI_GIORNI" {
+  grep -q 'WORKER_SESSIONI_GIORNI' "$WORKER"
+}
+
+# ── 10. Ragionamento esteso: il motore esporta il budget di thinking ────────────────────────────
+@test "motore-ai: MAX_THINKING_TOKENS esportato (override CERVELLO_THINKING_TOKENS)" {
+  M="$BATS_TEST_DIRNAME/../motore-ai.sh"
+  grep -q 'MAX_THINKING_TOKENS' "$M"
+  grep -q 'CERVELLO_THINKING_TOKENS' "$M"
+}
+
+# ── 11. Il contesto macchina arriva anche ai LAVORI (esegui-azione + generico), non solo chat ───
+@test "worker: contesto_macchina_chat iniettato nelle corsie di lavoro" {
+  [ "$(grep -c 'contesto_macchina_chat 2>/dev/null' "$WORKER")" -ge 3 ]
+}
+
+# ── 12. diagnosi_errore: quota → silenzio (ci pensa la retry-policy); errore vero → spiegazione ─
+@test "diagnosi_errore: quota non chiama l'AI, errore vero produce la seconda passata" {
+  FN2="$BATS_TEST_TMPDIR/diagnosi.sh"
+  sed -n '/^diagnosi_errore() {/,/^}/p' "$WORKER" > "$FN2"
+  grep -q 'diagnosi_errore()' "$FN2"
+  source "$FN2"
+  ai_build_cmd() { AI_CMD=(echo DIAGNOSI:); }
+  run diagnosi_errore "Error: usage limit reached (429 rate_limit)"
+  [ "$status" -eq 0 ]
+  [ -z "$output" ]
+  run diagnosi_errore "TypeError: cannot read properties of undefined (reading foo)"
+  [ "$status" -eq 0 ]
+  [[ "$output" == DIAGNOSI:* ]]
+}
+
+# ── 13. Pannello mai al buio col thinking: placeholder «sto ragionando» nello stream ────────────
+@test "worker: placeholder 💭 mentre il modello pensa (prima del primo testo)" {
+  grep -q 'Sto ragionando' "$WORKER"
+}
