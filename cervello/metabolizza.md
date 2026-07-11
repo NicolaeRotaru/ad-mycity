@@ -57,6 +57,12 @@ Il worker inietta le prime ~8 righe di questo file in OGNI turno di chat (blocco
   non trasformarle in workaround. Se un tentativo è stato bloccato da permessi o hook di sicurezza, la
   lezione da scrivere è «quella strada è vietata» — MAI il modo di aggirarla. (Il 10/7 la lezione su gh
   è stata riscritta nel suo contrario, con dentro l'aggiramento: è l'errore che questo divieto spegne.)
+- 🛡️ **MAI mettere in una lezione un COMANDO che tocca segreti o sicurezza** — anche se quel comando
+  «ha funzionato» nella conversazione. Vietato in una lezione: comandi che leggono/estraggono chiavi o
+  token (`grep github_pat_`, `cat .env`, stampare una service key), `push --force`/`--force-with-lease`,
+  qualsiasi ricetta che allarga i permessi o aggira un blocco. Queste righe vengono iniettate in OGNI
+  chat: un comando lì dentro diventa un'istruzione che la chat può eseguire alla cieca. Scrivi il
+  VINCOLO, non la ricetta: «il token X ha scope solo su ad-mycity» ✅ — «estrai il token con grep …» ❌.
 - ⚠️ Una DIAGNOSI TECNICA diventa lezione SOLO se confermata: da Nicola, o da una prova diretta
   causa→effetto. «Ho cambiato X e poi ha funzionato» NON basta (correlazione ≠ causa): verifica QUALE
   meccanismo ha agito davvero prima di scriverla. E se una tua modifica è stata REVERTITA (una PR di

@@ -14,6 +14,40 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-276-grafica-chat-coda — Mergia PR #276: grafica "In coda" migliorata (3 livelli distinti) · ⏳ IN ATTESA · accodata 2026-07-11 16:20
+
+**Cosa fa:** migliora la distinzione visiva tra i 3 livelli della card "In coda" nel Pannello:
+1. **Card "In corso"** — bordo doppio colorato (brand) + sfondo più intenso + puntino blu lampeggiante nell'header
+2. **Sezione Chat** (quando aperta) — intestazione con sfondo brand + bordo superiore spesso → area separata netta
+3. **Storico messaggi** (lista sotto) — sfondo più scuro + etichetta "Storico messaggi (N)" con righine → si distingue dal lavoro attivo
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/276
+**File modificati:** `pannello/src/components/LavoriCervello.tsx`, `pannello/src/components/ChatCasella.tsx`
+
+⚠️ La PR #275 (stessa feature, conflitto con worker) va chiusa — superata dalla #276.
+
+**Cosa cambia:** a colpo d'occhio capisci cosa è "lavoro attivo", cosa è "chat aperta" e cosa è "storico".
+**Se va bene:** Nicola mergia #276 su GitHub → deploy automatico → Pannello aggiornato.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
+### 🟡 #pr-274-memoria-chat — Mergia PR #274: le chat ricordano le sessioni precedenti · ⏳ IN ATTESA · accodata 2026-07-11 16:04
+
+**Cosa fa:** ogni messaggio che Nicola invia include automaticamente le ultime 4 conversazioni precedenti (compresse). L'AD può rispondere "l'ho già fatto il 10/7" senza chiedere conferma.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/274
+**Branch:** `fix/memoria-chat-precedenti` · commit `ce7e3742`
+**⚠️ Aggiornamento 2026-07-11 17:00:** conflitto su `sentinella-dati.json` risolto con `git merge origin/main` nel branch. Branch pushato. PR senza conflitti — pronta al merge.
+
+**Cosa cambia:** l'AD diventa più autonomo — controlla da solo la storia delle chat invece di chiedere a Nicola "l'hai già fatto?".
+**Se va bene:** Nicola mergia → deploy Vercel → da quel momento ogni chat ha la memoria delle sessioni precedenti.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu).
+
+---
+
 ### 🔴 #crea-tabella-conversazioni — Crea la tabella mancante per salvare le chat nel Pannello · ⏳ IN ATTESA · accodata 2026-07-11 16:10
 
 **Problema:** le chat del Pannello si perdono a ogni ricarica perché la tabella `conversazioni` non esiste nel DB Memoria. Il codice è pronto, la tabella no.
@@ -572,6 +606,8 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 67 | 2026-07-11 15:37 | @tech | Merge PR #270 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/270 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 68 | 2026-07-11 15:54 | @tech | Merge PR #272 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/272 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 69 | 2026-07-11 16:00 | @tech | Merge PR #274 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/274 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 70 | 2026-07-11 16:05 | @tech | Merge PR #275 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/275 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 71 | 2026-07-11 16:09 | @tech | Merge PR #276 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/276 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
@@ -714,7 +750,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-11 14:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-11 20:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-11-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
