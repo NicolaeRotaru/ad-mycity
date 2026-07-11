@@ -175,7 +175,7 @@ export default function ChatCasella({
       </div>
 
       {/* Contenitore messaggi a altezza FISSA: nuova e vecchia chat hanno lo stesso ingombro */}
-      <div ref={scrollRef} className="scroll-soft h-36 overflow-y-auto pr-1">
+      <div ref={scrollRef} className="scroll-soft h-24 overflow-y-auto pr-1">
         <div className="space-y-1.5">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
