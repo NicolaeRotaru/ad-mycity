@@ -41,7 +41,7 @@ Alto ritorno, **gated dalla regola**: si preparano complete adesso, si firmano/i
 
 **5. Istituzioni (Comune / Vita in Centro)** (`uscita-05`, peso 4) 🔴
 → **SÌ, in accoppiata con la 4**: le due mail Hub (Comune + Unione Commercianti, card **#52**) partono insieme, dopo la prima bottega.
-- **COME**: già preparate e in coda; **il gancio è il bando 21/7** — riproporre l'invio **il 14/7**, non oltre, o la finestra bando si chiude. ⚠️ Questa è la scadenza che rischia di più.
+- **COME**: già preparate e in coda; ⛔ **il bando ER è CHIUSO il 23/6/2026** — la leva-scadenza è caduta; l'invio del 14/7 resta utile per la relazione Hub Urbano anche senza il bando (argomento: retail −6,6% Q2).
 - **Senior**: `relazioni-istituzionali`. 🔴 firma Nicola.
 
 **3. Narrazione pubblica — PR "Piacenza non è in vendita"** (`uscita-03`, peso 5) 🔴
@@ -74,9 +74,9 @@ Alto ritorno, **gated dalla regola**: si preparano complete adesso, si firmano/i
 
 ## ✅ Cosa serve da Nicola (le azioni reali già in coda o da caricare)
 Nessuna nuova firma **oggi**: le leve 🔴 sono correttamente **gated al 13/7**. Il punto d'attenzione è **la sequenza del 14/7**:
-- ⏳ **#52 (mail Hub: Comune + Unione Commercianti)** — pronta in coda; **da firmare il 14/7**, appena la 1ª bottega è online, per non perdere il bando 21/7.
+- ⏳ **#52 (mail Hub: Comune + Unione Commercianti)** — pronta in coda; **da firmare il 14/7**, appena la 1ª bottega è online. ⛔ bando ER CHIUSO il 23/6 — argomento principale: retail −6,6% Q2 + desertificazione.
 - ⏳ **Pitch associazioni (braccio digitale)** — stessa finestra, stessa firma.
 - ⏳ **Kit stampa "6 botteghe online"** — pitch ai giornalisti nella settimana del 14/7.
 - 🟢 **Lavoro interno che parte subito, senza firma**: kit onboarding 6 botteghe (`onboarding-negozi`), calcolatore "€ che restano in città" (`finanza`), lista botteghe a rischio caro-energia (`intelligence`).
 
-> 📌 **Radice della priorità**: la leva a più alto ritorno (associazioni + istituzioni + PR) e il vincolo a tempo (bando 21/7) **convergono sulla settimana del 14/7**. Tutto ciò che facciamo nei 4 giorni prima serve a far sì che quella settimana esploda invece di sprecarsi.
+> 📌 **Radice della priorità**: la leva a più alto ritorno (associazioni + istituzioni + PR) **converge sulla settimana del 14/7**. ⛔ Il bando ER è CHIUSO il 23/6/2026 (limite 350 domande raggiunto) — argomento principale ora: retail −6,6% Q2 + desertificazione. Tutto ciò che facciamo nei 4 giorni prima serve a far sì che quella settimana esploda invece di sprecarsi.

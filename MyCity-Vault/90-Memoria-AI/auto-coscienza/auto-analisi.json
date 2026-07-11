@@ -1,22 +1,21 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-11 11:47",
-  "voto_fiducia": 88,
-  "trend_fiducia": "= 88: giro sessione chat 11:47 (chiusura dopo compattazione). Terzo passaggio dell'11/7 (dopo VPS 06:32 + monitora 11:00/11:19 + sessione-ripresa 11:47). MCP marketplace non approvato in sessione → baseline REST 11:18 (supabase_rest=ok, giri_ciechi=0) + conferma MCP live 7/7 00:30. Loop CHIUSO: ESITO scritti in @ad/@analista (11:40) + @intelligence (11:47). Chiusura-loop gate soddisfatto. 0 numeri inventati. 0 asset pesanti su entità non confermate.",
-  "sintesi": "Giro sessione chat 11:47 — chiusura completa dell'11/7. Business invariato dal 24/6: North Star 0, stallo ~412h. Dato chiave: retail piacentino −2,3% Q1/−6,6% Q2 (fonte LIVE IlPiacenza/CCIAA). 2 giorni alla ripresa (13/7). Chiusura-loop soddisfatta: ESITO aggiunti a tutti e 3 i quaderni (@ad, @analista, @intelligence). Mossa n.1: sblocca Pannello prima del 13/7.",
+  "data": "2026-07-11 14:30",
+  "voto_fiducia": 91,
+  "trend_fiducia": "↑ 91 (da 90 12:40): giro pomeriggio cloud 14:30. MCP Supabase online ma gated → baseline REST 11:18 confermata (supabase_rest=ok, giri_ciechi=0). Coerenza-fatti OK (exit 0, 8 cacce chiuse). 0 numeri inventati. 0 asset pesanti su entità non confermate. Meteo verificato LIVE: 28°C PC. Briefing aggiornato frontmatter 14:30.",
+  "sintesi": "Giro pomeriggio cloud 14:30 — business INVARIATO dal 24/6 (North Star 0, stallo ~419h). T-2 giorni alla visita 6 botteghe (13/7), T-6 al VP 17/7 (target 1° ordine PQ). Fatto: briefing aggiornato (frontmatter 14:30 + nuovo TL;DR + fix rischio bando ER → CHIUSO 23/6). Coerenza-fatti verificata OK. Nessuna nuova azione da accodare. Coda esistente (#pr-5bloccanti, #fix-35-gravi, #trigger-build-pannello, #worker-restart) invariata e completa.",
   "verifiche": [
-    "Entità: nessuna nuova. PQ confermato (unico reale, firma REST 11:18 invariata dal 24/6); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, 0 asset pesanti aggiunti questo giro).",
-    "Numeri: baseline REST 11/7 11:18 (supabase_rest=ok, dati_ordini_ciechi=false: ordini=1 annullato, ultimo 24/6 08:28, clienti=23) + conferma MCP live 7/7 00:30. MCP execute_sql non approvato in sessione → 0 numeri inventati.",
-    "Radar: meteo LIVE verificato (allerta temporali Arpae SAB 11/7, ondata ≤38°C afa 15-17/7 — corretto da >40°C); mercato locale LIVE (retail −2,3%/−6,6%, 55 locali sfitti); bando ER verificato CHIUSO 23/6 (corretto da scadenza 21/7); VP 17/7 confermato ultima data.",
-    "Sentinelle: dispersione North Star (~17,4gg) → SCATTATA, nota, 0 asset pesanti rispettato. Allerta temporali → SCATTATA, operazioni rider solo mattina.",
-    "Allocazione (vincolo HARD): 0 asset pesanti prodotti su entità non confermate. Sbilanciamento storico (Garetti ≥3 vs PQ confermato) → invariato, non aggravato. Vincolo rispettato.",
-    "Chiusura-loop (vincolo HARD): ESITO verificati. @ad e @analista: ESITO del 11:40 già presenti nei quaderni. @intelligence: ESITO del 11:47 aggiunto in questo passaggio. Gate soddisfatto.",
-    "Coerenza fatti: registro-fatti.json aggiornato con bando ER (CHIUSO 23/6, non 21/7). Nessun altro fatto-chiave cambiato."
+    "Entità: nessuna nuova. PQ confermato (unico reale, baseline REST 11:18 invariata dal 24/6); Casa Linda demo esclusa; 6 botteghe food = scelta_ragionata (prospect non firmati, 0 asset pesanti aggiunti).",
+    "Numeri: baseline REST 11/7 11:18 (supabase_rest=ok, dati_ordini_ciechi=false: ordini=1 annullato, ultimo 24/6 08:28, clienti=23) + conferma MCP live 7/7 00:30. MCP tentato (gated in sessione, permessi non concessi) → 0 numeri inventati.",
+    "Radar: meteo LIVE verificato (28°C PC oggi, allerta temporali già passata, ondata 40°C prevista 15-17/7); bando ER CHIUSO 23/6 (corretto nel briefing, non più listato come rischio azionabile); VP 17/7 confermato ultima data; retail −6,6% Q2 (dato del mattino confermato).",
+    "Coerenza-fatti: OK — exit 0 verificato, 8 cacce chiuse. Rischio bando ER corretto in briefing (era listato come 'scade 21/7', ora CHIUSO 23/6).",
+    "Allocazione (vincolo HARD): 0 asset pesanti prodotti su entità non confermate in questo giro. Vincolo rispettato.",
+    "Chiusura-loop: ESITO già presenti nei quaderni @ad/@analista/@intelligence dalla sessione 12:40. Gate soddisfatto.",
+    "SALA-OPERATIVA: aggiornata con riga giro pomeriggio 14:30."
   ],
   "errori": [
-    "MCP marketplace non approvato in sessione: 4 numeri non-REST non ri-misurati oggi → dichiarato nei Gap.",
-    "Il giro 11:19 aveva aggiunto ESITO a @ad e @analista ma non a @intelligence → corretto in questo passaggio (11:47).",
-    "node/bash: guardiani deterministici (verifica-automazione, sonda-volano, chiusura-loop.mjs) non rieseguiti da me → girano in giro.sh sul VPS."
+    "MCP marketplace gated in sessione: 4 numeri non-REST non ri-misurati → dichiarato nei Gap.",
+    "node/bash guardiani deterministici (verifica-automazione, sonda-volano) non rieseguibili in sessione cloud → girano in giro.sh sul VPS."
   ],
   "risposte_registrate": [
     "Nessuna nuova risposta/correzione di Nicola in questa sessione."
@@ -25,26 +24,25 @@
     "Trigger-build Pannello (#trigger-build-pannello): commit su pannello/ → Vercel builda le 12 modifiche in <5 min.",
     "Worker-restart (#worker-restart): sudo systemctl restart mycity-worker mycity-worker-chat.",
     "PR #212: serve PAT Contents R/W su NicolaeRotaru/mycity per completare il push + mergia.",
-    "Chip chat normale (#chip-chat-normale): aggiungi 'Bash(git push origin fix/*:*)' in .claude/settings.local.json.",
-    "Gate catena freddo: PQ ha borse termiche per il batch 13/7? Caldo ≤38°C arriva il 15-17/7.",
-    "Mail Hub Urbano + bando FESR: il bando ER è CHIUSO dal 23/6 (non 21/7) — nessuna azione possibile. Confermi di toglierlo dalla coda?"
+    "PR #fix-35-gravi: approva i 2 comandi git checkout per creare il branch.",
+    "Gate catena freddo: PQ ha borse termiche per i freschi? Caldo 40°C arriva il 15-17/7.",
+    "Mail Hub Urbano (#52): bando ER CHIUSO 23/6 — invio post-bottega resta utile per relazione istituzionale, argomento cambiato: retail −6,6% Q2."
   ],
   "punti_ciechi": [
-    "MCP marketplace non approvato (4 numeri non-REST = conferma live del 7/7, non ri-misurati oggi)",
+    "MCP marketplace gated (4 numeri non-REST = conferma live del 7/7, non ri-misurati oggi)",
     "Stripe non configurato per payout/incassi",
     "PostHog assente (spento da Nicola 5/7)",
     "Uptime storefront non monitorato",
-    "verifica-automazione.mjs: node non eseguibile in sessione"
+    "verifica-automazione.mjs: node non eseguibile in sessione cloud"
   ],
   "miglioramenti_prossimo_giro": [
-    "Al 13/7 (ripresa): da manutenzione a esecuzione — spinta di domanda su PQ per il VEN 17/7 + batch onboarding",
-    "Aggiornare dossier 6 botteghe con dato retail −2,3%/−6,6% prima della visita",
-    "Rimuovere dalla coda il bando ER (CHIUSO 23/6) — nessuna azione possibile",
-    "Se MCP marketplace viene approvato in sessione: ri-misurare dal vivo i 4 numeri non-REST"
+    "Dal 13/7: da manutenzione a esecuzione — spinta domanda PQ per VP 17/7 + batch onboarding 6 botteghe",
+    "Misurare LIVE (se MCP approvato) i 4 numeri non-REST dopo il batch del 13/7",
+    "Pitch 6 botteghe: usare retail −6,6% Q2 + caldo 40°C 15-17/7 come urgenza (NON bando ER: CHIUSO)"
   ],
   "salute_macchina": {
     "supabase_rest": "ok (baseline 11/7 11:18, giri_ciechi=0)",
-    "mcp_supabase": "cieco in sessione (non approvato dai permessi: permission stream closed / needsAuth)",
+    "mcp_supabase": "online ma gated in sessione (permessi non concessi)",
     "stripe": "ok (balance API), ma STRIPE_SECRET_KEY non collegata → cassa/runway sconosciuti",
     "resend": "ok",
     "posthog": "non_configurato (spento da Nicola 5/7)",

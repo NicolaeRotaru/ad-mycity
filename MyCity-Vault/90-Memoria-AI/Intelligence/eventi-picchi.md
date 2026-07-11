@@ -1,10 +1,10 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-11 11:00** · Fonte: @intelligence (monitora.md 11/7 · [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) + [iLMeteo](https://www.ilmeteo.it/meteo/piacenza) + [Comune Piacenza eventi](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini) + [IlPiacenza](https://www.ilpiacenza.it) + [PiacenzaSera](https://www.piacenzasera.it) + [Comune Emergenza Calore](https://www.comune.piacenza.it/it/news/emergenza-calore))
+> Aggiornato: **2026-07-11 14:30** · Fonte: @intelligence (monitora.md 11/7 AM + conferma pomeriggio: allerta temporali rientrata, 28°C Partly Cloudy alle 14:30) (monitora.md 11/7 · [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) + [iLMeteo](https://www.ilmeteo.it/meteo/piacenza) + [Comune Piacenza eventi](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini) + [IlPiacenza](https://www.ilpiacenza.it) + [PiacenzaSera](https://www.piacenzasera.it) + [Comune Emergenza Calore](https://www.comune.piacenza.it/it/news/emergenza-calore))
 
 ## ☀️ Meteo (LIVE 11/7)
 
-- **⚠️ OGGI SAB 11/7: ALLERTA TEMPORALI** — Arpae e Protezione Civile hanno emanato allerta meteo per temporali valida oggi per le province di Piacenza, Parma, Reggio Emilia, Modena, Bologna, Ferrara, Ravenna, Forlì-Cesena, Rimini. ([IlPiacenza](https://www.ilpiacenza.it/meteo/irruzione-dei-temporali-calo-delle-temperature-a-piacenza-e-nel-fine-settimana-le-previsioni.html))
+- **OGGI SAB 11/7: allerta temporali mattina → ✅ RIENTRATA** — alle 14:30 28°C Partly Cloudy (piacevole). Arpae aveva emanato allerta per temporali nella mattinata per le province di Piacenza, Parma, Reggio Emilia, Modena, Bologna, Ferrara, Ravenna, Forlì-Cesena, Rimini. ([IlPiacenza](https://www.ilpiacenza.it/meteo/irruzione-dei-temporali-calo-delle-temperature-a-piacenza-e-nel-fine-settimana-le-previsioni.html))
   - ➡️ @operations: slot consegne oggi solo mattina (prima delle 12). Blocco rider in caso di pioggia intensa.
 - **11-13/7:** 23-35°C, instabile sabato 11 al Nord. Caldo gestibile dopo i temporali.
 - **Emergenza calore attiva (dal 1/7)**: Comune ha mappa pubblica di fontanelle e punti di sollievo. Restrizioni lavoro in caldo estremo per alcuni settori. ([Comune Piacenza](https://www.comune.piacenza.it/it/news/emergenza-calore))

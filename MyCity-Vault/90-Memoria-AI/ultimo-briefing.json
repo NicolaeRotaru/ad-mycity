@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-11 12:30",
-  "situazione": "Business invariato dal 24/6 (North Star 0, stallo ~417h). Due fatti chiave del giro: ⛔ bando ER CHIUSO il 23/6 (rimosso da tutti i file vivi — pitch 13/7 aggiornato con retail −6,6% Q2 + caldo 40°C); anti-churn worker 6 botteghe food committato 12:05. Ripresa Nicola lunedì 13/7. Target: 1° ordine reale su PQ al Venerdì Piacentini 17/7.",
+  "data": "2026-07-11 14:30",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~419h). T-2 giorni alla visita di Nicola alle 6 botteghe food (13/7). T-6 giorni al target 1° ordine reale su PQ (VP 17/7, ultima data stagionale). Meteo oggi 28°C piacevole; ondata 40°C in arrivo 15-17/7 → gate catena freddo. Bando ER CHIUSO 23/6 (350 domande) → pitch usa retail −6,6% Q2 + caldo. Pannello + worker da sbloccare entro domani sera prima del 13/7.",
   "opportunita": [
     {"titolo": "Retail piacentino −6,6% Q2: urgenza di mercato reale per il pitch del 13/7", "motivo": "Commercio al dettaglio piacentino cede il 6,6% Q2 2026 (10× peggio media ER). Ogni bottega visitata è a rischio chiusura. MyCity è la lifeline, non un extra.", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Caldo 40°C il 15-17/7: argomento di vendita immediato al posto del bando chiuso", "motivo": "Ondata di calore confermata 15-17/7: 'consegna a casa al fresco' è un beneficio tangibile per freschi. Sostituisce il bando ER caduto come urgenza nel pitch.", "impatto": "alto", "sforzo": "basso"},

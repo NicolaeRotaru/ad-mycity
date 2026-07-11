@@ -836,3 +836,28 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-11 — 🔭 MONITORA (monitora.md · 11:00)
 - 2026-07-11 11:00 · @intelligence · FATTO · monitoraggio web: 9 fonti controllate (7 giornaliere + 2 settimanali scadute). Novità chiave: ① allerta temporali Arpae oggi SAB 11/7 → slot rider solo mattina; ② retail piacentino -2,3% Q1 2026 (10x peggio della media ER), previsione -6,6% Q2 → argomento di vendita diretto per visita 13/7; ③ desertificazione commerciale: -94 negozi centro storico in 13 anni, 1 su 5 a rischio 2035; ④ saldi estivi 4/7-1/9 (60gg) → angolo «saldi a casa nell'afa» per VEN 17/7; ⑤ 55 locali sfitti centro storico → lead passivi per @vendite. Aggiornati: `buchi-mercato.md`, `eventi-picchi.md`, `reputazione.md`. Radar-concorrenti e leve-uscita NON toccati (aggiornati 9/7, ≤2gg).
+
+### 2026-07-11 — 🔄 SESSIONE-RIPRESA (AD · 11:19–11:47 · chiusura dopo compattazione)
+- 2026-07-11 11:19 · @supervisione · FATTO · supervisione negozi/prodotti invariata: 494 autofill in attesa firma, 34 richiedono materia prima reale (foto/descrizioni) — nessuna scrittura sul sito.
+- 2026-07-11 11:47 · @ad · FATTO · sessione-ripresa 11:47: bando ER verificato CHIUSO il 23/6/2026 (limite 350 domande, non scadenza 21/7) — aggiornati registro-fatti, AUTO-ANALISI, intenzioni-nicola, leve-uscita, AZIONI-IN-ATTESA. Dato retail LIVE confermato: −2,3% Q1 / −6,6% Q2 — aggiunte al dossier 6 botteghe. ESITO scritti nei quaderni @ad/@analista/@intelligence.
+- 2026-07-11 11:47 · @analista · FATTO · 7 numeri invariati: baseline REST 11:18 (supabase_rest=ok) + conferma MCP live 7/7 00:30. MCP execute_sql non autorizzato → 0 numeri inventati. Loop chiuso (ESITO nel quaderno).
+- 2026-07-11 11:47 · @intelligence · FATTO · bando ER CHIUSO il 23/6: pitch 13/7 aggiornato → argomento principale = retail −6,6% Q2 + caldo 40°C il 15-17/7. ESITO nel quaderno.
+🙋 Serve da Nicola (invariato): 🟡 sblocca Pannello (trigger-build + worker-restart) · 🟡 PAT NicolaeRotaru/mycity per PR #212 · 🔴 via al post + 1° ordine PQ (dal 13/7) · 🟡 gate catena freddo con PQ per il 13/7.
+
+### 2026-07-11 — 🔧 ANTI-CHURN WORKER (12:05 VPS · committato)
+- 2026-07-11 12:05 · @account-negozi · FATTO · PLAYBOOK Anti-churn negozi: worker `cervello/antichurn-negozi.mjs` committato (commit `b1a6cb92`). Trova negozi con ordini in calo o a rischio churn post-batch 13/7. Pronto per le 6 botteghe food.
+
+### 2026-07-11 — ☁️ CLOUD 12:30 (coerenza-fatti + bando ER cleanup)
+- 2026-07-11 12:30 · @ad · FATTO · sessione cloud 12:30: coerenza-fatti risolto (tutte e 5 le incoerenze sul bando ER corrette nei file vivi — AUTO-ANALISI, AZIONI-IN-ATTESA ×2, leve-uscita, intenzioni-nicola). Anti-churn worker committato 12:05. Briefing + ultimo-briefing + intenzioni-nicola aggiornati al 12:30.
+
+### 2026-07-11 — ✅ CHIUSURA GIRO 12:40 (cloud · verifica finale)
+- 2026-07-11 12:40 · @ad · FATTO · chiusura giro 11/7: coerenza-fatti VERIFICATO via bash (exit 0 ✅). 8 cacce chiuse con chiudi-caccia. leve-uscita.md ripulita (3 riferimenti semantici "bando 21/7" → corretti). Tutti i file giro aggiornati al 12:40. Giro dell'11/7 COMPLETATO.
+- 2026-07-11 12:40 · @ad · SERVE · Da Nicola (invariato): 🟡 `ok #trigger-build-pannello` · 🟡 `ok #worker-restart` · 🔴 PAT NicolaeRotaru/mycity (Contents R/W) per PR #212 · 🔴 via al 1° ordine reale su PQ dal 13/7 (target VEN 17/7).
+
+### 2026-07-11 — 🔭 GIRO POMERIGGIO 14:30 (cloud · MCP online + coerenza OK + T-2)
+- 2026-07-11 14:30 · @ad · FACCIO · giro pomeriggio cloud: richiesto da Nicola; stato business invariato confermato (North Star 0, stallo ~419h); MCP Supabase tornato online ma gated in sessione (permessi non concessi); baseline REST 11:18 invariata.
+- 2026-07-11 14:30 · @intelligence · FATTO · meteo LIVE 28°C Partly Cloudy Piacenza (oggi piacevole); conferma ondata 40°C 15-17/7; allerta temporali SAB 11/7 già gestita nel giro mattino.
+- 2026-07-11 14:30 · @ad · FATTO · briefing 2026-07-11.md aggiornato (frontmatter 14:30, TL;DR pomeriggio in cima, fix rischio bando ER → CHIUSO 23/6 non 21/7).
+- 2026-07-11 14:30 · @ad · FATTO · auto-analisi.json + AUTO-ANALISI.md + ultimo-briefing.json + STATO.md aggiornati al 14:30.
+- 2026-07-11 14:30 · @ad · FATTO · intenzioni-nicola.json invariato (T-2 al 13/7, mosse già corrette); coerenza-fatti confermata OK (8 cacce chiuse, 0 incoerenze).
+- 2026-07-11 14:30 · @ad · SERVE · Da Nicola (invariato): 🟡 `ok #trigger-build-pannello` (commit su pannello/ → Vercel builda) · 🟡 `ok #worker-restart` · 🟡 `ok #fix-35-gravi` (approva 2 comandi git checkout) · 🔴 PAT NicolaeRotaru/mycity (Contents R/W) per PR #212 · 🔴 via al 1° ordine reale su PQ dal 13/7 (target VEN 17/7).

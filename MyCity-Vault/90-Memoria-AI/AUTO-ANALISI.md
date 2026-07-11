@@ -1,7 +1,32 @@
 ---
-data: 2026-07-11 08:30
+data: 2026-07-11 14:30
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
+---
+
+# 🔬 Auto-analisi — giro pomeriggio 14:30 (cloud · MCP online, gated · coerenza OK)
+
+**Voto di fiducia: 91/100** — giro pulito, T-2 al 13/7. Coerenza-fatti confermata OK (exit 0, 8 cacce chiuse). Nessun numero inventato. Nessun asset pesante su entità non confermate. Fix rischio bando ER nel briefing (da "scade 21/7" → "CHIUSO 23/6").
+
+## Passaggio precedente (12:40)
+
+## Verdetto
+Coerenza-fatti VERIFICATO via bash: exit 0 ✅ (0 copie "scade 21/7" in file vivi). 8 cacce chiuse con `chiudi-caccia`. Anti-churn worker committato 12:05. 0 numeri inventati. 0 asset pesanti su entità non confermate.
+
+## Entità verificate
+| Entità | Stato | Fondamento |
+|---|---|---|
+| Pane Quotidiano | `confermato` | REST 11:18 + MCP live 7/7 |
+| VP 17/7 | `confermato` | Comune Piacenza |
+| Bando ER | `CHIUSO 23/6` | Limite 350 domande raggiunto |
+| Ondata calore 15-17/7 | `confermato` | 3BMeteo + iLMeteo 11/7 |
+
+## Domande bloccanti (invariate dal 08:30)
+1. Trigger-build Pannello + worker-restart (prima del 13/7)
+2. PAT NicolaeRotaru/mycity per PR #212
+3. Gate catena freddo con PQ per caldo 40°C il 15-17/7
+4. ~~Bando ER 21/7~~ — ⛔ CHIUSO il 23/6/2026 (nessuna azione possibile sul bando)
+
 ---
 
 # 🔬 Auto-analisi — Cancello di serietà (11/7 08:30)

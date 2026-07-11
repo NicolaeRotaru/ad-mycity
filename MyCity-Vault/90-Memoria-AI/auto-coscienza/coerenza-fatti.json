@@ -1,101 +1,11 @@
 {
-  "data": "2026-07-11 12:05",
-  "esito": "incoerenze",
+  "data": "2026-07-11 12:43",
+  "esito": "ok",
   "fatti_totali": 9,
-  "cacce_aperte": 8,
-  "file_scansionati": 512,
-  "incoerenze": [
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER scade 21/7",
-      "valore_nuovo": "CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando.",
-      "file": "MyCity-Vault/90-Memoria-AI/AUTO-ANALISI.md",
-      "riga": 30,
-      "testo": "4. Bando ER scade 21/7 — decisione entro ~15/7"
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando Commercio ER 40% a fondo perduto scade il 21/7",
-      "valore_nuovo": "CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando.",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 387,
-      "testo": "| 39 | 2026-07-06 15:40 | vendite→onboarding | **Chiama le botteghe food per farle entrare su MyCity** — parte la campagna di prospecting sulle botteghe food del centro (panetterie, macellerie, gastro"
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER 40% scade 21/7",
-      "valore_nuovo": "CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando.",
-      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 401,
-      "testo": "| 43 | 2026-07-06 12:40 | @vendite | Dal 9/7 aggiungi al giro chiamate le 3 botteghe della spesa fresca che mancano nel centro | 🔴 | Scout categorie mancanti nel cluster (oggi solo Pane Quotidiano; l"
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando Commercio ER 40% a fondo perduto scade il 21/7",
-      "valore_nuovo": "CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando.",
-      "file": "MyCity-Vault/90-Memoria-AI/Intelligence/leve-uscita.md",
-      "riga": 10,
-      "testo": "- **Vincolo a tempo**: il **bando Commercio ER 40% a fondo perduto scade il 21/7** (`bando.commercio-er.scadenza`). È l'arma di vendita/istituzionale più affilata che abbiamo — ma la finestra è di 12 "
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER scade 21/7",
-      "valore_nuovo": "CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando.",
-      "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
-      "riga": 13,
-      "testo": "{\"nome\": \"6 botteghe food prioritarie (Osteria Carducci, La Forchetta, Tre Ganasce, La Dispensa, Trattoria dei Pescatori, Tigellabella)\", \"perche\": \"target della visita di persona del 13/7; dossier pr"
-    }
-  ],
-  "cacce": [
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER scade 21/7",
-      "dal": "2026-07-11 11:40",
-      "copie_trovate": 2
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando Commercio ER 40% a fondo perduto scade il 21/7",
-      "dal": "2026-07-11 11:40",
-      "copie_trovate": 2
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER 40% a fondo perduto scade il 21/7",
-      "dal": "2026-07-11 11:40",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "bando.commercio-er.scadenza",
-      "pattern": "bando ER 40% scade 21/7",
-      "dal": "2026-07-11 11:40",
-      "copie_trovate": 1
-    },
-    {
-      "fatto": "ripresa.lavoro-operativo",
-      "pattern": "avvia dopo il 9/7",
-      "dal": "2026-07-07 00:15",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "ripresa.lavoro-operativo",
-      "pattern": "quando Nicola riparte",
-      "dal": "2026-07-07 00:15",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "ripresa.lavoro-operativo",
-      "pattern": "Onboarding botteghe (dopo 9/7)",
-      "dal": "2026-07-07 00:15",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "ripresa.lavoro-operativo",
-      "pattern": "Dopo il 9/7, fai nascere",
-      "dal": "2026-07-07 00:15",
-      "copie_trovate": 0
-    }
-  ],
+  "cacce_aperte": 0,
+  "file_scansionati": 0,
+  "incoerenze": [],
+  "cacce": [],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -105,5 +15,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Riscrivi ogni file elencato col valore nuovo del fatto, poi riesegui `node cervello/coerenza-fatti.mjs` finché passa. Le cacce con 0 copie sono bonificate: chiudile con `chiudi-caccia <id>`."
+  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
 }
