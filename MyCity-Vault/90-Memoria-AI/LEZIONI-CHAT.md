@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-12] Quando dai a Nicola il comando per aprire la PR, includi SEMPRE `git checkout fix/<branch>` PRIMA di `node cervello/git-pr.mjs` — il script fallisce con "sei già su main, crea prima un branch" se Nicola si trova su main invece che sul branch. Forma corretta su una riga: `cd /opt/mycity/ad-mycity && git checkout fix/<branch> && node cervello/git-pr.mjs --repo ad-mycity --base main --accoda`.
 - [2026-07-12] Quando Nicola non trova qualcosa nel Pannello, prima verifica che esista davvero (ls/git log), poi proponi UX fix (rename/spostamento nel menu) — non ricreare da zero quello che è già lì con un altro nome.
 - [2026-07-12] Il recovery system del VPS NON distingue memoria da codice Pannello: qualsiasi file modificato e non committato può finire su main. Fix in PR #291 (`giro.sh` rimuove `pannello/` e `cervello/` dallo staging quando su main). Finché non è mergiata: per codice Pannello crea branch + commita NELLA STESSA sequenza di tool call, subito dopo ogni Edit. Quando una PR di fix ha conflitti su sentinella-dati.json/routing.json: non fare merge/rebase — crea un branch NUOVO da main HEAD e aggiungi SOLO il file target (`git add cervello/giro.sh`).
 - [2026-07-12] Per codice Pannello: crea il branch PRIMA della prima Edit — mai lavorare su main. Se il commit atterra su main per errore: `git checkout -b fix/nome` (porta il commit nel branch) → `git checkout main` → `git reset --hard HEAD~1` (rimuove il commit da main). Non fare `reset` su main PRIMA di creare il branch: azzera il working tree e si perdono le modifiche.
@@ -17,4 +18,3 @@
 - [2026-07-10] gh resta VIETATO anche se installato (non è in allowlist e non serve): le PR si aprono SOLO con node cervello/git-pr.mjs. Mai passare token in pipe o inventare login.
 - [2026-07-10] Nella chat del Pannello NESSUN box di approvazione può comparire (headless): se un comando è negato, usa la strada consentita o accoda l'azione — mai dire «approva il box».
 - [2026-07-10] Mai chiedere a Nicola di allargare i permessi (git push:*, curl:*, gh…): il blocco è una protezione, non un ostacolo da rimuovere.
-- [2026-07-10] Mai dire «fatto» senza prova verificata (git log, output comando): i «fatto» non verificati hanno fatto girare Nicola in tondo per ore.
