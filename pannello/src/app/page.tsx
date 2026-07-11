@@ -1751,6 +1751,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     { id: "persone", label: "Negozi & clienti", icon: <Users size={15} /> },
                     { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
                     { id: "mondo", label: "Mercato", icon: <Globe size={15} /> },
+                  ],
+                },
+                {
+                  gruppo: "Report & Piani",
+                  voci: [
                     { id: "report", label: "Archivio", icon: <FolderOpen size={15} /> },
                   ],
                 },
