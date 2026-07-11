@@ -15,6 +15,7 @@ import {
   salvaGruppoLavoroLocale,
   type LavoroBase,
 } from "@/lib/lavori-gruppo";
+import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 
 // pending = bolla solo a schermo (avviso "ci sto lavorando"): non si salva in
 // Conversazioni e non entra nella storia mandata al cervello.
@@ -36,7 +37,9 @@ export async function creaLavoroCasella(
     .filter((m) => !m.pending)
     .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
     .join("\n");
+  const memoria = await bloccoMemoriaChat(gruppoId);
   const richiesta =
+    (memoria ? `${memoria}\n` : "") +
     `## Casella del Pannello: ${titolo}\n` +
     (contesto ? `\n## Contenuto della casella\n${contesto}\n` : "") +
     (storiaTxt ? `\n## Conversazione finora\n${storiaTxt}\n` : "") +

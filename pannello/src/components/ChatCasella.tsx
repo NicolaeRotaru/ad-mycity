@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
+import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -127,7 +128,9 @@ export default function ChatCasella({
           `(foto o documenti). Sono nello storage: aprili e tienine conto nella risposta.\n${righe}`;
       }
       const prep = preparaLavoro(testo || "Guarda gli allegati");
+      const memoria = await bloccoMemoriaChat(gruppoId);
       const richiesta =
+        (memoria ? `${memoria}\n` : "") +
         (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
         `## Nuovo messaggio di Nicola\n${testo || "(nessun testo — vedi allegati)"}` +
         bloccoAllegati +
