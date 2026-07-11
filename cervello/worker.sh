@@ -93,19 +93,56 @@ maybe_reload_worker() {
 }
 
 # Riavvio richiesto dal Pannello (bottone «Riavvia worker» → impostazioni.worker:riavvia = on).
-# La coda NON si perde: i lavori stanno in Supabase e recupera_lavori_orfani() rimette in
-# coda gli eventuali in_corso al riavvio. Il flag viene spento PRIMA dell'exec (niente loop).
-maybe_riavvia_da_pannello() {
-  local flag
-  flag="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.worker:riavvia&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
-  if printf '%s' "$flag" | grep -q '"valore":"on"'; then
-    echo "[$(ts)] Riavvio richiesto dal Pannello — spengo il flag e ricarico il worker." >&2
+# La coda NON si perde: i lavori stanno in Supabase e recupera_lavori_orfani() rimette in coda gli
+# eventuali in_corso al riavvio.
+#
+# 🔁 RIAVVIO CHE RICARICA ENTRAMBI I WORKER (radiografia 2026-07-11, fix due-worker). Prima il PRIMO
+# worker che leggeva il flag lo spegneva → l'ALTRO non si ricaricava MAI e restava sul codice vecchio.
+# Ora ogni lane tiene un marcatore di consumo `worker:riavvia:visto:<lane>` con l'ora (updated_at) della
+# pressione che ha già servito: una pressione nuova (updated_at diverso dal marcatore) fa ricaricare LA
+# LANE una volta sola; il flag condiviso NON viene spento finché entrambe le lane l'hanno consumato (o
+# la sorella non è viva) — così tutti e due si ricaricano da un solo click. Il marcatore è persistito
+# PRIMA dell'exec: dopo il riavvio la lane vede «già consumato» e non entra in loop.
+_riavvia_sibling_lane() { [ "$WORKER_LANE" = chat ] && echo all || echo chat; }
+
+# Spegne il flag condiviso SOLO quando è sicuro: la sorella ha consumato la stessa pressione, oppure
+# non è viva (worker singolo). Così il flag non resta acceso in eterno nel Pannello, ma nemmeno si
+# spegne prima che l'altra lane l'abbia visto.
+_riavvia_forse_spegni_flag() {
+  local flag_ts="$1" sib sib_visto sib_beat sib_eta
+  sib="$(_riavvia_sibling_lane)"
+  sib_visto="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.worker:riavvia:visto:$sib&limit=1" "${AUTH[@]}" 2>/dev/null | jq -r '.[0].valore // ""' 2>/dev/null || true)"
+  sib_beat="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.worker:ultimo:$sib&limit=1" "${AUTH[@]}" 2>/dev/null | jq -r '.[0].valore // ""' 2>/dev/null || true)"
+  sib_eta="$(_eta_min "$sib_beat")"
+  # spegni se: la sorella ha consumato questa pressione · oppure non c'è battito sorella · oppure è vecchio (>10 min = sorella non viva)
+  if [ "$sib_visto" = "$flag_ts" ] || [ -z "$sib_beat" ] || [ "$sib_eta" -gt "${RIAVVIA_SIBLING_ALIVE_MIN:-10}" ]; then
     curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
       -H "Prefer: resolution=merge-duplicates,return=minimal" \
       -d "{\"chiave\":\"worker:riavvia\",\"valore\":\"off\",\"updated_at\":\"$(date -Iseconds)\"}" \
       >/dev/null 2>&1 || true
-    reload_worker_sicuro "riavvio richiesto dal Pannello"
   fi
+}
+
+maybe_riavvia_da_pannello() {
+  local row valore flag_ts visto
+  row="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore,updated_at&chiave=eq.worker:riavvia&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+  valore="$(printf '%s' "$row" | jq -r '.[0].valore // ""' 2>/dev/null || true)"
+  [ "$valore" = on ] || return 0
+  flag_ts="$(printf '%s' "$row" | jq -r '.[0].updated_at // ""' 2>/dev/null || true)"
+  visto="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.worker:riavvia:visto:$WORKER_LANE&limit=1" "${AUTH[@]}" 2>/dev/null | jq -r '.[0].valore // ""' 2>/dev/null || true)"
+  if [ -n "$flag_ts" ] && [ "$flag_ts" = "$visto" ]; then
+    # questa lane ha già servito questa pressione: niente reload, provo solo a spegnere il flag (pulizia).
+    _riavvia_forse_spegni_flag "$flag_ts"
+    return 0
+  fi
+  echo "[$(ts)] Riavvio dal Pannello (pressione $flag_ts) — ricarico la lane $WORKER_LANE." >&2
+  # registro il consumo PRIMA dell'exec (così dopo il riavvio non ri-entro in loop su questa pressione).
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "$(jq -n --arg k "worker:riavvia:visto:$WORKER_LANE" --arg v "$flag_ts" --arg t "$(date -Iseconds)" '{chiave:$k, valore:$v, updated_at:$t}')" \
+    >/dev/null 2>&1 || true
+  _riavvia_forse_spegni_flag "$flag_ts"
+  reload_worker_sicuro "riavvio richiesto dal Pannello"
 }
 
 # Versione pipeline per diagnosi Pannello (legacy = agent diretto, niente push della memoria).
@@ -275,6 +312,14 @@ AUTH=("${CURL_TIMEOUT[@]}" -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization:
 #                    lo stesso lavoro. Chi resta "all" continua a gestire chat come fallback.
 WORKER_LANE="${WORKER_LANE:-all}"
 
+# 🪪 IDENTITÀ DEL WORKER (radiografia 2026-07-11, fix due-worker). I due servizi (all + chat) devono
+# distinguersi: ogni processo si dà un ID stabile per il suo ciclo di vita (lane + host + pid). Lo
+# scrive sul lavoro che prende in carico (colonna worker_owner, se il DB è migrato) → così il recupero
+# orfani sa CHI possiede un in_corso e non tocca i lavori VIVI dell'altro worker. LANE identifica il
+# servizio; host+pid rende unico anche due processi della stessa lane (improbabile ma non impossibile).
+WORKER_ID="${WORKER_LANE}:$(hostname 2>/dev/null || echo vps):$$"
+echo "[$(ts)] Worker ID: $WORKER_ID (lane: $WORKER_LANE)."
+
 if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
 else
@@ -289,10 +334,22 @@ echo "[$(ts)] Worker AD avviato (pipeline: $(worker_pipeline_tag)). Controllo la
 stamp_worker_info
 
 # Battito: il Pannello legge worker:ultimo per capire se il cervello è acceso.
+# 🫀 BATTITO PER-LANE (radiografia 2026-07-11, fix due-worker): prima ENTRAMBI i servizi scrivevano
+# solo `worker:ultimo` — così il worker-chat vivo MASCHERAVA la morte del worker principale (il Pannello
+# vedeva "acceso" mentre giro/ritmo/azioni erano fermi). Ora ogni worker batte ANCHE sulla sua chiave
+# `worker:ultimo:<lane>`, così si può vedere se UNO dei due è morto. Manteniamo `worker:ultimo` (il più
+# recente di chiunque) per retro-compatibilità col Pannello attuale; la vista per-lane è un di più che
+# il Pannello potrà mostrare. Il battito per-lane serve anche come SEGNALE DI VITA per il recupero orfani
+# (un worker vivo batte → i suoi in_corso non vanno toccati dall'altro).
 battito_worker() {
+  local now; now="$(date -Iseconds)"
   curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
     -H "Prefer: resolution=merge-duplicates,return=minimal" \
-    -d "{\"chiave\":\"worker:ultimo\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    -d "{\"chiave\":\"worker:ultimo\",\"valore\":\"$now\",\"updated_at\":\"$now\"}" \
+    >/dev/null 2>&1 || true
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:ultimo:$WORKER_LANE\",\"valore\":\"$now\",\"updated_at\":\"$now\"}" \
     >/dev/null 2>&1 || true
 }
 
@@ -625,17 +682,36 @@ _dead_letter() {
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 || true
 }
 
+# Decisione PURA per il recupero orfani (fix due-worker). Torna "lascia" (non toccare: vivo altrove o
+# entro la grazia) o "procedi" (recuperalo). Estratta per essere testabile in isolamento.
+# Args: has_owner(0/1) owner_lane my_lane eta_min grace_min soglia_orfano_min
+_orfano_decisione() {
+  local has="$1" olane="$2" mylane="$3" eta="$4" grace="$5" soglia="$6"
+  if [ "$has" = 1 ] && [ -n "$olane" ]; then
+    # DB migrato + owner noto: lascia solo se è di un'ALTRA lane ed è ancora recente (vivo/si auto-recupera).
+    if [ "$olane" != "$mylane" ] && [ "$eta" -lt "$soglia" ]; then echo lascia; return; fi
+    echo procedi; return
+  fi
+  # DB non migrato o owner assente: sola grazia-per-età (fresco → lascia in pace).
+  if [ "$eta" -lt "$grace" ]; then echo lascia; return; fi
+  echo procedi
+}
+
 # 1) ORFANI in_corso: a worker appena avviato NESSUN lavoro è in esecuzione, quindi ogni "in_corso" è un
 #    orfano (il processo che lo eseguiva è morto). Diamo UNA sola seconda chance ai freschi/leggeri; i già
 #    ritentati (marker nel risultato) o troppo vecchi → dead-letter, per rompere il crash-loop.
 recupera_lavori_orfani() {
-  local orfani row id tipo agg ris eta
-  orfani="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=id,tipo,updated_at,risultato&order=updated_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  local orfani row id tipo agg ris eta owner owner_lane sel
+  # select include worker_owner SOLO se il DB è migrato (altrimenti il REST darebbe errore colonna).
+  sel="id,tipo,updated_at,risultato"; [ "${HAS_OWNER_COL:-0}" = 1 ] && sel="$sel,worker_owner"
+  orfani="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=$sel&order=updated_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
   printf '%s' "$orfani" | jq -c '.[]?' 2>/dev/null | while read -r row; do
     id="$(printf '%s' "$row" | jq -r '.id // empty')"; [ -z "$id" ] && continue
     tipo="$(printf '%s' "$row" | jq -r '.tipo // "?"')"
     agg="$(printf '%s' "$row" | jq -r '.updated_at // empty')"
     ris="$(printf '%s' "$row" | jq -r '.risultato // ""')"
+    owner="$(printf '%s' "$row" | jq -r '.worker_owner // ""')"
+    owner_lane="${owner%%:*}"   # dal WORKER_ID "lane:host:pid" isola la LANE (stabile ai riavvii)
     eta="$(_eta_min "$agg")"
     # AR-026 (sicurezza, prima di AZIONI_LIVE): un'AZIONE REALE approvata (esegui-azione|proposta)
     # interrotta a metà NON deve MAI ripartire da sola — potrebbe essere già partita (email/payout
@@ -643,13 +719,18 @@ recupera_lavori_orfani() {
     # retry-policy.mjs (MAI auto-retry per esegui-azione) e a sentinella-lavori.mjs (orfano azione →
     # 'errore, riapprova'). Solo il worker la violava dando a TUTTI i tipi la 2ª chance. Va sempre in
     # dead-letter con nota "riapprova": la firma di Nicola dal Pannello è l'unica ripartenza lecita.
-    # 🛡️ GRAZIA (fix due-worker): un in_corso ancora FRESCO è quasi certamente VIVO sull'altro worker
-    # (worker + worker-chat girano insieme). Non toccarlo: né dead-letter (cesterebbe un'azione reale
-    # mentre parte) né 2ª chance (doppia esecuzione). Se è davvero orfano, al prossimo avvio avrà
-    # superato la grazia e rientrerà nel recupero. Va PRIMA del ramo azione: nemmeno un'azione reale
-    # freschissima va marcata «riapprova» se sta ancora girando altrove.
-    if [ "$eta" -lt "$SOGLIA_ORFANO_GRACE_MIN" ]; then
-      echo "[$(ts)] Orfano $id ($tipo, ${eta}min < grazia ${SOGLIA_ORFANO_GRACE_MIN}min): LASCIO in_corso — probabilmente vivo sull'altro worker." >&2
+    # 🛡️ CANCELLO PROPRIETÀ + GRAZIA (fix due-worker). recupera_lavori_orfani gira all'avvio: ogni
+    # in_corso è di una vita precedente (di QUALCHE worker). Non dobbiamo toccare quelli VIVI sull'ALTRO
+    # worker (worker + worker-chat girano insieme). Regola:
+    #   • DB migrato (worker_owner presente):
+    #       - owner della MIA lane → è un mio orfano (mi sono riavviato) → lo recupero subito.
+    #       - owner di un'ALTRA lane → lo lascio in pace finché è recente (< SOGLIA_ORFANO_MIN): è vivo
+    #         sull'altro worker o si auto-recupererà al suo riavvio. Lo tocco solo se è ANTICO (l'altro
+    #         worker è morto per davvero) → sblocco la coda.
+    #   • DB non migrato (owner assente): torno alla sola grazia-per-età (fresco → lascio in pace).
+    # Va PRIMA del ramo azione: nemmeno un'azione reale freschissima va marcata «riapprova» se gira altrove.
+    if [ "$(_orfano_decisione "${HAS_OWNER_COL:-0}" "$owner_lane" "$WORKER_LANE" "$eta" "$SOGLIA_ORFANO_GRACE_MIN" "$SOGLIA_ORFANO_MIN")" = lascia ]; then
+      echo "[$(ts)] Orfano $id ($tipo, ${eta}min, owner='${owner_lane:-—}'): LASCIO in_corso — vivo altrove o entro la grazia." >&2
       continue
     fi
     case " esegui-azione proposta " in
@@ -693,6 +774,20 @@ scarta_lavori_scaduti() {
     fi
   done
 }
+
+# 🪪 PROBE COLONNA OWNER (fix due-worker): il DB memoria ha la colonna worker_owner?
+# (migration pannello/sql/lavori-worker-owner.sql). Se sì, il claim marchia il lavoro col WORKER_ID e
+# il recupero orfani rispetta la proprietà (un worker non tocca gli in_corso VIVI dell'altro). Se no
+# (DB non ancora migrato), degrada alla logica di sola grazia-per-età (già sicura). Va PRIMA del
+# recupero orfani, che la usa.
+HAS_OWNER_COL=0
+_owner_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>&1 || true)"
+if ! printf '%s' "$_owner_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+  HAS_OWNER_COL=1
+  echo "[$(ts)] Proprietà lavori ON (colonna worker_owner presente) — recupero orfani per-worker."
+else
+  echo "[$(ts)] Proprietà lavori OFF (manca la migration lavori-worker-owner.sql) — recupero orfani a sola grazia-per-età." >&2
+fi
 
 recupera_lavori_orfani
 scarta_lavori_scaduti
@@ -780,8 +875,12 @@ while true; do
   #    consumer (2° worker, worker.ps1, o un lancio manuale) l'ha già presa fra il GET e qui, torna []
   #    → lo saltiamo. Senza il filtro stato=eq.in_attesa due worker eseguivano lo stesso lavoro due
   #    volte (doppio invio reale con AZIONI_LIVE=1). Niente più `|| true` che ingoiava il claim perso.
+  #    🪪 Nel claim marchiamo worker_owner=WORKER_ID (solo se il DB è migrato): così il recupero orfani
+  #    sa che questo in_corso è NOSTRO e l'altro worker non lo tocca finché siamo vivi.
+  _claim_body='{"stato":"in_corso"}'
+  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" '{stato:"in_corso", worker_owner:$o}')"
   claimed="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_attesa" "${AUTH[@]}" \
-    -H "Prefer: return=representation" -d '{"stato":"in_corso"}' 2>/dev/null || true)"
+    -H "Prefer: return=representation" -d "$_claim_body" 2>/dev/null || true)"
   if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
     echo "[$(ts)] Lavoro $id: claim perso (già preso da un altro worker o non più in_attesa) — salto." >&2
     continue
