@@ -402,19 +402,21 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Errori trovati ({nErrori})</div>
                   <div className="space-y-2">
                     {a!.errori!.map((e, i) => {
-                      const g = GRAV[e.gravita || "bassa"] || GRAV.bassa;
+                      // Il giro a volte scrive errori come stringhe semplici invece di oggetti.
+                      const err: Errore = typeof e === "string" ? { titolo: e } : (e || {});
+                      const g = GRAV[err.gravita || "bassa"] || GRAV.bassa;
                       return (
                         <div key={i} className={`rounded-xl border p-3 ${g.cls}`}>
                           <div className="flex items-center gap-2">
                             <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                             <span className="text-[10px] font-bold tracking-wide text-black/50">{g.label}</span>
-                            {e.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {e.livello_scoperta}</span>}
-                            {e.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{e.azione_presa}</span>}
+                            {err.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {err.livello_scoperta}</span>}
+                            {err.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{err.azione_presa}</span>}
                           </div>
-                          <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{e.titolo}</div>
-                          {e.dettaglio && <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{e.dettaglio}</div>}
-                          {e.riguarda && <div className="t-eti mt-1">riguarda: {e.riguarda}</div>}
-                          <ParlaCasella titolo={`Errore: ${e.titolo}`} contesto={[e.dettaglio, e.riguarda && `riguarda: ${e.riguarda}`].filter(Boolean).join(" · ")} />
+                          <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{err.titolo}</div>
+                          {err.dettaglio && <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{err.dettaglio}</div>}
+                          {err.riguarda && <div className="t-eti mt-1">riguarda: {err.riguarda}</div>}
+                          <ParlaCasella titolo={`Errore: ${err.titolo}`} contesto={[err.dettaglio, err.riguarda && `riguarda: ${err.riguarda}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
