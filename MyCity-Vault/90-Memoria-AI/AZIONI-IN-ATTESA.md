@@ -122,6 +122,48 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
+### 🟡 #antichurn-13lug — Lancia il ciclo di check-in per le 6 nuove botteghe food dopo il 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 12:15
+
+> **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md`
+>
+> **Dati reali al 11/7:** 0 negozi con ordini in calo reale. Pane Quotidiano (unico approvato) è escluso dall'anti-churn per design (aspetta la piattaforma, non è abbandono). 16 negozi demo sospesi = irrilevanti.
+
+**Questo playbook si attiva il 13/7**, dopo che Nicola ha incontrato le 6 botteghe food e le ha onboardate.
+
+**4 touch point per ogni bottega (colori esatti nel playbook):**
+
+| Giorno | Trigger | Azione | Chi |
+|---|---|---|---|
+| **T+3** (≈ mer 16/7) | 3gg dall'onboarding | WhatsApp/tel caldo: "come va?" | Nicola |
+| **T+7** (≈ dom 20/7) | 0 ordini | Chiamata check-in + ottimizzazione vetrina | Nicola |
+| **T+14** (≈ dom 27/7) | < 3 ordini | Post social bottega + boost su MyCity | AD + Nicola |
+| **T+45** (≈ 29/8) | Health score < 50 | Decisione: upsell / promozione / ritiro | Nicola 🔴 |
+
+**Le 6 botteghe e il loro aggancio principale:**
+
+| Bottega | Telefono | Aggancio anti-churn |
+|---|---|---|
+| Tigellabella | 366 162 8361 | Già su Deliveroo → "commissione 12% vs 30%" |
+| La Forchetta | [raccogliere 13/7] | Sito perso → "la tua vetrina ora funziona" |
+| Le Tre Ganasce | [raccogliere 13/7] | #4 TripAdvisor → "il #4 di Piacenza arriva a casa" |
+| Osteria Carducci | [raccogliere 13/7] | Clienti abituali → "dì ai tuoi fissi che sei online" |
+| La Dispensa | [raccogliere 13/7] | Fine dining → "box regalo vino+gastronomia" |
+| Pescatori | [raccogliere 13/7] | ⚠️ No consegna (Calendasco) → asporto/prenotazione |
+
+**Cosa faccio dopo il tuo "ok [#antichurn-13lug] + conferma quali botteghe hai firmato":**
+1. Inserisco i numeri di telefono raccolti il 13/7 nel playbook
+2. Preparo il messaggio WhatsApp T+3 personalizzato per ogni bottega (testo pronto, tu invii)
+3. Setto le date dei touch point T+7/T+14/T+45 nel calendario (scadenzario)
+
+**Cosa cambia:** ogni nuova bottega ha un ciclo di cura garantito nei primi 45 giorni — nessuno "si perde" in silenzio dopo l'onboarding.
+**Se va bene:** prima bottega con ≥ 5 ordini nei primi 14 giorni = segnale che il ciclo funziona → estendiamo il modello a tutte le future.
+
+- **Chi avvia:** Nicola dopo le visite del 13/7 con "ok #antichurn-13lug + [nomi firmati]"
+- **Canale:** WhatsApp/telefono diretto (Nicola) + AD prepara i testi pronti
+- **Colore:** 🟡 (check-in reali con persone reali — Nicola li avvia, la macchina prepara i testi)
+
+---
+
 ### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
 Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.

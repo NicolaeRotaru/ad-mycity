@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-09 11:30
+aggiornato: 2026-07-11 12:15
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -11,6 +11,36 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 > `AZIONI-IN-ATTESA.md`. Questo file resta come **dettaglio operativo** (testo esteso/anteprima di alcune
 > mosse) referenziato da lì, NON una seconda coda parallela. Quando accodi un'azione nuova, mettila in
 > `AZIONI-IN-ATTESA.md`; se serve l'anteprima lunga, linkala qui. Non duplicare lo stato di approvazione.
+
+## A4 · 🛡️ Playbook anti-churn 6 botteghe food (post 13/7)
+reparto: account-negozi
+livello: 🟡 (ogni check-in reale va avviato da Nicola)
+canale: WhatsApp/telefono diretto → poi AD prepara i testi
+perche: 6 nuove botteghe food onboardate il 13/7 — nessun ciclo di cura garantisce che non si perdano in silenzio
+preparato: account-negozi · playbook completo in `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md`
+coda: [[AZIONI-IN-ATTESA]] #antichurn-13lug
+
+### Testi T+3 (da inviare ≈ mer 16/7, WhatsApp) — pronti, da personalizzare col nome raccolto il 13/7
+
+**Tigellabella** (già su Deliveroo — aggancio commissioni):
+> "Ciao [nome]! Sono Nicola di MyCity. Come sta andando con la piattaforma? Ci sono ordini arrivati o preferite che vi aiuto a ottimizzare il profilo per partire forte questo weekend?"
+
+**La Forchetta** (sito perso → aggancio vetrina digitale):
+> "Ciao [nome]! La vostra vetrina su MyCity è online. Come vi sembra? Ci sono state le prime richieste? Se volete aggiungere foto o modificare qualcosa, ditemi pure."
+
+**Le Tre Ganasce** (#4 TripAdvisor — aggancio reputazione):
+> "Ciao [nome]! I vostri primi ordini online — come è andata? Le Tre Ganasce #4 di Piacenza devono fare il pieno anche da asporto. C'è qualcosa che posso ottimizzare nella vetrina?"
+
+**Osteria Carducci** (clientela fidelizzata — aggancio abituali):
+> "Ciao [nome]! Come vanno i primi giorni su MyCity? La vetrina è attiva. Avete detto ai vostri clienti abituali che ora possono ordinarvi anche a casa?"
+
+**La Dispensa de i Balocchi** (fine dining — aggancio box regalo):
+> "Ciao [nome]! La vetrina de La Dispensa è online. Come vi sembra la presentazione? Volevo capire se i prodotti di gastronomia e i vini vanno bene così o se volete aggiungere qualcosa."
+
+**Trattoria dei Pescatori** (⚠️ no consegna, solo asporto/prenotazione):
+> "Ciao [nome]! Come vanno le prime prenotazioni/asporto tramite MyCity? La vetrina è online — i piacentini vi trovano ora. C'è qualcosa da aggiornare (orari, menu, note)?"
+
+---
 
 ## A1 · ⛔ RITIRATA (6/7/2026 14:45) — il "bando Vita in Centro rimborso 50% materiali" NON esiste
 reparto: relazioni-istituzionali
