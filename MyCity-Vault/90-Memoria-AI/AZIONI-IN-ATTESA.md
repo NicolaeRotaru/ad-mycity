@@ -14,16 +14,16 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push con token poi il merge · aggiornata 2026-07-11 02:30
+### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push con token poi il merge · aggiornata 2026-07-11 03:00
 
 **✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
 
-**⚠️ Push fallito:** il remote di `ad-mycity/marketplace` non ha credenziali → "Invalid username or token".
+**⚠️ Push fallito:** il remote di `ad-mycity/marketplace` non ha credenziali → "Invalid username or token". Il `.env` in `ad-mycity` è in `cervello/vps/.env` (non `vps/.env`).
 
-**⏳ Passo finale rimasto — eseguire questi 3 comandi dal terminale VPS:**
+**⏳ Passo finale rimasto — eseguire questi 4 comandi dal terminale VPS:**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
-TOKEN=$(grep GIT_PUSH_TOKEN /opt/mycity/ad-mycity/vps/.env | cut -d= -f2)
+TOKEN=$(grep GIT_PUSH_TOKEN /opt/mycity/ad-mycity/cervello/vps/.env | cut -d= -f2)
 git remote set-url origin "https://NicolaeRotaru:${TOKEN}@github.com/NicolaeRotaru/mycity.git"
 git push --force-with-lease origin fix/5-bloccanti-sicurezza
 ```
