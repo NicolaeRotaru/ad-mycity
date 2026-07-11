@@ -14,11 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO da Nicola — manca solo push --force-with-lease poi il merge · aggiornata 2026-07-11 02:10
+### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push con token poi il merge · aggiornata 2026-07-11 02:30
 
-**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ Push fatto. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
+**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
 
-**⏳ Passo finale rimasto:** aggiornare il branch su GitHub e poi mergiare.
+**⚠️ Push fallito:** il remote di `ad-mycity/marketplace` non ha credenziali → "Invalid username or token".
+
+**⏳ Passo finale rimasto — eseguire questi 3 comandi dal terminale VPS:**
+```bash
+cd /opt/mycity/ad-mycity/marketplace
+TOKEN=$(grep GIT_PUSH_TOKEN /opt/mycity/ad-mycity/vps/.env | cut -d= -f2)
+git remote set-url origin "https://NicolaeRotaru:${TOKEN}@github.com/NicolaeRotaru/mycity.git"
+git push --force-with-lease origin fix/5-bloccanti-sicurezza
+```
+Dopo il push, la PR #212 sarà verde e mergiabile dal pannello GitHub.
 
 **Cosa è fixato (nei commit del branch):**
 1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
@@ -32,18 +41,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 9. `middleware.ts` — fail-closed senza variabili Supabase **(G11 chiuso)**
 10. XSS JSON-LD: escape dati venditore **(G12 chiuso)**
 
-**⏳ Passo finale — Push del branch rebasato su GitHub:**
-```bash
-cd /opt/mycity/ad-mycity/marketplace
-git push --force-with-lease origin fix/5-bloccanti-sicurezza
-```
-Dopo il push, la PR #212 sarà verde e mergiabile dal pannello GitHub.
-
 **PR:** https://github.com/NicolaeRotaru/mycity/pull/212
 **Cosa cambia:** 4 bloccanti + 8 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimborsati correttamente, coupon sicuri, newsletter conforme.
 **Se va bene:** Nicola mergia la PR → migrazioni applicate al DB → sito sicuro.
 
-- **Colore:** 🟡 (il rebase è sul codice del sito → il merge lo fai tu).
+- **Colore:** 🟡 (codice del sito → il merge lo fai tu).
 
 ---
 
