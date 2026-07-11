@@ -14,6 +14,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-conv-pin-badge — Apri PR: pin e badge "non letto" sulle conversazioni · ⏳ IN ATTESA · accodata 2026-07-12 01:27
+
+**Cosa fa:** aggiunge nella lista delle conversazioni del Pannello:
+- 📌 **graffetta (pin)** su ogni chat → clicca per fissarla in cima; clicca di nuovo per toglierla
+- 🔴 **pallino rosso (badge non letto)** → compare se l'AI ha risposto ma tu non hai ancora aperto quella chat; sparisce appena la apri
+- Tutto in localStorage: funziona subito, senza bisogno della tabella `conversazioni` nel DB
+
+**Branch locale:** `fix/conv-pin-badge-non-letto` (commit già fatto, da pushare)
+
+**Per sbloccare:** dal VPS esegui:
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --accoda
+```
+
+**Cosa cambia:** la lista chat diventa come WhatsApp — vedi subito quale ha risposte da leggere e quali hai pinnato.
+**Se va bene:** Nicola mergia la PR → deploy automatico → Pannello aggiornato.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-290-report-piani — Mergia PR #290: sezione "Report & Piani" dedicata nel sidebar · ⏳ IN ATTESA · accodata 2026-07-12 01:10
 
 **Cosa fa:** sposta "Archivio" (già rinominato da "Report") fuori dal gruppo "Approfondisci" e lo mette in una sezione autonoma "Report & Piani" nel menu laterale sinistro. Così nel sidebar vedi un'intestazione separata "Report & Piani" con il bottone "Archivio" sotto — esattamente come ha chiesto Nicola.
