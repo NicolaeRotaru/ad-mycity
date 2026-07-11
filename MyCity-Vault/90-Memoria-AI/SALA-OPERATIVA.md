@@ -837,6 +837,11 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-11 — 🔭 MONITORA (monitora.md · 11:00)
 - 2026-07-11 11:00 · @intelligence · FATTO · monitoraggio web: 9 fonti controllate (7 giornaliere + 2 settimanali scadute). Novità chiave: ① allerta temporali Arpae oggi SAB 11/7 → slot rider solo mattina; ② retail piacentino -2,3% Q1 2026 (10x peggio della media ER), previsione -6,6% Q2 → argomento di vendita diretto per visita 13/7; ③ desertificazione commerciale: -94 negozi centro storico in 13 anni, 1 su 5 a rischio 2035; ④ saldi estivi 4/7-1/9 (60gg) → angolo «saldi a casa nell'afa» per VEN 17/7; ⑤ 55 locali sfitti centro storico → lead passivi per @vendite. Aggiornati: `buchi-mercato.md`, `eventi-picchi.md`, `reputazione.md`. Radar-concorrenti e leve-uscita NON toccati (aggiornati 9/7, ≤2gg).
 
+### 2026-07-11 — ✅ SBLOCCA PANNELLO (AD · 14:48, proposta approvata da Nicola)
+- 2026-07-11 14:48 · @ad · FATTO · Commit `4d37c741` su main locale: tocca `pannello/.build-trigger` + sentinella-dati.json + routing.json. Script push `cervello/vps/trigger-build.sh` scritto e pronto.
+- 2026-07-11 14:48 · @devops-sre · SERVE · Dal terminale VPS: `cd /opt/mycity/ad-mycity && bash cervello/vps/trigger-build.sh && sudo systemctl restart mycity-worker mycity-worker-chat` — 1 comando, ~20 secondi. Il push richiede token (bloccato dal tool), il restart richiede sudo. Script è pronto, Nicola esegue.
+- 2026-07-11 14:48 · @ad · ATTESO · dopo il comando: GitHub Action `deploy-pannello.yml` scatta → Vercel builda il Pannello → worker riavviati con env fresco → `module_not_found` sparisce. Verifica: scrivi «come stai?» in chat dopo 2 minuti.
+
 ### 2026-07-11 — 🔄 SESSIONE-RIPRESA (AD · 11:19–11:47 · chiusura dopo compattazione)
 - 2026-07-11 11:19 · @supervisione · FATTO · supervisione negozi/prodotti invariata: 494 autofill in attesa firma, 34 richiedono materia prima reale (foto/descrizioni) — nessuna scrittura sul sito.
 - 2026-07-11 11:47 · @ad · FATTO · sessione-ripresa 11:47: bando ER verificato CHIUSO il 23/6/2026 (limite 350 domande, non scadenza 21/7) — aggiornati registro-fatti, AUTO-ANALISI, intenzioni-nicola, leve-uscita, AZIONI-IN-ATTESA. Dato retail LIVE confermato: −2,3% Q1 / −6,6% Q2 — aggiunte al dossier 6 botteghe. ESITO scritti nei quaderni @ad/@analista/@intelligence.

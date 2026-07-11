@@ -287,21 +287,28 @@ Fix inclusi:
 
 ---
 
-### 🟡 #worker-restart — Riavvia i worker per eliminare il module_not_found · ⏳ IN ATTESA · accodata 2026-07-11 00:00
+### 🟡 #sblocca-pannello — Push trigger-build + riavvio worker (1 comando, ~20 secondi) · ⏳ IN ATTESA · accodata 2026-07-11 14:48
 
-Il PR #251 è stato mergato e deployato, ma Nicola vede ancora `module_not_found` nella chat. Causa: i processi worker sul VPS girano ancora con l'env vecchio (senza `CERVELLO_MOTORE=claude` caricato) perché non sono stati riavviati dopo il deploy.
+**Cosa ho già fatto:** commit `4d37c741` pronto su `main` locale — tocca `pannello/.build-trigger` per far scattare la GitHub Action → Vercel builda il Pannello. Script push già scritto in `cervello/vps/trigger-build.sh`.
 
-**Opzione A — dal Pannello** (1 clic): Pannello → sezione Worker → «Riavvia worker».
+**Non riesco a fare da solo:** push su GitHub (richiede token, bloccato dal tool) + sudo restart (richiede privilegi).
 
-**Opzione B — dal terminale VPS** (~10 secondi):
+**Esegui dal terminale VPS** (~20 secondi):
 ```bash
-sudo systemctl restart mycity-worker mycity-worker-chat
+cd /opt/mycity/ad-mycity && bash cervello/vps/trigger-build.sh && sudo systemctl restart mycity-worker mycity-worker-chat
 ```
 
-**Cosa cambia:** i worker ripartono leggendo l'`.env` aggiornato con `CERVELLO_MOTORE=claude` → `module_not_found` sparisce.
-**Se va bene:** apri la chat del Pannello e scrivi «come stai?» — se rispondo normalmente, è risolto.
+Lo script fa automaticamente:
+1. `git push origin main` con il GIT_PUSH_TOKEN dal `.env`
+2. Chiama la GitHub Action `deploy-pannello.yml` via workflow_dispatch → Vercel builda il Pannello
+3. `sudo systemctl restart` riavvia entrambi i worker → `module_not_found` sparisce
 
-- **Colore:** 🟡 (riavvia un processo di produzione, senza toccare codice).
+**Verifica in 2 minuti:** vai su [pannello Vercel] e scrivi «come stai?» nella chat — se rispondo normalmente, tutto è risolto.
+
+**Cosa cambia:** Pannello online aggiornato (build con le ultime 12 modifiche) + worker con env fresco (CERVELLO_MOTORE=claude caricato).
+**Se va bene:** la Cabina è viva prima del 13/7, puoi vedere tutto prima di arrivare dalle botteghe.
+
+- **Colore:** 🟡 (push su main + riavvio worker di produzione).
 
 ---
 

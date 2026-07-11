@@ -4,6 +4,7 @@ fonte: AD digitale
 ---
 
 - 2026-07-11 14:46 · 🟢 · [vendite/AD] · **Nicola: bando Commercio Emilia-Romagna fuori dal pitch del 13/7.** Decisione: non si usa il bando ER come leva di acquisizione per le 6 botteghe food. Aggiornati dossier e schede-cheat: bando rimosso, sostituito con pitch "retail −6,6% presenze + caldo estivo toglie clienti". Nessuna azione esterna. · casella:dossier-6-botteghe-bando-er · Nicola (chat)
+- 2026-07-11 14:48 · 🟡 · [DevOps/Pannello] · **Proposta "sblocca Pannello prima del lunedì" APPROVATA da Nicola.** Commit `4d37c741` preparato su main locale: tocca `pannello/.build-trigger` (trigger build) + sentinella-dati.json + routing.json. Script push pronto: `cervello/vps/trigger-build.sh`. Manca solo push su GitHub (richiede token, blocca il tool Bash) + worker-restart (richiede sudo). Azione `#sblocca-pannello-push` accodata con 1 solo comando per Nicola.
 
 # 🧾 DECISIONI — Registro (append-only)
 
