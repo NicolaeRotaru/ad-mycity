@@ -1,14 +1,14 @@
 {
-  "data": "2026-07-09 11:15",
-  "situazione": "Refresh sul VPS a stato invariato (~11h dopo il giro pieno delle 00:20): business fermo dal 24/6 (~15,5 giorni), North Star 0, 1 negozio reale (Pane Quotidiano, payout OFF), unico ordine annullato. Delta-gate corrente==ultimo_pieno: nessuna novità di business. 4 giorni alla ripresa operativa (13/7). Radar meteo già coperto LIVE alle 00:20 (~38°C/afa → gate catena-del-freddo per il batch food del 13/7); Venerdì Piacentini 10/7 (cade prima della ripresa) e 17/7 (finestra utile per il 1° ordine). Piattaforma al sicuro (bloccanti umani a 0); resta solo SQL 107/RLS profiles (chiusura da coordinare SQL+codice). Nessuna sentinella nuova, nessuna card nuova, nessun asset pesante; loop chiusi per @ad/@intelligence/@analista.",
+  "data": "2026-07-11 08:30",
+  "situazione": "Business invariato dal 24/6: 1 negozio reale (PQ), North Star 0, stallo ~408h. 2 giorni alla ripresa operativa (13/7), 6 giorni al VEN 17/7 (target 1° ordine). Radar: ondata caldo >40°C il 15-17/7 → gate catena freddo per batch food 13/7. Pannello non buildato + worker con module_not_found: da sbloccare prima del 13/7.",
   "opportunita": [
-    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "motivo": "sblocca North Star, payout-test, recensione, referral, recupero carrello — la cascata è già in coda, gated solo sul 1° ordine reale", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Portare online 6 botteghe food il 13/7", "motivo": "407 lead mai contattati; dossier e schede-cheat pronti; è il moltiplicatore dell'offerta", "impatto": "alto", "sforzo": "medio"},
-    {"titolo": "Vetrine SEO di Pane Quotidiano già approvate", "motivo": "descrizione e indirizzo pronti; regola-standing per le botteghe che entrano dal 13/7", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Caldo 40°C il 15-17/7 = argomentazione vendita per le botteghe", "motivo": "Ondata di calore intensa dopo il batch del 13/7 → «consegna a casa fresca senza uscire» è l'argomento perfetto per il 1° ordine PQ e per convincere le 6 botteghe della visita.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Venerdì Piacentini 17/7 — finestra target per il 1° ordine", "motivo": "Ultima data VP: centro pieno la sera, cliente PQ già nel DB (carrello samir). Finestra perfetta per far nascere il 1° ordine reale.", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "407 lead negozi mai contattati — 27 food con telefono pronto", "motivo": "Nessuno di questi lead è mai stato contattato. Shortlist di 27 food già ordinata per priorità.", "impatto": "alto", "sforzo": "medio"}
   ],
   "azioni": [
-    {"titolo": "Tenere pronto il primo ordine reale su Pane Quotidiano", "motivo": "esecuzione dal 13/7, aggancio al Venerdì Piacentini del 17/7", "livello": "rosso"},
-    {"titolo": "Chiudere l'ultimo blocco di sicurezza del sito prima delle 6 botteghe", "motivo": "SQL 107/RLS profiles: unico rischio di piattaforma rimasto, da chiudere in modo coordinato SQL+codice", "livello": "giallo"},
-    {"titolo": "Dare un'occhiata di 30 secondi al Pannello online", "motivo": "verificare che «Vault GitHub» sia verde dopo il push del 7/7; se rosso serve il token Vercel", "livello": "giallo"}
+    {"titolo": "Sblocca il Pannello prima del 13/7 (trigger-build + worker-restart)", "motivo": "Il Pannello online è fermo al 10/7 e il worker mostra module_not_found. Servono 2 azioni rapide prima che Nicola arrivi dalle botteghe.", "livello": "giallo"},
+    {"titolo": "Mergia i 37 fix di sicurezza (PR #212)", "motivo": "4 bloccanti sicurezza aperti sul sito live. Serve solo un nuovo PAT con scope mycity per completare il push.", "livello": "giallo"},
+    {"titolo": "Visita le 6 botteghe food il 13/7 (dossier stampabile pronto)", "motivo": "Prima tappa della ripresa operativa. Dossier + schede-cheat tascabili già pronti.", "livello": "giallo"}
   ]
 }

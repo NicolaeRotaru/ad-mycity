@@ -826,3 +826,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-11 06:01 · @onboarding-negozi · FACCIO · verifica dossier 6 botteghe (`consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md`) leggibile e stampabile per visita di persona del 13/7.
 - 2026-07-11 06:01 · @analista · FATTO · baseline invariata (stallo ~417h): nessun giro pieno inutile oggi — delta-gate sorveglia, bandiera immediata se arriva un ordine nuovo.
 - 2026-07-11 06:01 · @ad · SERVE · Da Nicola: 🔴 PAT NicolaeRotaru/mycity (Contents R/W) per sbloccare PR #212 · 🟡 `ok #trigger-build-pannello` · 🟡 `ok #worker-restart` · 🔴 decisione logistica (ritiro-prima vs aspetta-bici) · 🟡 aggiungi "Bash(git push origin fix/*:*)" in settings.local.json per chip ChatCasella.
+
+### 2026-07-11 — 🔭 GIRO PIENO (AD · 08:30)
+- 2026-07-11 08:30 · @ad · FACCIO · giro pieno 11/7: radar live (meteo+eventi), briefing, CHECKLIST rigenerata (AR-030 chiuso), intelligence aggiornata, 7 file scritti
+- 2026-07-11 08:30 · @intelligence · FATTO · radar meteo LIVE: ondata caldo >40°C il 15-17/7 → gate catena freddo batch 13/7; VP 17/7 confermato (target 1° ordine); Fiorella Mannoia 13/7 (micro-presidio). Aggiornato `Intelligence/eventi-picchi.md`
+- 2026-07-11 08:30 · @analista · FATTO · 7 numeri invariati dal 24/6: North Star 0, stallo ~408h ≈ 17 giorni. Baseline REST 06:20 (sensori ok). MCP execute_sql non autorizzato → 0 numeri inventati. 2 giorni alla ripresa 13/7, 6 giorni al VEN 17/7
+- 2026-07-11 08:30 · @ad · FATTO · Briefing `90-Memoria-AI/Briefing/2026-07-11.md` + CHECKLIST-NICOLA rigenerata (AR-030) + ultimo-briefing.json + intenzioni-nicola + AUTO-ANALISI + eventi-picchi + registro-realta + SALA-OPERATIVA
+- 2026-07-11 08:30 · @ad · SERVE · Da Nicola: 🟡 sblocca Pannello (trigger-build + worker-restart) prima del 13/7 · 🟡 crea PAT Contents R/W NicolaeRotaru/mycity per PR #212 · 🟡 gate catena freddo con PQ per caldo 40°C il 15-17/7 · ⏰ bando ER scade 21/7 → decisione entro ~15/7

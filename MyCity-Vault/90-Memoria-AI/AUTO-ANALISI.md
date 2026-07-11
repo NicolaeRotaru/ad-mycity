@@ -1,8 +1,37 @@
 ---
-data: 2026-07-09 11:15
+data: 2026-07-11 08:30
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
+
+# 🔬 Auto-analisi — Cancello di serietà (11/7 08:30)
+
+> Voto di fiducia: **88/100** · Business invariato dal 24/6 · 0 numeri inventati · AR-030 chiuso
+
+## Verdetto
+
+Giro pieno onesto. Baseline REST 06:20 confermata. 0 asset pesanti su entità non confermate. CHECKLIST rigenerata (AR-030). Loop chiusi per reparti attivi.
+
+## Entità verificate
+
+| Entità | Stato | Fondamento |
+|---|---|---|
+| Pane Quotidiano | `confermato` | REST 06:20 + MCP live 7/7 |
+| Casa Linda | `demo` | Nicola 1/7 |
+| Garetti | `scelta_ragionata` | Gap mercato + Albo Botteghe — prospect |
+| VP 17/7 | `confermato` | Comune Piacenza |
+| Ondata calore 15-17/7 | `confermato` | 3BMeteo + iLMeteo 11/7 |
+
+## Domande bloccanti
+
+1. Trigger-build Pannello + worker-restart (prima del 13/7)
+2. PAT NicolaeRotaru/mycity per PR #212
+3. Gate catena freddo con PQ per caldo 40°C il 15-17/7
+4. Bando ER scade 21/7 — decisione entro ~15/7
+
+---
+
+
 
 # 🔬 Auto-analisi del giro — 9 luglio 2026 11:15 (VPS · refresh, stato invariato)
 

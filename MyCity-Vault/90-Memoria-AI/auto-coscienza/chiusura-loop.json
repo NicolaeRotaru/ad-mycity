@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-10 22:20",
+  "aggiornato": "2026-07-11 06:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
@@ -51,7 +51,7 @@
       "reparto": "ad",
       "righe_esito": 6,
       "ultimo_esito": "2026-07-09 11:15",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -59,7 +59,7 @@
       "reparto": "ads-performance",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -67,7 +67,7 @@
       "reparto": "ai-copywriter",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -75,7 +75,7 @@
       "reparto": "ai-designer",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -83,7 +83,7 @@
       "reparto": "ai-video",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -91,7 +91,7 @@
       "reparto": "analista",
       "righe_esito": 11,
       "ultimo_esito": "2026-07-09 11:15",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -99,7 +99,7 @@
       "reparto": "backend-dev",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -115,7 +115,7 @@
       "reparto": "contabilita",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -123,7 +123,7 @@
       "reparto": "content-social",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-03",
-      "giorni_fa": 7,
+      "giorni_fa": 8,
       "vuoto": false,
       "fermo": true
     },
@@ -139,7 +139,7 @@
       "reparto": "cro",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -147,7 +147,7 @@
       "reparto": "customer-success",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -155,7 +155,7 @@
       "reparto": "data-engineer",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -163,7 +163,7 @@
       "reparto": "designer",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -171,7 +171,7 @@
       "reparto": "devops-sre",
       "righe_esito": 29,
       "ultimo_esito": "2026-07-10 17:03",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -187,7 +187,7 @@
       "reparto": "dispatch",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -195,7 +195,7 @@
       "reparto": "dispute",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -219,7 +219,7 @@
       "reparto": "growth-monetizzazione",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -227,7 +227,7 @@
       "reparto": "influencer-partnership",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -235,7 +235,7 @@
       "reparto": "intelligence",
       "righe_esito": 7,
       "ultimo_esito": "2026-07-09 11:15",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -251,7 +251,7 @@
       "reparto": "marketing",
       "righe_esito": 1,
       "ultimo_esito": "2026-06-24",
-      "giorni_fa": 16,
+      "giorni_fa": 17,
       "vuoto": false,
       "fermo": true
     },
@@ -259,7 +259,7 @@
       "reparto": "onboarding-negozi",
       "righe_esito": 5,
       "ultimo_esito": "2026-07-03",
-      "giorni_fa": 7,
+      "giorni_fa": 8,
       "vuoto": false,
       "fermo": true
     },
@@ -275,7 +275,7 @@
       "reparto": "pr-stampa",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -283,7 +283,7 @@
       "reparto": "product-manager",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -315,7 +315,7 @@
       "reparto": "relazioni-istituzionali",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-06 14:20",
-      "giorni_fa": 4,
+      "giorni_fa": 5,
       "vuoto": false,
       "fermo": false
     },
@@ -323,7 +323,7 @@
       "reparto": "rider-fleet",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -331,7 +331,7 @@
       "reparto": "security",
       "righe_esito": 7,
       "ultimo_esito": "2026-07-07 11:28",
-      "giorni_fa": 3,
+      "giorni_fa": 4,
       "vuoto": false,
       "fermo": false
     },
@@ -339,7 +339,7 @@
       "reparto": "seo",
       "righe_esito": 5,
       "ultimo_esito": "2026-07-06 16:08",
-      "giorni_fa": 4,
+      "giorni_fa": 5,
       "vuoto": false,
       "fermo": false
     },
@@ -347,7 +347,7 @@
       "reparto": "supporto",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -363,7 +363,7 @@
       "reparto": "trust-safety",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -371,7 +371,7 @@
       "reparto": "ux-designer",
       "righe_esito": 1,
       "ultimo_esito": "2026-07-01",
-      "giorni_fa": 9,
+      "giorni_fa": 10,
       "vuoto": false,
       "fermo": true
     },
@@ -379,7 +379,7 @@
       "reparto": "vendite",
       "righe_esito": 8,
       "ultimo_esito": "2026-07-06 16:35",
-      "giorni_fa": 4,
+      "giorni_fa": 5,
       "vuoto": false,
       "fermo": false
     }

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
-  "aggiornato": "2026-07-10 22:20",
+  "aggiornato": "2026-07-11 06:20",
   "conteggi": {
     "negozi": 17,
     "negozi_approvati": 1,
@@ -55,7 +55,7 @@
       "n": 1
     }
   ],
-  "report": "consegne/supervisione/2026-07-10-supervisione.md",
+  "report": "consegne/supervisione/2026-07-11-supervisione.md",
   "storia": [
     {
       "quando": "2026-07-06 16:20",
@@ -411,6 +411,14 @@
     },
     {
       "quando": "2026-07-10 22:20",
+      "negozi": 17,
+      "negozi_approvati": 1,
+      "prodotti": 258,
+      "autofill_proposte": 494,
+      "da_procurare": 34
+    },
+    {
+      "quando": "2026-07-11 06:20",
       "negozi": 17,
       "negozi_approvati": 1,
       "prodotti": 258,

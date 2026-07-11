@@ -1,50 +1,53 @@
 {
-  "data": "2026-07-09 11:15",
-  "voto_fiducia": 86,
-  "trend_fiducia": "= 86: refresh sul VPS a stato invariato (~11h dopo il pieno delle 00:20), onesto — delta-gate corrente==ultimo_pieno, 0 numeri ri-misurati a vuoto, radar giornaliero già coperto LIVE alle 00:20 (non ri-aperto: cadenza rispettata), nessun asset pesante. Chiuso il gate chiusura-loop (ESITO per @ad/@intelligence/@analista). Nessun fatto gonfiato.",
-  "sintesi": "Refresh sul VPS dopo il prelude di giro.sh (sensori 11:07). Stato business IDENTICO dal 24/6: 1 negozio reale (PQ, payout OFF), 1 ordine annullato, North Star 0, stallo ~15,5 giorni. Baseline REST (sensori 11:07, supabase_rest=ok, dati_ordini_ciechi=false) + conferma MCP live 00:30/7/7 (MCP execute_sql/node gated in sessione → 0 numeri ri-misurati a vuoto, 0 inventati). Delta-gate corrente==ultimo_pieno: nessuna novità di business. 4 giorni alla ripresa operativa (13/7). Radar meteo già verificato LIVE alle 00:20 (~38°C/afa), non ri-aperto a 11h (cadenza giornaliera rispettata). Nessuna card nuova (anti-doppione), nessun asset pesante (vincolo allocazione HARD rispettato). Loop chiusi per i 3 reparti con FATTO oggi.",
+  "data": "2026-07-11 08:30",
+  "voto_fiducia": 88,
+  "trend_fiducia": "= 88: giro pieno 11/7 mattino dopo 43h dall'ultimo pieno (9/7 11:15). MCP marketplace gated (non approvato in sessione) → baseline REST 06:20 + conferma MCP live 7/7 00:30. Radar meteo LIVE (agente intelligence). 0 numeri inventati. 0 asset pesanti su entità non confermate. Vincolo AR-030 chiuso (CHECKLIST rigenerata). Loop chiusi @ad/@intelligence/@analista.",
+  "sintesi": "Giro pieno 11/7 08:30. Business invariato dal 24/6: North Star 0, stallo ~408h. 2 giorni alla ripresa operativa (13/7), 6 giorni al VEN 17/7 (target 1° ordine PQ). Radar: ondata caldo >40°C il 15-17/7 → gate catena freddo per batch food 13/7. Sentinelle: dispersione North Star + AR-030 (checklist stantia). Vincoli giro: allocazione HARD rispettato (0 asset pesanti su entità non confermate), AR-030 chiuso (checklist rigenerata), loop chiusi.",
   "verifiche": [
-    "Entità: nessuna nuova introdotta. Pane Quotidiano confermato (unico reale, firma REST invariata dal 24/6); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità declassata. Le entità evento-esterno (VP, Sant'Antonino) sono passate ma restano storia coerente.",
-    "Numeri: baseline REST (sensori 11:07: ordini=1 annullato, ultimo 24/6 08:28, 23 clienti, dati_leggibili=true); i 4 numeri non-REST = conferma live MCP 00:30 (7/7), NON ri-misurati ora (MCP execute_sql gated) e dichiarati come tali — zero numeri inventati. Stallo ~15,5gg (~355h) coerente col conteggio dal 24/6 08:28.",
-    "Radar (cadenza giornaliera peso≥4): meteo già VERIFICATO LIVE alle 00:20 (nuova ondata di calore ~38°C, afa) → in eventi-picchi.md. Non ri-aperto a 11h: WebSearch gated + risparmio Max a business fermo, cadenza rispettata. Fattori settimanali NON dovuti oggi.",
-    "Sentinelle: nessuna scattata; PQ non è churn (attesa concordata, Nicola li conosce); alert Pannello '1 annullata' = ordine zombie #16 già gestito. Coerente con la memoria.",
-    "Allocazione (vincolo HARD ricevuto da allocazione-check rc=1): nessun asset pesante prodotto; lo sbilanciamento è storico (Garetti prospect ≥3 asset, PQ confermato payout OFF) → rispettato, solo memoria e loop.",
-    "Chiusura-loop (vincolo HARD ricevuto da chiusura-loop --gate rc=1): registrato ESITO+scorecard per @ad/@intelligence/@analista (i reparti con FATTO in SALA oggi) nei quaderni memoria-squadra/ → gate soddisfatto.",
-    "Coerenza fatti: nessun fatto-chiave cambiato questo giro. Registro-fatti coerente. Guardiano coerenza-fatti girato nel prelude di giro.sh (nessun vincolo 'MEMORIA INCOERENTE' ricevuto)."
+    "Entità: nessuna nuova. PQ confermato (unico reale, firma REST 06:20 invariata dal 24/6); Casa Linda demo esclusa; Garetti scelta_ragionata (prospect non firmato, asset pesanti congelati). Nessuna entità declassata.",
+    "Numeri: baseline REST 11/7 06:20 (supabase_rest=ok, dati_ordini_ciechi=false: ordini=1 annullato, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) + conferma MCP live 7/7 00:30. MCP execute_sql non approvato in questa sessione → 4 numeri non-REST non ri-misurati → dichiarato nei Gap. 0 numeri inventati. Stallo ~408h coerente col conteggio dal 24/6 08:28 al 11/7 08:30.",
+    "Radar: meteo LIVE verificato (agente intelligence con WebSearch) — 11-13/7: 23-35°C; 15-17/7: ondata >40°C → gate catena freddo. Venerdì Piacentini 17/7 confermato. Fattori settimanali non ri-verificati (risparmio token a business fermo, cadenza rispettata).",
+    "Sentinelle: dispersione North Star (17 giorni) → SCATTATA, già nota, 0 asset pesanti rispettato. Checklist stantia (AR-030) → CHIUSA con rigenerazione CHECKLIST-NICOLA.md.",
+    "Allocazione (vincolo HARD): 0 asset pesanti prodotti su entità non confermate. Sbilanciamento storico (Garetti ≥3 vs PQ confermato) → invariato, non aggravato.",
+    "Chiusura-loop (vincolo HARD): ESITO registrato per @ad/@intelligence/@analista (i reparti con FATTO in questo giro) nei quaderni memoria-squadra. Gate soddisfatto.",
+    "Coerenza fatti: nessun fatto-chiave cambiato in questo giro. Guardiano coerenza-fatti girato in giro.sh prima del giro (nessun vincolo 'MEMORIA INCOERENTE' ricevuto)."
   ],
   "errori": [
-    "MCP marketplace gated in questa sessione (permessi non concessi): i 4 numeri non-REST non ri-misurati ora → segnalato nei Gap, non spacciato per lettura fresca.",
-    "node/bash gated in sessione: i guardiani deterministici (verifica-automazione, coerenza-fatti, chiusura-loop.mjs, sonda-volano) non ri-eseguiti da me → girano nel wrapper giro.sh; loop chiusi scrivendo direttamente i quaderni. Da confermare al prossimo giro con shell aperta."
+    "MCP marketplace non approvato in questa sessione: i 4 numeri non-REST non ri-misurati oggi → dichiarato nei Gap, non spacciato per lettura fresca.",
+    "node/bash non eseguibili in questa sessione: guardiani deterministici (verifica-automazione, sonda-volano, chiusura-loop.mjs) non ri-eseguiti da me → girano nel wrapper giro.sh; loop chiusi scrivendo direttamente i quaderni."
   ],
   "risposte_registrate": [
-    "Nessuna nuova risposta/correzione di Nicola in questa sessione (l'ultima assorbita: R2 «l'ho fatto» 7/7 13:35)."
+    "Nessuna nuova risposta/correzione di Nicola in questa sessione (ultima assorbita: Nicola 10/7 conferma chip visibili in ParlaCasella ma non in ChatCasella)."
   ],
   "domande_per_nicola": [
-    "Mi dai il grant MCP write (o lancio un giro VPS autorizzato) per chiudere SQL 107/RLS profiles prima del batch botteghe del 13/7?",
-    "Dopo la revoca del PAT, il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → #55)",
-    "Dal 13/7 diamo il via al post 'Il Turno' sul Venerdì del 17/7 + lista d'attesa per far nascere il 1° ordine vero su PQ?"
+    "Trigger-build Pannello (#trigger-build-pannello): lo faccio io con git push origin main (nell'allowlist) oppure lo fai tu?",
+    "Worker-restart (#worker-restart): dal Pannello (clic) oppure sudo systemctl restart mycity-worker mycity-worker-chat?",
+    "PR #212: crea PAT con Contents R/W su NicolaeRotaru/mycity per permettermi di completare il push + mergia PR #212.",
+    "Chip chat normale (#chip-chat-normale): aggiungi 'Bash(git push origin fix/*:*)' in .claude/settings.local.json.",
+    "Bando ER 21/7: decidi entro ~15/7 se candidare le botteghe del 13/7 — mail Hub Urbano dopo la 1ª bottega online.",
+    "Gate catena freddo: PQ ha borse termiche per il batch 13/7? Il caldo 40°C arriva il 15-17/7."
   ],
   "punti_ciechi": [
-    "MCP marketplace gated in sessione (i 4 numeri non-REST = conferma live del 7/7, non ri-misurati)",
-    "Stripe non configurato per payout/incassi (cassa/runway non misurabili — 'non_configurato', non cieco; runway sconosciuto)",
-    "PostHog assente (visite sito non lette; proxy: activity_events=12/7g dal notturno 7/7)",
+    "MCP marketplace non approvato in sessione (i 4 numeri non-REST = conferma live del 7/7, non ri-misurati)",
+    "Stripe non configurato per payout/incassi (cassa/runway non misurabili — 'non_configurato')",
+    "PostHog assente (visite sito non lette; spento da Nicola 5/7)",
     "Uptime storefront non monitorato (MARKETPLACE_SITE_URL assente)",
-    "Autocontrollo automazione non eseguito da me (node gated) → non so da qui se il timer degli 'occhi' sentinella-dati è attivo"
+    "Autocontrollo automazione non eseguito (node gated) → non so se il timer sentinella-dati è attivo"
   ],
   "miglioramenti_prossimo_giro": [
-    "Se torna il grant MCP marketplace o un giro con node aperto → ri-misurare i 4 numeri non-REST dal vivo e confermare l'esito di verifica-automazione",
-    "Confermare che i guardiani deterministici passino (exit 0) quando la shell è aperta",
-    "Al 13/7 (ripresa): passare da manutenzione a esecuzione — attivare la spinta di domanda su PQ per il VEN 17/7"
+    "Al 13/7 (ripresa): passare da manutenzione a esecuzione — attivare la spinta di domanda su PQ per il VEN 17/7",
+    "Se MCP marketplace viene approvato in sessione: ri-misurare i 4 numeri non-REST dal vivo",
+    "Confermare che i guardiani deterministici passino (exit 0) quando la shell è aperta (verifica-automazione, sonda-volano)"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok",
-    "mcp_supabase": "cieco (in sessione — gated)",
-    "stripe": "ok (balance API), ma STRIPE_SECRET_KEY per payout non collegata → cassa/runway sconosciuti",
+    "supabase_rest": "ok (baseline 11/7 06:20)",
+    "mcp_supabase": "cieco in sessione (non approvato dai permessi)",
+    "stripe": "ok (balance API), ma STRIPE_SECRET_KEY non collegata → cassa/runway sconosciuti",
     "resend": "ok",
     "posthog": "non_configurato (spento da Nicola 5/7)",
     "sito_uptime": "non_configurato",
-    "loop_business": "aperto (0 transazioni reali; #16 annullato)",
-    "voto_salute_architettura": 55,
-    "cantiere_difetti": "34 difetti chiusi (sonda) · R1+R2 FATTI → bloccanti umani a 0 · resta SQL 107/RLS + residui non bloccanti (sentinella-fonti da cablare, sensore-cassa cieco, quaderni mancanti)"
+    "loop_business": "aperto (0 transazioni reali; #16 annullato; 1° ordine da creare ex-novo VEN 17/7)",
+    "voto_salute_architettura": 75,
+    "cantiere_difetti": "42 difetti chiusi · AR-006 in-corso (materia prima PQ) · 1 bloccante umano (PR #212 manca PAT) · radiografia 80h fa (ok, <240h)"
   }
 }
