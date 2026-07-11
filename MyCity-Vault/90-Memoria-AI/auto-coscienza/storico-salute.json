@@ -7,14 +7,6 @@
       "difetti_aperti": 0,
       "difetti_chiusi": 18,
       "tipo": "sonda",
-      "nota": "Passaggio 17:21 (delta 12 min): UNA novità reale (decisione #16 RISOLTA → esegui, cena 19–21), resto invariato. Live gated (sonda-volano.mjs non eseguibile in sessione). Voto 42 = (cantiere fermo: 18 chiusi, 4 in-corso). Ulteriore conferma pratica di AR-019 (delta-gate) da chiudere: giri ravvicinati con novità minima."
-    },
-    {
-      "data": "2026-07-02",
-      "voto_salute": 42,
-      "difetti_aperti": 0,
-      "difetti_chiusi": 18,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 1h fa · sensori max cecità 1"
     },
     {
@@ -1118,6 +1110,20 @@
       "bloccanti_umani": 1,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    },
+    {
+      "data": "2026-07-11",
+      "voto_salute": 51,
+      "voto_provvisorio": 75,
+      "voto_pieno": 75,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 42,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 1,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (8h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     }
   ]
 }

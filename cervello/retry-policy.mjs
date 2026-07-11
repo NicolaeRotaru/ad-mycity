@@ -44,8 +44,14 @@ export const MAX_ATTESA_QUOTA_MS = MAX_ATTESA_QUOTA_MIN * 60 * 1000;
 // Esportata: è la fonte UNICA dei tipi "pre-esecuzione" (sicuri da rifare). La riusa anche
 // sentinella-lavori.mjs per decidere quali orfani ri-accodare, così la lista non si sdoppia
 // e non dimentica più le cadenze ritmo-* (era la causa dei giro/ritmo marcati "errore" a metà).
+// ⚠️ 'proposta' NON è qui (radiografia 2026-07-11, difetto B3): il worker le arma le mani (ramo
+// generico, AI_ALLOW_ACTIONS=1 → può chiamare esegui-azione.mjs) e sia il worker sia sentinella-lavori
+// la trattano come AZIONE REALE (orfano → «riapprova»). Se la classificassimo pre-esecuzione qui, un
+// timeout su una proposta la farebbe RI-ESEGUIRE in automatico → rischio doppio invio. Coerenza col
+// resto: mai auto-retry, va al «Riprova» manuale di Nicola. (Se un giorno 'proposta' avrà un prompt
+// SOLO-bozza senza mani, la si potrà rimettere qui.)
 export const TIPI_PRE_ESECUZIONE = new Set([
-  "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "proposta", "rifiuta-azione",
+  "giro", "chat", "metabolizza", "analisi", "playbook", "risposta", "rifiuta-azione",
   "ritmo-mattino", "ritmo-mezzogiorno", "ritmo-sera", "ritmo-settimana",
 ]);
 // L'UNICO tipo che aziona davvero le mani 🔴 (email/payout via esegui-azione.mjs):
