@@ -14,11 +14,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — PR #212 aperta (fix/5-bloccanti-sicurezza → main) ma ha CONFLITTI di merge · Serve rebase dal terminale VPS · aggiornata 2026-07-11 01:45
+### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO da Nicola — manca solo push --force-with-lease poi il merge · aggiornata 2026-07-11 02:10
 
-**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ Push fatto. ✅ PR #212 aperta su GitHub.
+**✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ Push fatto. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
 
-**⚠️ Problema attuale:** PR #212 ha conflitti di merge — `main` è avanzato dal 1/7 (data del commit Sprint 1 nel branch). GitHub non riesce a mergiarla in automatico.
+**⏳ Passo finale rimasto:** aggiornare il branch su GitHub e poi mergiare.
 
 **Cosa è fixato (nei commit del branch):**
 1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
@@ -32,16 +32,12 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 9. `middleware.ts` — fail-closed senza variabili Supabase **(G11 chiuso)**
 10. XSS JSON-LD: escape dati venditore **(G12 chiuso)**
 
-**⏳ Passo da fare — Rebase per risolvere i conflitti:**
+**⏳ Passo finale — Push del branch rebasato su GitHub:**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
-git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace
-git fetch origin
-git rebase origin/main
-# risolvere eventuali conflitti, poi:
 git push --force-with-lease origin fix/5-bloccanti-sicurezza
 ```
-Dopo il rebase, la PR #212 sarà verde e mergiabile.
+Dopo il push, la PR #212 sarà verde e mergiabile dal pannello GitHub.
 
 **PR:** https://github.com/NicolaeRotaru/mycity/pull/212
 **Cosa cambia:** 4 bloccanti + 8 gravi chiusi. Clienti protetti (GDPR, RLS), vendor rimborsati correttamente, coupon sicuri, newsletter conforme.
