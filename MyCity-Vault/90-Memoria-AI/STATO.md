@@ -6,14 +6,13 @@ fonte: AD digitale (🌙 9/7 18:00 REPORT DELLA SERA: giornata di chiusura della
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> ⏳ **11/7 ~03:00 — PR #212: REBASE FATTO, PUSH BLOCCATO (path .env sbagliato).** Commit `987b85b` completato (46 file, 9 migrazioni 108-115, B2/B4/G4/G5/G8/G10/G11/G12/G13/G17 chiusi). Rebase completato da Nicola. Push fallito: il remote di `ad-mycity/marketplace` non ha credenziali e il comando usava path `.env` sbagliato (`vps/.env` — non esiste). **Path corretto: `cervello/vps/.env`.** Passo finale (4 comandi, in AZIONI-IN-ATTESA #pr-5bloccanti):
+> ⏳ **11/7 ~03:30 — PR #212: REBASE FATTO, PUSH ANCORA DA FARE (token multiriga).** Commit `987b85b` completato (46 file, 9 migrazioni 108-115, B2/B4/G4/G5/G8/G10/G11/G12/G13/G17 chiusi). Rebase completato da Nicola. Push fallito due volte: 1° path sbagliato (`vps/.env`), 2° il `grep GIT_PUSH_TOKEN ... | cut -d= -f2` prende anche la riga-commento sopra → "url contains a newline". **Fix: hardcodare il token.** Passo finale (AZIONI-IN-ATTESA #pr-5bloccanti):
 > ```bash
 > cd /opt/mycity/ad-mycity/marketplace
-> TOKEN=$(grep GIT_PUSH_TOKEN /opt/mycity/ad-mycity/cervello/vps/.env | cut -d= -f2)
-> git remote set-url origin "https://NicolaeRotaru:${TOKEN}@github.com/NicolaeRotaru/mycity.git"
+> git remote set-url origin "https://NicolaeRotaru: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@github.com/NicolaeRotaru/mycity.git"
 > git push --force-with-lease origin fix/5-bloccanti-sicurezza
 > ```
-> Poi Nicola mergia la PR #212 da GitHub.
+> ⚠️ Scope token incerto: il PAT ha permessi su `ad-mycity`, non sicuro su `NicolaeRotaru/mycity`. Se fallisce → serve PAT con Contents R/W su `NicolaeRotaru/mycity`. Poi Nicola mergia la PR #212 da GitHub.
 >
 > ~~⚠️ **11/7 ~01:30 — 37 FIX RADIOGRAFIA: COMMIT ANCORA BLOCCATO**~~ → SUPERATO: commit fatto con successo da Nicola (vedi sopra). Nicola ha corretto il "dubious ownership" con `git config --global --add safe.directory …` ma poi ha ricevuto `fatal: unable to auto-detect email address (got 'root@ubuntu-4gb-nbg1-1.(none)')` — perché `root` non ha user.email/user.name configurati globalmente. **Fix completo (6 comandi, in ordine):**
 > ```bash

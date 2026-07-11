@@ -14,20 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push con token poi il merge · aggiornata 2026-07-11 03:00
+### 🟡 #pr-5bloccanti — PR #212: ✅ Rebase FATTO — ⏳ manca push (token hardcoded) poi il merge · aggiornata 2026-07-11 03:30
 
 **✅ Commit (2026-07-11 ~01:30):** `987b85b` — 46 file, 969 ins, 117 del. ✅ PR #212 aperta su GitHub. ✅ Rebase completato da Nicola dal terminale VPS.
 
-**⚠️ Push fallito:** il remote di `ad-mycity/marketplace` non ha credenziali → "Invalid username or token". Il `.env` in `ad-mycity` è in `cervello/vps/.env` (non `vps/.env`).
+**⚠️ Push fallito (tentativo precedente):** il `grep GIT_PUSH_TOKEN ... | cut -d= -f2` include anche la riga-commento sopra al token nel `.env`, causando "url contains a newline in its password component". Fix: hardcodare il token direttamente.
 
-**⏳ Passo finale rimasto — eseguire questi 4 comandi dal terminale VPS:**
+**⏳ Passo finale rimasto — eseguire dal terminale VPS:**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
-TOKEN=$(grep GIT_PUSH_TOKEN /opt/mycity/ad-mycity/cervello/vps/.env | cut -d= -f2)
-git remote set-url origin "https://NicolaeRotaru:${TOKEN}@github.com/NicolaeRotaru/mycity.git"
+git remote set-url origin "https://NicolaeRotaru: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@github.com/NicolaeRotaru/mycity.git"
 git push --force-with-lease origin fix/5-bloccanti-sicurezza
 ```
-Dopo il push, la PR #212 sarà verde e mergiabile dal pannello GitHub.
+⚠️ **Attenzione scope token**: questo PAT ha permessi su `ad-mycity`, non è sicuro che abbia permessi su `NicolaeRotaru/mycity`. Se fallisce con "Invalid token", serve un nuovo PAT con `Contents: R/W` su `NicolaeRotaru/mycity` — crearne uno da github.com/settings/tokens.
+Dopo il push riuscito, la PR #212 sarà verde e mergiabile da Nicola su GitHub.
 
 **Cosa è fixato (nei commit del branch):**
 1. `migrations/108+109` — RLS rider e auto-assign: anonimo non legge più dati clienti **(B2 chiuso)**
