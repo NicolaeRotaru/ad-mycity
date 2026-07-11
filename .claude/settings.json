@@ -62,8 +62,22 @@
       "mcp__claude_ai_Vercel__get_project"
     ],
     "deny": [
-      "Bash(git push*main*)",
-      "Bash(*api.github.com*)"
+      "Bash(git push:*)",
+      "Bash(gh:*)",
+      "Bash(*api.github.com*)",
+      "Read(./cervello/vps/.env)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(./cervello/vps/.env)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Write(./cervello/vps/.env)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Edit(./.claude/settings.json)",
+      "Write(./.claude/settings.json)",
+      "Edit(./.claude/settings.local.json)",
+      "Write(./.claude/settings.local.json)"
     ]
   }
 }
