@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **12/7 01:00 — PR #287 aperta: sostituzione pulita di #284 (Archivio rename, zero conflitti).** Nicola ha corretto che la PR da analizzare era la #284 (non la #286). Branch `feat/archivio-v2` con sole 2 righe cosmétiche (label + icona), nessun file worker → zero conflitti. PR #284 da chiudere. In attesa merge Nicola. Fonte: chat Nicola 12/7 01:00.
+>
 > 💬 **12/7 00:26 — PR #286 ha conflitti → branch pulito `fix/chat-fluttuante-chiudi-fuori-v2`, commit locale pronto.** Screenshot #955 di Nicola mostrava conflitti su `sentinella-dati.json`+`routing.json`. Nuovo branch senza quei file, solo `page.tsx` modificato (4 righe overlay). Serve approvazione push + nuova PR. PR #286 da chiudere. Azione `#pr-chat-fluttuante-v2` aggiornata. Fonte: chat Nicola 12/7 00:26.
 >
 > 💬 **12/7 00:12 — PR #285 aperta: fix screenshot — path spostato da /tmp/ a .allegati-chat/.** Gli screenshot mandati da Nicola via chat del Pannello finivano in /tmp/ (inaccessibile all'AD). PR #285 sposta il download in .allegati-chat/ dentro il progetto; dopo il merge l'AD legge gli screenshot direttamente. In attesa merge Nicola. Fonte: chat Nicola 12/7 00:12.
