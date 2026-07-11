@@ -34,6 +34,8 @@ cervello/vps/.giro-force
 # (Il 10/7 un _tmp_create_pr.mjs improvvisato da una chat era finito committato dallo spazzino del ritmo.)
 _tmp_*
 **/_tmp_*
+# Screenshot e allegati chat scaricati dal worker (temporanei, mai committare)
+.allegati-chat/
 
 # Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
 # `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.

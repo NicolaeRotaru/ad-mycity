@@ -445,7 +445,7 @@ salva_sessione_chat() {   # $1 = gruppo_id, $2 = session id (vuoto = non salvare
 prepara_allegati_chat() {
   local testo="$1"
   printf '%s' "$testo" | grep -q '@ALLEGATO ' || return 0
-  local dir="/tmp/mycity-allegati/${id:-chat}"
+  local dir="/opt/mycity/ad-mycity/.allegati-chat/${id:-chat}"
   rm -rf "$dir" 2>/dev/null || true
   mkdir -p "$dir" 2>/dev/null || return 0
   local out_block="" n=0 riga percorso nome tipo base local_path
@@ -849,7 +849,7 @@ find "${HOME:-/root}/.claude/projects" -name '*.jsonl' -mtime "+${WORKER_SESSION
 # scaricati (/tmp/mycity-allegati/<id>). Puliamo all'avvio quelli più vecchi di un giorno: durante
 # un lavoro vivo restano freschi (non toccati); solo gli orfani vengono rimossi.
 find /tmp -maxdepth 1 -name 'mycity-worker.*' -mtime +1 -delete 2>/dev/null || true
-find /tmp/mycity-allegati -maxdepth 1 -mindepth 1 -mtime +1 -exec rm -rf {} + 2>/dev/null || true
+find /opt/mycity/ad-mycity/.allegati-chat -maxdepth 1 -mindepth 1 -mtime +1 -exec rm -rf {} + 2>/dev/null || true
 
 # Auto-recovery: il DB memoria ha i campi tentativi/riprova_dopo? (migration pannello/sql/lavori-retry.sql)
 # Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
