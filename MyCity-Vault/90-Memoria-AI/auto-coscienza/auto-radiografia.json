@@ -3,7 +3,7 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-11 14:20",
+    "data": "2026-07-11 20:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
@@ -14,8 +14,8 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": true,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 88,
-    "ore_da_ultimo_briefing": 0,
+    "ore_da_ultima_completa": 94,
+    "ore_da_ultimo_briefing": 6,
     "max_giri_ciechi_sensori": 1,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
@@ -27,9 +27,9 @@
     "bloccanti_umani": 1,
     "salute_firma": "",
     "verdetto": "ok",
-    "nota": "loop chiude (con prova) · briefing 0h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
-  "voto_salute_architettura": 0,
+  "voto_salute_architettura": 51,
   "salute_marketplace": {
     "fonte": "consegne/audit/2026-07-07-radiografia.md",
     "findings": 87,
@@ -1703,6 +1703,6 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-11 14:20"
+    "aggiornato": "2026-07-11 20:20"
   }
 }
