@@ -97,6 +97,7 @@ import {
   Paperclip,
   Maximize2,
   Image as ImageIcon,
+  Pin,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -662,6 +663,18 @@ export default function Dashboard() {
   const [convId, setConvId] = useState<string | null>(null);
   const [convServer, setConvServer] = useState(false);
   const [convSel, setConvSel] = useState<string[]>([]);
+  // Pin (graffetta): ID delle conversazioni fissate in cima — localStorage
+  const [convPinnate, setConvPinnate] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try { return new Set(JSON.parse(localStorage.getItem("mycity_conv_pin") || "[]")); }
+    catch { return new Set(); }
+  });
+  // Badge non letto: mappa id → timestamp ultima lettura — localStorage
+  const [convLette, setConvLette] = useState<Record<string, string>>(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem("mycity_conv_lette") || "{}"); }
+    catch { return {}; }
+  });
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
@@ -946,6 +959,22 @@ export default function Dashboard() {
       localStorage.setItem("mycity_conversazioni", JSON.stringify(list.slice(0, 100)));
     } catch {}
   }
+  function togglePin(id: string) {
+    setConvPinnate((prev) => {
+      const n = new Set(prev);
+      if (n.has(id)) n.delete(id); else n.add(id);
+      try { localStorage.setItem("mycity_conv_pin", JSON.stringify([...n])); } catch {}
+      return n;
+    });
+  }
+  function segnaLetta(id: string) {
+    const ora = new Date().toISOString();
+    setConvLette((prev) => {
+      const n = { ...prev, [id]: ora };
+      try { localStorage.setItem("mycity_conv_lette", JSON.stringify(n)); } catch {}
+      return n;
+    });
+  }
 
   // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
   // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
@@ -1016,6 +1045,7 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
+    segnaLetta(id);
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
     // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
@@ -2182,9 +2212,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine del server (più recenti prima), stabile: la chat aperta resta al suo posto, solo evidenziata. */}
-                {conversazioni
-                  .map((c) => (
+                {/* Ordine: fissate in cima, poi per data (più recenti prima). */}
+                {[...conversazioni].sort((a, b) => {
+                  const pa = convPinnate.has(a.id) ? 1 : 0;
+                  const pb = convPinnate.has(b.id) ? 1 : 0;
+                  return pb - pa;
+                }).map((c) => {
+                  const pinnata = convPinnate.has(c.id);
+                  const nonLetta = !!(
+                    c.updated_at &&
+                    (!convLette[c.id] || c.updated_at > convLette[c.id]) &&
+                    c.messaggi.some((m) => m.role === "assistant" && !m.pending)
+                  );
+                  return (
                   <div
                     key={c.id}
                     className={`conv-row flex items-center gap-2.5 ${convId === c.id ? "conv-row-active" : ""}`}
@@ -2197,11 +2237,23 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       aria-label="Seleziona conversazione"
                     />
                     <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                      <div className="conv-row-title">{c.titolo}</div>
+                      <div className="conv-row-title flex items-center gap-1.5">
+                        {nonLetta && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" title="Nuova risposta non letta" />}
+                        <span className="truncate">{c.titolo}</span>
+                      </div>
                       <div className="conv-row-meta">
                         {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
                         {convId === c.id && " · in corso"}
                       </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => togglePin(c.id)}
+                      className={`shrink-0 p-1 rounded hover:bg-brand/10 transition ${pinnata ? "text-brand" : "text-black/30 dark:text-white/30 hover:text-brand/60"}`}
+                      aria-label={pinnata ? "Sblocca dalla cima" : "Fissa in cima"}
+                      title={pinnata ? "Sblocca" : "Fissa in cima"}
+                    >
+                      <Pin size={13} className={pinnata ? "fill-brand" : ""} />
                     </button>
                     <button
                       type="button"
@@ -2212,7 +2264,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       <Trash2 size={14} />
                     </button>
                   </div>
-                ))}
+                )})}
               </div>
             )}
             <p className="t-eti text-[10.5px] px-3 py-2 border-t leading-relaxed shrink-0" style={{ borderColor: "var(--border)" }}>
