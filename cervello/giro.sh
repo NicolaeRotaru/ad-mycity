@@ -71,6 +71,12 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     # non vanno perse. Il push finale del giro le pubblica.
     if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A "${MEM_DIRS[@]}" 2>/dev/null || true  # AR-044: solo memoria, mai codice
+      # Guard: se su main, rimuovi dallo staging qualsiasi file di codice (pannello/ cervello/)
+      # — previene commit accidentali di codice su main sia dal recupero sia da claude direttamente.
+      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "main" ]; then
+        git restore --staged pannello/ 2>/dev/null || true
+        git restore --staged cervello/ 2>/dev/null || true
+      fi
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un giro interrotto ($(ts))" 2>/dev/null || true
     fi
     # Portati all'ultimo remoto in modo NON distruttivo: fetch + rebase (fallback merge --no-edit). I commit
