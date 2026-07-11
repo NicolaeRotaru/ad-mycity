@@ -166,16 +166,17 @@ export default function ChatCasella({
   }
 
   return (
-    <div className="border-t border-brand/15 bg-brand-50/20 dark:bg-brand/[0.06] px-3 pb-3 pt-2.5 space-y-2">
-      <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-brand uppercase tracking-wide">
-        💬 Chat con questa casella
-        <button onClick={onChiudi} className="ml-auto shrink-0 whitespace-nowrap normal-case inline-flex items-center gap-1 text-black/40 dark:text-white/40 hover:text-brand transition">
+    <div className="border-t-2 border-brand/35 bg-brand-50/50 dark:bg-brand/[0.09] px-3 pb-3 pt-0 space-y-2">
+      <div className="flex items-center gap-2 -mx-3 px-3 py-2 bg-brand/[0.07] dark:bg-brand/[0.12] border-b border-brand/15 dark:border-brand/20">
+        <span className="text-brand text-[11px]">💬</span>
+        <span className="text-[10.5px] font-bold text-brand uppercase tracking-wider">Chat con questa casella</span>
+        <button onClick={onChiudi} className="ml-auto shrink-0 whitespace-nowrap normal-case inline-flex items-center gap-1 text-black/40 dark:text-white/40 hover:text-brand transition text-[11px]">
           <X size={12} /> chiudi
         </button>
       </div>
 
       {/* Contenitore messaggi a altezza FISSA: nuova e vecchia chat hanno lo stesso ingombro */}
-      <div ref={scrollRef} className="scroll-soft h-24 overflow-y-auto pr-1">
+      <div ref={scrollRef} className="scroll-soft h-28 overflow-y-auto pr-1 pt-1">
         <div className="space-y-1.5">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
