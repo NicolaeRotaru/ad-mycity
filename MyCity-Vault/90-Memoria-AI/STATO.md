@@ -6,6 +6,12 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **12/7 01:10 — PR #290 aperta: sezione "Report & Piani" dedicata nel sidebar.** Nicola ha chiesto una pagina archivio con il bottone sotto il titolo "Report & Piani". PR #290 sposta "Archivio" in sezione propria fuori da "Approfondisci". In attesa merge Nicola. Fonte: chat Nicola 12/7 01:08.
+>
+> ✅ **12/7 00:41 — PR #287 MERGIATA — "Archivio" ora nel menu del Pannello.** Nicola ha confermato il merge. Deploy partito automaticamente. La voce "Report" è ora "Archivio" con icona cartella — da lì si accede al piano crescita in `strategia/`. Fonte: chat Nicola 12/7 00:41 («ok l'ho margiata»).
+>
+> 💬 **12/7 01:08 — Bici in riparazione, avvio negozi "prossima settimana".** Nicola conferma che sta riparando la bici elettrica. Timeline orientativa: settimana 14–18 luglio 2026. Invariato dal 11/7 23:00. Fonte: chat Nicola 12/7 01:00.
+>
 > 💬 **12/7 00:57 — Nicola ha reinserito SUPABASE_URL + SUPABASE_SERVICE_KEY nel worker (.env VPS).** Il MCP Supabase Memoria resta «Unauthorized» — richiede `SUPABASE_ACCESS_TOKEN` (Personal Access Token `sbp_...` da supabase.com → Account → Access Tokens), diverso dalla service key. Tabella `conversazioni` ancora da creare. Tre opzioni in coda: (A) PAT → AD crea tabella; (B) SQL Editor (2 min); (C) aspettare. Fonte: chat Nicola 12/7 00:57.
 >
 > 💬 **12/7 01:00 — PR #287 aperta: sostituzione pulita di #284 (Archivio rename, zero conflitti).** Nicola ha corretto che la PR da analizzare era la #284 (non la #286). Branch `feat/archivio-v2` con sole 2 righe cosmétiche (label + icona), nessun file worker → zero conflitti. PR #284 da chiudere. In attesa merge Nicola. Fonte: chat Nicola 12/7 01:00.

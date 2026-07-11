@@ -14,6 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-290-report-piani — Mergia PR #290: sezione "Report & Piani" dedicata nel sidebar · ⏳ IN ATTESA · accodata 2026-07-12 01:10
+
+**Cosa fa:** sposta "Archivio" (già rinominato da "Report") fuori dal gruppo "Approfondisci" e lo mette in una sezione autonoma "Report & Piani" nel menu laterale sinistro. Così nel sidebar vedi un'intestazione separata "Report & Piani" con il bottone "Archivio" sotto — esattamente come ha chiesto Nicola.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/290
+**Branch:** `feat/report-piani-sidebar`
+
+**Cosa cambia:** il sidebar mostra una sezione dedicata "Report & Piani" — entra direttamente in `strategia/PIANO-CRESCITA-12-MESI.md` e in tutti i file di `consegne/` con un click.
+**Se va bene:** Nicola mergia #290 → deploy automatico → sidebar aggiornato nel Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-289-guard-pannello-main — Mergia PR #289: blocca commit accidentali di codice Pannello su main · ⏳ IN ATTESA · accodata 2026-07-12 01:05
 
 **Cosa fa:** aggiunge una guard in `giro.sh` — il file che gestisce i commit automatici del sistema di recupero VPS. Quando il sistema si trova su main, prima di committare rimuove dallo staging tutti i file di `pannello/` e `cervello/`. Anche se Claude sbaglia branch, il codice Pannello non finisce mai su main da solo.
