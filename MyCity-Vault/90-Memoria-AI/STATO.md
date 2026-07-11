@@ -6,6 +6,8 @@ fonte: AD digitale (💬 11/7 15:15 CHAT: ⛔ 13/7 avvio negozi BLOCCATO — man
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **11/7 16:10 — CAUSA RADICE CHAT: tabella `conversazioni` NON ESISTE in DB Memoria.** MCP Memoria ha confermato: la tabella non è mai stata creata (`xjljcsorpbqwttrejqte`). Il pannello rileva l'assenza e ricade in modalità browser-only → le chat si perdono a ogni ricarica indipendentemente dalle env var. Due strade per Nicola: ① SQL Editor Supabase → incolla il blocco SQL in `#crea-tabella-conversazioni` (3 min) · ② aggiungi `SUPABASE_ACCESS_TOKEN` (Management API token) al VPS e l'AD lo crea in autonomia. Fonte: MCP supabase-memoria chat Nicola 11/7 16:10. Azione accodata: `#crea-tabella-conversazioni`.
+>
 > 💬 **11/7 15:30 — GAP: CHAT NON SALVATE (env var mancanti su Vercel).** Le chat del Pannello si perdono a ogni ricarica. Il codice è pronto (`/api/conversazioni` + `store.ts` + tabella `conversazioni` su Supabase Memoria) ma il Pannello hosted su Vercel non ha le variabili `SUPABASE_URL` e `SUPABASE_SERVICE_KEY` del progetto Memoria. **Da fare (🔴 Nicola, dashboard Vercel):** aggiungere le due variabili del progetto Memoria → le chat vengono salvate e sincronizzate. Fonte: chat Nicola 11/7 15:30.
 >
 > ⏳ **11/7 ~03:30 — PR #212: REBASE FATTO, PUSH ANCORA DA FARE (token multiriga).** Commit `987b85b` completato (46 file, 9 migrazioni 108-115, B2/B4/G4/G5/G8/G10/G11/G12/G13/G17 chiusi). Rebase completato da Nicola. Push fallito due volte: 1° path sbagliato (`vps/.env`), 2° il `grep GIT_PUSH_TOKEN ... | cut -d= -f2` prende anche la riga-commento sopra → "url contains a newline". **Fix: hardcodare il token.** Passo finale (AZIONI-IN-ATTESA #pr-5bloccanti):
