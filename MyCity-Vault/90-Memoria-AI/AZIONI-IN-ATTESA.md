@@ -219,6 +219,19 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
+### 🟡 #pr-269-chat-height — Mergia PR #269: chat delle caselle più compatta · ⏳ IN ATTESA · accodata 2026-07-11 15:37
+
+**Cosa cambia:** l'area messaggi nella chat delle caselle passa da 144px (`h-36`) a 96px (`h-24`) — un terzo di spazio in meno, il campo di testo rimane dov'è. Tocca `ChatCasella.tsx` (e la componente gemella se presente).
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/269
+
+**Cosa cambia:** la chat è più compatta e meno invasiva nel layout della casella.
+**Se va bene:** Nicola mergia la PR → deploy Vercel → chat accorciata online. Se l'altezza risultasse ancora troppa o troppo poca, basta riaprire e cambiare il valore in 30 secondi.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu).
+
+---
+
 ### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
 Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
