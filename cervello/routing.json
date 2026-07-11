@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-12 00:10",
+  "aggiornato": "2026-07-12 00:53",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -83,69 +83,6 @@
     }
   ],
   "log": [
-    {
-      "quando": "2026-07-09 13:12",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-09 13:28",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-09 13:33",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-09 13:47",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-09 13:50",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-09 14:03",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-09 14:05",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-09 14:08",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-09 14:10",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
     {
       "quando": "2026-07-09 14:13",
       "compito": "testi-volume",
@@ -3582,10 +3519,73 @@
       "modello": "claude",
       "tier": "forfait",
       "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-12 00:42",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-12 00:44",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-12 00:44",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-12 00:46",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-12 00:47",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-12 00:49",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-12 00:51",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-12 00:52",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-12 00:53",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "tier": "gratis",
+      "richiesta": "testi-volume"
     }
   ],
   "uso": {
-    "groq-llama": 217,
-    "claude": 283
+    "groq-llama": 219,
+    "claude": 281
   }
 }

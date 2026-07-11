@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> ✅ **12/7 01:10 — PR #287 MERGIATA da Nicola — "Archivio" live nel Pannello, deploy in corso.** Nicola ha confermato il merge. GitHub Action scatta automaticamente; tra 2-3 min il menu laterale mostra "Archivio" (con icona cartella) al posto di "Report" — da lì si accede a tutto `consegne/` compreso `strategia/PIANO-CRESCITA-12-MESI.md`. Stesso deploy porta in produzione il fix "chiudi chat fluttuante cliccando fuori". PR #285 (screenshot path) ancora in attesa. Fonte: chat Nicola 12/7 01:10.
+>
 > 💬 **12/7 01:00 — PR #287 aperta: sostituzione pulita di #284 (Archivio rename, zero conflitti).** Nicola ha corretto che la PR da analizzare era la #284 (non la #286). Branch `feat/archivio-v2` con sole 2 righe cosmétiche (label + icona), nessun file worker → zero conflitti. PR #284 da chiudere. In attesa merge Nicola. Fonte: chat Nicola 12/7 01:00.
 >
 > 💬 **12/7 00:26 — PR #286 ha conflitti → branch pulito `fix/chat-fluttuante-chiudi-fuori-v2`, commit locale pronto.** Screenshot #955 di Nicola mostrava conflitti su `sentinella-dati.json`+`routing.json`. Nuovo branch senza quei file, solo `page.tsx` modificato (4 righe overlay). Serve approvazione push + nuova PR. PR #286 da chiudere. Azione `#pr-chat-fluttuante-v2` aggiornata. Fonte: chat Nicola 12/7 00:26.
