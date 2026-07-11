@@ -104,6 +104,6 @@ gate_AR006: le 6 sono `scelta_ragionata` (prospect non firmati) → solo pitch n
 
 - **Patto economico:** **0€ fissi · 12% solo sul venduto · payout a consegna · nessun vincolo.** (Glovo/Deliveroo 25-30%.)
 - **Done-for-you <48h:** vetrina + catalogo + primo incasso di test lo montiamo noi. Tu approvi e cucini.
-- **Leva a scadenza:** **bando Commercio Emilia-Romagna, 40% a fondo perduto, scade 21/7** → chi si accende va "chiuso" entro ~15/7. Kit: `consegne/vendite/kit-bando-er-mycity.md`.
-- **Se uno dice sì →** avvisami: parte @onboarding-negozi (vetrina+catalogo <48h) + kit bando.
+- **Leva del momento:** il retail fisico italiano ha perso **−6,6% di presenze** nell'ultimo anno. D'estate peggiora: caldo e vacanze svuotano i centri storici. *"Chi non è online perde quei tavoli."*
+- **Se uno dice sì →** avvisami: parte @onboarding-negozi (vetrina+catalogo <48h).
 - **Ordine giro giornata A (a piedi, centro):** Tigellabella → La Forchetta → Tre Ganasce → Carducci → La Dispensa. **Giornata B (auto):** Pescatori a Calendasco.

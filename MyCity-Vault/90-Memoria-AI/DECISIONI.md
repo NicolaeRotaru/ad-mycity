@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+- 2026-07-11 14:46 · 🟢 · [vendite/AD] · **Nicola: bando Commercio Emilia-Romagna fuori dal pitch del 13/7.** Decisione: non si usa il bando ER come leva di acquisizione per le 6 botteghe food. Aggiornati dossier e schede-cheat: bando rimosso, sostituito con pitch "retail −6,6% presenze + caldo estivo toglie clienti". Nessuna azione esterna. · casella:dossier-6-botteghe-bando-er · Nicola (chat)
+
 # 🧾 DECISIONI — Registro (append-only)
 
 > Ogni decisione 🟡/🔴 finisce qui, in fondo, con data e motivo. **Non si

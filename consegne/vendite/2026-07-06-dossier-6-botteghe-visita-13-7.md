@@ -35,8 +35,7 @@ gate_AR006: queste 6 sono `scelta_ragionata` (prospect non firmati, non nel DB) 
 > e **il cliente resta tuo** (dati, riordino). Zero costi fissi, payout a consegna."*
 
 **Perché è credibile (non fumo):** c'è già **Pane Quotidiano**, bottega vera del centro che riceve ordini
-su MyCity → *"guarda, funziona già a due passi da te."* E c'è la **leva a scadenza**: bando Commercio
-Emilia-Romagna **40% a fondo perduto, scade il 21/7** → il kit per candidarsi è pronto (`consegne/vendite/kit-bando-er-mycity.md`).
+su MyCity → *"guarda, funziona già a due passi da te."* E c'è la **leva del momento**: il retail fisico in Italia ha perso **−6,6% di presenze** nell'ultimo anno — e d'estate il passante sparisce ancora (caldo, vacanze). Chi non intercetta l'ordine digitale **perde quel tavolo per sempre**.
 
 > ⚖️ **Onestà strategica (candore, da sapere TU):** queste 6 sono **ristoranti/trattorie**, non botteghe con
 > prodotto da scaffale come il modello-base MyCity (la "spesa a casa"). È una **scelta ragionata**, non un errore:
@@ -199,8 +198,8 @@ la consegna urbana.** Il prodotto giusto per loro è **vetrina + prenotazione on
 - *"Non ho tempo."* → Lo facciamo noi: menu, foto, vetrina pronti. Tu approvi e cucini.
 - *"Chi consegna?"* → Consegna locale in centro a piedi/bici; dove non arriviamo (Calendasco) = ritiro/asporto.
 
-**Leva a scadenza (per chi vuole digitalizzarsi sul serio):**
-- **Bando Commercio Emilia-Romagna, 40% a fondo perduto, scade il 21/7.** Kit pronto: `consegne/vendite/kit-bando-er-mycity.md`. → chi è interessato va "chiuso" entro ~15/7.
+**Leva del momento (per chi vuole digitalizzarsi sul serio):**
+- Il retail fisico ha perso **−6,6% di presenze** in Italia nell'ultimo anno. D'estate il calo si accentua: caldo e vacanze svuotano i centri storici. Chi non presidia il canale digitale **perde coperti senza recuperarli**. MyCity è l'unico canale locale senza commissioni al 30%.
 
 **La prova che è vero:** *"C'è già **Pane Quotidiano**, bottega vera in **Via Calzolai 25**, online su MyCity
 e che riceve ordini. È a due passi da qui — te lo mostro dal telefono."* (indirizzo verificato sui dati reali.)
@@ -213,7 +212,7 @@ e che riceve ordini. È a due passi da qui — te lo mostro dal telefono."* (ind
 - ⏳ **Ultimo ritocco pre-visita (2 min, quando vuoi):** @analista pesca da Supabase l'indirizzo esatto di Pane Quotidiano → così dici "siamo online a X metri da qui" con precisione.
 - 🙋 **Da te:**
   1. La **visita è tua** (di persona, dal 13/7) — nessuna azione della macchina da firmare.
-  2. Se un locale dice sì → dimmelo e faccio partire **@onboarding-negozi** (vetrina+catalogo <48h) + kit bando.
+  2. Se un locale dice sì → dimmelo e faccio partire **@onboarding-negozi** (vetrina+catalogo <48h).
   3. **Nota franchising Tigellabella:** in visita chiedi subito "è suo o in franchising?" — cambia chi firma.
   4. Se vuoi, ti preparo **schede-cheat da 1 pagina stampabili** (una per bottega, tascabili) per averle in mano durante il giro.
 
