@@ -25,13 +25,15 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 1. **Crea un nuovo PAT** su [github.com/settings/tokens](https://github.com/settings/tokens):
    - Tipo: Fine-grained · Repository: `NicolaeRotaru/mycity` · Permesso: `Contents: Read and write`
 
-2. **Esegui sul VPS:**
+2. **Esegui sul VPS (⚠️ stash prima — ci sono modifiche non-staged che bloccano il rebase):**
 ```bash
 cd /opt/mycity/ad-mycity/marketplace
+git stash
 git remote set-url origin "https://NicolaeRotaru:IL_NUOVO_PAT@github.com/NicolaeRotaru/mycity.git"
 git fetch origin
 git rebase origin/main
 git push --force-with-lease origin fix/5-bloccanti-sicurezza
+git stash pop
 ```
 
 3. **Mergia la PR #212** su GitHub: [https://github.com/NicolaeRotaru/mycity/pull/212](https://github.com/NicolaeRotaru/mycity/pull/212)
