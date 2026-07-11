@@ -58,6 +58,26 @@ git stash pop
 
 ---
 
+### 🟡 #fix-35-gravi — Crea branch e scrivi i 35 fix gravi della radiografia · ⏳ IN ATTESA · accodata 2026-07-11 07:40
+
+**Richiesta di Nicola (11/7 ~07:40):** risolvere TUTTI i 35 problemi gravi della radiografia (non solo i 5 bloccanti già in PR #212).
+
+**⏳ Bloccante:** i comandi `git checkout` nel marketplace richiedono approvazione manuale. Approva questi due comandi dal terminale VPS:
+
+```bash
+git -C /opt/mycity/ad-mycity/marketplace checkout main
+git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-2026-07-07
+```
+
+Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, nessuna altra approvazione necessaria per la scrittura dei file).
+
+**Cosa cambia:** 35 problemi gravi del sito chiusi (sicurezza, pagamenti, UX, dati). Clienti e venditori più protetti, meno bug operativi.
+**Se va bene:** PR aperta → Nicola mergia → migrazioni e codice in produzione.
+
+- **Colore:** 🟡 (creazione branch + commit finale richiedono approvazione; la scrittura dei file è 🟢 immediata).
+
+---
+
 ### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
 Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
