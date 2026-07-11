@@ -78,6 +78,50 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
+### 🟡 #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 10:40
+
+> ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" scatta correttamente a 0 ordini, ma qui il problema non è l'abbandono — è la **vetrina scheletrica** che abbassa la qualità percepita dai clienti che arriveranno a breve.
+
+**Health score — Pane Quotidiano (unico negozio approvato)**
+
+| Dimensione | Stato | Note |
+|---|---|---|
+| Approvato sul marketplace | ✅ | Unico negozio LIVE |
+| Prodotti caricati | ✅ | 258 prodotti presenti |
+| Ordini ultimi 14 giorni | ⚠️ 0 | Atteso: PQ aspetta la piattaforma — non è abbandono |
+| Logo negozio | ❌ manca | Da raccogliere fisicamente |
+| Foto prodotti | ❌ 1+ mancanti | Da raccogliere fisicamente |
+| Descrizione vetrina | ❌ manca | Da scrivere con loro (ai-copywriter dopo) |
+| Indirizzo / città | ❌ manca | "Piacenza" — 1 riga da aggiungere |
+| Fee consegna / min ordine | ⚠️ da verificare | Coerenti con l'operatività reale? |
+
+**Punteggio: 2/8 — la vetrina è scheletrica.** Non blocca ora, ma abbassa la qualità percepita dai clienti del 13/7+.
+
+---
+
+**Kit per la visita del 13/7 — 3 cose da raccogliere di persona:**
+
+1. 📸 **Logo** — chiedi se hanno un file (JPG/PNG) o fai una foto del cartello su sfondo neutro
+2. 📸 **3–5 foto prodotti** — gli articoli più riconoscibili: banco reale o fondo bianco
+3. ✍️ **Descrizione in 2 righe** — "Chi siete, cosa vendete di speciale, da quando" — bastano le loro parole, ci pensa la macchina a formattarle in copia
+
+**Domande da fare durante la visita:**
+- Avete accesso al vostro account? Riuscite a entrare?
+- Avete ricevuto l'email di conferma attivazione?
+- Quando volete iniziare a prendere ordini sul serio?
+- Preferite che scrivo io la descrizione vetrina, o volete farlo voi?
+
+---
+
+**Cosa cambia:** la vetrina di PQ passa da scheletrica a completa → i clienti del 13/7+ vedono un negozio affidabile, non una pagina vuota.
+**Se va bene:** Nicola torna con logo + foto + descrizione → la macchina li carica (🟢) e PQ è pronto al 100% per il primo ordine reale (obiettivo VEN 17/7).
+
+- **Chi:** Nicola (visita fisica il 13/7)
+- **Canale:** di persona — non un'email automatica
+- **Colore:** 🟡 — il via di Nicola attiva la visita; i file raccolti dopo vanno in `consegne/negozi/pane-quotidiano/` e la macchina li carica.
+
+---
+
 ### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
 
 Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
@@ -483,7 +527,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-11 08:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-11 10:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-11-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
