@@ -229,9 +229,13 @@ sync_vault() {
   [ -n "$scrub_utf8" ] && titolo_breve="$scrub_utf8"
   [ -z "$titolo_breve" ] && titolo_breve="lavoro ${id:-?}"
   git "${GIT_ID[@]}" commit -q -m "worker: ${titolo_breve} (${id:-?} · $(ts))" 2>/dev/null || true
+  # ⏱️ TIMEOUT su fetch/push (radiografia 2026-07-11): senza, un socket mezzo-aperto congela il loop
+  # del worker fino al watchdog-kill (~55 min). GIT_NET_TIMEOUT (default 60s) le copre; rc di timeout
+  # (124/143) è un fallimento come un altro → si ritenta nel for, poi si rimanda.
+  local _gt="${GIT_NET_TIMEOUT:-60}"
   local ok=0
   for a in 1 2 3; do
-    if git fetch "$url" "$branch" 2>/dev/null; then
+    if timeout "$_gt" git fetch "$url" "$branch" 2>/dev/null; then
       if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
         # AR-099: niente risoluzione cieca a favore del remoto. Prima, su conflitto, il worker prendeva
         # SEMPRE la versione remota e cancellava il 'FATTO' appena scritto → l'azione risultava non-eseguita,
@@ -248,7 +252,7 @@ sync_vault() {
         fi
       fi
     fi
-    if git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
+    if timeout "$_gt" git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
     sleep 2
   done
   exec 9>&-
@@ -324,7 +328,7 @@ if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
 else
   # Test rapido autenticazione GitHub (sola lettura).
-  _git_test="$(git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
+  _git_test="$(timeout "${GIT_NET_TIMEOUT:-60}" git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
   if [ -z "$_git_test" ]; then
     echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — il push della memoria fallirà." >&2
   fi
@@ -452,6 +456,9 @@ prepara_allegati_chat() {
     tipo="$(printf '%s' "$riga" | sed -n 's/.*tipo="\([^"]*\)".*/\1/p')"
     case "$percorso" in chat-allegati/*) : ;; *) continue ;; esac
     printf '%s' "$percorso" | grep -qE '^chat-allegati/[A-Za-z0-9._/-]+$' || continue
+    # 🔒 PATH TRAVERSAL (radiografia 2026-07-11): la regex sopra ammette il punto, quindi «..» passava
+    # (es. chat-allegati/../../etc/...). Scartiamo ESPLICITAMENTE ogni percorso che contiene «..».
+    case "$percorso" in *..*) echo "[$(ts)] Allegato con .. nel percorso — scartato per sicurezza." >&2; continue ;; esac
     base="$(printf '%s' "${nome:-file}" | tr -c 'A-Za-z0-9._-' '_' | tail -c 80)"
     n=$((n + 1))
     local_path="$dir/${n}-${base}"
@@ -557,7 +564,7 @@ _chat_stream_run() {
   CHAT_SOSTITUITA=0; CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "$sid" ] && cmd+=(--resume "$sid")
-  tmpf="$(mktemp)"
+  tmpf="$(mktemp -t mycity-worker.XXXXXX)"   # prefisso riconoscibile → lo sweep all'avvio pulisce gli orfani
   timeout --kill-after=30s "$to" "${cmd[@]}" --output-format stream-json --verbose --include-partial-messages "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
   while kill -0 "$pidc" 2>/dev/null; do
@@ -608,8 +615,10 @@ rispondi_chat_stream() {
   local to="$1"
   _chat_stream_run "$to" "${CHAT_RESUME_SID:-}"
   [ "${CHAT_SOSTITUITA:-0}" = 1 ] && return 0
-  if { [ -z "$out" ] || [ "$rc" -ne 0 ]; } && [ -n "${CHAT_RESUME_SID:-}" ]; then
-    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ripresa (rc=$rc) — riparto con una sessione nuova." >&2
+  # 🔧 FALLBACK MIRATO (come rispondi_chat_json): riparti senza --resume SOLO se non è uscito NIENTE e
+  # NON è un timeout (124/137/143). Su timeout non è colpa del resume → niente rigenerazione a vuoto.
+  if [ -z "$out" ] && [ "$rc" != 124 ] && [ "$rc" != 137 ] && [ "$rc" != 143 ] && [ -n "${CHAT_RESUME_SID:-}" ]; then
+    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ha prodotto nulla — riparto con una sessione nuova." >&2
     CHAT_RESUME_SID=""
     _chat_stream_run "$to" ""
     [ "${CHAT_SOSTITUITA:-0}" = 1 ] && return 0
@@ -629,14 +638,21 @@ rispondi_chat_json() {
   CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "${CHAT_RESUME_SID:-}" ] && cmd+=(--resume "$CHAT_RESUME_SID")
-  raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>&1)"; rc=$?
+  # 🔧 STDERR SEPARATO (radiografia 2026-07-11): NON mescolare 2>&1 con lo stdout JSON — un solo warning
+  # della CLI su stderr rompeva il parse di jq → out vuoto → ogni chat non-stream degradava a doppia/
+  # tripla esecuzione. Lo stderr va scartato (2>/dev/null): sullo stdout resta SOLO il JSON pulito.
+  raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>/dev/null)"; rc=$?
   out="$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)"
   CHAT_NUOVA_SESSIONE="$(printf '%s' "$raw" | jq -r '.session_id // empty' 2>/dev/null)"
-  if { [ -z "$out" ] || [ "$rc" -ne 0 ]; } && [ -n "${CHAT_RESUME_SID:-}" ]; then
-    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ripresa (rc=$rc) — riparto con una sessione nuova." >&2
+  # 🔧 FALLBACK MIRATO (radiografia 2026-07-11): riparti senza --resume SOLO se la sessione non ha
+  # prodotto NIENTE (out vuoto) e NON è un timeout (124/137/143). Prima scattava su QUALSIASI rc≠0
+  # (timeout/quota inclusi) → fino a 3 generazioni complete per un turno (costo triplo, side-effect
+  # ripetuti). Su timeout/quota non è colpa del resume: non rigeneriamo a vuoto.
+  if [ -z "$out" ] && [ "$rc" != 124 ] && [ "$rc" != 137 ] && [ "$rc" != 143 ] && [ -n "${CHAT_RESUME_SID:-}" ]; then
+    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ha prodotto nulla — riparto con una sessione nuova." >&2
     CHAT_RESUME_SID=""
     cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
-    raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>&1)"; rc=$?
+    raw="$(timeout --kill-after=30s "$to" "${cmd[@]}" --output-format json "$prompt" 2>/dev/null)"; rc=$?
     out="$(printf '%s' "$raw" | jq -r '.result // empty' 2>/dev/null)"
     CHAT_NUOVA_SESSIONE="$(printf '%s' "$raw" | jq -r '.session_id // empty' 2>/dev/null)"
   fi
@@ -805,11 +821,14 @@ scarta_lavori_scaduti() {
 # recupero orfani, che la usa.
 HAS_OWNER_COL=0
 _owner_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=worker_owner&limit=1" "${AUTH[@]}" 2>&1 || true)"
-if ! printf '%s' "$_owner_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+# 🔒 FAIL-CLOSED (come HAS_RETRY_COLS): «presente» solo se è un array REST valido; vuoto/errore di rete
+# → OFF (recupero orfani a sola grazia-per-età, già sicuro). Mai attivare la proprietà su una probe cieca.
+if printf '%s' "$_owner_probe" | grep -qE '^[[:space:]]*\[' \
+   && ! printf '%s' "$_owner_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
   HAS_OWNER_COL=1
   echo "[$(ts)] Proprietà lavori ON (colonna worker_owner presente) — recupero orfani per-worker."
 else
-  echo "[$(ts)] Proprietà lavori OFF (manca la migration lavori-worker-owner.sql) — recupero orfani a sola grazia-per-età." >&2
+  echo "[$(ts)] Proprietà lavori OFF (manca la migration o probe non conclusiva) — recupero orfani a sola grazia-per-età." >&2
 fi
 
 recupera_lavori_orfani
@@ -822,17 +841,29 @@ scarta_lavori_scaduti
 # dato di business vive lì, solo la memoria di lavoro dei turni.
 find "${HOME:-/root}/.claude/projects" -name '*.jsonl' -mtime "+${WORKER_SESSIONI_GIORNI:-14}" -delete 2>/dev/null || true
 
+# 🧹 SWEEP TEMPORANEI (radiografia 2026-07-11): file/cartelle temporanee che un kill del worker
+# (systemd/OOM) lascia indietro — i tmpf dello streaming (/tmp/mycity-worker.*) e gli allegati chat
+# scaricati (/tmp/mycity-allegati/<id>). Puliamo all'avvio quelli più vecchi di un giorno: durante
+# un lavoro vivo restano freschi (non toccati); solo gli orfani vengono rimossi.
+find /tmp -maxdepth 1 -name 'mycity-worker.*' -mtime +1 -delete 2>/dev/null || true
+find /tmp/mycity-allegati -maxdepth 1 -mindepth 1 -mtime +1 -exec rm -rf {} + 2>/dev/null || true
+
 # Auto-recovery: il DB memoria ha i campi tentativi/riprova_dopo? (migration pannello/sql/lavori-retry.sql)
 # Se sì, il worker PROGRAMMA i ritentativi dei lavori falliti e SALTA quelli che aspettano il
 # reset quota/backoff. Se no (DB non ancora migrato), degrada al comportamento classico
 # (fallito → errore, riprova manuale) senza rompersi.
 HAS_RETRY_COLS=0
 _retry_probe="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>&1 || true)"
-if ! printf '%s' "$_retry_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
+# 🔒 FAIL-CLOSED (radiografia 2026-07-11): consideriamo le colonne presenti SOLO se la risposta è un
+# array REST valido (inizia con '['). Prima bastava «nessun errore-colonna», così una curl fallita per
+# RETE (risposta vuota) veniva letta come «colonne presenti» → su un DB non migrato la coda si fermava
+# per sempre col battito vivo. Vuoto/errore → OFF (degrada a retry manuale, che non blocca mai nulla).
+if printf '%s' "$_retry_probe" | grep -qE '^[[:space:]]*\[' \
+   && ! printf '%s' "$_retry_probe" | grep -qiE 'does not exist|PGRST|could not find|column'; then
   HAS_RETRY_COLS=1
   echo "[$(ts)] Auto-recovery ON (campi tentativi/riprova_dopo presenti)."
 else
-  echo "[$(ts)] Auto-recovery OFF (manca la migration lavori-retry.sql) — i falliti restano 'errore' (riprova manuale)." >&2
+  echo "[$(ts)] Auto-recovery OFF (manca la migration lavori-retry.sql o probe non conclusiva) — i falliti restano 'errore' (riprova manuale)." >&2
 fi
 
 # 💸 BATTITO THROTTLE (efficienza): il loop gira ogni ${INTERVALLO}s (default 5) per tenere la chat

@@ -112,9 +112,13 @@ if ! flock -n 9; then
   exit 0
 fi
 
-if ! git fetch "$url" main 2>/dev/null; then
-  echo "[$(ts)] watch-main: fetch main fallito." >&2
-  segnale "errore" "fetch main fallito (token scaduto o rete)"
+# ⏱️ TIMEOUT (radiografia 2026-07-11, difetto E1): senza timeout un fetch appeso su un socket
+# mezzo-aperto teneva il LOCK GIT per sempre → niente più allineamenti né sync memoria, e nessun
+# watchdog copre uno `oneshot`. Con `timeout` il fetch molla dopo WATCH_FETCH_TIMEOUT (default 60s):
+# il lock si libera, il prossimo giro del timer riprova. rc 124/143 = timeout → trattato come fetch fallito.
+if ! timeout "${WATCH_FETCH_TIMEOUT:-60}" git fetch "$url" main 2>/dev/null; then
+  echo "[$(ts)] watch-main: fetch main fallito (o timeout)." >&2
+  segnale "errore" "fetch main fallito (token scaduto, rete, o timeout)"
   exit 1
 fi
 
