@@ -126,13 +126,16 @@ create table if not exists public.conversazioni (
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   titolo text not null default 'Conversazione',
-  messaggi jsonb not null default '[]'::jsonb
+  messaggi jsonb not null default '[]'::jsonb,
+  ultima_lettura timestamptz
 );
 create index if not exists conversazioni_updated_at_idx on public.conversazioni (updated_at desc);
 alter table public.conversazioni enable row level security;
 create policy "service role full access" on public.conversazioni
   using (true) with check (true);
 ```
+
+> ⚡ **Aggiornato 2026-07-12:** aggiunto `ultima_lettura timestamptz` — usato per mostrare il badge "non letto" nella lista conversazioni (se l'ultimo messaggio AI è più recente di `ultima_lettura`, compare il pallino). Si aggiorna ogni volta che si apre la chat. Richiesto da Nicola 12/7.
 
 **Opzione B — aggiungi token al VPS (poi l'AD crea la tabella da solo):**
 - Aggiungi `SUPABASE_ACCESS_TOKEN` (Management API token da supabase.com/account/tokens) nel file `.env` del VPS
