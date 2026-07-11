@@ -14,6 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-274-memoria-chat — Mergia PR #274: le chat ricordano le sessioni precedenti · ⏳ IN ATTESA · accodata 2026-07-11 16:04
+
+**Cosa fa:** ogni messaggio che Nicola invia include automaticamente le ultime 4 conversazioni precedenti (compresse). L'AD può rispondere "l'ho già fatto il 10/7" senza chiedere conferma.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/274
+**Branch:** `fix/memoria-chat-precedenti` · commit `ce7e3742`
+
+**Cosa cambia:** l'AD diventa più autonomo — controlla da solo la storia delle chat invece di chiedere a Nicola "l'hai già fatto?".
+**Se va bene:** Nicola mergia → deploy Vercel → da quel momento ogni chat ha la memoria delle sessioni precedenti.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu).
+
+---
+
 ### 🔴 #crea-tabella-conversazioni — Crea la tabella mancante per salvare le chat nel Pannello · ⏳ IN ATTESA · accodata 2026-07-11 16:10
 
 **Problema:** le chat del Pannello si perdono a ogni ricarica perché la tabella `conversazioni` non esiste nel DB Memoria. Il codice è pronto, la tabella no.
