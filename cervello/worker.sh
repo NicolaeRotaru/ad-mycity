@@ -918,8 +918,12 @@ while true; do
   #    volte (doppio invio reale con AZIONI_LIVE=1). Niente più `|| true` che ingoiava il claim perso.
   #    🪪 Nel claim marchiamo worker_owner=WORKER_ID (solo se il DB è migrato): così il recupero orfani
   #    sa che questo in_corso è NOSTRO e l'altro worker non lo tocca finché siamo vivi.
-  _claim_body='{"stato":"in_corso"}'
-  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" '{stato:"in_corso", worker_owner:$o}')"
+  #    ⏱️ Il claim timbra anche updated_at (il DB non ha trigger che lo aggiorni da solo): l'età di un
+  #    in_corso — usata dal recupero orfani e dalla sentinella (ORFANO_MIN=60) — deve partire da QUANDO
+  #    il lavoro è stato preso, non da quando è stato accodato. Senza questo, un lavoro rimasto in coda
+  #    >60 min (es. dopo un'interruzione) veniva ucciso dalla sentinella APPENA iniziava a girare.
+  _claim_body="$(jq -n --arg t "$(date -Iseconds)" '{stato:"in_corso", updated_at:$t}')"
+  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" --arg t "$(date -Iseconds)" '{stato:"in_corso", worker_owner:$o, updated_at:$t}')"
   claimed="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_attesa" "${AUTH[@]}" \
     -H "Prefer: return=representation" -d "$_claim_body" 2>/dev/null || true)"
   if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
