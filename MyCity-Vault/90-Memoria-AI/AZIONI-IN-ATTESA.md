@@ -14,6 +14,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-276-grafica-chat-coda — Mergia PR #276: grafica "In coda" migliorata (3 livelli distinti) · ⏳ IN ATTESA · accodata 2026-07-11 16:20
+
+**Cosa fa:** migliora la distinzione visiva tra i 3 livelli della card "In coda" nel Pannello:
+1. **Card "In corso"** — bordo doppio colorato (brand) + sfondo più intenso + puntino blu lampeggiante nell'header
+2. **Sezione Chat** (quando aperta) — intestazione con sfondo brand + bordo superiore spesso → area separata netta
+3. **Storico messaggi** (lista sotto) — sfondo più scuro + etichetta "Storico messaggi (N)" con righine → si distingue dal lavoro attivo
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/276
+**File modificati:** `pannello/src/components/LavoriCervello.tsx`, `pannello/src/components/ChatCasella.tsx`
+
+⚠️ La PR #275 (stessa feature, conflitto con worker) va chiusa — superata dalla #276.
+
+**Cosa cambia:** a colpo d'occhio capisci cosa è "lavoro attivo", cosa è "chat aperta" e cosa è "storico".
+**Se va bene:** Nicola mergia #276 su GitHub → deploy automatico → Pannello aggiornato.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-274-memoria-chat — Mergia PR #274: le chat ricordano le sessioni precedenti · ⏳ IN ATTESA · accodata 2026-07-11 16:04
 
 **Cosa fa:** ogni messaggio che Nicola invia include automaticamente le ultime 4 conversazioni precedenti (compresse). L'AD può rispondere "l'ho già fatto il 10/7" senza chiedere conferma.
