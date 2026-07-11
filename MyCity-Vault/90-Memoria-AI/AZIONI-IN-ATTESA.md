@@ -14,6 +14,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #allegati-vercel-env — Aggiungi 2 variabili su Vercel per sbloccare gli allegati nella chat · ⏳ IN ATTESA · accodata 2026-07-11 15:41
+
+**Problema:** il Pannello non riesce a far leggere all'AD i file allegati. Il Pannello li carica su Supabase Memoria Storage, poi manda il percorso al worker. Il caricamento fallisce perché Vercel non ha le credenziali Supabase.
+
+**Passi (2 minuti, su [vercel.com](https://vercel.com)) — firma Nicola:**
+1. Vai al progetto Pannello → **Settings → Environment Variables**
+2. Aggiungi `SUPABASE_URL` = `https://xjljcsorpbqwttrejqte.supabase.co`
+3. Aggiungi `SUPABASE_SERVICE_KEY` = valore dalla riga `SUPABASE_SERVICE_KEY=eyJhbGci…` nel file `.env` del VPS
+4. Clicca **Save** — il prossimo deploy le userà automaticamente
+
+**Nota:** il worker VPS ha già entrambe le chiavi e sa scaricare i file — manca solo il lato Vercel.
+
+**Cosa cambia:** il Pannello riesce a caricare file su Supabase Memoria; l'AD può leggerli e rispondere al loro contenuto.
+**Se va bene:** test immediato — allega un file in chat e l'AD risponde al contenuto (no più errore).
+
+- **Colore:** 🔴 (variabili d'ambiente in produzione — firma Nicola)
+
+---
+
 ### 🟡 #recensioni-trigger — Attiva il messaggio "grazie + recensione" automatico dopo ogni consegna · ⏳ IN ATTESA · accodata 2026-07-11 15:50
 
 **Template pronto:** `consegne/customer-success/2026-07-11-template-email-recensione.md`
