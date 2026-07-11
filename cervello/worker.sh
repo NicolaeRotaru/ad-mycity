@@ -535,7 +535,7 @@ $lezioni"
 # prossimo turno). Mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato (stato
 # resta in_corso) così nel Pannello compare parola per parola.
 _chat_stream_run() {
-  local to="$1" sid="$2" tmpf acc pidc cmd st pensando=0
+  local to="$1" sid="$2" tmpf acc pidc cmd st pensando=0 _last_acc=""
   CHAT_SOSTITUITA=0; CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "$sid" ] && cmd+=(--resume "$sid")
@@ -557,11 +557,15 @@ _chat_stream_run() {
       break
     fi
     acc="$(_estrai_stream "$tmpf")"
-    if [ -n "$acc" ]; then
-      # il parziale atterra SOLO se il lavoro è ancora in_corso (mai sopra un lavoro sostituito).
+    if [ -n "$acc" ] && [ "$acc" != "$_last_acc" ]; then
+      # 💸 SKIP-SE-INVARIATO (efficienza): il parziale si riscrive SOLO se il testo è cresciuto. Prima
+      # si faceva una PATCH ogni 1.5s anche quando l'AD era fermo su uno strumento (testo identico) →
+      # scritture ridondanti a banda O(N²). Ora niente rumore quando non c'è testo nuovo.
+      # Il parziale atterra SOLO se il lavoro è ancora in_corso (mai sopra un lavoro sostituito).
       curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
         -d "$(jq -n --arg r "$acc" '{risultato:$r}')" >/dev/null 2>&1 || true
-    elif [ "$pensando" = 0 ] && grep -q '"thinking' "$tmpf" 2>/dev/null; then
+      _last_acc="$acc"
+    elif [ -z "$acc" ] && [ "$pensando" = 0 ] && grep -q '"thinking' "$tmpf" 2>/dev/null; then
       # 💭 RAGIONAMENTO VISIBILE (come claude.ai): col thinking attivo il primo testo può arrivare
       # dopo decine di secondi di silenzio — Nicola vedeva il nulla e pensava «si è bloccato».
       # Una sola scrittura (poi arrivano i veri parziali che la sovrascrivono).
@@ -632,6 +636,7 @@ rispondi_chat_json() {
 # se la diagnosi non esce, si tiene il testo di prima (mai peggio di prima). Stampa la diagnosi.
 diagnosi_errore() {
   local errore_txt="$1" diag
+  local AI_THINKING=0   # 💸 tradurre un errore è volume, non ragionamento → niente budget di pensiero.
   printf '%s' "$errore_txt" | grep -qiE 'rate.?limit|quota|overloaded|429|usage limit' && return 0
   AI_ALLOW_ACTIONS=0 ai_build_cmd
   diag="$(timeout --kill-after=15s 120 "${AI_CMD[@]}" \
@@ -812,10 +817,20 @@ else
   echo "[$(ts)] Auto-recovery OFF (manca la migration lavori-retry.sql) — i falliti restano 'errore' (riprova manuale)." >&2
 fi
 
+# 💸 BATTITO THROTTLE (efficienza): il loop gira ogni ${INTERVALLO}s (default 5) per tenere la chat
+# reattiva, ma il battito verso il DB (worker:ultimo + per-lane) non serve così spesso — il Pannello
+# lo considera vivo entro qualche minuto. Lo scriviamo ogni WORKER_BATTITO_SEC (default 20) → ~4x meno
+# scritture REST a coda vuota, senza perdere reattività. Il battito WATCHDOG systemd resta OGNI giro
+# (è la rete di sicurezza anti-freeze e non tocca il DB). Prima scrittura subito (_LAST_BEAT=0).
+_LAST_BEAT=0
 while true; do
   maybe_reload_worker
   maybe_riavvia_da_pannello
-  battito_worker
+  _now_epoch="$(date +%s)"
+  if [ "$(( _now_epoch - _LAST_BEAT ))" -ge "${WORKER_BATTITO_SEC:-20}" ]; then
+    battito_worker
+    _LAST_BEAT="$_now_epoch"
+  fi
   battito_systemd
   # Kill-switch: se nel Pannello l'AD e' in PAUSA, non eseguire nulla.
   # FAIL-CLOSED (come AR-100 nel giro): se lo stato pausa NON è leggibile (errore transitorio sulla
@@ -1062,6 +1077,10 @@ $richiesta"
     # di --allowedTools). Quindi la chat PUÒ verificare e lavorare (è il punto: capire da sola), ma
     # le azioni reali restano dietro i cancelli di firma (esegui-azione.mjs dry-run, git-pr, 🔴).
     if [ "$tipo" = "chat" ]; then export AI_ALLOW_ACTIONS=0; else export AI_ALLOW_ACTIONS=1; fi
+    # 💸 PENSIERO MIRATO (efficienza): i compiti di solo VOLUME (metabolizzare = riassumere) non ragionano
+    # → niente budget di pensiero (motore-ai.sh legge AI_THINKING). Il ragionamento (chat/giro/lavori)
+    # resta al default del .env. Reset per-lavoro: fuori da qui AI_THINKING è vuoto → default.
+    if [ "$compito_router" = "testi-volume" ]; then export AI_THINKING=0; else unset AI_THINKING; fi
     ai_build_cmd
     if [ -n "$modello_scelto" ] && [ "$modello_scelto" != "claude" ] && [ "$collegato_scelto" = "1" ] && [ -n "${AI_ECON_CMD:-}" ]; then
       echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
