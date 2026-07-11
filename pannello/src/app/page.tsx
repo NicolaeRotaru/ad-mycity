@@ -2059,20 +2059,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
             <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
-            <div className="flex gap-2 items-end">
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    mandaAlCervello();
-                  }
-                }}
-                rows={2}
-                placeholder="Scrivi all'AD (col tuo Max), gratis..."
-                className="input-soft flex-1 min-h-[56px] max-h-24 resize-y"
-              />
+            {/* Pulsanti SOPRA la box di testo (su mobile non le rubano larghezza); la textarea ha tutta la riga. */}
+            <div className="flex items-center gap-2">
               <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} />
               <button
                 onClick={() => fileChatRef.current?.click()}
@@ -2095,28 +2083,37 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <Mic size={18} />
               </button>
               <button
+                onClick={dammiPrompt}
+                disabled={!input.trim()}
+                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
+                aria-label="Prompt (copia per Max)"
+                title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
+              >
+                <FileText size={15} /> Prompt
+              </button>
+              <button
                 onClick={() => mandaAlCervello()}
                 disabled={!input.trim() && allegatiChat.length === 0}
-                className="min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
+                className="ml-auto min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
-                title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui"
+                title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui — Invio = invia · Shift+Invio = a capo"
               >
                 {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={dammiPrompt}
-                disabled={!input.trim()}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
-                title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
-              >
-                <FileText size={14} /> Prompt (copia per Max)
-              </button>
-            </div>
-            <p className="t-eti text-[11px] px-1 leading-relaxed">
-              🧠 <b>Invio</b> = invia · <b>Shift+Invio</b> = a capo — l&apos;AD risponde qui, sul tuo Max (gratis) e ricorda il filo · 📋 <b>Prompt</b> = lo copi e incolli in Claude. Niente API a pagamento.
-            </p>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  mandaAlCervello();
+                }
+              }}
+              rows={2}
+              placeholder="Scrivi all'AD (col tuo Max), gratis..."
+              className="input-soft w-full min-h-[56px] max-h-24 resize-y"
+            />
           </div>
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
@@ -2342,25 +2339,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={chatFabEndRef} />
           </div>
-          <div className="border-t p-2.5" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
+          <div className="border-t p-2.5 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
             <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
-            <div className={skillAperte ? "mb-2" : ""}>
-              <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
-            </div>
-            <div className="flex gap-2 items-end">
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    mandaAlCervello();
-                  }
-                }}
-                rows={3}
-                placeholder="Scrivi all'AD…"
-                className="input-soft flex-1 min-h-[78px] max-h-28 resize-y text-[13px]"
-              />
+            <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
+            {/* Pulsanti SOPRA la box di testo: su mobile la textarea tiene tutta la larghezza. */}
+            <div className="flex items-center gap-2">
               <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={40} icona={16} />
               <button
                 onClick={() => fileChatRef.current?.click()}
@@ -2385,12 +2368,25 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 onClick={() => mandaAlCervello()}
                 disabled={!input.trim() && allegatiChat.length === 0}
-                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
+                className="ml-auto min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
                 aria-label="Invia"
               >
                 <Send size={16} />
               </button>
             </div>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  mandaAlCervello();
+                }
+              }}
+              rows={3}
+              placeholder="Scrivi all'AD…"
+              className="input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]"
+            />
           </div>
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div
