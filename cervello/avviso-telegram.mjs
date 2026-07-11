@@ -28,7 +28,10 @@ const DRY = !TOKEN || !CHAT || process.argv.includes("--dry");
 //  - Telegram spento  → resta nella casella (il Pannello lo mostra);
 //  - push bloccato dal gate → sul Pannello del VPS (che legge il filesystem) compare subito lo stesso.
 // Path risolto dallo script (non dal cwd): cervello/ → ../MyCity-Vault/… = radice repo.
-const CASELLA = fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/avvisi-macchina.json", import.meta.url));
+// AVVISI_FILE (env) lo sovrascrive: serve ai TEST per scrivere in una cartella temporanea —
+// senza, ogni run della suite depositava avvisi «(test)» nel vault VERO (inquinamento da test).
+const CASELLA = process.env.AVVISI_FILE?.trim()
+  || fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/avvisi-macchina.json", import.meta.url));
 const MAX_AVVISI = 50; // teniamo solo gli ultimi 50: la casella non cresce all'infinito (e vault-sanità resta felice).
 
 function depositaInCasella(t) {

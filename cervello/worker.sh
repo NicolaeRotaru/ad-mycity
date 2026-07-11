@@ -345,6 +345,43 @@ _estrai_stream() {
     "$f" 2>/dev/null
 }
 
+# ── 🧵 MEMORIA DI SESSIONE (chat) ────────────────────────────────────────────────────────────────
+# LA differenza tra «Claude Code che capisce da solo» e «il worker che gira in tondo»: prima OGNI
+# turno di chat lanciava una CLI nuova — l'AD perdeva tutta la memoria di lavoro (cosa aveva letto,
+# provato, sbagliato) e la riscopriva/ri-sbagliava a ogni messaggio. Ora ogni conversazione del
+# Pannello (gruppo_id) è agganciata a una SESSIONE Claude persistente (`claude -p --resume <id>`):
+# il turno nuovo riprende la stessa sessione, con dentro i turni precedenti E i risultati dei
+# comandi già eseguiti. La mappa gruppo_id→session_id vive in impostazioni (chiave
+# chat:sessione:<gruppo>), aggiornata a ogni turno (ogni --resume genera un id nuovo).
+# Fail-safe totale: sessione assente/morta → si riparte senza --resume, come prima (la richiesta
+# contiene comunque la conversazione intera come testo: nessun messaggio può perdersi).
+
+# Estrae il session_id dall'ultimo evento dello stream-json (init e result lo portano entrambi).
+_estrai_session_id() {
+  jq -Rrn '[inputs | fromjson? // empty | objects | .session_id // empty] | last // empty' "$1" 2>/dev/null
+}
+
+# Normalizza il gruppo_id per usarlo in chiave/URL (solo caratteri sicuri; vuoto se non ne restano).
+_chiave_gruppo() {
+  printf '%s' "$1" | tr -cd 'A-Za-z0-9_-' | head -c 64
+}
+
+leggi_sessione_chat() {   # $1 = gruppo_id → stampa il session id salvato (vuoto se assente)
+  local g; g="$(_chiave_gruppo "$1")"; [ -n "$g" ] || return 0
+  curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.chat:sessione:$g&limit=1" "${AUTH[@]}" 2>/dev/null \
+    | jq -r '.[0].valore // empty' 2>/dev/null || true
+}
+
+salva_sessione_chat() {   # $1 = gruppo_id, $2 = session id (vuoto = non salvare nulla)
+  local g; g="$(_chiave_gruppo "$1")"
+  [ -n "$g" ] && [ -n "$2" ] || return 0
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "$(jq -n --arg k "chat:sessione:$g" --arg v "$2" --arg t "$(date -Iseconds)" \
+          '{chiave:$k, valore:$v, updated_at:$t}')" \
+    >/dev/null 2>&1 || true
+}
+
 # 📎 ALLEGATI CHAT: se la richiesta contiene righe "@ALLEGATO ... percorso=..." (foto/file caricati dal
 # Pannello nello storage), le scarica in una cartella temporanea con la service key e stampa un blocco di
 # istruzioni con i PERCORSI LOCALI, così Claude li apre con lo strumento Read (le foto le VEDE, i PDF/testi
@@ -386,7 +423,8 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # 🧭 CONTESTO-MACCHINA (chat): blocco di realtà che il worker inietta in OGNI turno di chat.
 # Lo raccoglie il CODICE (git + coda + segnali + lezioni), non il modello: la chat parte sempre
 # sapendo dove si trova — branch attuale, file sporchi, lavori in errore, lezioni già imparate —
-# invece di riscoprirlo (o sbagliarlo) a ogni sessione, visto che ogni sessione parte da zero.
+# invece di riscoprirlo (o sbagliarlo): anche con la memoria di sessione (--resume) i ricordi
+# possono essere VECCHI — questo blocco è la fotografia fresca che vince sempre sui ricordi.
 # Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
 contesto_macchina_chat() {
@@ -440,14 +478,15 @@ $lezioni"
   printf '%s' "$blocco"
 }
 
-# Esegue la chat in streaming: mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato
-# (stato resta in_corso) così nel Pannello compare parola per parola. Popola le globali out, rc.
-# FAIL-SAFE: se lo stream non dà testo (CLI che non supporta il formato) o esce male, si ricade
-# sull'esecuzione normale (cattura piena) → la risposta finale è SEMPRE quella autorevole.
-rispondi_chat_stream() {
-  local to="$1" tmpf acc pidc cmd st
-  CHAT_SOSTITUITA=0
+# Un SINGOLO tentativo di chat in streaming. $1 = timeout, $2 = session id da riprendere (vuoto =
+# sessione nuova). Popola out, rc, CHAT_SOSTITUITA e CHAT_NUOVA_SESSIONE (l'id da salvare per il
+# prossimo turno). Mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato (stato
+# resta in_corso) così nel Pannello compare parola per parola.
+_chat_stream_run() {
+  local to="$1" sid="$2" tmpf acc pidc cmd st
+  CHAT_SOSTITUITA=0; CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
+  [ -n "$sid" ] && cmd+=(--resume "$sid")
   tmpf="$(mktemp)"
   timeout --kill-after=30s "$to" "${cmd[@]}" --output-format stream-json --verbose --include-partial-messages "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
@@ -475,9 +514,28 @@ rispondi_chat_stream() {
   wait "$pidc" 2>/dev/null; rc=$?
   if [ "$CHAT_SOSTITUITA" = 1 ]; then rm -f "$tmpf"; out=""; rc=0; return 0; fi
   out="$(_estrai_stream "$tmpf")"
+  CHAT_NUOVA_SESSIONE="$(_estrai_session_id "$tmpf")"
   rm -f "$tmpf"
+}
+
+# Esegue la chat in streaming, riprendendo la sessione della conversazione se esiste (memoria vera
+# tra i turni). Popola le globali out, rc, CHAT_NUOVA_SESSIONE. FAIL-SAFE a 3 gradini:
+# ① --resume fallisce/vuoto (sessione cancellata dal disco, CLI aggiornata…) → riprova SENZA resume
+#   (la richiesta contiene comunque tutta la conversazione come testo: nessun contesto perso);
+# ② lo streaming stesso non dà testo → esecuzione normale (cattura piena), risposta autorevole.
+rispondi_chat_stream() {
+  local to="$1"
+  _chat_stream_run "$to" "${CHAT_RESUME_SID:-}"
+  [ "${CHAT_SOSTITUITA:-0}" = 1 ] && return 0
+  if { [ -z "$out" ] || [ "$rc" -ne 0 ]; } && [ -n "${CHAT_RESUME_SID:-}" ]; then
+    echo "[$(ts)] Lavoro $id (chat): sessione $CHAT_RESUME_SID non ripresa (rc=$rc) — riparto con una sessione nuova." >&2
+    CHAT_RESUME_SID=""
+    _chat_stream_run "$to" ""
+    [ "${CHAT_SOSTITUITA:-0}" = 1 ] && return 0
+  fi
   if [ -z "$out" ]; then
     # streaming non disponibile/vuoto → esecuzione normale, risposta finale garantita corretta.
+    local cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
     out="$(timeout --kill-after=30s "$to" "${cmd[@]}" "$prompt" 2>&1)"; rc=$?
   fi
 }
@@ -643,6 +701,7 @@ while true; do
   stato=""
   out=""
   ROUTER_COMPITO_JOB=""   # AR-089: reset per-lavoro del compito-router (default = ragionamento/premium)
+  gruppo_id=""; CHAT_RESUME_SID=""; CHAT_NUOVA_SESSIONE=""   # 🧵 reset memoria di sessione per-lavoro
 
   # 1) CLAIM ATOMICO (compare-and-set): prendi il lavoro SOLO se è ANCORA in_attesa. Con
   #    return=representation la PATCH torna la riga solo se l'ha aggiornata QUESTO worker; se un altro
@@ -656,15 +715,17 @@ while true; do
     continue
   fi
 
-  # 📸 IMPRONTA-VERITÀ (chat): fotografa lo stato del repo PRIMA del lavoro. A fine turno, se il
-  # repo è cambiato, il worker (codice, non l'AD) appende in chat lo stato REALE — così un «fatto»
+  # 📸 IMPRONTA-VERITÀ: fotografa lo stato del repo PRIMA del lavoro. A fine turno, se il repo è
+  # cambiato, il worker (codice, non l'AD) appende al risultato lo stato REALE — così un «fatto»
   # non verificato dell'AD non può più passare inosservato a Nicola, e il turno successivo (che
   # rilegge la conversazione) riparte dalla verità del disco invece che dai ricordi della sessione.
+  # Vale per TUTTE le corsie AI (chat, analisi, esegui-azione…), non solo la chat: anche il
+  # risultato di un lavoro può contenere un «fatto» da provare. (giro/ritmo hanno pipeline proprie.)
   _chat_head_prima=""; _chat_dirty_prima=""
-  if [ "$tipo" = "chat" ]; then
+  case "$tipo" in giro|ritmo-*) : ;; *)
     _chat_head_prima="$(git log -1 --format=%h 2>/dev/null || echo '')"
     _chat_dirty_prima="$(git status --porcelain 2>/dev/null | sort | md5sum | cut -d' ' -f1)"
-  fi
+  ;; esac
 
   # 2) costruisci il prompt (come worker.ps1)
   if [ "$tipo" = "esegui-azione" ]; then
@@ -736,23 +797,43 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     # conversazionale — niente rituale del "ciclo AD", niente lettura obbligata dell'intero vault:
     # si risponde alla domanda in modo diretto e utile, come Claude Max. Il personaggio resta (CLAUDE.md
     # è caricato dal progetto); qui diciamo solo COME rispondere → risposte pertinenti, non "cose inutili".
+    #
+    # 🧵 MEMORIA DI SESSIONE: se la conversazione (gruppo_id) ha già una sessione Claude, questo
+    # turno la RIPRENDE (--resume) → l'AD ricorda davvero cosa ha letto/provato nei turni scorsi.
+    # La regola «parti da zero» diventa dinamica: vale solo per il primo turno o se la sessione è morta.
+    gruppo_id="$(printf '%s' "$riga" | jq -r '.[0].gruppo_id // empty' 2>/dev/null)"
+    CHAT_RESUME_SID="$(leggi_sessione_chat "$gruppo_id")"
+    if [ -n "$CHAT_RESUME_SID" ]; then
+      _regola_memoria="3. Questa conversazione RIPRENDE una tua sessione precedente: la tua memoria dei turni scorsi (letture, comandi, tentativi) è vera, usala — non ripartire da capo. La conversazione è comunque riportata per intero qui sotto: se i tuoi ricordi non coincidono col testo, fa fede il testo. E il mondo può essere cambiato nel frattempo: per lo stato di repo/coda/segnali fidati del blocco CONTESTO MACCHINA (raccolto ADESSO); prima di dire «già fatto» o «non esiste» su cose che non hai verificato TU in QUESTA conversazione, controlla (git log, git status, Read)."
+    else
+      _regola_memoria="3. Questa sessione parte da ZERO: non ricordi le chat precedenti né lo stato del disco. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read)."
+    fi
     prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello.
 Rispondi in italiano, diretto, concreto e utile — è una conversazione vera, non un report.
 Vai al punto: niente preamboli, niente rituali, niente analisi enormi se non te le chiede. Se ti serve un dato reale leggilo, altrimenti rispondi e basta.
 
+COME SCRIVI (contratto di chiarezza — Nicola non è un tecnico, e questo conta quanto la sostanza):
+- La PRIMA riga è la risposta o l'esito, in parole semplici, come lo diresti a voce a un amico.
+- Poi al massimo 5 punti brevi: solo ciò che cambia qualcosa per Nicola, non il diario di quello che hai fatto.
+- Sigle, ID, hash, percorsi e comandi NON vanno nel discorso: se servono davvero, mettili in fondo sotto una riga «🔧 Dettagli tecnici».
+- Se Nicola deve fare qualcosa: passi numerati, uno per riga, esatti e completi.
+- Rileggi la risposta prima di consegnarla: se una frase non si capirebbe detta a voce, riscrivila.
+
 REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa danni veri):
 1. MAI dire «fatto» senza aver verificato coi tuoi occhi: dopo ogni modifica mostra la prova (riga di git log, path del file, output del comando). Se non hai potuto verificare, scrivi «non verificato» — non fingere.
 2. Se un comando fallisce o un permesso è negato, dillo SUBITO con l'errore esatto. Mai far finta di niente, mai aggirare il blocco con script improvvisati o curl verso GitHub.
-3. Ogni sessione chat parte da ZERO: non ricordi le chat precedenti né lo stato del disco. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read).
+$_regola_memoria
 4. Nessun numero inventato: ogni cifra ha una fonte (file, query, comando) o dichiari che manca.
 5. Se ti accorgi di aver sbagliato in un turno precedente, dillo esplicitamente e correggi: l'errore ammesso ripara, quello nascosto si moltiplica.
 6. ANTI-LOOP: se Nicola segnala lo STESSO problema per la seconda volta (o più), NON ripetere la stessa istruzione o verifica già fallita — dichiara «sto girando in tondo», elenca cosa è già stato provato nella conversazione, e cambia strada: un dato diverso, uno strumento diverso, o chiedi a Nicola il pezzo che ti manca. Ridare identico un consiglio già fallito due volte è di per sé l'errore più grave.
+7. PRIMA di rispondere su un problema, RAGIONA: qual è la causa più probabile? come la verifico con UN comando? cosa mi smentirebbe? Un'ipotesi verificata vale più di tre consigli generici.
 
 AZIONI:
 - Tocca il mondo reale (soldi, email a clienti, deploy, prezzi, cancellazioni)? NON eseguirla: proponila chiaramente e segna che serve la firma di Nicola (🔴).
 - Modifica al CODICE (Pannello o cervello)? MAI committare o pushare su main. Strada UNICA: parti da main (git checkout main — è GIÀ allineato: watch-main lo aggiorna ogni 5 minuti; NIENTE git pull o fetch, il remote è volutamente senza credenziali), git checkout -b fix/nome-parlante → committa lì → node cervello/git-pr.mjs --repo ad-mycity --base main --accoda → dai a Nicola il link della PR (il merge lo firma lui dal Pannello). Dopo la PR torna su main (git checkout main): la sessione successiva non deve ereditare il tuo branch.
 
 LA TUA CASSETTA DEGLI ATTREZZI (non esiste altro — non inventare strumenti):
+- PUOI (usali, non tirare a indovinare): leggere TUTTO il repo e il vault (Read/Grep/Glob), scrivere/modificare file, Bash per git in locale (status, log, diff, show, branch, checkout, add, commit, stash, rebase) e per gli strumenti del cervello (node cervello/*.mjs: verifica-sensori, marketplace, coerenza-fatti, banco-ai, git-pr…), cercare sul web (WebSearch/WebFetch). Una risposta verificata con un comando vale più di dieci ipotesi.
 - Sei in modalità HEADLESS: NESSUN box di approvazione può comparire a Nicola. Se un comando è negato, non dire mai «approva il box»: usa la strada consentita, oppure accoda l'azione in AZIONI-IN-ATTESA e spiega cosa serve.
 - Le PR si aprono SOLO con node cervello/git-pr.mjs. La CLI gh NON è installata e NON va installata. Il merge lo fa solo Nicola dal Pannello.
 - MAI chiedere a Nicola di allargare i permessi (niente regole larghe tipo git push:* o curl:*): se qualcosa è bloccato, è bloccato apposta.
@@ -775,6 +856,11 @@ $_alleg_block"
     prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴.
 Se il lavoro tocca il CODICE: branch dedicato + node cervello/git-pr.mjs --repo ad-mycity --accoda (mai commit o push su main; il merge lo firma Nicola dal Pannello).
 
+COME LAVORI (vale quanto il risultato):
+- PRIMA di eseguire, ragiona: qual è il risultato che serve davvero a Nicola? qual è la strada più corta per ottenerlo? cosa può andare storto?
+- MAI dire «fatto» senza la prova (output del comando, riga di git log, path del file scritto). Se non hai verificato, scrivi «non verificato».
+- Il risultato per Nicola si scrive in parole semplici: prima riga = l'esito come lo diresti a voce; sigle, ID, hash e percorsi vanno in fondo sotto «🔧 Dettagli tecnici».
+
 $richiesta"
   fi
 
@@ -790,11 +876,11 @@ $richiesta"
     modello_scelto="${router_out%%|*}"
     collegato_scelto="$(printf '%s' "$router_out" | cut -d'|' -f3)"
     node cervello/banco-ai.mjs "$compito_router" --log >/dev/null 2>&1 || true   # AR-089: misura l'uso reale in routing.json
-    # La CHAT resta conversazione PULITA e SENZA MANI. Armare i tool inline (--allowedTools) su ogni
-    # messaggio: (1) rompeva lo streaming — quando Claude si fermava per usare uno strumento, _estrai_stream
-    # catturava solo un pezzo → risposte troncate/«sballate»; (2) dava le mani anche a una chiacchiera
-    # (rischio danni). L'autonomia PR+DB vive sulle corsie di LAVORO (giro, esegui-azione), dove gli
-    # strumenti servono davvero e non c'è streaming da spezzare. Gate: AI_ALLOW_ACTIONS (motore-ai.sh).
+    # Le MANI della chat vengono da .claude/settings.json (allowlist di progetto curata: git locale,
+    # node cervello/*.mjs, web) — NON dall'allowlist inline. AI_ALLOW_ACTIONS=0 qui significa solo
+    # «niente lista EXTRA inline sulla chat» (storicamente rompeva lo streaming per il bug variadico
+    # di --allowedTools). Quindi la chat PUÒ verificare e lavorare (è il punto: capire da sola), ma
+    # le azioni reali restano dietro i cancelli di firma (esegui-azione.mjs dry-run, git-pr, 🔴).
     if [ "$tipo" = "chat" ]; then export AI_ALLOW_ACTIONS=0; else export AI_ALLOW_ACTIONS=1; fi
     ai_build_cmd
     if [ -n "$modello_scelto" ] && [ "$modello_scelto" != "claude" ] && [ "$collegato_scelto" = "1" ] && [ -n "${AI_ECON_CMD:-}" ]; then
@@ -808,7 +894,7 @@ $richiesta"
       # STREAMING (step 2): la risposta compare parola-per-parola. CHAT_STREAM=0 per spegnerlo senza
       # toccare il codice; CHAT_MODELLO opzionale per fissare un modello preciso (vuoto = premium).
       if [ "${CHAT_STREAM:-1}" = 1 ]; then
-        echo "[$(ts)] Lavoro $id (chat): qualità massima + streaming."
+        echo "[$(ts)] Lavoro $id (chat): qualità massima + streaming${CHAT_RESUME_SID:+ + memoria di sessione ($CHAT_RESUME_SID)}."
         rispondi_chat_stream "$to"   # popola out, rc e scrive i parziali nel Pannello
         if [ "${CHAT_SOSTITUITA:-0}" = 1 ]; then
           # Il lavoro è stato sostituito da un messaggio più nuovo: NON scrivere esiti sopra
@@ -816,6 +902,9 @@ $richiesta"
           echo "[$(ts)] Lavoro $id (chat): chiuso come sostituito — passo al messaggio nuovo."
           continue
         fi
+        # 🧵 aggiorna la mappa conversazione→sessione: ogni run genera un session id NUOVO (anche
+        # in resume), quindi si salva sempre l'ultimo — il prossimo turno riprende da qui.
+        salva_sessione_chat "$gruppo_id" "${CHAT_NUOVA_SESSIONE:-}"
       elif [ -n "${CHAT_MODELLO:-}" ]; then
         echo "[$(ts)] Lavoro $id (chat): qualità massima → $CHAT_MODELLO."
         out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" --model "$CHAT_MODELLO" "$prompt" 2>&1)"; rc=$?
@@ -838,11 +927,11 @@ $richiesta"
     fi
   fi
 
-  # 3a-bis) 📸 IMPRONTA-VERITÀ (chat): se in questo turno il repo è cambiato (commit nuovo o file
-  # toccati), appendi alla risposta lo stato REALE letto dal disco. È il controllo del worker, non
+  # 3a-bis) 📸 IMPRONTA-VERITÀ: se in questo lavoro il repo è cambiato (commit nuovo o file
+  # toccati), appendi al risultato lo stato REALE letto dal disco. È il controllo del worker, non
   # parole del modello: rende visibile a Nicola ogni effetto collaterale, anche quello non dichiarato.
   # (Prima di sync_vault, che committando la memoria sporcherebbe la misura del SOLO lavoro dell'AD.)
-  if [ "$tipo" = "chat" ] && [ "$stato" = "fatto" ] && [ -n "$out" ]; then
+  if [ -n "$_chat_head_prima$_chat_dirty_prima" ] && [ "$stato" = "fatto" ] && [ -n "$out" ]; then
     _chat_head_dopo="$(git log -1 --format=%h 2>/dev/null || echo '')"
     _chat_dirty_dopo="$(git status --porcelain 2>/dev/null | sort | md5sum | cut -d' ' -f1)"
     if [ "$_chat_head_dopo" != "$_chat_head_prima" ] || [ "$_chat_dirty_dopo" != "$_chat_dirty_prima" ]; then
@@ -859,10 +948,16 @@ $richiesta"
     fi
   fi
 
-  # 3a-ter) ERRORE CHAT IN LINGUA UMANA: se il motore della chat muore, Nicola non deve leggere
-  # solo il vomito tecnico della CLI — prima una riga chiara su cosa fare, poi il dettaglio.
+  # 3a-ter) ERRORE IN LINGUA UMANA: se il motore muore, Nicola non deve leggere solo il vomito
+  # tecnico della CLI — prima una riga chiara su cosa è successo e cosa fare, poi il dettaglio
+  # (che resta in coda: serve alla diagnosi e alla retry-policy, che ci cerca dentro i pattern).
   if [ "$tipo" = "chat" ] && [ "$stato" = "errore" ]; then
     out="⚠️ Il motore della chat si è fermato prima di finire. Il tuo messaggio NON è perso: riprova a inviarlo tra qualche secondo. Se succede di nuovo, dimmi «il motore chat si è fermato di nuovo» e indago nei log.
+
+Dettaglio tecnico (per la diagnosi):
+$out"
+  elif [ "$stato" = "errore" ] && [ "$skip_sync" != 1 ]; then
+    out="⚠️ Questo lavoro si è fermato prima di finire. Non è perso: se non riparte da solo (ritentativo automatico), puoi rilanciarlo dal Pannello con «Riprova».
 
 Dettaglio tecnico (per la diagnosi):
 $out"
