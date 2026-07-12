@@ -2221,7 +2221,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const pinnata = convPinnate.has(c.id);
                   const nonLetta = !!(
                     c.updated_at &&
-                    (!convLette[c.id] || c.updated_at > convLette[c.id]) &&
+                    convLette[c.id] && c.updated_at > convLette[c.id] &&
                     c.messaggi.some((m) => m.role === "assistant" && !m.pending)
                   );
                   return (
