@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-12 12:20",
+  "aggiornato": "2026-07-12 14:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
@@ -206,7 +206,7 @@
       "reparto": "finanza",
       "righe_esito": 3,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 11,
+      "giorni_fa": 12,
       "vuoto": false,
       "fermo": true
     },
@@ -214,7 +214,7 @@
       "reparto": "frontend-dev",
       "righe_esito": 15,
       "ultimo_esito": "2026-07-10 02:15",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -246,7 +246,7 @@
       "reparto": "legale-privacy",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:06",
-      "giorni_fa": 11,
+      "giorni_fa": 12,
       "vuoto": false,
       "fermo": true
     },
@@ -310,7 +310,7 @@
       "reparto": "qa",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 11,
+      "giorni_fa": 12,
       "vuoto": false,
       "fermo": true
     },
@@ -358,7 +358,7 @@
       "reparto": "tech",
       "righe_esito": 10,
       "ultimo_esito": "2026-07-07 00:29",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
