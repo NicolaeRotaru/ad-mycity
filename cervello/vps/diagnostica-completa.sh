@@ -70,10 +70,14 @@ echo
 echo "▶ 4) Motore AI (Cursor agent / Claude)"
 . "$REPO/cervello/motore-ai.sh"
 echo "     CERVELLO_MOTORE=${CERVELLO_MOTORE:-auto}"
-if [ -z "${CURSOR_API_KEY:-}" ]; then
-  warn "CURSOR_API_KEY mancante — obbligatoria se CERVELLO_MOTORE=cursor"
-else
-  ok "CURSOR_API_KEY presente (${#CURSOR_API_KEY} caratteri)"
+_auth_mode=""
+if [ "$(ai_engine 2>/dev/null || echo none)" = cursor ]; then
+  _auth_mode="$(ai_cursor_auth_mode 2>/dev/null || true)"
+  case "$_auth_mode" in
+    api_key) ok "Cursor: CURSOR_API_KEY presente (${#CURSOR_API_KEY} caratteri)" ;;
+    login)   ok "Cursor: autenticato via agent login (abbonamento, senza API key)" ;;
+    *)       warn "Cursor: né CURSOR_API_KEY né agent login — fai agent login o aggiungi la key" ;;
+  esac
 fi
 if sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE' 2>/dev/null; . '$REPO/cervello/motore-ai.sh'; ai_check" 2>&1; then
   ok "ai_check passato per utente mycity ($(sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE'; . '$REPO/cervello/motore-ai.sh'; ai_engine") / $(sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE'; . '$REPO/cervello/motore-ai.sh'; ai_cli_name"))"

@@ -16,8 +16,8 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Una **chiave API Cursor** (`CURSOR_API_KEY`): la crei su [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys**.
-  *(In alternativa, col motore Claude, il tuo account **Claude Max** per fare `claude login`.)*
+- Per il motore **Cursor**: `CURSOR_API_KEY` **oppure** `agent login` con l'abbonamento (come `claude login` + Max).
+  *(Chiave: [cursor.com/dashboard](https://cursor.com/dashboard) → Integrations → User API Keys.)*
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
