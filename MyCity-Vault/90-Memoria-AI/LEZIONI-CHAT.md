@@ -6,8 +6,8 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-12] «Vado dal negozio» / «primo negozio»: NON assumere Pane Quotidiano — chiedi subito se intende PQ (onboarding già contrattato: foto, catalogo, payout) o una delle 6 prospect (visita acquisizione: pitch, firma, materiale). Flussi diversi. Correzione Nicola 12/7.
 - [2026-07-12] Dark mode Pannello: mai `bg-white/60` o `/70` senza variante dark — in tema scuro restano grigio chiaro con testo chiaro (illeggibile, es. caselle ESITO Quaderni). Usa token tema (`surface-muted`) o override `dark:` su tutte le `bg-white/*`. Fix PR #308.
-- [2026-07-12] Prima di aprire una nuova PR per un fix Pannello: verifica `git log main` sui file target — la #303 aveva già mergiato il fix ordine conversazioni (17:44); #305/#306 erano doppioni con conflitti cervello da chiudere, non merge aggiuntivi.
 - [2026-07-12] Prima di modificare codice su una segnalazione UX: riassumi cosa hai capito e chiedi conferma — Nicola ha bloccato un fix partito senza conferma («prima di fare qualsiasi cosa dimmi cosa hai capito»).
 - [2026-07-12] Lista conversazioni: aprire/cambiare chat NON deve spostarla in cima — ordine stabile = pinnate (📌) in cima, poi per data di creazione. Fix LIVE su main via PR #303 mergiata 17:44 (`67c6b804`). #305/#306/#304 doppioni — chiudere senza merge. Badge non-letto indipendente dall'ordine.
 - [2026-07-12] localStorage per badge/notifiche: una key mancante deve significare "nessun badge" (default sicuro), non "non letto". Logica corretta: badge SOLO se `convLette[id]` esiste E il timestamp AI è più recente dell'ultima lettura. Bug PR #298: `!convLette[c.id]` mostrava badge su TUTTE le conversazioni perché la mappa parte vuota.
