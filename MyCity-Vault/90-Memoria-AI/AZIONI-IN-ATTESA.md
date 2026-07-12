@@ -14,6 +14,14 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### ✅ #pr-305-ordine-conversazioni — FATTO 2026-07-12 17:44 · fix già su main via PR #303 mergiata da Nicola
+
+Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine stabile (pinnate 📌 + data creazione). Commit `67c6b804` su main. PR #305/#306/#304 doppioni da chiudere senza merge (conflitti su file cervello). Deploy Vercel automatico.
+
+- **Colore:** 🟢 (già merged via #303)
+
+---
+
 ### 🟡 #pr-297-archivio-parallelo — Mergia PR #297: Archivio carica in 1-2 sec invece di 15 · ⏳ IN ATTESA · accodata 2026-07-12
 
 **Cosa fa:** la route API dell'Archivio leggeva le cartelle una alla volta (15 chiamate HTTP in fila = ~15 secondi). Con `Promise.all()` tutte le chiamate partono insieme — il tempo diventa quello della cartella più lenta (~1-2 secondi).
@@ -712,7 +720,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 80 | 2026-07-12 01:29 | @tech | Merge PR #291 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/291 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 81 | 2026-07-12 02:35 | @tech | Merge PR #296 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/296 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 82 | 2026-07-12 02:41 | @tech | Merge PR #297 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/297 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 83 | 2026-07-12 19:35 | @tech | Merge PR #305 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/305 | github | in attesa | Aprire una chat non la sposterà più in cima nella lista Conversazioni — ordine stabile (pinnate + data creazione). | Dopo Approva: merge + deploy Vercel; ricarica Pannello e prova aprire chat A poi B — A resta al suo posto. PR #301/#303/#304 doppioni da ignorare. |
+| 83 | 2026-07-12 19:35 | @tech | Merge PR #305 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/305 | github | ✅ FATTO 2026-07-12 17:44 | Aprire una chat non la sposterà più in cima nella lista Conversazioni — ordine stabile (pinnate + data creazione). | Fix già su main via PR #303 mergiata 17:44 (commit `67c6b804`). Chiudere #305/#306/#304 senza merge. |
 | 84 | 2026-07-12 17:39 | @tech | Merge PR #302 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/302 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
