@@ -240,7 +240,7 @@ export type ConversazioneRow = {
 export async function getConversazioni(limit = 100): Promise<{ tabella: boolean; righe: ConversazioneRow[] }> {
   if (!memoryConnected()) return { tabella: false, righe: [] };
   const res = await fetch(
-    `${URL}/rest/v1/conversazioni?select=id,created_at,updated_at,titolo,messaggi&order=updated_at.desc&limit=${limit}`,
+    `${URL}/rest/v1/conversazioni?select=id,created_at,updated_at,titolo,messaggi&order=created_at.desc&limit=${limit}`,
     { headers: headers(), cache: "no-store" }
   );
   if (!res.ok) return { tabella: false, righe: [] };
