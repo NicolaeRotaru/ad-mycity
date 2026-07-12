@@ -482,6 +482,36 @@ body {
 .dark .bg-white\/25 {
   background-color: rgba(232, 224, 212, 0.12) !important;
 }
+/* Sfondi bg-white/XX senza override = lastre grigie illeggibili in dark (Quaderni, Numeri, Grafo). */
+.dark .bg-white\/60,
+.dark .bg-white\/70 {
+  background-color: var(--bg-surface-2) !important;
+}
+.dark .bg-white\/90 {
+  background-color: var(--bg-elevated) !important;
+}
+.dark .bg-white\/10 {
+  background-color: rgba(232, 224, 212, 0.08) !important;
+}
+.dark .bg-white\/15 {
+  background-color: rgba(232, 224, 212, 0.1) !important;
+}
+.dark .bg-white\/30 {
+  background-color: rgba(232, 224, 212, 0.14) !important;
+}
+.dark .bg-white\/40 {
+  background-color: rgba(232, 224, 212, 0.16) !important;
+}
+.dark .bg-white\/50 {
+  background-color: rgba(232, 224, 212, 0.18) !important;
+}
+.dark .bg-white\/\[0\.02\],
+.dark .bg-white\/\[0\.03\],
+.dark .bg-white\/\[0\.04\],
+.dark .bg-white\/\[0\.05\],
+.dark .bg-white\/\[0\.06\] {
+  background-color: rgba(232, 224, 212, 0.06) !important;
+}
 
 /* ──────────────────────────────────────────────────────────────────────────
    🌙 Comfort notturno (fix #1 — "colore fosforescente, impossibile leggere")

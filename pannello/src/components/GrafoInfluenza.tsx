@@ -50,7 +50,7 @@ export default function GrafoInfluenza() {
               <span
                 key={a.area}
                 title={a.top.join(" · ")}
-                className={`inline-flex items-center gap-1 text-[11.5px] px-2 py-1 rounded-lg border bg-white/70 ${a.peso >= 5 ? "border-brand/40" : a.peso >= 4 ? "border-amber-300/60" : "border-black/10"}`}
+                className={`inline-flex items-center gap-1 text-[11.5px] px-2 py-1 rounded-lg border surface-muted ${a.peso >= 5 ? "border-brand/40" : a.peso >= 4 ? "border-amber-300/60" : "border-black/10"}`}
               >
                 {a.area}
                 <span className="text-[10px] text-black/40">{a.n}</span>
@@ -88,7 +88,7 @@ export default function GrafoInfluenza() {
         <div className="t-micro mb-2">🔗 Catene indirette (effetti a 2-3 mosse)</div>
         <div className="space-y-2">
           {g.catene.map((c, i) => (
-            <div key={i} className="rounded-xl border border-black/[0.06] bg-white/60 p-2.5">
+            <div key={i} className="rounded-xl border border-black/[0.06] surface-muted p-2.5">
               <div className="flex flex-wrap items-center gap-1 text-[11.5px] text-ink/80">
                 {c.anelli.map((an, j) => (
                   <span key={j} className="inline-flex items-center gap-1">

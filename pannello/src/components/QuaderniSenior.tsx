@@ -206,8 +206,8 @@ export default function QuaderniSenior() {
                       <div className="space-y-3">
                         <div className="space-y-2">
                           {dettaglio.esiti.map((e, i) => (
-                            <div key={i} className="rounded-lg border border-black/[0.06] bg-white/60 p-2.5">
-                              <div className="text-[11px] font-mono text-black/45 mb-1">{dataVault(e.data)}</div>
+                            <div key={i} className="rounded-lg border border-black/[0.06] surface-muted p-2.5">
+                              <div className="text-[11px] font-mono t-eti mb-1">{dataVault(e.data)}</div>
                               <p className="text-[12.5px] text-ink/85 leading-relaxed">{e.testo}</p>
                             </div>
                           ))}
