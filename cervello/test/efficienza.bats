@@ -68,3 +68,7 @@ SH
 @test "regressione: il battito per-lane (fix due-worker #279) è ancora scritto" {
   grep -q 'worker:ultimo:\$WORKER_LANE' "$WORKER"
 }
+
+@test "efficienza: motore-ai espone ai_cursor_auth_ok per login senza API key" {
+  grep -q 'ai_cursor_auth_ok()' "$MOTORE"
+}

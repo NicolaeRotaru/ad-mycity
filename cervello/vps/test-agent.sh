@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# test-agent.sh — verifica che Cursor agent funzioni sul VPS (headless).
+# test-agent.sh — verifica che il motore AI funzioni sul VPS (headless).
 #   sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-agent.sh
 set -uo pipefail
 
@@ -16,12 +16,19 @@ echo "=== Test motore AI MyCity ==="
 echo "Motore: $(ai_engine) ($(ai_cli_name))"
 echo "HOME=$HOME  PATH=$PATH"
 
-if [ -z "${CURSOR_API_KEY:-}" ]; then
-  echo "✗ CURSOR_API_KEY mancante nel .env" >&2
-  echo "  cursor.com/dashboard → API Keys → aggiungi a cervello/vps/.env" >&2
-  exit 1
+eng="$(ai_engine)"
+if [ "$eng" = cursor ]; then
+  mode="$(ai_cursor_auth_mode || true)"
+  case "$mode" in
+    api_key) echo "Auth Cursor: CURSOR_API_KEY (${#CURSOR_API_KEY} caratteri)" ;;
+    login)   echo "Auth Cursor: agent login (abbonamento, senza API key nel .env)" ;;
+    *)       echo "✗ Cursor non autenticato (manca key e agent login)" >&2; exit 1 ;;
+  esac
+elif [ "$eng" = claude ]; then
+  if command -v claude >/dev/null 2>&1; then
+    echo "Auth Claude: verifica con 'claude' (piano Max / login)"
+  fi
 fi
-echo "CURSOR_API_KEY: ${CURSOR_API_KEY:0:7}… (${#CURSOR_API_KEY} caratteri)"
 
 if ! ai_check; then exit 1; fi
 
@@ -30,10 +37,12 @@ if command -v "$cli" >/dev/null 2>&1; then
   echo "Versione $cli: $($cli --version 2>/dev/null || echo '?')"
 fi
 
-if grep -q '\--trust' "$REPO/cervello/motore-ai.sh" 2>/dev/null; then
-  echo "motore-ai.sh: --trust presente ✓"
-else
-  echo "⚠ motore-ai.sh SENZA --trust — esegui aggiorna-cervello.sh" >&2
+if [ "$eng" = cursor ]; then
+  if grep -q '\--trust' "$REPO/cervello/motore-ai.sh" 2>/dev/null; then
+    echo "motore-ai.sh: --trust presente ✓"
+  else
+    echo "⚠ motore-ai.sh SENZA --trust — esegui aggiorna-cervello.sh" >&2
+  fi
 fi
 
 ai_build_cmd
@@ -46,13 +55,16 @@ out="$(timeout --kill-after=10s "$TO" "${AI_CMD[@]}" "Rispondi SOLO con la parol
 printf '%s\n' "$out"
 
 if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
-  echo "✗ TIMEOUT dopo ${TO}s — agent non risponde." >&2
-  echo "  Possibili cause: rete VPS→Cursor bloccata, CURSOR_API_KEY scaduta, API Cursor giù." >&2
-  echo "  Prova: curl -sI https://api2.cursor.sh | head -3" >&2
+  echo "✗ TIMEOUT dopo ${TO}s — il motore non risponde." >&2
+  if [ "$eng" = cursor ]; then
+    echo "  Possibili cause: rete VPS→Cursor bloccata, login scaduto, API Cursor giù." >&2
+    echo "  Prova: curl -sI https://api2.cursor.sh | head -3" >&2
+    echo "  Rifai login: sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'" >&2
+  fi
   exit 1
 fi
 if [ "$rc" -ne 0 ]; then
-  echo "✗ agent fallito (rc=$rc)" >&2
+  echo "✗ $cli fallito (rc=$rc)" >&2
   exit 1
 fi
-echo "✓ agent risponde correttamente."
+echo "✓ $cli risponde correttamente."

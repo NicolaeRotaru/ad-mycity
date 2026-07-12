@@ -16,8 +16,8 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Una **chiave API Cursor** (`CURSOR_API_KEY`): la crei su [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys**.
-  *(In alternativa, col motore Claude, il tuo account **Claude Max** per fare `claude login`.)*
+- Per il motore **Cursor**: `CURSOR_API_KEY` **oppure** `agent login` con l'abbonamento (come `claude login` + Max).
+  *(Chiave: [cursor.com/dashboard](https://cursor.com/dashboard) → Integrations → User API Keys.)*
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
   **Il repo è PRIVATO**: serve per **clonarlo** sul server e per ripushare il vault (la password
@@ -59,10 +59,14 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il motore AI.** Con il motore **Cursor** (default) NON serve un login interattivo:
-basta mettere `CURSOR_API_KEY` nel `.env` (passo 3). Se preferisci il login interattivo una volta:
+**2. Collega il motore AI.** Con il motore **Cursor** puoi autenticarti in due modi (scegline uno):
+- **Abbonamento (consigliato, senza API key nel .env):** login una volta, come Claude Max:
 ```bash
-sudo -u mycity -H agent login        # motore Cursor (alternativa alla CURSOR_API_KEY)
+sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'
+sudo -u mycity -H agent status   # deve dire: Login successful
+```
+- **User API Key:** metti `CURSOR_API_KEY` nel `.env` (passo 3) — utile se il login scade o preferisci non rifarlo.
+```bash
 # sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
 ```
 

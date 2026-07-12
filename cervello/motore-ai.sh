@@ -8,9 +8,9 @@
 # Variabili (in cervello/vps/.env):
 #   CERVELLO_MOTORE  = auto | cursor | claude   (default: auto → preferisce 'agent', poi 'claude')
 #   CERVELLO_MODELLO = modello opzionale (es. composer-2.5 per Cursor, claude-4.6-sonnet per Claude)
-#   CURSOR_API_KEY   = chiave API Cursor (alternativa al login interattivo 'agent login')
+#   CURSOR_API_KEY   = chiave User API Cursor (opzionale se hai fatto 'agent login' con l'abbonamento)
 #
-# Espone: ai_engine, ai_cli_name, ai_check, ai_build_cmd (popola l'array globale AI_CMD).
+# Espone: ai_engine, ai_cli_name, ai_cursor_auth_ok, ai_check, ai_build_cmd (popola AI_CMD).
 
 # agent si installa in ~/.local/bin; un .env che esporta PATH può nasconderlo a command -v.
 ai_ensure_path() {
@@ -44,10 +44,41 @@ ai_cli_name() {
   esac
 }
 
-# Verifica che il motore sia installato (e dia un avviso utile se manca la chiave). Ritorna 1 se inutilizzabile.
+# Cursor autenticato: CURSOR_API_KEY nel .env OPPURE 'agent login' (abbonamento, come claude login + Max).
+# Ritorna 0 se una delle due vie è valida.
+ai_cursor_auth_ok() {
+  if [ -n "${CURSOR_API_KEY:-}" ]; then
+    return 0
+  fi
+  if ! command -v agent >/dev/null 2>&1; then
+    return 1
+  fi
+  local _st
+  _st="$(agent status 2>&1)" || true
+  case "$_st" in
+    *"Login successful"*|*"logged in"*) return 0 ;;
+  esac
+  return 1
+}
+
+# Come sopra, ma stampa "api_key" | "login" | "" (per diagnostica/test).
+ai_cursor_auth_mode() {
+  if [ -n "${CURSOR_API_KEY:-}" ]; then
+    echo api_key
+    return 0
+  fi
+  if ai_cursor_auth_ok; then
+    echo login
+    return 0
+  fi
+  echo ""
+  return 1
+}
+
+# Verifica che il motore sia installato e autenticato. Ritorna 1 se inutilizzabile.
 ai_check() {
   ai_ensure_path
-  local eng cli
+  local eng cli _mode
   eng="$(ai_engine)"
   if [ "$eng" = none ]; then
     echo "Nessun motore AI trovato. Installa Cursor CLI ('agent', vedi cursor.com/install) o Claude Code ('claude')." >&2
@@ -58,13 +89,19 @@ ai_check() {
     echo "CLI '$cli' non trovata (motore=$eng). Installala o cambia CERVELLO_MOTORE (es. claude o auto)." >&2
     return 1
   fi
-  if [ "$eng" = cursor ] && [ "${CERVELLO_MOTORE:-auto}" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
-    echo "ERRORE: CERVELLO_MOTORE=cursor ma CURSOR_API_KEY mancante nel .env." >&2
-    echo "  Crea la chiave su cursor.com/dashboard → API Keys e aggiungila a cervello/vps/.env" >&2
-    return 1
-  fi
-  if [ "$eng" = cursor ] && [ -z "${CURSOR_API_KEY:-}" ]; then
-    echo "Nota: CURSOR_API_KEY non impostata — su VPS serve quasi sempre. cursor.com/dashboard → API Keys." >&2
+  if [ "$eng" = cursor ]; then
+    if ! ai_cursor_auth_ok; then
+      echo "ERRORE: motore Cursor senza autenticazione." >&2
+      echo "  A) CURSOR_API_KEY in cervello/vps/.env (cursor.com/dashboard → Integrations → User API Keys)" >&2
+      echo "  B) Abbonamento, login una volta (come claude login + Max):" >&2
+      echo "       sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'" >&2
+      echo "     Poi verifica: sudo -u mycity -H agent status  →  Login successful" >&2
+      return 1
+    fi
+    _mode="$(ai_cursor_auth_mode)"
+    if [ "$_mode" = login ]; then
+      echo "Cursor: autenticato via agent login (abbonamento, senza CURSOR_API_KEY)." >&2
+    fi
   fi
   return 0
 }
