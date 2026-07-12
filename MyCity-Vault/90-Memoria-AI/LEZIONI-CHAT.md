@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-12] Le 6 prospect food = **ristoranti/trattorie**, non botteghe: nel dossier c'era già, ma in chat non dire «botteghe» né «spesa online» — pitch = piatti-icona in asporto/consegna, 12% vs 30% Glovo. Correzione Nicola 12/7.
 - [2026-07-12] Conflitti PR pannello ricorrenti: `git-pr.mjs` faceva `git add -A` e includeva `cervello/routing.json` + `sentinella-dati.json` (auto-modificati dal worker) nel commit chore → conflitto a ogni merge. PR pannello = SOLO file `pannello/` (estrai con `git checkout <hash-fix> -- pannello/...` da main fresco). Fix strutturale PR #310. Esempio: #308 sporca → chiudere; #309 pulita.
 - [2026-07-12] «Vado dal negozio» / «primo negozio»: NON assumere Pane Quotidiano — chiedi subito se intende PQ (onboarding già contrattato: foto, catalogo, payout) o una delle 6 prospect (visita acquisizione: pitch, firma, materiale). Flussi diversi. Correzione Nicola 12/7.
 - [2026-07-12] Dark mode Pannello: mai `bg-white/60` o `/70` senza variante dark — in tema scuro restano grigio chiaro con testo chiaro (illeggibile, es. caselle ESITO Quaderni). Usa token tema (`surface-muted`) o override `dark:` su tutte le `bg-white/*`. Fix PR #308.
