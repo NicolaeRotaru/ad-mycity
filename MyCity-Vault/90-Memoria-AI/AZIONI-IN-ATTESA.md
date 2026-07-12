@@ -14,19 +14,15 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-conv-pin-badge — Apri PR: pin e badge "non letto" sulle conversazioni · ⏳ IN ATTESA · accodata 2026-07-12 01:27
+### 🟡 #pr-conv-pin-badge — Mergia PR #292: pin e badge "non letto" sulle conversazioni · ⏳ PR APERTA · aperta 2026-07-12 02:10
 
 **Cosa fa:** aggiunge nella lista delle conversazioni del Pannello:
 - 📌 **graffetta (pin)** su ogni chat → clicca per fissarla in cima; clicca di nuovo per toglierla
 - 🔴 **pallino rosso (badge non letto)** → compare se l'AI ha risposto ma tu non hai ancora aperto quella chat; sparisce appena la apri
 - Tutto in localStorage: funziona subito, senza bisogno della tabella `conversazioni` nel DB
 
-**Branch locale:** `fix/conv-pin-badge-non-letto` (commit già fatto, da pushare)
-
-**Per sbloccare:** dal VPS esegui:
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --accoda
-```
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/292
+**Branch:** `fix/conv-pin-badge-non-letto` · descrizione PR aggiornata in italiano (2026-07-12 02:10)
 
 **Cosa cambia:** la lista chat diventa come WhatsApp — vedi subito quale ha risposte da leggere e quali hai pinnato.
 **Se va bene:** Nicola mergia la PR → deploy automatico → Pannello aggiornato.
