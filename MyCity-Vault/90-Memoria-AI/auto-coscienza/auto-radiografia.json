@@ -3,7 +3,7 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-12 11:20",
+    "data": "2026-07-12 11:27",
     "loop_chiude": true,
     "tasso_applicazione": 0.7,
     "prova_chiusura": true,
@@ -1703,6 +1703,6 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-12 11:20"
+    "aggiornato": "2026-07-12 11:27"
   }
 }
