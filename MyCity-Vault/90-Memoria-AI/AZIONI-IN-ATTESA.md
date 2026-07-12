@@ -35,9 +35,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Cosa è successo:** PR #290 spostava "Archivio" in una sezione dedicata "Report & Piani" nel sidebar. Nicola ha chiarito che NON vuole quella sezione — vuole rimettere "Archivio" com'era prima (dentro "Approfondisci"). La PR #290 va chiusa su GitHub **senza mergiare**.
 
-**Cosa voleva davvero Nicola:** un navigatore visuale dentro la pagina Archivio — tipo albero di cartelle (Esplora File Windows) dove si vede `consegne/ → strategia/ → PIANO-CRESCITA-12-MESI.md`. Ha chiesto di scegliere tra opzione A (albero navigabile) e opzione B (schede con card in evidenza) — scelta ancora in sospeso.
+**Cosa voleva davvero Nicola:** il navigatore ad albero (Opzione A). **Già fatto:** commit `cc99d5e7` su main, deploy automatico in corso — Archivio mostra cartelle cliccabili.
 
-**Da fare:** Nicola chiude PR #290 su GitHub senza mergiare · poi sceglie opzione A o B per il navigatore.
+**Da fare:** Nicola chiude PR #290 su GitHub senza mergiare (il navigatore è già live senza bisogno di quella PR).
 
 ---
 
