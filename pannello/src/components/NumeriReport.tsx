@@ -505,7 +505,7 @@ export default function NumeriReport() {
                       { l: "Fee consegna reale / ordine", v: eur(unit.reale.fee_consegna_media_ordine) },
                       { l: "Ricavo commissioni (30g)", v: eur(unit.reale.ricavo_commissione_30g) },
                     ].map((c, i) => (
-                      <div key={i} className="rounded-lg border border-black/[0.07] bg-white/70 p-2.5">
+                      <div key={i} className="rounded-lg border border-black/[0.07] surface-muted p-2.5">
                         <div className="text-[11px] text-black/45">{c.l}</div>
                         <div className="text-[16px] font-semibold tracking-tight mt-0.5">{c.v}</div>
                       </div>
