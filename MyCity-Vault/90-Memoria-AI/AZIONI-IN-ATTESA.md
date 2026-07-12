@@ -43,16 +43,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-289-guard-pannello-main — Mergia PR #289: blocca commit accidentali di codice Pannello su main · ⏳ IN ATTESA · accodata 2026-07-12 01:05
+### ❌ #pr-289-guard-pannello-main — SOSTITUITA da PR #295 (aveva conflitti) · 2026-07-12 02:35
+
+PR #289 aveva conflitti su `sentinella-dati.json` e `routing.json`. Sostituita da PR #295 (branch pulito, zero conflitti). **Chiudi PR #289 su GitHub senza mergiare.**
+
+---
+
+### 🟡 #pr-295-guard-pannello-main-v3 — Mergia PR #295: blocca commit accidentali di codice Pannello su main (versione pulita) · ⏳ IN ATTESA · accodata 2026-07-12 02:35
 
 **Cosa fa:** aggiunge una guard in `giro.sh` — il file che gestisce i commit automatici del sistema di recupero VPS. Quando il sistema si trova su main, prima di committare rimuove dallo staging tutti i file di `pannello/` e `cervello/`. Anche se Claude sbaglia branch, il codice Pannello non finisce mai su main da solo.
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/289
-**Branch:** `fix/guard-pannello-su-main`
-**File modificato:** `cervello/giro.sh` (6 righe aggiunte)
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/295
+**Branch:** `fix/guard-pannello-main-v3` · file modificato: `cervello/giro.sh` (6 righe) · zero file di memoria
 
-**Cosa cambia:** il sistema di recupero non potrà più far atterrare modifiche al Pannello direttamente su main — come successo con il commit "Chiudi la chat fluttuante cliccando fuori" (12/7 01:00).
-**Se va bene:** Nicola mergia #289 → da quel momento il recovery system è sicuro.
+⚠️ **Chiudi PR #289 senza mergiare** — superata da questa.
+
+**Cosa cambia:** il sistema di recupero non potrà più far atterrare modifiche al Pannello direttamente su main — come successo con "Chiudi la chat fluttuante cliccando fuori" (12/7 01:00).
+**Se va bene:** Nicola mergia #295 → da quel momento il recovery system è sicuro.
 
 - **Colore:** 🟡 (codice → merge a cura di Nicola)
 
