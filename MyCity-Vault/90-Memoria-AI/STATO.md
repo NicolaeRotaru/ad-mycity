@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🟡 **12/7 ~17:40 — PR #301 aperta: ordine lista conversazioni stabile.** Bug: aprire/cambiare chat spostava la precedente in cima (auto-save al cambio aggiornava `updated_at`). Fix: ordine fisso — pinnate in cima, poi per data di creazione; badge non-letto invariato. Branch `fix/conversazioni-ordine-stabile`. In attesa merge Nicola. Fonte: chat Nicola 12/7 ~17:38.
+>
 > 🟡 **12/7 ~03:10 — PR #297 aperta: fix Archivio caricamento parallelo (branch pulito, zero conflitti).** PR #296 aveva conflitti su `sentinella-dati.json`/`routing.json`. PR #297 = branch nuovo da main HEAD con SOLO `route.ts` → Promise.all() → Archivio da ~15 sec a 1-2 sec. PR #296 da chiudere senza merge. In attesa merge Nicola. Fonte: chat 12/7 (screenshot #973 conflitti #296).
 >
 > ✅ **12/7 ~02:40 — PR #295 MERGIATA: guard `giro.sh` v3 — worker non commette più `pannello/` su main.** Nicola ha superato l'argomento chiedendo il passo successivo (Archivio), confermando merge implicito. PR #289 da chiudere senza merge. Navigatore albero Archivio (commit cc99d5e7) già su main e deployato — Archivio mostra consegne/ con cartelle cliccabili. Fonte: chat Nicola 12/7 ~02:40 («ok adesso crea la pr dell'archivio»).
