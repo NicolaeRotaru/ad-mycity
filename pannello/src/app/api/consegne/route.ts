@@ -58,17 +58,22 @@ const ROOT_CONSEGNE = "consegne";
 // Elenca le sottocartelle di consegne/ e i file .md dentro ciascuna.
 async function elencaCategorie(): Promise<{ cat: string; files: string[] }[]> {
   // PRODUZIONE (GitHub): scopri le sottocartelle con listDirEntries, poi i .md con listDir.
+  // Tutte le chiamate GitHub API girano in parallelo (Promise.all) invece che in serie.
   if (obsidianConnected()) {
     const entries = (await listDirEntries(ROOT_CONSEGNE)) || [];
     const dirs = entries.filter((e) => e.type === "dir").map((e) => e.name);
-    const out: { cat: string; files: string[] }[] = [];
-    for (const d of dirs) {
-      const files = (await listDir(`${ROOT_CONSEGNE}/${d}`)) || [];
-      if (files.length) out.push({ cat: d, files });
-    }
-    // File .md direttamente in consegne/ (senza sottocartella)
-    const rootFiles = (await listDir(ROOT_CONSEGNE)) || [];
-    if (rootFiles.length) out.push({ cat: "", files: rootFiles });
+    const [subResults, rootFiles] = await Promise.all([
+      Promise.all(
+        dirs.map(async (d) => {
+          const files = (await listDir(`${ROOT_CONSEGNE}/${d}`)) || [];
+          return files.length ? { cat: d, files } : null;
+        })
+      ),
+      listDir(ROOT_CONSEGNE),
+    ]);
+    const out = subResults.filter((r): r is { cat: string; files: string[] } => r !== null);
+    const rootFilesArr = rootFiles || [];
+    if (rootFilesArr.length) out.push({ cat: "", files: rootFilesArr });
     return out;
   }
   // LOCALE (monorepo): cammina consegne/ da disco (cwd = radice o pannello/).
