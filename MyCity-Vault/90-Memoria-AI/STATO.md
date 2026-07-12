@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> ✅ **12/7 ~02:22 — PR #294 MERGIATA — pin+badge conversazioni live.** Feature: graffetta (📌) per pinnare chat in cima alla lista + pallino rosso per messaggi non ancora letti (localStorage). PR #292 e #293 scartate per conflitti su sentinella-dati.json/routing.json → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito. Fonte: git log main (commit riconcilia 12/7 02:22).
+>
 > ⚠️ **12/7 ~01:39 — Pannello: 10 modifiche mergiate dal worker su main NON visibili su Vercel.** Nicola ha segnalato che le ultime 10 modifiche del Pannello (mergiate automaticamente dal worker su main) non si vedono online. Meccanismo deploy: push su `pannello/` → GitHub Action `deploy-pannello.yml` → secret `VERCEL_DEPLOY_HOOK_URL` → Vercel builda. Se l'Action è rossa o il secret manca/scaduto, le modifiche restano su GitHub ma non vanno in produzione. Passo diagnostico in attesa: Nicola verifica GitHub → tab Actions → "Deploy Pannello su Vercel" (verde ✅ o rossa ❌). Fonte: chat Nicola 12/7 01:39. Diagnosi NON ancora confermata.
 >
 > ✅ **12/7 ~02:30 — Navigatore ad albero (Opzione A) LIVE su main — commit `cc99d5e7`.** Nicola ha scelto Opzione A (albero tipo Esplora File Windows: cartella→file). Commit già su main, deploy automatico Vercel in corso. Archivio ora mostra `consegne/` con cartelle cliccabili (strategia, marketing, audit…) e file apribili con un click. ❌ PR #290 da chiudere senza merge (basata su malinteso UX). Fonte: chat Nicola 12/7 ~02:30 («per adesso opzione A»).
