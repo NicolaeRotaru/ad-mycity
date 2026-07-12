@@ -6,6 +6,8 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **12/7 01:20 — Branch `fix/conv-pin-badge-non-letto` pronto: pin graffetta + badge non letto nelle chat.** Nicola ha chiesto due funzioni nella lista conversazioni: graffetta per fissare una chat in cima, pallino rosso se l'AD ha risposto e Nicola non ha ancora letto. Implementato in localStorage (non serve DB). PR ancora da aprire — serve comando VPS (`#pr-conv-pin-badge-non-letto`). Fonte: chat Nicola 12/7 ~01:20.
+>
 > 💬 **12/7 01:10 — PR #290 aperta: sezione "Report & Piani" dedicata nel sidebar.** Nicola ha chiesto una pagina archivio con il bottone sotto il titolo "Report & Piani". PR #290 sposta "Archivio" in sezione propria fuori da "Approfondisci". In attesa merge Nicola. Fonte: chat Nicola 12/7 01:08.
 >
 > ✅ **12/7 00:41 — PR #287 MERGIATA — "Archivio" ora nel menu del Pannello.** Nicola ha confermato il merge. Deploy partito automaticamente. La voce "Report" è ora "Archivio" con icona cartella — da lì si accede al piano crescita in `strategia/`. Fonte: chat Nicola 12/7 00:41 («ok l'ho margiata»).

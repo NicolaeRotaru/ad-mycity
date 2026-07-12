@@ -14,6 +14,28 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-conv-pin-badge-non-letto — Apri la PR per pin graffetta + badge non letto nelle conversazioni · ⏳ IN ATTESA · accodata 2026-07-12 01:20
+
+**Cosa fa:** aggiunge due funzioni alla lista conversazioni nel Pannello:
+- 📌 **graffetta** su ogni chat → clicca per fissarla in cima; clicca di nuovo per toglierla
+- 🔴 **pallino rosso** → conversazione dove l'AD ha risposto ma tu non hai ancora aperto
+
+Tutto salvato in localStorage — funziona subito, senza dipendere dalla tabella `conversazioni` nel DB.
+
+**Branch:** `fix/conv-pin-badge-non-letto` · commit `ce48eff4`
+
+**Comando da eseguire sul VPS:**
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --accoda
+```
+
+**Cosa cambia:** nella lista chat vedi subito quale ha una risposta nuova e puoi fissare quelle importanti.
+**Se va bene:** comando restituisce link PR → Nicola mergia → deploy automatico → funzioni live nel Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### 🟡 #pr-290-report-piani — Mergia PR #290: sezione "Report & Piani" dedicata nel sidebar · ⏳ IN ATTESA · accodata 2026-07-12 01:10
 
 **Cosa fa:** sposta "Archivio" (già rinominato da "Report") fuori dal gruppo "Approfondisci" e lo mette in una sezione autonoma "Report & Piani" nel menu laterale sinistro. Così nel sidebar vedi un'intestazione separata "Report & Piani" con il bottone "Archivio" sotto — esattamente come ha chiesto Nicola.
@@ -690,6 +712,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 77 | 2026-07-12 00:53 | @tech | Merge PR #288 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/288 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 78 | 2026-07-12 01:04 | @tech | Merge PR #289 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/289 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 79 | 2026-07-12 01:06 | @tech | Merge PR #290 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/290 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 80 | 2026-07-12 01:59 | @tech | Merge PR #292 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/292 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
