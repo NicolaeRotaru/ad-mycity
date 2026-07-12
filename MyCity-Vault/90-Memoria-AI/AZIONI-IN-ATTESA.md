@@ -14,11 +14,13 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-296-archivio-parallelo — Mergia PR #296: Archivio carica in 1-2 sec invece di 15 · ⏳ IN ATTESA · accodata 2026-07-12
+### 🟡 #pr-297-archivio-parallelo — Mergia PR #297: Archivio carica in 1-2 sec invece di 15 · ⏳ IN ATTESA · accodata 2026-07-12
 
 **Cosa fa:** la route API dell'Archivio leggeva le cartelle una alla volta (15 chiamate HTTP in fila = ~15 secondi). Con `Promise.all()` tutte le chiamate partono insieme — il tempo diventa quello della cartella più lenta (~1-2 secondi).
 
-**PR su GitHub:** [#296 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/296)
+**PR su GitHub:** [#297 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/297) ← branch pulito, solo `route.ts`, zero conflitti
+
+⚠️ **Chiudi PR #296 su GitHub senza mergiare** — aveva conflitti su `sentinella-dati.json`, superata da #297.
 
 **Cosa cambia:** apri Archivio → vedi i file in 1-2 secondi invece di aspettare 15.
 **Se va bene:** deploy automatico, Archivio diventa comodo da usare ogni giorno.
