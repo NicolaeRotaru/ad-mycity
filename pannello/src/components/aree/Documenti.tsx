@@ -7,16 +7,14 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { EVENTO_VAI, EVENTO_SUB } from "@/lib/nav";
 
-// 📄 Report & Piani: legge dentro il Pannello tutto ciò che l'AD PRODUCE in consegne/
-// (radiografie, piani di bonifica, audit, design, marketing…). Prima erano file
-// invisibili: ora quando l'AD dice "vedi il §6 del piano" hai dove aprirlo e leggerlo.
+// 📄 Archivio: navigatore ad albero per tutto ciò che l'AD produce in consegne/
+// Livello 1 → cartelle (strategia, marketing, audit…)
+// Livello 2 → file dentro la cartella
+// Livello 3 → lettore markdown del documento
 
 type Doc = { file: string; nome: string; titolo: string; data: string | null; categoria?: string; etichetta?: string };
 type Gruppo = { categoria: string; etichetta: string; documenti: Doc[] };
 
-// Buffer sempre attivo (registrato all'import del modulo, PRIMA che l'area sia montata):
-// se clicco un report dalla Plancia mentre l'area Report non è ancora montata, l'evento
-// non andrebbe perso — lo parcheggio qui e l'area lo consuma al mount. (race di montaggio)
 let pendingReportFile: string | null = null;
 if (typeof window !== "undefined") {
   const capture = (e: Event) => {
@@ -57,6 +55,7 @@ export default function Documenti() {
   const [gruppi, setGruppi] = useState<Gruppo[]>([]);
   const [caricaLista, setCaricaLista] = useState(true);
   const [filtro, setFiltro] = useState("");
+  const [cartella, setCartella] = useState<string | null>(null);
   const [sel, setSel] = useState<Doc | null>(null);
   const [contenuto, setContenuto] = useState<string>("");
   const [caricaDoc, setCaricaDoc] = useState(false);
@@ -92,7 +91,6 @@ export default function Documenti() {
       });
   }, []);
 
-  // Apertura da link (Plancia/altra area): vaiArea("report", undefined, "<file>") → apre quel doc.
   const apriRef = useRef(apri);
   apriRef.current = apri;
   useEffect(() => {
@@ -100,7 +98,6 @@ export default function Documenti() {
       if (!sub) return;
       apriRef.current({ file: sub, nome: sub.split("/").pop() || sub, titolo: sub.split("/").pop() || sub, data: null });
     };
-    // Consuma un'eventuale richiesta arrivata prima del montaggio (dalla Plancia).
     if (pendingReportFile) {
       const f = pendingReportFile;
       pendingReportFile = null;
@@ -123,30 +120,67 @@ export default function Documenti() {
   }, []);
 
   const q = filtro.trim().toLowerCase();
-  const gruppiFiltrati = q
+  const inRicerca = q.length > 0;
+  const totale = gruppi.reduce((n, g) => n + g.documenti.length, 0);
+  const cartellaCorrente = cartella != null ? gruppi.find((g) => g.categoria === cartella) ?? null : null;
+
+  const gruppiFiltrati = inRicerca
     ? gruppi
         .map((g) => ({ ...g, documenti: g.documenti.filter((d) => (d.titolo + " " + g.etichetta + " " + d.nome).toLowerCase().includes(q)) }))
         .filter((g) => g.documenti.length)
     : gruppi;
-  const totale = gruppi.reduce((n, g) => n + g.documenti.length, 0);
 
   return (
     <div className="space-y-4">
+      {/* Intestazione + breadcrumb + refresh */}
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="t-area">📄 Report &amp; Piani</h2>
-          <p className="t-eti mt-0.5">Tutto ciò che l&apos;AD ha prodotto: radiografie, piani, audit, analisi. Apri e leggi qui dentro.</p>
+          {/* Breadcrumb: consegne / cartella / file */}
+          <div className="flex items-center gap-1 t-eti mt-1 flex-wrap">
+            <button
+              onClick={() => { setCartella(null); setSel(null); setContenuto(""); setFiltro(""); }}
+              className="hover:text-brand transition"
+            >
+              📁 consegne
+            </button>
+            {cartella != null && !inRicerca && (
+              <>
+                <span>/</span>
+                <button
+                  onClick={() => { setSel(null); setContenuto(""); }}
+                  className="hover:text-brand transition"
+                >
+                  📁 {cartella || "radice"}
+                </button>
+              </>
+            )}
+            {sel && (
+              <>
+                <span>/</span>
+                <span className="truncate max-w-[160px]">📄 {sel.titolo}</span>
+              </>
+            )}
+          </div>
         </div>
-        <button onClick={caricaElenco} className="mt-1 shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-black/55 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60" title="Ricarica l'elenco">
+        <button
+          onClick={caricaElenco}
+          className="mt-1 shrink-0 inline-flex items-center gap-1.5 text-[11px] font-medium text-black/55 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+          title="Ricarica l'elenco"
+        >
           <RefreshCw size={13} /> Aggiorna
         </button>
       </div>
 
-      {/* Lettore aperto: torna alla lista + documento renderizzato */}
+      {/* VISTA 1: Lettore documento aperto */}
       {sel ? (
         <div className="space-y-3" ref={lettoreRef}>
-          <button onClick={() => { setSel(null); setContenuto(""); }} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-brand hover:underline">
-            <ArrowLeft size={15} /> Tutti i documenti
+          <button
+            onClick={() => { setSel(null); setContenuto(""); }}
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-brand hover:underline"
+          >
+            <ArrowLeft size={15} />
+            {cartella != null ? (cartellaCorrente?.etichetta ?? cartella) : "Tutti i documenti"}
           </button>
           <section className="card p-4 sm:p-5">
             <div className="flex items-center gap-2.5 mb-3 pb-3 border-b" style={{ borderColor: "var(--border)" }}>
@@ -161,7 +195,9 @@ export default function Documenti() {
               </div>
             </div>
             {caricaDoc ? (
-              <div className="flex items-center gap-2 t-eti py-6 justify-center"><Loader2 size={16} className="animate-spin" /> Carico il documento…</div>
+              <div className="flex items-center gap-2 t-eti py-6 justify-center">
+                <Loader2 size={16} className="animate-spin" /> Carico il documento…
+              </div>
             ) : errDoc ? (
               <p className="t-eti py-4">⚠️ {errDoc}. Il documento potrebbe non essere ancora pubblicato sul ramo che il Pannello legge.</p>
             ) : (
@@ -173,50 +209,124 @@ export default function Documenti() {
         </div>
       ) : (
         <>
-          {/* Ricerca */}
+          {/* Barra di ricerca — visibile sempre tranne nel lettore */}
           <div className="relative">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-black/30" />
             <input
               value={filtro}
-              onChange={(e) => setFiltro(e.target.value)}
-              placeholder={`Cerca tra ${totale} documenti… (es. "bonifica", "radiografia")`}
+              onChange={(e) => { setFiltro(e.target.value); if (e.target.value) setCartella(null); }}
+              placeholder={`Cerca tra ${totale} documenti… (es. "piano", "audit")`}
               className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm bg-black/[0.03] border border-black/10 focus:border-brand/40 focus:outline-none"
             />
           </div>
 
           {caricaLista ? (
-            <div className="flex items-center gap-2 t-eti py-8 justify-center"><Loader2 size={16} className="animate-spin" /> Carico i documenti…</div>
-          ) : gruppiFiltrati.length === 0 ? (
-            <div className="card p-6 text-center">
-              <p className="t-eti">{q ? "Nessun documento per questa ricerca." : "Nessun documento in consegne/ (o non ancora pubblicato sul ramo che il Pannello legge)."}</p>
+            <div className="flex items-center gap-2 t-eti py-8 justify-center">
+              <Loader2 size={16} className="animate-spin" /> Carico i documenti…
             </div>
-          ) : (
-            <div className="space-y-4">
-              {gruppiFiltrati.map((g) => (
-                <section key={g.categoria || "root"} className="card p-4">
-                  <div className="flex items-center gap-2 mb-2.5">
+          ) : inRicerca ? (
+            /* VISTA 2: Risultati di ricerca — piatti, cross-cartella */
+            gruppiFiltrati.length === 0 ? (
+              <div className="card p-6 text-center">
+                <p className="t-eti">Nessun documento per questa ricerca.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {gruppiFiltrati.map((g) => (
+                  <section key={g.categoria || "root"} className="card p-4">
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <span className="sez-ico"><FolderOpen size={15} /></span>
+                      <span className="t-sez">{g.etichetta}</span>
+                      <span className="badge badge-off ml-auto">{g.documenti.length}</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {g.documenti.map((d) => (
+                        <button
+                          key={d.file}
+                          onClick={() => { setCartella(g.categoria); apri({ ...d, etichetta: g.etichetta }); }}
+                          className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+                        >
+                          <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
+                          <span className="min-w-0">
+                            <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
+                            {d.data && <span className="block t-eti mt-0.5 flex items-center gap-1"><Clock size={10} /> {dataIt(d.data)}</span>}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            )
+          ) : cartella != null ? (
+            /* VISTA 3: File dentro la cartella selezionata */
+            <div className="space-y-3">
+              <button
+                onClick={() => setCartella(null)}
+                className="inline-flex items-center gap-1.5 text-[13px] font-medium text-brand hover:underline"
+              >
+                <ArrowLeft size={15} /> consegne/
+              </button>
+              {!cartellaCorrente || cartellaCorrente.documenti.length === 0 ? (
+                <div className="card p-6 text-center">
+                  <p className="t-eti">Nessun documento in questa cartella.</p>
+                </div>
+              ) : (
+                <div className="card p-4">
+                  <div className="flex items-center gap-2 mb-3 pb-2.5 border-b" style={{ borderColor: "var(--border)" }}>
                     <span className="sez-ico"><FolderOpen size={15} /></span>
-                    <span className="t-sez">{g.etichetta}</span>
-                    <span className="badge badge-off ml-auto">{g.documenti.length}</span>
+                    <span className="t-sez">{cartellaCorrente.etichetta}</span>
+                    <span className="badge badge-off ml-auto">{cartellaCorrente.documenti.length}</span>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {g.documenti.map((d) => (
+                  <div className="space-y-1">
+                    {cartellaCorrente.documenti.map((d) => (
                       <button
                         key={d.file}
-                        onClick={() => apri({ ...d, etichetta: g.etichetta })}
-                        className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+                        onClick={() => apri({ ...d, etichetta: cartellaCorrente.etichetta })}
+                        className="w-full text-left px-2 py-2 rounded-lg hover:bg-black/[0.04] transition flex items-center gap-2.5"
                       >
-                        <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
-                        <span className="min-w-0">
-                          <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
-                          {d.data && <span className="block t-eti mt-0.5 flex items-center gap-1"><Clock size={10} /> {dataIt(d.data)}</span>}
+                        <span className="text-black/35 shrink-0"><FileText size={14} /></span>
+                        <span className="min-w-0 flex-1 text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>
+                          {d.titolo}
                         </span>
+                        {d.data && (
+                          <span className="shrink-0 t-eti text-[11px] flex items-center gap-1">
+                            <Clock size={10} /> {dataIt(d.data)}
+                          </span>
+                        )}
                       </button>
                     ))}
                   </div>
-                </section>
-              ))}
+                </div>
+              )}
             </div>
+          ) : (
+            /* VISTA 4: Radice — elenco cartelle (entry point) */
+            gruppi.length === 0 ? (
+              <div className="card p-6 text-center">
+                <p className="t-eti">Nessun documento in consegne/ (o non ancora pubblicato sul ramo che il Pannello legge).</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {gruppi.map((g) => (
+                  <button
+                    key={g.categoria || "root"}
+                    onClick={() => setCartella(g.categoria)}
+                    className="card p-4 text-left hover:border-brand/40 border border-transparent transition flex items-center gap-3"
+                  >
+                    <span className="sez-ico shrink-0"><FolderOpen size={18} /></span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[13px] font-semibold" style={{ color: "var(--text-primary)" }}>
+                        {g.etichetta}
+                      </span>
+                      <span className="t-eti">
+                        {g.documenti.length} {g.documenti.length === 1 ? "documento" : "documenti"}
+                      </span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )
           )}
         </>
       )}
