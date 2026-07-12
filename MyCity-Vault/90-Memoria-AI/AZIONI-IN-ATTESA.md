@@ -14,22 +14,13 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-conv-pin-badge — Mergia PR #294: pin e badge "non letto" sulle conversazioni (DEFINITIVA) · ⏳ PR APERTA · aggiornata 2026-07-12 02:18
+### ✅ #pr-conv-pin-badge — FATTO 2026-07-12 02:22 · PR #294 MERGIATA da Nicola · pin + badge "non letto" live
 
-**Cosa fa:** aggiunge nella lista delle conversazioni del Pannello:
-- 📌 **graffetta (pin)** su ogni chat → clicca per fissarla in cima; clicca di nuovo per toglierla
-- 🔴 **pallino rosso (badge non letto)** → compare se l'AI ha risposto ma tu non hai ancora aperto quella chat; sparisce appena la apri
-- Tutto in localStorage: funziona subito, senza bisogno della tabella `conversazioni` nel DB
+Feature: graffetta (📌) per pinnare chat in cima + pallino rosso per messaggi non letti (localStorage). PR #292 e #293 scartate per conflitti su file di memoria → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito.
 
-**PR da mergiare:** https://github.com/NicolaeRotaru/ad-mycity/pull/294 ← QUESTA è quella pulita
-**Branch:** `fix/guard-pannello-main-v3` · 1 solo file toccato (`pannello/src/app/page.tsx`) · zero conflitti
+⚠️ **Chiudi PR #292 e #293 su GitHub senza mergiare** (superate da #294 già merged).
 
-⚠️ **Chiudere senza merge:** PR #292 e PR #293 (avevano conflitti su file di memoria — superate da #294)
-
-**Cosa cambia:** la lista chat diventa come WhatsApp — vedi subito quale ha risposte da leggere e quali hai pinnato.
-**Se va bene:** Nicola mergia #294 → deploy automatico → Pannello aggiornato.
-
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+- **Colore:** 🟢 (già merged)
 
 ---
 
@@ -49,19 +40,13 @@ PR #289 aveva conflitti su `sentinella-dati.json` e `routing.json`. Sostituita d
 
 ---
 
-### 🟡 #pr-295-guard-pannello-main-v3 — Mergia PR #295: blocca commit accidentali di codice Pannello su main (versione pulita) · ⏳ IN ATTESA · accodata 2026-07-12 02:35
+### ✅ #pr-295-guard-pannello-main-v3 — FATTO 2026-07-12 02:40 · PR #295 MERGIATA da Nicola · guard giro.sh v3 live
 
-**Cosa fa:** aggiunge una guard in `giro.sh` — il file che gestisce i commit automatici del sistema di recupero VPS. Quando il sistema si trova su main, prima di committare rimuove dallo staging tutti i file di `pannello/` e `cervello/`. Anche se Claude sbaglia branch, il codice Pannello non finisce mai su main da solo.
+La guard in `giro.sh` è attiva: il sistema di recupero VPS non commette più `pannello/` o `cervello/` su main automaticamente.
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/295
-**Branch:** `fix/guard-pannello-main-v3` · file modificato: `cervello/giro.sh` (6 righe) · zero file di memoria
+⚠️ **Chiudi PR #289 su GitHub senza mergiare** — superata da #295 già merged.
 
-⚠️ **Chiudi PR #289 senza mergiare** — superata da questa.
-
-**Cosa cambia:** il sistema di recupero non potrà più far atterrare modifiche al Pannello direttamente su main — come successo con "Chiudi la chat fluttuante cliccando fuori" (12/7 01:00).
-**Se va bene:** Nicola mergia #295 → da quel momento il recovery system è sicuro.
-
-- **Colore:** 🟡 (codice → merge a cura di Nicola)
+- **Colore:** 🟢 (già merged)
 
 ---
 
