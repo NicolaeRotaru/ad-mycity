@@ -59,10 +59,14 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il motore AI.** Con il motore **Cursor** (default) NON serve un login interattivo:
-basta mettere `CURSOR_API_KEY` nel `.env` (passo 3). Se preferisci il login interattivo una volta:
+**2. Collega il motore AI.** Con il motore **Cursor** puoi autenticarti in due modi (scegline uno):
+- **Abbonamento (consigliato, senza API key nel .env):** login una volta, come Claude Max:
 ```bash
-sudo -u mycity -H agent login        # motore Cursor (alternativa alla CURSOR_API_KEY)
+sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'
+sudo -u mycity -H agent status   # deve dire: Login successful
+```
+- **User API Key:** metti `CURSOR_API_KEY` nel `.env` (passo 3) — utile se il login scade o preferisci non rifarlo.
+```bash
 # sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
 ```
 
