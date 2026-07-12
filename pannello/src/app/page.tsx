@@ -158,6 +158,16 @@ type Conversazione = {
   created_at: string;
   updated_at: string;
 };
+
+/** Ordine lista: fissate in cima, poi per data di creazione (aprire/leggere non riordina). */
+function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conversazione[] {
+  return [...list].sort((a, b) => {
+    const pa = pinnate.has(a.id) ? 1 : 0;
+    const pb = pinnate.has(b.id) ? 1 : 0;
+    if (pb !== pa) return pb - pa;
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+}
 // Lavoro chat in attesa di risposta, con la conversazione di destinazione.
 type PendingChat = { id: string; tipo: string; targetConvId: string };
 type DiarioVoce = {
@@ -1011,11 +1021,19 @@ export default function Dashboard() {
       // con lo snapshot `reali` di PRIMA dell'await → la risposta non si perde. Prima il merge era solo
       // al momento della chiamata (riga sopra), ma la scrittura avveniva col vecchio snapshot dopo l'await.
       const messaggiFinali = esiste?.messaggi?.length ? mergeThread(esiste.messaggi, reali) : reali;
-      const altri = list.filter((c) => c.id !== newId);
-      const nuova: Conversazione[] = [
-        { id: newId as string, titolo, messaggi: messaggiFinali, created_at, updated_at: new Date().toISOString() },
-        ...altri,
-      ];
+      const messaggiUguali =
+        !!esiste && JSON.stringify(esiste.messaggi) === JSON.stringify(messaggiFinali);
+      const updated_at =
+        messaggiUguali && esiste ? esiste.updated_at : new Date().toISOString();
+      const riga: Conversazione = {
+        id: newId as string,
+        titolo,
+        messaggi: messaggiFinali,
+        created_at,
+        updated_at,
+      };
+      // Aggiornamento: resta al suo posto (aprire un'altra chat non la sposta in cima).
+      const nuova = esiste ? list.map((c) => (c.id === newId ? riga : c)) : [riga, ...list];
       if (!convServer) scriviConvLocali(nuova);
       return nuova;
     });
@@ -2212,12 +2230,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: fissate in cima, poi per data (più recenti prima). */}
-                {[...conversazioni].sort((a, b) => {
-                  const pa = convPinnate.has(a.id) ? 1 : 0;
-                  const pb = convPinnate.has(b.id) ? 1 : 0;
-                  return pb - pa;
-                }).map((c) => {
+                {/* Ordine: fissate in cima, poi per data di creazione (aprire non riordina). */}
+                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const nonLetta = !!(
                     c.updated_at &&
@@ -2483,7 +2497,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <ul className="scroll-soft flex-1 overflow-y-auto px-2.5 pb-2.5 space-y-1">
-                {conversazioni
+                {ordinaConversazioni(conversazioni, convPinnate)
                   .map((c) => (
                   <li key={c.id}>
                     <button
