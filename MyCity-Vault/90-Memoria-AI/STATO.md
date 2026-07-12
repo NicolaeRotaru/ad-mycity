@@ -6,7 +6,7 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 🟡 **12/7 ~02:35 — PR #295 APERTA: guard `giro.sh` v3 (fix conflitti PR #289).** Screenshot #970 di Nicola mostrava conflitti in PR #289 su `sentinella-dati.json` e `routing.json`. Risolto col pattern consolidato: stash → checkout branch → copia solo `cervello/giro.sh` → commit → PR #295. Branch `fix/guard-pannello-main-v3`, zero file di memoria. In attesa merge Nicola. PR #289 da chiudere senza merge. Fonte: chat Nicola 12/7 ~02:35 (Screenshot 970 + resposta_ad finale).
+> ✅ **12/7 ~02:40 — PR #295 MERGIATA: guard `giro.sh` v3 — worker non commette più `pannello/` su main.** Nicola ha superato l'argomento chiedendo il passo successivo (Archivio), confermando merge implicito. PR #289 da chiudere senza merge. Navigatore albero Archivio (commit cc99d5e7) già su main e deployato — Archivio mostra consegne/ con cartelle cliccabili. Fonte: chat Nicola 12/7 ~02:40 («ok adesso crea la pr dell'archivio»).
 >
 > ✅ **12/7 ~02:22 — PR #294 MERGIATA — pin+badge conversazioni live.** Feature: graffetta (📌) per pinnare chat in cima alla lista + pallino rosso per messaggi non ancora letti (localStorage). PR #292 e #293 scartate per conflitti su sentinella-dati.json/routing.json → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito. Fonte: git log main (commit riconcilia 12/7 02:22).
 >
