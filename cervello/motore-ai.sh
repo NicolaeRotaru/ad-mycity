@@ -12,6 +12,16 @@
 #
 # Espone: ai_engine, ai_cli_name, ai_cursor_auth_ok, ai_check, ai_build_cmd (popola AI_CMD).
 
+# Percorso repo (per messaggi di errore leggibili); worker.sh imposta REPO prima del source.
+if [ -z "${REPO_ROOT:-}" ]; then
+  if [ -n "${REPO:-}" ]; then
+    REPO_ROOT="$REPO"
+  else
+    _motore_ai_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+    REPO_ROOT="$(dirname "$_motore_ai_dir")"
+  fi
+fi
+
 # agent si installa in ~/.local/bin; un .env che esporta PATH può nasconderlo a command -v.
 ai_ensure_path() {
   if [ -n "${HOME:-}" ] && [ -d "$HOME/.local/bin" ]; then
@@ -44,30 +54,70 @@ ai_cli_name() {
   esac
 }
 
-# Cursor autenticato: CURSOR_API_KEY nel .env OPPURE 'agent login' (abbonamento, come claude login + Max).
-# Ritorna 0 se una delle due vie è valida.
-ai_cursor_auth_ok() {
+# Esegue `agent status` con --api-key quando la key è nel .env (headless VPS: l'env da sola a volte
+# non basta — vedi forum Cursor + docs CLI). Stampa stdout/stderr; rc = rc di agent.
+ai_agent_status_raw() {
+  ai_ensure_path
+  command -v agent >/dev/null 2>&1 || return 1
+  local _extra=()
   if [ -n "${CURSOR_API_KEY:-}" ]; then
-    return 0
+    export CURSOR_API_KEY
+    _extra=(--api-key "$CURSOR_API_KEY")
   fi
-  if ! command -v agent >/dev/null 2>&1; then
-    return 1
+  agent "${_extra[@]}" status 2>&1
+}
+
+# True se `agent status` (testo o JSON) dice che siamo autenticati.
+ai_cursor_status_authenticated() {
+  ai_ensure_path
+  command -v agent >/dev/null 2>&1 || return 1
+  local _json _extra=()
+  if [ -n "${CURSOR_API_KEY:-}" ]; then
+    export CURSOR_API_KEY
+    _extra=(--api-key "$CURSOR_API_KEY")
+  fi
+  _json="$(agent "${_extra[@]}" status --format json 2>/dev/null)" || true
+  if [ -n "$_json" ] && command -v jq >/dev/null 2>&1; then
+    if printf '%s' "$_json" | jq -e '(.authenticated == true) or (.loggedIn == true)' >/dev/null 2>&1; then
+      return 0
+    fi
+    if printf '%s' "$_json" | jq -e '(.email // .user.email // .account.email // .user) != null' >/dev/null 2>&1; then
+      return 0
+    fi
+    if printf '%s' "$_json" | jq -e '.authenticated == false' >/dev/null 2>&1; then
+      # Con API key il JSON è autorevole (key invalida). Senza key alcune build agent
+      # rispondono false in JSON anche con agent login attivo — prova il testo sotto.
+      if [ -n "${CURSOR_API_KEY:-}" ]; then
+        return 1
+      fi
+    fi
   fi
   local _st
-  _st="$(agent status 2>&1)" || true
+  _st="$(ai_agent_status_raw)" || true
   case "$_st" in
-    *"Login successful"*|*"logged in"*) return 0 ;;
+    *[Nn]ot\ logged\ in*|*[Nn]ot\ authenticated*|*"Not Logged In"*|*"Not authenticated"*) return 1 ;;
+    *[Aa]uthenticated*|*"Login successful"*|*"logged in"*|*"Logged in"*) return 0 ;;
   esac
   return 1
+}
+
+# Cursor autenticato: CURSOR_API_KEY nel .env (consigliato su VPS headless) OPPURE 'agent login'.
+# Ritorna 0 solo se agent status conferma l'autenticazione (non basta avere la riga nel .env).
+ai_cursor_auth_ok() {
+  ai_cursor_status_authenticated
 }
 
 # Come sopra, ma stampa "api_key" | "login" | "" (per diagnostica/test).
 ai_cursor_auth_mode() {
   if [ -n "${CURSOR_API_KEY:-}" ]; then
-    echo api_key
-    return 0
+    if ai_cursor_status_authenticated; then
+      echo api_key
+      return 0
+    fi
+    echo ""
+    return 1
   fi
-  if ai_cursor_auth_ok; then
+  if ai_cursor_status_authenticated; then
     echo login
     return 0
   fi
@@ -92,10 +142,16 @@ ai_check() {
   if [ "$eng" = cursor ]; then
     if ! ai_cursor_auth_ok; then
       echo "ERRORE: motore Cursor senza autenticazione." >&2
-      echo "  A) CURSOR_API_KEY in cervello/vps/.env (cursor.com/dashboard → Integrations → User API Keys)" >&2
-      echo "  B) Abbonamento, login una volta (come claude login + Max):" >&2
-      echo "       sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'" >&2
-      echo "     Poi verifica: sudo -u mycity -H agent status  →  Login successful" >&2
+      echo "  Su VPS headless agent login spesso NON persiste: serve la User API Key (NON Admin key)." >&2
+      echo "  Fix rapido (1 comando):" >&2
+      echo "       sudo bash $REPO_ROOT/cervello/vps/collega-cursor.sh" >&2
+      echo "  Oppure a mano nel .env:" >&2
+      echo "       CERVELLO_MOTORE=cursor" >&2
+      echo "       CURSOR_API_KEY=key_...  (cursor.com/dashboard → API Keys → User API Key)" >&2
+      echo "  Poi: sudo systemctl restart mycity-worker mycity-worker-chat" >&2
+      if [ -n "${CURSOR_API_KEY:-}" ]; then
+        echo "  ATTENZIONE: CURSOR_API_KEY impostata ma agent status dice non autenticato (key errata/scaduta o Admin key)." >&2
+      fi
       return 1
     fi
     _mode="$(ai_cursor_auth_mode)"
@@ -138,7 +194,12 @@ ai_build_cmd() {
   case "$(ai_engine)" in
     cursor)
       # -p = non interattivo · --force = scrive file · --trust = VPS headless senza prompt workspace
+      # --api-key = obbligatorio su molti VPS headless (env var da sola non basta per status/run).
       AI_CMD=(agent -p --force --trust)
+      if [ -n "${CURSOR_API_KEY:-}" ]; then
+        export CURSOR_API_KEY
+        AI_CMD+=(--api-key "$CURSOR_API_KEY")
+      fi
       if [ -n "${CERVELLO_MODELLO:-}" ]; then AI_CMD+=(--model "$CERVELLO_MODELLO"); fi
       ;;
     claude)

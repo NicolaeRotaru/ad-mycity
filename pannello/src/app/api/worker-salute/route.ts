@@ -139,12 +139,12 @@ export async function GET() {
     problema = "Il worker sul VPS non ha mai inviato un battito a Supabase.";
     azioni.push("SSH sul VPS → sudo systemctl start mycity-worker");
     azioni.push("Se crasha: sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh");
-    azioni.push("Quasi sempre: CURSOR_API_KEY mancante o agent non installato per utente mycity");
+    azioni.push("Quasi sempre: auth Cursor mancante → sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh");
   } else if (!workerVivo) {
     problema = `Worker spento da ${etaOre(oreWorker)} — systemd potrebbe essere fermo o in crash loop.`;
     azioni.push("SSH → journalctl -u mycity-worker -n 30 --no-pager");
     azioni.push("SSH → sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh");
-    azioni.push("Se NRestarts alto: sudo -u mycity -H bash .../cervello/vps/test-agent.sh");
+    azioni.push("Se NRestarts alto (crash loop auth): sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh");
   } else if ((conteggi.in_corso ?? 0) > 0 && (corsoPiuVecchioMin ?? 0) > 10) {
     problema = `${conteggi.in_corso} lavoro/i bloccati «In corso» da oltre 10 minuti.`;
     azioni.push("Usa il pulsante «Sblocca coda» qui sotto");
