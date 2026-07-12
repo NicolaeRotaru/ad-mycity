@@ -14,18 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-conv-pin-badge — Mergia PR #292: pin e badge "non letto" sulle conversazioni · ⏳ PR APERTA · aperta 2026-07-12 02:10
+### 🟡 #pr-conv-pin-badge — Mergia PR #294: pin e badge "non letto" sulle conversazioni (DEFINITIVA) · ⏳ PR APERTA · aggiornata 2026-07-12 02:18
 
 **Cosa fa:** aggiunge nella lista delle conversazioni del Pannello:
 - 📌 **graffetta (pin)** su ogni chat → clicca per fissarla in cima; clicca di nuovo per toglierla
 - 🔴 **pallino rosso (badge non letto)** → compare se l'AI ha risposto ma tu non hai ancora aperto quella chat; sparisce appena la apri
 - Tutto in localStorage: funziona subito, senza bisogno della tabella `conversazioni` nel DB
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/292
-**Branch:** `fix/conv-pin-badge-non-letto` · descrizione PR aggiornata in italiano (2026-07-12 02:10)
+**PR da mergiare:** https://github.com/NicolaeRotaru/ad-mycity/pull/294 ← QUESTA è quella pulita
+**Branch:** `fix/guard-pannello-main-v3` · 1 solo file toccato (`pannello/src/app/page.tsx`) · zero conflitti
+
+⚠️ **Chiudere senza merge:** PR #292 e PR #293 (avevano conflitti su file di memoria — superate da #294)
 
 **Cosa cambia:** la lista chat diventa come WhatsApp — vedi subito quale ha risposte da leggere e quali hai pinnato.
-**Se va bene:** Nicola mergia la PR → deploy automatico → Pannello aggiornato.
+**Se va bene:** Nicola mergia #294 → deploy automatico → Pannello aggiornato.
 
 - **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
 
