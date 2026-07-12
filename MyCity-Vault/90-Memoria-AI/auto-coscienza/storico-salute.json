@@ -7,14 +7,6 @@
       "difetti_aperti": 0,
       "difetti_chiusi": 20,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 7 giri"
-    },
-    {
-      "data": "2026-07-03",
-      "voto_salute": 42,
-      "difetti_aperti": 0,
-      "difetti_chiusi": 20,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 8 giri"
     },
     {
@@ -1166,6 +1158,20 @@
       "bloccanti_umani": 1,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (26h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    },
+    {
+      "data": "2026-07-12",
+      "voto_salute": 51,
+      "voto_provvisorio": 75,
+      "voto_pieno": 75,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 42,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 1,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing STALE (30h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     }
   ]
 }
