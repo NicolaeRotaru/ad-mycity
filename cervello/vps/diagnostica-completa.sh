@@ -76,7 +76,7 @@ if [ "$(ai_engine 2>/dev/null || echo none)" = cursor ]; then
   case "$_auth_mode" in
     api_key) ok "Cursor: CURSOR_API_KEY presente (${#CURSOR_API_KEY} caratteri)" ;;
     login)   ok "Cursor: autenticato via agent login (abbonamento, senza API key)" ;;
-    *)       warn "Cursor: né CURSOR_API_KEY né agent login — fai agent login o aggiungi la key" ;;
+    *)       warn "Cursor: né CURSOR_API_KEY né agent login — esegui: sudo bash $REPO/cervello/vps/collega-cursor.sh" ;;
   esac
 fi
 if sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE' 2>/dev/null; . '$REPO/cervello/motore-ai.sh'; ai_check" 2>&1; then
