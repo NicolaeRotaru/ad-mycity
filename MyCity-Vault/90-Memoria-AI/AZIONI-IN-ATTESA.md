@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-296-archivio-parallelo — Mergia PR #296: Archivio carica in 1-2 sec invece di 15 · ⏳ IN ATTESA · accodata 2026-07-12
+
+**Cosa fa:** la route API dell'Archivio leggeva le cartelle una alla volta (15 chiamate HTTP in fila = ~15 secondi). Con `Promise.all()` tutte le chiamate partono insieme — il tempo diventa quello della cartella più lenta (~1-2 secondi).
+
+**PR su GitHub:** [#296 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/296)
+
+**Cosa cambia:** apri Archivio → vedi i file in 1-2 secondi invece di aspettare 15.
+**Se va bene:** deploy automatico, Archivio diventa comodo da usare ogni giorno.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### ✅ #pr-conv-pin-badge — FATTO 2026-07-12 02:22 · PR #294 MERGIATA da Nicola · pin + badge "non letto" live
 
 Feature: graffetta (📌) per pinnare chat in cima + pallino rosso per messaggi non letti (localStorage). PR #292 e #293 scartate per conflitti su file di memoria → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito.
