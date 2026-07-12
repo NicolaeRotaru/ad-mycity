@@ -29,6 +29,21 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-299-badge-fix — Mergia PR #299: fix pallino "non letto" (branch pulito) · ⏳ IN ATTESA · accodata 2026-07-12
+
+**Cosa fa:** corregge il bug per cui il pallino rosso compariva su TUTTE le conversazioni al primo caricamento. Il badge ora appare solo sulle chat già aperte almeno una volta e con una risposta AI più recente dell'ultima apertura.
+
+**PR su GitHub:** [#299 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/299) ← branch pulito, solo `pannello/src/app/page.tsx`, zero conflitti
+
+⚠️ **Chiudi PR #298 su GitHub senza mergiare** — aveva `sentinella-dati.json` in conflitto, superata da #299.
+
+**Cosa cambia:** il pallino rosso funziona correttamente — compare solo quando c'è davvero qualcosa di nuovo da leggere.
+**Se va bene:** deploy automatico, badge non letto affidabile nel Pannello.
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
 ### ✅ #pr-conv-pin-badge — FATTO 2026-07-12 02:22 · PR #294 MERGIATA da Nicola · pin + badge "non letto" live
 
 Feature: graffetta (📌) per pinnare chat in cima + pallino rosso per messaggi non letti (localStorage). PR #292 e #293 scartate per conflitti su file di memoria → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito.
