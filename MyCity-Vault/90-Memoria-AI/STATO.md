@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:12
-fonte: AD digitale (🌙 13/7 19:12 METABOLIZZA: streaming parziale «cresce solo alla fine» + VPS RIMANDATO su fix/* → main. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:14
+fonte: AD digitale (🌙 13/7 19:14 METABOLIZZA: Nicola «ok fatto» — VPS allineato post-#343, nona prova streaming. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 💬 **13/7 ~19:10 — CHAT: streaming parziale + VPS allineamento sbloccato.** Dopo 7 prove, Nicola «**cresce live, però solo alla fine**» + «**non da quando inizi a rispondermi**» — primo progresso: testo cresce in orizzontale ma solo in fase risposta finale, non durante letture/comandi. **Fix 🟡 #343** su main — placeholder «Sto elaborando…» + poll più frequente. **VPS:** `aggiorna-cervello.sh` usciva **RIMANDATO** perché server ancora su branch `fix/streaming-piu-reattivo-inizio` (<30 min); AD ha chiuso branch → **main** `5a6bd24b`, codice #343 su disco. **Pendente Nicola:** `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (deve uscire «Allineamento completato», non RIMANDATO) + Ctrl+Shift+R → nona prova streaming dall'inizio. **Pallini:** ancora aperti — feedback separato post-#343. Fonte: chat Nicola 13/7 ~19:02–19:10.
+> 💬 **13/7 ~19:13 — CHAT: Nicola «ok fatto» — VPS allineato, nona prova streaming.** Dopo RIMANDATO su branch `fix/*`, Nicola conferma procedura completata: `aggiorna-cervello.sh` → «Allineamento completato», **worker-chat riavviato 19:10**, codice **#343** live su disco. **Main** `fa82f812`. **In corso:** nona prova streaming — feedback atteso su 3 punti: (1) «Sto elaborando…» subito dopo invio, (2) testo cresce dall'inizio (non solo alla fine), (3) pallini rossi meglio/uguale/peggio. **Pallini:** ancora aperti — feedback separato. Fonte: chat Nicola 13/7 ~19:13 + worker telemetry.
+>
+> 💬 **13/7 ~19:10 — CHAT: streaming parziale + VPS allineamento sbloccato.** Dopo 7 prove, Nicola «**cresce live, però solo alla fine**» + «**non da quando inizi a rispondermi**» — primo progresso: testo cresce in orizzontale ma solo in fase risposta finale, non durante letture/comandi. **Fix 🟡 #343** su main — placeholder «Sto elaborando…» + poll più frequente. **VPS:** `aggiorna-cervello.sh` usciva **RIMANDATO** perché server ancora su branch `fix/streaming-piu-reattivo-inizio` (<30 min); AD ha chiuso branch → **main** `5a6bd24b`, codice #343 su disco. Fonte: chat Nicola 13/7 ~19:02–19:10.
 >
 > 💬 **13/7 ~18:56 — CHAT: settima prova streaming — «rifai la prova».** Dopo sesta prova (18:54) senza esito «cresce», Nicola chiede di **rifare** il test live — stessa procedura (#341+#342 su main), nessun nuovo merge. **Codice main** `d2efd936` (worker telemetry 18:53:24). **In corso:** settima prova — AD avvisa no refresh a metà; feedback atteso (cresce / tutto insieme / a colonna); se ancora rotto → incognito o Ctrl+Shift+R. Fonte: chat Nicola 13/7 ~18:56.
 >
