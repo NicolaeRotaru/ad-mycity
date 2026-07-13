@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 20:58 · Perché si crea conflitto — Nicola chiede causa radice · atteso: meccanismo chiaro diario vs codice · reale: branch congela snapshot, main avanza parallelo, stesso body/LEZIONI/apprendimento → conflitto; codice sync ok; proposta diario fuori PR codice non approvata · L-166 · #conflitti #pr #causa-radice #nicola
 - 2026-07-13 20:13 · Conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti» · atteso: zero residui, mergeable API, codice intatto · reale: ondata 3 = 4 file memoria, ondata 4 = body PR post-#347, head `0c770216`, check exit 0; dire «risolto» dopo ondata 2 era prematuro · L-165 · #pr-346 #conflitti #rebase #ondata-3
 - 2026-07-13 20:11 · Commit di memoria spiegato — Nicola «a che cosa serve il commit di memoria?» · atteso: spiegazione semplice scopo vs fix · reale: diario vault auto-creato, genera conflitti PR, ignorabile per merge, saltato su #347 · L-164 · #commit-memoria #pr #nicola
 - 2026-07-13 20:10 · Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» · atteso: rebase post-#348, mergeable API · reale: main `b153f62f` post-merge #348, solo body PR, sync intatto, head `514321eb`, mergeable ok; merge 🔴 #347 · L-163 evidenze 2 · #pr-347 #conflitti #rebase #ondata-2

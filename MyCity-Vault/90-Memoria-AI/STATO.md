@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 20:21
-fonte: AD digitale (🌙 13/7 20:21 GIRO SERALE: briefing + coerenza-fatti OK + checklist AR-030. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 20:58
+fonte: AD digitale (💬 13/7 20:58 chat conflitti PR — causa radice. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~20:58 — CHAT: «perché si crea conflitto?» — meccanismo spiegato.** Nicola chiede la **causa radice** dopo spiegazione commit memoria (20:11). **Spiegato 🟢:** il branch PR congela una snapshot del repo (incluso diario vault se dirty); nel frattempo main avanza con merge (#348) e chat parallele che aggiornano le stesse righe su `pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento → Git segnala conflitto; il **codice fix** (sync radiografia, pallini) di solito **non** è in conflitto. **Regola operativa:** merge una PR alla volta; conflitto solo memoria/body ≠ fix rotto. **Proposta futura (non approvata 🔴):** tenere diario vault fuori dalle PR di codice. **Pendente:** merge 🔴 #346, #347. Fonte: chat Nicola 13/7 ~20:58.
+>
 > 🌙 **13/7 20:21 — GIRO SERALE.** REST ok 20:20: North Star 0 (~469h stallo). Coerenza-fatti exit 0 (33 copie propagate). Briefing 13/7 + CHECKLIST-NICOLA rigenerata. Vincoli HARD chiusi. **Mossa n.1:** merge #346 + debrief visita + VP 17/7.
 >
 > 💬 **13/7 ~20:13 — CHAT: conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti».** Terza segnalazione conflitto su merge #346 (scelte ragionate). **Causa:** main avanzato ancora (merge **#347** dopo fix ondata 2) — ondata 3 = **4 file memoria**; ondata 4 = solo body `pr-ad-mycity-body.md`. **Fix 🟢:** rebase stesso branch, head `0c770216`, **zero conflitti residui**, `registro-scelte-check.mjs` exit 0 (10 voci attese). Codice `registro-realta.json` + guardiano **intatto**. **Pendente:** merge 🔴 #117 + Ctrl+Shift+R → **10 scelte ragionate** in Auto-coscienza. **Main** `f12ba70d`. Fonte: chat Nicola 13/7 ~20:13.
