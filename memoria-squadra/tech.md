@@ -8,8 +8,10 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 20:10 · Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» · atteso: rebase post-#348, mergeable API · reale: main `b153f62f` post-merge #348, solo body PR, sync intatto, head `514321eb`, mergeable ok; merge 🔴 #347 · L-163 evidenze 2 · #pr-347 #conflitti #rebase #ondata-2
 - 2026-07-13 19:54 · Conflitto PR #347 — Nicola «ci sono conflitti» · atteso: rebase stesso branch, codice sync intatto · reale: solo `pr-ad-mycity-body.md`, `allinea-scan-cantiere.mjs` ok, rebase su `3ea3c0b6`, merge locale exit 0; merge 🔴 #347 · L-163 · #pr-347 #conflitti #rebase #radiografia
-- 2026-07-13 19:53 · Conflitto PR #348 — Nicola «ci sono conflitt» · atteso: rebase stesso branch, fix pallini intatto · reale: solo apprendimento.json + auto-miglioramento.json, page.tsx ok, merge locale verificato, push branch; merge 🔴 #118 · L-162 · #pr-348 #conflitti #rebase #pallini
+- 2026-07-13 20:10 · PR #348 mergiata — worker main `b153f62f` · atteso: pallini fingerprint live post-deploy · reale: merge ok, test Nicola pendente Ctrl+Shift+R · L-162 evidenze 2 · #pr-348 #mergiata #pallini
+- 2026-07-13 19:53 · Conflitto PR #348 — Nicola «ci sono conflitt» · atteso: rebase stesso branch, fix pallini intatto · reale: solo apprendimento.json + auto-miglioramento.json, page.tsx ok, merge locale verificato, push branch · L-162 · #pr-348 #conflitti #rebase #pallini
 - 2026-07-13 19:52 · Seconda ondata conflitto PR #346 — Nicola «riesci a vederlo?» · atteso: zero conflitti residui, mergeable · reale: 3 file memoria (LEZIONI-CHAT, apprendimento, auto-miglioramento), rebase `a154875c`, residui 0; dire «risolto» dopo solo body era prematuro · L-161 · #pr-346 #conflitti #rebase
 - 2026-07-13 19:52 · Conflitto PR #346 ondata 1 — Nicola «c'è un conflitto» · atteso: rebase stesso branch, codice intatto · reale: solo body `pr-ad-mycity-body.md`, rebase main (`28ae3360`), check exit 0; L-129 evidenze 7 · L-159 · #pr-346 #conflitti #rebase
 - 2026-07-13 17:51 · #334 conflitto → #336 — Nicola «c'è un conflitto» su pallino ~5s · atteso: risolvere sulla stessa PR o una sola PR pulita · reale: #334 conflittuale (fix già su main); #336 ribasata, simula merge OK; L-129 evidenze 6 (ripetuto errore PR multiple) · L-2026-0713-135 · #pr-336 #conflitti #pallini

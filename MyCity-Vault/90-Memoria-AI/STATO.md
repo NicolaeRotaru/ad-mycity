@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:54
-fonte: AD digitale (🌙 13/7 19:54 METABOLIZZA: PR #347 conflitto body risolto. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 20:10
+fonte: AD digitale (🌙 13/7 20:10 METABOLIZZA: #348 mergiata, #347 ondata 2 conflitto risolto. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~20:10 — CHAT: conflitto PR #347 ondata 2 — main post-merge #348.** Nicola «ci sono ancora conflitti» dopo risoluzione ondata 1. **Causa:** merge **#348** (pallini) ha avanzato main a `b153f62f` mentre #347 restava su base vecchia — stesso pattern L-161/#346 (body PR, non codice). **Fix 🟢:** rebase `fix/scan-cantiere-sync` su `b153f62f`, head `514321eb`, mergeable verificato via API GitHub; script `allinea-scan-cantiere.mjs` intatto. **#348 ✅ su main.** **Pendente:** merge 🔴 #347 + Ctrl+Shift+R → Cervello «1 da fare», voto **75**. Fonte: chat Nicola 13/7 ~20:10.
+>
 > 💬 **13/7 ~19:45 — CHAT: conflitto PR #347 risolto — solo body PR, codice sync ok.** Nicola «ci sono conflitti» su merge sync radiografia. **Verificato:** conflitto solo in `consegne/tech/pr-ad-mycity-body.md` (descrizione PR) — **nessun** conflitto su `allinea-scan-cantiere.mjs` né file Pannello. **Fix 🟢:** rebase `fix/scan-cantiere-sync` su main `3ea3c0b6`, `git merge --no-commit` exit 0, push branch. **Pendente:** merge 🔴 #347 + Ctrl+Shift+R → Cervello «1 da fare», voto **75**. **Main** `3ea3c0b6`. Fonte: chat Nicola 13/7 ~19:45.
 >
 > 💬 **13/7 ~19:45 — CHAT: conflitto PR #348 risolto — solo memoria macchina, fix pallini ok.** Nicola «ci sono conflitt» su merge #348 (pallini fingerprint). **Verificato:** conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli su main) — **nessun** conflitto su `page.tsx` né impronta risposta. **Fix 🟢:** rebase `fix/pallini-fingerprint-v3` su main, merge locale ok, push branch. **Pendente:** merge 🔴 #118 + deploy ~2 min + Ctrl+Shift+R + test 15s esci da chat. **Main** `4fb8bc5b`. Fonte: chat Nicola 13/7 ~19:45.
