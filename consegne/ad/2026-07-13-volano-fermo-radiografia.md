@@ -35,7 +35,21 @@ Il volano **non era morto al 11%**: era un **falso allarme** (sonda stantia) + c
 | 3 | Potatura settimanale: lezioni `in-prova` mai citate → `decaduta` | 🟢 | Meno rumore, metrica più leggibile |
 | 4 | Quando un reparto lavora: `chiusura-loop.mjs registra` obbligatorio | 🟢 | I 31 quaderni fermi si sbloccano uno a uno |
 
-## Lezioni da applicare subito (questo lavoro)
+## Aggiornamento 12:45 — sentinella scattata su 0.29 stantio
+
+**Esito:** volano **aperto** (0.52), non fermo. La sentinella ha letto `meta.tasso_applicazione = 0.29` (12:42) perché il tick leggero girava **dopo** `valutaRegole`, non prima.
+
+| Check | Valore | Fonte |
+|-------|--------|-------|
+| tasso ora | **0.52** (71/136) | `tasso-lezioni.mjs --json` 12:45 |
+| volano_fermo dopo fix | **non scatta** | `sentinella-dati.mjs` dry-run 12:45 |
+| quaderni fermi | 31/43 | `chiusura-loop.mjs --sonda` |
+| gate oggi | OK | `chiusura-loop.mjs --gate` rc=0 |
+
+**Fix codice (🟡 PR):** spostare `tick-auto-coscienza-leggero.mjs` all'inizio di `sentinella-dati.mjs`, prima di `leggiStatoReale`.
+
+**Debito che resta (processo):** 31 senior senza ESITO fresco — il tasso misura citazioni di ID lezione nel lavoro, ma AR-009 (ESITO nel quaderno) non è rispettato dalla maggioranza dei reparti.
+
 
 - **L-2026-0702-02** (P2): un controllo vale solo se persiste un artefatto — fix pipeline = artefatto reale.
 - **L-2026-0702-03** (P3): ciò che descrive la macchina va generato dai file — tasso da script, non a mano.
