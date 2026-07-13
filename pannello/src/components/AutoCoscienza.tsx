@@ -19,7 +19,7 @@ import {
   Loader2,
   ArrowRight,
 } from "lucide-react";
-import { dataVault } from "@/lib/format";
+import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
 
@@ -133,7 +133,7 @@ type Analisi = {
   salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number };
 };
 type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string };
-type Apprendimento = { data?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: Record<string, number> };
+type Apprendimento = { data?: string; aggiornato?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: Record<string, number> };
 type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; autonomia?: string; nota?: string }[] };
 type Benchmark = {
   reparto?: string;
@@ -147,7 +147,7 @@ type Benchmark = {
   cosa_ci_manca?: string;
 };
 type Miglioramento = {
-  data?: string; benchmark?: Benchmark[];
+  data?: string; aggiornato?: string; meta_esperimenti?: { aggiornato?: string }; benchmark?: Benchmark[];
   esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
   peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
   proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
@@ -245,6 +245,8 @@ export default function AutoCoscienza({
   const daVerificare = (d?.registro?.entita || []).filter((e) => e.stato === "da_verificare");
   const ap = d?.apprendimento;
   const mi = d?.miglioramento;
+  const dataApprendimento = dataVaultRecente(ap?.data, ap?.aggiornato);
+  const dataMiglioramento = dataVaultRecente(mi?.data, mi?.aggiornato, mi?.meta_esperimenti?.aggiornato);
   const cal = d?.calibrazione;
   const nErrori = a?.errori?.length || 0;
   const nDomande = a?.domande_per_nicola?.length || 0;
@@ -271,7 +273,7 @@ export default function AutoCoscienza({
           <span className="sez-ico"><Microscope size={16} /></span>
           <div className="min-w-0">
             <span className="t-sez">{titoloSezione}</span>
-            <div className="t-eti">{sottotitoloSezione} {a?.data && tab === "analisi" ? `· ultima ${dataVault(a.data)}` : ap?.data && tab === "apprendimento" ? `· ultima ${dataVault(ap.data)}` : mi?.data && tab === "miglioramento" ? `· ultima ${dataVault(mi.data)}` : ""}</div>
+            <div className="t-eti">{sottotitoloSezione} {a?.data && tab === "analisi" ? `· ultima ${dataVault(a.data)}` : dataApprendimento && tab === "apprendimento" ? `· ultima ${dataVault(dataApprendimento)}` : dataMiglioramento && tab === "miglioramento" ? `· ultima ${dataVault(dataMiglioramento)}` : ""}</div>
           </div>
         </div>
         {votoFOk ? (
