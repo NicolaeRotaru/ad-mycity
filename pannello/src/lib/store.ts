@@ -116,8 +116,10 @@ export type Lavoro = {
   updated_at: string;
   stato: "in_attesa" | "in_corso" | "fatto" | "errore" | "annullato";
   tipo: string;
-  richiesta: string;
-  risultato: string;
+  /** Assente nel poll leggero (lista/archivio): caricare on-demand con getLavoroById. */
+  richiesta?: string;
+  /** Assente nel poll leggero: caricare on-demand per streaming/espansione. */
+  risultato?: string;
   esperto: string;
   gruppo_id?: string | null;
   /** Quante volte il worker ha già ri-provato in automatico (auto-recovery). */
@@ -149,16 +151,30 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
   return rows[0] || null;
 }
 
-/** Un singolo lavoro per id (o null). */
+/** Un singolo lavoro per id, corpo completo (o null). */
 export async function getLavoroById(id: string): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
   const res = await fetch(
-    `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo&id=eq.${encodeURIComponent(id)}&limit=1`,
+    `${URL}/rest/v1/lavori?select=${LAVORI_SELECT_FULL}&id=eq.${encodeURIComponent(id)}&limit=1`,
     { headers: headers(), cache: "no-store" }
   );
   if (!res.ok) return null;
   const rows = (await res.json()) as Lavoro[];
   return rows[0] || null;
+}
+
+/** Dettaglio completo per più id (max 50): streaming chat, espansione card, quota worker. */
+export async function getLavoriByIds(ids: string[]): Promise<Lavoro[]> {
+  if (!memoryConnected()) return [];
+  const uniq = [...new Set(ids.map((x) => x.trim()).filter(Boolean))].slice(0, 50);
+  if (uniq.length === 0) return [];
+  const inList = uniq.map((x) => encodeURIComponent(x)).join(",");
+  const res = await fetch(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_FULL}&id=in.(${inList})`, {
+    headers: headers(),
+    cache: "no-store",
+  });
+  if (!res.ok) return [];
+  return (await res.json()) as Lavoro[];
 }
 
 /** Aggiorna stato/risultato di un lavoro. Torna true se riuscito. */
@@ -199,15 +215,19 @@ export async function annullaLavoroSeStato(
   return rows[0] || null;
 }
 
-const LAVORI_SELECT =
+/** Metadati soli: niente richiesta/risultato (evita timeout Postgres su poll frequenti). */
+const LAVORI_SELECT_LIGHT =
+  "id,created_at,updated_at,stato,tipo,esperto,gruppo_id,tentativi,riprova_dopo";
+const LAVORI_SELECT_FULL =
   "id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo";
 const LAVORI_SELECT_LEGACY = "id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto";
 
-async function fetchLavoriQuery(extra: string): Promise<Lavoro[]> {
+async function fetchLavoriQuery(extra: string, full = false): Promise<Lavoro[]> {
   if (!memoryConnected()) return [];
-  const q = `${URL}/rest/v1/lavori?select=${LAVORI_SELECT}&${extra}`;
+  const select = full ? LAVORI_SELECT_FULL : LAVORI_SELECT_LIGHT;
+  const q = `${URL}/rest/v1/lavori?select=${select}&${extra}`;
   let res = await fetch(q, { headers: headers(), cache: "no-store" });
-  if (!res.ok) {
+  if (!res.ok && full) {
     res = await fetch(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_LEGACY}&${extra}`, {
       headers: headers(),
       cache: "no-store",

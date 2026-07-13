@@ -27,8 +27,8 @@ export async function GET() {
       items.push({
         quando: l.updated_at || l.created_at,
         tipo: "lavoro",
-        titolo: `Lavoro (${l.stato}): ${l.richiesta}`.slice(0, 140),
-        testo: (l.risultato || "").slice(0, 400),
+        titolo: `Lavoro (${l.stato}): ${l.tipo}`.slice(0, 140),
+        testo: (l.risultato || l.richiesta || "").slice(0, 400),
       });
     }
   } catch {

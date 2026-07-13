@@ -66,6 +66,8 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   }, []);
   const [apertiGruppi, setApertiGruppi] = useState<Record<string, boolean>>({});
   const [apertiLavori, setApertiLavori] = useState<Record<string, boolean>>({});
+  const [dettagliLavori, setDettagliLavori] = useState<Record<string, LavoroBase>>({});
+  const [caricamentoDettaglio, setCaricamentoDettaglio] = useState<Record<string, boolean>>({});
   // Chat in-place per gruppo: la casella È una chat che si apre/chiude SUL POSTO (niente salto all'Assistente).
   const [chatAperta, setChatAperta] = useState<Record<string, boolean>>({});
 
@@ -173,16 +175,65 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani || codaFermaMaVivo);
 
   function toggleGruppo(id: string) {
-    setApertiGruppi((s) => ({ ...s, [id]: !s[id] }));
+    setApertiGruppi((s) => {
+      const apri = !s[id];
+      if (apri) {
+        const g = gruppi.find((x) => x.id === id);
+        if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
+      }
+      return { ...s, [id]: apri };
+    });
+  }
+
+  function lavoroConDettaglio(lv: LavoroBase): LavoroBase {
+    const d = dettagliLavori[lv.id];
+    if (!d) return lv;
+    return { ...lv, richiesta: d.richiesta ?? lv.richiesta, risultato: d.risultato ?? lv.risultato };
+  }
+
+  async function caricaDettaglioLavoro(id: string) {
+    if (dettagliLavori[id]?.richiesta || caricamentoDettaglio[id]) return;
+    setCaricamentoDettaglio((s) => ({ ...s, [id]: true }));
+    try {
+      const r = await fetch(`/api/lavori/${encodeURIComponent(id)}`, { cache: "no-store" });
+      const d = await r.json();
+      if (d?.lavoro) setDettagliLavori((s) => ({ ...s, [id]: d.lavoro }));
+    } catch {
+      /* retry al prossimo expand */
+    } finally {
+      setCaricamentoDettaglio((s) => {
+        const next = { ...s };
+        delete next[id];
+        return next;
+      });
+    }
   }
 
   function toggleLavoro(id: string) {
-    setApertiLavori((s) => ({ ...s, [id]: !s[id] }));
+    setApertiLavori((s) => {
+      const apri = !s[id];
+      if (apri) void caricaDettaglioLavoro(id);
+      return { ...s, [id]: apri };
+    });
   }
 
   function toggleChat(id: string) {
-    setChatAperta((s) => ({ ...s, [id]: !s[id] }));
+    setChatAperta((s) => {
+      const apri = !s[id];
+      if (apri) {
+        const g = gruppi.find((x) => x.id === id);
+        if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
+      }
+      return { ...s, [id]: apri };
+    });
   }
+
+  useEffect(() => {
+    for (const l of lavori) {
+      if (l.stato === "errore" && !l.risultato && !dettagliLavori[l.id]) void caricaDettaglioLavoro(l.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- prefetch motivo errore on-demand
+  }, [lavori]);
 
   // «Hai già risposto»: in un gruppo con più di un lavoro, ogni lavoro extra nasce da una TUA
   // risposta. Restituisce l'anteprima dell'ultima cosa che hai scritto, per il badge a colpo d'occhio.
@@ -199,12 +250,13 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   // essere rimesso in coda con un clic. Colore ambra (attesa), tono rassicurante.
   function bandaErrore(lv: LavoroBase, diretto = false) {
     if (lv.stato !== "errore") return null;
+    const x = lavoroConDettaglio(lv);
     return (
       <div className={`${diretto ? "rounded-lg border" : "border-t"} border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/20 px-3 py-2 flex items-start gap-2 flex-wrap`}>
         <div className="min-w-0 flex-1 text-[12px] text-amber-800 dark:text-amber-300 leading-snug">
-          <b>Non è partita: da riapprovare.</b> Il primo tentativo non è andato a buon fine ({motivoBreve(lv.risultato)}). Nulla è stato inviato — dai di nuovo l&apos;ok e torna in coda.
+          <b>Non è partita: da riapprovare.</b> Il primo tentativo non è andato a buon fine ({motivoBreve(x.risultato)}). Nulla è stato inviato — dai di nuovo l&apos;ok e torna in coda.
         </div>
-        {(riprovati[lv.id] === "fatto" || (lv.risultato || "").includes("[riproposto")) ? (
+        {(riprovati[lv.id] === "fatto" || (x.risultato || "").includes("[riproposto")) ? (
           <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
         ) : (
           <button
@@ -224,16 +276,24 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   // Corpo del messaggio: Richiesta + Risposta. `diretto` = reso subito sotto l'header del gruppo
   // (nessun padding/bordo di card interna: lo dà già il contenitore del gruppo).
   function corpoLavoro(lv: LavoroBase, diretto = false) {
+    const x = lavoroConDettaglio(lv);
+    if (!x.richiesta && caricamentoDettaglio[lv.id]) {
+      return (
+        <div className={`text-[12px] text-black/40 dark:text-white/40 ${diretto ? "" : "border-t border-black/[0.05] dark:border-white/10 px-3 pb-3 pt-2"}`}>
+          Carico dettaglio…
+        </div>
+      );
+    }
     return (
       <div className={`space-y-2 ${diretto ? "" : "border-t border-black/[0.05] dark:border-white/10 px-3 pb-3 pt-2"}`}>
         <div className="text-[13px] text-ink/80 dark:text-white/80 whitespace-pre-wrap break-words">
           <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1">Richiesta</span>
-          {lv.richiesta}
+          {x.richiesta || "—"}
         </div>
-        {lv.risultato && (
+        {x.risultato && (
           <div className="text-ink/85 dark:text-white/85 border-t border-black/[0.06] dark:border-white/10 pt-2 text-[13px] prose-sm dark:prose-invert max-w-none">
             <span className="text-[10px] uppercase tracking-wide text-black/40 dark:text-white/40 block mb-1 not-prose">Risposta</span>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{lv.risultato}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{x.risultato}</ReactMarkdown>
           </div>
         )}
       </div>
@@ -378,7 +438,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                 </div>
 
                 {chatOn && (
-                  <ChatCasella gruppoId={g.id} lavori={g.lavori} onChiudi={() => toggleChat(g.id)} />
+                  <ChatCasella gruppoId={g.id} lavori={g.lavori.map(lavoroConDettaglio)} onChiudi={() => toggleChat(g.id)} />
                 )}
 
                 {gruppoAperto && !multi && (

@@ -37,7 +37,7 @@ function oraRoma(): string {
 // accodata al worker, e siccome il lavoro era in_attesa (garantito dal chiamante) nulla è stato
 // eseguito → ripristino sicuro. "fatta"/"simulata" = già toccato il mondo reale → NON si ripristina.
 async function rimettiAzioneInApprovazione(lv: Lavoro, ora: string): Promise<boolean> {
-  const m = lv.richiesta.match(/l'azione\s+"([^"]+)"/i);
+  const m = (lv.richiesta || "").match(/l'azione\s+"([^"]+)"/i);
   const titolo = m?.[1]?.trim();
   if (!titolo) return false;
   const az = (await tutteLeAzioni()).find((a) => a.titolo === titolo);

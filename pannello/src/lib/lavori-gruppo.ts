@@ -6,7 +6,7 @@ export type LavoroBase = {
   updated_at: string;
   stato: string;
   tipo: string;
-  richiesta: string;
+  richiesta?: string;
   risultato?: string;
   esperto?: string;
   gruppo_id?: string | null;
@@ -48,10 +48,15 @@ export function salvaGruppoLavoroLocale(lavoroId: string, gruppoId: string) {
 /** Titolo breve per header gruppo / singolo lavoro. */
 export function titoloLavoro(lv: LavoroBase): string {
   if (lv.tipo === "giro") return "Giro di perlustrazione";
-  const nuovo = lv.richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
+  const richiesta = lv.richiesta || "";
+  if (!richiesta.trim()) {
+    if (lv.tipo === "chat") return "Messaggio chat";
+    return lv.tipo || "Lavoro";
+  }
+  const nuovo = richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
   if (nuovo?.[1]?.trim()) return nuovo[1].trim().slice(0, 100);
-  const prima = lv.richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
-  return (prima || lv.richiesta).trim().slice(0, 100);
+  const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
+  return (prima || richiesta).trim().slice(0, 100);
 }
 
 export type MsgChat = {
@@ -63,14 +68,15 @@ export type MsgChat = {
 /** Ricostruisce i messaggi chat da un singolo lavoro (per riaprire conversazioni da Lavori). */
 export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
   const out: MsgChat[] = [];
+  const richiesta = lv.richiesta || "";
   if (lv.tipo === "giro") {
     out.push({ role: "user", content: "fai un giro" });
-  } else {
-    const nuovo = lv.richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
+  } else if (richiesta.trim()) {
+    const nuovo = richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
     if (nuovo?.[1]?.trim()) {
       out.push({ role: "user", content: nuovo[1].trim() });
     } else {
-      const prima = lv.richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
+      const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
       if (prima?.trim()) out.push({ role: "user", content: prima.trim() });
     }
   }
