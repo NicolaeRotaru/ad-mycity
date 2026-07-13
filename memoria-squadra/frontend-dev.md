@@ -7,7 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
-- 2026-07-13 17:37 · Pallino riaccende dopo ~5s — Nicola segnala residuo post-#328 · atteso: causa radice + fix che resta spento · reale: race orologio browser vs timestamp lavoro AD al poll; PR #332 usa stesso orologio del lavoro; merge 🔴 #105 · L-2026-0713-133 · #pannello #pallini #pr-332 #poll
+- 2026-07-13 17:45 · Pallino riaccende dopo ~5s — Nicola conferma residuo post-#332 · atteso: pallino resta spento dopo poll · reale: race lettoAt browser vs timestamp lavoro; #332 incompleto annullata; PR #334 max(orario chat,lavoro)+riallineamento poll, commit `03d29c1c`; merge 🔴 #107 · L-2026-0713-133 · #pannello #pallini #pr-334 #poll
 - 2026-07-13 17:32 · Allegati — Nicola corregge superficie chat · atteso: distinguere fluttuante vs ParlaCasella vs Archivio · reale: ParlaCasella.tsx senza graffetta (feature gap); fluttuante+Archivio hanno upload post-#60; PR ParlaCasella 🟡 proposta · L-2026-0713-132 · #pannello #allegati #ParlaCasella #fluttuante
 - 2026-07-13 17:28 · Allegati chat — Nicola «perché non riesco più ad allegare?» · atteso: causa verificata + sblocco online · reale: 503 su `/api/allegato` senza env Storage Vercel (codice ok); ok #60 env+redeploy → upload `ok:true`; L-119 evidenze 3 · L-2026-0713-119 · #pannello #allegati #vercel #60
 - 2026-07-13 17:23 · Nicola «impara questi errori» — metabolizzazione pallini/PR · atteso: lezione in memoria + guida merge · reale: L-129 rinforzata (3 errori: PR multiple, file worker nel branch, «pronta» senza simula merge); #327 annullata, solo #328 merge 🔴 #102 · L-2026-0713-129 · #impara-errori #pr-328

@@ -50,16 +50,26 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-332-pallini-orologio — Mergia PR #332: pallino non riaccende dopo ~5 secondi · ⏳ IN ATTESA · accodata 2026-07-13 17:36
+### ❌ #pr-332-pallini-orologio — ANNULLATA 2026-07-13 17:45 · sostituita da #334
 
-**Cosa fa:** quando apri/leggi una chat con risposta AD non letta, segna «letta» usando il timestamp dell'ultimo lavoro AD (non l'ora del browser) — così il poll ogni ~5s non fa riapparire il pallino rosso.
+**Cosa è successo:** fix incompleto — Nicola conferma che il pallino riaccende ancora dopo ~5s. Stesso bug coperto da **#334** (max orario chat+lavoro + riallineamento al poll).
 
-**PR su GitHub:** [#332 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/332) ← branch fix pallini-orologio, commit `b068f8ec`, `tsc --noEmit` ok
+**Da fare:** Chiudi PR #332 su GitHub **senza mergiare**. Mergia solo **#334** (card #107).
 
-**Cosa cambia:** apri una chat con pallino → sparisce e **resta spento** anche dopo il refresh automatico dell'elenco (~5s).
-**Se va bene:** mergi #332 dal Pannello → deploy Vercel ~2 min → riprova: apri chat non letta, attendi 10s — pallino non deve tornare. Complementare a **#328** (sync telefono/PC).
+- **Colore:** 🟢 (annullata — nessun merge)
 
-- **Colore:** 🔴 (merge dal Pannello — card #105)
+---
+
+### 🟡 #pr-334-pallini-poll — Mergia PR #334: pallino resta spento dopo il poll (~5s) · ⏳ IN ATTESA · accodata 2026-07-13 17:45
+
+**Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
+
+**PR su GitHub:** [#334 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/334) ← commit `03d29c1c`, simulazione merge su main → zero conflitti
+
+**Cosa cambia:** apri chat con pallino → sparisce → aspetti 10s senza ricaricare → **resta spento**.
+**Se va bene:** mergi #334 dal Pannello → deploy Vercel ~2 min → test: apri chat non letta, attendi 10s. Complementare a **#328** (sync telefono/PC). **Non** mergiare #332.
+
+- **Colore:** 🔴 (merge dal Pannello — card #107)
 
 ---
 
@@ -859,9 +869,9 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | in attesa | Pallini rossi e graffette uguali su telefono e PC; lista conversazioni include anche risposte AD dai Lavori. | Dopo Approva: deploy Vercel ~2 min; ricarica entrambi i dispositivi — pallini uguali, spariscono aprendo la chat. |
 | 103 | 2026-07-13 17:15 | @tech | Merge PR #330 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/330 | github | ✅ FATTO 2026-07-13 17:19 · mergiata `ac9e24a9` | 10 plugin fase 2 nel manifest (debug, TDD, security, UI, web, Firecrawl…) — 14 skill totali. | Riavvia worker per caricare le nuove regole; Firecrawl solo con chiave API sul VPS. |
 | 104 | 2026-07-13 17:26 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | in attesa | 8 plugin fase 3 nel manifest (debug, design moduli, Supabase, cross-repo, PDF/Excel/Word) — 21 skill totali. | Riavvia worker per caricare le regole; codebase-search solo con Tabnine collegato. |
-| 105 | 2026-07-13 17:36 | @tech | Merge PR #332 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/332 | github | in attesa | Pallino non riaccende ~5s dopo aver aperto la chat — stesso orologio del lavoro AD al segnare lettura. | Dopo Approva: deploy Vercel ~2 min; apri chat non letta, attendi 10s — pallino resta spento. Complementare a #328. |
+| 105 | 2026-07-13 17:36 | @tech | Merge PR #332 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/332 | github | CHIUDI SENZA MERGE · sostituita da #334 2026-07-13 17:45 | Fix incompleto — pallino riaccende ancora dopo ~5s. | Chiudi #332; mergia solo #334 (card #107). |
 | 106 | 2026-07-13 17:37 | @tech | Merge PR #333 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/333 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 107 | 2026-07-13 17:38 | @tech | Merge PR #334 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 107 | 2026-07-13 17:45 | @tech | Merge PR #334 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | in attesa | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro al segnare lettura. | Dopo Approva: deploy Vercel ~2 min; apri chat non letta, attendi 10s — pallino non torna. Complementare a #328. |
 | 108 | 2026-07-13 17:42 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
