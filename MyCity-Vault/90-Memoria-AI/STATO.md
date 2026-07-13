@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:14
-fonte: AD digitale (💬 13/7 21:14 chat conflitto PR #351. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:16
+fonte: AD digitale (💬 13/7 21:16 chat conflitto PR #352. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:16 — CHAT: conflitto PR #352 — Nicola «ci sono dei conflitti».** Subito dopo apertura PR chip plugin nel menù ⚡. **Verificato:** conflitto solo in `pr-ad-mycity-body.md` (testo Ritmo #350 vs descrizione Grillami/Codice minimo) + file **diario** memoria (STATO, coda, apprendimento) — **nessun** conflitto su `comandi-data.ts` (due chip in `SKILL_RAPIDE`); merge simulato locale **pulito**. **Risoluzione GitHub:** body → tieni testo Grillami + Codice minimo; file memoria → **Accept main**; Approva → deploy ~2 min → icona ⚡. **Pendente:** merge 🔴 **#352** (#122). Fonte: chat Nicola 13/7 ~21:16.
+>
 > 💬 **13/7 ~21:14 — CHAT: conflitto PR #351 — Nicola «c'è un conflitto, che cosa fa».** Due PR parallele (#350 Ritmo + #351 scroll) hanno toccato lo stesso file di appunti `pr-ad-mycity-body.md` — Git non sa quale testo tenere; **il codice non è in conflitto**. Fix scroll fluttuante **già su main** con merge **#350** (`42c657a8`, riga «Riapertura FAB» in `page.tsx`) — modifica identica in entrambe le PR. **#351 ridondante:** chiudere senza merge; **#350 ✅ mergiata** (#120 FATTO). Se Nicola prova ancora scroll rotto → bug diverso. Fonte: chat Nicola 13/7 ~21:14 + `git log origin/main` + grep `page.tsx`.
 >
 > 💬 **13/7 ~21:13 — CHAT: plugin in menu Skill & comandi — Nicola «perché solo 2 plugin in chat? mettili in skill e comandi».** Dopo verifica 21/21 plugin (21:07), chiede perché in chat restano attivi solo due e vuole **grilling** + **ponytail** visibili nel menù ⚡ (fulmine accanto a Invia). **Spiegato 🟢:** solo 2 in chat **per scelta** (grilling su richiesta, ponytail su codice; caveman OFF; altri 18 = giri automatici/worker). **Fix 🟡 PR #352:** chip «Grillami» e «Codice minimo» in cima a `SKILL_RAPIDE` (`comandi-data.ts`). **Pendente:** merge 🔴 **#352** (#122) → deploy ~2 min → icona ⚡ mostra i due chip. Fonte: chat Nicola 13/7 ~21:13.

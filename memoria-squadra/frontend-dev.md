@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 21:16 · Conflitto PR #352 — Nicola «ci sono dei conflitti» · atteso: spiegare conflitto + istruzioni merge · reale: solo body (Ritmo vs Grillami) + diario memoria; `comandi-data.ts` pulito merge locale ok; body → Grillami, memoria → Accept main · L-174 · #pannello #plugin #pr-352 #conflitti
 - 2026-07-13 21:14 · Conflitto PR #351 — Nicola «c'è un conflitto, che cosa fa» · atteso: spiegare conflitto + cosa fare · reale: solo body `pr-ad-mycity-body.md`; fix scroll già su main via #350 (`42c657a8`); #351 chiudere senza merge · L-173 · #pannello #chat #pr-351 #conflitti
 - 2026-07-13 21:13 · Plugin in menu ⚡ — Nicola «solo 2 plugin? mettili in skill e comandi» · atteso: chip visibili grilling+ponytail nel menù fulmine · reale: spiegato perché solo 2 in chat; PR #352 due chip in `SKILL_RAPIDE`; merge 🔴 #122 · L-172 · #pannello #plugin #skill-comandi #pr-352
 - 2026-07-13 21:12 · Scroll chat fluttuante al riaprire — Nicola «chiudo e riapro → riparte dall'inizio» · atteso: ultimo messaggio visibile come chat intera · reale: DOM smontato senza scroll-to-bottom; fix su main via #350 (`42c657a8`); #351 ridondante chiudere · L-171 · #pannello #chat #fluttuante #scroll #pr-350

@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 21:16] PR #352 conflitto — Nicola «ci sono dei conflitti»: solo `pr-ad-mycity-body.md` (testo Ritmo #350 vs chip Grillami) + file memoria diario; **codice `comandi-data.ts` pulito** (merge locale ok); body → tieni Grillami/Codice minimo; memoria → Accept main; merge 🔴 #122.
 - [2026-07-13 21:14] PR #351 conflitto — Nicola «c'è un conflitto, che cosa fa»: conflitto solo `pr-ad-mycity-body.md` (#350 Ritmo vs #351 scroll), **non** `page.tsx`; fix scroll identico già su main con merge **#350** (`42c657a8`, riga «Riapertura FAB»); **#351 chiudere senza merge**; se mergi lo stesso → Accept main; test chiudi/riapri chat fluttuante.
 - [2026-07-13 21:13] Plugin in menu ⚡ — Nicola «perché solo 2 in chat? mettili in skill e comandi»: in chat restano solo grilling+ponytail per scelta (caveman OFF, altri 18 = giri/worker); vuole chip visibili nel menù fulmine — **PR #352** «Grillami» + «Codice minimo» in `SKILL_RAPIDE`; merge 🔴 **#352** #122.
 - [2026-07-13 21:12] Chat fluttuante scroll — Nicola «chiudo e riapro → riparte dal primo messaggio»: chiusura smonta DOM senza scroll al fondo; chat intera ok, fluttuante no; fix su main via **#350** (non serve #351); ogni fix scroll va in entrambe le superfici.
