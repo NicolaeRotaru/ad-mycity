@@ -10,8 +10,9 @@ import EsploraGitHub from "@/components/aree/EsploraGitHub";
 import { vaultToIso } from "@/lib/format";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
-type Tab = "memoria-viva" | "archivio" | "storico" | "github";
+type Tab = "memoria-viva" | "archivio" | "storico";
 type VivaTab = "memoria" | "scoperte";
+type ArchivioTab = "consegne" | "github";
 
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
 type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
@@ -42,10 +43,14 @@ function parseVivaSub(sub?: string): VivaTab {
   return "memoria";
 }
 
+function parseArchivioSub(sub?: string): ArchivioTab {
+  if (sub === "github" || sub === "esplora" || sub === "archivio/github") return "github";
+  return "consegne";
+}
+
 function parseMemoriaSub(sub?: string): Tab {
   if (!sub || sub === "memoria-viva" || sub === "viva" || sub === "viva-memoria" || sub === "memoria" || sub === "scoperte" || sub === "viva-scoperte") return "memoria-viva";
-  if (sub === "archivio" || sub.startsWith("archivio/")) return "archivio";
-  if (sub === "github" || sub === "esplora") return "github";
+  if (sub === "archivio" || sub.startsWith("archivio/") || sub === "github" || sub === "esplora") return "archivio";
   if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior") return "storico";
   return "memoria-viva";
 }
@@ -54,20 +59,29 @@ function vivaSubId(v: VivaTab): string {
   return v === "scoperte" ? "scoperte" : "memoria-viva";
 }
 
+function archivioSubId(v: ArchivioTab): string {
+  return v === "github" ? "archivio/github" : "archivio";
+}
+
 export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | null; ultimoAt: string | null }) {
   const [tab, setTab] = useState<Tab>("memoria-viva");
   const [vivaTab, setVivaTab] = useState<VivaTab>("memoria");
+  const [archivioTab, setArchivioTab] = useState<ArchivioTab>("consegne");
 
   useEffect(() => {
     const applica = (det: { vista?: string; sub?: string } | undefined) => {
       if (det?.vista !== "memoria" || !det.sub) return;
-      setTab(parseMemoriaSub(det.sub));
-      if (parseMemoriaSub(det.sub) === "memoria-viva") setVivaTab(parseVivaSub(det.sub));
+      const parsed = parseMemoriaSub(det.sub);
+      setTab(parsed);
+      if (parsed === "memoria-viva") setVivaTab(parseVivaSub(det.sub));
+      if (parsed === "archivio") setArchivioTab(parseArchivioSub(det.sub));
     };
     const pend = consumaSubPendente("memoria");
     if (pend) {
-      setTab(parseMemoriaSub(pend));
-      if (parseMemoriaSub(pend) === "memoria-viva") setVivaTab(parseVivaSub(pend));
+      const parsed = parseMemoriaSub(pend);
+      setTab(parsed);
+      if (parsed === "memoria-viva") setVivaTab(parseVivaSub(pend));
+      if (parsed === "archivio") setArchivioTab(parseArchivioSub(pend));
     }
     const onSub = (e: Event) => applica((e as CustomEvent<DettaglioSub>).detail);
     const onVai = (e: Event) => applica((e as CustomEvent<DettaglioVai>).detail);
@@ -83,14 +97,13 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
     { id: "memoria-viva", label: "Memoria viva", icon: <BrainIcon /> },
     { id: "archivio", label: "Archivio", icon: <FolderOpen size={14} /> },
     { id: "storico", label: "Storico", icon: <History size={14} /> },
-    { id: "github", label: "GitHub", icon: <FolderTree size={14} /> },
   ];
 
   return (
     <div className="space-y-4">
       <div>
         <h2 className="t-area">🧠 Memoria</h2>
-        <p className="t-eti mt-0.5">Tutto ciò che l&apos;AD sa, produce e conserva — viva, archivio, storico e file su GitHub.</p>
+        <p className="t-eti mt-0.5">Tutto ciò che l&apos;AD sa, produce e conserva — viva, archivio e storico.</p>
       </div>
 
       <div className="flex flex-wrap gap-1.5">
@@ -103,7 +116,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
                 t.id === "storico"
                   ? storicoSubId("decisioni")
                   : t.id === "archivio"
-                    ? "archivio"
+                    ? archivioSubId("consegne")
                     : t.id;
               vaiSub("memoria", sub);
             }}
@@ -147,9 +160,34 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
         </div>
       )}
 
-      {tab === "archivio" && <Documenti embedded />}
+      {tab === "archivio" && (
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-1.5">
+            {([
+              { id: "consegne" as const, label: "Consegne", icon: <BookOpen size={14} /> },
+              { id: "github" as const, label: "GitHub", icon: <FolderTree size={14} /> },
+            ]).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => {
+                  setArchivioTab(t.id);
+                  vaiSub("memoria", archivioSubId(t.id));
+                }}
+                className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+                  archivioTab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
+          {archivioTab === "consegne" && <Documenti embedded />}
+          {archivioTab === "github" && <EsploraGitHub embedded />}
+        </div>
+      )}
       {tab === "storico" && <StoricoMemoria />}
-      {tab === "github" && <EsploraGitHub embedded />}
     </div>
   );
 }
