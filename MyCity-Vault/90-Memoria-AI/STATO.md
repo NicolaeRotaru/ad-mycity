@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:53
-fonte: AD digitale (🌙 13/7 19:53 METABOLIZZA: PR #348 conflitto memoria risolto. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:54
+fonte: AD digitale (🌙 13/7 19:54 METABOLIZZA: PR #347 conflitto body risolto. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:45 — CHAT: conflitto PR #347 risolto — solo body PR, codice sync ok.** Nicola «ci sono conflitti» su merge sync radiografia. **Verificato:** conflitto solo in `consegne/tech/pr-ad-mycity-body.md` (descrizione PR) — **nessun** conflitto su `allinea-scan-cantiere.mjs` né file Pannello. **Fix 🟢:** rebase `fix/scan-cantiere-sync` su main `3ea3c0b6`, `git merge --no-commit` exit 0, push branch. **Pendente:** merge 🔴 #347 + Ctrl+Shift+R → Cervello «1 da fare», voto **75**. **Main** `3ea3c0b6`. Fonte: chat Nicola 13/7 ~19:45.
+>
 > 💬 **13/7 ~19:45 — CHAT: conflitto PR #348 risolto — solo memoria macchina, fix pallini ok.** Nicola «ci sono conflitt» su merge #348 (pallini fingerprint). **Verificato:** conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli su main) — **nessun** conflitto su `page.tsx` né impronta risposta. **Fix 🟢:** rebase `fix/pallini-fingerprint-v3` su main, merge locale ok, push branch. **Pendente:** merge 🔴 #118 + deploy ~2 min + Ctrl+Shift+R + test 15s esci da chat. **Main** `4fb8bc5b`. Fonte: chat Nicola 13/7 ~19:45.
 >
 > 💬 **13/7 ~19:44 — CHAT: seconda ondata conflitto PR #346 — 3 file memoria.** Nicola «riesci a vedere il conflitto che si è creato?» dopo prima risoluzione (solo body `pr-ad-mycity-body.md` ~19:50). **Verificato:** nuovi conflitti su `LEZIONI-CHAT.md`, `apprendimento.json`, `auto-miglioramento.json` (solo date/orari da giri paralleli su main) — **nessun** impatto su `registro-realta.json` né `registro-scelte-check.mjs`. **Fix 🟢:** rebase+merge stesso branch, commit `a154875c`, **zero conflitti residui** verificati branch vs main. **Pendente:** merge 🔴 #117 + Ctrl+Shift+R su pagina PR. Fonte: chat Nicola 13/7 ~19:44.

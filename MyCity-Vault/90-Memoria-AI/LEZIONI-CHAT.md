@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:54] Conflitto PR #347 — Nicola «ci sono conflitti»: solo `consegne/tech/pr-ad-mycity-body.md` (descrizione PR), codice `allinea-scan-cantiere` intatto; rebase `fix/scan-cantiere-sync` su `3ea3c0b6`, merge locale ok; ricarica card prima di «risolto»; **#347** merge 🔴.
 - [2026-07-13 19:53] Conflitto PR #348 — Nicola «ci sono conflitt»: solo `apprendimento.json` + `auto-miglioramento.json` (memoria), **non** `page.tsx` pallini; rebase `fix/pallini-fingerprint-v3` su main, merge locale ok; ricarica card prima di «risolto»; **#348** merge 🔴 #118.
 - [2026-07-13 19:52] Conflitto PR #346 ondata 2 — dopo body risolto main avanza: scontrano LEZIONI-CHAT + apprendimento + auto-miglioramento (solo date); Nicola «riesci a vederlo?» → rebase stesso branch (`a154875c`), **verificare zero residui** prima di «mergia»; non dire risolto dopo solo ondata 1; **#346** merge 🔴 #117.
 - [2026-07-13 19:51] Pallini scenario 1+4 = stesso bug — Nicola «1 e 4»: letto guardava timestamp/`updated_at` (poll ~8s riaccende) + risposte solo in Lavori non seedate (tutto rosso); fix = **impronta testo ultima risposta**, non orario; **PR #348** merge 🔴 #118 → Ctrl+Shift+R → test 15s esci + elenco.
