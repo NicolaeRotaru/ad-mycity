@@ -8,6 +8,7 @@ reparto: vendite
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 11:25 · Chat Nicola «i miei clienti sono le botteghe, non i ristoranti» → conferma strategica core · atteso: distinguere tassonomia (6 ristoranti nel pitch) vs cliente core (botteghe) vs faro (PQ) · reale: DECISIONI+STATO+lezione L-2026-0713-102; dopo visita focus Garetti/Peretti/Amendolara + 27 botteghe · #vendite #strategia #botteghe #cliente-core
 - 2026-07-12 19:53 · Chat Nicola «non sono botteghe ma ristoranti» → correzione linguaggio AD · atteso: pitch piatti asporto/consegna, mai «spesa online» · reale: memoria+lezione L-2026-0712-98 aggiornate · dossier 6/7 già corretto, errore solo in chat live · #vendite #6-ristoranti #pitch
 - 2026-07-12 19:51 · Chat Nicola «vado dal primo negozio» → correzione: intende una delle 6 prospect (acquisizione), non PQ · atteso scheda tascabile per-negozio appena dice quale · reale: in attesa scelta Nicola · lezione L-2026-0712-97: chiedere PQ vs prospect prima della checklist · #vendite #visita #6-ristoranti
 - 2026-06-25 · Piano Vendite redatto (06-Piani/Piano Vendite.md) · ho riusato i pacchetti già pronti in consegne/ (pitch+contratto+payout Garetti) invece di riscrivere · North Star = negozi LIVE (non firme), time-to-live <48h, churn <20% a 90gg · lezione: il piano si aggancia a [[Piano d'Azione]] (cluster Calzolai-Duomo-Chiapponi, 6 negozi/6 sett), non lo duplica · #vendite #piano
