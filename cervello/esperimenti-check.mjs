@@ -25,6 +25,7 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
 const JSON_MODE = process.argv.includes("--json");
+const SOLO_BOOKKEEPING = process.argv.includes("--solo-bookkeeping");
 const GIORNI_DEFAULT = Number(process.env.ESPERIMENTI_GIORNI || 7);
 
 // --apri: apre un nuovo esperimento dalla CLI (AR-041 — il motore chiama questo invece di scrivere a mano).
@@ -97,6 +98,7 @@ async function main() {
     misurati: esperimenti.filter((e) => e.stato === "misurato").length,
     chiusi: esperimenti.filter((e) => e.stato === "chiuso").length,
   };
+  dati.aggiornato = quando;
   writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
 
   const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
@@ -124,6 +126,8 @@ async function main() {
     }
   }
   // AR-041: array vuoto = volano spento → exit 1 (giro.sh può farne vincolo hard al motore).
+  // --solo-bookkeeping: chiamato dal tick leggero ogni ~10 min — solo contatori, niente gate.
+  if (SOLO_BOOKKEEPING) process.exit(0);
   process.exit(inScadenza.length > 0 || aperti.length === 0 ? 1 : 0);
 }
 

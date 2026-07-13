@@ -127,6 +127,7 @@ function main() {
 
   if (!DRY) {
     appr.meta = meta;
+    appr.aggiornato = nowPiacenza();
     writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + "\n", "utf8");
   }
 
