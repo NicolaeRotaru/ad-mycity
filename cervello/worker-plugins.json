@@ -1,0 +1,54 @@
+{
+  "_cosa_e": "Manifest plugin approvati per il worker Cursor. Ogni voce ha scope (dove si applica) e target (dove finisce nel repo). Sync: node cervello/sync-worker-plugins.mjs",
+  "aggiornato": "2026-07-13 12:35",
+  "plugin": [
+    {
+      "id": "grilling",
+      "nome": "Grilling",
+      "repo": "mattpocock/skills",
+      "ref": "main",
+      "path_sorgente": "skills/productivity/grilling/SKILL.md",
+      "target": ".cursor/skills/grilling/SKILL.md",
+      "scope": ["chat", "lavori", "giro"],
+      "quando": "Stress-test di decisioni/PR prima di agire. Una domanda alla volta.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "ponytail",
+      "nome": "Ponytail",
+      "repo": "DietrichGebert/ponytail",
+      "ref": "main",
+      "path_sorgente": ".cursor/rules/ponytail.mdc",
+      "target": ".cursor/rules/ponytail-code.mdc",
+      "scope": ["codice"],
+      "globs": ["pannello/**", "cervello/**", "creativi/**"],
+      "quando": "Solo task che toccano codice — scala a minimo indispensabile.",
+      "licenza": "MIT",
+      "nota": "alwaysApply=false + globs codice — non in chat con Nicola"
+    },
+    {
+      "id": "caveman-internal",
+      "nome": "Caveman (interno)",
+      "repo": "JuliusBrussee/caveman",
+      "ref": "main",
+      "path_sorgente": "skills/caveman/SKILL.md",
+      "target": "cervello/prompt-fragments/caveman-internal.md",
+      "scope": ["interno"],
+      "quando": "Output telegrafico SOLO su giro/lavori/metabolizza — MAI in chat Nicola.",
+      "licenza": "MIT",
+      "nota": "Non installato come skill globale: iniettato dal worker solo su tipo≠chat"
+    }
+  ],
+  "candidati_fase2": [
+    "mattpocock/skills — diagnosing-bugs",
+    "mattpocock/skills — tdd",
+    "mattpocock/skills — handoff",
+    "obra/superpowers",
+    "trailofbits/skills — security",
+    "vercel-labs/agent-skills — react-best-practices",
+    "vercel-labs/agent-skills — web-design-guidelines",
+    "anthropics/skills — webapp-testing",
+    "obra/code-simplifier",
+    "firecrawl/firecrawl-skills"
+  ]
+}
