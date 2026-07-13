@@ -27,6 +27,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-319-volano-tasso — Mergia PR #319: fix volano tasso lezioni (ESITI quaderni + STATO) · ⏳ IN ATTESA · accodata 2026-07-13 12:42
+
+**Cosa fa:** il calcolo del tasso lezioni legge anche gli ESITI dei quaderni senior e le citazioni in STATO, non solo i briefing — tasso onesto **0,29** (39/133). Fix pipeline in `giro.sh` + `tasso-lezioni.mjs` + `sentinella-dati.mjs`.
+
+**PR su GitHub:** [#319 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/319) ← branch `fix/volano-tasso-lezioni`, commit `2d8ff61f` (conflitti risolti 13/7 12:42 — uniti #317+#318 su main)
+
+**Cosa cambia:** il volano auto-coscienza misura le lezioni realmente applicate nel lavoro, non sottostima più.
+**Se va bene:** mergi #319 dal Pannello → prossimo giro aggiorna sentinella volano con tasso corretto.
+
+- **Colore:** 🔴 (merge dal Pannello — card #96)
+
+---
+
 ### ✅ #pr-305-ordine-conversazioni — FATTO 2026-07-12 17:44 · fix già su main via PR #303 mergiata da Nicola
 
 Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine stabile (pinnate 📌 + data creazione). Commit `67c6b804` su main. PR #305/#306/#304 doppioni da chiudere senza merge (conflitti su file cervello). Deploy Vercel automatico.
