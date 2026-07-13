@@ -1,11 +1,12 @@
-## Cosa
-Corregge la risposta in chat che durante lo streaming appariva **spezzata a colonna** (ogni sillaba su una riga): il worker univa i frammenti Cursor con doppio a-capo e il Markdown li rendeva paragrafi separati.
+## Summary
+- **Streaming live:** durante la risposta in corso, testo semplice (no Markdown) così i parziali non si spezzano a colonna; polling ogni 1s invece di 2s.
+- **VPS sync:** `aggiorna-cervello.sh` riavvia anche `mycity-worker-chat` (prima solo il worker principale — il riavvio manuale non aggiornava il codice sul disco).
 
 ## Perché
-Con il motore Cursor, gli eventi `assistant` parziali arrivano a pezzettini (`ret`, `ro`, `di`…). La vecchia `_estrai_stream` li concatenava con `\n\n` **prima** dei delta live — in Pannello si vedeva esattamente lo screenshot di Nicola (parole una sotto l'altra).
+Nicola ha riavviato il worker-chat ma lo streaming restava «tutto insieme» e i fix pallini (#340) non si vedevano: restart ≠ git pull; pallini = deploy Vercel, non worker.
 
 ## Come provare
-1. Mergia la PR e riavvia il worker chat sul VPS: `sudo systemctl restart mycity-worker-chat`
-2. Aspetta il deploy Vercel del Pannello (~2 min)
-3. Apri Assistente → scrivi un messaggio → mentre risponde il testo deve **crescere in orizzontale**, non a colonna
-4. (Opzionale) `cd cervello/test && bats estrai-stream.bats` — test 12-13 nuovi + regressione multi-messaggio/tool
+1. Mergia e attendi deploy Vercel (~2 min).
+2. Sul VPS: `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (allinea codice + riavvia entrambi i worker).
+3. Ctrl+F5 nel Pannello → Diagnosi → «Pipeline giro» deve mostrare **rev 1081be71** (o più recente).
+4. Scrivi in chat: il testo deve crescere in orizzontale con ▍; apri chat con pallino → chiudi → 15s → pallino spento.

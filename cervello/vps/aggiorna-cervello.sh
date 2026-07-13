@@ -36,14 +36,20 @@ if [ "$(id -un)" = "root" ]; then
     echo "[$(ts)] 🔧 Unit systemd ri-propagate + daemon-reload (cadenze aggiornate)."
   fi
 
-  echo "[$(ts)] ▶ Riavvio mycity-worker..."
+  echo "[$(ts)] ▶ Riavvio mycity-worker + mycity-worker-chat..."
   systemctl restart mycity-worker
+  systemctl restart mycity-worker-chat 2>/dev/null || true
   sleep 2
   if systemctl is-active --quiet mycity-worker; then
     echo "[$(ts)] ✓ Worker attivo. Lancia «fai un giro» dal Pannello."
   else
     echo "[$(ts)] ✗ Worker non partito — journalctl -u mycity-worker -n 30" >&2
     exit 1
+  fi
+  if systemctl is-active --quiet mycity-worker-chat 2>/dev/null; then
+    echo "[$(ts)] ✓ Worker chat attivo (streaming + parziali)."
+  else
+    echo "[$(ts)] ⚠ Worker chat non attivo — journalctl -u mycity-worker-chat -n 20" >&2
   fi
   exit 0
 fi
@@ -202,16 +208,23 @@ fi
 
 if [ "$(id -un)" != "root" ]; then
   echo "[$(ts)] ✓ Allineamento completato." >&2
-  echo "[$(ts)]   Riavvio worker (come root): sudo systemctl restart mycity-worker" >&2
+  echo "[$(ts)]   Riavvio worker (come root): sudo bash cervello/vps/aggiorna-cervello.sh" >&2
+  echo "[$(ts)]   (allinea codice da GitHub + riavvia worker E worker-chat)" >&2
   exit 0
 fi
 
-echo "[$(ts)] ▶ Riavvio mycity-worker..."
+echo "[$(ts)] ▶ Riavvio mycity-worker + mycity-worker-chat..."
 systemctl restart mycity-worker
+systemctl restart mycity-worker-chat 2>/dev/null || true
 sleep 2
 if systemctl is-active --quiet mycity-worker; then
   echo "[$(ts)] ✓ Worker attivo. Lancia «fai un giro» dal Pannello."
 else
   echo "[$(ts)] ✗ Worker non partito — journalctl -u mycity-worker -n 30" >&2
   exit 1
+fi
+if systemctl is-active --quiet mycity-worker-chat 2>/dev/null; then
+  echo "[$(ts)] ✓ Worker chat attivo (streaming + parziali)."
+else
+  echo "[$(ts)] ⚠ Worker chat non attivo — journalctl -u mycity-worker-chat -n 20" >&2
 fi
