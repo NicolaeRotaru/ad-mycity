@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-13 22:33 · Chat Nicola avviso incoerenza 18:20 — «cosa c'è di incoerente?» · atteso: diagnosi con coerenza-fatti + spiegare storico vs attivo · reale: exit 0 22:31, fix 20:21 (33 copie), avviso resta finché non risolto · L-187 · #coerenza-fatti #avvisi
 - 2026-07-13 21:10 · Chat Nicola ritmo illeggibile — «piano mattino e report sera mal scritti» · atteso: italiano semplice + Plancia a sezioni · reale: PR #350 + template ritmo + RitmoTesto, merge 🔴 #120 · L-170 · #ritmo #leggibilità
 - 2026-07-13 21:08 · Chat Nicola PR #349 conflitti — «in teoria non sono conflitti» · atteso: validare intuizione + distinguere diario vs fix · reale: 4 file memoria vs archivio Garetti pulito, Accept main, merge 🔴 #119 · L-169 · #pr-349 #conflitti #allocazione
 - 2026-07-13 21:01 · Chat Nicola silo allocazione — «fai il fix» · atteso: archivia Garetti + ripunta PQ + guardiano verde · reale: 12 asset archiviati, PQ 16 attivi, allocazione-check exit 0, PR #349, #119 in coda · L-167 · #AR-006 #allocazione

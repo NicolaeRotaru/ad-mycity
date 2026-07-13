@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 22:28
-fonte: AD digitale (💬 13/7 22:28 chat Nicola «sì» → PR #356 redesign Pannello. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:33
+fonte: AD digitale (💬 13/7 22:33 chat Nicola avviso incoerenza 18:20 — risolto. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~22:33 — CHAT: avviso «memoria incoerente» 18:20 — Nicola «cosa c'è di incoerente?».** Usa «Parla con questa casella» su scheda gialla Avvisi (18:20, giro bloccato rc=3). **Diagnosi 🟢:** incoerenza **già risolta** — alle 18:20 restavano copie «6 botteghe» in file vivi dopo correzione Nicola (cliente-core=botteghe, 6 ristoranti/trattorie tattici); fix **20:21** ha allineato **33 copie**; `coerenza-fatti.mjs` exit **0** alle 22:31. **Perché scheda gialla resta:** avvisi non si auto-cancellano al fix — storico finché non marcati risolti (standing 9/7). Nessuna azione urgente. Fonte: chat Nicola 13/7 ~22:33 + coerenza-fatti + SALA 20:21.
+>
 > 💬 **13/7 ~22:28 — CHAT: Nicola «sì» → PR #356 redesign Pannello (pacchetto chiuso).** Grilling home+menu completato; Nicola conferma **«sì»** → **PR #356** (`8e44d69e`, branch redesign menu+home+trio salute+lettera). **Contenuto:** menu **3 voci** (Radiografia macchina · Salute sito · Auto-coscienza, niente tab incastrate); **home** riordinata — **① da firmare** (cima, Nicola **A**) → **② ritmo** (+ «Parla con questa casella» da #355) → **③ lettera** (anteprima 3–5 righe + «Leggi tutta») → **④ KPI** → **⑤ macchina** (card unica: semaforo+1 riga+**8 pallini**+3 link salute); migliorie trio: cartoline, titoli umani, lezioni 7gg, Salute sito bloccanti/gravi prima; tab Lettera esce da Radiografia macchina. **v2 dopo merge:** un «prossimo passo», API home unificata, cantiere sito, lettera fresca a review. **Pendente:** merge 🔴 **#356** (#125) → deploy Vercel ~2 min → ricarica Pannello. Fonte: chat Nicola 13/7 ~22:28.
 >
 > 💬 **13/7 ~22:22 — CHAT: home — cima = da firmare (A).** Nicola risponde **A** alla Q «cosa in cima alla home» = **cosa devi firmare oggi** (prima cosa che vedi); subito sotto **ritmo + lettera**, poi numeri e macchina con pallini — coerente con intento grilling Q1 (azione in 10s). AD aveva raccomandato **A poi B**; Nicola conferma solo **A** in cima (B = secondo blocco). Fonte: chat Nicola 13/7 ~22:22.
