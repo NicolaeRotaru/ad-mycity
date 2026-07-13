@@ -1,12 +1,16 @@
-## Summary
-- Prima di ogni PR: rebase automatico su main, risoluzione conflitti sul file body condiviso, verifica mergeable su GitHub.
-- Il file body condiviso non viene più committato sui branch feature (causa conflitti ricorrenti).
-- Lezione: l'AD deve sempre controllare conflitti PRIMA di consegnare una PR a Nicola.
+## Cosa cambia
+Dopo che mergi una PR, la card «Merge PR #…» sparisce da sola da **Da approvare** (e da **In coda**): il Pannello controlla GitHub e chiude automaticamente le azioni merge già completate.
 
 ## Perché
-PR #351 consegnata con conflitto su `pr-ad-mycity-body.md` mentre il fix codice era già su main via #350. Nicola ha dovuto chiedere due volte.
+Nicola segnalava che le caselle merge restavano in coda anche dopo il merge — confusione e rischio di ri-approvare.
+
+## Come funziona
+- A ogni caricamento della coda, se la PR risulta **mergiata o chiusa** su GitHub → stato `fatta` e card nascosta.
+- Se c’è ancora un merge in attesa, refresh ogni **15 secondi** invece di 60.
+- Se approvi un’azione la cui PR è già mergiata, si chiude subito senza passare dal worker.
 
 ## Come provare
-1. Apri un branch feature, modifica solo codice, `node cervello/git-pr.mjs --repo ad-mycity --base main --dry-run` → log rebase
-2. Branch già in main → messaggio «già dentro main, chiudi PR»
-3. PR #351 su GitHub → deve risultare senza conflitti o chiudibile (branch = main)
+1. Apri **Azioni → Da approvare** con una card «Merge PR #N» (o mergia una PR già in coda).
+2. Mergia la PR dal Pannello (Approva e mergia) o da GitHub.
+3. Entro ~15 secondi la card deve sparire da Da approvare / In coda.
+4. Opzionale: `cd pannello && node --test src/lib/github-pr-merge.test.mts` → 4 test verdi.
