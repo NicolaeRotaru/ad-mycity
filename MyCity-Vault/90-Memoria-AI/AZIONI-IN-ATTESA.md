@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-328-pallini-sync — Mergia PR #328: pallini rossi corretti + conversazioni allineate telefono/PC · ⏳ IN ATTESA · accodata 2026-07-13 17:12
+
+**Cosa fa:** pallino rosso e graffetta 📌 salvati sul server (non più solo nel browser di quel dispositivo); lista conversazioni unisce chat salvate + risposte AD dai Lavori finiti — stesso elenco e stessi pallini su PC e smartphone.
+
+**PR su GitHub:** [#328 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/328) ← branch `fix/chat-pallini-sync-cross-device`, commit `b66fe886`
+
+**Cosa cambia:** apri Conversazioni su PC → ricarica sul telefono → stessi pallini; apri una chat con pallino su un dispositivo → sparisce anche sull'altro entro pochi secondi.
+**Se va bene:** mergi #328 dal Pannello → deploy Vercel ~2 min → ricarica telefono e PC e verifica i 3 passi in chat.
+
+- **Colore:** 🔴 (merge dal Pannello — card #102)
+
+---
+
 ### 🟡 #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ IN ATTESA · accodata 2026-07-13 14:33
 
 **Cosa fa:** sotto ogni scheda gialla «memoria incoerente» in Avvisi compare il link **«Parla con questa casella»** — apri chat contestuale, l'AD vede il testo completo dell'avviso e la data.
@@ -797,6 +810,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 99 | 2026-07-13 16:25 | @tech | Merge PR #326 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/326 | github | in attesa | Tab OKR & pagella: frasi dentro le card su mobile, Stelle Polari si aggiornano ogni minuto, data documento visibile sotto. | Dopo Approva: deploy Vercel ~2 min; ricarica tab — numeri in alto si muovono; target sotto restano 24/6 finché non fai «fai un giro». |
 | 100 | 2026-07-13 17:07 | @tech | Merge PR #327 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/327 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | in attesa | Pallini rossi e graffette uguali su telefono e PC; lista conversazioni include anche risposte AD dai Lavori. | Dopo Approva: deploy Vercel ~2 min; ricarica entrambi i dispositivi — pallini uguali, spariscono aprendo la chat. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
