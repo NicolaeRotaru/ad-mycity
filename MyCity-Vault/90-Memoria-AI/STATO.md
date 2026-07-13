@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 22:16
-fonte: AD digitale (💬 13/7 22:16 chat home redesign + lettera confermata + v1/v2; PR pendente Q home + «sì». | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:20
+fonte: AD digitale (💬 13/7 22:20 chat home macchina ordinata; PR pendente Q organi + cima home + «sì». | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~22:20 — CHAT: home — macchina ordinata, meno disorientante.** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — frizione oggi: **2 card separate + 2 banner** che ripetono cuore/organi/auto-analisi/radiografia. **Proposta 🟡 in PR:** **una sola card «La macchina»** — in cima semaforo + 1 riga («🟡 viva · ultimo giro … · N difetti»); sotto griglia organi **compatta** (emoji+pallino, **niente paragrafo** sotto ogni organo); in fondo chiuso autopilota/diagnosi («Mostra dettagli»); **3 link** (Radiografia macchina · Auto-coscienza · Salute sito) al posto dei banner; autopilota **non** card a sé in home. **Pendente:** layout organi in home — **A** 8 pallini · **B** griglia 4×2 · **C** solo organi con problema + «altri N ok» (AD raccomanda **C** in home, **B** in Radiografia macchina); Q cosa **in cima** home (A firmare / B ritmo / C numeri / D macchina) ancora aperta → PR 🟡 unica. Fonte: chat Nicola 13/7 ~22:20.
+>
 > 💬 **13/7 ~22:16 — CHAT: home redesign + lettera confermata + v1/v2 scope.** Nicola: (1) «si può rendere ancora migliore, avanzata ed efficiente?» oltre mosse decise → **sì** — **v1** PR: menu L-179 + cartoline + mosse trio + lettera home + lezioni 7gg + sito priorità; **v2**: un «prossimo passo», API home unificata, cantiere sito, lettera fresca a review. (2) **Lettera in home confermata** «così come l'hai descritta» — anteprima 3–5 righe + «Leggi tutta»; tab Lettera esce da Radiografia macchina. (3) **«Adesso lavoriamo su come impostare la home»** — oggi scroll lungo, duplicazioni; **ordine proposto 🟡:** Da fare adesso → Ritmo → Lettera → KPI → Macchina compatto → resto sotto; togliere bussola+aree doppie e banner auto-analisi/radiografia. **Pendente:** Q home cosa **in cima** (A firmare / B ritmo+lettera / C numeri / D macchina) — AD raccomanda A poi B → PR 🟡 unica. Fonte: chat Nicola 13/7 ~22:16.
 >
 > 💬 **13/7 ~22:11 — CHAT: lettera AD in home + trio salute non ancora «migliore».** Nicola «ok» alle analisi trio, poi chiede: (1) è la versione migliore delle funzioni Pannello? → **no** — avanzata (auto-controllo, cantiere, chat problemi) ma mancano cartolina, italiano umano, cantiere sito, lezioni filtrate; **PR redesign non partita**; (2) dove mettere la **lettera**? → **home** («vorrei lavorare anche alla home adesso»). Oggi lettera in tab Radiografia macchina; ultima **7/7**. **Proposta 🟡:** card «Lettera dell'AD» in Plancia sotto ritmo — anteprima 3–5 righe + «Leggi tutta»; tab Lettera esce da Radiografia macchina. **Pendente:** anteprima+clic vs scroll intero? · cantiere Salute sito v1? · Nicola **«sì»** → PR unica (menu L-179 + migliorie 3 voci + lettera home). Fonte: chat Nicola 13/7 ~22:11.

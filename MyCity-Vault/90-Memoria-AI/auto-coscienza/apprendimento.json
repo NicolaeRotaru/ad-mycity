@@ -17,6 +17,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-185",
+      "testo": "**Home macchina — ordinata, meno disorientante (chat 13/7 ~22:20):** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — **correzione UX** durante redesign home: non rifiuta cuore+organi in home (L-179 Q2B) ma odia **duplicazione** (2 card + 2 banner auto-analisi/radiografia). **5 perché:** (1) stessa info ripetuta 4 volte = disorientamento, non mancanza dati; (2) paragrafo sotto ogni organo = muro in home; (3) autopilota come card a sé compete con «sta bene in 10s»; (4) banner separati duplicano i 3 link menu (Radiografia macchina · Auto-coscienza · Salute sito); (5) home deve dare semaforo+problemi, dettaglio solo al clic. **Proposta 🟡:** card unica «La macchina» — semaforo+1 riga → griglia compatta (emoji+pallino, zero paragrafo) → dettagli chiusi → 3 link salute; autopilota fuori home. **Layout organi pendente:** A 8 pallini / B griglia 4×2 / C solo problemi + «altri N ok» — AD raccomanda **C** home, **B** pagina Radiografia macchina. **Pendente:** risposta A/B/C + Q cima home + «sì» PR. Correlazione L-184, L-179.",
+      "tag": [
+        "pannello",
+        "home",
+        "macchina",
+        "organi",
+        "ux",
+        "nicola",
+        "information-architecture",
+        "disorientamento"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 22:20",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-184",
       "testo": "**Home Pannello — redesign + lettera confermata + v1/v2 (chat 13/7 ~22:16):** Nicola (1) «si può rendere ancora migliore, avanzata ed efficiente?» oltre mosse trio → **sì** con split onesto: **v1** PR = menu L-179 + cartoline + mosse decise (trio+lettera+lezioni 7gg+sito priorità); **v2** = un solo «prossimo passo» calcolato (firmare→allarmi→domande), API home unificata (meno fetch paralleli), cantiere sito live, lettera fresca a ogni review settimanale. (2) **Lettera confermata** «così come l'hai descritta» — anteprima 3–5 righe + data + «Leggi tutta»; tab Lettera esce da Radiografia macchina (**chiude** pendente scroll intero). (3) **«Adesso lavoriamo su come impostare la home»** — frizione oggi: scroll eccessivo, bussola+aree duplicate, doppio banner auto-analisi/radiografia, ritmo in fondo. **Ordine proposto 🟡:** Da fare adesso (max 3 righe) → Ritmo → Lettera → KPI → Macchina compatto (link 3 voci salute) → resto sotto/chiuso. **5 perché home:** (1) Nicola vuole decidere in 10s ma oggi l'ordine è invertito; (2) lettera = narrativa «cosa conta» — va sotto ritmo non in radiografia tecnica; (3) chiede esplicitamente ceiling v1/v2 — non dire «è la migliore» finché PR non parte; (4) grilling home come menu — una domanda alla volta (cosa in cima); (5) PR unica = menu + trio + lettera + home, dopo Q home + «sì». **Pendente:** A firmare / B ritmo+lettera / C numeri / D macchina in cima; AD raccomanda A poi B. Correlazione L-183, L-179.",
       "tag": [
@@ -4301,6 +4323,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Home macchina — ordinata, non disorientante (chat 13/7 ~22:20):** vuole cuore+stato macchina in home **MA** «in modo diverso, più ordinato» — odia oggi 2 card + 2 banner che ripetono le stesse cose; si aspetta **una card** con semaforo+1 riga, organi compatti (niente paragrafo sotto ogni organo), dettaglio solo al clic; autopilota **non** in prima pagina; 3 link alle voci salute al posto dei banner; **pendente** layout organi A/B/C (AD raccomanda C = solo problemi in vista). Vedi L-185.",
     "**Home Pannello — lettera confermata + ordine da decidere (chat 13/7 ~22:16):** lettera in home **confermata** anteprima 3–5 righe + «Leggi tutta» (non lettera intera in scroll); vuole lavorare **home adesso**; chiede se può essere «ancora migliore/efficiente» → si aspetta risposta onesta **v1 vs v2** (v2 = un prossimo passo, meno chiamate server, cantiere sito, lettera fresca); odia home lunga con ripetizioni (bussola+aree, banner doppi); **pendente** grilling cosa mettere **in cima** (A firmare / B ritmo+lettera / C numeri / D macchina). Vedi L-184.",
     "**Lettera AD in home + lavoro home (chat 13/7 ~22:11, confermato 22:16):** dopo analisi trio chiede se è la versione migliore (→ **no**, PR non partita); lettera → **home** con anteprima+clic (**confermato 22:16**); tab Lettera esce da Radiografia macchina; PR unica menu L-179 + migliorie + lettera + home dopo Q home + «sì». Vedi L-183, L-184.",
     "**Trio salute Pannello — stessa analisi per ogni voce (chat 13/7 ~22:06):** dopo Radiografia macchina chiede analisi identica su **Auto-coscienza** e **Salute sito** — si aspetta pattern ripetibile (cosa funziona / cosa frega / mosse concrete ancorate a dati), non solo redesign menu; odia pagine «morte» (Salute sito 7/7 senza cantiere) e «dispersive» (202 lezioni senza verdetto); vuole cartolina+priorità+archivio per **ogni** voce prima della PR; cantiere Salute sito in v1 = **non ancora deciso**. Vedi L-182.",
