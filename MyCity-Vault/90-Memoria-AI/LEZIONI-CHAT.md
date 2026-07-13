@@ -6,12 +6,11 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13 19:16] Nona prova feedback Nicola: (1) «Sto elaborando» **subito** = sì · (2) testo vero **solo alla fine** = ancora no · (3) pallini **uguali** = fix #342 non basta lato browser; non chiudere streaming finché (2) non ok; pallini = track separato.
+- [2026-07-13 19:15] Nona prova — Nicola «1)si 2) alla fine 3)uguale»: #343 ok su «Sto elaborando…» subito; testo vero ancora solo alla fine; pallini invariati post-#342; chiedi anche se negli ultimi secondi cresce parola per parola o tutto insieme.
 - [2026-07-13 19:16] Tabella OKR = obiettivi fissi (`OKR-Squadra.md` 24/6, poll 90s solo se doc cambia su GitHub); **tutte** le righe uguali; numeri live = Stelle Polari (60s) o «I numeri di oggi»; chat sotto ogni OKR = quasi live.
 - [2026-07-13 19:13] Nicola «ok fatto» = allineamento VPS completato post-#343 — worker-chat riavviato 19:10; **nona** prova streaming = «Sto elaborando…» subito dopo invio + testo che cresce; pallini = feedback separato.
 - [2026-07-13] `aggiorna-cervello.sh` **RIMANDATO** se VPS resta su branch `fix/*` fresco (<30 min) — anche con working tree pulito; **prima** `git checkout main` (stash memoria se serve, reset `routing.json`), **poi** script; non confondere con merge mancante.
 - [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
-- [2026-07-13] Primo «cresce live» dopo 7 prove **non chiude** il tema streaming — «solo alla fine» ≠ obiettivo; non dichiarare vittoria finché non parte dall'inizio; chiedi sempre se pallini ancora rotti post-deploy.
 - [2026-07-13] Durante prova streaming: **non refreshare a metà** — Ctrl+F5 interrompe il poll della bolla e simula «tutto insieme» anche con #342 live; refresh solo dopo risposta completa o incognito se ancora rotto.
 - [2026-07-13] Nicola «fatto» (~18:50) = merge **#341+#342** eseguito — quinta prova streaming; se ancora rotto → incognito o Ctrl+Shift+R (cache browser), non ripetere solo restart worker.
 - [2026-07-13] Streaming rotto ≠ sempre worker — verificato 18:41: parziali già in DB Supabase (`in_corso`+`risultato`), rev worker `1081be71` ok; collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta; fix **#342** mergiata con #341.

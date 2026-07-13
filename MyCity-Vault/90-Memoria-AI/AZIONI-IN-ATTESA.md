@@ -32,9 +32,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 19:13:** Nicola «**ok fatto**» — VPS allineato (`aggiorna-cervello.sh` completato, worker-chat riavviato 19:10); **nona prova** streaming in corso.
 
-**Pendente:** feedback Nicola su 3 punti (Sto elaborando subito / cresce dall'inizio / pallini); pallini = feedback separato.
+**Esito 19:15:** Nicola feedback 3 punti — (1) «Sto elaborando…» subito **sì** · (2) testo vero **solo alla fine** · (3) pallini **uguali**. Streaming parziale (#343 ok placeholder); pallini #342 insufficiente — **tema aperto**.
 
-- **Colore:** ✅ merge fatto · ⏳ nona prova streaming — feedback Nicola atteso
+- **Colore:** ✅ merge fatto · ⏳ streaming testo dall'inizio + pallini ancora aperti
 
 ---
 
@@ -48,7 +48,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 19:13:** Nicola «**ok fatto**» — `aggiorna-cervello.sh` completato, worker-chat riavviato 19:10, codice #343 live; nona prova streaming in corso.
 
-- **Colore:** ✅ merge fatto · ✅ Nicola ha eseguito allineamento VPS 13/7 ~19:13
+**Esito 19:15:** Nicola — (1) «Sto elaborando…» subito **sì** (#343 ok) · (2) testo vero **solo alla fine** (obiettivo non raggiunto) · (3) pallini **uguali** (track separato).
+
+- **Colore:** ✅ merge fatto · ⏳ testo dall'inizio ancora no — serve fix oltre #343
 
 ---
 

@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 19:18 · Nona prova streaming — Nicola «1)si 2) alla fine 3)uguale» · atteso: Sto elaborando subito + testo dall'inizio + pallini migliori · reale: (1) placeholder #343 ok · (2) testo vero solo alla fine · (3) pallini invariati post-#342 — streaming e pallini ancora aperti · L-149 · #pannello #streaming #pallini #pr-343 #prova-live
 - 2026-07-13 19:16 · OKR tempo reale — Nicola chiede su una casella poi tutte · atteso: spiegare architettura dati Pannello · reale: tutte le righe OKR = doc statico 24/6 (poll 90s solo se GitHub cambia); Stelle Polari 60s; chat OKR quasi live; progresso per riga non esiste · L-125 evidenze 2 · #pannello #okr #stelle-polari
 - 2026-07-13 19:13 · Nona prova streaming post-#343 — Nicola «ok fatto» · atteso: «Sto elaborando…» subito + testo cresce dall'inizio · reale: VPS allineato, worker riavviato 19:10; nona prova in corso — feedback Nicola atteso su 3 punti; pallini ancora aperti · L-148 · #pannello #streaming #pr-343 #prova-live
 - 2026-07-13 19:02 · Streaming parziale — Nicola «cresce live, però solo alla fine» + «non da quando inizi» · atteso: testo cresce dall'inizio della risposta · reale: primo «cresce live» dopo 7 prove ma solo in fase finale; #343 placeholder «Sto elaborando…»; pallini ancora aperti — feedback separato · L-146 · #pannello #streaming #pr-343 #prova-live

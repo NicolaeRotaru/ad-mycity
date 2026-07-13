@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:16
-fonte: AD digitale (🌙 13/7 19:16 METABOLIZZA: Nicola chiede se OKR sono live — confermato tutte statiche. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:18
+fonte: AD digitale (🌙 13/7 19:18 METABOLIZZA: nona prova streaming — 1 sì / 2 alla fine / 3 pallini uguali. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:15 — CHAT: nona prova streaming — esito parziale post-#343.** Dopo «ok fatto» (VPS allineato 19:10), Nicola feedback strutturato: (1) «Sto elaborando…» **subito** ✅ · (2) testo vero **solo alla fine** ❌ · (3) pallini **uguali** ❌. **Main** `8e78bec7`. **Streaming:** #343 raggiunge placeholder iniziale; testo risposta finale ancora non dall'inizio — tema **aperto**. **Pallini:** fix #342 insufficiente lato browser — track separato ancora rotto. Fonte: chat Nicola 13/7 ~19:15 + worker telemetry.
+>
 > 💬 **13/7 ~19:16 — CHAT: OKR live? — no, tutte uguali.** Nicola chiede se la casella OKR (e poi tutte) si aggiorna in tempo reale. **Risposta verificata nel codice:** tabella OKR = obiettivi fissi da `OKR-Squadra.md` (24/6), poll 90s solo se il documento cambia su GitHub; numeri quasi live = **Stelle Polari** (60s) e «I numeri di oggi»; chat sotto ogni OKR = quasi live. Progresso reale per riga OKR non implementato. Fonte: chat Nicola 13/7 ~19:16 + codice Pannello.
 >
 > 💬 **13/7 ~19:13 — CHAT: Nicola «ok fatto» — VPS allineato, nona prova streaming.** Dopo RIMANDATO su branch `fix/*`, Nicola conferma procedura completata: `aggiorna-cervello.sh` → «Allineamento completato», **worker-chat riavviato 19:10**, codice **#343** live su disco. **Main** `fa82f812`. **In corso:** nona prova streaming — feedback atteso su 3 punti: (1) «Sto elaborando…» subito dopo invio, (2) testo cresce dall'inizio (non solo alla fine), (3) pallini rossi meglio/uguale/peggio. **Pallini:** ancora aperti — feedback separato. Fonte: chat Nicola 13/7 ~19:13 + worker telemetry.
