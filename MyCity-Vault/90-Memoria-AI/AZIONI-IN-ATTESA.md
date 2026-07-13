@@ -28,21 +28,21 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ⏳ riavvio worker VPS
+### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ✅ riavvio worker FATTO 18:22
 
 **Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
 
 **PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← merge `d7881680`, commit `1081be71`
 
-**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola; **worker chat non riavviato dal 16:08** → streaming live ancora rotto sul VPS.
+**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola; worker chat non riavviato dal 16:08 → streaming live rotto.
 
-**Pendente:** `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 + prova streaming orizzontale.
+**Esito 18:22:** Nicola ha eseguito `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 — prima vedeva tutto insieme; **terza prova streaming in corso**, esito non ancora dichiarato.
 
-- **Colore:** ✅ merge fatto · riavvio worker obbligatorio
+- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
 
 ---
 
-### ✅ #pr-338-streaming-pallini — MERGIATA 2026-07-13 ~17:58 · ⏳ deploy Vercel + riavvio worker
+### ✅ #pr-338-streaming-pallini — MERGIATA 2026-07-13 ~17:58 · ✅ riavvio worker FATTO 18:22
 
 **Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat (`segnaLetta` salva orario «adesso» in persist).
 
@@ -50,9 +50,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito:** Nicola riconferma pallino ancora visibile ~18:01 — probabile versione Vercel pre-deploy (2–3 min). Test post-deploy: refresh forzato → apri chat col pallino → resta 15s → pallino non torna.
 
-**Pendente:** `sudo systemctl restart mycity-worker-chat` (parte streaming del fix).
+**Esito 18:22:** Nicola ha eseguito restart worker + Ctrl+F5 — streaming live ora testabile; pallini da verificare post-deploy.
 
-- **Colore:** ✅ merge fatto · verifica UX post-deploy
+- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
 
 ---
 
@@ -103,7 +103,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ✅ #pr-331-worker-plugins-fase3 — MERGIATA 2026-07-13 · ⏳ riavvio worker pendente
+### ✅ #pr-331-worker-plugins-fase3 — MERGIATA 2026-07-13 · ✅ riavvio worker FATTO 18:22
 
 **Cosa fa:** aggiunge al manifest 8 skill GitHub (21 totali): debug sistematico, design moduli, Supabase, Postgres, cross-repo, PDF/Excel/Word.
 
@@ -111,7 +111,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito audit 17:55:** su main ma worker **non riavviato** dal 16:08 — plugin fase 3 non caricati live.
 
-- **Colore:** ✅ merge fatto · ⏳ riavvio worker
+**Esito 18:22:** Nicola ha riavviato `mycity-worker-chat` — plugin fase 3 ora caricabili live.
+
+- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
 
 ---
 
@@ -947,8 +949,8 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto (audit 17:55) | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello. | Codice su main ma Nicola riconferma bug 17:52 — serve diagnosi post-deploy su telefono/PC. Chiudi #334. |
 | 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Fix correttivo in #338 mergiata — `sudo systemctl restart mycity-worker-chat`. |
 | 111 | 2026-07-13 17:58 | @tech | Merge PR #338 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/338 | github | ✅ FATTO 2026-07-13 ~17:58 · verifica UX post-deploy | Streaming Cursor + pallino resta spento dopo poll (~5s) — `segnaLetta` con orario «adesso» in persist. | Deploy Vercel 2–3 min → refresh forzato → apri chat 15s; riavvio worker per streaming. |
-| 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | in attesa | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
-| 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | in attesa | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Dopo Approva + riavvio worker: scrivi in chat → testo leggibile parola per parola; deploy Vercel ~2 min. |
+| 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | ✅ FATTO 2026-07-13 ~18:14 | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
+| 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | ✅ FATTO 2026-07-13 ~18:14 · ✅ riavvio worker 18:22 | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Nicola ha riavviato worker + Ctrl+F5 18:22; terza prova streaming in corso. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

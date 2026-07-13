@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Nicola «ho reinserito il comando in cmd e fatto ctrl+f5» — restart worker **eseguito**; prima vedeva tutto insieme (diagnosi stale confermata); terza prova streaming = risposta AD in tempo reale; chiedi solo cresce / tutto insieme / a colonna.
 - [2026-07-13] Nicola «riprova» dopo demo streaming — secondo test live che fallisce **conferma** worker VPS stale (16:08): codice #338+#339 su main ok ma processo vecchio; un solo sblocco = restart + «ok fatto» prima di terza prova.
 - [2026-07-13] Nicola «mostrami la risposta in streaming» — la risposta **è** il test live: chiedi cosa vede (cresce / tutta insieme / a colonna); tutta insieme o colonna = worker VPS non riavviato dal 16:08, non solo Pannello.
 - [2026-07-13] «Facciamo una verifica» (Nicola 18:15) = git merge su main + `git show HEAD:cervello/worker.sh` + test locale `_estrai_stream` + **3 prove Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s); «codice ok» ≠ «funziona per te» se worker fermo dal 16:08.
@@ -16,5 +17,4 @@
 - [2026-07-13] Coda Pannello può restare indietro — card «in attesa» (#335/#337/#331) possono essere già mergiate su GitHub; audit = verifica GitHub + codice su main, non solo la coda.
 - [2026-07-13] Nicola «voglio ci sia sempre la descrizione della pr» — **#337** (`git-pr.mjs`): senza body reale (≥80 char, cosa/perché/prova) lo script **si ferma** (exit 1), niente più «PR aperta dall'AD…»; PR esistente → aggiorna body se diverso; prima scrivi in `consegne/tech/pr-*-body.md` o `--body`; merge 🔴 #110.
 - [2026-07-13] Nicola «c'è un conflitto» su pallino ~5s — #334 partiva da codice vecchio mentre **#328/#332/#333 già su main**; stesso errore L-129 (PR nuova invece di push sul branch); **mergia solo #336** (`ee9d3f9b`), **chiudi #334**; prima di aprire PR verifica cosa c'è già su main.
-- [2026-07-13] Allegati chat — 3 superfici: chiedi SEMPRE quale (fluttuante / «Parla con questa casella» / Archivio); `ParlaCasella.tsx` senza graffetta; fluttuante post-#60 su iPhone = bug Safari selettore (#333), non env; prima 503 env, poi superficie, poi browser.
 - [2026-07-13] Un bug = una PR — Nicola «impara» + «ripeterai?»: mai 2-3 PR stesso bug; branch fix = **solo** cartella del fix, zero file memoria worker; mai «pronta» senza simulare merge su main.

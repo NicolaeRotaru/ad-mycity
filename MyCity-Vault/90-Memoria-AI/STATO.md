@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:19
-fonte: AD digitale (🌙 13/7 18:19 CHAT: seconda prova streaming «riprova» — ancora rotto; worker restart pendente. | storico: 🌙 13/7 18:18 demo streaming; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 18:22
+fonte: AD digitale (🌙 13/7 18:22 CHAT: Nicola ha riavviato worker + Ctrl+F5 — terza prova streaming. | storico: 🌙 13/7 18:19 seconda prova ancora rotta; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:22 — CHAT: Nicola ha riavviato worker — terza prova streaming.** «mi mostrava tutto insieme, ho reinserito il comando in cmd e fatto ctrl+f5. adesso riprova» — **prima del restart:** risposta arrivava tutta insieme (diagnosi worker stale dal 16:08 **confermata**); **azione completata:** `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 eseguiti da Nicola. **In corso:** terza prova live streaming (#338+#339 su main); esito Nicola non ancora dichiarato. Plugin fase 3 (#331) ora caricabili live post-restart. Fonte: chat Nicola 13/7 ~18:22.
+>
 > 💬 **13/7 ~18:19 — CHAT: seconda prova streaming «riprova» — ancora non funziona.** Dopo demo live ~18:18, Nicola «riprova» — AD conferma: se tutto insieme o a colonna, streaming **non** sta funzionando lato Nicola. **Codice su main ok** (#338+#339 mergiate); **causa confermata:** worker chat **non riavviato dal 16:08:28** — fix su repo ≠ processo live sul VPS. Unico sblocco: `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 + «ok fatto» per terza prova. Fonte: chat Nicola 13/7 ~18:19 + worker telemetry `af7325ce` 18:19:43.
 >
 > 💬 **13/7 ~18:18 — CHAT: Nicola chiede dimostrazione streaming live.** «riesci a mostrarmi la risposta in streaming?» — AD usa la risposta corrente come test (testo che cresce parola per parola + cursore ▍) e chiede feedback: cresce in tempo reale / arriva tutta insieme / ancora a colonna. **Codice su main ok** (#338+#339+#340 mergiate); **worker chat non riavviato dal 16:08** → se Nicola vede tutto insieme o a colonna, causa probabile = worker VPS stale, non Pannello. Checklist: `sudo systemctl restart mycity-worker-chat` + Ctrl+F5. Fonte: chat Nicola 13/7 ~18:18 + AD.
