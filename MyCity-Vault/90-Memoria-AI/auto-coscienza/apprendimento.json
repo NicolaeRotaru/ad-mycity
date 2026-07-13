@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 11:43",
+  "aggiornato": "2026-07-13 11:53",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -19,7 +19,16 @@
     {
       "id": "L-2026-0713-107",
       "testo": "**PR #315 conflitti con #314 — rebasare prima di dire «pronta» (chat 13/7 ~11:42):** Nicola «Nella #315 ci sono dei conflitti» subito dopo che l'AD aveva dichiarato la PR pronta. 5 perché: (1) #314 (fix data UI su `AutoCoscienza.tsx`) era entrata su main mentre #315 era ancora aperta; (2) entrambe toccavano lo stesso file per lo stesso bug display; (3) l'AD non aveva ribasato/simulato merge dopo l'apertura di #314; (4) causa diversa da L-99 (file worker) ma stesso sintomo per Nicola; (5) **fix:** rebase su main HEAD, unire manualmente data UI + tick leggero worker, commit `ccb4072b`, simulazione merge → zero conflitti. Regola: dopo ogni PR parallela sullo stesso componente, ribasare e simulare merge PRIMA di dire «pronta al merge» — anche se il branch era «pulito» all'apertura.",
-      "tag": ["pr", "conflitti", "rebase", "pr-315", "pr-314", "auto-coscienza", "AutoCoscienza", "nicola"],
+      "tag": [
+        "pr",
+        "conflitti",
+        "rebase",
+        "pr-315",
+        "pr-314",
+        "auto-coscienza",
+        "AutoCoscienza",
+        "nicola"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -32,7 +41,16 @@
     {
       "id": "L-2026-0713-106",
       "testo": "**Caso-studio Nicola — «tutto il Pannello» deve aggiornarsi da solo (chat 13/7 ~11:32):** dopo correzione cliente-core=botteghe Nicola chiede «Hai aggiornamento su tutto il panello?» poi «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello». 5 perché: (1) metabolizzazione post-chat aggiorna solo STATO/LEZIONI/apprendimento — non coda AZIONI né registro-fatti; (2) esempio vivo: coda #antichurn parla ancora «6 botteghe», registro senza cliente-core fino a ora; (3) il Pannello rilegge GitHub a ogni refresh — il buco è a monte, non cache UI; (4) lo strumento AR-102 (registro-fatti + coerenza-fatti.mjs) esiste ma non scatta automaticamente dopo chat; (5) **fix in 3 mosse:** ogni correzione Nicola → registro obbligatorio, metabolizzazione propaga a file vivi, fix UI residui (#313/#315). Regola: non dire «memoria aggiornata» se coda/registro/piani citano ancora il valore vecchio.",
-      "tag": ["pannello", "metabolizzazione", "coerenza-fatti", "registro-fatti", "propagazione", "standing-ask", "caso-studio", "nicola"],
+      "tag": [
+        "pannello",
+        "metabolizzazione",
+        "coerenza-fatti",
+        "registro-fatti",
+        "propagazione",
+        "standing-ask",
+        "caso-studio",
+        "nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.98,
       "evidenze": 1,
@@ -45,7 +63,17 @@
     {
       "id": "L-2026-0713-105",
       "testo": "**Nicola approva fix tempo reale auto-coscienza — PR #315 (chat 13/7 ~11:38–11:37):** dopo diagnosi «03/07» e domanda su aggiornamento live, Nicola «Prepara pr» + «Aggiornamento leggere ogni 10 minuti», poi «Apri pr» per conferma esecuzione. 5 perché: (1) standing-ask L-100/L-103 concretizzata in implementazione; (2) sceglie tick leggero ~10 min senza AI; (3) PR #315 = UI max(data,aggiornato) + worker tick; (4) AD dichiara scope onesto: #315 ≠ propagazione coda/registro; (5) merge 🔴 #90/#91, suggerito con #313. Regola: «Prepara pr»/«Apri pr» dopo diagnosi = eseguire subito + onestà su cosa resta fuori.",
-      "tag": ["auto-coscienza", "pannello", "tempo-reale", "worker", "tick-leggero", "pr-315", "caso-studio", "nicola", "apri-pr"],
+      "tag": [
+        "auto-coscienza",
+        "pannello",
+        "tempo-reale",
+        "worker",
+        "tick-leggero",
+        "pr-315",
+        "caso-studio",
+        "nicola",
+        "apri-pr"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.98,
       "evidenze": 2,
@@ -58,7 +86,17 @@
     {
       "id": "L-2026-0713-104",
       "testo": "**Nicola vuole plugin GitHub sul worker per risparmio token — gap architetturale (chat 13/7 ~11:30):** «Voglio aggiungere al worker dei plugin presi da github che lo aiutano a ridurre il consumo dei token e lavorare/ragionare in modo efficiente». 5 perché: (1) oggi il worker **non ha** manifest né script sync plugin da GitHub sul VPS; (2) il risparmio token **esiste già** via `cervello/banco-ai.mjs` + `cervello/routing.json` (modello economico su compiti ripetitivi, skip giri vuoti, tetto giornaliero) — va spiegato prima di costruire duplicati; (3) skill Cursor vivono in `.cursor/skills/` (repo) o `~/.cursor/skills/` (VPS), separate da `.claude/skills/` (Claude Code, solo `verify`); (4) codice arbitrario da GitHub sul VPS = rischio sicurezza → @security review + lista approvata obbligatoria; (5) vincolo [[niente-api-ai]]: NON proporre chiavi API Groq/Gemini come scorciatoia — Nicola ha bandito le API AI a consumo (8/7). **Fix proposto 🟡 (non approvato):** manifest plugin + script sync + 2–3 skill utili in PR; chiedere a Nicola quali repo ha in mente. Regola: su «plugin per risparmiare token» mappare prima ciò che esiste (routing/banco-ai), poi il buco (sync GitHub), poi sicurezza.",
-      "tag": ["worker", "plugin", "github", "token", "banco-ai", "routing", "skills", "efficienza", "nicola"],
+      "tag": [
+        "worker",
+        "plugin",
+        "github",
+        "token",
+        "banco-ai",
+        "routing",
+        "skills",
+        "efficienza",
+        "nicola"
+      ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -71,7 +109,18 @@
     {
       "id": "L-2026-0713-103",
       "testo": "**Due velocità auto-coscienza + metabolizzazione post-chat (chat 13/7 ~11:38):** Nicola «Non c'è un modo per aggiornare in tempo reale anche apprendimento e miglioramento?» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) standing-ask tempo reale (L-100) estesa esplicitamente ad apprendimento E miglioramento; (2) **apprendimento.json** si aggiorna GIÀ dopo ogni chat riuscita via metabolizzazione worker (`worker.sh`, messaggio ≥160 char) — corregge diagnosi incompleta «solo giro AI»; (3) **auto-miglioramento.json**: conteggio esperimenti ogni ~10 min (`meta_esperimenti.aggiornato`); benchmark/torneo resta venerdì o giro AI (ragionamento costoso, non ogni tick); (4) Pannello legge solo `data` (review 3/7) → percezione «fermo» pur con `aggiornato` 13/7; (5) Nicola ha approvato PR #315 (fix UI + tick leggero). Regola: su «tempo reale» distinguere SEMPRE metabolizzazione post-chat vs tick leggero vs review pesante vs bug display.",
-      "tag": ["auto-coscienza", "metabolizzazione", "apprendimento", "miglioramento", "tempo-reale", "worker", "due-velocità", "caso-studio", "nicola", "pr-315"],
+      "tag": [
+        "auto-coscienza",
+        "metabolizzazione",
+        "apprendimento",
+        "miglioramento",
+        "tempo-reale",
+        "worker",
+        "due-velocità",
+        "caso-studio",
+        "nicola",
+        "pr-315"
+      ],
       "reparto": "@AD",
       "confidenza": 0.98,
       "evidenze": 2,
@@ -84,7 +133,16 @@
     {
       "id": "L-2026-0713-102",
       "testo": "**Caso-studio Nicola — cliente core = botteghe, i 6 ristoranti sono tattici (chat 13/7 ~11:25):** dopo la correzione linguistica 12/7 («6 ristoranti, non botteghe») Nicola chiede «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — **conferma strategica**: ha ragione. 5 perché: (1) l'AD aveva trattato i 6 come se definissero il profilo MyCity dopo aver corretto solo il lessico; (2) il dossier 6/7 li classificava come ristoranti ma il principio 6/7 «gioca dove i big non giocano» puntava alle botteghe — due verità non integrate; (3) MyCity core = carrello multi-negozio settimanale (pane/salumi/formaggi/ortofrutta), non cena a domicilio Glovo; (4) i 6 sono mossa tattica (reputazione alta, digitale debole) per credibilità/primi incassi, NON il tipo di negozio target; (5) **fix:** distinguere SEMPRE tre livelli in chat — (a) tassonomia locale («6 ristoranti» nel pitch), (b) cliente core strategico (= botteghe), (c) faro operativo (Pane Quotidiano). Dopo visita 13/7 focus su Garetti/Peretti/Amendolara + 27 botteghe. Visita ai 6 ok ma non devono ridefinire il brand.",
-      "tag": ["vendite", "strategia", "botteghe", "6-ristoranti", "cliente-core", "tattico", "caso-studio", "nicola"],
+      "tag": [
+        "vendite",
+        "strategia",
+        "botteghe",
+        "6-ristoranti",
+        "cliente-core",
+        "tattico",
+        "caso-studio",
+        "nicola"
+      ],
       "reparto": "@vendite",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -97,7 +155,17 @@
     {
       "id": "L-2026-0713-101",
       "testo": "**Caso-studio Nicola — caselle «Confronto coi migliori» vuote in Miglioramento (chat 13/7 ~11:24, PR 11:33):** Nicola «manca qualcosa dentro questa casella e pure quella sotto» dopo ripresa chat (fattura Cursor pagata, ActionRequiredError risolto). 5 perché: (1) i dati benchmark esistono in `auto-miglioramento.json` con schema `reparto`, `divario`, `obiettivo`, `progresso`, `migliori`; (2) `AutoCoscienza.tsx` tipo `Benchmark` e render (~551–561) leggono campi obsoleti `ambito`, `nostro`, `cosa_ci_manca`; (3) mismatch schema → caselle sembrano vuote pur avendo 2 voci (@content-social L3 divario alto, @AD L2 divario medio); (4) `ParlaCasella` mostra «Confronto: undefined» perché `b.ambito` è undefined; (5) distinto dal bug data vs aggiornato (L-2026-0713-100). **Nicola «Apri pr» → PR #313 aperta** (commit `027d4671`, solo `AutoCoscienza.tsx`, branch pulito, typecheck OK), merge 🔴 in attesa. Regola: casella auto-coscienza «vuota» → confrontare schema file vs tipi componente PRIMA di dire «mancano dati».",
-      "tag": ["auto-coscienza", "pannello", "schema-mismatch", "benchmark", "miglioramento", "ux", "caso-studio", "nicola", "pr-313"],
+      "tag": [
+        "auto-coscienza",
+        "pannello",
+        "schema-mismatch",
+        "benchmark",
+        "miglioramento",
+        "ux",
+        "caso-studio",
+        "nicola",
+        "pr-313"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.99,
       "evidenze": 2,
@@ -110,7 +178,17 @@
     {
       "id": "L-2026-0713-100",
       "testo": "**Caso-studio Nicola — auto-coscienza «ferma al 03/07», vuole aggiornamento in tempo reale (chat 13/7):** Nicola screenshot + «Perché i dati sono aggiornati al 03/7? Voglio che auto coscienza sia aggiornata in tempo reale sempre» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) le schede Apprendimento e Auto-miglioramento nel Pannello mostrano il campo `data` (es. review settimanale 3/7), NON `aggiornato` (file toccato 12–13/7) — bug UI in `AutoCoscienza.tsx` riga ~264; (2) i file JSON hanno entrambi i campi; (3) sensori/sonde girano ogni ~10 min via worker tick; (4) apprendimento si aggiorna post-chat (metabolizzazione) + review settimanale; miglioramento leggero ogni ~10 min, benchmark pesante venerdì/giro AI — vedi L-2026-0713-103; (5) se `OBSIDIAN_BRANCH` punta ancora a `memoria-ad`, il Pannello hosted legge dati fermi al 6/7. **Nicola ha approvato PR #315** (UI max(data,aggiornato) + tick leggero ogni ~10 min), merge 🔴 in attesa. Regola: quando Nicola chiede «perché è fermo?», distinguere SUBITO dati reali freschi vs data mostrata in UI vs metabolizzazione bloccata vs review pesante vs ramo/env sbagliato.",
-      "tag": ["auto-coscienza", "pannello", "data", "aggiornato", "tempo-reale", "OBSIDIAN_BRANCH", "worker", "caso-studio", "nicola"],
+      "tag": [
+        "auto-coscienza",
+        "pannello",
+        "data",
+        "aggiornato",
+        "tempo-reale",
+        "OBSIDIAN_BRANCH",
+        "worker",
+        "caso-studio",
+        "nicola"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.98,
       "evidenze": 4,
@@ -123,7 +201,18 @@
     {
       "id": "L-2026-0713-99",
       "testo": "**Caso-studio Nicola — conflitti PR ricorrenti «impara, ormai 20 volte» (chat 13/7 11:20 + 11:42):** dopo fix dark mode (#308→#309 merged), l'AD ha aperto #310 per fix strutturale git-pr.mjs ma il branch trascinava routing/sentinella/memoria auto-coscienza → conflitti di nuovo; Nicola: «ci sono conflitti, ma immagino sono sempre gli stessi, impara da questo errore, ormai è 20 volte che ricapita». Stesso giorno #315 conflitta con #314 (PR parallele stesso file UI, non file worker). 5 perché: (1) git-pr.mjs faceva `git add -A` includendo file worker auto-modificati; (2) branch creato da main stale o con working tree sporco; (3) PR parallele sullo stesso componente senza rebase post-merge altra PR; (4) ogni PR diventa roulette conflitti per Nicola; (5) **fix:** PR #312 = branch da main HEAD + SOLO `cervello/git-pr.mjs`, simula merge prima di aprire; ribasare ogni PR aperta se main avanza sullo stesso file (L-107); chiudere #308/#310/#311 senza merge. Regola: MAI dire «PR pulita» senza verificare file list e merge simulato.",
-      "tag": ["git", "pr", "conflitti", "git-pr.mjs", "worker", "routing", "sentinella", "caso-studio", "nicola", "ricorrente"],
+      "tag": [
+        "git",
+        "pr",
+        "conflitti",
+        "git-pr.mjs",
+        "worker",
+        "routing",
+        "sentinella",
+        "caso-studio",
+        "nicola",
+        "ricorrente"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 0.99,
       "evidenze": 2,
@@ -136,7 +225,16 @@
     {
       "id": "L-2026-0712-98",
       "testo": "**Caso-studio Nicola — le 6 prospect sono RISTORANTI, non botteghe (chat 12/7 19:53):** dopo le istruzioni visita acquisizione l'AD ha continuato a dire «6 botteghe» / «spesa online»; Nicola corregge: **«Queste 6 non sono botteghe ma ristoranti»**. Il dossier 6/7 (L-2026-0706 vendites) le classificava già come ristoranti/trattorie — l'errore è stato **non riusare il linguaggio del dossier in chat live**. 5 perché: (1) default mentale «botteghe» dalla shortlist food generica; (2) pitch scritto con framing scaffale invece di cucina; (3) il dato corretto esisteva in memoria ma non è stato applicato al turno; (4) PQ (bottega) e i 6 (ristoranti) sono categorie diverse — confonderle contamina il pitch; (5) **fix:** in chat e pitch dire sempre **«6 ristoranti»**, offerta = «i tuoi piatti anche a casa» (asporto/consegna), NON «metti la spesa online»; mostrare Pane Quotidiano come **esempio piattaforma**, non come modello di cucina.",
-      "tag": ["vendite", "visita", "6-ristoranti", "ristoranti", "pitch", "linguaggio", "caso-studio", "nicola"],
+      "tag": [
+        "vendite",
+        "visita",
+        "6-ristoranti",
+        "ristoranti",
+        "pitch",
+        "linguaggio",
+        "caso-studio",
+        "nicola"
+      ],
       "reparto": "@vendite",
       "confidenza": 0.98,
       "evidenze": 1,
@@ -149,7 +247,17 @@
     {
       "id": "L-2026-0712-97",
       "testo": "**Caso-studio Nicola — «vado dal negozio» ≠ sempre Pane Quotidiano (chat 12/7 19:51):** Nicola ha scritto «ipotizziamo che ora vado dal primo negozio»; l'AD ha risposto con la checklist onboarding PQ (foto, catalogo, payout) assumendo il faro contrattato. Nicola corregge: **«intendevo una delle 6 botteghe nuove»** — visita di **acquisizione** (pitch, firma, materiale), non onboarding del negozio già dentro. 5 perché: (1) «primo negozio» per Nicola può significare il primo della shortlist prospect, non PQ; (2) l'AD ha mappato «negozio» sul faro operativo (PQ) senza chiedere; (3) i due flussi sono opposti (PQ = completare vetrina; prospect = convincere e raccogliere firma); (4) esisteva già la distinzione PQ confermato vs 6 prospect scelta_ragionata ma non è stata applicata al linguaggio ambiguo; (5) **fix:** quando Nicola parla di andare in bottega / visita / «primo negozio», chiedi in una riga se intende **PQ (onboarding)** o **una delle 6 (acquisizione)** prima di dare la checklist — se prospect, usa dossier/schede vendite e non la lista payout PQ.",
-      "tag": ["vendite", "visita", "pane-quotidiano", "6-botteghe", "acquisizione", "onboarding", "ambiguità", "caso-studio", "nicola"],
+      "tag": [
+        "vendite",
+        "visita",
+        "pane-quotidiano",
+        "6-botteghe",
+        "acquisizione",
+        "onboarding",
+        "ambiguità",
+        "caso-studio",
+        "nicola"
+      ],
       "reparto": "@vendite",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -162,7 +270,16 @@
     {
       "id": "L-2026-0712-96",
       "testo": "**Dark mode Pannello: `bg-white/*` senza variante dark = illeggibile (chat 12/7 19:48, fix LIVE 13/7):** Nicola screenshot Quaderni senior con caselle ESITO grigio chiaro e testo chiaro — «togli questo colore grigio ovunque dentro il panello». Causa radice: classi `bg-white/60` e `/70` in Quaderni senior, Numeri report, Grafo influenza non avevano override per tema scuro. Fix PR #309 (sostituisce #308 sporca): sostituite con token `surface-muted` (segue il tema) + regola CSS globale per tutte le varianti `bg-white/*` in `.dark`. Regola riusabile: in componenti Pannello con dark mode attivo, **mai** sfondi bianchi semi-trasparenti senza `dark:` equivalente — usare sempre token del design system (`surface-muted`, `surface`, ecc.).",
-      "tag": ["dark-mode", "pannello", "bg-white", "surface-muted", "leggibilità", "ux", "quaderni", "css"],
+      "tag": [
+        "dark-mode",
+        "pannello",
+        "bg-white",
+        "surface-muted",
+        "leggibilità",
+        "ux",
+        "quaderni",
+        "css"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.98,
       "evidenze": 2,
@@ -175,7 +292,15 @@
     {
       "id": "L-2026-0712-95",
       "testo": "**Prima di aprire una nuova PR, verifica se il fix è già su main (chat 12/7 19:39):** dopo aver aperto #305 e #306 per lo stesso bug ordine conversazioni, l'AD ha scoperto che Nicola aveva già mergiato #303 alle 17:44 — commit `67c6b804` già su main. Le PR duplicate avevano conflitti su `routing.json`/`sentinella-dati.json` e hanno confuso Nicola (screenshot #983/#984). Regola riusabile: **prima di aprire una PR per un fix Pannello, `git log main -- <file-target>`** — se il commit c'è già, dillo subito e chiudi i doppioni, non chiedere un altro merge.",
-      "tag": ["git", "pr", "doppioni", "verifica-main", "conflitti", "processo", "pannello"],
+      "tag": [
+        "git",
+        "pr",
+        "doppioni",
+        "verifica-main",
+        "conflitti",
+        "processo",
+        "pannello"
+      ],
       "reparto": "@AD",
       "confidenza": 0.96,
       "evidenze": 1,
@@ -188,7 +313,14 @@
     {
       "id": "L-2026-0712-94",
       "testo": "**Prima di agire su una segnalazione UX, riassumi e chiedi conferma (chat 12/7 19:35):** Nicola ha bloccato un fix partito senza conferma con «prima di fare qualsiasi cosa dimmi cosa hai capito» — l'AD aveva tentato di intervenire subito e il messaggio è stato annullato. Solo dopo il riepilogo esplicito (cosa succede ora / cosa vuoi / dove / cosa NON chiedi) Nicola ha risposto «confermo» e il fix è partito (PR #305). Regola riusabile: su bug UX o richieste ambigue, **fermati → riassumi in bullet → chiedi conferma** prima di toccare codice; visualizzare il problema non autorizza ancora l'implementazione.",
-      "tag": ["conferma", "ux", "comunicazione", "nicola", "caso-studio", "processo"],
+      "tag": [
+        "conferma",
+        "ux",
+        "comunicazione",
+        "nicola",
+        "caso-studio",
+        "processo"
+      ],
       "reparto": "@AD",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -201,7 +333,16 @@
     {
       "id": "L-2026-0712-93",
       "testo": "**Prima di committare file telemetria worker chiesti da Nicola, verificare git status — recovery può aver già committato su main (chat 12/7 17:38):** Nicola ha chiesto «commita questi 4 file» (sentinella-dati.json, motore-ai.sh, routing.json, backup .bak). Verificato: sentinella e motore-ai già su main (recovery 17:24/17:37), .bak assente, solo routing.json ancora sporco → branch `fix/worker-telemetria-pendente` + PR #302. Regola riusabile: quando il worker segnala N file non committati e Nicola chiede di committarli, NON assumere che siano tutti ancora dirty — recovery commette telemetria su main in parallelo; committare solo il delta residuo, preferibilmente via branch+PR per `cervello/`.",
-      "tag": ["recovery", "git-status", "telemetria", "routing", "sentinella", "motore-ai", "worker", "commit"],
+      "tag": [
+        "recovery",
+        "git-status",
+        "telemetria",
+        "routing",
+        "sentinella",
+        "motore-ai",
+        "worker",
+        "commit"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -214,7 +355,15 @@
     {
       "id": "L-2026-0712-92",
       "testo": "**Ordine lista conversazioni: aprire/cambiare chat NON deve riordinarla (PR #303 mergiata 17:44, chat 12/7):** Nicola segnala che passando da una chat all'altra la precedente finiva in cima alla lista — comportamento indesiderato. Causa radice: l'auto-save al cambio conversazione promuoveva la chat lasciata in prima posizione (sort per ultima attività/`updated_at`). Fix LIVE su main: ordine stabile in `page.tsx` + `store.ts` — pinnate (📌) in cima, poi per data di creazione; commit `67c6b804` via merge #303. PR #305/#306/#304 doppioni da chiudere. Nicola ha confermato la diagnosi con «confermo». Principio UX riusabile: **visualizzare ≠ promuovere** — aprire una chat non deve cambiarne la posizione nella lista, salvo pin esplicito dell'utente.",
-      "tag": ["conversazioni", "ordine-lista", "ux", "pannello", "localStorage", "bug", "caso-studio"],
+      "tag": [
+        "conversazioni",
+        "ordine-lista",
+        "ux",
+        "pannello",
+        "localStorage",
+        "bug",
+        "caso-studio"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.99,
       "evidenze": 3,
@@ -227,7 +376,15 @@
     {
       "id": "L-2026-0712-91",
       "testo": "**localStorage badge/notifiche: key mancante = nessun badge (default sicuro), NON 'non letto' (PR #298, 12/7):** il bug era `!convLette[c.id]` — se la mappa parte vuota, ogni chat risulta 'non letta' e il badge compare su tutto. La logica corretta: badge SOLO se `convLette[id]` esiste (la chat è già stata aperta almeno una volta) E il timestamp dell'ultimo messaggio AI è più recente di quella data. Principio riusabile: quando si memorizza in localStorage uno stato 'è successo X', la key ASSENTE deve essere il caso sicuro (nessun badge, nessun alert), non il caso allarmante.",
-      "tag": ["localStorage", "badge", "notifiche", "default-sicuro", "pannello", "conversazioni", "bug"],
+      "tag": [
+        "localStorage",
+        "badge",
+        "notifiche",
+        "default-sicuro",
+        "pannello",
+        "conversazioni",
+        "bug"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -240,7 +397,15 @@
     {
       "id": "L-2026-0712-90",
       "testo": "**Route API con loop sequenziale → usare Promise.all() (PR #296, 12/7):** la route Archivio faceva 15 chiamate HTTP `await listDir()` una alla volta in un loop `for` → ~15 sec totali. Sostituita con `Promise.all(dirs.map(...))` → tutte in parallelo, tempo = singola più lenta (~1-2 sec). Regola riusabile: ogni volta che si vede `for (const x of arr) { await fetch/call() }` in una route API, è un candidato immediato a `Promise.all()`. Non vale se le chiamate hanno dipendenze tra loro (output di A serve come input di B).",
-      "tag": ["performance", "Promise.all", "route-api", "parallelo", "archivio", "pannello", "ottimizzazione"],
+      "tag": [
+        "performance",
+        "Promise.all",
+        "route-api",
+        "parallelo",
+        "archivio",
+        "pannello",
+        "ottimizzazione"
+      ],
       "reparto": "@backend-dev",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -253,7 +418,15 @@
     {
       "id": "L-2026-0712-89",
       "testo": "**Nicola approva le azioni 🔴 direttamente in chat (12/7 00:39):** ha dichiarato «io le cose col pallino rosso te le firmo anche in chat, approvando quello che mi dici». La risposta diretta (es. «sì», «fallo tu», «ok») equivale a firma valida; non serve aspettare un click nel Pannello. Questo cambia il processo operativo: quando un'azione 🔴 viene proposta in chat e Nicola risponde affermativamente, procedere e annotare in DECISIONI.md con data/ora e «Nicola (chat gg/mm HH:MM)». Il Pannello rimane il canale preferito per la visibilità storica, ma non è l'unico gate.",
-      "tag": ["governance", "approvazione-chat", "rosso", "firma", "processo", "nicola", "caso-studio"],
+      "tag": [
+        "governance",
+        "approvazione-chat",
+        "rosso",
+        "firma",
+        "processo",
+        "nicola",
+        "caso-studio"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -266,7 +439,16 @@
     {
       "id": "L-2026-0711-88",
       "testo": "**Commit in /opt/mycity/ad-mycity/marketplace come root dà 'dubious ownership' — fix: safe.directory (chat 11/7):** quando si prova a committare in un repo che appartiene a un utente diverso da quello corrente (es. dir owned by `mycity` ma si esegue come `root`), git rifiuta con `fatal: detected dubious ownership`. Fix: eseguire `git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace` UNA VOLTA, poi i normali `git add/commit/push` funzionano. Questo è diverso dal blocco Claude sui permessi (quello è sempre attivo): il `safe.directory` risolve solo il commit da terminale come root. Dare sempre entrambi i comandi insieme: il safe.directory come primo passo, poi add+commit.",
-      "tag": ["git", "dubious-ownership", "safe.directory", "root", "marketplace", "vps", "terminale", "ad-mycity"],
+      "tag": [
+        "git",
+        "dubious-ownership",
+        "safe.directory",
+        "root",
+        "marketplace",
+        "vps",
+        "terminale",
+        "ad-mycity"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -279,7 +461,16 @@
     {
       "id": "L-2026-0711-87",
       "testo": "**Dichiarare subito la provenance del lavoro trovato, non aspettare che Nicola chieda (chat 11/7):** l'AD ha trovato 37 file già scritti da una sessione precedente in `ad-mycity/marketplace/` sul branch `fix/5-bloccanti-sicurezza`, li ha letti e analizzati come se fossero propri, e solo dopo che Nicola ha chiesto «come hai fatto a crearli?» ha spiegato la situazione reale. Questo ha causato confusione. Regola fissa: quando si apre un checkout del marketplace e si trovano file non committati (lavorati da una sessione precedente), la PRIMA riga della risposta deve dichiararlo: «Ho trovato N file già scritti da una sessione precedente — non li ho creati io. Ecco cosa c'è dentro.» Solo dopo fare l'analisi del contenuto. Questo vale per qualsiasi working tree con modifiche pre-esistenti.",
-      "tag": ["provenance", "trasparenza", "sessione-precedente", "file-trovati", "uncommitted", "marketplace", "onestà", "caso-studio"],
+      "tag": [
+        "provenance",
+        "trasparenza",
+        "sessione-precedente",
+        "file-trovati",
+        "uncommitted",
+        "marketplace",
+        "onestà",
+        "caso-studio"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -292,7 +483,17 @@
     {
       "id": "L-2026-0710-86",
       "testo": "**PR sul marketplace fallisce se il branch locale è già merged (chat 10/7, turno fix 5 bloccanti):** l'AD ha scritto 5 fix nei file del marketplace ma non ha potuto aprire la PR perché il branch locale era `fix/ruoli-acquisto-admin-seller-2026-07-02` (già merged in main). `git -C marketplace/ checkout -b fix/nuovo` non è in allowlist → impossibile creare un branch dal CWD dell'AD. Il lavoro è rimasto uncommitted. Correzione di Nicola: 'Non mi hai aperto la PR con i fix'. Regola fissa: PRIMA di scrivere qualsiasi file nel marketplace, verificare che il branch locale sia NUOVO (non merged) con `git -C marketplace/ branch` e `git -C marketplace/ log --oneline origin/main..HEAD`. Se il branch è sbagliato, chiedere a Nicola di eseguire `cd /opt/mycity/ad-mycity/marketplace && git checkout -b fix/nome` dal terminale, poi procedere con `node cervello/git-pr.mjs --repo mycity`.",
-      "tag": ["marketplace", "branch", "merged", "git-checkout", "allowlist", "pr", "uncommitted", "5-bloccanti", "correzione-nicola"],
+      "tag": [
+        "marketplace",
+        "branch",
+        "merged",
+        "git-checkout",
+        "allowlist",
+        "pr",
+        "uncommitted",
+        "5-bloccanti",
+        "correzione-nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -305,7 +506,15 @@
     {
       "id": "L-2026-0710-85",
       "testo": "**Nicola vuole che l'AD resti in ascolto fino a verifica live (chat 10/7 ~18:55):** dopo aver creato una PR, Nicola ha chiesto esplicitamente 'riesci a restare sempre in ascolto finché tutto non è finito? così controlli sempre che tutto sia andato correttamente'. Questo significa: non fermarsi dopo 'PR creata' — monitorare attivamente che il merge arrivi, che Vercel buildi, e che la modifica sia visibile nel Pannello prima di dichiarare il lavoro finito. Il loop di follow-through è parte del lavoro, non optional.",
-      "tag": ["workflow", "follow-through", "ascolto", "verifica-live", "pannello", "vercel", "preferenza-nicola"],
+      "tag": [
+        "workflow",
+        "follow-through",
+        "ascolto",
+        "verifica-live",
+        "pannello",
+        "vercel",
+        "preferenza-nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -318,7 +527,16 @@
     {
       "id": "L-2026-0710-84",
       "testo": "**`pannello/vercel.json` con `deploymentEnabled.main: false` blocca TUTTI i build Vercel, codice incluso (chat 10/7 ~18:50):** trovata la causa radice per cui il Pannello non si aggiornava da ore nonostante le PR mergiata. Il campo `\"deploymentEnabled\": {\"main\": false}` era stato aggiunto per fermare i deploy dei commit di memoria, ma è ridondante e distruttivo: l'`ignoreCommand` già skippa i commit di sola-memoria confrontando i file in `pannello/`. Con `main: false`, Vercel ignora OGNI push su main, incluso il codice reale. Sintomo tipico: PR mergiata, commit visibile su GitHub, Vercel non reagisce. Fix: `main: false` → `true`. L'ignoreCommand si occupa da solo dei commit di sola-memoria. ADDENDUM (chat 10/7 ~19:00): dopo aver portato `deploymentEnabled` a `true`, se Vercel aveva già valutato la config vecchia per il push con il fix, NON builda comunque — serve un commit trigger aggiuntivo su `pannello/` (es. una riga in `pannello/.deploy-trigger`) per forzare il primo build con la nuova config.",
-      "tag": ["vercel", "vercel.json", "deploymentEnabled", "deploy-bloccato", "pannello", "ignoreCommand", "causa-radice", "commit-trigger"],
+      "tag": [
+        "vercel",
+        "vercel.json",
+        "deploymentEnabled",
+        "deploy-bloccato",
+        "pannello",
+        "ignoreCommand",
+        "causa-radice",
+        "commit-trigger"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 0.99,
       "evidenze": 2,
@@ -331,7 +549,16 @@
     {
       "id": "L-2026-0710-83",
       "testo": "**Il linter del progetto annulla le Edit su file TSX/React (chat 10/7):** durante il fix di ParlaCasella.tsx, due round di Edit sono state automaticamente ripristinate dal linter (ESLint/Prettier con auto-fix abilitato). Il sintomo è che il file torna allo stato originale dopo la Edit. Regola fissa: per file TSX/React in questo progetto, usare Write per riscrivere il file intero invece di applicare patch parziali con Edit. Il Write non dà presa al linter perché sovrascrive atomicamente. Se si usa Edit e le modifiche spariscono, non riprovare con Edit — passare subito a Write.",
-      "tag": ["linter", "eslint", "prettier", "tsx", "react", "edit", "write", "pannello"],
+      "tag": [
+        "linter",
+        "eslint",
+        "prettier",
+        "tsx",
+        "react",
+        "edit",
+        "write",
+        "pannello"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -344,7 +571,15 @@
     {
       "id": "L-2026-0710-82",
       "testo": "**watch-main può sovrascrivere HEAD durante un checkout, mandando il commit su main locale (chat 10/7):** il processo watch-main gira ogni ~5 minuti e fa un git reset/pull su main. Se scatta proprio mentre l'AD è in mezzo a un git checkout di un branch fix, HEAD può essere resettato su main — e il commit successivo atterra su main locale invece del branch voluto. Recovery: se ci si accorge che il commit è sia su main locale che sul branch fix, la PR da fix verso origin/main funziona comunque (origin/main non ha ancora il commit, quindi il diff su GitHub è corretto). Prevenzione: verificare `git branch` subito prima di fare il commit, non solo dopo il checkout. Se watch-main ha già resettato, rifare il checkout del branch fix prima di committare. Nota: git reset è bloccato dall'allowlist, quindi il recovery post-commit su main locale dipende dal fatto che il branch fix abbia già lo stesso commit.",
-      "tag": ["watch-main", "git-checkout", "main-locale", "commit-su-main", "branch-fix", "PR", "recovery"],
+      "tag": [
+        "watch-main",
+        "git-checkout",
+        "main-locale",
+        "commit-su-main",
+        "branch-fix",
+        "PR",
+        "recovery"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -357,7 +592,15 @@
     {
       "id": "L-2026-0710-81",
       "testo": "**git stash obbligatorio prima di git checkout su un branch diverso quando ci sono file non committati (chat 10/7):** Nicola ha eseguito `git checkout fix/chat-altezza-scroll-spaziatura` e ha ricevuto 'error: Your local changes to the following files would be overwritten by checkout'. I file non committati (LEZIONI-CHAT.md, sentinella-dati.json, routing.json) bloccano il checkout. Regola fissa: quando si deve cambiare branch con modifiche in corso, sempre `git stash` prima, poi checkout, poi il comando successivo (git-pr.mjs o altro). Sequenza corretta: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`. I file stashati possono essere recuperati con `git stash pop` dopo il checkout se servono ancora sul branch fix.",
-      "tag": ["git-stash", "checkout", "branch", "uncommitted-files", "overwritten", "errore", "git-pr.mjs"],
+      "tag": [
+        "git-stash",
+        "checkout",
+        "branch",
+        "uncommitted-files",
+        "overwritten",
+        "errore",
+        "git-pr.mjs"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -370,7 +613,16 @@
     {
       "id": "L-2026-0710-80",
       "testo": "**git-pr.mjs legge il branch CORRENTE, non quello che vuoi aprire (chat 10/7):** Nicola ha lanciato `node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'` da `main` e ha ricevuto 'ERRORE: head e base sono lo stesso ramo (main)'. Il problema è che git-pr.mjs usa il branch su cui SEI (HEAD), non un parametro `--head` separato. Regola fissa: SEMPRE fare `git checkout fix/<branch>` (o feature/<branch>) PRIMA di lanciare git-pr.mjs. Il comando corretto è: `cd /opt/mycity/ad-mycity && git checkout fix/<nome> && node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'`. Da non confondere con git push che accetta `origin <branch>` esplicitamente.",
-      "tag": ["git-pr.mjs", "branch", "pr", "checkout", "head", "main", "stesso-ramo", "errore"],
+      "tag": [
+        "git-pr.mjs",
+        "branch",
+        "pr",
+        "checkout",
+        "head",
+        "main",
+        "stesso-ramo",
+        "errore"
+      ],
       "reparto": "@AD",
       "confidenza": 0.99,
       "evidenze": 1,
@@ -383,7 +635,16 @@
     {
       "id": "L-2026-0710-79",
       "testo": "**Cursor CLI (`agent`) in PATH causa 'model not found' / 'module_not_found' quando CERVELLO_MOTORE non è esplicitamente `claude` (chat 10/7):** Nicola ha chiesto di impedire a Cursor di attivarsi senza richiesta. Il worker usava la logica `auto` di `motore-ai.sh` che preferiva `agent` (Cursor) se installato. Fix strutturale: in modalità `auto`, Claude viene scelto per primo; Cursor gira SOLO se `CERVELLO_MOTORE=cursor` è esplicitamente impostato nel .env. Se 'module_not_found' si ripresenta: (1) verificare `CERVELLO_MOTORE` nel .env; (2) riavviare il worker dal Pannello (ricarica l'env senza aspettare un deploy). Il 'module_not_found' dal DB = worker che gira ancora con l'env vecchio prima che la variabile fosse settata — la soluzione è il riavvio, non un re-build.",
-      "tag": ["cursor", "agent-cli", "model-not-found", "module-not-found", "motore-ai", "CERVELLO_MOTORE", "worker", "riavvio"],
+      "tag": [
+        "cursor",
+        "agent-cli",
+        "model-not-found",
+        "module-not-found",
+        "motore-ai",
+        "CERVELLO_MOTORE",
+        "worker",
+        "riavvio"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -396,7 +657,16 @@
     {
       "id": "L-2026-0710-78",
       "testo": "**Verificare sempre che il branch esista su origin prima di dare una PR URL (chat 10/7, PR fix/chat-altezza-scroll-spaziatura):** l'AD ha suggerito prima il branch sbagliato (`fix/rimuovi-autoscroll-chat` invece di `fix/chat-altezza-scroll-spaziatura`), poi ha dato una URL per un branch che non era ancora pushato su origin — Nicola ha aperto il link e ha trovato una pagina vuota. Causa: l'AD ha assunto che il branch esistesse su origin senza verificarlo con `git branch -r | grep <nome>` o `git ls-remote origin <nome>`. **Regola fissa, SEMPRE:** prima di dare a Nicola qualsiasi URL GitHub `compare/main...<branch>` o qualsiasi branch name per una PR, eseguire `git ls-remote origin <nome-branch>` e verificare che ritorni un hash. Se il branch non è su origin, comunicarlo subito e indicare il comando di push (`git push origin <nome-branch>`) da eseguire prima di aprire il link. Una pagina vuota su GitHub causa confusione e fa perdere tempo.",
-      "tag": ["git", "branch", "pr", "origin", "ls-remote", "verifica-branch", "pannello", "AD"],
+      "tag": [
+        "git",
+        "branch",
+        "pr",
+        "origin",
+        "ls-remote",
+        "verifica-branch",
+        "pannello",
+        "AD"
+      ],
       "reparto": "@AD",
       "confidenza": 0.97,
       "evidenze": 1,
@@ -409,7 +679,19 @@
     {
       "id": "L-2026-0710-77",
       "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
-      "tag": ["bug-aperto", "chip-skill", "click-handler", "setBozza", "textareaRef", "pannello", "ParlaCasella", "ChatCasella", "page.tsx", "fluttuante", "tutti-4-componenti"],
+      "tag": [
+        "bug-aperto",
+        "chip-skill",
+        "click-handler",
+        "setBozza",
+        "textareaRef",
+        "pannello",
+        "ParlaCasella",
+        "ChatCasella",
+        "page.tsx",
+        "fluttuante",
+        "tutti-4-componenti"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 3,
@@ -424,7 +706,15 @@
     {
       "id": "L-2026-0710-76",
       "testo": "**Feature UI deployata ma non visibile: prima di diagnosticare il build, verificare la location e le condizioni di visibilità (chat 10/7, chip skill rapide):** Vercel ha buildato il commit `f6f85911` con i chip, ma Nicola non li vedeva. La chat si è conclusa senza trovare la causa perché non si è mai guidato Nicola all'interazione ESATTA: i chip compaiono solo aprendo una casella del Pannello → cliccando il link '💬 Parla con questa casella' → con la textarea VUOTA. Non compaiono nella pagina Archivio, non sulla home, non se si sta scrivendo. **Regola riusabile:** dopo un deploy, prima di ipotizzare 'il build è fallito' o 'Vercel non ha preso il codice', guidare Nicola all'interazione specifica passo-per-passo (quale pagina, quale componente, quale stato) per escludere che stia guardando nel posto sbagliato. Solo se l'interazione corretta non mostra la feature → allora diagnosticare il deploy. **Correlato:** L-2026-0710-73 (mai dire 'Fatto' senza prova), L-2026-0710-70 (fix ignored-build-step).",
-      "tag": ["feature-visibility", "UI", "pannello", "deploy", "chip-skill", "verifica-location", "debug-deploy"],
+      "tag": [
+        "feature-visibility",
+        "UI",
+        "pannello",
+        "deploy",
+        "chip-skill",
+        "verifica-location",
+        "debug-deploy"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.92,
       "evidenze": 1,
@@ -437,7 +727,14 @@
     {
       "id": "L-2026-0710-74",
       "testo": "**Allowlist `\"Write\"` vs `\"Write(/tmp/*)\"` — la sintassi con percorso NON abilita le scritture come atteso (chat 10/7):** nel tentativo di abilitare la scrittura di script temporanei in `/tmp`, è stata aggiunta la riga `\"Write(/tmp/*)\"` al `.claude/settings.local.json`. Non ha funzionato. La sintassi corretta è `\"Write\"` senza alcun percorso. Analogamente, `\"Bash(node /tmp/*.mjs:*)\"` non fa glob-matching sui `/` all'interno del path — per abilitare l'esecuzione di uno script specifico usare il path esatto o `node:*`. **Regola riusabile:** usare sempre `\"Write\"` senza restrizioni di percorso; le restrizioni path-based nella allowlist hanno semantica non ovvia e tendono a non funzionare come ci si aspetta.",
-      "tag": ["allowlist", "settings-local", "Write", "bash-glob", "permessi", "claude-code"],
+      "tag": [
+        "allowlist",
+        "settings-local",
+        "Write",
+        "bash-glob",
+        "permessi",
+        "claude-code"
+      ],
       "reparto": "@AD",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -450,7 +747,18 @@
     {
       "id": "L-2026-0710-73",
       "testo": "**Caso-studio Nicola — «azione-narrata senza output» = «non fatto» agli occhi di Nicola (chat 10/7, chip skill rapide):** Nicola: «non hai creato il commit, cerca di capire perché, questo errore ormai lo stai facendo da molto tempo, fai una bella analisi completa e profonda ed impara da questo e non farlo mai più». L'AD aveva scritto 'Faccio il commit' come testo narrativo, poi 'Fatto' — senza MAI mostrare l'output del tool call `git commit` né di `git log --oneline`. Risultato: Nicola ha pensato per tutta la chat che i chip non fossero stati committati, mentre i commit esistevano (98a2b758 alle 11:07, 84bee730 alle 11:12). Il lavoro era fatto ma sembrava non fatto perché la PROVA era assente. **5 perché:** (1) L'AD scrive le azioni git come narrazione testuale ('Faccio il commit', 'Fatto') invece di eseguirle come tool calls con output visibili al turno. (2) Non c'è un pattern di verifica immediata post-azione (git log mostrato in chat). (3) Nicola vede solo testo della chat, non i tool calls interni — senza l'output del comando, per lui l'azione non è mai avvenuta. (4) L'assenza di prova ha generato un ciclo di diagnosi a vuoto per qualcosa che era già a posto. (5) Il pattern si ripete su azioni diverse (commit, push, PR) — è sistemico. **Regola fissa, SEMPRE, senza eccezioni:** dopo ogni azione git (commit, push, checkout di verifica) mostrare IMMEDIATAMENTE l'output: `git log --oneline -3` dopo un commit, `git log origin/branch --oneline -1` dopo un push. Se l'output non è visibile nel turno, per Nicola l'azione non è avvenuta. Dire 'Fatto' come testo non basta mai. **Gemello di** L-2026-0709-66 (committato≠pushato, verifica prima di dichiarare) e [[verifica-prima-di-affermare]], ma cattura la sfumatura specifica 'azione narrata vs azione provata con output in chat'.",
-      "tag": ["nicola", "caso-studio", "git-proof", "git-log", "azione-narrata", "fatto-senza-prova", "commit", "verifica", "AD", "pattern-ricorrente"],
+      "tag": [
+        "nicola",
+        "caso-studio",
+        "git-proof",
+        "git-log",
+        "azione-narrata",
+        "fatto-senza-prova",
+        "commit",
+        "verifica",
+        "AD",
+        "pattern-ricorrente"
+      ],
       "reparto": "@AD",
       "confidenza": 0.98,
       "evidenze": 1,
@@ -2415,10 +2723,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 74,
-    "promosse_a_principio": 4,
+    "lezioni_attive": 128,
+    "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.7
+    "tasso_applicazione": 0.11,
+    "tasso_calcolato_il": "2026-07-13 11:53",
+    "tasso_finestra_giorni": 30,
+    "tick_leggero_il": "2026-07-13 11:53"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
