@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:18
-fonte: AD digitale (🌙 13/7 18:18 CHAT: Nicola chiede demo streaming live; worker restart ancora pendente. | storico: 🌙 13/7 18:15 verifica #338+#339+#340; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 18:19
+fonte: AD digitale (🌙 13/7 18:19 CHAT: seconda prova streaming «riprova» — ancora rotto; worker restart pendente. | storico: 🌙 13/7 18:18 demo streaming; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:19 — CHAT: seconda prova streaming «riprova» — ancora non funziona.** Dopo demo live ~18:18, Nicola «riprova» — AD conferma: se tutto insieme o a colonna, streaming **non** sta funzionando lato Nicola. **Codice su main ok** (#338+#339 mergiate); **causa confermata:** worker chat **non riavviato dal 16:08:28** — fix su repo ≠ processo live sul VPS. Unico sblocco: `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 + «ok fatto» per terza prova. Fonte: chat Nicola 13/7 ~18:19 + worker telemetry `af7325ce` 18:19:43.
+>
 > 💬 **13/7 ~18:18 — CHAT: Nicola chiede dimostrazione streaming live.** «riesci a mostrarmi la risposta in streaming?» — AD usa la risposta corrente come test (testo che cresce parola per parola + cursore ▍) e chiede feedback: cresce in tempo reale / arriva tutta insieme / ancora a colonna. **Codice su main ok** (#338+#339+#340 mergiate); **worker chat non riavviato dal 16:08** → se Nicola vede tutto insieme o a colonna, causa probabile = worker VPS stale, non Pannello. Checklist: `sudo systemctl restart mycity-worker-chat` + Ctrl+F5. Fonte: chat Nicola 13/7 ~18:18 + AD.
 >
 > 💬 **13/7 ~18:15 — CHAT: verifica post-merge fix chat — codice ok, worker stale.** Nicola «facciamo una verifica». **Esito git main `90045a17`:** #338 (streaming Cursor+pallini race), #339 (testo spezzato a colonna), #340 (pallino chat non visibile) **tutte mergiate** (`d7881680`, `824e1759`); `worker.sh` con `--stream-partial-output` + `_estrai_stream` testato in locale (`retro di circa un minuto.`). **Non live ancora:** worker chat **non riavviato** dal **16:08:28** — streaming resta rotto sul VPS finché non `sudo systemctl restart mycity-worker-chat`; deploy Vercel post-merge ~18:14 → refresh forzato (Ctrl+F5). Nicola 18:15 ancora in test pallini (worker telemetry). Coda Pannello card #339/#340 possono restare «in attesa» pur mergiate. Fonte: chat Nicola 13/7 ~18:15 + git log main + AD.

@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Nicola «riprova» dopo demo streaming — secondo test live che fallisce **conferma** worker VPS stale (16:08): codice #338+#339 su main ok ma processo vecchio; un solo sblocco = restart + «ok fatto» prima di terza prova.
 - [2026-07-13] Nicola «mostrami la risposta in streaming» — la risposta **è** il test live: chiedi cosa vede (cresce / tutta insieme / a colonna); tutta insieme o colonna = worker VPS non riavviato dal 16:08, non solo Pannello.
 - [2026-07-13] «Facciamo una verifica» (Nicola 18:15) = git merge su main + `git show HEAD:cervello/worker.sh` + test locale `_estrai_stream` + **3 prove Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s); «codice ok» ≠ «funziona per te» se worker fermo dal 16:08.
 - [2026-07-13] Pallini = **DUE bug** — fix **#338+#340 mergiate** (~18:14): (A) esci da chat → pallino torna (#338); (B) risposta AD senza riaprire → pallino mancava (#340 `selectedConv`). Test A = 15s; test B = Plancia → elenco Conversazioni; deploy Vercel + Ctrl+F5.

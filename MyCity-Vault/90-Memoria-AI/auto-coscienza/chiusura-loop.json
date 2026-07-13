@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-13 16:20",
+  "aggiornato": "2026-07-13 18:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
@@ -52,8 +52,8 @@
     },
     {
       "reparto": "ad",
-      "righe_esito": 15,
-      "ultimo_esito": "2026-07-13 12:45",
+      "righe_esito": 17,
+      "ultimo_esito": "2026-07-13 17:27",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -108,8 +108,8 @@
     },
     {
       "reparto": "builder-automazioni",
-      "righe_esito": 8,
-      "ultimo_esito": "2026-07-13 12:38",
+      "righe_esito": 20,
+      "ultimo_esito": "2026-07-13 18:18",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -172,8 +172,8 @@
     },
     {
       "reparto": "devops-sre",
-      "righe_esito": 34,
-      "ultimo_esito": "2026-07-13 14:30",
+      "righe_esito": 38,
+      "ultimo_esito": "2026-07-13 18:15",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -212,8 +212,8 @@
     },
     {
       "reparto": "frontend-dev",
-      "righe_esito": 38,
-      "ultimo_esito": "2026-07-13 16:18",
+      "righe_esito": 54,
+      "ultimo_esito": "2026-07-13 18:15",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -294,7 +294,7 @@
       "reparto": "prompt-engineer",
       "righe_esito": 3,
       "ultimo_esito": "2026-07-05 05:09",
-      "giorni_fa": 8,
+      "giorni_fa": 9,
       "vuoto": false,
       "fermo": true
     },
@@ -356,9 +356,9 @@
     },
     {
       "reparto": "tech",
-      "righe_esito": 10,
-      "ultimo_esito": "2026-07-07 00:29",
-      "giorni_fa": 7,
+      "righe_esito": 16,
+      "ultimo_esito": "2026-07-13 17:51",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
