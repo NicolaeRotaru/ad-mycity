@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:52
-fonte: AD digitale (🌙 13/7 19:52 METABOLIZZA: PR #346 ondata 2 conflitti memoria. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:53
+fonte: AD digitale (🌙 13/7 19:53 METABOLIZZA: PR #348 conflitto memoria risolto. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:45 — CHAT: conflitto PR #348 risolto — solo memoria macchina, fix pallini ok.** Nicola «ci sono conflitt» su merge #348 (pallini fingerprint). **Verificato:** conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli su main) — **nessun** conflitto su `page.tsx` né impronta risposta. **Fix 🟢:** rebase `fix/pallini-fingerprint-v3` su main, merge locale ok, push branch. **Pendente:** merge 🔴 #118 + deploy ~2 min + Ctrl+Shift+R + test 15s esci da chat. **Main** `4fb8bc5b`. Fonte: chat Nicola 13/7 ~19:45.
+>
 > 💬 **13/7 ~19:44 — CHAT: seconda ondata conflitto PR #346 — 3 file memoria.** Nicola «riesci a vedere il conflitto che si è creato?» dopo prima risoluzione (solo body `pr-ad-mycity-body.md` ~19:50). **Verificato:** nuovi conflitti su `LEZIONI-CHAT.md`, `apprendimento.json`, `auto-miglioramento.json` (solo date/orari da giri paralleli su main) — **nessun** impatto su `registro-realta.json` né `registro-scelte-check.mjs`. **Fix 🟢:** rebase+merge stesso branch, commit `a154875c`, **zero conflitti residui** verificati branch vs main. **Pendente:** merge 🔴 #117 + Ctrl+Shift+R su pagina PR. Fonte: chat Nicola 13/7 ~19:44.
 >
 > 💬 **13/7 ~19:41 — CHAT: pallini scenario 1+4 — PR #348 fingerprint risposta.** Nicola «1 e 4» dopo menu diagnosi (19:34): (1) apri/leggi/esci → poll ~8s riaccende rosso; (4) tutte rosse anche già viste — **stesso difetto**. **Causa verificata:** «letto» confrontava timestamp/`updated_at` (cresce senza nuovo messaggio); risposte AD solo in **Lavori** non marcate lette → elenco tutto rosso. **Fix 🟡 PR #348** (`97522589`, branch `fix/pallini-fingerprint-v3`): impronta **ultima risposta** (stesso testo = letto) + bootstrap storico via Lavori al primo load. Merge 🔴 #118 pendente; post-merge deploy ~2 min + Ctrl+Shift+R; test 15s esci da chat + elenco non tutto rosso. **Main** `70e02b31`. Fonte: chat Nicola 13/7 ~19:41.
