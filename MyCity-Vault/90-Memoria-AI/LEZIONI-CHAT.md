@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 22:34] **Clienti MyCity = solo botteghe** — Nicola: né ristoranti né trattorie, punto; non «tattici»; vendite su botteghe core (Garetti, Peretti, Amendolara); ogni correzione → registro-fatti + file vivi + coerenza-fatti.
 - [2026-07-13 22:33] Avviso memoria incoerente — prima `coerenza-fatti` (exit 0 = verde); avviso 18:20 può essere **storico**: resta in elenco finché non marcato risolto anche se vault pulito dal 20:21.
 - [2026-07-13 22:28] **PR #356 approvata** — Nicola «sì» dopo grilling: menu 3 voci (Radiografia macchina · Salute sito · Auto-coscienza), home firmare→ritmo→lettera→KPI→macchina (8 pallini), lettera in home, migliorie trio; merge 🔴 **#356** #125.
 - [2026-07-13 22:22] **Home cima = da firmare (A)** — prima cosa in Plancia = cosa approvare oggi; ritmo+lettera subito sotto; numeri e macchina dopo — coerente con intento «azione in 10s».
@@ -16,4 +17,3 @@
 - [2026-07-13 22:06] Trio salute Pannello — dopo Radiografia macchina Nicola chiede **stessa analisi** su Auto-coscienza e Salute sito: auto-coscienza **viva ma dispersiva** (202 lezioni, 3 schede, miglioramento vuoto) → cartolina per scheda + ultimi 7 giorni in vista; Salute sito **seria ma morta** (87 problemi, referto 7/7, zero cantiere) → cartolina 4 bloccanti + 2 livelli priorità + cantiere sito (Nicola non ha ancora detto se in v1); PR menu **+** migliorie per ogni voce dopo «sì».
 - [2026-07-13 22:04] Conflitti #354/#355 — Nicola «cosa ti avevo chiesto» + «servono quei dati lì?»: **fallo tu** (AD risolve branch, zero Accept main) + diario **non** deve finire in PR (rumore: stesso file toccato in branch e main); codice intatto, memoria=main; mergeable ok → merge 🔴 **#354** #123 poi **#355** #124.
 - [2026-07-13 22:00] Radiografia macchina — Nicola «così va bene, migliorala»: direzione OK (L-179); frizione = scan 7/7 vs cantiere 1 + gergo tecnico + verdetto senza azione; PR redesign + **cartolina** (semaforo+1 passo+data) + **Da fare ora** prima di archivio «foto storica» + titoli umani (dettaglio sotto «Mostra perché») — dopo «sì» e risposta cartolina cliccabile.
-- [2026-07-13 21:58] Pannello salute — grilling menu: **Radiografia macchina** + **Salute sito** + **Auto-coscienza** (3 voci); Radiografia macchina = organi grandi + report sotto senza tab; «sta bene in 10s» dagli organi in home.
