@@ -1,11 +1,297 @@
 {
-  "data": "2026-07-13 11:32",
-  "esito": "ok",
-  "fatti_totali": 9,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
-  "incoerenze": [],
-  "cacce": [],
+  "data": "2026-07-13 12:20",
+  "esito": "incoerenze",
+  "fatti_totali": 11,
+  "cacce_aperte": 2,
+  "file_scansionati": 557,
+  "incoerenze": [
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AUTO-ANALISI.md",
+      "riga": 80,
+      "testo": "Piattaforma tecnicamente al sicuro (bloccanti umani a 0). Loop business **aperto** (North Star 0, 0 transazioni reali, ~15,5 giorni) — è il vero collo di bottiglia, si sblocca dal 13/7 con il 1° ordin"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 695,
+      "testo": "| 51 | 2026-07-06 14:20 | @trust-safety→@frontend-dev/@backend-dev | Fai in modo che il badge «Verificato» appaia solo ai negozi che lo meritano davvero, non a tutti | 🟡 | **Difetto verificato nel co"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "riga": 700,
+      "testo": "| 56 | 2026-07-07 12:05 | account-negozi | **Arma la veglia anti-churn sui negozi prima dell'onda del 13/7** | 🟡 | Playbook anti-churn 7/7: **oggi 0 negozi in calo** (1 solo negozio reale, senza stor"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 15,
+      "testo": "## A4 · 🛡️ Playbook anti-churn 6 botteghe food (post 13/7)"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 94,
+      "testo": "perche: Subito dopo una buona consegna è la finestra migliore per (1) intercettare un problema e (2) chiedere la recensione solo a chi è contento. Questo è il **modello neutro** con segnaposti — si is"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md",
+      "riga": 426,
+      "testo": "perche: **Playbook anti-churn 7/7 — verdetto onesto: 0 negozi in calo oggi** (1 solo negozio reale, Pane Quotidiano, senza storico ordini da cui calare; PQ **non è churn** ed è già stato chiuso da Nic"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md",
+      "riga": 34,
+      "testo": "- [ ] 🟡 **Visita di persona le 6 botteghe food prioritarie** — dossier + schede-cheat tascabili pronti da stampare (`consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md`): Osteria Carducci,"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/Intelligence/buchi-mercato.md",
+      "riga": 65,
+      "testo": "- **6 botteghe food visita 13/7** — il dato -2,3% retail rinforza il pitch"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/Intelligence/leve-uscita.md",
+      "riga": 8,
+      "testo": "- **Siamo a T-4 dal 13/7**: il 13/7 Nicola porta di persona **6 botteghe food** in onboarding (fonte: `registro-fatti` `onboarding.botteghe-food`). Oggi c'è **1 solo negozio reale — Pane Quotidiano** "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/Intelligence/radar-concorrenti.md",
+      "riga": 96,
+      "testo": "> Coerenza col piano: l'onboarding delle 6 botteghe food è al **13/7** e Nicola ci va di persona ([[piano-nicola-inserimento-negozi-dopo-9lug]]). Queste mosse **preparano** quel giro, non aprono traff"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 141,
+      "testo": "**Contesto:** business fermo dal 24/6, **North Star 0** (firma REST 06:20 invariata: ordini=1 *annullato*, ultimo 24/6, 23 clienti, `dati_leggibili=true` · MCP write non concesso in sessione → zero nu"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 167,
+      "testo": "- **Azioni in coda da firmare:** 🔴 **Far nascere il 1° ordine reale su PQ** (non riesumare lo zombie: domanda vera → post «Il Turno» + SEO vetrine + presidio) — parte operativa **dal 13/7**, aggancio"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 169,
+      "testo": "- **Domani/prossimi passi:** business fermo per patto — Nicola **riparte operativo il 13/7** (onboarding 6 botteghe food di persona). Fino ad allora: max 1 giro/giorno, memoria 🟢, i 🔴 restano firma "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 193,
+      "testo": "- 📌 promemoria del patto: ripresa operativa **13/7** (visita 6 botteghe food **di persona**, #39); primo aggancio ordine reale su PQ = **VEN 17/7**."
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 198,
+      "testo": "- **Azioni in coda da firmare (invariate, nessuna nuova — coda piena, anti-doppione):** 🟡 **SQL 107 + RLS `profiles`** (#32, AD-owned e firmato) = **l'unico bloccante di piattaforma** rimasto prima d"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 200,
+      "testo": "- **Domani/prossimi passi:** business fermo per patto — Nicola **riparte operativo il 13/7** (onboarding 6 botteghe food di persona). Fino ad allora: max 1 giro/giorno, memoria 🟢, i 🔴 restano firma "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 205,
+      "testo": "- **Azioni in coda da firmare (invariate, nessuna nuova — coda piena, anti-doppione):** 👁️/🟡 **un commit fresco su `pannello/`** per buildare le 12 modifiche già su GitHub (il vero residuo del deplo"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 207,
+      "testo": "- **Domani/prossimi passi:** business fermo per patto — Nicola **riparte operativo il 13/7** (onboarding 6 botteghe food di persona). Fino ad allora: max 1 giro/giorno, memoria 🟢, i 🔴 restano firma "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 245,
+      "testo": "- ✅ **Worker antichurn committato 12:05** — `cervello/antichurn-negozi.mjs` pronto per le 6 botteghe food del 13/7."
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/RITMO.md",
+      "riga": 252,
+      "testo": "- **Domani/prossimi passi:** 🟡 **1 comando VPS** sblocca Pannello + worker (script pronto, attende solo il terminale di Nicola). Lunedì **13/7 = ripresa operativa**: Nicola visita 6 botteghe food di "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+      "riga": 4,
+      "testo": "fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — business INVARIATO dal 24/6, North Star 0, stallo ~443h ≈ 18,5 giorni. Fatto: giro pieno 08:30 + retail PC −6,6% Q2 da monitoragg"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+      "riga": 17,
+      "testo": "> 🟡 **13/7 11:43 — Metabolizzazione: coda #antichurn allineata a «6 ristoranti tattici»** (era «6 botteghe food»). Propagazione parziale standing-ask Pannello auto-allineato; coda tabella #56 e altri"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
+      "riga": 21,
+      "testo": "> 💬 **13/7 11:40 — CHAT: standing-ask «tutto il Pannello» auto-allineato.** Nicola «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — dopo aver scoperto c"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
+      "riga": 3,
+      "testo": "\"sintesi\": \"Nicola riparte operativo TRA 2 GIORNI (lunedì 13/7). Oggi sabato: giorno di preparazione. Prima di arrivare dalle botteghe: sbloccare il Pannello (trigger-build + worker-restart) e — se po"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
+      "riga": 7,
+      "testo": "{\"titolo\": \"Visitare di persona le 6 botteghe food prioritarie\", \"quando\": \"13/7\", \"come\": \"visita in negozio (non telefonata) con dossier + pitch aggiornato: retail −6,6% Q2 + caldo 40°C = argomento "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/intenzioni-nicola.json",
+      "riga": 12,
+      "testo": "{\"nome\": \"6 botteghe food prioritarie (Osteria Carducci, La Forchetta, Tre Ganasce, La Dispensa, Trattoria dei Pescatori, Tigellabella)\", \"perche\": \"target della visita di persona del 13/7; dossier pr"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "MyCity-Vault/90-Memoria-AI/ultimo-briefing.json",
+      "riga": 3,
+      "testo": "\"situazione\": \"Business INVARIATO dal 24/6 (North Star 0, stallo ~419h). T-2 giorni alla visita di Nicola alle 6 botteghe food (13/7). T-6 giorni al target 1° ordine reale su PQ (VP 17/7, ultima data "
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/account-negozi/2026-07-07-playbook-anti-churn.md",
+      "riga": 39,
+      "testo": "Dal **13/7** Nicola porta online **6 botteghe food** (di persona; dossier `consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md`). Da lì in poi il churn diventa misurabile — ma con la metrica"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md",
+      "riga": 10,
+      "testo": "# 🛡️ Playbook Anti-Churn — 6 Botteghe Food (post-onboarding 13/7)"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md",
+      "riga": 18,
+      "testo": "| 6 botteghe food 13/7 | ⏳ non ancora online | — | TARGET di questo playbook |"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md",
+      "riga": 16,
+      "testo": "> **Aggancio vero:** il 13/7 Nicola va DI PERSONA dalle prime 6 botteghe food del centro (piano reale in memoria)."
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/seo/2026-07-06-riempimento-vetrine-SEO.md",
+      "riga": 76,
+      "testo": "done-for-you (@onboarding-negozi). Così le **6 botteghe food** in arrivo dal 13/7 nascono già ottimizzate, senza"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 5,
+      "testo": "scopo: visita di persona di Nicola alle prime 6 botteghe food — onboarding spostato al 13/7/2026"
+    },
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "file": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md",
+      "riga": 10,
+      "testo": "# 🍽️ Dossier \"so tutto di loro\" — le 6 botteghe food, visita di persona (dal 13/7)"
+    }
+  ],
+  "cacce": [
+    {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "6 botteghe food",
+      "dal": "2026-07-13 11:40",
+      "copie_trovate": 34
+    },
+    {
+      "fatto": "strategia.cliente-core",
+      "pattern": "clienti sono i ristoranti",
+      "dal": "2026-07-13 11:40",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -15,5 +301,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
+  "istruzioni": "Riscrivi ogni file elencato col valore nuovo del fatto, poi riesegui `node cervello/coerenza-fatti.mjs` finché passa. Le cacce con 0 copie sono bonificate: chiudile con `chiudi-caccia <id>`."
 }

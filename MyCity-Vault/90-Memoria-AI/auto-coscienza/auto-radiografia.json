@@ -3,9 +3,9 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-13 08:20",
+    "data": "2026-07-13 12:20",
     "loop_chiude": true,
-    "tasso_applicazione": 0.7,
+    "tasso_applicazione": 0.11,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
     "difetti_chiusi": 42,
@@ -14,10 +14,10 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 130,
-    "ore_da_ultimo_briefing": 42,
+    "ore_da_ultima_completa": 134,
+    "ore_da_ultimo_briefing": 46,
     "max_giri_ciechi_sensori": 1,
-    "giri_tasso_basso": 0,
+    "giri_tasso_basso": 1,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 75,
@@ -27,7 +27,7 @@
     "bloccanti_umani": 1,
     "salute_firma": "",
     "verdetto": "attenzione",
-    "nota": "loop chiude (con prova) · briefing STALE (42h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    "nota": "loop chiude (con prova) · briefing STALE (46h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
   "voto_salute_architettura": 51,
   "salute_marketplace": {
@@ -1702,7 +1702,7 @@
     "motore": "workflow auto-radiografia (agenti Opus), run wf_8791749c-a35"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-13 08:20"
+    "giri_tasso_basso": 1,
+    "aggiornato": "2026-07-13 12:20"
   }
 }

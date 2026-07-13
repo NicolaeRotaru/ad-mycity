@@ -280,11 +280,11 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.99,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 11:42",
+      "ultima_conferma": "2026-07-13 12:19",
       "stato": "attiva"
     },
     {
@@ -2693,6 +2693,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Conflitti PR ripetuti (chat 13/7 11:16 + 12:17):** zero tolleranza per lo stesso errore — anche #316 ha avuto conflitti da file memoria worker, non dal fix chat. Si aspetta branch pulito + simulazione merge PRIMA di «pronta al merge». Vedi L-2026-0713-99, L-2026-0713-110.",
     "**Pallini rossi chat (chat 13/7 ~12:14):** pallino solo se l'AD ha risposto e la chat non è ancora aperta/letta; sparisce aprendo la chat o chiudendo la finestra — NON su tutto lo storico, NON mentre aspetta la sua risposta. Ha detto che oggi sono «un po' bugati». Vuole fix via PR (→ #316, merge 🔴 #92). Vedi L-2026-0713-109.",
     "**Obiettivo 100k€/mese (chat 13/7 ~12:09):** scenario «tutto perfetto, scaling esponenziale» — chiede quanto tempo e quali numeri per 100k€/mese + come arrivarci prima possibile. Distinzione obbligatoria prima di tabellare: 100k **ricavi** ≈ 8.700 ordini/mese (best-case giu 2027 ~97k) vs 100k **margine** ≈ 20.000 ordini (fuori tetto Piacenza 12 mesi → 2ª città). **In attesa:** chiarimento fatturato vs quello che resta in tasca. Leve «prima possibile» già prioritizzate: 1° ordine questa settimana, cluster botteghe (Garetti/Peretti/Amendolara), densità quartiere, referral, 2ª città post-gate settembre. Estende preferenza scenario 11/7.",
     "**Disallineamento Pannello PC vs telefono (chat 13/7 ~12:06–12:14):** segnala subito cosa non coincide tra dispositivi (prima = chat); vuole diagnosi verificata nel codice + fix in PR («apri pr con i fix»); altri disallineamenti (numeri, azioni) da confermare. PR #316 aperta per sync elenco + badge. Estende standing-ask Pannello allineato (L-106) al cross-device. Vedi L-2026-0713-108, L-2026-0713-109.",
@@ -2703,7 +2704,6 @@
     "**Cliente core = botteghe, non ristoranti (chat 13/7 ~11:25):** «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — conferma strategica: MyCity = carrello multi-negozio settimanale (pane, salumi, formaggi, ortofrutta), NON competizione Glovo sulla cena. I 6 di oggi sono ristoranti/trattorie (mossa tattica per credibilità/primi incassi), non il profilo target. Dopo visita 13/7 focus su Garetti, Peretti, Amendolara + 27 botteghe food. Coerente con principio 6/7 «gioca dove i big non giocano». Vedi L-2026-0713-102.",
     "**Auto-coscienza deve mostrare contenuto, non caselle vuote (chat 13/7 ~11:24):** oltre alla data «03/07», Nicola segnala «manca qualcosa dentro questa casella» nelle due caselle Confronto coi migliori — si aspetta di vedere reparto, obiettivo e divario, non placeholder vuoti o «undefined». Ha approvato subito con «Apri pr» → PR #313. Rinforza la standing-ask tempo reale (L-2026-0713-100) con aspettativa UX: ciò che è nel JSON deve comparire a video. Vedi L-2026-0713-101.",
     "**Auto-coscienza in tempo reale — apprendimento E miglioramento (chat 13/7 ~11:38):** dopo la diagnosi «03/07» chiede esplicitamente aggiornamento live, poi approva con «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». Standing-ask: vuole tick leggero ~10 min (senza AI) + data UI corretta; benchmark pesante resta settimanale se spiegato. PR #315 aperta (commit `fbbc8c2c`), merge 🔴 #90/#91. NON dire «solo giro AI» per apprendimento — si aggiorna già post-chat. Vedi L-2026-0713-100, L-2026-0713-103, L-2026-0713-105.",
-    "**Conflitti PR ripetuti (chat 13/7 11:16):** zero tolleranza per lo stesso errore di conflitti su routing/sentinella — «impara da questo errore, ormai è 20 volte che ricapita questo errore». Si aspetta fix STRUTTURALE mergiato (#312), non altre PR «pulite» una tantum senza simulazione merge. Vedi L-2026-0713-99.",
     "**Leggibilità dark mode Pannello (chat 12/7 19:43):** NON tollera sfondi grigi chiari con testo illeggibile in modalità scura — «togli questo colore grigio ovunque dentro il panello». Fix LIVE via PR #309 mergiata su main 13/7. Vedi L-2026-0712-96.",
     "**Linguaggio 6 prospect = ristoranti (chat 12/7 19:53):** corregge subito se l'AD dice «botteghe» o «spesa online» per Tigellabella/Forchetta/Tre Ganasce/Carducci/Dispensa/Pescatori — sono **ristoranti/trattorie**, pitch = piatti in asporto/consegna. Il dossier 6/7 lo diceva già; in chat va ripetuto con lo stesso lessico. Pane Quotidiano = esempio piattaforma, non modello cucina. Vedi L-2026-0712-98.",
     "**Visita in bottega (chat 12/7 19:51):** quando dice che va «dal negozio» / «primo negozio», intende spesso una delle **6 prospect** (acquisizione di persona), non Pane Quotidiano — corregge subito se l'AD assume PQ. Vuole la scheda tascabile per-negozio (apertura, obiezioni, cosa verificare) appena dice quale delle 6. Vedi L-2026-0712-97.",
