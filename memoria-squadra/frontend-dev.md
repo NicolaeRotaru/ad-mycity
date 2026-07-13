@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 23:25 · «Apri pr» menu Memoria — Nicola follow-up post-implementazione · atteso: PR aperta e pronta al merge · reale: #357 già aperta 23:22; confermata URL + card #126; nessuna PR duplicata · L-192 · #pannello #memoria #pr-357 #apri-pr
 - 2026-07-13 23:22 · Menu Memoria implementato PR #357 — Nicola «esempio, impostalo così» · atteso: implementare schema senza bloccare su 2 domande · reale: hub 4 tab; Governo&diretta→Lavori; OKR&Piani→Stato&numeri; Diario eliminato; PR #357 aperta; merge 🔴 #126 · L-191 · #pannello #memoria #menu #pr-357 #ux
 - 2026-07-13 23:17 · Menu Memoria riordino IA — Nicola «voglio creare ordine» gruppo→simili→contenuto · atteso: proposta concreta + domande pendenti · reale: hub Memoria 4 tab (Viva·Archivio·Storico senza Diario·GitHub); menu laterale snello; 2 pendenti Governo&diretta + OKR&Piani prima PR · L-190 · #pannello #memoria #menu #ux #information-architecture
 - 2026-07-13 22:39 · Menu follow-up — Nicola «voglio parliamo del menu» · atteso: dialogo frizioni residue post-«sì» #356 · reale: verificato main (3 voci salute separate; gruppo Macchina&memoria ancora affollato); no secondo grilling A/B/C; pendente frizione specifica Nicola · L-189 · #pannello #menu #ux
