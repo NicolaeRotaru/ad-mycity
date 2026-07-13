@@ -4,7 +4,7 @@
 - **Branch:** `fix/scan-cantiere-sync` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/347
 - **Titolo:** fix: scan radiografia si allinea al cantiere vivo dopo i fix
-- **Creato:** 2026-07-13 19:40 (Europe/Rome)
+- **Creato:** 2026-07-13 20:08 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 347`
