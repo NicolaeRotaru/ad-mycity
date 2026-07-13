@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-13 21:08 · Chat Nicola PR #349 conflitti — «in teoria non sono conflitti» · atteso: validare intuizione + distinguere diario vs fix · reale: 4 file memoria vs archivio Garetti pulito, Accept main, merge 🔴 #119 · L-169 · #pr-349 #conflitti #allocazione
 - 2026-07-13 21:01 · Chat Nicola silo allocazione — «fai il fix» · atteso: archivia Garetti + ripunta PQ + guardiano verde · reale: 12 asset archiviati, PQ 16 attivi, allocazione-check exit 0, PR #349, #119 in coda · L-167 · #AR-006 #allocazione
 - 2026-07-13 19:48 · Chat Nicola scelte ragionate Garetti — «correggi e non ricapiti» · atteso: lista completa in Auto-coscienza + guardiano anti-deriva · reale: dossier 6/7 mai in registro, fix PR #346, L-157 + LEZIONI-CHAT · #registro-realta #auto-coscienza
 - 2026-07-13 19:43 · Chat Nicola casella Gap MCP aggiornata? · atteso: spiegare freschezza vs fermo senza «Pannello rotto» · reale: auto-analisi 11/7, REST ok 19:30, business invariato; serve giro · L-154 · #MCP #gap #auto-coscienza

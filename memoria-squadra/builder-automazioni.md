@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 21:07 · Verifica plugin 21/21 — Nicola «non è cambiato nulla» · atteso: installazione OK + test per plugin · reale: 21/21 su disco, hash+sync OK, worker 19:10; plugin = istruzioni AI non UI; caveman OFF chat; Firecrawl+Tabnine bloccati senza chiavi/MCP · L-168 · #worker #plugin #nicola #aspettative
 - 2026-07-13 19:50 · Sync radiografia cantiere→scan — Nicola «risolvi» · atteso: script guardiano + allineamento a ogni giro · reale: `allinea-scan-cantiere.mjs` in giro.sh, 7 voci collegate chiuse, 67 archivio; PR #347 `b19b0761`; merge 🔴 · L-158 · #radiografia #allinea-scan #pr-347
 - 2026-07-13 18:37 · **Quarta prova streaming:** Nicola «facciamo la prova» · atteso: testo cresce in orizzontale · reale: prova live avviata, esito pendente; #341 in coda · L-138 · #streaming #worker #esito
 - 2026-07-13 18:27 · **Restart ≠ codice su disco — PR #341:** Nicola terza prova ancora rotta post-restart · atteso: streaming live · reale: `systemctl restart` non pulla da GitHub; aggiorna-cervello.sh non riavviava worker-chat; fix #341 `cf690e6e` · L-142 · #worker #streaming #aggiorna-cervello #pr-341

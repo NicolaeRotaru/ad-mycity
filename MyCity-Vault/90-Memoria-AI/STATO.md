@@ -1,11 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:01
-fonte: AD digitale (💬 13/7 21:01 chat silo allocazione — fix PR #349. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:08
+fonte: AD digitale (💬 13/7 21:08 chat PR #349 conflitti diario. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:08 — CHAT: PR #349 — Nicola «4 conflitti ma in teoria non sono conflitti».** Ha ragione: i **4 file** in conflitto sono solo **diario** (STATO, coda azioni, apprendimento, auto-miglioramento) — main già aggiornato dal worker/chat parallela; il **fix vero** (12 pacchetti Garetti → `_archivio-prospect/garetti/`) merge **pulito** (simulato locale, zero conflitti sul codice). **Risoluzione:** su GitHub → Accept **main** sui 4 file diario; il contenuto importante della PR resta l'archivio. Branch pulito locale `fix/allocazione-silo-garetti-v2` (`b15c782f`); push PR #349 da remoto bloccato senza allineare storia. **Pendente:** merge 🔴 **#349** (#119) → casella silo sparisce. Fonte: chat Nicola 13/7 ~21:08.
+>
+> 💬 **13/7 ~21:07 — CHAT: verifica plugin worker — Nicola «non è cambiato nulla».** Chiede controllo installazione + test su ciascun plugin. **Verificato 🟢:** **21/21** skill su disco, hash identici al remoto, sync dry-run **21/21 OK**; worker riavviato **19:10** (fase 1+2+3 caricata). **Perché niente visibile in chat:** i plugin sono **istruzioni AI**, non modificano il Pannello; in chat con Nicola restano attivi solo **grilling** (su richiesta) e **ponytail** (su codice); **caveman SPENTO** apposta (altrimenti tono telegrafico). **Non operativi al 100%:** **Firecrawl** (manca chiave API + binario sul VPS) e **codebase-search Tabnine** (serve collegamento MCP — senza, grep normale). **Come testare:** «grillami su [decisione]» · task che tocca codice · giri automatici (caveman, non in chat). Chiavi Firecrawl/Tabnine = 🔴 coda se Nicola vuole. Fonte: chat Nicola 13/7 ~21:07 + sync plugin.
+>
 > 💬 **13/7 ~21:01 — CHAT: silo allocazione — Nicola «fai il fix».** Casella BLOCCANTE: 12 pacchetti pesanti su **Garetti** (prospect non firmato) mentre **Pane Quotidiano** (unico negozio reale; Casa Linda = demo) restava sotto coperto. **Fix 🟡 PR #349** (`88b58004`, branch `fix/allocazione-silo-garetti`): **12** post/kit/SEO/PR Garetti archiviati in `consegne/_archivio-prospect/garetti/`; sforzo attivo su **Pane Quotidiano** (**16** contenuti); `node cervello/allocazione-check.mjs` → **exit 0** (prima falliva). R3 allocazione aggiornato; coda **#119** accodata. **Pendente:** merge 🔴 **#349** dal Pannello → casella rossa silo dovrebbe sparire; pacchetto pro PQ resta in attesa foto/consenso negozio. Fonte: chat Nicola 13/7 ~21:01 + allocazione-check.
 >
 > 💬 **13/7 ~20:58 — CHAT: «perché si crea conflitto?» — meccanismo spiegato.** Nicola chiede la **causa radice** dopo spiegazione commit memoria (20:11). **Spiegato 🟢:** il branch PR congela una snapshot del repo (incluso diario vault se dirty); nel frattempo main avanza con merge (#348) e chat parallele che aggiornano le stesse righe su `pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento → Git segnala conflitto; il **codice fix** (sync radiografia, pallini) di solito **non** è in conflitto. **Regola operativa:** merge una PR alla volta; conflitto solo memoria/body ≠ fix rotto. **Proposta futura (non approvata 🔴):** tenere diario vault fuori dalle PR di codice. **Pendente:** merge 🔴 #346, #347. Fonte: chat Nicola 13/7 ~20:58.
