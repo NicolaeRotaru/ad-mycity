@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 14:30 · PR #322 conflitti risolti — Nicola «La #322 ha un conflitto» · atteso: branch pulito solo fix piani, zero conflitti · reale: file memoria worker rimossi dal branch, commit `27c8fb3b`, simulazione merge OK, `mergeable: true`; merge 🔴 #95 · L-2026-0713-116 · #pannello #piani #pr-322 #conflitti
 - 2026-07-13 13:00 · PR #322 fix tab Piani troncati — Nicola «iniziano in punto strano» + 2 screenshot · atteso: diagnosi causa + file intero in API piani · reale: `codaTesto(...,12000)` tagliava l'inizio (12–26 KB); fix route piani senza troncamento; PR #322; merge 🔴 #95 · L-2026-0713-116 · #pannello #piani #ux #pr-322
 - 2026-07-13 12:39 · PR #318 conflitti risolti + #316 obsoleta — Nicola screenshot #986 · atteso: branch pulito solo globals.css+page.tsx, zero conflitti; #316 chiudere · reale: file worker contatore lezioni rimossi, commit `03751823`, simulazione merge OK; sync già su main via #317 → #316 CHIUDI; merge 🔴 #94 · L-2026-0713-114 · #pannello #pr-318 #conflitti #ux
 - 2026-07-13 12:27 · PR #318 tre fix UX chat — Nicola «ultimi 3 fix» · atteso: X prompt + chat evidenziata + annulla invio · reale: branch `fix/chat-ux-tre-fix`, commit `b6e008f3`, globals.css+page.tsx, tsc OK; chat intera+fluttuante; merge 🔴 #94 · L-2026-0713-113 · #pannello #conversazioni #ux #pr-318
