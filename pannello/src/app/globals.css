@@ -289,8 +289,9 @@ body {
   background: var(--bg-surface-2);
 }
 .conv-row-active {
-  border-color: rgba(177, 92, 67, 0.45);
+  border-color: rgba(177, 92, 67, 0.55);
   background: var(--brand-soft);
+  box-shadow: inset 3px 0 0 var(--brand);
 }
 .conv-row-title {
   color: var(--text-primary);
