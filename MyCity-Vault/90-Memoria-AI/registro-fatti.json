@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-11 12:24",
+  "aggiornato": "2026-07-13 11:40",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -84,6 +84,21 @@
       "esenzioni": []
     },
     {
+      "id": "onboarding.6-ristoranti-tattici",
+      "nome": "onboarding.6-ristoranti-tattici",
+      "valore": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
+      "fonte": "Nicola chat 2026-07-12/13 + dossier 6/7",
+      "aggiornato": "2026-07-13 11:40",
+      "storia": [],
+      "caccia": [
+        {
+          "pattern": "6 botteghe food",
+          "dal": "2026-07-13 11:40"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
       "id": "onboarding.botteghe-food",
       "nome": "Onboarding 6 botteghe food — data e modalità",
       "valore": "13/7/2026, Nicola ci va DI PERSONA (non chiama)",
@@ -140,6 +155,21 @@
       "esenzioni": [
         "MyCity-Vault/90-Memoria-AI/Report/"
       ]
+    },
+    {
+      "id": "strategia.cliente-core",
+      "nome": "strategia.cliente-core",
+      "valore": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
+      "fonte": "Nicola chat 2026-07-13 11:25",
+      "aggiornato": "2026-07-13 11:40",
+      "storia": [],
+      "caccia": [
+        {
+          "pattern": "clienti sono i ristoranti",
+          "dal": "2026-07-13 11:40"
+        }
+      ],
+      "esenzioni": []
     },
     {
       "id": "vercel.deploy",
