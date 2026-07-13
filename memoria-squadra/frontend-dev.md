@@ -7,6 +7,8 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 18:50 · Nicola «fatto» merge #341+#342 — quinta prova streaming · atteso: bolla cresce live + pallini stabili · reale: Nicola ha completato merge+deploy; diagnosi 18:41 = worker ok, fix #342 Pannello poll UI; feedback streaming non ancora dichiarato · L-143 · #pannello #streaming #pr-342 #pr-341 #esito
+- 2026-07-13 18:41 · Causa reale streaming = Pannello — quattro prove fallite · atteso: trovare collo di bottiglia verificato · reale: parziali già in DB Supabase; worker rev `1081be71` ok; Pannello non aggiornava bolla; pallini spostati da delta streaming; PR #342 `6ee0ac4a` · L-143 · #pannello #streaming #poll #pallini #pr-342
 - 2026-07-13 18:15 · Verifica post-merge pallini — Nicola «facciamo una verifica» · atteso: #340 live + test B pallino in elenco · reale: merge `824e1759` ok su main; deploy Vercel ~18:14 → Ctrl+F5; Nicola ancora in test pallini 18:15 · L-140 evidenze 2 · #pannello #pallini #pr-340 #verifica
 - 2026-07-13 18:14 · Pallini DUE bug distinti — Nicola (A) esci da chat → pallino torna; (B) risposta AD senza riaprire → pallino manca · atteso: causa radice per entrambi + fix separati · reale: (A) race timestamp → #338 mergiata; (B) `selectedConv` = aperta anche in Plancia/Lavori → #340 `eef9e4f4` mergiata ~18:14 · L-140 · #pannello #pallini #pr-340 #pr-338
 - 2026-07-13 18:12 · Streaming chat spezzato a colonna — Nicola screenshot ~18:03 · atteso: testo orizzontale durante streaming · reale: worker impilava micro-frammenti; fix Pannello = no Markdown finché completo (PR #339 insieme a worker); merge 🔴 #113 · L-139 · #pannello #streaming #markdown #pr-339

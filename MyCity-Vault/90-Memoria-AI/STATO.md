@@ -1,11 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:40
-fonte: AD digitale (🌙 13/7 18:40 METABOLIZZA: quarta prova streaming «facciamo la prova»; #341 in coda. | storico: 🌙 13/7 18:27 restart ≠ pull VPS; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 18:52
+fonte: AD digitale (🌙 13/7 18:52 METABOLIZZA: Nicola «fatto» merge #341+#342; quinta prova streaming. | storico: 🌙 13/7 18:41 causa reale = Pannello non worker; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:50 — CHAT: Nicola «fatto» — merge #341+#342, quinta prova streaming.** Dopo procedura (merge Pannello + deploy Vercel + refresh), Nicola conferma passi completati con «fatto». **Codice main** `8859046a` (riconcilia difetti risolti); **#341** (`cf690e6e`) + **#342** (`6ee0ac4a`) su main. **Diagnosi 18:41 (pre-merge Nicola):** worker scriveva già parziali in DB (rev `1081be71` ok) — collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta streaming. **In corso:** quinta prova streaming live — feedback Nicola atteso (cresce / tutto insieme / a colonna); se ancora rotto → incognito o Ctrl+Shift+R (cache browser). Fonte: chat Nicola 13/7 ~18:50 + worker telemetry.
+>
+> 💬 **13/7 ~18:41 — CHAT: causa reale streaming = Pannello, non worker.** Dopo quattro prove fallite, AD verifica server: testo parziale **già in Supabase** mentre risponde (`lavoro in_corso` + `risultato`); worker-chat attivo dal 18:35 con rev `1081be71`. **Streaming:** Pannello non ricreava bolla live durante poll. **Pallini:** ogni pezzo streaming aggiornava timestamp messaggio → pallino tornava. **Fix 🟡 PR #342** (`6ee0ac4a`): UI aggiorna bolla in tempo reale + fissa pallini durante streaming. Merge 🔴 #115 insieme a #341. Fonte: chat Nicola 13/7 ~18:41 + query Supabase verificata.
+>
 > 💬 **13/7 ~18:37 — CHAT: quarta prova streaming live — «facciamo la prova».** Nicola chiede test dopo procedura #341; AD usa la risposta come prova live (crescita orizzontale + cursore ▍). **Codice main** `f66360cb` (worker 18:37:13); **#341** (`cf690e6e`) in coda merge 🔴 #114 — se non mergiata/aggiornata VPS, streaming resta rotto anche con restart. **Check Nicola:** cresce / tutto insieme / a colonna; se rotto → `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` + Ctrl+F5 + Diagnosi rev ≥ `1081be71`. Esito Nicola non ancora dichiarato. Fonte: chat Nicola 13/7 ~18:37 + worker telemetry.
 >
 > 💬 **13/7 ~18:27 — CHAT: streaming ancora rotto + merge pallini «non lette» — restart non bastava.** Nicola «ancora non cresce live» dopo restart worker 18:22 + Ctrl+F5; «sembrano merge non lette» (es. pallini). **Diagnosi corretta:** `systemctl restart` rilegge codice **già su disco** — senza pull da GitHub il VPS resta pre-fix; pallini (#338/#340) = Pannello Vercel, non worker. **Bug script:** `aggiorna-cervello.sh` riavviava solo worker principale, non `mycity-worker-chat`. **Fix 🟡 PR #341** (`cf690e6e`): poll 1s, testo semplice in streaming, script allinea codice + riavvia entrambi. **Procedura:** merge #341 → `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` → Ctrl+F5; Diagnosi rev attesa ≥ `1081be71`. Fonte: chat Nicola 13/7 ~18:27 + AD.

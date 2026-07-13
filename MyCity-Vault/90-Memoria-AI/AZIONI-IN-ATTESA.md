@@ -14,20 +14,31 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #pr-341-streaming-vps-allineamento — PR #341 in coda · 2026-07-13 18:29
+### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ quinta prova Nicola
+
+**Cosa fa:** il Pannello aggiorna la bolla chat in tempo reale mentre l'AD scrive (poll UI) e fissa i pallini che tornavano ad ogni pezzo di streaming.
+
+**PR su GitHub:** [#342 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/342) ← commit `6ee0ac4a`
+
+**Esito 18:41:** diagnosi verificata — worker già scriveva parziali in DB; collo di bottiglia era il Pannello, non il VPS.
+
+**Esito 18:50:** Nicola «fatto» — merge eseguito; quinta prova streaming in corso.
+
+**Pendente:** feedback Nicola (cresce / tutto insieme / a colonna); se rotto → incognito o Ctrl+Shift+R.
+
+- **Colore:** ✅ merge fatto · ⏳ verifica UX quinta prova
+
+---
+
+### ✅ #pr-341-streaming-vps-allineamento — MERGIATA 2026-07-13 ~18:50 · ✅ Nicola «fatto»
 
 **Cosa fa:** allinea codice VPS da GitHub e riavvia **entrambi** i worker (principale + chat); fix streaming poll 1s + testo semplice mentre scrivo — chiude il buco «restart non basta».
 
 **PR su GitHub:** [#341 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/341) ← commit `cf690e6e`
 
-**Perché serve:** Nicola ha riavviato worker 18:22 ma streaming ancora rotto 18:27 — codice su disco VPS vecchio; pallini mergiate ma Nicola non le vede (serve deploy Vercel, non worker).
+**Esito 18:50:** Nicola «fatto» — merge + procedura completati insieme a #342.
 
-**Dopo merge Nicola:**
-1. `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh`
-2. Ctrl+F5 Pannello
-3. Diagnosi → rev ≥ `1081be71`
-
-- **Colore:** 🔴 merge #114
+- **Colore:** ✅ merge fatto · ✅ Nicola ha eseguito procedura 13/7 ~18:50
 
 ---
 
@@ -972,8 +983,8 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 111 | 2026-07-13 17:58 | @tech | Merge PR #338 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/338 | github | ✅ FATTO 2026-07-13 ~17:58 · verifica UX post-deploy | Streaming Cursor + pallino resta spento dopo poll (~5s) — `segnaLetta` con orario «adesso» in persist. | Deploy Vercel 2–3 min → refresh forzato → apri chat 15s; riavvio worker per streaming. |
 | 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | ✅ FATTO 2026-07-13 ~18:14 | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
 | 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | ✅ FATTO 2026-07-13 ~18:14 · restart 18:22 · VPS allineamento via #341 | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Restart 18:22 non bastato — serve merge #341 + aggiorna-cervello.sh. |
-| 114 | 2026-07-13 18:29 | @tech | Merge PR #341 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/341 | github | in attesa | Pull codice GitHub sul VPS + riavvio entrambi i worker + fix streaming poll 1s. | Dopo Approva: merge → `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` → Ctrl+F5 → quarta prova streaming. |
-| 115 | 2026-07-13 18:45 | @tech | Merge PR #342 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/342 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 114 | 2026-07-13 18:29 | @tech | Merge PR #341 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/341 | github | ✅ FATTO 2026-07-13 ~18:50 · Nicola «fatto» | Pull codice GitHub sul VPS + riavvio entrambi i worker + fix streaming poll 1s. | Quinta prova streaming in corso — feedback Nicola atteso. |
+| 115 | 2026-07-13 18:45 | @tech | Merge PR #342 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/342 | github | ✅ FATTO 2026-07-13 ~18:50 · Nicola «fatto» | Il Pannello mostra la bolla live mentre l'AD scrive + fissa pallini durante streaming. | Quinta prova streaming in corso — se rotto prova incognito/Ctrl+Shift+R. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
