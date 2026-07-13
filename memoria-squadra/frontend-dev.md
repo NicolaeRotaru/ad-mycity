@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 17:28 · Allegati chat — Nicola «perché non riesco più ad allegare?» · atteso: causa verificata + sblocco online · reale: 503 su `/api/allegato` senza env Storage Vercel (codice ok); ok #60 env+redeploy → upload `ok:true`; L-119 evidenze 3 · L-2026-0713-119 · #pannello #allegati #vercel #60
 - 2026-07-13 17:23 · Nicola «impara questi errori» — metabolizzazione pallini/PR · atteso: lezione in memoria + guida merge · reale: L-129 rinforzata (3 errori: PR multiple, file worker nel branch, «pronta» senza simula merge); #327 annullata, solo #328 merge 🔴 #102 · L-2026-0713-129 · #impara-errori #pr-328
 - 2026-07-13 17:21 · PR #328 conflitti + doppia PR — Nicola «risolvili» + «le mergio entrambe?» · atteso: branch pulito mergeable + guida quale PR · reale: conflitto file memoria worker; rebase, 3 file pannello/, commit `812cff8b`, mergeable API; solo #328, #327 CHIUDI, #330 separato; merge 🔴 #102 · L-2026-0713-129 · #pannello #pr-328 #conflitti #doppioni
 - 2026-07-13 17:12 · Pallini rossi + sync telefono/PC — Nicola «puntini ancora rotti» + conversazioni non allineate smartphone/desktop · atteso: causa radice + fix cross-device · reale: badge solo su tabella conversazioni (manca risposta AD da Lavori); pin/non-letto in localStorage per browser; PR #328 server-side + lista unificata conversazioni+Lavori; commit `812cff8b`; merge 🔴 #102 · L-2026-0713-126 · #pannello #conversazioni #badge #sync #pr-328

@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 17:28 · **#60 allegati Vercel LIVE:** Nicola «non riesco più ad allegare» → env Storage mancanti su hosted; ok #60 → variabili memoria + redeploy; verifica POST `/api/allegato` ok (non più 503). Card #60 e #allegati-vercel-env chiuse. · atteso upload online funzionante → reale verificato live · L-2026-0713-119 · #vercel #allegati #60 #esito
 - 2026-07-13 16:22 · **Standing-ask descrizione PR GitHub:** Nicola «sempre la descrizione dentro github» → regola permanente body completo (cosa/perché/test plan); in chat riassunto+link; aggiornare PR vuote con git-pr.mjs --body. · atteso ogni PR aperta con body italiano → reale regola in memoria L-124 · lezione L-2026-0713-124 · #pr #git-pr #descrizione #esito
 - 2026-07-13 14:30 · **PR #322 conflitti piani (file worker):** Nicola «La #322 ha un conflitto» → causa file memoria (lezioni, auto-miglioramento) nel branch mentre main avanzava; fix `route.ts` ok. Ripulito a solo Pannello, commit `27c8fb3b`, simulazione merge OK. · atteso merge #95 → reale PR mergeable, merge 🔴 in attesa · lezione L-2026-0713-116 · #pr #322 #conflitti #piani #esito
 - 2026-07-13 12:42 · **PR #319 conflitti volano (vs #317+#318 su main):** Nicola screenshot #987 senza testo → unione fix tasso ESITI quaderni+STATO + righe coda #318+#319, commit `2d8ff61f`, simulazione merge OK, tasso 0.29 (39/133). · atteso merge #96 → reale PR pronta, merge 🔴 in attesa · lezione L-2026-0713-115 · #pr #volano #319 #esito
