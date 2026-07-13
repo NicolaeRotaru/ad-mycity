@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 20:11] Commit di memoria — **non è il fix**: diario vault (lezioni/STATO) auto-creato dal worker quando apre PR; genera conflitti se main avanza con altre chat; conflitti solo memoria/body PR ≠ codice rotto — ignorabile per decidere merge; su #347 saltato apposta, conta solo commit sync.
 - [2026-07-13 20:10] Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» dopo merge **#348**: main avanzato (`b153f62f`), stesso body PR (non codice sync); rebase su main post-#348, head `514321eb`, mergeable API ok; dire «risolto» solo dopo card verde; **#347** merge 🔴.
 - [2026-07-13 19:54] Conflitto PR #347 ondata 1 — Nicola «ci sono conflitti»: solo `consegne/tech/pr-ad-mycity-body.md`, codice `allinea-scan-cantiere` intatto; rebase su `3ea3c0b6`, merge locale ok; se main continua → ondata 2 (riga sopra); **#347** merge 🔴.
 - [2026-07-13 19:53] Conflitto PR #348 — Nicola «ci sono conflitt»: solo `apprendimento.json` + `auto-miglioramento.json` (memoria), **non** `page.tsx` pallini; rebase `fix/pallini-fingerprint-v3` su main, merge locale ok; ricarica card prima di «risolto»; **#348** merge 🔴 #118.

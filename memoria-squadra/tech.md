@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 20:11 · Commit di memoria spiegato — Nicola «a che cosa serve il commit di memoria?» · atteso: spiegazione semplice scopo vs fix · reale: diario vault auto-creato, genera conflitti PR, ignorabile per merge, saltato su #347 · L-164 · #commit-memoria #pr #nicola
 - 2026-07-13 20:10 · Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» · atteso: rebase post-#348, mergeable API · reale: main `b153f62f` post-merge #348, solo body PR, sync intatto, head `514321eb`, mergeable ok; merge 🔴 #347 · L-163 evidenze 2 · #pr-347 #conflitti #rebase #ondata-2
 - 2026-07-13 19:54 · Conflitto PR #347 — Nicola «ci sono conflitti» · atteso: rebase stesso branch, codice sync intatto · reale: solo `pr-ad-mycity-body.md`, `allinea-scan-cantiere.mjs` ok, rebase su `3ea3c0b6`, merge locale exit 0; merge 🔴 #347 · L-163 · #pr-347 #conflitti #rebase #radiografia
 - 2026-07-13 20:10 · PR #348 mergiata — worker main `b153f62f` · atteso: pallini fingerprint live post-deploy · reale: merge ok, test Nicola pendente Ctrl+Shift+R · L-162 evidenze 2 · #pr-348 #mergiata #pallini
