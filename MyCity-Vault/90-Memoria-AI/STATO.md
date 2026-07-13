@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:44
-fonte: AD digitale (🌙 13/7 19:44 METABOLIZZA: trigger-build FATTO 11/7, card obsoleta chiusa. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:48
+fonte: AD digitale (🌙 13/7 19:48 METABOLIZZA: registro scelte ragionate — fix PR #346. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:40 — CHAT: scelte ragionate incomplete — Nicola «correggi e non ricapiti».** Casella Garetti: Nicola chiede quando aggiornate, se complete, se tutte le ragionate della macchina sono visibili. **Verificato:** Panel Auto-coscienza mostrava **2** `scelta_ragionata`; macchina ne aveva analizzate **≥9** (6 trattorie dossier 6/7 + Peretti + Amendolara + Ex Scuderie) — lavoro scout **mai scritto** in `registro-realta.json` (ultimo touch 9/7 solo Pane Quotidiano). **Fix 🟡 PR #346** (`67d72dbe`): 8 voci aggiunte al registro + guardiano `registro-scelte-check.mjs` in giro + regola dossier→registro stesso passaggio. Post-merge → **10 scelte ragionate** in Panel. Merge 🔴 #117 pendente. Fonte: chat Nicola 13/7 ~19:40 + `registro-realta.json` + dossier `consegne/vendite/` 6/7.
+>
 > 💬 **13/7 ~19:44 — CHAT: card Trigger-build Pannello — «cioè?»** Nicola chiede chiarimento sulla casella «commit su pannello/ → Vercel builda». **Verificato:** trigger **già eseguito 11/7** — commit `4d37c741` su `origin/main` (`pannello/.build-trigger`); da allora ogni merge su `pannello/` ribuilda Vercel; commit memoria non triggerano build (voluto). Card **obsoleta** — chiusa FATTO in AZIONI. Se Pannello sembra vecchio → diagnosi ultimo deploy, non rifare trigger. Fonte: chat Nicola 13/7 ~19:44 + `git merge-base --is-ancestor 4d37c741 origin/main`.
 >
 > 💬 **13/7 ~19:30 — CHAT: casella Gap «MCP marketplace gated» — dati aggiornati?** Nicola chiede se quella casella AutoCoscienza è fresca. **Verificato:** `auto-analisi.json` ancora **11/7 14:30** — nessun giro completo oggi, la sezione **non si rigenera** da sola con update chat/STATO. Il messaggio rosso **≠ bug Pannello**: avviso onesto che in sessione non si ri-misurano 4 conteggi non-REST (prodotti totali, lead, ecc.) — restano conferma live del **7/7**. **Sensori REST ricontrollati 19:30:** ordini e clienti **ok**, business **invariato dal 24/6** (1 ordine annullato, North Star 0). Per aggiornare quella casella → **«fai un giro»** sul VPS. Fonte: chat Nicola 13/7 ~19:30 + verifica sensori.

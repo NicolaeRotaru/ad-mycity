@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:48] Scelte ragionate incomplete — dossier in `consegne/vendite/` **senza** voce in `registro-realta.json` = invisibili in Auto-coscienza (Panel 2 vs 9+ ragionate); Nicola «correggi e non ricapiti» → stesso passaggio dossier→registro; guardiano `registro-scelte-check.mjs` blocca giro; **PR #346** merge 🔴 #117.
 - [2026-07-13 19:44] Card Trigger-build Pannello — **obsoleta**: eseguita 11/7 (`4d37c741` su origin); rebuild automatico solo se cambia `pannello/`; commit memoria non buildano (voluto); se Pannello ok → ignora card; se vecchio → diagnosi ultimo deploy, non rifare trigger.
 - [2026-07-13 19:43] Casella Gap «MCP marketplace gated» — **non** bug Pannello: avviso onesto 4 numeri non-REST (conferma 7/7); `auto-analisi.json` resta 11/7 14:30 finché non c'è «fai un giro»; REST ordini/clienti ok 19:30, business invariato 24/6; update chat/STATO **non** rigenera auto-analisi.
 - [2026-07-13 19:34] Pallini ancora rossi post-#336–#342 — **non** worker/VPS; prima del fix chiedi scenario Nicola (1 esci→~8s torna rosso / 2 Plancia / 3 lampeggio / 4 tutte rosse); nessuna PR residuo aperta; #343 streaming = track separato.
@@ -17,4 +18,3 @@
 - [2026-07-13 19:13] Nicola «ok fatto» = allineamento VPS completato post-#343 — worker-chat riavviato 19:10; **nona** prova streaming = «Sto elaborando…» subito dopo invio + testo che cresce; pallini = feedback separato.
 - [2026-07-13] `aggiorna-cervello.sh` **RIMANDATO** se VPS resta su branch `fix/*` fresco (<30 min) — anche con working tree pulito; **prima** `git checkout main` (stash memoria se serve, reset `routing.json`), **poi** script; non confondere con merge mancante.
 - [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
-- [2026-07-13] Durante prova streaming: **non refreshare a metà** — Ctrl+F5 interrompe il poll della bolla e simula «tutto insieme» anche con #342 live; refresh solo dopo risposta completa o incognito se ancora rotto.
