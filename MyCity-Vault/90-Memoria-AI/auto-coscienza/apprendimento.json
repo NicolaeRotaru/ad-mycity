@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 22:21",
+  "aggiornato": "2026-07-13 22:29",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -17,8 +17,31 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-186",
+      "testo": "**Pannello redesign — pacchetto approvato + PR #356 (chat 13/7 ~22:28):** Nicola «sì» dopo grilling home+menu — via libera PR 🟡 **#356** (`8e44d69e`): menu 3 voci (Radiografia macchina, Salute sito, Auto-coscienza); home riordinata (**A** cima = da firmare → ritmo → lettera → KPI → macchina con 8 pallini); lettera anteprima+«Leggi tutta»; migliorie trio (cartoline, titoli umani, lezioni 7gg, sito bloccanti/gravi); conflitto #355 risolto (Parla con questa casella resta sotto ritmo). **5 perché «sì»:** (1) grilling una domanda alla volta ha chiuso tutte le frizioni IA senza overwhelm; (2) Nicola preferisce **vedere tutti** gli organi (pallini A) non solo problemi; (3) azione firma in cima home — coerente con «cosa devo fare oggi»; (4) lettera = narrativa in home, non in radiografia tecnica; (5) v1 esplicito vs v2 (cantiere sito, API home) — non dire «è la migliore» finché non mergiato. **Pendente:** merge 🔴 **#356** (#125). Correlazione L-185, L-184, L-179.",
+      "tag": [
+        "pannello",
+        "home",
+        "menu",
+        "pr-356",
+        "ux",
+        "nicola",
+        "grilling",
+        "information-architecture",
+        "lettera"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 22:28",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-185",
-      "testo": "**Home macchina — ordinata, 8 pallini (chat 13/7 ~22:21):** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — **correzione UX** (22:20); poi sceglie layout organi **A** = fila **8 pallini** (solo colori, nome/dettaglio al tap) — **rifiuta** raccomandazione AD **C** (solo problemi in vista). **5 perché A:** (1) vuole home **leggera** ma **vedere tutti** gli organi, non solo i rossi; (2) pallini = capire «sta bene?» in un colpo senza scroll; (3) dettaglio al tap rispetta «non disorientare»; (4) C nascondeva 6 ok — per lui la griglia compatta conta; (5) Radiografia macchina resta posto per versione più ricca (griglia 4×2). **Card confermata:** semaforo+1 riga → 8 pallini → dettagli chiusi → 3 link salute; niente duplicazione banner; autopilota fuori home. **Pendente:** Q cima home (A firmare / B ritmo) + «sì» PR. Correlazione L-184, L-179.",
+      "testo": "**Home macchina — ordinata, 8 pallini (chat 13/7 ~22:21):** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — **correzione UX** (22:20); poi sceglie layout organi **A** = fila **8 pallini** (solo colori, nome/dettaglio al tap) — **rifiuta** raccomandazione AD **C** (solo problemi in vista). **5 perché A:** (1) vuole home **leggera** ma **vedere tutti** gli organi, non solo i rossi; (2) pallini = capire «sta bene?» in un colpo senza scroll; (3) dettaglio al tap rispetta «non disorientare»; (4) C nascondeva 6 ok — per lui la griglia compatta conta; (5) Radiografia macchina resta posto per versione più ricca (griglia 4×2). **Card confermata:** semaforo+1 riga → 8 pallini → dettagli chiusi → 3 link salute; niente duplicazione banner; autopilota fuori home. **Chiuso in L-186** (cima = firmare, PR #356). Correlazione L-184, L-179.",
       "tag": [
         "pannello",
         "home",
@@ -4324,8 +4347,9 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Home macchina — 8 pallini in home (chat 13/7 ~22:21):** card unica «La macchina» (semaforo+1 riga, **fila 8 pallini**, dettaglio al tap, 3 link salute); odia duplicazioni banner/card; sceglie **A** pallini su raccomandazione AD **C** (solo problemi) — vuole **tutti** gli organi visibili in home leggera; autopilota **non** in home; **pendente** Q cima home + «sì» PR. Vedi L-185.",
-    "**Home Pannello — lettera confermata + ordine da decidere (chat 13/7 ~22:16):** lettera in home **confermata** anteprima 3–5 righe + «Leggi tutta» (non lettera intera in scroll); vuole lavorare **home adesso**; chiede se può essere «ancora migliore/efficiente» → si aspetta risposta onesta **v1 vs v2** (v2 = un prossimo passo, meno chiamate server, cantiere sito, lettera fresca); odia home lunga con ripetizioni (bussola+aree, banner doppi); **pendente** grilling cosa mettere **in cima** (A firmare / B ritmo+lettera / C numeri / D macchina). Vedi L-184.",
+    "**Home Pannello — ordine confermato + PR #356 (chat 13/7 ~22:28):** Nicola «sì» → PR #356; **in cima** = da firmare (A), poi ritmo+lettera, KPI, macchina (8 pallini); lettera anteprima+Leggi tutta; menu 3 voci separate; odia duplicazioni e disorientamento; grilling A/B/C funziona per decisioni IA grandi; merge 🔴 #125. Vedi L-186.",
+    "**Home macchina — 8 pallini in home (chat 13/7 ~22:21):** card unica «La macchina» (semaforo+1 riga, **fila 8 pallini**, dettaglio al tap, 3 link salute); sceglie **A** pallini su raccomandazione AD **C** (solo problemi) — vuole **tutti** gli organi visibili in home leggera; autopilota **non** in home. Vedi L-185.",
+    "**Home Pannello — lettera confermata + ordine chiuso (chat 13/7 ~22:16, confermato 22:28):** lettera in home anteprima 3–5 righe + «Leggi tutta»; ordine home = firmare → ritmo → lettera → KPI → macchina; v1 in PR #356, v2 = prossimo passo+API home+cantiere sito. Vedi L-184, L-186.",
     "**Lettera AD in home + lavoro home (chat 13/7 ~22:11, confermato 22:16):** dopo analisi trio chiede se è la versione migliore (→ **no**, PR non partita); lettera → **home** con anteprima+clic (**confermato 22:16**); tab Lettera esce da Radiografia macchina; PR unica menu L-179 + migliorie + lettera + home dopo Q home + «sì». Vedi L-183, L-184.",
     "**Trio salute Pannello — stessa analisi per ogni voce (chat 13/7 ~22:06):** dopo Radiografia macchina chiede analisi identica su **Auto-coscienza** e **Salute sito** — si aspetta pattern ripetibile (cosa funziona / cosa frega / mosse concrete ancorate a dati), non solo redesign menu; odia pagine «morte» (Salute sito 7/7 senza cantiere) e «dispersive» (202 lezioni senza verdetto); vuole cartolina+priorità+archivio per **ogni** voce prima della PR; cantiere Salute sito in v1 = **non ancora deciso**. Vedi L-182.",
     "**Conflitti PR — «servono quei dati lì?» + reminder fallo tu (chat 13/7 ~22:04):** su #354/#355 chiede «cosa ti avevo chiesto riguardo conflitti?» e «se ci sono conflitti è perché devono andare lì?» — si aspetta: (1) reminder immediato **fallo tu** (AD risolve branch); (2) spiegazione in una frase che conflitti diario **non** significano quei dati servono nel merge (rumore parallelo branch/main); (3) fix verificato mergeable API; merge **#354** poi **#355**. Vedi L-181, L-175.",
@@ -4496,13 +4520,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 205,
+    "lezioni_attive": 206,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.45,
-    "tasso_calcolato_il": "2026-07-13 22:20",
+    "tasso_calcolato_il": "2026-07-13 22:29",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 22:19"
+    "tick_leggero_il": "2026-07-13 22:29"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

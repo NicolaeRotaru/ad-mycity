@@ -1,11 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 22:21
-fonte: AD digitale (💬 13/7 22:21 chat home organi 8 pallini (A); PR pendente Q cima home + «sì». | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:28
+fonte: AD digitale (💬 13/7 22:28 chat Nicola «sì» → PR #356 redesign Pannello. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~22:28 — CHAT: Nicola «sì» → PR #356 redesign Pannello (pacchetto chiuso).** Grilling home+menu completato; Nicola conferma **«sì»** → **PR #356** (`8e44d69e`, branch redesign menu+home+trio salute+lettera). **Contenuto:** menu **3 voci** (Radiografia macchina · Salute sito · Auto-coscienza, niente tab incastrate); **home** riordinata — **① da firmare** (cima, Nicola **A**) → **② ritmo** (+ «Parla con questa casella» da #355) → **③ lettera** (anteprima 3–5 righe + «Leggi tutta») → **④ KPI** → **⑤ macchina** (card unica: semaforo+1 riga+**8 pallini**+3 link salute); migliorie trio: cartoline, titoli umani, lezioni 7gg, Salute sito bloccanti/gravi prima; tab Lettera esce da Radiografia macchina. **v2 dopo merge:** un «prossimo passo», API home unificata, cantiere sito, lettera fresca a review. **Pendente:** merge 🔴 **#356** (#125) → deploy Vercel ~2 min → ricarica Pannello. Fonte: chat Nicola 13/7 ~22:28.
+>
+> 💬 **13/7 ~22:22 — CHAT: home — cima = da firmare (A).** Nicola risponde **A** alla Q «cosa in cima alla home» = **cosa devi firmare oggi** (prima cosa che vedi); subito sotto **ritmo + lettera**, poi numeri e macchina con pallini — coerente con intento grilling Q1 (azione in 10s). AD aveva raccomandato **A poi B**; Nicola conferma solo **A** in cima (B = secondo blocco). Fonte: chat Nicola 13/7 ~22:22.
+>
 > 💬 **13/7 ~22:21 — CHAT: home — organi = 8 pallini (A).** Grilling layout organi in card «La macchina». Nicola risponde **A** = fila di **8 pallini** (solo colori; nome/dettaglio al tap) — **non** raccomandazione AD **C** (solo problemi in vista). Confermato: card unica semaforo+1 riga+pallini+dettagli chiusi+3 link salute; autopilota fuori home. **Pendente:** Q cosa **in cima** home (A firmare / B ritmo / C numeri / D macchina) — AD default **A poi B**; Nicola **«sì»** → PR 🟡 (menu L-179 + trio salute + lettera home + home redesign). Fonte: chat Nicola 13/7 ~22:21.
 >
 > 💬 **13/7 ~22:20 — CHAT: home — macchina ordinata, meno disorientante.** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — frizione oggi: **2 card separate + 2 banner** che ripetono cuore/organi/auto-analisi/radiografia. **Proposta 🟡 in PR:** **una sola card «La macchina»** — in cima semaforo + 1 riga («🟡 viva · ultimo giro … · N difetti»); sotto griglia organi **compatta** (emoji+pallino, **niente paragrafo** sotto ogni organo); in fondo chiuso autopilota/diagnosi («Mostra dettagli»); **3 link** (Radiografia macchina · Auto-coscienza · Salute sito) al posto dei banner; autopilota **non** card a sé in home. **Pendente:** layout organi in home — **A** 8 pallini · **B** griglia 4×2 · **C** solo organi con problema + «altri N ok» (AD raccomanda **C** in home, **B** in Radiografia macchina); Q cosa **in cima** home (A firmare / B ritmo / C numeri / D macchina) ancora aperta → PR 🟡 unica. Fonte: chat Nicola 13/7 ~22:20.
