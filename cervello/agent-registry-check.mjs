@@ -8,6 +8,10 @@
 // (es. "40 senior" contro 42 file reali). Questo guardiano rende il drift misurabile a ogni giro,
 // non più affidato alla memoria umana o alla sola radiografia LLM su comando.
 //
+// AR-027 estensione: legge anche il campo `description` di ogni agente (il contratto che il
+// Task-router usa davvero) e segnala collisioni di frasi-trigger verbatim tra coppie e deferral
+// mancanti verso vicini di dominio. Complementa keyword-owner-check (solo blocco "Delega qui per").
+//
 // Uso:
 //   node cervello/agent-registry-check.mjs           -> report leggibile
 //   node cervello/agent-registry-check.mjs --json     -> output JSON (per gate / sentinelle)
@@ -48,6 +52,109 @@ function citatoNelRoster(testo, nome) {
   return new RegExp("\\b" + nomeEsc + "\\b").test(soloRoster); // AR-024: confine di parola, non sottostringa
 }
 
+/** Estrae `description:` dal frontmatter YAML di un mansionario. */
+function estraiDescription(testo) {
+  const m = testo.match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
+  const fm = m ? m[1] : testo;
+  const d = fm.match(/description:\s*([\s\S]*?)(?:[\r\n]\w[\w-]*:\s|$)/);
+  return d ? d[1].replace(/\s+/g, " ").trim() : "";
+}
+
+/** Normalizza un frammento in frase-trigger per confronto verbatim. */
+function normalizzaFraseTrigger(frag) {
+  return frag
+    .toLowerCase()
+    .replace(/["""«»'?]/g, "")
+    .replace(/[?!.]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Frase-trigger valida per il confronto (evita monosillabi generici tipo "resi", "payout"). */
+function fraseTriggerValida(frag) {
+  const f = normalizzaFraseTrigger(frag);
+  if (f.length < 4 || f.length > 80 || !/[a-zàèéìòù]/.test(f)) return null;
+  const parole = f.split(" ").filter(Boolean);
+  if (parole.length >= 2) return f;
+  if (f.includes("/")) return f;
+  if (f.length >= 10) return f;
+  return null;
+}
+
+/**
+ * Tokenizza le frasi-trigger dalla description intera (non solo "Delega qui per").
+ * @param {string} desc
+ */
+function estraiFrasiTrigger(desc) {
+  const senzaDeferral = desc.replace(/\([^)]*→[^)]*\)/g, " ");
+  const raw = [];
+  const paren = senzaDeferral.match(/\(([^)]+)\)/g) || [];
+  for (const blocco of paren) {
+    for (const p of blocco.slice(1, -1).split(/[\/,;]/)) raw.push(p);
+  }
+  const piatto = senzaDeferral.replace(/\([^)]+\)/g, " ");
+  for (const p of piatto.split(/[\/,;·]|(?:\s+-\s+)/)) raw.push(p);
+  const quoted = senzaDeferral.match(/[""«»"]([^""«»"]+)[""«»"]/g) || [];
+  for (const q of quoted) raw.push(q.replace(/[""«»"]/g, ""));
+  const out = new Set();
+  for (let frag of raw) {
+    frag = frag.replace(/^delega qui per\s+/i, "").replace(/^usa per\s+/i, "");
+    const f = fraseTriggerValida(frag);
+    if (f) out.add(f);
+  }
+  return [...out];
+}
+
+/** Blocchi deferral "(→ …)" nella description. */
+function estraiDeferral(desc) {
+  return (desc.match(/\([^)]*→[^)]*\)/g) || []).length > 0
+    || /→\s*@?\*?\*?[a-z][\w-]*/i.test(desc);
+}
+
+/**
+ * Collisioni description: coppie con >=2 frasi-trigger condivise verbatim + deferral assente.
+ * @param {Map<string, string>} descriptions nome → description
+ */
+function analizzaCollisioniDescription(descriptions) {
+  const triggerPerAgente = new Map();
+  const descNorm = new Map();
+  for (const [nome, desc] of descriptions) {
+    triggerPerAgente.set(nome, estraiFrasiTrigger(desc));
+    descNorm.set(nome, normalizzaFraseTrigger(desc));
+  }
+
+  const collisioniCoppie = [];
+  const nomi = [...descriptions.keys()].sort();
+  for (let i = 0; i < nomi.length; i++) {
+    for (let j = i + 1; j < nomi.length; j++) {
+      const a = nomi[i];
+      const b = nomi[j];
+      const condivise = triggerPerAgente
+        .get(a)
+        .filter((t) => descNorm.get(b).includes(t) && descNorm.get(a).includes(t))
+        .sort();
+      if (condivise.length >= 2) {
+        collisioniCoppie.push({ a, b, condivise });
+      }
+    }
+  }
+
+  const deferralMancante = [];
+  for (const c of collisioniCoppie) {
+    for (const nome of [c.a, c.b]) {
+      if (!estraiDeferral(descriptions.get(nome))) {
+        deferralMancante.push({
+          agente: nome,
+          vicino: nome === c.a ? c.b : c.a,
+          condivise: c.condivise,
+        });
+      }
+    }
+  }
+
+  return { collisioniCoppie, deferralMancante };
+}
+
 async function main() {
   const quando = nowPiacenza();
 
@@ -81,14 +188,26 @@ async function main() {
     nDichiaratoAgentiMd !== nReali &&
     nDichiaratoAgentiMd !== nReali + 1;
 
-  // Drift totale = somma dei difetti (orfani + assenti da AGENTI.md + eventuale conteggio incoerente).
+  // 6. AR-027: collisioni description (frasi-trigger verbatim + deferral verso vicini di dominio).
+  const descriptions = new Map();
+  for (const nome of agentiReali) {
+    const testo = readFileSync(join(AGENTS_DIR, `${nome}.md`), "utf8");
+    descriptions.set(nome, estraiDescription(testo));
+  }
+  const { collisioniCoppie, deferralMancante } = analizzaCollisioniDescription(descriptions);
+  const nCollisioni = collisioniCoppie.length + deferralMancante.length;
+
+  // Drift totale = somma dei difetti (orfani + assenti da AGENTI.md + conteggio + description).
   const driftTotale =
-    orfani.length + assentiDaAgentiMd.length + (conteggioIncoerente ? 1 : 0);
+    orfani.length +
+    assentiDaAgentiMd.length +
+    (conteggioIncoerente ? 1 : 0) +
+    nCollisioni;
 
   await stampSegnale(
     "agent-registry",
     driftTotale > 0 ? "warn" : "ok",
-    `${orfani.length} orfani · ${quando}`
+    `${orfani.length} orfani · ${nCollisioni} collisioni description · ${quando}`
   );
 
   if (JSON_MODE) {
@@ -101,6 +220,8 @@ async function main() {
           assenti_da_agenti_md: assentiDaAgentiMd,
           n_dichiarato_agenti_md: nDichiaratoAgentiMd,
           conteggio_incoerente: conteggioIncoerente,
+          collisioni_coppie: collisioniCoppie,
+          deferral_mancante: deferralMancante,
           drift_totale: driftTotale,
         },
         null,
@@ -133,6 +254,26 @@ async function main() {
         console.log(
           `\n🔢 Conteggio incoerente: AGENTI.md dichiara ${nDichiaratoAgentiMd} senior, i file reali sono ${nReali}.`
         );
+      }
+
+      if (collisioniCoppie.length) {
+        console.log(
+          `\n🔀 ${collisioniCoppie.length} COPPIE con ≥2 frasi-trigger condivise (description — il router non distingue):`
+        );
+        for (const c of collisioniCoppie) {
+          console.log(`  • ${c.a} ↔ ${c.b}: ${c.condivise.map((f) => `"${f}"`).join(", ")}`);
+        }
+      }
+
+      if (deferralMancante.length) {
+        console.log(
+          `\n↪️  ${deferralMancante.length} agenti in collisione SENZA deferral nella description:`
+        );
+        for (const d of deferralMancante) {
+          console.log(
+            `  • ${d.agente} (vicino ${d.vicino}): ${d.condivise.map((f) => `"${f}"`).join(", ")}`
+          );
+        }
       }
     }
     console.log(`\nDrift totale: ${driftTotale}`);
