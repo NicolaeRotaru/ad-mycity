@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 16:16 · Feedback UX pagina sconosciuta — Nicola 2 screenshot «due cose che non mi piacciono» · atteso: vedere foto e capire pagina+bug · reale: `.allegati-chat` vuota (#60), pagina e 2 problemi **in attesa** descrizione testuale; non indovinare · L-2026-0713-119 · #pannello #allegati #ux #feedback-aperto
 - 2026-07-13 16:12 · PR #324 Invio a capo su smartphone — Nicola «Permettimi di andare a capo dentro la boxtext nella versione smartphone» · atteso: mobile Invio=newline, Invia=manda; desktop invariato · reale: touch/mobile Enter inserisce `\n`, submit solo via bottone Invia; copre chat principale, fluttuante, ParlaCasella; commit `6588a6c3`, tsc ok; merge 🔴 #97 · L-2026-0713-118 · #pannello #chat #mobile #ux #pr-324
 - 2026-07-13 14:33 · PR #323 «Parla con questa casella» su Avvisi — Nicola «Aggiungi la possibilità di parlare con questa casella» + screenshot · atteso: link chat sotto ogni scheda gialla memoria incoerente · reale: pulsante «Parla con questa casella» come altre card, AD vede testo+data avviso; PR #323; merge 🔴 #96 · L-2026-0713-117 · #pannello #avvisi #chat-in-place #pr-323
 - 2026-07-13 14:30 · PR #322 conflitti risolti — Nicola «La #322 ha un conflitto» · atteso: branch pulito solo fix piani, zero conflitti · reale: file memoria worker rimossi dal branch, commit `27c8fb3b`, simulazione merge OK, `mergeable: true`; merge 🔴 #95 · L-2026-0713-116 · #pannello #piani #pr-322 #conflitti
