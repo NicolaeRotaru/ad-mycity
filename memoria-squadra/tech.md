@@ -8,7 +8,8 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-07-13 19:52 · Conflitto PR #346 — Nicola «c'è un conflitto» · atteso: rebase stesso branch, codice intatto · reale: solo body `pr-ad-mycity-body.md`, rebase main (`28ae3360`), check exit 0; L-129 evidenze 7 · L-159 · #pr-346 #conflitti #rebase
+- 2026-07-13 19:52 · Seconda ondata conflitto PR #346 — Nicola «riesci a vederlo?» · atteso: zero conflitti residui, mergeable · reale: 3 file memoria (LEZIONI-CHAT, apprendimento, auto-miglioramento), rebase `a154875c`, residui 0; dire «risolto» dopo solo body era prematuro · L-161 · #pr-346 #conflitti #rebase
+- 2026-07-13 19:52 · Conflitto PR #346 ondata 1 — Nicola «c'è un conflitto» · atteso: rebase stesso branch, codice intatto · reale: solo body `pr-ad-mycity-body.md`, rebase main (`28ae3360`), check exit 0; L-129 evidenze 7 · L-159 · #pr-346 #conflitti #rebase
 - 2026-07-13 17:51 · #334 conflitto → #336 — Nicola «c'è un conflitto» su pallino ~5s · atteso: risolvere sulla stessa PR o una sola PR pulita · reale: #334 conflittuale (fix già su main); #336 ribasata, simula merge OK; L-129 evidenze 6 (ripetuto errore PR multiple) · L-2026-0713-135 · #pr-336 #conflitti #pallini
 - 2026-07-13 17:47 · PR #333 body mancante + allegati Safari — Nicola «perché non mi hai messo la descrizione della pr dentro github?» · atteso: body completo all'apertura · reale: aperta senza `--body`, corretta subito (948 char); L-124 evidenze 2 · L-2026-0713-124 · #pr #github #body
 - 2026-07-13 17:45 · Pallino ~5s — #332 annullata, #334 merge 🔴 #107 · atteso: iterare su stessa PR se fix incompleto · reale: Nicola conferma residuo; #334 sostituisce #332; L-129 evidenze 5 · L-2026-0713-129 · #pr-334 #doppioni #pallini
