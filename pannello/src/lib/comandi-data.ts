@@ -8,6 +8,9 @@ export type Reparto = { nome: string; comandi: Comando[] };
 // UNA casa sola per tutte le chat (Assistente, chat fluttuante, caselle) — prima
 // erano copiate in 3 file e andavano tenute allineate a mano.
 export const SKILL_RAPIDE: { label: string; cmd: string }[] = [
+  // Plugin attivi in chat con Nicola (caveman resta spento — tono chiaro vince sempre)
+  { label: "🔥 Grillami", cmd: "grillami su " },
+  { label: "✂️ Codice minimo", cmd: "cambia il sito: " },
   { label: "🔄 Giro", cmd: "fai un giro" },
   { label: "🔁 Loop 30m", cmd: "/loop 30m fai un giro" },
   { label: "✅ Verifica", cmd: "/verify" },
