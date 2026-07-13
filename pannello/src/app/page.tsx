@@ -796,7 +796,6 @@ export default function Dashboard() {
   // 📎 Foto/file allegati al prossimo messaggio della chat (condivisi tra chat intera e fluttuante:
   // è visibile una superficie sola per volta). Vengono caricati sullo storage in mandaAlCervello.
   const [allegatiChat, setAllegatiChat] = useState<File[]>([]);
-  const fileChatRef = useRef<HTMLInputElement>(null);
   function aggiungiAllegatiChat(lista: FileList | null) {
     if (!lista || lista.length === 0) return;
     setAllegatiChat((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
@@ -2405,15 +2404,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {/* Pulsanti SOPRA la box di testo (su mobile non le rubano larghezza); la textarea ha tutta la riga. */}
             <div className="flex items-center gap-2">
               <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} />
-              <button
-                onClick={() => fileChatRef.current?.click()}
+              <BottoneAllegatiChat
                 disabled={allegatiChat.length >= 6}
-                className="min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95 disabled:opacity-40"
-                aria-label="Allega foto o file"
-                title="Allega foto o file (max 6)"
-              >
-                <Paperclip size={18} />
-              </button>
+                iconSize={18}
+                className="min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+                onScegli={aggiungiAllegatiChat}
+              />
               <button
                 onClick={dettaVoce}
                 disabled={ascoltando}
@@ -2582,19 +2578,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </main>
       </div>
 
-      {/* 📎 Input file NASCOSTO condiviso tra la chat intera e quella fluttuante (una sola è visibile per volta). */}
-      <input
-        ref={fileChatRef}
-        type="file"
-        multiple
-        accept="image/*,application/pdf,.txt,.csv,.md"
-        className="hidden"
-        onChange={(e) => {
-          aggiungiAllegatiChat(e.target.files);
-          e.target.value = ""; // permette di riscegliere lo stesso file
-        }}
-      />
-
       {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
       {!chatFluttuante && vista !== "assistente" && (
         <button
@@ -2713,15 +2696,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {/* Pulsanti SOPRA la box di testo: su mobile la textarea tiene tutta la larghezza. */}
             <div className="flex items-center gap-2">
               <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={40} icona={16} />
-              <button
-                onClick={() => fileChatRef.current?.click()}
+              <BottoneAllegatiChat
                 disabled={allegatiChat.length >= 6}
-                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95 disabled:opacity-40"
-                aria-label="Allega foto o file"
-                title="Allega foto o file (max 6)"
-              >
-                <Paperclip size={16} />
-              </button>
+                iconSize={16}
+                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+                onScegli={aggiungiAllegatiChat}
+              />
               <button
                 onClick={dettaVoce}
                 disabled={ascoltando}
@@ -2832,6 +2812,43 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </>
       )}
     </div>
+  );
+}
+
+// 📎 Graffetta: input file DENTRO il bottone (label). Su iPhone Safari il click programmatico
+// su un input nascosto fuori dalla finestra fluttuante spesso non apre il selettore file.
+function BottoneAllegatiChat({
+  disabled,
+  iconSize,
+  className,
+  onScegli,
+}: {
+  disabled: boolean;
+  iconSize: number;
+  className: string;
+  onScegli: (lista: FileList | null) => void;
+}) {
+  return (
+    <label
+      className={`relative ${className} ${disabled ? "opacity-40 pointer-events-none" : "cursor-pointer"}`}
+      aria-label="Allega foto o file"
+      title="Allega foto o file (max 6)"
+    >
+      <input
+        type="file"
+        multiple
+        accept="image/*,application/pdf,.txt,.csv,.md"
+        disabled={disabled}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        onChange={(e) => {
+          onScegli(e.target.files);
+          e.target.value = "";
+        }}
+      />
+      <span className="pointer-events-none grid place-items-center">
+        <Paperclip size={iconSize} />
+      </span>
+    </label>
   );
 }
 
