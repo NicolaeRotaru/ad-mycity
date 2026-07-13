@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:20] Nona prova chiarimento: testo finale **tutto insieme** (non parola per parola nemmeno negli ultimi secondi) — probabile collo Cursor che manda il blocco intero; prossimo fix = verificare parziali in DB vs Pannello, non ripetere merge/restart.
 - [2026-07-13 19:15] Nona prova — Nicola «1)si 2) alla fine 3)uguale»: #343 ok su «Sto elaborando…» subito; testo vero ancora solo alla fine; pallini invariati post-#342; chiedi anche se negli ultimi secondi cresce parola per parola o tutto insieme.
 - [2026-07-13 19:16] Tabella OKR = obiettivi fissi (`OKR-Squadra.md` 24/6, poll 90s solo se doc cambia su GitHub); **tutte** le righe uguali; numeri live = Stelle Polari (60s) o «I numeri di oggi»; chat sotto ogni OKR = quasi live.
 - [2026-07-13 19:13] Nicola «ok fatto» = allineamento VPS completato post-#343 — worker-chat riavviato 19:10; **nona** prova streaming = «Sto elaborando…» subito dopo invio + testo che cresce; pallini = feedback separato.
