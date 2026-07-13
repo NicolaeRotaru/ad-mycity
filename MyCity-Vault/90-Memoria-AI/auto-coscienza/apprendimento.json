@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 12:44",
+  "aggiornato": "2026-07-13 13:00",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-116",
+      "testo": "**Tab Piani troncati all'inizio (chat 13/7 ~13:00):** Nicola «tutti i piani iniziano in punto strano» + 2 screenshot Brave. 5 perché: (1) `/api/memoria/piani/route.ts` applicava `codaTesto(p.testo!, 12000)` — mostra gli ULTIMI 12k caratteri; (2) i piani in `06-Piani/` pesano 12–26 KB ciascuno → quasi tutti troncati; (3) l'utente vede «…he il CM sia positivo» invece di «💶 PIANO FINANZIARIO»; (4) la logica coda ha senso per attività/decisioni (conta l'ultimo aggiornamento), NON per piani (servono titolo/obiettivo in testa); (5) **fix 🟡 PR #322:** restituire file intero, merge 🔴 #95. Regola: troncamento per tipo contenuto — attività/decisioni = coda; piani/report lunghi = intero.",
+      "tag": [
+        "pannello",
+        "piani",
+        "ux",
+        "codaTesto",
+        "pr-322",
+        "memoria-viva",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.98,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 13:00",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-115",
       "testo": "**PR #319 conflitti volano + coda azioni (chat 13/7 ~12:42):** Nicola screenshot #987 senza testo — conflitti su PR fix tasso lezioni. 5 perché: (1) #317 (fonti extra) e #318 (coda azioni) mergiate su main mentre #319 era aperta; (2) branch mescolava `tasso-lezioni.mjs`/`giro.sh`/`AZIONI-IN-ATTESA.md` con versioni stale; (3) il fix volano (leggere ESITI quaderni + STATO, non solo briefing) era corretto; (4) stesso pattern L-114/#318; (5) **fix:** unire tutto senza perdere pezzi, commit `2d8ff61f`, simulazione merge su main HEAD → zero conflitti, tasso verificato 0.29 (39/133) via `tasso-lezioni.mjs --dry`. Merge 🔴 #96. Regola: PR worker/memoria con PR Pannello concorrenti → rebase/unione esplicita di ENTRAMBE le righe coda e del calcolo volano.",
@@ -2804,6 +2825,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Tab Piani leggibili dall'inizio (chat 13/7 ~13:00):** segnala subito quando un documento del Pannello «inizia in punto strano» — si aspetta di vedere titolo e obiettivo in testa, non a metà frase. Diagnosi + fix in PR (#322, merge 🔴 #95). Estende standing-ask «tutto il Pannello allineato» (L-106) al contenuto dei piani. Vedi L-2026-0713-116.",
     "**Screenshot senza testo = conflitti PR (chat 13/7 ~12:42):** Nicola allega screenshot (#987) senza scrivere nulla — pattern ricorrente (#986 #318, #984 #306, ecc.) = conflitti GitHub su PR appena aperta. Si aspetta risposta immediata con causa, commit fix, simulazione merge e card merge pronta — non solo «ci sono conflitti». Vedi L-2026-0713-115, L-114.",
     "**Tre fix UX chat (chat 13/7 ~12:25):** Nicola «ultimi 3 fix» — (1) X su card «Prompt pronto» per chiudere dopo copiato; (2) evidenzia chat aperta nel cassetto («aperta ora»); (3) Annulla invio durante «sto pensando…» se ha scritto per sbaglio. Vuole batch in una PR (#318, merge 🔴 #94). Vale chat intera + fluttuante. Vedi L-2026-0713-113.",
     "**Conflitti PR ripetuti (chat 13/7 11:16 + 12:17 + 12:39):** zero tolleranza — anche #318 ha avuto conflitti da file worker (contatore lezioni), non dal fix. Si aspetta branch pulito + simulazione merge PRIMA di «pronta». Dopo merge parallelo (#317) verificare se PR precedente (#316) è obsoleta. Vedi L-110, L-114.",
@@ -2908,9 +2930,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.52,
-    "tasso_calcolato_il": "2026-07-13 12:44",
+    "tasso_calcolato_il": "2026-07-13 13:00",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 12:39"
+    "tick_leggero_il": "2026-07-13 13:00"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
