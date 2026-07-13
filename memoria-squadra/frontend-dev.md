@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 19:34 · Pallini ancora rossi post-#336–#342 — Nicola chiede perché persistono · atteso: spiegare causa + prossimo fix mirato · reale: 4 PR oggi insufficienti; ipotesi uscita→poll ~8s vs updated_at; solo Pannello Vercel; nessuna PR residuo; attende scenario 1–4 · L-153 · #pannello #pallini #pr-342
 - 2026-07-13 19:32 · Radiografia scan vs cantiere — Nicola «fix fatti ma problemi ancora lì» · atteso: spiegare perché lista 74/87 resta + fix voto live · reale: scan 7/7 statico vs cantiere 42 chiusi; PR #344 voto live+banner+poll 30s; nuovo audit per lista che cala · L-152 · #pannello #radiografia #pr-344
 - 2026-07-13 19:23 · Nona prova — Nicola «2) tutto insieme» · atteso: testo cresce parola per parola negli ultimi secondi · reale: tutto in un colpo solo; #343 ok placeholder; pallini invariati; prossimo = DB parziali vs poll UI · L-151 · #pannello #streaming #prova-live
 - 2026-07-13 19:18 · Nona prova streaming — Nicola «1)si 2) alla fine 3)uguale» · atteso: Sto elaborando subito + testo dall'inizio + pallini migliori · reale: (1) placeholder #343 ok · (2) testo vero solo alla fine · (3) pallini invariati post-#342 — streaming e pallini ancora aperti · L-149 · #pannello #streaming #pallini #pr-343 #prova-live

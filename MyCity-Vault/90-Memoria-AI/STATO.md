@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:32
-fonte: AD digitale (🌙 13/7 19:32 METABOLIZZA: radiografia scan vs cantiere + PR #344. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:34
+fonte: AD digitale (🌙 13/7 19:34 METABOLIZZA: pallini residuo post-#336–#342, scenario prima del fix. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:34 — CHAT: pallini ancora rossi — residuo aperto, nessuna PR fix.** Nicola «perché c'è ancora il problema dei pallini rossi?» dopo nona prova (19:15 pallini «uguali»). **Verificato:** #336, #338, #340, #342 mergiate oggi — **insufficienti**; streaming #343 = track separato; pallini = **solo Pannello Vercel** (restart worker inutile). **Ipotesi AD principale:** apri/leggi/esci → poll elenco ~8s riaccende badge se `updated_at` conversazione > timestamp lettura. **Nessuna PR aperta** per residuo — AD attende scenario Nicola (1 esci→rosso / 2 Plancia / 3 lampeggio / 4 tutte rosse). **Main** `420586c9`. Fonte: chat Nicola 13/7 ~19:34.
+>
 > 💬 **13/7 ~19:32 — CHAT: radiografia/auto-coscienza «ancora dati vecchi» dopo fix.** Nicola vuole radiografia macchina + marketplace e auto-coscienza **in tempo reale**. **Diagnosi verificata:** Pannello poll ok (60s) ma lista «Radiografia» = **foto scan 7/7** (74 problemi macchina, 87 marketplace) — i fix **chiudono il cantiere** (42 chiusi, 1 in corso Pane Quotidiano, agg. 19:10), **non riscrivono** la lista dell'audit. Voto testa: 51 (scan) vs **75** (sonda live). **Fix 🟡 PR #344** (`358721c`): voto live, banner scan/cantiere, poll 30s. Per far sparire la lista lunga serve **nuovo audit completo** («radiografia di te stesso» + radiografia marketplace). Merge 🔴 #344 pendente. Fonte: chat Nicola 13/7 ~19:32 + conteggio `cantiere-difetti.json` / `auto-radiografia.json`.
 >
 > 💬 **13/7 ~19:23 — CHAT: nona prova streaming — Nicola «2) tutto insieme».** Chiarimento post-feedback 3 punti: testo finale **non** cresce parola per parola nemmeno negli ultimi secondi — arriva in un colpo solo. **«Sto elaborando…» subito** resta ok (#343); **testo vero** e **pallini** ancora rotti. **Diagnosi AD:** verificare se parziali esistono in DB ma Pannello non li mostra, o se Cursor manda blocco intero; **non** ripetere merge/restart. **Main** `21fcb7a5`. Fonte: chat Nicola 13/7 ~19:23.

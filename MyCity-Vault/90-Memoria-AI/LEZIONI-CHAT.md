@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:34] Pallini ancora rossi post-#336–#342 — **non** worker/VPS; prima del fix chiedi scenario Nicola (1 esci→~8s torna rosso / 2 Plancia / 3 lampeggio / 4 tutte rosse); nessuna PR residuo aperta; #343 streaming = track separato.
 - [2026-07-13 19:32] Radiografia/marketplace «ancora 74/87 problemi» dopo fix — lista = **foto scan 7/7**, cantiere vivo si aggiorna (42 chiusi); mergiare fix **non** riscrivono l'audit; spiegare scan vs cantiere + voto live (#344); lista lunga sparisce solo con **nuovo audit** completo.
 - [2026-07-13 19:23] Nicola «2) tutto insieme» — testo finale in un colpo solo (nemmeno parola per parola alla fine); #343 ok solo su «Sto elaborando…»; prossimo fix = parziali DB vs poll Pannello, **non** altro merge/restart.
 - [2026-07-13 19:20] Attività & Briefing = data ultimo file `Briefing/*.md`, non `STATO.md` — update chat/fix Pannello senza «fai un giro» lascia 11/7 visibile; spiegare subito (non «Pannello rotto»), offrire giro se vuole data fresca.
@@ -16,5 +17,4 @@
 - [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
 - [2026-07-13] Durante prova streaming: **non refreshare a metà** — Ctrl+F5 interrompe il poll della bolla e simula «tutto insieme» anche con #342 live; refresh solo dopo risposta completa o incognito se ancora rotto.
 - [2026-07-13] Streaming rotto ≠ sempre worker — verificato 18:41: parziali già in DB Supabase (`in_corso`+`risultato`), rev worker `1081be71` ok; collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta; fix **#342** mergiata con #341.
-- [2026-07-13] Nicola «facciamo la prova» (~18:37) = **quarta** prova streaming — risposta AD = test live; se ancora rotto chiedi se ha fatto `aggiorna-cervello.sh` (non solo restart); feedback binario: cresce / tutto insieme / a colonna; Diagnosi rev ≥ `1081be71`.
 - [2026-07-13] Restart worker **≠** codice aggiornato sul VPS — Nicola «ancora non cresce live» post-restart 18:22: serve `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (pull GitHub + riavvia **entrambi** i worker), non solo `systemctl restart`; Diagnosi rev deve essere `1081be71` o più recente.
