@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 12:06 · Chat Pannello PC≠telefono — sync parziale · Nicola segnala disallineamento dati desktop/smartphone, prima = chat non coincide · atteso: causa radice verificata nel codice → reale: storico in DB ma fetch solo all'apertura (no polling); sessione aperta + pin/badge in localStorage per dispositivo; fix polling ~8s 🟡 proposto, merge 🔴 · L-2026-0713-108 · #pannello #conversazioni #sync #multi-dispositivo
 - 2026-07-13 11:43 · PR #315 verificata aperta — Nicola «Apri pr» · atteso: URL PR + card #91 + scope onesto → reale: #315 commit `ccb4072b`, merge 🔴 con #313 suggerito; dichiarato che coda/registro restano per PR coerenza-fatti · L-2026-0713-105 · #pannello #pr-315 #apri-pr
 - 2026-07-13 11:42 · PR #315 conflitti con #314 risolti — Nicola segnala conflitti · atteso: rebase + simulazione merge → reale: branch ribasato, unite data UI + tick leggero, zero conflitti simulati · L-2026-0713-107 · #pr-315 #rebase #conflitti
 - 2026-07-13 11:38 · PR #315 auto-coscienza tempo reale — Nicola «Prepara pr» + «Aggiornamento leggere ogni 10 minuti» · atteso: data UI corretta + tick leggero apprendimento/miglioramento → reale: commit `fbbc8c2c`, branch `fix/auto-coscienza-tempo-reale`, UI max(data,aggiornato) + worker tick ~10 min senza AI; metabolizzazione post-chat invariata; merge 🔴 #90/#91 · L-2026-0713-105 · #pannello #auto-coscienza #tempo-reale #pr-315
