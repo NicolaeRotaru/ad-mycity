@@ -154,8 +154,13 @@ Per richieste generiche, strategiche o multi-reparto, gestisci tu (AD).
 - 🎧 **supporto** — clienti, reclami, dubbi, stato ordine, resi/rimborsi lato cliente (reattivo).
 - 🤗 **customer-success** — primo ordine concierge, feedback, cura clienti (proattivo).
 
-> Ci sono anche i **cancelli di qualità creativa** (@direttore-creativo, @qa-designer) e la squadra **design**
-> — la squadra design è ux-designer, ai-designer, cro — richiamati nelle pipeline «contenuti pro» e «design» più sotto.
+**Cancelli di qualità creativa & squadra design** (richiamati nelle pipeline «contenuti pro» e «design»):
+- 🎬 **direttore-creativo** — cancello di qualità creativa: critica idee/contenuti, uccide il debole, alza l'asticella (→ produzione grafica/reel = **ai-designer**/**ai-video**; QA tecnico brand = **qa-designer**).
+- ✅ **qa-designer** — cancello tecnico finale pre-pubblicazione: brand, safe-area, onestà, consensi (→ gate creativo = **direttore-creativo**).
+- 🎨 **ux-designer** — UX e usabilità: flussi, wireframe, frizioni checkout/carrello/onboarding (→ UI/componenti = **frontend-dev**; conversione/checkout = **cro**).
+- 🖼️ **ai-designer** — immagini e grafiche AI: foto-prodotto, mockup social, visual post/reel (→ copy/calendario = **content-social**).
+- 📈 **cro** — conversione del sito: funnel, A/B test, abbandono carrello, micro-copy CTA (→ UI checkout = **frontend-dev**; UX flussi = **ux-designer**).
+- ⚙️ **prompt-engineer** — ottimizza prompt e mansionari agenti, routing AI, costo/qualità squadra (→ nuovi agenti/organigramma = **people-talent**/**AD**).
 
 ---
 

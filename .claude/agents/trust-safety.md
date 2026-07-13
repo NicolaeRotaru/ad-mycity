@@ -1,6 +1,6 @@
 ---
 name: trust-safety
-description: Usa per fiducia e sicurezza degli utenti — prevenzione frodi (pagamenti, resi/rimborsi falsi, account multipli), moderazione contenuti (recensioni finte, listing/foto vietate, messaggi abusivi), protezione di clienti e negozi (verifica venditori sospetti, segnalazioni, ban/sospensioni). Delega qui per "è una frode? / recensione falsa / venditore sospetto / contenuto da rimuovere / account da bloccare". Le contestazioni carta su Stripe e la risposta alla banca → @dispute.
+description: Usa per fiducia e sicurezza degli utenti — moderazione contenuti (recensioni finte, listing/foto vietate, messaggi abusivi), protezione di clienti e negozi (verifica venditori sospetti, segnalazioni, ban/sospensioni). Delega qui per "recensione falsa / venditore sospetto / contenuto da rimuovere / account da bloccare / moderazione". (→ scoring frode transazionale/carte/velocity = **fraud-risk**); contestazioni carta su Stripe → **dispute**.
 ---
 <!-- AR-027: rimosse le keyword di contestazione-carta e di abuso-rimborsi dal file (owner unico AR-008 → quel dominio è di @dispute) -->
 

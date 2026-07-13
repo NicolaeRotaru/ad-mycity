@@ -41,9 +41,9 @@
   "dimensioni": [
     {
       "key": "coerenza-agenti",
-      "voto": 71,
+      "voto": 86,
       "stato": "attenzione",
-      "sintesi": "",
+      "sintesi": "Collisioni routing risolte: trust-safety/fraud-risk, finanza/pricing/seller-financing, broker/enterprise-risk, growth/pricing — guardiano agent-registry a drift 0 (14/7 01:15). Resta aperto solo il tier model: su 120 agenti nessuno dichiara ancora quale AI usare (serve decisione Nicola sulle 3 fasce).",
       "findings": [
         {
           "titolo": "trust-safety e fraud-risk collidono sulla stessa frode: 'resi/rimborsi falsi' e 'account multipli' verbatim in entrambe le description",
