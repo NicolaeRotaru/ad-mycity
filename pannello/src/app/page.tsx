@@ -1831,7 +1831,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     if (!id || (vista !== "assistente" && !chatFluttuante)) return;
     const msgs = messages.filter((m) => !m.prompt && !m.pending);
     const last = msgs[msgs.length - 1];
-    if (last?.role === "assistant") segnaLetta(id);
+    if (last?.role === "assistant") segnaLetta(id, new Date().toISOString());
   }, [messages, convId, vista, chatFluttuante]);
 
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
