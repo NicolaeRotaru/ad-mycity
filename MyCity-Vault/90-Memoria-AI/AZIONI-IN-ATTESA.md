@@ -284,7 +284,7 @@ create policy "service role full access" on public.conversazioni
 
 ---
 
-### 🔴 #allegati-vercel-env — Aggiungi 2 variabili su Vercel per sbloccare gli allegati nella chat · ⏳ IN ATTESA · accodata 2026-07-11 15:41
+### ✅ #allegati-vercel-env — FATTO 2026-07-13 17:28 · Nicola «ok #60» · variabili Storage su Vercel attive, upload verificato live
 
 **Problema:** il Pannello non riesce a far leggere all'AD i file allegati. Il Pannello li carica su Supabase Memoria Storage, poi manda il percorso al worker. Il caricamento fallisce perché Vercel non ha le credenziali Supabase.
 
@@ -646,7 +646,7 @@ Servono perché la route `/api/allegato` carica il file nel bucket privato `chat
 
 ---
 
-### 🔴 #60 — Metti le variabili di Storage su Vercel e fai partire il deploy (foto/file in chat) · ⏳ IN ATTESA · accodata 2026-07-09 23:11
+### ✅ #60 — FATTO 2026-07-13 17:28 · Nicola «ok #60» · Storage allegati LIVE su Vercel (POST /api/allegato ok:true verificato)
 **Cosa cambia:** con queste variabili la chat del Pannello inizia ad accettare **foto e file (PDF/documenti)** — li carica su Supabase Storage e li mostra in conversazione. Senza variabili + deploy, il codice c'è ma resta spento online.
 **Se va bene:** provo l'upload nel browser sul Pannello vero e ti mostro che una foto e un PDF arrivano davvero, prima di dichiararlo fatto.
 
