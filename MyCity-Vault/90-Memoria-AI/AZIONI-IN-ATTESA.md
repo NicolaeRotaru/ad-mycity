@@ -367,15 +367,15 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
-### 🟡 #antichurn-13lug — Lancia il ciclo di check-in per le 6 nuove botteghe food dopo il 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 12:15
+### 🟡 #antichurn-13lug — Lancia il ciclo di check-in per i 6 ristoranti tattici dopo il 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 12:15
 
-> **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md`
+> **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md` (titolo storico — target = 6 ristoranti/trattorie, non botteghe core)
 >
 > **Dati reali al 11/7:** 0 negozi con ordini in calo reale. Pane Quotidiano (unico approvato) è escluso dall'anti-churn per design (aspetta la piattaforma, non è abbandono). 16 negozi demo sospesi = irrilevanti.
 
-**Questo playbook si attiva il 13/7**, dopo che Nicola ha incontrato le 6 botteghe food e le ha onboardate.
+**Questo playbook si attiva il 13/7**, dopo che Nicola ha incontrato i 6 ristoranti (mossa tattica, non profilo core botteghe) e li ha onboardati.
 
-**4 touch point per ogni bottega (colori esatti nel playbook):**
+**4 touch point per ogni ristorante onboardato (colori esatti nel playbook):**
 
 | Giorno | Trigger | Azione | Chi |
 |---|---|---|---|
@@ -384,9 +384,9 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 | **T+14** (≈ dom 27/7) | < 3 ordini | Post social bottega + boost su MyCity | AD + Nicola |
 | **T+45** (≈ 29/8) | Health score < 50 | Decisione: upsell / promozione / ritiro | Nicola 🔴 |
 
-**Le 6 botteghe e il loro aggancio principale:**
+**I 6 ristoranti e il loro aggancio principale:**
 
-| Bottega | Telefono | Aggancio anti-churn |
+| Ristorante | Telefono | Aggancio anti-churn |
 |---|---|---|
 | Tigellabella | 366 162 8361 | Già su Deliveroo → "commissione 12% vs 30%" |
 | La Forchetta | [raccogliere 13/7] | Sito perso → "la tua vetrina ora funziona" |
@@ -395,13 +395,13 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 | La Dispensa | [raccogliere 13/7] | Fine dining → "box regalo vino+gastronomia" |
 | Pescatori | [raccogliere 13/7] | ⚠️ No consegna (Calendasco) → asporto/prenotazione |
 
-**Cosa faccio dopo il tuo "ok [#antichurn-13lug] + conferma quali botteghe hai firmato":**
+**Cosa faccio dopo il tuo "ok [#antichurn-13lug] + conferma quali ristoranti hai firmato":**
 1. Inserisco i numeri di telefono raccolti il 13/7 nel playbook
-2. Preparo il messaggio WhatsApp T+3 personalizzato per ogni bottega (testo pronto, tu invii)
+2. Preparo il messaggio WhatsApp T+3 personalizzato per ogni ristorante (testo pronto, tu invii)
 3. Setto le date dei touch point T+7/T+14/T+45 nel calendario (scadenzario)
 
-**Cosa cambia:** ogni nuova bottega ha un ciclo di cura garantito nei primi 45 giorni — nessuno "si perde" in silenzio dopo l'onboarding.
-**Se va bene:** prima bottega con ≥ 5 ordini nei primi 14 giorni = segnale che il ciclo funziona → estendiamo il modello a tutte le future.
+**Cosa cambia:** ogni nuovo ristorante onboardato ha un ciclo di cura garantito nei primi 45 giorni — nessuno "si perde" in silenzio dopo l'onboarding.
+**Se va bene:** primo ristorante con ≥ 5 ordini nei primi 14 giorni = segnale che il ciclo funziona → estendiamo il modello a tutte le future.
 
 - **Chi avvia:** Nicola dopo le visite del 13/7 con "ok #antichurn-13lug + [nomi firmati]"
 - **Canale:** WhatsApp/telefono diretto (Nicola) + AD prepara i testi pronti
