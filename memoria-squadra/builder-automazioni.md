@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-14 01:06 · Coda Lavori percezione ferma — Nicola «perché non partono?» · atteso: diagnosi con telemetry reale · reale: worker ok 303/24h, seriale vs parallelo spiegato, Da approvare≠auto, #342 già chiusa · L-198 · #worker #coda #nicola
 - 2026-07-13 21:13 · Plugin menu ⚡ — Nicola «mettili in skill e comandi» · atteso: discoverability UI per grilling+ponytail · reale: solo 2 in chat per design; PR #352 chip in SKILL_RAPIDE; merge 🔴 #122 · L-172 · #worker #plugin #pannello #pr-352
 - 2026-07-13 21:07 · Verifica plugin 21/21 — Nicola «non è cambiato nulla» · atteso: installazione OK + test per plugin · reale: 21/21 su disco, hash+sync OK, worker 19:10; plugin = istruzioni AI non UI; caveman OFF chat; Firecrawl+Tabnine bloccati senza chiavi/MCP · L-168 · #worker #plugin #nicola #aspettative
 - 2026-07-13 19:50 · Sync radiografia cantiere→scan — Nicola «risolvi» · atteso: script guardiano + allineamento a ogni giro · reale: `allinea-scan-cantiere.mjs` in giro.sh, 7 voci collegate chiuse, 67 archivio; PR #347 `b19b0761`; merge 🔴 · L-158 · #radiografia #allinea-scan #pr-347

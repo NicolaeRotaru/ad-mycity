@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 01:00
-fonte: AD digitale (💬 14/7 01:00 AR-006 CHIUSO. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 01:06
+fonte: AD digitale (💬 14/7 01:06 coda Lavori ok. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~01:06 — CHAT: coda Lavori — percezione ferma, worker attivo.** Nicola «perché i lavori in coda non partono?». **Verificato 🟢:** worker acceso, **303** lavori completati nelle ultime 24h (telemetry worker); job corrente = questa chat sul worker principale (**seriale** — uno alla volta). **Spiegato:** (1) chat qualità massima blocca giri/merge/metabolizza dietro; (2) card «Da approvare» (merge PR, azioni 🔴) aspettano **clic Approva**, non partono da sole; (3) merge **#342** fallito perché PR già chiusa su GitHub — annullare/ignorare card, non riprovare; chat fluttuante = worker parallelo separato. Business invariato. Fonte: chat Nicola 14/7 ~01:06 + worker telemetry.
+>
 > 💬 **14/7 ~01:00 — CHAT: AR-006 CHIUSO — Nicola «chiudi AR-006».** Difetto silo contenuti segnato **chiuso** in cantiere; R3 e coda #119 aggiornati. Fix tecnico già su main (PR #349, 13/7): 12 pacchetti Garetti archiviati, PQ **16** contenuti attivi, `allocazione-check` exit **0** (14/7 00:59). **Casella rossa silo dovrebbe sparire** al prossimo refresh Radiografia. **Prossimi passi business (non AR-006):** foto/consenso/link CTA PQ; primo ordine payout-test; post PQ in attesa firma. Fonte: chat Nicola 14/7 ~01:00 + cantiere-difetti.json + allocazione-check.
 >
 > 💬 **14/7 ~00:56 — CHAT: allegati caselle Lavori + selezione testo illeggibile — PR #363.** Nicola segnala due bug: (1) schiccia foto ma non si inserisce in chat; (2) testo evidenziato con mouse/smartphone invisibile («arancio su arancione»). **Diagnosi 🟢:** chat **Assistenza** già fixata ieri; chat **caselle Lavori** (`ChatCasella`) ancora con vecchio input file — Safari/iPhone non registra la foto; `::selection` arancione trasparente su bolle arancioni. **Implementato 🟡 PR #363** (`625af11e`): stesso fix tap-diretto allegati su tutte le `ChatCasella` Lavori; selezione scura/chiara (bianco su trasparenza sulle bolle arancioni). **Nota:** mini-chat «Parla con questa casella» (`ParlaCasella`) **senza** allegati — fix separato se richiesto. **Pendente:** merge 🔴 **#363** (#131) → deploy Vercel ~2 min → ricarica (iPhone: chiudi e riapri). Fonte: chat Nicola 14/7 ~00:56 + PR #363.

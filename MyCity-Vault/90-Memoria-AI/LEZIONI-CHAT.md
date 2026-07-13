@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-14 01:06] **Coda Lavori «ferma»** — worker attivo (303 job/24h verificati); principale **seriale** (chat lunga blocca dietro), chat **parallela**; «Da approvare» = serve clic Nicola; merge PR già chiusa → annulla card, non riprovare. Vedi L-198.
 - [2026-07-14 01:00] **AR-006 chiuso — merge ≠ casella chiusa** — fix tecnico (PR #349 `444439af` + `allocazione-check` verde) **non** chiude da solo: serve housekeeping cantiere+coda; Nicola «chiudi AR-006» = 🟢 segna `chiuso` + #119 FATTO (fatto 14/7 01:00); **fuori scope:** foto/consenso/link PQ, primo ordine payout.
 - [2026-07-14 00:58] **Allegati + selezione chat** — Nicola: foto non si inserisce + evidenziatura «arancio su arancione» invisibile; fix ieri era solo Assistenza — **caselle Lavori** (`ChatCasella`) ancora vecchio input Safari; `::selection` su brand arancione va testato — **PR #363** merge 🔴 #131; `ParlaCasella` senza allegati = altro fix.
 - [2026-07-14 00:49] **Rete sync Pannello** — Nicola: una sola fonte (vault GitHub), se cambia un dato **tutto** il Pannello si aggiorna insieme (fix radiografia → sparisce lì + Da approvare + Plancia…); prima 6 caselle collegate, ora tutte via `mycity:sync` — **PR #362** merge 🔴 #130.
