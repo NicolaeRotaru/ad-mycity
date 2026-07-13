@@ -847,6 +847,10 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                       {av.canale === "telegram+casella" ? "📮 casella + Telegram" : "📮 casella"}
                     </span>
                   </div>
+                  <ParlaCasella
+                    titolo={`Avviso: ${(av.testo || "").split("\n")[0].slice(0, 60)}`}
+                    contesto={[av.testo, av.at && `Quando: ${av.at}`].filter(Boolean).join("\n")}
+                  />
                 </div>
               </div>
             </div>
