@@ -1,12 +1,12 @@
 ---
 tipo: stato
 aggiornato: 2026-07-13 21:52
-fonte: AD digitale (💬 13/7 21:52 chat grilling Controllo/La macchina. | storico: business INVARIATO dal 24/6.)
+fonte: AD digitale (💬 13/7 21:52 chat grilling Controllo/La macchina — Nicola risposta A. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 💬 **13/7 ~21:52 — CHAT: grilling Controllo / La macchina — Nicola «non mi piace come è impostata».** Chiede stress-test sulla sezione Pannello **Controllo** (menu) / **La macchina** (titolo pagina). **Grilling avviato 🟢:** domanda 1 = obiettivo in 10 secondi — A) semaforo+azione · B) dettaglio radiografie · C) pilotaggio · D) altro. **Risposta Nicola:** ancora **aperta** (A/B/C/D). AD ha segnalato (da confermare): mix di tre intenti, 3 sotto-pagine pesanti, nomi incoerenti, overlap con cuore/organismi in home; raccomandazione provvisoria = **A**. **Pendente:** risposta Nicola → domanda 2 → eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:52.
+> 💬 **13/7 ~21:52 — CHAT: grilling Controllo / La macchina — Nicola «non mi piace come è impostata».** Chiede stress-test sulla sezione Pannello **Controllo** (menu) / **La macchina** (titolo pagina). **Domanda 1 — obiettivo in 10s:** Nicola risponde **A** = vuole sapere se **sta bene o sta male** (🟢🟡🔴) + **un solo passo** se c’è un problema; dettaglio radiografie (B) e pilotaggio (C) sono secondari. AD ha segnalato: oggi mix di tre intenti, 3 sotto-pagine pesanti, nomi incoerenti, overlap cuore/organismi in home. **Pendente:** domanda 2 (dove vedere il riepilogo: solo Controllo / anche home / solo home) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:52.
 >
 > 💬 **13/7 ~21:50 — CHAT: «Parla con questa casella» su piano mattino e report sera — Nicola «aggiungi sotto parla con la casella».** Dopo fix leggibilità ritmo (#350 mergiata), chiede lo stesso link chat contestuale delle altre card Plancia sotto **Piano del mattino** e **Report della sera**. **Fix 🟡 PR #355** (`feac5fbe`, `Plancia.tsx`): pulsante «Parla con questa casella» sotto ogni blocco — clic apre chat con testo del blocco già in contesto (es. «spiegami le 3 priorità»); conversazione in Assistenza → Conversazioni. **Pendente:** Approva merge 🔴 **#355** (#124) → deploy ~2 min → ricarica Plancia. Fonte: chat Nicola 13/7 ~21:50.
 >

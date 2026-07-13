@@ -6,7 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13 21:52] Controllo/La macchina — Nicola «grillami, non mi piace come è impostata»: grilling avviato su sezione Pannello; prima domanda = cosa vuole in 10s (A semaforo+azione / B dettaglio / C pilotaggio); risposta A/B/C ancora **aperta** — non proporre redesign finché non risponde.
+- [2026-07-13 21:52] Controllo/La macchina — Nicola ha scelto **A**: in 10s vuole solo «sta bene o sta male» (🟢🟡🔴) + un passo se c’è problema; dettaglio radiografie e pilotaggio sono secondari. Domanda 2 (dove: solo Controllo / anche home / solo home) **ancora aperta** — niente PR redesign finché non risponde A/B/C.
 - [2026-07-13 21:50] Ritmo — Nicola «aggiungi Parla con questa casella sotto piano mattino e report sera»: vuole lo stesso link chat contestuale delle altre card Plancia sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto; fix **PR #355** (`Plancia.tsx`) merge 🔴 **#124**.
 - [2026-07-13 21:47] Card merge PR — Nicola «togli in automatico dopo che mergio»: Pannello interroga GitHub a ogni refresh; PR mergiata/chiusa → card sparisce da Da approvare (~15s poll se merge pendente); fix **PR #354** merge 🔴 **#123**.
 - [2026-07-13 21:43] PR #349 conflitto terza volta — Nicola «ci sono conflitti»: non ripetere istruzioni Accept main; AD risolve branch **senza file diario** (solo archivio 12 Garetti), head `319206ee`, API mergeable ok; merge 🔴 #119 = solo Approva Nicola.
