@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Manifest plugin approvati per il worker Cursor. Ogni voce ha scope (dove si applica) e target (dove finisce nel repo). Sync: node cervello/sync-worker-plugins.mjs",
-  "aggiornato": "2026-07-13 12:35",
+  "aggiornato": "2026-07-13 17:15",
   "plugin": [
     {
       "id": "grilling",
@@ -9,7 +9,11 @@
       "ref": "main",
       "path_sorgente": "skills/productivity/grilling/SKILL.md",
       "target": ".cursor/skills/grilling/SKILL.md",
-      "scope": ["chat", "lavori", "giro"],
+      "scope": [
+        "chat",
+        "lavori",
+        "giro"
+      ],
       "quando": "Stress-test di decisioni/PR prima di agire. Una domanda alla volta.",
       "licenza": "MIT"
     },
@@ -20,8 +24,14 @@
       "ref": "main",
       "path_sorgente": ".cursor/rules/ponytail.mdc",
       "target": ".cursor/rules/ponytail-code.mdc",
-      "scope": ["codice"],
-      "globs": ["pannello/**", "cervello/**", "creativi/**"],
+      "scope": [
+        "codice"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**"
+      ],
       "quando": "Solo task che toccano codice — scala a minimo indispensabile.",
       "licenza": "MIT",
       "nota": "alwaysApply=false + globs codice — non in chat con Nicola"
@@ -33,22 +43,199 @@
       "ref": "main",
       "path_sorgente": "skills/caveman/SKILL.md",
       "target": "cervello/prompt-fragments/caveman-internal.md",
-      "scope": ["interno"],
+      "scope": [
+        "interno"
+      ],
       "quando": "Output telegrafico SOLO su giro/lavori/metabolizza — MAI in chat Nicola.",
       "licenza": "MIT",
       "nota": "Non installato come skill globale: iniettato dal worker solo su tipo≠chat"
+    },
+    {
+      "id": "diagnosing-bugs",
+      "nome": "Diagnosing bugs",
+      "repo": "mattpocock/skills",
+      "ref": "main",
+      "path_sorgente": "skills/engineering/diagnosing-bugs/SKILL.md",
+      "target": ".cursor/skills/diagnosing-bugs/SKILL.md",
+      "scope": [
+        "codice",
+        "lavori"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**",
+        "marketplace/**"
+      ],
+      "quando": "Bug difficili: riproduci → minimizza → ipotesi → strumenta → fix → test regressione.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "tdd",
+      "nome": "TDD",
+      "repo": "mattpocock/skills",
+      "ref": "main",
+      "path_sorgente": "skills/engineering/tdd/SKILL.md",
+      "target": ".cursor/skills/tdd/SKILL.md",
+      "scope": [
+        "codice"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**"
+      ],
+      "quando": "Nuove feature o fix con test a fette (red-green-refactor).",
+      "licenza": "MIT"
+    },
+    {
+      "id": "handoff",
+      "nome": "Handoff",
+      "repo": "mattpocock/skills",
+      "ref": "main",
+      "path_sorgente": "skills/productivity/handoff/SKILL.md",
+      "target": ".cursor/skills/handoff/SKILL.md",
+      "scope": [
+        "interno",
+        "lavori"
+      ],
+      "quando": "Comprime sessioni lunghe in doc di passaggio (giro, lavori multi-turno).",
+      "licenza": "MIT"
+    },
+    {
+      "id": "superpowers",
+      "nome": "Superpowers",
+      "repo": "obra/superpowers",
+      "ref": "main",
+      "path_sorgente": "skills/using-superpowers/SKILL.md",
+      "target": ".cursor/skills/superpowers/SKILL.md",
+      "scope": [
+        "lavori",
+        "giro",
+        "codice"
+      ],
+      "quando": "Piani strutturati, brainstorming, subagent — metodologia obra per task complessi.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "differential-review",
+      "nome": "Differential review (Trail of Bits)",
+      "repo": "trailofbits/skills",
+      "ref": "main",
+      "path_sorgente": "plugins/differential-review/skills/differential-review/SKILL.md",
+      "target": ".cursor/skills/differential-review/SKILL.md",
+      "scope": [
+        "codice"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**"
+      ],
+      "quando": "Security review pre-merge su PR e diff (auth, crypto, payout, RLS).",
+      "licenza": "MIT"
+    },
+    {
+      "id": "react-best-practices",
+      "nome": "React best practices",
+      "repo": "vercel-labs/agent-skills",
+      "ref": "main",
+      "path_sorgente": "skills/react-best-practices/SKILL.md",
+      "target": ".cursor/skills/react-best-practices/SKILL.md",
+      "scope": [
+        "codice"
+      ],
+      "globs": [
+        "pannello/**"
+      ],
+      "quando": "Performance e pattern Next.js/React nel Pannello.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "web-design-guidelines",
+      "nome": "Web design guidelines",
+      "repo": "vercel-labs/agent-skills",
+      "ref": "main",
+      "path_sorgente": "skills/web-design-guidelines/SKILL.md",
+      "target": ".cursor/skills/web-design-guidelines/SKILL.md",
+      "scope": [
+        "codice",
+        "design"
+      ],
+      "globs": [
+        "pannello/**"
+      ],
+      "quando": "Audit UX/accessibilità UI del Pannello.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "webapp-testing",
+      "nome": "Webapp testing",
+      "repo": "anthropics/skills",
+      "ref": "main",
+      "path_sorgente": "skills/webapp-testing/SKILL.md",
+      "target": ".cursor/skills/webapp-testing/SKILL.md",
+      "scope": [
+        "codice",
+        "qa"
+      ],
+      "globs": [
+        "pannello/**"
+      ],
+      "quando": "Test browser locale (Playwright) prima del merge.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "code-simplifier",
+      "nome": "Code simplifier",
+      "repo": "getsentry/skills",
+      "ref": "main",
+      "path_sorgente": "skills/code-simplifier/SKILL.md",
+      "target": ".cursor/skills/code-simplifier/SKILL.md",
+      "scope": [
+        "codice"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**"
+      ],
+      "quando": "Pulisce codice appena modificato senza cambiare comportamento.",
+      "licenza": "MIT",
+      "nota": "Sostituisce obra/code-simplifier (repo non trovato) — port Anthropic via Sentry"
+    },
+    {
+      "id": "firecrawl",
+      "nome": "Firecrawl CLI",
+      "repo": "firecrawl/firecrawl-cursor-plugin",
+      "ref": "main",
+      "path_sorgente": "skills/firecrawl-cli/SKILL.md",
+      "target": ".cursor/skills/firecrawl/SKILL.md",
+      "scope": [
+        "interno",
+        "intelligence"
+      ],
+      "quando": "Ricerca/scrape web strutturato (intelligence, competitor). Richiede FIRECRAWL_API_KEY 🔴.",
+      "licenza": "MIT",
+      "nota": "Attivo solo se chiave in .env VPS — altrimenti resta Tavily/WebSearch nativo"
     }
   ],
-  "candidati_fase2": [
-    "mattpocock/skills — diagnosing-bugs",
-    "mattpocock/skills — tdd",
-    "mattpocock/skills — handoff",
-    "obra/superpowers",
-    "trailofbits/skills — security",
-    "vercel-labs/agent-skills — react-best-practices",
-    "vercel-labs/agent-skills — web-design-guidelines",
-    "anthropics/skills — webapp-testing",
-    "obra/code-simplifier",
-    "firecrawl/firecrawl-skills"
+  "candidati_fase3": [
+    "obra/superpowers — systematic-debugging, subagent-driven-development, requesting-code-review",
+    "mattpocock/skills — codebase-design, domain-modeling, improve-codebase-architecture",
+    "cursor-public/supabase — skill Supabase ufficiale",
+    "cursor-public/tabnine — codebase-search cross-repo",
+    "anthropics/skills — pdf, xlsx, docx (documenti bandi/contratti)",
+    "getsentry/skills — seer (root cause produzione)",
+    "vercel-labs/agent-skills — composition-patterns",
+    "Trail of Bits — semgrep, codeql (se servono scan automatici)",
+    "MyCity verify — skill interna Playwright+bats già in .claude/skills/verify"
+  ],
+  "ultimo_sync": [
+    {
+      "id": "firecrawl",
+      "target": ".cursor/skills/firecrawl/SKILL.md",
+      "sha": "b02b8467e6f4",
+      "byte": 17585
+    }
   ]
 }

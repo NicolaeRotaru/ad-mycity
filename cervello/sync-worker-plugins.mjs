@@ -22,7 +22,7 @@ function parseArgs(argv) {
 
 Opzioni:
   --dry-run   Mostra cosa scaricherebbe
-  --id ID     Solo un plugin (grilling|ponytail|caveman-internal)
+  --id ID     Solo un plugin (vedi cervello/worker-plugins.json)
   --help      Questo aiuto`);
       process.exit(0);
     }
