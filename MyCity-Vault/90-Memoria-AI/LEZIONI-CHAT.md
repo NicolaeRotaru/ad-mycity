@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 22:00] Radiografia macchina — Nicola «così va bene, migliorala»: direzione OK (L-179); frizione = scan 7/7 vs cantiere 1 + gergo tecnico + verdetto senza azione; PR redesign + **cartolina** (semaforo+1 passo+data) + **Da fare ora** prima di archivio «foto storica» + titoli umani (dettaglio sotto «Mostra perché») — dopo «sì» e risposta cartolina cliccabile.
 - [2026-07-13 21:58] Pannello salute — grilling **chiuso**: menu **Radiografia macchina** + **Salute sito** + **Auto-coscienza** (3 voci, niente tab incastrate); home cuore+organi; Radiografia macchina = organi grandi + report sotto senza tab (Q6A); «sta bene in 10s» dagli organi in home; PR redesign 🟡 solo dopo «sì» di Nicola.
 - [2026-07-13 21:50] Ritmo — Nicola «aggiungi Parla con questa casella sotto piano mattino e report sera»: vuole lo stesso link chat contestuale delle altre card Plancia sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto; fix **PR #355** (`Plancia.tsx`) merge 🔴 **#124**.
 - [2026-07-13 21:47] Card merge PR — Nicola «togli in automatico dopo che mergio»: Pannello interroga GitHub a ogni refresh; PR mergiata/chiusa → card sparisce da Da approvare (~15s poll se merge pendente); fix **PR #354** merge 🔴 **#123**.

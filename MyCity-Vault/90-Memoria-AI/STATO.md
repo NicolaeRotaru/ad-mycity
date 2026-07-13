@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:58
-fonte: AD digitale (💬 13/7 21:58 chat grilling Controllo/La macchina — Nicola Q6 A, pacchetto redesign Pannello chiuso in attesa «sì». | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:00
+fonte: AD digitale (💬 13/7 22:00 chat Radiografia macchina — Nicola valida direzione + analisi UX «la migliore»; PR redesign+3 mosse in attesa «sì». | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~22:00 — CHAT: Radiografia macchina — Nicola valida direzione + analisi UX.** «Così com'è **va bene**, si può migliorare, essere **la migliore**» — conferma pacchetto grilling (menu 3 voci, L-179), chiede analisi concreta. **AD (codice+dati):** voto **75/100**, cantiere **1 in corso / 42 chiusi**, scan **7/7** (foto 6 gg fa, ~74 voci archivio); sonda 4 luci (2 rosse: giri cadenza, sentinelle). **Frizioni:** due liste scan≠cantiere; gergo tecnico; verdetto senza «fai X». **3 mosse proposte 🟡** in PR con redesign menu: (1) cartolina semaforo+1 azione+data; (2) Da fare ora prima, archivio «foto storica»; (3) titoli umani + «Mostra perché». **Pendente:** cartolina cliccabile? + Nicola **«sì»** → PR 🟡. Fonte: chat Nicola 13/7 ~22:00.
+>
 > 💬 **13/7 ~21:58 — CHAT: grilling Controllo / La macchina — Nicola Q6 «A», pacchetto chiuso.** Grilling **domanda 6 — contenuto pagina Radiografia macchina:** Nicola risponde **A** = cuore+8 organi versione grande + **report radiografia subito sotto**, **niente tab**. **Pacchetto redesign confermato:** menu **3 voci** — **Radiografia macchina** (ex Controllo), **Salute sito** (audit marketplace), **Auto-coscienza** (voce a sé); **home** resta cuore+organi; «sta bene in 10s» si legge dagli organi in home; Radiografia macchina = referto completo. **Pendente:** Nicola scrive **«sì»** → AD apre PR redesign 🟡 Pannello. Fonte: chat Nicola 13/7 ~21:58.
 >
 > 💬 **13/7 ~21:56 — CHAT: grilling Controllo / La macchina — Nicola Q5 «B» + rename + Auto-coscienza menu.** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 5 — prima pagina:** Nicola risponde **B** = cuore+8 organi versione grande + contenuto sotto **MA** chiede: (1) **Auto-coscienza** → **voce menu a sé** (come «Salute sito»); (2) rinominare **«Controllo»** → **«Radiografia macchina»** nel menu. **Pacchetto confermato:** Q1 **A** · Q2 **B** · Q3 **B** · Q4 **B** (Salute sito) · menu Radiografia macchina · Auto-coscienza separata. **Pendente:** domanda 6 (cosa resta dentro pagina Radiografia macchina) → poi PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:56.
