@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:23
-fonte: AD digitale (🌙 13/7 19:23 METABOLIZZA: streaming — Nicola «tutto insieme» confermato. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:32
+fonte: AD digitale (🌙 13/7 19:32 METABOLIZZA: radiografia scan vs cantiere + PR #344. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:32 — CHAT: radiografia/auto-coscienza «ancora dati vecchi» dopo fix.** Nicola vuole radiografia macchina + marketplace e auto-coscienza **in tempo reale**. **Diagnosi verificata:** Pannello poll ok (60s) ma lista «Radiografia» = **foto scan 7/7** (74 problemi macchina, 87 marketplace) — i fix **chiudono il cantiere** (42 chiusi, 1 in corso Pane Quotidiano, agg. 19:10), **non riscrivono** la lista dell'audit. Voto testa: 51 (scan) vs **75** (sonda live). **Fix 🟡 PR #344** (`358721c`): voto live, banner scan/cantiere, poll 30s. Per far sparire la lista lunga serve **nuovo audit completo** («radiografia di te stesso» + radiografia marketplace). Merge 🔴 #344 pendente. Fonte: chat Nicola 13/7 ~19:32 + conteggio `cantiere-difetti.json` / `auto-radiografia.json`.
+>
 > 💬 **13/7 ~19:23 — CHAT: nona prova streaming — Nicola «2) tutto insieme».** Chiarimento post-feedback 3 punti: testo finale **non** cresce parola per parola nemmeno negli ultimi secondi — arriva in un colpo solo. **«Sto elaborando…» subito** resta ok (#343); **testo vero** e **pallini** ancora rotti. **Diagnosi AD:** verificare se parziali esistono in DB ma Pannello non li mostra, o se Cursor manda blocco intero; **non** ripetere merge/restart. **Main** `21fcb7a5`. Fonte: chat Nicola 13/7 ~19:23.
 >
 > 💬 **13/7 ~19:20 — CHAT: perché Attività & Briefing sono dell'11/7?** Nicola chiede date «dell'altro ieri» nel Pannello. **Verificato:** ultimo file briefing = `Briefing/2026-07-11.md` (`data: 2026-07-11 14:30`); **12/7** nessun giro (mattino/sera); **13/7** aggiornati STATO, Sala Operativa e report sera (~18:00) **via chat/fix Pannello**, senza nuovo briefing. Il Pannello mostra l'ultimo briefing esistente — **non è rotto**. Numeri business invariati dal 24/6. Per data 13/7 in quella sezione → «fai un giro». Fonte: chat Nicola 13/7 ~19:20 + elenco `Briefing/`.
