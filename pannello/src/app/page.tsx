@@ -182,6 +182,19 @@ function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): strin
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0] ?? new Date().toISOString());
 }
 
+/** Per il pallino: conta solo risposte FINITIE — i parziali dello streaming (in_corso) non devono farlo tornare. */
+function tsUltimoAssistantFinale(c: Conversazione, gruppo?: GruppoLavori | null): string {
+  const candidati: string[] = [c.updated_at];
+  if (gruppo?.lavori.length) {
+    for (const l of gruppo.lavori) {
+      if ((l.stato === "fatto" || l.stato === "errore") && (l.risultato || "").trim()) {
+        candidati.push(l.updated_at || l.created_at);
+      }
+    }
+  }
+  return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0]);
+}
+
 /** Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB). */
 function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): Msg[] {
   if (!gruppo?.lavori.length) return c.messaggi;
@@ -205,7 +218,7 @@ function haRispostaNonLetta(
   if (!last || last.role !== "assistant") return false;
   const lettaAt = convLette[c.id];
   if (!lettaAt) return true;
-  return new Date(tsConvAggiornato(c, gruppo)).getTime() > new Date(lettaAt).getTime();
+  return new Date(tsUltimoAssistantFinale(c, gruppo)).getTime() > new Date(lettaAt).getTime();
 }
 
 function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
@@ -999,13 +1012,18 @@ export default function Dashboard() {
     if (!parziale) return;
     const rimpiazza = (msgs: Msg[]): Msg[] => {
       const i = msgs.findIndex((x) => x.pending);
-      if (i === -1 || msgs[i].content === parziale) return msgs;
+      if (i === -1) {
+        // Dopo refresh o race: il pendente c'è in coda ma manca la bolla — la ricreiamo.
+        return [...msgs, { id: nuovoIdMsg(), role: "assistant", content: parziale, pending: true }];
+      }
+      if (msgs[i].content === parziale) return msgs;
       const copia = [...msgs];
       copia[i] = { ...msgs[i], content: parziale };
       return copia;
     };
     if (convIdRef.current === targetConvId) {
       setMessages((m) => rimpiazza(m));
+      setLoading(true);
       return;
     }
     setConversazioni((list) => {
