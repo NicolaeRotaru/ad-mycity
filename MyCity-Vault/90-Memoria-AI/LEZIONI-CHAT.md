@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:13] Nicola «ok fatto» = allineamento VPS completato post-#343 — worker-chat riavviato 19:10; **nona** prova streaming = «Sto elaborando…» subito dopo invio + testo che cresce; pallini = feedback separato.
 - [2026-07-13] `aggiorna-cervello.sh` **RIMANDATO** se VPS resta su branch `fix/*` fresco (<30 min) — anche con working tree pulito; **prima** `git checkout main` (stash memoria se serve, reset `routing.json`), **poi** script; non confondere con merge mancante.
 - [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
 - [2026-07-13] Primo «cresce live» dopo 7 prove **non chiude** il tema streaming — «solo alla fine» ≠ obiettivo; non dichiarare vittoria finché non parte dall'inizio; chiedi sempre se pallini ancora rotti post-deploy.
