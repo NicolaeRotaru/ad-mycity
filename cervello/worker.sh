@@ -487,7 +487,7 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
 
-# 🔌 PLUGIN WORKER — manifest: cervello/worker-plugins.json (fase 1+2: 13 skill).
+# 🔌 PLUGIN WORKER — manifest: cervello/worker-plugins.json (fase 1+2+3: 21 skill).
 # Caveman NON è skill globale: solo frammento prompt su lavori interni; in chat il contratto Nicola vince.
 plugin_prompt_for_tipo() {
   local tipo="${1:-}"
@@ -503,12 +503,15 @@ EOF
   fi
   cat <<'EOF'
 PLUGIN (skill Cursor approvate):
-- grilling / superpowers: stress-test e piani strutturati prima di agire.
-- ponytail / tdd / diagnosing-bugs / code-simplifier: codice minimo, test, debug, pulizia post-modifica.
+- grilling / superpowers / systematic-debugging: stress-test, piani strutturati, root-cause prima del fix.
+- ponytail / tdd / diagnosing-bugs / code-simplifier / codebase-design: codice minimo, test, debug, architettura moduli.
 - differential-review: security pre-merge su PR (auth, payout, RLS).
+- supabase / supabase-postgres-best-practices: DB marketplace, RLS, query performance.
 - react-best-practices / web-design-guidelines / webapp-testing: Pannello performance, UX, test browser.
 - handoff: comprime sessioni lunghe in doc di passaggio.
 - firecrawl: ricerca web strutturata (solo se FIRECRAWL_API_KEY in .env).
+- codebase-search: repo marketplace remoto (solo se MCP Tabnine collegato).
+- pdf / xlsx / docx: documenti bandi e contratti.
 EOF
   if [ -f "$frag" ]; then
     echo ""

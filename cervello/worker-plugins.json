@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Manifest plugin approvati per il worker Cursor. Ogni voce ha scope (dove si applica) e target (dove finisce nel repo). Sync: node cervello/sync-worker-plugins.mjs",
-  "aggiornato": "2026-07-13 17:15",
+  "aggiornato": "2026-07-13 17:19",
   "plugin": [
     {
       "id": "grilling",
@@ -217,25 +217,156 @@
       "quando": "Ricerca/scrape web strutturato (intelligence, competitor). Richiede FIRECRAWL_API_KEY 🔴.",
       "licenza": "MIT",
       "nota": "Attivo solo se chiave in .env VPS — altrimenti resta Tavily/WebSearch nativo"
+    },
+    {
+      "id": "systematic-debugging",
+      "nome": "Systematic debugging",
+      "repo": "obra/superpowers",
+      "ref": "main",
+      "path_sorgente": "skills/systematic-debugging/SKILL.md",
+      "target": ".cursor/skills/systematic-debugging/SKILL.md",
+      "scope": [
+        "codice",
+        "lavori"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**",
+        "marketplace/**"
+      ],
+      "quando": "Prima di ogni fix: 4 fasi root-cause (non patch sintomo). Complementa diagnosing-bugs.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "codebase-design",
+      "nome": "Codebase design",
+      "repo": "mattpocock/skills",
+      "ref": "main",
+      "path_sorgente": "skills/engineering/codebase-design/SKILL.md",
+      "target": ".cursor/skills/codebase-design/SKILL.md",
+      "scope": [
+        "codice",
+        "lavori"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "creativi/**"
+      ],
+      "quando": "Vocabolario moduli profondi (seam, adapter) prima di refactor o nuove API.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "supabase",
+      "nome": "Supabase (ufficiale)",
+      "repo": "supabase/agent-skills",
+      "ref": "main",
+      "path_sorgente": "skills/supabase/SKILL.md",
+      "target": ".cursor/skills/supabase/SKILL.md",
+      "scope": [
+        "codice",
+        "backend"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "marketplace/**"
+      ],
+      "quando": "Auth, RLS, migrazioni, Edge Functions, MCP docs — marketplace e memoria DB.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "supabase-postgres-best-practices",
+      "nome": "Supabase Postgres best practices",
+      "repo": "supabase/agent-skills",
+      "ref": "main",
+      "path_sorgente": "skills/supabase-postgres-best-practices/SKILL.md",
+      "target": ".cursor/skills/supabase-postgres-best-practices/SKILL.md",
+      "scope": [
+        "codice",
+        "backend"
+      ],
+      "globs": [
+        "pannello/**",
+        "cervello/**",
+        "marketplace/**"
+      ],
+      "quando": "Query lente, indici, RLS performance — dopo supabase skill.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "codebase-search",
+      "nome": "Codebase search (Tabnine)",
+      "repo": "tabnine/skills",
+      "ref": "main",
+      "path_sorgente": "plugins/cursor/tabnine/skills/codebase-search/SKILL.md",
+      "target": ".cursor/skills/codebase-search/SKILL.md",
+      "scope": [
+        "codice",
+        "interno"
+      ],
+      "quando": "Cerca nel repo marketplace remoto (mycity-live) — serve Tabnine Context Engine MCP.",
+      "licenza": "MIT",
+      "nota": "Attivo solo se MCP tabnine-context collegato — altrimenti grep/read locale"
+    },
+    {
+      "id": "pdf",
+      "nome": "PDF documents",
+      "repo": "anthropics/skills",
+      "ref": "main",
+      "path_sorgente": "skills/pdf/SKILL.md",
+      "target": ".cursor/skills/pdf/SKILL.md",
+      "scope": [
+        "interno",
+        "bandi"
+      ],
+      "quando": "Legge/estrae PDF bandi, contratti, visure — grant-writer, legale.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "xlsx",
+      "nome": "Excel spreadsheets",
+      "repo": "anthropics/skills",
+      "ref": "main",
+      "path_sorgente": "skills/xlsx/SKILL.md",
+      "target": ".cursor/skills/xlsx/SKILL.md",
+      "scope": [
+        "interno",
+        "bandi"
+      ],
+      "quando": "Fogli rendicontazione bandi, budget, export numeri.",
+      "licenza": "MIT"
+    },
+    {
+      "id": "docx",
+      "nome": "Word documents",
+      "repo": "anthropics/skills",
+      "ref": "main",
+      "path_sorgente": "skills/docx/SKILL.md",
+      "target": ".cursor/skills/docx/SKILL.md",
+      "scope": [
+        "interno",
+        "bandi"
+      ],
+      "quando": "Moduli bando, contratti Word, bozze legali.",
+      "licenza": "MIT"
     }
   ],
-  "candidati_fase3": [
-    "obra/superpowers — systematic-debugging, subagent-driven-development, requesting-code-review",
-    "mattpocock/skills — codebase-design, domain-modeling, improve-codebase-architecture",
-    "cursor-public/supabase — skill Supabase ufficiale",
-    "cursor-public/tabnine — codebase-search cross-repo",
-    "anthropics/skills — pdf, xlsx, docx (documenti bandi/contratti)",
+  "candidati_fase4": [
+    "obra/superpowers — subagent-driven-development, requesting-code-review, verification-before-completion",
+    "mattpocock/skills — domain-modeling, improve-codebase-architecture",
     "getsentry/skills — seer (root cause produzione)",
     "vercel-labs/agent-skills — composition-patterns",
-    "Trail of Bits — semgrep, codeql (se servono scan automatici)",
-    "MyCity verify — skill interna Playwright+bats già in .claude/skills/verify"
+    "Trail of Bits — semgrep, codeql (scan automatici)",
+    ".claude/skills/verify — esporre anche come .cursor/skills/verify per parity worker"
   ],
   "ultimo_sync": [
     {
-      "id": "firecrawl",
-      "target": ".cursor/skills/firecrawl/SKILL.md",
-      "sha": "b02b8467e6f4",
-      "byte": 17585
+      "id": "docx",
+      "target": ".cursor/skills/docx/SKILL.md",
+      "sha": "cfbabd72b1ae",
+      "byte": 20056
     }
   ]
 }
