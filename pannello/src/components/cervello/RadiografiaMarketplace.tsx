@@ -16,6 +16,7 @@ type Dati = {
   collegato: boolean; messaggio?: string; data?: string; fonte_raw?: string; report?: string | null;
   sintesi?: string; meta?: { findings?: number; bloccanti?: number; gravi?: number; minori?: number; agenti?: number | null };
   dimensioni?: Dimensione[];
+  live?: { data_scan?: string | null; scan_ore_fa?: number | null; scan_stale?: boolean };
 };
 
 const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
@@ -24,6 +25,8 @@ const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
   minore: { cls: "border-black/10 bg-paper/40", dot: "bg-black/30", label: "MINORE" },
 };
 const PESO: Record<string, number> = { bloccante: 0, grave: 1, minore: 2 };
+
+const POLL_MS = 30_000;
 
 export default function RadiografiaMarketplace() {
   const [d, setD] = useState<Dati | null>(null);
@@ -34,7 +37,7 @@ export default function RadiografiaMarketplace() {
     const carica = () =>
       fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
     carica();
-    const id = setInterval(carica, 60000);
+    const id = setInterval(carica, POLL_MS);
     return () => clearInterval(id);
   }, []);
 
@@ -80,6 +83,13 @@ export default function RadiografiaMarketplace() {
           </div>
 
           {d.sintesi && <p className="t-corpo break-words mb-3">{d.sintesi}</p>}
+          {d.live?.scan_stale && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 mb-3 text-[12px] text-amber-900/90">
+              <b>Audit del sito del {d.data ? dataVault(d.data) : "—"}</b>
+              {d.live.scan_ore_fa != null ? ` (${d.live.scan_ore_fa}h fa)` : ""}.
+              {" "}I fix sul codice del marketplace non aggiornano da soli questa lista — serve un nuovo audit («radiografia») dopo i merge importanti.
+            </div>
+          )}
           {d.report && (
             <p className="t-eti mb-3 flex items-center gap-1"><FileText size={12} /> Report completo: <code className="text-brand">{d.report}</code></p>
           )}

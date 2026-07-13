@@ -46,6 +46,44 @@ function sanificaRadiografia(r: any): void {
   }
 }
 
+function oreDaDataPiacenza(dataStr: unknown): number | null {
+  const m = String(dataStr ?? "").match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if (!m) return null;
+  const [, y, mo, d, h = "12", mi = "00"] = m;
+  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
+  if (Number.isNaN(t)) return null;
+  return (Date.now() - t) / 3600000;
+}
+
+/** Numeri LIVE dal cantiere + sonda: la lista «Radiografia» è una foto dell'audit, il cantiere è il backlog vivo. */
+function calcolaLive(radiografia: any, cantiere: any) {
+  const sonda = radiografia?.sonda || {};
+  const difetti = Array.isArray(cantiere?.difetti) ? cantiere.difetti : [];
+  const aperti = difetti.filter((d: any) => d?.stato === "aperto").length;
+  const in_corso = difetti.filter((d: any) => d?.stato === "in-corso").length;
+  const chiusi = difetti.filter((d: any) => d?.stato === "chiuso").length;
+  const oreScan = oreDaDataPiacenza(radiografia?.data);
+  const oreSonda = oreDaDataPiacenza(sonda.data);
+  const votoSonda = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;
+  const votoScan = Number(radiografia?.voto_salute_architettura);
+  // Preferisci la sonda se è più fresca dello scan completo (tipico dopo fix mergiati).
+  const usaSonda = votoSonda != null && (oreSonda ?? Infinity) <= (oreScan ?? Infinity) + 1;
+  const voto = usaSonda ? votoSonda : (Number.isFinite(votoScan) ? votoScan : votoSonda);
+  return {
+    voto: Number.isFinite(voto) ? voto : null,
+    fonte_voto: usaSonda ? "sonda" : "scan",
+    data_sonda: sonda.data || null,
+    data_scan: radiografia?.data || null,
+    cantiere_aggiornato: cantiere?.aggiornato || null,
+    aperti,
+    in_corso,
+    chiusi,
+    scan_ore_fa: oreScan != null ? Math.round(oreScan) : null,
+    sonda_ore_fa: oreSonda != null ? Math.round(oreSonda) : null,
+    scan_stale: oreScan != null && oreScan > 48,
+  };
+}
+
 export async function GET() {
   const [radiografia, cantiere, storico, watchlist, lettera] = await Promise.all([
     leggiJson(`${BASE}/auto-radiografia.json`),
@@ -64,5 +102,6 @@ export async function GET() {
         "La macchina non ha ancora fatto la radiografia di sé. Lancia «radiografia di te stesso» (cervello/auto-radiografia.md) per generare il primo verdetto sulla propria architettura.",
     });
   }
-  return NextResponse.json({ collegato: true, radiografia, cantiere, storico, watchlist, lettera });
+  const live = calcolaLive(radiografia, cantiere);
+  return NextResponse.json({ collegato: true, live, radiografia, cantiere, storico, watchlist, lettera });
 }

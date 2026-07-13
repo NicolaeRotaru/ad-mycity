@@ -1,10 +1,13 @@
 ## Summary
-Streaming chat partiva tardi: durante lettura dati/comandi Cursor non emette testo utile, quindi i parziali comparivano solo nell'ultima fase.
+- Radiografia macchina: voto **live** dalla sonda (75) invece dello scan fermo al 7/7 (51); banner che spiega che la lista problemi è una foto dell'audit mentre il **cantiere** si aggiorna coi fix
+- Radiografia marketplace: banner di staleness quando l'audit ha >48h
+- Poll auto-coscienza / radiografie: 60s → **30s**
 
-- Worker: segnale immediato «Sto elaborando…», stato «Sto verificando i dati…» durante tool_use, poll parziali ogni 0.5s (era 1.5s).
-- Pannello: bolla pending con testo subito, poll ogni 400ms, refresh lavori appena accodato.
+## Perché
+Nicola ha mergiato molti fix ma vedeva ancora decine di problemi: il Pannello rileggeva GitHub ma mostrava lo scan statico del 7 luglio, non il cantiere (42 chiusi, 1 in-corso).
 
-## Test plan
-- [ ] Invia messaggio in chat → entro 1s compare «Sto elaborando…» o «Sto verificando i dati…»
-- [ ] Durante la risposta il testo cresce dall'inizio (non solo negli ultimi secondi)
-- [ ] Merge + deploy Vercel + aggiorna-cervello.sh sul VPS
+## Come provare
+1. Merge e attendi deploy Vercel
+2. Apri Cervello → Radiografia di sé: voto ~75 con etichetta «live», banner giallo che rimanda al cantiere
+3. Tab Cantiere: 1 in-corso (AR-006), 42 chiusi
+4. Marketplace: banner se audit >48h
