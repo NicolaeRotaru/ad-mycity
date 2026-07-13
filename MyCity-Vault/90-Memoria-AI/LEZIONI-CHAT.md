@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Nicola «voglio ci sia sempre la descrizione della pr» — **#337** (`git-pr.mjs`): senza body reale (≥80 char, cosa/perché/prova) lo script **si ferma** (exit 1), niente più «PR aperta dall'AD…»; PR esistente → aggiorna body se diverso; prima scrivi in `consegne/tech/pr-*-body.md` o `--body`; merge 🔴 #110.
 - [2026-07-13] Nicola «c'è un conflitto» su pallino ~5s — #334 partiva da codice vecchio mentre **#328/#332/#333 già su main**; stesso errore L-129 (PR nuova invece di push sul branch); **mergia solo #336** (`ee9d3f9b`, 1 file Pannello, merge simulato OK), **chiudi #334**; prima di aprire PR verifica cosa c'è già su main; merge 🔴 #108.
 - [2026-07-13] Streaming chat Cursor — Nicola «apri pr» dopo «perché non scrivi più in tempo reale?»: **PR #335** (`db0552a0`) estende `rispondi_chat_stream` anche a `agent`; flag Cursor = `stream-json` + `--stream-partial-output` (NON `--include-partial-messages` di Claude — fa fallire il comando); post-merge **obbligatorio** `sudo systemctl restart mycity-worker-chat` sul VPS; merge 🔴 #109.
 - [2026-07-13] Aprire PR senza `--body` lascia solo testo script su GitHub — Nicola «perché non mi hai messo la descrizione della pr dentro github?» (#333): body completo (cosa/perché/prova) **al momento dell'apertura** con `git-pr.mjs --body` o `gh pr create --body-file`; se dimenticato, aggiorna subito — mai aspettare che Nicola se lo chieda.
@@ -16,4 +17,3 @@
 - [2026-07-13] Un bug = una PR — Nicola «impara» + «ripeterai?»: mai 2-3 PR stesso bug; branch fix = **solo** cartella del fix, zero file memoria worker; mai «pronta» senza simulare merge su main.
 - [2026-07-13] Guardiano agenti — `agent-registry-check.mjs` non leggeva le `description` del router: collisioni fraud-risk/trust-safety passavano in verde; fix PR #329, merge 🔴 #101.
 - [2026-07-13] Tab OKR & pagella mobile — Nicola: frasi fuori riquadro + numeri non «live»; overflow CSS **#326** (merge 🔴 #99); Stelle Polari refresh 60s; tabella OKR sotto = documento statico 24/6.
-- [2026-07-13] Ogni PR su GitHub deve avere descrizione comprensibile (cosa/perché/prova in 2–3 passi) — Nicola «sempre la descrizione della pr dentro github»; in chat incolla anche il riassunto col link.

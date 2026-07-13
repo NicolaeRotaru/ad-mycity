@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-337-git-pr-body-gate — Mergia PR #337: ogni PR ha descrizione obbligatoria su GitHub · ⏳ IN ATTESA · accodata 2026-07-13 17:53
+
+**Cosa fa:** `git-pr.mjs` si ferma se manca il body reale (cosa/perché/come provare) — niente più PR con solo «PR aperta dall'AD…»; se la PR esiste già, aggiorna la descrizione quando il testo è diverso.
+
+**PR su GitHub:** [#337 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/337) ← body verificato 997 caratteri
+
+**Cosa cambia:** da oggi nessuna PR nuova può aprirsi senza spiegazione in italiano dentro GitHub — lo script blocca l'AD se dimentica.
+**Se va bene:** mergi #337 dal Pannello (card #110) → prova ad aprire una PR senza body: deve fallire con messaggio chiaro.
+
+- **Colore:** 🔴 (merge dal Pannello — card #110)
+
+---
+
 ### 🟡 #pr-336-pallini-poll — Mergia PR #336: pallino resta spento dopo il poll (~5s) · ⏳ IN ATTESA · accodata 2026-07-13 17:51
 
 **Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
@@ -892,6 +905,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 105 | 2026-07-13 17:36 | @tech | Merge PR #332 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/332 | github | CHIUDI SENZA MERGE · sostituita da #336 2026-07-13 17:51 | Fix incompleto — pallino riaccende ancora dopo ~5s. | Chiudi #332; mergia solo #336 (card #108). |
 | 106 | 2026-07-13 17:37 | @tech | Merge PR #333 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/333 | github | GIÀ SU MAIN 2026-07-13 17:51 · chiudere se aperta | Graffetta Safari fluttuante già online su main. | Chiudi #333 se ancora aperta. |
 | 107 | 2026-07-13 17:45 | @tech | Merge PR #334 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | CHIUDI SENZA MERGE · sostituita da #336 2026-07-13 17:51 | #334 conflittuale — partiva da codice vecchio. | Chiudi #334; mergia solo #336 (card #108). |
+| 110 | 2026-07-13 17:53 | @builder-automazioni | Merge PR #337 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/337 | github | in attesa | Ogni PR ha descrizione obbligatoria su GitHub — git-pr.mjs blocca senza body reale. | Dopo Approva: nessuna PR nuova si apre più senza spiegazione in italiano dentro GitHub. |
 | 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | in attesa | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello, merge simulato OK. | Dopo Approva: deploy Vercel ~2 min; apri chat non letta, attendi 10s — pallino non torna. Chiudi #334. |
 | 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | in attesa | In chat torni a vedere la risposta crescere parola per parola con motore Cursor (non tutto insieme a fine lavoro). | Dopo Approva: merge + `sudo systemctl restart mycity-worker-chat` sul VPS → scrivi in chat e verifica streaming live. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).

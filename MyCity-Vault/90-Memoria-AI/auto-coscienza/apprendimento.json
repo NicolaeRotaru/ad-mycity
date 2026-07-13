@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:52",
+  "aggiornato": "2026-07-13 17:53",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-136",
+      "testo": "**Gate obbligatorio descrizione PR in git-pr.mjs (chat 13/7 ~17:52, correzione Nicola):** Nicola «voglio ci sia sempre la descrizione della pr a qualsiasi pr, ci riesci?» — dopo errore #333 (body solo testo script) e standing-ask 16:22/17:39. 5 perché: (1) regola comportamentale L-124 non bastava — errore ripetuto; (2) Nicola chiede garanzia strutturale («ci riesci?»), non promessa; (3) `git-pr.mjs` accettava body vuoto/generico; (4) **fix PR #337:** `requireBody()` + `isGenericBody()` — blocca (exit 1) se body <80 char o match «PR aperta dall'AD…»; auto-patch body su PR esistente se diverso; cerca body in `consegne/tech/pr-*-body.md`; (5) `worker.sh` rinforza istruzione body obbligatorio prima di `git-pr.mjs`. Merge 🔴 #110. Regola: promessa «sempre descrizione» = gate nel tool, non solo memoria.",
+      "tag": [
+        "pr",
+        "github",
+        "git-pr",
+        "gate",
+        "body",
+        "worker",
+        "pr-337",
+        "standing-ask",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.99,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 17:53",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-135",
       "testo": "**#334 conflittuale → solo #336, verifica main prima (chat 13/7 ~17:51, correzione Nicola):** Nicola «c'è un conflitto» su fix pallino ~5s. 5 perché: (1) #334 partiva da base vecchia mentre **#328/#332/#333 già mergiate su main** — mescola fix già online con fix nuovo; (2) violazione L-129: aperta #334 invece di push sullo stesso branch dopo residuo ~5s; (3) Nicola trova conflitto merge come con #328/#329; (4) **fix PR #336** (`ee9d3f9b`): ribasato su main HEAD, 1 solo file `pannello/`, simulazione merge OK; **#334 CHIUDI senza merge**; (5) **regola:** prima di aprire PR nuova verifica cosa è già su main e chiudi PR obsolete dello stesso bug; non dire «pronta» senza simula merge. Merge 🔴 #108.",
@@ -272,7 +295,7 @@
     },
     {
       "id": "L-2026-0713-124",
-      "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22 + 17:39):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292; **ripetuto 17:39** su #333 («perché non mi hai messo la descrizione…»). 5 perché: (1) apriva PR con `gh pr create` senza `--body` → su GitHub resta solo testo automatico dello script; (2) il link in chat non sostituisce il body dove Nicola firma; (3) Nicola legge e decide dal Pannello/GitHub; (4) errore ripetuto nonostante richiesta 16:22 — colpa processo AD, non GitHub; (5) **regola permanente:** body italiano (cosa/perché/prova 2–3 passi) **al momento dell'apertura** via `git-pr.mjs --body` o `--body-file`; in chat incollare riassunto; se dimenticato, aggiornare subito senza aspettare che chieda.",
+      "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22 + 17:39 + 17:52):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292; **ripetuto 17:39** su #333 («perché non mi hai messo la descrizione…»); **17:52** «voglio ci sia sempre… ci riesci?» = vuole gate strutturale (**PR #337**). 5 perché: (1) apriva PR senza `--body` → su GitHub resta solo testo automatico dello script; (2) il link in chat non sostituisce il body dove Nicola firma; (3) Nicola legge e decide dal Pannello/GitHub; (4) errore ripetuto nonostante richiesta 16:22 — colpa processo AD; (5) **regola permanente:** body italiano (cosa/perché/prova 2–3 passi) **al momento dell'apertura**; **gate:** `git-pr.mjs` `requireBody()` blocca se <80 char o generico (L-136).",
       "tag": [
         "pr",
         "github",
@@ -284,11 +307,11 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.99,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:47",
+      "ultima_conferma": "2026-07-13 17:53",
       "stato": "attiva"
     },
     {
@@ -3256,6 +3279,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Descrizione PR sempre — gate strutturale (chat 13/7 ~17:52):** «voglio ci sia sempre la descrizione della pr a qualsiasi pr, ci riesci?» — non basta promettere: vuole che lo script **blocchi** l'apertura senza body reale (≥80 char, cosa/perché/prova); zero tolleranza per testo automatico «PR aperta dall'AD…». Fix **PR #337** (`requireBody` in `git-pr.mjs`), merge 🔴 #110. Vedi L-136, L-124.",
     "**Descrizione PR al momento dell'apertura (chat 13/7 ~17:39):** «perché non mi hai messo la descrizione della pr dentro github?» su #333 — zero tolleranza per body vuoto o solo testo script; si aspetta body completo su GitHub **prima** di chiedere, non correzione dopo; rinforza standing-ask 16:22. Vedi L-2026-0713-124.",
     "**Allegati chat fluttuante iPhone (chat 13/7 ~17:35):** «no la chat fluttuante non mi lascia allegare i file» — usa iPhone/Safari in fluttuante; si aspetta che la graffetta apra il selettore file come in chat intera; workaround accettabile solo temporaneo (ingrandisci). Fix PR #333, merge 🔴 #106. Vedi L-2026-0713-134.",
     "**Pallino deve restare spento dopo apertura chat (chat 13/7 ~17:36–17:51):** «dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna» — zero tolleranza per pallino che riappare da solo; fix definitivo **PR #336** (merge 🔴 #108), non #334 (conflittuale, chiudere); #328/#332 già su main. Vedi L-2026-0713-133, L-135.",
