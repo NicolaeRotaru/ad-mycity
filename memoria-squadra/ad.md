@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-13 19:43 · Chat Nicola casella Gap MCP aggiornata? · atteso: spiegare freschezza vs fermo senza «Pannello rotto» · reale: auto-analisi 11/7, REST ok 19:30, business invariato; serve giro · L-154 · #MCP #gap #auto-coscienza
 - 2026-07-13 19:32 · Chat Nicola radiografia/auto-coscienza tempo reale · atteso: diagnosi scan vs cantiere + fix concreto · reale: lista = foto 7/7, cantiere vivo ok; PR #344; merge 🔴 pendente; nuovo audit per shrink lista · L-152 · #radiografia #auto-coscienza #pannello
 - 2026-07-13 19:20 · Chat Nicola «perché Attività e briefing dell'altro ieri?» · atteso: spiegare gap data senza dire Pannello rotto · reale: ultimo briefing 11/7 14:30, 12/7 zero giro, 13/7 solo update chat; L-150 + preferenza date Attività · #briefing #giro #pannello
 - 2026-07-13 17:27 · Nicola «hai imparato o ripeterai?» — test accountability dopo lezione PR pallini · atteso: risposta con regole concrete + memoria aggiornata · reale: L-129 rinforzata (evidenze 4), preferenza accountability, DECISIONI 17:27; #328 ancora in attesa merge · L-2026-0713-129 · #impara-errori #accountability
