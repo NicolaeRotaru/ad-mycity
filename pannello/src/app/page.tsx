@@ -182,9 +182,19 @@ function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): strin
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0] ?? new Date().toISOString());
 }
 
-/** Per il pallino: conta solo risposte FINITIE — i parziali dello streaming (in_corso) non devono farlo tornare. */
+/** Impronta dell'ultima risposta AD: il pallino confronta il TESTO, non l'orario generico della chat. */
+function fpUltimaRisposta(c: Conversazione, gruppo?: GruppoLavori | null): string {
+  const msgs = messaggiConvEffettivi(c, gruppo).filter((m) => !m.prompt && !m.pending);
+  const last = msgs[msgs.length - 1];
+  if (!last || last.role !== "assistant") return "";
+  const t = last.content.trim();
+  if (!t) return "";
+  return `${t.length}:${t.slice(0, 120)}`;
+}
+
+/** Per il pallino (fallback timestamp): solo lavori FINITI — mai c.updated_at (salvataggi/merge lo bumpano senza nuova risposta). */
 function tsUltimoAssistantFinale(c: Conversazione, gruppo?: GruppoLavori | null): string {
-  const candidati: string[] = [c.updated_at];
+  const candidati: string[] = [];
   if (gruppo?.lavori.length) {
     for (const l of gruppo.lavori) {
       if ((l.stato === "fatto" || l.stato === "errore") && (l.risultato || "").trim()) {
@@ -192,6 +202,12 @@ function tsUltimoAssistantFinale(c: Conversazione, gruppo?: GruppoLavori | null)
       }
     }
   }
+  if (candidati.length === 0) {
+    const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
+    const last = msgs[msgs.length - 1];
+    if (last?.role === "assistant") candidati.push(c.updated_at);
+  }
+  if (candidati.length === 0) return "";
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0]);
 }
 
@@ -206,6 +222,7 @@ function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): 
 function haRispostaNonLetta(
   c: Conversazione,
   convLette: Record<string, string>,
+  convLetteFp: Record<string, string>,
   convAttiva: string | null,
   chatVisibile: boolean,
   gruppo?: GruppoLavori | null
@@ -213,12 +230,14 @@ function haRispostaNonLetta(
   // convId resta impostato anche fuori dall'Assistente (es. Plancia): nascondere il pallino
   // solo quando la chat è DAVVERO aperta a schermo, altrimenti le risposte AD «di sfondo» spariscono.
   if (chatVisibile && convAttiva === c.id) return false;
-  const msgs = messaggiConvEffettivi(c, gruppo).filter((m) => !m.prompt && !m.pending);
-  const last = msgs[msgs.length - 1];
-  if (!last || last.role !== "assistant") return false;
+  const fp = fpUltimaRisposta(c, gruppo);
+  if (!fp) return false;
+  if (convLetteFp[c.id] === fp) return false;
   const lettaAt = convLette[c.id];
   if (!lettaAt) return true;
-  return new Date(tsUltimoAssistantFinale(c, gruppo)).getTime() > new Date(lettaAt).getTime();
+  const ts = tsUltimoAssistantFinale(c, gruppo);
+  if (!ts) return true;
+  return new Date(ts).getTime() > new Date(lettaAt).getTime();
 }
 
 function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
@@ -784,6 +803,12 @@ export default function Dashboard() {
     try { return JSON.parse(localStorage.getItem("mycity_conv_lette") || "{}"); }
     catch { return {}; }
   });
+  // Impronta ultima risposta letta (evita pallino che torna dopo poll senza nuovo testo)
+  const [convLetteFp, setConvLetteFp] = useState<Record<string, string>>(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem("mycity_conv_lette_fp") || "{}"); }
+    catch { return {}; }
+  });
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
@@ -1100,6 +1125,10 @@ export default function Dashboard() {
     // segnaLetta se il ref non è ancora aggiornato — senza now il pallino torna al prossimo poll.
     const base = tsLettaPerConv(id);
     const ora = tsMaxIso(at ? tsMaxIso(at, base) : base, new Date().toISOString());
+    const c = conversazioniRef.current.find((x) => x.id === id);
+    const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
+    const fp = c ? fpUltimaRisposta(c, g) : "";
     setConvLette((prev) => {
       if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
       const n = { ...prev, [id]: ora! };
@@ -1107,32 +1136,47 @@ export default function Dashboard() {
       if (convServerRef.current) accodaSyncConvMeta(n);
       return n;
     });
+    if (fp) {
+      setConvLetteFp((prev) => {
+        if (prev[id] === fp) return prev;
+        const n = { ...prev, [id]: fp };
+        try { localStorage.setItem("mycity_conv_lette_fp", JSON.stringify(n)); } catch {}
+        return n;
+      });
+    }
   }
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
     if (id) segnaLetta(id);
   }
-  /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
-  function migraConvLetteBaseline(list: Conversazione[]) {
+  /** Una tantum: chat storiche con risposta AD → già viste (niente pallini su tutto). v3 include lavori. */
+  function migraConvLetteBaseline(list: Conversazione[], gruppi: Map<string, GruppoLavori>) {
     try {
-      if (localStorage.getItem("mycity_conv_lette_baseline_v2")) return;
+      if (localStorage.getItem("mycity_conv_lette_baseline_v3")) return;
       const lette = JSON.parse(localStorage.getItem("mycity_conv_lette") || "{}") as Record<string, string>;
+      const fpMap = JSON.parse(localStorage.getItem("mycity_conv_lette_fp") || "{}") as Record<string, string>;
       let changed = false;
       for (const c of list) {
-        if (lette[c.id]) continue;
-        const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
-        const last = msgs[msgs.length - 1];
-        if (last?.role === "assistant") {
-          lette[c.id] = c.updated_at;
+        const g = gruppi.get(c.id);
+        const fp = fpUltimaRisposta(c, g);
+        if (!fp) continue;
+        if (!fpMap[c.id]) {
+          fpMap[c.id] = fp;
+          changed = true;
+        }
+        if (!lette[c.id]) {
+          lette[c.id] = tsUltimoAssistantFinale(c, g) || c.updated_at;
           changed = true;
         }
       }
       if (changed) {
         localStorage.setItem("mycity_conv_lette", JSON.stringify(lette));
+        localStorage.setItem("mycity_conv_lette_fp", JSON.stringify(fpMap));
         setConvLette(lette);
+        setConvLetteFp(fpMap);
       }
-      localStorage.setItem("mycity_conv_lette_baseline_v2", "1");
+      localStorage.setItem("mycity_conv_lette_baseline_v3", "1");
     } catch {}
   }
 
@@ -1793,7 +1837,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             created_at: c.created_at,
             updated_at: c.updated_at,
           }));
-          migraConvLetteBaseline(incoming);
+          const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+          const gruppi = new Map<string, GruppoLavori>();
+          for (const g of raggruppaLavori(lavoriRef.current, m)) gruppi.set(g.id, g);
+          migraConvLetteBaseline(incoming, gruppi);
           const attiva = convIdRef.current;
           const merged = mergeListaConversazioni(conversazioniRef.current, incoming, attiva);
           if (!conversazioniUguali(conversazioniRef.current, merged)) {
@@ -1843,6 +1890,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [convServer, caricaConversazioni]);
+
+  // Baseline pallini v3: quando arrivano i lavori, marca le chat storiche (risposte solo nei Lavori).
+  useEffect(() => {
+    if (!convServer || conversazioni.length === 0) return;
+    migraConvLetteBaseline(conversazioni, gruppiConvById);
+  }, [convServer, conversazioni, gruppiConvById]);
 
   // Esci dall'Assistente → segna letta la chat che avevi aperta (pallino sparisce).
   const vistaPrecRef = useRef(vista);
@@ -2544,7 +2597,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   return (
                   <div
@@ -2799,7 +2852,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;
                   return (
