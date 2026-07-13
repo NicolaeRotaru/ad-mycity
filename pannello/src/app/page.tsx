@@ -119,6 +119,7 @@ import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
+import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
@@ -2941,43 +2942,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </>
       )}
     </div>
-  );
-}
-
-// 📎 Graffetta: input file DENTRO il bottone (label). Su iPhone Safari il click programmatico
-// su un input nascosto fuori dalla finestra fluttuante spesso non apre il selettore file.
-function BottoneAllegatiChat({
-  disabled,
-  iconSize,
-  className,
-  onScegli,
-}: {
-  disabled: boolean;
-  iconSize: number;
-  className: string;
-  onScegli: (lista: FileList | null) => void;
-}) {
-  return (
-    <label
-      className={`relative ${className} ${disabled ? "opacity-40 pointer-events-none" : "cursor-pointer"}`}
-      aria-label="Allega foto o file"
-      title="Allega foto o file (max 6)"
-    >
-      <input
-        type="file"
-        multiple
-        accept="image/*,application/pdf,.txt,.csv,.md"
-        disabled={disabled}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        onChange={(e) => {
-          onScegli(e.target.files);
-          e.target.value = "";
-        }}
-      />
-      <span className="pointer-events-none grid place-items-center">
-        <Paperclip size={iconSize} />
-      </span>
-    </label>
   );
 }
 
