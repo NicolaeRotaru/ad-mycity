@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:52
-fonte: AD digitale (🌙 13/7 19:52 METABOLIZZA: conflitto PR #346 risolto. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:51
+fonte: AD digitale (🌙 13/7 19:51 METABOLIZZA: pallini scenario 1+4 → PR #348. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:41 — CHAT: pallini scenario 1+4 — PR #348 fingerprint risposta.** Nicola «1 e 4» dopo menu diagnosi (19:34): (1) apri/leggi/esci → poll ~8s riaccende rosso; (4) tutte rosse anche già viste — **stesso difetto**. **Causa verificata:** «letto» confrontava timestamp/`updated_at` (cresce senza nuovo messaggio); risposte AD solo in **Lavori** non marcate lette → elenco tutto rosso. **Fix 🟡 PR #348** (`97522589`, branch `fix/pallini-fingerprint-v3`): impronta **ultima risposta** (stesso testo = letto) + bootstrap storico via Lavori al primo load. Merge 🔴 #118 pendente; post-merge deploy ~2 min + Ctrl+Shift+R; test 15s esci da chat + elenco non tutto rosso. **Main** `70e02b31`. Fonte: chat Nicola 13/7 ~19:41.
+>
 > 💬 **13/7 ~19:50 — CHAT: conflitto PR #346 risolto — solo file body, codice ok.** Nicola «c'è un conflitto» su merge #346 (scelte ragionate). **Verificato:** conflitto solo in `consegne/tech/pr-ad-mycity-body.md` (descrizione PR) con fix auto-analisi live già su main — **nessun** conflitto su `registro-realta.json` né `registro-scelte-check.mjs`. **Fix 🟢:** rebase su main, commit `28ae3360` + `07c4b357`, push stesso branch #346 → mergeable. `node cervello/registro-scelte-check.mjs` → exit 0 (9 prospect attesi, 10 in registro). **Pendente:** merge 🔴 #117 + Ctrl+Shift+R su pagina PR. Fonte: chat Nicola 13/7 ~19:50.
 >
 > 💬 **13/7 ~19:37 — CHAT: radiografia «risolvi» — sync cantiere→lista (PR #347).** Nicola «risolvi questo problema» dopo analisi 19:33 (scan vs cantiere). **Fix 🟡 PR #347** (`b19b0761`): script `allinea-scan-cantiere.mjs` gira a ogni giro e allinea scan ↔ cantiere (7 voci collegate già chiuse in sync); tab «Da fare ora» = **1** (Pane Quotidiano); voto live **75**; cantiere **0 aperti / 1 in-corso / 42 chiusi**; 67 voci restano archivio audit (senza codice AR). **Marketplace:** 87 problemi ancora scan **7/7** — etichettati, nuovo audit per calare. #344 (banner/voto) già su main. Merge 🔴 #347 pendente. Fonte: chat Nicola 13/7 ~19:37 + `node cervello/allinea-scan-cantiere.mjs --json`.

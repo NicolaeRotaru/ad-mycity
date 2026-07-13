@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 19:51 · Pallini scenario 1+4 — Nicola «1 e 4» · atteso: fix mirato fingerprint, non altro tentativo generico · reale: PR #348 impronta ultima risposta + seed Lavori; scenario 1+4 = stesso difetto timestamp vs testo; merge 🔴 #118 · L-160 · #pannello #pallini #pr-348
 - 2026-07-13 19:50 · Radiografia sync cantiere→scan — Nicola «risolvi» post-analisi · atteso: dati che si muovono con i fix · reale: PR #347 `allinea-scan-cantiere.mjs` + tab «Da fare ora»; voto live 75; 7 voci allineate; merge 🔴 #347 · L-158 · #pannello #radiografia #pr-347
 - 2026-07-13 19:46 · Auto-analisi live — Nicola «tutto in tempo reale» · atteso: spiegare cosa può essere live vs giro + fix Pannello · reale: PR #345 chip/avvisi/sensori poll 30s + banner due date; sintesi/voto restano giro; merge 🔴 #116 · L-156 · #pannello #auto-coscienza #pr-345
 - 2026-07-13 19:34 · Pallini ancora rossi post-#336–#342 — Nicola chiede perché persistono · atteso: spiegare causa + prossimo fix mirato · reale: 4 PR oggi insufficienti; ipotesi uscita→poll ~8s vs updated_at; solo Pannello Vercel; nessuna PR residuo; attende scenario 1–4 · L-153 · #pannello #pallini #pr-342
