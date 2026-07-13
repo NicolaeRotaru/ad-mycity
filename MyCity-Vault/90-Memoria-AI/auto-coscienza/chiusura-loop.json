@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di freschezza dei 42 quaderni memoria-squadra. La sonda flagga i fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-13 18:20",
+  "aggiornato": "2026-07-13 22:20",
   "soglia_giorni": 7,
   "totale": 43,
   "vuoti": 2,
-  "fermi": 33,
-  "vivi": 10,
+  "fermi": 30,
+  "vivi": 13,
   "reparti_fermi": [
     "ads-performance",
     "ai-copywriter",
@@ -13,7 +13,6 @@
     "ai-video",
     "backend-dev",
     "contabilita",
-    "content-social",
     "crm-lifecycle",
     "cro",
     "customer-success",
@@ -30,7 +29,6 @@
     "onboarding-negozi",
     "operations",
     "pr-stampa",
-    "product-manager",
     "prompt-engineer",
     "qa-designer",
     "qa",
@@ -38,8 +36,7 @@
     "rider-fleet",
     "seo",
     "supporto",
-    "trust-safety",
-    "ux-designer"
+    "trust-safety"
   ],
   "quaderni": [
     {
@@ -52,8 +49,8 @@
     },
     {
       "reparto": "ad",
-      "righe_esito": 17,
-      "ultimo_esito": "2026-07-13 17:27",
+      "righe_esito": 24,
+      "ultimo_esito": "2026-07-13 21:10",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -92,9 +89,9 @@
     },
     {
       "reparto": "analista",
-      "righe_esito": 12,
-      "ultimo_esito": "2026-07-11 11:40",
-      "giorni_fa": 2,
+      "righe_esito": 13,
+      "ultimo_esito": "2026-07-13 20:21",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -108,8 +105,8 @@
     },
     {
       "reparto": "builder-automazioni",
-      "righe_esito": 20,
-      "ultimo_esito": "2026-07-13 18:18",
+      "righe_esito": 27,
+      "ultimo_esito": "2026-07-13 21:13",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -124,17 +121,17 @@
     },
     {
       "reparto": "content-social",
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-03",
-      "giorni_fa": 10,
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-13 21:01",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "crm-lifecycle",
       "righe_esito": 2,
       "ultimo_esito": "2026-07-02 07:35",
-      "giorni_fa": 11,
+      "giorni_fa": 12,
       "vuoto": false,
       "fermo": true
     },
@@ -172,8 +169,8 @@
     },
     {
       "reparto": "devops-sre",
-      "righe_esito": 38,
-      "ultimo_esito": "2026-07-13 18:15",
+      "righe_esito": 47,
+      "ultimo_esito": "2026-07-13 19:44",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -212,8 +209,8 @@
     },
     {
       "reparto": "frontend-dev",
-      "righe_esito": 54,
-      "ultimo_esito": "2026-07-13 18:15",
+      "righe_esito": 82,
+      "ultimo_esito": "2026-07-13 22:16",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -284,11 +281,11 @@
     },
     {
       "reparto": "product-manager",
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 12,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-13 22:16",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "prompt-engineer",
@@ -356,8 +353,8 @@
     },
     {
       "reparto": "tech",
-      "righe_esito": 16,
-      "ultimo_esito": "2026-07-13 17:51",
+      "righe_esito": 29,
+      "ultimo_esito": "2026-07-13 22:04",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -372,16 +369,16 @@
     },
     {
       "reparto": "ux-designer",
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 12,
+      "righe_esito": 5,
+      "ultimo_esito": "2026-07-13 22:16",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "vendite",
-      "righe_esito": 11,
-      "ultimo_esito": "2026-07-13 11:25",
+      "righe_esito": 15,
+      "ultimo_esito": "2026-07-13 20:13",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false

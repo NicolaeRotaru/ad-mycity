@@ -4,15 +4,6 @@
     {
       "data": "2026-07-03",
       "voto_salute": 42,
-      "voto_provvisorio_pending_merge": 50,
-      "difetti_aperti": 2,
-      "difetti_chiusi": 20,
-      "tipo": "review",
-      "nota": "REVIEW SETTIMANALE 15:00. Radiografia completa NON ri-lanciata di proposito: ultima completa 07-02 12:09 (<27h), architettura statica, gate efficienza AR-019/AR-025 vieta re-run pesanti senza novità → snapshot a livello sonda (il Max si spende dove rende). Cantiere: 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024 voto congelato/alert-fatigue, AR-025 delta-gate su contatore cieco opzionale). Voto fermo a 42 (blocco volontario 'finché non mergiato+deployato'); provvisorio ~50 al merge. Verdetto settimana: volano-ARCHITETTURA gira (20 fix), volano-BUSINESS NON ha ancora 1 esito misurato (0 consegnati, esperimenti=[])."
-    },
-    {
-      "data": "2026-07-03",
-      "voto_salute": 42,
       "difetti_aperti": 2,
       "difetti_chiusi": 20,
       "tipo": "sonda",
@@ -1225,6 +1216,20 @@
       "bloccanti_umani": 1,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing STALE (54h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+    },
+    {
+      "data": "2026-07-13",
+      "voto_salute": 75,
+      "voto_provvisorio": 75,
+      "voto_pieno": 75,
+      "firma": "",
+      "difetti_aperti": 0,
+      "difetti_chiusi": 42,
+      "pending_merge": 0,
+      "aperti_davvero": 0,
+      "bloccanti_umani": 1,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     }
   ]
 }
