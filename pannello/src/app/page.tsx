@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, memo, Fragment } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo, Fragment } from "react";
 import {
   Send,
   Loader2,
@@ -124,7 +124,7 @@ import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
-import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
+import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { ripristinaSub } from "@/lib/nav";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
@@ -171,15 +171,37 @@ function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conve
   });
 }
 
+function tsMaxIso(a: string, b: string): string {
+  return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
+}
+
+/** Timestamp «ultimo movimento» — conversazione salvata + lavori collegati (fonte più fresca). */
+function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): string {
+  const candidati = [c.updated_at, gruppo?.ultimoAt].filter(Boolean) as string[];
+  return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0] ?? new Date().toISOString());
+}
+
+/** Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB). */
+function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): Msg[] {
+  if (!gruppo?.lavori.length) return c.messaggi;
+  const daLavori = messaggiDaGruppo(gruppo.lavori) as Msg[];
+  return mergeThreadMsgs(c.messaggi, daLavori);
+}
+
 /** Pallino rosso: l'ultimo messaggio reale è una risposta AI e Nicola non l'ha ancora aperta/letta. */
-function haRispostaNonLetta(c: Conversazione, convLette: Record<string, string>, convAttiva: string | null): boolean {
+function haRispostaNonLetta(
+  c: Conversazione,
+  convLette: Record<string, string>,
+  convAttiva: string | null,
+  gruppo?: GruppoLavori | null
+): boolean {
   if (convAttiva === c.id) return false;
-  const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
+  const msgs = messaggiConvEffettivi(c, gruppo).filter((m) => !m.prompt && !m.pending);
   const last = msgs[msgs.length - 1];
   if (!last || last.role !== "assistant") return false;
   const lettaAt = convLette[c.id];
   if (!lettaAt) return true;
-  return c.updated_at > lettaAt;
+  return new Date(tsConvAggiornato(c, gruppo)).getTime() > new Date(lettaAt).getTime();
 }
 
 function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
@@ -199,7 +221,9 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
     const loc = prevById.get(inc.id);
     if (!loc) return inc;
     const messaggi = mergeThreadMsgs(inc.messaggi, loc.messaggi);
-    return JSON.stringify(messaggi) === JSON.stringify(inc.messaggi) ? inc : { ...inc, messaggi };
+    const updated_at = tsMaxIso(inc.updated_at, loc.updated_at);
+    if (JSON.stringify(messaggi) === JSON.stringify(inc.messaggi) && updated_at === inc.updated_at) return inc;
+    return { ...inc, messaggi, updated_at };
   });
   for (const c of prev) {
     if (!incoming.some((x) => x.id === c.id)) merged.push(c);
@@ -837,6 +861,7 @@ export default function Dashboard() {
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
   const convIdRef = useRef<string | null>(null);
   const conversazioniRef = useRef<Conversazione[]>([]);
+  const lavoriRef = useRef<Lavoro[]>([]);
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
@@ -845,6 +870,12 @@ export default function Dashboard() {
   // (e salvata) nella conversazione SBAGLIATA. Assegnandoli in render restano sempre allineati allo stato.
   convIdRef.current = convId;
   conversazioniRef.current = conversazioni;
+  lavoriRef.current = lavori;
+
+  const gruppiConvById = useMemo(() => {
+    const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    return new Map(raggruppaLavori(lavori, m).map((g) => [g.id, g]));
+  }, [lavori]);
 
   function persistPendings() {
     try {
@@ -1034,10 +1065,16 @@ export default function Dashboard() {
   }
   function segnaLetta(id: string, at?: string) {
     const c = conversazioniRef.current.find((x) => x.id === id);
-    const ora = at || c?.updated_at || new Date().toISOString();
+    let ora = at;
+    if (!ora && c) {
+      const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+      const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
+      ora = tsConvAggiornato(c, g);
+    }
+    ora = ora || new Date().toISOString();
     setConvLette((prev) => {
-      if (prev[id] && prev[id] >= ora) return prev;
-      const n = { ...prev, [id]: ora };
+      if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
+      const n = { ...prev, [id]: ora! };
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(n)); } catch {}
       return n;
     });
@@ -1148,16 +1185,11 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
-    segnaLetta(id);
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
-    // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
-    // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
-    // la lista più lunga, mostrava l'intera conversazione capovolta. raggruppaLavori ordina i lavori del
-    // gruppo per created_at ASC (ed esclude i job interni "metabolizza"), come già fa apriChatDaGruppo →
-    // thread in ordine cronologico.
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
+    segnaLetta(id, tsConvAggiornato({ ...c, messaggi: msgs }, g));
     forzaScrollRef.current = true;
     setMessages(msgs);
     setConvId(c.id);
@@ -2456,7 +2488,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {/* Ordine: fissate in cima, poi per data di creazione (aprire non riordina). */}
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppiConvById.get(c.id));
                   return (
                   <div
                     key={c.id}
@@ -2724,7 +2756,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppiConvById.get(c.id));
                   const attiva = c.id === convId;
                   return (
                     <div
