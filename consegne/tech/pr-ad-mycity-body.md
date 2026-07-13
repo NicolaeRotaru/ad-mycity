@@ -1,14 +1,25 @@
 ## Summary
-- Aggiunge `radiografia-umana.ts`: traduce titoli, aree e corpo dei problemi in italiano semplice (regola `scrittura-umana.md`).
-- Nuovo componente `SchedaProblema`: titolo umano + «Perché» + «Cosa fare»; path e testo audit grezzo sotto «Dettagli tecnici» (collassato).
-- Applicato a **Radiografia macchina**, **Salute sito** e **Auto-coscienza** (tab Analisi → errori).
 
-## Esempio (finding coerenza-agenti dello screenshot)
-- **Prima:** `trust-safety e fraud-risk collidono… verbatim in entrambe le description`
-- **Dopo:** titolo leggibile tipo «Trust Safety e Antifrode si pestano i piedi sulle frodi…» + impatto in italiano; file `.md:3` solo aprendo Dettagli tecnici.
+Chiude i fix della casella **coerenza-agenti** (La squadra — chi fa cosa):
+
+- **trust-safety** — tolta la frode transazionale dalla description; deferral esplicito verso **fraud-risk**
+- **finanza** — confini chiari con deferral verso **contabilita**, **pricing-scientist**, **seller-financing**
+- **broker-assicurativo** / **enterprise-risk** — keyword duplicate rimosse (polizze vs mappa rischi)
+- **growth-monetizzazione** — deferral in formato `(→ …)`; niente più overlap con pricing-scientist
+- **CLAUDE.md** — roster strutturato per i 6 senior design/creativi (prima solo nota a piè di pagina)
+
+## Prova
+
+```bash
+node cervello/agent-registry-check.mjs
+# atteso: exit 0 · «nessun drift» · Drift totale: 0
+```
+
+## Fuori scope (serve Nicola)
+
+Assegnare il campo `model:` ai 120 agenti (3 fasce economico/standard/potente) — finding minore ancora aperto in radiografia.
 
 ## Test plan
-- [ ] Radiografia macchina → Archivio audit → card coerenza-agenti: titolo umano, niente path in vista
-- [ ] Salute sito → stessa struttura su un bloccante
-- [ ] Auto-coscienza → Analisi → errori con Dettagli tecnici
-- [ ] `node --test pannello/src/lib/radiografia-umana.test.mts`
+
+- [ ] `node cervello/agent-registry-check.mjs` → verde
+- [ ] Dopo merge: casella coerenza-agenti in Radiografia → voto ≥86, nessuna collisione grave
