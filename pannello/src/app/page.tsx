@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, memo, Fragment } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo, Fragment } from "react";
 import {
   Send,
   Loader2,
@@ -124,7 +124,8 @@ import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
-import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo } from "@/lib/lavori-gruppo";
+import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
+import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
@@ -171,15 +172,37 @@ function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conve
   });
 }
 
+function tsMaxIso(a: string, b: string): string {
+  return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
+}
+
+/** Timestamp «ultimo movimento» — conversazione salvata + lavori collegati (fonte più fresca). */
+function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): string {
+  const candidati = [c.updated_at, gruppo?.ultimoAt].filter(Boolean) as string[];
+  return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0] ?? new Date().toISOString());
+}
+
+/** Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB). */
+function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): Msg[] {
+  if (!gruppo?.lavori.length) return c.messaggi;
+  const daLavori = messaggiDaGruppo(gruppo.lavori) as Msg[];
+  return mergeThreadMsgs(c.messaggi, daLavori);
+}
+
 /** Pallino rosso: l'ultimo messaggio reale è una risposta AI e Nicola non l'ha ancora aperta/letta. */
-function haRispostaNonLetta(c: Conversazione, convLette: Record<string, string>, convAttiva: string | null): boolean {
+function haRispostaNonLetta(
+  c: Conversazione,
+  convLette: Record<string, string>,
+  convAttiva: string | null,
+  gruppo?: GruppoLavori | null
+): boolean {
   if (convAttiva === c.id) return false;
-  const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
+  const msgs = messaggiConvEffettivi(c, gruppo).filter((m) => !m.prompt && !m.pending);
   const last = msgs[msgs.length - 1];
   if (!last || last.role !== "assistant") return false;
   const lettaAt = convLette[c.id];
   if (!lettaAt) return true;
-  return c.updated_at > lettaAt;
+  return new Date(tsConvAggiornato(c, gruppo)).getTime() > new Date(lettaAt).getTime();
 }
 
 function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
@@ -837,6 +860,8 @@ export default function Dashboard() {
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
   const convIdRef = useRef<string | null>(null);
   const conversazioniRef = useRef<Conversazione[]>([]);
+  const lavoriRef = useRef<Lavoro[]>([]);
+  const convServerRef = useRef(false);
   const sessionGruppoRef = useRef<string | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
@@ -845,6 +870,15 @@ export default function Dashboard() {
   // (e salvata) nella conversazione SBAGLIATA. Assegnandoli in render restano sempre allineati allo stato.
   convIdRef.current = convId;
   conversazioniRef.current = conversazioni;
+  lavoriRef.current = lavori;
+  convServerRef.current = convServer;
+
+  const gruppiConvById = useMemo(() => {
+    const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const map = new Map<string, GruppoLavori>();
+    for (const g of raggruppaLavori(lavori, m)) map.set(g.id, g);
+    return map;
+  }, [lavori]);
 
   function persistPendings() {
     try {
@@ -1028,24 +1062,33 @@ export default function Dashboard() {
     setConvPinnate((prev) => {
       const n = new Set(prev);
       if (n.has(id)) n.delete(id); else n.add(id);
-      try { localStorage.setItem("mycity_conv_pin", JSON.stringify([...n])); } catch {}
+      const arr = [...n];
+      try { localStorage.setItem("mycity_conv_pin", JSON.stringify(arr)); } catch {}
+      if (convServerRef.current) accodaSyncConvMeta(undefined, arr);
       return n;
     });
   }
   function segnaLetta(id: string, at?: string) {
     const c = conversazioniRef.current.find((x) => x.id === id);
-    const ora = at || c?.updated_at || new Date().toISOString();
+    let ora = at;
+    if (!ora && c) {
+      const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+      const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
+      ora = tsConvAggiornato(c, g);
+    }
+    ora = ora || new Date().toISOString();
     setConvLette((prev) => {
-      if (prev[id] && prev[id] >= ora) return prev;
-      const n = { ...prev, [id]: ora };
+      if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
+      const n = { ...prev, [id]: ora! };
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(n)); } catch {}
+      if (convServerRef.current) accodaSyncConvMeta(n);
       return n;
     });
   }
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
-    if (id) segnaLetta(id);
+    if (id) segnaLetta(id, new Date().toISOString());
   }
   /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
   function migraConvLetteBaseline(list: Conversazione[]) {
@@ -1148,7 +1191,7 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
-    segnaLetta(id);
+    segnaLetta(id, new Date().toISOString());
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
     // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
@@ -1692,12 +1735,31 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Carica l'elenco conversazioni: dal database se la tabella esiste, altrimenti
   // dal salvataggio locale (questo dispositivo).
+  const applicaConvMeta = useCallback((meta: { letta: Record<string, string>; pin: string[] } | null) => {
+    if (!meta) return;
+    setConvLette((prev) => {
+      const merged = mergeLette(prev, meta.letta);
+      if (JSON.stringify(merged) === JSON.stringify(prev)) return prev;
+      try { localStorage.setItem("mycity_conv_lette", JSON.stringify(merged)); } catch {}
+      return merged;
+    });
+    if (meta.pin.length) {
+      setConvPinnate((prev) => {
+        const next = new Set(meta.pin);
+        if (prev.size === next.size && [...prev].every((id) => next.has(id))) return prev;
+        try { localStorage.setItem("mycity_conv_pin", JSON.stringify(meta.pin)); } catch {}
+        return next;
+      });
+    }
+  }, []);
+
   const caricaConversazioni = useCallback(() => {
     fetch("/api/conversazioni", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
         if (d?.tabella && Array.isArray(d.conversazioni)) {
           setConvServer(true);
+          void caricaConvMeta().then(applicaConvMeta);
           const incoming: Conversazione[] = d.conversazioni.map((c: any) => ({
             id: c.id,
             titolo: c.titolo,
@@ -1729,7 +1791,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         setConvServer(false);
         setConversazioni(leggiConvLocali());
       });
-  }, []);
+  }, [applicaConvMeta]);
 
   useEffect(() => {
     caricaConversazioni();
@@ -2456,7 +2518,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {/* Ordine: fissate in cima, poi per data di creazione (aprire non riordina). */}
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  const gruppo = gruppiConvById.get(c.id);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppo);
+                  const effMsgs = messaggiConvEffettivi(c, gruppo);
                   return (
                   <div
                     key={c.id}
@@ -2475,7 +2539,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                         <span className="truncate">{c.titolo}</span>
                       </div>
                       <div className="conv-row-meta">
-                        {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
+                        {effMsgs.filter((m) => !m.prompt).length} messaggi · {fa(tsConvAggiornato(c, gruppo))}
                         {convId === c.id && <span className="text-brand font-medium"> · aperta ora</span>}
                       </div>
                     </button>
@@ -2724,7 +2788,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  const gruppo = gruppiConvById.get(c.id);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppo);
+                  const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;
                   return (
                     <div
@@ -2743,7 +2809,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                           <span className="truncate">{c.titolo || "Conversazione"}</span>
                         </div>
                         <div className="conv-row-meta">
-                          {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
+                          {effMsgs.filter((m) => !m.prompt).length} messaggi · {fa(tsConvAggiornato(c, gruppo))}
                           {attiva && <span className="text-brand font-medium"> · aperta ora</span>}
                         </div>
                       </button>
