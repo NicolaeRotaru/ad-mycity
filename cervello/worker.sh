@@ -612,10 +612,13 @@ _chat_stream_run() {
   else
     stream_flags=(--output-format stream-json --verbose --include-partial-messages)
   fi
+  # Segnale immediato: Nicola vede subito che la risposta è partita (prima del primo parziale).
+  curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
+    -d "$(jq -n '{risultato:"💭 Sto elaborando la risposta…"}')" >/dev/null 2>&1 || true
   timeout --kill-after=30s "$to" "${cmd[@]}" "${stream_flags[@]}" "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
   while kill -0 "$pidc" 2>/dev/null; do
-    sleep 1.5
+    sleep 0.5
     # ⏩ CHAT MULTIPLA (interrompi-e-ripensa, come claude.ai): se Nicola manda un ALTRO messaggio
     # mentre stiamo ancora generando, il Pannello segna QUESTO lavoro come sostituito (stato non è
     # più in_corso). Fermiamo subito la generazione: il turno nuovo, già in coda, contiene TUTTA la
@@ -637,13 +640,14 @@ _chat_stream_run() {
       curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
         -d "$(jq -n --arg r "$acc" '{risultato:$r}')" >/dev/null 2>&1 || true
       _last_acc="$acc"
-    elif [ -z "$acc" ] && [ "$pensando" = 0 ] && grep -q '"thinking' "$tmpf" 2>/dev/null; then
-      # 💭 RAGIONAMENTO VISIBILE (come claude.ai): col thinking attivo il primo testo può arrivare
-      # dopo decine di secondi di silenzio — Nicola vedeva il nulla e pensava «si è bloccato».
-      # Una sola scrittura (poi arrivano i veri parziali che la sovrascrivono).
+    elif [ -z "$acc" ] && [ "$pensando" = 0 ] && grep -qE '"thinking|"tool_use"' "$tmpf" 2>/dev/null; then
+      # 💭 RAGIONAMENTO / STRUMENTI: con Cursor il testo utile arriva spesso solo DOPO letture e
+      # comandi — senza questo Nicola vedeva nulla per decine di secondi e poi lo streaming «solo alla fine».
       pensando=1
+      local stato_msg="💭 Sto ragionando sulla tua richiesta…"
+      grep -q '"tool_use"' "$tmpf" 2>/dev/null && stato_msg="🔧 Sto verificando i dati…"
       curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" \
-        -d "$(jq -n '{risultato:"💭 Sto ragionando sulla tua richiesta…"}')" >/dev/null 2>&1 || true
+        -d "$(jq -n --arg r "$stato_msg" '{risultato:$r}')" >/dev/null 2>&1 || true
     fi
   done
   wait "$pidc" 2>/dev/null; rc=$?
