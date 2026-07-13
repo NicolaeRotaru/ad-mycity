@@ -240,9 +240,12 @@ async function leggiStatoReale(state) {
   s.salute_aperti_davvero = typeof sonda.aperti_davvero === "number" ? sonda.aperti_davvero : null;
   s.salute_bloccanti_umani = typeof sonda.bloccanti_umani === "number" ? sonda.bloccanti_umani : null;
   const appr = readJson(APPRENDIMENTO_PATH, {});
-  const tasso = typeof sonda.tasso_applicazione === "number"
-    ? sonda.tasso_applicazione
-    : (typeof appr.meta?.tasso_applicazione === "number" ? appr.meta.tasso_applicazione : null);
+  // AR-051: meta.tasso_applicazione è calcolato da tasso-lezioni.mjs (fonte deterministica).
+  // sonda.tasso_applicazione è una COPIA in auto-radiografia.json — può restare stantia se il giro
+  // non ha ancora ricalcolato. Preferiamo meta per evitare falsi allarmi "volano fermo".
+  const tasso = typeof appr.meta?.tasso_applicazione === "number"
+    ? appr.meta.tasso_applicazione
+    : (typeof sonda.tasso_applicazione === "number" ? sonda.tasso_applicazione : null);
   s.volano_tasso = tasso;
 
   // AR-035 — cassa/runway: leggo cassa-runway.json (scritto da sensore-cassa.mjs). Chiude il buco

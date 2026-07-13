@@ -6,7 +6,7 @@ fonte: AD digitale (🌙 11/7 18:00 REPORT DELLA SERA: sabato pre-13/7 — busin
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 💬 **13/7 12:24 — CHAT: plugin worker token — 3 skill confermate da Nicola.** Dopo richiesta plugin GitHub per efficienza token, Nicola ha indicato **grilling**, **ponytail**, **caveman** (ha chiesto descrizione prima di confermare identità). Repo: `mattpocock/skills` (grilling), `DietrichGebert/ponytail`, `JuliusBrussee/caveman`. AD: caveman **spento** in chat con Nicola (tono telegrafico vs contratto «chiaro, non tecnico»); ponytail solo task codice; grilling per stress-test decisioni/PR. PR manifest+sync 🟡 **in attesa conferma esplicita** Nicola. Fonte: chat Nicola 13/7 ~12:20.
+> 🧠 **13/7 12:38 — VOLANO: falso allarme 0.11 risolto, tasso onesto 0.29.** Radiografia: sentinella leggeva sonda stantia (non `apprendimento.json.meta`); giro non ricalcolava il tasso prima della sonda. Fix pipeline in PR 🟡 (`giro.sh` + `sentinella-dati.mjs`). 39/133 lezioni citate nel lavoro reale; 31 quaderni fermi (AR-009). Report: `consegne/ad/2026-07-13-volano-fermo-radiografia.md`. Fonte: `tasso-lezioni.mjs` 12:38.
 >
 > 🟡 **13/7 12:19 — PR #316 conflitti risolti, pronta al merge.** Nicola screenshot conflitti (allegato) subito dopo apertura — causa: file memoria worker (`apprendimento.json`, `AZIONI-IN-ATTESA.md`, `auto-miglioramento.json`) aggiornati mentre `main` avanzava, NON il fix chat. Branch ripulito: solo `pannello/src/app/page.tsx`, commit `74a4cfc0`, simulazione merge su main HEAD → zero conflitti. Merge 🔴 #92. Fonte: chat Nicola 13/7 ~12:17 (screenshot) + AD.
 >

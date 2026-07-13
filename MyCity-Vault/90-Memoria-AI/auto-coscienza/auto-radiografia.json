@@ -3,9 +3,9 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-13 12:20",
+    "data": "2026-07-13 12:37",
     "loop_chiude": true,
-    "tasso_applicazione": 0.11,
+    "tasso_applicazione": 0.29,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
     "difetti_chiusi": 42,
@@ -17,7 +17,7 @@
     "ore_da_ultima_completa": 134,
     "ore_da_ultimo_briefing": 46,
     "max_giri_ciechi_sensori": 1,
-    "giri_tasso_basso": 1,
+    "giri_tasso_basso": 2,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 75,
@@ -1702,7 +1702,7 @@
     "motore": "workflow auto-radiografia (agenti Opus), run wf_8791749c-a35"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 1,
-    "aggiornato": "2026-07-13 12:20"
+    "giri_tasso_basso": 2,
+    "aggiornato": "2026-07-13 12:37"
   }
 }

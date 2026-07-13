@@ -159,6 +159,8 @@ if command -v node >/dev/null 2>&1; then
     SENSORI_VINCOLO="⛔ FONTE-DI-VERITÀ DATI CIECA: supabase_rest (ordini/clienti via REST) NON è 'ok', anche se altri sensori (uptime/stripe/posthog) reggono. I numeri ordini/clienti/incassi sono ciechi: NON scriverli come fatti nuovi. Usa la baseline di STATO con la sua data di verifica e metti i dati mancanti nella sezione Gap."
     echo "[$(ts)] ⚠️  SUPABASE_REST CIECO (datiOrdiniCiechi=true, ma altri sensori vivi): vincolo HARD 'niente numeri nuovi' comunque attivo." >&2
   fi
+  echo "[$(ts)] Tasso applicazione lezioni (AR-051, prima della sonda)..."
+  node "$SCRIPT_DIR/tasso-lezioni.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Sonda volano (4 invarianti)..."
   node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>&1 | tail -8 || true
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
