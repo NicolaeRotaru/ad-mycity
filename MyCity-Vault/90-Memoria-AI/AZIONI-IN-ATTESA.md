@@ -31,7 +31,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Cosa fa:** pallino rosso e graffetta 📌 salvati sul server (non più solo nel browser di quel dispositivo); lista conversazioni unisce chat salvate + risposte AD dai Lavori finiti — stesso elenco e stessi pallini su PC e smartphone.
 
-**PR su GitHub:** [#328 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/328) ← branch `fix/chat-pallini-sync-cross-device`, commit `b66fe886`
+**PR su GitHub:** [#328 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/328) ← branch `fix/chat-pallini-sync-cross-device`, commit `812cff8b` (conflitti risolti 17:16, mergeable)
 
 **Cosa cambia:** apri Conversazioni su PC → ricarica sul telefono → stessi pallini; apri una chat con pallino su un dispositivo → sparisce anche sull'altro entro pochi secondi.
 **Se va bene:** mergi #328 dal Pannello → deploy Vercel ~2 min → ricarica telefono e PC e verifica i 3 passi in chat.

@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:19",
+  "aggiornato": "2026-07-13 17:22",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-129",
+      "testo": "**Doppia PR stesso bug + «le mergio entrambe?» (chat 13/7 ~17:15):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» su pallini rossi. 5 perché: (1) nella stessa chat ho aperto #327 (badge parziale) e #328 (sync server completo) → confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324, non codice fix); (3) mergiare entrambe rischia doppio fix o nuovi conflitti; (4) #330 era plugin worker — Nicola la confondeva con i pallini; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — se serve iterare, chiudi la vecchia e aggiorna la stessa PR; quando Nicola chiede «mergio entrambe?» rispondere esplicitamente quale SÌ e quale CHIUDI e perché; conflitti PR Pannello → ribasa, branch solo `pannello/`, simula merge prima di «pronto». Fix #328 ripulito commit `812cff8b`, mergeable.",
+      "tag": [
+        "pannello",
+        "pr",
+        "doppioni",
+        "conflitti",
+        "pallini",
+        "pr-327",
+        "pr-328",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 17:21",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-128",
       "testo": "**Plugin worker fase 1+2 + conflitto #320 (chat 13/7 ~12:20–17:19):** Nicola chiede plugin GitHub per risparmio token, conferma grilling/ponytail/caveman dopo descrizione identità, poi «aggiungi i 10 plugin» + mappa completa worker/Pannello/AD/senior. 5 perché conflitto #320: (1) recovery worker scrive manifest+sync+3 skill su main (`601aec92`) mentre #320 aperta; (2) add/add su `sync-worker-plugins.mjs` + `worker.sh` — non memoria mescolata; (3) stesso pattern #316/#305; (4) Nicola segnala conflitto → chiudere #320 senza merge; (5) fase 2 in **PR #330 mergiata** (`ac9e24a9`, `f68b2007`, 14 skill). **Regole operative:** caveman OFF chat (fragment solo tipo≠chat); verificare repo prima di consigliare (code-simplifier=`getsentry/skills`, non obra); Firecrawl richiede chiave VPS; mappa in `consegne/tech/worker-plugins-mappa.md`; post-merge riavvio worker.",
@@ -64,7 +86,7 @@
     },
     {
       "id": "L-2026-0713-126",
-      "testo": "**Pallini rossi ancora rotti + telefono/PC non allineati (chat 13/7 ~17:08):** Nicola «i puntini rossi dentro conversazioni stanno ancora funzionando alla cazzo di cane» + «conversazioni smartphone desktop non sono ancora allineate correttamente» — dopo fix #317 (polling) e #324 (UI fluttuante). 5 perché: (1) pallino derivava solo da tabella `conversazioni`, spesso senza ultima risposta AD che vive nei Lavori → compare/sparisce a caso; (2) pin 📌 e non-letto restavano in localStorage per browser — ogni dispositivo stato diverso; (3) polling elenco non basta se la fonte non-letto è sbagliata; (4) Nicola si aspetta parità PC↔telefono su elenco+pallini (standing-ask L-108); (5) **fix PR #328:** pin+non-letto su server, lista unisce conversazioni + Lavori finiti, commit `b66fe886`, merge 🔴 #102. Regola: stato UX cross-device (badge, pin, non-letto) NON va in localStorage — sempre server; badge deve considerare TUTTE le risposte AD (Lavori + conversazioni).",
+      "testo": "**Pallini rossi ancora rotti + telefono/PC non allineati (chat 13/7 ~17:08–17:16):** Nicola «i puntini rossi dentro conversazioni stanno ancora funzionando alla cazzo di cane» + «conversazioni smartphone desktop non sono ancora allineate correttamente» — dopo fix #317 (polling) e #324 (UI fluttuante). 5 perché: (1) pallino derivava solo da tabella `conversazioni`, spesso senza ultima risposta AD che vive nei Lavori → compare/sparisce a caso; (2) pin 📌 e non-letto restavano in localStorage per browser — ogni dispositivo stato diverso; (3) polling elenco non basta se la fonte non-letto è sbagliata; (4) Nicola si aspetta parità PC↔telefono su elenco+pallini (standing-ask L-108); (5) **fix PR #328:** pin+non-letto su server, lista unisce conversazioni + Lavori finiti, commit `812cff8b` (conflitti memoria risolti 17:16), merge 🔴 #102. Regola: stato UX cross-device (badge, pin, non-letto) NON va in localStorage — sempre server; badge deve considerare TUTTE le risposte AD (Lavori + conversazioni).",
       "tag": [
         "pannello",
         "conversazioni",
@@ -79,11 +101,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.98,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:12",
+      "ultima_conferma": "2026-07-13 17:21",
       "stato": "attiva"
     },
     {
@@ -3096,6 +3118,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Doppie PR stesso fix — guida esplicita (chat 13/7 ~17:15):** «hai creato due pr, le mergio entrambe?» — quando ci sono più PR aperte sullo stesso problema vuole sapere subito quale mergiare e quale chiudere (non «dipende»); per pallini: solo #328, #327 chiudi, #330 è altro. Vedi L-2026-0713-129.",
     "**Plugin GitHub worker — fase 2 + mappa completa (chat 13/7 ~17:19):** dopo i 3 skill confermati chiede «aggiungi i 10 plugin che mi hai consigliato» + «i migliori plugin per tutti gli aspetti del worker/pannello/AD/senior» — si aspetta manifest esteso, PR mergiabile (#330), mappa per reparto (`consegne/tech/worker-plugins-mappa.md`), caveman mai in chat con lui. Prima di installare vuole descrizione identità di ogni skill (L-111). Vedi L-2026-0713-128.",
     "**Guardiano agenti — fix concreto dalla casella Pannello (chat 13/7 ~17:11):** «risolvi questo problema» sulla casella coerenza-agenti verificata — si aspetta PR funzionante che chiude il buco (non solo spiegazione), con prova che il controllo trova subito la collisione (fraud-risk/trust-safety), descrizione PR su GitHub, merge 🔴 #101. Correggere le description degli agenti = passo separato dopo il guardiano. Vedi L-2026-0713-127.",
     "**Pallini rossi e conversazioni telefono=PC (chat 13/7 ~17:08):** «i puntini rossi… ancora funzionando alla cazzo di cane» + conversazioni smartphone/desktop non allineate — si aspetta pallino affidabile (solo risposta AD non letta) e stesso elenco+pallini su entrambi i dispositivi; i fix precedenti (#317 polling, #324 UI) non bastavano finché pin/badge restavano in localStorage. Fix PR #328, merge 🔴 #102. Vedi L-2026-0713-126.",
@@ -3208,13 +3231,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 146,
+    "lezioni_attive": 149,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.55,
-    "tasso_calcolato_il": "2026-07-13 17:12",
+    "tasso_applicazione": 0.56,
+    "tasso_calcolato_il": "2026-07-13 17:22",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 17:12"
+    "tick_leggero_il": "2026-07-13 17:22"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
