@@ -8,6 +8,7 @@ import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandi
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
+import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -68,6 +69,7 @@ export default function ChatCasella({
   const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
 
   function scrollBottom() {
     if (scrollRef.current) {
@@ -76,6 +78,7 @@ export default function ChatCasella({
   }
 
   // Scroll al fondo subito all'apertura (anche con storico lungo)
+  useEffect(() => setHintInvio(hintInvioChat()), []);
   useEffect(() => {
     requestAnimationFrame(scrollBottom);
   }, []);
@@ -283,15 +286,9 @@ export default function ChatCasella({
         ref={textareaRef}
         value={bozza}
         onChange={(e) => setBozza(e.target.value)}
-        onKeyDown={(e) => {
-          // Invio = manda · Maiusc+Invio = va a capo. Guardia IME per gli accenti.
-          if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-            e.preventDefault();
-            invia();
-          }
-        }}
+        onKeyDown={(e) => gestisciInvioChat(e, invia)}
         rows={2}
-        placeholder="Rispondi qui, resti nella stessa conversazione…  (Invio = invia · Maiusc+Invio = a capo)"
+        placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
         className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">
