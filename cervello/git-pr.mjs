@@ -33,6 +33,12 @@ const WORKER_AUTO_PATHS = new Set([
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
 ]);
 
+/** Descrizione PR condivisa: ogni branch la riscrive → conflitto certo se main avanza. Non committarla sul branch. */
+const SHARED_PR_BODY = "consegne/tech/pr-ad-mycity-body.md";
+
+/** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
+const AUTO_RESOLVE_REBASE_PATHS = new Set([SHARED_PR_BODY]);
+
 function pathFromPorcelainLine(line) {
   let path = line.substring(2).replace(/^\s+/, "").trim();
   if (path.includes(" -> ")) path = path.split(" -> ").pop().trim();
@@ -45,6 +51,7 @@ function pathsToStageFromPorcelain(porcelain) {
   for (const line of porcelain.split("\n").filter(Boolean)) {
     const path = pathFromPorcelainLine(line);
     if (WORKER_AUTO_PATHS.has(path)) continue;
+    if (path === SHARED_PR_BODY) continue;
     out.push(path);
   }
   return out;
@@ -63,6 +70,7 @@ Opzioni:
   --message TESTO           Messaggio commit se ci sono modifiche non committate
   --accoda                  Aggiunge riga 🔴 in AZIONI-IN-ATTESA.md (merge da firmare)
   --no-push                 Non fa push (branch già su GitHub)
+  --no-rebase               Non fa rebase su base prima del push (sconsigliato)
   --dry-run                 Mostra cosa farebbe, senza scrivere
   --help                    Questo aiuto`);
 }
@@ -201,6 +209,122 @@ function requireBody(body) {
   }
 }
 
+/** @param {import('./git-github.mjs').RepoConfig} cfg @param {string} base */
+function fetchBase(cfg, base) {
+  const url = gitAuthUrl(cfg);
+  git(["fetch", url, base], cfg.cwd);
+  return git(["rev-parse", "FETCH_HEAD"], cfg.cwd);
+}
+
+/** @param {import('./git-github.mjs').RepoConfig} cfg @param {string} baseRef @param {string} branch */
+function countCommitsAhead(cfg, baseRef, branch) {
+  return gitOrNull(["rev-list", "--count", `${baseRef}..refs/heads/${branch}`], cfg.cwd) || "0";
+}
+
+/** @param {import('./git-github.mjs').RepoConfig} cfg @param {string} baseRef @param {string} branch */
+function mergeTreeConflictPaths(cfg, baseRef, branch) {
+  const mb = git(["merge-base", baseRef, branch], cfg.cwd);
+  const out = git(["merge-tree", mb, baseRef, branch], cfg.cwd);
+  /** @type {string[]} */
+  const paths = [];
+  const lines = out.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i] !== "changed in both") continue;
+    for (let j = i + 1; j < Math.min(i + 6, lines.length); j++) {
+      const pm = lines[j].match(/^\s+(?:base|our|their)\s+\d+\s+[0-9a-f]+\s+(.+)$/);
+      if (pm) {
+        paths.push(pm[1].trim());
+        break;
+      }
+    }
+  }
+  return [...new Set(paths)];
+}
+
+function unmergedPaths(cfg) {
+  const raw = gitOrNull(["diff", "--name-only", "--diff-filter=U"], cfg.cwd);
+  return raw ? raw.split("\n").map((p) => p.trim()).filter(Boolean) : [];
+}
+
+function isRebaseInProgress(cfg) {
+  return existsSync(join(cfg.cwd, ".git", "rebase-merge")) || existsSync(join(cfg.cwd, ".git", "rebase-apply"));
+}
+
+/** Risolve conflitti noti durante rebase (--theirs = base). @returns {boolean} true se risolto */
+function tryAutoResolveRebaseConflicts(cfg) {
+  const pending = unmergedPaths(cfg);
+  if (!pending.length) return false;
+  if (!pending.every((p) => AUTO_RESOLVE_REBASE_PATHS.has(p))) return false;
+  for (const p of pending) {
+    git(["checkout", "--theirs", "--", p], cfg.cwd);
+    git(["add", "--", p], cfg.cwd);
+  }
+  return true;
+}
+
+/**
+ * Rebase del branch feature su base aggiornata; auto-risolve il body PR condiviso.
+ * @param {import('./git-github.mjs').RepoConfig} cfg @param {string} base @param {string} branch
+ */
+function rebaseBranchOntoBase(cfg, base, branch) {
+  const prev = gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) || "main";
+  const baseRef = fetchBase(cfg, base);
+  if (prev !== branch) git(["checkout", branch], cfg.cwd);
+  try {
+    try {
+      git(["rebase", baseRef], cfg.cwd);
+    } catch {
+      /* conflitto: prova auto-risoluzione fino a 8 step (commit multipli) */
+      for (let step = 0; step < 8; step++) {
+        if (!isRebaseInProgress(cfg)) break;
+        if (!tryAutoResolveRebaseConflicts(cfg)) {
+          const pending = unmergedPaths(cfg).join(", ") || "(sconosciuto)";
+          git(["rebase", "--abort"], cfg.cwd);
+          throw new Error(`Rebase bloccato su file non auto-risolvibili: ${pending}`);
+        }
+        try {
+          git(["rebase", "--continue"], cfg.cwd);
+        } catch {
+          if (isRebaseInProgress(cfg)) {
+            try {
+              git(["rebase", "--skip"], cfg.cwd);
+            } catch (skipErr) {
+              git(["rebase", "--abort"], cfg.cwd);
+              throw skipErr;
+            }
+          }
+        }
+      }
+      if (isRebaseInProgress(cfg)) {
+        git(["rebase", "--abort"], cfg.cwd);
+        throw new Error("Rebase non completato dopo auto-risoluzione conflitti.");
+      }
+    }
+    const ahead = countCommitsAhead(cfg, baseRef, branch);
+    const conflicts = mergeTreeConflictPaths(cfg, baseRef, branch);
+    if (conflicts.length) {
+      throw new Error(`Conflitti residui dopo rebase: ${conflicts.join(", ")}`);
+    }
+    console.log(`✓ Rebase ${branch} su ${base} (${ahead} commit oltre la base)`);
+    return { baseRef, ahead };
+  } finally {
+    if (prev !== branch && gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) === branch) {
+      git(["checkout", prev], cfg.cwd);
+    }
+  }
+}
+
+/** @param {import('./git-github.mjs').RepoConfig} cfg @param {number} prNumber */
+async function waitForMergeable(cfg, prNumber, maxWaitMs = 12000) {
+  const deadline = Date.now() + maxWaitMs;
+  while (Date.now() < deadline) {
+    const pr = await githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls/${prNumber}`);
+    if (pr.mergeable !== null) return pr;
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  return githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls/${prNumber}`);
+}
+
 /** @param {import('./git-github.mjs').RepoConfig} cfg @param {number} prNumber @param {string} body */
 async function patchPullRequestBody(cfg, prNumber, body) {
   return githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls/${prNumber}`, {
@@ -254,6 +378,7 @@ async function main() {
   const dryRun = Boolean(args["dry-run"]);
   const accoda = Boolean(args.accoda);
   const noPush = Boolean(args["no-push"]);
+  const noRebase = Boolean(args["no-rebase"]);
 
   const cfg = resolveRepoConfig(/** @type {'ad-mycity' | 'mycity'} */ (repoKey));
   const base = String(args.base || cfg.defaultBranch);
@@ -316,14 +441,47 @@ async function main() {
     console.warn(`⚠️  Modifiche non committate su '${branchCorrente}' lasciate intatte: pubblico solo refs/heads/${branch}.`);
   }
 
+  /** @type {{ baseRef?: string, ahead?: string }} */
+  let rebaseInfo = {};
+  if (!noRebase && !dryRun) {
+    try {
+      rebaseInfo = rebaseBranchOntoBase(cfg, base, branch);
+      if (rebaseInfo.ahead === "0") {
+        console.log(
+          `✓ '${branch}' è già dentro '${base}' dopo rebase — niente da mergiare. Chiudi la PR su GitHub se ancora aperta.`
+        );
+        await stampSegnale("pr", "ok", `branch ${branch} già in ${base} · ${nowPiacenza()}`);
+        console.log(JSON.stringify({ ok: true, repo: cfg.slug, branch, base, pr: null, giaDentro: true }, null, 2));
+        return;
+      }
+    } catch (e) {
+      console.error("ERRORE rebase pre-PR:", sanitize(e, cfg.token));
+      process.exit(1);
+    }
+  } else if (!noRebase && dryRun) {
+    console.log(`[DRY-RUN] Rebase ${branch} su ${base} + controllo conflitti merge-tree.`);
+  }
+
   if (!noPush && !dryRun) {
     const url = gitAuthUrl(cfg);
+    const ref = `refs/heads/${branch}:refs/heads/${branch}`;
+    const pushArgs = rebaseInfo.baseRef ? ["push", "--force-with-lease", url, ref] : ["push", url, ref];
     try {
-      git(["push", url, `refs/heads/${branch}:refs/heads/${branch}`], cfg.cwd);
-      console.log(`✓ Push ${branch} → origin`);
+      git(pushArgs, cfg.cwd);
+      console.log(`✓ Push ${branch} → origin${rebaseInfo.baseRef ? " (force-with-lease post-rebase)" : ""}`);
     } catch (e) {
-      console.error("ERRORE push:", sanitize(e, cfg.token));
-      process.exit(1);
+      if (rebaseInfo.baseRef) {
+        try {
+          git(["push", "--force", url, ref], cfg.cwd);
+          console.log(`✓ Push ${branch} → origin (force post-rebase)`);
+        } catch (e2) {
+          console.error("ERRORE push:", sanitize(e2, cfg.token));
+          process.exit(1);
+        }
+      } else {
+        console.error("ERRORE push:", sanitize(e, cfg.token));
+        process.exit(1);
+      }
     }
   } else if (!noPush && dryRun) {
     console.log(`[DRY-RUN] Push refs/heads/${branch} su ${cfg.slug}`);
@@ -374,6 +532,16 @@ async function main() {
         body: JSON.stringify({ title, body, head: branch, base }),
       });
       console.log(`✓ PR creata #${pr.number}: ${pr.html_url}`);
+    }
+    if (!dryRun && pr?.number) {
+      const checked = await waitForMergeable(cfg, pr.number);
+      if (checked.mergeable === false) {
+        console.error(`ERRORE: PR #${pr.number} ha ancora conflitti con ${base}. Risolvi e rilancia git-pr.`);
+        process.exit(1);
+      }
+      if (checked.mergeable === true) {
+        console.log(`✓ PR #${pr.number} mergeable (nessun conflitto con ${base})`);
+      }
     }
   }
 

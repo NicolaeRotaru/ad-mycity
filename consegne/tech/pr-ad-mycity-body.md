@@ -1,12 +1,12 @@
 ## Summary
-- Archiviati 12 pacchetti pesanti intestati a Garetti (prospect non firmato) in `consegne/_archivio-prospect/garetti/`.
-- Il guardiano `allocazione-check.mjs` torna verde: 16 asset su Pane Quotidiano (faro reale), 0 su Garetti.
-- Nessun file di diario nel branch — solo lo spostamento in archivio.
+- Prima di ogni PR: rebase automatico su main, risoluzione conflitti sul file body condiviso, verifica mergeable su GitHub.
+- Il file body condiviso non viene più committato sui branch feature (causa conflitti ricorrenti).
+- Lezione: l'AD deve sempre controllare conflitti PRIMA di consegnare una PR a Nicola.
 
 ## Perché
-Il silo AR-006 bloccava ogni giro: 12 post/kit/SEO/PR su un negozio che non può incassare. Archiviare ≠ cancellare.
+PR #351 consegnata con conflitto su `pr-ad-mycity-body.md` mentre il fix codice era già su main via #350. Nicola ha dovuto chiedere due volte.
 
 ## Come provare
-1. `node cervello/allocazione-check.mjs` → exit 0, «Allocazione sana»
-2. I file Garetti sono in `consegne/_archivio-prospect/garetti/`, non più in `consegne/content/`
-3. `consegne/content/PANE-QUOTIDIANO-pacchetto.md` resta il pacchetto attivo sul faro
+1. Apri un branch feature, modifica solo codice, `node cervello/git-pr.mjs --repo ad-mycity --base main --dry-run` → log rebase
+2. Branch già in main → messaggio «già dentro main, chiudi PR»
+3. PR #351 su GitHub → deve risultare senza conflitti o chiudibile (branch = main)
