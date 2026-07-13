@@ -5,6 +5,7 @@ import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon } from "lucid
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
+import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
@@ -67,7 +68,6 @@ export default function ChatCasella({
   const [allegati, setAllegati] = useState<File[]>([]);
   // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto ad Allega/Invia).
   const [skillAperte, setSkillAperte] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
@@ -264,18 +264,6 @@ export default function ChatCasella({
         </div>
       )}
 
-      <input
-        ref={fileRef}
-        type="file"
-        multiple
-        accept="image/*,application/pdf,.txt,.csv,.md"
-        className="hidden"
-        onChange={(e) => {
-          aggiungiFile(e.target.files);
-          e.target.value = ""; // permette di riscegliere lo stesso file
-        }}
-      />
-
       {/* ⚡ Finestra Skill & comandi — si apre/chiude dentro la chat dal pulsante ⚡ */}
       <FinestraComandiSkill
         aperta={skillAperte}
@@ -298,14 +286,13 @@ export default function ChatCasella({
       />
       <div className="flex items-center gap-2 flex-wrap">
         <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
-        <button
-          onClick={() => fileRef.current?.click()}
+        <BottoneAllegatiChat
           disabled={inviando || allegati.length >= 6}
-          title="Allega foto o file (max 6)"
-          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 disabled:opacity-50 transition"
-        >
-          <Paperclip size={13} /> Allega
-        </button>
+          iconSize={13}
+          etichetta="Allega"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+          onScegli={aggiungiFile}
+        />
         <button
           onClick={invia}
           disabled={inviando || (!bozza.trim() && allegati.length === 0)}
