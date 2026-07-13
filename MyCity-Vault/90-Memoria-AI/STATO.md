@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:56
-fonte: AD digitale (🌙 13/7 18:56 METABOLIZZA: Nicola «rifai la prova» = settima prova streaming. | storico: 🌙 13/7 18:54 sesta prova; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:12
+fonte: AD digitale (🌙 13/7 19:12 METABOLIZZA: streaming parziale «cresce solo alla fine» + VPS RIMANDATO su fix/* → main. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:10 — CHAT: streaming parziale + VPS allineamento sbloccato.** Dopo 7 prove, Nicola «**cresce live, però solo alla fine**» + «**non da quando inizi a rispondermi**» — primo progresso: testo cresce in orizzontale ma solo in fase risposta finale, non durante letture/comandi. **Fix 🟡 #343** su main — placeholder «Sto elaborando…» + poll più frequente. **VPS:** `aggiorna-cervello.sh` usciva **RIMANDATO** perché server ancora su branch `fix/streaming-piu-reattivo-inizio` (<30 min); AD ha chiuso branch → **main** `5a6bd24b`, codice #343 su disco. **Pendente Nicola:** `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (deve uscire «Allineamento completato», non RIMANDATO) + Ctrl+Shift+R → nona prova streaming dall'inizio. **Pallini:** ancora aperti — feedback separato post-#343. Fonte: chat Nicola 13/7 ~19:02–19:10.
+>
 > 💬 **13/7 ~18:56 — CHAT: settima prova streaming — «rifai la prova».** Dopo sesta prova (18:54) senza esito «cresce», Nicola chiede di **rifare** il test live — stessa procedura (#341+#342 su main), nessun nuovo merge. **Codice main** `d2efd936` (worker telemetry 18:53:24). **In corso:** settima prova — AD avvisa no refresh a metà; feedback atteso (cresce / tutto insieme / a colonna); se ancora rotto → incognito o Ctrl+Shift+R. Fonte: chat Nicola 13/7 ~18:56.
 >
 > 💬 **13/7 ~18:54 — CHAT: sesta prova streaming — «fai la prova».** Dopo «fatto» (quinta prova post-merge #341+#342), Nicola chiede ancora test esplicito. **Codice main** `8859046a` invariato; fix #341+#342 già mergiati. **In corso:** sesta prova live — AD avvisa di **non refreshare a metà risposta** (Ctrl+F5 interrompe poll bolla → falso «tutto insieme»); feedback Nicola atteso a fine risposta (cresce / tutto insieme / a colonna). Se ancora rotto → incognito o Ctrl+Shift+R **dopo** che la risposta è completa. Fonte: chat Nicola 13/7 ~18:54 + worker telemetry.

@@ -14,7 +14,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ settima prova Nicola
+### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ streaming parziale — nona prova
 
 **Cosa fa:** il Pannello aggiorna la bolla chat in tempo reale mentre l'AD scrive (poll UI) e fissa i pallini che tornavano ad ogni pezzo di streaming.
 
@@ -26,11 +26,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 18:54:** Nicola «fai la prova» — sesta prova streaming; esito non dichiarato.
 
-**Esito 18:56:** Nicola «rifai la prova» — settima prova streaming in corso; non refreshare a metà risposta.
+**Esito 18:56:** Nicola «rifai la prova» — settima prova streaming; esito non dichiarato.
 
-**Pendente:** feedback Nicola a fine risposta (cresce / tutto insieme / a colonna); se rotto → incognito o Ctrl+Shift+R **dopo** risposta completa.
+**Esito 19:02:** Nicola «**cresce live, però solo alla fine**» + «non da quando inizi» — **progresso parziale** (primo «cresce live» dopo 7 prove); tema **non chiuso** — serve #343 + aggiorna-cervello.sh per streaming dall'inizio.
 
-- **Colore:** ✅ merge fatto · ⏳ verifica UX sesta prova
+**Pendente:** nona prova post-#343 + `aggiorna-cervello.sh` (VPS su main, non RIMANDATO); pallini = feedback separato.
+
+- **Colore:** ✅ merge fatto · ⏳ streaming parziale — fix #343 + allineamento VPS
+
+---
+
+### ✅ #pr-343-streaming-reattivo-inizio — MERGIATA 2026-07-13 ~19:05 · ⏳ aggiorna-cervello.sh Nicola
+
+**Cosa fa:** mostra «Sto elaborando…» / «Sto verificando i dati…» subito dopo l'invio e aggiorna la bolla più spesso — lo streaming parte dall'inizio, non solo in fase testo finale.
+
+**PR su GitHub:** [#343 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/343)
+
+**Esito 19:10:** VPS usciva RIMANDATO (branch `fix/streaming-piu-reattivo-inizio`) — AD ha chiuso branch → main `5a6bd24b`, codice #343 su disco.
+
+**Pendente Nicola:** `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` → «Allineamento completato» + Ctrl+Shift+R → nona prova.
+
+- **Colore:** ✅ merge fatto · ⏳ allineamento VPS + verifica streaming dall'inizio
 
 ---
 

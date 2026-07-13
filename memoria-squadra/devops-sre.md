@@ -7,6 +7,8 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 19:10 · VPS RIMANDATO su branch fix/* — Nicola «rimandato» · atteso: aggiorna-cervello.sh allinea codice #343 · reale: script bloccato perché server su `fix/streaming-piu-reattivo-inizio` (<30 min); AD checkout main + codice su disco ok; Nicola deve rilanciare script → «Allineamento completato» · L-147 · #vps #aggiorna-cervello #fix-branch #esito
+- 2026-07-13 19:02 · Streaming parziale post-7 prove — Nicola «cresce live, però solo alla fine» · atteso: streaming dall'inizio risposta · reale: parziali solo in fase testo finale; #343 su main con placeholder early; worker ancora pre-#343 finché non aggiorna-cervello.sh · L-146 · #worker #streaming #pr-343 #esito
 - 2026-07-13 18:50 · Nicola «fatto» — merge #341+#342, quinta prova streaming · atteso: streaming live dopo procedura completa · reale: Nicola ha eseguito merge; main `8859046a`; quinta prova in corso, esito non dichiarato; se rotto → cache browser (incognito/Ctrl+Shift+R) · L-143 · #worker #streaming #quinta-prova #esito
 - 2026-07-13 18:41 · Diagnosi streaming — worker ok, Pannello no · atteso: trovare causa dopo 4 prove fallite · reale: parziali in DB verificati; worker rev `1081be71` dal 18:35; collo di bottiglia = Pannello (#342), non VPS; L-142 parzialmente smentita come unica causa · L-143 · #streaming #supabase #pannello #esito
 - 2026-07-13 18:37 · **Quarta prova streaming «facciamo la prova»:** Nicola chiede test live post-#341 · atteso: streaming orizzontale · reale: prova in corso, esito Nicola non dichiarato; main `f66360cb`; #341 ancora in coda merge 🔴 #114 · L-138 evidenze 7 · #worker #streaming #quarta-prova #esito

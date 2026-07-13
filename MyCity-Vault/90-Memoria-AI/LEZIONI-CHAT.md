@@ -6,8 +6,9 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13] Nicola «rifai la prova» (~18:56) = **settima** prova streaming — ripete il test senza nuova procedura né esito «cresce» dalla sesta; finché non dice «cresce» il tema resta aperto → incognito/Ctrl+Shift+R prima di nuove PR.
-- [2026-07-13] Nicola «fai la prova» (~18:54) = **sesta** prova streaming post-«fatto» — non si accontenta della procedura merge; feedback binario solo **a fine risposta** (cresce / tutto insieme / a colonna).
+- [2026-07-13] `aggiorna-cervello.sh` **RIMANDATO** se VPS resta su branch `fix/*` fresco (<30 min) — anche con working tree pulito; **prima** `git checkout main` (stash memoria se serve, reset `routing.json`), **poi** script; non confondere con merge mancante.
+- [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
+- [2026-07-13] Primo «cresce live» dopo 7 prove **non chiude** il tema streaming — «solo alla fine» ≠ obiettivo; non dichiarare vittoria finché non parte dall'inizio; chiedi sempre se pallini ancora rotti post-deploy.
 - [2026-07-13] Durante prova streaming: **non refreshare a metà** — Ctrl+F5 interrompe il poll della bolla e simula «tutto insieme» anche con #342 live; refresh solo dopo risposta completa o incognito se ancora rotto.
 - [2026-07-13] Nicola «fatto» (~18:50) = merge **#341+#342** eseguito — quinta prova streaming; se ancora rotto → incognito o Ctrl+Shift+R (cache browser), non ripetere solo restart worker.
 - [2026-07-13] Streaming rotto ≠ sempre worker — verificato 18:41: parziali già in DB Supabase (`in_corso`+`risultato`), rev worker `1081be71` ok; collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta; fix **#342** mergiata con #341.
@@ -15,6 +16,3 @@
 - [2026-07-13] Restart worker **≠** codice aggiornato sul VPS — Nicola «ancora non cresce live» post-restart 18:22: serve `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (pull GitHub + riavvia **entrambi** i worker), non solo `systemctl restart`; Diagnosi rev deve essere `1081be71` o più recente.
 - [2026-07-13] Pallini merge (#338/#340) = fix **Pannello Vercel** — restart worker-chat non cambia nulla; Nicola «merge non lette» = versione hosted vecchia → deploy Vercel + Ctrl+F5; non confondere con worker stale.
 - [2026-07-13] Nicola «ho reinserito il comando in cmd e fatto ctrl+f5» — restart worker **eseguito** ma **non bastava** (L-142): terza prova ancora rotta → causa = codice su disco VPS vecchio, non solo processo stale.
-- [2026-07-13] Nicola «mostrami la risposta in streaming» — la risposta **è** il test live: chiedi cosa vede (cresce / tutta insieme / a colonna); tutta insieme o colonna = worker VPS non riavviato dal 16:08, non solo Pannello.
-- [2026-07-13] «Facciamo una verifica» (Nicola 18:15) = git merge su main + `git show HEAD:cervello/worker.sh` + test locale `_estrai_stream` + **3 prove Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s); «codice ok» ≠ «funziona per te» se worker fermo dal 16:08.
-- [2026-07-13] Pallini = **DUE bug** — fix **#338+#340 mergiate** (~18:14): (A) esci da chat → pallino torna (#338); (B) risposta AD senza riaprire → pallino mancava (#340 `selectedConv`). Test A = 15s; test B = Plancia → elenco Conversazioni; deploy Vercel + Ctrl+F5.
