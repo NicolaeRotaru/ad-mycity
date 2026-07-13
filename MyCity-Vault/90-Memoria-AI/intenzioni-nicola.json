@@ -1,15 +1,15 @@
 {
-  "data": "2026-07-13 20:21",
-  "sintesi": "Nicola è in ripresa operativa dal 13/7. Oggi la giornata è stata dominata dalla maratona Pannello (~23 PR mergiate): streaming parziale ok ma testo vero ancora «tutto insieme», pallini residui. La visita tattica ai 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) era prevista oggi — serve debrief. Cliente core = botteghe (carrello multi-negozio); i 6 del 13/7 sono mossa tattica, non profilo target. Prossima finestra critica: Venerdì Piacentini 17/7 per il 1° ordine reale su Pane Quotidiano. Caldo >40°C 15–17/7.",
+  "data": "2026-07-13 22:35",
+  "sintesi": "Nicola è in ripresa operativa dal 13/7. Clienti MyCity = solo botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie (conferma esplicita 22:34). Focus vendite: Garetti, Peretti, Amendolara + shortlist botteghe food. Faro operativo = Pane Quotidiano; prossima finestra critica VP 17/7 per 1° ordine reale. Maratona Pannello oggi (~23 PR); merge #356 in coda.",
   "prossime_mosse": [
     {"titolo": "Mergia la PR con le 10 scelte ragionate", "quando": "stasera/domani mattina", "come": "Pannello → Approva #117 (PR #346) — conflitti risolti ondata 5", "priorita": "alta", "ad_prepara": "branch rebased head 84bd4db8, registro-scelte-check exit 0", "senior": "@tech", "colore": "🔴"},
-    {"titolo": "Racconta com'è andata la visita ai 6 ristoranti", "quando": "domani mattina", "come": "debrief rapido: chi visto, chi sì/no, prossimo passo onboarding", "priorita": "alta", "ad_prepara": "dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md aggiornato terminologia", "senior": "@vendite", "colore": "🟡"},
+    {"titolo": "Porta online le prime botteghe core", "quando": "dopo debrief 13/7", "come": "pitch spesa settimanale multi-negozio — Garetti, Peretti, Amendolara in testa", "priorita": "alta", "ad_prepara": "dossier e schede-cheat botteghe aggiornati", "senior": "@vendite", "colore": "🟡"},
     {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "quando": "VP 17/7 (finestra target)", "come": "via al post Il Turno + lista d'attesa; slot freschi al mattino per caldo 40°C", "priorita": "alta", "ad_prepara": "bozze post pronte, SEO vetrina PQ, brief catena freddo", "senior": "@content-social", "colore": "🔴"},
     {"titolo": "Mergia il fix pallini se ancora aperto", "quando": "quando hai 2 minuti", "come": "PR #348 — impronta ultima risposta, test 15s esci da chat", "priorita": "media", "ad_prepara": "#118 in coda", "senior": "@frontend-dev", "colore": "🔴"}
   ],
   "primi_negozi": [
     {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity; contratto 12% firmato; faro per 1° ordine", "stato": "attivo · payout OFF · 0 consegne · target VP 17/7"},
-    {"nome": "6 ristoranti/trattorie tattici (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori)", "perche": "Visita di persona 13/7 — mossa tattica non profilo core; pitch: retail −6,6% Q2 + caldo", "stato": "prospect · debrief pendente · handoff onboarding pronto"}
+    {"nome": "Garetti · Peretti · Amendolara (botteghe core)", "perche": "Profilo cliente MyCity — carrello settimanale; né ristoranti né trattorie (Nicola 22:34)", "stato": "prospect · priorità vendite"}
   ],
   "rischi": [
     "Visita 13/7 possibilmente parziale per priorità Pannello — pipeline senza esiti reali",
@@ -18,7 +18,7 @@
     "SQL 107 non chiuso prima di scalare negozi"
   ],
   "serve_da_nicola": [
-    {"ambito": "Debrief visita", "cosa_manca": "esiti reali dei 6 ristoranti visitati oggi", "domanda_per_nicola": "Quali dei 6 hai visto? Chi ha detto sì all'onboarding?"},
+    {"ambito": "Botteghe core", "cosa_manca": "quali botteghe portare online per prime", "domanda_per_nicola": "Dopo oggi, quali botteghe (Garetti, Peretti, Amendolara…) mettiamo in cima alla lista?"},
     {"ambito": "Pannello", "cosa_manca": "merge #346 + feedback streaming post-fix", "domanda_per_nicola": "Dopo merge #346, lo streaming cresce parola per parola o ancora tutto insieme?"},
     {"ambito": "Primo ordine", "cosa_manca": "via libera post VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine su PQ al Venerdì Piacentini del 17/7?"}
   ]

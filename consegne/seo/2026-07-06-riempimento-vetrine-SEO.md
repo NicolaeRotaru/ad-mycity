@@ -73,7 +73,7 @@ lo comunica, eventuali certificazioni (bio/DOP) **documentate**, indirizzo reale
 ## 3) 🟢 REGOLA-STANDING — SEO-fill = passo obbligatorio dell'onboarding
 
 D'ora in poi ogni negozio che entra su MyCity riceve il riempimento vetrina **al go-live**, dentro l'onboarding
-done-for-you (@onboarding-negozi). Così le **6 ristoranti/trattorie tattici** in arrivo dal 13/7 nascono già ottimizzate, senza
+done-for-you (@onboarding-negozi). Così le **6 botteghe priorità** in arrivo dal 13/7 nascono già ottimizzate, senza
 un secondo giro. Handoff: @onboarding-negozi raccoglie i campi reali → @seo compila il template → proposta 🟡
 col comando pronto → firma → `marketplace.mjs aggiorna`.
 

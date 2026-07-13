@@ -12,7 +12,7 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 > mosse) referenziato da lì, NON una seconda coda parallela. Quando accodi un'azione nuova, mettila in
 > `AZIONI-IN-ATTESA.md`; se serve l'anteprima lunga, linkala qui. Non duplicare lo stato di approvazione.
 
-## A4 · 🛡️ Playbook anti-churn 6 ristoranti/trattorie tattici (post 13/7)
+## A4 · 🛡️ Playbook anti-churn 6 botteghe priorità (post 13/7)
 reparto: account-negozi
 livello: 🟡 (ogni check-in reale va avviato da Nicola)
 canale: WhatsApp/telefono diretto → poi AD prepara i testi
@@ -91,7 +91,7 @@ stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #26** in [[AZIONI-I
 reparto: customer-success
 livello: 🟢 (template neutro riusabile) · l'invio a un cliente reale è 🔴 e vive nelle istanze A13/A14
 canale: WhatsApp/email/in-app al cliente dopo la consegna
-perche: Subito dopo una buona consegna è la finestra migliore per (1) intercettare un problema e (2) chiedere la recensione solo a chi è contento. Questo è il **modello neutro** con segnaposti — si istanzia in 30 secondi per QUALSIASI negozio (PQ dal 17/7 e le 6 ristoranti/trattorie tattici dal 13/7), non solo per Pane Quotidiano.
+perche: Subito dopo una buona consegna è la finestra migliore per (1) intercettare un problema e (2) chiedere la recensione solo a chi è contento. Questo è il **modello neutro** con segnaposti — si istanzia in 30 secondi per QUALSIASI negozio (PQ dal 17/7 e le 6 botteghe priorità dal 13/7), non solo per Pane Quotidiano.
 preparato: 🤗 customer-success — playbook completo in `consegne/customer-success/2026-07-01-playbook-recensioni.md`
 gate (vale per ogni istanza): parte SOLO su un ordine **realmente consegnato** (delivery_status=delivered). Regola d'oro FLUSSI §3: la richiesta recensione (Touch 2) parte **solo se il feedback del Touch 1 non è negativo**. Segnaposti da riempire coi dati veri dell'ordine: [NEGOZIO] · [PRODOTTO/I] · [LINK-RECENSIONE = /orders/{UUID-ordine}/review, aperto LIVE prima dell'invio].
 riuso: card canonica in coda = **#27** [[AZIONI-IN-ATTESA]]; le istanze PQ pronte = **A13** (Touch 1) + **A14** (Touch 2). Per un altro negozio: copia A13/A14, sostituisci i segnaposti, tieni lo stesso gate.
@@ -423,7 +423,7 @@ stato: IN ATTESA DI FIRMA NICOLA.
 reparto: account-negozi (owner) · devops-sre / data-engineer (sentinella)
 livello: 🟡 (accende una sentinella/health-score in sola lettura sul marketplace — nessuna scrittura, nessun contatto a clienti/negozi)
 canale: giro.sh (blocco health-score negozi, sola lettura) + card «negozio a rischio» nel Pannello quando una soglia scatta
-perche: **Playbook anti-churn 7/7 — verdetto onesto: 0 negozi in calo oggi** (1 solo negozio reale, Pane Quotidiano, senza storico ordini da cui calare; PQ **non è churn** ed è già stato chiuso da Nicola il 6/7, righe #25/#29). Il churn diventa reale dal **13/7**, quando entrano le 6 ristoranti/trattorie tattici. La causa #1 di churn dei commercianti non è il calo, è il **"no value realized"**: entra, mette il catalogo, non riceve il primo ordine, molla. Armare l'health-score PRIMA dell'onda protegge le 6 botteghe dal giorno 1, invece di accorgersene quando una ha già mollato.
+perche: **Playbook anti-churn 7/7 — verdetto onesto: 0 negozi in calo oggi** (1 solo negozio reale, Pane Quotidiano, senza storico ordini da cui calare; PQ **non è churn** ed è già stato chiuso da Nicola il 6/7, righe #25/#29). Il churn diventa reale dal **13/7**, quando entrano le 6 botteghe priorità. La causa #1 di churn dei commercianti non è il calo, è il **"no value realized"**: entra, mette il catalogo, non riceve il primo ordine, molla. Armare l'health-score PRIMA dell'onda protegge le 6 botteghe dal giorno 1, invece di accorgersene quando una ha già mollato.
 preparato: 💚 account-negozi — registro + soglie + template check-in neutro in `consegne/account-negozi/2026-07-07-playbook-anti-churn.md`
 soglie (per negozio reale, dal go-live · sola lettura):
   - 🟡 no-value: LIVE con catalogo ma **0 ordini a 5 giorni** dal go-live → check-in «ti porto il primo ordine di prova»

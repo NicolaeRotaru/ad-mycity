@@ -7,7 +7,7 @@ scopo: Ciclo anti-churn per i 6 nuovi negozi food del 13/7 — check-in, soglie,
 colore: 🟢 (documento) · 🟡 (ogni check-in reale va firmato da Nicola)
 ---
 
-# 🛡️ Playbook Anti-Churn — 6 Ristoranti/Trattorie Tattici (post-onboarding 13/7)
+# 🛡️ Playbook Anti-Churn — 6 Botteghe Priorità (post-onboarding 13/7)
 
 ## Quadro dati reali (al 11/7/2026)
 
@@ -15,7 +15,7 @@ colore: 🟢 (documento) · 🟡 (ogni check-in reale va firmato da Nicola)
 |---|---|---|---|
 | Pane Quotidiano | ✅ approvato | 1 (annullato) | Escluso: non è churn, aspetta piattaforma |
 | 16 negozi demo | ❌ sospesi | 0 | Irrilevanti (seed data) |
-| 6 ristoranti/trattorie tattici 13/7 | ⏳ non ancora online | — | TARGET di questo playbook |
+| 6 botteghe priorità 13/7 | ⏳ non ancora online | — | TARGET di questo playbook |
 
 **Conclusione:** nessun negozio con ordini in calo oggi. Il playbook si attiva dopo l'onboarding del 13/7.
 

@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-13 20:22",
+  "aggiornato": "2026-07-13 22:35",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -160,15 +160,50 @@
     {
       "id": "strategia.cliente-core",
       "nome": "strategia.cliente-core",
-      "valore": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
-      "fonte": "Nicola chat 2026-07-13 11:25",
-      "aggiornato": "2026-07-13 11:40",
-      "storia": [],
+      "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+      "fonte": "Nicola chat 2026-07-13 22:34",
+      "aggiornato": "2026-07-13 22:35",
+      "storia": [
+        {
+          "valore": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
+          "fino_a": "2026-07-13 22:35"
+        }
+      ],
       "caccia": [
         {
           "pattern": "clienti sono i ristoranti",
           "dal": "2026-07-13 11:40",
           "chiusa": "2026-07-13 20:22"
+        },
+        {
+          "pattern": "i 6 del 13/7 sono ristoranti/trattorie",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "6 ristoranti/trattorie tattici",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "clienti core = botteghe, i 6",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "non ristoranti a tavola",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "ristoranti/trattorie tattici",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
+          "dal": "2026-07-13 22:35",
+          "chiusa": "2026-07-13 22:35"
         }
       ],
       "esenzioni": []

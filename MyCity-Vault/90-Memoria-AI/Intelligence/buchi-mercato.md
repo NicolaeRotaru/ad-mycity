@@ -62,6 +62,6 @@ Attivi su portali a luglio 2026 — indici di negozi che cedono o si spostano:
 ## Blocco attuale e mossa collegata
 
 - **407 lead** nel DB — outreach post-1ª-transazione ancora fermo (#20-22 gated al 13/7)
-- **6 ristoranti/trattorie tattici visita 13/7** — il dato -2,3% retail rinforza il pitch
+- **6 botteghe priorità visita 13/7** — il dato -2,3% retail rinforza il pitch
 - Bar/ristoranti centro = unica categoria in positivo (+7 unità): nicchia da presidiare come prossima ondata dopo food-secco
 - **Bando ER 21/7** ancora aperto e urgente (⏰ 10 giorni)

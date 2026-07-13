@@ -5,7 +5,7 @@
 > Le azioni reali (stampa, istituzioni, sponsor) si firmano in [[AZIONI-IN-ATTESA]].
 
 ## Il momento (il filtro che decide tutto)
-- **Siamo a T-4 dal 13/7**: il 13/7 Nicola porta di persona **6 ristoranti/trattorie tattici** in onboarding (fonte: `registro-fatti` `onboarding.botteghe-food`). Oggi c'è **1 solo negozio reale — Pane Quotidiano** — e **0 ordini consegnati** (`northstar.consegnati=0`).
+- **Siamo a T-4 dal 13/7**: il 13/7 Nicola porta di persona **6 botteghe priorità** in onboarding (fonte: `registro-fatti` `onboarding.botteghe-food`). Oggi c'è **1 solo negozio reale — Pane Quotidiano** — e **0 ordini consegnati** (`northstar.consegnati=0`).
 - **Regola-gate stabile** (confermata su 3 card di fila — Hub #52, post #46, referral #37): **niente traffico/asset pesante verso il marketplace prima che ci sia un negozio evadibile**. Prima l'offerta, poi la domanda.
 - **⛔ Vincolo a tempo CADUTO**: il **bando Commercio ER 40% a fondo perduto** (`bando.commercio-er.scadenza`) è **CHIUSO il 23/6/2026** (limite di 350 domande raggiunto; scadenza formale 21/7 superflua). La leva bando non è più disponibile per il pitch del 13/7. Nuovo argomento sostitutivo: **retail piacentino −6,6% Q2 + caldo 40°C il 15-17/7** = urgenza concreta, verificabile, senza scadenza artificiale.
 - **Conclusione operativa**: le leve OUT oggi si dividono in tre fasce. La mossa strategica del momento non è "spingere di più", è **caricare la molla** perché le leve istituzionali/PR partano il minuto esatto in cui la prima bottega diventa evadibile (post-13/7), sfruttando ancora la finestra del bando.

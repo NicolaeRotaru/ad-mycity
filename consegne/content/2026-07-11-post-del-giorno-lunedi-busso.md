@@ -13,7 +13,7 @@ differenza-vs-serie: 7/7 causa (P1) · 8/7 comodità/ZTL (P4) · 9/7 volti/motor
 > **Angolo:** BTS fondatore in campo — il fondatore che bussa alle saracinesche del centro storico.
 > **Swipe rubato:** #4 CrowdFarming ("BTS founder in campo: trasparenza dell'origine = antidoto all'anonimato;
 > founder che si sporca le mani") + #7 "autenticità grezza > patinato".
-> **Aggancio vero:** il 13/7 Nicola va DI PERSONA dalle prime 6 ristoranti/trattorie tattici del centro (piano reale in memoria).
+> **Aggancio vero:** il 13/7 Nicola va DI PERSONA dalle prime 6 botteghe priorità del centro (piano reale in memoria).
 > **Ghigliottina superata:** "poteva farlo Amazon?" → No. Amazon non bussa di persona alle botteghe di Piacenza.
 
 ---
