@@ -1,9 +1,9 @@
 {
-  "data": "2026-07-13 16:12",
+  "data": "2026-07-13 16:20",
   "esito": "incoerenze",
   "fatti_totali": 11,
   "cacce_aperte": 2,
-  "file_scansionati": 565,
+  "file_scansionati": 566,
   "incoerenze": [
     {
       "fatto": "onboarding.6-ristoranti-tattici",
@@ -178,7 +178,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 37,
+      "riga": 41,
       "testo": "> 🟡 **13/7 11:43 — Metabolizzazione: coda #antichurn allineata a «6 ristoranti tattici»** (era «6 botteghe food»). Propagazione parziale standing-ask Pannello auto-allineato; coda tabella #56 e altri"
     },
     {
@@ -186,7 +186,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 41,
+      "riga": 45,
       "testo": "> 💬 **13/7 11:40 — CHAT: standing-ask «tutto il Pannello» auto-allineato.** Nicola «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — dopo aver scoperto c"
     },
     {
