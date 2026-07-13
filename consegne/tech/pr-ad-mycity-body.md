@@ -1,13 +1,12 @@
 ## Summary
-- Nuovo script che allinea la lista audit al cantiere vivo dopo ogni fix (voto 75, 7 findings chiusi, sync ogni giro)
-- Pannello: tab predefinita «Da fare ora» (1 pezzo), archivio audit separato, header mostra «1 da fare»
-- Marketplace: etichetta chiara che i numeri sono dello scan del 7/7
+- Aggiunte al registro-realtà le 8 scelte ragionate mancanti (6 trattorie visita 13/7 + Peretti + Amendolara) e aggiornato Garetti.
+- Nuovo guardiano `registro-scelte-check.mjs` (AR-103): a ogni giro verifica che i dossier vendite con prospect `scelta_ragionata` siano nel registro — altrimenti vincolo HARD al motore.
+- Regola esplicita in `auto-analisi.md`: sync registro obbligatorio nello stesso giro del dossier.
 
 ## Perché
-I fix chiudevano il cantiere (42 chiusi) ma il Pannello mostrava ancora 74 problemi dello scan statico del 7 luglio.
+Il Pannello (Auto-coscienza) mostra solo `registro-realta.json`. La macchina aveva analizzato 9+ prospect in `consegne/vendite/` ma ne mostrava 2 — lista incompleta senza bug UI.
 
 ## Come provare
-1. Merge e deploy
-2. Cervello → Radiografia: tab «Da fare ora» con badge 1, voto 75 live
-3. «Archivio audit» mostra il resto con data 7/7
-4. Dopo un giro, sync_scan si refresha da solo
+1. `node cervello/registro-scelte-check.mjs` → exit 0, messaggio ✅
+2. Apri Auto-coscienza nel Pannello → «Scelte ragionate» = 10 voci (inclusi Garetti, Tigellabella, Peretti…)
+3. Rimuovi temporaneamente un'entità dal registro e rilancia il check → exit 1 con elenco mancanti

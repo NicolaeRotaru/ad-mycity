@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 20:16] Conflitto PR #346 ondata 5 — Nicola «c'è ancora un conflitto»: main avanzato con worker chat; solo LEZIONI-CHAT (diario); codice registro/guardiano intatto; verificare card verde prima di «risolto»; **#346** merge 🔴 #117.
 - [2026-07-13 20:13] Conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti» (terza volta): main avanza con #347/#348 mentre branch aperto; ondata 3 = 4 file memoria, ondata 4 = solo body PR; codice registro/guardiano intatto, head `0c770216`, verificare mergeable API prima di «risolto»; **#346** merge 🔴 #117.
 - [2026-07-13 20:11] Commit di memoria — **non è il fix**: diario vault (lezioni/STATO) auto-creato dal worker quando apre PR; genera conflitti se main avanza con altre chat; conflitti solo memoria/body PR ≠ codice rotto — ignorabile per decidere merge; su #347 saltato apposta, conta solo commit sync.
 - [2026-07-13 20:10] Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» dopo merge **#348**: main avanzato (`b153f62f`), stesso body PR (non codice sync); rebase su main post-#348, head `514321eb`, mergeable API ok; dire «risolto» solo dopo card verde; **#347** merge 🔴.

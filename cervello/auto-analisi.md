@@ -95,6 +95,11 @@ Un voto alto va **dimostrato**, non assunto: «tutto ok» senza punti ciechi ele
    (specifiche, con contesto) · Salute della macchina · Punti ciechi · Cosa miglioro al prossimo giro.
 2. **Digest strutturato** → `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json` (schema esatto in
    `auto-coscienza.md`). Aggiorna anche `registro-realta.json` con le entità verificate/declassate stavolta.
+   > 🚨 **AR-103 — sync scelte ragionate (OBBLIGATORIO nello stesso giro):** se produci o aggiorni un dossier
+   > in `consegne/vendite/` che dichiara prospect `scelta_ragionata` (frontmatter `gate_AR006` o testo esplicito),
+   > **scrivi SUBITO** ogni bottega/entità in `registro-realta.json` con `stato: scelta_ragionata`, evidenze e
+   > `fonte_ragionamento`. Il guardiano `node cervello/registro-scelte-check.mjs` fallisce il giro se mancano —
+   > il Pannello mostra solo ciò che è nel registro, non i dossier nascosti in `consegne/`.
    > 🚨 **RISPETTA I TIPI DEL CONTRATTO ALLA LETTERA — il Pannello si rompe se sgarri:**
    > - `voto_fiducia` = **NUMERO intero 0-100**, MAI una frase. La sfumatura («alto su tracciabilità, basso
    >   sull'utilità…») va in `sintesi`, NON nel voto. (Un voto come testo viene reso come numero gigante e
