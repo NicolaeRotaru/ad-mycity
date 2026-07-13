@@ -4,6 +4,7 @@ fonte: AD digitale
 ---
 
 
+- 2026-07-13 21:42 · 🟢 · [AD/Tech] · **PR #352 conflitto risolto dall'AD — Nicola «fallo tu».** Dopo istruzioni manuali GitHub, Nicola chiede che risolva l'AD. Rebase branch su main: conflitto solo body PR + file diario memoria; `comandi-data.ts` intatto; head `ac9606fc`; API mergeable, card verde. Merge 🔴 #122 ancora pendente (solo Approva Nicola). · Nicola (chat 13/7 ~21:42 — «fallo tu»)
 - 2026-07-13 21:14 · 🟢 · [AD/Tech] · **Conflitto PR #351 — solo body PR, fix scroll già su main.** Nicola «c'è un conflitto, che cosa fa». #350 (Ritmo) e #351 (scroll) parallele → conflitto solo `consegne/tech/pr-ad-mycity-body.md`; codice `page.tsx` identico e già mergiato con **#350** (`42c657a8`). **#351 chiudere senza merge**; se mergi → Accept main. · Nicola (chat 13/7 ~21:14)
 - 2026-07-13 21:14 · 🟢 · [Frontend/Pannello] · **PR #350 mergiata su main.** Ritmo del giorno leggibile + fix scroll fluttuante incluso — main `42c657a8`. Deploy Vercel automatico ~2 min. · Worker verifica (13/7 ~21:14)
 - 2026-07-13 21:13 · 🟡 · [Frontend/Pannello] · **PR #352 — chip plugin Grillami e Codice minimo nel menù ⚡ Skill & comandi.** Nicola «perché solo 2 plugin in chat? mettili in skill e comandi» dopo verifica installazione 21/21. Solo grilling+ponytail restano attivi in chat diretta (caveman OFF, altri 18 su giri/worker). Fix: due chip in cima a `SKILL_RAPIDE` in `pannello/src/lib/comandi-data.ts` — «Grillami» (`grillami su `) e «Codice minimo» (hint fix codice). Merge 🔴 #122. · Nicola (chat 13/7 ~21:13)
