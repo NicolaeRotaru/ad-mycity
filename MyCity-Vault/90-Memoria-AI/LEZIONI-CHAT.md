@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-14 01:00] **AR-006 — merge ≠ casella chiusa** — PR #349 mergiata 13/7 (`444439af`) + `allocazione-check` verde, ma casella rossa resta finché AR-006 è `in-corso` in cantiere e coda #119 non è FATTO; Nicola «cosa manca?» = separare fix tecnico (fatto) · housekeeping memoria (chiudi cantiere) · materia prima PQ · primo ordine payout.
 - [2026-07-14 00:58] **Allegati + selezione chat** — Nicola: foto non si inserisce + evidenziatura «arancio su arancione» invisibile; fix ieri era solo Assistenza — **caselle Lavori** (`ChatCasella`) ancora vecchio input Safari; `::selection` su brand arancione va testato — **PR #363** merge 🔴 #131; `ParlaCasella` senza allegati = altro fix.
 - [2026-07-14 00:49] **Rete sync Pannello** — Nicola: una sola fonte (vault GitHub), se cambia un dato **tutto** il Pannello si aggiorna insieme (fix radiografia → sparisce lì + Da approvare + Plancia…); prima 6 caselle collegate, ora tutte via `mycity:sync` — **PR #362** merge 🔴 #130.
 - [2026-07-13 23:44] **Archivio annida GitHub** — Nicola: GitHub **dentro Archivio**, tab **Consegne** / **GitHub**; menu Memoria **3 voci** (Viva·Archivio·Storico); link vecchi → Archivio›GitHub — **PR #359** merge 🔴 #128.
