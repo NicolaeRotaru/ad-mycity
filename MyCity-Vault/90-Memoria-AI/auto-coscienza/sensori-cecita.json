@@ -50,7 +50,7 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 118,
+    "giri_totali": 119,
     "sensori_ok": 3,
     "max_giri_ciechi": 1,
     "sensori_totali": 3,

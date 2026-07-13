@@ -321,9 +321,11 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
-### 🟡 #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 10:40
+### 🟡 #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 10:40 · **aggiornato 2026-07-13 11:18**
 
-> ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" scatta correttamente a 0 ordini, ma qui il problema non è l'abbandono — è la **vetrina scheletrica** che abbassa la qualità percepita dai clienti che arriveranno a breve.
+> ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" è scattata di nuovo oggi (firma `c0b240c0…`) — **cancello 🔬 confermato: falso positivo, nessuna telefonata anti-churn.** Il problema operativo resta la **vetrina scheletrica** (2/8), non l'abbandono.
+>
+> **Dossier stampabile aggiornato:** `consegne/account-negozi/2026-07-13-checkin-pane-quotidiano-sentinella.md`
 
 **Health score — Pane Quotidiano (unico negozio approvato)**
 
