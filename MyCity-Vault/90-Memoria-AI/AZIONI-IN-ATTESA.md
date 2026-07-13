@@ -54,22 +54,30 @@ Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine 
 
 **Cosa è successo:** PR #299 (fix parziale badge) superata da #316 che unisce sync chat cross-device + logica badge completa secondo specifica Nicola 13/7.
 
-**Da fare:** Chiudi PR #299 su GitHub senza mergiare. Mergia **#316** (card #92).
+**Da fare:** Chiudi PR #299 su GitHub senza mergiare. ~~Mergia **#316**~~ → sync già su main (#317); chiudi #316 senza merge.
 
 ---
 
-### 🟡 #pr-316-chat-sync-badge — Mergia PR #316: chat allineata PC↔telefono + pallini rossi corretti · ⏳ IN ATTESA · accodata 2026-07-13 12:14
+### ❌ #pr-316-chat-sync-badge — SOSTITUITA · sync già su main · 2026-07-13 12:39
 
-**Cosa fa:** (1) l'elenco conversazioni si ricarica ogni ~8 secondi e quando torni sulla scheda — scrivi dal telefono e sul PC compare senza refresh manuale; (2) pallino rosso solo se l'ultimo messaggio è risposta AD non ancora aperta/letta; sparisce aprendo la chat o chiudendo la finestra; (3) storico già chiuso segnato letto al primo caricamento — niente pallini su tutto lo storico.
+**Cosa è successo:** sync chat PC↔telefono + fix pallini rossi entrati su `main` con merge #317 (13/7 ~12:30). PR #316 obsoleta — stesso fix già live.
 
-**PR su GitHub:** [#316 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/316) ← branch `fix/chat-sync-badge`, commit `74a4cfc0`, solo `page.tsx` (conflitti risolti 13/7 12:19 — file memoria worker rimossi dal branch)
+**Da fare:** Chiudi PR #316 su GitHub **senza mergiare**. Chiudi anche #299 se ancora aperta.
 
-⚠️ **Chiudi PR #299 su GitHub senza mergiare** — superata da #316.
+---
 
-**Cosa cambia:** chat sincronizzata tra dispositivi; badge «non letto» affidabile come chiesto da Nicola.
-**Se va bene:** deploy automatico Vercel; altri disallineamenti Pannello (numeri, azioni) da segnalare separatamente.
+### 🟡 #pr-318-chat-ux-tre-fix — Mergia PR #318: X prompt + chat evidenziata + annulla invio · ⏳ IN ATTESA · accodata 2026-07-13 12:27
 
-- **Colore:** 🔴 (merge dal Pannello — card #92)
+**Cosa fa:** (1) **X** sulla card «Prompt pronto» — chiudi senza copiare; (2) chat aperta **evidenziata** nel cassetto (bordo colorato + «aperta ora»), anche in chat fluttuante; (3) **Annulla invio** mentre compare «sto pensando…» — ferma l'AD, toglie il messaggio, rimette il testo nella casella.
+
+**PR su GitHub:** [#318 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/318) ← branch `fix/chat-ux-tre-fix`, commit `03751823`, solo `globals.css` + `page.tsx` (conflitti risolti 13/7 12:39 — file worker contatore lezioni rimossi dal branch)
+
+⚠️ **Non mergiare #316** — sync già su main. Opzionale: chiudi #316 senza merge.
+
+**Cosa cambia:** UX chat più controllabile — chiudi prompt, vedi quale chat hai aperto, annulla invii per sbaglio.
+**Se va bene:** deploy automatico Vercel; i tre fix online su PC e telefono.
+
+- **Colore:** 🔴 (merge dal Pannello — card #94)
 
 ---
 
@@ -753,9 +761,9 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 89 | 2026-07-13 11:29 | @tech | Merge PR #314 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/314 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 90 | 2026-07-13 11:32 | @tech | Merge PR #315 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/315 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 91 | 2026-07-13 11:37 | @tech | Merge PR #315 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/315 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 92 | 2026-07-13 12:14 | @tech | Merge PR #316 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/316 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 93 | 2026-07-13 12:24 | @tech | Merge PR #317 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/317 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 94 | 2026-07-13 12:27 | @tech | Merge PR #318 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/318 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 92 | 2026-07-13 12:14 | @tech | Merge PR #316 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/316 | github | CHIUDI SENZA MERGE · sync già su main via #317 2026-07-13 12:39 | Sync chat + badge già live su main — #316 duplicata. | Chiudi #316 e #299 senza merge. |
+| 93 | 2026-07-13 12:24 | @tech | Merge PR #317 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/317 | github | ✅ FATTO 2026-07-13 · mergiata su main | Volano ponte applicazione lezioni + sync chat inclusa. | Sync PC↔telefono già attiva; chiudi #316. |
+| 94 | 2026-07-13 12:27 | @tech | Merge PR #318 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/318 | github | in attesa | X su Prompt pronto, chat aperta evidenziata, Annulla invio durante «sto pensando…». | Dopo Approva: deploy Vercel; tre fix UX chat online. Commit `03751823`, conflitti risolti 12:39. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
