@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 17:23 · Nicola «impara questi errori» — metabolizzazione PR pallini · atteso: lezione permanente in memoria · reale: L-129 evidenze 2, regole 3 PR stesso bug + simula merge prima di «pronto» + guida esplicita merge/chiudi; #327 annullata, #328 merge 🔴 #102 · L-2026-0713-129 · #impara-errori #pr #conflitti
 - 2026-07-13 17:21 · PR #328 conflitti + doppia PR pallini — Nicola «risolvili» + «le mergio entrambe?» · atteso: mergeable + guida esplicita quale PR · reale: conflitto memoria worker; rebase branch solo pannello/, `812cff8b` mergeable; solo #328, #327 CHIUDI, #330 separato · L-2026-0713-129 · #pr #conflitti #doppioni #pallini
 - 2026-07-07 00:29 · Fix quota Vercel: deploymentEnabled:false + Action deploy-pannello con Deploy Hook (PR #210, mergiata; hook+secret configurati da Nicola) · 5/5/4/4/5/5 · atteso da domani 0 deployment dai push di memoria, quota 100/giorno intatta → reale da misurare al reset quota (check-in armato) · #vercel #quota
 - 2026-07-07 00:29 · AR-102 fonte unica della verità: registro-fatti + guardiano coerenza-fatti + cablaggio giro (PR #207, mergiata) · 5/5/4/5/5/5 · atteso guardiano verde al primo giro VPS e registro popolato → reale 9 test e2e passati in sviluppo; registro popolato con 8 fatti fondati stanotte; verifica live VPS al prossimo giro · #ar-102 #coerenza

@@ -27,6 +27,16 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### ❌ #pr-327-pallini-badge — ANNULLATA 2026-07-13 17:16 · sostituita da #328
+
+**Cosa è successo:** Nicola «le mergio entrambe?» — #327 era fix incompleto (solo badge, senza sync server cross-device). Stesso bug coperto da **#328** (commit `812cff8b`, conflitti risolti).
+
+**Da fare:** Chiudi PR #327 su GitHub **senza mergiare**. Mergia solo **#328** (card #102).
+
+- **Colore:** 🟢 (annullata — nessun merge)
+
+---
+
 ### 🟡 #pr-328-pallini-sync — Mergia PR #328: pallini rossi corretti + conversazioni allineate telefono/PC · ⏳ IN ATTESA · accodata 2026-07-13 17:12
 
 **Cosa fa:** pallino rosso e graffetta 📌 salvati sul server (non più solo nel browser di quel dispositivo); lista conversazioni unisce chat salvate + risposte AD dai Lavori finiti — stesso elenco e stessi pallini su PC e smartphone.
