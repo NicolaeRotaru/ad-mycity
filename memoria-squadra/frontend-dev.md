@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 23:17 · Menu Memoria riordino IA — Nicola «voglio creare ordine» gruppo→simili→contenuto · atteso: proposta concreta + domande pendenti · reale: hub Memoria 4 tab (Viva·Archivio·Storico senza Diario·GitHub); menu laterale snello; 2 pendenti Governo&diretta + OKR&Piani prima PR · L-190 · #pannello #memoria #menu #ux #information-architecture
 - 2026-07-13 22:39 · Menu follow-up — Nicola «voglio parliamo del menu» · atteso: dialogo frizioni residue post-«sì» #356 · reale: verificato main (3 voci salute separate; gruppo Macchina&memoria ancora affollato); no secondo grilling A/B/C; pendente frizione specifica Nicola · L-189 · #pannello #menu #ux
 - 2026-07-13 22:28 · PR #356 redesign Pannello — Nicola «sì» pacchetto completo · atteso: PR unica menu+home+trio+lettera · reale: **#356** aperta (`8e44d69e`); home firmare→ritmo→lettera→KPI→macchina; 3 voci menu; migliorie cartoline/italiano/7gg; merge 🔴 #125 · L-186 · #pannello #home #pr-356 #menu #ux
 - 2026-07-13 22:22 · Home cima = da firmare — Nicola «a» su Q priorità Plancia · atteso: primo blocco home · reale: **A** da firmare in cima; ritmo+lettera subito sotto; coerente intento azione-in-10s · L-186 · #pannello #home #plancia #ux
