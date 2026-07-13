@@ -1,18 +1,13 @@
-## Cosa fa
-Chiude i pallini rossi su due bug confermati da Nicola (scenario 1 + 4):
-- **1:** apri chat, leggi, esci → pallino torna rosso dopo ~8s senza nuova risposta
-- **4:** tutte le chat rosse anche se già viste
+## Summary
+- Nuovo script che allinea la lista audit al cantiere vivo dopo ogni fix (voto 75, 7 findings chiusi, sync ogni giro)
+- Pannello: tab predefinita «Da fare ora» (1 pezzo), archivio audit separato, header mostra «1 da fare»
+- Marketplace: etichetta chiara che i numeri sono dello scan del 7/7
 
 ## Perché
-Il «letto» confrontava l'orario generico della conversazione (`updated_at`), che il database aggiorna anche su salvataggi/merge senza nuovo testo. La baseline v2 marcava solo messaggi nel DB conversazioni, non le risposte che vivono nei Lavori.
-
-## Fix
-- Impronta dell'ultima risposta AD: se il testo è lo stesso, pallino spento (indipendente da `updated_at`)
-- Timestamp pallino solo da lavori **finiti**, non da `c.updated_at` generico
-- Baseline v3: marca come lette tutte le chat storiche includendo thread dai Lavori
+I fix chiudevano il cantiere (42 chiusi) ma il Pannello mostrava ancora 74 problemi dello scan statico del 7 luglio.
 
 ## Come provare
-1. Dopo merge + deploy Vercel (~2 min): Ctrl+Shift+R sul Pannello
-2. Elenco Conversazioni: le chat già viste **non** devono essere tutte rosse
-3. Apri una chat con pallino, leggi, vai in Plancia → resta **15+ secondi** senza pallino
-4. Scrivi in chat, vai in Plancia → quando rispondo, pallino compare; apri → sparisce e non torna
+1. Merge e deploy
+2. Cervello → Radiografia: tab «Da fare ora» con badge 1, voto 75 live
+3. «Archivio audit» mostra il resto con data 7/7
+4. Dopo un giro, sync_scan si refresha da solo

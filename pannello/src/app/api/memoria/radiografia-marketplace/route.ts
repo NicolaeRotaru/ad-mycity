@@ -33,6 +33,12 @@ export async function GET() {
   return NextResponse.json({
     collegato: true,
     ...digest,
-    live: { data_scan: digest.data || null, scan_ore_fa, scan_stale: scan_ore_fa != null && scan_ore_fa > 48 },
+    live: {
+      data_scan: digest.data || null,
+      scan_ore_fa,
+      scan_stale: scan_ore_fa != null && scan_ore_fa > 48,
+      findings_aperti: digest.sync_scan?.findings_aperti ?? digest.meta?.findings ?? null,
+      sync_aggiornato: digest.sync_scan?.aggiornato || null,
+    },
   });
 }
