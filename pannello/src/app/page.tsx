@@ -98,6 +98,7 @@ import {
   Maximize2,
   Image as ImageIcon,
   Pin,
+  CircleStop,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -1462,6 +1463,47 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     } catch {}
   }
 
+  /** Chiude la card «Prompt pronto» senza toccare il resto della conversazione. */
+  function chiudiPrompt(id: string) {
+    setMessages((m) => m.filter((x) => x.id !== id));
+  }
+
+  /** Annulla l'ultimo invio ancora in elaborazione (messaggio inviato per sbaglio). */
+  async function annullaInvioInCorso() {
+    const targetConvId = convIdRef.current;
+    if (!targetConvId) return;
+    const idx = messages.findIndex((x) => x.pending);
+    if (idx === -1) return;
+    let lavoroId: string | null = null;
+    for (const p of pendingLavoroChatRef.current.values()) {
+      if (p.tipo === "chat" && p.targetConvId === targetConvId && !lavoroRisoltoChatRef.current.has(p.id)) {
+        lavoroId = p.id;
+        break;
+      }
+    }
+    const prima = idx > 0 && messages[idx - 1]?.role === "user" ? messages[idx - 1].content : "";
+    const testoRipristino = prima.replace(/\n📎 .+$/gm, "").trim();
+    const nuovi = [...messages];
+    nuovi.splice(idx, 1);
+    if (idx > 0 && messages[idx - 1]?.role === "user") nuovi.splice(idx - 1, 1);
+    setMessages(nuovi);
+    if (lavoroId) {
+      lavoroRisoltoChatRef.current.add(lavoroId);
+      rimuoviPendingChat(lavoroId);
+      fetch("/api/lavori/sostituisci", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: lavoroId }),
+      }).catch(() => {});
+    }
+    if (testoRipristino) setInput(testoRipristino);
+    setLoading(false);
+    void persistConversazione(
+      targetConvId,
+      nuovi.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"))
+    );
+  }
+
   const caricaStato = useCallback(async () => {
     try {
       const res = await fetch("/api/stato", { cache: "no-store" });
@@ -2177,9 +2219,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               m.prompt ? (
                 <div key={m.id ?? i} className="text-left">
                   <div className="t-eti text-xs mb-1.5 flex items-center gap-1">
-                    <FileText size={12} className="text-brand" /> Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis
+                    <FileText size={12} className="text-brand shrink-0" />
+                    <span className="flex-1 min-w-0">Prompt pronto — incollalo in Claude (claude.ai) col tuo Max: gratis</span>
+                    <button
+                      type="button"
+                      onClick={() => m.id && chiudiPrompt(m.id)}
+                      className="shrink-0 grid place-items-center w-6 h-6 rounded-md text-black/40 hover:text-black/70 hover:bg-black/[0.06] transition"
+                      aria-label="Chiudi prompt"
+                      title="Chiudi"
+                    >
+                      <X size={14} />
+                    </button>
                   </div>
-                  <div className="border border-brand/25 rounded-xl p-3.5" style={{ background: "var(--brand-soft)" }}>
+                  <div className="border border-brand/25 rounded-xl p-3.5 relative" style={{ background: "var(--brand-soft)" }}>
                     <pre className="text-xs whitespace-pre-wrap font-sans t-corpo leading-relaxed">{m.content}</pre>
                     <button
                       onClick={() => copia(m.content)}
@@ -2201,16 +2253,27 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    m.content ? (
-                      <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
-                        <Markdown>{m.content}</Markdown>
-                        <span className="ml-0.5 animate-pulse">▍</span>
-                      </div>
-                    ) : (
-                      <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
-                        <Loader2 size={14} className="animate-spin" /> sto pensando…
-                      </div>
-                    )
+                    <div className="inline-flex flex-col items-start gap-1.5 max-w-[92%]">
+                      {m.content ? (
+                        <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md">
+                          <Markdown>{m.content}</Markdown>
+                          <span className="ml-0.5 animate-pulse">▍</span>
+                        </div>
+                      ) : (
+                        <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
+                          <Loader2 size={14} className="animate-spin" /> sto pensando…
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => void annullaInvioInCorso()}
+                        className="inline-flex items-center gap-1 text-[11px] font-medium text-red-600/90 hover:text-red-700 px-2 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 transition"
+                        aria-label="Annulla invio"
+                        title="Annulla — il messaggio torna nella casella di testo"
+                      >
+                        <CircleStop size={12} /> Annulla invio
+                      </button>
+                    </div>
                   ) : (
                     <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
@@ -2370,13 +2433,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       aria-label="Seleziona conversazione"
                     />
                     <button type="button" onClick={() => continuaConversazione(c.id)} className="flex-1 min-w-0 text-left">
-                      <div className="conv-row-title flex items-center gap-1.5">
+                      <div className={`conv-row-title flex items-center gap-1.5 ${convId === c.id ? "text-brand" : ""}`}>
                         {nonLetta && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" title="Nuova risposta non letta" />}
                         <span className="truncate">{c.titolo}</span>
                       </div>
                       <div className="conv-row-meta">
                         {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
-                        {convId === c.id && " · in corso"}
+                        {convId === c.id && <span className="text-brand font-medium"> · aperta ora</span>}
                       </div>
                     </button>
                     <button
@@ -2508,16 +2571,27 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                       {m.content}
                     </span>
                   ) : m.pending ? (
-                    m.content ? (
-                      <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
-                        <Markdown>{m.content}</Markdown>
-                        <span className="ml-0.5 animate-pulse">▍</span>
-                      </div>
-                    ) : (
-                      <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
-                        <Loader2 size={13} className="animate-spin" /> sto pensando…
-                      </div>
-                    )
+                    <div className="inline-flex flex-col items-start gap-1 max-w-[92%]">
+                      {m.content ? (
+                        <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md">
+                          <Markdown>{m.content}</Markdown>
+                          <span className="ml-0.5 animate-pulse">▍</span>
+                        </div>
+                      ) : (
+                        <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
+                          <Loader2 size={13} className="animate-spin" /> sto pensando…
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => void annullaInvioInCorso()}
+                        className="inline-flex items-center gap-1 text-[10.5px] font-medium text-red-600/90 hover:text-red-700 px-1.5 py-0.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 transition"
+                        aria-label="Annulla invio"
+                        title="Annulla — il messaggio torna nella casella di testo"
+                      >
+                        <CircleStop size={11} /> Annulla
+                      </button>
+                    </div>
                   ) : (
                     <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
                       <Markdown>{m.content}</Markdown>
@@ -2615,21 +2689,26 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {conversazioni.length === 0 ? (
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
-              <ul className="scroll-soft flex-1 overflow-y-auto px-2.5 pb-2.5 space-y-1">
+              <ul className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
                 {ordinaConversazioni(conversazioni, convPinnate)
                   .map((c) => {
                   const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  const attiva = c.id === convId;
                   return (
                   <li key={c.id}>
                     <button
+                      type="button"
                       onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
-                      className={`w-full text-left rounded-lg px-2.5 py-2 transition ${c.id === convId ? "bg-brand/10 text-brand" : "hover:bg-black/[0.04]"}`}
+                      className={`conv-row w-full text-left ${attiva ? "conv-row-active" : ""}`}
                     >
-                      <span className={`flex items-center gap-1.5 truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>
+                      <span className={`conv-row-title flex items-center gap-1.5 ${attiva ? "text-brand" : ""}`}>
                         {nonLetta && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" title="Nuova risposta non letta" />}
                         {c.titolo || "Conversazione"}
                       </span>
-                      <span className="t-eti text-[10.5px]">{new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
+                      <span className="conv-row-meta">
+                        {new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        {attiva && <span className="text-brand font-medium"> · aperta ora</span>}
+                      </span>
                     </button>
                   </li>
                 )})}
