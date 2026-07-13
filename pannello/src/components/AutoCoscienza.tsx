@@ -132,7 +132,7 @@ type Analisi = {
   punti_ciechi?: string[]; miglioramenti_prossimo_giro?: string[];
   salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number };
 };
-type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string };
+type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string; nato?: string; ultima_conferma?: string };
 type AppMeta = {
   lezioni_attive?: number;
   promosse_a_principio?: number;
@@ -221,6 +221,22 @@ function barra(conf?: number) {
   );
 }
 
+function dataLezione(l: Lezione): Date | null {
+  const raw = (l.ultima_conferma || l.nato || "").slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
+  const dt = new Date(`${raw}T12:00:00`);
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+function lezioneRecente(l: Lezione, giorni = 7): boolean {
+  const dt = dataLezione(l);
+  if (!dt) return false;
+  const lim = new Date();
+  lim.setDate(lim.getDate() - giorni);
+  lim.setHours(0, 0, 0, 0);
+  return dt >= lim;
+}
+
 export default function AutoCoscienza({
   fixedTab,
   hideSwitcher = false,
@@ -238,6 +254,7 @@ export default function AutoCoscienza({
   // 🔗 Azioni da firmare indicizzate per origine: per ogni casella (domanda/entità) sappiamo
   // se esiste un'azione che ne è nata → mostriamo "vai all'azione". (origine → id azione)
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
+  const [mostraArchivioLezioni, setMostraArchivioLezioni] = useState(false);
 
   useEffect(() => {
     const carica = () => {
@@ -286,10 +303,14 @@ export default function AutoCoscienza({
   const erroriLive = live?.gap?.length ? live.gap : a?.errori;
   const nErrori = (Array.isArray(erroriLive) ? erroriLive : []).length;
   const nDomande = a?.domande_per_nicola?.length || 0;
+  const tutteLezioni = ap?.lezioni || [];
+  const lezioniRecenti = tutteLezioni.filter((l) => lezioneRecente(l));
+  const lezioniVis = mostraArchivioLezioni ? tutteLezioni : lezioniRecenti;
+  const nLezioniArchivio = Math.max(0, tutteLezioni.length - lezioniRecenti.length);
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: "analisi", label: "Auto-analisi", icon: <Microscope size={15} />, badge: nErrori },
-    { id: "apprendimento", label: "Apprendimento", icon: <GraduationCap size={15} />, badge: ap?.lezioni?.length || 0 },
+    { id: "apprendimento", label: "Apprendimento", icon: <GraduationCap size={15} />, badge: lezioniRecenti.length || undefined },
     { id: "miglioramento", label: "Auto-miglioramento", icon: <Rocket size={15} />, badge: mi?.benchmark?.length || 0 },
   ];
 
@@ -357,6 +378,31 @@ export default function AutoCoscienza({
               </button>
             ))}
           </div>
+          )}
+
+          {d?.collegato && (
+            <div className="rounded-xl border border-black/[0.08] bg-paper/50 px-3 py-2.5 mb-3">
+              {tab === "analisi" && (
+                <p className="t-corpo text-[13px] font-semibold">
+                  {votoFOk ? (votoF >= 80 ? "🟢" : votoF >= 60 ? "🟡" : "🔴") : "🟡"}{" "}
+                  {votoFOk ? `${votoF}/100 fiducia` : "Analisi in aggiornamento"}
+                  {nErrori > 0 ? ` · ${nErrori} errori` : ""}
+                  {nDomande > 0 ? ` · ${nDomande} domande per te` : ""}
+                </p>
+              )}
+              {tab === "apprendimento" && (
+                <p className="t-corpo text-[13px] font-semibold">
+                  {lezioniRecenti.length} lezioni negli ultimi 7 giorni
+                  {ap?.meta?.tasso_applicazione != null ? ` · ${Math.round((ap.meta.tasso_applicazione || 0) * 100)}% applicazione` : ""}
+                </p>
+              )}
+              {tab === "miglioramento" && (
+                <p className="t-corpo text-[13px] font-semibold">
+                  {mi?.benchmark?.length || 0} benchmark · {mi?.esperimenti?.length || 0} esperimenti
+                  {(mi?.esperimenti?.length || 0) === 0 ? " · prossimo passo: misurare un esperimento" : ""}
+                </p>
+              )}
+            </div>
           )}
 
           {/* ===== AUTO-ANALISI ===== */}
@@ -567,8 +613,17 @@ export default function AutoCoscienza({
               {ap?.lezioni && ap.lezioni.length > 0 && (
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><Lightbulb size={13} /> Lezioni imparate</div>
+                  {nLezioniArchivio > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setMostraArchivioLezioni((v) => !v)}
+                      className="mb-2 text-[12.5px] font-medium text-brand hover:underline"
+                    >
+                      {mostraArchivioLezioni ? "Mostra solo ultimi 7 giorni" : `Mostra archivio (${nLezioniArchivio} lezioni più vecchie)`}
+                    </button>
+                  )}
                   <div className="space-y-2">
-                    {ap.lezioni.map((l, i) => (
+                    {lezioniVis.map((l, i) => (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
                         <div className="text-[12.5px]">{l.testo}</div>
                         <div className="flex items-center flex-wrap gap-1.5 mt-1.5">

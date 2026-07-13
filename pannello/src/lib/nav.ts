@@ -10,6 +10,7 @@ export type VistaNav =
   | "azioni"
   | "lavori"
   | "cervello"
+  | "salute-sito"
   | "auto-coscienza"
   | "numeri"
   | "memoria"
