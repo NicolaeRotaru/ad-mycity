@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:54
-fonte: AD digitale (💬 13/7 21:54 chat grilling Controllo/La macchina — Nicola risposta B (tab Radiografia sito). | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:55
+fonte: AD digitale (💬 13/7 21:55 chat grilling Controllo/La macchina — Nicola risposta B (menu Salute sito). | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:55 — CHAT: grilling Controllo / La macchina — Nicola «b» (menu).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 4 — dove mettere Radiografia sito:** Nicola risponde **B** = **voce menu nuova «Salute sito»** per l'audit del marketplace (ex tab «Radiografia sito») — rifiuta Operazioni (A), link solo da avviso (C) e raccomandazione AD. **Già confermato:** Q1 **A** (semaforo+un passo) · Q2 **B** (cuore+organismi in home, Controllo ampliato) · Q3 **B** (Radiografia sito esce da Controllo). **Pendente:** domanda 5 (cosa compare subito aprendo Controllo: semaforo+problemi vs cuore+organismi vs tab residue) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:55.
+>
 > 💬 **13/7 ~21:54 — CHAT: grilling Controllo / La macchina — Nicola «b» (tab).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 3 — tab in cima:** Nicola risponde **B** = **togliere «Radiografia sito»** da Controllo — è audit del **marketplace**, non della macchina AD (rifiuta tenerla sotto «La macchina»). **Non** ha confermato A (prima pagina solo semaforo+problemi, tab dietro «Approfondisci»): restano **2 tab** (Radiografia macchina · Auto-coscienza). **Già confermato:** Q1 **A** (semaforo+un passo) · Q2 **B** (cuore+organismi in home, Controllo ampliato). **Pendente:** domanda 4 (dove mettere Radiografia sito nel menu) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:54.
 >
 > 💬 **13/7 ~21:53 — CHAT: grilling Controllo / La macchina — Nicola «b» (dove).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 2 — dove:** Nicola risponde **B** = cuore e 8 organi **restano in home** (come ora), **Controllo** = stessa vista **più completa** (rifiuta raccomandazione AD: solo Controllo, home leggera). **Già confermato (21:52):** domanda 1 **A** = in 10s semaforo 🟢🟡🔴 + un passo; radiografie e pilotaggio secondari. Frizione segnalata: 3 tab pesanti in cima (Radiografia macchina/sito/Auto-coscienza), non la duplicazione home. **Pendente:** domanda 3 (tab in prima pagina) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:53.

@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 21:55 · Grilling Controllo/La macchina Q4 — Nicola «b» · atteso: dove mettere Radiografia sito nel menu · reale: **B** voce menu nuova **«Salute sito»** (rifiuta Operazioni e link solo da avviso); Q5 prima pagina Controllo aperta · L-179 · #pannello #controllo #salute-sito #menu #ux #grilling
 - 2026-07-13 21:54 · Grilling Controllo/La macchina Q3 — Nicola «b» · atteso: decidere tab in cima a Controllo · reale: **B** Radiografia sito esce da Controllo (marketplace ≠ macchina); non ha scelto A (prima pagina pulita); restano 2 tab; Q4 dove mettere Radiografia sito aperta · L-179 · #pannello #controllo #radiografia-sito #ux #grilling
 - 2026-07-13 21:53 · Grilling Controllo/La macchina Q2 — Nicola «b» · atteso: dove vedere salute macchina · reale: **B** home+Controllo ampliato; intento **A** confermato; Q3 tab ancora aperta; Nicola preferisce duplicazione consapevole vs raccomandazione AD solo Controllo · L-179 · #pannello #controllo #ux #grilling
 - 2026-07-13 21:52 · Grilling Controllo/La macchina — Nicola «non mi piace come è impostata» · atteso: capire intento prima di redesign · reale: domanda 1 → Nicola **A** (semaforo+un passo); domanda 2 (dove) aperta; oggi overlap home+3 schede pesanti · L-179 · #pannello #controllo #ux #grilling

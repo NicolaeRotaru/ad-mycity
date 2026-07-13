@@ -18,7 +18,7 @@
   "lezioni": [
     {
       "id": "L-2026-0713-179",
-      "testo": "**Controllo/La macchina — grilling A+B+B confermati (chat 13/7 ~21:52–21:54):** «grillami, non mi piace come è impostata» → **Q1 A:** in 10s solo **semaforo** (🟢🟡🔴) + **un passo** se problema; radiografie e pilotaggio secondari. **Q2 B:** cuore e 8 organi restano in **home** (come ora), **Controllo** = stessa vista **più completa** — Nicola rifiuta raccomandazione AD (solo Controllo, home leggera). **Q3 B:** **togliere «Radiografia sito»** da Controllo — è audit del **marketplace**, non della macchina AD; **non** ha confermato A (prima pagina pulita senza tab in cima): restano 2 tab (Radiografia macchina · Auto-coscienza). 5 perché: (1) separa salute macchina da salute sito; (2) grilling sequenziale funziona; (3) frizione vera = tab pesanti + audit sito nel posto sbagliato; (4) **regola:** sezioni «non mi piace» → grilling domanda per domanda → conferma → solo poi PR 🟡; (5) **Q4** (dove mettere Radiografia sito: Operazioni / voce nuova / link da avviso) **ancora aperta** — non proporre redesign finché non chiude. Correlazione L-172, nicola-spiegazioni-piu-chiare.",
+      "testo": "**Controllo/La macchina — grilling A+B+B+B confermati (chat 13/7 ~21:52–21:55):** «grillami, non mi piace come è impostata» → **Q1 A:** in 10s solo **semaforo** (🟢🟡🔴) + **un passo** se problema; radiografie e pilotaggio secondari. **Q2 B:** cuore e 8 organi restano in **home** (come ora), **Controllo** = stessa vista **più completa** — Nicola rifiuta raccomandazione AD (solo Controllo, home leggera). **Q3 B:** **togliere «Radiografia sito»** da Controllo — è audit del **marketplace**, non della macchina AD; **non** ha confermato A (prima pagina pulita senza tab in cima): restano 2 tab (Radiografia macchina · Auto-coscienza). **Q4 B:** audit sito → **voce menu nuova «Salute sito»** — rifiuta Operazioni, link solo da avviso e raccomandazione AD. 5 perché: (1) separa salute macchina da salute sito anche nel menu; (2) grilling sequenziale funziona; (3) frizione vera = tab pesanti + audit sito nel posto sbagliato; (4) **regola:** sezioni «non mi piace» → grilling domanda per domanda → conferma → solo poi PR 🟡; (5) **Q5** (prima pagina Controllo: semaforo+problemi vs organi vs tab) **ancora aperta** — non proporre redesign finché non chiude. Correlazione L-172, nicola-spiegazioni-piu-chiare.",
       "tag": [
         "pannello",
         "controllo",
@@ -31,11 +31,11 @@
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 4,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 21:54",
+      "ultima_conferma": "2026-07-13 21:55",
       "stato": "attiva"
     },
     {
@@ -4186,7 +4186,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Controllo/La macchina — grilling A+B+B (chat 13/7 ~21:52–21:54):** «grillami, non mi piace come è impostata» → **A** semaforo+un passo in 10s; **B** cuore+organismi in home E Controllo ampliato; **B** tab = Radiografia sito **esce** da Controllo (audit marketplace ≠ macchina); non ha scelto prima pagina pulita senza tab — restano 2 tab; Q4 (dove mettere Radiografia sito) ancora aperta; niente PR redesign finché grilling non chiude. Vedi L-179.",
+    "**Controllo/La macchina — grilling A+B+B+B (chat 13/7 ~21:52–21:55):** «grillami, non mi piace come è impostata» → **A** semaforo+un passo in 10s; **B** cuore+organismi in home E Controllo ampliato; **B** tab = Radiografia sito **esce** da Controllo; **B** menu = audit sito in voce nuova **«Salute sito»**; non ha scelto prima pagina pulita senza tab — restano 2 tab; Q5 (prima pagina Controllo) ancora aperta; niente PR redesign finché grilling non chiude. Vedi L-179.",
     "**Ritmo — chat contestuale su piano mattino e report sera (chat 13/7 ~21:50):** «aggiungi sotto parla con la casella» — vuole lo stesso link «Parla con questa casella» delle altre card sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto («spiegami le 3 priorità», «cosa devo fare oggi?»); merge **PR #355** 🔴 #124. Vedi L-178.",
     "**Ritmo del giorno leggibile (chat 13/7 ~21:10):** «piano del mattino e report della sera scritti malissimo, faccio molta fatica a leggere» — si aspetta italiano semplice (frasi corte, 3 priorità, cosa serve da te), NON log interni con PR/AR/path/sigle nel corpo; in Plancia sezioni con titoli/ed elenchi, dettagli tecnici nascosti; **#350 ✅ mergiata** su main (`42c657a8`). Vedi L-170.",
     "**Card merge PR — spariscono da sole post-merge (chat 13/7 ~21:47):** «voglio che toglie in automatico le caselle merge da approvare dopo che ho mergiato la pr, fallo fin da subito» — zero card fantasma in Da approvare; si aspetta sync GitHub→Pannello entro ~15s (poll accelerato); non pulizia manuale né «ignora la card»; fix **PR #354** merge 🔴 **#123**. Vedi L-177.",
