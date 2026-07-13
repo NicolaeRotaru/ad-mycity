@@ -1,10 +1,17 @@
 ## Summary
-- Il Pannello mostra piano del mattino e report della sera con sezioni, elenchi e dettagli tecnici collassati (componente `RitmoTesto`).
-- Riscritti i blocchi di oggi in `RITMO.md` in italiano semplice, senza sigle nel corpo principale.
-- I prompt automatici del ritmo (`cervello/ritmo.md` + `ritmo.sh`) impongono da domani la stessa struttura leggibile.
+Aggiunge **Grillami** e **Codice minimo** (plugin grilling + ponytail) alle skill rapide del pulsante ⚡ in tutte le chat del Pannello.
 
-## Test plan
-- [ ] Apri la Plancia → card «Ritmo del giorno»
-- [ ] Piano del mattino: titoli in grassetto, 3 punti numerati, elenco «Serve da te»
-- [ ] Report della sera: sezioni «Com'è andata», «I numeri», «Da approvare» — niente muro di testo
-- [ ] «Dettagli tecnici» si apre solo se clicchi
+## Perché
+In chat con Nicola sono attivi solo questi due plugin (gli altri 19 servono a giri, lavori interni o task backend — non alla conversazione diretta). Nicola voleva vederli nel menù Skill & comandi, non solo sapere che esistono.
+
+## Cosa cambia
+- `pannello/src/lib/comandi-data.ts`: due chip in cima a `SKILL_RAPIDE`
+  - 🔥 Grillami → `grillami su ` (stress-test decisioni, una domanda alla volta)
+  - ✂️ Codice minimo → `cambia il sito: ` (ponytail si attiva da solo su fix codice)
+
+## Come provare
+1. Apri il Pannello (chat principale o casella Parla)
+2. Tocca ⚡ accanto a Invia
+3. In «Skill rapide» compaiono i due nuovi chip in cima
+4. Tocca «Grillami» → l'input si riempie con `grillami su `
+5. Tocca «Codice minimo» → l'input si riempie con `cambia il sito: `
