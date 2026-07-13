@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 17:19 · Plugin worker fase 2 + mappa — Nicola «aggiungi i 10 plugin» + mappa completa · atteso: PR #330 mergiata, 14 skill, mappa reparti · reale: #330 su main (`ac9e24a9`), #320 annullata (fase 1 già live), mappa in `consegne/tech/worker-plugins-mappa.md` · L-2026-0713-128 · #worker #plugin #pr-330
 - 2026-07-13 17:13 · PR #329 agent-registry description check — Nicola «risolvi» da casella Pannello · atteso: guardiano legge description + trova collisioni · reale: PR #329 aperta, fraud-risk↔trust-safety rilevata, merge 🔴 #101; fix description = passo 2 · L-2026-0713-127 · #agent-registry #routing #pr-329
 - 2026-07-13 12:38 · PR #320 plugin worker — Nicola «apri la pr» + 10 plugin fase 2 + caveman split · atteso: manifest+sync+PR aperta · reale: #320 su `fix/worker-plugins-skills`, caveman-internal solo tipo≠chat, 10 candidati in manifest · L-2026-0713-112 · #worker #plugin #pr-320
 - 2026-07-13 12:24 · Chat Nicola plugin worker — 3 skill confermati (grilling/ponytail/caveman) dopo descrizione AD · atteso: manifest+sync PR 🟡 · reale: identità verificata, caveman OFF chat Nicola, PR in attesa «confermo» · L-2026-0713-111 · #worker #plugin #token

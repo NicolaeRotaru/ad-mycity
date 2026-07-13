@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:13",
+  "aggiornato": "2026-07-13 17:19",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-128",
+      "testo": "**Plugin worker fase 1+2 + conflitto #320 (chat 13/7 ~12:20–17:19):** Nicola chiede plugin GitHub per risparmio token, conferma grilling/ponytail/caveman dopo descrizione identità, poi «aggiungi i 10 plugin» + mappa completa worker/Pannello/AD/senior. 5 perché conflitto #320: (1) recovery worker scrive manifest+sync+3 skill su main (`601aec92`) mentre #320 aperta; (2) add/add su `sync-worker-plugins.mjs` + `worker.sh` — non memoria mescolata; (3) stesso pattern #316/#305; (4) Nicola segnala conflitto → chiudere #320 senza merge; (5) fase 2 in **PR #330 mergiata** (`ac9e24a9`, `f68b2007`, 14 skill). **Regole operative:** caveman OFF chat (fragment solo tipo≠chat); verificare repo prima di consigliare (code-simplifier=`getsentry/skills`, non obra); Firecrawl richiede chiave VPS; mappa in `consegne/tech/worker-plugins-mappa.md`; post-merge riavvio worker.",
+      "tag": [
+        "worker",
+        "plugin",
+        "pr-320",
+        "pr-330",
+        "caveman",
+        "recovery",
+        "conflitto",
+        "token",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.98,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 17:19",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-127",
       "testo": "**Guardiano agent-registry cieco sulle description (chat 13/7 ~17:11):** Nicola «risolvi questo problema» dalla casella Pannello coerenza-agenti (radiografia verificata). 5 perché: (1) `agent-registry-check.mjs` nato per drift conteggi doc (AR-007/008) — solo `readdirSync` nomi + citazioni in CLAUDE/COMANDI/AGENTI, mai body/frontmatter; (2) il router Claude Code sceglie subagente dalla `description` nel frontmatter — guardiano e router guardano campi diversi; (3) passava in verde fraud-risk ↔ trust-safety con «account multipli» e «rimborsi falsi» verbatim — buco reale confermato; (4) correzione claim radiografia: regex conteggio senior (`agentiMd.match`) gira su AGENTI.md, NON CLAUDE.md — «78 nuovi senior» non era bug del conteggio; (5) **fix PR #329:** estrae description, tokenizza frasi-trigger, FALLISCE se ≥2 condivise verbatim o deferral mancante con vicino dominio — segnala, non auto-corregge. Dopo merge gira nel giro. Secondo passo: trust-safety togliere «prevenzione frodi…» + deferral verso fraud-risk. Merge 🔴 #101.",
@@ -365,12 +388,12 @@
         "nicola"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.97,
-      "evidenze": 1,
+      "confidenza": 0.98,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 12:38",
+      "ultima_conferma": "2026-07-13 17:19",
       "stato": "attiva"
     },
     {
@@ -3073,6 +3096,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Plugin GitHub worker — fase 2 + mappa completa (chat 13/7 ~17:19):** dopo i 3 skill confermati chiede «aggiungi i 10 plugin che mi hai consigliato» + «i migliori plugin per tutti gli aspetti del worker/pannello/AD/senior» — si aspetta manifest esteso, PR mergiabile (#330), mappa per reparto (`consegne/tech/worker-plugins-mappa.md`), caveman mai in chat con lui. Prima di installare vuole descrizione identità di ogni skill (L-111). Vedi L-2026-0713-128.",
     "**Guardiano agenti — fix concreto dalla casella Pannello (chat 13/7 ~17:11):** «risolvi questo problema» sulla casella coerenza-agenti verificata — si aspetta PR funzionante che chiude il buco (non solo spiegazione), con prova che il controllo trova subito la collisione (fraud-risk/trust-safety), descrizione PR su GitHub, merge 🔴 #101. Correggere le description degli agenti = passo separato dopo il guardiano. Vedi L-2026-0713-127.",
     "**Pallini rossi e conversazioni telefono=PC (chat 13/7 ~17:08):** «i puntini rossi… ancora funzionando alla cazzo di cane» + conversazioni smartphone/desktop non allineate — si aspetta pallino affidabile (solo risposta AD non letta) e stesso elenco+pallini su entrambi i dispositivi; i fix precedenti (#317 polling, #324 UI) non bastavano finché pin/badge restavano in localStorage. Fix PR #328, merge 🔴 #102. Vedi L-2026-0713-126.",
     "**Tab OKR & pagella — testo leggibile e numeri che si muovono (chat 13/7 ~16:22):** «Esce ancora la frase fuori dal riquadro ed i dati di okr&pagella non sono aggiornati in tempo reale» — si aspetta frasi dentro le card su mobile, Stelle Polari che si aggiornano da sole, e capire che la tabella sotto è un documento (non cache). Fix PR #326, merge 🔴 #99; contenuto OKR = giro AD. Vedi L-2026-0713-125.",
@@ -3093,7 +3117,7 @@
     "**Apri pr + onestà scope (chat 13/7 ~11:37):** «Apri pr» dopo fix proposto → eseguire subito senza ri-chiedere; dichiarare esplicitamente cosa copre la PR e cosa resta per dopo (es. #315 = auto-coscienza, coda/registro botteghe-vs-ristoranti = PR separata con coerenza-fatti). Suggerisce mergiare #313 + #315 insieme dal Pannello. Vedi L-2026-0713-105.",
     "**PR pronta solo dopo rebase (chat 13/7 ~11:42):** segnala subito conflitti su PR già dichiarate pronte — si aspetta rebase + simulazione merge prima del merge dal Pannello (#315 vs #314). Vedi L-2026-0713-107.",
     "**Pannello sempre allineato end-to-end (chat 13/7 ~11:32):** «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — quando corregge qualcosa in chat si aspetta che OGNI casella del Pannello (coda, registro fatti, STATO, piani) rifletta il nuovo valore senza intervento manuale. Standing-ask: metabolizzazione + registro-fatti devono propagare automaticamente; non basta aggiornare 3 file su 10. Vedi L-2026-0713-106.",
-    "**Plugin GitHub worker — PR #320 aperta (chat 13/7 ~12:38):** dopo descrizione dei 3 skill ha detto «apri la pr» + chiede altri 10 plugin fase 2 + caveman senza rompere contratto chat. PR #320 (`fix/worker-plugins-skills`, merge 🔴 #95); post-merge riavvio worker. **Vincolo tono:** caveman solo su giro/lavori interni (fragment, non skill globale); chat con lui resta chiara/non tecnica; ponytail solo codice; grilling su decisioni/PR. Fase 2 = 10 candidati dopo review @security. Vedi L-2026-0713-111, L-2026-0713-112.",
+    "**Plugin GitHub worker — PR #320 aperta (chat 13/7 ~12:38):** dopo descrizione dei 3 skill ha detto «apri la pr» + chiede altri 10 plugin fase 2 + caveman senza rompere contratto chat. ~~PR #320~~ annullata (fase 1 già su main); **PR #330 mergiata** fase 2 (14 skill). **Vincolo tono:** caveman solo su giro/lavori interni; chat chiara/non tecnica; ponytail solo codice; grilling su decisioni/PR. Vedi L-2026-0713-128, L-2026-0713-111, L-2026-0713-112.",
     "**Cliente core = botteghe, non ristoranti (chat 13/7 ~11:25):** «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — conferma strategica: MyCity = carrello multi-negozio settimanale (pane, salumi, formaggi, ortofrutta), NON competizione Glovo sulla cena. I 6 di oggi sono ristoranti/trattorie (mossa tattica per credibilità/primi incassi), non il profilo target. Dopo visita 13/7 focus su Garetti, Peretti, Amendolara + 27 botteghe food. Coerente con principio 6/7 «gioca dove i big non giocano». Vedi L-2026-0713-102.",
     "**Auto-coscienza deve mostrare contenuto, non caselle vuote (chat 13/7 ~11:24):** oltre alla data «03/07», Nicola segnala «manca qualcosa dentro questa casella» nelle due caselle Confronto coi migliori — si aspetta di vedere reparto, obiettivo e divario, non placeholder vuoti o «undefined». Ha approvato subito con «Apri pr» → PR #313. Rinforza la standing-ask tempo reale (L-2026-0713-100) con aspettativa UX: ciò che è nel JSON deve comparire a video. Vedi L-2026-0713-101.",
     "**Auto-coscienza in tempo reale — apprendimento E miglioramento (chat 13/7 ~11:38):** dopo la diagnosi «03/07» chiede esplicitamente aggiornamento live, poi approva con «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». Standing-ask: vuole tick leggero ~10 min (senza AI) + data UI corretta; benchmark pesante resta settimanale se spiegato. PR #315 aperta (commit `fbbc8c2c`), merge 🔴 #90/#91. NON dire «solo giro AI» per apprendimento — si aggiorna già post-chat. Vedi L-2026-0713-100, L-2026-0713-103, L-2026-0713-105.",

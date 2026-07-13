@@ -53,16 +53,13 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-320-worker-plugins — Mergia PR #320: plugin worker token (grilling, ponytail, caveman) · ⏳ IN ATTESA · accodata 2026-07-13 12:38
+### ❌ #pr-320-worker-plugins — ANNULLATA 2026-07-13 17:19 · plugin fase 1 già su main
 
-**Cosa fa:** manifest `cervello/worker-plugins.json` + script `sync-worker-plugins.mjs` + 3 skill GitHub curati. Grilling = stress-test decisioni/PR; ponytail = codice minimo (solo `pannello/`, `cervello/`, `creativi/`); caveman-internal = output telegrafico SOLO su giro/lavori/metabolizza — MAI in chat con te.
+**Cosa è successo:** Nicola segnalò conflitto su #320 — stessi file già entrati su `main` con recovery worker (`601aec92`/`f5f5ae96`, 13/7 12:32–12:37). Manifest, sync, grilling, ponytail e caveman-internal già live.
 
-**PR su GitHub:** [#320 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/320) ← branch `fix/worker-plugins-skills`, commit `6478a01e`
+**Da fare:** Chiudi PR #320 su GitHub **senza mergiare** (come #316). Fase 2 = **PR #330 mergiata** (`ac9e24a9`). Dopo: **riavvia worker** una volta per caricare le 14 skill del manifest.
 
-**Cosa cambia:** il worker risparmia token su giri e codice; la chat con te resta chiara e non tecnica.
-**Se va bene:** mergi #320 dal Pannello → riavvia worker per caricare le nuove regole; fase 2 (altri 10 plugin in `candidati_fase2`) dopo review @security.
-
-- **Colore:** 🔴 (merge dal Pannello — card #95)
+- **Colore:** 🟢 (già su main — nessun merge richiesto)
 
 ---
 
@@ -824,7 +821,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 100 | 2026-07-13 17:07 | @tech | Merge PR #327 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/327 | github | CHIUDI SENZA MERGE · sostituita da #328 2026-07-13 17:16 | Fix incompleto (solo badge, no sync server). | Chiudi #327; mergia solo #328 (card #102). |
 | 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il guardiano agenti segnala collisioni nelle description di routing (es. fraud-risk/trust-safety) — non più falso verde. | Dopo Approva: merge + al prossimo giro il controllo blocca nuove collisioni; correggere trust-safety = passo separato. |
 | 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | in attesa | Pallini rossi e graffette uguali su telefono e PC; lista conversazioni include anche risposte AD dai Lavori. | Dopo Approva: deploy Vercel ~2 min; ricarica entrambi i dispositivi — pallini uguali, spariscono aprendo la chat. |
-| 103 | 2026-07-13 17:15 | @tech | Merge PR #330 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/330 | github | CHIUDI SENZA MERGE · doppione #328 2026-07-13 17:16 | Terza PR sullo stesso bug — errore AD. | Chiudi #330; mergia solo #328 (card #102). |
+| 103 | 2026-07-13 17:15 | @tech | Merge PR #330 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/330 | github | ✅ FATTO 2026-07-13 17:19 · mergiata `ac9e24a9` | 10 plugin fase 2 nel manifest (debug, TDD, security, UI, web, Firecrawl…) — 14 skill totali. | Riavvia worker per caricare le nuove regole; Firecrawl solo con chiave API sul VPS. |
 | 104 | 2026-07-13 17:20 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
