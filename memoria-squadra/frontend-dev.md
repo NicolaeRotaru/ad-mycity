@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 21:13 · Plugin in menu ⚡ — Nicola «solo 2 plugin? mettili in skill e comandi» · atteso: chip visibili grilling+ponytail nel menù fulmine · reale: spiegato perché solo 2 in chat; PR #352 due chip in `SKILL_RAPIDE`; merge 🔴 #122 · L-172 · #pannello #plugin #skill-comandi #pr-352
 - 2026-07-13 21:12 · Scroll chat fluttuante al riaprire — Nicola «chiudo e riapro → riparte dall'inizio» · atteso: ultimo messaggio visibile come chat intera · reale: DOM smontato senza scroll-to-bottom; fix PR #351 stessa logica su fluttuante; merge 🔴 #121 · L-171 · #pannello #chat #fluttuante #scroll #pr-351
 - 2026-07-13 19:53 · Conflitto PR #348 risolto — Nicola «ci sono conflitt» · atteso: branch mergeable, fix fingerprint intatto · reale: conflitto solo memoria macchina, rebase ok, merge 🔴 #118 pendente; test post-deploy = Ctrl+Shift+R + 15s esci + elenco · L-162 · #pannello #pallini #pr-348 #conflitti
 - 2026-07-13 19:51 · Pallini scenario 1+4 — Nicola «1 e 4» · atteso: fix mirato fingerprint, non altro tentativo generico · reale: PR #348 impronta ultima risposta + seed Lavori; scenario 1+4 = stesso difetto timestamp vs testo; merge 🔴 #118 · L-160 · #pannello #pallini #pr-348

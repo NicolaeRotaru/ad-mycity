@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:12
-fonte: AD digitale (💬 13/7 21:12 chat scroll fluttuante. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:13
+fonte: AD digitale (💬 13/7 21:13 chat plugin menu ⚡. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:13 — CHAT: plugin in menu Skill & comandi — Nicola «perché solo 2 plugin in chat? mettili in skill e comandi».** Dopo verifica 21/21 plugin (21:07), chiede perché in chat restano attivi solo due e vuole **grilling** + **ponytail** visibili nel menù ⚡ (fulmine accanto a Invia). **Spiegato 🟢:** solo 2 in chat **per scelta** (grilling su richiesta, ponytail su codice; caveman OFF; altri 18 = giri automatici/worker). **Fix 🟡 PR #352:** chip «Grillami» e «Codice minimo» in cima a `SKILL_RAPIDE` (`comandi-data.ts`). **Pendente:** merge 🔴 **#352** (#122) → deploy ~2 min → icona ⚡ mostra i due chip. Fonte: chat Nicola 13/7 ~21:13.
+>
 > 💬 **13/7 ~21:12 — CHAT: scroll chat fluttuante al riaprire — Nicola «chiudo e riapro → riparte dal primo messaggio».** Segnala che chiudendo «Parla con l'AD» fluttuante e riaprendo la conversazione torna in cima invece dell'ultimo messaggio. **Causa verificata codice:** chiusura smonta il pannello messaggi; riapertura senza scroll al fondo (chat intera aveva già la logica). **Fix 🟡 PR #351** (`ea1484c7`, `page.tsx`): scroll automatico al fondo alla riapertura fluttuante. **Pendente:** merge 🔴 **#351** (#121) → deploy ~2 min → test chiudi/riapri. Fonte: chat Nicola 13/7 ~21:12.
 >
 > 💬 **13/7 ~21:10 — CHAT: ritmo del giorno illeggibile — Nicola «piano mattino e report sera scritti malissimo».** Segnala che **Piano del mattino** e **Report della sera** in vault + card Plancia «Ritmo del giorno» sono un muro di log interno (sigle, PR, gergo). **Fix 🟡 PR #350** (`0189de69`): riscrittura in italiano semplice (frasi corte, 3 priorità, «cosa serve da te»), template `cervello/ritmo.md` allineato, componente RitmoTesto su Plancia (titoli, elenchi, dettagli tecnici sotto clic). **Pendente:** merge 🔴 **#350** (#120) → ricarica Plancia e verifica sezioni brevi. Fonte: chat Nicola 13/7 ~21:10.
