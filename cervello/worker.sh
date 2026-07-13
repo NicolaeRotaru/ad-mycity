@@ -598,15 +598,7 @@ _chat_stream_run() {
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "$sid" ] && cmd+=(--resume "$sid")
   tmpf="$(mktemp -t mycity-worker.XXXXXX)"   # prefisso riconoscibile → lo sweep all'avvio pulisce gli orfani
-  # Flag streaming: Claude (--verbose --include-partial-messages) vs Cursor (--stream-partial-output;
-  # --verbose/--include-partial-messages non esistono su agent e fanno fallire il run).
-  local stream_flags=()
-  if [ "$(ai_engine)" = cursor ]; then
-    stream_flags=(--output-format stream-json --stream-partial-output)
-  else
-    stream_flags=(--output-format stream-json --verbose --include-partial-messages)
-  fi
-  timeout --kill-after=30s "$to" "${cmd[@]}" "${stream_flags[@]}" "$prompt" >"$tmpf" 2>/dev/null &
+  timeout --kill-after=30s "$to" "${cmd[@]}" --output-format stream-json --verbose --include-partial-messages "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
   while kill -0 "$pidc" 2>/dev/null; do
     sleep 1.5
@@ -1186,13 +1178,12 @@ $richiesta"
       echo "[$(ts)] Lavoro $id ($compito_router): instradato al modello economico ($modello_scelto) dal router costo."
       read -r -a _econ_cmd <<< "$AI_ECON_CMD"
       out="$(timeout --kill-after=30s "$to" "${_econ_cmd[@]}" "$prompt" 2>&1)"; rc=$?
-    elif [ "$tipo" = "chat" ]; then
-      # CHAT = MASSIMA QUALITÀ (Strada A): modello premium del motore attivo (Claude o Cursor).
+    elif [ "$tipo" = "chat" ] && [ "$(ai_engine)" = claude ]; then
+      # CHAT = MASSIMA QUALITÀ (Strada A): il tuo Claude Max, modello forte (Opus), non più Sonnet.
       # La "corsia veloce" su Sonnet era la causa delle risposte "stupide/strane": la togliamo. La
       # velocità ora viene dalla PRECEDENZA in coda e dal prompt snello, non dal degradare il modello.
-      # (Vale anche con CERVELLO_MODELLO fissato nel .env: AI_CMD porta già il --model giusto.)
-      # Streaming + memoria di sessione valgono per ENTRAMBI i motori (prima Cursor cadeva nel ramo
-      # testo semplice → risposta solo a fine lavoro, niente parziali nel Pannello).
+      # (Vale anche con CERVELLO_MODELLO fissato nel .env: prima quel caso cadeva nel fallback e
+      # perdeva streaming + memoria di sessione — AI_CMD porta già il --model giusto.)
       # STREAMING (step 2): la risposta compare parola-per-parola. CHAT_STREAM=0 per spegnerlo senza
       # toccare il codice; CHAT_MODELLO opzionale per fissare un modello preciso (vuoto = premium).
       if [ "${CHAT_STREAM:-1}" = 1 ]; then
