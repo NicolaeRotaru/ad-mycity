@@ -6,6 +6,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { EVENTO_VAI, EVENTO_SUB } from "@/lib/nav";
+import { usePanelSync } from "@/lib/panel-sync";
 
 // 📄 Archivio: navigatore ad albero per tutto ciò che l'AD produce in consegne/
 // Livello 1 → cartelle (strategia, marketing, audit…)
@@ -74,6 +75,7 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
   }, []);
 
   useEffect(() => { caricaElenco(); }, [caricaElenco]);
+  usePanelSync(["memoria", "azioni", "all"], caricaElenco);
 
   const apri = useCallback((doc: Doc) => {
     setSel(doc);

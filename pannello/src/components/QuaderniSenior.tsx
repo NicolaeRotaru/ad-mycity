@@ -5,6 +5,7 @@ import { BookOpen, ChevronDown, Loader2, RefreshCw, Search } from "lucide-react"
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
@@ -77,6 +78,8 @@ export default function QuaderniSenior() {
     const id = setInterval(() => carica(true), 120000);
     return () => clearInterval(id);
   }, [carica]);
+
+  usePanelSync(["memoria", "radiografia", "azioni", "all"], () => carica(true));
 
   const apriQuaderno = async (senior: string) => {
     if (aperto === senior) {

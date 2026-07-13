@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
 import ChatCasella from "@/components/ChatCasella";
+import { emitSync } from "@/lib/panel-sync";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
@@ -86,7 +87,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
       setRiprovati((s) => ({ ...s, [id]: ok ? "fatto" : "errore" }));
       // Il backend porta il vecchio lavoro a "fatto": rinfresca subito la lista così esce da "errore"
       // e la card non resta stale fino al prossimo poll.
-      if (ok && typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      if (ok) emitSync("lavori");
     } catch {
       setRiprovati((s) => ({ ...s, [id]: "errore" }));
     }
@@ -106,8 +107,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
       const j = await res.json().catch(() => ({} as any));
       if ((res.ok && j?.ok) || j?.giaAnnullato) {
         setAnnullati((s) => ({ ...s, [id]: "fatto" }));
-        // Rinfresca subito: il lavoro annullato lascia la corsia attiva senza attendere il prossimo poll.
-        if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+        emitSync("lavori");
       } else if (j?.giaInCorso) {
         setAnnullati((s) => ({ ...s, [id]: "giaCorso" }));
       } else {

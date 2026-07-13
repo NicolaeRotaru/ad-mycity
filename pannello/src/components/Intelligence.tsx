@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import GrafoInfluenza from "@/components/GrafoInfluenza";
 import ParlaCasella from "@/components/ParlaCasella";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Tab = "alert" | "mappa" | "concorrenti" | "eventi" | "buchi" | "leve" | "reputazione";
 type Alert = { livello: "rosso" | "giallo"; titolo: string; perche: string; cosaFare: string };
@@ -51,6 +52,8 @@ export default function Intelligence() {
   useEffect(() => {
     carica(tab);
   }, [tab, carica]);
+
+  usePanelSync(["memoria", "azioni", "all"], () => carica(tab));
 
   async function rigenera(t: Tab) {
     // BUG-radiografia (riga 46): blocca il bottone durante l'invio per evitare la doppia accodatura.

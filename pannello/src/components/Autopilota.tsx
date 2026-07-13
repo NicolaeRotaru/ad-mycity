@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Bot, Loader2 } from "lucide-react";
+import { emitSync, usePanelSync } from "@/lib/panel-sync";
 
 // 🤖 Autopilota — controllo unico, spostato QUI nella Plancia (fix #4: prima stava
 // nascosto dentro la scheda "Da approvare"). Quando è ON, la macchina esegue DA SOLA
@@ -14,29 +15,25 @@ export default function Autopilota() {
   const [busy, setBusy] = useState(false);
   const [eseguite, setEseguite] = useState<number | null>(null);
 
-  useEffect(() => {
-    let vivo = true;
-    (async () => {
-      try {
-        const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json());
-        if (!vivo) return;
-        setAttivo(Boolean(d?.autopilota));
-        // Se è già acceso, dà una "spinta" al montaggio così le mosse sicure partono
-        // anche restando sulla Plancia (come faceva prima l'area Azioni).
-        if (d?.autopilota) {
-          fetch("/api/azioni-pronte/autopilota", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })
-            .then((r) => r.json())
-            .then((r) => { if (vivo && typeof r?.eseguite === "number") setEseguite(r.eseguite); })
-            .catch(() => {});
-        }
-      } catch {
-        /* offline: resta spento */
-      } finally {
-        if (vivo) setLoading(false);
+  const carica = useCallback(async () => {
+    try {
+      const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json());
+      setAttivo(Boolean(d?.autopilota));
+      if (d?.autopilota) {
+        fetch("/api/azioni-pronte/autopilota", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })
+          .then((r) => r.json())
+          .then((r) => { if (typeof r?.eseguite === "number") setEseguite(r.eseguite); })
+          .catch(() => {});
       }
-    })();
-    return () => { vivo = false; };
+    } catch {
+      /* offline */
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["azioni", "memoria", "all"], carica);
 
   async function toggle() {
     if (busy) return;
@@ -51,6 +48,7 @@ export default function Autopilota() {
       }).then((x) => x.json());
       if (typeof r?.attivo === "boolean") setAttivo(r.attivo);
       if (typeof r?.eseguite === "number") setEseguite(r.eseguite);
+      emitSync("azioni");
     } catch {
       setAttivo(!nuovo); // rollback
     } finally {

@@ -124,7 +124,7 @@ import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
-import { emitSync } from "@/lib/panel-sync";
+import { emitSync, emitSyncDaLavoriFiniti } from "@/lib/panel-sync";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -2027,7 +2027,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (!stop && Array.isArray(d.lavori)) {
           // Aggiorna SOLO se la lista è davvero cambiata: un array nuovo ma identico
           // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
-          setLavori((prev) => (lavoriUguali(prev, d.lavori) ? prev : d.lavori));
+          setLavori((prev) => {
+            if (lavoriUguali(prev, d.lavori)) return prev;
+            emitSyncDaLavoriFiniti(prev, d.lavori);
+            return d.lavori;
+          });
           if (d.conteggi?.coda != null) {
             setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
           }
