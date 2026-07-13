@@ -24,6 +24,29 @@ import {
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 
+/** Modificati dal worker a ogni giro — non vanno MAI nel commit chore di una PR pannello (conflitti ricorrenti). */
+const WORKER_AUTO_PATHS = new Set([
+  "cervello/routing.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
+]);
+
+function pathFromPorcelainLine(line) {
+  let path = line.substring(2).replace(/^\s+/, "").trim();
+  if (path.includes(" -> ")) path = path.split(" -> ").pop().trim();
+  return path;
+}
+
+function pathsToStageFromPorcelain(porcelain) {
+  /** @type {string[]} */
+  const out = [];
+  for (const line of porcelain.split("\n").filter(Boolean)) {
+    const path = pathFromPorcelainLine(line);
+    if (WORKER_AUTO_PATHS.has(path)) continue;
+    out.push(path);
+  }
+  return out;
+}
+
 function usage() {
   console.log(`Apri PR GitHub (senza merge).
 
@@ -215,13 +238,20 @@ async function main() {
 
   if (hasChanges && !dryRun && sulBranch) {
     const msg = String(args.message || args.title || `chore: ${branch}`);
-    try {
-      git(["add", "-A"], cfg.cwd);
-      git(["commit", "-m", msg], cfg.cwd, gitEnv);
-      console.log(`✓ Commit: ${msg}`);
-    } catch (e) {
-      console.error("ERRORE commit:", sanitize(e, cfg.token));
-      process.exit(1);
+    const toStage = pathsToStageFromPorcelain(dirty || "");
+    if (toStage.length === 0) {
+      console.warn(
+        "⚠️  Solo file auto-worker (routing/sentinella) modificati — skip commit chore per evitare conflitti PR."
+      );
+    } else {
+      try {
+        git(["add", "--", ...toStage], cfg.cwd);
+        git(["commit", "-m", msg], cfg.cwd, gitEnv);
+        console.log(`✓ Commit: ${msg} (${toStage.length} file)`);
+      } catch (e) {
+        console.error("ERRORE commit:", sanitize(e, cfg.token));
+        process.exit(1);
+      }
     }
   } else if (hasChanges && dryRun) {
     console.log("[DRY-RUN] Committerebbe modifiche pendenti nel repo.");
