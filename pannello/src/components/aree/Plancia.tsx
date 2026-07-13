@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText, BarChart3, Globe, History, Layers } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
+import { RitmoTesto } from "@/components/RitmoTesto";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea, type VistaNav } from "@/lib/nav";
@@ -409,7 +410,7 @@ export default function Plancia({
                 )}
               </div>
               {ritmo.pianoMattino ? (
-                <p className="t-corpo whitespace-pre-wrap">{ritmo.pianoMattino.testo}</p>
+                <RitmoTesto testo={ritmo.pianoMattino.testo} />
               ) : (
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
@@ -424,7 +425,7 @@ export default function Plancia({
                 )}
               </div>
               {ritmo.reportSera ? (
-                <p className="t-corpo whitespace-pre-wrap">{ritmo.reportSera.testo}</p>
+                <RitmoTesto testo={ritmo.reportSera.testo} />
               ) : (
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
