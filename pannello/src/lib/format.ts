@@ -60,6 +60,22 @@ export function giornoRoma(d: Date = new Date()): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(d);
 }
 
+/** Tra più date-vault (Piacenza, senza fuso), restituisce la più recente — stringa grezza. */
+export function dataVaultRecente(...date: (string | undefined | null)[]): string {
+  let best = "";
+  let bestMs = -Infinity;
+  for (const raw of date) {
+    const s = (raw || "").trim();
+    if (!s) continue;
+    const ms = new Date(vaultToIso(s)).getTime();
+    if (!Number.isNaN(ms) && ms > bestMs) {
+      bestMs = ms;
+      best = s;
+    }
+  }
+  return best;
+}
+
 // Vault → "GG/MM/AAAA · HH:MM" (o solo "GG/MM/AAAA" se l'ora non c'è).
 export function dataVault(s: string): string {
   const raw = (s || "").trim();
