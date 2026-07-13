@@ -6,7 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13 21:56] Pannello salute macchina — menu **«Radiografia macchina»** (ex Controllo); **«Salute sito»** + **«Auto-coscienza»** voci menu separate (stesso pattern); home + Radiografia macchina con cuore+organismi (Q2B+Q5B); intento 10s = semaforo+azione (Q1A); Q6 contenuto pagina Radiografia macchina **aperta**; PR redesign 🟡 solo dopo Q6.
+- [2026-07-13 21:58] Pannello salute — grilling **chiuso**: menu **Radiografia macchina** + **Salute sito** + **Auto-coscienza** (3 voci, niente tab incastrate); home cuore+organi; Radiografia macchina = organi grandi + report sotto senza tab (Q6A); «sta bene in 10s» dagli organi in home; PR redesign 🟡 solo dopo «sì» di Nicola.
 - [2026-07-13 21:50] Ritmo — Nicola «aggiungi Parla con questa casella sotto piano mattino e report sera»: vuole lo stesso link chat contestuale delle altre card Plancia sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto; fix **PR #355** (`Plancia.tsx`) merge 🔴 **#124**.
 - [2026-07-13 21:47] Card merge PR — Nicola «togli in automatico dopo che mergio»: Pannello interroga GitHub a ogni refresh; PR mergiata/chiusa → card sparisce da Da approvare (~15s poll se merge pendente); fix **PR #354** merge 🔴 **#123**.
 - [2026-07-13 21:43] PR #349 conflitto terza volta — Nicola «ci sono conflitti»: non ripetere istruzioni Accept main; AD risolve branch **senza file diario** (solo archivio 12 Garetti), head `319206ee`, API mergeable ok; merge 🔴 #119 = solo Approva Nicola.
