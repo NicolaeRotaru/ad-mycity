@@ -18,7 +18,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Cosa fa:** estende `agent-registry-check.mjs` — legge le `description` di ogni senior e va in rosso se due agenti condividono ≥2 frasi-trigger (es. fraud-risk ↔ trust-safety) o se manca il deferral verso un vicino di dominio. Non corregge le description, le mostra.
 
-**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← branch `fix/agent-registry-description-check`
+**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← branch `fix/agent-registry-description-check`, commit `53afcdcc` (conflitti risolti 13/7 17:24 — branch ripulito a solo `agent-registry-check.mjs`, mergeable)
 
 **Cosa cambia:** nuove collisioni di routing non passano più inosservate al giro automatico; la casella coerenza-agenti smette di essere un falso verde.
 **Se va bene:** mergi #329 dal Pannello → al prossimo giro il controllo segnala chi si pesta i piedi; poi passo separato per correggere trust-safety (deferral verso fraud-risk).

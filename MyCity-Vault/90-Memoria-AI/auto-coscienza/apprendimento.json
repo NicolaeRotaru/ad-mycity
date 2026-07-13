@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:23",
+  "aggiornato": "2026-07-13 17:24",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -18,7 +18,7 @@
   "lezioni": [
     {
       "id": "L-2026-0713-129",
-      "testo": "**Doppia/tripla PR stesso bug + «impara questi errori» (chat 13/7 ~17:15–17:23):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» + «impara questi errori» su pallini rossi. 5 perché: (1) nella stessa sessione ho aperto #327 (badge parziale), #328 (sync server) e Nicola ha visto anche #330 → 3 PR per un bug = confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324/#316, non codice fix); (3) ho detto «pronta» senza simulare merge su main HEAD — Nicola trova conflitti dopo; (4) #330 era plugin worker (mergiata separatamente 17:19), non pallini — va detto esplicitamente per non confonderla con #327/#328; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — iterare sulla STESSA PR o chiudere la vecchia; quando Nicola chiede «mergio entrambe?» rispondere quale SÌ, quale CHIUDI e perché; branch PR Pannello = solo `pannello/`, ribasa su main, **simula merge prima di «pronto»**. Fix #328 ripulito commit `812cff8b`, mergeable verificato.",
+      "testo": "**Doppia/tripla PR stesso bug + «impara questi errori» (chat 13/7 ~17:15–17:24):** Nicola «ci sono dei conflitti, risolvili» + «hai creato due pr, le mergio entrambe?» + «impara questi errori» su pallini rossi. 5 perché: (1) nella stessa sessione ho aperto #327 (badge parziale), #328 (sync server) e Nicola ha visto anche #330 → 3 PR per un bug = confusione su quale mergiare; (2) conflitto #328 = file memoria worker nel branch Pannello (pattern #318/#324/#316, non codice fix); (3) ho detto «pronta» senza simulare merge su main HEAD — Nicola trove conflitti dopo; (4) #330 era plugin worker (mergiata separatamente 17:19), non pallini — va detto esplicitamente per non confonderla con #327/#328; (5) **regole:** mai 2+ PR per lo stesso bug nella stessa sessione — iterare sulla STESSA PR o chiudere la vecchia; quando Nicola chiede «mergio entrambe?» rispondere quale SÌ, quale CHIUDI e perché; branch PR = solo la cartella del fix (`pannello/` o singolo file `cervello/*.mjs`), ribasa su main, **simula merge prima di «pronto»**. Fix #328 ripulito commit `812cff8b`; **ripetizione 17:24 su #329** (cervello): stesso pattern memoria worker, branch ripulito a solo `agent-registry-check.mjs`, commit `53afcdcc`, mergeable verificato.",
       "tag": [
         "pannello",
         "pr",
@@ -27,16 +27,18 @@
         "pallini",
         "pr-327",
         "pr-328",
+        "pr-329",
+        "cervello",
         "impara-errori",
         "nicola"
       ],
       "reparto": "@tech",
       "confidenza": 0.98,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:23",
+      "ultima_conferma": "2026-07-13 17:24",
       "stato": "attiva"
     },
     {
@@ -64,7 +66,7 @@
     },
     {
       "id": "L-2026-0713-127",
-      "testo": "**Guardiano agent-registry cieco sulle description (chat 13/7 ~17:11):** Nicola «risolvi questo problema» dalla casella Pannello coerenza-agenti (radiografia verificata). 5 perché: (1) `agent-registry-check.mjs` nato per drift conteggi doc (AR-007/008) — solo `readdirSync` nomi + citazioni in CLAUDE/COMANDI/AGENTI, mai body/frontmatter; (2) il router Claude Code sceglie subagente dalla `description` nel frontmatter — guardiano e router guardano campi diversi; (3) passava in verde fraud-risk ↔ trust-safety con «account multipli» e «rimborsi falsi» verbatim — buco reale confermato; (4) correzione claim radiografia: regex conteggio senior (`agentiMd.match`) gira su AGENTI.md, NON CLAUDE.md — «78 nuovi senior» non era bug del conteggio; (5) **fix PR #329:** estrae description, tokenizza frasi-trigger, FALLISCE se ≥2 condivise verbatim o deferral mancante con vicino dominio — segnala, non auto-corregge. Dopo merge gira nel giro. Secondo passo: trust-safety togliere «prevenzione frodi…» + deferral verso fraud-risk. Merge 🔴 #101.",
+      "testo": "**Guardiano agent-registry cieco sulle description (chat 13/7 ~17:11–17:24):** Nicola «risolvi questo problema» dalla casella Pannello coerenza-agenti (radiografia verificata). 5 perché: (1) `agent-registry-check.mjs` nato per drift conteggi doc (AR-007/008) — solo `readdirSync` nomi + citazioni in CLAUDE/COMANDI/AGENTI, mai body/frontmatter; (2) il router Claude Code sceglie subagente dalla `description` nel frontmatter — guardiano e router guardano campi diversi; (3) passava in verde fraud-risk ↔ trust-safety con «account multipli» e «rimborsi falsi» verbatim — buco reale confermato; (4) correzione claim radiografia: regex conteggio senior (`agentiMd.match`) gira su AGENTI.md, NON CLAUDE.md — «78 nuovi senior» non era bug del conteggio; (5) **fix PR #329:** estrae description, tokenizza frasi-trigger, FALLISCE se ≥2 condivise verbatim o deferral mancante con vicino dominio — segnala, non auto-corregge. **Conflitto 17:24:** Nicola «ci sono dei conflitti» — file memoria worker nel branch (non il fix); ripulito a solo `cervello/agent-registry-check.mjs`, commit `53afcdcc`, mergeable. Dopo merge gira nel giro. Secondo passo: trust-safety togliere «prevenzione frodi…» + deferral verso fraud-risk. Merge 🔴 #101.",
       "tag": [
         "cervello",
         "agent-registry",
@@ -74,15 +76,16 @@
         "trust-safety",
         "guardiano",
         "pr-329",
+        "conflitti",
         "nicola"
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.98,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:13",
+      "ultima_conferma": "2026-07-13 17:24",
       "stato": "attiva"
     },
     {
@@ -3122,7 +3125,7 @@
     "**«impara questi errori» dopo un fallimento (chat 13/7 ~17:20):** quando dice esplicitamente di imparare (dopo conflitti PR o doppioni), si aspetta lezione scritta in memoria (apprendimento + LEZIONI-CHAT) e guida operativa chiara — non solo fix nel turno. Pallini 13/7: errore = 3 PR confuse + «pronta» senza simulazione merge + file worker nel branch. Vedi L-2026-0713-129.",
     "**Doppie PR stesso fix — guida esplicita (chat 13/7 ~17:15):** «hai creato due pr, le mergio entrambe?» — quando ci sono più PR aperte sullo stesso problema vuole sapere subito quale mergiare e quale chiudere (non «dipende»); per pallini: solo #328, #327 chiudi, #330 è altro (plugin, già mergiata). Vedi L-2026-0713-129.",
     "**Plugin GitHub worker — fase 2 + mappa completa (chat 13/7 ~17:19):** dopo i 3 skill confermati chiede «aggiungi i 10 plugin che mi hai consigliato» + «i migliori plugin per tutti gli aspetti del worker/pannello/AD/senior» — si aspetta manifest esteso, PR mergiabile (#330), mappa per reparto (`consegne/tech/worker-plugins-mappa.md`), caveman mai in chat con lui. Prima di installare vuole descrizione identità di ogni skill (L-111). Vedi L-2026-0713-128.",
-    "**Guardiano agenti — fix concreto dalla casella Pannello (chat 13/7 ~17:11):** «risolvi questo problema» sulla casella coerenza-agenti verificata — si aspetta PR funzionante che chiude il buco (non solo spiegazione), con prova che il controllo trova subito la collisione (fraud-risk/trust-safety), descrizione PR su GitHub, merge 🔴 #101. Correggere le description degli agenti = passo separato dopo il guardiano. Vedi L-2026-0713-127.",
+    "**Guardiano agenti — fix concreto dalla casella Pannello (chat 13/7 ~17:11–17:24):** «risolvi questo problema» sulla casella coerenza-agenti verificata — si aspetta PR funzionante che chiude il buco (non solo spiegazione), con prova che il controllo trova subito la collisione (fraud-risk/trust-safety), descrizione PR su GitHub, merge 🔴 #101. Se conflitto («ci sono dei conflitti») risolvere sulla stessa #329 ripulendo il branch (commit `53afcdcc`), non aprire PR nuova. Correggere le description degli agenti = passo separato dopo il guardiano. Vedi L-2026-0713-127.",
     "**Pallini rossi e conversazioni telefono=PC (chat 13/7 ~17:08):** «i puntini rossi… ancora funzionando alla cazzo di cane» + conversazioni smartphone/desktop non allineate — si aspetta pallino affidabile (solo risposta AD non letta) e stesso elenco+pallini su entrambi i dispositivi; i fix precedenti (#317 polling, #324 UI) non bastavano finché pin/badge restavano in localStorage. Fix PR #328, merge 🔴 #102. Vedi L-2026-0713-126.",
     "**Tab OKR & pagella — testo leggibile e numeri che si muovono (chat 13/7 ~16:22):** «Esce ancora la frase fuori dal riquadro ed i dati di okr&pagella non sono aggiornati in tempo reale» — si aspetta frasi dentro le card su mobile, Stelle Polari che si aggiornano da sole, e capire che la tabella sotto è un documento (non cache). Fix PR #326, merge 🔴 #99; contenuto OKR = giro AD. Vedi L-2026-0713-125.",
     "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22):** «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — ogni PR deve avere body comprensibile su GitHub (cosa cambia, perché, come verificare in 2–3 passi), non solo il link in chat; in chat incolla anche il riassunto; niente titolo generico o body vuoto prima del merge; PR aperte incomplete vanno aggiornate con `git-pr.mjs --body`. Già richiesto 12/7 su #292. Vedi L-2026-0713-124.",
