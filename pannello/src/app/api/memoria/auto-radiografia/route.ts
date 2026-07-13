@@ -78,6 +78,14 @@ function calcolaLive(radiografia: any, cantiere: any) {
     aperti,
     in_corso,
     chiusi,
+    da_fare: aperti + in_corso,
+    findings_aperti: typeof radiografia?.sync_scan?.findings_aperti === "number"
+      ? radiografia.sync_scan.findings_aperti
+      : null,
+    findings_in_corso: typeof radiografia?.sync_scan?.findings_in_corso === "number"
+      ? radiografia.sync_scan.findings_in_corso
+      : null,
+    sync_aggiornato: radiografia?.sync_scan?.aggiornato || null,
     scan_ore_fa: oreScan != null ? Math.round(oreScan) : null,
     sonda_ore_fa: oreSonda != null ? Math.round(oreSonda) : null,
     scan_stale: oreScan != null && oreScan > 48,

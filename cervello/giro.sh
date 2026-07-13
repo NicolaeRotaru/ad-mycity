@@ -284,6 +284,8 @@ if command -v node >/dev/null 2>&1; then
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
+  echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
+  node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
 
   # === CAPACITÀ VIVE + GUARDIANI ORFANI ORA CABLATI NEL BATTITO (sola lettura, informativi) ===
   # Resi vivi su richiesta di Nicola (6/7): girano a ogni giro e lasciano il loro esito nel log/Cabina.

@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 20:10] Conflitto PR #346 ondata 4 — main avanzato post-#347; solo body PR (radiografia vs scelte); merge locale ok; ricarica card; **#346** merge 🔴 #117.
 - [2026-07-13 20:08] Conflitto PR #346 ondata 3 — Nicola «ci sono ancora conflitti»: main avanzato post-#348; stessi 4 file (body + lezioni + 2 json memoria); merge locale + merge-tree zero residui prima di «risolto»; **#346** merge 🔴 #117.
 - [2026-07-13 19:54] Conflitto PR #347 — Nicola «ci sono conflitti»: solo `consegne/tech/pr-ad-mycity-body.md` (descrizione PR), codice `allinea-scan-cantiere` intatto; rebase `fix/scan-cantiere-sync` su `3ea3c0b6`, merge locale ok; ricarica card prima di «risolto»; **#347** merge 🔴.
 - [2026-07-13 19:53] Conflitto PR #348 — Nicola «ci sono conflitt»: solo `apprendimento.json` + `auto-miglioramento.json` (memoria), **non** `page.tsx` pallini; rebase `fix/pallini-fingerprint-v3` su main, merge locale ok; ricarica card prima di «risolto»; **#348** merge 🔴 #118.
