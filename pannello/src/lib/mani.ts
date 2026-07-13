@@ -7,16 +7,14 @@
 // Così non parte mai niente per sbaglio.
 
 import { creaLavoro } from "@/lib/store";
+import { isCanaleGithub } from "@/lib/github-pr-merge";
 
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
 
 type AzioneEseguibile = { titolo: string; canale: string; destinatario?: string; testo: string };
 
-/** Canale GitHub (merge PR): l'esecutore è il worker sul VPS, non il Pannello. */
-export function isCanaleGithub(canale: string): boolean {
-  return /github|\bmerge\b|\bpr\s*#?\d/i.test(canale || "");
-}
+export { isCanaleGithub };
 
 function resendConfigurato(): boolean {
   return Boolean(process.env.RESEND_API_KEY);
