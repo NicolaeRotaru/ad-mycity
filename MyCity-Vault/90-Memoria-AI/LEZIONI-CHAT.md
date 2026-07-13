@@ -7,6 +7,7 @@
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
 - [2026-07-13 19:16] Nona prova feedback Nicola: (1) «Sto elaborando» **subito** = sì · (2) testo vero **solo alla fine** = ancora no · (3) pallini **uguali** = fix #342 non basta lato browser; non chiudere streaming finché (2) non ok; pallini = track separato.
+- [2026-07-13 19:16] Tabella OKR = obiettivi fissi (`OKR-Squadra.md` 24/6, poll 90s solo se doc cambia su GitHub); **tutte** le righe uguali; numeri live = Stelle Polari (60s) o «I numeri di oggi»; chat sotto ogni OKR = quasi live.
 - [2026-07-13 19:13] Nicola «ok fatto» = allineamento VPS completato post-#343 — worker-chat riavviato 19:10; **nona** prova streaming = «Sto elaborando…» subito dopo invio + testo che cresce; pallini = feedback separato.
 - [2026-07-13] `aggiorna-cervello.sh` **RIMANDATO** se VPS resta su branch `fix/*` fresco (<30 min) — anche con working tree pulito; **prima** `git checkout main` (stash memoria se serve, reset `routing.json`), **poi** script; non confondere con merge mancante.
 - [2026-07-13] Nicola «cresce live, però solo alla fine» + «non da quando inizi» = **progresso parziale** — streaming ok solo in fase testo finale, non durante letture/comandi; vuole movimento **subito** dopo invio («Sto elaborando…»); fix **#343** su main; dopo merge → `aggiorna-cervello.sh` + Ctrl+Shift+R; pallini = feedback separato.
@@ -16,5 +17,4 @@
 - [2026-07-13] Streaming rotto ≠ sempre worker — verificato 18:41: parziali già in DB Supabase (`in_corso`+`risultato`), rev worker `1081be71` ok; collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta; fix **#342** mergiata con #341.
 - [2026-07-13] Nicola «facciamo la prova» (~18:37) = **quarta** prova streaming — risposta AD = test live; se ancora rotto chiedi se ha fatto `aggiorna-cervello.sh` (non solo restart); feedback binario: cresce / tutto insieme / a colonna; Diagnosi rev ≥ `1081be71`.
 - [2026-07-13] Restart worker **≠** codice aggiornato sul VPS — Nicola «ancora non cresce live» post-restart 18:22: serve `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` (pull GitHub + riavvia **entrambi** i worker), non solo `systemctl restart`; Diagnosi rev deve essere `1081be71` o più recente.
-- [2026-07-13] Pallini merge (#338/#340) = fix **Pannello Vercel** — restart worker-chat non cambia nulla; Nicola «merge non lette» = versione hosted vecchia → deploy Vercel + Ctrl+F5; non confondere con worker stale.
 - [2026-07-13] Nicola «ho reinserito il comando in cmd e fatto ctrl+f5» — restart worker **eseguito** ma **non bastava** (L-142): terza prova ancora rotta → causa = codice su disco VPS vecchio, non solo processo stale.
