@@ -14,6 +14,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-340-pallino-mancante — PR #340 aperta 2026-07-13 ~18:12 · merge 🔴 #112
+
+**Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — oggi sparisce perché la chat resta «selezionata» in memoria anche se non è a schermo.
+
+**PR su GitHub:** [#340 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/340) ← commit `eef9e4f4`, branch `fix/pallino-chat-non-visibile`
+
+**Origine:** Nicola ~18:14 «sulle chat in cui l'ai ha risposto ma non ho aperto la chat il pallino non è su quella chat» — bug inverso al pallino che torna all'uscita (#338).
+
+**Test post-merge:** scrivi in chat → vai in Plancia → quando rispondo, apri elenco Conversazioni → deve esserci il pallino.
+
+- **Colore:** 🟡 proposta · merge 🔴 #112
+
+---
+
 ### 🟡 #pr-339-streaming-spezzato — PR #339 aperta 2026-07-13 ~18:11 · merge 🔴 #113
 
 **Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
@@ -933,7 +947,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto (audit 17:55) | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello. | Codice su main ma Nicola riconferma bug 17:52 — serve diagnosi post-deploy su telefono/PC. Chiudi #334. |
 | 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Fix correttivo in #338 mergiata — `sudo systemctl restart mycity-worker-chat`. |
 | 111 | 2026-07-13 17:58 | @tech | Merge PR #338 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/338 | github | ✅ FATTO 2026-07-13 ~17:58 · verifica UX post-deploy | Streaming Cursor + pallino resta spento dopo poll (~5s) — `segnaLetta` con orario «adesso» in persist. | Deploy Vercel 2–3 min → refresh forzato → apri chat 15s; riavvio worker per streaming. |
-| 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | in attesa | Pallino resta acceso su chat con risposta AD che non hai riaperto — fix lato Pannello. | Dopo Approva: deploy Vercel ~2 min; apri chat con pallino → chiudi → 15s → pallino spento. |
+| 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | in attesa | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
 | 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | in attesa | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Dopo Approva + riavvio worker: scrivi in chat → testo leggibile parola per parola; deploy Vercel ~2 min. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
