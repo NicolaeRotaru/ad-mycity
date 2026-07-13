@@ -147,6 +147,9 @@ Aggiungi in fondo a \`MyCity-Vault/90-Memoria-AI/RITMO.md\` un blocco con intest
 \`## ${RITMO_TITOLO} · AAAA-MM-GG HH:MM\` (ora di Piacenza, con i minuti), seguito dal contenuto.
 L'ultimo blocco con questa intestazione è quello che legge il Pannello (/api/ritmo).
 
+✍️ Il testo del blocco lo legge Nicola: segui la struttura «SCRITTURA PER NICOLA» in \`cervello/ritmo.md\`
+e \`cervello/scrittura-umana.md\` — frasi corte, sezioni con **titolo**, zero muri di log interno.
+
 La memoria va sul RAMO UNICO main (il push git lo fa ritmo.sh dopo di te — tu scrivi i file).
 
 ## Risposta in chat

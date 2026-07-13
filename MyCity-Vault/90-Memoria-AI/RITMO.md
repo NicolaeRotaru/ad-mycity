@@ -257,3 +257,43 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - **Azioni in coda da firmare (top):** 🔴 **Mergia #338** (fix unificato streaming+pallini, Nicola 17:58) + **`sudo systemctl restart mycity-worker-chat`** (worker stale 16:08) · 🔴 **Mergia #337** (body PR obbligatorio, card #110) · 🟡 **#323** Parla con questa casella su Avvisi · 🟡 **#322/#326** fix Piani/OKR mobile · 🟡 **SQL 107/RLS** (#32, ultimo bloccante piattaforma) · 🔴 **1° ordine reale su PQ** (aggancio VEN 17/7) · ✍️ **494 autofill** supervisione approvabili dal Pannello.
 - **Lezione del giorno (L-2026-0713):** *merge su main ≠ fix live — e un merge può cancellare il fix buono.* Oggi 23 PR «verdi» su GitHub, build ok, ma Nicola vede ancora streaming morto e pallino che torna: il worker non è ripartito dal 16:08 **e** il merge #335 ha portato su main il ramo sbagliato (`68c15aa4` vs `db0552a0`). **Regola:** dopo ogni batch di merge che tocca `cervello/worker.sh` → (1) riavvio worker obbligatorio, (2) verifica su telefono entro 10 min, (3) se il merge è un revert, apri subito PR correttiva — non aspettare l'audit serale. Gemella di L-2026-0707 (coda «da fare» per lavoro già fatto) applicata al **deploy del worker**. Aggancio: AR-009 (chiusura-loop) + card riavvio worker.
 - **Domani/prossimi passi:** 🔴 **prima cosa** — mergia #338 + riavvio worker + verifica streaming/pallino su telefono. Poi North Star: **far nascere il 1° ordine reale su PQ** (T-4 al VEN 17/7). Bici ancora in riparazione → logistica consegne da chiarire. Focus acquisizione: **botteghe** (Garetti, Peretti, Amendolara), non solo i 6 ristoranti tattici.
+
+## Piano del mattino · 2026-07-13 21:10
+
+**In una riga:** Oggi hai ripreso operativo — il sito è più avanzato, ma il primo ordine vero non è ancora partito.
+
+**Le 3 cose di oggi**
+1. Sistema chat e pallino rosso, poi riavvia il worker che è fermo dal pomeriggio
+2. Chiudi l'ultimo buco di sicurezza sul database prima di aggiungere negozi
+3. Prepara il primo ordine reale su Pane Quotidiano per venerdì 17
+
+**Serve da te**
+- Approva la correzione chat+pallini e riavvia il worker dalla console
+- Decidi come fare le consegne senza la bici (ritiro prima o aspetti la riparazione?)
+
+**Dettagli tecnici**
+- PR #338 fix streaming+pallini · restart mycity-worker-chat · SQL 107 RLS profiles
+
+## Report della sera · 2026-07-13 21:10
+
+**Com'è andata oggi**
+- Giornata tecnica intensa: molti aggiornamenti al Pannello (tema scuro, chat, plugin, allegati)
+- Visita ai 6 ristoranti fatta — confermato che il cliente giusto restano le botteghe, non i ristoranti
+- Tre problemi ancora aperti: risposta chat lenta, pallino rosso che torna, worker fermo dal pomeriggio
+
+**I numeri**
+- Tutto fermo come ieri: 1 negozio, 0 ordini consegnati, circa 19 giorni di stallo
+
+**Da approvare**
+- Correggi chat e pallino, poi riavvia il worker
+- Sistema il permesso database rimasto aperto
+- Primo ordine vero su Pane Quotidiano entro venerdì 17
+
+**Lezione di oggi**
+- Approvare e mergiare non basta: se il worker non riparte, sul telefono non vedi nulla di nuovo
+
+**Domani**
+- Prima cosa: fix chat live + riavvio worker, poi tornare sul primo ordine
+
+**Dettagli tecnici**
+- 23 PR mergiate oggi · worker stale 16:08 · merge #335 ha ripristinato codice vecchio streaming
