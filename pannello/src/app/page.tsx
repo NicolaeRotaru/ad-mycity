@@ -117,6 +117,7 @@ import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import Documenti from "@/components/aree/Documenti";
 import { vaultToIso } from "@/lib/format";
+import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
@@ -743,6 +744,7 @@ export default function Dashboard() {
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
+  const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
   const [ascoltando, setAscoltando] = useState(false);
   // Dettatura vocale (Web Speech API del browser): riempie l'input parlando.
   function dettaVoce() {
@@ -795,6 +797,7 @@ export default function Dashboard() {
   // ② a ogni messaggio nuovo segui il fondo SOLO se eri già in fondo (stickFullRef/stickFabRef,
   //    aggiornati dall'onScroll): chi è risalito a rileggere non viene mai strappato giù.
   // ③ quando carichi/cambi conversazione (forzaScrollRef=true), vai sempre all'ultimo.
+  useEffect(() => setHintInvio(hintInvioChat()), []);
   useEffect(() => {
     if (vista !== "assistente") return;
     requestAnimationFrame(() => {
@@ -2335,7 +2338,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 disabled={!input.trim() && allegatiChat.length === 0}
                 className="ml-auto min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
                 aria-label="Manda al cervello"
-                title="Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui — Invio = invia · Shift+Invio = a capo"
+                title={`Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui — ${hintInvio}`}
               >
                 {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
@@ -2343,14 +2346,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  mandaAlCervello();
-                }
-              }}
+              onKeyDown={(e) => gestisciInvioChat(e, mandaAlCervello)}
               rows={2}
-              placeholder="Scrivi all'AD (col tuo Max), gratis..."
+              placeholder={`Scrivi all'AD (col tuo Max), gratis…  (${hintInvio})`}
               className="input-soft w-full min-h-[56px] max-h-24 resize-y"
             />
           </div>
@@ -2644,14 +2642,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  mandaAlCervello();
-                }
-              }}
+              onKeyDown={(e) => gestisciInvioChat(e, mandaAlCervello)}
               rows={3}
-              placeholder="Scrivi all'AD…"
+              placeholder={`Scrivi all'AD…  (${hintInvio})`}
               className="input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]"
             />
           </div>
@@ -2689,30 +2682,45 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {conversazioni.length === 0 ? (
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
-              <ul className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate)
-                  .map((c) => {
+              <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
+                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
+                  const pinnata = convPinnate.has(c.id);
                   const nonLetta = haRispostaNonLetta(c, convLette, convId);
                   const attiva = c.id === convId;
                   return (
-                  <li key={c.id}>
-                    <button
-                      type="button"
-                      onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
-                      className={`conv-row w-full text-left ${attiva ? "conv-row-active" : ""}`}
+                    <div
+                      key={c.id}
+                      className={`conv-row flex items-center gap-2 ${attiva ? "conv-row-active" : ""}`}
                     >
-                      <span className={`conv-row-title flex items-center gap-1.5 ${attiva ? "text-brand" : ""}`}>
-                        {nonLetta && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" title="Nuova risposta non letta" />}
-                        {c.titolo || "Conversazione"}
-                      </span>
-                      <span className="conv-row-meta">
-                        {new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                        {attiva && <span className="text-brand font-medium"> · aperta ora</span>}
-                      </span>
-                    </button>
-                  </li>
-                )})}
-              </ul>
+                      <button
+                        type="button"
+                        onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
+                        className="flex-1 min-w-0 text-left"
+                      >
+                        <div className={`conv-row-title flex items-center gap-1.5 ${attiva ? "text-brand" : ""}`}>
+                          {nonLetta && (
+                            <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Nuova risposta non letta" />
+                          )}
+                          <span className="truncate">{c.titolo || "Conversazione"}</span>
+                        </div>
+                        <div className="conv-row-meta">
+                          {c.messaggi.filter((m) => !m.prompt).length} messaggi · {fa(c.updated_at)}
+                          {attiva && <span className="text-brand font-medium"> · aperta ora</span>}
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => togglePin(c.id)}
+                        className={`shrink-0 p-1 rounded hover:bg-brand/10 transition ${pinnata ? "text-brand" : "text-black/30 dark:text-white/30 hover:text-brand/60"}`}
+                        aria-label={pinnata ? "Sblocca dalla cima" : "Fissa in cima"}
+                        title={pinnata ? "Sblocca" : "Fissa in cima"}
+                      >
+                        <Pin size={13} className={pinnata ? "fill-brand" : ""} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </aside>
         </div>
