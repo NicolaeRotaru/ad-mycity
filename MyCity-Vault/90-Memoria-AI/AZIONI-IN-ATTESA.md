@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-331-worker-plugins-fase3 — Mergia PR #331: 8 plugin worker fase 3 (21 skill totali) · ⏳ IN ATTESA · accodata 2026-07-13 17:26
+
+**Cosa fa:** aggiunge al manifest 8 skill GitHub: debug sistematico, design moduli, Supabase + Postgres best practices, ricerca cross-repo (Tabnine), PDF/Excel/Word per bandi e rendicontazioni.
+
+**PR su GitHub:** [#331 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/331) ← branch `fix/worker-plugins-fase3`, commit `41ab7192`
+
+**Cosa cambia:** il worker ha 21 skill sincronizzate da GitHub — più strumenti per DB marketplace, bandi, debug e refactor senza spendere token in spiegazioni lunghe.
+**Se va bene:** mergi #331 dal Pannello → **riavvia worker** una volta per caricare le regole; codebase-search funziona solo con Tabnine collegato (altrimenti grep/read come oggi).
+
+- **Colore:** 🔴 (merge dal Pannello — card #104)
+
+---
+
 ### 🟡 #pr-329-agent-registry — Mergia PR #329: guardiano agenti controlla le description di routing · ⏳ IN ATTESA · accodata 2026-07-13 17:11
 
 **Cosa fa:** estende `agent-registry-check.mjs` — legge le `description` di ogni senior e va in rosso se due agenti condividono ≥2 frasi-trigger (es. fraud-risk ↔ trust-safety) o se manca il deferral verso un vicino di dominio. Non corregge le description, le mostra.
@@ -832,7 +845,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il guardiano agenti segnala collisioni nelle description di routing (es. fraud-risk/trust-safety) — non più falso verde. | Dopo Approva: merge + al prossimo giro il controllo blocca nuove collisioni; correggere trust-safety = passo separato. |
 | 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | in attesa | Pallini rossi e graffette uguali su telefono e PC; lista conversazioni include anche risposte AD dai Lavori. | Dopo Approva: deploy Vercel ~2 min; ricarica entrambi i dispositivi — pallini uguali, spariscono aprendo la chat. |
 | 103 | 2026-07-13 17:15 | @tech | Merge PR #330 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/330 | github | ✅ FATTO 2026-07-13 17:19 · mergiata `ac9e24a9` | 10 plugin fase 2 nel manifest (debug, TDD, security, UI, web, Firecrawl…) — 14 skill totali. | Riavvia worker per caricare le nuove regole; Firecrawl solo con chiave API sul VPS. |
-| 104 | 2026-07-13 17:20 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 104 | 2026-07-13 17:26 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | in attesa | 8 plugin fase 3 nel manifest (debug, design moduli, Supabase, cross-repo, PDF/Excel/Word) — 21 skill totali. | Riavvia worker per caricare le regole; codebase-search solo con Tabnine collegato. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
