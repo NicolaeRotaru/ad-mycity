@@ -146,7 +146,34 @@ EOF
   [[ "$output" == *"Riga tre"* ]]
 }
 
-# ── 11. Riga JSON valida ma NON-oggetto (es. un numero): non fa abortire il parser ──────────────
+# ── 12. Cursor/agent: partial assistant spezzati a syllable → incollati, non a-capo ───────────────
+@test "partial assistant Cursor: frammenti consecutivi incollati (niente parola per riga)" {
+  f="$BATS_TEST_TMPDIR/cursor-partial.jsonl"
+  cat > "$f" <<'EOF'
+{"type":"assistant","message":{"content":[{"type":"text","text":"ret"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"ro"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":" di circa un minuto."}]}}
+EOF
+  run _estrai_stream "$f"
+  [ "$output" = "retro di circa un minuto." ]
+}
+
+# ── 13. Dopo tool-use: segmenti separati da paragrafo (regressione multi-messaggio) ─────────────
+@test "assistant + delta + tool + testo: segmenti ordinati e delta live dopo tool" {
+  f="$BATS_TEST_TMPDIR/mix-stream.jsonl"
+  cat > "$f" <<'EOF'
+{"type":"assistant","message":{"content":[{"type":"text","text":"Prima frase."}]}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Read","input":{}}]}}
+{"type":"stream_event","event":{"type":"content_block_delta","delta":{"type":"text_delta","text":"Dopo"}}}
+{"type":"stream_event","event":{"type":"content_block_delta","delta":{"type":"text_delta","text":" tool."}}}
+EOF
+  run _estrai_stream "$f"
+  [[ "$output" == *"Prima frase."* ]]
+  [[ "$output" == *"Dopo tool."* ]]
+  [[ "$output" != *"Prima frase.Dopo"* ]]
+}
+
+# ── 14. Riga JSON valida ma NON-oggetto (es. un numero): non fa abortire il parser ──────────────
 @test "riga non-oggetto nello stream: ignorata, il resto sopravvive" {
   f="$BATS_TEST_TMPDIR/non-oggetto.jsonl"
   cat > "$f" <<'EOF'
