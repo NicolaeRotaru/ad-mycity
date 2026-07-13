@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:42
-fonte: AD digitale (💬 13/7 21:42 chat «fallo tu» conflitto PR #352. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:43
+fonte: AD digitale (💬 13/7 21:43 chat conflitto PR #349 risolto (terza segnalazione). | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:43 — CHAT: conflitto PR #349 risolto dall'AD — Nicola «ci sono conflitti» (terza volta).** Dopo due giri con istruzioni Accept main, AD risolve direttamente: branch riallineato a main con **solo** spostamento 12 pacchetti Garetti in `_archivio-prospect/garetti/` — **zero file diario** nel branch (causa ricorrente conflitti). **Verificato:** API GitHub **mergeable**, nessun conflitto; head `319206ee`; `allocazione-check` verde sul branch, su main ancora rossa finché non mergi. **Pendente:** solo Approva merge 🔴 **#349** (#119) → casella silo sparisce. Fonte: chat Nicola 13/7 ~21:43.
+>
 > 💬 **13/7 ~21:42 — CHAT: conflitto PR #352 risolto dall'AD — Nicola «fallo tu».** Dopo istruzioni manuali GitHub su conflitto #352, Nicola chiede che risolva l'AD. **Fix 🟢:** rebase branch su main, conflitto solo body PR + file diario memoria (come 21:16); codice `comandi-data.ts` intatto; head branch `ac9606fc`; API GitHub **mergeable**, card **verde**. **Pendente:** solo Approva merge 🔴 **#352** (#122) → deploy ~2 min → icona ⚡ con chip «Grillami» e «Codice minimo». Fonte: chat Nicola 13/7 ~21:42.
 >
 > 💬 **13/7 ~21:16 — CHAT: conflitto PR #352 — Nicola «ci sono dei conflitti».** Subito dopo apertura PR chip plugin nel menù ⚡. **Verificato:** conflitto solo in `pr-ad-mycity-body.md` (testo Ritmo #350 vs descrizione Grillami/Codice minimo) + file **diario** memoria (STATO, coda, apprendimento) — **nessun** conflitto su `comandi-data.ts` (due chip in `SKILL_RAPIDE`); merge simulato locale **pulito**. **Risoluzione:** body → testo Grillami + Codice minimo; memoria → Accept main. Fonte: chat Nicola 13/7 ~21:16.

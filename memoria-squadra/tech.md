@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 21:43 · PR #349 conflitto terza volta — Nicola «ci sono conflitti» · atteso: AD risolve senza ripetere istruzioni, card verde · reale: branch senza file diario (solo archivio 12 Garetti), head `319206ee`, API mergeable ok; merge 🔴 #119 · L-176 · #pr-349 #conflitti #allocazione
 - 2026-07-13 21:42 · PR #352 conflitto — Nicola «fallo tu» · atteso: AD risolve branch, card verde, solo Approva · reale: rebase+merge body Grillami + memoria Accept main, head `ac9606fc`, API mergeable ok; merge 🔴 #122 · L-175 · #pr-352 #conflitti #fallo-tu
 - 2026-07-13 21:08 · PR #349 conflitti diario — Nicola «in teoria non sono conflitti» · atteso: confermare intuizione + Accept main sui 4 · reale: STATO/coda/apprendimento/auto-miglioramento vs archivio Garetti ok, branch v2 `b15c782f`, merge 🔴 #119 · L-169 · #pr-349 #conflitti #memoria
 - 2026-07-13 20:58 · Perché si crea conflitto — Nicola chiede causa radice · atteso: meccanismo chiaro diario vs codice · reale: branch congela snapshot, main avanza parallelo, stesso body/LEZIONI/apprendimento → conflitto; codice sync ok; proposta diario fuori PR codice non approvata · L-166 · #conflitti #pr #causa-radice #nicola
