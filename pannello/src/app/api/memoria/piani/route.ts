@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readVaultFile, listVaultDir, codaTesto } from "@/lib/vault";
+import { readVaultFile, listVaultDir } from "@/lib/vault";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,6 +15,6 @@ export async function GET() {
   const piani = nomi
     .map((nome, i) => ({ nome, testo: testi[i] }))
     .filter((p) => p.testo)
-    .map((p) => ({ nome: p.nome.replace(/\.md$/, ""), testo: codaTesto(p.testo!, 12000) }));
+    .map((p) => ({ nome: p.nome.replace(/\.md$/, ""), testo: p.testo! }));
   return NextResponse.json({ collegato: piani.length > 0, piani });
 }
