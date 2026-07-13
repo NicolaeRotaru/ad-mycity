@@ -6,10 +6,10 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Avvisi «memoria incoerente»: ogni scheda gialla deve avere «Parla con questa casella» come le altre card — oggi si legge l'avviso ma non si chiede all'AD; fix PR #323, merge 🔴 #96.
 - [2026-07-13] PR #322 conflitti piani: file memoria worker nel branch, fix `route.ts` ok — ripulire a solo Pannello, commit `27c8fb3b`, simulare merge; mergeable → card #95 verde. Stesso pattern #315/#318/#319.
 - [2026-07-13] Tab Piani tronca l'inizio: `codaTesto(...,12000)` in `/api/memoria/piani` mostra solo la coda — piani 12–26 KB partono a metà frase; attività/decisioni sì, piani no: file intero. Fix PR #322, merge 🔴 #95.
 - [2026-07-13] Screenshot Nicola senza testo = quasi sempre conflitti PR — rispondere con causa, commit, simulazione merge e card merge; non solo «ci sono conflitti».
-- [2026-07-13] PR #319 conflitti: #317+#318 già su main — unire fix volano (ESITI quaderni+STATO) con righe coda #318+#319, commit `2d8ff61f`, simulare merge; tasso verificato 0,29 (39/133); merge 🔴 #96.
 - [2026-07-13] PR #318 conflitti: file worker (contatore lezioni) mescolati mentre main aveva #317 — ripulire branch a solo `globals.css`+`page.tsx`, simulare merge su main HEAD, commit `03751823`; merge 🔴 #94.
 - [2026-07-13] Tre fix UX chat Nicola: X su card «Prompt pronto», evidenzia chat aperta nel cassetto («aperta ora»), Annulla invio durante «sto pensando…» — PR #318; chat intera + fluttuante (Prompt solo intera).
 - [2026-07-13] Sync chat PC↔telefono già su main — chiudi PR #316 senza merge; non dire «mergia anche #316» dopo #317. Pallino rosso: solo risposta AD non ancora aperta, sparisce chiudendo chat.

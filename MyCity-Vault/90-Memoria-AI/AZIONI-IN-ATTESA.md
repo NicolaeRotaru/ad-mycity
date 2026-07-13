@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ IN ATTESA · accodata 2026-07-13 14:33
+
+**Cosa fa:** sotto ogni scheda gialla «memoria incoerente» in Avvisi compare il link **«Parla con questa casella»** — apri chat contestuale, l'AD vede il testo completo dell'avviso e la data.
+
+**PR su GitHub:** [#323 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/323)
+
+**Cosa cambia:** da sola lettura dell'avviso a dialogo con l'AD su cosa significa e cosa fare — stesso pattern delle altre card del Pannello.
+**Se va bene:** mergi #323 dal Pannello → deploy Vercel → Avvisi → sotto ogni scheda gialla trovi «Parla con questa casella».
+
+- **Colore:** 🔴 (merge dal Pannello — card #96)
+
+---
+
 ### 🟡 #pr-320-worker-plugins — Mergia PR #320: plugin worker token (grilling, ponytail, caveman) · ⏳ IN ATTESA · accodata 2026-07-13 12:38
 
 **Cosa fa:** manifest `cervello/worker-plugins.json` + script `sync-worker-plugins.mjs` + 3 skill GitHub curati. Grilling = stress-test decisioni/PR; ponytail = codice minimo (solo `pannello/`, `cervello/`, `creativi/`); caveman-internal = output telegrafico SOLO su giro/lavori/metabolizza — MAI in chat con te.
@@ -778,7 +791,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 93 | 2026-07-13 12:24 | @tech | Merge PR #317 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/317 | github | ✅ FATTO 2026-07-13 · mergiata su main | Volano ponte applicazione lezioni + sync chat inclusa. | Sync PC↔telefono già attiva; chiudi #316. |
 | 94 | 2026-07-13 12:27 | @tech | Merge PR #318 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/318 | github | in attesa | X su Prompt pronto, chat aperta evidenziata, Annulla invio durante «sto pensando…». | Dopo Approva: deploy Vercel; tre fix UX chat online. Commit `03751823`, conflitti risolti 12:39. |
 | 95 | 2026-07-13 12:59 | @tech | Merge PR #322 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/322 | github | in attesa | Tab Piani mostra ogni piano dall'inizio (titolo/obiettivo), non più tronca a metà frase. | Dopo Approva: deploy Vercel; ricarica tab Piani — «💶 PIANO FINANZIARIO» all'inizio, non «…he il CM sia positivo». |
-| 96 | 2026-07-13 14:33 | @tech | Merge PR #323 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/323 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 96 | 2026-07-13 14:33 | @tech | Merge PR #323 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/323 | github | in attesa | Sotto ogni avviso «memoria incoerente» compare «Parla con questa casella» — chat contestuale come le altre card. | Dopo Approva: deploy Vercel; Avvisi → clic su avviso giallo → «Parla con questa casella» sotto la scheda. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
