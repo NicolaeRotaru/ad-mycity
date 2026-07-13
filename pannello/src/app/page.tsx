@@ -105,7 +105,9 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
-import MacchinaArea from "@/components/aree/MacchinaArea";
+import RadiografiaMacchinaArea from "@/components/aree/RadiografiaMacchinaArea";
+import SaluteSitoArea from "@/components/aree/SaluteSitoArea";
+import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
 import Lavori from "@/components/aree/Lavori";
 import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
@@ -717,6 +719,7 @@ type Vista =
   | "azioni"
   | "lavori"
   | "cervello"
+  | "salute-sito"
   | "auto-coscienza"
   | "numeri"
   | "memoria"
@@ -1689,11 +1692,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   const vistaPrimaVolta = useRef(true);
   const ultimaVistaStoria = useRef<string | null>(null);
   const applicaVistaSalvata = (v: string) => {
-    if (v === "auto-coscienza") {
-      setVista("cervello"); // valore legacy: l'area della radiografia/auto-coscienza è "cervello"
-    } else {
-      setVista(v as Vista);
-    }
+    // Legacy: auto-coscienza e marketplace erano tab dentro «cervello» — ora voci menu a sé.
+    if (v === "cervello-marketplace") setVista("salute-sito");
+    else setVista(v as Vista);
   };
   useEffect(() => {
     let iniz = "plancia";
@@ -1701,7 +1702,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const v = localStorage.getItem("mycity_vista");
       if (v) {
         applicaVistaSalvata(v);
-        iniz = v === "auto-coscienza" ? "cervello" : v;
+        iniz = v;
       }
     } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
@@ -1767,9 +1768,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
       if (!det?.vista) return;
-      if (det.vista === "auto-coscienza") {
-        setVista("cervello");
-      } else {
+      // Legacy deep-link: sub marketplace/auto-coscienza sotto vista cervello.
+      if (det.vista === "cervello" && det.sub === "marketplace") setVista("salute-sito");
+      else if (det.vista === "cervello" && det.sub === "auto-coscienza") setVista("auto-coscienza");
+      else {
         setVista(det.vista);
         if (det.vista === "assistente" && det.sub === "conversazioni") setConvDrawerAperto(true);
         if (det.vista === "assistente" && det.sub === "chat") {
@@ -2161,7 +2163,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {
                   gruppo: "Macchina & memoria",
                   voci: [
-                    { id: "cervello", label: "Controllo", icon: <Cpu size={15} /> },
+                    { id: "cervello", label: "Radiografia macchina", icon: <Cpu size={15} /> },
+                    { id: "salute-sito", label: "Salute sito", icon: <Store size={15} /> },
+                    { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
                     { id: "memoria", label: "Memoria", icon: <Layers size={15} /> },
                     { id: "storico", label: "Storico", icon: <History size={15} /> },
@@ -2226,8 +2230,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== REPORT & PIANI (documenti in consegne/) ===================== */}
         {vista === "report" && <Documenti />}
 
-        {/* ===================== MACCHINA (radiografia + auto-coscienza) ===================== */}
-        {vista === "cervello" && <MacchinaArea />}
+        {/* ===================== RADIOGRAFIA MACCHINA ===================== */}
+        {vista === "cervello" && <RadiografiaMacchinaArea />}
+
+        {/* ===================== SALUTE SITO ===================== */}
+        {vista === "salute-sito" && <SaluteSitoArea />}
+
+        {/* ===================== AUTO-COSCIENZA ===================== */}
+        {vista === "auto-coscienza" && <AutoCoscienzaArea />}
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
         {vista === "lavori" && (
