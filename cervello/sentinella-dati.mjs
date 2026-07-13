@@ -518,6 +518,17 @@ async function main() {
   });
   state.regole = state.regole || {};
 
+  // AR-051: ricalcola meta.tasso_applicazione PRIMA di leggere lo stato — altrimenti volano_fermo
+  // scatta su un tasso stantio (il tick girava solo DOPO valutaRegole, troppo tardi).
+  try {
+    execFileSync("node", [join(AD_ROOT, "cervello/tick-auto-coscienza-leggero.mjs")], {
+      cwd: AD_ROOT,
+      stdio: "ignore",
+    });
+  } catch {
+    /* non bloccare la sentinella */
+  }
+
   const s = await leggiStatoReale(state);
   const eventi = valutaRegole(s, state);
 
@@ -614,16 +625,6 @@ async function main() {
     for (const a of accodati) console.log(`   ${a.colore} ${a.ambito === "macchina" ? "🧠" : "💼"} ACCODATO [${a.reparto}] ${a.titolo} → job ${a.job}`);
     for (const a of allertati) console.log(`   ${a.colore} 🚨 ALLERTA (solo avviso) ${a.titolo}`);
     for (const sk of saltati) console.log(`   ⏭️  saltato ${sk.chiave}: ${sk.motivo}`);
-  }
-
-  // Tick leggero auto-coscienza (~10 min): aggiorna apprendimento/miglioramento senza token AI
-  try {
-    execFileSync("node", [join(AD_ROOT, "cervello/tick-auto-coscienza-leggero.mjs")], {
-      cwd: AD_ROOT,
-      stdio: "ignore",
-    });
-  } catch {
-    /* non bloccare la sentinella */
   }
 
   process.exit(0);
