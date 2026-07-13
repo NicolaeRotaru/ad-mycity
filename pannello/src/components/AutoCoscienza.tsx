@@ -231,7 +231,7 @@ export default function AutoCoscienza({
       }).catch(() => {});
     };
     carica();
-    const id = setInterval(carica, 60000);
+    const id = setInterval(carica, 30_000);
     return () => clearInterval(id);
   }, []);
 

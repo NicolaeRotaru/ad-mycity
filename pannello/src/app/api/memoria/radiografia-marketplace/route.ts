@@ -24,5 +24,15 @@ export async function GET() {
         "Nessuna radiografia del marketplace nel vault. Lancia «radiografia» (workflow radiografia, 13 dimensioni) e poi `node cervello/radiografia-marketplace-digest.mjs` per allineare i dati.",
     });
   }
-  return NextResponse.json({ collegato: true, ...digest });
+  const m = String(digest.data ?? "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  let scan_ore_fa: number | null = null;
+  if (m) {
+    const t = new Date(`${m[1]}-${m[2]}-${m[3]}T12:00:00+02:00`).getTime();
+    if (!Number.isNaN(t)) scan_ore_fa = Math.round((Date.now() - t) / 3600000);
+  }
+  return NextResponse.json({
+    collegato: true,
+    ...digest,
+    live: { data_scan: digest.data || null, scan_ore_fa, scan_stale: scan_ore_fa != null && scan_ore_fa > 48 },
+  });
 }
