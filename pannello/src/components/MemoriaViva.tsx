@@ -80,7 +80,7 @@ export default function MemoriaViva() {
   const [statoAgg, setStatoAgg] = useState("");
   const [aggAt, setAggAt] = useState<number | null>(null);
   const [piani, setPiani] = useState<Piano[]>([]);
-  const [okr, setOkr] = useState<{ northStar: string; righe: Okr[] }>({ northStar: "", righe: [] });
+  const [okr, setOkr] = useState<{ northStar: string; righe: Okr[]; aggiornato: string }>({ northStar: "", righe: [], aggiornato: "" });
   const [decisioni, setDecisioni] = useState<Decisione[]>([]);
   const [ramoVault, setRamoVault] = useState<string | null>(null);
 
@@ -107,8 +107,8 @@ export default function MemoriaViva() {
       .then((pi) => { setPiani(pi.piani || []); vivo(pi.collegato); }).finally(fine);
     fetch("/api/memoria/decisioni", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, decisioni: [] }))
       .then((de) => { setDecisioni(de.decisioni || []); vivo(de.collegato); }).finally(fine);
-    fetch("/api/memoria/okr", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, righe: [] }))
-      .then((ok) => { setOkr({ northStar: ok.northStar || "", righe: ok.righe || [] }); vivo(ok.collegato); }).finally(fine);
+    fetch("/api/memoria/okr", { cache: "no-store" }).then(j).catch(() => ({ collegato: false, righe: [], aggiornato: "" }))
+      .then((ok) => { setOkr({ northStar: ok.northStar || "", righe: ok.righe || [], aggiornato: ok.aggiornato || "" }); vivo(ok.collegato); }).finally(fine);
   }, []);
 
   useEffect(() => {
@@ -270,22 +270,23 @@ export default function MemoriaViva() {
 
           {/* --- OKR / PAGELLA SQUADRA --- */}
           {tab === "okr" && (
-            <div className="space-y-3">
-              {/* ⭐ Le 3 Stelle Polari con interruttore on/off */}
+            <div className="space-y-3 pb-20 sm:pb-0 min-w-0">
+              {/* ⭐ Le 3 Stelle Polari: numeri dal marketplace, refresh ogni 60s */}
               <StellePolari />
+              <p className="t-eti">Le Stelle Polari si aggiornano da sole ogni minuto. La tabella sotto è il documento OKR nel vault{okr.aggiornato ? ` · scritto il ${dataVault(okr.aggiornato)}` : ""}.</p>
               {okr.northStar && (
-                <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">🌟 {okr.northStar}</div>
+                <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 t-riga">🌟 {okr.northStar}</div>
               )}
               {okr.righe.length === 0 && <p className="text-sm text-black/55 py-4 text-center">OKR non disponibili.</p>}
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 min-w-0">
                 {okr.righe.map((r, i) => (
-                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="text-[13px] font-medium text-ink/90">{r.senior}</span>
-                      <span className="t-eti shrink-0">{r.budget}</span>
+                  <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-2.5 min-w-0 overflow-hidden">
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5">
+                      <span className="t-riga font-medium min-w-0 flex-1">{r.senior}</span>
+                      <span className="t-eti shrink-0 max-w-full">{r.budget}</span>
                     </div>
-                    <div className="text-[12px] text-black/60">{r.kpi}</div>
-                    <div className="text-[12px] text-ink/80 mt-0.5">🎯 {r.target}</div>
+                    <div className="t-eti mt-0.5">{r.kpi}</div>
+                    <div className="t-riga mt-0.5">🎯 {r.target}</div>
                     <ParlaCasella titolo={`OKR: ${r.senior}`} contesto={[r.kpi && `KPI: ${r.kpi}`, r.target && `Target: ${r.target}`, r.budget && `Budget: ${r.budget}`].filter(Boolean).join(" · ")} />
                   </div>
                 ))}

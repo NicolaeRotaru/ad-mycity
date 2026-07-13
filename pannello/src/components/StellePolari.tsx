@@ -45,9 +45,14 @@ export default function StellePolari() {
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
   const carica = () =>
     fetch("/api/stelle", { cache: "no-store" }).then((r) => r.json()).then((d) => setStelle(d.stelle || [])).catch(() => {});
+  const caricaMetriche = () =>
+    fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setMetriche).catch(() => {});
+
   useEffect(() => {
     carica();
-    fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setMetriche).catch(() => {});
+    caricaMetriche();
+    const id = setInterval(caricaMetriche, 60_000);
+    return () => clearInterval(id);
   }, []);
 
   async function toggle(s: Stella) {
@@ -65,10 +70,10 @@ export default function StellePolari() {
   if (stelle.length === 0) return null;
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <Star size={15} className="text-brand" />
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+        <Star size={15} className="text-brand shrink-0" />
         <span className="t-sez">Stelle Polari</span>
-        <span className="t-eti">la principale è sempre accesa; le altre le accendi tu</span>
+        <span className="t-eti min-w-0">la principale è sempre accesa; le altre le accendi tu</span>
       </div>
       {stelle.map((s) => (
         <div
