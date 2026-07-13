@@ -49,7 +49,7 @@ Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine 
 
 **Cosa fa:** (1) l'elenco conversazioni si ricarica ogni ~8 secondi e quando torni sulla scheda — scrivi dal telefono e sul PC compare senza refresh manuale; (2) pallino rosso solo se l'ultimo messaggio è risposta AD non ancora aperta/letta; sparisce aprendo la chat o chiudendo la finestra; (3) storico già chiuso segnato letto al primo caricamento — niente pallini su tutto lo storico.
 
-**PR su GitHub:** [#316 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/316) ← branch `fix/chat-sync-badge`, commit `385993e0`, solo `page.tsx`
+**PR su GitHub:** [#316 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/316) ← branch `fix/chat-sync-badge`, commit `74a4cfc0`, solo `page.tsx` (conflitti risolti 13/7 12:19 — file memoria worker rimossi dal branch)
 
 ⚠️ **Chiudi PR #299 su GitHub senza mergiare** — superata da #316.
 

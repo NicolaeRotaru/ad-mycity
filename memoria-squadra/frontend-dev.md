@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 12:19 · PR #316 conflitti risolti — Nicola screenshot allegato · atteso: branch pulito solo page.tsx, zero conflitti su main HEAD · reale: file memoria worker rimossi dal branch, commit `74a4cfc0`, simulazione merge OK; merge 🔴 #92 · L-2026-0713-110 · #pannello #pr-316 #conflitti #sync
 - 2026-07-13 12:14 · PR #316 sync chat + badge — Nicola «apri pr con i fix» + spec badge pallino · atteso: polling elenco ~8s + badge solo su risposta AD non letta, sparisce chiudendo · reale: branch `fix/chat-sync-badge`, commit `385993e0`, solo `page.tsx`, tsc OK; sostituisce #299; merge 🔴 #92 · L-2026-0713-109 · #pannello #conversazioni #sync #badge #pr-316
 - 2026-07-13 12:06 · Chat Pannello PC≠telefono — sync parziale · Nicola segnala disallineamento dati desktop/smartphone, prima = chat non coincide · atteso: causa radice verificata nel codice → reale: storico in DB ma fetch solo all'apertura (no polling); sessione aperta + pin/badge in localStorage per dispositivo; fix polling ~8s 🟡 proposto, merge 🔴 · L-2026-0713-108 · #pannello #conversazioni #sync #multi-dispositivo
 - 2026-07-13 11:43 · PR #315 verificata aperta — Nicola «Apri pr» · atteso: URL PR + card #91 + scope onesto → reale: #315 commit `ccb4072b`, merge 🔴 con #313 suggerito; dichiarato che coda/registro restano per PR coerenza-fatti · L-2026-0713-105 · #pannello #pr-315 #apri-pr
