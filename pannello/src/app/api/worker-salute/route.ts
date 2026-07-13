@@ -69,17 +69,22 @@ export async function GET() {
     });
   }
 
-  const [segnali, pausa, pipeline, codiceRev, lavori, conteggiDb] = await Promise.all([
-    raccogliSegnaliBattito(),
-    getImpostazione("pausa").catch(() => null),
-    getImpostazione("worker:pipeline").catch(() => null),
-    getImpostazione("worker:codice_rev").catch(() => null),
-    getLavori(80),
-    getConteggiLavori(),
-  ]);
+  const [segnali, pausa, pipeline, codiceRev, lavori, conteggiDb, workerChatUltimo, reloadRifiutato] =
+    await Promise.all([
+      raccogliSegnaliBattito(),
+      getImpostazione("pausa").catch(() => null),
+      getImpostazione("worker:pipeline").catch(() => null),
+      getImpostazione("worker:codice_rev").catch(() => null),
+      getLavori(80),
+      getConteggiLavori(),
+      getImpostazione("worker:ultimo:chat").catch(() => null),
+      getImpostazione("worker:reload-rifiutato").catch(() => null),
+    ]);
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
+  const oreWorkerChat = oreDaQuando(workerChatUltimo);
   const workerVivo = oreWorker != null && oreWorker <= 0.1;
+  const workerChatVivo = oreWorkerChat != null && oreWorkerChat <= 0.1;
   const adInPausa = pausa === "on";
 
   const conteggi = { in_attesa: 0, in_corso: 0, fatto: 0, errore: 0 };
@@ -93,6 +98,8 @@ export async function GET() {
   let quotaInAttesa = 0;
   let resetHint: string | null = null;
   let riprovaMinISO: string | null = null;
+  let chatInCorso = 0;
+  let chatCorsoPiuVecchioMin: number | null = null;
   const now = Date.now();
 
   for (const l of lavori) {
@@ -121,6 +128,10 @@ export async function GET() {
     }
     if (l.stato === "in_corso") {
       if (corsoPiuVecchioMin == null || min > corsoPiuVecchioMin) corsoPiuVecchioMin = min;
+      if (l.tipo === "chat") {
+        chatInCorso++;
+        if (chatCorsoPiuVecchioMin == null || min > chatCorsoPiuVecchioMin) chatCorsoPiuVecchioMin = min;
+      }
     }
   }
 
@@ -133,9 +144,25 @@ export async function GET() {
   // true = i lavori sono quota-limited e ripartono da soli al reset (stato "in attesa", non un guasto).
   let attesaQuota = false;
 
+  const reloadBloccato = Boolean(reloadRifiutato?.trim());
+  const chatWorkerMortoConChat =
+    chatInCorso > 0 && !workerChatVivo && (chatCorsoPiuVecchioMin ?? 0) > 3;
+
   if (adInPausa) {
     problema = "L'AD è in pausa: il worker gira ma non esegue lavori.";
     azioni.push("Pannello → Azioni → Governo → «Riattiva l'AD»");
+  } else if (reloadBloccato) {
+    problema =
+      "Il worker sul VPS rifiuta di caricare il codice nuovo: worker.sh su disco è diverso da git (modificato fuori da una PR).";
+    azioni.push(
+      "VPS: cd /opt/mycity/ad-mycity && git fetch origin main && git checkout origin/main -- cervello/worker.sh"
+    );
+    azioni.push("Poi: sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh");
+    azioni.push("Usa «Sblocca coda» + «Riavvia worker» qui sotto se la chat è ferma");
+  } else if (chatWorkerMortoConChat) {
+    problema = `Worker chat fermo da ${etaOre(oreWorkerChat)} con ${chatInCorso} chat bloccata «In corso».`;
+    azioni.push("Usa «Sblocca coda» qui sotto, poi «Riavvia worker»");
+    azioni.push("Se resta fermo: sudo systemctl restart mycity-worker-chat sul VPS");
   } else if (oreWorker == null) {
     problema = "Il worker sul VPS non ha mai inviato un battito a Supabase.";
     azioni.push("SSH sul VPS → sudo systemctl start mycity-worker");
@@ -178,8 +205,12 @@ export async function GET() {
     memoria: true,
     supabaseHost,
     workerVivo,
+    workerChatVivo,
     workerUltimo: segnali.worker?.quando ?? null,
+    workerChatUltimo: workerChatUltimo ?? null,
     workerUltimoFa: oreWorker != null ? etaOre(oreWorker) : "mai",
+    workerChatUltimoFa: oreWorkerChat != null ? etaOre(oreWorkerChat) : "mai",
+    reloadBloccato,
     adInPausa,
     pipeline: pipeline ?? null,
     codiceRev: codiceRev ?? null,
