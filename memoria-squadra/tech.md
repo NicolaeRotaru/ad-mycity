@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 17:47 · PR #333 body mancante + allegati Safari — Nicola «perché non mi hai messo la descrizione della pr dentro github?» · atteso: body completo all'apertura · reale: aperta senza `--body`, corretta subito (948 char); L-124 evidenze 2 · L-2026-0713-124 · #pr #github #body
 - 2026-07-13 17:45 · Pallino ~5s — #332 annullata, #334 merge 🔴 #107 · atteso: iterare su stessa PR se fix incompleto · reale: Nicola conferma residuo; #334 sostituisce #332; L-129 evidenze 5 · L-2026-0713-129 · #pr-334 #doppioni #pallini
 - 2026-07-13 17:27 · Nicola «hai imparato o ripeterai?» — accountability post-lezione PR · atteso: conferma regole in memoria, non promessa vuota · reale: L-129 evidenze 4, LEZIONI-CHAT raffinata, preferenza accountability; merge pendente solo #328 🔴 #102 · L-2026-0713-129 · #impara-errori #accountability
 - 2026-07-13 17:23 · Nicola «impara questi errori» — metabolizzazione PR pallini · atteso: lezione permanente in memoria · reale: L-129 evidenze 2, regole 3 PR stesso bug + simula merge prima di «pronto» + guida esplicita merge/chiudi; #327 annullata, #328 merge 🔴 #102 · L-2026-0713-129 · #impara-errori #pr #conflitti

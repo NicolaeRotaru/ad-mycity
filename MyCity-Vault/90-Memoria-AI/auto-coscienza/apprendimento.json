@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:45",
+  "aggiornato": "2026-07-13 17:47",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-134",
+      "testo": "**Chat fluttuante Safari/iPhone — selettore file non si apre (chat 13/7 ~17:35–17:47, correzione Nicola):** dopo ok #60 («Storage ok») Nicola «no la chat fluttuante non mi lascia allegare i file» su iPhone. 5 perché: (1) AD aveva detto «graffetta c'è, dovrebbe funzionare» senza chiedere dispositivo/browser; (2) post-#60 l'API `/api/allegato` risponde ok — il bug è UI lato client, non env; (3) **causa verificata codice:** graffetta chiamava `.click()` su `<input type=file>` nascosto fuori viewport — pattern che Safari ignora dentro overlay fluttuante; (4) chat intera (ingrandisci) e altri componenti usano già tap diretto sull'input → funzionano; (5) **fix PR #333** (`b2d86257`): stesso pattern tap diretto; merge 🔴 #106; **ParlaCasella** resta senza graffetta (feature gap separato). Regola: su «graffetta non apre file» chiedi iPhone/Safari vs PC; se Storage ok, verifica pattern input file nel componente.",
+      "tag": [
+        "pannello",
+        "allegati",
+        "safari",
+        "iphone",
+        "fluttuante",
+        "pr-333",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.98,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 17:47",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-133",
       "testo": "**Pallino riaccende dopo ~5s — orologio browser vs lavoro AD (chat 13/7 ~17:36–17:45):** Nicola «c'è ancora il problema dei pallini… dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna». 5 perché: (1) aprire chat salva `lettoAt` con `Date.now()` del client; (2) il poll elenco conversazioni (~5s) ricalcola non-letto confrontando con `updated_at`/`finished_at` del **Lavoro** AD; (3) il lavoro spesso termina qualche secondo DOPO che Nicola ha già aperto la chat → timestamp lavoro > timestamp lettura → pallino torna; (4) #328 (sync server cross-device) non risolve questo race — è un bug di clock, non di localStorage; (5) **fix PR #334** (sostituisce #332 incompleto): al segnare lettura usa max(orario chat, orario lavoro) e riallinea al poll, commit `03d29c1c`, merge 🔴 #107; **#332 chiudere senza merge**. Regola: stato «letto» vs «risposta AD nuova» deve usare UNA sola fonte temporale; fix incompleto = push sulla STESSA PR, non aprire #334 dopo #332.",
@@ -41,7 +62,7 @@
     },
     {
       "id": "L-2026-0713-132",
-      "testo": "**Allegati chat — 3 superfici diverse (chat 13/7 ~17:32, correzione Nicola):** dopo ok #60 («upload funziona») Nicola corregge: «problema è dentro la chat fluttuante» + «controlla anche parla con questa casella». 5 perché: (1) risposta AD era corretta su env Vercel ma generica — non ha chiesto QUale chat; (2) **tre superfici verificate codice:** chat intera + fluttuante «Parla con l'AD» (`page.tsx` ~2716, graffetta+upload), «Parla con questa casella» (`ParlaCasella.tsx`, **zero graffetta**, solo testo), Archivio lavori (`ChatCasella.tsx`, allegati ok); (3) Nicola usa fluttuante e caselle contestuali — si aspetta allegati ovunque scrive; (4) post-#60 il fallimento su ParlaCasella non è Storage ma feature mancante; fluttuante se ancora rotta = altro bug (UI/selettore/errore invio); (5) **regola:** su «non riesco ad allegare» → chiedi superficie + verifica componente prima di una sola diagnosi env; PR allegati ParlaCasella 🟡 proposta, non ancora ok Nicola.",
+      "testo": "**Allegati chat — 3 superfici diverse (chat 13/7 ~17:32–17:47, correzione Nicola):** dopo ok #60 («upload funziona») Nicola corregge: «problema è dentro la chat fluttuante» + «controlla anche parla con questa casella» + «no la chat fluttuante non mi lascia allegare i file» (iPhone). 5 perché: (1) risposta AD era corretta su env Vercel ma generica — non ha chiesto QUale chat né dispositivo; (2) **tre superfici verificate codice:** chat intera + fluttuante «Parla con l'AD» (`page.tsx` ~2716, graffetta+upload), «Parla con questa casella» (`ParlaCasella.tsx`, **zero graffetta**, solo testo), Archivio lavori (`ChatCasella.tsx`, allegati ok); (3) Nicola usa fluttuante e caselle contestuali — si aspetta allegati ovunque scrive; (4) post-#60 fallimento fluttuante iPhone = **bug Safari selettore** (input nascosto+click finto), non Storage — fix **#333**; ParlaCasella = feature mancante; (5) **regola:** su «non riesco ad allegare» → chiedi superficie + dispositivo + verifica componente; ordine diagnosi: env 503 → superficie → browser.",
       "tag": [
         "pannello",
         "allegati",
@@ -52,12 +73,12 @@
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.97,
-      "evidenze": 1,
+      "confidenza": 0.98,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:32",
+      "ultima_conferma": "2026-07-13 17:47",
       "stato": "attiva"
     },
     {
@@ -228,7 +249,7 @@
     },
     {
       "id": "L-2026-0713-124",
-      "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292. 5 perché: (1) apriva PR con solo titolo generico o body vuoto — inutile per Nicola prima del merge; (2) il link in chat non sostituisce il body su GitHub dove firma; (3) Nicola legge e decide dal Pannello/GitHub, non deve aprire file a caso; (4) descrizione vuota = stesso errore ripetuto nonostante richiesta precedente; (5) **regola permanente:** ogni PR con body in italiano (cosa cambia, perché, test plan 2–3 passi) via `git-pr.mjs --body` all'apertura; in chat incollare anche il riassunto col link; aggiornare subito PR aperte ancora vuote (#318, #323, #324…).",
+      "testo": "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22 + 17:39):** Nicola «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — correzione/rinforzo di standing-ask già emersa 12/7 su #292; **ripetuto 17:39** su #333 («perché non mi hai messo la descrizione…»). 5 perché: (1) apriva PR con `gh pr create` senza `--body` → su GitHub resta solo testo automatico dello script; (2) il link in chat non sostituisce il body dove Nicola firma; (3) Nicola legge e decide dal Pannello/GitHub; (4) errore ripetuto nonostante richiesta 16:22 — colpa processo AD, non GitHub; (5) **regola permanente:** body italiano (cosa/perché/prova 2–3 passi) **al momento dell'apertura** via `git-pr.mjs --body` o `--body-file`; in chat incollare riassunto; se dimenticato, aggiornare subito senza aspettare che chieda.",
       "tag": [
         "pr",
         "github",
@@ -239,12 +260,12 @@
         "nicola"
       ],
       "reparto": "@devops-sre",
-      "confidenza": 0.98,
-      "evidenze": 1,
+      "confidenza": 0.99,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 16:22",
+      "ultima_conferma": "2026-07-13 17:47",
       "stato": "attiva"
     },
     {
@@ -3212,8 +3233,10 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Descrizione PR al momento dell'apertura (chat 13/7 ~17:39):** «perché non mi hai messo la descrizione della pr dentro github?» su #333 — zero tolleranza per body vuoto o solo testo script; si aspetta body completo su GitHub **prima** di chiedere, non correzione dopo; rinforza standing-ask 16:22. Vedi L-2026-0713-124.",
+    "**Allegati chat fluttuante iPhone (chat 13/7 ~17:35):** «no la chat fluttuante non mi lascia allegare i file» — usa iPhone/Safari in fluttuante; si aspetta che la graffetta apra il selettore file come in chat intera; workaround accettabile solo temporaneo (ingrandisci). Fix PR #333, merge 🔴 #106. Vedi L-2026-0713-134.",
     "**Pallino deve restare spento dopo apertura chat (chat 13/7 ~17:36–17:45):** «dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna» — zero tolleranza per pallino che riappare da solo; si aspetta fix definitivo (PR #334, merge 🔴 #107), non solo spiegazione del poll; #332 annullata. Complementare a #328 per sync telefono/PC. Vedi L-2026-0713-133.",
-    "**Allegati in tutte le chat dove scrive (chat 13/7 ~17:32):** dopo ok #60 distingue «chat fluttuante» da «Parla con questa casella» — si aspetta la graffetta in entrambe (e coerenza con Archivio); se manca in casella contestuale vuole fix, non solo «Storage ok». Chiede esplicitamente di controllare ParlaCasella quando segnala allegati. Vedi L-2026-0713-132.",
+    "**Allegati in tutte le chat dove scrive (chat 13/7 ~17:32–17:47):** dopo ok #60 distingue «chat fluttuante» (iPhone Safari = bug selettore #333) da «Parla con questa casella» (graffetta assente) — si aspetta allegati funzionanti in fluttuante e coerenza con Archivio; chiede esplicitamente di controllare ParlaCasella. Vedi L-2026-0713-132, L-134.",
     "**Streaming risposta AD in chat — standing-ask (chat 13/7 ~17:31):** «fino ieri mi scrivevi in tempo reale cosa stavi facendo» — vuole rivedere il testo che cresce parola-per-parola mentre l'AD lavora (come con Claude), non aspettare in silenzio e ricevere tutto insieme a fine turno. Con Cursor oggi manca per scelta nel worker (`streaming` solo su `claude`), non per bug Pannello. Fix = PR worker 🟡 in attesa ok. Vedi L-2026-0713-131.",
     "**«hai imparato o ripeterai?» — test accountability (chat 13/7 ~17:27):** dopo «impara questi errori» chiede conferma esplicita che la lezione è in memoria — vuole regole concrete numerate (un bug = una PR, simula merge, branch pulito), ammissione che ripeterla è colpa AD; non promessa generica «non ripeto più». Vedi L-2026-0713-129.",
     "**Plugin GitHub worker — fase 3 su comando (chat 13/7 ~17:26):** dopo fase 2 mergiata dice «vai con la fase 3» — si aspetta PR aperta subito (#331), manifest esteso (21 skill), mappa aggiornata, merge 🔴 #104 + riavvio worker; non chiede di nuovo conferma skill-by-skill se la roadmap fase è già stata proposta. Caveman mai in chat. Vedi L-2026-0713-130.",
