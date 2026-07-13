@@ -17,6 +17,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-112",
+      "testo": "**PR #320 plugin worker + caveman split (chat 13/7 ~12:38):** Nicola «apri la pr» + «altri 10 plugin utili» + «usa caveman senza andare contro il contratto chat». AD apre PR #320 (`fix/worker-plugins-skills`, `6478a01e`): manifest `worker-plugins.json` + `sync-worker-plugins.mjs` + grilling/ponytail/caveman-internal. **Architettura caveman:** non skill globale — fragment `cervello/prompt-fragments/caveman-internal.md` iniettato dal worker solo su `tipo≠chat` (giro/lavori/metabolizza); prompt chat dice «caveman SPENTO». Ponytail scope=globs codice; grilling scope=chat+lavori+giro. **Fase 2:** 10 candidati in manifest (diagnosing-bugs, tdd, handoff, superpowers, security, react-best-practices, web-design-guidelines, webapp-testing, code-simplifier, firecrawl) — dopo merge+review @security. Post-merge: riavvio worker obbligatorio. Regola: plugin GitHub = manifest curato + scope esplicito + mai tono telegrafico in chat Nicola.",
+      "tag": [
+        "worker",
+        "plugin",
+        "pr-320",
+        "caveman",
+        "grilling",
+        "ponytail",
+        "token",
+        "fase2",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.97,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 12:38",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-111",
       "testo": "**Nicola conferma 3 plugin token: grilling, ponytail, caveman (chat 13/7 ~12:20):** dopo gap architetturale (L-104) Nicola nomina i tre skill e chiede «prima descrivimeli così sono sicuro che sono loro» — vuole verifica identità PRIMA del merge. Repo: grilling=`mattpocock/skills` (skills/productivity/grilling, intervista una domanda alla volta per stress-test decisioni); ponytail=`DietrichGebert/ponytail` (codice minimo, ~-22% token codice, solo task codice → `.cursor/rules/`); caveman=`JuliusBrussee/caveman` (~-65% token output, tono telegrafico). **Vincolo MyCity:** caveman **OFF** in chat con Nicola — conflitto con contratto «prima riga chiara, max 5 punti, non tecnico»; grilling+ponytail sì (grilling su richiesta/decisioni, ponytail su codice). Combinazione: grilling=pensa prima, ponytail=scrive meno codice, caveman=parla meno (solo worker interno). PR manifest+sync 🟡 in attesa «confermo» esplicito. Regola: su plugin GitHub descrivere ogni skill prima di installare; mappare conflitti col contratto chat Nicola.",
       "tag": [
@@ -32,11 +55,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.96,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 12:24",
+      "ultima_conferma": "2026-07-13 12:38",
       "stato": "attiva"
     },
     {
@@ -2723,7 +2746,7 @@
     "**Apri pr + onestà scope (chat 13/7 ~11:37):** «Apri pr» dopo fix proposto → eseguire subito senza ri-chiedere; dichiarare esplicitamente cosa copre la PR e cosa resta per dopo (es. #315 = auto-coscienza, coda/registro botteghe-vs-ristoranti = PR separata con coerenza-fatti). Suggerisce mergiare #313 + #315 insieme dal Pannello. Vedi L-2026-0713-105.",
     "**PR pronta solo dopo rebase (chat 13/7 ~11:42):** segnala subito conflitti su PR già dichiarate pronte — si aspetta rebase + simulazione merge prima del merge dal Pannello (#315 vs #314). Vedi L-2026-0713-107.",
     "**Pannello sempre allineato end-to-end (chat 13/7 ~11:32):** «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — quando corregge qualcosa in chat si aspetta che OGNI casella del Pannello (coda, registro fatti, STATO, piani) rifletta il nuovo valore senza intervento manuale. Standing-ask: metabolizzazione + registro-fatti devono propagare automaticamente; non basta aggiornare 3 file su 10. Vedi L-2026-0713-106.",
-    "**Plugin GitHub worker — 3 skill confermati (chat 13/7 ~12:20):** dopo L-104 ha nominato **grilling**, **ponytail**, **caveman** e chiede descrizione di ciascuno PRIMA di confermare («prima descrivimeli così sono sicuro che sono loro»). Standing-ask aggiornato: manifest+sync dei 3 repo in PR 🟡 dopo «confermo» esplicito; review @security obbligatoria. **Vincolo tono:** caveman OFF in chat con lui (telegrafico vs contratto chiaro/non tecnico); ponytail solo codice; grilling su decisioni/PR. NON confondere con API AI a consumo ([[niente-api-ai]]). Vedi L-2026-0713-104, L-2026-0713-111.",
+    "**Plugin GitHub worker — PR #320 aperta (chat 13/7 ~12:38):** dopo descrizione dei 3 skill ha detto «apri la pr» + chiede altri 10 plugin fase 2 + caveman senza rompere contratto chat. PR #320 (`fix/worker-plugins-skills`, merge 🔴 #95); post-merge riavvio worker. **Vincolo tono:** caveman solo su giro/lavori interni (fragment, non skill globale); chat con lui resta chiara/non tecnica; ponytail solo codice; grilling su decisioni/PR. Fase 2 = 10 candidati dopo review @security. Vedi L-2026-0713-111, L-2026-0713-112.",
     "**Cliente core = botteghe, non ristoranti (chat 13/7 ~11:25):** «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — conferma strategica: MyCity = carrello multi-negozio settimanale (pane, salumi, formaggi, ortofrutta), NON competizione Glovo sulla cena. I 6 di oggi sono ristoranti/trattorie (mossa tattica per credibilità/primi incassi), non il profilo target. Dopo visita 13/7 focus su Garetti, Peretti, Amendolara + 27 botteghe food. Coerente con principio 6/7 «gioca dove i big non giocano». Vedi L-2026-0713-102.",
     "**Auto-coscienza deve mostrare contenuto, non caselle vuote (chat 13/7 ~11:24):** oltre alla data «03/07», Nicola segnala «manca qualcosa dentro questa casella» nelle due caselle Confronto coi migliori — si aspetta di vedere reparto, obiettivo e divario, non placeholder vuoti o «undefined». Ha approvato subito con «Apri pr» → PR #313. Rinforza la standing-ask tempo reale (L-2026-0713-100) con aspettativa UX: ciò che è nel JSON deve comparire a video. Vedi L-2026-0713-101.",
     "**Auto-coscienza in tempo reale — apprendimento E miglioramento (chat 13/7 ~11:38):** dopo la diagnosi «03/07» chiede esplicitamente aggiornamento live, poi approva con «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». Standing-ask: vuole tick leggero ~10 min (senza AI) + data UI corretta; benchmark pesante resta settimanale se spiegato. PR #315 aperta (commit `fbbc8c2c`), merge 🔴 #90/#91. NON dire «solo giro AI» per apprendimento — si aggiorna già post-chat. Vedi L-2026-0713-100, L-2026-0713-103, L-2026-0713-105.",

@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-320-worker-plugins — Mergia PR #320: plugin worker token (grilling, ponytail, caveman) · ⏳ IN ATTESA · accodata 2026-07-13 12:38
+
+**Cosa fa:** manifest `cervello/worker-plugins.json` + script `sync-worker-plugins.mjs` + 3 skill GitHub curati. Grilling = stress-test decisioni/PR; ponytail = codice minimo (solo `pannello/`, `cervello/`, `creativi/`); caveman-internal = output telegrafico SOLO su giro/lavori/metabolizza — MAI in chat con te.
+
+**PR su GitHub:** [#320 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/320) ← branch `fix/worker-plugins-skills`, commit `6478a01e`
+
+**Cosa cambia:** il worker risparmia token su giri e codice; la chat con te resta chiara e non tecnica.
+**Se va bene:** mergi #320 dal Pannello → riavvia worker per caricare le nuove regole; fase 2 (altri 10 plugin in `candidati_fase2`) dopo review @security.
+
+- **Colore:** 🔴 (merge dal Pannello — card #95)
+
+---
+
 ### ✅ #pr-305-ordine-conversazioni — FATTO 2026-07-12 17:44 · fix già su main via PR #303 mergiata da Nicola
 
 Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine stabile (pinnate 📌 + data creazione). Commit `67c6b804` su main. PR #305/#306/#304 doppioni da chiudere senza merge (conflitti su file cervello). Deploy Vercel automatico.
