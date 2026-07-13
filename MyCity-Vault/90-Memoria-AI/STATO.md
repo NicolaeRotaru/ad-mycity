@@ -1,11 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:34
-fonte: AD digitale (🌙 13/7 19:34 METABOLIZZA: pallini residuo post-#336–#342, scenario prima del fix. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:44
+fonte: AD digitale (🌙 13/7 19:44 METABOLIZZA: trigger-build FATTO 11/7, card obsoleta chiusa. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:44 — CHAT: card Trigger-build Pannello — «cioè?»** Nicola chiede chiarimento sulla casella «commit su pannello/ → Vercel builda». **Verificato:** trigger **già eseguito 11/7** — commit `4d37c741` su `origin/main` (`pannello/.build-trigger`); da allora ogni merge su `pannello/` ribuilda Vercel; commit memoria non triggerano build (voluto). Card **obsoleta** — chiusa FATTO in AZIONI. Se Pannello sembra vecchio → diagnosi ultimo deploy, non rifare trigger. Fonte: chat Nicola 13/7 ~19:44 + `git merge-base --is-ancestor 4d37c741 origin/main`.
+>
+> 💬 **13/7 ~19:30 — CHAT: casella Gap «MCP marketplace gated» — dati aggiornati?** Nicola chiede se quella casella AutoCoscienza è fresca. **Verificato:** `auto-analisi.json` ancora **11/7 14:30** — nessun giro completo oggi, la sezione **non si rigenera** da sola con update chat/STATO. Il messaggio rosso **≠ bug Pannello**: avviso onesto che in sessione non si ri-misurano 4 conteggi non-REST (prodotti totali, lead, ecc.) — restano conferma live del **7/7**. **Sensori REST ricontrollati 19:30:** ordini e clienti **ok**, business **invariato dal 24/6** (1 ordine annullato, North Star 0). Per aggiornare quella casella → **«fai un giro»** sul VPS. Fonte: chat Nicola 13/7 ~19:30 + verifica sensori.
+>
 > 💬 **13/7 ~19:34 — CHAT: pallini ancora rossi — residuo aperto, nessuna PR fix.** Nicola «perché c'è ancora il problema dei pallini rossi?» dopo nona prova (19:15 pallini «uguali»). **Verificato:** #336, #338, #340, #342 mergiate oggi — **insufficienti**; streaming #343 = track separato; pallini = **solo Pannello Vercel** (restart worker inutile). **Ipotesi AD principale:** apri/leggi/esci → poll elenco ~8s riaccende badge se `updated_at` conversazione > timestamp lettura. **Nessuna PR aperta** per residuo — AD attende scenario Nicola (1 esci→rosso / 2 Plancia / 3 lampeggio / 4 tutte rosse). **Main** `420586c9`. Fonte: chat Nicola 13/7 ~19:34.
 >
 > 💬 **13/7 ~19:32 — CHAT: radiografia/auto-coscienza «ancora dati vecchi» dopo fix.** Nicola vuole radiografia macchina + marketplace e auto-coscienza **in tempo reale**. **Diagnosi verificata:** Pannello poll ok (60s) ma lista «Radiografia» = **foto scan 7/7** (74 problemi macchina, 87 marketplace) — i fix **chiudono il cantiere** (42 chiusi, 1 in corso Pane Quotidiano, agg. 19:10), **non riscrivono** la lista dell'audit. Voto testa: 51 (scan) vs **75** (sonda live). **Fix 🟡 PR #344** (`358721c`): voto live, banner scan/cantiere, poll 30s. Per far sparire la lista lunga serve **nuovo audit completo** («radiografia di te stesso» + radiografia marketplace). Merge 🔴 #344 pendente. Fonte: chat Nicola 13/7 ~19:32 + conteggio `cantiere-difetti.json` / `auto-radiografia.json`.
