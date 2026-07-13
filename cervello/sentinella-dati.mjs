@@ -45,6 +45,7 @@
 //      opz TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID · tuning SENTINELLA_DATI_* (vedi sotto).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
@@ -611,6 +612,17 @@ async function main() {
     for (const a of allertati) console.log(`   ${a.colore} 🚨 ALLERTA (solo avviso) ${a.titolo}`);
     for (const sk of saltati) console.log(`   ⏭️  saltato ${sk.chiave}: ${sk.motivo}`);
   }
+
+  // Tick leggero auto-coscienza (~10 min): aggiorna apprendimento/miglioramento senza token AI
+  try {
+    execFileSync("node", [join(AD_ROOT, "cervello/tick-auto-coscienza-leggero.mjs")], {
+      cwd: AD_ROOT,
+      stdio: "ignore",
+    });
+  } catch {
+    /* non bloccare la sentinella */
+  }
+
   process.exit(0);
 }
 

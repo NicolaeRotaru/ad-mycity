@@ -133,7 +133,15 @@ type Analisi = {
   salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number };
 };
 type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string };
-type Apprendimento = { data?: string; aggiornato?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: Record<string, number> };
+type AppMeta = {
+  lezioni_attive?: number;
+  promosse_a_principio?: number;
+  decadute?: number;
+  tasso_applicazione?: number;
+  tasso_calcolato_il?: string;
+  tick_leggero_il?: string;
+};
+type Apprendimento = { data?: string; aggiornato?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: AppMeta };
 type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; autonomia?: string; nota?: string }[] };
 type Benchmark = {
   reparto?: string;
@@ -147,7 +155,10 @@ type Benchmark = {
   cosa_ci_manca?: string;
 };
 type Miglioramento = {
-  data?: string; aggiornato?: string; meta_esperimenti?: { aggiornato?: string }; benchmark?: Benchmark[];
+  data?: string;
+  aggiornato?: string;
+  meta_esperimenti?: { aggiornato?: string };
+  benchmark?: Benchmark[];
   esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
   peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
   proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
@@ -245,7 +256,11 @@ export default function AutoCoscienza({
   const daVerificare = (d?.registro?.entita || []).filter((e) => e.stato === "da_verificare");
   const ap = d?.apprendimento;
   const mi = d?.miglioramento;
-  const dataApprendimento = dataVaultRecente(ap?.data, ap?.aggiornato);
+  const dataApprendimento = dataVaultRecente(
+    ap?.data,
+    ap?.aggiornato,
+    typeof ap?.meta?.tasso_calcolato_il === "string" ? ap.meta.tasso_calcolato_il : undefined,
+  );
   const dataMiglioramento = dataVaultRecente(mi?.data, mi?.aggiornato, mi?.meta_esperimenti?.aggiornato);
   const cal = d?.calibrazione;
   const nErrori = a?.errori?.length || 0;
