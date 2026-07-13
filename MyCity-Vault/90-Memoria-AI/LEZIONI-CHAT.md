@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 21:10] Ritmo del giorno — Nicola «piano mattino e report sera scritti malissimo, fatico a leggerli»: corpo = italiano semplice (3 priorità, cosa serve da te), zero PR/AR/path nel testo principale; Pannello a sezioni non muro; merge 🔴 **PR #350** #120.
 - [2026-07-13 21:08] PR #349 — Nicola «in teoria non sono conflitti»: ha ragione; 4 file diario (STATO, coda, apprendimento, auto-miglioramento) vs fix vero (archivio 12 Garetti) pulito; risolvere Accept main sui 4; merge 🔴 #119; branch v2 locale `b15c782f` se serve aggiornare PR.
 - [2026-07-13 21:07] Plugin 21/21 installati ma «non cambia nulla» — sono istruzioni AI, non UI Pannello; in chat attivi grilling (su richiesta) + ponytail (codice), caveman SPENTO; test: «grillami» / fix codice / giri auto; Firecrawl e Tabnine servono chiavi/MCP sul VPS.
 - [2026-07-13 21:01] Silo allocazione — Nicola «fai il fix»: archivia 12 pacchetti Garetti (prospect) in `_archivio-prospect/`, sforzo attivo solo Pane Quotidiano (16), `allocazione-check` exit 0; casella rossa sparisce post-merge **PR #349** 🔴 #119 — eseguire, non solo spiegare.
@@ -16,4 +17,3 @@
 - [2026-07-13 20:10] Conflitto PR #347 ondata 2 — Nicola «ci sono ancora conflitti» dopo merge **#348**: main avanzato (`b153f62f`), stesso body PR (non codice sync); rebase su main post-#348, head `514321eb`, mergeable API ok; dire «risolto» solo dopo card verde; **#347** merge 🔴.
 - [2026-07-13 19:53] Conflitto PR #348 — Nicola «ci sono conflitt»: solo `apprendimento.json` + `auto-miglioramento.json` (memoria), **non** `page.tsx` pallini; rebase `fix/pallini-fingerprint-v3` su main, merge locale ok; ricarica card prima di «risolto»; **#348** merge 🔴 #118.
 - [2026-07-13 19:52] Conflitto PR #346 ondata 2 — dopo body risolto main avanza: scontrano LEZIONI-CHAT + apprendimento + auto-miglioramento (solo date); Nicola «riesci a vederlo?» → rebase stesso branch (`a154875c`), **verificare zero residui** prima di «mergia»; non dire risolto dopo solo ondata 1; **#346** merge 🔴 #117.
-- [2026-07-13 19:51] Pallini scenario 1+4 = stesso bug — Nicola «1 e 4»: letto guardava timestamp/`updated_at` (poll ~8s riaccende) + risposte solo in Lavori non seedate (tutto rosso); fix = **impronta testo ultima risposta**, non orario; **PR #348** merge 🔴 #118 → Ctrl+Shift+R → test 15s esci + elenco.

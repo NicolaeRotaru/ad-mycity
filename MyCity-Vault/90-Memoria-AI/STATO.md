@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:08
-fonte: AD digitale (💬 13/7 21:08 chat PR #349 conflitti diario. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:10
+fonte: AD digitale (💬 13/7 21:10 chat ritmo leggibile. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:10 — CHAT: ritmo del giorno illeggibile — Nicola «piano mattino e report sera scritti malissimo».** Segnala che **Piano del mattino** e **Report della sera** in vault + card Plancia «Ritmo del giorno» sono un muro di log interno (sigle, PR, gergo). **Fix 🟡 PR #350** (`0189de69`): riscrittura in italiano semplice (frasi corte, 3 priorità, «cosa serve da te»), template `cervello/ritmo.md` allineato, componente RitmoTesto su Plancia (titoli, elenchi, dettagli tecnici sotto clic). **Pendente:** merge 🔴 **#350** (#120) → ricarica Plancia e verifica sezioni brevi. Fonte: chat Nicola 13/7 ~21:10.
+>
 > 💬 **13/7 ~21:08 — CHAT: PR #349 — Nicola «4 conflitti ma in teoria non sono conflitti».** Ha ragione: i **4 file** in conflitto sono solo **diario** (STATO, coda azioni, apprendimento, auto-miglioramento) — main già aggiornato dal worker/chat parallela; il **fix vero** (12 pacchetti Garetti → `_archivio-prospect/garetti/`) merge **pulito** (simulato locale, zero conflitti sul codice). **Risoluzione:** su GitHub → Accept **main** sui 4 file diario; il contenuto importante della PR resta l'archivio. Branch pulito locale `fix/allocazione-silo-garetti-v2` (`b15c782f`); push PR #349 da remoto bloccato senza allineare storia. **Pendente:** merge 🔴 **#349** (#119) → casella silo sparisce. Fonte: chat Nicola 13/7 ~21:08.
 >
 > 💬 **13/7 ~21:07 — CHAT: verifica plugin worker — Nicola «non è cambiato nulla».** Chiede controllo installazione + test su ciascun plugin. **Verificato 🟢:** **21/21** skill su disco, hash identici al remoto, sync dry-run **21/21 OK**; worker riavviato **19:10** (fase 1+2+3 caricata). **Perché niente visibile in chat:** i plugin sono **istruzioni AI**, non modificano il Pannello; in chat con Nicola restano attivi solo **grilling** (su richiesta) e **ponytail** (su codice); **caveman SPENTO** apposta (altrimenti tono telegrafico). **Non operativi al 100%:** **Firecrawl** (manca chiave API + binario sul VPS) e **codebase-search Tabnine** (serve collegamento MCP — senza, grep normale). **Come testare:** «grillami su [decisione]» · task che tocca codice · giri automatici (caveman, non in chat). Chiavi Firecrawl/Tabnine = 🔴 coda se Nicola vuole. Fonte: chat Nicola 13/7 ~21:07 + sync plugin.
