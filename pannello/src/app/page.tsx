@@ -243,7 +243,7 @@ type Lavoro = {
   id: string;
   created_at: string;
   updated_at: string;
-  stato: "in_attesa" | "in_corso" | "fatto" | "errore";
+  stato: "in_attesa" | "in_corso" | "fatto" | "errore" | "annullato";
   tipo: string;
   richiesta: string;
   risultato: string;
@@ -724,6 +724,10 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [diario, setDiario] = useState<DiarioVoce[]>([]);
   const [lavori, setLavori] = useState<Lavoro[]>([]);
+  const [conteggiLavori, setConteggiLavori] = useState<{ coda: number; archivio: number }>({ coda: 0, archivio: 0 });
+  const [archivioLimit, setArchivioLimit] = useState(100);
+  const [archivioHasMore, setArchivioHasMore] = useState(false);
+  const [caricamentoArchivio, setCaricamentoArchivio] = useState(false);
   const [conversazioni, setConversazioni] = useState<Conversazione[]>([]);
   const [convId, setConvId] = useState<string | null>(null);
   const [convServer, setConvServer] = useState(false);
@@ -1826,14 +1830,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // un'altra conversazione), 8s altrimenti. Risolve TUTTI i pendenti, non solo l'ultimo.
   useEffect(() => {
     let stop = false;
-    const carica = async () => {
+    const carica = async (limitArchivio = archivioLimit) => {
       try {
-        const r = await fetch("/api/lavori", { cache: "no-store" });
+        const r = await fetch(`/api/lavori?limit=${limitArchivio}`, { cache: "no-store" });
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) {
           // Aggiorna SOLO se la lista è davvero cambiata: un array nuovo ma identico
           // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
           setLavori((prev) => (lavoriUguali(prev, d.lavori) ? prev : d.lavori));
+          if (d.conteggi?.coda != null) {
+            setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
+          }
+          if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
           if (pendingLavoroChatRef.current.size > 0) {
             risolviLavoriPendenti(d.lavori);
           }
@@ -1844,13 +1852,34 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const onLavori = () => carica();
     window.addEventListener("mycity:lavori", onLavori);
     const ms = loading || pendingLavoroChatRef.current.size > 0 ? 2000 : 8000;
-    const id = setInterval(carica, ms);
+    const id = setInterval(() => carica(), ms);
     return () => {
       stop = true;
       clearInterval(id);
       window.removeEventListener("mycity:lavori", onLavori);
     };
-  }, [loading, pendingCount]);
+  }, [loading, pendingCount, archivioLimit]);
+
+  async function caricaAltroArchivio() {
+    if (caricamentoArchivio) return;
+    setCaricamentoArchivio(true);
+    const nuovoLimit = archivioLimit + 100;
+    try {
+      const r = await fetch(`/api/lavori?limit=${nuovoLimit}`, { cache: "no-store" });
+      const d = await r.json();
+      if (Array.isArray(d.lavori)) {
+        setLavori(d.lavori);
+        if (d.conteggi?.coda != null) {
+          setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
+        }
+        if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
+        setArchivioLimit(nuovoLimit);
+      }
+    } catch {
+    } finally {
+      setCaricamentoArchivio(false);
+    }
+  }
 
 
   return (
@@ -2045,7 +2074,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== LAVORI DEL CERVELLO ===================== */}
         {vista === "lavori" && (
-          <Lavori lavori={lavori} onSvuota={svuotaLavori} workerVivo={workerVivo} adInPausa={adInPausa} />
+          <Lavori
+            lavori={lavori}
+            onSvuota={svuotaLavori}
+            workerVivo={workerVivo}
+            adInPausa={adInPausa}
+            conteggi={conteggiLavori}
+            archivioHasMore={archivioHasMore}
+            archivioCaricati={lavori.filter((l) => l.stato === "fatto" || l.stato === "annullato").length}
+            onCaricaAltroArchivio={caricaAltroArchivio}
+            caricamentoArchivio={caricamentoArchivio}
+          />
         )}
 
         {/* ===================== NUMERI ===================== */}
