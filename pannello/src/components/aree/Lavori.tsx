@@ -10,14 +10,32 @@ import { EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioSub } from "@/lib
 
 type Tab = "coda" | "archivio" | "risultati";
 
+export type ConteggiLavoriUi = { coda: number; archivio: number };
+
 type Props = {
   lavori: LavoroBase[];
   onSvuota: () => void;
   workerVivo?: boolean | null;
   adInPausa?: boolean;
+  /** Conteggi reali dal DB (badge tab). Se assenti, si calcolano dalla lista (meno affidabile). */
+  conteggi?: ConteggiLavoriUi;
+  archivioHasMore?: boolean;
+  archivioCaricati?: number;
+  onCaricaAltroArchivio?: () => void;
+  caricamentoArchivio?: boolean;
 };
 
-export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Props) {
+export default function Lavori({
+  lavori,
+  onSvuota,
+  workerVivo,
+  adInPausa,
+  conteggi,
+  archivioHasMore,
+  archivioCaricati,
+  onCaricaAltroArchivio,
+  caricamentoArchivio,
+}: Props) {
   const [tab, setTab] = useState<Tab>("coda");
 
   // Sincronizza la scheda col tasto INDIETRO: ogni click di scheda timbra una voce di
@@ -47,9 +65,12 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
     return lavori.filter(inArchivio);
   }, [lavori, tab]);
 
+  const nCoda = conteggi?.coda ?? lavori.filter(inCoda).length;
+  const nArchivio = conteggi?.archivio ?? lavori.filter(inArchivio).length;
+
   const tabs: { id: Tab; label: string; icon: React.ReactNode; n?: number }[] = [
-    { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: lavori.filter(inCoda).length },
-    { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: lavori.filter(inArchivio).length },
+    { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: nCoda },
+    { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: nArchivio },
     { id: "risultati", label: "Risultati", icon: <Terminal size={14} /> },
   ];
 
@@ -104,7 +125,26 @@ export default function Lavori({ lavori, onSvuota, workerVivo, adInPausa }: Prop
       {tab === "risultati" ? (
         <ComandiVPS />
       ) : (
-        <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
+        <>
+          <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
+          {tab === "archivio" && archivioHasMore && onCaricaAltroArchivio && (
+            <div className="flex flex-col items-center gap-1 pt-1">
+              <button
+                type="button"
+                onClick={onCaricaAltroArchivio}
+                disabled={caricamentoArchivio}
+                className="text-sm font-medium text-brand hover:underline disabled:opacity-50"
+              >
+                {caricamentoArchivio ? "Carico altri lavori…" : "Carica altri lavori"}
+              </button>
+              {typeof archivioCaricati === "number" && (
+                <p className="text-[11px] text-black/45 dark:text-white/45">
+                  Mostrati {archivioCaricati} di {nArchivio}
+                </p>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
