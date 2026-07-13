@@ -8,6 +8,7 @@ import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
+import { isCanaleGithub } from "@/lib/github-pr-merge";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
   etichettaScelta,
@@ -204,14 +205,17 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     caricaContorno();
   }, [carica, caricaContorno]);
 
-  // Freschezza: l'area Azioni resta aperta a lungo → ricarica ogni 60s e al ritorno sulla scheda,
-  // così ciò che è già stato fatto/approvato (anche da un altro dispositivo o dal worker) non
-  // resta stantio e le novità compaiono senza dover cambiare area.
+  // Merge PR in attesa: poll più frequente così la card sparisce subito dopo il merge su GitHub.
+  const haMergePrAperta = azioni.some(
+    (a) => isCanaleGithub(a.canale) && a.stato !== "fatta" && a.stato !== "rifiutata"
+  );
+
+  // Freschezza: l'area Azioni resta aperta a lungo → ricarica ogni 60s (15s se c'è un merge PR
+  // ancora in coda/da firmare) e al ritorno sulla scheda, così ciò che è già stato fatto non resta stantio.
   useEffect(() => {
-    // Rinfresca anche il REGISTRO quando è la scheda visibile: prima restava stantio perché il tick
-    // non lo toccava (sintomo c). Se non sei sul Registro non lo scarica inutilmente.
     const ricarica = () => { carica(); caricaContorno(); if (tabRef.current === "registro") void caricaRegistro(); };
-    const id = setInterval(ricarica, 60000);
+    const ms = haMergePrAperta ? 15000 : 60000;
+    const id = setInterval(ricarica, ms);
     const onVis = () => { if (document.visibilityState === "visible") ricarica(); };
     window.addEventListener("focus", ricarica);
     document.addEventListener("visibilitychange", onVis);
@@ -220,7 +224,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       window.removeEventListener("focus", ricarica);
       document.removeEventListener("visibilitychange", onVis);
     };
-  }, [carica, caricaContorno, caricaRegistro]);
+  }, [carica, caricaContorno, caricaRegistro, haMergePrAperta]);
 
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, Microscope, HelpCircle, Cpu, Hammer, FileText, BarChart3, Globe, History, Layers } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import { RitmoTesto } from "@/components/RitmoTesto";
+import ParlaCasella from "@/components/ParlaCasella";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea, type VistaNav } from "@/lib/nav";
@@ -410,7 +411,13 @@ export default function Plancia({
                 )}
               </div>
               {ritmo.pianoMattino ? (
-                <RitmoTesto testo={ritmo.pianoMattino.testo} />
+                <>
+                  <RitmoTesto testo={ritmo.pianoMattino.testo} />
+                  <ParlaCasella
+                    titolo="Piano del mattino"
+                    contesto={[ritmo.pianoMattino.data && `Data: ${ritmo.pianoMattino.data}`, ritmo.pianoMattino.testo].filter(Boolean).join("\n")}
+                  />
+                </>
               ) : (
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
@@ -425,7 +432,13 @@ export default function Plancia({
                 )}
               </div>
               {ritmo.reportSera ? (
-                <RitmoTesto testo={ritmo.reportSera.testo} />
+                <>
+                  <RitmoTesto testo={ritmo.reportSera.testo} />
+                  <ParlaCasella
+                    titolo="Report della sera"
+                    contesto={[ritmo.reportSera.data && `Data: ${ritmo.reportSera.data}`, ritmo.reportSera.testo].filter(Boolean).join("\n")}
+                  />
+                </>
               ) : (
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
