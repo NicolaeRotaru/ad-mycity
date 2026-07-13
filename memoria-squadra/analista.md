@@ -8,6 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 20:21 · Giro serale 13/7 20:20 — 7 numeri REST · grounding:5 coerenza:5 numeri:5 fonti:5 azioni:4 completezza:4 · atteso Business invariato dal 24/6, North Star 0 → reale Confermato: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati/consegnati, 4 buyer, REST ok 20:20 · #giro #numeri
 - 2026-07-11 11:40 · Supervisione 11/7: 7 numeri invariati dal 24/6 (North Star 0, stallo ~417h, 1 ordine annullato, 4 buyer, 5 prodotti PQ, 407 lead). Baseline REST ok (supabase_rest=ok, giri_ciechi=0). MCP non approvato in sessione → 0 inventati. Nessuna sentinella business scattata (PQ non churn, attesa concordata). · verita 5, completezza 4, azionabilita 4, onesta 5, stile 4, riuso 4 · atteso 7 numeri freschi dal DB → reale baseline REST invariata confermata (MCP non disponibile in sessione) · #kpi #stallo
 - 2026-07-05 05:09 · Piano chiudi-i-loop: esperimenti-check.mjs (PZ-010) + diario del perché su previsioni mancate (PZ-011) · 6 assi: correttezza 5, completezza 4, azionabilita 5, onesta 5, stile 4, riuso 5 · atteso sweep chiude/data gli esperimenti + causa obbligatoria → reale test: exit 1 su esperimento scaduto, causa salvata su mancata · #piano-loop
 - 2026-07-02 08:36 · Giro AD: 7 numeri = vs 08:20, stallo 190,1h (+0,2h), **168h +22,1h oltre** · snapshot `consegne/analista/2026-07-02-kpi-live-0836.md` · automazione verde · fonte: REST clmpyfvpvfjgeviworth · #kpi #stallo

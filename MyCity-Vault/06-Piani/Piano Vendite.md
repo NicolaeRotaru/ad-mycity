@@ -173,9 +173,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-02 10:19
+## 🤖 Aggiornamento dell'AD — 2026-07-13 20:21
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Stallo 191,9h** — ok 16 **approvato** ma passi #20–#22 manuali pendenti; outreach 407 lead **post-prima-transazione**.
-- **#19 MERGED LIVE** (08:40) — piattaforma pulita per batch 6/7.
-- **SQL 107** (~30s) — prerequisito sicurezza prima onboarding dom 6/7 (~37°C).
+- **13/7 = giorno visita tattica 6 ristoranti/trattorie** (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) — mossa tattica, NON profilo core (cliente core = botteghe, Nicola 11:25). **Serve debrief** con esiti reali.
+- **Pitch aggiornato:** retail −6,6% Q2 + caldo 40°C 15–17/7 — ⛔ bando ER CHIUSO 23/6, non usarlo.
+- **Post-visita focus botteghe carrello:** Garetti, Peretti, Amendolara + shortlist 27 botteghe food (`consegne/vendite/2026-07-06-lista-27-botteghe-food-da-chiamare.md`).
+- **Handoff:** chi dice sì → @onboarding-negozi done-for-you <48h. Zero asset pesanti su prospect finché non `confermato` (AR-006).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

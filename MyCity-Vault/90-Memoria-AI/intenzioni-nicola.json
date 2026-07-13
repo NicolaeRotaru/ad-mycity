@@ -1,25 +1,25 @@
 {
-  "data": "2026-07-11 14:30",
-  "sintesi": "Nicola riparte operativo TRA 2 GIORNI (lunedì 13/7). Oggi sabato: giorno di preparazione. Prima di arrivare dalle botteghe: sbloccare il Pannello (trigger-build + worker-restart) e — se possibile — mergiare PR #212 (37 fix sicurezza). Il 13/7 va DI PERSONA dalle 6 botteghe food con dossier aggiornato: il pitch usa retail piacentino −6,6% Q2 + caldo 40°C il 15-17/7 (⛔ bando ER CHIUSO il 23/6, non usare come leva). Meteo oggi 28°C piacevole, domani domenica. Il target per il 1° ordine reale su PQ è il Venerdì Piacentini del 17/7 (ultimo VP stagionale, centro pieno).",
+  "data": "2026-07-13 20:21",
+  "sintesi": "Nicola è in ripresa operativa dal 13/7. Oggi la giornata è stata dominata dalla maratona Pannello (~23 PR mergiate): streaming parziale ok ma testo vero ancora «tutto insieme», pallini residui. La visita tattica ai 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) era prevista oggi — serve debrief. Cliente core = botteghe (carrello multi-negozio); i 6 del 13/7 sono mossa tattica, non profilo target. Prossima finestra critica: Venerdì Piacentini 17/7 per il 1° ordine reale su Pane Quotidiano. Caldo >40°C 15–17/7.",
   "prossime_mosse": [
-    {"titolo": "Sbloccare il Pannello prima di arrivare dalle botteghe", "quando": "entro 12/7 sera", "come": "commit trigger su pannello/ per Vercel + riavvio worker (module_not_found); posso farlo io o Nicola dal terminale in <5 minuti", "priorita": "alta", "ad_prepara": "#trigger-build-pannello + #worker-restart in coda, istruzioni pronte", "senior": "@devops-sre", "colore": "🟡"},
-    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "quando": "dal 13/7, finestra target VEN 17/7", "come": "l'AD prepara la spinta domanda (post 'Il Turno' agganciato al VP 17/7); Nicola dà il via (🔴) e segue il 1° ordine → consegna + payout-test. Attenzione: caldo 40°C il 15-17/7 → slot mattutino o sera tarda per i freschi.", "priorita": "alta", "ad_prepara": "post #30/#36 (bozze pronte), SEO vetrina PQ, brief catena freddo", "senior": "@content-social", "colore": "🔴"},
-    {"titolo": "Visitare di persona le 6 botteghe food prioritarie", "quando": "13/7", "come": "visita in negozio (non telefonata) con dossier + pitch aggiornato: retail −6,6% Q2 + caldo 40°C = argomento forte senza bando. Chi dice sì → onboarding done-for-you <48h.", "priorita": "alta", "ad_prepara": "dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md + schede-cheat (aggiornare pitch con −6,6% e senza bando)", "senior": "@vendite", "colore": "🟡"},
-    {"titolo": "Mergiare i 37 fix di sicurezza del sito", "quando": "prima del 13/7", "come": "creare PAT Contents R/W su NicolaeRotaru/mycity → dal VPS push branch + mergia PR #212", "priorita": "alta", "ad_prepara": "#pr-5bloccanti in coda con istruzioni esatte", "senior": "@security", "colore": "🟡"}
+    {"titolo": "Mergia la PR con le 10 scelte ragionate", "quando": "stasera/domani mattina", "come": "Pannello → Approva #117 (PR #346) — conflitti risolti ondata 5", "priorita": "alta", "ad_prepara": "branch rebased head 84bd4db8, registro-scelte-check exit 0", "senior": "@tech", "colore": "🔴"},
+    {"titolo": "Racconta com'è andata la visita ai 6 ristoranti", "quando": "domani mattina", "come": "debrief rapido: chi visto, chi sì/no, prossimo passo onboarding", "priorita": "alta", "ad_prepara": "dossier consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md aggiornato terminologia", "senior": "@vendite", "colore": "🟡"},
+    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "quando": "VP 17/7 (finestra target)", "come": "via al post Il Turno + lista d'attesa; slot freschi al mattino per caldo 40°C", "priorita": "alta", "ad_prepara": "bozze post pronte, SEO vetrina PQ, brief catena freddo", "senior": "@content-social", "colore": "🔴"},
+    {"titolo": "Mergia il fix pallini se ancora aperto", "quando": "quando hai 2 minuti", "come": "PR #348 — impronta ultima risposta, test 15s esci da chat", "priorita": "media", "ad_prepara": "#118 in coda", "senior": "@frontend-dev", "colore": "🔴"}
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity (Via Calzolai 25); contratto 12% firmato. Il 1° ordine reale va CREATO qui (lo zombie #16 è annullato)", "stato": "attivo · payout OFF · 0 consegne · 0 ordini validi"},
-    {"nome": "6 botteghe food prioritarie (Osteria Carducci, La Forchetta, Tre Ganasce, La Dispensa, Trattoria dei Pescatori, Tigellabella)", "perche": "target della visita di persona del 13/7; dossier pronto; pitch: retail −6,6% Q2 + caldo 40°C (⛔ bando ER CHIUSO il 23/6, non usare come leva)", "stato": "prospect · visita 13/7 · handoff onboarding pronto"}
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity; contratto 12% firmato; faro per 1° ordine", "stato": "attivo · payout OFF · 0 consegne · target VP 17/7"},
+    {"nome": "6 ristoranti/trattorie tattici (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori)", "perche": "Visita di persona 13/7 — mossa tattica non profilo core; pitch: retail −6,6% Q2 + caldo", "stato": "prospect · debrief pendente · handoff onboarding pronto"}
   ],
   "rischi": [
-    "North Star resta 0 finché non NASCE un ordine reale: il collo di bottiglia ora è generare domanda (non 'consegnare #16', che è annullato)",
-    "Caldo 40°C il 15-17/7 sul batch food del 13/7: serve gate catena del freddo prima del LIVE dei deperibili",
-    "SQL 107/RLS profiles non ancora eseguito: ultimo blocco di piattaforma prima di aprire le botteghe",
-    "⛔ Bando ER CHIUSO il 23/6: la leva-scadenza è caduta — il pitch si regge ora su retail −6,6% + caldo; verificare che il dossier non citi più la scadenza 21/7"
+    "Visita 13/7 possibilmente parziale per priorità Pannello — pipeline senza esiti reali",
+    "North Star 0 finché non nasce ordine ex-novo su PQ",
+    "Caldo 40°C 15–17/7 senza borse termiche = rischio food",
+    "SQL 107 non chiuso prima di scalare negozi"
   ],
   "serve_da_nicola": [
-    {"ambito": "Prima transazione", "cosa_manca": "il 1° ordine reale va creato ex-novo (l'ordine #16 è annullato, non c'è più una consegna da eseguire)", "domanda_per_nicola": "Dal 13/7 diamo il via al post 'Il Turno' sul Venerdì Piacentini del 17/7 + lista d'attesa per far nascere il 1° ordine vero su Pane Quotidiano?"},
-    {"ambito": "Sicurezza piattaforma", "cosa_manca": "esecuzione SQL 107/RLS profiles + smoke checkout", "domanda_per_nicola": "Mi dai il grant MCP write (o lancio un giro VPS autorizzato) per chiudere SQL 107 prima del batch botteghe del 13/7?"},
-    {"ambito": "Pitch botteghe 13/7", "cosa_manca": "conferma che il dossier e le schede-cheat siano aggiornati senza il riferimento al bando ER (ora chiuso)", "domanda_per_nicola": "Ho aggiornato il pitch: bando ER → CHIUSO il 23/6; argomento principale = retail −6,6% Q2 + caldo 40°C. Vuoi vedere il dossier aggiornato prima di stamparlo?"}
+    {"ambito": "Debrief visita", "cosa_manca": "esiti reali dei 6 ristoranti visitati oggi", "domanda_per_nicola": "Quali dei 6 hai visto? Chi ha detto sì all'onboarding?"},
+    {"ambito": "Pannello", "cosa_manca": "merge #346 + feedback streaming post-fix", "domanda_per_nicola": "Dopo merge #346, lo streaming cresce parola per parola o ancora tutto insieme?"},
+    {"ambito": "Primo ordine", "cosa_manca": "via libera post VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine su PQ al Venerdì Piacentini del 17/7?"}
   ]
 }

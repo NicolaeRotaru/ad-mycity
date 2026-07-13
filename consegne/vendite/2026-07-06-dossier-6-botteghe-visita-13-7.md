@@ -2,12 +2,12 @@
 tipo: dossier-vendita
 data: 2026-07-06 15:45
 autore: AD digitale + @intelligence (6 ricerche web in parallelo) + @vendite
-scopo: visita di persona di Nicola alle prime 6 botteghe food — onboarding spostato al 13/7/2026
+scopo: visita di persona di Nicola alle prime 6 ristoranti/trattorie tattici — onboarding spostato al 13/7/2026
 colore: 🟢 (ricerca/analisi/dossier — nessuna azione sul mondo reale; la visita la fa Nicola)
 gate_AR006: queste 6 sono `scelta_ragionata` (prospect non firmati, non nel DB) → SOLO dossier+pitch neutro, nessun asset pesante intestato
 ---
 
-# 🍽️ Dossier "so tutto di loro" — le 6 botteghe food, visita di persona (dal 13/7)
+# 🍽️ Dossier "so tutto di loro" — le 6 ristoranti/trattorie tattici, visita di persona (dal 13/7)
 
 > Nicola le incontra **di persona** (non le chiama). Onboarding **spostato al 13 luglio**.
 > Questo file ti fa entrare in ogni locale **sapendo già chi è, cosa gli manca, e cosa proporgli

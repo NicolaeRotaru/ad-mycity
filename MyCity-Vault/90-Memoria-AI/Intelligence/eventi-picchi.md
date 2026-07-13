@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-11 14:30** · Fonte: @intelligence (monitora.md 11/7 AM + conferma pomeriggio: allerta temporali rientrata, 28°C Partly Cloudy alle 14:30) (monitora.md 11/7 · [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) + [iLMeteo](https://www.ilmeteo.it/meteo/piacenza) + [Comune Piacenza eventi](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini) + [IlPiacenza](https://www.ilpiacenza.it) + [PiacenzaSera](https://www.piacenzasera.it) + [Comune Emergenza Calore](https://www.comune.piacenza.it/it/news/emergenza-calore))
+> Aggiornato: **2026-07-13 20:21** · Fonte: @intelligence (giro serale 13/7 · eventi-picchi invariati vs 11/7 · [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) + [Comune Piacenza eventi](https://www.comune.piacenza.it/it/eventi/venerdi-piacentini))
 
 ## ☀️ Meteo (LIVE 11/7)
 

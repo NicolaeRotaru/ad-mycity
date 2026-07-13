@@ -1,9 +1,17 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-13 18:20",
+  "aggiornato": "2026-07-13 20:22",
   "per_reparto": [
     {
       "reparto": "@AD",
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "lower_bound": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@vendite",
       "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
@@ -25,6 +33,21 @@
       "scarto_pct": null,
       "nota": "AR-040/autoprevedi: prima previsione baseline. Al giro della misurazione chiama: calibrazione.mjs esito --id=CAL-20260710042004-AD --reale=<n> --fonte=\"Supabase MCP\"",
       "creato": "2026-07-10 06:20",
+      "chiuso_il": ""
+    },
+    {
+      "id": "CAL-20260713182209-vendit",
+      "reparto": "@vendite",
+      "azione": "Debrief visita 6 ristoranti tattici con esiti reali",
+      "metrica": "prospect_con_esito",
+      "atteso": 4,
+      "reale": null,
+      "entro": "2026-07-14",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "",
+      "creato": "2026-07-13 20:22",
       "chiuso_il": ""
     }
   ],

@@ -36,7 +36,7 @@ Il playbook cerca negozi con **ordini in calo**. Sui dati reali:
 ➡️ **Nessuna azione anti-churn da accodare sul parco negozi di oggi.** Segnarlo com'è, senza gonfiare la coda con lavoro finto, È il risultato corretto del playbook (cancello di serietà 🔬).
 
 ## Dove il churn diventa REALE: l'onda del 13/7
-Dal **13/7** Nicola porta online **6 botteghe food** (di persona; dossier `consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md`). Da lì in poi il churn diventa misurabile — ma con la metrica giusta per un marketplace in cold-start:
+Dal **13/7** Nicola porta online **6 ristoranti/trattorie tattici** (di persona; dossier `consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md`). Da lì in poi il churn diventa misurabile — ma con la metrica giusta per un marketplace in cold-start:
 
 > **La causa #1 di churn dei commercianti non è il calo, è il "no value realized":** un negozio entra, mette il catalogo, e **non riceve il primo ordine**. Se dopo qualche giorno pensa «qui non vendo», molla. Il segnale da vegliare non è `−40% ordini`, è **il tempo al primo valore** (time-to-first-value) e il **silenzio dopo l'onboarding**.
 

@@ -93,7 +93,7 @@ stato: 🟢 sola lettura — le mosse le firma Nicola
 
 ## 🚀 3 mosse consigliate (prossime 2 settimane)
 
-> Coerenza col piano: l'onboarding delle 6 botteghe food è al **13/7** e Nicola ci va di persona ([[piano-nicola-inserimento-negozi-dopo-9lug]]). Queste mosse **preparano** quel giro, non aprono traffico verso il marketplace prima che ci sia un negozio evadibile.
+> Coerenza col piano: l'onboarding delle 6 ristoranti/trattorie tattici è al **13/7** e Nicola ci va di persona ([[piano-nicola-inserimento-negozi-dopo-9lug]]). Queste mosse **preparano** quel giro, non aprono traffico verso il marketplace prima che ci sia un negozio evadibile.
 
 1. 🟢 **"Adotta 3 botteghe orfane di piattaforma"** — @vendite/@onboarding preparano lo short-list + pitch "zero fee d'ingresso, ti porto i clienti che già ti scrivono su WhatsApp" per le realtà che oggi consegnano solo a mano. *Cosa cambia:* trasformiamo domanda reale già esistente in ordini su MyCity. *Se va bene:* aggancio alla visita del 13/7.
 2. 🟢 **Ereditare CompraPiacenza** — @relazioni-istituzionali + @vendite usano la lista negozi già aggregata (bisogno dimostrato, offerta a metà) come bacino di prospect: "loro ti mostrano, noi ti facciamo incassare e consegnare".

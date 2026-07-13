@@ -1,54 +1,44 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-11 14:30",
-  "voto_fiducia": 91,
-  "trend_fiducia": "↑ 91 (da 90 12:40): giro pomeriggio cloud 14:30. MCP Supabase online ma gated → baseline REST 11:18 confermata (supabase_rest=ok, giri_ciechi=0). Coerenza-fatti OK (exit 0, 8 cacce chiuse). 0 numeri inventati. 0 asset pesanti su entità non confermate. Meteo verificato LIVE: 28°C PC. Briefing aggiornato frontmatter 14:30.",
-  "sintesi": "Giro pomeriggio cloud 14:30 — business INVARIATO dal 24/6 (North Star 0, stallo ~419h). T-2 giorni alla visita 6 botteghe (13/7), T-6 al VP 17/7 (target 1° ordine PQ). Fatto: briefing aggiornato (frontmatter 14:30 + nuovo TL;DR + fix rischio bando ER → CHIUSO 23/6). Coerenza-fatti verificata OK. Nessuna nuova azione da accodare. Coda esistente (#pr-5bloccanti, #fix-35-gravi, #trigger-build-pannello, #worker-restart) invariata e completa.",
+  "data": "2026-07-13 20:21",
+  "voto_fiducia": 88,
+  "trend_fiducia": "↓ 88 (da 91 11/7): giro serale 13/7. Business invariato (REST ok). Coerenza-fatti OK dopo propagazione 33 copie. Vincoli HARD tutti chiusi. Briefing stale risolto (54h→0). -3 per gap debrief visita e residui Pannello non verificati live.",
+  "sintesi": "Giro serale 13/7 20:21 — business INVARIATO dal 24/6 (North Star 0, ~469h). Oggi maratona Pannello; coerenza-fatti propagata; checklist AR-030 rigenerata; loop @analista chiuso. Zero asset pesanti su prospect. Mossa n.1: merge #346 + debrief visita + VP 17/7.",
   "verifiche": [
-    "Entità: nessuna nuova. PQ confermato (unico reale, baseline REST 11:18 invariata dal 24/6); Casa Linda demo esclusa; 6 botteghe food = scelta_ragionata (prospect non firmati, 0 asset pesanti aggiunti).",
-    "Numeri: baseline REST 11/7 11:18 (supabase_rest=ok, dati_ordini_ciechi=false: ordini=1 annullato, ultimo 24/6 08:28, clienti=23) + conferma MCP live 7/7 00:30. MCP tentato (gated in sessione, permessi non concessi) → 0 numeri inventati.",
-    "Radar: meteo LIVE verificato (28°C PC oggi, allerta temporali già passata, ondata 40°C prevista 15-17/7); bando ER CHIUSO 23/6 (corretto nel briefing, non più listato come rischio azionabile); VP 17/7 confermato ultima data; retail −6,6% Q2 (dato del mattino confermato).",
-    "Coerenza-fatti: OK — exit 0 verificato, 8 cacce chiuse. Rischio bando ER corretto in briefing (era listato come 'scade 21/7', ora CHIUSO 23/6).",
-    "Allocazione (vincolo HARD): 0 asset pesanti prodotti su entità non confermate in questo giro. Vincolo rispettato.",
-    "Chiusura-loop: ESITO già presenti nei quaderni @ad/@analista/@intelligence dalla sessione 12:40. Gate soddisfatto.",
-    "SALA-OPERATIVA: aggiornata con riga giro pomeriggio 14:30."
+    "Entità: PQ confermato (REST 20:20); 6 ristoranti tattici = scelta_ragionata (0 asset pesanti aggiunti); Garetti congelato AR-006.",
+    "Numeri: REST supabase_rest=ok, ordini=1 annullato, ultimo 24/6, 4 buyer, 5 prodotti PQ — invariati vs 18:00.",
+    "Coerenza-fatti: exit 0 — 33 sostituzioni «6 botteghe food» + cacce chiuse onboarding.6-ristoranti-tattici e strategia.cliente-core.",
+    "Allocazione: vincolo rispettato — nessun asset pesante su Garetti/prospect in questo giro.",
+    "Chiusura-loop: ESITO @analista registrato 20:21, gate OK.",
+    "AR-030: CHECKLIST-NICOLA rigenerata 20:21 da coda viva."
   ],
-  "errori": [
-    "MCP marketplace gated in sessione: 4 numeri non-REST non ri-misurati → dichiarato nei Gap.",
-    "node/bash guardiani deterministici (verifica-automazione, sonda-volano) non rieseguibili in sessione cloud → girano in giro.sh sul VPS."
-  ],
-  "risposte_registrate": [
-    "Nessuna nuova risposta/correzione di Nicola in questa sessione."
-  ],
+  "errori": [],
+  "risposte_registrate": [],
   "domande_per_nicola": [
-    "Trigger-build Pannello (#trigger-build-pannello): commit su pannello/ → Vercel builda le 12 modifiche in <5 min.",
-    "Worker-restart (#worker-restart): sudo systemctl restart mycity-worker mycity-worker-chat.",
-    "PR #212: serve PAT Contents R/W su NicolaeRotaru/mycity per completare il push + mergia.",
-    "PR #fix-35-gravi: approva i 2 comandi git checkout per creare il branch.",
-    "Gate catena freddo: PQ ha borse termiche per i freschi? Caldo 40°C arriva il 15-17/7.",
-    "Mail Hub Urbano (#52): bando ER CHIUSO 23/6 — invio post-bottega resta utile per relazione istituzionale, argomento cambiato: retail −6,6% Q2."
+    "Debrief visita 6 ristoranti tattici — quali visti, chi sì/no?",
+    "Merge #346 (scelte ragionate) — pronta, conflitti risolti ondata 5",
+    "Streaming: testo cresce o ancora «tutto insieme» post-merge?",
+    "Via libera post Il Turno per VP 17/7 su PQ?",
+    "Borse termiche PQ per caldo 15–17/7?"
   ],
   "punti_ciechi": [
-    "MCP marketplace gated (4 numeri non-REST = conferma live del 7/7, non ri-misurati oggi)",
-    "Stripe non configurato per payout/incassi",
-    "PostHog assente (spento da Nicola 5/7)",
-    "Uptime storefront non monitorato",
-    "verifica-automazione.mjs: node non eseguibile in sessione cloud"
+    "Esito reale visita 13/7 (Nicola non ha debriefato)",
+    "MCP marketplace cieco in sessione",
+    "Deploy Vercel post-merge #348 non verificato live"
   ],
   "miglioramenti_prossimo_giro": [
-    "Dal 13/7: da manutenzione a esecuzione — spinta domanda PQ per VP 17/7 + batch onboarding 6 botteghe",
-    "Misurare LIVE (se MCP approvato) i 4 numeri non-REST dopo il batch del 13/7",
-    "Pitch 6 botteghe: usare retail −6,6% Q2 + caldo 40°C 15-17/7 come urgenza (NON bando ER: CHIUSO)"
+    "Debrief visita → aggiorna pipeline vendite con esiti confermati",
+    "Post-merge #346: verifica 10 scelte ragionate in Pannello",
+    "Spinta domanda PQ verso VP 17/7"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok (baseline 11/7 11:18, giri_ciechi=0)",
-    "mcp_supabase": "online ma gated in sessione (permessi non concessi)",
-    "stripe": "ok (balance API), ma STRIPE_SECRET_KEY non collegata → cassa/runway sconosciuti",
+    "supabase_rest": "ok (20:20, giri_ciechi=0)",
+    "mcp_supabase": "cieco sessione",
+    "stripe": "ok balance API",
     "resend": "ok",
-    "posthog": "non_configurato (spento da Nicola 5/7)",
-    "sito_uptime": "non_configurato",
-    "loop_business": "aperto (0 transazioni reali; #16 annullato; 1° ordine da creare ex-novo VEN 17/7)",
+    "posthog": "non_configurato",
+    "loop_business": "aperto (North Star 0)",
     "voto_salute_architettura": 75,
-    "cantiere_difetti": "42 difetti chiusi · 1 bloccante umano (PR #212 manca PAT) · sonda 11:18 verdetto ok"
+    "cantiere_difetti": "42 chiusi · 1 bloccante umano · pending-merge 0"
   }
 }

@@ -881,3 +881,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-13 18:00 · @analista · FATTO · 7 numeri REST 18:00 invariati: 1 negozio PQ approved, 5 prodotti, 1 ordine ANNULLATO, 0 pagati/consegnati/payout, 4 buyer (0 nuovi 7g), 23 profili, 258 prodotti, North Star 0. Fonte: delta-gate + verifica-sensori (`supabase_rest=ok`) → zero numeri inventati.
 - 2026-07-13 18:00 · @devops-sre · SERVE · Nicola: 🔴 mergia **#338** (fix streaming+pallini) + `sudo systemctl restart mycity-worker-chat` (worker fermo dal 16:08) · verifica su telefono 10s dopo riavvio.
 - 2026-07-13 18:00 · @ad · SERVE · Da Nicola: 🔴 mergia #338 + riavvio worker · 🔴 mergia #337 (body PR) · 🟡 #323/#322/#326 PR pendenti · 🟡 SQL 107 (#32) · 🔴 1° ordine reale su PQ (T-4 al VEN 17/7) · ✍️ 494 autofill supervisione approvabili.
+
+### 2026-07-13 — 🌙 GIRO SERALE (AD · 20:21)
+- 2026-07-13 20:21 · @ad · FATTO · Giro serale completo: briefing 13/7 scritto, coerenza-fatti OK (33 copie propagate «6 botteghe food» → «6 ristoranti/trattorie tattici»), CHECKLIST-NICOLA rigenerata (AR-030), vincoli HARD chiusi (loop @analista, allocazione rispettata). Business INVARIATO (~469h stallo, North Star 0). Mossa n.1: merge #346 + debrief visita + VP 17/7.
+- 2026-07-13 20:21 · @analista · FATTO · 7 numeri REST 20:20 invariati vs 18:00: 1 PQ, 5 prodotti, 1 ordine ANNULLATO, 0 pagati/consegnati, 4 buyer. ESITO registrato in quaderno (chiusura-loop gate OK).
+- 2026-07-13 20:21 · @ad · SERVE · Da Nicola: 🔴 merge #346 (scelte ragionate) · 🟡 debrief visita 6 ristoranti tattici · 🔴 via post Il Turno VP 17/7 · 🔴 merge #348 pallini se aperta.

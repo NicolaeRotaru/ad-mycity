@@ -1,14 +1,41 @@
 {
-  "data": "2026-07-11 14:30",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~419h). T-2 giorni alla visita di Nicola alle 6 botteghe food (13/7). T-6 giorni al target 1° ordine reale su PQ (VP 17/7, ultima data stagionale). Meteo oggi 28°C piacevole; ondata 40°C in arrivo 15-17/7 → gate catena freddo. Bando ER CHIUSO 23/6 (350 domande) → pitch usa retail −6,6% Q2 + caldo. Pannello + worker da sbloccare entro domani sera prima del 13/7.",
+  "data": "2026-07-13 20:21",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~469h). Oggi 13/7: maratona Pannello (~23 PR mergiate), visita tattica 6 ristoranti in parallelo alla stabilizzazione chat. Coerenza-fatti OK. Prossima finestra: VP 17/7 per 1° ordine su Pane Quotidiano.",
   "opportunita": [
-    {"titolo": "Retail piacentino −6,6% Q2: urgenza di mercato reale per il pitch del 13/7", "motivo": "Commercio al dettaglio piacentino cede il 6,6% Q2 2026 (10× peggio media ER). Ogni bottega visitata è a rischio chiusura. MyCity è la lifeline, non un extra.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "Caldo 40°C il 15-17/7: argomento di vendita immediato al posto del bando chiuso", "motivo": "Ondata di calore confermata 15-17/7: 'consegna a casa al fresco' è un beneficio tangibile per freschi. Sostituisce il bando ER caduto come urgenza nel pitch.", "impatto": "alto", "sforzo": "basso"},
-    {"titolo": "55 locali sfitti + 407 lead mai contattati: pipeline enorme post 13/7", "motivo": "Dopo le 6 botteghe prioritarie ci sono 27 food qualificati nel DB e 55 spazi sfitti da trasformare in opportunità di acquisizione.", "impatto": "alto", "sforzo": "medio"}
+    {
+      "titolo": "Mergia le scelte ragionate nel Pannello",
+      "motivo": "PR #346 pronta — Nicola voleva vedere tutte le prospect scout, non solo 2",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Primo ordine reale al Venerdì Piacentini del 17 luglio",
+      "motivo": "Centro pieno + caldo 40°C = argomento consegna; post Il Turno già in bozza",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
+    {
+      "titolo": "Debrief della visita ai 6 ristoranti",
+      "motivo": "Senza esiti reali la pipeline resta ipotesi — serve sapere chi ha detto sì",
+      "impatto": "alto",
+      "sforzo": "basso"
+    }
   ],
   "azioni": [
-    {"titolo": "Sblocca il Pannello prima che Nicola parta lunedì (trigger-build + worker-restart)", "motivo": "Il Pannello non builda da giorni. Il worker ha un module_not_found. Nicola deve vedere la Cabina funzionante prima di arrivare dalle botteghe.", "livello": "giallo"},
-    {"titolo": "Aggiorna il dossier 6 botteghe: fuori il bando ER, dentro il dato −6,6%", "motivo": "Il bando ER è chiuso dal 23/6. Le schede-cheat da stampare il 13/7 devono usare il nuovo pitch: retail in crisi + caldo estivo.", "livello": "verde"},
-    {"titolo": "Mergia PR #212 (37 fix sicurezza) prima del batch botteghe", "motivo": "4 bloccanti sicurezza aperti sul sito live prima di aprire a 6 nuovi negozi. Serve PAT NicolaeRotaru/mycity.", "livello": "rosso"}
+    {
+      "titolo": "Mergia la PR con le 10 scelte ragionate",
+      "motivo": "Conflitti risolti — manca solo il merge #346",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Raccontami com'è andata la visita ai ristoranti",
+      "motivo": "Aggiorno pipeline e onboarding con esiti veri",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Dai il via al post del Venerdì Piacentini su Pane Quotidiano",
+      "motivo": "Finestra 17/7 per far nascere il primo ordine vero",
+      "livello": "rosso"
+    }
   ]
 }

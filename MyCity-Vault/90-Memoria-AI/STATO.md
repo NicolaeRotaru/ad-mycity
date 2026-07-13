@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 20:13
-fonte: AD digitale (🌙 13/7 20:13 METABOLIZZA: PR #346 ondata 3+4 conflitti risolti. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 20:21
+fonte: AD digitale (🌙 13/7 20:21 GIRO SERALE: briefing + coerenza-fatti OK + checklist AR-030. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 🌙 **13/7 20:21 — GIRO SERALE.** REST ok 20:20: North Star 0 (~469h stallo). Coerenza-fatti exit 0 (33 copie propagate). Briefing 13/7 + CHECKLIST-NICOLA rigenerata. Vincoli HARD chiusi. **Mossa n.1:** merge #346 + debrief visita + VP 17/7.
+>
 > 💬 **13/7 ~20:13 — CHAT: conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti».** Terza segnalazione conflitto su merge #346 (scelte ragionate). **Causa:** main avanzato ancora (merge **#347** dopo fix ondata 2) — ondata 3 = **4 file memoria**; ondata 4 = solo body `pr-ad-mycity-body.md`. **Fix 🟢:** rebase stesso branch, head `0c770216`, **zero conflitti residui**, `registro-scelte-check.mjs` exit 0 (10 voci attese). Codice `registro-realta.json` + guardiano **intatto**. **Pendente:** merge 🔴 #117 + Ctrl+Shift+R → **10 scelte ragionate** in Auto-coscienza. **Main** `f12ba70d`. Fonte: chat Nicola 13/7 ~20:13.
 >
 > 💬 **13/7 ~20:11 — CHAT: «a che cosa serve il commit di memoria?»** Nicola chiede chiarimento sui commit di memoria che generano conflitti PR. **Spiegato 🟢:** non fa parte del fix (solo diario vault — lezioni/STATO/decisioni); si crea da solo quando il worker apre PR con file memoria dirty; **genera conflitti** se main avanza con annotazioni parallele; conflitti solo memoria/body ≠ codice rotto — ignorabile per decidere merge; su **#347** commit memoria saltato apposta. **Pendente:** merge 🔴 #347 (codice sync radiografia). Fonte: chat Nicola 13/7 ~20:11.
@@ -147,11 +149,11 @@ fonte: AD digitale (🌙 13/7 20:13 METABOLIZZA: PR #346 ondata 3+4 conflitti ri
 >
 > 💬 **13/7 12:06 — CHAT: disallineamento Pannello PC vs smartphone — chat confermata.** Nicola: dati desktop non allineati col telefono; prima segnalazione esplicita = conversazioni chat non coincidono (altri disallineamenti in verifica). Diagnosi codice: storico in DB Supabase ma fetch solo all'apertura pagina (no polling); sessione chat aperta + pin/badge/non-letto in localStorage per browser — per design. Fix proposto 🟡: polling conversazioni ~8s + visibilitychange (come Azioni). Fonte: chat Nicola 13/7 12:06 + verifica codice Pannello.
 >
-> 🟡 **13/7 11:43 — Metabolizzazione: coda #antichurn allineata a «6 ristoranti tattici»** (era «6 botteghe food»). Propagazione parziale standing-ask Pannello auto-allineato; coda tabella #56 e altri residui in PR successiva. Fonte: metabolizzazione chat 13/7 11:43.
+> 🟡 **13/7 11:43 — Metabolizzazione: coda #antichurn allineata a «6 ristoranti tattici»** (era «6 ristoranti/trattorie tattici»). Propagazione parziale standing-ask Pannello auto-allineato; coda tabella #56 e altri residui in PR successiva. Fonte: metabolizzazione chat 13/7 11:43.
 >
 > 🟡 **13/7 11:42 — PR #315 conflitti risolti, pronta al merge.** Nicola «Nella #315 ci sono dei conflitti» — causa: #314 (stesso fix data UI su `AutoCoscienza.tsx`) mergiata su main mentre #315 era aperta. Ribasato `fix/auto-coscienza-tempo-reale` su main, unite le due versioni (data max(data,aggiornato) + tick leggero worker ~10 min), commit `ccb4072b`, simulazione merge → zero conflitti. Merge 🔴 #90/#91 dal Pannello. Fonte: chat Nicola 13/7 11:42.
 >
-> 💬 **13/7 11:40 — CHAT: standing-ask «tutto il Pannello» auto-allineato.** Nicola «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — dopo aver scoperto che coda/registro non riflettono ancora «cliente core = botteghe». Diagnosi: il Pannello rilegge GitHub a ogni refresh; il buco è a monte (metabolizzazione propaga solo STATO/Lezioni/Apprendimento). Registrati in registro-fatti: `strategia.cliente-core`, `onboarding.6-ristoranti-tattici` (caccia «6 botteghe food» aperta). Fix proposto 🟡 in 3 mosse (registro obbligatorio post-chat + propagazione file vivi + PR #313/#315). Fonte: chat Nicola 13/7 11:32–11:40.
+> 💬 **13/7 11:40 — CHAT: standing-ask «tutto il Pannello» auto-allineato.** Nicola «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — dopo aver scoperto che coda/registro non riflettono ancora «cliente core = botteghe». Diagnosi: il Pannello rilegge GitHub a ogni refresh; il buco è a monte (metabolizzazione propaga solo STATO/Lezioni/Apprendimento). Registrati in registro-fatti: `strategia.cliente-core`, `onboarding.6-ristoranti-tattici` (caccia «6 ristoranti/trattorie tattici» aperta). Fix proposto 🟡 in 3 mosse (registro obbligatorio post-chat + propagazione file vivi + PR #313/#315). Fonte: chat Nicola 13/7 11:32–11:40.
 >
 > 🟡 **13/7 11:38 — PR #315 aperta: auto-coscienza tempo reale (Nicola «Prepara pr» + aggiornamento leggero ogni 10 min).** Fix data UI max(data,aggiornato) + worker tick ~10 min ricalcola apprendimento/miglioramento senza AI; metabolizzazione post-chat invariata; benchmark pesante resta settimanale. Branch `fix/auto-coscienza-tempo-reale`, commit `fbbc8c2c`. Merge 🔴 #90/#91. Fonte: chat Nicola 13/7 11:38.
 >
@@ -295,7 +297,7 @@ fonte: AD digitale (🌙 13/7 20:13 METABOLIZZA: PR #346 ondata 3+4 conflitti ri
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
 ## I 7 numeri (✅ REST 13/7 18:00 · invariati dal 24/6)
-| Numero | Oggi (13/7 18:00) | "Riuscito" | Note |
+| Numero | Oggi (13/7 20:20) | "Riuscito" | Note |
 |---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller `suspended` |
 | Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox |
