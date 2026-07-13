@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-329-agent-registry — Mergia PR #329: guardiano agenti controlla le description di routing · ⏳ IN ATTESA · accodata 2026-07-13 17:11
+
+**Cosa fa:** estende `agent-registry-check.mjs` — legge le `description` di ogni senior e va in rosso se due agenti condividono ≥2 frasi-trigger (es. fraud-risk ↔ trust-safety) o se manca il deferral verso un vicino di dominio. Non corregge le description, le mostra.
+
+**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← branch `fix/agent-registry-description-check`
+
+**Cosa cambia:** nuove collisioni di routing non passano più inosservate al giro automatico; la casella coerenza-agenti smette di essere un falso verde.
+**Se va bene:** mergi #329 dal Pannello → al prossimo giro il controllo segnala chi si pesta i piedi; poi passo separato per correggere trust-safety (deferral verso fraud-risk).
+
+- **Colore:** 🔴 (merge dal Pannello — card #101)
+
+---
+
 ### 🟡 #pr-328-pallini-sync — Mergia PR #328: pallini rossi corretti + conversazioni allineate telefono/PC · ⏳ IN ATTESA · accodata 2026-07-13 17:12
 
 **Cosa fa:** pallino rosso e graffetta 📌 salvati sul server (non più solo nel browser di quel dispositivo); lista conversazioni unisce chat salvate + risposte AD dai Lavori finiti — stesso elenco e stessi pallini su PC e smartphone.
@@ -809,7 +822,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 98 | 2026-07-13 16:16 | @tech | Merge PR #325 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/325 | github | in attesa | Tab Lavori: badge «In coda» e «Archivio» presi dal database (≈1010 archivio, tutti gli attivi in coda); lista archivio paginata con «Carica altri». | Dopo Approva: numeri corretti in Lavori e archivio completo navigabile; deploy Vercel automatico. |
 | 99 | 2026-07-13 16:25 | @tech | Merge PR #326 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/326 | github | in attesa | Tab OKR & pagella: frasi dentro le card su mobile, Stelle Polari si aggiornano ogni minuto, data documento visibile sotto. | Dopo Approva: deploy Vercel ~2 min; ricarica tab — numeri in alto si muovono; target sotto restano 24/6 finché non fai «fai un giro». |
 | 100 | 2026-07-13 17:07 | @tech | Merge PR #327 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/327 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il guardiano agenti segnala collisioni nelle description di routing (es. fraud-risk/trust-safety) — non più falso verde. | Dopo Approva: merge + al prossimo giro il controllo blocca nuove collisioni; correggere trust-safety = passo separato. |
 | 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | in attesa | Pallini rossi e graffette uguali su telefono e PC; lista conversazioni include anche risposte AD dai Lavori. | Dopo Approva: deploy Vercel ~2 min; ricarica entrambi i dispositivi — pallini uguali, spariscono aprendo la chat. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:

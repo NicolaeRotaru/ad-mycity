@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Guardiano agenti — `agent-registry-check.mjs` controllava solo nomi file, non le `description` del router: collisioni fraud-risk/trust-safety («account multipli», «rimborsi falsi») passavano in verde; fix PR #329 (≥2 frasi-trigger = rosso + deferral mancante segnalato), merge 🔴 #101; correggere le description = passo separato.
 - [2026-07-13] Pallini rossi + sync telefono/PC — Nicola: pallini «ancora rotti» e conversazioni non allineate; causa: badge solo su tabella conversazioni (manca risposta AD da Lavori) + pin/non-letto in localStorage per dispositivo; fix PR #328 server-side + lista unificata, merge 🔴 #102.
 - [2026-07-13] Tab OKR & pagella mobile — Nicola: frasi fuori riquadro + numeri non «live»; separare overflow CSS (PR #326, merge 🔴 #99) da Stelle Polari (refresh ogni minuto nel fix) vs tabella OKR sotto (documento statico 24/6 — serve giro AD, non ricarica).
 - [2026-07-13] Ogni PR su GitHub deve avere descrizione comprensibile dentro GitHub (cosa cambia, perché, come verificare in 2–3 passi) — Nicola «sempre la descrizione della pr dentro github»; in chat incolla anche il riassunto col link; mai body vuoto o titolo generico; aggiorna PR aperte vuote con git-pr.mjs --body.
