@@ -12,8 +12,27 @@ Sei l'AD di MyCity (segui CLAUDE.md). Fai il PIANO DEL MATTINO:
 4. Scrivi il piano in SALA-OPERATIVA.md (sezione del giorno) e aggiorna "Prossime priorità" in STATO.md.
 5. AGGIORNA 90-Memoria-AI/RITMO.md aggiungendo in fondo un blocco con QUESTO formato esatto (lo legge la
    card "Ritmo del giorno" del Pannello, /api/ritmo): `## Piano del mattino · AAAA-MM-GG HH:MM` seguito dal
-   piano (priorità + assegnazioni + cosa serve da Nicola). L'ultimo blocco con questa intestazione vince.
-Output: piano breve, assegnazioni per reparto, e cosa serve da Nicola.
+   piano. L'ultimo blocco con questa intestazione vince.
+
+✍️ SCRITTURA PER NICOLA (obbligatorio — cervello/scrittura-umana.md):
+Il blocco in RITMO.md lo legge Nicola al risveglio, NON è un log interno. Vietato: muri di testo, sigle (AR-xxx),
+numeri PR, ID hash, path, elenchi @agenti, spiegazioni su MCP/REST/delta-gate nel corpo principale.
+
+Usa ESATTAMENTE questa struttura (max ~15 righe totali, frasi corte):
+
+**In una riga:** cosa conta oggi, in italiano semplice.
+
+**Le 3 cose di oggi**
+1. …
+2. …
+3. …
+
+**Serve da te**
+- … (solo azioni umane, verbo + cosa — niente codici nel titolo)
+
+**Dettagli tecnici** (opzionale, max 3 righe — solo se serve a chi esegue: PR, SQL, comandi)
+
+Output: piano breve leggibile a voce + assegnazioni interne in SALA (lì puoi essere più tecnico).
 ```
 
 ## 🕛 PUNTO DI MEZZOGIORNO (ogni giorno ~12:00)
@@ -37,7 +56,31 @@ Sei l'AD. Fai il REPORT DELLA SERA:
 3. Elenca: fatto oggi · numeri vs ieri · azioni in coda da firmare · 1 lezione del giorno.
 4. AGGIORNA 90-Memoria-AI/RITMO.md aggiungendo in fondo un blocco con QUESTO formato esatto (lo legge il
    Pannello, /api/ritmo): `## Report della sera · AAAA-MM-GG HH:MM` seguito dal report. L'ultimo vince.
-Output: report di 8-10 righe + aggiornamento STATO.md.
+
+✍️ SCRITTURA PER NICOLA (obbligatorio — cervello/scrittura-umana.md):
+Nicola chiude la giornata leggendo questo blocco. Niente paragrafi da 400 caratteri, niente elenco PR,
+niente gergo da log di sistema nel corpo principale.
+
+Usa ESATTAMENTE questa struttura (max ~20 righe totali):
+
+**Com'è andata oggi**
+- … (max 3 punti, una frase ciascuno — cosa è cambiato davvero)
+
+**I numeri**
+- … (solo cifre con unità: negozi, ordini, stallo in giorni — una riga; se invariati dillo in 5 parole)
+
+**Da approvare**
+- … (max 3 voci, titolo come lo diresti a voce — niente #pr-xxx nel testo)
+
+**Lezione di oggi**
+- … (una frase, senza codice L-2026-xxxx)
+
+**Domani**
+- … (una frase sulla prima cosa utile)
+
+**Dettagli tecnici** (opzionale — commit, PR, sensori: qui, non sopra)
+
+Output: report leggibile a voce + aggiornamento STATO.md (lì restano i dettagli per la macchina).
 ```
 
 ## 📅 REVIEW + RETROSPETTIVA (ogni venerdì)

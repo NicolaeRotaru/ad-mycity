@@ -864,6 +864,7 @@ export default function Dashboard() {
   // ② a ogni messaggio nuovo segui il fondo SOLO se eri già in fondo (stickFullRef/stickFabRef,
   //    aggiornati dall'onScroll): chi è risalito a rileggere non viene mai strappato giù.
   // ③ quando carichi/cambi conversazione (forzaScrollRef=true), vai sempre all'ultimo.
+  // ④ riapri la chat fluttuante → il pannello si rimonta: scroll all'ultimo (effetto su chatFluttuante).
   useEffect(() => setHintInvio(hintInvioChat()), []);
   useEffect(() => {
     if (vista !== "assistente") return;
@@ -892,6 +893,17 @@ export default function Dashboard() {
   }
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
+  // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
+  useEffect(() => {
+    if (!chatFluttuante) return;
+    stickFabRef.current = true;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const fab = chatFabBoxRef.current;
+        if (fab) fab.scrollTop = fab.scrollHeight;
+      });
+    });
+  }, [chatFluttuante]);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
