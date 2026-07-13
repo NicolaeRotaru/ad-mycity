@@ -1699,7 +1699,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
     if (v === "esplora") {
       setVista("memoria");
-      setTimeout(() => ripristinaSub("memoria", "github"), 0);
+      setTimeout(() => ripristinaSub("memoria", "archivio/github"), 0);
       return;
     }
     if (v === "storico") {
@@ -1791,7 +1791,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       }
       if (det.vista === "esplora") {
         setVista("memoria");
-        ripristinaSub("memoria", "github");
+        ripristinaSub("memoria", "archivio/github");
         return;
       }
       if (det.vista === "storico") {
@@ -2258,7 +2258,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
         )}
 
-        {/* ===================== MEMORIA (hub: viva · archivio · storico · github) ===================== */}
+        {/* ===================== MEMORIA (hub: viva · archivio · storico) ===================== */}
         {(vista === "memoria" || vista === "report" || vista === "esplora" || vista === "storico") && (
           <Memoria briefing={briefing} ultimoAt={ultimoAt} />
         )}

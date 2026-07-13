@@ -24,7 +24,7 @@ const RIGHE: Riga[] = [
   { q: "Concorrenti, mercato, eventi e rischi", area: "mondo", dove: "Mondo" },
   { q: "Parlare con l'AD (chiedere qualcosa)", area: "assistente", dove: "Assistente" },
   { q: "La diretta agenti, pausa AD e controllo macchina", area: "lavori", sub: "governo", dove: "Lavori › Governo & diretta" },
-  { q: "Il codice e i file del repo", area: "memoria", sub: "github", dove: "Memoria › GitHub" },
+  { q: "Il codice e i file del repo", area: "memoria", sub: "archivio/github", dove: "Memoria › Archivio › GitHub" },
 ];
 
 export default function Bussola() {
