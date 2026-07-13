@@ -1,16 +1,18 @@
-## Summary
-Auto-analisi nel Pannello: sensori, salute macchina e avvisi gap si aggiornano **live** ogni 30s (da `sensori-cecita.json`), non solo al giro. Banner chiarisce che testo/voto restano dell'ultimo giro finché non fai «fai un giro».
+## Cosa fa
+Chiude i pallini rossi su due bug confermati da Nicola (scenario 1 + 4):
+- **1:** apri chat, leggi, esci → pallino torna rosso dopo ~8s senza nuova risposta
+- **4:** tutte le chat rosse anche se già viste
 
 ## Perché
-Nicola voleva tutto l'auto-analisi «in tempo reale». Il poll c'era già ma mostrava dati del giro dell'11/7 (MCP gated, salute stale). Stesso pattern della radiografia (#344): due orologi — analisi testuale vs sensori live.
+Il «letto» confrontava l'orario generico della conversazione (`updated_at`), che il database aggiorna anche su salvataggi/merge senza nuovo testo. La baseline v2 marcava solo messaggi nel DB conversazioni, non le risposte che vivono nei Lavori.
 
-## Cosa cambia
-- API `/api/memoria/auto-coscienza`: legge `sensori-cecita.json`, calcola `live` (salute, gap, timestamp)
-- UI Auto-coscienza: chip salute · live, errori da gap freschi, banner giallo se analisi >24h
+## Fix
+- Impronta dell'ultima risposta AD: se il testo è lo stesso, pallino spento (indipendente da `updated_at`)
+- Timestamp pallino solo da lavori **finiti**, non da `c.updated_at` generico
+- Baseline v3: marca come lette tutte le chat storiche includendo thread dai Lavori
 
 ## Come provare
-1. Merge + deploy Vercel
-2. Apri Controllo → Auto-coscienza → tab Auto-analisi
-3. Verifica chip «Supabase ok · live» e data sensori recente
-4. Avviso MCP deve essere testo aggiornato, non copia dell'11/7
-5. Banner giallo spiega due date (giro vs sensori)
+1. Dopo merge + deploy Vercel (~2 min): Ctrl+Shift+R sul Pannello
+2. Elenco Conversazioni: le chat già viste **non** devono essere tutte rosse
+3. Apri una chat con pallino, leggi, vai in Plancia → resta **15+ secondi** senza pallino
+4. Scrivi in chat, vai in Plancia → quando rispondo, pallino compare; apri → sparisce e non torna
