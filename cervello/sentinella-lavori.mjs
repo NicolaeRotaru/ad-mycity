@@ -173,11 +173,44 @@ async function main() {
   // 3) Orfani: in_corso da troppo tempo
   const inCorso = await q("lavori?stato=eq.in_corso&select=id,tipo,updated_at,created_at&order=updated_at.asc&limit=50");
   const sogliaMs = ORFANO_MIN * 60 * 1000;
+  // Chat bloccata + worker-chat morto: non aspettare 60 min (Nicola resta senza risposta).
+  let chatWorkerEtaMin = null;
+  try {
+    const imp = await q("impostazioni?select=valore&chiave=eq.worker:ultimo:chat&limit=1");
+    const raw = imp?.[0]?.valore;
+    if (raw) {
+      const t = Date.parse(raw);
+      if (Number.isFinite(t)) chatWorkerEtaMin = Math.round((Date.now() - t) / 60000);
+    }
+  } catch {
+    /* best-effort */
+  }
+  const CHAT_ORFANO_VELOCE_MIN = 15;
+  const CHAT_WORKER_MORTO_MIN = 5;
   let requeued = 0;
   let orfaniReali = 0;
   for (const l of inCorso) {
     const t = new Date(l.updated_at || l.created_at).getTime();
-    if (Number.isNaN(t) || Date.now() - t < sogliaMs) continue;
+    if (Number.isNaN(t)) continue;
+    const etaMin = Math.round((Date.now() - t) / 60000);
+    const chatWorkerMorto =
+      l.tipo === "chat" &&
+      chatWorkerEtaMin != null &&
+      chatWorkerEtaMin > CHAT_WORKER_MORTO_MIN &&
+      etaMin > 3;
+    const orfanoChatVeloce = l.tipo === "chat" && etaMin >= CHAT_ORFANO_VELOCE_MIN;
+    if (!orfanoChatVeloce && !chatWorkerMorto && Date.now() - t < sogliaMs) continue;
+    if (chatWorkerMorto && l.tipo === "chat") {
+      await q(`lavori?id=eq.${l.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          stato: "errore",
+          risultato: `[sentinella] worker chat fermo da ${chatWorkerEtaMin} min — chat interrotta. Riavvia worker e reinvia il messaggio. ${quando}`,
+        }),
+      }).catch(() => {});
+      orfaniReali += 1;
+      continue;
+    }
     if (TIPI_ORFANO_SICURO.includes(l.tipo)) {
       await q(`lavori?id=eq.${l.id}`, { method: "PATCH", body: JSON.stringify({ stato: "in_attesa" }) }).catch(() => {});
       requeued += 1;
