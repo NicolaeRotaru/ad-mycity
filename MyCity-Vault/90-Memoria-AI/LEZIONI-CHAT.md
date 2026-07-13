@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 21:50] Ritmo — Nicola «aggiungi Parla con questa casella sotto piano mattino e report sera»: vuole lo stesso link chat contestuale delle altre card Plancia sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto; fix **PR #355** (`Plancia.tsx`) merge 🔴 **#124**.
 - [2026-07-13 21:47] Card merge PR — Nicola «togli in automatico dopo che mergio»: Pannello interroga GitHub a ogni refresh; PR mergiata/chiusa → card sparisce da Da approvare (~15s poll se merge pendente); fix **PR #354** merge 🔴 **#123**.
 - [2026-07-13 21:43] PR #349 conflitto terza volta — Nicola «ci sono conflitti»: non ripetere istruzioni Accept main; AD risolve branch **senza file diario** (solo archivio 12 Garetti), head `319206ee`, API mergeable ok; merge 🔴 #119 = solo Approva Nicola.
 - [2026-07-13 21:42] Nicola «fallo tu» su conflitto #352 — non istruzioni GitHub manuali; AD risolve branch (body Grillami, memoria Accept main), head `ac9606fc`, API mergeable ok; merge 🔴 #122 = solo Approva Nicola.
@@ -15,4 +16,3 @@
 - [2026-07-13 21:10] Ritmo del giorno — Nicola «piano mattino e report sera scritti malissimo, fatico a leggerli»: corpo = italiano semplice (3 priorità, cosa serve da te), zero PR/AR/path nel testo principale; Pannello a sezioni non muro; **#350 mergiata** su main (`42c657a8`) — include anche fix scroll fluttuante.
 - [2026-07-13 21:01] Silo allocazione — Nicola «fai il fix»: archivia 12 pacchetti Garetti (prospect) in `_archivio-prospect/`, sforzo attivo solo Pane Quotidiano (16), `allocazione-check` exit 0; casella rossa sparisce post-merge **PR #349** 🔴 #119 — eseguire, non solo spiegare.
 - [2026-07-13 20:58] Perché si crea conflitto — Nicola chiede causa radice dopo commit memoria: branch PR congela diario, main avanza con chat/merge paralleli, stesso file (`pr-ad-mycity-body.md`, LEZIONI, apprendimento) toccato da entrambi → Git conflitto; codice sync di solito ok; merge una PR alla volta; **PR fix = zero file diario nel branch** (L-176).
-- [2026-07-13 20:13] Conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti» (terza volta): main avanza con #347/#348 mentre branch aperto; ondata 3 = 4 file memoria, ondata 4 = solo body PR; codice registro/guardiano intatto, head `0c770216`, verificare mergeable API prima di «risolto»; **#346** merge 🔴 #117.

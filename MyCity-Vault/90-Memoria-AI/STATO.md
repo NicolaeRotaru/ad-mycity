@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:47
-fonte: AD digitale (💬 13/7 21:47 chat auto-chiusura card merge PR #354. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:50
+fonte: AD digitale (💬 13/7 21:50 chat Parla con questa casella su ritmo #355. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:50 — CHAT: «Parla con questa casella» su piano mattino e report sera — Nicola «aggiungi sotto parla con la casella».** Dopo fix leggibilità ritmo (#350 mergiata), chiede lo stesso link chat contestuale delle altre card Plancia sotto **Piano del mattino** e **Report della sera**. **Fix 🟡 PR #355** (`feac5fbe`, `Plancia.tsx`): pulsante «Parla con questa casella» sotto ogni blocco — clic apre chat con testo del blocco già in contesto (es. «spiegami le 3 priorità»); conversazione in Assistenza → Conversazioni. **Pendente:** Approva merge 🔴 **#355** (#124) → deploy ~2 min → ricarica Plancia. Fonte: chat Nicola 13/7 ~21:50.
+>
 > 💬 **13/7 ~21:47 — CHAT: card merge PR spariscono da sole — Nicola «togli in automatico dopo che mergio».** Vuole che le caselle «Merge PR #N» in **Da approvare** spariscano subito dopo il merge su GitHub, non restino «in attesa». **Fix 🟡 PR #354** (`fix/auto-rimuovi-merge-pr`): `github-pr-merge.ts` interroga stato PR su GitHub a ogni refresh; se mergiata/chiusa → marca FATTO e nasconde; Approva su PR già mergiata → chiusura immediata; poll **15s** (prima 60s) finché c'è un merge pendente. Test **4/4** verdi. **Pendente:** Approva merge 🔴 **#354** (#123) → deploy ~2 min → prova: mergia una PR e la card deve sparire entro ~15s. Fonte: chat Nicola 13/7 ~21:47.
 >
 > 💬 **13/7 ~21:43 — CHAT: conflitto PR #349 risolto dall'AD — Nicola «ci sono conflitti» (terza volta).** Dopo due giri con istruzioni Accept main, AD risolve direttamente: branch riallineato a main con **solo** spostamento 12 pacchetti Garetti in `_archivio-prospect/garetti/` — **zero file diario** nel branch (causa ricorrente conflitti). **Verificato:** API GitHub **mergeable**, nessun conflitto; head `319206ee`; `allocazione-check` verde sul branch, su main ancora rossa finché non mergi. **Pendente:** solo Approva merge 🔴 **#349** (#119) → casella silo sparisce. Fonte: chat Nicola 13/7 ~21:43.
