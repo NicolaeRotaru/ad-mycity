@@ -31,13 +31,21 @@ const MIN_BODY_LEN = 80;
 const WORKER_AUTO_PATHS = new Set([
   "cervello/routing.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
 ]);
 
 /** Descrizione PR condivisa: ogni branch la riscrive → conflitto certo se main avanza. Non committarla sul branch. */
 const SHARED_PR_BODY = "consegne/tech/pr-ad-mycity-body.md";
 
 /** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
-const AUTO_RESOLVE_REBASE_PATHS = new Set([SHARED_PR_BODY]);
+const AUTO_RESOLVE_REBASE_PATHS = new Set([
+  SHARED_PR_BODY,
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
+  "cervello/routing.json",
+]);
 
 function pathFromPorcelainLine(line) {
   let path = line.substring(2).replace(/^\s+/, "").trim();

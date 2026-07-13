@@ -21,7 +21,7 @@ function pesa(n?: number): string {
   return `${(n / 1024 / 1024).toFixed(1)} MB`;
 }
 
-export default function EsploraGitHub() {
+export default function EsploraGitHub({ embedded = false }: { embedded?: boolean }) {
   const [path, setPath] = useState<string>("");
   const [dato, setDato] = useState<Risp | null>(null);
   const [caricando, setCaricando] = useState(false);
@@ -47,14 +47,17 @@ export default function EsploraGitHub() {
 
   return (
     <div className="space-y-3">
-      <div>
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          <FolderTree size={18} /> Esplora GitHub
-        </h2>
-        <p className="text-sm text-black/50 dark:text-white/50">
-          Tutto il repo, in sola lettura, dal ramo che alimenta il Pannello (main). Nulla resta nascosto.
-        </p>
-      </div>
+      {!embedded && (
+        <div>
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            <FolderTree size={18} /> Esplora GitHub
+          </h2>
+          <p className="text-sm text-black/50 dark:text-white/50">
+            Tutto il repo, in sola lettura, dal ramo che alimenta il Pannello (main). Nulla resta nascosto.
+          </p>
+        </div>
+      )}
+      {embedded && <p className="t-eti">File e cartelle del repo su GitHub — sola lettura.</p>}
 
       {/* Breadcrumb + azioni */}
       <div className="flex items-center gap-1.5 flex-wrap text-[13px]">

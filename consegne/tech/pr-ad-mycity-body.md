@@ -1,19 +1,18 @@
 ## Summary
+Riordino menu Memoria come hub unico: 4 tab (Memoria viva · Archivio · Storico · GitHub). Storico con Decisioni, Quaderni senior, Stato & numeri — Diario eliminato. Governo & diretta (agenti, feed, pausa AD) in Lavori.
 
-Redesign Pannello home e menu salute come concordato con Nicola (grilling 13/7):
-
-- **Menu:** tre voci separate — Radiografia macchina, Salute sito, Auto-coscienza (niente tab incastrate sotto «Controllo»)
-- **Home:** ordine Da firmare → Ritmo → Lettera AD → KPI → card «La macchina» (8 pallini + link salute)
-- **Radiografia macchina:** cartolina in cima, tab Lettera rimossa (lettera in home), archivio audit etichettato «foto storica»
-- **Salute sito:** cartolina bloccanti/gravi, filtro minori dietro toggle
-- **Auto-coscienza:** cartolina per scheda, lezioni ultimi 7 giorni + archivio
+## Menu laterale dopo merge
+- **Memoria** (unica voce) — dentro: Viva / Archivio / Storico / GitHub
+- **Macchina** — Radiografia · Salute sito · Auto-coscienza
+- **Sistema** — Lavori (con tab Governo & diretta) · Assistente
+- Spariscono dal menu: Archivio, Storico, GitHub come voci separate
 
 ## Test plan
-
-- [ ] Home: in cima «Da firmare», poi ritmo, lettera (anteprima + modale), KPI, card macchina con 8 pallini
-- [ ] Menu: Radiografia macchina mostra cuore + organi + report senza tab
-- [ ] Menu: Salute sito e Auto-coscienza aprono pagine dedicate
-- [ ] Radiografia macchina: cartolina + «Da fare ora» prima dell’archivio
-- [ ] Salute sito: solo bloccanti/gravi di default; «Mostra minori» espande
-- [ ] Auto-coscienza: cartolina cambia per tab; apprendimento mostra ultime lezioni 7gg
-- [ ] `npx tsc --noEmit` in `pannello/` passa
+1. Apri **Memoria** → vedi 4 tab in fila
+2. **Memoria viva** → briefing + sala operativa + scoperte (niente più tab Decisioni/OKR duplicate)
+3. **Archivio** → navigatore consegne/ come prima
+4. **Storico** → sotto-tab Decisioni · Quaderni senior · Stato & numeri (OKR, piani, STATO.md)
+5. **GitHub** → esplora repo
+6. Da Home «tutti i documenti →» apre Memoria › Archivio
+7. Link legacy `report` / `storico` / `esplora` reindirizzano a Memoria
+8. **Lavori › Governo & diretta** → agenti live, feed, controllo (no Diario)
