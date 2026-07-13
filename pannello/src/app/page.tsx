@@ -168,6 +168,60 @@ function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conve
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 }
+
+/** Pallino rosso: l'ultimo messaggio reale è una risposta AI e Nicola non l'ha ancora aperta/letta. */
+function haRispostaNonLetta(c: Conversazione, convLette: Record<string, string>, convAttiva: string | null): boolean {
+  if (convAttiva === c.id) return false;
+  const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
+  const last = msgs[msgs.length - 1];
+  if (!last || last.role !== "assistant") return false;
+  const lettaAt = convLette[c.id];
+  if (!lettaAt) return true;
+  return c.updated_at > lettaAt;
+}
+
+function mergeThreadMsgs(a: Msg[], b: Msg[]): Msg[] {
+  const pulisci = (list: Msg[]) => list.filter((m) => !m.pending && !m.prompt);
+  const pa = pulisci(a);
+  const pb = pulisci(b);
+  const base = pa.length >= pb.length ? pa : pb;
+  const altro = pa.length >= pb.length ? pb : pa;
+  const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
+  const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
+  return extra.length ? [...base, ...extra] : base;
+}
+
+function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[], convAttiva: string | null): Conversazione[] {
+  const prevById = new Map(prev.map((c) => [c.id, c]));
+  const merged = incoming.map((inc) => {
+    const loc = prevById.get(inc.id);
+    if (!loc) return inc;
+    const messaggi = mergeThreadMsgs(inc.messaggi, loc.messaggi);
+    return JSON.stringify(messaggi) === JSON.stringify(inc.messaggi) ? inc : { ...inc, messaggi };
+  });
+  for (const c of prev) {
+    if (!incoming.some((x) => x.id === c.id)) merged.push(c);
+  }
+  if (convAttiva) {
+    const idx = merged.findIndex((c) => c.id === convAttiva);
+    const loc = prevById.get(convAttiva);
+    if (idx !== -1 && loc) {
+      merged[idx] = { ...merged[idx], messaggi: mergeThreadMsgs(merged[idx].messaggi, loc.messaggi) };
+    }
+  }
+  return merged;
+}
+
+function conversazioniUguali(a: Conversazione[], b: Conversazione[]): boolean {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    const x = a[i], y = b[i];
+    if (x.id !== y.id || x.updated_at !== y.updated_at || x.titolo !== y.titolo) return false;
+    if (JSON.stringify(x.messaggi) !== JSON.stringify(y.messaggi)) return false;
+  }
+  return true;
+}
 // Lavoro chat in attesa di risposta, con la conversazione di destinazione.
 type PendingChat = { id: string; tipo: string; targetConvId: string };
 type DiarioVoce = {
@@ -815,14 +869,7 @@ export default function Dashboard() {
   // come base e appende ciò che c'è solo nell'altra. È la difesa contro la race che
   // sovrascriveva la risposta dell'AD con uno snapshot vecchio (solo domanda).
   function mergeThread(a: Msg[], b: Msg[]): Msg[] {
-    const pulisci = (list: Msg[]) => list.filter((m) => !m.pending && !m.prompt);
-    const pa = pulisci(a);
-    const pb = pulisci(b);
-    const base = pa.length >= pb.length ? pa : pb;
-    const altro = pa.length >= pb.length ? pb : pa;
-    const visti = new Set(base.map((m) => `${m.role}|${m.content}`));
-    const extra = altro.filter((m) => !visti.has(`${m.role}|${m.content}`));
-    return extra.length ? [...base, ...extra] : base;
+    return mergeThreadMsgs(a, b);
   }
 
   function rispondiInChat(prev: Msg[], content: string): Msg[] {
@@ -977,13 +1024,42 @@ export default function Dashboard() {
       return n;
     });
   }
-  function segnaLetta(id: string) {
-    const ora = new Date().toISOString();
+  function segnaLetta(id: string, at?: string) {
+    const c = conversazioniRef.current.find((x) => x.id === id);
+    const ora = at || c?.updated_at || new Date().toISOString();
     setConvLette((prev) => {
+      if (prev[id] && prev[id] >= ora) return prev;
       const n = { ...prev, [id]: ora };
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(n)); } catch {}
       return n;
     });
+  }
+  /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
+  function segnaLettaChatAttiva() {
+    const id = convIdRef.current;
+    if (id) segnaLetta(id);
+  }
+  /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
+  function migraConvLetteBaseline(list: Conversazione[]) {
+    try {
+      if (localStorage.getItem("mycity_conv_lette_baseline_v2")) return;
+      const lette = JSON.parse(localStorage.getItem("mycity_conv_lette") || "{}") as Record<string, string>;
+      let changed = false;
+      for (const c of list) {
+        if (lette[c.id]) continue;
+        const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
+        const last = msgs[msgs.length - 1];
+        if (last?.role === "assistant") {
+          lette[c.id] = c.updated_at;
+          changed = true;
+        }
+      }
+      if (changed) {
+        localStorage.setItem("mycity_conv_lette", JSON.stringify(lette));
+        setConvLette(lette);
+      }
+      localStorage.setItem("mycity_conv_lette_baseline_v2", "1");
+    } catch {}
   }
 
   // Salva/aggiorna una conversazione (database se disponibile, altrimenti locale).
@@ -1042,6 +1118,7 @@ export default function Dashboard() {
 
   // Salva quella attuale e apre una chat nuova e vuota. NON fa partire risposte.
   async function nuovaConversazione() {
+    segnaLettaChatAttiva();
     await persistConversazione(convId, messages);
     setMessages([]);
     setConvId(null);
@@ -1572,15 +1649,28 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       .then((d) => {
         if (d?.tabella && Array.isArray(d.conversazioni)) {
           setConvServer(true);
-          setConversazioni(
-            d.conversazioni.map((c: any) => ({
-              id: c.id,
-              titolo: c.titolo,
-              messaggi: Array.isArray(c.messaggi) ? c.messaggi : [],
-              created_at: c.created_at,
-              updated_at: c.updated_at,
-            }))
-          );
+          const incoming: Conversazione[] = d.conversazioni.map((c: any) => ({
+            id: c.id,
+            titolo: c.titolo,
+            messaggi: Array.isArray(c.messaggi) ? c.messaggi : [],
+            created_at: c.created_at,
+            updated_at: c.updated_at,
+          }));
+          migraConvLetteBaseline(incoming);
+          const attiva = convIdRef.current;
+          const merged = mergeListaConversazioni(conversazioniRef.current, incoming, attiva);
+          if (!conversazioniUguali(conversazioniRef.current, merged)) {
+            setConversazioni(merged);
+          }
+          if (attiva) {
+            const fc = merged.find((c) => c.id === attiva);
+            if (fc) {
+              setMessages((m) => {
+                const nm = mergeThread(m, fc.messaggi);
+                return JSON.stringify(nm) === JSON.stringify(m) ? m : nm;
+              });
+            }
+          }
         } else {
           setConvServer(false);
           setConversazioni(leggiConvLocali());
@@ -1599,6 +1689,39 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     window.addEventListener("mycity:conversazioni", onConv);
     return () => window.removeEventListener("mycity:conversazioni", onConv);
   }, [caricaConversazioni]);
+
+  // Sync conversazioni cross-device: polling ~8s + ritorno sulla scheda (come Azioni, ma più frequente).
+  useEffect(() => {
+    if (!convServer) return;
+    let stop = false;
+    const ricarica = () => { if (!stop) caricaConversazioni(); };
+    const id = setInterval(ricarica, 8000);
+    const onVis = () => { if (document.visibilityState === "visible") ricarica(); };
+    window.addEventListener("focus", ricarica);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop = true;
+      clearInterval(id);
+      window.removeEventListener("focus", ricarica);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [convServer, caricaConversazioni]);
+
+  // Esci dall'Assistente → segna letta la chat che avevi aperta (pallino sparisce).
+  const vistaPrecRef = useRef(vista);
+  useEffect(() => {
+    if (vistaPrecRef.current === "assistente" && vista !== "assistente") segnaLettaChatAttiva();
+    vistaPrecRef.current = vista;
+  }, [vista]);
+
+  // Chat aperta: segna letta appena compare la risposta AI (pallino non resta acceso mentre leggi).
+  useEffect(() => {
+    const id = convId;
+    if (!id || (vista !== "assistente" && !chatFluttuante)) return;
+    const msgs = messages.filter((m) => !m.prompt && !m.pending);
+    const last = msgs[msgs.length - 1];
+    if (last?.role === "assistant") segnaLetta(id);
+  }, [messages, convId, vista, chatFluttuante]);
 
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
   // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
@@ -2233,11 +2356,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {/* Ordine: fissate in cima, poi per data di creazione (aprire non riordina). */}
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
-                  const nonLetta = !!(
-                    c.updated_at &&
-                    (!convLette[c.id] || c.updated_at > convLette[c.id]) &&
-                    c.messaggi.some((m) => m.role === "assistant" && !m.pending)
-                  );
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
                   return (
                   <div
                     key={c.id}
@@ -2328,7 +2447,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       {chatFluttuante && (
         <>
         {/* Overlay trasparente: chiude la chat fluttuante al click fuori */}
-        <div className="fixed inset-0 z-40" onClick={() => setChatFluttuante(false)} aria-hidden />
+        <div className="fixed inset-0 z-40" onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); }} aria-hidden />
         <div
           className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
           // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
@@ -2368,7 +2487,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <Maximize2 size={15} />
             </button>
             <button
-              onClick={() => setChatFluttuante(false)}
+              onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); }}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
               aria-label="Chiudi la chat"
             >
@@ -2498,17 +2617,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             ) : (
               <ul className="scroll-soft flex-1 overflow-y-auto px-2.5 pb-2.5 space-y-1">
                 {ordinaConversazioni(conversazioni, convPinnate)
-                  .map((c) => (
+                  .map((c) => {
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId);
+                  return (
                   <li key={c.id}>
                     <button
                       onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
                       className={`w-full text-left rounded-lg px-2.5 py-2 transition ${c.id === convId ? "bg-brand/10 text-brand" : "hover:bg-black/[0.04]"}`}
                     >
-                      <span className={`block truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>{c.titolo || "Conversazione"}</span>
+                      <span className={`flex items-center gap-1.5 truncate text-[12.5px] leading-snug ${c.id === convId ? "font-medium" : ""}`}>
+                        {nonLetta && <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" title="Nuova risposta non letta" />}
+                        {c.titolo || "Conversazione"}
+                      </span>
                       <span className="t-eti text-[10.5px]">{new Date(c.updated_at || c.created_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
                     </button>
                   </li>
-                ))}
+                )})}
               </ul>
             )}
           </aside>
