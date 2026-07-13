@@ -14,6 +14,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #pr-341-streaming-vps-allineamento — PR #341 in coda · 2026-07-13 18:29
+
+**Cosa fa:** allinea codice VPS da GitHub e riavvia **entrambi** i worker (principale + chat); fix streaming poll 1s + testo semplice mentre scrivo — chiude il buco «restart non basta».
+
+**PR su GitHub:** [#341 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/341) ← commit `cf690e6e`
+
+**Perché serve:** Nicola ha riavviato worker 18:22 ma streaming ancora rotto 18:27 — codice su disco VPS vecchio; pallini mergiate ma Nicola non le vede (serve deploy Vercel, non worker).
+
+**Dopo merge Nicola:**
+1. `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh`
+2. Ctrl+F5 Pannello
+3. Diagnosi → rev ≥ `1081be71`
+
+- **Colore:** 🔴 merge #114
+
+---
+
 ### ✅ #pr-340-pallino-mancante — MERGIATA 2026-07-13 ~18:14 · ⏳ deploy Vercel + test Nicola
 
 **Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — pallino sparisce solo se la chat è davvero a schermo (tab Assistente o drawer fluttuante).
@@ -22,23 +39,27 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito verifica 18:15:** codice su main ok; test B = scrivi → Plancia → elenco Conversazioni deve mostrare pallino dopo risposta AD.
 
+**Esito 18:27:** Nicola «merge non lette» — fix è su Vercel, non worker; serve deploy + Ctrl+F5 (restart worker non cambia pallini).
+
 **Pendente:** refresh forzato Pannello (Ctrl+F5) post-deploy Vercel.
 
 - **Colore:** ✅ merge fatto · verifica UX post-deploy
 
 ---
 
-### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ✅ riavvio worker FATTO 18:22
+### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ✅ riavvio worker FATTO 18:22 · ⏳ aggiorna-cervello.sh
 
 **Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
 
 **PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← merge `d7881680`, commit `1081be71`
 
-**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola; worker chat non riavviato dal 16:08 → streaming live rotto.
+**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola.
 
-**Esito 18:22:** Nicola ha eseguito `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 — prima vedeva tutto insieme; **terza prova streaming in corso**, esito non ancora dichiarato.
+**Esito 18:22:** Nicola ha eseguito `sudo systemctl restart mycity-worker-chat` + Ctrl+F5.
 
-- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
+**Esito 18:27:** streaming **ancora rotto** — restart non aggiorna codice su disco; serve **#341** + `aggiorna-cervello.sh`.
+
+- **Colore:** ✅ merge fatto · ⏳ VPS allineamento via #341
 
 ---
 
@@ -950,8 +971,8 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Fix correttivo in #338 mergiata — `sudo systemctl restart mycity-worker-chat`. |
 | 111 | 2026-07-13 17:58 | @tech | Merge PR #338 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/338 | github | ✅ FATTO 2026-07-13 ~17:58 · verifica UX post-deploy | Streaming Cursor + pallino resta spento dopo poll (~5s) — `segnaLetta` con orario «adesso» in persist. | Deploy Vercel 2–3 min → refresh forzato → apri chat 15s; riavvio worker per streaming. |
 | 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | ✅ FATTO 2026-07-13 ~18:14 | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
-| 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | ✅ FATTO 2026-07-13 ~18:14 · ✅ riavvio worker 18:22 | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Nicola ha riavviato worker + Ctrl+F5 18:22; terza prova streaming in corso. |
-| 114 | 2026-07-13 18:29 | @tech | Merge PR #341 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/341 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | ✅ FATTO 2026-07-13 ~18:14 · restart 18:22 · VPS allineamento via #341 | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Restart 18:22 non bastato — serve merge #341 + aggiorna-cervello.sh. |
+| 114 | 2026-07-13 18:29 | @tech | Merge PR #341 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/341 | github | in attesa | Pull codice GitHub sul VPS + riavvio entrambi i worker + fix streaming poll 1s. | Dopo Approva: merge → `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` → Ctrl+F5 → quarta prova streaming. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:22
-fonte: AD digitale (🌙 13/7 18:22 CHAT: Nicola ha riavviato worker + Ctrl+F5 — terza prova streaming. | storico: 🌙 13/7 18:19 seconda prova ancora rotta; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 18:31
+fonte: AD digitale (🌙 13/7 18:31 METABOLIZZA: restart ≠ pull codice VPS; PR #341 in coda. | storico: 🌙 13/7 18:27 streaming ancora rotto post-restart; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 💬 **13/7 ~18:22 — CHAT: Nicola ha riavviato worker — terza prova streaming.** «mi mostrava tutto insieme, ho reinserito il comando in cmd e fatto ctrl+f5. adesso riprova» — **prima del restart:** risposta arrivava tutta insieme (diagnosi worker stale dal 16:08 **confermata**); **azione completata:** `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 eseguiti da Nicola. **In corso:** terza prova live streaming (#338+#339 su main); esito Nicola non ancora dichiarato. Plugin fase 3 (#331) ora caricabili live post-restart. Fonte: chat Nicola 13/7 ~18:22.
+> 💬 **13/7 ~18:27 — CHAT: streaming ancora rotto + merge pallini «non lette» — restart non bastava.** Nicola «ancora non cresce live» dopo restart worker 18:22 + Ctrl+F5; «sembrano merge non lette» (es. pallini). **Diagnosi corretta:** `systemctl restart` rilegge codice **già su disco** — senza pull da GitHub il VPS resta pre-fix; pallini (#338/#340) = Pannello Vercel, non worker. **Bug script:** `aggiorna-cervello.sh` riavviava solo worker principale, non `mycity-worker-chat`. **Fix 🟡 PR #341** (`cf690e6e`): poll 1s, testo semplice in streaming, script allinea codice + riavvia entrambi. **Procedura:** merge #341 → `sudo bash /opt/mycity/ad-mycity/cervello/vps/aggiorna-cervello.sh` → Ctrl+F5; Diagnosi rev attesa ≥ `1081be71`. Fonte: chat Nicola 13/7 ~18:27 + AD.
+>
+> 💬 **13/7 ~18:22 — CHAT: Nicola ha riavviato worker — terza prova streaming (ipotesi restart-solo smentita).** «mi mostrava tutto insieme, ho reinserito il comando in cmd e fatto ctrl+f5. adesso riprova» — **prima del restart:** risposta arrivava tutta insieme (diagnosi worker stale dal 16:08 **confermata**); **azione completata:** `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 eseguiti da Nicola. **In corso:** terza prova live streaming (#338+#339 su main); esito Nicola non ancora dichiarato. Plugin fase 3 (#331) ora caricabili live post-restart. Fonte: chat Nicola 13/7 ~18:22.
 >
 > 💬 **13/7 ~18:19 — CHAT: seconda prova streaming «riprova» — ancora non funziona.** Dopo demo live ~18:18, Nicola «riprova» — AD conferma: se tutto insieme o a colonna, streaming **non** sta funzionando lato Nicola. **Codice su main ok** (#338+#339 mergiate); **causa confermata:** worker chat **non riavviato dal 16:08:28** — fix su repo ≠ processo live sul VPS. Unico sblocco: `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 + «ok fatto» per terza prova. Fonte: chat Nicola 13/7 ~18:19 + worker telemetry `af7325ce` 18:19:43.
 >
