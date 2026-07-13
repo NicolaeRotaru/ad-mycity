@@ -715,16 +715,9 @@ Branch non era su GitHub. Fix ripushato tramite PR #255.
 
 ---
 
-### 🟡 #trigger-build-pannello — Committa un trigger su pannello/ per forzare il build Vercel · ⏳ IN ATTESA · accodata 2026-07-10 19:00
+### ✅ #trigger-build-pannello — Committa un trigger su pannello/ per forzare il build Vercel · FATTO 2026-07-11 14:48
 
-I 3 fix UX di `ParlaCasella.tsx` (altezza compatta, scroll all'ultimo messaggio, niente doppi a capo) + il fix `vercel.json` (deploy sbloccati) sono su `origin/main` via PR #257, ma **Vercel non ha ancora buildato** — Nicola non vede le modifiche nel Pannello.
-
-**Cosa faccio:** creo un commit con 1 riga su `pannello/.deploy-trigger` e lo pusho su `main` (già in allowlist come `git push origin main`).
-
-**Cosa cambia:** Vercel riceve il webhook, vede `pannello/` cambiato, builda il codice con la config aggiornata (`deploymentEnabled: main→true`) — in 1-2 minuti il Pannello mostra i 3 fix.
-**Se va bene:** apri il Pannello, apri una casella → la chat è compatta e parte dall'ultimo messaggio.
-
-- **Colore:** 🟡 (push su main, 1 riga in un file trigger, nessun codice cambiato).
+**Esito:** commit `4d37c741` su `origin/main` (toccato `pannello/.build-trigger`) — approvato Nicola 11/7. Da allora ogni merge su `pannello/` ribuilda Vercel automaticamente; i commit di sola memoria non triggerano build (voluto). Card rimasta in coda per errore housekeeping — **ignorare** se il Pannello online è aggiornato. Chiusa in metabolizzazione 13/7 19:44 dopo chiarimento Nicola «cioè?».
 
 ---
 
@@ -760,28 +753,9 @@ Fix inclusi:
 
 ---
 
-### 🟡 #sblocca-pannello — Push trigger-build + riavvio worker (1 comando, ~20 secondi) · ⏳ IN ATTESA · accodata 2026-07-11 14:48
+### ✅ #sblocca-pannello — Push trigger-build + riavvio worker (1 comando, ~20 secondi) · FATTO 2026-07-13 19:44
 
-**Cosa ho già fatto:** commit `4d37c741` pronto su `main` locale — tocca `pannello/.build-trigger` per far scattare la GitHub Action → Vercel builda il Pannello. Script push già scritto in `cervello/vps/trigger-build.sh`.
-
-**Non riesco a fare da solo:** push su GitHub (richiede token, bloccato dal tool) + sudo restart (richiede privilegi).
-
-**Esegui dal terminale VPS** (~20 secondi):
-```bash
-cd /opt/mycity/ad-mycity && bash cervello/vps/trigger-build.sh && sudo systemctl restart mycity-worker mycity-worker-chat
-```
-
-Lo script fa automaticamente:
-1. `git push origin main` con il GIT_PUSH_TOKEN dal `.env`
-2. Chiama la GitHub Action `deploy-pannello.yml` via workflow_dispatch → Vercel builda il Pannello
-3. `sudo systemctl restart` riavvia entrambi i worker → `module_not_found` sparisce
-
-**Verifica in 2 minuti:** vai su [pannello Vercel] e scrivi «come stai?» nella chat — se rispondo normalmente, tutto è risolto.
-
-**Cosa cambia:** Pannello online aggiornato (build con le ultime 12 modifiche) + worker con env fresco (CERVELLO_MOTORE=claude caricato).
-**Se va bene:** la Cabina è viva prima del 13/7, puoi vedere tutto prima di arrivare dalle botteghe.
-
-- **Colore:** 🟡 (push su main + riavvio worker di produzione).
+**Esito:** trigger pushato **11/7** (`4d37c741` su `origin/main`); worker riavviato più volte (ultimo confermato **13/7 19:10** post-#343). Obiettivo raggiunto — Pannello ribuilda su ogni modifica `pannello/`. Card obsoleta, chiusa in metabolizzazione 13/7 19:44.
 
 ---
 
