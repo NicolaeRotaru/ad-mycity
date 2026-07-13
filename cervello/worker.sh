@@ -486,6 +486,31 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # possono essere VECCHI — questo blocco è la fotografia fresca che vince sempre sui ricordi.
 # Le cavolate del 10/7 nascevano tutte qui: commit sul branch ereditato sbagliato, «già fatto»
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
+
+# 🔌 PLUGIN WORKER: grilling/ponytail/caveman — scope per tipo lavoro (manifest: cervello/worker-plugins.json).
+plugin_prompt_for_tipo() {
+  local tipo="${1:-}"
+  local frag="$SCRIPT_DIR/prompt-fragments/caveman-internal.md"
+  if [ "$tipo" = "chat" ]; then
+    cat <<'EOF'
+PLUGIN (skill Cursor approvate):
+- grilling: stress-test decisioni/PR — una domanda alla volta, su richiesta o prima di mosse grosse.
+- ponytail: solo se tocchi codice (regola scoped su pannello/cervello/creativi).
+- caveman: SPENTO in questa chat — il contratto di chiarezza (prima riga semplice, max 5 punti, non tecnico) vince sempre.
+EOF
+    return 0
+  fi
+  cat <<'EOF'
+PLUGIN (skill Cursor approvate):
+- grilling: disponibile per stress-test del piano prima di agire.
+- ponytail: attivo su file di codice (minimo indispensabile).
+EOF
+  if [ -f "$frag" ]; then
+    echo ""
+    cat "$frag" 2>/dev/null || true
+  fi
+}
+
 contesto_macchina_chat() {
   local branch_ora commit_ora dirty_n dirty_top coda segnali lezioni decisioni azioni_aperte blocco origine_riga
   branch_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
@@ -1083,6 +1108,10 @@ LA TUA CASSETTA DEGLI ATTREZZI (non esiste altro — non inventare strumenti):
 - MAI chiedere a Nicola di allargare i permessi (niente regole larghe tipo git push:* o curl:*): se qualcosa è bloccato, è bloccato apposta.
 - MAI installare software (sudo, apt, npm -g) e MAI creare script temporanei (_tmp_*.mjs) per aggirare un blocco.
 - Il deploy del Pannello parte da solo dopo il merge su main: NON committare «forza build» — se il Pannello sembra vecchio, dillo a Nicola e controlla i segnali automazione."
+    _plugin_block="$(plugin_prompt_for_tipo chat 2>/dev/null || true)"
+    [ -n "$_plugin_block" ] && prompt="$prompt
+
+$_plugin_block"
     # 🧭 Realtà della macchina raccolta dal worker (branch, sporco, coda, segnali, lezioni).
     _ctx_block="$(contesto_macchina_chat 2>/dev/null || true)"
     [ -n "$_ctx_block" ] && prompt="$prompt
@@ -1106,6 +1135,8 @@ COME LAVORI (vale quanto il risultato):
 - Per i compiti PESANTI (ricerca, analisi multi-file, più reparti) delega ai senior in .claude/agents/ (strumento Task), anche in parallelo — poi sintetizza tu. Non fare tutto in serie da solo.
 - MAI dire «fatto» senza la prova (output del comando, riga di git log, path del file scritto). Se non hai verificato, scrivi «non verificato».
 - Il risultato per Nicola si scrive in parole semplici: prima riga = l'esito come lo diresti a voce; sigle, ID, hash e percorsi vanno in fondo sotto «🔧 Dettagli tecnici».
+
+$(plugin_prompt_for_tipo "$tipo" 2>/dev/null || true)
 
 $(contesto_macchina_chat 2>/dev/null || true)
 
