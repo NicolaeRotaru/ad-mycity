@@ -420,7 +420,7 @@ fonte: AD digitale (💬 14/7 01:00 AR-006 CHIUSO. | storico: business INVARIATO
 |---|---|---|
 | Voto salute architettura | **44** pieno · floor pending-merge **75** (sonda 7/7) — **R2 spinto 13:35**, riscatto al prossimo giro live che rivota su `origin/main` avanzato | `storico-salute.json` / `auto-radiografia.json` |
 | Voto fiducia giro | **85** ▲ | `auto-analisi.json` (numeri confermati dal vivo 00:30 + REST 16:20; heartbeat onesto, delta-gate ha saltato 4 giri pieni a vuoto) |
-| Cantiere difetti | **20 chiusi · 1 in-corso (AR-006 materiale PQ) · R1 FATTA · R2 FATTA 13:35 → bloccanti umani a 0 · 2 aperti (AR-024, AR-025)** | `cantiere-difetti.json` |
+| Cantiere difetti | **21 chiusi · AR-006 CHIUSO 14/7 01:00 · R1 FATTA · R2 FATTA 13:35 → bloccanti umani a 0 · 2 aperti (AR-024, AR-025)** | `cantiere-difetti.json` |
 | Calibrazione previsioni | **@AD 20/20** | calibrazione.json |
 | Loop business | 🔴 in corso | #16 **ANNULLATO** — il 1° ordine reale va creato ex-novo; parte operativa 13/7, aggancio VEN 17/7 |
 
