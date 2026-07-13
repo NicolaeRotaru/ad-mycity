@@ -3,6 +3,7 @@ import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, statoDa } from "@/lib/azioni-pronte";
 import { verificaQualita } from "@/lib/qualita";
+import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergiata } from "@/lib/github-pr-merge";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,11 +15,30 @@ export const revalidate = 0;
 export async function GET() {
   const blocchi = await tutteLeAzioni();
   const { tabella, valori } = await getImpostazioni();
-  const azioni = blocchi.map((b) => ({
+  const conStato = await chiudiAzioniMergeCompletate(
+    blocchi,
+    valori,
+    async (id, nota) => {
+      const az = blocchi.find((b) => b.id === id);
+      await setImpostazione(`azione:${id}`, "fatta");
+      await setImpostazione(`azione:${id}:nota`, nota);
+      if (az) {
+        await logAzione({
+          id,
+          titolo: az.titolo,
+          reparto: az.reparto,
+          livello: az.livello,
+          stato: "fatta",
+          esito: nota,
+          auto: true,
+        });
+      }
+    }
+  );
+  const azioni = conStato.map((b) => ({
     ...b,
-    stato: statoDa(valori[`azione:${b.id}`] || ""),
-    esito: valori[`azione:${b.id}:nota`] || "",
-    qualita: verificaQualita(b), // 🏆 controllo qualità Livello 2 (€0)
+    stato: statoDa(b.stato),
+    qualita: verificaQualita(b),
   }));
   return NextResponse.json({
     collegato: blocchi.length > 0,
@@ -80,6 +100,33 @@ export async function POST(req: Request) {
       esito: valoriPre[`azione:${id}:nota`] || "",
       giaFatta: true,
     });
+  }
+
+  // Merge PR già chiusa su GitHub → chiudi subito senza ri-accodare il worker.
+  if (isCanaleGithub(azione.canale)) {
+    const ref = estraiMergePr(azione.titolo, azione.testo || azione.perche || "");
+    if (ref && (await prGiaMergiata(ref))) {
+      const nota = `✓ PR #${ref.pr} già mergiata — tolta dalla coda`;
+      const salv =
+        (await setImpostazione(`azione:${id}`, "fatta")) &&
+        (await setImpostazione(`azione:${id}:nota`, nota));
+      await logAzione({
+        id,
+        titolo: azione.titolo,
+        reparto: azione.reparto,
+        livello: azione.livello,
+        stato: "fatta",
+        esito: nota,
+        auto: true,
+      });
+      if (!salv) {
+        return NextResponse.json(
+          { ok: false, stato: "fatta", esito: nota, salvataggio: false, error: "Salvataggio stato fallito — riprova." },
+          { status: 503 }
+        );
+      }
+      return NextResponse.json({ ok: true, stato: "fatta", esito: nota, salvataggio: salv });
+    }
   }
 
   const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
