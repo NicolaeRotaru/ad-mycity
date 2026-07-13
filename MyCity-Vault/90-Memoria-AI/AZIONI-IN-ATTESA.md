@@ -14,7 +14,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ sesta prova Nicola
+### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ settima prova Nicola
 
 **Cosa fa:** il Pannello aggiorna la bolla chat in tempo reale mentre l'AD scrive (poll UI) e fissa i pallini che tornavano ad ogni pezzo di streaming.
 
@@ -24,7 +24,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 18:50:** Nicola «fatto» — merge eseguito; quinta prova streaming.
 
-**Esito 18:54:** Nicola «fai la prova» — sesta prova streaming in corso; non refreshare a metà risposta.
+**Esito 18:54:** Nicola «fai la prova» — sesta prova streaming; esito non dichiarato.
+
+**Esito 18:56:** Nicola «rifai la prova» — settima prova streaming in corso; non refreshare a metà risposta.
 
 **Pendente:** feedback Nicola a fine risposta (cresce / tutto insieme / a colonna); se rotto → incognito o Ctrl+Shift+R **dopo** risposta completa.
 

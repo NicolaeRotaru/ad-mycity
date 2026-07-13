@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13] Nicola «rifai la prova» (~18:56) = **settima** prova streaming — ripete il test senza nuova procedura né esito «cresce» dalla sesta; finché non dice «cresce» il tema resta aperto → incognito/Ctrl+Shift+R prima di nuove PR.
 - [2026-07-13] Nicola «fai la prova» (~18:54) = **sesta** prova streaming post-«fatto» — non si accontenta della procedura merge; feedback binario solo **a fine risposta** (cresce / tutto insieme / a colonna).
 - [2026-07-13] Durante prova streaming: **non refreshare a metà** — Ctrl+F5 interrompe il poll della bolla e simula «tutto insieme» anche con #342 live; refresh solo dopo risposta completa o incognito se ancora rotto.
 - [2026-07-13] Nicola «fatto» (~18:50) = merge **#341+#342** eseguito — quinta prova streaming; se ancora rotto → incognito o Ctrl+Shift+R (cache browser), non ripetere solo restart worker.
@@ -17,4 +18,3 @@
 - [2026-07-13] Nicola «mostrami la risposta in streaming» — la risposta **è** il test live: chiedi cosa vede (cresce / tutta insieme / a colonna); tutta insieme o colonna = worker VPS non riavviato dal 16:08, non solo Pannello.
 - [2026-07-13] «Facciamo una verifica» (Nicola 18:15) = git merge su main + `git show HEAD:cervello/worker.sh` + test locale `_estrai_stream` + **3 prove Nicola** (restart worker, Ctrl+F5, streaming orizzontale + pallino 15s); «codice ok» ≠ «funziona per te» se worker fermo dal 16:08.
 - [2026-07-13] Pallini = **DUE bug** — fix **#338+#340 mergiate** (~18:14): (A) esci da chat → pallino torna (#338); (B) risposta AD senza riaprire → pallino mancava (#340 `selectedConv`). Test A = 15s; test B = Plancia → elenco Conversazioni; deploy Vercel + Ctrl+F5.
-- [2026-07-13] Streaming Cursor — testo **spezzato a colonna** (Nicola screenshot ~18:03): micro-frammenti incollati in orizzontale nel worker; in chat **niente Markdown** finché completo; fix **#339 mergiata** ~18:14 + deploy Vercel + `sudo systemctl restart mycity-worker-chat`; «c'è streaming» ≠ «leggibile».

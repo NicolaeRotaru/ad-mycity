@@ -1400,7 +1400,7 @@ export default function Dashboard() {
     setMessages((m) => [
       ...m.filter((x) => !x.pending),
       { id: nuovoIdMsg(), role: "user", content: bollaUtente },
-      { id: nuovoIdMsg(), role: "assistant", content: "", pending: true },
+      { id: nuovoIdMsg(), role: "assistant", content: "💭 Sto elaborando la risposta…", pending: true },
     ]);
     setLoading(true);
     let targetConvId = convId || sessionGruppoRef.current || "";
@@ -1474,6 +1474,7 @@ export default function Dashboard() {
         salvaGruppoLavoroLocale(d.lavoro.id, gruppoId);
         setLavori((l) => [d.lavoro, ...l]);
         aggiungiPendingChat({ id: d.lavoro.id, tipo: prep.tipo, targetConvId });
+        window.dispatchEvent(new Event("mycity:lavori"));
         aggiungiDiario(prep.tipo === "giro" ? "briefing" : "chat", prep.tipo === "giro" ? "🔭 Giro accodato" : "🧠 Chat col cervello", bollaUtente);
         // Niente polling dedicato qui: il POLLER UNICO (/api/lavori) risolve questo pendente
         // e instrada la risposta nel thread giusto — prima si sdoppiava (2 fetch/s). (bug #11)
@@ -1942,7 +1943,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     carica();
     const onLavori = () => carica();
     window.addEventListener("mycity:lavori", onLavori);
-    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 1000 : 8000;
+    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 400 : 8000;
     const id = setInterval(() => carica(), ms);
     return () => {
       stop = true;

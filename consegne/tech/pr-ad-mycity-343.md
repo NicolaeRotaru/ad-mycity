@@ -7,4 +7,4 @@ Streaming chat partiva tardi: durante lettura dati/comandi Cursor non emette tes
 ## Test plan
 - [ ] Invia messaggio in chat → entro 1s compare «Sto elaborando…» o «Sto verificando i dati…»
 - [ ] Durante la risposta il testo cresce dall'inizio (non solo negli ultimi secondi)
-- [ ] Merge + deploy Vercel + aggiorna-cervello.sh sul VPS
+- [ ] Merge + deploy Vercel + `sudo bash cervello/vps/aggiorna-cervello.sh` sul VPS
