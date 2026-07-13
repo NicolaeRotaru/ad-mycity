@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getImpostazione, getLavori, memoryConnected, setImpostazione } from "@/lib/store";
+import { getImpostazione, getLavori, getConteggiLavori, memoryConnected, setImpostazione } from "@/lib/store";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
@@ -69,12 +69,13 @@ export async function GET() {
     });
   }
 
-  const [segnali, pausa, pipeline, codiceRev, lavori] = await Promise.all([
+  const [segnali, pausa, pipeline, codiceRev, lavori, conteggiDb] = await Promise.all([
     raccogliSegnaliBattito(),
     getImpostazione("pausa").catch(() => null),
     getImpostazione("worker:pipeline").catch(() => null),
     getImpostazione("worker:codice_rev").catch(() => null),
     getLavori(80),
+    getConteggiLavori(),
   ]);
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
@@ -182,7 +183,8 @@ export async function GET() {
     adInPausa,
     pipeline: pipeline ?? null,
     codiceRev: codiceRev ?? null,
-    conteggi,
+    // Badge sotto «Stato worker»: conteggi reali dal DB (non finestra ultimi 80).
+    conteggi: conteggiDb.per_stato,
     inRitentativo,
     attesaQuota,
     riprovaAlle,

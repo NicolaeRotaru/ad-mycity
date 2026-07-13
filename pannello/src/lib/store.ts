@@ -199,19 +199,100 @@ export async function annullaLavoroSeStato(
   return rows[0] || null;
 }
 
-/** Ultimi lavori, dal piu' recente. */
-export async function getLavori(limit = 50): Promise<Lavoro[]> {
+const LAVORI_SELECT =
+  "id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo";
+const LAVORI_SELECT_LEGACY = "id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto";
+
+async function fetchLavoriQuery(extra: string): Promise<Lavoro[]> {
   if (!memoryConnected()) return [];
-  const q = `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto,gruppo_id,tentativi,riprova_dopo&order=created_at.desc&limit=${limit}`;
+  const q = `${URL}/rest/v1/lavori?select=${LAVORI_SELECT}&${extra}`;
   let res = await fetch(q, { headers: headers(), cache: "no-store" });
   if (!res.ok) {
-    res = await fetch(
-      `${URL}/rest/v1/lavori?select=id,created_at,updated_at,stato,tipo,richiesta,risultato,esperto&order=created_at.desc&limit=${limit}`,
-      { headers: headers(), cache: "no-store" }
-    );
+    res = await fetch(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_LEGACY}&${extra}`, {
+      headers: headers(),
+      cache: "no-store",
+    });
   }
   if (!res.ok) return [];
   return (await res.json()) as Lavoro[];
+}
+
+/** Conteggio esatto righe lavori (Prefer: count=exact). Filtro PostgREST es. `stato=eq.fatto`. */
+export async function countLavori(filtro?: string): Promise<number> {
+  if (!memoryConnected()) return 0;
+  const params = new URLSearchParams({ select: "id", limit: "1" });
+  if (filtro) {
+    const eq = filtro.indexOf("=");
+    if (eq > 0) params.set(filtro.slice(0, eq), filtro.slice(eq + 1));
+  }
+  const res = await fetch(`${URL}/rest/v1/lavori?${params}`, {
+    headers: { ...headers(), Prefer: "count=exact" },
+    cache: "no-store",
+  });
+  if (!res.ok) return 0;
+  const range = res.headers.get("content-range") || "";
+  const m = range.match(/\/(\d+)/);
+  return m ? Number(m[1]) : 0;
+}
+
+export type ConteggiLavori = {
+  coda: number;
+  archivio: number;
+  per_stato: Record<string, number>;
+};
+
+/** Badge tab Lavori: conteggi reali dal DB, non dalla finestra degli ultimi N. */
+export async function getConteggiLavori(): Promise<ConteggiLavori> {
+  const [in_attesa, in_corso, errore, fatto, annullato] = await Promise.all([
+    countLavori("stato=eq.in_attesa"),
+    countLavori("stato=eq.in_corso"),
+    countLavori("stato=eq.errore"),
+    countLavori("stato=eq.fatto"),
+    countLavori("stato=eq.annullato"),
+  ]);
+  return {
+    coda: in_attesa + in_corso + errore,
+    archivio: fatto + annullato,
+    per_stato: { in_attesa, in_corso, errore, fatto, annullato },
+  };
+}
+
+export type LavoriPannello = {
+  lavori: Lavoro[];
+  conteggi: ConteggiLavori;
+  archivio: { offset: number; limit: number; totale: number; hasMore: boolean };
+};
+
+/**
+ * Lista per il Pannello: TUTTI i lavori attivi (coda) + pagina dell'archivio.
+ * Prima prendeva solo gli ultimi 50 in blocco → badge e archivio troncati.
+ */
+export async function getLavoriPannello(archivioLimit = 100, archivioOffset = 0): Promise<LavoriPannello> {
+  const limit = Math.min(Math.max(archivioLimit, 1), 200);
+  const offset = Math.max(archivioOffset, 0);
+  const [coda, archivio, conteggi] = await Promise.all([
+    fetchLavoriQuery("stato=in.(in_attesa,in_corso,errore)&order=updated_at.desc"),
+    fetchLavoriQuery(
+      `stato=in.(fatto,annullato)&order=created_at.desc&limit=${limit}&offset=${offset}`
+    ),
+    getConteggiLavori(),
+  ]);
+  const caricati = offset + archivio.length;
+  return {
+    lavori: [...coda, ...archivio],
+    conteggi,
+    archivio: {
+      offset,
+      limit,
+      totale: conteggi.archivio,
+      hasMore: caricati < conteggi.archivio,
+    },
+  };
+}
+
+/** Ultimi lavori, dal piu' recente (finestra unica — usare getLavoriPannello per la UI Lavori). */
+export async function getLavori(limit = 50): Promise<Lavoro[]> {
+  return fetchLavoriQuery(`order=created_at.desc&limit=${limit}`);
 }
 
 /** Svuota i lavori. */

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { creaLavoro, getLavori, clearLavori, memoryConnected } from "@/lib/store";
+import { creaLavoro, getLavoriPannello, clearLavori, memoryConnected } from "@/lib/store";
 import { preparaLavoro } from "@/lib/comandi";
 
 export const runtime = "nodejs";
@@ -7,11 +7,14 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // Il "ponte" tra l'app web e il cervello (Claude Code sul Max).
-// GET: elenco lavori (la dashboard fa polling per mostrare i risultati).
-export async function GET() {
+// GET: elenco lavori (polling). Query: offset/limit = pagina archivio (default 100).
+export async function GET(req: NextRequest) {
   try {
-    const lavori = await getLavori(50);
-    return NextResponse.json({ memoria: memoryConnected(), lavori });
+    const sp = req.nextUrl.searchParams;
+    const archivioLimit = Number(sp.get("limit")) || 100;
+    const archivioOffset = Number(sp.get("offset")) || 0;
+    const data = await getLavoriPannello(archivioLimit, archivioOffset);
+    return NextResponse.json({ memoria: memoryConnected(), ...data });
   } catch (e: any) {
     return NextResponse.json({ memoria: false, lavori: [], error: e.message });
   }
