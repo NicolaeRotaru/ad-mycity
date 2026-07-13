@@ -135,7 +135,17 @@ type Analisi = {
 type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string };
 type Apprendimento = { data?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: Record<string, number> };
 type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; autonomia?: string; nota?: string }[] };
-type Benchmark = { ambito?: string; nostro?: string; migliori?: { chi?: string; cosa_fa?: string; fonte?: string }[]; divario?: string; cosa_ci_manca?: string };
+type Benchmark = {
+  reparto?: string;
+  ambito?: string;
+  livello_attuale_L?: number;
+  migliori?: { chi?: string; livello?: string; cosa_fa?: string; fonte?: string; esempi?: { cosa?: string; link?: string }[] }[];
+  divario?: string;
+  obiettivo?: string;
+  progresso?: { data?: string; punteggio?: number; fonte?: string; nota?: string }[];
+  nostro?: string;
+  cosa_ci_manca?: string;
+};
 type Miglioramento = {
   data?: string; benchmark?: Benchmark[];
   esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
@@ -545,22 +555,46 @@ export default function AutoCoscienza({
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><Swords size={13} /> Confronto coi migliori</div>
                   <div className="space-y-2">
-                    {mi.benchmark.map((b, i) => (
+                    {mi.benchmark.map((b, i) => {
+                      const titolo = b.reparto || b.ambito || "Benchmark";
+                      const ultimoProgresso = b.progresso?.length ? b.progresso[b.progresso.length - 1] : undefined;
+                      const contesto = [
+                        b.obiettivo && `Obiettivo: ${b.obiettivo}`,
+                        b.nostro && `Noi: ${b.nostro}`,
+                        b.cosa_ci_manca && `Ci manca: ${b.cosa_ci_manca}`,
+                        ultimoProgresso?.punteggio != null && `Punteggio: ${ultimoProgresso.punteggio}/100`,
+                        ultimoProgresso?.nota,
+                      ].filter(Boolean).join(" · ");
+                      return (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-medium capitalize">{b.ambito}</span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[13px] font-medium">{titolo}</span>
+                          {b.livello_attuale_L != null && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">L{b.livello_attuale_L}</span>}
                           {b.divario && <span className={`text-[10px] px-1.5 rounded ml-auto ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>divario {b.divario}</span>}
                         </div>
-                        {b.nostro && <div className="text-[12px] text-black/65 mt-1"><b>Noi:</b> {b.nostro}</div>}
-                        {b.cosa_ci_manca && <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa ci manca:</b> {b.cosa_ci_manca}</div>}
-                        {b.migliori && b.migliori.length > 0 && (
-                          <div className="mt-1.5 space-y-0.5">
-                            {b.migliori.map((m, j) => <div key={j} className="t-eti">↗ {m.chi}: {m.cosa_fa}</div>)}
+                        {b.obiettivo && <div className="text-[12px] text-black/65 mt-1"><b>Obiettivo:</b> {b.obiettivo}</div>}
+                        {!b.obiettivo && b.nostro && <div className="text-[12px] text-black/65 mt-1"><b>Noi:</b> {b.nostro}</div>}
+                        {!b.obiettivo && b.cosa_ci_manca && <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa ci manca:</b> {b.cosa_ci_manca}</div>}
+                        {ultimoProgresso?.punteggio != null && (
+                          <div className="text-[12px] text-black/65 mt-0.5">
+                            <b>Punteggio:</b> {ultimoProgresso.punteggio}/100
+                            {ultimoProgresso.nota && <span className="text-black/50"> — {ultimoProgresso.nota}</span>}
                           </div>
                         )}
-                        <ParlaCasella titolo={`Confronto: ${b.ambito}`} contesto={[b.nostro && `Noi: ${b.nostro}`, b.cosa_ci_manca && `Ci manca: ${b.cosa_ci_manca}`].filter(Boolean).join(" · ")} />
+                        {b.migliori && b.migliori.length > 0 && (
+                          <div className="mt-1.5 space-y-1">
+                            {b.migliori.map((m, j) => (
+                              <div key={j}>
+                                <div className="t-eti">↗ {m.chi}{m.livello ? ` (${m.livello})` : ""}</div>
+                                {m.esempi?.map((e, k) => <div key={k} className="t-eti pl-3 text-black/50">· {e.cosa}</div>)}
+                                {!m.esempi?.length && m.cosa_fa && <div className="t-eti pl-3 text-black/50">· {m.cosa_fa}</div>}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <ParlaCasella titolo={`Confronto: ${titolo}`} contesto={contesto} />
                       </div>
-                    ))}
+                    );})}
                   </div>
                 </div>
               )}
