@@ -10,7 +10,7 @@
 //      GIT_AUTHOR_EMAIL, GIT_AUTHOR_NAME (commit)
 
 import { execFileSync } from "node:child_process";
-import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
   AD_ROOT,
@@ -23,6 +23,9 @@ import {
 } from "./git-github.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+const TECH_DIR = join(AD_ROOT, "consegne/tech");
+const GENERIC_BODY_RE = /^PR aperta dall'AD MyCity/i;
+const MIN_BODY_LEN = 80;
 
 /** Modificati dal worker a ogni giro — non vanno MAI nel commit chore di una PR pannello (conflitti ricorrenti). */
 const WORKER_AUTO_PATHS = new Set([
@@ -55,7 +58,8 @@ Opzioni:
   --base RAMO               Base PR (default: main — ramo unico, vale anche per il vault)
   --branch RAMO             Head branch (default: branch git corrente nel cwd del repo)
   --title TESTO             Titolo PR (default: messaggio ultimo commit o branch)
-  --body TESTO              Corpo PR (markdown)
+  --body TESTO              Corpo PR (markdown, obbligatorio se non c'è file body)
+  --body-file PERCORSO      Legge il corpo da file (es. consegne/tech/pr-ad-mycity-body.md)
   --message TESTO           Messaggio commit se ci sono modifiche non committate
   --accoda                  Aggiunge riga 🔴 in AZIONI-IN-ATTESA.md (merge da firmare)
   --no-push                 Non fa push (branch già su GitHub)
@@ -153,6 +157,57 @@ function existsAzioni() {
   } catch {
     return false;
   }
+}
+
+function branchSlug(branch) {
+  return branch.replace(/[/\\]+/g, "-");
+}
+
+function isGenericBody(body) {
+  const t = String(body || "").trim();
+  return !t || t.length < MIN_BODY_LEN || GENERIC_BODY_RE.test(t);
+}
+
+/** @param {Record<string, string | boolean>} args @param {{ key: string }} cfg @param {string} branch */
+function resolveBody(args, cfg, branch) {
+  if (args["body-file"]) {
+    const p = String(args["body-file"]);
+    const abs = p.startsWith("/") ? p : join(AD_ROOT, p);
+    return readFileSync(abs, "utf8").trim();
+  }
+  if (args.body) return String(args.body).trim();
+
+  const slug = branchSlug(branch);
+  const candidates = [
+    join(TECH_DIR, `pr-${cfg.key}-body.md`),
+    join(TECH_DIR, `pr-${cfg.key}-${slug}-body.md`),
+    join(TECH_DIR, `pr-body-${slug}.md`),
+  ];
+  for (const file of candidates) {
+    if (existsSync(file)) return readFileSync(file, "utf8").trim();
+  }
+  return "";
+}
+
+function requireBody(body) {
+  if (isGenericBody(body)) {
+    console.error("ERRORE: ogni PR deve avere una descrizione comprensibile su GitHub.");
+    console.error("Scrivi cosa cambia, perché e come verificare (2-3 passi), poi passa:");
+    console.error("  --body \"…\"  oppure  --body-file consegne/tech/pr-ad-mycity-body.md");
+    console.error("Oppure salva il testo in uno di questi file prima di aprire la PR:");
+    console.error("  consegne/tech/pr-<repo>-body.md");
+    console.error("  consegne/tech/pr-<repo>-<branch>-body.md");
+    process.exit(1);
+  }
+}
+
+/** @param {import('./git-github.mjs').RepoConfig} cfg @param {number} prNumber @param {string} body */
+async function patchPullRequestBody(cfg, prNumber, body) {
+  return githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls/${prNumber}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ body }),
+  });
 }
 
 function writeConsegna(meta, dryRun) {
@@ -278,19 +333,24 @@ async function main() {
     String(args.title || "") ||
     gitOrNull(["log", "-1", "--format=%s", `refs/heads/${branch}`], cfg.cwd) ||
     branch;
-  const body =
-    String(args.body || "") ||
-    `PR aperta dall'AD MyCity (\`cervello/git-pr.mjs\`).\n\nBranch: \`${branch}\` → \`${base}\``;
+  const body = resolveBody(args, cfg, branch);
+  requireBody(body);
 
   let pr;
   if (dryRun) {
     pr = { number: "?", html_url: `https://github.com/${cfg.slug}/pull/?`, title };
     console.log(`[DRY-RUN] Creerebbe PR: ${title}`);
+    console.log(`[DRY-RUN] Body (${body.length} caratteri): ${body.slice(0, 120)}…`);
   } else {
     const existing = await findOpenPrForBranch(cfg, branch);
     if (existing) {
       pr = existing;
       console.log(`✓ PR esistente #${pr.number}: ${pr.html_url}`);
+      const current = String(existing.body || "").trim();
+      if (current !== body) {
+        pr = await patchPullRequestBody(cfg, existing.number, body);
+        console.log(`✓ Descrizione PR #${pr.number} aggiornata su GitHub (${body.length} caratteri)`);
+      }
     } else {
       // Prima di creare la PR: il branch ha davvero commit oltre la base? Un branch già
       // mergiato (o identico alla base) darebbe una PR vuota (GitHub 422 «No commits
