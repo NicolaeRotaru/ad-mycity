@@ -30,7 +30,14 @@ type Radiografia = {
 };
 type Cantiere = { difetti?: Difetto[]; meta?: { aperti?: number; in_corso?: number; chiusi?: number } };
 type Storico = { serie?: { data?: string; voto_salute?: number; difetti_aperti?: number; difetti_chiusi?: number }[] };
-type Dati = { collegato: boolean; messaggio?: string; radiografia?: Radiografia; cantiere?: Cantiere; storico?: Storico; watchlist?: any; lettera?: string };
+type Dati = { collegato: boolean; messaggio?: string; live?: Live; radiografia?: Radiografia; cantiere?: Cantiere; storico?: Storico; watchlist?: any; lettera?: string };
+type Live = {
+  voto?: number | null; fonte_voto?: string; data_sonda?: string | null; data_scan?: string | null;
+  cantiere_aggiornato?: string | null; aperti?: number; in_corso?: number; chiusi?: number;
+  scan_ore_fa?: number | null; sonda_ore_fa?: number | null; scan_stale?: boolean;
+};
+
+const POLL_MS = 30_000; // quasi live: rilegge GitHub ogni 30s (prima 60s)
 
 type Tab = "dimensioni" | "cantiere" | "lettera" | "storico";
 
@@ -72,7 +79,7 @@ export default function RadiografiaDiSe() {
       }).catch(() => {});
     };
     carica();
-    const id = setInterval(carica, 60000);
+    const id = setInterval(carica, POLL_MS);
     return () => clearInterval(id);
   }, []);
 
@@ -89,7 +96,8 @@ export default function RadiografiaDiSe() {
   }, []);
 
   const r = d?.radiografia;
-  const votoS = Number(r?.voto_salute_architettura);
+  const live = d?.live;
+  const votoS = Number(live?.voto ?? r?.voto_salute_architettura);
   const votoSOk = Number.isFinite(votoS);
   const sintesiR = r?.sintesi || (!votoSOk && typeof r?.voto_salute_architettura === "string" ? r!.voto_salute_architettura : "");
   const cantiere = d?.cantiere;
@@ -122,13 +130,15 @@ export default function RadiografiaDiSe() {
           <span className="sez-ico"><Cpu size={16} /></span>
           <div className="min-w-0">
             <span className="t-sez">🩻 Radiografia di sé</span>
-            <div className="t-eti">La macchina analizza la propria architettura da cima a fondo. {r?.data ? `· ${dataVault(r.data)}` : ""}</div>
+            <div className="t-eti">La macchina analizza la propria architettura da cima a fondo.
+              {live?.cantiere_aggiornato ? ` · cantiere ${dataVault(live.cantiere_aggiornato)}` : r?.data ? ` · scan ${dataVault(r.data)}` : ""}
+            </div>
           </div>
         </div>
         {votoSOk && (
           <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoS)}`}>{votoS}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti truncate">salute {trendBreve(r?.trend)}</div>
+            <div className="t-eti truncate">salute {trendBreve(r?.trend)}{live?.fonte_voto === "sonda" ? " · live" : ""}</div>
           </div>
         )}
       </div>
@@ -138,6 +148,21 @@ export default function RadiografiaDiSe() {
       {d?.collegato && (
         <>
           {sintesiR && <p className="t-corpo break-words mb-3">{sintesiR}</p>}
+
+          {/* La lista «Radiografia» è la foto dell'audit; il cantiere è il backlog vivo che si aggiorna coi fix. */}
+          {live && (live.scan_stale || (live.aperti ?? 0) + (live.in_corso ?? 0) < (r?.dimensioni?.length || 0)) && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 mb-3 text-[12px] text-amber-900/90">
+              <b>Lista problemi = foto dello scan</b>
+              {live.data_scan ? ` del ${dataVault(live.data_scan)}` : ""}
+              {live.scan_ore_fa != null ? ` (${live.scan_ore_fa}h fa)` : ""}.
+              {" "}I fix che mergi chiudono il <button type="button" onClick={() => setTab("cantiere")} className="underline font-medium hover:text-brand">cantiere</button>
+              {live.chiusi != null ? ` (${live.chiusi} già chiusi` : ""}
+              {live.in_corso ? `, ${live.in_corso} in corso` : ""}
+              {live.aperti ? `, ${live.aperti} aperti` : ""}
+              {live.chiusi != null ? ")" : ""} — non cancellano da soli le righe sotto finché non rifacciamo l&apos;audit completo.
+              {live.cantiere_aggiornato ? ` Cantiere aggiornato ${dataVault(live.cantiere_aggiornato)}.` : ""}
+            </div>
+          )}
 
           {/* Sonda: i 4 invarianti del volano */}
           {r?.sonda && (

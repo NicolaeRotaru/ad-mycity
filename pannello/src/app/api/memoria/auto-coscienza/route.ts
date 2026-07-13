@@ -120,5 +120,9 @@ export async function GET() {
   // 🩺 Segnaliamo al Pannello se l'auto-analisi è un guscio vuoto (giro rotto): così mostra uno stato
   // «in aggiornamento» invece di un allarmante e falso «7/100». Il dato grezzo resta, ma marcato.
   const analisi_affidabile = analisiAffidabile(analisi);
-  return NextResponse.json({ collegato: true, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
+  const aggiornato = [analisi?.aggiornato, apprendimento?.aggiornato, miglioramento?.aggiornato]
+    .filter(Boolean)
+    .sort()
+    .pop() || null;
+  return NextResponse.json({ collegato: true, aggiornato, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
 }
