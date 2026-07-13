@@ -1150,26 +1150,33 @@ export default function Dashboard() {
     const id = convIdRef.current;
     if (id) segnaLetta(id);
   }
-  /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
-  function migraConvLetteBaseline(list: Conversazione[]) {
+  /** Una tantum: chat storiche con risposta AD → già viste (niente pallini su tutto). v3 include lavori. */
+  function migraConvLetteBaseline(list: Conversazione[], gruppi: Map<string, GruppoLavori>) {
     try {
-      if (localStorage.getItem("mycity_conv_lette_baseline_v2")) return;
+      if (localStorage.getItem("mycity_conv_lette_baseline_v3")) return;
       const lette = JSON.parse(localStorage.getItem("mycity_conv_lette") || "{}") as Record<string, string>;
+      const fpMap = JSON.parse(localStorage.getItem("mycity_conv_lette_fp") || "{}") as Record<string, string>;
       let changed = false;
       for (const c of list) {
-        if (lette[c.id]) continue;
-        const msgs = c.messaggi.filter((m) => !m.prompt && !m.pending);
-        const last = msgs[msgs.length - 1];
-        if (last?.role === "assistant") {
-          lette[c.id] = c.updated_at;
+        const g = gruppi.get(c.id);
+        const fp = fpUltimaRisposta(c, g);
+        if (!fp) continue;
+        if (!fpMap[c.id]) {
+          fpMap[c.id] = fp;
+          changed = true;
+        }
+        if (!lette[c.id]) {
+          lette[c.id] = tsUltimoAssistantFinale(c, g) || c.updated_at;
           changed = true;
         }
       }
       if (changed) {
         localStorage.setItem("mycity_conv_lette", JSON.stringify(lette));
+        localStorage.setItem("mycity_conv_lette_fp", JSON.stringify(fpMap));
         setConvLette(lette);
+        setConvLetteFp(fpMap);
       }
-      localStorage.setItem("mycity_conv_lette_baseline_v2", "1");
+      localStorage.setItem("mycity_conv_lette_baseline_v3", "1");
     } catch {}
   }
 
@@ -1830,7 +1837,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             created_at: c.created_at,
             updated_at: c.updated_at,
           }));
-          migraConvLetteBaseline(incoming);
+          const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+          const gruppi = new Map<string, GruppoLavori>();
+          for (const g of raggruppaLavori(lavoriRef.current, m)) gruppi.set(g.id, g);
+          migraConvLetteBaseline(incoming, gruppi);
           const attiva = convIdRef.current;
           const merged = mergeListaConversazioni(conversazioniRef.current, incoming, attiva);
           if (!conversazioniUguali(conversazioniRef.current, merged)) {
@@ -1880,6 +1890,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [convServer, caricaConversazioni]);
+
+  // Baseline pallini v3: quando arrivano i lavori, marca le chat storiche (risposte solo nei Lavori).
+  useEffect(() => {
+    if (!convServer || conversazioni.length === 0) return;
+    migraConvLetteBaseline(conversazioni, gruppiConvById);
+  }, [convServer, conversazioni, gruppiConvById]);
 
   // Esci dall'Assistente → segna letta la chat che avevi aperta (pallino sparisce).
   const vistaPrecRef = useRef(vista);
@@ -2581,7 +2597,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   return (
                   <div
@@ -2836,7 +2852,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
+                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;
                   return (

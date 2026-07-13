@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-13 19:48 · Chat Nicola scelte ragionate Garetti — «correggi e non ricapiti» · atteso: lista completa in Auto-coscienza + guardiano anti-deriva · reale: dossier 6/7 mai in registro, fix PR #346, L-157 + LEZIONI-CHAT · #registro-realta #auto-coscienza
 - 2026-07-13 19:43 · Chat Nicola casella Gap MCP aggiornata? · atteso: spiegare freschezza vs fermo senza «Pannello rotto» · reale: auto-analisi 11/7, REST ok 19:30, business invariato; serve giro · L-154 · #MCP #gap #auto-coscienza
 - 2026-07-13 19:32 · Chat Nicola radiografia/auto-coscienza tempo reale · atteso: diagnosi scan vs cantiere + fix concreto · reale: lista = foto 7/7, cantiere vivo ok; PR #344; merge 🔴 pendente; nuovo audit per shrink lista · L-152 · #radiografia #auto-coscienza #pannello
 - 2026-07-13 19:20 · Chat Nicola «perché Attività e briefing dell'altro ieri?» · atteso: spiegare gap data senza dire Pannello rotto · reale: ultimo briefing 11/7 14:30, 12/7 zero giro, 13/7 solo update chat; L-150 + preferenza date Attività · #briefing #giro #pannello

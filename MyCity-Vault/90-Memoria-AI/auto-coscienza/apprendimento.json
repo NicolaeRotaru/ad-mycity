@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 19:44",
+  "aggiornato": "2026-07-13 19:55",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,197 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-163",
+      "testo": "**Conflitto PR #347 — solo body PR, codice sync intatto (chat 13/7 ~19:45):** Nicola «ci sono conflitti» su merge sync radiografia. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `allinea-scan-cantiere.mjs` né Pannello; (2) main avanzato (`3ea3c0b6`) mentre branch `fix/scan-cantiere-sync` restava aperto — stesso pattern L-159/#346; (3) Nicola non distingue body vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase stesso branch, `git merge --no-commit` exit 0; (5) Nicola deve **ricaricare card** PR prima di merge — non dire «risolto» senza verifica mergeable. Merge 🔴 #347 pendente. Correlazione L-159, L-158.",
+      "tag": [
+        "pr-347",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "radiografia",
+        "allinea-scan-cantiere",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:54",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-162",
+      "testo": "**Conflitto PR #348 — solo file memoria, fix pallini intatto (chat 13/7 ~19:45):** Nicola «ci sono conflitt» subito dopo apertura #348 (fingerprint pallini). 5 perché: (1) conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli), **non** in `page.tsx`; (2) branch pallini aperto mentre main riceveva commit memoria — stesso pattern L-161/#346; (3) Nicola non distingue memoria vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase `fix/pallini-fingerprint-v3` su main tenendo impronta (`97522589`), merge locale verificato; (5) Nicola deve **ricaricare card** PR prima di merge — non ripetere merge a mano se vede ancora conflitto. Merge 🔴 #118 pendente. Correlazione L-160, L-161.",
+      "tag": [
+        "pr-348",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "pallini",
+        "apprendimento",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:53",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-161",
+      "testo": "**Conflitto PR #346 seconda ondata — 3 file memoria (chat 13/7 ~19:44):** Nicola «riesci a vedere il conflitto che si è creato?» dopo che la prima risoluzione (body only, 19:50) sembrava chiusa. 5 perché: (1) main è continuato ad avanzare con altri giri mentre #346 restava aperta; (2) seconda ondata su LEZIONI-CHAT.md, apprendimento.json, auto-miglioramento.json — solo date/orari, non il fix registro; (3) dire «risolto» dopo solo il body era prematuro; (4) Nicola può chiedere due volte — verificare mergeable/zero residui prima di rispondere; (5) fix = rebase+merge stesso branch, commit `a154875c`, zero conflitti residui. **Regola:** su PR memoria lunga, dopo ogni fix ricontrollare mergeable — main non aspetta. Correlazione L-159 (ondata 1).",
+      "tag": [
+        "pr-346",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "lezioni-chat",
+        "apprendimento",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.94,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:52",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-160",
+      "testo": "**Caso-studio Nicola — pallini scenario 1+4 = fingerprint risposta (chat 13/7 ~19:41):** dopo menu 1–4 (L-153), Nicola «1 e 4» — stesso difetto. 5 perché: (1) scenario 1 = apri/leggi/esci → poll elenco ~8s riaccende rosso perché `updated_at` conversazione cresce **senza** nuovo messaggio, ma «letto» confrontava solo timestamp; (2) scenario 4 = risposte AD vivono spesso solo in **Lavori**, non in tabella conversazioni — vecchia pulizia non le marcava lette → elenco tutto rosso; (3) fix #336–#342 miravano race Lavoro/streaming, non impronta contenuto; (4) restart worker inutile (solo Pannello Vercel); (5) **fix PR #348:** confronto **impronta ultima risposta** (stesso testo = letto) + bootstrap storico via Lavori al primo load; merge 🔴 #118; test post-deploy = Ctrl+Shift+R + 15s fuori chat + elenco non tutto rosso. Correlazione L-153 (confermata), L-133.",
+      "tag": [
+        "pannello",
+        "pallini",
+        "badge",
+        "fingerprint",
+        "lavori",
+        "poll",
+        "updated_at",
+        "pr-348",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:51",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-159",
+      "testo": "**Conflitto PR #346 — solo file body memoria (chat 13/7 ~19:50):** Nicola «c'è un conflitto» subito dopo fix scelte ragionate. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `registro-realta.json` né guardiano; (2) main avanzato con fix auto-analisi live mentre #346 era aperta — stesso pattern L-129/#324/#329 (file memoria nel branch); (3) Nicola non distingue body vs codice — AD deve spiegare **tipo** di conflitto; (4) fix = rebase su main + push **stesso branch** (`28ae3360`, `07c4b357`), non PR nuova; (5) verificare `registro-scelte-check.mjs` exit 0 dopo rebase prima di dire «pronta». Correlazione L-129, L-157.",
+      "tag": [
+        "pr-346",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "registro-realta",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.94,
+      "evidenze": 3,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:54",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-158",
+      "testo": "**Radiografia «risolvi» = sync cantiere→scan, non solo spiegare (chat 13/7 ~19:37):** Nicola «risolvi questo problema» dopo analisi corretta 19:33 — spiegare scan vs cantiere non bastava. 5 perché: (1) fix chiudono `cantiere-difetti.json` ma `auto-radiografia.json` restava foto 7/7 (74 voci); (2) solo 3 righe scan avevano codice AR collegato — il resto scollegato; (3) #344 (voto live+banner) era UI, non allineamento dati; (4) Nicola vuole **numeri che si muovono** con i fix, non tre metriche confuse (51/75/91); (5) **fix PR #347:** `allinea-scan-cantiere.mjs` a ogni giro propaga chiusure cantiere→scan (7 già allineate); tab «Da fare ora» = cantiere vivo; 67 restano archivio audit; marketplace 87 = nuovo audit. **Regola:** «risolvi» dopo diagnosi = implementare sync/guardiano, non ripetere la spiegazione. Correlazione L-152 (evidenze 2).",
+      "tag": [
+        "radiografia",
+        "auto-coscienza",
+        "cantiere",
+        "scan",
+        "sync",
+        "nicola",
+        "pr-347",
+        "allinea-scan-cantiere"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:50",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-157",
+      "testo": "**Caso-studio Nicola — scelte ragionate incomplete: dossier ≠ registro (chat 13/7 ~19:40):** sulla casella Garetti Nicola chiede quando aggiornate, se complete, se tutte le ragionate della macchina compaiono — poi «correggi e fai in modo che non ricapiti più». 5 perché: (1) Panel Auto-coscienza legge solo `registro-realta.json` — mostrava **2** voci `scelta_ragionata`; (2) la macchina aveva già ragionato su **≥9** prospect (6 trattorie dossier 6/7 + Peretti + Amendolara + Ex Scuderie) ma il lavoro restava in `consegne/vendite/` senza scrittura nel registro; (3) `registro-realta` aggiornato 9/7 solo per Pane Quotidiano — Garetti fermo al 29/6; (4) processo auto-analisi non imponeva dossier→registro nello stesso passaggio; (5) **fix:** ogni prospect con dossier/pitch va in registro **nello stesso giro**; guardiano `registro-scelte-check.mjs` fa fallire il giro se manca; PR #346. Correlazione P3/L-2026-0706-54 (snapshot), AR-006 allocazione.",
+      "tag": [
+        "registro-realta",
+        "scelta_ragionata",
+        "auto-coscienza",
+        "vendite",
+        "dossier",
+        "nicola",
+        "pr-346"
+      ],
+      "reparto": "@vendite",
+      "confidenza": 0.98,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:48",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-156",
+      "testo": "**Auto-analisi live — sensori sì, sintesi AI no (chat 13/7 ~19:46):** Nicola «voglio che tutto quello che c'è dentro auto-analisi sia aggiornato in tempo reale» dopo Gap MCP 19:30. 5 perché: (1) Pannello poll 30s ma `auto-analisi.json` restava **11/7 14:30** — stesso pattern radiografia scan vs live (L-152); (2) parte **misurabile** (chip Supabase/Stripe/sensori, avvisi MCP, timestamp sensori) può essere live ogni 30s come #344; (3) sintesi/voto/domande = rigenerazione AI → solo **«fai un giro»** o cron server, non poll mezzo minuto; (4) Nicola percepisce «tutto fermo» se una sola data vecchia — serve **banner due date** («analisi giro» vs «sensori adesso»); (5) **regola:** onestà scope + fix UI (#345 merge 🔴 #116); se chiede anche testo AI sempre fresco → proporre giri automatici, passo diverso. Correlazione L-100, L-103, L-154, L-152.",
+      "tag": [
+        "auto-coscienza",
+        "auto-analisi",
+        "pannello",
+        "sensori",
+        "tempo-reale",
+        "nicola",
+        "pr-345"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:46",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-155",
+      "testo": "**Card trigger-build obsoleta — rebuild solo su pannello/ (chat 13/7 ~19:44):** Nicola «cioè?» su casella Trigger-build Pannello. 5 perché: (1) card accodata 10/7 per forzare primo build dopo fix `vercel.json`; (2) **eseguita 11/7** — commit `4d37c741` su `origin/main` (`pannello/.build-trigger`); (3) da allora ogni merge su `pannello/` ribuilda Vercel; commit memoria **non** triggerano build (voluto, quota); (4) card restata in coda = housekeeping non chiuso, non azione pendente; (5) **regola:** verificare commit trigger su origin prima di mostrare la card; se Pannello aggiornato → chiudere FATTO e dire «ignora»; se vecchio → diagnosi ultimo deploy, non rifare trigger cieco. Correlazione L-1559 (vercel.json), caso #53 card manuale.",
+      "tag": [
+        "pannello",
+        "vercel",
+        "deploy",
+        "trigger-build",
+        "coda",
+        "devops",
+        "nicola"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:44",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-154",
       "testo": "**Casella Gap MCP — auto-analisi ferma, messaggio ≠ bug Pannello (chat 13/7 ~19:30):** Nicola «questi dati sono stati aggiornati?» sulla casella «Errore: MCP marketplace gated… 4 numeri non-REST». 5 perché: (1) `auto-analisi.json` resta **11/7 14:30** — nessun giro completo oggi; (2) update chat/STATO **non** rigenera auto-analisi da sola; (3) il messaggio rosso è **avviso onesto** (4 conteggi non-REST = conferma live 7/7), non guasto nuovo del Pannello; (4) REST ricontrollato **19:30** — ordini/clienti ok, business invariato dal 24/6; (5) **regola:** spiegare subito cosa è fresco (REST) vs fermo (auto-analisi + 4 MCP) e che serve «fai un giro» per quella casella; non dire «Pannello rotto». Correlazione L-150, L-152, L-100.",
@@ -51,17 +242,17 @@
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
-      "caso_studio_nicola": false,
+      "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 19:34",
+      "ultima_conferma": "2026-07-13 19:51",
       "stato": "attiva"
     },
     {
       "id": "L-2026-0713-152",
-      "testo": "**Radiografia scan vs cantiere — fix non cancellano la lista (chat 13/7 ~19:32):** Nicola «voglio radiografia macchina/marketplace e auto-coscienza in tempo reale, ho fatto tanti fix ma sono ancora lì». 5 perché: (1) Pannello poll ok (60s) ma lista «Radiografia» legge **foto scan 7/7** (74 macchina, 87 marketplace), non il cantiere; (2) i fix **chiudono** voci in `cantiere-difetti.json` (42 chiusi, 1 in corso PQ, agg. 19:10) — comportamento corretto; (3) voto testa 51 = scan vecchio vs sonda live **75** — due fonti diverse; (4) Nicola percepisce «Pannello fermo» = mismatch scan/cantiere, non poll assente; (5) **regola:** spiegare subito scan (lista audit) vs cantiere (vivo); PR #344 = voto live + banner + poll 30s; **lista lunga** sparisce solo con **nuovo audit** («radiografia di te stesso» + marketplace). Correlazione L-100, L-106.",
+      "testo": "**Radiografia scan vs cantiere — fix non cancellano la lista (chat 13/7 ~19:32, agg. 19:50):** Nicola «voglio radiografia macchina/marketplace e auto-coscienza in tempo reale, ho fatto tanti fix ma sono ancora lì». 5 perché: (1) Pannello poll ok (60s) ma lista «Radiografia» legge **foto scan 7/7** (74 macchina, 87 marketplace), non il cantiere; (2) i fix **chiudono** voci in `cantiere-difetti.json` (42 chiusi, 1 in corso PQ) — comportamento corretto; (3) voto testa 51 = scan vecchio vs sonda live **75** — due fonti diverse; (4) Nicola percepisce «Pannello fermo» = mismatch scan/cantiere, non poll assente; (5) **regola:** spiegare scan vs cantiere; #344 = voto live + banner; **sync dati** = #347 + `allinea-scan-cantiere.mjs`; voci senza AR restano archivio fino a nuovo audit. Correlazione L-100, L-106, L-158.",
       "tag": [
         "radiografia",
         "auto-coscienza",
@@ -69,15 +260,16 @@
         "cantiere",
         "scan",
         "nicola",
-        "pr-344"
+        "pr-344",
+        "pr-347"
       ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 19:32",
+      "ultima_conferma": "2026-07-13 19:50",
       "stato": "attiva"
     },
     {
@@ -566,11 +758,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 0.99,
-      "evidenze": 6,
+      "evidenze": 7,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:51",
+      "ultima_conferma": "2026-07-13 19:52",
       "stato": "attiva"
     },
     {
@@ -3654,9 +3846,17 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**«Ci sono conflitti» su PR #347 radiografia (chat 13/7 ~19:45):** stesso pattern #346 — conflitto solo `consegne/tech/pr-ad-mycity-body.md`, codice `allinea-scan-cantiere` intatto; si aspetta rebase stesso branch + spiegazione body vs codice + card verde; merge **PR #347** 🔴 + Ctrl+Shift+R → «1 da fare», voto 75. Vedi L-163.",
+    "**«Ci sono conflitt» su PR #348 pallini (chat 13/7 ~19:45):** stesso pattern #346 — conflitto solo file memoria (`apprendimento.json` + `auto-miglioramento.json`), fix `page.tsx` intatto; si aspetta rebase stesso branch + spiegazione memoria vs codice + card verde; se ancora conflitto dopo fix → segnalare subito, non merge a mano; merge **PR #348** 🔴 #118 + Ctrl+Shift+R + test pallini. Vedi L-162.",
+    "**Pallini — scenario 1+4 confermato, fix fingerprint (chat 13/7 ~19:41):** risponde «1 e 4» al menu diagnosi — si aspetta fix **mirato** (impronta testo ultima risposta, non timestamp generico), non altra PR generica né restart worker; scenario 1 (esci→~8s rosso) e 4 (tutte rosse) = **stesso** difetto; merge **PR #348** + Ctrl+Shift+R + test 15s esci da chat + elenco non tutto rosso. Vedi L-160.",
+    "**«C'è un conflitto» / «riesci a vederlo?» / «ci sono conflitt» / «ci sono conflitti» su PR pendente — pattern ricorrente (chat 13/7 ~19:45):** su #346, #347, #348 segnala conflitto — spesso solo file memoria/body (`pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento) se main avanza; si aspetta che l'AD **veda, risolva e verifichi zero residui** sulla stessa PR con spiegazione chiara (body/memoria vs codice fix), non «risolto» senza ricaricare card; dopo fix → Ctrl+Shift+R e merge. Vedi L-159, L-161, L-162, L-163.",
+    "**Scelte ragionate complete e visibili (chat 13/7 ~19:40):** sulla casella Garetti chiede quando aggiornate, se la lista è completa, se la macchina ha ragionato su botteghe che non compaiono — poi «correggi e non ricapiti»; si aspetta che **tutte** le `scelta_ragionata` della macchina siano in Auto-coscienza (non nascoste nei dossier), con data aggiornamento onesta; AD deve spiegare registro vs dossier prima di dire «solo 2». Vedi L-157.",
+    "**Auto-analisi tutto in tempo reale (chat 13/7 ~19:46):** «voglio che tutto quello che c'è dentro auto-analisi sia aggiornato in tempo reale» — estende Gap/radiografia (L-154/L-152); si aspetta chip salute, avvisi MCP e date sensori freschi ogni ~30s senza giro; AD deve spiegare che sintesi/voto/domande restano del giro AI (banner due date); fix **PR #345** merge 🔴 #116; se vuole anche testo AI sempre fresco → giri automatici server. Vedi L-156.",
+    "**«Cioè?» = spiegazione semplice della casella (chat 13/7 ~19:44):** su card Trigger-build Pannello chiede chiarimento in una parola — si aspetta risposta in italiano piano (cosa fa, serve ancora, può ignorarla), non gergo Vercel/webhook/commit trigger; se azione già fatta → dirlo subito e chiudere la card. Vedi L-155.",
     "**Casella Gap MCP — vuole sapere se è fresca (chat 13/7 ~19:30):** «questi dati sono stati aggiornati?» su AutoCoscienza — si aspetta risposta netta su **quella** casella: cosa è stato ricontrollato ora (REST ordini/clienti) vs cosa resta fermo (auto-analisi 11/7, 4 numeri MCP 7/7); il rosso = gap dichiarato, non bug; per refresh → «fai un giro». Vedi L-154.",
     "**Pallini — niente altro tentativo generico (chat 13/7 ~19:34):** «perché c'è ancora il problema dei pallini rossi?» dopo 4 fix mergiati e nona prova «uguale» — si aspetta diagnosi per **scenario specifico** (esci→rosso / Plancia / lampeggio / tutte rosse), non altra PR generica né restart worker; AD deve chiedere quale vede prima di fixare. Vedi L-153.",
-    "**Radiografia + marketplace + auto-coscienza in tempo reale (chat 13/7 ~19:32):** «voglio che si aggiornino in tempo reale» dopo fix che non fanno sparire la lista — si aspetta numeri/voto che riflettono i fix fatti, non foto scan del 7/7; AD deve spiegare scan vs cantiere prima di dire «Pannello rotto»; fix UI (#344 merge 🔴) + nuovo audit per lista che cala. Estende standing-ask L-100/L-106. Vedi L-152.",
+    "**Radiografia «risolvi» = fix strutturale, non solo spiegare (chat 13/7 ~19:37):** dopo analisi scan vs cantiere chiede «risolvi questo problema» — spiegare che la lista è foto 7/7 **non basta**; si aspetta sync cantiere→scan (`allinea-scan-cantiere.mjs`), tab «Da fare ora» con pezzi vivi, voto live 75; marketplace 87 cala solo con nuovo audit. Estende preferenza 19:32. Vedi L-158.",
+    "**Radiografia + marketplace + auto-coscienza in tempo reale (chat 13/7 ~19:32):** «voglio che si aggiornino in tempo reale» dopo fix che non fanno sparire la lista — si aspetta numeri/voto che riflettono i fix fatti, non foto scan del 7/7; AD deve spiegare scan vs cantiere prima di dire «Pannello rotto»; fix UI (#344) + sync (#347) + nuovo audit per voci senza AR. Estende standing-ask L-100/L-106. Vedi L-152, L-158.",
     "**Testo finale tutto insieme — non chiudere streaming (chat 13/7 ~19:23):** dopo «1)si 2) alla fine 3)uguale», chiarito con «2) tutto insieme» — il testo vero non cresce parola per parola nemmeno negli ultimi secondi; «Sto elaborando…» subito ok ma non basta; AD deve diagnosticare DB vs Pannello, non ripetere merge/restart. Vedi L-151.",
     "**Attività & Briefing — date devono tornare (chat 13/7 ~19:20):** chiede «perché attività e briefing sono dell'altro ieri?» — si aspetta che le date in quella sezione riflettano l'attività recente; se STATO è aggiornato ma il briefing no, spiegare che servono due artefatti diversi (file briefing vs snapshot chat) e offrire «fai un giro» per allineare. Vedi L-150.",
     "**Feedback streaming 3 punti numerati (chat 13/7 ~19:15):** dopo nona prova risponde «1)si 2) alla fine 3)uguale» — formato strutturato che l'AD deve usare per le prove successive: (1) «Sto elaborando…» subito, (2) testo cresce dall'inizio (non solo alla fine), (3) pallini meglio/uguale/peggio; non chiudere streaming finché (2) non ok. Vedi L-149.",
@@ -3797,13 +3997,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 174,
+    "lezioni_attive": 183,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.53,
-    "tasso_calcolato_il": "2026-07-13 19:44",
+    "tasso_applicazione": 0.5,
+    "tasso_calcolato_il": "2026-07-13 19:54",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 19:44"
+    "tick_leggero_il": "2026-07-13 19:54"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
