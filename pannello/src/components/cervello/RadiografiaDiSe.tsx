@@ -34,6 +34,8 @@ type Dati = { collegato: boolean; messaggio?: string; live?: Live; radiografia?:
 type Live = {
   voto?: number | null; fonte_voto?: string; data_sonda?: string | null; data_scan?: string | null;
   cantiere_aggiornato?: string | null; aperti?: number; in_corso?: number; chiusi?: number;
+  da_fare?: number; findings_aperti?: number | null; findings_in_corso?: number | null;
+  sync_aggiornato?: string | null;
   scan_ore_fa?: number | null; sonda_ore_fa?: number | null; scan_stale?: boolean;
 };
 
@@ -65,7 +67,7 @@ function trendBreve(v: unknown): string {
 
 export default function RadiografiaDiSe() {
   const [d, setD] = useState<Dati | null>(null);
-  const [tab, setTab] = useState<Tab>("dimensioni");
+  const [tab, setTab] = useState<Tab>("cantiere");
   // 🔗 Azioni indicizzate per origine (origine → id azione): per il link "vai all'azione" sui difetti.
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
 
@@ -116,9 +118,12 @@ export default function RadiografiaDiSe() {
   const serieGiorni = [...perGiorno.values()].sort((a, b) => String(a.data).localeCompare(String(b.data))).slice(-21);
   const BARRA_MAX_PX = 96; // il grafico è alto h-28 (112px): 96px di barra + etichetta data
 
+  const daFare = live?.da_fare ?? aperti.length;
+  const findingsAperti = live?.findings_aperti;
+
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
-    { id: "dimensioni", label: "Radiografia", icon: <Cpu size={15} />, badge: r?.dimensioni?.length || 0 },
-    { id: "cantiere", label: "Cantiere difetti", icon: <Hammer size={15} />, badge: aperti.length },
+    { id: "cantiere", label: "Da fare ora", icon: <Hammer size={15} />, badge: daFare || undefined },
+    { id: "dimensioni", label: "Archivio audit", icon: <Cpu size={15} />, badge: findingsAperti ?? undefined },
     { id: "lettera", label: "Lettera", icon: <Mail size={15} /> },
     { id: "storico", label: "Andamento", icon: <TrendingUp size={15} /> },
   ];
@@ -138,7 +143,10 @@ export default function RadiografiaDiSe() {
         {votoSOk && (
           <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoS)}`}>{votoS}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti truncate">salute {trendBreve(r?.trend)}{live?.fonte_voto === "sonda" ? " · live" : ""}</div>
+            <div className="t-eti truncate">
+              {daFare > 0 ? `${daFare} da fare · ` : "ok · "}
+              salute {trendBreve(r?.trend)}{live?.fonte_voto === "sonda" ? " · live" : ""}
+            </div>
           </div>
         )}
       </div>
@@ -150,17 +158,18 @@ export default function RadiografiaDiSe() {
           {sintesiR && <p className="t-corpo break-words mb-3">{sintesiR}</p>}
 
           {/* La lista «Radiografia» è la foto dell'audit; il cantiere è il backlog vivo che si aggiorna coi fix. */}
-          {live && (live.scan_stale || (live.aperti ?? 0) + (live.in_corso ?? 0) < (r?.dimensioni?.length || 0)) && (
+          {live && (live.scan_stale || (findingsAperti != null && daFare < findingsAperti)) && (
             <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 mb-3 text-[12px] text-amber-900/90">
-              <b>Lista problemi = foto dello scan</b>
+              <b>Archivio audit</b>
               {live.data_scan ? ` del ${dataVault(live.data_scan)}` : ""}
-              {live.scan_ore_fa != null ? ` (${live.scan_ore_fa}h fa)` : ""}.
-              {" "}I fix che mergi chiudono il <button type="button" onClick={() => setTab("cantiere")} className="underline font-medium hover:text-brand">cantiere</button>
-              {live.chiusi != null ? ` (${live.chiusi} già chiusi` : ""}
+              {live.scan_ore_fa != null ? ` (${live.scan_ore_fa}h fa)` : ""}
+              {findingsAperti != null ? ` · ${findingsAperti} voci nello scan` : ""}.
+              {" "}I fix aggiornano <button type="button" onClick={() => setTab("cantiere")} className="underline font-medium hover:text-brand">Da fare ora</button>
+              {live.chiusi != null ? ` (${live.chiusi} chiusi` : ""}
               {live.in_corso ? `, ${live.in_corso} in corso` : ""}
               {live.aperti ? `, ${live.aperti} aperti` : ""}
-              {live.chiusi != null ? ")" : ""} — non cancellano da soli le righe sotto finché non rifacciamo l&apos;audit completo.
-              {live.cantiere_aggiornato ? ` Cantiere aggiornato ${dataVault(live.cantiere_aggiornato)}.` : ""}
+              {live.chiusi != null ? ")" : ""}.
+              {live.sync_aggiornato ? ` Sync ${dataVault(live.sync_aggiornato)}.` : ""}
             </div>
           )}
 

@@ -16,7 +16,7 @@ type Dati = {
   collegato: boolean; messaggio?: string; data?: string; fonte_raw?: string; report?: string | null;
   sintesi?: string; meta?: { findings?: number; bloccanti?: number; gravi?: number; minori?: number; agenti?: number | null };
   dimensioni?: Dimensione[];
-  live?: { data_scan?: string | null; scan_ore_fa?: number | null; scan_stale?: boolean };
+  live?: { data_scan?: string | null; scan_ore_fa?: number | null; scan_stale?: boolean; findings_aperti?: number | null; sync_aggiornato?: string | null };
 };
 
 const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
@@ -61,10 +61,10 @@ export default function RadiografiaMarketplace() {
             <div className="t-eti">L&apos;audit profondo del sito: 13 dimensioni, ogni problema verificato. {d?.data ? `· ${dataVault(d.data)}` : ""}</div>
           </div>
         </div>
-        {m?.findings != null && (
+        {m?.findings != null && d && (
           <div className="text-right shrink-0">
-            <div className="text-[26px] font-bold leading-none tabular-nums text-red-600">{m.bloccanti ?? 0}</div>
-            <div className="t-eti">bloccanti</div>
+            <div className="text-[26px] font-bold leading-none tabular-nums text-amber-600">{d.live?.findings_aperti ?? m.findings ?? 0}</div>
+            <div className="t-eti">nello scan{d.data ? ` · ${dataVault(d.data)}` : ""}</div>
           </div>
         )}
       </div>

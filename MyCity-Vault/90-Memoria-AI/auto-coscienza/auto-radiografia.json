@@ -29,7 +29,7 @@
     "verdetto": "attenzione",
     "nota": "loop chiude (con prova) · briefing STALE (53h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
   },
-  "voto_salute_architettura": 51,
+  "voto_salute_architettura": 75,
   "salute_marketplace": {
     "fonte": "consegne/audit/2026-07-07-radiografia.md",
     "findings": 87,
@@ -286,7 +286,11 @@
             "pattern": "giri_sconosciuto",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-016"
         },
         {
           "titolo": "Il verificatore dell'automazione non vigila il timer degli 'occhi' (sentinella-dati, 1 min) né monitora/sentinella",
@@ -482,7 +486,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json",
             "pattern": "\"stato\":\\s*\"(azzeccata|mancata)\"",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-040"
         },
         {
           "titolo": "Nessun codice APRE un esperimento: esperimenti=[] da sempre, il volano-business non ha mai misurato 1 esito",
@@ -498,7 +506,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
             "pattern": "\"esperimenti\":\\s*\\[\\s*\\{",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-041"
         },
         {
           "titolo": "La prova-che-il-loop-chiude poggia su un solo pilastro: i due prong business sono già morti e i difetti aperti sono finiti",
@@ -600,7 +612,11 @@
             "file": "cervello/giro.sh",
             "pattern": "_rel in.*ultimo-briefing\\.json",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-02",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-014"
         },
         {
           "titolo": "Soglie di freschezza del battito incoerenti: 2h (timer) vs 6h (sonda) vs 12h (delta-gate)",
@@ -688,7 +704,11 @@
             "file": "cervello/giro.sh",
             "pattern": "calibrazione\\.mjs prevedi",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-042"
         },
         {
           "titolo": "Metrica cieca alla difficoltà: prevedere lo status-quo su un business fermo vale 'azzeccata' pieno → gonfia l'autonomia",
@@ -1082,7 +1102,11 @@
             "file": "cervello/motore-ai.sh",
             "pattern": "output-format",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-043"
         },
         {
           "titolo": "Il router economico non esegue MAI: instrada a Groq/Gemini, lo registra, poi gira sempre su Claude premium",
@@ -1179,7 +1203,11 @@
             "file": "cervello/giro.sh",
             "pattern": "MEM_DIRS|guardiano-integrit|perimetro-codice|autoscrittura",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-10 06:35",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-044"
         },
         {
           "titolo": "L'auto-fix chiude i difetti con una regex scritta da chi ha diagnosticato il difetto (macchina che si dà i voti da sola)",
@@ -1704,5 +1732,18 @@
   "sonda_meta": {
     "giri_tasso_basso": 0,
     "aggiornato": "2026-07-13 19:33"
+  },
+  "sync_scan": {
+    "aggiornato": "2026-07-13 19:39",
+    "findings_aperti": 67,
+    "findings_in_corso": 0,
+    "findings_chiusi": 7,
+    "findings_tot": 74,
+    "cantiere_aperti": 0,
+    "cantiere_in_corso": 1,
+    "cantiere_chiusi": 42,
+    "match_aggiornati": 7,
+    "data_scan": "2026-07-07 22:21",
+    "voto_live": 75
   }
 }
