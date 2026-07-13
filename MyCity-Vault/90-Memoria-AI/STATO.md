@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:14
-fonte: AD digitale (🌙 13/7 18:14 CHAT: pallini DUE bug distinti → #338+#340; business INVARIATO dal 24/6. | storico: 🌙 13/7 18:12 streaming #339; 18:01 pallino post-#338.)
+aggiornato: 2026-07-13 18:15
+fonte: AD digitale (🌙 13/7 18:15 CHAT: verifica post-merge #338+#339+#340 su main; worker restart pendente. | storico: 🌙 13/7 18:14 pallini DUE bug; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:15 — CHAT: verifica post-merge fix chat — codice ok, worker stale.** Nicola «facciamo una verifica». **Esito git main `90045a17`:** #338 (streaming Cursor+pallini race), #339 (testo spezzato a colonna), #340 (pallino chat non visibile) **tutte mergiate** (`d7881680`, `824e1759`); `worker.sh` con `--stream-partial-output` + `_estrai_stream` testato in locale (`retro di circa un minuto.`). **Non live ancora:** worker chat **non riavviato** dal **16:08:28** — streaming resta rotto sul VPS finché non `sudo systemctl restart mycity-worker-chat`; deploy Vercel post-merge ~18:14 → refresh forzato (Ctrl+F5). Nicola 18:15 ancora in test pallini (worker telemetry). Coda Pannello card #339/#340 possono restare «in attesa» pur mergiate. Fonte: chat Nicola 13/7 ~18:15 + git log main + AD.
+>
 > 💬 **13/7 ~18:14 — CHAT: pallini — Nicola chiarisce DUE sintomi distinti.** (A) «quando schiaccio sulla chat il pallino scompare e quando esco torna (o compare se non c'era)» → race timestamp lavoro AD vs lettura, fix **#338** mergiata (`81c28c0b`). (B) «sulle chat in cui l'ai ha risposto ma non ho aperto la chat il pallino non c'è» → Pannello nascondeva pallino perché `selectedConv` restava «aperta» in memoria anche in Plancia/Lavori. **Fix 🟡 PR #340** (`eef9e4f4`, 18:12): pallino sparisce solo se chat davvero a schermo (Assistente o fluttuante). **Pendente:** merge 🔴 #112 (#340) + #111 (#338 verifica deploy) + deploy Vercel ~2 min. Test B: scrivi → Plancia → elenco Conversazioni deve mostrare pallino. Fonte: chat Nicola 13/7 ~18:14 + AD.
 >
 > 💬 **13/7 ~18:12 — CHAT: streaming spezzato a colonna — PR #339 + #340.** Nicola «guarda come mi risponde, lo vedi?» + screenshot: mentre l'AD scrive, ogni micro-frammento Cursor finisce su una riga sua (sillabe verticali), non testo orizzontale. **Causa:** worker metteva i delta uno sotto l'altro + Markdown a metà risposta. **Fix 🟡 PR #339** (`1081be71`, `fix/chat-streaming-testo-spezzato`): concat orizzontale + testo semplice finché completo; verificato in locale. **Fix 🟡 PR #340** (18:12): pallino su chat con risposta AD non riaperta (residuo post-#338). **Pendente:** merge 🔴 #113 (#339) + #112 (#340) + deploy Vercel ~2 min + `sudo systemctl restart mycity-worker-chat` (fermo dal 16:08). Fonte: chat Nicola 13/7 ~18:03 + screenshot + AD.

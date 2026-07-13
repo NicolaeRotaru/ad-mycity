@@ -14,31 +14,31 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-340-pallino-mancante — PR #340 aperta 2026-07-13 ~18:12 · merge 🔴 #112
+### ✅ #pr-340-pallino-mancante — MERGIATA 2026-07-13 ~18:14 · ⏳ deploy Vercel + test Nicola
 
-**Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — oggi sparisce perché la chat resta «selezionata» in memoria anche se non è a schermo.
+**Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — pallino sparisce solo se la chat è davvero a schermo (tab Assistente o drawer fluttuante).
 
-**PR su GitHub:** [#340 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/340) ← commit `eef9e4f4`, branch `fix/pallino-chat-non-visibile`
+**PR su GitHub:** [#340 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/340) ← merge `824e1759`, commit `eef9e4f4`
 
-**Origine:** Nicola ~18:14 «sulle chat in cui l'ai ha risposto ma non ho aperto la chat il pallino non è su quella chat» — bug inverso al pallino che torna all'uscita (#338).
+**Esito verifica 18:15:** codice su main ok; test B = scrivi → Plancia → elenco Conversazioni deve mostrare pallino dopo risposta AD.
 
-**Test post-merge:** scrivi in chat → vai in Plancia → quando rispondo, apri elenco Conversazioni → deve esserci il pallino.
+**Pendente:** refresh forzato Pannello (Ctrl+F5) post-deploy Vercel.
 
-- **Colore:** 🟡 proposta · merge 🔴 #112
+- **Colore:** ✅ merge fatto · verifica UX post-deploy
 
 ---
 
-### 🟡 #pr-339-streaming-spezzato — PR #339 aperta 2026-07-13 ~18:11 · merge 🔴 #113
+### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ⏳ riavvio worker VPS
 
 **Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
 
-**PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← commit `1081be71`, branch `fix/chat-streaming-testo-spezzato`
+**PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← merge `d7881680`, commit `1081be71`
 
-**Origine:** Nicola screenshot ~18:03 «guarda come mi risponde, lo vedi?» — #338 aveva riattivato lo streaming ma la resa restava illeggibile.
+**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola; **worker chat non riavviato dal 16:08** → streaming live ancora rotto sul VPS.
 
-**Post-merge:** deploy Vercel ~2 min + `sudo systemctl restart mycity-worker-chat`.
+**Pendente:** `sudo systemctl restart mycity-worker-chat` + Ctrl+F5 + prova streaming orizzontale.
 
-- **Colore:** 🟡 proposta · merge 🔴 #113
+- **Colore:** ✅ merge fatto · riavvio worker obbligatorio
 
 ---
 
