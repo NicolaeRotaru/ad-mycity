@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-14 00:49] **Rete sync Pannello** — Nicola: una sola fonte (vault GitHub), se cambia un dato **tutto** il Pannello si aggiorna insieme (fix radiografia → sparisce lì + Da approvare + Plancia…); prima 6 caselle collegate, ora tutte via `mycity:sync` — **PR #362** merge 🔴 #130.
 - [2026-07-13 23:44] **Archivio annida GitHub** — Nicola: GitHub **dentro Archivio**, tab **Consegne** / **GitHub**; menu Memoria **3 voci** (Viva·Archivio·Storico); link vecchi → Archivio›GitHub — **PR #359** merge 🔴 #128.
 - [2026-07-13 23:39] Memoria UX annidata — Decisioni **accordion** semi-aperto + testo umano; Stato&numeri tab **Stato/OKR**; Memoria viva tab **Memoria/Scoperte** (briefing+Sala aperti) — **PR #358** merge 🔴 #127.
 - [2026-07-13 23:32] Radiografia design Pannello — Nicola «non togliere/eliminare niente» = **solo audit sola lettura**; report `consegne/design/2026-07-13-radiografia-pannello.md` (**22** problemi, 0 bloccanti); priorità fix: batch navigazione → Numeri dark → header pagine.
@@ -15,4 +16,3 @@
 - [2026-07-13 22:34] **Clienti MyCity = solo botteghe** — Nicola: né ristoranti né trattorie, punto; non «tattici»; vendite su botteghe core (Garetti, Peretti, Amendolara); ogni correzione → registro-fatti + file vivi + coerenza-fatti.
 - [2026-07-13 22:33] Avviso memoria incoerente — prima `coerenza-fatti` (exit 0 = verde); avviso 18:20 può essere **storico**: resta in elenco finché non marcato risolto anche se vault pulito dal 20:21.
 - [2026-07-13 22:28] **PR #356 approvata** — Nicola «sì» dopo grilling: menu 3 voci (Radiografia macchina · Salute sito · Auto-coscienza), home firmare→ritmo→lettera→KPI→macchina (8 pallini), lettera in home, migliorie trio; merge 🔴 **#356** #125.
-- [2026-07-13 22:22] **Home cima = da firmare (A)** — prima cosa in Plancia = cosa approvare oggi; ritmo+lettera subito sotto; numeri e macchina dopo — coerente con intento «azione in 10s».

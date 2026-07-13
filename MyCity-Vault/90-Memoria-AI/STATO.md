@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 23:44
-fonte: AD digitale (💬 13/7 23:44 PR #359 GitHub in Archivio. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 00:49
+fonte: AD digitale (💬 14/7 00:49 PR #362 rete sync Pannello. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~00:47 — CHAT: rete sync Pannello — fonte unica + aggiornamento istantaneo ovunque — PR #362.** Nicola chiede che il Pannello abbia **una sola fonte di verità** (vault GitHub) e che **tutto** sia collegato: segna un fix in Radiografia macchina → sparisce lì, si aggiorna Da approvare, Plancia, cuore macchina, memoria — senza refresh manuale. **Implementato 🟡 PR #362** (`e34faed5`, branch `fix/panel-sync-completo`): `panel-sync.ts` con evento `mycity:sync` + `usePanelSync`/`emitSync` su **tutte** le caselle (prima solo 6 ascoltavano la rete, le altre poll 30–90s isolate); worker emette sync a fine approvazione/giro. `tsc --noEmit` verde. **Pendente:** merge 🔴 **#362** (#130) → deploy Vercel ~2 min → prova: approva azione legata a difetto e verifica aggiornamento ovunque. Fonte: chat Nicola 14/7 ~00:47 + PR #362.
+>
 > 💬 **13/7 ~23:43 — CHAT: GitHub dentro Archivio — tab Consegne e GitHub — PR #359.** Nicola «inserisci github dentro archivio e metti due tab: consegne e github». **Implementato 🟡 PR #359** (`19a3849c`): menu Memoria = **3 tab** (Viva · Archivio · Storico — GitHub tolto da lì); **Archivio** = tab **Consegne** (report/documenti) + **GitHub** (file repo); link vecchi a GitHub reindirizzano ad Archivio › GitHub. **Pendente:** merge 🔴 **#359** (#128) — indipendente da #358; entrambe approvabili. Fonte: chat Nicola 13/7 ~23:43 + PR #359.
 >
 > 💬 **13/7 ~23:38 — CHAT: accordion Decisioni + tab Stato/OKR e Memoria/Scoperte — PR #358.** Nicola chiede: (1) Storico→Decisioni = accordion apri/chiudi default semi-aperto + testo umano; (2) Stato & numeri = tab **Stato** / **OKR**; (3) Memoria viva = tab **Memoria** / **Scoperte**, briefing e Sala Operativa aperti. **Implementato 🟡 PR #358** (`489ea69e`): decisione più recente aperta, altre con anteprima; piani sotto OKR; briefing+Sala restano espansi in tab Memoria. **Pendente:** merge 🔴 **#358** (#127) → deploy Vercel ~2 min. Fonte: chat Nicola 13/7 ~23:38 + PR #358.

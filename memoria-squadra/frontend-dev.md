@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 00:49 · Rete sync Pannello — Nicola «fonte unica + tutto collegato in tempo reale» · atteso: segna fix/approva → aggiornamento istantaneo ovunque senza refresh · reale: PR #362 (`e34faed5`); `panel-sync.ts` evento `mycity:sync`; `usePanelSync` su tutte le caselle (prima 6); worker emette sync post-azione; merge 🔴 #130 · L-196 · #pannello #sync #fonte-unica #pr-362
 - 2026-07-13 23:44 · GitHub dentro Archivio — Nicola «inserisci github dentro archivio, due tab consegne e github» · atteso: GitHub sotto Archivio, non tab Memoria top-level · reale: PR #359 (`19a3849c`); Archivio tab Consegne+GitHub; menu Memoria 3 tab; redirect legacy; merge 🔴 #128 · L-195 · #pannello #memoria #archivio #github #pr-359
 - 2026-07-13 23:39 · Accordion Decisioni + tab Stato/OKR e Memoria/Scoperte — Nicola spec UX annidata in hub Memoria · atteso: accordion semi-aperto + testo umano; tab Stato/OKR; tab Memoria/Scoperte con briefing+Sala aperti · reale: PR #358 (`489ea69e`); decisione recente aperta; piani sotto OKR; merge 🔴 #127 · L-194 · #pannello #memoria #accordion #ux #pr-358
 - 2026-07-13 23:32 · Radiografia design Pannello — Nicola «non togliere/eliminare niente» · atteso: audit sola lettura tutto il Pannello + report · reale: 22 problemi (0 bloccanti, 9 gravi); fix luglio ok; gravi = navigazione+layout+Numeri dark; priorità batch nav → dark → header; nessun codice toccato · L-193 · #pannello #design #radiografia #ux
