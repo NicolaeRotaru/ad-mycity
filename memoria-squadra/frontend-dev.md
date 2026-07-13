@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 19:46 · Auto-analisi live — Nicola «tutto in tempo reale» · atteso: spiegare cosa può essere live vs giro + fix Pannello · reale: PR #345 chip/avvisi/sensori poll 30s + banner due date; sintesi/voto restano giro; merge 🔴 #116 · L-156 · #pannello #auto-coscienza #pr-345
 - 2026-07-13 19:34 · Pallini ancora rossi post-#336–#342 — Nicola chiede perché persistono · atteso: spiegare causa + prossimo fix mirato · reale: 4 PR oggi insufficienti; ipotesi uscita→poll ~8s vs updated_at; solo Pannello Vercel; nessuna PR residuo; attende scenario 1–4 · L-153 · #pannello #pallini #pr-342
 - 2026-07-13 19:32 · Radiografia scan vs cantiere — Nicola «fix fatti ma problemi ancora lì» · atteso: spiegare perché lista 74/87 resta + fix voto live · reale: scan 7/7 statico vs cantiere 42 chiusi; PR #344 voto live+banner+poll 30s; nuovo audit per lista che cala · L-152 · #pannello #radiografia #pr-344
 - 2026-07-13 19:23 · Nona prova — Nicola «2) tutto insieme» · atteso: testo cresce parola per parola negli ultimi secondi · reale: tutto in un colpo solo; #343 ok placeholder; pallini invariati; prossimo = DB parziali vs poll UI · L-151 · #pannello #streaming #prova-live
