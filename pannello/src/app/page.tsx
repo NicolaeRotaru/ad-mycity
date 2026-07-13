@@ -24,7 +24,6 @@ import {
   History,
   Copy,
   FileText,
-  FolderOpen,
   Brain,
   Plus,
   MessagesSquare,
@@ -88,7 +87,6 @@ import {
   Zap,
   Plug,
   Cpu,
-  FolderTree,
   Swords,
   CalendarDays,
   Lightbulb,
@@ -104,12 +102,10 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import Memoria from "@/components/aree/Memoria";
-import EsploraGitHub from "@/components/aree/EsploraGitHub";
 import RadiografiaMacchinaArea from "@/components/aree/RadiografiaMacchinaArea";
 import SaluteSitoArea from "@/components/aree/SaluteSitoArea";
 import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
 import Lavori from "@/components/aree/Lavori";
-import Storico from "@/components/aree/Storico";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriReport from "@/components/NumeriReport";
@@ -117,7 +113,6 @@ import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandi
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
-import Documenti from "@/components/aree/Documenti";
 import { vaultToIso } from "@/lib/format";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import Aggiornato from "@/components/Aggiornato";
@@ -1692,6 +1687,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   const vistaPrimaVolta = useRef(true);
   const ultimaVistaStoria = useRef<string | null>(null);
   const applicaVistaSalvata = (v: string) => {
+    // Legacy: voci fuse in Memoria (hub 4 tab).
+    if (v === "report") {
+      setVista("memoria");
+      setTimeout(() => ripristinaSub("memoria", "archivio"), 0);
+      return;
+    }
+    if (v === "esplora") {
+      setVista("memoria");
+      setTimeout(() => ripristinaSub("memoria", "github"), 0);
+      return;
+    }
+    if (v === "storico") {
+      setVista("memoria");
+      setTimeout(() => ripristinaSub("memoria", "storico-decisioni"), 0);
+      return;
+    }
     // Legacy: auto-coscienza e marketplace erano tab dentro «cervello» — ora voci menu a sé.
     if (v === "cervello-marketplace") setVista("salute-sito");
     else setVista(v as Vista);
@@ -1768,6 +1779,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
       if (!det?.vista) return;
+      // Legacy: report/storico/esplora → hub Memoria.
+      if (det.vista === "report") {
+        setVista("memoria");
+        ripristinaSub("memoria", det.sub ? (det.sub.startsWith("archivio/") ? det.sub : `archivio/${det.sub}`) : "archivio");
+        return;
+      }
+      if (det.vista === "esplora") {
+        setVista("memoria");
+        ripristinaSub("memoria", "github");
+        return;
+      }
+      if (det.vista === "storico") {
+        setVista("memoria");
+        ripristinaSub("memoria", det.sub === "diario" ? "storico-decisioni" : det.sub ? `storico-${det.sub}` : "storico-decisioni");
+        return;
+      }
       // Legacy deep-link: sub marketplace/auto-coscienza sotto vista cervello.
       if (det.vista === "cervello" && det.sub === "marketplace") setVista("salute-sito");
       else if (det.vista === "cervello" && det.sub === "auto-coscienza") setVista("auto-coscienza");
@@ -2155,22 +2182,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   ],
                 },
                 {
-                  gruppo: "Report & Piani",
-                  voci: [
-                    { id: "report", label: "Archivio", icon: <FolderOpen size={15} /> },
-                  ],
+                  gruppo: "Memoria",
+                  voci: [{ id: "memoria", label: "Memoria", icon: <Layers size={15} /> }],
                 },
                 {
-                  gruppo: "Macchina & memoria",
+                  gruppo: "Macchina",
                   voci: [
                     { id: "cervello", label: "Radiografia macchina", icon: <Cpu size={15} /> },
                     { id: "salute-sito", label: "Salute sito", icon: <Store size={15} /> },
                     { id: "auto-coscienza", label: "Auto-coscienza", icon: <Microscope size={15} /> },
+                  ],
+                },
+                {
+                  gruppo: "Sistema",
+                  voci: [
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-                    { id: "memoria", label: "Memoria", icon: <Layers size={15} /> },
-                    { id: "storico", label: "Storico", icon: <History size={15} /> },
                     { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
-                    { id: "esplora", label: "GitHub", icon: <FolderTree size={15} /> },
                   ],
                 },
               ];
@@ -2227,10 +2254,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
         )}
 
-        {/* ===================== REPORT & PIANI (documenti in consegne/) ===================== */}
-        {vista === "report" && <Documenti />}
-
-        {/* ===================== RADIOGRAFIA MACCHINA ===================== */}
+        {/* ===================== MEMORIA (hub: viva · archivio · storico · github) ===================== */}
+        {(vista === "memoria" || vista === "report" || vista === "esplora" || vista === "storico") && (
+          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
+        )}
         {vista === "cervello" && <RadiografiaMacchinaArea />}
 
         {/* ===================== SALUTE SITO ===================== */}
@@ -2306,11 +2333,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
         )}
 
-        {/* ===================== MEMORIA & DECISIONI ===================== */}
-        {vista === "memoria" && (
-          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
-        )}
-
         {/* ===================== PERSONE ===================== */}
         {vista === "persone" && (
           <AreaModuli area="persone" titolo="🤝 Persone" sottotitolo="Chi compra, chi vende, chi consegna e chi lavora con noi." metriche={metriche} aggAt={datiAggiornatiAt} />
@@ -2337,8 +2359,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         )}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
-        {vista === "esplora" && <EsploraGitHub />}
-
         {vista === "assistente" && (
         <div className="space-y-4">
           <div>
@@ -2675,10 +2695,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
         )}
 
-        {/* Storico: area a sé (come l'Assistente), col suo header e le sue schede Governo/Diario */}
-        {vista === "storico" && (
-          <Storico diario={diario} memoria={memoria} onSvuotaDiario={cancellaDiario} fa={fa} />
-        )}
       </main>
       </div>
 

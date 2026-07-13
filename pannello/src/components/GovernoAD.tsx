@@ -26,8 +26,10 @@ function quando(s: string) {
   return istante(s);
 }
 
-export default function GovernoAD() {
-  const [tab, setTab] = useState<Tab>("decisioni");
+type Props = { variant?: "full" | "decisioni" | "operativo" };
+
+export default function GovernoAD({ variant = "full" }: Props) {
+  const [tab, setTab] = useState<Tab>(variant === "operativo" ? "agenti" : "decisioni");
   const [loading, setLoading] = useState(false);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
@@ -125,12 +127,18 @@ export default function GovernoAD() {
     }
   }
 
-  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+  const tabsTutte: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "decisioni", label: "Decisioni", icon: <Scale size={14} /> },
     { id: "agenti", label: "Diretta agenti", icon: <Radio size={14} /> },
     { id: "feed", label: "Feed attività", icon: <ListTree size={14} /> },
     { id: "controllo", label: "Controllo", icon: <Power size={14} /> },
   ];
+  const tabs =
+    variant === "decisioni"
+      ? tabsTutte.filter((t) => t.id === "decisioni")
+      : variant === "operativo"
+        ? tabsTutte.filter((t) => t.id !== "decisioni")
+        : tabsTutte;
 
   const decViste = decisioni.filter((d) => filtro === "tutte" || d.livello === filtro);
 
@@ -153,7 +161,7 @@ export default function GovernoAD() {
       </div>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
-        {tabs.map((t) => (
+        {tabs.length > 1 && tabs.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}

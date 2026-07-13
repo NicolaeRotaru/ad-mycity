@@ -281,7 +281,7 @@ export default function Plancia({
         <div className="sez-head mb-3">
           <span className="sez-ico"><FileText size={16} /></span>
           <span className="t-sez">Report &amp; piani dell&apos;AD</span>
-          <button onClick={() => vaiArea("report")} className="ml-auto t-eti hover:text-brand transition">tutti i documenti →</button>
+          <button onClick={() => vaiArea("memoria", undefined, "archivio")} className="ml-auto t-eti hover:text-brand transition">tutti i documenti →</button>
         </div>
         {documenti.length === 0 ? (
           <p className="t-eti">Le radiografie e i piani che l&apos;AD produce compaiono qui.</p>
@@ -290,7 +290,7 @@ export default function Plancia({
             {documenti.slice(0, 4).map((d) => (
               <button
                 key={d.file}
-                onClick={() => vaiArea("report", undefined, d.file)}
+                onClick={() => vaiArea("memoria", undefined, `archivio/${d.file}`)}
                 className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
               >
                 <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>

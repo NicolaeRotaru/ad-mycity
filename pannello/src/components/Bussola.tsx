@@ -12,19 +12,19 @@ type Riga = { q: string; area: VistaNav; sub?: string; dove: string };
 
 const RIGHE: Riga[] = [
   { q: "Cosa devo firmare o approvare adesso", area: "azioni", sub: "approvare", dove: "Azioni › Da approvare" },
-  { q: "I report, le radiografie e i piani (es. il §6 del piano di bonifica)", area: "report", dove: "Report & Piani" },
+  { q: "I report, le radiografie e i piani (es. il §6 del piano di bonifica)", area: "memoria", sub: "archivio", dove: "Memoria › Archivio" },
   { q: "Gli allarmi e le cose che sono scattate", area: "azioni", sub: "sentinelle", dove: "Azioni › Allarmi" },
   { q: "Le cose che devo fare io (to-do)", area: "azioni", sub: "dafare", dove: "Azioni › Cose da fare" },
   { q: "I numeri, gli incassi, i KPI dell'azienda", area: "numeri", dove: "Numeri" },
-  { q: "Le decisioni passate e lo stato dell'azienda", area: "memoria", dove: "Memoria" },
+  { q: "Le decisioni passate e lo stato dell'azienda", area: "memoria", sub: "storico-decisioni", dove: "Memoria › Storico" },
   { q: "Cosa sta facendo la macchina in questo momento", area: "lavori", dove: "Lavori" },
   { q: "La salute della macchina e i suoi difetti", area: "cervello", dove: "Macchina" },
   { q: "Clienti, venditori e rider", area: "persone", dove: "Persone" },
   { q: "Ordini, consegne, catalogo e campagne", area: "operazioni", dove: "Operazioni" },
   { q: "Concorrenti, mercato, eventi e rischi", area: "mondo", dove: "Mondo" },
   { q: "Parlare con l'AD (chiedere qualcosa)", area: "assistente", dove: "Assistente" },
-  { q: "Il diario e lo storico di cosa ha detto e fatto l'AD", area: "storico", dove: "Storico" },
-  { q: "Il codice del sito", area: "esplora", dove: "GitHub" },
+  { q: "La diretta agenti, pausa AD e controllo macchina", area: "lavori", sub: "governo", dove: "Lavori › Governo & diretta" },
+  { q: "Il codice e i file del repo", area: "memoria", sub: "github", dove: "Memoria › GitHub" },
 ];
 
 export default function Bussola() {

@@ -19,7 +19,9 @@ let pendingReportFile: string | null = null;
 if (typeof window !== "undefined") {
   const capture = (e: Event) => {
     const det = (e as CustomEvent).detail as { vista?: string; sub?: string } | undefined;
-    if (det?.vista === "report" && det.sub) pendingReportFile = det.sub;
+    if (!det?.sub) return;
+    if (det.vista === "report") pendingReportFile = det.sub;
+    if (det.vista === "memoria" && det.sub.startsWith("archivio/")) pendingReportFile = det.sub.slice("archivio/".length);
   };
   window.addEventListener(EVENTO_VAI, capture);
   window.addEventListener(EVENTO_SUB, capture);
@@ -51,7 +53,7 @@ function dataIt(d: string | null): string {
   return `${g}/${m}/${y}`;
 }
 
-export default function Documenti() {
+export default function Documenti({ embedded = false }: { embedded?: boolean }) {
   const [gruppi, setGruppi] = useState<Gruppo[]>([]);
   const [caricaLista, setCaricaLista] = useState(true);
   const [filtro, setFiltro] = useState("");
@@ -106,10 +108,12 @@ export default function Documenti() {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: string; sub?: string } | undefined;
       if (det?.vista === "report") openFromSub(det.sub);
+      if (det?.vista === "memoria" && det.sub?.startsWith("archivio/")) openFromSub(det.sub.slice("archivio/".length));
     };
     const onSub = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: string; sub?: string } | undefined;
       if (det?.vista === "report") openFromSub(det.sub);
+      if (det?.vista === "memoria" && det.sub?.startsWith("archivio/")) openFromSub(det.sub.slice("archivio/".length));
     };
     window.addEventListener(EVENTO_VAI, onVai);
     window.addEventListener(EVENTO_SUB, onSub);
@@ -135,7 +139,8 @@ export default function Documenti() {
       {/* Intestazione + breadcrumb + refresh */}
       <div className="flex items-start justify-between gap-2">
         <div>
-          <h2 className="t-area">📄 Report &amp; Piani</h2>
+          {!embedded && <h2 className="t-area">📄 Archivio consegne</h2>}
+          {embedded && <p className="t-eti">Tutto ciò che l&apos;AD produce in consegne/ — per cartella e documento.</p>}
           {/* Breadcrumb: consegne / cartella / file */}
           <div className="flex items-center gap-1 t-eti mt-1 flex-wrap">
             <button

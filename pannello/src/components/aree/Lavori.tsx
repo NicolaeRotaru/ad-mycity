@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ListTodo, Archive, Terminal } from "lucide-react";
+import { ListTodo, Archive, Terminal, Scale } from "lucide-react";
 import LavoriCervello from "@/components/LavoriCervello";
 import DiagnosticaWorker from "@/components/DiagnosticaWorker";
 import ComandiVPS from "@/components/ComandiVPS";
+import GovernoAD from "@/components/GovernoAD";
 import type { LavoroBase } from "@/lib/lavori-gruppo";
 import { EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioSub } from "@/lib/nav";
 
-type Tab = "coda" | "archivio" | "risultati";
+type Tab = "coda" | "archivio" | "risultati" | "governo";
 
 export type ConteggiLavoriUi = { coda: number; archivio: number };
 
@@ -44,11 +45,11 @@ export default function Lavori({
   useEffect(() => {
     // Al MOUNT consuma il sub parcheggiato (INDIETRO scattato prima che l'area fosse montata).
     const pend = consumaSubPendente("lavori");
-    if (pend === "coda" || pend === "archivio" || pend === "risultati") setTab(pend);
+    if (pend === "coda" || pend === "archivio" || pend === "risultati" || pend === "governo") setTab(pend);
     const onSub = (e: Event) => {
       const det = (e as CustomEvent<DettaglioSub>).detail;
       if (det?.vista !== "lavori" || !det.sub) return;
-      if (det.sub === "coda" || det.sub === "archivio" || det.sub === "risultati") setTab(det.sub as Tab);
+      if (det.sub === "coda" || det.sub === "archivio" || det.sub === "risultati" || det.sub === "governo") setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_SUB, onSub);
     return () => window.removeEventListener(EVENTO_SUB, onSub);
@@ -72,6 +73,7 @@ export default function Lavori({
     { id: "coda", label: "In coda", icon: <ListTodo size={14} />, n: nCoda },
     { id: "archivio", label: "Archivio", icon: <Archive size={14} />, n: nArchivio },
     { id: "risultati", label: "Risultati", icon: <Terminal size={14} /> },
+    { id: "governo", label: "Governo & diretta", icon: <Scale size={14} /> },
   ];
 
   return (
@@ -124,6 +126,8 @@ export default function Lavori({
       {/* «Risultati» = pagina a sé con l'esito dei comandi; le altre schede mostrano la coda dei lavori. */}
       {tab === "risultati" ? (
         <ComandiVPS />
+      ) : tab === "governo" ? (
+        <GovernoAD variant="operativo" />
       ) : (
         <>
           <LavoriCervello lavori={filtrati} onSvuota={onSvuota} embedded workerVivo={workerVivo} adInPausa={adInPausa} />
