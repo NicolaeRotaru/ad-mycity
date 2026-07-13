@@ -1,9 +1,9 @@
 {
-  "data": "2026-07-13 12:20",
+  "data": "2026-07-13 14:20",
   "esito": "incoerenze",
   "fatti_totali": 11,
   "cacce_aperte": 2,
-  "file_scansionati": 557,
+  "file_scansionati": 563,
   "incoerenze": [
     {
       "fatto": "onboarding.6-ristoranti-tattici",
@@ -18,7 +18,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 695,
+      "riga": 729,
       "testo": "| 51 | 2026-07-06 14:20 | @trust-safety→@frontend-dev/@backend-dev | Fai in modo che il badge «Verificato» appaia solo ai negozi che lo meritano davvero, non a tutti | 🟡 | **Difetto verificato nel co"
     },
     {
@@ -26,7 +26,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-      "riga": 700,
+      "riga": 734,
       "testo": "| 56 | 2026-07-07 12:05 | account-negozi | **Arma la veglia anti-churn sui negozi prima dell'onda del 13/7** | 🟡 | Playbook anti-churn 7/7: **oggi 0 negozi in calo** (1 solo negozio reale, senza stor"
     },
     {
@@ -178,7 +178,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 17,
+      "riga": 33,
       "testo": "> 🟡 **13/7 11:43 — Metabolizzazione: coda #antichurn allineata a «6 ristoranti tattici»** (era «6 botteghe food»). Propagazione parziale standing-ask Pannello auto-allineato; coda tabella #56 e altri"
     },
     {
@@ -186,7 +186,7 @@
       "pattern": "6 botteghe food",
       "valore_nuovo": "13/7/2026 visita di persona — 6 ristoranti/trattorie (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori), mossa tattica non profilo core",
       "file": "MyCity-Vault/90-Memoria-AI/STATO.md",
-      "riga": 21,
+      "riga": 37,
       "testo": "> 💬 **13/7 11:40 — CHAT: standing-ask «tutto il Pannello» auto-allineato.** Nicola «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — dopo aver scoperto c"
     },
     {
