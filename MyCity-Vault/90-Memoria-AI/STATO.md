@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 23:17
-fonte: AD digitale (💬 13/7 23:17 Nicola riordino Memoria. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 23:22
+fonte: AD digitale (💬 13/7 23:22 PR #357 menu Memoria. | storico: business INVARIATO dal 24/6.)
 ---
 
-> 💬 **13/7 ~23:17 — CHAT: menu Memoria — riordino IA gruppo→simili→contenuto.** Nicola «voglio creare ordine»: titolo(gruppo) → sotto-gruppi di cose simili → contenuto; trovare a memoria e capire a colpo d'occhio. **Richiesta 🟡:** Memoria = hub con **4 tab** — (1) **Memoria viva** (briefing, sala, scoperte); (2) **Archivio** (consegne); (3) **Storico** con sotto-tab **Decisioni · Quaderni senior · Stato & numeri** — **elimina Diario**; (4) **GitHub** (vault/repo). **Esce dal menu laterale:** Archivio, Storico, GitHub come voci separate; Decisioni/Stato&numeri/Quaderni escono da Memoria viva (duplicati oggi). **AD ha proposto** menu laterale snello + struttura tab; **pendente risposta Nicola:** (1) Governo & diretta → Sistema/Lavori o Memoria viva? (2) OKR e Piani → restano in viva o in Stato&numeri? PR riordino **dopo** chiusura 2 punti (post-#356 o in stessa PR se Nicola preferisce). Fonte: chat Nicola 13/7 ~23:17.
+> 💬 **13/7 ~23:22 — CHAT: menu Memoria — implementato PR #357.** Nicola «ho fatto un esempio, ragionaci ed impostalo così» — AD non attende risposta su 2 pendenti, implementa schema richiesto. **Memoria** = hub **4 tab**: Viva (briefing, sala, scoperte) · Archivio (consegne) · Storico (Decisioni · Quaderni senior · Stato & numeri con OKR/piani) · GitHub. **Menu laterale:** Home·Azioni → Approfondisci → **Memoria** → Macchina → Sistema (Lavori·Assistente). **Spostamenti AD:** Archivio/Storico/GitHub fuori dal menu; **Diario eliminato**; **Governo & diretta** → tab in **Lavori** (operativo); OKR&Piani → **Stato & numeri** in Storico. **Pendente:** merge 🔴 **PR #357** (#126) → deploy Vercel ~2 min. Fonte: chat Nicola 13/7 ~23:22 + PR #357.
+>
+> 💬 **13/7 ~23:17 — CHAT: menu Memoria — riordino IA gruppo→simili→contenuto.** Nicola «voglio creare ordine»: titolo(gruppo) → sotto-gruppi di cose simili → contenuto; trovare a memoria e capire a colpo d'occhio. **Richiesta:** Memoria = hub con **4 tab** — Viva · Archivio · Storico (Decisioni·Quaderni·Stato&numeri, no Diario) · GitHub; esci voci separate dal menu laterale. Fonte: chat Nicola 13/7 ~23:17.
 >
 > 💬 **13/7 ~22:39 — CHAT: menu — «voglio parliamo del menu» (follow-up post-«sì» #356).** Nicola chiede dialogo sul menu dopo grilling già chiuso (22:28); rifiuta implicitamente secondo ciclo A/B/C. **Verificato codice main 🟢:** sotto «Macchina & memoria» le **3 voci salute** (Radiografia macchina · Salute sito · Auto-coscienza) sono **già separate**; restano anche Lavori, Memoria, Storico, Assistente, GitHub nel gruppo. **Pannello live** = ancora versione pre-#356 finché merge 🔴 **#356** (#125) non firmato. **Pendente:** Nicola dice cosa non torna (nomi, gruppo affollato, voci mancanti). Fonte: chat Nicola 13/7 ~22:39 + verifica codice main.
 >
