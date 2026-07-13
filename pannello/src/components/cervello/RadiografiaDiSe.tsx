@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react";
 import {
   Cpu, Activity, ShieldAlert, Wrench, Hammer, Swords, Sparkles, HelpCircle,
-  Mail, TrendingUp, CheckCircle2, Eye, ArrowRight,
+  TrendingUp, CheckCircle2, Eye, ArrowRight,
 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -41,7 +39,7 @@ type Live = {
 
 const POLL_MS = 30_000; // quasi live: rilegge GitHub ogni 30s (prima 60s)
 
-type Tab = "dimensioni" | "cantiere" | "lettera" | "storico";
+type Tab = "dimensioni" | "cantiere" | "storico";
 
 const GRAV: Record<string, { cls: string; dot: string; label: string }> = {
   bloccante: { cls: "border-red-200 bg-red-50/60", dot: "bg-red-500", label: "BLOCCANTE" },
@@ -90,7 +88,7 @@ export default function RadiografiaDiSe() {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent<DettaglioVai>).detail;
       if (det?.vista !== "cervello" || !det.sub) return;
-      const valide: Tab[] = ["dimensioni", "cantiere", "lettera", "storico"];
+      const valide: Tab[] = ["dimensioni", "cantiere", "storico"];
       if (valide.includes(det.sub as Tab)) setTab(det.sub as Tab);
     };
     window.addEventListener(EVENTO_VAI, onVai);
@@ -123,10 +121,13 @@ export default function RadiografiaDiSe() {
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: "cantiere", label: "Da fare ora", icon: <Hammer size={15} />, badge: daFare || undefined },
-    { id: "dimensioni", label: "Archivio audit", icon: <Cpu size={15} />, badge: findingsAperti ?? undefined },
-    { id: "lettera", label: "Lettera", icon: <Mail size={15} /> },
+    { id: "dimensioni", label: "Archivio audit (foto storica)", icon: <Cpu size={15} />, badge: findingsAperti ?? undefined },
     { id: "storico", label: "Andamento", icon: <TrendingUp size={15} /> },
   ];
+
+  const primoAperto = aperti[0];
+  const azioneOrigine = primoAperto ? azPerOrigine[String(primoAperto.id || primoAperto.titolo || "")] : undefined;
+  const semaforoCart = daFare > 0 ? "🟡" : votoSOk && votoS >= 80 ? "🟢" : "🟡";
 
   return (
     <section id="auto-radiografia" className="card p-4 border-brand/20 scroll-mt-24">
@@ -134,7 +135,7 @@ export default function RadiografiaDiSe() {
         <div className="flex items-center gap-2 min-w-0">
           <span className="sez-ico"><Cpu size={16} /></span>
           <div className="min-w-0">
-            <span className="t-sez">🩻 Radiografia di sé</span>
+            <span className="t-sez">🩻 Radiografia macchina</span>
             <div className="t-eti">La macchina analizza la propria architettura da cima a fondo.
               {live?.cantiere_aggiornato ? ` · cantiere ${dataVault(live.cantiere_aggiornato)}` : r?.data ? ` · scan ${dataVault(r.data)}` : ""}
             </div>
@@ -155,6 +156,31 @@ export default function RadiografiaDiSe() {
 
       {d?.collegato && (
         <>
+          {/* Cartolina: semaforo + un passo + data referto */}
+          <div className="rounded-xl border border-brand/25 bg-brand-50/40 px-3 py-2.5 mb-3">
+            <p className="t-corpo text-[13px] font-semibold">
+              {semaforoCart} {daFare > 0 ? `${daFare} da fare ora` : "Nessun difetto aperto nel cantiere"}
+              {votoSOk ? ` · salute ${votoS}/100` : ""}
+            </p>
+            {primoAperto?.titolo && (
+              <p className="t-eti mt-1 line-clamp-2">Prossimo: {primoAperto.titolo}</p>
+            )}
+            <div className="flex flex-wrap gap-2 mt-2">
+              {azioneOrigine && (
+                <button type="button" onClick={() => vaiArea("azioni", azioneOrigine, "approvare")} className="text-[12px] font-medium text-brand hover:underline inline-flex items-center gap-1">
+                  Vai a firmare <ArrowRight size={12} />
+                </button>
+              )}
+              <button type="button" onClick={() => vaiArea("plancia")} className="text-[12px] t-eti hover:text-brand">
+                Lettera completa → in Home
+              </button>
+            </div>
+            <p className="t-micro mt-1.5 normal-case">
+              Referto scan {live?.data_scan ? dataVault(live.data_scan) : r?.data ? dataVault(r.data) : "—"}
+              {live?.cantiere_aggiornato ? ` · cantiere aggiornato ${dataVault(live.cantiere_aggiornato)}` : ""}
+            </p>
+          </div>
+
           {sintesiR && <p className="t-corpo break-words mb-3">{sintesiR}</p>}
 
           {/* La lista «Radiografia» è la foto dell'audit; il cantiere è il backlog vivo che si aggiorna coi fix. */}
@@ -373,13 +399,6 @@ export default function RadiografiaDiSe() {
                   {chiusi.map((x, i) => <div key={i} className="text-[12px] text-black/50 flex gap-1.5"><CheckCircle2 size={13} className="text-green-600 shrink-0" /><span className="line-through">{x.titolo}</span></div>)}
                 </div>
               )}
-            </div>
-          )}
-
-          {/* === LETTERA === */}
-          {tab === "lettera" && (
-            <div className="rounded-xl border border-black/[0.06] bg-paper/40 p-4 prose-sm max-w-none text-[13px] leading-relaxed [&_h1]:text-[16px] [&_h1]:font-bold [&_h1]:mb-2 [&_strong]:font-semibold [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1">
-              {d?.lettera ? <ReactMarkdown remarkPlugins={[remarkGfm]}>{d.lettera}</ReactMarkdown> : <p className="t-eti">Nessuna lettera ancora. La macchina la scrive nella review settimanale.</p>}
             </div>
           )}
 

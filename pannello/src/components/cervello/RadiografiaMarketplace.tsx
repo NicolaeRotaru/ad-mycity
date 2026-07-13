@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Store, FileText, ChevronDown, ChevronRight } from "lucide-react";
 import { dataVault } from "@/lib/format";
+import { vaiArea } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
 
 // 🏪 RADIOGRAFIA MARKETPLACE — l'audit profondo del SITO mycity (13 dimensioni, ogni problema
@@ -30,8 +31,8 @@ const POLL_MS = 30_000;
 
 export default function RadiografiaMarketplace() {
   const [d, setD] = useState<Dati | null>(null);
-  // Le dimensioni partono CHIUSE (87 schede tutte aperte = muro di testo): si apre quella che serve.
   const [aperte, setAperte] = useState<Set<string>>(new Set());
+  const [mostraMinori, setMostraMinori] = useState(false);
 
   useEffect(() => {
     const carica = () =>
@@ -57,8 +58,8 @@ export default function RadiografiaMarketplace() {
         <div className="flex items-center gap-2 min-w-0">
           <span className="sez-ico"><Store size={16} /></span>
           <div className="min-w-0">
-            <span className="t-sez">🏪 Radiografia marketplace</span>
-            <div className="t-eti">L&apos;audit profondo del sito: 13 dimensioni, ogni problema verificato. {d?.data ? `· ${dataVault(d.data)}` : ""}</div>
+            <span className="t-sez">🏪 Salute sito</span>
+            <div className="t-eti">Audit del marketplace · {d?.data ? dataVault(d.data) : "—"}</div>
           </div>
         </div>
         {m?.findings != null && d && (
@@ -74,6 +75,17 @@ export default function RadiografiaMarketplace() {
 
       {d?.collegato && (
         <>
+          {/* Cartolina */}
+          <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2.5 mb-3">
+            <p className="t-corpo text-[13px] font-semibold">
+              {(m?.bloccanti ?? 0) > 0 ? "🔴" : (m?.gravi ?? 0) > 0 ? "🟡" : "🟢"}
+              {" "}{m?.bloccanti ?? 0} bloccanti · {m?.gravi ?? 0} gravi · referto {d.data ? dataVault(d.data) : "—"}
+            </p>
+            <button type="button" onClick={() => vaiArea("azioni", undefined, "approvare")} className="text-[12px] font-medium text-brand hover:underline mt-1">
+              Vai a Da approvare →
+            </button>
+          </div>
+
           {/* I numeri veri dell'audit (nessun voto inventato) */}
           <div className="flex flex-wrap gap-1.5 mb-3">
             <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-red-50 text-red-700 ring-1 ring-red-200">{m?.bloccanti ?? 0} bloccanti</span>
@@ -94,11 +106,21 @@ export default function RadiografiaMarketplace() {
             <p className="t-eti mb-3 flex items-center gap-1"><FileText size={12} /> Report completo: <code className="text-brand">{d.report}</code></p>
           )}
 
+          <button
+            type="button"
+            onClick={() => setMostraMinori((v) => !v)}
+            className="mb-3 text-[12.5px] font-medium text-brand hover:underline"
+          >
+            {mostraMinori ? "Nascondi problemi minori" : `Mostra anche i ${m?.minori ?? 0} minori`}
+          </button>
+
           <div className="space-y-2">
             {(d.dimensioni || []).map((dim) => {
               const findings = (dim.findings || []).slice().sort((a, b) => (PESO[a.severita || "minore"] ?? 2) - (PESO[b.severita || "minore"] ?? 2));
-              const nBlocc = findings.filter((f) => f.severita === "bloccante").length;
-              const nGravi = findings.filter((f) => f.severita === "grave").length;
+              const findingsVis = findings.filter((f) => mostraMinori || f.severita === "bloccante" || f.severita === "grave");
+              if (findingsVis.length === 0) return null;
+              const nBlocc = findingsVis.filter((f) => f.severita === "bloccante").length;
+              const nGravi = findingsVis.filter((f) => f.severita === "grave").length;
               const open = aperte.has(dim.key || "");
               return (
                 <div key={dim.key} className="rounded-xl border border-black/[0.06] bg-paper/40 overflow-hidden">
@@ -106,12 +128,12 @@ export default function RadiografiaMarketplace() {
                     <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${nBlocc ? "bg-red-500" : nGravi ? "bg-amber-500" : "bg-green-500"}`} />
                     <span className="text-[13px] font-medium flex-1 min-w-0 truncate">{dim.key}</span>
                     {nBlocc > 0 && <span className="text-[10px] px-1.5 rounded bg-red-100 text-red-700 shrink-0">{nBlocc} bloccanti</span>}
-                    <span className="badge badge-off shrink-0">{findings.length}</span>
+                    <span className="badge badge-off shrink-0">{findingsVis.length}</span>
                     <span className="shrink-0" style={{ color: "var(--text-faint)" }}>{open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}</span>
                   </button>
                   {open && (
                     <div className="px-3 pb-3">
-                      {findings.map((f, j) => {
+                      {findingsVis.map((f, j) => {
                         const g = GRAV[f.severita || "minore"] || GRAV.minore;
                         return (
                           <div key={j} className={`rounded-lg border p-2.5 mt-2 ${g.cls}`}>
