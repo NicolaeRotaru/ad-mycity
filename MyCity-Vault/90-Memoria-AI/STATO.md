@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 20:58
-fonte: AD digitale (💬 13/7 20:58 chat conflitti PR — causa radice. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:01
+fonte: AD digitale (💬 13/7 21:01 chat silo allocazione — fix PR #349. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:01 — CHAT: silo allocazione — Nicola «fai il fix».** Casella BLOCCANTE: 12 pacchetti pesanti su **Garetti** (prospect non firmato) mentre **Pane Quotidiano** (unico negozio reale; Casa Linda = demo) restava sotto coperto. **Fix 🟡 PR #349** (`88b58004`, branch `fix/allocazione-silo-garetti`): **12** post/kit/SEO/PR Garetti archiviati in `consegne/_archivio-prospect/garetti/`; sforzo attivo su **Pane Quotidiano** (**16** contenuti); `node cervello/allocazione-check.mjs` → **exit 0** (prima falliva). R3 allocazione aggiornato; coda **#119** accodata. **Pendente:** merge 🔴 **#349** dal Pannello → casella rossa silo dovrebbe sparire; pacchetto pro PQ resta in attesa foto/consenso negozio. Fonte: chat Nicola 13/7 ~21:01 + allocazione-check.
+>
 > 💬 **13/7 ~20:58 — CHAT: «perché si crea conflitto?» — meccanismo spiegato.** Nicola chiede la **causa radice** dopo spiegazione commit memoria (20:11). **Spiegato 🟢:** il branch PR congela una snapshot del repo (incluso diario vault se dirty); nel frattempo main avanza con merge (#348) e chat parallele che aggiornano le stesse righe su `pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento → Git segnala conflitto; il **codice fix** (sync radiografia, pallini) di solito **non** è in conflitto. **Regola operativa:** merge una PR alla volta; conflitto solo memoria/body ≠ fix rotto. **Proposta futura (non approvata 🔴):** tenere diario vault fuori dalle PR di codice. **Pendente:** merge 🔴 #346, #347. Fonte: chat Nicola 13/7 ~20:58.
 >
 > 🌙 **13/7 20:21 — GIRO SERALE.** REST ok 20:20: North Star 0 (~469h stallo). Coerenza-fatti exit 0 (33 copie propagate). Briefing 13/7 + CHECKLIST-NICOLA rigenerata. Vincoli HARD chiusi. **Mossa n.1:** merge #346 + debrief visita + VP 17/7.

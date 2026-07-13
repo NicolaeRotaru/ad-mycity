@@ -106,8 +106,8 @@
       "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service"
     },
     {
-      "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Casa Linda",
-      "perche": "Silo contenuti su Garetti (non firmato) mentre Casa Linda (payout-ready) ha 0 asset: dispersione dalla North Star.",
+      "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Pane Quotidiano",
+      "perche": "Silo contenuti su Garetti (prospect non firmato) mentre Pane Quotidiano (unico negozio reale) restava scoperto: dispersione dalla North Star.",
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-006",
@@ -165,12 +165,12 @@
   ],
   "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "meta_esperimenti": {
-    "aggiornato": "2026-07-13 20:49",
+    "aggiornato": "2026-07-13 21:01",
     "totale": 0,
     "aperti": 0,
     "in_scadenza": 0,
     "misurati": 0,
     "chiusi": 0
   },
-  "aggiornato": "2026-07-13 20:49"
+  "aggiornato": "2026-07-13 21:01"
 }
