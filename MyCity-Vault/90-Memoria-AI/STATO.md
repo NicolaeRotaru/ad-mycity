@@ -1,11 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 19:48
-fonte: AD digitale (🌙 13/7 19:48 METABOLIZZA: registro scelte ragionate — fix PR #346. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 19:50
+fonte: AD digitale (🌙 13/7 19:50 METABOLIZZA: radiografia sync cantiere→scan PR #347. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~19:37 — CHAT: radiografia «risolvi» — sync cantiere→lista (PR #347).** Nicola «risolvi questo problema» dopo analisi 19:33 (scan vs cantiere). **Fix 🟡 PR #347** (`b19b0761`): script `allinea-scan-cantiere.mjs` gira a ogni giro e allinea scan ↔ cantiere (7 voci collegate già chiuse in sync); tab «Da fare ora» = **1** (Pane Quotidiano); voto live **75**; cantiere **0 aperti / 1 in-corso / 42 chiusi**; 67 voci restano archivio audit (senza codice AR). **Marketplace:** 87 problemi ancora scan **7/7** — etichettati, nuovo audit per calare. #344 (banner/voto) già su main. Merge 🔴 #347 pendente. Fonte: chat Nicola 13/7 ~19:37 + `node cervello/allinea-scan-cantiere.mjs --json`.
+>
+> 💬 **13/7 ~19:33 — CHAT: ricontrollo radiografia — dati coerenti, problema = tre fotografie.** Nicola «ricontrolla se tutti i dati sono corretti». **Verificato:** cantiere ok (42 chiusi, 1 in corso PQ); lista 74 = scan 7/7 statico; voto 51 (scan) vs 75 (sonda) vs 91 (auto-analisi giro 11/7); marketplace 87 = scan 7/7. Solo 3 righe lista con codice AR. **PR #344** ancora da mergiare al momento dell'analisi. Fonte: chat Nicola 13/7 ~19:32 + lettura `cantiere-difetti.json` / `auto-radiografia.json` / `radiografia-marketplace.json`.
+>
 > 💬 **13/7 ~19:40 — CHAT: scelte ragionate incomplete — Nicola «correggi e non ricapiti».** Casella Garetti: Nicola chiede quando aggiornate, se complete, se tutte le ragionate della macchina sono visibili. **Verificato:** Panel Auto-coscienza mostrava **2** `scelta_ragionata`; macchina ne aveva analizzate **≥9** (6 trattorie dossier 6/7 + Peretti + Amendolara + Ex Scuderie) — lavoro scout **mai scritto** in `registro-realta.json` (ultimo touch 9/7 solo Pane Quotidiano). **Fix 🟡 PR #346** (`67d72dbe`): 8 voci aggiunte al registro + guardiano `registro-scelte-check.mjs` in giro + regola dossier→registro stesso passaggio. Post-merge → **10 scelte ragionate** in Panel. Merge 🔴 #117 pendente. Fonte: chat Nicola 13/7 ~19:40 + `registro-realta.json` + dossier `consegne/vendite/` 6/7.
 >
 > 💬 **13/7 ~19:44 — CHAT: card Trigger-build Pannello — «cioè?»** Nicola chiede chiarimento sulla casella «commit su pannello/ → Vercel builda». **Verificato:** trigger **già eseguito 11/7** — commit `4d37c741` su `origin/main` (`pannello/.build-trigger`); da allora ogni merge su `pannello/` ribuilda Vercel; commit memoria non triggerano build (voluto). Card **obsoleta** — chiusa FATTO in AZIONI. Se Pannello sembra vecchio → diagnosi ultimo deploy, non rifare trigger. Fonte: chat Nicola 13/7 ~19:44 + `git merge-base --is-ancestor 4d37c741 origin/main`.
