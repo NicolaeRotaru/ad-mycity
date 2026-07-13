@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 17:55 · Audit streaming #335 — mergiata ma commit su main ripristina codice vecchio; serve PR correttiva + riavvio worker-chat (attivo dal 16:08) · atteso streaming live → reale rotto · L-137 · #worker #streaming #pr-335 #audit
 - 2026-07-13 17:53 · Gate body PR obbligatorio — Nicola «sempre la descrizione, ci riesci?» · atteso: PR #337 con `requireBody` in git-pr.mjs + worker.sh · reale: PR #337 aperta, body 997 char su GitHub, merge 🔴 #110 · L-2026-0713-136 · #git-pr #pr-337 #gate
 - 2026-07-13 17:50 · Streaming chat Cursor — Nicola «apri pr» dopo regressione tempo reale · atteso: PR #335 aperta con fix worker streaming per `agent` · reale: PR #335 aperta, commit `db0552a0`, flag `--stream-partial-output` (non Claude), merge 🔴 #109, riavvio worker-chat post-merge · L-2026-0713-131 · #worker #streaming #cursor #pr-335
 - 2026-07-13 17:31 · Streaming chat Cursor — Nicola «perché non scrivi più in tempo reale?» · atteso: diagnosi causa + fix proposto · reale: `worker.sh` stream solo su `claude`, Cursor = risposta a fine lavoro; Pannello poll ok; fix `stream-json` per `agent` proposto 🟡, PR in attesa ok · L-2026-0713-131 · #worker #streaming #cursor #chat

@@ -27,17 +27,15 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-336-pallini-poll — Mergia PR #336: pallino resta spento dopo il poll (~5s) · ⏳ IN ATTESA · accodata 2026-07-13 17:51
+### ✅ #pr-336-pallini-poll — MERGIATA 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto per Nicola
 
 **Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
 
-**PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, 1 file Pannello, simulazione merge su main → zero conflitti
+**PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, mergiata ~17:49
 
-**Cosa cambia:** apri chat con pallino → sparisce → aspetti 10s senza ricaricare → **resta spento**.
-**Se va bene:** mergi #336 dal Pannello (card #108) → deploy Vercel ~2 min → test: apri chat non letta, attendi 10s. **#328/#332/#333 già su main** — non riaprirle. **Chiudi #334** senza merge.
-**Nota 17:54:** Nicola riconferma che il bug è ancora visibile in produzione (#332 incompleto su main).
+**Esito audit 17:55:** codice su main ma Nicola riconferma pallino ancora rotto (verifica worker 17:52) — **non verificato** su telefono/PC post-deploy. Serve diagnosi o fix aggiuntivo.
 
-- **Colore:** 🔴 (merge dal Pannello — card #108)
+- **Colore:** ✅ merge fatto · ⚠️ residuo UX aperto
 
 ---
 
@@ -45,48 +43,45 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Cosa è successo:** Nicola «c'è un conflitto» — #334 partiva da codice vecchio e mescolava fix già su main (#328/#332/#333). Stesso bug coperto da **#336** (ribasata su main, merge simulato OK).
 
-**Da fare:** Chiudi PR #334 su GitHub **senza mergiare**. Mergia solo **#336** (card #108).
+**Da fare:** Chiudi PR #334 su GitHub **senza mergiare** (se ancora aperta).
 
 - **Colore:** 🟢 (annullata — nessun merge)
 
 ---
 
-### 🟡 #pr-335-streaming-chat — Mergia PR #335: risposta AD che cresce parola per parola (Cursor) · ⏳ IN ATTESA · accodata 2026-07-13 17:50
+### ✅ #pr-335-streaming-chat — MERGIATA 2026-07-13 ~17:49 · ⚠️ fix annullato su main
 
-**Cosa fa:** riattiva lo streaming in chat quando il motore è Cursor — il testo compare nel Pannello mentre l'AD lavora, come con Claude prima del cambio cervello.
+**Cosa fa:** riattiva lo streaming in chat quando il motore è Cursor — il testo compare nel Pannello mentre l'AD lavora.
 
-**PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← commit `db0552a0`
+**PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← fix buono `db0552a0`, merge ha portato `68c15aa4` con codice vecchio
 
-**Cosa cambia:** in chat non aspetti più in silenzio fino a fine lavoro — vedi la risposta crescere parola per parola (il Pannello pollava già ogni ~2s, mancavano i parziali dal worker).
-**Se va bene:** mergi #335 dal Pannello → sul VPS `sudo systemctl restart mycity-worker-chat` → scrivi un messaggio in chat e verifica che il testo cresca mentre rispondo.
+**Esito audit 17:55:** streaming **ancora rotto** — serve PR correttiva + `sudo systemctl restart mycity-worker-chat` (worker attivo dal 16:08).
 
-- **Colore:** 🔴 (merge dal Pannello — card #109)
-
----
-
-### 🟡 #pr-331-worker-plugins-fase3 — Mergia PR #331: 8 plugin worker fase 3 (21 skill totali) · ⏳ IN ATTESA · accodata 2026-07-13 17:26
-
-**Cosa fa:** aggiunge al manifest 8 skill GitHub: debug sistematico, design moduli, Supabase + Postgres best practices, ricerca cross-repo (Tabnine), PDF/Excel/Word per bandi e rendicontazioni.
-
-**PR su GitHub:** [#331 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/331) ← branch `fix/worker-plugins-fase3`, commit `41ab7192`
-
-**Cosa cambia:** il worker ha 21 skill sincronizzate da GitHub — più strumenti per DB marketplace, bandi, debug e refactor senza spendere token in spiegazioni lunghe.
-**Se va bene:** mergi #331 dal Pannello → **riavvia worker** una volta per caricare le regole; codebase-search funziona solo con Tabnine collegato (altrimenti grep/read come oggi).
-
-- **Colore:** 🔴 (merge dal Pannello — card #104)
+- **Colore:** ✅ merge fatto · ⚠️ fix da ripristinare
 
 ---
 
-### 🟡 #pr-329-agent-registry — Mergia PR #329: guardiano agenti controlla le description di routing · ⏳ IN ATTESA · accodata 2026-07-13 17:11
+### ✅ #pr-331-worker-plugins-fase3 — MERGIATA 2026-07-13 · ⏳ riavvio worker pendente
 
-**Cosa fa:** estende `agent-registry-check.mjs` — legge le `description` di ogni senior e va in rosso se due agenti condividono ≥2 frasi-trigger (es. fraud-risk ↔ trust-safety) o se manca il deferral verso un vicino di dominio. Non corregge le description, le mostra.
+**Cosa fa:** aggiunge al manifest 8 skill GitHub (21 totali): debug sistematico, design moduli, Supabase, Postgres, cross-repo, PDF/Excel/Word.
 
-**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← branch `fix/agent-registry-description-check`, commit `53afcdcc` (conflitti risolti 13/7 17:24 — branch ripulito a solo `agent-registry-check.mjs`, mergeable)
+**PR su GitHub:** [#331 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/331) ← commit `41ab7192`
 
-**Cosa cambia:** nuove collisioni di routing non passano più inosservate al giro automatico; la casella coerenza-agenti smette di essere un falso verde.
-**Se va bene:** mergi #329 dal Pannello → al prossimo giro il controllo segnala chi si pesta i piedi; poi passo separato per correggere trust-safety (deferral verso fraud-risk).
+**Esito audit 17:55:** su main ma worker **non riavviato** dal 16:08 — plugin fase 3 non caricati live.
 
-- **Colore:** 🔴 (merge dal Pannello — card #101)
+- **Colore:** ✅ merge fatto · ⏳ riavvio worker
+
+---
+
+### ✅ #pr-329-agent-registry — MERGIATA 2026-07-13 · card coda ancora «in attesa»
+
+**Cosa fa:** guardiano agenti legge le `description` di routing e segnala collisioni (fraud-risk/trust-safety).
+
+**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← commit `53afcdcc`
+
+**Esito audit 17:55:** su main; card #101 in coda Pannello non ancora aggiornata.
+
+- **Colore:** ✅ merge fatto
 
 ---
 
@@ -892,23 +887,23 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 91 | 2026-07-13 11:37 | @tech | Merge PR #315 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/315 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 92 | 2026-07-13 12:14 | @tech | Merge PR #316 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/316 | github | CHIUDI SENZA MERGE · sync già su main via #317 2026-07-13 12:39 | Sync chat + badge già live su main — #316 duplicata. | Chiudi #316 e #299 senza merge. |
 | 93 | 2026-07-13 12:24 | @tech | Merge PR #317 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/317 | github | ✅ FATTO 2026-07-13 · mergiata su main | Volano ponte applicazione lezioni + sync chat inclusa. | Sync PC↔telefono già attiva; chiudi #316. |
-| 94 | 2026-07-13 12:27 | @tech | Merge PR #318 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/318 | github | in attesa | X su Prompt pronto, chat aperta evidenziata, Annulla invio durante «sto pensando…». | Dopo Approva: deploy Vercel; tre fix UX chat online. Commit `03751823`, conflitti risolti 12:39. |
+| 94 | 2026-07-13 12:27 | @tech | Merge PR #318 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/318 | github | ✅ FATTO 2026-07-13 · mergiata su main (audit 17:55) | X su Prompt pronto, chat aperta evidenziata, Annulla invio durante «sto pensando…». | Deploy Vercel; tre fix UX chat online. Coda Pannello da aggiornare. |
 | 95 | 2026-07-13 12:59 | @tech | Merge PR #322 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/322 | github | in attesa | Tab Piani mostra ogni piano dall'inizio (titolo/obiettivo), non più tronca a metà frase. | Dopo Approva: deploy Vercel; ricarica tab Piani — «💶 PIANO FINANZIARIO» all'inizio, non «…he il CM sia positivo». |
-| 96 | 2026-07-13 14:33 | @tech | Merge PR #323 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/323 | github | in attesa | Sotto ogni avviso «memoria incoerente» compare «Parla con questa casella» — chat contestuale come le altre card. | Dopo Approva: deploy Vercel; Avvisi → clic su avviso giallo → «Parla con questa casella» sotto la scheda. |
+| 96 | 2026-07-13 14:33 | @tech | Merge PR #323 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/323 | github | ✅ FATTO 2026-07-13 · mergiata su main (audit 17:55) | Sotto ogni avviso «memoria incoerente» compare «Parla con questa casella» — chat contestuale come le altre card. | Deploy Vercel; Avvisi → clic su avviso giallo → «Parla con questa casella» sotto la scheda. |
 | 97 | 2026-07-13 16:17 | @tech | Merge PR #324 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/324 | github | in attesa | Su telefono Invio va a capo (Invia = manda); nella lista chat fluttuante compaiono graffetta 📌 e pallino rosso come nel cassetto chat intera. | Da telefono: Invio = nuova riga; apri chat fluttuante → lista con pin e pallino; ricarica post-deploy.
 | 98 | 2026-07-13 16:16 | @tech | Merge PR #325 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/325 | github | in attesa | Tab Lavori: badge «In coda» e «Archivio» presi dal database (≈1010 archivio, tutti gli attivi in coda); lista archivio paginata con «Carica altri». | Dopo Approva: numeri corretti in Lavori e archivio completo navigabile; deploy Vercel automatico. |
 | 99 | 2026-07-13 16:25 | @tech | Merge PR #326 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/326 | github | in attesa | Tab OKR & pagella: frasi dentro le card su mobile, Stelle Polari si aggiornano ogni minuto, data documento visibile sotto. | Dopo Approva: deploy Vercel ~2 min; ricarica tab — numeri in alto si muovono; target sotto restano 24/6 finché non fai «fai un giro». |
 | 100 | 2026-07-13 17:07 | @tech | Merge PR #327 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/327 | github | CHIUDI SENZA MERGE · sostituita da #328 2026-07-13 17:16 | Fix incompleto (solo badge, no sync server). | Chiudi #327; mergia solo #328 (card #102). |
-| 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | in attesa | Il guardiano agenti segnala collisioni nelle description di routing (es. fraud-risk/trust-safety) — non più falso verde. | Dopo Approva: merge + al prossimo giro il controllo blocca nuove collisioni; correggere trust-safety = passo separato. |
+| 101 | 2026-07-13 17:11 | @tech | Merge PR #329 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/329 | github | ✅ FATTO 2026-07-13 · mergiata su main (audit 17:55) | Il guardiano agenti segnala collisioni nelle description di routing (es. fraud-risk/trust-safety) — non più falso verde. | Al prossimo giro il controllo blocca nuove collisioni; correggere trust-safety = passo separato. |
 | 102 | 2026-07-13 17:12 | @tech | Merge PR #328 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/328 | github | GIÀ SU MAIN 2026-07-13 17:51 · chiudere se aperta | Pallini sync telefono/PC già online su main. | Chiudi #328 se ancora aperta; residuo ~5s → solo #336 (card #108). |
 | 103 | 2026-07-13 17:15 | @tech | Merge PR #330 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/330 | github | ✅ FATTO 2026-07-13 17:19 · mergiata `ac9e24a9` | 10 plugin fase 2 nel manifest (debug, TDD, security, UI, web, Firecrawl…) — 14 skill totali. | Riavvia worker per caricare le nuove regole; Firecrawl solo con chiave API sul VPS. |
-| 104 | 2026-07-13 17:26 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | in attesa | 8 plugin fase 3 nel manifest (debug, design moduli, Supabase, cross-repo, PDF/Excel/Word) — 21 skill totali. | Riavvia worker per caricare le regole; codebase-search solo con Tabnine collegato. |
+| 104 | 2026-07-13 17:26 | @tech | Merge PR #331 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/331 | github | ✅ FATTO 2026-07-13 · mergiata su main (audit 17:55) | 8 plugin fase 3 nel manifest (debug, design moduli, Supabase, cross-repo, PDF/Excel/Word) — 21 skill totali. | **Riavvia worker** per caricare le regole (ultimo riavvio 16:08); codebase-search solo con Tabnine collegato. |
 | 105 | 2026-07-13 17:36 | @tech | Merge PR #332 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/332 | github | CHIUDI SENZA MERGE · sostituita da #336 2026-07-13 17:51 | Fix incompleto — pallino riaccende ancora dopo ~5s. | Chiudi #332; mergia solo #336 (card #108). |
 | 106 | 2026-07-13 17:37 | @tech | Merge PR #333 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/333 | github | GIÀ SU MAIN 2026-07-13 17:51 · chiudere se aperta | Graffetta Safari fluttuante già online su main. | Chiudi #333 se ancora aperta. |
 | 107 | 2026-07-13 17:45 | @tech | Merge PR #334 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | CHIUDI SENZA MERGE · sostituita da #336 2026-07-13 17:51 | #334 conflittuale — partiva da codice vecchio. | Chiudi #334; mergia solo #336 (card #108). |
 | 110 | 2026-07-13 17:53 | @builder-automazioni | Merge PR #337 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/337 | github | in attesa | Ogni PR ha descrizione obbligatoria su GitHub — git-pr.mjs blocca senza body reale. | Dopo Approva: nessuna PR nuova si apre più senza spiegazione in italiano dentro GitHub. |
-| 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | in attesa | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello, merge simulato OK. | Dopo Approva: deploy Vercel ~2 min; apri chat non letta, attendi 10s — pallino non torna. Chiudi #334. |
-| 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | in attesa | In chat torni a vedere la risposta crescere parola per parola con motore Cursor (non tutto insieme a fine lavoro). | Dopo Approva: merge + `sudo systemctl restart mycity-worker-chat` sul VPS → scrivi in chat e verifica streaming live. |
+| 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto (audit 17:55) | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello. | Codice su main ma Nicola riconferma bug 17:52 — serve diagnosi post-deploy su telefono/PC. Chiudi #334. |
+| 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Merge ha ripristinato codice vecchio — serve PR correttiva + `sudo systemctl restart mycity-worker-chat`. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
