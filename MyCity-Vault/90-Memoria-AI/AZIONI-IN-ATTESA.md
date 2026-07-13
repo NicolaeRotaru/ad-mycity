@@ -14,16 +14,17 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-338-streaming-pallini — Mergia PR #338: streaming Cursor + pallini dopo apertura chat · ⏳ IN ATTESA · accodata 2026-07-13 17:58
+### ✅ #pr-338-streaming-pallini — MERGIATA 2026-07-13 ~17:58 · ⏳ deploy Vercel + riavvio worker
 
-**Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat.
+**Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat (`segnaLetta` salva orario «adesso» in persist).
 
-**PR su GitHub:** [#338 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/338) ← branch `fix/streaming-cursor-ripristino`, commit `30c4c614`
+**PR su GitHub:** [#338 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/338) ← merge `81c28c0b`, commit fix `30c4c614`
 
-**Cosa cambia:** in chat vedi di nuovo la risposta crescere mentre lavoro; apri una chat con pallino → chiudi → aspetta 10s → il pallino resta spento.
-**Se va bene:** mergi #338 dal Pannello → sul VPS `sudo systemctl restart mycity-worker-chat` → prova streaming + pallino.
+**Esito:** Nicola riconferma pallino ancora visibile ~18:01 — probabile versione Vercel pre-deploy (2–3 min). Test post-deploy: refresh forzato → apri chat col pallino → resta 15s → pallino non torna.
 
-- **Colore:** 🔴 (merge dal Pannello)
+**Pendente:** `sudo systemctl restart mycity-worker-chat` (parte streaming del fix).
+
+- **Colore:** ✅ merge fatto · verifica UX post-deploy
 
 ---
 
@@ -46,9 +47,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, mergiata ~17:49
 
-**Esito:** Nicola riconferma pallino ancora rosso post-merge — race `persistConversazione` coperta in **#338**.
+**Esito:** Nicola riconferma pallino ancora rosso post-merge — race `persistConversazione` coperta in **#338** (mergiata ~17:58).
 
-- **Colore:** ✅ merge fatto · fix residuo in #338
+- **Colore:** ✅ merge fatto · fix completo in #338 mergiata
 
 ---
 
@@ -68,9 +69,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← fix buono `db0552a0`, merge ha portato `68c15aa4` con codice vecchio
 
-**Esito:** streaming rotto su main — ripristino in **#338**. Dopo merge #338: `sudo systemctl restart mycity-worker-chat`.
+**Esito:** streaming rotto su main — ripristino in **#338** (mergiata ~17:58). Dopo merge: `sudo systemctl restart mycity-worker-chat`.
 
-- **Colore:** ✅ merge fatto · fix in #338
+- **Colore:** ✅ merge fatto · fix in #338 mergiata · riavvio worker pendente
 
 ---
 
@@ -916,7 +917,8 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 107 | 2026-07-13 17:45 | @tech | Merge PR #334 ad-mycity → main | ❌ | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | CHIUDI SENZA MERGE · sostituita da #336 2026-07-13 17:51 | #334 conflittuale — partiva da codice vecchio. | Chiudi #334; mergia solo #336 (card #108). |
 | 110 | 2026-07-13 17:53 | @builder-automazioni | Merge PR #337 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/337 | github | in attesa | Ogni PR ha descrizione obbligatoria su GitHub — git-pr.mjs blocca senza body reale. | Dopo Approva: nessuna PR nuova si apre più senza spiegazione in italiano dentro GitHub. |
 | 108 | 2026-07-13 17:51 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto (audit 17:55) | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro, 1 file Pannello. | Codice su main ma Nicola riconferma bug 17:52 — serve diagnosi post-deploy su telefono/PC. Chiudi #334. |
-| 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Merge ha ripristinato codice vecchio — serve PR correttiva + `sudo systemctl restart mycity-worker-chat`. |
+| 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | ✅ FATTO 2026-07-13 ~17:49 · ⚠️ fix annullato su main (audit 17:55) | In chat torni a vedere la risposta crescere parola per parola con motore Cursor. | Fix correttivo in #338 mergiata — `sudo systemctl restart mycity-worker-chat`. |
+| 111 | 2026-07-13 17:58 | @tech | Merge PR #338 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/338 | github | ✅ FATTO 2026-07-13 ~17:58 · verifica UX post-deploy | Streaming Cursor + pallino resta spento dopo poll (~5s) — `segnaLetta` con orario «adesso» in persist. | Deploy Vercel 2–3 min → refresh forzato → apri chat 15s; riavvio worker per streaming. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

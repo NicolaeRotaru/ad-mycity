@@ -6,7 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13] Nicola «risolvi tutti i problemi» — fix unificato **#338** (`30c4c614`): streaming (#335 merge ha ripristinato flag Claude) + pallini (#336 incompleto: orario letta in persist); merge 🔴 #338 → `sudo systemctl restart mycity-worker-chat`.
+- [2026-07-13] Pallino torna dopo ~5s — **#336 non bastava**, **#338 mergiata 17:58** (`81c28c0b`): `segnaLetta` salva orario «adesso» in persist; Nicola può vedere ancora il bug finché **Vercel non deploya** (2–3 min) — prima di nuovo fix: refresh forzato + 15s in chat aperta; streaming in #338 richiede `sudo systemctl restart mycity-worker-chat`.
 - [2026-07-13] Audit PR giornata — merge #335 ha **annullato** il fix streaming su main (commit buono `db0552a0` ≠ su HEAD); dopo merge verifica `git show HEAD:cervello/worker.sh` (Cursor = `--stream-partial-output`), non solo che la PR sia chiusa.
 - [2026-07-13] Worker chat attivo dal 16:08 senza riavvio — fix su `main` (#331, #335, #338) ≠ comportamento live finché non `sudo systemctl restart mycity-worker-chat` sul VPS.
 - [2026-07-13] Coda Pannello può restare indietro — card «in attesa» (#335/#337/#331) possono essere già mergiate su GitHub; audit = verifica GitHub + codice su main, non solo la coda.
