@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:54
-fonte: AD digitale (🌙 13/7 18:54 METABOLIZZA: Nicola «fai la prova» = sesta prova streaming post-«fatto». | storico: 🌙 13/7 18:50 merge #341+#342; business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 18:56
+fonte: AD digitale (🌙 13/7 18:56 METABOLIZZA: Nicola «rifai la prova» = settima prova streaming. | storico: 🌙 13/7 18:54 sesta prova; business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:56 — CHAT: settima prova streaming — «rifai la prova».** Dopo sesta prova (18:54) senza esito «cresce», Nicola chiede di **rifare** il test live — stessa procedura (#341+#342 su main), nessun nuovo merge. **Codice main** `d2efd936` (worker telemetry 18:53:24). **In corso:** settima prova — AD avvisa no refresh a metà; feedback atteso (cresce / tutto insieme / a colonna); se ancora rotto → incognito o Ctrl+Shift+R. Fonte: chat Nicola 13/7 ~18:56.
+>
 > 💬 **13/7 ~18:54 — CHAT: sesta prova streaming — «fai la prova».** Dopo «fatto» (quinta prova post-merge #341+#342), Nicola chiede ancora test esplicito. **Codice main** `8859046a` invariato; fix #341+#342 già mergiati. **In corso:** sesta prova live — AD avvisa di **non refreshare a metà risposta** (Ctrl+F5 interrompe poll bolla → falso «tutto insieme»); feedback Nicola atteso a fine risposta (cresce / tutto insieme / a colonna). Se ancora rotto → incognito o Ctrl+Shift+R **dopo** che la risposta è completa. Fonte: chat Nicola 13/7 ~18:54 + worker telemetry.
 >
 > 💬 **13/7 ~18:50 — CHAT: Nicola «fatto» — merge #341+#342, quinta prova streaming.** Dopo procedura (merge Pannello + deploy Vercel + refresh), Nicola conferma passi completati con «fatto». **Codice main** `8859046a` (riconcilia difetti risolti); **#341** (`cf690e6e`) + **#342** (`6ee0ac4a`) su main. **Diagnosi 18:41 (pre-merge Nicola):** worker scriveva già parziali in DB (rev `1081be71` ok) — collo di bottiglia = **Pannello** (bolla non aggiornata live) + pallini spostati da ogni delta streaming. **In corso:** quinta prova streaming live — feedback Nicola atteso (cresce / tutto insieme / a colonna); se ancora rotto → incognito o Ctrl+Shift+R (cache browser). Fonte: chat Nicola 13/7 ~18:50 + worker telemetry.
