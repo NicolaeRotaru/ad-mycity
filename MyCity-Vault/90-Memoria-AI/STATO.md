@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 22:20
-fonte: AD digitale (💬 13/7 22:20 chat home macchina ordinata; PR pendente Q organi + cima home + «sì». | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:21
+fonte: AD digitale (💬 13/7 22:21 chat home organi 8 pallini (A); PR pendente Q cima home + «sì». | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~22:21 — CHAT: home — organi = 8 pallini (A).** Grilling layout organi in card «La macchina». Nicola risponde **A** = fila di **8 pallini** (solo colori; nome/dettaglio al tap) — **non** raccomandazione AD **C** (solo problemi in vista). Confermato: card unica semaforo+1 riga+pallini+dettagli chiusi+3 link salute; autopilota fuori home. **Pendente:** Q cosa **in cima** home (A firmare / B ritmo / C numeri / D macchina) — AD default **A poi B**; Nicola **«sì»** → PR 🟡 (menu L-179 + trio salute + lettera home + home redesign). Fonte: chat Nicola 13/7 ~22:21.
+>
 > 💬 **13/7 ~22:20 — CHAT: home — macchina ordinata, meno disorientante.** Nicola «cuore e stato della macchina però in modo diverso, più ordinato e meno disorientante» — frizione oggi: **2 card separate + 2 banner** che ripetono cuore/organi/auto-analisi/radiografia. **Proposta 🟡 in PR:** **una sola card «La macchina»** — in cima semaforo + 1 riga («🟡 viva · ultimo giro … · N difetti»); sotto griglia organi **compatta** (emoji+pallino, **niente paragrafo** sotto ogni organo); in fondo chiuso autopilota/diagnosi («Mostra dettagli»); **3 link** (Radiografia macchina · Auto-coscienza · Salute sito) al posto dei banner; autopilota **non** card a sé in home. **Pendente:** layout organi in home — **A** 8 pallini · **B** griglia 4×2 · **C** solo organi con problema + «altri N ok» (AD raccomanda **C** in home, **B** in Radiografia macchina); Q cosa **in cima** home (A firmare / B ritmo / C numeri / D macchina) ancora aperta → PR 🟡 unica. Fonte: chat Nicola 13/7 ~22:20.
 >
 > 💬 **13/7 ~22:16 — CHAT: home redesign + lettera confermata + v1/v2 scope.** Nicola: (1) «si può rendere ancora migliore, avanzata ed efficiente?» oltre mosse decise → **sì** — **v1** PR: menu L-179 + cartoline + mosse trio + lettera home + lezioni 7gg + sito priorità; **v2**: un «prossimo passo», API home unificata, cantiere sito, lettera fresca a review. (2) **Lettera in home confermata** «così come l'hai descritta» — anteprima 3–5 righe + «Leggi tutta»; tab Lettera esce da Radiografia macchina. (3) **«Adesso lavoriamo su come impostare la home»** — oggi scroll lungo, duplicazioni; **ordine proposto 🟡:** Da fare adesso → Ritmo → Lettera → KPI → Macchina compatto → resto sotto; togliere bussola+aree doppie e banner auto-analisi/radiografia. **Pendente:** Q home cosa **in cima** (A firmare / B ritmo+lettera / C numeri / D macchina) — AD raccomanda A poi B → PR 🟡 unica. Fonte: chat Nicola 13/7 ~22:16.
