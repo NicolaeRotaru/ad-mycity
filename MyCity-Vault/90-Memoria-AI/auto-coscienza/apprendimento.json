@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 17:50",
+  "aggiornato": "2026-07-13 17:52",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,28 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-135",
+      "testo": "**#334 conflittuale → solo #336, verifica main prima (chat 13/7 ~17:51, correzione Nicola):** Nicola «c'è un conflitto» su fix pallino ~5s. 5 perché: (1) #334 partiva da base vecchia mentre **#328/#332/#333 già mergiate su main** — mescola fix già online con fix nuovo; (2) violazione L-129: aperta #334 invece di push sullo stesso branch dopo residuo ~5s; (3) Nicola trova conflitto merge come con #328/#329; (4) **fix PR #336** (`ee9d3f9b`): ribasato su main HEAD, 1 solo file `pannello/`, simulazione merge OK; **#334 CHIUDI senza merge**; (5) **regola:** prima di aprire PR nuova verifica cosa è già su main e chiudi PR obsolete dello stesso bug; non dire «pronta» senza simula merge. Merge 🔴 #108.",
+      "tag": [
+        "pannello",
+        "pr",
+        "conflitti",
+        "pallini",
+        "pr-334",
+        "pr-336",
+        "main-head",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.99,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 17:51",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-134",
       "testo": "**Chat fluttuante Safari/iPhone — selettore file non si apre (chat 13/7 ~17:35–17:47, correzione Nicola):** dopo ok #60 («Storage ok») Nicola «no la chat fluttuante non mi lascia allegare i file» su iPhone. 5 perché: (1) AD aveva detto «graffetta c'è, dovrebbe funzionare» senza chiedere dispositivo/browser; (2) post-#60 l'API `/api/allegato` risponde ok — il bug è UI lato client, non env; (3) **causa verificata codice:** graffetta chiamava `.click()` su `<input type=file>` nascosto fuori viewport — pattern che Safari ignora dentro overlay fluttuante; (4) chat intera (ingrandisci) e altri componenti usano già tap diretto sull'input → funzionano; (5) **fix PR #333** (`b2d86257`): stesso pattern tap diretto; merge 🔴 #106; **ParlaCasella** resta senza graffetta (feature gap separato). Regola: su «graffetta non apre file» chiedi iPhone/Safari vs PC; se Storage ok, verifica pattern input file nel componente.",
@@ -39,7 +61,7 @@
     },
     {
       "id": "L-2026-0713-133",
-      "testo": "**Pallino riaccende dopo ~5s — orologio browser vs lavoro AD (chat 13/7 ~17:36–17:45):** Nicola «c'è ancora il problema dei pallini… dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna». 5 perché: (1) aprire chat salva `lettoAt` con `Date.now()` del client; (2) il poll elenco conversazioni (~5s) ricalcola non-letto confrontando con `updated_at`/`finished_at` del **Lavoro** AD; (3) il lavoro spesso termina qualche secondo DOPO che Nicola ha già aperto la chat → timestamp lavoro > timestamp lettura → pallino torna; (4) #328 (sync server cross-device) non risolve questo race — è un bug di clock, non di localStorage; (5) **fix PR #334** (sostituisce #332 incompleto): al segnare lettura usa max(orario chat, orario lavoro) e riallinea al poll, commit `03d29c1c`, merge 🔴 #107; **#332 chiudere senza merge**. Regola: stato «letto» vs «risposta AD nuova» deve usare UNA sola fonte temporale; fix incompleto = push sulla STESSA PR, non aprire #334 dopo #332.",
+      "testo": "**Pallino riaccende dopo ~5s — orologio browser vs lavoro AD (chat 13/7 ~17:36–17:51):** Nicola «c'è ancora il problema dei pallini… dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna». 5 perché: (1) aprire chat salva `lettoAt` con `Date.now()` del client; (2) il poll elenco conversazioni (~5s) ricalcola non-letto confrontando con `updated_at`/`finished_at` del **Lavoro** AD; (3) il lavoro spesso termina qualche secondo DOPO che Nicola ha già aperto la chat → timestamp lavoro > timestamp lettura → pallino torna; (4) #328 (sync server) già su main — non risolve questo race; (5) **fix PR #336** (sostituisce #334 conflittuale): max(orario chat, orario lavoro) + riallinea al poll, commit `ee9d3f9b`, merge 🔴 #108; **#334 e #332 chiudere senza merge**. Regola: una fonte temporale per «letto»; fix incompleto = push sulla STESSA PR.",
       "tag": [
         "pannello",
         "conversazioni",
@@ -47,17 +69,18 @@
         "badge",
         "poll",
         "timestamp",
+        "pr-336",
         "pr-334",
         "pr-332",
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.98,
-      "evidenze": 2,
+      "confidenza": 0.99,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:45",
+      "ultima_conferma": "2026-07-13 17:51",
       "stato": "attiva"
     },
     {
@@ -145,11 +168,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 0.99,
-      "evidenze": 5,
+      "evidenze": 6,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 17:45",
+      "ultima_conferma": "2026-07-13 17:51",
       "stato": "attiva"
     },
     {
@@ -3235,7 +3258,7 @@
   "preferenze_nicola": [
     "**Descrizione PR al momento dell'apertura (chat 13/7 ~17:39):** «perché non mi hai messo la descrizione della pr dentro github?» su #333 — zero tolleranza per body vuoto o solo testo script; si aspetta body completo su GitHub **prima** di chiedere, non correzione dopo; rinforza standing-ask 16:22. Vedi L-2026-0713-124.",
     "**Allegati chat fluttuante iPhone (chat 13/7 ~17:35):** «no la chat fluttuante non mi lascia allegare i file» — usa iPhone/Safari in fluttuante; si aspetta che la graffetta apra il selettore file come in chat intera; workaround accettabile solo temporaneo (ingrandisci). Fix PR #333, merge 🔴 #106. Vedi L-2026-0713-134.",
-    "**Pallino deve restare spento dopo apertura chat (chat 13/7 ~17:36–17:45):** «dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna» — zero tolleranza per pallino che riappare da solo; si aspetta fix definitivo (PR #334, merge 🔴 #107), non solo spiegazione del poll; #332 annullata. Complementare a #328 per sync telefono/PC. Vedi L-2026-0713-133.",
+    "**Pallino deve restare spento dopo apertura chat (chat 13/7 ~17:36–17:51):** «dopo che apro la chat della risposta non letta il pallino sparisce ma dopo 5 secondi ritorna» — zero tolleranza per pallino che riappare da solo; fix definitivo **PR #336** (merge 🔴 #108), non #334 (conflittuale, chiudere); #328/#332 già su main. Vedi L-2026-0713-133, L-135.",
     "**Allegati in tutte le chat dove scrive (chat 13/7 ~17:32–17:47):** dopo ok #60 distingue «chat fluttuante» (iPhone Safari = bug selettore #333) da «Parla con questa casella» (graffetta assente) — si aspetta allegati funzionanti in fluttuante e coerenza con Archivio; chiede esplicitamente di controllare ParlaCasella. Vedi L-2026-0713-132, L-134.",
     "**Streaming risposta AD in chat — standing-ask (chat 13/7 ~17:31–17:50):** «fino ieri mi scrivevi in tempo reale» — vuole testo che cresce parola-per-parola mentre l'AD lavora, non tutto insieme a fine turno. **PR #335** aperta su ok «apri pr»; merge 🔴 #109 + riavvio `mycity-worker-chat` post-merge. Vedi L-2026-0713-131.",
     "**«hai imparato o ripeterai?» — test accountability (chat 13/7 ~17:27):** dopo «impara questi errori» chiede conferma esplicita che la lezione è in memoria — vuole regole concrete numerate (un bug = una PR, simula merge, branch pulito), ammissione che ripeterla è colpa AD; non promessa generica «non ripeto più». Vedi L-2026-0713-129.",
@@ -3244,7 +3267,7 @@
     "**Doppie PR stesso fix — guida esplicita (chat 13/7 ~17:15):** «hai creato due pr, le mergio entrambe?» — quando ci sono più PR aperte sullo stesso problema vuole sapere subito quale mergiare e quale chiudere (non «dipende»); per pallini: solo #328, #327 chiudi, #330 è altro (plugin, già mergiata). Vedi L-2026-0713-129.",
     "**Plugin GitHub worker — fase 2 + mappa completa (chat 13/7 ~17:19):** dopo i 3 skill confermati chiede «aggiungi i 10 plugin che mi hai consigliato» + «i migliori plugin per tutti gli aspetti del worker/pannello/AD/senior» — si aspetta manifest esteso, PR mergiabile (#330), mappa per reparto (`consegne/tech/worker-plugins-mappa.md`), caveman mai in chat con lui. Prima di installare vuole descrizione identità di ogni skill (L-111). Vedi L-2026-0713-128.",
     "**Guardiano agenti — fix concreto dalla casella Pannello (chat 13/7 ~17:11–17:24):** «risolvi questo problema» sulla casella coerenza-agenti verificata — si aspetta PR funzionante che chiude il buco (non solo spiegazione), con prova che il controllo trova subito la collisione (fraud-risk/trust-safety), descrizione PR su GitHub, merge 🔴 #101. Se conflitto («ci sono dei conflitti») risolvere sulla stessa #329 ripulendo il branch (commit `53afcdcc`), non aprire PR nuova. Correggere le description degli agenti = passo separato dopo il guardiano. Vedi L-2026-0713-127.",
-    "**Pallini rossi e conversazioni telefono=PC (chat 13/7 ~17:08):** «i puntini rossi… ancora funzionando alla cazzo di cane» + conversazioni smartphone/desktop non allineate — si aspetta pallino affidabile (solo risposta AD non letta) e stesso elenco+pallini su entrambi i dispositivi; i fix precedenti (#317 polling, #324 UI) non bastavano finché pin/badge restavano in localStorage. Fix PR #328, merge 🔴 #102. Vedi L-2026-0713-126.",
+    "**Pallini rossi e conversazioni telefono=PC (chat 13/7 ~17:08–17:51):** «i puntini rossi… ancora funzionando alla cazzo di cane» + conversazioni smartphone/desktop non allineate — si aspetta pallino affidabile e stesso elenco+pallini su entrambi i dispositivi. **#328 già su main** (sync); residuo ~5s → solo **#336** (merge 🔴 #108), chiudi #334. Vedi L-2026-0713-126, L-135.",
     "**Tab OKR & pagella — testo leggibile e numeri che si muovono (chat 13/7 ~16:22):** «Esce ancora la frase fuori dal riquadro ed i dati di okr&pagella non sono aggiornati in tempo reale» — si aspetta frasi dentro le card su mobile, Stelle Polari che si aggiornano da sole, e capire che la tabella sotto è un documento (non cache). Fix PR #326, merge 🔴 #99; contenuto OKR = giro AD. Vedi L-2026-0713-125.",
     "**Descrizione PR sempre dentro GitHub (chat 13/7 ~16:22):** «Ti avevo chiesto di darmi sempre la descrizione della pr dentro github, sempre» — ogni PR deve avere body comprensibile su GitHub (cosa cambia, perché, come verificare in 2–3 passi), non solo il link in chat; in chat incolla anche il riassunto; niente titolo generico o body vuoto prima del merge; PR aperte incomplete vanno aggiornate con `git-pr.mjs --body`. Già richiesto 12/7 su #292. Vedi L-2026-0713-124.",
     "**Tab Lavori — conteggi e archivio completi (chat 13/7 ~16:10):** «4 in coda e 46 in archivio è un dato sbagliato» + archivio incompleto — si aspetta numeri reali dal database e lista archivio navigabile per intero, non una finestra troncata. Fix PR #325, merge 🔴 #98. Vedi L-2026-0713-123.",
@@ -3354,13 +3377,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 154,
+    "lezioni_attive": 156,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.58,
-    "tasso_calcolato_il": "2026-07-13 17:42",
+    "tasso_calcolato_il": "2026-07-13 17:52",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 17:42"
+    "tick_leggero_il": "2026-07-13 17:52"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
