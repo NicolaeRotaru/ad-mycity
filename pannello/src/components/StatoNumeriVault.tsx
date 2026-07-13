@@ -24,6 +24,7 @@ const Markdown: Components = {
 };
 
 export default function StatoNumeriVault() {
+  const [tab, setTab] = useState<"stato" | "okr">("stato");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
   const [stato, setStato] = useState("");
@@ -80,18 +81,41 @@ export default function StatoNumeriVault() {
         </button>
       </div>
 
+      <div className="flex flex-wrap gap-1.5">
+        {([
+          { id: "stato" as const, label: "Stato", icon: <Gauge size={14} /> },
+          { id: "okr" as const, label: "OKR", icon: <Target size={14} /> },
+        ]).map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setTab(t.id)}
+            className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+              tab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
+            }`}
+          >
+            {t.icon}
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "stato" && (
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Gauge size={15} className="text-brand" />
-          <span className="t-sez">STATO</span>
+          <span className="t-sez">Situazione attuale</span>
           {statoAgg && <span className="t-eti">· {dataVault(statoAgg)}</span>}
         </div>
         <div className="max-h-[24rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
           {stato ? <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{stato}</ReactMarkdown>
-            : <p className="text-sm text-black/45 py-2 text-center">STATO.md non trovato.</p>}
+            : <p className="text-sm text-black/45 py-2 text-center">Nessun file stato ancora.</p>}
         </div>
       </div>
+      )}
 
+      {tab === "okr" && (
+      <>
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Target size={15} className="text-brand" />
@@ -133,6 +157,8 @@ export default function StatoNumeriVault() {
           ))}
         </div>
       </div>
+      </>
+      )}
     </section>
   );
 }
