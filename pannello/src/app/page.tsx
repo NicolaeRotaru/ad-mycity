@@ -1924,7 +1924,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     carica();
     const onLavori = () => carica();
     window.addEventListener("mycity:lavori", onLavori);
-    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 2000 : 8000;
+    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 1000 : 8000;
     const id = setInterval(() => carica(), ms);
     return () => {
       stop = true;
@@ -2367,8 +2367,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   ) : m.pending ? (
                     <div className="inline-flex flex-col items-start gap-1.5 max-w-[92%]">
                       {m.content ? (
-                        <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md">
-                          <Markdown>{m.content}</Markdown>
+                        <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md text-sm whitespace-pre-wrap leading-relaxed max-w-full">
+                          {m.content}
                           <span className="ml-0.5 animate-pulse">▍</span>
                         </div>
                       ) : (
@@ -2667,8 +2667,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   ) : m.pending ? (
                     <div className="inline-flex flex-col items-start gap-1 max-w-[92%]">
                       {m.content ? (
-                        <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md">
-                          <Markdown>{m.content}</Markdown>
+                        <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px] whitespace-pre-wrap leading-relaxed max-w-full">
+                          {m.content}
                           <span className="ml-0.5 animate-pulse">▍</span>
                         </div>
                       ) : (
