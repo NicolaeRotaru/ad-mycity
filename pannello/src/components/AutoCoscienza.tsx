@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Microscope,
   GraduationCap,
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
+import { usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 
 // 🔑 Id stabile di una domanda, derivato dal suo testo (djb2): resta lo stesso tra
@@ -256,20 +257,23 @@ export default function AutoCoscienza({
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
   const [mostraArchivioLezioni, setMostraArchivioLezioni] = useState(false);
 
+  const carica = useCallback(() => {
+    fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => { if (x?.risposte) setRisposte(x.risposte); }).catch(() => {});
+    fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
+      const m: Record<string, string> = {};
+      for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
+      setAzPerOrigine(m);
+    }).catch(() => {});
+  }, []);
+
   useEffect(() => {
-    const carica = () => {
-      fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
-      fetch("/api/memoria/risposta", { cache: "no-store" }).then((r) => r.json()).then((x) => { if (x?.risposte) setRisposte(x.risposte); }).catch(() => {});
-      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
-        const m: Record<string, string> = {};
-        for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
-        setAzPerOrigine(m);
-      }).catch(() => {});
-    };
     carica();
     const id = setInterval(carica, 30_000);
     return () => clearInterval(id);
-  }, []);
+  }, [carica]);
+
+  usePanelSync(["radiografia", "azioni", "memoria", "all"], carica);
 
   // Deep-link dal banner della Plancia (#auto-coscienza): porta la card sott'occhio.
   useEffect(() => {

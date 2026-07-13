@@ -124,6 +124,7 @@ import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
+import { emitSync } from "@/lib/panel-sync";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -1036,6 +1037,9 @@ export default function Dashboard() {
     if (!instradaMessaggioChat(targetConvId, content)) return;
     lavoroRisoltoChatRef.current.add(lavoroId);
     rimuoviPendingChat(lavoroId);
+    emitSync("memoria");
+    emitSync("radiografia");
+    emitSync("azioni");
     if (convIdRef.current === targetConvId || !pendingPerConv(convIdRef.current)) setLoading(false);
   }
 

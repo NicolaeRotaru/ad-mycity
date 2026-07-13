@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, FileText } from "lucide-react";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import { RitmoTesto } from "@/components/RitmoTesto";
@@ -8,6 +8,7 @@ import ParlaCasella from "@/components/ParlaCasella";
 import Aggiornato from "@/components/Aggiornato";
 import FraseLista from "@/components/FraseLista";
 import { vaiArea } from "@/lib/nav";
+import { usePanelSync } from "@/lib/panel-sync";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import MacchinaHomeCard from "@/components/MacchinaHomeCard";
 import LetteraAdCard from "@/components/LetteraAdCard";
@@ -65,23 +66,23 @@ export default function Plancia({
   const [documenti, setDocumenti] = useState<Doc[]>([]);
   const [aggAt, setAggAt] = useState<number | null>(null);
 
+  const carica = useCallback(() => {
+    fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
+    fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
+    fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
+    fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
+    fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
+    fetch("/api/consegne", { cache: "no-store" }).then((r) => r.json()).then((d) => setDocumenti(d.recenti || [])).catch(() => {});
+    setAggAt(Date.now());
+  }, []);
+
   useEffect(() => {
-    // Ricarica anche a intervalli: i dati arrivano dal vault (giro) e cambiano mentre si è fermi sulla home.
-    // Il timbro "Aggiornato" si rinfresca a ogni giro del polling, non solo al mount.
-    const carica = () => {
-      // Stessa fonte dell'area Azioni (include le sentinelle) → il conteggio "da firmare" coincide.
-      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((d) => setAzioni(d.azioni || [])).catch(() => {});
-      fetch("/api/alert", { cache: "no-store" }).then((r) => r.json()).then((d) => setAlerts(d.alert || [])).catch(() => {});
-      fetch("/api/memoria/todo", { cache: "no-store" }).then((r) => r.json()).then((d) => setTodo(d.items || [])).catch(() => {});
-      fetch("/api/memoria/intenzioni", { cache: "no-store" }).then((r) => r.json()).then((d) => setMosse(d.prossime_mosse || [])).catch(() => {});
-      fetch("/api/ritmo", { cache: "no-store" }).then((r) => r.json()).then((d) => setRitmo({ pianoMattino: d.pianoMattino || null, reportSera: d.reportSera || null })).catch(() => {});
-      fetch("/api/consegne", { cache: "no-store" }).then((r) => r.json()).then((d) => setDocumenti(d.recenti || [])).catch(() => {});
-      setAggAt(Date.now());
-    };
     carica();
     const id = setInterval(carica, 60000);
     return () => clearInterval(id);
-  }, []);
+  }, [carica]);
+
+  usePanelSync(["azioni", "memoria", "all"], carica);
 
   // "Da firmare" = azioni ancora da decidere (stato vuoto): STESSO conteggio del badge
   // "Da approvare" dell'area Azioni (che fa filter(!stato)). Un solo numero ovunque.

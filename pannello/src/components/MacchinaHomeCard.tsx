@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Activity, ChevronDown, HeartPulse } from "lucide-react";
 import { istante } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Cuore = {
   collegato: boolean;
@@ -81,6 +82,8 @@ export default function MacchinaHomeCard() {
     const t = setInterval(carica, 60_000);
     return () => clearInterval(t);
   }, [carica]);
+
+  usePanelSync(["radiografia", "azioni", "memoria", "all"], carica);
 
   if (!c) return null;
 

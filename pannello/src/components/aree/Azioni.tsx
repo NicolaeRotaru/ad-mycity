@@ -9,6 +9,7 @@ import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type Detta
 import { risolviOrigine } from "@/lib/origine";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
+import { emitSync, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
   etichettaScelta,
@@ -226,6 +227,13 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     };
   }, [carica, caricaContorno, caricaRegistro, haMergePrAperta]);
 
+  // Rete sync: quando un'altra casella cambia memoria/azioni, ricarica subito.
+  usePanelSync(["azioni", "memoria", "radiografia", "all"], () => {
+    carica();
+    caricaContorno();
+    if (tabRef.current === "registro") void caricaRegistro();
+  });
+
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
@@ -284,6 +292,9 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         patch(id, { stato: r.stato as Stato, esito: r.esito || "" });
         ricordaLocale(id, r.stato as Stato, r.esito || "");
         setRegistro(null);
+        emitSync("azioni", `azione:${id}`);
+        emitSync("radiografia");
+        emitSync("memoria");
       } else {
         const msg = r?.error ? `⚠️ ${r.error}` : "⚠️ Non riuscito, riprova.";
         patch(id, { stato: prevStato, esito: msg });
@@ -313,7 +324,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         setPropEsito((s) => ({ ...s, [pid]: { ok: true, msg: "📨 Approvata: il cervello la sta trasformando in azione concreta (vedi Lavori). Non tornerà tra le proposte." } }));
         setPropDecise((s) => new Set(s).add(pid));
         setPropDecisioni((s) => ({ ...s, [r.id || pid]: { decisione: "approva", at: new Date().toISOString() } }));
-        if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+        if (typeof window !== "undefined") emitSync("lavori");
       } else {
         setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: `⚠️ ${r?.error || "Approvazione non riuscita."}` } }));
       }
