@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 18:37 · **Quarta prova streaming «facciamo la prova»:** Nicola chiede test live post-#341 · atteso: streaming orizzontale · reale: prova in corso, esito Nicola non dichiarato; main `f66360cb`; #341 ancora in coda merge 🔴 #114 · L-138 evidenze 7 · #worker #streaming #quarta-prova #esito
 - 2026-07-13 18:27 · **Restart ≠ pull codice — streaming ancora rotto:** Nicola «ancora non cresce live» + merge pallini «non lette» post-restart 18:22 · atteso: streaming live dopo restart · reale: restart eseguito ma insufficiente — disco VPS vecchio; pallini = Vercel non worker; PR #341 + aggiorna-cervello.sh · L-142 · L-141 evidenze 2 · #worker #streaming #vps #aggiorna-cervello #esito
 - 2026-07-13 18:22 · **Nicola riavvia worker + Ctrl+F5 — terza prova streaming:** «mi mostrava tutto insieme, ho reinserito il comando…» · atteso: streaming live dopo restart · reale: restart eseguito da Nicola; sintomo pre-restart «tutto insieme» conferma diagnosi stale; terza prova in corso, esito non dichiarato · L-141 · L-138 evidenze 5 · #worker #streaming #restart #esito
 - 2026-07-13 18:19 · **Seconda prova streaming «riprova»:** Nicola ritesta live · atteso: streaming orizzontale post-fix · reale: ancora rotto (tutto insieme/colonna); worker chat fermo dal 16:08 = blocco confermato da secondo fallimento; restart `mycity-worker-chat` ancora pendente · L-138 evidenze 4 · #worker #streaming #restart #esito

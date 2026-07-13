@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 18:37 · **Quarta prova streaming:** Nicola «facciamo la prova» · atteso: testo cresce in orizzontale · reale: prova live avviata, esito pendente; #341 in coda · L-138 · #streaming #worker #esito
 - 2026-07-13 18:27 · **Restart ≠ codice su disco — PR #341:** Nicola terza prova ancora rotta post-restart · atteso: streaming live · reale: `systemctl restart` non pulla da GitHub; aggiorna-cervello.sh non riavviava worker-chat; fix #341 `cf690e6e` · L-142 · #worker #streaming #aggiorna-cervello #pr-341
 - 2026-07-13 18:22 · Nicola restart worker + Ctrl+F5 — «mi mostrava tutto insieme… adesso riprova» · atteso: streaming live post-restart · reale: restart eseguito; pre-restart tutto insieme confermato; terza prova fallita 18:27 → L-142 · L-141 · #worker #streaming #restart
 - 2026-07-13 18:19 · Seconda prova streaming «riprova» — Nicola ritesta dopo demo ~18:18 · atteso: testo cresce in orizzontale · reale: ancora tutto insieme o a colonna → worker VPS non riavviato dal 16:08 confermato come blocco; codice #338+#339 ok su main · L-138 evidenze 4 · #worker #streaming #riprova
