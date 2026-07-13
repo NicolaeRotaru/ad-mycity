@@ -1075,7 +1075,10 @@ export default function Dashboard() {
     return c ? tsConvAggiornato(c, g) : new Date().toISOString();
   }
   function segnaLetta(id: string, at?: string) {
-    const ora = at ? tsMaxIso(at, tsLettaPerConv(id)) : tsLettaPerConv(id);
+    // Includi «adesso»: dopo persistConversazione l'updated_at può crescere un tick DOPO
+    // segnaLetta se il ref non è ancora aggiornato — senza now il pallino torna al prossimo poll.
+    const base = tsLettaPerConv(id);
+    const ora = tsMaxIso(at ? tsMaxIso(at, base) : base, new Date().toISOString());
     setConvLette((prev) => {
       if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
       const n = { ...prev, [id]: ora! };

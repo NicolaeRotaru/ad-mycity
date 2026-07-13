@@ -122,3 +122,9 @@ EOF
 @test "worker: placeholder 💭 mentre il modello pensa (prima del primo testo)" {
   grep -q 'Sto ragionando' "$WORKER"
 }
+
+# ── 14. Streaming chat anche con motore Cursor (non solo Claude) ────────────────────────────────
+@test "worker: chat streaming non gated solo su ai_engine=claude" {
+  ! grep -q '\[ "\$tipo" = "chat" \] && \[ "\$(ai_engine)" = claude \]' "$WORKER"
+  grep -q 'stream-partial-output' "$WORKER"
+}
