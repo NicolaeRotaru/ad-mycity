@@ -5,7 +5,9 @@ import { Store, FileText, ChevronDown, ChevronRight } from "lucide-react";
 import { dataVault } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
+import SchedaProblema from "@/components/cervello/SchedaProblema";
 import { usePanelSync } from "@/lib/panel-sync";
+import { dimensioneLeggibile } from "@/lib/radiografia-umana";
 
 // 🏪 RADIOGRAFIA MARKETPLACE — l'audit profondo del SITO mycity (13 dimensioni, ogni problema
 // verificato), gemella della «Radiografia macchina». Legge /api/memoria/radiografia-marketplace
@@ -131,7 +133,7 @@ export default function RadiografiaMarketplace() {
                 <div key={dim.key} className="rounded-xl border border-black/[0.06] bg-paper/40 overflow-hidden">
                   <button type="button" onClick={() => toggle(dim.key || "")} className="w-full flex items-center gap-2 text-left px-3 py-2.5" aria-expanded={open}>
                     <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${nBlocc ? "bg-red-500" : nGravi ? "bg-amber-500" : "bg-green-500"}`} />
-                    <span className="text-[13px] font-medium flex-1 min-w-0 truncate">{dim.key}</span>
+                    <span className="text-[13px] font-medium flex-1 min-w-0 truncate">{dimensioneLeggibile(dim.key || "")}</span>
                     {nBlocc > 0 && <span className="text-[10px] px-1.5 rounded bg-red-100 text-red-700 shrink-0">{nBlocc} bloccanti</span>}
                     <span className="badge badge-off shrink-0">{findingsVis.length}</span>
                     <span className="shrink-0" style={{ color: "var(--text-faint)" }}>{open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}</span>
@@ -141,31 +143,28 @@ export default function RadiografiaMarketplace() {
                       {findingsVis.map((f, j) => {
                         const g = GRAV[f.severita || "minore"] || GRAV.minore;
                         return (
-                          <div key={j} className={`rounded-lg border p-2.5 mt-2 ${g.cls}`}>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
-                              <span className="text-[10px] font-bold text-black/50">{g.label}</span>
-                            </div>
-                            <div className="text-[12.5px] font-medium mt-1">{f.titolo}</div>
-                            {f.descrizione && <div className="text-[12px] text-black/65 mt-0.5">{f.descrizione}</div>}
-                            {f.impatto && <div className="text-[12px] text-black/60 mt-1"><b>Impatto:</b> {f.impatto}</div>}
-                            {f.fix && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {f.fix}</div>}
-                            {f.dove && <div className="t-eti mt-0.5 font-mono break-all">{f.dove}</div>}
-                            {/* Ogni problema del sito ha la SUA chat, come nella radiografia macchina */}
-                            <ParlaCasella
-                              titolo={`Problema sito: ${(f.titolo || "").slice(0, 60)}`}
-                              contesto={[
-                                dim.key && `Dimensione: ${dim.key}`,
-                                f.descrizione,
-                                f.impatto && `Impatto: ${f.impatto}`,
-                                f.fix && `Fix proposto: ${f.fix}`,
-                                f.dove && `Dove: ${f.dove}`,
-                              ].filter(Boolean).join(" · ")}
-                            />
-                          </div>
+                          <SchedaProblema
+                            key={j}
+                            gravitaCls={g.cls}
+                            gravitaDot={g.dot}
+                            gravitaLabel={g.label}
+                            titolo={f.titolo}
+                            descrizione={f.descrizione}
+                            impatto={f.impatto}
+                            fix={f.fix}
+                            dove={f.dove}
+                            parlaTitolo={`Problema sito: ${(f.titolo || "").slice(0, 60)}`}
+                            parlaContesto={[
+                              dim.key && `Area: ${dimensioneLeggibile(dim.key || "")}`,
+                              f.descrizione,
+                              f.impatto && `Impatto: ${f.impatto}`,
+                              f.fix && `Fix proposto: ${f.fix}`,
+                              f.dove && `Dove: ${f.dove}`,
+                            ].filter(Boolean).join(" · ")}
+                          />
                         );
                       })}
-                      <ParlaCasella titolo={`Marketplace: ${dim.key}`} contesto={`Dimensione «${dim.key}» della radiografia marketplace del ${d.data}: ${findings.length} problemi (${nBlocc} bloccanti, ${nGravi} gravi).`} />
+                      <ParlaCasella titolo={`Sito: ${dimensioneLeggibile(dim.key || "")}`} contesto={`Area «${dimensioneLeggibile(dim.key || "")}» della radiografia sito del ${d.data}: ${findings.length} problemi (${nBlocc} bloccanti, ${nGravi} gravi).`} />
                     </div>
                   )}
                 </div>

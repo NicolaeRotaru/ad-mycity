@@ -1,11 +1,14 @@
 ## Summary
-- Allegati nelle chat delle caselle Lavori: stesso fix già usato nella chat principale (bottone con selettore file integrato, funziona su iPhone).
-- Contrasto selezione testo: evidenziatura scura/chiara leggibile ovunque; sulle bolle arancioni bianco su trasparenza invece di arancio su arancio.
+- Aggiunge `radiografia-umana.ts`: traduce titoli, aree e corpo dei problemi in italiano semplice (regola `scrittura-umana.md`).
+- Nuovo componente `SchedaProblema`: titolo umano + «Perché» + «Cosa fare»; path e testo audit grezzo sotto «Dettagli tecnici» (collassato).
+- Applicato a **Radiografia macchina**, **Salute sito** e **Auto-coscienza** (tab Analisi → errori).
+
+## Esempio (finding coerenza-agenti dello screenshot)
+- **Prima:** `trust-safety e fraud-risk collidono… verbatim in entrambe le description`
+- **Dopo:** titolo leggibile tipo «Trust Safety e Antifrode si pestano i piedi sulle frodi…» + impatto in italiano; file `.md:3` solo aprendo Dettagli tecnici.
 
 ## Test plan
-- [ ] Chat principale (Assistenza): graffetta → scegli foto → compare anteprima con nome file → invia
-- [ ] Chat casella Lavori: «Allega» → scegli foto da galleria (anche da smartphone) → anteprima visibile
-- [ ] Evidenzia testo in una risposta dell'AD e in una tua bolla arancione: la selezione si vede chiaramente
-
-## Perché
-Nicola segnala che dopo aver scelto una foto non compare in chat (soprattutto mobile) e che evidenziare testo è invisibile (arancio su arancione).
+- [ ] Radiografia macchina → Archivio audit → card coerenza-agenti: titolo umano, niente path in vista
+- [ ] Salute sito → stessa struttura su un bloccante
+- [ ] Auto-coscienza → Analisi → errori con Dettagli tecnici
+- [ ] `node --test pannello/src/lib/radiografia-umana.test.mts`

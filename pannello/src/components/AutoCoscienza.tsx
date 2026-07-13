@@ -23,6 +23,7 @@ import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
+import { humanizzaErrore } from "@/lib/radiografia-umana";
 
 // 🔑 Id stabile di una domanda, derivato dal suo testo (djb2): resta lo stesso tra
 // un refresh e l'altro finché la domanda è la stessa → così sappiamo a quale è già
@@ -526,9 +527,9 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Errori trovati ({nErrori}){live?.gap?.length ? " · live" : ""}</div>
                   <div className="space-y-2">
                     {(Array.isArray(erroriLive) ? erroriLive : []).map((e, i) => {
-                      // Il giro a volte scrive errori come stringhe semplici invece di oggetti.
                       const err: Errore = typeof e === "string" ? { titolo: e } : (e || {});
                       const g = GRAV[err.gravita || "bassa"] || GRAV.bassa;
+                      const umano = humanizzaErrore(err);
                       return (
                         <div key={i} className={`rounded-xl border p-3 ${g.cls}`}>
                           <div className="flex items-center gap-2">
@@ -537,10 +538,20 @@ export default function AutoCoscienza({
                             {err.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {err.livello_scoperta}</span>}
                             {err.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{err.azione_presa}</span>}
                           </div>
-                          <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{err.titolo}</div>
-                          {err.dettaglio && <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{err.dettaglio}</div>}
-                          {err.riguarda && <div className="t-eti mt-1">riguarda: {err.riguarda}</div>}
-                          <ParlaCasella titolo={`Errore: ${err.titolo}`} contesto={[err.dettaglio, err.riguarda && `riguarda: ${err.riguarda}`].filter(Boolean).join(" · ")} />
+                          <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{umano.titolo}</div>
+                          {umano.cosaSuccede && umano.cosaSuccede !== umano.titolo && (
+                            <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{umano.cosaSuccede}</div>
+                          )}
+                          {err.riguarda && <div className="t-eti mt-1">Riguarda: {err.riguarda}</div>}
+                          {umano.tecnici && (
+                            <details className="mt-2 group">
+                              <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1">
+                                <span className="group-open:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
+                              </summary>
+                              <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
+                            </details>
+                          )}
+                          <ParlaCasella titolo={`Errore: ${umano.titolo}`} contesto={[umano.cosaSuccede, err.riguarda && `Riguarda: ${err.riguarda}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}

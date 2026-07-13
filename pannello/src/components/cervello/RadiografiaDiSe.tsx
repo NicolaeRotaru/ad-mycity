@@ -8,7 +8,9 @@ import {
 import { dataVault } from "@/lib/format";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
+import SchedaProblema from "@/components/cervello/SchedaProblema";
 import { usePanelSync } from "@/lib/panel-sync";
+import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -244,40 +246,41 @@ export default function RadiografiaDiSe() {
                 <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
                   <div className="flex items-center gap-2">
                     <span className={`w-1.5 h-1.5 rounded-full ${dim.stato === "critico" ? "bg-red-500" : dim.stato === "attenzione" ? "bg-amber-500" : "bg-green-500"}`} />
-                    <span className="text-[13px] font-medium">{dim.key}</span>
+                    <span className="text-[13px] font-medium">{dimensioneLeggibile(dim.key || "")}</span>
+                    {dim.key && dimensioneLeggibile(dim.key) !== dim.key && (
+                      <span className="text-[10px] text-black/35">{dim.key}</span>
+                    )}
                     {dim.voto != null && <span className={`t-eti ml-auto tabular-nums ${votoColore(dim.voto)}`}>{dim.voto}/100</span>}
                   </div>
                   {dim.sintesi && <div className="text-[12px] text-black/65 mt-1">{dim.sintesi}</div>}
                   {(dim.findings || []).filter((f) => (f as Finding & { stato?: string }).stato !== "chiuso").map((f, j) => {
                     const g = GRAV[f.severita || "minore"] || GRAV.minore;
                     return (
-                      <div key={j} className={`rounded-lg border p-2.5 mt-2 ${g.cls}`}>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
-                          <span className="text-[10px] font-bold text-black/50">{g.label}</span>
-                          {f.impatto_crescita && <span className={`text-[10px] px-1.5 rounded ${IMPATTO[f.impatto_crescita] || ""}`}>crescita {f.impatto_crescita}</span>}
-                          {f.genera && f.genera !== "solo-report" && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{f.genera}</span>}
-                        </div>
-                        <div className="text-[12.5px] font-medium mt-1">{f.titolo}</div>
-                        {f.descrizione && <div className="text-[12px] text-black/65 mt-0.5">{f.descrizione}</div>}
-                        {f.causa_radice && <div className="text-[12px] text-black/60 mt-1"><b>Causa radice:</b> {f.causa_radice}</div>}
-                        {f.fix && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {f.fix}</div>}
-                        {f.dove && <div className="t-eti mt-0.5 font-mono">{f.dove}</div>}
-                        {/* Ogni problema ha la SUA chat: si parla del singolo difetto, non della dimensione intera. */}
-                        <ParlaCasella
-                          titolo={`Problema: ${(f.titolo || "").slice(0, 60)}`}
-                          contesto={[
-                            dim.key && `Dimensione: ${dim.key}`,
-                            f.descrizione,
-                            f.causa_radice && `Causa radice: ${f.causa_radice}`,
-                            f.fix && `Fix proposto: ${f.fix}`,
-                            f.dove && `Dove: ${f.dove}`,
-                          ].filter(Boolean).join(" · ")}
-                        />
-                      </div>
+                      <SchedaProblema
+                        key={j}
+                        gravitaCls={g.cls}
+                        gravitaDot={g.dot}
+                        gravitaLabel={g.label}
+                        titolo={f.titolo}
+                        descrizione={f.descrizione}
+                        impatto={f.impatto}
+                        causa_radice={f.causa_radice}
+                        fix={f.fix}
+                        dove={f.dove}
+                        impatto_crescita={f.impatto_crescita}
+                        genera={f.genera}
+                        parlaTitolo={`Problema: ${(f.titolo || "").slice(0, 60)}`}
+                        parlaContesto={[
+                          dim.key && `Area: ${dimensioneLeggibile(dim.key)}`,
+                          f.descrizione,
+                          f.causa_radice && `Causa radice: ${f.causa_radice}`,
+                          f.fix && `Fix proposto: ${f.fix}`,
+                          f.dove && `Dove: ${f.dove}`,
+                        ].filter(Boolean).join(" · ")}
+                      />
                     );
                   })}
-                  <ParlaCasella titolo={`Dimensione: ${dim.key}`} contesto={dim.sintesi} />
+                  <ParlaCasella titolo={`Area: ${dimensioneLeggibile(dim.key || "")}`} contesto={dim.sintesi} />
                 </div>
               ))}
 
@@ -371,6 +374,7 @@ export default function RadiografiaDiSe() {
               {aperti.map((x, i) => {
                 const g = GRAV[x.gravita || "minore"] || GRAV.minore;
                 const azId = x.id ? azPerOrigine[`difetto:${x.id}`] : undefined;
+                const umano = humanizzaDifetto(x);
                 return (
                   <div id={x.id ? `difetto-${x.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${g.cls}`}>
                     <div className="flex items-center gap-2 flex-wrap">
@@ -384,17 +388,32 @@ export default function RadiografiaDiSe() {
                       )}
                       <span className="t-eti ml-auto">{x.id}</span>
                     </div>
-                    <div className="text-[12.5px] font-medium mt-1">{x.titolo}</div>
-                    {x.causa_radice && <div className="text-[12px] text-black/60 mt-1"><b>Causa radice:</b> {x.causa_radice}</div>}
-                    {x.fix_proposto && <div className="text-[12px] text-black/60 mt-0.5"><b>Fix (🟡):</b> {x.fix_proposto}</div>}
-                    {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>🔧 Già fatto nel codice:</b> {x.nota_fix}</div>}
+                    <div className="text-[12.5px] font-medium mt-1">{umano.titolo}</div>
+                    {umano.cosaSuccede && umano.cosaSuccede !== umano.titolo && (
+                      <div className="text-[12px] text-black/70 mt-0.5">{umano.cosaSuccede}</div>
+                    )}
+                    {umano.perche && (
+                      <div className="text-[12px] text-black/65 mt-1"><b>Perché succede:</b> {umano.perche}</div>
+                    )}
+                    {umano.cosaFare && (
+                      <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa fare:</b> {umano.cosaFare}</div>
+                    )}
+                    {x.nota_fix && <div className="text-[12px] mt-1 rounded-lg bg-blue-50/70 ring-1 ring-blue-100 px-2 py-1 text-blue-900/80"><b>Già fatto nel codice:</b> {x.nota_fix}</div>}
                     {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
+                    {umano.tecnici && (
+                      <details className="mt-2 group">
+                        <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1">
+                          <span className="group-open:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
+                        </summary>
+                        <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
+                      </details>
+                    )}
                     {azId && (
                       <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-1.5 inline-flex items-center gap-1 t-eti hover:text-brand transition">
                         <ArrowRight size={12} /> Vai all'azione collegata
                       </button>
                     )}
-                    <ParlaCasella titolo={`Difetto: ${x.titolo}`} contesto={[x.causa_radice && `Causa radice: ${x.causa_radice}`, x.fix_proposto && `Fix: ${x.fix_proposto}`].filter(Boolean).join(" · ")} />
+                    <ParlaCasella titolo={`Difetto: ${umano.titolo}`} contesto={[umano.cosaSuccede, umano.perche && `Perché: ${umano.perche}`, umano.cosaFare && `Cosa fare: ${umano.cosaFare}`].filter(Boolean).join(" · ")} />
                   </div>
                 );
               })}
