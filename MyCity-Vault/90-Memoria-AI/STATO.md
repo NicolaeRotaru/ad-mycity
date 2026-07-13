@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 23:39
-fonte: AD digitale (💬 13/7 23:39 PR #358 accordion+tab Memoria. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 23:44
+fonte: AD digitale (💬 13/7 23:44 PR #359 GitHub in Archivio. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **13/7 ~23:43 — CHAT: GitHub dentro Archivio — tab Consegne e GitHub — PR #359.** Nicola «inserisci github dentro archivio e metti due tab: consegne e github». **Implementato 🟡 PR #359** (`19a3849c`): menu Memoria = **3 tab** (Viva · Archivio · Storico — GitHub tolto da lì); **Archivio** = tab **Consegne** (report/documenti) + **GitHub** (file repo); link vecchi a GitHub reindirizzano ad Archivio › GitHub. **Pendente:** merge 🔴 **#359** (#128) — indipendente da #358; entrambe approvabili. Fonte: chat Nicola 13/7 ~23:43 + PR #359.
+>
 > 💬 **13/7 ~23:38 — CHAT: accordion Decisioni + tab Stato/OKR e Memoria/Scoperte — PR #358.** Nicola chiede: (1) Storico→Decisioni = accordion apri/chiudi default semi-aperto + testo umano; (2) Stato & numeri = tab **Stato** / **OKR**; (3) Memoria viva = tab **Memoria** / **Scoperte**, briefing e Sala Operativa aperti. **Implementato 🟡 PR #358** (`489ea69e`): decisione più recente aperta, altre con anteprima; piani sotto OKR; briefing+Sala restano espansi in tab Memoria. **Pendente:** merge 🔴 **#358** (#127) → deploy Vercel ~2 min. Fonte: chat Nicola 13/7 ~23:38 + PR #358.
 >
 > 💬 **13/7 ~23:32 — CHAT: radiografia design Pannello completa.** Nicola chiede audit design **tutto il Pannello** con vincolo «non togliere/eliminare niente». **Eseguito 🟢 sola lettura:** report `consegne/design/2026-07-13-radiografia-pannello.md` — **22** problemi (0 bloccanti · 9 gravi · 13 minori); fix luglio gravi reggono (doppio Annulla, chat, hub Memoria 4 tab, menu). **Gravi:** navigazione (INDIETRO, cronologia tab, Archivio doc non trovato), layout (header affollato, tab-in-tab Memoria, altezza tab), grafici Numeri tema scuro. **Priorità proposta:** batch navigazione → Numeri dark → header pagine. **Pendente:** Nicola «sì» → PR 🟡 navigazione. Fonte: chat Nicola 13/7 ~23:30 + verifica codice Pannello.
