@@ -6,7 +6,8 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13] Pallino torna dopo ~5s — **#336 non bastava**, **#338 mergiata 17:58** (`81c28c0b`): `segnaLetta` salva orario «adesso» in persist; Nicola può vedere ancora il bug finché **Vercel non deploya** (2–3 min) — prima di nuovo fix: refresh forzato + 15s in chat aperta; streaming in #338 richiede `sudo systemctl restart mycity-worker-chat`.
+- [2026-07-13] Streaming Cursor — testo **spezzato a colonna** (Nicola screenshot ~18:03): i micro-frammenti (`ret`,`ro`…) vanno **incollati in orizzontale** nel worker, non uno sotto l'altro; in chat **niente Markdown** finché la risposta non è completa; fix **#339** (`1081be71`) + deploy Vercel + `sudo systemctl restart mycity-worker-chat`; «c'è streaming» ≠ «leggibile» — chiedi screenshot o prova visiva.
+- [2026-07-13] Pallino torna dopo ~5s — **#336/#338 non bastavano**; anche **#340** (18:12) per chat con risposta AD non riaperta; deploy Vercel 2–3 min + refresh forzato + 15s in chat aperta; streaming worker = riavvio obbligatorio post-merge.
 - [2026-07-13] Audit PR giornata — merge #335 ha **annullato** il fix streaming su main (commit buono `db0552a0` ≠ su HEAD); dopo merge verifica `git show HEAD:cervello/worker.sh` (Cursor = `--stream-partial-output`), non solo che la PR sia chiusa.
 - [2026-07-13] Worker chat attivo dal 16:08 senza riavvio — fix su `main` (#331, #335, #338) ≠ comportamento live finché non `sudo systemctl restart mycity-worker-chat` sul VPS.
 - [2026-07-13] Coda Pannello può restare indietro — card «in attesa» (#335/#337/#331) possono essere già mergiate su GitHub; audit = verifica GitHub + codice su main, non solo la coda.
@@ -17,4 +18,3 @@
 - [2026-07-13] Allegati chat — 3 superfici: chiedi SEMPRE quale (fluttuante / «Parla con questa casella» / Archivio); `ParlaCasella.tsx` senza graffetta; fluttuante post-#60 su iPhone = bug Safari selettore (#333), non env; prima 503 env, poi superficie, poi browser.
 - [2026-07-13] PR #329 conflitti — Nicola «ci sono dei conflitti»: file memoria worker nel branch, non il codice fix; ripulire a **solo** file del fix, simulare merge — mai «pronta» senza verifica; mergia **#329** (🔴 #101).
 - [2026-07-13] Un bug = una PR — Nicola «impara» + «ripeterai?»: mai 2-3 PR stesso bug; branch fix = **solo** cartella del fix, zero file memoria worker; mai «pronta» senza simulare merge su main.
-- [2026-07-13] Guardiano agenti — `agent-registry-check.mjs` non leggeva le `description` del router: collisioni fraud-risk/trust-safety passavano in verde; fix PR #329 su main.

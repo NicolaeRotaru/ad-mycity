@@ -1,11 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 18:01
-fonte: AD digitale (🌙 13/7 18:01 CHAT: pallino post-#336 → #338 mergiata, deploy Vercel 2–3 min; business INVARIATO dal 24/6, North Star 0, stallo ~465h. | storico: 🌙 13/7 18:00 REPORT DELLA SERA: ripresa operativa + maratona Pannello (~23 PR #312–#337), audit 17:55 (build ok, residui worker/streaming/pallino), PR #338 proposta 17:58. Lezione L-2026-0713: merge≠live, riavvio worker obbligatorio. T-4 al VEN 17/7.
+aggiornato: 2026-07-13 18:12
+fonte: AD digitale (🌙 13/7 18:12 CHAT: streaming spezzato a colonna → #339; pallino residuo → #340; business INVARIATO dal 24/6. | storico: 🌙 13/7 18:01 pallino post-#338, audit PR giornata 17:55.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~18:12 — CHAT: streaming spezzato a colonna — PR #339 + #340.** Nicola «guarda come mi risponde, lo vedi?» + screenshot: mentre l'AD scrive, ogni micro-frammento Cursor finisce su una riga sua (sillabe verticali), non testo orizzontale. **Causa:** worker metteva i delta uno sotto l'altro + Markdown a metà risposta. **Fix 🟡 PR #339** (`1081be71`, `fix/chat-streaming-testo-spezzato`): concat orizzontale + testo semplice finché completo; verificato in locale. **Fix 🟡 PR #340** (18:12): pallino su chat con risposta AD non riaperta (residuo post-#338). **Pendente:** merge 🔴 #113 (#339) + #112 (#340) + deploy Vercel ~2 min + `sudo systemctl restart mycity-worker-chat` (fermo dal 16:08). Fonte: chat Nicola 13/7 ~18:03 + screenshot + AD.
 > 💬 **13/7 ~18:01 — CHAT: pallino ancora visibile — #338 mergiata, attendere deploy Vercel.** Nicola «c'è ancora il problema dei pallini». **Diagnosi:** #336 (merge 17:49) incompleta — pallino sparisce all'apertura ma il poll (~5s) lo riaccende; **#338 mergiata ~17:58** (`81c28c0b`) aggiunge in `segnaLetta` l'orario «adesso» in persist così il salvataggio server non rimette la chat tra le non lette. **Per Nicola:** deploy Vercel automatico **2–3 min** post-merge — finché non finisce vede versione vecchia; test = refresh forzato → apri chat col pallino → resta **15s** senza chiudere → pallino non deve tornare. **Pendente:** `sudo systemctl restart mycity-worker-chat` (streaming in #338, worker fermo dal 16:08). Card #109 ancora in coda Pannello. Fonte: chat Nicola 13/7 ~18:01 + git main `81c28c0b`.
 >
 > 💬 **13/7 ~17:58 — CHAT: fix unificato #338 (Nicola «risolvi tutti i problemi»).** Dopo audit 17:55, Nicola chiede chiusura di tutti i buchi. **Fix 🟡 PR #338** (`30c4c614`, branch `fix/streaming-cursor-ripristino`): (1) ripristina streaming Cursor (`stream-json` + `--stream-partial-output`, non flag Claude); (2) pallini — `persistConversazione` aggiorna orario lettura (race #336). Coda allineata: #335/#336/#337 segnate mergiate. **Pendente:** merge 🔴 #338 + `sudo systemctl restart mycity-worker-chat` (ultimo 16:08). Test: testo cresce parola-per-parola; pallino spento 10s dopo apertura chat. Fonte: chat Nicola 13/7 ~17:55–17:58 + AD.
