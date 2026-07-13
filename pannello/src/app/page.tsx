@@ -1068,13 +1068,15 @@ export default function Dashboard() {
       return n;
     });
   }
-  function segnaLetta(id: string, at?: string) {
+  function segnaLetta(id: string, at?: string, msgs?: Msg[]) {
     const c = conversazioniRef.current.find((x) => x.id === id);
+    const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
     let ora = at;
-    if (!ora && c) {
-      const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
-      const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
-      ora = tsConvAggiornato(c, g);
+    if (c) {
+      const conv = msgs ? { ...c, messaggi: msgs } : c;
+      const ts = tsConvAggiornato(conv, g);
+      ora = ora ? tsMaxIso(ora, ts) : ts;
     }
     ora = ora || new Date().toISOString();
     setConvLette((prev) => {
@@ -1088,7 +1090,7 @@ export default function Dashboard() {
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
-    if (id) segnaLetta(id, new Date().toISOString());
+    if (id) segnaLetta(id);
   }
   /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
   function migraConvLetteBaseline(list: Conversazione[]) {
@@ -1191,7 +1193,6 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
-    segnaLetta(id, new Date().toISOString());
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
     // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
@@ -1201,6 +1202,7 @@ export default function Dashboard() {
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
     const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
+    segnaLetta(id, undefined, msgs);
     forzaScrollRef.current = true;
     setMessages(msgs);
     setConvId(c.id);
@@ -1223,6 +1225,7 @@ export default function Dashboard() {
 
     if (esistente) {
       const msgs = daLavori.length ? mergeThread(esistente.messaggi, daLavori) : esistente.messaggi;
+      segnaLetta(esistente.id, undefined, msgs);
       forzaScrollRef.current = true;
       setMessages(msgs);
       setConvId(esistente.id);
@@ -1825,14 +1828,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     vistaPrecRef.current = vista;
   }, [vista]);
 
-  // Chat aperta: segna letta appena compare la risposta AI (pallino non resta acceso mentre leggi).
+  // Chat aperta: segna letta con timestamp del lavoro/conversazione (non l'orologio del browser),
+  // così il poll Lavori (~2–8s) non fa riaccendere il pallino con un updated_at più recente.
   useEffect(() => {
     const id = convId;
     if (!id || (vista !== "assistente" && !chatFluttuante)) return;
     const msgs = messages.filter((m) => !m.prompt && !m.pending);
     const last = msgs[msgs.length - 1];
-    if (last?.role === "assistant") segnaLetta(id, new Date().toISOString());
-  }, [messages, convId, vista, chatFluttuante]);
+    if (last?.role === "assistant") segnaLetta(id, undefined, msgs);
+  }, [messages, convId, vista, chatFluttuante, lavori]);
 
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
   // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
