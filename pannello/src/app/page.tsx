@@ -194,9 +194,12 @@ function haRispostaNonLetta(
   c: Conversazione,
   convLette: Record<string, string>,
   convAttiva: string | null,
+  chatVisibile: boolean,
   gruppo?: GruppoLavori | null
 ): boolean {
-  if (convAttiva === c.id) return false;
+  // convId resta impostato anche fuori dall'Assistente (es. Plancia): nascondere il pallino
+  // solo quando la chat è DAVVERO aperta a schermo, altrimenti le risposte AD «di sfondo» spariscono.
+  if (chatVisibile && convAttiva === c.id) return false;
   const msgs = messaggiConvEffettivi(c, gruppo).filter((m) => !m.prompt && !m.pending);
   const last = msgs[msgs.length - 1];
   if (!last || last.role !== "assistant") return false;
@@ -2521,7 +2524,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppo);
+                  const chatVisibile = vista === "assistente" || chatFluttuante;
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   return (
                   <div
@@ -2775,7 +2779,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
-                  const nonLetta = haRispostaNonLetta(c, convLette, convId, gruppo);
+                  const chatVisibile = vista === "assistente" || chatFluttuante;
+                  const nonLetta = haRispostaNonLetta(c, convLette, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;
                   return (
