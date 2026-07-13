@@ -7,9 +7,10 @@
 // (sentinella "volano fermo < 0.3") era codice morto. Nessuno legava lezione → mossa reale.
 //
 // Fix: una forcing-function DETERMINISTICA (come chiusura-loop.mjs per i quaderni). Una lezione è "applicata"
-// se è stata USATA negli ultimi N giri, provato da UNO di questi due segnali verificabili:
+// se è stata USATA negli ultimi N giri, provato da UNO di questi segnali verificabili:
 //   (a) la lezione ha un campo `usi`/`applicata_in` (array di id-decisione/id-briefing) con una voce fresca;
-//   (b) il suo `id` compare in un Briefing recente o in DECISIONI.md (traccia reale d'uso).
+//   (b) il suo `id` compare in Briefing recente, DECISIONI.md, ESITI freschi memoria-squadra/, STATO.md
+//       (prime righe vive) o note `_nota_*` con «APPLICATE:» in apprendimento.json (AR-009 + metabolizzazione).
 //   tasso_applicazione = lezioni-attive-applicate / lezioni-attive  →  tasso>0 diventa una PROVA, non un'opinione.
 //
 // Uso:
@@ -31,6 +32,8 @@ const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI");
 const APPR_PATH = join(VAULT, "auto-coscienza/apprendimento.json");
 const BRIEFING_DIR = join(VAULT, "Briefing");
 const DECISIONI_PATH = join(VAULT, "DECISIONI.md");
+const STATO_PATH = join(VAULT, "STATO.md");
+const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
 
 function readJson(path, fallback = null) {
   if (!existsSync(path)) return fallback;
@@ -55,19 +58,58 @@ function giorniFa(dateStr) {
   return Math.floor((Date.now() - d.getTime()) / 86400000);
 }
 
-// Testo recente (Briefing degli ultimi N giorni + DECISIONI.md) dove cercare l'id-lezione come prova d'uso.
-function testoRecente() {
+// Righe ESITO fresche (data entro N giorni) — prova d'uso canonica AR-009.
+// Formati: "- AAAA-MM-GG …" (canonico) e "# ESITO — @reparto — AAAA-MM-GG" (legacy).
+function righeEsitoFresche(testo) {
+  const out = [];
+  for (const riga of testo.split("\n")) {
+    const t = riga.trim();
+    if (/ancora vuoto|placeholder/i.test(t)) continue;
+    const isCanonico = t.startsWith("- ");
+    const isLegacy = /^# ESITO/i.test(t);
+    if (!isCanonico && !isLegacy) continue;
+    const m = t.match(/(\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2})?)/);
+    if (!m || giorniFa(m[1]) > GIORNI) continue;
+    out.push(t);
+  }
+  return out.join("\n");
+}
+
+// Testo recente dove cercare l'id-lezione come prova d'uso (multi-fonte, allineato al loop reale).
+function testoRecente(appr) {
   let blob = "";
   if (existsSync(DECISIONI_PATH)) blob += readFileSync(DECISIONI_PATH, "utf8");
   if (existsSync(BRIEFING_DIR)) {
     for (const f of readdirSync(BRIEFING_DIR)) {
       if (!f.endsWith(".md")) continue;
-      // il nome file è AAAA-MM-GG.md → filtra per freschezza quando possibile
       if (giorniFa(f) > GIORNI) continue;
       try {
         blob += readFileSync(join(BRIEFING_DIR, f), "utf8");
       } catch {
         /* ignora */
+      }
+    }
+  }
+  // ESITI freschi nei quaderni senior (dove l'AD chiude il loop dopo ogni lavoro).
+  if (existsSync(SQUADRA_DIR)) {
+    for (const f of readdirSync(SQUADRA_DIR)) {
+      if (!f.endsWith(".md")) continue;
+      try {
+        blob += righeEsitoFresche(readFileSync(join(SQUADRA_DIR, f), "utf8"));
+      } catch {
+        /* ignora */
+      }
+    }
+  }
+  // STATO.md — prime righe = traccia viva (citazioni lezione nei giri/chat recenti).
+  if (existsSync(STATO_PATH)) {
+    blob += readFileSync(STATO_PATH, "utf8").split("\n").slice(0, 150).join("\n");
+  }
+  // Note giro in apprendimento.json con elenco «APPLICATE: L-…».
+  if (appr && typeof appr === "object") {
+    for (const [k, v] of Object.entries(appr)) {
+      if (k.startsWith("_nota_") && typeof v === "string" && /APPLICATE:/i.test(v)) {
+        blob += `${v}\n`;
       }
     }
   }
@@ -98,7 +140,7 @@ function main() {
   }
 
   const attive = appr.lezioni.filter((l) => l.stato !== "decaduta");
-  const blob = testoRecente();
+  const blob = testoRecente(appr);
   const applicate = attive.filter((l) => lezioneApplicata(l, blob));
   const tasso_applicazione = attive.length
     ? Math.round((applicate.length / attive.length) * 100) / 100
