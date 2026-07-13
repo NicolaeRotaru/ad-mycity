@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
 import { testoPulito, dataVault, istante } from "@/lib/format";
+import { titoloDecisione, percheLeggibile, repartoLeggibile, livelloLeggibile, statoLeggibile } from "@/lib/decisione-umana";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 
@@ -142,13 +143,17 @@ export default function GovernoAD({ variant = "full" }: Props) {
 
   const decViste = decisioni.filter((d) => filtro === "tutte" || d.livello === filtro);
 
+  const soloDecisioni = variant === "decisioni";
+
   return (
     <section className="card p-4">
-      <div className="flex items-center gap-2.5 mb-4">
-        <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
-          <Scale size={16} />
-        </span>
-        <span className="text-[15px] font-semibold tracking-tight">Governo dell'AD</span>
+      <div className={`flex items-center gap-2.5 ${soloDecisioni ? "mb-3" : "mb-4"}`}>
+        {!soloDecisioni && (
+          <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
+            <Scale size={16} />
+          </span>
+        )}
+        <span className="text-[15px] font-semibold tracking-tight">{soloDecisioni ? "Decisioni" : "Governo dell'AD"}</span>
         <Aggiornato at={aggAt} className="ml-auto" />
         <button
           onClick={() => carica(tab)}
@@ -160,7 +165,7 @@ export default function GovernoAD({ variant = "full" }: Props) {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-1.5 mb-4">
+      <div className={`flex flex-wrap gap-1.5 ${soloDecisioni ? "mb-3" : "mb-4"}`}>
         {tabs.length > 1 && tabs.map((t) => (
           <button
             key={t.id}
@@ -192,27 +197,56 @@ export default function GovernoAD({ variant = "full" }: Props) {
           {decViste.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna decisione registrata.</p>}
           {decViste.map((d, i) => {
             const k = chiaveDec(d);
+            const titolo = titoloDecisione(d.cosa);
+            const perche = percheLeggibile(d.perche);
+            const reparto = repartoLeggibile(d.reparto);
+            const stato = statoLeggibile(d.stato);
+            const anteprima = perche || titolo;
             return (
-            <div key={k || i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5">
-              <div className="flex items-center gap-2 flex-wrap">
-                {dot(d.livello)}
-                <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{d.reparto}</span>
-                <span className="text-[11px] text-black/40">{dataVault(d.data)}</span>
-                {d.stato && <span className="text-[11px] px-1.5 py-0.5 rounded bg-black/[0.05] text-black/60">{d.stato}</span>}
+            <details
+              key={k || i}
+              open={i === 0}
+              className="group rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 [&_summary::-webkit-details-marker]:hidden"
+            >
+              <summary className="cursor-pointer list-none">
+                <div className="flex items-start gap-2 flex-wrap">
+                  <span className="mt-1.5 shrink-0">{dot(d.livello)}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[13px] font-medium text-ink/90 leading-snug pr-6">{titolo}</p>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5">
+                      <span className="text-[11px] text-black/45">{dataVault(d.data)}</span>
+                      {reparto && <span className="text-[11px] font-medium text-brand bg-brand-50 px-1.5 py-0.5 rounded">{reparto}</span>}
+                      <span className="text-[11px] text-black/50">{livelloLeggibile(d.livello)}</span>
+                      {stato && <span className="text-[11px] px-1.5 py-0.5 rounded bg-black/[0.05] text-black/55">{stato}</span>}
+                    </div>
+                    {anteprima && (
+                      <p className="text-[12px] text-black/45 mt-2 leading-snug line-clamp-2 group-open:hidden">{anteprima}</p>
+                    )}
+                  </div>
+                </div>
+              </summary>
+              <div className="mt-3 pt-3 border-t border-black/[0.06] space-y-2">
+                {perche && (
+                  <p className="text-[13px] text-ink/85 leading-relaxed">
+                    <span className="text-black/45">Perché: </span>{perche}
+                  </p>
+                )}
+                {d.firma && (
+                  <p className="text-[11px] text-black/40">Firma: {testoPulito(d.firma)}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={() => spiegaPerche(d)}
+                  disabled={spiegando === k}
+                  className="inline-flex items-center gap-1.5 text-[12px] text-brand hover:text-brand-dark disabled:opacity-50"
+                >
+                  {spiegando === k ? <Loader2 size={13} className="animate-spin" /> : <HelpCircle size={13} />}
+                  Spiegami perché
+                </button>
+                {spiega[k] && <p className="text-[12px] text-ink/80 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[k]}</p>}
+                <ParlaCasella titolo={`Decisione: ${titolo.slice(0, 50)}`} contesto={[titolo, perche && `Perché: ${perche}`, reparto && `Reparto: ${reparto}`].filter(Boolean).join(" · ")} />
               </div>
-              <p className="text-[13px] text-ink/90 mt-1.5 leading-snug">{testoPulito(d.cosa)}</p>
-              {d.perche && <p className="text-[11px] text-black/45 mt-1">Perché: {testoPulito(d.perche)}</p>}
-              <button
-                onClick={() => spiegaPerche(d)}
-                disabled={spiegando === k}
-                className="mt-2 inline-flex items-center gap-1.5 text-[12px] text-brand hover:text-brand-dark disabled:opacity-50"
-              >
-                {spiegando === k ? <Loader2 size={13} className="animate-spin" /> : <HelpCircle size={13} />}
-                Spiegami perché
-              </button>
-              {spiega[k] && <p className="text-[12px] text-ink/80 mt-2 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[k]}</p>}
-              <ParlaCasella titolo={`Decisione: ${(d.cosa || "").slice(0, 50)}`} contesto={[d.cosa, d.perche && `Perché: ${d.perche}`, d.reparto && `Reparto: ${d.reparto}`].filter(Boolean).join(" · ")} />
-            </div>
+            </details>
             );
           })}
         </div>

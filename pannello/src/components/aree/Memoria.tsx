@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, Brain, FolderOpen, FolderTree, History, TrendingUp } from "lucide-react";
+import { BookOpen, Brain, FolderOpen, FolderTree, History, ListChecks, TrendingUp } from "lucide-react";
 import MemoriaViva from "@/components/MemoriaViva";
+import ScoperteProposte from "@/components/ScoperteProposte";
 import Documenti from "@/components/aree/Documenti";
 import StoricoMemoria, { parseStoricoSub, storicoSubId } from "@/components/aree/StoricoMemoria";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
-import ParlaCasella from "@/components/ParlaCasella";
 import { vaultToIso } from "@/lib/format";
-import { pulisciTitolo } from "@/lib/azioni-attesa";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "archivio" | "storico" | "github";
+type VivaTab = "memoria" | "scoperte";
 
 type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
 type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
@@ -37,24 +37,38 @@ function fa(iso: string | null): string {
   }
 }
 
+function parseVivaSub(sub?: string): VivaTab {
+  if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
+  return "memoria";
+}
+
 function parseMemoriaSub(sub?: string): Tab {
-  if (!sub || sub === "memoria-viva" || sub === "viva" || sub === "scoperte") return "memoria-viva";
+  if (!sub || sub === "memoria-viva" || sub === "viva" || sub === "viva-memoria" || sub === "memoria" || sub === "scoperte" || sub === "viva-scoperte") return "memoria-viva";
   if (sub === "archivio" || sub.startsWith("archivio/")) return "archivio";
   if (sub === "github" || sub === "esplora") return "github";
   if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior") return "storico";
   return "memoria-viva";
 }
 
+function vivaSubId(v: VivaTab): string {
+  return v === "scoperte" ? "scoperte" : "memoria-viva";
+}
+
 export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | null; ultimoAt: string | null }) {
   const [tab, setTab] = useState<Tab>("memoria-viva");
+  const [vivaTab, setVivaTab] = useState<VivaTab>("memoria");
 
   useEffect(() => {
     const applica = (det: { vista?: string; sub?: string } | undefined) => {
       if (det?.vista !== "memoria" || !det.sub) return;
       setTab(parseMemoriaSub(det.sub));
+      if (parseMemoriaSub(det.sub) === "memoria-viva") setVivaTab(parseVivaSub(det.sub));
     };
     const pend = consumaSubPendente("memoria");
-    if (pend) setTab(parseMemoriaSub(pend));
+    if (pend) {
+      setTab(parseMemoriaSub(pend));
+      if (parseMemoriaSub(pend) === "memoria-viva") setVivaTab(parseVivaSub(pend));
+    }
     const onSub = (e: Event) => applica((e as CustomEvent<DettaglioSub>).detail);
     const onVai = (e: Event) => applica((e as CustomEvent<DettaglioVai>).detail);
     window.addEventListener(EVENTO_SUB, onSub);
@@ -105,51 +119,31 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
 
       {tab === "memoria-viva" && (
         <div className="space-y-4">
-          <MemoriaViva />
-          <section className="card p-4">
-            <div className="sez-head mb-4">
-              <span className="sez-ico"><TrendingUp size={16} /></span>
-              <div className="min-w-0">
-                <span className="t-sez">Scoperte & proposte</span>
-                <div className="t-eti">
-                  L&apos;analisi dell&apos;ultimo giro{briefing && ultimoAt ? ` · ${fa(ultimoAt)}` : ""}
-                </div>
-              </div>
-            </div>
-            {!briefing ? (
-              <div className="text-center text-black/45 py-8">
-                <p className="mb-1">Nessuna analisi salvata ancora.</p>
-                <p className="text-sm text-black/35">Al prossimo giro compare qui da sola.</p>
-              </div>
-            ) : (
-              <div className="space-y-5">
-                <p className="text-sm text-ink/90 leading-relaxed whitespace-pre-wrap">{briefing.situazione}</p>
-                {briefing.opportunita?.length > 0 && (
-                  <div>
-                    <div className="t-micro mb-2">Opportunità</div>
-                    <div className="space-y-2">
-                      {briefing.opportunita.map((o, i) => (
-                        <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 transition">
-                          <div className="text-sm font-medium">{pulisciTitolo(o.titolo)}</div>
-                          <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
-                          <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
-                            <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
-                          </div>
-                          <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={[o.motivo, `impatto ${o.impatto}`, `sforzo ${o.sforzo}`].filter(Boolean).join(" · ")} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {briefing.azioni?.length > 0 && (
-                  <div className="rounded-xl border border-brand/15 bg-brand-50/30 p-3 text-[12.5px] text-ink/80">
-                    💡 Da questo giro: <b>{briefing.azioni.length}</b> azioni in <b>⚡ Azioni → Da approvare</b>.
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
+          <div className="flex flex-wrap gap-1.5">
+            {([
+              { id: "memoria" as const, label: "Memoria", icon: <ListChecks size={14} /> },
+              { id: "scoperte" as const, label: "Scoperte", icon: <TrendingUp size={14} /> },
+            ]).map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => {
+                  setVivaTab(t.id);
+                  vaiSub("memoria", vivaSubId(t.id));
+                }}
+                className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+                  vivaTab === t.id ? "nav-tab-active bg-brand text-white shadow-card" : "nav-tab"
+                }`}
+              >
+                {t.icon}
+                {t.label}
+              </button>
+            ))}
+          </div>
+          {vivaTab === "memoria" && <MemoriaViva />}
+          {vivaTab === "scoperte" && (
+            <ScoperteProposte briefing={briefing} ultimoLabel={briefing && ultimoAt ? fa(ultimoAt) : null} />
+          )}
         </div>
       )}
 
