@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 01:06
-fonte: AD digitale (💬 14/7 01:06 coda Lavori ok. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 01:14
+fonte: AD digitale (💬 14/7 01:14 radiografia umana PR #364. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~01:14 — CHAT: radiografia in italiano umano — PR #364.** Nicola «trasforma questo testo in lingua umana e fallo dentro tutta la radiografia macchina, sito e autocoscienza» (+ screenshot coerenza-agenti). **Implementato 🟡 PR #364** (`3e56ed3d`): modulo `pannello/src/lib/radiografia-umana.ts` + componente `SchedaProblema.tsx` — titolo in italiano semplice, impatto in una riga, dettagli tecnici (nomi script, path, `verbatim`) sotto accordion «Dettagli tecnici»; stessa struttura su **Radiografia macchina**, **Salute sito** e **Auto-coscienza** (scheda Analisi). Esempio: `coerenza-agenti` → *«Due specialisti si pestano i piedi sulle frodi»*. **Pendente:** merge 🔴 **#364** (#132) → deploy Vercel ~2 min → prova Archivio audit › coerenza-agenti. Business invariato. Fonte: chat Nicola 14/7 ~01:14 + PR #364.
+>
 > 💬 **14/7 ~01:06 — CHAT: coda Lavori — percezione ferma, worker attivo.** Nicola «perché i lavori in coda non partono?». **Verificato 🟢:** worker acceso, **303** lavori completati nelle ultime 24h (telemetry worker); job corrente = questa chat sul worker principale (**seriale** — uno alla volta). **Spiegato:** (1) chat qualità massima blocca giri/merge/metabolizza dietro; (2) card «Da approvare» (merge PR, azioni 🔴) aspettano **clic Approva**, non partono da sole; (3) merge **#342** fallito perché PR già chiusa su GitHub — annullare/ignorare card, non riprovare; chat fluttuante = worker parallelo separato. Business invariato. Fonte: chat Nicola 14/7 ~01:06 + worker telemetry.
 >
 > 💬 **14/7 ~01:00 — CHAT: AR-006 CHIUSO — Nicola «chiudi AR-006».** Difetto silo contenuti segnato **chiuso** in cantiere; R3 e coda #119 aggiornati. Fix tecnico già su main (PR #349, 13/7): 12 pacchetti Garetti archiviati, PQ **16** contenuti attivi, `allocazione-check` exit **0** (14/7 00:59). **Casella rossa silo dovrebbe sparire** al prossimo refresh Radiografia. **Prossimi passi business (non AR-006):** foto/consenso/link CTA PQ; primo ordine payout-test; post PQ in attesa firma. Fonte: chat Nicola 14/7 ~01:00 + cantiere-difetti.json + allocazione-check.
