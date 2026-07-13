@@ -165,7 +165,26 @@ type Miglioramento = {
 };
 type Entita = { id?: string; nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
 type Registro = { entita?: Entita[] };
-type Dati = { collegato: boolean; messaggio?: string; analisi?: Analisi; analisi_affidabile?: boolean; apprendimento?: Apprendimento; miglioramento?: Miglioramento; calibrazione?: Calibrazione; registro?: Registro };
+type LiveAnalisi = {
+  sensori_aggiornato?: string | null;
+  analisi_data?: string | null;
+  analisi_ore_fa?: number | null;
+  analisi_stale?: boolean;
+  salute_macchina?: Analisi["salute_macchina"];
+  gap?: string[];
+};
+type Dati = {
+  collegato: boolean;
+  messaggio?: string;
+  aggiornato?: string | null;
+  live?: LiveAnalisi | null;
+  analisi?: Analisi;
+  analisi_affidabile?: boolean;
+  apprendimento?: Apprendimento;
+  miglioramento?: Miglioramento;
+  calibrazione?: Calibrazione;
+  registro?: Registro;
+};
 
 const VERIFICA_LABEL: Record<string, string> = { entita: "Entità reali", numeri: "Numeri con fonte", coerenza: "Coerenza", semaforo: "Semaforo 🟢🟡🔴", qualita: "Qualità" };
 
@@ -243,6 +262,7 @@ export default function AutoCoscienza({
   }, [d]);
 
   const a = d?.analisi;
+  const live = d?.live;
   // Il voto può arrivare come numero o (per un giro che non rispetta il contratto) come frase.
   const votoF = Number(a?.voto_fiducia);
   // 🩺 Mostriamo il numerone SOLO se l'analisi è affidabile (l'API marca i gusci vuoti dei giri rotti:
@@ -263,7 +283,8 @@ export default function AutoCoscienza({
   );
   const dataMiglioramento = dataVaultRecente(mi?.data, mi?.aggiornato, mi?.meta_esperimenti?.aggiornato);
   const cal = d?.calibrazione;
-  const nErrori = a?.errori?.length || 0;
+  const erroriLive = live?.gap?.length ? live.gap : a?.errori;
+  const nErrori = (Array.isArray(erroriLive) ? erroriLive : []).length;
   const nDomande = a?.domande_per_nicola?.length || 0;
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
@@ -288,7 +309,17 @@ export default function AutoCoscienza({
           <span className="sez-ico"><Microscope size={16} /></span>
           <div className="min-w-0">
             <span className="t-sez">{titoloSezione}</span>
-            <div className="t-eti">{sottotitoloSezione} {a?.data && tab === "analisi" ? `· ultima ${dataVault(a.data)}` : dataApprendimento && tab === "apprendimento" ? `· ultima ${dataVault(dataApprendimento)}` : dataMiglioramento && tab === "miglioramento" ? `· ultima ${dataVault(dataMiglioramento)}` : ""}</div>
+            <div className="t-eti">{sottotitoloSezione}{" "}
+              {tab === "analisi" && live?.sensori_aggiornato
+                ? `· sensori ${dataVault(live.sensori_aggiornato)}${a?.data ? ` · analisi ${dataVault(a.data)}` : ""}`
+                : a?.data && tab === "analisi"
+                  ? `· ultima ${dataVault(a.data)}`
+                  : dataApprendimento && tab === "apprendimento"
+                    ? `· ultima ${dataVault(dataApprendimento)}`
+                    : dataMiglioramento && tab === "miglioramento"
+                      ? `· ultima ${dataVault(dataMiglioramento)}`
+                      : ""}
+            </div>
           </div>
         </div>
         {votoFOk ? (
@@ -331,6 +362,18 @@ export default function AutoCoscienza({
           {/* ===== AUTO-ANALISI ===== */}
           {tab === "analisi" && (
             <div className="space-y-3">
+              {live?.analisi_stale && (
+                <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 text-[12px] text-amber-900/90">
+                  <b>Testo e voto = ultimo giro</b>
+                  {live.analisi_data ? ` (${dataVault(live.analisi_data)}` : ""}
+                  {live.analisi_ore_fa != null ? `, ${live.analisi_ore_fa}h fa` : ""}
+                  {live.analisi_data ? ")" : ""}.
+                  {" "}Sensori, salute e avvisi sotto si aggiornano da soli ogni 30 secondi
+                  {live.sensori_aggiornato ? ` (ultimo controllo ${dataVault(live.sensori_aggiornato)})` : ""}.
+                  Per rifare tutta l&apos;analisi testuale: «fai un giro».
+                </div>
+              )}
+
               {sintesiEff && <p className="t-corpo break-words">{sintesiEff}</p>}
 
               {/* Le 5 verifiche a colpo d'occhio */}
@@ -407,28 +450,32 @@ export default function AutoCoscienza({
                 </div>
               )}
 
-              {/* Salute della macchina */}
-              {a?.salute_macchina && (
+              {/* Salute della macchina — live dai sensori quando disponibili */}
+              {(live?.salute_macchina || a?.salute_macchina) && (
                 <div className="flex flex-wrap gap-1.5">
-                  {[
-                    { k: "Supabase", v: a.salute_macchina.supabase, ok: a.salute_macchina.supabase === "ok" },
-                    { k: "Stripe", v: a.salute_macchina.stripe, ok: a.salute_macchina.stripe === "ok" },
-                    { k: "Dati freschi", v: a.salute_macchina.dati_freschi ? "sì" : "no", ok: !!a.salute_macchina.dati_freschi },
-                    { k: "Sensori attivi", v: String(a.salute_macchina.sensori_attivi ?? 0), ok: (a.salute_macchina.sensori_attivi ?? 0) > 0 },
-                  ].map((s) => (
-                    <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
-                      <Activity size={11} /> {s.k}: <b>{s.v}</b>
-                    </span>
-                  ))}
+                  {(() => {
+                    const sm = live?.salute_macchina || a!.salute_macchina!;
+                    return [
+                      { k: "Supabase", v: sm.supabase, ok: sm.supabase === "ok" },
+                      { k: "Stripe", v: sm.stripe, ok: sm.stripe === "ok" },
+                      { k: "Dati freschi", v: sm.dati_freschi ? "sì" : "no", ok: !!sm.dati_freschi },
+                      { k: "Sensori attivi", v: String(sm.sensori_attivi ?? 0), ok: (sm.sensori_attivi ?? 0) > 0 },
+                    ].map((s) => (
+                      <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
+                        <Activity size={11} /> {s.k}: <b>{s.v}</b>
+                        {live?.salute_macchina ? " · live" : ""}
+                      </span>
+                    ));
+                  })()}
                 </div>
               )}
 
-              {/* Errori trovati */}
+              {/* Errori / gap — preferisci messaggi live dai sensori */}
               {nErrori > 0 && (
                 <div>
-                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Errori trovati ({nErrori})</div>
+                  <div className="t-micro mb-1.5 flex items-center gap-1.5"><ShieldAlert size={13} /> Errori trovati ({nErrori}){live?.gap?.length ? " · live" : ""}</div>
                   <div className="space-y-2">
-                    {a!.errori!.map((e, i) => {
+                    {(Array.isArray(erroriLive) ? erroriLive : []).map((e, i) => {
                       // Il giro a volte scrive errori come stringhe semplici invece di oggetti.
                       const err: Errore = typeof e === "string" ? { titolo: e } : (e || {});
                       const g = GRAV[err.gravita || "bassa"] || GRAV.bassa;
