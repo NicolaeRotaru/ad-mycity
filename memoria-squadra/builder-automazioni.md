@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 17:50 · Streaming chat Cursor — Nicola «apri pr» dopo regressione tempo reale · atteso: PR #335 aperta con fix worker streaming per `agent` · reale: PR #335 aperta, commit `db0552a0`, flag `--stream-partial-output` (non Claude), merge 🔴 #109, riavvio worker-chat post-merge · L-2026-0713-131 · #worker #streaming #cursor #pr-335
 - 2026-07-13 17:31 · Streaming chat Cursor — Nicola «perché non scrivi più in tempo reale?» · atteso: diagnosi causa + fix proposto · reale: `worker.sh` stream solo su `claude`, Cursor = risposta a fine lavoro; Pannello poll ok; fix `stream-json` per `agent` proposto 🟡, PR in attesa ok · L-2026-0713-131 · #worker #streaming #cursor #chat
 - 2026-07-13 17:26 · Plugin worker fase 3 — Nicola «vai con la fase 3» · atteso: PR #331 con 8 skill, 21 totali, mappa aggiornata · reale: branch `fix/worker-plugins-fase3`, commit `41ab7192`, sync 8/8 OK, merge 🔴 #104 · L-2026-0713-130 · #worker #plugin #pr-331 #fase-3
 - 2026-07-13 17:24 · PR #329 conflitti risolti — Nicola «ci sono dei conflitti» · atteso: branch pulito mergeable · reale: file memoria worker rimossi, solo `agent-registry-check.mjs`, commit `53afcdcc`, simulazione merge OK · L-2026-0713-127 · #agent-registry #pr-329 #conflitti

@@ -14,6 +14,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #pr-335-streaming-chat — Mergia PR #335: risposta AD che cresce parola per parola (Cursor) · ⏳ IN ATTESA · accodata 2026-07-13 17:50
+
+**Cosa fa:** riattiva lo streaming in chat quando il motore è Cursor — il testo compare nel Pannello mentre l'AD lavora, come con Claude prima del cambio cervello.
+
+**PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← commit `db0552a0`
+
+**Cosa cambia:** in chat non aspetti più in silenzio fino a fine lavoro — vedi la risposta crescere parola per parola (il Pannello pollava già ogni ~2s, mancavano i parziali dal worker).
+**Se va bene:** mergi #335 dal Pannello → sul VPS `sudo systemctl restart mycity-worker-chat` → scrivi un messaggio in chat e verifica che il testo cresca mentre rispondo.
+
+- **Colore:** 🔴 (merge dal Pannello — card #109)
+
+---
+
 ### 🟡 #pr-331-worker-plugins-fase3 — Mergia PR #331: 8 plugin worker fase 3 (21 skill totali) · ⏳ IN ATTESA · accodata 2026-07-13 17:26
 
 **Cosa fa:** aggiunge al manifest 8 skill GitHub: debug sistematico, design moduli, Supabase + Postgres best practices, ricerca cross-repo (Tabnine), PDF/Excel/Word per bandi e rendicontazioni.
@@ -873,6 +886,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 106 | 2026-07-13 17:37 | @tech | Merge PR #333 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/333 | github | in attesa | Graffetta chat fluttuante su iPhone/Safari apre il selettore file (tap diretto, non click finto su input nascosto). | Dopo Approva: deploy Vercel ~2 min → «Parla con l'AD» → graffetta → scegli foto/PDF → nome file sopra la casella → invia. |
 | 107 | 2026-07-13 17:45 | @tech | Merge PR #334 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/334 | github | in attesa | Pallino resta spento dopo il poll (~5s) — max orario chat+lavoro al segnare lettura. | Dopo Approva: deploy Vercel ~2 min; apri chat non letta, attendi 10s — pallino non torna. Complementare a #328. |
 | 108 | 2026-07-13 17:42 | @tech | Merge PR #336 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/336 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 109 | 2026-07-13 17:50 | @builder-automazioni | Merge PR #335 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/335 | github | in attesa | In chat torni a vedere la risposta crescere parola per parola con motore Cursor (non tutto insieme a fine lavoro). | Dopo Approva: merge + `sudo systemctl restart mycity-worker-chat` sul VPS → scrivi in chat e verifica streaming live. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | in attesa | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
