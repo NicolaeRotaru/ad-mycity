@@ -6,7 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13 19:20] Nona prova chiarimento: testo finale **tutto insieme** (non parola per parola nemmeno negli ultimi secondi) — probabile collo Cursor che manda il blocco intero; prossimo fix = verificare parziali in DB vs Pannello, non ripetere merge/restart.
+- [2026-07-13 19:23] Nicola «2) tutto insieme» — testo finale in un colpo solo (nemmeno parola per parola alla fine); #343 ok solo su «Sto elaborando…»; prossimo fix = parziali DB vs poll Pannello, **non** altro merge/restart.
 - [2026-07-13 19:20] Attività & Briefing = data ultimo file `Briefing/*.md`, non `STATO.md` — update chat/fix Pannello senza «fai un giro» lascia 11/7 visibile; spiegare subito (non «Pannello rotto»), offrire giro se vuole data fresca.
 - [2026-07-13 19:15] Nona prova — Nicola «1)si 2) alla fine 3)uguale»: #343 ok su «Sto elaborando…» subito; testo vero ancora solo alla fine; pallini invariati post-#342; chiedi anche se negli ultimi secondi cresce parola per parola o tutto insieme.
 - [2026-07-13 19:16] Tabella OKR = obiettivi fissi (`OKR-Squadra.md` 24/6, poll 90s solo se doc cambia su GitHub); **tutte** le righe uguali; numeri live = Stelle Polari (60s) o «I numeri di oggi»; chat sotto ogni OKR = quasi live.

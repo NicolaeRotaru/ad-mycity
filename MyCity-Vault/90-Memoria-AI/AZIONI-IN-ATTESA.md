@@ -34,7 +34,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 19:15:** Nicola feedback 3 punti — (1) «Sto elaborando…» subito **sì** · (2) testo vero **solo alla fine** · (3) pallini **uguali**. Streaming parziale (#343 ok placeholder); pallini #342 insufficiente — **tema aperto**.
 
-- **Colore:** ✅ merge fatto · ⏳ streaming testo dall'inizio + pallini ancora aperti
+**Esito 19:23:** Nicola «**2) tutto insieme**» — testo finale non cresce parola per parola nemmeno negli ultimi secondi; arriva in un colpo solo. Prossimo fix = diagnosi parziali DB vs Pannello, non merge/restart.
+
+- **Colore:** ✅ merge fatto · ⏳ streaming testo vero (tutto insieme) + pallini ancora aperti
 
 ---
 
@@ -50,7 +52,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 19:15:** Nicola — (1) «Sto elaborando…» subito **sì** (#343 ok) · (2) testo vero **solo alla fine** (obiettivo non raggiunto) · (3) pallini **uguali** (track separato).
 
-- **Colore:** ✅ merge fatto · ⏳ testo dall'inizio ancora no — serve fix oltre #343
+**Esito 19:23:** Nicola «**2) tutto insieme**» — nemmeno parola per parola negli ultimi secondi; #343 raggiunge solo placeholder iniziale.
+
+- **Colore:** ✅ merge fatto · ⏳ testo vero tutto insieme — serve fix oltre #343 (DB vs Pannello)
 
 ---
 
