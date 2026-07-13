@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Stethoscope, RefreshCw, Unlock, Loader2, Power, Play, Sunrise, Moon, Terminal } from "lucide-react";
+import { emitSync, usePanelSync } from "@/lib/panel-sync";
 
 type Salute = {
   memoria: boolean;
@@ -51,7 +52,7 @@ export default function DiagnosticaWorker() {
       }).then((x) => x.json());
       setMsg(r?.ok ? (r.messaggio || "Comando messo in coda.") : (r?.error || "Comando non riuscito."));
       if (r?.ok) setTimeout(carica, 1200);
-      if (r?.ok && typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      if (r?.ok) emitSync("lavori");
     } catch {
       setMsg("Errore di rete.");
     } finally {
@@ -73,6 +74,8 @@ export default function DiagnosticaWorker() {
     const t = setInterval(carica, 30_000);
     return () => clearInterval(t);
   }, [carica]);
+
+  usePanelSync(["lavori", "memoria", "radiografia", "azioni", "all"], carica);
 
   // Riavvia il worker sul VPS senza SSH: mette il flag worker:riavvia in Supabase;
   // il worker lo legge a ogni ciclo (5s) e si ricarica. La coda resta in Supabase: zero perdite.
@@ -103,7 +106,7 @@ export default function DiagnosticaWorker() {
       const j = await r.json();
       setMsg(j.messaggio || (j.ok ? "Fatto." : j.error || "Errore"));
       carica();
-      if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      if (typeof window !== "undefined") emitSync("lavori");
     } catch {
       setMsg("Errore di rete.");
     } finally {

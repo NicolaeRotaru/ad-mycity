@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Activity } from "lucide-react";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Cuore = {
   collegato: boolean;
@@ -20,10 +21,13 @@ type Cuore = {
 export default function StatoMacchina() {
   const [c, setC] = useState<Cuore | null>(null);
   const [m, setM] = useState<Record<string, any> | null>(null);
-  useEffect(() => {
+  const carica = useCallback(() => {
     fetch("/api/cuore", { cache: "no-store" }).then((r) => r.json()).then(setC).catch(() => {});
     fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setM).catch(() => {});
   }, []);
+
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["memoria", "all"], carica);
 
   const demo = !!c?.demo;
   // In demo mostro la macchina "tutta accesa" (di esempio), con nota "(demo)".

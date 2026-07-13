@@ -6,6 +6,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 
@@ -54,6 +55,8 @@ export default function MemoriaViva() {
     const id = setInterval(() => carica(true), 90000);
     return () => clearInterval(id);
   }, [carica]);
+
+  usePanelSync(["memoria", "azioni", "radiografia", "all"], () => carica(true));
 
   return (
     <section className="card p-4">

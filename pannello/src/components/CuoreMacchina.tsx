@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { HeartPulse, Stethoscope } from "lucide-react";
 import { istante } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Cuore = {
   collegato: boolean;
@@ -65,6 +66,8 @@ export default function CuoreMacchina() {
     const t = setInterval(carica, 60_000);
     return () => clearInterval(t);
   }, [carica]);
+
+  usePanelSync(["memoria", "lavori", "radiografia", "all"], carica);
 
   if (!c) return null;
 

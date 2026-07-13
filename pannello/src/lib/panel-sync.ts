@@ -49,3 +49,42 @@ export function usePanelSync(scopes: SyncScope[], onRefresh: () => void) {
     return () => window.removeEventListener(EVENTO_SYNC, handler);
   }, [key]);
 }
+
+/** Polling + rete sync: una sola riga per caselle che già hanno `carica` + setInterval. */
+export function usePanelRefresh(scopes: SyncScope[], carica: () => void, pollMs?: number) {
+  usePanelSync(scopes, carica);
+  useEffect(() => {
+    if (!pollMs || pollMs <= 0) return;
+    const id = setInterval(carica, pollMs);
+    return () => clearInterval(id);
+  }, [pollMs, carica]);
+}
+
+type LavoroSync = { id: string; stato: string; tipo?: string };
+
+/** Quali scope aggiornare quando un lavoro del worker passa a «fatto». */
+export function scopesDaLavoro(tipo: string): SyncScope[] {
+  const t = (tipo || "").toLowerCase();
+  if (/esegui-azione|rifiuta-azione/.test(t)) return ["azioni", "radiografia", "memoria"];
+  if (/giro|briefing|radiografia|auto-coscienza/.test(t)) return ["memoria", "azioni", "radiografia"];
+  if (/supervisione|marketplace|negozi/.test(t)) return ["memoria", "azioni"];
+  return ["memoria"];
+}
+
+/** Dopo un lavoro finito: propaga il refresh a tutte le caselle collegate. */
+export function emitSyncDaLavoriFiniti(prev: LavoroSync[], next: LavoroSync[]) {
+  if (typeof window === "undefined") return;
+  const was = new Map(prev.map((l) => [l.id, l.stato]));
+  const scopes = new Set<SyncScope>();
+  for (const l of next) {
+    const prima = was.get(l.id);
+    if (!prima || prima === "fatto" || l.stato !== "fatto") continue;
+    for (const s of scopesDaLavoro(l.tipo || "")) scopes.add(s);
+  }
+  if (scopes.size === 0) return;
+  if (scopes.size >= 3) {
+    emitSync("all", "lavoro:finito");
+    return;
+  }
+  for (const s of scopes) emitSync(s, "lavoro:finito");
+}

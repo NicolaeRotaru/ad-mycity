@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "cassa" | "payout" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
@@ -80,6 +81,8 @@ export default function NumeriReport() {
   useEffect(() => {
     carica(tab);
   }, [tab, carica]);
+
+  usePanelSync(["memoria", "all"], () => carica(tab));
 
   async function generaReport(tipo: string) {
     // BUG-radiografia (riga 46): blocca i bottoni durante l'invio per evitare la doppia accodatura.
