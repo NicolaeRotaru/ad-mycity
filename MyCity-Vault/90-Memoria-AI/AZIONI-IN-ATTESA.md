@@ -37,18 +37,26 @@ Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine 
 
 ---
 
-### 🟡 #pr-299-badge-fix — Mergia PR #299: fix pallino "non letto" (branch pulito) · ⏳ IN ATTESA · accodata 2026-07-12
+### ❌ #pr-299-badge-fix — SOSTITUITA da PR #316 · 2026-07-13 12:14
 
-**Cosa fa:** corregge il bug per cui il pallino rosso compariva su TUTTE le conversazioni al primo caricamento. Il badge ora appare solo sulle chat già aperte almeno una volta e con una risposta AI più recente dell'ultima apertura.
+**Cosa è successo:** PR #299 (fix parziale badge) superata da #316 che unisce sync chat cross-device + logica badge completa secondo specifica Nicola 13/7.
 
-**PR su GitHub:** [#299 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/299) ← branch pulito, solo `pannello/src/app/page.tsx`, zero conflitti
+**Da fare:** Chiudi PR #299 su GitHub senza mergiare. Mergia **#316** (card #92).
 
-⚠️ **Chiudi PR #298 su GitHub senza mergiare** — aveva `sentinella-dati.json` in conflitto, superata da #299.
+---
 
-**Cosa cambia:** il pallino rosso funziona correttamente — compare solo quando c'è davvero qualcosa di nuovo da leggere.
-**Se va bene:** deploy automatico, badge non letto affidabile nel Pannello.
+### 🟡 #pr-316-chat-sync-badge — Mergia PR #316: chat allineata PC↔telefono + pallini rossi corretti · ⏳ IN ATTESA · accodata 2026-07-13 12:14
 
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+**Cosa fa:** (1) l'elenco conversazioni si ricarica ogni ~8 secondi e quando torni sulla scheda — scrivi dal telefono e sul PC compare senza refresh manuale; (2) pallino rosso solo se l'ultimo messaggio è risposta AD non ancora aperta/letta; sparisce aprendo la chat o chiudendo la finestra; (3) storico già chiuso segnato letto al primo caricamento — niente pallini su tutto lo storico.
+
+**PR su GitHub:** [#316 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/316) ← branch `fix/chat-sync-badge`, commit `385993e0`, solo `page.tsx`
+
+⚠️ **Chiudi PR #299 su GitHub senza mergiare** — superata da #316.
+
+**Cosa cambia:** chat sincronizzata tra dispositivi; badge «non letto» affidabile come chiesto da Nicola.
+**Se va bene:** deploy automatico Vercel; altri disallineamenti Pannello (numeri, azioni) da segnalare separatamente.
+
+- **Colore:** 🔴 (merge dal Pannello — card #92)
 
 ---
 
