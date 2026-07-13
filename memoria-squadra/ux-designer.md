@@ -7,6 +7,7 @@ reparto: ux-designer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 23:32 · Radiografia design Pannello — Nicola vincolo sola lettura · atteso: mappa frizioni UX senza rimuovere UI · reale: 22 issue catalogate; 9 gravi = nav cronologia+INDIETRO, header affollato, tab Memoria, grafici dark; proposta priorità navigazione prima · L-193 · #pannello #design #information-architecture
 - 2026-07-13 22:28 · Home IA chiusa — Nicola «sì» + cima firmare · atteso: gerarchia visiva Plancia definitiva · reale: azione→ritmo→narrativa→numeri→macchina; PR #356; pattern grilling confermato per IA complessa · L-186 · #pannello #home #information-architecture
 - 2026-07-13 22:22 · Home cima = firmare — Nicola «a» · atteso: primo sguardo = cosa fare · reale: Da approvare in cima; ritmo+lettera come contesto subito sotto · L-186 · #pannello #home #information-architecture
 - 2026-07-13 22:21 · Home organi pallini — Nicola sceglie A non C · atteso: pattern leggero ma completo · reale: 8 pallini in fila, dettaglio al tap; preferisce vedere tutti gli organi vs solo problemi; Radiografia macchina per griglia ricca · L-185 · #pannello #home #information-architecture

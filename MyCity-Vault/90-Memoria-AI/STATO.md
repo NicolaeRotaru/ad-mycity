@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 23:25
-fonte: AD digitale (💬 13/7 23:25 PR #357 già aperta. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 23:32
+fonte: AD digitale (💬 13/7 23:32 radiografia design Pannello. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **13/7 ~23:32 — CHAT: radiografia design Pannello completa.** Nicola chiede audit design **tutto il Pannello** con vincolo «non togliere/eliminare niente». **Eseguito 🟢 sola lettura:** report `consegne/design/2026-07-13-radiografia-pannello.md` — **22** problemi (0 bloccanti · 9 gravi · 13 minori); fix luglio gravi reggono (doppio Annulla, chat, hub Memoria 4 tab, menu). **Gravi:** navigazione (INDIETRO, cronologia tab, Archivio doc non trovato), layout (header affollato, tab-in-tab Memoria, altezza tab), grafici Numeri tema scuro. **Priorità proposta:** batch navigazione → Numeri dark → header pagine. **Pendente:** Nicola «sì» → PR 🟡 navigazione. Fonte: chat Nicola 13/7 ~23:30 + verifica codice Pannello.
+>
 > 💬 **13/7 ~23:25 — CHAT: «apri pr» — PR #357 già aperta.** Nicola chiede apertura PR dopo implementazione menu Memoria; **verificato 🟢:** **PR #357** già live (`fix/menu-memoria-hub`, aperta 23:22) — nessuna PR nuova. **Pendente:** Approva merge 🔴 **#357** (#126) in Azioni → Da approvare. Fonte: chat Nicola 13/7 ~23:25.
 >
 > 💬 **13/7 ~23:22 — CHAT: menu Memoria — implementato PR #357.** Nicola «ho fatto un esempio, ragionaci ed impostalo così» — AD non attende risposta su 2 pendenti, implementa schema richiesto. **Memoria** = hub **4 tab**: Viva (briefing, sala, scoperte) · Archivio (consegne) · Storico (Decisioni · Quaderni senior · Stato & numeri con OKR/piani) · GitHub. **Menu laterale:** Home·Azioni → Approfondisci → **Memoria** → Macchina → Sistema (Lavori·Assistente). **Spostamenti AD:** Archivio/Storico/GitHub fuori dal menu; **Diario eliminato**; **Governo & diretta** → tab in **Lavori** (operativo); OKR&Piani → **Stato & numeri** in Storico. **Pendente:** merge 🔴 **PR #357** (#126) → deploy Vercel ~2 min. Fonte: chat Nicola 13/7 ~23:22 + PR #357.

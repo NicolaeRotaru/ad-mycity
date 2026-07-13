@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 23:32] Radiografia design Pannello — Nicola «non togliere/eliminare niente» = **solo audit sola lettura**; report `consegne/design/2026-07-13-radiografia-pannello.md` (**22** problemi, 0 bloccanti); priorità fix: batch navigazione → Numeri dark → header pagine.
 - [2026-07-13 23:25] Nicola «apri pr» — **verifica se la PR esiste già** (GitHub/gh) prima di crearne una nuova; se aperta → conferma URL + card merge (#126), non rifare.
 - [2026-07-13 23:22] Nicola «esempio» su menu = **ragiona e implementa** (non bloccare con domande pendenti); hub Memoria 4 tab live in **PR #357** — Governo&diretta in **Lavori**, OKR&Piani in **Stato&numeri**; merge 🔴 #126.
 - [2026-07-13 23:17] **Menu Memoria — hub 4 tab** — Nicola: gruppo→simili→contenuto; tab Viva + Archivio + Storico (Decisioni·Quaderni·Stato&numeri, **no Diario**) + GitHub; esci Archivio/Storico/GitHub dal menu laterale.
@@ -16,4 +17,3 @@
 - [2026-07-13 22:22] **Home cima = da firmare (A)** — prima cosa in Plancia = cosa approvare oggi; ritmo+lettera subito sotto; numeri e macchina dopo — coerente con intento «azione in 10s».
 - [2026-07-13 22:21] **Home organi = 8 pallini (A)** — Nicola sceglie **A** (fila 8 pallini, nome/dettaglio solo al tap), **non** raccomandazione AD **C** (solo problemi); card «La macchina» = semaforo+1 riga+pallini.
 - [2026-07-13 22:20] **Home macchina** — Nicola odia cuore+organi+banner **duplicati e disorientanti**; in PR = **una card «La macchina»** (semaforo+1 riga, pallini compatti, dettagli chiusi, 3 link salute); autopilota **non** in home.
-- [2026-07-13 22:16] **Home Pannello** — lettera **confermata** (anteprima+«Leggi tutta»); ordine home: Da fare → Ritmo → Lettera → KPI → Macchina; v1 in PR #356, v2 = prossimo passo unico+API home+cantiere sito.
