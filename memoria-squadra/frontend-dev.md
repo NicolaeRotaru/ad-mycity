@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 21:53 · Grilling Controllo/La macchina Q2 — Nicola «b» · atteso: dove vedere salute macchina · reale: **B** home+Controllo ampliato; intento **A** confermato; Q3 tab ancora aperta; Nicola preferisce duplicazione consapevole vs raccomandazione AD solo Controllo · L-179 · #pannello #controllo #ux #grilling
 - 2026-07-13 21:52 · Grilling Controllo/La macchina — Nicola «non mi piace come è impostata» · atteso: capire intento prima di redesign · reale: domanda 1 → Nicola **A** (semaforo+un passo); domanda 2 (dove) aperta; oggi overlap home+3 schede pesanti · L-179 · #pannello #controllo #ux #grilling
 - 2026-07-13 21:50 · Parla con questa casella su ritmo — Nicola «aggiungi sotto piano mattino e report sera» · atteso: link chat contestuale come altre card Plancia · reale: PR #355 `ParlaConCasella` in `Plancia.tsx` sotto entrambi i blocchi; testo blocco in contesto; merge 🔴 #124 · L-178 · #pannello #ritmo #plancia #pr-355
 - 2026-07-13 21:47 · Auto-chiusura card merge PR — Nicola «togli in automatico dopo che mergio» · atteso: card sparisce da Da approvare post-merge GitHub · reale: PR #354 `github-pr-merge.ts` + poll 15s + chiusura su GET/POST; test 4/4; merge 🔴 #123 · L-177 · #pannello #coda #merge-pr #pr-354

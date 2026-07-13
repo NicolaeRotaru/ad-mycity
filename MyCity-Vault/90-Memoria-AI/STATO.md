@@ -1,12 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:52
-fonte: AD digitale (💬 13/7 21:52 chat grilling Controllo/La macchina — Nicola risposta A. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:53
+fonte: AD digitale (💬 13/7 21:53 chat grilling Controllo/La macchina — Nicola risposta B (dove). | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
-> 💬 **13/7 ~21:52 — CHAT: grilling Controllo / La macchina — Nicola «non mi piace come è impostata».** Chiede stress-test sulla sezione Pannello **Controllo** (menu) / **La macchina** (titolo pagina). **Domanda 1 — obiettivo in 10s:** Nicola risponde **A** = vuole sapere se **sta bene o sta male** (🟢🟡🔴) + **un solo passo** se c’è un problema; dettaglio radiografie (B) e pilotaggio (C) sono secondari. AD ha segnalato: oggi mix di tre intenti, 3 sotto-pagine pesanti, nomi incoerenti, overlap cuore/organismi in home. **Pendente:** domanda 2 (dove vedere il riepilogo: solo Controllo / anche home / solo home) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:52.
+> 💬 **13/7 ~21:53 — CHAT: grilling Controllo / La macchina — Nicola «b» (dove).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 2 — dove:** Nicola risponde **B** = cuore e 8 organi **restano in home** (come ora), **Controllo** = stessa vista **più completa** (rifiuta raccomandazione AD: solo Controllo, home leggera). **Già confermato (21:52):** domanda 1 **A** = in 10s semaforo 🟢🟡🔴 + un passo; radiografie e pilotaggio secondari. Frizione segnalata: 3 tab pesanti in cima (Radiografia macchina/sito/Auto-coscienza), non la duplicazione home. **Pendente:** domanda 3 (tab in prima pagina) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:53.
+>
+> 💬 **13/7 ~21:52 — CHAT: grilling Controllo / La macchina — Nicola «a» (intento).** Chiede stress-test sulla sezione Pannello **Controllo** (menu) / **La macchina** (titolo pagina). **Domanda 1 — obiettivo in 10s:** Nicola risponde **A** = vuole sapere se **sta bene o sta male** (🟢🟡🔴) + **un solo passo** se c’è un problema; dettaglio radiografie (B) e pilotaggio (C) sono secondari. Fonte: chat Nicola 13/7 ~21:52.
 >
 > 💬 **13/7 ~21:50 — CHAT: «Parla con questa casella» su piano mattino e report sera — Nicola «aggiungi sotto parla con la casella».** Dopo fix leggibilità ritmo (#350 mergiata), chiede lo stesso link chat contestuale delle altre card Plancia sotto **Piano del mattino** e **Report della sera**. **Fix 🟡 PR #355** (`feac5fbe`, `Plancia.tsx`): pulsante «Parla con questa casella» sotto ogni blocco — clic apre chat con testo del blocco già in contesto (es. «spiegami le 3 priorità»); conversazione in Assistenza → Conversazioni. **Pendente:** Approva merge 🔴 **#355** (#124) → deploy ~2 min → ricarica Plancia. Fonte: chat Nicola 13/7 ~21:50.
 >
