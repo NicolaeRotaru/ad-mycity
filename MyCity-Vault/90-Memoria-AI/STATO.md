@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:10
-fonte: AD digitale (💬 13/7 21:10 chat ritmo leggibile. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:12
+fonte: AD digitale (💬 13/7 21:12 chat scroll fluttuante. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:12 — CHAT: scroll chat fluttuante al riaprire — Nicola «chiudo e riapro → riparte dal primo messaggio».** Segnala che chiudendo «Parla con l'AD» fluttuante e riaprendo la conversazione torna in cima invece dell'ultimo messaggio. **Causa verificata codice:** chiusura smonta il pannello messaggi; riapertura senza scroll al fondo (chat intera aveva già la logica). **Fix 🟡 PR #351** (`ea1484c7`, `page.tsx`): scroll automatico al fondo alla riapertura fluttuante. **Pendente:** merge 🔴 **#351** (#121) → deploy ~2 min → test chiudi/riapri. Fonte: chat Nicola 13/7 ~21:12.
+>
 > 💬 **13/7 ~21:10 — CHAT: ritmo del giorno illeggibile — Nicola «piano mattino e report sera scritti malissimo».** Segnala che **Piano del mattino** e **Report della sera** in vault + card Plancia «Ritmo del giorno» sono un muro di log interno (sigle, PR, gergo). **Fix 🟡 PR #350** (`0189de69`): riscrittura in italiano semplice (frasi corte, 3 priorità, «cosa serve da te»), template `cervello/ritmo.md` allineato, componente RitmoTesto su Plancia (titoli, elenchi, dettagli tecnici sotto clic). **Pendente:** merge 🔴 **#350** (#120) → ricarica Plancia e verifica sezioni brevi. Fonte: chat Nicola 13/7 ~21:10.
 >
 > 💬 **13/7 ~21:08 — CHAT: PR #349 — Nicola «4 conflitti ma in teoria non sono conflitti».** Ha ragione: i **4 file** in conflitto sono solo **diario** (STATO, coda azioni, apprendimento, auto-miglioramento) — main già aggiornato dal worker/chat parallela; il **fix vero** (12 pacchetti Garetti → `_archivio-prospect/garetti/`) merge **pulito** (simulato locale, zero conflitti sul codice). **Risoluzione:** su GitHub → Accept **main** sui 4 file diario; il contenuto importante della PR resta l'archivio. Branch pulito locale `fix/allocazione-silo-garetti-v2` (`b15c782f`); push PR #349 da remoto bloccato senza allineare storia. **Pendente:** merge 🔴 **#349** (#119) → casella silo sparisce. Fonte: chat Nicola 13/7 ~21:08.
