@@ -773,5 +773,13 @@
         }
       ]
     }
-  ]
+  ],
+  "sync_scan": {
+    "aggiornato": "2026-07-13 19:39",
+    "findings_aperti": 87,
+    "findings_chiusi": 0,
+    "findings_tot": 87,
+    "data_scan": "2026-07-07",
+    "nota": "Per aggiornare la lista serve un nuovo audit marketplace; i fix sul codice non la riscrivono da soli."
+  }
 }
