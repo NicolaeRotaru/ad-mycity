@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-13 18:18 · Demo streaming live — Nicola «riesci a mostrarmi la risposta in streaming?» · atteso: risposta cresce parola-per-parola in chat · reale: AD usa risposta corrente come test + chiede feedback; codice #338+#339 ok su main; worker VPS fermo dal 16:08 se Nicola vede tutto insieme/colonna · L-131 evidenze 4 · #worker #streaming #demo
 - 2026-07-13 18:15 · Verifica post-merge streaming — Nicola «facciamo una verifica» · atteso: #339 live su main + streaming leggibile · reale: merge `d7881680` ok, `_estrai_stream` locale ok; worker VPS non riavviato dal 16:08 → streaming live ancora rotto · L-139 evidenze 2 · L-138 · #worker #streaming #pr-339 #verifica
 - 2026-07-13 18:12 · Streaming spezzato a colonna — Nicola screenshot «guarda come mi risponde» · atteso: testo orizzontale leggibile durante streaming · reale: micro-frammenti impilati + Markdown a metà; PR #339 (`1081be71`) concat + plain text · L-139 · #worker #streaming #pr-339 #cursor
 - 2026-07-13 18:01 · #338 mergiata streaming+pallini — Nicola «c'è ancora il problema dei pallini» · atteso: spiegare #336 incompleta + fix live · reale: #338 su main `81c28c0b`; pallino = deploy Vercel 2–3 min; streaming = riavvio worker ancora pendente (fermo dal 16:08) · L-137 evidenze 2 · L-138 · #worker #streaming #pr-338 #pallini
