@@ -20,6 +20,12 @@ Environment=TZ=Europe/Rome
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
 Restart=always
 RestartSec=10
+# 🧠 RECINTO DI MEMORIA (OOM 2026-07-14): vedi mycity-worker-chat.service. Il worker principale fa
+# i lavori lunghi (giro ~45 min col motore AI attivo) → recinto più largo della lane chat, ma sempre
+# un recinto: un giro che sfora non deve affamare chat, SSH e le scritture Supabase dell'intero VPS.
+MemoryHigh=1536M
+MemoryMax=2G
+OOMPolicy=kill
 # WATCHDOG (worker-outage 2026-07-09): worker.sh manda WATCHDOG=1 a ogni giro del loop
 # (battito_systemd). Se il loop si impicca — curl/rete/git bloccati senza timeout — e non manda il
 # battito entro WatchdogSec, systemd ammazza e RIAVVIA il processo. È la rete di sicurezza che il
