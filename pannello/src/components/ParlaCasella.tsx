@@ -13,6 +13,7 @@ import {
   salvaConversazioneCasella,
   type ParlaMsg,
 } from "@/lib/parla";
+import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 
 // 🚀 AR-036: cache CONDIVISA della lista conversazioni tra TUTTE le istanze di ParlaCasella.
 // Prima ogni casella fetchava /api/conversazioni al proprio mount → con decine di caselle per pagina
@@ -52,6 +53,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto a Invia).
   const [skillAperte, setSkillAperte] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   function scrollBottom() {
@@ -68,6 +70,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // non viene mai aperta → zero fetch. Carica una volta per casella (si ritenta solo se il giro
   // precedente è stato annullato chiudendo il box a metà caricamento).
   const caricatoRef = useRef(false);
+  useEffect(() => setHintInvio(hintInvioChat()), []);
   useEffect(() => {
     if (!aperto || caricatoRef.current) return;
     let annullato = false;
@@ -227,16 +230,9 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         ref={textareaRef}
         value={bozza}
         onChange={(e) => setBozza(e.target.value)}
-        onKeyDown={(e) => {
-          // 💬 Come una chat vera: Invio = manda · Maiusc+Invio = va a capo.
-          // Guardia IME (isComposing): non inviare mentre si sta componendo un carattere (es. accenti/tastiere CJK).
-          if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-            e.preventDefault();
-            invia();
-          }
-        }}
+        onKeyDown={(e) => gestisciInvioChat(e, invia)}
         rows={2}
-        placeholder="Scrivi alla macchina su questa casella…  (Invio = invia · Maiusc+Invio = a capo)"
+        placeholder={`Scrivi alla macchina su questa casella…  (${hintInvio})`}
         className="input-soft w-full text-[12.5px] resize-y"
       />
       <div className="flex items-center gap-2 flex-wrap">
