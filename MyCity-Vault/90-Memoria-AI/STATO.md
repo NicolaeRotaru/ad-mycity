@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:55
-fonte: AD digitale (💬 13/7 21:55 chat grilling Controllo/La macchina — Nicola risposta B (menu Salute sito). | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:56
+fonte: AD digitale (💬 13/7 21:56 chat grilling Controllo/La macchina — Nicola Q5 B + rename Radiografia macchina + Auto-coscienza menu. | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:56 — CHAT: grilling Controllo / La macchina — Nicola Q5 «B» + rename + Auto-coscienza menu.** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 5 — prima pagina:** Nicola risponde **B** = cuore+8 organi versione grande + contenuto sotto **MA** chiede: (1) **Auto-coscienza** → **voce menu a sé** (come «Salute sito»); (2) rinominare **«Controllo»** → **«Radiografia macchina»** nel menu. **Pacchetto confermato:** Q1 **A** · Q2 **B** · Q3 **B** · Q4 **B** (Salute sito) · menu Radiografia macchina · Auto-coscienza separata. **Pendente:** domanda 6 (cosa resta dentro pagina Radiografia macchina) → poi PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:56.
+>
 > 💬 **13/7 ~21:55 — CHAT: grilling Controllo / La macchina — Nicola «b» (menu).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 4 — dove mettere Radiografia sito:** Nicola risponde **B** = **voce menu nuova «Salute sito»** per l'audit del marketplace (ex tab «Radiografia sito») — rifiuta Operazioni (A), link solo da avviso (C) e raccomandazione AD. **Già confermato:** Q1 **A** (semaforo+un passo) · Q2 **B** (cuore+organismi in home, Controllo ampliato) · Q3 **B** (Radiografia sito esce da Controllo). **Pendente:** domanda 5 (cosa compare subito aprendo Controllo: semaforo+problemi vs cuore+organismi vs tab residue) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:55.
 >
 > 💬 **13/7 ~21:54 — CHAT: grilling Controllo / La macchina — Nicola «b» (tab).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 3 — tab in cima:** Nicola risponde **B** = **togliere «Radiografia sito»** da Controllo — è audit del **marketplace**, non della macchina AD (rifiuta tenerla sotto «La macchina»). **Non** ha confermato A (prima pagina solo semaforo+problemi, tab dietro «Approfondisci»): restano **2 tab** (Radiografia macchina · Auto-coscienza). **Già confermato:** Q1 **A** (semaforo+un passo) · Q2 **B** (cuore+organismi in home, Controllo ampliato). **Pendente:** domanda 4 (dove mettere Radiografia sito nel menu) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:54.

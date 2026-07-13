@@ -7,4 +7,5 @@ reparto: product-manager
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 21:56 · Grilling IA Pannello salute macchina — Nicola chiude Q1–Q5 · atteso: architettura menu chiara prima di PR · reale: 3 voci menu (Radiografia macchina, Salute sito, Auto-coscienza); home duplica cuore+organismi; intento 10s semaforo+azione; Q6 pendente · L-179 · #pannello #ia #menu #grilling
 - 2026-07-01 · giro web · il modello **continuous discovery** (touchpoint settimanali + OST di Teresa Torres) resta lo standard 2026; l'adozione accelera con interviste **async AI-moderate** che riducono il carico PM da scheduling/sintesi (da ~10h a ~90min/sett. secondo il vendor) · fonte: https://getperspective.ai/blog/2026-continuous-discovery-report-always-on-research-product-teams · lezione: per MyCity early-stage alternare 1 call umana/sett. su negozianti + sintesi ticket/supporto in OST · #discovery #ost #product
