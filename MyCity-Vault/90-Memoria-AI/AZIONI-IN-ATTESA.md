@@ -14,28 +14,41 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-337-git-pr-body-gate — Mergia PR #337: ogni PR ha descrizione obbligatoria su GitHub · ⏳ IN ATTESA · accodata 2026-07-13 17:53
+### 🟡 #pr-338-streaming-pallini — Mergia PR #338: streaming Cursor + pallini dopo apertura chat · ⏳ IN ATTESA · accodata 2026-07-13 17:58
+
+**Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat.
+
+**PR su GitHub:** [#338 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/338) ← branch `fix/streaming-cursor-ripristino`, commit `30c4c614`
+
+**Cosa cambia:** in chat vedi di nuovo la risposta crescere mentre lavoro; apri una chat con pallino → chiudi → aspetta 10s → il pallino resta spento.
+**Se va bene:** mergi #338 dal Pannello → sul VPS `sudo systemctl restart mycity-worker-chat` → prova streaming + pallino.
+
+- **Colore:** 🔴 (merge dal Pannello)
+
+---
+
+### ✅ #pr-337-git-pr-body-gate — MERGIATA 2026-07-13 ~17:49
 
 **Cosa fa:** `git-pr.mjs` si ferma se manca il body reale (cosa/perché/come provare) — niente più PR con solo «PR aperta dall'AD…»; se la PR esiste già, aggiorna la descrizione quando il testo è diverso.
 
 **PR su GitHub:** [#337 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/337) ← body verificato 997 caratteri
 
 **Cosa cambia:** da oggi nessuna PR nuova può aprirsi senza spiegazione in italiano dentro GitHub — lo script blocca l'AD se dimentica.
-**Se va bene:** mergi #337 dal Pannello (card #110) → prova ad aprire una PR senza body: deve fallire con messaggio chiaro.
+**Se va bene:** prova ad aprire una PR senza body: deve fallire con messaggio chiaro.
 
-- **Colore:** 🔴 (merge dal Pannello — card #110)
+- **Colore:** ✅ merge fatto (#337 live)
 
 ---
 
-### ✅ #pr-336-pallini-poll — MERGIATA 2026-07-13 ~17:49 · ⚠️ pallino ancora rotto per Nicola
+### ✅ #pr-336-pallini-poll — MERGIATA 2026-07-13 ~17:49 · residuo → #338
 
 **Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
 
 **PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, mergiata ~17:49
 
-**Esito audit 17:55:** codice su main ma Nicola riconferma pallino ancora rotto (verifica worker 17:52) — **non verificato** su telefono/PC post-deploy. Serve diagnosi o fix aggiuntivo.
+**Esito:** Nicola riconferma pallino ancora rosso post-merge — race `persistConversazione` coperta in **#338**.
 
-- **Colore:** ✅ merge fatto · ⚠️ residuo UX aperto
+- **Colore:** ✅ merge fatto · fix residuo in #338
 
 ---
 
@@ -55,9 +68,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← fix buono `db0552a0`, merge ha portato `68c15aa4` con codice vecchio
 
-**Esito audit 17:55:** streaming **ancora rotto** — serve PR correttiva + `sudo systemctl restart mycity-worker-chat` (worker attivo dal 16:08).
+**Esito:** streaming rotto su main — ripristino in **#338**. Dopo merge #338: `sudo systemctl restart mycity-worker-chat`.
 
-- **Colore:** ✅ merge fatto · ⚠️ fix da ripristinare
+- **Colore:** ✅ merge fatto · fix in #338
 
 ---
 
