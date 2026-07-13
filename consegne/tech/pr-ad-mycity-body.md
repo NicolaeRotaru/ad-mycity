@@ -1,13 +1,16 @@
 ## Summary
-- Radiografia macchina: voto **live** dalla sonda (75) invece dello scan fermo al 7/7 (51); banner che spiega che la lista problemi è una foto dell'audit mentre il **cantiere** si aggiorna coi fix
-- Radiografia marketplace: banner di staleness quando l'audit ha >48h
-- Poll auto-coscienza / radiografie: 60s → **30s**
+Auto-analisi nel Pannello: sensori, salute macchina e avvisi gap si aggiornano **live** ogni 30s (da `sensori-cecita.json`), non solo al giro. Banner chiarisce che testo/voto restano dell'ultimo giro finché non fai «fai un giro».
 
 ## Perché
-Nicola ha mergiato molti fix ma vedeva ancora decine di problemi: il Pannello rileggeva GitHub ma mostrava lo scan statico del 7 luglio, non il cantiere (42 chiusi, 1 in-corso).
+Nicola voleva tutto l'auto-analisi «in tempo reale». Il poll c'era già ma mostrava dati del giro dell'11/7 (MCP gated, salute stale). Stesso pattern della radiografia (#344): due orologi — analisi testuale vs sensori live.
+
+## Cosa cambia
+- API `/api/memoria/auto-coscienza`: legge `sensori-cecita.json`, calcola `live` (salute, gap, timestamp)
+- UI Auto-coscienza: chip salute · live, errori da gap freschi, banner giallo se analisi >24h
 
 ## Come provare
-1. Merge e attendi deploy Vercel
-2. Apri Cervello → Radiografia di sé: voto ~75 con etichetta «live», banner giallo che rimanda al cantiere
-3. Tab Cantiere: 1 in-corso (AR-006), 42 chiusi
-4. Marketplace: banner se audit >48h
+1. Merge + deploy Vercel
+2. Apri Controllo → Auto-coscienza → tab Auto-analisi
+3. Verifica chip «Supabase ok · live» e data sensori recente
+4. Avviso MCP deve essere testo aggiornato, non copia dell'11/7
+5. Banner giallo spiega due date (giro vs sensori)

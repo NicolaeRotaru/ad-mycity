@@ -98,13 +98,61 @@ function analisiAffidabile(a: any): boolean {
   return votoOk && sintesiOk;
 }
 
+function oreDaDataPiacenza(dataStr: unknown): number | null {
+  const m = String(dataStr ?? "").match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+  if (!m) return null;
+  const [, y, mo, d, h = "12", mi = "00"] = m;
+  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
+  if (Number.isNaN(t)) return null;
+  return (Date.now() - t) / 3600000;
+}
+
+/** Sensori LIVE: salute e gap si aggiornano a ogni poll anche senza un giro completo. */
+function calcolaLive(analisi: any, sensori: any) {
+  if (!sensori?.sensori) return null;
+  const s = sensori.sensori;
+  const meta = sensori.meta || {};
+  const aggSensori = sensori.aggiornato || null;
+  const oreSensori = oreDaDataPiacenza(aggSensori);
+  const oreAnalisi = oreDaDataPiacenza(analisi?.data);
+  const restOk = s.supabase_rest?.stato === "ok" && meta.dati_ordini_ciechi !== true;
+  const mcpCieco = s.mcp_supabase?.stato === "cieco";
+  const stripeStato = String(s.stripe_api?.stato || "");
+  const salute_macchina = {
+    supabase: restOk ? "ok" : s.supabase_rest?.stato === "ok" ? "parziale" : "cieco",
+    stripe: stripeStato === "ok" ? "ok" : stripeStato === "non_configurato" ? "non_configurato" : "cieco",
+    dati_freschi: oreSensori != null && oreSensori < 3,
+    sensori_attivi: Number(meta.sensori_ok) || 0,
+  };
+  const gap: string[] = [];
+  if (mcpCieco && restOk) {
+    gap.push(
+      "Database diretto non disponibile in sessione: ordini e clienti ok via canale alternativo; 4 conteggi catalogo/lead non ri-misurati ora.",
+    );
+  } else if (mcpCieco) {
+    gap.push("Sensori marketplace parzialmente ciechi — verifica canale ordini.");
+  }
+  if (s.sito_uptime?.stato === "non_configurato") {
+    gap.push("Uptime del sito non monitorato (URL storefront assente).");
+  }
+  return {
+    sensori_aggiornato: aggSensori,
+    analisi_data: analisi?.data || null,
+    analisi_ore_fa: oreAnalisi != null ? Math.round(oreAnalisi) : null,
+    analisi_stale: oreAnalisi != null && oreAnalisi > 24,
+    salute_macchina,
+    gap,
+  };
+}
+
 export async function GET() {
-  const [analisi, apprendimento, miglioramento, calibrazione, registro] = await Promise.all([
+  const [analisi, apprendimento, miglioramento, calibrazione, registro, sensori] = await Promise.all([
     leggiJson(`${BASE}/auto-analisi.json`),
     leggiJson(`${BASE}/apprendimento.json`),
     leggiJson(`${BASE}/auto-miglioramento.json`),
     leggiJson(`${BASE}/calibrazione.json`),
     leggiJson(`${BASE}/registro-realta.json`),
+    leggiJson(`${BASE}/sensori-cecita.json`),
   ]);
 
   const collegato = Boolean(analisi || apprendimento || miglioramento);
@@ -120,9 +168,13 @@ export async function GET() {
   // 🩺 Segnaliamo al Pannello se l'auto-analisi è un guscio vuoto (giro rotto): così mostra uno stato
   // «in aggiornamento» invece di un allarmante e falso «7/100». Il dato grezzo resta, ma marcato.
   const analisi_affidabile = analisiAffidabile(analisi);
-  const aggiornato = [analisi?.aggiornato, apprendimento?.aggiornato, miglioramento?.aggiornato]
+  const live = calcolaLive(analisi, sensori);
+  if (analisi && live?.salute_macchina) {
+    analisi.salute_macchina = live.salute_macchina;
+  }
+  const aggiornato = [analisi?.aggiornato, apprendimento?.aggiornato, miglioramento?.aggiornato, live?.sensori_aggiornato]
     .filter(Boolean)
     .sort()
     .pop() || null;
-  return NextResponse.json({ collegato: true, aggiornato, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
+  return NextResponse.json({ collegato: true, aggiornato, live, analisi, analisi_affidabile, apprendimento, miglioramento, calibrazione, registro });
 }
