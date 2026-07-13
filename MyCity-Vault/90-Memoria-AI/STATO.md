@@ -1,10 +1,10 @@
 ---
 tipo: stato
 aggiornato: 2026-07-14 01:00
-fonte: AD digitale (💬 14/7 01:00 AR-006 stato fix silo. | storico: business INVARIATO dal 24/6.)
+fonte: AD digitale (💬 14/7 01:00 AR-006 CHIUSO. | storico: business INVARIATO dal 24/6.)
 ---
 
-> 💬 **14/7 ~01:00 — CHAT: AR-006 silo — Nicola «che cosa manca da fare dentro questo fix?».** **Fix tecnico ✅** (merge **PR #349** 13/7 21:44, commit `444439af`): 12 pacchetti Garetti archiviati, sforzo attivo su Pane Quotidiano (**16** contenuti), `allocazione-check` exit **0** (14/7 00:56). **Casella rossa resta** perché AR-006 è ancora `in-corso` in `cantiere-difetti.json` + coda #119 non marcata FATTO. **Per chiudere la casella (solo memoria 🟢):** Nicola «chiudi AR-006» → cantiere chiuso + coda aggiornata. **Fuori dal fix tecnico — serve da te:** foto negozio PQ, consenso nome/volto, conferma «bio dal 1976», link CTA reale (lista/ordine); **primo ordine end-to-end con payout** (ordine vecchio annullato); post PQ pronti congelati finché manca link/firma pubblicazione. Fonte: chat Nicola 14/7 ~01:00 + git `444439af` + allocazione-check.
+> 💬 **14/7 ~01:00 — CHAT: AR-006 CHIUSO — Nicola «chiudi AR-006».** Difetto silo contenuti segnato **chiuso** in cantiere; R3 e coda #119 aggiornati. Fix tecnico già su main (PR #349, 13/7): 12 pacchetti Garetti archiviati, PQ **16** contenuti attivi, `allocazione-check` exit **0** (14/7 00:59). **Casella rossa silo dovrebbe sparire** al prossimo refresh Radiografia. **Prossimi passi business (non AR-006):** foto/consenso/link CTA PQ; primo ordine payout-test; post PQ in attesa firma. Fonte: chat Nicola 14/7 ~01:00 + cantiere-difetti.json + allocazione-check.
 >
 > 💬 **14/7 ~00:56 — CHAT: allegati caselle Lavori + selezione testo illeggibile — PR #363.** Nicola segnala due bug: (1) schiccia foto ma non si inserisce in chat; (2) testo evidenziato con mouse/smartphone invisibile («arancio su arancione»). **Diagnosi 🟢:** chat **Assistenza** già fixata ieri; chat **caselle Lavori** (`ChatCasella`) ancora con vecchio input file — Safari/iPhone non registra la foto; `::selection` arancione trasparente su bolle arancioni. **Implementato 🟡 PR #363** (`625af11e`): stesso fix tap-diretto allegati su tutte le `ChatCasella` Lavori; selezione scura/chiara (bianco su trasparenza sulle bolle arancioni). **Nota:** mini-chat «Parla con questa casella» (`ParlaCasella`) **senza** allegati — fix separato se richiesto. **Pendente:** merge 🔴 **#363** (#131) → deploy Vercel ~2 min → ricarica (iPhone: chiudi e riapri). Fonte: chat Nicola 14/7 ~00:56 + PR #363.
 >

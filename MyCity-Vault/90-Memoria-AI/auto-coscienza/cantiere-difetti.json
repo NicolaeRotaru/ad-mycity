@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-14 00:34",
+  "aggiornato": "2026-07-14 01:00",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -43,13 +43,14 @@
       "impatto_crescita": "alto",
       "causa_radice": "La correzione del faro viveva solo nella LETTERA-A-NICOLA (sola lettura), senza un canale che riscrivesse coda/OKR/consegne, e il cancello di grounding a 3 strade era applicato ai briefing ma NON alla produzione di asset di reparto: un senior genera 12+ asset per uno 'scelta_ragionata' senza blocco. In più la mira era sbagliata (Casa Linda, che è una DEMO): l'unico negozio reale è Pane Quotidiano. Mancava il vincolo 'sforzo di reparto pesante → solo su entità confermata e reale nel registro'.",
       "fix_proposto": "🟡 Cancello di allocazione ATTIVO nella pipeline: asset pesanti (post/QR/reel/evento) SOLO se l'entità target è 'confermata' e reale nel registro-realtà (esclude le demo); su 'scelta_ragionata' solo bozze-template neutre. Ripuntare la coda su PANE QUOTIDIANO (unico reale). Regola: ogni scoperta che cambia il faro genera nello stesso giro un task di riscrittura di OKR/coda/STATO.",
-      "colore": "🟡",
-      "stato": "in-corso",
+      "colore": "🟢",
+      "stato": "chiuso",
       "nato": "2026-07-02",
-      "chiuso_il": "",
-      "nota_fix": "Guardiano cervello/allocazione-check.mjs CREATO e agganciato al giro: misura gli asset pesanti per negozio, esclude le demo (Casa Linda) e fallisce sul silo (oggi: Garetti 13 vs Pane Quotidiano 2). Esempio CLAUDE.md corretto (Casa Linda→Pane Quotidiano). Coda e cantiere ripuntati su Pane Quotidiano; le 5 pubblicazioni Garetti congelate (prospect non firmato) + template neutro + skeleton pacchetto Pane Quotidiano preparati. MANCA: materia prima Pane Quotidiano da Nicola (foto/scheda/consenso) per alzare il pacchetto a livello pro.",
+      "chiuso_il": "2026-07-14",
+      "nota_fix": "CHIUSO 14/7 01:00 — Nicola «chiudi AR-006». Fix tecnico già su main (PR #349, 13/7 21:44): 12 pacchetti Garetti archiviati in `_archivio-prospect/garetti/`; sforzo attivo su Pane Quotidiano (16 contenuti); `allocazione-check.mjs` exit 0 (verificato 14/7 00:59). Cancello AR-006 attivo nel giro. Fuori scope chiusura: materia prima PQ (foto/consenso/link CTA) e primo ordine payout — restano azioni separate in coda.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "umano",
+        "esito": "Nicola ha chiuso il difetto dal Pannello (chat 14/7 01:00) dopo merge #349 e allocazione-check verde."
       }
     },
     {
