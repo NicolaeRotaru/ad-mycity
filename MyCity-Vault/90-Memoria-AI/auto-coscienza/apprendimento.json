@@ -17,6 +17,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-111",
+      "testo": "**Nicola conferma 3 plugin token: grilling, ponytail, caveman (chat 13/7 ~12:20):** dopo gap architetturale (L-104) Nicola nomina i tre skill e chiede «prima descrivimeli così sono sicuro che sono loro» — vuole verifica identità PRIMA del merge. Repo: grilling=`mattpocock/skills` (skills/productivity/grilling, intervista una domanda alla volta per stress-test decisioni); ponytail=`DietrichGebert/ponytail` (codice minimo, ~-22% token codice, solo task codice → `.cursor/rules/`); caveman=`JuliusBrussee/caveman` (~-65% token output, tono telegrafico). **Vincolo MyCity:** caveman **OFF** in chat con Nicola — conflitto con contratto «prima riga chiara, max 5 punti, non tecnico»; grilling+ponytail sì (grilling su richiesta/decisioni, ponytail su codice). Combinazione: grilling=pensa prima, ponytail=scrive meno codice, caveman=parla meno (solo worker interno). PR manifest+sync 🟡 in attesa «confermo» esplicito. Regola: su plugin GitHub descrivere ogni skill prima di installare; mappare conflitti col contratto chat Nicola.",
+      "tag": [
+        "worker",
+        "plugin",
+        "grilling",
+        "ponytail",
+        "caveman",
+        "token",
+        "skills",
+        "github",
+        "nicola"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 12:24",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-110",
       "testo": "**PR #316 conflitti — file memoria worker, non fix chat (chat 13/7 ~12:17):** Nicola allegato screenshot conflitti subito dopo apertura PR. 5 perché: (1) metabolizzazione/worker aveva aggiornato `apprendimento.json`, `AZIONI-IN-ATTESA.md`, `auto-miglioramento.json` sul branch mentre `main` avanzava; (2) il fix chat in `page.tsx` era corretto — i conflitti erano su file memoria; (3) stesso pattern #315 e L-99 (20 volte); (4) dichiarare «PR aperta» senza branch pulito ripete l'errore; (5) **fix:** ripulire branch a solo `pannello/src/app/page.tsx`, commit `74a4cfc0`, simulazione merge su main HEAD → zero conflitti. Regola: ogni PR Pannello = branch da main HEAD + SOLO file target + simula merge PRIMA di dire pronta — anche se il conflitto sembra sul fix.",
       "tag": [
@@ -150,7 +173,7 @@
     },
     {
       "id": "L-2026-0713-104",
-      "testo": "**Nicola vuole plugin GitHub sul worker per risparmio token — gap architetturale (chat 13/7 ~11:30):** «Voglio aggiungere al worker dei plugin presi da github che lo aiutano a ridurre il consumo dei token e lavorare/ragionare in modo efficiente». 5 perché: (1) oggi il worker **non ha** manifest né script sync plugin da GitHub sul VPS; (2) il risparmio token **esiste già** via `cervello/banco-ai.mjs` + `cervello/routing.json` (modello economico su compiti ripetitivi, skip giri vuoti, tetto giornaliero) — va spiegato prima di costruire duplicati; (3) skill Cursor vivono in `.cursor/skills/` (repo) o `~/.cursor/skills/` (VPS), separate da `.claude/skills/` (Claude Code, solo `verify`); (4) codice arbitrario da GitHub sul VPS = rischio sicurezza → @security review + lista approvata obbligatoria; (5) vincolo [[niente-api-ai]]: NON proporre chiavi API Groq/Gemini come scorciatoia — Nicola ha bandito le API AI a consumo (8/7). **Fix proposto 🟡 (non approvato):** manifest plugin + script sync + 2–3 skill utili in PR; chiedere a Nicola quali repo ha in mente. Regola: su «plugin per risparmiare token» mappare prima ciò che esiste (routing/banco-ai), poi il buco (sync GitHub), poi sicurezza.",
+      "testo": "**Nicola vuole plugin GitHub sul worker per risparmio token — gap architetturale (chat 13/7 ~11:30, agg. 12:24):** «Voglio aggiungere al worker dei plugin presi da github che lo aiutano a ridurre il consumo dei token e lavorare/ragionare in modo efficiente». 5 perché: (1) oggi il worker **non ha** manifest né script sync plugin da GitHub sul VPS; (2) il risparmio token **esiste già** via `cervello/banco-ai.mjs` + `cervello/routing.json` (modello economico su compiti ripetitivi, skip giri vuoti, tetto giornaliero) — va spiegato prima di costruire duplicati; (3) skill Cursor vivono in `.cursor/skills/` (repo) o `~/.cursor/skills/` (VPS), separate da `.claude/skills/` (Claude Code, solo `verify`); (4) codice arbitrario da GitHub sul VPS = rischio sicurezza → @security review + lista approvata obbligatoria; (5) vincolo [[niente-api-ai]]: NON proporre chiavi API Groq/Gemini come scorciatoia — Nicola ha bandito le API AI a consumo (8/7). **ADDENDUM 12:24:** Nicola ha nominato i 3 plugin: grilling, ponytail, caveman — vedi L-2026-0713-111. **Fix proposto 🟡 (in attesa conferma):** manifest plugin + script sync + i 3 repo in PR. Regola: su «plugin per risparmiare token» mappare prima ciò che esiste (routing/banco-ai), poi il buco (sync GitHub), poi sicurezza.",
       "tag": [
         "worker",
         "plugin",
@@ -163,12 +186,12 @@
         "nicola"
       ],
       "reparto": "@builder-automazioni",
-      "confidenza": 0.95,
-      "evidenze": 1,
+      "confidenza": 0.97,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 11:30",
+      "ultima_conferma": "2026-07-13 12:24",
       "stato": "attiva"
     },
     {
@@ -2700,7 +2723,7 @@
     "**Apri pr + onestà scope (chat 13/7 ~11:37):** «Apri pr» dopo fix proposto → eseguire subito senza ri-chiedere; dichiarare esplicitamente cosa copre la PR e cosa resta per dopo (es. #315 = auto-coscienza, coda/registro botteghe-vs-ristoranti = PR separata con coerenza-fatti). Suggerisce mergiare #313 + #315 insieme dal Pannello. Vedi L-2026-0713-105.",
     "**PR pronta solo dopo rebase (chat 13/7 ~11:42):** segnala subito conflitti su PR già dichiarate pronte — si aspetta rebase + simulazione merge prima del merge dal Pannello (#315 vs #314). Vedi L-2026-0713-107.",
     "**Pannello sempre allineato end-to-end (chat 13/7 ~11:32):** «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello» — quando corregge qualcosa in chat si aspetta che OGNI casella del Pannello (coda, registro fatti, STATO, piani) rifletta il nuovo valore senza intervento manuale. Standing-ask: metabolizzazione + registro-fatti devono propagare automaticamente; non basta aggiornare 3 file su 10. Vedi L-2026-0713-106.",
-    "**Plugin GitHub sul worker per efficienza token (chat 13/7 ~11:30):** «Voglio aggiungere al worker dei plugin presi da github che lo aiutano a ridurre il consumo dei token e lavorare/ragionare in modo efficiente». Standing-ask: vuole estendere le capacità del worker con skill/plugin da repo GitHub curati — NON codice arbitrario. Si aspetta: (a) spiegazione di cosa esiste già (routing/banco-ai); (b) lista repo da lui prima dell'installazione; (c) review sicurezza; (d) implementazione via PR 🟡. NON confondere con API AI a consumo ([[niente-api-ai]]). Vedi L-2026-0713-104.",
+    "**Plugin GitHub worker — 3 skill confermati (chat 13/7 ~12:20):** dopo L-104 ha nominato **grilling**, **ponytail**, **caveman** e chiede descrizione di ciascuno PRIMA di confermare («prima descrivimeli così sono sicuro che sono loro»). Standing-ask aggiornato: manifest+sync dei 3 repo in PR 🟡 dopo «confermo» esplicito; review @security obbligatoria. **Vincolo tono:** caveman OFF in chat con lui (telegrafico vs contratto chiaro/non tecnico); ponytail solo codice; grilling su decisioni/PR. NON confondere con API AI a consumo ([[niente-api-ai]]). Vedi L-2026-0713-104, L-2026-0713-111.",
     "**Cliente core = botteghe, non ristoranti (chat 13/7 ~11:25):** «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — conferma strategica: MyCity = carrello multi-negozio settimanale (pane, salumi, formaggi, ortofrutta), NON competizione Glovo sulla cena. I 6 di oggi sono ristoranti/trattorie (mossa tattica per credibilità/primi incassi), non il profilo target. Dopo visita 13/7 focus su Garetti, Peretti, Amendolara + 27 botteghe food. Coerente con principio 6/7 «gioca dove i big non giocano». Vedi L-2026-0713-102.",
     "**Auto-coscienza deve mostrare contenuto, non caselle vuote (chat 13/7 ~11:24):** oltre alla data «03/07», Nicola segnala «manca qualcosa dentro questa casella» nelle due caselle Confronto coi migliori — si aspetta di vedere reparto, obiettivo e divario, non placeholder vuoti o «undefined». Ha approvato subito con «Apri pr» → PR #313. Rinforza la standing-ask tempo reale (L-2026-0713-100) con aspettativa UX: ciò che è nel JSON deve comparire a video. Vedi L-2026-0713-101.",
     "**Auto-coscienza in tempo reale — apprendimento E miglioramento (chat 13/7 ~11:38):** dopo la diagnosi «03/07» chiede esplicitamente aggiornamento live, poi approva con «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». Standing-ask: vuole tick leggero ~10 min (senza AI) + data UI corretta; benchmark pesante resta settimanale se spiegato. PR #315 aperta (commit `fbbc8c2c`), merge 🔴 #90/#91. NON dire «solo giro AI» per apprendimento — si aggiorna già post-chat. Vedi L-2026-0713-100, L-2026-0713-103, L-2026-0713-105.",
