@@ -22,6 +22,16 @@ Environment=WORKER_LANE=chat
 ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/worker.sh
 Restart=always
 RestartSec=10
+# 🧠 RECINTO DI MEMORIA (OOM 2026-07-14): il motore AI (cursor-agent, ~1.8GB virtual) ha saturato
+# i 4GB del VPS e il kernel ha ucciso il processo a metà risposta → chat bloccata in_corso per
+# sempre (episodi 00:06 e 01:13). Col recinto: sopra MemoryHigh il kernel rallenta/reclama solo
+# questo servizio; a MemoryMax uccide DENTRO il recinto (il motore, il processo più grosso) senza
+# toccare il resto del sistema — e Restart=always rialza il servizio da solo.
+MemoryHigh=1G
+MemoryMax=1536M
+# Se il kernel uccide un figlio (il motore) dentro il recinto, systemd riavvia il servizio intero:
+# meglio un worker fresco che uno zombie con il motore morto sotto.
+OOMPolicy=kill
 # Watchdog: come il worker principale, systemd riavvia se il loop si blocca. La chat non fa lavori
 # lunghi come il giro, quindi un margine più stretto va bene, ma teniamo 3300s per semplicità/uniformità.
 WatchdogSec=3300
