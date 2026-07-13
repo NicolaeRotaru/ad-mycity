@@ -1,18 +1,10 @@
 ## Summary
-Riordino menu Memoria come hub unico: 4 tab (Memoria viva · Archivio · Storico · GitHub). Storico con Decisioni, Quaderni senior, Stato & numeri — Diario eliminato. Governo & diretta (agenti, feed, pausa AD) in Lavori.
-
-## Menu laterale dopo merge
-- **Memoria** (unica voce) — dentro: Viva / Archivio / Storico / GitHub
-- **Macchina** — Radiografia · Salute sito · Auto-coscienza
-- **Sistema** — Lavori (con tab Governo & diretta) · Assistente
-- Spariscono dal menu: Archivio, Storico, GitHub come voci separate
+- **Storico → Decisioni:** ogni decisione è un pannello apri/chiudi (la più recente aperta, le altre mostrano anteprima); titoli e testi ripuliti in italiano semplice.
+- **Storico → Stato & numeri:** due tab **Stato** | **OKR** (piani sotto OKR).
+- **Memoria viva:** due tab **Memoria** | **Scoperte**; briefing e Sala Operativa restano aperti di default.
 
 ## Test plan
-1. Apri **Memoria** → vedi 4 tab in fila
-2. **Memoria viva** → briefing + sala operativa + scoperte (niente più tab Decisioni/OKR duplicate)
-3. **Archivio** → navigatore consegne/ come prima
-4. **Storico** → sotto-tab Decisioni · Quaderni senior · Stato & numeri (OKR, piani, STATO.md)
-5. **GitHub** → esplora repo
-6. Da Home «tutti i documenti →» apre Memoria › Archivio
-7. Link legacy `report` / `storico` / `esplora` reindirizzano a Memoria
-8. **Lavori › Governo & diretta** → agenti live, feed, controllo (no Diario)
+- [ ] Memoria → Storico → Decisioni: pannelli si aprono/chiudono, testo leggibile senza sigle in testa
+- [ ] Memoria → Storico → Stato & numeri: tab Stato e OKR separati
+- [ ] Memoria → Memoria viva: tab Memoria (briefing + sala aperti) e Scoperte
+- [ ] `npx tsc --noEmit` in `pannello/` passa
