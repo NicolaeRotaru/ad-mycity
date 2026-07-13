@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Terminal, RefreshCw } from "lucide-react";
 import { faRelativo } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 
 // 📜 Risultati comandi macchina — la STORIA di cosa ha eseguito il worker (giro, ritmo-mattino,
 // ritmo-sera). I PULSANTI per lanciare i comandi sono stati spostati nella casella «Stato worker»
@@ -37,14 +38,10 @@ export default function ComandiVPS() {
   useEffect(() => {
     carica();
     const t = setInterval(carica, 6000);
-    // Aggiorna anche quando un comando parte dalla casella «Stato worker».
-    const onLavori = () => carica();
-    if (typeof window !== "undefined") window.addEventListener("mycity:lavori", onLavori);
-    return () => {
-      clearInterval(t);
-      if (typeof window !== "undefined") window.removeEventListener("mycity:lavori", onLavori);
-    };
+    return () => clearInterval(t);
   }, [carica]);
+
+  usePanelSync(["lavori", "memoria", "all"], carica);
 
   const toggle = (id: string) =>
     setEspanso((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });

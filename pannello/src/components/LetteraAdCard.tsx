@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Mail, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 
 /** Anteprima lettera AD in home (3–5 righe + «Leggi tutta»). */
 export default function LetteraAdCard() {
@@ -12,7 +13,7 @@ export default function LetteraAdCard() {
   const [data, setData] = useState<string | null>(null);
   const [aperta, setAperta] = useState(false);
 
-  useEffect(() => {
+  const carica = useCallback(() => {
     fetch("/api/memoria/auto-radiografia", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -22,6 +23,9 @@ export default function LetteraAdCard() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["radiografia", "memoria", "all"], carica);
 
   if (!lettera) {
     return (

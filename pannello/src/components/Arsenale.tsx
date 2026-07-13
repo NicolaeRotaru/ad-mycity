@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Swords } from "lucide-react";
 import { istante } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type PB = {
   id: string;
@@ -23,9 +24,12 @@ const dot = (l: string) => (l === "rosso" ? "bg-red-500" : l === "giallo" ? "bg-
 export default function Arsenale() {
   const [pb, setPb] = useState<PB[] | null>(null);
   const [aperto, setAperto] = useState(false);
-  useEffect(() => {
+  const carica = useCallback(() => {
     fetch("/api/playbook", { cache: "no-store" }).then((r) => r.json()).then((d) => setPb(d.playbook || [])).catch(() => setPb([]));
   }, []);
+
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["memoria", "azioni", "all"], carica);
   if (!pb) return null;
   const partitiOggi = pb.filter((p) => p.oggi).length;
   // Raggruppa per FORMA DI DOMINIO, mantenendo l'ordine di comparsa.

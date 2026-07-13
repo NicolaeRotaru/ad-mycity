@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Stella = { id: string; emoji: string; nome: string; descrizione: string; principale: boolean; attiva: boolean };
 
@@ -43,17 +44,20 @@ function valoreStella(id: string, m: Record<string, any> | null): string {
 export default function StellePolari() {
   const [stelle, setStelle] = useState<Stella[]>([]);
   const [metriche, setMetriche] = useState<Record<string, any> | null>(null);
-  const carica = () =>
-    fetch("/api/stelle", { cache: "no-store" }).then((r) => r.json()).then((d) => setStelle(d.stelle || [])).catch(() => {});
-  const caricaMetriche = () =>
-    fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setMetriche).catch(() => {});
+  const carica = useCallback(() =>
+    fetch("/api/stelle", { cache: "no-store" }).then((r) => r.json()).then((d) => setStelle(d.stelle || [])).catch(() => {}), []);
+  const caricaMetriche = useCallback(() =>
+    fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setMetriche).catch(() => {}), []);
+
+  const refresh = useCallback(() => { carica(); caricaMetriche(); }, [carica, caricaMetriche]);
 
   useEffect(() => {
-    carica();
-    caricaMetriche();
+    refresh();
     const id = setInterval(caricaMetriche, 60_000);
     return () => clearInterval(id);
-  }, []);
+  }, [refresh, caricaMetriche]);
+
+  usePanelSync(["memoria", "all"], refresh);
 
   async function toggle(s: Stella) {
     if (s.principale) return;

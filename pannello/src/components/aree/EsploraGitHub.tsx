@@ -7,6 +7,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Folder, FileText, ChevronRight, ArrowUp, RefreshCw, FolderTree } from "lucide-react";
+import { usePanelSync } from "@/lib/panel-sync";
 
 type Voce = { name: string; type: "file" | "dir"; size?: number; path: string };
 type Risp =
@@ -41,6 +42,8 @@ export default function EsploraGitHub({ embedded = false }: { embedded?: boolean
   useEffect(() => {
     void carica(path);
   }, [path, carica]);
+
+  usePanelSync(["memoria", "all"], () => { void carica(path); });
 
   const segmenti = path ? path.split("/") : [];
   const vaiSu = () => setPath(segmenti.slice(0, -1).join("/"));

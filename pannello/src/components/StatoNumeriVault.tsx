@@ -6,6 +6,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -53,6 +54,8 @@ export default function StatoNumeriVault() {
     const id = setInterval(() => carica(true), 90000);
     return () => clearInterval(id);
   }, [carica]);
+
+  usePanelSync(["memoria", "azioni", "all"], () => carica(true));
 
   if (loading && !stato && piani.length === 0) {
     return (

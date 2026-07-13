@@ -1,15 +1,19 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { formatta } from "@/lib/format";
+import { usePanelSync } from "@/lib/panel-sync";
 
 // 🔄 Il volano (effetto-rete): più negozi → più clienti → più ordini → più negozi.
 export default function Volano() {
   const [m, setM] = useState<Record<string, any> | null>(null);
-  useEffect(() => {
+  const carica = useCallback(() => {
     fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setM).catch(() => {});
   }, []);
+
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["memoria", "all"], carica);
   const v = (k: string) => (m && m[k] != null ? formatta(m[k], "n") : "—");
 
   const passi = [

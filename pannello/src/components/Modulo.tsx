@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { formatta, type Tipo } from "@/lib/format";
 import type { ModuloDef, RigaLista } from "@/lib/moduli";
+import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 
@@ -21,6 +22,8 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [caricando, setCaricando] = useState(false);
   const [mostraTutte, setMostraTutte] = useState(false);
   const [aggAt, setAggAt] = useState<number | null>(null);
+  const [syncTick, setSyncTick] = useState(0);
+  usePanelSync(["memoria", "all"], () => setSyncTick((t) => t + 1));
 
   // Carica l'elenco reale all'apertura e lo tiene FRESCO finché il modulo è aperto:
   // ricarica a ogni apertura + refresh silenzioso ogni 60s (con cache:no-store), così le liste
@@ -55,7 +58,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
       clearInterval(id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, def.lista]);
+  }, [open, def.lista, syncTick]);
 
   const acceso = (chiave?: string, tipo?: Tipo) =>
     Boolean(chiave && metriche && metriche[chiave] !== undefined && metriche[chiave] !== null) &&

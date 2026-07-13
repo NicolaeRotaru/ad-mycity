@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Scale, Radio, ListTree, Power, RefreshCw, Loader2, HelpCircle, Pause, Play } from "lucide-react";
 import { testoPulito, dataVault, istante } from "@/lib/format";
 import { titoloDecisione, percheLeggibile, repartoLeggibile, livelloLeggibile, statoLeggibile } from "@/lib/decisione-umana";
+import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 
@@ -81,6 +82,8 @@ export default function GovernoAD({ variant = "full" }: Props) {
     const id = setInterval(() => carica("agenti"), 8000);
     return () => clearInterval(id);
   }, [tab, carica]);
+
+  usePanelSync(["memoria", "azioni", "lavori", "radiografia", "all"], () => carica(tab));
 
   // Chiave STABILE per decisione (non l'indice posizionale: cambiando filtro l'indice mappa una decisione diversa).
   const chiaveDec = (d: Decisione) => `${d.data}|${d.reparto}|${d.cosa}`;
