@@ -35,6 +35,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Cosa cambia:** apri chat con pallino → sparisce → aspetti 10s senza ricaricare → **resta spento**.
 **Se va bene:** mergi #336 dal Pannello (card #108) → deploy Vercel ~2 min → test: apri chat non letta, attendi 10s. **#328/#332/#333 già su main** — non riaprirle. **Chiudi #334** senza merge.
+**Nota 17:54:** Nicola riconferma che il bug è ancora visibile in produzione (#332 incompleto su main).
 
 - **Colore:** 🔴 (merge dal Pannello — card #108)
 
