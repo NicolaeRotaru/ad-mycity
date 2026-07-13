@@ -17,6 +17,26 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-150",
+      "testo": "**Attività & Briefing datati — gap giro vs update chat (chat 13/7 ~19:20):** Nicola «perché attività e briefing sono dell'altro ieri?». 5 perché: (1) sezione Pannello legge l'ultimo file `Briefing/AAAA-MM-DD.md`, non `STATO.md` né chat; (2) ultimo giro vero = 11/7 14:30 (`Briefing/2026-07-11.md`); (3) 12/7 zero giro automatico; (4) 13/7 STATO/Sala/report sera aggiornati via chat/fix Pannello **senza** creare briefing — comportamento atteso, non bug; (5) **regola:** se giornata intensa senza «fai un giro», spiegare subito il gap data; offrire giro per briefing fresco; non dire «Pannello rotto». Correlazione L-103 (auto-coscienza `data` vs `aggiornato`), L-106 (propagazione memoria).",
+      "tag": [
+        "pannello",
+        "briefing",
+        "giro",
+        "STATO",
+        "metabolizzazione",
+        "nicola"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 19:20",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-149",
       "testo": "**Nona prova streaming — feedback 3 punti Nicola (chat 13/7 ~19:15, correzione Nicola):** dopo «ok fatto» post-#343, Nicola risponde «1)si 2) alla fine 3)uguale». 5 perché: (1) #343 raggiunge solo placeholder «Sto elaborando…» subito — obiettivo parziale raggiunto; (2) testo vero ancora «solo alla fine» = L-146 **confermata**, streaming dall'inizio **non** ok; (3) pallini **uguali** = #342 insufficiente, track separato ancora rotto; (4) AD aveva chiesto 3 feedback espliciti (L-148) — Nicola risponde in formato numerato, va riusato; (5) **regola:** non chiudere streaming finché (2) non ok; chiedere anche se negli ultimi secondi il testo cresce parola per parola o compare tutto insieme (distingue poll UI vs worker). Correlazione L-146, L-148.",
       "tag": [
@@ -3550,6 +3570,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Attività & Briefing — date devono tornare (chat 13/7 ~19:20):** chiede «perché attività e briefing sono dell'altro ieri?» — si aspetta che le date in quella sezione riflettano l'attività recente; se STATO è aggiornato ma il briefing no, spiegare che servono due artefatti diversi (file briefing vs snapshot chat) e offrire «fai un giro» per allineare. Vedi L-150.",
     "**Feedback streaming 3 punti numerati (chat 13/7 ~19:15):** dopo nona prova risponde «1)si 2) alla fine 3)uguale» — formato strutturato che l'AD deve usare per le prove successive: (1) «Sto elaborando…» subito, (2) testo cresce dall'inizio (non solo alla fine), (3) pallini meglio/uguale/peggio; non chiudere streaming finché (2) non ok. Vedi L-149.",
     "**OKR — vuole capire cosa è live (chat 13/7 ~19:16):** chiede prima su una casella («aggiornata in tempo reale?») poi su tutte («invece tutte le okr?») — si aspetta risposta chiara che distingue obiettivi fissi (documento 24/6) da numeri live (Stelle Polari 60s); non confondere chat reattiva sotto ogni OKR con KPI che si muovono. Vedi L-125.",
     "**«Ok fatto» dopo allineamento VPS (chat 13/7 ~19:13):** dopo RIMANDATO e procedura (checkout main + `aggiorna-cervello.sh`), «ok fatto» = allineamento completato e worker riavviato — **non** significa streaming già ok; AD fa subito la prova successiva chiedendo 3 feedback: «Sto elaborando…» subito dopo invio, testo cresce dall'inizio (non solo alla fine), pallini meglio/uguale/peggio. Vedi L-148.",

@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-13 19:20 · Chat Nicola «perché Attività e briefing dell'altro ieri?» · atteso: spiegare gap data senza dire Pannello rotto · reale: ultimo briefing 11/7 14:30, 12/7 zero giro, 13/7 solo update chat; L-150 + preferenza date Attività · #briefing #giro #pannello
 - 2026-07-13 17:27 · Nicola «hai imparato o ripeterai?» — test accountability dopo lezione PR pallini · atteso: risposta con regole concrete + memoria aggiornata · reale: L-129 rinforzata (evidenze 4), preferenza accountability, DECISIONI 17:27; #328 ancora in attesa merge · L-2026-0713-129 · #impara-errori #accountability
 - 2026-07-13 17:13 · Casella Pannello coerenza-agenti — Nicola «risolvi» · atteso: PR che estende guardiano alle description · reale: PR #329 + azione #101, collisione fraud-risk/trust-safety confermata · L-2026-0713-127 · #agent-registry #radiografia
 - 2026-07-13 12:45 · volano fermo sentinella 13/7 · radiografia+fix tick prima sentinella · atteso tasso≥0.30 senza falso allarme → reale tasso 0.52, fix PR · #volano #AR-051
