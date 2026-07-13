@@ -9,6 +9,7 @@ import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
+import { emitSync } from "@/lib/panel-sync";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -152,14 +153,18 @@ export default function ChatCasella({
       // Il nuovo messaggio resta nella STESSA conversazione anche in localStorage.
       salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);
       // Avvisa l'Archivio che è comparso un lavoro nuovo (contatore/stato del gruppo).
-      if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      if (typeof window !== "undefined") emitSync("lavori");
       setStreamingText("");
       const risposta = await attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs, (parziale) =>
         setStreamingText(parziale),
       );
       setMsgs((m) => [...m, { role: "assistant", content: risposta }]);
       setStreamingText("");
-      if (typeof window !== "undefined") window.dispatchEvent(new Event("mycity:lavori"));
+      if (typeof window !== "undefined") {
+        emitSync("memoria");
+        emitSync("radiografia");
+        emitSync("azioni");
+      }
     } catch (e: any) {
       // Non perdere il messaggio: lo lascio come bolla e spiego l'errore, con la bozza pronta a ripartire.
       setErr(e?.message || "Non riuscito.");

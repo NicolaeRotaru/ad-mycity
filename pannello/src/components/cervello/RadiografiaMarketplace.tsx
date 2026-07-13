@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Store, FileText, ChevronDown, ChevronRight } from "lucide-react";
 import { dataVault } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
+import { usePanelSync } from "@/lib/panel-sync";
 
 // 🏪 RADIOGRAFIA MARKETPLACE — l'audit profondo del SITO mycity (13 dimensioni, ogni problema
 // verificato), gemella della «Radiografia macchina». Legge /api/memoria/radiografia-marketplace
@@ -34,13 +35,17 @@ export default function RadiografiaMarketplace() {
   const [aperte, setAperte] = useState<Set<string>>(new Set());
   const [mostraMinori, setMostraMinori] = useState(false);
 
+  const carica = useCallback(() => {
+    fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+  }, []);
+
   useEffect(() => {
-    const carica = () =>
-      fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
     carica();
     const id = setInterval(carica, POLL_MS);
     return () => clearInterval(id);
-  }, []);
+  }, [carica]);
+
+  usePanelSync(["radiografia", "memoria", "all"], carica);
 
   const toggle = (k: string) =>
     setAperte((s) => {

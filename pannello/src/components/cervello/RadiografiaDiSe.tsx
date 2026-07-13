@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Cpu, Activity, ShieldAlert, Wrench, Hammer, Swords, Sparkles, HelpCircle,
   TrendingUp, CheckCircle2, Eye, ArrowRight,
@@ -8,6 +8,7 @@ import {
 import { dataVault } from "@/lib/format";
 import { vaiArea, EVENTO_VAI, type DettaglioVai } from "@/lib/nav";
 import ParlaCasella from "@/components/ParlaCasella";
+import { usePanelSync } from "@/lib/panel-sync";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -69,19 +70,23 @@ export default function RadiografiaDiSe() {
   // 🔗 Azioni indicizzate per origine (origine → id azione): per il link "vai all'azione" sui difetti.
   const [azPerOrigine, setAzPerOrigine] = useState<Record<string, string>>({});
 
+  const carica = useCallback(() => {
+    fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
+    fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
+      const m: Record<string, string> = {};
+      for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
+      setAzPerOrigine(m);
+    }).catch(() => {});
+  }, []);
+
   useEffect(() => {
-    const carica = () => {
-      fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).then(setD).catch(() => {});
-      fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).then((x) => {
-        const m: Record<string, string> = {};
-        for (const a of x?.azioni || []) if (a?.origine && !a.stato) m[String(a.origine)] = String(a.id);
-        setAzPerOrigine(m);
-      }).catch(() => {});
-    };
     carica();
     const id = setInterval(carica, POLL_MS);
     return () => clearInterval(id);
-  }, []);
+  }, [carica]);
+
+  // Rete sync: fix firmato / difetto chiuso → aggiorna subito cantiere + link azioni.
+  usePanelSync(["radiografia", "azioni", "memoria", "all"], carica);
 
   // Link bidirezionali: se si arriva al Cervello puntando la scheda "Cantiere", aprila.
   useEffect(() => {

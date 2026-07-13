@@ -16,6 +16,7 @@ import {
   type LavoroBase,
 } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
+import { emitSync } from "@/lib/panel-sync";
 
 // pending = bolla solo a schermo (avviso "ci sto lavorando"): non si salva in
 // Conversazioni e non entra nella storia mandata al cervello.
@@ -61,7 +62,7 @@ export async function creaLavoroCasella(
   // Collegamento anche in localStorage: copre il caso in cui la colonna gruppo_id manchi sul DB.
   if (gruppoId) salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);
   try {
-    window.dispatchEvent(new Event("mycity:lavori")); // l'Archivio vede subito il lavoro nuovo
+    emitSync("lavori");
   } catch {
     /* SSR / nessun window */
   }
@@ -88,6 +89,15 @@ export async function attendiEsitoLavoro(
           (l.stato === "errore"
             ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte."
             : "(risposta vuota)");
+        if (l.stato === "fatto") {
+          try {
+            emitSync("memoria");
+            emitSync("radiografia");
+            emitSync("azioni");
+          } catch {
+            /* SSR */
+          }
+        }
         return { testo, definitiva: true };
       }
     } catch {
