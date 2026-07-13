@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 20:08",
+  "aggiornato": "2026-07-13 20:13",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -17,8 +17,51 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0713-165",
+      "testo": "**Conflitto PR #346 ondata 3+4 — Nicola «ci sono ancora conflitti» terza volta (chat 13/7 ~20:13):** dopo ondata 1 (body) e ondata 2 (3 file memoria, L-161), Nicola segnala ancora conflitto su #346. 5 perché: (1) main non si ferma — merge #347 (e altri giri) avanza mentre #346 resta aperta; (2) ondata 3 = 4 file memoria scontrati; (3) subito dopo ondata 4 = solo body `pr-ad-mycity-body.md` post-#347; (4) dire «risolto» dopo ondata 2 era ancora prematuro — Nicola può chiedere 3+ volte; (5) fix = rebase stesso branch, head `0c770216`, verificare mergeable API + `registro-scelte-check.mjs` exit 0; codice registro/guardiano intatto. **Regola:** PR memoria aperta a lungo → ogni merge su main può generare nuova ondata; ricontrollare sempre prima di rispondere. Correlazione L-161, L-159.",
+      "tag": [
+        "pr-346",
+        "conflitto",
+        "rebase",
+        "memoria",
+        "ondata-3",
+        "ondata-4",
+        "nicola",
+        "registro-realta"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 20:13",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0713-164",
+      "testo": "**Commit di memoria — scopo e conflitti PR (chat 13/7 ~20:11):** Nicola «a che cosa serve il commit di memoria». 5 perché: (1) non fa parte del fix — annota lezioni/STATO/decisioni quando il worker apre/aggiorna una PR con file vault già modificati; (2) non tocca codice Pannello né script cervello; (3) si crea da solo se ci sono file memoria dirty nel branch PR; (4) genera conflitti con main che riceve annotazioni parallele dalla chat successiva (pattern #346/#347/#348); (5) **regola:** Nicola può ignorarlo per decidere se mergiare — conflitti solo memoria/body PR ≠ fix rotto; su PR codice puro si può saltare commit memoria (fatto #347). AD deve spiegare in italiano piano prima del gergo. Correlazione L-161, L-162, L-163.",
+      "tag": [
+        "commit-memoria",
+        "pr",
+        "conflitto",
+        "vault",
+        "worker",
+        "nicola",
+        "pr-347"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 20:11",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0713-163",
-      "testo": "**Conflitto PR #347 — solo body PR, codice sync intatto (chat 13/7 ~19:45):** Nicola «ci sono conflitti» su merge sync radiografia. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `allinea-scan-cantiere.mjs` né Pannello; (2) main avanzato (`3ea3c0b6`) mentre branch `fix/scan-cantiere-sync` restava aperto — stesso pattern L-159/#346; (3) Nicola non distingue body vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase stesso branch, `git merge --no-commit` exit 0; (5) Nicola deve **ricaricare card** PR prima di merge — non dire «risolto» senza verifica mergeable. Merge 🔴 #347 pendente. Correlazione L-159, L-158.",
+      "testo": "**Conflitto PR #347 — solo body PR, codice sync intatto (chat 13/7 ~19:45, ondata 2 ~20:10):** Nicola «ci sono conflitti» poi «ci sono ancora conflitti» su merge sync radiografia. 5 perché: (1) conflitto in `consegne/tech/pr-ad-mycity-body.md`, non in `allinea-scan-cantiere.mjs` né Pannello; (2) main avanza mentre branch aperto — ondata 1 su `3ea3c0b6`, ondata 2 dopo merge **#348** su `b153f62f` (stesso pattern L-161/#346); (3) Nicola non distingue body vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase stesso branch, verificare mergeable API (head `514321eb` ondata 2); (5) Nicola deve **ricaricare card** PR prima di merge — non dire «risolto» senza mergeable. Merge 🔴 #347 pendente. Correlazione L-159, L-158, L-161.",
       "tag": [
         "pr-347",
         "conflitto",
@@ -26,20 +69,21 @@
         "memoria",
         "radiografia",
         "allinea-scan-cantiere",
-        "nicola"
+        "nicola",
+        "ondata-2"
       ],
       "reparto": "@tech",
-      "confidenza": 0.94,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 19:54",
+      "ultima_conferma": "2026-07-13 20:10",
       "stato": "attiva"
     },
     {
       "id": "L-2026-0713-162",
-      "testo": "**Conflitto PR #348 — solo file memoria, fix pallini intatto (chat 13/7 ~19:45):** Nicola «ci sono conflitt» subito dopo apertura #348 (fingerprint pallini). 5 perché: (1) conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli), **non** in `page.tsx`; (2) branch pallini aperto mentre main riceveva commit memoria — stesso pattern L-161/#346; (3) Nicola non distingue memoria vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase `fix/pallini-fingerprint-v3` su main tenendo impronta (`97522589`), merge locale verificato; (5) Nicola deve **ricaricare card** PR prima di merge — non ripetere merge a mano se vede ancora conflitto. Merge 🔴 #118 pendente. Correlazione L-160, L-161.",
+      "testo": "**Conflitto PR #348 — solo file memoria, fix pallini intatto (chat 13/7 ~19:45, merge 20:10):** Nicola «ci sono conflitt» subito dopo apertura #348 (fingerprint pallini). 5 perché: (1) conflitto in `apprendimento.json` + `auto-miglioramento.json` (date da giri paralleli), **non** in `page.tsx`; (2) branch pallini aperto mentre main riceveva commit memoria — stesso pattern L-161/#346; (3) Nicola non distingue memoria vs codice fix — AD deve spiegare **tipo** file in conflitto; (4) fix = rebase `fix/pallini-fingerprint-v3` su main tenendo impronta, merge locale verificato; (5) **✅ mergiata** main `b153f62f` 20:10 — test pallini post-deploy. Correlazione L-160, L-161.",
       "tag": [
         "pr-348",
         "conflitto",
@@ -47,15 +91,16 @@
         "memoria",
         "pallini",
         "apprendimento",
-        "nicola"
+        "nicola",
+        "mergiata"
       ],
       "reparto": "@tech",
-      "confidenza": 0.94,
-      "evidenze": 1,
+      "confidenza": 0.95,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-13",
-      "ultima_conferma": "2026-07-13 19:53",
+      "ultima_conferma": "2026-07-13 20:10",
       "stato": "attiva"
     },
     {
@@ -3846,10 +3891,13 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**«A che cosa serve il commit di memoria?» (chat 13/7 ~20:11):** chiede spiegazione semplice di meccanismi interni prima di mergiare — si aspetta risposta in italiano piano (non fa parte del fix, è diario vault, genera conflitti, ignorabile se conflitti solo memoria/body); non spaventarlo con gergo git/worker. Vedi L-164.",
+    "**«Ci sono ancora conflitti» su PR #347 dopo merge altra PR (chat 13/7 ~20:10):** ondata 2 — merge #348 ha avanzato main mentre #347 aperta; stesso body PR, codice sync intatto; si aspetta rebase + verifica mergeable API prima di «risolto»; merge **PR #347** 🔴 + Ctrl+Shift+R. Vedi L-163 evidenze 2.",
     "**«Ci sono conflitti» su PR #347 radiografia (chat 13/7 ~19:45):** stesso pattern #346 — conflitto solo `consegne/tech/pr-ad-mycity-body.md`, codice `allinea-scan-cantiere` intatto; si aspetta rebase stesso branch + spiegazione body vs codice + card verde; merge **PR #347** 🔴 + Ctrl+Shift+R → «1 da fare», voto 75. Vedi L-163.",
-    "**«Ci sono conflitt» su PR #348 pallini (chat 13/7 ~19:45):** stesso pattern #346 — conflitto solo file memoria (`apprendimento.json` + `auto-miglioramento.json`), fix `page.tsx` intatto; si aspetta rebase stesso branch + spiegazione memoria vs codice + card verde; se ancora conflitto dopo fix → segnalare subito, non merge a mano; merge **PR #348** 🔴 #118 + Ctrl+Shift+R + test pallini. Vedi L-162.",
+    "**«Ci sono conflitt» su PR #348 pallini (chat 13/7 ~19:45):** ✅ mergiata 20:10 (`b153f62f`); conflitto era solo file memoria; test post-deploy pallini scenario 1+4. Vedi L-162.",
     "**Pallini — scenario 1+4 confermato, fix fingerprint (chat 13/7 ~19:41):** risponde «1 e 4» al menu diagnosi — si aspetta fix **mirato** (impronta testo ultima risposta, non timestamp generico), non altra PR generica né restart worker; scenario 1 (esci→~8s rosso) e 4 (tutte rosse) = **stesso** difetto; merge **PR #348** + Ctrl+Shift+R + test 15s esci da chat + elenco non tutto rosso. Vedi L-160.",
-    "**«C'è un conflitto» / «riesci a vederlo?» / «ci sono conflitt» / «ci sono conflitti» su PR pendente — pattern ricorrente (chat 13/7 ~19:45):** su #346, #347, #348 segnala conflitto — spesso solo file memoria/body (`pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento) se main avanza; si aspetta che l'AD **veda, risolva e verifichi zero residui** sulla stessa PR con spiegazione chiara (body/memoria vs codice fix), non «risolto» senza ricaricare card; dopo fix → Ctrl+Shift+R e merge. Vedi L-159, L-161, L-162, L-163.",
+    "**«Ci sono ancora conflitti» su PR #346 — terza+ ondata (chat 13/7 ~20:13):** dopo fix ondata 1-2 segnala ancora conflitto — main continua (#347 mergiata) → ondata 3 (4 file memoria) + ondata 4 (solo body); si aspetta rebase + verifica mergeable API + spiegazione che codice registro è intatto; non dire «risolto» finché card non è verde; merge **#346** 🔴 #117. Vedi L-165.",
+    "**«C'è un conflitto» / «riesci a vederlo?» / «ci sono conflitt» / «ci sono conflitti» su PR pendente — pattern ricorrente (chat 13/7 ~19:45):** su #346, #347, #348 segnala conflitto — spesso solo file memoria/body (`pr-ad-mycity-body.md`, LEZIONI-CHAT, apprendimento) se main avanza; si aspetta che l'AD **veda, risolva e verifichi zero residui** sulla stessa PR con spiegazione chiara (body/memoria vs codice fix), non «risolto» senza ricaricare card; dopo fix → Ctrl+Shift+R e merge. Vedi L-159, L-161, L-162, L-163, L-165.",
     "**Scelte ragionate complete e visibili (chat 13/7 ~19:40):** sulla casella Garetti chiede quando aggiornate, se la lista è completa, se la macchina ha ragionato su botteghe che non compaiono — poi «correggi e non ricapiti»; si aspetta che **tutte** le `scelta_ragionata` della macchina siano in Auto-coscienza (non nascoste nei dossier), con data aggiornamento onesta; AD deve spiegare registro vs dossier prima di dire «solo 2». Vedi L-157.",
     "**Auto-analisi tutto in tempo reale (chat 13/7 ~19:46):** «voglio che tutto quello che c'è dentro auto-analisi sia aggiornato in tempo reale» — estende Gap/radiografia (L-154/L-152); si aspetta chip salute, avvisi MCP e date sensori freschi ogni ~30s senza giro; AD deve spiegare che sintesi/voto/domande restano del giro AI (banner due date); fix **PR #345** merge 🔴 #116; se vuole anche testo AI sempre fresco → giri automatici server. Vedi L-156.",
     "**«Cioè?» = spiegazione semplice della casella (chat 13/7 ~19:44):** su card Trigger-build Pannello chiede chiarimento in una parola — si aspetta risposta in italiano piano (cosa fa, serve ancora, può ignorarla), non gergo Vercel/webhook/commit trigger; se azione già fatta → dirlo subito e chiudere la card. Vedi L-155.",
