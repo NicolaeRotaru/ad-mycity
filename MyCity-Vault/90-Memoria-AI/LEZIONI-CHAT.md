@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-13 19:40] Scelte ragionate incomplete nel Pannello — dossier `consegne/vendite/` con `gate_AR006`/`scelta_ragionata` **devono** entrare in `registro-realta.json` nello stesso giro; guardiano `registro-scelte-check.mjs` (AR-103) fallisce se mancano; il Pannello legge solo il registro, non i dossier nascosti.
 - [2026-07-13 19:34] Pallini ancora rossi post-#336–#342 — **non** worker/VPS; prima del fix chiedi scenario Nicola (1 esci→~8s torna rosso / 2 Plancia / 3 lampeggio / 4 tutte rosse); nessuna PR residuo aperta; #343 streaming = track separato.
 - [2026-07-13 19:32] Radiografia/marketplace «ancora 74/87 problemi» dopo fix — lista = **foto scan 7/7**, cantiere vivo si aggiorna (42 chiusi); mergiare fix **non** riscrivono l'audit; spiegare scan vs cantiere + voto live (#344); lista lunga sparisce solo con **nuovo audit** completo.
 - [2026-07-13 19:23] Nicola «2) tutto insieme» — testo finale in un colpo solo (nemmeno parola per parola alla fine); #343 ok solo su «Sto elaborando…»; prossimo fix = parziali DB vs poll Pannello, **non** altro merge/restart.

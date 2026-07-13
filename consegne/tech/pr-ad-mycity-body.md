@@ -1,13 +1,12 @@
 ## Summary
-- Radiografia macchina: voto **live** dalla sonda (75) invece dello scan fermo al 7/7 (51); banner che spiega che la lista problemi è una foto dell'audit mentre il **cantiere** si aggiorna coi fix
-- Radiografia marketplace: banner di staleness quando l'audit ha >48h
-- Poll auto-coscienza / radiografie: 60s → **30s**
+- Aggiunte al registro-realtà le 8 scelte ragionate mancanti (6 trattorie visita 13/7 + Peretti + Amendolara) e aggiornato Garetti.
+- Nuovo guardiano `registro-scelte-check.mjs` (AR-103): a ogni giro verifica che i dossier vendite con prospect `scelta_ragionata` siano nel registro — altrimenti vincolo HARD al motore.
+- Regola esplicita in `auto-analisi.md`: sync registro obbligatorio nello stesso giro del dossier.
 
 ## Perché
-Nicola ha mergiato molti fix ma vedeva ancora decine di problemi: il Pannello rileggeva GitHub ma mostrava lo scan statico del 7 luglio, non il cantiere (42 chiusi, 1 in-corso).
+Il Pannello (Auto-coscienza) mostra solo `registro-realta.json`. La macchina aveva analizzato 9+ prospect in `consegne/vendite/` ma ne mostrava 2 — lista incompleta senza bug UI.
 
 ## Come provare
-1. Merge e attendi deploy Vercel
-2. Apri Cervello → Radiografia di sé: voto ~75 con etichetta «live», banner giallo che rimanda al cantiere
-3. Tab Cantiere: 1 in-corso (AR-006), 42 chiusi
-4. Marketplace: banner se audit >48h
+1. `node cervello/registro-scelte-check.mjs` → exit 0, messaggio ✅
+2. Apri Auto-coscienza nel Pannello → «Scelte ragionate» = 10 voci (inclusi Garetti, Tigellabella, Peretti…)
+3. Rimuovi temporaneamente un'entità dal registro e rilancia il check → exit 1 con elenco mancanti

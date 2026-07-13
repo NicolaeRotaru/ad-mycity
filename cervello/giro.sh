@@ -128,6 +128,7 @@ fi
 SENSORI_CIECHI=0
 SENSORI_VINCOLO=""
 ALLOC_VINCOLO=""      # AR-081: vincolo dell'allocazione-check (popolato sotto se il guardiano fallisce)
+REGISTRO_SCELTE_VINCOLO=""  # AR-103: dossier vendite scelta_ragionata non sincronizzati nel registro
 LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala senza ESITO nel quaderno)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
@@ -178,6 +179,13 @@ if command -v node >/dev/null 2>&1; then
   if [ "$_alloc_rc" -ne 0 ]; then
     ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
     echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
+  fi
+  echo "[$(ts)] Guardiano registro scelte ragionate (AR-103: dossier vendite ↔ registro-realta)..."
+  _rs_out="$(node "$SCRIPT_DIR/registro-scelte-check.mjs" 2>&1)"; _rs_rc=$?
+  printf '%s\n' "$_rs_out" | tail -8
+  if [ "$_rs_rc" -ne 0 ]; then
+    REGISTRO_SCELTE_VINCOLO="⛔ REGISTRO SCELTE INCOMPLETO (registro-scelte-check.mjs rc=$_rs_rc): un dossier in consegne/vendite dichiara prospect 'scelta_ragionata' ma mancano nel registro-realta.json — il Pannello mostra una lista incompleta. PRIMA di chiudere: aggiungi OGNI entità mancante in MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json (stato scelta_ragionata, evidenze, fonte_ragionamento) e riesegui node cervello/registro-scelte-check.mjs finché passa (exit 0)."
+    echo "[$(ts)] ⚠️  AR-103: registro-scelte-check FALLITO (rc=$_rs_rc) → passo un vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Supervisione negozi & prodotti (dati mancanti → proposte da firmare)..."
   # Veglia ogni negozio e ogni prodotto, trova i dati mancanti e ACCODA le proposte 🟡 di riempimento
@@ -370,6 +378,12 @@ if [ -n "$ALLOC_VINCOLO" ]; then
 
 ## Vincolo allocazione sforzo (HARD — dal guardiano allocazione-check prima di te)
 $ALLOC_VINCOLO"
+fi
+if [ -n "${REGISTRO_SCELTE_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo registro scelte ragionate (HARD — dal guardiano registro-scelte-check prima di te)
+$REGISTRO_SCELTE_VINCOLO"
 fi
 if [ -n "${LOOP_VINCOLO:-}" ]; then
   # PZ-008: il gate chiusura-loop arriva al motore come regola hard (registra gli ESITI, non rimandare).
