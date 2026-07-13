@@ -6,7 +6,8 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
-- [2026-07-13 21:53] Controllo/La macchina — Nicola **B** (dove): cuore+organismi restano in **home**, Controllo = stessa vista più completa; intendo resta **A** (semaforo+un passo). Domanda 3 (tab Radiografia sito / schede in cima) **ancora aperta** — niente PR redesign finché non chiude grilling.
+- [2026-07-13 21:54] Controllo/La macchina — Nicola **B** (tab): **Radiografia sito esce** da Controllo (è audit marketplace, non macchina); **non** ha scelto A (prima pagina pulita senza tab) — restano 2 tab. Q4 (dove mettere Radiografia sito) **aperta**; niente PR redesign finché grilling non chiude.
+- [2026-07-13 21:53] Controllo/La macchina — Nicola **B** (dove): cuore+organismi in **home**, Controllo = vista più completa; intendo **A** (semaforo+un passo in 10s).
 - [2026-07-13 21:50] Ritmo — Nicola «aggiungi Parla con questa casella sotto piano mattino e report sera»: vuole lo stesso link chat contestuale delle altre card Plancia sotto **entrambi** i blocchi del ritmo; clic = testo del blocco già in contesto; fix **PR #355** (`Plancia.tsx`) merge 🔴 **#124**.
 - [2026-07-13 21:47] Card merge PR — Nicola «togli in automatico dopo che mergio»: Pannello interroga GitHub a ogni refresh; PR mergiata/chiusa → card sparisce da Da approvare (~15s poll se merge pendente); fix **PR #354** merge 🔴 **#123**.
 - [2026-07-13 21:43] PR #349 conflitto terza volta — Nicola «ci sono conflitti»: non ripetere istruzioni Accept main; AD risolve branch **senza file diario** (solo archivio 12 Garetti), head `319206ee`, API mergeable ok; merge 🔴 #119 = solo Approva Nicola.

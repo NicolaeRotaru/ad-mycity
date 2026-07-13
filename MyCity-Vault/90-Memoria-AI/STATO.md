@@ -1,11 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 21:53
-fonte: AD digitale (💬 13/7 21:53 chat grilling Controllo/La macchina — Nicola risposta B (dove). | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 21:54
+fonte: AD digitale (💬 13/7 21:54 chat grilling Controllo/La macchina — Nicola risposta B (tab Radiografia sito). | storico: business INVARIATO dal 24/6.)
 ---
 
 # 📟 STATO — Cruscotto dell'azienda
 
+> 💬 **13/7 ~21:54 — CHAT: grilling Controllo / La macchina — Nicola «b» (tab).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 3 — tab in cima:** Nicola risponde **B** = **togliere «Radiografia sito»** da Controllo — è audit del **marketplace**, non della macchina AD (rifiuta tenerla sotto «La macchina»). **Non** ha confermato A (prima pagina solo semaforo+problemi, tab dietro «Approfondisci»): restano **2 tab** (Radiografia macchina · Auto-coscienza). **Già confermato:** Q1 **A** (semaforo+un passo) · Q2 **B** (cuore+organismi in home, Controllo ampliato). **Pendente:** domanda 4 (dove mettere Radiografia sito nel menu) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:54.
+>
 > 💬 **13/7 ~21:53 — CHAT: grilling Controllo / La macchina — Nicola «b» (dove).** Continua stress-test sezione **Controllo** / **La macchina**. **Domanda 2 — dove:** Nicola risponde **B** = cuore e 8 organi **restano in home** (come ora), **Controllo** = stessa vista **più completa** (rifiuta raccomandazione AD: solo Controllo, home leggera). **Già confermato (21:52):** domanda 1 **A** = in 10s semaforo 🟢🟡🔴 + un passo; radiografie e pilotaggio secondari. Frizione segnalata: 3 tab pesanti in cima (Radiografia macchina/sito/Auto-coscienza), non la duplicazione home. **Pendente:** domanda 3 (tab in prima pagina) → poi eventuale PR redesign 🟡. Fonte: chat Nicola 13/7 ~21:53.
 >
 > 💬 **13/7 ~21:52 — CHAT: grilling Controllo / La macchina — Nicola «a» (intento).** Chiede stress-test sulla sezione Pannello **Controllo** (menu) / **La macchina** (titolo pagina). **Domanda 1 — obiettivo in 10s:** Nicola risponde **A** = vuole sapere se **sta bene o sta male** (🟢🟡🔴) + **un solo passo** se c’è un problema; dettaglio radiografie (B) e pilotaggio (C) sono secondari. Fonte: chat Nicola 13/7 ~21:52.
