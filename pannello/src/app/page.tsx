@@ -1068,15 +1068,15 @@ export default function Dashboard() {
       return n;
     });
   }
-  function segnaLetta(id: string, at?: string) {
+  /** Timestamp minimo per «letta»: deve coprire conversazione + lavori collegati, altrimenti il poll li rende di nuovo «non letti». */
+  function tsLettaPerConv(id: string): string {
     const c = conversazioniRef.current.find((x) => x.id === id);
-    let ora = at;
-    if (!ora && c) {
-      const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
-      const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
-      ora = tsConvAggiornato(c, g);
-    }
-    ora = ora || new Date().toISOString();
+    const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
+    return c ? tsConvAggiornato(c, g) : new Date().toISOString();
+  }
+  function segnaLetta(id: string, at?: string) {
+    const ora = at ? tsMaxIso(at, tsLettaPerConv(id)) : tsLettaPerConv(id);
     setConvLette((prev) => {
       if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
       const n = { ...prev, [id]: ora! };
@@ -1088,7 +1088,7 @@ export default function Dashboard() {
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
-    if (id) segnaLetta(id, new Date().toISOString());
+    if (id) segnaLetta(id);
   }
   /** Una tantum: chat storiche con risposta AI ma senza traccia lettura → considerate già viste (niente pallini su tutto). */
   function migraConvLetteBaseline(list: Conversazione[]) {
@@ -1191,7 +1191,6 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const c = conversazioni.find((x) => x.id === id);
     if (!c) return;
-    segnaLetta(id, new Date().toISOString());
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     // FIX «chat sottosopra»: i lavori arrivano dall'API in ordine created_at.desc (più recente prima).
     // Ricostruirli con lavori.filter() lasciava daLavori al contrario; mergeThread, prendendo come base
@@ -1208,8 +1207,9 @@ export default function Dashboard() {
     setBase(null);
     setConvSel([]);
     if (daLavori.filter((m) => !m.pending).length > c.messaggi.length) {
-      void persistConversazione(c.id, msgs);
+      await persistConversazione(c.id, msgs);
     }
+    segnaLetta(id);
     setLoading(pendingPerConv(id));
   }
 
@@ -1230,6 +1230,7 @@ export default function Dashboard() {
       setConvSel([]);
       sessionGruppoRef.current = esistente.id;
       setLoading(pendingPerConv(gruppoId));
+      segnaLetta(esistente.id);
       return;
     }
 
@@ -1251,6 +1252,7 @@ export default function Dashboard() {
     setConvSel([]);
     sessionGruppoRef.current = salvato || gruppoId;
     setLoading(pendingPerConv(gruppoId) || g.haAttivo);
+    segnaLetta(salvato || gruppoId);
   }
 
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
@@ -1825,14 +1827,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     vistaPrecRef.current = vista;
   }, [vista]);
 
-  // Chat aperta: segna letta appena compare la risposta AI (pallino non resta acceso mentre leggi).
+  // Chat aperta: segna letta (timestamp ≥ ultimo movimento conv+lavori). Si ripete al poll lavori
+  // perché ultimoAt può arrivare dopo il primo «segna letta» con orologio locale.
   useEffect(() => {
     const id = convId;
     if (!id || (vista !== "assistente" && !chatFluttuante)) return;
     const msgs = messages.filter((m) => !m.prompt && !m.pending);
     const last = msgs[msgs.length - 1];
-    if (last?.role === "assistant") segnaLetta(id, new Date().toISOString());
-  }, [messages, convId, vista, chatFluttuante]);
+    if (last?.role === "assistant") segnaLetta(id);
+  }, [messages, convId, vista, chatFluttuante, lavori, conversazioni]);
 
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
   // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
