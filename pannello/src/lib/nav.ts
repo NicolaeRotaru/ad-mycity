@@ -18,7 +18,7 @@ export type VistaNav =
   | "operazioni"
   | "mondo"
   | "assistente"
-  | "esplora" // legacy → memoria/github
+  | "esplora" // legacy → memoria/archivio/github
   | "report" // legacy → memoria/archivio
   | "storico"; // legacy → memoria/storico-*
 
