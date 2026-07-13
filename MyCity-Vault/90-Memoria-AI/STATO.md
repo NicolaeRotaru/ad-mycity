@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-13 22:35
-fonte: AD digitale (💬 13/7 22:34 Nicola clienti=botteghe. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-13 22:39
+fonte: AD digitale (💬 13/7 22:39 Nicola parliamo menu. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **13/7 ~22:39 — CHAT: menu — «voglio parliamo del menu» (follow-up post-«sì» #356).** Nicola chiede dialogo sul menu dopo grilling già chiuso (22:28); rifiuta implicitamente secondo ciclo A/B/C. **Verificato codice main 🟢:** sotto «Macchina & memoria» le **3 voci salute** (Radiografia macchina · Salute sito · Auto-coscienza) sono **già separate**; restano anche Lavori, Memoria, Storico, Assistente, GitHub nel gruppo. **Pannello live** = ancora versione pre-#356 finché merge 🔴 **#356** (#125) non firmato. **Pendente:** Nicola dice cosa non torna (nomi, gruppo affollato, voci mancanti). Fonte: chat Nicola 13/7 ~22:39 + verifica codice main.
+>
 > 💬 **13/7 ~22:34 — CHAT: clienti MyCity = solo botteghe.** Nicola: «i clienti di mycity sono le botteghe, niente ristoranti e niente trattorie». **Registrato 🟢** in `registro-fatti` (`strategia.cliente-core`) + propagate ~29 copie nei file vivi (coda, ritmo, intenzioni…). Implicazione: vendite e anti-churn puntano a botteghe core (Garetti, Peretti, Amendolara…), non ai 6 locali ristorazione del dossier 6/7. Fonte: chat Nicola 13/7 22:34 + `coerenza-fatti.mjs` exit 0.
 
 # 📟 STATO — Cruscotto dell'azienda

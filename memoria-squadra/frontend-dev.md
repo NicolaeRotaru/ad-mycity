@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-13 22:39 · Menu follow-up — Nicola «voglio parliamo del menu» · atteso: dialogo frizioni residue post-«sì» #356 · reale: verificato main (3 voci salute separate; gruppo Macchina&memoria ancora affollato); no secondo grilling A/B/C; pendente frizione specifica Nicola · L-189 · #pannello #menu #ux
 - 2026-07-13 22:28 · PR #356 redesign Pannello — Nicola «sì» pacchetto completo · atteso: PR unica menu+home+trio+lettera · reale: **#356** aperta (`8e44d69e`); home firmare→ritmo→lettera→KPI→macchina; 3 voci menu; migliorie cartoline/italiano/7gg; merge 🔴 #125 · L-186 · #pannello #home #pr-356 #menu #ux
 - 2026-07-13 22:22 · Home cima = da firmare — Nicola «a» su Q priorità Plancia · atteso: primo blocco home · reale: **A** da firmare in cima; ritmo+lettera subito sotto; coerente intento azione-in-10s · L-186 · #pannello #home #plancia #ux
 - 2026-07-13 22:21 · Home organi 8 pallini — Nicola «a» su layout A/B/C · atteso: conferma pattern organi in home · reale: **A** fila 8 pallini (nome al tap), rifiuta AD **C** solo problemi; card La macchina confermata · L-185 · #pannello #home #macchina #organi #pallini #ux

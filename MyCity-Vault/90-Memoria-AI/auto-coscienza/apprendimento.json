@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-13 22:36",
+  "aggiornato": "2026-07-13 22:39",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0713-189",
+      "testo": "**Menu Pannello — «voglio parliamo del menu» dopo grilling chiuso (chat 13/7 ~22:39):** Nicola chiede «grillami su menu»; AD ripropone grilling A/B/C (domanda 1) **ma** il pacchetto era già chiuso con «sì» a PR #356 (22:28). Nicola reindirizza: «voglio che parliamo del menu». **5 perché:** (1) «parliamo di X» ≠ «grillami» — vuole dialogo aperto su frizioni residue, non un secondo ciclo A/B/C; (2) AD aveva ignorato lo stato già deciso e ripartito da Q1; (3) risposta giusta = menu **verificato nel codice** (main: 3 voci salute già separate sotto «Macchina & memoria» + resto gruppo; Pannello live ancora pre-#356); (4) chiedere cosa non torna (nomi, gruppo affollato, voci mancanti) senza forzare opzioni; (5) grilling A/B/C resta per decisioni IA **non ancora chiuse**, non per follow-up post-«sì». **Pendente:** frizione specifica Nicola. Correlazione L-186, L-179.",
+      "tag": [
+        "pannello",
+        "menu",
+        "grilling",
+        "ux",
+        "nicola",
+        "information-architecture",
+        "dialogo-aperto"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-13",
+      "ultima_conferma": "2026-07-13 22:39",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0713-188",
       "testo": "**Caso-studio Nicola — clienti MyCity = SOLO botteghe, né ristoranti né trattorie (chat 13/7 22:34):** dopo fix coerenza 20:21 che lasciava «6 ristoranti/trattorie tattici», Nicola chiude: «i clienti di mycity sono le botteghe, niente ristoranti e niente trattorie». 5 perché: (1) l'AD aveva ammorbidito il mattino (L-102) trattenendo i 6 come «mossa tattica» invece di escluderli del tutto; (2) `registro-fatti` e ~29 file vivi ancora parlavano di ristoranti/trattorie come clienti o tattici; (3) Nicola non distingue più tattico vs core — la regola è assoluta; (4) il guardiano verde alle 22:31 non bastava: il framing strategico era ancora sbagliato; (5) **fix:** `strategia.cliente-core` = botteghe only; vendite/anti-churn = Garetti, Peretti, Amendolara + shortlist botteghe; i 6 locali del dossier 6/7 **non** sono clienti MyCity — non contarli, non pitcharli come target. Correlazione L-102 (parziale), L-187.",
@@ -4391,6 +4412,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Menu — «parliamo del menu» = dialogo aperto, non secondo grilling (chat 13/7 ~22:39):** dopo «sì» a PR #356, «voglio che parliamo del menu» rifiuta ripartire con A/B/C; si aspetta stato reale da codice (main vs Pannello live pre-merge) + domanda aperta su cosa non torna; grilling resta per decisioni IA **non ancora chiuse**. Vedi L-189.",
     "**Clienti MyCity = solo botteghe, zero ristoranti/trattorie (chat 13/7 22:34):** «i clienti di mycity sono le botteghe, niente ristoranti e niente trattorie» — conferma **assoluta** (non «tattici», non eccezioni): modello = carrello multi-negozio settimanale; vendite su Garetti, Peretti, Amendolara + shortlist botteghe food; i 6 locali ristorazione del dossier **non** sono clienti MyCity. Ogni correzione → registro-fatti + propagazione file vivi + coerenza-fatti prima di dire «memoria aggiornata». Vedi L-188.",
     "**Home Pannello — ordine confermato + PR #356 (chat 13/7 ~22:28):** Nicola «sì» → PR #356; **in cima** = da firmare (A), poi ritmo+lettera, KPI, macchina (8 pallini); lettera anteprima+Leggi tutta; menu 3 voci separate; odia duplicazioni e disorientamento; grilling A/B/C funziona per decisioni IA grandi; merge 🔴 #125. Vedi L-186.",
     "**Home macchina — 8 pallini in home (chat 13/7 ~22:21):** card unica «La macchina» (semaforo+1 riga, **fila 8 pallini**, dettaglio al tap, 3 link salute); sceglie **A** pallini su raccomandazione AD **C** (solo problemi) — vuole **tutti** gli organi visibili in home leggera; autopilota **non** in home. Vedi L-185.",
@@ -4565,13 +4587,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 206,
+    "lezioni_attive": 209,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.45,
-    "tasso_calcolato_il": "2026-07-13 22:29",
+    "tasso_applicazione": 0.44,
+    "tasso_calcolato_il": "2026-07-13 22:39",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-13 22:29"
+    "tick_leggero_il": "2026-07-13 22:39"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
