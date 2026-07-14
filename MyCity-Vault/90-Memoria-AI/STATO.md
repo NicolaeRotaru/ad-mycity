@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:50
-fonte: AD digitale (🌅 14/7 02:50 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 02:52
+fonte: AD digitale (🌅 14/7 02:52 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~02:52 — CHAT: PR #369 pronta — screenshot «Ready to merge», errore app GitHub mobile.** Nicola allegato screenshot GitHub (senza testo): PR sync tempo reale mostra **Ready to merge**, check verdi, **no conflicts**. **Verificato 🟢:** conflitti risolti alle 02:41 (head `5ab0dde3`); «**io error on socket**» = errore **rete/app GitHub sul telefono**, non blocco del progetto. **Regola:** merge **non** dal pulsante MERGE app GitHub — Approva card **#134** in Pannello → Azioni → Da approvare; fallback = browser su PC. **Pendente:** Approva #134 → deploy Vercel ~2 min → test sync senza refresh. Fonte: chat Nicola 14/7 ~02:52 + screenshot.
+>
 > 💬 **14/7 ~02:50 — CHAT: PR #371 ordine conversazioni + header; Nicola git da /root.** Riapprovazione Pannello card **#136**. Nicola screenshot `fatal: not a git repository` — comandi lanciati da `/root`, non dal progetto. **AD 🟢:** rifatto fix su main aggiornato, push+PR **#371** (`fix/chat-ordine-e-header`) senza conflitti. **Contenuto:** (1) ultima chat aperta sale in cima nel cassetto (dopo pinnate) via `convVistaAt`; (2) header icona History, rimossa «Parla con l'assistente». **Pendente:** merge 🔴 **#136**. **Regola:** PR Pannello = AD pusha dal VPS, Nicola Approva dal Pannello — non istruzioni terminale. Fonte: chat Nicola 14/7 ~02:50 + screenshot.
 >
 > 💬 **14/7 ~02:49 — CHAT: PR #310 obsoleta — chiudere senza merge (riapprovazione Pannello).** Nicola «La #310 hai dei conflitti» (riapprovazione 14/7 00:36). **Verificato 🟢:** fix `git-pr.mjs` **già su main** da merge **#312** (`090448b1`, 13/7); #309 dark mode già online. #310 = branch 12/7 sporco (file worker) — conflitti normali, **non** risolvibili mergiando; mergiare rischia rollback. **Azione Nicola:** chiudi **#310** su GitHub senza merge — nessun'altra PR per questo problema. Se una PR **nuova** si blocca ancora → segnala numero. Fonte: chat Nicola 14/7 ~02:49 + verifica codice main.
