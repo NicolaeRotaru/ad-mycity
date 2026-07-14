@@ -123,10 +123,18 @@ ai_build_cmd
 }
 echo "[$(ts)] Monitoraggio completato."
 
+# AR-043: stima token condivisa — monitora prima registrava token=null.
+if [ -z "${MONITORA_TOKEN:-}" ] && [ -n "${MONITORA_START:-}" ]; then
+  MONITORA_TOKEN="$(ai_stima_token "$MONITORA_START" "$PROMPT" "")"
+  MONITORA_TOKEN_STIMA=1
+  export MONITORA_TOKEN MONITORA_TOKEN_STIMA
+fi
+
 # AR-020: registra il costo del monitoraggio (durata + token se noti) nel log unico costo-ai.json.
 if command -v node >/dev/null 2>&1 && [ -n "${MONITORA_START:-}" ]; then
   _mon_durata=$(( $(date +%s) - MONITORA_START ))
-  node "$SCRIPT_DIR/costo-ai.mjs" --tipo=monitora --durata-sec="$_mon_durata" ${MONITORA_TOKEN:+--token="$MONITORA_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  _stima_flag="${MONITORA_TOKEN_STIMA:+--stima}"
+  node "$SCRIPT_DIR/costo-ai.mjs" --tipo=monitora --durata-sec="$_mon_durata" ${MONITORA_TOKEN:+--token="$MONITORA_TOKEN"} --modello="$(ai_engine)" ${_stima_flag:-} >/dev/null 2>&1 || true
 fi
 
 # --- Sync della memoria sul ramo unico 'main': commit + push (rebase, NON force) ---

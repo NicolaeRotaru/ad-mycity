@@ -288,6 +288,8 @@ if command -v node >/dev/null 2>&1; then
     FATTI_VINCOLO="⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente."
     echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
   fi
+  echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
+  node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
@@ -357,8 +359,9 @@ fi
 # AR-087: GATE-BUDGET — circuit-breaker deterministico sul costo (token). Prima di accendere il motore
 # premium leggo lo stato di `costo-ai.mjs --json`: se i token di OGGI hanno superato la soglia giornaliera,
 # DEGRADO a passaggio minimo (niente motore premium) finché il giorno non si resetta. I 🔴/controlli
-# restano attivi: sotto budget si taglia il VOLUME, non la sicurezza. I giri forzati/on-demand bypassano.
-if [ "${RUN_AI:-1}" = 1 ] && [ "${GIRO_FORCE:-0}" != 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
+# restano attivi: sotto budget si taglia il VOLUME, non la sicurezza.
+# GATE-BUDGET non bypassa GIRO_FORCE: il delta-gate sì (throttle), la sicurezza-quota no.
+if [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
   _budget_json="$(node "$SCRIPT_DIR/costo-ai.mjs" --json 2>/dev/null || true)"
   if command -v jq >/dev/null 2>&1 && [ -n "$_budget_json" ]; then
     _tok_oggi="$(printf '%s' "$_budget_json" | jq -r '.oggi.token_totali // 0' 2>/dev/null || echo 0)"
@@ -489,22 +492,10 @@ if [ "$ai_rc" -ne 0 ]; then
 fi
 echo "[$(ts)] Giro completato."
 
-# AR-083 / AR-043: stima token del giro. La CLI ('agent'/'claude -p') non espone usage strutturato,
-# quindi la MISURA REALE non è disponibile. La stima precedente (chars/4) contava solo prompt+risposta
-# visibile (AR-043: ~882 token per un giro da 20 minuti → sottostima di ~1000×, perché i tool-read
-# non appaiono nell'output ma consumano la maggior parte dei token).
-# Stima migliorata: durata × throughput empirico (Claude Opus heavy ≈ 5000 token/min in modalità agente).
-# Resta una STIMA: passa --stima a costo-ai.mjs così i gate non la trattano come misura.
+# AR-083 / AR-043: stima token condivisa (motore-ai.sh). Resta STIMA → --stima.
 if [ -z "${GIRO_TOKEN:-}" ]; then
-  _giro_durata_sec=$(( $(date +%s) - GIRO_START ))
-  _giro_durata_min=$(( _giro_durata_sec / 60 + 1 ))
-  _giro_chars=$(( ${#PROMPT} + ${#_ai_out} ))
-  # Usa il massimo tra: durata×5000 token/min e chars/4 (floor a 50.000 per i giri brevi con file pesanti)
-  _token_durata=$(( _giro_durata_min * 5000 ))
-  _token_chars=$(( _giro_chars / 4 ))
-  GIRO_TOKEN=$(( _token_durata > _token_chars ? _token_durata : _token_chars ))
-  [ "$GIRO_TOKEN" -lt 50000 ] && GIRO_TOKEN=50000
-  GIRO_TOKEN_STIMA=1  # AR-043: dichiarato stima (non misura) → gate-budget non si fida ciecamente
+  GIRO_TOKEN="$(ai_stima_token "$GIRO_START" "$PROMPT" "${_ai_out:-}")"
+  GIRO_TOKEN_STIMA=1
   export GIRO_TOKEN GIRO_TOKEN_STIMA
 fi
 

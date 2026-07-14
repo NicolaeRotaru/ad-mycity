@@ -18,6 +18,30 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 const JSON_MODE = process.argv.includes("--json");
 const OUT_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
 const SOGLIA_DEFAULT = 2_000_000;
+// Finestra rolling sessione Max/Cursor (~5h) — allineata a retry-policy.mjs MAX_ATTESA_QUOTA_MIN.
+const SESSIONE_ROLLING_MIN = Number(process.env.COSTO_SESSIONE_ROLLING_MIN || 360);
+
+function parseQuando(s) {
+  const m = String(s || "").match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/);
+  if (!m) return null;
+  const d = new Date(`${m[1]}T${m[2]}:${m[3]}:00+02:00`);
+  return Number.isNaN(d.getTime()) ? null : d.getTime();
+}
+
+/** Token stimati/misurati nella finestra rolling (il vero muro è la sessione, non il giorno). */
+function tokenSessioneRolling(voci, oraMs) {
+  const cutoff = oraMs - SESSIONE_ROLLING_MIN * 60 * 1000;
+  let tot = 0;
+  let runs = 0;
+  for (const v of voci || []) {
+    const t = parseQuando(v.quando);
+    if (t == null || t < cutoff) continue;
+    if (typeof v.token === "number" && !v.stima_grezza) tot += v.token;
+    else if (typeof v.token === "number" && v.stima_grezza) tot += v.token; // stima conta per onestà sessione
+    runs++;
+  }
+  return { token_sessione_rolling: tot, runs_sessione: runs, finestra_min: SESSIONE_ROLLING_MIN };
+}
 
 function getFlag(name) {
   const pref = `--${name}=`;
@@ -28,7 +52,9 @@ function getFlag(name) {
 function vuoto() {
   return {
     _cosa_e:
-      "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Non misura soldi veri, misura lo sforzo.",
+      "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Non misura soldi veri, misura lo sforzo. La soglia giornaliera è indicativa: il vero muro è la quota-sessione rolling (~5h, vedi sessione_rolling).",
+    modello_quota: "sessione-rolling",
+    sessione_rolling_min: SESSIONE_ROLLING_MIN,
     aggiornato: nowPiacenza(),
     soglia_giornaliera_token: Number(process.env.COSTO_SOGLIA_TOKEN_GIORNO || SOGLIA_DEFAULT),
     oggi: { data: "", runs: 0, token_totali: 0, durata_sec_totale: 0, voci: [] },
@@ -53,6 +79,8 @@ function main() {
   const oggiData = quando.slice(0, 10);
   const stato = leggi();
   stato.soglia_giornaliera_token = Number(process.env.COSTO_SOGLIA_TOKEN_GIORNO || stato.soglia_giornaliera_token || SOGLIA_DEFAULT);
+  if (!stato.modello_quota) stato.modello_quota = "sessione-rolling";
+  if (!stato.sessione_rolling_min) stato.sessione_rolling_min = SESSIONE_ROLLING_MIN;
 
   // Cambio giorno: archivia il vecchio "oggi" e resetta.
   if (stato.oggi.data && stato.oggi.data !== oggiData) {
@@ -89,6 +117,9 @@ function main() {
 
   stato.aggiornato = quando;
   const superata = stato.oggi.token_totali > stato.soglia_giornaliera_token;
+  const oraMs = parseQuando(quando) || Date.now();
+  const sessione = tokenSessioneRolling(stato.oggi.voci, oraMs);
+  stato.sessione_rolling = { ...sessione, aggiornato: quando };
 
   mkdirSync(dirname(OUT_PATH), { recursive: true });
   writeFileSync(OUT_PATH, JSON.stringify(stato, null, 2) + "\n", "utf8");

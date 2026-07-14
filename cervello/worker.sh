@@ -1228,7 +1228,7 @@ $richiesta"
       # in resume), quindi si salva sempre l'ultimo — il prossimo turno riprende da qui.
       salva_sessione_chat "$gruppo_id" "${CHAT_NUOVA_SESSIONE:-}"
     else
-      [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router → ${modello_scelto:-?} ma adattatore economico non collegato → fallback premium." >&2
+      [ "$compito_router" != "ragionamento" ] && echo "[$(ts)] Lavoro $id: router suggerisce ${modello_scelto:-?} ma ROUTER_SOLO_CONSIGLIO → esecuzione premium ($(ai_engine))." >&2
       out="$(timeout --kill-after=30s "$to" "${AI_CMD[@]}" "$prompt" 2>&1)"; rc=$?
     fi
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
