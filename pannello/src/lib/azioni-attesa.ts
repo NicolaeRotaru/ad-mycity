@@ -49,16 +49,26 @@ function senzaOrigine(s: string): string {
 // date, nomi, né il codice-casella #A42 (lettera+cifre, che il Pannello mostra apposta). È SOLO per
 // la visualizzazione: il titolo grezzo resta la fonte del codice-casella (idSezione) e il "Contenuto"
 // coi dettagli tecnici precisi resta intatto per chi esegue.
+// Slug interni accodati dal worker (#ritiro-pq-vp17-checkin, #burn-mensile-runway…).
+// NON tocca i codici-casella del Pannello (#A42 = lettera maiuscola + 2 cifre).
+const SLUG_INTERNO_RE = /#(?=[a-z])[a-z0-9-]+\b/gi;
+
 export function pulisciTitolo(s: string): string {
   let t = s || "";
-  t = t.replace(/^[\s🟢🟡🔴🩻🛡️🔎📣🚀🚨🐙✍️💶🧾]*\s*/u, "");
+  t = t.replace(/^[\s🟢🟡🔴🩻🛡️🔎📣🚀🚨🐙✍️💶🧾⏳◇◈]*\s*/u, "");
+  // Formato worker «#slug-interno — Titolo umano · meta»: tieni solo la parte umana.
+  const dopoSlug = t.match(/^#\S+\s*[—–-]\s*(.+)$/);
+  if (dopoSlug) t = dopoSlug[1];
   t = t.replace(/\b(?:phc|phx|pi|cs|re|ch|cus|sub|acct|evt|prod|price|seti|pm)_[A-Za-z0-9]{6,}\b/g, "");
   t = t.replace(/\bSQL\s?\d+\b/gi, "");
   t = t.replace(/\bAR-\d+\b/g, "");
   t = t.replace(/#\d+(?:\.\d+)?\b/g, ""); // #59, #16.2 sì; #A42 (lettera dopo #) NO
+  t = t.replace(SLUG_INTERNO_RE, "");
   t = t.replace(/\b[\w./@-]+\.(?:mjs|tsx?|jsx?|sh|json|env|sql|md|css|patch|png|webp)(?::\d+)?\b/gi, "");
   t = t.replace(/\b(?:cervello|pannello|consegne|creativi|src|MyCity-Vault)\/[\w./@-]+/g, "");
   t = t.replace(/\b\d{7,}\b/g, ""); // ID/ordini lunghi, non prezzi/telefoni
+  // Meta di coda («⏳ accodata 2026-07-14 11:07») non va nel titolo visibile.
+  t = t.replace(/[·|]\s*⏳?\s*accod(?:at[oa]|ata)\s+\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?/gi, "");
   t = t.replace(/\s*=\s*(?=[·,;:)\]]|$)/g, ""); // "= " orfano dopo un codice tolto
   t = t.replace(/\(\s*[·,;:\-–—.]*\s*\)/g, "");
   t = t.replace(/\[\s*\]/g, "");
@@ -67,6 +77,31 @@ export function pulisciTitolo(s: string): string {
   t = t.replace(/^\s*[·|:\-–—]+\s*/, "");
   t = t.replace(/\s*[·|:\-–—]+\s*$/, "");
   return t.trim() || (s || "").trim(); // se per assurdo svuota tutto, tieni l'originale
+}
+
+// Gergo da NON mostrare a Nicola nell'anteprima sotto il titolo (resta nel testo completo).
+const GERGO_ANTEPRIMA_RE =
+  /\b(?:anti-?churn|scan REST|REST\s*→|playbook|sentinella|north\s*star|0→1|payout-test|\.mjs\b|consegne\/|creativi\/|MyCity-Vault\/|phc_|report:\s*[`']?\S+\/)/i;
+
+function soloRiferimentoFile(s: string): boolean {
+  return /^(consegne|creativi)\/\S+(\s*\([^)]*\))?$/.test(s.trim());
+}
+
+/** Anteprima leggibile sotto il titolo: se il corpo è gergo tecnico, mostra «Cosa cambia». */
+export function anteprimaAzione(opts: { perche: string; cambia?: string; seguito?: string }): string | null {
+  const p = (opts.perche || "").replace(/^>\s*/, "").trim();
+  if (!p || soloRiferimentoFile(p)) return null;
+  const cambia = (opts.cambia || "").trim();
+  if (GERGO_ANTEPRIMA_RE.test(p)) return cambia || null;
+  // Prima frase utile, senza path/backtick residui.
+  const pulito = p
+    .replace(/\b[\w./@-]+\.(?:mjs|tsx?|jsx?|sh|json|env|sql|md|css)(?::\d+)?\b/gi, "")
+    .replace(/\b(?:consegne|creativi|MyCity-Vault)\/[\w./@-]+/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  if (!pulito || GERGO_ANTEPRIMA_RE.test(pulito)) return cambia || null;
+  const frase = pulito.split(/(?<=[.!?])\s+/)[0] || pulito;
+  return frase.length > 280 ? frase.slice(0, 277) + "…" : frase;
 }
 
 const DATA_RE = /\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2})?/;
