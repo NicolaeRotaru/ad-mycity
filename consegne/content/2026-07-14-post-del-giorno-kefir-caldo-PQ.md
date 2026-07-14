@@ -95,6 +95,8 @@ allocazione: Pane Quotidiano confermato — cancello allocazione ok (fonte: regi
 
 **Fallback:** versione **tipografica neutra** su palette brand = pubblicabile subito senza foto (solo firma Nicola).
 
+**PNG tipografico (11:10):** render `consiglio-mercoledi` portrait → `creativi/output/social/2026-07-14-kefir-estate-portrait.png` — **non generato** (Playwright assente su worker). Pubblicabile con testo solo o screenshot del brief.
+
 ---
 
 ## ✅ ONESTÀ & pre-condizioni
