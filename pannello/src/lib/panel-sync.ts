@@ -3,7 +3,8 @@
 // collegate si aggiornano subito, non dopo 30–60s di polling isolato.
 // Estende il pattern esistente mycity:lavori / mycity:conversazioni.
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { istante } from "@/lib/format";
 
 export type SyncScope =
   | "azioni" // AZIONI-IN-ATTESA + decisioni Supabase
@@ -87,4 +88,39 @@ export function emitSyncDaLavoriFiniti(prev: LavoroSync[], next: LavoroSync[]) {
     return;
   }
   for (const s of scopes) emitSync(s, "lavoro:finito");
+}
+
+/** Ultimo briefing del giro (fonte: /api/stato → vault + Supabase). */
+export type BriefingVivo = {
+  situazione: string;
+  opportunita: { titolo: string; motivo: string; impatto: string; sforzo: string }[];
+  azioni: { titolo: string; motivo: string; livello: string }[];
+};
+
+export async function fetchBriefingVivo(): Promise<{ briefing: BriefingVivo | null; ultimoAt: string | null }> {
+  try {
+    const res = await fetch("/api/stato", { cache: "no-store" });
+    const data = await res.json();
+    if (data?.ultimo?.data) {
+      return { briefing: data.ultimo.data as BriefingVivo, ultimoAt: data.ultimo.created_at || null };
+    }
+  } catch {
+    /* offline */
+  }
+  return { briefing: null, ultimoAt: null };
+}
+
+/** Briefing/proposte del giro collegati alla rete sync (non dipendono dalla pagina madre). */
+export function useBriefingVivo() {
+  const [briefing, setBriefing] = useState<BriefingVivo | null>(null);
+  const [ultimoAt, setUltimoAt] = useState<string | null>(null);
+  const carica = useCallback(() => {
+    void fetchBriefingVivo().then(({ briefing: b, ultimoAt: at }) => {
+      setBriefing(b);
+      setUltimoAt(at);
+    });
+  }, []);
+  useEffect(() => { carica(); }, [carica]);
+  usePanelSync(["memoria", "azioni", "lavori", "radiografia", "all"], carica);
+  return { briefing, ultimoAt, ultimoLabel: ultimoAt ? istante(ultimoAt) : null, ricarica: carica };
 }

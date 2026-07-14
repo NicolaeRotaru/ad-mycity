@@ -7,36 +7,11 @@ import ScoperteProposte from "@/components/ScoperteProposte";
 import Documenti from "@/components/aree/Documenti";
 import StoricoMemoria, { parseStoricoSub, storicoSubId } from "@/components/aree/StoricoMemoria";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
-import { vaultToIso } from "@/lib/format";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "archivio" | "storico";
 type VivaTab = "memoria" | "scoperte";
 type ArchivioTab = "consegne" | "github";
-
-type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
-type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
-
-function fa(iso: string | null): string {
-  if (!iso) return "mai";
-  const d = new Date(vaultToIso(iso));
-  const ms = d.getTime();
-  if (Number.isNaN(ms)) return "mai";
-  const sec = Math.max(0, (Date.now() - ms) / 1000);
-  const rel =
-    sec < 90 ? "poco fa" : sec < 3600 ? `${Math.round(sec / 60)} min fa` : sec < 86400 ? `${Math.round(sec / 3600)} h fa` : `${Math.round(sec / 86400)} g fa`;
-  try {
-    const giorno = (x: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" }).format(x);
-    const opts: Intl.DateTimeFormatOptions = { timeZone: "Europe/Rome", hour: "2-digit", minute: "2-digit" };
-    if (giorno(d) !== giorno(new Date())) {
-      opts.day = "2-digit";
-      opts.month = "2-digit";
-    }
-    return `${rel} · ${new Intl.DateTimeFormat("it-IT", opts).format(d)}`;
-  } catch {
-    return rel;
-  }
-}
 
 function parseVivaSub(sub?: string): VivaTab {
   if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
@@ -63,7 +38,7 @@ function archivioSubId(v: ArchivioTab): string {
   return v === "github" ? "archivio/github" : "archivio";
 }
 
-export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | null; ultimoAt: string | null }) {
+export default function Memoria() {
   const [tab, setTab] = useState<Tab>("memoria-viva");
   const [vivaTab, setVivaTab] = useState<VivaTab>("memoria");
   const [archivioTab, setArchivioTab] = useState<ArchivioTab>("consegne");
@@ -154,9 +129,7 @@ export default function Memoria({ briefing, ultimoAt }: { briefing: Briefing | n
             ))}
           </div>
           {vivaTab === "memoria" && <MemoriaViva />}
-          {vivaTab === "scoperte" && (
-            <ScoperteProposte briefing={briefing} ultimoLabel={briefing && ultimoAt ? fa(ultimoAt) : null} />
-          )}
+          {vivaTab === "scoperte" && <ScoperteProposte />}
         </div>
       )}
 
