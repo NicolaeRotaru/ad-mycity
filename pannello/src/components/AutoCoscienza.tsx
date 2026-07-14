@@ -27,6 +27,7 @@ import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
 import {
   autonomiaLeggibile,
+  contestoBenchmark,
   divarioLeggibile,
   repartoLeggibile,
   saluteValore,
@@ -760,13 +761,7 @@ export default function AutoCoscienza({
                     {mi.benchmark.map((b, i) => {
                       const titolo = repartoLeggibile(b.reparto || b.ambito) || "Confronto";
                       const ultimoProgresso = b.progresso?.length ? b.progresso[b.progresso.length - 1] : undefined;
-                      const contesto = [
-                        b.obiettivo && `Obiettivo: ${b.obiettivo}`,
-                        b.nostro && `Noi: ${b.nostro}`,
-                        b.cosa_ci_manca && `Ci manca: ${b.cosa_ci_manca}`,
-                        ultimoProgresso?.punteggio != null && `Punteggio: ${ultimoProgresso.punteggio}/100`,
-                        ultimoProgresso?.nota,
-                      ].filter(Boolean).join(" · ");
+                      const contesto = contestoBenchmark(b);
                       return (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
                         <div className="flex items-center gap-2 flex-wrap">
