@@ -41,9 +41,9 @@
   "dimensioni": [
     {
       "key": "coerenza-agenti",
-      "voto": 86,
-      "stato": "attenzione",
-      "sintesi": "Collisioni routing risolte: trust-safety/fraud-risk, finanza/pricing/seller-financing, broker/enterprise-risk, growth/pricing — guardiano agent-registry a drift 0 (14/7 01:15). Resta aperto solo il tier model: su 120 agenti nessuno dichiara ancora quale AI usare (serve decisione Nicola sulle 3 fasce).",
+      "voto": 92,
+      "stato": "ok",
+      "sintesi": "Fix completi 14/7 02:06 — collisioni routing risolte (PR #365 su main), guardiano drift 0. Resta solo tier AI per agente (minore, serve decisione Nicola 3 fasce).",
       "findings": [
         {
           "titolo": "trust-safety e fraud-risk collidono sulla stessa frode: 'resi/rimborsi falsi' e 'account multipli' verbatim in entrambe le description",
@@ -59,7 +59,10 @@
             "file": ".claude/agents/trust-safety.md",
             "pattern": "resi/rimborsi falsi",
             "presente": false
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 02:06",
+          "chiuso_come": "verificato nel codice post PR #365; drift 0"
         },
         {
           "titolo": "Il guardiano del registro agenti è cieco sul segnale che conta: non legge mai le description che decidono il routing",
@@ -75,7 +78,10 @@
             "file": "cervello/agent-registry-check.mjs",
             "pattern": "collision",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 02:06",
+          "chiuso_come": "verificato nel codice post PR #365; drift 0"
         },
         {
           "titolo": "finanza e contabilita rivendicano entrambe la riconciliazione incassi-payout e 'commissioni' senza deferral nella description",
@@ -91,7 +97,10 @@
             "file": ".claude/agents/finanza.md",
             "pattern": "contabilita",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 02:06",
+          "chiuso_come": "verificato nel codice post PR #365; drift 0"
         },
         {
           "titolo": "Sei agenti (cancelli qualità + squadra design + prompt-engineer) senza voce-roster nell'organigramma di CLAUDE.md",
@@ -107,7 +116,10 @@
             "file": "CLAUDE.md",
             "pattern": "qa-designer\\*\\* —",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 02:06",
+          "chiuso_come": "verificato nel codice post PR #365; drift 0"
         },
         {
           "titolo": "120 agenti, zero campo model: la capacità 'modello giusto al compito' è dichiarata ma non cablata nelle definizioni",
@@ -1734,16 +1746,17 @@
     "aggiornato": "2026-07-13 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-13 22:20",
-    "findings_aperti": 67,
+    "aggiornato": "2026-07-14 02:06",
+    "findings_aperti": 63,
     "findings_in_corso": 0,
-    "findings_chiusi": 7,
+    "findings_chiusi": 11,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 1,
     "cantiere_chiusi": 42,
     "match_aggiornati": 0,
     "data_scan": "2026-07-07 22:21",
-    "voto_live": 75
+    "voto_live": 75,
+    "nota": "coerenza-agenti: 4 chiusi, 1 aperto (model tier)"
   }
 }
