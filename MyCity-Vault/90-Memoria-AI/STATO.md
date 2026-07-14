@@ -1,9 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:33
-fonte: AD digitale (🌅 14/7 03:33 PR #378 Chi impara conflitti risolti · PR #377 sensori su main · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:36
+fonte: AD digitale (🌅 14/7 03:36 sentinella cassa_sconosciuta chiusa · PR #377 sensori su main · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:36 — SENTINELLA: cassa/runway «sconosciuto» — diagnosi chiusa, serve solo il burn.** Sentinella `cassa_sconosciuta` (89 giri). **Verificato 🟢:** Stripe ✅ (cassa **0 €**); blocco = **`BURN_MENSILE_EUR` assente** nel `.env` VPS — **non** Stripe cieco. **Codice già su main** (#377): M6b allerta + messaggio sensore corretto. **Card 🟡 #burn-mensile-runway** in Da approvare — Nicola mette un numero reale (anche stima bollette VPS+AI va bene). **Dopo:** runway = 0 mesi (verità con cassa 0) → piano con @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: sentinella 03:35 + `sensore-cassa.mjs` + `verifica-automazione.mjs` exit 0.
 > 💬 **14/7 ~03:33 — CHAT: Chi impara da cosa — conflitto PR #378 risolto (Nicola «non hai guardato la pr»).** Nicola segnala conflitto su PR **#378** (`fix/chi-impara-da-cosa`) aperta senza ricontrollo post-merge **#377** sensori su main. **Correzione 🟢:** rebase + conflitti risolti (radiografia, giro, body PR); API **mergeable** verificata; head `c17abc33`. Casella **Chi impara da cosa** (`chiusura-volano`): **6/6** finding chiusi, voto **72**. **Pendente:** Approva card merge **Chi impara da cosa** (**#142** / PR **#378**) → Ctrl+Shift+R Radiografia. Fonte: chat Nicola 14/7 ~03:33 + `git-pr.mjs`.
 >
 > 💬 **14/7 ~03:32 — CHAT: «Perché Approva #142?» — card sbagliata, sensori già chiusi.** Nicola chiede perché deve approvare **#142** dopo fix sensori. **Correzione 🟢:** (1) **#142 in coda = PR #379** (Chi impara da cosa), **non** PR #377 sensori — card #N ≠ PR #N; (2) **PR #377 ✅ mergiata** su `origin/main` (`5d9590ab`) — Nicola **non** deve Approvare nulla per sensori; (3) coda visibile: **#140** (#374 Opportunità) · **#141** (#375 ordine chat) — #142 sensori non compariva o era già sparita; (4) `salute-sensori-dati` **0 findings** aperti su main. **Prossimo:** Ctrl+Shift+R su Radiografia › Sensori — area verde attesa. Fonte: chat Nicola 14/7 ~03:32 + verifica git/API.
