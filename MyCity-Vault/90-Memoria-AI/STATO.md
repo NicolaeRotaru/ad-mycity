@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:10
-fonte: AD digitale (🌅 14/7 03:10 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:24
+fonte: AD digitale (🌅 14/7 03:24 fix Chi impara da cosa · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
+
+> 💬 **14/7 ~03:24 — CHAT: Chi impara da cosa — fix pronti in PR.** Nicola «Risolvi questi fix» su casella **Chi impara da cosa** (chiusura-volano). **Implementato 🟡:** ponte quaderni→calibrazione (`da-loop`), sonda business-first (`provaBusiness`), sync proposte nel giro, verifiche radiografia aggiornate — **6/6 finding chiusi**, voto **72**. **Pendente:** Approva card merge PR **Chi impara da cosa** → Ctrl+Shift+R su Radiografia → area verde senza schede. Fonte: chat Nicola 14/7 ~03:16 + `allinea-scan-cantiere.mjs`.
 
 > 💬 **14/7 ~03:10 — CHAT: Ordine conversazioni — Nicola ha mergiato fix vecchio (#371), chat salta in cima.** Nicola «ho mangiato un fix vecchio — quando schiaccio una chat va all'inizio». **Diagnosi 🟢:** PR **#371** ha reintrodotto `convVistaAt` («ultima aperta in cima») che **#303** aveva già rimosso il **12/7** (`67c6b804` — aprire chat **non** deve cambiarne la posizione); header pulito (History) era l'unico intento buono. **Fix 🟡 PR #375** (`671a42ed`): ordine stabile ripristinato + header mantenuto. **Pendente:** Approva card **#141** → deploy ~2 min → Ctrl+Shift+R → clicca chat a metà lista: **resta al suo posto**. Fonte: chat Nicola 14/7 ~03:10 + codice `page.tsx`/`store.ts`.
 >

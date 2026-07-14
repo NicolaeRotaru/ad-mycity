@@ -1,16 +1,12 @@
 ## Summary
+Chiude i 4 fix aperti nella casella **Chi impara da cosa** (chiusura-volano):
 
-Chiude i 7 fix dell'area **Sensori e dati reali** nella radiografia del Pannello:
-
-- Cabla `sentinella-fonti.mjs` nel giro (controllo fonti web a costo zero)
-- Aggiunge regole sentinella per fonti morte e sensore-cassa «sconosciuto» da troppi giri
-- Estende `verifica-automazione` (timer VPS, battito occhi, stop loop sul segnale verifica)
-- Azzera `ultimo_errore` quando un sensore torna ok
-- Rimuove il fallback errato su radar-fattori in sentinella-fonti
+- **Sonda volano**: prima controlla calibrazione/esperimenti (business), poi i difetti architettura — niente falso allarme quando il cantiere si svuota.
+- **Ponte quaderni→calibrazione**: `chiusura-loop registra` alimenta anche `calibrazione.mjs da-loop` (atteso→reale strutturato).
+- **Sync proposte**: nuovo `sincronizza-proposte.mjs` nel giro — proposte già implementate non restano «da firmare».
+- **Radiografia**: `allinea-scan-cantiere` chiude i finding quando la verifica nel codice passa (stesso schema PR #376).
 
 ## Test plan
-
-- [ ] `node cervello/sentinella-fonti.mjs` → exit 0
-- [ ] `node cervello/verifica-automazione.mjs` → nessun loop segnale verifica
-- [ ] `node cervello/allinea-scan-cantiere.mjs` → salute-sensori-dati: 0 aperti
-- [ ] Dopo merge: Radiografia › Sensori e dati reali → zero schede sotto
+- [ ] `node cervello/sincronizza-proposte.mjs` → proposte allineate
+- [ ] `node cervello/allinea-scan-cantiere.mjs` → chiusura-volano: 0 finding aperti
+- [ ] Pannello → Cervello → Area «Chi impara da cosa» → sintesi verde, nessuna scheda sotto

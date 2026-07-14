@@ -64,7 +64,7 @@ function fontiAmmesse() {
   const f = reg?.numeri_da_non_inventare?.fonti_ammesse;
   return Array.isArray(f) && f.length
     ? f
-    : ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola"];
+    : ["Supabase MCP", "Stripe MCP", "PostHog", "documento firmato", "conferma di Nicola", "chiusura-loop ESITO"];
 }
 
 // AR-061: stato di cecità dei sensori-dati + quota ciechi (>=2/3 → misura del 'reale' inaffidabile).
@@ -113,8 +113,31 @@ function readCalibrazione() {
   }
 }
 
+// AR-044: previsioni status-quo (es. «N numeri invariati») non gonfiano l'autonomia.
+const RE_PREVISIONE_BANALE = /invariati|status[- ]quo|numeri fermi|nessun camb/i;
+
+function isPrevisioneBanale(entry, reale) {
+  if (entry.banale === true) return true;
+  const testo = `${entry.azione || ""} ${entry.metrica || ""} ${entry.nota || ""}`;
+  if (entry.atteso === 0 && reale === 0) return true;
+  if (RE_PREVISIONE_BANALE.test(testo) && entry.atteso === reale) return true;
+  return false;
+}
+
+function aggiornaNota(data) {
+  const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;
+  const aperte = data.registro.filter((e) => e.stato === "aperta").length;
+  const banali = data.registro.filter((e) => e.banale && (e.stato === "azzeccata" || e.stato === "mancata")).length;
+  if (chiuse === 0 && aperte === 0) {
+    data._nota = "Nessuna previsione strutturata ancora — usa calibrazione.mjs prevedi/esito.";
+  } else {
+    data._nota = `${chiuse} chiuse · ${aperte} aperte${banali ? ` · ${banali} banali (escluse dall'autonomia)` : ""} — registro gestito da calibrazione.mjs.`;
+  }
+}
+
 function write(data) {
   data.aggiornato = nowPiacenza();
+  aggiornaNota(data);
   mkdirSync(dirname(PATH), { recursive: true });
   writeFileSync(PATH, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
@@ -134,6 +157,11 @@ function ricalcolaReparti(data) {
     if (e.stato === "azzeccata" || e.stato === "mancata") {
       // AR-061: un esito misurato con sensore-fonte cieco NON conta nel punteggio (autonomia non si guadagna al buio).
       if (e.sensore_stato === "cieco") {
+        perRep.set(e.reparto, cur);
+        continue;
+      }
+      // AR-044: previsioni banali (status-quo) non contano per l'autonomia.
+      if (e.banale === true) {
         perRep.set(e.reparto, cur);
         continue;
       }
@@ -270,6 +298,7 @@ function cmdEsito(data) {
   e.stato = azzeccata ? "azzeccata" : "mancata";
   e.fonte = fonte; // AR-062: provenienza dell'esito (mostrata nel Pannello accanto al reale)
   e.sensore_stato = sensoreStatoPerFonte(fonte); // AR-061: stato del sensore-fonte al momento della misura
+  e.banale = isPrevisioneBanale(e, reale); // AR-044: status-quo non gonfia l'autonomia
   e.chiuso_il = nowPiacenza();
   const notaEsito = arg("nota");
   if (notaEsito) e.nota = e.nota ? `${e.nota} · esito: ${notaEsito}` : notaEsito;
@@ -394,6 +423,56 @@ function cmdArchiviaLegacy(data) {
   console.log(`📦 AR-040: archiviate ${legacy.length} voci legacy in registro_legacy. Registro: ${strutturate.length} voci strutturate.`);
 }
 
+// Ponte chiusura-loop → calibrazione: un ESITO nel quaderno diventa anche un punto-dato strutturato.
+function parseNumeroLoop(s) {
+  const m = String(s ?? "").match(/-?\d+(?:[.,]\d+)?/);
+  if (!m) return null;
+  const n = Number(m[0].replace(",", "."));
+  return Number.isFinite(n) ? n : null;
+}
+
+function cmdDaLoop(data) {
+  const reparto = normReparto(arg("reparto"));
+  const azione = arg("azione") || "esito-loop";
+  const attesoRaw = arg("atteso");
+  const realeRaw = arg("reale");
+  if (!reparto || attesoRaw == null || realeRaw == null) {
+    console.error(
+      "❌ da-loop serve --reparto --azione --atteso --reale. Es:\n" +
+        '   node cervello/calibrazione.mjs da-loop --reparto=@vendite --azione="pitch" --atteso=1 --reale=1'
+    );
+    process.exit(2);
+  }
+  const atteso = parseNumeroLoop(attesoRaw);
+  const reale = parseNumeroLoop(realeRaw);
+  if (atteso == null || reale == null) {
+    console.log("⏭️  da-loop: atteso/reale non numerici — salto calibrazione (solo quaderno).");
+    return;
+  }
+  const id = nuovoId(reparto);
+  const { azzeccata, scarto_pct } = valuta(atteso, reale, TOLLERANZA_DEFAULT);
+  const quando = nowPiacenza();
+  data.registro.push({
+    id,
+    reparto,
+    azione,
+    metrica: "esito_loop",
+    atteso,
+    reale,
+    entro: quando.slice(0, 10),
+    tolleranza: TOLLERANZA_DEFAULT,
+    stato: azzeccata ? "azzeccata" : "mancata",
+    scarto_pct,
+    fonte: "chiusura-loop ESITO",
+    nota: "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+    creato: quando,
+    chiuso_il: quando,
+  });
+  ricalcolaReparti(data);
+  write(data);
+  console.log(`🔗 da-loop [${id}] ${reparto}: atteso ${atteso} → reale ${reale} (${azzeccata ? "azzeccata" : "mancata"})`);
+}
+
 // AR-040/AR-041: apre automaticamente UNA previsione baseline @AD se il registro è vuoto.
 // Legge i dati correnti dai sensori (sensori-cecita.json) per costruire la metrica.
 // Usato in giro.sh PRIMA del motore, così il motore può poi chiamare `esito` al giro dopo.
@@ -430,6 +509,27 @@ function cmdAutoprevedi(data) {
   console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
 }
 
+// AR-061/AR-044: guardiano registro — niente esito chiuso senza fonte+sensore_stato, niente voci legacy attive.
+function cmdValida(data) {
+  const STATI_VALIDI = new Set(["aperta", "scaduta", "azzeccata", "mancata"]);
+  const problemi = [];
+  for (const e of data.registro) {
+    if (!e.id || !STATI_VALIDI.has(e.stato)) {
+      problemi.push(`voce legacy attiva (${e.reparto || "?"}): esegui archivia-legacy`);
+      continue;
+    }
+    if (e.stato === "azzeccata" || e.stato === "mancata") {
+      if (!e.fonte) problemi.push(`${e.id}: chiusa senza fonte`);
+      if (!e.sensore_stato) problemi.push(`${e.id}: chiusa senza sensore_stato`);
+    }
+  }
+  if (problemi.length) {
+    console.error(`❌ valida calibrazione: ${problemi.join(" · ")}`);
+    process.exit(1);
+  }
+  console.log("✅ valida: registro conforme (fonte+sensore_stato su chiuse, nessuna voce legacy attiva).");
+}
+
 async function main() {
   const cmd = process.argv[2];
   const data = readCalibrazione();
@@ -452,12 +552,18 @@ async function main() {
     case "autoprevedi":
       cmdAutoprevedi(data);
       break;
+    case "valida":
+      cmdValida(data);
+      break;
+    case "da-loop":
+      cmdDaLoop(data);
+      break;
     case "report":
     case undefined:
       cmdReport(data);
       break;
     default:
-      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | report`);
+      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | valida | da-loop | report`);
       process.exit(2);
   }
   const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;

@@ -246,6 +246,8 @@ if command -v node >/dev/null 2>&1; then
     else
       echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate."
     fi
+    echo "[$(ts)] Guardiano calibrazione fonte+sensore (AR-061)..."
+    node "$SCRIPT_DIR/calibrazione.mjs" valida 2>&1 | tail -2 || true
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
