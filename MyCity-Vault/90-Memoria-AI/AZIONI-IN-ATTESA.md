@@ -17,6 +17,30 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
+
+**Diagnosi completa:** `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`
+
+**Cosa fare (sul VPS, in `vps/.env`):**
+```
+BURN_MENSILE_EUR=XXXX
+```
+Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
+
+**Stato attuale verificato 03:25:**
+- Stripe ✅ collegato, cassa letta = **0 €**
+- Burn ❌ non impostato → runway «sconosciuto» da **87 giri**
+
+**Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
+**Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
+
+- **Colore:** 🟡 (modifica env VPS — firma Nicola)
+- **Reparto:** finanza
+- **Origine:** `{origine:sentinella:cassa_sconosciuta}`
+
+---
+
+
 ### 🔴 #post-kefir-estate-1407 — Pubblica "La vera stella della colazione" sui canali locali · ⏳ accodata 2026-07-14 02:43
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**

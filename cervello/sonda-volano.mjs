@@ -90,12 +90,24 @@ function main() {
     : [];
   const previsioniChiuseRecenti = previsioniChiuse.filter((e) => oreFa(e.chiuso_il) <= oreFinestra); // AR-052
   const calibrazionePiena = previsioniChiuseRecenti.length > 0;
+  const previsioniAperteRecenti = Array.isArray(calibr.registro)
+    ? calibr.registro.filter((e) => e && e.stato === "aperta" && oreFa(e.creato) <= oreFinestra)
+    : [];
   const esperimentiMisurati =
     Array.isArray(autoMig.esperimenti) &&
     autoMig.esperimenti.some(
       (e) => e && (e.stato === "misurato" || e.data_misura) && oreFa(e.data_misura || e.chiuso_il) <= oreFinestra
     ); // AR-052 + AR-063
-  const provaChiusura = difettiChiusiRecenti > 0 || calibrazionePiena || esperimentiMisurati;
+  const esperimentiAperti = Array.isArray(autoMig.esperimenti)
+    ? autoMig.esperimenti.filter((e) => e && e.stato === "aperto")
+    : [];
+  const provaBusiness =
+    calibrazionePiena ||
+    esperimentiMisurati ||
+    previsioniAperteRecenti.length > 0 ||
+    esperimentiAperti.length > 0;
+  const provaArchitettura = difettiChiusiRecenti > 0;
+  const provaChiusura = provaBusiness || provaArchitettura;
   const loopChiude = tasso > 0 && provaChiusura;
 
   const oreBrief = oreFa(brief.data);
@@ -152,6 +164,10 @@ function main() {
     difetti_chiusi: difettiChiusi,
     difetti_chiusi_recenti: difettiChiusiRecenti, // AR-052
     calibrazione_piena: calibrazionePiena,
+    previsioni_aperte_recenti: previsioniAperteRecenti.length,
+    esperimenti_aperti: esperimentiAperti.length,
+    prova_business: provaBusiness,
+    prova_architettura: provaArchitettura,
     esperimenti_misurati: esperimentiMisurati,
     giro_a_cadenza: giroACadenza,
     sentinelle_scattano: sentinelleScattano,

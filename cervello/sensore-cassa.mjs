@@ -102,11 +102,17 @@ async function main() {
     .filter(Boolean)
     .join(" · ");
 
+  const stripeOk = cassaEur != null;
+  const burnOk = burnEur != null && burnEur > 0;
   const istruzioni =
     stato === "critico"
       ? "RUNWAY CRITICO: allerta finanza/Nicola. Priorità assoluta a incasso/riduzione burn."
       : stato === "sconosciuto"
-        ? `Runway non calcolabile da ${giriSconosciuto} giri (AR-039): collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS.`
+        ? stripeOk && !burnOk
+          ? `Runway non calcolabile da ${giriSconosciuto} giri (AR-039): Stripe ok (cassa ${cassaEur}€), manca solo BURN_MENSILE_EUR nel .env del VPS — Nicola deve indicare il burn mensile netto (€/mese).`
+          : !stripeOk && burnOk
+            ? `Runway non calcolabile da ${giriSconosciuto} giri (AR-039): collega STRIPE_SECRET_KEY nel .env del VPS (burn già impostato: ${burnEur}€/mese).`
+            : `Runway non calcolabile da ${giriSconosciuto} giri (AR-039): collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS.`
         : "Runway sotto controllo: rivedi al prossimo giro.";
 
   const doc = {

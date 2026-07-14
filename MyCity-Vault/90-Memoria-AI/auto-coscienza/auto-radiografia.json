@@ -532,9 +532,9 @@
     },
     {
       "key": "chiusura-volano",
-      "voto": 31,
-      "stato": "critico",
-      "sintesi": "",
+      "voto": 72,
+      "stato": "ok",
+      "sintesi": "Loop atteso→reale cablato: calibrazione strutturata, ponte quaderni→calibrazione, sonda business-first.",
       "findings": [
         {
           "titolo": "La calibrazione ha due formati incompatibili: l'AD scrive le previsioni a mano, il motore ne legge 0",
@@ -587,8 +587,14 @@
           "impatto_crescita": "medio",
           "genera": "domanda-nicola",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/sonda-volano.mjs",
+            "pattern": "provaBusiness",
+            "presente": true
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:24",
+          "chiuso_come": "cervello/sonda-volano.mjs contiene /provaBusiness/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Proposte di auto-riscrittura mai sincronizzate col cantiere: nessuna ha uno stato valido e la lista è stantia rispetto ai 23 difetti chiusi",
@@ -601,10 +607,14 @@
           "impatto_crescita": "basso",
           "genera": "nuovo-pezzo",
           "verifica": {
-            "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
-            "pattern": "\"stato\":\\s*\"(firmata|implementata|rifiutata)\"",
+            "file": "cervello/sincronizza-proposte.mjs",
+            "pattern": "implementata",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:24",
+          "chiuso_come": "cervello/sincronizza-proposte.mjs contiene /implementata/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Calibrazione monocultura: un solo reparto (@AD) e previsioni banali 'i 7 numeri restano invariati'",
@@ -638,9 +648,13 @@
           "genera": "auto-riscrittura",
           "verifica": {
             "file": "cervello/chiusura-loop.mjs",
-            "pattern": "calibrazione\\.mjs (prevedi|esito)",
+            "pattern": "calibrazione\\.mjs.*da-loop",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:24",
+          "chiuso_come": "cervello/chiusura-loop.mjs contiene /calibrazione\\.mjs.*da-loop/ → trovato",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -828,7 +842,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json",
             "pattern": "Vuoto all'avvio",
             "presente": false
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:23",
+          "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json NON contiene /Vuoto all'avvio/ → assente",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -1810,16 +1828,16 @@
     "aggiornato": "2026-07-13 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 03:18",
-    "findings_aperti": 47,
+    "aggiornato": "2026-07-14 03:26",
+    "findings_aperti": 43,
     "findings_in_corso": 0,
-    "findings_chiusi": 27,
+    "findings_chiusi": 31,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 16,
-    "chiusi_verifica": 16,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }
