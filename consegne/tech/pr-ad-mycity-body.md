@@ -1,16 +1,16 @@
-## Cosa fa
-Corregge il pallino rosso «non letto» nelle conversazioni: **non compare più su tutte le chat di default**.
+## Cosa
+Fix chat Pannello: ordine conversazioni per ultima aperta + header più pulito.
 
-## Comportamento dopo il merge
-- Chat **mai aperta** → nessun pallino
-- Chat **aperta almeno una volta** + nuova risposta dell'AD → pallino rosso
-- Apri la chat → pallino sparisce
+## Perché
+1. Aprendo «Conversazioni», l'ultima chat visualizzata deve salire in cima (dopo le pinnate), non restare ferma per data di creazione.
+2. L'icona e la frase «Parla con l'assistente» in header erano ridondanti e poco curate.
+
+## Modifiche
+- Stato `convVistaAt` in localStorage (`mycity_conv_vista`) + `segnaVista()` ad ogni apertura chat
+- `ordinaConversazioni`: pinnate → ultima vista → updated_at
+- Header: icona History, rimossa frase statica; resta solo il titolo della conversazione attiva
 
 ## Come provare
-1. Ricarica il Pannello (Ctrl+Shift+R)
-2. Apri Conversazioni: nessun pallino su chat mai aperte
-3. Apri una chat, chiudila, aspetta una risposta AD → compare il pallino
-4. Riapri quella chat → pallino sparisce
-
-## Nota
-Sostituisce la PR #299 (conflitti su file di memoria). Chiudere #299 senza merge.
+1. Apri 2-3 conversazioni diverse dal cassetto
+2. Riapri «Conversazioni»: l'ultima aperta deve essere subito sotto le pinnate
+3. Header: niente «Parla con l'assistente», icona orologio/storico, titolo conversazione se attiva
