@@ -40,7 +40,14 @@ export function estraiOrigine(s: string): string {
   return m ? m[1].trim() : "";
 }
 function senzaOrigine(s: string): string {
-  return (s || "").replace(ORIGINE_RE, "").replace(/\s{2,}/g, " ").trim();
+  return (s || "")
+    .replace(ORIGINE_RE, "")
+    .replace(/\r\n/g, "\n")
+    .split("\n")
+    .map((line) => line.replace(/[^\S\n]{2,}/g, " ").trim())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 // ✍️ Pulizia UMANA del titolo mostrato (regola cervello/scrittura-umana.md, mossa 2): toglie dal
@@ -271,8 +278,8 @@ function parseSezioni(md: string): AzioneAttesa[] {
         azione: pulisciTitolo(senzaOrigine(titolo)),
         colore,
         livello: livelloDi(colore),
-        // prima riga utile del corpo come anteprima/contenuto
-        contenuto: senzaOrigine((cur.corpo.find((r) => r.trim().length > 0) || "").trim()).slice(0, 240),
+        // Corpo completo della sezione (non solo la prima riga): serve il quadro intero in card.
+        contenuto: senzaOrigine(cur.corpo.join("\n").trim()),
         canale: campo(blocco, ["canale", "mani"]),
         stato: "in attesa",
         inAttesa: true,
