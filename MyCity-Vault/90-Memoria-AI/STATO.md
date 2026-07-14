@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:02
-fonte: AD digitale (🌅 14/7 03:02 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:09
+fonte: AD digitale (🌅 14/7 03:09 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:09 — CHAT: PR #374 conflitti risolti — screenshot Nicola senza testo.** Nicola allega screenshot GitHub «This branch has conflicts» su PR **#374** (descrizione Opportunità Scoperte), senza messaggio. **Verificato 🟢:** conflitto **solo** file memoria + body PR condiviso (pattern #369/#371) — codice `descrizione-opportunita.ts` **intatto**; rebase su main, head `b556149d`, API GitHub **mergeable** (03:09). **Pendente:** Nicola **riapprova** card **#140** in Pannello → Da approvare — merge **non** dall'app GitHub. Dopo merge: Ctrl+Shift+R su Scoperte, verifica descrizione sopra dettaglio tecnico (es. 494 = 252 condizione + 242 unità). Fonte: chat Nicola 14/7 ~03:05 + screenshot + `git-pr.mjs` verifica.
+>
 > 💬 **14/7 ~03:02 — CHAT: Ogni quanto avviene il giro?** Nicola follow-up su Scoperte. **Spiegato 🟢:** giro automatico **ogni 2 ore** (timer `mycity-giro.timer`, fuso Roma) alle **06:20, 08:20, 10:20, 12:20, 14:20, 16:20, 18:20, 20:20, 22:20** = **9 volte/giorno** (non ogni ora); **delta-gate** può saltare il giro pieno se ordini/negozi/numeri invariati → Scoperte non si riscrive; **«fai un giro»** parte subito e aggiorna briefing/Opportunità; ultimo giro che ha scritto Scoperte: **02:48** · prossimo automatico **06:20**; piano del mattino / mezzogiorno / report sera alle **6, 12, 18** = diario ritmo, non lista Opportunità. Fonte: chat Nicola 14/7 ~03:02 + `cervello/vps/mycity-giro.timer` + `giro.sh`.
 >
 > 💬 **14/7 ~03:00 — CHAT: VP 17/7 — bici non pronta → ritiro al fornaio, non domicilio.** Nicola su Opportunità «Primo ordine VP 17/7»: «Non avrò ancora la bici entro venerdì, ma vado lunedì prossimo a ripararla» → **corretto 02:59:** bollette 21-27/7, riparazione bici ~28/7+, inserimento botteghe solo con bici pronta (AD aveva sbagliato «21/7»). **Ripiano 🟢:** **VP 17/7** (centro pieno + caldo) = presidio Pane Quotidiano, QR, **ritiro al banco** — conta per North Star e payout-test; **consegna a domicilio** solo dopo bici operativa; giro botteghe slitta ad agosto. Chiedere a Nicola data reale quando ha la bici. Fonte: chat Nicola 14/7 ~02:57-02:59 + `registro-fatti` `logistica.bici-consegna`.
