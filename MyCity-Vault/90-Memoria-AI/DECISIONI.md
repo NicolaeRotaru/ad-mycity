@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+- 2026-07-14 03:37 · 🟡 · [AD/analista] · **PR #379 — Onestà sui numeri: fix radiografia pronto, merge in attesa.** Nicola «Risolvi questi fix» su casella Onestà sui numeri (`calibrazione-onesta`) — riapprovazione Pannello. **Verificato:** 4/4 finding chiusi, voto 75; scheda fantasma = pattern `allinea-scan` su file sbagliato (`calibrazione.json` vs ponte `da-loop`); ponte quaderni→calibrazione con `sensore_stato`; `calibrazione.mjs valida` exit 0. **PR #379** (`fix/onesta-sui-numeri-v3`, `1d3365ab`). **Errore AD:** citato card #142 (già FATTO per #378) — card corretta **#143**. **Pendente 🔴:** Approva #143 → Ctrl+Shift+R Radiografia › Onestà sui numeri. · Nicola (chat 14/7 ~03:37)
+
 - 2026-07-14 03:36 · 🟢 · [AD/prompt-engineer] · **PR #378 — Chi impara da cosa: mergiata, casella chiusa.** Nicola «Risolvi questi fix» su casella Chi impara da cosa — con approvazione di poco fa. **Verificato:** merge su `origin/main` (`2162a760`); `chiusura-volano` 6/6 finding chiusi, voto 72, 0 aperti. Card **#142** → ✅ FATTO. **Prossimo:** Ctrl+Shift+R Radiografia se schede residue = cache UI. · Nicola (chat 14/7 ~03:36)
 
 - 2026-07-14 03:33 · 🟢 · [AD] · **CORREZIONE — PR #378: «non hai guardato ancora una volta la pr dopo che l'hai aperta».** Nicola segnala conflitto su PR Chi impara (#378) — AD aveva aperto/accodato senza ricontrollare mergeable dopo merge parallelo **#377** su main. **Fix:** rebase, conflitti risolti (memoria radiografia/giro/body), mergeable API ok, head `c17abc33`. **Regola:** gate mergeable **prima** di dire «pronta» **e** dopo ogni merge parallelo su main. ~~**Pendente 🔴:** Approva card #142 (PR #378).~~ **SUPERATO 03:36:** merge `2162a760`. · Nicola (chat 14/7 ~03:33)

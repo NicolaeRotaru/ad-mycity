@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:36
-fonte: AD digitale (🌅 14/7 03:36 Chi impara #378 su main · sentinella cassa_sconosciuta · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:37
+fonte: AD digitale (🌅 14/7 03:37 Onestà numeri PR #379 · Chi impara #378 main · sentinella cassa · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:37 — CHAT: Onestà sui numeri — 4 fix CHIUSI — PR #379 in attesa Approva.** Nicola «Risolvi questi fix» su casella **Onestà sui numeri** (`calibrazione-onesta`) — riapprovazione Pannello. **Verificato 🟢:** **4/4** finding `stato: chiuso`, voto **75**, 0 aperti dopo allineamento radiografia; restava **1 scheda fantasma** perché `allinea-scan-cantiere` cercava `sensore_stato` in `calibrazione.json` invece del ponte `chiusura-loop`→`calibrazione.mjs da-loop`. **Fix 🟡 PR #379** (`fix/onesta-sui-numeri-v3`, `1d3365ab`): pattern verifica corretto + ogni esito loop porta `sensore_stato`; `calibrazione.mjs valida` → exit **0**. ~~**Pendente:** Approva card **#142**~~ **CORRETTO:** #142 già ✅ FATTO (#378 Chi impara) — Approva card **#143** (PR **#379**). Fonte: chat Nicola 14/7 ~03:37 + verifica radiografia/calibrazione.
+>
 > 💬 **14/7 ~03:36 — CHAT: Chi impara da cosa — 6 fix CHIUSI — PR #378 ✅ main.** Nicola «Risolvi questi fix» su casella **Chi impara da cosa** (`chiusura-volano`) — con approvazione di poco fa. **Verificato 🟢:** PR **#378** mergiata su `origin/main` (`2162a760`); `chiusura-volano` **6/6** finding `stato: chiuso`, **0** aperti, voto **72** — area verde su main. Codice: sonda business-first, ponte quaderni→calibrazione, sync proposte. **Se Pannello mostra ancora schede:** cache — Ctrl+Shift+R su Radiografia macchina › Chi impara da cosa (non manca altro fix). Fonte: chat Nicola 14/7 ~03:36 + verifica `origin/main`.
 >
 > 💬 **14/7 ~03:36 — SENTINELLA: cassa/runway «sconosciuto» — diagnosi chiusa, serve solo il burn.** Sentinella `cassa_sconosciuta` (89 giri). **Verificato 🟢:** Stripe ✅ (cassa **0 €**); blocco = **`BURN_MENSILE_EUR` assente** nel `.env` VPS — **non** Stripe cieco. **Codice già su main** (#377): M6b allerta + messaggio sensore corretto. **Card 🟡 #burn-mensile-runway** in Da approvare — Nicola mette un numero reale (anche stima bollette VPS+AI va bene). **Dopo:** runway = 0 mesi (verità con cassa 0) → piano con @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: sentinella 03:35 + `sensore-cassa.mjs` + `verifica-automazione.mjs` exit 0.

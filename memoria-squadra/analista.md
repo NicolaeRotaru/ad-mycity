@@ -8,6 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-14 03:37 · Chat Onestà sui numeri — PR #379 · verita:5 coerenza:5 azione:5 fonte:5 onesta:5 · atteso 4/4 finding chiusi + valida verde → reale pattern verifica su file sbagliato (fantasma), fix ponte da-loop+sensore_stato, card #143 (non #142) · L-226 · #calibrazione-onesta #radiografia
 - 2026-07-14 02:47 · Giro 14/7 02:48 — KPI REST · grounding:5 coerenza:5 azione:4 fonte:5 benchmark:4 · atteso ordini_7g=0 invariato → reale ordini_7g=0 REST 02:47 · #giro
 - 2026-07-13 20:21 · Giro serale 13/7 20:20 — 7 numeri REST · grounding:5 coerenza:5 numeri:5 fonti:5 azioni:4 completezza:4 · atteso Business invariato dal 24/6, North Star 0 → reale Confermato: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati/consegnati, 4 buyer, REST ok 20:20 · #giro #numeri
 - 2026-07-11 11:40 · Supervisione 11/7: 7 numeri invariati dal 24/6 (North Star 0, stallo ~417h, 1 ordine annullato, 4 buyer, 5 prodotti PQ, 407 lead). Baseline REST ok (supabase_rest=ok, giri_ciechi=0). MCP non approvato in sessione → 0 inventati. Nessuna sentinella business scattata (PQ non churn, attesa concordata). · verita 5, completezza 4, azionabilita 4, onesta 5, stile 4, riuso 4 · atteso 7 numeri freschi dal DB → reale baseline REST invariata confermata (MCP non disponibile in sessione) · #kpi #stallo

@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-14 03:36",
+  "aggiornato": "2026-07-14 03:37",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0714-226",
+      "testo": "**Onestà sui numeri — scheda fantasma = verifica su file sbagliato (chat 14/7 ~03:37, PR #379):** Nicola «Risolvi questi fix» su casella `calibrazione-onesta` (riapprovazione Pannello). 5 perché: (1) codice fix già su main da merge serale — restava **1 scheda aperta** in Radiografia non per bug operativo ma per **pattern verifica errato**; (2) `allinea-scan-cantiere` cercava `sensore_stato` in `calibrazione.json` mentre il fix vero è nel ponte `chiusura-loop`→`calibrazione.mjs da-loop`; (3) ponte aggiornato: ogni esito loop porta `sensore_stato` — niente auto-conferme al buio (AR-061); (4) `calibrazione.mjs valida` → exit 0, registro conforme; (5) **4/4** finding chiusi, voto **75** dopo PR **#379** (`1d3365ab`). **Errore AD stesso turno:** citato Approva **#142** per #379 — #142 già ✅ FATTO (#378 Chi impara) → card corretta **#143**. **Regola:** su casella Onestà diagnosticare pattern `verifica.file` in auto-radiografia prima di nuovo codice; scheda fantasma post-fix = mismatch file verifica, non «manca altro fix». Correlazione L-223, L-225, L-222.",
+      "tag": [
+        "onesta-numeri",
+        "calibrazione-onesta",
+        "pr-379",
+        "radiografia",
+        "scheda-fantasma",
+        "sensore_stato",
+        "allinea-scan",
+        "card-numero",
+        "nicola"
+      ],
+      "reparto": "@analista",
+      "confidenza": 0.91,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 03:37",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0714-225",
       "testo": "**Chi impara da cosa — PR #378 ✅ main, cache Pannello (chat 14/7 ~03:36):** Nicola «Risolvi questi fix» su casella `chiusura-volano` — con Approva di poco fa. 5 perché: (1) fix già implementati in PR #378 (sonda business-first, ponte quaderni→calibrazione, sync proposte) — **chiusura = merge su main**, non solo branch; (2) verificato `origin/main` merge `2162a760`: **6/6** finding `stato: chiuso`, voto **72**, 0 aperti; (3) pattern coerenza-agenti/L-213: se Nicola vede ancora schede dopo Approva → **cache UI**, Ctrl+Shift+R Radiografia — **non** aprire altra PR; (4) card #142 → FATTO; (5) **regola:** su «Risolvi questi fix» radiografia → verifica main **prima** di proporre nuovo lavoro; se main verde e UI rossa = spiegare cache. Correlazione L-224, L-208, L-213.",
@@ -52,11 +75,11 @@
       ],
       "reparto": "@tech",
       "confidenza": 0.97,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 03:36",
+      "ultima_conferma": "2026-07-14 03:37",
       "stato": "attiva"
     },
     {
@@ -74,12 +97,12 @@
         "scrittura-umana"
       ],
       "reparto": "@ad",
-      "confidenza": 0.96,
-      "evidenze": 1,
+      "confidenza": 0.97,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 03:32",
+      "ultima_conferma": "2026-07-14 03:37",
       "stato": "attiva"
     },
     {
@@ -5109,6 +5132,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Onestà sui numeri — fix batch radiografia (chat 14/7 ~03:37, PR #379):** «Risolvi questi fix» sulla casella Onestà — si aspetta 4 schede spariscono/verde dopo Approva come altre caselle radiografia; se main verde ma Pannello mostra ancora 1 scheda → verificare pattern `verifica.file` (fantasma da file sbagliato), non aprire altra PR; Approva **#143** (non #142 — già usata per #378). Vedi L-226.",
     "**Chi impara da cosa — fix batch chiuso con merge (chat 14/7 ~03:36, PR #378 ✅):** «Risolvi questi fix» sulla casella Chi impara — si aspetta che le 6 schede spariscano/verde **dopo** Approva; se main è verde ma Pannello mostra ancora problemi → **cache**, Ctrl+Shift+R, non altra PR; verifica `origin/main` prima di dire «manca fix». Vedi L-225.",
     "**PR — ricontrolla DOPO l'apertura se main si muove (chat 14/7 ~03:33, #378 ✅ 03:36):** «non hai guardato ancora una volta la pr dopo che l'hai aperta» — conflitto post-merge #377; si aspetta che l'AD **non** dica «pronta» finché mergeable non è verificato sul main **attuale**; conflitto memoria ≠ codice rotto; merge `2162a760` confermato. Vedi L-224, L-214.",
     "**«Perché Approva #142?» — odia istruzioni Approva senza card visibile (chat 14/7 ~03:32):** dopo fix sensori chiede perché deve approvare un numero che non vede o non riconosce — si aspetta che l'AD **verifichi** coda+merge prima di chiedere Approva; card #N ≠ PR #N (#142 = PR #378 Chi impara, non #377 sensori); se già mergiato → «non serve nulla»; preferisce titolo card a parole, non #N a memoria. Vedi L-223.",
