@@ -3,8 +3,8 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/panel-sync-tutto` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/369
-- **Titolo:** Completa sync tempo reale: Proposte, Scoperte e radice Pannello
-- **Creato:** 2026-07-14 02:24 (Europe/Rome)
+- **Titolo:** chore: fix/panel-sync-tutto
+- **Creato:** 2026-07-14 02:35 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 369`
