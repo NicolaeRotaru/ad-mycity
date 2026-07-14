@@ -536,10 +536,11 @@ create policy "service role full access" on public.conversazioni
 
 **Template pronto:** `consegne/customer-success/2026-07-11-template-email-recensione.md`
 
-**Situazione attuale (dati reali 11/7):**
+**Situazione attuale (dati reali 14/7 02:42 — REST live ✅):**
 - Ordini con `delivery_status = 'delivered'`: **0** (nessuna consegna completata)
 - Recensioni in DB: **0** (tabella `reviews` e `store_reviews` entrambe vuote)
-- L'unico ordine è quello zombie CANCELED (€19,05, PQ, 24/6) — non va contattato
+- Ordini totali: **1** — unico ordine zombie `58094956…` CANCELED 3/7 (€19,05, PQ) — **non va contattato**
+- Playbook ri-verificato: `AZIONI-PRONTE` **A27** + bozze **A4/A13/A14**
 
 **Cosa attivare:** costruire l'automazione in **n8n** (o webhook Supabase) che su cambio `delivery_status → delivered` invia l'email template via Resend, dopo 15–30 minuti. Delegare a **builder-automazioni** quando dai il via.
 

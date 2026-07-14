@@ -165,3 +165,44 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 - **Quando scatta:** alla prima consegna reale — finestra **Venerdì 17/7** su Pane Quotidiano (ripresa operativa 13/7). All'atto della consegna si legge l'UUID dell'ordine e si riempie `[LINK-RECENSIONE] = /orders/{UUID}/review` in A14, verificandolo LIVE prima dell'invio.
 
 **Colore:** 🟢 la ri-verifica/traccia di oggi · 🔴 l'invio (solo su consegna reale + feedback ≠ negativo).
+
+---
+
+## Ri-esecuzione 2026-07-14 02:42 (playbook:recensioni — RIPROVA Nicola)
+
+**Fonte live:** Supabase REST `verifica-sensori.mjs` ✅ · query diretta `orders` + `reviews` + `store_reviews` 14/7 02:42 (Europe/Rome).
+
+| Metrica | Valore | Fonte |
+|---|---|---|
+| Ordini totali in DB | **1** | `orders` REST 14/7 02:42 |
+| Consegne completate (`delivery_status=delivered`) | **0** | stesso |
+| Consegne con `delivered_at` valorizzato | **0** | stesso |
+| Recensioni negozio (`store_reviews`) | **0** | stesso |
+| Recensioni prodotto (`reviews`) | **0** | stesso |
+| **Consegne completate SENZA recensione** | **0** | nessun destinatario reale oggi |
+
+**Ordine zombie (NON contattare):**
+
+| Campo | Valore |
+|---|---|
+| order_id | `58094956-4b9b-49b4-9299-7a5c645d7cb3` |
+| Negozio | Pane Quotidiano (`seller_id` c0b240c0…) |
+| Totale | €19,05 COD |
+| Stato | `delivery_status=CANCELED` · annullato 3/7 15:38 · `delivered_at` null |
+| Contatto | 348 642 1766 — **non** inviare messaggio post-consegna |
+
+**Esito:** oggi **zero clienti** a cui mandare grazie + recensione. Mandare a un ordine annullato sarebbe inventato → blocco corretto.
+
+**Messaggi già armati in AZIONI-PRONTE (nessun doppione AR-008):**
+
+| ID | Cosa |
+|---|---|
+| **A4** | Modello neutro grazie + recensione (segnaposti [NEGOZIO]/[LINK]) |
+| **A13** | Touch 1 feedback (+3h da Consegnato) — istanza PQ |
+| **A14** | Touch 2 richiesta recensione (+1g, solo se 👍) — link `/orders/{UUID}/review` |
+| **A27** | Indice ri-verifica playbook 14/7 (questo giro) |
+| Email auto | `consegne/customer-success/2026-07-11-template-email-recensione.md` — coda **#recensioni-trigger** |
+
+**Quando scatta:** alla **prima consegna reale** su Pane Quotidiano (ordine-prova payout-test). Alla consegna: leggere UUID ordine → riempire link in A14 → Touch 1 manuale (A13) o firma automazione (#recensioni-trigger).
+
+**Colore:** 🟢 preparazione/ri-verifica (questo giro) · 🔴 invio messaggio a cliente reale.
