@@ -23,7 +23,16 @@ import { dataVault, dataVaultRecente } from "@/lib/format";
 import { vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
-import { humanizzaErrore } from "@/lib/radiografia-umana";
+import { TestoUmano } from "@/components/TestoUmano";
+import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
+import {
+  autonomiaLeggibile,
+  divarioLeggibile,
+  repartoLeggibile,
+  saluteValore,
+  statoEntita,
+  statoLezione,
+} from "@/lib/auto-coscienza-umana";
 
 // 🔑 Id stabile di una domanda, derivato dal suo testo (djb2): resta lo stesso tra
 // un refresh e l'altro finché la domanda è la stessa → così sappiamo a quale è già
@@ -351,7 +360,7 @@ export default function AutoCoscienza({
         {votoFOk ? (
           <div className="text-right shrink-0 max-w-[42%]">
             <div className={`text-[26px] font-bold leading-none tabular-nums ${votoColore(votoF)}`}>{votoF}<span className="text-[13px] text-black/30">/100</span></div>
-            <div className="t-eti truncate">fiducia {trendBreve(a?.trend_fiducia)}</div>
+            <div className="t-eti truncate">{trendBreve(a?.trend_fiducia) || (a?.trend_fiducia ? traduciTestoCompleto(String(a.trend_fiducia)).slice(0, 40) : "fiducia")}</div>
           </div>
         ) : a ? (
           <div className="text-right shrink-0 max-w-[44%]">
@@ -425,7 +434,7 @@ export default function AutoCoscienza({
                 </div>
               )}
 
-              {sintesiEff && <p className="t-corpo break-words">{sintesiEff}</p>}
+              {sintesiEff && <TestoUmano testo={sintesiEff} className="t-corpo break-words whitespace-pre-wrap [overflow-wrap:anywhere]" />}
 
               {/* Le 5 verifiche a colpo d'occhio */}
               {a?.verifiche && (
@@ -451,16 +460,31 @@ export default function AutoCoscienza({
                         <div className="flex items-center gap-2">
                           <span className="text-[13px] font-medium">{e.nome}</span>
                           {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
-                          <span className="text-[10px] px-1.5 rounded bg-green-100 text-green-700">scelta motivata</span>
+                          <span className="text-[10px] px-1.5 rounded bg-green-100 text-green-700">{statoEntita(e.stato || "scelta_ragionata")}</span>
                           {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
                         </div>
                         {e.evidenze && e.evidenze.length > 0 && (
-                          <ul className="mt-1.5 space-y-0.5">
-                            {e.evidenze.map((ev, j) => <li key={j} className="text-[12px] text-black/70 flex gap-1.5"><span className="text-green-600">✓</span>{ev}</li>)}
+                          <ul className="mt-1.5 space-y-1">
+                            {e.evidenze.map((ev, j) => (
+                              <li key={j} className="flex gap-1.5">
+                                <span className="text-green-600 shrink-0">✓</span>
+                                <TestoUmano testo={ev} className="text-[12px] text-black/70" />
+                              </li>
+                            ))}
                           </ul>
                         )}
-                        {e.fonte_ragionamento && <div className="t-eti mt-1 font-mono">perché: {e.fonte_ragionamento}</div>}
-                        {e.note && <div className="text-[12px] text-black/60 mt-1">{e.note}</div>}
+                        {e.fonte_ragionamento && (
+                          <div className="mt-1.5">
+                            <div className="text-[11px] font-semibold text-black/50 uppercase tracking-wide">Perché questa scelta</div>
+                            <TestoUmano testo={e.fonte_ragionamento} className="text-[12px] text-black/65 mt-0.5" />
+                          </div>
+                        )}
+                        {e.note && (
+                          <div className="mt-1.5">
+                            <div className="text-[11px] font-semibold text-black/50 uppercase tracking-wide">Note</div>
+                            <TestoUmano testo={e.note} className="text-[12px] text-black/60 mt-0.5" />
+                          </div>
+                        )}
                         <ParlaCasella titolo={`Scelta ragionata: ${e.nome}`} contesto={[e.fonte_ragionamento && `Perché: ${e.fonte_ragionamento}`, ...(e.evidenze || []), e.note].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
@@ -485,8 +509,17 @@ export default function AutoCoscienza({
                             {e.tipo && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.tipo}</span>}
                             {e.confidenza != null && <span className="t-eti ml-auto">confidenza {Math.round((e.confidenza || 0) * 100)}%</span>}
                           </div>
-                          {e.note && <div className="text-[12px] text-black/65 mt-1">{e.note}</div>}
-                          {e.domanda_per_nicola && <div className="text-[12px] mt-1 text-brand">❓ {e.domanda_per_nicola}</div>}
+                          {e.note && (
+                            <div className="mt-1">
+                              <TestoUmano testo={e.note} className="text-[12px] text-black/65" />
+                            </div>
+                          )}
+                          {e.domanda_per_nicola && (
+                            <div className="mt-1.5">
+                              <div className="text-[12px] font-medium text-brand">❓ Domanda per te</div>
+                              <TestoUmano testo={e.domanda_per_nicola} className="text-[12px] text-black/75 mt-0.5" />
+                            </div>
+                          )}
                           <RispostaBox qid={idE} domanda={domE} salvata={risposte[idE]} onSalvata={onSalvata} />
                           {azPerOrigine[`entita:${idE}`] && (
                             <button onClick={() => vaiArea("azioni", `azione-${azPerOrigine[`entita:${idE}`]}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
@@ -507,16 +540,18 @@ export default function AutoCoscienza({
                   {(() => {
                     const sm = live?.salute_macchina || a!.salute_macchina!;
                     return [
-                      { k: "Supabase", v: sm.supabase, ok: sm.supabase === "ok" },
-                      { k: "Stripe", v: sm.stripe, ok: sm.stripe === "ok" },
-                      { k: "Dati freschi", v: sm.dati_freschi ? "sì" : "no", ok: !!sm.dati_freschi },
-                      { k: "Sensori attivi", v: String(sm.sensori_attivi ?? 0), ok: (sm.sensori_attivi ?? 0) > 0 },
-                    ].map((s) => (
-                      <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${s.ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
-                        <Activity size={11} /> {s.k}: <b>{s.v}</b>
+                      { k: "Database", raw: sm.supabase, okKey: "supabase" },
+                      { k: "Pagamenti", raw: sm.stripe, okKey: "stripe" },
+                      { k: "Dati freschi", raw: sm.dati_freschi, okKey: "dati freschi" },
+                      { k: "Sensori attivi", raw: sm.sensori_attivi ?? 0, okKey: "sensori" },
+                    ].map((s) => {
+                      const { label, ok } = saluteValore(s.okKey, s.raw);
+                      return (
+                      <span key={s.k} className={`inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg ring-1 ${ok ? "bg-green-50 text-green-700 ring-green-200" : "bg-red-50 text-red-700 ring-red-200"}`}>
+                        <Activity size={11} /> {s.k}: <b>{label}</b>
                         {live?.salute_macchina ? " · live" : ""}
                       </span>
-                    ));
+                    );});
                   })()}
                 </div>
               )}
@@ -535,14 +570,23 @@ export default function AutoCoscienza({
                           <div className="flex items-center gap-2">
                             <span className={`w-1.5 h-1.5 rounded-full ${g.dot}`} />
                             <span className="text-[10px] font-bold tracking-wide text-black/50">{g.label}</span>
-                            {err.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto {err.livello_scoperta}</span>}
-                            {err.azione_presa && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55 ml-auto">{err.azione_presa}</span>}
+                            {err.livello_scoperta && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/45">scoperto al livello {err.livello_scoperta}</span>}
                           </div>
                           <div className="text-[13px] font-medium mt-1 break-words [overflow-wrap:anywhere]">{umano.titolo}</div>
                           {umano.cosaSuccede && umano.cosaSuccede !== umano.titolo && (
                             <div className="text-[12px] text-black/65 mt-0.5 break-words [overflow-wrap:anywhere]">{umano.cosaSuccede}</div>
                           )}
-                          {err.riguarda && <div className="t-eti mt-1">Riguarda: {err.riguarda}</div>}
+                          {err.riguarda && (
+                            <div className="mt-1">
+                              <div className="text-[11px] font-semibold text-black/50">Riguarda</div>
+                              <TestoUmano testo={err.riguarda} className="text-[12px] text-black/60 mt-0.5" />
+                            </div>
+                          )}
+                          {err.azione_presa && (
+                            <div className="text-[12px] text-black/60 mt-1">
+                              <b>Azione già presa:</b> {traduciTestoCompleto(err.azione_presa)}
+                            </div>
+                          )}
                           {umano.tecnici && (
                             <details className="mt-2 group">
                               <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1">
@@ -573,9 +617,20 @@ export default function AutoCoscienza({
                       const azId = azPerOrigine[`domanda:${id}`];
                       return (
                         <div id={`domanda-${id}`} key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 scroll-mt-24">
-                          <div className="text-[13px] font-medium break-words">❓ {testo}</div>
-                          {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché serve:</b> {perche}</div>}
-                          {seRisp && <div className="text-[12px] text-black/65 mt-0.5"><b>Se rispondi:</b> {seRisp}</div>}
+                          <div className="text-[13px] font-medium break-words">❓ Domanda</div>
+                          <TestoUmano testo={testo} className="text-[13px] font-medium mt-0.5" />
+                          {perche && (
+                            <div className="mt-1.5">
+                              <div className="text-[12px] font-semibold text-black/70">Perché serve</div>
+                              <TestoUmano testo={perche} className="text-[12px] text-black/65 mt-0.5" />
+                            </div>
+                          )}
+                          {seRisp && (
+                            <div className="mt-1.5">
+                              <div className="text-[12px] font-semibold text-black/70">Se rispondi</div>
+                              <TestoUmano testo={seRisp} className="text-[12px] text-black/65 mt-0.5" />
+                            </div>
+                          )}
                           <RispostaBox qid={id} domanda={testo} salvata={risposte[id]} onSalvata={onSalvata} />
                           {azId ? (
                             <button onClick={() => vaiArea("azioni", `azione-${azId}`, "approvare")} className="mt-2 inline-flex items-center gap-1 t-eti hover:text-brand transition">
@@ -598,8 +653,13 @@ export default function AutoCoscienza({
               {a?.punti_ciechi && a.punti_ciechi.length > 0 && (
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><EyeOff size={13} /> Punti ciechi</div>
-                  <ul className="space-y-1">
-                    {a.punti_ciechi.map((p, i) => <li key={i} className="text-[12px] text-black/65 flex gap-1.5"><span className="text-black/30">•</span>{p}</li>)}
+                  <ul className="space-y-2">
+                    {a.punti_ciechi.map((p, i) => (
+                      <li key={i} className="flex gap-1.5">
+                        <span className="text-black/30 shrink-0">•</span>
+                        <TestoUmano testo={p} className="text-[12px] text-black/65" />
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -640,12 +700,12 @@ export default function AutoCoscienza({
                   <div className="space-y-2">
                     {lezioniVis.map((l, i) => (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="text-[12.5px]">{l.testo}</div>
+                        <TestoUmano testo={l.testo} />
                         <div className="flex items-center flex-wrap gap-1.5 mt-1.5">
-                          {l.stato && <span className={`text-[10px] px-1.5 rounded ${l.stato === "principio" ? "bg-green-100 text-green-700" : l.stato === "decaduta" ? "bg-black/5 text-black/40" : "bg-amber-100 text-amber-700"}`}>{l.stato}</span>}
-                          {l.reparto && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{l.reparto}</span>}
-                          {l.fonte && <span className="t-eti">da: {l.fonte}</span>}
-                          {l.evidenze != null && <span className="t-eti">· {l.evidenze} evid.</span>}
+                          {l.stato && <span className={`text-[10px] px-1.5 rounded ${l.stato === "principio" ? "bg-green-100 text-green-700" : l.stato === "decaduta" ? "bg-black/5 text-black/40" : "bg-amber-100 text-amber-700"}`}>{statoLezione(l.stato)}</span>}
+                          {l.reparto && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{repartoLeggibile(l.reparto)}</span>}
+                          {l.fonte && <span className="t-eti">da: {traduciTestoCompleto(l.fonte)}</span>}
+                          {l.evidenze != null && <span className="t-eti">· {l.evidenze} conferme</span>}
                           <span className="ml-auto flex items-center gap-1.5">{barra(l.confidenza)}<span className="t-eti tabular-nums">{Math.round((l.confidenza ?? 0) * 100)}%</span></span>
                         </div>
                         <ParlaCasella titolo={`Lezione: ${(l.testo || "").slice(0, 50)}`} contesto={l.testo} />
@@ -661,10 +721,13 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><Target size={13} /> Calibrazione (previsto vs reale)</div>
                   <div className="space-y-1.5">
                     {cal.per_reparto.map((r, i) => (
-                      <div key={i} className="flex items-center gap-2 text-[12px]">
-                        <span className="font-medium">{r.reparto}</span>
-                        <span className="t-eti">{r.azzeccate}/{r.previsioni} azzeccate</span>
-                        <span className="ml-auto flex items-center gap-1.5">{barra(r.punteggio)}<span className="t-eti">autonomia {r.autonomia}</span></span>
+                      <div key={i} className="rounded-lg border border-black/[0.05] bg-paper/30 px-2.5 py-2">
+                        <div className="flex items-center gap-2 text-[12px] flex-wrap">
+                          <span className="font-medium">{repartoLeggibile(r.reparto)}</span>
+                          <span className="t-eti">{r.azzeccate}/{r.previsioni} previsioni azzeccate</span>
+                          <span className="ml-auto flex items-center gap-1.5">{barra(r.punteggio)}<span className="t-eti">{autonomiaLeggibile(r.autonomia)}</span></span>
+                        </div>
+                        {r.nota && <TestoUmano testo={r.nota} className="text-[11.5px] text-black/55 mt-1" />}
                       </div>
                     ))}
                   </div>
@@ -673,9 +736,14 @@ export default function AutoCoscienza({
 
               {ap?.preferenze_nicola && ap.preferenze_nicola.length > 0 && (
                 <div>
-                  <div className="t-micro mb-1.5">🎯 Cosa ho capito che vuoi (preference learning)</div>
-                  <ul className="space-y-1">
-                    {ap.preferenze_nicola.map((p, i) => <li key={i} className="text-[12px] text-black/65 flex gap-1.5"><span className="text-black/30">•</span>{p}</li>)}
+                  <div className="t-micro mb-1.5">🎯 Cosa ho capito che vuoi</div>
+                  <ul className="space-y-2">
+                    {ap.preferenze_nicola.map((p, i) => (
+                      <li key={i} className="flex gap-1.5">
+                        <span className="text-black/30 shrink-0">•</span>
+                        <TestoUmano testo={p} className="text-[12px] text-black/65" />
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -690,7 +758,7 @@ export default function AutoCoscienza({
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><Swords size={13} /> Confronto coi migliori</div>
                   <div className="space-y-2">
                     {mi.benchmark.map((b, i) => {
-                      const titolo = b.reparto || b.ambito || "Benchmark";
+                      const titolo = repartoLeggibile(b.reparto || b.ambito) || "Confronto";
                       const ultimoProgresso = b.progresso?.length ? b.progresso[b.progresso.length - 1] : undefined;
                       const contesto = [
                         b.obiettivo && `Obiettivo: ${b.obiettivo}`,
@@ -703,25 +771,45 @@ export default function AutoCoscienza({
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-[13px] font-medium">{titolo}</span>
-                          {b.livello_attuale_L != null && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">L{b.livello_attuale_L}</span>}
-                          {b.divario && <span className={`text-[10px] px-1.5 rounded ml-auto ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>divario {b.divario}</span>}
+                          {b.livello_attuale_L != null && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">livello {b.livello_attuale_L}</span>}
+                          {b.divario && <span className={`text-[10px] px-1.5 rounded ml-auto ${b.divario === "alto" ? "bg-red-100 text-red-700" : b.divario === "medio" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>{divarioLeggibile(b.divario)}</span>}
                         </div>
-                        {b.obiettivo && <div className="text-[12px] text-black/65 mt-1"><b>Obiettivo:</b> {b.obiettivo}</div>}
-                        {!b.obiettivo && b.nostro && <div className="text-[12px] text-black/65 mt-1"><b>Noi:</b> {b.nostro}</div>}
-                        {!b.obiettivo && b.cosa_ci_manca && <div className="text-[12px] text-black/65 mt-0.5"><b>Cosa ci manca:</b> {b.cosa_ci_manca}</div>}
+                        {b.obiettivo && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Obiettivo</div>
+                            <TestoUmano testo={b.obiettivo} className="text-[12px] text-black/65 mt-0.5" />
+                          </div>
+                        )}
+                        {b.nostro && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Dove siamo noi</div>
+                            <TestoUmano testo={b.nostro} className="text-[12px] text-black/65 mt-0.5" />
+                          </div>
+                        )}
+                        {b.cosa_ci_manca && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Cosa ci manca</div>
+                            <TestoUmano testo={b.cosa_ci_manca} className="text-[12px] text-black/65 mt-0.5" />
+                          </div>
+                        )}
                         {ultimoProgresso?.punteggio != null && (
-                          <div className="text-[12px] text-black/65 mt-0.5">
-                            <b>Punteggio:</b> {ultimoProgresso.punteggio}/100
-                            {ultimoProgresso.nota && <span className="text-black/50"> — {ultimoProgresso.nota}</span>}
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Ultimo punteggio: {ultimoProgresso.punteggio}/100</div>
+                            {ultimoProgresso.nota && <TestoUmano testo={ultimoProgresso.nota} className="text-[12px] text-black/55 mt-0.5" />}
                           </div>
                         )}
                         {b.migliori && b.migliori.length > 0 && (
-                          <div className="mt-1.5 space-y-1">
+                          <div className="mt-2 space-y-2">
+                            <div className="text-[11px] font-semibold text-black/50 uppercase tracking-wide">Chi fa meglio</div>
                             {b.migliori.map((m, j) => (
                               <div key={j}>
-                                <div className="t-eti">↗ {m.chi}{m.livello ? ` (${m.livello})` : ""}</div>
-                                {m.esempi?.map((e, k) => <div key={k} className="t-eti pl-3 text-black/50">· {e.cosa}</div>)}
-                                {!m.esempi?.length && m.cosa_fa && <div className="t-eti pl-3 text-black/50">· {m.cosa_fa}</div>}
+                                <div className="text-[12px] font-medium">↗ {m.chi}{m.livello ? ` (${m.livello})` : ""}</div>
+                                {m.cosa_fa && <TestoUmano testo={m.cosa_fa} className="text-[11.5px] text-black/55 mt-0.5 pl-3" />}
+                                {m.esempi?.map((e, k) => (
+                                  <div key={k} className="pl-3 mt-0.5">
+                                    <TestoUmano testo={e.cosa} className="text-[11.5px] text-black/50" />
+                                  </div>
+                                ))}
                               </div>
                             ))}
                           </div>
@@ -739,12 +827,18 @@ export default function AutoCoscienza({
                   <div className="space-y-2">
                     {mi.esperimenti.map((e, i) => (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="text-[12.5px] font-medium">{e.ipotesi}</div>
-                        <div className="flex items-center gap-1.5 mt-1">
-                          {e.reparto_guida && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{e.reparto_guida}</span>}
-                          {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{e.stato}</span>}
-                          {e.esito && <span className="t-eti ml-auto">{e.esito}</span>}
+                        <div className="text-[12px] font-semibold text-black/70">Ipotesi da testare</div>
+                        <TestoUmano testo={e.ipotesi} className="text-[12.5px] font-medium mt-0.5" />
+                        <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                          {e.reparto_guida && <span className="text-[10px] px-1.5 rounded bg-black/5 text-black/50">{repartoLeggibile(e.reparto_guida)}</span>}
+                          {e.stato && <span className="text-[10px] px-1.5 rounded bg-black/10 text-black/55">{traduciTestoCompleto(e.stato)}</span>}
                         </div>
+                        {e.esito && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Esito</div>
+                            <TestoUmano testo={e.esito} className="text-[12px] text-black/60 mt-0.5" />
+                          </div>
+                        )}
                         <ParlaCasella titolo={`Esperimento: ${(e.ipotesi || "").slice(0, 50)}`} contesto={[e.ipotesi, e.esito].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
@@ -758,10 +852,27 @@ export default function AutoCoscienza({
                   <div className="space-y-2">
                     {mi.peer_review.map((p, i) => (
                       <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="text-[12.5px] font-medium">{p.lavoro} <span className="t-eti">· di {p.autore}</span></div>
-                        {p.guadagno && <div className="text-[12px] text-green-700 mt-0.5">▲ {p.guadagno}</div>}
-                        {p.revisori && <div className="t-eti mt-0.5">rivisto da: {p.revisori.join(", ")}</div>}
-                        <ParlaCasella titolo={`Peer review: ${p.lavoro}`} contesto={[p.lavoro && `Lavoro: ${p.lavoro}`, p.guadagno && `Guadagno: ${p.guadagno}`].filter(Boolean).join(" · ")} />
+                        <div className="text-[12.5px] font-medium">{traduciTestoCompleto(p.lavoro || "")} <span className="t-eti">· di {repartoLeggibile(p.autore) || p.autore}</span></div>
+                        {p.guadagno && (
+                          <div className="mt-1">
+                            <div className="text-[12px] text-green-700 font-medium">Miglioramento</div>
+                            <TestoUmano testo={p.guadagno} className="text-[12px] text-green-700/90 mt-0.5" />
+                          </div>
+                        )}
+                        {p.prima && (
+                          <div className="mt-1.5">
+                            <div className="text-[11px] font-semibold text-black/50">Prima</div>
+                            <TestoUmano testo={p.prima} className="text-[11.5px] text-black/55 mt-0.5" />
+                          </div>
+                        )}
+                        {p.dopo && (
+                          <div className="mt-1.5">
+                            <div className="text-[11px] font-semibold text-black/50">Dopo</div>
+                            <TestoUmano testo={p.dopo} className="text-[11.5px] text-black/55 mt-0.5" />
+                          </div>
+                        )}
+                        {p.revisori && <div className="t-eti mt-1.5">Rivisto da: {p.revisori.map((r) => repartoLeggibile(r) || r).join(", ")}</div>}
+                        <ParlaCasella titolo={`Revisione tra specialisti: ${p.lavoro}`} contesto={[p.lavoro && `Lavoro: ${p.lavoro}`, p.guadagno && `Guadagno: ${p.guadagno}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -774,9 +885,20 @@ export default function AutoCoscienza({
                   <div className="space-y-2">
                     {mi.proposte_auto_riscrittura.map((p, i) => (
                       <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
-                        <div className="text-[12.5px] font-medium">{p.cosa}</div>
-                        {p.perche && <div className="text-[12px] text-black/65 mt-0.5">{p.perche}</div>}
-                        {p.dove && <div className="t-eti mt-0.5 font-mono">{p.dove}</div>}
+                        <div className="text-[12px] font-semibold text-amber-900/80">Cosa vorrebbe cambiare</div>
+                        <TestoUmano testo={p.cosa} className="text-[12.5px] font-medium mt-0.5" />
+                        {p.perche && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Perché</div>
+                            <TestoUmano testo={p.perche} className="text-[12px] text-black/65 mt-0.5" />
+                          </div>
+                        )}
+                        {p.dove && (
+                          <div className="mt-1.5">
+                            <div className="text-[12px] font-semibold text-black/70">Dove nel sistema</div>
+                            <TestoUmano testo={p.dove} className="text-[12px] text-black/55 mt-0.5" />
+                          </div>
+                        )}
                         <ParlaCasella titolo={`Proposta: ${(p.cosa || "").slice(0, 50)}`} contesto={[p.cosa, p.perche, p.dove].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
