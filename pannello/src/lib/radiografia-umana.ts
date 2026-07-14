@@ -56,6 +56,42 @@ const SOSTITUZIONI: [RegExp, string][] = [
   [/\bpayout\b/gi, "incasso al negozio"],
   [/\bclaw-back\b/gi, "recupero soldi"],
   [/\bidempotencyKey\b/g, "chiave anti-doppio"],
+  // Auto-coscienza e giro
+  [/\bNorth Star\s*0→1\b/gi, "primo ordine reale consegnato (obiettivo principale)"],
+  [/\bNorth Star\s*0\b/gi, "ancora zero ordini reali"],
+  [/\bNorth Star\b/gi, "obiettivo principale (primo ordine reale)"],
+  [/\bREST\s+live\b/gi, "dati live dal sito"],
+  [/\bREST\s+ok\b/gi, "dati del sito ok"],
+  [/\bREST\b/g, "dati reali dal sito"],
+  [/\bMCP\s+Supabase\s+cieco\b/gi, "collegamento diretto al database non attivo in questa sessione"],
+  [/\bMCP\b/g, "collegamento diretto agli strumenti"],
+  [/\bBURN_MENSILE_EUR\b/g, "spesa mensile in euro (da impostare sul server)"],
+  [/\bvps\/\.env\b/gi, "file di configurazione sul server"],
+  [/\bdelta-gate\b/gi, "controllo «è cambiato qualcosa dal giro precedente?»"],
+  [/\bgiri_ciechi\b/gi, "giri senza accesso ai dati"],
+  [/\bcantiere_difetti\b/gi, "lista difetti da sistemare"],
+  [/\bPostHog\b/g, "strumento che misura le visite del sito"],
+  [/\bGATE-BUDGET\b/gi, "freno sul budget dell'AI"],
+  [/\bcoerenza-fatti\b/gi, "controllo che i numeri tornino ovunque"],
+  [/\bchiusura-loop\b/gi, "registro di cosa ha imparato ogni reparto"],
+  [/\ballowlist\b/gi, "lista permessi"],
+  [/\bpreference learning\b/gi, "cosa ho capito delle tue preferenze"],
+  [/\bscelta_ragionata\b/gi, "scelta motivata con prove"],
+  [/\bda_verificare\b/gi, "da confermare con te"],
+  [/\bpayout-test\b/gi, "test dell'incasso al negozio"],
+  [/\bVP\b/g, "Venerdì Piacentini"],
+  [/\bT-(\d+)\b/g, "$1 giorni prima dell'evento"],
+  [/\bApprova\s+#(\d+)\b/gi, "approva la card $1 in Da approvare"],
+  [/\bPR\s+#(\d+)\b/gi, "modifica da approvare numero $1"],
+  [/\bAR-(\d+)\b/g, "regola interna AR-$1"],
+  [/\bCtrl\+Shift\+R\b/gi, "ricarica forzata del Pannello"],
+  [/\bgiri\b/gi, "cicli di controllo"],
+  [/\bstallo\b/gi, "fermo"],
+  [/\bseller_id\b/gi, "codice negozio"],
+  [/\banti-?churn\b/gi, "controllo per non perdere negozi"],
+  [/\bpeer review\b/gi, "revisione tra specialisti"],
+  [/\bauto-riscrittura\b/gi, "riscrittura automatica dei prompt"],
+  [/\[\[([^\]]+)\]\]/g, "($1)"],
 ];
 
 const SLUG_RE = /\b[a-z]+(?:-[a-z]+)+\b/g;
@@ -75,6 +111,51 @@ function applicaSostituzioni(s: string): string {
   let t = s;
   for (const [re, rep] of SOSTITUZIONI) t = t.replace(re, rep);
   return t;
+}
+
+/** Traduzione completa senza tagli: tutto il testo, in italiano semplice. */
+export function traduciTestoCompleto(s: string): string {
+  let t = testoPulito(s);
+  if (!t) return "";
+  const pathSegnaposto: string[] = [];
+  t = t.replace(
+    /[`']?((?:consegne|creativi|MyCity-Vault|cervello|pannello|vps)\/[\w./@-]+(?:\.[\w]+)?)[`']?/gi,
+    (m) => {
+      const i = pathSegnaposto.length;
+      pathSegnaposto.push(m.replace(/[`']/g, ""));
+      return `§P${i}§`;
+    },
+  );
+  t = traduciSlugNelTesto(t);
+  t = applicaSostituzioni(t);
+  t = t.replace(/§P(\d+)§/g, (_, i) => {
+    const p = pathSegnaposto[Number(i)] || "";
+    const file = p.split("/").pop() || p;
+    const cartella = p.split("/")[0] || "archivio";
+    return `documento in ${cartella.replace("MyCity-Vault", "memoria")} (${file})`;
+  });
+  return t
+    .split("\n")
+    .map((riga) => riga.replace(/[^\S\n]{2,}/g, " ").trim())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+export type QuadroTesto = { visibile: string; tecnici: string };
+
+/** Testo umano completo + appendice con originali/path/codici (niente omesso). */
+export function quadroTesto(testo: string): QuadroTesto {
+  const raw = (testo || "").trim();
+  if (!raw) return { visibile: "", tecnici: "" };
+  const visibile = traduciTestoCompleto(raw);
+  const parti: string[] = [];
+  if (raw !== visibile) parti.push(raw);
+  const paths = [...raw.matchAll(/(?:consegne|creativi|MyCity-Vault|cervello|pannello|vps)\/[\w./@-]+/g)].map((m) => m[0]);
+  const codici = [...raw.matchAll(/\b(?:L-\d{4}-\d{3,}|AR-\d+|PR #\d+)\b/g)].map((m) => m[0]);
+  if (paths.length) parti.push("File:\n" + [...new Set(paths)].join("\n"));
+  if (codici.length) parti.push("Codici:\n" + [...new Set(codici)].join(" · "));
+  return { visibile: visibile || raw, tecnici: parti.filter(Boolean).join("\n\n") };
 }
 
 function frasePrincipale(s: string, max = 320): string {
@@ -172,9 +253,10 @@ export function humanizzaFinding(f: {
 
 export function humanizzaErrore(e: { titolo?: string; dettaglio?: string; riguarda?: string }): FindingUmano {
   const titolo = titoloFinding(e.titolo || "Errore");
-  const cosaSuccede = e.dettaglio ? frasePrincipale(e.dettaglio) : titolo;
+  const cosaSuccede = e.dettaglio ? traduciTestoCompleto(e.dettaglio) : titolo;
   const tecnici = bloccoTecnico([
-    e.dettaglio && e.dettaglio !== cosaSuccede ? e.dettaglio : undefined,
+    e.titolo && e.titolo !== titolo ? `Titolo originale:\n${e.titolo}` : undefined,
+    e.dettaglio && e.dettaglio !== cosaSuccede ? `Dettaglio originale:\n${e.dettaglio}` : undefined,
     e.riguarda ? `Riguarda: ${e.riguarda}` : undefined,
   ]);
   return { titolo, cosaSuccede, tecnici };
