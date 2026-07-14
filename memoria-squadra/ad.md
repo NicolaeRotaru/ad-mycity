@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-14 02:11 · Chat Nicola debrief visita — «l'ho già mangiata, perché Scoperte non si aggiorna?» · atteso: spiegare gap Scoperte vs chat + registrare fatto · reale: STATO 02:10 (mangiato, locale TBD); Scoperte ferma a 13/7 20:21; L-202 + preferenza; debrief incompleto · L-202 · #scoperte #debrief #pannello #briefing
 - 2026-07-14 01:00 · Chat Nicola «chiudi AR-006» · atteso: housekeeping cantiere+coda post-merge #349 · reale: AR-006 `chiuso` in cantiere, R3/#119 FATTO, allocazione-check exit 0 (PQ 16, Garetti 0) · L-167 evidenze 3 · #AR-006 #allocazione #housekeeping
 - 2026-07-13 22:33 · Chat Nicola avviso incoerenza 18:20 — «cosa c'è di incoerente?» · atteso: diagnosi con coerenza-fatti + spiegare storico vs attivo · reale: exit 0 22:31, fix 20:21 (33 copie), avviso resta finché non risolto · L-187 · #coerenza-fatti #avvisi
 - 2026-07-13 21:10 · Chat Nicola ritmo illeggibile — «piano mattino e report sera mal scritti» · atteso: italiano semplice + Plancia a sezioni · reale: PR #350 + template ritmo + RitmoTesto, merge 🔴 #120 · L-170 · #ritmo #leggibilità
