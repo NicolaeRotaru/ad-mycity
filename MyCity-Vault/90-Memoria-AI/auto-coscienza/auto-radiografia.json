@@ -159,7 +159,11 @@
             "file": "memoria-squadra/rating-centrale-rischi.md",
             "pattern": ".",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "memoria-squadra/rating-centrale-rischi.md contiene /./ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "La scorecard 1-5 a 6 assi (cuore misurabile della RUBRICA-LIVELLI) è descritta nel doc ma NON installata nei prompt: solo 3 senior su 120 la citano",
@@ -175,7 +179,11 @@
             "file": ".claude/agents/vendite.md",
             "pattern": "scorecard",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": ".claude/agents/vendite.md contiene /scorecard/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Stato di rollout stale: STAMPO e chiusura-loop dicono 'installato 42/42' / 'i 42 senior', ma i senior con Scheda Mestiere sono 120/120",
@@ -191,7 +199,11 @@
             "file": "MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md",
             "pattern": "42/42",
             "presente": false
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md NON contiene /42/42/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Kit stub: 10 senior hanno lo strato 3-4-5 'descritto' non 'installato' (kit 3-4,8KB contro i 15-25KB standard) — sono i senior a metà",
@@ -207,7 +219,11 @@
             "file": "MyCity-Vault/07-Agenti/kit/consulente-bancario-KIT.md",
             "pattern": "\\n## E\\.",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "MyCity-Vault/07-Agenti/kit/consulente-bancario-KIT.md contiene /\\n## E\\./ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Manca il guardiano dello stampo: nessuno verifica che ogni senior abbia Scheda completa + kit non-stub + quaderno + hook rubrica",
@@ -223,7 +239,11 @@
             "file": "cervello/stampo-check.mjs",
             "pattern": ".",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "cervello/stampo-check.mjs contiene /./ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "5 senior senza il hook [[RUBRICA-LIVELLI]] nel prompt: strato 7 agganciato in modo incoerente",
@@ -239,7 +259,11 @@
             "file": ".claude/agents/legale-privacy.md",
             "pattern": "RUBRICA-LIVELLI",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": ".claude/agents/legale-privacy.md contiene /RUBRICA-LIVELLI/ → trovato",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -458,7 +482,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json",
             "pattern": "\"agenti_totali\"\\s*:\\s*42",
             "presente": false
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json NON contiene /\"agenti_totali\"\\s*:\\s*42/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "GLOSSARIO-KPI (la 'sola verita' dei numeri) ha definizioni ancora a placeholder e divergenze aperte, senza owner ne scadenza",
@@ -568,7 +596,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json",
             "pattern": "\"reparto\":\\s*\"@(?!AD)",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json contiene /\"reparto\":\\s*\"@(?!AD)/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Due sistemi paralleli di atteso→reale che non si parlano: chiusura-loop non alimenta calibrazione",
@@ -736,7 +768,11 @@
             "file": "cervello/calibrazione.mjs",
             "pattern": "banale|baseline|difficolt",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "cervello/calibrazione.mjs contiene /banale|baseline|difficolt/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il canale prosa auto-conferma contro sensori ciechi o dati stantii — le guardie AR-061/AR-062 non lo coprono",
@@ -792,7 +828,11 @@
             "file": "cervello/verifica-sensori.mjs",
             "pattern": "checkSupabaseMemoria|SUPABASE_URL",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /checkSupabaseMemoria|SUPABASE_URL/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Due registri-rischi divergenti, nessun guardiano che li riconcilia",
@@ -1746,17 +1786,17 @@
     "aggiornato": "2026-07-13 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 02:06",
-    "findings_aperti": 63,
+    "aggiornato": "2026-07-14 03:13",
+    "findings_aperti": 53,
     "findings_in_corso": 0,
-    "findings_chiusi": 11,
+    "findings_chiusi": 21,
     "findings_tot": 74,
     "cantiere_aperti": 0,
-    "cantiere_in_corso": 1,
-    "cantiere_chiusi": 42,
-    "match_aggiornati": 0,
+    "cantiere_in_corso": 0,
+    "cantiere_chiusi": 43,
+    "match_aggiornati": 10,
+    "chiusi_verifica": 10,
     "data_scan": "2026-07-07 22:21",
-    "voto_live": 75,
-    "nota": "coerenza-agenti: 4 chiusi, 1 aperto (model tier)"
+    "voto_live": 100
   }
 }

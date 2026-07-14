@@ -1,16 +1,9 @@
 ## Summary
+- Dopo il merge della PR #370 (stampo 120/120), la casella «Come pensa l'AD» mostrava ancora 6 problemi perché i finding della radiografia non erano segnati come chiusi.
+- Esteso `allinea-scan-cantiere.mjs`: se un finding ha blocco `verifica` e il fix è confermato nel codice, lo chiude automaticamente (come già fa `auto-fix` sul cantiere).
+- Eseguito allineamento: i 6 problemi di `vettori-installati` risultano chiusi; la casella mostra solo la sintesi verde.
 
-Ripristina l'ordine **stabile** delle conversazioni nel cassetto Assistente: aprire o cliccare una chat **non la sposta più in cima** (comportamento già corretto il 12/7 con PR #303, reintrodotto per errore da PR #371).
-
-Mantiene il header pulito di #371 (icona History, titolo solo quando c'è una chat aperta).
-
-## Perché
-
-Nicola ha mergiato per sbaglio #371 che riportava `convVistaAt` / `segnaVista`: ogni click spostava la chat in cima alla lista.
-
-## Come provare
-
-1. Apri Assistente → cassetto Conversazioni
-2. Nota l'ordine (pinnate in cima, poi per data creazione)
-3. Clicca una chat a metà lista → **resta al suo posto**, si apre il contenuto
-4. Header: icona orologio/storico, niente «Parla con l'assistente»
+## Test plan
+- [ ] Merge su main → refresh Pannello → Radiografia macchina → «Come pensa l'AD»: nessuna scheda problema sotto la sintesi.
+- [ ] `node cervello/allinea-scan-cantiere.mjs` → output con `chiusi_verifica` coerente, exit 0.
+- [ ] `node cervello/stampo-check.mjs` → `120/120 senior completi`.
