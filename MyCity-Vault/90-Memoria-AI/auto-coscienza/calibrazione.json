@@ -1,7 +1,15 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-14 11:10",
+  "aggiornato": "2026-07-14 11:13",
   "per_reparto": [
+    {
+      "reparto": "@customer-success",
+      "previsioni": 1,
+      "azzeccate": 1,
+      "punteggio": 1,
+      "lower_bound": 0.38,
+      "autonomia": "bassa"
+    },
     {
       "reparto": "@AD",
       "previsioni": 0,
@@ -224,9 +232,25 @@
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 11:10",
       "chiuso_il": "2026-07-14 11:10"
+    },
+    {
+      "id": "CAL-20260714091311-custom",
+      "reparto": "@customer-success",
+      "azione": "playbook recensioni 14/7 11:11",
+      "metrica": "esito_loop",
+      "atteso": 0,
+      "reale": 0,
+      "entro": "2026-07-14",
+      "tolleranza": 0.25,
+      "stato": "azzeccata",
+      "scarto_pct": 0,
+      "fonte": "chiusura-loop ESITO",
+      "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+      "creato": "2026-07-14 11:13",
+      "chiuso_il": "2026-07-14 11:13"
     }
   ],
-  "_nota": "8 chiuse · 3 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "9 chiuse · 3 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

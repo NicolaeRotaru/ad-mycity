@@ -206,3 +206,24 @@ Quando volume > 10 ordini/settimana: collegare trigger `Consegnato` → coda not
 **Quando scatta:** alla **prima consegna reale** su Pane Quotidiano (ordine-prova payout-test). Alla consegna: leggere UUID ordine → riempire link in A14 → Touch 1 manuale (A13) o firma automazione (#recensioni-trigger).
 
 **Colore:** 🟢 preparazione/ri-verifica (questo giro) · 🔴 invio messaggio a cliente reale.
+
+---
+
+## Ri-esecuzione 2026-07-14 11:11 (playbook:recensioni — worker)
+
+**Fonte live:** Supabase REST `verifica-sensori.mjs` ✅ · query diretta `orders` + `reviews` + `store_reviews` 14/7 11:11 (Europe/Rome).
+
+| Metrica | Valore | Fonte |
+|---|---|---|
+| Ordini totali in DB | **1** | `orders` REST 14/7 11:11 |
+| Consegne completate (`delivery_status=DELIVERED`) | **0** | stesso |
+| Consegne con `delivered_at` valorizzato | **0** | stesso |
+| Recensioni negozio (`store_reviews`) | **0** | stesso |
+| Recensioni prodotto (`reviews`) | **0** | stesso |
+| **Consegne completate SENZA recensione** | **0** | nessun destinatario reale oggi |
+
+**Esito invariato vs 02:42:** zero clienti da sollecitare. Ordine zombie `58094956…` CANCELED — non contattare.
+
+**Deliverable:** `consegne/customer-success/2026-07-14-playbook-recensioni-pronte.md` · AZIONI-PRONTE **A4/A13/A14/A27** ri-timestampati 11:11.
+
+**Colore:** 🟢 ri-verifica · 🔴 invio (solo su consegna reale + feedback ≠ negativo).

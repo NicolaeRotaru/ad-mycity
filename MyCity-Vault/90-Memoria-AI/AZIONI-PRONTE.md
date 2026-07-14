@@ -103,7 +103,7 @@ testo (Touch 2 · recensione, +1 giorno · SOLO se Touch 1 è 👍):
 Buongiorno! Come promesso, ecco il link per lasciare due righe su [NEGOZIO] 🌟
 👉 [LINK-RECENSIONE]  ← verificare LIVE prima dell'invio
 Bastano 30 secondi: stelline + una frase vera. Sarebbe una delle prime recensioni verificate di MyCity a Piacenza — grazie di cuore!
-stato: MODELLO PRONTO — nessun invio. **Ri-verificato 2026-07-14 02:42** (playbook recensioni RIPROVA Nicola): REST live ✅ — `delivery_status=delivered` = **0**, `store_reviews` = **0**, `reviews` = **0**, ordini totali = **1** (unico ordine `58094956…` **CANCELED** 3/7, `delivered_at` null). → **Consegne completate senza recensione: 0**. Nessun cliente reale da sollecitare oggi (inviare a ordine annullato = inventato). Primo invio alla prima consegna reale PQ: istanze **A13** + **A14**; automazione email = **#recensioni-trigger**; indice giro = **A27**.
+stato: MODELLO PRONTO — nessun invio. **Ri-verificato 2026-07-14 11:11** (playbook recensioni worker): REST live ✅ — `delivery_status=DELIVERED` = **0**, `store_reviews` = **0**, `reviews` = **0**, ordini totali = **1** (unico ordine `58094956…` **CANCELED** 3/7, `delivered_at` null). → **Consegne completate senza recensione: 0**. Nessun cliente reale da sollecitare oggi (inviare a ordine annullato = inventato). Primo invio alla prima consegna reale PQ: istanze **A13** + **A14**; automazione email = **#recensioni-trigger**; indice giro = **A27**; pacchetto `consegne/customer-success/2026-07-14-playbook-recensioni-pronte.md`.
 
 ## A5 · ⭐ Risposta a una recensione bassa
 reparto: supporto
@@ -193,7 +193,7 @@ testo:
 Ciao! Sono Nicola di MyCity 👋 Ti è arrivata la spesa da Pane Quotidiano? Spero pesto e kefir
 siano come al banco. Siamo appena nati e ogni tua parola conta: com'è andata?
 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema. Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
-stato: BOZZA PRONTA — gate ordine-prova PQ **Consegnato**. **Ri-verificato 2026-07-14 02:42:** 0 consegne → nessun invio oggi.
+stato: BOZZA PRONTA — gate ordine-prova PQ **Consegnato**. **Ri-verificato 2026-07-14 11:11:** 0 consegne → nessun invio oggi.
 
 ## A14 · ⭐ Touch 2 post-consegna — richiesta recensione (primo ordine consegnato · Pane Quotidiano)
 reparto: customer-success
@@ -210,26 +210,26 @@ Buongiorno! Come promesso, ecco il link per lasciare due righe su Pane Quotidian
 Bastano 30 secondi: stelline + una frase vera (spunto: "Prodotti bio freschi, consegna puntuale a mano, gentilissimi").
 Sarebbe la prima recensione verificata di MyCity a Piacenza — grazie di cuore!
 promemoria: una sola ripetizione gentile +2 giorni se silenzio, poi stop.
-stato: BOZZA PRONTA — gate ordine-prova PQ **Consegnato**. **Ri-verificato 2026-07-14 02:42:** 0 consegne → nessun invio oggi. Link `{ID-ORDINE-PROVA}` si riempie all'atto della prima consegna reale.
+stato: BOZZA PRONTA — gate ordine-prova PQ **Consegnato**. **Ri-verificato 2026-07-14 11:11:** 0 consegne → nessun invio oggi. Link `{ID-ORDINE-PROVA}` si riempie all'atto della prima consegna reale.
 
 ## A27 · ⭐ Playbook recensioni — ri-verifica 14/7 (0 consegne, messaggi armati)
 reparto: customer-success
 livello: 🟢 (sola lettura + bozze) · 🔴 l'invio al cliente reale
 canale: WhatsApp/email/in-app (manuale A13→A14) oppure email automatica Resend (#recensioni-trigger)
 perche: Nicola ha riapprovato il playbook recensioni. Serve sapere **chi** contattare dopo ogni consegna e avere il testo pronto — senza inventare destinatari quando non c'è nessuna consegna.
-preparato: 🤗 customer-success — playbook `consegne/customer-success/2026-07-01-playbook-recensioni.md` (§ 14/7 02:42)
-snapshot live (REST 14/7 02:42):
+preparato: 🤗 customer-success — playbook `consegne/customer-success/2026-07-01-playbook-recensioni.md` + pacchetto `consegne/customer-success/2026-07-14-playbook-recensioni-pronte.md`
+snapshot live (REST 14/7 11:11):
   · Ordini totali: **1**
   · Consegne completate: **0**
   · Recensioni (negozio + prodotto): **0**
   · Consegne senza recensione da sollecitare: **0**
   · Ordine zombie CANCELED `58094956…` — **non contattare**
-gate: messaggio parte SOLO su `delivery_status=delivered`. Touch 2 recensione solo se Touch 1 ≠ 👎.
+gate: messaggio parte SOLO su `delivery_status=DELIVERED`. Touch 2 recensione solo se Touch 1 ≠ 👎.
 cosa usare:
   · **Concierge (primi ordini):** A13 (grazie + feedback +3h) → se 👍 A14 (link recensione +1g)
   · **Automazione volume:** template `consegne/customer-success/2026-07-11-template-email-recensione.md` — firma **#recensioni-trigger** in [[AZIONI-IN-ATTESA]]
 se va bene: alla prima consegna PQ il cliente riceve grazie entro poche ore e, se contento, link recensione → prime stelle verificate su MyCity.
-stato: VERIFICATO 2026-07-14 02:42 — nessun destinatario oggi; bozze pronte per la prima consegna reale.
+stato: VERIFICATO 2026-07-14 11:11 — nessun destinatario oggi; bozze pronte per la prima consegna reale.
 
 ## A9 · 💚 Rassicurazione standalone al titolare — Pane Quotidiano (parte anche se l'ordine è ancora fermo)
 ⚠️ **SUPERATA il 2026-07-06 12:41 → sostituita dalla riga #26 in [[AZIONI-IN-ATTESA]].** Premessa morta: lo script diceva «il primo ordine sta tardando ad arrivare», ma l'ordine #16 è stato ANNULLATO il 3/7 (non "in ritardo"). NON usare questo testo. Usa lo script post-annullamento §3 di `consegne/account-negozi/2026-07-06-anti-churn-pane-quotidiano-post-annullamento.md` (coda #26).
