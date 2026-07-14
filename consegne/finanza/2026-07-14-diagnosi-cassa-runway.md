@@ -2,25 +2,25 @@
 data: 2026-07-14 03:25
 tipo: diagnosi
 reparto: finanza
-origine: sentinella cassa_sconosciuta (95 giri)
+origine: sentinella cassa_sconosciuta (96 giri)
 ---
 
 # Diagnosi cassa / runway — 14 luglio 2026
 
 ## In una riga per Nicola
 
-**Stripe funziona e legge 0€ in cassa; manca solo che tu dica quanto spendiamo al mese (`BURN_MENSILE_EUR`) — senza quel numero il runway resta «sconosciuto» da 95 giri.**
+**Stripe funziona e legge 0€ in cassa; manca solo che tu dica quanto spendiamo al mese (`BURN_MENSILE_EUR`) — senza quel numero il runway resta «sconosciuto» da 96 giri.**
 
 ---
 
-## Cosa abbiamo verificato (04:41, VPS)
+## Cosa abbiamo verificato (04:42, VPS)
 
 | Pezzo | Stato | Prova |
 |---|---|---|
 | `STRIPE_SECRET_KEY` | ✅ collegata | `verifica-sensori.mjs` → `stripe_api: balance API ok` |
 | Cassa Stripe | **0 €** | `sensore-cassa.mjs` → available + pending = 0 |
 | `BURN_MENSILE_EUR` | ❌ assente | env non impostato |
-| Runway | **sconosciuto** | 95 giri consecutivi senza calcolo |
+| Runway | **sconosciuto** | 96 giri consecutivi senza calcolo |
 | Ordini pagati | 0 | nessun incasso marketplace in cassa |
 
 **Correzione importante:** il messaggio vecchio diceva «collega STRIPE_SECRET_KEY» — **è fuorviante**. Stripe è già collegato da tempo. Il blocco reale è **solo il burn mensile**.
@@ -82,4 +82,4 @@ Poi riavvia il worker o aspetta il prossimo giro — `sensore-cassa.mjs` ricalco
 
 ---
 
-*Fonti: `cassa-runway.json` 14/7 04:41 · `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · `sensori-cecita.json` · regola AR-039/AR-016*
+*Fonti: `cassa-runway.json` 14/7 04:42 · `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · `sensori-cecita.json` · regola AR-039/AR-016*

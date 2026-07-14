@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-14 04:41",
+  "aggiornato": "2026-07-14 04:42",
   "per_reparto": [
     {
       "reparto": "@AD",
@@ -28,7 +28,7 @@
     },
     {
       "reparto": "@finanza",
-      "previsioni": 3,
+      "previsioni": 4,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -128,9 +128,25 @@
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 04:41",
       "chiuso_il": "2026-07-14 04:41"
+    },
+    {
+      "id": "CAL-20260714024242-finanz",
+      "reparto": "@finanza",
+      "azione": "sentinella cassa_sconosciuta 96 giri 04:42",
+      "metrica": "esito_loop",
+      "atteso": 96,
+      "reale": 0,
+      "entro": "2026-07-14",
+      "tolleranza": 0.25,
+      "stato": "mancata",
+      "scarto_pct": 100,
+      "fonte": "chiusura-loop ESITO",
+      "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+      "creato": "2026-07-14 04:42",
+      "chiuso_il": "2026-07-14 04:42"
     }
   ],
-  "_nota": "3 chiuse · 3 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "4 chiuse · 3 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {
