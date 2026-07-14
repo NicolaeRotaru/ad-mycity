@@ -450,6 +450,7 @@ function cmdDaLoop(data) {
     return;
   }
   const id = nuovoId(reparto);
+  const fonte = "chiusura-loop ESITO";
   const { azzeccata, scarto_pct } = valuta(atteso, reale, TOLLERANZA_DEFAULT);
   const quando = nowPiacenza();
   data.registro.push({
@@ -463,7 +464,9 @@ function cmdDaLoop(data) {
     tolleranza: TOLLERANZA_DEFAULT,
     stato: azzeccata ? "azzeccata" : "mancata",
     scarto_pct,
-    fonte: "chiusura-loop ESITO",
+    fonte,
+    sensore_stato: sensoreStatoPerFonte(fonte),
+    banale: isPrevisioneBanale({ azione, metrica: "esito_loop", atteso, nota: "" }, reale),
     nota: "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
     creato: quando,
     chiuso_il: quando,
