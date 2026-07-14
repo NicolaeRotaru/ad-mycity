@@ -166,6 +166,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sonda-volano.mjs" --json 2>&1 | tail -8 || true
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
+  echo "[$(ts)] Sentinella fonti web (AR-036)..."
+  node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD)..."
@@ -286,6 +288,8 @@ if command -v node >/dev/null 2>&1; then
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
+  echo "[$(ts)] Sincronizza proposte auto-riscrittura → cantiere..."
+  node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
   node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
 

@@ -73,6 +73,8 @@ const STORICO_PATH = join(VAULT, "storico-salute.json");
 const RADIOGRAFIA_PATH = join(VAULT, "auto-radiografia.json");
 const APPRENDIMENTO_PATH = join(VAULT, "apprendimento.json");
 const CASSA_RUNWAY_PATH = join(VAULT, "cassa-runway.json"); // AR-035: la sentinella M6 LEGGE il file del sensore-cassa
+const FONTI_SALUTE_PATH = join(AD_ROOT, "cervello/fonti-salute.json"); // AR-036: consumatore fonti web
+const CASSA_SCONOSCIUTO_GIRI = Number(process.env.SENTINELLA_DATI_CASSA_SCONOSCIUTO_GIRI || 5);
 
 // ---------- util ----------
 function readJson(path, fallback = {}) {
@@ -148,7 +150,9 @@ async function leggiStatoReale(state) {
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
     sensori_max_ciechi: 0, salute_voto: null, radiografia_ore: null, volano_tasso: null,
     // AR-035: cassa/runway (rischio esistenziale n.1) — la sentinella deve LEGGERE cassa-runway.json
-    runway_mesi: null, runway_stato: null, runway_soglia: null,
+    runway_mesi: null, runway_stato: null, runway_soglia: null, giri_sconosciuto: null,
+    // AR-036: fonti web (sentinella-fonti.mjs → fonti-salute.json)
+    fonti_allerta_critico: null,
   };
 
   // ===== BUSINESS (marketplace, sola lettura) =====
@@ -254,6 +258,12 @@ async function leggiStatoReale(state) {
   s.runway_mesi = typeof cassa.runway_mesi === "number" ? cassa.runway_mesi : null;
   s.runway_stato = typeof cassa.stato === "string" ? cassa.stato : null;
   s.runway_soglia = typeof cassa.soglia_allerta_mesi === "number" ? cassa.soglia_allerta_mesi : null;
+  s.giri_sconosciuto = typeof cassa.giri_sconosciuto === "number" ? cassa.giri_sconosciuto : null;
+
+  const fonti = readJson(FONTI_SALUTE_PATH, {});
+  s.fonti_allerta_critico = Array.isArray(fonti.allerta_peso_critico) && fonti.allerta_peso_critico.length
+    ? fonti.allerta_peso_critico
+    : null;
 
   return s;
 }
@@ -341,6 +351,33 @@ function valutaRegole(s, state) {
       titolo: `Runway cassa ${s.runway_mesi} mesi (< ${soglia}): rischio esistenziale`,
       firma: String(s.runway_mesi),
       prompt: `Sentinella macchina 🧠 — CASSA/RUNWAY CRITICO: il runway è ${s.runway_mesi} mesi, sotto la soglia di allerta (${soglia} mesi) — dato da cassa-runway.json (sensore-cassa). È il rischio esistenziale n.1. Rivedi con finanza cassa disponibile e burn mensile, prepara il piano (taglio burn / incasso / fundraising) e porta a Nicola le opzioni con la raccomandazione. NON muovere denaro da solo.`,
+    });
+  }
+
+  // M6b — Sensore-cassa cieco da N giri (runway 'sconosciuto', AR-039): replica M2 sul sensore-cassa.
+  if (
+    s.runway_stato === "sconosciuto"
+    && typeof s.giri_sconosciuto === "number"
+    && s.giri_sconosciuto >= CASSA_SCONOSCIUTO_GIRI
+  ) {
+    eventi.push({
+      ambito: "macchina", chiave: "cassa_sconosciuta", colore: "🟡", reparto: "finanza", cooldownOre: 24,
+      dedupPersistente: true,
+      titolo: `Sensore-cassa cieco da ${s.giri_sconosciuto} giri (runway sconosciuto)`,
+      firma: String(s.giri_sconosciuto),
+      prompt: `Sentinella macchina 🧠 — SENSORE-CASSA CIECO: runway 'sconosciuto' da ${s.giri_sconosciuto} giri (cassa-runway.json). Collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS per calcolare il runway. Prepara la diagnosi per Nicola — NON muovere denaro da solo.`,
+    });
+  }
+
+  // M8 — Fonte web peso≥4 morta (AR-036): legge fonti-salute.json (sentinella-fonti.mjs).
+  if (Array.isArray(s.fonti_allerta_critico) && s.fonti_allerta_critico.length > 0) {
+    const ids = s.fonti_allerta_critico.map((x) => x.id).join(",");
+    eventi.push({
+      ambito: "macchina", chiave: "fonti_web_morte", colore: "🟡", reparto: "intelligence", cooldownOre: 12,
+      dedupPersistente: true,
+      titolo: `${s.fonti_allerta_critico.length} fonte/i web critica/e morta/e`,
+      firma: ids,
+      prompt: `Sentinella macchina 🧠 — FONTI WEB MORTE: fonti-salute.json segnala ${s.fonti_allerta_critico.length} fonte/i peso≥4 morte da ≥3 controlli (${ids}). Verifica URL/DNS, aggiorna radar-fonti.json se la fonte è cambiata, e prepara un piano per non spendere token su intelligence a vuoto.`,
     });
   }
 
