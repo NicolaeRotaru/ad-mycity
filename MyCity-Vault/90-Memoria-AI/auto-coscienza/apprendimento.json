@@ -17,6 +17,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0714-218",
+      "testo": "**VP 17/7 senza bici = ritiro PQ, non domicilio (chat 14/7 ~02:57-02:59, correzione Nicola):** su Opportunità «Primo ordine VP 17/7» Nicola «Non avrò ancora la bici entro venerdì, ma vado lunedì prossimo a ripararla» → **corretto subito:** «No, non è vero [lun 21/7]: prossima settimana bollette, riparazione bici settimana dopo». 5 perché: (1) l'AD aveva interpretato «lunedì prossimo» come 21/7 fissando date senza chiedere — Nicola corregge con sequenza reale (bollette → bici → botteghe); (2) senza bici **non** si promette «consegna fresca a domicilio» al VP — ma il VP resta finestra utile con **ritiro al banco** (Nicola ci va a piedi); (3) ritiro-prima-consegna-dopo (L-67) **confermato operativamente** per North Star+payout-test al 17/7; (4) inserimento altre botteghe gated su bici operativa → slitta ad agosto; (5) **regola:** su timeline logistica Nicola chiedere date esatte o registrare come «orientativo» finché non conferma — mai propagare date dedotte in registro-fatti. Fonte: `logistica.bici-consegna` aggiornato 02:59.",
+      "tag": [
+        "vp17",
+        "bici",
+        "ritiro-prima",
+        "pane-quotidiano",
+        "north-star",
+        "correzione-nicola",
+        "caso-studio",
+        "operations"
+      ],
+      "reparto": "@operations",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 03:00",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0714-216",
       "testo": "**Opportunità — sempre descrizione umana (chat 14/7 ~02:58, correzione Nicola):** Nicola «Cioè? Non ho capito, aggiungi sempre la descrizione a questa casella» su Opportunità «494 campi catalogo» (Scoperte). 5 perché: (1) standing-ask **parallelo a L-217** (Avvisi) — testo tecnico «condition+unit autofill» da solo non basta; (2) «494» sembra enorme senza scomposizione → Nicola chiede in chat ogni volta (pattern L-155 «Cioè?»); (3) **494 = 252** schede senza condizione (→ «nuovo») **+ 242** senza unità (→ «pezzo»), supervisione 8/7, reversibile, **2 card gialle separate** in Azioni (non una); (4) **fix strutturale 🟡 PR #374** — come `descrizione-avviso.ts`: spiegazione semplice sopra ogni card Opportunità + prima sezione in ParlaCasella; (5) merge 🔴 **#374** (#140). **Regola:** ogni Opportunità in Scoperte = descrizione umana **sempre visibile** + dettaglio sotto — non solo risposta ad hoc in chat.",
       "tag": [
@@ -3220,12 +3242,12 @@
         "operations"
       ],
       "reparto": "@AD",
-      "confidenza": 0.9,
-      "evidenze": 1,
+      "confidenza": 0.93,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-09",
-      "ultima_conferma": "2026-07-09 12:20",
+      "ultima_conferma": "2026-07-14 03:00",
       "stato": "attiva"
     },
     {
@@ -4931,6 +4953,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**VP 17/7 — ritiro al fornaio se bici assente (chat 14/7 ~02:57-02:59):** «Non avrò la bici entro venerdì» → corretto timeline (bollette 21-27/7, bici ~28/7+); **non** promettere domicilio al VP; presidio PQ+QR+ritiro al banco = ok per North Star; odia date inventate dall'AD («lunedì» ≠ data certa senza conferma); chiedere quando ha la bici operativa. Vedi L-218, L-67.",
     "**Scoperte — stessa reattività percepita di Da approvare (chat 14/7 ~03:00, #369):** dopo Approva card merge (#134) si aspetta che sparisca **anche** l'Opportunità correlata in Scoperte («perché non è scomparsa?»); vuole sapere **ogni quanto** si aggiornano Scoperte e Proposte — spiegazione accettabile = due liste (Azioni istantaneo vs Opportunità=fotografia giro) + numeri poll 60s/15s; fix prodotto «nascondi già fatto» solo se chiede esplicitamente. Vedi L-202.",
     "**Opportunità — sempre descrizione umana (chat 14/7 ~02:58, PR #374):** «Cioè? Non ho capito, aggiungi sempre la descrizione a questa casella» su «494 campi catalogo» — si aspetta spiegazione semplice **sulla card** (494 = 252 condizione «nuovo» + 242 unità «pezzo», autofill reversibile, 2 approvazioni separate in Azioni), non gergo supervisione; stessa regola di Avvisi (L-217) per **Scoperte/Opportunità**; merge 🔴 #140. Vedi L-216, L-155.",
     "**Avvisi — sempre descrizione umana (chat 14/7 ~02:56, PR #373):** «aggiungi sempre la descrizione dell'avviso» — ogni scheda gialla deve mostrare **sopra** una spiegazione in italiano (cosa significa, se è storico, perché resta in lista), non solo il testo tecnico; stessa descrizione deve arrivare per prima anche in «Parla con questa casella»; standing-ask come descrizione PR (L-124/L-136) ma per Avvisi; merge 🔴 #139. Vedi L-217, L-117.",
