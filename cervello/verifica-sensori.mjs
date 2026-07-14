@@ -21,6 +21,11 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
 const RETRY_MS = 2000;
+const FETCH_TIMEOUT_MS = 8000;
+
+function fetchSensore(url, init = {}) {
+  return fetch(url, { ...init, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
+}
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CECITA_PATH = join(VAULT, "sensori-cecita.json");
@@ -126,7 +131,7 @@ async function checkSupabaseMarketplace() {
     return { ok: false, configurato: false, dettaglio: "MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)" };
   }
   return conRetry(async () => {
-    const res = await fetch(`${url}/rest/v1/orders?select=id&limit=1`, {
+    const res = await fetchSensore(`${url}/rest/v1/orders?select=id&limit=1`, {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
     });
     if (!res.ok) {
@@ -145,7 +150,7 @@ async function checkStripe() {
     return { ok: false, configurato: false, dettaglio: "STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)" };
   }
   const r = await conRetry(async () => {
-    const res = await fetch("https://api.stripe.com/v1/balance", {
+    const res = await fetchSensore("https://api.stripe.com/v1/balance", {
       headers: { Authorization: `Bearer ${key}` },
     });
     if (!res.ok) {
@@ -170,7 +175,7 @@ async function checkPostHog() {
     return { ok: false, configurato: false, dettaglio: "POSTHOG_API_KEY assente — sensore spento (decisione Nicola 5/7: non usarlo per ora), nessuna azione da accodare" };
   }
   const r = await conRetry(async () => {
-    const res = await fetch(`${host}/api/projects/@current`, {
+    const res = await fetchSensore(`${host}/api/projects/@current`, {
       headers: { Authorization: `Bearer ${key}` },
     });
     if (!res.ok) {
@@ -189,7 +194,7 @@ async function checkResend() {
     return { ok: false, configurato: false, dettaglio: "RESEND_API_KEY assente — invio email non monitorato" };
   }
   const r = await conRetry(async () => {
-    const res = await fetch("https://api.resend.com/domains", {
+    const res = await fetchSensore("https://api.resend.com/domains", {
       headers: { Authorization: `Bearer ${key}` },
     });
     if (!res.ok) {
@@ -210,7 +215,7 @@ async function checkSito() {
     return { ok: false, configurato: false, dettaglio: "MARKETPLACE_SITE_URL assente — uptime storefront non monitorato" };
   }
   const r = await conRetry(async () => {
-    const res = await fetch(url, { method: "GET", redirect: "follow" });
+    const res = await fetchSensore(url, { method: "GET", redirect: "follow" });
     if (!res.ok) {
       return { ok: false, dettaglio: `HTTP ${res.status} su ${url}` };
     }

@@ -14,6 +14,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
+  bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
+fi
+
 # Carica i segreti del server (se presenti). Su systemd arrivano anche da EnvironmentFile.
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
@@ -288,12 +292,14 @@ if command -v node >/dev/null 2>&1; then
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
-  echo "[$(ts)] Auto-fix: riconcilia cantiere (chiude i difetti già risolti nel codice)..."
-  node "$SCRIPT_DIR/auto-fix.mjs" verifica --applica 2>&1 | tail -6 || true
+  echo "[$(ts)] Auto-fix: riconcilia cantiere (solo verifica, niente chiusura automatica)..."
+  node "$SCRIPT_DIR/auto-fix.mjs" verifica 2>&1 | tail -6 || true
   echo "[$(ts)] Sincronizza proposte auto-riscrittura → cantiere..."
   node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
   node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Meta-guardiano freschezza-segnali..."
+  node "$SCRIPT_DIR/freschezza-segnali.mjs" 2>&1 | tail -4 || true
 
   # === CAPACITÀ VIVE + GUARDIANI ORFANI ORA CABLATI NEL BATTITO (sola lettura, informativi) ===
   # Resi vivi su richiesta di Nicola (6/7): girano a ogni giro e lasciano il loro esito nel log/Cabina.

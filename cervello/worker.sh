@@ -12,6 +12,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
+  bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
+fi
+
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 

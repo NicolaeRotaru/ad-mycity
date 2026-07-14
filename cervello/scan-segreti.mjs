@@ -35,6 +35,8 @@ const REGOLE = [
   { nome: "Slack token", re: /xox[baprs]-[A-Za-z0-9-]{10,}/g },
   { nome: "AWS access key id", re: /AKIA[0-9A-Z]{16}/g },
   { nome: "Chiave privata PEM", re: /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/g },
+  { nome: "Resend API key", re: /re_[A-Za-z0-9_]{16,}/g },
+  { nome: "n8n API key", re: /n8n_api_[A-Za-z0-9]{20,}/g },
 ];
 
 // Estensioni binarie/di rumore da saltare.

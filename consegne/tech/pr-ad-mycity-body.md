@@ -1,11 +1,8 @@
-## Cosa
-Fix allegati foto in chat Assistente e fluttuante: miniatura visibile sopra la casella di testo, messaggio se la foto non arriva da iPhone, HEIC senza tipo accettato in upload.
+## Summary
+- **Rischio tecnico (6/8 fix):** sistema immunitario verifica `core.hooksPath` attivo (non solo file hook); `monitora.sh` allinea con rebase non distruttivo (niente `checkout -f -B`); hook git attivati all'avvio di giro/worker; scan-segreti copre chiavi Resend/n8n; sensori con timeout 8s; meta-guardiano `freschezza-segnali.mjs`; auto-fix in giro senza `--applica` automatico.
+- **Memoria:** `allinea-scan-cantiere` chiude 6 findings «Rischio tecnico» nello scan radiografia (restano 2 decisioni umane: permessi Cursor e chiusura difetti via regex).
 
-## Perché
-Nicola segnala: galleria si apre, sceglie la foto, ma «non appare nel box». In realtà c’era solo un chip col nome file sopra i pulsanti (facile da non vedere). Su iPhone a volte il FileList arriva vuoto o senza MIME HEIC.
-
-## Come provare
-1. Apri chat fluttuante o Assistente → graffetta → scegli una foto iPhone.
-2. Deve comparire la **miniatura** subito sopra la casella di testo (non dentro il testo).
-3. Invia anche senza scrivere testo → deve partire.
-4. Se la foto non arriva, compare avviso giallo «La foto non è arrivata…».
+## Test plan
+- [ ] `grep -q 'core.hooksPath' cervello/sistema-immunitario.mjs && ! grep -q 'checkout -f -B' cervello/monitora.sh`
+- [ ] `node cervello/allinea-scan-cantiere.mjs` → area rischio-sicurezza-se: 2 aperti (tipo umano), 6 chiusi
+- [ ] Dopo merge: Ctrl+Shift+R su Radiografia macchina nel Pannello
