@@ -11,6 +11,7 @@ import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
+import { contestoAvviso, descrizioneAvviso } from "@/lib/descrizione-avviso";
 import {
   etichettaScelta,
   isPropostaSceltaAB,
@@ -855,7 +856,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
               <div className="flex items-start gap-2">
                 <Megaphone size={15} className="mt-0.5 shrink-0 text-amber-600" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-[13px] text-ink/90 leading-snug whitespace-pre-wrap">{testoPulito(av.testo)}</div>
+                  <p className="text-[12.5px] text-ink/80 leading-snug">{descrizioneAvviso(av.testo)}</p>
+                  <div className="text-[12px] text-ink/60 leading-snug whitespace-pre-wrap mt-1.5">{testoPulito(av.testo)}</div>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                     {av.at && <span className="t-eti">{quando(av.at)}</span>}
                     <span className="badge badge-off" title="Dove è stato recapitato">
@@ -864,7 +866,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
                   </div>
                   <ParlaCasella
                     titolo={`Avviso: ${(av.testo || "").split("\n")[0].slice(0, 60)}`}
-                    contesto={[av.testo, av.at && `Quando: ${av.at}`].filter(Boolean).join("\n")}
+                    contesto={contestoAvviso(av)}
                   />
                 </div>
               </div>
