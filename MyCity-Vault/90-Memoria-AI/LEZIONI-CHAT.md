@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-14 02:43] **PR #371 conflitti — controllo obbligatorio prima del merge** — Nicola «ha dei conflitti, se apri una PR devi controllare»; stesso pattern #369: solo descrizione PR condivisa, codice Pannello ok; rebase su main, head `6fa822bf`, mergeable verificato; **regola:** `git-pr.mjs` deve stampare «mergeable» prima di accodare; **riapprova** card #136. Vedi L-210.
 - [2026-07-14 02:41] **PR #369 conflitti post-#370 — AD risolve, riapprova** — Nicola «ci sono dei conflitti» su sync tempo reale; solo `pr-ad-mycity-body.md` (pattern #352/#354), codice Pannello intatto; rebase su main post-#370, head `5ab0dde3`, mergeable; **riapprova** card #134, poi test approva/ignora senza refresh. Vedi L-209.
 - [2026-07-14 02:34] **Come pensa l'AD — 6 fix PR #370** — Nicola «risolvi tutti i problemi»; 78 quaderni → **120/120**, scorecard 120/120, kit banche espansi, `stampo-check` verde; quaderni **vuoti = normale**; merge 🔴 #135; post-merge Ctrl+Shift+R su Radiografia › Come pensa l'AD. Vedi L-208.
 - [2026-07-14 02:32] **Collegare scheletri — priorità Nicola, non pulsante** — «come collegarli?» dopo spiegazione badge; **niente** self-service; Nicola ordina moduli (es. concorrenti→legale→security) + dà accessi se servono; AD fa PR; veloci = materiale già in vault; «1/2» = completare fonte mancante. Vedi L-207.
