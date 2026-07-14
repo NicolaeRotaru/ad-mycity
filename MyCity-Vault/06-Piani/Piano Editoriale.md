@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-06 16:45
+## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Aggancia il 1° post «Il Turno» al Venerdì Piacentino del 10/7** — è la prima finestra-città dopo che Nicola riparte (post-9/7) e coincide col momento in cui serve spingere la 1ª domanda reale su Pane Quotidiano. Restano solo VP **10/7 e 17/7** (Sant'Antonino 4/7 passato). Fonte: `Intelligence/eventi-picchi.md` (WebSearch LIVE 6/7).
-- **Correzione narrativa #16** — l'ordine è **annullato**, non consegnato: l'angolo «prima consegna» scatta quando NASCE e si consegna il **1° ordine reale ex-novo** (non riesumare lo zombie). La narrativa forte resta «la prima transazione vera di MyCity».
-- **Tema di stagione** — «food tradizionale piacentino» (tortello Vigolzone, botteghe storiche): coerente con «Il Turno», buon serbatoio di contenuti a costo ≈0 per luglio.
+- **Post kefir estate** pronto 🔴 — angolo «colazione fresca senza uscire col caldo 36°C» su PQ reale. File: `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`. Serve link lista d'attesa + visual.
+- **VP 17/7 = ultimo Venerdì Piacentini** — aggancia post «Il Turno» + lista d'attesa. Sant'Antonino e VP 10/7 passati.
+- **Narrativa #16:** ordine annullato — «prima consegna» scatta solo con **1° ordine ex-novo**.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

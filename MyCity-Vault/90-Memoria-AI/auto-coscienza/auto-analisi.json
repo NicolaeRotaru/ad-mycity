@@ -1,44 +1,50 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-13 20:21",
-  "voto_fiducia": 88,
-  "trend_fiducia": "↓ 88 (da 91 11/7): giro serale 13/7. Business invariato (REST ok). Coerenza-fatti OK dopo propagazione 33 copie. Vincoli HARD tutti chiusi. Briefing stale risolto (54h→0). -3 per gap debrief visita e residui Pannello non verificati live.",
-  "sintesi": "Giro serale 13/7 20:21 — business INVARIATO dal 24/6 (North Star 0, ~469h). Oggi maratona Pannello; coerenza-fatti propagata; checklist AR-030 rigenerata; loop @analista chiuso. Zero asset pesanti su prospect. Mossa n.1: merge #346 + debrief visita + VP 17/7.",
+  "data": "2026-07-14 02:48",
+  "voto_fiducia": 90,
+  "trend_fiducia": "▲ 90 (da 88 13/7 20:21): giro 14/7 02:48. REST live conferma numeri invariati. Coerenza-fatti exit 0. Briefing fresco. -2 per gap debrief visita e deploy Vercel non verificato live.",
+  "sintesi": "Giro mattutino 14/7 02:48 — business INVARIATO dal 24/6 (North Star 0, ~489h). REST ok. Maratona Pannello: PR #369 sync pronta. Supervisione 494 autofill. Caldo 36–38°C. Mossa n.1: merge #369 card #134.",
   "verifiche": [
-    "Entità: PQ confermato (REST 20:20); 6 ristoranti tattici = scelta_ragionata (0 asset pesanti aggiunti); Garetti congelato AR-006.",
-    "Numeri: REST supabase_rest=ok, ordini=1 annullato, ultimo 24/6, 4 buyer, 5 prodotti PQ — invariati vs 18:00.",
-    "Coerenza-fatti: exit 0 — 33 sostituzioni «6 botteghe food» + cacce chiuse onboarding.6-ristoranti-tattici e strategia.cliente-core.",
-    "Allocazione: vincolo rispettato — nessun asset pesante su Garetti/prospect in questo giro.",
-    "Chiusura-loop: ESITO @analista registrato 20:21, gate OK.",
-    "AR-030: CHECKLIST-NICOLA rigenerata 20:21 da coda viva."
+    "Entità: PQ confermato REST 02:47 (1 approved, 5 prodotti); Garetti congelato AR-006.",
+    "Numeri: REST ordini=1 annullato, 0/7g, 23 profili, 250 available — invariati vs 13/7 20:20.",
+    "Coerenza-fatti: exit 0.",
+    "Allocazione: nessun asset pesante su prospect.",
+    "Chiusura-loop: ESITO @analista + @onboarding-negozi 02:47.",
+    "Benchmark: briefing strutturato 11 sezioni, titoli umani in ultimo-briefing.json."
   ],
   "errori": [],
   "risposte_registrate": [],
   "domande_per_nicola": [
-    "Debrief visita 6 ristoranti tattici — quali visti, chi sì/no?",
-    "Merge #346 (scelte ragionate) — pronta, conflitti risolti ondata 5",
-    "Streaming: testo cresce o ancora «tutto insieme» post-merge?",
-    "Via libera post Il Turno per VP 17/7 su PQ?",
+    "Approva #134 (PR #369 sync tempo reale)?",
+    "Link lista d'attesa per post kefir?",
+    "Via libera post Il Turno VP 17/7?",
+    "Debrief visita 13/7 — esiti reali?",
     "Borse termiche PQ per caldo 15–17/7?"
   ],
   "punti_ciechi": [
-    "Esito reale visita 13/7 (Nicola non ha debriefato)",
-    "MCP marketplace cieco in sessione",
-    "Deploy Vercel post-merge #348 non verificato live"
+    "Esito visita 13/7 non debriefato",
+    "MCP Supabase cieco sessione",
+    "abandoned_carts count REST fallito",
+    "Deploy Vercel post-merge non verificato browser"
   ],
   "miglioramenti_prossimo_giro": [
-    "Debrief visita → aggiorna pipeline vendite con esiti confermati",
-    "Post-merge #346: verifica 10 scelte ragionate in Pannello",
-    "Spinta domanda PQ verso VP 17/7"
+    "Post-merge #369: test sync live 10s",
+    "Debrief visita → pipeline vendite",
+    "Spinta VP 17/7 entro 72h"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok (20:20, giri_ciechi=0)",
-    "mcp_supabase": "cieco sessione",
+    "supabase_rest": "ok (02:47, giri_ciechi=0)",
+    "mcp_supabase": "cieco sessione (1 giro)",
     "stripe": "ok balance API",
     "resend": "ok",
     "posthog": "non_configurato",
     "loop_business": "aperto (North Star 0)",
-    "voto_salute_architettura": 75,
-    "cantiere_difetti": "42 chiusi · 1 bloccante umano · pending-merge 0"
+    "voto_salute_architettura": 100,
+    "cantiere_difetti": "43 chiusi · 0 aperti-davvero · pending-merge 0",
+    "automazione": "segnale verifica stale 13/7 — allocazione ok 02:46"
+  },
+  "verifiche_benchmark": {
+    "ok": true,
+    "note": "Briefing completo con fonti linkate; mossa n.1 concreta e firmabile"
   }
 }

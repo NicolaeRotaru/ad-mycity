@@ -190,9 +190,10 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-09 00:20
+## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Batch food 13/7 sotto ondata di calore** — meteo LIVE 9/7: **nuova ondata di calore ~38°C con afa** (rif. [meteo settimana](https://www.pisatoday.it/meteo/previsioni-pisa-6-9-luglio-2026.html)); il caldo forte resta il vincolo n.1 alla ripresa. → **gate catena-del-freddo obbligatorio** (borse termiche, slot mattutini, tempi brevi) prima di mettere LIVE i deperibili delle botteghe onboardate.
-- **SQL 107/RLS profiles** — ultimo blocco di piattaforma prima del batch: la chiusura sicura è un **deploy coordinato SQL + codice** (~34 embed vetrina-venditore da migrare a `seller_public_profiles`, altrimenti la DROP POLICY lascia null → vetrina/ordini/ritiro-rider rotti). Dossier `consegne/security/2026-07-08-chiusura-blocco-107-profiles.md`.
-- **Finestra consegna 1° ordine PQ** = **VEN 17/7 sera** (Venerdì Piacentini): centro pieno, ritiro a piedi/bici in Via Calzolai facile; consegnare i freschi **la mattina** nei giorni caldi.
+- **Caldo LIVE 14/7:** oggi 36°C, domani **38°C**, VP 17/7 36°C ([3BMeteo](https://www.3bmeteo.com/meteo/piacenza)) — gate catena del freddo obbligatorio; slot consegne **solo mattina**.
+- **1° ordine PQ target VP 17/7 sera** — ritiro Via Calzolai a piedi/bici; freschi al mattino nei giorni caldi.
+- **Supervisione 494 autofill** in coda 🟡 — catalogo più completo pre-evento, reversibile.
+- **SQL 107** resta blocco piattaforma prima di scalare negozi (dossier security 8/7).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

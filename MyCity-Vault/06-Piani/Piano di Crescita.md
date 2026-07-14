@@ -170,9 +170,9 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-03 21:30
+## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **La vetrina del faro è PRONTA (scoperta 3/7):** Pane Quotidiano ha già **5 prodotti veri pubblicati** (kefir, hummus, pesto, budino, €2-5). Il collo di bottiglia per la crescita non è più "manca il catalogo" ma **solo il payout + la prima transazione**: mossa a più alto ritorno/sforzo assoluto. Fonte: DB reale riletto live.
-- **⛔ Thread vivi = 0:** l'unico ordine (€19,05) è stato annullato il 3/7. La crescita riparte solo con **1 transazione end-to-end vera** che generi la prima recensione → il motore di passaparola oggi è a secco.
-- **Segnale debole da coltivare:** 1 carrello è stato toccato il 2/7 (€7,95). Quando Resend sarà attivo, un recupero mirato è la leva di crescita a costo ≈0 sull'unico traffico vivo.
+- **North Star ancora 0** (~489h stallo) — la crescita riparte solo con 1 transazione end-to-end su PQ. Vetrina pronta (5 prodotti).
+- **Leva immediata:** post kefir + VP 17/7 + recupero carrello samir (€10 PQ) — tutti a costo ≈0, in coda.
+- **Dopo merge #369:** misurare se sync live migliora conversione approvazioni Pannello → azioni.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

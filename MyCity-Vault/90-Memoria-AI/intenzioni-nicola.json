@@ -1,25 +1,26 @@
 {
-  "data": "2026-07-13 22:35",
-  "sintesi": "Nicola è in ripresa operativa dal 13/7. Clienti MyCity = solo botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie (conferma esplicita 22:34). Focus vendite: Garetti, Peretti, Amendolara + shortlist botteghe food. Faro operativo = Pane Quotidiano; prossima finestra critica VP 17/7 per 1° ordine reale. Maratona Pannello oggi (~23 PR); merge #356 in coda.",
+  "data": "2026-07-14 02:48",
+  "sintesi": "Nicola in maratona Pannello (coda ripulita a 22 card). Priorità immediata: mergia PR #369 sync tempo reale (card #134), poi #370 e #368. Business fermo (North Star 0). Finestra critica VP 17/7 per 1° ordine su Pane Quotidiano con caldo 36–38°C.",
   "prossime_mosse": [
-    {"titolo": "Mergia la PR con le 10 scelte ragionate", "quando": "stasera/domani mattina", "come": "Pannello → Approva #117 (PR #346) — conflitti risolti ondata 5", "priorita": "alta", "ad_prepara": "branch rebased head 84bd4db8, registro-scelte-check exit 0", "senior": "@tech", "colore": "🔴"},
-    {"titolo": "Porta online le prime botteghe core", "quando": "dopo debrief 13/7", "come": "pitch spesa settimanale multi-negozio — Garetti, Peretti, Amendolara in testa", "priorita": "alta", "ad_prepara": "dossier e schede-cheat botteghe aggiornati", "senior": "@vendite", "colore": "🟡"},
-    {"titolo": "Far nascere il primo ordine vero su Pane Quotidiano", "quando": "VP 17/7 (finestra target)", "come": "via al post Il Turno + lista d'attesa; slot freschi al mattino per caldo 40°C", "priorita": "alta", "ad_prepara": "bozze post pronte, SEO vetrina PQ, brief catena freddo", "senior": "@content-social", "colore": "🔴"},
-    {"titolo": "Mergia il fix pallini se ancora aperto", "quando": "quando hai 2 minuti", "come": "PR #348 — impronta ultima risposta, test 15s esci da chat", "priorita": "media", "ad_prepara": "#118 in coda", "senior": "@frontend-dev", "colore": "🔴"}
+    {"titolo": "Approva il merge della PR sync tempo reale", "quando": "ora", "come": "Pannello → Approva card #134 (PR #369) — conflitti già risolti", "priorita": "alta", "ad_prepara": "branch rebased head 5ab0dde3, mergeable verificato", "senior": "@frontend-dev", "colore": "🔴"},
+    {"titolo": "Approva Come pensa l'AD a 120 specialisti", "quando": "dopo #369", "come": "Pannello → Approva card #135 (PR #370)", "priorita": "alta", "ad_prepara": "stampo-check 120/120 verde", "senior": "@prompt-engineer", "colore": "🔴"},
+    {"titolo": "Dai il via al post kefir per il caldo", "quando": "entro oggi 11", "come": "Approva card post kefir + incolla link lista d'attesa", "priorita": "alta", "ad_prepara": "testo pronto in consegne/content/", "senior": "@content-social", "colore": "🔴"},
+    {"titolo": "Far nascere il primo ordine al Venerdì del 17", "quando": "VP 17/7", "come": "lista d'attesa + post Il Turno + slot mattina freschi", "priorita": "alta", "ad_prepara": "brief operativo + SEO PQ", "senior": "@operations", "colore": "🔴"}
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE su MyCity; contratto 12% firmato; faro per 1° ordine", "stato": "attivo · payout OFF · 0 consegne · target VP 17/7"},
-    {"nome": "Garetti · Peretti · Amendolara (botteghe core)", "perche": "Profilo cliente MyCity — carrello settimanale; né ristoranti né trattorie (Nicola 22:34)", "stato": "prospect · priorità vendite"}
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE; 5 prodotti live; target 1° ordine VP 17/7", "stato": "attivo · 0 consegne · payout OFF"},
+    {"nome": "Garetti · Peretti · Amendolara", "perche": "Botteghe core carrello settimanale (Nicola 22:34)", "stato": "prospect · dopo debrief visita"}
   ],
   "rischi": [
-    "Visita 13/7 possibilmente parziale per priorità Pannello — pipeline senza esiti reali",
-    "North Star 0 finché non nasce ordine ex-novo su PQ",
-    "Caldo 40°C 15–17/7 senza borse termiche = rischio food",
-    "SQL 107 non chiuso prima di scalare negozi"
+    "VP 17/7 passa senza ordine reale",
+    "Caldo 38°C su deperibili senza borse termiche",
+    "Coda Pannello ancora con 22 card da mergiare",
+    "Debrief visita 13/7 mancante"
   ],
   "serve_da_nicola": [
-    {"ambito": "Botteghe core", "cosa_manca": "quali botteghe portare online per prime", "domanda_per_nicola": "Dopo oggi, quali botteghe (Garetti, Peretti, Amendolara…) mettiamo in cima alla lista?"},
-    {"ambito": "Pannello", "cosa_manca": "merge #346 + feedback streaming post-fix", "domanda_per_nicola": "Dopo merge #346, lo streaming cresce parola per parola o ancora tutto insieme?"},
-    {"ambito": "Primo ordine", "cosa_manca": "via libera post VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine su PQ al Venerdì Piacentini del 17/7?"}
+    {"ambito": "Pannello", "cosa_manca": "merge #369", "domanda_per_nicola": "Approvi la card #134 per avere il Pannello che si aggiorna da solo?"},
+    {"ambito": "Contenuti", "cosa_manca": "link lista d'attesa", "domanda_per_nicola": "Incollami il link lista d'attesa per completare il post kefir?"},
+    {"ambito": "Primo ordine", "cosa_manca": "via libera VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine al Venerdì del 17?"},
+    {"ambito": "Visita", "cosa_manca": "esiti reali", "domanda_per_nicola": "Com'è andata la visita ai locali del 13? Chi ha detto sì?"}
   ]
 }

@@ -1,42 +1,37 @@
 ---
-data: 2026-07-13 20:21
+data: 2026-07-14 02:48
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 Auto-analisi — giro serale 20:21 (13/7 · coerenza OK · vincoli HARD chiusi)
+# 🔬 Auto-analisi — giro mattutino 02:48 (14/7 · REST ok · business invariato)
 
-**Voto di fiducia: 88/100** — giro serale dopo maratona Pannello. Business invariato (REST ok). Coerenza-fatti propagata (33 copie). Zero asset pesanti su prospect. -3 per gap debrief visita e residui streaming non verificati live.
+**Voto di fiducia: 90/100** — giro con REST live, numeri confermati invariati, coerenza-fatti pulita, briefing fresco. -2 per gap debrief visita e verifica deploy non fatta in browser.
 
 ## Verdetto
 
 | Controllo | Esito |
 |---|---|
-| Numeri REST | ✅ invariati, 0 inventati |
-| Coerenza-fatti | ✅ exit 0, cacce chiuse |
+| Numeri REST | ✅ invariati, fonte dichiarata |
+| Coerenza-fatti | ✅ exit 0 |
 | Allocazione AR-006 | ✅ nessun asset pesante su Garetti |
-| Chiusura-loop | ✅ @analista ESITO 20:21 |
-| AR-030 checklist | ✅ rigenerata 20:21 |
-| Briefing stale | ✅ risolto (54h → 0) |
+| Chiusura-loop | ✅ @analista + @onboarding-negozi |
+| Entità PQ | ✅ confermato REST |
+| Briefing stale | ✅ risolto (nuovo 14/7 02:48) |
 
 ## Entità verificate
 
 | Entità | Stato | Fondamento |
 |---|---|---|
-| Pane Quotidiano | `confermato` | REST 13/7 20:20 |
-| 6 ristoranti tattici | `scelta_ragionata` | dossier 6/7 + Nicola 12/7 |
-| VP 17/7 | `confermato` | Comune Piacenza |
+| Pane Quotidiano | `confermato` | REST 14/7 02:47 — 1 approved, 5 prodotti |
+| VP 17/7 | `confermato` | registro-fatti + Comune |
 | Bando ER | `CHIUSO 23/6` | registro-fatti |
-| Cliente core = botteghe | `confermato` | Nicola chat 13/7 11:25 |
+| Cliente core = botteghe | `confermato` | Nicola 13/7 22:34 |
+| Garetti | `scelta_ragionata` | congelato AR-006 |
+| 6 ristoranti tattici | `scelta_ragionata` | dossier 6/7 — serve debrief |
 
-## Domande per Nicola
+## Domande a Nicola
 
-1. Debrief visita 6 ristoranti tattici — esiti reali?
-2. Merge #346 (10 scelte ragionate) — pronta
-3. Via libera post Il Turno per VP 17/7 su PQ?
-4. Streaming: testo cresce o «tutto insieme»?
-5. Borse termiche PQ per caldo 15–17/7?
-
-## Passaggio precedente (11/7 14:30)
-
-Voto 91 — giro pomeriggio cloud, T-2 al 13/7, coerenza OK.
+1. Approva #134 (PR #369)?
+2. Link lista d'attesa post kefir?
+3. Via VP 17/7 su PQ?

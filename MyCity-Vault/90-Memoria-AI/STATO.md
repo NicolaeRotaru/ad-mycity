@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:41
-fonte: AD digitale (💬 14/7 02:41 metabolizzazione conflitti PR #369. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:49
+fonte: AD digitale (🌅 14/7 02:49 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~02:49 — CHAT: PR #310 obsoleta — chiudere senza merge (riapprovazione Pannello).** Nicola «La #310 hai dei conflitti» (riapprovazione 14/7 00:36). **Verificato 🟢:** fix `git-pr.mjs` **già su main** da merge **#312** (`090448b1`, 13/7); #309 dark mode già online. #310 = branch 12/7 sporco (file worker) — conflitti normali, **non** risolvibili mergiando; mergiare rischia rollback. **Azione Nicola:** chiudi **#310** su GitHub senza merge — nessun'altra PR per questo problema. Se una PR **nuova** si blocca ancora → segnala numero. Fonte: chat Nicola 14/7 ~02:49 + verifica codice main.
+>
 > 💬 **14/7 ~02:41 — CHAT: PR #369 conflitti risolti — sync tempo reale pronta al merge.** Nicola «ci sono dei conflitti» su card merge sync (#134 / PR #369). **Verificato 🟢:** conflitto **solo** in `consegne/tech/pr-ad-mycity-body.md` (body condiviso tra #369 sync e #370 Come pensa l'AD mergiata su main) — **codice Pannello** (`fix/panel-sync-tutto`) **intatto**. Rebase su main post-#370, head `5ab0dde3`, API GitHub **mergeable** (nessun conflitto). **Pendente:** Nicola **riapprova** card **#134** → deploy Vercel ~2 min → test approva/ignora proposta senza refresh (Azioni + Scoperte <10s). Fonte: chat Nicola 14/7 ~02:41 + `git-pr.mjs` verifica.
 >
 > 💬 **14/7 ~02:34 — CHAT: Come pensa l'AD — 6 problemi risolti — PR #370.** Nicola «risolvi tutti i problemi della casella come pensa l'AD». **Implementato 🟡 PR #370** (`d473c20d`): **120/120** quaderni `memoria-squadra/` (78 stub creati), scorecard 6 assi in 120 prompt, kit banche/legali espansi, `cervello/stampo-check.mjs` verde **120/120**, numeri rollout 42→**120**. Quaderni **vuoti = normale** (ESITO reparto). **Pendente:** merge 🔴 **#370** (#135). Fonte: chat Nicola 14/7 ~02:34.
@@ -401,18 +403,18 @@ fonte: AD digitale (💬 14/7 02:41 metabolizzazione conflitti PR #369. | storic
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 13/7 18:00 · invariati dal 24/6)
-| Numero | Oggi (13/7 20:20) | "Riuscito" | Note |
-|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller `suspended` |
-| Negozi con payout attivo | **0 reali** | 1 | PQ payout OFF · payout-test sandbox |
-| Prodotti VERI del faro pubblicati | **5** | ≥5 | PQ `status=available` (REST verificato) |
-| Ordini creati | **1** (annullato) | ≥1 valido | COD €19,05 del 24/6 · `delivery_status=CANCELED` — il 1° ordine reale va CREATO ex-novo |
-| Ordini pagati | **0** | 1 | COD mai incassato · l'unico ordine è annullato |
-| Ordini consegnati | **0** | 1 | nessuna consegna mai avvenuta · North Star **0** |
-| Payout testato | **0** | 1 | payout-test sandbox da fare su un ordine vero |
-| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | crescita | ultimo nuovo: 16/6 · 23 profili totali |
-| **Lead negozi nel DB** | **407** (baseline 7/7) | lavorarli | tabella lead non leggibile via REST anon · 27 food con tel → shortlist pronta |
+## I 7 numeri (✅ REST 14/7 02:47 · invariati dal 24/6)
+| Numero | Oggi (14/7 02:47) | Δ vs 13/7 20:20 | "Riuscito" | Note |
+|---|---|---|---|---|
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
+| Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ `status=available` (REST `seller_id` PQ 02:47) |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · `delivery_status=CANCELED` — il 1° ordine reale va CREATO ex-novo |
+| Ordini pagati | **0** | = | 1 | COD mai incassato · l'unico ordine è annullato |
+| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~489h |
+| Payout testato | **0** | = | 1 | payout-test sandbox da fare su un ordine vero |
+| Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | ultimo nuovo: 16/6 · 23 profili totali |
+| **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon · 27 food con tel → shortlist pronta |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |

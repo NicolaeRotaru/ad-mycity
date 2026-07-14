@@ -1,41 +1,41 @@
 {
-  "data": "2026-07-13 20:21",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~469h). Oggi 13/7: maratona Pannello (~23 PR mergiate), visita tattica 6 ristoranti in parallelo alla stabilizzazione chat. Coerenza-fatti OK. Prossima finestra: VP 17/7 per 1° ordine su Pane Quotidiano.",
+  "data": "2026-07-14 02:48",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~489h). REST ok 14/7 02:47: 1 PQ approvato, 5 prodotti, 0 ordini nuovi. Maratona Pannello: coda 22 card, PR #369 sync tempo reale pronta (conflitti risolti). Caldo 36–38°C → VP 17/7 è la finestra per il 1° ordine reale.",
   "opportunita": [
     {
-      "titolo": "Mergia le scelte ragionate nel Pannello",
-      "motivo": "PR #346 pronta — Nicola voleva vedere tutte le prospect scout, non solo 2",
+      "titolo": "Mergia la PR che aggiorna il Pannello in tempo reale",
+      "motivo": "Nicola chiedeva sync live da ieri — #369 pronta, card #134",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Primo ordine reale al Venerdì Piacentini del 17 luglio",
-      "motivo": "Centro pieno + caldo 40°C = argomento consegna; post Il Turno già in bozza",
+      "motivo": "Ultimo VP + caldo 36°C = argomento consegna fresca a domicilio",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
-      "titolo": "Debrief della visita ai 6 ristoranti",
-      "motivo": "Senza esiti reali la pipeline resta ipotesi — serve sapere chi ha detto sì",
-      "impatto": "alto",
+      "titolo": "Approva i 494 campi catalogo in automatico",
+      "motivo": "Supervisione propone condition+unit su prodotti — reversibile, zero lavoro manuale",
+      "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Mergia la PR con le 10 scelte ragionate",
-      "motivo": "Conflitti risolti — manca solo il merge #346",
+      "titolo": "Approva il merge della PR sync tempo reale",
+      "motivo": "Sblocca aggiornamento live di Azioni e Scoperte senza refresh",
       "livello": "rosso"
     },
     {
-      "titolo": "Raccontami com'è andata la visita ai ristoranti",
-      "motivo": "Aggiorno pipeline e onboarding con esiti veri",
+      "titolo": "Dai il via al post kefir estate su Pane Quotidiano",
+      "motivo": "Colazione fresca senza uscire col caldo — serve link lista d'attesa",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Conferma i campi catalogo proposti dalla supervisione",
+      "motivo": "494 riempimenti automatici reversibili — catalogo più completo",
       "livello": "giallo"
-    },
-    {
-      "titolo": "Dai il via al post del Venerdì Piacentini su Pane Quotidiano",
-      "motivo": "Finestra 17/7 per far nascere il primo ordine vero",
-      "livello": "rosso"
     }
   ]
 }

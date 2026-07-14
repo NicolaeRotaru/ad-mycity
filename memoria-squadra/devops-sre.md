@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 02:49 · PR #310 obsoleta — Nicola riapprova «ha dei conflitti» · atteso: risposta chiara chiudi senza merge · reale: fix git-pr.mjs già su main (#312 `090448b1`); #310 branch 12/7 sporco; Nicola chiude #310 su GitHub · L-210 · L-99 evidenze 5 · #pr-310 #pr-312 #git-pr #esito
 - 2026-07-13 19:44 · Card trigger-build obsoleta — Nicola «cioè?» · atteso: spiegazione semplice + card chiusa se già fatta · reale: trigger 11/7 `4d37c741` su origin; rebuild solo su `pannello/`; #trigger-build-pannello e #sblocca-pannello → FATTO · L-155 · #vercel #trigger-build #coda #esito
 - 2026-07-13 19:23 · Nona prova — Nicola «2) tutto insieme» · atteso: streaming parziale negli ultimi secondi · reale: blocco unico; #343 placeholder ok; non ripetere merge/restart — diagnosi DB vs Pannello · L-151 · #streaming #pannello #esito
 - 2026-07-13 19:18 · Nona prova streaming post-#343 — Nicola feedback 3 punti · atteso: Sto elaborando subito + testo dall'inizio · reale: (1) placeholder ok · (2) testo solo alla fine · (3) pallini uguali — #343 parziale, VPS allineato 19:10 · L-149 · #streaming #pr-343 #pallini #esito

@@ -173,10 +173,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-13 20:21
+## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **13/7 = giorno visita tattica 6 ristoranti/trattorie** (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) — mossa tattica, NON profilo core (cliente core = botteghe, Nicola 11:25). **Serve debrief** con esiti reali.
-- **Pitch aggiornato:** retail −6,6% Q2 + caldo 40°C 15–17/7 — ⛔ bando ER CHIUSO 23/6, non usarlo.
-- **Post-visita focus botteghe carrello:** Garetti, Peretti, Amendolara + shortlist 27 botteghe food (`consegne/vendite/2026-07-06-lista-27-botteghe-food-da-chiamare.md`).
-- **Handoff:** chi dice sì → @onboarding-negozi done-for-you <48h. Zero asset pesanti su prospect finché non `confermato` (AR-006).
+- **VP 17/7 = ultima finestra** per primo ordine PQ — caldo 36°C sera, centro pieno. Post kefir colazione accodato 🔴 (`consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`).
+- **Pitch aggiornato:** «saldi del negozio del cuore consegnati a casa nell'afa» + retail −6,6% Q2. Cliente core = **botteghe** (Nicola 13/7), non ristoranti.
+- **Dopo merge PR #369:** test sync Pannello — priorità operativa prima di nuove visite botteghe.
+- **Handoff:** chi dice sì → @onboarding-negozi <48h. AR-006: zero asset pesanti su prospect.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->
