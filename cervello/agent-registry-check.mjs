@@ -197,17 +197,26 @@ async function main() {
   const { collisioniCoppie, deferralMancante } = analizzaCollisioniDescription(descriptions);
   const nCollisioni = collisioniCoppie.length + deferralMancante.length;
 
-  // Drift totale = somma dei difetti (orfani + assenti da AGENTI.md + conteggio + description).
+  // 7. Copertura KPI: ogni agente deve possiedere un KPI in OKR-Squadra (o deroga esplicita).
+  const okr = leggiTesto("MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md");
+  const derogheKpi = new Set(["ad"]);
+  const senzaKpi = agentiReali.filter((n) => {
+    if (derogheKpi.has(n)) return false;
+    const re = new RegExp("\\b" + n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+    return !re.test(okr);
+  });
+
   const driftTotale =
     orfani.length +
     assentiDaAgentiMd.length +
     (conteggioIncoerente ? 1 : 0) +
-    nCollisioni;
+    nCollisioni +
+    senzaKpi.length;
 
   await stampSegnale(
     "agent-registry",
     driftTotale > 0 ? "warn" : "ok",
-    `${orfani.length} orfani · ${nCollisioni} collisioni description · ${quando}`
+    `${orfani.length} orfani · ${senzaKpi.length} senza KPI OKR · ${nCollisioni} collisioni · ${quando}`
   );
 
   if (JSON_MODE) {
@@ -222,6 +231,7 @@ async function main() {
           conteggio_incoerente: conteggioIncoerente,
           collisioni_coppie: collisioniCoppie,
           deferral_mancante: deferralMancante,
+          senza_kpi_okr: senzaKpi,
           drift_totale: driftTotale,
         },
         null,
@@ -274,6 +284,14 @@ async function main() {
             `  • ${d.agente} (vicino ${d.vicino}): ${d.condivise.map((f) => `"${f}"`).join(", ")}`
           );
         }
+      }
+
+      if (senzaKpi.length) {
+        console.log(
+          `\n📊 ${senzaKpi.length} agenti SENZA KPI in OKR-Squadra (CLAUDE.md: ogni reparto possiede un KPI):`
+        );
+        for (const n of senzaKpi.slice(0, 20)) console.log(`  • ${n}`);
+        if (senzaKpi.length > 20) console.log(`  … e altri ${senzaKpi.length - 20}`);
       }
     }
     console.log(`\nDrift totale: ${driftTotale}`);

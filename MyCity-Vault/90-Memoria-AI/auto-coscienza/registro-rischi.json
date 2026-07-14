@@ -1,6 +1,7 @@
 {
-  "_cosa_e": "🛡️ REGISTRO RISCHI — il libro mastro dei rischi di compliance/legale/finanziari che la macchina sorveglia. Ogni rischio ha un OWNER (il senior responsabile), una probabilità, un impatto e una mitigazione. Nato con AR-085 per rendere i rischi un elenco vivo e assegnato invece di prosa sparsa. Le azioni reali di mitigazione restano 🔴/🟡 (firma Nicola). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-03 15:00",
+  "_cosa_e": "PUNTATORE al registro rischi canonico. I rischi operativi vivono in MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (schema N/B, owner, sentinelle). Questo file conserva solo la storia RSK e il collegamento — non duplicare rischi attivi qui.",
+  "_canonico": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json",
+  "aggiornato": "2026-07-14 13:05",
   "rischi": [
     {
       "id": "RSK-001",
@@ -9,9 +10,10 @@
       "owner": "legale-privacy",
       "probabilita": "media",
       "impatto": "alto",
-      "stato": "aperto",
-      "mitigazione": "Verificare fonte/consenso dei lead prima di qualsiasi contatto reale; registro trattamenti + informativa. Contatto massivo resta 🔴.",
-      "nato": "2026-07-03"
+      "stato": "archiviato",
+      "mitigazione": "Vedi N2/N7 nel registro canonico.",
+      "nato": "2026-07-03",
+      "nota": "Migrato al canonico 05-Soldi-Rischi — non tenere copie attive qui."
     },
     {
       "id": "RSK-002",
@@ -20,9 +22,10 @@
       "owner": "legale-privacy",
       "probabilita": "media",
       "impatto": "medio",
-      "stato": "aperto",
-      "mitigazione": "Checklist HACCP e allergeni per le schede prodotto food prima del pubblico. Bozze a cura di legale-privacy, validità finale umana 🔴.",
-      "nato": "2026-07-03"
+      "stato": "archiviato",
+      "mitigazione": "Vedi N3/N7 nel registro canonico.",
+      "nato": "2026-07-03",
+      "nota": "Migrato al canonico 05-Soldi-Rischi — non tenere copie attive qui."
     },
     {
       "id": "RSK-003",
@@ -31,9 +34,10 @@
       "owner": "finanza",
       "probabilita": "alta",
       "impatto": "alto",
-      "stato": "aperto",
-      "mitigazione": "Le 3 decisioni di lancio (live/sandbox, commissione, fee) sono in AZIONI-IN-ATTESA come 🔴: nessun incasso reale finché non firmate.",
-      "nato": "2026-07-03"
+      "stato": "archiviato",
+      "mitigazione": "Vedi N1/B4 nel registro canonico.",
+      "nato": "2026-07-03",
+      "nota": "Migrato al canonico 05-Soldi-Rischi — non tenere copie attive qui."
     }
   ]
 }
