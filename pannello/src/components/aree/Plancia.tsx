@@ -13,6 +13,7 @@ import { usePanelSync } from "@/lib/panel-sync";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import MacchinaHomeCard from "@/components/MacchinaHomeCard";
 import LetteraAdCard from "@/components/LetteraAdCard";
+import ListaProspectHome from "@/components/ListaProspectHome";
 import Volano from "@/components/Volano";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
@@ -185,15 +186,13 @@ export default function Plancia({
         </button>
       </div>
 
-      {/* Kit campo botteghe — sempre visibile in home */}
+      {/* Kit campo botteghe + mappa prospect */}
       <section className="card p-4">
         <div className="sez-head mb-3">
           <span className="sez-ico"><Store size={16} /></span>
-          <span className="t-sez">Kit campo botteghe</span>
-          <span className="ml-auto t-eti">3 prioritarie + 10 onda 2</span>
+          <span className="t-sez">Botteghe e prospect</span>
         </div>
-        <p className="t-eti mb-3">Prima della visita apri la scheda tascabile; dopo il sì usa la checklist.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
           {KIT_CAMPO_BOTTEGHE.map((k) => (
             <button
               key={k.file}
@@ -208,6 +207,7 @@ export default function Plancia({
             </button>
           ))}
         </div>
+        <ListaProspectHome />
       </section>
 
       {/* 2 · Ritmo del giorno */}
