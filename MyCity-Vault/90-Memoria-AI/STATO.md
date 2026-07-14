@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:40
-fonte: AD digitale (🌅 14/7 03:40 sentinella cassa 92 giri · Onestà #379 · Chi impara #378 main · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:41
+fonte: AD digitale (🌅 14/7 03:41 sentinella cassa 93 giri · Onestà #379 · Chi impara #378 main · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:41 — SENTINELLA: cassa/runway — quarta verifica, blocco invariato.** `cassa_sconosciuta` **93 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe, **non** serve altra PR codice (M6b già su main). **Unica mossa:** card **🟡 #burn-mensile-runway** — Nicola mette €/mese in `vps/.env`. Dopo: runway **0 mesi** (verità con cassa 0) → piano @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 03:41.
+>
 > 💬 **14/7 ~03:40 — SENTINELLA: cassa/runway — terza verifica, blocco invariato.** `cassa_sconosciuta` **92 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe, **non** serve altra PR codice (M6b già su main). **Unica mossa:** card **🟡 #burn-mensile-runway** — Nicola mette €/mese in `vps/.env`. Dopo: runway **0 mesi** (verità con cassa 0) → piano @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 03:40.
 >
 > 💬 **14/7 ~03:39 — SENTINELLA: cassa/runway — ri-verificato, blocco invariato.** `cassa_sconosciuta` **91 giri** (+2 dal giro 03:36). **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — unica azione = card **🟡 #burn-mensile-runway** (Nicola mette €/mese in `vps/.env`). Dopo: runway critico (0 mesi) = verità, non bug. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 03:39.
