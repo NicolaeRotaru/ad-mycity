@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+- 2026-07-14 03:33 · 🟢 · [AD] · **CORREZIONE — PR #378: «non hai guardato ancora una volta la pr dopo che l'hai aperta».** Nicola segnala conflitto su PR Chi impara (#378) — AD aveva aperto/accodato senza ricontrollare mergeable dopo merge parallelo **#377** su main. **Fix:** rebase, conflitti risolti (memoria radiografia/giro/body), mergeable API ok, head `c17abc33`. **Regola:** gate mergeable **prima** di dire «pronta» **e** dopo ogni merge parallelo su main. **Pendente 🔴:** Approva card #142 (PR #378). · Nicola (chat 14/7 ~03:33)
+
 - 2026-07-14 03:32 · 🟢 · [AD] · **CORREZIONE — «Perché Approva #142?» dopo fix sensori.** Nicola chiede perché deve approvare #142. **Errore AD:** ha indicato #142 per PR #377 sensori senza verificare coda/stato merge. **Verificato:** PR #377 **già mergiata** su main (`5d9590ab`); card **#142 = PR #379** (Chi impara), non sensori; coda attiva #140/#141. **Regola:** prima di «Approva #N» → leggere AZIONI + GitHub; card #N ≠ PR #N; se mergiata → dire che non serve Approva. · Nicola (chat 14/7 ~03:32)
 
 - 2026-07-14 02:59 · 🟢 · [AD/operations] · **CORREZIONE — Nicola corregge tempi bici e botteghe.** «No, non è vero [lun 21/7]: prossima settimana bollette, riparazione bici settimana dopo; quando avrò la bici inizierò ad inserire le botteghe». **Aggiornato** `logistica.bici-consegna`: bollette 21-27/7, riparazione ~28/7+, inserimento botteghe gated su bici. **Corretto errore AD** del turno precedente (21/7 inventato). **VP 17/7:** resta solo ritiro al fornaio (Nicola ci va a piedi); giro botteghe slitta ad agosto. · Nicola (chat Pannello 14/7 02:59)
