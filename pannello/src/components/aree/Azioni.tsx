@@ -7,7 +7,7 @@ import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
-import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
+import { anteprimaAzione, codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -535,13 +535,10 @@ export default function Azioni() {
           {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
         </div>
 
-        {/* Il "perché" come prosa leggibile. Se è solo un riferimento a un file
-            (es. "consegne/vendite/pitch.md (Parte C)") lo nascondiamo: è gergo — il
-            contenuto vero si apre con "Leggi il testo esatto" qui sotto. (fix #3) */}
+        {/* Anteprima in italiano semplice: niente slug, path o log di sistema. */}
         {(() => {
-          const p = testoPulito(a.perche);
-          const soloRiferimento = /^(consegne|creativi)\/\S+(\s*\([^)]*\))?$/.test(p);
-          return p && !soloRiferimento ? <p className="t-corpo mt-2">{p}</p> : null;
+          const p = anteprimaAzione({ perche: testoPulito(a.perche), cambia: a.cambia, seguito: a.seguito });
+          return p ? <p className="t-corpo mt-2">{p}</p> : null;
         })()}
 
         {/* 🗣️ In parole semplici — cosa farà e come lo farà (fix #3): SEMPRE in vista,
