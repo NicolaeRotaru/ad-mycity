@@ -17,6 +17,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0714-227",
+      "testo": "**PR #379 conflitti — salta commit memoria obsoleto (chat 14/7 ~12:44):** Nicola «La pr 379 ha dei conflitti». 5 perché: (1) pattern #374/#378 — conflitto memoria worker vs main, codice `calibrazione.mjs` intatto; (2) branch portava **2 commit**: fix vero + secondo commit = aggiornamento memoria stale dal worker → **saltare** il secondo, non risolvere merge inutile; (3) rebase su main, head `f2d79065`, solo 1 file codice (`sensore_stato` su esito loop); (4) mergeable API verificata zero conflitti; (5) card **#143** pendente Approva — merge 🔴 resta a Nicola. **Regola:** in risoluzione conflitti PR codice, se un commit è solo memoria obsoleta vs main → dropparlo; spiegare a Nicola «codice intatto, memoria worker». Correlazione L-226, L-220, L-164.",
+      "tag": [
+        "pr-379",
+        "conflitti",
+        "memoria-obsoleta",
+        "onesta-numeri",
+        "calibrazione",
+        "mergeable",
+        "nicola"
+      ],
+      "reparto": "@tech",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 12:44",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0714-226",
       "testo": "**Onestà sui numeri — scheda fantasma = verifica su file sbagliato (chat 14/7 ~03:37, PR #379):** Nicola «Risolvi questi fix» su casella `calibrazione-onesta` (riapprovazione Pannello). 5 perché: (1) codice fix già su main da merge serale — restava **1 scheda aperta** in Radiografia non per bug operativo ma per **pattern verifica errato**; (2) `allinea-scan-cantiere` cercava `sensore_stato` in `calibrazione.json` mentre il fix vero è nel ponte `chiusura-loop`→`calibrazione.mjs da-loop`; (3) ponte aggiornato: ogni esito loop porta `sensore_stato` — niente auto-conferme al buio (AR-061); (4) `calibrazione.mjs valida` → exit 0, registro conforme; (5) **4/4** finding chiusi, voto **75** dopo PR **#379** (`1d3365ab`). **Errore AD stesso turno:** citato Approva **#142** per #379 — #142 già ✅ FATTO (#378 Chi impara) → card corretta **#143**. **Regola:** su casella Onestà diagnosticare pattern `verifica.file` in auto-radiografia prima di nuovo codice; scheda fantasma post-fix = mismatch file verifica, non «manca altro fix». Correlazione L-223, L-225, L-222.",
       "tag": [
@@ -5132,6 +5153,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PR #379 conflitti — AD risolve subito, Nicola riapprova (chat 14/7 ~12:44):** «La pr 379 ha dei conflitti» — si aspetta risoluzione immediata + mergeable verificata + Approva **#143**; conflitto memoria worker ≠ codice rotto; odia segnalare conflitti due volte sulla stessa PR. Vedi L-227, L-220.",
     "**Onestà sui numeri — fix batch radiografia (chat 14/7 ~03:37, PR #379):** «Risolvi questi fix» sulla casella Onestà — si aspetta 4 schede spariscono/verde dopo Approva come altre caselle radiografia; se main verde ma Pannello mostra ancora 1 scheda → verificare pattern `verifica.file` (fantasma da file sbagliato), non aprire altra PR; Approva **#143** (non #142 — già usata per #378). Vedi L-226.",
     "**Chi impara da cosa — fix batch chiuso con merge (chat 14/7 ~03:36, PR #378 ✅):** «Risolvi questi fix» sulla casella Chi impara — si aspetta che le 6 schede spariscano/verde **dopo** Approva; se main è verde ma Pannello mostra ancora problemi → **cache**, Ctrl+Shift+R, non altra PR; verifica `origin/main` prima di dire «manca fix». Vedi L-225.",
     "**PR — ricontrolla DOPO l'apertura se main si muove (chat 14/7 ~03:33, #378 ✅ 03:36):** «non hai guardato ancora una volta la pr dopo che l'hai aperta» — conflitto post-merge #377; si aspetta che l'AD **non** dica «pronta» finché mergeable non è verificato sul main **attuale**; conflitto memoria ≠ codice rotto; merge `2162a760` confermato. Vedi L-224, L-214.",

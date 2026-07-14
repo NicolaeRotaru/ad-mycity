@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 11:01
-fonte: AD digitale (🛰️ 14/7 11:01 giro · T-3 VEN 17/7 · REST 11:01 ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 12:44
+fonte: AD digitale (💬 14/7 12:44 chat PR #379 · T-3 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~12:44 — CHAT: PR #379 conflitti risolti — Onestà sui numeri pronta al merge.** Nicola «La pr 379 ha dei conflitti». **Verificato 🟢:** conflitto **solo** file memoria aggiornati dal worker vs main — codice **`calibrazione.mjs`** intatto (ponte loop→calibrazione con `sensore_stato`); secondo commit = aggiornamento memoria obsoleto → **saltato**; rebase su main, head **`f2d79065`**, API GitHub **mergeable**, zero conflitti. **4/4** finding chiusi, voto **75**. **Pendente:** Approva card **#143** → deploy ~2 min → Ctrl+Shift+R Radiografia › Onestà sui numeri — zero schede sotto. Fonte: chat Nicola 14/7 ~12:44 + `git-pr.mjs` verifica.
+>
 > 🛰️ **14/7 11:01 — GIRO.** **T-3 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo **~497h** (REST 11:01). **Mossa n.1:** 🔴 **pubblica post kefir ORA** (fascia colazione, 36°C) + link lista d'attesa. **In coda:** Approva #143 PR #379 Onestà numeri · batch 494 autofill · BURN_MENSILE_EUR. Sensori REST+Stripe+Resend ok · automazione tutto verde. Dettaglio: [[Briefing/2026-07-14]] · [[SALA-OPERATIVA]].
 >
 > ☀️ **14/7 06:00 — PIANO DEL MATTINO.** **T-3 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~492h ≈ 20,5 giorni (REST 06:00 + sentinella-dati). **Le 3 priorità di oggi:** ① 🔴 **domanda per il 1° ordine vero su PQ** — post kefir entro le 11 + lista d'attesa · ② 🔴 **prepara VP 17/7** — presidio al banco, ritiro in negozio (bici non pronta), payout-test · ③ 🟡 **chiudi residui piattaforma** — merge PR Pannello in coda + SQL 107/RLS + burn mensile (runway sconosciuto 98 giri). Sentinelle: `cassa_sconosciuta` tetto giorno (8/8), `negozio_fermo` PQ in cooldown (falso positivo). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
