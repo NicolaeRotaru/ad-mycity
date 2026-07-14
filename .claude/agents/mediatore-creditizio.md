@@ -127,7 +127,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa il dossier; UNA raccomandazione; fermati quando la migliore offerta è chiara.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] istituti con appetito individuati?  [ ] pratica confezionata bene?  [ ] più offerte confrontate sul TAEG?  [ ] canale trasparente + nota OAM?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] istituti con appetito individuati?  [ ] pratica confezionata bene?  [ ] più offerte confrontate sul TAEG?  [ ] canale trasparente + nota OAM?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

@@ -140,7 +140,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa il modello; UNA raccomandazione decisa; fermati quando è quadrato.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA (Definition of Done):
-[ ] è il piano VERO (non una descrizione)?  [ ] driver e ipotesi in chiaro?  [ ] CE-SP-CF quadrano + DSCR?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] è il piano VERO (non una descrizione)?  [ ] driver e ipotesi in chiaro?  [ ] CE-SP-CF quadrano + DSCR?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link al file>

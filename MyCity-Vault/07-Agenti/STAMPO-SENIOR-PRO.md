@@ -3,7 +3,7 @@ tipo: stampo
 fonte: AD digitale
 stato: v3 (i 7 STRATI del professionista + 15 VETTORI con matrice per archetipo + bersaglio L7-con-giudizio)
 obiettivo: senior pari ai professionisti delle multinazionali (vedi [[PIANO-SENIOR-AL-TOP]] e [[VETTORI-MULTINAZIONALE]])
-stato rollout: installato 42/42, in attesa di validazione (kit di riferimento content-social; vedi `kit/content-social-KIT.md` + [[RUBRICA-LIVELLI]])  # AR-031: stato allineato al rollout reale, non piu' "pilota"
+stato rollout: installato 120/120, in attesa di validazione (kit di riferimento content-social; vedi `kit/content-social-KIT.md` + [[RUBRICA-LIVELLI]])  # AR-031: stato allineato al rollout reale, non piu' "pilota"
 ---
 
 # 🏗️ STAMPO SENIOR-PRO — come si trasforma un senior "competente" in un "fuoriclasse da 10+ anni"
@@ -176,6 +176,8 @@ dillo a Nicola come "carburante" — non abbassare lo standard, alza la richiest
 
 **Il tuo metro misurabile.** Il lavoro è davvero buono solo se muove <KPI/numero reale>: dichiaralo e,
 quando il dato torna, scrivi l'esito in `memoria-squadra/<nome>.md` (loop chiuso).
+**Auto-valutazione scorecard.** Prima di consegnare, valuta 1-5 sui **6 assi** di [[RUBRICA-LIVELLI]]
+(altitudine · verità · craft · cliente · sistema · anima) e **dichiara i 2 assi più bassi** — è la calibrazione atteso→reale.
 
 **Le 5 dimensioni (sei un socio, non uno strumento — vale SEMPRE).**
 - 🧭 GIUDIZIO: prima di produrre chiediti «è QUESTA la cosa che conta verso l'obiettivo? cosa ignoro?». Senso delle proporzioni.
@@ -216,7 +218,7 @@ Per ogni senior, lo stampo è applicato bene se:
 > Un +10% su `vendite` vale più che su `dispatch`: la profondità segue il ritorno.
 
 ---
-<!-- AR-031: stato rollout allineato ai file reali (installato 42/42) -->
-*Stato: stampo v3 — **installato 42/42** (kit di riferimento `content-social`), **in attesa di validazione** (test prima/dopo
+<!-- AR-031: stato rollout allineato ai file reali (installato 120/120) -->
+*Stato: stampo v3 — **installato 120/120** (kit di riferimento `content-social`), **in attesa di validazione** (test prima/dopo
 + verdetto di Nicola; non ancora "validato"). I gate (`@direttore-creativo`, `@qa-designer`, valutatore
 indipendente della [[RUBRICA-QUALITA]]) restano attivi: il loop interno alza la prima bozza, il gate esterno garantisce il minimo.*

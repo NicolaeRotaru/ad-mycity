@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-14 02:26",
+  "aggiornato": "2026-07-14 02:30",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,26 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0714-206",
+      "testo": "**Badge «da collegare» ≠ macchina spenta (chat 14/7 ~02:29):** Nicola screenshot «perché mi dice che non sono collegati?» — si preoccupa quando vede molti moduli con badge «da collegare». 5 perché: (1) legge UI come «tutto rotto» se non capisce il vocabolario badge; (2) «da collegare» = modulo **previsto** senza feed dati attivo (concorrenti, stampa, security, legale, esperimenti, roadmap) — **non** bug sync (L-204/205); (3) «live» / «1/2» = già collegato in parte (Codice sito live, Reputazione 1/2); (4) memoria+marketplace+lavori **attivi** — va detto **subito** prima della roadmap; (5) **regola:** rassicurare cosa funziona → spiegare scheletri = lista lavoro; aprire casella mostra da dove arriveranno i dati. Correlazione L-204 (sync ≠ scheletri).",
+      "tag": [
+        "pannello",
+        "radiografia",
+        "badge",
+        "ux",
+        "nicola",
+        "scheletri"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.88,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 02:29",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0714-205",
       "testo": "**Sync Pannello completo — PR #369 chiude gap Scoperte/Proposte/Azioni (chat 14/7 ~02:24–02:26):** Nicola conferma «ci hai azzeccato era **azioni**» + «trova **tutte** le altre» — standing-ask «tutto collegato, tempo reale, non solo chat». 5 perché: (1) caselle figlie che leggevano dati «in prestito» dalla pagina madre (poll ~60s) restavano fuori da `mycity:sync` anche con #362 mergiata; (2) Nicola testa e trova buchi — non dichiarare «completato» senza audit **ogni** superficie con dato condiviso; (3) fix = ogni casella fetcha fresca + `usePanelSync`/`emitSync`; (4) **PR #369** (`cda728c6`, `fix/panel-sync-tutto`) — Proposte dal giro, Scoperte, radice Plancia (numeri, briefing); merge 🔴 #134; (5) **limite onesto:** Scoperte **sync** ok ma **contenuto** = testo ultimo giro AD, non ogni frase chat (Memoria viva sì). Test: approva/ignora proposta → sparisce Azioni+Scoperte <10s senza refresh. Correlazione L-204, L-202, L-196.",
@@ -113,12 +133,12 @@
         "nicola"
       ],
       "reparto": "@prompt-engineer",
-      "confidenza": 0.92,
-      "evidenze": 1,
+      "confidenza": 0.94,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 02:09",
+      "ultima_conferma": "2026-07-14 02:30",
       "stato": "attiva"
     },
     {
@@ -4692,6 +4712,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Badge «da collegare» — sembra tutto rotto (chat 14/7 ~02:29):** screenshot «perché mi dice che non sono collegati?» — si preoccupa quando vede molti moduli «da collegare»; si aspetta rassicurazione immediata su cosa **funziona** (memoria, marketplace, lavori) + spiegazione che scheletri = roadmap intenzionale, non errore; distinto da bug sync (L-204). Vedi L-206.",
     "**Sync Pannello — audit tutte le caselle + PR #369 (chat 14/7 ~02:24–02:26):** «ci hai azzeccato era azioni» + «trova tutte le altre» — standing-ask «tutto collegato, tempo reale, niente escluso»; dopo over-claim su #362 vuole che l'AD **mappi ogni superficie** prima di dire completato; **PR #369** (`cda728c6`) collega Proposte/Scoperte/radice Plancia; merge 🔴 #134; test approva/ignora → sparisce ovunque <10s; **limite accettabile se spiegato:** Scoperte = testo ultimo giro, non ogni frase chat. Vedi L-205, L-204.",
     "**Sync Pannello — zero eccezioni + prove concrete (chat 14/7 ~00:47, confermato 02:20–02:26):** «tutto collegato, niente escluso» — dopo «completato» chiede «come verifico?» e trova caselle ferme; odia dichiarazioni senza test; si aspetta approva→sparisce ovunque <10s senza refresh. Vedi L-204, L-205, L-196.",
     "**Numeri dell'azienda — due schede in alto (chat 14/7 ~02:18, PR #368):** «sposta numeri e report in due riquadri che aprono pagine diverse» — non ricorda il nome → **schede** (come Memoria e Lavori); **Tutti i numeri** (KPI) separato da **Analisi & report** (trend/funnel/report AD); odia muri di numeri in fila; merge 🔴 #133. Vedi L-203, L-194.",
@@ -4880,13 +4901,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 221,
+    "lezioni_attive": 224,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.42,
-    "tasso_calcolato_il": "2026-07-14 02:19",
+    "tasso_applicazione": 0.41,
+    "tasso_calcolato_il": "2026-07-14 02:29",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-14 02:19"
+    "tick_leggero_il": "2026-07-14 02:29"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

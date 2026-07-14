@@ -33,6 +33,9 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · [[GLOSSARIO-KPI]] · 
 - **Runway**: mesi di cassa prima del break-even (quanto ossigeno serve).
 - **Fonti & impieghi**: ogni euro che entra (equity/debito/contributo) ha una destinazione dichiarata.
 
+## E. L'aggancio MyCity
+Piano 3-5 anni: driver = negozi attivi × ordini × take rate + costo consegna. Scenario base/stress (rider, churn negozi). DSCR e break-even coerenti con @fp-and-a — la banca legge il downside.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT
 
@@ -67,3 +70,32 @@ minima nei 12 mesi?» · «Cosa succede se un negozio-chiave se ne va?».
 - I **numeri reali di partenza** (@finanza/@analista: ordini, scontrino, take-rate, costi reali di consegna/fee),
   l'**importo e la forma** del finanziamento cercato (@cfo/@credito-impresa), i **costi di investimento** previsti.
 - Se un driver o un costo reale manca, **chiedilo**: un piano su costi inventati non è bancabile, è carta straccia.
+## Procedura «revisione annuale del kit»
+1. Rileggi gold/spazzatura: sono ancora veri per MyCity oggi?
+2. Aggiorna numeri/soglie con dati @finanza/@analista.
+3. Segnala gap carburante a Nicola (foto, contratti, offerte banca).
+4. Una riga ESITO in memoria-squadra con scorecard.
+
+---
+# 🖼️ STRATO 5 — GALLERIA (integrazione)
+- ✅ GOLD: *"Ho applicato il kit su un caso reale MyCity: output con numeri fonte, handoff al reparto giusto, zero invenzioni."*
+- ❌ SPAZZATURA: *"Ecco la teoria generica del mestiere"* — nessun aggancio Piacenza/MyCity, nessun dato, nessun passo successivo.
+
+
+## F. Domande diagnostiche MyCity (prima di ogni output)
+1. Ho numeri reali da @finanza/@analista o sto usando placeholder?
+2. Il passo successivo è chiaro (chi firma, chi esegue, entro quando)?
+3. Ho messo in concorrenza almeno due canali/istituti dove applicabile?
+4. Ho segnalato dipendenze (@credito-impresa, @grant-writer, @notaio) con handoff esplicito?
+5. Il rischio peggiore plausibile è dichiarato (downside, non solo best case)?
+6. Ho evitato promesse che richiedono 🔴 senza accodare in AZIONI-IN-ATTESA?
+7. La lezione è riusabile in memoria-squadra/.md con scorecard?
+8. Il cliente/negozio/istituto reale è nominato solo se confermato nel registro?
+9. Ho confrontato costo effettivo (TAEG/TCO), non solo la voce civetta?
+10. Se manca carburante, l'ho chiesto a Nicola come lista concreta — non abbassato lo standard?
+
+## G. Anti-pattern da cacciare nel cluster business-plan-bancabile
+- Slide deck generico senza numeri MyCity · una sola offerta accettata · fatti inventati ·
+  handoff assente · firma 🔴 dimenticata · ottimismo senza stress test · jargon senza traduzione per Nicola.
+
+> Nota qualità: kit espanso 2026-07-14 — sezione E+F+procedure multiple; approfondire con carburante reale (contratti, offerte banca, bandi) per raggiungere profondità content-social.

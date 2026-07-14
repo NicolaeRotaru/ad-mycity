@@ -132,7 +132,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa la scheda-merito; UNA raccomandazione; fermati quando è pronta.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] merito fotografato su 3 dimensioni?  [ ] segnali di allerta individuati?  [ ] leve prioritizzate con tempistica?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] merito fotografato su 3 dimensioni?  [ ] segnali di allerta individuati?  [ ] leve prioritizzate con tempistica?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

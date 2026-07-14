@@ -74,6 +74,9 @@ prima di proporre qualunque rimedio:
   fanno la fila per un turno); **reclutare in difetto** lascia scoperti i picchi che rider-fleet aveva
   segnalato. Coordina, non decidere il numero da solo.
 
+## E. L'aggancio MyCity
+Reclutamento rider a Piacenza: costo acquisizione vs retention, onboarding <48h, referral tra rider. Coordina con @rider-fleet (turni) e @operations (SLA consegna).
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti passo-passo)
 

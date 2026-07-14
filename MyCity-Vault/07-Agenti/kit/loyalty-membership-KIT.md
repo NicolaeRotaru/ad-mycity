@@ -79,6 +79,9 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · [[GLOSSARIO-KPI]] · 
   impossibile isolare l'effetto vero (nessuna coorte di controllo pulita, perché "tutti sono
   membri").
 
+## E. L'aggancio MyCity
+Prime/abbonamento: break-even su consegne incluse vs frequenza ordini Piacenza. Non promettere benefit che @operations non regge. Test su cohort piccola prima del lancio.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti passo-passo)
 

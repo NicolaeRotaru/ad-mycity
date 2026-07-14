@@ -168,6 +168,8 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
   node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD)..."
+  node "$SCRIPT_DIR/stampo-check.mjs" 2>&1 | tail -6 || true
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
   node "$SCRIPT_DIR/guardiano-capacita.mjs" 2>&1 | tail -4 || true
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."

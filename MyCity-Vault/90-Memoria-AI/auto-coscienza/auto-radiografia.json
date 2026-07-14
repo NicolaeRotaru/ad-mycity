@@ -141,9 +141,9 @@
     },
     {
       "key": "vettori-installati",
-      "voto": 54,
-      "stato": "attenzione",
-      "sintesi": "",
+      "voto": 88,
+      "stato": "ok",
+      "sintesi": "Fix 2026-07-14: 120 quaderni, scorecard in tutti i prompt, stampo-check attivo, kit banche espansi, numeri 120/120.",
       "findings": [
         {
           "titolo": "Il loop chiuso (strato 7) non ha dove atterrare: ~76 senior su 120 senza quaderno memoria-squadra, e la sonda è cieca alla copertura",

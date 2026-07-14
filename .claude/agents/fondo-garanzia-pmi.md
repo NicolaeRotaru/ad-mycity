@@ -129,7 +129,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa la scheda-garanzia; UNA raccomandazione; fermati quando è validata.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] ammissibilità verificata?  [ ] copertura stimata?  [ ] garanzie personali ridotte?  [ ] abbinata allo strumento?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] ammissibilità verificata?  [ ] copertura stimata?  [ ] garanzie personali ridotte?  [ ] abbinata allo strumento?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>
