@@ -54,6 +54,47 @@ export function repartoLeggibile(slug?: string): string {
   return nomeReparto(slug) || traduciTestoCompleto(slug.replace(/-/g, " "));
 }
 
+type BenchmarkEsempio = { cosa?: string; link?: string };
+type BenchmarkMigliore = { chi?: string; livello?: string; cosa_fa?: string; esempi?: BenchmarkEsempio[] };
+export type BenchmarkContesto = {
+  obiettivo?: string;
+  nostro?: string;
+  cosa_ci_manca?: string;
+  livello_attuale_L?: number;
+  divario?: string;
+  progresso?: { data?: string; punteggio?: number; fonte?: string; nota?: string }[];
+  migliori?: BenchmarkMigliore[];
+};
+
+/** Quadro completo per ParlaCasella: tutto ciò che la scheda mostra, in italiano semplice. */
+export function contestoBenchmark(b: BenchmarkContesto): string {
+  const ultimo = b.progresso?.length ? b.progresso[b.progresso.length - 1] : undefined;
+  const righe: string[] = [];
+
+  if (b.livello_attuale_L != null) righe.push(`Livello attuale: L${b.livello_attuale_L}`);
+  if (b.divario) righe.push(`Divario vs i migliori: ${divarioLeggibile(b.divario)}`);
+  if (b.obiettivo) righe.push(`Obiettivo: ${b.obiettivo}`);
+  if (b.nostro) righe.push(`Dove siamo noi: ${b.nostro}`);
+  if (b.cosa_ci_manca) righe.push(`Cosa ci manca: ${b.cosa_ci_manca}`);
+  if (ultimo?.punteggio != null) {
+    const quando = ultimo.data ? ` (${ultimo.data})` : "";
+    righe.push(`Ultimo punteggio: ${ultimo.punteggio}/100${quando}`);
+  }
+  if (ultimo?.nota) righe.push(ultimo.nota);
+
+  if (b.migliori?.length) {
+    const chi = b.migliori.map((m) => {
+      const nome = [m.chi, m.livello && `(${m.livello})`].filter(Boolean).join(" ");
+      const esempi = m.esempi?.map((e) => e.cosa).filter(Boolean).join("; ");
+      const parti = [nome, m.cosa_fa, esempi && `es. ${esempi}`].filter(Boolean);
+      return parti.join(" — ");
+    });
+    if (chi.length) righe.push(`Chi fa meglio: ${chi.join(" · ")}`);
+  }
+
+  return righe.join(" · ");
+}
+
 export function saluteValore(k: string, v: unknown): { label: string; ok: boolean } {
   const key = k.toLowerCase();
   if (key.includes("supabase") || key.includes("stripe")) {
