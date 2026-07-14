@@ -30,7 +30,6 @@ import {
   Layers,
   Home,
   Menu,
-  Mic,
   Mail,
   Target,
   Globe,
@@ -108,19 +107,17 @@ import Lavori from "@/components/aree/Lavori";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
 import NumeriArea from "@/components/aree/NumeriArea";
-import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import { vaultToIso } from "@/lib/format";
-import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
+import { hintInvioChat } from "@/lib/chat-input";
 import { avviaDettatura } from "@/lib/dettatura-vocale";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
-import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
-import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
+import BarraScritturaChat, { type BarraScritturaChatHandle } from "@/components/BarraScritturaChat";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
@@ -812,13 +809,17 @@ export default function Dashboard() {
   });
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
-  const [input, setInput] = useState("");
+  const bozzaChatRef = useRef("");
+  const chatInputRef = useRef<BarraScritturaChatHandle>(null);
   const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
   const [ascoltando, setAscoltando] = useState(false);
   const [avvisoVoce, setAvvisoVoce] = useState("");
   function dettaVoce() {
     avviaDettatura({
-      onTesto: (t) => setInput((cur) => (cur ? `${cur} ${t}` : t)),
+      onTesto: (t) => {
+        const cur = chatInputRef.current?.getTesto() ?? bozzaChatRef.current;
+        chatInputRef.current?.setTesto(cur ? `${cur} ${t}` : t);
+      },
       onStato: (s) => setAscoltando(s === "ascolta"),
       onAvviso: setAvvisoVoce,
     });
@@ -881,11 +882,6 @@ export default function Dashboard() {
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
-  const [skillAperte, setSkillAperte] = useState(false);
-  function scegliSkill(cmd: string) {
-    setInput(cmd);
-    setSkillAperte(false);
-  }
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
@@ -1425,17 +1421,13 @@ export default function Dashboard() {
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
   // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
-  async function mandaAlCervello(text?: string) {
-    const t = (text ?? input).trim();
-    // 📎 Allegati SOLO per l'invio diretto dalla casella (non per i comandi programmatici con `text`).
-    const daCaricare = text === undefined ? allegatiChat : [];
+  async function mandaAlCervello(text: string) {
+    const t = text.trim();
+    const daCaricare = allegatiChat;
     // ⏩ CHAT MULTIPLA (stile Claude): niente più blocco mentre l'AD pensa — puoi mandare
     // il 2°/3° messaggio subito; il turno vecchio viene sostituito e quello nuovo legge tutto.
     if (!t && daCaricare.length === 0) return;
-    if (text === undefined) {
-      setInput("");
-      setAllegatiChat([]);
-    }
+    setAllegatiChat([]);
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
     // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
@@ -1578,12 +1570,11 @@ ${richiesta}
 Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non vedi qui, elenca quali.`;
   }
 
-  function dammiPrompt() {
-    const t = input.trim();
+  function dammiPrompt(testo: string) {
+    const t = testo.trim();
     if (!t) return;
     const p = generaPrompt(t);
     setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: t }, { id: nuovoIdMsg(), role: "assistant", content: p, prompt: true }]);
-    setInput("");
     aggiungiDiario("chat", "📋 Prompt per Claude Max", p);
   }
 
@@ -1626,7 +1617,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         body: JSON.stringify({ id: lavoroId }),
       }).catch(() => {});
     }
-    if (testoRipristino) setInput(testoRipristino);
+    if (testoRipristino) chatInputRef.current?.setTesto(testoRipristino);
     setLoading(false);
     void persistConversazione(
       targetConvId,
@@ -2462,7 +2453,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     {COMANDI_RAPIDI.map((c) => (
                       <button
                         key={c.label}
-                        onClick={() => setInput(c.testo)}
+                        onClick={() => chatInputRef.current?.setTesto(c.testo)}
                         className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/80 rounded-full px-3 py-1.5 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
                       >
                         {c.label}
@@ -2552,63 +2543,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={endRef} />
           </div>
-          <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
-            <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
-            {/* Pulsanti SOPRA la box di testo (su mobile non le rubano larghezza); la textarea ha tutta la riga. */}
-            <div className="flex items-center gap-2">
-              <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} />
-              <BottoneAllegatiChat
-                disabled={allegatiChat.length >= 6}
-                iconSize={18}
-                className="min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
-                onScegli={aggiungiAllegatiChat}
-              />
-              <button
-                onClick={dettaVoce}
-                disabled={ascoltando}
-                className={`min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border transition active:scale-95 ${
-                  ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
-                }`}
-                aria-label="Detta a voce"
-                title="Detta a voce"
-              >
-                <Mic size={18} />
-              </button>
-              <button
-                onClick={dammiPrompt}
-                disabled={!input.trim()}
-                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-brand/40 text-brand px-3 rounded-xl text-xs font-medium hover:bg-brand-50 active:scale-95 transition disabled:opacity-40 disabled:active:scale-100"
-                aria-label="Prompt (copia per Max)"
-                title="Crea un prompt pronto da incollare in Claude col tuo Max (gratis)"
-              >
-                <FileText size={15} /> Prompt
-              </button>
-              <button
-                onClick={() => mandaAlCervello()}
-                disabled={!input.trim() && allegatiChat.length === 0}
-                className="ml-auto min-h-[44px] min-w-[44px] justify-center bg-brand text-white px-4 rounded-xl hover:bg-brand-dark active:scale-95 transition disabled:opacity-40 disabled:active:scale-100 inline-flex items-center gap-1.5"
-                aria-label="Manda al cervello"
-                title={`Chatta con l'AD (Claude Code sul tuo Max): gratis, risponde qui — ${hintInvio}`}
-              >
-                {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
-              </button>
-            </div>
-            <AnteprimaAllegatiChat allegati={allegatiChat} onTogli={togliAllegatoChat} />
-            {allegatiAvviso && (
-              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
-            )}
-            {avvisoVoce && (
-              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{avvisoVoce}</p>
-            )}
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => gestisciInvioChat(e, mandaAlCervello)}
-              rows={2}
-              placeholder={`Scrivi all'AD (col tuo Max), gratis…  (${hintInvio})`}
-              className="input-soft w-full min-h-[56px] max-h-24 resize-y"
-            />
-          </div>
+          <BarraScritturaChat
+            ref={chatInputRef}
+            variant="assistente"
+            hintInvio={hintInvio}
+            loading={loading}
+            allegati={allegatiChat}
+            allegatiAvviso={allegatiAvviso}
+            avvisoVoce={avvisoVoce}
+            ascoltando={ascoltando}
+            bozzaCondivisaRef={bozzaChatRef}
+            onAllegati={aggiungiAllegatiChat}
+            onTogliAllegato={togliAllegatoChat}
+            onDetta={dettaVoce}
+            onInvia={(t) => void mandaAlCervello(t)}
+            onPrompt={dammiPrompt}
+          />
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
               Su telefono riempie tutta la chat (w-full); su desktop è un pannello laterale (sm:w-[340px]). */}
@@ -2847,53 +2797,21 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={chatFabEndRef} />
           </div>
-          <div className="border-t p-2.5 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
-            <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
-            {/* Pulsanti SOPRA la box di testo: su mobile la textarea tiene tutta la larghezza. */}
-            <div className="flex items-center gap-2">
-              <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={40} icona={16} />
-              <BottoneAllegatiChat
-                disabled={allegatiChat.length >= 6}
-                iconSize={16}
-                className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
-                onScegli={aggiungiAllegatiChat}
-              />
-              <button
-                onClick={dettaVoce}
-                disabled={ascoltando}
-                className={`min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border transition active:scale-95 ${
-                  ascoltando ? "bg-red-500 text-white border-red-500 animate-pulse" : "border-black/10 text-black/55 hover:bg-black/[0.04]"
-                }`}
-                aria-label="Detta a voce"
-                title="Detta a voce"
-              >
-                <Mic size={16} />
-              </button>
-              <button
-                onClick={() => mandaAlCervello()}
-                disabled={!input.trim() && allegatiChat.length === 0}
-                className="ml-auto min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"
-                aria-label="Invia"
-              >
-                <Send size={16} />
-              </button>
-            </div>
-            <AnteprimaAllegatiChat allegati={allegatiChat} onTogli={togliAllegatoChat} />
-            {allegatiAvviso && (
-              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
-            )}
-            {avvisoVoce && (
-              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{avvisoVoce}</p>
-            )}
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => gestisciInvioChat(e, mandaAlCervello)}
-              rows={3}
-              placeholder={`Scrivi all'AD…  (${hintInvio})`}
-              className="input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]"
-            />
-          </div>
+          <BarraScritturaChat
+            ref={chatInputRef}
+            variant="fluttuante"
+            hintInvio={hintInvio}
+            loading={loading}
+            allegati={allegatiChat}
+            allegatiAvviso={allegatiAvviso}
+            avvisoVoce={avvisoVoce}
+            ascoltando={ascoltando}
+            bozzaCondivisaRef={bozzaChatRef}
+            onAllegati={aggiungiAllegatiChat}
+            onTogliAllegato={togliAllegatoChat}
+            onDetta={dettaVoce}
+            onInvia={(t) => void mandaAlCervello(t)}
+          />
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div
             className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
@@ -3023,9 +2941,8 @@ const MD_COMPONENTS: Components = {
 // Mostra il testo dell'AI come Markdown formattato (grassetti, elenchi, tabelle)
 // invece che come testo grezzo pieno di asterischi e barrette.
 // memo: la resa Markdown è costosa (ReactMarkdown ri-parsa a ogni render). `children` è una stringa
-// (primitiva) → con memo, digitare in chat (che ri-renderizza tutto il Pannello per via dello state
-// `input`) NON ri-parsa più il Markdown di tutte le bolle esistenti: si ridisegna solo la bolla il cui
-// contenuto è cambiato. Toglie il lag di digitazione. (Round 5 — perf percepita)
+// (primitiva) → con memo, digitare in chat NON ri-parsa più il Markdown di tutte le bolle esistenti
+// (la bozza vive in BarraScritturaChat, isolata da Home). (Round 5 + fix lag input)
 const Markdown = memo(function Markdown({ children }: { children: string }) {
   return (
     <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
