@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, FileText } from "lucide-react";
+import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, FileText, Store } from "lucide-react";
+import { KIT_CAMPO_BOTTEGHE } from "@/lib/kit-campo-botteghe";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import { RitmoTesto } from "@/components/RitmoTesto";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -183,6 +184,31 @@ export default function Plancia({
           </div>
         </button>
       </div>
+
+      {/* Kit campo botteghe — sempre visibile in home */}
+      <section className="card p-4">
+        <div className="sez-head mb-3">
+          <span className="sez-ico"><Store size={16} /></span>
+          <span className="t-sez">Kit campo botteghe</span>
+          <span className="ml-auto t-eti">3 prioritarie + 10 onda 2</span>
+        </div>
+        <p className="t-eti mb-3">Prima della visita apri la scheda tascabile; dopo il sì usa la checklist.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {KIT_CAMPO_BOTTEGHE.map((k) => (
+            <button
+              key={k.file}
+              onClick={() => vaiArea("memoria", undefined, `archivio/${k.file}`)}
+              className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+            >
+              <span className="mt-0.5 text-lg shrink-0">{k.emoji}</span>
+              <span className="min-w-0">
+                <span className="block text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>{k.titolo}</span>
+                <span className="block t-eti mt-0.5">{k.sottotitolo}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* 2 · Ritmo del giorno */}
       {(ritmo.pianoMattino || ritmo.reportSera) && (
