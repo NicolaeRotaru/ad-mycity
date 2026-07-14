@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-14 01:12** — Nicola «pulisci coda»: **101 → 21** card in «Da approvare». Archiviate merge duplicate, PR già mergiate, social Garetti e gate scaduti.
+> 🧹 **Housekeeping 2026-07-14 01:12** — Nicola «pulisci coda»: **101 → 22** card in «Da approvare» (confermato 02:15). Archiviate merge duplicate, PR già mergiate, social Garetti e gate scaduti. +1 nuova card merge #368 (fix numeri) aggiunta dal worker dopo la pulizia.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
