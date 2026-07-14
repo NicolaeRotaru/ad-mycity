@@ -84,14 +84,8 @@
     "2026-07-13T10:43:46.652Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 10858,
+  "tick": 10859,
   "storia": [
-    {
-      "quando": "2026-07-13 23:32",
-      "eventi": 1,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-13 23:33",
       "eventi": 1,
@@ -685,6 +679,12 @@
       "eventi": 1,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-14 02:40",
+      "eventi": 1,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
@@ -696,7 +696,7 @@
     "recensioni_basse": 0,
     "negozi_fermi": 1,
     "carrelli": null,
-    "worker_eta_min": 1,
+    "worker_eta_min": 0,
     "sensori_max_ciechi": 1,
     "salute_voto": 75,
     "radiografia_gg": 6,
