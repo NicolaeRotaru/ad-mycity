@@ -1,12 +1,12 @@
-## Summary
-- I Piani del vault hanno un tab dedicato accanto a Stato e OKR (prima erano nascosti sotto OKR).
-- Percorso: Memoria → Storico → Stato & numeri → tab **Piani**.
+## Cosa
+- Sezione **Kit campo botteghe** in Home (Plancia): due card che aprono tascabile e checklist in Archivio.
+- Documenti vendite riscritti con analisi più profonde (Garetti/Moro, Amendolara, Frolla + quadro Glovo/carrello).
 
 ## Perché
-Nicola segnalava che i piani erano sepolti dentro la tab OKR dopo il riordino menu.
+Nicola: kit in Home + pitch troppo povero. I file precedenti non erano su disco; ora ci sono con fonti e obiezioni per negozio.
 
 ## Come provare
-1. Apri Memoria → Storico → Stato & numeri.
-2. Verifica tre tab in fila: **Stato**, **OKR**, **Piani**.
-3. Clic su **Piani**: compaiono i piani del vault (Operativo, Crescita, Vendite, ecc.) senza scrollare sotto gli OKR.
-4. Clic su **OKR**: restano solo Stelle Polari + OKR, senza la sezione Piani sotto.
+1. Merge PR → Ctrl+Shift+R sul Pannello.
+2. Home → blocco «Kit campo botteghe» con 2 pulsanti.
+3. Tap «Scheda tascabile» → Archivio apre il markdown delle 13 botteghe.
+4. Tap «Checklist operativa» → griglia onboarding ☐.
