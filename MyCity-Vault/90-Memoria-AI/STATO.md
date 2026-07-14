@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:09
-fonte: AD digitale (🌅 14/7 03:09 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:10
+fonte: AD digitale (🌅 14/7 03:10 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:10 — CHAT: Ordine conversazioni — Nicola ha mergiato fix vecchio (#371), chat salta in cima.** Nicola «ho mangiato un fix vecchio — quando schiaccio una chat va all'inizio». **Diagnosi 🟢:** PR **#371** ha reintrodotto `convVistaAt` («ultima aperta in cima») che **#303** aveva già rimosso il **12/7** (`67c6b804` — aprire chat **non** deve cambiarne la posizione); header pulito (History) era l'unico intento buono. **Fix 🟡 PR #375** (`671a42ed`): ordine stabile ripristinato + header mantenuto. **Pendente:** Approva card **#141** → deploy ~2 min → Ctrl+Shift+R → clicca chat a metà lista: **resta al suo posto**. Fonte: chat Nicola 14/7 ~03:10 + codice `page.tsx`/`store.ts`.
+>
 > 💬 **14/7 ~03:09 — CHAT: PR #374 conflitti risolti — screenshot Nicola senza testo.** Nicola allega screenshot GitHub «This branch has conflicts» su PR **#374** (descrizione Opportunità Scoperte), senza messaggio. **Verificato 🟢:** conflitto **solo** file memoria + body PR condiviso (pattern #369/#371) — codice `descrizione-opportunita.ts` **intatto**; rebase su main, head `b556149d`, API GitHub **mergeable** (03:09). **Pendente:** Nicola **riapprova** card **#140** in Pannello → Da approvare — merge **non** dall'app GitHub. Dopo merge: Ctrl+Shift+R su Scoperte, verifica descrizione sopra dettaglio tecnico (es. 494 = 252 condizione + 242 unità). Fonte: chat Nicola 14/7 ~03:05 + screenshot + `git-pr.mjs` verifica.
 >
 > 💬 **14/7 ~03:02 — CHAT: Ogni quanto avviene il giro?** Nicola follow-up su Scoperte. **Spiegato 🟢:** giro automatico **ogni 2 ore** (timer `mycity-giro.timer`, fuso Roma) alle **06:20, 08:20, 10:20, 12:20, 14:20, 16:20, 18:20, 20:20, 22:20** = **9 volte/giorno** (non ogni ora); **delta-gate** può saltare il giro pieno se ordini/negozi/numeri invariati → Scoperte non si riscrive; **«fai un giro»** parte subito e aggiorna briefing/Opportunità; ultimo giro che ha scritto Scoperte: **02:48** · prossimo automatico **06:20**; piano del mattino / mezzogiorno / report sera alle **6, 12, 18** = diario ritmo, non lista Opportunità. Fonte: chat Nicola 14/7 ~03:02 + `cervello/vps/mycity-giro.timer` + `giro.sh`.
