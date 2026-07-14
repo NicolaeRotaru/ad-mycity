@@ -886,3 +886,6 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-13 20:21 · @ad · FATTO · Giro serale completo: briefing 13/7 scritto, coerenza-fatti OK (33 copie propagate «6 botteghe food» → «6 ristoranti/trattorie tattici»), CHECKLIST-NICOLA rigenerata (AR-030), vincoli HARD chiusi (loop @analista, allocazione rispettata). Business INVARIATO (~469h stallo, North Star 0). Mossa n.1: merge #346 + debrief visita + VP 17/7.
 - 2026-07-13 20:21 · @analista · FATTO · 7 numeri REST 20:20 invariati vs 18:00: 1 PQ, 5 prodotti, 1 ordine ANNULLATO, 0 pagati/consegnati, 4 buyer. ESITO registrato in quaderno (chiusura-loop gate OK).
 - 2026-07-13 20:21 · @ad · SERVE · Da Nicola: 🔴 merge #346 (scelte ragionate) · 🟡 debrief visita 6 ristoranti tattici · 🔴 via post Il Turno VP 17/7 · 🔴 merge #348 pallini se aperta.
+
+### 2026-07-14 — RIPROVA playbook recupero carrelli (02:45)
+- 2026-07-14 02:46 · @crm-lifecycle · FATTO · Playbook recupero carrelli RIPROVA: REST live 4 `abandoned_carts`, 1 buyer reale (samir €10 PQ), 3 SKIP admin/demo. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] A3 + `consegne/crm/2026-07-14-recupero-carrelli-pronte.md`. Zero invii. Gate: PQ evadibile prima di mandare.

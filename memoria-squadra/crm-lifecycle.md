@@ -8,6 +8,7 @@ reparto: crm-lifecycle
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-14 02:46 · playbook recupero carrelli RIPROVA 14/7 · 1 buyer reale / 4 record / 2 touch pronti · atteso bozze email per ogni carrello reale fermo → reale 1 cliente samir €10 + 3 SKIP admin/demo · #recupero-carrelli
 - 2026-07-02 07:35 · carrelli operativi · briefing 1/7: 6 carrelli DB → 4 operativi (>4h, no Verde Casa) → **1 buyer reale** (samir €10) · #2 admin + #3–#4 seller = SKIP permanente · post-deploy #19 admin non può più comprare · recovery A8 solo samir dopo #16 + consenso legale · lezione: sempre colonna «cliente reale?» in tabella carrelli · L-0702-42 · #carrelli #recovery #skip
 
 2026-06-24 · flussi lifecycle lancio · scritti 7 flussi completi (testo pronto) riusando tono "Vicino Orgoglioso" + frase-causa "salviamole insieme"; chiave: ogni incentivo in € marcato 🔴 con cap+ROI, mai chiedere recensione a cliente insoddisfatto (ramo 👎→supporto), gift = cash-positive. Canali in dry-run → tutto accodato, niente inviato. #lifecycle #lancio #garetti

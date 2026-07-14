@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-14 02:43
+aggiornato: 2026-07-14 02:45
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -65,8 +65,8 @@ Ti va se passo a sistemare tutto insieme?
 reparto: crm-lifecycle
 livello: 🟡 (Touch #1 senza sconto) · 🔴 (Touch #2 col codice)
 canale: Email al buyer samir — indirizzo da recuperare da /admin/users (chiave anon non lo legge)
-perche: Un solo carrello recuperabile REALE (verificato REST 1/7 12:00, conf. 2/7 10:19, letture live gated 3/7 → nessun numero nuovo). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6. Gli altri 3 record `abandoned_carts` = admin/seller-autotest/seed Casa Linda → SKIP (non clienti). Un promemoria caldo può riportarlo a un 2° acquisto invece del silenzio.
-preparato: 🔁 crm-lifecycle + ✍️ copywriter — testo pieno + sequenza in `consegne/crm/2026-07-03-recupero-carrelli-pronte.md`
+perche: Un solo carrello recuperabile REALE (verificato REST live 14/7 02:45: 4 record `abandoned_carts`, 1 buyer reale). Buyer samir, 3 prodotti bio, €10,00, fermo dal 16/6 (~672h). Gli altri 3 = admin/seller-autotest/seed Casa Linda → SKIP. Tutti hanno `recovery_email_sent_at` già settato (giugno) → re-touch manuale, non cron.
+preparato: 🔁 crm-lifecycle — testo pieno in `consegne/crm/2026-07-14-recupero-carrelli-pronte.md` (agg. 14/7 02:45 RIPROVA Nicola)
 cosa cambia: l'unico cliente reale riceve un promemoria del carrello da €10 (pesto + kefir bio di Pane Quotidiano). Ri-aggancio caldo, non promo fredda. ⚠️ **Aggiornato 6/7 12:48:** il gate «dopo #16 consegnato» è MORTO — l'ordine #16 di samir è stato ANNULLATO il 3/7. Nuovo gate: parte quando Pane Quotidiano torna evadibile (ordine-prova #21 chiuso), così il carrello non spinge samir verso una **2ª delusione**. Le mail NON citano #16.
 se va bene: samir torna → primo cliente con 2 ordini, base per riordino/referral; se muto dopo Touch #2, si archivia.
 pre-condizioni: parte SOLO dopo che PQ è di nuovo evadibile (ordine-prova #21 chiuso: accetta→consegna→payout-test) · ok @legale-privacy sul consenso (`email_marketing=false`, transazionale vs marketing) · email da /admin/users (chiave anon non la legge) · mani Resend accese (→ builder-automazioni). Finché non attive, resta in coda.
@@ -85,7 +85,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. **Coda canonica = riga #26** in [[AZIONI-IN-ATTESA]] (crm-lifecycle, «Riporta indietro il cliente che ha lasciato un carrello da €10»). ⚠️ Corretto 7/7 12:12: il puntatore diceva «#27» ma #27 è la richiesta-recensione (customer-success) — il recupero-carrello è la #26. **Ri-verificato 7/7 vs lettura live MCP 00:29: 4 carrelli abbandonati invariati, 1 solo recuperabile reale (samir €10) → finding stabile, business fermo dal 24/6.**
+stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 14/7 02:45 (RIPROVA Nicola):** REST live ✅ — 4 carrelli invariati, 1 solo recuperabile (samir €10), `ordini_tot=1` CANCELED. Coda #26 archiviata housekeeping 14/7; bozze restano qui (A3). Per invio reale serve nuova card 🔴 + gate PQ evadibile.
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione) — MODELLO NEUTRO RIUSABILE
 reparto: customer-success
