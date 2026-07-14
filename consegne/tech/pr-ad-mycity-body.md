@@ -1,11 +1,19 @@
-## Cosa
-Isola la casella di testo della chat (Assistente + fluttuante) in `BarraScritturaChat`: la bozza non vive più nello state di `page.tsx`, quindi ogni lettera non ri-renderizza tutta la Home.
+## Cosa cambia
+Ogni casella in **Auto-coscienza** (analisi, apprendimento, miglioramento) parla in italiano semplice come le card «Da approvare»: sintesi, errori, domande, lezioni, benchmark, peer review, proposte — tutto il testo, senza tagli.
+
+I riferimenti tecnici (path file, codici PR/AR/L-xxx, testo originale) restano sotto **Dettagli tecnici** espandibili.
 
 ## Perché
-Nicola segnala digitazione lenta nella chat: ogni keystroke aggiornava `input` in Home (~3000 righe) e ricalcolava l’intero Pannello anche con Markdown già memoizzato.
+Nicola chiede lo stesso trattamento delle Azioni: quadro ampio e leggibile, niente gergo in faccia, niente dettaglio perso.
 
 ## Come provare
-1. Approva e mergia la PR, poi Ctrl+Shift+R sul Pannello.
-2. Apri Assistente (o chat fluttuante «Parla con l'AD»).
-3. Scrivi una frase lunga velocemente: i caratteri devono comparire subito, senza ritardo visibile.
-4. Invia un messaggio, annulla invio, comandi rapidi, dettatura e allegati: comportamento invariato.
+1. Apri il Pannello → Auto-coscienza (o Memoria → tab Auto-analisi / Apprendimento / Miglioramento).
+2. Controlla una lezione lunga (es. con PR #379, BURN_MENSILE): il corpo è in italiano, i codici sono nella tendina.
+3. Controlla domande per te e errori: sezioni Perché serve / Se rispondi complete.
+4. Ctrl+Shift+R dopo il merge.
+
+## File toccati
+- `pannello/src/lib/radiografia-umana.ts` — traduzione completa senza troncamento
+- `pannello/src/lib/auto-coscienza-umana.ts` — etichette reparto/stato/autonomia
+- `pannello/src/components/TestoUmano.tsx` — componente testo + tendina tecnica
+- `pannello/src/components/AutoCoscienza.tsx` — tutte le caselle aggiornate
