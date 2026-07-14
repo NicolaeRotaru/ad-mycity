@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:26
-fonte: AD digitale (💬 14/7 02:26 metabolizzazione sync PR #369. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:29
+fonte: AD digitale (💬 14/7 02:29 metabolizzazione badge «da collegare». | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:29 — CHAT: badge «da collegare» — Nicola «perché non collegati?».** Screenshot moduli con molti badge «da collegare». **Spiegato 🟢:** non è guasto — scheletri previsti senza feed dati (concorrenti, stampa, security, legale, esperimenti, roadmap); «live»/«1/2» = già collegato (es. Codice sito, Reputazione 1/2); memoria+marketplace+lavori attivi. Si accendono uno per uno costruendo i feed. Distinto da sync Pannello (L-204/205). Business invariato. Fonte: chat Nicola 14/7 ~02:29 + screenshot.
+>
 > 💬 **14/7 ~02:24–02:26 — CHAT: sync Pannello completo — Nicola «era azioni, trova tutte le altre».** Nicola conferma che una delle **2 caselle** ferme era **Azioni** (Proposte dal giro); chiede audit di **tutte** le superfici ancora scollegate e «tutto collegato in tempo reale, non solo chat». **Implementato 🟡 PR #369** (`cda728c6`, branch `fix/panel-sync-tutto`): **Proposte dal giro**, **Scoperte**, radice **Plancia** (numeri, briefing home) ora fetchano dati freschi e ascoltano `mycity:sync` — non più polling della pagina madre (~60s). **Test post-merge:** approva/ignora proposta → sparisce in Azioni **e** Scoperte entro ~10s senza refresh. **Limite onesto:** Scoperte mostra testo dell'**ultimo giro** AD, non ogni frase della chat (Memoria viva sì, contenuto Scoperte = briefing giro). **Pendente:** merge 🔴 **#369** (#134) → deploy Vercel ~2 min. Fonte: chat Nicola 14/7 ~02:24 + PR #369.
 >
 > 💬 **14/7 ~02:15–02:20 — CHAT: verifica sync Pannello — Nicola trova 2 caselle ferme.** Nicola «come faccio a verificare? ne ho già trovate due che non aggiornate». **Verificato 🟢:** PR **#362** mergiata su main (`475b0bf9`, 14/7) — rete `mycity:sync` attiva su radiografia, Da approvare, Plancia, memoria; **non** su tutto. **Gap confermati:** (1) tab **Scoperte & proposte** = ultimo giro (`ultimo-briefing.json`, 13/7 20:21), non chat né sync; (2) **Proposte dal giro** in Azioni = stesso canale giro. **Test che funziona:** approva azione legata a difetto → sparisce in Radiografia + Da approvare entro ~10s **senza** refresh pagina. **Pendente:** Nicola indica la seconda casella se diversa; fix Scoperte/Proposte su rete sync. Fonte: chat Nicola 14/7 ~02:15 + codice Pannello + merge #362.

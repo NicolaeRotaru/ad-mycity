@@ -6,6 +6,7 @@
 > ⚠️ Le lezioni che VIETANO strumenti o scorciatoie non si riscrivono né si ammorbidiscono:
 > un tentativo bloccato dai permessi insegna «quella strada è vietata», MAI «ecco l'aggiramento».
 
+- [2026-07-14 02:29] **«Da collegare» ≠ guasto** — Nicola screenshot «perché non collegati?»; badge = scheletri **previsti** senza feed (concorrenti, stampa, legale…), non macchina spenta; memoria+marketplace+lavori **attivi**; «live»/«1/2» = già collegato; **non** confondere con sync (L-204/205). Vedi L-206.
 - [2026-07-14 02:26] **Sync tutto — PR #369** — Nicola «era azioni» + «trova tutte le altre»; caselle figlie non devono prendere dati in prestito dalla pagina madre; Proposte/Scoperte/radice Plancia su `mycity:sync`; merge 🔴 #134; test approva/ignora → sparisce Azioni+Scoperte <10s; **limite:** Scoperte = testo ultimo giro, non ogni frase chat. Vedi L-205.
 - [2026-07-14 02:20] **Sync — audit prima di «completato»** — Nicola trova buchi dopo over-claim; mappare **ogni** casella con dato condiviso prima di dichiarare fatto; #362 parziale → #369 chiude gap Scoperte/Proposte. Vedi L-204, L-205.
 - [2026-07-14 02:19] **Numeri dell'azienda — due schede** — Nicola «due riquadri in alto, pagine diverse, non ricordo come si chiamano» → si chiamano **schede** (come Memoria e Lavori); **Tutti i numeri** (KPI) + **Analisi & report** (trend/funnel/report AD); **PR #368** merge 🔴 #133. Vedi L-203.
@@ -17,4 +18,3 @@
 - [2026-07-14 01:00] **AR-006 chiuso — merge ≠ casella chiusa** — fix tecnico (PR #349 `444439af` + `allocazione-check` verde) **non** chiude da solo: serve housekeeping cantiere+coda; Nicola «chiudi AR-006» = 🟢 segna `chiuso` + #119 FATTO (fatto 14/7 01:00); **fuori scope:** foto/consenso/link PQ, primo ordine payout.
 - [2026-07-14 00:58] **Allegati + selezione chat** — Nicola: foto non si inserisce + evidenziatura «arancio su arancione» invisibile; fix ieri era solo Assistenza — **caselle Lavori** (`ChatCasella`) ancora vecchio input Safari; `::selection` su brand arancione va testato — **PR #363** merge 🔴 #131; `ParlaCasella` senza allegati = altro fix.
 - [2026-07-14 00:49] **Rete sync Pannello** — Nicola: una sola fonte (vault GitHub), se cambia un dato **tutto** il Pannello si aggiorna insieme; **#362 mergiata** (`475b0bf9`) — ma Scoperte/Proposte giro ancora fuori (L-204).
-- [2026-07-13 23:39] Memoria UX annidata — Decisioni **accordion** semi-aperto + testo umano; Stato&numeri tab **Stato/OKR**; Memoria viva tab **Memoria/Scoperte** (briefing+Sala aperti) — **PR #358** merge 🔴 #127.

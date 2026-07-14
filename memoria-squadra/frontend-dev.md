@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 02:29 · Badge «da collegare» spiegato — Nicola «perché non collegati?» screenshot · atteso: chiarire UX badge vs guasto · reale: scheletri previsti ≠ sync bug; memoria/marketplace/lavori attivi; vocabolario da collegare/live/1/2; nessun codice · L-206 · #pannello #radiografia #ux #badge
 - 2026-07-14 02:26 · Sync Pannello completo PR #369 — Nicola «era azioni, trova tutte le altre» · atteso: ogni casella su rete sync, niente polling madre · reale: PR #369 (`cda728c6`); Proposte+Scoperte+radice Plancia su `usePanelSync`; limite Scoperte=contenuto ultimo giro; merge 🔴 #134 · L-205 · #pannello #sync #scoperte #proposte #pr-369
 - 2026-07-14 02:20 · Sync Pannello parziale — Nicola «2 caselle non aggiornate» dopo «completato» · atteso: tutto su rete sync · reale: #362 mergiata (`475b0bf9`); radiografia+azioni+plancia ok; Scoperte + Proposte dal giro ancora su ultimo giro (~60s); test approva↔difetto <10s senza refresh · L-204 · #pannello #sync #scoperte #gap #pr-362
 - 2026-07-14 02:19 · Numeri dell'azienda due schede — Nicola «due riquadri in alto, pagine diverse» · atteso: pattern schede come Memoria/Lavori su sezione Numeri · reale: PR #368 (`fa50ec97`); tab Tutti i numeri + Analisi & report; history browser; merge 🔴 #133 · L-203 · #pannello #numeri #schede #ux #pr-368
