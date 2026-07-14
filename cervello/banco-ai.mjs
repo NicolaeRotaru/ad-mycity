@@ -21,6 +21,10 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 
 const PATH = join(AD_ROOT, "cervello/routing.json");
 
+// Decisione Nicola #59: niente API a consumo (Groq/Gemini). Il router suggerisce ma l'esecuzione
+// resta sempre sul motore premium (Claude/Cursor). Evita il «misura-teatro» in routing.json.
+export const ROUTER_SOLO_CONSIGLIO = true;
+
 function leggiRouting() {
   try {
     return JSON.parse(readFileSync(PATH, "utf8"));
@@ -74,18 +78,32 @@ export function scegliModello(testo) {
     chiave,
     collegato,
     fallback: regola.fallback || null,
+    router_solo_consiglio: ROUTER_SOLO_CONSIGLIO,
+    modello_eseguito: "claude",
   };
 }
 
 function registraLog(testo, scelta) {
   const routing = leggiRouting();
   routing.log = routing.log || [];
-  routing.log.push({ quando: nowPiacenza(), compito: scelta.compito, modello: scelta.modello, tier: scelta.tier, richiesta: (testo || "").slice(0, 120) });
+  routing.log.push({
+    quando: nowPiacenza(),
+    compito: scelta.compito,
+    modello: scelta.modello,
+    modello_eseguito: scelta.modello_eseguito || "claude",
+    router_solo_consiglio: ROUTER_SOLO_CONSIGLIO,
+    tier: scelta.tier,
+    richiesta: (testo || "").slice(0, 120),
+  });
   if (routing.log.length > 500) routing.log = routing.log.slice(-500);
-  // Sommario d'uso per misurare il risparmio (quanto va via da Claude).
+  // Sommario d'uso: conta ciò che gira DAVVERO (premium), non la scelta teorica economica.
   const conteggio = {};
-  for (const l of routing.log) conteggio[l.modello] = (conteggio[l.modello] || 0) + 1;
+  for (const l of routing.log) {
+    const k = l.modello_eseguito || l.modello;
+    conteggio[k] = (conteggio[k] || 0) + 1;
+  }
   routing.uso = conteggio;
+  routing.router_solo_consiglio = ROUTER_SOLO_CONSIGLIO;
   routing.aggiornato = nowPiacenza();
   writeFileSync(PATH, JSON.stringify(routing, null, 2) + "\n", "utf8");
 }
@@ -107,9 +125,14 @@ function main() {
   }
   const s = scegliModello(testo);
   console.log(`\n🤖 Compito: ${s.compito}`);
-  console.log(`   → Usa: ${s.modello} [${s.tier}] — ${s.perche}`);
-  if (s.modello === "claude") console.log("   (ragionamento: è giusto usare Claude, costo fisso.)");
-  else console.log(`   Chiave: ${s.chiave || "—"} ${s.collegato ? "✅ collegata" : "❌ NON collegata → per ora fallback su Claude o coda"}${s.fallback ? ` · fallback: ${s.fallback}` : ""}`);
+  console.log(`   → Suggerisce: ${s.modello} [${s.tier}] — ${s.perche}`);
+  if (ROUTER_SOLO_CONSIGLIO) {
+    console.log("   ⚠️  ROUTER_SOLO_CONSIGLIO: l'esecuzione resta sempre sul motore premium (niente API a consumo).");
+  } else if (s.modello === "claude") {
+    console.log("   (ragionamento: è giusto usare Claude, costo fisso.)");
+  } else {
+    console.log(`   Chiave: ${s.chiave || "—"} ${s.collegato ? "✅ collegata" : "❌ NON collegata → per ora fallback su Claude o coda"}${s.fallback ? ` · fallback: ${s.fallback}` : ""}`);
+  }
   if (process.argv.includes("--log")) {
     registraLog(testo, s);
     console.log("   📊 Scelta registrata nel log (misura d'uso in routing.json).");

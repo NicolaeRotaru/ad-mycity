@@ -231,6 +231,13 @@ fi
 fi   # AR-086: fine blocco RUN_AI (delta-gate del ritmo)
 echo "[$(ts)] Ritmo $RITMO_TIPO completato."
 
+# AR-043: stima token condivisa (come giro.sh) — prima mancava → ritmo contava 0 al budget.
+if [ -z "${RITMO_TOKEN:-}" ] && [ -n "${RITMO_START:-}" ] && [ "${RUN_AI:-1}" = 1 ]; then
+  RITMO_TOKEN="$(ai_stima_token "$RITMO_START" "$PROMPT" "${_ai_out:-}")"
+  RITMO_TOKEN_STIMA=1
+  export RITMO_TOKEN RITMO_TOKEN_STIMA
+fi
+
 RITMO_PUSH_OK=1
 RITMO_HAD_CHANGES=0
 exec 9>"$LOCK"
@@ -268,7 +275,8 @@ exec 9>&-
 # AR-020: registra il costo di questa cadenza (durata + token se noti) nel log unico costo-ai.json.
 if command -v node >/dev/null 2>&1 && [ -n "${RITMO_START:-}" ]; then
   _ritmo_durata=$(( $(date +%s) - RITMO_START ))
-  node "$SCRIPT_DIR/costo-ai.mjs" --tipo="ritmo-$RITMO_TIPO" --durata-sec="$_ritmo_durata" ${RITMO_TOKEN:+--token="$RITMO_TOKEN"} --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  _stima_flag="${RITMO_TOKEN_STIMA:+--stima}"
+  node "$SCRIPT_DIR/costo-ai.mjs" --tipo="ritmo-$RITMO_TIPO" --durata-sec="$_ritmo_durata" ${RITMO_TOKEN:+--token="$RITMO_TOKEN"} --modello="$(ai_engine)" ${_stima_flag:-} >/dev/null 2>&1 || true
 fi
 
 if [ "$RITMO_HAD_CHANGES" = 1 ] && [ "$RITMO_PUSH_OK" != 1 ]; then

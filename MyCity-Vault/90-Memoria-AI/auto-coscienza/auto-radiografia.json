@@ -1217,10 +1217,14 @@
           "impatto_crescita": "alto",
           "genera": "nuovo-pezzo",
           "verifica": {
-            "file": "cervello/worker.sh",
-            "pattern": "AI_ECON_CMD=",
+            "file": "cervello/banco-ai.mjs",
+            "pattern": "ROUTER_SOLO_CONSIGLIO",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:04",
+          "chiuso_come": "cervello/banco-ai.mjs contiene /ROUTER_SOLO_CONSIGLIO/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "ritmo e monitora non stimano MAI i token: 4 cadenze/giorno + monitoraggio contano 0 al budget",
@@ -1234,9 +1238,13 @@
           "genera": "auto-riscrittura",
           "verifica": {
             "file": "cervello/ritmo.sh",
-            "pattern": "RITMO_TOKEN=",
+            "pattern": "RITMO_TOKEN_STIMA=1",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:04",
+          "chiuso_come": "cervello/ritmo.sh contiene /RITMO_TOKEN_STIMA=1/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "La soglia misura la cosa sbagliata: 2M token/giorno vs quota-sessione rolling ~5h che è il vero muro",
@@ -1249,8 +1257,14 @@
           "impatto_crescita": "medio",
           "genera": "domanda-nicola",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/costo-ai.mjs",
+            "pattern": "sessione_rolling",
+            "presente": true
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:04",
+          "chiuso_come": "cervello/costo-ai.mjs contiene /sessione_rolling/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il circuit-breaker di budget si spegne proprio sui giri che consumano (GIRO_FORCE bypassa il gate)",
@@ -1263,8 +1277,14 @@
           "impatto_crescita": "basso",
           "genera": "auto-riscrittura",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/giro.sh",
+            "pattern": "GATE-BUDGET non bypassa GIRO_FORCE",
+            "presente": true
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:04",
+          "chiuso_come": "cervello/giro.sh contiene /GATE-BUDGET non bypassa GIRO_FORCE/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Tre run AI a contesto pieno in 30 minuti ogni mattina, ciascuno rilegge tutto da capo",
@@ -1856,16 +1876,16 @@
     "aggiornato": "2026-07-14 11:03"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 13:08",
-    "findings_aperti": 37,
+    "aggiornato": "2026-07-14 14:44",
+    "findings_aperti": 33,
     "findings_in_corso": 0,
-    "findings_chiusi": 37,
+    "findings_chiusi": 41,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 6,
-    "chiusi_verifica": 6,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }

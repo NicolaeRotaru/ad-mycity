@@ -232,3 +232,24 @@ ai_build_cmd() {
       ;;
   esac
 }
+
+# AR-043 / efficienza-costo: stima token da durata+testo quando la CLI non espone usage strutturato.
+# Resta STIMA (non misura): i gate che contano sul serio devono leggere --stima e non fidarsi ciecamente.
+ai_stima_token() {
+  local start_sec="${1:-0}" prompt="${2:-}" output="${3:-}"
+  local now_sec durata_sec durata_min chars token_durata token_chars tok
+  now_sec="$(date +%s)"
+  durata_sec=$(( now_sec - start_sec ))
+  [ "$durata_sec" -lt 1 ] && durata_sec=1
+  durata_min=$(( durata_sec / 60 + 1 ))
+  chars=$(( ${#prompt} + ${#output} ))
+  token_durata=$(( durata_min * 5000 ))
+  token_chars=$(( chars / 4 ))
+  tok=$(( token_durata > token_chars ? token_durata : token_chars ))
+  [ "$tok" -lt 50000 ] && tok=50000
+  echo "$tok"
+}
+
+# Decisione Nicola #59: niente adattatore Groq/Gemini (API a consumo). Il router DECIDE ma l'esecuzione
+# resta sempre sul motore premium (Claude/Cursor). Vedi banco-ai.mjs ROUTER_SOLO_CONSIGLIO.
+export AI_ECON_CMD=""
