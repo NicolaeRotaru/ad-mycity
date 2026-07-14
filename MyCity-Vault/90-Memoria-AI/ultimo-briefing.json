@@ -1,6 +1,6 @@
 {
   "data": "2026-07-14 02:48",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~489h). REST ok 14/7 02:47: 1 PQ approvato, 5 prodotti, 0 ordini nuovi. Maratona Pannello: coda 22 card, PR #369 sync tempo reale pronta (conflitti risolti). Caldo 36–38°C → VP 17/7 resta finestra visibilità; bici non pronta (riparazione lun 21/7) → 1° ordine con ritiro in bottega, consegna dopo.",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~489h). REST ok 14/7 02:47: 1 PQ approvato, 5 prodotti, 0 ordini nuovi. Caldo 36–38°C → VP 17/7 ultima finestra evento; bici non pronta (settimana 21-27/7 bollette, riparazione ~28/7+) → 1° ordine solo ritiro al fornaio; giro botteghe dopo bici.",
   "opportunita": [
     {
       "titolo": "Mergia la PR che aggiorna il Pannello in tempo reale",
@@ -10,7 +10,7 @@
     },
     {
       "titolo": "VP 17/7: primo ordine con ritiro al fornaio",
-      "motivo": "Ultimo VP + caldo 36°C; bici non pronta entro ven 17/7 (riparazione lun 21/7) → ordine con ritiro al fornaio, non a domicilio",
+      "motivo": "Ultimo VP + caldo 36°C; bici assente (bollette 21-27/7, riparazione ~28/7+) → ordine con ritiro al fornaio venerdì; nuove botteghe dopo bici",
       "impatto": "alto",
       "sforzo": "medio"
     },

@@ -1,27 +1,33 @@
 {
-  "data": "2026-07-14 02:58",
+  "data": "2026-07-14 02:59",
   "esito": "ok",
   "fatti_totali": 12,
-  "cacce_aperte": 3,
+  "cacce_aperte": 4,
   "file_scansionati": 618,
   "incoerenze": [],
   "cacce": [
     {
       "fatto": "logistica.bici-consegna",
-      "pattern": "primo ordine reale al Venerdì Piacentini del 17 luglio",
-      "dal": "2026-07-14 02:58",
+      "pattern": "riparazione lunedì 21/7",
+      "dal": "2026-07-14 02:59",
       "copie_trovate": 0
     },
     {
       "fatto": "logistica.bici-consegna",
-      "pattern": "consegna fresca a domicilio.*17/7",
-      "dal": "2026-07-14 02:58",
+      "pattern": "va in riparazione lunedì 21/7",
+      "dal": "2026-07-14 02:59",
       "copie_trovate": 0
     },
     {
       "fatto": "logistica.bici-consegna",
-      "pattern": "1° ordine.*17/7.*consegna",
-      "dal": "2026-07-14 02:58",
+      "pattern": "riparazione lun 21/7",
+      "dal": "2026-07-14 02:59",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "logistica.bici-consegna",
+      "pattern": "Non operativa entro venerdì 17/7/2026; Nicola va in riparazione lunedì 21/7/2026",
+      "dal": "2026-07-14 02:59",
       "copie_trovate": 0
     }
   ],
