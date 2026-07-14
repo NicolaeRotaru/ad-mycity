@@ -1,11 +1,11 @@
 {
-  "data": "2026-07-14 02:48",
-  "sintesi": "Nicola in maratona Pannello (coda ripulita a 22 card). Priorità immediata: mergia PR #369 sync tempo reale (card #134), poi #370 e #368. Business fermo (North Star 0). Finestra critica VP 17/7 per 1° ordine su Pane Quotidiano con caldo 36–38°C.",
+  "data": "2026-07-14 11:01",
+  "sintesi": "Nicola in maratona Pannello (#377/#378 su main stanotte). Priorità business ORA: post kefir entro colazione (36°C) + link lista d'attesa. T-3 VP 17/7 per 1° ordine PQ ritiro banco. Coda: #143 PR #379 Onestà numeri + batch 494 autofill.",
   "prossime_mosse": [
-    {"titolo": "Approva il merge della PR sync tempo reale", "quando": "ora", "come": "Pannello → Approva card #134 (PR #369) — conflitti già risolti", "priorita": "alta", "ad_prepara": "branch rebased head 5ab0dde3, mergeable verificato", "senior": "@frontend-dev", "colore": "🔴"},
-    {"titolo": "Approva Come pensa l'AD a 120 specialisti", "quando": "dopo #369", "come": "Pannello → Approva card #135 (PR #370)", "priorita": "alta", "ad_prepara": "stampo-check 120/120 verde", "senior": "@prompt-engineer", "colore": "🔴"},
-    {"titolo": "Dai il via al post kefir per il caldo", "quando": "entro oggi 11", "come": "Approva card post kefir + incolla link lista d'attesa", "priorita": "alta", "ad_prepara": "testo pronto in consegne/content/", "senior": "@content-social", "colore": "🔴"},
-    {"titolo": "Far nascere il primo ordine al Venerdì del 17", "quando": "VP 17/7", "come": "lista d'attesa + post Il Turno + slot mattina freschi", "priorita": "alta", "ad_prepara": "brief operativo + SEO PQ", "senior": "@operations", "colore": "🔴"}
+    {"titolo": "Pubblica il post kefir per il caldo", "quando": "ora (fascia colazione)", "come": "Approva card #post-kefir-estate-1407 + incolla link lista d'attesa", "priorita": "alta", "ad_prepara": "testo pronto in consegne/content/", "senior": "@content-social", "colore": "🔴"},
+    {"titolo": "Approva Onestà sui numeri nel Pannello", "quando": "dopo post kefir", "come": "Pannello → Approva card #143 (PR #379)", "priorita": "alta", "ad_prepara": "4/4 finding chiusi, mergeable verificato", "senior": "@frontend-dev", "colore": "🔴"},
+    {"titolo": "Far nascere il primo ordine al Venerdì del 17", "quando": "VP 17/7", "come": "presidio PQ Via Calzolai + ritiro al banco + post Il Turno", "priorita": "alta", "ad_prepara": "brief operativo + SEO PQ", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Metti quanto spendiamo al mese per il runway", "quando": "quando puoi", "come": "BURN_MENSILE_EUR in vps/.env", "priorita": "media", "ad_prepara": "diagnosi in consegne/finanza/2026-07-14-diagnosi-cassa-runway.md", "senior": "@finanza", "colore": "🟡"}
   ],
   "primi_negozi": [
     {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE; 5 prodotti live; target 1° ordine VP 17/7", "stato": "attivo · 0 consegne · payout OFF"},
@@ -13,14 +13,14 @@
   ],
   "rischi": [
     "VP 17/7 passa senza ordine reale",
-    "Caldo 38°C su deperibili senza borse termiche",
-    "Coda Pannello ancora con 22 card da mergiare",
+    "Post kefir non pubblicato in fascia colazione",
+    "Caldo 38°C domani su deperibili senza borse",
     "Debrief visita 13/7 mancante"
   ],
   "serve_da_nicola": [
-    {"ambito": "Pannello", "cosa_manca": "merge #369", "domanda_per_nicola": "Approvi la card #134 per avere il Pannello che si aggiorna da solo?"},
-    {"ambito": "Contenuti", "cosa_manca": "link lista d'attesa", "domanda_per_nicola": "Incollami il link lista d'attesa per completare il post kefir?"},
+    {"ambito": "Contenuti", "cosa_manca": "link lista d'attesa", "domanda_per_nicola": "Incollami il link lista d'attesa per pubblicare il post kefir adesso?"},
     {"ambito": "Primo ordine", "cosa_manca": "via libera VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine al Venerdì del 17?"},
+    {"ambito": "Pannello", "cosa_manca": "merge #379", "domanda_per_nicola": "Approvi la card #143 (Onestà sui numeri)?"},
     {"ambito": "Visita", "cosa_manca": "esiti reali", "domanda_per_nicola": "Com'è andata la visita ai locali del 13? Chi ha detto sì?"}
   ]
 }

@@ -3,7 +3,7 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-14 10:20",
+    "data": "2026-07-14 11:03",
     "loop_chiude": true,
     "tasso_applicazione": 0.38,
     "prova_chiusura": true,
@@ -18,7 +18,7 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
     "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 156,
+    "ore_da_ultima_completa": 157,
     "ore_da_ultimo_briefing": 8,
     "max_giri_ciechi_sensori": 1,
     "giri_tasso_basso": 0,
@@ -1829,10 +1829,10 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-14 10:20"
+    "aggiornato": "2026-07-14 11:03"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 10:20",
+    "aggiornato": "2026-07-14 11:01",
     "findings_aperti": 43,
     "findings_in_corso": 0,
     "findings_chiusi": 31,

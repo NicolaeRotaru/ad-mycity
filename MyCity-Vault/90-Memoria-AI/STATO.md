@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 06:00
-fonte: AD digitale (☀️ 14/7 06:00 piano del mattino · T-3 VEN 17/7 · REST 06:00 ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 11:01
+fonte: AD digitale (🛰️ 14/7 11:01 giro · T-3 VEN 17/7 · REST 11:01 ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 🛰️ **14/7 11:01 — GIRO.** **T-3 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo **~497h** (REST 11:01). **Mossa n.1:** 🔴 **pubblica post kefir ORA** (fascia colazione, 36°C) + link lista d'attesa. **In coda:** Approva #143 PR #379 Onestà numeri · batch 494 autofill · BURN_MENSILE_EUR. Sensori REST+Stripe+Resend ok · automazione tutto verde. Dettaglio: [[Briefing/2026-07-14]] · [[SALA-OPERATIVA]].
+>
 > ☀️ **14/7 06:00 — PIANO DEL MATTINO.** **T-3 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~492h ≈ 20,5 giorni (REST 06:00 + sentinella-dati). **Le 3 priorità di oggi:** ① 🔴 **domanda per il 1° ordine vero su PQ** — post kefir entro le 11 + lista d'attesa · ② 🔴 **prepara VP 17/7** — presidio al banco, ritiro in negozio (bici non pronta), payout-test · ③ 🟡 **chiudi residui piattaforma** — merge PR Pannello in coda + SQL 107/RLS + burn mensile (runway sconosciuto 98 giri). Sentinelle: `cassa_sconosciuta` tetto giorno (8/8), `negozio_fermo` PQ in cooldown (falso positivo). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
 >
 > 💬 **14/7 ~05:41 — SENTINELLA: cassa/runway — ottava verifica, blocco invariato.** `cassa_sconosciuta` **98 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe, **non** serve altra PR codice (M6b già su main). **Unica mossa:** card **🟡 #burn-mensile-runway** — Nicola mette €/mese in `vps/.env`. Dopo: runway **0 mesi** (verità con cassa 0) → piano @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 05:41.
@@ -449,15 +451,15 @@ fonte: AD digitale (☀️ 14/7 06:00 piano del mattino · T-3 VEN 17/7 · REST 
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 14/7 06:00 · invariati dal 24/6)
-| Numero | Oggi (14/7 06:00) | Δ vs 13/7 20:20 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 14/7 11:01 · invariati dal 24/6)
+| Numero | Oggi (14/7 11:01) | Δ vs 14/7 02:48 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ `status=available` (REST `seller_id` PQ 02:47) |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ `status=available` (REST seller_id PQ 11:01) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · `delivery_status=CANCELED` — il 1° ordine reale va CREATO ex-novo |
 | Ordini pagati | **0** | = | 1 | COD mai incassato · l'unico ordine è annullato |
-| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~492h |
+| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~497h |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su un ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | ultimo nuovo: 16/6 · 23 profili totali |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon · 27 food con tel → shortlist pronta |

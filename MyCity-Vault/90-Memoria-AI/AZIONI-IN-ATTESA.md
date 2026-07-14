@@ -41,6 +41,29 @@ Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor
 ---
 
 
+### 🟡 #ritiro-pq-vp17-checkin — Giovedì chiama il fornaio e conferma il presidio di venerdì al banco · ⏳ accodata 2026-07-14 11:07
+
+> **Contesto anti-churn 14/7:** scan REST → **0 negozi in calo**; PQ è l'unico negozio reale, rischio = **zero ordini consegnati** (non abbandono). Report: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
+
+**Quando:** **giovedì 16/7 mattina** (T-1 al Venerdì Piacentini).
+
+**Chi chiami:** Pane Quotidiano · **0523 388601** · Via Calzolai 25.
+
+**Script (2 minuti, tono relazione — non «ci manchi»):**
+
+> «Ciao, sono Nicola di MyCity. Venerdì sera c'è il Venerdì Piacentini — centro pieno. Ti va se passo da te al banco con il QR e restiamo lì un'oretta? I clienti ordinano e **ritirano da te** (la bici non è ancora pronta). Così proviamo il primo ordine vero insieme, senza stress di consegna a domicilio.»
+
+**Cosa cambia:** il fornaio sa che venerdì non resta solo — il rischio «qui non vendo mai» si abbassa prima del VP.
+**Se va bene:** venerdì 17/7 al banco → primo ordine ritiro → North Star 0→1 → payout-test (#41).
+
+- **Colore:** 🟡 (telefonata a negoziante reale — Nicola la fa)
+- **Canale:** telefono
+- **Reparto:** account-negozi
+- **Origine:** `{origine:playbook:negozi-calo}`
+
+---
+
+
 ### 🔴 #post-kefir-estate-1407 — Pubblica "La vera stella della colazione" sui canali locali · ⏳ accodata 2026-07-14 02:43
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
@@ -758,6 +781,8 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ### 🟡 #antichurn-13lug — Lancia il ciclo di check-in per le botteghe onboardate dopo il 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 12:15
 
+> **Scan 14/7 11:07 (REST live):** ancora **1 solo negozio approvato** (PQ) — nessuna bottega nuova online dal 13/7. Debrief visita mancante. Dettaglio: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
+
 > **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md` (titolo storico — da riallineare alle botteghe core, non ristoranti/trattorie)
 
 **Questo playbook si attiva dopo l'onboarding delle prime botteghe** — clienti MyCity = solo botteghe (Nicola 13/7 22:34).
@@ -1305,7 +1330,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-14 10:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-14 11:01)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-14-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno

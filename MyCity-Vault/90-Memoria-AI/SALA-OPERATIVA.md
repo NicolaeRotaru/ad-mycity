@@ -910,3 +910,10 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-14 — Monitoraggio web (Ondata 3 · 08:30)
 - 2026-07-14 08:30 · @intelligence · FATTO · monitoraggio web: 7 fonti giornaliere (Libertà×2, IlPiacenza economia, PiacenzaSera, Comune news+eventi, 3BMeteo) — 11 settimanali saltate (<7 gg). Novità chiave: ARPA fascia rossa caldo oggi/38°C domani, via San Siro chiusa 7–13 OGGI, VP 17/7 programma finale (Via Calzolai in festa), Coin lascia Corso V.E. → aggiornati `eventi-picchi.md` + `buchi-mercato.md`. Reputazione/leve/concorrenti invariati.
+
+### 2026-07-14 — 🛰️ GIRO (AD · 11:01)
+- 2026-07-14 11:01 · @ad · FATTO · Giro completo: briefing 14/7 11:01, STATO 7 numeri REST invariati (~497h stallo), ultimo-briefing.json, auto-analisi voto 91. Chiusura-loop gate OK. Mossa n.1: post kefir ORA + link lista d'attesa.
+- 2026-07-14 11:01 · @analista · FATTO · KPI REST: ordini=1 annullato, 0/7g, 1 PQ, 5 prodotti, North Star 0. Snapshot `consegne/analista/2026-07-14-kpi-live-1101.md`. ESITO quaderno registrato.
+- 2026-07-14 11:01 · @intelligence · FATTO · Radar confermato (nessuna novità vs 08:30): caldo 36–38°C, VP 17/7 T-3. ESITO quaderno registrato (chiusura-loop gate).
+- 2026-07-14 11:01 · @ad · SERVE · Nicola: 🔴 post kefir + link lista ORA · 🔴 via VP 17/7 · 🟡 Approva #143 (#379) · 🟡 batch 494 autofill · 🟡 BURN_MENSILE_EUR.
+- 2026-07-14 11:07 · @account-negozi · FATTO · PLAYBOOK Anti-churn negozi: REST live → **0 negozi in calo** (1 reale PQ, 0 ordini consegnati); PQ = falso positivo sentinella, no telefonata anti-churn. Accodato **#ritiro-pq-vp17-checkin** (giovedì 16/7, presidio VP 17/7 al banco). Report `consegne/account-negozi/2026-07-14-antichurn-playbook.md`. #antichurn-13lug aggiornato (debrief visita mancante).

@@ -1,50 +1,50 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-14 02:48",
-  "voto_fiducia": 90,
-  "trend_fiducia": "▲ 90 (da 88 13/7 20:21): giro 14/7 02:48. REST live conferma numeri invariati. Coerenza-fatti exit 0. Briefing fresco. -2 per gap debrief visita e deploy Vercel non verificato live.",
-  "sintesi": "Giro mattutino 14/7 02:48 — business INVARIATO dal 24/6 (North Star 0, ~489h). REST ok. Maratona Pannello: PR #369 sync pronta. Supervisione 494 autofill. Caldo 36–38°C. Mossa n.1: merge #369 card #134.",
+  "data": "2026-07-14 11:01",
+  "voto_fiducia": 91,
+  "trend_fiducia": "▲ 91 (da 90 02:48): giro 14/7 11:01. REST live conferma invariato. Chiusura-loop gate OK (ESITO @intelligence + @analista). Coerenza-fatti exit 0. -1 debrief visita ancora aperto.",
+  "sintesi": "Giro 14/7 11:01 — business fermo (~497h stallo, North Star 0). REST ok. T-3 VP 17/7. Post kefir in scadenza fascia colazione. Mossa n.1: pubblica post kefir + link lista d'attesa.",
   "verifiche": [
-    "Entità: PQ confermato REST 02:47 (1 approved, 5 prodotti); Garetti congelato AR-006.",
-    "Numeri: REST ordini=1 annullato, 0/7g, 23 profili, 250 available — invariati vs 13/7 20:20.",
+    "Entità: PQ confermato REST 11:01 (1 approved, 5 prodotti seller_id PQ).",
+    "Numeri: REST ordini=1 CANCELED, 0/7g, 23 profili, 250 available — = vs 02:48.",
     "Coerenza-fatti: exit 0.",
+    "Chiusura-loop: gate OK — ESITO @intelligence + @analista registrati.",
     "Allocazione: nessun asset pesante su prospect.",
-    "Chiusura-loop: ESITO @analista + @onboarding-negozi 02:47.",
-    "Benchmark: briefing strutturato 11 sezioni, titoli umani in ultimo-briefing.json."
+    "Benchmark: briefing 11 sezioni, titoli umani in digest."
   ],
   "errori": [],
   "risposte_registrate": [],
   "domande_per_nicola": [
-    "Approva #134 (PR #369 sync tempo reale)?",
-    "Link lista d'attesa per post kefir?",
+    "Link lista d'attesa per post kefir (pubblica ora)?",
     "Via libera post Il Turno VP 17/7?",
+    "Approva #143 (PR #379 Onestà numeri)?",
     "Debrief visita 13/7 — esiti reali?",
-    "Borse termiche PQ per caldo 15–17/7?"
+    "BURN_MENSILE_EUR in vps/.env?"
   ],
   "punti_ciechi": [
     "Esito visita 13/7 non debriefato",
     "MCP Supabase cieco sessione",
-    "abandoned_carts count REST fallito",
-    "Deploy Vercel post-merge non verificato browser"
+    "abandoned_carts count REST non leggibile",
+    "MARKETPLACE_SITE_URL assente — uptime non monitorato"
   ],
   "miglioramenti_prossimo_giro": [
-    "Post-merge #369: test sync live 10s",
-    "Debrief visita → pipeline vendite",
-    "Spinta VP 17/7 entro 72h"
+    "Post kefir pubblicato → misura click lista",
+    "Countdown VP 17/7 operativo",
+    "Debrief visita → pipeline vendite"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok (02:47, giri_ciechi=0)",
+    "supabase_rest": "ok (11:01, giri_ciechi=0)",
     "mcp_supabase": "cieco sessione (1 giro)",
     "stripe": "ok balance API",
     "resend": "ok",
     "posthog": "non_configurato",
     "loop_business": "aperto (North Star 0)",
     "voto_salute_architettura": 100,
-    "cantiere_difetti": "43 chiusi · 0 aperti-davvero · pending-merge 0",
-    "automazione": "segnale verifica stale 13/7 — allocazione ok 02:46"
+    "cantiere_difetti": "43 chiusi · 0 aperti-davvero",
+    "automazione": "tutto verde 11:01"
   },
   "verifiche_benchmark": {
     "ok": true,
-    "note": "Briefing completo con fonti linkate; mossa n.1 concreta e firmabile"
+    "note": "Giro onesto su business fermo — mossa n.1 allineata a deadline colazione e VP 17/7"
   }
 }

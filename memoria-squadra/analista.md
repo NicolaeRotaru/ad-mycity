@@ -8,6 +8,7 @@ reparto: analista
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-14 11:04 · Giro 14/7 11:01 — KPI REST live · verita:5 impatto:3 concretezza:5 colore:4 umano:4 memoria:4 · atteso 7 numeri invariati vs 02:48 → reale ordini=1 annullato, 0/7g, 1 PQ, 5 prodotti, North Star 0 (~497h stallo) · #kpi #esito
 - 2026-07-14 03:37 · Chat Onestà sui numeri — PR #379 · verita:5 coerenza:5 azione:5 fonte:5 onesta:5 · atteso 4/4 finding chiusi + valida verde → reale pattern verifica su file sbagliato (fantasma), fix ponte da-loop+sensore_stato, card #143 (non #142) · L-226 · #calibrazione-onesta #radiografia
 - 2026-07-14 02:47 · Giro 14/7 02:48 — KPI REST · grounding:5 coerenza:5 azione:4 fonte:5 benchmark:4 · atteso ordini_7g=0 invariato → reale ordini_7g=0 REST 02:47 · #giro
 - 2026-07-13 20:21 · Giro serale 13/7 20:20 — 7 numeri REST · grounding:5 coerenza:5 numeri:5 fonti:5 azioni:4 completezza:4 · atteso Business invariato dal 24/6, North Star 0 → reale Confermato: 1 PQ, 5 prodotti, 1 ordine annullato, 0 pagati/consegnati, 4 buyer, REST ok 20:20 · #giro #numeri

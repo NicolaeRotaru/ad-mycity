@@ -180,9 +180,9 @@ Catena di squadra (chi fa cosa). Il contenuto si produce **a lotti settimanali**
 #editoriale #piano #content #social #piacenza
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
+## 🤖 Aggiornamento dell'AD — 2026-07-14 11:01
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **Post kefir estate** pronto 🔴 — angolo «colazione fresca senza uscire col caldo 36°C» su PQ reale. File: `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`. Serve link lista d'attesa + visual.
-- **VP 17/7 = ultimo Venerdì Piacentini** — aggancia post «Il Turno» + lista d'attesa. Sant'Antonino e VP 10/7 passati.
-- **Narrativa #16:** ordine annullato — «prima consegna» scatta solo con **1° ordine ex-novo**.
+- **11:01 — URGENTE:** post kefir 🔴 — «colazione fresca senza uscire col caldo 36°C» su PQ. File pronto: `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`. Manca link lista d'attesa.
+- **VP 17/7 T-3** — ultimo Venerdì Piacentini; aggancia post «Il Turno» + presidio Via Calzolai.
+- **Narrativa #16:** ordine annullato — «prima consegna» = 1° ordine ex-novo al VP.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

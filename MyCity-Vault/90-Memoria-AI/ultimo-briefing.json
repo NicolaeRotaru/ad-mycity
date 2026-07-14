@@ -1,40 +1,40 @@
 {
-  "data": "2026-07-14 02:48",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~489h). REST ok 14/7 02:47: 1 PQ approvato, 5 prodotti, 0 ordini nuovi. Caldo 36–38°C → VP 17/7 ultima finestra evento; bici non pronta (settimana 21-27/7 bollette, riparazione ~28/7+) → 1° ordine solo ritiro al fornaio; giro botteghe dopo bici.",
+  "data": "2026-07-14 11:01",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~497h). REST ok 14/7 11:01: 1 PQ, 5 prodotti, 0 ordini nuovi. T-3 VP 17/7 — caldo 36–38°C, ritiro al banco PQ (bici ~28/7+). Maratona Pannello: #377/#378 su main; #379 Onestà numeri in coda (#143).",
   "opportunita": [
     {
-      "titolo": "Mergia la PR che aggiorna il Pannello in tempo reale",
-      "motivo": "Nicola chiedeva sync live da ieri — #369 pronta, card #134",
+      "titolo": "Pubblica il post kefir ora — siamo in fascia colazione",
+      "motivo": "36°C oggi, deadline 11:00 passata — prodotto reale PQ pronto in coda",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "VP 17/7: primo ordine con ritiro al fornaio",
-      "motivo": "Ultimo VP + caldo 36°C; bici assente (bollette 21-27/7, riparazione ~28/7+) → ordine con ritiro al fornaio venerdì; nuove botteghe dopo bici",
+      "motivo": "Ultimo Venerdì Piacentini + Via Calzolai in festa — 3 giorni",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
       "titolo": "Approva i 494 campi catalogo in automatico",
-      "motivo": "Supervisione propone condition+unit su prodotti — reversibile, zero lavoro manuale",
+      "motivo": "Supervisione propone condition+unit — reversibile, catalogo più completo",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Approva il merge della PR sync tempo reale",
-      "motivo": "Sblocca aggiornamento live di Azioni e Scoperte senza refresh",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Dai il via al post kefir estate su Pane Quotidiano",
+      "titolo": "Dai il via al post kefir sui gruppi locali",
       "motivo": "Colazione fresca senza uscire col caldo — serve link lista d'attesa",
       "livello": "rosso"
     },
     {
+      "titolo": "Approva la PR che sistema Onestà sui numeri",
+      "motivo": "Card #143 / PR #379 — ultima scheda fantasma radiografia",
+      "livello": "rosso"
+    },
+    {
       "titolo": "Conferma i campi catalogo proposti dalla supervisione",
-      "motivo": "494 riempimenti automatici reversibili — catalogo più completo",
+      "motivo": "494 riempimenti automatici reversibili",
       "livello": "giallo"
     }
   ]
