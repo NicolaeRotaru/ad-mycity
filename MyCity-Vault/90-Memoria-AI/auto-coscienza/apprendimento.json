@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-14 03:31",
+  "aggiornato": "2026-07-14 03:32",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -17,8 +17,31 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0714-223",
+      "testo": "**«Perché Approva #142?» — verifica coda prima di citare numeri card (chat 14/7 ~03:32, correzione Nicola):** dopo fix sensori PR #377 l'AD ha detto «Approva #142»; Nicola chiede perché. 5 perché: (1) AD non ha verificato cosa compariva in Da approvare né se #377 era già mergiata; (2) **card #N ≠ PR #N** — in AZIONI **#142 = PR #379** (Chi impara), non #377 sensori; (3) PR #377 **già su main** (`5d9590ab`) → Nicola non doveva fare nulla; (4) rinforza caso-studio 6/7 (mai citare #N a Nicola) — qui #N era anche **sbagliato** per l'AD; (5) **regola:** prima di «Approva #N» → leggere `AZIONI-IN-ATTESA` + stato PR GitHub; se mergiata → «già fatto, ricarica»; a Nicola descrivere la card («merge PR sensori»), non ripetere #N a memoria. Correlazione L-2026-0706-57 (mai #N interni), L-177 (card fantasma post-merge).",
+      "tag": [
+        "da-approvare",
+        "card-numero",
+        "pr-377",
+        "pr-379",
+        "sensori",
+        "verifica-coda",
+        "nicola",
+        "caso-studio",
+        "scrittura-umana"
+      ],
+      "reparto": "@ad",
+      "confidenza": 0.96,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 03:32",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0714-222",
-      "testo": "**Sensori e dati reali — fix codice operativo, non solo memoria (chat 14/7 ~03:31, PR #377):** Nicola «Risolvi questi fix» su casella `salute-sensori-dati` (7 schede). 5 perché: (1) **diverso da Come pensa l'AD** (#370/L-208) dove erano stub quaderni/testi — qui problemi **runtime** (fonti web non controllate a ogni giro, occhi senza sentinel su fonte critica morta o cassa «sconosciuto» troppo a lungo, errori sensori che non si cancellano al ritorno ok, loop «segnale verifica» rosso); (2) radiografia segnalava verità operativa, non foto cache; (3) **fix PR #377** (`72797e4d`): verifica fonti web nel giro, sentinel occhi + check mattutino timer, auto-clear errori ok; (4) `allinea-scan-cantiere` → **0 findings** su `salute-sensori-dati`; (5) **PostHog spento** (scelta Nicola 5/7) e monitor uptime senza URL = **normale** — spiegare, non trattare come bug. Merge 🔴 **#142**. **Regola:** su casella Sensori diagnosticare pipeline giro/sentinel prima di aggiornare solo JSON memoria.",
+      "testo": "**Sensori e dati reali — fix codice operativo, non solo memoria (chat 14/7 ~03:31, PR #377):** Nicola «Risolvi questi fix» su casella `salute-sensori-dati` (7 schede). 5 perché: (1) **diverso da Come pensa l'AD** (#370/L-208) dove erano stub quaderni/testi — qui problemi **runtime** (fonti web non controllate a ogni giro, occhi senza sentinel su fonte critica morta o cassa «sconosciuto» troppo a lungo, errori sensori che non si cancellano al ritorno ok, loop «segnale verifica» rosso); (2) radiografia segnalava verità operativa, non foto cache; (3) **fix PR #377** (`72797e4d`): verifica fonti web nel giro, sentinel occhi + check mattutino timer, auto-clear errori ok; (4) `allinea-scan-cantiere` → **0 findings** su `salute-sensori-dati`; (5) **PostHog spento** (scelta Nicola 5/7) e monitor uptime senza URL = **normale** — spiegare, non trattare come bug. **PR #377 ✅ main** (`5d9590ab`, 14/7 ~03:32). **Regola:** su casella Sensori diagnosticare pipeline giro/sentinel prima di aggiornare solo JSON memoria.",
       "tag": [
         "sensori",
         "salute-sensori-dati",
@@ -36,7 +59,7 @@
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 03:31",
+      "ultima_conferma": "2026-07-14 03:32",
       "stato": "attiva"
     },
     {
@@ -5043,7 +5066,8 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Sensori e dati reali — fix batch radiografia (chat 14/7 ~03:31, PR #377):** «Risolvi questi fix» sulla casella Sensori — si aspetta 7 schede spariscono/verde dopo merge come Come pensa l'AD; vuole distinzione onesta tra bug operativo (verifiche giro, sentinel, clear errori) e «normale spento» (PostHog scelta 5/7, uptime senza URL); merge 🔴 **#142**. Vedi L-222, L-208.",
+    "**«Perché Approva #142?» — odia istruzioni Approva senza card visibile (chat 14/7 ~03:32):** dopo fix sensori chiede perché deve approvare un numero che non vede o non riconosce — si aspetta che l'AD **verifichi** coda+merge prima di chiedere Approva; card #N ≠ PR #N (#142 era #379, non #377); se già mergiato → «non serve nulla»; preferisce titolo card a parole, non #N a memoria. Vedi L-223.",
+    "**Sensori e dati reali — fix batch radiografia (chat 14/7 ~03:31, PR #377 ✅):** «Risolvi questi fix» sulla casella Sensori — si aspetta 7 schede spariscono/verde dopo merge come Come pensa l'AD; vuole distinzione onesta tra bug operativo e «normale spento» (PostHog 5/7, uptime senza URL); **#377 già su main** — nessuna Approva pendente sensori. Vedi L-222, L-208.",
     "**Screenshot conflitti PR senza testo (chat 14/7 ~03:05, #374):** allega screenshot GitHub «conflicts» senza scrivere — si aspetta che l'AD risolva subito (body+memoria, codice intatto), verifichi mergeable e indirizzi a **riapprova** Pannello (#140), non MERGE app GitHub; quarto caso stessa notte. Vedi L-220, L-214, L-213.",
     "**Giro AD — vuole orari precisi, non «circa un'ora» (chat 14/7 ~03:02):** dopo filone Scoperte chiede «ogni quanto avviene il giro?» — si aspetta cadenza **verificata** (timer 2h, 9×/giorno, :20) + spiegazione salto delta-gate + «fai un giro» on-demand + distinzione ritmo 6/12/18 vs Opportunità Scoperte; odia stime vaghe che poi contraddicono il codice. Vedi L-219, L-202.",
     "**VP 17/7 — ritiro al fornaio se bici assente (chat 14/7 ~02:57-02:59):** «Non avrò la bici entro venerdì» → corretto timeline (bollette 21-27/7, bici ~28/7+); **non** promettere domicilio al VP; presidio PQ+QR+ritiro al banco = ok per North Star; odia date inventate dall'AD («lunedì» ≠ data certa senza conferma); chiedere quando ha la bici operativa. Vedi L-218, L-67.",

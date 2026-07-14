@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-14 03:32 · Chat Nicola «Perché Approva #142?» post-fix sensori · atteso: istruzione Approva corretta e verificata · reale: #142 = PR #379 non #377; #377 già main; correzione L-223 + STATO · L-223 · #da-approvare #card-numero #sensori
 - 2026-07-14 03:02 · Chat Nicola «ogni quanto avviene il giro?» · atteso: cadenza verificata + distinzione Scoperte/ritmo · reale: timer 2h 9×/giorno, delta-gate salto, «fai un giro» on-demand; corretto errore «~1h» in STATO · L-219 · #giro #scoperte #timer
 - 2026-07-14 02:11 · Chat Nicola debrief visita — «l'ho già mangiata, perché Scoperte non si aggiorna?» · atteso: spiegare gap Scoperte vs chat + registrare fatto · reale: STATO 02:10 (mangiato, locale TBD); Scoperte ferma a 13/7 20:21; L-202 + preferenza; debrief incompleto · L-202 · #scoperte #debrief #pannello #briefing
 - 2026-07-14 01:00 · Chat Nicola «chiudi AR-006» · atteso: housekeeping cantiere+coda post-merge #349 · reale: AR-006 `chiuso` in cantiere, R3/#119 FATTO, allocazione-check exit 0 (PQ 16, Garetti 0) · L-167 evidenze 3 · #AR-006 #allocazione #housekeeping

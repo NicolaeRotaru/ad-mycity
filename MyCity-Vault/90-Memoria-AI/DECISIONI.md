@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+- 2026-07-14 03:32 · 🟢 · [AD] · **CORREZIONE — «Perché Approva #142?» dopo fix sensori.** Nicola chiede perché deve approvare #142. **Errore AD:** ha indicato #142 per PR #377 sensori senza verificare coda/stato merge. **Verificato:** PR #377 **già mergiata** su main (`5d9590ab`); card **#142 = PR #379** (Chi impara), non sensori; coda attiva #140/#141. **Regola:** prima di «Approva #N» → leggere AZIONI + GitHub; card #N ≠ PR #N; se mergiata → dire che non serve Approva. · Nicola (chat 14/7 ~03:32)
+
 - 2026-07-14 02:59 · 🟢 · [AD/operations] · **CORREZIONE — Nicola corregge tempi bici e botteghe.** «No, non è vero [lun 21/7]: prossima settimana bollette, riparazione bici settimana dopo; quando avrò la bici inizierò ad inserire le botteghe». **Aggiornato** `logistica.bici-consegna`: bollette 21-27/7, riparazione ~28/7+, inserimento botteghe gated su bici. **Corretto errore AD** del turno precedente (21/7 inventato). **VP 17/7:** resta solo ritiro al fornaio (Nicola ci va a piedi); giro botteghe slitta ad agosto. · Nicola (chat Pannello 14/7 02:59)
 
 - 2026-07-14 02:58 · 🟢 · [AD/operations] · **Nicola: bici non pronta per VP 17/7 — riparazione lunedì 21/7.** ~~SUPERATO dalla correzione 02:59~~ In chat su opportunità «Primo ordine VP 17/7»: «Non avrò ancora la bici entro venerdì, ma vado lunedì prossimo a ripararla». **Registrato** fatto `logistica.bici-consegna` in registro-fatti. **Ripiano:** VP 17/7 = presidio Pane Quotidiano + 1° ordine con **ritiro in bottega** (North Star + payout-test); consegna a domicilio solo dopo bici riparata. Chiesto a Nicola quando la riavere operativa. · Nicola (chat Pannello 14/7 02:57)
