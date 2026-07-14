@@ -1305,9 +1305,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🟢�️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-13 22:20)
-Report completo con comandi pronti: `consegne/supervisione/2026-07-13-supervisione.md`. Tutte 🟢🟢, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
-
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-14 06:20)
+Report completo con comandi pronti: `consegne/supervisione/2026-07-14-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
 
@@ -1316,7 +1315,6 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-13-supervisio
 | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
 
 Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
-
 
 ### 🟡 Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno
 

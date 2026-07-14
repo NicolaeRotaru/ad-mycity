@@ -79,7 +79,9 @@
       "colore": "🟡",
       "origine": "review-settimanale",
       "finding_id": "AR-025",
-      "dove": "cervello/delta-gate.mjs"
+      "dove": "cervello/delta-gate.mjs",
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     },
     {
       "cosa": "[REVIEW 3/7] Sonda-volano: voto_provvisorio 'pending-merge' che accredita i difetti già chiusi in codice (42→~50) + dedup della sentinella salute_bassa su firma di stato invariata",
@@ -87,7 +89,9 @@
       "colore": "🟡",
       "origine": "review-settimanale",
       "finding_id": "AR-024",
-      "dove": "cervello/sonda-volano.mjs"
+      "dove": "cervello/sonda-volano.mjs",
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     },
     {
       "cosa": "Rimuovere .env.save dal tracking + purgare la storia + .gitignore su .env*/*.save + scan-segreti pre-commit",
@@ -95,7 +99,9 @@
       "colore": "🔴",
       "origine": "auto-radiografia",
       "finding_id": "AR-004",
-      "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)"
+      "dove": "cervello/vps/.env.save + .gitignore + cervello/scan-segreti.mjs (nuovo)",
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     },
     {
       "cosa": "Timeout dentro giro.sh/ritmo.sh + TimeoutStartSec nei .service systemd",
@@ -103,7 +109,9 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-005",
-      "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service"
+      "dove": "cervello/giro.sh + cervello/vps/mycity-giro.service",
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     },
     {
       "cosa": "Cancello di allocazione 'asset pesanti solo su entità confermata' + ripuntare la coda su Pane Quotidiano",
@@ -111,7 +119,9 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-006",
-      "dove": "cervello/giro.md + CLAUDE.md (doer-mode)"
+      "dove": "cervello/giro.md + CLAUDE.md (doer-mode)",
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     },
     {
       "cosa": "Rendere sensori-cecita.json artefatto obbligatorio persistito + gate hard 'se cieco → zero numeri nuovi' + REST sensore-di-verità",
@@ -119,7 +129,8 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-010/AR-011/AR-012",
-      "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs"
+      "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs",
+      "stato": "proposta"
     },
     {
       "cosa": "Generare l'organigramma di CLAUDE.md/COMANDI/AGENTI dai file .claude/agents/*.md + guardiano drift",
@@ -127,7 +138,8 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-007/AR-008",
-      "dove": "CLAUDE.md + cervello/agent-registry-check.mjs (nuovo)"
+      "dove": "CLAUDE.md + cervello/agent-registry-check.mjs (nuovo)",
+      "stato": "proposta"
     },
     {
       "cosa": "Chiudere il volano: sentinella chiusura-loop + calibrazione popolata + esperimenti misurati + tasso_applicazione calcolato dai dati",
@@ -135,7 +147,8 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-009/AR-013",
-      "dove": "cervello/ritmo.md + cervello/sonda-volano.mjs"
+      "dove": "cervello/ritmo.md + cervello/sonda-volano.mjs",
+      "stato": "proposta"
     },
     {
       "cosa": "Registro rischi con owner+sentinella + sensore cassa/runway + gate compliance HACCP pre-lancio",
@@ -143,7 +156,8 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-015/AR-016/AR-017",
-      "dove": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (nuovo) + cervello/sensore-cassa.mjs (nuovo)"
+      "dove": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (nuovo) + cervello/sensore-cassa.mjs (nuovo)",
+      "stato": "proposta"
     },
     {
       "cosa": "Delta-gate 'niente di nuovo → salta la parte AI pesante' + sensore costo token + banco AI economico",
@@ -151,7 +165,8 @@
       "colore": "🟡",
       "origine": "auto-radiografia",
       "finding_id": "AR-019/AR-020",
-      "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)"
+      "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)",
+      "stato": "proposta"
     },
     {
       "cosa": "[CHIUSO] Parametrizzare MARKETPLACE_REPO in radiografia.js/audit-design.js",
@@ -160,17 +175,23 @@
       "origine": "auto-radiografia",
       "finding_id": "AR-002",
       "dove": ".claude/workflows/radiografia.js",
-      "stato": "fatto-2026-07-02"
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-14 06:20"
     }
   ],
   "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "meta_esperimenti": {
-    "aggiornato": "2026-07-14 06:11",
+    "aggiornato": "2026-07-14 08:12",
     "totale": 0,
     "aperti": 0,
     "in_scadenza": 0,
     "misurati": 0,
     "chiusi": 0
   },
-  "aggiornato": "2026-07-14 06:11"
+  "aggiornato": "2026-07-14 08:12",
+  "proposte_sync": {
+    "aggiornato": "2026-07-14 06:20",
+    "totale": 11,
+    "aggiornate": 11
+  }
 }
