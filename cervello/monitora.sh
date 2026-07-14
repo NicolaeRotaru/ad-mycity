@@ -45,14 +45,36 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     # Fix B: se un run precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
     # ramo della memoria), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
     if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-      git add -A 2>/dev/null || true
+      git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
+      git restore --staged pannello/ cervello/ 2>/dev/null || true
       git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
       git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un run precedente." || true
     fi
-    if git fetch "$url" "$branch" 2>/dev/null; then
-      git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
+    _fetch_ok=0
+    for _mf in 1 2 3; do
+      if git fetch "$url" "$branch" 2>/dev/null; then _fetch_ok=1; break; fi
+      sleep 2
+    done
+    if [ "$_fetch_ok" = 1 ]; then
+      _cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)"
+      if [ "$_cur" = "$branch" ]; then
+        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ramo: allineato a origin/${branch} via rebase (commit locali preservati)."
+        else
+          git rebase --abort 2>/dev/null || true
+          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+            echo "[$(ts)] Ramo: allineato a origin/${branch} via merge (rebase in conflitto)."
+          else
+            git merge --abort 2>/dev/null || true
+            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale." >&2
+          fi
+        fi
+      else
+        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ramo: HEAD portato su ${branch} da origin/${branch}."
+      fi
     else
-      git checkout -f -B "$branch" 2>/dev/null || true
+      echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria sul disco." >&2
     fi
     # Allinea SOLO il CODICE a main (NIENTE merge, e soprattutto NIENTE checkout delle cartelle di
     # memoria). Prendo i soli path top-level di main che NON sono cartelle di memoria: così il vault
@@ -110,7 +132,7 @@ fi
 # --- Sync della memoria sul ramo unico 'main': commit + push (rebase, NON force) ---
 (
   flock -w 600 9 || exit 0   # Fix A: timeout sul lock (se salta, il prossimo monitoraggio recupera il WIP)
-  git add -A 2>/dev/null || true
+  git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
   if git diff --cached --quiet 2>/dev/null; then
     echo "[$(ts)] Nessuna novità dalle fonti da inviare."
   else
