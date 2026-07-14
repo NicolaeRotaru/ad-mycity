@@ -2214,6 +2214,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   voci: [
                     { id: "plancia", label: "Home", icon: <Home size={15} /> },
                     { id: "azioni", label: "Azioni", icon: <Zap size={15} /> },
+                    { id: "memoria", label: "Memoria", icon: <Layers size={15} /> },
                   ],
                 },
                 {
@@ -2224,10 +2225,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     { id: "operazioni", label: "Operazioni", icon: <Truck size={15} /> },
                     { id: "mondo", label: "Mercato", icon: <Globe size={15} /> },
                   ],
-                },
-                {
-                  gruppo: "Memoria",
-                  voci: [{ id: "memoria", label: "Memoria", icon: <Layers size={15} /> }],
                 },
                 {
                   gruppo: "Macchina",
