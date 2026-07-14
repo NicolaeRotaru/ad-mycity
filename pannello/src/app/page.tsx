@@ -162,12 +162,19 @@ type Conversazione = {
 };
 
 /** Ordine lista: fissate in cima, poi per data di creazione (aprire/leggere non riordina). */
-function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conversazione[] {
+function ordinaConversazioni(
+  list: Conversazione[],
+  pinnate: Set<string>,
+  vistaAt: Record<string, number> = {},
+): Conversazione[] {
   return [...list].sort((a, b) => {
     const pa = pinnate.has(a.id) ? 1 : 0;
     const pb = pinnate.has(b.id) ? 1 : 0;
     if (pb !== pa) return pb - pa;
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    const ta = vistaAt[a.id] ?? 0;
+    const tb = vistaAt[b.id] ?? 0;
+    if (tb !== ta) return tb - ta;
+    return new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime();
   });
 }
 
@@ -809,6 +816,12 @@ export default function Dashboard() {
     try { return JSON.parse(localStorage.getItem("mycity_conv_lette_fp") || "{}"); }
     catch { return {}; }
   });
+  // Timestamp (ms) dell'ultima apertura — ordina il cassetto per «ultima vista»
+  const [convVistaAt, setConvVistaAt] = useState<Record<string, number>>(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem("mycity_conv_vista") || "{}"); }
+    catch { return {}; }
+  });
   const [base, setBase] = useState<{ titoli: string[]; testo: string } | null>(null);
   const [caricato, setCaricato] = useState(false);
   const [input, setInput] = useState("");
@@ -1160,6 +1173,14 @@ export default function Dashboard() {
       });
     }
   }
+  function segnaVista(id: string) {
+    const t = Date.now();
+    setConvVistaAt((prev) => {
+      const n = { ...prev, [id]: t };
+      try { localStorage.setItem("mycity_conv_vista", JSON.stringify(n)); } catch {}
+      return n;
+    });
+  }
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
   function segnaLettaChatAttiva() {
     const id = convIdRef.current;
@@ -1292,6 +1313,7 @@ export default function Dashboard() {
       await persistConversazione(c.id, msgs);
     }
     segnaLetta(id);
+    segnaVista(id);
     setLoading(pendingPerConv(id));
   }
 
@@ -1313,6 +1335,7 @@ export default function Dashboard() {
       sessionGruppoRef.current = esistente.id;
       setLoading(pendingPerConv(gruppoId));
       segnaLetta(esistente.id);
+      segnaVista(esistente.id);
       return;
     }
 
@@ -1335,6 +1358,7 @@ export default function Dashboard() {
     sessionGruppoRef.current = salvato || gruppoId;
     setLoading(pendingPerConv(gruppoId) || g.haAttivo);
     segnaLetta(salvato || gruppoId);
+    segnaVista(salvato || gruppoId);
   }
 
   // Usa una o piu' conversazioni selezionate come BASE per una nuova chat: carica
@@ -2408,19 +2432,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <button
                 onClick={() => setConvDrawerAperto(true)}
                 className="grid place-items-center w-8 h-8 rounded-lg text-black/50 hover:bg-black/[0.05] hover:text-brand transition shrink-0"
-                aria-label="Le tue conversazioni"
-                title="Le tue conversazioni"
+                aria-label="Conversazioni"
+                title="Conversazioni"
               >
-                <MessagesSquare size={17} />
+                <History size={17} />
               </button>
-              <div className="leading-tight min-w-0">
-                <div className="text-[15px] font-semibold tracking-tight truncate">Parla con l'assistente</div>
-                {convId && (
-                  <div className="text-[11px] text-black/40 truncate">
+              {convId && (
+                <div className="leading-tight min-w-0">
+                  <div className="text-[15px] font-semibold tracking-tight truncate">
                     {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
             <button
               onClick={nuovaConversazione}
@@ -2668,8 +2691,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: fissate in cima, poi per data di creazione (aprire non riordina). */}
-                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
+                {/* Ordine: fissate in cima → ultima aperta → updated_at */}
+                {ordinaConversazioni(conversazioni, convPinnate, convVistaAt).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
@@ -2920,7 +2943,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate, convVistaAt).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
