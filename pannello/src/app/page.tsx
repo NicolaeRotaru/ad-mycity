@@ -108,7 +108,7 @@ import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
 import Lavori from "@/components/aree/Lavori";
 import RicercaGlobale from "@/components/RicercaGlobale";
 import Intelligence from "@/components/Intelligence";
-import NumeriReport from "@/components/NumeriReport";
+import NumeriArea from "@/components/aree/NumeriArea";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
@@ -2326,54 +2326,45 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== NUMERI ===================== */}
         {vista === "numeri" && (
-        <div className="space-y-4">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h2 className="t-area">📊 I numeri dell'azienda</h2>
-              <p className="t-eti mt-0.5">Tutte le sfere, per categoria, in tre finestre: oggi · 7 giorni · 30 giorni.</p>
-            </div>
-            <Aggiornato at={datiAggiornatiAt} className="mt-1 shrink-0" />
-          </div>
+          <NumeriArea
+            aggAt={datiAggiornatiAt}
+            cockpit={
+            <section className="card p-4">
+              <div className="flex items-center gap-2.5 mb-1">
+                <span className="sez-ico"><BarChart3 size={16} /></span>
+                <span className="t-sez">Tutti i numeri</span>
+                <button
+                  onClick={toggleTutteCat}
+                  className="ml-auto text-[11px] font-medium text-black/55 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
+                >
+                  {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
+                </button>
+              </div>
+              <p className="t-eti mb-3 pl-[42px]">Tocca una categoria per aprirla; le celle spente sono fonti da collegare.</p>
 
-          {/* I numeri (cockpit): categorie a tendina — apri solo ciò che ti serve */}
-          <section className="card p-4">
-            <div className="flex items-center gap-2.5 mb-1">
-              <span className="sez-ico"><BarChart3 size={16} /></span>
-              <span className="t-sez">Tutti i numeri</span>
-              <button
-                onClick={toggleTutteCat}
-                className="ml-auto text-[11px] font-medium text-black/55 hover:text-brand transition px-2 py-1 rounded-lg hover:bg-brand-50/60"
-              >
-                {tutteCatAperte ? "Chiudi tutte" : "Apri tutte"}
-              </button>
-            </div>
-            <p className="t-eti mb-3 pl-[42px]">Tocca una categoria per aprirla; le celle spente sono fonti da collegare.</p>
-
-            <div className="space-y-1.5">
-              {CATEGORIE_NUMERI.map((c, i) => {
-                const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
-                return (
-                  <Fragment key={c.titolo}>
-                    {nuovoGruppo && c.gruppo !== "Panoramica" && <div className="t-micro px-0.5 pt-2 pb-0.5">{c.gruppo}</div>}
-                    <CategoriaNumeri
-                      emoji={c.emoji}
-                      titolo={c.titolo}
-                      sottotitolo={c.sottotitolo}
-                      kpis={c.kpis}
-                      snapshot={c.snapshot}
-                      metriche={metriche}
-                      open={catAperte.has(c.titolo)}
-                      onToggle={() => toggleCat(c.titolo)}
-                    />
-                  </Fragment>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Numeri & report: trend · unit economics · report */}
-          <NumeriReport />
-        </div>
+              <div className="space-y-1.5">
+                {CATEGORIE_NUMERI.map((c, i) => {
+                  const nuovoGruppo = i === 0 || CATEGORIE_NUMERI[i - 1].gruppo !== c.gruppo;
+                  return (
+                    <Fragment key={c.titolo}>
+                      {nuovoGruppo && c.gruppo !== "Panoramica" && <div className="t-micro px-0.5 pt-2 pb-0.5">{c.gruppo}</div>}
+                      <CategoriaNumeri
+                        emoji={c.emoji}
+                        titolo={c.titolo}
+                        sottotitolo={c.sottotitolo}
+                        kpis={c.kpis}
+                        snapshot={c.snapshot}
+                        metriche={metriche}
+                        open={catAperte.has(c.titolo)}
+                        onToggle={() => toggleCat(c.titolo)}
+                      />
+                    </Fragment>
+                  );
+                })}
+              </div>
+            </section>
+            }
+          />
         )}
 
         {/* ===================== PERSONE ===================== */}
