@@ -114,6 +114,7 @@ import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
 import { vaultToIso } from "@/lib/format";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
+import { avviaDettatura } from "@/lib/dettatura-vocale";
 import Aggiornato from "@/components/Aggiornato";
 import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
@@ -814,24 +815,13 @@ export default function Dashboard() {
   const [input, setInput] = useState("");
   const [hintInvio, setHintInvio] = useState("Invio = invia · Maiusc+Invio = a capo");
   const [ascoltando, setAscoltando] = useState(false);
-  // Dettatura vocale (Web Speech API del browser): riempie l'input parlando.
+  const [avvisoVoce, setAvvisoVoce] = useState("");
   function dettaVoce() {
-    const SR = typeof window !== "undefined" && ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
-    if (!SR) {
-      alert("Il riconoscimento vocale non è supportato da questo browser (prova Chrome).");
-      return;
-    }
-    const rec = new SR();
-    rec.lang = "it-IT";
-    rec.interimResults = false;
-    rec.onresult = (e: any) => {
-      const t = e.results?.[0]?.[0]?.transcript || "";
-      setInput((cur) => (cur ? cur + " " : "") + t);
-    };
-    rec.onend = () => setAscoltando(false);
-    rec.onerror = () => setAscoltando(false);
-    setAscoltando(true);
-    rec.start();
+    avviaDettatura({
+      onTesto: (t) => setInput((cur) => (cur ? `${cur} ${t}` : t)),
+      onStato: (s) => setAscoltando(s === "ascolta"),
+      onAvviso: setAvvisoVoce,
+    });
   }
   const [loading, setLoading] = useState(false);
   // 📎 Foto/file allegati al prossimo messaggio della chat (condivisi tra chat intera e fluttuante:
@@ -2610,6 +2600,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             {allegatiAvviso && (
               <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
             )}
+            {avvisoVoce && (
+              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{avvisoVoce}</p>
+            )}
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -2891,6 +2884,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <AnteprimaAllegatiChat allegati={allegatiChat} onTogli={togliAllegatoChat} />
             {allegatiAvviso && (
               <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
+            )}
+            {avvisoVoce && (
+              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{avvisoVoce}</p>
             )}
             <textarea
               value={input}

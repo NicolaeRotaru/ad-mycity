@@ -1,8 +1,9 @@
 ## Summary
-- **Rischio tecnico (6/8 fix):** sistema immunitario verifica `core.hooksPath` attivo (non solo file hook); `monitora.sh` allinea con rebase non distruttivo (niente `checkout -f -B`); hook git attivati all'avvio di giro/worker; scan-segreti copre chiavi Resend/n8n; sensori con timeout 8s; meta-guardiano `freschezza-segnali.mjs`; auto-fix in giro senza `--applica` automatico.
-- **Memoria:** `allinea-scan-cantiere` chiude 6 findings «Rischio tecnico» nello scan radiografia (restano 2 decisioni umane: permessi Cursor e chiusura difetti via regex).
+- Dettatura vocale in chat: messaggi chiari al posto del popup generico o del silenzio quando fallisce.
+- Su iPhone spiega subito che il microfono della chat non funziona e indica il microfono della tastiera Apple.
+- Se il microfono è bloccato o non sente nulla, compare una riga gialla sotto i pulsanti con cosa fare.
 
 ## Test plan
-- [ ] `grep -q 'core.hooksPath' cervello/sistema-immunitario.mjs && ! grep -q 'checkout -f -B' cervello/monitora.sh`
-- [ ] `node cervello/allinea-scan-cantiere.mjs` → area rischio-sicurezza-se: 2 aperti (tipo umano), 6 chiusi
-- [ ] Dopo merge: Ctrl+Shift+R su Radiografia macchina nel Pannello
+- [ ] Su iPhone: tocca il microfono in chat → compare il messaggio con alternativa tastiera Apple (niente popup).
+- [ ] Su Chrome desktop: microfono rosso mentre parli → testo nella casella; nega permesso → messaggio «Microfono bloccato».
+- [ ] Chat fluttuante «Parla con l'AD»: stesso comportamento.
