@@ -1,8 +1,16 @@
 ## Summary
-- Ogni avviso in Azioni › Avvisi mostra una **descrizione in italiano semplice** sopra al testo tecnico.
-- «Parla con questa casella» su un avviso include sempre la sezione **Descrizione dell'avviso** nel contesto mandato all'AD (richiesta Nicola 14/7).
 
-## Test plan
-- [ ] Azioni › Avvisi: sotto l'icona compare prima la spiegazione umana, poi il testo tecnico giallo.
-- [ ] Apri «Parla con questa casella» su un avviso «memoria incoerente»: l'AD riceve descrizione + testo tecnico + data.
-- [ ] `npx tsc --noEmit` in `pannello/` passa.
+Ripristina l'ordine **stabile** delle conversazioni nel cassetto Assistente: aprire o cliccare una chat **non la sposta più in cima** (comportamento già corretto il 12/7 con PR #303, reintrodotto per errore da PR #371).
+
+Mantiene il header pulito di #371 (icona History, titolo solo quando c'è una chat aperta).
+
+## Perché
+
+Nicola ha mergiato per sbaglio #371 che riportava `convVistaAt` / `segnaVista`: ogni click spostava la chat in cima alla lista.
+
+## Come provare
+
+1. Apri Assistente → cassetto Conversazioni
+2. Nota l'ordine (pinnate in cima, poi per data creazione)
+3. Clicca una chat a metà lista → **resta al suo posto**, si apre il contenuto
+4. Header: icona orologio/storico, niente «Parla con l'assistente»
