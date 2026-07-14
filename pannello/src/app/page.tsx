@@ -233,7 +233,7 @@ function haRispostaNonLetta(
   if (!fp) return false;
   if (convLetteFp[c.id] === fp) return false;
   const lettaAt = convLette[c.id];
-  if (!lettaAt) return true;
+  if (!lettaAt) return false;
   const ts = tsUltimoAssistantFinale(c, gruppo);
   if (!ts) return true;
   return new Date(ts).getTime() > new Date(lettaAt).getTime();
