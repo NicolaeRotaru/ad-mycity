@@ -8,6 +8,7 @@ import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import { anteprimaAzione, codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
+import { quadroAzione } from "@/lib/azione-umana";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -535,10 +536,30 @@ export default function Azioni() {
           {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
         </div>
 
-        {/* Anteprima in italiano semplice: niente slug, path o log di sistema. */}
+        {/* Quadro completo in italiano semplice — tutti i dettagli operativi, niente tagliato. */}
         {(() => {
-          const p = anteprimaAzione({ perche: testoPulito(a.perche), cambia: a.cambia, seguito: a.seguito });
-          return p ? <p className="t-corpo mt-2">{p}</p> : null;
+          const corpo = a.testo || a.perche || "";
+          const { sezioni, tecnico } = quadroAzione({ corpo, cambia: a.cambia, seguito: a.seguito });
+          if (sezioni.length === 0) {
+            const fallback = anteprimaAzione({ perche: testoPulito(a.perche), cambia: a.cambia, seguito: a.seguito });
+            return fallback ? <p className="t-corpo mt-2">{fallback}</p> : null;
+          }
+          return (
+            <div className="mt-2.5 space-y-2">
+              {sezioni.map((s) => (
+                <div key={s.etichetta}>
+                  <div className="text-[12px] font-semibold text-ink/80">{s.etichetta}</div>
+                  <p className="t-corpo mt-0.5 whitespace-pre-wrap">{s.testo}</p>
+                </div>
+              ))}
+              {tecnico ? (
+                <details className="mt-1 rounded-lg border border-black/8 bg-paper/40 px-3 py-2">
+                  <summary className="text-[12px] font-medium text-black/55 cursor-pointer select-none">Dettagli tecnici e riferimenti</summary>
+                  <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[11.5px] text-black/50 leading-relaxed">{tecnico}</pre>
+                </details>
+              ) : null}
+            </div>
+          );
         })()}
 
         {/* 🗣️ In parole semplici — cosa farà e come lo farà (fix #3): SEMPRE in vista,
