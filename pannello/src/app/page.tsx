@@ -303,8 +303,8 @@ type Lavoro = {
   updated_at: string;
   stato: "in_attesa" | "in_corso" | "fatto" | "errore" | "annullato";
   tipo: string;
-  richiesta: string;
-  risultato: string;
+  richiesta?: string;
+  risultato?: string;
   esperto: string;
   gruppo_id?: string | null;
 };
@@ -2019,6 +2019,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
   // Ponte col cervello: polling lavori — 2s se C'È QUALSIASI chat in attesa (anche di
   // un'altra conversazione), 8s altrimenti. Risolve TUTTI i pendenti, non solo l'ultimo.
+  // Lista leggera (solo metadati); corpo completo solo per chat in corso / pendenti.
+  async function arricchisciLavoriAttivi(lista: Lavoro[]): Promise<Lavoro[]> {
+    const ids = new Set<string>();
+    for (const p of pendingLavoroChatRef.current.values()) ids.add(p.id);
+    for (const l of lista) {
+      if (l.stato === "in_corso") ids.add(l.id);
+    }
+    if (ids.size === 0) return lista;
+    try {
+      const r = await fetch("/api/lavori/dettagli", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [...ids] }),
+        cache: "no-store",
+      });
+      const d = await r.json();
+      const map = new Map<string, Lavoro>((d.lavori || []).map((l: Lavoro) => [l.id, l]));
+      if (map.size === 0) return lista;
+      return lista.map((l) => (map.has(l.id) ? { ...l, ...map.get(l.id)! } : l));
+    } catch {
+      return lista;
+    }
+  }
+
   useEffect(() => {
     let stop = false;
     const carica = async (limitArchivio = archivioLimit) => {
@@ -2026,19 +2050,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         const r = await fetch(`/api/lavori?limit=${limitArchivio}`, { cache: "no-store" });
         const d = await r.json();
         if (!stop && Array.isArray(d.lavori)) {
+          const arricchiti = await arricchisciLavoriAttivi(d.lavori);
           // Aggiorna SOLO se la lista è davvero cambiata: un array nuovo ma identico
           // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
           setLavori((prev) => {
-            if (lavoriUguali(prev, d.lavori)) return prev;
-            emitSyncDaLavoriFiniti(prev, d.lavori);
-            return d.lavori;
+            const merged = arricchiti.map((l) => {
+              const old = prev.find((p) => p.id === l.id);
+              if (!old) return l;
+              return {
+                ...l,
+                richiesta: l.richiesta ?? old.richiesta,
+                risultato: l.risultato ?? old.risultato,
+              };
+            });
+            if (lavoriUguali(prev, merged)) return prev;
+            emitSyncDaLavoriFiniti(prev, merged);
+            return merged;
           });
           if (d.conteggi?.coda != null) {
             setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
           }
           if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
           if (pendingLavoroChatRef.current.size > 0) {
-            risolviLavoriPendenti(d.lavori);
+            risolviLavoriPendenti(arricchiti);
           }
         }
       } catch {}

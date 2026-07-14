@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getImpostazione, getLavori, getConteggiLavori, memoryConnected, setImpostazione } from "@/lib/store";
+import { getImpostazione, getLavori, getLavoriByIds, getConteggiLavori, memoryConnected, setImpostazione } from "@/lib/store";
 import { etaOre, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
 
 export const runtime = "nodejs";
@@ -69,7 +69,7 @@ export async function GET() {
     });
   }
 
-  const [segnali, pausa, pipeline, codiceRev, lavori, conteggiDb, workerChatUltimo, reloadRifiutato] =
+  const [segnali, pausa, pipeline, codiceRev, lavoriLight, conteggiDb, workerChatUltimo, reloadRifiutato] =
     await Promise.all([
       raccogliSegnaliBattito(),
       getImpostazione("pausa").catch(() => null),
@@ -80,6 +80,14 @@ export async function GET() {
       getImpostazione("worker:ultimo:chat").catch(() => null),
       getImpostazione("worker:reload-rifiutato").catch(() => null),
     ]);
+
+  // Poll leggero: risultato solo per in_attesa (quota/session-limit nel testo errore).
+  const attesaIds = lavoriLight.filter((l) => l.stato === "in_attesa").map((l) => l.id);
+  const attesaDettaglio = attesaIds.length ? await getLavoriByIds(attesaIds) : [];
+  const risultatoAttesa = new Map(attesaDettaglio.map((l) => [l.id, l.risultato || ""]));
+  const lavori = lavoriLight.map((l) =>
+    l.stato === "in_attesa" ? { ...l, risultato: risultatoAttesa.get(l.id) } : l
+  );
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
   const oreWorkerChat = oreDaQuando(workerChatUltimo);
