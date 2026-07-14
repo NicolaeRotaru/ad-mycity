@@ -2,25 +2,25 @@
 data: 2026-07-14 03:25
 tipo: diagnosi
 reparto: finanza
-origine: sentinella cassa_sconosciuta (91 giri)
+origine: sentinella cassa_sconosciuta (92 giri)
 ---
 
 # Diagnosi cassa / runway — 14 luglio 2026
 
 ## In una riga per Nicola
 
-**Stripe funziona e legge 0€ in cassa; manca solo che tu dica quanto spendiamo al mese (`BURN_MENSILE_EUR`) — senza quel numero il runway resta «sconosciuto» da 91 giri.**
+**Stripe funziona e legge 0€ in cassa; manca solo che tu dica quanto spendiamo al mese (`BURN_MENSILE_EUR`) — senza quel numero il runway resta «sconosciuto» da 92 giri.**
 
 ---
 
-## Cosa abbiamo verificato (03:39, VPS)
+## Cosa abbiamo verificato (03:40, VPS)
 
 | Pezzo | Stato | Prova |
 |---|---|---|
 | `STRIPE_SECRET_KEY` | ✅ collegata | `verifica-sensori.mjs` → `stripe_api: balance API ok` |
 | Cassa Stripe | **0 €** | `sensore-cassa.mjs` → available + pending = 0 |
 | `BURN_MENSILE_EUR` | ❌ assente | env non impostato |
-| Runway | **sconosciuto** | 91 giri consecutivi senza calcolo |
+| Runway | **sconosciuto** | 92 giri consecutivi senza calcolo |
 | Ordini pagati | 0 | nessun incasso marketplace in cassa |
 
 **Correzione importante:** il messaggio vecchio diceva «collega STRIPE_SECRET_KEY» — **è fuorviante**. Stripe è già collegato da tempo. Il blocco reale è **solo il burn mensile**.
@@ -67,7 +67,7 @@ Poi riavvia il worker o aspetta il prossimo giro — `sensore-cassa.mjs` ricalco
 
 ---
 
-## Fix macchina proposti (🟡, PR separata)
+## Fix macchina (✅ già su main)
 
 1. Messaggio `sensore-cassa.mjs` distingue «Stripe ok, manca burn» vs «Stripe cieco»
 2. Regola M6b in `sentinella-dati.mjs`: allerta 🟡 se `giri_sconosciuto ≥ 5` (chiude buco radiografia Opus 7/7)
@@ -82,4 +82,4 @@ Poi riavvia il worker o aspetta il prossimo giro — `sensore-cassa.mjs` ricalco
 
 ---
 
-*Fonti: `cassa-runway.json` 14/7 03:39 · `verifica-sensori.mjs` exit 0 · `verifica-automazione.mjs` exit 0 · `sensori-cecita.json` · regola AR-039/AR-016*
+*Fonti: `cassa-runway.json` 14/7 03:40 · `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · `sensori-cecita.json` · regola AR-039/AR-016*
