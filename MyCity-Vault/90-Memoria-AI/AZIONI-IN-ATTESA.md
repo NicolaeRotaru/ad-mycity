@@ -27,9 +27,9 @@ BURN_MENSILE_EUR=XXXX
 ```
 Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
 
-**Stato attuale verificato 04:42:**
+**Stato attuale verificato 05:38:**
 - Stripe ✅ collegato, cassa letta = **0 €**
-- Burn ❌ non impostato → runway «sconosciuto» da **96 giri**
+- Burn ❌ non impostato → runway «sconosciuto» da **97 giri**
 
 **Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
 **Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
