@@ -38,14 +38,35 @@ const WORKER_AUTO_PATHS = new Set([
 /** Descrizione PR condivisa: ogni branch la riscrive → conflitto certo se main avanza. Non committarla sul branch. */
 const SHARED_PR_BODY = "consegne/tech/pr-ad-mycity-body.md";
 
+const AZIONI_REL = "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md";
+
 /** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
 const AUTO_RESOLVE_REBASE_PATHS = new Set([
   SHARED_PR_BODY,
+  AZIONI_REL,
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json",
   "cervello/routing.json",
 ]);
+
+/** File memoria/consegne che non devono MAI differire dalla base su un branch PR pannello. */
+function isBranchSanitizePath(path) {
+  if (path === SHARED_PR_BODY || path === AZIONI_REL) return true;
+  if (path.startsWith("consegne/tech/pr-ad-mycity-")) return true;
+  if (path.startsWith("MyCity-Vault/90-Memoria-AI/")) return true;
+  if (path.startsWith("memoria-squadra/")) return true;
+  if (WORKER_AUTO_PATHS.has(path)) return true;
+  // Branch PR pannello = solo diff sotto pannello/ o creativi/
+  if (!path.startsWith("pannello/") && !path.startsWith("creativi/")) return true;
+  return false;
+}
+
+function isAutoResolveRebasePath(path) {
+  if (AUTO_RESOLVE_REBASE_PATHS.has(path)) return true;
+  if (path.startsWith("consegne/tech/pr-ad-mycity-")) return true;
+  return false;
+}
 
 function pathFromPorcelainLine(line) {
   let path = line.substring(2).replace(/^\s+/, "").trim();
@@ -53,13 +74,19 @@ function pathFromPorcelainLine(line) {
   return path;
 }
 
-function pathsToStageFromPorcelain(porcelain) {
+function pathsToStageFromPorcelain(porcelain, repoKey = "ad-mycity") {
   /** @type {string[]} */
   const out = [];
   for (const line of porcelain.split("\n").filter(Boolean)) {
     const path = pathFromPorcelainLine(line);
     if (WORKER_AUTO_PATHS.has(path)) continue;
     if (path === SHARED_PR_BODY) continue;
+    if (path === AZIONI_REL) continue;
+    if (path.startsWith("consegne/tech/pr-ad-mycity-")) continue;
+    if (path.startsWith("MyCity-Vault/90-Memoria-AI/")) continue;
+    if (path.startsWith("memoria-squadra/")) continue;
+    // PR pannello: solo codice UI — mai cervello/memoria sporchi nel commit chore
+    if (repoKey === "ad-mycity" && !path.startsWith("pannello/") && !path.startsWith("creativi/")) continue;
     out.push(path);
   }
   return out;
@@ -262,7 +289,7 @@ function isRebaseInProgress(cfg) {
 function tryAutoResolveRebaseConflicts(cfg) {
   const pending = unmergedPaths(cfg);
   if (!pending.length) return false;
-  if (!pending.every((p) => AUTO_RESOLVE_REBASE_PATHS.has(p))) return false;
+  if (!pending.every((p) => isAutoResolveRebasePath(p))) return false;
   for (const p of pending) {
     git(["checkout", "--theirs", "--", p], cfg.cwd);
     git(["add", "--", p], cfg.cwd);
@@ -271,10 +298,35 @@ function tryAutoResolveRebaseConflicts(cfg) {
 }
 
 /**
+ * Allinea file condivisi (body PR, AZIONI, consegne tech) alla base — evita conflitti al merge.
+ * @param {import('./git-github.mjs').RepoConfig} cfg @param {string} baseRef @param {string} branch
+ * @param {Record<string, string>} gitEnv
+ */
+function sanitizeBranchSharedFiles(cfg, baseRef, branch, gitEnv) {
+  const diff =
+    gitOrNull(["diff", "--name-only", `${baseRef}...refs/heads/${branch}`], cfg.cwd)?.split("\n").filter(Boolean) ||
+    [];
+  const toReset = diff.filter(isBranchSanitizePath);
+  if (!toReset.length) return false;
+  const prev = gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) || "main";
+  if (prev !== branch) git(["checkout", branch], cfg.cwd);
+  for (const p of toReset) {
+    git(["checkout", baseRef, "--", p], cfg.cwd);
+  }
+  git(["commit", "-m", "chore: allinea file memoria condivisi con base (no conflitti merge PR)"], cfg.cwd, gitEnv);
+  console.log(`✓ Sanitize branch: ${toReset.length} file condivisi allineati a ${baseRef.slice(0, 7)}`);
+  if (prev !== branch && gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) === branch) {
+    git(["checkout", prev], cfg.cwd);
+  }
+  return true;
+}
+
+/**
  * Rebase del branch feature su base aggiornata; auto-risolve il body PR condiviso.
  * @param {import('./git-github.mjs').RepoConfig} cfg @param {string} base @param {string} branch
+ * @param {Record<string, string>} [gitEnv]
  */
-function rebaseBranchOntoBase(cfg, base, branch) {
+function rebaseBranchOntoBase(cfg, base, branch, gitEnv = {}) {
   const prev = gitOrNull(["rev-parse", "--abbrev-ref", "HEAD"], cfg.cwd) || "main";
   const baseRef = fetchBase(cfg, base);
   if (prev !== branch) git(["checkout", branch], cfg.cwd);
@@ -308,6 +360,7 @@ function rebaseBranchOntoBase(cfg, base, branch) {
         throw new Error("Rebase non completato dopo auto-risoluzione conflitti.");
       }
     }
+    sanitizeBranchSharedFiles(cfg, baseRef, branch, gitEnv);
     const ahead = countCommitsAhead(cfg, baseRef, branch);
     const conflicts = mergeTreeConflictPaths(cfg, baseRef, branch);
     if (conflicts.length) {
@@ -426,7 +479,7 @@ async function main() {
 
   if (hasChanges && !dryRun && sulBranch) {
     const msg = String(args.message || args.title || `chore: ${branch}`);
-    const toStage = pathsToStageFromPorcelain(dirty || "");
+    const toStage = pathsToStageFromPorcelain(dirty || "", cfg.key);
     if (toStage.length === 0) {
       console.warn(
         "⚠️  Solo file auto-worker (routing/sentinella) modificati — skip commit chore per evitare conflitti PR."
@@ -453,7 +506,7 @@ async function main() {
   let rebaseInfo = {};
   if (!noRebase && !dryRun) {
     try {
-      rebaseInfo = rebaseBranchOntoBase(cfg, base, branch);
+      rebaseInfo = rebaseBranchOntoBase(cfg, base, branch, gitEnv);
       if (rebaseInfo.ahead === "0") {
         console.log(
           `✓ '${branch}' è già dentro '${base}' dopo rebase — niente da mergiare. Chiudi la PR su GitHub se ancora aperta.`
