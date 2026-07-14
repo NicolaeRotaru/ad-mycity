@@ -40,6 +40,8 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Esito 19:23:** Nicola «**2) tutto insieme**» — testo finale non cresce parola per parola nemmeno negli ultimi secondi; arriva in un colpo solo. Prossimo fix = diagnosi parziali DB vs Pannello, non merge/restart.
 
+**Esito 14/7 02:37:** riapprovazione Pannello 00:35 — merge **già eseguito** su GitHub (`2e273311`, 13/7 18:46). Worker: `esegui-azione github-merge` → «PR #342 non è aperta (stato: closed)» exit 1 — obiettivo già raggiunto, nessun secondo merge.
+
 - **Colore:** ✅ merge fatto · ⏳ streaming testo vero (tutto insieme) + pallini ancora aperti
 
 ---
@@ -1078,7 +1080,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 112 | 2026-07-13 18:12 | @tech | Merge PR #340 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/340 | github | ✅ FATTO 2026-07-13 ~18:14 | Sulle chat con risposta AD non aperta compare il pallino rosso anche se sei in Plancia o Lavori. | Dopo Approva: scrivi in chat → vai in Plancia → quando rispondo, elenco Conversazioni mostra il pallino. |
 | 113 | 2026-07-13 18:12 | @builder-automazioni | Merge PR #339 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/339 | github | ✅ FATTO 2026-07-13 ~18:14 · restart 18:22 · VPS allineamento via #341 | In chat il testo dell'AD cresce in orizzontale mentre scrive, senza sillabe spezzate a colonna. | Restart 18:22 non bastato — serve merge #341 + aggiorna-cervello.sh. |
 | 114 | 2026-07-13 18:29 | @tech | Merge PR #341 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/341 | github | ✅ FATTO 2026-07-13 ~18:50 · Nicola «fatto» | Pull codice GitHub sul VPS + riavvio entrambi i worker + fix streaming poll 1s. | Sesta prova streaming in corso — feedback Nicola atteso a fine risposta. |
-| 115 | 2026-07-13 18:45 | @tech | Merge PR #342 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/342 | github | ✅ FATTO 2026-07-13 ~18:50 · Nicola «fatto» | Il Pannello mostra la bolla live mentre l'AD scrive + fissa pallini durante streaming. | Sesta prova streaming in corso — feedback Nicola atteso a fine risposta. |
+| 115 | 2026-07-13 18:45 | @tech | Merge PR #342 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/342 | github | ✅ FATTO 2026-07-13 ~18:50 · riapprovazione 14/7 00:35 confermata 02:37 · merge commit `2e273311` già su main | Il Pannello mostra la bolla live mentre l'AD scrive + fissa pallini durante streaming. | Nessuna azione ulteriore — PR chiusa; ignora card se riappare. |
 | 116 | 2026-07-13 19:36 | @tech | Merge PR #345 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/345 | github | ✅ ARCHIVIATA housekeeping 14/7 | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 117 | 2026-07-13 19:37 | @tech | Merge PR #346 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/346 | github | ✅ ARCHIVIATA housekeeping 14/7 | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 118 | 2026-07-13 19:42 | @tech | Merge PR #348 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/348 | github | ✅ FATTO 2026-07-13 20:10 · main `b153f62f` | Pallini: impronta ultima risposta (non timestamp) — fix scenario 1+4. | Ctrl+Shift+R + test 15s esci da chat + elenco non tutto rosso. |
