@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 13:10 · Angoli ciechi — PR #383 · atteso: 7 findings `copertura-cieca` chiusi con sensori/guardiani estesi · reale: sensori memoria+Panel+Telegram+n8n, registro rischi unico, KPI senior OKR, sentinella coda ferma, `punti_ciechi` radiografia; pattern falso positivo sensore memoria corretto; 7/7 scan ok; merge 🔴 #145 · L-230 · #angoli-ciechi #pr-383 #copertura-cieca #esito
 - 2026-07-14 03:31 · Sensori e dati reali — PR #377 · atteso: 7 findings `salute-sensori-dati` chiusi con fix pipeline giro · reale: check fonti web a ogni giro, sentinel occhi+cassa, auto-clear errori ok, check mattutino timer occhi, fix loop segnale verifica; `allinea-scan-cantiere` 0 findings; PostHog/uptime senza URL = normale; merge 🔴 #142 · L-222 · #sensori #pr-377 #salute-sensori-dati #esito
 - 2026-07-14 02:53 · PR #371 gate mergeable — Nicola «ti ho già detto» su conflitti · atteso: git-pr.mjs verifica mergeable prima di accodare card · reale: #371 aperta senza check, conflitto body risolto rebase `6fa822bf`; regola gate rinforzata · L-214 · #pr-371 #git-pr #gate #esito
 - 2026-07-14 02:52 · GitHub mobile socket error — Nicola screenshot PR #369 Ready to merge + «io error on socket» · atteso: chiarire non è conflitto, merge da Pannello · reale: PR verde mergeable; errore = app GitHub mobile/rete; Nicola Approva #134 in Azioni, non MERGE app; fallback browser PC · L-213 · #pr-369 #github-mobile #merge #pannello #esito
