@@ -1,12 +1,11 @@
 ## Summary
-Chiude i 4 fix aperti nella casella **Chi impara da cosa** (chiusura-volano):
+Chiude l'ultimo finding aperto nella casella **Onestà sui numeri** (il codice era già su main via PR #378; mancava solo l'allineamento radiografia):
 
-- **Sonda volano**: prima controlla calibrazione/esperimenti (business), poi i difetti architettura — niente falso allarme quando il cantiere si svuota.
-- **Ponte quaderni→calibrazione**: `chiusura-loop registra` alimenta anche `calibrazione.mjs da-loop` (atteso→reale strutturato).
-- **Sync proposte**: nuovo `sincronizza-proposte.mjs` nel giro — proposte già implementate non restano «da firmare».
-- **Radiografia**: `allinea-scan-cantiere` chiude i finding quando la verifica nel codice passa (stesso schema PR #376).
+- **Finding prosa/sensori**: verifica corretta su `calibrazione.mjs` (`cmdValida` nel giro) → finding chiuso.
+- **da-loop**: aggiunge `sensore_stato` e `banale` alle voci chiuse dal ponte quaderni→calibrazione.
+- **Radiografia**: voto dimensione 75, stato ok, 4/4 finding chiusi.
 
 ## Test plan
-- [ ] `node cervello/sincronizza-proposte.mjs` → proposte allineate
-- [ ] `node cervello/allinea-scan-cantiere.mjs` → chiusura-volano: 0 finding aperti
-- [ ] Pannello → Cervello → Area «Chi impara da cosa» → sintesi verde, nessuna scheda sotto
+- [ ] `node cervello/calibrazione.mjs valida` → exit 0
+- [ ] Pannello → Cervello → «Onestà sui numeri» → nessuna scheda problema sotto
+- [ ] Ctrl+Shift+R sulla Radiografia dopo merge
