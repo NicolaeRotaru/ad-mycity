@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-13 22:20",
+  "aggiornato": "2026-07-14 02:47",
   "per_reparto": [
     {
       "reparto": "@AD",
@@ -12,6 +12,14 @@
     },
     {
       "reparto": "@vendite",
+      "previsioni": 0,
+      "azzeccate": 0,
+      "punteggio": 0,
+      "lower_bound": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@content-social",
       "previsioni": 0,
       "azzeccate": 0,
       "punteggio": 0,
@@ -48,6 +56,21 @@
       "scarto_pct": null,
       "nota": "",
       "creato": "2026-07-13 20:22",
+      "chiuso_il": ""
+    },
+    {
+      "id": "CAL-20260714004756-conten",
+      "reparto": "@content-social",
+      "azione": "Post kefir estate su canali locali",
+      "metrica": "click_lista_attesa",
+      "atteso": 5,
+      "reale": null,
+      "entro": "2026-07-17",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "",
+      "creato": "2026-07-14 02:47",
       "chiuso_il": ""
     }
   ],
