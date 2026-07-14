@@ -25,7 +25,7 @@ const Markdown: Components = {
 };
 
 export default function StatoNumeriVault() {
-  const [tab, setTab] = useState<"stato" | "okr">("stato");
+  const [tab, setTab] = useState<"stato" | "okr" | "piani">("stato");
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
   const [stato, setStato] = useState("");
@@ -88,6 +88,7 @@ export default function StatoNumeriVault() {
         {([
           { id: "stato" as const, label: "Stato", icon: <Gauge size={14} /> },
           { id: "okr" as const, label: "OKR", icon: <Target size={14} /> },
+          { id: "piani" as const, label: "Piani", icon: <MapIcon size={14} /> },
         ]).map((t) => (
           <button
             key={t.id}
@@ -118,7 +119,6 @@ export default function StatoNumeriVault() {
       )}
 
       {tab === "okr" && (
-      <>
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Target size={15} className="text-brand" />
@@ -141,7 +141,9 @@ export default function StatoNumeriVault() {
           ))}
         </div>
       </div>
+      )}
 
+      {tab === "piani" && (
       <div>
         <div className="flex items-center gap-2 mb-2">
           <MapIcon size={15} className="text-brand" />
@@ -160,7 +162,6 @@ export default function StatoNumeriVault() {
           ))}
         </div>
       </div>
-      </>
       )}
     </section>
   );
