@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 05:41
-fonte: AD digitale (🌅 14/7 05:41 sentinella cassa 98 giri · Onestà #379 · Chi impara #378 main · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 06:00
+fonte: AD digitale (☀️ 14/7 06:00 piano del mattino · T-3 VEN 17/7 · REST 06:00 ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> ☀️ **14/7 06:00 — PIANO DEL MATTINO.** **T-3 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo ~492h ≈ 20,5 giorni (REST 06:00 + sentinella-dati). **Le 3 priorità di oggi:** ① 🔴 **domanda per il 1° ordine vero su PQ** — post kefir entro le 11 + lista d'attesa · ② 🔴 **prepara VP 17/7** — presidio al banco, ritiro in negozio (bici non pronta), payout-test · ③ 🟡 **chiudi residui piattaforma** — merge PR Pannello in coda + SQL 107/RLS + burn mensile (runway sconosciuto 98 giri). Sentinelle: `cassa_sconosciuta` tetto giorno (8/8), `negozio_fermo` PQ in cooldown (falso positivo). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
+>
 > 💬 **14/7 ~05:41 — SENTINELLA: cassa/runway — ottava verifica, blocco invariato.** `cassa_sconosciuta` **98 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe, **non** serve altra PR codice (M6b già su main). **Unica mossa:** card **🟡 #burn-mensile-runway** — Nicola mette €/mese in `vps/.env`. Dopo: runway **0 mesi** (verità con cassa 0) → piano @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 05:41.
 > 💬 **14/7 ~04:41 — SENTINELLA: cassa/runway — sesta verifica, blocco invariato.** `cassa_sconosciuta` **95 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe, **non** serve altra PR codice (M6b già su main). **Unica mossa:** card **🟡 #burn-mensile-runway** — Nicola mette €/mese in `vps/.env`. Dopo: runway **0 mesi** (verità con cassa 0) → piano @fp-and-a. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 04:41.
 >
@@ -447,15 +449,15 @@ fonte: AD digitale (🌅 14/7 05:41 sentinella cassa 98 giri · Onestà #379 · 
 >
 > 🛠️ **3/7 19:46 — FIX LETTURA VAULT DEL PANNELLO (PR #167).** Tolta la causa radice del «il Pannello non vede tutti i dati di GitHub»: la lettura tornava vuota **in silenzio** su disallineamento di ramo. Ora la lettura **ripiega `memoria-ad`→`main`** in sola lettura (mai schermo vuoto), espone in `/api/stato` **da quale ramo** arriva il dato (deriva visibile) e mostra i briefing anche «fuori formato». Codice pronto in **PR #167**; deploy Vercel bloccato oggi dal limite free (~24h). Coda #28. Dettaglio: [[DECISIONI]].
 
-## I 7 numeri (✅ REST 14/7 02:47 · invariati dal 24/6)
-| Numero | Oggi (14/7 02:47) | Δ vs 13/7 20:20 | "Riuscito" | Note |
+## I 7 numeri (✅ REST 14/7 06:00 · invariati dal 24/6)
+| Numero | Oggi (14/7 06:00) | Δ vs 13/7 20:20 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | Casa Linda = demo/seed — esclusa · 16 altri seller non approvati |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ payout OFF · payout-test sandbox |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | PQ `status=available` (REST `seller_id` PQ 02:47) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 del 24/6 · `delivery_status=CANCELED` — il 1° ordine reale va CREATO ex-novo |
 | Ordini pagati | **0** | = | 1 | COD mai incassato · l'unico ordine è annullato |
-| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~489h |
+| Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta · North Star **0** · stallo ~492h |
 | Payout testato | **0** | = | 1 | payout-test sandbox da fare su un ordine vero |
 | Nuovi clienti reali | **4 buyer** (0 ultimi 7g) | = | crescita | ultimo nuovo: 16/6 · 23 profili totali |
 | **Lead negozi nel DB** | **407** (baseline 7/7) | = | lavorarli | tabella lead non leggibile via REST anon · 27 food con tel → shortlist pronta |
@@ -551,17 +553,18 @@ fonte: AD digitale (🌅 14/7 05:41 sentinella cassa 98 giri · Onestà #379 · 
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (🌙 Report della sera 13/7 18:00 · T-4 al VEN 17/7)
-**Lunedì 13/7 — ripresa operativa + maratona Pannello.** Business INVARIATO dal 24/6, North Star 0, stallo ~465h. Oggi ~23 PR mergiate; residui tecnici: worker stale, streaming/pallino.
+## Prossime priorità (☀️ Piano del mattino 14/7 06:00 · T-3 al VEN 17/7)
+**Martedì 14/7 — tre giorni al Venerdì Piacentini.** Business INVARIATO dal 24/6, North Star 0, stallo ~492h. Stanotte chiusi fix sensori (#377) e volano (#378); coda pulita a 22 card.
 
-1. [ ] 🔴 **Mergia PR #338 + riavvia worker chat** — fix unificato streaming+pallini (`30c4c614`) + `sudo systemctl restart mycity-worker-chat` (fermo dal 16:08).
-2. [ ] 🔴 **Verifica su telefono** — testo che cresce in chat + pallino spento 10s dopo apertura.
-3. [ ] 🔴 **Far nascere il 1° ordine reale su PQ** — North Star 0→1. Aggancio **VEN 17/7** (T-4). Cliente core = **botteghe** (non ristoranti).
-4. [ ] 🟡 **SQL 107 / RLS `profiles`** (#32) — ultimo bloccante di piattaforma prima di nuovi negozi.
-5. [ ] 🟡 **Mergia PR pendenti** — #337 (body PR), #323 (Avvisi), #322/#326 (Piani/OKR mobile).
-6. [x] 🔴 **R1 — Revoca PAT GitHub** (AR-004) — FATTA 7/7 · [x] 🔴 **R2 — 20 fix su `origin/main`** (#35) — FATTO 7/7 13:35 · [x] ✅ **Allegati chat LIVE** (#60) — 13/7 17:28
+1. [ ] 🔴 **Pubblica post kefir + lista d'attesa** — domanda fresca su Pane Quotidiano entro le 11 (#post-kefir-estate-1407).
+2. [ ] 🔴 **Prepara il 1° ordine vero al VEN 17/7** — presidio PQ, **ritiro al banco** (bici non pronta), payout-test. Cliente core = **botteghe**.
+3. [ ] 🟡 **Approva PR Pannello in coda** — sync, descrizioni umane, ordine chat, Onestà numeri (#379).
+4. [ ] 🟡 **SQL 107 / RLS `profiles`** (#32) — ultimo bloccante piattaforma.
+5. [ ] 🟡 **Imposta burn mensile** (#burn-mensile-runway) — runway sconosciuto da 98 giri.
+6. [ ] 🟡 **Approva batch supervisione** — 494 campi catalogo (condition + unit, reversibili).
+7. [x] 🔴 **R1 — Revoca PAT GitHub** — FATTA 7/7 · [x] 🔴 **R2 — 20 fix su `origin/main`** — FATTO 7/7 · [x] ✅ **Allegati chat LIVE** — 13/7 · [x] PR #377/#378 sensori+volano — 14/7 notte
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · worker chat stale dal 16:08 · streaming chat rotto (regressione #335) · pallino UX aperto · bici in riparazione (logistica consegne) · PostHog SPENTO (opzionale).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (burn assente, tetto giorno) · `negozio_fermo` PQ (falso positivo, cooldown) · bici in riparazione (~28/7+) · PostHog spento (scelta 5/7).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*

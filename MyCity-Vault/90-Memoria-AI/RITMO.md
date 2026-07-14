@@ -297,3 +297,21 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 
 **Dettagli tecnici**
 - 23 PR mergiate oggi · worker stale 16:08 · merge #335 ha ripristinato codice vecchio streaming
+
+## Piano del mattino · 2026-07-14 06:00
+
+**In una riga:** Mancano tre giorni al Venerdì Piacentini — oggi serve domanda sul fornaio e una Cabina che non ti rallenta.
+
+**Le 3 cose di oggi**
+1. Spingi la colazione fresca su Pane Quotidiano (post kefir + lista d'attesa) entro le 11
+2. Prepara il primo ordine vero di venerdì 17: presidio al banco, ritiro in negozio, payout-test
+3. Chiudi le correzioni del Pannello ancora in coda e i permessi database prima di nuovi negozi
+
+**Serve da te**
+- Pubblica il post sulla colazione e incolla il link della lista d'attesa
+- Approva le correzioni del Pannello che aspettano in Da approvare
+- Metti quanto spendiamo al mese così calcoliamo il runway
+- Applica la correzione sui permessi del database
+
+**Dettagli tecnici**
+- Post kefir in coda · VP 17/7 = ritiro al banco (bici non pronta) · PR #373/#374/#375/#379 · SQL 107 · BURN_MENSILE_EUR in vps/.env

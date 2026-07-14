@@ -896,3 +896,14 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-14 02:47 · @analista · FATTO · KPI REST: ordini=1 annullato, 0/7g, 23 profili, 1 PQ, 5 prodotti, North Star 0 (~489h stallo). ESITO quaderno registrato.
 - 2026-07-14 02:48 · @intelligence · FATTO · Radar meteo LIVE: oggi 36°C, domani 38°C, VP 17/7 36°C — allerta afa, slot mattina consigliati.
 - 2026-07-14 02:48 · @ad · SERVE · Nicola: 🔴 Approva #134 (PR #369 sync tempo reale) · 🔴 link lista d'attesa post kefir · 🔴 via VP 17/7 · 🟡 batch supervisione 494 campi.
+
+### 2026-07-14 — ☀️ PIANO DEL MATTINO (AD · 06:00)
+- 2026-07-14 06:00 · @ad · FATTO · Piano del mattino: martedì 14/7, **T-3 al VEN 17/7** (Venerdì Piacentini). Business INVARIATO dal 24/6, North Star 0, stallo ~492h ≈ 20,5 giorni (REST 06:00 + sentinella-dati). Aggiornati [[RITMO]] + [[STATO]] (prossime priorità).
+- 2026-07-14 06:00 · @content-social · FACCIO · 🔴 post kefir «La vera stella della colazione» pronto in coda (#post-kefir-estate-1407) — timing entro le 11 (fascia colazione). Serve link lista d'attesa + visual da Nicola prima della pubblicazione.
+- 2026-07-14 06:00 · @operations · FACCIO · 🟢 kit VP 17/7: presidio Pane Quotidiano Via Calzolai, **ritiro al banco** (bici non pronta — Nicola 14/7 02:59), payout-test accorpato al primo ordine vero. Consegna a domicilio solo dopo bici operativa (~28/7+).
+- 2026-07-14 06:00 · @onboarding-negozi · FACCIO · 🟢 check-in PQ: vetrina SEO + QR + 5 prodotti disponibili; supervisione 494 autofill (condition+unit) in coda 🟡 — approvabili dal Pannello.
+- 2026-07-14 06:00 · @devops-sre · FACCIO · 🟡 merge PR Pannello pendenti (Nicola Approva da Da approvare): sync tempo reale, descrizioni umane Avvisi/Opportunità, ordine chat stabile, Onestà numeri (#379). Stanotte #377/#378 già su main.
+- 2026-07-14 06:00 · @security · FACCIO · 🟡 SQL 107 + RLS `profiles` (#32) — ultimo bloccante piattaforma prima di nuovi negozi; esecuzione gated (MCP write o giro VPS).
+- 2026-07-14 06:00 · @finanza · FACCIO · 🟡 card #burn-mensile-runway — sentinella `cassa_sconosciuta` 98 giri, tetto giorno raggiunto (8/8); unica mossa: Nicola mette `BURN_MENSILE_EUR` in `vps/.env`.
+- 2026-07-14 06:00 · @analista · FATTO · baseline REST 06:00 invariata: 1 PQ, 5 prodotti, 1 ordine annullato, 0 consegnati, 4 buyer, North Star 0. Sensori 3/5 ok (REST+Stripe+Resend). Sorveglia bandiera al primo ordine nuovo.
+- 2026-07-14 06:00 · @ad · SERVE · Da Nicola: 🔴 pubblica post kefir + link lista d'attesa entro 11 · 🔴 prepara VP 17/7 (ritiro banco) · 🟡 Approva PR Pannello in coda · 🟡 BURN_MENSILE_EUR · 🟡 SQL 107 · 🟡 batch 494 autofill supervisione.
