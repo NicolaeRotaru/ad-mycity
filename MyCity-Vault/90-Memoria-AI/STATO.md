@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:34
-fonte: AD digitale (💬 14/7 02:34 metabolizzazione Come pensa l'AD. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:41
+fonte: AD digitale (💬 14/7 02:41 metabolizzazione conflitti PR #369. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:41 — CHAT: PR #369 conflitti risolti — sync tempo reale pronta al merge.** Nicola «ci sono dei conflitti» su card merge sync (#134 / PR #369). **Verificato 🟢:** conflitto **solo** in `consegne/tech/pr-ad-mycity-body.md` (body condiviso tra #369 sync e #370 Come pensa l'AD mergiata su main) — **codice Pannello** (`fix/panel-sync-tutto`) **intatto**. Rebase su main post-#370, head `5ab0dde3`, API GitHub **mergeable** (nessun conflitto). **Pendente:** Nicola **riapprova** card **#134** → deploy Vercel ~2 min → test approva/ignora proposta senza refresh (Azioni + Scoperte <10s). Fonte: chat Nicola 14/7 ~02:41 + `git-pr.mjs` verifica.
+>
 > 💬 **14/7 ~02:34 — CHAT: Come pensa l'AD — 6 problemi risolti — PR #370.** Nicola «risolvi tutti i problemi della casella come pensa l'AD». **Implementato 🟡 PR #370** (`d473c20d`): **120/120** quaderni `memoria-squadra/` (78 stub creati), scorecard 6 assi in 120 prompt, kit banche/legali espansi, `cervello/stampo-check.mjs` verde **120/120**, numeri rollout 42→**120**. Quaderni **vuoti = normale** (ESITO reparto). **Pendente:** merge 🔴 **#370** (#135). Fonte: chat Nicola 14/7 ~02:34.
 >
 > 💬 **14/7 ~02:32 — CHAT: «come collegarli?» — scheletri senza self-service.** Dopo spiegazione badge «da collegare», Nicola chiede come attivarli. **Spiegato 🟢:** nessun pulsante — Nicola indica priorità moduli + accessi; AD costruisce feed con PR uno per uno. «Live»/«1/2» = già parziale. Fonte: chat Nicola 14/7 ~02:32.
