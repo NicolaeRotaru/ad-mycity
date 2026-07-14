@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, FileText, Store } from "lucide-react";
 import { KIT_CAMPO_BOTTEGHE } from "@/lib/kit-campo-botteghe";
 import { totaleProspect } from "@/lib/lista-prospect-centro";
-import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
+import { formatta, etichettaRitmo, ritmoEODoggi, type Tipo } from "@/lib/format";
 import { RitmoTesto } from "@/components/RitmoTesto";
 import ParlaCasella from "@/components/ParlaCasella";
 import Aggiornato from "@/components/Aggiornato";
@@ -51,6 +51,51 @@ const KPI_CHIAVE: { label: string; chiave: string; tipo: Tipo; icon: React.React
 
 function dotCls(l: string) {
   return l === "rosso" ? "bg-red-500" : l === "giallo" ? "bg-amber-500" : l === "verde" ? "bg-green-500" : "bg-black/30";
+}
+
+function anteprimaRitmo(testo: string, max = 72): string {
+  const flat = testo.replace(/\*\*/g, "").replace(/@\w+(-\w+)*/g, "").replace(/\n+/g, " ").trim();
+  if (!flat) return "";
+  return flat.length > max ? `${flat.slice(0, max)}…` : flat;
+}
+
+/** Mattino o sera: una riga chiusa, testo completo + chat solo se apri. */
+function RitmoVocePieghevole({ emoji, label, voce, parlaTitolo }: { emoji: string; label: string; voce: Voce; parlaTitolo: string }) {
+  const [aperto, setAperto] = useState(false);
+  if (!voce) {
+    return (
+      <div className="rounded-lg border border-black/[0.06] px-3 py-1.5 t-eti text-[12px]">
+        {emoji} {label} — non ancora scritto oggi
+      </div>
+    );
+  }
+  const ok = ritmoEODoggi(voce.data);
+  const anteprima = anteprimaRitmo(voce.testo);
+  return (
+    <details
+      className="rounded-lg border border-black/[0.07] bg-paper/30 group"
+      onToggle={(e) => setAperto(e.currentTarget.open)}
+    >
+      <summary className="flex items-start gap-2 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="text-[12.5px] font-medium" style={{ color: "var(--text-primary)" }}>{emoji} {label}</span>
+            <span className={`badge ml-auto shrink-0 ${ok ? "badge-on" : "badge-off"}`}>{etichettaRitmo(voce.data)}</span>
+          </div>
+          {anteprima && <p className="t-eti text-[11px] truncate mt-0.5 group-open:hidden">{anteprima}</p>}
+        </div>
+      </summary>
+      <div className="px-3 pb-2 pt-0 border-t border-black/[0.05] space-y-2">
+        <RitmoTesto testo={voce.testo} />
+        {aperto && (
+          <ParlaCasella
+            titolo={parlaTitolo}
+            contesto={[voce.data && `Data: ${voce.data}`, voce.testo].filter(Boolean).join("\n")}
+          />
+        )}
+      </div>
+    </details>
+  );
 }
 
 export default function Plancia({
@@ -230,67 +275,22 @@ export default function Plancia({
         </details>
       </section>
 
-      {/* 2 · Ritmo del giorno — chiuso se aggiornato, aperto se manca qualcosa */}
+      {/* 2 · Ritmo del giorno — chiuso di default; mattino/sera a accordion */}
       {(ritmo.pianoMattino || ritmo.reportSera) && (
         <HomeSezione
           icon={<Clock size={15} />}
           titolo="Ritmo del giorno"
           riassunto={ritmoRiassunto}
-          defaultOpen={!ritmoAggiornatoOggi}
+          defaultOpen={false}
           badge={
             !ritmoAggiornatoOggi ? (
               <span className="badge badge-off text-[10px]">da aggiornare</span>
             ) : undefined
           }
         >
-          {(!ritmoEODoggi(ritmo.pianoMattino?.data) || !ritmoEODoggi(ritmo.reportSera?.data)) && (
-            <p className="text-[12px] mb-2 font-medium text-amber-600 dark:text-amber-400">
-              ⚠️ Non ancora aggiornato oggi ({giornoRoma().split("-").reverse().join("/")})
-            </p>
-          )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div className="surface-muted p-2.5">
-              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span className="t-micro">🌅 Piano del mattino</span>
-                {ritmo.pianoMattino && (
-                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.pianoMattino.data) ? "badge-on" : "badge-off"}`} title={ritmo.pianoMattino.data}>
-                    {etichettaRitmo(ritmo.pianoMattino.data)}
-                  </span>
-                )}
-              </div>
-              {ritmo.pianoMattino ? (
-                <>
-                  <RitmoTesto testo={ritmo.pianoMattino.testo} />
-                  <ParlaCasella
-                    titolo="Piano del mattino"
-                    contesto={[ritmo.pianoMattino.data && `Data: ${ritmo.pianoMattino.data}`, ritmo.pianoMattino.testo].filter(Boolean).join("\n")}
-                  />
-                </>
-              ) : (
-                <p className="t-eti">Non ancora scritto oggi.</p>
-              )}
-            </div>
-            <div className="surface-muted p-2.5">
-              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span className="t-micro">🌙 Report della sera</span>
-                {ritmo.reportSera && (
-                  <span className={`badge ml-auto ${ritmoEODoggi(ritmo.reportSera.data) ? "badge-on" : "badge-off"}`} title={ritmo.reportSera.data}>
-                    {etichettaRitmo(ritmo.reportSera.data)}
-                  </span>
-                )}
-              </div>
-              {ritmo.reportSera ? (
-                <>
-                  <RitmoTesto testo={ritmo.reportSera.testo} />
-                  <ParlaCasella
-                    titolo="Report della sera"
-                    contesto={[ritmo.reportSera.data && `Data: ${ritmo.reportSera.data}`, ritmo.reportSera.testo].filter(Boolean).join("\n")}
-                  />
-                </>
-              ) : (
-                <p className="t-eti">Non ancora scritto oggi.</p>
-              )}
-            </div>
+          <div className="space-y-1.5">
+            <RitmoVocePieghevole emoji="🌅" label="Piano del mattino" voce={ritmo.pianoMattino} parlaTitolo="Piano del mattino" />
+            <RitmoVocePieghevole emoji="🌙" label="Report della sera" voce={ritmo.reportSera} parlaTitolo="Report della sera" />
           </div>
         </HomeSezione>
       )}
