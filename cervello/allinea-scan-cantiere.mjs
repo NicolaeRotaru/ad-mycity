@@ -8,8 +8,9 @@
 // Cosa fa:
 //   1. Per ogni finding in auto-radiografia.json, se matcha un difetto del cantiere
 //      (AR-id nel titolo, titolo simile, stessa dimensione + parole chiave) → copia stato
-//   2. Aggiorna sync_scan (conteggi aperti/chiusi/in-corso) + voto live dalla sonda
-//   3. Stesso schema leggero su radiografia-marketplace.json se esiste chiusi-manuali
+//   2. Se il finding ha blocco `verifica` e il fix risulta nel codice → chiude come «verificato»
+//   3. Aggiorna sync_scan (conteggi aperti/chiusi/in-corso) + voto live dalla sonda
+//   4. Stesso schema leggero su radiografia-marketplace.json se esiste chiusi-manuali
 //
 // Uso:
 //   node cervello/allinea-scan-cantiere.mjs
@@ -69,6 +70,33 @@ function arId(testo) {
   return m ? m[0].toUpperCase() : null;
 }
 
+/** Verifica oggettiva: il fix del finding è presente nel codice? (stessa logica di auto-fix.mjs) */
+function verificaFinding(f) {
+  const v = f.verifica;
+  if (!v || !v.file || !v.pattern) return { esito: "manuale", dettaglio: "nessuna prova automatica" };
+  const p = join(AD_ROOT, v.file);
+  if (!existsSync(p)) return { esito: "aperto", dettaglio: `file assente: ${v.file}` };
+  let txt = "";
+  try {
+    txt = readFileSync(p, "utf8");
+  } catch (e) {
+    return { esito: "aperto", dettaglio: `illeggibile: ${e.message}` };
+  }
+  let re;
+  try {
+    re = new RegExp(v.pattern);
+  } catch (e) {
+    return { esito: "manuale", dettaglio: `pattern non valido: ${e.message}` };
+  }
+  const trovato = re.test(txt);
+  const vuolePresente = v.presente !== false;
+  const risolto = vuolePresente ? trovato : !trovato;
+  return {
+    esito: risolto ? "risolto" : "aperto",
+    dettaglio: `${v.file} ${vuolePresente ? "contiene" : "NON contiene"} /${v.pattern}/ → ${trovato ? "trovato" : "assente"}`,
+  };
+}
+
 function matchCantiere(finding, dimKey, difetti) {
   const ft = finding.titolo || "";
   const fid = arId(ft);
@@ -94,9 +122,11 @@ function allineaMacchina() {
   const difetti = Array.isArray(cantiere.difetti) ? cantiere.difetti : [];
   const byId = Object.fromEntries(difetti.filter((d) => d.id).map((d) => [d.id, d]));
   let aggiornati = 0;
+  let chiusiVerifica = 0;
   let aperti = 0;
   let chiusi = 0;
   let inCorso = 0;
+  const ora = nowPiacenza();
 
   for (const dim of rad.dimensioni || []) {
     for (const f of dim.findings || []) {
@@ -111,8 +141,17 @@ function allineaMacchina() {
         } else if (d.stato === "in-corso") {
           f.stato = "in-corso";
           f.cantiere_id = d.id;
-        } else {
+        } else if (f.stato !== "chiuso") {
           f.stato = "aperto";
+        }
+      } else if (f.stato !== "chiuso" && f.verifica) {
+        const r = verificaFinding(f);
+        if (r.esito === "risolto") {
+          f.stato = "chiuso";
+          f.chiuso_il = f.chiuso_il || ora;
+          f.chiuso_come = r.dettaglio;
+          f.chiuso_da = "verifica-codice";
+          chiusiVerifica++;
         }
       }
       if (f.stato === "chiuso") chiusi++;
@@ -136,6 +175,7 @@ function allineaMacchina() {
     cantiere_in_corso: difetti.filter((d) => d.stato === "in-corso").length,
     cantiere_chiusi: difetti.filter((d) => d.stato === "chiuso").length,
     match_aggiornati: aggiornati,
+    chiusi_verifica: chiusiVerifica,
     data_scan: rad.data || null,
     voto_live: votoLive,
   };
@@ -144,6 +184,7 @@ function allineaMacchina() {
   return {
     ok: true,
     aggiornati,
+    chiusi_verifica: chiusiVerifica,
     aperti,
     in_corso: inCorso,
     chiusi,
