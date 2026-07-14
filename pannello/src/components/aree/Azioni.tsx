@@ -9,7 +9,7 @@ import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type Detta
 import { risolviOrigine } from "@/lib/origine";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
-import { emitSync, usePanelSync } from "@/lib/panel-sync";
+import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 import {
   etichettaScelta,
@@ -103,7 +103,7 @@ function righeInParoleSemplici(a: Azione): { ico: string; etichetta: string; tes
   ].filter((r) => r.testo);
 }
 
-export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
+export default function Azioni() {
   const [tab, setTab] = useState<Tab>("mosse");
   // Ref sempre aggiornato alla scheda corrente: serve al refresh periodico (che non può dipendere da
   // `tab` senza ri-creare l'intervallo) per sapere se il Registro è quello visibile e va rinfrescato.
@@ -116,6 +116,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const [aperte, setAperte] = useState<Set<string>>(new Set());
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
+  const [proposteGiro, setProposteGiro] = useState<Proposta[]>([]);
   const [aggAt, setAggAt] = useState<number | null>(null);
   // Busy-lock: id delle azioni con una decisione (approva/rifiuta/annulla) in volo → evita
   // doppi click e doppie POST mentre la richiesta è in corso. (bug: nessun busy-lock)
@@ -181,6 +182,16 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
     fetch("/api/avvisi", { cache: "no-store" }).then((r) => r.json()).then((a) => setAvvisi(a.avvisi || [])).catch(() => {});
     fetch("/api/scelta-ab", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setScelteDecisioni(d.decisioni); }).catch(() => {});
     fetch("/api/proposta", { cache: "no-store" }).then((r) => r.json()).then((d) => { if (d?.decisioni) setPropDecisioni(d.decisioni); }).catch(() => {});
+    void fetchBriefingVivo().then(({ briefing }) => {
+      const az = briefing?.azioni || [];
+      setProposteGiro(
+        az.map((a) => ({
+          titolo: a.titolo,
+          motivo: a.motivo,
+          livello: (a.livello === "verde" || a.livello === "giallo" || a.livello === "rosso" ? a.livello : "?") as Livello,
+        }))
+      );
+    });
   }, []);
 
   // Carica (o RICARICA) il registro delle azioni. Definito PRIMA degli effetti che lo usano (era in
@@ -324,7 +335,11 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         setPropEsito((s) => ({ ...s, [pid]: { ok: true, msg: "📨 Approvata: il cervello la sta trasformando in azione concreta (vedi Lavori). Non tornerà tra le proposte." } }));
         setPropDecise((s) => new Set(s).add(pid));
         setPropDecisioni((s) => ({ ...s, [r.id || pid]: { decisione: "approva", at: new Date().toISOString() } }));
-        if (typeof window !== "undefined") emitSync("lavori");
+        if (typeof window !== "undefined") {
+          emitSync("lavori");
+          emitSync("memoria");
+          emitSync("azioni");
+        }
       } else {
         setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: `⚠️ ${r?.error || "Approvazione non riuscita."}` } }));
       }
@@ -346,6 +361,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
         body: JSON.stringify({ decisione: "ignora", id: pid, titolo: p.titolo }),
       }).then((x) => x.json());
       if (!r?.ok) throw new Error(r?.error || "non salvato");
+      emitSync("memoria");
+      emitSync("azioni");
     } catch (e: any) {
       // …ma se il salvataggio FALLISCE, ROLLBACK: senza, la card "fingeva" di essere sparita e al
       // refresh rispuntava vergine. Ora torna visibile con il motivo. (AR-034)
@@ -456,7 +473,7 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
   const daFirmare = azioni.filter((a) => !a.stato);
   const daDecidere = daFirmare.length;
   const ferme = azioni.filter((a) => a.stato === "coda");
-  const proposteVive = proposte.filter((p) => !propDecise.has(idProposta(p)) && !propDecisioni[idProposta(p)]).length;
+  const proposteVive = proposteGiro.filter((p) => !propDecise.has(idProposta(p)) && !propDecisioni[idProposta(p)]).length;
   const daFareTodo = todo.filter((t) => !t.fatto);
   const mosse = intenzioni?.collegato ? intenzioni.prossime_mosse : [];
   const qVerificate = azioni.filter((a) => !a.stato && a.qualita?.voto === "ok").length;
@@ -706,8 +723,8 @@ export default function Azioni({ proposte = [] }: { proposte?: Proposta[] }) {
       {tab === "proposte" && (
         <div className="space-y-2">
           <p className="t-eti">Idee appena scoperte dall'AD nell'analisi oraria. Approvarle le trasforma in azioni concrete.</p>
-          {proposte.length === 0 && <p className="text-[13px] text-black/55 py-4 text-center">Nessuna proposta fresca adesso. Compaiono dopo ogni giro dell'AD.</p>}
-          {proposte.map((p, i) => {
+          {proposteGiro.length === 0 && <p className="text-[13px] text-black/55 py-4 text-center">Nessuna proposta fresca adesso. Compaiono dopo ogni giro dell'AD.</p>}
+          {proposteGiro.map((p, i) => {
             const ab = isPropostaSceltaAB(p);
             const config = ab ? normalizzaPropostaSceltaAB(p) : null;
             const sceltaId = config?.id;

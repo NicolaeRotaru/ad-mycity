@@ -3,16 +3,11 @@
 import { TrendingUp } from "lucide-react";
 import ParlaCasella from "@/components/ParlaCasella";
 import { pulisciTitolo } from "@/lib/azioni-attesa";
+import { useBriefingVivo } from "@/lib/panel-sync";
 
-type Opportunita = { titolo: string; motivo: string; impatto: string; sforzo: string };
-type Briefing = { situazione: string; opportunita: Opportunita[]; azioni: { titolo: string; motivo: string; livello: string }[] };
+export default function ScoperteProposte() {
+  const { briefing, ultimoLabel } = useBriefingVivo();
 
-type Props = {
-  briefing: Briefing | null;
-  ultimoLabel: string | null;
-};
-
-export default function ScoperteProposte({ briefing, ultimoLabel }: Props) {
   return (
     <section className="card p-4">
       <div className="sez-head mb-4">

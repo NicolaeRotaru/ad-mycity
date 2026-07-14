@@ -125,7 +125,7 @@ import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
-import { emitSync, emitSyncDaLavoriFiniti } from "@/lib/panel-sync";
+import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -1710,6 +1710,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     return () => clearInterval(id);
   }, [caricaStato, caricaMetriche]);
 
+  // Radice del Pannello sulla rete sync: briefing, KPI e tutto ciò che passa come prop si aggiorna subito.
+  usePanelSync(["memoria", "azioni", "radiografia", "lavori", "all"], () => {
+    caricaStato();
+    caricaMetriche();
+  });
+
   // 🧭 Vista persistente + cronologia del browser (il tasto INDIETRO torna all'area precedente
   // invece di uscire dal Pannello). Non tocchiamo URL/hash: usiamo solo lo state della history,
   // per non interferire con la navigazione a hash delle aree interne.
@@ -2316,14 +2322,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== AZIONI (corsia operativa) ===================== */}
         {vista === "azioni" && (
           <div className="space-y-4">
-            <Azioni proposte={briefing?.azioni || []} />
+            <Azioni />
             <Arsenale />
           </div>
         )}
 
         {/* ===================== MEMORIA (hub: viva · archivio · storico) ===================== */}
         {(vista === "memoria" || vista === "report" || vista === "esplora" || vista === "storico") && (
-          <Memoria briefing={briefing} ultimoAt={ultimoAt} />
+          <Memoria />
         )}
         {vista === "cervello" && <RadiografiaMacchinaArea />}
 
