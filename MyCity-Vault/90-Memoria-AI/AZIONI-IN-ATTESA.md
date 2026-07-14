@@ -17,6 +17,33 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🔴 #post-kefir-estate-1407 — Pubblica "La vera stella della colazione" sui canali locali · ⏳ accodata 2026-07-14 02:43
+
+**Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
+
+**Testo pronto (versione Gruppi Facebook):**
+
+> Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
+>
+> Stiamo portando online i negozi veri di Piacenza: c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
+>
+> Se ti va di provare, link nel primo commento 👇
+
+**Prima del post servono da Nicola (due minuti):**
+1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento
+2. **Visual** — tipografico neutro subito, oppure foto kefir reale da negozio
+
+**Timing suggerito:** oggi entro le 11 (fascia colazione).
+
+**Cosa cambia:** post estivo prodotto-eroe sul negozio reale — colazione fresca a domicilio senza uscire col caldo.
+**Se va bene:** click lista d'attesa via UTM + PQ ripubblica ai clienti.
+
+- **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
+- **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
+
+---
+
+
 ### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ nona prova streaming in corso
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
@@ -1104,6 +1131,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 135 | 2026-07-14 02:34 | @prompt-engineer | Mergia PR #370: Come pensa l'AD — stampo 120/120 | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/370 | github | in attesa | Ogni specialista ha quaderno, scorecard e kit completi; guardiano stampo-check attivo; casella «Come pensa l'AD» passa da attenzione a verde. | Dopo Approva: merge su main → VPS watch-main → ricarica Radiografia macchina › Come pensa l'AD; quaderni vuoti restano normali finché i reparti lavorano. |
 | 136 | 2026-07-14 02:38 | @tech | Merge PR #371 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/371 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 137 | 2026-07-14 02:39 | @tech | Merge PR #372 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/372 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 138 | 2026-07-14 02:43 | content-social | **Pubblica il post del giorno "La vera stella della colazione" su Facebook e Instagram** | 🔴 | Post del giorno 14/7 pronto (testo + storia + gruppi FB + idea visual): `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**. Angolo **prodotto-eroe** (swipe #2 Cortilia) su **Pane Quotidiano** — kefir bio €2,95 (fonte REST 1/7). Diverso da pesto 1/7, lunedì 6/7, volti 9/7, BTS 11/7. Gate ONESTA passato. **Prima di uscire:** ① link reale lista d'attesa (1° commento FB + bio IG, UTM `kefir_estate_1407`); ② foto kefir reale o ok visual tipografico neutro. | IG + FB + gruppi FB locali (manuale) | ⏳ pronto — aspetta link lista + firma | Esce post estivo sul negozio reale: colazione fresca a domicilio senza uscire col caldo. | Primi iscritti via UTM; ripubblicabile da PQ. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

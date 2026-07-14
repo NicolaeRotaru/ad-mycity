@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-14 02:42
+aggiornato: 2026-07-14 02:43
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -455,3 +455,18 @@ cosa cambia: la macchina veglia da sola il time-to-first-value di ogni bottega d
 se va bene: le 6 botteghe del 13/7 non ammutoliscono nel silenzio; il primo negozio che rischia il "no value" riceve la spinta (ordine di prova + post) prima di mollare. Riusabile per ogni negozio futuro.
 non-duplicato: non tocca #25/#29 (anti-churn PQ, chiuse da Nicola) né #40 (sentinella ordini annullati) — è la lente **salute/retention negozi**, che oggi non esiste come sensore.
 stato: PRONTA — spec + soglie pronte, nessun codice scritto e nessun contatto inviato. Alla firma si cabla il blocco health-score nel giro. Coda canonica = riga #56 in [[AZIONI-IN-ATTESA]].
+
+## A28 · 📣 Post del giorno "La vera stella della colazione" (Pane Quotidiano · kefir bio)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia")
+perche: Post del giorno 14/7 sul faro reale. Angolo **prodotto-eroe** (swipe #2 Cortilia "la vera stella in uso") — colazione fresca estiva senza uscire col caldo. Complementare a pesto/temporali (1/7) e rubrica lunedì (6/7). Domanda-ghigliottina "poteva farlo Amazon?" → no.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato su numeri commerciali (kefir fonte REST 1/7, 1976 fonte pubblica, 0 testimonianze)
+contenuto pronto: consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md
+cosa cambia: esce post estivo sul negozio reale Pane Quotidiano — prodotto verificato, colazione a domicilio, costo ≈0 reach gruppi locali.
+se va bene: primi iscritti via UTM `kefir_estate_1407`; PQ può ripubblicare ai suoi clienti.
+testo (hook IG):
+☀️ Estate a Piacenza: la colazione fresca la fai da casa. Te la portiamo noi. La vera stella di questa mattina? Il Kefir di latte di capra bio — Pane Quotidiano, Via Calzolai, bio dal 1976. 👉 Fai il tuo turno — link in bio.
+visual: prodotto in uso (vasetto kefir + frutta, luce mattutina) oppure tipografico neutro su palette brand — pubblicabile subito senza foto.
+pre-condizioni: (1) link reale lista d'attesa in bio/1° commento UTM kefir_estate_1407 · (2) foto kefir reale o ok visual tipografico · (3) versione col prodotto in foto = ok titolare se boost. Coda canonica = riga #138 in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESTA DI FIRMA NICOLA.
