@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-14 02:49",
+  "aggiornato": "2026-07-14 02:50",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0714-211",
+      "testo": "**Git da /root fallisce — AD pusha PR Pannello, Nicola merge dal Pannello (chat 14/7 ~02:50, riapprovazione #136):** Nicola screenshot `fatal: not a git repository` — lanciava push da `/root` invece di `/opt/mycity/ad-mycity`. 5 perché: (1) Nicola non usa terminale per workflow git quotidiani — usa Pannello Azioni; (2) comandi git dall'AD nel turno precedente bloccati da permessi → istruzioni manuali → Nicola prova da directory sbagliata; (3) **regola:** per PR Pannello l'AD pusha e apre PR dal VPS (`git-pr.mjs`), Nicola approva solo card merge — **non** istruzioni terminale; (4) **PR #371** (`fix/chat-ordine-e-header`): `convVistaAt` ordina conversazioni (ultima vista in cima dopo pinnate), header icona History, tolta «Parla con l'assistente»; (5) merge 🔴 #136, post Ctrl+Shift+R. Correlazione L-210, L-175.",
+      "tag": [
+        "git",
+        "root",
+        "pr-371",
+        "chat",
+        "conversazioni",
+        "header",
+        "nicola",
+        "riapprovazione",
+        "pannello"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 02:50",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0714-210",
       "testo": "**PR obsoleta con conflitti — verifica main prima di risolvere (chat 14/7 ~02:49, riapprovazione #310):** Nicola «La #310 hai dei conflitti» — riapprovazione Pannello 00:36 su PR vecchia 12/7. 5 perché: (1) fix `git-pr.mjs` **già su main** via merge **#312** (`090448b1`, 13/7); (2) #310 branch `fix/git-pr-esclude-worker` sporco con file worker — conflitti inevitabili, non risolvibili mergiando; (3) mergiare #310 rischia rollback di fix già sistemato; (4) Nicola ripete segnalazione su PR superata — AD deve dire **chiudi senza merge**, non «risolvo conflitti»; (5) **regola:** prima di ogni PR con conflitti → verificare se fix già su main (`git show main:<file>`); se sì = chiudere PR vecchia. #309 dark mode già online. Correlazione L-99, L-173 (#351 ridondante).",
@@ -4795,6 +4818,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PR Pannello — AD pusha, Nicola Approva dal Pannello, non terminale (chat 14/7 ~02:50, #371):** screenshot `not a git repository` da `/root` — ha provato comandi git dalla directory sbagliata dopo istruzioni AD; si aspetta che l'AD apra la PR dal VPS e lui mergi solo da Azioni (#136); **non** vuole dover usare il terminale per push/PR Pannello. Vedi L-211.",
     "**PR obsoleta con conflitti — chiudi, non mergiare (chat 14/7 ~02:49, #310):** riapprova card su PR vecchia 12/7 — si aspetta «non mergiare, chiudi su GitHub»: fix già su main (#312); non vuole tentare merge su branch sporco né altra spiegazione «risolvi conflitti» su PR superata; se **nuova** PR si blocca → segnala numero. Vedi L-210, L-99.",
     "**Conflitti PR — AD risolve subito, Nicola riapprova (chat 14/7 ~02:41, PR #369):** «ci sono dei conflitti» su merge sync — si aspetta che l'AD risolva il branch (rebase+verifica mergeable) senza istruzioni GitHub; conflitto body ≠ codice rotto; dopo fix **riapprova** la card merge (#134); test post-merge = approva/ignora senza refresh. Vedi L-209, L-175.",
     "**Come pensa l'AD — fix batch + quaderni vuoti ok (chat 14/7 ~02:34, PR #370):** «risolvi tutti i problemi» sulla casella Come pensa l'AD — si aspetta che i 6 problemi radiografia spariscano/verde dopo merge; **quaderni vuoti non sono guasto** (normale, si riempiono man mano che i reparti lavorano); merge 🔴 #135. Vedi L-208.",

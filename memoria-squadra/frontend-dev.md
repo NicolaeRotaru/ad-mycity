@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 02:50 · PR #371 ordine conversazioni + header — Nicola 2 fix UX chat + screenshot git da /root · atteso: push PR dal VPS, Nicola merge Pannello · reale: `convVistaAt` ordina cassetto (pinnate→ultima vista→updated_at); header History senza «Parla con l'assistente»; PR #371 senza conflitti; card #136 · L-211 · #pannello #chat #conversazioni #ux #pr-371
 - 2026-07-14 02:41 · PR #369 conflitti risolti — Nicola «ci sono dei conflitti» su merge sync · atteso: branch mergiabile, codice sync intatto · reale: conflitto solo body PR condiviso post-merge #370; rebase head `5ab0dde3`, mergeable API ok; riapprova #134 · L-209 · #pannello #sync #conflitti #pr-369
 - 2026-07-14 02:29 · Badge «da collegare» spiegato — Nicola «perché non collegati?» screenshot · atteso: chiarire UX badge vs guasto · reale: scheletri previsti ≠ sync bug; memoria/marketplace/lavori attivi; vocabolario da collegare/live/1/2; nessun codice · L-206 · #pannello #radiografia #ux #badge
 - 2026-07-14 02:26 · Sync Pannello completo PR #369 — Nicola «era azioni, trova tutte le altre» · atteso: ogni casella su rete sync, niente polling madre · reale: PR #369 (`cda728c6`); Proposte+Scoperte+radice Plancia su `usePanelSync`; limite Scoperte=contenuto ultimo giro; merge 🔴 #134 · L-205 · #pannello #sync #scoperte #proposte #pr-369
