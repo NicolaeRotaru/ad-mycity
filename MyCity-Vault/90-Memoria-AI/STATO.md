@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:19
-fonte: AD digitale (💬 14/7 02:19 metabolizzazione Numeri schede. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:20
+fonte: AD digitale (💬 14/7 02:20 metabolizzazione sync parziale. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:15–02:20 — CHAT: verifica sync Pannello — Nicola trova 2 caselle ferme.** Nicola «come faccio a verificare? ne ho già trovate due che non aggiornate». **Verificato 🟢:** PR **#362** mergiata su main (`475b0bf9`, 14/7) — rete `mycity:sync` attiva su radiografia, Da approvare, Plancia, memoria; **non** su tutto. **Gap confermati:** (1) tab **Scoperte & proposte** = ultimo giro (`ultimo-briefing.json`, 13/7 20:21), non chat né sync; (2) **Proposte dal giro** in Azioni = stesso canale giro. **Test che funziona:** approva azione legata a difetto → sparisce in Radiografia + Da approvare entro ~10s **senza** refresh pagina. **Pendente:** Nicola indica la seconda casella se diversa; fix Scoperte/Proposte su rete sync. Fonte: chat Nicola 14/7 ~02:15 + codice Pannello + merge #362.
+>
 > 💬 **14/7 ~02:18 — CHAT: Numeri dell'azienda — due schede in alto — PR #368.** Nicola «sposta tutti i numeri e report in due riquadri in alto che se li schiaccio aprono pagine diverse, non ricordo come si chiamano». **Implementato 🟡 PR #368** (`fa50ec97`, branch `fix/numeri-due-schede`): in **Numeri dell'azienda** due **schede** cliccabili in cima — **Tutti i numeri** (KPI per categoria oggi/7/30 gg) e **Analisi & report** (trend, funnel, unit economics, report AD); Indietro browser torna alla scheda precedente (stesso pattern Memoria e Lavori). **Pendente:** merge 🔴 **#368** (#133) → deploy Vercel ~2 min. Business invariato. Fonte: chat Nicola 14/7 ~02:18 + PR #368.
 >
 > 💬 **14/7 ~02:10 — CHAT: Nicola «l'ho già mangiata» — Scoperte & proposte ferma.** Nicola segnala che dopo aver mangiato (visita/debrief) la tab **Scoperte** non si è aggiornata da sola. **Verificato 🟢:** ultima analisi in Scoperte = **13/7 20:21** (giro automatico), non la chat; la chat **non** riscrive quel riepilogo — solo il prossimo giro lo fa. **Registrato:** Nicola ha già mangiato (dettaglio locale da completare in debrief). **Gap prodotto:** Scoperte legge il briefing del giro, non i fatti che scrivi qui; fix sync (#130) ancora da mergiare su live. Fonte: `ultimo-briefing.json` + codice Pannello.
