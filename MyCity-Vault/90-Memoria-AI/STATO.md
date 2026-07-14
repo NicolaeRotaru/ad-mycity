@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:58
-fonte: AD digitale (🌅 14/7 02:58 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 03:00
+fonte: AD digitale (🌅 14/7 03:00 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:00 — CHAT: Scoperte vs Da approvare — perché l'Opportunità resta dopo l'Approva.** Nicola «Ogni quanto si aggiornano scoperte e proposte? Perché #369 in Da approvare è sparita subito ma qui no?». **Spiegato 🟢:** due liste diverse — **Da approvare** e **Proposte dal giro** poll **60s** (**15s** se merge PR in coda) + refresh **istantaneo** su approva/ignora/worker; **Scoperte › Opportunità** = testo dell'**ultimo giro AD** (`ultimo-briefing.json`, 02:48) — non si cancella riga per riga quando approvi. **Verificato:** PR **#369** ✅ su main (`50127999`, 02:52); card **#134** ✅ FATTO (02:57); sync live attivo — resta solo testo briefing «Mergia la PR…» fino al prossimo giro (~1h) o fix prodotto «nascondi opportunità già completate». Fonte: chat Nicola 14/7 ~03:00 + codice Pannello + worker 02:57.
+>
 > 💬 **14/7 ~02:58 — CHAT: Opportunità — sempre descrizione umana — PR #374.** Nicola «Cioè? Non ho capito, aggiungi sempre la descrizione a questa casella» su Opportunità «494 campi catalogo» (Scoperte). **Spiegato 🟢:** **494 campi vuoti** = **252** schede prodotto senza «condizione» (→ «nuovo») + **242** senza «unità di misura» (→ «pezzo»); supervisione propone autofill **reversibile** (fonte briefing giro 14/7 02:48, supervisione 8/7 16:20); **2 card gialle separate** in Azioni → Da approvare (condizione e unità), non una sola. **Implementato 🟡 PR #374:** descrizione umana sempre visibile su card Opportunità (come Avvisi #373); API mergeable verificata. **Pendente:** merge 🔴 **#374** (#140) → poi Approva batch condizione + unità. Fonte: chat Nicola 14/7 ~02:58.
 >
 > 💬 **14/7 ~02:56 — CHAT: Avvisi — sempre descrizione umana — PR #373.** Nicola «aggiungi sempre la descrizione dell'avviso» su scheda gialla coerenza-fatti (13/7 18:20). **Verificato 🟢:** avviso **storico** — `coerenza-fatti.mjs` exit **0** adesso; causa era copia «6 botteghe» (già allineata 13/7 20:21). **Implementato 🟡 PR #373** (`987e5020`): `descrizione-avviso.ts` — spiegazione italiana **sopra** testo tecnico in Avvisi; «Parla con questa casella» riceve descrizione per prima. API mergeable verificata. **Pendente:** merge 🔴 **#373** (#139) → Ctrl+Shift+R su Avvisi. Fonte: chat Nicola 14/7 ~02:56 + coerenza-fatti.
