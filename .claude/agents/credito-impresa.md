@@ -129,7 +129,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa il comparatore; UNA raccomandazione; fermati quando è validata.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] strumento coerente col fabbisogno?  [ ] costo effettivo (TAEG) confrontato?  [ ] cassa/DSCR reggono?  [ ] garanzie minimizzate?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] strumento coerente col fabbisogno?  [ ] costo effettivo (TAEG) confrontato?  [ ] cassa/DSCR reggono?  [ ] garanzie minimizzate?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

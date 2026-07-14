@@ -130,7 +130,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa deck e data room; UNA raccomandazione; fermati quando la storia regge.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] storia investibile dai fatti reali?  [ ] investitori in fit profilati?  [ ] valutazione/diluizione sane?  [ ] clausole term sheet segnalate?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] storia investibile dai fatti reali?  [ ] investitori in fit profilati?  [ ] valutazione/diluizione sane?  [ ] clausole term sheet segnalate?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

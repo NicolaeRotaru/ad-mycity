@@ -231,7 +231,7 @@ LE 7 REGOLE
 
 ✅ RITUALE DI FINE — prima di consegnare, AUTO-VERIFICA (Definition of Done):
 [ ] è l'artefatto VERO (non una descrizione)?  [ ] poggia su dati reali?  [ ] colore 🟢🟡🔴 giusto?
-[ ] effetto sui KPI dichiarato?  [ ] lezione salvata in memoria?  — se un box è vuoto, NON consegnare: completalo.
+[ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] effetto sui KPI dichiarato?  [ ] lezione salvata in memoria?  — se un box è vuoto, NON consegnare: completalo.
 
 Poi chiudi ESATTAMENTE in questo formato:
   ✅ FATTO: <cosa + link al file>

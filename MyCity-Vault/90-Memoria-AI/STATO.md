@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:29
-fonte: AD digitale (💬 14/7 02:29 metabolizzazione badge «da collegare». | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:30
+fonte: AD digitale (💬 14/7 02:30 metabolizzazione coerenza-agenti 3ª richiesta. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:30 — CHAT: coerenza-agenti — 3ª richiesta «fai tutti i fix».** Nicola ripete la stessa approvazione (~30 min dopo le prime due). **Verificato 🟢:** PR #365 già su main (02:02), `agent-registry-check` drift **0**, radiografia voto **92**, **1/5** aperto (tier `model:` — scelta Nicola). Se Pannello mostra ancora 5 problemi rossi = **foto cache** — Ctrl+Shift+R su Radiografia macchina › «La squadra — chi fa cosa». Nessun fix tecnico pendente. Fonte: chat Nicola 14/7 ~02:30 + worker verifica 02:24.
+>
 > 💬 **14/7 ~02:29 — CHAT: badge «da collegare» — Nicola «perché non collegati?».** Screenshot moduli con molti badge «da collegare». **Spiegato 🟢:** non è guasto — scheletri previsti senza feed dati (concorrenti, stampa, security, legale, esperimenti, roadmap); «live»/«1/2» = già collegato (es. Codice sito, Reputazione 1/2); memoria+marketplace+lavori attivi. Si accendono uno per uno costruendo i feed. Distinto da sync Pannello (L-204/205). Business invariato. Fonte: chat Nicola 14/7 ~02:29 + screenshot.
 >
 > 💬 **14/7 ~02:24–02:26 — CHAT: sync Pannello completo — Nicola «era azioni, trova tutte le altre».** Nicola conferma che una delle **2 caselle** ferme era **Azioni** (Proposte dal giro); chiede audit di **tutte** le superfici ancora scollegate e «tutto collegato in tempo reale, non solo chat». **Implementato 🟡 PR #369** (`cda728c6`, branch `fix/panel-sync-tutto`): **Proposte dal giro**, **Scoperte**, radice **Plancia** (numeri, briefing home) ora fetchano dati freschi e ascoltano `mycity:sync` — non più polling della pagina madre (~60s). **Test post-merge:** approva/ignora proposta → sparisce in Azioni **e** Scoperte entro ~10s senza refresh. **Limite onesto:** Scoperte mostra testo dell'**ultimo giro** AD, non ogni frase della chat (Memoria viva sì, contenuto Scoperte = briefing giro). **Pendente:** merge 🔴 **#369** (#134) → deploy Vercel ~2 min. Fonte: chat Nicola 14/7 ~02:24 + PR #369.

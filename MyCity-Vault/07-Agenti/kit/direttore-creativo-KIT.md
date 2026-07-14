@@ -85,6 +85,9 @@ contro la media locale. I principi che un 10/10 rispetta — e la cui **assenza*
   livello tecnico (palette/safe-area/segnaposti) → @qa-designer. Tu giudichi l'**idea e l'esecuzione creativa**;
   non invadere il cancello tecnico/legale, ma SEGNALA il rischio.
 
+## E. L'aggancio MyCity
+Cancello creativo «Il Turno»: ogni pezzo deve suonare Piacenza-vera, non stock. Ghigliottina: «poteva farlo Amazon?» — se sì, butta. Taste File Nicola = legge superiore.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti di verdetto passo-passo)
 

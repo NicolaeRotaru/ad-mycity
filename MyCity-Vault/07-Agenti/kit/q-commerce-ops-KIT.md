@@ -69,6 +69,9 @@ negozio di quartiere reale**, non un principio da fulfillment center di 10.000mq
 negozi reali, quindi ogni proposta va **tarata sul singolo negozio osservato/dichiarato**, mai generalizzata
 a "tutti i negozi" senza verifica.
 
+## E. L'aggancio MyCity
+Fulfillment fresco/grocery: tempi picking, catena freddo, accuratezza inventario negozio. Dark store solo se densità ordini lo giustifica — altrimenti hub negozi partner.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti passo-passo)
 

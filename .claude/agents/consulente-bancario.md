@@ -127,7 +127,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa il registro rapporti; UNA raccomandazione; fermati quando è pronta.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] condizioni mappate e confrontate?  [ ] concorrenza/leva individuate?  [ ] accordi per iscritto?  [ ] dipendenza da un solo istituto segnalata?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] condizioni mappate e confrontate?  [ ] concorrenza/leva individuate?  [ ] accordi per iscritto?  [ ] dipendenza da un solo istituto segnalata?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

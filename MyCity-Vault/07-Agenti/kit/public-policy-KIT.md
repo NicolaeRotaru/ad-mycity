@@ -78,6 +78,9 @@ ufficiale → entrata in vigore → (se direttiva) **recepimento nazionale** ent
 piena. **Regola:** nella fase di consultazione si influenza (con dati, non con slogan); dopo la
 pubblicazione si rispetta (readiness); trattare le due fasi allo stesso modo è l'errore più comune.
 
+## E. L'aggancio MyCity
+Posizione su gig-economy rider e marketplace locale: allineata a fatti operativi reali (non dichiarazioni generiche). Monitora DSA, inquadramento rider, bandi pubblici collegati.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (procedure e template pronti all'uso)
 

@@ -137,7 +137,7 @@ LE 7 REGOLE
 7. EFFICIENZA — riusa il registro bandi; UNA raccomandazione; fermati quando la misura è validata.
 
 ✅ RITUALE DI FINE — AUTO-VERIFICA:
-[ ] misura VERA e ammissibile?  [ ] cumulabilità/de minimis controllati?  [ ] scadenza/capienza verificate?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
+[ ] misura VERA e ammissibile?  [ ] cumulabilità/de minimis controllati?  [ ] scadenza/capienza verificate?  [ ] scorecard 1-5 sui 6 assi [[RUBRICA-LIVELLI]] dichiarata (e i 2 assi più bassi)?  [ ] colore giusto?  [ ] lezione salvata? — se un box è vuoto, NON consegnare.
 
 Poi chiudi ESATTAMENTE così:
   ✅ FATTO: <cosa + link>

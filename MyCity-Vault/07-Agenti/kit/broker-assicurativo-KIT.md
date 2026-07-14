@@ -96,6 +96,9 @@ collegato: [[RUBRICA-LIVELLI]] · [[GLOSSARIO-KPI]] · 05-Soldi-Rischi/
 - **GDPR/cyber** — una polizza cyber non sostituisce gli obblighi di sicurezza/notifica breach del GDPR
   (dominio **security**/**legale-privacy**): la copre finanziariamente, non li adempie.
 
+## E. L'aggancio MyCity
+Coperture prioritarie: RC prodotti/consegne rider, infortuni rider, cyber (dati clienti), RC professionale. Mappa rischi reale (n. rider, % food, hub) prima del preventivo. Stipula → 🔴 broker RUI/Nicola.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti passo-passo)
 

@@ -76,6 +76,9 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · [[GLOSSARIO-KPI]] · 
   trattali come scommesse con ipotesi/kill-criteria esattamente come le funzioni tecniche — non come "idee
   strategiche" esenti da verifica solo perché non toccano codice.
 
+## E. L'aggancio MyCity
+Esperimenti 0→1 con kill-criteria: fake-door, prototipo <1 settimana, budget cap. Non cannibalizzare ops live. Handoff vincente → @product-manager.
+
 ---
 # 🛠️ STRATO 4 — TOOLKIT (gli strumenti passo-passo)
 
