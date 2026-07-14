@@ -13,7 +13,7 @@
 // Scrive l'esito complessivo in impostazioni (chiave automazione:verifica) se Supabase è configurato.
 
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
   AD_ROOT,
@@ -26,6 +26,17 @@ import { resolveMarketplaceRepo } from "./marketplace-repo.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
+const VPS_TIMERS_DIR = join(AD_ROOT, "cervello/vps");
+/** Timer che devono essere attivi sul VPS — se spenti → fail (non solo warn). */
+const TIMER_CRITICI = new Set([
+  "mycity-watch-main.timer",
+  "mycity-giro.timer",
+  "mycity-sentinella-dati.timer",
+  "mycity-verifica.timer",
+  "mycity-monitora.timer",
+  "mycity-sentinella.timer",
+]);
+const BATTITO_OCCHI_MAX_MIN = Number(process.env.VERIFICA_BATTITO_OCCHI_MIN || 10);
 
 /** @type {{nome: string, esito: 'ok'|'warn'|'fail', dettaglio: string}[]} */
 const checks = [];
@@ -40,6 +51,15 @@ function sh(cmd, args, cwd) {
   } catch {
     return null;
   }
+}
+
+/** Minuti trascorsi da un timestamp Piacenza "AAAA-MM-GG HH:MM". */
+function etaMinutiPiacenza(valore) {
+  const m = String(valore ?? "").match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/);
+  if (!m) return null;
+  const t = new Date(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:00+02:00`).getTime();
+  if (Number.isNaN(t)) return null;
+  return Math.round((Date.now() - t) / 60000);
 }
 
 async function checkRepoToken(key) {
@@ -125,6 +145,22 @@ async function main() {
       giroTimer === "active" ? "ok" : "fail",
       giroTimer === "active" ? "attivo ✓" : `stato: ${giroTimer || "assente"} — systemctl enable --now mycity-giro.timer`
     );
+    // Timer attesi da cervello/vps/*.timer (AR salute-sensori: vigila anche occhi/monitora/sentinella).
+    if (existsSync(VPS_TIMERS_DIR)) {
+      const timers = readdirSync(VPS_TIMERS_DIR)
+        .filter((f) => f.startsWith("mycity-") && f.endsWith(".timer"))
+        .sort();
+      for (const unit of timers) {
+        if (["mycity-watch-main.timer", "mycity-giro.timer"].includes(unit)) continue;
+        const stato = sh("systemctl", ["is-active", unit]);
+        const critico = TIMER_CRITICI.has(unit);
+        add(
+          `timer ${unit.replace(".timer", "")}`,
+          stato === "active" ? "ok" : critico ? "fail" : "warn",
+          stato === "active" ? "attivo ✓" : `stato: ${stato || "assente"}`
+        );
+      }
+    }
   } else {
     // AR-056
     add("timer watch-main", "warn", "systemd assente (non-VPS): verifica sul server");
@@ -135,10 +171,34 @@ async function main() {
   const sbUrl = process.env.SUPABASE_URL;
   const sbKey = process.env.SUPABASE_SERVICE_KEY;
   if (sbUrl && sbKey) {
+    const sbHeaders = { apikey: sbKey, Authorization: `Bearer ${sbKey}` };
+    try {
+      const battitoRes = await fetch(
+        `${sbUrl}/rest/v1/impostazioni?chiave=eq.sentinella-dati:ultimo&select=valore&limit=1`,
+        { headers: sbHeaders }
+      );
+      const battitoRows = battitoRes.ok ? await battitoRes.json() : [];
+      const battitoVal = battitoRows?.[0]?.valore;
+      const etaMin = etaMinutiPiacenza(battitoVal);
+      if (etaMin == null) {
+        add("battito occhi (sentinella-dati:ultimo)", "warn", "nessun battito registrato ancora");
+      } else if (etaMin > BATTITO_OCCHI_MAX_MIN) {
+        add(
+          "battito occhi (sentinella-dati:ultimo)",
+          "fail",
+          `fermo da ${etaMin} min (ultimo: ${battitoVal}) — mycity-sentinella-dati.timer spento?`
+        );
+      } else {
+        add("battito occhi (sentinella-dati:ultimo)", "ok", `fresco (${etaMin} min fa · ${battitoVal})`);
+      }
+    } catch (e) {
+      add("battito occhi (sentinella-dati:ultimo)", "warn", `non leggibile: ${e.message}`);
+    }
+
     try {
       const res = await fetch(
         `${sbUrl}/rest/v1/impostazioni?chiave=like.automazione:*&select=chiave,valore,updated_at`,
-        { headers: { apikey: sbKey, Authorization: `Bearer ${sbKey}` } }
+        { headers: sbHeaders }
       );
       const rows = res.ok ? await res.json() : [];
       if (!Array.isArray(rows) || rows.length === 0) {
@@ -146,6 +206,8 @@ async function main() {
       } else {
         for (const r of rows) {
           const nome = r.chiave.replace("automazione:", "");
+          // Non leggere il proprio segnale precedente: evita loop «errore → errore» (AR salute-sensori).
+          if (nome === "verifica") continue;
           const errore = String(r.valore || "").startsWith("errore");
           add(
             `segnale ${nome}`,

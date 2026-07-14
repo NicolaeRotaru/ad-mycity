@@ -101,7 +101,7 @@ function aggiornaSensore(prev, key, ok, dettaglio, canale, configurato = true) {
       stato: "ok",
       giri_ciechi: 0,
       ultimo_ok: quando,
-      ultimo_errore: old.ultimo_errore || "",
+      ultimo_errore: "",
       canale,
       dettaglio: dettaglio.slice(0, 200),
     };

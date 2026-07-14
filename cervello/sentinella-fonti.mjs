@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AR-036 — Sentinella deterministica delle FONTI WEB (radar-fonti.json / radar.json).
+// AR-036 — Sentinella deterministica delle FONTI WEB (radar-fonti.json).
 // 🟢 Sola lettura verso l'esterno (solo HEAD/GET, nessuna scrittura sul mondo). Verifica che ogni
 // fonte del radar sia VIVA o MORTA/STALE e scrive lo stato in cervello/fonti-salute.json.
 //
@@ -20,27 +20,23 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
-// Fonte di verità: radar-fonti.json; per retro-compatibilità accetta anche un vecchio radar.json.
-const CANDIDATI = [
-  join(AD_ROOT, "cervello/radar-fonti.json"),
-  join(AD_ROOT, "cervello/radar.json"),
-];
+// Fonte di verità: solo radar-fonti.json (il file «fattori» ha schema diverso, non va usato qui).
+const RADAR_FONTI = join(AD_ROOT, "cervello/radar-fonti.json");
 const OUT = join(AD_ROOT, "cervello/fonti-salute.json");
 const SOGLIA_MORTA = 3; // dopo N controlli falliti consecutivi la fonte è "morta"
 const PESO_CRITICO = 4;
 
 function caricaRadar() {
-  for (const p of CANDIDATI) {
-    if (existsSync(p)) {
-      try {
-        const j = JSON.parse(readFileSync(p, "utf8"));
-        return { file: p, fonti: Array.isArray(j.fonti) ? j.fonti : [] };
-      } catch {
-        /* file corrotto: prova il prossimo candidato */
-      }
+  if (!existsSync(RADAR_FONTI)) return { file: null, fonti: [], errore: "radar-fonti.json assente" };
+  try {
+    const j = JSON.parse(readFileSync(RADAR_FONTI, "utf8"));
+    if (!Array.isArray(j.fonti) || j.fonti.length === 0) {
+      return { file: RADAR_FONTI, fonti: [], errore: "radar-fonti.json senza array fonti valido" };
     }
+    return { file: RADAR_FONTI, fonti: j.fonti };
+  } catch {
+    return { file: RADAR_FONTI, fonti: [], errore: "radar-fonti.json illeggibile" };
   }
-  return { file: null, fonti: [] };
 }
 
 function caricaStoricoPrecedente() {
@@ -74,9 +70,9 @@ async function controlla(url) {
 
 async function main() {
   const quando = nowPiacenza();
-  const { file, fonti } = caricaRadar();
-  if (!file) {
-    const out = { ok: false, quando, errore: "radar-fonti.json / radar.json non trovato" };
+  const { file, fonti, errore } = caricaRadar();
+  if (!file || !fonti.length) {
+    const out = { ok: false, quando, errore: errore || "radar-fonti.json non trovato o vuoto" };
     console.log(JSON_MODE ? JSON.stringify(out) : "❌ radar-fonti.json non trovato");
     writeFileSync(OUT, JSON.stringify(out, null, 2));
     process.exit(1);

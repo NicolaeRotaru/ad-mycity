@@ -161,7 +161,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "memoria-squadra/rating-centrale-rischi.md contiene /./ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -181,7 +181,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": ".claude/agents/vendite.md contiene /scorecard/ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -201,7 +201,7 @@
             "presente": false
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md NON contiene /42/42/ → assente",
           "chiuso_da": "verifica-codice"
         },
@@ -221,7 +221,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "MyCity-Vault/07-Agenti/kit/consulente-bancario-KIT.md contiene /\\n## E\\./ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -241,7 +241,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "cervello/stampo-check.mjs contiene /./ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -261,7 +261,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": ".claude/agents/legale-privacy.md contiene /RUBRICA-LIVELLI/ → trovato",
           "chiuso_da": "verifica-codice"
         }
@@ -288,7 +288,11 @@
             "pattern": "sentinella-fonti",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/giro.sh contiene /sentinella-fonti/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Nessuna sentinella trasforma una fonte web morta in una card per Nicola (fonti-salute.json senza consumatore)",
@@ -305,7 +309,11 @@
             "pattern": "fonti-salute",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/sentinella-dati.mjs contiene /fonti-salute/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il sensore-cassa è cieco da 22 giri (runway 'sconosciuto') e nessuna sentinella lo segnala",
@@ -343,7 +351,11 @@
             "pattern": "sentinella-dati",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/verifica-automazione.mjs contiene /sentinella-dati/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "L'heartbeat degli occhi (sentinella-dati:ultimo) viene scritto ma nessuno lo legge",
@@ -360,7 +372,11 @@
             "pattern": "sentinella-dati:ultimo",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/verifica-automazione.mjs contiene /sentinella-dati:ultimo/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "radar.json (schema 'fattori') e radar-fonti.json (schema 'fonti') convivono: fallback errato in sentinella-fonti",
@@ -377,7 +393,11 @@
             "pattern": "radar\\.json",
             "presente": false
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/sentinella-fonti.mjs NON contiene /radar\\.json/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "In sensori-cecita.json l'ultimo_errore resta stantìo dopo il recupero del sensore",
@@ -394,7 +414,11 @@
             "pattern": "ultimo_errore: \"\"",
             "presente": true
           },
-          "verdict": "CONFIRMED"
+          "verdict": "CONFIRMED",
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 03:18",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /ultimo_errore: \"\"/ → trovato",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -484,7 +508,7 @@
             "presente": false
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json NON contiene /\"agenti_totali\"\\s*:\\s*42/ → assente",
           "chiuso_da": "verifica-codice"
         },
@@ -598,7 +622,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json contiene /\"reparto\":\\s*\"@(?!AD)/ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -770,7 +794,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "cervello/calibrazione.mjs contiene /banale|baseline|difficolt/ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -830,7 +854,7 @@
             "presente": true
           },
           "stato": "chiuso",
-          "chiuso_il": "2026-07-14 03:13",
+          "chiuso_il": "2026-07-14 03:18",
           "chiuso_come": "cervello/verifica-sensori.mjs contiene /checkSupabaseMemoria|SUPABASE_URL/ → trovato",
           "chiuso_da": "verifica-codice"
         },
@@ -1786,16 +1810,16 @@
     "aggiornato": "2026-07-13 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 03:13",
-    "findings_aperti": 53,
+    "aggiornato": "2026-07-14 03:18",
+    "findings_aperti": 47,
     "findings_in_corso": 0,
-    "findings_chiusi": 21,
+    "findings_chiusi": 27,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 10,
-    "chiusi_verifica": 10,
+    "match_aggiornati": 16,
+    "chiusi_verifica": 16,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }
