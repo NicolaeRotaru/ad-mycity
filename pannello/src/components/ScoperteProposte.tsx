@@ -3,6 +3,7 @@
 import { TrendingUp } from "lucide-react";
 import ParlaCasella from "@/components/ParlaCasella";
 import { pulisciTitolo } from "@/lib/azioni-attesa";
+import { contestoOpportunita, descrizioneOpportunita } from "@/lib/descrizione-opportunita";
 import { useBriefingVivo } from "@/lib/panel-sync";
 
 export default function ScoperteProposte() {
@@ -34,12 +35,12 @@ export default function ScoperteProposte() {
                 {briefing.opportunita.map((o, i) => (
                   <div key={i} className="rounded-xl border border-black/[0.07] bg-paper/40 p-3.5 hover:border-brand/30 transition">
                     <div className="text-sm font-medium">{pulisciTitolo(o.titolo)}</div>
-                    <div className="text-sm text-black/60 mt-0.5">{o.motivo}</div>
+                    <p className="text-sm text-ink/80 leading-snug mt-1">{descrizioneOpportunita(o)}</p>
                     <div className="text-xs text-black/45 mt-2 flex items-center gap-1.5">
                       <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
                       <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
                     </div>
-                    <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={[o.motivo, `impatto ${o.impatto}`, `sforzo ${o.sforzo}`].filter(Boolean).join(" · ")} />
+                    <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={contestoOpportunita(o)} />
                   </div>
                 ))}
               </div>
