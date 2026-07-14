@@ -1,17 +1,17 @@
 ---
 tipo: azioni-pronte-recupero-carrelli
 reparto: crm-lifecycle
-data: 2026-07-14 02:45
-fonte: Supabase REST live (`abandoned_carts` + `profiles` + `coupons`) · `sentinella-dati.mjs` tick 10864
+data: 2026-07-14 11:08
+fonte: Supabase REST live (`abandoned_carts` + `profiles` + `coupons`) · `verifica-sensori.mjs` 11:09 (`supabase_rest=ok`)
 stato: DRY-RUN — bozze pronte, NESSUN INVIO
 voce: Vicino Orgoglioso (FLUSSI-LIFECYCLE §6)
 riferimento: playbook `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 ---
 
-# Recupero carrelli — pacchetto pronto (14/7 02:45 · RIPROVA Nicola)
+# Recupero carrelli — pacchetto pronto (14/7 11:08 · playbook worker)
 
-> **Verifica live 2026-07-14 02:45.** REST marketplace leggibile (`dati_leggibili=true`, sentinella tick 10864).
-> `abandoned_carts`: **4 record** (invariati). `ordini_tot=1` (unico ordine CANCELED 3/7).
+> **Verifica live 2026-07-14 11:08.** REST marketplace leggibile (`supabase_rest=ok`, `verifica-sensori.mjs` 11:09).
+> `abandoned_carts`: **4 record** (invariati). `ordini_tot=1` (unico ordine CANCELED 24/6, annullato 3/7).
 > Tutti e 4 hanno `recovery_email_sent_at` valorizzato (giugno) → cron automatico **non partirebbe**.
 > Queste sono bozze **manuali one-off** (re-touch), da firmare.
 
@@ -19,20 +19,20 @@ riferimento: playbook `consegne/crm/2026-07-01-playbook-recupero-carrelli.md`
 
 | Metrica | Valore | Fonte |
 |---|---|---|
-| Record `abandoned_carts` | **4** | REST 14/7 02:45 |
+| Record `abandoned_carts` | **4** | REST 14/7 11:08 |
 | Carrelli recuperabili reali | **1** | unico `role=buyer` non-seed |
 | Altri 3 record | admin / seller-auto-test / seed Casa Linda | **SKIP** |
 | Consenso marketing buyer | `email_marketing = false` | `profiles` |
-| Coupon attivi | `BENVENUTO10` (10%, primo ordine) · `SPED5` (€5 sopra €25) | `coupons` REST 14/7 |
+| Coupon attivi | `BENVENUTO10` (10%, primo ordine) · `SPED5` (€5 sopra €25) | `coupons` REST 14/7 11:08 |
 
-## Classificazione (14/7 02:45)
+## Classificazione (14/7 11:08)
 
 | # | user_id | Nome | Ruolo | Totale | Fermo da | Inviabile? |
 |---|---------|------|-------|--------|----------|------------|
-| 1 | `57494b3e-fd67-4379-8b9c-90e40e39ff06` | samir? | buyer | **€10,00** | ~672h (16/6) | **SÌ** — unico cliente reale |
-| 2 | `33333333-3333-3333-3333-aaaaaaaa0001` | Assistenza MyCity | admin | €7,95 | ~272h (2/7) | SKIP — admin test |
-| 3 | `11111111-1111-1111-1111-cccccccc0001` | Casa Linda | seller | €17,80 | ~672h (17/6) | SKIP — seed demo |
-| 4 | `c0b240c0-2a86-4218-9d0f-5154f08ff929` | Pane Quotidiano | seller | €13,90 | ~672h (16/6) | SKIP — auto-test negoziante |
+| 1 | `57494b3e-fd67-4379-8b9c-90e40e39ff06` | samir? | buyer | **€10,00** | ~659h (16/6) | **SÌ** — unico cliente reale |
+| 2 | `33333333-3333-3333-3333-aaaaaaaa0001` | Assistenza MyCity | admin | €7,95 | ~280h (2/7) | SKIP — admin test |
+| 3 | `11111111-1111-1111-1111-cccccccc0001` | Casa Linda | seller | €17,80 | ~642h (17/6) | SKIP — seed demo |
+| 4 | `c0b240c0-2a86-4218-9d0f-5154f08ff929` | Pane Quotidiano | seller | €13,90 | ~661h (16/6) | SKIP — auto-test negoziante |
 
 ---
 

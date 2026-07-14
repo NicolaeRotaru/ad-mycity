@@ -890,6 +890,9 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-14 — RIPROVA playbook recupero carrelli (02:45)
 - 2026-07-14 02:46 · @crm-lifecycle · FATTO · Playbook recupero carrelli RIPROVA: REST live 4 `abandoned_carts`, 1 buyer reale (samir €10 PQ), 3 SKIP admin/demo. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] A3 + `consegne/crm/2026-07-14-recupero-carrelli-pronte.md`. Zero invii. Gate: PQ evadibile prima di mandare.
 
+### 2026-07-14 — Playbook recupero carrelli (11:08)
+- 2026-07-14 11:08 · @crm-lifecycle · FATTO · Playbook recupero carrelli: REST live 4 `abandoned_carts` invariati, 1 buyer reale (samir €10 PQ pesto+kefir), 3 SKIP admin/demo/seller-test. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` già in [[AZIONI-PRONTE]] A3 — aggiornato `consegne/crm/2026-07-14-recupero-carrelli-pronte.md`. Zero invii. Gate: PQ evadibile prima di mandare.
+
 ### 2026-07-14 — 🌅 GIRO MATTUTINO (AD · 02:48)
 - 2026-07-14 02:48 · @ad · FATTO · Giro completo: briefing 14/7, STATO 7 numeri REST 02:47 invariati, ultimo-briefing.json, eventi-picchi aggiornato (caldo 36–38°C, VP 17/7). Coerenza-fatti exit 0. Mossa n.1: merge PR #369 card #134.
 - 2026-07-14 02:47 · @onboarding-negozi · FATTO · Supervisione: 17 negozi, 258 prodotti, 494 autofill proposti (condition+unit) — report `consegne/supervisione/2026-07-14-supervisione.md`, proposte in coda 🟡.
