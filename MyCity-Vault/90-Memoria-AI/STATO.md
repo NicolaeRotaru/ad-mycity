@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:06
-fonte: AD digitale (💬 14/7 01:12 housekeeping coda Da approvare. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:10
+fonte: AD digitale (💬 14/7 02:10 Nicola visita/debrief — Scoperte non si aggiorna da chat. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:10 — CHAT: Nicola «l'ho già mangiata» — Scoperte & proposte ferma.** Nicola segnala che dopo aver mangiato (visita/debrief) la tab **Scoperte** non si è aggiornata da sola. **Verificato 🟢:** ultima analisi in Scoperte = **13/7 20:21** (giro automatico), non la chat; la chat **non** riscrive quel riepilogo — solo il prossimo giro lo fa. **Registrato:** Nicola ha già mangiato (dettaglio locale da completare in debrief). **Gap prodotto:** Scoperte legge il briefing del giro, non i fatti che scrivi qui; fix sync (#130) ancora da mergiare su live. Fonte: `ultimo-briefing.json` + codice Pannello.
+>
 > 💬 **14/7 ~02:06 — CHAT: coerenza-agenti CHIUSO (riapprovazione).** Nicola riapprova «fai tutti i fix» — **già live su main** (PR #365 mergiata 02:02). **Verificato:** drift **0** (02:05). Radiografia: **4/5** problemi chiusi, voto casella **92**. **Resta 1 minore:** quale AI usa ogni agente (serve tua scelta 3 fasce). Card #132 archiviata. Ricarica Radiografia. Fonte: agent-registry-check + auto-radiografia 14/7 02:06.
 >
 > 💬 **14/7 ~01:12 — CHAT: housekeeping coda Da approvare — Nicola «pulisci coda».**
