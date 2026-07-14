@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-14 13:08",
+  "aggiornato": "2026-07-14 13:10",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0714-229",
+      "testo": "**Costo dell'AI — 5/6 fix batch, timer mattina = decisione Nicola (chat 14/7 ~13:09, PR #381):** Nicola «Risolvi questi problemi» su casella Costo dell'AI. 5 perché: (1) radiografia segnalava 6 difetti operativi verificati in auto-radiografia (token ciechi su ritmo/monitora, router economico finto, soglia giorno vs sessione ~5h, GATE-BUDGET bypassato da GIRO_FORCE, triple timer mattina); (2) fix condiviso stima token in `costo-ai.mjs`/`motore-ai.sh` — ritmo+monitora ora contribuiscono al totale; (3) `banco-ai.mjs` reso onesto: router = consiglio, esecuzione sempre Claude/Cursor (coerente [[niente-api-ai]] 8/7); (4) soglia sessione rolling aggiunta oltre totale giornaliero; (5) GATE-BUDGET non si spegne più su giro forzato dal Pannello. **Scan post-fix:** 5/6 chiusi (`d7b7c037`). **Resta 1:** 6:00 piano mattino + 6:20 giro + 6:30 monitora = tripla lettura vault — **non** auto-fixabile, serve scelta Nicola (sposta monitora es. 8:00 o unifica). **Regola:** su casella Costo AI diagnosticare i 6 pattern radiografia prima di nuovo codice; l'ultimo aperto se è scheduling = proposta orari, non altra PR. Correlazione L-104 (plugin token), DECISIONI 8/7 niente-api-ai.",
+      "tag": [
+        "costo-ai",
+        "pr-381",
+        "radiografia",
+        "gate-budget",
+        "router-economico",
+        "ritmo",
+        "monitora",
+        "token",
+        "timer-mattina",
+        "nicola"
+      ],
+      "reparto": "@prompt-engineer",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-14",
+      "ultima_conferma": "2026-07-14 13:09",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0714-228",
       "testo": "**Allegati — galleria ok ma «foto non nel box» = anteprima invisibile (chat 14/7 ~13:08, correzione Nicola):** dopo analisi iniziale allegati intermittenti Nicola precisa: **fluttuante + Assistente**, galleria si apre, sceglie foto, «non appare nel box di testo». 5 perché: (1) AD aveva elencato cause multiple ma non aveva ancora chiesto **prima/dopo galleria** su queste superfici; (2) **causa verificata codice:** file **selezionato** — anteprima era solo **nome file piccolissimo sopra i pulsanti**, non miniatura sopra la casella → su iPhone sembra silenzio totale; (3) pattern UX diverso da WhatsApp: foto **non** va dentro il textarea, sta **sopra** separata — va spiegato a Nicola; (4) distinto da bug Safari selettore (#333) e da caselle Lavori (#363) — qui galleria **funziona**; (5) **fix PR #380** (`0c715da4`): miniatura visibile sopra textarea + avviso giallo se browser non passa file; merge 🔴 **#144**. **Regola:** su «foto non compare» dopo galleria ok → verifica preview/stato allegato prima di upload/API; chiedi superficie + fase (prima galleria / dopo selezione / dopo invio). Correlazione L-132, L-134, L-197.",
@@ -5177,7 +5201,9 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Allegati foto — miniatura visibile dopo selezione (chat 14/7 ~13:08, PR #380):** su iPhone in fluttuante+Assistente segnala «galleria ok ma foto non nel box» — si aspetta **feedback visivo immediato** dopo aver scelto la foto (miniatura sopra la casella, non silenzio); odia quando sembra che non succeda nulla; la foto **non** deve finire dentro il textarea — va spiegato pattern «sopra, come WhatsApp»; merge 🔴 **#144**. Vedi L-228.", «La pr 379 ha dei conflitti» — si aspetta risoluzione immediata + mergeable verificata + Approva **#143**; conflitto memoria worker ≠ codice rotto; odia segnalare conflitti due volte sulla stessa PR. Vedi L-227, L-220.",
+    "**Costo dell'AI — fix batch radiografia (chat 14/7 ~13:09, PR #381):** «Risolvi questi problemi» sulla casella Costo AI — si aspetta 5+ schede verdi dopo Approva come altre caselle; l'ultima aperta (timer mattina 6:00/6:20/6:30) richiede **sua scelta** su orari, non auto-decisione AD; Approva **PR #381** → Ctrl+Shift+R. Vedi L-229.",
+    "**Allegati foto — miniatura visibile dopo selezione (chat 14/7 ~13:08, PR #380):** su iPhone in fluttuante+Assistente segnala «galleria ok ma foto non nel box» — si aspetta **feedback visivo immediato** dopo aver scelto la foto (miniatura sopra la casella, non silenzio); odia quando sembra che non succeda nulla; la foto **non** deve finire dentro il textarea — va spiegato pattern «sopra, come WhatsApp»; merge 🔴 **#144**. Vedi L-228.",
+    "**PR #379 conflitti — risoluzione immediata (chat 14/7 ~12:44):** «La pr 379 ha dei conflitti» — si aspetta risoluzione immediata + mergeable verificata + Approva **#143**; conflitto memoria worker ≠ codice rotto; odia segnalare conflitti due volte sulla stessa PR. Vedi L-227, L-220.",
     "**Onestà sui numeri — fix batch radiografia (chat 14/7 ~03:37, PR #379):** «Risolvi questi fix» sulla casella Onestà — si aspetta 4 schede spariscono/verde dopo Approva come altre caselle radiografia; se main verde ma Pannello mostra ancora 1 scheda → verificare pattern `verifica.file` (fantasma da file sbagliato), non aprire altra PR; Approva **#143** (non #142 — già usata per #378). Vedi L-226.",
     "**Chi impara da cosa — fix batch chiuso con merge (chat 14/7 ~03:36, PR #378 ✅):** «Risolvi questi fix» sulla casella Chi impara — si aspetta che le 6 schede spariscano/verde **dopo** Approva; se main è verde ma Pannello mostra ancora problemi → **cache**, Ctrl+Shift+R, non altra PR; verifica `origin/main` prima di dire «manca fix». Vedi L-225.",
     "**PR — ricontrolla DOPO l'apertura se main si muove (chat 14/7 ~03:33, #378 ✅ 03:36):** «non hai guardato ancora una volta la pr dopo che l'hai aperta» — conflitto post-merge #377; si aspetta che l'AD **non** dica «pronta» finché mergeable non è verificato sul main **attuale**; conflitto memoria ≠ codice rotto; merge `2162a760` confermato. Vedi L-224, L-214.",
@@ -5385,13 +5411,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 244,
+    "lezioni_attive": 246,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.38,
-    "tasso_calcolato_il": "2026-07-14 12:54",
+    "tasso_applicazione": 0.37,
+    "tasso_calcolato_il": "2026-07-14 13:10",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-14 12:54"
+    "tick_leggero_il": "2026-07-14 13:10"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

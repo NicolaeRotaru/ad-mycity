@@ -7,6 +7,7 @@ reparto: prompt-engineer
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 13:09 · Costo dell'AI — Nicola «Risolvi questi problemi» · atteso: 6/6 finding chiusi → reale: 5/6 in PR #381 (`d7b7c037`), resta timer mattina 6:00/6:20/6:30 = decisione Nicola; token ritmo/monitora, router onesto, soglia sessione, GATE-BUDGET on-demand · merge 🔴 PR #381 · #costo-ai #pr-381 #radiografia
 - 2026-07-14 03:36 · Chi impara da cosa — Nicola Approva #378 · atteso: 6/6 verde su main post-merge → reale: merge `2162a760`, chiusura-volano 0 aperti voto 72; Pannello cache = Ctrl+Shift+R · #chi-impara #chiusura-volano #pr-378
 - 2026-07-14 03:33 · Chi impara da cosa — PR #378 conflitto post-#377 · atteso: mergeable verificato prima di «pronta» → reale: Nicola ha segnalato conflitto, rebase+fix, 6/6 finding chiusi, merge 🔴 #142 · #chi-impara #gate-pr
 - 2026-07-14 02:34 · Come pensa l'AD — stampo 120/120 PR #370: scorecard 6 assi in 120 prompt, stampo-check guardiano, kit banche espansi, numeri 42→120 · atteso 6 problemi casella chiusi → reale PR #370 verde stampo-check 120/120, merge 🔴 #135 · #stampo #come-pensa-ad

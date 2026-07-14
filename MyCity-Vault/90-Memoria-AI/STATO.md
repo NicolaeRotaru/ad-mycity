@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 13:08
-fonte: AD digitale (💬 14/7 13:08 chat allegati foto · T-3 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 13:09
+fonte: AD digitale (💬 14/7 13:09 chat Costo AI · T-3 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~13:09 — CHAT: Costo dell'AI — 5 fix CHIUSI — PR #381 in attesa Approva.** Nicola «Risolvi questi problemi» su casella **Costo dell'AI** (radiografia macchina). **Verificato 🟢:** **5/6** finding chiusi post-fix (`d7b7c037`, branch `fix/costo-ai-efficienza`): ritmo+monitora contano token come giro; router economico onesto (niente API a consumo, esecuzione Claude/Cursor); soglia sessione ~5h aggiunta; GATE-BUDGET attivo anche su giro forzato dal Pannello (`GIRO_FORCE`). **Resta 1 aperto 🔴 decisione Nicola:** timer mattina 6:00+6:20+6:30 (piano mattino, giro, monitora) — spostare monitora (es. 8:00) o unificarlo col ritmo? **Pendente:** Approva **PR #381** → Ctrl+Shift+R Radiografia › Costo dell'AI. Fonte: chat Nicola 14/7 ~13:09 + scan post-fix.
+>
 > 💬 **14/7 ~13:08 — CHAT: Allegati foto — anteprima invisibile su iPhone (fluttuante + Assistente).** Nicola «si apre la galleria, schiaccio sulla foto ma non appare nel box». **Diagnosi 🟢:** file **selezionato** correttamente — anteprima era solo **nome piccolissimo sopra i pulsanti**, non miniatura visibile sopra la casella → su iPhone sembra che non succeda nulla. Superfici: **fluttuante** + **Assistente** (non Lavori né «Parla con questa casella»). **Fix 🟡 PR #380** (`0c715da4`): miniatura foto sopra textarea + avviso giallo se iPhone non passa il file; mergeable verificata. **Pendente:** Approva card **#144** → deploy ~2 min → su iPhone **chiudi e riapri** il Pannello (non solo refresh). **Nota UX:** la foto non finisce *dentro* il box di testo — sta sopra, separata (pattern WhatsApp). Fonte: chat Nicola 14/7 ~13:08.
 >
 > 💬 **14/7 ~12:44 — CHAT: PR #379 conflitti risolti — Onestà sui numeri pronta al merge.** Nicola «La pr 379 ha dei conflitti». **Verificato 🟢:** conflitto **solo** file memoria aggiornati dal worker vs main — codice **`calibrazione.mjs`** intatto (ponte loop→calibrazione con `sensore_stato`); secondo commit = aggiornamento memoria obsoleto → **saltato**; rebase su main, head **`f2d79065`**, API GitHub **mergeable**, zero conflitti. **4/4** finding chiusi, voto **75**. **Pendente:** Approva card **#143** → deploy ~2 min → Ctrl+Shift+R Radiografia › Onestà sui numeri — zero schede sotto. Fonte: chat Nicola 14/7 ~12:44 + `git-pr.mjs` verifica.

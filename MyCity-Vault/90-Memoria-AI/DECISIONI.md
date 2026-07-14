@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+- 2026-07-14 13:09 · 🟡 · [AD/prompt-engineer] · **PR #381 — Costo dell'AI: 5/6 fix pronti, merge in attesa.** Nicola «Risolvi questi problemi» su casella Costo dell'AI. **Verificato:** ritmo/monitora token condivisi, router economico onesto (no API pay-per-use), soglia sessione rolling ~5h, GATE-BUDGET su giro forzato Pannello; scan 5 schede chiuse. **Resta 1:** triple timer mattina 6:00/6:20/6:30 — serve scelta Nicola (sposta monitora o unifica). **PR #381** (`fix/costo-ai-efficienza`, `d7b7c037`). **Pendente 🔴:** Approva PR #381 → Ctrl+Shift+R Radiografia › Costo dell'AI. · Nicola (chat 14/7 ~13:09)
+
 - 2026-07-14 03:37 · 🟡 · [AD/analista] · **PR #379 — Onestà sui numeri: fix radiografia pronto, merge in attesa.** Nicola «Risolvi questi fix» su casella Onestà sui numeri (`calibrazione-onesta`) — riapprovazione Pannello. **Verificato:** 4/4 finding chiusi, voto 75; scheda fantasma = pattern `allinea-scan` su file sbagliato (`calibrazione.json` vs ponte `da-loop`); ponte quaderni→calibrazione con `sensore_stato`; `calibrazione.mjs valida` exit 0. **PR #379** (`fix/onesta-sui-numeri-v3`, `1d3365ab`). **Errore AD:** citato card #142 (già FATTO per #378) — card corretta **#143**. **Pendente 🔴:** Approva #143 → Ctrl+Shift+R Radiografia › Onestà sui numeri. · Nicola (chat 14/7 ~03:37)
 
 - 2026-07-14 03:36 · 🟢 · [AD/prompt-engineer] · **PR #378 — Chi impara da cosa: mergiata, casella chiusa.** Nicola «Risolvi questi fix» su casella Chi impara da cosa — con approvazione di poco fa. **Verificato:** merge su `origin/main` (`2162a760`); `chiusura-volano` 6/6 finding chiusi, voto 72, 0 aperti. Card **#142** → ✅ FATTO. **Prossimo:** Ctrl+Shift+R Radiografia se schede residue = cache UI. · Nicola (chat 14/7 ~03:36)
