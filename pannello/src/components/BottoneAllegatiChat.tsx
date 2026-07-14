@@ -26,12 +26,17 @@ export default function BottoneAllegatiChat({
       <input
         type="file"
         multiple
-        accept="image/*,application/pdf,.txt,.csv,.md"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.heic,.heif,application/pdf,.txt,.csv,.md"
         disabled={disabled}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         onChange={(e) => {
-          onScegli(e.target.files);
-          e.target.value = "";
+          const input = e.target;
+          const files = input.files;
+          onScegli(files?.length ? files : null);
+          // iOS Safari: resettare subito può azzerare il FileList prima che React legga.
+          requestAnimationFrame(() => {
+            input.value = "";
+          });
         }}
       />
       <span className="pointer-events-none inline-flex items-center gap-1.5">

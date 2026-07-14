@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, X, Paperclip, FileText, Image as ImageIcon } from "lucide-react";
+import { Send, Loader2, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
@@ -90,7 +91,10 @@ export default function ChatCasella({
   }, [msgs, streamingText]);
 
   function aggiungiFile(lista: FileList | null) {
-    if (!lista || lista.length === 0) return;
+    if (!lista || lista.length === 0) {
+      setErr("La foto non è arrivata — riprova o scegline un'altra.");
+      return;
+    }
     setErr("");
     setAllegati((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
   }
@@ -237,34 +241,6 @@ export default function ChatCasella({
         </div>
       </div>
 
-      {/* 📎 Anteprima degli allegati scelti, prima di inviare */}
-      {allegati.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {allegati.map((f, i) => {
-            const isImg = f.type.startsWith("image/");
-            return (
-              <span
-                key={i}
-                className="inline-flex items-center gap-1 text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md pl-1.5 pr-1 py-1 max-w-[180px]"
-                title={f.name}
-              >
-                {isImg ? <ImageIcon size={12} /> : <FileText size={12} />}
-                <span className="truncate">{f.name}</span>
-                <button
-                  onClick={() => togliAllegato(i)}
-                  disabled={inviando}
-                  className="hover:text-red-600 transition disabled:opacity-40"
-                  aria-label={`Togli ${f.name}`}
-                >
-                  <X size={12} />
-                </button>
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      {/* ⚡ Finestra Skill & comandi — si apre/chiude dentro la chat dal pulsante ⚡ */}
       <FinestraComandiSkill
         aperta={skillAperte}
         onChiudi={() => setSkillAperte(false)}
@@ -275,15 +251,6 @@ export default function ChatCasella({
         }}
       />
 
-      <textarea
-        ref={textareaRef}
-        value={bozza}
-        onChange={(e) => setBozza(e.target.value)}
-        onKeyDown={(e) => gestisciInvioChat(e, invia)}
-        rows={2}
-        placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
-        className="input-soft w-full text-[12.5px] resize-y"
-      />
       <div className="flex items-center gap-2 flex-wrap">
         <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
         <BottoneAllegatiChat
@@ -302,6 +269,16 @@ export default function ChatCasella({
         </button>
         {err && <span className="t-eti text-red-600">{err}</span>}
       </div>
+      <AnteprimaAllegatiChat allegati={allegati} onTogli={togliAllegato} disabilitato={inviando} />
+      <textarea
+        ref={textareaRef}
+        value={bozza}
+        onChange={(e) => setBozza(e.target.value)}
+        onKeyDown={(e) => gestisciInvioChat(e, invia)}
+        rows={2}
+        placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
+        className="input-soft w-full text-[12.5px] resize-y"
+      />
     </div>
   );
 }

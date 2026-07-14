@@ -1,10 +1,11 @@
-## Summary
-Chiude l'ultima scheda fantasma nella casella **Onestà sui numeri** — il pattern di verifica cercava `sensore_stato` nel file sbagliato.
+## Cosa
+Fix allegati foto in chat Assistente e fluttuante: miniatura visibile sopra la casella di testo, messaggio se la foto non arriva da iPhone, HEIC senza tipo accettato in upload.
 
-- **Fix codice** (`calibrazione.mjs`): ogni esito `da-loop` porta `sensore_stato` + `banale` — niente auto-conferme al buio.
-- **Conflitti risolti** (rebase su main 14/7 12:42): tenuto solo il fix codice; memoria/radiografia resta quella aggiornata dal worker.
+## Perché
+Nicola segnala: galleria si apre, sceglie la foto, ma «non appare nel box». In realtà c’era solo un chip col nome file sopra i pulsanti (facile da non vedere). Su iPhone a volte il FileList arriva vuoto o senza MIME HEIC.
 
-## Test plan
-- [ ] `node cervello/calibrazione.mjs valida` → exit 0
-- [ ] Pannello → Radiografia → «Onestà sui numeri» → zero schede sotto
-- [ ] Ctrl+Shift+R dopo merge
+## Come provare
+1. Apri chat fluttuante o Assistente → graffetta → scegli una foto iPhone.
+2. Deve comparire la **miniatura** subito sopra la casella di testo (non dentro il testo).
+3. Invia anche senza scrivere testo → deve partire.
+4. Se la foto non arriva, compare avviso giallo «La foto non è arrivata…».
