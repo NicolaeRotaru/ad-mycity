@@ -3,7 +3,9 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
-- 2026-07-14 03:33 · 🟢 · [AD] · **CORREZIONE — PR #378: «non hai guardato ancora una volta la pr dopo che l'hai aperta».** Nicola segnala conflitto su PR Chi impara (#378) — AD aveva aperto/accodato senza ricontrollare mergeable dopo merge parallelo **#377** su main. **Fix:** rebase, conflitti risolti (memoria radiografia/giro/body), mergeable API ok, head `c17abc33`. **Regola:** gate mergeable **prima** di dire «pronta» **e** dopo ogni merge parallelo su main. **Pendente 🔴:** Approva card #142 (PR #378). · Nicola (chat 14/7 ~03:33)
+- 2026-07-14 03:36 · 🟢 · [AD/prompt-engineer] · **PR #378 — Chi impara da cosa: mergiata, casella chiusa.** Nicola «Risolvi questi fix» su casella Chi impara da cosa — con approvazione di poco fa. **Verificato:** merge su `origin/main` (`2162a760`); `chiusura-volano` 6/6 finding chiusi, voto 72, 0 aperti. Card **#142** → ✅ FATTO. **Prossimo:** Ctrl+Shift+R Radiografia se schede residue = cache UI. · Nicola (chat 14/7 ~03:36)
+
+- 2026-07-14 03:33 · 🟢 · [AD] · **CORREZIONE — PR #378: «non hai guardato ancora una volta la pr dopo che l'hai aperta».** Nicola segnala conflitto su PR Chi impara (#378) — AD aveva aperto/accodato senza ricontrollare mergeable dopo merge parallelo **#377** su main. **Fix:** rebase, conflitti risolti (memoria radiografia/giro/body), mergeable API ok, head `c17abc33`. **Regola:** gate mergeable **prima** di dire «pronta» **e** dopo ogni merge parallelo su main. ~~**Pendente 🔴:** Approva card #142 (PR #378).~~ **SUPERATO 03:36:** merge `2162a760`. · Nicola (chat 14/7 ~03:33)
 
 - 2026-07-14 03:32 · 🟢 · [AD] · **CORREZIONE — «Perché Approva #142?» dopo fix sensori.** Nicola chiede perché deve approvare #142. **Errore AD:** ha indicato #142 per PR #377 sensori senza verificare coda/stato merge. **Verificato:** PR #377 **già mergiata** su main (`5d9590ab`); card **#142 = PR #379** (Chi impara), non sensori; coda attiva #140/#141. **Regola:** prima di «Approva #N» → leggere AZIONI + GitHub; card #N ≠ PR #N; se mergiata → dire che non serve Approva. · Nicola (chat 14/7 ~03:32)
 
