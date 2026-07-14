@@ -8,8 +8,8 @@ export default function ListaProspectHome() {
 
   return (
     <div className="space-y-1.5">
-      <p className="t-eti mb-2">
-        Bottega = spesa casa (pane, salumi, frutta…). Clienti MyCity = botteghe, non ristoranti. Inserimento botteghe dopo bici (~fine luglio).
+      <p className="t-eti mb-1.5 text-[12px]">
+        Bottega = spesa casa. Clienti MyCity = botteghe, non ristoranti.
       </p>
       {LISTA_PROSPECT_CENTRO.map((sez) => (
         <details
