@@ -1346,7 +1346,11 @@
             "file": "cervello/sistema-immunitario.mjs",
             "pattern": "core\\.hooksPath",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/sistema-immunitario.mjs contiene /core\\.hooksPath/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "monitora.sh resetta la memoria con `checkout -f -B main FETCH_HEAD`: può cancellare un commit locale non pushato",
@@ -1361,7 +1365,11 @@
             "file": "cervello/monitora.sh",
             "pattern": "checkout -f -B",
             "presente": false
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/monitora.sh NON contiene /checkout -f -B/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il pre-commit anti-segreti è opt-in per clone: su cloud-agent e macchine nuove i commit passano senza scan",
@@ -1376,7 +1384,11 @@
             "file": "cervello/giro.sh",
             "pattern": "installa-hooks|core\\.hooksPath",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/giro.sh contiene /installa-hooks|core\\.hooksPath/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "scan-segreti non conosce le chiavi Resend/n8n: la 'mano' che manda email può far entrare la sua chiave nella storia",
@@ -1391,7 +1403,11 @@
             "file": "cervello/scan-segreti.mjs",
             "pattern": "Resend|re_\\[A-Za-z0-9",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/scan-segreti.mjs contiene /Resend|re_\\[A-Za-z0-9/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "I sensori fanno fetch senza timeout: un endpoint appeso può far scadere l'intero giro sul timeout di processo",
@@ -1406,7 +1422,11 @@
             "file": "cervello/verifica-sensori.mjs",
             "pattern": "AbortSignal",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /AbortSignal/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "I guardiani girano con `|| true`: se uno crasha è invisibile e il giro pubblica lo stesso (immunità silente spenta)",
@@ -1421,7 +1441,11 @@
             "file": "cervello/giro.sh",
             "pattern": "freschezza-segnali|segnali-guardiani|meta-guardiano",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-14 13:08",
+          "chiuso_come": "cervello/giro.sh contiene /freschezza-segnali|segnali-guardiani|meta-guardiano/ → trovato",
+          "chiuso_da": "verifica-codice"
         }
       ]
     }
@@ -1832,16 +1856,16 @@
     "aggiornato": "2026-07-14 11:03"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 12:58",
-    "findings_aperti": 43,
+    "aggiornato": "2026-07-14 13:08",
+    "findings_aperti": 37,
     "findings_in_corso": 0,
-    "findings_chiusi": 31,
+    "findings_chiusi": 37,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "match_aggiornati": 6,
+    "chiusi_verifica": 6,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }

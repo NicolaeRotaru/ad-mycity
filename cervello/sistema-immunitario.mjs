@@ -10,6 +10,7 @@
 // Uso:  node cervello/sistema-immunitario.mjs [--json]
 // Exit: 0 = nessun bloccante di sicurezza aperto · 1 = c'è una falla bloccante aperta
 
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
@@ -28,13 +29,30 @@ function difesa(rel, test, descr) {
   return { difesa: descr, file: rel, attiva: ok };
 }
 
+/** Verifica core.hooksPath=.githooks (non basta che esista il file hook). */
+function difesaPreCommit() {
+  const fileOk = existsSync(join(AD_ROOT, ".githooks/pre-commit"));
+  let configOk = false;
+  try {
+    const v = execFileSync("git", ["config", "core.hooksPath"], { cwd: AD_ROOT, encoding: "utf8" }).trim();
+    configOk = v === ".githooks" || v.endsWith("/.githooks");
+  } catch {
+    configOk = false;
+  }
+  return {
+    difesa: "Pre-commit hook ATTIVO (core.hooksPath=.githooks → scan-segreti al commit)",
+    file: ".githooks/pre-commit",
+    attiva: fileOk && configOk,
+  };
+}
+
 function main() {
   const quando = nowPiacenza();
 
   // --- 1. Le difese di base (controllo statico dei file reali) ---
   const difese = [
     difesa(".gitignore", (t) => !!t && /\.env\*|\*\.save/.test(t), "Il perimetro segreti copre .env* e *.save"),
-    difesa(".githooks/pre-commit", (t) => t != null, "Pre-commit hook presente (blocca i segreti al commit)"),
+    difesaPreCommit(),
     difesa("cervello/scan-segreti.mjs", (t) => t != null, "Scanner segreti presente"),
   ];
   const difeseGiu = difese.filter((d) => !d.attiva);
