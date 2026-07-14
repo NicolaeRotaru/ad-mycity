@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 02:56 · PR #373 descrizione avvisi — Nicola «aggiungi sempre la descrizione dell'avviso» · atteso: spiegazione italiana sempre visibile sopra testo tecnico · reale: `descrizione-avviso.ts` + contesto chat con descrizione per prima; avviso 13/7 18:20 storico, coerenza verde; PR #373 mergeable; card #139 · L-217 · #pannello #avvisi #ux #pr-373
 - 2026-07-14 02:52 · PR #369 pronta — Nicola screenshot Ready to merge, errore app mobile · atteso: Nicola capisce che non ci sono conflitti · reale: «io error on socket» = rete/app GitHub telefono; merge da Pannello card #134, non app GitHub; test post-merge sync senza refresh · L-213 · #pannello #sync #pr-369 #merge #esito
 - 2026-07-14 02:50 · PR #371 ordine conversazioni + header — Nicola 2 fix UX chat + screenshot git da /root · atteso: push PR dal VPS, Nicola merge Pannello · reale: `convVistaAt` ordina cassetto (pinnate→ultima vista→updated_at); header History senza «Parla con l'assistente»; PR #371 senza conflitti; card #136 · L-211 · #pannello #chat #conversazioni #ux #pr-371
 - 2026-07-14 02:41 · PR #369 conflitti risolti — Nicola «ci sono dei conflitti» su merge sync · atteso: branch mergiabile, codice sync intatto · reale: conflitto solo body PR condiviso post-merge #370; rebase head `5ab0dde3`, mergeable API ok; riapprova #134 · L-209 · #pannello #sync #conflitti #pr-369
