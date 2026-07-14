@@ -1,6 +1,17 @@
 # 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-07-11 11:00** · Fonte: @intelligence (monitora.md · [IlPiacenza Economia](https://www.ilpiacenza.it/economia/) + [IlNuovoGiornale](https://www.ilnuovogiornale.it/2026/07/03/il-commercio-piacentino-parte-male-a-inizio-2026-23/) + [PiacenzaSera](https://www.piacenzasera.it/2026/06/commercio-giu-a-piacenza-23-nel-primo-trimestre-dellanno/652584/) + [Commerciali.it](https://www.commerciali.it/affitto-negozi/piacenza/zona-centro-storico/) + [Idealista](https://www.idealista.it/cerca/affitto-locali/piacenza-piacenza/))
+> Aggiornato: **2026-07-14 08:30** · Fonte: @intelligence (monitora · fonte giornaliera [IlPiacenza Economia](https://www.ilpiacenza.it/economia/) + [Piacenza24 saldi](https://www.piacenza24.eu/saldi-estivi-2026-buona-la-partenza-a-piacenza/) + [Libertà Coin](https://liberta.it/news/territorio/citta/il-coin-cambia-casa-trasloco-in-via-xx-settembre/107656))
+
+---
+
+## 🆕 Segnali freschi (14/7/2026)
+
+| Segnale | Dettaglio | Fonte | Mossa |
+|---------|-----------|-------|-------|
+| **Coin lascia Corso V.E.** | Dopo 53 anni, trasloco in via XX Settembre (ex H&M, ~4.000 mq). Riapertura forse **settembre 2026**. Galleria corso V.E. a rischio vuoto. | [Libertà 18/6](https://liberta.it/news/territorio/citta/il-coin-cambia-casa-trasloco-in-via-xx-settembre/107656) | @vendite: spazio liberato = lead per botteghe di vicinato o digitale; @pr-stampa: angolo «chi riempie il buco» |
+| **Saldi partenza buona** | Confesercenti PC: saldi iniziati bene; caldo = doppio taglio (meno passeggiate, più costumi/piscina) | [Piacenza24](https://www.piacenza24.eu/saldi-estivi-2026-buona-la-partenza-a-piacenza/) | Pitch: «saldi consegnati a casa nell'afa» |
+| **Consumatori cauti** | Sondaggio Confesercenti: **28%** spende meno nei saldi 2026; **65%** cita caro vita | stessa fonte | Sensibilità prezzo → COD-first e soglia bassa |
+| **La Ragazzetta aperta** | Caffè storico Piazza Cavalli (4/7) — rigenerazione centro, bar 7:30–22:30, futuro ristorante + eccellenze DOP | [Libertà 4/7](https://liberta.it/news/attualita/la-ragazzetta-apre-i-battenti-piu-di-un-bar-uno-spazio-culturale/108156) | Segnale positivo centro; non è lead MyCity (concessionario Comune) |
 
 ---
 
@@ -16,7 +27,7 @@
 | Di cui abbigliamento/calzature | **da 150 a 111** (-39 negozi) | stessa fonte |
 | Proiezione 2035 senza inversione | **-20,4% densità commerciale** (6,6 vs 8,6 negozi/1.000 ab) | [Confcommercio](https://www.piacenza24.eu/confcommercio-desertificazione-commerciale/) |
 
-> ➡️ **Argomento di vendita diretto per la visita 13/7**: «Q1 2026 vostro segmento ha perso il 2,3% a Piacenza — 10 volte peggio della media regionale. MyCity non risolve il problema del fisico; aggiunge il canale digitale che non avete.»
+> ➡️ Argomento vendita: «Q1 2026 il retail locale ha perso il 2,3% — 10× peggio della media ER. MyCity aggiunge il canale digitale che non avete.»
 
 ---
 
@@ -26,42 +37,35 @@
 |---|------------------|--------|------------|--------------|
 | 1 | **Panetteria bio artigiana** (centro) | Pane Quotidiano = unico reale | Alto — 1ª transazione attesa | **1 negozio LIVE**, 0 delivered |
 | 2 | **Salumeria / DOP** (Piazza Duomo) | Glovo = 0 botteghe artigianali; calo retail = urgenza | Alto | Prospect (Garetti, scelta ragionata) |
-| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO ≠ freschi artigianali; abbigliamento/calzature crollano → aperture food possibili | Medio-alto | 0 negozi |
-| 4 | **Gastronomia / enoteca** | Scontrino alto; bar/ristoranti centro CRESCONO (+7, unica cat. in positivo) | Medio | 0 negozi |
-| 5 | **Zone periferiche** (Montale, Galleana) | Post-primo cluster centro | Medio | Non servite |
+| 3 | **Macelleria / pescheria / ortofrutta** centro | GDO ≠ freschi artigianali | Medio-alto | 0 negozi |
+| 4 | **Gastronomia / enoteca** | Bar/ristoranti centro CRESCONO (+7, unica cat. in positivo) | Medio | 0 negozi |
+| 5 | **Galleria Corso V.E.** (post-Coin) | Vuoto imminente — Confcommercio chiede «nuove idee» | Medio — scouting | 0 negozi |
+| 6 | **Zone periferiche** (Montale, Galleana) | Post-primo cluster centro | Medio | Non servite |
 
 ---
 
 ## 🏪 Locali sfitti centro storico (segnale turnover/lead potenziali)
 
 Attivi su portali a luglio 2026 — indici di negozi che cedono o si spostano:
-- **55 annunci** negozi in affitto solo nel centro storico (Commerciali.it, 11/7)
-- Esempi: Via XXIV Maggio 160mq a €25.000/anno (dal 1/5/2026, ancora sfitto) · Via San Giovanni 2 a €700/mese · Piazza Cavalli €800/mese con vetrina
-- **154 annunci totali** a Piacenza (Casa.it)
+- **55 annunci** negozi in affitto solo nel centro storico (Commerciali.it, ultimo check 11/7)
+- Esempi: Via XXIV Maggio 160mq a €25.000/anno · Piazza Cavalli €800/mese con vetrina
+- **Nuovo buco strategico:** ~4.000 mq ex Coin su Corso V.E. (liberazione in corso)
 
-> ➡️ @vendite: ogni annuncio "negozio a rischio sfitto" è un lead potenziale per MyCity (bottega che riduce o chiude il fisico = candidata ad aprire il digitale). Segnalare il link Idealista come scouting passivo.
+> ➡️ @vendite: ogni sfitto/trasloco = lead per canale digitale MyCity.
 
 ---
 
 ## 🛍️ Saldi estivi 2026 — window operativa
 
-- **Dal 4 luglio al 1 settembre 2026** (60 giorni): saldi partiti in tutti i settori ([IlPiacenza](https://www.ilpiacenza.it/economia/saldi-estivi-al-via-a-piacenza-dal-4-luglio-sessanta-giorni-di-sconti.html))
-- 300 negozi Venerdì Piacentini + saldi = doppio incentivo a restare in centro
-- **Opportunità MyCity**: «i saldi del tuo negozio del cuore, consegnati a casa nell'afa» — angolo da usare in onboarding e primo post VEN 17/7
-
----
-
-## 💰 Camera di Commercio Emilia — fondo da 12M (di cui 1M per commercio)
-
-- [IlPiacenza](https://www.ilpiacenza.it/economia/camera-di-commercio-dell-emilia-quasi-12-milioni-per-sviluppo-locale-e-attrattivita-del-territorio.html): quasi **12 milioni€** allocati dalla Camera di Commercio per sviluppo locale e attrattività; di cui quota significativa per commercio e turismo
-- Complementare al bando Commercio ER 21/7 già in coda (leve-uscita)
-- ➡️ @relazioni-istituzionali: verificare se esiste una call specifica per piattaforme marketplace locali
+- **5 luglio – 3 settembre 2026** (60 giorni ER): partenza positiva a Piacenza
+- 300 negozi VP + saldi = doppio incentivo centro
+- **Opportunità MyCity**: «i saldi del tuo negozio del cuore, consegnati a casa nell'afa»
 
 ---
 
 ## Blocco attuale e mossa collegata
 
-- **407 lead** nel DB — outreach post-1ª-transazione ancora fermo (#20-22 gated al 13/7)
-- **6 botteghe priorità visita 13/7** — il dato -2,3% retail rinforza il pitch
-- Bar/ristoranti centro = unica categoria in positivo (+7 unità): nicchia da presidiare come prossima ondata dopo food-secco
-- **Bando ER 21/7** ancora aperto e urgente (⏰ 10 giorni)
+- **407 lead** nel DB — outreach post-1ª-transazione gated
+- **1 negozio reale** (Pane Quotidiano) — North Star 0
+- Bar/ristoranti centro = unica categoria in positivo (+7): nicchia post-food-secco
+- Catena indiretta: **Coin vuoto → desertificazione galleria → MyCity come canale alternativo** per botteghe residue

@@ -907,3 +907,6 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-14 06:00 · @finanza · FACCIO · 🟡 card #burn-mensile-runway — sentinella `cassa_sconosciuta` 98 giri, tetto giorno raggiunto (8/8); unica mossa: Nicola mette `BURN_MENSILE_EUR` in `vps/.env`.
 - 2026-07-14 06:00 · @analista · FATTO · baseline REST 06:00 invariata: 1 PQ, 5 prodotti, 1 ordine annullato, 0 consegnati, 4 buyer, North Star 0. Sensori 3/5 ok (REST+Stripe+Resend). Sorveglia bandiera al primo ordine nuovo.
 - 2026-07-14 06:00 · @ad · SERVE · Da Nicola: 🔴 pubblica post kefir + link lista d'attesa entro 11 · 🔴 prepara VP 17/7 (ritiro banco) · 🟡 Approva PR Pannello in coda · 🟡 BURN_MENSILE_EUR · 🟡 SQL 107 · 🟡 batch 494 autofill supervisione.
+
+### 2026-07-14 — Monitoraggio web (Ondata 3 · 08:30)
+- 2026-07-14 08:30 · @intelligence · FATTO · monitoraggio web: 7 fonti giornaliere (Libertà×2, IlPiacenza economia, PiacenzaSera, Comune news+eventi, 3BMeteo) — 11 settimanali saltate (<7 gg). Novità chiave: ARPA fascia rossa caldo oggi/38°C domani, via San Siro chiusa 7–13 OGGI, VP 17/7 programma finale (Via Calzolai in festa), Coin lascia Corso V.E. → aggiornati `eventi-picchi.md` + `buchi-mercato.md`. Reputazione/leve/concorrenti invariati.
