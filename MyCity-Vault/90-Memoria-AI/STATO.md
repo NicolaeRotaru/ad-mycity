@@ -1,9 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:30
-fonte: AD digitale (💬 14/7 02:30 metabolizzazione coerenza-agenti 3ª richiesta. | storico: business INVARIATO dal 24/6.)
+aggiornato: 2026-07-14 02:34
+fonte: AD digitale (💬 14/7 02:34 metabolizzazione Come pensa l'AD. | storico: business INVARIATO dal 24/6.)
 ---
 
+> 💬 **14/7 ~02:34 — CHAT: Come pensa l'AD — 6 problemi risolti — PR #370.** Nicola «risolvi tutti i problemi della casella come pensa l'AD». **Implementato 🟡 PR #370** (`d473c20d`): **120/120** quaderni `memoria-squadra/` (78 stub creati), scorecard 6 assi in 120 prompt, kit banche/legali espansi, `cervello/stampo-check.mjs` verde **120/120**, numeri rollout 42→**120**. Quaderni **vuoti = normale** (ESITO reparto). **Pendente:** merge 🔴 **#370** (#135). Fonte: chat Nicola 14/7 ~02:34.
+>
+> 💬 **14/7 ~02:32 — CHAT: «come collegarli?» — scheletri senza self-service.** Dopo spiegazione badge «da collegare», Nicola chiede come attivarli. **Spiegato 🟢:** nessun pulsante — Nicola indica priorità moduli + accessi; AD costruisce feed con PR uno per uno. «Live»/«1/2» = già parziale. Fonte: chat Nicola 14/7 ~02:32.
+>
 > 💬 **14/7 ~02:30 — CHAT: coerenza-agenti — 3ª richiesta «fai tutti i fix».** Nicola ripete la stessa approvazione (~30 min dopo le prime due). **Verificato 🟢:** PR #365 già su main (02:02), `agent-registry-check` drift **0**, radiografia voto **92**, **1/5** aperto (tier `model:` — scelta Nicola). Se Pannello mostra ancora 5 problemi rossi = **foto cache** — Ctrl+Shift+R su Radiografia macchina › «La squadra — chi fa cosa». Nessun fix tecnico pendente. Fonte: chat Nicola 14/7 ~02:30 + worker verifica 02:24.
 >
 > 💬 **14/7 ~02:29 — CHAT: badge «da collegare» — Nicola «perché non collegati?».** Screenshot moduli con molti badge «da collegare». **Spiegato 🟢:** non è guasto — scheletri previsti senza feed dati (concorrenti, stampa, security, legale, esperimenti, roadmap); «live»/«1/2» = già collegato (es. Codice sito, Reputazione 1/2); memoria+marketplace+lavori attivi. Si accendono uno per uno costruendo i feed. Distinto da sync Pannello (L-204/205). Business invariato. Fonte: chat Nicola 14/7 ~02:29 + screenshot.
