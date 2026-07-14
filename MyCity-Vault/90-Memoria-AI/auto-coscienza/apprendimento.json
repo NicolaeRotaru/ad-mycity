@@ -18,25 +18,26 @@
   "lezioni": [
     {
       "id": "L-2026-0714-230",
-      "testo": "**Angoli ciechi — 7/7 fix batch, pattern chiusura falso positivo (chat 14/7 ~13:10, PR #383):** Nicola «Risolvi questi problemi» su casella `copertura-cieca` (Angoli ciechi). 5 perché: (1) primo finding risultava **chiuso per errore** — pattern grep matchava `MARKETPLACE_SUPABASE_URL` invece del sensore **memoria** (coda/segnali); (2) 7 fix strutturali = monitoraggio/guardiani: sensori memoria+Pannello+Telegram+n8n, registro rischi unico+divergenze, agent-registry flagga senior senza OKR-Squadra, sentinella azioni ferme, radiografia con `punti_ciechi`; (3) branch iniziale sbagliato → ripartire da **main**; (4) commit includeva per errore modifiche budget → **stripare scope** prima del push; (5) Telegram «non configurato» = **normale** senza chiavi bot in `.env` VPS — non è guasto del fix. **Scan post-fix:** 7/7 chiusi. **Pendente:** Approva **#145** (**PR #383**) → Ctrl+Shift+R Radiografia › Angoli ciechi. **Regola:** su casella Angoli ciechi verificare che il pattern di chiusura matchi il **target giusto** (sensore/agente), non una variabile vicina; controllare diff scope prima del commit. Correlazione L-226 (scheda fantasma = verifica su file/pattern sbagliato), L-222 (sensori).",
+      "testo": "**Rischio tecnico — 6/8 fix batch, 2 decisioni umane (chat 14/7 ~13:11, PR #383):** Nicola «Risolvi questi problemi» su casella `rischio-sicurezza-se` (Rischio tecnico). 5 perché: (1) 8 finding = hardening guardiani/sicurezza (git auto-modifica, auto-fix auto-chiusura, Cursor --trust, hook segreti falso positivo, monitora distruttivo, scan Resend/n8n, timeout sensori, || true invisibile); (2) **6 chiusi in codice** — hook anti-segreti verifica `core.hooksPath` + installa-hooks idempotente, monitora allineato a giro (no `checkout -f -B`), pattern Resend/n8n, AbortSignal 8s, meta-guardiano freschezza, auto-fix senza `--applica` automatico; (3) **2 restano tipo umano** — permessi Cursor `--force --trust` e chi scrive `verifica.pattern` per chiudere difetti; (4) **errore AD:** commit finito su main → spostato su branch `fix/rischio-tecnico-se`, fix riapplicati; (5) scan `allinea-scan-cantiere`: 6 chiusi, 2 aperti. **Pendente:** Approva **#145** (**PR #383**, `d726c0c8`) → Ctrl+Shift+R Radiografia › Rischio tecnico. **Regola:** casella Rischio tecnico ≠ Angoli ciechi (`copertura-cieca`); PR #383 = branch `fix/rischio-tecnico-se`; finding `genera: domanda-nicola`/`tipo: umano` → proposta decisione, non altra PR. Correlazione L-214 (commit scope/branch), L-222 (sensori timeout).",
       "tag": [
-        "angoli-ciechi",
-        "copertura-cieca",
+        "rischio-tecnico",
+        "rischio-sicurezza-se",
         "pr-383",
         "radiografia",
-        "sensori-memoria",
         "guardiani",
-        "pattern-chiusura",
-        "commit-scope",
+        "hook-segreti",
+        "monitora",
+        "cursor-trust",
+        "auto-fix",
         "nicola"
       ],
-      "reparto": "@devops-sre",
+      "reparto": "@security",
       "confidenza": 0.9,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-14",
-      "ultima_conferma": "2026-07-14 13:10",
+      "ultima_conferma": "2026-07-14 13:11",
       "stato": "attiva"
     },
     {
@@ -5224,7 +5225,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
-    "**Angoli ciechi — fix batch radiografia (chat 14/7 ~13:10, PR #383):** «Risolvi questi problemi» sulla casella Angoli ciechi — si aspetta 7 schede spariscono/verde dopo Approva come altre caselle; Telegram «non configurato» **non** va trattato come bug se mancano chiavi; Approva **#145** (**PR #383**) → Ctrl+Shift+R. Vedi L-230.",
+    "**Rischio tecnico — fix batch radiografia (chat 14/7 ~13:11, PR #383):** «Risolvi questi problemi» sulla casella Rischio tecnico — si aspetta 6+ schede verdi dopo Approva; **2 restano** finché non decide su Cursor `--force --trust` e prova chiusura difetti (tipo umano, non altra PR); Approva **#145** (**PR #383**) → Ctrl+Shift+R Radiografia › Rischio tecnico. Vedi L-230.",
     "**Costo dell'AI — fix batch radiografia (chat 14/7 ~13:09, PR #381):** «Risolvi questi problemi» sulla casella Costo AI — si aspetta 5+ schede verdi dopo Approva come altre caselle; l'ultima aperta (timer mattina 6:00/6:20/6:30) richiede **sua scelta** su orari, non auto-decisione AD; Approva **PR #381** → Ctrl+Shift+R. Vedi L-229.",
     "**Allegati foto — miniatura visibile dopo selezione (chat 14/7 ~13:08, PR #380):** su iPhone in fluttuante+Assistente segnala «galleria ok ma foto non nel box» — si aspetta **feedback visivo immediato** dopo aver scelto la foto (miniatura sopra la casella, non silenzio); odia quando sembra che non succeda nulla; la foto **non** deve finire dentro il textarea — va spiegato pattern «sopra, come WhatsApp»; merge 🔴 **#144**. Vedi L-228.",
     "**PR #379 conflitti — risoluzione immediata (chat 14/7 ~12:44):** «La pr 379 ha dei conflitti» — si aspetta risoluzione immediata + mergeable verificata + Approva **#143**; conflitto memoria worker ≠ codice rotto; odia segnalare conflitti due volte sulla stessa PR. Vedi L-227, L-220.",
