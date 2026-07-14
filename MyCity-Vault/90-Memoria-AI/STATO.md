@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 02:56
-fonte: AD digitale (🌅 14/7 02:56 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-14 02:58
+fonte: AD digitale (🌅 14/7 02:58 metabolizzazione · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~02:58 — CHAT: Opportunità — sempre descrizione umana — PR #374.** Nicola «Cioè? Non ho capito, aggiungi sempre la descrizione a questa casella» su Opportunità «494 campi catalogo» (Scoperte). **Spiegato 🟢:** **494 campi vuoti** = **252** schede prodotto senza «condizione» (→ «nuovo») + **242** senza «unità di misura» (→ «pezzo»); supervisione propone autofill **reversibile** (fonte briefing giro 14/7 02:48, supervisione 8/7 16:20); **2 card gialles separate** in Azioni → Da approvare (condizione e unità), non una sola. **Implementato 🟡 PR #374:** descrizione umana sempre visibile su card Opportunità (come Avvisi #373); API mergeable verificata. **Pendente:** merge 🔴 **#374** (#140) → poi Approva batch condizione + unità. Fonte: chat Nicola 14/7 ~02:58.
+>
 > 💬 **14/7 ~02:56 — CHAT: Avvisi — sempre descrizione umana — PR #373.** Nicola «aggiungi sempre la descrizione dell'avviso» su scheda gialla coerenza-fatti (13/7 18:20). **Verificato 🟢:** avviso **storico** — `coerenza-fatti.mjs` exit **0** adesso; causa era copia «6 botteghe» (già allineata 13/7 20:21). **Implementato 🟡 PR #373** (`987e5020`): `descrizione-avviso.ts` — spiegazione italiana **sopra** testo tecnico in Avvisi; «Parla con questa casella» riceve descrizione per prima. API mergeable verificata. **Pendente:** merge 🔴 **#373** (#139) → Ctrl+Shift+R su Avvisi. Fonte: chat Nicola 14/7 ~02:56 + coerenza-fatti.
 >
 > 💬 **14/7 ~02:43 — CHAT: PR #371 conflitti risolti — Nicola «ti ho già detto, controlla le PR».** Card merge **#136** / PR **#371** (`fix/chat-ordine-e-header`). **Verificato 🟢:** conflitto **solo** body PR condiviso — codice ordine conversazioni + header **intatto**; rebase su main, head `6fa822bf`, API GitHub **mergeable**. **Regola:** gate mergeable **prima** di accodare, non solo al fix post-segnalazione. **Pendente:** Nicola **riapprova** card **#136** → deploy ~2 min → test conversazioni (ultima in cima) + header senza «Parla con l'assistente». Fonte: chat Nicola 14/7 ~02:43 + `git-pr.mjs` verifica.

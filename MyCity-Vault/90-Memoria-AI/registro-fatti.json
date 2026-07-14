@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-13 22:35",
+  "aggiornato": "2026-07-14 02:58",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -51,6 +51,32 @@
       "aggiornato": "2026-07-07 00:29",
       "storia": [],
       "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "logistica.bici-consegna",
+      "nome": "Bici consegna — disponibilità",
+      "valore": "Non operativa entro venerdì 17/7/2026; Nicola va in riparazione lunedì 21/7/2026",
+      "fonte": "Nicola chat Pannello 2026-07-14 02:57",
+      "aggiornato": "2026-07-14 02:58",
+      "storia": [],
+      "caccia": [
+        {
+          "pattern": "primo ordine reale al Venerdì Piacentini del 17 luglio",
+          "dal": "2026-07-14 02:58",
+          "chiusa": "2026-07-14 02:58"
+        },
+        {
+          "pattern": "consegna fresca a domicilio.*17/7",
+          "dal": "2026-07-14 02:58",
+          "chiusa": "2026-07-14 02:58"
+        },
+        {
+          "pattern": "1° ordine.*17/7.*consegna",
+          "dal": "2026-07-14 02:58",
+          "chiusa": "2026-07-14 02:58"
+        }
+      ],
       "esenzioni": []
     },
     {
