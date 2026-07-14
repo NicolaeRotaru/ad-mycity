@@ -24,6 +24,7 @@
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
+import { spawnSync } from "node:child_process";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
@@ -138,6 +139,23 @@ ${riga}
   console.log(`🔁 ESITO registrato nel quaderno di @${nome}:`);
   console.log(`   ${riga}`);
   console.log(`   → ${path}`);
+
+  // Ponte verso calibrazione.mjs (atteso→reale strutturato, non solo markdown).
+  if (atteso || reale) {
+    const calib = join(AD_ROOT, "cervello/calibrazione.mjs");
+    const args = [
+      calib,
+      "da-loop",
+      `--reparto=@${nome}`,
+      `--azione=${contesto}`,
+      `--atteso=${atteso || ""}`,
+      `--reale=${reale || ""}`,
+    ];
+    const r = spawnSync("node", args, { encoding: "utf8" });
+    if (r.status !== 0 && r.status !== null) {
+      console.warn(`⚠️  calibrazione.mjs da-loop non riuscito (rc=${r.status}): ${(r.stderr || r.stdout || "").trim().slice(0, 200)}`);
+    }
+  }
 }
 
 // --- B) SONDA: trova i quaderni fermi (vuoti o senza ESITO fresco) e li segnala. ---
