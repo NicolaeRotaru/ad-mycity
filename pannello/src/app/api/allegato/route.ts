@@ -57,6 +57,27 @@ function nomePulito(nome: string): string {
   return base.replace(/[^A-Za-z0-9._-]/g, "_").slice(0, 80) || "file";
 }
 
+// iPhone a volte manda file senza MIME: lo deduciamo dall'estensione.
+function tipoDaFile(f: File): string {
+  const t = f.type?.trim();
+  if (t && t !== "application/octet-stream") return t;
+  const ext = (f.name.split(".").pop() || "").toLowerCase();
+  const map: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+    heic: "image/heic",
+    heif: "image/heif",
+    pdf: "application/pdf",
+    txt: "text/plain",
+    csv: "text/csv",
+    md: "text/markdown",
+  };
+  return map[ext] || t || "application/octet-stream";
+}
+
 export async function POST(req: NextRequest) {
   if (!URL_BASE || !KEY) {
     return NextResponse.json(
@@ -82,7 +103,7 @@ export async function POST(req: NextRequest) {
 
     for (let i = 0; i < files.length; i++) {
       const f = files[i];
-      const tipo = f.type || "application/octet-stream";
+      const tipo = tipoDaFile(f);
       if (!MIME_OK.has(tipo)) {
         return NextResponse.json(
           { ok: false, error: `Tipo non ammesso: ${f.name} (${tipo}). Ammessi: foto, PDF, testo.` },

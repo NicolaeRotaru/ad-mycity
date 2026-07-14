@@ -94,7 +94,6 @@ import {
   Microscope,
   Paperclip,
   Maximize2,
-  Image as ImageIcon,
   Pin,
   CircleStop,
 } from "lucide-react";
@@ -120,6 +119,7 @@ import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
@@ -837,8 +837,13 @@ export default function Dashboard() {
   // 📎 Foto/file allegati al prossimo messaggio della chat (condivisi tra chat intera e fluttuante:
   // è visibile una superficie sola per volta). Vengono caricati sullo storage in mandaAlCervello.
   const [allegatiChat, setAllegatiChat] = useState<File[]>([]);
+  const [allegatiAvviso, setAllegatiAvviso] = useState("");
   function aggiungiAllegatiChat(lista: FileList | null) {
-    if (!lista || lista.length === 0) return;
+    if (!lista || lista.length === 0) {
+      setAllegatiAvviso("La foto non è arrivata — riprova o scegline un'altra.");
+      return;
+    }
+    setAllegatiAvviso("");
     setAllegatiChat((prev) => [...prev, ...Array.from(lista)].slice(0, 6));
   }
   function togliAllegatoChat(i: number) {
@@ -2561,7 +2566,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={endRef} />
           </div>
           <div className="border-t p-3 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
-            <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
             <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
             {/* Pulsanti SOPRA la box di testo (su mobile non le rubano larghezza); la textarea ha tutta la riga. */}
             <div className="flex items-center gap-2">
@@ -2602,6 +2606,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 {loading ? <Loader2 size={18} className="animate-spin" /> : <Brain size={18} />}
               </button>
             </div>
+            <AnteprimaAllegatiChat allegati={allegatiChat} onTogli={togliAllegatoChat} />
+            {allegatiAvviso && (
+              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
+            )}
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -2850,7 +2858,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={chatFabEndRef} />
           </div>
           <div className="border-t p-2.5 space-y-2" style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}>
-            <AnteprimaAllegati allegati={allegatiChat} onTogli={togliAllegatoChat} />
             <FinestraComandiSkill aperta={skillAperte} onChiudi={() => setSkillAperte(false)} onScegli={scegliSkill} />
             {/* Pulsanti SOPRA la box di testo: su mobile la textarea tiene tutta la larghezza. */}
             <div className="flex items-center gap-2">
@@ -2881,6 +2888,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 <Send size={16} />
               </button>
             </div>
+            <AnteprimaAllegatiChat allegati={allegatiChat} onTogli={togliAllegatoChat} />
+            {allegatiAvviso && (
+              <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
+            )}
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -2971,31 +2982,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         </div>
         </>
       )}
-    </div>
-  );
-}
-
-// 📎 Riga di anteprima degli allegati scelti (foto/file), prima di inviare — con la ✕ per toglierli.
-function AnteprimaAllegati({ allegati, onTogli }: { allegati: File[]; onTogli: (i: number) => void }) {
-  if (allegati.length === 0) return null;
-  return (
-    <div className="flex flex-wrap gap-1.5">
-      {allegati.map((f, i) => {
-        const isImg = f.type.startsWith("image/");
-        return (
-          <span
-            key={i}
-            className="inline-flex items-center gap-1 text-[11px] bg-brand-50 dark:bg-brand/15 text-brand rounded-md pl-1.5 pr-1 py-1 max-w-[180px]"
-            title={f.name}
-          >
-            {isImg ? <ImageIcon size={12} /> : <FileText size={12} />}
-            <span className="truncate">{f.name}</span>
-            <button onClick={() => onTogli(i)} className="hover:text-red-600 transition" aria-label={`Togli ${f.name}`}>
-              <X size={12} />
-            </button>
-          </span>
-        );
-      })}
     </div>
   );
 }
