@@ -110,18 +110,18 @@ export default function MacchinaHomeCard() {
         : `🟡 Ok con note · ${problemi ? `${problemi} organi · ` : ""}ultimo giro ${ultimo ? istante(ultimo) : "—"}`;
 
   return (
-    <section className="card p-4">
-      <div className="flex items-start gap-2 flex-wrap mb-3">
+    <section className="card p-3">
+      <div className="flex items-start gap-2 flex-wrap mb-2">
         <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand-50 text-brand shrink-0">
           <HeartPulse size={15} />
         </span>
         <div className="min-w-0 flex-1">
-          <span className="t-sez">La macchina</span>
+          <span className="t-sez text-[15px]">La macchina</span>
           <p className="t-corpo text-[13px] font-medium mt-0.5">{riga}</p>
         </div>
       </div>
 
-      <div className="flex items-center justify-center gap-2 py-2" role="list" aria-label="Stato degli 8 organi">
+      <div className="flex items-center justify-center gap-1.5 py-1" role="list" aria-label="Stato degli 8 organi">
         {organiStato.map((o) => (
           <button
             key={o.n}

@@ -29,10 +29,10 @@ export default function LetteraAdCard() {
 
   if (!lettera) {
     return (
-      <section className="card p-4">
-        <div className="sez-head mb-2">
-          <span className="sez-ico"><Mail size={16} /></span>
-          <span className="t-sez">Lettera dell&apos;AD</span>
+      <section className="card p-3">
+        <div className="sez-head mb-1.5">
+          <span className="sez-ico w-7 h-7"><Mail size={15} /></span>
+          <span className="t-sez text-[15px]">Lettera dell&apos;AD</span>
         </div>
         <p className="t-eti">La prossima lettera compare dopo la review settimanale della macchina.</p>
       </section>
@@ -45,13 +45,13 @@ export default function LetteraAdCard() {
 
   return (
     <>
-      <section className="card p-4">
-        <div className="sez-head mb-2">
-          <span className="sez-ico"><Mail size={16} /></span>
-          <span className="t-sez">Lettera dell&apos;AD</span>
+      <section className="card p-3">
+        <div className="sez-head mb-1.5">
+          <span className="sez-ico w-7 h-7"><Mail size={15} /></span>
+          <span className="t-sez text-[15px]">Lettera dell&apos;AD</span>
           {data && <span className="ml-auto t-eti">{dataVault(data)}</span>}
         </div>
-        <p className="t-corpo font-medium leading-relaxed line-clamp-4">{anteprima}{troncata ? "…" : ""}</p>
+        <p className="t-corpo text-[13px] font-medium leading-snug line-clamp-3">{anteprima}{troncata ? "…" : ""}</p>
         <button
           type="button"
           onClick={() => setAperta(true)}

@@ -1,11 +1,12 @@
-## Cosa
-- In Home, sezione «Botteghe e prospect» con tutta la mappa (67 locali): già live, 3 priorità carrello, centro, 10 database, ristoranti, gelaterie, bar, delivery, super.
-- Sezioni pieghevoli (aperte solo «Già su MyCity» e «Priorità massima») + kit tascabile/checklist invariati.
+## Summary
+Compatta la Home del Pannello (meno scroll, stesso contenuto) **inclusi kit campo e mappa prospect**:
+- 4 card azioni in griglia densa 2×2 / 4 colonne
+- **Botteghe e prospect**: tascabile + checklist sempre visibili; mappa 67 locali in `<details>` chiusa di default
+- Ritmo, volano e report AD pieghevoli con riassunto in header
+- KPI in griglia 3×2 compatta
 
-## Perché
-Nicola chiede la lista completa creata in chat (pre-Kaefu) visibile in Home, non solo i kit PDF.
-
-## Come provare
-1. Merge PR → Ctrl+Shift+R Home.
-2. Blocco «Botteghe e prospect» sotto le 4 card in cima.
-3. Apri/chiudi le sezioni (es. «Altre botteghe del centro» = 23 voci).
+## Test plan
+- [ ] Home: 4 card + **2 pulsanti kit** (tascabile, checklist) visibili senza scroll eccessivo
+- [ ] «Mappa prospect» chiusa di default → espandi → categorie con locali
+- [ ] Ritmo / volano / report: freccia apre tutto il contenuto
+- [ ] Ctrl+Shift+R dopo merge PR #389
