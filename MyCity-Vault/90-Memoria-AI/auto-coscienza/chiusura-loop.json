@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-14 02:32",
+  "aggiornato": "2026-07-14 03:39",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
-  "vuoti": 80,
-  "fermi": 107,
-  "vivi": 13,
+  "vuoti": 79,
+  "fermi": 100,
+  "vivi": 20,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -37,10 +37,7 @@
     "corporate-strategy",
     "courier-acquisition",
     "credito-impresa",
-    "crm-lifecycle",
     "cro",
-    "customer-success",
-    "data-engineer",
     "demand-forecasting",
     "designer",
     "developer-platform",
@@ -49,7 +46,6 @@
     "dispute",
     "dpo",
     "enterprise-risk",
-    "finanza",
     "finanza-agevolata",
     "fiscalista-iva-ecommerce",
     "fondo-garanzia-pmi",
@@ -80,10 +76,7 @@
     "new-verticals",
     "notaio",
     "office-manager",
-    "onboarding-negozi",
-    "operations",
     "partner-management",
-    "people-talent",
     "personalization",
     "platform-infra",
     "pr-stampa",
@@ -191,8 +184,8 @@
       "reparto": "analista",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 13,
-      "ultimo_esito": "2026-07-13 20:21",
+      "righe_esito": 15,
+      "ultimo_esito": "2026-07-14 03:37",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -451,11 +444,11 @@
       "reparto": "crm-lifecycle",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 2,
-      "ultimo_esito": "2026-07-02 07:35",
-      "giorni_fa": 12,
+      "righe_esito": 3,
+      "ultimo_esito": "2026-07-14 02:46",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "cro",
@@ -471,21 +464,21 @@
       "reparto": "customer-success",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 13,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-14 02:43",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "data-engineer",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 1,
-      "ultimo_esito": "2026-07-01",
-      "giorni_fa": 13,
+      "righe_esito": 2,
+      "ultimo_esito": "2026-07-14 03:31",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "demand-forecasting",
@@ -521,8 +514,8 @@
       "reparto": "devops-sre",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 47,
-      "ultimo_esito": "2026-07-13 19:44",
+      "righe_esito": 51,
+      "ultimo_esito": "2026-07-14 03:31",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -581,11 +574,11 @@
       "reparto": "finanza",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 3,
-      "ultimo_esito": "2026-07-01 01:57",
-      "giorni_fa": 13,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-14 03:36",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "finanza-agevolata",
@@ -651,8 +644,8 @@
       "reparto": "frontend-dev",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 100,
-      "ultimo_esito": "2026-07-14 02:29",
+      "righe_esito": 108,
+      "ultimo_esito": "2026-07-14 03:10",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -911,21 +904,21 @@
       "reparto": "onboarding-negozi",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-03",
-      "giorni_fa": 11,
+      "righe_esito": 6,
+      "ultimo_esito": "2026-07-14 02:47",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "operations",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 7,
-      "ultimo_esito": "2026-07-01 20:18",
-      "giorni_fa": 12,
+      "righe_esito": 8,
+      "ultimo_esito": "2026-07-14 03:00",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "partner-management",
@@ -941,11 +934,11 @@
       "reparto": "people-talent",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 0,
-      "ultimo_esito": null,
-      "giorni_fa": null,
-      "vuoto": true,
-      "fermo": true
+      "righe_esito": 1,
+      "ultimo_esito": "2026-07-14 02:34",
+      "giorni_fa": 0,
+      "vuoto": false,
+      "fermo": false
     },
     {
       "reparto": "personalization",
@@ -1021,8 +1014,8 @@
       "reparto": "prompt-engineer",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 5,
-      "ultimo_esito": "2026-07-14 02:30",
+      "righe_esito": 8,
+      "ultimo_esito": "2026-07-14 03:36",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -1281,8 +1274,8 @@
       "reparto": "tech",
       "esiste": true,
       "mancante": false,
-      "righe_esito": 29,
-      "ultimo_esito": "2026-07-13 22:04",
+      "righe_esito": 30,
+      "ultimo_esito": "2026-07-14 02:53",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false

@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 03:37
+aggiornato: 2026-07-14 03:39
 fonte: AD digitale (🌅 14/7 03:37 Onestà numeri PR #379 · Chi impara #378 main · sentinella cassa · PR #377 sensori · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 💬 **14/7 ~03:39 — SENTINELLA: cassa/runway — ri-verificato, blocco invariato.** `cassa_sconosciuta` **91 giri** (+2 dal giro 03:36). **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — unica azione = card **🟡 #burn-mensile-runway** (Nicola mette €/mese in `vps/.env`). Dopo: runway critico (0 mesi) = verità, non bug. Diagnosi: `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 03:39.
+>
 > 💬 **14/7 ~03:37 — CHAT: Onestà sui numeri — 4 fix CHIUSI — PR #379 in attesa Approva.** Nicola «Risolvi questi fix» su casella **Onestà sui numeri** (`calibrazione-onesta`) — riapprovazione Pannello. **Verificato 🟢:** **4/4** finding `stato: chiuso`, voto **75**, 0 aperti dopo allineamento radiografia; restava **1 scheda fantasma** perché `allinea-scan-cantiere` cercava `sensore_stato` in `calibrazione.json` invece del ponte `chiusura-loop`→`calibrazione.mjs da-loop`. **Fix 🟡 PR #379** (`fix/onesta-sui-numeri-v3`, `1d3365ab`): pattern verifica corretto + ogni esito loop porta `sensore_stato`; `calibrazione.mjs valida` → exit **0**. ~~**Pendente:** Approva card **#142**~~ **CORRETTO:** #142 già ✅ FATTO (#378 Chi impara) — Approva card **#143** (PR **#379**). Fonte: chat Nicola 14/7 ~03:37 + verifica radiografia/calibrazione.
 >
 > 💬 **14/7 ~03:36 — CHAT: Chi impara da cosa — 6 fix CHIUSI — PR #378 ✅ main.** Nicola «Risolvi questi fix» su casella **Chi impara da cosa** (`chiusura-volano`) — con approvazione di poco fa. **Verificato 🟢:** PR **#378** mergiata su `origin/main` (`2162a760`); `chiusura-volano` **6/6** finding `stato: chiuso`, **0** aperti, voto **72** — area verde su main. Codice: sonda business-first, ponte quaderni→calibrazione, sync proposte. **Se Pannello mostra ancora schede:** cache — Ctrl+Shift+R su Radiografia macchina › Chi impara da cosa (non manca altro fix). Fonte: chat Nicola 14/7 ~03:36 + verifica `origin/main`.
