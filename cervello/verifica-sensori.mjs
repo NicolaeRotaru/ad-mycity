@@ -23,6 +23,7 @@ const RETRIES = 3;
 const RETRY_MS = 2000;
 const FETCH_TIMEOUT_MS = 8000;
 
+/** fetch con timeout — un endpoint appeso degrada il sensore, non affonda il giro. */
 function fetchSensore(url, init = {}) {
   return fetch(url, { ...init, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
 }
@@ -224,6 +225,74 @@ async function checkSito() {
   return { ...r, configurato: true };
 }
 
+async function checkSupabaseMemoria() {
+  const url = process.env.SUPABASE_URL?.trim();
+  const key = process.env.SUPABASE_SERVICE_KEY?.trim();
+  if (!url || !key) {
+    return { ok: false, configurato: false, dettaglio: "SUPABASE_URL/SERVICE_KEY assenti — DB memoria non monitorato" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetchSensore(`${url}/rest/v1/impostazioni?select=chiave&limit=1`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
+    }
+    return { ok: true, dettaglio: "impostazioni leggibili via REST (DB memoria)" };
+  }, "supabase_memoria");
+  return { ...r, configurato: true };
+}
+
+async function checkPannello() {
+  const url = (process.env.PANNELLO_URL || process.env.CABINA_URL)?.trim();
+  if (!url) {
+    return { ok: false, configurato: false, dettaglio: "PANNELLO_URL/CABINA_URL assente — uptime Cabina non monitorato" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetchSensore(url, { method: "GET", redirect: "follow" });
+    if (!res.ok) {
+      return { ok: false, dettaglio: `HTTP ${res.status} su ${url}` };
+    }
+    return { ok: true, dettaglio: `Pannello raggiungibile (HTTP ${res.status})` };
+  }, "pannello_uptime");
+  return { ...r, configurato: true };
+}
+
+async function checkTelegram() {
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
+  if (!token) {
+    return { ok: false, configurato: false, dettaglio: "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate" };
+  }
+  const r = await conRetry(async () => {
+    const res = await fetchSensore(`https://api.telegram.org/bot${token}/getMe`);
+    if (!res.ok) {
+      const t = await res.text();
+      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
+    }
+    const data = await res.json();
+    if (!data.ok) return { ok: false, dettaglio: data.description || "getMe fallito" };
+    return { ok: true, dettaglio: `bot @${data.result?.username || "ok"}` };
+  }, "telegram_bot");
+  return { ...r, configurato: true };
+}
+
+async function checkN8n() {
+  const url = process.env.N8N_WEBHOOK_URL?.trim() || process.env.N8N_HEALTH_URL?.trim();
+  if (!url) {
+    return { ok: false, configurato: false, dettaglio: "N8N_WEBHOOK_URL/HEALTH_URL assente — hub mani non monitorato" };
+  }
+  const healthUrl = process.env.N8N_HEALTH_URL?.trim() || url.replace(/\/webhook.*$/i, "/healthz");
+  const r = await conRetry(async () => {
+    const res = await fetchSensore(healthUrl, { method: "GET" });
+    if (!res.ok) {
+      return { ok: false, dettaglio: `HTTP ${res.status} su ${healthUrl}` };
+    }
+    return { ok: true, dettaglio: "n8n health ok" };
+  }, "n8n_health");
+  return { ...r, configurato: true };
+}
+
 async function main() {
   const quando = nowPiacenza();
   const cecita = leggiCecita();
@@ -287,6 +356,50 @@ async function main() {
     sito.dettaglio,
     "storefront GET",
     sito.configurato
+  );
+
+  const sbMem = await checkSupabaseMemoria();
+  checks.push({ nome: "supabase_memoria", ...sbMem, canale: "SUPABASE_URL" });
+  cecita.sensori.supabase_memoria = aggiornaSensore(
+    cecita.sensori,
+    "supabase_memoria",
+    sbMem.ok,
+    sbMem.dettaglio,
+    "REST memoria",
+    sbMem.configurato
+  );
+
+  const pannello = await checkPannello();
+  checks.push({ nome: "pannello_uptime", ...pannello, canale: "PANNELLO_URL" });
+  cecita.sensori.pannello_uptime = aggiornaSensore(
+    cecita.sensori,
+    "pannello_uptime",
+    pannello.ok,
+    pannello.dettaglio,
+    "Cabina GET",
+    pannello.configurato
+  );
+
+  const tg = await checkTelegram();
+  checks.push({ nome: "telegram_bot", ...tg, canale: "TELEGRAM_BOT_TOKEN" });
+  cecita.sensori.telegram_bot = aggiornaSensore(
+    cecita.sensori,
+    "telegram_bot",
+    tg.ok,
+    tg.dettaglio,
+    "Telegram getMe",
+    tg.configurato
+  );
+
+  const n8n = await checkN8n();
+  checks.push({ nome: "n8n_health", ...n8n, canale: "N8N_WEBHOOK_URL" });
+  cecita.sensori.n8n_health = aggiornaSensore(
+    cecita.sensori,
+    "n8n_health",
+    n8n.ok,
+    n8n.dettaglio,
+    "n8n healthz",
+    n8n.configurato
   );
 
   const mcpSb = parseMcpFlag("supabase");

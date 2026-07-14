@@ -92,6 +92,7 @@
 | Consumo AI giornaliero (`costo-ai.json`) | > soglia (`COSTO_SOGLIA_TOKEN_GIORNO`) | prompt-engineer/AD | sposta i compiti sull'AI economica, taglia i giri ridondanti | 🟡 |
 | Drift registro agenti (`agent-registry-check.mjs`) | drift > 0 (orfani/conteggio) | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai 42 file reali | 🟡 |
 | Dispersione dalla North Star | North Star = 0 per ≥ 3 giri mentre si accumulano asset/coda | AD | STOP produzione: taglia il volume, forza il focus sull'entità confermata | 🟡 |
+| Azione in attesa firma stantia in coda | > 48h (🔴) / > 5 giorni (🟡) senza esito | AD | **reminder** Telegram (non dedup) · escalation se > 7g | 🟡 |
 | Negozio di deperibili verso LIVE senza gate compliance | prima consegna di freschi | qa/legale-privacy | blocca finché `GATE-COMPLIANCE-PRELANCIO.md` non è spuntato | 🔴 |
 | Data breach / incidente dati personali (GDPR) | qualsiasi sospetto | legale-privacy/security | **notifica Garante entro 72h** + registro incidenti; richieste interessati entro 30gg | 🔴 |
 

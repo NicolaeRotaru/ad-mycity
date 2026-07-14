@@ -9,6 +9,7 @@ import { nowPiacenza, stampSegnale } from "./git-github.mjs";
 
 const MAX_MIN = Number(process.argv.find((a) => a.startsWith("--max-min="))?.slice(10) || 60);
 
+/** Guardiani del preambolo giro.sh che DEVONO chiamare stampSegnale a ogni giro. */
 const ATTESI = [
   "sensori",
   "allinea-scan-cantiere",
@@ -51,7 +52,7 @@ async function main() {
   const quando = nowPiacenza();
   const { ok, motivo, segnali } = await leggiSegnali();
   if (!ok) {
-    console.log(`⚠️  freschezza-segnali: ${motivo} — skip (normale senza Supabase).`);
+    console.log(`⚠️  freschezza-segnali: ${motivo} — skip (normale in sessione senza Supabase).`);
     await stampSegnale("freschezza-segnali", "warn", `non verificabile: ${motivo} · ${quando}`);
     process.exit(0);
   }

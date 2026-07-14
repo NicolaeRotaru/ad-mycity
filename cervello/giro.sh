@@ -14,6 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+# Hook git versionati (scan-segreti al commit) — idempotente, attiva core.hooksPath su ogni clone.
 if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
   bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
 fi
@@ -288,17 +289,19 @@ if command -v node >/dev/null 2>&1; then
     FATTI_VINCOLO="⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente."
     echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
   fi
+  echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
+  node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | tail -4 || true
   # AR-023: RICONCILIA IL CANTIERE — chiude da solo i difetti il cui fix è GIÀ nel codice (prova
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
-  echo "[$(ts)] Auto-fix: riconcilia cantiere (solo verifica, niente chiusura automatica)..."
+  echo "[$(ts)] Auto-fix: riconcilia cantiere (solo verifica — chiusura manuale o via PR)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica 2>&1 | tail -6 || true
   echo "[$(ts)] Sincronizza proposte auto-riscrittura → cantiere..."
   node "$SCRIPT_DIR/sincronizza-proposte.mjs" 2>&1 | tail -3 || true
   echo "[$(ts)] Allinea scan radiografia → cantiere (findings + voto live)..."
   node "$SCRIPT_DIR/allinea-scan-cantiere.mjs" 2>&1 | tail -4 || true
-  echo "[$(ts)] Meta-guardiano freschezza-segnali..."
+  echo "[$(ts)] Meta-guardiano freschezza-segnali (guardiani del preambolo hanno battuto?)..."
   node "$SCRIPT_DIR/freschezza-segnali.mjs" 2>&1 | tail -4 || true
 
   # === CAPACITÀ VIVE + GUARDIANI ORFANI ORA CABLATI NEL BATTITO (sola lettura, informativi) ===

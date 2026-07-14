@@ -137,10 +137,21 @@ const dimensioni = dims.map((d) => {
 const tuttiFindings = dimensioni.flatMap((d) => d.findings)
 const proposte_nuovi_pezzi = tuttiFindings.filter((f) => f.genera === 'nuovo-pezzo').map((f) => ({ cosa: f.titolo, perche: f.descrizione, colore: '🟡' }))
 const domande_per_nicola = tuttiFindings.filter((f) => f.genera === 'domanda-nicola').map((f) => ({ domanda: f.titolo, perche_serve: f.descrizione, se_rispondi: f.fix, gravita: f.severita === 'bloccante' ? 'alta' : 'media' }))
+const punti_ciechi = [
+  { cosa: 'Verifiche solo-LLM senza reviewer deterministico', perche: 'Alcune dimensioni passano solo dal giudizio del modello, non da un guardiano script' },
+  { cosa: 'Repo marketplace (mycity-live) fuori da questa radiografia', perche: 'Audit macchina ≠ audit sito; serve radiografia.js separata' },
+  { cosa: 'Copertura KPI dei 120 senior vs OKR-Squadra', perche: 'agent-registry-check segnala drift ma OKR va aggiornato a mano' },
+].concat(
+  dimensioni.filter((d) => d.stato === 'critico').map((d) => ({
+    cosa: `Dimensione ${d.key} in stato critico`,
+    perche: 'Richiede radiografia approfondita o fix strutturali non ancora chiusi',
+  }))
+)
 
 return {
   voto_salute_architettura: Math.max(0, 100 - totale),
   dimensioni,
+  punti_ciechi,
   pre_mortem: (preMortem && preMortem.scenari) || [],
   benchmark_vs_migliori: (benchmark && benchmark.ambiti) || [],
   proposte_nuovi_pezzi,
