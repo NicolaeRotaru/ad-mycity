@@ -365,7 +365,7 @@ function valutaRegole(s, state) {
       dedupPersistente: true,
       titolo: `Sensore-cassa cieco da ${s.giri_sconosciuto} giri (runway sconosciuto)`,
       firma: String(s.giri_sconosciuto),
-      prompt: `Sentinella macchina 🧠 — SENSORE-CASSA CIECO: runway 'sconosciuto' da ${s.giri_sconosciuto} giri (cassa-runway.json). Collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR nel .env del VPS per calcolare il runway. Prepara la diagnosi per Nicola — NON muovere denaro da solo.`,
+      prompt: `Sentinella macchina 🧠 — SENSORE-CASSA CIECO: runway 'sconosciuto' da ${s.giri_sconosciuto} giri (cassa-runway.json). Verifica: Stripe spesso GIÀ ok (cassa letta); blocco tipico = BURN_MENSILE_EUR mancante nel .env VPS. Prepara diagnosi per Nicola (consegne/finanza/) — NON muovere denaro da solo.`,
     });
   }
 
