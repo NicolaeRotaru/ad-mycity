@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-14 03:31 · Sensori e dati reali — PR #377 · atteso: 7 findings `salute-sensori-dati` chiusi con fix pipeline giro · reale: check fonti web a ogni giro, sentinel occhi+cassa, auto-clear errori ok, check mattutino timer occhi, fix loop segnale verifica; `allinea-scan-cantiere` 0 findings; PostHog/uptime senza URL = normale; merge 🔴 #142 · L-222 · #sensori #pr-377 #salute-sensori-dati #esito
 - 2026-07-14 02:53 · PR #371 gate mergeable — Nicola «ti ho già detto» su conflitti · atteso: git-pr.mjs verifica mergeable prima di accodare card · reale: #371 aperta senza check, conflitto body risolto rebase `6fa822bf`; regola gate rinforzata · L-214 · #pr-371 #git-pr #gate #esito
 - 2026-07-14 02:52 · GitHub mobile socket error — Nicola screenshot PR #369 Ready to merge + «io error on socket» · atteso: chiarire non è conflitto, merge da Pannello · reale: PR verde mergeable; errore = app GitHub mobile/rete; Nicola Approva #134 in Azioni, non MERGE app; fallback browser PC · L-213 · #pr-369 #github-mobile #merge #pannello #esito
 - 2026-07-14 02:49 · PR #310 obsoleta — Nicola riapprova «ha dei conflitti» · atteso: risposta chiara chiudi senza merge · reale: fix git-pr.mjs già su main (#312 `090448b1`); #310 branch 12/7 sporco; Nicola chiude #310 su GitHub · L-210 · L-99 evidenze 5 · #pr-310 #pr-312 #git-pr #esito
