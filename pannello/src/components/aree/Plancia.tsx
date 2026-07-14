@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { PenLine, ShieldAlert, ListTodo, TrendingUp, Package, Euro, Truck, Users, Star, ShoppingCart, Clock, Footprints, FileText, Store } from "lucide-react";
 import { KIT_CAMPO_BOTTEGHE } from "@/lib/kit-campo-botteghe";
+import { totaleProspect } from "@/lib/lista-prospect-centro";
 import { formatta, etichettaRitmo, ritmoEODoggi, giornoRoma, type Tipo } from "@/lib/format";
 import { RitmoTesto } from "@/components/RitmoTesto";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -13,6 +14,7 @@ import { usePanelSync } from "@/lib/panel-sync";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import MacchinaHomeCard from "@/components/MacchinaHomeCard";
 import LetteraAdCard from "@/components/LetteraAdCard";
+import HomeSezione from "@/components/HomeSezione";
 import ListaProspectHome from "@/components/ListaProspectHome";
 import Volano from "@/components/Volano";
 
@@ -101,84 +103,89 @@ export default function Plancia({
     return on ? formatta(metriche![chiave], tipo) : "—";
   };
 
+  const ritmoAggiornatoOggi = ritmoEODoggi(ritmo.pianoMattino?.data) && ritmoEODoggi(ritmo.reportSera?.data);
+  const ritmoRiassunto = [
+    ritmo.pianoMattino ? `Mattino ${etichettaRitmo(ritmo.pianoMattino.data)}` : "Mattino —",
+    ritmo.reportSera ? `Sera ${etichettaRitmo(ritmo.reportSera.data)}` : "Sera —",
+  ].join(" · ");
+
   return (
-    <div className="space-y-4">
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <h2 className="t-area">🏠 Cosa conta ora</h2>
-          <p className="t-eti mt-0.5">Il riepilogo per decidere in 10 secondi. Tocca un blocco per andare al dettaglio.</p>
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h2 className="t-area text-[18px] sm:text-[20px]">🏠 Cosa conta ora</h2>
+          <p className="t-eti mt-0.5 hidden sm:block">Decidi in 10 secondi — tocca un blocco per il dettaglio.</p>
         </div>
-        <Aggiornato at={aggAt} className="mt-1 shrink-0" />
+        <Aggiornato at={aggAt} className="shrink-0" />
       </div>
 
       {/* 1 · Da fare adesso: firmare + allarmi in evidenza */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <button onClick={() => vaiAzioni("approvare")} className="card-priorita hover:border-brand/30 sm:col-span-1">
-          <div className="flex items-center gap-2">
-            <span className="sez-ico"><PenLine size={16} /></span>
-            <span className="t-sez">Da firmare</span>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+        <button onClick={() => vaiAzioni("approvare")} className="card-priorita hover:border-brand/30 !p-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="sez-ico w-7 h-7"><PenLine size={15} /></span>
+            <span className="t-sez text-[14px]">Da firmare</span>
             <span className={`badge ml-auto ${daFirmare.length ? "badge-on" : "badge-off"}`}>{daFirmare.length}</span>
           </div>
-          <div className="mt-2 space-y-1">
-            {daFirmare.length === 0 && <p className="t-eti">Niente da firmare. 👍</p>}
-            {daFirmare.slice(0, 3).map((a) => (
-              <div key={a.id} className="flex items-start gap-1.5 t-riga">
-                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <span className="mt-0.5 shrink-0 font-mono text-[10px] font-bold text-brand tabular-nums" title="Codice casella">{codiceAzione(a.id)}</span>
-                <span className="mt-0.5 shrink-0 text-black/25 text-[10px]">—</span>
+          <div className="mt-1.5 space-y-0.5">
+            {daFirmare.length === 0 && <p className="t-eti text-[12px]">Niente da firmare. 👍</p>}
+            {daFirmare.slice(0, 2).map((a) => (
+              <div key={a.id} className="flex items-start gap-1 t-riga text-[12.5px]">
+                <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(a.livello)}`} />
+                <span className="mt-0.5 shrink-0 font-mono text-[9px] font-bold text-brand tabular-nums" title="Codice casella">{codiceAzione(a.id)}</span>
                 <FraseLista testo={pulisciTitolo(a.titolo)} />
               </div>
             ))}
-            {daFirmare.length > 3 && <p className="t-eti">+{daFirmare.length - 3} altre…</p>}
+            {daFirmare.length > 2 && <p className="t-eti text-[11px]">+{daFirmare.length - 2} altre…</p>}
           </div>
         </button>
 
-        <button onClick={() => vaiAzioni("sentinelle")} className="card-priorita hover:border-brand/30">
-          <div className="flex items-center gap-2">
-            <span className="sez-ico"><ShieldAlert size={16} /></span>
-            <span className="t-sez">Allarmi</span>
+        <button onClick={() => vaiAzioni("sentinelle")} className="card-priorita hover:border-brand/30 !p-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="sez-ico w-7 h-7"><ShieldAlert size={15} /></span>
+            <span className="t-sez text-[14px]">Allarmi</span>
             <span className={`badge ml-auto ${alerts.length ? "badge-on" : "badge-off"}`}>{alerts.length}</span>
           </div>
-          <div className="mt-2 space-y-1">
-            {alerts.length === 0 && <p className="t-eti">Nessun allarme. Tutto ok.</p>}
-            {alerts.slice(0, 3).map((al, i) => (
-              <div key={i} className="flex items-start gap-2 t-riga">
-                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(al.livello)}`} />
+          <div className="mt-1.5 space-y-0.5">
+            {alerts.length === 0 && <p className="t-eti text-[12px]">Nessun allarme. Tutto ok.</p>}
+            {alerts.slice(0, 2).map((al, i) => (
+              <div key={i} className="flex items-start gap-1.5 t-riga text-[12.5px]">
+                <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(al.livello)}`} />
                 <FraseLista testo={al.titolo} />
               </div>
             ))}
-            {alerts.length > 3 && <p className="t-eti">+{alerts.length - 3} altri…</p>}
+            {alerts.length > 2 && <p className="t-eti text-[11px]">+{alerts.length - 2} altri…</p>}
           </div>
         </button>
 
-        <button onClick={() => vaiAzioni("mosse")} className="card-priorita hover:border-brand/30">
-          <div className="flex items-center gap-2">
-            <span className="sez-ico"><Footprints size={16} /></span>
-            <span className="t-sez">Mosse di Nicola</span>
+        <button onClick={() => vaiAzioni("mosse")} className="card-priorita hover:border-brand/30 !p-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="sez-ico w-7 h-7"><Footprints size={15} /></span>
+            <span className="t-sez text-[14px]">Mosse</span>
             <span className={`badge ml-auto ${mosseOrd.length ? "badge-on" : "badge-off"}`}>{mosseOrd.length}</span>
           </div>
-          <div className="mt-2 space-y-1">
-            {mosseOrd.length === 0 && <p className="t-eti">Nessuna mossa in agenda.</p>}
+          <div className="mt-1.5 space-y-0.5">
+            {mosseOrd.length === 0 && <p className="t-eti text-[12px]">Nessuna mossa in agenda.</p>}
             {mosseOrd.slice(0, 2).map((m, i) => (
-              <div key={i} className="flex items-start gap-2 t-riga">
-                <span className="mt-0.5 shrink-0 text-base">{m.colore || "•"}</span>
+              <div key={i} className="flex items-start gap-1.5 t-riga text-[12.5px]">
+                <span className="mt-0.5 shrink-0 text-sm">{m.colore || "•"}</span>
                 <FraseLista testo={pulisciTitolo(m.titolo)} />
               </div>
             ))}
           </div>
         </button>
 
-        <button onClick={() => vaiAzioni("dafare")} className="card-priorita hover:border-brand/30">
-          <div className="flex items-center gap-2">
-            <span className="sez-ico"><ListTodo size={16} /></span>
-            <span className="t-sez">Cose da fare</span>
+        <button onClick={() => vaiAzioni("dafare")} className="card-priorita hover:border-brand/30 !p-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="sez-ico w-7 h-7"><ListTodo size={15} /></span>
+            <span className="t-sez text-[14px]">Da fare</span>
             <span className={`badge ml-auto ${daFare.length ? "badge-on" : "badge-off"}`}>{daFare.length}</span>
           </div>
-          <div className="mt-2 space-y-1">
-            {daFare.length === 0 && <p className="t-eti">Nessuna cosa in sospeso.</p>}
+          <div className="mt-1.5 space-y-0.5">
+            {daFare.length === 0 && <p className="t-eti text-[12px]">Nessuna cosa in sospeso.</p>}
             {daFare.slice(0, 2).map((t) => (
-              <div key={t.id} className="flex items-start gap-2 t-riga">
-                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${dotCls(t.livello)}`} />
+              <div key={t.id} className="flex items-start gap-1.5 t-riga text-[12.5px]">
+                <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(t.livello)}`} />
                 <FraseLista testo={t.testo} />
               </div>
             ))}
@@ -186,47 +193,64 @@ export default function Plancia({
         </button>
       </div>
 
-      {/* Kit campo botteghe + mappa prospect */}
-      <section className="card p-4">
-        <div className="sez-head mb-3">
-          <span className="sez-ico"><Store size={16} /></span>
-          <span className="t-sez">Botteghe e prospect</span>
+      {/* Kit campo + mappa prospect — kit sempre visibile, lista pieghevole */}
+      <section className="card p-3">
+        <div className="sez-head mb-2">
+          <span className="sez-ico w-7 h-7"><Store size={15} /></span>
+          <span className="t-sez text-[15px]">Botteghe e prospect</span>
+          <span className="ml-auto t-eti text-[11px]">{totaleProspect()} locali</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+        <div className="grid grid-cols-2 gap-1.5 mb-2">
           {KIT_CAMPO_BOTTEGHE.map((k) => (
             <button
               key={k.file}
+              type="button"
               onClick={() => vaiArea("memoria", undefined, `archivio/${k.file}`)}
-              className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+              className="text-left surface-muted p-2 rounded-xl hover:border-brand/30 border border-transparent transition flex items-center gap-2 min-h-[44px]"
             >
-              <span className="mt-0.5 text-lg shrink-0">{k.emoji}</span>
+              <span className="text-base shrink-0">{k.emoji}</span>
               <span className="min-w-0">
-                <span className="block text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>{k.titolo}</span>
-                <span className="block t-eti mt-0.5">{k.sottotitolo}</span>
+                <span className="block text-[12.5px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{k.titolo}</span>
+                <span className="block t-eti text-[10px] truncate">{k.sottotitolo}</span>
               </span>
             </button>
           ))}
         </div>
-        <ListaProspectHome />
+        <details className="rounded-xl border border-black/[0.07] bg-paper/30 group">
+          <summary className="flex items-center gap-2 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span className="text-[13px] font-medium flex-1" style={{ color: "var(--text-primary)" }}>
+              Mappa prospect
+              <span className="ml-1.5 t-eti font-normal">({totaleProspect()} locali)</span>
+            </span>
+            <span className="t-eti text-[11px] hidden sm:inline">apri la categoria che ti serve</span>
+          </summary>
+          <div className="px-3 pb-2.5 pt-0 border-t border-black/[0.05]">
+            <ListaProspectHome />
+          </div>
+        </details>
       </section>
 
-      {/* 2 · Ritmo del giorno */}
+      {/* 2 · Ritmo del giorno — chiuso se aggiornato, aperto se manca qualcosa */}
       {(ritmo.pianoMattino || ritmo.reportSera) && (
-        <section className="card p-4">
-          <div className="sez-head mb-3">
-            <span className="sez-ico"><Clock size={16} /></span>
-            <div className="min-w-0 flex-1">
-              <span className="t-sez">Ritmo del giorno</span>
-              {(!ritmoEODoggi(ritmo.pianoMattino?.data) && !ritmoEODoggi(ritmo.reportSera?.data)) && (
-                <p className="text-[12px] mt-1 font-medium text-amber-600 dark:text-amber-400">
-                  ⚠️ Non ancora aggiornato oggi ({giornoRoma().split("-").reverse().join("/")})
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="surface-muted p-3.5">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
+        <HomeSezione
+          icon={<Clock size={15} />}
+          titolo="Ritmo del giorno"
+          riassunto={ritmoRiassunto}
+          defaultOpen={!ritmoAggiornatoOggi}
+          badge={
+            !ritmoAggiornatoOggi ? (
+              <span className="badge badge-off text-[10px]">da aggiornare</span>
+            ) : undefined
+          }
+        >
+          {(!ritmoEODoggi(ritmo.pianoMattino?.data) || !ritmoEODoggi(ritmo.reportSera?.data)) && (
+            <p className="text-[12px] mb-2 font-medium text-amber-600 dark:text-amber-400">
+              ⚠️ Non ancora aggiornato oggi ({giornoRoma().split("-").reverse().join("/")})
+            </p>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="surface-muted p-2.5">
+              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                 <span className="t-micro">🌅 Piano del mattino</span>
                 {ritmo.pianoMattino && (
                   <span className={`badge ml-auto ${ritmoEODoggi(ritmo.pianoMattino.data) ? "badge-on" : "badge-off"}`} title={ritmo.pianoMattino.data}>
@@ -246,8 +270,8 @@ export default function Plancia({
                 <p className="t-eti">Non ancora scritto oggi.</p>
               )}
             </div>
-            <div className="surface-muted p-3.5">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <div className="surface-muted p-2.5">
+              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                 <span className="t-micro">🌙 Report della sera</span>
                 {ritmo.reportSera && (
                   <span className={`badge ml-auto ${ritmoEODoggi(ritmo.reportSera.data) ? "badge-on" : "badge-off"}`} title={ritmo.reportSera.data}>
@@ -268,30 +292,30 @@ export default function Plancia({
               )}
             </div>
           </div>
-        </section>
+        </HomeSezione>
       )}
 
       {/* 3 · Lettera dell'AD */}
       <LetteraAdCard />
 
-      {/* 4 · KPI chiave */}
-      <section className="card p-4">
-        <div className="sez-head mb-3">
-          <span className="sez-ico"><TrendingUp size={16} /></span>
-          <span className="t-sez">Numeri che contano</span>
-          <button onClick={() => onVaiA?.("numeri")} className="ml-auto t-eti hover:text-brand transition">tutti i numeri →</button>
+      {/* 4 · KPI chiave — griglia densa, tutto visibile */}
+      <section className="card p-3">
+        <div className="sez-head mb-2">
+          <span className="sez-ico w-7 h-7"><TrendingUp size={15} /></span>
+          <span className="t-sez text-[15px]">Numeri che contano</span>
+          <button onClick={() => onVaiA?.("numeri")} className="ml-auto t-eti hover:text-brand transition text-[12px]">tutti →</button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
           {KPI_CHIAVE.map((k) => {
             const v = cell(k.chiave, k.tipo);
             const on = v !== "—";
             return (
-              <div key={k.chiave} className={`kpi-tile ${on ? "" : "kpi-tile-off"}`}>
-                <div className="kpi-tile-label">
+              <div key={k.chiave} className={`kpi-tile !p-2 ${on ? "" : "kpi-tile-off"}`}>
+                <div className="kpi-tile-label text-[10px]">
                   <span className={on ? "text-brand" : ""} style={on ? undefined : { color: "var(--text-faint)" }}>{k.icon}</span>
-                  <span>{k.label}</span>
+                  <span className="truncate">{k.label}</span>
                 </div>
-                <div className={`kpi-tile-value ${on ? "" : "kpi-tile-value-off"}`}>{v}</div>
+                <div className={`kpi-tile-value text-[16px] ${on ? "" : "kpi-tile-value-off"}`}>{v}</div>
               </div>
             );
           })}
@@ -303,33 +327,45 @@ export default function Plancia({
 
       <Volano />
 
-      {/* Resto · documenti recenti */}
-      <section className="card p-4">
-        <div className="sez-head mb-3">
-          <span className="sez-ico"><FileText size={16} /></span>
-          <span className="t-sez">Report &amp; piani dell&apos;AD</span>
-          <button onClick={() => vaiArea("memoria", undefined, "archivio")} className="ml-auto t-eti hover:text-brand transition">tutti i documenti →</button>
+      {/* Resto · documenti recenti — chiuso di default, riassunto in header */}
+      <HomeSezione
+        icon={<FileText size={15} />}
+        titolo="Report & piani dell'AD"
+        riassunto={
+          documenti.length === 0
+            ? "Radiografie e piani compaiono qui quando l'AD li produce."
+            : `${documenti.length} documenti recenti — tocca per aprire l'elenco`
+        }
+        defaultOpen={documenti.length === 0}
+        badge={
+          documenti.length > 0 ? (
+            <span className={`badge ${documenti.length ? "badge-on" : "badge-off"}`}>{documenti.length}</span>
+          ) : undefined
+        }
+      >
+        <div className="flex items-center justify-end mb-2">
+          <button onClick={() => vaiArea("memoria", undefined, "archivio")} className="t-eti hover:text-brand transition text-[12px]">tutti i documenti →</button>
         </div>
         {documenti.length === 0 ? (
           <p className="t-eti">Le radiografie e i piani che l&apos;AD produce compaiono qui.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             {documenti.slice(0, 4).map((d) => (
               <button
                 key={d.file}
                 onClick={() => vaiArea("memoria", undefined, `archivio/${d.file}`)}
-                className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+                className="text-left surface-muted p-2.5 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2"
               >
-                <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
+                <span className="mt-0.5 text-black/40 shrink-0"><FileText size={14} /></span>
                 <span className="min-w-0">
                   <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
-                  <span className="block t-eti mt-0.5 truncate">{d.etichetta}{d.data ? ` · ${dataItBreve(d.data)}` : ""}</span>
+                  <span className="block t-eti mt-0.5 truncate text-[11px]">{d.etichetta}{d.data ? ` · ${dataItBreve(d.data)}` : ""}</span>
                 </span>
               </button>
             ))}
           </div>
         )}
-      </section>
+      </HomeSezione>
     </div>
   );
 }
