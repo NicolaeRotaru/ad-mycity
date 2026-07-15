@@ -125,6 +125,13 @@ import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta"
 import { ripristinaSub } from "@/lib/nav";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
+import {
+  buildRichiestaCasella,
+  estraiContestoCasellaDaRichiesta,
+  EVENTO_LAVORO_CAS,
+  MSG_RISPOSTA_VUOTA,
+  type ParlaMsg,
+} from "@/lib/parla";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -1077,7 +1084,7 @@ export default function Dashboard() {
         if (l.stato === "in_corso" && l.risultato) aggiornaPendingParziale(pend.targetConvId, l.risultato);
         continue;
       }
-      const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : "(risposta vuota)");
+      const testo = l.risultato || (l.stato === "errore" ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte." : MSG_RISPOSTA_VUOTA);
       applicaRispostaChat(pend.id, testo, pend.targetConvId);
     }
   }
@@ -1194,11 +1201,13 @@ export default function Dashboard() {
   async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
     let reali = msgs.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"));
     if (reali.length === 0) return id;
+    let esistente: Conversazione | undefined;
     if (id) {
-      const esistente = conversazioniRef.current.find((c) => c.id === id);
+      esistente = conversazioniRef.current.find((c) => c.id === id);
       if (esistente?.messaggi?.length) reali = mergeThread(esistente.messaggi, reali);
     }
-    const titolo = titoloDa(reali);
+    const titolo =
+      esistente?.titolo?.startsWith("💬 ") ? esistente.titolo : titoloDa(reali);
     let newId = id;
     if (convServer) {
       try {
@@ -1504,12 +1513,32 @@ export default function Dashboard() {
       const richiesta =
         prep.tipo === "giro"
           ? prep.richiesta
-          : (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
-            `## Nuovo messaggio di Nicola\n${t || "(nessun testo — vedi allegati)"}` +
-            baseTxt +
-            bloccoAllegati +
-            `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
-            `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`;
+          : await (async () => {
+              const convRow = conversazioniRef.current.find((c) => c.id === gruppoId);
+              const titoloConv = convRow?.titolo || "";
+              if (titoloConv.startsWith("💬 ")) {
+                const titoloCasella = titoloConv.slice(2).trim();
+                const prefisso = `## Casella del Pannello: ${titoloCasella}\n`;
+                const lv = lavoriRef.current.find(
+                  (l) =>
+                    typeof l.richiesta === "string" &&
+                    (l.richiesta.startsWith(prefisso) || l.gruppo_id === gruppoId),
+                );
+                const contesto = lv?.richiesta ? estraiContestoCasellaDaRichiesta(lv.richiesta) : "";
+                const storiaParla: ParlaMsg[] = messages
+                  .filter((m) => !m.prompt && !m.pending)
+                  .map((m) => ({ role: m.role, content: m.content }));
+                return buildRichiestaCasella(titoloCasella, contesto, storiaParla, t || "(nessun testo — vedi allegati)", gruppoId);
+              }
+              return (
+                (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
+                `## Nuovo messaggio di Nicola\n${t || "(nessun testo — vedi allegati)"}` +
+                baseTxt +
+                bloccoAllegati +
+                `\n\n## Istruzioni\nRispondi all'ultimo messaggio in italiano, come in una chat: conciso e concreto. ` +
+                `Se Nicola dice di aver completato un passo (es. ha iscritto un negozio), aggiorna la memoria nel vault e dichiara cosa hai aggiornato. Rispetta 🟢🟡🔴.`
+              );
+            })();
 
       const res = await fetch("/api/lavori", {
         method: "POST",
@@ -1932,8 +1961,21 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         }
         return nuovi;
       });
-      setLoading(det.messaggi.some((m) => m.pending) ?? false);
+      // Non copiare il «sto pensando» della casella inline: bloccherebbe il pulsante Invia qui.
     });
+  }, []);
+
+  // Lavori nati da ParlaCasella: il poller dell'Assistente li risolve anche se apri la chat da lì.
+  useEffect(() => {
+    const onLavoroCas = (e: Event) => {
+      const det = (e as CustomEvent<{ id: string; tipo: string; convId: string | null }>).detail;
+      if (!det?.id || !det.convId) return;
+      if (!pendingLavoroChatRef.current.has(det.id)) {
+        aggiungiPendingChat({ id: det.id, tipo: det.tipo, targetConvId: det.convId });
+      }
+    };
+    window.addEventListener(EVENTO_LAVORO_CAS, onLavoroCas);
+    return () => window.removeEventListener(EVENTO_LAVORO_CAS, onLavoroCas);
   }, []);
 
   useEffect(() => {
