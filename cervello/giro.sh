@@ -251,8 +251,15 @@ if command -v node >/dev/null 2>&1; then
     else
       echo "[$(ts)] ✅ calibrazione.json: ${_cal_strutturate} voci strutturate."
     fi
+    echo "[$(ts)] Ripara sensore_stato mancanti (AR-061)..."
+    node "$SCRIPT_DIR/calibrazione.mjs" ripara 2>&1 | tail -2 || true
     echo "[$(ts)] Guardiano calibrazione fonte+sensore (AR-061)..."
-    node "$SCRIPT_DIR/calibrazione.mjs" valida 2>&1 | tail -2 || true
+    _valida_out="$(node "$SCRIPT_DIR/calibrazione.mjs" valida 2>&1)"; _valida_rc=$?
+    printf '%s\n' "$_valida_out" | tail -2
+    if [ "$_valida_rc" -ne 0 ]; then
+      CAL_VINCOLO="⛔ CALIBRAZIONE NON CONFORME (AR-061): $(printf '%s' "$_valida_out" | head -1)"
+      echo "[$(ts)] ⚠️  AR-061: calibrazione non valida → vincolo hard al motore." >&2
+    fi
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
@@ -295,6 +302,7 @@ if command -v node >/dev/null 2>&1; then
   # verifica:{file,pattern}). Gira SEMPRE (prima del delta-gate) così la chiusura è deterministica e
   # NON dipende dal motore AI: il sync di fine giro la pubblica su main → il Pannello (che legge
   # quel ramo unico) non mostra più "in-corso" un difetto già risolto. Sola lettura del codice + bookkeeping.
+  # auto-fix: solo verifica, no --applica — chiusura difetti solo manuale o via PR firmata.
   echo "[$(ts)] Auto-fix: riconcilia cantiere (solo verifica — chiusura manuale o via PR)..."
   node "$SCRIPT_DIR/auto-fix.mjs" verifica 2>&1 | tail -6 || true
   echo "[$(ts)] Sincronizza proposte auto-riscrittura → cantiere..."

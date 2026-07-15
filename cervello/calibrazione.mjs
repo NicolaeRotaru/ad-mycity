@@ -135,7 +135,21 @@ function aggiornaNota(data) {
   }
 }
 
+const STATI_VALIDI = new Set(["aperta", "scaduta", "azzeccata", "mancata"]);
+
+// AR-040: il registro attivo accetta SOLO voci strutturate (id + stato valido). Le voci prosa vanno in registro_legacy.
+function assertRegistroStrutturato(data) {
+  const legacy = (data.registro || []).filter((e) => !e.id || !STATI_VALIDI.has(e.stato));
+  if (legacy.length) {
+    console.error(
+      `❌ AR-040: ${legacy.length} voce/i legacy nel registro attivo — esegui archivia-legacy, non scrivere a mano nel JSON.`
+    );
+    process.exit(1);
+  }
+}
+
 function write(data) {
+  assertRegistroStrutturato(data);
   data.aggiornato = nowPiacenza();
   aggiornaNota(data);
   mkdirSync(dirname(PATH), { recursive: true });
@@ -273,7 +287,16 @@ function cmdEsito(data) {
     );
     process.exit(2);
   }
-  const { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
+  let { azzeccata, scarto_pct } = valuta(e.atteso, reale, e.tolleranza || TOLLERANZA_DEFAULT);
+  const sensoreStato = sensoreStatoPerFonte(fonte);
+  // AR-061: sensore-fonte cieco → non si può chiudere "azzeccata" (over-confidence al buio).
+  if (sensoreStato === "cieco" && azzeccata) {
+    console.error(
+      `❌ AR-061: sensore-fonte cieco per "${fonte}" — non si può confermare al buio.\n` +
+        `   Usa --fonte="conferma di Nicola" se c'è verifica umana, oppure chiudi come mancata (--causa=dato).`
+    );
+    process.exit(2);
+  }
   // PZ-011 (piano "chiudi i loop" — diario del perché): una previsione MANCATA non si chiude senza la
   // causa. Sbagliare è ammesso; sbagliare senza capire PERCHÉ no: è la differenza tra calibrarsi e capirsi.
   //   --causa=modello  → il ragionamento era sbagliato (previsione mal costruita)
@@ -297,7 +320,7 @@ function cmdEsito(data) {
   e.scarto_pct = scarto_pct;
   e.stato = azzeccata ? "azzeccata" : "mancata";
   e.fonte = fonte; // AR-062: provenienza dell'esito (mostrata nel Pannello accanto al reale)
-  e.sensore_stato = sensoreStatoPerFonte(fonte); // AR-061: stato del sensore-fonte al momento della misura
+  e.sensore_stato = sensoreStato; // AR-061: stato del sensore-fonte al momento della misura
   e.banale = isPrevisioneBanale(e, reale); // AR-044: status-quo non gonfia l'autonomia
   e.chiuso_il = nowPiacenza();
   const notaEsito = arg("nota");
@@ -409,7 +432,6 @@ function cmdReport(data) {
 // AR-040: sposta le voci scritte a mano (formato prosa senza id/stato) in registro_legacy,
 // così il registro principale contiene SOLO voci strutturate leggibili dal motore.
 function cmdArchiviaLegacy(data) {
-  const STATI_VALIDI = new Set(["aperta", "scaduta", "azzeccata", "mancata"]);
   const legacy = data.registro.filter((e) => !e.id || !STATI_VALIDI.has(e.stato));
   const strutturate = data.registro.filter((e) => e.id && STATI_VALIDI.has(e.stato));
   if (legacy.length === 0) {
@@ -512,9 +534,26 @@ function cmdAutoprevedi(data) {
   console.log(`   Al giro dopo: node cervello/calibrazione.mjs esito --id=${id} --reale=<n> --fonte="Supabase MCP"`);
 }
 
+// AR-061: backfill sensore_stato mancante sulle voci chiuse (es. create prima del ponte da-loop).
+function cmdRipara(data) {
+  let n = 0;
+  for (const e of data.registro) {
+    if ((e.stato === "azzeccata" || e.stato === "mancata") && !e.sensore_stato && e.fonte) {
+      e.sensore_stato = sensoreStatoPerFonte(e.fonte);
+      n += 1;
+    }
+  }
+  if (n > 0) {
+    ricalcolaReparti(data);
+    write(data);
+    console.log(`🔧 ripara: backfill sensore_stato su ${n} voce/i chiuse.`);
+    return;
+  }
+  console.log("✅ ripara: niente da backfill.");
+}
+
 // AR-061/AR-044: guardiano registro — niente esito chiuso senza fonte+sensore_stato, niente voci legacy attive.
 function cmdValida(data) {
-  const STATI_VALIDI = new Set(["aperta", "scaduta", "azzeccata", "mancata"]);
   const problemi = [];
   for (const e of data.registro) {
     if (!e.id || !STATI_VALIDI.has(e.stato)) {
@@ -524,6 +563,10 @@ function cmdValida(data) {
     if (e.stato === "azzeccata" || e.stato === "mancata") {
       if (!e.fonte) problemi.push(`${e.id}: chiusa senza fonte`);
       if (!e.sensore_stato) problemi.push(`${e.id}: chiusa senza sensore_stato`);
+      // AR-061: azzeccata con sensore cieco = over-confidence (come il "confermato" prosa al buio).
+      if (e.stato === "azzeccata" && e.sensore_stato === "cieco") {
+        problemi.push(`${e.id}: azzeccata con sensore-fonte cieco — ricalibra o usa fonte umana`);
+      }
     }
   }
   if (problemi.length) {
@@ -558,6 +601,9 @@ async function main() {
     case "valida":
       cmdValida(data);
       break;
+    case "ripara":
+      cmdRipara(data);
+      break;
     case "da-loop":
       cmdDaLoop(data);
       break;
@@ -566,7 +612,7 @@ async function main() {
       cmdReport(data);
       break;
     default:
-      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | valida | da-loop | report`);
+      console.error(`Comando sconosciuto: ${cmd}. Usa: prevedi | esito | scadute | promozioni | archivia-legacy | autoprevedi | valida | ripara | da-loop | report`);
       process.exit(2);
   }
   const chiuse = data.registro.filter((e) => e.stato === "azzeccata" || e.stato === "mancata").length;
