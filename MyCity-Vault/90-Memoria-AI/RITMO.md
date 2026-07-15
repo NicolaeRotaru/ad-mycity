@@ -315,3 +315,27 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 
 **Dettagli tecnici**
 - Post kefir in coda · VP 17/7 = ritiro al banco (bici non pronta) · PR #373/#374/#375/#379 · SQL 107 · BURN_MENSILE_EUR in vps/.env
+
+## Report della sera · 2026-07-16 01:06
+
+**Com'è andata oggi**
+- Business fermo: zero ordini pagati, stallo circa 22 giorni
+- PR chat casella mergiata ieri sera; fix fonti Comune pronto in coda
+- Supervisione catalogo pronta (494 campi reversibili), niente scritto sul sito
+
+**I numeri**
+- 1 negozio reale, 0 ordini consegnati, North Star 0 — invariati dal 24 giugno (REST 01:06)
+
+**Da approvare**
+- Chiama il fornaio oggi per confermare venerdì al banco
+- Approva le correzioni Pannello utili (foto iPhone, Onestà numeri, fonti Comune)
+- Metti quanto spendiamo al mese per calcolare il runway
+
+**Lezione di oggi**
+- A un giorno dal Venerdì Piacentini la leva vera è la telefonata al fornaio, non un'altra PR a notte fonda
+
+**Domani**
+- Presidio Pane Quotidiano al banco e primo ordine payout-test
+
+**Dettagli tecnici**
+- Report completo: `Report/2026-07-16-giornaliero.md` · PR #402 ✅ · PR #403 in coda · MCP cieco, REST ok
