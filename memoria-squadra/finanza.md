@@ -8,6 +8,7 @@ reparto: finanza
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-15 12:55 · sentinella cassa_sconosciuta 103 giri 12:54 · diagnosi+verifica sensori · atteso diagnosi aggiornata 103 giri card burn in coda → reale Stripe ok 0€ BURN assente giri 103 card #burn-mensile-runway in coda · #runway #burn #esito
 - 2026-07-14 05:38 · sentinella cassa_sconosciuta 97 giri 05:38 · diagnosi+verifica sensori · atteso diagnosi aggiornata 97 giri card burn in coda → reale Stripe ok 0€ BURN assente giri 97 card #burn-mensile-runway in coda · #runway #burn #esito
 - 2026-07-14 04:42 · sentinella cassa_sconosciuta 96 giri 04:42 · diagnosi+verifica sensori · atteso diagnosi aggiornata 96 giri card burn in coda → reale Stripe ok 0€ BURN assente giri 96 card #burn-mensile-runway in coda · #runway #burn #esito
 - 2026-07-14 04:41 · sentinella cassa_sconosciuta 95 giri 04:41 · diagnosi+verifica sensori · atteso diagnosi aggiornata 95 giri, card burn in coda → reale Stripe ok 0€ BURN assente giri 95 card #burn-mensile-runway in coda · #runway #burn #esito
