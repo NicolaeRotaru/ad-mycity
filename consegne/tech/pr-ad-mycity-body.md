@@ -1,8 +1,9 @@
 ## Summary
-- Chiude gli **ultimi 2** finding «Rischio tecnico»: auto-fix senza chiusura automatica; perimetro Cursor documentato (guardiani a valle).
-- `allinea-scan-cantiere`: **0 finding aperti** su rischio-sicurezza-se.
-- Scan Resend senza falsi positivi su testi normali.
+- Unifica la chat «Parla con questa casella» con Assistente e chat fluttuante: stesso thread visibile ovunque si apra.
+- Nuovo bus leggero `chat-unificata.ts`: ParlaCasella e page.tsx si sincronizzano senza loop.
 
 ## Test plan
-- [ ] `node cervello/allinea-scan-cantiere.mjs` → rischio-sicurezza-se: 0 aperti
-- [ ] Dopo merge: Ctrl+Shift+R → Radiografia › Rischio tecnico vuota
+- [ ] Apri una casella → «Parla con questa casella» → scrivi un messaggio
+- [ ] Apri la chat fluttuante (bottone in basso a destra): devi vedere lo stesso filo
+- [ ] Vai in Assistente → Conversazioni: la chat casella c’è con lo stesso titolo `💬 …`
+- [ ] Apri la stessa casella da un’altra area: i messaggi precedenti ci sono
