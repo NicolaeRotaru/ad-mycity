@@ -86,12 +86,18 @@ colore: 🟢 analisi · 🟡 contatto = firma Nicola
 
 ---
 
+## Re-verifica 12:56 (worker sentinella)
+
+| Controllo | Esito |
+|---|---|
+| REST Supabase | ✅ ordini leggibili |
+| Negozi fermi 14g | **1** — solo Pane Quotidiano |
+| Accodamento sentinella | ⏭️ **saltato** — cooldown 24h, stessa firma `c0b240c0…` |
+| Nuova azione anti-churn | ❌ **nessuna** — anti-doppione vs #ritiro-pq-vp17-checkin |
+| Supervisione catalogo | 258 prodotti · 494 autofill proposti · logo PQ ancora mancante |
+
+**Conclusione invariata:** falso positivo; mossa operativa = giovedì 16/7 check-in VP + venerdì presidio banco.
+
 ## Chiusura loop
 
-```bash
-node cervello/chiusura-loop.mjs registra account-negozi "sentinella negozio_fermo 15/7" \
-  "verita:5,completezza:5,onesta:5,anti-doppione:5" \
-  "check-in anti-churn per negozi fermi 14g" \
-  "1 PQ falso positivo; vetrina 4/8; 0 nuove azioni; usa #ritiro-pq-vp17-checkin" \
-  "#sentinella #PQ #falso-positivo"
-```
+✅ **Registrato 15/7 12:56** in `memoria-squadra/account-negozi.md` — scorecard verita/completezza/onesta/anti-doppione: 5/5.

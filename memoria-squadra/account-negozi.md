@@ -7,6 +7,7 @@ reparto: account-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-15 12:56 · sentinella negozio_fermo 15/7 12:56 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso check-in anti-churn per negozi fermi 14g → reale 1 PQ falso positivo; vetrina 4/8; 0 nuove azioni; usa #ritiro-pq-vp17-checkin · #sentinella #PQ #falso-positivo
 - 2026-07-14 11:08 · playbook anti-churn 14/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in → reale 0 in calo; 1 pre-revenue PQ; 1 check-in VP17 accodato; 0 doppioni · #antichurn #playbook #REST-live
 - 2026-07-13 11:43 · metabolizzazione — coda #antichurn allineata · atteso: linguaggio «6 ristoranti tattici» non «6 botteghe food» · reale: titolo+testo #antichurn-13lug aggiornati; playbook path storico annotato · #antichurn #6-ristoranti #propagazione
 - 2026-07-13 11:27 · sentinella negozio_fermo PQ 13/7 11:26 · verdetto:falso_positivo|dossier:ok|anti-churn:no · atteso check-in operativo visita 13/7 → reale già in coda #checkin-pane-quotidiano aggiornato 11:18; cooldown sentinella 24h · #pane-quotidiano #sentinella #falso-positivo

@@ -43,7 +43,7 @@ Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor
 
 ### 🟡 #ritiro-pq-vp17-checkin — Giovedì chiama il fornaio e conferma il presidio di venerdì al banco · ⏳ accodata 2026-07-14 11:07
 
-> **Contesto anti-churn 15/7 11:48:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
+> **Contesto anti-churn 15/7 12:56:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Re-accodamento **saltato** (cooldown 24h). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
 
 **Quando:** **giovedì 16/7 mattina** (T-1 al Venerdì Piacentini).
 
