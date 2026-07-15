@@ -103,14 +103,8 @@
     "2026-07-15T10:55:37.494Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 11521,
+  "tick": 11522,
   "storia": [
-    {
-      "quando": "2026-07-14 13:15",
-      "eventi": 2,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-14 13:16",
       "eventi": 2,
@@ -691,6 +685,12 @@
       "quando": "2026-07-15 12:55",
       "eventi": 2,
       "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-15 12:56",
+      "eventi": 2,
+      "accodati": 0,
       "allertati": 0
     },
     {
