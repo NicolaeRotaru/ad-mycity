@@ -19,7 +19,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
 
-**Diagnosi completa:** `consegne/finanza/2026-07-15-diagnosi-cassa-runway.md`
+**Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
 
 **Cosa fare (sul VPS, in `vps/.env`):**
 ```
@@ -27,9 +27,9 @@ BURN_MENSILE_EUR=XXXX
 ```
 Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
 
-**Stato attuale verificato 12:57:**
+**Stato attuale verificato 01:07:**
 - Stripe ✅ collegato, cassa letta = **0 €**
-- Burn ❌ non impostato → runway «sconosciuto» da **104 giri**
+- Burn ❌ non impostato → runway «sconosciuto» da **109 giri**
 
 **Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
 **Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
