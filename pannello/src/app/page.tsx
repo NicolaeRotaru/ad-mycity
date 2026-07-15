@@ -124,6 +124,7 @@ import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messa
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
+import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -1911,6 +1912,47 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     window.addEventListener("mycity:conversazioni", onConv);
     return () => window.removeEventListener("mycity:conversazioni", onConv);
   }, [caricaConversazioni]);
+
+  // 💬 Chat unificata: «Parla con questa casella» ↔ Assistente / fluttuante — stesso thread.
+  useEffect(() => {
+    return ascoltaChatUnificata("assistente", (det) => {
+      setConvId(det.convId);
+      sessionGruppoRef.current = det.convId;
+      setMessages((prev) => {
+        const nuovi: Msg[] = det.messaggi.map((m) => ({
+          id: nuovoIdMsg(),
+          role: m.role,
+          content: m.content,
+          pending: m.pending,
+        }));
+        const core = (arr: Msg[]) =>
+          arr.filter((m) => !m.prompt && !m.pending).map((m) => `${m.role}|${m.content}`).join("\n");
+        if (core(prev) === core(nuovi) && prev.some((m) => m.pending) === nuovi.some((m) => m.pending)) {
+          return prev;
+        }
+        return nuovi;
+      });
+      setLoading(det.messaggi.some((m) => m.pending) ?? false);
+    });
+  }, []);
+
+  useEffect(() => {
+    const id = convId;
+    if (!id) return;
+    const c = conversazioni.find((x) => x.id === id);
+    const titolo = c?.titolo || "";
+    if (!titolo.startsWith("💬 ")) return;
+    pubblicaChatUnificata(
+      {
+        convId: id,
+        titolo,
+        messaggi: messages
+          .filter((m) => !m.prompt)
+          .map((m) => ({ role: m.role, content: m.content, pending: m.pending })),
+      },
+      "assistente",
+    );
+  }, [messages, convId, conversazioni]);
 
   // Sync conversazioni cross-device: polling ~8s + ritorno sulla scheda (come Azioni, ma più frequente).
   useEffect(() => {
