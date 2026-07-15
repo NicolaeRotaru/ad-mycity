@@ -193,6 +193,10 @@ ai_build_cmd() {
   AI_CMD=()
   case "$(ai_engine)" in
     cursor)
+      # PERIMETRO valle (rischio-sicurezza-se): Cursor --force --trust non ha allow/deny CLI.
+      # .claude/settings.json NON protegge questo motore — vale solo per Claude Code.
+      # Il perimetro reale è a VALLE: guardiano-integrità AR-044, scan-segreti, worker-chat
+      # (no push su main, PR via git-pr.mjs), regole 🟢🟡🔴 nel prompt.
       # -p = non interattivo · --force = scrive file · --trust = VPS headless senza prompt workspace
       # --api-key = obbligatorio su molti VPS headless (env var da sola non basta per status/run).
       AI_CMD=(agent -p --force --trust)
