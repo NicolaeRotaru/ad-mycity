@@ -14,6 +14,11 @@ import {
   type ParlaMsg,
 } from "@/lib/parla";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
+import {
+  ascoltaChatUnificata,
+  leggiUltimaChatUnificata,
+  pubblicaChatUnificata,
+} from "@/lib/chat-unificata";
 
 // 🚀 AR-036: cache CONDIVISA della lista conversazioni tra TUTTE le istanze di ParlaCasella.
 // Prima ogni casella fetchava /api/conversazioni al proprio mount → con decine di caselle per pagina
@@ -71,10 +76,38 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   // precedente è stato annullato chiudendo il box a metà caricamento).
   const caricatoRef = useRef(false);
   useEffect(() => setHintInvio(hintInvioChat()), []);
+
+  const chiaveTitolo = `💬 ${titolo}`;
+
+  // Allinea con Assistente / chat fluttuante: stesso thread ovunque si apra.
+  useEffect(() => {
+    if (!aperto) return;
+    const pub = [...msgs];
+    if (inviando) {
+      pub.push({ role: "assistant", content: "💭 Sto elaborando la risposta…", pending: true });
+    }
+    pubblicaChatUnificata({ convId, titolo: chiaveTitolo, messaggi: pub }, "casella");
+  }, [aperto, convId, chiaveTitolo, msgs, inviando]);
+
+  useEffect(() => {
+    return ascoltaChatUnificata("casella", (det) => {
+      if (det.titolo !== chiaveTitolo) return;
+      setMsgs(det.messaggi as ParlaMsg[]);
+      if (det.convId) setConvId(det.convId);
+    });
+  }, [chiaveTitolo]);
+
   useEffect(() => {
     if (!aperto || caricatoRef.current) return;
     let annullato = false;
-    const chiave = `💬 ${titolo}`; // id thread stabile dal titolo
+    const chiave = chiaveTitolo; // id thread stabile dal titolo
+    const giaAttiva = leggiUltimaChatUnificata();
+    if (giaAttiva?.titolo === chiave && giaAttiva.messaggi.length) {
+      caricatoRef.current = true;
+      setMsgs(giaAttiva.messaggi as ParlaMsg[]);
+      if (giaAttiva.convId) setConvId(giaAttiva.convId);
+      return;
+    }
     (async () => {
       let salvati: ParlaMsg[] = [];
       let cid: string | null = null;
@@ -121,7 +154,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     return () => {
       annullato = true;
     };
-  }, [aperto, titolo]);
+  }, [aperto, titolo, chiaveTitolo]);
 
   // Scroll al fondo quando si apre la chat (mostra gli ultimi messaggi, non l'inizio)
   useEffect(() => {
@@ -139,7 +172,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     setErr("");
     setSalvata(false); // 🐛 Bug #5: azzera la spunta "salvata" all'inizio di ogni invio
     setBozza("");
-    const chiave = `💬 ${titolo}`;
+    const chiave = chiaveTitolo;
     const storia = msgs.filter((m) => !m.pending);
     const conMio: ParlaMsg[] = [...storia, { role: "user", content: testo }];
     setMsgs(conMio);
