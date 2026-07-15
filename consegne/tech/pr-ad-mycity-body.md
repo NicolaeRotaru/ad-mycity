@@ -1,10 +1,10 @@
 ## Summary
-La casella «Confronto: Content & Social» (e le altre benchmark in Miglioramento) passava a ParlaCasella solo obiettivo + punteggio. Ora il contesto chat include livello, divario, chi fa meglio, data del punteggio e nota — tutto ciò che la scheda mostra già a video.
+- Deduplica le risposte chat duplicate nel worker: segmenti identici dopo tool-use e testo intero ripetuto due volte (bug «riassunto su riassunto»).
+- Aggiunge regola nel prompt chat: non riscrivere in fondo una risposta già breve.
 
 ## Perché
-Nicola: «questa casella non mi mostra tutti i dati» — il contesto inviato alla chat era troncato rispetto ai dati in `auto-miglioramento.json`.
+Nicola vedeva lo stesso testo due volte nella stessa bolla (recidiva da giorni). Il parser `_estrai_stream` incollava segmenti uguali; l'AD a volte ripeteva il blocco intero.
 
 ## Come provare
-1. Apri Pannello → Auto-coscienza → tab Miglioramento
-2. Nella card Content & Social premi «Parla con questa casella»
-3. Verifica che il contesto iniziale mostri: livello L3, divario, obiettivo, punteggio 60/100 (28/6), e i due riferimenti «chi fa meglio»
+1. `bash -c 'source <(sed -n "/^_estrai_stream() {/,/^}/p" cervello/worker.sh; sed -n "/^_dedup_risposta_chat() {/,/^}/p" cervello/worker.sh); f=/tmp/dup.jsonl; printf "%s\n" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"text\",\"text\":\"A\"}]}}" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"tool_use\",\"name\":\"Read\",\"input\":{}}]}}" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"text\",\"text\":\"A\"}]}}" > "$f"; _estrai_stream "$f"'` → deve stampare `A` una sola volta.
+2. Dopo merge: invia un messaggio in chat ParlaCasella e verifica che la risposta non si ripeta.

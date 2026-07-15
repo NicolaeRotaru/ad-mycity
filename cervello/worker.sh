@@ -401,13 +401,55 @@ _estrai_stream() {
       end
     )
     | if ((.cur // "") != "") then (.parts += [.cur] | .cur = "") else . end
-    | .parts | join("\n\n")
+    | .parts
+    | if length == 0 then ""
+      else
+        reduce .[] as $p (
+          [];
+          if length == 0 then . + [$p]
+          else (.[-1]) as $last
+            | if $last == $p then .
+              elif ($last | length) > 0 and ($p | startswith($last)) and (($p | length) > ($last | length)) then .[:-1] + [$p]
+              elif ($last | length) > 0 and ($last | startswith($p)) then .
+              else . + [$p]
+              end
+          end
+        ) | join("\n\n")
+      end
   ' "$f" 2>/dev/null | tr -d '\r')"
-  [ -n "$t" ] && { printf '%s' "$t"; return; }
+  [ -n "$t" ] && { _dedup_risposta_chat "$t"; return; }
   # Fallback estremo (run senza streaming / formati vecchi): l'ULTIMO evento "result", INTERO —
   # niente `tail -1` riga-per-riga, che tagliava un result multilinea all'ultima riga.
-  jq -Rrn '[inputs | fromjson? // empty | objects | select(.type=="result") | .result // empty] | last // empty' \
-    "$f" 2>/dev/null
+  t="$(jq -Rrn '[inputs | fromjson? // empty | objects | select(.type=="result") | .result // empty] | last // empty' \
+    "$f" 2>/dev/null)"
+  [ -n "$t" ] && _dedup_risposta_chat "$t"
+}
+
+# Rimuove risposte chat duplicate: segmenti identici consecutivi (dopo tool-use) o intero testo
+# ripetuto due volte (bug AD che «riassumeva» una risposta già breve). Usato solo su chat.
+_dedup_risposta_chat() {
+  local t="$1"
+  [ -z "$t" ] && return
+  printf '%s' "$t" | jq -rRs '
+    def trim: gsub("^[[:space:]]+|[[:space:]]+$"; "");
+    gsub("\r"; "") | trim as $s
+    | if ($s | length) < 40 then $s
+      else
+        ($s | split("\n\n")) as $blocks
+        | if ($blocks | length) >= 2 and ($blocks | length % 2 == 0) then
+            (($blocks | length) / 2 | floor) as $m
+            | if ($blocks[0:$m] | join("\n\n") | trim) == ($blocks[$m:] | join("\n\n") | trim) then
+                ($blocks[0:$m] | join("\n\n"))
+              else $s
+              end
+          else $s
+          end
+        | . as $half
+        | [range(20; ($half | length) - 19)]
+          | map(. as $i | ($half[0:$i] | trim) as $a | ($half[$i:] | trim) as $b | select(($a|length) >= 20 and $a == $b) | $a)
+          | if length > 0 then .[0] else $half end
+      end
+  ' 2>/dev/null || printf '%s' "$t"
 }
 
 # ── 🧵 MEMORIA DI SESSIONE (chat) ────────────────────────────────────────────────────────────────
@@ -1116,6 +1158,7 @@ COME SCRIVI (contratto di chiarezza — Nicola non è un tecnico, e questo conta
 - Sigle, ID, hash, percorsi e comandi NON vanno nel discorso: se servono davvero, mettili in fondo sotto una riga «🔧 Dettagli tecnici».
 - Se Nicola deve fare qualcosa: passi numerati, uno per riga, esatti e completi.
 - Rileggi la risposta prima di consegnarla: se una frase non si capirebbe detta a voce, riscrivila.
+- Un messaggio = un livello: se la risposta è già breve (prima riga + pochi punti), NON aggiungere un riassunto finale — ripetere le stesse frasi due volte è un errore grave.
 
 REGOLE DI VERITÀ (valgono più di tutto — un errore nascosto a Nicola fa danni veri):
 1. MAI dire «fatto» senza aver verificato coi tuoi occhi: dopo ogni modifica mostra la prova (riga di git log, path del file, output del comando). Se non hai potuto verificare, scrivi «non verificato» — non fingere.
