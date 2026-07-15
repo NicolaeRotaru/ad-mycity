@@ -8,6 +8,7 @@
 
 import { creaLavoro } from "@/lib/store";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
+import { esaminaOnesta, riassuntoViolazioni } from "@/lib/onesta-check";
 
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
@@ -92,11 +93,21 @@ export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
     return { stato: "coda", dettaglio: "Manca la chiave email (RESEND_API_KEY): resta in coda." };
   }
   // Accetta sia "on" sia "1": il resto del sistema (cervello/*, .env.example, docs) usa "1"/"0".
+  const oggetto = oggettoDa(a.testo, a.titolo);
+  const corpo = corpoDa(a.testo);
+  const onesta = esaminaOnesta("email", `${oggetto}\n${corpo}`);
+  if (onesta.violazioni.length) {
+    return {
+      stato: "coda",
+      dettaglio: `Bloccata dal controllo onestà: ${riassuntoViolazioni(onesta.violazioni)}. Correggi il testo e riprova.`,
+    };
+  }
+
   const live = process.env.AZIONI_LIVE === "on" || process.env.AZIONI_LIVE === "1";
   if (!live) {
     return { stato: "simulata", dettaglio: `Simulata (modalità test) → ${a.destinatario} · ${ora}. Per inviare davvero imposta AZIONI_LIVE=1.` };
   }
-  const r = await inviaEmail(a.destinatario, oggettoDa(a.testo, a.titolo), corpoDa(a.testo));
+  const r = await inviaEmail(a.destinatario, oggetto, corpo);
   return r.ok
     ? { stato: "fatta", dettaglio: `Inviata a ${a.destinatario} · ${ora}` }
     : { stato: "coda", dettaglio: `Invio non riuscito (${r.error}): resta in coda.` };

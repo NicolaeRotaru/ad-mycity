@@ -370,7 +370,8 @@ fi
 # DEGRADO a passaggio minimo (niente motore premium) finché il giorno non si resetta. I 🔴/controlli
 # restano attivi: sotto budget si taglia il VOLUME, non la sicurezza.
 # GATE-BUDGET non bypassa GIRO_FORCE: il delta-gate sì (throttle), la sicurezza-quota no.
-if [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
+# BUDGET_FORCE=1 solo emergenza rarissima (Nicola): salta il tetto token.
+if [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && [ "${BUDGET_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
   _budget_json="$(node "$SCRIPT_DIR/costo-ai.mjs" --json 2>/dev/null || true)"
   if command -v jq >/dev/null 2>&1 && [ -n "$_budget_json" ]; then
     _tok_oggi="$(printf '%s' "$_budget_json" | jq -r '.oggi.token_totali // 0' 2>/dev/null || echo 0)"

@@ -50,8 +50,8 @@ const RE_SPIA = [
 // una cifra ≥ 2 come "500", "3.000", "12 negozi", percentuali, euro.
 const RE_NUMERO = /\b\d{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?\s?(?:€|euro|%|negozi|famiglie|clienti|ordini|utenti|iscritti|follower)?\b/gi;
 
-// Marcatori di fonte accettati (se un numero ne ha uno entro ~60 caratteri → è fondato).
-const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|baseline|dati reali|da OKR|registro-realt)/i;
+// Marcatori di fonte strutturati (no parole generiche da sole — AR-075 guardrail).
+const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\{fonte:)/i;
 
 function esamina(nome, testo) {
   const violazioni = [];

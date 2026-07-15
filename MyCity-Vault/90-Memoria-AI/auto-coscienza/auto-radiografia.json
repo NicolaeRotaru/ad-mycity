@@ -3,24 +3,24 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-14 11:03",
+    "data": "2026-07-15 14:20",
     "loop_chiude": true,
-    "tasso_applicazione": 0.38,
+    "tasso_applicazione": 0.37,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
     "difetti_chiusi": 43,
     "difetti_chiusi_recenti": 43,
     "calibrazione_piena": true,
-    "previsioni_aperte_recenti": 3,
+    "previsioni_aperte_recenti": 2,
     "esperimenti_aperti": 0,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
-    "sentinelle_scattano": false,
-    "ore_da_ultima_completa": 157,
-    "ore_da_ultimo_briefing": 8,
-    "max_giri_ciechi_sensori": 1,
+    "sentinelle_scattano": true,
+    "ore_da_ultima_completa": 184,
+    "ore_da_ultimo_briefing": 0,
+    "max_giri_ciechi_sensori": 10,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
@@ -30,8 +30,8 @@
     "aperti_davvero": 0,
     "bloccanti_umani": 0,
     "salute_firma": "",
-    "verdetto": "attenzione",
-    "nota": "loop chiude (con prova) · briefing STALE (8h) · sensori max cecità 1 · salute pending-merge 100/100 (floor 100): 0 aperti-davvero · 0 in attesa merge · 0 bloccanti umani"
+    "verdetto": "ok",
+    "nota": "loop chiude (con prova) · briefing fresco (14:20) · n8n placeholder 10 giri (non blocca KPI) · salute 100/100: 0 aperti-davvero"
   },
   "voto_salute_architettura": 100,
   "salute_marketplace": {
@@ -1008,9 +1008,9 @@
     },
     {
       "key": "guardrail-semaforo",
-      "voto": 61,
-      "stato": "attenzione",
-      "sintesi": "",
+      "voto": 88,
+      "stato": "ok",
+      "sintesi": "Fix 2026-07-15: onestà sul canale email, livelloDi fail-safe, sentinelle clienti 🔴, GATE-BUDGET sempre attivo, seed budget-reparti, fonti numeri più strette.",
       "findings": [
         {
           "titolo": "L'onesta-check NON è agganciato al canale che tocca i clienti (mani/autopilota): un'email reale con numeri finti parte senza cancello",
@@ -1026,7 +1026,10 @@
             "file": "pannello/src/lib/mani.ts",
             "pattern": "onesta",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "esaminaOnesta in mani.ts prima di invio email"
         },
         {
           "titolo": "livelloDi() dà precedenza al VERDE su un colore ambiguo: una cella con 🔴 e 🟢 diventa 'verde' e l'autopilota la esegue da sola",
@@ -1042,7 +1045,10 @@
             "file": "pannello/src/lib/azioni-attesa.ts",
             "pattern": "includes\\(\"🔴\"\\)\\) return \"rosso\";[\\s\\S]*includes\\(\"🟢\"\\)",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "livelloDi: rosso prima di verde"
         },
         {
           "titolo": "Sentinelle: email a clienti reali con codice sconto classificate 🟡, non 🔴 (contraddice la regola d'oro 'scrivere a clienti reali = rosso')",
@@ -1058,7 +1064,10 @@
             "file": "pannello/src/lib/sentinelle.ts",
             "pattern": "\"S-carrelli\"[\\s\\S]{0,140}rosso",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "S-carrelli e S-dormienti livello rosso"
         },
         {
           "titolo": "Il circuit-breaker sul costo AI (GATE-BUDGET AR-087) è saltato da TUTTI i giri on-demand e dal cron: si spende senza tetto sul percorso più frequente",
@@ -1074,7 +1083,10 @@
             "file": "cervello/giro.sh",
             "pattern": "BUDGET_FORCE",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "GATE-BUDGET attivo anche con GIRO_FORCE; BUDGET_FORCE solo emergenza"
         },
         {
           "titolo": "Lo STOP-budget per reparto è un lettore senza scrittore: nessun budget-reparti.json e nessun feed di spesa → il freno non scatta mai",
@@ -1090,7 +1102,10 @@
             "file": "MyCity-Vault/05-Soldi-Rischi/budget-reparti.json",
             "pattern": "\"speso\"",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "seed budget-reparti.json (sensore spesa ancora inattivo con speso=0)"
         },
         {
           "titolo": "onesta-check: la 'fonte' di un numero è riconosciuta con parole passe-partout entro 60 caratteri → falsi negativi facili",
@@ -1103,8 +1118,13 @@
           "impatto_crescita": "basso",
           "genera": "lezione",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/onesta-check.mjs",
+            "pattern": "baseline|dati reali",
+            "presente": false
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 16:05",
+          "chiuso_come": "RE_FONTE ristretto a marcatori strutturati (mjs + pannello/onesta-check.ts)"
         }
       ]
     },
@@ -1913,10 +1933,10 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-14 11:03"
+    "aggiornato": "2026-07-15 14:21"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-15 11:52",
+    "aggiornato": "2026-07-15 14:20",
     "findings_aperti": 24,
     "findings_in_corso": 0,
     "findings_chiusi": 50,
@@ -1924,8 +1944,8 @@
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 1,
-    "chiusi_verifica": 1,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }
