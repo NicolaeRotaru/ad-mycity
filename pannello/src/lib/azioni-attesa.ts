@@ -27,9 +27,10 @@ export type AzioneAttesa = {
 };
 
 export function livelloDi(c: string): AzioneAttesa["livello"] {
-  if (c.includes("🟢")) return "verde";
-  if (c.includes("🟡")) return "giallo";
+  // Nel dubbio sale di colore: il più restrittivo presente vince (regola d'oro).
   if (c.includes("🔴")) return "rosso";
+  if (c.includes("🟡")) return "giallo";
+  if (c.includes("🟢")) return "verde";
   return "?";
 }
 

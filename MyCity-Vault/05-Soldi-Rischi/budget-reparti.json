@@ -1,0 +1,16 @@
+{
+  "_cosa_e": "Budget per reparto (AR-077). speso=0 finché ads/Stripe-write non sono collegati — il freno è pronto ma onestamente inattivo.",
+  "aggiornato": "2026-07-15 16:05",
+  "soglia_stop": 1.0,
+  "reparti": {
+    "ads-performance": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "marketing": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "growth-monetizzazione": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "crm-lifecycle": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "customer-success": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "designer": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "influencer-partnership": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "rider-fleet": { "budget": 0, "speso": 0, "kpi_reso": 0 },
+    "vendite": { "budget": 0, "speso": 0, "kpi_reso": 0 }
+  }
+}
