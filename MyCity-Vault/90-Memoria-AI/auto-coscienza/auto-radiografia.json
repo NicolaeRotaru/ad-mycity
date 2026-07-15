@@ -3,7 +3,7 @@
   "data": "2026-07-07 22:21",
   "tipo": "completa",
   "sonda": {
-    "data": "2026-07-15 20:20",
+    "data": "2026-07-15 22:20",
     "loop_chiude": true,
     "tasso_applicazione": 0.37,
     "prova_chiusura": true,
@@ -11,16 +11,16 @@
     "difetti_chiusi": 43,
     "difetti_chiusi_recenti": 43,
     "calibrazione_piena": true,
-    "previsioni_aperte_recenti": 3,
+    "previsioni_aperte_recenti": 2,
     "esperimenti_aperti": 0,
     "prova_business": true,
     "prova_architettura": true,
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 190,
-    "ore_da_ultimo_briefing": 33,
-    "max_giri_ciechi_sensori": 4,
+    "ore_da_ultima_completa": 192,
+    "ore_da_ultimo_briefing": 35,
+    "max_giri_ciechi_sensori": 5,
     "giri_tasso_basso": 0,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
@@ -31,7 +31,7 @@
     "bloccanti_umani": 0,
     "salute_firma": "",
     "verdetto": "attenzione",
-    "nota": "loop chiude (con prova) · briefing STALE (33h) · cecità sensori 4 giri · salute pending-merge 100/100 (floor 100): 0 aperti-davvero · 0 in attesa merge · 0 bloccanti umani"
+    "nota": "loop chiude (con prova) · briefing STALE (35h) · cecità sensori 5 giri · salute pending-merge 100/100 (floor 100): 0 aperti-davvero · 0 in attesa merge · 0 bloccanti umani"
   },
   "voto_salute_architettura": 100,
   "salute_marketplace": {
@@ -1933,10 +1933,10 @@
   },
   "sonda_meta": {
     "giri_tasso_basso": 0,
-    "aggiornato": "2026-07-15 20:20"
+    "aggiornato": "2026-07-15 22:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-15 20:20",
+    "aggiornato": "2026-07-15 22:20",
     "findings_aperti": 18,
     "findings_in_corso": 0,
     "findings_chiusi": 56,
