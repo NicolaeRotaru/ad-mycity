@@ -12,6 +12,7 @@ setup() {
   WORKER="$BATS_TEST_DIRNAME/../worker.sh"
   FN="$BATS_TEST_TMPDIR/estrai-stream.sh"
   sed -n '/^_estrai_stream() {/,/^}/p' "$WORKER" > "$FN"
+  sed -n '/^_dedup_risposta_chat() {/,/^}/p' "$WORKER" >> "$FN"
   # la funzione deve esistere nel worker (se il marker cambia, il test deve fallire rumorosamente)
   grep -q '_estrai_stream()' "$FN"
   source "$FN"
@@ -173,7 +174,39 @@ EOF
   [[ "$output" != *"Prima frase.Dopo"* ]]
 }
 
-# ── 14. Riga JSON valida ma NON-oggetto (es. un numero): non fa abortire il parser ──────────────
+# ── 15. DOPPIO SEGMENTO IDENTICO dopo tool-use: ne resta uno solo ───────────────────────────────
+@test "segmenti identici dopo tool-use: deduplicati (bug chat 15/7)" {
+  f="$BATS_TEST_TMPDIR/dup-segment.jsonl"
+  cat > "$f" <<'EOF'
+{"type":"assistant","message":{"content":[{"type":"text","text":"Hai ragione: stavo ragionando piano."}]}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"Read","input":{}}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"Hai ragione: stavo ragionando piano."}]}}
+EOF
+  run _estrai_stream "$f"
+  [ "$status" -eq 0 ]
+  [ "$output" = "Hai ragione: stavo ragionando piano." ]
+}
+
+# ── 16. Risposta intera ripetuta due volte (riassunto su riassunto): specchio rimosso ───────────
+@test "testo intero duplicato: _dedup_risposta_chat ne tiene una copia" {
+  FN2="$BATS_TEST_TMPDIR/dedup-chat.sh"
+  sed -n '/^_dedup_risposta_chat() {/,/^}/p' "$WORKER" > "$FN2"
+  source "$FN2"
+  run _dedup_risposta_chat "Prima riga breve.
+
+- Punto uno
+- Punto due
+
+Prima riga breve.
+
+- Punto uno
+- Punto due"
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"Prima riga breve."* ]]
+  [ "$(printf '%s' "$output" | grep -c 'Prima riga breve')" -eq 1 ]
+}
+
+# ── 17. Riga JSON valida ma NON-oggetto (es. un numero): non fa abortire il parser ──────────────
 @test "riga non-oggetto nello stream: ignorata, il resto sopravvive" {
   f="$BATS_TEST_TMPDIR/non-oggetto.jsonl"
   cat > "$f" <<'EOF'
