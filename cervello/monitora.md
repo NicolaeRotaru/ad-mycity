@@ -3,6 +3,8 @@ tenere il mondo esterno di Piacenza sempre aggiornato, in continuo, scrivendo ne
 Intelligence del vault — così la Cabina mostra sempre dati freschi senza che Nicola chieda.
 
 Passi:
+0. Leggi `cervello/fonti-salute.json`: **salta** fonti con `morta: true` (non spendere token). Fonti con
+   `accesso: "websearch"` o `waf_blocked: true` → **solo WebSearch mirata**, mai retry WebFetch (403 WAF).
 1. Leggi il registro fonti `cervello/radar-fonti.json`. Seleziona SOLO le fonti **DOVUTE oggi**
    per `cadenza`: tutte le "giornaliera" + le "settimanale" che non controlli da ≥7 giorni
    (guarda la data in cima ai file Intelligence per capire quando l'hai fatto l'ultima volta).

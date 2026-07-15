@@ -1,10 +1,10 @@
 {
   "ok": true,
-  "quando": "2026-07-14 08:20",
+  "quando": "2026-07-16 01:04",
   "radar": "cervello/radar-fonti.json",
-  "fonti_totali": 18,
+  "fonti_totali": 17,
   "vive": 16,
-  "morte": 0,
+  "morte": 1,
   "allerta_peso_critico": [],
   "fonti": [
     {
@@ -16,7 +16,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "liberta-citta",
@@ -27,7 +27,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "ilpiacenza-economia",
@@ -38,7 +38,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "piacenzasera",
@@ -49,29 +49,31 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "comune-news",
       "nome": "Comune di Piacenza — News",
-      "url": "https://www.comune.piacenza.it/it/menu/news",
+      "url": "https://www.comune.piacenza.it/it/news",
       "peso": 4,
       "viva": true,
-      "status": 200,
+      "status": 403,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04",
+      "waf_blocked": true
     },
     {
       "id": "comune-eventi",
       "nome": "Comune di Piacenza — Eventi",
-      "url": "https://www.comune.piacenza.it/it/categorie-eventi/76806",
+      "url": "https://www.comune.piacenza.it/it/eventi",
       "peso": 4,
       "viva": true,
-      "status": 200,
+      "status": 403,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04",
+      "waf_blocked": true
     },
     {
       "id": "comune-imprese",
@@ -79,10 +81,11 @@
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "peso": 4,
       "viva": true,
-      "status": 200,
+      "status": 403,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04",
+      "waf_blocked": true
     },
     {
       "id": "vitaincentro",
@@ -93,7 +96,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "unionecommercianti",
@@ -104,18 +107,18 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "cna-piacenza",
-      "nome": "CNA Piacenza / CompraPiacenza",
-      "url": "https://piacenza.cna.it/",
+      "nome": "CNA Piacenza / CompraPiacenza (sostituto vetrina)",
+      "url": "https://piacenza.cna.it/comprapiacenza-vetrina-digitale-per-il-commercio-locale/",
       "peso": 4,
       "viva": true,
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "glovo-piacenza",
@@ -126,19 +129,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
-    },
-    {
-      "id": "comprapiacenza",
-      "nome": "CompraPiacenza.it",
-      "url": "https://comprapiacenza.it/",
-      "peso": 4,
-      "viva": false,
-      "status": 0,
-      "falliti_consecutivi": 2,
-      "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20",
-      "errore": "TypeError"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "conad-consegna",
@@ -149,7 +140,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "cortilia",
@@ -160,7 +151,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "meteo-piacenza",
@@ -171,7 +162,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "affitti-idealista",
@@ -180,9 +171,9 @@
       "peso": 3,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 2,
-      "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "falliti_consecutivi": 7,
+      "morta": true,
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "sagre-provincia",
@@ -193,7 +184,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     },
     {
       "id": "reputazione-mycity",
@@ -204,7 +195,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-14 08:20"
+      "ultimo_controllo": "2026-07-16 01:04"
     }
   ]
 }

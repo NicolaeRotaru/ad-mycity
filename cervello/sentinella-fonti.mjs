@@ -82,18 +82,22 @@ async function main() {
   const risultati = [];
   for (const f of fonti) {
     const r = await controlla(f.url);
+    // 403 su fonti marcate sentinella_waf = WAF anti-bot, non fonte morta (DNS/404).
+    const wafBlocked = !r.viva && r.status === 403 && f.sentinella_waf === true;
+    const viva = r.viva || wafBlocked;
     const precFalliti = (prima[f.id] && prima[f.id].falliti_consecutivi) || 0;
-    const falliti = r.viva ? 0 : precFalliti + 1;
+    const falliti = viva ? 0 : precFalliti + 1;
     risultati.push({
       id: f.id,
       nome: f.nome,
       url: f.url,
       peso: f.peso || 0,
-      viva: r.viva,
+      viva,
       status: r.status,
       falliti_consecutivi: falliti,
       morta: falliti >= SOGLIA_MORTA,
       ultimo_controllo: quando,
+      ...(wafBlocked ? { waf_blocked: true } : {}),
       ...(r.errore ? { errore: r.errore } : {}),
     });
   }
