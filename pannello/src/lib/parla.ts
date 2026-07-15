@@ -24,6 +24,42 @@ export type ParlaMsg = { role: "user" | "assistant"; content: string; pending?: 
 
 const HEADERS = { "Content-Type": "application/json" };
 
+/** Messaggio umano quando il worker chiude «fatto» senza testo (non lasciare «(risposta vuota)»). */
+export const MSG_RISPOSTA_VUOTA =
+  "La risposta non è arrivata. Invia di nuovo il messaggio, oppure vai in Lavori e premi «riparti» sul compito.";
+
+export const EVENTO_LAVORO_CAS = "mycity:lavoro-casella";
+
+/** Estrae il contesto scheda da una richiesta lavoro casella già eseguita. */
+export function estraiContestoCasellaDaRichiesta(richiesta: string): string {
+  const m = richiesta.match(/## Contenuto della casella\n([\s\S]*?)(?:\n## |$)/);
+  return m?.[1]?.trim() || "";
+}
+
+/** Testo richiesta per il cervello su una casella (riusato da ParlaCasella e Assistente). */
+export async function buildRichiestaCasella(
+  titolo: string,
+  contesto: string,
+  storia: ParlaMsg[],
+  messaggio: string,
+  gruppoId: string | null,
+): Promise<string> {
+  const storiaTxt = storia
+    .filter((m) => !m.pending)
+    .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
+    .join("\n");
+  const memoria = await bloccoMemoriaChat(gruppoId);
+  return (
+    (memoria ? `${memoria}\n` : "") +
+    `## Casella del Pannello: ${titolo}\n` +
+    (contesto ? `\n## Contenuto della casella\n${contesto}\n` : "") +
+    (storiaTxt ? `\n## Conversazione finora\n${storiaTxt}\n` : "") +
+    `\n## Nuovo messaggio di Nicola\n${messaggio}\n\n` +
+    `## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
+    `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`
+  );
+}
+
 // Crea il lavoro "su QUESTA casella" per il cervello, legato alla conversazione
 // (gruppo_id = id conversazione): Archivio lavori e lista Conversazioni restano
 // collegati. NON aspetta la risposta: per quella c'è attendiEsitoLavoro.
@@ -34,19 +70,7 @@ export async function creaLavoroCasella(
   messaggio: string,
   gruppoId: string | null
 ): Promise<{ id: string; tipo: string; timeoutMs: number }> {
-  const storiaTxt = storia
-    .filter((m) => !m.pending)
-    .map((m) => `${m.role === "user" ? "Nicola" : "AD"}: ${m.content}`)
-    .join("\n");
-  const memoria = await bloccoMemoriaChat(gruppoId);
-  const richiesta =
-    (memoria ? `${memoria}\n` : "") +
-    `## Casella del Pannello: ${titolo}\n` +
-    (contesto ? `\n## Contenuto della casella\n${contesto}\n` : "") +
-    (storiaTxt ? `\n## Conversazione finora\n${storiaTxt}\n` : "") +
-    `\n## Nuovo messaggio di Nicola\n${messaggio}\n\n` +
-    `## Istruzioni\nRispondi in italiano, conciso e concreto, riferito a QUESTA casella. Rispetta 🟢🟡🔴. ` +
-    `Se Nicola dà un'informazione o una decisione utile, aggiorna la memoria nel vault e dichiara cosa hai aggiornato.`;
+  const richiesta = await buildRichiestaCasella(titolo, contesto, storia, messaggio, gruppoId);
 
   const prep = preparaLavoro(messaggio);
   const post = await fetch("/api/lavori", {
@@ -63,6 +87,11 @@ export async function creaLavoroCasella(
   if (gruppoId) salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);
   try {
     emitSync("lavori");
+    window.dispatchEvent(
+      new CustomEvent(EVENTO_LAVORO_CAS, {
+        detail: { id: post.lavoro.id, tipo: prep.tipo, convId: gruppoId, timeoutMs: prep.timeoutMs },
+      }),
+    );
   } catch {
     /* SSR / nessun window */
   }
@@ -88,7 +117,7 @@ export async function attendiEsitoLavoro(
           l.risultato ||
           (l.stato === "errore"
             ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte."
-            : "(risposta vuota)");
+            : MSG_RISPOSTA_VUOTA);
         if (l.stato === "fatto") {
           try {
             emitSync("memoria");

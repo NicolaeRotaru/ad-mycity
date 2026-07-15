@@ -97,6 +97,14 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     });
   }, [chiaveTitolo]);
 
+  // Sync finale quando chiudi il box (altrimenti l'Assistente resta con «sto pensando» appeso).
+  useEffect(() => {
+    if (aperto) return;
+    const pub = msgs.filter((m) => !m.pending);
+    if (!pub.length && !convId) return;
+    pubblicaChatUnificata({ convId, titolo: chiaveTitolo, messaggi: pub }, "casella");
+  }, [aperto, convId, chiaveTitolo, msgs]);
+
   useEffect(() => {
     if (!aperto || caricatoRef.current) return;
     let annullato = false;

@@ -12,6 +12,7 @@ import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgCha
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import { emitSync } from "@/lib/panel-sync";
+import { MSG_RISPOSTA_VUOTA } from "@/lib/parla";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -33,7 +34,7 @@ async function attendiLavoro(
       if (l && (l.stato === "fatto" || l.stato === "errore")) {
         return l.risultato || (l.stato === "errore"
           ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte."
-          : "(risposta vuota)");
+          : MSG_RISPOSTA_VUOTA);
       }
       // risposta che sta arrivando: mostra il testo parziale.
       if (l && l.stato === "in_corso" && l.risultato && onParziale) onParziale(l.risultato);
