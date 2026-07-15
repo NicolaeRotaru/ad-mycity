@@ -1,10 +1,11 @@
 ## Summary
-- Deduplica le risposte chat duplicate nel worker: segmenti identici dopo tool-use e testo intero ripetuto due volte (bug «riassunto su riassunto»).
-- Aggiunge regola nel prompt chat: non riscrivere in fondo una risposta già breve.
+- Blocca la scrittura manuale nel registro calibrazione (solo CLI strutturata).
+- Impedisce di chiudere "azzeccata" quando il sensore-fonte è cieco (AR-061).
+- Aggiunge `calibrazione.mjs ripara` per backfill `sensore_stato` e fa fallire il giro se `valida` non passa.
 
 ## Perché
-Nicola vedeva lo stesso testo due volte nella stessa bolla (recidiva da giorni). Il parser `_estrai_stream` incollava segmenti uguali; l'AD a volte ripeteva il blocco intero.
+Il registro prosa permetteva "confermato" al buio bypassando le guardie di cmdEsito. Ora le guardie vivono anche sul file e sul giro.
 
 ## Come provare
-1. `bash -c 'source <(sed -n "/^_estrai_stream() {/,/^}/p" cervello/worker.sh; sed -n "/^_dedup_risposta_chat() {/,/^}/p" cervello/worker.sh); f=/tmp/dup.jsonl; printf "%s\n" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"text\",\"text\":\"A\"}]}}" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"tool_use\",\"name\":\"Read\",\"input\":{}}]}}" "{\"type\":\"assistant\",\"message\":{\"content\":[{\"type\":\"text\",\"text\":\"A\"}]}}" > "$f"; _estrai_stream "$f"'` → deve stampare `A` una sola volta.
-2. Dopo merge: invia un messaggio in chat ParlaCasella e verifica che la risposta non si ripeta.
+1. `node cervello/calibrazione.mjs ripara && node cervello/calibrazione.mjs valida` → exit 0.
+2. Tentativo azzeccata con sensore cieco: `node cervello/calibrazione.mjs esito --id=<aperta> --reale=1 --fonte="Supabase MCP"` con MCP cieco → exit 2 con messaggio AR-061.
