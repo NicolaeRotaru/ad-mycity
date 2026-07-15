@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-15 20:19",
+  "aggiornato": "2026-07-15 22:19",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "10",
@@ -108,611 +108,611 @@
     "2026-07-15T12:55:16.892Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 11777,
+  "tick": 11895,
   "storia": [
     {
-      "quando": "2026-07-15 15:33",
+      "quando": "2026-07-15 20:39",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:34",
+      "quando": "2026-07-15 20:40",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:35",
+      "quando": "2026-07-15 20:41",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:36",
+      "quando": "2026-07-15 20:42",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:37",
+      "quando": "2026-07-15 20:43",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:38",
+      "quando": "2026-07-15 20:44",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:39",
+      "quando": "2026-07-15 20:45",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:40",
+      "quando": "2026-07-15 20:46",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:41",
+      "quando": "2026-07-15 20:47",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:42",
+      "quando": "2026-07-15 20:48",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:43",
+      "quando": "2026-07-15 20:49",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:44",
+      "quando": "2026-07-15 20:50",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:45",
+      "quando": "2026-07-15 20:51",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:46",
+      "quando": "2026-07-15 20:52",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:47",
+      "quando": "2026-07-15 20:53",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:48",
+      "quando": "2026-07-15 20:54",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:49",
+      "quando": "2026-07-15 20:55",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:50",
+      "quando": "2026-07-15 20:56",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:51",
+      "quando": "2026-07-15 20:57",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:52",
+      "quando": "2026-07-15 20:58",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:53",
+      "quando": "2026-07-15 20:59",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:54",
+      "quando": "2026-07-15 21:00",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:55",
+      "quando": "2026-07-15 21:01",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:56",
+      "quando": "2026-07-15 21:02",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:57",
+      "quando": "2026-07-15 21:03",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:58",
+      "quando": "2026-07-15 21:04",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 15:59",
+      "quando": "2026-07-15 21:05",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:00",
+      "quando": "2026-07-15 21:06",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:01",
+      "quando": "2026-07-15 21:07",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:03",
+      "quando": "2026-07-15 21:08",
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:04",
-      "eventi": 3,
+      "quando": "2026-07-15 21:09",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:05",
-      "eventi": 3,
+      "quando": "2026-07-15 21:10",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 16:06",
-      "eventi": 3,
+      "quando": "2026-07-15 21:11",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:12",
-      "eventi": 3,
+      "quando": "2026-07-15 21:12",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:13",
-      "eventi": 3,
+      "quando": "2026-07-15 21:13",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:14",
-      "eventi": 3,
+      "quando": "2026-07-15 21:14",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:15",
-      "eventi": 3,
+      "quando": "2026-07-15 21:15",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:16",
-      "eventi": 3,
+      "quando": "2026-07-15 21:16",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:17",
-      "eventi": 3,
+      "quando": "2026-07-15 21:17",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:18",
-      "eventi": 3,
+      "quando": "2026-07-15 21:18",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:19",
-      "eventi": 3,
+      "quando": "2026-07-15 21:19",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:20",
-      "eventi": 3,
+      "quando": "2026-07-15 21:20",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:21",
-      "eventi": 3,
+      "quando": "2026-07-15 21:21",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:22",
-      "eventi": 3,
+      "quando": "2026-07-15 21:22",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:23",
-      "eventi": 3,
+      "quando": "2026-07-15 21:23",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:24",
-      "eventi": 3,
+      "quando": "2026-07-15 21:24",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:25",
-      "eventi": 3,
+      "quando": "2026-07-15 21:25",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:26",
-      "eventi": 3,
+      "quando": "2026-07-15 21:26",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:27",
-      "eventi": 3,
+      "quando": "2026-07-15 21:27",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:28",
-      "eventi": 3,
+      "quando": "2026-07-15 21:28",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:29",
-      "eventi": 3,
+      "quando": "2026-07-15 21:30",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:30",
-      "eventi": 3,
+      "quando": "2026-07-15 21:31",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:31",
-      "eventi": 3,
+      "quando": "2026-07-15 21:32",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:32",
-      "eventi": 3,
+      "quando": "2026-07-15 21:33",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:33",
-      "eventi": 3,
+      "quando": "2026-07-15 21:34",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:34",
-      "eventi": 3,
+      "quando": "2026-07-15 21:35",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:36",
-      "eventi": 3,
+      "quando": "2026-07-15 21:36",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:37",
-      "eventi": 3,
+      "quando": "2026-07-15 21:37",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:38",
-      "eventi": 3,
+      "quando": "2026-07-15 21:38",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:39",
-      "eventi": 3,
+      "quando": "2026-07-15 21:39",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:40",
-      "eventi": 3,
+      "quando": "2026-07-15 21:40",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:41",
-      "eventi": 3,
+      "quando": "2026-07-15 21:41",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:42",
-      "eventi": 3,
+      "quando": "2026-07-15 21:42",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:43",
-      "eventi": 3,
+      "quando": "2026-07-15 21:43",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:44",
-      "eventi": 3,
+      "quando": "2026-07-15 21:44",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:45",
-      "eventi": 3,
+      "quando": "2026-07-15 21:45",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:46",
-      "eventi": 3,
+      "quando": "2026-07-15 21:46",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:47",
-      "eventi": 3,
+      "quando": "2026-07-15 21:47",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:48",
-      "eventi": 3,
+      "quando": "2026-07-15 21:48",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:49",
-      "eventi": 3,
+      "quando": "2026-07-15 21:49",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:50",
-      "eventi": 3,
+      "quando": "2026-07-15 21:50",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:51",
-      "eventi": 3,
+      "quando": "2026-07-15 21:51",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:52",
-      "eventi": 3,
+      "quando": "2026-07-15 21:52",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:53",
-      "eventi": 3,
+      "quando": "2026-07-15 21:53",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:54",
-      "eventi": 3,
+      "quando": "2026-07-15 21:54",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:55",
-      "eventi": 3,
+      "quando": "2026-07-15 21:55",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:56",
-      "eventi": 3,
+      "quando": "2026-07-15 21:56",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:57",
-      "eventi": 3,
+      "quando": "2026-07-15 21:57",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:58",
-      "eventi": 3,
+      "quando": "2026-07-15 21:58",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 19:59",
-      "eventi": 3,
+      "quando": "2026-07-15 21:59",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:00",
-      "eventi": 3,
+      "quando": "2026-07-15 22:00",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:01",
-      "eventi": 3,
+      "quando": "2026-07-15 22:01",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:02",
-      "eventi": 3,
+      "quando": "2026-07-15 22:02",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:03",
-      "eventi": 3,
+      "quando": "2026-07-15 22:03",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:04",
-      "eventi": 3,
+      "quando": "2026-07-15 22:04",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:05",
-      "eventi": 3,
+      "quando": "2026-07-15 22:05",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:06",
-      "eventi": 3,
+      "quando": "2026-07-15 22:06",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:07",
-      "eventi": 3,
+      "quando": "2026-07-15 22:07",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:08",
-      "eventi": 3,
+      "quando": "2026-07-15 22:08",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:09",
-      "eventi": 3,
+      "quando": "2026-07-15 22:09",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:10",
-      "eventi": 3,
+      "quando": "2026-07-15 22:10",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:11",
-      "eventi": 3,
+      "quando": "2026-07-15 22:11",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:12",
-      "eventi": 3,
+      "quando": "2026-07-15 22:12",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:13",
-      "eventi": 3,
+      "quando": "2026-07-15 22:13",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:14",
-      "eventi": 3,
+      "quando": "2026-07-15 22:14",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:15",
-      "eventi": 3,
+      "quando": "2026-07-15 22:15",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:16",
-      "eventi": 3,
+      "quando": "2026-07-15 22:16",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:17",
-      "eventi": 3,
+      "quando": "2026-07-15 22:17",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:18",
-      "eventi": 3,
+      "quando": "2026-07-15 22:18",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     },
     {
-      "quando": "2026-07-15 20:19",
-      "eventi": 3,
+      "quando": "2026-07-15 22:19",
+      "eventi": 4,
       "accodati": 0,
       "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-15 20:19",
+    "quando": "2026-07-15 22:19",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -721,7 +721,7 @@
     "negozi_fermi": 1,
     "carrelli": null,
     "worker_eta_min": 0,
-    "sensori_max_ciechi": 3,
+    "sensori_max_ciechi": 4,
     "salute_voto": 100,
     "radiografia_gg": 8,
     "volano_tasso": 0.37

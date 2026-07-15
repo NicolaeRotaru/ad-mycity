@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-15 12:57",
+  "aggiornato": "2026-07-15 20:20",
   "per_reparto": [
     {
       "reparto": "@customer-success",
@@ -92,11 +92,11 @@
       "reale": null,
       "entro": "2026-07-14",
       "tolleranza": 0.25,
-      "stato": "aperta",
+      "stato": "scaduta",
       "scarto_pct": null,
       "nota": "",
       "creato": "2026-07-13 20:22",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-15 20:20"
     },
     {
       "id": "CAL-20260714004756-conten",
@@ -127,7 +127,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 03:40",
-      "chiuso_il": "2026-07-14 03:40"
+      "chiuso_il": "2026-07-14 03:40",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714023846-finanz",
@@ -143,7 +144,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 04:38",
-      "chiuso_il": "2026-07-14 04:38"
+      "chiuso_il": "2026-07-14 04:38",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714024141-finanz",
@@ -159,7 +161,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 04:41",
-      "chiuso_il": "2026-07-14 04:41"
+      "chiuso_il": "2026-07-14 04:41",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714024242-finanz",
@@ -175,7 +178,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 04:42",
-      "chiuso_il": "2026-07-14 04:42"
+      "chiuso_il": "2026-07-14 04:42",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714033850-finanz",
@@ -191,7 +195,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 05:38",
-      "chiuso_il": "2026-07-14 05:38"
+      "chiuso_il": "2026-07-14 05:38",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714090425-analis",
@@ -207,7 +212,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 11:04",
-      "chiuso_il": "2026-07-14 11:04"
+      "chiuso_il": "2026-07-14 11:04",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714090939-crmlif",
@@ -223,7 +229,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 11:09",
-      "chiuso_il": "2026-07-14 11:09"
+      "chiuso_il": "2026-07-14 11:09",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714091057-conten",
@@ -239,7 +246,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 11:10",
-      "chiuso_il": "2026-07-14 11:10"
+      "chiuso_il": "2026-07-14 11:10",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260714091311-custom",
@@ -255,7 +263,8 @@
       "fonte": "chiusura-loop ESITO",
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-14 11:13",
-      "chiuso_il": "2026-07-14 11:13"
+      "chiuso_il": "2026-07-14 11:13",
+      "sensore_stato": "n/d"
     },
     {
       "id": "CAL-20260715105514-finanz",
@@ -312,7 +321,7 @@
       "chiuso_il": "2026-07-15 12:57"
     }
   ],
-  "_nota": "12 chiuse · 3 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "12 chiuse · 2 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

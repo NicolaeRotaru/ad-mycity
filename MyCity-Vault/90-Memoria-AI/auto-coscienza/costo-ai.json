@@ -1,75 +1,31 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-14 12:00",
+  "aggiornato": "2026-07-15 20:21",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-07-14",
-    "runs": 8,
+    "data": "2026-07-15",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 570,
+    "durata_sec_totale": 79,
     "voci": [
       {
-        "quando": "2026-07-14 02:49",
+        "quando": "2026-07-15 20:21",
         "tipo": "giro",
-        "durata_sec": 141,
+        "durata_sec": 79,
         "token": 50000,
         "modello": "cursor",
         "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-14 06:01",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 70,
-        "token": null,
-        "modello": "cursor"
-      },
-      {
-        "quando": "2026-07-14 06:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-14 08:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-14 08:31",
-        "tipo": "monitora",
-        "durata_sec": 83,
-        "token": null,
-        "modello": "cursor"
-      },
-      {
-        "quando": "2026-07-14 10:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 0,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-14 11:06",
-        "tipo": "giro",
-        "durata_sec": 272,
-        "token": 50000,
-        "modello": "cursor",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-14 12:00",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 2,
-        "token": null,
-        "modello": "cursor"
       }
     ],
-    "token_stimati": 100000
+    "token_stimati": 50000
   },
   "storico_giorni": [
+    {
+      "data": "2026-07-14",
+      "runs": 8,
+      "token_totali": 0,
+      "durata_sec_totale": 570
+    },
     {
       "data": "2026-07-13",
       "runs": 13,
@@ -136,5 +92,13 @@
       "token_totali": 0,
       "durata_sec_totale": 1777
     }
-  ]
+  ],
+  "modello_quota": "sessione-rolling",
+  "sessione_rolling_min": 360,
+  "sessione_rolling": {
+    "token_sessione_rolling": 50000,
+    "runs_sessione": 1,
+    "finestra_min": 360,
+    "aggiornato": "2026-07-15 20:21"
+  }
 }
