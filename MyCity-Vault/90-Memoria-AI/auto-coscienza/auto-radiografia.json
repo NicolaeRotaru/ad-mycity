@@ -830,7 +830,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json",
             "pattern": "sensore_stato",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json contiene /sensore_stato/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "_nota contraddice il registro: 'Vuoto all'avvio, nessuna mossa misurata' con 18 voci presenti",
@@ -894,7 +898,11 @@
             "file": "cervello/coerenza-rischi.mjs",
             "pattern": "REGISTRO-RISCHI|registro.rischi",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/coerenza-rischi.mjs contiene /REGISTRO-RISCHI|registro.rischi/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "I 78 nuovi senior non hanno nessun KPI, e il guardiano del registro non se ne accorge",
@@ -910,7 +918,11 @@
             "file": "cervello/agent-registry-check.mjs",
             "pattern": "OKR-Squadra|kpi|possiede",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/agent-registry-check.mjs contiene /OKR-Squadra|kpi|possiede/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Un'azione da firmare può dormire in coda per settimane senza che niente la ri-solleciti",
@@ -926,7 +938,11 @@
             "file": "cervello/sentinelle.md",
             "pattern": "ferma in coda|attesa firma.*giorni|azione.*stantia|reminder",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/sentinelle.md contiene /ferma in coda|attesa firma.*giorni|azione.*stantia|reminder/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il Pannello — dove Nicola approva — non ha un sensore di uptime: si controlla solo lo storefront",
@@ -942,7 +958,11 @@
             "file": "cervello/verifica-sensori.mjs",
             "pattern": "checkPannello|PANNELLO_URL|CABINA_URL",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /checkPannello|PANNELLO_URL|CABINA_URL/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Telegram e n8n — il canale delle approvazioni e l'hub delle 'mani' — non sono health-checkati (Resend sì)",
@@ -958,7 +978,11 @@
             "file": "cervello/verifica-sensori.mjs",
             "pattern": "checkTelegram|TELEGRAM_BOT|checkN8n|n8n",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/verifica-sensori.mjs contiene /checkTelegram|TELEGRAM_BOT|checkN8n|n8n/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "La radiografia di sé emette un voto di salute senza dichiarare i propri punti ciechi",
@@ -974,7 +998,11 @@
             "file": ".claude/workflows/auto-radiografia.js",
             "pattern": "punti_ciechi",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": ".claude/workflows/auto-radiografia.js contiene /punti_ciechi/ → trovato",
+          "chiuso_da": "verifica-codice"
         }
       ]
     },
@@ -1337,8 +1365,14 @@
           "impatto_crescita": "basso",
           "genera": "domanda-nicola",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/giro.sh",
+            "pattern": "auto-fix: solo verifica, no --applica",
+            "presente": true
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/giro.sh contiene /auto-fix: solo verifica, no --applica/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il perimetro permessi 🟢🟡🔴 non vale sul motore reale: Cursor gira `--force --trust`, .claude/settings.json copre solo Claude Code",
@@ -1350,8 +1384,14 @@
           "impatto_crescita": "medio",
           "genera": "domanda-nicola",
           "verifica": {
-            "tipo": "umano"
-          }
+            "file": "cervello/motore-ai.sh",
+            "pattern": "PERIMETRO valle",
+            "presente": true
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-15 11:52",
+          "chiuso_come": "cervello/motore-ai.sh contiene /PERIMETRO valle/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il sistema immunitario dichiara il pre-commit ATTIVO solo perché il file esiste, ma `core.hooksPath` non è configurato → scan-segreti spento",
@@ -1876,16 +1916,16 @@
     "aggiornato": "2026-07-14 11:03"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-14 14:44",
-    "findings_aperti": 33,
+    "aggiornato": "2026-07-15 11:52",
+    "findings_aperti": 24,
     "findings_in_corso": 0,
-    "findings_chiusi": 41,
+    "findings_chiusi": 50,
     "findings_tot": 74,
     "cantiere_aperti": 0,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 43,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "match_aggiornati": 1,
+    "chiusi_verifica": 1,
     "data_scan": "2026-07-07 22:21",
     "voto_live": 100
   }

@@ -19,7 +19,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
 
-**Diagnosi completa:** `consegne/finanza/2026-07-14-diagnosi-cassa-runway.md`
+**Diagnosi completa:** `consegne/finanza/2026-07-15-diagnosi-cassa-runway.md`
 
 **Cosa fare (sul VPS, in `vps/.env`):**
 ```
@@ -27,9 +27,9 @@ BURN_MENSILE_EUR=XXXX
 ```
 Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
 
-**Stato attuale verificato 05:41:**
+**Stato attuale verificato 11:49:**
 - Stripe ✅ collegato, cassa letta = **0 €**
-- Burn ❌ non impostato → runway «sconosciuto» da **98 giri**
+- Burn ❌ non impostato → runway «sconosciuto» da **104 giri**
 
 **Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
 **Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
@@ -43,7 +43,7 @@ Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor
 
 ### 🟡 #ritiro-pq-vp17-checkin — Giovedì chiama il fornaio e conferma il presidio di venerdì al banco · ⏳ accodata 2026-07-14 11:07
 
-> **Contesto anti-churn 14/7:** scan REST → **0 negozi in calo**; PQ è l'unico negozio reale, rischio = **zero ordini consegnati** (non abbandono). Report: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
+> **Contesto anti-churn 15/7 11:48:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
 
 **Quando:** **giovedì 16/7 mattina** (T-1 al Venerdì Piacentini).
 
@@ -1187,7 +1187,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 142 | 2026-07-14 03:30 | @tech | Mergia la PR: Chi impara da cosa — volano apprendimento | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/378 | github | ✅ FATTO 14/7 03:36 · merge `2162a760` · 6/6 finding chiusi voto 72 | Chi impara da cosa passa a verde in Radiografia (6/6 fix, ponte quaderni→calibrazione). | Dopo Approva: deploy ~2 min → Ctrl+Shift+R su Radiografia macchina › Chi impara da cosa. |
 | 143 | 2026-07-14 03:37 | @analista | Mergia la PR: Onestà sui numeri — calibrazione e radiografia | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/379 | github | in attesa · conflitti risolti 14/7 12:44 · head `f2d79065` · mergeable verificato · 4/4 finding chiusi voto 75 | Onestà sui numeri passa a verde in Radiografia (4/4 fix, ponte loop→calibrazione con sensore_stato, niente auto-conferme al buio). | Dopo Approva: deploy ~2 min → Ctrl+Shift+R su Radiografia macchina › Onestà sui numeri — zero schede sotto. |
 | 144 | 2026-07-14 12:58 | @tech | Miniatura foto allegata visibile sopra la casella (fluttuante + Assistente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/380 | github | in attesa | Dopo aver scelto una foto in chat fluttuante o Assistente vedi il quadratino con l'immagine sopra dove scrivi — non più solo un nome minuscolo che sembrava assente; se iPhone non manda il file compare un avviso giallo. | Dopo Approva: aspetta 1–2 min, su iPhone chiudi e riapri il Pannello, scegli una foto → miniatura sopra la casella → puoi inviare anche senza testo. |
-| 145 | 2026-07-14 13:08 | @tech | Mergia la PR: Rischio tecnico — guardiani sicurezza e sync monitora | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/383 | github | in attesa · commit `d726c0c8` · 6/8 finding chiusi | Sei schede di Rischio tecnico spariscono in Radiografia (hook segreti attivi, monitora non cancella commit locali, scan Resend/n8n, timeout sensori, meta-guardiani); restano 2 che richiedono tua decisione su Cursor e auto-fix. | Dopo Approva: merge + VPS si allinea → Ctrl+Shift+R su Radiografia › Rischio tecnico. |
+| 145 | 2026-07-14 13:08 | @tech | Mergia la PR: Rischio tecnico — guardiani sicurezza e sync monitora | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/383 | github | ✅ FATTO 2026-07-15 11:52 · merge `417ded09` · 6/8 finding chiusi (resto in PR #398) | Sei schede di Rischio tecnico spariscono in Radiografia (hook segreti attivi, monitora non cancella commit locali, scan Resend/n8n, timeout sensori, meta-guardiani); restano 2 che richiedono tua decisione su Cursor e auto-fix. | Dopo Approva: merge + VPS si allinea → Ctrl+Shift+R su Radiografia › Rischio tecnico. |
 | 146 | 2026-07-14 14:44 | @tech | Merge PR #381 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/381 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 147 | 2026-07-14 18:47 | @tech | Merge PR #384 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/384 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 148 | 2026-07-14 19:03 | @tech | Merge PR #385 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/385 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
@@ -1201,6 +1201,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 156 | 2026-07-14 23:42 | @tech | Merge PR #395 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/395 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 157 | 2026-07-14 23:54 | @tech | Merge PR #396 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/396 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 158 | 2026-07-15 11:44 | @tech | Merge PR #397 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/397 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 159 | 2026-07-15 11:52 | @tech | Merge PR #398 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/398 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
