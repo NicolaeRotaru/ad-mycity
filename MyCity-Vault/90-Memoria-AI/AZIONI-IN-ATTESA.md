@@ -60,6 +60,24 @@ Poi mergia la PR dal Pannello (Ctrl+Shift+R).
 
 ---
 
+### 🟡 #pr-chat-conv-pulsanti — Mergia la PR: pulsanti chat in basso + conversazione aperta in cima · ⏳ accodata 2026-07-16 23:05
+
+**Branch:** `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `8a3ef065` · typecheck ✅
+
+**Due fix in questo PR:**
+1. **Conversazione aperta sempre prima** nella lista — non bisogna più cercarla in fondo.
+2. **Mini-barra con «Conversazioni» e «Nuova chat» sopra il campo di testo** — sempre visibili, niente scroll.
+
+**Come approvare:** mergia la PR dal Pannello (o da GitHub) → build Vercel (~2 min) → Ctrl+Shift+R.
+
+**Cosa cambia:** navigare tra le conversazioni diventa immediato, senza scrollare in cima.
+**Se va bene:** nella prossima chat trovi subito la conversazione che stavi leggendo in cima alla lista.
+
+- **Colore:** 🟡 (merge PR codice Pannello — Nicola la fa)
+- **Reparto:** frontend-dev
+
+---
+
 ### ✅ #burn-mensile-runway — APPROVATA 2026-07-16 21:17 · esegui il comando sul VPS
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`

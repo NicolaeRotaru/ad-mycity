@@ -17,6 +17,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0716-239",
+      "testo": "**UX chat Pannello: i controlli di navigazione stanno ANCHE sopra l'input, non solo nell'header (segnalato Nicola 16/7):** con la chat espansa a schermo intero, «Nuova chat» e «Conversazioni» erano solo nell'header in cima — bisognava scrollare su per trovarli. Fix: mini-barra fissa sopra `BarraScritturaChat` con i due pulsanti sempre visibili. Regola generica: in qualsiasi vista a schermo intero del Pannello, i controlli primari di navigazione devono essere raggiungibili SENZA scroll — duplicarli in basso è la soluzione standard. Stesso turno: la conversazione aperta va sempre prima nell'elenco (`ordinaConversazioni` riceve `convId`).",
+      "tag": [
+        "ux",
+        "chat-pannello",
+        "pulsanti-navigazione",
+        "mini-barra",
+        "conversazioni",
+        "scroll",
+        "frontend"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 23:05",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0716-238",
       "testo": "**`npx tsc --noEmit` è obbligatorio PRIMA di aprire ogni PR su `pannello/` (caso-studio Nicola 16/7, «impara da questo errore»):** la PR #411 è stata aperta senza eseguire il typecheck. Il build Vercel ha trovato un errore TS2367 (confronto impossibile dentro blocco già ristretto da narrowing JSX) e il Pannello è rimasto alla versione vecchia per ore. Nicola ha esplicitamente chiesto di imparare da questo errore. Causa radice: ho omesso il gate di qualità pre-PR. Regola INDEROGABILE: modifica pannello/ → `npx tsc --noEmit` → se fallisce FIX prima → poi commit e PR. Mai aprire una PR su pannello/ senza typecheck verde. Costo dell'omissione: ore di Pannello fermo + PR #414 correttiva.",
       "tag": [
