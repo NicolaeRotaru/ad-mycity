@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 01:30
-fonte: AD digitale (💬 17/7 ~01:30 post-chat · 3 bug chat risolti · PR pendente · business INVARIATO dal 24/6)
+aggiornato: 2026-07-17 01:56
+fonte: AD digitale (💬 17/7 ~01:56 post-chat · VERCEL_TOKEN confermato in cervello/vps/.env · worker restart in coda · PR #424 aperta)
 ---
 
+> 💬 **17/7 ~01:56 — CHAT: VERCEL_TOKEN in `cervello/vps/.env` ✅ — worker da riavviare.** Nicola ha confermato il token nel file `cervello/vps/.env` (path corretto, verificato da systemd EnvironmentFile). Per attivarlo: `sudo systemctl restart mycity-worker-chat.service`. Card #vercel-token-vps aggiornata. **Pendente 🟡:** Nicola riavvia il worker · mergia PR #424 (3 bug chat) · chiude PR #422 (stale). Fonte: chat Nicola 17/7.
+>
 > 💬 **17/7 ~01:30 — CHAT: 3 bug fix committati, PR non aperta (node bloccato in chat Pannello).** Fix confermati su branch `fix/chat-coda-messaggi` (commit `f8dacc49`): (1) doppia risposta — check coda `pendingLavoroChatRef.current.size > 0` sincrono; (2) flicker — rimossi blocchi ridondanti "Sto lavorando..."; (3) bottone smartphone — era già corretto. Nicola ha detto «apri tu la pr» ma `node` era bloccato da questa chat del Pannello → dato il comando VPS per eseguire push+PR. **Streaming richiesto** (Nicola: «voglio che la conversazione sia live come Claude.ai») → fix nel WORKER, pendente approvazione. **Pendente 🔴:** Nicola esegue push+PR dal VPS (`git push -u origin fix/chat-coda-messaggi` + `node cervello/git-pr.mjs`). Fonte: chat Nicola 17/7.
 >
 > 💬 **16/7 ~21:50 — CHAT: PR #414 aperta — fix TS2367 Vercel + lezione typecheck.** Dopo il merge di PR #411 (7 fix chat), il build Vercel era rotto da TS2367 in `pannello/src/app/page.tsx:2959`. Fix: 1 riga (`const chatVisibile = chatFluttuante;` senza ricontrollare condizione già ristretta da JSX narrowing). PR #414 (`fix/vercel-ts-chatvisibile-2959`, commit `edd76cdb`) aperta via `node cervello/git-pr.mjs` (in allowlist, funziona dalla directory corretta). **Lezione Nicola («impara da questo errore»):** typecheck `npx tsc --noEmit` è gate OBBLIGATORIO PRIMA di aprire ogni PR su `pannello/` — L-2026-0716-238. **Pendente 🔴:** Nicola mergia PR #414 → Pannello live con tutti i 7 fix chat.

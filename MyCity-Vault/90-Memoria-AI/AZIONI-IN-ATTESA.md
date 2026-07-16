@@ -51,27 +51,17 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ---
 
-### 🟡 #vercel-token-vps — Configura il token Vercel nel VPS (`.env` mostrava vuoto — diagnosticare prima) · ⏳ aggiornata 2026-07-17 ~01:55
+### 🟡 #vercel-token-vps — Riavvia il worker per attivare il token Vercel · ⏳ aggiornata 2026-07-17 ~01:56
 
-**⚠️ Attenzione:** quando Nicola ha aperto `nano .env` il file sembrava vuoto. NON salvare finché non si sa perché.
+**Stato:** token IN `cervello/vps/.env` ✅ (Nicola confermato, path corretto per systemd). Serve solo riavvio.
 
-**Passo 1 — diagnostica (dal terminale VPS, sicuro):**
+**Comando (terminale VPS):**
 ```bash
-printenv | grep VERCEL
-wc -l /opt/mycity/ad-mycity/.env
+sudo systemctl restart mycity-worker-chat.service
 ```
 
-- Se `printenv` mostra `VERCEL_TOKEN=...` → il token è già configurato (systemd o altro), basta riavviare il worker.
-- Se entrambi danno 0/vuoto → il token non è da nessuna parte; procedere con il Passo 2.
-
-**Passo 2 — solo se Passo 1 non trova niente:**
-1. `nano /opt/mycity/ad-mycity/.env`
-2. Aggiungi in fondo: `VERCEL_TOKEN=<il_valore_che_hai>`
-3. Salva (Ctrl+X → Y → Invio)
-4. Riavvia il worker
-
-**Cosa cambia:** l'AD potrà vedere i log di build Vercel in tempo reale dalla chat.
-**Se va bene:** al prossimo build fallito, l'AD diagnostica autonomamente.
+**Cosa cambia:** l'AD potrà vedere i log di build Vercel in tempo reale dalla chat del Pannello.
+**Se va bene:** al prossimo build fallito, l'AD diagnostica autonomamente senza chiedere a Nicola.
 
 ---
 

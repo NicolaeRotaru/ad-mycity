@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 ~01:56 · 🟡 · [AD] · **VERCEL_TOKEN in `cervello/vps/.env` — confermato CORRETTO, worker da riavviare.** Nicola ha detto "io l'ho messo qui: nano /opt/mycity/ad-mycity/cervello/vps/.env". Verificato: il servizio systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env` — è il posto giusto. Il token c'è. Il worker deve essere riavviato per caricare il nuovo env: `sudo systemctl restart mycity-worker-chat.service`. Dopo il riavvio il MCP Vercel sarà attivo dalla chat del Pannello. Card #vercel-token-vps aggiornata. Fonte: chat Nicola 17/7.
+
 2026-07-17 ~01:55 · 🟡 · [AD] · **nano .env mostrava file vuoto a Nicola — AD ha detto "non salvare, Ctrl+X → N".** Screenshot allegato da Nicola: file apparentemente vuoto. Le variabili potrebbero essere caricate altrove (systemd, profile, file diverso). Regola: `printenv | grep VERCEL` + `wc -l .env` PRIMA di toccare il file. Card #vercel-token-vps rimane aperta — da investigare con questi comandi al prossimo avvio.
 
 2026-07-17 01:15 · 🟡 · [AD] · **Token Vercel nel posto sbagliato — rientrata in coda #vercel-token-vps.** Nicola aveva risposto "ho inserito il token vercel dentro il worker" — il worker non è il `.env`, il MCP non si attiva. Il token va come `VERCEL_TOKEN=...` nel file `.env` del VPS. L'AD ha spiegato i passi esatti. La card è stata riaperta in AZIONI-IN-ATTESA.
