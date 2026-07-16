@@ -208,8 +208,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         rows={fab ? 3 : 2}
         placeholder={
           fab
-            ? `Scrivi all'AD…  (${hintInvio})`
-            : `Scrivi all'AD (col tuo Max), gratis…  (${hintInvio})`
+            ? `Scrivi al worker…  (${hintInvio})`
+            : `Scrivi al worker (col tuo Max), gratis…  (${hintInvio})`
         }
         className={
           fab

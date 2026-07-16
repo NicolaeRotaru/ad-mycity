@@ -33,10 +33,18 @@ function perLaVoce(testo: string): string {
     .trim();
 }
 
-export function parla(testo: string): void {
-  if (!vocePronta()) return;
+// `onFine` (opzionale) parte quando il worker ha FINITO di parlare: serve per la modalità a MANI
+// LIBERE (dopo che il worker ha risposto a voce, si riapre il microfono per il tuo turno).
+export function parla(testo: string, onFine?: () => void): void {
+  if (!vocePronta()) {
+    onFine?.();
+    return;
+  }
   const pulito = perLaVoce(testo);
-  if (!pulito) return;
+  if (!pulito) {
+    onFine?.();
+    return;
+  }
   try {
     window.speechSynthesis.cancel(); // interrompe una lettura precedente
     const u = new SpeechSynthesisUtterance(pulito);
@@ -45,9 +53,19 @@ export function parla(testo: string): void {
     u.lang = v?.lang || "it-IT";
     u.rate = 1;
     u.pitch = 1;
+    if (onFine) {
+      u.onend = () => {
+        try {
+          onFine();
+        } catch {
+          /* niente */
+        }
+      };
+    }
     window.speechSynthesis.speak(u);
   } catch {
     /* silenzioso: se la voce non parte, non blocchiamo la chat */
+    onFine?.();
   }
 }
 

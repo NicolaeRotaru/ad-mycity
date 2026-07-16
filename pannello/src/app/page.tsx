@@ -2058,7 +2058,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     const key = last.id ?? last.content;
     if (ultimoParlatoRef.current === key) return;
     ultimoParlatoRef.current = key;
-    parlaVoce(last.content);
+    // Mani libere: finita la risposta a voce, riapro il microfono per il tuo turno (se la modalità
+    // è ancora attiva e non sta già arrivando un'altra risposta). Conversazione a voce continua, senza API.
+    parlaVoce(last.content, () => {
+      if (voceWorker && !loading && !ascoltando) dettaVoce();
+    });
   }, [messages, voceWorker]);
 
   function toggleVoceWorker() {
@@ -2394,7 +2398,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   gruppo: "Sistema",
                   voci: [
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-                    { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+                    { id: "assistente", label: "Worker", icon: <Send size={15} /> },
                   ],
                 },
               ];
@@ -2892,7 +2896,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
             <div className="leading-tight min-w-0 flex-1">
-              <div className="text-[14px] font-semibold tracking-tight truncate">{workerFull ? "Worker" : "Parla con l’AD"}</div>
+              <div className="text-[14px] font-semibold tracking-tight truncate">Worker</div>
               <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
             </div>
             <button
