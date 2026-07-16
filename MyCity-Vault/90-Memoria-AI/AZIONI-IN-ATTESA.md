@@ -43,42 +43,21 @@ Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore Type
 
 ---
 
-### 🔴 #pr-416-skill-tab — Mergia PR #416: chat vuota + comandi rapidi nella tab ⚡ Skill · ⏳ accodata 2026-07-16 23:30
+### ✅ #pr-416-skill-tab — PR #416 mergiata da Nicola · FATTO 2026-07-17 (merge 73e79d97)
 
-**PR #416** · Branch `fix/skill-tab-comandi-rapidi` · commit `82bd0a34` · typecheck ✅ · nessun conflitto
-
-**Cosa fa:**
-1. **Chat si apre VUOTA** — rimossi il testo "Scrivi un obiettivo…", le icone dei reparti e i comandi rapidi inlineati (sia nella chat principale che in quella fluttuante).
-2. **Comandi rapidi nella tab ⚡ Skill** — 4 comandi (✨ Contenuti PRO, 🔄 Fai un giro, 📊 Come stiamo?, 📋 Che comandi ho?) ora nella finestra ⚡ Skill.
-
-**Dopo il merge:** Vercel builda in automatico (~2 min) → Ctrl+Shift+R.
-
-**Cosa cambia:** la chat si apre pulita senza blocchi di routing; i comandi rapidi si trovano nella tab ⚡ quando servono.
-**Se va bene:** interfaccia più semplice e meno rumore visivo — i comandi ci sono ma non occupano spazio di default.
-
-- **Colore:** 🔴 (merge PR codice Pannello — approva Nicola)
-- **Reparto:** frontend-dev
+Chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge.
 
 ---
 
-### 🟡 #fix-vercel-ts-2959 — Push il fix TS2367 dal terminale VPS (Nicola ha già approvato) · ⏳ aggiornata 2026-07-16 21:26
+### ✅ #pr-419-chat-3fix — PR #419 mergiata da Nicola · FATTO 2026-07-17 (merge f3389eb8)
 
-**Contesto:** Nicola ha approvato il push ("Approvo push") in chat alle ~21:25 del 16/7, ma la sessione del Pannello blocca git e node — il push non è stato eseguito.
+Chat stabile: niente doppioni, niente lampeggio, bottone invio funziona su mobile. TS2367 risolto nel merge.
 
-**Cosa fare (sul VPS, nel terminale — non da questa chat):**
-```bash
-cd /opt/mycity/ad-mycity
-git checkout fix/vercel-ts-chatvisibile-2959
-git push origin fix/vercel-ts-chatvisibile-2959
-node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/vercel-ts-chatvisibile-2959 --title "fix(chat): corregge TS2367 nel cassetto FAB — Vercel torna verde" --accoda
-```
-Poi mergia la PR dal Pannello (Ctrl+Shift+R).
+---
 
-**Cosa cambia:** il build Vercel passa, i 7 fix della PR #411 (streaming, fullscreen, caselle doppie, ricerca, ordinamento, nav bar, foto) vanno finalmente live.
-**Se va bene:** Pannello aggiornato entro 2 minuti dal merge → Ctrl+Shift+R.
+### ✅ #fix-vercel-ts-2959 — Fix TS2367 incluso nel merge PR #419 · FATTO 2026-07-17
 
-- **Colore:** 🟡 (push già approvato da Nicola — serve solo esecuzione dal terminale)
-- **Reparto:** frontend-dev
+`const chatVisibile = chatFluttuante` incorporato da Nicola nel merge di PR #419 (f3389eb8). Branch separato non necessario.
 
 ---
 

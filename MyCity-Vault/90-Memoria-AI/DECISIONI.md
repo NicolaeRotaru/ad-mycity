@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 00:30 · 🟢 · [AD/frontend-dev] · **PR #416 mergiata da Nicola** (merge 73e79d97) — chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge. AZIONI-IN-ATTESA aggiornata: #pr-416-skill-tab → FATTO.
+
+2026-07-17 00:15 · 🟡 · [AD/frontend-dev] · **PR #419 aperta — 3 fix chat: coda messaggi, doppia risposta, flicker, bottone invio mobile.** Nicola ha chiesto: (1) chat continua — il 2° messaggio inviato durante l'elaborazione non resetta tutto ma si accoda; (2) fix doppia risposta — nessuna bolla duplicata se la risposta finale è già in DOM; (3) fix flicker — `setLoading` non viene richiamato se è già `true`; (4) fix bottone mobile — rimosso `|| loading` dal pulsante invio, si invia da smartphone durante l'elaborazione. Branch `fix/chat-coda-messaggi`, commit `f8dacc49`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #419.
+
 2026-07-16 23:55 · 🟡 · [AD/frontend-dev] · **PR #418 aperta — fix chat: pulsanti Conversazioni e Nuova chat spostati nei tab, rimossi dall'header.** Nicola correzione esplicita: «non dovevi toglierlo ma metterli accanto agli altri tab ed invece togliere quelle in alto». PR #417 aveva solo rimosso (senza aggiungere al tab bar). PR #418 corregge: (1) aggiunge «Conv» e «Nuova» nella `BarraScritturaChat` accanto agli altri pulsanti; (2) rimuove i pulsanti dall'header in alto, lasciando solo il titolo della conversazione. Branch `fix/chat-rimuovi-minibar-navbar`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #418.
 
 2026-07-16 23:30 · 🟡 · [AD/frontend-dev] · **PR #416 aperta — UX chat: chat vuota + comandi rapidi in tab ⚡ Skill.** Nicola ha chiesto di rimuovere il blocco "Scrivi un obiettivo… con le icone" dalla chat e spostare i Comandi rapidi nella tab ⚡. Modificati `comandi-data.ts` (4 comandi aggiunti alle Skill) e `page.tsx` (rimossi TEAM, COMANDI_RAPIDI e blocco empty-state dalla chat principale e fluttuante). Branch `fix/skill-tab-comandi-rapidi`, commit `82bd0a34`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #416.
