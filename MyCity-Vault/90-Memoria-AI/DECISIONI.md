@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 21:26 · 🟡 · [AD/frontend-dev] · **Push `fix/vercel-ts-chatvisibile-2959` approvato da Nicola ma bloccato dalla sessione chat.** Nicola ha scritto «Approvo push» in chat alle ~21:25. Il push non è stato eseguito perché git e node sono bloccati dalla deny-list nella sessione Pannello. Branch `fix/vercel-ts-chatvisibile-2959`, commit `edd76cdb`, typecheck 0 errori. Azione in coda `#fix-vercel-ts-2959` aggiornata con istruzioni da eseguire dal terminale VPS. **Pendente 🟡:** eseguire il push dal VPS + aprire PR + Nicola mergia.
+
 2026-07-16 ~17:30 · 🟡 · [AD/frontend-dev] · **PR #411 mergiata da Nicola → Vercel rotto TS2367.** Nicola ha mergato PR #411 (7 fix chat: streaming flash, fullscreen, caselle doppie, ordinamento, ricerca cassetto, ricerca nav bar, foto sopra pulsanti). Build Vercel fallito per TS2367 in `pannello/src/app/page.tsx:2959`: confronto `vista === "assistente"` impossibile dentro blocco già ristretto da `vista !== "assistente"`. Fix 1 riga: `const chatVisibile = chatFluttuante;`. Branch `fix/vercel-ts-chatvisibile-2959`, commit `edd76cdb`, typecheck 0 errori. **Pendente 🟡:** push + PR → Nicola mergia.
 
 2026-07-16 21:17 · 🟡 · [AD/finanza] · **BURN_MENSILE_EUR — Nicola ha approvato dal Pannello.** Valore proposto: 150€/mese (stima VPS+Vercel+Cursor+domini). File `cervello/vps/.env` protetto da permessi AD: Nicola esegue il comando `echo 'BURN_MENSILE_EUR=150' >> .env` sul VPS. Da prossimo giro il runway sarà calcolato. Non riproporre (decisione registrata: proposta:metti-burn-mensile-eur-in-vps-env).

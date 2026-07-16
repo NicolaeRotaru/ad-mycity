@@ -39,14 +39,23 @@ Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore Type
 
 ---
 
-### 🟡 #fix-vercel-ts-2959 — Risolvi l'errore Vercel che impedisce il deploy dei 7 fix chat · ⏳ accodata 2026-07-16
+### 🟡 #fix-vercel-ts-2959 — Push il fix TS2367 dal terminale VPS (Nicola ha già approvato) · ⏳ aggiornata 2026-07-16 21:26
 
-**Cosa fare:** approvare il push del branch `fix/vercel-ts-chatvisibile-2959` (commit `edd76cdb`) e la PR su GitHub.
+**Contesto:** Nicola ha approvato il push ("Approvo push") in chat alle ~21:25 del 16/7, ma la sessione del Pannello blocca git e node — il push non è stato eseguito.
+
+**Cosa fare (sul VPS, nel terminale — non da questa chat):**
+```bash
+cd /opt/mycity/ad-mycity
+git checkout fix/vercel-ts-chatvisibile-2959
+git push origin fix/vercel-ts-chatvisibile-2959
+node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/vercel-ts-chatvisibile-2959 --title "fix(chat): corregge TS2367 nel cassetto FAB — Vercel torna verde" --accoda
+```
+Poi mergia la PR dal Pannello (Ctrl+Shift+R).
 
 **Cosa cambia:** il build Vercel passa, i 7 fix della PR #411 (streaming, fullscreen, caselle doppie, ricerca, ordinamento, nav bar, foto) vanno finalmente live.
 **Se va bene:** Pannello aggiornato entro 2 minuti dal merge → Ctrl+Shift+R.
 
-- **Colore:** 🟡 (push branch + PR — poi mergia tu)
+- **Colore:** 🟡 (push già approvato da Nicola — serve solo esecuzione dal terminale)
 - **Reparto:** frontend-dev
 
 ---
