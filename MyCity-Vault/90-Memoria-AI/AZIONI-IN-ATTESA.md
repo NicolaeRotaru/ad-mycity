@@ -33,14 +33,20 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #pr-411-chat — Mergia PR #411 — 7 fix chat: streaming + fullscreen + altro · ⏳ accodata 2026-07-16 17:00
+### ✅ #pr-411-chat — PR #411 mergiata da Nicola · FATTO 2026-07-16 ~17:30
 
-**Cosa fare:** mergia PR #411 su GitHub (`NicolaeRotaru/ad-mycity/pull/411`) → poi Ctrl+Shift+R sul Pannello.
+Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore TypeScript TS2367 in `page.tsx:2959` — fix in branch separato (vedi #fix-vercel-ts-2959 sotto).
 
-**Cosa cambia:** risposta senza flash/lampeggio, chat fullscreen come Claude.ai, FAB sparisce nell'Assistente, chat usata sale in cima, ricerca nel cassetto, ricerca nell'header, foto sopra i pulsanti ⚡📎🎤.
-**Se va bene:** tutte e 7 le migliorie visibili subito dopo il deploy Vercel.
+---
 
-- **Colore:** 🔴 (merge su main — firma Nicola)
+### 🟡 #fix-vercel-ts-2959 — Risolvi l'errore Vercel che impedisce il deploy dei 7 fix chat · ⏳ accodata 2026-07-16
+
+**Cosa fare:** approvare il push del branch `fix/vercel-ts-chatvisibile-2959` (commit `edd76cdb`) e la PR su GitHub.
+
+**Cosa cambia:** il build Vercel passa, i 7 fix della PR #411 (streaming, fullscreen, caselle doppie, ricerca, ordinamento, nav bar, foto) vanno finalmente live.
+**Se va bene:** Pannello aggiornato entro 2 minuti dal merge → Ctrl+Shift+R.
+
+- **Colore:** 🟡 (push branch + PR — poi mergia tu)
 - **Reparto:** frontend-dev
 
 ---

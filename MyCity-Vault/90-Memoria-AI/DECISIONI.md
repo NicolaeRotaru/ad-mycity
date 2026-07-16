@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 ~17:30 · 🟡 · [AD/frontend-dev] · **PR #411 mergiata da Nicola → Vercel rotto TS2367.** Nicola ha mergato PR #411 (7 fix chat: streaming flash, fullscreen, caselle doppie, ordinamento, ricerca cassetto, ricerca nav bar, foto sopra pulsanti). Build Vercel fallito per TS2367 in `pannello/src/app/page.tsx:2959`: confronto `vista === "assistente"` impossibile dentro blocco già ristretto da `vista !== "assistente"`. Fix 1 riga: `const chatVisibile = chatFluttuante;`. Branch `fix/vercel-ts-chatvisibile-2959`, commit `edd76cdb`, typecheck 0 errori. **Pendente 🟡:** push + PR → Nicola mergia.
+
 2026-07-16 21:17 · 🟡 · [AD/finanza] · **BURN_MENSILE_EUR — Nicola ha approvato dal Pannello.** Valore proposto: 150€/mese (stima VPS+Vercel+Cursor+domini). File `cervello/vps/.env` protetto da permessi AD: Nicola esegue il comando `echo 'BURN_MENSILE_EUR=150' >> .env` sul VPS. Da prossimo giro il runway sarà calcolato. Non riproporre (decisione registrata: proposta:metti-burn-mensile-eur-in-vps-env).
 
 2026-07-16 21:12 · 🔴 · [AD] · **Merge PR #380/#381/#403 — APPROVATO da Nicola via Pannello.** PR #380 = miniatura foto allegata (card #144, branch fix/foto-allegata); PR #381 = fix costo AI 5/6 (card #146, branch fix/costo-ai-efficienza); PR #403 = fix tecnici (card #163). Blocco esecuzione: `gh pr merge` non è nell'allowlist della sessione sandbox → i merge non sono stati eseguiti automaticamente. **Pending 🔴:** Nicola esegue i 3 comandi sul VPS o dà ok all'allowlist. Non riproporre questa proposta (decisione registrata: proposta:approva-pr-380-381-403-dal-pannello). Nicola (Pannello 21:12)
