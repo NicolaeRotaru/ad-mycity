@@ -118,6 +118,7 @@ import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import BarraScritturaChat, { type BarraScritturaChatHandle } from "@/components/BarraScritturaChat";
+import { parla as parlaVoce, fermaVoce } from "@/lib/voce-worker";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
@@ -893,6 +894,9 @@ export default function Dashboard() {
   // 🤖 "Worker" a SCHERMO INTERO: la stessa chat (messaggi + barra) ma come pagina sovrapposta piena.
   // Riusa l'overlay della chat fluttuante, solo con contenitore fullscreen e barra "assistente" (identica).
   const [workerFull, setWorkerFull] = useState(false);
+  // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
+  const [voceWorker, setVoceWorker] = useState(false);
+  const ultimoParlatoRef = useRef<string | null>(null);
   // 🔍 Ricerca nel cassetto conversazioni
   const [convRicerca, setConvRicerca] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
@@ -2044,6 +2048,34 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     if (last?.role === "assistant") segnaLetta(id);
   }, [messages, convId, vista, chatFluttuante, workerFull, lavori, conversazioni]);
 
+  // 🔊 Live voce (senza API): a modalità attiva, leggi ad alta voce l'ULTIMA risposta completa
+  // del worker, una volta sola (browser speechSynthesis). Le partial/pending non si leggono.
+  useEffect(() => {
+    if (!voceWorker) return;
+    const reali = messages.filter((m) => m.role === "assistant" && !m.pending && m.content);
+    const last = reali[reali.length - 1];
+    if (!last) return;
+    const key = last.id ?? last.content;
+    if (ultimoParlatoRef.current === key) return;
+    ultimoParlatoRef.current = key;
+    parlaVoce(last.content);
+  }, [messages, voceWorker]);
+
+  function toggleVoceWorker() {
+    setVoceWorker((on) => {
+      const nuovo = !on;
+      if (nuovo) {
+        // Non rileggere la risposta già a schermo: parti dalle PROSSIME.
+        const reali = messages.filter((m) => m.role === "assistant" && !m.pending && m.content);
+        const last = reali[reali.length - 1];
+        ultimoParlatoRef.current = last ? (last.id ?? last.content) : null;
+      } else {
+        fermaVoce();
+      }
+      return nuovo;
+    });
+  }
+
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
   // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
   // (stato React), ma non viene ripristinata alla riapertura del browser/tab.
@@ -2645,6 +2677,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
             onPrompt={dammiPrompt}
+            voceWorker={voceWorker}
+            onToggleVoce={toggleVoceWorker}
           />
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
@@ -2926,6 +2960,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
             onPrompt={workerFull ? dammiPrompt : undefined}
+            voceWorker={voceWorker}
+            onToggleVoce={toggleVoceWorker}
           />
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div

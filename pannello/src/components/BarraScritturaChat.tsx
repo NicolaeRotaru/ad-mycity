@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Brain, FileText, Loader2, Mic, Send } from "lucide-react";
+import { Brain, FileText, Loader2, Mic, Send, Volume2, VolumeX } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import BottoneFotoChat from "@/components/BottoneFotoChat";
@@ -29,6 +29,9 @@ type Props = {
   onDetta: () => void;
   onInvia: (testo: string) => void;
   onPrompt?: (testo: string) => void;
+  /** 🔊 Modalità live "voce del worker": legge le risposte ad alta voce (browser, nessuna API). */
+  voceWorker?: boolean;
+  onToggleVoce?: () => void;
 };
 
 // ponytail: isolare lo state della bozza qui evita di ri-renderizzare tutta Home (page.tsx) a ogni keystroke.
@@ -47,6 +50,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
     onDetta,
     onInvia,
     onPrompt,
+    voceWorker,
+    onToggleVoce,
   },
   ref,
 ) {
@@ -147,6 +152,18 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         >
           <Mic size={fab ? 16 : 18} />
         </button>
+        {onToggleVoce && (
+          <button
+            onClick={onToggleVoce}
+            className={`grid place-items-center rounded-xl border transition active:scale-95 ${
+              fab ? "min-h-[40px] min-w-[40px]" : "min-h-[44px] min-w-[44px] px-3"
+            } ${voceWorker ? "bg-brand text-white border-brand" : "border-black/10 text-black/55 hover:bg-black/[0.04]"}`}
+            aria-label={voceWorker ? "Voce del worker attiva" : "Attiva la voce del worker"}
+            title={voceWorker ? "Live voce attiva: il worker legge le risposte ad alta voce (tocca per spegnere)" : "Live voce: fai leggere le risposte al worker (browser, nessuna API)"}
+          >
+            {voceWorker ? <Volume2 size={fab ? 16 : 18} /> : <VolumeX size={fab ? 16 : 18} />}
+          </button>
+        )}
         {!fab && onPrompt && (
           <button
             onClick={prompt}
