@@ -2956,7 +2956,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
-                  const chatVisibile = vista === "assistente" || chatFluttuante;
+                  const chatVisibile = chatFluttuante; // qui chatFluttuante è sempre true (siamo dentro {chatFluttuante && vista !== "assistente" && ...})
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;
