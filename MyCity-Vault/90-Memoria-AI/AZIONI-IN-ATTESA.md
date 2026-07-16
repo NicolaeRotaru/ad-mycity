@@ -51,6 +51,23 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ---
 
+### 🟡 #vercel-token-vps — Crea un token Vercel e dammelo per collegare i log di build alla chat · ⏳ accodata 2026-07-17 02:35
+
+**Cosa fare (da parte di Nicola):**
+1. Vai su https://vercel.com → Settings → Tokens
+2. Crea un nuovo token (nome es. "AD MyCity VPS") con scope sul progetto ad-mycity
+3. Incollami il valore qui in chat
+
+**Poi faccio io:** lo aggiungo alla configurazione del VPS così la prossima volta che un build fallisce vedo l'errore direttamente senza chiederti il log.
+
+**Cosa cambia:** quando Vercel mostra un errore di build, l'AD lo vede in autonomia e lo risolve senza aspettare che tu copi il messaggio.
+**Se va bene:** ciclo di fix build da 10 min → 2 min.
+
+- **Colore:** 🟡 (Nicola crea il token, AD configura nel VPS)
+- **Reparto:** devops-sre / builder-automazioni
+
+---
+
 ### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
 
 **Cosa fare (nel worker-chat, NON nel Pannello):**
