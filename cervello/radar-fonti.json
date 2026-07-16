@@ -1,6 +1,6 @@
 {
  "_README": "Registro delle FONTI WEB da sorvegliare in continuo (Ondata 3, monitoraggio). Ogni fonte: cosa cercare, ogni quanto (cadenza), e in quale file Intelligence del vault scrivere il risultato. Lo consuma cervello/monitora.md (eseguito dal worker Max su schedule): seleziona le fonti DOVUTE oggi per cadenza, fa WebSearch/WebFetch, e aggiorna i file. Le mani di scrittura/scheduling (n8n/cron) le collega builder-automazioni — vedi consegne/automazioni/.",
- "aggiornato": "2026-06-27",
+ "aggiornato": "2026-07-16",
  "scrive_in_possibili": [
   "90-Memoria-AI/Intelligence/radar-concorrenti.md",
   "90-Memoria-AI/Intelligence/eventi-picchi.md",
@@ -20,7 +20,6 @@
   {"id":"unionecommercianti","nome":"Unione Commercianti Piacenza","url":"https://www.unionecommerciantipc.it/","tipo":"associazione","cosa_cercare":"iniziative associazione, eventi commercio, aperture, possibili alleanze","cadenza":"settimanale","peso":3,"senior":["relazioni-istituzionali","vendite"],"scrive_in":"leve-uscita"},
   {"id":"cna-piacenza","nome":"CNA Piacenza / CompraPiacenza","url":"https://piacenza.cna.it/","tipo":"associazione","cosa_cercare":"CompraPiacenza novità, artigiani, bandi, posizionamento (postura complementare)","cadenza":"settimanale","peso":4,"senior":["relazioni-istituzionali","intelligence"],"scrive_in":"radar-concorrenti"},
   {"id":"glovo-piacenza","nome":"Glovo — Piacenza","url":"https://glovoapp.com/it/it/piacenza/","tipo":"concorrente","cosa_cercare":"nuovi negozi, categorie, promo, fee, zone coperte (contro-argomento '30% Glovo')","cadenza":"settimanale","peso":4,"senior":["intelligence","growth-monetizzazione"],"scrive_in":"radar-concorrenti"},
-  {"id":"comprapiacenza","nome":"CompraPiacenza.it","url":"https://comprapiacenza.it/","tipo":"concorrente","cosa_cercare":"negozi aderenti, funzioni, novità (restare COMPLEMENTARI, mai contro)","cadenza":"settimanale","peso":4,"senior":["intelligence","relazioni-istituzionali"],"scrive_in":"radar-concorrenti"},
   {"id":"conad-consegna","nome":"Conad — Spesa online Piacenza","url":"https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza","tipo":"concorrente","cosa_cercare":"zone consegna, slot, soglie spedizione gratis (il vero concorrente di abitudine)","cadenza":"settimanale","peso":4,"senior":["intelligence","analista"],"scrive_in":"radar-concorrenti"},
   {"id":"cortilia","nome":"Cortilia / q-commerce filiera corta","url":"https://www.cortilia.it/","tipo":"concorrente","cosa_cercare":"modello, prezzi, espansione zone, cosa imitare o evitare","cadenza":"settimanale","peso":3,"senior":["intelligence","growth-monetizzazione"],"scrive_in":"radar-concorrenti"},
   {"id":"meteo-piacenza","nome":"Meteo Piacenza (ARPAE/3B)","url":"https://www.arpae.it/it/temi-ambientali/meteo","tipo":"meteo","cosa_cercare":"caldo/freddo estremo, pioggia/neve, nebbia, allerte, PM10/blocchi traffico nei prossimi 7gg","cadenza":"giornaliera","peso":4,"senior":["operations","content-social"],"scrive_in":"eventi-picchi"},
