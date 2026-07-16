@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 21:12 · 🔴 · [AD] · **Merge PR #380/#381/#403 — APPROVATO da Nicola via Pannello.** PR #380 = miniatura foto allegata (card #144, branch fix/foto-allegata); PR #381 = fix costo AI 5/6 (card #146, branch fix/costo-ai-efficienza); PR #403 = fix tecnici (card #163). Blocco esecuzione: `gh pr merge` non è nell'allowlist della sessione sandbox → i merge non sono stati eseguiti automaticamente. **Pending 🔴:** Nicola esegue i 3 comandi sul VPS o dà ok all'allowlist. Non riproporre questa proposta (decisione registrata: proposta:approva-pr-380-381-403-dal-pannello). Nicola (Pannello 21:12)
+
 2026-07-16 19:45 · 🟢 · [AD/city-manager] · **Bacheca home aggiornata con mappa categorie PMI Piacenza.** Nicola «riassumi tutto metti tutto dentro la bacheca della home». Aggiornato `MyCity-Vault/90-Memoria-AI/BACHECA.md` con la mappa completa in 4 fasi: Fase 1 carrello-spesa (Forni/Salumerie DOP/Fiorai urgency/Macellerie/Enoteche DOC); Fase 2 regalo-piacere (Gelaterie/pasticcerie/Torrefazioni); Fase 3 retail non-food (incl. Kaefu); Fase 4 servizi. Bardini (Largo Battisti 19) = Fase 2. Kaefu (Via Genova 31) = Fase 3. Ristoranti = non-target confermato. Committato su main (memoria vault, push diretto). Fonte: chat Nicola 16/7 ~19:40.
 
 2026-07-16 17:00 · 🟡 · [AD/frontend-dev] · **PR #411 — 7 fix chat in una PR.** Radice del flash streaming: React smontava e rimontava il DOM durante il passaggio da testo semplice a Markdown — fix: `<Markdown>` anche nel pending. Fix inclusi: fullscreen Claude.ai, caselle doppie eliminate, ordinamento ultima attività, ricerca cassetto, ricerca nav bar, foto sopra pulsanti. **Pendente 🔴:** Nicola mergia PR #411 → Ctrl+Shift+R.

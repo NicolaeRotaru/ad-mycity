@@ -935,6 +935,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-16 12:40 · @ad · FATTO · Giro conferma 16/7 12:39 (post-context-compaction). Business INVARIATO (REST 12:20 ok, ordini=1 CANCELED, clienti=23, North Star 0, stallo ~531h). n8n cieco 11 giri (era 10). Tutti HARD vincoli soddisfatti. Briefing/STATO/ultimo-briefing/intenzioni aggiornati. ESITO loop @ad registrato 12:40.
 - 2026-07-16 12:40 · @ad · SERVE · Nicola: 🔴 chiama PQ **0523 388601** ORA (card #ritiro-pq-vp17-checkin) · 🔴 stasera post kefir (#post-kefir-estate-1407) · 🔴 mergia PR #380/#381/#403 · 🟡 BURN_MENSILE_EUR.
 
+### 2026-07-16 — Merge PR #380/#381/#403 (AD · 21:12)
+- 2026-07-16 21:12 · @AD · FATTO (parziale) · Nicola ha approvato merge PR #380/#381/#403 via Pannello. Decisione registrata. Blocco: `gh pr merge` non in allowlist sandbox → i merge non eseguiti automaticamente. SERVE: Nicola esegue 3 comandi sul VPS (vedi sotto) o dice «aggiungi gh all'allowlist».
+
 ### 2026-07-16 — 🌙 REPORT DELLA SERA (AD · 18:04)
 - 2026-07-16 18:04 · @ad · FATTO · Report della sera: business INVARIATO dal 24/6, North Star 0, stallo ~533h ≈ 22,2 giorni. PR #411 (7 fix chat: fullscreen+streaming+ricerca) ✅ su main oggi; PR #409 (memoria-viva) ✅. Telefonata al fornaio non confermata eseguita — blocco North Star per domani. Aggiornati [[RITMO]] (blocco «Report della sera · 2026-07-16 18:04») + [[STATO]] (frontmatter 18:04 + banner sera). Loop chiuso.
 - 2026-07-16 18:04 · @analista · FATTO · 7 numeri invariati: baseline REST 12:00 (ordini=1 annullato, clienti=23, 1 PQ, North Star 0). MCP non autorizzato in sessione → 0 numeri inventati. Stallo ~533h.
