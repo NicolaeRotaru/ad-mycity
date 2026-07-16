@@ -287,6 +287,36 @@ Tre paletti che riscrivono l'Organo #1 (li rispettiamo alla lettera):
 - **Non attivato** (resta 🔴, tua firma): scrittura reale del prodotto nel catalogo; modello "live" per
   voce+video (Organo #2). La telecamera-in-chat funziona **senza chiavi nuove**, sul worker che già c'è.
 
+## 📸 Nuova funzione richiesta: foto tua → foto prodotto PRO stile Amazon (2026-07-16)
+Nicola: scatto una foto anche non professionale del prodotto → il worker la trasforma in una foto
+**professionale, identica a quelle di Amazon**.
+
+**Standard reale delle foto principali Amazon** (verificato, fonti sotto):
+- **Sfondo bianco puro** RGB 255,255,255 (il sistema Amazon controlla il valore esatto).
+- **Prodotto riempie ≥85%** del riquadro.
+- **≥1000px** sul lato lungo (per lo zoom); consigliato **2000px+**.
+- **Niente** testo, loghi, watermark, riquadri; prodotto **fuori dalla confezione**; solo ciò che il
+  cliente riceve.
+
+**Punto tecnico ONESTO (da dire a Nicola):** il worker è **Claude** — *vede e ragiona ma NON genera immagini*.
+Quindi "crea una foto pro" richiede uno **strumento immagini** dedicato (non Claude). Tre strade:
+1. **Ripulisci la TUA foto (image-to-image, FEDELE — consigliata):** un modello di *editing* immagini prende
+   la tua foto reale e la rende stile Amazon (scontorno → sfondo bianco puro, riquadro all'85%, nitidezza).
+   Parte dal prodotto VERO → **identico**, solo professionale. Rispetta la regola Amazon (foto = prodotto reale)
+   e la nostra (non inventare). *Serve una chiave immagini (es. editing tipo Gemini image, o scontorno tipo
+   remove.bg/rembg) + budget.*
+2. **Trova la foto ufficiale** (per prodotti di MARCA, via codice a barre/EAN): buona per il brandizzato;
+   per l'artigianale/locale non esiste.
+3. **Genera da zero** (text-to-image): **SCARTATA** — inventa dettagli, può mostrare un prodotto che non è
+   esattamente quello venduto → contro Amazon (foto = prodotto reale) e contro trust-safety. "Identico" NON
+   si ottiene inventando: si ottiene partendo dalla TUA foto.
+
+**Raccomandazione AD:** strada **1** (ripulire la foto reale) come base, **2** in aggiunta per i prodotti di
+marca. Serve **una chiave/strumento immagini** (decisione di Nicola, come il modello live). Fino ad allora,
+il worker può comunque **dirti come migliorare lo scatto** (luce, sfondo, inquadratura) a parole.
+
+Fonti Amazon: Seller Labs (spec 2026), ecfotos (guida 2025), MyAmazonGuy (best practice 2025).
+
 ## Traccia
 - Documento generato dalla conversazione del 2026-07-16 (visione JARVIS/worker: chat con voce + foto +
   video live, uso centrale nel Pannello). Poi corretto su 3 paletti di Nicola (vedi sopra).
