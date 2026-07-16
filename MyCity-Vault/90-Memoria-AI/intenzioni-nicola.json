@@ -1,26 +1,27 @@
 {
-  "data": "2026-07-14 11:01",
-  "sintesi": "Nicola in maratona Pannello (#377/#378 su main stanotte). Priorità business ORA: post kefir entro colazione (36°C) + link lista d'attesa. T-3 VP 17/7 per 1° ordine PQ ritiro banco. Coda: #143 PR #379 Onestà numeri + batch 494 autofill.",
+  "data": "2026-07-16 12:24",
+  "sintesi": "Nicola T-1 al VP 17/7. Bici elettrica in riparazione (~28/7). Priorità business ORA: chiama PQ 0523 388601 OGGI per confermare presidio al banco. Stasera/domani mattina: post kefir + link lista d'attesa. Coda Pannello: PR #380/#381/#403 da mergiare. BURN_MENSILE_EUR da impostare.",
   "prossime_mosse": [
-    {"titolo": "Pubblica il post kefir per il caldo", "quando": "ora (fascia colazione)", "come": "Approva card #post-kefir-estate-1407 + incolla link lista d'attesa", "priorita": "alta", "ad_prepara": "testo pronto in consegne/content/", "senior": "@content-social", "colore": "🔴"},
-    {"titolo": "Approva Onestà sui numeri nel Pannello", "quando": "dopo post kefir", "come": "Pannello → Approva card #143 (PR #379)", "priorita": "alta", "ad_prepara": "4/4 finding chiusi, mergeable verificato", "senior": "@frontend-dev", "colore": "🔴"},
-    {"titolo": "Far nascere il primo ordine al Venerdì del 17", "quando": "VP 17/7", "come": "presidio PQ Via Calzolai + ritiro al banco + post Il Turno", "priorita": "alta", "ad_prepara": "brief operativo + SEO PQ", "senior": "@operations", "colore": "🔴"},
-    {"titolo": "Metti quanto spendiamo al mese per il runway", "quando": "quando puoi", "come": "BURN_MENSILE_EUR in vps/.env", "priorita": "media", "ad_prepara": "diagnosi in consegne/finanza/2026-07-14-diagnosi-cassa-runway.md", "senior": "@finanza", "colore": "🟡"}
+    {"titolo": "Chiama Pane Quotidiano OGGI", "quando": "OGGI 16/7 entro le 17:00", "come": "0523 388601, script #ritiro-pq-vp17-checkin: «Venerdì sera c'è il VP, passo da te al banco con il QR, ritiro dal banco (bici non pronta)»", "priorita": "URGENTE", "ad_prepara": "script pronto in AZIONI-IN-ATTESA card #ritiro-pq-vp17-checkin", "senior": "@account-negozi", "colore": "🔴"},
+    {"titolo": "Pubblica il post kefir stasera o domani mattina presto", "quando": "stasera 16/7 o domani 17/7 mattina", "come": "Approva card #post-kefir-estate-1407 + incolla link lista d'attesa + foto kefir reale (o tipografico neutro)", "priorita": "alta", "ad_prepara": "testo pronto in consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md", "senior": "@content-social", "colore": "🔴"},
+    {"titolo": "Mergia PR #380 / #381 / #403", "quando": "oggi/domani", "come": "Pannello → Da approvare → Approva ciascuna", "priorita": "alta", "ad_prepara": "PR pronte, verificate, mergeable", "senior": "@frontend-dev", "colore": "🔴"},
+    {"titolo": "Presidio VP 17/7 — banco Pane Quotidiano, primo ordine ritiro", "quando": "17/7 sera", "come": "Via Calzolai 25, QR, accetta ordine → ritiro COD → North Star 0→1", "priorita": "alta", "ad_prepara": "kit VP in AZIONI-IN-ATTESA #ritiro-pq-vp17-checkin", "senior": "@operations", "colore": "🔴"},
+    {"titolo": "Metti BURN_MENSILE_EUR in vps/.env", "quando": "quando puoi", "come": "Valore reale o stima (VPS+Vercel+Cursor+AI+domini)", "priorita": "media", "ad_prepara": "card #burn-mensile-runway pronta", "senior": "@finanza", "colore": "🟡"}
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE; 5 prodotti live; target 1° ordine VP 17/7", "stato": "attivo · 0 consegne · payout OFF"},
-    {"nome": "Garetti · Peretti · Amendolara", "perche": "Botteghe core carrello settimanale (Nicola 22:34)", "stato": "prospect · dopo debrief visita"}
+    {"nome": "Pane Quotidiano", "perche": "Unico negozio REALE; 5 prodotti live; target 1° ordine VP 17/7 ritiro banco", "stato": "attivo · 0 consegne · payout OFF"},
+    {"nome": "Garetti · Peretti · Amendolara + 3 altri", "perche": "Visita 13/7 (esiti non debriefati da Nicola); bici in riparazione ~28/7", "stato": "prospect · dopo debrief + bici"}
   ],
   "rischi": [
-    "VP 17/7 passa senza ordine reale",
-    "Post kefir non pubblicato in fascia colazione",
-    "Caldo 38°C domani su deperibili senza borse",
-    "Debrief visita 13/7 mancante"
+    "VP 17/7 passa senza telefonata al fornaio OGGI → ordine non avviene",
+    "Post kefir non pubblicato → niente traffico al VP",
+    "Runway sconosciuto (BURN_MENSILE_EUR assente, 109 giri)"
   ],
   "serve_da_nicola": [
-    {"ambito": "Contenuti", "cosa_manca": "link lista d'attesa", "domanda_per_nicola": "Incollami il link lista d'attesa per pubblicare il post kefir adesso?"},
-    {"ambito": "Primo ordine", "cosa_manca": "via libera VP 17/7", "domanda_per_nicola": "Diamo il via al post Il Turno per far nascere il 1° ordine al Venerdì del 17?"},
-    {"ambito": "Pannello", "cosa_manca": "merge #379", "domanda_per_nicola": "Approvi la card #143 (Onestà sui numeri)?"},
-    {"ambito": "Visita", "cosa_manca": "esiti reali", "domanda_per_nicola": "Com'è andata la visita ai locali del 13? Chi ha detto sì?"}
+    {"ambito": "Primo ordine VP", "cosa_manca": "telefonata PQ", "domanda_per_nicola": "Chiama 0523 388601 OGGI — script in card #ritiro-pq-vp17-checkin"},
+    {"ambito": "Contenuti", "cosa_manca": "link lista d'attesa", "domanda_per_nicola": "Incollami il link lista d'attesa per pubblicare il post kefir stasera?"},
+    {"ambito": "Pannello", "cosa_manca": "merge PR", "domanda_per_nicola": "Approvi PR #380 / #381 / #403 da Pannello → Da approvare?"},
+    {"ambito": "Finanza", "cosa_manca": "burn mensile", "domanda_per_nicola": "Quanto spendi al mese? (VPS+Vercel+Cursor+AI, anche una stima)"},
+    {"ambito": "Visita 13/7", "cosa_manca": "esiti reali", "domanda_per_nicola": "Com'è andata la visita ai locali del 13? Chi ha detto sì?"}
   ]
 }
