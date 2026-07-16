@@ -95,6 +95,7 @@ import {
   Maximize2,
   Pin,
   CircleStop,
+  Camera,
 } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -110,6 +111,7 @@ import NumeriArea from "@/components/aree/NumeriArea";
 import Plancia from "@/components/aree/Plancia";
 import AreaModuli from "@/components/aree/AreaModuli";
 import Azioni from "@/components/aree/Azioni";
+import VetrinaLive from "@/components/aree/VetrinaLive";
 import { vaultToIso } from "@/lib/format";
 import { hintInvioChat } from "@/lib/chat-input";
 import { avviaDettatura } from "@/lib/dettatura-vocale";
@@ -731,6 +733,7 @@ type Vista =
   | "operazioni"
   | "mondo"
   | "assistente"
+  | "vetrina-live"
   | "esplora"
   | "report"
   | "storico";
@@ -2325,6 +2328,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   voci: [
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
                     { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+                    { id: "vetrina-live", label: "Vetrina live", icon: <Camera size={15} /> },
                   ],
                 },
               ];
@@ -2472,6 +2476,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           <AreaModuli area="mondo" metriche={metriche} aggAt={datiAggiornatiAt} />
         </div>
         )}
+
+        {/* ===================== VETRINA LIVE (Organo #1 JARVIS) ===================== */}
+        {vista === "vetrina-live" && <VetrinaLive />}
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (

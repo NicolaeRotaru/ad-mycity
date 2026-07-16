@@ -263,6 +263,23 @@ budget-guard AI — tutto già esistente in `mycity/` e `pannello/`.
 
 ---
 
+## 🔨 Stato costruzione — Organo #1, prima fetta (2026-07-16 23:1x)
+**Costruita in branch** `claude/worker-camera-realtime-osxadz` (🟡, nessun deploy, nessuna scrittura sul DB):
+- Nuova sezione **"Vetrina live"** nel Pannello (menu gruppo "Sistema").
+  - `pannello/src/components/aree/VetrinaLive.tsx` — telecamera (`getUserMedia`), scatto foto (modo semplice),
+    scelta negozio, bozza scheda editabile, "Bozze pronte" (in sessione). Pulsanti voce/video-live presenti
+    ma "Presto" (onesti: spenti finché non c'è il modello live).
+  - `pannello/src/app/api/vetrina-live/analizza/route.ts` — foto → bozza scheda via Claude vision
+    (`lib/ai.vede`, con guardia-budget). **Sola lettura sul mondo reale.**
+  - `pannello/src/app/api/vetrina-live/negozi/route.ts` — lista negozi (sola lettura).
+  - `pannello/src/lib/ai.ts` — aggiunta `vede()` (visione, stessa guardia-budget di `pensa()`).
+  - Cablaggio: `lib/nav.ts` + `app/page.tsx` (tipo Vista, voce menu, render).
+- **Cancello typecheck**: `npx tsc --noEmit` → exit 0 (verde).
+- **Non attivato** (resta 🔴, tua firma): scrittura reale del prodotto nel catalogo; modello "live" per
+  voce+video. La bozza "Conferma" resta in sessione finché non si accende la scrittura.
+- **Serve per la parte AI**: `ANTHROPIC_API_KEY` collegata al Pannello (senza, la foto si scatta ma la
+  compilazione automatica non parte). La telecamera e lo scatto funzionano comunque.
+
 ## Traccia
 - Documento generato dalla conversazione del 2026-07-16 (visione JARVIS, chat con microfono live + foto +
   video live, uso centrale nel Pannello).
