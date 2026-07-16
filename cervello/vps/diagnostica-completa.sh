@@ -79,12 +79,22 @@ if [ "$(ai_engine 2>/dev/null || echo none)" = cursor ]; then
     *)       warn "Cursor: né CURSOR_API_KEY né agent login — esegui: sudo bash $REPO/cervello/vps/collega-cursor.sh" ;;
   esac
 fi
+if [ "$(ai_engine 2>/dev/null || echo none)" = claude ]; then
+  _auth_mode="$(ai_claude_auth_mode 2>/dev/null || true)"
+  case "$_auth_mode" in
+    oauth_token) ok "Claude: token headless CLAUDE_CODE_OAUTH_TOKEN presente nel .env" ;;
+    api_key)     ok "Claude: ANTHROPIC_API_KEY presente nel .env" ;;
+    login)       ok "Claude: autenticato via claude login (credenziali su disco)" ;;
+    *)           warn "Claude: nessuna credenziale trovata — esegui: sudo bash $REPO/cervello/vps/collega-claude.sh" ;;
+  esac
+fi
 if sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE' 2>/dev/null; . '$REPO/cervello/motore-ai.sh'; ai_check" 2>&1; then
   ok "ai_check passato per utente mycity ($(sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE'; . '$REPO/cervello/motore-ai.sh'; ai_engine") / $(sudo -u mycity -H bash -lc "export PATH=\"\$HOME/.local/bin:\$PATH\"; source '$ENV_FILE'; . '$REPO/cervello/motore-ai.sh'; ai_cli_name"))"
 else
   ko "ai_check FALLITO — il worker esce subito e systemd lo riavvia in loop"
   echo "     → sudo -u mycity -H bash $REPO/cervello/vps/test-agent.sh"
-  echo "     → Installa agent: curl https://cursor.com/install -fsS | bash (come mycity)"
+  echo "     → Motore Claude: sudo bash $REPO/cervello/vps/collega-claude.sh"
+  echo "     → Motore Cursor: sudo bash $REPO/cervello/vps/collega-cursor.sh (o installa agent: curl https://cursor.com/install -fsS | bash, come mycity)"
 fi
 echo
 

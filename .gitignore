@@ -40,3 +40,10 @@ _tmp_*
 # Copia locale del marketplace (repo NicolaeRotaru/mycity), scaricata da
 # `node cervello/collega-marketplace.mjs`. È un altro repo: non va versionata qui.
 /marketplace/
+
+# Specchio per Claude Code delle skill approvate (fonte unica: .cursor/skills/ + manifest
+# cervello/worker-plugins.json). Lo rigenera `sync-worker-plugins.mjs --specchia` a ogni avvio
+# di worker/giro/ritmo: file GENERATI, mai committarli (eviterebbe due copie che divergono).
+# Resta versionata solo `verify`, skill nativa Claude scritta a mano.
+.claude/skills/*
+!.claude/skills/verify

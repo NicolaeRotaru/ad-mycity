@@ -25,9 +25,17 @@ if [ "$eng" = cursor ]; then
     *)       echo "✗ Cursor non autenticato (manca key e agent login)" >&2; exit 1 ;;
   esac
 elif [ "$eng" = claude ]; then
-  if command -v claude >/dev/null 2>&1; then
-    echo "Auth Claude: verifica con 'claude' (piano Max / login)"
-  fi
+  mode="$(ai_claude_auth_mode || true)"
+  case "$mode" in
+    oauth_token) echo "Auth Claude: CLAUDE_CODE_OAUTH_TOKEN (token headless da setup-token)" ;;
+    api_key)     echo "Auth Claude: ANTHROPIC_API_KEY (API a consumo)" ;;
+    login)       echo "Auth Claude: claude login (credenziali su disco)" ;;
+    *)
+      echo "✗ Claude non autenticato (né token nel .env né claude login)." >&2
+      echo "  Fix: sudo bash $REPO/cervello/vps/collega-claude.sh" >&2
+      exit 1
+      ;;
+  esac
 fi
 
 if ! ai_check; then exit 1; fi
@@ -60,6 +68,9 @@ if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
     echo "  Possibili cause: rete VPS→Cursor bloccata, login scaduto, API Cursor giù." >&2
     echo "  Prova: curl -sI https://api2.cursor.sh | head -3" >&2
     echo "  Rifai login: sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'" >&2
+  elif [ "$eng" = claude ]; then
+    echo "  Possibili cause: token scaduto/revocato, quota/session-limit del piano, rete VPS→Anthropic bloccata." >&2
+    echo "  Ricollega: sudo bash $REPO/cervello/vps/collega-claude.sh" >&2
   fi
   exit 1
 fi

@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-16 11:40 · Fix parity motore Cursor→Claude: skill specchiate, preflight auth, Pannello per-motore, rotaie carta al ramo unico · 17/17 bats + tsc 0 errori, 4/4 punti chiusi in una sessione · atteso 4 gap chiusi con test di guardia → reale 4 gap chiusi (residuo: .env.example non toccabile) · #motore-ai #parity #worker
 - 2026-07-14 12:44 · PR #379 conflitti — Nicola «La pr 379 ha dei conflitti» · atteso: rebase, codice intatto, mergeable API, Approva #143 · reale: conflitto solo memoria worker; secondo commit memoria obsoleto saltato; solo `calibrazione.mjs`, head `f2d79065`, mergeable ok · L-227 · #pr-379 #conflitti #memoria-obsoleta #onesta-numeri
 - 2026-07-14 02:53 · PR #371 conflitti — Nicola «ti ho già detto, controlla le PR» · atteso: gate mergeable prima di accodare + branch pulito · reale: conflitto solo body PR, codice chat intatto, rebase head `6fa822bf`, API mergeable ok; merge 🔴 #136 · L-214 · #pr-371 #conflitti #gate #mergeable
 - 2026-07-13 22:04 · PR #354/#355 conflitti diario — Nicola «cosa ti avevo chiesto» + «servono quei dati lì?» · atteso: reminder fallo tu + spiegazione diario≠PR + branch pulito · reale: entrambe PR codice-only vs memoria main, API mergeable ok; merge 🔴 #123 #124 · L-181 · #pr-354 #pr-355 #conflitti #fallo-tu
