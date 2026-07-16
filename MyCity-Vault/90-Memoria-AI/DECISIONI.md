@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 ~01:55 · 🟡 · [AD] · **nano .env mostrava file vuoto a Nicola — AD ha detto "non salvare, Ctrl+X → N".** Screenshot allegato da Nicola: file apparentemente vuoto. Le variabili potrebbero essere caricate altrove (systemd, profile, file diverso). Regola: `printenv | grep VERCEL` + `wc -l .env` PRIMA di toccare il file. Card #vercel-token-vps rimane aperta — da investigare con questi comandi al prossimo avvio.
+
 2026-07-17 01:15 · 🟡 · [AD] · **Token Vercel nel posto sbagliato — rientrata in coda #vercel-token-vps.** Nicola aveva risposto "ho inserito il token vercel dentro il worker" — il worker non è il `.env`, il MCP non si attiva. Il token va come `VERCEL_TOKEN=...` nel file `.env` del VPS. L'AD ha spiegato i passi esatti. La card è stata riaperta in AZIONI-IN-ATTESA.
 
 2026-07-17 00:10 · 🟢 · [Nicola] · **Nicola ha confermato la mergia di PR #423 ("si che l'ho margiato") — cassetto conversazioni ancorato con `fixed`.** Fix: la lista conversazioni ora appare sempre sotto la navbar al punto corrente della viewport, su desktop e smartphone. Vercel ha avviato il build; la modifica sarà live al termine (~1-2 min). Azione #pr-cassetto-conversazioni-fixed → FATTO.
