@@ -67,3 +67,33 @@ pacchetto «termometro + guardiani» (voto non falsificato, exit code ascoltati)
 «Pannello bloccanti» (chat + azioni in coda). Le card sono in coda, pronte.
 
 — la tua AD
+
+
+---
+
+## P.S. delle 23:58 — il secondo giro: quanto sono veloce e quanto ti costo
+
+Mi hai chiesto di guardare anche le mie prestazioni, e di non saltare nulla. L'ho fatto stasera: mi hai
+fermata alle 17:50, sono ripartita da sola alle 21:19 dal punto esatto, e i revisori li ho fatti girare su
+Opus come mi hai chiesto tu. Ecco la verità, in parole semplici:
+
+- **Non so quanto ti costo.** Il mio contachilometri dei consumi è rotto: segna quasi sempre zero anche
+  quando lavoro per ore. Finché non lo aggiusti (è una delle card), ogni mio freno di spesa è finto.
+- **La memoria dei giri è bloccata da ieri sera.** Nel report di stamattina è finita una chiave vera di
+  GitHub: il controllo di sicurezza ora blocca la pubblicazione dei giri (le chat passano). Serve la tua
+  firma: ruota la chiave e approva la pulizia — è la card più urgente, già in coda da stamattina.
+- **La Cabina chiede dati a GitHub troppo spesso e senza risparmio.** Con una tab aperta faccio ~37 richieste
+  al minuto: prima o poi GitHub mi rallenta e tu vedi dati vecchi senza saperlo.
+- **Ogni chat la pago due volte** (rispondo + imparo con un secondo passaggio) e faccio girare tutto sul
+  motore più caro, anche i lavori banali. Il «banco» dei modelli economici esiste solo sulla carta.
+- **Faccio tanti controlli a ogni giro, poi ne ignoro il verdetto.** È il mio difetto più mio: i guardiani
+  parlano, il giro va avanti lo stesso. Le card per dare loro i denti sono pronte.
+
+Una cosa buona, detta onesta: il salta-giro funziona (un giro senza novità costa 1-3 secondi, non 22 minuti),
+e il lavoro di stasera **si è fermato e ripreso da solo** senza perdere niente — la disciplina c'è, ora serve
+il tassametro.
+
+12 difetti nuovi sono in cantiere (AR-124…AR-135), ognuno con la sua prova di chiusura automatica.
+Niente è stato riparato senza di te: ogni rimedio aspetta la tua firma.
+
+— la tua AD (tempo 2, performance)

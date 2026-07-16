@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-16 21:52",
+  "aggiornato": "2026-07-17 01:15",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -16,6 +16,190 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0717-247",
+      "testo": "**VERCEL_TOKEN va nel `.env` del VPS, NON nel codice del worker (caso-studio Nicola 17/7):** Nicola ha risposto «ho inserito il token vercel dentro il worker» — il MCP Vercel non si è attivato perché il token era in un file sorgente, non nell'environment del processo. Il token deve stare come variabile d'ambiente nel `.env` del VPS (riga `VERCEL_TOKEN=...`). Quando qualcuno dice di aver 'inserito il token', chiedere subito DOVE: nel `.env`? o nel codice? Sono due cose completamente diverse — una attiva il processo, l'altra no.",
+      "tag": ["vercel", "token", "env", "mcp-vercel", "configurazione", "worker"],
+      "reparto": "@devops-sre",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 01:15",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0717-246",
+      "testo": "**Typecheck scaduto in sessione rapida — il verde è valido SOLO se si pusha subito (caso-studio Nicola 17/7: "stai creando errori su errori"):** in sessioni con molte PR ravvicinate sullo stesso file, c'è un gap critico tra 'typecheck verde' e 'push'. Se nel gap un'altra PR mergia sullo stesso file, il typecheck è obsoleto e la PR aprirà un build rotto. Stanotte: `npx tsc` verde su page.tsx → gap di ~10 min → PR #423 mergiata su page.tsx → git-pr.mjs ha rebasato includendo #423 → errore TS non catturato → build Vercel rosso (PR #424). Regola: typecheck → PUSH IMMEDIATO nello stesso turno; se passa anche un singolo ciclo di PR sul file, ri-esegui il typecheck prima di pushare. Corollario: non fare typecheck come 'step asincrono' in attesa di altri eventi.",
+      "tag": [
+        "typecheck",
+        "typecheck-scaduto",
+        "sessione-rapida",
+        "page-tsx",
+        "git-pr-mjs",
+        "rebase",
+        "build-vercel",
+        "errori-cascata",
+        "prevenzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 01:15",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0717-245",
+      "testo": "**Branch stale in sessione rapida = conflitti certi (Nicola: "non c'era fino a ieri", 17/7):** in sessioni con molte PR ravvicinate sullo stesso file (page.tsx), un fix-branch creato prima di quelle merge diventa stale in poche ore. Quando si apre la PR, main è già avanti e il file è in conflitto. Root causa di fix/chat-coda-messaggi: basato su page.tsx vecchia mentre 10+ PR la modificavano su main. Prevenzione: prima di pushare un branch «fermo», verificare con `git diff origin/main -- <file>` se il file target è cambiato su main; se sì, eseguire il rebase PRIMA di aprire la PR. Il rebase preventivo costa 30 secondi; risolvere conflitti dopo costa un ciclo intero.",
+      "tag": [
+        "git",
+        "branch-stale",
+        "conflitti",
+        "rebase",
+        "page-tsx",
+        "sessione-rapida",
+        "prevenzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0717-244",
+      "testo": "**Streaming live chat (Nicola 17/7): fix è nel WORKER, non nel Pannello — due modifiche specifiche** — Nicola vuole parole che appaiono man mano come Claude.ai. Root già confermata (13/7): il worker manda il blocco completo a fine elaborazione. Fix = DUE modifiche al worker: (1) ogni N secondi, mentre Claude ragiona, scrivi su DB il testo prodotto finora (campo `risposta_parziale` o equivalente); (2) il frontend già legge questo campo e aggiorna la bolla — non serve toccare il Pannello. Non re-diagnosticare dall'inizio: la root è confermata, il piano è questo. Approvazione di Nicola pendente (chiesta fine chat 17/7).",
+      "tag": [
+        "streaming",
+        "worker-chat",
+        "risposta-parziale",
+        "db-partial",
+        "chat-pannello",
+        "nicola-richiesta"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0716-243",
+      "testo": "**Coda messaggi chat — 3 bug tecnici nascono dalla stessa scelta architetturale e vanno gestiti insieme (PR #419, Nicola 16-17/7):** quando si aggiunge la coda messaggi (2° messaggio non resetta ma aspetta), emergono sempre 3 regressioni: (1) DOPPIA BOLLA — `aggiornaPendingParziale` crea una bolla se non ne trova già una, ma la risposta finale a volte arriva prima che la funzione venga chiamata → controllare se la bolla esiste nel DOM prima di crearla; (2) FLICKER/REFRESH — ogni chiamata a `setLoading(true)` quando è già `true` causa un re-render con flash visivo → aggiungere il check `if (!loadingRef.current)` prima di chiamare `setLoading`; (3) BOTTONE MOBILE BLOCCATO — `disabled={loading || testo.trim() === ''}` blocca l'invio su mobile durante l'elaborazione; con la coda il messaggio si può accodare → rimuovere `|| loading` dal disabled. Root comune: la coda cambia il ciclo di vita dello stato, e ogni componente che dipende da `loading` va rivisto.",
+      "tag": [
+        "coda-messaggi",
+        "doppia-bolla",
+        "flicker",
+        "bottone-mobile",
+        "setLoading",
+        "chat-pannello",
+        "frontend",
+        "pr-419"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 00:20",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0716-242",
+      "testo": "**«Metti X insieme a Y» / «sposta» = DUE azioni: (1) aggiungi in Y, (2) rimuovi da X — omettere il passo 1 = rimozione totale (caso-studio PR #417→#418, Nicola 16/7):** Nicola ha chiesto «metti i due tab conversazioni e nuova chat insieme agli altri tab». PR #417 ha rimosso i pulsanti dall'header (passo 2) senza aggiungerli al tab bar (passo 1) → risultato: i pulsanti sono spariti del tutto. Nicola: «non dovevi toglierlo ma metterli accanto agli altri tab ed invece togliere quelle in alto». PR #418 ha corretto: aggiunto «Conv»/«Nuova» nella BarraScritturaChat + rimosso dall'header. Causa radice: l'AD ha eseguito solo la metà dell'istruzione. Regola: ogni istruzione di tipo «sposta / metti insieme / metti accanto» va scomposta esplicitamente in ADD+REMOVE prima di iniziare a scrivere il codice.",
+      "tag": [
+        "istruzioni-incomplete",
+        "sposta-vs-rimuovi",
+        "add-remove",
+        "pr-417",
+        "pr-418",
+        "chat-pannello",
+        "caso-studio",
+        "frontend"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-17 00:10",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0716-241",
+      "testo": "**Regola d'oro del design Pannello (Nicola 16/7): bello + efficiente + semplice + minimale** — ogni modifica UI deve soddisfare questi 4 criteri PRIMA di aprire la PR. 'Bello' = piacevole a guardare, non solo funzionale. 'Efficiente' = meno fatica cognitiva e meno click per Nicola. 'Semplice' = un'azione per volta, niente elementi extra che confondono. 'Minimale' = tolto il superfluo, non aggiunto. Questo filtro vale per layout, pulsanti, tab, barre, sezioni, colori. Se una soluzione tecnica funziona ma è brutta o rumorosa, è sbagliata. Esempio fallito: la mini-barra 'Conversazioni / Nuova chat' sopra l'input era tecnicamente corretta ma esteticamente brutta → rimossa (PR #417). Esempio giusto: pulsanti integrati nei tab esistenti, lista conversazioni ordinata, cassetto che non taglia il logo.",
+      "tag": [
+        "design",
+        "ux",
+        "estetica",
+        "minimale",
+        "pannello",
+        "regola-fondamentale",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 23:55",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0716-240",
+      "testo": "**UX chat Pannello: il blocco di routing ('Scrivi un obiettivo…' + icone reparti + comandi rapidi inlineati) va rimosso dalla chat e i Comandi rapidi spostati nella tab ⚡ Skill (Nicola 16/7):** il blocco occupava spazio permanente e confondeva. Regola: la chat si apre VUOTA; i comandi rapidi si scoprono nella tab ⚡ quando servono, non come blocco fisso. Implementazione: aggiungi i comandi in `comandi-data.ts` (sezione Skill), rimuovi TEAM/COMANDI_RAPIDI e il blocco empty-state da `page.tsx` (sia chat principale che fluttuante).",
+      "tag": [
+        "ux",
+        "chat-pannello",
+        "comandi-rapidi",
+        "skill-tab",
+        "routing-icone",
+        "empty-state",
+        "frontend"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 23:30",
+      "stato": "attiva"
+    },
+    {
+      "id": "L-2026-0716-239",
+      "testo": "**UX chat Pannello: i controlli di navigazione NON come mini-barra separata, ma integrati nei tab esistenti (Nicola 16/7):** prima fix (PR #415): mini-barra sopra `BarraScritturaChat`. Poi Nicola ha detto che era brutta — rimossa in PR #417. Lezione corretta: i pulsanti 'Nuova chat' e 'Conversazioni' devono stare integrati negli altri tab del Pannello (non come UI aggiuntiva). Regola aggiornata: non aggiungere barre UI autonome quando una struttura a tab esiste già — integrare sempre. Stessa PR #415 ha fissato anche l'ordinamento: la conversazione aperta va sempre prima nell'elenco (`ordinaConversazioni` riceve `convId`) — questo fix resta valido.",
+      "tag": [
+        "ux",
+        "chat-pannello",
+        "pulsanti-navigazione",
+        "mini-barra",
+        "conversazioni",
+        "scroll",
+        "frontend"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 23:05",
+      "stato": "attiva"
+    },
     {
       "id": "L-2026-0716-238",
       "testo": "**`npx tsc --noEmit` è obbligatorio PRIMA di aprire ogni PR su `pannello/` (caso-studio Nicola 16/7, «impara da questo errore»):** la PR #411 è stata aperta senza eseguire il typecheck. Il build Vercel ha trovato un errore TS2367 (confronto impossibile dentro blocco già ristretto da narrowing JSX) e il Pannello è rimasto alla versione vecchia per ore. Nicola ha esplicitamente chiesto di imparare da questo errore. Causa radice: ho omesso il gate di qualità pre-PR. Regola INDEROGABILE: modifica pannello/ → `npx tsc --noEmit` → se fallisce FIX prima → poi commit e PR. Mai aprire una PR su pannello/ senza typecheck verde. Costo dell'omissione: ore di Pannello fermo + PR #414 correttiva.",
@@ -5600,13 +5784,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 254,
+    "lezioni_attive": 261,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.37,
-    "tasso_calcolato_il": "2026-07-16 21:39",
+    "tasso_applicazione": 0.36,
+    "tasso_calcolato_il": "2026-07-17 00:27",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-16 21:39"
+    "tick_leggero_il": "2026-07-17 00:27"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }

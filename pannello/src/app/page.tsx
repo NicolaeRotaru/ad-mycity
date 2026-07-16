@@ -170,8 +170,12 @@ type Conversazione = {
 };
 
 /** Ordine lista: fissate in cima, poi per data di creazione (aprire/leggere non riordina). */
-function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conversazione[] {
+function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>, convAperta?: string | null): Conversazione[] {
   return [...list].sort((a, b) => {
+    if (convAperta) {
+      if (a.id === convAperta) return -1;
+      if (b.id === convAperta) return 1;
+    }
     const pa = pinnate.has(a.id) ? 1 : 0;
     const pb = pinnate.has(b.id) ? 1 : 0;
     if (pb !== pa) return pb - pa;
@@ -316,27 +320,6 @@ type Lavoro = {
   esperto: string;
   gruppo_id?: string | null;
 };
-
-const TEAM = [
-  { emoji: "🧠", nome: "Direzione (AD)", ruolo: "Strategia e coordinamento" },
-  { emoji: "🎧", nome: "Supporto clienti", ruolo: "Clienti e reclami" },
-  { emoji: "🛵", nome: "Operations", ruolo: "Ordini, rider, consegne" },
-  { emoji: "📣", nome: "Marketing/Growth", ruolo: "Contenuti e acquisizione" },
-  { emoji: "🤝", nome: "Vendite/Onboarding", ruolo: "Negozi" },
-  { emoji: "📊", nome: "Analista", ruolo: "KPI e report" },
-  { emoji: "💶", nome: "Finanza", ruolo: "Incassi e pagamenti" },
-  { emoji: "🛠️", nome: "Tech", ruolo: "Analisi del sito" },
-  { emoji: "🔎", nome: "Intelligence", ruolo: "Concorrenti e trend" },
-];
-
-// Comandi rapidi: cliccando precompilano l'input della chat (poi Nicola completa).
-// "Contenuti PRO" = crea contenuti a qualita' alta (vedi COMANDI.md / CLAUDE.md).
-const COMANDI_RAPIDI: { label: string; testo: string }[] = [
-  { label: "✨ Contenuti PRO", testo: "contenuti pro: " },
-  { label: "🔄 Fai un giro", testo: "fai un giro" },
-  { label: "📋 Che comandi ho?", testo: "che comandi ho?" },
-  { label: "📊 Come stiamo?", testo: "come stiamo?" },
-];
 
 // ⚡ Skill & comandi: non più chip fisse sopra la textarea + card in fondo alla pagina —
 // ora vivono in una FINESTRA che si apre/chiude dentro la chat dal pulsante ⚡ nella
@@ -889,6 +872,18 @@ export default function Dashboard() {
       if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
     });
   }, [messages]);
+  // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
+  useEffect(() => {
+    if (!convId) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = scrollBoxRef.current;
+        if (el) el.scrollTop = el.scrollHeight;
+        const fab = chatFabBoxRef.current;
+        if (fab) fab.scrollTop = fab.scrollHeight;
+      });
+    });
+  }, [convId]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // 🤖 "Worker" a SCHERMO INTERO: la stessa chat (messaggi + barra) ma come pagina sovrapposta piena.
@@ -919,6 +914,8 @@ export default function Dashboard() {
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
   const [pendingCount, setPendingCount] = useState(0);
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
+  const codaMsgRef = useRef<string[]>([]);
+  const loadingRef = useRef(false);
   const convIdRef = useRef<string | null>(null);
   const conversazioniRef = useRef<Conversazione[]>([]);
   const lavoriRef = useRef<Lavoro[]>([]);
@@ -933,6 +930,7 @@ export default function Dashboard() {
   conversazioniRef.current = conversazioni;
   lavoriRef.current = lavori;
   convServerRef.current = convServer;
+  loadingRef.current = loading;
 
   const gruppiConvById = useMemo(() => {
     const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
@@ -1062,7 +1060,9 @@ export default function Dashboard() {
     const rimpiazza = (msgs: Msg[]): Msg[] => {
       const i = msgs.findIndex((x) => x.pending);
       if (i === -1) {
-        // Dopo refresh o race: il pendente c'è in coda ma manca la bolla — la ricreiamo.
+        // Se c'è già una risposta finale (non pending), non creare un duplicato.
+        const last = msgs[msgs.length - 1];
+        if (last && last.role === "assistant" && !last.pending && !last.prompt) return msgs;
         return [...msgs, { id: nuovoIdMsg(), role: "assistant", content: parziale, pending: true }];
       }
       if (msgs[i].content === parziale) return msgs;
@@ -1072,7 +1072,7 @@ export default function Dashboard() {
     };
     if (convIdRef.current === targetConvId) {
       setMessages((m) => rimpiazza(m));
-      setLoading(true);
+      if (!loadingRef.current) setLoading(true);
       return;
     }
     setConversazioni((list) => {
@@ -1441,13 +1441,22 @@ export default function Dashboard() {
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
   // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
-  async function mandaAlCervello(text: string) {
+  // bubblaGiaMostrata=true: il messaggio utente è già nella UI (drain dalla coda).
+  async function mandaAlCervello(text: string, bubblaGiaMostrata = false) {
     const t = text.trim();
-    const daCaricare = allegatiChat;
-    // ⏩ CHAT MULTIPLA (stile Claude): niente più blocco mentre l'AD pensa — puoi mandare
-    // il 2°/3° messaggio subito; il turno vecchio viene sostituito e quello nuovo legge tutto.
+    const daCaricare = bubblaGiaMostrata ? [] : allegatiChat;
     if (!t && daCaricare.length === 0) return;
     setAllegatiChat([]);
+
+    // CODA MESSAGGI: se l'AD sta ancora elaborando, mostra subito la bolla utente
+    // e accoda — verrà inviata automaticamente a risposta ricevuta.
+    if (loadingRef.current && !bubblaGiaMostrata) {
+      const nomiAllCoda = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
+      const bollaCoda = [t, nomiAllCoda].filter(Boolean).join("\n");
+      setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: bollaCoda }]);
+      codaMsgRef.current.push(t || "Guarda gli allegati");
+      return;
+    }
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
     // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
@@ -1461,12 +1470,11 @@ export default function Dashboard() {
     const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
     const bollaUtente = [t, nomiAllegati].filter(Boolean).join("\n");
 
-    // Se c'era già una bolla "sto pensando" (o un parziale in streaming), la togliamo:
-    // il turno nuovo risponderà a TUTTI i messaggi insieme, con una sola bolla in fondo.
+    // Aggiunge la bolla utente (se non già mostrata dal meccanismo di coda) + la bolla pending.
     setMessages((m) => [
       ...m.filter((x) => !x.pending),
-      { id: nuovoIdMsg(), role: "user", content: bollaUtente },
-      { id: nuovoIdMsg(), role: "assistant", content: "💭 Sto elaborando la risposta…", pending: true },
+      ...(bubblaGiaMostrata ? [] : [{ id: nuovoIdMsg(), role: "user" as const, content: bollaUtente }]),
+      { id: nuovoIdMsg(), role: "assistant" as const, content: "💭 Sto elaborando la risposta…", pending: true },
     ]);
     setLoading(true);
     let targetConvId = convId || sessionGruppoRef.current || "";
@@ -1660,12 +1668,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       }).catch(() => {});
     }
     if (testoRipristino) chatInputRef.current?.setTesto(testoRipristino);
+    codaMsgRef.current = []; // annulla: svuota la coda
     setLoading(false);
     void persistConversazione(
       targetConvId,
       nuovi.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"))
     );
   }
+
+  // Drain automatico: quando loading torna false, manda il prossimo messaggio in coda
+  useEffect(() => {
+    if (!loading && codaMsgRef.current.length > 0) {
+      const prossimo = codaMsgRef.current.shift()!;
+      void mandaAlCervello(prossimo, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   const caricaStato = useCallback(async () => {
     try {
@@ -2549,33 +2567,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
-          <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
-            <div className="flex items-center gap-2.5 min-w-0">
-              <button
-                onClick={() => setConvDrawerAperto(true)}
-                className="grid place-items-center w-8 h-8 rounded-lg text-black/50 hover:bg-black/[0.05] hover:text-brand transition shrink-0"
-                aria-label="Conversazioni"
-                title="Conversazioni"
-              >
-                <History size={17} />
-              </button>
-              {convId && (
-                <div className="leading-tight min-w-0">
-                  <div className="text-[15px] font-semibold tracking-tight truncate">
-                    {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
-                  </div>
-                </div>
-              )}
+          <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative isolate">
+          {convId && (
+            <div className="px-5 pt-4 pb-3 border-b" style={{ borderColor: "var(--border)" }}>
+              <div className="text-[15px] font-semibold tracking-tight truncate" style={{ color: "var(--text-primary)" }}>
+                {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
+              </div>
             </div>
-            <button
-              onClick={nuovaConversazione}
-              className="shrink-0 text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition"
-              title="Salva questa conversazione e iniziane una nuova"
-            >
-              <Plus size={13} /> Nuova
-            </button>
-          </div>
+          )}
           {base && (
             <div className="px-5 py-2 bg-brand-50/70 border-b border-brand/15 text-xs text-brand flex items-center gap-2">
               <Layers size={13} className="shrink-0" />
@@ -2588,39 +2587,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
           <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-0">
-            {messages.length === 0 && (
-              <div className="pt-1">
-                <p className="t-corpo text-sm mb-3">
-                  Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {TEAM.map((e) => (
-                    <div key={e.nome} className="surface-muted flex items-start gap-2.5 text-xs px-3 py-2 hover:border-brand/30 transition">
-                      <span className="text-base leading-none mt-0.5">{e.emoji}</span>
-                      <span className="leading-snug">
-                        <span className="font-semibold t-sez text-[13px]">{e.nome}</span>
-                        <br />
-                        <span className="t-eti">{e.ruolo}</span>
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4">
-                  <p className="text-sm text-black/50 mb-2">Comandi rapidi</p>
-                  <div className="flex flex-wrap gap-2">
-                    {COMANDI_RAPIDI.map((c) => (
-                      <button
-                        key={c.label}
-                        onClick={() => chatInputRef.current?.setTesto(c.testo)}
-                        className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/80 rounded-full px-3 py-1.5 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={m.id ?? i} className="text-left">
@@ -2718,17 +2684,19 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onPrompt={dammiPrompt}
             voceWorker={voceWorker}
             onToggleVoce={toggleVoceWorker}
+            onConversazioni={() => setConvDrawerAperto(true)}
+            onNuovaChat={nuovaConversazione}
           />
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
               Su telefono riempie tutta la chat (w-full); su desktop è un pannello laterale (sm:w-[340px]). */}
           <div
-            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${convDrawerAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            className={`fixed inset-0 top-[var(--altezza-testata)] z-20 bg-black/25 transition-opacity duration-200 ${convDrawerAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             onClick={() => setConvDrawerAperto(false)}
             aria-hidden="true"
           />
           <aside
-            className={`absolute inset-y-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${convDrawerAperto ? "translate-x-0" : "-translate-x-full"}`}
+            className={`fixed top-[var(--altezza-testata)] bottom-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${convDrawerAperto ? "translate-x-0" : "-translate-x-full"}`}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!convDrawerAperto}
           >
@@ -2797,8 +2765,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: fissate in cima → ultima aperta → updated_at */}
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                {/* Ordine: aperta ora → fissate in cima → updated_at */}
+                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
@@ -2937,9 +2905,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
           <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
-            {messages.filter((m) => !m.prompt).length === 0 && (
-              <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
-            )}
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -3037,7 +3002,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));

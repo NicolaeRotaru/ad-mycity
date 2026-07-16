@@ -17,6 +17,76 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
+
+Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
+
+---
+
+### 🟡 #chiudi-pr-422 — Chiudi PR #422 su GitHub (ha conflitti, è la vecchia) · ⏳ accodata 2026-07-17 01:30
+
+**Cosa fare:** vai su GitHub → PR #422 → clicca "Close pull request" (senza merge).
+
+PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato i conflitti. I fix che conteneva sono già stati riapplicati e confluiti in PR #424 (quella attiva, typecheck pulito). Lasciare #422 aperta causa confusione nei Checks di Vercel.
+
+**Cosa cambia:** GitHub più pulito, nessun build Vercel spurio su una PR morta.
+**Se va bene:** solo PR #424 rimane attiva per il merge dei 3 fix chat.
+
+- **Colore:** 🟡 (azione su GitHub → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
+### 🟡 #mergia-pr-424 — Mergia PR #424: fix 3 bug chat (doppia risposta, flicker, bottone smartphone) · ⏳ accodata 2026-07-17 00:45
+
+**Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
+
+**Per metterlo live:** mergia PR #424 → https://github.com/NicolaeRotaru/ad-mycity/pull/424
+
+**Cosa cambia:** (1) doppia risposta eliminata — check coda sincrono su `pendingLavoroChatRef`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio funziona su smartphone anche durante l'elaborazione.
+**Se va bene:** chat stabile su tutti i dispositivi; live su Vercel in ~2 min.
+
+- **Colore:** 🟡 (merge su main → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
+### 🟡 #vercel-token-vps — Riavvia il worker per attivare il token Vercel · ⏳ aggiornata 2026-07-17 ~01:56
+
+**Stato:** token IN `cervello/vps/.env` ✅ (Nicola confermato, path corretto per systemd). Serve solo riavvio.
+
+**Comando (terminale VPS):**
+```bash
+sudo systemctl restart mycity-worker-chat.service
+```
+
+**Cosa cambia:** l'AD potrà vedere i log di build Vercel in tempo reale dalla chat del Pannello.
+**Se va bene:** al prossimo build fallito, l'AD diagnostica autonomamente senza chiedere a Nicola.
+
+---
+
+### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
+
+**Cosa fare (nel worker-chat, NON nel Pannello):**
+
+Nicola ha chiesto (17/7): «voglio che la conversazione sia live come quella di claude». Il Pannello già ha il codice per mostrare il testo parziale — il problema è che il worker manda il blocco completo solo a fine elaborazione.
+
+Fix = DUE modifiche nel worker:
+1. **Worker**: ogni N secondi, mentre Claude sta ragionando, scrivi su DB il testo prodotto finora (campo `risposta_parziale` o simile)
+2. **Già fatto**: il frontend legge già questo campo e aggiorna la bolla — non serve toccare il Pannello
+
+**Cosa cambia:** le parole appaiono man mano, come in Claude.ai. Non si aspetta il blocco finale.
+**Se va bene:** esperienza molto più naturale; utente vede subito che la macchina sta ragionando.
+
+- **Colore:** 🟡 (modifica al cuore del worker — l'AD lo esegue dopo ok di Nicola)
+- **Reparto:** frontend-dev / builder-automazioni
+
+---
+
+### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
+
+---
+
 ### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
 
 **Cosa fare (sul VPS, nel `.env` del worker-chat):**
@@ -39,24 +109,25 @@ Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore Type
 
 ---
 
-### 🟡 #fix-vercel-ts-2959 — Push il fix TS2367 dal terminale VPS (Nicola ha già approvato) · ⏳ aggiornata 2026-07-16 21:26
+### ✅ #pr-416-skill-tab — PR #416 mergiata da Nicola · FATTO 2026-07-17 (merge 73e79d97)
 
-**Contesto:** Nicola ha approvato il push ("Approvo push") in chat alle ~21:25 del 16/7, ma la sessione del Pannello blocca git e node — il push non è stato eseguito.
+Chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge.
 
-**Cosa fare (sul VPS, nel terminale — non da questa chat):**
-```bash
-cd /opt/mycity/ad-mycity
-git checkout fix/vercel-ts-chatvisibile-2959
-git push origin fix/vercel-ts-chatvisibile-2959
-node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/vercel-ts-chatvisibile-2959 --title "fix(chat): corregge TS2367 nel cassetto FAB — Vercel torna verde" --accoda
-```
-Poi mergia la PR dal Pannello (Ctrl+Shift+R).
+---
 
-**Cosa cambia:** il build Vercel passa, i 7 fix della PR #411 (streaming, fullscreen, caselle doppie, ricerca, ordinamento, nav bar, foto) vanno finalmente live.
-**Se va bene:** Pannello aggiornato entro 2 minuti dal merge → Ctrl+Shift+R.
+### ✅ #pr-419-chat-3fix — PR #419 mergiata da Nicola · FATTO 2026-07-17 (merge f3389eb8)
 
-- **Colore:** 🟡 (push già approvato da Nicola — serve solo esecuzione dal terminale)
-- **Reparto:** frontend-dev
+Chat stabile: niente doppioni, niente lampeggio, bottone invio funziona su mobile. TS2367 risolto nel merge.
+
+---
+
+### ✅ #fix-vercel-ts-2959 — Fix TS2367 incluso nel merge PR #419 · FATTO 2026-07-17
+
+`const chatVisibile = chatFluttuante` incorporato da Nicola nel merge di PR #419 (f3389eb8). Branch separato non necessario.
+
+---
+
+### ✅ #pr-415-chat-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f — conv in cima + pulsanti in basso)
 
 ---
 
@@ -1254,6 +1325,10 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 166 | 2026-07-16 16:27 | @tech | Mergia PR #410 — Pannello: briefing/sala chiuse + Storico→Memoria viva | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/410 | github | in attesa | Contiene 2 fix: (1) Briefing e Sala Operativa chiuse di default in Memoria viva; (2) Tab Storico eliminato, i 3 sotto-tab (Decisioni · Quaderni senior · Stato & numeri) spostati dentro Memoria viva. Branch pulito, nessun conflitto. | Dopo Approva: merge automatico + deploy Vercel ~2 min → ricarica Pannello (Ctrl+Shift+R). |
 | 167 | 2026-07-16 16:55 | @tech | Merge PR #411 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/411 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 168 | 2026-07-16 21:22 | @tech | Merge PR #414 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/414 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 169 | 2026-07-16 22:44 | @tech | Merge PR #416 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/416 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 170 | 2026-07-16 23:28 | @tech | Merge PR #419 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/419 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 171 | 2026-07-16 23:58 | @tech | Merge PR #420 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/420 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 172 | 2026-07-17 00:21 | @tech | Merge PR #424 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/424 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

@@ -1,6 +1,6 @@
 ---
-data: 2026-07-16 16:55
-tipo: auto-radiografia (COMPLETA, su comando di Nicola — worker + AD + 120 senior + Pannello)
+data: 2026-07-16 23:58
+tipo: auto-radiografia (COMPLETA, su comando di Nicola — worker + AD + 120 senior + Pannello) + tempo 2 PERFORMANCE (23:58)
 voto_salute_architettura: 0
 voto_salute_pannello: 0
 ---
@@ -12,6 +12,36 @@ voto_salute_pannello: 0
 > avversariale per ciascuna, + pre-mortem + benchmark) e in parallelo **8 dimensioni sul Pannello**
 > (16 agenti). **Nessun fix applicato**: ogni rimedio è 🟡, aspetta la firma di Nicola.
 > Archivio completo: `consegne/audit/2026-07-16-auto-radiografia.md` (173 difetti col dettaglio file:riga).
+
+## ⚡ Tempo 2 (23:58) — la radiografia delle PERFORMANCE
+
+> Su comando di Nicola («radiografia profonda e completa delle performance — non saltare nulla») la macchina
+> si è riguardata con la lente di velocità/costo/ingolfamenti: 26 agenti (revisore + verificatore avversariale
+> per dimensione, **su Opus** come scelto da Nicola), lavoro fermato alle 17:50 e **ripreso da solo alle 21:19**
+> dal punto esatto. Archivio completo: `consegne/audit/2026-07-16-radiografia-performance.md`.
+
+**Esito: 79 difetti confermati (2 bloccanti · 36 gravi · 41 minori), tutti con prova di chiusura automatica.**
+La mappa del mattino regge (voto resta **0/100**, trend =); **12 difetti sono NUOVI** ed entrano in cantiere
+come **AR-124…AR-135**. I 5 colli di bottiglia che frenano davvero:
+
+1. **Il tassametro è rotto e i freni di spesa non possono frenare** — il contatore token è a 0 per costruzione
+   (`costo-ai.mjs:112`: le stime non alzano `token_totali`); oggi risultano 4 voci di costo mentre sono girati
+   anche ritmo-sera, decine di chat e 2 recuperi. GATE-BUDGET, letargo e STOP confrontano soglie con uno zero.
+2. **La memoria dei giri è bloccata da un token vero nei report** (AR-124, bloccante) — `scan-segreti` esce 1
+   ADESSO: la radiografia del mattino ha incollato 3 volte un PAT GitHub reale nel proprio archivio. I giri non
+   pubblicano (le chat sì: `sync_vault` non fa lo scan) → «scritture pendenti» recuperate a mano alle 18:00 e 20:20.
+3. **Il Pannello martella GitHub senza cache** — ~19 poller (6s/8s/30s/60s…), ~37 richieste/min per tab, ogni
+   fetch `no-store`, inclusa la scansione ricorsiva dell'intero albero del repo; la home è UN client component
+   da 3.209 righe. Rischio rate-limit (5.000/h) = Cabina che mostra dati vecchi senza dirlo.
+4. **Ogni chat costa doppio e tutto gira premium** — ogni turno >160 caratteri accoda una metabolizzazione
+   (2° run AI, O(n²) sulla conversazione); il router economico è solo-consiglio (`worker.sh:1292`); ~103KB di
+   prompt fissi caricati a ogni run; le cadenze del ritmo accendono il premium ogni giorno bypassando il delta-gate.
+5. **~40 guardiani per giro, ma i verdetti finiscono nel vuoto** — quasi tutti chiusi da `|| true`: exit-code
+   ingoiati (KPI 81/120 scoperti, contratti violati, north-star ferma da 22 giorni) → il giro da 22 minuti
+   produce diagnosi che nessuno ascolta.
+
+Cosa funziona e va tenuto: il **delta-gate** (giro senza novità = 1-3s invece di 22 min), lo streaming con
+skip-se-invariato, i timeout su ogni curl (fine outage 9/7), il claim atomico a 2 lane, il recupero orfani.
 
 ## 📊 Verdetto
 
