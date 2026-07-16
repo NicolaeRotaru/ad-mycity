@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Brain, FileText, Loader2, Mic, Send } from "lucide-react";
+import { Brain, FileText, History, Loader2, Mic, Plus, Send } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
@@ -28,6 +28,8 @@ type Props = {
   onDetta: () => void;
   onInvia: (testo: string) => void;
   onPrompt?: (testo: string) => void;
+  onConversazioni?: () => void;
+  onNuovaChat?: () => void;
 };
 
 // ponytail: isolare lo state della bozza qui evita di ri-renderizzare tutta Home (page.tsx) a ogni keystroke.
@@ -46,6 +48,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
     onDetta,
     onInvia,
     onPrompt,
+    onConversazioni,
+    onNuovaChat,
   },
   ref,
 ) {
@@ -98,6 +102,24 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
       />
       <AnteprimaAllegatiChat allegati={allegati} onTogli={onTogliAllegato} />
       <div className="flex items-center gap-2">
+        {!fab && onConversazioni && (
+          <button
+            onClick={onConversazioni}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-black/10 text-black/55 px-3 rounded-xl text-xs hover:bg-black/[0.04] active:scale-95 transition"
+            title="Lista conversazioni"
+          >
+            <History size={15} /> Conv
+          </button>
+        )}
+        {!fab && onNuovaChat && (
+          <button
+            onClick={onNuovaChat}
+            className="min-h-[44px] inline-flex items-center justify-center gap-1.5 border border-black/10 text-black/55 px-3 rounded-xl text-xs hover:bg-black/[0.04] active:scale-95 transition"
+            title="Nuova chat"
+          >
+            <Plus size={15} /> Nuova
+          </button>
+        )}
         <BottoneSkill
           aperta={skillAperte}
           onToggle={() => setSkillAperte((v) => !v)}
@@ -138,7 +160,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         )}
         <button
           onClick={invia}
-          disabled={!puoInviare || loading}
+          disabled={!puoInviare}
           className={
             fab
               ? "ml-auto min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"

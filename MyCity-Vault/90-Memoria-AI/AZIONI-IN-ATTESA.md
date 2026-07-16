@@ -17,6 +17,28 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
+
+**Cosa fare (nel worker-chat, NON nel Pannello):**
+
+Nicola ha chiesto (17/7): «voglio che la conversazione sia live come quella di claude». Il Pannello già ha il codice per mostrare il testo parziale — il problema è che il worker manda il blocco completo solo a fine elaborazione.
+
+Fix = DUE modifiche nel worker:
+1. **Worker**: ogni N secondi, mentre Claude sta ragionando, scrivi su DB il testo prodotto finora (campo `risposta_parziale` o simile)
+2. **Già fatto**: il frontend legge già questo campo e aggiorna la bolla — non serve toccare il Pannello
+
+**Cosa cambia:** le parole appaiono man mano, come in Claude.ai. Non si aspetta il blocco finale.
+**Se va bene:** esperienza molto più naturale; utente vede subito che la macchina sta ragionando.
+
+- **Colore:** 🟡 (modifica al cuore del worker — l'AD lo esegue dopo ok di Nicola)
+- **Reparto:** frontend-dev / builder-automazioni
+
+---
+
+### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
+
+---
+
 ### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
 
 **Cosa fare (sul VPS, nel `.env` del worker-chat):**
@@ -33,36 +55,52 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #pr-411-chat — Mergia PR #411 — 7 fix chat: streaming + fullscreen + altro · ⏳ accodata 2026-07-16 17:00
+### ✅ #pr-411-chat — PR #411 mergiata da Nicola · FATTO 2026-07-16 ~17:30
 
-**Cosa fare:** mergia PR #411 su GitHub (`NicolaeRotaru/ad-mycity/pull/411`) → poi Ctrl+Shift+R sul Pannello.
-
-**Cosa cambia:** risposta senza flash/lampeggio, chat fullscreen come Claude.ai, FAB sparisce nell'Assistente, chat usata sale in cima, ricerca nel cassetto, ricerca nell'header, foto sopra i pulsanti ⚡📎🎤.
-**Se va bene:** tutte e 7 le migliorie visibili subito dopo il deploy Vercel.
-
-- **Colore:** 🔴 (merge su main — firma Nicola)
-- **Reparto:** frontend-dev
+Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore TypeScript TS2367 in `page.tsx:2959` — fix in branch separato (vedi #fix-vercel-ts-2959 sotto).
 
 ---
 
-### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
+### ✅ #pr-416-skill-tab — PR #416 mergiata da Nicola · FATTO 2026-07-17 (merge 73e79d97)
+
+Chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge.
+
+---
+
+### ✅ #pr-419-chat-3fix — PR #419 mergiata da Nicola · FATTO 2026-07-17 (merge f3389eb8)
+
+Chat stabile: niente doppioni, niente lampeggio, bottone invio funziona su mobile. TS2367 risolto nel merge.
+
+---
+
+### ✅ #fix-vercel-ts-2959 — Fix TS2367 incluso nel merge PR #419 · FATTO 2026-07-17
+
+`const chatVisibile = chatFluttuante` incorporato da Nicola nel merge di PR #419 (f3389eb8). Branch separato non necessario.
+
+---
+
+### ✅ #pr-415-chat-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f — conv in cima + pulsanti in basso)
+
+---
+
+### ✅ #burn-mensile-runway — APPROVATA 2026-07-16 21:17 · esegui il comando sul VPS
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
 
-**Cosa fare (sul VPS, in `vps/.env`):**
+**Nicola: esegui questo comando sul VPS** (una sola volta):
+```bash
+echo '' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo '# Burn mensile stimato (stima 150€ — aggiorna con il valore reale)' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo 'BURN_MENSILE_EUR=150' >> /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-BURN_MENSILE_EUR=XXXX
-```
-Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
+Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostituisci `150` con il numero giusto prima di eseguire.
 
-**Stato attuale verificato 01:07:**
-- Stripe ✅ collegato, cassa letta = **0 €**
-- Burn ❌ non impostato → runway «sconosciuto» da **109 giri**
+**Stato:** Nicola ha approvato dal Pannello (21:17:43). File `.env` protetto da permessi — scrittura solo da Nicola.
 
 **Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
-**Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
+**Se va bene:** da prossimo giro vedrai il runway nel cruscotto (con cassa 0€ = runway critico → plan con @fp-and-a).
 
-- **Colore:** 🟡 (modifica env VPS — firma Nicola)
+- **Colore:** 🟡 (modifica env VPS)
 - **Reparto:** finanza
 - **Origine:** `{origine:sentinella:cassa_sconosciuta}`
 
@@ -1238,6 +1276,10 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 165 | 2026-07-16 16:14 | @tech | Merge PR #409 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/409 | github | ❌ ANNULLATA 2026-07-16 17:00 — sostituita da PR #410 che contiene entrambe le fix | Superata dalla PR #410 (briefing/sala chiuse + Storico→Memoria viva). | — |
 | 166 | 2026-07-16 16:27 | @tech | Mergia PR #410 — Pannello: briefing/sala chiuse + Storico→Memoria viva | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/410 | github | in attesa | Contiene 2 fix: (1) Briefing e Sala Operativa chiuse di default in Memoria viva; (2) Tab Storico eliminato, i 3 sotto-tab (Decisioni · Quaderni senior · Stato & numeri) spostati dentro Memoria viva. Branch pulito, nessun conflitto. | Dopo Approva: merge automatico + deploy Vercel ~2 min → ricarica Pannello (Ctrl+Shift+R). |
 | 167 | 2026-07-16 16:55 | @tech | Merge PR #411 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/411 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 168 | 2026-07-16 21:22 | @tech | Merge PR #414 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/414 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 169 | 2026-07-16 22:44 | @tech | Merge PR #416 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/416 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 170 | 2026-07-16 23:28 | @tech | Merge PR #419 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/419 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 171 | 2026-07-16 23:58 | @tech | Merge PR #420 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/420 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
