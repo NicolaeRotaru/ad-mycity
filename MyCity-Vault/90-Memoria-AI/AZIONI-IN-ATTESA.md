@@ -51,9 +51,18 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ---
 
-### ✅ #vercel-token-vps — Token Vercel inserito nel worker da Nicola · FATTO 2026-07-17 ~00:10
+### 🟡 #vercel-token-vps — Sposta il token Vercel nel `.env` del VPS (ora è nel worker, posto sbagliato) · ⏳ rientrata 2026-07-17 01:15
 
-Nicola ha confermato "ho inserito il token vercel dentro il worker". Il token è nel worker VPS. Prossimo passo (🟢): al primo build Vercel fallito, verificare che l'AD possa leggere i log senza chiederli a Nicola.
+**Cosa fare (Nicola, dal terminale VPS):**
+1. `nano /opt/mycity/ad-mycity/.env`
+2. Aggiungi in fondo: `VERCEL_TOKEN=<il_valore_che_hai>`
+3. Salva (Ctrl+X → Y → Invio)
+4. Riavvia il worker perché carichi il nuovo env
+
+Il token è stato messo nel worker (file `.mjs`) — posto sbagliato. Il MCP Vercel legge le variabili d'ambiente del processo Node, non il codice sorgente. Finché è nel worker, la chat del Pannello non vede Vercel.
+
+**Cosa cambia:** l'AD potrà vedere i log di build Vercel in tempo reale dalla chat, senza chiedere a Nicola di copiarli.
+**Se va bene:** al prossimo build fallito, l'AD diagnostica autonomamente l'errore.
 
 ---
 
