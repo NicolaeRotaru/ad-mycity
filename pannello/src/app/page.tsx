@@ -1431,7 +1431,10 @@ export default function Dashboard() {
 
     // CODA MESSAGGI: se l'AD sta ancora elaborando, mostra subito la bolla utente
     // e accoda — verrà inviata automaticamente a risposta ricevuta.
-    if (loadingRef.current && !bubblaGiaMostrata) {
+    // Controlla sia loadingRef (aggiornato a ogni render) sia pendingLavoroChatRef.size
+    // (aggiornato SUBITO quando viene creato un lavoro): previene il double-send
+    // che succedeva se l'utente cliccava due volte prima del prossimo render.
+    if ((loadingRef.current || pendingLavoroChatRef.current.size > 0) && !bubblaGiaMostrata) {
       const nomiAllCoda = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
       const bollaCoda = [t, nomiAllCoda].filter(Boolean).join("\n");
       setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: bollaCoda }]);
@@ -2574,11 +2577,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 </div>
               )
             )}
-            {loading && !messages.some((m) => m.pending) && (
-              <div className="flex items-center gap-2 t-eti text-sm">
-                <Loader2 size={16} className="animate-spin" /> Sto lavorando...
-              </div>
-            )}
             <div ref={endRef} />
           </div>
           <BarraScritturaChat
@@ -2845,11 +2843,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   )}
                 </div>
               ))}
-            {loading && !messages.some((m) => m.pending) && (
-              <div className="flex items-center gap-2 t-eti text-[13px]">
-                <Loader2 size={14} className="animate-spin" /> Sto lavorando...
-              </div>
-            )}
             <div ref={chatFabEndRef} />
           </div>
           <BarraScritturaChat
