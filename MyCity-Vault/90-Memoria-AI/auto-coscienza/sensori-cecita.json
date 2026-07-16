@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-07-16 01:06",
+  "aggiornato": "2026-07-16 12:00",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders leggibili via REST",
-      "ultimo_ok": "2026-07-16 01:06",
+      "ultimo_ok": "2026-07-16 12:00",
       "ultimo_errore": ""
     },
     "mcp_supabase": {
@@ -23,7 +23,7 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-07-16 01:06"
+      "ultimo_ok": "2026-07-16 12:00"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -38,7 +38,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-07-16 01:06",
+      "ultimo_ok": "2026-07-16 12:00",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -50,7 +50,7 @@
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-07-16 01:06",
+      "ultimo_ok": "2026-07-16 12:00",
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)"
@@ -68,7 +68,7 @@
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
-      "giri_ciechi": 8,
+      "giri_ciechi": 9,
       "stato": "cieco",
       "ultimo_errore": "fetch failed (dopo 3 tentativi)",
       "canale": "n8n healthz",
@@ -77,9 +77,9 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 160,
+    "giri_totali": 161,
     "sensori_ok": 4,
-    "max_giri_ciechi": 8,
+    "max_giri_ciechi": 9,
     "sensori_totali": 5,
     "almeno_un_dato": true,
     "sensori_non_configurati": 4,
