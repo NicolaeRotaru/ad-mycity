@@ -2480,32 +2480,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
           <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative isolate">
-          <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
-            <div className="flex items-center gap-2.5 min-w-0">
-              <button
-                onClick={() => setConvDrawerAperto(true)}
-                className="grid place-items-center w-8 h-8 rounded-lg text-black/50 hover:bg-black/[0.05] hover:text-brand transition shrink-0"
-                aria-label="Conversazioni"
-                title="Conversazioni"
-              >
-                <History size={17} />
-              </button>
-              {convId && (
-                <div className="leading-tight min-w-0">
-                  <div className="text-[15px] font-semibold tracking-tight truncate">
-                    {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
-                  </div>
-                </div>
-              )}
+          {convId && (
+            <div className="px-5 pt-4 pb-3 border-b" style={{ borderColor: "var(--border)" }}>
+              <div className="text-[15px] font-semibold tracking-tight truncate" style={{ color: "var(--text-primary)" }}>
+                {conversazioni.find((c) => c.id === convId)?.titolo || "Conversazione in corso"}
+              </div>
             </div>
-            <button
-              onClick={nuovaConversazione}
-              className="shrink-0 text-xs text-black/45 hover:text-brand inline-flex items-center gap-1 transition"
-              title="Salva questa conversazione e iniziane una nuova"
-            >
-              <Plus size={13} /> Nuova
-            </button>
-          </div>
+          )}
           {base && (
             <div className="px-5 py-2 bg-brand-50/70 border-b border-brand/15 text-xs text-brand flex items-center gap-2">
               <Layers size={13} className="shrink-0" />
@@ -2646,6 +2627,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
             onPrompt={dammiPrompt}
+            onConversazioni={() => setConvDrawerAperto(true)}
+            onNuovaChat={nuovaConversazione}
           />
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
