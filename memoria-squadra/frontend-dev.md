@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-16 12:34 · Bacheca in home Pannello su richiesta Nicola (info store app) · consegna:fatta verifica:playwright-9/9-PASS · atteso card visibile in Plancia con avviso store apribile e markdown reso → reale PASS al primo giro completo di verifica (2 fix al driver di test, zero fix al codice); card+API+markdown ok, nessun errore console · #pannello #bacheca
 - 2026-07-14 22:31 · Home compatta senza rimozioni — Nicola «riduci spazio e scroll in modo intelligente senza togliere niente» · atteso: meno scroll, contenuto intatto · reale: PR #389 griglia card 2×2/4 fila; ritmo/volano/report collapsible con riassunto; padding/font ridotti; zero tagli; card #151; merge 🔴 · L-231 · #pannello #home #scroll #collapse #ux #pr-389
 - 2026-07-14 13:08 · Anteprima allegato invisibile — Nicola «galleria ok ma foto non nel box» fluttuante+Assistente iPhone · atteso: miniatura visibile dopo selezione · reale: file c'era ma solo filename piccolo sopra pulsanti; fix PR #380 thumbnail sopra textarea + avviso file mancante; card #144; spiegare pattern sopra-casella ≠ dentro textarea · L-228 · #pannello #chat #allegati #ux #iphone #pr-380
 - 2026-07-14 03:10 · Regressione ordine chat #371 — Nicola «ho mangiato fix vecchio, chat va in cima» · atteso: ordine stabile come #303 · reale: #371 reintrodotto `convVistaAt`; fix PR #375 ordine stabile+header; card #141 · L-221 · #pannello #chat #conversazioni #regressione #pr-375
