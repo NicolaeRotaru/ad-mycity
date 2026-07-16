@@ -5,11 +5,12 @@
 #
 # Cosa fa:
 #   - crea l'utente di servizio 'mycity' (se manca)
-#   - installa git, jq, curl, Node LTS e il MOTORE AI (Cursor CLI 'agent' di default, o Claude 'claude')
+#   - installa git, jq, curl, Node LTS e il MOTORE AI (Claude Code 'claude' di default, o Cursor CLI 'agent')
 #   - clona il repo in /opt/mycity/ad-mycity (o fa git pull se gia' c'e')
 #   - prepara cervello/vps/.env da .env.example (se manca)
 #   - installa e abilita le unit systemd (giro ogni 2h + worker sempre acceso)
-# Motore: CERVELLO_MOTORE=cursor (default) | claude. Es:  CERVELLO_MOTORE=claude GIT_TOKEN=... bash setup.sh
+# Motore: CERVELLO_MOTORE=claude (default) | cursor. Es:  CERVELLO_MOTORE=cursor GIT_TOKEN=... bash setup.sh
+# (Allineato a motore-ai.sh: Claude è il motore principale — decisione Nicola 2026-07-10.)
 # Poi restano 2 passi MANUALI (li stampa alla fine): la chiave del motore e i segreti in .env.
 set -euo pipefail
 
@@ -54,8 +55,8 @@ fi
 echo "   node $(node -v)"
 
 echo "== 4) Motore AI =="
-# Motore di default: Cursor CLI ('agent'). CERVELLO_MOTORE=claude per restare su Claude Code.
-MOTORE="${CERVELLO_MOTORE:-cursor}"
+# Motore di default: Claude Code ('claude'). CERVELLO_MOTORE=cursor per usare Cursor CLI ('agent').
+MOTORE="${CERVELLO_MOTORE:-claude}"
 if [ "$MOTORE" = "cursor" ]; then
   echo "   Motore scelto: Cursor CLI ('agent')."
   if ! command -v agent >/dev/null 2>&1; then
@@ -143,16 +144,17 @@ cat <<EOF
  QUASI FATTO. Restano 2 passi MANUALI:
 
  1) Collega il motore AI:
-    • Cursor (default): metti CURSOR_API_KEY nel .env (passo 2) — la chiave si crea su
-      cursor.com/dashboard → API Keys. In alternativa, login interattivo una volta:
-        sudo -u $APP_USER -H agent login
-    • Claude (se CERVELLO_MOTORE=claude): login interattivo, una volta sola:
-        sudo -u $APP_USER -H claude login
-      (apri l'URL mostrato, incolla il codice)
+    • Claude (default) — un comando fa tutto (token headless + verifica + riavvio worker):
+        sudo bash $APP_DIR/cervello/vps/collega-claude.sh
+      (il token si genera con 'claude setup-token' da una macchina dove sei già loggato;
+       in alternativa login interattivo una volta: sudo -u $APP_USER -H claude login)
+    • Cursor (se CERVELLO_MOTORE=cursor):
+        sudo bash $APP_DIR/cervello/vps/collega-cursor.sh
+      (chiave User API da cursor.com/dashboard → API Keys)
 
  2) Inserisci i segreti:
       sudo -u $APP_USER nano $ENV_DIR/.env
-    (CURSOR_API_KEY, SUPABASE memoria, GIT_PUSH_TOKEN, GIT_REPO/GIT_BRANCH)
+    (CLAUDE_CODE_OAUTH_TOKEN o CURSOR_API_KEY, SUPABASE memoria, GIT_PUSH_TOKEN, GIT_REPO/GIT_BRANCH)
 
  Poi accendi tutto:
       systemctl start mycity-worker.service

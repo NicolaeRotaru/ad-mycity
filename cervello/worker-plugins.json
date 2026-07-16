@@ -1,5 +1,5 @@
 {
-  "_cosa_e": "Manifest plugin approvati per il worker Cursor. Ogni voce ha scope (dove si applica) e target (dove finisce nel repo). Sync: node cervello/sync-worker-plugins.mjs",
+  "_cosa_e": "Manifest plugin approvati per il worker (motore Claude o Cursor). Ogni voce ha scope (dove si applica) e target (dove finisce nel repo, fonte unica in .cursor/). Sync: node cervello/sync-worker-plugins.mjs · Specchio per Claude Code (.claude/skills/, generato, non versionato): node cervello/sync-worker-plugins.mjs --specchia — gira da solo a ogni avvio di worker/giro/ritmo.",
   "aggiornato": "2026-07-13 17:19",
   "plugin": [
     {
@@ -359,7 +359,7 @@
     "getsentry/skills — seer (root cause produzione)",
     "vercel-labs/agent-skills — composition-patterns",
     "Trail of Bits — semgrep, codeql (scan automatici)",
-    ".claude/skills/verify — esporre anche come .cursor/skills/verify per parity worker"
+    "FATTO 2026-07-16: parity worker chiusa nell'altro verso — .cursor/skills specchiate in .claude/skills via --specchia (resta aperto solo l'export di verify verso Cursor, se mai servirà)"
   ],
   "ultimo_sync": [
     {

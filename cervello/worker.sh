@@ -16,6 +16,12 @@ if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
   bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
 fi
 
+# 🔌 PARITY SKILL (fix 2026-07-16): le skill approvate vivono in .cursor/skills/ (fonte unica,
+# manifest cervello/worker-plugins.json) ma Claude Code le carica da .claude/skills/. Lo specchio
+# si rigenera qui a ogni avvio, in locale e senza rete, così ENTRAMBI i motori vedono le stesse
+# skill. Best-effort: se fallisce il worker parte lo stesso (le skill sono un aiuto, non un requisito).
+node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
+
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
@@ -169,6 +175,12 @@ stamp_worker_info() {
   curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
     -H "Prefer: resolution=merge-duplicates,return=minimal" \
     -d "{\"chiave\":\"worker:codice_rev\",\"valore\":\"$tag\",\"updated_at\":\"$(date -Iseconds)\"}" \
+    >/dev/null 2>&1 || true
+  # 🪪 MOTORE ATTIVO (fix 2026-07-16): il Pannello (worker-salute) adatta i consigli di sblocco
+  # al motore vero (collega-claude.sh vs collega-cursor.sh) invece di suggerire sempre Cursor.
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:motore\",\"valore\":\"$(ai_engine)\",\"updated_at\":\"$(date -Iseconds)\"}" \
     >/dev/null 2>&1 || true
 }
 
@@ -540,13 +552,16 @@ Nicola ha allegato dei file a questo messaggio. Sono qui, aprili con lo strument
 # mai verificati, strumenti inventati. Degrada con grazia: ogni pezzo che fallisce viene omesso.
 
 # 🔌 PLUGIN WORKER — manifest: cervello/worker-plugins.json (fase 1+2+3: 21 skill).
+# Le skill vivono in .cursor/skills/ (fonte) e sono SPECCHIATE in .claude/skills/ all'avvio
+# (--specchia): il motore attivo (Claude o Cursor) le carica dalla sua cartella — la lista qui
+# sotto è il menù, non una promessa a vuoto (fix parity 2026-07-16).
 # Caveman NON è skill globale: solo frammento prompt su lavori interni; in chat il contratto Nicola vince.
 plugin_prompt_for_tipo() {
   local tipo="${1:-}"
   local frag="$SCRIPT_DIR/prompt-fragments/caveman-internal.md"
   if [ "$tipo" = "chat" ]; then
     cat <<'EOF'
-PLUGIN (skill Cursor approvate):
+PLUGIN (skill approvate, caricate dal motore — dettagli in .claude/skills/ o .cursor/skills/):
 - grilling: stress-test decisioni/PR — una domanda alla volta, su richiesta o prima di mosse grosse.
 - ponytail: solo se tocchi codice (regola scoped su pannello/cervello/creativi).
 - caveman: SPENTO in questa chat — il contratto di chiarezza (prima riga semplice, max 5 punti, non tecnico) vince sempre.
@@ -554,7 +569,7 @@ EOF
     return 0
   fi
   cat <<'EOF'
-PLUGIN (skill Cursor approvate):
+PLUGIN (skill approvate, caricate dal motore — dettagli in .claude/skills/ o .cursor/skills/):
 - grilling / superpowers / systematic-debugging: stress-test, piani strutturati, root-cause prima del fix.
 - ponytail / tdd / diagnosing-bugs / code-simplifier / codebase-design: codice minimo, test, debug, architettura moduli.
 - differential-review: security pre-merge su PR (auth, payout, RLS).

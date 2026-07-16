@@ -69,7 +69,7 @@ export async function GET() {
     });
   }
 
-  const [segnali, pausa, pipeline, codiceRev, lavoriLight, conteggiDb, workerChatUltimo, reloadRifiutato] =
+  const [segnali, pausa, pipeline, codiceRev, lavoriLight, conteggiDb, workerChatUltimo, reloadRifiutato, motoreRaw] =
     await Promise.all([
       raccogliSegnaliBattito(),
       getImpostazione("pausa").catch(() => null),
@@ -79,7 +79,20 @@ export async function GET() {
       getConteggiLavori(),
       getImpostazione("worker:ultimo:chat").catch(() => null),
       getImpostazione("worker:reload-rifiutato").catch(() => null),
+      getImpostazione("worker:motore").catch(() => null),
     ]);
+
+  // Motore AI attivo sul VPS (timbrato dal worker a ogni lavoro). I consigli di sblocco auth devono
+  // puntare allo script del motore VERO: prima suggerivano sempre collega-cursor.sh anche col
+  // motore Claude (fix parity 2026-07-16). Se il timbro manca (worker mai partito / codice vecchio)
+  // si mostrano entrambe le strade.
+  const motore = motoreRaw === "cursor" || motoreRaw === "claude" ? motoreRaw : null;
+  const fixAuthMotore =
+    motore === "cursor"
+      ? "auth Cursor mancante → sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh"
+      : motore === "claude"
+        ? "auth Claude mancante → sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-claude.sh"
+        : "auth del motore AI mancante → sudo bash cervello/vps/collega-claude.sh (motore Claude) oppure collega-cursor.sh (motore Cursor)";
 
   // Poll leggero: risultato solo per in_attesa (quota/session-limit nel testo errore).
   const attesaIds = lavoriLight.filter((l) => l.stato === "in_attesa").map((l) => l.id);
@@ -175,12 +188,12 @@ export async function GET() {
     problema = "Il worker sul VPS non ha mai inviato un battito a Supabase.";
     azioni.push("SSH sul VPS → sudo systemctl start mycity-worker");
     azioni.push("Se crasha: sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh");
-    azioni.push("Quasi sempre: auth Cursor mancante → sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh");
+    azioni.push(`Quasi sempre: ${fixAuthMotore}`);
   } else if (!workerVivo) {
     problema = `Worker spento da ${etaOre(oreWorker)} — systemd potrebbe essere fermo o in crash loop.`;
     azioni.push("SSH → journalctl -u mycity-worker -n 30 --no-pager");
     azioni.push("SSH → sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh");
-    azioni.push("Se NRestarts alto (crash loop auth): sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh");
+    azioni.push(`Se NRestarts alto (crash loop auth): ${fixAuthMotore}`);
   } else if ((conteggi.in_corso ?? 0) > 0 && (corsoPiuVecchioMin ?? 0) > 10) {
     problema = `${conteggi.in_corso} lavoro/i bloccati «In corso» da oltre 10 minuti.`;
     azioni.push("Usa il pulsante «Sblocca coda» qui sotto");
@@ -190,16 +203,18 @@ export async function GET() {
     // NON è un guasto e NON è ".env ≠ Vercel": la coda riparte da sola al reset. Lo diciamo con calma.
     attesaQuota = true;
     problema =
-      `Il motore Claude ha esaurito il limite di sessione/quota della sottoscrizione. ` +
+      `Il motore ${motore === "cursor" ? "Cursor" : "Claude"} ha esaurito il limite di sessione/quota della sottoscrizione. ` +
       `I ${conteggi.in_attesa} lavori in coda NON sono impallati: aspettano il reset e ripartono da soli` +
       `${riprovaAlle ? ` (prossimo ritentativo ${riprovaAlle})` : resetHint ? ` (reset ${resetHint})` : ""}.`;
     azioni.push(
       `Nessun intervento tecnico: la coda si svuota da sola al reset${resetHint ? ` (${resetHint})` : ""}.`
     );
     azioni.push(
-      "Se si ripete ogni giorno, il volume di lavori supera il piano Claude → alza il piano (Max) oppure riduci i giri/metabolizza automatici."
+      `Se si ripete ogni giorno, il volume di lavori supera il piano ${motore === "cursor" ? "Cursor" : "Claude"} → alza il piano oppure riduci i giri/metabolizza automatici.`
     );
-    azioni.push("Per controllare la quota: sul VPS lancia `claude` e guarda /status (o attendi il reset indicato).");
+    if (motore !== "cursor") {
+      azioni.push("Per controllare la quota: sul VPS lancia `claude` e guarda /status (o attendi il reset indicato).");
+    }
   } else if ((conteggi.in_attesa ?? 0) > 0 && (attesaPiuVecchiaMin ?? 0) > 3 && workerVivo) {
     problema = "Worker vivo ma la coda non si muove — motore AI impallato sul lavoro corrente o .env VPS ≠ Vercel.";
     azioni.push("Verifica che SUPABASE_URL sul VPS sia lo stesso host mostrato qui sotto");
@@ -222,6 +237,7 @@ export async function GET() {
     adInPausa,
     pipeline: pipeline ?? null,
     codiceRev: codiceRev ?? null,
+    motore,
     // Badge sotto «Stato worker»: conteggi reali dal DB (non finestra ultimi 80).
     conteggi: conteggiDb.per_stato,
     inRitentativo,

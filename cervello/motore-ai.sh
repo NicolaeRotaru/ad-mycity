@@ -6,11 +6,14 @@
 # tiene UN SOLO punto in cui si decide il motore, così gli script non lo duplicano.
 #
 # Variabili (in cervello/vps/.env):
-#   CERVELLO_MOTORE  = auto | cursor | claude   (default: auto → preferisce 'agent', poi 'claude')
+#   CERVELLO_MOTORE  = auto | cursor | claude   (default: auto → Claude principale, Cursor solo esplicito)
 #   CERVELLO_MODELLO = modello opzionale (es. composer-2.5 per Cursor, claude-4.6-sonnet per Claude)
 #   CURSOR_API_KEY   = chiave User API Cursor (opzionale se hai fatto 'agent login' con l'abbonamento)
+#   CLAUDE_CODE_OAUTH_TOKEN = token headless Claude (da `claude setup-token`) — consigliato su VPS
+#   ANTHROPIC_API_KEY       = alternativa a consumo (API) per Claude
+#   CERVELLO_CLAUDE_AUTH_CHECK = 0 per saltare il preflight auth Claude (solo se sai cosa fai)
 #
-# Espone: ai_engine, ai_cli_name, ai_cursor_auth_ok, ai_check, ai_build_cmd (popola AI_CMD).
+# Espone: ai_engine, ai_cli_name, ai_cursor_auth_ok, ai_claude_auth_ok, ai_check, ai_build_cmd (popola AI_CMD).
 
 # Percorso repo (per messaggi di errore leggibili); worker.sh imposta REPO prima del source.
 if [ -z "${REPO_ROOT:-}" ]; then
@@ -125,6 +128,26 @@ ai_cursor_auth_mode() {
   return 1
 }
 
+# ── Claude Code: autenticazione headless (parity col preflight Cursor — fix 2026-07-16) ─────────
+# Prima di questo controllo un login Claude scaduto/assente sul VPS si scopriva solo a runtime,
+# con ogni lavoro morto e un errore criptico in coda. Qui è un preflight di PRESENZA: token
+# headless nell'ambiente (CLAUDE_CODE_OAUTH_TOKEN da `claude setup-token`, o ANTHROPIC_API_KEY)
+# oppure credenziali di `claude login` sul disco. Un token scaduto lo scopre comunque il primo
+# run — ma il caso «niente configurato» ora si vede SUBITO, col fix stampato.
+# Stampa "oauth_token" | "api_key" | "login" | "" (come ai_cursor_auth_mode).
+ai_claude_auth_mode() {
+  if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then echo oauth_token; return 0; fi
+  if [ -n "${ANTHROPIC_API_KEY:-}" ]; then echo api_key; return 0; fi
+  local _cfg="${CLAUDE_CONFIG_DIR:-${HOME:-/root}/.claude}"
+  if [ -f "$_cfg/.credentials.json" ]; then echo login; return 0; fi
+  echo ""
+  return 1
+}
+
+ai_claude_auth_ok() {
+  ai_claude_auth_mode >/dev/null
+}
+
 # Verifica che il motore sia installato e autenticato. Ritorna 1 se inutilizzabile.
 ai_check() {
   ai_ensure_path
@@ -159,14 +182,33 @@ ai_check() {
       echo "Cursor: autenticato via agent login (abbonamento, senza CURSOR_API_KEY)." >&2
     fi
   fi
+  if [ "$eng" = claude ] && [ "${CERVELLO_CLAUDE_AUTH_CHECK:-1}" != 0 ]; then
+    if ! ai_claude_auth_ok; then
+      echo "ERRORE: motore Claude senza autenticazione (né token headless né claude login trovati)." >&2
+      echo "  Fix rapido (1 comando):" >&2
+      echo "       sudo bash $REPO_ROOT/cervello/vps/collega-claude.sh" >&2
+      echo "  Oppure a mano nel .env:" >&2
+      echo "       CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat...  (genera con: claude setup-token)" >&2
+      echo "  In alternativa (interattivo, una volta): sudo -u mycity -H claude login" >&2
+      echo "  Poi: sudo systemctl restart mycity-worker mycity-worker-chat" >&2
+      echo "  (Auth presente con un metodo non riconosciuto? CERVELLO_CLAUDE_AUTH_CHECK=0 nel .env salta il preflight.)" >&2
+      return 1
+    fi
+  fi
   return 0
 }
 
-# Esporta variabili che la CLI Cursor legge in headless (VPS systemd).
+# Esporta variabili che la CLI del motore legge in headless (VPS systemd).
 ai_prepare_env() {
   ai_ensure_path
   if [ "$(ai_engine)" = cursor ] && [ -n "${CURSOR_API_KEY:-}" ]; then
     export CURSOR_API_KEY
+  fi
+  # Claude headless: il token/API key devono essere nell'ambiente del processo CLI (il .env di
+  # systemd li porta già con set -a; qui è la cintura per i chiamanti che sourciano senza set -a).
+  if [ "$(ai_engine)" = claude ]; then
+    if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then export CLAUDE_CODE_OAUTH_TOKEN; fi
+    if [ -n "${ANTHROPIC_API_KEY:-}" ]; then export ANTHROPIC_API_KEY; fi
   fi
   # 🧠 RAGIONAMENTO ESTESO (thinking) — il motivo per cui il cervello «non ragionava»: la CLI
   # partiva senza budget di pensiero, quindi rispondeva d'istinto invece di ragionare prima di

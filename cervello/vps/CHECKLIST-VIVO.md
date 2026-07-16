@@ -30,7 +30,29 @@
 
 ---
 
-## Voglio SOLO Cursor `agent` (non Claude)
+## Motore di default: Claude Code (`claude`)
+
+> Claude è il motore principale del cervello (decisione 2026-07-10); Cursor resta come
+> alternativa esplicita (sezione sotto).
+
+1. **Un comando fa tutto** (installa, token, verifica, riavvio worker):
+   ```bash
+   sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-claude.sh
+   ```
+2. Il **token headless** si genera con `claude setup-token` da una macchina dove sei già
+   loggato (anche il tuo PC): inizia con `sk-ant-oat...`. In alternativa, login interattivo
+   una volta: `sudo -u mycity -H claude login`.
+3. Nel `.env` VPS deve restare:
+   ```bash
+   CERVELLO_MOTORE=claude
+   CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat...   # (vuoto se usi claude login)
+   ```
+4. Test reale: `sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-agent.sh`
+5. Nei log deve comparire: `Motore AI: claude (claude)`
+
+---
+
+## Alternativa: SOLO Cursor `agent` (non Claude)
 
 1. **Chiave API** — [cursor.com/dashboard](https://cursor.com/dashboard) → **API Keys** → crea e copia
 2. Nel `.env` VPS:
@@ -62,11 +84,12 @@ Copia e compila. **Regole sintassi:**
 - **Mai** `git checkout main` sul VPS
 
 ```bash
-# --- Motore AI ---
-# Per usare SOLO Cursor agent (consigliato): cursor + CURSOR_API_KEY obbligatoria
-CERVELLO_MOTORE=cursor
-# Chiave API Cursor — OBBLIGATORIA su VPS (cursor.com/dashboard → API Keys)
-CURSOR_API_KEY=
+# --- Motore AI (Claude principale; cursor solo se lo scegli esplicitamente) ---
+CERVELLO_MOTORE=claude
+# Token headless Claude — consigliato su VPS (genera con: claude setup-token)
+CLAUDE_CODE_OAUTH_TOKEN=
+# Solo se CERVELLO_MOTORE=cursor: chiave User API (cursor.com/dashboard → API Keys)
+# CURSOR_API_KEY=
 
 # --- Supabase MEMORIA (stessi valori di Vercel) ---
 # ⚠️ NON il DB marketplace (clmpyfvpvfjgeviworth)
@@ -151,6 +174,7 @@ Apri nel browser (sostituisci dominio):
 | Chat: lavori restano `in_attesa` | Worker morto o `pausa=on` | Log worker + spegni pausa |
 | Lavoro bloccato **«In corso»** per ore, worker in `sleep 5` | Restart durante un giro → lavoro orfano `in_corso` (il worker legge solo `in_attesa`) | `sudo -u mycity -H bash cervello/vps/recupera-lavori-orfani.sh` poi controlla journalctl |
 | `CLI agent non trovata` | `CERVELLO_MOTORE=cursor` ma agent non in PATH | `CERVELLO_MOTORE=auto` o `claude` |
+| `ERRORE: motore Claude senza autenticazione` | Né token headless nel `.env` né `claude login` sul disco | `sudo bash cervello/vps/collega-claude.sh` |
 | `MyCity: command not found` | `GIT_AUTHOR_NAME` senza virgolette | `GIT_AUTHOR_NAME="AD MyCity VPS"` |
 | Briefing vecchio | `OBSIDIAN_BRANCH` punta ancora al vecchio `memoria-ad`, o no redeploy | `OBSIDIAN_BRANCH=main` + redeploy Vercel |
 | Errore Vercel su PR (email autore) | commit con email non-GitHub | RISOLTO: default ora `98592323+NicolaeRotaru@users.noreply.github.com` in tutti gli script. Per un mittente diverso: `GIT_AUTHOR_EMAIL` nel .env VPS (dev'essere un'email associata a un account GitHub) |

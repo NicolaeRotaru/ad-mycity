@@ -18,13 +18,14 @@ if (-not $URL -or -not $KEY) {
   Write-Error "Mancano SUPABASE_URL e SUPABASE_SERVICE_KEY (progetto MEMORIA). Vedi cervello/README.md."
   exit 1
 }
-# Motore AI: Cursor 'agent' (default) o Claude 'claude'. Scelta via $env:CERVELLO_MOTORE (auto|cursor|claude).
+# Motore AI: Claude 'claude' (principale) o Cursor 'agent'. Scelta via $env:CERVELLO_MOTORE (auto|cursor|claude).
+# auto preferisce Claude — allineato a cervello/motore-ai.sh (decisione Nicola 2026-07-10).
 $motore = $env:CERVELLO_MOTORE
 if (-not $motore) { $motore = "auto" }
 if ($motore -eq "auto") {
-  if (Get-Command agent -ErrorAction SilentlyContinue) { $motore = "cursor" }
-  elseif (Get-Command claude -ErrorAction SilentlyContinue) { $motore = "claude" }
-  else { Write-Error "Nessun motore AI trovato. Installa Cursor CLI ('agent') o Claude Code ('claude')."; exit 1 }
+  if (Get-Command claude -ErrorAction SilentlyContinue) { $motore = "claude" }
+  elseif (Get-Command agent -ErrorAction SilentlyContinue) { $motore = "cursor" }
+  else { Write-Error "Nessun motore AI trovato. Installa Claude Code ('claude') o Cursor CLI ('agent')."; exit 1 }
 }
 $cli = if ($motore -eq "cursor") { "agent" } else { "claude" }
 if (-not (Get-Command $cli -ErrorAction SilentlyContinue)) {

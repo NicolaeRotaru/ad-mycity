@@ -23,8 +23,11 @@ fi
 ENV_FILE="$SCRIPT_DIR/vps/.env"
 if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
-# Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
+# Motore AI condiviso (Claude 'claude' principale, Cursor 'agent' su richiesta). Vedi cervello/motore-ai.sh.
 . "$SCRIPT_DIR/motore-ai.sh"
+
+# 🔌 Parity skill: specchio .cursor/skills → .claude/skills prima di lanciare la CLI (best-effort).
+node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
 ts() { date '+%Y-%m-%d %H:%M'; }
 

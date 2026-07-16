@@ -4,8 +4,9 @@
 
 > Fa girare l'AD **24/7** (worker per la chat del pannello/assistenza) **senza dipendere dal tuo PC**.
 > Il giro automatico (auto-analisi ogni 2h) è **DISATTIVATO**: si può lanciare a mano con `giro-ora.sh`.
-> Il **motore AI** è **Cursor** di default (CLI `agent`, col tuo abbonamento Cursor); in alternativa
-> Claude Code (`claude`, piano Max). Lo scegli con `CERVELLO_MOTORE` nel `.env`.
+> Il **motore AI** è **Claude Code** di default (`claude`, piano Max — motore principale dal
+> 2026-07-10); in alternativa Cursor (CLI `agent`, col tuo abbonamento Cursor). Lo scegli con
+> `CERVELLO_MOTORE` nel `.env`.
 > Installazione **ACCANTO** a quello che c'è già sul server (es. il trading bot spento): **non cancella nulla**.
 
 > ## ⚠️ LEGGI QUESTO PRIMA
@@ -16,7 +17,10 @@
 
 ## Cosa ti serve prima
 - Una VPS Linux **Debian/Ubuntu** (la tua Hetzner va benissimo), accesso **root** via SSH.
-- Per il motore **Cursor**: `CURSOR_API_KEY` **oppure** `agent login` con l'abbonamento (come `claude login` + Max).
+- Per il motore **Claude** (default): `CLAUDE_CODE_OAUTH_TOKEN` (genera con `claude setup-token` da una
+  macchina dove sei loggato) **oppure** `claude login` interattivo una volta. Un comando fa tutto:
+  `sudo bash cervello/vps/collega-claude.sh`.
+- Per il motore **Cursor** (alternativa): `CURSOR_API_KEY` **oppure** `agent login` con l'abbonamento.
   *(Chiave: [cursor.com/dashboard](https://cursor.com/dashboard) → Integrations → User API Keys.)*
 - Le chiavi della **memoria Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_KEY` del progetto MEMORIA).
 - ⚠️ **Un PAT GitHub** "fine-grained" con permesso *Contents: Read and write* sul repo `ad-mycity`.
@@ -59,22 +63,24 @@ GIT_TOKEN=$TOKEN bash /opt/mycity/ad-mycity/cervello/vps/setup.sh
 ```
 > Lo **stesso** token va poi anche in `.env` come `GIT_PUSH_TOKEN` (passo 3), per il push del vault.
 
-**2. Collega il motore AI.** Con il motore **Cursor** puoi autenticarti in due modi (scegline uno):
-- **Abbonamento (consigliato, senza API key nel .env):** login una volta, come Claude Max:
+**2. Collega il motore AI.**
+- **Claude (default) — un comando fa tutto** (token headless + verifica + riavvio worker):
 ```bash
-sudo -u mycity -H bash -lc 'export NO_OPEN_BROWSER=1; agent login'
-sudo -u mycity -H agent status   # deve dire: Login successful
+sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-claude.sh
 ```
-- **User API Key:** metti `CURSOR_API_KEY` nel `.env` (passo 3) — utile se il login scade o preferisci non rifarlo.
+  (il token si genera con `claude setup-token` da una macchina dove sei già loggato; in
+  alternativa login interattivo una volta: `sudo -u mycity -H claude login`)
+- **Cursor (solo se `CERVELLO_MOTORE=cursor`):**
 ```bash
-# sudo -u mycity -H claude login     # SOLO se hai messo CERVELLO_MOTORE=claude
+sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-cursor.sh
 ```
+  (oppure a mano: `agent login` con `NO_OPEN_BROWSER=1`, o `CURSOR_API_KEY` nel `.env`)
 
 **3. Inserisci i segreti:**
 ```bash
 sudo -u mycity nano /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-Compila `CURSOR_API_KEY` (e/o lascia `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
+Compila `CLAUDE_CODE_OAUTH_TOKEN` (o `CURSOR_API_KEY` se `CERVELLO_MOTORE=cursor`), `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GIT_PUSH_TOKEN`, `GIT_REPO`, `GIT_BRANCH`.
 
 **4. Accendi tutto:**
 ```bash

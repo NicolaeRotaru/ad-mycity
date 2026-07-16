@@ -39,6 +39,9 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 . "$SCRIPT_DIR/motore-ai.sh"
 
+# 🔌 Parity skill: specchio .cursor/skills → .claude/skills prima di lanciare la CLI (best-effort).
+node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
+
 ts() { date '+%Y-%m-%d %H:%M'; }
 
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh e test-agent.sh." >&2; exit 1; }

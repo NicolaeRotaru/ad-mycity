@@ -59,3 +59,15 @@ Ho riletto i pezzi principali: due-worker (lane all+chat, claim atomico, worker_
 5. **setup.sh / CHECKLIST-VIVO / worker.ps1** allineati al default Claude.
 
 *Nessuna di queste l'ho toccata: regola del governo — la macchina non si modifica da sola. Dimmi quali punti firmi e li eseguo (su branch + PR, come da rotaia).*
+
+---
+
+## ✅ ESITO — cantiere eseguito su firma di Nicola («fai il fix di tutti e 4 i punti»)
+
+- **Data esecuzione:** 2026-07-16 11:39 (Europe/Rome) · branch `claude/cursor-capability-check-mgw8q3` (attivo solo dopo il merge di Nicola)
+- **1. Parity skill — FATTO.** `sync-worker-plugins.mjs --specchia` copia in locale (senza rete) le 19 skill + ponytail (rule → skill) da `.cursor/skills/` a `.claude/skills/`; gira da solo all'avvio di worker/giro/ritmo; specchio idempotente, generato, ignorato da git (fonte unica resta `.cursor/`). Prompt del worker riscritto: non promette più «skill Cursor». Prova: 20 file specchiati, 2° giro = 0 aggiornati, e l'ambiente Claude li ha caricati subito come skill vive.
+- **2. Allowlist — FATTO.** 4 righe in `.claude/settings.json`: `npx tsc --noEmit`, `npm --prefix pannello run build`, `git show`, `git rev-parse`. (Il file è deny-per-tool sull'auto-modifica: aggiornato via node, con la firma esplicita di Nicola in chat.)
+- **3. Auth Claude — FATTO.** `ai_claude_auth_mode/ok` + preflight in `ai_check` (con via di fuga `CERVELLO_CLAUDE_AUTH_CHECK=0`); nuovo `cervello/vps/collega-claude.sh` (gemello di collega-cursor: token da `claude setup-token`, verifica, riavvio worker); il worker timbra `worker:motore`; il Pannello (`worker-salute`) adatta i consigli al motore vero e espone `motore`; `test-agent.sh` e `diagnostica-completa.sh` parlano anche Claude.
+- **4. Rotaie di carta — FATTO.** `AGENTS.md` e `.cursor/rules/mycity-ad.mdc` riscritti al ramo unico `main` (memoria-ad dichiarato pensionato); `setup.sh` default `claude` + istruzioni collega-claude; `CHECKLIST-VIVO.md` con sezione Claude di default + riga sintomi; `SETUP-VPS.md` aggiornato; `worker.ps1` auto preferisce claude.
+- **Verifiche:** `bash -n` su 8 script OK · `node --check` OK · **17/17 test bats** (9 nuovi `motore-ai-claude-auth.bats` + regressione cursor-auth/allowedtools) · `npx tsc --noEmit` nel pannello = 0 errori.
+- **Residuo (1 riga, non bloccante):** `cervello/vps/.env.example` non modificabile da qui (freno sui file `.env*`): il template porta ancora il vecchio default — ma `collega-claude.sh` scrive da solo le righe giuste nel `.env` vero.
