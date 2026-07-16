@@ -356,3 +356,27 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - 🔴 **Post kefir** — pubblica stasera (leva serale) o domani mattina presto. Contenuto pronto in #post-kefir-estate-1407.
 - 🟡 **Approva PR #383, #381, #380** dal Pannello → Cabina migliore per domani.
 - 🟡 **`BURN_MENSILE_EUR=XXXX` in `vps/.env`** → runway visibile in Pannello.
+
+## Report della sera · 2026-07-16 18:04
+
+**Com'è andata oggi**
+- La chat del Pannello è migliorata: mergiata la PR con 7 fix (fullscreen, streaming fluido, ricerca) — da stasera la chat funziona meglio
+- Domani è il Venerdì Piacentini: la telefonata al fornaio non risulta eseguita — se Pane Quotidiano arriva al banco senza preavviso il presidio rischia di saltare
+- Business fermo come ieri: nessun ordine pagato, stallo a 22 giorni dal 24 giugno
+
+**I numeri**
+- 1 negozio (PQ), 0 ordini consegnati, 23 clienti — invariati dal 24/6. North Star 0 da 533 ore.
+
+**Da approvare**
+- Chiama Pane Quotidiano (0523 388601) subito — domani è VP, serve conferma del banco
+- Pubblica il post kefir stasera o domani mattina presto, prima del Venerdì Piacentini
+- Metti quanto spendiamo al mese in vps/.env per calcolare il runway
+
+**Lezione di oggi**
+- Una PR di codice non muove la North Star: la mossa più importante di oggi era la telefonata al fornaio, non il codice
+
+**Domani**
+- Presidio al banco di Pane Quotidiano per il Venerdì Piacentini e primo tentativo di ordine reale
+
+**Dettagli tecnici**
+- PR #411 (chat: fullscreen+streaming+ricerca) ✅ su main oggi · PR #409 (memoria-viva) ✅ · routing.json aggiornato 17:36 · PR #380/#381/#383/#403 ancora in coda merge · BURN_MENSILE_EUR assente · REST ok 12:00
