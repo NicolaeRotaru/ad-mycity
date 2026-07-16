@@ -60,28 +60,20 @@ Poi mergia la PR dal Pannello (Ctrl+Shift+R).
 
 ---
 
-### 🟡 #pr-chat-conv-pulsanti — Pusha il branch e apri la PR: pulsanti chat in basso + conv in cima · ⏳ accodata 2026-07-16 23:05
+### 🔴 #pr-415-chat-pulsanti — Mergia PR #415: conv aperta in cima + pulsanti chat in basso · ⏳ accodata 2026-07-16 22:31
 
-**Branch:** `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `8a3ef065` · typecheck ✅
+**PR #415** · Branch `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `99b80f77` · typecheck ✅ · nessun conflitto
 
-> ⚠️ **La PR NON è su GitHub** — il push è stato bloccato dai permessi della chat del Pannello. Il codice esiste solo sul VPS. Nicola lo ha confermato: «non c'è nessuna PR».
-
-**Come sbloccare (terminale VPS):**
-```bash
-cd /opt/mycity/ad-mycity
-node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/chat-pulsanti-in-basso-conv-in-cima --title "chat: conv aperta in cima + pulsanti in basso"
-```
-
-**Due fix in questo PR:**
+**Due fix inclusi:**
 1. **Conversazione aperta sempre prima** nella lista — non bisogna più cercarla in fondo.
 2. **Mini-barra con «Conversazioni» e «Nuova chat» sopra il campo di testo** — sempre visibili, niente scroll.
 
-**Dopo il push:** mergia la PR dal Pannello (o da GitHub) → build Vercel (~2 min) → Ctrl+Shift+R.
+**Dopo il merge:** Vercel builda in automatico (~2 min) → Ctrl+Shift+R.
 
 **Cosa cambia:** navigare tra le conversazioni diventa immediato, senza scrollare in cima.
 **Se va bene:** nella prossima chat trovi subito la conversazione che stavi leggendo in cima alla lista.
 
-- **Colore:** 🟡 (push + merge PR codice Pannello)
+- **Colore:** 🔴 (merge PR codice Pannello — approva Nicola)
 - **Reparto:** frontend-dev
 
 ---
