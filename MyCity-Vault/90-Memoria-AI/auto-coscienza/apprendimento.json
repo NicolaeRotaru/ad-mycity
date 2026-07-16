@@ -17,6 +17,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0716-234",
+      "testo": "**Tassonomia PMI Piacenza — 4 fasi di onboarding per categoria (chat 16/7):** la mappa completa emersa con Nicola. Fase 1 = carrello-spesa (acquisto quotidiano/settimanale: Forni, Salumerie/gastronomie, Macellerie/pollerie, Ortofrutta, Pescherie, Caseifici/fromagerie) → aggredire subito. Fase 2 = regalo/piacere (dopo 5-6 botteghe Fase 1: Gelaterie/pasticcerie incl. Bardini, Enoteche/bottiglierie, Torrefazioni/caffè, Fiorai). Fase 3 = retail non-food (dopo verticale food rodata: profumerie, erboristerie, cartolerie, gioiellerie, abbigliamento, calzature, casa/casalinghi — Kaefu entra qui). Fase 4 = servizi (con massa critica: lavanderie, sartorie, barbieri, agenzie viaggi, studi professionali). Dati: ~5.000 PMI registrate Piacenza, ~200 food nel centro aggredibili in 12 mesi. Classificazioni specifiche: Bardini = gelateria/pasticceria (Largo Battisti 19, centro) → Fase 2; Kaefu = emporio generalista (Via Genova 31) → Fase 3; Ristoranti → non-target (confermato Nicola). Logica: prima tutto ciò che i piacentini comprano almeno 1×/settimana.",
+      "tag": [
+        "tassonomia-pmi",
+        "prospect-categorie",
+        "botteghe",
+        "fasi-onboarding",
+        "bardini",
+        "kaefu",
+        "piacenza-pmi",
+        "strategia-vendite"
+      ],
+      "reparto": "@vendite",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 19:30",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0716-233",
       "testo": "**Verifica il branch PRIMA di committare (errore AD 16/7):** durante il lavoro sulla PR #409, un `git commit` è finito su `main` locale invece del branch di lavoro perché `git branch --show-current` non era stato eseguito prima. `git reset --hard` è bloccato per sicurezza: l'unico rimedio pulito è un nuovo branch (creato PR #410). Ordine invariabile: (1) branch check, (2) modifica, (3) build, (4) test, (5) commit. Mai saltare il passo 1.",
       "tag": [
