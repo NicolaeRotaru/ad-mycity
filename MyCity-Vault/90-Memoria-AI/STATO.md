@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-07-14 13:11
-fonte: AD digitale (💬 14/7 13:11 chat Rischio tecnico · T-3 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-16 12:01
+fonte: AD digitale (🕛 16/7 12:01 punto di mezzogiorno · T-1 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
 
+> 🕛 **16/7 12:01 — PUNTO DI MEZZOGIORNO.** **T-1 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo **~531h ≈ 22,1 giorni** (REST 12:00, ordini=1 annullato, clienti=23). Tre priorità ❌: telefonata fornaio (mossa urgente oggi), PR Pannello in coda (#383/#381/#380/#403), burn mensile non impostato. Correzione: post kefir sposto a stasera/domani mattina (finestra colazione chiusa alle 11). **SERVE Nicola:** 🔴 chiama PQ **0523 388601 ADESSO** (script #ritiro-pq-vp17-checkin) · 🔴 post kefir stasera/domani mattina · 🟡 Approva PR Pannello · 🟡 BURN_MENSILE_EUR.
+>
 > 💬 **14/7 ~13:11 — CHAT: Rischio tecnico — 6 fix CHIUSI — PR #383 in attesa Approva.** Nicola «Risolvi questi problemi» su casella **Rischio tecnico** (`rischio-sicurezza-se`, radiografia macchina). **Verificato 🟢:** **6/8** finding chiusi post-fix (branch `fix/rischio-tecnico-se`, commit `d726c0c8`): hook anti-segreti attivi davvero (`core.hooksPath` verificato + installa-hooks idempotente), monitora non distruttivo (niente `checkout -f -B` su commit locali), scan Resend/n8n, timeout sensori 8s, meta-guardiano freschezza segnali, auto-fix senza chiusura automatica difetti. **Errore intermedio AD:** commit finito su **main** per errore → spostato su branch fix; fix riapplicati da zero. **Restano 2 🔴 decisione Nicola:** permessi Cursor `--force --trust` e chi scrive la prova di chiusura difetti (tipo umano). **Fix 🟡 PR #383** in coda merge. **Pendente:** Approva card **#145** → Ctrl+Shift+R Radiografia › Rischio tecnico — 6 schede spariscono, 2 restano finché non decide. Fonte: chat Nicola 14/7 ~13:11 + `allinea-scan-cantiere`.
 >
 > 💬 **14/7 ~13:09 — CHAT: Costo dell'AI — 5 fix CHIUSI — PR #381 in attesa Approva.** Nicola «Risolvi questi problemi» su casella **Costo dell'AI** (radiografia macchina). **Verificato 🟢:** **5/6** finding chiusi post-fix (`d7b7c037`, branch `fix/costo-ai-efficienza`): ritmo+monitora contano token come giro; router economico onesto (niente API a consumo, esecuzione Claude/Cursor); soglia sessione ~5h aggiunta; GATE-BUDGET attivo anche su giro forzato dal Pannello (`GIRO_FORCE`). **Resta 1 aperto 🔴 decisione Nicola:** timer mattina 6:00+6:20+6:30 (piano mattino, giro, monitora) — spostare monitora (es. 8:00) o unificarlo col ritmo? **Pendente:** Approva **PR #381** → Ctrl+Shift+R Radiografia › Costo dell'AI. Fonte: chat Nicola 14/7 ~13:09 + scan post-fix.
@@ -377,7 +379,7 @@ fonte: AD digitale (💬 14/7 13:11 chat Rischio tecnico · T-3 VEN 17/7 · REST
 > ⏳ **11/7 ~03:30 — PR #212: REBASE FATTO, PUSH ANCORA DA FARE (token multiriga).** Commit `987b85b` completato (46 file, 9 migrazioni 108-115, B2/B4/G4/G5/G8/G10/G11/G12/G13/G17 chiusi). Rebase completato da Nicola. Push fallito due volte: 1° path sbagliato (`vps/.env`), 2° il `grep GIT_PUSH_TOKEN ... | cut -d= -f2` prende anche la riga-commento sopra → "url contains a newline". **Fix: hardcodare il token.** Passo finale (AZIONI-IN-ATTESA #pr-5bloccanti):
 > ```bash
 > cd /opt/mycity/ad-mycity/marketplace
-> git remote set-url origin "https://NicolaeRotaru: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@github.com/NicolaeRotaru/mycity.git"
+> git remote set-url origin "https://NicolaeRotaru:[PAT-REDATTO—ruota su github.com/settings/tokens]@github.com/NicolaeRotaru/mycity.git"
 > git push --force-with-lease origin fix/5-bloccanti-sicurezza
 > ```
 > ⚠️ Scope token incerto: il PAT ha permessi su `ad-mycity`, non sicuro su `NicolaeRotaru/mycity`. Se fallisce → serve PAT con Contents R/W su `NicolaeRotaru/mycity`. Poi Nicola mergia la PR #212 da GitHub.

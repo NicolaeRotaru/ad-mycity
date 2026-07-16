@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-07-16 12:03",
+  "aggiornato": "2026-07-16 12:23",
   "fatti": [
     {
       "id": "bando.commercio-er.scadenza",
@@ -124,15 +124,18 @@
       "caccia": [
         {
           "pattern": "Cursor CLI 'agent' di default",
-          "dal": "2026-07-16 12:03"
+          "dal": "2026-07-16 12:03",
+          "chiusa": "2026-07-16 12:23"
         },
         {
           "pattern": "Cursor di default",
-          "dal": "2026-07-16 12:03"
+          "dal": "2026-07-16 12:03",
+          "chiusa": "2026-07-16 12:23"
         },
         {
           "pattern": "motore Cursor di default",
-          "dal": "2026-07-16 12:03"
+          "dal": "2026-07-16 12:03",
+          "chiusa": "2026-07-16 12:23"
         }
       ],
       "esenzioni": []

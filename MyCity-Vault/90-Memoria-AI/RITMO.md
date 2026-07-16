@@ -339,3 +339,20 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 
 **Dettagli tecnici**
 - Report completo: `Report/2026-07-16-giornaliero.md` · PR #402 ✅ · PR #403 in coda · MCP cieco, REST ok
+
+## Punto di mezzogiorno · 2026-07-16 12:01
+
+**Stato delle 3 priorità (da Piano 14/7 + Report notte 01:06):**
+1. ❌ **Chiama il fornaio per venerdì** (#ritiro-pq-vp17-checkin) — non risulta eseguita. Domani è il Venerdì Piacentini: se la chiamata non parte entro le 17, Pane Quotidiano arriva al presidio senza preavviso. È la mossa più urgente del pomeriggio.
+2. ❌ **PR Pannello in Da approvare** — PR #383 (Rischio tecnico), #381 (Costo AI), #380 (foto iPhone) aspettano il clic. PR #403 (fonti Comune) in coda. Nessuna mergiata stamattina.
+3. ❌ **Burn mensile** — `BURN_MENSILE_EUR` non impostato in `vps/.env`, runway «sconosciuto» da oltre 100 giri. Business invariato: REST ok, 1 negozio, 0 ordini consegnati, stallo ~531h.
+
+**Correzione di rotta:**
+- 🔄 **Post kefir** — la finestra colazione (entro le 11) è chiusa. Sposto al tardo pomeriggio/stasera: leva «cena fresca con questo caldo» è più forte adesso o domani mattina presto prima del VP. Non conviene mandarlo piatto a mezzogiorno.
+- ✅ Delta-gate heartbeat 12:00 ok — dati confermati via REST (ordini=1, clienti=23), nessun numero inventato.
+
+**Cosa serve da te entro sera:**
+- 🔴 **Chiama Pane Quotidiano (0523 388601)** — ORA o entro le 17. Script pronto nella card #ritiro-pq-vp17-checkin. È il passo che rende possibile venerdì.
+- 🔴 **Post kefir** — pubblica stasera (leva serale) o domani mattina presto. Contenuto pronto in #post-kefir-estate-1407.
+- 🟡 **Approva PR #383, #381, #380** dal Pannello → Cabina migliore per domani.
+- 🟡 **`BURN_MENSILE_EUR=XXXX` in `vps/.env`** → runway visibile in Pannello.

@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-07-16 12:22 · Punto di mezzogiorno 16/7 — giro automatico, business invariato (stallo 531h, North Star 0) · 4/3/4/4/3/3 · atteso aggiornare briefing e verificare priorità giornaliere → reale briefing aggiornato; tre priorità ❌ (chiamata PQ, PR Pannello, burn mensile) · #mezzogiorno
 - 2026-07-14 03:32 · Chat Nicola «Perché Approva #142?» post-fix sensori · atteso: istruzione Approva corretta e verificata · reale: #142 = PR #379 non #377; #377 già main; correzione L-223 + STATO · L-223 · #da-approvare #card-numero #sensori
 - 2026-07-14 03:02 · Chat Nicola «ogni quanto avviene il giro?» · atteso: cadenza verificata + distinzione Scoperte/ritmo · reale: timer 2h 9×/giorno, delta-gate salto, «fai un giro» on-demand; corretto errore «~1h» in STATO · L-219 · #giro #scoperte #timer
 - 2026-07-14 02:11 · Chat Nicola debrief visita — «l'ho già mangiata, perché Scoperte non si aggiorna?» · atteso: spiegare gap Scoperte vs chat + registrare fatto · reale: STATO 02:10 (mangiato, locale TBD); Scoperte ferma a 13/7 20:21; L-202 + preferenza; debrief incompleto · L-202 · #scoperte #debrief #pannello #briefing
