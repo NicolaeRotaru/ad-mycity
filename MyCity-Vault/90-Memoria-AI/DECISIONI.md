@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 00:10 · 🟢 · [Nicola] · **Nicola ha confermato la mergia di PR #423 ("si che l'ho margiato") — cassetto conversazioni ancorato con `fixed`.** Fix: la lista conversazioni ora appare sempre sotto la navbar al punto corrente della viewport, su desktop e smartphone. Vercel ha avviato il build; la modifica sarà live al termine (~1-2 min). Azione #pr-cassetto-conversazioni-fixed → FATTO.
+
 2026-07-17 01:15 · 🟡 · [AD] · **Token Vercel messo nel worker da Nicola — posto sbagliato. Va nel `.env` del VPS.** Nicola ha risposto "ho inserito il token vercel dentro il worker" — l'AD ha risposto che il MCP Vercel non si attiva così: il token va nel file `.env` del VPS come variabile d'ambiente (`VERCEL_TOKEN=...`), non in un file sorgente del worker. Passo aperto: Nicola deve rincollare il token nel `.env` corretto. Finché non fatto, Vercel non è raggiungibile dalla chat del Pannello.
 
 2026-07-17 ~00:10 · 🟢 · [Nicola] · **Token Vercel inserito nel worker da Nicola — conferma esplicita.** Nicola ha risposto "ho inserito il token vercel dentro il worker" alla domanda dell'AD "Cosa hai fatto esattamente?". Il token è ora nel worker VPS. La metabolizzazione precedente aveva registrato "senza ricevere risposta" perché la risposta era arrivata nell'ultimo turno non catturato. Card #vercel-token-vps: token IN worker, verificare che il MCP Vercel funzioni dalla prossima sessione.
