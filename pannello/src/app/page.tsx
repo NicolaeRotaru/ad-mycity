@@ -2479,7 +2479,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
-          <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative">
+          <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative isolate">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
               <button
@@ -2630,24 +2630,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </div>
             )}
             <div ref={endRef} />
-          </div>
-          {/* Mini-barra in basso: Conversazioni + Nuova chat senza dover scrollare su */}
-          <div className="flex items-center gap-3 px-5 py-1.5 border-t shrink-0" style={{ borderColor: "var(--border)" }}>
-            <button
-              onClick={() => setConvDrawerAperto(true)}
-              className="inline-flex items-center gap-1.5 text-[12px] text-black/40 dark:text-white/40 hover:text-brand transition"
-              title="Apri lista conversazioni"
-            >
-              <History size={13} /> Conversazioni
-            </button>
-            <span className="text-black/20 dark:text-white/20 text-xs select-none">·</span>
-            <button
-              onClick={nuovaConversazione}
-              className="inline-flex items-center gap-1.5 text-[12px] text-black/40 dark:text-white/40 hover:text-brand transition"
-              title="Salva questa e inizia una nuova chat"
-            >
-              <Plus size={13} /> Nuova chat
-            </button>
           </div>
           <BarraScritturaChat
             ref={chatInputRef}
