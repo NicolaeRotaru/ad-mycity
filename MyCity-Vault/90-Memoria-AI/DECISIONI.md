@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 · 🟡 · [AD/frontend-dev] · **PR #420 aperta — fix scroll conversazione: chat va al fondo quando si cambia conversazione dal cassetto.** Bug: aprire una conversazione dalla lista mostrava i messaggi dall'inizio, Nicola doveva scrollare tutta la history. Fix: `useEffect([convId])` che chiama `scrollAlFondo()` — un singolo `requestAnimationFrame` non bastava dopo il cambio di conversazione. Branch `fix/scroll-conv-bottom`, commit `e7f15aa0`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #420.
+
 2026-07-17 01:00 · 🟡 · [AD/frontend-dev] · **3 bug chat (doppia risposta, flicker, bottone smartphone) committati in fix/chat-coda-messaggi (f8dacc49) — PR non ancora aperta su GitHub.** Bug: (1) doppia risposta — check coda con loadingRef.current.size sincronizzato subito; (2) flicker — rimossi i due blocchi "Sto lavorando..." ridondanti (bolla pending basta); (3) bottone smartphone — disabled={!puoInviare} senza || loading. Fix committato sul VPS; push su GitHub bloccato da permessi in chat. Per aprire la PR: `node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --accoda` (da VPS). **Pendente 🔴:** Nicola approva push + mergia PR.
 
 2026-07-17 · 🟡 · [AD/frontend-dev] · **Streaming live chat richiesto da Nicola — fix nel worker, approvazione pendente.** Nicola: «voglio che la conversazione sia live come quella di claude». AD ha spiegato che serve modificare il WORKER (non il Pannello): (1) scrivere testo parziale su DB ogni N secondi mentre Claude ragiona; (2) il frontend già legge il campo. L'AD ha chiesto «vuoi che ci lavori adesso o prima finisci PR #419?» — Nicola non ha ancora risposto. Card #streaming-worker accodata in AZIONI-IN-ATTESA.
