@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🤖 ROUTING COSTO/MODELLO (upgrade U19) — la tabella che dice quale AI usare per ogni tipo di compito. Regola: Claude (costo fisso) SOLO per ragionamento/decisioni; il volume va all'AI economica capace. Lo legge cervello/banco-ai.mjs. Prezzi/free-tier cambiano: verificare al collegamento. Spec: cervello/banco-ai.md.",
-  "aggiornato": "2026-07-16 17:00",
+  "aggiornato": "2026-07-16 17:15",
   "tier_costo": {
     "forfait": "Claude Max: costo fisso, nessun consumo extra",
     "gratis": "free tier o self-host (Groq/DeepSeek/Gemini Flash-Lite/OSM/WebSearch)",
@@ -83,90 +83,6 @@
     }
   ],
   "log": [
-    {
-      "quando": "2026-07-10 12:01",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:01",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:02",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:07",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:08",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:10",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-10 12:10",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-10 12:12",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-10 12:13",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:13",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
-    {
-      "quando": "2026-07-10 12:14",
-      "compito": "testi-volume",
-      "modello": "groq-llama",
-      "tier": "gratis",
-      "richiesta": "testi-volume"
-    },
-    {
-      "quando": "2026-07-10 12:14",
-      "compito": "ragionamento",
-      "modello": "claude",
-      "tier": "forfait",
-      "richiesta": "ragionamento"
-    },
     {
       "quando": "2026-07-10 12:14",
       "compito": "ragionamento",
@@ -3638,11 +3554,119 @@
       "router_solo_consiglio": true,
       "tier": "forfait",
       "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:02",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:03",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:04",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:06",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:08",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:10",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:10",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:11",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:13",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:14",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
+    },
+    {
+      "quando": "2026-07-16 17:15",
+      "compito": "ragionamento",
+      "modello": "claude",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "forfait",
+      "richiesta": "ragionamento"
+    },
+    {
+      "quando": "2026-07-16 17:15",
+      "compito": "testi-volume",
+      "modello": "groq-llama",
+      "modello_eseguito": "claude",
+      "router_solo_consiglio": true,
+      "tier": "gratis",
+      "richiesta": "testi-volume"
     }
   ],
   "uso": {
-    "groq-llama": 150,
-    "claude": 350
+    "claude": 357,
+    "groq-llama": 143
   },
   "router_solo_consiglio": true
 }
