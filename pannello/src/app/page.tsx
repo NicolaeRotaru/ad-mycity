@@ -132,6 +132,7 @@ import {
   MSG_RISPOSTA_VUOTA,
   type ParlaMsg,
 } from "@/lib/parla";
+import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -1530,7 +1531,9 @@ export default function Dashboard() {
                   .map((m) => ({ role: m.role, content: m.content }));
                 return buildRichiestaCasella(titoloCasella, contesto, storiaParla, t || "(nessun testo — vedi allegati)", gruppoId);
               }
+              const memoria = await bloccoMemoriaChat(gruppoId);
               return (
+                (memoria ? `${memoria}\n` : "") +
                 (storia ? `## Conversazione finora\n${storia}\n\n` : "") +
                 `## Nuovo messaggio di Nicola\n${t || "(nessun testo — vedi allegati)"}` +
                 baseTxt +

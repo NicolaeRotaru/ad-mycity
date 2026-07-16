@@ -606,6 +606,7 @@ contesto_macchina_chat() {
       | head -4 || true)"
   fi
   lezioni="$(grep '^- ' MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md 2>/dev/null | head -8 || true)"
+  stato_breve="$(grep '^> ' MyCity-Vault/90-Memoria-AI/STATO.md 2>/dev/null | head -1 | sed 's/^> //' | cut -c1-280 || true)"
   # Ultime decisioni: solo il titolo (tutto fino a punto fermo), tronco a 160 char, ultime 5
   decisioni="$(grep '^- 2026-' MyCity-Vault/90-Memoria-AI/DECISIONI.md 2>/dev/null \
     | tail -5 \
@@ -628,6 +629,8 @@ $origine_riga
   [ -n "$segnali" ] && blocco="$blocco
 - Segnali automazione con problemi:
 $segnali"
+  [ -n "$stato_breve" ] && blocco="$blocco
+- Situazione attuale (STATO.md): $stato_breve"
   [ -n "$lezioni" ] && blocco="$blocco
 - Lezioni recenti da rispettare (MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md):
 $lezioni"
@@ -1146,7 +1149,7 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     if [ -n "$CHAT_RESUME_SID" ]; then
       _regola_memoria="3. Questa conversazione RIPRENDE una tua sessione precedente: la tua memoria dei turni scorsi (letture, comandi, tentativi) è vera, usala — non ripartire da capo. La conversazione è comunque riportata per intero qui sotto: se i tuoi ricordi non coincidono col testo, fa fede il testo. E il mondo può essere cambiato nel frattempo: per lo stato di repo/coda/segnali fidati del blocco CONTESTO MACCHINA (raccolto ADESSO); prima di dire «già fatto» o «non esiste» su cose che non hai verificato TU in QUESTA conversazione, controlla (git log, git status, Read)."
     else
-      _regola_memoria="3. Questa sessione parte da ZERO: non ricordi le chat precedenti né lo stato del disco. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read)."
+      _regola_memoria="3. Questa sessione parte da ZERO sul disco: non ricordi i comandi dei turni scorsi di QUESTA chat finché non li rileggi. Se nel testo sotto c'è «Memoria chat precedenti», usala per non chiedere a Nicola cose già dette in altre conversazioni. Prima di dire «già fatto» o «non esiste», controlla davvero (git log, git status, Read)."
     fi
     prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello.
 Rispondi in italiano, diretto, concreto e utile — è una conversazione vera, non un report.

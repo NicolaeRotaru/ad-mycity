@@ -2,9 +2,9 @@
 // da includere nella richiesta al cervello — così l'AD sa cosa è già stato fatto
 // nelle sessioni precedenti senza dover chiedere a Nicola.
 
-const MAX_CONV = 4;    // ultime N conversazioni (esclusa quella corrente)
-const MAX_SCAMBI = 3;  // scambi per conversazione (ogni scambio = 1 msg Nicola + 1 AD)
-const MAX_CHAR = 220;  // caratteri max per messaggio (troncato con …)
+const MAX_CONV = 6;    // ultime N conversazioni (esclusa quella corrente)
+const MAX_SCAMBI = 4;  // scambi per conversazione (ogni scambio = 1 msg Nicola + 1 AD)
+const MAX_CHAR = 360;  // caratteri max per messaggio (troncato con …)
 
 function tronca(s: string, n: number): string {
   const pulito = s.replace(/\s+/g, " ").trim();
