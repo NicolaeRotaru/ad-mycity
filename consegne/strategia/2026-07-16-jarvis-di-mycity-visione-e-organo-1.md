@@ -312,10 +312,26 @@ Quindi "crea una foto pro" richiede uno **strumento immagini** dedicato (non Cla
    si ottiene inventando: si ottiene partendo dalla TUA foto.
 
 **Raccomandazione AD:** strada **1** (ripulire la foto reale) come base, **2** in aggiunta per i prodotti di
-marca. Serve **una chiave/strumento immagini** (decisione di Nicola, come il modello live). Fino ad allora,
-il worker può comunque **dirti come migliorare lo scatto** (luce, sfondo, inquadratura) a parole.
+marca. Fino a quando non c'è lo strumento, il worker può comunque **dirti come migliorare lo scatto** (luce,
+sfondo, inquadratura) a parole.
+
+**Strumento consigliato + costo (verificato):**
+- **remove.bg** (scontorno prodotto → sfondo trasparente): ~**$0,10–0,20 a foto**; **50 chiamate API/mese
+  gratis**; abbonamenti da **$9/mese per 40 crediti**. (fonte: remove.bg/pricing, 2025-2026)
+- Poi il **Pannello compone da solo** (gratis, lato browser, canvas): sfondo **bianco puro**, prodotto
+  all'**85%**, quadrato **≥1600px** → foto Amazon-ready. Solo lo scontorno costa; la formattazione è nostra.
+- Alternativa: un modello di **editing immagini** (es. Gemini image) ~pochi centesimi/foto, risultato più
+  "curato" ma leggermente più generativo → lo teniamo fedele con prompt stretto. remove.bg resta il più
+  **fedele** (non altera il prodotto).
+
+**Gate 🔴:** collegare remove.bg = **servizio a pagamento** → **firma di Nicola + chiave** (`REMOVE_BG_API_KEY`).
+Alla firma, cablo tutto (scontorno + composizione Amazon) e lo attacco al pulsante «rendi pro» sulla foto in chat.
+
+**Stato #1 (Worker a schermo intero):** ✅ COSTRUITO — pulsante «Worker» apre la chat piena sovrapposta con
+la stessa barra di scrittura (foto, video live, voce, allegati, prompt). typecheck verde.
 
 Fonti Amazon: Seller Labs (spec 2026), ecfotos (guida 2025), MyAmazonGuy (best practice 2025).
+Fonte prezzi: remove.bg/pricing.
 
 ## Traccia
 - Documento generato dalla conversazione del 2026-07-16 (visione JARVIS/worker: chat con voce + foto +
