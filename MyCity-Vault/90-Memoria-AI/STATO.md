@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-16 12:01
-fonte: AD digitale (🕛 16/7 12:01 punto di mezzogiorno · T-1 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
+aggiornato: 2026-07-16 12:24
+fonte: AD digitale (🛰️ 16/7 12:24 giro completo · T-1 VEN 17/7 · REST ok · business INVARIATO dal 24/6 · storico chat sotto)
 ---
+
+> 🛰️ **16/7 12:24 — GIRO.** **T-1 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo **~531h** (REST 12:20). HARD vincoli chiusi: chiusura-loop ✅ @ad · coerenza-fatti ✅ exit 0 (3 cacce chiuse) · AR-030 ✅ CHECKLIST-NICOLA rigenerata. **Mossa n.1:** 🔴 chiama PQ **0523 388601 OGGI** (script `#ritiro-pq-vp17-checkin`). Coda: post kefir 🔴 stasera/domani mattina · mergia PR #380/#381/#403 · BURN_MENSILE_EUR 🟡. Dettaglio: [[Briefing/2026-07-16]] · [[SALA-OPERATIVA]].
 
 > 🕛 **16/7 12:01 — PUNTO DI MEZZOGIORNO.** **T-1 al Venerdì Piacentini (17/7).** Business INVARIATO dal 24/6, North Star 0, stallo **~531h ≈ 22,1 giorni** (REST 12:00, ordini=1 annullato, clienti=23). Tre priorità ❌: telefonata fornaio (mossa urgente oggi), PR Pannello in coda (#383/#381/#380/#403), burn mensile non impostato. Correzione: post kefir sposto a stasera/domani mattina (finestra colazione chiusa alle 11). **SERVE Nicola:** 🔴 chiama PQ **0523 388601 ADESSO** (script #ritiro-pq-vp17-checkin) · 🔴 post kefir stasera/domani mattina · 🟡 Approva PR Pannello · 🟡 BURN_MENSILE_EUR.
 >
