@@ -12,6 +12,12 @@ export const revalidate = 0;
 const QUOTA_RE =
   /session limit|hit your (usage|session) limit|out of usage|you'?re out of usage|rate[ _-]?limit|too many requests|\b429\b|overloaded|insufficient_quota|quota|credit balance|billing/i;
 
+// Firma "credenziali del motore scadute/mancanti" (stesso vocabolario di retry-policy.mjs →
+// classificaErrore, classe 'auth'): se gli ultimi errori portano questa firma il fix è umano
+// (collega-claude.sh / collega-cursor.sh), non un ritentativo — e il Pannello deve dirlo.
+const AUTH_RE =
+  /invalid api key|please run \/login|not logged in|not authenticated|authentication[_ ]error|oauth token (has )?(expired|revoked)|token (expired|revoked)|401 unauthorized/i;
+
 /** Estrae l'ora di reset dal messaggio ("resets 2:30am (Europe/Rome)" → "2:30am"). */
 function estraiResetHint(t: string): string | null {
   const m = String(t).match(/resets?\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)/i);
@@ -94,12 +100,19 @@ export async function GET() {
         ? "auth Claude mancante → sudo bash /opt/mycity/ad-mycity/cervello/vps/collega-claude.sh"
         : "auth del motore AI mancante → sudo bash cervello/vps/collega-claude.sh (motore Claude) oppure collega-cursor.sh (motore Cursor)";
 
-  // Poll leggero: risultato solo per in_attesa (quota/session-limit nel testo errore).
+  // Poll leggero: risultato per gli in_attesa (firma quota) + gli ULTIMI errori (firma auth).
+  // Le credenziali scadute mandano i lavori in 'errore' SENZA ritentativo (retry-policy classe
+  // 'auth'), quindi la sola scansione degli in_attesa non le vedrebbe mai.
   const attesaIds = lavoriLight.filter((l) => l.stato === "in_attesa").map((l) => l.id);
-  const attesaDettaglio = attesaIds.length ? await getLavoriByIds(attesaIds) : [];
-  const risultatoAttesa = new Map(attesaDettaglio.map((l) => [l.id, l.risultato || ""]));
+  const erroreRecentiIds = lavoriLight
+    .filter((l) => l.stato === "errore")
+    .slice(0, 6)
+    .map((l) => l.id);
+  const dettaglioIds = [...attesaIds, ...erroreRecentiIds];
+  const dettaglio = dettaglioIds.length ? await getLavoriByIds(dettaglioIds) : [];
+  const risultatoDettaglio = new Map(dettaglio.map((l) => [l.id, l.risultato || ""]));
   const lavori = lavoriLight.map((l) =>
-    l.stato === "in_attesa" ? { ...l, risultato: risultatoAttesa.get(l.id) } : l
+    risultatoDettaglio.has(l.id) ? { ...l, risultato: risultatoDettaglio.get(l.id) } : l
   );
 
   const oreWorker = oreDaQuando(segnali.worker?.quando);
@@ -117,6 +130,7 @@ export async function GET() {
   // La riconosciamo con la STESSA regola della retry-policy (cervello/retry-policy.mjs) così il
   // Pannello dice la verità invece di indovinare ".env ≠ Vercel / impallato".
   let quotaInAttesa = 0;
+  let authErroriRecenti = 0;
   let resetHint: string | null = null;
   let riprovaMinISO: string | null = null;
   let chatInCorso = 0;
@@ -130,6 +144,12 @@ export async function GET() {
     const attendeRetry =
       l.stato === "in_attesa" && typeof l.riprova_dopo === "string" && new Date(l.riprova_dopo).getTime() > now;
     if (attendeRetry) inRitentativo++;
+    // Firma auth su in_attesa O sugli ultimi errori freschi (<12h): credenziali da ricollegare.
+    if (AUTH_RE.test(l.risultato || "")) {
+      const tAuth = new Date(l.updated_at || l.created_at).getTime();
+      const fresco = !isNaN(tAuth) && now - tAuth < 12 * 60 * 60 * 1000;
+      if (l.stato === "in_attesa" || (l.stato === "errore" && fresco)) authErroriRecenti++;
+    }
     if (l.stato === "in_attesa") {
       if (QUOTA_RE.test(l.risultato || "")) {
         quotaInAttesa++;
@@ -198,6 +218,14 @@ export async function GET() {
     problema = `${conteggi.in_corso} lavoro/i bloccati «In corso» da oltre 10 minuti.`;
     azioni.push("Usa il pulsante «Sblocca coda» qui sotto");
     azioni.push("Oppure VPS: sudo -u mycity -H bash .../recupera-lavori-orfani.sh");
+  } else if (authErroriRecenti > 0) {
+    // Credenziali del motore scadute/mancanti: i lavori muoiono appena partono e NON ripartono
+    // da soli (retry-policy li ferma apposta). Il fix è un comando umano sul VPS.
+    problema =
+      "Il motore AI rifiuta le credenziali (login/token scaduto o mancante): i lavori falliscono appena partono.";
+    azioni.push(`SSH sul VPS → ${fixAuthMotore}`);
+    azioni.push("Verifica: sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-agent.sh");
+    azioni.push("Poi rilancia i lavori falliti con «Riprova» dal Pannello.");
   } else if (quotaDominante && ((inRitentativo ?? 0) > 0 || (attesaPiuVecchiaMin ?? 0) > 3)) {
     // CAUSA VERA (letta dai lavori): il motore Claude ha esaurito il limite di sessione/quota.
     // NON è un guasto e NON è ".env ≠ Vercel": la coda riparte da sola al reset. Lo diciamo con calma.

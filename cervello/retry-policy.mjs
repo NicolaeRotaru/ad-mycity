@@ -65,11 +65,20 @@ export function classificaErrore(risultato = "") {
     /session limit|hit your (usage|session) limit|out of usage|you'?re out of usage|rate[ _-]?limit|too many requests|\b429\b|overloaded|actionrequirederror|increase (your )?limits?|insufficient_quota|quota|credit balance|billing/i.test(
       t
     );
+  // 🪪 AUTH (fix parity 2026-07-16): credenziali del motore scadute/mancanti — Claude («Invalid API
+  // key», «Please run /login», token OAuth scaduto) o Cursor («Not logged in»). Un ritentativo NON
+  // può ripararle: senza questa classe l'errore finiva in "altro" e bruciava tentativi a vuoto,
+  // mentre il vero fix è umano (collega-claude.sh / collega-cursor.sh). Va valutata PRIMA della
+  // quota ma il vocabolario non si sovrappone; pattern stretti per non scattare su testi normali.
+  const auth =
+    /invalid api key|please run \/login|not logged in|not authenticated|authentication[_ ]error|oauth token (has )?(expired|revoked)|token (expired|revoked)|401 unauthorized/i.test(
+      t
+    );
   const timeout = /\btimeout\b|timed out|\bkilled\b|rc=124|rc=137|sigkill|sigterm/i.test(t);
   // Orario di reset esplicito nel messaggio? es. "resets 9:30pm (Europe/Rome)" → "9:30pm".
   const m = t.match(/resets?\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)/i);
   return {
-    classe: quota ? "quota" : timeout ? "timeout" : "altro",
+    classe: auth ? "auth" : quota ? "quota" : timeout ? "timeout" : "altro",
     resetHint: m ? m[1].trim() : null,
   };
 }
@@ -119,6 +128,17 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
   const azioneReale = TIPI_AZIONE_REALE.has(tipo) || !preEsec;
 
   // 1) È ammesso ritentare in automatico?
+  // 1a) Credenziali motore scadute/mancanti: NESSUN ritentativo può ripararle — stop subito con
+  //     il rimedio umano, invece di bruciare tentativi (e ore) su un errore deterministico.
+  if (classe === "auth") {
+    return {
+      azione: "stop",
+      tentativi: tent,
+      classe,
+      motivo:
+        "credenziali del motore AI scadute o mancanti — ritentare non serve: sul VPS esegui collega-claude.sh (motore Claude) o collega-cursor.sh (motore Cursor), poi «Riprova» dal Pannello",
+    };
+  }
   let maxTent;
   if (classe === "quota") {
     maxTent = MAX_TENTATIVI_QUOTA; // provato non-partito → ok per tutti, anche 🔴.
@@ -193,6 +213,9 @@ if (isMain && process.argv[2] === "--self-test") {
   const casi = [
     { tipo: "proposta", tentativi: 0, risultato: "You've hit your session limit · resets 9:30pm (Europe/Rome) [worker] rc=1." },
     { tipo: "esegui-azione", tentativi: 0, risultato: "out of usage. [worker] motore cursor (agent) uscito con rc=1." },
+    // 🪪 AUTH: credenziali scadute → stop SUBITO (nessun tentativo bruciato), rimedio collega-*.sh.
+    { tipo: "chat", tentativi: 0, risultato: "Invalid API key · Please run /login [worker] motore claude (claude) uscito con rc=1." },
+    { tipo: "giro", tentativi: 0, risultato: "Not logged in [worker] motore cursor (agent) uscito con rc=1." },
     { tipo: "esegui-azione", tentativi: 0, risultato: "[worker] TIMEOUT dopo 900s — lavoro interrotto." },
     { tipo: "giro", tentativi: 0, risultato: "[worker] TIMEOUT giro dopo 2700s." },
     { tipo: "proposta", tentativi: 6, risultato: "session limit resets 9:30pm" },

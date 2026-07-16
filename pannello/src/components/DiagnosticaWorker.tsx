@@ -12,6 +12,7 @@ type Salute = {
   workerUltimoFa?: string;
   adInPausa?: boolean;
   pipeline?: string | null;
+  motore?: string | null;
   conteggi?: Record<string, number>;
   attesaPiuVecchiaMin?: number | null;
   corsoPiuVecchioMin?: number | null;
@@ -159,6 +160,9 @@ export default function DiagnosticaWorker() {
             )}
             {d.workerUltimoFa && d.workerUltimoFa !== "mai" && (
               <> · battito {d.workerUltimoFa}</>
+            )}
+            {d.motore && (
+              <> · motore <code className="text-[11px]">{d.motore}</code></>
             )}
             {d.supabaseHost && (
               <> · DB <code className="text-[11px]">{d.supabaseHost}</code></>

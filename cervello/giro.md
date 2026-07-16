@@ -8,8 +8,8 @@ Obiettivo: capire com'è messa l'azienda adesso e proporre le prossime mosse.
 > `memoria-ad`: niente due rami che divergono, niente merge/forward tra rami.
 > - **Giro sul VPS** (`giro.sh`): scrive la memoria su `main` (commit + push non-force con rebase, sotto
 >   lo stesso lock del worker — le scritture non si pestano).
-> - **Giro da CLOUD AGENT** (ramo `cursor/…` imposto dall'infra): committa le modifiche di memoria e
->   **apri/aggiorna la PR con base `main`**, poi mergiala in `main`. Nient'altro da fare: è il ramo unico.
+> - **Giro da CLOUD AGENT** (ramo `claude/…` o `cursor/…` imposto dall'infra): committa le modifiche di
+>   memoria e **apri/aggiorna la PR con base `main`**, poi mergiala in `main`. Nient'altro da fare: è il ramo unico.
 > - I **log append-only** (SALA-OPERATIVA, DECISIONI, Briefing) hanno `merge=union` in `.gitattributes`
 >   (si fondono senza conflitto). Gli **snapshot** (STATO.md, `auto-coscienza/*.json`, `ultimo-briefing.json`,
 >   `intenzioni-nicola.json`) NON si auto-fondono: su ramo unico il push è NON-force con rebase, così le
