@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 16:50 · 🟡 · [AD/frontend-dev] · **PR #409 — Memoria Viva: Briefing e Sala Operativa chiuse di default.** Nicola «dentro memoria viva lascia ultimo briefing e sala operativa chiuse di default». Verificato: due attributi `open` rimossi (righe 96 e 105 di MemoriaViva.tsx). **Pendente 🔴:** Approva PR #409 → Ctrl+Shift+R Pannello. Nota: Sala Operativa si aggiorna sul VPS (ultimo aggiornamento 12:40 16/7); sul Pannello Vercel sembra ferma perché non rideploya sui commit di sola-memoria.
+
 2026-07-16 12:57 · 🟢 · [AD] · Nicola ha detto «non lavoro con i ristoranti» (casella La Forchetta). Regola fissata: MyCity non onboarda ristoranti/trattorie — solo botteghe. I 6 del dossier 6/7 sono archiviati come non-prospect. Aggiornato registro-fatti.json.
 
 - 2026-07-14 13:11 · 🟡 · [AD/security/devops-sre] · **PR #383 — Rischio tecnico: 6/8 fix pronti, merge in attesa.** Nicola «Risolvi questi problemi» su casella Rischio tecnico (`rischio-sicurezza-se`). **Verificato:** 6 finding chiusi (hook anti-segreti attivi, monitora non distruttivo, scan Resend/n8n, timeout sensori 8s, meta-guardiano segnali, auto-fix senza chiusura automatica); **2 restano** tipo umano (permessi Cursor `--force --trust`, prova chiusura difetti). **PR #383** (`fix/rischio-tecnico-se`, `d726c0c8`). **Pendente 🔴:** Approva #145 → Ctrl+Shift+R Radiografia › Rischio tecnico. · Nicola (chat 14/7 ~13:11)
