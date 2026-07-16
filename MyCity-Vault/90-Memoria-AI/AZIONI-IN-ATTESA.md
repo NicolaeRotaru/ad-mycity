@@ -17,6 +17,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
+
+**Cosa fare (sul VPS, nel `.env` del worker-chat):**
+
+Nicola ha confermato: vuole ragionamento profondo interno + output breve. Non serve PR — è un parametro nel `.env`.
+
+Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e alzala al massimo consentito dal modello (tipicamente `10000` o il valore indicato nella config del worker).
+
+**Cosa cambia:** la chat «pensa di più» prima di rispondere — più profondità nell'analisi, stessa risposta breve all'esterno.
+**Se va bene:** nei turni con domande complesse vedrai risposte meglio ragionate senza diventare più lunghe.
+
+- **Colore:** 🟡 (modifica env VPS — Nicola la fa)
+- **Reparto:** prompt-engineer
+
+---
+
 ### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
