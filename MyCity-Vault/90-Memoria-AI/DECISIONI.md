@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 16:36 · 🟡 · [AD/frontend-dev] · **Chat: 6ª e 7ª richiesta — nav bar e anteprima foto.** Nicola «motore di ricerca sotto la nav bar deve essere dentro nav bar in una seconda riga sotto» + «foto che allego sia sopra i tab e non sotto». Entrano nella PR unica con le altre 5 richieste chat. **Pendente 🔴:** Nicola approva PR → Ctrl+Shift+R.
+
 2026-07-16 16:35 · 🟡 · [AD/frontend-dev] · **Chat: 5ª richiesta — ordinamento per ultima attività.** Nicola «se inizio una nuova conversazione in una chat vecchia quella chat deve mettersi come prima in alto proprio come funziona le conversazioni con claude». Fix tecnico: comparatore conversazioni usa `created_at`, va cambiato in `updated_at`. Entra nella PR unica con le altre 4 richieste chat (streaming, caselle doppie, fullscreen, ricerca). **Pendente 🔴:** Nicola approva PR → Ctrl+Shift+R.
 
 2026-07-16 19:30 · 🟢 · [AD/vendite/city-manager] · **Tassonomia PMI Piacenza — 4 fasi di priorità per onboarding categorie.** Mappa confermata in chat con Nicola: Fase 1 = carrello-spesa (Forni, Salumerie, Macellerie, Ortofrutta, Pescherie, Caseifici — alta frequenza, core); Fase 2 = regalo/piacere (Gelaterie/pasticcerie incl. Bardini, Enoteche, Torrefazioni, Fiorai — scontrino alto, emotivo); Fase 3 = retail non-food (profumerie, cartolerie, gioiellerie, abbigliamento, casa/casalinghi incl. Kaefu); Fase 4 = servizi (lavanderie, sartorie, barbieri, studi professionali). Dati-chiave: ~5.000 PMI registrate a Piacenza, ~200 food nel centro = aggredibili in 12 mesi. Bardini (gelateria, Largo Battisti 19) = prospect Fase 2. Kaefu (emporio, Via Genova 31, 0523 751464) = Fase 3 al più. Ristoranti = NON target confermato (Nicola 12:57).
