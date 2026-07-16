@@ -45,24 +45,24 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
-### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
+### ✅ #burn-mensile-runway — APPROVATA 2026-07-16 21:17 · esegui il comando sul VPS
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
 
-**Cosa fare (sul VPS, in `vps/.env`):**
+**Nicola: esegui questo comando sul VPS** (una sola volta):
+```bash
+echo '' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo '# Burn mensile stimato (stima 150€ — aggiorna con il valore reale)' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo 'BURN_MENSILE_EUR=150' >> /opt/mycity/ad-mycity/cervello/vps/.env
 ```
-BURN_MENSILE_EUR=XXXX
-```
-Sostituisci `XXXX` con il burn mensile netto reale (VPS + Vercel/Render + Cursor/AI + domini — tutto incluso).
+Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostituisci `150` con il numero giusto prima di eseguire.
 
-**Stato attuale verificato 01:07:**
-- Stripe ✅ collegato, cassa letta = **0 €**
-- Burn ❌ non impostato → runway «sconosciuto» da **109 giri**
+**Stato:** Nicola ha approvato dal Pannello (21:17:43). File `.env` protetto da permessi — scrittura solo da Nicola.
 
 **Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
-**Se va bene:** con cassa 0€ oggi vedrai subito runway critico — piano taglio costi / primo ordine / fundraising con @fp-and-a.
+**Se va bene:** da prossimo giro vedrai il runway nel cruscotto (con cassa 0€ = runway critico → plan con @fp-and-a).
 
-- **Colore:** 🟡 (modifica env VPS — firma Nicola)
+- **Colore:** 🟡 (modifica env VPS)
 - **Reparto:** finanza
 - **Origine:** `{origine:sentinella:cassa_sconosciuta}`
 
