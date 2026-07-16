@@ -33,6 +33,18 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 ---
 
+### 🟡 #pr-411-chat — Mergia PR #411 — 7 fix chat: streaming + fullscreen + altro · ⏳ accodata 2026-07-16 17:00
+
+**Cosa fare:** mergia PR #411 su GitHub (`NicolaeRotaru/ad-mycity/pull/411`) → poi Ctrl+Shift+R sul Pannello.
+
+**Cosa cambia:** risposta senza flash/lampeggio, chat fullscreen come Claude.ai, FAB sparisce nell'Assistente, chat usata sale in cima, ricerca nel cassetto, ricerca nell'header, foto sopra i pulsanti ⚡📎🎤.
+**Se va bene:** tutte e 7 le migliorie visibili subito dopo il deploy Vercel.
+
+- **Colore:** 🔴 (merge su main — firma Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`

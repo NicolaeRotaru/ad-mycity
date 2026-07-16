@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 17:00 · 🟡 · [AD/frontend-dev] · **PR #411 — 7 fix chat in una PR.** Radice del flash streaming: React smontava e rimontava il DOM durante il passaggio da testo semplice a Markdown — fix: `<Markdown>` anche nel pending. Fix inclusi: fullscreen Claude.ai, caselle doppie eliminate, ordinamento ultima attività, ricerca cassetto, ricerca nav bar, foto sopra pulsanti. **Pendente 🔴:** Nicola mergia PR #411 → Ctrl+Shift+R.
+
 2026-07-16 16:36 · 🟡 · [AD/frontend-dev] · **Chat: 6ª e 7ª richiesta — nav bar e anteprima foto.** Nicola «motore di ricerca sotto la nav bar deve essere dentro nav bar in una seconda riga sotto» + «foto che allego sia sopra i tab e non sotto». Entrano nella PR unica con le altre 5 richieste chat. **Pendente 🔴:** Nicola approva PR → Ctrl+Shift+R.
 
 2026-07-16 16:35 · 🟡 · [AD/frontend-dev] · **Chat: 5ª richiesta — ordinamento per ultima attività.** Nicola «se inizio una nuova conversazione in una chat vecchia quella chat deve mettersi come prima in alto proprio come funziona le conversazioni con claude». Fix tecnico: comparatore conversazioni usa `created_at`, va cambiato in `updated_at`. Entra nella PR unica con le altre 4 richieste chat (streaming, caselle doppie, fullscreen, ricerca). **Pendente 🔴:** Nicola approva PR → Ctrl+Shift+R.
