@@ -895,6 +895,8 @@ export default function Dashboard() {
   const pendingLavoroChatRef = useRef<Map<string, PendingChat>>(new Map());
   const [pendingCount, setPendingCount] = useState(0);
   const lavoroRisoltoChatRef = useRef<Set<string>>(new Set());
+  const codaMsgRef = useRef<string[]>([]);
+  const loadingRef = useRef(false);
   const convIdRef = useRef<string | null>(null);
   const conversazioniRef = useRef<Conversazione[]>([]);
   const lavoriRef = useRef<Lavoro[]>([]);
@@ -909,6 +911,7 @@ export default function Dashboard() {
   conversazioniRef.current = conversazioni;
   lavoriRef.current = lavori;
   convServerRef.current = convServer;
+  loadingRef.current = loading;
 
   const gruppiConvById = useMemo(() => {
     const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
@@ -1038,7 +1041,9 @@ export default function Dashboard() {
     const rimpiazza = (msgs: Msg[]): Msg[] => {
       const i = msgs.findIndex((x) => x.pending);
       if (i === -1) {
-        // Dopo refresh o race: il pendente c'è in coda ma manca la bolla — la ricreiamo.
+        // Se c'è già una risposta finale (non pending), non creare un duplicato.
+        const last = msgs[msgs.length - 1];
+        if (last && last.role === "assistant" && !last.pending && !last.prompt) return msgs;
         return [...msgs, { id: nuovoIdMsg(), role: "assistant", content: parziale, pending: true }];
       }
       if (msgs[i].content === parziale) return msgs;
@@ -1048,7 +1053,7 @@ export default function Dashboard() {
     };
     if (convIdRef.current === targetConvId) {
       setMessages((m) => rimpiazza(m));
-      setLoading(true);
+      if (!loadingRef.current) setLoading(true);
       return;
     }
     setConversazioni((list) => {
@@ -1417,13 +1422,22 @@ export default function Dashboard() {
 
   // Chatta col "cervello" (Claude Code sul tuo Max): la risposta compare QUI, nella
   // chat, e l'AD ricorda il filo della conversazione. SENZA API a pagamento.
-  async function mandaAlCervello(text: string) {
+  // bubblaGiaMostrata=true: il messaggio utente è già nella UI (drain dalla coda).
+  async function mandaAlCervello(text: string, bubblaGiaMostrata = false) {
     const t = text.trim();
-    const daCaricare = allegatiChat;
-    // ⏩ CHAT MULTIPLA (stile Claude): niente più blocco mentre l'AD pensa — puoi mandare
-    // il 2°/3° messaggio subito; il turno vecchio viene sostituito e quello nuovo legge tutto.
+    const daCaricare = bubblaGiaMostrata ? [] : allegatiChat;
     if (!t && daCaricare.length === 0) return;
     setAllegatiChat([]);
+
+    // CODA MESSAGGI: se l'AD sta ancora elaborando, mostra subito la bolla utente
+    // e accoda — verrà inviata automaticamente a risposta ricevuta.
+    if (loadingRef.current && !bubblaGiaMostrata) {
+      const nomiAllCoda = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
+      const bollaCoda = [t, nomiAllCoda].filter(Boolean).join("\n");
+      setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: bollaCoda }]);
+      codaMsgRef.current.push(t || "Guarda gli allegati");
+      return;
+    }
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
     // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
@@ -1437,12 +1451,11 @@ export default function Dashboard() {
     const nomiAllegati = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
     const bollaUtente = [t, nomiAllegati].filter(Boolean).join("\n");
 
-    // Se c'era già una bolla "sto pensando" (o un parziale in streaming), la togliamo:
-    // il turno nuovo risponderà a TUTTI i messaggi insieme, con una sola bolla in fondo.
+    // Aggiunge la bolla utente (se non già mostrata dal meccanismo di coda) + la bolla pending.
     setMessages((m) => [
       ...m.filter((x) => !x.pending),
-      { id: nuovoIdMsg(), role: "user", content: bollaUtente },
-      { id: nuovoIdMsg(), role: "assistant", content: "💭 Sto elaborando la risposta…", pending: true },
+      ...(bubblaGiaMostrata ? [] : [{ id: nuovoIdMsg(), role: "user" as const, content: bollaUtente }]),
+      { id: nuovoIdMsg(), role: "assistant" as const, content: "💭 Sto elaborando la risposta…", pending: true },
     ]);
     setLoading(true);
     let targetConvId = convId || sessionGruppoRef.current || "";
@@ -1636,12 +1649,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       }).catch(() => {});
     }
     if (testoRipristino) chatInputRef.current?.setTesto(testoRipristino);
+    codaMsgRef.current = []; // annulla: svuota la coda
     setLoading(false);
     void persistConversazione(
       targetConvId,
       nuovi.filter((m) => !m.prompt && !m.pending && (m.role === "user" || m.role === "assistant"))
     );
   }
+
+  // Drain automatico: quando loading torna false, manda il prossimo messaggio in coda
+  useEffect(() => {
+    if (!loading && codaMsgRef.current.length > 0) {
+      const prossimo = codaMsgRef.current.shift()!;
+      void mandaAlCervello(prossimo, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   const caricaStato = useCallback(async () => {
     try {
