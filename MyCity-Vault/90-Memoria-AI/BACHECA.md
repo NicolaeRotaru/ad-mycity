@@ -6,6 +6,52 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 🗺️ Mappa negozi Piacenza — ordine di onboarding per MyCity · 2026-07-16 16:55
+
+**L'obiettivo è creare 3 motivi per aprire l'app ogni settimana + 1 impulso emotivo.**
+
+**Non onboardiamo:** ristoranti/trattorie, pizza/sushi/burger (terreno Glovo/Deliveroo).
+
+---
+
+### Subito — mesi 1–6 (costruire l'abitudine settimanale)
+
+| # | Categoria | Perché viene prima |
+|---|---|---|
+| 1 | **Panifici / forni** | Già avviato (Pane Quotidiano). Acquisto quotidiano. |
+| 2 | **Salumerie DOP** | Coppa, Pancetta, Salame Piacentino: le 3 DOP esistono solo qui. È il moat che nessun competitor può copiare. |
+| 3 | **Fiorai** | Urgenza alta (compleanno → apri l'app). Scontrino €40–80. Già delivery-native. |
+| 4 | **Macellerie / pollerie** | Acquisto settimanale, fiducia alta, scontrino buono. |
+| 5 | **Enoteche / bottiglierie** | Piacenza zona DOC Colli Piacentini. Stesso cliente della salumeria. |
+
+### Mesi 6–12 (completare il carrello)
+
+- **Ortofrutta / verdurerie** — volume, completa la spesa settimanale
+- **Pescherie** — nicchia fedele, poca concorrenza online
+- **Caseifici / fromagerie** — chiude il tris DOP piacentino
+- **Gelaterie / pasticcerie** — stagionale; **Bardini** (Largo Battisti 19) è il candidato principale
+
+### Anno 2 (retail non-food)
+
+Profumerie · Erboristerie · Cartolerie/librerie · Gioiellerie · Abbigliamento locale · Calzature · Casa/casalinghi (**Kaefu** Via Genova 31 entra qui)
+
+### Anno 3 (servizi, con massa critica)
+
+Lavanderie · Sartorie · Barbieri/parrucchieri · Studi professionali
+
+---
+
+**Botteghe prioritarie da chiamare** (appena la bici è pronta):
+1. Antica Salumeria Garetti — Piazza Duomo 44
+2. Peretti Frutta e Verdura — Via Alberici Fratelli
+3. Caseificio Amendolara — Via Trento 7
+4. Alloni Fiori — Corso V.E. 114
+5. Taverna del Gusto (enoteca) — centro
+
+~5.000 PMI totali a Piacenza · ~200 food nel centro · aggredibili in 12 mesi.
+
+---
+
 ## 📱 Pubblicare l'app MyCity sugli store (iPhone e Android): costi e cose da sapere · 2026-07-16 12:23
 
 **In breve: su Android è quasi gratis (25 $ una volta), su iPhone no (99 $ ogni anno). E sugli ordini Apple e Google non prendono nulla.**
