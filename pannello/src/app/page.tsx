@@ -169,8 +169,12 @@ type Conversazione = {
 };
 
 /** Ordine lista: fissate in cima, poi per data di creazione (aprire/leggere non riordina). */
-function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conversazione[] {
+function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>, convAperta?: string | null): Conversazione[] {
   return [...list].sort((a, b) => {
+    if (convAperta) {
+      if (a.id === convAperta) return -1;
+      if (b.id === convAperta) return 1;
+    }
     const pa = pinnate.has(a.id) ? 1 : 0;
     const pb = pinnate.has(b.id) ? 1 : 0;
     if (pb !== pa) return pb - pa;
@@ -2627,6 +2631,24 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={endRef} />
           </div>
+          {/* Mini-barra in basso: Conversazioni + Nuova chat senza dover scrollare su */}
+          <div className="flex items-center gap-3 px-5 py-1.5 border-t shrink-0" style={{ borderColor: "var(--border)" }}>
+            <button
+              onClick={() => setConvDrawerAperto(true)}
+              className="inline-flex items-center gap-1.5 text-[12px] text-black/40 dark:text-white/40 hover:text-brand transition"
+              title="Apri lista conversazioni"
+            >
+              <History size={13} /> Conversazioni
+            </button>
+            <span className="text-black/20 dark:text-white/20 text-xs select-none">·</span>
+            <button
+              onClick={nuovaConversazione}
+              className="inline-flex items-center gap-1.5 text-[12px] text-black/40 dark:text-white/40 hover:text-brand transition"
+              title="Salva questa e inizia una nuova chat"
+            >
+              <Plus size={13} /> Nuova chat
+            </button>
+          </div>
           <BarraScritturaChat
             ref={chatInputRef}
             variant="assistente"
@@ -2721,8 +2743,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: fissate in cima → ultima aperta → updated_at */}
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                {/* Ordine: aperta ora → fissate in cima → updated_at */}
+                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
@@ -2949,7 +2971,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
