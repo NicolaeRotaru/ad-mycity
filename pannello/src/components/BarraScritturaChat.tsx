@@ -160,7 +160,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         )}
         <button
           onClick={invia}
-          disabled={!puoInviare || loading}
+          disabled={!puoInviare}
           className={
             fab
               ? "ml-auto min-h-[40px] min-w-[40px] grid place-items-center rounded-xl bg-brand text-white disabled:opacity-40 hover:bg-brand-dark active:scale-95 transition"

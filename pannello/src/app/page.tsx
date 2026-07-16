@@ -1041,7 +1041,9 @@ export default function Dashboard() {
     const rimpiazza = (msgs: Msg[]): Msg[] => {
       const i = msgs.findIndex((x) => x.pending);
       if (i === -1) {
-        // Dopo refresh o race: il pendente c'è in coda ma manca la bolla — la ricreiamo.
+        // Se c'è già una risposta finale (non pending), non creare un duplicato.
+        const last = msgs[msgs.length - 1];
+        if (last && last.role === "assistant" && !last.pending && !last.prompt) return msgs;
         return [...msgs, { id: nuovoIdMsg(), role: "assistant", content: parziale, pending: true }];
       }
       if (msgs[i].content === parziale) return msgs;
@@ -1051,7 +1053,7 @@ export default function Dashboard() {
     };
     if (convIdRef.current === targetConvId) {
       setMessages((m) => rimpiazza(m));
-      setLoading(true);
+      if (!loadingRef.current) setLoading(true);
       return;
     }
     setConversazioni((list) => {
