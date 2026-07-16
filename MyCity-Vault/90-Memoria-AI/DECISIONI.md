@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 02:10 · 🟢 · [AD] · **Confermato: AD non ha accesso a Vercel in tempo reale.** Nicola ha chiesto esplicitamente "non riesci a vedere vercel in tempo reale?" — risposta: no credenziali Vercel, nessun accesso ai log di build. Quando un build fallisce, l'AD deve chiedere a Nicola il log esatto (link PR GitHub → tab Checks oppure copia del messaggio di errore). Non confondere "typecheck pulito localmente" con "build Vercel pulito": sono due ambienti distinti. PR #424 (3 bug chat) in attesa di merge da Nicola.
+
 2026-07-17 01:35 · 🟢 · [AD] · **Typecheck su page.tsx confermato pulito dopo merge #423 — PR #424 è sana.** AD ha ri-eseguito `npx tsc --noEmit` da main dopo i fix applicati direttamente. Nessun errore TypeScript. Nicola ha chiesto «tu non hai accesso a vercel?» — risposta: no accesso diretto a Vercel, ma il typecheck locale equivale alla stessa verifica. PR #422 (branch stale `fix/chat-coda-messaggi`) da chiudere su GitHub — accodata card #chiudi-pr-422.
 
 2026-07-17 01:15 · 🟡 · [AD/Nicola] · **Nicola: "stai creando errori su errori" — conflitto TypeScript su Vercel in PR #424.** Root: typecheck verde eseguito su page.tsx → PR #423 mergiata nel frattempo → git-pr.mjs ha rebasato includendo #423 → possibile errore TS non catturato → build Vercel rosso. Nicola ha chiesto analisi chiara. AD ha spiegato la catena (branch stale → conflitti → fix su main → typecheck obsoleto) e ha richiesto il log Vercel esatto (link o GitHub Checks PR #424). PR #422 da chiudere (ha conflitti), PR #424 attiva ma potenzialmente rotta. **Pendente 🟡:** Nicola invia log errore → AD applica fix.
