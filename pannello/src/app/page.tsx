@@ -118,6 +118,7 @@ import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import BarraScritturaChat, { type BarraScritturaChatHandle } from "@/components/BarraScritturaChat";
+import { parla as parlaVoce, fermaVoce } from "@/lib/voce-worker";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
@@ -885,6 +886,12 @@ export default function Dashboard() {
   }, [convId]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
+  // 🤖 "Worker" a SCHERMO INTERO: la stessa chat (messaggi + barra) ma come pagina sovrapposta piena.
+  // Riusa l'overlay della chat fluttuante, solo con contenitore fullscreen e barra "assistente" (identica).
+  const [workerFull, setWorkerFull] = useState(false);
+  // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
+  const [voceWorker, setVoceWorker] = useState(false);
+  const ultimoParlatoRef = useRef<string | null>(null);
   // 🔍 Ricerca nel cassetto conversazioni
   const [convRicerca, setConvRicerca] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
@@ -892,7 +899,7 @@ export default function Dashboard() {
   const [fabConvOpen, setFabConvOpen] = useState(false);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
-    if (!chatFluttuante) return;
+    if (!chatFluttuante && !workerFull) return;
     stickFabRef.current = true;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -900,7 +907,7 @@ export default function Dashboard() {
         if (fab) fab.scrollTop = fab.scrollHeight;
       });
     });
-  }, [chatFluttuante]);
+  }, [chatFluttuante, workerFull]);
   const chatFabEndRef = useRef<HTMLDivElement>(null);
   // Lavori chat in attesa di risposta — MAPPA (non più slot singolo): se mandi messaggi
   // in più chat di fila, OGNI risposta viene recuperata e instradata al thread giusto.
@@ -2053,11 +2060,43 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // perché ultimoAt può arrivare dopo il primo «segna letta» con orologio locale.
   useEffect(() => {
     const id = convId;
-    if (!id || (vista !== "assistente" && !chatFluttuante)) return;
+    if (!id || (vista !== "assistente" && !chatFluttuante && !workerFull)) return;
     const msgs = messages.filter((m) => !m.prompt && !m.pending);
     const last = msgs[msgs.length - 1];
     if (last?.role === "assistant") segnaLetta(id);
-  }, [messages, convId, vista, chatFluttuante, lavori, conversazioni]);
+  }, [messages, convId, vista, chatFluttuante, workerFull, lavori, conversazioni]);
+
+  // 🔊 Live voce (senza API): a modalità attiva, leggi ad alta voce l'ULTIMA risposta completa
+  // del worker, una volta sola (browser speechSynthesis). Le partial/pending non si leggono.
+  useEffect(() => {
+    if (!voceWorker) return;
+    const reali = messages.filter((m) => m.role === "assistant" && !m.pending && m.content);
+    const last = reali[reali.length - 1];
+    if (!last) return;
+    const key = last.id ?? last.content;
+    if (ultimoParlatoRef.current === key) return;
+    ultimoParlatoRef.current = key;
+    // Mani libere: finita la risposta a voce, riapro il microfono per il tuo turno (se la modalità
+    // è ancora attiva e non sta già arrivando un'altra risposta). Conversazione a voce continua, senza API.
+    parlaVoce(last.content, () => {
+      if (voceWorker && !loading && !ascoltando) dettaVoce();
+    });
+  }, [messages, voceWorker]);
+
+  function toggleVoceWorker() {
+    setVoceWorker((on) => {
+      const nuovo = !on;
+      if (nuovo) {
+        // Non rileggere la risposta già a schermo: parti dalle PROSSIME.
+        const reali = messages.filter((m) => m.role === "assistant" && !m.pending && m.content);
+        const last = reali[reali.length - 1];
+        ultimoParlatoRef.current = last ? (last.id ?? last.content) : null;
+      } else {
+        fermaVoce();
+      }
+      return nuovo;
+    });
+  }
 
   // Riapertura pagina = chat sempre nuova (comportamento voluto da Nicola).
   // La chat corrente resta attiva mentre navighi tra le sezioni nella stessa sessione
@@ -2181,9 +2220,44 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     window.addEventListener("mycity:lavori", onLavori);
     const ms = loading || pendingLavoroChatRef.current.size > 0 ? 400 : 8000;
     const id = setInterval(() => carica(), ms);
+
+    // 🔴 TEMPO REALE (push): mentre una risposta scorre, apro il canale SSE e ricarico a ogni "ping"
+    // (il worker sta scrivendo parola per parola). Fallback totale: se il canale non parte o cade,
+    // resta il setInterval qui sopra → la chat funziona identica a prima.
+    let es: EventSource | null = null;
+    let pingDebounce: ReturnType<typeof setTimeout> | null = null;
+    const rispostaInArrivo = loading || pendingLavoroChatRef.current.size > 0;
+    if (rispostaInArrivo && typeof window !== "undefined" && "EventSource" in window) {
+      try {
+        es = new EventSource("/api/lavori/stream");
+        es.addEventListener("ping", () => {
+          if (pingDebounce) return; // coalesce le raffiche di token → un solo refresh ogni ~120ms
+          pingDebounce = setTimeout(() => {
+            pingDebounce = null;
+            carica();
+          }, 120);
+        });
+        es.addEventListener("end", () => {
+          try {
+            es?.close();
+          } catch {
+            /* già chiuso */
+          }
+        });
+      } catch {
+        es = null;
+      }
+    }
+
     return () => {
       stop = true;
       clearInterval(id);
+      if (pingDebounce) clearTimeout(pingDebounce);
+      try {
+        es?.close();
+      } catch {
+        /* già chiuso */
+      }
       window.removeEventListener("mycity:lavori", onLavori);
     };
   }, [loading, pendingCount, archivioLimit]);
@@ -2342,7 +2416,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   gruppo: "Sistema",
                   voci: [
                     { id: "lavori", label: "Lavori", icon: <Brain size={15} /> },
-                    { id: "assistente", label: "Assistente", icon: <Send size={15} /> },
+                    { id: "assistente", label: "Worker", icon: <Send size={15} /> },
                   ],
                 },
               ];
@@ -2608,6 +2682,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
             onPrompt={dammiPrompt}
+            voceWorker={voceWorker}
+            onToggleVoce={toggleVoceWorker}
             onConversazioni={() => setConvDrawerAperto(true)}
             onNuovaChat={nuovaConversazione}
           />
@@ -2756,31 +2832,39 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       </div>
 
       {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
-      {!chatFluttuante && vista !== "assistente" && (
+      {!chatFluttuante && !workerFull && vista !== "assistente" && (
         <button
-          onClick={() => setChatFluttuante(true)}
+          onClick={() => setWorkerFull(true)}
           className="fixed right-4 sm:right-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
           // safe-area iPhone (PWA): senza, il bottone finisce sotto la barra del gesto home. (mobile)
           style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
-          aria-label="Parla con l'AD"
+          aria-label="Apri il Worker"
         >
-          <Send size={16} /> Parla con l&apos;AD
+          <Send size={16} /> Worker
           {pendingCount > 0 && <span className="w-2 h-2 rounded-full bg-white/90 animate-pulse" />}
         </button>
       )}
-      {chatFluttuante && vista !== "assistente" && (
+      {((chatFluttuante && vista !== "assistente") || workerFull) && (
         <>
-        {/* Overlay trasparente: chiude la chat fluttuante al click fuori */}
-        <div className="fixed inset-0 z-40" onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); }} aria-hidden />
+        {/* Overlay trasparente: chiude al click fuori (in finestra; a schermo intero copre tutto) */}
+        <div className="fixed inset-0 z-40" onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }} aria-hidden />
         <div
-          className="fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
+          className={
+            workerFull
+              ? "fixed inset-0 z-50 flex flex-col overflow-hidden"
+              : "fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
+          }
           // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
-          style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+          style={
+            workerFull
+              ? { background: "var(--bg-surface)", paddingBottom: "env(safe-area-inset-bottom, 0px)" }
+              : { boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }
+          }
         >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
             <div className="leading-tight min-w-0 flex-1">
-              <div className="text-[14px] font-semibold tracking-tight truncate">Parla con l&apos;AD</div>
+              <div className="text-[14px] font-semibold tracking-tight truncate">Worker</div>
               <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
             </div>
             <button
@@ -2803,6 +2887,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               onClick={() => {
                 setVista("assistente");
                 setChatFluttuante(false);
+                setWorkerFull(false);
               }}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
               aria-label="Apri la chat intera"
@@ -2811,7 +2896,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <Maximize2 size={15} />
             </button>
             <button
-              onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); }}
+              onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
               aria-label="Chiudi la chat"
             >
@@ -2866,7 +2951,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           <BarraScritturaChat
             ref={chatInputRef}
-            variant="fluttuante"
+            variant={workerFull ? "assistente" : "fluttuante"}
             hintInvio={hintInvio}
             loading={loading}
             allegati={allegatiChat}
@@ -2878,6 +2963,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onTogliAllegato={togliAllegatoChat}
             onDetta={dettaVoce}
             onInvia={(t) => void mandaAlCervello(t)}
+            onPrompt={workerFull ? dammiPrompt : undefined}
+            voceWorker={voceWorker}
+            onToggleVoce={toggleVoceWorker}
           />
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div
@@ -2921,7 +3009,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
-                  const chatVisibile = chatFluttuante; // qui chatFluttuante è sempre true (siamo dentro {chatFluttuante && vista !== "assistente" && ...})
+                  const chatVisibile = chatFluttuante || workerFull; // overlay chat: finestra o schermo intero
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
                   const effMsgs = messaggiConvEffettivi(c, gruppo);
                   const attiva = c.id === convId;

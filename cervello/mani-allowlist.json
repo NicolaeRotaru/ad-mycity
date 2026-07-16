@@ -2,7 +2,7 @@
   "_nota": "AR-103 — Allowlist dei destinatari per l'invio REALE (LIVE). Vuoto = DRY-RUN forzato: anche con AZIONI_LIVE=1 e un'azione firmata, nulla parte finché il destinatario/tabella non è qui. Aggiungi SOLO indirizzi/utenti/tabelle che hai autorizzato. Telegram è escluso (va solo alla tua chat dell'env).",
   "email": [],
   "notifica_user": [],
-  "marketplace_tables": [],
+  "marketplace_tables": ["products"],
   "n8n": false,
   "github": false
 }
