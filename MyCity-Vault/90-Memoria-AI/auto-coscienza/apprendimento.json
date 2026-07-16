@@ -17,6 +17,27 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0716-241",
+      "testo": "**Regola d'oro del design Pannello (Nicola 16/7): bello + efficiente + semplice + minimale** — ogni modifica UI deve soddisfare questi 4 criteri PRIMA di aprire la PR. 'Bello' = piacevole a guardare, non solo funzionale. 'Efficiente' = meno fatica cognitiva e meno click per Nicola. 'Semplice' = un'azione per volta, niente elementi extra che confondono. 'Minimale' = tolto il superfluo, non aggiunto. Questo filtro vale per layout, pulsanti, tab, barre, sezioni, colori. Se una soluzione tecnica funziona ma è brutta o rumorosa, è sbagliata. Esempio fallito: la mini-barra 'Conversazioni / Nuova chat' sopra l'input era tecnicamente corretta ma esteticamente brutta → rimossa (PR #417). Esempio giusto: pulsanti integrati nei tab esistenti, lista conversazioni ordinata, cassetto che non taglia il logo.",
+      "tag": [
+        "design",
+        "ux",
+        "estetica",
+        "minimale",
+        "pannello",
+        "regola-fondamentale",
+        "caso-studio"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-16",
+      "ultima_conferma": "2026-07-16 23:55",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0716-240",
       "testo": "**UX chat Pannello: il blocco di routing ('Scrivi un obiettivo…' + icone reparti + comandi rapidi inlineati) va rimosso dalla chat e i Comandi rapidi spostati nella tab ⚡ Skill (Nicola 16/7):** il blocco occupava spazio permanente e confondeva. Regola: la chat si apre VUOTA; i comandi rapidi si scoprono nella tab ⚡ quando servono, non come blocco fisso. Implementazione: aggiungi i comandi in `comandi-data.ts` (sezione Skill), rimuovi TEAM/COMANDI_RAPIDI e il blocco empty-state da `page.tsx` (sia chat principale che fluttuante).",
       "tag": [
@@ -39,7 +60,7 @@
     },
     {
       "id": "L-2026-0716-239",
-      "testo": "**UX chat Pannello: i controlli di navigazione stanno ANCHE sopra l'input, non solo nell'header (segnalato Nicola 16/7):** con la chat espansa a schermo intero, «Nuova chat» e «Conversazioni» erano solo nell'header in cima — bisognava scrollare su per trovarli. Fix: mini-barra fissa sopra `BarraScritturaChat` con i due pulsanti sempre visibili. Regola generica: in qualsiasi vista a schermo intero del Pannello, i controlli primari di navigazione devono essere raggiungibili SENZA scroll — duplicarli in basso è la soluzione standard. Stesso turno: la conversazione aperta va sempre prima nell'elenco (`ordinaConversazioni` riceve `convId`).",
+      "testo": "**UX chat Pannello: i controlli di navigazione NON come mini-barra separata, ma integrati nei tab esistenti (Nicola 16/7):** prima fix (PR #415): mini-barra sopra `BarraScritturaChat`. Poi Nicola ha detto che era brutta — rimossa in PR #417. Lezione corretta: i pulsanti 'Nuova chat' e 'Conversazioni' devono stare integrati negli altri tab del Pannello (non come UI aggiuntiva). Regola aggiornata: non aggiungere barre UI autonome quando una struttura a tab esiste già — integrare sempre. Stessa PR #415 ha fissato anche l'ordinamento: la conversazione aperta va sempre prima nell'elenco (`ordinaConversazioni` riceve `convId`) — questo fix resta valido.",
       "tag": [
         "ux",
         "chat-pannello",
