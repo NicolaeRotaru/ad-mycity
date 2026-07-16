@@ -871,6 +871,18 @@ export default function Dashboard() {
       if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
     });
   }, [messages]);
+  // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
+  useEffect(() => {
+    if (!convId) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = scrollBoxRef.current;
+        if (el) el.scrollTop = el.scrollHeight;
+        const fab = chatFabBoxRef.current;
+        if (fab) fab.scrollTop = fab.scrollHeight;
+      });
+    });
+  }, [convId]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
   // 🔍 Ricerca nel cassetto conversazioni
