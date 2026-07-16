@@ -320,27 +320,6 @@ type Lavoro = {
   gruppo_id?: string | null;
 };
 
-const TEAM = [
-  { emoji: "🧠", nome: "Direzione (AD)", ruolo: "Strategia e coordinamento" },
-  { emoji: "🎧", nome: "Supporto clienti", ruolo: "Clienti e reclami" },
-  { emoji: "🛵", nome: "Operations", ruolo: "Ordini, rider, consegne" },
-  { emoji: "📣", nome: "Marketing/Growth", ruolo: "Contenuti e acquisizione" },
-  { emoji: "🤝", nome: "Vendite/Onboarding", ruolo: "Negozi" },
-  { emoji: "📊", nome: "Analista", ruolo: "KPI e report" },
-  { emoji: "💶", nome: "Finanza", ruolo: "Incassi e pagamenti" },
-  { emoji: "🛠️", nome: "Tech", ruolo: "Analisi del sito" },
-  { emoji: "🔎", nome: "Intelligence", ruolo: "Concorrenti e trend" },
-];
-
-// Comandi rapidi: cliccando precompilano l'input della chat (poi Nicola completa).
-// "Contenuti PRO" = crea contenuti a qualita' alta (vedi COMANDI.md / CLAUDE.md).
-const COMANDI_RAPIDI: { label: string; testo: string }[] = [
-  { label: "✨ Contenuti PRO", testo: "contenuti pro: " },
-  { label: "🔄 Fai un giro", testo: "fai un giro" },
-  { label: "📋 Che comandi ho?", testo: "che comandi ho?" },
-  { label: "📊 Come stiamo?", testo: "come stiamo?" },
-];
-
 // ⚡ Skill & comandi: non più chip fisse sopra la textarea + card in fondo alla pagina —
 // ora vivono in una FINESTRA che si apre/chiude dentro la chat dal pulsante ⚡ nella
 // riga dei pulsanti (allega · voce · invia). Dati in @/lib/comandi-data (SKILL_RAPIDE
@@ -2518,39 +2497,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
           )}
           <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-0">
-            {messages.length === 0 && (
-              <div className="pt-1">
-                <p className="t-corpo text-sm mb-3">
-                  Scrivi un obiettivo o una domanda: l'AD la assegna all'esperto giusto del team.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {TEAM.map((e) => (
-                    <div key={e.nome} className="surface-muted flex items-start gap-2.5 text-xs px-3 py-2 hover:border-brand/30 transition">
-                      <span className="text-base leading-none mt-0.5">{e.emoji}</span>
-                      <span className="leading-snug">
-                        <span className="font-semibold t-sez text-[13px]">{e.nome}</span>
-                        <br />
-                        <span className="t-eti">{e.ruolo}</span>
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4">
-                  <p className="text-sm text-black/50 mb-2">Comandi rapidi</p>
-                  <div className="flex flex-wrap gap-2">
-                    {COMANDI_RAPIDI.map((c) => (
-                      <button
-                        key={c.label}
-                        onClick={() => chatInputRef.current?.setTesto(c.testo)}
-                        className="text-xs font-medium border border-brand/30 bg-brand-50/40 text-ink/80 rounded-full px-3 py-1.5 hover:border-brand/50 hover:bg-brand-50/70 active:scale-95 transition"
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
             {messages.map((m, i) =>
               m.prompt ? (
                 <div key={m.id ?? i} className="text-left">
@@ -2874,9 +2820,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
           <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
-            {messages.filter((m) => !m.prompt).length === 0 && (
-              <p className="t-corpo text-[13px]">Scrivi un obiettivo o una domanda: attivo io l&apos;esperto giusto.</p>
-            )}
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
