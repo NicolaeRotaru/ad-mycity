@@ -2198,9 +2198,44 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     window.addEventListener("mycity:lavori", onLavori);
     const ms = loading || pendingLavoroChatRef.current.size > 0 ? 400 : 8000;
     const id = setInterval(() => carica(), ms);
+
+    // 🔴 TEMPO REALE (push): mentre una risposta scorre, apro il canale SSE e ricarico a ogni "ping"
+    // (il worker sta scrivendo parola per parola). Fallback totale: se il canale non parte o cade,
+    // resta il setInterval qui sopra → la chat funziona identica a prima.
+    let es: EventSource | null = null;
+    let pingDebounce: ReturnType<typeof setTimeout> | null = null;
+    const rispostaInArrivo = loading || pendingLavoroChatRef.current.size > 0;
+    if (rispostaInArrivo && typeof window !== "undefined" && "EventSource" in window) {
+      try {
+        es = new EventSource("/api/lavori/stream");
+        es.addEventListener("ping", () => {
+          if (pingDebounce) return; // coalesce le raffiche di token → un solo refresh ogni ~120ms
+          pingDebounce = setTimeout(() => {
+            pingDebounce = null;
+            carica();
+          }, 120);
+        });
+        es.addEventListener("end", () => {
+          try {
+            es?.close();
+          } catch {
+            /* già chiuso */
+          }
+        });
+      } catch {
+        es = null;
+      }
+    }
+
     return () => {
       stop = true;
       clearInterval(id);
+      if (pingDebounce) clearTimeout(pingDebounce);
+      try {
+        es?.close();
+      } catch {
+        /* già chiuso */
+      }
       window.removeEventListener("mycity:lavori", onLavori);
     };
   }, [loading, pendingCount, archivioLimit]);
