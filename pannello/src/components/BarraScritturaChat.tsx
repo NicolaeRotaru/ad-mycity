@@ -1,9 +1,10 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { Brain, FileText, History, Loader2, Mic, Plus, Send } from "lucide-react";
+import { Brain, FileText, History, Loader2, Mic, Plus, Send, Volume2, VolumeX } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import BottoneFotoChat from "@/components/BottoneFotoChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import { gestisciInvioChat } from "@/lib/chat-input";
 
@@ -28,6 +29,9 @@ type Props = {
   onDetta: () => void;
   onInvia: (testo: string) => void;
   onPrompt?: (testo: string) => void;
+  /** 🔊 Modalità live "voce del worker": legge le risposte ad alta voce (browser, nessuna API). */
+  voceWorker?: boolean;
+  onToggleVoce?: () => void;
   onConversazioni?: () => void;
   onNuovaChat?: () => void;
 };
@@ -48,6 +52,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
     onDetta,
     onInvia,
     onPrompt,
+    voceWorker,
+    onToggleVoce,
     onConversazioni,
     onNuovaChat,
   },
@@ -136,6 +142,27 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           }
           onScegli={onAllegati}
         />
+        <BottoneFotoChat
+          disabled={allegati.length >= 6}
+          iconSize={fab ? 16 : 18}
+          className={
+            fab
+              ? "min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+              : "min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+          }
+          onScegli={onAllegati}
+        />
+        <BottoneFotoChat
+          videoLive
+          disabled={allegati.length >= 6}
+          iconSize={fab ? 16 : 18}
+          className={
+            fab
+              ? "min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+              : "min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+          }
+          onScegli={onAllegati}
+        />
         <button
           onClick={onDetta}
           disabled={ascoltando}
@@ -147,6 +174,18 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         >
           <Mic size={fab ? 16 : 18} />
         </button>
+        {onToggleVoce && (
+          <button
+            onClick={onToggleVoce}
+            className={`grid place-items-center rounded-xl border transition active:scale-95 ${
+              fab ? "min-h-[40px] min-w-[40px]" : "min-h-[44px] min-w-[44px] px-3"
+            } ${voceWorker ? "bg-brand text-white border-brand" : "border-black/10 text-black/55 hover:bg-black/[0.04]"}`}
+            aria-label={voceWorker ? "Voce del worker attiva" : "Attiva la voce del worker"}
+            title={voceWorker ? "Live voce attiva: il worker legge le risposte ad alta voce (tocca per spegnere)" : "Live voce: fai leggere le risposte al worker (browser, nessuna API)"}
+          >
+            {voceWorker ? <Volume2 size={fab ? 16 : 18} /> : <VolumeX size={fab ? 16 : 18} />}
+          </button>
+        )}
         {!fab && onPrompt && (
           <button
             onClick={prompt}
@@ -191,8 +230,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         rows={fab ? 3 : 2}
         placeholder={
           fab
-            ? `Scrivi all'AD…  (${hintInvio})`
-            : `Scrivi all'AD (col tuo Max), gratis…  (${hintInvio})`
+            ? `Scrivi al worker…  (${hintInvio})`
+            : `Scrivi al worker (col tuo Max), gratis…  (${hintInvio})`
         }
         className={
           fab
