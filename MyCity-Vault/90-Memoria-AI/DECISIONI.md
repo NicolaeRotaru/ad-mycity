@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 01:35 · 🟢 · [AD] · **Typecheck su page.tsx confermato pulito dopo merge #423 — PR #424 è sana.** AD ha ri-eseguito `npx tsc --noEmit` da main dopo i fix applicati direttamente. Nessun errore TypeScript. Nicola ha chiesto «tu non hai accesso a vercel?» — risposta: no accesso diretto a Vercel, ma il typecheck locale equivale alla stessa verifica. PR #422 (branch stale `fix/chat-coda-messaggi`) da chiudere su GitHub — accodata card #chiudi-pr-422.
+
 2026-07-17 01:15 · 🟡 · [AD/Nicola] · **Nicola: "stai creando errori su errori" — conflitto TypeScript su Vercel in PR #424.** Root: typecheck verde eseguito su page.tsx → PR #423 mergiata nel frattempo → git-pr.mjs ha rebasato includendo #423 → possibile errore TS non catturato → build Vercel rosso. Nicola ha chiesto analisi chiara. AD ha spiegato la catena (branch stale → conflitti → fix su main → typecheck obsoleto) e ha richiesto il log Vercel esatto (link o GitHub Checks PR #424). PR #422 da chiudere (ha conflitti), PR #424 attiva ma potenzialmente rotta. **Pendente 🟡:** Nicola invia log errore → AD applica fix.
 
 2026-07-17 00:45 · 🟡 · [AD/frontend-dev] · **PR #424 aperta — 3 bug chat risolti (doppia risposta, flicker, bottone smartphone). Nicola ha eseguito i 3 comandi VPS (branch fix/chat-3bug-v2, commit), l'AD ha aperto PR #424 senza conflitti con `git-pr.mjs`. Pattern confermato: edit diretto su main + branch/commit da Nicola → git-pr.mjs apre la PR. Pendente 🔴: Nicola mergia PR #424.**

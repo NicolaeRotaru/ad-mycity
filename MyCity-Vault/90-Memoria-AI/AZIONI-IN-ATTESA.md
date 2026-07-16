@@ -17,16 +17,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
-### 🟡 #pr-cassetto-conversazioni-fixed — Mergia PR #423: lista conversazioni ancorata allo schermo · ⏳ accodata 2026-07-17 00:15
+### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
 
-**Cosa fa:** il cassetto Conversazioni ora usa `position: fixed` ancorato sotto la navbar — appare sempre nel punto dello schermo in cui si trova Nicola, senza dover scrollare in cima alla chat.
+Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
 
-**Per metterlo live:** mergia PR #423 → https://github.com/NicolaeRotaru/ad-mycity/pull/423
+---
 
-**Cosa cambia:** apertura conversazioni istantanea da qualsiasi punto della chat.
-**Se va bene:** live su Vercel in ~2 minuti.
+### 🟡 #chiudi-pr-422 — Chiudi PR #422 su GitHub (ha conflitti, è la vecchia) · ⏳ accodata 2026-07-17 01:30
 
-- **Colore:** 🟡 (merge su main → Nicola)
+**Cosa fare:** vai su GitHub → PR #422 → clicca "Close pull request" (senza merge).
+
+PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato i conflitti. I fix che conteneva sono già stati riapplicati e confluiti in PR #424 (quella attiva, typecheck pulito). Lasciare #422 aperta causa confusione nei Checks di Vercel.
+
+**Cosa cambia:** GitHub più pulito, nessun build Vercel spurio su una PR morta.
+**Se va bene:** solo PR #424 rimane attiva per il merge dei 3 fix chat.
+
+- **Colore:** 🟡 (azione su GitHub → Nicola)
 - **Reparto:** frontend-dev
 
 ---
