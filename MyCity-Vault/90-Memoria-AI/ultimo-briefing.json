@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-16 12:24",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~531h ≈ 22,1 giorni). REST ok 16/7 12:20. T-1 VP 17/7 — domani sera presidio banco Pane Quotidiano (bici non pronta, solo ritiro). CHECKLIST-NICOLA rigenerata (AR-030). Coerenza-fatti exit 0.",
+  "data": "2026-07-16 12:40",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~531h ≈ 22,1 giorni). REST ok 16/7 12:20. T-1 VP 17/7 — domani sera presidio banco Pane Quotidiano (bici non pronta, solo ritiro). n8n cieco 11 giri. HARD vincoli tutti soddisfatti.",
   "opportunita": [
     {
       "titolo": "Venerdì Piacentini domani 17/7 — primo ordine ritiro al banco PQ",

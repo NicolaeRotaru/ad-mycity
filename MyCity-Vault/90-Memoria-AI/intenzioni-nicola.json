@@ -1,5 +1,5 @@
 {
-  "data": "2026-07-16 12:24",
+  "data": "2026-07-16 12:40",
   "sintesi": "Nicola T-1 al VP 17/7. Bici elettrica in riparazione (~28/7). Priorità business ORA: chiama PQ 0523 388601 OGGI per confermare presidio al banco. Stasera/domani mattina: post kefir + link lista d'attesa. Coda Pannello: PR #380/#381/#403 da mergiare. BURN_MENSILE_EUR da impostare.",
   "prossime_mosse": [
     {"titolo": "Chiama Pane Quotidiano OGGI", "quando": "OGGI 16/7 entro le 17:00", "come": "0523 388601, script #ritiro-pq-vp17-checkin: «Venerdì sera c'è il VP, passo da te al banco con il QR, ritiro dal banco (bici non pronta)»", "priorita": "URGENTE", "ad_prepara": "script pronto in AZIONI-IN-ATTESA card #ritiro-pq-vp17-checkin", "senior": "@account-negozi", "colore": "🔴"},

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-16 12:39",
+  "aggiornato": "2026-07-16 12:41",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "10",
@@ -115,20 +115,8 @@
     "2026-07-16T10:29:15.697Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 11991,
+  "tick": 11993,
   "storia": [
-    {
-      "quando": "2026-07-15 22:16",
-      "eventi": 4,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-15 22:17",
-      "eventi": 4,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-15 22:18",
       "eventi": 4,
@@ -716,10 +704,22 @@
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-16 12:40",
+      "eventi": 4,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-16 12:41",
+      "eventi": 4,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-16 12:39",
+    "quando": "2026-07-16 12:41",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -728,7 +728,7 @@
     "negozi_fermi": 1,
     "carrelli": null,
     "worker_eta_min": 0,
-    "sensori_max_ciechi": 10,
+    "sensori_max_ciechi": 11,
     "salute_voto": 100,
     "radiografia_gg": 9,
     "volano_tasso": 0.37
