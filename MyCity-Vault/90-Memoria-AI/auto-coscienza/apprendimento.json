@@ -18,7 +18,7 @@
   "lezioni": [
     {
       "id": "L-2026-0716-234",
-      "testo": "**Tassonomia PMI Piacenza — 4 fasi di onboarding per categoria (chat 16/7):** la mappa completa emersa con Nicola. Fase 1 = carrello-spesa (acquisto quotidiano/settimanale: Forni, Salumerie/gastronomie, Macellerie/pollerie, Ortofrutta, Pescherie, Caseifici/fromagerie) → aggredire subito. Fase 2 = regalo/piacere (dopo 5-6 botteghe Fase 1: Gelaterie/pasticcerie incl. Bardini, Enoteche/bottiglierie, Torrefazioni/caffè, Fiorai). Fase 3 = retail non-food (dopo verticale food rodata: profumerie, erboristerie, cartolerie, gioiellerie, abbigliamento, calzature, casa/casalinghi — Kaefu entra qui). Fase 4 = servizi (con massa critica: lavanderie, sartorie, barbieri, agenzie viaggi, studi professionali). Dati: ~5.000 PMI registrate Piacenza, ~200 food nel centro aggredibili in 12 mesi. Classificazioni specifiche: Bardini = gelateria/pasticceria (Largo Battisti 19, centro) → Fase 2; Kaefu = emporio generalista (Via Genova 31) → Fase 3; Ristoranti → non-target (confermato Nicola). Logica: prima tutto ciò che i piacentini comprano almeno 1×/settimana.",
+      "testo": "**Tassonomia PMI Piacenza — ordine RIVISTO con ragionamento profondo (chat 16/7, «ragiona prima:»):** la prima bozza (4 fasi generiche) era un framework, non analisi. L'analisi profonda ha cambiato 3 punti: (1) Salumerie DOP = IL differenziatore, non solo 'priorità alta' — Coppa/Pancetta/Salame Piacentino sono le 3 DOP nazionali, esistono solo qui, Glovo/Amazon non possono competere → va attivata entro le prime 5 botteghe, non come completamento del carrello; (2) Fiorai = Fase 1 non Fase 2 — non per frequenza ma per urgenza (compleanno dimenticato→apri MyCity, clienti nuovi in momenti emotivi, scontrino €40-80); (3) Enoteche DOC entrano prima del retail non-food — Colli Piacentini, scontrino compensa la frequenza minore, stesso cliente della salumeria DOP. Ordine ottimale: (1-3m) Panifici+Salumerie DOP; (2-4m) Fiorai; (3-6m) Macellerie+Enoteche DOC; (6-9m) Ortofrutta+Pescherie+Caseifici; (9-12m) Gelaterie/pasticcerie [Bardini, Largo Battisti 19]; Anno 2: retail non-food [Kaefu, Via Genova 31, emporio]; Anno 3: servizi. Logica strutturale: prime 5 categorie = 3 motivi settimanali (spesa+regalo+vino) + 1 impulsivo (fioraio) = abitudine. ~5.000 PMI Piacenza, ~200 food centro.",
       "tag": [
         "tassonomia-pmi",
         "prospect-categorie",
@@ -31,11 +31,11 @@
       ],
       "reparto": "@vendite",
       "confidenza": 1,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
-      "caso_studio_nicola": false,
+      "caso_studio_nicola": true,
       "nato": "2026-07-16",
-      "ultima_conferma": "2026-07-16 19:30",
+      "ultima_conferma": "2026-07-16 19:10",
       "stato": "attiva"
     },
     {
