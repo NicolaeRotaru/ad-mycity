@@ -38,3 +38,54 @@ La famosa commissione del 15–30% vale solo per i beni digitali comprati dentro
 Oggi MyCity è un sito web: per andare sugli store va impacchettato come app (strada a tappe: PWA gratis → TWA su Play → Capacitor/nativa per iOS). Quello è il lavoro vero; le iscrizioni sono spiccioli. Iscrizioni e pagamenti agli store = 🔴 firma di Nicola.
 
 Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-included/) · [esenzioni Apple](https://developer.apple.com/help/account/membership/fee-waivers/) · [Google Play Console](https://support.google.com/googleplay/android-developer/answer/6112435?hl=en) · [fee Google + regola 12 tester](https://www.iconikai.com/blog/google-play-developer-account-fee-2026)
+
+## 🗺️ Mappa negozi Piacenza — ordine di onboarding per MyCity · 2026-07-16 16:55
+
+**L'obiettivo è creare 3 motivi per aprire l'app ogni settimana + 1 impulso emotivo.**
+Regola: prima le categorie ad alta frequenza; poi il regalo/piacere; poi retail; poi servizi.
+
+**Non onboardiamo:** ristoranti/trattorie, pizza/sushi/burger (terreno Glovo). Già deciso.
+
+---
+
+### Subito — mesi 1–6 (costruire l'abitudine settimanale)
+
+| # | Categoria | Perché viene prima |
+|---|---|---|
+| 1 | **Panifici / forni** | Già avviato (Pane Quotidiano). Acquisto quotidiano. |
+| 2 | **Salumerie DOP** | Coppa, Pancetta, Salame Piacentino: le 3 DOP esistono solo qui. È il motivo per cui MyCity non è un clone di Glovo. |
+| 3 | **Fiorai** | Urgenza alta (compleanno dimenticato → apri l'app). Scontrino €40–80. Già delivery-native. |
+| 4 | **Macellerie / pollerie** | Acquisto settimanale, fiducia alta, scontrino buono. |
+| 5 | **Enoteche / bottiglierie** | Piacenza zona DOC Colli Piacentini. Stesso cliente della salumeria. Scontrino alto. |
+
+---
+
+### Mesi 6–12 (completare il carrello)
+
+- **Ortofrutta / verdurerie** — volume alto, completa la spesa settimanale
+- **Pescherie** — nicchia fedele, poca concorrenza online
+- **Caseifici / fromagerie** — terza DOP, chiude il tris piacentino
+- **Gelaterie / pasticcerie** — stagionale; **Bardini** (Largo Battisti 19) è il candidato principale
+
+---
+
+### Anno 2 (retail non-food)
+
+Profumerie · Erboristerie · Cartolerie/librerie · Gioiellerie · Abbigliamento locale · Calzature artigianali · Casa/casalinghi (**Kaefu** Via Genova 31 entra qui, non prima)
+
+---
+
+### Anno 3 (servizi, quando c'è massa critica)
+
+Lavanderie · Sartorie · Barbieri/parrucchieri · Studi professionali (commercialisti, avvocati, notai)
+
+---
+
+**Botteghe prioritarie da chiamare subito** (appena la bici è pronta):
+1. Antica Salumeria Garetti — Piazza Duomo 44
+2. Peretti Frutta e Verdura — Via Alberici Fratelli
+3. Caseificio Amendolara — Via Trento 7
+4. Alloni Fiori — Corso V.E. 114 (o L'Arcobaleno del Fiore)
+5. Taverna del Gusto (enoteca) — centro
+
+~5.000 PMI totali a Piacenza · ~200 food nel centro · aggredibili in 12 mesi.
