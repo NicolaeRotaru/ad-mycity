@@ -1,20 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, Brain, FolderOpen, FolderTree, History, ListChecks, TrendingUp } from "lucide-react";
+import { BookOpen, FolderOpen, FolderTree, Gauge, ListChecks, ScrollText, TrendingUp } from "lucide-react";
 import MemoriaViva from "@/components/MemoriaViva";
 import ScoperteProposte from "@/components/ScoperteProposte";
 import Documenti from "@/components/aree/Documenti";
-import StoricoMemoria, { parseStoricoSub, storicoSubId } from "@/components/aree/StoricoMemoria";
 import EsploraGitHub from "@/components/aree/EsploraGitHub";
+import GovernoAD from "@/components/GovernoAD";
+import QuaderniSenior from "@/components/QuaderniSenior";
+import StatoNumeriVault from "@/components/StatoNumeriVault";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
-type Tab = "memoria-viva" | "archivio" | "storico";
-type VivaTab = "memoria" | "scoperte";
+type Tab = "memoria-viva" | "archivio";
+type VivaTab = "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato-numeri";
 type ArchivioTab = "consegne" | "github";
 
 function parseVivaSub(sub?: string): VivaTab {
   if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
+  if (sub === "storico-decisioni" || sub === "storico" || sub === "decisioni") return "decisioni";
+  if (sub === "storico-quaderni-senior" || sub === "quaderni-senior") return "quaderni-senior";
+  if (sub === "storico-stato-numeri" || sub === "stato-numeri") return "stato-numeri";
   return "memoria";
 }
 
@@ -26,12 +31,17 @@ function parseArchivioSub(sub?: string): ArchivioTab {
 function parseMemoriaSub(sub?: string): Tab {
   if (!sub || sub === "memoria-viva" || sub === "viva" || sub === "viva-memoria" || sub === "memoria" || sub === "scoperte" || sub === "viva-scoperte") return "memoria-viva";
   if (sub === "archivio" || sub.startsWith("archivio/") || sub === "github" || sub === "esplora") return "archivio";
-  if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior") return "storico";
+  // Storico fuso in memoria-viva
+  if (sub === "storico" || sub.startsWith("storico-") || sub === "quaderni-senior" || sub === "decisioni" || sub === "stato-numeri") return "memoria-viva";
   return "memoria-viva";
 }
 
 function vivaSubId(v: VivaTab): string {
-  return v === "scoperte" ? "scoperte" : "memoria-viva";
+  if (v === "scoperte") return "viva-scoperte";
+  if (v === "decisioni") return "storico-decisioni";
+  if (v === "quaderni-senior") return "storico-quaderni-senior";
+  if (v === "stato-numeri") return "storico-stato-numeri";
+  return "memoria-viva";
 }
 
 function archivioSubId(v: ArchivioTab): string {
@@ -71,14 +81,21 @@ export default function Memoria() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "memoria-viva", label: "Memoria viva", icon: <BrainIcon /> },
     { id: "archivio", label: "Archivio", icon: <FolderOpen size={14} /> },
-    { id: "storico", label: "Storico", icon: <History size={14} /> },
+  ];
+
+  const vivaTabs: { id: VivaTab; label: string; icon: React.ReactNode }[] = [
+    { id: "memoria", label: "Memoria", icon: <ListChecks size={14} /> },
+    { id: "scoperte", label: "Scoperte", icon: <TrendingUp size={14} /> },
+    { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
+    { id: "quaderni-senior", label: "Quaderni senior", icon: <BookOpen size={14} /> },
+    { id: "stato-numeri", label: "Stato & numeri", icon: <Gauge size={14} /> },
   ];
 
   return (
     <div className="space-y-4">
       <div>
         <h2 className="t-area">🧠 Memoria</h2>
-        <p className="t-eti mt-0.5">Tutto ciò che l&apos;AD sa, produce e conserva — viva, archivio e storico.</p>
+        <p className="t-eti mt-0.5">Tutto ciò che l&apos;AD sa, produce e conserva.</p>
       </div>
 
       <div className="flex flex-wrap gap-1.5">
@@ -87,12 +104,7 @@ export default function Memoria() {
             key={t.id}
             onClick={() => {
               setTab(t.id);
-              const sub =
-                t.id === "storico"
-                  ? storicoSubId("decisioni")
-                  : t.id === "archivio"
-                    ? archivioSubId("consegne")
-                    : t.id;
+              const sub = t.id === "archivio" ? archivioSubId(archivioTab) : vivaSubId(vivaTab);
               vaiSub("memoria", sub);
             }}
             className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
@@ -108,10 +120,7 @@ export default function Memoria() {
       {tab === "memoria-viva" && (
         <div className="space-y-4">
           <div className="flex flex-wrap gap-1.5">
-            {([
-              { id: "memoria" as const, label: "Memoria", icon: <ListChecks size={14} /> },
-              { id: "scoperte" as const, label: "Scoperte", icon: <TrendingUp size={14} /> },
-            ]).map((t) => (
+            {vivaTabs.map((t) => (
               <button
                 key={t.id}
                 type="button"
@@ -130,6 +139,9 @@ export default function Memoria() {
           </div>
           {vivaTab === "memoria" && <MemoriaViva />}
           {vivaTab === "scoperte" && <ScoperteProposte />}
+          {vivaTab === "decisioni" && <GovernoAD variant="decisioni" />}
+          {vivaTab === "quaderni-senior" && <QuaderniSenior />}
+          {vivaTab === "stato-numeri" && <StatoNumeriVault />}
         </div>
       )}
 
@@ -160,7 +172,6 @@ export default function Memoria() {
           {archivioTab === "github" && <EsploraGitHub embedded />}
         </div>
       )}
-      {tab === "storico" && <StoricoMemoria />}
     </div>
   );
 }
