@@ -17,6 +17,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #pr-cassetto-conversazioni-fixed — Mergia PR #423: lista conversazioni ancorata allo schermo · ⏳ accodata 2026-07-17 00:15
+
+**Cosa fa:** il cassetto Conversazioni ora usa `position: fixed` ancorato sotto la navbar — appare sempre nel punto dello schermo in cui si trova Nicola, senza dover scrollare in cima alla chat.
+
+**Per metterlo live:** mergia PR #423 → https://github.com/NicolaeRotaru/ad-mycity/pull/423
+
+**Cosa cambia:** apertura conversazioni istantanea da qualsiasi punto della chat.
+**Se va bene:** live su Vercel in ~2 minuti.
+
+- **Colore:** 🟡 (merge su main → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #pr-chat-coda-3bug — Risolvi conflitti PR #422 e mergia (3 bug chat: doppia risposta, flicker, bottone smartphone) · ⏳ aggiornata 2026-07-17 00:27
 
 **Stato:** PR #422 GIÀ APERTA su GitHub (branch `fix/chat-coda-messaggi`, commit `f8dacc49`) — ma ha conflitti con main su `pannello/src/app/page.tsx`.
