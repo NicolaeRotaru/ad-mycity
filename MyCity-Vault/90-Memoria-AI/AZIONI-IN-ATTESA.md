@@ -1394,3 +1394,57 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+---
+
+### 🔴 #pat-decisioni-redazione — Ruota il token GitHub e lasciami cancellare il pezzo rimasto nel diario · ⏳ accodata 2026-07-16 16:55
+
+**Cosa è successo:** nella riga 205 di `DECISIONI.md` è rimasto un frammento di un token GitHub (PAT). Lo scan-segreti lo becca a **ogni giro** e per sicurezza blocca la pubblicazione della memoria: la Cabina non riceve più aggiornamenti freschi finché quella riga resta lì.
+
+**Cosa fare (2 passi):**
+1. Su GitHub → Settings → Developer settings → Tokens: **revoca/rigenera** il PAT (se è quello in uso come `GIT_PUSH_TOKEN`, aggiorna anche il `.env` del VPS).
+2. Rispondi «ok pat» a questa card: farò **un solo commit di redazione** su DECISIONI.md (`github_pat_…` → `[REDATTO]`), unica eccezione all'append-only, documentata.
+
+**Cosa cambia:** lo scan-segreti torna verde e la memoria riprende a pubblicarsi sulla Cabina a ogni giro.
+**Se va bene:** deadlock chiuso; aggiungo un guardiano che rifiuta i commit con pattern di token (così non risuccede).
+
+- **Colore:** 🔴 (rotazione credenziale + eccezione a una regola di memoria — decidi tu)
+- **Reparto:** security
+- **Origine:** `{origine:auto-radiografia-2026-07-16, difetto:AR-112}`
+
+---
+
+### 🟡 #fix-termometro-guardiani — Firma il pacchetto «termometro vero + guardiani ascoltati» · ⏳ accodata 2026-07-16 16:55
+
+**Il problema in una frase:** la Cabina ti ha mostrato salute **100/100 per 9 giorni mentre la radiografia diceva 0** (uno script sovrascrive il voto), e 4 guardiani (registro agenti, keyword-owner, esperimenti, north-star) escono rossi ma il giro ne scarta l'esito con `|| true`.
+
+**Cosa preparo (branch, nessun deploy):**
+- togliere la riga che sovrascrive il voto (`allinea-scan-cantiere.mjs:166`);
+- promuovere i 4 guardiani muti al pattern già usato dagli altri (esito catturato → vincolo hard nel giro);
+- far leggere al gate-budget un contatore vero (o il numero di chiamate come proxy finché la misura reale non c'è).
+
+**Cosa cambia:** il voto in Cabina torna a dire la verità e un guardiano rosso non può più essere ignorato in silenzio.
+**Se va bene:** il cantiere (19 difetti aperti) si chiude con prove vere, e il prossimo «100» sarà guadagnato.
+
+- **Colore:** 🟡 (modifica al codice della macchina in branch — firma tua, regola «mai toccarmi da sola»)
+- **Reparto:** tech
+- **Origine:** `{origine:auto-radiografia-2026-07-16, difetti:AR-105,AR-106,AR-109,AR-111}`
+
+---
+
+### 🟡 #fix-pannello-bloccanti — Firma il pacchetto «il Pannello risponde»: chat che mostrano le risposte e azioni che non muoiono in coda · ⏳ accodata 2026-07-16 16:55
+
+**I 4 difetti (tutti confermati nel codice, file:riga nel report):**
+1. Le chat di caselle/lavori dicono «La risposta non è arrivata» anche quando c'è → il client non chiede mai il dettaglio del lavoro (`parla.ts:113-120`, `ChatCasella.tsx:32-40`).
+2. Le chat delle caselle non si salvano mai sul server → refresh = tutto perso.
+3. Un'azione approvata che finisce «in coda» non riparte mai e non si può ri-approvare (`api/azioni-pronte/route.ts:72,96-103`).
+4. Aprire «Parla con questa casella» cancella la chat dell'Assistente (`page.tsx:1949-1969`).
+
+**Cosa preparo:** fix in branch sul repo AD (cartella `pannello/`), anteprima Vercel per provarli dal telefono, poi merge solo col tuo ok.
+
+**Cosa cambia:** il bottone Approva e le chat tornano affidabili — quello che scrivi al worker non sparisce più.
+**Se va bene:** passo ai 4 difetti del tasto INDIETRO (stessi file, fix piccoli) nello stesso branch.
+
+- **Colore:** 🟡 (codice del Pannello in branch — firma tua)
+- **Reparto:** frontend-dev
+- **Origine:** `{origine:audit-pannello-2026-07-16, difetti:AR-120..AR-123}`
