@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-16 23:55 · 🟡 · [AD/frontend-dev] · **PR #418 aperta — fix chat: pulsanti Conversazioni e Nuova chat spostati nei tab, rimossi dall'header.** Nicola correzione esplicita: «non dovevi toglierlo ma metterli accanto agli altri tab ed invece togliere quelle in alto». PR #417 aveva solo rimosso (senza aggiungere al tab bar). PR #418 corregge: (1) aggiunge «Conv» e «Nuova» nella `BarraScritturaChat` accanto agli altri pulsanti; (2) rimuove i pulsanti dall'header in alto, lasciando solo il titolo della conversazione. Branch `fix/chat-rimuovi-minibar-navbar`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #418.
+
 2026-07-16 23:30 · 🟡 · [AD/frontend-dev] · **PR #416 aperta — UX chat: chat vuota + comandi rapidi in tab ⚡ Skill.** Nicola ha chiesto di rimuovere il blocco "Scrivi un obiettivo… con le icone" dalla chat e spostare i Comandi rapidi nella tab ⚡. Modificati `comandi-data.ts` (4 comandi aggiunti alle Skill) e `page.tsx` (rimossi TEAM, COMANDI_RAPIDI e blocco empty-state dalla chat principale e fluttuante). Branch `fix/skill-tab-comandi-rapidi`, commit `82bd0a34`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #416.
 
 2026-07-16 22:31 · 🟡 · [AD/frontend-dev] · **PR #415 aperta — fix chat: conv aperta in cima + pulsanti in basso.** Branch `fix/chat-pulsanti-in-basso-conv-in-cima`, commit `99b80f77`. Due fix: (1) conversazione attualmente aperta sempre prima nella lista Conversazioni; (2) mini-barra con «Conversazioni» e «Nuova chat» sopra l'input, sempre visibile senza scroll. `node cervello/git-pr.mjs` eseguito con successo dalla directory corretta dopo che Nicola ha scritto «apri tu la pr». **Pendente 🔴:** Nicola mergia PR #415 → Pannello live.
