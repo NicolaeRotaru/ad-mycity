@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 01:15 · 🟡 · [AD/Nicola] · **Nicola: "stai creando errori su errori" — conflitto TypeScript su Vercel in PR #424.** Root: typecheck verde eseguito su page.tsx → PR #423 mergiata nel frattempo → git-pr.mjs ha rebasato includendo #423 → possibile errore TS non catturato → build Vercel rosso. Nicola ha chiesto analisi chiara. AD ha spiegato la catena (branch stale → conflitti → fix su main → typecheck obsoleto) e ha richiesto il log Vercel esatto (link o GitHub Checks PR #424). PR #422 da chiudere (ha conflitti), PR #424 attiva ma potenzialmente rotta. **Pendente 🟡:** Nicola invia log errore → AD applica fix.
+
 2026-07-17 00:45 · 🟡 · [AD/frontend-dev] · **PR #424 aperta — 3 bug chat risolti (doppia risposta, flicker, bottone smartphone). Nicola ha eseguito i 3 comandi VPS (branch fix/chat-3bug-v2, commit), l'AD ha aperto PR #424 senza conflitti con `git-pr.mjs`. Pattern confermato: edit diretto su main + branch/commit da Nicola → git-pr.mjs apre la PR. Pendente 🔴: Nicola mergia PR #424.**
 
 2026-07-17 00:35 · 🟡 · [AD/frontend-dev] · **Nicola "risolvi tu il conflitto" — git bloccato, fix applicati direttamente su main.** PR #422 aveva conflitti su `page.tsx`. Git stash/rebase bloccati dalla chat. Strategia adottata: edit diretto su `page.tsx` di main (3 fix applicati, typecheck verde), chiesto a Nicola di eseguire 3 comandi per creare branch + commit. Poi l'AD apre la PR con `git-pr.mjs`. Lezione operativa: quando git è bloccato e c'è un conflitto, edita il file direttamente su main e deleghi il branch+commit a Nicola (3 comandi). **Pendente 🔴:** Nicola esegue i 3 comandi → AD apre PR.

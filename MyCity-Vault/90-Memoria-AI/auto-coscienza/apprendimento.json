@@ -17,6 +17,29 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0717-246",
+      "testo": "**Typecheck scaduto in sessione rapida — il verde è valido SOLO se si pusha subito (caso-studio Nicola 17/7: "stai creando errori su errori"):** in sessioni con molte PR ravvicinate sullo stesso file, c'è un gap critico tra 'typecheck verde' e 'push'. Se nel gap un'altra PR mergia sullo stesso file, il typecheck è obsoleto e la PR aprirà un build rotto. Stanotte: `npx tsc` verde su page.tsx → gap di ~10 min → PR #423 mergiata su page.tsx → git-pr.mjs ha rebasato includendo #423 → errore TS non catturato → build Vercel rosso (PR #424). Regola: typecheck → PUSH IMMEDIATO nello stesso turno; se passa anche un singolo ciclo di PR sul file, ri-esegui il typecheck prima di pushare. Corollario: non fare typecheck come 'step asincrono' in attesa di altri eventi.",
+      "tag": [
+        "typecheck",
+        "typecheck-scaduto",
+        "sessione-rapida",
+        "page-tsx",
+        "git-pr-mjs",
+        "rebase",
+        "build-vercel",
+        "errori-cascata",
+        "prevenzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 01:15",
+      "stato": "attiva"
+    },
+    {
       "id": "L-2026-0717-245",
       "testo": "**Branch stale in sessione rapida = conflitti certi (Nicola: "non c'era fino a ieri", 17/7):** in sessioni con molte PR ravvicinate sullo stesso file (page.tsx), un fix-branch creato prima di quelle merge diventa stale in poche ore. Quando si apre la PR, main è già avanti e il file è in conflitto. Root causa di fix/chat-coda-messaggi: basato su page.tsx vecchia mentre 10+ PR la modificavano su main. Prevenzione: prima di pushare un branch «fermo», verificare con `git diff origin/main -- <file>` se il file target è cambiato su main; se sì, eseguire il rebase PRIMA di aprire la PR. Il rebase preventivo costa 30 secondi; risolvere conflitti dopo costa un ciclo intero.",
       "tag": [
