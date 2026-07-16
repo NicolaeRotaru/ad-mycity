@@ -51,20 +51,9 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ---
 
-### 🟡 #vercel-token-vps — Incollami il token Vercel che hai creato · ⏳ accodata 2026-07-17 02:35 · ⚠️ parziale 2026-07-17 ~02:40
+### ✅ #vercel-token-vps — Token Vercel inserito nel worker da Nicola · FATTO 2026-07-17 ~00:10
 
-**Stato:** Nicola ha detto "fatto" a fine chat 17/7 dopo la richiesta di creare il token — probabilmente il token è già stato creato su Vercel, ma il VALORE non è mai stato incollato in chat. Al prossimo messaggio, chiedere subito se il token è pronto e, se sì, incollarlo.
-
-**Cosa fare (passo rimanente):**  
-Incollami il token Vercel in chat (vai su vercel.com → Settings → Tokens se non l'hai ancora fatto, oppure copia quello già creato).
-
-**Poi faccio io:** lo aggiungo alla configurazione del VPS così la prossima volta che un build fallisce vedo l'errore direttamente senza chiederti il log.
-
-**Cosa cambia:** quando Vercel mostra un errore di build, l'AD lo vede in autonomia e lo risolve senza aspettare che tu copi il messaggio.
-**Se va bene:** ciclo di fix build da 10 min → 2 min.
-
-- **Colore:** 🟡 (Nicola incolla il valore, AD configura nel VPS)
-- **Reparto:** devops-sre / builder-automazioni
+Nicola ha confermato "ho inserito il token vercel dentro il worker". Il token è nel worker VPS. Prossimo passo (🟢): al primo build Vercel fallito, verificare che l'AD possa leggere i log senza chiederli a Nicola.
 
 ---
 

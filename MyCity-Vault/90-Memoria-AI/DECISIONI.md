@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 ~00:10 · 🟢 · [Nicola] · **Token Vercel inserito nel worker da Nicola — conferma esplicita.** Nicola ha risposto "ho inserito il token vercel dentro il worker" alla domanda dell'AD "Cosa hai fatto esattamente?". Il token è ora nel worker VPS. La metabolizzazione precedente aveva registrato "senza ricevere risposta" perché la risposta era arrivata nell'ultimo turno non catturato. Card #vercel-token-vps: token IN worker, verificare che il MCP Vercel funzioni dalla prossima sessione.
+
 2026-07-17 02:45 · 🟡 · [Nicola] · **Nicola ha detto "fatto" dopo la richiesta di creare il token Vercel — valore non ancora incollato.** Fine chat 17/7: l'AD ha chiesto di creare il token su Vercel, Nicola ha risposto "fatto" ma il valore non è mai arrivato. L'AD ha chiesto chiarimento ("cosa hai fatto?") senza ricevere risposta. Al prossimo avvio chat: chiedere subito se il token è pronto e incollarlo. Card aggiornata: #vercel-token-vps.
 
 2026-07-17 02:35 · 🟡 · [Nicola/AD] · **Nicola chiede accesso Vercel alla chat del Pannello ("come fai a non avere accesso a vercel? c'è l'avevi. come faccio a farteli dare").** Il MCP Vercel funziona solo dall'app Claude Code desktop. Per averlo dalla chat del Pannello/VPS serve un token Vercel esplicito nel VPS: Nicola va su Vercel → Settings → Tokens → crea token → lo fornisce → l'AD lo configura nel VPS. Azione accodata: #vercel-token-vps. Senza il token, l'AD chiede il testo dell'errore a Nicola quando un build fallisce.
