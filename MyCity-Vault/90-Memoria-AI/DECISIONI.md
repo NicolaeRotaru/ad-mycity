@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 01:30 · ⭐ PERMANENTE · [Nicola] · **«Impara questa lezione e ricordatela per sempre»: il file `.env` del worker è `cervello/vps/.env`.** Nicola ha chiuso la sessione con questa istruzione esplicita dopo che l'AD l'aveva mandata due volte nel posto sbagliato (root `.env` poi dentro il codice del worker). Il systemd legge `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env` — verificato. Ogni variabile d'ambiente del worker va lì. Aggiornato: LEZIONI-CHAT.md (⭐ PERMANENTE in cima) + apprendimento.json L-2026-0717-247 (permanente_nicola: true, evidenze: 2).
+
 2026-07-17 ~01:56 · 🟡 · [AD] · **VERCEL_TOKEN in `cervello/vps/.env` — confermato CORRETTO, worker da riavviare.** Nicola ha detto "io l'ho messo qui: nano /opt/mycity/ad-mycity/cervello/vps/.env". Verificato: il servizio systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env` — è il posto giusto. Il token c'è. Il worker deve essere riavviato per caricare il nuovo env: `sudo systemctl restart mycity-worker-chat.service`. Dopo il riavvio il MCP Vercel sarà attivo dalla chat del Pannello. Card #vercel-token-vps aggiornata. Fonte: chat Nicola 17/7.
 
 2026-07-17 ~01:55 · 🟡 · [AD] · **nano .env mostrava file vuoto a Nicola — AD ha detto "non salvare, Ctrl+X → N".** Screenshot allegato da Nicola: file apparentemente vuoto. Le variabili potrebbero essere caricate altrove (systemd, profile, file diverso). Regola: `printenv | grep VERCEL` + `wc -l .env` PRIMA di toccare il file. Card #vercel-token-vps rimane aperta — da investigare con questi comandi al prossimo avvio.

@@ -18,15 +18,16 @@
   "lezioni": [
     {
       "id": "L-2026-0717-247",
-      "testo": "**VERCEL_TOKEN va nel `.env` del VPS, NON nel codice del worker (caso-studio Nicola 17/7):** Nicola ha risposto «ho inserito il token vercel dentro il worker» — il MCP Vercel non si è attivato perché il token era in un file sorgente, non nell'environment del processo. Il token deve stare come variabile d'ambiente nel `.env` del VPS (riga `VERCEL_TOKEN=...`). Quando qualcuno dice di aver 'inserito il token', chiedere subito DOVE: nel `.env`? o nel codice? Sono due cose completamente diverse — una attiva il processo, l'altra no.",
-      "tag": ["vercel", "token", "env", "mcp-vercel", "configurazione", "worker"],
+      "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 2 conferme):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, ecc.) va SOLO in `cervello/vps/.env` + `sudo systemctl restart mycity-worker-chat.service`. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
+      "tag": ["vercel", "token", "env", "mcp-vercel", "configurazione", "worker", "permanente", "cervello-vps-env"],
       "reparto": "@devops-sre",
       "confidenza": 1,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
+      "permanente_nicola": true,
       "nato": "2026-07-17",
-      "ultima_conferma": "2026-07-17 01:15",
+      "ultima_conferma": "2026-07-17 01:30",
       "stato": "attiva"
     },
     {
