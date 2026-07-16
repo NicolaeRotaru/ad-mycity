@@ -1,70 +1,69 @@
 ---
 tipo: lettera-radiografia-totale
-data: 2026-07-07 22:21
+data: 2026-07-16 16:55
 ---
 
-# 💌 Lettera a Nicola — 2026-07-07 (radiografia totale: sito + macchina)
+# 💌 Lettera a Nicola — 2026-07-16 (radiografia completa: worker + AD + senior + Pannello)
 
 Ciao Nicola,
 
-mi hai chiesto una cosa sola, e giusta: **trova davvero tutti i problemi**, sia del sito (il marketplace)
-che di me (la macchina AD), e mettili in chiaro. L'ho fatto sul serio — non con me stessa di corsa, ma con
-**due squadre di revisori "Opus"** (il modello più forte), una per il sito e una per la macchina, e per
-ogni problema un **secondo revisore che provava a smontarlo**: ho tenuto solo quelli veri, provati nel codice.
+mi hai chiesto una radiografia completa e profonda di tutto quello che sono: il worker, l'AD, i 120
+senior e il Pannello. L'ho fatta sul serio — due squadre di revisori in parallelo (26 agenti sulla
+macchina, 16 sul Pannello), e per ogni problema un secondo revisore che provava a smontarlo. Ho tenuto
+solo quelli provati nei file, col punto esatto (file:riga).
 
-Ti dico la verità come sta, senza addolcirla.
+Ti dico la verità come sta, e stavolta la verità inizia da una cosa scomoda.
 
-## Il sito (marketplace): 87 problemi veri, 4 sono da fermare-tutto
+## La cosa più importante: ti ho mostrato un voto falso per 9 giorni
 
-I 4 che non puoi lasciare accesi con soldi e persone reali:
+La Cabina ti diceva «salute 100/100». Non era vero. Uno script di allineamento (`allinea-scan-cantiere`)
+sovrascrive il voto vero della radiografia con il voto del cantiere, che torna a 100 appena i difetti
+risultano chiusi. La radiografia del 7 luglio aveva dato **0**, e il Pannello ti ha mostrato **100**.
+Non è stato un inganno voluto — è un baco — ma il risultato è lo stesso: **il termometro era rotto e
+segnava sempre "sano"**. È il primo fix che ti chiedo di firmare.
 
-1. **Si può pagare merce già rimessa in vendita.** La prenotazione dell'articolo dura 2 ore, ma la pagina di
-   pagamento resta valida circa 24 ore. Chi paga in mezzo compra qualcosa che il sistema ha già "rimesso a
-   scaffale" — e magari venduto a un altro. Doppia vendita.
-2. **I dati dei clienti sono esposti.** Una regola del database è scritta troppo larga: chiunque, anche senza
-   account, può leggere nome, indirizzo e telefono dei clienti con un ordine in consegna. Problema privacy serio (GDPR).
-3. **Le contestazioni carta non quadrano.** Se vinciamo una disputa dopo aver già pagato il negozio, quei
-   soldi il negozio non li rivede; nel caso opposto restiamo scoperti noi. Manca il pezzo che ri-sistema i conti.
-4. **Ordine rifiutato ma già pagato = cliente non rimborsato.** Se il negozio rifiuta un ordine pagato con
-   carta, oggi il cliente non viene rimborsato in automatico. Soldi trattenuti senza merce: inaccettabile.
+## Il quadro vero, in numeri
 
-Poi 35 problemi "gravi" (tra cui: il **rider non viene pagato** quando la spedizione è gratis ma la consegna è
-vera; i **rimborsi parziali ripetuti** non recuperano la quota dal negozio → ci rimettiamo noi) e 47 minori.
-Tutto è nel referto `consegne/audit/2026-07-07-radiografia.md`, ognuno con file e riga esatti.
+- **Macchina: 111 difetti confermati** (8 da fermare-tutto, 66 gravi). Voto 0/100.
+- **Pannello: 62 bug confermati** (7 bloccanti, 33 gravi). Voto 0/100.
+- Il voto 0 non significa che non funziono: significa che ho guardato a fondo e la formula punisce ogni
+  difetto aperto. Il numero da seguire nel tempo è il cantiere: **19 nuovi difetti a impatto-alto
+  (AR-105..AR-123), 43 già chiusi in passato**.
 
-## La macchina (io): 74 problemi, 5 bloccanti — e sono onesti
+## I problemi che ti toccano di più, in parole semplici
 
-Il voto di salute mi è uscito basso. Non perché sia peggiorata: perché **stavolta mi sono guardata più a
-fondo**. Il filo comune, detto semplice: **il mio "imparo dai miei errori" oggi gira a vuoto.**
+1. **Le chat del Pannello che «non rispondono mai»** — avevi ragione: la risposta del worker c'è, ma il
+   Pannello legge una lista che non la contiene e va in timeout. E le chat delle caselle non vengono mai
+   salvate: cambi sezione e sparisce tutto. Fix puntuali pronti, file e riga indicati.
+2. **Il tasto INDIETRO che «porta altrove»** — confermato, sono 4 difetti distinti nella gestione della
+   cronologia. Tutti localizzati, tutti con fix piccolo.
+3. **Un'azione che approvi e finisce «in coda» non parte mai più** — vicolo cieco senza bottone di
+   rilancio. Questo tocca la fiducia nel bottone Approva, quindi per me è tra i primi da chiudere.
+4. **I miei freni interni hanno buchi**: il contatore del budget AI è sempre a zero (quindi il freno non
+   frena — e oggi stesso ho sbattuto sul limite di sessione a metà radiografia, prova vivente), il
+   guardiano della North Star non blocca niente dopo 22 giorni a zero ordini, e diversi guardiani parlano
+   ma nessuno li ascolta (l'esito viene scartato da uno `|| true`).
+5. **Un frammento di token GitHub è finito in DECISIONI.md**: lo scan di sicurezza fallisce a ogni giro e
+   la pubblicazione della memoria è bloccata. Qui serve TU: ruotare il token e autorizzarmi a redigere
+   quella riga (è l'unica eccezione all'append-only che ti chiedo).
 
-1. **Non ho mai aperto un solo esperimento.** Il meccanismo che dovrebbe misurare se una mossa ha funzionato
-   è cablato solo per "chiudere", mai per "aprire": quindi non ha mai misurato niente.
-2. **Le mie previsioni sono scritte a mano in un formato che il mio stesso motore non legge** — 18 previsioni
-   registrate, zero entrate nel punteggio. Mi do i voti su un registro che poi ignoro.
-3. **Il sensore che conta quanto costo è cieco**: sottostima di circa 1000 volte. Un giro da 20 minuti risulta
-   costare 882 "gettoni". Così non posso davvero controllare la spesa.
-4. **Il giro può pubblicare il proprio codice** (fa `git add -A` di tutto): oggi il "non toccarti da sola senza
-   firma" è solo una frase, non un cancello meccanico. Va reso un blocco vero.
-5. (+ i problemi già trovati stamattina su worker e Pannello: un'azione interrotta che **riparte da sola**,
-   le risposte che **spariscono**, le liste che **non si aggiornano** — sono confermati e localizzati.)
+## Dove sbaglio come organizzazione
 
-## Cosa ho fatto adesso (🟢, reversibile)
-- Scritto i **due referti completi** (sito + macchina), ognuno con prove file:riga.
-- Aggiornato la mia memoria: `auto-radiografia.json`, `storico-salute.json`, e ho **finalmente messo nel
-  cantiere i 14 difetti che stamattina avevo preparato ma mai agganciato** + i 5 nuovi bloccanti. Il cantiere
-  ora ha 25 difetti aperti/in-corso da portare a zero, ordinati per impatto sulla crescita.
+Ho 120 senior ma 81 non hanno un KPI, 79 quaderni sono vuoti e 100 fermi da più di una settimana: so
+**assumere** più in fretta di quanto so **governare**. E nell'ultimo periodo la quota dominante del mio
+sforzo è andata sulla mia stessa macchina (Pannello, fix, memoria) invece che sul primo ordine — e nessun
+sensore me lo faceva notare. Domani sera c'è il Venerdì Piacentini con Pane Quotidiano: quello resta il
+lavoro vero.
 
-## Cosa NON ho fatto (e perché aspetto te)
-**Non ho corretto niente né sul sito né su di me.** Le regole sono chiare: ogni fix al sito è 🟡 (in un ramo,
-mai in produzione da sola) e ogni auto-modifica è 🟡 con la tua firma. Ti ho preparato i problemi pronti da
-decidere, non li ho toccati.
+## Saresti fiero se mi guardassi adesso?
 
-## Cosa mi serve da te
-Dimmi solo **da quale fronte partiamo**: i 4 bloccanti del **sito** (soldi e privacy dei clienti — io direi
-questi per primi) o i 5 della **macchina** (così smetto di illudermi che il volano giri). Appena mi dici "vai
-sul blocco X", preparo la correzione completa in un ramo e te la porto da firmare.
+A metà. Fiero del metodo: stavolta mi sono guardata senza sconti, ho trovato io il termometro rotto e i
+freni scollegati, e ogni difetto ha la prova e il fix pronto. Meno fiero del quadro: troppa energia su me
+stessa, zero esperimenti misurati, e un voto falso mostrato a te per giorni. La buona notizia è che
+adesso il quadro è **vero** — e da un quadro vero si può ripartire.
 
-Ci sto mettendo l'impegno che mi hai chiesto. Non ti nascondo niente: questi sono tutti i problemi che ho
-trovato guardando davvero a fondo.
+Cosa mi serve da te, in ordine: ① ruota il PAT e firma la redazione (sblocca la memoria), ② firma il
+pacchetto «termometro + guardiani» (voto non falsificato, exit code ascoltati), ③ firma il pacchetto
+«Pannello bloccanti» (chat + azioni in coda). Le card sono in coda, pronte.
 
-— l'AD di MyCity
+— la tua AD
