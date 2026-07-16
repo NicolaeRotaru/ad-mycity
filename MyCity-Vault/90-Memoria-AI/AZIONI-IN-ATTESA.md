@@ -17,6 +17,23 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #pr-chat-coda-3bug — Apri la PR per i 3 bug chat (doppia risposta, flicker, bottone smartphone) · ⏳ accodata 2026-07-17
+
+**Commit pronto sul VPS:** `f8dacc49` nel branch `fix/chat-coda-messaggi` — NON ancora su GitHub (push bloccato da permessi in chat).
+
+**Comando per aprire la PR (da terminale VPS):**
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --accoda
+```
+
+**Cosa cambia:** fix 3 bug — (1) doppia risposta eliminata con check coda sincrono; (2) flicker sparito (rimossi i blocchi "Sto lavorando..." ridondanti); (3) bottone invio funziona su smartphone anche durante l'elaborazione.
+**Se va bene:** chat stabile su tutti i dispositivi; Nicola mergia la PR → live in ~2 min su Vercel.
+
+- **Colore:** 🟡 (push GitHub + PR → merge da Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
 
 **Cosa fare (nel worker-chat, NON nel Pannello):**
