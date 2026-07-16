@@ -5,7 +5,7 @@ import { Search, Loader2, FileText } from "lucide-react";
 
 type Risultato = { file: string; riga: string };
 
-export default function RicercaGlobale() {
+export default function RicercaGlobale({ inHeader }: { inHeader?: boolean } = {}) {
   const [q, setQ] = useState("");
   const [risultati, setRisultati] = useState<Risultato[]>([]);
   const [loading, setLoading] = useState(false);
@@ -39,23 +39,26 @@ export default function RicercaGlobale() {
     };
   }, [q]);
 
-  return (
-    <section className="card p-4">
-      <div className="relative">
-        <div className="flex items-center gap-2.5">
-          <Search size={16} className="shrink-0" style={{ color: "var(--text-faint)" }} />
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Cerca in tutta la memoria e la conoscenza (MyCity + AD MyCity)…"
-            className="input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0"
-          />
-          {loading && <Loader2 size={15} className="animate-spin" style={{ color: "var(--text-faint)" }} />}
-        </div>
+  const campo = (
+    <div className="relative flex-1">
+      <div className={`flex items-center gap-2 ${inHeader ? "rounded-xl border px-3 py-1.5" : ""}`} style={inHeader ? { borderColor: "var(--border)", background: "var(--bg-surface-2)" } : undefined}>
+        <Search size={14} className="shrink-0" style={{ color: "var(--text-faint)" }} />
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder={inHeader ? "Cerca nella memoria…" : "Cerca in tutta la memoria e la conoscenza (MyCity + AD MyCity)…"}
+          className={`input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 ${inHeader ? "text-sm" : ""}`}
+        />
+        {loading && <Loader2 size={14} className="animate-spin shrink-0" style={{ color: "var(--text-faint)" }} />}
+      </div>
 
-        {aperto && (
-          <div className="mt-3 border-t pt-3 space-y-1.5 max-h-80 overflow-y-auto scroll-soft" style={{ borderColor: "var(--border)" }}>
-            {!loading && risultati.length === 0 && <p className="t-eti py-2">Nessun risultato per “{q}”.</p>}
+      {aperto && (
+        <div
+          className={`${inHeader ? "absolute left-0 right-0 top-full mt-1 z-50 rounded-xl border shadow-2xl" : "mt-3 border-t pt-3"} space-y-1.5 max-h-80 overflow-y-auto scroll-soft`}
+          style={inHeader ? { borderColor: "var(--border)", background: "var(--bg-surface)" } : { borderColor: "var(--border)" }}
+        >
+          <div className={inHeader ? "p-2" : ""}>
+            {!loading && risultati.length === 0 && <p className="t-eti py-2 px-2">Nessun risultato per &ldquo;{q}&rdquo;.</p>}
             {risultati.map((r, i) => (
               <div key={i} className="rounded-lg px-2.5 py-2 transition hover:bg-[var(--bg-surface-2)]">
                 <div className="flex items-center gap-1.5 text-[11px] text-brand">
@@ -66,8 +69,16 @@ export default function RicercaGlobale() {
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
+  );
+
+  if (inHeader) return campo;
+
+  return (
+    <section className="card p-4">
+      {campo}
     </section>
   );
 }
