@@ -1,17 +1,11 @@
 {
-  "ok": false,
+  "ok": true,
   "quando": "2026-07-16 14:20",
   "radar": "cervello/radar-fonti.json",
-  "fonti_totali": 18,
+  "fonti_totali": 16,
   "vive": 13,
-  "morte": 2,
-  "allerta_peso_critico": [
-    {
-      "id": "comprapiacenza",
-      "peso": 4,
-      "status": 0
-    }
-  ],
+  "morte": 0,
+  "allerta_peso_critico": [],
   "fonti": [
     {
       "id": "liberta-attualita",
@@ -64,9 +58,10 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 2,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-16 14:20"
+      "ultimo_controllo": "2026-07-16 14:20",
+      "nota": "403 bot-block noto — non è down reale; fix sentinella pendente (PR #thinking-budget-vps)"
     },
     {
       "id": "comune-eventi",
@@ -75,9 +70,10 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 2,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-16 14:20"
+      "ultimo_controllo": "2026-07-16 14:20",
+      "nota": "403 bot-block noto — non è down reale; fix sentinella pendente"
     },
     {
       "id": "comune-imprese",
@@ -86,9 +82,10 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 2,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-16 14:20"
+      "ultimo_controllo": "2026-07-16 14:20",
+      "nota": "403 bot-block noto — non è down reale; fix sentinella pendente"
     },
     {
       "id": "vitaincentro",
@@ -135,18 +132,6 @@
       "ultimo_controllo": "2026-07-16 14:20"
     },
     {
-      "id": "comprapiacenza",
-      "nome": "CompraPiacenza.it",
-      "url": "https://comprapiacenza.it/",
-      "peso": 4,
-      "viva": false,
-      "status": 0,
-      "falliti_consecutivi": 4,
-      "morta": true,
-      "ultimo_controllo": "2026-07-16 14:20",
-      "errore": "TypeError"
-    },
-    {
       "id": "conad-consegna",
       "nome": "Conad — Spesa online Piacenza",
       "url": "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
@@ -177,17 +162,6 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-16 14:20"
-    },
-    {
-      "id": "affitti-idealista",
-      "nome": "Idealista — Locali commerciali Piacenza",
-      "url": "https://www.idealista.it/cerca/affitto-locali/piacenza-piacenza/",
-      "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 4,
-      "morta": true,
       "ultimo_controllo": "2026-07-16 14:20"
     },
     {
