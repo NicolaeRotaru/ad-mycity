@@ -125,6 +125,17 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           }
           onScegli={onAllegati}
         />
+        <BottoneFotoChat
+          videoLive
+          disabled={allegati.length >= 6}
+          iconSize={fab ? 16 : 18}
+          className={
+            fab
+              ? "min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+              : "min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+          }
+          onScegli={onAllegati}
+        />
         <button
           onClick={onDetta}
           disabled={ascoltando}

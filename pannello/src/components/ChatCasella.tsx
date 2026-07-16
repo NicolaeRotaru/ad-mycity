@@ -269,6 +269,14 @@ export default function ChatCasella({
           className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
           onScegli={aggiungiFile}
         />
+        <BottoneFotoChat
+          videoLive
+          disabled={inviando || allegati.length >= 6}
+          iconSize={13}
+          etichetta="Video live"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+          onScegli={aggiungiFile}
+        />
         <button
           onClick={invia}
           disabled={inviando || (!bozza.trim() && allegati.length === 0)}
