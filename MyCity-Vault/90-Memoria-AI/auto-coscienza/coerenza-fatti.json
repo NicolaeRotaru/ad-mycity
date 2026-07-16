@@ -1,11 +1,30 @@
 {
-  "data": "2026-07-15 22:20",
+  "data": "2026-07-16 12:03",
   "esito": "ok",
-  "fatti_totali": 12,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
+  "fatti_totali": 13,
+  "cacce_aperte": 3,
+  "file_scansionati": 670,
   "incoerenze": [],
-  "cacce": [],
+  "cacce": [
+    {
+      "fatto": "motore-principale",
+      "pattern": "Cursor CLI 'agent' di default",
+      "dal": "2026-07-16 12:03",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "motore-principale",
+      "pattern": "Cursor di default",
+      "dal": "2026-07-16 12:03",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "motore-principale",
+      "pattern": "motore Cursor di default",
+      "dal": "2026-07-16 12:03",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",

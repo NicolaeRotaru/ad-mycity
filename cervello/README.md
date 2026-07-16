@@ -1,17 +1,20 @@
-# 🫀 cervello/ — Far vivere l'AD (motore AI: Cursor o Claude)
+# 🫀 cervello/ — Far vivere l'AD (motore AI: Claude o Cursor)
 
 > Questa cartella contiene gli script che rendono l'AD **autonomo e ricorrente**.
-> Il **motore AI** è configurabile (vedi `motore-ai.sh`): di default usa **Cursor CLI**
-> (`agent`, col tuo abbonamento Cursor); in alternativa **Claude Code** (`claude`, piano
-> Pro/Max). Il motore gira in questa cartella, quindi prende automaticamente il manuale
-> `CLAUDE.md` (via `.cursor/rules/` su Cursor), gli agenti `.claude/agents/` e la memoria nel vault.
+> Il **motore AI** è configurabile (vedi `motore-ai.sh`): il principale è **Claude Code**
+> (`claude`, piano Max — decisione Nicola 2026-07-10); in alternativa **Cursor CLI**
+> (`agent`, con l'abbonamento Cursor). Il motore gira in questa cartella, quindi prende
+> automaticamente il manuale `CLAUDE.md` (via `.cursor/rules/` su Cursor), gli agenti
+> `.claude/agents/`, le skill approvate (`.claude/skills/`, specchiate da `.cursor/skills/`)
+> e la memoria nel vault.
 
 ## ⚙️ Quale motore? (una variabile)
 In `cervello/vps/.env` imposti `CERVELLO_MOTORE`:
-- `cursor` (default) → usa la CLI `agent`; serve `CURSOR_API_KEY` (o `agent login` una volta).
-- `claude` → usa la CLI `claude`; serve il login del piano Max (`claude login`).
-- `auto` → preferisce `agent` se installato, altrimenti `claude`.
-Modello opzionale via `CERVELLO_MODELLO` (es. `composer-2.5`).
+- `claude` (principale) → usa la CLI `claude`; serve `CLAUDE_CODE_OAUTH_TOKEN` (da `claude setup-token`)
+  o `claude login` una volta. Setup in un comando: `sudo bash cervello/vps/collega-claude.sh`.
+- `cursor` → usa la CLI `agent`; serve `CURSOR_API_KEY` (o `agent login` una volta).
+- `auto` (default) → preferisce `claude` se installato, altrimenti `agent`.
+Modello opzionale via `CERVELLO_MODELLO` (es. `composer-2.5` su Cursor).
 
 ## ⚠️ Leggi prima questo (onestà)
 - Gli abbonamenti **non sono illimitati**: hanno limiti d'uso che si resettano ogni poche
@@ -23,8 +26,9 @@ Modello opzionale via `CERVELLO_MODELLO` (es. `composer-2.5`).
   senza chiederti il permesso ogni volta (Cursor `--force`, Claude `--permission-mode acceptEdits`),
   ma le azioni 🔴 (soldi, deploy, messaggi a persone reali) restano comunque da firmare — è scritto
   nel `CLAUDE.md` e nei mansionari.
-- Serve **un motore installato**: Cursor CLI (`curl https://cursor.com/install -fsS | bash`)
-  oppure Claude Code, raggiungibile come `agent`/`claude` da terminale.
+- Serve **un motore installato**: Claude Code (`npm install -g @anthropic-ai/claude-code`)
+  oppure Cursor CLI (`curl https://cursor.com/install -fsS | bash`), raggiungibile come
+  `claude`/`agent` da terminale.
 
 ---
 
@@ -42,8 +46,8 @@ perlustrazione": l'AD legge dati + memoria, scrive un briefing nel vault e aggio
    - ⏹ Per fermarlo: `cervello\disattiva-giro-automatico.cmd`.
    - Per cambiare intervallo: da PowerShell in `cervello\`, `.\installa-giro.ps1 -OgniOre 1`.
 
-> ⚠️ **Onestà:** serve il **PC acceso** + il motore AI configurato (Cursor `agent` con
-> `CURSOR_API_KEY`/login, oppure Claude `claude` col **Max**). Gli abbonamenti hanno limiti
+> ⚠️ **Onestà:** serve il **PC acceso** + il motore AI configurato (Claude `claude` col **Max**
+> — token/login — oppure Cursor `agent` con `CURSOR_API_KEY`/login). Gli abbonamenti hanno limiti
 > d'uso che si resettano ogni poche ore: ogni 2 ore è un buon equilibrio; ogni ora 24/7 può
 > incontrare i limiti. Le azioni 🔴 (soldi/messaggi reali) restano comunque da firmare.
 
@@ -74,7 +78,7 @@ Il worker fa polling, esegue ogni lavoro col motore AI (`agent -p` o `claude -p`
 ## Modo C — VPS Linux sempre acceso (24/7, senza il tuo PC) 🖥️
 Far girare il cervello su un server Linux (es. Hetzner) **accanto** a quello che c'è già, senza
 cancellare nulla. Giro automatico ogni 2 ore + worker delle approvazioni, sempre attivi, sul tuo
-abbonamento (Cursor di default, o Claude Max).
+abbonamento (Claude Max di default, o Cursor).
 
 ➡️ **Guida completa: [`vps/SETUP-VPS.md`](./vps/SETUP-VPS.md)**. In breve, **sul VPS via SSH** (non sul PC Windows; il repo è **privato** → serve un **PAT**):
 > ```bash

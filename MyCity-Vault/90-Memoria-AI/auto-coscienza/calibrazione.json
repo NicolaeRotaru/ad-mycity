@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-16 11:40",
+  "aggiornato": "2026-07-16 12:05",
   "per_reparto": [
     {
       "reparto": "@customer-success",
@@ -12,10 +12,10 @@
     },
     {
       "reparto": "@tech",
-      "previsioni": 1,
-      "azzeccate": 1,
+      "previsioni": 2,
+      "azzeccate": 2,
       "punteggio": 1,
-      "lower_bound": 0.38,
+      "lower_bound": 0.55,
       "autonomia": "bassa"
     },
     {
@@ -345,9 +345,27 @@
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-16 11:40",
       "chiuso_il": "2026-07-16 11:40"
+    },
+    {
+      "id": "CAL-20260716100513-tech",
+      "reparto": "@tech",
+      "azione": "Secondo giro perfezionamento parity: prompt-attrezzi, classe auth retry+Pannello, registro-fatti motore, test specchia",
+      "metrica": "esito_loop",
+      "atteso": 6,
+      "reale": 6,
+      "entro": "2026-07-16",
+      "tolleranza": 0.25,
+      "stato": "azzeccata",
+      "scarto_pct": 0,
+      "fonte": "chiusura-loop ESITO",
+      "sensore_stato": "n/d",
+      "banale": false,
+      "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+      "creato": "2026-07-16 12:05",
+      "chiuso_il": "2026-07-16 12:05"
     }
   ],
-  "_nota": "13 chiuse · 2 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "14 chiuse · 2 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

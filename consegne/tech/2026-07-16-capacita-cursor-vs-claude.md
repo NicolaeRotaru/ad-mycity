@@ -71,3 +71,14 @@ Ho riletto i pezzi principali: due-worker (lane all+chat, claim atomico, worker_
 - **4. Rotaie di carta — FATTO.** `AGENTS.md` e `.cursor/rules/mycity-ad.mdc` riscritti al ramo unico `main` (memoria-ad dichiarato pensionato); `setup.sh` default `claude` + istruzioni collega-claude; `CHECKLIST-VIVO.md` con sezione Claude di default + riga sintomi; `SETUP-VPS.md` aggiornato; `worker.ps1` auto preferisce claude.
 - **Verifiche:** `bash -n` su 8 script OK · `node --check` OK · **17/17 test bats** (9 nuovi `motore-ai-claude-auth.bats` + regressione cursor-auth/allowedtools) · `npx tsc --noEmit` nel pannello = 0 errori.
 - **Residuo (1 riga, non bloccante):** `cervello/vps/.env.example` non modificabile da qui (freno sui file `.env*`): il template porta ancora il vecchio default — ma `collega-claude.sh` scrive da solo le righe giuste nel `.env` vero.
+
+## ✨ SECONDO GIRO di perfezionamento — 2026-07-16 12:06 («non c'è altro che puoi migliorare?»)
+
+1. **Il prompt del worker ora CONOSCE i nuovi attrezzi.** Il contratto della chat dice «non esiste altro — non inventare strumenti»: senza questa modifica i permessi tsc/build firmati al giro 1 non sarebbero MAI stati usati. Aggiunti alla cassetta (chat + lavori) con l'obbligo di PROVA prima di ogni PR (tsc per pannello/, bash -n per gli script, bats per i test).
+2. **Errori di credenziali riconosciuti ovunque.** Nuova classe `auth` in `retry-policy.mjs` (stop immediato col rimedio — prima bruciava tentativi su un errore che nessun retry può riparare) e stessa firma in `worker-salute`: il Pannello ora legge anche gli ULTIMI errori (non solo la coda) e dice «credenziali scadute → collega-claude.sh» invece del generico «motore impallato». Diagnostica: nuova riga `motore` accanto al battito.
+3. **Permesso `npm --prefix pannello ci`** (senza, sul VPS tsc/build non partono: node_modules assenti).
+4. **Ultime rotaie di carta:** `cervello/README.md` (era «Cursor di default» in 5 punti) e `giro.md` (ramo cloud `claude/…`).
+5. **Fatto-chiave nel registro (AR-102):** `motore-principale` = Claude, con 3 cacce armate («Cursor di default» ecc.) — se una copia vecchia rispunta in un file vivo, il guardiano del giro FALLISCE. Verificato: 670 file scansionati, exit 0.
+6. **Test di guardia nuovi:** `specchia-skills.bats` (4 test: copertura, idempotenza, conversione ponytail, fuori-da-git) + 2 casi auth nel self-test retry-policy. Totale: **21/21 bats + tsc 0 errori**.
+
+**Cosa NON ho toccato (e perché):** la card in coda «rimozione rami API a consumo + revoca CURSOR_API_KEY» resta tua da decidere (ora ha ancora più senso); `enableAllProjectMcpServers` per l'MCP sul VPS non l'ho acceso (aggiungerebbe latenza npx a ogni lavoro, e i dati passano già dal REST); lo storico (STATO/Briefing/quaderni) non si riscrive.
