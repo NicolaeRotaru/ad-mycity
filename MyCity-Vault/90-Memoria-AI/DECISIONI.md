@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 02:45 · 🟡 · [Nicola] · **Nicola ha detto "fatto" dopo la richiesta di creare il token Vercel — valore non ancora incollato.** Fine chat 17/7: l'AD ha chiesto di creare il token su Vercel, Nicola ha risposto "fatto" ma il valore non è mai arrivato. L'AD ha chiesto chiarimento ("cosa hai fatto?") senza ricevere risposta. Al prossimo avvio chat: chiedere subito se il token è pronto e incollarlo. Card aggiornata: #vercel-token-vps.
+
 2026-07-17 02:35 · 🟡 · [Nicola/AD] · **Nicola chiede accesso Vercel alla chat del Pannello ("come fai a non avere accesso a vercel? c'è l'avevi. come faccio a farteli dare").** Il MCP Vercel funziona solo dall'app Claude Code desktop. Per averlo dalla chat del Pannello/VPS serve un token Vercel esplicito nel VPS: Nicola va su Vercel → Settings → Tokens → crea token → lo fornisce → l'AD lo configura nel VPS. Azione accodata: #vercel-token-vps. Senza il token, l'AD chiede il testo dell'errore a Nicola quando un build fallisce.
 
 2026-07-17 02:10 · 🟢 · [AD] · **Confermato: AD non ha accesso a Vercel in tempo reale.** Nicola ha chiesto esplicitamente "non riesci a vedere vercel in tempo reale?" — risposta: no credenziali Vercel, nessun accesso ai log di build. Quando un build fallisce, l'AD deve chiedere a Nicola il log esatto (link PR GitHub → tab Checks oppure copia del messaggio di errore). Non confondere "typecheck pulito localmente" con "build Vercel pulito": sono due ambienti distinti. PR #424 (3 bug chat) in attesa di merge da Nicola.
