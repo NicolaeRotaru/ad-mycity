@@ -31,29 +31,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-chat-coda-3bug — Risolvi conflitti PR #422 e mergia (3 bug chat: doppia risposta, flicker, bottone smartphone) · ⏳ aggiornata 2026-07-17 00:27
+### 🟡 #pr-chat-coda-3bug — Committa e apri PR per i 3 fix chat (doppia risposta, flicker, bottone smartphone) · ⏳ aggiornata 2026-07-17 00:35
 
-**Stato:** PR #422 GIÀ APERTA su GitHub (branch `fix/chat-coda-messaggi`, commit `f8dacc49`) — ma ha conflitti con main su `pannello/src/app/page.tsx`.
+**Stato aggiornato:** PR #422 aveva conflitti — l'AD ha applicato i 3 fix direttamente su `pannello/src/app/page.tsx` di `main` (typecheck verde). Il file è modificato ma NON committato. PR #422 può essere chiusa.
 
-**Per sbloccare — scegli una delle due strade:**
-
-A) Dal terminale VPS:
+**Per finalizzare — esegui 3 comandi dal terminale VPS:**
 ```bash
 cd /opt/mycity/ad-mycity
-git stash
-git checkout fix/chat-coda-messaggi
-git rebase main
-git push --force-with-lease origin fix/chat-coda-messaggi
-git checkout main
-git stash pop
+git checkout -b fix/chat-3bug-v2
+git add pannello/src/app/page.tsx && git commit -m "fix: 3 bug chat"
 ```
-
-B) Su GitHub direttamente: vai su PR #422 → "Resolve conflicts" → tieni le righe dei 3 fix + tutto il resto di main → "Mark as resolved" → mergia.
+Poi dimmi "fatto" e apro la PR io con `node cervello/git-pr.mjs`.
 
 **Cosa cambia:** fix 3 bug — (1) doppia risposta eliminata con check coda sincrono; (2) flicker sparito (rimossi i blocchi "Sto lavorando..." ridondanti); (3) bottone invio funziona su smartphone anche durante l'elaborazione.
 **Se va bene:** chat stabile su tutti i dispositivi; live in ~2 min su Vercel.
 
-- **Colore:** 🟡 (risoluzione conflitti + merge → Nicola)
+- **Colore:** 🟡 (3 comandi VPS → Nicola; poi PR → l'AD)
 - **Reparto:** frontend-dev
 
 ---
