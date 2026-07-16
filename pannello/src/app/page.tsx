@@ -2615,12 +2615,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
               Su telefono riempie tutta la chat (w-full); su desktop è un pannello laterale (sm:w-[340px]). */}
           <div
-            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${convDrawerAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            className={`fixed inset-0 top-[var(--altezza-testata)] z-20 bg-black/25 transition-opacity duration-200 ${convDrawerAperto ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             onClick={() => setConvDrawerAperto(false)}
             aria-hidden="true"
           />
           <aside
-            className={`absolute inset-y-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${convDrawerAperto ? "translate-x-0" : "-translate-x-full"}`}
+            className={`fixed top-[var(--altezza-testata)] bottom-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${convDrawerAperto ? "translate-x-0" : "-translate-x-full"}`}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!convDrawerAperto}
           >
