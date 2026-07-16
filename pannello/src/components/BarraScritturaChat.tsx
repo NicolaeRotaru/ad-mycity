@@ -96,6 +96,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           setSkillAperte(false);
         }}
       />
+      <AnteprimaAllegatiChat allegati={allegati} onTogli={onTogliAllegato} />
       <div className="flex items-center gap-2">
         <BottoneSkill
           aperta={skillAperte}
@@ -155,7 +156,6 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           )}
         </button>
       </div>
-      <AnteprimaAllegatiChat allegati={allegati} onTogli={onTogliAllegato} />
       {allegatiAvviso && (
         <p className="text-[11px] text-amber-700 dark:text-amber-400 px-0.5">{allegatiAvviso}</p>
       )}

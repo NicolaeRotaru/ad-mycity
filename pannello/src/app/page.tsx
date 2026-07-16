@@ -174,7 +174,7 @@ function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conve
     const pa = pinnate.has(a.id) ? 1 : 0;
     const pb = pinnate.has(b.id) ? 1 : 0;
     if (pb !== pa) return pb - pa;
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
   });
 }
 
@@ -890,6 +890,8 @@ export default function Dashboard() {
   }, [messages]);
   // 💬 Chat fluttuante ("Parla con l'AD") da ogni area: riusa la STESSA conversazione (messages/input/mandaAlCervello).
   const [chatFluttuante, setChatFluttuante] = useState(false);
+  // 🔍 Ricerca nel cassetto conversazioni
+  const [convRicerca, setConvRicerca] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
   // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
   const [fabConvOpen, setFabConvOpen] = useState(false);
@@ -2263,6 +2265,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </span>
           </div>
         </div>
+        {/* Seconda riga header: ricerca globale */}
+        <div className="px-4 sm:px-5 pb-2 pt-0" style={{ borderTop: "1px solid var(--border)" }}>
+          <div className="max-w-6xl mx-auto">
+            <RicercaGlobale inHeader />
+          </div>
+        </div>
       </header>
 
       {/* Layout a due colonne: sidebar (richiudibile) + contenuto. Niente è stato tolto:
@@ -2345,20 +2353,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </nav>
         </aside>
 
-        <main className="flex-1 min-w-0 max-w-5xl mx-auto w-full px-4 sm:px-6 py-5 sm:py-6 space-y-5">
+        <main className={`flex-1 min-w-0 max-w-5xl mx-auto w-full ${vista === "assistente" ? "flex flex-col min-h-0 px-4 sm:px-6 pt-4 pb-0" : "px-4 sm:px-6 py-5 sm:py-6 space-y-5"}`}>
 
         {/* 🧪 Modalità demo: prova la macchina viva senza chiavi (banner + interruttore) */}
-        <DemoBanner />
+        {vista !== "assistente" && <DemoBanner />}
 
         {/* Timbro globale: quando i dati del pannello sono stati aggiornati (visibile ovunque) */}
-        {datiAggiornatiAt && (
+        {vista !== "assistente" && datiAggiornatiAt && (
           <div className="-mt-1">
             <Aggiornato at={datiAggiornatiAt} prefisso="dati del pannello aggiornati" />
           </div>
         )}
-
-        {/* Ricerca globale: cercabile da ogni area */}
-        <RicercaGlobale />
 
         {/* ===================== PLANCIA ===================== */}
         {vista === "plancia" && (
@@ -2470,15 +2475,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         {/* ===================== SCHEDA: ASSISTENTE ===================== */}
         {vista === "assistente" && (
-        <div className="space-y-4">
-          <div>
-            <h2 className="t-area">💬 Assistente</h2>
-            <p className="t-eti mt-0.5">Chat con l&apos;AD e conversazioni salvate.</p>
-          </div>
-
-          {/* Chat con cassetto "Conversazioni" a scomparsa da SINISTRA (stile Claude): il tasto a
-              sinistra lo apre. La section è `relative` così il cassetto la copre tutta. */}
-          <section className="card flex flex-col overflow-hidden relative">
+          <section className="card flex flex-col flex-1 min-h-0 overflow-hidden relative">
           <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b gap-2" style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2.5 min-w-0">
               <button
@@ -2516,7 +2513,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </button>
             </div>
           )}
-          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-[260px] max-h-[60vh]">
+          <div ref={scrollBoxRef} onScroll={(e) => { stickFullRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-5 space-y-3 overflow-y-auto min-h-0">
             {messages.length === 0 && (
               <div className="pt-1">
                 <p className="t-corpo text-sm mb-3">
@@ -2590,9 +2587,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   ) : m.pending ? (
                     <div className="inline-flex flex-col items-start gap-1.5 max-w-[92%]">
                       {m.content ? (
-                        <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md text-sm whitespace-pre-wrap leading-relaxed max-w-full">
-                          {m.content}
-                          <span className="ml-0.5 animate-pulse">▍</span>
+                        <div className="chat-bubble-assistant inline-block align-top text-left px-4 py-2.5 rounded-2xl rounded-bl-md max-w-full">
+                          <Markdown>{m.content}</Markdown>
+                          <span className="ml-0.5 animate-pulse text-sm">▍</span>
                         </div>
                       ) : (
                         <div className="chat-bubble-pending inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl rounded-bl-md text-sm">
@@ -2687,6 +2684,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                 </button>
               )}
             </div>
+            {conversazioni.length > 0 && (
+              <div className="px-3 py-2 border-b shrink-0 flex items-center gap-2" style={{ borderColor: "var(--border)" }}>
+                <Search size={13} style={{ color: "var(--text-faint)" }} className="shrink-0" />
+                <input
+                  value={convRicerca}
+                  onChange={(e) => setConvRicerca(e.target.value)}
+                  placeholder="Cerca nelle conversazioni…"
+                  className="input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 text-[12.5px]"
+                />
+                {convRicerca && (
+                  <button onClick={() => setConvRicerca("")} className="shrink-0 text-black/30 hover:text-black/60">
+                    <X size={13} />
+                  </button>
+                )}
+              </div>
+            )}
             {convSel.length > 0 && (
               <div className="m-2.5 flex flex-wrap items-center gap-2 rounded-xl border border-brand/25 px-3 py-2 shrink-0" style={{ background: "var(--brand-soft)" }}>
                 <span className="text-xs text-brand font-medium">{convSel.length} selezionate</span>
@@ -2709,7 +2722,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
                 {/* Ordine: fissate in cima → ultima aperta → updated_at */}
-                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                  if (!convRicerca.trim()) return true;
+                  const q = convRicerca.toLowerCase();
+                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
+                }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
@@ -2765,8 +2782,6 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </p>
           </aside>
           </section>
-
-        </div>
         )}
 
       </main>
@@ -2785,7 +2800,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           {pendingCount > 0 && <span className="w-2 h-2 rounded-full bg-white/90 animate-pulse" />}
         </button>
       )}
-      {chatFluttuante && (
+      {chatFluttuante && vista !== "assistente" && (
         <>
         {/* Overlay trasparente: chiude la chat fluttuante al click fuori */}
         <div className="fixed inset-0 z-40" onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); }} aria-hidden />
@@ -2934,7 +2949,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate).map((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                  if (!convRicerca.trim()) return true;
+                  const q = convRicerca.toLowerCase();
+                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
+                }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
