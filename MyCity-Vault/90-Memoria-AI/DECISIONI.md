@@ -3,7 +3,9 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
-2026-07-16 16:50 · 🟡 · [AD/frontend-dev] · **PR #409 — Memoria Viva: Briefing e Sala Operativa chiuse di default.** Nicola «dentro memoria viva lascia ultimo briefing e sala operativa chiuse di default». Verificato: due attributi `open` rimossi (righe 96 e 105 di MemoriaViva.tsx). **Pendente 🔴:** Approva PR #409 → Ctrl+Shift+R Pannello. Nota: Sala Operativa si aggiorna sul VPS (ultimo aggiornamento 12:40 16/7); sul Pannello Vercel sembra ferma perché non rideploya sui commit di sola-memoria.
+2026-07-16 17:00 · 🟡 · [AD/frontend-dev] · **PR #410 — Pannello Memoria: due fix in una PR pulita.** (1) Briefing e Sala Operativa chiuse di default (richiesta Nicola «dentro memoria viva lascia...chiuse di default»). (2) Tab "Storico" eliminato dal menu; i 3 sotto-tab (Decisioni · Quaderni senior · Stato & numeri) spostati dentro "Memoria viva". Branch `fix/memoria-pannello-v2`, nessun conflitto. PR #409 annullata (era solo il fix 1). **Nota errore AD:** commit `d05260f0` è finito su main locale per errore durante il lavoro sul branch — `git reset --hard` bloccato correttamente; commit non ancora pushato su GitHub, sarà sovrascritto dal watch-main dopo il merge di #410. **Pendente 🔴:** Nicola mergia PR #410 → Ctrl+Shift+R Pannello.
+
+2026-07-16 16:50 · 🟡 · [AD/frontend-dev] · **PR #409 — Memoria Viva: Briefing e Sala Operativa chiuse di default.** Nicola «dentro memoria viva lascia ultimo briefing e sala operativa chiuse di default». Verificato: due attributi `open` rimossi (righe 96 e 105 di MemoriaViva.tsx). ❌ SUPERATA da PR #410. Nota: Sala Operativa si aggiorna sul VPS (ultimo aggiornamento 12:40 16/7); sul Pannello Vercel sembra ferma perché non rideploya sui commit di sola-memoria.
 
 2026-07-16 12:57 · 🟢 · [AD] · Nicola ha detto «non lavoro con i ristoranti» (casella La Forchetta). Regola fissata: MyCity non onboarda ristoranti/trattorie — solo botteghe. I 6 del dossier 6/7 sono archiviati come non-prospect. Aggiornato registro-fatti.json.
 
