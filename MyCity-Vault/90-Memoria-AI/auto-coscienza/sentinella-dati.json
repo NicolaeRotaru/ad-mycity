@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-17 00:01",
+  "aggiornato": "2026-07-17 00:03",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "15",
@@ -20,11 +20,12 @@
     },
     "negozio_fermo": {
       "ultima_firma": "c0b240c0-2a86-4218-9d0f-5154f08ff929",
-      "ultimo_accodato": "2026-07-15 12:54",
-      "ultimo_accodato_iso": "2026-07-15T10:54:34.155Z",
+      "ultimo_accodato": "2026-07-17 00:02",
+      "ultimo_accodato_iso": "2026-07-16T22:02:00.000Z",
       "ultimo_job": "256fc44e-a4c3-4963-b1f7-0ec86018b823",
       "colore": "🟡",
-      "ambito": "azioni"
+      "ambito": "azioni",
+      "_nota": "17/7: falso positivo PQ — azione #ritiro-pq-vp17-checkin già in coda. Cooldown resettato per bloccare ri-scatti."
     },
     "worker_morto": {
       "ultima_firma": "2026-07-14T01:37:41+02:00",
@@ -115,20 +116,8 @@
     "2026-07-16T22:00:08.814Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 12541,
+  "tick": 12543,
   "storia": [
-    {
-      "quando": "2026-07-16 21:28",
-      "eventi": 5,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-16 21:29",
-      "eventi": 5,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-16 21:30",
       "eventi": 5,
@@ -716,10 +705,22 @@
       "eventi": 4,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-17 00:02",
+      "eventi": 4,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-17 00:03",
+      "eventi": 4,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-17 00:01",
+    "quando": "2026-07-17 00:03",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
