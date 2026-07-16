@@ -1,794 +1,130 @@
 ---
-data: 2026-07-07 22:21
-tipo: auto-radiografia (COMPLETA, agenti Opus — la macchina analizza SÉ STESSA)
+data: 2026-07-16 16:55
+tipo: auto-radiografia (COMPLETA, su comando di Nicola — worker + AD + 120 senior + Pannello)
 voto_salute_architettura: 0
+voto_salute_pannello: 0
 ---
 
-# 🩻 Radiografia della MACCHINA (il cervello dell'AD) — 2026-07-07 22:21
+# 🩻 Radiografia della MACCHINA — 2026-07-16 16:55
 
-> La macchina si è guardata allo specchio: 12 dimensioni (agenti **Opus**), ognuna con revisore +
-> verificatore avversariale, più pre-mortem e benchmark. In parallelo la radiografia del **marketplace**
-> (report gemello `2026-07-07-radiografia.md`). **Nessun fix applicato**: ogni rimedio è 🟡, aspetta la firma di Nicola.
+> Su comando di Nicola («radiografia completa e profonda di worker/AD/senior/Pannello») la macchina si è
+> guardata allo specchio: **12 dimensioni** sull'architettura (26 agenti: revisore + verificatore
+> avversariale per ciascuna, + pre-mortem + benchmark) e in parallelo **8 dimensioni sul Pannello**
+> (16 agenti). **Nessun fix applicato**: ogni rimedio è 🟡, aspetta la firma di Nicola.
+> Archivio completo: `consegne/audit/2026-07-16-auto-radiografia.md` (173 difetti col dettaglio file:riga).
 
 ## 📊 Verdetto
 
-**Voto salute architettura: 0/100.** 74 difetti confermati sulla macchina
-(5 bloccanti · 36 gravi ·
-33 minori), oltre agli **87 del marketplace**.
-Il voto basso NON significa che la macchina sia peggiorata: significa che ha guardato più a fondo (agenti Opus) e la formula punisce ogni difetto aperto finché non è chiuso.
+**Macchina: 0/100** — 111 difetti confermati (8 bloccanti · 66 gravi · 37 minori).
+**Pannello: 0/100** — 62 bug confermati (7 bloccanti · 33 gravi · 22 minori).
 
-### Scorecard per dimensione
-| Dimensione | Voto | Stato | Problemi |
+⚠️ **La scoperta più importante riguarda il voto stesso:** le sonde delle ultime settimane mostravano
+**100/100**, ma quel numero era **falsificato** — `allinea-scan-cantiere.mjs:166` sovrascrive il voto dei
+12 pilastri col voto-cantiere (che vale 100 appena i difetti risultano "chiusi"). La radiografia del 7/7
+aveva dato 0 nel report e 100 nel JSON che legge il Pannello. La Cabina ti ha mostrato per 9 giorni una
+salute che non esisteva.
+
+### Scorecard per dimensione (macchina)
+| Dimensione | Voto | Stato | Difetti |
 |---|---|---|---|
-| coerenza-agenti | 71 | attenzione | 5 |
-| vettori-installati | 54 | attenzione | 6 |
-| salute-sensori-dati | 58 | attenzione | 7 |
-| integrita-memoria | 54 | attenzione | 6 |
-| chiusura-volano | 31 | critico | 6 |
-| cadenza-esecuzione | 68 | attenzione | 6 |
-| calibrazione-onesta | 52 | critico | 4 |
-| copertura-cieca | 37 | attenzione | 7 |
-| guardrail-semaforo | 61 | attenzione | 6 |
-| allineamento-northstar | 61 | attenzione | 6 |
-| efficienza-costo | 39 | critico | 6 |
-| rischio-sicurezza-se | 30 | critico | 9 |
-
-## 🚨 I 5 bloccanti della macchina (in parole semplici)
-
-1. **La calibrazione ha due formati incompatibili: l'AD scrive le previsioni a mano, il motore ne legge 0** — Nessun reparto potrà mai guadagnare autonomia: l'AD resta collo di bottiglia su ogni azione 🟡. Il motore di calibrazione (460 righe) è codice morto.
-2. **Nessun codice APRE un esperimento: esperimenti=[] da sempre, il volano-business non ha mai misurato 1 esito** — Il pilastro 'diventare bravi quanto i migliori' non produce un solo numero verificabile: il loop chiude solo sull'architettura (fix del proprio codice), mai sui soldi.
-3. **Le 18 previsioni registrate NON entrano nel punteggio: schema incompatibile, il loro esito è invisibile al motore** — Il pilastro U3 ('chi azzecca guadagna autonomia') è morto: la macchina non guadagnerà MAI autonomia perché il canale che scrive le previsioni (giro, prosa a mano) e il canale che le conta (motore, str
-4. **Il sensore di costo è cieco: sottostima i token di ~1000× (un giro da 20 minuti = 882 token registrati)** — Tutti i freni di costo leggono questo numero finto: il circuit-breaker GATE-BUDGET (giro.sh:288), l'asse quota del letargo.mjs e il metabolismo.mjs → sono decorativi. Nicola vede 'budget largo, 0,08%'
-5. **Il giro pubblica il PROPRIO codice: `git add -A` + motore autonomo = auto-modifica senza firma** — Verificato: giro.sh:487 fa `git add -A` (stage di TUTTO), poi commit+push su `main`; il worker invece è disciplinato (`git add -A "${MEM_DIRS[@]}"`, worker.sh:110). Il motore reale è `agent -p --force
-
-> **Il filo comune:** il "volano di auto-coscienza" (la macchina che impara dai propri esiti) oggi **non
-> gira davvero**: nessun esperimento è mai stato aperto, le previsioni sono scritte a mano in un formato che
-> il motore non legge, il sensore di costo sbaglia di ~1000×, e il giro può pubblicare il proprio codice
-> senza un cancello meccanico. Sono difetti di *processo*, non di singolo caso.
-
----
-
-## 🔴 Bloccanti (5)
-
-#### 🔴 La calibrazione ha due formati incompatibili: l'AD scrive le previsioni a mano, il motore ne legge 0
-
-- **Dove:** `cervello/calibrazione.mjs:128-142 (ricalcolaReparti) + MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json (registro) + cervello/giro.sh:196,208`
-- **Cosa:** VERIFICATO. Il registro di calibrazione.json contiene 18 voci (il finding diceva 19) scritte a mano dall'AD, in formato prosa {data, reparto, previsione, esito, fonte} — SENZA i campi stato/atteso/metrica. ricalcolaReparti() (calibrazione.mjs:134) conta SOLO le voci con stato==='azzeccata'||'mancata': 0 su 18. Anche previsioniChiuse in sonda-volano.mjs:88-92 filtra sugli stessi stati. Risultato reale: per_reparto = [{@AD, previsioni:0, azzeccate:0, autonomia:'bassa'}] mentre il registro ha 18 voci di conferma. giro.sh invoca solo `calibrazione.mjs scadute` (196) e `promozioni` (208), MAI `prevedi`/`esito` (i soli comandi che scrivono i campi che il motore legge). Il motore Wilson/soglie/promozioni gira su dati vuoti da sempre.
-- **Impatto:** Nessun reparto potrà mai guadagnare autonomia: l'AD resta collo di bottiglia su ogni azione 🟡. Il motore di calibrazione (460 righe) è codice morto.
-- **Causa radice:** Il canale di SCRITTURA (LLM in prosa incollata nel registro) e il canale di LETTURA (schema con stato/atteso che il motore filtra) non sono lo stesso, e nessun ponte li collega: giro.sh non ha una forcing-function che converta l'ESITO del giro in una chiamata `prevedi`/`esito`. Il loop previsto→misura è disegnato ma non cablato.
-- **Fix (🟡 firma Nicola):** 🟡 Cablare in giro.sh/chiusura-loop un ponte che, quando l'AD registra un ESITO atteso→reale, chiami `calibrazione.mjs prevedi` alla proposta e `calibrazione.mjs esito --fonte` alla misura — vietando la scrittura a mano nel registro. In alternativa far leggere a ricalcolaReparti anche le voci in prosa purché portino stato+atteso. Resta da firmare.
-- **Impatto crescita:** alto
-
-#### 🔴 Nessun codice APRE un esperimento: esperimenti=[] da sempre, il volano-business non ha mai misurato 1 esito
-
-- **Dove:** `cervello/esperimenti-check.mjs:56,97,103 (solo sweep/chiusura) + MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json (esperimenti:[], meta_esperimenti tutto 0)`
-- **Cosa:** VERIFICATO. esperimenti-check.mjs sa solo CHIUDERE a scadenza esperimenti già aperti; l'APERTURA di ≥1 esperimento è delegata al 'ciclo settimanale' dell'LLM (AR-054), mai avvenuto: esperimenti=[], meta_esperimenti={totale:0,aperti:0,misurati:0}. Eseguito `node cervello/esperimenti-check.mjs`: stampa '0 aperti · 0 in scadenza' ed esce con EXIT 0 (line 103: process.exit(inScadenza.length?1:0); e il ramo aperti.length===0 a line 97 non fallisce). Quindi l'array vuoto è un no-op permanente che non genera mai segnale.
-- **Impatto:** Il pilastro 'diventare bravi quanto i migliori' non produce un solo numero verificabile: il loop chiude solo sull'architettura (fix del proprio codice), mai sui soldi.
-- **Causa radice:** Il ciclo osserva→agisci→MISURA→impara è cablato solo sul lato 'chiudi ciò che è aperto', non sul lato 'apri ciò che va misurato'. Lo sweep su array vuoto esce 0, quindi l'assenza totale di esperimenti non suona mai l'allarme; con business fermo l'LLM rimanda senza conseguenze.
-- **Fix (🟡 firma Nicola):** 🟡 Trasformare esperimenti-check in guardiano bilaterale: se non esiste ≥1 esperimento con stato 'aperto' e data_misura futura, FALLIRE (exit≠0) e passare a giro.sh un vincolo hard 'apri l'esperimento sull'ambito col divario più alto'. Resta da firmare.
-- **Impatto crescita:** alto
-
-#### 🔴 Le 18 previsioni registrate NON entrano nel punteggio: schema incompatibile, il loro esito è invisibile al motore
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json:14-141 (registro) vs cervello/calibrazione.mjs:131-144 (ricalcolaReparti)`
-- **Cosa:** CONFERMATO nei file. Il registro contiene 18 previsioni @AD scritte a mano dal giro con schema {data, reparto, previsione, esito, fonte} ed esito testuale ('confermato' ~14 volte). ricalcolaReparti conta SOLO le voci con `e.stato === 'azzeccata' || 'mancata'` (schema di cmdEsito: id/metrica/atteso/reale/stato/scarto_pct). Nessuna delle 18 voci ha il campo `stato`, quindi tutte vengono saltate: per_reparto resta [{reparto:@AD, previsioni:0, azzeccate:0, punteggio:0, autonomia:'bassa'}]. Anche il contatore finale (stampSegnale) conta solo stato azzeccata/mancata → chiuse=0, azzeccate=0. Il loop prevedo→misuro→autonomia è decorativo: 18 previsioni loggate, ~14 confermate, punteggio permanentemente 0.
-- **Impatto:** Il pilastro U3 ('chi azzecca guadagna autonomia') è morto: la macchina non guadagnerà MAI autonomia perché il canale che scrive le previsioni (giro, prosa a mano) e il canale che le conta (motore, structured) sono disgiunti. Tutte le protezioni anti-inflazione del motore (Wilson, MIN_CAMPIONE_ALTA, AR-061, AR-062) girano a vuoto perché non c'è nulla di strutturato da valutare.
-- **Causa radice:** 1) per_reparto è 0/0 → perché ricalcolaReparti non trova voci con stato azzeccata/mancata. 2) perché le voci del registro non hanno quel campo → sono scritte a mano dal giro, non da cmdEsito. 3) perché giro.sh chiama calibrazione.mjs SOLO per `scadute` (riga 196) e `promozioni --accoda` (riga 208), MAI `prevedi`/`esito` → il registro strutturato non viene mai popolato dalla CLI. 4) perché nessun gate rifiuta un giro con voci legacy prive di `id`/`stato`. Causa di sistema: due autori (LLM a mano + motore CLI) sullo stesso file senza un contratto-dato imposto.
-- **Fix (🟡 firma Nicola):** Nel giro (giro.sh/giro.md) sostituire la scrittura a mano del registro con la chiamata obbligatoria a `node cervello/calibrazione.mjs prevedi ...` e, al giro dopo, `esito ...`. Aggiungere un guardiano che FALLISCE il giro se il registro contiene una voce senza `id`/`stato` (schema legacy). Migrare le 18 voci prosa in voci strutturate o archiviarle in uno storico esente. Resta 🟡 firma Nicola.
-- **Impatto crescita:** alto
-
-#### 🔴 Il sensore di costo è cieco: sottostima i token di ~1000× (un giro da 20 minuti = 882 token registrati)
-
-- **Dove:** `cervello/giro.sh:400-404 (GIRO_TOKEN = (len(PROMPT)+len(_ai_out))/4) → cervello/costo-ai.mjs → MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json`
-- **Cosa:** La stima dei token conta SOLO i caratteri della stringa-prompt finale e del testo-risposta visibile, divisi per 4. Ma il giro istruisce l'agente a 'Leggi ed esegui per intero cervello/giro.md' + tutto il vault + i 120 agenti + gli output degli strumenti: sono QUESTE letture interne (fatte via tool durante l'esecuzione, MAI dentro PROMPT) a consumare i token, e non vengono contate. Prova nei dati reali (costo-ai.json di oggi): un giro durato 1212 secondi (20 minuti di motore Opus) è registrato come 882 token; il totale del giorno è 1670 token = 0,08% della soglia da 2.000.000. È fisicamente impossibile: 20 minuti di agente consumano centinaia di migliaia / milioni di token. VERIFICATO: motore-ai.sh usa 'agent -p' e 'claude -p' SENZA --output-format, quindi l'usage vero non viene mai letto.
-- **Impatto:** Tutti i freni di costo leggono questo numero finto: il circuit-breaker GATE-BUDGET (giro.sh:288), l'asse quota del letargo.mjs e il metabolismo.mjs → sono decorativi. Nicola vede 'budget largo, 0,08%' mentre la vera quota (sessione Max) è la risorsa che di fatto ferma il lavoro a metà giornata.
-- **Causa radice:** 1) Perché il numero è finto? Perché GIRO_TOKEN misura solo 2 stringhe (l'istruzione breve e la risposta visibile), non i tool-read. 2) Perché solo 2 stringhe? Perché la CLI del motore (agent -p / claude -p) viene invocata senza --output-format e non espone usage strutturato → si è scelto un proxy char-count. 3) Perché un proxy che non può vedere i tool-read? Perché la stima è stata infilata dentro giro.sh (AR-083) come tampone locale, non nel punto dove passa ogni invocazione. 4) Perché non si legge l'usage vero? Perché non si usa l'output JSON della CLI (claude -p --output-format json espone usage/costo). 5) Causa di sistema: il costo è stato modellato come 'stima approssimata a valle' invece che 'lettura dell'usage reale che il motore già emette' → il sensore mente per costruzione.
-- **Fix (🟡 firma Nicola):** Catturare l'usage VERO dal motore: in cervello/motore-ai.sh far costruire il comando con --output-format json (Claude Code) / equivalente Cursor, e in giro.sh/ritmo.sh/monitora.sh leggere il campo usage (input+output+cache tokens) dall'ultima riga JSON invece del char-count. Fallback char/4 SOLO se il JSON manca, marcando 'stima' vs 'misura' in costo-ai.json. Finché non è cablato, costo-ai.json deve dichiarare onestamente 'token = stima grezza, non misura' e nessun gate deve fidarsene.
-- **Impatto crescita:** alto
-
-#### 🔴 Il giro pubblica il PROPRIO codice: `git add -A` + motore autonomo = auto-modifica senza firma
-
-- **Dove:** `cervello/giro.sh:487 (`git add -A` stage di TUTTO) + cervello/motore-ai.sh:89 (`agent -p --force --trust`)`
-- **Cosa:** Verificato: giro.sh:487 fa `git add -A` (stage di TUTTO), poi commit+push su `main`; il worker invece è disciplinato (`git add -A "${MEM_DIRS[@]}"`, worker.sh:110). Il motore reale è `agent -p --force --trust` (motore-ai.sh:89): scrive file, headless, nessun prompt. Nessun guardiano confronta il diff staged del giro col perimetro-codice per bloccare il push. Se durante un giro l'AI tocca cervello/*.mjs, .claude/agents/* o CLAUDE.md, quella modifica finisce su main e il giro successivo la esegue — in diretta violazione della regola «mai toccarti da sola, nemmeno i fix banali».
-- **Causa radice:** La Costituzione delega a un vincolo TESTUALE (soft, «mai toccarti da sola») ciò che serve come cancello MECCANICO (hard): un'istruzione al modello non ferma un motore `--force --trust`, e giro.sh stagea tutto senza distinguere memoria da codice.
-- **Fix (🟡 firma Nicola):** 🟡 Guardiano-integrità in giro.sh PRIMA di commit+push: se il diff staged tocca file fuori dal perimetro-memoria (MyCity-Vault/90-Memoria-AI, consegne/, creativi/, memoria-squadra/) BLOCCA il push e accoda la modifica come proposta 🟡 (come fa scan-segreti coi segreti). In alternativa restringere il giro a `git add -A <MEM_DIRS>` come già fa il worker.
-- **Impatto crescita:** medio
-
-
----
-
-## 🟠 Gravi
-
-#### 🟠 trust-safety e fraud-risk collidono sulla stessa frode: 'resi/rimborsi falsi' e 'account multipli' verbatim in entrambe le description
-
-- **Dove:** `.claude/agents/trust-safety.md:3 (description) vs .claude/agents/fraud-risk.md:3 (description)`
-- **Cosa:** VERIFICATO nei file: la description di `.claude/agents/trust-safety.md:3` contiene 'prevenzione frodi (pagamenti, resi/rimborsi falsi, account multipli)' e quella di `.claude/agents/fraud-risk.md:3` contiene 'carte rubate, resi/rimborsi falsi, account multipli e abuso di promo/coupon'. Le frasi-trigger 'resi/rimborsi falsi' e 'account multipli' compaiono verbatim in ENTRAMBE — che è il campo su cui il router sceglie il senior. Su un caso 'account multipli sospetti / rimborso falso' non c'è criterio per scegliere. Nota di precisione rispetto al report originale: il commento AR-027 dentro trust-safety.md riguarda le keyword di CONTESTAZIONE-CARTA/abuso-rimborsi (dominio @dispute) e quelle SONO effettivamente state deferite a @dispute nella riga description; la collisione che resta aperta è quella con fraud-risk sulle keyword di frode transazionale, che trust-safety continua a rivendicare con 'prevenzione frodi' senza deferral verso fraud-risk.
-- **Impatto:** Delega ambigua sul dominio più delicato (frode/fiducia): i due senior possono essere chiamati per lo stesso caso, o quello sbagliato → lavoro doppio o buco. Viola 'owner unico per keyword' (AR-008) proprio dove pesa di più. fraud-risk ha già il deferral reciproco '(→ moderazione/venditori sospetti = trust-safety)'; trust-safety NON ha il deferral speculare verso fraud-risk.
-- **Causa radice:** Causa di sistema: manca un controllo automatico di collisione fra le description degli agenti; il de-conflict è affidato a commenti-promemoria (AR-xxx) non verificati. La description originale di trust-safety non è mai stata ristretta a moderazione+verifica quando fraud-risk è stato aggiunto come owner della frode transazionale.
-- **Fix (🟡 firma Nicola):** Potare la description di trust-safety togliendo 'prevenzione frodi (pagamenti, resi/rimborsi falsi, account multipli)' e lasciando SOLO moderazione contenuti + verifica venditori sospetti + ban/sospensioni; aggiungere il deferral speculare '(→ scoring/carte/rimborsi-falsi/velocity = fraud-risk)'. Scoring/velocity/carte/rimborsi-falsi restano interamente a fraud-risk.
-- **Impatto crescita:** medio
-
-#### 🟠 Il guardiano del registro agenti è cieco sul segnale che conta: non legge mai le description che decidono il routing
-
-- **Dove:** `cervello/agent-registry-check.mjs:54-92 (nessuna lettura del body/description degli agenti)`
-- **Cosa:** VERIFICATO: `cervello/agent-registry-check.mjs` fa solo readdirSync dei nomi file (righe 55-58) e verifica la presenza dei nomi in CLAUDE.md / COMANDI.md / AGENTI.md (righe 61-72) più il conteggio. Non apre MAI il body/frontmatter degli agenti, quindi non legge il campo `description` — ma in Claude Code il router sceglie il subagente proprio da lì. Perciò passa in verde anche con description in collisione (è il motivo per cui trust-safety/fraud-risk sopravvive), vaghe, o prive di deferral. Correzione rispetto al report originale: il regex di conteggio (riga 77 `agentiMd.match(/(\d+)\s+senior/i)`) gira su AGENTI.md, NON su CLAUDE.md, quindi NON prende il '78 nuovi senior' di CLAUDE.md — quella parte del claim originale è errata e va scartata; il difetto reale e confermato è la cecità sulle description.
-- **Impatto:** Il controllo che dovrebbe garantire la coerenza dei 120 agenti dà falsa sicurezza proprio sul segnale di routing: ogni collisione o description-spazzatura futura passa inosservata (drift 0).
-- **Causa radice:** Causa di sistema: manca un guardiano che tratti le description come contratto di routing (overlap verbatim fra coppie + description sotto-soglia/senza deferral quando esiste un vicino di dominio). Lo strumento è nato per il drift dei conteggi nei doc umani (AR-007/008), non per la qualità semantica del routing, e non è mai stato esteso.
-- **Fix (🟡 firma Nicola):** Estendere agent-registry-check.mjs: per ogni agente estrarre la description, tokenizzare le frasi-trigger e FALLIRE se due agenti condividono >=2 frasi-trigger verbatim o se una description è priva di deferral quando ha un vicino di dominio.
-- **Impatto crescita:** medio
-
-#### 🟠 Il loop chiuso (strato 7) non ha dove atterrare: ~76 senior su 120 senza quaderno memoria-squadra, e la sonda è cieca alla copertura
-
-- **Dove:** `cervello/chiusura-loop.mjs:140 + .claude/agents/consulente-bancario.md:118,135`
-- **Cosa:** Solo 44 file esistono in memoria-squadra/ (di cui 1 è README → 43 quaderni senior reali) ma gli agenti sono 120: ~76 senior (tutta l'espansione) NON hanno il proprio memoria-squadra/<ruolo>.md. Il loro prompt però li obbliga a leggerlo/scriverlo: es. .claude/agents/consulente-bancario.md:118 'RITUALE D'INIZIO: leggi memoria-squadra/consulente-bancario.md' e :135 'IMPARATO: <1 riga in memoria-squadra/consulente-bancario.md>' — il file NON esiste. La sonda (cervello/chiusura-loop.mjs:140 readdirSync(SQUADRA_DIR)) itera SOLO i quaderni esistenti e riporta totale=43: un senior senza quaderno non è in elenco, quindi non viene MAI flaggato come fermo/vuoto. La sonda misura la FRESCHEZZA dei quaderni esistenti, non la COPERTURA dei 120.
-- **Impatto:** Il loop atteso→reale, cuore dell'apprendimento dei senior, resta muto per ~76 ruoli senza che nulla lo segnali.
-- **Causa radice:** 1) I quaderni si creano solo quando l'AD lancia chiusura-loop.mjs registra su quel reparto. 2) L'espansione dei 78 ha installato Scheda+kit ma non ha bootstrappato il substrato di memoria. 3) Nessuno se n'è accorto perché il guardiano del loop misura solo i quaderni esistenti. 4) È nato (AR-009) sui 42 originali e legge la cartella, non il roster. 5) Causa di sistema: il metro è installato come PROSA nei prompt ma il suo SUBSTRATO (il quaderno) e il suo GUARDIANO (la sonda) non sono agganciati alla fonte di verità del roster (i 120 file .claude/agents/).
-- **Fix (🟡 firma Nicola):** ① In chiusura-loop.mjs derivare l'elenco reparti da .claude/agents/ e segnalare i quaderni MANCANTI come inadempienza di copertura, non solo i fermi. ② Bootstrap: creare uno stub memoria-squadra/<ruolo>.md per ogni agente privo, così RITUALE D'INIZIO non punta al vuoto. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟠 La scorecard 1-5 a 6 assi (cuore misurabile della RUBRICA-LIVELLI) è descritta nel doc ma NON installata nei prompt: solo 3 senior su 120 la citano
-
-- **Dove:** `MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md §BLOCCO (righe ~149-186) + .claude/agents/*.md`
-- **Cosa:** RUBRICA-LIVELLI.md definisce la scorecard (6 assi, punteggio 1-5, verdetto media ≥4.3) e nel §loop chiuso step 1 impone: 'Prima di consegnare, il senior auto-valuta con la scorecard'. Nei prompt questo riflesso non c'è: grep 'scorecard' trova solo content-social.md, fp-and-a.md, prompt-engineer.md (3/120). Gli altri 117 hanno un 'RITUALE DI FINE — AUTO-VERIFICA' a caselle (checklist sì/no), NON la valutazione 1-5 a 6 assi. Lo STAMPO (blocco Scheda Mestiere) ha 'il tuo metro misurabile' ma nessun passo 'auto-valuta 1-5 sui 6 assi'. La scala L1-L7 è nei prompt, ma la MISURA numerica (scorecard + calibrazione atteso→reale) resta nel doc e come parametro esterno del comando chiusura-loop.mjs.
-- **Impatto:** Il self-scoring numerico che alimenta la calibrazione atteso→reale non scatta su 117 senior; resta solo la checklist sì/no, meno informativa.
-- **Causa radice:** 1) Il template della Scheda Mestiere contiene il 'loop interno' e le 5 dimensioni ma NON un passo 'auto-valuta con la scorecard 6 assi'. 2) Lo strato 7 è stato progettato come esterno (quaderno+comando), non come riflesso in-prompt. 3) Senza self-scoring prima della consegna il senior non calibra da solo. 4) Causa di sistema: strato 7 'descritto' invece che 'installato' — l'errore da cui lo stesso STAMPO mette in guardia.
-- **Fix (🟡 firma Nicola):** Aggiungere al blocco Scheda Mestiere (STAMPO template) un passo esplicito 'auto-valuta 1-5 sui 6 assi della RUBRICA-LIVELLI e dichiara i due punti più bassi' e propagarlo almeno ai senior output-facing (motori di soldi). Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟠 Kit stub: 10 senior hanno lo strato 3-4-5 'descritto' non 'installato' (kit 3-4,8KB contro i 15-25KB standard) — sono i senior a metà
-
-- **Dove:** `MyCity-Vault/07-Agenti/kit/{mediatore-creditizio,consulente-bancario,investor-relations,fondo-garanzia-pmi,rating-centrale-rischi,credito-impresa,fundraising-equity,business-plan-bancabile,finanza-agevolata,avvocato-civile}-KIT.md`
-- **Cosa:** STAMPO:201 pretende 'kit con gli strati 3-4-5 installati (sapere+toolkit+galleria), non descritti'. 10 kit sono scheletri minimi (verificato): mediatore-creditizio (3,1KB), consulente-bancario (3,2KB), investor-relations (3,4KB), fondo-garanzia-pmi (3,5KB), rating-centrale-rischi (3,5KB), credito-impresa (3,7KB), fundraising-equity (4,0KB), business-plan-bancabile (4,0KB), finanza-agevolata (4,1KB), avvocato-civile (4,8KB) — contro i 15,8KB (content-social) / 24,7KB (vendite) della norma. consulente-bancario-KIT.md ha solo sezioni A-D (nessuna E), 1 procedura e 1 checklist: il 'cervello allenato' (strato 3-5) è appena abbozzato. È tutto il cluster banche&finanziamenti — la raccolta capitali che alimenta la crescita.
-- **Impatto:** Il cluster raccolta-capitali (proprio quello che finanzia la crescita) ha reference material ~5x più povero della norma.
-- **Causa radice:** 1) Lo STAMPO §ORDINE DI APPLICAZIONE prioritizza i motori di soldi e mette 'il resto su misura' per ultimo. 2) Il cluster banche è arrivato in coda e ha ricevuto un kit segnaposto. 3) Nessun guardiano misura la profondità del kit (byte/sezioni/esempi). 4) Causa di sistema: la profondità del kit non è un requisito verificato ma un'aspirazione, quindi i ruoli a basso uso restano a metà senza segnalazione.
-- **Fix (🟡 firma Nicola):** Portare i 10 kit stub allo standard (sapere reale + toolkit passo-passo + galleria con almeno 2 gold/2 spazzatura col perché), a ondate per impatto sulla raccolta capitali. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟠 Manca il guardiano dello stampo: nessuno verifica che ogni senior abbia Scheda completa + kit non-stub + quaderno + hook rubrica
-
-- **Dove:** `cervello/ (stampo-check.mjs assente) + cervello/agent-registry-check.mjs (nessun controllo profondità)`
-- **Cosa:** Esistono guardiani per i fatti (coerenza-fatti.mjs), l'allocazione (allocazione-check.mjs), il roster (agent-registry-check.mjs — verificato: NON controlla profondità/kit/scheda), il budget, le fonti. Nessuno però verifica l'INSTALLAZIONE dello stampo: che ogni agente abbia i 6 ingredienti + il kit non-stub + il quaderno memoria-squadra + il hook [[RUBRICA-LIVELLI]] + la scorecard. Per questo tutte le derive di questa dimensione (42/42 stale, ~76 quaderni mancanti, 10 kit stub, 5 link rubrica assenti, scorecard 3/120) si accumulano in silenzio: la CHECKLIST DI ROLLOUT (STAMPO:190-206) esiste solo come prosa, senza forcing-function. cervello/stampo-check.mjs NON esiste.
-- **Impatto:** Ogni deriva strutturale dei prompt resta invisibile fino a un'auto-radiografia manuale; è la causa-madre degli altri finding di questa dimensione.
-- **Causa radice:** 1) La checklist di rollout è un documento, non un controllo eseguibile. 2) All'installazione si è verificato 'a mano/a campione' (test prima/dopo su content-social). 3) Il presidio dell'auto-radiografia sui prompt non ha un sensore dedicato allo stampo. 4) Causa di sistema: la macchina ha guardiani sui FATTI e sul ROSTER ma non sulla QUALITÀ STRUTTURALE dei propri prompt — 'installa non descrivere' non è misurato da nessun cancello a ogni giro.
-- **Fix (🟡 firma Nicola):** Creare cervello/stampo-check.mjs (gira a ogni giro): per ogni file in .claude/agents/ verifica presenza dei blocchi Scheda (loop, galleria, trappole, carburante, metro, 5 dimensioni, hook rubrica), kit esistente e sopra soglia byte, quaderno presente; FALLISCE elencando i senior a metà. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟠 Le fonti web del radar non vengono MAI verificate vive o morte: la sentinella esiste ma è orfana
-
-- **Dove:** `cervello/sentinella-fonti.mjs (intero file, mai invocato) · assente in cervello/giro.sh e cervello/vps/*.timer`
-- **Cosa:** cervello/sentinella-fonti.mjs (AR-036) fa un check HTTP a costo zero (HEAD/GET) su tutte le 18 fonti di radar-fonti.json e scrive fonti-salute.json marcando le morte da ≥3 controlli. Ma NON è cablata da nessuna parte: non compare in giro.sh, non ha un timer systemd, non è chiamata da monitora.sh. Verificato: `grep sentinella-fonti` nei .sh/.timer/.service = 0 invocazioni; cervello/fonti-salute.json NON esiste (mai scritto); giro.sh invoca verifica-sensori, sensore-cassa e sentinella-budget ma non sentinella-fonti; monitora.sh lancia solo il motore AI su monitora.md. Risultato: una fonte peso≥4 può morire (404/DNS) per mesi e la macchina continua a spendere token per un giro-web a vuoto, senza un solo segnale a Nicola.
-- **Impatto:** La classe di sensori 'fonti web' non ha il guardiano deterministico che i sensori-dati hanno: cecità silenziosa su tutta l'intelligence esterna (concorrenti, meteo, eventi, bandi, reputazione).
-- **Causa radice:** 1) fonti-salute.json vuoto → 2) perché sentinella-fonti non gira mai → 3) perché non è in giro.sh né in un timer → 4) perché al suo audit è stata classificata 'delicata, aspetta la firma di Nicola' e messa in sospeso → 5) manca una regola di sistema 'un guardiano costruito resta un difetto aperto finché non è cablato o esplicitamente scartato': la cablatura in sospeso è caduta in un limbo e nessun cantiere la porta a zero.
-- **Fix (🟡 firma Nicola):** Cablare sentinella-fonti.mjs come passo deterministico read-only (0 token) — o in giro.sh accanto a verifica-sensori/sensore-cassa (`|| true`, informativo), oppure con un timer systemd giornaliero PRIMA di monitora.sh, così monitora salta le fonti morte invece di interrogarle. Resta 🟡 firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Il sensore-cassa è cieco da 22 giri (runway 'sconosciuto') e nessuna sentinella lo segnala
-
-- **Dove:** `cervello/sentinella-dati.mjs:333 (M6 solo su 'critico') · cervello/sensore-cassa.mjs:84-96 (giri_sconosciuto mai letto da nessuno)`
-- **Cosa:** cassa-runway.json mostra stato 'sconosciuto', giri_sconosciuto: 22, cassa 0€ da Stripe, burn_mensile_eur null. sensore-cassa.mjs promette (commento AR-039) che la non-funzionalità del sensore 'non resta invisibile e una sentinella può allertare 🟡 sotto soglia'. Ma in sentinella-dati.mjs la regola M6 (riga 333) scatta SOLO se `s.runway_stato === 'critico'`: lo stato 'sconosciuto' non è coperto. Verificato: `giri_sconosciuto` NON è mai referenziato in sentinella-dati.mjs; l'unico uso di runway_stato è il filtro su 'critico'. Quindi il contatore cresce all'infinito (22 giri) senza consumatore e nessuno riceve avviso.
-- **Impatto:** Il runway — dichiarato rischio esistenziale n.1 — non è monitorato quando lo stato reale è 'non lo so': un sensore cieco da tempo non genera alcun allarme. NOTA: oggi Stripe è deliberatamente non collegato e la condizione è già documentata in cassa-runway.json/STATO, il che attenua l'impatto reale immediato.
-- **Causa radice:** 1) M6 filtra su 'critico' → 2) scritta pensando 'allerta quando il runway è basso', non 'allerta quando il sensore è cieco da troppo' → 3) la promessa del commento (allerta sullo sconosciuto persistente) non è mai stata implementata → 4) manca la distinzione tra 'sensore che dice cattive notizie' e 'sensore che non dice nulla da N giri' → 5) l'invariante 'un sensore cieco a lungo è esso stesso un evento' (M2, ≥3 giri sui sensori-dati) non è stata replicata sul sensore-cassa.
-- **Fix (🟡 firma Nicola):** Aggiungere a sentinella-dati.mjs: se `runway_stato === 'sconosciuto'` e `giri_sconosciuto >= soglia` (es. 5) accoda un 🟡 finanza 'sensore-cassa cieco da N giri: collega STRIPE_SECRET_KEY e imposta BURN_MENSILE_EUR'. Speculare a M2 sui sensori-dati.
-- **Impatto crescita:** medio
-
-#### 🟠 Il verificatore dell'automazione non vigila il timer degli 'occhi' (sentinella-dati, 1 min) né monitora/sentinella
-
-- **Dove:** `cervello/verifica-automazione.mjs:105-131 (lista dei timer vigilati incompleta)`
-- **Cosa:** cervello/verifica-automazione.mjs (timer mycity-verifica) controlla con `systemctl is-active` SOLO mycity-watch-main.timer, mycity-worker e mycity-giro.timer (righe 109-126). Verificato: le uniche chiamate is-active nel file sono queste tre. Non controlla mycity-sentinella-dati.timer (gli occhi real-time a 1 minuto, il sensore business più critico), né mycity-monitora.timer, né mycity-sentinella.timer. Se il timer degli occhi si ferma, la macchina diventa cieca sugli eventi business e il watchdog non se ne accorge.
-- **Impatto:** Il controllore dell'automazione dà 'tutto ok' anche mentre il sensore real-time più importante è morto: falsa rassicurazione sulla salute dei sensori.
-- **Causa radice:** 1) verifica-automazione vigila 3 unità su ~9 → 2) la lista è hard-coded e cresciuta a mano → 3) ogni nuovo timer (sentinella-dati, monitora) non è stato aggiunto anche al verificatore → 4) non esiste una fonte-unica dei timer attesi da cui il verificatore deriva la lista → 5) manca l'invariante 'ogni .timer in cervello/vps/ deve comparire nel set vigilato da verifica-automazione'.
-- **Fix (🟡 firma Nicola):** In verifica-automazione.mjs derivare i timer attesi dai file cervello/vps/*.timer (o almeno aggiungere mycity-sentinella-dati.timer e mycity-monitora.timer) e fare is-active su ciascuno. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟠 Split-brain dei quaderni: esiste una seconda cartella memoria-squadra nel vault che ha DIVERSO le lezioni dalla cartella canonica
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/memoria-squadra/ (4 file: marketing/account-negozi/intelligence/relazioni-istituzionali) vs cartella canonica memoria-squadra/ alla radice; regola in memoria-squadra/README.md (AR-034)`
-- **Cosa:** AR-034 (memoria-squadra/README.md) dichiara che l'UNICA cartella valida dei quaderni e memoria-squadra/ alla radice e che qualsiasi copia nel vault e 'un residuo da migrare qui ed eliminare'. Invece la copia MyCity-Vault/90-Memoria-AI/memoria-squadra/ esiste ANCORA (4 file) e ha ricevuto scritture divergenti: marketing.md nel vault ha l'ultimo ESITO al 2026-07-07 mentre la copia canonica alla radice e ferma al 2026-06-26 (11 giorni di apprendimento persi dal file autorevole). chiusura-loop.mjs scrive SOLO in memoria-squadra/ radice (const SQUADRA_DIR = join(AD_ROOT, 'memoria-squadra')), quindi la copia vault viene alimentata da un'altra mano e le due versioni divergono senza che nessun guardiano se ne accorga.
-- **Impatto:** L'apprendimento dei senior (atteso->reale) e la calibrazione della macchina: se le lezioni finiscono in due file divergenti, un senior legge un quaderno incompleto e la sonda chiusura-loop misura freschezza sul file sbagliato. La copia canonica di marketing ha perso 11 giorni di lezioni.
-- **Causa radice:** Le regole di integrita-memoria vengono documentate come prosa negli header dei file (AR-034 nel README) invece di diventare guardiani eseguibili nel giro: nessun check machine-checkable verifica l'esistenza della cartella-residuo (agent-registry-check/coerenza-fatti non la cercano; coerenza-fatti la esenta col prefisso 'memoria-squadra/'), quindi una regola senza sentinella si spegne appena qualcuno non la ricorda e le due copie derivano.
-- **Fix (🟡 firma Nicola):** Aggiungere un guardiano cervello/memoria-residui-check.mjs (cablato in giro.sh, sola lettura, exit diverso da 0) che FALLISCE se esiste MyCity-Vault/90-Memoria-AI/memoria-squadra/ (o qualunque cartella quaderni fuori dalla radice); prima riconciliare a mano i 4 file (portare gli ESITI piu freschi del vault nella copia canonica) e poi eliminare la cartella-residuo. Resta gialla (tocca la memoria): firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Doppia coda azioni: i playbook del Pannello dicono a 14 senior di accodare in AZIONI-PRONTE, coda dichiarata NON canonica
-
-- **Dove:** `pannello/src/lib/playbook.ts (14 occorrenze 'Accoda in AZIONI-PRONTE') vs MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md (header che dichiara CODA CANONICA = AZIONI-IN-ATTESA, aggiornato 2026-06-26)`
-- **Cosa:** AZIONI-PRONTE.md contiene nel suo stesso header il warning: 'CODA CANONICA = [[AZIONI-IN-ATTESA]] ... Questo file resta come dettaglio operativo, NON una seconda coda parallela'. Ma tutti i compiti-playbook del Pannello (playbook.ts, 14 occorrenze verificate: SEO, win-back, scout negozi, anti-churn, recupero carrelli, ecc.) istruiscono ancora i senior a 'Accoda in AZIONI-PRONTE'. Un senior che segue il proprio playbook scrive l'azione nel file deprecato (fermo al 2026-06-26), fuori dalla coda che Nicola approva.
-- **Impatto:** Rischio che le mosse preparate dai playbook (recupero carrelli, scout negozi, anti-churn, referral) finiscano in un file che Nicola non guarda -> azioni pronte che non arrivano mai alla firma.
-- **Causa radice:** Il consolidamento della coda ha aggiornato l'header del file .md (AZIONI-PRONTE -> AZIONI-IN-ATTESA canonica) ma non i prompt che generano le azioni (playbook.ts): manca un grep-and-replace sui produttori di azioni e un guardiano che verifichi che TUTTI i produttori scrivano nell'unica coda canonica, quindi una deprecazione lascia riferimenti-fantasma nei prompt.
-- **Fix (🟡 firma Nicola):** Sostituire in pannello/src/lib/playbook.ts ogni 'AZIONI-PRONTE' con 'AZIONI-IN-ATTESA' (i playbook devono accodare nella coda canonica); opzionalmente ridurre AZIONI-PRONTE.md a puro archivio di anteprime linkate. Gialla, tocca il Pannello: branch + firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Il validatore di contratto (valida-contratti.mjs) copre solo 3 file e ignora i campi obbligatori chiave — falsa assicurazione
-
-- **Dove:** `cervello/valida-contratti.mjs:28-38 (CONTRATTO = solo auto-analisi.json, storico-salute.json, cantiere-difetti.json); contratto ampio in cervello/auto-coscienza.md:70-163`
-- **Cosa:** auto-coscienza.md definisce contratti ESATTI per una dozzina di file e impone tipi rigidi (voti = interi 0-100, domande_per_nicola = array di oggetti, testo della lezione in 'testo'). Ma valida-contratti.mjs enforce SOLO i campi obbligatori di auto-analisi/storico-salute/cantiere e gli alias di salute_macchina. Per cantiere-difetti.json ha obbligatori:[] — quindi NON verifica il campo 'verifica' che AR-023 (auto-coscienza.md:123) dichiara OBBLIGATORIO: verificato che il file ha 24 titoli ma solo 6 campi 'verifica' -> 18/24 difetti ne sono privi. Nessun controllo su registro-realta enum, voti-interi, forma delle domande. Il guardiano da un OK verde che non prova quasi nulla del contratto.
-- **Impatto:** Un JSON che rompe il layout del Pannello (voto-come-stringa, campo alias) o un difetto senza 'verifica' (che non si chiudera mai da solo) passano inosservati: la macchina crede di avere una rete di sicurezza sui contratti che in realta copre una minima parte dei campi.
-- **Causa radice:** Il contratto (prosa in auto-coscienza.md) e il suo enforcement (valida-contratti.mjs) sono due artefatti separati senza un legame che li tenga sincronizzati: il validatore nasce (AR-043) per un bug specifico (alias supabase_marketplace) e non e mai stato esteso; ogni volta che il contratto in .md cresce, il codice non viene aggiornato in parallelo e passa verde controllando poco -> falsa sicurezza.
-- **Fix (🟡 firma Nicola):** Estendere la mappa CONTRATTO di valida-contratti.mjs per coprire i file di auto-coscienza.md: enum stato/tipo di registro-realta, voti come interi 0-100, domande_per_nicola come array di oggetti, e il campo 'verifica' obbligatorio per ogni difetto NON chiuso in cantiere-difetti (AR-023). Gialla, firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Conteggio agenti stale '42' propagato in piu file mentre gli agenti reali sono 120, e il loop di apprendimento e cablato solo per 43/120 senior
-
-- **Dove:** `auto-coscienza/auto-radiografia.json:1513 (agenti_totali:42); cervello/auto-coscienza.md:113 e :10; cervello/auto-radiografia.md:4,26; cervello/chiusura-loop.mjs:2,165 ('i 42 quaderni'). Reali: 120 agenti in .claude/agents/, 43 quaderni in memoria-squadra/`
-- **Cosa:** CLAUDE.md dichiara '120 file .claude/agents = fonte di verita', ma il sottosistema auto-coscienza e ancora tarato su 42: auto-radiografia.json espone meta.agenti_totali:42 (verificato a riga 1513, numero che il Pannello mostra), auto-coscienza.md:113 ha agenti_totali:42, e chiusura-loop.mjs descrive 'i 42 quaderni/senior'. Sul terreno: 120 agenti ma solo 43 quaderni memoria-squadra. Quindi 77 senior non hanno quaderno; la sonda chiusura-loop scansiona la CARTELLA (readdirSync di SQUADRA_DIR) e non confronta col roster dei 120 -> non flagga mai i senior 'che non hanno mai imparato niente'. Il loop di apprendimento promesso da AR-009 copre di fatto un terzo del roster.
-- **Impatto:** Il Pannello mostra 42 agenti quando sono 120 (numero sbagliato in faccia a Nicola); 77 senior non hanno memoria/calibrazione e la macchina non lo rileva -> i ruoli nuovi restano 'a mani vuote' senza apprendimento, indistinguibili da un senior debole.
-- **Causa radice:** Non c'e una fonte-unica del conteggio agenti (il numero e copiato a mano in prosa in piu file): l'espansione a 120 ha toccato .claude/agents/ e CLAUDE.md ma non ha propagato il nuovo conteggio ai file/spec di auto-coscienza ne generato i quaderni mancanti; e la sonda chiusura-loop misura la freschezza dei quaderni ESISTENTI, non la copertura quaderni-vs-roster, quindi un'espansione non si propaga al volano di apprendimento.
-- **Fix (🟡 firma Nicola):** 1) Sostituire i '42' hard-coded con il conteggio reale (o leggerlo da .claude/agents/ come fa agent-registry-check) in auto-radiografia.json/spec/chiusura-loop; 2) estendere chiusura-loop --sonda a confrontare i quaderni con i 120 agenti e flaggare i senior senza quaderno (o crearli lazy al primo ESITO). Gialla, firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 La prova-che-il-loop-chiude poggia su un solo pilastro: i due prong business sono già morti e i difetti aperti sono finiti
-
-- **Dove:** `cervello/sonda-volano.mjs:84-99 (provaChiusura, finestra 14gg) + cantiere-difetti.json (aperti:0, in-corso:1, chiusi:23, ultimo chiuso_il 2026-07-07)`
-- **Cosa:** VERIFICATO. sonda-volano calcola provaChiusura = difettiChiusiRecenti>0 || calibrazionePiena || esperimentiMisurati (recency 14gg). calibrazionePiena (line 92) dipende da voci con stato azzeccata/mancata = sempre 0 (difetto calibrazione); esperimentiMisurati (line 93) dipende da esperimenti[] = sempre falso (difetto esperimenti). Restano permanentemente spenti: l'UNICO prong vivo è difettiChiusiRecenti. Il cantiere ha 0 aperti, 1 in-corso, ultimo difetto chiuso il 07-07: passati ~14 giorni la finestra svuota difettiChiusiRecenti → provaChiusura=false → serve_radiografia_completa. Il loop 'chiude' oggi solo perché la macchina ha appena finito di aggiustare il proprio codice, non perché il business impara.
-- **Impatto:** A ridosso di ~21 luglio il volano segnalerà 'loop NON chiude / serve radiografia completa' per esaurimento dell'unico prong attivo, non per una regressione: alert fatigue strutturale e falsa percezione di peggioramento.
-- **Causa radice:** La 'chiusura del loop' è stata dimostrata con l'attività su cui la macchina è autosufficiente (fixare sé stessa) e non con quella che conta (far crescere il business); i due prong business non sono strumentati (difetti #1 e #3). Quando finisce il carburante degli auto-fix e il secondo non è mai partito, l'auto-coscienza va in allarme senza un peggioramento reale.
-- **Fix (🟡 firma Nicola):** 🟡 Decidere con Nicola come tenere onesto il loop una volta svuotato il cantiere: privilegiare i pilastri business (calibrazione+esperimenti) come prova primaria e trattare i difetti-architettura chiusi come prova secondaria, così 'loop chiude' significhi 'il business impara'. Dipende dalla chiusura dei difetti #1/#3. Resta da firmare.
-- **Impatto crescita:** medio
-
-#### 🟠 Il battito-giro (2h) non ha nessun sentinel out-of-band: se muore, muore anche il suo controllore
-
-- **Dove:** `cervello/sentinella-dati.mjs (alert solo worker) + cervello/sonda-volano.mjs:103 (freschezza co-locata nel giro) + cervello/giro.sh:570 (ping esterno prima dell'exit, su qualsiasi esito)`
-- **Cosa:** La freschezza del battito da 2h — ultimo-briefing.json e cuore:ultimo_giro — è calcolata SOLO da sonda-volano.mjs (giroACadenza = oreBrief<=6, cervello/sonda-volano.mjs:103), che gira DENTRO giro.sh (invocata a cervello/giro.sh:158, PRIMA del delta-gate). Se il giro.timer viene disabilitato, o ogni giro crasha, o il delta-gate affama il briefing, la sonda non gira più → nessuno ricalcola la freschezza. L'unico sentinel indipendente e schedulato ogni 1 min (sentinella-dati.mjs, verificato: nessun riferimento a ultimo_giro/briefing) allerta SOLO sulla morte del WORKER (M1, battito worker_ultimo, cervello/sentinella-dati.mjs) e NON sul battito-giro. Ma worker vivo ≠ giro che produce. L'unico segnale esterno (HEARTBEAT_PING_URL, cervello/giro.sh:570) viene inviato PRIMA della logica di exit (righe 582-592) → parte anche su giri saltati dal delta-gate e su giri falliti (ai_rc≠0) → liveness falsa. Il riflesso 'battito fermo >15 min' esiste solo nel catalogo midollo-spinale.mjs ed è legato a worker_eta_min, non al giro.
-- **Impatto:** Un battito-giro spento diventa INVISIBILE: niente più briefing/opportunità/auto-analisi, ma il Pannello e il ping esterno dicono 'vivo'. Il volano dell'apprendimento si ferma senza che nessuno lo sappia finché un umano non lancia la diagnostica a mano.
-- **Causa radice:** Il monitor di freschezza è stato messo dentro l'organo che deve sorvegliare (watchdog co-locato col processo osservato); il sentinel indipendente è stato disegnato per il solo battito-worker (reattività chat) e mai esteso al battito-giro (proattività). Manca la separazione 'chi osserva ≠ chi è osservato' sul battito più critico.
-- **Fix (🟡 firma Nicola):** Aggiungere in sentinella-dati.mjs (schedulata 1 min, 0 token) un controllo dell'età di cuore:ultimo_giro (o mtime di ultimo-briefing.json): se supera una soglia (es. 3× l'intervallo del timer, ~6h nelle ore di veglia) accoda un'allerta 🔴 'battito-giro fermo' — stesso schema del worker morto già presente. Restare 🟡 firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Il gate anti-salto-silenzioso (AR-014) copre auto-analisi+apprendimento ma NON il briefing, l'output principale del giro
-
-- **Dove:** `cervello/giro.sh:411-420 (GIRO_STEPS_OK) e cervello/giro.sh:485`
-- **Cosa:** Dopo il motore AI, giro.sh verifica che siano stati riscritti in questo giro SOLO auto-coscienza/auto-analisi.json e auto-coscienza/apprendimento.json (cervello/giro.sh:413, ciclo `for _rel in auto-coscienza/auto-analisi.json auto-coscienza/apprendimento.json`). NON verifica ultimo-briefing.json né il Briefing/AAAA-MM-GG.md — cioè proprio gli artefatti che alimentano la card TL;DR del Pannello e il timbro cuore:ultimo_giro (stampato a cervello/giro.sh:511-515 con il campo .data del briefing). Un giro in cui il motore scrive i due file dei passi 11-12 ma salta in silenzio il briefing passa come GIRO_STEPS_OK=1 e viene pubblicato come giro riuscito. Anche la guardia a giro.sh:485 controlla solo auto-analisi.json.
-- **Impatto:** Il difetto che la dimensione teme ('passi del giro saltati in silenzio') resta possibile proprio sull'artefatto che Nicola vede: briefing vecchio, cuore:ultimo_giro timbrato con la data del briefing vecchio, ma giro marcato riuscito.
-- **Causa radice:** Il gate è stato agganciato ai due file citati come 'passi 11-12' senza includere l'output primario del giro (il briefing); la definizione di 'giro completo' nel runner non coincide con quella di giro.md.
-- **Fix (🟡 firma Nicola):** Aggiungere ultimo-briefing.json (e il Briefing del giorno) alla lista di freschezza del blocco GIRO_STEPS_OK, così un giro senza briefing fresco risulta a qualità segnata come già fa per auto-analisi/apprendimento.
-- **Impatto crescita:** medio
-
-#### 🟠 Metrica cieca alla difficoltà: prevedere lo status-quo su un business fermo vale 'azzeccata' pieno → gonfia l'autonomia
-
-- **Dove:** `cervello/calibrazione.mjs:216-219 (valuta) + calibrazione.json (18 voci tutte 'N numeri invariati')`
-- **Cosa:** CONFERMATO a livello di codice. La funzione valuta usa scarto = |reale-atteso| / max(|atteso|,1): con atteso=0 e reale=0 lo scarto è 0 → azzeccata garantita. Nessuno sconto per la BANALITÀ della previsione: predire che un business fermo (North Star 0, tutte le 18 voci sono 'N numeri invariati') resta fermo prende lo stesso credito di una scommessa direzionale rischiosa. È un difetto contingente: si materializza appena il giro inizia a registrare queste previsioni-status-quo via cmdPrevedi (fix del #1) — allora la macchina accumulerebbe azzeccate 'gratis' e raggiungerebbe autonomia 'alta' (Wilson≥0.7 su ≥8 esiti) senza reale capacità di previsione. È l'over-confidence della dimensione: voto alto senza il punto cieco dichiarato (la trivialità del baseline). Il design ha ottimizzato l'anti-inflazione STATISTICA (Wilson) ma non l'anti-inflazione SEMANTICA (predizione facile).
-- **Impatto:** Il semaforo dinamico (cmdPromozioni) proporrebbe di declassare i 🟡 di routine a 🟢 sulla base di un hit-rate finto, costruito su previsioni a rischio zero. La macchina si auto-certificherebbe 'brava a prevedere' mentre sta solo confermando l'immobilità.
-- **Causa radice:** 1) azzeccata su predizione banale → perché valuta non pesa la difficoltà. 2) perché la tolleranza è puramente relativa allo scarto, non alla predicibilità a priori → non esiste un baseline 'no-change' contro cui misurare lo skill incrementale. 3) perché 'azzeccata' è stata definita come vicinanza al reale, non come battere un baseline naive. Causa di sistema: la calibrazione premia l'accuratezza, non l'informazione — manca la nozione di skill vs baseline.
-- **Fix (🟡 firma Nicola):** Introdurre in valuta uno sconto/flag per predizioni banali: se atteso == valore corrente noto (no-change su metrica ferma) marcare l'esito come `banale:true` ed ESCLUDERLO dal conteggio autonomia (contano solo le previsioni di CAMBIAMENTO/direzionali), oppure pesare il credito per la difficoltà. Documentare il 'punto cieco baseline' accanto a punteggio/autonomia nel Pannello. Resta 🟡 firma Nicola.
-- **Impatto crescita:** alto
-
-#### 🟠 Il canale prosa auto-conferma contro sensori ciechi o dati stantii — le guardie AR-061/AR-062 non lo coprono
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json:19-20 (voce 2026-07-07) vs cervello/calibrazione.mjs:238-247, 272 (guardie AR-062/AR-061 in cmdEsito)`
-- **Cosa:** CONFERMATO nei file. La voce 2026-07-07 dichiara 'confermato' ma nel testo ammette 'MCP marketplace cieco in sessione (probe negato), i 4 numeri non-REST = conferma live di stanotte': conferma la previsione con dati di IERI, non con una misura fresca, mentre il sensore che dovrebbe verificarla è cieco. Il motore ha guardie precise contro proprio questo (AR-062: esito rifiutato senza --fonte ammessa; AR-061: un esito con sensore-fonte cieco NON conta nel punteggio + cap autonomia a 'media' con ≥2/3 sensori ciechi). Ma quelle guardie vivono in cmdEsito, e il registro reale è scritto a mano bypassandole del tutto. Over-confidence strutturale: 'confermato' auto-dichiarato mentre il punto cieco (sensore cieco / dato stantio) è confessato in prosa ma non ha alcun effetto frenante.
-- **Impatto:** La macchina si dà ragione da sola contro la propria cecità dichiarata. Se questo canale alimentasse il punteggio, guadagnerebbe fiducia proprio nei momenti in cui è meno affidabile — l'opposto della calibrazione.
-- **Causa radice:** 1) 'confermato' con sensore cieco → perché la voce è scritta a mano nel registro. 2) perché il percorso a mano non passa da cmdEsito → perché giro.sh non chiama la CLI per prevedi/esito (stessa radice del #1). 3) perché nessun gate impedisce di scrivere esito='confermato' quando la fonte è segnata cieca (sensori-cecita.json) → la coerenza sensore↔esito è imposta solo nel ramo strutturato. Causa di sistema: le guardie di verità (AR-061/062) sono legate al MOTORE, non al FILE, quindi qualunque scrittura fuori-motore le aggira.
-- **Fix (🟡 firma Nicola):** Ritirare la scrittura a mano del registro (unico ingresso = cmdPrevedi/cmdEsito, che già impongono fonte+sensore_stato). Aggiungere una sentinella che, a ogni giro, rifiuta/segnala qualunque voce del registro con esito 'confermato' priva del campo `sensore_stato` o con `sensore_stato:'cieco'`. Resta 🟡 firma Nicola.
-- **Impatto crescita:** medio
-
-#### 🟠 Il Supabase MEMORIA — coda, segnali e kill-switch — non ha nessun sensore di vita
-
-- **Dove:** `cervello/verifica-sensori.mjs (nessun checkSupabaseMemoria/SUPABASE_URL); il DB memoria è usato in cervello/git-github.mjs:151 (SUPABASE_URL/SUPABASE_SERVICE_KEY, tabella impostazioni via stampSegnale)`
-- **Cosa:** verifica-sensori.mjs controlla la vita di 5 canali (Supabase MARKETPLACE, Stripe, PostHog, Resend, storefront) ma NON del Supabase MEMORIA (env SUPABASE_URL). È il DB su cui girano i `segnali` che il Pannello legge e la tabella `impostazioni` (dove vive il kill-switch/pausa). Confermato: stampSegnale in git-github.mjs:150-153 fa un no-op SILENZIOSO se SUPABASE_URL/SERVICE_KEY mancano o falliscono — cioè se questo DB cade, il Pannello smette di ricevere battiti e nessun sensore lo dice.
-- **Impatto:** La macchina può fermarsi in silenzio nel canale che collega worker e Pannello: Nicola vede un Pannello con segnali fermi senza capire perché, e nessuna allerta scatta. È il single-point-of-failure meno vigilato.
-- **Causa radice:** verifica-sensori è nato per le FONTI-DATI di business (ordini/pagamenti); la definizione di 'sensore' è stata modellata sulle fonti esterne, non sull'INFRASTRUTTURA interna della macchina. Nessuna dimensione possiede la liveness dell'infrastruttura-cervello (segnali+impostazioni/kill-switch): manca il concetto di 'sensore di sé infrastrutturale' distinto dal 'sensore-dati'.
-- **Fix (🟡 firma Nicola):** Aggiungere a verifica-sensori.mjs un checkSupabaseMemoria (GET REST su impostazioni?select=chiave&limit=1 con SUPABASE_URL/SERVICE_KEY) trattato come sensore critico: se cieco ≥1 giro → allerta immediata a Nicola, non aspettare 3 giri come i dati. 🟡 da firmare.
-- **Impatto crescita:** alto
-
-#### 🟠 Due registri-rischi divergenti, nessun guardiano che li riconcilia
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-rischi.json (RSK-001/002/003) vs MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json (N1-N7, B1-B7); cervello/coerenza-rischi.mjs ASSENTE mentre coerenza-fatti.mjs esiste`
-- **Cosa:** Confermati due registri rischi con ID incompatibili (schema RSK vs schema N/B) e contenuti divergenti. Esiste coerenza-fatti.mjs per i fatti-chiave ma NON esiste alcun coerenza-rischi.mjs: nessun guardiano deterministico verifica che i due siano coerenti o che un rischio non cada nel buco tra i due. La regola 'una casa sola + gli altri citano' (AR-102) è applicata ai fatti ma non ai rischi.
-- **Impatto:** Un rischio registrato in uno resta invisibile all'altro; Nicola non sa quale sia autoritativo e un rischio può restare senza owner effettivo. Violazione di 'una sola verità' proprio sul dominio rischi.
-- **Causa radice:** Il pattern 'fonte unica + guardiano' non è stato generalizzato oltre registro-fatti: due AR distinti hanno creato due registri senza accorgersene perché manca un guardiano di coerenza-rischi come quello dei fatti.
-- **Fix (🟡 firma Nicola):** Decidere il registro canonico (proposta: 05-Soldi-Rischi/REGISTRO-RISCHI.json, più ricco e con sentinelle), far diventare l'altro un puntatore, e costruire cervello/coerenza-rischi.mjs (gemello di coerenza-fatti) che a ogni giro FALLISCE se i due divergono o se un rischio ALTA resta senza owner/sentinella. 🟡 da firmare.
-- **Impatto crescita:** medio
-
-#### 🟠 I 78 nuovi senior non hanno nessun KPI, e il guardiano del registro non se ne accorge
-
-- **Dove:** `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md (0 occorrenze dei nuovi agenti) vs 120 file .claude/agents/; cervello/agent-registry-check.mjs (verifica solo la citazione nel roster, nessun riferimento a OKR/KPI)`
-- **Cosa:** CLAUDE.md dice «ogni reparto possiede UN KPI in OKR-Squadra». Confermato con grep: OKR-Squadra non cita NESSUNO dei nuovi senior (kyc-aml, fraud-risk, pricing-scientist, marketplace-payments, cfo, rspp, capacity-planning, enterprise-risk, dpo, food-safety = 0 match). agent-registry-check.mjs verifica solo che ogni agente sia CITATO nel roster (via citatoNelRoster) ma NON che sia coperto da un KPI: un agente 'citato ma senza numero' passa come sano.
-- **Impatto:** Due terzi dell'organigramma è senza stella polare misurabile: interi domini di rischio/crescita (AML, cyber, capacità consegne, pricing) hanno un agente ma nessun numero che qualcuno possieda.
-- **Causa radice:** L'espansione a 120 agenti ha aggiunto i mansionari ma non ha aggiornato OKR-Squadra; il guardiano controlla la PRESENZA nel testo, non la COPERTURA negli strumenti. Manca una forcing-function che, aggiungendo un agente, pretenda anche il suo KPI/owner-di-rischio.
-- **Fix (🟡 firma Nicola):** Estendere agent-registry-check.mjs con un controllo di COPERTURA: per ogni file agente verifica che esista una riga KPI in OKR-Squadra (o una deroga esplicita) e segnala il drift come gli orfani. In parallelo, riscrivere OKR-Squadra assegnando un KPI ai 78 nuovi (bozza AD, firma Nicola). 🟡
-- **Impatto crescita:** medio
-
-#### 🟠 Un'azione da firmare può dormire in coda per settimane senza che niente la ri-solleciti
-
-- **Dove:** `cervello/notifica-approvazioni.mjs (dedup persistente: «ogni azione squilla UNA volta sola», righe 142/203); cervello/sentinelle.md (nessun pattern di anzianità/reminder sulla coda)`
-- **Cosa:** Confermato: notifica-approvazioni.mjs, dopo il primo invio, scrive l'id in notificate[] e non lo ri-notifica MAI (filtro `!stato.notificate[a.id]`). Nessuna sentinella in sentinelle.md rileva 'azione 🔴/🟡 in coda da più di N giorni senza esito' (grep su ferma-in-coda/attesa-firma/reminder/anzianità = 0). Se Nicola non vede il primo ping, l'azione resta ferma indefinitamente.
-- **Impatto:** Il bottleneck dichiarato prioritario (tempo firma→azione) è coperto solo sul primo minuto (il ping), non sulla durata (l'attesa): payout, risposte, email di recupero possono restare fermi per giorni in silenzio.
-- **Causa radice:** Il dedup è stato progettato per non essere fastidioso (una volta sola) senza un'eccezione temporale: si è risolto 'avvisare' ma non 'ricordare/escalare'. La coda AZIONI-IN-ATTESA non ha un orologio né una soglia di anzianità sorvegliata.
-- **Fix (🟡 firma Nicola):** Aggiungere una sentinella deterministica 'azione in coda > 48h (🔴) / > 5g (🟡) senza esito' che ri-notifica (reminder, non dedup) ed eventualmente escala, alimentata da notifica-approvazioni con una firma-anzianità. 🟡 da firmare.
-- **Impatto crescita:** alto
-
-#### 🟠 Il Pannello — dove Nicola approva — non ha un sensore di uptime: si controlla solo lo storefront
-
-- **Dove:** `cervello/verifica-sensori.mjs:207 (checkSito controlla solo MARKETPLACE_SITE_URL = storefront); nessun PANNELLO_URL/CABINA_URL monitorato; cartella pannello/ presente`
-- **Cosa:** Confermato: checkSito verifica la raggiungibilità dello STOREFRONT (MARKETPLACE_SITE_URL) ma non esiste alcun checkPannello. Il Pannello (cartella pannello/, «la sua faccia: da lì Nicola vede tutto e approva») non ha sensore di uptime. Se è giù, Nicola non vede lo stato e non può approvare nulla, e nessun canale lo segnala.
-- **Impatto:** Il loop 'la macchina propone → Nicola approva' si interrompe senza allarme: un Pannello down è invisibile finché Nicola non prova ad aprirlo.
-- **Causa radice:** Il sensore uptime è nato pensando ai clienti (storefront), non a Nicola (Cabina): la superficie 'Pannello' non è modellata come dipendenza critica del ciclo decisionale, quindi non ha un sensore.
-- **Fix (🟡 firma Nicola):** Aggiungere checkPannello a verifica-sensori.mjs (GET su PANNELLO_URL) come sensore critico, con allerta immediata su Telegram se giù. 🟡
-- **Impatto crescita:** medio
-
-#### 🟠 Telegram e n8n — il canale delle approvazioni e l'hub delle 'mani' — non sono health-checkati (Resend sì)
-
-- **Dove:** `cervello/verifica-sensori.mjs:185 (checkResend presente, nessun checkTelegram né checkN8n); Telegram usato in cervello/notifica-approvazioni.mjs; n8n in cervello/esegui-azione.mjs:44,87-92`
-- **Cosa:** Confermato: verifica-sensori fa l'health-check di Resend (le mani email) ma NON del bot Telegram (su cui poggia notifica-approvazioni, il fix del bottleneck n.1) né di n8n (hub delle mani, esegui-azione.mjs usa N8N_WEBHOOK_URL). Se il token Telegram si rompe, le notifiche di approvazione falliscono in silenzio con la stessa cecità che Resend ha già risolto.
-- **Impatto:** I due canali più vicini alla decisione/azione possono spegnersi senza allarme: le approvazioni non arrivano e le azioni non partono, in modo invisibile.
-- **Causa radice:** L'health-check è stato aggiunto reattivamente un canale alla volta (Resend), non derivato da una mappa completa delle dipendenze di uscita. Manca un principio di copertura 'nessuna mano/canale-avviso senza sensore' applicato sistematicamente.
-- **Fix (🟡 firma Nicola):** Aggiungere a verifica-sensori.mjs checkTelegram (getMe sul bot) e checkN8n (ping healthz/webhook di test) come sensori-mani: se ciechi → nota in coda. 🟡 da firmare.
-- **Impatto crescita:** medio
-
-#### 🟠 L'onesta-check NON è agganciato al canale che tocca i clienti (mani/autopilota): un'email reale con numeri finti parte senza cancello
-
-- **Dove:** `pannello/src/lib/mani.ts:67 (eseguiAzione) + pannello/src/lib/autopilota.ts:20 + cervello/giro.sh:456-477`
-- **Cosa:** VERIFICATO: grep di 'onesta' su mani.ts, autopilota.ts e azioni-pronte.ts non trova nessun import né invocazione. onesta-check.mjs (AR-075) è cablato SOLO in giro.sh (righe 463-474) e SOLO su due file di memoria interna (STATO.md + ultimo briefing), per giunta in default NON-bloccante (ONESTA_BLOCCA=0 → 'WARN forte, push non bloccato', giro.sh:474). Il canale che tocca i clienti — eseguiAzione() in mani.ts che invia via Resend (righe 44-64, 101), e eseguiAutopilota() in autopilota.ts che chiama eseguiAzione() da solo — non passa dall'onesta-check. Un'azione verde (o approvata) con un numero inventato, una testimonianza finta o un segnaposto non risolto viene inviata LIVE senza cancello d'onestà. Impatto latente: l'invio reale richiede comunque AZIONI_LIVE=1 + RESEND_API_KEY (mani.ts:93-100), oggi non attivi, e i testi delle sentinelle sono hardcoded e onesti — ma il PERCORSO è aperto.
-- **Impatto:** Il valore fondante del brand (la verità) è protetto solo sulla memoria interna, non sull'unico posto dove una bugia raggiunge un cliente reale. Oggi il canale non è live e i testi sono onesti, ma il gate manca per costruzione.
-- **Causa radice:** Si è confuso 'pubblicare la memoria' (commit+push git strumentato in giro.sh) con 'pubblicare contenuto ai clienti' (mani/publisher): due percorsi diversi, strumentato solo il primo. Causa di sistema: l'onestà è trattata come check di un artefatto (file di memoria) invece che come gate del canale d'uscita — manca un choke-point unico 'prima di toccare il mondo' dove far passare TUTTE le uscite.
-- **Fix (🟡 firma Nicola):** 🟡 In eseguiAzione() (mani.ts) e in eseguiAutopilota() (autopilota.ts), prima di inviare far passare oggetto+corpo da onesta-check (import della funzione esamina() o spawn di onesta-check.mjs): se violazioni → NON invia, torna stato 'coda' con motivo 'onestà: numero senza fonte/segnaposto'. Fail-closed sul canale d'uscita, non solo sul git.
-- **Impatto crescita:** medio
-
-#### 🟠 livelloDi() dà precedenza al VERDE su un colore ambiguo: una cella con 🔴 e 🟢 diventa 'verde' e l'autopilota la esegue da sola
-
-- **Dove:** `pannello/src/lib/azioni-attesa.ts:29-34 (livelloDi) usata da parseTabella:180 → pannello/src/lib/autopilota.ts:16 (filtro livello==='verde')`
-- **Cosa:** VERIFICATO: livelloDi (azioni-attesa.ts:29-34) controlla PRIMA `c.includes('🟢')` e ritorna 'verde', poi 🟡, poi 🔴. Una cella-colore contenente sia 🔴 sia 🟢 (es. '🔴 (era 🟢)' o '🟢/🔴') restituisce 'verde'. parseTabella usa cells[4] grezza come colore (riga 179-180), quindi una cella multi-emoji nel formato tabella arriva a livelloDi così com'è. L'autopilota (autopilota.ts:16) filtra esattamente `b.livello === 'verde'` ed esegue via eseguiAzione(). È l'opposto della regola d'oro 'nel dubbio SALI di colore'. Nota: parseSezioni normalizza a un solo emoji (riga 203), quindi il caso ambiguo riguarda soprattutto le righe-tabella.
-- **Impatto:** Latente ma diretto: un'azione realmente 🔴 con cella-colore mista può finire auto-eseguita dall'autopilota, bypassando la firma di Nicola. Il trigger (cella con due emoji) è poco frequente ma l'inversione del fail-safe è silenziosa.
-- **Causa radice:** L'ordine dei controlli è verde→giallo→rosso (dal meno al più restrittivo), scritto seguendo l'ordine visivo del semaforo, non l'ordine di sicurezza. Causa di sistema: fail-safe non implementato — in caso di ambiguità il codice SCENDE di colore invece di salire, violando la regola d'oro proprio nel punto che alimenta il filtro dell'autopilota.
-- **Fix (🟡 firma Nicola):** 🟡 Invertire l'ordine in livelloDi: controllare 🔴 PRIMA, poi 🟡, poi 🟢 — il colore più restrittivo presente vince. Così '🔴+🟢' → rosso e l'autopilota non lo tocca.
-- **Impatto crescita:** medio
-
-#### 🟠 Il circuit-breaker sul costo AI (GATE-BUDGET AR-087) è saltato da TUTTI i giri on-demand e dal cron: si spende senza tetto sul percorso più frequente
-
-- **Dove:** `cervello/giro.sh:288 (condizione GIRO_FORCE!=1 && DELTA_GATE_FORCE!=1) + cervello/worker.sh:387 (export GIRO_FORCE=1 per ogni giro dalla coda) + pannello/src/app/api/heartbeat/route.ts:44 (il cron accoda un giro)`
-- **Cosa:** VERIFICATO: giro.sh:288 esegue il gate-budget deterministico SOLO se `GIRO_FORCE!=1 && DELTA_GATE_FORCE!=1`. worker.sh:387 imposta `export GIRO_FORCE=1` per OGNI job di tipo 'giro' preso dalla coda del Pannello (righe 382-390), e heartbeat/route.ts:44 accoda un job 'giro' che il worker esegue così. Risultato: il tetto di spesa token (costo-ai.mjs, giro.sh:288-298) viene verificato solo per i giri del timer fisso sul VPS, MAI per i giri innescati dal Pannello o dal cron giornaliero — cioè il percorso automatico (cron) e quello che un umano può ripremere a raffica. Il commento a giro.sh:287 dichiara il bypass intenzionale per 'on-demand', ma il cron heartbeat NON è on-demand e passa comunque per GIRO_FORCE=1.
-- **Impatto:** La protezione di spesa (piano Max/token) è di fatto assente sul percorso Pannello+cron. Overrun di costo possibile via giri accodati o cron giornaliero, senza che il breaker scatti.
-- **Causa radice:** Lo stesso flag (GIRO_FORCE) bypassa DUE garanzie con scopi opposti: il delta-gate (efficienza: salta-se-nulla-è-cambiato) E il gate-budget (sicurezza: non sforare). Causa di sistema: CLAUDE.md impone 'sotto budget scarso taglia il volume, non i controlli' — ma qui il forzare-il-volume disattiva anche il controllo di spesa, e il percorso cron/automatico eredita il bypass pensato per l'umano.
-- **Fix (🟡 firma Nicola):** 🟡 Separare i due flag: GIRO_FORCE bypassa il delta-gate (efficienza) ma il gate-budget token resta SEMPRE attivo (o un BUDGET_FORCE distinto da usare rarissimo). Sotto soglia: degrada a passaggio minimo anche i giri on-demand/cron, tenendo attivi i 🔴/controlli.
-- **Impatto crescita:** medio
-
-#### 🟠 La North Star è misurata ma orfana da ogni gate: lo stallo (13 giorni, 0 ordini pagati) non redirige lo sforzo
-
-- **Dove:** `cervello/giro.sh:236 (`node north-star-check.mjs 2>&1 | tail -6 || true`) + cervello/north-star-check.mjs:82`
-- **Cosa:** north-star-check.mjs calcola in modo deterministico la stella polare (negozi live, ordini creati/pagati/consegnati) e ritorna exit 1 quando è in STALLO (0 ordini pagati). Ma in giro.sh gira dentro il blocco 'guardiani orfani ORA cablati' con `| tail -6 || true`: l'exit code è SCARTATO e l'output non è catturato in nessuna variabile. A differenza di allocazione-check (ALLOC_VINCOLO), chiusura-loop (LOOP_VINCOLO), coerenza-fatti (FATTI_VINCOLO) — che passano un VINCOLO HARD al motore quando falliscono — la North Star ferma non genera NESSUN vincolo, nessuna priorità, nessuna riga nel prompt del motore. Confermato: le tre variabili VINCOLO fratelle esistono (giro.sh:127-129, 172-337), NORTHSTAR_VINCOLO non esiste.
-- **Impatto:** La macchina può girare per settimane 'in salute' mentre il business è a zero, senza che nessun meccanismo la costringa a puntare lo sforzo dove serve. È la radice per cui 13 giorni di North Star 0 non hanno cambiato il comportamento del giro.
-- **Causa radice:** 1) Perché lo stallo non ferma nulla? Perché north-star-check è cablato con `|| true` (scelta DELIBERATA, commentata come 'informativo, non-gate' in giro.sh:231). 2) Perché informativo e non freno? Perché è stato aggiunto per rendersi 'vivo nel battito', e i gate esistenti (allocazione/loop/fatti) presidiano la COERENZA INTERNA della macchina, non l'ESITO di business. 3) Perché nessun gate presidia l'esito di business? Perché la macchina ha costruito i suoi controlli sui propri artefatti (difetti, quaderni, fatti) — le cose che sa misurare da sé. 4) CAUSA DI SISTEMA: il volano di controllo è auto-referenziale — vincola ciò che la macchina PRODUCE (memoria coerente), non ciò per cui ESISTE (ordini/negozi/margine). La stella polare è decorativa nel runner.
-- **Fix (🟡 firma Nicola):** Cablare north-star-check come i fratelli gate: catturare `_ns_out`/`_ns_rc` in giro.sh e, se rc≠0 (stallo) da ≥N giorni, popolare un `NORTHSTAR_VINCOLO` che entra nel PROMPT del motore come regola hard: «La North Star è FERMA da <N> giorni (0 ordini pagati). La mossa n.1 di questo giro DEVE muovere ordini/negozi reali (non manutenzione interna, non housekeeping, non nuove capacità). Se non hai una mossa di business azionabile, dillo esplicitamente a Nicola come blocco.» Resta 🟡: modifica al runner, firma Nicola.
-- **Impatto crescita:** alto
-
-#### 🟠 Il volano di auto-coscienza certifica 'loop chiude ✅' su prove SOLO interne — mai su una metrica di business
-
-- **Dove:** `cervello/sonda-volano.mjs:98-99 (`provaChiusura = difettiChiusiRecenti>0 || calibrazionePiena || esperimentiMisurati`; `loopChiude = tasso>0 && provaChiusura`)`
-- **Cosa:** La prova di vita del volano (loop_chiude, e quindi il verdetto ok/attenzione della sonda e il 'voto fiducia giro') si basa esclusivamente su TRE prove interne: difetti del cantiere chiusi, previsioni di calibrazione chiuse, esperimenti di auto-miglioramento misurati. Nessuna delle tre è una metrica di business (ordine, negozio, margine). Confermato: grep 'north' in sonda-volano.mjs non trova nulla. Risultato osservabile in STATO.md (7/7 18:00): 'Voto fiducia giro 85 ▲' e volano che gira, mentre 'Loop business 🔴 in corso' e North Star 0 da 13 giorni convivono senza contraddizione. Il volano di auto-miglioramento e quello di business sono disaccoppiati.
-- **Impatto:** Il cruscotto salute/fiducia dà a Nicola un falso segnale di 'macchina che gira bene' mentre l'azienda è ferma; l'attività interna sostituisce l'esito e nessun allarme scatta.
-- **Causa radice:** 1) Perché il loop risulta 'chiude' con North Star 0? Perché provaChiusura guarda solo difetti/calibrazione/esperimenti (sonda-volano.mjs:82-98). 2) Perché quelle tre e non il business? Perché sono gli artefatti che la macchina genera e misura da sé, senza dipendere da un ordine reale che tarda. 3) Perché nessuno ha aggiunto la recency della North Star alla prova? Perché la North Star è nata dopo (AR-082) come guardiano separato, mai integrata nella sonda. 4) CAUSA DI SISTEMA: 'salute della macchina' è definita come 'la macchina lavora su sé stessa' invece di 'la macchina muove il business'. La metrica-faro non entra nella definizione di volano sano.
-- **Fix (🟡 firma Nicola):** Aggiungere alla sonda-volano un quarto segnale, di segno OPPOSTO: leggere north-star-check --json e, se la North Star è ferma oltre una finestra (>7 giorni senza avanzamento di ordini/negozi), degradare il verdetto ad 'attenzione' e scriverlo nella nota ('volano interno gira ma business fermo da <N>gg') — così un business a secco NON può convivere con un volano dichiarato sano. Resta 🟡.
-- **Impatto crescita:** alto
-
-#### 🟠 OKR-Squadra scaduto e mai revisionato: il target North Star è a 10 giorni di ritardo e la 'Regola ROI/STOP' non è applicata al lavoro interno
-
-- **Dove:** `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md:3 (`aggiornato: 2026-06-24`), :15 (target AD '1° ordine reale entro sab 27/6'), :56 (Regola ROI + STOP automatico)`
-- **Cosa:** Il file che dovrebbe ancorare ogni reparto alla North Star è fermo al 24/6: il target dell'AD ('1° ordine reale entro sab 27/6') è scaduto da ~10 giorni (oggi 7/7) e non è mai stato ri-baselinato, nonostante decine di giri. Confermato: frontmatter `aggiornato: 2026-06-24`, riga target scaduta, Regola ROI presente in fondo. La regola dichiarata è netta: 'se un'azione non muove uno di questi numeri, non è prioritaria. STOP automatico se un reparto brucia budget senza rendere.' Ma lo STOP è solo sul budget-soldi (che con 0 spesa non scatta mai); il 'budget' che l'OKR stesso dichiara 'soprattutto tempo' non è misurato contro la North Star da nessuno.
-- **Impatto:** Senza un OKR vivo e uno STOP sul tempo, la macchina non ha modo di accorgersi da sola che sta ottimizzando sé stessa invece del business; la Regola ROI resta un poster, non un controllo.
-- **Causa radice:** 1) Perché l'OKR è scaduto? Perché nessun processo lo ri-baselina quando un target salta. 2) Perché la Regola ROI non ha fermato il lavoro interno? Perché lo STOP è cablato solo sul denaro, non sul tempo/attenzione. 3) Perché solo sul denaro? Perché il tempo/token della macchina non è stato modellato come budget di reparto misurabile contro la North Star. 4) Perché no? Perché la macchina considera 'gratis' il proprio lavoro interno (auto-miglioramento) e non lo mette sullo stesso piano ROI delle mosse di business. 5) CAUSA DI SISTEMA: manca un ancoraggio vivo tra attività svolta e North Star — l'OKR è un documento morto, non un contratto che si aggiorna e vincola; il lavoro interno gode di un'esenzione implicita dalla Regola ROI che la regola stessa non prevede.
-- **Fix (🟡 firma Nicola):** ① Processo di re-baseline dell'OKR quando un target scade (una riga di storico 'target mancato → nuovo target + causa', mai riscrivere il vecchio); ② estendere la Regola ROI: ogni giro classifica le mosse fatte in 'muove-North-Star' vs 'interno/manutenzione' e, se ≥X giri consecutivi sono 100% interni con North Star ferma, accoda a Nicola una card 'la macchina sta lavorando solo su sé stessa'. Resta 🟡 (OKR è file di Nicola: proposta, non riscrittura).
-- **Impatto crescita:** alto
-
-#### 🟠 Il router economico non esegue MAI: instrada a Groq/Gemini, lo registra, poi gira sempre su Claude premium
-
-- **Dove:** `cervello/worker.sh:445-448 (ramo condizionato a ${AI_ECON_CMD:-}) — variabile AI_ECON_CMD mai definita in tutto il repo`
-- **Cosa:** worker.sh instrada i lavori di volume (metabolizza → 'testi-volume' → groq-llama) col router banco-ai, li LOGGA come scelta economica (banco-ai.mjs --log), ma il ramo che esegue davvero l'economico richiede che ${AI_ECON_CMD:-} sia non vuoto. VERIFICATO con grep in tutta la repo: 'AI_ECON_CMD' compare solo in 3 punti di worker.sh (commento riga 438, lettura righe 445 e 447), MAI un'assegnazione. Quindi la condizione è sempre falsa e ogni lavoro cade nel fallback premium (worker.sh:451-453). Prova nei dati: routing.json registra uso {claude:114, groq-llama:16} — ma quei 16 lavori 'testi-volume' sono stati eseguiti da Claude. È misura-teatro.
-- **Impatto:** Ogni lavoro ad alto volume (metabolizza oggi, bozze/caption/classificazioni domani) brucia quota Max premium — l'opposto esatto del principio di banco-ai.md. La quota così consumata è quella che poi manca per il lavoro che fa crescere l'azienda.
-- **Causa radice:** 1) Perché l'economico non parte? AI_ECON_CMD è vuoto. 2) Perché è vuoto? Non è mai assegnato da nessuna parte (solo commento + lettura). 3) Perché mai assegnato? L'adattatore-mani che chiama davvero groq/gemini (la CLI economica) non è stato costruito. 4) Perché si è spedito il router senza l'esecutore? Perché 'decidere il modello' (banco-ai.mjs) e 'chiamare il modello' sono stati separati e solo il primo è stato realizzato. 5) Causa di sistema: nessun guardiano verifica che un lavoro 'instradato-economico' sia stato ESEGUITO economico → la decisione può mentire indefinitamente e la regola d'oro di banco-ai.md ('Claude solo per il ragionamento, il volume alla mano economica') resta prosa.
-- **Fix (🟡 firma Nicola):** Costruire l'adattatore-mani economico (AI_ECON_CMD = comando CLI verso groq/gemini con la chiave collegata) in motore-ai.sh, e aggiungere un guardiano che a ogni giro confronti routing.json (modello DECISO) con costo-ai.json (modello USATO): se un compito instradato-economico è girato premium, FALLISCE e lo segnala. Finché l'adattatore non esiste, banco-ai deve dire a Nicola 'router = solo consiglio, esecuzione sempre premium', non fingere risparmio.
-- **Impatto crescita:** alto
-
-#### 🟠 ritmo e monitora non stimano MAI i token: 4 cadenze/giorno + monitoraggio contano 0 al budget
-
-- **Dove:** `cervello/ritmo.sh:264 (${RITMO_TOKEN:+...}) e cervello/monitora.sh:107 (${MONITORA_TOKEN:+...}) — le variabili non sono mai assegnate (grep = solo la lettura, zero assegnazioni)`
-- **Cosa:** Solo giro.sh calcola una stima token (per quanto sbagliata, vedi difetto 1). ritmo.sh e monitora.sh chiamano costo-ai.mjs con `${RITMO_TOKEN:+--token=...}` / `${MONITORA_TOKEN:+--token=...}`, ma VERIFICATO: quelle variabili non sono definite da nessuna parte (grep trova solo l'unica riga di lettura in ciascun file): l'espansione `:+` collassa a vuoto → costo-ai riceve token=null. Prova nei dati: costo-ai.json registra ritmo-mattino token=null, ritmo-mezzogiorno token=null, ritmo-sera token=null. Così ritmo mattino/mezzogiorno/sera/settimana (4 run AI a contesto pieno) + monitora giornaliero non contribuiscono NULLA al token_totali del giorno. Anche fixando la stima del giro, il totale giornaliero resterebbe cieco su ~5 run premium al giorno.
-- **Impatto:** La cecità di costo si somma: la quota realmente bruciata da ritmo+monitora è invisibile, il letargo/gate-budget non la vedono mai, e la macchina può esaurire la sessione Max senza che nessun sensore lo anticipi.
-- **Causa radice:** 1) Perché ritmo/monitora contano 0? RITMO_TOKEN/MONITORA_TOKEN non esistono. 2) Perché non esistono? La stima token è stata retrofittata (AR-083) SOLO in giro.sh. 3) Perché solo in giro.sh? Perché è stata scritta come blocco locale nello script, non nel percorso condiviso di logging. 4) Perché non condivisa? Perché costo-ai.mjs riceve il token già calcolato dal chiamante invece di calcolarlo/leggerlo lui dall'usage del motore. 5) Causa di sistema: la logica di misura vive nel posto sbagliato (per-script) invece che nell'unico punto (costo-ai.mjs o motore-ai.sh) da cui passa OGNI invocazione AI → ogni nuovo organo va ricablato a mano e alcuni restano ciechi.
-- **Fix (🟡 firma Nicola):** Spostare la cattura/stima dell'usage in un solo punto condiviso (motore-ai.sh o costo-ai.mjs che legge l'output JSON del motore), così ogni run — giro, ritmo, monitora e futuri — registra automaticamente i token senza doverlo ricordare per-script. metabolismo.mjs già espone 'copertura_token_pct': usarlo come guardiano (se copertura < 100% → allerta, non silenzio).
-- **Impatto crescita:** medio
-
-#### 🟠 La soglia misura la cosa sbagliata: 2M token/giorno vs quota-sessione rolling ~5h che è il vero muro
-
-- **Dove:** `cervello/costo-ai.mjs:20 (SOGLIA_DEFAULT = 2_000_000) e giro.sh:288-296 (GATE-BUDGET su token/giorno) — contro il modello di quota descritto in retry-policy.mjs:29-40`
-- **Cosa:** Il modello di costo somma i token del GIORNO e li confronta con una soglia giornaliera da 2.000.000 (VERIFICATO costo-ai.mjs:20 SOGLIA_DEFAULT=2_000_000). Ma retry-policy.mjs:29-35 documenta esplicitamente che la risorsa scarsa reale è la 'finestra di sessione dei motori AI (Claude Max / Cursor) = ROLLING ~5h', che si resetta ogni poche ore — NON una quota giornaliera. Un budget giornaliero non può rappresentare una finestra rolling di 5h: la macchina può esaurire la sessione alle 14:00 e restare ferma, mentre il contatore giornaliero è ancora ben sotto i 2M. Il numero 2M è inoltre un valore inventato senza aggancio alla quota reale del piano.
-- **Impatto:** Anche a conteggio token corretto, il freno di costo resta mistarato: non anticipa l'esaurimento sessione che di fatto ferma ordini/negozi a metà giornata. Il gate protegge da un limite che non è quello vero.
-- **Causa radice:** 1) Perché la soglia non predice il muro? Misura token/giorno, il muro è quota/sessione-5h. 2) Perché token/giorno? costo-ai (AR-020) ha copiato un modello di billing ad-API (spesa cumulativa giornaliera). 3) Perché quel modello? Perché è il più intuitivo da sommare. 4) Perché non modella la sessione rolling? Perché la finestra ~5h è nota solo dentro retry-policy.mjs (MAX_ATTESA_QUOTA_MIN) e non è stata portata nel modello di costo. 5) Causa di sistema: il costo è modellato sulla realtà di fatturazione sbagliata (consumo a token pay-per-use) mentre la macchina gira su abbonamento flat Max/Cursor dove il vincolo è la sessione rolling → anche con conteggio perfetto, il gate non scatterebbe quando serve.
-- **Fix (🟡 firma Nicola):** Sostituire (o affiancare) al budget giornaliero un sensore di 'quota-sessione': stimare/contare il consumo nella finestra rolling ~5h (riusando MAX_ATTESA_QUOTA_MIN di retry-policy come parametro) e far scattare letargo/gate su QUELLA. Decisione da firmare con Nicola: qual è la quota reale del piano e come rilevarla (parsing degli errori 'resets HH:MM' già fatto da retry-policy è un aggancio pronto).
-- **Impatto crescita:** medio
-
-#### 🟠 Il perimetro permessi 🟢🟡🔴 non vale sul motore reale: Cursor gira `--force --trust`, .claude/settings.json copre solo Claude Code
-
-- **Dove:** `cervello/motore-ai.sh:89 e :23-34 (auto → preferisce 'agent') vs .claude/settings.json (allowlist stretta)`
-- **Cosa:** Verificato: .claude/settings.json ha un allow stretto (WebSearch/WebFetch/una PowerShell), ma è un concetto di Claude Code. Il motore preferito (motore-ai.sh: auto → 'agent' se presente) è Cursor, lanciato `agent -p --force --trust` (:89): nessuna allow/deny a livello di tool, piena fiducia, headless. Sul motore che gira davvero non c'è alcun cancello a livello di strumento (git, bash, scrittura file): il perimetro permessi documentato dà falsa sicurezza.
-- **Causa radice:** Il modello di sicurezza è legato a UN motore (Claude Code) mentre l'esecuzione è multi-motore: il controllo non ha seguito il cambio a Cursor `--force --trust`.
-- **Fix (🟡 firma Nicola):** 🟡 Decidere con Nicola: (a) restringere Cursor con deny esplicito su git push/reset/comandi distruttivi e scrittura fuori dal vault, o (b) accettare `--trust` solo se accoppiato al guardiano-integrità del finding #1 che intercetta a valle ogni scrittura fuori perimetro; documentare che settings.json non protegge col motore Cursor.
-- **Impatto crescita:** medio
-
-#### 🟠 Il sistema immunitario dichiara il pre-commit ATTIVO solo perché il file esiste, ma `core.hooksPath` non è configurato → scan-segreti spento
-
-- **Dove:** `cervello/sistema-immunitario.mjs:38 (`difesa('.githooks/pre-commit', (t)=>t!=null, …)`)`
-- **Cosa:** Verificato: sistema-immunitario.mjs:38 considera la difesa 'pre-commit presente' attiva se il FILE .githooks/pre-commit esiste (`t != null`). Ma il hook parte solo con `git config core.hooksPath=.githooks` (installa-hooks.sh, passo manuale per clone). In questo clone `git config core.hooksPath` restituisce rc=1: il hook NON gira, lo scan-segreti al commit è bypassato — eppure il sistema immunitario riporta la difesa come 'attiva'. Falso positivo su un controllo di sicurezza.
-- **Causa radice:** I guardiani introspettivi misurano la PRESENZA degli strumenti (esiste il file) non il loro FUNZIONAMENTO (config git attiva): l'attivazione di core.hooksPath è un passo manuale per-clone dato per scontato.
-- **Fix (🟡 firma Nicola):** 🟡 sistema-immunitario deve verificare `git config core.hooksPath` == .githooks (non la sola esistenza del file) → se diverso difesa GIÙ; inoltre il giro/worker dovrebbe ri-eseguire installa-hooks.sh in modo idempotente all'avvio, così il perimetro è attivo su ogni clone senza passo manuale.
-- **Impatto crescita:** medio
-
-#### 🟠 monitora.sh resetta la memoria con `checkout -f -B main FETCH_HEAD`: può cancellare un commit locale non pushato
-
-- **Dove:** `cervello/monitora.sh:53 (`git checkout -f -B "$branch" FETCH_HEAD`) vs giro.sh:88-100 (rebase non distruttivo)`
-- **Cosa:** Verificato: monitora.sh:53 allinea la memoria con `git checkout -f -B "$branch" FETCH_HEAD` (distruttivo). Il 'Fix B' subito sopra (righe 47-51) salva SOLO le scritture non committate (`git status --porcelain` non vuoto). Se un giro/worker precedente aveva COMMESSO in locale su main col push fallito 3/3 (rete), l'albero è pulito → Fix B non scatta → il reset azzera main al remoto e quel commit locale (memoria reale) è PERSO. giro.sh nello stesso scenario usa rebase/merge non distruttivo (:88-100): monitora.sh è rimasto indietro.
-- **Causa radice:** Logica git critica copincollata in due script: la correzione non-distruttiva (rebase, AR-028) è stata applicata a giro.sh ma non replicata in monitora.sh, e Fix B guarda solo il working tree sporco, non i commit ahead-of-remote.
-- **Fix (🟡 firma Nicola):** 🟡 Portare monitora.sh alla stessa logica non-distruttiva di giro.sh (fetch + rebase, fallback merge, mai `checkout -f -B` sul ramo con commit locali) — meglio estrarre l'allineamento in una funzione condivisa sourcata da entrambi.
-- **Impatto crescita:** medio
-
-
----
-
-## 🟡 Minori
-
-#### 🟡 finanza e contabilita rivendicano entrambe la riconciliazione incassi-payout e 'commissioni' senza deferral nella description
-
-- **Dove:** `.claude/agents/finanza.md:3 vs .claude/agents/contabilita.md:3`
-- **Cosa:** VERIFICATO: description di `finanza.md:3` = 'incassi, payout ai negozi, commissioni, margini, unit economics, riconciliazioni e anomalie di pagamento' (nessun deferral nel campo description). description di `contabilita.md:3` = 'riconciliazione incassi-payout (Stripe vs ordini), commissioni ... payout non riconciliato'. Entrambe possiedono 'commissioni' e la riconciliazione incassi-payout senza un deferral esplicito nel campo che il router legge; il confine vive solo in CLAUDE.md (fatture/quadratura), non sulla riconciliazione.
-- **Impatto:** Su 'un payout non torna' il router oscilla fra finanza (anomalia di cassa) e contabilita (quadratura): rischio doppio lavoro o rimpallo sui numeri di cassa, area dove la coerenza di un solo numero è critica.
-- **Causa radice:** Stesso buco di sistema di F2 (nessun controllo di collisione description): il confine 'anomalia vs quadratura formale' non è codificato dove il router lo legge, ma solo in CLAUDE.md.
-- **Fix (🟡 firma Nicola):** Nella description di finanza aggiungere '(→ quadratura/riconciliazione contabile formale incassi-payout = contabilita)' e restringere finanza a anomalie/unit-economics/margini; contabilita resta owner della riconciliazione formale.
-- **Impatto crescita:** basso
-
-#### 🟡 Sei agenti (cancelli qualità + squadra design + prompt-engineer) senza voce-roster nell'organigramma di CLAUDE.md
-
-- **Dove:** `CLAUDE.md:156-158 (nota) — assenti dai roster 'I tuoi senior' e '78 nuovi senior'`
-- **Cosa:** VERIFICATO: i file direttore-creativo, qa-designer, ux-designer, ai-designer, cro, prompt-engineer esistono in .claude/agents/, ma in CLAUDE.md compaiono SOLO in prosa/pipeline/note (righe 157-158 come nota tra parentesi, e nelle righe-comando 360-371) o dentro blocchi-deferral di altri (righe 199/214/216) — MAI come bullet-roster '**nome** — Usa per…' nei due roster principali. Il guardiano passa lo stesso perché la sua nozione di 'coperto' è 'nome presente nel testo', non 'voce-roster con description'.
-- **Impatto:** L'organigramma leggibile è incompleto rispetto ai 120 file: per un umano 6 senior sono invisibili nella mappa e i loro deferral non sono documentati accanto agli altri. Basso impatto operativo (l'auto-routing usa comunque le description dei file), ma buco di copertura documentale che il guardiano non distingue da 'ben coperto'.
-- **Causa radice:** Causa di sistema: il guardiano non distingue 'menzione in prosa/pipeline' da 'voce-roster strutturata con description'; questi 6 sono stati trattati come cancelli/squadra e infilati in una nota anziché nel roster.
-- **Fix (🟡 firma Nicola):** Aggiungere in CLAUDE.md un blocco-roster 'Cancelli di qualità & squadra design' con una voce '**nome** — Usa per…' per i 6 agenti coi rispettivi deferral, e far distinguere al guardiano la voce-roster dalla semplice menzione.
-- **Impatto crescita:** basso
-
-#### 🟡 120 agenti, zero campo model: la capacità 'modello giusto al compito' è dichiarata ma non cablata nelle definizioni
-
-- **Dove:** `.claude/agents/*.md (frontmatter, tutti e 120 senza `model:`)`
-- **Cosa:** VERIFICATO: `grep -L '^model:' .claude/agents/*.md` elenca tutti e 120 i file (0 con campo model:). CLAUDE.md:335 dichiara come principio vivo 'sforzo/modello giusto al compito (economico per i semplici, potente per i difficili)'. Claude Code supporta il campo `model:` nel frontmatter dei subagenti, ma nessuno lo usa: agenti ad alto volume/basso costo (ai-copywriter, scadenzario, office-manager) e agenti a ragionamento pesante (corporate-strategy, security, pricing-scientist) girano tutti sul modello di default.
-- **Impatto:** La leva di efficienza promessa dal manuale non è realizzata a livello di definizione agente: o si sovra-spende facendo girare i banali sul modello potente, o si sotto-alimentano i difficili. Resta, al più, una scelta ad-hoc dell'AD a runtime, non persistita né verificabile.
-- **Causa radice:** Causa di sistema: il principio di efficienza è scritto nel manuale ma non ha un pezzo che lo forzi nelle 120 definizioni; i file sono nati da un template unico senza tiering e manca una politica di fasce mappata sugli agenti.
-- **Fix (🟡 firma Nicola):** Definire con Nicola 3 fasce (economico/standard/potente), assegnare `model:` a ogni agente partendo dai casi ovvi (volume→economico, ragionamento/rischio→potente) e aggiungere un check che ogni agente dichiari il tier. Resta 🟡, reversibile per riga.
-- **Impatto crescita:** basso
-
-#### 🟡 Stato di rollout stale: STAMPO e chiusura-loop dicono 'installato 42/42' / 'i 42 senior', ma i senior con Scheda Mestiere sono 120/120
-
-- **Dove:** `MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md:6,219,220 + cervello/chiusura-loop.mjs:2,6,163`
-- **Cosa:** STAMPO-SENIOR-PRO.md:6,219,220 dichiarano 'installato 42/42'. In realtà tutti e 120 gli agenti hanno SCHEDA MESTIERE + RITUALE DI FINE AUTO-VERIFICA (verificato: 120/120). Anche chiusura-loop.mjs:2,6 hardcoda 'i 42 senti'. Chi legge il doc-guida crede che 78 senior NON siano ancora installati. Viola in casa propria il vettore 'single-source versionata': i numeri-chiave della macchina su se stessa vivono in copie manuali sparse invece che derivati dai 120 file agents.
-- **Impatto:** Documentazione di governo dello stampo fuorviante di 78 unità; nessun impatto funzionale diretto.
-- **Causa radice:** 1) Il numero è stato scritto quando i senior erano 42 e mai aggiornato all'espansione a 120. 2) È un conteggio a mano incollato in più file. 3) Nessun guardiano lega l'affermazione 'installato N/N' al conteggio reale dei file agents. 4) Causa di sistema: i fatti sulla macchina non sono derivati dalla fonte di verità (i 120 file) — lo stesso anti-pattern che AR-102 vieta per i fatti di business ma qui non presidiato.
-- **Fix (🟡 firma Nicola):** Sostituire ogni '42/42' e 'i 42 senior' con un valore derivato dal conteggio reale (120) o con un riferimento al guardiano; togliere i conteggi hardcodati. Resta 🟡.
-- **Impatto crescita:** basso
-
-#### 🟡 5 senior senza il hook [[RUBRICA-LIVELLI]] nel prompt: strato 7 agganciato in modo incoerente
-
-- **Dove:** `.claude/agents/{customer-success,dispute,legale-privacy,supporto,trust-safety}.md`
-- **Cosa:** 115/120 agenti linkano [[RUBRICA-LIVELLI]] (il bersaglio L7-con-giudizio); 5 no (verificato esattamente): customer-success.md, dispute.md, legale-privacy.md, supporto.md, trust-safety.md. Hanno comunque la scala L1-L7 e la 'Galleria di riferimento', quindi il concetto di altitudine c'è, ma manca il rimando esplicito allo strato-7 che gli altri hanno — incoerenza di installazione dello stampo su un sottoinsieme di fondamenta/customer.
-- **Impatto:** Incoerenza minore: 5 senior non puntano esplicitamente allo strato-7, riducendo l'uniformità del bersaglio di altitudine.
-- **Causa radice:** Rollout dello stampo fatto file-per-file senza un cancello che verificasse la presenza del hook rubrica: 5 file sono passati senza il rimando. È un sintomo della stessa causa del guardiano mancante (finding precedente).
-- **Fix (🟡 firma Nicola):** Aggiungere il rimando [[RUBRICA-LIVELLI]] (bersaglio L7-con-giudizio) nella Scheda dei 5 file, allineandoli agli altri 115. Resta 🟡.
-- **Impatto crescita:** basso
-
-#### 🟡 Nessuna sentinella trasforma una fonte web morta in una card per Nicola (fonti-salute.json senza consumatore)
-
-- **Dove:** `cervello/sentinella-dati.mjs (valutaRegole: manca la regola 'fonte morta') · cervello/fonti-salute.json (mai letto)`
-- **Cosa:** Anche se sentinella-fonti.mjs venisse cablata e scrivesse fonti-salute.json, non c'è alcun consumatore a valle: cervello/sentinella-dati.mjs (regole M1-M7, A1-A6) NON legge fonti-salute.json. Verificato: `grep fonti-salute` in sentinella-dati.mjs = 0. Una fonte peso≥4 morta produrrebbe al massimo un exit-code in un log, mai un evento 🟡 nella coda/Cabina. NOTA: l'effetto è oggi contingente — fonti-salute.json non viene mai scritto (difetto n.1), quindi il consumatore mancante è latente finché il produttore non è cablato; per questo è minore, non grave.
-- **Impatto:** Il canale che porta i problemi a Nicola (sentinelle → card) è cieco sulle fonti: una desertificazione delle fonti resterebbe invisibile nel Pannello anche una volta cablato il produttore.
-- **Causa radice:** 1) fonti-salute.json non ha lettori → 2) la regola sentinella non è stata scritta → 3) sentinella-fonti è stata pensata come guardiano-gate (exit-code nel giro) e non come sensore-che-alimenta-una-card → 4) produttore e consumatore progettati in momenti diversi senza un contratto 'ogni JSON di salute deve avere una regola che lo legge' → 5) manca l'invariante che accoppia ogni artefatto-sensore a una sentinella consumatrice.
-- **Fix (🟡 firma Nicola):** Aggiungere a sentinella-dati.mjs una regola M che legge fonti-salute.json e accoda un evento 🟡 (reparto intelligence) quando l'allerta peso-critico non è vuota — stesso schema di M6/cassa. Così la fonte morta diventa una card firmabile.
-- **Impatto crescita:** medio
-
-#### 🟡 L'heartbeat degli occhi (sentinella-dati:ultimo) viene scritto ma nessuno lo legge
-
-- **Dove:** `cervello/sentinella-dati.mjs:586 (battito scritto) · nessun lettore in cervello/*.mjs né pannello/`
-- **Cosa:** sentinella-dati.mjs scrive a ogni tick l'impostazione 'sentinella-dati:ultimo' (riga 586) come battito. Verificato: `grep 'sentinella-dati:ultimo'` restituisce solo la scrittura, nessun lettore in cervello/*.mjs né pannello/. La regola M1 'worker morto' controlla il battito del WORKER AI, non quello della sentinella-dati; e comunque se muore la sentinella-dati non può segnalare la propria morte. Manca un guardiano esterno che confronti now - sentinella-dati:ultimo con una soglia.
-- **Impatto:** Se gli occhi a 1 minuto smettono, la freschezza del loro battito non è controllata: la cecità real-time può passare inosservata fino al giro pieno (ogni 2h) o oltre.
-- **Causa radice:** 1) battito senza lettore → 2) il consumatore naturale (verifica-automazione o il Pannello) non è stato collegato → 3) il battito è nato come diagnostica 'nice-to-have' e non come sensore-di-sé con soglia → 4) un componente non può monitorare la propria morte e nessun altro ha ricevuto quel mandato → 5) manca il principio 'ogni battito scritto deve avere un guardiano che ne misura la freschezza'.
-- **Fix (🟡 firma Nicola):** Far leggere 'sentinella-dati:ultimo' a verifica-automazione.mjs (o a una micro-sentinella indipendente) e alzare un 🟡 se è più vecchio di X minuti (es. 10). Chiude l'anello 'chi guarda i guardiani'.
-- **Impatto crescita:** basso
-
-#### 🟡 radar.json (schema 'fattori') e radar-fonti.json (schema 'fonti') convivono: fallback errato in sentinella-fonti
-
-- **Dove:** `cervello/sentinella-fonti.mjs:23-44 (CANDIDATI + caricaRadar) · coesistenza cervello/radar.json e cervello/radar-fonti.json`
-- **Cosa:** Esistono due file quasi omonimi: radar-fonti.json (chiave `fonti` = 18 fonti web da sorvegliare) e radar.json (chiavi `fattori`/`catene_indirette`, radar bidirezionale letto da giro.md). Sono cose DIVERSE. Ma sentinella-fonti.mjs (righe 24-27) mette radar.json nei CANDIDATI come 'vecchio radar.json' di retro-compatibilità e legge `j.fonti`. Verificato: radar.json NON ha `fonti` (Array.isArray=false, keys=_README/aggiornato/fattori/catene_indirette); radar-fonti.json ha fonti=18. Quindi se radar-fonti.json sparisse/si corrompesse, il fallback su radar.json restituirebbe fonti=[] → '0 fonti, nessuna morta' → falso all-clear silenzioso invece di un errore.
-- **Impatto:** Trappola latente: un guasto al file delle fonti verrebbe mascherato da un finto 'tutte vive'. Confonde anche la manutenzione (due 'radar' con scopi diversi).
-- **Causa radice:** 1) il fallback tratta radar.json come vecchia versione di radar-fonti → 2) i nomi si assomigliano ma gli schemi divergono → 3) radar.json (fattori) e radar-fonti.json (fonti) sono nati separati senza convenzione di naming → 4) il commento del fallback assume una storia ('vecchio radar') che non corrisponde al file reale → 5) manca una regola di naming/validazione che impedisca a due artefatti diversi di condividere un prefisso ambiguo.
-- **Fix (🟡 firma Nicola):** Togliere radar.json dai CANDIDATI di sentinella-fonti (deve fallire esplicitamente se radar-fonti.json manca) o validare lo schema (`Array.isArray(j.fonti) && j.fonti.length`) prima di accettarlo. Eventualmente rinominare per disambiguare.
-- **Impatto crescita:** basso
-
-#### 🟡 In sensori-cecita.json l'ultimo_errore resta stantìo dopo il recupero del sensore
-
-- **Dove:** `cervello/verifica-sensori.mjs (ramo ok mantiene old.ultimo_errore) · effetto in MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json (stripe_api)`
-- **Cosa:** aggiornaSensore in verifica-sensori.mjs, sul ramo 'ok', conserva il vecchio errore con `ultimo_errore: old.ultimo_errore || ""`. Effetto visibile nel file live: stripe_api ha stato:'ok' e dettaglio:'balance API ok' ma ultimo_errore ancora 'STRIPE_SECRET_KEY assente — Stripe non verificabile' (residuo di quando era spento). Se il Pannello mostra ultimo_errore, dà a Nicola un errore che non è più vero.
-- **Impatto:** Rumore/incoerenza nella diagnostica dei sensori: un sensore sano può apparire con un errore fossile.
-- **Causa radice:** 1) l'errore vecchio sopravvive al recupero → 2) il ramo ok non azzera ultimo_errore → 3) è stato preservato di proposito ('storia') senza distinguere errore-corrente da errore-storico → 4) non c'è un campo separato per lo storico → 5) manca la regola 'quando un sensore torna ok, il suo errore corrente si azzera (lo storico va altrove)'.
-- **Fix (🟡 firma Nicola):** Nel ramo ok impostare `ultimo_errore: ""` (o spostare lo storico in un campo dedicato tipo ultimo_errore_storico), così stato+errore sono sempre coerenti.
-- **Impatto crescita:** basso
-
-#### 🟡 registro-realta.json usa stati e tipi FUORI dal contratto di auto-coscienza.md (demo / infrastruttura / evento-esterno) senza che nessun validatore lo rilevi
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json (Casa Linda stato 'demo'; 2 entita tipo 'infrastruttura'; 3 entita tipo 'evento-esterno') vs contratto cervello/auto-coscienza.md:74-83; codice dipendente allocazione-check.mjs:174`
-- **Cosa:** Il contratto (auto-coscienza.md:74-83) impone: stato SOLO uno di confermato|scelta_ragionata|da_verificare|scartato, e tipo SOLO negozio|persona|partner|evento|luogo. Ma il file reale usa stato 'demo' (Casa Linda) e tipi 'infrastruttura' ed 'evento-esterno', tutti fuori enum (verificato: 1 demo, 2 infrastruttura, 3 evento-esterno). Il codice si e adattato ai dati invece che al contratto: allocazione-check.mjs:174 hard-coda ESCLUSI=Set(['demo','scartato']) — quindi il CODICE conosce 'demo' ma il CONTRATTO no. Le tre fonti (contratto <-> dati <-> codice consumatore) sono disallineate. L'impatto reale e pero basso: il consumatore noto gestisce gia il valore, quindi la deriva e reale ma benigna oggi.
-- **Impatto:** La regola anti-invenzione perde affidabilita perche il registro non rispetta il proprio schema; se il Pannello legge solo i valori canonici, un'entita fuori enum puo comparire mal categorizzata. Harm attuale limitato perche il consumatore noto (allocazione-check) accomoda gia 'demo'.
-- **Causa radice:** Il contratto e un documento di prosa senza un validatore che lo faccia rispettare: nuove categorie (demo, infrastruttura, evento-esterno) sono state introdotte nei dati e nel codice (allocazione-check) ma auto-coscienza.md e rimasto alla versione vecchia e valida-contratti.mjs non valida affatto registro-realta.json, quindi dati e codice divergono dal contratto senza attrito.
-- **Fix (🟡 firma Nicola):** Riconciliare in un colpo: aggiornare l'enum del contratto in auto-coscienza.md per includere gli stati/tipi realmente usati (demo, infrastruttura, evento-esterno) OPPURE rimappare i dati sugli enum esistenti (es. evento-esterno->evento), e allineare il Pannello. Poi estendere valida-contratti.mjs a controllare l'enum di registro-realta. Gialla, firma Nicola.
-- **Impatto crescita:** basso
-
-#### 🟡 GLOSSARIO-KPI (la 'sola verita' dei numeri) ha definizioni ancora a placeholder e divergenze aperte, senza owner ne scadenza
-
-- **Dove:** `MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md:29 ('[50%?]'), :26-42 ('da confermare'/'[?]'), :40 ('[PostHog?]')`
-- **Cosa:** Il GLOSSARIO-KPI e indicato da CLAUDE.md come presidio della 'una sola verita' cross-funzionale. Ma il file stesso porta ancora placeholder irrisolti (verificato: [50%?] per 'negozio in calo' riga 29, [?] su cliente attivo/dormiente/carrello, [PostHog?] fonte conversione riga 40, 'da confermare' su GMV/Ricavo/CAC/Retention righe 37-42). Sono definizioni non chiuse: la sola-verita non e raggiunta e nulla forza la sua chiusura.
-- **Impatto:** Finche GMV/conversione/'ordine completato' hanno piu definizioni, due reparti possono citare numeri diversi per lo stesso KPI: oggi a basso impatto (business a 0 ordini) ma diventa un bug di coerenza al primo volume reale.
-- **Causa radice:** La governance della 'una sola verita' e affidata a un file statico invece che a un processo: le definizioni dipendono da scelte di business (cosa = 'completato', soglia calo) che richiedono la firma di Nicola, ma le righe [?]/'da confermare' non hanno owner ne scadenza e non generano una domanda-per-nicola in coda, quindi i buchi restano indefinitamente.
-- **Fix (🟡 firma Nicola):** Trasformare ogni placeholder/divergenza del glossario in una domanda-per-nicola concreta con opzioni ('completato = pagato o consegnato?', 'conversione base = sessioni o visitatori?', 'soglia negozio in calo = 50%?') e accodarla; alla risposta, chiudere la riga nel glossario togliendo i marcatori [?]/'da confermare'.
-- **Impatto crescita:** basso
-
-#### 🟡 Proposte di auto-riscrittura mai sincronizzate col cantiere: nessuna ha uno stato valido e la lista è stantia rispetto ai 23 difetti chiusi
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json (proposte_auto_riscrittura) vs cantiere-difetti.json (23 chiusi) — schema AR-055 in cervello/auto-coscienza.md:~158`
-- **Cosa:** VERIFICATO. Lo schema AR-055 impone che ogni proposte_auto_riscrittura abbia uno stato (proposta→firmata→implementata/rifiutata) sincronizzato col cantiere via finding_id. Nella realtà 10 proposte su 11 hanno stato=undefined; l'unica valorizzata (AR-002) porta 'fatto-2026-07-02', fuori-enum. Ma i loro finding_id (AR-004/005/006/007-008/009-013/010-012/015-017/019-020/024/025) risultano TUTTI 'chiuso' nel cantiere (23 chiusi, 1 in-corso). Nessuno script sincronizza: grep 'proposte_auto_riscrittura' matcha solo auto-coscienza.md (doc), nessun guardiano. Nota che declassa la gravità: la verità è comunque tracciata nel cantiere, quindi il danno è limitato al display del volano.
-- **Impatto:** Chi legge il volano vede come 'da firmare' proposte già implementate: doppioni potenziali e 'proposta→implementata' che non chiude mai formalmente. Impatto operativo contenuto perché il cantiere resta la fonte corretta.
-- **Causa radice:** Il ciclo di vita AR-055 è una regola scritta senza owner-codice: proposte e difetti vivono in due file con lo stesso finding_id ma senza riconciliazione. Le proposte sono un documento, non uno stato sorvegliato.
-- **Fix (🟡 firma Nicola):** 🟡 Guardiano che a ogni giro allinea proposte_auto_riscrittura.stato con lo stato del difetto omonimo nel cantiere (chiuso→implementata) e fallisce se una proposta resta senza stato valido. Resta da firmare.
-- **Impatto crescita:** basso
-
-#### 🟡 Calibrazione monocultura: un solo reparto (@AD) e previsioni banali 'i 7 numeri restano invariati'
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json (registro: 18/18 voci @AD, previsioni di stasi)`
-- **Cosa:** VERIFICATO. Tutte le 18 voci del registro sono dell'@AD e prevedono che 'i 7 numeri restino invariati' su un business fermo (0 ordini dal 24/6). I 119 senior non calibrano mai (reparti unici = ['@AD']). Una previsione di stasi su un business in stallo è quasi auto-avverante e porta ~0 informazione: non distingue un buon previsore da uno rotto. Il meccanismo 'chi azzecca guadagna autonomia' non ha né varietà di reparti né previsioni falsificabili con cui funzionare.
-- **Impatto:** L'autonomia a punti non potrà mai attivarsi in modo significativo: nessun reparto accumula previsioni reali e le conferme dell'AD gonfiano un punteggio senza valore diagnostico.
-- **Causa radice:** Nessun handoff obbliga il reparto che propone una mossa 🟡/🔴 a registrare l'effetto atteso; l'unico che scrive nel registro è l'AD, e con business fermo l'unica previsione sicura è la stasi. La calibrazione misura ciò che è comodo e certo invece di ciò che è rischioso e informativo.
-- **Fix (🟡 firma Nicola):** 🟡 Legare la registrazione della previsione all'atto di proporre una mossa 🟡/🔴 (il reparto proponente dichiara metrica+atteso+entro via `calibrazione.mjs prevedi`) e scartare dal punteggio le previsioni di pura stasi non falsificabili. Resta da firmare.
-- **Impatto crescita:** basso
-
-#### 🟡 Due sistemi paralleli di atteso→reale che non si parlano: chiusura-loop non alimenta calibrazione
-
-- **Dove:** `cervello/chiusura-loop.mjs (registra→quaderni markdown) vs cervello/calibrazione.mjs + calibrazione.json + cervello/giro.sh:185 (gate --gate)`
-- **Cosa:** VERIFICATO con una CORREZIONE al finding originale. giro.sh applica un gate hard su chiusura-loop --gate ('FATTO in Sala ⇒ ESITO nel quaderno'), il cui commento (chiusura-loop.mjs:11) dice esplicitamente 'il numero ATTESO→REALE (la calibrazione)'. chiusura-loop.mjs scrive i valori atteso→reale nei quaderni memoria-squadra/<ruolo>.md e NON chiama mai calibrazione (grep 'calibrazione' su chiusura-loop.mjs matcha solo un commento). Esistono così due archivi 'atteso vs reale' scollegati: l'ESITO che l'AD scrive nei quaderni non diventa mai un punto-dato di calibrazione, e calibrazione.json resta popolata a mano. CORREZIONE: la claim originale 'chiusura-loop.json vuoto / 0 quaderni' è FALSA — il file traccia 43 quaderni (40 vivi, es. account-negozi con 6 righe_esito), ma tiene solo metadati di freschezza, non i valori atteso→reale, che vivono nei markdown e non raggiungono la calibrazione.
-- **Impatto:** L'apprendimento atteso→reale è frammentato: il gate obbliga a produrre gli ESITO nei quaderni ma la calibrazione (che dovrebbe misurarli) non li riceve. Metà del segnale è sprecato.
-- **Causa radice:** La crescita per-patch (un AR per problema) ha prodotto due implementazioni della stessa idea 'atteso→reale' che non condividono lo store: nessun passo di giro.sh converte una riga ESITO del quaderno in una chiamata `calibrazione.mjs esito`.
-- **Fix (🟡 firma Nicola):** 🟡 Far sì che `chiusura-loop.mjs registra`, oltre alla riga ESITO nel quaderno, chiami `calibrazione.mjs prevedi/esito` con lo stesso atteso→reale, unificando l'unico store 'previsto-vs-reale'. Resta da firmare.
-- **Impatto crescita:** basso
-
-#### 🟡 Soglie di freschezza del battito incoerenti: 2h (timer) vs 6h (sonda) vs 12h (delta-gate)
-
-- **Dove:** `cervello/delta-gate.mjs:42,206 (MAX_ORE=12) vs cervello/sonda-volano.mjs:103 (oreBrief<=6)`
-- **Cosa:** Tre componenti definiscono in modo diverso 'battito fresco'. Il giro.timer scatta ogni 2h. Il delta-gate lascia che un giro PIENO (l'unico che riscrive ultimo-briefing.json e chiama --segna-pieno) sia saltato finché lo stato non cambia o passano 12h (DELTA_GATE_MAX_ORE default 12, cervello/delta-gate.mjs:42,206). Ma sonda-volano marca giroACadenza=false già oltre 6h (cervello/sonda-volano.mjs:103). A cold-start (0 ordini, firma invariata) il delta-gate salta legittimamente fino a 12h, quindi ogni ciclo fra 6h e 12h la sonda emette giro_a_cadenza=❌ e verdetto='attenzione' su una condizione VOLUTA dal design. NOTA (verificata): questo NON è un allarme che spamma Nicola — sentinella-dati.mjs non consuma giro_a_cadenza/verdetto e la sonda esce 0 su 'attenzione'; l'incoerenza sporca il segnale di salute/verdetto della sonda (storico-salute + blocco sonda in radiografia), non una card 'Da approvare'.
-- **Impatto:** Il verdetto di salute della sonda va cronicamente in 'attenzione' a cold-start su una condizione intenzionale del delta-gate: rumore nel segnale di freschezza (storico-salute + radiografia), proprio il segnale che servirebbe pulito per capire se il battito è davvero fermo (vedi difetto correlato). Nessun invio diretto a Nicola.
-- **Causa radice:** delta-gate (salta-se-nulla-cambia) e sonda (salute-cadenza) sono stati costruiti in tempi diversi con due definizioni non riconciliate di 'briefing fresco'; nessuna fonte unica per la soglia di freschezza del battito.
-- **Fix (🟡 firma Nicola):** Riconciliare la soglia: far dipendere giroACadenza della sonda da DELTA_GATE_MAX_ORE (un giro delta-gated NON è 'in ritardo'), oppure escludere dal conteggio i giri saltati dal delta-gate (leggere delta-gate.json giri_saltati_consecutivi). Una sola costante condivisa per 'quanto vecchio può essere il briefing'.
-- **Impatto crescita:** basso
-
-#### 🟡 Timer monitora e verifica senza fuso Europe/Rome: girano all'ora sbagliata su VPS UTC
-
-- **Dove:** `cervello/vps/mycity-monitora.timer (OnCalendar 06:30 senza TZ) e cervello/vps/mycity-verifica.timer (07:00 senza TZ)`
-- **Cosa:** mycity-monitora.timer usa `OnCalendar=*-*-* 06:30:00` e mycity-verifica.timer `OnCalendar=*-*-* 07:00:00`, ENTRAMBI senza il suffisso `Europe/Rome`, a differenza di giro (`06..22/2:20:00 Europe/Rome`) e di tutti i timer ritmo (mattino/mezzogiorno/sera/settimana, verificati con Europe/Rome). Su un VPS in UTC (default Hetzner) questi girano 1-2h più tardi dell'orario dichiarato. Il commento di mycity-monitora.timer afferma esplicitamente '06:30 (ora di Piacenza)' — falso. Environment=TZ=Europe/Rome nel .service influenza il processo, NON la pianificazione del .timer.
-- **Impatto:** Il monitoraggio web e il checkup automazione partono a un'ora diversa da quella documentata; disallineamento con la lezione già codificata in mycity-ritmo-mattino.timer ('il fuso va DENTRO OnCalendar').
-- **Causa radice:** La correzione documentata nel timer del mattino (il fuso dentro OnCalendar) non è stata propagata a monitora e verifica quando furono creati: nessun controllo che imponga il fuso su TUTTI i timer OnCalendar.
-- **Fix (🟡 firma Nicola):** Aggiungere ` Europe/Rome` all'OnCalendar di mycity-monitora.timer e mycity-verifica.timer, coerente con giro/ritmo.
-- **Impatto crescita:** basso
-
-#### 🟡 Copertura installer/checkup del battito frammentata: il checkup è cieco su quasi tutte le cadenze
-
-- **Dove:** `cervello/vps/install-ritmo-timers.sh:15-33 (manca il giro) + cervello/verifica-automazione.mjs:106-132 (controlla 3 timer su ~10)`
-- **Cosa:** Il battito-giro (2h) e monitora sono installati SOLO da setup.sh; le cadenze ritmo + sentinella + sentinella-dati + verifica + watch-main SOLO da install-ritmo-timers.sh (cervello/vps/install-ritmo-timers.sh:15-33, verificato: NON contiene il timer del giro né monitora). Nessun comando installa+abilita l'intero set. Peggio: verifica-automazione.mjs controlla che siano attivi solo 3 timer/servizi — watch-main, worker, giro (cervello/verifica-automazione.mjs:106-132) — e NON le 4 cadenze ritmo, né monitora, né sentinella-dati. Se una di quelle muore, il checkup resta 'verde'.
-- **Impatto:** Una cadenza del ritmo (mattino/mezzogiorno/sera/settimana) o il monitoraggio possono spegnersi senza che il checkup del mattino lo segnali; un'installazione parziale può lasciare il battito 2h non installato mentre tutto sembra a posto.
-- **Causa radice:** Gli installer sono cresciuti in due tempi (base vs ritmo) senza un manifesto unico dei timer attesi né un checkup che li enumeri tutti: la lista dei timer da vigilare è hard-coded parziale.
-- **Fix (🟡 firma Nicola):** Un elenco unico dei timer attesi (fonte di verità) usato sia dagli installer sia da verifica-automazione.mjs, che deve enumerare e verificare TUTTE le cadenze (ritmo x4, monitora, sentinella-dati) e non solo worker/watch-main/giro.
-- **Impatto crescita:** basso
-
-#### 🟡 aggiorna-cervello ri-propaga le unit ma non fa enable dei timer NUOVI: una cadenza aggiunta nasce morta
-
-- **Dove:** `cervello/vps/aggiorna-cervello.sh:24-37`
-- **Cosa:** aggiorna-cervello.sh copia i file .service/.timer cambiati e fa `systemctl daemon-reload` (cervello/vps/aggiorna-cervello.sh:24-37), dichiarando che 'le unit systemd sono auto-modificabili come il codice'. Ma un timer AGGIUNTO ex-novo al repo viene copiato in /etc/systemd/system SENZA `systemctl enable` (verificato: nel loop c'è solo cp + daemon-reload, nessun enable) → non entra in timers.target.wants → non scatta MAI, anche se il file è presente e daemon-reload è stato eseguito. Il ciclo gestisce l'aggiornamento del CONTENUTO di unit già abilitate, non il ciclo di vita (enable/start) di un'unit nuova.
-- **Impatto:** Se la macchina si auto-espande con una nuova cadenza/sentinella schedulata (uno degli obiettivi dichiarati), il nuovo timer viene 'installato' ma resta silenziosamente spento fino a un install manuale — auto-modificabilità dei timer solo apparente.
-- **Causa radice:** Il loop di propagazione è stato scritto per aggiornare cadenze esistenti (cambio OnCalendar), non per attivare unit nuove: manca il passo enable --now sui timer non ancora abilitati.
-- **Fix (🟡 firma Nicola):** Nel loop di propagazione, dopo la copia, fare `systemctl enable --now` sui .timer che non risultano già abilitati (is-enabled), così una cadenza nuova si attiva da sola come il codice.
-- **Impatto crescita:** basso
-
-#### 🟡 _nota contraddice il registro: 'Vuoto all'avvio, nessuna mossa misurata' con 18 voci presenti
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json:142 (_nota)`
-- **Cosa:** CONFERMATO. Il campo _nota recita 'Vuoto all'avvio (fase 0→1, nessuna mossa ancora misurata). Il giro inizia a registrare previsioni ed esiti dal prossimo ciclo'. Ma il registro ha già 18 voci (dal 30/6 al 7/7) e per_reparto è uno stub 0/0. La nota è stantia e contraddice il contenuto: è un residuo del seed iniziale che il motore non ripulisce (readCalibrazione preserva i campi extra; cmdEsito/ricalcolaReparti non toccano _nota). Segnala che i due autori non riconciliano nemmeno i metadati.
-- **Impatto:** Chi legge il file (o il Pannello) riceve un messaggio falso ('nessuna mossa misurata') mentre ci sono 18 previsioni: piccola bugia di stato che erode la fiducia nel cruscotto e maschera il fatto che il punteggio è 0 per un BUG (#1), non perché 'siamo all'avvio'.
-- **Causa radice:** 1) _nota falsa → è un testo di seed mai aggiornato. 2) perché nessun comando del motore riscrive _nota in base allo stato reale → _nota non fa parte dello schema gestito (per_reparto/registro/aggiornato). 3) perché il seed è stato scritto a mano e mai rimosso. Causa di sistema: campi liberi non gestiti dal codice restano fossili e divergono dalla realtà.
-- **Fix (🟡 firma Nicola):** Rimuovere/aggiornare _nota (o farla derivare dal motore: 'N previsioni chiuse, M azzeccate'); in generale far sì che il motore riscriva o rimuova i campi seed una volta che il registro non è vuoto. Resta 🟡 firma Nicola.
-- **Impatto crescita:** basso
-
-#### 🟡 La radiografia di sé emette un voto di salute senza dichiarare i propri punti ciechi
-
-- **Dove:** `.claude/workflows/auto-radiografia.js (oggetto di ritorno ~riga 143: nessun campo punti_ciechi); cervello/auto-radiografia.md (schema senza punti_ciechi)`
-- **Cosa:** Confermato: l'oggetto di ritorno calcola voto_salute_architettura, dimensioni, pre_mortem, benchmark, proposte e domande, ma NON ha alcun campo che dichiari cosa NON è stato guardato (dimensioni saltate, aree senza reviewer, verifiche solo-LLM non deterministiche). L'asse ① dichiara i limiti, l'asse ② no: emette un numero di salute senza margine di onestà sul proprio raggio di visione.
-- **Impatto:** Un voto alto rischia di essere letto come 'tutto a posto' anche quando è alto solo perché una dimensione non è stata analizzata a fondo — il contrario dell'onestà calibrata che la macchina pretende altrove.
-- **Causa radice:** Lo schema di auto-radiografia.json è stato disegnato per RACCOGLIERE difetti, non per dichiarare i limiti della raccolta: manca un posto strutturale per l'incertezza/copertura del metodo.
-- **Fix (🟡 firma Nicola):** Aggiungere all'oggetto di ritorno e allo schema un campo punti_ciechi[] (cosa non è stato analizzato e perché: dimensione saltata, reviewer mancante, verifica solo-LLM) e mostrarlo nel Pannello accanto al voto. 🟡
-- **Impatto crescita:** basso
-
-#### 🟡 Sentinelle: email a clienti reali con codice sconto classificate 🟡, non 🔴 (contraddice la regola d'oro 'scrivere a clienti reali = rosso')
-
-- **Dove:** `pannello/src/lib/sentinelle.ts:73-101 (S-carrelli 'email ai clienti con carrello' e S-dormienti 'email win-back', entrambe livello:'giallo')`
-- **Cosa:** VERIFICATO: S-carrelli (sentinelle.ts:73-86) invia un'email ai clienti con 'TORNA5 per 5€ di sconto', S-dormienti (88-101) un win-back con '10% sul prossimo ordine' — messaggi a clienti reali CON impegno economico. Entrambe hanno livello:'giallo'. La regola d'oro in CLAUDE.md mette 'scrivere a clienti reali' e sconti/budget sotto 🔴. Le sentinelle S-problemi e S-recensioni (canale interno) sono giustamente 🔴. Severità ridotta a minore perché il danno è latente: l'autopilota esegue solo il verde (autopilota.ts:16), quindi queste giallo non partono da sole, e ogni invio reale richiede comunque AZIONI_LIVE+RESEND. Resta però una deriva di classificazione dalla regola d'oro proprio sulle azioni soldi+clienti.
-- **Impatto:** Un'azione customer-facing con denaro è presentata una tacca più sicura del dovuto. Se domani l'autopilota includesse il giallo, o un senior clonasse il pattern come verde, partirebbero email scontate ai clienti senza firma.
-- **Causa radice:** Il colore della sentinella riflette l'urgenza/routine ('mail di marketing standard') e non la tassonomia d'impatto della regola d'oro. Causa di sistema: la classificazione 🟢🟡🔴 non è derivata da regole (canale+presenza-sconto) ma dichiarata a mano caso per caso, quindi drifta dalla regola d'oro.
-- **Fix (🟡 firma Nicola):** 🟡 In azioniDaSentinelle: ogni sentinella il cui canale tocca clienti reali o offre uno sconto/codice ⇒ livello:'rosso'. Derivare il livello da una regola (canale+presenza-sconto), non scriverlo a mano.
-- **Impatto crescita:** medio
-
-#### 🟡 Lo STOP-budget per reparto è un lettore senza scrittore: nessun budget-reparti.json e nessun feed di spesa → il freno non scatta mai
-
-- **Dove:** `cervello/sentinella-budget.mjs:39,58-59 (BUDGET_PATH inesistente) · file atteso MyCity-Vault/05-Soldi-Rischi/budget-reparti.json ASSENTE (verificato con ls) · CLAUDE.md 'STOP automatico se un reparto brucia budget'`
-- **Cosa:** VERIFICATO: `ls MyCity-Vault/05-Soldi-Rischi/budget-reparti.json` → No such file. sentinella-budget.mjs legge quel path (riga 39); con file assente reparti={} e spesaTotale=0, quindi sensoreAttivo=false (riga 59) e non viene mai accodato nessuno STOP 🔴. Il file lo dichiara onestamente ('sensore spesa: non attivo', riga 91), ma la capacità-guardrail promessa in CLAUDE.md ('STOP automatico se brucia budget senza rendere') è inerte: manca sia il file di configurazione-seme sia una pipeline che popoli il campo `speso` (ads/Stripe-write scollegati).
-- **Impatto:** Il freno di spesa per reparto esiste come codice ma è a vuoto: quando gli ads verranno accesi, senza il seme e il feed nulla scatterà. Rischio di bruciare budget di reparto senza STOP.
-- **Causa radice:** Costruito il lettore (sentinella-budget) senza lo scrittore (feed spesa) né il seed di config, perché la spesa reale (ads, payout Stripe) non è collegata. Causa di sistema: un guardrail può essere 'onestamente inerte' e restare tale per sempre se nessuno possiede il compito di attivarne l'input.
-- **Fix (🟡 firma Nicola):** 🟡 Creare MyCity-Vault/05-Soldi-Rischi/budget-reparti.json (seme con budget per reparto da OKR-Squadra) e assegnare a un pezzo (sensore-cassa/ads) il compito di scrivere `speso`. Finché la spesa è €0 il sensore resta onestamente non-attivo, ma il binario c'è.
-- **Impatto crescita:** basso
-
-#### 🟡 onesta-check: la 'fonte' di un numero è riconosciuta con parole passe-partout entro 60 caratteri → falsi negativi facili
-
-- **Dove:** `cervello/onesta-check.mjs:53-54 (RE_FONTE) e :84-85 (finestra di 60 char)`
-- **Cosa:** VERIFICATO: RE_FONTE (onesta-check.mjs:54) accetta come prova di fonte parole generiche tra cui 'baseline', 'dati reali', 'da OKR', oltre a supabase/stripe/posthog. La finestra di contesto è ±60 caratteri (riga 84). Basta quindi che il testo contenga 'baseline' o 'dati reali' vicino a un numero perché un numero INVENTATO passi il controllo (riga 85: `if (!RE_FONTE.test(ctx)) orfani.add(raw)`). È un euristico di prossimità, non una provenienza verificabile. Combinato col difetto #1 (il check non gira sul canale clienti), anche dove gira è aggirabile.
-- **Impatto:** Il guardiano dà falsa sicurezza: numeri orfani mascherati da una parola 'fonte' nelle vicinanze passano come onesti.
-- **Causa radice:** La fonte è dedotta dalla vicinanza di una parola-spia, non da un tag strutturato legato al numero. Causa di sistema: manca un contratto di provenienza (ogni numero porta la sua fonte machine-checkable) — si controlla la parola, non il dato.
-- **Fix (🟡 firma Nicola):** 🟡 Richiedere una provenienza esplicita adiacente al numero (es. tag {fonte:supabase#query} o citazione con id) e restringere RE_FONTE ai marcatori strutturati, togliendo le parole generiche ('baseline','dati reali') come prova sufficiente da sole.
-- **Impatto crescita:** basso
-
-#### 🟡 Nessun guardiano rende machine-checkable il vettore cross-silo n°1 (pre-mortem di sistema: vittoria di reparto che brucia margine/intasa operations)
-
-- **Dove:** `MyCity-Vault/07-Agenti/AD-VETTORI-SISTEMA.md:15-19 (vettore #1 'il rischio n°1', descritto come 'Rituale') — nessun corrispettivo in cervello/*.mjs`
-- **Cosa:** Il documento definisce la 'visione olistica cross-silo' come 'il rischio n°1' e prescrive un pre-mortem di sistema ('questa vittoria locale a chi fa male? lo sconto che gonfia gli ordini ma brucia il margine; il marketing che porta volumi che operations non regge'). Confermato: esiste SOLO come prosa e 'rituale' (AD-VETTORI-SISTEMA.md:15-19). Nessun coerenza-crosssilo.mjs, nessun cervello/*.mjs matcha cross-silo/pre-mortem. A differenza di allocazione-check/coerenza-fatti/chiusura-loop, qui non c'è nessun controllo deterministico. Il rischio dichiarato n°1 è l'unico grande vettore senza rete di sicurezza.
-- **Impatto:** Il rischio che l'azienda stessa classifica n°1 non ha alcun rilevatore automatico: appena il business si muove, una vittoria di marketing/growth/pricing può bruciare margine o saturare operations senza che nulla lo intercetti prima di Nicola.
-- **Causa radice:** 1) Perché il cross-silo non è controllato? Perché vive solo come rituale in un .md. 2) Perché solo rituale? Perché i guardiani nascono reattivi (post-mortem AR-xxx), e con business fermo a 0 ordini non c'è ancora stata una vittoria di reparto che ha bruciato margine — il difetto non si è 'manifestato' abbastanza da generare un guardiano. 3) Perché servirà comunque? Perché quando gli ordini partiranno, sconti/volumi/operations diventeranno reali e il rischio n°1 sarà attivo senza rete. 4) CAUSA DI SISTEMA: la copertura dei guardiani segue i sintomi già visti, non la mappa dei rischi che la macchina stessa ha scritto — scollamento tra registro dei rischi (dove il cross-silo è n°1) e ciò che i guardiani presidiano. NB severità minore: il difetto è preventivo, non ancora dannoso con business a 0.
-- **Fix (🟡 firma Nicola):** Costruire un guardiano cross-silo (es. cervello/coerenza-crosssilo.mjs) che, a ogni giro, per ogni mossa 🟡/🔴 in coda con impatto su ricavo/volume, verifichi la presenza dei due campi di sistema ('impatto margine' e 'impatto operations/capacità') — segnalando la mossa che vanta un guadagno di reparto senza dichiarare l'effetto sul P&L d'azienda e sul carico consegne. Nasce come sonda informativa, poi gate. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟡 Il margine (1/3 della North Star) è dichiarato non misurabile, mentre un guardiano gemello lo calcola già
-
-- **Dove:** `cervello/north-star-check.mjs:44 (`const margine = { valore: null, fonte: null };`) vs cervello/bilancio-vivo.mjs:45-60 (calcola margine realizzato/potenziale)`
-- **Cosa:** north-star-check tratta il margine come strutturalmente non misurabile e lo lascia null 'per design'. Ma bilancio-vivo.mjs calcola esattamente il margine (realizzato = ordini chiusi × commissione unitaria; potenziale = creati × commissione) con fonte documentata ed esce 1 quando è a zero. Confermato: north-star-check.mjs:44 hardcoda `margine={valore:null,fonte:null}`; bilancio-vivo.mjs:45-60 produce margineRealizzato/marginePotenziale con fonte. Due guardiani della stessa macchina danno risposte opposte sulla misurabilità dello stesso terzo della stella polare: uno dice 'n/d, nessuna fonte', l'altro produce il numero (oggi 0). La North Star mostrata resta monca (2/3 pilastri).
-- **Impatto:** La stella polare esposta a Nicola è internamente incoerente; il margine — l'unico pilastro che dice se la crescita è sana — resta cieco anche quando è già calcolato altrove.
-- **Causa radice:** 1) Perché il margine è n/d in north-star-check? Perché la riga 44 lo hardcoda a null. 2) Perché hardcodato? Perché north-star-check estrae i numeri solo dalla tabella '7 numeri' di STATO.md, dove il margine non compare. 3) Perché non legge bilancio-vivo? Perché i due script sono stati scritti separatamente senza che uno sappia dell'altro. 4) CAUSA DI SISTEMA: proliferazione di script che ricalcolano/dichiarano gli stessi fatti in modi divergenti — manca il principio 'una sola verità' (GLOSSARIO-KPI) applicato ai guardiani stessi. NB severità minore: l'impatto pratico è basso (margine realizzato = 0 comunque), è completezza/coerenza del display.
-- **Fix (🟡 firma Nicola):** Far leggere a north-star-check l'output di bilancio-vivo.mjs (--json) per popolare il pilastro margine con valore+fonte, invece di hardcodare null; se bilancio-vivo è a 0 realizzato, mostrare 0 con fonte, non 'n/d'. Una sola fonte del margine. Resta 🟡.
-- **Impatto crescita:** medio
-
-#### 🟡 Il log 'Ultime mosse dell'AD' è dominato da housekeeping e auto-costruzione, non da mosse di business — sproporzione visibile a Nicola
-
-- **Dove:** `MyCity-Vault/90-Memoria-AI/STATO.md (blocco 'Ultime mosse'): voci 'refresh/giro stato invariato' + voci di costruzione capacità/blueprint interni dominanti, mosse di business reali quasi assenti`
-- **Cosa:** Scorrendo 'Ultime mosse dell'AD', la stragrande maggioranza delle righe recenti sono: refresh a stato invariato ('nessun giro a vuoto', housekeeping timestamp), giri 'stato invariato North Star 0', e costruzione di macchinario interno (guardiani, capacità, blueprint). Confermato dalla lettura di STATO.md: righe come '7/7 11:49 REFRESH VPS stato invariato', '7/7 11:28 GIRO VPS stato invariato', e la voce serale dominata da merge PR/fix worker. Le mosse che toccano ordini/negozi reali sono rare e per lo più 'accodate/gated'. Il delta-gate throttla la SPESA ma non ripulisce la NARRAZIONE: il refresh a vuoto continua a occupare una riga di 'mosse' con pari dignità di una vendita.
-- **Impatto:** Nicola fatica a distinguere a colpo d'occhio se la macchina ha mosso il business o solo sé stessa; l'attività interna appare come progresso.
-- **Causa radice:** 1) Perché il log è pieno di housekeeping? Perché ogni refresh/allineamento timestamp scrive una voce in 'Ultime mosse'. 2) Perché ci scrive? Perché la macchina tratta ogni giro (anche invariato) come una 'mossa' da registrare. 3) Perché anche l'auto-costruzione domina? Perché nella settimana osservata lo sforzo reale è andato lì (capacità/guardiani), non essendoci mosse di business sbloccabili senza Nicola. 4) CAUSA DI SISTEMA: il registro delle mosse non è tipizzato per impatto — attività interna e mosse di business condividono lo stesso canale, così l'attività a basso ritorno diluisce la leggibilità di ciò che conta.
-- **Fix (🟡 firma Nicola):** Separare in STATO/Cabina le 'mosse North-Star' (ordini/negozi/margine) dalle 'attività interne/housekeeping', e non promuovere i refresh a stato invariato a 'mossa dell'AD' (basta un contatore 'N giri invariati' compresso in una riga). Resta 🟡.
-- **Impatto crescita:** basso
-
-#### 🟡 Il circuit-breaker di budget si spegne proprio sui giri che consumano (GIRO_FORCE bypassa il gate)
-
-- **Dove:** `cervello/giro.sh:288 (guardia `[ "${GIRO_FORCE:-0}" != 1 ]` sul GATE-BUDGET) + cervello/worker.sh:387 (ogni giro dalla coda fa export GIRO_FORCE=1)`
-- **Cosa:** Il GATE-BUDGET (AR-087) che dovrebbe fermare il motore premium a soglia superata è condizionato a GIRO_FORCE != 1 (VERIFICATO giro.sh:288). Ma worker.sh:387 imposta export GIRO_FORCE=1 per OGNI giro accodato dal Pannello. Risultato: il circuit-breaker si applica solo ai giri del timer con delta-gate — che per lo più vengono già saltati (costo-ai.json mostra 4 'giro-saltato' oggi). Gli unici giri che accendono davvero il premium (on-demand + recuperi) sono esattamente quelli esenti dal freno di costo.
-- **Impatto:** Il freno di costo, anche una volta reso reale, non scatterebbe sul percorso che effettivamente brucia la quota → protezione illusoria proprio dove serve.
-- **Causa radice:** 1) Perché il gate non frena i giri che consumano? Sono forzati e GIRO_FORCE li esenta. 2) Perché GIRO_FORCE esenta anche il gate-budget? Il flag è stato riusato per due scopi diversi. 3) Quali due scopi? Bypassare il delta-gate ('niente di nuovo→salta', giusto per un giro chiesto a mano) E bypassare il gate-budget (sbagliato). 4) Perché confusi? Perché 'Nicola l'ha chiesto → giro pieno' è stato esteso da 'salta il throttle' a 'salta anche la sicurezza-quota'. 5) Causa di sistema: un solo flag governa sia un throttle di pertinenza sia una safety di quota → un utente che chiede un giro disattiva per errore la protezione anti-esaurimento, che non dovrebbe mai poter aggirare.
-- **Fix (🟡 firma Nicola):** Disaccoppiare: GIRO_FORCE/DELTA_GATE_FORCE bypassano SOLO il delta-gate (throttle), NON il GATE-BUDGET. Il gate-budget deve valutare la quota anche sui giri forzati (semmai avvisando 'sei oltre budget, confermi comunque?') — la sicurezza-quota non si scavalca chiedendo un giro. Da fare dopo aver reso reale il numero (difetti 1/3), altrimenti frena su una stima finta.
-- **Impatto crescita:** basso
-
-#### 🟡 Tre run AI a contesto pieno in 30 minuti ogni mattina, ciascuno rilegge tutto da capo
-
-- **Dove:** `cervello/vps/mycity-ritmo-mattino.timer (06:00) + mycity-giro.timer (06..22/2:20 → 06:20) + mycity-monitora.timer (06:30)`
-- **Cosa:** Ogni mattina partono tre motori AI premium a distanza di 20 e 10 minuti (VERIFICATO negli OnCalendar dei timer): ritmo-mattino alle 06:00, giro alle 06:20, monitora alle 06:30. Ciascuno accende il motore, ricarica CLAUDE.md + il vault + i 120 agenti e riparte da zero il contesto. È lo stesso stato del mondo letto e ri-letto 3 volte in mezz'ora. Il delta-gate copre il giro ma non coordina ritmo e monitora, che girano comunque.
-- **Impatto:** Token premium sprecati a ricaricare lo stesso contesto 3 volte/mattina; a quota-sessione rolling questo anticipa l'esaurimento nelle ore di veglia in cui servirebbe lavorare.
-- **Causa radice:** 1) Perché 3 letture ravvicinate? ritmo, giro e monitora hanno timer indipendenti che si accavallano al mattino. 2) Perché indipendenti? Ogni cadenza è stata aggiunta separatamente col suo timer. 3) Perché nessuno le fonde? Non esiste un orchestratore che veda il costo AGGREGATO delle cadenze. 4) Perché non c'è? Il costo per-run non è misurato (difetti 1/3) → non c'è pressione a consolidare. 5) Causa di sistema: le cadenze sono progettate a silo (ognuna ottimizza il suo battito) senza una vista di sistema sul contesto ricaricato → il caricamento del vault, che è il grosso del token, si paga più volte di fila.
-- **Fix (🟡 firma Nicola):** Consolidare la finestra mattutina: far leggere il contesto una volta e riusarlo (es. ritmo-mattino che incorpora il monitoraggio, o monitora spostato di qualche ora per non sovrapporsi al giro), e portare ritmo/monitora sotto un throttle 'stato invariato → riusa l'ultima lettura' come il delta-gate del giro. Decidere con Nicola la mappa oraria delle cadenze una volta reso visibile il costo reale.
-- **Impatto crescita:** basso
-
-#### 🟡 L'auto-fix chiude i difetti con una regex scritta da chi ha diagnosticato il difetto (macchina che si dà i voti da sola)
-
-- **Dove:** `cervello/giro.sh:229 (`auto-fix.mjs verifica --applica` a ogni giro) + cervello/auto-fix.mjs:62-87 (verificaFix) + schema `verifica{file,pattern}` in cantiere-difetti.json`
-- **Cosa:** Verificato: giro.sh:229 esegue `auto-fix.mjs verifica --applica` a ogni giro; verificaFix (auto-fix.mjs) marca un difetto `risolto` se la regex `verifica.pattern` è presente/assente nel file. Quel pattern è scritto dalla STESSA auto-radiografia AI che ha creato il difetto: una regex debole/tautologica (che matcha un commento, il nome del fix o la patch stessa) chiude il difetto senza risoluzione reale, gonfiando `difetti_chiusi`. Mitigazione già presente: AR-096 ha rimosso l'auto-gonfiaggio del voto_salute (bumpSalute non tocca più il voto), quindi l'impatto è ridotto al conteggio dei difetti chiusi, non al voto.
-- **Causa radice:** Manca la separazione dei compiti nel volano: chi propone il difetto scrive anche la prova che ne certifica la chiusura, senza contro-verifica indipendente — proprio ciò che internal-audit dovrebbe imporre.
-- **Fix (🟡 firma Nicola):** 🟡 Togliere `--applica` automatico dal giro (auto-fix in sola verifica/report) OPPURE far riscrivere il `verifica.pattern` da un agente diverso dal diagnostico prima di poter chiudere; la chiusura deve provare l'ASSENZA del sintomo, non la PRESENZA di una stringa scelta a piacere.
-- **Impatto crescita:** basso
-
-#### 🟡 Il pre-commit anti-segreti è opt-in per clone: su cloud-agent e macchine nuove i commit passano senza scan
-
-- **Dove:** `.githooks/pre-commit + cervello/installa-hooks.sh (richiede `git config core.hooksPath .githooks` manuale per ogni clone)`
-- **Cosa:** Verificato: installa-hooks.sh:14 fa `git config core.hooksPath .githooks`, ma non è invocato da giro.sh (nessun riferimento) e in questo clone core.hooksPath è assente (rc=1). Un commit fatto da cloud-agent, CI o PC nuovo NON passa dallo scan; l'unica rete rimasta è lo scan dentro giro.sh, che gira solo sul VPS. Un segreto committato altrove entra nella storia prima che il giro lo veda.
-- **Causa radice:** La difesa dipende da un'azione umana ripetuta per ambiente (core.hooksPath è per-clone, non versionabile) invece che da un controllo eseguito automaticamente all'avvio di ogni sessione/giro.
-- **Fix (🟡 firma Nicola):** 🟡 Eseguire installa-hooks.sh idempotente all'avvio del giro e del worker (e documentarlo nel bootstrap del cloud-agent); aggiungere una sentinella che segnala se core.hooksPath non punta a .githooks.
-- **Impatto crescita:** basso
-
-#### 🟡 scan-segreti non conosce le chiavi Resend/n8n: la 'mano' che manda email può far entrare la sua chiave nella storia
-
-- **Dove:** `cervello/scan-segreti.mjs:26-40 (REGOLE) — nessun pattern `re_…` (Resend) né chiavi n8n/webhook`
-- **Cosa:** Verificato: il catalogo REGOLE copre PAT GitHub, JWT Supabase, Stripe, Google, OpenAI, Slack, AWS, PEM — ma NON contiene `re_` (Resend) né n8n. Le 'mani' del marketplace usano Resend (verifica-sensori.mjs:192 interroga api.resend.com con RESEND_API_KEY). Una chiave Resend `re_...` o un token n8n/webhook committato NON verrebbe intercettato: falso senso di copertura proprio sui canali che la macchina usa per scrivere al mondo.
-- **Causa radice:** Lo scanner di segreti non è derivato dall'elenco reale delle integrazioni collegate ('mani'): cresce a mano sui provider classici e resta indietro rispetto ai canali attivati (Resend/n8n).
-- **Fix (🟡 firma Nicola):** 🟡 Aggiungere a REGOLE i pattern Resend (`re_[A-Za-z0-9_]{16,}`) e n8n/webhook, e legare l'aggiornamento dello scanner all'attivazione di ogni nuova 'mano' (checklist in collega-le-mani.md).
-- **Impatto crescita:** basso
-
-#### 🟡 I sensori fanno fetch senza timeout: un endpoint appeso può far scadere l'intero giro sul timeout di processo
-
-- **Dove:** `cervello/verifica-sensori.mjs:129,148,173,192,213 (fetch senza `signal: AbortSignal.timeout`)`
-- **Cosa:** Verificato: i fetch verso Supabase/Stripe/PostHog/Resend/Sito (verifica-sensori.mjs:129,148,173,192,213) non passano alcun `signal`/AbortSignal, e conRetry moltiplica i tentativi. I sensori girano nel preambolo del giro, fuori dal `timeout` che avvolge solo il motore AI (giro.sh:362). Un endpoint stallato può appendersi (i default undici sono generosi, ~300s per tentativo × retry) e far scadere l'intero giro sul timeout esterno di processo che uccide giro.sh: quel ciclo non pubblica nulla. SPOF di degrado.
-- **Causa radice:** La disciplina dei timeout è stata applicata al pezzo più ovvio (l'AI, AR-005) e non estesa a tutti i passi che toccano la rete; ci si è confidati nel timeout esterno di processo che però uccide TUTTO il giro invece di isolare il sensore.
-- **Fix (🟡 firma Nicola):** 🟡 Aggiungere `signal: AbortSignal.timeout(8000)` a ogni fetch dei sensori e incapsulare i guardiani di rete del preambolo in `timeout` per-passo, così un endpoint lento degrada quel sensore ma non affonda il giro.
-- **Impatto crescita:** basso
-
-#### 🟡 I guardiani girano con `|| true`: se uno crasha è invisibile e il giro pubblica lo stesso (immunità silente spenta)
-
-- **Dove:** `cervello/giro.sh (49 occorrenze di `|| true`) + dipendenza condivisa cervello/git-github.mjs importata da 38 script`
-- **Cosa:** Verificato: giro.sh contiene 49 `|| true`: i guardiani terminano tipicamente con `… | tail -N || true`, quindi se un guardiano crasha (eccezione, non gate-fail) l'errore è ingoiato e il giro prosegue fino a commit+push. git-github.mjs è importato da 38 script: un suo errore all'import spegnerebbe in silenzio parte dello strato immunitario mentre la memoria continua a pubblicarsi. Nessun meta-controllo verifica che ogni guardiano abbia prodotto il suo segnale in questo giro (nessun 'freschezza-segnali'/'meta-guardiano' in giro.sh).
-- **Causa radice:** Robustezza (non fermarsi al push) e osservabilità (sapere cosa si è fermato) sono state barattate: `|| true` sopprime l'errore e manca un meta-guardiano di freschezza dei segnali che verifichi la completezza dell'insieme.
-- **Fix (🟡 firma Nicola):** 🟡 Aggiungere un meta-guardiano di freschezza: al termine del giro verifica che ogni guardiano atteso abbia prodotto un segnale col timestamp di QUESTO giro; se ne manca uno → WARN forte in memoria e, per i guardiani-gate, trattare l'assenza come fail-closed. Mantenere `|| true` sull'esecuzione ma non sull'osservabilità.
-- **Impatto crescita:** basso
-
-
----
-
-## 🔮 Pre-mortem (i disastri più plausibili, e la difesa da mettere PRIMA)
-
-- **[alta] La memoria pubblicata mente a Nicola: il Pannello mostra un fatto vecchio o uno stato mezzo-scritto come se fosse vero (prezzo/data/negozio faro sbagliati, numeri incoerenti).**
-  - *Come:* Succede dentro il vault + git, senza bisogno di nessuna chiave esterna, quindi puo' capitare a OGNI giro. Tre punti: (1) in giro.sh, se un giro precedente muore lascia scritture pendenti che vengono auto-committate con 'recupero: scritture pendenti da un giro interrotto' e poi pushate su main come verita' — anche se erano a meta'. (2) Il rebase/merge non-distruttivo ha un ramo di fallback che 'resta sul locale, il push finale riprovera'': in caso di conflitto tra worker e giro sullo stesso working tree la riconciliazione puo' pubblicare uno snapshot sporco. (3) coerenza-fatti.mjs FALLISCE se una copia vecchia di un fatto resta in un file vivo, ma il gate e' solo un vincolo passato al motore AI — se l'AI non bonifica tutte le copie, il valore vecchio resta e il Pannello lo mostra a Nicola/clienti come dato reale.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Rendere coerenza-fatti.mjs un gate BLOCCANTE del push, non solo un consiglio all'AI: se rc!=0 (copia vecchia di un fatto in file vivo) giro.sh NON pubblica la memoria su main e manda invece un Telegram 'memoria incoerente, giro non pubblicato'. In piu' aggiungere un check di sanita' pre-push (frontmatter valido, nessun marcatore di conflitto <<<<<< nei file, nessun file del vault a 0 byte) che, se fallisce, blocca il commit del vault. Cosi' una memoria sporca viene trattenuta invece che spacciata per verita'.
-- **[media] L'interruttore globale AZIONI_LIVE=1 fa partire per davvero un'azione sbagliata (email/notifica al cliente errato, o scrittura sul DB) generata dall'AI, senza una firma reale sul contenuto esatto.**
-  - *Come:* esegui-azione.mjs e marketplace.mjs decidono DRY-RUN vs invio reale SOLO dalla env AZIONI_LIVE. E' un singolo switch globale: nel momento in cui Nicola collega UNA chiave (es. Telegram o la write-key del marketplace) e mette AZIONI_LIVE=1 nel .env del VPS per provarla, OGNI chiamata successiva in quell'ambiente invia davvero — comprese quelle generate dall'AI durante un giro o dal worker.sh. Il cancello 🟢🟡🔴 e' una CONVENZIONE (accoda→firma) non imposta dal codice: l'esecutore non verifica che l'azione sia stata firmata, si fida solo dell'env e dell'AZIONE_ID passato come stringa libera (default '(non collegata)'). Un destinatario o un testo sbagliato parte senza rete.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Sostituire lo switch globale con un consenso PER-AZIONE verificabile: esegui-azione.mjs deve, prima di inviare in LIVE, rileggere AZIONI-IN-ATTESA.md e rifiutare l'invio se l'AZIONE_ID non esiste o non e' marcato APPROVATO (stato/spunta di Nicola). In piu': allowlist dei destinatari in DRY-RUN forzato finche' non esplicitamente sbloccati, e ri-controllo del kill-switch PAUSA dentro l'esecutore (non solo in giro.sh). Cosi' 'LIVE' non significa piu' 'tutto parte', ma 'parte solo cio' che Nicola ha firmato riga per riga'.
-- **[media] Fuga di un segreto (PAT GitHub, chiave service_role del marketplace, chiave Stripe) committato e pushato: chi lo trova puo' scrivere sul DB dei negozi o muovere soldi.**
-  - *Come:* In AZIONI-IN-ATTESA.md e' gia' annotato che su QUESTO checkout del VPS il pre-commit hook anti-segreti NON e' agganciato (core.hooksPath non impostato, manca .git/hooks/pre-commit) e che un PAT e' gia' finito nella storia git. La MARKETPLACE_SUPABASE_WRITE_KEY e' una service_role (bypassa la RLS): se finisce in un commit di .env/*.save non ignorato e viene pushata, chiunque legga il repo puo' scrivere qualsiasi tabella del marketplace o, con la chiave Stripe, toccare i pagamenti. Il buco resta aperto finche' l'hook non e' cablato su ogni macchina che committa.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Un comando solo: bash cervello/installa-hooks.sh per agganciare il pre-commit scan-segreti su questo checkout, e renderlo idempotente all'avvio del worker (verifica core.hooksPath a ogni boot). Aggiungere lo scan-segreti anche come gate lato giro.sh PRIMA del push (rc!=0 → push abortito). Poi ruotare le chiavi gia' potenzialmente esposte (PAT + write-key marketplace) e ridurre la write-key a permessi minimi invece della service_role piena dove possibile.
-- **[media] Loop che brucia budget: i giri automatici (o l'autopilot su un canale a pagamento) consumano credito AI / soldi veri senza un tetto che li fermi davvero.**
-  - *Come:* Il timer del giro e' ATTIVO (~2h) e ogni giro carica un CLAUDE.md enorme e puo' fare fan-out su molti agenti. I tre organi di budget sono SOLO consultivi: metabolismo.mjs 'NON scrive, NON tocca il mondo', letargo.mjs dichiara esplicitamente 'NON spegne niente da sola', sentinella-budget accoda uno STOP solo se c'e' una spesa collegata (sensore spesso non attivo). Quindi non esiste un kill hard sul consumo AI: una cadenza mal configurata, un giro che genera sotto-agenti a catena, o autopilot in LIVE su un canale per-messaggio (WhatsApp) fanno salire il conto senza freno automatico.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Trasformare letargo/metabolismo da consiglieri a freni: un tetto giornaliero di token/costo che, se superato, mette l'AD in PAUSA automatica (scrive impostazioni.pausa=on) e avvisa Nicola via Telegram, invece di limitarsi a dichiarare il livello. Per l'autopilot: rifiutare il LIVE su canali a pagamento senza un budget-cap esplicito per campagna, e de-duplicare le voci del calendario per non ripubblicare la stessa cosa a ogni passata.
-- **[media] Scrittura di massa sui negozi reali con valori dedotti sbagliati: 'ok a tutte le 🟡' riempie campi di prodotti/negozi con autofill errati e l'undo va perso.**
-  - *Come:* supervisione-negozi.mjs gira a ogni giro e ACCODA da solo comandi di autofill gia' pronti (AZIONI_LIVE=1 node cervello/marketplace.mjs aggiorna <tabella> <id> ...) usando la write-key service_role. marketplace.mjs 'aggiorna' accetta qualsiasi nome-tabella minuscolo e qualsiasi JSON. Se Nicola approva in blocco e AZIONI_LIVE e' on, decine di campi reali vengono sovrascritti con valori DEDOTTI (non forniti dal negozio). Il backup e' per-riga su un unico file chiave 'tabella.id': una seconda scrittura sullo stesso id sovrascrive il backup precedente → l'annullamento diventa impossibile.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Backup versionati con timestamp (mai sovrascritti) e un file di riepilogo per poter fare rollback di un intero batch; approvazione dell'autofill una-per-una o a piccoli lotti (niente 'ok a tutte' sulle scritture DB); e marcare gli autofill come 'proposta con valore dedotto' che richiede conferma del dato dal negozio prima di scrivere campi sensibili (prezzo/orari/descrizione).
-- **[bassa] Nicola preme PAUSA credendo che tutto si fermi, ma un'azione parte lo stesso: il kill-switch non copre le mani.**
-  - *Come:* Il controllo PAUSA (fail-closed, corretto) vive SOLO in giro.sh, all'inizio del giro schedulato. esegui-azione.mjs, autopilot.mjs, marketplace.mjs e i percorsi del worker.sh che chiamano l'esecutore NON rileggono impostazioni.pausa. Quindi un'azione gia' in coda lanciata da un percorso diretto, o un worker gia' avviato, puo' toccare il mondo mentre Nicola e' convinto che la macchina sia congelata. E' il vettore '🔴 partita mentre pensavo fosse tutto fermo'.
-  - *Difesa (🟡):* 🟡 (firma Nicola) — Portare il check PAUSA (fail-closed) dentro un modulo condiviso chiamato all'inizio di OGNI esecutore che tocca il mondo (esegui-azione, marketplace, autopilot, git-merge): se pausa=on o non verificabile → esci senza agire. Cosi' il kill-switch e' un vero interruttore generale, non solo lo stop dello scheduler.
-
-## 🏆 Benchmark vs i migliori (sintesi)
-
-| Ambito | Divario | Obiettivo |
-|---|---|---|
-| Contenuti & social (creatività a livello agenzia) | alto | Avere una rubrica settimanale VERA che gira senza sforzo ('Scoperto a Piacenza' — un volto/bottega reale a settimana) an |
-| Prezzi & pricing science (commissioni, fee consegna, soglie) | alto | Passare da prezzi/commissioni decisi a intuito a una prima regola di soglia-consegna e commissione motivata dai margini  |
-| Onboarding negozi (done-for-you, time-to-first-sale) | alto | Rendere reale la promessa 'done-for-you <48h con primo incasso di test'. Oggi: 1 solo negozio reale, payout OFF, 0 payou |
-| Funnel & CRO (conversione del marketplace) | alto | Costruire il funnel misurabile PRIMA ancora di ottimizzarlo: oggi il traffico e ~zero (12 eventi in 7 giorni), quindi no |
-| Email & CRM lifecycle (carrelli, win-back, riordino) | alto | Accendere almeno UN flusso lifecycle reale (recupero carrello) via Resend, gia collegato. Oggi ci sono carrelli abbandon |
-| SEO locale (farsi trovare su Google/Maps) | medio | Fare di MyCity l'aggregatore che si trova quando un piacentino cerca 'pane/fiori/spesa a domicilio Piacenza'. Base gia a |
-| PR & narrativa civica (stampa, istituzioni) | medio | Trasformare l'asset narrativo (gia forte) in copertura reale: 1 comunicato/aggancio stampa locale legato a un evento ver |
-| Consegne (logistica dell'ultimo miglio) | alto | Fare la PRIMA consegna reale end-to-end (oggi: 0 consegne mai, l'unico ordine e annullato). Non serve una flotta: nel ce |
-| Cura clienti (concierge, primo ordine, retention) | alto | Eseguire un vero 'primo ordine concierge' sul primo cliente reale — follow-up, richiesta feedback, cura — cosa oggi impo |
-| Modello operativo autonomo ad agenti AI (il meta-mestiere: gestire l'azienda da sola) | basso | Qui siamo gia alla frontiera (120 senior, semaforo, auto-radiografia, guardiani): la domanda 10x non e 'strutturare megl |
-
-## 🧩 Pezzi nuovi proposti (25)
-
-- Il guardiano del registro agenti è cieco sul segnale che conta: non legge mai le description che decidono il routing
-- 120 agenti, zero campo model: la capacità 'modello giusto al compito' è dichiarata ma non cablata nelle definizioni
-- Il loop chiuso (strato 7) non ha dove atterrare: ~76 senior su 120 senza quaderno memoria-squadra, e la sonda è cieca alla copertura
-- Kit stub: 10 senior hanno lo strato 3-4-5 'descritto' non 'installato' (kit 3-4,8KB contro i 15-25KB standard) — sono i senior a metà
-- Manca il guardiano dello stampo: nessuno verifica che ogni senior abbia Scheda completa + kit non-stub + quaderno + hook rubrica
-- Nessuna sentinella trasforma una fonte web morta in una card per Nicola (fonti-salute.json senza consumatore)
-- Il sensore-cassa è cieco da 22 giri (runway 'sconosciuto') e nessuna sentinella lo segnala
-- L'heartbeat degli occhi (sentinella-dati:ultimo) viene scritto ma nessuno lo legge
-- Split-brain dei quaderni: esiste una seconda cartella memoria-squadra nel vault che ha DIVERSO le lezioni dalla cartella canonica
-- Nessun codice APRE un esperimento: esperimenti=[] da sempre, il volano-business non ha mai misurato 1 esito
-- Proposte di auto-riscrittura mai sincronizzate col cantiere: nessuna ha uno stato valido e la lista è stantia rispetto ai 23 difetti chiusi
-- Il battito-giro (2h) non ha nessun sentinel out-of-band: se muore, muore anche il suo controllore
-- Copertura installer/checkup del battito frammentata: il checkup è cieco su quasi tutte le cadenze
-- Il Supabase MEMORIA — coda, segnali e kill-switch — non ha nessun sensore di vita
-- Due registri-rischi divergenti, nessun guardiano che li riconcilia
-- I 78 nuovi senior non hanno nessun KPI, e il guardiano del registro non se ne accorge
-- Un'azione da firmare può dormire in coda per settimane senza che niente la ri-solleciti
-- Il Pannello — dove Nicola approva — non ha un sensore di uptime: si controlla solo lo storefront
-- Telegram e n8n — il canale delle approvazioni e l'hub delle 'mani' — non sono health-checkati (Resend sì)
-- Lo STOP-budget per reparto è un lettore senza scrittore: nessun budget-reparti.json e nessun feed di spesa → il freno non scatta mai
-- Nessun guardiano rende machine-checkable il vettore cross-silo n°1 (pre-mortem di sistema: vittoria di reparto che brucia margine/intasa operations)
-- Il router economico non esegue MAI: instrada a Groq/Gemini, lo registra, poi gira sempre su Claude premium
-- Il giro pubblica il PROPRIO codice: `git add -A` + motore autonomo = auto-modifica senza firma
-- scan-segreti non conosce le chiavi Resend/n8n: la 'mano' che manda email può far entrare la sua chiave nella storia
-- I guardiani girano con `|| true`: se uno crasha è invisibile e il giro pubblica lo stesso (immunità silente spenta)
-
-## ❓ Domande per Nicola (6)
-
-- **GLOSSARIO-KPI (la 'sola verita' dei numeri) ha definizioni ancora a placeholder e divergenze aperte, senza owner ne scadenza** — Il GLOSSARIO-KPI e indicato da CLAUDE.md come presidio della 'una sola verita' cross-funzionale. Ma il file stesso porta ancora placeholder irrisolti (verificat
-- **La prova-che-il-loop-chiude poggia su un solo pilastro: i due prong business sono già morti e i difetti aperti sono finiti** — VERIFICATO. sonda-volano calcola provaChiusura = difettiChiusiRecenti>0 || calibrazionePiena || esperimentiMisurati (recency 14gg). calibrazionePiena (line 92) 
-- **OKR-Squadra scaduto e mai revisionato: il target North Star è a 10 giorni di ritardo e la 'Regola ROI/STOP' non è applicata al lavoro interno** — Il file che dovrebbe ancorare ogni reparto alla North Star è fermo al 24/6: il target dell'AD ('1° ordine reale entro sab 27/6') è scaduto da ~10 giorni (oggi 7
-- **La soglia misura la cosa sbagliata: 2M token/giorno vs quota-sessione rolling ~5h che è il vero muro** — Il modello di costo somma i token del GIORNO e li confronta con una soglia giornaliera da 2.000.000 (VERIFICATO costo-ai.mjs:20 SOGLIA_DEFAULT=2_000_000). Ma re
-- **L'auto-fix chiude i difetti con una regex scritta da chi ha diagnosticato il difetto (macchina che si dà i voti da sola)** — Verificato: giro.sh:229 esegue `auto-fix.mjs verifica --applica` a ogni giro; verificaFix (auto-fix.mjs) marca un difetto `risolto` se la regex `verifica.patter
-- **Il perimetro permessi 🟢🟡🔴 non vale sul motore reale: Cursor gira `--force --trust`, .claude/settings.json copre solo Claude Code** — Verificato: .claude/settings.json ha un allow stretto (WebSearch/WebFetch/una PowerShell), ma è un concetto di Claude Code. Il motore preferito (motore-ai.sh: a
+| coerenza-agenti | 60 | attenzione | 4 |
+| vettori-installati | 44 | attenzione | 7 |
+| salute-sensori-dati | 21 | attenzione | 10 |
+| integrita-memoria | 0 | critico | 12 |
+| chiusura-volano | 2 | critico | 9 |
+| cadenza-esecuzione | 5 | attenzione | 13 |
+| calibrazione-onesta | 38 | attenzione | 9 |
+| copertura-cieca | 54 | attenzione | 6 |
+| guardrail-semaforo | 0 | critico | 13 |
+| allineamento-northstar | 0 | critico | 8 |
+| efficienza-costo | 16 | critico | 9 |
+| rischio-sicurezza-se | 0 | critico | 11 |
+
+### Scorecard Pannello
+| Dimensione | Voto | Stato | Bug |
+|---|---|---|---|
+| navigazione-routing | 58 | attenzione | 7 |
+| stato-persistenza | 19 | critico | 8 |
+| freschezza-dati | 39 | critico | 6 |
+| stati-async | 26 | critico | 8 |
+| coerenza-azioni | 29 | critico | 7 |
+| robustezza-errori | 24 | critico | 6 |
+| accessibilita-mobile | 3 | critico | 11 |
+| performance-render | 31 | attenzione | 9 |
+
+## 🚨 Gli 8 bloccanti della macchina (in parole semplici, per impatto sulla crescita)
+
+1. **Il voto di salute che vedi in Cabina era falso.** `allinea-scan-cantiere.mjs:166` sovrascrive il voto
+   della radiografia col voto-cantiere: il 7/7 la radiografia diceva 0, il Pannello mostrava 100. → AR-105
+2. **Il freno del budget AI è morto.** Il gate confronta la soglia con un contatore che è sempre 0 (le voci
+   `--stima` non alzano `token_totali`): la macchina può bruciare quota senza che nulla scatti. → AR-111
+3. **Il percorso firma→esecuzione non chiude.** Il bottone «Approva» del Pannello crea solo un lavoro
+   testuale: il marcatore APPROVATA che la regola AR-103 pretende non lo scrive nessuno tranne il worker
+   stesso — cioè l'esecutore si auto-certifica la firma. → AR-108
+4. **L'autopilot marketing si fida del colore auto-dichiarato.** Il freno «colore minimo del canale»
+   (AR-074) esiste solo come commento: una voce marcata 🟢 nel file-dati parte in LIVE anche se il canale è
+   email a persone reali. → AR-107
+5. **22 giorni di North Star a zero non fermano niente.** Il guardiano della stella polare è l'unico «soft»
+   (`|| true`): la macchina si ferma per una checklist stantia ma non per tre settimane senza un ordine. → AR-109
+6. **Nessuno misura quanto sforzo va sulla macchina invece che sul business.** Le PR sul Pannello (la quota
+   dominante del lavoro recente) sono invisibili ai guardiani di allocazione, che dichiarano «allocazione
+   sana». → AR-110 (pezzo nuovo)
+7. **Zero esperimenti da sempre, e il gate che li pretende è scollegato dal battito.** `esperimenti-check`
+   esce rosso ma `giro.sh` ne ingoia l'exit code; AR-041 risulta «chiuso» mentre il problema è vivo. → AR-106
+8. **Un frammento di GitHub PAT è in DECISIONI.md.** Lo scan-segreti fallisce a OGNI giro e la
+   pubblicazione della memoria è in deadlock permanente; serve la tua decisione (ruotare il token +
+   eccezione di redazione all'append-only). → AR-112 · **domanda per te, gravità alta**
+
+## 🖥️ I bloccanti del Pannello (i sintomi che avevi segnalato, ora localizzati)
+
+- **Le risposte del worker non compaiono mai nelle chat delle caselle/lavori** («La risposta non è
+  arrivata» anche quando c'è): il polling legge la lista lavori che NON contiene il campo risultato, e
+  nessuno chiede mai il dettaglio. `pannello/src/lib/parla.ts:113-120` + `ChatCasella.tsx:32-40`. → AR-120
+- **Le chat casella/lavoro non vengono mai salvate sul server**: cambio sezione o refresh = conversazione
+  persa con la risposta dentro. → AR-121
+- **Un'azione approvata che finisce «in coda» non riparte mai** e non si può ri-approvare: vicolo cieco
+  permanente. `api/azioni-pronte/route.ts:72,96-103`. → AR-122
+- **Aprire «Parla con questa casella» cancella la chat dell'Assistente.** `page.tsx:1949-1969`. → AR-123
+- Il tasto **INDIETRO** ha 4 difetti distinti confermati (voce duplicata all'avvio, voci «legacy» che
+  intrappolano, `sub` stantio trascinato tra aree, prima scheda non registrata) — tutti gravi/minori, tutti
+  con fix puntuale nel report.
+
+## 🧮 Le cause radice ricorrenti (i «5 perché» convergono su 4 sistemi)
+
+1. **Guardiani muti:** il pattern `| tail -4 || true` in `giro.sh` ingoia l'exit code dei check di
+   struttura (registro agenti, keyword-owner, esperimenti, north-star) — il principio AR-081 «rc≠0 →
+   vincolo HARD» è stato cablato solo sui guardiani di business. *Un check che fallisce cronico viene
+   silenziato invece di generare un task.*
+2. **Il volano non chiude sull'esterno:** 0 esperimenti misurati, 100/120 quaderni fermi (79 vuoti),
+   81/120 senior senza KPI in OKR-Squadra: la macchina sa AGGIUNGERE capacità più in fretta di quanto
+   sappia cablarle nei suoi sistemi di governo.
+3. **Una sola verità violata sui fatti della macchina:** il conteggio senior è scritto a mano in 5 file
+   (120/42/40), il GLOSSARIO-KPI è fermo al seed del 27/6 — il registro-fatti governa il business ma non
+   i fatti su sé stessa.
+4. **Pannello: lo stato vive nel posto sbagliato:** chat in `useState` locale invece che nello store
+   server, cronologia timbrata senza contratto (sub trascinati, voci legacy), liste senza refetch dopo
+   mutazione.
+
+## 🔮 Pre-mortem (5 scenari) e 🏆 benchmark (10 mestieri)
+Nel file archivio: il disastro più probabile è il **loop che brucia la quota AI** (probabilità alta —
+ed è già mezzo successo oggi: la radiografia stessa si è fermata a metà per session-limit). I divari più
+alti nel benchmark: **pricing, CRO/funnel, email-CRM, SEO locale, consegne** — tutti ambiti dove il
+mestiere c'è (senior) ma mancano dati reali e esperimenti misurati.
+
+## 🚧 Cantiere
+**+19 difetti a impatto-alto** (AR-105..AR-123) — entrati con prova di chiusura machine-checkable (AR-023).
+Gli altri 154 difetti (impatto medio/basso) restano nell'archivio, fuori dal cantiere per tenerlo
+lavorabile: scelta dichiarata qui, non silenziosa. Stato cantiere: **19 aperti · 43 chiusi**.
+
+## 🙋 Cosa serve da te (le 6 domande, la prima è urgente)
+1. 🔴 **Ruota il GitHub PAT** e autorizza il commit di sola redazione su DECISIONI.md (sblocca la
+   pubblicazione memoria). → card in coda
+2. Confermi il **pacchetto fix guardiani** (de-silenziare exit code + voto non falsificato)? → card in coda
+3. Confermi il **pacchetto fix Pannello bloccanti** (chat/risposte + azioni in coda)? → card in coda
+4. GLOSSARIO-KPI fermo al seed 27/6: lo confermiamo/aggiorniamo?
+5. Organigramma 120 senior in fase 0-ordini: congeliamo i dormienti con deroga esplicita?
+6. Sensori uptime costruiti ma mai puntati (URL mancanti): li colleghiamo?
+
+*Ogni numero di questo report ha fonte: i due output dei workflow (26+16 agenti) e i guardiani eseguiti
+dal vivo (`agent-registry-check`, `chiusura-loop --sonda`, `verifica-sensori`, `coerenza-fatti`,
+`allocazione-check`). Nessun fix è stato applicato.*
