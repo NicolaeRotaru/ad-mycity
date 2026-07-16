@@ -14,6 +14,7 @@ import { usePanelSync } from "@/lib/panel-sync";
 import { codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
 import MacchinaHomeCard from "@/components/MacchinaHomeCard";
 import LetteraAdCard from "@/components/LetteraAdCard";
+import Bacheca from "@/components/Bacheca";
 import HomeSezione from "@/components/HomeSezione";
 import ListaProspectHome from "@/components/ListaProspectHome";
 import Volano from "@/components/Volano";
@@ -297,6 +298,9 @@ export default function Plancia({
 
       {/* 3 · Lettera dell'AD */}
       <LetteraAdCard />
+
+      {/* 3b · Bacheca — informazioni da sapere (vault: 90-Memoria-AI/BACHECA.md) */}
+      <Bacheca />
 
       {/* 4 · KPI chiave — griglia densa, tutto visibile */}
       <section className="card p-3">
