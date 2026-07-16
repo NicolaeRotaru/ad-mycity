@@ -17,6 +17,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
+
+**Cosa fare (nel worker-chat, NON nel Pannello):**
+
+Nicola ha chiesto (17/7): «voglio che la conversazione sia live come quella di claude». Il Pannello già ha il codice per mostrare il testo parziale — il problema è che il worker manda il blocco completo solo a fine elaborazione.
+
+Fix = DUE modifiche nel worker:
+1. **Worker**: ogni N secondi, mentre Claude sta ragionando, scrivi su DB il testo prodotto finora (campo `risposta_parziale` o simile)
+2. **Già fatto**: il frontend legge già questo campo e aggiorna la bolla — non serve toccare il Pannello
+
+**Cosa cambia:** le parole appaiono man mano, come in Claude.ai. Non si aspetta il blocco finale.
+**Se va bene:** esperienza molto più naturale; utente vede subito che la macchina sta ragionando.
+
+- **Colore:** 🟡 (modifica al cuore del worker — l'AD lo esegue dopo ok di Nicola)
+- **Reparto:** frontend-dev / builder-automazioni
+
+---
+
 ### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
 
 ---

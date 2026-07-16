@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 · 🟡 · [AD/frontend-dev] · **Streaming live chat richiesto da Nicola — fix nel worker, approvazione pendente.** Nicola: «voglio che la conversazione sia live come quella di claude». AD ha spiegato che serve modificare il WORKER (non il Pannello): (1) scrivere testo parziale su DB ogni N secondi mentre Claude ragiona; (2) il frontend già legge il campo. L'AD ha chiesto «vuoi che ci lavori adesso o prima finisci PR #419?» — Nicola non ha ancora risposto. Card #streaming-worker accodata in AZIONI-IN-ATTESA.
+
 2026-07-17 00:30 · 🟢 · [AD/frontend-dev] · **PR #416 mergiata da Nicola** (merge 73e79d97) — chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge. AZIONI-IN-ATTESA aggiornata: #pr-416-skill-tab → FATTO.
 
 2026-07-17 00:15 · 🟡 · [AD/frontend-dev] · **PR #419 aperta — 3 fix chat: coda messaggi, doppia risposta, flicker, bottone invio mobile.** Nicola ha chiesto: (1) chat continua — il 2° messaggio inviato durante l'elaborazione non resetta tutto ma si accoda; (2) fix doppia risposta — nessuna bolla duplicata se la risposta finale è già in DOM; (3) fix flicker — `setLoading` non viene richiamato se è già `true`; (4) fix bottone mobile — rimosso `|| loading` dal pulsante invio, si invia da smartphone durante l'elaborazione. Branch `fix/chat-coda-messaggi`, commit `f8dacc49`, typecheck verde. **Pendente 🔴:** Nicola mergia PR #419.
