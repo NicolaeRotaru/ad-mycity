@@ -263,24 +263,32 @@ budget-guard AI — tutto già esistente in `mycity/` e `pannello/`.
 
 ---
 
-## 🔨 Stato costruzione — Organo #1, prima fetta (2026-07-16 23:1x)
-**Costruita in branch** `claude/worker-camera-realtime-osxadz` (🟡, nessun deploy, nessuna scrittura sul DB):
-- Nuova sezione **"Vetrina live"** nel Pannello (menu gruppo "Sistema").
-  - `pannello/src/components/aree/VetrinaLive.tsx` — telecamera (`getUserMedia`), scatto foto (modo semplice),
-    scelta negozio, bozza scheda editabile, "Bozze pronte" (in sessione). Pulsanti voce/video-live presenti
-    ma "Presto" (onesti: spenti finché non c'è il modello live).
-  - `pannello/src/app/api/vetrina-live/analizza/route.ts` — foto → bozza scheda via Claude vision
-    (`lib/ai.vede`, con guardia-budget). **Sola lettura sul mondo reale.**
-  - `pannello/src/app/api/vetrina-live/negozi/route.ts` — lista negozi (sola lettura).
-  - `pannello/src/lib/ai.ts` — aggiunta `vede()` (visione, stessa guardia-budget di `pensa()`).
-  - Cablaggio: `lib/nav.ts` + `app/page.tsx` (tipo Vista, voce menu, render).
+## 🔧 Correzioni di rotta di Nicola (2026-07-16, come casi-studio)
+Tre paletti che riscrivono l'Organo #1 (li rispettiamo alla lettera):
+1. **Niente API Anthropic a consumo.** Usare **Anthropic com'è adesso** = il canale del worker
+   (Claude Code CLI su abbonamento), lo stesso della chat, che già "vede" le foto passate come allegati.
+2. **Niente sezione a parte.** Tutto **dentro la chat**: la telecamera è un pulsante accanto alla graffetta.
+3. **Nome provvisorio dell'assistente: «worker».** (Prima era "senza nome": ora, per adesso, si chiama worker.)
+
+## 🔨 Stato costruzione — Organo #1, prima fetta (2026-07-16 23:2x)
+**Costruita in branch** `claude/worker-camera-realtime-osxadz` (🟡, nessun deploy, nessuna scrittura sul DB,
+**nessuna API a consumo**):
+- **Telecamera DENTRO la chat** (niente sezione separata): pulsante «Foto» accanto alla graffetta degli
+  allegati. Scatti → la foto entra nel messaggio come allegato → il **worker (Claude com'è adesso, via
+  abbonamento)** la GUARDA e risponde in chat. Riusa tutta la pipeline esistente (upload → `api/allegato` →
+  coda `lavori` → worker → polling).
+  - `pannello/src/components/BottoneFotoChat.tsx` — nuovo: apre la telecamera (`getUserMedia`), scatta,
+    crea un File JPEG e lo passa allo **stesso** handler allegati (`onScegli`). Gemello di `BottoneAllegatiChat`.
+  - `pannello/src/components/BarraScritturaChat.tsx` — innestato il pulsante Foto (chat assistente + fluttuante).
+  - `pannello/src/components/ChatCasella.tsx` — innestato il pulsante Foto (chat dell'Archivio).
+- **Annullata** la sezione separata "Vetrina live" e le API `vetrina-live/*` + la funzione `vede()`
+  (usavano l'API a consumo): rimosse, tornati allo stato pulito.
 - **Cancello typecheck**: `npx tsc --noEmit` → exit 0 (verde).
 - **Non attivato** (resta 🔴, tua firma): scrittura reale del prodotto nel catalogo; modello "live" per
-  voce+video. La bozza "Conferma" resta in sessione finché non si accende la scrittura.
-- **Serve per la parte AI**: `ANTHROPIC_API_KEY` collegata al Pannello (senza, la foto si scatta ma la
-  compilazione automatica non parte). La telecamera e lo scatto funzionano comunque.
+  voce+video (Organo #2). La telecamera-in-chat funziona **senza chiavi nuove**, sul worker che già c'è.
 
 ## Traccia
-- Documento generato dalla conversazione del 2026-07-16 (visione JARVIS, chat con microfono live + foto +
-  video live, uso centrale nel Pannello).
-- Prossimo passo alla firma: costruire l'Organo #1 in un branch del Pannello (🟡, anteprima prima del live).
+- Documento generato dalla conversazione del 2026-07-16 (visione JARVIS/worker: chat con voce + foto +
+  video live, uso centrale nel Pannello). Poi corretto su 3 paletti di Nicola (vedi sopra).
+- Prossimo passo: mostrare la telecamera-in-chat in anteprima; poi Organo #2 (voce+video live) quando Nicola
+  decide il modello live, e attivazione scrittura catalogo a firma.

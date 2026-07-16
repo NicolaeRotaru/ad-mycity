@@ -4,6 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Brain, FileText, Loader2, Mic, Send } from "lucide-react";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import BottoneFotoChat from "@/components/BottoneFotoChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import { gestisciInvioChat } from "@/lib/chat-input";
 
@@ -105,6 +106,16 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
           icona={fab ? 16 : undefined}
         />
         <BottoneAllegatiChat
+          disabled={allegati.length >= 6}
+          iconSize={fab ? 16 : 18}
+          className={
+            fab
+              ? "min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+              : "min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
+          }
+          onScegli={onAllegati}
+        />
+        <BottoneFotoChat
           disabled={allegati.length >= 6}
           iconSize={fab ? 16 : 18}
           className={

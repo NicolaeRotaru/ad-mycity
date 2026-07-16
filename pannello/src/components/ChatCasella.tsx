@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
+import BottoneFotoChat from "@/components/BottoneFotoChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import { preparaLavoro, messaggioLavoroInCorso } from "@/lib/comandi";
 import { salvaGruppoLavoroLocale, messaggiDaGruppo, type LavoroBase, type MsgChat } from "@/lib/lavori-gruppo";
@@ -258,6 +259,13 @@ export default function ChatCasella({
           disabled={inviando || allegati.length >= 6}
           iconSize={13}
           etichetta="Allega"
+          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+          onScegli={aggiungiFile}
+        />
+        <BottoneFotoChat
+          disabled={inviando || allegati.length >= 6}
+          iconSize={13}
+          etichetta="Foto"
           className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
           onScegli={aggiungiFile}
         />
