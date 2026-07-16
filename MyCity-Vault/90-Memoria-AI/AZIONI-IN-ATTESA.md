@@ -17,16 +17,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
-### 🟡 #pr-chat-conv-pulsanti — Apri la PR per conversazione in cima + pulsanti in basso · ⏳ accodata 2026-07-16 22:25
-
-Branch: `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `7bf1294a` · typecheck verde
-
-**Cosa cambia:** i pulsanti Conversazioni e Nuova chat compaiono anche in fondo alla chat (non devi scrollare su); la conversazione aperta ora appare sempre prima nella lista.
-**Se va bene:** build Vercel deploierà le fix automaticamente dopo il merge.
-
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --title "chat: conv aperta in cima + pulsanti Conversazioni/Nuova in basso"
-```
+### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
 
 ---
 
@@ -52,6 +43,24 @@ Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore Type
 
 ---
 
+### 🔴 #pr-416-skill-tab — Mergia PR #416: chat vuota + comandi rapidi nella tab ⚡ Skill · ⏳ accodata 2026-07-16 23:30
+
+**PR #416** · Branch `fix/skill-tab-comandi-rapidi` · commit `82bd0a34` · typecheck ✅ · nessun conflitto
+
+**Cosa fa:**
+1. **Chat si apre VUOTA** — rimossi il testo "Scrivi un obiettivo…", le icone dei reparti e i comandi rapidi inlineati (sia nella chat principale che in quella fluttuante).
+2. **Comandi rapidi nella tab ⚡ Skill** — 4 comandi (✨ Contenuti PRO, 🔄 Fai un giro, 📊 Come stiamo?, 📋 Che comandi ho?) ora nella finestra ⚡ Skill.
+
+**Dopo il merge:** Vercel builda in automatico (~2 min) → Ctrl+Shift+R.
+
+**Cosa cambia:** la chat si apre pulita senza blocchi di routing; i comandi rapidi si trovano nella tab ⚡ quando servono.
+**Se va bene:** interfaccia più semplice e meno rumore visivo — i comandi ci sono ma non occupano spazio di default.
+
+- **Colore:** 🔴 (merge PR codice Pannello — approva Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #fix-vercel-ts-2959 — Push il fix TS2367 dal terminale VPS (Nicola ha già approvato) · ⏳ aggiornata 2026-07-16 21:26
 
 **Contesto:** Nicola ha approvato il push ("Approvo push") in chat alle ~21:25 del 16/7, ma la sessione del Pannello blocca git e node — il push non è stato eseguito.
@@ -73,21 +82,7 @@ Poi mergia la PR dal Pannello (Ctrl+Shift+R).
 
 ---
 
-### 🔴 #pr-415-chat-pulsanti — Mergia PR #415: conv aperta in cima + pulsanti chat in basso · ⏳ accodata 2026-07-16 22:31
-
-**PR #415** · Branch `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `99b80f77` · typecheck ✅ · nessun conflitto
-
-**Due fix inclusi:**
-1. **Conversazione aperta sempre prima** nella lista — non bisogna più cercarla in fondo.
-2. **Mini-barra con «Conversazioni» e «Nuova chat» sopra il campo di testo** — sempre visibili, niente scroll.
-
-**Dopo il merge:** Vercel builda in automatico (~2 min) → Ctrl+Shift+R.
-
-**Cosa cambia:** navigare tra le conversazioni diventa immediato, senza scrollare in cima.
-**Se va bene:** nella prossima chat trovi subito la conversazione che stavi leggendo in cima alla lista.
-
-- **Colore:** 🔴 (merge PR codice Pannello — approva Nicola)
-- **Reparto:** frontend-dev
+### ✅ #pr-415-chat-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f — conv in cima + pulsanti in basso)
 
 ---
 
@@ -1285,6 +1280,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 166 | 2026-07-16 16:27 | @tech | Mergia PR #410 — Pannello: briefing/sala chiuse + Storico→Memoria viva | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/410 | github | in attesa | Contiene 2 fix: (1) Briefing e Sala Operativa chiuse di default in Memoria viva; (2) Tab Storico eliminato, i 3 sotto-tab (Decisioni · Quaderni senior · Stato & numeri) spostati dentro Memoria viva. Branch pulito, nessun conflitto. | Dopo Approva: merge automatico + deploy Vercel ~2 min → ricarica Pannello (Ctrl+Shift+R). |
 | 167 | 2026-07-16 16:55 | @tech | Merge PR #411 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/411 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 168 | 2026-07-16 21:22 | @tech | Merge PR #414 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/414 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 169 | 2026-07-16 22:44 | @tech | Merge PR #416 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/416 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
