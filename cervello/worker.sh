@@ -311,7 +311,7 @@ if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could
   exit 1
 fi
 
-INTERVALLO="${WORKER_INTERVALLO:-5}"   # secondi tra un controllo e l'altro (basso = chat reattiva)
+INTERVALLO="${WORKER_INTERVALLO:-2}"   # secondi tra un controllo e l'altro (basso = chat reattiva). 2s: il messaggio parte prima (prima era 5s). Override con WORKER_INTERVALLO.
 # ROOT-CAUSE FIX (worker-outage 2026-07-09): tutte le curl del worker giravano SENZA timeout.
 # Una sola chiamata REST bloccata su un socket mezzo-aperto (rete che cade a metà, connessione TCP
 # stabilita ma risposta mai arrivata) impiccava il loop PER SEMPRE: nessun `timeout` la copre e, con
