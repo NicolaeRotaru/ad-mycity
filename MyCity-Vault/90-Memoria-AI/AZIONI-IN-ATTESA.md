@@ -31,22 +31,16 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #pr-chat-coda-3bug — Committa e apri PR per i 3 fix chat (doppia risposta, flicker, bottone smartphone) · ⏳ aggiornata 2026-07-17 00:35
+### 🟡 #mergia-pr-424 — Mergia PR #424: fix 3 bug chat (doppia risposta, flicker, bottone smartphone) · ⏳ accodata 2026-07-17 00:45
 
-**Stato aggiornato:** PR #422 aveva conflitti — l'AD ha applicato i 3 fix direttamente su `pannello/src/app/page.tsx` di `main` (typecheck verde). Il file è modificato ma NON committato. PR #422 può essere chiusa.
+**Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
 
-**Per finalizzare — esegui 3 comandi dal terminale VPS:**
-```bash
-cd /opt/mycity/ad-mycity
-git checkout -b fix/chat-3bug-v2
-git add pannello/src/app/page.tsx && git commit -m "fix: 3 bug chat"
-```
-Poi dimmi "fatto" e apro la PR io con `node cervello/git-pr.mjs`.
+**Per metterlo live:** mergia PR #424 → https://github.com/NicolaeRotaru/ad-mycity/pull/424
 
-**Cosa cambia:** fix 3 bug — (1) doppia risposta eliminata con check coda sincrono; (2) flicker sparito (rimossi i blocchi "Sto lavorando..." ridondanti); (3) bottone invio funziona su smartphone anche durante l'elaborazione.
-**Se va bene:** chat stabile su tutti i dispositivi; live in ~2 min su Vercel.
+**Cosa cambia:** (1) doppia risposta eliminata — check coda sincrono su `pendingLavoroChatRef`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio funziona su smartphone anche durante l'elaborazione.
+**Se va bene:** chat stabile su tutti i dispositivi; live su Vercel in ~2 min.
 
-- **Colore:** 🟡 (3 comandi VPS → Nicola; poi PR → l'AD)
+- **Colore:** 🟡 (merge su main → Nicola)
 - **Reparto:** frontend-dev
 
 ---
