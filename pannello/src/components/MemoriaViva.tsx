@@ -93,7 +93,7 @@ export default function MemoriaViva() {
       ) : (
         <div className="space-y-4">
           {attivita?.briefing && (
-            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5" open>
+            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
               <summary className="text-[13px] font-semibold cursor-pointer">📋 Ultimo briefing · {dataVault(attivita.briefing.data || attivita.briefing.nome)}</summary>
               <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                 <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.briefing.testo}</ReactMarkdown>
@@ -102,7 +102,7 @@ export default function MemoriaViva() {
             </details>
           )}
           {attivita?.salaOperativa && (
-            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5" open>
+            <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
               <summary className="text-[13px] font-semibold cursor-pointer">🛰️ Sala Operativa</summary>
               <div className="mt-2 max-h-80 overflow-y-auto pr-1">
                 <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.salaOperativa}</ReactMarkdown>
