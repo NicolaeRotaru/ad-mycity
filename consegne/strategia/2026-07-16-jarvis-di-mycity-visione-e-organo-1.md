@@ -52,6 +52,18 @@ La casa di JARVIS è la **chat che Nicola già usa nel Pannello**. Avrà due mar
 Le due marce si parlano: ciò che si decide parlando in live può **far partire un lavoro vero** che i senior
 eseguono con i cancelli di sicurezza. *Parli → lei prepara → Nicola firma le cose pesanti.*
 
+## 📷 Lo scatto foto è una funzione SEMPRE disponibile (non chiusa dentro JARVIS)
+
+Requisito di Nicola: scattare la foto deve funzionare in **tre modi**, indipendenti:
+1. **JARVIS acceso + video live** — inquadri, lei vede in diretta, scatti (o scatta lei).
+2. **JARVIS acceso, senza video live** — le parli e scatti una foto quando vuoi.
+3. **Senza JARVIS e senza video live** — telecamera "semplice": apri, scatti, la foto va al prodotto.
+   Niente voce, niente diretta.
+
+Principio: **lo scatto foto → scheda prodotto è il cuore sempre-acceso**; la voce e il video live sono uno
+**strato in più** che ci si appoggia sopra. Il modo 3 (foto semplice) **funziona già col cervello attuale,
+senza chiavi nuove e senza costi a consumo** → è il primo pezzo consegnabile dell'Organo #1.
+
 ---
 
 # 🏗️ L'architettura furba: telecomando + motore blindato
