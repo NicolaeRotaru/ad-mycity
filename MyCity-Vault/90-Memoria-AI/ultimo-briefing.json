@@ -1,40 +1,45 @@
 {
-  "data": "2026-07-14 11:01",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~497h). REST ok 14/7 11:01: 1 PQ, 5 prodotti, 0 ordini nuovi. T-3 VP 17/7 — caldo 36–38°C, ritiro al banco PQ (bici ~28/7+). Maratona Pannello: #377/#378 su main; #379 Onestà numeri in coda (#143).",
+  "data": "2026-07-16 12:24",
+  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~531h ≈ 22,1 giorni). REST ok 16/7 12:20. T-1 VP 17/7 — domani sera presidio banco Pane Quotidiano (bici non pronta, solo ritiro). CHECKLIST-NICOLA rigenerata (AR-030). Coerenza-fatti exit 0.",
   "opportunita": [
     {
-      "titolo": "Pubblica il post kefir ora — siamo in fascia colazione",
-      "motivo": "36°C oggi, deadline 11:00 passata — prodotto reale PQ pronto in coda",
+      "titolo": "Venerdì Piacentini domani 17/7 — primo ordine ritiro al banco PQ",
+      "motivo": "T-1 evento, centro pieno, 33°C sera, PQ in Via Calzolai — finestra unica per North Star 0→1 senza bici",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "VP 17/7: primo ordine con ritiro al fornaio",
-      "motivo": "Ultimo Venerdì Piacentini + Via Calzolai in festa — 3 giorni",
-      "impatto": "alto",
-      "sforzo": "medio"
+      "titolo": "Post kefir stasera/domani mattina presto",
+      "motivo": "Post pronto, caldo estivo, serve solo link lista d'attesa + foto",
+      "impatto": "medio",
+      "sforzo": "basso"
     },
     {
-      "titolo": "Approva i 494 campi catalogo in automatico",
-      "motivo": "Supervisione propone condition+unit — reversibile, catalogo più completo",
+      "titolo": "Approva autofill 252+242 prodotti",
+      "motivo": "Catalogo PQ più professionale prima del VP, reversibile",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Dai il via al post kefir sui gruppi locali",
-      "motivo": "Colazione fresca senza uscire col caldo — serve link lista d'attesa",
+      "titolo": "Chiama Pane Quotidiano OGGI — 0523 388601",
+      "motivo": "Conferma presidio VP 17/7 al banco Via Calzolai — script #ritiro-pq-vp17-checkin",
       "livello": "rosso"
     },
     {
-      "titolo": "Approva la PR che sistema Onestà sui numeri",
-      "motivo": "Card #143 / PR #379 — ultima scheda fantasma radiografia",
+      "titolo": "Pubblica il post kefir stasera o domani mattina",
+      "motivo": "Porta traffico al sito prima del VP — serve link lista d'attesa",
       "livello": "rosso"
     },
     {
-      "titolo": "Conferma i campi catalogo proposti dalla supervisione",
-      "motivo": "494 riempimenti automatici reversibili",
+      "titolo": "Approva PR #380, #381, #403 dal Pannello",
+      "motivo": "Fix Pannello (foto allegati, costo AI, fix tecnici) — 3 PR in coda",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Metti BURN_MENSILE_EUR in vps/.env",
+      "motivo": "Runway sconosciuto da 109 giri — anche una stima (es. 150€/mese) sblocca il calcolo",
       "livello": "giallo"
     }
   ]

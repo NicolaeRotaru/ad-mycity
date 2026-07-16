@@ -1,50 +1,52 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-14 11:01",
+  "data": "2026-07-16 12:24",
   "voto_fiducia": 91,
-  "trend_fiducia": "▲ 91 (da 90 02:48): giro 14/7 11:01. REST live conferma invariato. Chiusura-loop gate OK (ESITO @intelligence + @analista). Coerenza-fatti exit 0. -1 debrief visita ancora aperto.",
-  "sintesi": "Giro 14/7 11:01 — business fermo (~497h stallo, North Star 0). REST ok. T-3 VP 17/7. Post kefir in scadenza fascia colazione. Mossa n.1: pubblica post kefir + link lista d'attesa.",
+  "trend_fiducia": "▲ 91 (stabile): giro 16/7 12:24. REST live confermato. HARD vincoli chiusi: chiusura-loop ✅ @ad, coerenza-fatti ✅ exit 0, AR-030 ✅ CHECKLIST-NICOLA rigenerata. Business invariato dal 24/6, T-1 VP 17/7.",
+  "sintesi": "Giro 16/7 12:24 — business fermo (~531h stallo, North Star 0). REST ok. T-1 VP 17/7. Mossa n.1: chiama PQ OGGI 0523 388601 (script #ritiro-pq-vp17-checkin). Stasera/domani mattina: post kefir. PR #380/#381/#403 da mergiare.",
   "verifiche": [
-    "Entità: PQ confermato REST 11:01 (1 approved, 5 prodotti seller_id PQ).",
-    "Numeri: REST ordini=1 CANCELED, 0/7g, 23 profili, 250 available — = vs 02:48.",
-    "Coerenza-fatti: exit 0.",
-    "Chiusura-loop: gate OK — ESITO @intelligence + @analista registrati.",
+    "Entità: PQ confermato REST 12:20 (1 approved, 5 prodotti seller_id PQ).",
+    "Numeri: REST ordini=1 CANCELED, 0/7g, 23 profili, stallo ~531h — invariati vs 12:01.",
+    "Coerenza-fatti: exit 0 (3 cacce chiuse sul pattern 'Cursor di default', file editato).",
+    "Chiusura-loop: gate OK — ESITO @ad registrato CLI (mezzogiorno 16/7).",
+    "AR-030: CHECKLIST-NICOLA rigenerata (aggiornato 2026-07-16 12:24).",
     "Allocazione: nessun asset pesante su prospect.",
-    "Benchmark: briefing 11 sezioni, titoli umani in digest."
+    "Sensori: REST ok 12:20 · MCP cieco sessione (1 giro) · Stripe ok · Resend ok · n8n cieco 10 giri · PostHog non_configurato."
   ],
   "errori": [],
   "risposte_registrate": [],
   "domande_per_nicola": [
-    "Link lista d'attesa per post kefir (pubblica ora)?",
-    "Via libera post Il Turno VP 17/7?",
-    "Approva #143 (PR #379 Onestà numeri)?",
-    "Debrief visita 13/7 — esiti reali?",
-    "BURN_MENSILE_EUR in vps/.env?"
+    "Link lista d'attesa per post kefir?",
+    "Esito telefonata PQ (0523 388601) — confermato per VP 17/7?",
+    "Quando è operativa la bici elettrica? (stima ~28/7)",
+    "Debrief visita 13/7 — esiti reali dei 6 prospect?",
+    "BURN_MENSILE_EUR in vps/.env (anche stima)?"
   ],
   "punti_ciechi": [
-    "Esito visita 13/7 non debriefato",
-    "MCP Supabase cieco sessione",
-    "abandoned_carts count REST non leggibile",
-    "MARKETPLACE_SITE_URL assente — uptime non monitorato"
+    "MCP Supabase cieco sessione — prodotti/carrelli non ri-misurati",
+    "n8n cieco 10 giri — causa radice non verificata",
+    "MARKETPLACE_SITE_URL assente — uptime non monitorato",
+    "Esito visita 13/7 non debriefato da Nicola"
   ],
   "miglioramenti_prossimo_giro": [
-    "Post kefir pubblicato → misura click lista",
-    "Countdown VP 17/7 operativo",
-    "Debrief visita → pipeline vendite"
+    "VP 17/7 domani sera — primo ordine ritiro banco PQ",
+    "Post kefir stasera/domani mattina",
+    "Dopo VP: debrief + update pipeline prospect"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok (11:01, giri_ciechi=0)",
+    "supabase_rest": "ok (12:20, giri_ciechi=0)",
     "mcp_supabase": "cieco sessione (1 giro)",
     "stripe": "ok balance API",
     "resend": "ok",
+    "n8n": "cieco (10 giri)",
     "posthog": "non_configurato",
     "loop_business": "aperto (North Star 0)",
-    "voto_salute_architettura": 100,
-    "cantiere_difetti": "43 chiusi · 0 aperti-davvero",
-    "automazione": "tutto verde 11:01"
+    "voto_salute_architettura": 91,
+    "cantiere_difetti": "chiusura-loop ok · coerenza-fatti exit 0 · AR-030 chiuso",
+    "automazione": "verde (REST ok, sensori nominali)"
   },
   "verifiche_benchmark": {
     "ok": true,
-    "note": "Giro onesto su business fermo — mossa n.1 allineata a deadline colazione e VP 17/7"
+    "note": "Giro onesto su business fermo — mossa n.1 allineata a finestra VP 17/7. HARD vincoli completati prima di scrivere memoria."
   }
 }

@@ -925,4 +925,8 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-16 — 🕛 PUNTO DI MEZZOGIORNO (AD · 12:01)
 - 2026-07-16 12:01 · @ad · FATTO · Punto di mezzogiorno: business invariato (REST ok, stallo ~531h ≈ 22,1 giorni, ordini=1 annullato, clienti=23). Tre priorità tutte ❌ (fornaio, PR Pannello, burn mensile). Correzione: post kefir sposto a stasera/domani mattina presto (finestra colazione chiusa). Delta-gate heartbeat ok.
+
+### 2026-07-16 — 🛰️ GIRO COMPLETO (AD · 12:24)
+- 2026-07-16 12:24 · @ad · FATTO · Giro completo 16/7 12:24. Business INVARIATO (REST ok, ordini=1 annullato, clienti=23, North Star 0, stallo ~531h). T-1 VP 17/7. Tre HARD vincoli chiusi: ① chiusura-loop ESITO @ad (CLI `registra`) ② coerenza-fatti exit 0 (file editato + 3 cacce chiuse) ③ AR-030 CHECKLIST-NICOLA rigenerata (aggiornato 12:24). Briefing 11 sezioni aggiornato in [[Briefing/2026-07-16]]. STATO, ultimo-briefing, auto-analisi, intenzioni aggiornati.
+- 2026-07-16 12:24 · @ad · SERVE · Nicola: 🔴 OGGI chiama PQ **0523 388601** (card #ritiro-pq-vp17-checkin, script pronto) · 🔴 stasera/domani post kefir (#post-kefir-estate-1407, serve link lista d'attesa) · 🔴 mergia PR #380/#381/#403 · 🟡 BURN_MENSILE_EUR in vps/.env · 🔴 domani VP 17/7 banco PQ = North Star 0→1.
 - 2026-07-16 12:01 · @ad · SERVE · Nicola: 🔴 chiama PQ **0523 388601** ORA o entro 17:00 (VP domani, script in #ritiro-pq-vp17-checkin) · 🔴 post kefir stasera o domani mattina (#post-kefir-estate-1407) · 🟡 Approva PR #383/#381/#380 dal Pannello · 🟡 `BURN_MENSILE_EUR=XXXX` in `vps/.env`.
