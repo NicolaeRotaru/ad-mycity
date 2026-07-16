@@ -1,16 +1,19 @@
-## Summary
-- La chat principale dell'Assistente ora include la **memoria delle conversazioni precedenti** (prima funzionava solo nelle caselle Archivio).
-- Memoria più ricca: 6 chat recenti, 4 scambi ciascuna, messaggi fino a 360 caratteri (prima 4/3/220).
-- Il worker inietta anche la **situazione attuale** da STATO.md nel contesto di ogni messaggio chat.
+## 7 miglioramenti all'Assistente chat
 
-## Perché
-Nicola segnalava che l'AD sembrava «limitato nel ragionamento»: in parte era il formato corto, in parte un **bug** — l'Assistente principale non passava `bloccoMemoriaChat` al cervello, quindi ogni nuova chat partiva davvero a zero anche se lo storico esisteva nel database.
+### Cosa è cambiato
+1. **Streaming senza flash** — la bolla durante la risposta usa ora `<Markdown>` (come quella finale), quindi quando Claude finisce di scrivere il DOM non si smonta/rimonta → niente più lampeggio.
+2. **Chat fullscreen** — la sezione Assistente non è più una card fissa con `max-h-[60vh]`: ora si espande per tutta l'altezza disponibile dello schermo, come Claude.ai.
+3. **Caselle duplicate eliminate** — la chat fluttuante si nasconde automaticamente quando sei nell'area Assistente.
+4. **Ordinamento per ultima attività** — le conversazioni si riordinano per `updated_at`: mandare un messaggio in una chat vecchia la porta in cima.
+5. **Ricerca nelle conversazioni** — campo di ricerca nel cassetto che filtra in tempo reale per titolo e contenuto dei messaggi (funziona sia nell'Assistente che nel FAB).
+6. **Motore di ricerca nella nav bar** — `RicercaGlobale` spostata come seconda riga dell'header (prop `inHeader` con stile integrato), rimossa dal corpo della pagina.
+7. **Anteprima foto sopra i pulsanti** — `AnteprimaAllegatiChat` spostata sopra i bottoni ⚡📎🎤 in `BarraScritturaChat`.
 
-## Come provare
-1. Approva e mergia la PR → attendi deploy Vercel (~2 min) + `sudo systemctl restart mycity-worker-chat` sul VPS.
-2. Apri una **nuova** conversazione nell'Assistente.
-3. Chiedi qualcosa che hai già discusso ieri in un'altra chat (es. «che negozi abbiamo firmato sabato?»).
-4. L'AD dovrebbe rispondere usando la memoria precedente, non chiedere «di cosa parli?».
-
-## Non incluso (voluto)
-- Azioni sul mondo reale (email, post, deploy, soldi) restano 🔴 — serve sempre la firma di Nicola. Non è un limite da togliere, è sicurezza.
+### Come provare
+- Apri l'Assistente: deve riempire tutto lo schermo verticale.
+- Manda un messaggio e guarda lo streaming: deve crescere fluido, senza flash.
+- Vai in un'altra vista (es. Plancia): deve comparire il FAB "Parla con l'AD", non la doppia chat.
+- Manda un messaggio in una chat vecchia: deve salire in cima alla lista.
+- Digita nel campo ricerca del cassetto: le conversazioni si filtrano.
+- Cerca nella barra in alto nell'header: deve funzionare senza aprire il menu.
+- Allega una foto: l'anteprima appare sopra i pulsanti, non sotto.

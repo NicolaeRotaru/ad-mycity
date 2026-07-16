@@ -17,6 +17,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
+
+**Cosa fare (sul VPS, nel `.env` del worker-chat):**
+
+Nicola ha confermato: vuole ragionamento profondo interno + output breve. Non serve PR — è un parametro nel `.env`.
+
+Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e alzala al massimo consentito dal modello (tipicamente `10000` o il valore indicato nella config del worker).
+
+**Cosa cambia:** la chat «pensa di più» prima di rispondere — più profondità nell'analisi, stessa risposta breve all'esterno.
+**Se va bene:** nei turni con domande complesse vedrai risposte meglio ragionate senza diventare più lunghe.
+
+- **Colore:** 🟡 (modifica env VPS — Nicola la fa)
+- **Reparto:** prompt-engineer
+
+---
+
 ### 🟡 #burn-mensile-runway — Imposta quanto spendiamo al mese per calcolare il runway · ⏳ accodata 2026-07-14 03:26
 
 **Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
@@ -1207,6 +1223,9 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 162 | 2026-07-15 19:11 | @tech | Merge PR #402 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/402 | github | ✅ FATTO 2026-07-15 19:20 · mergiata su main | Chat casella: Invia non resta bloccato, risposte con contesto scheda, niente «risposta vuota». | Deploy Vercel ~2 min → ricarica Pannello (iPhone: chiudi e riapri app). |
 | 163 | 2026-07-16 01:05 | @tech | Merge PR #403 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/403 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 164 | 2026-07-16 11:27 | @tech | Merge PR #404 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/404 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 165 | 2026-07-16 16:14 | @tech | Merge PR #409 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/409 | github | ❌ ANNULLATA 2026-07-16 17:00 — sostituita da PR #410 che contiene entrambe le fix | Superata dalla PR #410 (briefing/sala chiuse + Storico→Memoria viva). | — |
+| 166 | 2026-07-16 16:27 | @tech | Mergia PR #410 — Pannello: briefing/sala chiuse + Storico→Memoria viva | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/410 | github | in attesa | Contiene 2 fix: (1) Briefing e Sala Operativa chiuse di default in Memoria viva; (2) Tab Storico eliminato, i 3 sotto-tab (Decisioni · Quaderni senior · Stato & numeri) spostati dentro Memoria viva. Branch pulito, nessun conflitto. | Dopo Approva: merge automatico + deploy Vercel ~2 min → ricarica Pannello (Ctrl+Shift+R). |
+| 167 | 2026-07-16 16:55 | @tech | Merge PR #411 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/411 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
@@ -1351,7 +1370,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-16 12:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-16 16:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-16-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
