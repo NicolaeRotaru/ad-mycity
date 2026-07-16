@@ -52,6 +52,24 @@ La casa di JARVIS è la **chat che Nicola già usa nel Pannello**. Avrà due mar
 Le due marce si parlano: ciò che si decide parlando in live può **far partire un lavoro vero** che i senior
 eseguono con i cancelli di sicurezza. *Parli → lei prepara → Nicola firma le cose pesanti.*
 
+## ⭐ Principio non negoziabile: JARVIS È la chat del Pannello, potenziata (non un secondo assistente)
+
+Requisito esplicito di Nicola: la modalità JARVIS **deve funzionare anche come la chat del Pannello** — con
+**tutte** le sue capacità, non solo voce e telecamera. Quindi:
+
+- **Stesso cervello, stessa memoria, stesse capacità.** JARVIS ha accesso a tutto ciò che ha la chat di
+  oggi: il worker, i **~120 senior**, la memoria del vault, le azioni con firma. Non è una versione ridotta.
+- **Una sola conversazione, un solo filo.** Che Nicola scriva o parli, è la **stessa** conversazione con la
+  **stessa** memoria: quello che dice a voce lo ritrova scritto in chat e viceversa. Non due stanze separate.
+- **Il "live" sono sensi nuovi sullo stesso cervello.** Il modello live è **orecchie + bocca + occhi** in
+  tempo reale, agganciati al cervello che già c'è (worker + senior). Per i compiti pesanti la modalità live
+  **passa la palla ai senior** esattamente come la chat normale ("un attimo, lo passo ai senior" → risposta
+  profonda subito dopo). Latenza istantanea sui sensi, profonda sul lavoro vero — come oggi.
+
+**Conseguenza tecnica (il ponte):** il layer live (voce/vision realtime) e il motore chat esistente
+(worker + coda `lavori` + senior) vanno **cuciti sulla stessa conversazione e sulla stessa memoria di
+sessione** — non costruiti come due sistemi scollegati. Questo è un vincolo di progetto dell'Organo #2.
+
 ## 📷 Lo scatto foto è una funzione SEMPRE disponibile (non chiusa dentro JARVIS)
 
 Requisito di Nicola: scattare la foto deve funzionare in **tre modi**, indipendenti:
