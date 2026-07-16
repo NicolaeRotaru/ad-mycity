@@ -127,6 +127,57 @@ Nel film JARVIS agisce libero. Qui l'AD gira **soldi, dati e negozi veri**. Quin
 
 ---
 
+# 🧰 Roster completo dei poteri di JARVIS (scelta di Nicola, 2026-07-16)
+
+Nicola ha approvato **tutte** le funzionalità qui sotto (**escluso** dare un nome/personalità
+all'assistente: resta "l'AD / JARVIS di MyCity", senza battezzarlo). Tag: ✅ = riuso di roba già
+esistente · 🎙️ = serve la chiave del modello "live" · ✋ = serve accendere le mani di scrittura ·
+🆕 = da costruire nuovo.
+
+## 💬 Conversazione JARVIS live — si apre e si chiude *(richiesta esplicita di Nicola)*
+Una **sessione di conversazione parlata in tempo reale** che **accendi e spegni** con un pulsante:
+mentre è aperta, parli e lei risponde a voce, **tiene il filo del discorso** (ricorda cosa vi siete
+detti nella sessione) e vede la telecamera se è accesa; quando la chiudi, torna alla chat normale.
+È il "modo JARVIS" acceso/spento a comando. 🎙️🆕
+
+## 👁️ Occhi
+- Scatto foto → scheda prodotto, in 3 modi (live / voce-senza-video / foto semplice). ✅🆕
+- Scansione **codice a barre / EAN** → prodotto compilato da solo. ✅
+- **Scaffale intero** → tanti prodotti in un colpo (batch). ✅
+- **OCR etichette** → prezzo dal cartellino, ingredienti, scadenza. 🆕
+- **"Ce l'hai già?"** → riconosce il duplicato, aggiorna invece di creare. 🆕
+- **Foto-prodotto pro** → scontorno, sfondo pulito, resa e-commerce. 🆕
+
+## 🗣️ Voce e comando
+- **Risponde a voce** (TTS in uscita). 🎙️
+- **Pilota il Pannello parlando** ("portami sul negozio X", "mostrami gli ordini di oggi"). 🆕
+- **Detta la descrizione** → parli e lei scrive la scheda. ✅
+
+## 🔔 Proattivo (ti anticipa lui)
+- **Avvisi**: ordine fermo, negozio in calo, foto mancanti, meteo/consegne. ✅ *(riusa le sentinelle)*
+- **Briefing del mattino parlato**. 🆕
+- **Avvisi mentre lavori** ("quel prezzo è sotto il margine"). 🆕
+
+## ✋ Agisce (le mani, sempre a firma di Nicola)
+- **Azioni a voce**: "aggiungi questo prodotto", "abbassa il pane a 2€", "manda l'email di benvenuto"
+  → prepara pronto, tu firmi le cose pesanti. ✋
+- **Chiama i senior in diretta** ("chiedi al pricing-scientist se 8,90 è giusto"). 🆕
+
+## 🧠 Memoria (senza nome/personalità)
+- **Ricorda le tue preferenze** (prezzi tondi, negozi che segui tu). ✅
+- **Impara dai tuoi "no"** → quando correggi, la volta dopo ci azzecca di più. 🆕
+- ❌ *Escluso su richiesta di Nicola:* dare un nome/personalità all'assistente.
+
+## 📱 Dove la trovi
+- **Sempre presente** → pulsante fluttuante in ogni schermata del Pannello. 🆕
+- **Sul telefono** → scorciatoia/app per scattare i prodotti girando per il negozio. 🆕
+
+> Questi poteri si distribuiscono sugli organi #1→#4 qui sotto: gli 🆕/🎙️ pesanti (voce live,
+> conversazione apri/chiudi, pilotare a voce, agire a voce) maturano con gli organi #2–#3; i ✅
+> (foto, barcode, batch, avvisi da sentinelle, detta descrizione) sono i **primi frutti** già raccoglibili.
+
+---
+
 # 🧩 Il piano per gradi — un organo alla volta
 
 Ogni gradino è **già utile da solo** e regge il successivo.
@@ -136,16 +187,23 @@ Nel Pannello: apri la chat → scegli un negozio → **telecamera accesa** → i
 (o lo fa lei) → il motore del marketplace lo **vede e compila** (nome, descrizione, categoria, prezzo
 suggerito, foto) → **bozza da confermare** → al tuo ok entra in catalogo come `draft`. Il pulsante microfono e
 il video live sono già presenti nell'interfaccia (si attivano pieni con la chiave "live").
-Valore: **il 90% del bisogno reale** (caricare prodotti parlando/mostrando invece di compilare form).
+Ci si agganciano i **primi frutti ✅ già raccoglibili**: **scansione codice a barre / EAN**, **scaffale
+intero (batch)**, **detta la descrizione a voce**. Valore: **il 90% del bisogno reale** (caricare prodotti
+parlando/mostrando invece di compilare form). Poteri 🆕 vicini: OCR etichette, "ce l'hai già?", foto-prodotto pro.
 
-### Organo #2 — Voce viva
-Microfono acceso → risposta a voce in tempo reale + video live continuo (modello "live" collegato).
+### Organo #2 — Voce viva + conversazione JARVIS apri/chiudi
+Microfono acceso → risposta **a voce** in tempo reale + **video live** continuo (modello "live" collegato).
+Include la **sessione di conversazione live che si apre e si chiude** (tiene il filo del discorso) e il
+**pilotare il Pannello parlando** ("portami sul negozio X").
 
-### Organo #3 — Mani accese in sicurezza
+### Organo #3 — Mani accese in sicurezza + azioni a voce
 Dal Pannello si modifica un negozio: prodotti, prezzi, foto, orari — sempre con backup, annullabile, a firma.
+Include **agire a voce** ("aggiungi questo", "abbassa il prezzo") e **chiamare i senior in diretta**.
 
-### Organo #4 — Presenza
-L'assistente sempre lì, in ogni schermata del Pannello, che segue Nicola mentre lavora sul marketplace.
+### Organo #4 — Presenza + proattività + memoria
+L'assistente **sempre lì**, in ogni schermata del Pannello (e sul telefono), che segue Nicola mentre lavora.
+Include gli **avvisi proattivi** (ordini fermi, negozi in calo, foto mancanti — dalle sentinelle), il
+**briefing del mattino parlato**, e la **memoria delle preferenze** (impara dai "no"). *Senza nome/personalità.*
 
 ---
 
