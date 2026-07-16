@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 01:15 · 🟡 · [AD] · **Token Vercel messo nel worker da Nicola — posto sbagliato. Va nel `.env` del VPS.** Nicola ha risposto "ho inserito il token vercel dentro il worker" — l'AD ha risposto che il MCP Vercel non si attiva così: il token va nel file `.env` del VPS come variabile d'ambiente (`VERCEL_TOKEN=...`), non in un file sorgente del worker. Passo aperto: Nicola deve rincollare il token nel `.env` corretto. Finché non fatto, Vercel non è raggiungibile dalla chat del Pannello.
+
 2026-07-17 ~00:10 · 🟢 · [Nicola] · **Token Vercel inserito nel worker da Nicola — conferma esplicita.** Nicola ha risposto "ho inserito il token vercel dentro il worker" alla domanda dell'AD "Cosa hai fatto esattamente?". Il token è ora nel worker VPS. La metabolizzazione precedente aveva registrato "senza ricevere risposta" perché la risposta era arrivata nell'ultimo turno non catturato. Card #vercel-token-vps: token IN worker, verificare che il MCP Vercel funzioni dalla prossima sessione.
 
 2026-07-17 02:45 · 🟡 · [Nicola] · **Nicola ha detto "fatto" dopo la richiesta di creare il token Vercel — valore non ancora incollato.** Fine chat 17/7: l'AD ha chiesto di creare il token su Vercel, Nicola ha risposto "fatto" ma il valore non è mai arrivato. L'AD ha chiesto chiarimento ("cosa hai fatto?") senza ricevere risposta. Al prossimo avvio chat: chiedere subito se il token è pronto e incollarlo. Card aggiornata: #vercel-token-vps.
