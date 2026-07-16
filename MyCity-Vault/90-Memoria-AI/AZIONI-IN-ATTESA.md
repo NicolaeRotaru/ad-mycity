@@ -17,6 +17,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #pr-chat-conv-pulsanti — Apri la PR per conversazione in cima + pulsanti in basso · ⏳ accodata 2026-07-16 22:25
+
+Branch: `fix/chat-pulsanti-in-basso-conv-in-cima` · commit `7bf1294a` · typecheck verde
+
+**Cosa cambia:** i pulsanti Conversazioni e Nuova chat compaiono anche in fondo alla chat (non devi scrollare su); la conversazione aperta ora appare sempre prima nella lista.
+**Se va bene:** build Vercel deploierà le fix automaticamente dopo il merge.
+
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --title "chat: conv aperta in cima + pulsanti Conversazioni/Nuova in basso"
+```
+
+---
+
 ### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
 
 **Cosa fare (sul VPS, nel `.env` del worker-chat):**
