@@ -31,17 +31,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #fix-guardiano-coerenza-fatti — Metti il guardiano coerenza-fatti in allowlist per girare senza approvazione · ⏳ accodata 2026-07-17 18:45
+### ✅ #fix-guardiano-coerenza-fatti — FATTO 2026-07-17 23:31
 
-**Problema:** il guardiano `node cervello/coerenza-fatti.mjs` non è in allowlist. Conseguenza: i giri automatici non lo eseguono, e pattern con caccia già "chiusa" vengono re-introdotti senza che nessuno li rilevi. Esempio: "bando ER scade 21/7" citato per errore nei giri dal 12/7 al 17/7 anche dopo la chiusura della caccia dell'11/7.
-
-**Fix:** aggiungere `node cervello/coerenza-fatti.mjs` (senza parametri) all'allowlist in `.claude/settings.local.json` → run automatico a ogni giro senza richiedere l'approvazione di Nicola.
-
-**Cosa cambia:** la macchina si controlla da sola su ogni giro e fallisce se trova un valore vecchio in un file vivo — la coerenza AR-102 diventa un vincolo hard.
-**Se va bene:** nessun altro errore sistematico come il bando ER 21/7 (file vivo che cita un fatto superato).
-
-- **Colore:** 🟡 (modifica settings.local.json — firma di Nicola)
-- **Reparto:** builder-automazioni / @AD
+Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cervello/coerenza-fatti.mjs:*)"` in allowlist (e wildcard `node cervello/*.mjs`); (2) `giro.sh` lo chiama in automatico alle righe 296 e 597 senza passare per la chat. `settings.local.json` è in directory protetta (denied) — non modificabile dalla chat, ma non necessario perché le allow list sono additive. Nicola ha approvato la proposta dal Pannello 2026-07-17 23:29.
 
 ---
 
