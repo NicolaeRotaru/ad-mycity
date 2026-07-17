@@ -59,6 +59,19 @@ Token in `cervello/vps/.env` ✅ · Worker riavviato da Nicola ("adesso l'ho ria
 
 ---
 
+### 🟡 #fix-git-email — Configura email git riconosciuta da GitHub per i commit dell'AD · ⏳ accodata 2026-07-17 02:55
+
+**Cosa fare:**
+In `.gitconfig` sul VPS (o via `git config --global user.email`) impostare un'email verificata su GitHub, es. `nicolaflorea50@gmail.com`. Attualmente i commit dell'AD escono con `ad@city.local` che non esiste su GitHub — Vercel mostra un warning sull'autore (non un errore di codice: il merge resta verde e il build parte).
+
+**Cosa cambia:** i commit dell'AD mostreranno l'avatar corretto su GitHub, Vercel non mostrerà più il warning sull'autore.
+**Se va bene:** nessuna altra sessione sarà disturbata da quel warning; la diagnostica Vercel sarà più pulita.
+
+- **Colore:** 🟡 (modifica config git globale sul VPS — 2 righe, da approvare)
+- **Reparto:** devops-sre
+
+---
+
 ### 🟡 #vercel-script — Crea script `cervello/vercel.mjs` per vedere Vercel dalla chat · ⏳ accodata 2026-07-17 02:15
 
 **Cosa fare:**
