@@ -1448,9 +1448,15 @@ export default function Dashboard() {
     if (!t && daCaricare.length === 0) return;
     setAllegatiChat([]);
 
-    // CODA MESSAGGI: se l'AD sta ancora elaborando, mostra subito la bolla utente
-    // e accoda — verrà inviata automaticamente a risposta ricevuta.
-    if ((loadingRef.current || pendingLavoroChatRef.current.size > 0) && !bubblaGiaMostrata) {
+    // CODA MESSAGGI: se l'AD sta ancora elaborando IN QUESTA conversazione, mostra subito la
+    // bolla utente e accoda — verrà inviata automaticamente a risposta ricevuta.
+    // ⚠️ Guarda SOLO `loadingRef.current` (che è già ricalcolato per-conversazione a ogni cambio
+    // chat via setLoading(pendingPerConv(id))): NON usare la dimensione GLOBALE della mappa dei
+    // pendenti. Un pendente residuo/di un'altra conversazione (anche uno stantìo ripristinato da
+    // localStorage e mai risolto) faceva scattare la guardia per SEMPRE → ogni nuovo messaggio
+    // finiva solo in codaMsgRef senza diventare un lavoro, e il drain (legato a `loading`, che non
+    // cambiava) non partiva mai: «scrivo ciao ma non si mette in coda». (regressione «fix: 3 bug chat»)
+    if (loadingRef.current && !bubblaGiaMostrata) {
       const nomiAllCoda = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
       const bollaCoda = [t, nomiAllCoda].filter(Boolean).join("\n");
       setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: bollaCoda }]);
@@ -1676,14 +1682,17 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     );
   }
 
-  // Drain automatico: quando loading torna false, manda il prossimo messaggio in coda
+  // Drain automatico: appena siamo di nuovo liberi, manda il prossimo messaggio in coda.
+  // Dipende ANCHE da pendingCount (non solo da loading): così un messaggio accodato non può
+  // restare orfano se lo stato torna idle senza una transizione di `loading` (rete di sicurezza
+  // contro il blocco «la coda non si svuota mai»).
   useEffect(() => {
     if (!loading && codaMsgRef.current.length > 0) {
       const prossimo = codaMsgRef.current.shift()!;
       void mandaAlCervello(prossimo, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, [loading, pendingCount]);
 
   const caricaStato = useCallback(async () => {
     try {
