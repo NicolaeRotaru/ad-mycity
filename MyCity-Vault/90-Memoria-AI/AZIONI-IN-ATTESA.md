@@ -59,6 +59,21 @@ Token in `cervello/vps/.env` ✅ · Worker riavviato da Nicola ("adesso l'ho ria
 
 ---
 
+### 🟡 #vercel-script — Crea script `cervello/vercel.mjs` per vedere Vercel dalla chat · ⏳ accodata 2026-07-17 02:15
+
+**Cosa fare:**
+Scrivere `cervello/vercel.mjs` — uno script Node che, usando `VERCEL_TOKEN` dall'env, chiama l'API REST Vercel (https://api.vercel.com/v6/deployments) e mostra lo stato e i log degli ultimi deploy. Poi aggiungere `node cervello/vercel.mjs` in allowlist in `settings.local.json`.
+
+**Perché:** Nicola ha chiesto "come faccio a sbloccarti gli strumenti?" (17/7). La strada sicura è uno script dedicato per ogni API esterna — non `node -e` o `curl` generici. Dopo l'ok, lo scrivo e apro la PR.
+
+**Cosa cambia:** dall'AD potrò interrogare Vercel (log build, errori, deploy status) senza bisogno di chiedere a Nicola di copiare il testo dell'errore.
+**Se va bene:** build Vercel falliti diagnosticati in autonomia, senza blocchi.
+
+- **Colore:** 🟡 (script nuovo + modifica allowlist → approvazione Nicola prima)
+- **Reparto:** builder-automazioni
+
+---
+
 ### 🟡 #streaming-worker — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
 
 **Cosa fare (nel worker-chat, NON nel Pannello):**

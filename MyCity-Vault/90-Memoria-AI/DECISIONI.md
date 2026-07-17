@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 02:30 · 🟡 · [AD proposta] · **Script dedicato `cervello/vercel.mjs` per accesso Vercel dalla chat.** Nicola ha chiesto "come faccio a sbloccarti gli strumenti?" — l'AD ha risposto che la strada sicura è uno script dedicato per ogni API esterna (non node/curl generici), da aggiungere all'allowlist. Accodata azione #vercel-script in AZIONI-IN-ATTESA. Attende ok di Nicola.
+
 2026-07-17 02:20 · ✅ · [Nicola] · **VERCEL_TOKEN attivo — worker riavviato.** Nicola ha inserito il token in `cervello/vps/.env` (path corretto, verificato da systemd) e ha confermato «adesso l'ho riavviato». MCP Vercel disponibile dalla prossima sessione della chat del Pannello. Lezione permanente già aggiornata in LEZIONI-CHAT.md.
 
 2026-07-17 02:08 · ✅ · [AD/esegui-azione] · **PR #420 ad-mycity → main: già mergiata (merge commit 4da9da25).** Azione approvata dal Pannello; la PR era già in stato "closed" su GitHub perché il merge era avvenuto in precedenza (branch `fix/scroll-conv-bottom`, commit `e7f15aa0`). Fix: scroll al fondo quando si cambia conversazione. Nessuna nuova azione necessaria. Azione #171 segnata ✅ FATTO in AZIONI-IN-ATTESA.
