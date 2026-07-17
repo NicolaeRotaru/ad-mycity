@@ -17,6 +17,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #mergia-pr-432 — Mergia PR #432 per pulire la coda da 121 job errore · ⏳ accodata 2026-07-17 12:10
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/432 · Branch: `fix/pulisci-coda`
+
+**Dopo il merge, dal terminale VPS:**
+1. `node cervello/pulisci-coda.mjs` — dry-run, vedi quanti pulisce senza toccare niente
+2. `node cervello/pulisci-coda.mjs --esegui` — esegue la pulizia
+
+**Cosa cambia:** la coda passa da 121 a ~2-3 (solo i job attivamente in attesa o in corso). Le azioni approvate da Nicola non vengono mai toccate.
+**Se va bene:** il numero "In coda" nel Pannello torna a un valore reale e leggibile; il worker continua a girare normalmente.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** builder-automazioni
+
+---
+
 ### 🔴 #post-vp-day-1707 — Pubblica "Stasera è il tuo turno" per il gran finale Venerdì Piacentini · ⏳ accodata 2026-07-17 11:56
 
 **Contenuto completo:** `consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md`
