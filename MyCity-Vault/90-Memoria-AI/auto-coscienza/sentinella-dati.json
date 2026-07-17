@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-18 01:00",
+  "aggiornato": "2026-07-18 01:02",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "45",
@@ -20,12 +20,11 @@
     },
     "negozio_fermo": {
       "ultima_firma": "c0b240c0-2a86-4218-9d0f-5154f08ff929",
-      "ultimo_accodato": "2026-07-17 00:02",
-      "ultimo_accodato_iso": "2026-07-16T22:02:00.000Z",
-      "ultimo_job": "256fc44e-a4c3-4963-b1f7-0ec86018b823",
+      "ultimo_accodato": "2026-07-18 01:01",
+      "ultimo_accodato_iso": "2026-07-17T23:01:04.621Z",
+      "ultimo_job": "ad6ad8c7-b4d8-491b-ad2d-9ab4721a5e96",
       "colore": "🟡",
-      "ambito": "azioni",
-      "_nota": "17/7: falso positivo PQ — azione #ritiro-pq-vp17-checkin già in coda. Cooldown resettato per bloccare ri-scatti."
+      "ambito": "azioni"
     },
     "worker_morto": {
       "ultima_firma": "2026-07-14T01:37:41+02:00",
@@ -57,15 +56,21 @@
       "ultimo_job": "c3c3230c-ebf3-4e76-ad87-ecb802c46805",
       "colore": "🟡",
       "ambito": "macchina"
+    },
+    "fonti_web_morte": {
+      "ultima_firma": "comune-news,comune-eventi,comune-imprese",
+      "ultimo_accodato": "2026-07-18 01:01",
+      "ultimo_accodato_iso": "2026-07-17T23:01:04.621Z",
+      "ultimo_job": "75a26202-b7c2-4cd6-a2f6-3d44f62abcd3",
+      "colore": "🟡",
+      "ambito": "macchina"
     }
   },
   "accodati_giorno": {
     "giorno": "2026-07-18",
-    "n": 3
+    "n": 5
   },
   "accodati_ts": [
-    "2026-07-04T04:00:35.832Z",
-    "2026-07-04T08:05:01.936Z",
     "2026-07-04T08:21:17.985Z",
     "2026-07-04T09:31:03.832Z",
     "2026-07-06T12:26:08.932Z",
@@ -113,23 +118,13 @@
     "2026-07-17T04:20:53.757Z",
     "2026-07-17T22:00:50.652Z",
     "2026-07-17T22:00:50.652Z",
-    "2026-07-17T22:00:50.652Z"
+    "2026-07-17T22:00:50.652Z",
+    "2026-07-17T23:01:04.621Z",
+    "2026-07-17T23:01:04.621Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 13794,
+  "tick": 13796,
   "storia": [
-    {
-      "quando": "2026-07-17 22:57",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-17 22:58",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-17 22:59",
       "eventi": 6,
@@ -717,10 +712,22 @@
       "eventi": 6,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-18 01:01",
+      "eventi": 6,
+      "accodati": 2,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-18 01:02",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-18 01:00",
+    "quando": "2026-07-18 01:02",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
