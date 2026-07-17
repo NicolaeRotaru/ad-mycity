@@ -2839,7 +2839,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       {/* 💬 Chat fluttuante: "Parla con l'AD" da qualsiasi area. Nascosto nell'area Assistente (lì c'è la chat intera). */}
       {!chatFluttuante && !workerFull && vista !== "assistente" && (
         <button
-          onClick={() => setWorkerFull(true)}
+          onClick={() => setChatFluttuante(true)}
           className="fixed right-4 sm:right-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand text-white font-semibold text-sm px-4 py-3 shadow-hover hover:bg-brand-dark active:scale-95 transition"
           // safe-area iPhone (PWA): senza, il bottone finisce sotto la barra del gesto home. (mobile)
           style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
@@ -2851,12 +2851,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       )}
       {((chatFluttuante && vista !== "assistente") || workerFull) && (
         <>
-        {/* Overlay trasparente: chiude al click fuori (in finestra; a schermo intero copre tutto) */}
-        <div className="fixed inset-0 z-40" onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }} aria-hidden />
+        {/* Overlay trasparente: chiude al click fuori (in finestra; in workerFull parte sotto la navbar) */}
+        <div className={`fixed ${workerFull ? "inset-x-0 bottom-0 top-[var(--altezza-testata)]" : "inset-0"} z-40`} onClick={() => { segnaLettaChatAttiva(); setChatFluttuante(false); setWorkerFull(false); }} aria-hidden />
         <div
           className={
             workerFull
-              ? "fixed inset-0 z-50 flex flex-col overflow-hidden"
+              ? "fixed inset-x-0 bottom-0 top-[var(--altezza-testata)] z-50 flex flex-col overflow-hidden"
               : "fixed right-3 sm:right-6 z-50 w-[min(440px,calc(100vw-24px))] h-[min(660px,calc(100dvh-72px))] card flex flex-col overflow-hidden"
           }
           // safe-area iPhone (PWA): la barra della chat non deve finire sotto la barra del gesto home. (mobile)
@@ -2890,13 +2890,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
             <button
               onClick={() => {
-                setVista("assistente");
                 setChatFluttuante(false);
-                setWorkerFull(false);
+                setWorkerFull(true);
               }}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
-              aria-label="Apri la chat intera"
-              title="Apri la chat intera (con conversazioni ed esperti)"
+              aria-label="Schermo intero"
+              title="Apri il Worker a schermo intero"
             >
               <Maximize2 size={15} />
             </button>
