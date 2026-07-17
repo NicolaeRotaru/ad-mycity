@@ -145,7 +145,7 @@ Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → ha
 
 ---
 
-### 🟡 #bandi-cciaa-2007 — Prepara le bozze domanda per i bandi CCIAA BT26 ed BE26 (aprono domani 20/7, scadenza 30/7) · ⏳ accodata 2026-07-17 20:30
+### 🟡 #bandi-cciaa-2007 — Prepara le bozze domanda per i bandi CCIAA BT26 ed BE26 (aprono domani 20/7, scadenza 30/7) · 🔄 in lavorazione — kit pronto 2026-07-17 23:30
 
 **Bandi:** CCIAA Piacenza — Bando BT26 (digitalizzazione/e-commerce, fino a €7.000 al 40%) e BE26 (energia, fino a €20.000 al 50%). Aprono **domani 20/7 alle 9:00** — scadenza **30/7/2026**.
 
@@ -1908,7 +1908,7 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 
 ---
 
-### 🟢 #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · ⏳ accodata 2026-07-17 11:00
+### ✅ #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · FATTO 2026-07-17 23:30 → consegne/bandi/2026-07-17-kit-bandi-cciaa-bt26-be26.md
 
 **Cosa fare:** `@onboarding-negozi` + `@relazioni-istituzionali` preparano una scheda sintetica 1 pagina da includere nel kit onboarding dei prossimi negozi, con:
 - Bando BT26 (Piccole Imprese): fino a €7.000 · 40% a fondo perduto · scade 30/7 · spese: digitalizzazione / e-commerce ✅ · link CCIAA
