@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-17 23:34",
+  "aggiornato": "2026-07-17 23:41",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -1362,11 +1362,31 @@
         "presente": true
       },
       "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+    },
+    {
+      "id": "AR-136",
+      "titolo": "Falso positivo 'worker chat fermo': la sentinella uccide una chat SANA perché il worker-chat non batte mentre genera una risposta lunga",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "Dove: cervello/worker.sh _chat_stream_run (loop 'while kill -0 $pidc') · battito_worker (scrive worker:ultimo:$WORKER_LANE) chiamato SOLO in cima al loop principale (worker.sh:995-1002) · cervello/sentinella-lavori.mjs:196-213 (chatWorkerMorto: worker:ultimo:chat >5min && job updated_at >3min → stato=errore 'chat interrotta'). CATENA (5 perché): 1) Nicola vede '[sentinella] worker chat fermo da 7 min — chat interrotta' su una chat che stava lavorando bene → 2) perché la sentinella ha letto worker:ultimo:chat fermo da 7 min → 3) perché il worker-chat, dentro un turno lungo (lettura codice/subagent/ragionamento con poco testo nuovo), resta in _chat_stream_run per minuti e NON torna mai in cima al loop dove c'è l'unico battito → il per-lane si congela per tutto il turno; e i parziali che rinfrescano updated_at sono text-gated (si scrivono solo se il testo cresce), quindi nelle fasi di soli strumenti anche il job pare fermo → 4) perché il segnale di vita del worker (battito per-lane) coincide col non-fare-nulla-di-visibile, non col processo-vivo → 5) causa di sistema: 'vivo' era misurato come 'ha prodotto testo di recente', non come 'il processo/loop sta girando'. Prova che era vivo, non morto: badge Pannello '● Worker ON' (worker:ultimo generico batteva dal worker principale) + una morte reale si riavvia in ~10s (RestartSec=10, Restart=always) e non può restare muta 7 min. Effetto collaterale aggravante: appena la sentinella mette il job in 'errore', lo stesso _chat_stream_run legge stato≠in_corso e lo interpreta come 'sostituito da nuovo messaggio' → AMMAZZA la generazione viva e perde la risposta.",
+      "fix_proposto": "🟡 FATTO in codice (branch, da firmare/mergiare): in _chat_stream_run battere worker:ultimo:$WORKER_LANE + WATCHDOG systemd DENTRO il loop di generazione, throttle WORKER_BATTITO_SEC (curl già a timeout via AUTH). Così il battito per-lane torna un VERO segnale di vita: la sentinella fast-kill scatta SOLO a morte reale (loop fermo → nessun battito), mai su una risposta lunga ma sana. Invariante bloccata da test: CHAT_WORKER_MORTO_MIN (300s) >> WORKER_BATTITO_SEC (20s). Residuo minore: la chat NON-streaming (CHAT_STREAM=0, non è il default) resta senza battito durante la chiamata bloccante → tenere CHAT_STREAM=1, o (follow-up) heartbeat-keeper che osserva il PID padre.",
+      "colore": "🟡",
+      "stato": "in_corso",
+      "nato": "2026-07-17 23:26",
+      "chiuso_il": "",
+      "nota_fix": "worker.sh _chat_stream_run: aggiunto battito throttolato (battito_worker + battito_systemd) nel loop 'while kill -0 $pidc'. Test anti-regressione in cervello/test/due-worker.bats ('battito-durante-chat' + 'invariante soglia morte-chat >> throttle'), 17/17 verde. Resta da fare (🟡→🔴 Nicola): merge del branch su main e pull/restart mycity-worker-chat sul VPS.",
+      "verifica": {
+        "file": "cervello/worker.sh",
+        "pattern": "BATTITO DURANTE LA CHAT",
+        "presente": true
+      },
+      "origine": "incidente chat Pannello 2026-07-17 23:26 (falso positivo sentinella-lavori)"
     }
   ],
   "meta": {
     "aperti": 25,
-    "in_corso": 0,
+    "in_corso": 1,
     "chiusi": 49
   }
 }

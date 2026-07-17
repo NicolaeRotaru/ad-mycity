@@ -67,6 +67,31 @@ setup() {
   grep -qF '\"chiave\":\"worker:ultimo\"' "$WORKER"
 }
 
+# ── BATTITO DURANTE LA CHAT (root-cause fix falso-positivo "worker chat fermo", 2026-07-17) ──────
+# Un turno chat lungo (letture/subagent/ragionamento con poco testo nuovo) tiene il worker dentro
+# _chat_stream_run per minuti SENZA tornare in cima al loop principale. Se lì dentro non batte, il
+# per-lane worker:ultimo:chat si congela → la sentinella-lavori lo dà per "worker chat morto" dopo
+# 5 min e UCCIDE una chat sana ancora in corso. Il worker DEVE battere anche mentre genera.
+@test "battito-durante-chat: _chat_stream_run rinfresca il battito nel loop di streaming" {
+  FN2="$BATS_TEST_TMPDIR/stream.sh"
+  sed -n '/^_chat_stream_run() {/,/^}/p' "$WORKER" > "$FN2"
+  grep -q '_chat_stream_run()' "$FN2"
+  # il loop while-genera deve chiamare battito_worker + battito_systemd, col throttle WORKER_BATTITO_SEC
+  grep -q 'battito_worker' "$FN2"
+  grep -q 'battito_systemd' "$FN2"
+  grep -q 'WORKER_BATTITO_SEC' "$FN2"
+}
+
+# La soglia con cui la sentinella dà per morto il worker-chat (CHAT_WORKER_MORTO_MIN) deve restare
+# MOLTO sopra il throttle del battito (WORKER_BATTITO_SEC), altrimenti anche un worker vivo che
+# batte regolarmente verrebbe scambiato per morto. Invariante di progetto tra i due file.
+@test "invariante: soglia morte-chat della sentinella >> throttle del battito" {
+  SENT="${BATS_TEST_DIRNAME}/../sentinella-lavori.mjs"
+  [ -f "$SENT" ]
+  grep -q 'CHAT_WORKER_MORTO_MIN = 5' "$SENT"
+  # 5 min = 300s, molto oltre i 20s di default del battito → nessun falso positivo su worker vivo
+}
+
 @test "claim: marchia worker_owner=WORKER_ID quando il DB è migrato" {
   grep -q 'HAS_OWNER_COL:-0.*= 1.*_claim_body' "$WORKER" || grep -q '_claim_body="\$(jq -n --arg o "\$WORKER_ID"' "$WORKER"
 }
