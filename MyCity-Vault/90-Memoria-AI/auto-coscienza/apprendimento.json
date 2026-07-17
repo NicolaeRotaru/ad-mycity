@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0717-254",
+      "testo": "**Wildcard `node cervello/*.mjs` in allowlist NON copre script appena creati nella stessa sessione (17/7, pulisci-coda.mjs):** il file era sul filesystem VPS ma la chat non riusciva a girarlo. La wildcard è evaluata all'avvio del worker e non si aggiorna in-sessione. Processo corretto per nuovi script: crea il file → PR → Nicola merge → poi gira dal terminale VPS. Non promettere 'giro subito' su uno script appena scritto.",
+      "tag": ["allowlist", "wildcard", "node-script", "cervello", "permessi-chat", "nuovi-script", "pulisci-coda"],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 13:00",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0717-253",
       "testo": "**Per inserire foto su un negozio (es. store_logo di PQ), servono due pezzi non ancora esistenti (17/7):** (1) tabella `profiles` del marketplace NON è in allowlist — solo `products` è sbloccata; va aggiunta a settings.local.json; (2) manca lo script `cervello/carica-foto-negozio.mjs` che: scarica il file allegato dalla chat, lo carica su Supabase Storage, aggiorna `profiles.store_logo` per il negozio target. Senza questi due pezzi ogni richiesta 'inserisci questa foto nel negozio' si blocca. Pacchetto minimo da creare: script + allowlist profiles + dry-run.",
       "tag": ["foto-negozio", "upload", "profiles", "store_logo", "supabase-storage", "allowlist", "pane-quotidiano", "arricchimento-catalogo"],

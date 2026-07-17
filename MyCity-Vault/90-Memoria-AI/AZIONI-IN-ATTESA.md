@@ -17,14 +17,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
-### 🟡 #inserisci-caffe-pq — Inserisci "Caffè Espresso" su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10
+### 🟡 #inserisci-tazzina-pq — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52
 
-**Bloccato su:** Nicola deve confermare il PREZZO del caffè.
-**Appena Nicola risponde con il prezzo:**
-- Foto royalty-free già pronte (Pexels/Unsplash, caffè espresso su sfondo scuro, licenza commerciale gratuita)
+**Prodotto:** tazzina da espresso bianca con decorazioni colorate (blu/rosso, stile decorativo italiano) — PQ vende la tazzina stessa (oggetto fisico), non il caffè.
+
+**Bloccato su:** Nicola deve dire QUALE tazzina è tra i due candidati trovati e il PREZZO:
+- Candidato 1 — Excelsa "Stile Siciliano" (set 6 tazzine ~€31)
+- Candidato 2 — Ginori 1735 "Oriente Italiano" (~€55-80 singola)
+
+**Appena Nicola risponde:**
+- Foto royalty-free già reperite, foto prodotto su sfondo bianco pronti
 - L'AD prepara la riga prodotto e la accoda via `marketplace.mjs aggiorna` per approvazione finale
 
-**Cosa cambia:** primo prodotto a catalogo PQ inserito dall'AD con foto pro trovate online.
+**Cosa cambia:** primo prodotto non-food a catalogo PQ inserito dall'AD con foto pro trovate online.
 **Se va bene:** workflow "AD inserisce prodotto per il negozio" validato, replicabile su tutta la gamma PQ.
 
 - **Colore:** 🟡
