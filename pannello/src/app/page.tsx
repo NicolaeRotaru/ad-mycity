@@ -3007,7 +3007,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
