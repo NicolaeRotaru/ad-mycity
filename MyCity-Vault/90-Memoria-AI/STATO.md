@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 20:30
-fonte: AD digitale (giro sera 20:30 · REST ok · Stripe ok · MCP Stripe ok · n8n cieco 42 giri · giri_totali=194)
+aggiornato: 2026-07-17 22:15
+fonte: AD digitale (chat 17/7 22:15 — mappa problemi gravi macchina)
 ---
+
+> 💬 **17/7 ~22:15 — CHAT: mappa completa problemi gravi macchina.** Nicola: «Risolvi tutti i problemi gravi della macchina». AD ha classificato 7 problemi in 3 categorie: 🔴 **Merge da Nicola** — PR #433 (121 job errore coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec); 🟡 **Env VPS** — mancano `PANNELLO_URL`/`CABINA_URL`/`MARKETPLACE_SITE_URL` (5 sensori ciechi) + `TELEGRAM_BOT_TOKEN` (42 notifiche bloccate) in `cervello/vps/.env`; 🟢 **AD fa da solo** — 7 guardiani senza battito (PR da aprire) + LOG vuoto (diagnosi). Worker bloccato dalla chat ha impedito apertura PR guardiani nella stessa sessione. Fonte: chat Nicola 17/7 22:15.
 
 > 🛰️ **17/7 20:30 — GIRO SERA (VP IN CORSO).** **IL VENERDÌ PIACENTINI È IN CORSO ADESSO (20:00-22:30, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~564h** (≈23,5 giorni). North Star 0, cassa 0€. Sensori: n8n cieco 42 giri · MCP Supabase cieco 3 giri · REST/Stripe/Resend/MCP Stripe ok · giri_totali=194. **Mossa n.1:** 🔴 banco PQ se non ci sei (ritiro al banco fino alle 22:30, QR sul telefono). **DOMANI 20/7:** bandi CCIAA BT26+BE26 aprono (€7k+€20k per bottega, scadenza 30/7) — prepariamo le bozze con @relazioni-istituzionali. Coda: 🟡 #mergia-pr-433 · 🟡 #push-pr-bloccanti · 🟡 #fix-guardiano-coerenza-fatti. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
