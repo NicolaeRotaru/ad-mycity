@@ -37,9 +37,9 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ---
 
-### 🟡 #mergia-pr-424 — Mergia PR #424: fix 3 bug chat (doppia risposta, flicker, bottone smartphone) · ⏳ accodata 2026-07-17 00:45
+### ✅ #mergia-pr-424 — PR #424 mergiata · FATTO 2026-07-17 02:09
 
-**APPROVATA** da Nicola via Pannello · 2026-07-17 02:08 {approvato: 2026-07-17}
+**APPROVATA** da Nicola via Pannello · 2026-07-17 02:08 · SHA merge: `6c41f2f708f6d3f787d42a6ff88f667e5283f118`
 
 **Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
 
