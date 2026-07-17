@@ -17,6 +17,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #layout-chat-centrata — Centra la chat worker e allinea la lista conversazioni sotto il menù · ⏳ accodata 2026-07-17 23:10
+
+**Cosa fare (2 modifiche CSS/layout nel Pannello):**
+1. **Chat centrata con bordi laterali** — la finestra della chat worker deve avere un margine a sinistra e a destra (colonna centrata), non occupare tutta la larghezza schermo.
+2. **Lista conversazioni allineata sotto il menù** — la lista deve iniziare esattamente dove finisce il bordo inferiore del menù di navigazione (no gap, no sovrapposizione).
+
+**Cosa cambia:** layout più leggibile su desktop e tablet; la lista conversazioni non si sovrappone al menù.
+**Se va bene:** PR aperta da @frontend-dev sul branch `fix/layout-chat-centrata`, anteprima disponibile.
+
+- **Colore:** 🟡 (modifica codice Pannello → PR da approvare e mergiare da Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #fix-guardiano-coerenza-fatti — Metti il guardiano coerenza-fatti in allowlist per girare senza approvazione · ⏳ accodata 2026-07-17 18:45
 
 **Problema:** il guardiano `node cervello/coerenza-fatti.mjs` non è in allowlist. Conseguenza: i giri automatici non lo eseguono, e pattern con caccia già "chiusa" vengono re-introdotti senza che nessuno li rilevi. Esempio: "bando ER scade 21/7" citato per errore nei giri dal 12/7 al 17/7 anche dopo la chiusura della caccia dell'11/7.
