@@ -122,19 +122,30 @@ Sostituire `[NOME]` e `[ID-ORDINE]` con i dati reali. Aprire il link LIVE prima 
 
 ---
 
-### 🟡 #volano-soglia-fix — Abbassa la soglia del volano da 30% a 5% (13 lezioni su 261)
+### ✅ #volano-soglia-fix — Soglia volano abbassata al 5% · FATTO 2026-07-17 12:30
 
-**Cosa cambia:** La sentinella "VOLANO FERMO" scatta quando meno del 30% delle lezioni attive viene usata per giro — cioè 78 lezioni su 261. Impossibile: un giro normale ne usa 5-10. Il volano misura il tracciamento, non l'applicazione reale. Abbassando a 5% (13 lezioni) la sentinella scatta solo quando davvero non si impara nulla, non ad ogni giro normale.
-
-**Se va bene:** La sentinella smette di fare falsi-positivi. Il volano torna verde entro 1-2 giri di lavoro normale. Si può alzare gradualmente la soglia man mano che il tracciamento migliora.
-
-**Dove:** `cervello/sentinella-dati.mjs` riga 67: `const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.3)` → cambia default a `0.05`. Modifica 1 riga, branch dedicato, PR.
-
-**Quando:** Dopo ok di Nicola → 🟡 branch + PR.
-
-⏳ accodata 2026-07-17 07:15
+Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live dopo il merge della PR (#push-pr-bloccanti).
 
 ---
+
+### 🟡 #push-pr-bloccanti — Pusha e apri PR per i 3 fix bloccanti macchina · ⏳ accodata 2026-07-17 12:30
+
+**Branch:** `fix/bloccanti-macchina` · **Commit:** `da524a30`
+
+**Dal VPS (2 comandi):**
+```
+git -C /opt/mycity/ad-mycity push origin fix/bloccanti-macchina && node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --title "fix: bloccanti macchina"
+```
+Poi mergia la PR dal Pannello.
+
+**Cosa cambia:** 3 fix live — chat smette di chiedere tutti i 121+ job ad ogni poll (usa `/api/lavori/dettagli`), volano non dà più falsi allarmi (soglia 5%), voto salute macchina stabile (AR-105).
+**Se va bene:** chat più veloce nell'uso quotidiano; sentinella volano torna verde entro 1-2 giri.
+
+- **Colore:** 🟡 (push codice + merge → Nicola)
+- **Reparto:** builder-automazioni
+
+---
+
 
 ### 🟡 #mergia-pr-430 — Mergia PR #430: bottone fluttuante e schermo intero Worker · ⏳ accodata 2026-07-17 10:31
 
