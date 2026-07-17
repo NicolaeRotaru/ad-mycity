@@ -16,6 +16,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-441 — Mergia PR #441: lista conversazioni dentro la chat (50%) + margini più stretti · ⏳ accodata 2026-07-17 23:50
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/441 · Branch: `fix/worker-chat-layout-v2`
+
+2 modifiche layout chat worker: (1) lista conversazioni si apre DENTRO il div centrato della chat, occupa il 50% della larghezza; (2) margini laterali ridotti del 50% (`max-w-3xl` → `max-w-5xl`). Fix desktop e mobile separati (spazi laterali solo desktop come da richiesta precedente PR #437).
+
+**Cosa cambia:** la lista conversazioni non esce fuori dalla chat ma scorre sopra di essa come un pannello laterale interno. La chat è visibilmente più larga sugli schermi grandi.
+**Se va bene:** layout chat worker aggiornato su Vercel; chat centrata e lista ben posizionata.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
 
 ### 🟡 #mergia-pr-439 — Mergia PR #439: descrizioni caselle Pannello in linguaggio umano · ⏳ accodata 2026-07-17 23:58
 
@@ -1713,6 +1726,7 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 | 174 | 2026-07-17 22:46 | @tech | Merge PR #436 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/436 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 175 | 2026-07-17 23:19 | @tech | Merge PR #437 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/437 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 176 | 2026-07-17 23:24 | @tech | Merge PR #438 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/438 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 177 | 2026-07-17 23:52 | @tech | Merge PR #441 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/441 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 23:55 · 🟡 · [Nicola richiesta + AD] · **PR #441 aperta — lista conversazioni dentro la chat al 50% + margini laterali ridotti del 50%.** Nicola ha cambiato i requisiti a metà lavoro: da «lista accanto al menù bordo destro» (PR #437) a «lista dentro la chat, copra solo metà chat» + «spazi sui lati si ristringano del 50%». AD ha implementato: lista come pannello interno al 50% della larghezza del div chat, `max-w-3xl` → `max-w-5xl`. Branch `fix/worker-chat-layout-v2`, base `origin/main`. Card #mergia-pr-441 accodata.
+
 2026-07-17 23:58 · 🟡 · [AD] · **PR #439 aperta — fix conflitti PR #438 (descrizioni caselle in linguaggio umano), branch pulito `fix/avvisi-umano-v2` da `origin/main`.** PR #438 aveva commit di memoria doppi su origin/main con stesso titolo → conflitto inevitabile. Soluzione: branch pulito con solo i 2 file modificati, cherry-pick a mano. PR #437 (layout chat: centrata solo desktop + lista conversazioni affiancata al bordo destro del menù) già mergiata da Nicola in questa sessione.
 
 2026-07-17 23:50 · 🟡 · [Nicola richiesta + AD] · **PR #438 aperta — descrizioni caselle Pannello riformulate in linguaggio umano.** Nicola: «queste caselle devono avere una descrizione chiara in linguaggio umano». Il testo grezzo tecnico (`vault-sanità rc=1`, `conflitti/0-byte`) nascosto in accordion collassabile "Dettaglio tecnico"; 8 casi coperti con frasi in italiano. PR #437 (layout chat: chat centrata + lista conversazioni affiancata al menù bordo destro) già mergiata da Nicola in questa sessione.
