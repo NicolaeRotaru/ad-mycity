@@ -17,6 +17,38 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #burn-mensile-env — Aggiungi il burn mensile nel .env VPS per calcolare il runway · ⏳ accodata 2026-07-17 23:35
+
+**Da aggiungere in `cervello/vps/.env` sul VPS (poi riavviare il worker):**
+
+Hai due opzioni — scegli quella che rispecchia la realtà di oggi:
+
+**A) Solo costi tecnici attuali** (hosting Render/Supabase/Vercel + dominio, senza stipendio fondatore):
+```
+BURN_MENSILE_EUR=150
+```
+
+**B) Burn Anno 1 proiettato** (fondatore parzialmente pagato + marketing, da vault):
+```
+BURN_MENSILE_EUR=3000
+```
+
+**Comando completo (una riga nel terminale VPS):**
+```bash
+echo "BURN_MENSILE_EUR=150" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
+```
+_(sostituisci 150 con il valore reale se diverso)_
+
+**Cosa cambia:** il sensore smette di essere "sconosciuto" da 128 giri — calcola `runway = cassa / burn`. Oggi cassa=0€ → runway=0 mesi (critico) finché non entra liquidità. Il Pannello mostra il numero reale invece del punto interrogativo.
+
+**Se va bene:** il sensore-cassa produce risultato valido al prossimo giro; la sentinella "runway < 3 mesi" si attiva se serve.
+
+- **Colore:** 🟡 (modifica file .env sul VPS — Nicola lo fa dal terminale)
+- **Reparto:** finanza/AD
+- **Nota:** se il burn reale è diverso dai due valori sopra, indicalo tu e aggiorno.
+
+---
+
 ### 🟡 #layout-chat-centrata — Centra la chat worker e allinea la lista conversazioni sotto il menù · ⏳ accodata 2026-07-17 23:10
 
 **Cosa fare (2 modifiche CSS/layout nel Pannello):**

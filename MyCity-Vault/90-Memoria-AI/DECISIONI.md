@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 23:35 · 🟡 · [Nicola approvazione Pannello] · **Approvata proposta "Inserisci il BURN mensile nel VPS per calcolare il runway".** Sensore-cassa.mjs legge `BURN_MENSILE_EUR` dall'env e calcola `runway = cassa / burn`. Da 128 giri il valore mancava → runway "sconosciuto". Azione #burn-mensile-env accodata: Nicola aggiunge la riga nel .env VPS (stima bootstrap €150/mese o Anno 1 €3.000/mese). Il vault cita ~€3-4k/mese (Anno 1 con fondatore parzialmente pagato). Oggi cassa=0€ da Stripe → runway=0 qualunque sia il burn.
+
 2026-07-17 23:16 · 🟡 · [Nicola approvazione Pannello] · **Nicola ha approvato dal Pannello: "Mergia PR #433 per pulire la coda del Pannello".** PR #433 (`fix/pulisci-coda-v2`) aggiunge `cervello/pulisci-coda.mjs` — script che elimina i job in stato `errore` accumulati nel DB memoria. Merge richiede `gh` non in allowlist chat → il merge va fatto da Nicola su GitHub o via terminale VPS.
 
 2026-07-17 23:15 · 🔴 · [Nicola approvazione + AD] · **Proposta "Vai al banco PQ stasera" approvata ma finestra scaduta.** Nicola ha approvato la card dal Pannello alle 23:15. Il banco Pane Quotidiano (Via Calzolai 25) chiudeva alle 22:30 — finestra scaduta da 45 min. Nessuna azione eseguita. Prossima occasione: prossimo Venerdì Piacentini. Proposta rimossa dalla rotazione giri (non riproporre).
