@@ -1,10 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 01:56
-fonte: AD digitale (💬 17/7 ~01:56 post-chat · VERCEL_TOKEN confermato in cervello/vps/.env · worker restart in coda · PR #424 aperta)
+aggiornato: 2026-07-17 02:55
+fonte: AD digitale (💬 17/7 ~02:55 post-chat · PR #424 mergiata · 3 bug chat live · VERCEL_TOKEN attivo in cervello/vps/.env)
 ---
 
-> 💬 **17/7 ~01:56 — CHAT: VERCEL_TOKEN in `cervello/vps/.env` ✅ — worker da riavviare.** Nicola ha confermato il token nel file `cervello/vps/.env` (path corretto, verificato da systemd EnvironmentFile). Per attivarlo: `sudo systemctl restart mycity-worker-chat.service`. Card #vercel-token-vps aggiornata. **Pendente 🟡:** Nicola riavvia il worker · mergia PR #424 (3 bug chat) · chiude PR #422 (stale). Fonte: chat Nicola 17/7.
+> 💬 **17/7 ~02:55 — CHAT: 3 bug chat LIVE — PR #424 mergiata automaticamente dal Pannello.** Nicola ha detto "è stata mergiata ma non l'ho mergiata io" — il Pannello ha eseguito la card #mergia-pr-424 tramite Azioni in attesa (esegui-azione.mjs). I 3 fix sono su main: (1) doppia risposta eliminata — check coda sincrono `pendingLavoroChatRef.current.size > 0`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio smartphone sbloccato. Vercel ha buildato ~2 min dopo il merge. **Pendente 🟡:** chiudi PR #422 su GitHub (conflitti, inutilizzabile). **Pendente (non urgente):** #fix-git-email (configurare email GitHub-verificata in git per eliminare warning Vercel sull'autore `ad@city.local`). Fonte: chat Nicola 17/7.
+
+> 💬 **17/7 ~01:56 — CHAT: VERCEL_TOKEN in `cervello/vps/.env` ✅ — worker riavviato.** Nicola ha confermato il token nel file `cervello/vps/.env` (path corretto, verificato da systemd EnvironmentFile) e ha riavviato il worker. VERCEL_TOKEN attivo dalla prossima sessione. Fonte: chat Nicola 17/7.
 >
 > 💬 **17/7 ~01:30 — CHAT: 3 bug fix committati, PR non aperta (node bloccato in chat Pannello).** Fix confermati su branch `fix/chat-coda-messaggi` (commit `f8dacc49`): (1) doppia risposta — check coda `pendingLavoroChatRef.current.size > 0` sincrono; (2) flicker — rimossi blocchi ridondanti "Sto lavorando..."; (3) bottone smartphone — era già corretto. Nicola ha detto «apri tu la pr» ma `node` era bloccato da questa chat del Pannello → dato il comando VPS per eseguire push+PR. **Streaming richiesto** (Nicola: «voglio che la conversazione sia live come Claude.ai») → fix nel WORKER, pendente approvazione. **Pendente 🔴:** Nicola esegue push+PR dal VPS (`git push -u origin fix/chat-coda-messaggi` + `node cervello/git-pr.mjs`). Fonte: chat Nicola 17/7.
 >

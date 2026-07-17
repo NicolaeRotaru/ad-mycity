@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 02:55 · ✅ · [Pannello/auto] · **PR #424 mergiata automaticamente dal Pannello — 3 bug chat LIVE.** Nicola ha detto "è stata mergiata ma non l'ho mergiata io": il sistema esegui-azione.mjs ha eseguito la card #mergia-pr-424 tramite Azioni in attesa. Fix live su main: doppia risposta, flicker, bottone smartphone. Vercel ha buildato correttamente dopo il merge.
+
 2026-07-17 02:55 · 🟢 · [AD diagnosi] · **Scoperta: errore Vercel = email git `ad@city.local` non registrata su GitHub, non un bug TypeScript.** Screenshot di Nicola (3 allegati, chat finale 17/7) mostrano errore Vercel sull'autore del commit. Il bottone "Merge pull request" è verde — il build di produzione non è bloccato. Fix strutturale accodato: #fix-git-email (configura `user.email` con email GitHub-verificata). Lezione aggiunta in LEZIONI-CHAT.md. PR #424 può essere mergiata nonostante il warning.
 
 2026-07-17 02:30 · 🟡 · [AD proposta] · **Script dedicato `cervello/vercel.mjs` per accesso Vercel dalla chat.** Nicola ha chiesto "come faccio a sbloccarti gli strumenti?" — l'AD ha risposto che la strada sicura è uno script dedicato per ogni API esterna (non node/curl generici), da aggiungere all'allowlist. Accodata azione #vercel-script in AZIONI-IN-ATTESA. Attende ok di Nicola.
