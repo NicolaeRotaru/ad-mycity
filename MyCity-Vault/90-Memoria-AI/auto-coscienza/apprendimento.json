@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0717-249",
+      "testo": "**DEBOUNCE worker — Nicola (17/7): raccogliere tutti i messaggi rapidi prima di rispondere (feature #3 della chat, da approvare):** quando Nicola manda più messaggi in rapida successione mentre l'AD sta rispondendo, vuole che il worker aspetti 1-2 secondi di silenzio e risponda a TUTTO insieme — non processi ogni messaggio separatamente. Attualmente la coda li elabora uno alla volta; il debounce li raccoglie prima. Implementazione proposta: nel worker, prima di avviare Claude, aspetta 1-2s; se arriva un altro messaggio nel gap, resetta il timer; scaduto il silenzio → risponde a tutti i messaggi insieme. Proposta inviata 17/7, Nicola non ha risposto (non ancora approvata). Distinzione: CODA ✅ (già fatto), STREAMING 🟡 (pending), DEBOUNCE 🆕 (in attesa).",
+      "tag": ["debounce", "worker-chat", "messaggi-multipli", "ux-chat", "nicola-richiesta", "feature-chat"],
+      "reparto": "@backend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 10:13",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0717-248",
       "testo": "**CORRETTO 17/7 ×2 (caso-studio Nicola): Pannello smartphone vs desktop = stesso ambiente VPS, problema di LAYOUT RESPONSIVO — NON di permessi o di ambienti diversi:** Nicola usa SEMPRE il Pannello (VPS worker), non Claude Code desktop. «Dal desktop riesco ad aprire la PR, dallo smartphone no» = stesso Pannello, stessa allowlist, stesso worker. La differenza è lo SCHERMO: su mobile i bottoni «Mergia PR» nella coda azioni escono dal riquadro o non sono cliccabili. Fix: responsive della sezione azioni (come flex-wrap del tasto Invia, PR #427). Lezione precedente (sbagliata): 'smartphone = Chat Pannello VPS, desktop = Claude Code app' — ERRATA, Nicola ha corretto due volte.",
       "tag": ["chat-pannello", "mobile-layout", "smartphone", "responsive", "azioni-pannello", "layout-mobile", "correzione-nicola"],
@@ -5603,6 +5617,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Debounce chat worker (richiesta 17/7, proposta inviata, implementazione da approvare):** quando manda più messaggi rapidi mentre l'AD sta rispondendo, vuole che il worker aspetti 1-2s di silenzio e risponda a TUTTO insieme — non ogni messaggio separatamente. Fix nel worker (#debounce-worker). Distinto da CODA ✅ (già fatto) e STREAMING 🟡 (pending). Vedi L-2026-0717-249.",
     "**Rischio tecnico — fix batch radiografia (chat 14/7 ~13:11, PR #383):** «Risolvi questi problemi» sulla casella Rischio tecnico — si aspetta 6+ schede verdi dopo Approva; **2 restano** finché non decide su Cursor `--force --trust` e prova chiusura difetti (tipo umano, non altra PR); Approva **#145** (**PR #383**) → Ctrl+Shift+R Radiografia › Rischio tecnico. Vedi L-230.",
     "**Costo dell'AI — fix batch radiografia (chat 14/7 ~13:09, PR #381):** «Risolvi questi problemi» sulla casella Costo AI — si aspetta 5+ schede verdi dopo Approva come altre caselle; l'ultima aperta (timer mattina 6:00/6:20/6:30) richiede **sua scelta** su orari, non auto-decisione AD; Approva **PR #381** → Ctrl+Shift+R. Vedi L-229.",
     "**Allegati foto — miniatura visibile dopo selezione (chat 14/7 ~13:08, PR #380):** su iPhone in fluttuante+Assistente segnala «galleria ok ma foto non nel box» — si aspetta **feedback visivo immediato** dopo aver scelto la foto (miniatura sopra la casella, non silenzio); odia quando sembra che non succeda nulla; la foto **non** deve finire dentro il textarea — va spiegato pattern «sopra, come WhatsApp»; merge 🔴 **#144**. Vedi L-228.",
