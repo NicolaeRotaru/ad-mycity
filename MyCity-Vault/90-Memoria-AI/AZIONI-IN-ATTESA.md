@@ -576,7 +576,40 @@ Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostitui
 ---
 
 
-### 🟡 #ritiro-pq-vp17-checkin — Giovedì chiama il fornaio e conferma il presidio di venerdì al banco · ⏳ accodata 2026-07-14 11:07
+### 🟡 #checkin-pq-postvp — Senti il fornaio il prima possibile: com'è andata venerdì e cosa facciamo adesso · ⏳ accodata 2026-07-18 01:09
+
+**📊 Health score PQ — 18/7 01:09 (fonte: STATO.md giro mezzanotte):**
+- 🔴 Ordini: 0 — stallo 24,3 giorni (dal 24/6)
+- 🟢 Vetrina LIVE, catalogo attivo, payout configurato
+- 🟡 Catalogo incompleto: tazzina espresso non inserita (manca prezzo da te — card #inserisci-tazzina-pq)
+- ✅ Non è vero churn: Nicola li conosce, aspettano la piattaforma
+
+**Quando:** lunedì 20/7 mattina (o WhatsApp nel weekend se hai voglia)
+
+**Chi:** Pane Quotidiano · **0523 388601** · Via Calzolai 25
+
+**Script (2 min, tono relazione):**
+
+> «Ciao [nome], com'è andata venerdì sera? Hai avuto gente? Stavo pensando che con le piogge in arrivo da domenica/lunedì il momento per provare la consegna a domicilio potrebbe essere quello giusto. Cosa ti serve ancora? Posso aiutarti con qualcosa?»
+
+**Cosa vuoi capire dalla chiamata:**
+1. Era al banco venerdì? Ha visto gente interessata?
+2. Cosa lo frena ancora (catalogo incompleto? non sa come funziona il QR?)
+3. Data per il primo ordine di prova (delivery con il meteo piogge = finestra naturale)
+
+**Cosa cambia:** capiamo dov'è bloccato, pianifichiamo il prossimo passo concreto.
+**Se va bene:** data per primo ordine di prova + sblocco #inserisci-tazzina-pq (chiedigli anche il prezzo in chiamata).
+
+- **Colore:** 🟡 (Nicola chiama o scrive — non irreversibile)
+- **Canale:** telefono o WhatsApp
+- **Reparto:** account-negozi
+- **Origine:** `{origine:sentinella:negozio_fermo}`
+
+---
+
+### ❌ #ritiro-pq-vp17-checkin — SCADUTA 2026-07-18 01:09 · sostituita da #checkin-pq-postvp
+
+> Il VP del 17/7 è già passato. Card originale: chiamare giovedì 16/7 per confermare il presidio. Quella finestra è chiusa — il follow-up post-VP è la nuova card qui sopra.
 
 > **Contesto anti-churn 15/7 12:56:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Re-accodamento **saltato** (cooldown 24h). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
 
