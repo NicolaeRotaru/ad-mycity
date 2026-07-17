@@ -51,7 +51,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-441 — Mergia PR #441: lista conversazioni dentro la chat (50%) + margini più stretti · ⏳ accodata 2026-07-17 23:50
+### ✅ #mergia-pr-441 — FATTO 2026-07-18 01:18 · Nicola ha mergiato PR #441 direttamente da GitHub
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/441 · Branch: `fix/worker-chat-layout-v2`
 
