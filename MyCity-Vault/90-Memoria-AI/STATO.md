@@ -4,7 +4,7 @@ aggiornato: 2026-07-17 22:15
 fonte: AD digitale (chat 17/7 22:15 — mappa problemi gravi macchina)
 ---
 
-> 💬 **17/7 ~23:10 — CHAT: richiesta layout chat (in attesa conferma).** Nicola: (1) chat worker centrata con bordi laterali; (2) lista conversazioni inizia sotto il bordo inferiore del menù. AD ha capito e chiesto conferma. Card 🟡 #layout-chat-centrata accodata. Fonte: chat Nicola 17/7 ~23:10.
+> ✅ **17/7 ~23:40 — CHAT: fix layout chat COMPLETATO su main.** Nicola: (1) chat centrata con bordi laterali **solo desktop** (≥640px, mobile = schermo pieno); (2) lista conversazioni affiancata al bordo destro del menù (non sotto). Nicola ha precisato "solo desktop" a metà lavoro — bordi rimossi su mobile. Commits `014fe4e7` + `af21cbb5` già su main. Fonte: chat Nicola 17/7 ~23:40.
 
 > 💬 **17/7 ~22:15 — CHAT: mappa completa problemi gravi macchina.** Nicola: «Risolvi tutti i problemi gravi della macchina». AD ha classificato 7 problemi in 3 categorie: 🔴 **Merge da Nicola** — PR #433 (121 job errore coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec); 🟡 **Env VPS** — mancano `PANNELLO_URL`/`CABINA_URL`/`MARKETPLACE_SITE_URL` (5 sensori ciechi) + `TELEGRAM_BOT_TOKEN` (42 notifiche bloccate) in `cervello/vps/.env`; 🟢 **AD fa da solo** — 7 guardiani senza battito (PR da aprire) + LOG vuoto (diagnosi). Worker bloccato dalla chat ha impedito apertura PR guardiani nella stessa sessione. Fonte: chat Nicola 17/7 22:15.
 
