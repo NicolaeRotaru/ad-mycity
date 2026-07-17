@@ -4,6 +4,8 @@ aggiornato: 2026-07-18 00:02
 fonte: AD digitale (giro automatico mezzanotte 18/7)
 ---
 
+> ✅ **18/7 01:10 — CHAT: coda lavori pulita — 121 job errore → 0.** Nicola ha inserito `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS. L'AD ha girato `pulisci-coda.mjs` (dry-run poi `--esegui`): 121 job in errore accumulati dal 9/7 eliminati; coda ora a ~0 job errore. PR #439 (descrizioni caselle in linguaggio umano) mergiata da Nicola — follow-up aperto: aggiungere nome file specifico + impatto concreto nelle descrizioni avvisi. Fonte: chat Nicola 18/7 01:10.
+
 > 🛰️ **18/7 00:02 — GIRO MEZZANOTTE.** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~582h (~24,3 giorni)**. North Star 0, cassa 0€. **OGGI 18/7:** bandi CCIAA BT26+BE26 aprono (scadenza 30/7) — approva `#bandi-cciaa-2007` stamattina. Macchina: errore `allinea-scan-cantiere` (PR #436 in coda), 7 guardiani senza battito, 42 notifiche bloccate (manca TELEGRAM_BOT_TOKEN). 9 PR in coda merge per Nicola. Dettaglio: [[Briefing/2026-07-18]].
 
 > ✅ **17/7 ~23:40 — CHAT: fix layout chat COMPLETATO su main.** Nicola: (1) chat centrata con bordi laterali **solo desktop** (≥640px, mobile = schermo pieno); (2) lista conversazioni affiancata al bordo destro del menù (non sotto). Nicola ha precisato "solo desktop" a metà lavoro — bordi rimossi su mobile. Commits `014fe4e7` + `af21cbb5` già su main. Fonte: chat Nicola 17/7 ~23:40.
