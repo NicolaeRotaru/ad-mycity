@@ -17,6 +17,41 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🔴 #post-vp-day-1707 — Pubblica "Stasera è il tuo turno" per il gran finale Venerdì Piacentini · ⏳ accodata 2026-07-17 11:56
+
+**Contenuto completo:** `consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md`
+
+**Testo pronto (versione Gruppi Facebook):**
+
+> Stasera gran finale dei **Venerdì Piacentini** 🎶 — centro chiuso al traffico dalle 18, Via Calzolai in festa.
+>
+> Se volete i freschi senza coda: **Pane Quotidiano** (bio dal '76, Via Calzolai) è già ordinabile su MyCity. Ordinate adesso, ve li portiamo a casa stasera oppure passate al banco quando siete in giro.
+>
+> Link nel primo commento 👇
+
+**Testo pronto (versione IG/FB feed):**
+
+> 🌆 Stasera è il gran finale. Via Calzolai si accende alle 18.
+>
+> Musica, centro pedonale, gente in strada. Il **Venerdì Piacentini** chiude la stagione stasera.
+> E noi siamo qui con **Pane Quotidiano** — bio e dietetica in città dal 1976, in Via Calzolai.
+>
+> **Stasera è il tuo turno.**
+> Ordina su MyCity — te lo portiamo a casa, oppure ritiri al banco quando passi.
+>
+> 👉 Link in bio · @mycity.piacenza · *La spesa che tiene viva la città.*
+
+**Prima di pubblicare serve da Nicola (2 minuti):**
+1. **Link marketplace** da inserire nel primo commento (VA al posto di `INSERISCI-LINK`)
+2. **Ok pubblicazione** (🔴)
+
+**Timing:** entro le 14:00 di oggi — chi pianifica l'uscita VP guarda il telefono nel pomeriggio.
+
+**Cosa cambia:** post day-of evento con CTA diretta — dopo 2 countdown (15/7 e 16/7) questo spinge chi era "quasi pronto" al primo ordine vero.
+**Se va bene:** primo click/ordine via UTM `vp17_day_1707` + PQ vede traffico reale dalla serata.
+
+---
+
 ### 🟡 #volano-soglia-fix — Abbassa la soglia del volano da 30% a 5% (13 lezioni su 261)
 
 **Cosa cambia:** La sentinella "VOLANO FERMO" scatta quando meno del 30% delle lezioni attive viene usata per giro — cioè 78 lezioni su 261. Impossibile: un giro normale ne usa 5-10. Il volano misura il tracciamento, non l'applicazione reale. Abbassando a 5% (13 lezioni) la sentinella scatta solo quando davvero non si impara nulla, non ad ogni giro normale.
@@ -1624,7 +1659,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 11:29)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 11:46)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-17-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
