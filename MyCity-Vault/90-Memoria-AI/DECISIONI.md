@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 20:45 · 🟡 · [AD] · **PR #435 aperta per i 3 fix bloccanti macchina — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti.** Il branch precedente (`fix/bloccanti-macchina`) aveva commit di memoria mescolati con il codice → conflitti inevitabili. Soluzione: cherry-pick non in allowlist → modifiche applicate a mano su branch pulito `origin/main`. PR pronta, attende merge di Nicola.
+
 2026-07-17 12:30 · 🟡 · [Nicola richiesta + AD] · **3 fix bloccanti macchina committati su branch `fix/bloccanti-macchina` (commit `da524a30`).** Nicola: «risolvi tutti i bloccanti della macchina» (preceduto da «+» accidentale → «ho sbagliato a schiacciare»). Fix implementati: (1) chat più veloce — polling ora chiede solo il job specifico via `/api/lavori/dettagli` invece di tutti i 121+ job; (2) volano soglia 30%→5% — la soglia al 30% era irrealistica (richiederebbe 78 lezioni/giro, il normale ne usa 5-10), ora scatta solo quando non si impara davvero niente; (3) AR-105 — voto salute macchina non più sovrascritto da valori provvisori. `git-pr.mjs` bloccato in sessione → push+PR accodata come #push-pr-bloccanti.
 
 2026-07-17 12:15 · 🟡 · [AD risoluzione conflitto] · **PR #433 aperta (pulisci-coda, branch pulito) — sostituisce PR #432 che aveva conflitto.** La PR #432 aveva conflitti causati da file di memoria committati su main locale prima della creazione del branch. Fix: stash dei file vault + `git checkout -b fix/pulisci-coda-v2 origin/main` → solo `pulisci-coda.mjs` nel branch → PR #433 zero conflitti. Conferma della lezione: branch codice deve sempre partire da `origin/main` (remote), non dal main locale.

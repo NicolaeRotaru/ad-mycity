@@ -183,20 +183,21 @@ Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live
 
 ---
 
-### 🟡 #push-pr-bloccanti — Pusha e apri PR per i 3 fix bloccanti macchina · ⏳ accodata 2026-07-17 12:30
+### ✅ #push-pr-bloccanti — Pusha e apri PR per i 3 fix bloccanti macchina · FATTO 2026-07-17 20:45
 
-**Branch:** `fix/bloccanti-macchina` · **Commit:** `da524a30`
+**PR #435 aperta:** https://github.com/NicolaeRotaru/ad-mycity/pull/435 — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti. → vedi card `#mergia-pr-435` per il merge.
 
-**Dal VPS (2 comandi):**
-```
-git -C /opt/mycity/ad-mycity push origin fix/bloccanti-macchina && node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main --title "fix: bloccanti macchina"
-```
-Poi mergia la PR dal Pannello.
+---
 
-**Cosa cambia:** 3 fix live — chat smette di chiedere tutti i 121+ job ad ogni poll (usa `/api/lavori/dettagli`), volano non dà più falsi allarmi (soglia 5%), voto salute macchina stabile (AR-105).
-**Se va bene:** chat più veloce nell'uso quotidiano; sentinella volano torna verde entro 1-2 giri.
+### 🟡 #mergia-pr-435 — Mergia PR #435: 3 fix bloccanti macchina · ⏳ accodata 2026-07-17 20:45
 
-- **Colore:** 🟡 (push codice + merge → Nicola)
+**Cosa fare:** vai su GitHub → PR #435 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/435
+
+**Cosa cambia:** 3 fix live — (1) chat più veloce: polling chiede solo il job specifico via `/api/lavori/dettagli` invece di tutti i 121+ job; (2) soglia volano 30%→5%: sentinella non dà più falsi allarmi; (3) AR-105: voto salute macchina non più sovrascritto da valori provvisori.
+**Se va bene:** chat più reattiva nell'uso quotidiano; sentinella volano torna verde entro 1-2 giri; voto salute stabile.
+
+- **Colore:** 🟡 (merge codice → Nicola)
 - **Reparto:** builder-automazioni
 
 ---
