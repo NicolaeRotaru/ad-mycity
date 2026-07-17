@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 04:30 · 🟡 · [Nicola richiesta] · **Video live: microfono + textarea + chat a finestra.** Nicola ha chiesto di aggiungere al video live il microfono, la textarea e la chat a finestra. L'AD ha costruito il fix nel branch `fix/video-live-chat` (commit 9816bb3f, typecheck verde, 4 file). Push e PR in attesa di ok Nicola (#push-video-live-chat).
+
 2026-07-17 04:00 · 🟡 · [AD] · **PR #427 aperta — tasto Invia sempre visibile su smartphone.** Fix: `flex-wrap: wrap` aggiunto al container bottoni in `BarraScritturaChat.tsx`. Branch `fix/invia-mobile-wrap`. Nicola deve mergiare dal Pannello GitHub. Card #fix-invia-mobile → FATTO; nuova card #mergia-pr-427 accodata.
 
 2026-07-17 03:30 · 🔴 · [AD sicurezza] · **Scoperta: due PAT GitHub in chiaro nel config git del VPS — rotazione urgente.** Durante il fix dell'email git, l'AD ha trovato due Personal Access Token GitHub scritti in chiaro nel file di configurazione git locale del VPS. Chiunque abbia accesso shell al server può vederli. Nicola deve ruotarli da GitHub (Settings → Developer settings → Personal access tokens) appena possibile. Accodata azione #ruota-pat-github in AZIONI-IN-ATTESA.

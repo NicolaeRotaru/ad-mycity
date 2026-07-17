@@ -29,6 +29,26 @@ L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passa
 
 ---
 
+### 🟡 #push-video-live-chat — Push branch fix/video-live-chat e apri PR · ⏳ accodata 2026-07-17 04:30
+
+**Cosa fare:** dal VPS, approva il comando: `git push origin fix/video-live-chat` → poi l'AD apre la PR da solo.
+
+Branch `fix/video-live-chat` · commit `9816bb3f` · typecheck verde · 4 file modificati:
+- `BottoneFotoChat.tsx` — aggiunge microfono, textarea e chat a destra nella videocamera
+- `BarraScritturaChat.tsx` — passa i nuovi props al video live
+- `page.tsx` — passa `chatMessaggi` a BarraScritturaChat
+- `ChatCasella.tsx` — `invia()` accetta testo opzionale per invio dalla videocamera
+
+Layout: telecamera (55%) + chat (45%) su desktop; stacked su mobile.
+
+**Cosa cambia:** nel video live puoi scrivere, dettare col microfono e vedere la conversazione senza uscire dalla telecamera.
+**Se va bene:** l'AD apre la PR e la mergi come al solito.
+
+- **Colore:** 🟡 (push su GitHub — Nicola approva il comando)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #mergia-pr-427 — Mergia PR #427 su GitHub (tasto Invia smartphone) · ⏳ accodata 2026-07-17 04:00
 
 **Cosa fare:** vai su GitHub → PR #427 → clicca "Merge pull request".
