@@ -655,6 +655,11 @@ $decisioni"
   [ -n "$azioni_aperte" ] && blocco="$blocco
 - Azioni ancora in coda (AZIONI-IN-ATTESA.md — non ri-accodare se è già qui):
 $azioni_aperte"
+  # 🧼 Bonifica UTF-8 alla fonte: i troncamenti qui sopra (`cut -c1-N`, `head -c`) in locale C possono
+  # spezzare un carattere multibyte (emoji/·/accento) e lasciare un byte orfano. Questo blocco entra in
+  # testa a OGNI prompt di chat/lavoro: un solo byte invalido farebbe rifiutare l'intero argv da `claude`.
+  # `iconv -c` scarta i soli byte rotti (stesso rimedio del titolo-lavoro, worker.sh:244).
+  command -v iconv >/dev/null 2>&1 && blocco="$(printf '%s' "$blocco" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null)"
   printf '%s' "$blocco"
 }
 
@@ -1238,6 +1243,14 @@ $richiesta"
   skip_sync="${skip_sync:-0}"
   if [ "${skip_sync:-0}" != 1 ]; then
     to="${WORKER_TIMEOUT:-900}"
+    # 🧼 UTF-8 SANE (fix chat-morta 2026-07-17): il prompt viene passato al CLI `claude` come ARGOMENTO.
+    # Se un solo byte non è UTF-8 valido, il CLI (Rust/clap) rifiuta TUTTO l'argv con «invalid UTF-8 was
+    # detected in one or more arguments» (rc≠0) e la chat NON parte più — finché quel byte resta lì (es.
+    # un blocco di memoria immutato). Fonte tipica: i troncamenti byte-based di contesto_macchina_chat
+    # (`cut -c1-N`/`head -c`) che in locale C spezzano un carattere multibyte (emoji, ·, accenti). Qui
+    # bonifichiamo il prompt COMPLETO in un solo punto (copre contesto, allegati, memoria di sessione,
+    # richiesta): `iconv -c` scarta i soli byte invalidi, senza toccare il contenuto reale.
+    command -v iconv >/dev/null 2>&1 && prompt="$(printf '%s' "$prompt" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null)"
     # AR-089: instrada il compito col router costo (scegliModello/banco-ai.mjs) invece di usare SEMPRE il
     # premium. I lavori di ragionamento restano su Claude (giusto); volume/metabolizza vanno all'economico
     # se la sua chiave è collegata e c'è l'adattatore-mani (AI_ECON_CMD). Altrimenti fallback premium.
