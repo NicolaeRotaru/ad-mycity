@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 23:16 · 🟡 · [Nicola approvazione Pannello] · **Nicola ha approvato dal Pannello: "Mergia PR #433 per pulire la coda del Pannello".** PR #433 (`fix/pulisci-coda-v2`) aggiunge `cervello/pulisci-coda.mjs` — script che elimina i job in stato `errore` accumulati nel DB memoria. Merge richiede `gh` non in allowlist chat → il merge va fatto da Nicola su GitHub o via terminale VPS.
+
 2026-07-17 23:15 · 🔴 · [Nicola approvazione + AD] · **Proposta "Vai al banco PQ stasera" approvata ma finestra scaduta.** Nicola ha approvato la card dal Pannello alle 23:15. Il banco Pane Quotidiano (Via Calzolai 25) chiudeva alle 22:30 — finestra scaduta da 45 min. Nessuna azione eseguita. Prossima occasione: prossimo Venerdì Piacentini. Proposta rimossa dalla rotazione giri (non riproporre).
 
 2026-07-17 22:30 · 🟡 · [Nicola richiesta + AD] · **PR #436 aperta — fix crash `allinea-scan-cantiere.mjs` (variabile `votoLive` mai definita).** Nicola: «Parti con la pr». Bug: righe 179 e 191 usavano `votoLive` mai dichiarata → crash a runtime → guardiano non chiamava `stampSegnale` → appariva tra i mancanti nel freschezza. Fix: variabile rimossa completamente. Branch `fix/guardiani-senza-battito`, base `origin/main`, nessun conflitto. Ordine merge proposto: #436 → #433 → #430 → #431.

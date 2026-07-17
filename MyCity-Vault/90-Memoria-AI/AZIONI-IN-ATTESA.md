@@ -65,7 +65,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-433 — Mergia PR #433 per pulire la coda da 121 job errore · ⏳ accodata 2026-07-17 12:15
+### ✅ #mergia-pr-433 — APPROVATA da Nicola (Pannello 23:16) — merge NON ancora eseguito (gh non in allowlist chat) · ⚠️ 2026-07-17 23:16
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2`
 *(La PR #432 aveva un conflitto sui file di memoria — sostituita da questa, branch pulito da `origin/main`.)*

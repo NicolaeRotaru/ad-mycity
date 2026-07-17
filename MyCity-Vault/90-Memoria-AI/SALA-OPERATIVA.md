@@ -1006,6 +1006,7 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-17 — 🌙 GIRO NOTTE (AD · 23:15 — POST-VP)
 - 2026-07-17 23:15 · @AD · FATTO · Proposta "banco PQ" approvata da Nicola alle 23:15 — ma finestra scaduta (chiusura 22:30, 45 min fa). Nessuna azione eseguibile. Decisione registrata in DECISIONI.md. Non riproporre al prossimo giro.
 - 2026-07-17 23:15 · @AD · SERVE · 🟡 Prossima occasione banco PQ: prossimo Venerdì Piacentini. 🟡 Domani 20/7: bandi CCIAA BT26+BE26 aprono — preparo bozze domande in mattinata.
+- 2026-07-17 23:16 · @AD · FATTO · Nicola ha approvato PR #433 dal Pannello. gh non in allowlist chat → merge NON eseguito da qui. Memoria aggiornata (DECISIONI + SALA). Serve: Nicola mergia PR #433 su GitHub oppure scrive "ok merge" per esecuzione da VPS.
 
 ### 2026-07-17 — 🌙 GIRO SERA (AD · 20:30 — VP IN CORSO)
 - 2026-07-17 20:30 · @AD · FATTO · Giro sera 20:30: VP in corso (20:00-22:30, Via Calzolai). Business invariato: stallo ~564h, North Star 0, 23 clienti, 0 ordini. Scritti: Briefing/2026-07-17.md (TL;DR 20:30 in cima) · STATO.md · ultimo-briefing.json · intenzioni-nicola.json · auto-analisi.json · AUTO-ANALISI.md. Sensori: n8n cieco 42 giri · MCP Supabase cieco 3 giri · REST/Stripe/MCP Stripe ok · giri_totali=194.
