@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 10:31 · 🟡 · [Nicola richiesta] · **PR #430 aperta — bottone fluttuante → finestra piccola, maximize → workerFull con navbar.** Nicola ha chiesto: (1) il bottone fluttuante torna ad aprire la finestra piccola (chatFluttuante), non lo schermo intero; (2) il maximize nella finestra piccola apre workerFull; (3) workerFull parte sotto la navbar (`top-[var(--altezza-testata)]`), non la copre. Implementato in `pannello/src/app/page.tsx`. Branch `fix/debounce-v2`. Card #mergia-pr-430 accodata.
+
 2026-07-17 10:27 · 🟡 · [AD] · **PR #429 aperta — debounce messaggi multipli.** Nicola ha chiesto che i messaggi inviati mentre l'AD sta elaborando vengano raccolti e processati insieme (non in coda separata). Fix implementato: rimosso il blocco `codaMsgRef` in `page.tsx` — ora il secondo messaggio usa il meccanismo `sostituisci` già esistente (cancella il job precedente, avvia uno nuovo con A+B insieme). PR #429 su branch `fix/debounce-messaggi-multipli`, in attesa di merge da Nicola.
 
 2026-07-17 09:55 · 🟢 · [AD metabolizzazione] · **PR #428 video-live confermata aperta dal giro del mattino.** Nicola ha chiesto più volte "apri la pr"; l'AD in sessione rispondeva "bloccato". La PR era già stata aperta dal giro delle 06:45 (#push-video-live-chat → FATTO in AZIONI-IN-ATTESA). Lezione aggiunta in LEZIONI-CHAT.md: controllare AZIONI-IN-ATTESA / `gh pr list` prima di dire "non posso". Nessun dato nuovo da aggiornare in STATO.

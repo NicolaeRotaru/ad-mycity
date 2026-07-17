@@ -31,6 +31,16 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-430 — Mergia PR #430: bottone fluttuante e schermo intero Worker · ⏳ accodata 2026-07-17 10:31
+
+**Cosa fare:** vai su GitHub → PR #430 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/430
+
+**Cosa cambia:** il bottone fluttuante apre di nuovo la finestra piccola della chat (come prima); il tasto ⬜ (maximize) nella finestra piccola apre lo schermo intero del Worker con la navbar del Pannello visibile in cima.
+**Se va bene:** navigazione fluida tra chat piccola e schermo Worker senza perdere la navbar; Vercel builda in ~2 min e il comportamento è live.
+
+---
+
 ### 🟡 #mergia-pr-429 — Mergia PR #429: debounce messaggi multipli in chat · ⏳ accodata 2026-07-17 10:30
 
 **Cosa fare:** vai su GitHub → PR #429 → clicca "Merge pull request".
