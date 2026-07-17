@@ -2872,6 +2872,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               : { boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }
           }
         >
+          {/* Colonna centrata con bordi laterali — solo workerFull */}
+          <div
+            className={workerFull ? "flex flex-col flex-1 min-h-0 max-w-3xl mx-auto w-full" : "flex flex-col flex-1 min-h-0"}
+            style={workerFull ? { borderLeft: "1px solid var(--border)", borderRight: "1px solid var(--border)" } : undefined}
+          >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
             <div className="leading-tight min-w-0 flex-1">
@@ -2973,6 +2978,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onToggleVoce={toggleVoceWorker}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
+          </div>
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div
             className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
@@ -2980,7 +2986,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             aria-hidden="true"
           />
           <aside
-            className={`absolute inset-y-0 left-0 z-30 w-full flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
+            className={`absolute inset-y-0 z-30 flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"} ${navAperta ? "left-64 w-72" : "left-0 w-full sm:w-80"}`}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!fabConvOpen}
           >
