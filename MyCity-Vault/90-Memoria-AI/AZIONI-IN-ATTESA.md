@@ -23,22 +23,21 @@ Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il
 
 ---
 
-### 🟡 #fix-invia-mobile — Crea il branch e committa il fix del tasto Invia su smartphone · ⏳ accodata 2026-07-17 03:57
+### ✅ #fix-invia-mobile — PR #427 aperta dall'AD · FATTO 2026-07-17 04:00
 
-**Cosa fare (20 secondi al terminale VPS):**
-```
-cd /opt/mycity/ad-mycity
-git checkout -b fix/invia-mobile-wrap
-git add pannello/src/components/BarraScritturaChat.tsx && git commit -m "fix(mobile): tasto Invia sempre visibile su schermi piccoli"
-```
-Poi l'AD apre la PR con `node cervello/git-pr.mjs --repo ad-mycity --base main`.
+L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passaggi manuali di Nicola. Fix: `flex-wrap: wrap` in `BarraScritturaChat.tsx`.
 
-**Causa:** la riga dei bottoni usava `flex` senza `flex-wrap` → su schermi piccoli il tasto Invia usciva fuori dal riquadro. Fix: aggiunto `flex-wrap: wrap` al container.
+---
 
-**Cosa cambia:** il tasto Invia torna visibile su tutti gli smartphone, anche i più piccoli.
-**Se va bene:** PR aperta → Nicola mergia → live su Vercel in ~2 min.
+### 🟡 #mergia-pr-427 — Mergia PR #427 su GitHub (tasto Invia smartphone) · ⏳ accodata 2026-07-17 04:00
 
-- **Colore:** 🟡 (branch+commit → Nicola; PR → AD)
+**Cosa fare:** vai su GitHub → PR #427 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/427
+
+**Cosa cambia:** il tasto Invia torna visibile su tutti gli smartphone — Vercel builda in ~2 min e il fix è live.
+**Se va bene:** problema smartphone risolto; nessun altro passo necessario.
+
+- **Colore:** 🟡 (merge → Nicola)
 - **Reparto:** frontend-dev
 
 ---
