@@ -1,12 +1,18 @@
 {
-  "data": "2026-07-17 11:45",
-  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~555h). OGGI è il Venerdì Piacentini — presidio banco PQ stasera = finestra unica North Star 0→1. Bando ER scade 21/7 (4 giorni). 17 negozi DB (1 approvato: PQ), 258 prodotti, 494 autofill pronti. Macchina: 26 difetti aperti, 19 PR in coda, n8n cieco da 22 giri.",
+  "data": "2026-07-17 11:51",
+  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~555h). OGGI è il Venerdì Piacentini — presidio banco PQ stasera = finestra unica North Star 0→1. Bando ER scade 21/7 (4 giorni). 2 BANDI CCIAA trovati oggi: BT26 €7k (40%, e-commerce) + BE26 €20k (50%, energia), apertura 20/7, scadenza 30/7. 17 negozi DB (1 approvato: PQ), 258 prodotti, 494 autofill pronti. Macchina: 26 difetti aperti, 19 PR in coda, n8n cieco 25 giri.",
   "opportunita": [
     {
       "titolo": "Vai al banco di Pane Quotidiano stasera al Venerdì Piacentini",
-      "motivo": "L'evento è stasera 20:00-22:30, centro pieno, ritiro al banco non richiede la bici — finestra unica per il primo ordine reale",
+      "motivo": "L'evento è stasera 20:00-22:30, centro pieno (50-60k persone), ritiro al banco non richiede la bici — finestra unica per il primo ordine reale",
       "impatto": "alto",
       "sforzo": "basso"
+    },
+    {
+      "titolo": "Prepara il kit per i 2 bandi CCIAA (apertura domani 20/7)",
+      "motivo": "BT26 €7.000 (40%, e-commerce/retail) + BE26 €20.000 (50%, energia) — apertura 20/7, scadenza 30/7; kit da preparare entro 19/7 (🟢 lavoro macchina)",
+      "impatto": "alto",
+      "sforzo": "medio"
     },
     {
       "titolo": "Sblocca il bando ER con il primo ordine reale",

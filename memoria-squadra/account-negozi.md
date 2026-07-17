@@ -7,6 +7,7 @@ reparto: account-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-17 11:47 · Playbook anti-churn 17/7: 1 negozio (PQ) verificato, 0 ordini, nessun churn reale · qualita:4,velocita:5,autonomia:4,impatto:3,calibrazione:4,collaborazione:3 · atteso Identificare eventuali negozi in calo e proporre retention → reale 0 negozi in calo — PQ non è churn (falso positivo noto), presidio fisico VP 17/7 è la retention attiva · #vp17 #anti-churn
 - 2026-07-15 12:56 · sentinella negozio_fermo 15/7 12:56 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso check-in anti-churn per negozi fermi 14g → reale 1 PQ falso positivo; vetrina 4/8; 0 nuove azioni; usa #ritiro-pq-vp17-checkin · #sentinella #PQ #falso-positivo
 - 2026-07-14 11:08 · playbook anti-churn 14/7 · verita:5,completezza:5,onesta:5,anti-doppione:5 · atteso trova negozi in calo e accoda check-in → reale 0 in calo; 1 pre-revenue PQ; 1 check-in VP17 accodato; 0 doppioni · #antichurn #playbook #REST-live
 - 2026-07-13 11:43 · metabolizzazione — coda #antichurn allineata · atteso: linguaggio «6 ristoranti tattici» non «6 botteghe food» · reale: titolo+testo #antichurn-13lug aggiornati; playbook path storico annotato · #antichurn #6-ristoranti #propagazione

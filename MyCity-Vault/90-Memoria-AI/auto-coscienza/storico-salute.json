@@ -13,34 +13,6 @@
       "aperti_davvero": 0,
       "bloccanti_umani": 1,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 2h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
-    },
-    {
-      "data": "2026-07-07",
-      "voto_salute": 44,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
-      "firma": "",
-      "difetti_aperti": 0,
-      "difetti_chiusi": 23,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 1,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 4h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
-    },
-    {
-      "data": "2026-07-07",
-      "voto_salute": 44,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
-      "firma": "",
-      "difetti_aperti": 0,
-      "difetti_chiusi": 23,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 1,
-      "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 5h fa · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
     },
     {
@@ -1250,6 +1222,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "loop chiude (con prova) · briefing 0h fa (11:45) · cecità sensori 22 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · radiografia già eseguita 16/7 (non richiesta)"
+    },
+    {
+      "data": "2026-07-17",
+      "voto_salute": 56,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
+      "difetti_aperti": 26,
+      "difetti_chiusi": 48,
+      "pending_merge": 19,
+      "aperti_davvero": 5,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 24 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
