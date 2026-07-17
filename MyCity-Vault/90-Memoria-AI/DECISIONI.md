@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 02:08 · ✅ · [AD/esegui-azione] · **PR #420 ad-mycity → main: già mergiata (merge commit 4da9da25).** Azione approvata dal Pannello; la PR era già in stato "closed" su GitHub perché il merge era avvenuto in precedenza (branch `fix/scroll-conv-bottom`, commit `e7f15aa0`). Fix: scroll al fondo quando si cambia conversazione. Nessuna nuova azione necessaria. Azione #171 segnata ✅ FATTO in AZIONI-IN-ATTESA.
+
 2026-07-17 01:30 · ⭐ PERMANENTE · [Nicola] · **«Impara questa lezione e ricordatela per sempre»: il file `.env` del worker è `cervello/vps/.env`.** Nicola ha chiuso la sessione con questa istruzione esplicita dopo che l'AD l'aveva mandata due volte nel posto sbagliato (root `.env` poi dentro il codice del worker). Il systemd legge `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env` — verificato. Ogni variabile d'ambiente del worker va lì. Aggiornato: LEZIONI-CHAT.md (⭐ PERMANENTE in cima) + apprendimento.json L-2026-0717-247 (permanente_nicola: true, evidenze: 2).
 
 2026-07-17 ~01:56 · 🟡 · [AD] · **VERCEL_TOKEN in `cervello/vps/.env` — confermato CORRETTO, worker da riavviare.** Nicola ha detto "io l'ho messo qui: nano /opt/mycity/ad-mycity/cervello/vps/.env". Verificato: il servizio systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env` — è il posto giusto. Il token c'è. Il worker deve essere riavviato per caricare il nuovo env: `sudo systemctl restart mycity-worker-chat.service`. Dopo il riavvio il MCP Vercel sarà attivo dalla chat del Pannello. Card #vercel-token-vps aggiornata. Fonte: chat Nicola 17/7.
