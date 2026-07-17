@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-07-17 06:20",
+  "quando": "2026-07-17 10:20",
   "radar": "cervello/radar-fonti.json",
   "fonti_totali": 16,
   "vive": 13,
@@ -16,7 +16,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "liberta-citta",
@@ -27,7 +27,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "ilpiacenza-economia",
@@ -38,7 +38,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "piacenzasera",
@@ -49,7 +49,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "comune-news",
@@ -58,9 +58,9 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 1,
+      "falliti_consecutivi": 2,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "comune-eventi",
@@ -69,9 +69,9 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 1,
+      "falliti_consecutivi": 2,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "comune-imprese",
@@ -80,9 +80,9 @@
       "peso": 4,
       "viva": false,
       "status": 403,
-      "falliti_consecutivi": 1,
+      "falliti_consecutivi": 2,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "vitaincentro",
@@ -93,7 +93,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "unionecommercianti",
@@ -104,7 +104,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "cna-piacenza",
@@ -115,7 +115,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "glovo-piacenza",
@@ -126,7 +126,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "conad-consegna",
@@ -137,7 +137,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "cortilia",
@@ -148,7 +148,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "meteo-piacenza",
@@ -159,7 +159,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "sagre-provincia",
@@ -170,7 +170,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     },
     {
       "id": "reputazione-mycity",
@@ -181,7 +181,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-17 06:20"
+      "ultimo_controllo": "2026-07-17 10:20"
     }
   ]
 }
