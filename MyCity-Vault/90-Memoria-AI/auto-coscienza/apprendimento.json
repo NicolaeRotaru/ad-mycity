@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0717-255",
+      "testo": "**Messaggi 🚫 «Annullati» consecutivi nascondono la risposta nel Pannello (17/7, «Non sto vedendo la risposta»):** quando più messaggi vengono annullati in sequenza, il contenuto successivo può non apparire o essere oscurato per Nicola. Workaround: al turno successivo, inizia con un paragrafo-riassunto brevissimo («Ecco cosa ho fatto: X, Y, Z — serve da te: comando VPS») PRIMA di qualsiasi blocco codice o dettaglio lungo. Il riassunto rompe il blocco visivo e garantisce che il minimo essenziale arrivi a Nicola. Fix strutturale: la PR #431 (debounce messaggi) potrebbe ridurre i cancellamenti compulsivi.",
+      "tag": ["messaggi-annullati", "risposta-invisibile", "pannello-chat", "ux-chat", "comunicazione-nicola", "workaround"],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 12:45",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0717-254",
       "testo": "**Wildcard `node cervello/*.mjs` in allowlist NON copre script appena creati nella stessa sessione (17/7, pulisci-coda.mjs):** il file era sul filesystem VPS ma la chat non riusciva a girarlo. La wildcard è evaluata all'avvio del worker e non si aggiorna in-sessione. Processo corretto per nuovi script: crea il file → PR → Nicola merge → poi gira dal terminale VPS. Non promettere 'giro subito' su uno script appena scritto.",
       "tag": ["allowlist", "wildcard", "node-script", "cervello", "permessi-chat", "nuovi-script", "pulisci-coda"],
