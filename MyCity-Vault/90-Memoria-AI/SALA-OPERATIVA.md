@@ -983,3 +983,5 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-17 15:00 · @AD · SERVE · 🔴 Nicola: stasera al banco PQ (VP 17/7, ore 20:00) → North Star 0→1 · 🔴 Ruota PAT GitHub (PAT in chiaro nel config git VPS) · 🟡 Mergia PR #433+#430+#431 · 🟡 Mail Hub Urbano appena esce il primo ordine (bando ER scade 21/7 ore 13, sportello CAP 350).
 - 2026-07-17 15:00 · @content-social · SERVE · Post kefir e post VP stasera attendono il link marketplace e l'ok Nicola (🔴) — carte #post-kefir-estate-1407 e #post-vp-day-1707 in coda.
 - 2026-07-17 15:00 · @builder-automazioni · SERVE · PR #433 (pulisci-coda) e PR push-pr-bloccanti aspettano merge · n8n cieco 29 giri — priorità sblocco dopo review.
+
+- 2026-07-17 17:30 · @AD · FATTO · Giro serale pre-VP: stallo ~560h invariato, REST ok 17:19, n8n cieco 36 giri. Briefing 17:30 scritto, auto-analisi aggiornata, ultimo-briefing/intenzioni-nicola freschi. MOSSA: pubblica post VP (card #post-vp-day-1707) entro 18:30 + banco PQ alle 19:30.

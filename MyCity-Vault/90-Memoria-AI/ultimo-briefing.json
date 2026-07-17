@@ -1,51 +1,51 @@
 {
-  "data": "2026-07-17 12:15",
-  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~555h). OGGI sera è il gran finale del Venerdì Piacentini (20:00-22:30, Via Calzolai piena): finestra unica per il primo ordine reale a ritiro banco PQ. Bando ER scade 21/7 ore 13 (sportello, max 350 domande). Meteo caldo (34-38°C oggi), da domenica 20/7 cambio con piogge → apertura finestra delivery a domicilio. Concorrente: Prosus (Glovo) acquisisce JustEat — convergenza futura da monitorare. Macchina: 26 difetti aperti, 19 PR, n8n cieco 29 giri.",
+  "data": "2026-07-17 17:30",
+  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~560h). TRA 2,5 ORE parte il gran finale del Venerdì Piacentini (20:00, Via Calzolai piena). Ritiro al banco PQ — nessuna bici. Bando ER scade 21/7 ore 13 (~87h). Post VP (card #post-vp-day-1707) pronto da pubblicare ORA. Macchina: 26 difetti aperti, 19 PR, n8n cieco 36 giri.",
   "opportunita": [
     {
-      "titolo": "Vai al banco di Pane Quotidiano stasera al Venerdì Piacentini",
-      "motivo": "L'evento è STASERA 20:00-22:30, centro pieno (50-60k persone), PQ in Via Calzolai — ritiro al banco non richiede la bici. Finestra unica per North Star 0→1",
+      "titolo": "Vai al banco di Pane Quotidiano STASERA al Venerdì Piacentini",
+      "motivo": "Parte tra 2,5 ore (20:00-22:30), centro pieno (50-60k persone), PQ in Via Calzolai — ritiro al banco senza bici. Finestra UNICA per North Star 0→1 questa stagione",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
+      "titolo": "Pubblica il post VP adesso (card #post-vp-day-1707)",
+      "motivo": "Il testo è già pronto — serve solo il link da Pannello. Ideale entro 18:00-18:30 per raggiungere chi pianifica la serata. Ogni ora persa riduce la reach",
+      "impatto": "alto",
+      "sforzo": "minimo"
+    },
+    {
       "titolo": "Sblocca il bando ER con il primo ordine reale di stasera",
-      "motivo": "Scade 21/7 ore 13 (sportello: max 350 domande, rischio chiusura anticipata). Gate = 1 ordine reale evadibile. Il VP di stasera è l'unica finestra rimasta",
+      "motivo": "Scade 21/7 ore 13 (~87h, sportello: max 350 domande, rischio chiusura anticipata). Gate = 1 ordine reale evadibile. Il VP di stasera è l'unica finestra prima della scadenza",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Dal 20/7 lancia la campagna delivery a domicilio (cambia il meteo)",
-      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: la domanda di consegna a casa sale. Content già pronto (kefir), serve solo il link",
-      "impatto": "medio",
-      "sforzo": "basso"
-    },
-    {
-      "titolo": "Approva il batch di 494 campi catalogo da compilare",
-      "motivo": "Già proposti automaticamente, reversibili — 2 clic da Nicola, catalogo PQ più completo per i clienti che arrivano stasera",
+      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: domanda di consegna a casa sale. Content già pronto (adatta il post kefir), serve solo il link",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Vai al banco PQ stasera (QR + ritiro al banco, 20:00-22:30)",
-      "motivo": "North Star 0→1 + sblocco bando ER + gate mail Hub Urbano",
+      "titolo": "Pubblica il post Venerdì Piacentini ORA (card #post-vp-day-1707)",
+      "motivo": "Testo già pronto — serve il link e il via dal Pannello entro 18:00-18:30",
       "livello": "rosso"
     },
     {
-      "titolo": "Pubblica il post Venerdì Piacentini entro le 14:00",
-      "motivo": "Post day-of già scritto e pronto (card #post-vp-day-1707) — serve solo il link e il via",
+      "titolo": "Vai al banco PQ entro le 19:30 (Via Calzolai 25, porta il QR)",
+      "motivo": "North Star 0→1 + sblocco bando ER + gate mail Hub Urbano. Ritiro banco = nessuna bici necessaria",
       "livello": "rosso"
     },
     {
       "titolo": "Mergia PR #430, #431, #433 da GitHub",
-      "motivo": "Pronte, testate, nessun conflitto — migliorano la chat del Pannello",
+      "motivo": "Pronte, testate, nessun conflitto — migliorano il Pannello",
       "livello": "giallo"
     },
     {
-      "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS (stima anche 150 euro/mese va bene)",
-      "motivo": "Runway sconosciuto da 116 giri — bastano anche 150-200€/mese come stima per sbloccare la sentinella",
+      "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS (stima 150-200 euro/mese va bene)",
+      "motivo": "Runway sconosciuto da 116 giri — sblocca la sentinella cassa_sconosciuta",
       "livello": "giallo"
     }
   ]

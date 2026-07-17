@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 12:15
-fonte: AD digitale (🛰️ 17/7 12:15 giro · VP17/7 OGGI STASERA · intelligence aggiornata · bando ER cap 350 domande · Prosus/JustEat · n8n cieco 29 giri)
+aggiornato: 2026-07-17 17:30
+fonte: AD digitale (🛰️ 17/7 17:30 giro serale pre-VP · REST ok 17:19 · n8n cieco 36 giri · giri_totali=188)
 ---
+
+> 🛰️ **17/7 17:30 — GIRO SERALE (pre-VP).** **TRA 2,5H IL VENERDÌ PIACENTINI (ore 20:00, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~560h** (REST ok 17:19). Sensori: n8n cieco 36 giri · MCP cieco 2 giri · REST/Stripe/Resend ok · giri_totali=188. **ADESSO: pubblica post VP (card #post-vp-day-1707 🔴, testo pronto in coda)**. Poi: 🔴 banco PQ entro le 19:30. Bando ER scade 21/7 ore 13 (~87h). Macchina: voto_salute=56, 26 difetti, 19 PR in coda merge. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 🛰️ **17/7 12:15 — GIRO (aggiornamento intelligence).** **OGGI STASERA alle 20:00 — Venerdì Piacentini, ultimo della stagione.** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~555h**. Intelligence aggiornata: bando ER 21/7 ore 13 (CAP 350 domande, sportello cronologico → rischio chiusura ANTICIPATA), Prosus acquisisce JustEat (convergenza con Glovo in 12-24 mesi, costruire moat ora), meteo svolta dal 20/7 con piogge (delivery a domicilio). n8n cieco 29 giri (era 22 a 11:45 per aggiornamento contatore). 3 file Intelligence scritti. **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera (20:00-22:30). Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 

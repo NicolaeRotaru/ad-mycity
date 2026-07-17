@@ -1,31 +1,31 @@
 {
-  "data": "2026-07-17 12:15",
-  "sintesi": "Nicola: STASERA è il VP 17/7 — presidio banco PQ Via Calzolai = unica mossa per North Star 0→1. Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (sportello, max 350 domande, rischio chiusura anticipata). Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Dal 20/7 cambia il meteo (piogge) → finestra delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 29 giri.",
+  "data": "2026-07-17 17:30",
+  "sintesi": "Nicola: tra 2,5h il VP 17/7 — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto). Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (~87h, sportello, max 350 domande). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 36 giri.",
   "prossime_mosse": [
     {
-      "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
-      "quando": "OGGI 17/7 sera (20:00-22:30)",
-      "come": "Via Calzolai 25, QR in mano, accetta ordine ritiro al banco (bici non necessaria per ritiro)",
+      "titolo": "Pubblica il post Venerdì Piacentini ADESSO (card #post-vp-day-1707)",
+      "quando": "ADESSO — entro le 18:00-18:30",
+      "come": "Pannello → Da approvare → card #post-vp-day-1707 → link a Nicola → pubblica",
       "priorita": "URGENTE",
-      "ad_prepara": "Briefing 2026-07-17.md",
-      "senior": "@account-negozi",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Pubblica il post Venerdì Piacentini entro le 14:00 di oggi",
-      "quando": "OGGI 17/7 entro le 14:00",
-      "come": "Post day-of pronto (card #post-vp-day-1707) — serve solo il link",
-      "priorita": "URGENTE",
-      "ad_prepara": "Post scritto, card in AZIONI-IN-ATTESA",
+      "ad_prepara": "Post scritto in consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md, card già in coda",
       "senior": "@content-social",
       "colore": "🔴"
     },
     {
-      "titolo": "Segnala il bando ER alle botteghe candidate entro domani (scade 21/7 ore 13!)",
-      "quando": "oggi o domani mattina",
+      "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
+      "quando": "OGGI 17/7 — partenza ~19:30, banco 20:00-22:30",
+      "come": "Via Calzolai 25, QR in mano, accetta ordine ritiro al banco (bici non necessaria per ritiro)",
+      "priorita": "URGENTE",
+      "ad_prepara": "Briefing 2026-07-17.md, post VP da pubblicare prima",
+      "senior": "@account-negozi",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Segnala il bando ER alle botteghe candidate (scade 21/7 ore 13!)",
+      "quando": "oggi o domani mattina al massimo",
       "come": "Informarle durante la call / messaggio — scade 21/7 ore 13, sportello 350 domande, rischio chiusura anticipata",
       "priorita": "URGENTE",
-      "ad_prepara": "eventi-picchi.md con dettagli bando ER",
+      "ad_prepara": "eventi-picchi.md con dettagli bando ER aggiornati",
       "senior": "@relazioni-istituzionali",
       "colore": "🔴"
     },
@@ -40,7 +40,7 @@
     },
     {
       "titolo": "Mergia PR #430, #431, #433 da GitHub",
-      "quando": "oggi",
+      "quando": "oggi (non urgente come il VP)",
       "come": "Pannello → Da approvare → PR #430, #431, #433",
       "priorita": "media",
       "ad_prepara": "PR verificate e pronte",
@@ -59,7 +59,7 @@
   ],
   "bici_elettrica": {
     "stato": "in riparazione",
-    "nota": "Nicola 12/7: forse settimana 14-18 luglio. Non risulta ancora confermata. Ritiro banco PQ è il workaround per il VP.",
+    "nota": "Nicola 12/7: forse settimana 14-18 luglio. Non ancora confermata la riparazione. Ritiro banco PQ è il workaround per il VP stasera.",
     "impatto": "Consegna a domicilio non ancora possibile — dal 20/7 cambio meteo potrebbe aumentare la domanda"
   },
   "gate_primo_negozio": {
@@ -67,17 +67,19 @@
     "azioni_bloccate": ["Mail Hub Urbano (#52)", "Post 'Lunedì della Bottega' (#46)", "Referral 5+5€ (#37)"],
     "scadenza_vicina": "Bando ER 21/7 ore 13 — SPORTELLO (max 350 domande, rischio chiusura anticipata)"
   },
-  "segnali_nuovi_17lug": {
-    "bando_er": "Cap 350 domande, sportello cronologico → urgenza massima. Informare le botteghe candidate entro oggi.",
+  "segnali_aggiornati_17lug_1730": {
+    "vp_stasera": "TRA 2,5 ORE — post da pubblicare ORA, banco PQ alle 19:30-20:00",
+    "bando_er": "Cap 350 domande, sportello cronologico → urgenza massima. Gate = 1 ordine reale (VP stasera).",
     "concorrenti": "Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Costruire moat sulle botteghe storiche ORA.",
-    "meteo": "Dal 20/7 piogge → domanda delivery a domicilio sale. Adattare il post kefir a questo messaggio.",
+    "meteo": "Dal 20/7 piogge → domanda delivery a domicilio sale. Adattare post kefir a questo messaggio.",
     "eventi": "Piacenza Summer Cult (luglio-settembre), rientro universitari settembre → pianificare flotta rider adesso."
   },
   "rischi": [
-    "VP 17/7 passa senza presidio → stallo continua per altra settimana",
+    "VP 17/7 passa senza presidio → stallo continua per altra settimana + bando ER scade senza gate soddisfatto",
+    "Post VP non pubblicato entro 18:30 → reach minima, meno clienti potenziali stasera",
     "Bando ER scade 21/7 ore 13 SENZA 1° ordine — sportello: rischio chiusura ANTICIPATA",
     "PAT GitHub in chiaro — security risk",
-    "Runway sconosciuto (BURN_MENSILE_EUR assente)",
+    "Runway sconosciuto (BURN_MENSILE_EUR assente da 116+ giri)",
     "Fusione Prosus/JustEat → player più forte sui ristoranti di Piacenza in 12-24 mesi"
   ]
 }

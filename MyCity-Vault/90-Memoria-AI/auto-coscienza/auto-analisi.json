@@ -1,25 +1,22 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 12:15",
-  "voto_fiducia": 87,
-  "trend_fiducia": "= 87 (stabile, -1 vs 88 11:45 per intelligence parziale su bandi CCIAA non verificata da fonte primaria). Dati confermati da supervisione 11:29 e sensori REST 11:28. VP 17/7 è OGGI.",
-  "sintesi": "Giro 17/7 12:15 — business invariato (~555h stallo, North Star 0, 23 clienti, 1 negozio approvato PQ). Intelligence aggiornata: meteo 34-38°C ok, bando ER scade 21/7 ORE 13 (cap 350 domande, sportello!), Prosus/JustEat convergenza futura Glovo, prossimi eventi Piacenza Summer Cult. Macchina: 26 difetti aperti, 19 PR in attesa merge, n8n cieco 29 giri.",
+  "data": "2026-07-17 17:30",
+  "voto_fiducia": 88,
+  "trend_fiducia": "= 88 (stabile, +1 vs 87 12:15 — giro serale pre-VP, dati confermati da REST 17:19, n8n cieco contatore aggiornato a 36 giri). Situazione business confermata. VP inizia tra 2,5h.",
+  "sintesi": "Giro 17/7 17:30 serale — business invariato (~560h stallo, North Star 0, 23 clienti, 1 negozio approvato PQ). Stasera VP finale stagione (20:00-22:30). Mossa critica: pubblica post VP adesso + banco PQ entro 19:30. Bando ER scade 21/7 ore 13 (~87h). Macchina: voto_salute=56, 26 difetti aperti, 19 PR in coda merge, n8n cieco 36 giri. Sensori REST/Stripe/Resend ok, giri_totali=188.",
   "verifiche": [
-    "Entità: PQ confermato da supervisione-negozi.mjs 11:29 (1 approvato, Via Calzolai 25).",
-    "Numeri: supervisione 17/7 11:29 → 17 negozi, 258 prodotti, 494 autofill. Stallo ~555h invariato (REST 11:28).",
-    "Sensori: REST ok 11:28 · MCP cieco 2 giri · Stripe ok (cassa 0€) · Resend ok · n8n cieco 29 giri · PostHog non_configurato (scelta Nicola).",
-    "VP 17/7: confermato da calendario eventi Vita in Centro, radar.json, e memory dal 9/7 — data certa, evento reale.",
-    "Bando ER 21/7: confermato da intelligence web scan + fesr.regione.emilia-romagna.it (link diretto verificato).",
-    "Bandi CCIAA BT26/BE26: riportati nel briefing 11:45 — fonte NON verificata da sito primario CCIAA in questo giro (grado di confidenza: medio). Classificati come 'scelta_ragionata da verificare'.",
-    "Meteo 34-38°C stasera: confermato da ilpiacenza.it e ilmeteo.it (web scan intelligence).",
-    "Acquisizione Prosus/JustEat: confermata da retailfood.it — implicazioni a Piacenza speculative ma plausibili.",
-    "Numero n8n cieco: era 28 a 12:09 → ora 29 giri (sensori-cecita.json aggiornato automaticamente)."
+    "Entità: PQ confermato da supervisione-negozi.mjs 11:29 (1 approvato, Via Calzolai 25) — invariato.",
+    "Numeri: stallo ~560h calcolato da baseline 12:15 (~555h) +5h = ~560h. North Star 0 confermato da REST 17:19.",
+    "Sensori: REST ok 17:19 · MCP cieco 2 giri · Stripe ok · Resend ok · n8n cieco 36 giri · PostHog non_configurato (scelta Nicola).",
+    "VP 17/7: confermato da calendario VP, radar.json, eventi-picchi.md 12:15 — evento reale, inizia tra 2,5h.",
+    "Bando ER 21/7: confermato da intelligence 12:15 (fesr.regione.emilia-romagna.it). Cap 350 domande, sportello cronologico.",
+    "giri_totali=188: confermato da sensori-cecita.json aggiornato 17:19."
   ],
   "errori_rilevati": [
-    "BANDI CCIAA BT26/BE26: presenti nel briefing 11:45 senza verifica live del sito CCIAA in questo giro — declassati a 'da_verificare' nel registro-realta. Non bloccante per il giro (il briefing li presenta come 'da aprire 20/7', Nicola può verificare direttamente).",
+    "Post VP (card #post-vp-day-1707) avrebbe dovuto uscire entro le 14:00 — finestra preferenziale persa. Ancora utile pubblicarlo entro le 18:00-18:30 per chi pianifica la serata.",
     "MCP Supabase cieco 2 giri: usa REST (ok). Nessun dato mancante per il giro."
   ],
   "domande_bloccanti": [],
-  "benchmark": "Il lavoro importante di questo giro è la raccolta intelligence per il VP e il radar concorrenti. Standard: check fonti primarie per i bandi, non solo secondarie. Gap: bandi CCIAA non verificati da sito ufficiale.",
-  "salute_giro": "OK — loop chiude, coerenza-fatti exit 0 (giro 16:24), sensori dati ok (REST), intelligence fresca, 3 file Intelligence scritti."
+  "benchmark": "Il giro serale si concentra sull'azione operativa (VP stasera) non sull'intelligence. Priorità corretta: business critico > analisi.",
+  "salute_giro": "OK — loop chiude, sensori REST ok, briefing aggiornato, storico-salute sonda aggiunta. VP operativo tra 2,5h — azione concreta disponibile."
 }
