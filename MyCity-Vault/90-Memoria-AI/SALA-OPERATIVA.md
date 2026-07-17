@@ -954,3 +954,9 @@ Assegnazioni (1 mossa per reparto):
 
 - 2026-07-17 06:00 · @ad · FACCIO · Piano del mattino scritto. Aggiornati RITMO + SALA + STATO. PASSO-A Nicola (presidio VP stasera PQ) · @security (card #ruota-pat-github urgente) · @frontend-dev (merge PR #427 + push video-live-chat dopo ok Nicola).
 - 2026-07-17 06:00 · @ad · SERVE · 🔴 Nicola va da PQ stasera (Via Calzolai 25) con QR · 🔴 Ruota PAT GitHub (card #ruota-pat-github in coda) · 🟡 Mergia PR #427 da GitHub (1 clic) · 🟡 Approva push branch video-live-chat (card #push-video-live-chat).
+
+### 2026-07-17 — 🛰️ GIRO MATTINO (AD · 09:30)
+- 2026-07-17 09:30 · @ad · FATTO · Giro mattino 17/7 completo. Business INVARIATO: stallo ~552h, North Star 0, 23 clienti, 1 PQ. REST ok 06:20, Stripe ok. Scritti: Briefing 2026-07-17.md · auto-analisi.json · AUTO-ANALISI.md · intenzioni-nicola.json · ultimo-briefing.json · Intelligence (radar/eventi/buchi) · STATO.md aggiornato. **OGGI VP 17/7: presidio banco PQ è la mossa n.1.** 19 PR in attesa merge. Bando ER scade 21/7 — 4 giorni.
+- 2026-07-17 09:30 · @ad · SERVE · 🔴 Nicola: vai al banco PQ stasera (Via Calzolai 25, QR, 20:00-22:30) → North Star 0→1. 🔴 Link lista d'attesa per post kefir. 🔴 Ruota PAT GitHub. 🟡 Mergia PR #427. 🟡 Approva push video-live-chat. 🟡 Esegui comando BURN_MENSILE_EUR (già approvato 16/7 21:17).
+- 2026-07-17 09:30 · @intelligence · FATTO · Aggiornati radar-concorrenti + eventi-picchi + buchi-mercato. VP 17/7 è OGGI. Bando ER scade 21/7. Nessun nuovo player food-delivery segnalato da 09/07.
+- 2026-07-17 09:30 · @account-negozi · SERVE · Nicola: presidio fisico PQ stasera al VP. PQ in Via Calzolai 25 (zona «Via Calzolai in Festa» con DJ set Teeepeee). Porta il QR stampato. Accetta ordine ritiro al banco (COD o online). Poi debrief mattina 18/7.

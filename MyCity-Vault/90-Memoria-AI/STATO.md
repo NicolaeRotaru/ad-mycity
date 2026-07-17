@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 06:00
-fonte: AD digitale (☀️ 17/7 06:00 piano del mattino · VP17/7 oggi · PR #427 aperta · #423/#424 mergiate · video-live-chat in branch)
+aggiornato: 2026-07-17 09:30
+fonte: AD digitale (🛰️ 17/7 09:30 giro mattino · VP17/7 OGGI · stallo ~552h · 19 PR in attesa · North Star 0)
 ---
+
+> 🛰️ **17/7 09:30 — GIRO MATTINO.** **OGGI è il Venerdì Piacentini — finestra per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini consegnati, stallo **~552h** (≈23 giorni). REST ok 06:20, Stripe ok. **19 PR in attesa merge** (video-live-chat, smartphone, streaming, autofill). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP (QR in mano, ritiro al banco → North Star 0→1). **Coda urgente:** post kefir 🔴 (link da Nicola) · ruota PAT GitHub 🔴 · mergia PR #427 🟡 · push video-live-chat 🟡 · BURN_MENSILE_EUR 🟡 (già approvato). Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 💬 **17/7 ~04:30 — CHAT: Feature video live costruita — PR pendente.** Nicola ha chiesto mic + textarea + chat nel video live. AD ha modificato 4 file (`BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx`), typecheck verde, committato su branch `fix/video-live-chat` (commit `9816bb3f`). Layout: telecamera 55% + chat 45% su desktop, stacked su mobile. `git push` bloccato dalla sessione Pannello → azione **#push-video-live-chat** accodata in AZIONI-IN-ATTESA (3 comandi VPS da dare a Nicola). **Anche: PR #427** (tasto Invia smartphone, `flex-wrap`) aperta dall'AD direttamente. **PR #423** (cassetto conversazioni `fixed`) mergiata da Nicola. Fonte: chat Nicola 17/7.
 
