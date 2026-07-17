@@ -2690,6 +2690,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onToggleVoce={toggleVoceWorker}
             onConversazioni={() => setConvDrawerAperto(true)}
             onNuovaChat={nuovaConversazione}
+            chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
@@ -2965,6 +2966,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onPrompt={workerFull ? dammiPrompt : undefined}
             voceWorker={voceWorker}
             onToggleVoce={toggleVoceWorker}
+            chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
           {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
           <div

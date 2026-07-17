@@ -34,6 +34,8 @@ type Props = {
   onToggleVoce?: () => void;
   onConversazioni?: () => void;
   onNuovaChat?: () => void;
+  /** Messaggi della chat da mostrare nella finestra chat del video live. */
+  chatMessaggi?: { role: string; content: string; pending?: boolean }[];
 };
 
 // ponytail: isolare lo state della bozza qui evita di ri-renderizzare tutta Home (page.tsx) a ogni keystroke.
@@ -56,6 +58,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
     onToggleVoce,
     onConversazioni,
     onNuovaChat,
+    chatMessaggi,
   },
   ref,
 ) {
@@ -162,6 +165,11 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
               : "min-h-[44px] min-w-[44px] grid place-items-center px-3 rounded-xl border border-black/10 text-black/55 hover:bg-black/[0.04] transition active:scale-95"
           }
           onScegli={onAllegati}
+          chatMessaggi={chatMessaggi}
+          chatLoading={loading}
+          chatOnInvia={onInvia}
+          chatOnDetta={onDetta}
+          chatAscoltando={ascoltando}
         />
         <button
           onClick={onDetta}
