@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:00 · 🟢 · [AD scoperta] · **File `.claude/*.json` non modificabili via chat.** Nicola ha chiesto «inserisci nell'allowlist ciò che ti serve per girare `pulisci-coda.mjs` nella chat». L'AD ha tentato skill `update-config` e Write tool: entrambi bloccati. Conclusione: i file `.claude/` sono protetti da un meccanismo di sicurezza che non dipende dall'allowlist — anche con permessi allargati il blocco regge. Passo residuo: Nicola aggiunge manualmente `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS.
+
 2026-07-18 00:16 · 🟢 · [AD → Nicola] · **Spiegato a Nicola perché la casella mostrava «merge NON ancora eseguito» dopo il merge avvenuto.** Causa: il testo della casella è «cristallizzato» al momento dell'accodamento e non si aggiorna da solo dopo il merge. Nicola ha capito. Passo residuo ancora aperto: `node cervello/pulisci-coda.mjs --esegui` dal terminale VPS (già segnato in AZIONI-IN-ATTESA #433).
 
 2026-07-18 00:13 · 🟡 · [Nicola conferma chat] · **PR #433 confermata mergiata su GitHub da Nicola.** Nicola ha notato che la casella del Pannello diceva «merge NON ancora eseguito» nonostante il merge fosse già avvenuto. Spiegazione: il testo della casella è «cristallizzato» al momento dell'accodamento e non si aggiorna in automatico dopo il merge. Passo residuo ancora da fare: `node cervello/pulisci-coda.mjs --esegui` dal terminale VPS per pulire i 121 job in errore.
