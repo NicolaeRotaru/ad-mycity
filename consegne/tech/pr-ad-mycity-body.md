@@ -1,3 +1,27 @@
+## Fix: niente "🚫 Messaggio annullato." in chat
+
+### Problema
+Quando un lavoro veniva annullato o sostituito, la chat mostrava "🚫 Messaggio annullato." come risposta dell'AD, sovrascrivendo qualunque risposta che stava già apparendo.
+
+### Fix
+Rimossa la riga in `lavori-gruppo.ts` che aggiungeva hardcoded quel testo per tutti i lavori "annullato":
+- Se il lavoro era **sostituito**: la risposta arriva nel turno nuovo (che include tutta la conversazione).
+- Se era **annullato manualmente**: nessuna risposta è la risposta corretta.
+
+Il messaggio di Nicola resta nella chat, senza una risposta che lo sovrascrive.
+
+### 1 file modificato
+`pannello/src/lib/lavori-gruppo.ts` — 3 righe rimosse
+
+### Come provare
+1. Invia un messaggio in chat
+2. Mentre l'AD elabora, invia un secondo messaggio
+3. Prima: appariva "🚫 Messaggio annullato." nel mezzo della chat
+4. Dopo: silenzio sul turno vecchio, risposta nel turno nuovo
+
+---
+<!-- VECCHIO BODY SOTTO — NON CANCELLARE: serve se la PR precedente viene riaperta -->
+
 ## 7 miglioramenti all'Assistente chat
 
 ### Cosa è cambiato

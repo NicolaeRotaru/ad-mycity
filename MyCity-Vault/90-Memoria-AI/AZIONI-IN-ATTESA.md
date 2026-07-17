@@ -25,7 +25,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
+### 🟡 #apri-pr-chat-annullato — Apri PR `fix/chat-no-sovrascrittura-annullato → main`: fix "🚫 Messaggio annullato." in chat · 1 file, 3 righe · corpo in consegne/tech/pr-ad-mycity-body.md · ⏳ accodata 2026-07-18 01:50
+
+🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/443 · Branch: `feature/lavori-riapprova-ux`
 
