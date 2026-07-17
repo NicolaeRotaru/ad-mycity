@@ -65,7 +65,7 @@ PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
 
 ---
 
-### 🟡 #mergia-pr-428 — Mergia PR #428: video live con microfono e chat · ⏳ accodata 2026-07-17 06:45
+### ✅ #mergia-pr-428 — Mergia PR #428: video live con microfono e chat · FATTO 2026-07-17 10:20
 
 **Cosa fare:** vai su GitHub → PR #428 → clicca "Merge pull request".
 → https://github.com/NicolaeRotaru/ad-mycity/pull/428
