@@ -1,47 +1,31 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-07-16 20:20",
+  "aggiornato": "2026-07-17 06:03",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-07-16",
-    "runs": 4,
+    "data": "2026-07-17",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 1526,
+    "durata_sec_totale": 212,
     "voci": [
       {
-        "quando": "2026-07-16 12:03",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 202,
+        "quando": "2026-07-17 06:03",
+        "tipo": "ritmo-mattino",
+        "durata_sec": 212,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-16 12:42",
-        "tipo": "giro",
-        "durata_sec": 1320,
-        "token": 110000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-07-16 14:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 3,
-        "token": 0,
-        "modello": "delta-gate"
-      },
-      {
-        "quando": "2026-07-16 20:20",
-        "tipo": "giro-saltato",
-        "durata_sec": 1,
-        "token": 0,
-        "modello": "delta-gate"
       }
     ],
-    "token_stimati": 160000
+    "token_stimati": 50000
   },
   "storico_giorni": [
+    {
+      "data": "2026-07-16",
+      "runs": 4,
+      "token_totali": 0,
+      "durata_sec_totale": 1526
+    },
     {
       "data": "2026-07-15",
       "runs": 2,
@@ -124,9 +108,9 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 0,
-    "runs_sessione": 2,
+    "token_sessione_rolling": 50000,
+    "runs_sessione": 1,
     "finestra_min": 360,
-    "aggiornato": "2026-07-16 20:20"
+    "aggiornato": "2026-07-17 06:03"
   }
 }
