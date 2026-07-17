@@ -2877,7 +2877,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
-          <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
+          <div className="px-4 py-3 shrink-0 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
             <div className="leading-tight min-w-0 flex-1">
               <div className="text-[14px] font-semibold tracking-tight truncate">Worker</div>
@@ -2919,7 +2919,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </button>
           </div>
           {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
-          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 p-3.5 space-y-3 overflow-y-auto">
+          <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto">
             {messages
               .filter((m) => !m.prompt)
               .map((m, i) => (
@@ -2928,31 +2928,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                     <span className="inline-block px-3.5 py-2 rounded-2xl rounded-br-md text-[13px] whitespace-pre-wrap max-w-[85%] leading-relaxed bg-brand text-white shadow-card">
                       {m.content}
                     </span>
-                  ) : m.pending ? (
-                    <div className="inline-flex flex-col items-start gap-1 max-w-[92%]">
-                      {m.content ? (
-                        <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px] whitespace-pre-wrap leading-relaxed max-w-full">
-                          {m.content}
-                          <span className="ml-0.5 animate-pulse">▍</span>
-                        </div>
-                      ) : (
-                        <div className="chat-bubble-pending inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-md text-[13px]">
-                          <Loader2 size={13} className="animate-spin" /> sto pensando…
-                        </div>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => void annullaInvioInCorso()}
-                        className="inline-flex items-center gap-1 text-[10.5px] font-medium text-red-600/90 hover:text-red-700 px-1.5 py-0.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 transition"
-                        aria-label="Annulla invio"
-                        title="Annulla — il messaggio torna nella casella di testo"
-                      >
-                        <CircleStop size={11} /> Annulla
-                      </button>
-                    </div>
                   ) : (
-                    <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-[92%]">
-                      <Markdown>{m.content}</Markdown>
+                    /* Struttura UNICA per pending e done: stesso wrapper, aggiornamento in-place senza flash */
+                    <div className="inline-flex flex-col items-start gap-1 max-w-[92%]">
+                      <div className="chat-bubble-assistant inline-block align-top text-left px-3.5 py-2 rounded-2xl rounded-bl-md max-w-full">
+                        {!m.content && m.pending ? (
+                          <span className="inline-flex items-center gap-2 text-[13px] opacity-50">
+                            <Loader2 size={13} className="animate-spin" /> sto pensando…
+                          </span>
+                        ) : (
+                          <><Markdown>{m.content}</Markdown>{m.pending && <span className="ml-0.5 animate-pulse">▍</span>}</>
+                        )}
+                      </div>
+                      {m.pending && (
+                        <button
+                          type="button"
+                          onClick={() => void annullaInvioInCorso()}
+                          className="inline-flex items-center gap-1 text-[10.5px] font-medium text-red-600/90 hover:text-red-700 px-1.5 py-0.5 rounded-md hover:bg-red-50 dark:hover:bg-red-950/30 transition"
+                          aria-label="Annulla invio"
+                          title="Annulla — il messaggio torna nella casella di testo"
+                        >
+                          <CircleStop size={11} /> Annulla
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>
