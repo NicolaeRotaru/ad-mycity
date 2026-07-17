@@ -81,7 +81,9 @@ export function messaggiDaLavoro(lv: LavoroBase): MsgChat[] {
     }
   }
   if (lv.stato === "annullato") {
-    out.push({ role: "assistant", content: "🚫 Messaggio annullato." });
+    // Non mostrare "🚫 Messaggio annullato." — sovrascriveva la risposta già vista.
+    // Se il lavoro è stato sostituito, la risposta arriva nel turno nuovo.
+    // Se è stato annullato manualmente, nessuna risposta è corretta.
     return out;
   }
   if (lv.risultato?.trim()) {
