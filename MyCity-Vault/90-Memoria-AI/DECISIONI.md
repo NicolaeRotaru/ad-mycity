@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:XX · 🟢 · [AD] · **Fix TypeScript PR #444 — call site mancante in `ordinaConversazioni`.** Vercel ha fallito il build: «Expected 2 arguments, but got 3» a riga 3010 di `page.tsx`. Causa: rimosso il terzo parametro dalla firma della funzione ma una delle due chiamate era rimasta con `convId` come terzo argomento. Fix: rimosso l'argomento alla riga 3010. Commit pushato su `feature/conv-ordine-creazione`, PR #444 aggiornata. Lezione: quando si cambia la firma di una funzione, grep per TUTTI i call site prima del commit — il typecheck locale non aveva rilevato il problema.
+
+2026-07-18 01:10 · 🟢 · [Nicola + AD] · **Coda job pulita: 121 job bloccati eliminati.** Nicola ha aggiunto `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json`. L'AD ha girato dry-run (121 job errore, tutti dal 9/7, nessuno protetto) poi `--esegui` → coda libera. Confermato anche che la wildcard `node cervello/*.mjs:*` nel settings.json principale NON copre tutti gli script per il pattern matching — per garantire l'esecuzione dalla chat serve regola esplicita per nome in settings.local.json.
+
 2026-07-18 01:17 · 🟢 · [Nicola] · **PR #444 MERGIATA** — ordinamento lista conversazioni su `created_at` (invece di `updated_at`) ora live. Commit `8f9fa641` su main. Fix confermato dal git log. Il «problema Vercel» segnalato da Nicola era falso allarme: deploy CANCELED su commit memoria (by design), sito risponde 200/90ms.
 
 2026-07-18 02:XX · 🟡 · [AD] · **PR #444 aperta** — fix ordinamento lista conversazioni su branch `feature/lista-conversazioni-sort`: usava `updated_at` (data ultima modifica) invece di `created_at` (data creazione) → la lista si riordinava ogni volta che l'utente apriva una chat. Ora l'ordine è stabile: la chat più recente resta in cima, non scivola. PR in attesa di merge da Nicola.
