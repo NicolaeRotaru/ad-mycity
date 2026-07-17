@@ -20,7 +20,9 @@
 //   node cervello/coerenza-fatti.mjs                      -> controlla (exit 0 ok · 3 incoerenze)
 //   node cervello/coerenza-fatti.mjs --json               -> come sopra, stampa il report JSON
 //   node cervello/coerenza-fatti.mjs registra <id> "<valore>" [--caccia "frase1|frase2"]
-//        [--nome "..."] [--fonte "..."] [--esenzioni "path1|path2"] [--forza]
+//        [--nome "..."] [--fonte "..."] [--esenzioni "path1|path2"] [--nuovo] [--dry] [--forza]
+//        --nuovo: crea un fatto NUOVO. Senza --nuovo, un id sconosciuto è RIFIUTATO (anti-refuso).
+//        --dry:   anteprima di cosa cambierebbe, senza scrivere nulla.
 //   node cervello/coerenza-fatti.mjs lista                -> elenca i fatti e lo stato delle cacce
 //   node cervello/coerenza-fatti.mjs chiudi-caccia <id> ["pattern"]  -> archivia caccia bonificata
 //   node cervello/coerenza-fatti.mjs rimuovi <id>         -> elimina un fatto (errori/test)
@@ -37,8 +39,14 @@ import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(QUI, "..");
-const REGISTRO = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "registro-fatti.json");
-const REPORT = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "coerenza-fatti.json");
+// Path del registro/report. Override via env (COERENZA_FATTI_REGISTRO/REPORT) SOLO per i test:
+// così la suite bats esercita `registra` su un registro-fatti temporaneo senza toccare quello vero.
+const REGISTRO = process.env.COERENZA_FATTI_REGISTRO
+  ? resolve(process.env.COERENZA_FATTI_REGISTRO)
+  : join(ROOT, "MyCity-Vault", "90-Memoria-AI", "registro-fatti.json");
+const REPORT = process.env.COERENZA_FATTI_REPORT
+  ? resolve(process.env.COERENZA_FATTI_REPORT)
+  : join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "coerenza-fatti.json");
 
 // Dove si cercano le copie vecchie: i posti dove vive la memoria VIVA e gli artefatti.
 const RADICI_SCANSIONE = ["MyCity-Vault", "consegne", "creativi", "memoria-squadra"];
@@ -95,6 +103,36 @@ function motivoPatternGenerico(pattern) {
 function estensioneDi(nome) {
   const i = nome.lastIndexOf(".");
   return i >= 0 ? nome.slice(i).toLowerCase() : "";
+}
+
+// Distanza di edit (Levenshtein) per suggerire l'id giusto quando `registra` riceve un id inesistente.
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  const dp = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    let prev = dp[0];
+    dp[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const tmp = dp[j];
+      dp[j] = Math.min(dp[j] + 1, dp[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return dp[n];
+}
+
+// Un id esistente è "simile" a quello digitato se condivide il prefisso prima del primo punto,
+// se uno contiene l'altro, o se è a ≤2 correzioni di distanza (refusi tipo negozio.far→negozio.faro).
+function idSimile(esistente, cercato) {
+  const a = String(esistente).toLowerCase();
+  const b = String(cercato).toLowerCase();
+  if (a === b || a.includes(b) || b.includes(a)) return true;
+  const pa = a.split(".")[0];
+  const pb = b.split(".")[0];
+  if (pa && pa === pb) return true;
+  return levenshtein(a, b) <= 2;
 }
 
 // Cammina le radici e ritorna i path (relativi a ROOT, separatore "/") dei file testuali vivi.
@@ -245,7 +283,7 @@ function registra(argv) {
   const { pos, flags } = parseFlags(argv);
   const [id, valore] = pos;
   if (!id || valore === undefined) {
-    console.error('Uso: registra <id> "<valore>" [--caccia "frase1|frase2"] [--nome "..."] [--fonte "..."] [--esenzioni "p1|p2"] [--forza]');
+    console.error('Uso: registra <id> "<valore>" [--caccia "frase1|frase2"] [--nome "..."] [--fonte "..."] [--esenzioni "p1|p2"] [--nuovo] [--dry] [--forza]');
     process.exit(1);
   }
   if (!/^[a-z0-9][a-z0-9._-]*$/i.test(id)) {
@@ -253,11 +291,25 @@ function registra(argv) {
     process.exit(1);
   }
   const forza = Boolean(flags.forza);
+  const dry = Boolean(flags.dry || flags["dry-run"]);
   const ora = oraPiacenza();
   const registro = leggiRegistro();
   let fatto = registro.fatti.find((f) => f.id === id);
   const nuovo = !fatto;
   const valoreVecchio = fatto?.valore;
+
+  // 🛡️ ANTI-CASINO (richiesta di Nicola): `registra` su un id INESISTENTE non crea un fatto in
+  // silenzio — un refuso come «negozio.far» duplicherebbe «negozio.faro» e il Pannello mostrerebbe
+  // DUE verità. Su id sconosciuto ci si ferma e si suggerisce l'id giusto; per creare DAVVERO un
+  // fatto nuovo serve --nuovo esplicito. Così «scrivere in chat» colpisce sempre PROPRIO quel dato.
+  if (nuovo && !flags.nuovo && !forza) {
+    const simili = registro.fatti.map((f) => f.id).filter((fid) => idSimile(fid, id)).slice(0, 5);
+    console.error(`⛔ Fatto «${id}» NON esiste nel registro: non lo creo per sbaglio.`);
+    if (simili.length) console.error(`   Forse intendevi un id esistente: ${simili.join(" · ")}`);
+    console.error(`   • CORREGGERE un fatto esistente → usa l'id giusto (\`node cervello/coerenza-fatti.mjs lista\`).`);
+    console.error(`   • CREARE davvero un fatto nuovo → aggiungi --nuovo.`);
+    process.exit(1);
+  }
 
   if (nuovo) {
     fatto = { id, nome: flags.nome || id, valore, fonte: flags.fonte || "", aggiornato: ora, storia: [], caccia: [], esenzioni: [] };
@@ -301,9 +353,14 @@ function registra(argv) {
       continue;
     }
     fatto.caccia.push({ pattern: p, dal: ora });
-    console.log(`🎯 Caccia aperta su «${p}» (fatto ${id}).`);
+    console.log(`${dry ? "[DRY] aprirei caccia su" : "🎯 Caccia aperta su"} «${p}» (fatto ${id}).`);
   }
 
+  if (dry) {
+    const azione = nuovo ? "creerei" : valoreVecchio !== valore ? "aggiornerei" : "lascerei invariato";
+    console.log(`[DRY] ${azione} «${id}» = «${valore}»${valoreVecchio && valoreVecchio !== valore ? ` (era «${valoreVecchio}»)` : ""} — nessuna scrittura eseguita.`);
+    return;
+  }
   scriviRegistro(registro);
   console.log(`${nuovo ? "✚ Registrato" : "✓ Aggiornato"} fatto «${id}» = «${valore}»${valoreVecchio && valoreVecchio !== valore ? ` (era: «${valoreVecchio}»)` : ""} · ${ora}`);
   if (fatto.caccia.some((c) => !c.chiusa)) {
@@ -371,7 +428,8 @@ if (!cmd || cmd === "check" || cmd === "--json" || cmd === "--gate") {
 
 Comandi:
   (niente) | check [--json]      controlla la coerenza (exit 0 ok · 3 incoerenze)
-  registra <id> "<valore>" [--caccia "f1|f2"] [--nome ...] [--fonte ...] [--esenzioni "p1|p2"] [--forza]
+  registra <id> "<valore>" [--caccia "f1|f2"] [--nome ...] [--fonte ...] [--esenzioni "p1|p2"] [--nuovo] [--dry] [--forza]
+                                 (--nuovo: crea un fatto NUOVO · senza --nuovo un id sconosciuto è RIFIUTATO · --dry: anteprima, non scrive)
   lista                          elenca fatti, cacce aperte e storia
   chiudi-caccia <id> [pattern]   archivia una caccia bonificata (0 copie trovate)
   rimuovi <id>                   elimina un fatto (errori/test)
