@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-17 11:45",
-  "sintesi": "Nicola: OGGI è il VP 17/7 stasera — presidio banco PQ Via Calzolai = unica mossa per North Star 0→1. Bici elettrica in riparazione. PR #430+#431 da mergiare. Bando ER scade 21/7 tra 4 giorni. Post kefir bloccato (serve il link). Macchina: 26 difetti · 19 PR · n8n cieco 22 giri.",
+  "data": "2026-07-17 12:15",
+  "sintesi": "Nicola: STASERA è il VP 17/7 — presidio banco PQ Via Calzolai = unica mossa per North Star 0→1. Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (sportello, max 350 domande, rischio chiusura anticipata). Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Dal 20/7 cambia il meteo (piogge) → finestra delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 29 giri.",
   "prossime_mosse": [
     {
       "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
@@ -12,12 +12,21 @@
       "colore": "🔴"
     },
     {
-      "titolo": "Dammi il link lista d'attesa per pubblicare il post kefir",
-      "quando": "prima del VP stasera se possibile",
-      "come": "Post pronto in consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md — serve solo il link",
-      "priorita": "alta",
-      "ad_prepara": "Post kefir pronto, card #post-kefir-estate-1407 in coda",
+      "titolo": "Pubblica il post Venerdì Piacentini entro le 14:00 di oggi",
+      "quando": "OGGI 17/7 entro le 14:00",
+      "come": "Post day-of pronto (card #post-vp-day-1707) — serve solo il link",
+      "priorita": "URGENTE",
+      "ad_prepara": "Post scritto, card in AZIONI-IN-ATTESA",
       "senior": "@content-social",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Segnala il bando ER alle botteghe candidate entro domani (scade 21/7 ore 13!)",
+      "quando": "oggi o domani mattina",
+      "come": "Informarle durante la call / messaggio — scade 21/7 ore 13, sportello 350 domande, rischio chiusura anticipata",
+      "priorita": "URGENTE",
+      "ad_prepara": "eventi-picchi.md con dettagli bando ER",
+      "senior": "@relazioni-istituzionali",
       "colore": "🔴"
     },
     {
@@ -30,20 +39,11 @@
       "colore": "🔴"
     },
     {
-      "titolo": "Mergia PR #427 (tasto Invia smartphone) dal Pannello",
+      "titolo": "Mergia PR #430, #431, #433 da GitHub",
       "quando": "oggi",
-      "come": "Pannello → Da approvare → PR #427",
+      "come": "Pannello → Da approvare → PR #430, #431, #433",
       "priorita": "media",
-      "ad_prepara": "PR verificata e pronta",
-      "senior": "@frontend-dev",
-      "colore": "🟡"
-    },
-    {
-      "titolo": "Approva il push del branch video-live-chat",
-      "quando": "oggi",
-      "come": "1 comando VPS: git push origin fix/video-live-chat (commit 9816bb3f, 4 file: BottoneFotoChat, BarraScritturaChat, page.tsx, ChatCasella)",
-      "priorita": "media",
-      "ad_prepara": "card #push-video-live-chat in AZIONI-IN-ATTESA",
+      "ad_prepara": "PR verificate e pronte",
       "senior": "@frontend-dev",
       "colore": "🟡"
     },
@@ -60,17 +60,24 @@
   "bici_elettrica": {
     "stato": "in riparazione",
     "nota": "Nicola 12/7: forse settimana 14-18 luglio. Non risulta ancora confermata. Ritiro banco PQ è il workaround per il VP.",
-    "impatto": "Consegna a domicilio non ancora possibile"
+    "impatto": "Consegna a domicilio non ancora possibile — dal 20/7 cambio meteo potrebbe aumentare la domanda"
   },
   "gate_primo_negozio": {
     "gate": "prima bottega online (ordine reale evadibile)",
     "azioni_bloccate": ["Mail Hub Urbano (#52)", "Post 'Lunedì della Bottega' (#46)", "Referral 5+5€ (#37)"],
-    "scadenza_vicina": "Bando ER 21/7 — 4 giorni"
+    "scadenza_vicina": "Bando ER 21/7 ore 13 — SPORTELLO (max 350 domande, rischio chiusura anticipata)"
+  },
+  "segnali_nuovi_17lug": {
+    "bando_er": "Cap 350 domande, sportello cronologico → urgenza massima. Informare le botteghe candidate entro oggi.",
+    "concorrenti": "Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Costruire moat sulle botteghe storiche ORA.",
+    "meteo": "Dal 20/7 piogge → domanda delivery a domicilio sale. Adattare il post kefir a questo messaggio.",
+    "eventi": "Piacenza Summer Cult (luglio-settembre), rientro universitari settembre → pianificare flotta rider adesso."
   },
   "rischi": [
-    "VP 17/7 passa senza presidio → stallo continua",
-    "Bando ER scade 21/7 senza 1° ordine reale",
+    "VP 17/7 passa senza presidio → stallo continua per altra settimana",
+    "Bando ER scade 21/7 ore 13 SENZA 1° ordine — sportello: rischio chiusura ANTICIPATA",
     "PAT GitHub in chiaro — security risk",
-    "Runway sconosciuto (BURN_MENSILE_EUR assente)"
+    "Runway sconosciuto (BURN_MENSILE_EUR assente)",
+    "Fusione Prosus/JustEat → player più forte sui ristoranti di Piacenza in 12-24 mesi"
   ]
 }

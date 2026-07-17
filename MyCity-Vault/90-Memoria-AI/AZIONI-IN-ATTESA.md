@@ -17,6 +17,21 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #inserisci-caffe-pq — Inserisci "Caffè Espresso" su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10
+
+**Bloccato su:** Nicola deve confermare il PREZZO del caffè.
+**Appena Nicola risponde con il prezzo:**
+- Foto royalty-free già pronte (Pexels/Unsplash, caffè espresso su sfondo scuro, licenza commerciale gratuita)
+- L'AD prepara la riga prodotto e la accoda via `marketplace.mjs aggiorna` per approvazione finale
+
+**Cosa cambia:** primo prodotto a catalogo PQ inserito dall'AD con foto pro trovate online.
+**Se va bene:** workflow "AD inserisce prodotto per il negozio" validato, replicabile su tutta la gamma PQ.
+
+- **Colore:** 🟡
+- **Reparto:** supervisione-negozi / onboarding-negozi
+
+---
+
 ### 🟡 #mergia-pr-433 — Mergia PR #433 per pulire la coda da 121 job errore · ⏳ accodata 2026-07-17 12:15
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2`
@@ -1740,7 +1755,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 12:10)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 12:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-17-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
