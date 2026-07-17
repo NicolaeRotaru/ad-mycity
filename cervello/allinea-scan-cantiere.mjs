@@ -161,9 +161,8 @@ function allineaMacchina() {
     }
   }
 
-  const sonda = rad.sonda || {};
-  const votoLive = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;
-  if (votoLive != null) rad.voto_salute_architettura = votoLive;
+  // AR-105: NON sovrascrivere voto_salute_architettura (media 12 pilastri, scala radiografia completa)
+  // con il voto_provvisorio della sonda (scala cantiere). Il voto viene aggiornato SOLO dalla radiografia completa.
 
   rad.sync_scan = {
     aggiornato: nowPiacenza(),

@@ -30,8 +30,13 @@ async function attendiLavoro(
   while (Date.now() < scadenza) {
     await new Promise((r) => setTimeout(r, 1500));
     try {
-      const d = await fetch("/api/lavori", { cache: "no-store" }).then((r) => r.json());
-      const l = Array.isArray(d.lavori) ? d.lavori.find((x: any) => x.id === id) : null;
+      const d = await fetch("/api/lavori/dettagli", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [id] }),
+        cache: "no-store",
+      }).then((r) => r.json());
+      const l = Array.isArray(d.lavori) ? d.lavori[0] ?? null : null;
       if (l && (l.stato === "fatto" || l.stato === "errore")) {
         return l.risultato || (l.stato === "errore"
           ? "🔄 Non è partita al primo colpo — la trovi come «da riapprovare» nell'area Lavori: un clic e riparte."
