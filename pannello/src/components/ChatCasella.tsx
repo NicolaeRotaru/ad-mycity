@@ -106,8 +106,8 @@ export default function ChatCasella({
 
 
 
-  async function invia() {
-    const testo = bozza.trim();
+  async function invia(testoEsterno?: string) {
+    const testo = testoEsterno?.trim() ?? bozza.trim();
     const daCaricare = allegati;
     if ((!testo && daCaricare.length === 0) || inviando) return;
     setErr("");
@@ -276,9 +276,12 @@ export default function ChatCasella({
           etichetta="Video live"
           className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
           onScegli={aggiungiFile}
+          chatMessaggi={msgs}
+          chatLoading={inviando}
+          chatOnInvia={(t) => void invia(t)}
         />
         <button
-          onClick={invia}
+          onClick={() => void invia()}
           disabled={inviando || (!bozza.trim() && allegati.length === 0)}
           className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
         >
