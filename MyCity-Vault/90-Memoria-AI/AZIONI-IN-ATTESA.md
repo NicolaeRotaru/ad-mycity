@@ -189,6 +189,20 @@ Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live
 
 ---
 
+### 🟡 #mergia-pr-436 — Mergia PR #436: fix crash guardiano `allinea-scan-cantiere` · ⏳ accodata 2026-07-17 22:30
+
+**Cosa fare:** vai su GitHub → PR #436 → clicca "Merge pull request". È la più piccola — 1 file, nessun conflitto.
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/436
+
+**Cosa cambia:** `allinea-scan-cantiere.mjs` smette di crashare (usava `votoLive` mai definita → righe 179 e 191) → il guardiano batte regolarmente → sparisce dalla lista "mancanti" nel freschezza.
+**Se va bene:** al prossimo giro automatico (~5-10 min dopo il merge) `allinea-scan-cantiere` non compare più tra i guardiani senza battito.
+
+- **Colore:** 🟡 (merge codice → Nicola)
+- **Reparto:** builder-automazioni
+- **Ordine merge consigliato:** prima questa (#436), poi #433, #430, #431
+
+---
+
 ### 🟡 #mergia-pr-435 — Mergia PR #435: 3 fix bloccanti macchina · ⏳ accodata 2026-07-17 20:45
 
 **Cosa fare:** vai su GitHub → PR #435 → clicca "Merge pull request".

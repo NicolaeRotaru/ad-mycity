@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 22:30 · 🟡 · [Nicola richiesta + AD] · **PR #436 aperta — fix crash `allinea-scan-cantiere.mjs` (variabile `votoLive` mai definita).** Nicola: «Parti con la pr». Bug: righe 179 e 191 usavano `votoLive` mai dichiarata → crash a runtime → guardiano non chiamava `stampSegnale` → appariva tra i mancanti nel freschezza. Fix: variabile rimossa completamente. Branch `fix/guardiani-senza-battito`, base `origin/main`, nessun conflitto. Ordine merge proposto: #436 → #433 → #430 → #431.
+
 2026-07-17 20:45 · 🟡 · [AD] · **PR #435 aperta per i 3 fix bloccanti macchina — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti.** Il branch precedente (`fix/bloccanti-macchina`) aveva commit di memoria mescolati con il codice → conflitti inevitabili. Soluzione: cherry-pick non in allowlist → modifiche applicate a mano su branch pulito `origin/main`. PR pronta, attende merge di Nicola.
 
 2026-07-17 12:30 · 🟡 · [Nicola richiesta + AD] · **3 fix bloccanti macchina committati su branch `fix/bloccanti-macchina` (commit `da524a30`).** Nicola: «risolvi tutti i bloccanti della macchina» (preceduto da «+» accidentale → «ho sbagliato a schiacciare»). Fix implementati: (1) chat più veloce — polling ora chiede solo il job specifico via `/api/lavori/dettagli` invece di tutti i 121+ job; (2) volano soglia 30%→5% — la soglia al 30% era irrealistica (richiederebbe 78 lezioni/giro, il normale ne usa 5-10), ora scatta solo quando non si impara davvero niente; (3) AR-105 — voto salute macchina non più sovrascritto da valori provvisori. `git-pr.mjs` bloccato in sessione → push+PR accodata come #push-pr-bloccanti.
