@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-17T18:20:19.985Z",
+  "aggiornato": "2026-07-17T20:20:21.365Z",
   "avvisi": [
     {
       "at": "2026-07-11T09:55:55.020Z",
@@ -94,6 +94,11 @@
     {
       "at": "2026-07-17T18:20:19.985Z",
       "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-17 20:20). Dettaglio: vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter o JSON rotti); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
+      "canale": "casella"
+    },
+    {
+      "at": "2026-07-17T20:20:21.365Z",
+      "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-17 22:20). Dettaglio: vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter o JSON rotti); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
       "canale": "casella"
     }
   ]
