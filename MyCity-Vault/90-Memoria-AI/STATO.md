@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 01:20
+aggiornato: 2026-07-18 02:30
 fonte: AD digitale (chat Nicola 18/7)
 ---
+
+> 💬 **18/7 ~02:30 — CHAT: sessione chiusa — stato PR aggiornato.** Nicola ha chiesto «hai tutto? e tutto bene?» — conferma positiva. **PR in attesa di merge da Nicola (in ordine consigliato):** #436 (crash guardiano allinea-scan-cantiere, 1 file), #435 (3 fix bloccanti macchina: chat veloce, soglia volano, voto salute), #443 (5 fix UX Pannello: riapprova in header, testo umano, scroll, flash, layout shift), #430 (bottone fluttuante), #431 (debounce messaggi), #427 (tasto invia smartphone). PR #444 (ordinamento conversazioni) già mergiata da Nicola. **Incidente sesssione:** worker bloccato da errore UTF-8 (`rc=125`) in un messaggio con carattere speciale malformato — si è ripreso da solo al successivo retry. Fonte: chat Nicola 18/7 ~02:30.
 
 > ✅ **18/7 ~01:17 — CHAT: PR #444 MERGIATA da Nicola (ordinamento conversazioni).** Il fix usa `created_at` invece di `updated_at` per ordinare la lista — la chat più nuova resta in cima senza scivolare quando ci clicchi. Confermato dal commit `8f9fa641` su main. **Vercel «problema»:** falso allarme — il sito risponde 200/90ms; i deploy CANCELED su commit «worker:» sono normali (Vercel li salta di proposito). **PR #443** (5 fix UX lavori: riapprova in header, testo umano, scroll last msg, flash streaming, layout shift Worker) ancora in attesa di merge. Fonte: chat Nicola 18/7 + git log.
 
