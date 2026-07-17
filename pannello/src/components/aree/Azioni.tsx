@@ -892,7 +892,10 @@ export default function Azioni() {
                 <Megaphone size={15} className="mt-0.5 shrink-0 text-amber-600" />
                 <div className="min-w-0 flex-1">
                   <p className="text-[12.5px] text-ink/80 leading-snug">{descrizioneAvviso(av.testo)}</p>
-                  <div className="text-[12px] text-ink/60 leading-snug whitespace-pre-wrap mt-1.5">{testoPulito(av.testo)}</div>
+                  <details className="mt-1.5">
+                    <summary className="text-[11px] text-ink/40 cursor-pointer select-none hover:text-ink/60 w-fit">Dettaglio tecnico</summary>
+                    <div className="text-[11px] text-ink/50 leading-snug whitespace-pre-wrap mt-1">{testoPulito(av.testo)}</div>
+                  </details>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                     {av.at && <span className="t-eti">{quando(av.at)}</span>}
                     <span className="badge badge-off" title="Dove è stato recapitato">
