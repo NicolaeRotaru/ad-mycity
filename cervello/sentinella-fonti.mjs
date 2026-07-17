@@ -52,7 +52,9 @@ function caricaStoricoPrecedente() {
 }
 
 // Un controllo HTTP a basso costo: prima HEAD, fallback GET se HEAD non è supportato.
-async function controlla(url) {
+// Se la fonte ha skip_check: true (es. IP VPS bloccato da CDN), la marca viva e salta il fetch.
+async function controlla(url, skipCheck) {
+  if (skipCheck) return { viva: true, status: 0, saltata: true };
   const opt = (method) => ({
     method,
     redirect: "follow",
@@ -81,7 +83,7 @@ async function main() {
   const prima = caricaStoricoPrecedente();
   const risultati = [];
   for (const f of fonti) {
-    const r = await controlla(f.url);
+    const r = await controlla(f.url, !!f.skip_check);
     const precFalliti = (prima[f.id] && prima[f.id].falliti_consecutivi) || 0;
     const falliti = r.viva ? 0 : precFalliti + 1;
     risultati.push({
@@ -94,6 +96,7 @@ async function main() {
       falliti_consecutivi: falliti,
       morta: falliti >= SOGLIA_MORTA,
       ultimo_controllo: quando,
+      ...(f.skip_check ? { skip_check: true, nota_check: f.nota_blocco || "check saltato" } : {}),
       ...(r.errore ? { errore: r.errore } : {}),
     });
   }
