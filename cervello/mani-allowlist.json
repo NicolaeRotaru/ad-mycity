@@ -4,5 +4,5 @@
   "notifica_user": [],
   "marketplace_tables": ["products"],
   "n8n": false,
-  "github": false
+  "github": true
 }

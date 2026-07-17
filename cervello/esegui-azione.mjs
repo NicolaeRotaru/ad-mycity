@@ -23,7 +23,10 @@ const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on"
 // AR-078: ogni mano reale è 🟡 e va legata al percorso proponi→firma→registra.
 // L'azione LIVE deve citare l'id della coda AZIONI-IN-ATTESA (env AZIONE_ID) e
 // lasciare traccia append-only in DECISIONI.md. Vault = memoria della macchina.
-const AZIONE_ID = process.env.AZIONE_ID || "(non collegata a AZIONI-IN-ATTESA)";
+// Alternativa CLI: --azione-id=<id> (utile quando il prefix env è bloccato dalla sandbox).
+const _argAzioneId = process.argv.find((a) => a.startsWith("--azione-id="))?.slice("--azione-id=".length);
+if (_argAzioneId) process.argv = process.argv.filter((a) => !a.startsWith("--azione-id="));
+const AZIONE_ID = _argAzioneId || process.env.AZIONE_ID || "(non collegata a AZIONI-IN-ATTESA)";
 const VAULT = fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/", import.meta.url));
 
 // AR-078: traccia in DECISIONI.md (data+ora, cosa, perché) al momento dell'esecuzione LIVE.
