@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 10:42 · 🟢 · [AD] · **Fix video live — testo chat invisibile: colori scuri hardcoded nel modal.** Bug: tema chiaro del Pannello rendeva lo sfondo del modal video live beige (`var(--background)`) mentre il testo restava bianco → bianco su bianco, invisibile. Fix: hardcode `bg-gray-900/text-white` alle righe 201 e 322 del componente. Committato su main direttamente (nessuna PR). Residuo minore: riga 262 usa ancora `var(--border)` per il bordo del bottone Chiudi — secondario.
+
 2026-07-17 10:31 · 🟡 · [Nicola richiesta] · **PR #430 aperta — bottone fluttuante → finestra piccola, maximize → workerFull con navbar.** Nicola ha chiesto: (1) il bottone fluttuante torna ad aprire la finestra piccola (chatFluttuante), non lo schermo intero; (2) il maximize nella finestra piccola apre workerFull; (3) workerFull parte sotto la navbar (`top-[var(--altezza-testata)]`), non la copre. Implementato in `pannello/src/app/page.tsx`. Branch `fix/debounce-v2`. Card #mergia-pr-430 accodata.
 
 2026-07-17 10:27 · 🟡 · [AD] · **PR #429 aperta — debounce messaggi multipli.** Nicola ha chiesto che i messaggi inviati mentre l'AD sta elaborando vengano raccolti e processati insieme (non in coda separata). Fix implementato: rimosso il blocco `codaMsgRef` in `page.tsx` — ora il secondo messaggio usa il meccanismo `sostituisci` già esistente (cancella il job precedente, avvia uno nuovo con A+B insieme). PR #429 su branch `fix/debounce-messaggi-multipli`, in attesa di merge da Nicola.
