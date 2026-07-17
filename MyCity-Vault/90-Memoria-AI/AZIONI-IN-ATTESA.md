@@ -16,18 +16,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-444 — Mergia PR #444: ordinamento conversazioni per data creazione (non scivola più) · ⚠️ BLOCCATO 2026-07-18 01:14 — `git-merge.mjs` non in allowlist; sblocca dal terminale VPS con `AZIONI_LIVE=1 AZIONE_ID=mergia-pr-444 node cervello/esegui-azione.mjs github-merge ad-mycity 444` oppure aggiungi `"Bash(node cervello/git-merge.mjs:*)"` all'allowlist
+### ✅ #mergia-pr-444 — FATTO 2026-07-18 01:17 · PR #444 mergiata da Nicola direttamente da GitHub
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Branch: `feature/lista-conversazioni-sort`
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Commit `8f9fa641` su main. Ordinamento lista conversazioni ora su `created_at` (data creazione) — la chat più recente resta in cima senza scivolare. Confermato dal git log.
 
-**Bug:** la lista conversazioni usava la data dell'ultima modifica (`updated_at`) per ordinare. Quando aprivi una chat, aggiornava quella data → la chat saliva in cima, poi scendeva man mano che ne aprivi altre.
-
-**Fix:** ordine fisso per data di CREAZIONE (`created_at`): la chat più nuova resta in cima, immobile, indipendentemente da quante ne apri.
-
-**Cosa cambia:** la lista è stabile — la posizione non si muove mentre navighi tra le conversazioni.
-**Se va bene:** l'ordine è prevedibile, la chat più recente è sempre in cima.
-
-- **Colore:** 🟡 (merge codice)
+- **Colore:** ✅ completato
 - **Reparto:** frontend-dev
 
 ---
