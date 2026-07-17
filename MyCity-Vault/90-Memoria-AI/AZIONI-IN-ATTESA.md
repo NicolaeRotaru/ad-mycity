@@ -30,14 +30,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-439 — Mergia PR #439: descrizioni caselle Pannello in linguaggio umano · ⏳ accodata 2026-07-17 23:58
+### ✅ #mergia-pr-439 — FATTO 2026-07-18 · Mergia PR #439: descrizioni caselle Pannello in linguaggio umano
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/439 · Branch: `fix/avvisi-umano-v2`
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/439 · Mergiata da Nicola 2026-07-18.
 
-Sostituisce la PR #438 (che aveva conflitti da commit memoria duplicati). Branch pulito su `origin/main`, nessun conflitto. 2 file modificati: `avvisi-macchina.ts` e `Azioni.tsx`.
-
-**Cosa cambia:** gli avvisi del Pannello usano frasi in italiano chiare invece del gergo tecnico. Il testo grezzo (`vault-sanità rc=1`, `conflitti/0-byte`) sparisce nel tab "Dettaglio tecnico" — si vede solo cliccando. 8 tipi di avviso coperti.
-**Se va bene:** ogni avviso che arriva da adesso è leggibile a colpo d'occhio senza sapere cosa significa "rc=1".
+**Esito:** 8 tipi di avviso ora mostrano frasi in italiano leggibili; gergo tecnico in accordion collassabile. **Follow-up aperto (Nicola 18/7):** le descrizioni devono aggiungere (1) il nome del file/dato specifico rotto e (2) l'impatto concreto ("cosa ti sarebbe arrivato di sbagliato"). PR successiva da aprire.
 
 - **Colore:** 🟡 (merge codice)
 - **Reparto:** frontend-dev

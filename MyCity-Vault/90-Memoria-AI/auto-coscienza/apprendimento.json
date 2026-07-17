@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0718-257",
+      "testo": "**Correzione Nicola (18/7): descrizione avviso = linguaggio umano + file specifico + impatto, NON solo linguaggio umano.** PR #439 ha tradotto il gergo in italiano leggibile (buon primo passo), ma Nicola ha subito chiesto «perché non c'è ancora la descrizione di quali sono questi dati e che cosa fanno». La lezione: un avviso è completo solo se risponde a TRE domande: (1) Cosa si chiama il dato/file rotto? (2) Che cosa c'era di sbagliato? (3) Che danno avrebbe fatto se non si fosse fermato? Senza (2) e (3) l'avviso dice «c'è un problema» ma non aiuta Nicola a capire la gravità né a decidere se agire subito. Fix: lo script che genera l'avviso deve iniettare il nome del file e la conseguenza specifica; la descrizione UI le mostra in parole semplici.",
+      "tag": ["caselle-pannello", "avvisi-macchina", "descrizione-umana", "specificità", "impatto", "correzione-nicola", "pr-439"],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-18",
+      "ultima_conferma": "2026-07-18 00:10",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0717-256",
       "testo": "**Correzione Nicola (17/7): «dove finisce il [menù laterale]» = bordo DESTRO affiancato, NON sotto.** L'AD aveva interpretato «dove finisce il menù» come «sotto il menù» (allineamento verticale). Nicola ha corretto: «non sotto il menù ma dove finisce il menu bordo a destra» — i due elementi (menù e lista conversazioni) stanno affiancati orizzontalmente, non in colonna verticale. La domanda di conferma era stata posta («È corretto?») ma l'ambiguità spaziale non era stata risolta esplicitamente. Regola: quando Nicola descrive posizioni relative a elementi UI con orientamento ambiguo, conferma SEMPRE l'asse: «intendi affiancato (orizzontale/destra) o sotto (verticale)?»",
       "tag": ["layout-ui", "posizione-spaziale", "correzione-nicola", "orientamento", "menù-laterale", "lista-conversazioni", "pr-437"],
