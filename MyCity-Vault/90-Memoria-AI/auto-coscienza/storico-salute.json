@@ -4,28 +4,6 @@
     {
       "data": "2026-07-08",
       "voto_salute": 51,
-      "difetti_aperti": 7,
-      "difetti_chiusi": 11,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-026, AR-027, AR-028, AR-029, AR-031, AR-032, AR-033, AR-035, AR-036, AR-038, AR-039 (verificati nel codice)."
-    },
-    {
-      "data": "2026-07-08",
-      "voto_salute": 51,
-      "voto_provvisorio": 55,
-      "voto_pieno": 0,
-      "firma": "AR-030",
-      "difetti_aperti": 7,
-      "difetti_chiusi": 34,
-      "pending_merge": 6,
-      "aperti_davvero": 1,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 1 · salute pending-merge 55/100 (floor 0): 1 aperti-davvero · 6 in attesa merge · 2 bloccanti umani"
-    },
-    {
-      "data": "2026-07-08",
-      "voto_salute": 51,
       "voto_provvisorio": 55,
       "voto_pieno": 0,
       "firma": "",
@@ -1256,6 +1234,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "recupero-giro 19:30 (VP sera) · briefing 0h fa · n8n cieco 40 giri · MCP Supabase cieco 3 giri · 5 aperti-davvero · 19 PR merge · 2 bloccanti umani · radiografia completa GIÀ eseguita 16/7"
+    },
+    {
+      "data": "2026-07-17",
+      "voto_salute": 56,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
+      "difetti_aperti": 26,
+      "difetti_chiusi": 48,
+      "pending_merge": 19,
+      "aperti_davvero": 5,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "tasso=0 ma c'è chiusura · briefing -1h fa · cecità sensori 41 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
