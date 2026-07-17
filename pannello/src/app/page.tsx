@@ -1229,6 +1229,9 @@ export default function Dashboard() {
         const d = await res.json();
         if (d?.id) newId = d.id;
       } catch {}
+      // Fallback: se il server non ha restituito un ID (rete caduta, errore), salva localmente
+      // così la conversazione appare sempre nella lista anche offline.
+      if (!newId) newId = "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     } else {
       newId = id || "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     }
@@ -2048,6 +2051,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [convServer, caricaConversazioni]);
+
+  // Refresh immediato quando si apre il cassetto conversazioni (desktop o FAB mobile):
+  // senza questo, l'utente vede la lista "congelata" all'ultimo poll (fino a 8s fa).
+  useEffect(() => {
+    if (convDrawerAperto || fabConvOpen) caricaConversazioni();
+  }, [convDrawerAperto, fabConvOpen, caricaConversazioni]);
 
   // Baseline pallini v3: quando arrivano i lavori, marca le chat storiche (risposte solo nei Lavori).
   useEffect(() => {
