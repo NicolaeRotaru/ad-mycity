@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:17 · 🟢 · [Nicola] · **PR #444 MERGIATA** — ordinamento lista conversazioni su `created_at` (invece di `updated_at`) ora live. Commit `8f9fa641` su main. Fix confermato dal git log. Il «problema Vercel» segnalato da Nicola era falso allarme: deploy CANCELED su commit memoria (by design), sito risponde 200/90ms.
+
 2026-07-18 02:XX · 🟡 · [AD] · **PR #444 aperta** — fix ordinamento lista conversazioni su branch `feature/lista-conversazioni-sort`: usava `updated_at` (data ultima modifica) invece di `created_at` (data creazione) → la lista si riordinava ogni volta che l'utente apriva una chat. Ora l'ordine è stabile: la chat più recente resta in cima, non scivola. PR in attesa di merge da Nicola.
 
 2026-07-18 02:XX · 🟢 · [AD] · **Fix avvisi descrizione storica già su main — nessuna PR necessaria.** Il commit `9c88c9e4` ("fix(avvisi): descrizione specifica anche per gli avvisi vecchi senza nome file") è già su `origin/main` — il watch-main l'ha assorbito prima che fosse committato su un branch separato. Nicola ha chiesto "Aggiorna tu descrizione-avviso.ts" e l'AD ha confermato che il fix è già live. Gli avvisi vecchi con formato `vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter)` ora mostrano testo specifico invece del generico. Branch `fix/avvisi-descrizione-storica` è un residuo, non usato.

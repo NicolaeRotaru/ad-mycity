@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 00:02
-fonte: AD digitale (giro automatico mezzanotte 18/7)
+aggiornato: 2026-07-18 01:20
+fonte: AD digitale (chat Nicola 18/7)
 ---
+
+> ✅ **18/7 ~01:17 — CHAT: PR #444 MERGIATA da Nicola (ordinamento conversazioni).** Il fix usa `created_at` invece di `updated_at` per ordinare la lista — la chat più nuova resta in cima senza scivolare quando ci clicchi. Confermato dal commit `8f9fa641` su main. **Vercel «problema»:** falso allarme — il sito risponde 200/90ms; i deploy CANCELED su commit «worker:» sono normali (Vercel li salta di proposito). **PR #443** (5 fix UX lavori: riapprova in header, testo umano, scroll last msg, flash streaming, layout shift Worker) ancora in attesa di merge. Fonte: chat Nicola 18/7 + git log.
 
 > ✅ **18/7 01:10 — CHAT: coda lavori pulita — 121 job errore → 0.** Nicola ha inserito `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS. L'AD ha girato `pulisci-coda.mjs` (dry-run poi `--esegui`): 121 job in errore accumulati dal 9/7 eliminati; coda ora a ~0 job errore. PR #439 (descrizioni caselle in linguaggio umano) mergiata da Nicola — follow-up aperto: aggiungere nome file specifico + impatto concreto nelle descrizioni avvisi. Fonte: chat Nicola 18/7 01:10.
 
