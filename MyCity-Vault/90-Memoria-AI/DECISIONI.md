@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 23:15 · 🔴 · [Nicola approvazione + AD] · **Proposta "Vai al banco PQ stasera" approvata ma finestra scaduta.** Nicola ha approvato la card dal Pannello alle 23:15. Il banco Pane Quotidiano (Via Calzolai 25) chiudeva alle 22:30 — finestra scaduta da 45 min. Nessuna azione eseguita. Prossima occasione: prossimo Venerdì Piacentini. Proposta rimossa dalla rotazione giri (non riproporre).
+
 2026-07-17 22:30 · 🟡 · [Nicola richiesta + AD] · **PR #436 aperta — fix crash `allinea-scan-cantiere.mjs` (variabile `votoLive` mai definita).** Nicola: «Parti con la pr». Bug: righe 179 e 191 usavano `votoLive` mai dichiarata → crash a runtime → guardiano non chiamava `stampSegnale` → appariva tra i mancanti nel freschezza. Fix: variabile rimossa completamente. Branch `fix/guardiani-senza-battito`, base `origin/main`, nessun conflitto. Ordine merge proposto: #436 → #433 → #430 → #431.
 
 2026-07-17 20:45 · 🟡 · [AD] · **PR #435 aperta per i 3 fix bloccanti macchina — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti.** Il branch precedente (`fix/bloccanti-macchina`) aveva commit di memoria mescolati con il codice → conflitti inevitabili. Soluzione: cherry-pick non in allowlist → modifiche applicate a mano su branch pulito `origin/main`. PR pronta, attende merge di Nicola.
