@@ -17,6 +17,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #volano-soglia-fix — Abbassa la soglia del volano da 30% a 5% (13 lezioni su 261)
+
+**Cosa cambia:** La sentinella "VOLANO FERMO" scatta quando meno del 30% delle lezioni attive viene usata per giro — cioè 78 lezioni su 261. Impossibile: un giro normale ne usa 5-10. Il volano misura il tracciamento, non l'applicazione reale. Abbassando a 5% (13 lezioni) la sentinella scatta solo quando davvero non si impara nulla, non ad ogni giro normale.
+
+**Se va bene:** La sentinella smette di fare falsi-positivi. Il volano torna verde entro 1-2 giri di lavoro normale. Si può alzare gradualmente la soglia man mano che il tracciamento migliora.
+
+**Dove:** `cervello/sentinella-dati.mjs` riga 67: `const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.3)` → cambia default a `0.05`. Modifica 1 riga, branch dedicato, PR.
+
+**Quando:** Dopo ok di Nicola → 🟡 branch + PR.
+
+⏳ accodata 2026-07-17 07:15
+
+---
+
 ### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
 
 Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
@@ -33,6 +47,21 @@ L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passa
 
 Branch `fix/video-live-chat` pushato su origin, rebase su main completato, build verde (compiled successfully 11.3s, zero errori TS).
 PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
+
+---
+
+### 🟡 #push-volano-fix — Pusha memoria (volano) e apri PR per il fix tasso-lezioni · ⏳ accodata 2026-07-17 07:05
+
+**Cosa cambia:** il commit `6955feee` (5 lezioni marcate con usi reali) è locale su VPS ma non ancora su GitHub; il branch `feature/volano-tasso-lezioni-blob` ha il fix che rimuove le _nota_giro_ dal blob di string-match del tasso.
+
+**Se va bene:** il Pannello mostrerà il tasso calcolato su segnale reale (usi), non su mention gonfiata. La sentinella volano_fermo non sparerà più falsi allarmi.
+
+**Azioni (sono 2 push separati + 1 PR):**
+1. `git push origin main` — pubblica le lezioni con usi
+2. `git push origin feature/volano-tasso-lezioni-blob` — pubblica il fix tasso-lezioni
+3. Apri PR: base=main, branch=feature/volano-tasso-lezioni-blob, titolo "fix(volano): rimuovi _nota_giro_ dal blob del tasso-lezioni"
+
+*Colore: 🟡 — tocca memoria+codice cervello; merge lo firma Nicola*
 
 ---
 

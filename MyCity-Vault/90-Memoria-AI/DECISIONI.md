@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 07:15 · 🟡 · [AD auto-coscienza] · **Diagnosi volano fermo completata (2° livello): soglia 0.3 su 261 lezioni è strutturalmente irraggiungibile.** Root confermate: (a) blob auto-referenziale gonfia il tasso (fix in PR feature/volano-tasso-lezioni-blob); (b) soglia 0.3 richiederebbe 78 lezioni usate/giro — impossibile, il giro ne usa 5-10 → la sentinella misura il tracciamento, non l'applicazione reale. Proposta: abbassare soglia 0.3 → 0.05 (13/261 = raggiungibile con 1 settimana normale di lavoro) + aggiungere regola "≥3 lezioni marcate in 24h" come seconda metrica. Azione accodata: #volano-soglia-fix.
+
+2026-07-17 07:05 · 🟡 · [AD auto-coscienza] · **Diagnosi volano fermo: root cause trovata + fix avviato.** Sentinella scattata a 06:20 con tasso=0 (via sonda stantia in auto-radiografia.json). Root cause verificata: (1) `usi`=0 per tutte le 261 lezioni — nessun processo ha mai chiamato `tasso-lezioni.mjs applica`; (2) il blob include `_nota_giro_*` auto-referenziali che gonfiano il tasso a 0.36 (mention-rate, non application-rate). Fix: 5 lezioni marcate con usi reali (commit 6955feee su main locale); PR feature/volano-tasso-lezioni-blob per rimuovere _nota_giro_ dal blob. Azioni in attesa: #push-volano-fix (2 push + 1 PR).
+
 2026-07-17 04:30 · 🟡 · [Nicola richiesta] · **Video live: microfono + textarea + chat a finestra.** Nicola ha chiesto di aggiungere al video live il microfono, la textarea e la chat a finestra. L'AD ha costruito il fix nel branch `fix/video-live-chat` (commit 9816bb3f, typecheck verde, 4 file). Push e PR in attesa di ok Nicola (#push-video-live-chat).
 
 2026-07-17 04:00 · 🟡 · [AD] · **PR #427 aperta — tasto Invia sempre visibile su smartphone.** Fix: `flex-wrap: wrap` aggiunto al container bottoni in `BarraScritturaChat.tsx`. Branch `fix/invia-mobile-wrap`. Nicola deve mergiare dal Pannello GitHub. Card #fix-invia-mobile → FATTO; nuova card #mergia-pr-427 accodata.
