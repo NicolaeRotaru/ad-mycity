@@ -1,20 +1,20 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-17 23:58",
+  "aggiornato": "2026-07-18 00:00",
   "regole": {
     "sensori_ciechi": {
-      "ultima_firma": "19",
-      "ultimo_accodato": "2026-07-17 06:20",
-      "ultimo_accodato_iso": "2026-07-17T04:20:53.757Z",
-      "ultimo_job": "de77f7d9-42df-433c-b337-248de3b02c18",
+      "ultima_firma": "45",
+      "ultimo_accodato": "2026-07-18 00:00",
+      "ultimo_accodato_iso": "2026-07-17T22:00:50.652Z",
+      "ultimo_job": "b764fbdc-ecd8-4cf2-9a31-f1dc9b781749",
       "colore": "🟡",
       "ambito": "macchina"
     },
     "salute_bassa": {
-      "ultima_firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
-      "ultimo_accodato": "2026-07-17 06:20",
-      "ultimo_accodato_iso": "2026-07-17T04:20:53.757Z",
-      "ultimo_job": "62be7548-c7b3-4a5b-9478-b192366a468a",
+      "ultima_firma": "AR-124,AR-125,AR-126,AR-129",
+      "ultimo_accodato": "2026-07-18 00:00",
+      "ultimo_accodato_iso": "2026-07-17T22:00:50.652Z",
+      "ultimo_job": "2dadf71b-b6c4-4c70-bd83-c4b5a86de335",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -51,22 +51,19 @@
       "ambito": "macchina"
     },
     "cassa_sconosciuta": {
-      "ultima_firma": "113",
-      "ultimo_accodato": "2026-07-17 00:00",
-      "ultimo_accodato_iso": "2026-07-16T22:00:08.814Z",
-      "ultimo_job": "fb7f5a05-3fbc-43b1-a1dc-07e758c1e4cb",
+      "ultima_firma": "128",
+      "ultimo_accodato": "2026-07-18 00:00",
+      "ultimo_accodato_iso": "2026-07-17T22:00:50.652Z",
+      "ultimo_job": "c3c3230c-ebf3-4e76-ad87-ecb802c46805",
       "colore": "🟡",
       "ambito": "macchina"
     }
   },
   "accodati_giorno": {
-    "giorno": "2026-07-17",
-    "n": 8
+    "giorno": "2026-07-18",
+    "n": 3
   },
   "accodati_ts": [
-    "2026-07-03T22:00:16.867Z",
-    "2026-07-03T22:09:03.546Z",
-    "2026-07-04T00:37:31.247Z",
     "2026-07-04T04:00:35.832Z",
     "2026-07-04T08:05:01.936Z",
     "2026-07-04T08:21:17.985Z",
@@ -113,23 +110,14 @@
     "2026-07-17T00:02:55.140Z",
     "2026-07-17T04:20:53.757Z",
     "2026-07-17T04:20:53.757Z",
-    "2026-07-17T04:20:53.757Z"
+    "2026-07-17T04:20:53.757Z",
+    "2026-07-17T22:00:50.652Z",
+    "2026-07-17T22:00:50.652Z",
+    "2026-07-17T22:00:50.652Z"
   ],
   "ultima_recensione_vista": "2026-07-03T00:36:35.265Z",
-  "tick": 13741,
+  "tick": 13743,
   "storia": [
-    {
-      "quando": "2026-07-17 20:58",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-07-17 20:59",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-17 21:00",
       "eventi": 6,
@@ -717,10 +705,22 @@
       "eventi": 6,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-17 23:59",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-07-18 00:00",
+      "eventi": 6,
+      "accodati": 3,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-17 23:58",
+    "quando": "2026-07-18 00:00",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -730,7 +730,7 @@
     "carrelli": null,
     "worker_eta_min": 0,
     "sensori_max_ciechi": 45,
-    "salute_voto": 56,
+    "salute_voto": 0,
     "radiografia_gg": 1,
     "volano_tasso": 0
   },
