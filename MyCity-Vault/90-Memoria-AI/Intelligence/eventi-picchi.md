@@ -1,17 +1,14 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-14 08:30** · Fonte: @intelligence (monitora · 7 fonti giornaliere: [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) 08:26, [Gazzetta Parma 14/7](https://www.gazzettadiparma.it/home/2026/07/14/news/terza-ondata-di-caldo-tra-oggi-e-domani-i-giorni-piu-brutti-per-parma-e-l-emilia-955680/), [IlPiacenza viabilità](https://www.ilpiacenza.it/attualita/centro-storico-scattano-alcuni-provvedimenti-temporanei-alla-viabilita.html), [Comune VP](https://www.comune.piacenza.it/it/news/venerdi-piacentini), [programma VP 17/7](https://www.venerdipiacentini.it/pdf/programma2026.pdf))
+> Aggiornato: **2026-07-17 09:30** · Fonte: @intelligence (ultimo WebSearch live: 14/7 08:30 · aggiornamento date e stato VP per giro 17/7)
 
-## ☀️ Meteo (LIVE 14/7 08:26)
+## ☀️ Meteo (stima 17/7 — fonte 3BMeteo 14/7, aggiornamento visuale non disponibile)
 
-- **OGGI MAR 14/7:** 24–**36°C**, poco nuvoloso, **afa** — prob. pioggia 0%. [3BMeteo](https://www.3bmeteo.com/meteo/piacenza) agg. 08:26.
-- **MER 15/7:** 25–**38°C** — picco settimanale dell'ondata.
-- **GIO 16/7:** 22–35°C.
-- **VEN 17/7:** 24–**36°C** — **ultimo Venerdì Piacentini** (49 eventi in programma, centro chiuso al traffico dalle 18).
-- **ARPAe / ER:** terza ondata di calore — **tutti i capoluoghi in fascia rossa** disagio bioclimatico oggi; sollievo atteso **18–19/7** ([Gazzetta Parma 14/7](https://www.gazzettadiparma.it/home/2026/07/14/news/terza-ondata-di-caldo-tra-oggi-e-domani-i-giorni-piu-brutti-per-parma-e-l-emilia-955680/)).
+- **OGGI VEN 17/7 ⭐:** 24–**36°C** — **Venerdì Piacentini FINALE** (49 eventi in programma, centro chiuso al traffico dalle 18). Probabile afa serale.
+- **SAB 18/7:** sollievo atteso dopo terza ondata (ARPAe / ER). Calo temperature.
 - **Emergenza calore** attiva dal 1/7: fontanelle e punti di sollievo Comune.
-- ➡️ @operations: consegne deperibili **solo mattina** (8–12). Gate catena del freddo obbligatorio PQ.
-- ➡️ @content-social: angolo «colazione/freschi a domicilio senza uscire nell'afa» — post kefir già in coda 🔴.
+- ➡️ @operations: consegne deperibili **solo mattina** (8–12) se ordini arrivano. Gate catena del freddo obbligatorio PQ.
+- ➡️ @content-social: post kefir in coda 🔴 — serve link da Nicola, poi pubblicare.
 
 ## 🚧 Viabilità OGGI 14/7 (impatto consegne)
 
@@ -22,10 +19,10 @@
 
 | Data | Evento | Rilevanza per MyCity | Azione consigliata |
 |---|---|---|---|
-| **14/7 (mar)** | Caldo 36°C + fascia rossa ARPA | Domanda delivery mattutina | Post kefir entro le 11 — accodato |
-| **15/7 (mer)** | Picco **38°C** | Massima spinta «non uscire» | Slot consegne solo 8–12 |
-| **17/7 (ven)** | **Venerdì Piacentini — FINALE** | ⭐ 50–60k persone, centro pedonale 18–03 | Presidio PQ Via Calzolai + post Il Turno + lista d'attesa |
-| Lug ongoing | Saldi estivi (fino 3/9) | 300 negozi aperti serale VP | Pitch: «saldi del negozio del cuore, consegnati a casa» |
+| **17/7 (ven) ← OGGI** | **Venerdì Piacentini — FINALE ⭐** | 50–60k persone, centro pedonale 18–03 | **Presidio banco PQ Via Calzolai stasera + QR** |
+| **18/7 (sab)** | Sollievo caldo, post-VP | Recupero traffico normale | Debrief VP + aggiorna pipeline negozi |
+| **21/7 (mar)** | **Bando ER scade** | Gate: 1° ordine reale evadibile | VP di oggi è l'unica finestra prima della scadenza |
+| Lug ongoing | Saldi estivi (fino 3/9) | 300 negozi + estate | Pitch: «saldi del negozio del cuore, consegnati a casa» |
 
 ### Venerdì Piacentini 17/7 — highlights programma
 
