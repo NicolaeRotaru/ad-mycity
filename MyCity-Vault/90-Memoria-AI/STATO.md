@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 11:45
-fonte: AD digitale (🛰️ 17/7 11:45 giro · VP17/7 OGGI · stallo ~555h · PR #430+#431 in attesa · North Star 0 · supervisione 11:29 ok)
+aggiornato: 2026-07-17 12:15
+fonte: AD digitale (🛰️ 17/7 12:15 giro · VP17/7 OGGI STASERA · intelligence aggiornata · bando ER cap 350 domande · Prosus/JustEat · n8n cieco 29 giri)
 ---
+
+> 🛰️ **17/7 12:15 — GIRO (aggiornamento intelligence).** **OGGI STASERA alle 20:00 — Venerdì Piacentini, ultimo della stagione.** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~555h**. Intelligence aggiornata: bando ER 21/7 ore 13 (CAP 350 domande, sportello cronologico → rischio chiusura ANTICIPATA), Prosus acquisisce JustEat (convergenza con Glovo in 12-24 mesi, costruire moat ora), meteo svolta dal 20/7 con piogge (delivery a domicilio). n8n cieco 29 giri (era 22 a 11:45 per aggiornamento contatore). 3 file Intelligence scritti. **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera (20:00-22:30). Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 🛰️ **17/7 11:45 — GIRO.** **OGGI è il Venerdì Piacentini — finestra unica per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini, stallo **~555h** (≈23,1 giorni). REST ok 11:28, Stripe ok, supervisione 11:29 confermata invariata. Macchina: 26 difetti aperti · 19 PR in coda · n8n cieco 22 giri · BURN_MENSILE_EUR mancante 116 giri. **PR in attesa:** #430 (bottone fluttuante) · #431 (debounce messaggi). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP (20:00-22:30). **Coda:** post kefir 🔴 (link da Nicola) · mergia PR #430+#431 🟡 · BURN_MENSILE_EUR 🟡 · ruota PAT GitHub 🔴. Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
