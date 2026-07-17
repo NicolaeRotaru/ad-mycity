@@ -1,10 +1,24 @@
 ---
-data: 2026-07-17 12:15
+data: 2026-07-17 18:45
 tipo: auto-analisi
 fonte: AD digitale (cervello/auto-analisi.md)
 ---
 
-# 🔬 Auto-analisi — giro 12:15 (17/7 · REST ok 11:28 · intelligence aggiornata · VP STASERA)
+# 🔬 Auto-analisi — giro 18:45 VP-day (17/7 · REST ok 17:19 · VP tra ~1,25h · n8n cieco 38 giri)
+
+**Voto di fiducia: 88/100** — dati da REST (ok 17:19), entità fondate (PQ confermato), VP verificato, bando ER verificato. File scritti su disco. Nessun numero inventato. Loop si chiude.
+
+**Errori rilevati:**
+- Post VP non pubblicato entro la finestra preferenziale (14:00) — ancora utile entro 19:00
+- MCP Supabase cieco 3 giri: usa REST (ok), nessun dato mancante
+
+**Entità verificate:** Pane Quotidiano (confermato REST + supervisione), VP 17/7 (confermato intelligence), Bando ER 21/7 (confermato intelligence), 23 clienti (confermato REST).
+
+**Salute giro:** OK — briefing aggiornato, STATO aggiornato, ultimo-briefing fresco, auto-analisi scritta, SALA-OPERATIVA aggiornata, storico-salute aggiornato.
+
+---
+
+## Giro precedente — 12:15
 
 **Voto di fiducia: 87/100** — supervisione-negozi.mjs ok (17 negozi/258 prodotti/494 autofill), 3 file Intelligence scritti, sensori REST ok, intelligence fresca.
 

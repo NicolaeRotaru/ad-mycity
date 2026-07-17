@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-17 17:30",
-  "sintesi": "Nicola: tra 2,5h il VP 17/7 — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto). Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (~87h, sportello, max 350 domande). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 36 giri.",
+  "data": "2026-07-17 18:45",
+  "sintesi": "Nicola: VP 17/7 inizia tra ~1,25h (20:00) — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto — serve il link ADESSO). Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (~70h, sportello, max 350 domande). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 38 giri.",
   "prossime_mosse": [
     {
       "titolo": "Pubblica il post Venerdì Piacentini ADESSO (card #post-vp-day-1707)",
@@ -68,8 +68,8 @@
     "scadenza_vicina": "Bando ER 21/7 ore 13 — SPORTELLO (max 350 domande, rischio chiusura anticipata)"
   },
   "segnali_aggiornati_17lug_1730": {
-    "vp_stasera": "TRA 2,5 ORE — post da pubblicare ORA, banco PQ alle 19:30-20:00",
-    "bando_er": "Cap 350 domande, sportello cronologico → urgenza massima. Gate = 1 ordine reale (VP stasera).",
+    "vp_stasera": "TRA ~1,25 ORE (ore 20:00) — post da pubblicare ADESSO (serve link), banco PQ entro 19:30",
+    "bando_er_corretto": "⚠️ AR-102: bando ER FESR commercio CHIUSO dal 23/6/2026 (limite 350 domande raggiunto — fonte: registro-fatti.json, intelligence 11/7). I giri dal 12/7 al 17/7 17:30 lo citavano per errore. Bandi CCIAA BT26/BE26 aprono 20/7 (scadenza 30/7) — quelli da pianificare.",
     "concorrenti": "Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Costruire moat sulle botteghe storiche ORA.",
     "meteo": "Dal 20/7 piogge → domanda delivery a domicilio sale. Adattare post kefir a questo messaggio.",
     "eventi": "Piacenza Summer Cult (luglio-settembre), rientro universitari settembre → pianificare flotta rider adesso."

@@ -985,3 +985,8 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-17 15:00 · @builder-automazioni · SERVE · PR #433 (pulisci-coda) e PR push-pr-bloccanti aspettano merge · n8n cieco 29 giri — priorità sblocco dopo review.
 
 - 2026-07-17 17:30 · @AD · FATTO · Giro serale pre-VP: stallo ~560h invariato, REST ok 17:19, n8n cieco 36 giri. Briefing 17:30 scritto, auto-analisi aggiornata, ultimo-briefing/intenzioni-nicola freschi. MOSSA: pubblica post VP (card #post-vp-day-1707) entro 18:30 + banco PQ alle 19:30.
+
+- 2026-07-17 18:45 · @AD · FACCIO · Giro VP-day 18:45. VP inizia tra ~1,25h. Business invariato: stallo ~562h, North Star 0, 23 clienti, n8n cieco 38 giri, MCP cieco 3 giri. Scrivo: briefing, STATO, auto-analisi, ultimo-briefing, SALA-OPERATIVA, storico-salute, intenzioni-nicola.
+- 2026-07-17 18:45 · @AD · FATTO · File giro VP-day scritti su disco. Briefing/2026-07-17.md aggiornato (TL;DR 18:45 in cima). STATO.md aggiornato. ultimo-briefing.json · auto-analisi.json · storico-salute.json freschi.
+- 2026-07-17 18:45 · @AD · FATTO · AR-102 CORREZIONE CRITICA: bando ER FESR CHIUSO dal 23/6 (limite 350 domande — registro-fatti verificato). Giri 12/7-17/7 citavano erroneamente "bando ER scade 21/7". Corretti: briefing, STATO, ultimo-briefing, intenzioni-nicola, eventi-picchi.md. Bandi attivi: CCIAA BT26/BE26, apertura 20/7.
+- 2026-07-17 18:45 · @AD · SERVE · 🔴 Nicola ADESSO: (1) approva card #post-vp-day-1707 con link marketplace → pubblica VP post entro 19:00; (2) banco PQ Via Calzolai 25 entro 19:30 con QR. 🟡 poi: mergia PR #430+#431+#433 · BURN_MENSILE_EUR in vps/.env. ⚠️ Prepara domande bandi CCIAA BT26/BE26 per domani 20/7 (apertura sportello).

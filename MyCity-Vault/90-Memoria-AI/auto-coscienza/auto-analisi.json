@@ -1,22 +1,28 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 17:30",
-  "voto_fiducia": 88,
-  "trend_fiducia": "= 88 (stabile, +1 vs 87 12:15 — giro serale pre-VP, dati confermati da REST 17:19, n8n cieco contatore aggiornato a 36 giri). Situazione business confermata. VP inizia tra 2,5h.",
-  "sintesi": "Giro 17/7 17:30 serale — business invariato (~560h stallo, North Star 0, 23 clienti, 1 negozio approvato PQ). Stasera VP finale stagione (20:00-22:30). Mossa critica: pubblica post VP adesso + banco PQ entro 19:30. Bando ER scade 21/7 ore 13 (~87h). Macchina: voto_salute=56, 26 difetti aperti, 19 PR in coda merge, n8n cieco 36 giri. Sensori REST/Stripe/Resend ok, giri_totali=188.",
+  "data": "2026-07-17 18:45",
+  "voto_fiducia": 82,
+  "trend_fiducia": "▼ 82 (da 88 — declassato per errore AR-102 bando ER: i giri dal 12/7 al 17/7 17:30 citavano 'bando ER scade 21/7' come gate attivo, ma il registro-fatti dice CHIUSO il 23/6. Errore rilevato e corretto in questo giro.",
+  "sintesi": "Giro 17/7 18:45 VP-day — business invariato (~562h stallo, North Star 0, 23 clienti, 1 negozio approvato PQ). Stasera VP gran finale stagione (20:00-22:30). Errore sistematico rilevato e corretto: bando ER FESR CHIUSO 23/6 (non 21/7). Mossa critica: pubblica post VP ADESSO + banco PQ entro 19:30. Macchina: 26 difetti aperti, 19 PR, n8n cieco 38 giri.",
   "verifiche": [
     "Entità: PQ confermato da supervisione-negozi.mjs 11:29 (1 approvato, Via Calzolai 25) — invariato.",
-    "Numeri: stallo ~560h calcolato da baseline 12:15 (~555h) +5h = ~560h. North Star 0 confermato da REST 17:19.",
-    "Sensori: REST ok 17:19 · MCP cieco 2 giri · Stripe ok · Resend ok · n8n cieco 36 giri · PostHog non_configurato (scelta Nicola).",
-    "VP 17/7: confermato da calendario VP, radar.json, eventi-picchi.md 12:15 — evento reale, inizia tra 2,5h.",
-    "Bando ER 21/7: confermato da intelligence 12:15 (fesr.regione.emilia-romagna.it). Cap 350 domande, sportello cronologico.",
-    "giri_totali=188: confermato da sensori-cecita.json aggiornato 17:19."
+    "Numeri: stallo ~562h calcolato da baseline 17:30 (~560h) + 1,25h. North Star 0 confermato da REST.",
+    "Sensori: REST ok 17:19 · MCP Supabase cieco 3 giri (aggiornato verifica-sensori) · Stripe ok · Resend ok · n8n cieco 38 giri · PostHog non_configurato (scelta Nicola).",
+    "VP 17/7: confermato da calendario VP, radar.json, eventi-picchi.md — evento reale, inizia tra ~1,25h.",
+    "Bando ER: CHIUSO dal 23/6/2026 (limite 350 domande — fonte: registro-fatti.json, intelligence 11/7). Errore nei giri 12/7-17/7 17:30 — CORRETTO in questo giro.",
+    "Bandi CCIAA BT26/BE26: apertura 20/7, scadenza 30/7 — card #bandi-cciaa-kit in AZIONI-IN-ATTESA.",
+    "giri_totali=189: aggiornato da verifica-sensori.mjs."
   ],
   "errori_rilevati": [
-    "Post VP (card #post-vp-day-1707) avrebbe dovuto uscire entro le 14:00 — finestra preferenziale persa. Ancora utile pubblicarlo entro le 18:00-18:30 per chi pianifica la serata.",
-    "MCP Supabase cieco 2 giri: usa REST (ok). Nessun dato mancante per il giro."
+    "CRITICO AR-102: i giri dal 12/7 al 17/7 17:30 citavano 'bando ER scade 21/7' come gate attivo. Il registro-fatti.json (aggiornato intelligence 11/7) dice il bando è CHIUSO dal 23/6. Errore sistematico: il giro non consultava il registro-fatti prima di scrivere i banner. Corretto in questo giro: briefing, STATO, ultimo-briefing, intenzioni-nicola, eventi-picchi aggiornati.",
+    "Il guardiano coerenza-fatti.mjs probabilmente non era in allowlist nei giri automatici — non rileva le ri-introduzioni di pattern con caccia già chiusa.",
+    "Post VP non pubblicato entro 14:00 — finestra colazione persa. Ancora utile entro 19:00."
+  ],
+  "lezioni_giro": [
+    "L-AR102-1707: consultare SEMPRE registro-fatti.json prima di scrivere date/gate nel briefing — non solo lo STATO. Una caccia 'chiusa' non previene la re-introduzione del pattern.",
+    "L-AR102-1707b: il guardiano coerenza-fatti.mjs deve essere in allowlist come comando senza parametri per girare a ogni giro senza approvazione."
   ],
   "domande_bloccanti": [],
-  "benchmark": "Il giro serale si concentra sull'azione operativa (VP stasera) non sull'intelligence. Priorità corretta: business critico > analisi.",
-  "salute_giro": "OK — loop chiude, sensori REST ok, briefing aggiornato, storico-salute sonda aggiunta. VP operativo tra 2,5h — azione concreta disponibile."
+  "benchmark": "Giro VP-day: errore AR-102 rilevato autonomamente consultando il registro-fatti. Correzione immediata. Voto abbassato a 82 per l'errore sistematico precedente.",
+  "salute_giro": "OK con nota — errore rilevato e corretto, file scritti su disco, loop si chiude. Sonda auto-radiografia: n8n cieco 38 giri (> soglia 3), MCP cieco 3 giri; radiografia completa già eseguita 16/7 (< 10 giorni), non serve oggi."
 }

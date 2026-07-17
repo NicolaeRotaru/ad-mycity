@@ -173,10 +173,11 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-17 11:02
+## 🤖 Aggiornamento dell'AD — 2026-07-17 18:45
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 17/7 OGGI = finestra presidio banco PQ** — North Star 0→1 col ritiro diretto (bici non pronta, consegna a domicilio dopo riparazione ~agosto). Post kefir bloccato in attesa link lista d'attesa.
-- **Bandi CCIAA urgenti (apertura 20/7, scadenza 30/7):** BT26 €7k 40% e-commerce e BE26 €20k 50% energia — usarli come **arma di vendita** nella pitch alle botteghe: «lo Stato paga il 40% del costo di digitalizzazione». Kit da preparare entro 19/7 (card #bandi-cciaa-kit accodata 🟢).
-- **Prossima fase negozi:** dopo bici riparata (~agosto) → giro botteghe core con bandi come leva.
+- **VP 17/7 STASERA (ore 20:00) = ultima finestra della stagione** — presidio banco PQ, North Star 0→1 col ritiro diretto. Bici non pronta → consegna a domicilio solo da agosto.
+- **⚠️ Correzione AR-102: bando ER FESR CHIUSO il 23/6** (limite 350 domande — non usarlo più come arma di vendita). Sostituire con bandi CCIAA.
+- **Bandi CCIAA DOMANI (apertura 20/7, scadenza 30/7):** BT26 €7k 40% e-commerce e BE26 €20k 50% energia — **arma di vendita** nella pitch: «lo Stato paga il 40% del costo di digitalizzazione». Kit in #bandi-cciaa-kit (🟢 accodata). Prepara domande entro OGGI per il kit onboarding.
+- **Prossima fase negozi:** dopo bici riparata (~agosto) → giro botteghe core con bandi CCIAA come leva.
 - **Handoff:** chi dice sì → @onboarding-negozi <48h. Nessun asset pesante su prospect non confermati.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

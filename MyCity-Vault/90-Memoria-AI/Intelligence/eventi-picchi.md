@@ -35,12 +35,21 @@
 | **Festa dell'Anolino** | Luglio-agosto | Co-marketing pasta/salumi tipici piacentini |
 | **Rientro universitari** (Cattolica + Politecnico) | Settembre 2026 | **Picco domanda** → rider/ambassador da pianificare ora |
 
-## ⚠️ Scadenza critica: Bando ER 21 luglio ore 13:00
+## ⚠️ CORREZIONE AR-102: Bando ER FESR commercio — CHIUSO dal 23/6/2026
 
-- Bando FESR ER commercio: fino a €50.000 a fondo perduto per micro/PMI commercio in sede fissa
-- Procedura a sportello cronologico: cap a 350 domande → rischio chiusura ANTICIPATA
-- Destinatari: i negozi (non MyCity direttamente), ma un negozio finanziato può investire anche nell'onboarding
-- Mossa: segnalare il bando alle botteghe candidate entro oggi/domani (@relazioni-istituzionali o @vendite nella prima call)
+> Aggiornato: 17 luglio 2026 18:45 · @AD · fonte: registro-fatti.json (intelligence 11/7)
+
+**Il bando FESR ER commercio è stato chiuso il 23/6/2026 alle ore 10:00:37** — limite di 350 domande raggiunto. La scadenza formale del 21/7 è superflua. Nessuna azione possibile su questo bando.
+
+## ✅ Bandi ATTIVI: CCIAA BT26 + BE26 (aprono DOMANI 20/7)
+
+| Bando | Contributo | Percentuale | Apertura | Scadenza |
+|-------|-----------|-------------|----------|----------|
+| **BT26** (e-commerce, digitalizzazione) | fino a €7.000 | 40% | 20/7/2026 | 30/7/2026 |
+| **BE26** (energia, efficienza) | fino a €20.000 | 50% | 20/7/2026 | 30/7/2026 |
+
+- Destinatari: le imprese locali (botteghe, negozi)
+- Mossa: preparare le domande entro domani mattina 20/7 con @relazioni-istituzionali + @finanza-agevolata
 
 ---
 *Fonti: ilpiacenza.it (caldo 38°C) · ilmeteo.it · fesr.regione.emilia-romagna.it · giraitalia.it · ltp.it (estate 2026)*

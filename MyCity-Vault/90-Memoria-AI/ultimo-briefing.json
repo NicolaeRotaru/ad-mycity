@@ -1,36 +1,36 @@
 {
-  "data": "2026-07-17 17:30",
-  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~560h). TRA 2,5 ORE parte il gran finale del Venerdì Piacentini (20:00, Via Calzolai piena). Ritiro al banco PQ — nessuna bici. Bando ER scade 21/7 ore 13 (~87h). Post VP (card #post-vp-day-1707) pronto da pubblicare ORA. Macchina: 26 difetti aperti, 19 PR, n8n cieco 36 giri.",
+  "data": "2026-07-17 18:45",
+  "situazione": "Business invariato da ~23,4 giorni (North Star 0, stallo ~562h). TRA ~1,25 ORE parte il gran finale del Venerdì Piacentini (20:00, Via Calzolai). PQ è al centro — ritiro al banco senza bici. Post VP (card #post-vp-day-1707) pronto ma serve il link ORA. ⚠️ Bando ER FESR CHIUSO dal 23/6 (errore nei giri precedenti: il bando era già esaurito). Bandi CCIAA BT26/BE26 aprono domani 20/7 (scadenza 30/7). Macchina: 26 difetti aperti, 19 PR, n8n cieco 38 giri.",
   "opportunita": [
     {
       "titolo": "Vai al banco di Pane Quotidiano STASERA al Venerdì Piacentini",
-      "motivo": "Parte tra 2,5 ore (20:00-22:30), centro pieno (50-60k persone), PQ in Via Calzolai — ritiro al banco senza bici. Finestra UNICA per North Star 0→1 questa stagione",
+      "motivo": "Parte tra 1,25h (20:00-22:30), centro pieno (~50-60k persone), PQ in Via Calzolai 25 — ritiro al banco senza bici. Finestra UNICA per North Star 0→1 questa stagione",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Pubblica il post VP adesso (card #post-vp-day-1707)",
-      "motivo": "Il testo è già pronto — serve solo il link da Pannello. Ideale entro 18:00-18:30 per raggiungere chi pianifica la serata. Ogni ora persa riduce la reach",
+      "titolo": "Pubblica il post VP ADESSO (card #post-vp-day-1707)",
+      "motivo": "Testo già pronto — serve il link. Ogni ora persa riduce la reach. Entro 19:00 raggiunge ancora chi pianifica la serata",
       "impatto": "alto",
       "sforzo": "minimo"
     },
     {
-      "titolo": "Sblocca il bando ER con il primo ordine reale di stasera",
-      "motivo": "Scade 21/7 ore 13 (~87h, sportello: max 350 domande, rischio chiusura anticipata). Gate = 1 ordine reale evadibile. Il VP di stasera è l'unica finestra prima della scadenza",
-      "impatto": "alto",
-      "sforzo": "basso"
+      "titolo": "Prepara i bandi CCIAA BT26 + BE26 che aprono DOMANI 20/7",
+      "motivo": "BT26 = €7.000 (40%, e-commerce); BE26 = €20.000 (50%, energia). Scadenza 30/7. Bando ER FESR era già chiuso dal 23/6 — quelli CCIAA sono i bandi attivi adesso",
+      "impatto": "medio",
+      "sforzo": "medio"
     },
     {
       "titolo": "Dal 20/7 lancia la campagna delivery a domicilio (cambia il meteo)",
-      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: domanda di consegna a casa sale. Content già pronto (adatta il post kefir), serve solo il link",
+      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: domanda consegna a casa sale. Adattare il post kefir",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Pubblica il post Venerdì Piacentini ORA (card #post-vp-day-1707)",
-      "motivo": "Testo già pronto — serve il link e il via dal Pannello entro 18:00-18:30",
+      "titolo": "Approva card #post-vp-day-1707 ADESSO (inserisci il link nel commento)",
+      "motivo": "Finestra 18:30-19:00 ancora utile per la reach serale del VP",
       "livello": "rosso"
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS (stima 150-200 euro/mese va bene)",
-      "motivo": "Runway sconosciuto da 116 giri — sblocca la sentinella cassa_sconosciuta",
+      "motivo": "Runway sconosciuto da 116+ giri — sblocca la sentinella cassa_sconosciuta",
       "livello": "giallo"
     }
   ]

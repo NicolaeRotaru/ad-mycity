@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 17:30
-fonte: AD digitale (🛰️ 17/7 17:30 giro serale pre-VP · REST ok 17:19 · n8n cieco 36 giri · giri_totali=188)
+aggiornato: 2026-07-17 18:45
+fonte: AD digitale (🛰️ 17/7 18:45 giro VP-day · REST ok 17:19 · n8n cieco 38 giri · giri_totali=189)
 ---
+
+> 🛰️ **17/7 18:45 — GIRO VP-DAY.** **TRA ~1,25H IL VENERDÌ PIACENTINI (ore 20:00, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~562h** (≈23,4 giorni). Sensori: n8n cieco 38 giri · MCP Supabase cieco 3 giri · REST/Stripe/Resend ok · giri_totali=189. **ADESSO: approva card #post-vp-day-1707 🔴 (inserisci link nel commento) → poi banco PQ entro 19:30.** ⚠️ AR-102: bando ER FESR CHIUSO dal 23/6 (errore nei giri precedenti — vedi Briefing). Bandi CCIAA BT26/BE26 aprono 20/7. Macchina: 26 difetti, 19 PR in coda. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 🛰️ **17/7 17:30 — GIRO SERALE (pre-VP).** **TRA 2,5H IL VENERDÌ PIACENTINI (ore 20:00, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~560h** (REST ok 17:19). Sensori: n8n cieco 36 giri · MCP cieco 2 giri · REST/Stripe/Resend ok · giri_totali=188. **ADESSO: pubblica post VP (card #post-vp-day-1707 🔴, testo pronto in coda)**. Poi: 🔴 banco PQ entro le 19:30. Bando ER scade 21/7 ore 13 (~87h). Macchina: voto_salute=56, 26 difetti, 19 PR in coda merge. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 

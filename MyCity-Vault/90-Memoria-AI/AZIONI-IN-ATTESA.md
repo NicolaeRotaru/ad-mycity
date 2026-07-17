@@ -17,6 +17,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #fix-guardiano-coerenza-fatti — Metti il guardiano coerenza-fatti in allowlist per girare senza approvazione · ⏳ accodata 2026-07-17 18:45
+
+**Problema:** il guardiano `node cervello/coerenza-fatti.mjs` non è in allowlist. Conseguenza: i giri automatici non lo eseguono, e pattern con caccia già "chiusa" vengono re-introdotti senza che nessuno li rilevi. Esempio: "bando ER scade 21/7" citato per errore nei giri dal 12/7 al 17/7 anche dopo la chiusura della caccia dell'11/7.
+
+**Fix:** aggiungere `node cervello/coerenza-fatti.mjs` (senza parametri) all'allowlist in `.claude/settings.local.json` → run automatico a ogni giro senza richiedere l'approvazione di Nicola.
+
+**Cosa cambia:** la macchina si controlla da sola su ogni giro e fallisce se trova un valore vecchio in un file vivo — la coerenza AR-102 diventa un vincolo hard.
+**Se va bene:** nessun altro errore sistematico come il bando ER 21/7 (file vivo che cita un fatto superato).
+
+- **Colore:** 🟡 (modifica settings.local.json — firma di Nicola)
+- **Reparto:** builder-automazioni / @AD
+
+---
+
 ### 🟡 #inserisci-tazzina-pq — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52
 
 **Prodotto:** tazzina da espresso bianca con decorazioni colorate (blu/rosso, stile decorativo italiano) — PQ vende la tazzina stessa (oggetto fisico), non il caffè.
@@ -1760,7 +1774,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 17:18)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 17:31)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-17-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
