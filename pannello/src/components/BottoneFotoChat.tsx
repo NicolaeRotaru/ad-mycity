@@ -198,10 +198,10 @@ export default function BottoneFotoChat({
                 ? "w-full h-full sm:h-auto sm:max-w-5xl flex flex-col sm:rounded-2xl overflow-hidden shadow-xl"
                 : "w-full max-w-lg rounded-2xl overflow-hidden shadow-xl"
             }
-            style={{ background: "var(--bg-surface, #111)" }}
+            style={{ background: "#111", color: "#fff" }}
           >
             {/* Testata */}
-            <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
+            <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
               <span className="text-[13px] font-semibold inline-flex items-center gap-2">
                 <Icona size={16} /> {videoLive ? "Video live" : "Scatta una foto"}
                 {videoLive && scattate > 0 && (
@@ -241,7 +241,7 @@ export default function BottoneFotoChat({
                     onClick={cambiaCamera}
                     disabled={salvando}
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
-                    style={{ borderColor: "var(--border)" }}
+                    style={{ borderColor: "rgba(255,255,255,0.18)" }}
                     title="Cambia fotocamera (fronte/retro)"
                   >
                     <SwitchCamera size={15} />
@@ -250,7 +250,7 @@ export default function BottoneFotoChat({
                     onClick={() => void avvia(facing)}
                     disabled={salvando}
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
-                    style={{ borderColor: "var(--border)" }}
+                    style={{ borderColor: "rgba(255,255,255,0.18)" }}
                     title="Riavvia la telecamera"
                   >
                     <RefreshCw size={15} />
@@ -271,7 +271,7 @@ export default function BottoneFotoChat({
               {conChat && (
                 <div
                   className="flex flex-col sm:w-[45%] border-t sm:border-t-0 sm:border-l"
-                  style={{ borderColor: "var(--border)", background: "var(--bg-surface-2, #1a1a1a)" }}
+                  style={{ borderColor: "rgba(255,255,255,0.12)", background: "#1a1a1a" }}
                 >
                   {/* Messaggi */}
                   <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2 min-h-[120px] max-h-[30vh] sm:max-h-none">
@@ -288,7 +288,7 @@ export default function BottoneFotoChat({
                               ? "text-white/50 italic"
                               : "text-white/90"
                           }`}
-                          style={m.role === "assistant" && !m.pending ? { background: "var(--bg-surface, #222)" } : undefined}
+                          style={m.role === "assistant" && !m.pending ? { background: "#2a2a2a" } : undefined}
                         >
                           {m.content}
                         </div>
@@ -296,7 +296,7 @@ export default function BottoneFotoChat({
                     ))}
                     {chatLoading && (
                       <div className="flex justify-start">
-                        <div className="rounded-xl px-3 py-2 text-[12px] text-white/50 flex items-center gap-1.5" style={{ background: "var(--bg-surface, #222)" }}>
+                        <div className="rounded-xl px-3 py-2 text-[12px] text-white/50 flex items-center gap-1.5" style={{ background: "#2a2a2a" }}>
                           <Loader2 size={12} className="animate-spin" /> Sto pensando…
                         </div>
                       </div>
@@ -305,7 +305,7 @@ export default function BottoneFotoChat({
                   </div>
 
                   {/* Barra di scrittura */}
-                  <div className="border-t px-3 py-3 space-y-2" style={{ borderColor: "var(--border)" }}>
+                  <div className="border-t px-3 py-3 space-y-2" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
                     <textarea
                       value={bozza}
                       onChange={(e) => setBozza(e.target.value)}
@@ -319,9 +319,9 @@ export default function BottoneFotoChat({
                       placeholder="Scrivi al worker… (Invio = invia)"
                       className="w-full rounded-xl px-3 py-2 text-[12.5px] resize-none outline-none border"
                       style={{
-                        background: "var(--bg-surface, #111)",
-                        borderColor: "var(--border)",
-                        color: "var(--fg, #fff)",
+                        background: "#111",
+                        borderColor: "rgba(255,255,255,0.18)",
+                        color: "#fff",
                       }}
                     />
                     <div className="flex items-center gap-2">
@@ -352,7 +352,7 @@ export default function BottoneFotoChat({
                       <button
                         onClick={chiudi}
                         className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border text-[13px] font-medium active:scale-95 transition"
-                        style={{ borderColor: "var(--border)", color: "var(--fg-muted, #aaa)" }}
+                        style={{ borderColor: "rgba(255,255,255,0.18)", color: "#aaa" }}
                       >
                         <X size={14} /> Chiudi
                       </button>
