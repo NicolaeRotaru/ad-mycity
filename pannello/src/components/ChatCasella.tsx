@@ -89,7 +89,11 @@ export default function ChatCasella({
   // Scroll al fondo subito all'apertura (anche con storico lungo)
   useEffect(() => setHintInvio(hintInvioChat()), []);
   useEffect(() => {
-    requestAnimationFrame(scrollBottom);
+    // requestAnimationFrame singolo non basta se il DOM non ha ancora calcolato l'altezza:
+    // due frame + timeout garantiscono che i messaggi siano tutti renderizzati.
+    requestAnimationFrame(() => requestAnimationFrame(scrollBottom));
+    const t = setTimeout(scrollBottom, 80);
+    return () => clearTimeout(t);
   }, []);
 
   // Scroll al fondo a ogni nuovo messaggio o testo in streaming

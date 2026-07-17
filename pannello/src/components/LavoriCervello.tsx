@@ -119,6 +119,28 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
       setAnnullati((s) => ({ ...s, [id]: "errore" }));
     }
   }
+  // Bottone Riapprova nell'header per un lavoro in errore.
+  function bottoneRiapprova(lv: LavoroBase) {
+    if (lv.stato !== "errore") return null;
+    const st = riprovati[lv.id];
+    if (st === "fatto" || (lavoroConDettaglio(lv).risultato || "").includes("[riproposto")) {
+      return (
+        <span className="shrink-0 self-center mr-1 text-[11px] font-medium text-green-700 dark:text-green-400">✅ In coda</span>
+      );
+    }
+    return (
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); riprova(lv.id); }}
+        disabled={st === "invio"}
+        className="shrink-0 self-center mr-1 inline-flex items-center gap-1 text-[11px] font-medium border border-amber-400/60 text-amber-800 dark:text-amber-300 rounded-lg px-2.5 py-1.5 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition disabled:opacity-50"
+        title="Riapprova: rimette l'azione in coda per eseguirla di nuovo"
+      >
+        🔄 {st === "invio" ? "Rimetto…" : st === "errore" ? "Riprova" : "Riapprova"}
+      </button>
+    );
+  }
+
   // Bottone Annulla per un lavoro annullabile (in_attesa o errore). Reso null negli altri casi.
   function bottoneAnnulla(lv: LavoroBase) {
     if (lv.stato !== "in_attesa" && lv.stato !== "errore" && lv.stato !== "in_corso") return null;
@@ -250,25 +272,9 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   // essere rimesso in coda con un clic. Colore ambra (attesa), tono rassicurante.
   function bandaErrore(lv: LavoroBase, diretto = false) {
     if (lv.stato !== "errore") return null;
-    const x = lavoroConDettaglio(lv);
     return (
-      <div className={`${diretto ? "rounded-lg border" : "border-t"} border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/20 px-3 py-2 flex items-start gap-2 flex-wrap`}>
-        <div className="min-w-0 flex-1 text-[12px] text-amber-800 dark:text-amber-300 leading-snug">
-          <b>Non è partita: da riapprovare.</b> Il primo tentativo non è andato a buon fine ({motivoBreve(x.risultato)}). Nulla è stato inviato — dai di nuovo l&apos;ok e torna in coda.
-        </div>
-        {(riprovati[lv.id] === "fatto" || (x.risultato || "").includes("[riproposto")) ? (
-          <span className="shrink-0 text-[11px] font-medium text-green-700 dark:text-green-400">✅ Rimessa in coda</span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => riprova(lv.id)}
-            disabled={riprovati[lv.id] === "invio"}
-            className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium border border-amber-400/60 text-amber-800 dark:text-amber-300 rounded-lg px-2.5 py-1 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition disabled:opacity-50"
-            title="Riapprova: rimette l'azione in coda per eseguirla di nuovo"
-          >
-            🔄 {riprovati[lv.id] === "invio" ? "Rimetto in coda…" : riprovati[lv.id] === "errore" ? "Riprova ancora" : "Riapprova"}
-          </button>
-        )}
+      <div className={`${diretto ? "rounded-lg border" : "border-t"} border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/20 px-3 py-2 text-[12px] text-amber-800 dark:text-amber-300 leading-snug`}>
+        Questa azione non è partita — premi <b>Riapprova</b> per rimetterla in coda. Nessun dato è stato modificato.
       </div>
     );
   }
@@ -421,6 +427,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                     <div className="text-sm font-medium text-ink/85 dark:text-white/85 line-clamp-2">{g.titolo}</div>
                   </div>
                 </button>
+                {daAnnullare && bottoneRiapprova(daAnnullare)}
                 {daAnnullare && bottoneAnnulla(daAnnullare)}
                 <button
                   type="button"
