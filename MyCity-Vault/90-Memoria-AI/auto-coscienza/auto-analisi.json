@@ -1,19 +1,18 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 09:30",
-  "voto_fiducia": 7,
-  "trend_fiducia": "▼ 7 (da 91): giro 17/7 09:30. Comandi node non autorizzati in sessione → solo valori delta-gate (ordini=1, clienti=23). Dati REST certificati 06:20. VP 17/7 è OGGI.",
-  "sintesi": "Giro 17/7 09:30 — business fermo (~552h stallo, North Star 0). REST ok 06:20, Stripe ok. OGGI VP 17/7: finestra per North Star 0→1 col presidio al banco PQ. 19 PR in attesa merge. Bando ER scade 21/7 in 4 giorni.",
+  "data": "2026-07-17 11:02",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲ 88 (da 7 giro 09:30): giro 17/7 11:02. supervisione-negozi.mjs ok, chiusura-loop chiuso, coerenza-fatti exit 0. Sessione AD autorizzata (node disponibile). VP 17/7 è OGGI.",
+  "sintesi": "Giro 17/7 11:02 — business fermo (~554h stallo, North Star 0, 23 clienti, 1 negozio approvato). Gate chiusura-loop era rc=1 (ESITO @intelligence mancante): registrato e chiuso. 17 negozi (1 approvato)/258 prodotti/494 autofill pronti. PR #430+#431 in attesa merge. VP 17/7 stasera = finestra unica.",
   "verifiche": [
-    "Entità: PQ confermato da delta-gate 06:20 (1 approved_store, invariato).",
-    "Numeri: delta-gate ordini=1 CANCELED, clienti=23, stallo ~552h — invariati vs 16/7 12:42.",
-    "Sensori: REST ok 06:20 · MCP cieco 1 giro · Stripe ok · Resend ok · n8n cieco 19 giri · PostHog non_configurato.",
-    "Allocazione: nessun asset pesante su prospect (supervisione 17/7 06:20 confermato).",
-    "Gap: comandi node non autorizzati — fallback su baseline certificata delta-gate."
+    "Entità: PQ confermato da supervisione-negozi.mjs 11:02 (1 approvato) e sensori-cecita.json (REST ok 11:00).",
+    "Numeri: supervisione 17/7 11:02 → 17 negozi, 258 prodotti, 494 autofill. Delta-gate: ordini=1 CANCELED, clienti=23, stallo ~554h invariati.",
+    "Sensori: REST ok 11:00 · MCP cieco 2 giri · Stripe ok · Resend ok · n8n cieco 22 giri · PostHog non_configurato.",
+    "Loop: chiusura-loop gate era rc=1 → ESITO @intelligence registrato → gate ora chiuso.",
+    "Coerenza fatti: exit 0 (13 fatti, 0 cacce aperte).",
+    "Allocazione: supervisione confermata → 1 approvato (PQ), nessun asset pesante su prospect."
   ],
-  "errori": [
-    "Comandi node non in allowlist questa sessione → impossibile query REST diretta; mitigato con baseline delta-gate (dati certificati 06:20)."
-  ],
+  "errori": [],
   "risposte_registrate": [],
   "domande_per_nicola": [
     "Vai al banco PQ stasera al VP 17/7? (QR in mano, ordine ritiro → North Star 0→1)",

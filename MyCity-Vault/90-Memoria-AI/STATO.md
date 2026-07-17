@@ -1,10 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 09:30
-fonte: AD digitale (🛰️ 17/7 09:30 giro mattino · VP17/7 OGGI · stallo ~552h · 19 PR in attesa · North Star 0)
+aggiornato: 2026-07-17 11:02
+fonte: AD digitale (🛰️ 17/7 11:02 giro · VP17/7 OGGI · stallo ~554h · PR #430+#431 in attesa · North Star 0 · chiusura-loop chiuso)
 ---
 
-> 🛰️ **17/7 09:30 — GIRO MATTINO.** **OGGI è il Venerdì Piacentini — finestra per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini consegnati, stallo **~552h** (≈23 giorni). REST ok 06:20, Stripe ok. **19 PR in attesa merge** (video-live-chat, smartphone, streaming, autofill). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP (QR in mano, ritiro al banco → North Star 0→1). **Coda urgente:** post kefir 🔴 (link da Nicola) · ruota PAT GitHub 🔴 · mergia PR #427 🟡 · push video-live-chat 🟡 · BURN_MENSILE_EUR 🟡 (già approvato). Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
+> 🛰️ **17/7 11:02 — GIRO.** **OGGI è il Venerdì Piacentini — finestra per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini, stallo **~554h** (≈23,1 giorni). REST ok 11:00, Stripe ok. **Gate chiusura-loop CHIUSO** (ESITO @intelligence registrato). Supervisione: 17 negozi (1 approvato)/258 prodotti/494 autofill pronti. **PR in attesa:** #430 (bottone fluttuante) · #431 (debounce messaggi). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP. **Coda:** post kefir 🔴 (link da Nicola) · mergia PR #430+#431 🟡 · BURN_MENSILE_EUR 🟡. Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 💬 **17/7 ~11:05 — CHAT: 121 item "In coda" nel Pannello — indagine aperta.** Nicola ha inviato uno screenshot mostrando 121 item nella tab "In coda". AD ha risposto che "In coda" aggrega più stati (attesa + in esecuzione + falliti) e ha chiesto accesso SQL (`mcp__supabase-memoria__execute_sql`) per distinguere gli stati reali. Risposta di Nicola non ancora ricevuta — indagine pendente. Fonte: chat Nicola 17/7 ~11:05.
 

@@ -173,10 +173,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
+## 🤖 Aggiornamento dell'AD — 2026-07-17 11:02
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **VP 17/7 = ultima finestra** per primo ordine PQ — caldo 36°C sera, centro pieno. Post kefir colazione accodato 🔴 (`consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`).
-- **Pitch aggiornato:** «saldi del negozio del cuore consegnati a casa nell'afa» + retail −6,6% Q2. Cliente core = **botteghe** (Nicola 13/7), non ristoranti.
-- **Dopo merge PR #369:** test sync Pannello — priorità operativa prima di nuove visite botteghe.
-- **Handoff:** chi dice sì → @onboarding-negozi <48h. AR-006: zero asset pesanti su prospect.
+- **VP 17/7 OGGI = finestra presidio banco PQ** — North Star 0→1 col ritiro diretto (bici non pronta, consegna a domicilio dopo riparazione ~agosto). Post kefir bloccato in attesa link lista d'attesa.
+- **Bandi CCIAA urgenti (apertura 20/7, scadenza 30/7):** BT26 €7k 40% e-commerce e BE26 €20k 50% energia — usarli come **arma di vendita** nella pitch alle botteghe: «lo Stato paga il 40% del costo di digitalizzazione». Kit da preparare entro 19/7 (card #bandi-cciaa-kit accodata 🟢).
+- **Prossima fase negozi:** dopo bici riparata (~agosto) → giro botteghe core con bandi come leva.
+- **Handoff:** chi dice sì → @onboarding-negozi <48h. Nessun asset pesante su prospect non confermati.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

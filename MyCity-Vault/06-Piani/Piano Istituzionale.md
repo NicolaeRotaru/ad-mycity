@@ -180,3 +180,11 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 > PASSO-A: @legale-privacy (kit candidatura + disclaimer) · @vendite (uso del bando sul campo) · @pr-stampa (il bando come notizia "lo Stato rimborsa chi va online") · @AD (firma sui contatti reali 🔴).
 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
+
+<!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
+## 🤖 Aggiornamento dell'AD — 2026-07-17 11:02
+> Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
+- **URGENTE — 2 bandi CCIAA aprono il 20/7 (tra 3 giorni), scadenza 30/7:** BT26 fino a €7.000 a fondo perduto al 40% per digitalizzazione/e-commerce (adatto a MyCity) · BE26 fino a €20.000 al 50% per efficienza energetica. Kit da preparare entro 19/7 (card accodata @grant-writer 🟢). Fonte: @intelligence 11:00.
+- **Gate mail Hub Urbano/assessore:** ancora bloccato dalla regola "prima bottega online" (Nicola 9/7). Sblocco atteso dopo North Star 0→1 — VP 17/7 stasera è la finestra.
+- **Bando ER 21/7:** scade fra 4 giorni — gate = 1° ordine reale. Presidio banco PQ stasera è il modo più rapido per soddisfarlo.
+<!-- 🤖 AD-AGGIORNAMENTO:END -->

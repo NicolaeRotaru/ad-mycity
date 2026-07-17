@@ -1,45 +1,45 @@
 {
-  "data": "2026-07-16 12:40",
-  "situazione": "Business INVARIATO dal 24/6 (North Star 0, stallo ~531h ≈ 22,1 giorni). REST ok 16/7 12:20. T-1 VP 17/7 — domani sera presidio banco Pane Quotidiano (bici non pronta, solo ritiro). n8n cieco 11 giri. HARD vincoli tutti soddisfatti.",
+  "data": "2026-07-17 11:02",
+  "situazione": "Business invariato dal 24/6 (North Star 0, stallo ~554h). OGGI è il Venerdì Piacentini — presidio banco PQ stasera = finestra unica North Star 0→1. 17 negozi DB (1 approvato), 258 prodotti, 494 autofill pronti. PR #430+#431 in attesa merge. Gate chiusura-loop chiuso. Coerenza fatti exit 0. Bando ER scade 21/7 (4 giorni).",
   "opportunita": [
     {
-      "titolo": "Venerdì Piacentini domani 17/7 — primo ordine ritiro al banco PQ",
-      "motivo": "T-1 evento, centro pieno, 33°C sera, PQ in Via Calzolai — finestra unica per North Star 0→1 senza bici",
+      "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
+      "motivo": "VP è OGGI: centro pieno, PQ in Via Calzolai, ritiro al banco senza bici — finestra unica per North Star 0→1",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Post kefir stasera/domani mattina presto",
-      "motivo": "Post pronto, caldo estivo, serve solo link lista d'attesa + foto",
+      "titolo": "Autofill 494 campi catalogo (condizione + unità di misura)",
+      "motivo": "Catalogo PQ diventa più professionale — 2 card gialle già pronte in coda, reversibile",
       "impatto": "medio",
       "sforzo": "basso"
     },
     {
-      "titolo": "Approva autofill 252+242 prodotti",
-      "motivo": "Catalogo PQ più professionale prima del VP, reversibile",
-      "impatto": "medio",
+      "titolo": "Mergia PR #430 e #431 — migliora la chat del Pannello",
+      "motivo": "Bottone fluttuante + debounce messaggi — fix UX testati e pronti",
+      "impatto": "basso",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Chiama Pane Quotidiano OGGI — 0523 388601",
-      "motivo": "Conferma presidio VP 17/7 al banco Via Calzolai — script #ritiro-pq-vp17-checkin",
+      "titolo": "Vai al banco Pane Quotidiano stasera al Venerdì Piacentini",
+      "motivo": "Con il QR in mano, accetti un ordine a ritiro → North Star 0→1 → bando ER sbloccato",
       "livello": "rosso"
     },
     {
-      "titolo": "Pubblica il post kefir stasera o domani mattina",
-      "motivo": "Porta traffico al sito prima del VP — serve link lista d'attesa",
+      "titolo": "Pubblica il post kefir (serve il link lista d'attesa)",
+      "motivo": "Post pronto, caldo estivo, porta traffico pre-VP",
       "livello": "rosso"
     },
     {
-      "titolo": "Approva PR #380, #381, #403 dal Pannello",
-      "motivo": "Fix Pannello (foto allegati, costo AI, fix tecnici) — 3 PR in coda",
-      "livello": "rosso"
+      "titolo": "Mergia PR #430 e #431 dal Pannello",
+      "motivo": "Fix UX chat Pannello: bottone fluttuante + debounce messaggi",
+      "livello": "giallo"
     },
     {
-      "titolo": "Metti BURN_MENSILE_EUR in vps/.env",
-      "motivo": "Runway sconosciuto da 109 giri — anche una stima (es. 150€/mese) sblocca il calcolo",
+      "titolo": "Metti BURN_MENSILE_EUR nel file di configurazione VPS",
+      "motivo": "Runway sconosciuto da 115 giri — anche una stima sblocca il calcolo",
       "livello": "giallo"
     }
   ]
