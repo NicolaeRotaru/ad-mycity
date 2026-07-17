@@ -440,3 +440,27 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 - 🟡 Bando ER: mail Hub Urbano non appena esce il primo ordine (scade 21/7 ore 13)
 
 **Dettagli tecnici** — salute: 56 sonda / 0 radiografia piena 16/7 · difetti: 26 aperti / 48 chiusi · PR in coda: #430 #431 #433 #push-pr-bloccanti · n8n cieco 29 giri · BURN=150€ (stima) · cassa 0€
+
+## Report della sera · 2026-07-17 18:01
+
+**Com'è andata oggi**
+- Tre fix bloccanti alla macchina pronti su branch — chat più veloce, volano calibrato, voto salute stabile; mancano ancora push e merge
+- Intelligence ha corretto un errore che durava giorni: il bando ER era chiuso dal 23/6, i bandi CCIAA nuovi (BT26/BE26) aprono il 20/7
+- Stasera alle 20 è il Venerdì Piacentini — il post per il banco PQ è pronto, ma manca il link per pubblicarlo
+
+**I numeri**
+- 1 negozio (PQ), 0 ordini consegnati, 23 clienti — invariati dal 24/6 · stallo 562h ≈ 23 giorni · North Star 0
+
+**Da approvare**
+- Inserisci il link nel post VP e dai ok (🔴) — scade stasera prima delle 20
+- Mergia PR #433 per pulire i 121 job errore in coda (🟡)
+- Dal VPS: 2 comandi per pushare i 3 fix bloccanti macchina (card #push-pr-bloccanti, 🟡)
+
+**Lezione di oggi**
+- Un errore su una data (bando ER citato come "21/7" quando era già chiuso) può rientrare nei giri per giorni se il guardiano coerenza-fatti non è in allowlist e non gira automaticamente
+
+**Domani**
+- Se stasera arriva un ordine al VP, invia Touch 1 al cliente entro 3h dalla consegna (testo pronto in coda)
+
+**Dettagli tecnici**
+- branch `fix/bloccanti-macchina` commit `da524a30` · PR #433 pronta · PR #430 #431 in coda · n8n cieco 38 giri · REST/Stripe/Resend ok · giri_totali=189 · 26 difetti aperti · 19 PR in coda

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 18:45
-fonte: AD digitale (🛰️ 17/7 18:45 giro VP-day · REST ok 17:19 · n8n cieco 38 giri · giri_totali=189)
+aggiornato: 2026-07-17 18:01
+fonte: AD digitale (🌙 17/7 18:01 report della sera · dati da giro 18:45 REST ok · stallo ~562h · giri_totali=189)
 ---
+
+> 🌙 **17/7 18:01 — REPORT DELLA SERA.** Numeri confermati dal giro 18:45 (REST ok): **1 PQ, 23 clienti, 0 ordini, stallo ~562h ≈ 23 giorni, North Star 0.** 3 fix bloccanti macchina pronti su branch (chat, volano, voto salute) — mancano push+merge. Bando ER corretto: chiuso 23/6, bandi CCIAA BT26/BE26 aprono 20/7. **Stasera al VP (20:00, Via Calzolai): banco PQ è la mossa.** Da approvare: 🔴 link post VP + ok pubblica · 🟡 mergia PR #433 · 🟡 #push-pr-bloccanti. Lezione: il guardiano coerenza-fatti deve girare in allowlist automaticamente. Blocco completo → [[RITMO]] 17/7 18:01.
 
 > 🛰️ **17/7 18:45 — GIRO VP-DAY.** **TRA ~1,25H IL VENERDÌ PIACENTINI (ore 20:00, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~562h** (≈23,4 giorni). Sensori: n8n cieco 38 giri · MCP Supabase cieco 3 giri · REST/Stripe/Resend ok · giri_totali=189. **ADESSO: approva card #post-vp-day-1707 🔴 (inserisci link nel commento) → poi banco PQ entro 19:30.** ⚠️ AR-102: bando ER FESR CHIUSO dal 23/6 (errore nei giri precedenti — vedi Briefing). Bandi CCIAA BT26/BE26 aprono 20/7. Macchina: 26 difetti, 19 PR in coda. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
