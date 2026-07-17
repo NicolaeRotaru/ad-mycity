@@ -1456,13 +1456,10 @@ export default function Dashboard() {
     // localStorage e mai risolto) faceva scattare la guardia per SEMPRE → ogni nuovo messaggio
     // finiva solo in codaMsgRef senza diventare un lavoro, e il drain (legato a `loading`, che non
     // cambiava) non partiva mai: «scrivo ciao ma non si mette in coda». (regressione «fix: 3 bug chat»)
-    if (loadingRef.current && !bubblaGiaMostrata) {
-      const nomiAllCoda = daCaricare.map((f) => `📎 ${f.name}`).join("  ");
-      const bollaCoda = [t, nomiAllCoda].filter(Boolean).join("\n");
-      setMessages((m) => [...m, { id: nuovoIdMsg(), role: "user", content: bollaCoda }]);
-      codaMsgRef.current.push(t || "Guarda gli allegati");
-      return;
-    }
+    // MESSAGGI MULTIPLI (interrompi-e-ripensa): se l'AD sta ancora elaborando, non mettiamo
+    // in coda — lasciamo cadere il nuovo messaggio nel meccanismo «sostituisci» qui sotto.
+    // Il vecchio job viene annullato e quello nuovo riceve tutta la conversazione (A + B insieme).
+    // Questo è il comportamento che Nicola vuole: risposta unica a tutti i messaggi ravvicinati.
 
     // MEMORIA DELLA CHAT: mando tutta la conversazione finora, non solo l'ultimo
     // messaggio, così l'AD capisce il contesto ("cosa manca da X?" → "l'ho fatto").
