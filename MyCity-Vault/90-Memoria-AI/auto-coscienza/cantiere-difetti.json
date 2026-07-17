@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-17 19:53",
+  "aggiornato": "2026-07-17 22:13",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -798,15 +798,16 @@
       "causa_radice": "Il campo voto_salute_architettura non ha UN solo scrittore dichiarato: 3 attori (workflow completa, sonda, allinea-scan) lo toccano con semantiche diverse, e il contratto che vieta la sovrascrittura è solo prosa (commenti + auto-coscienza.md), mai eseguibile. Causa di sistema: i campi dei JSON di auto-coscienza non hanno ownership per-campo né schema eseguibile che vincoli chi può scriverli.",
       "fix_proposto": "🟡 (a) togliere la riga 166 di allinea-scan-cantiere.mjs (il voto-cantiere resta in sync_scan/sonda come diagnostica); (b) rieseguire una radiografia completa per riallineare voto e storico; (c) aggiungere a valida-contratti.mjs la regola «voto_salute_architettura coerente con i voti delle dimensioni (±15) oppure data completa coerente».",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-17 22:13",
       "verifica": {
         "file": "cervello/allinea-scan-cantiere.mjs",
         "pattern": "rad\\.voto_salute_architettura = votoLive",
         "presente": false
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/allinea-scan-cantiere.mjs NON contiene /rad\\.voto_salute_architettura = votoLive/ → assente"
     },
     {
       "id": "AR-107",
@@ -1364,8 +1365,8 @@
     }
   ],
   "meta": {
-    "aperti": 26,
+    "aperti": 25,
     "in_corso": 0,
-    "chiusi": 48
+    "chiusi": 49
   }
 }
