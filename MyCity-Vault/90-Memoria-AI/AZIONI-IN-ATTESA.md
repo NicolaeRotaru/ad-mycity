@@ -17,9 +17,10 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
-### 🟡 #mergia-pr-432 — Mergia PR #432 per pulire la coda da 121 job errore · ⏳ accodata 2026-07-17 12:10
+### 🟡 #mergia-pr-433 — Mergia PR #433 per pulire la coda da 121 job errore · ⏳ accodata 2026-07-17 12:15
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/432 · Branch: `fix/pulisci-coda`
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2`
+*(La PR #432 aveva un conflitto sui file di memoria — sostituita da questa, branch pulito da `origin/main`.)*
 
 **Dopo il merge, dal terminale VPS:**
 1. `node cervello/pulisci-coda.mjs` — dry-run, vedi quanti pulisce senza toccare niente

@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 12:15 · 🟡 · [AD risoluzione conflitto] · **PR #433 aperta (pulisci-coda, branch pulito) — sostituisce PR #432 che aveva conflitto.** La PR #432 aveva conflitti causati da file di memoria committati su main locale prima della creazione del branch. Fix: stash dei file vault + `git checkout -b fix/pulisci-coda-v2 origin/main` → solo `pulisci-coda.mjs` nel branch → PR #433 zero conflitti. Conferma della lezione: branch codice deve sempre partire da `origin/main` (remote), non dal main locale.
+
 2026-07-17 12:10 · 🟡 · [Nicola richiesta] · **PR #432 aperta — `cervello/pulisci-coda.mjs` per pulizia automatica job errore.** Nicola ha segnalato 121 item nella tab "In coda" del Pannello. Diagnosi: "In coda" aggrega `in_attesa` + `in_corso` + **`errore`** — i job falliti non vengono puliti automaticamente e si accumulano nel tempo (worker sano: 222+ job completati/24h). Script `pulisci-coda.mjs` scritto e PR #432 aperta. Modalità: `node cervello/pulisci-coda.mjs` (dry-run) poi `--esegui` (pulizia). Risultato atteso: coda da 121 → ~2-3 (solo job attivi). Merge da fare da Nicola. `mcp__supabase-memoria__execute_sql` non in allowlist — non usabile via chat per diagnostica SQL.
 
 2026-07-17 10:42 · 🟢 · [AD] · **Fix video live — testo chat invisibile: colori scuri hardcoded nel modal.** Bug: tema chiaro del Pannello rendeva lo sfondo del modal video live beige (`var(--background)`) mentre il testo restava bianco → bianco su bianco, invisibile. Fix: hardcode `bg-gray-900/text-white` alle righe 201 e 322 del componente. Committato su main direttamente (nessuna PR). Residuo minore: riga 262 usa ancora `var(--border)` per il bordo del bottone Chiudi — secondario.
