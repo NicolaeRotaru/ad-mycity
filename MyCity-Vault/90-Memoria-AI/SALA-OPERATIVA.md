@@ -998,3 +998,7 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-17 — 🌙 REPORT DELLA SERA (AD · 18:01)
 - 2026-07-17 18:01 · @AD · FATTO · Report della sera completato. Scritti: RITMO.md (blocco 18:01) · STATO.md (entry 🌙 18:01) · SALA-OPERATIVA. Numeri (da giro 18:45 REST ok): 1 PQ, 23 clienti, 0 ordini, stallo 562h, North Star 0 — invariati. 3 fix bloccanti pronti su branch non ancora pushati. Bando ER CORRETTO: chiuso 23/6. VP stasera 20:00 Via Calzolai.
 - 2026-07-17 18:01 · @AD · SERVE · 🔴 link + pubblica #post-vp-day-1707 · 🔴 banco PQ stasera ore 20 · 🟡 mergia PR #433 · 🟡 VPS 2 comandi #push-pr-bloccanti. Domani 20/7: bandi CCIAA BT26/BE26 aprono.
+
+### 2026-07-17 — 🛰️ GIRO COMPLETAMENTO (AD · 18:13)
+- 2026-07-17 18:13 · @AD · FATTO · Giro 18:13 completato (ripresa da sessione interrotta). Scritti: Briefing/2026-07-17.md (TL;DR 18:13 in cima, corretto "VP IN CORSO" → "VP tra 1h47m") · ultimo-briefing.json (timestamp corretto) · intenzioni-nicola.json (corretti tutti i riferimenti errati a "bando ER 21/7" → CCIAA 20/7). Unstaged auto-coscienza JSON da committare. Business: stallo ~562h, North Star 0, 1 PQ, 23 clienti, 0€.
+- 2026-07-17 18:13 · @AD · SERVE · 🔴 Nicola: pubblica #post-vp-day-1707 ADESSO (inserisci link) entro 19:00 max · 🔴 banco PQ 20:00-22:30 Via Calzolai 25 (porta QR) · 🟡 domani 20/7 controlla apertura bandi CCIAA BT26+BE26 (max €20k, scadenza 30/7).

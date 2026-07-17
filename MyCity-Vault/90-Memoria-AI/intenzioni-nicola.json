@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-17 18:45",
-  "sintesi": "Nicola: VP 17/7 inizia tra ~1,25h (20:00) — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto — serve il link ADESSO). Bici elettrica in riparazione. Bando ER scade 21/7 ore 13 (~70h, sportello, max 350 domande). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 38 giri.",
+  "data": "2026-07-17 18:13",
+  "sintesi": "Nicola: VP 17/7 inizia TRA ~1h47m (20:00) — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto — serve il link). Bici elettrica in riparazione. Bando ER FESR CHIUSO dal 23/6. DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (max €20k, scadenza 30/7). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 41 giri.",
   "prossime_mosse": [
     {
       "titolo": "Pubblica il post Venerdì Piacentini ADESSO (card #post-vp-day-1707)",
@@ -21,13 +21,13 @@
       "colore": "🔴"
     },
     {
-      "titolo": "Segnala il bando ER alle botteghe candidate (scade 21/7 ore 13!)",
-      "quando": "oggi o domani mattina al massimo",
-      "come": "Informarle durante la call / messaggio — scade 21/7 ore 13, sportello 350 domande, rischio chiusura anticipata",
-      "priorita": "URGENTE",
-      "ad_prepara": "eventi-picchi.md con dettagli bando ER aggiornati",
+      "titolo": "Verifica apertura bandi CCIAA BT26+BE26 domani 20/7",
+      "quando": "domani 20/7 mattina",
+      "come": "BT26 = €7.000 (40%, e-commerce/retail) · BE26 = €20.000 (50%, energia). Scadenza 30/7 — finestra 10 giorni. Prepara con PQ la domanda.",
+      "priorita": "alta",
+      "ad_prepara": "eventi-picchi.md con dettagli bandi CCIAA aggiornati (bando ER FESR è CHIUSO dal 23/6)",
       "senior": "@relazioni-istituzionali",
-      "colore": "🔴"
+      "colore": "🟡"
     },
     {
       "titolo": "Ruota i token GitHub trovati in chiaro nel VPS",
@@ -65,7 +65,7 @@
   "gate_primo_negozio": {
     "gate": "prima bottega online (ordine reale evadibile)",
     "azioni_bloccate": ["Mail Hub Urbano (#52)", "Post 'Lunedì della Bottega' (#46)", "Referral 5+5€ (#37)"],
-    "scadenza_vicina": "Bando ER 21/7 ore 13 — SPORTELLO (max 350 domande, rischio chiusura anticipata)"
+    "scadenza_vicina": "Bandi CCIAA BT26+BE26: aprono 20/7, scadono 30/7 (finestra 10gg, max €20k) — il bando ER FESR è CHIUSO dal 23/6"
   },
   "segnali_aggiornati_17lug_1730": {
     "vp_stasera": "TRA ~1,25 ORE (ore 20:00) — post da pubblicare ADESSO (serve link), banco PQ entro 19:30",
@@ -77,7 +77,7 @@
   "rischi": [
     "VP 17/7 passa senza presidio → stallo continua per altra settimana + bando ER scade senza gate soddisfatto",
     "Post VP non pubblicato entro 18:30 → reach minima, meno clienti potenziali stasera",
-    "Bando ER scade 21/7 ore 13 SENZA 1° ordine — sportello: rischio chiusura ANTICIPATA",
+    "Bandi CCIAA BT26+BE26 scadono 30/7: finestra 10 giorni, non perdere la domanda (aprono 20/7)",
     "PAT GitHub in chiaro — security risk",
     "Runway sconosciuto (BURN_MENSILE_EUR assente da 116+ giri)",
     "Fusione Prosus/JustEat → player più forte sui ristoranti di Piacenza in 12-24 mesi"

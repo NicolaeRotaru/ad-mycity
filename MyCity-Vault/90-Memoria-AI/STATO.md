@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 18:01
-fonte: AD digitale (🌙 17/7 18:01 report della sera · dati da giro 18:45 REST ok · stallo ~562h · giri_totali=189)
+aggiornato: 2026-07-17 20:30
+fonte: AD digitale (giro sera 20:30 · REST ok · Stripe ok · MCP Stripe ok · n8n cieco 42 giri · giri_totali=194)
 ---
+
+> 🛰️ **17/7 20:30 — GIRO SERA (VP IN CORSO).** **IL VENERDÌ PIACENTINI È IN CORSO ADESSO (20:00-22:30, Via Calzolai).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~564h** (≈23,5 giorni). North Star 0, cassa 0€. Sensori: n8n cieco 42 giri · MCP Supabase cieco 3 giri · REST/Stripe/Resend/MCP Stripe ok · giri_totali=194. **Mossa n.1:** 🔴 banco PQ se non ci sei (ritiro al banco fino alle 22:30, QR sul telefono). **DOMANI 20/7:** bandi CCIAA BT26+BE26 aprono (€7k+€20k per bottega, scadenza 30/7) — prepariamo le bozze con @relazioni-istituzionali. Coda: 🟡 #mergia-pr-433 · 🟡 #push-pr-bloccanti · 🟡 #fix-guardiano-coerenza-fatti. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
+
+> 🛰️ **17/7 18:13 — GIRO COMPLETAMENTO (ripresa sessione interrotta).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~562h** (≈23,4 giorni). North Star 0, cassa 0€. **VP tra 1h47m** (20:00-22:30 Via Calzolai). Corretti: Briefing (VP non ancora "in corso"), intenzioni-nicola (bando ER CHIUSO 23/6 → CCIAA 20/7), ultimo-briefing. Giro completo. **Mossa n.1:** 🔴 pubblica #post-vp-day-1707 (inserisci link) entro 19:00 · banco PQ ore 20. **Domani 20/7:** bandi CCIAA BT26+BE26 aprono (max €20k, scadenza 30/7).
 
 > 🌙 **17/7 18:01 — REPORT DELLA SERA.** Numeri confermati dal giro 18:45 (REST ok): **1 PQ, 23 clienti, 0 ordini, stallo ~562h ≈ 23 giorni, North Star 0.** 3 fix bloccanti macchina pronti su branch (chat, volano, voto salute) — mancano push+merge. Bando ER corretto: chiuso 23/6, bandi CCIAA BT26/BE26 aprono 20/7. **Stasera al VP (20:00, Via Calzolai): banco PQ è la mossa.** Da approvare: 🔴 link post VP + ok pubblica · 🟡 mergia PR #433 · 🟡 #push-pr-bloccanti. Lezione: il guardiano coerenza-fatti deve girare in allowlist automaticamente. Blocco completo → [[RITMO]] 17/7 18:01.
 

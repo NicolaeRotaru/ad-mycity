@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-17 19:30",
-  "situazione": "Business invariato da ~23,4 giorni (North Star 0, stallo ~563h). Il Venerdì Piacentini È IN CORSO ADESSO (20:00-22:30, Via Calzolai, ~50-60k persone). PQ al centro — ritiro al banco, nessuna bici necessaria. Se il post VP non è ancora pubblicato (#post-vp-day-1707 🔴), fallo ora — il VP dura fino alle 22:30. ⚠️ Bando ER FESR CHIUSO dal 23/6. DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (finestra 10gg, max €20k per bottega). Macchina: 26 difetti aperti, 19 PR, n8n cieco 40 giri.",
+  "data": "2026-07-17 18:13",
+  "situazione": "Business invariato da ~562h (23.4 giorni) — North Star 0, 1 PQ, 23 clienti, 0€. Il Venerdì Piacentini inizia TRA 1H47M (20:00-22:30, Via Calzolai). PQ al banco — ritiro senza bici. Post #post-vp-day-1707 🔴 da pubblicare ADESSO (serve link da Nicola, ideale entro 19:00). Bando ER FESR CHIUSO dal 23/6 (AR-102). DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (finestra 10gg, max €20k). Macchina: 26 difetti aperti, 19 PR, n8n cieco 41 giri.",
   "opportunita": [
     {
       "titolo": "Vai al banco di Pane Quotidiano STASERA al Venerdì Piacentini",
-      "motivo": "Parte tra 1,25h (20:00-22:30), centro pieno (~50-60k persone), PQ in Via Calzolai 25 — ritiro al banco senza bici. Finestra UNICA per North Star 0→1 questa stagione",
+      "motivo": "Parte tra 1h47m (20:00-22:30), centro pieno (~50-60k persone), Via Calzolai 25 — ritiro al banco senza bici. Finestra UNICA per North Star 0→1 questa stagione",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -16,27 +16,32 @@
     },
     {
       "titolo": "Prepara i bandi CCIAA BT26 + BE26 che aprono DOMANI 20/7",
-      "motivo": "BT26 = €7.000 (40%, e-commerce); BE26 = €20.000 (50%, energia). Scadenza 30/7. Bando ER FESR era già chiuso dal 23/6 — quelli CCIAA sono i bandi attivi adesso",
+      "motivo": "BT26 = €7.000 (40%, e-commerce); BE26 = €20.000 (50%, energia). Scadenza 30/7. Finestra di soli 10 giorni. Bando ER FESR era CHIUSO dal 23/6 — quelli CCIAA sono i bandi attivi adesso",
       "impatto": "medio",
       "sforzo": "medio"
     },
     {
       "titolo": "Dal 20/7 lancia la campagna delivery a domicilio (cambia il meteo)",
-      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: domanda consegna a casa sale. Adattare il post kefir",
+      "motivo": "Da domenica 20/7 arrivo correnti fresche e possibili piogge: domanda consegna a casa sale. Adattare il messaggio post VP",
       "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Approva card #post-vp-day-1707 ADESSO (inserisci il link nel commento)",
-      "motivo": "Finestra 18:30-19:00 ancora utile per la reach serale del VP",
+      "titolo": "Inserisci il link nella card #post-vp-day-1707 e approva (entro le 19:00)",
+      "motivo": "Massima reach pre-VP per chi pianifica la serata. Testo già scritto, manca solo il link.",
       "livello": "rosso"
     },
     {
-      "titolo": "Vai al banco PQ entro le 19:30 (Via Calzolai 25, porta il QR)",
-      "motivo": "North Star 0→1 + sblocco bando ER + gate mail Hub Urbano. Ritiro banco = nessuna bici necessaria",
+      "titolo": "Vai al banco PQ stasera al VP (20:00-22:30, Via Calzolai 25, porta il QR)",
+      "motivo": "North Star 0→1 + sblocco mail Hub Urbano + gate referral. Ritiro banco = nessuna bici necessaria",
       "livello": "rosso"
+    },
+    {
+      "titolo": "Domani 20/7: verifica apertura bandi CCIAA BT26+BE26",
+      "motivo": "Finestra 10 giorni (scadenza 30/7). Massimo €20k per bottega. Da pianificare con PQ",
+      "livello": "giallo"
     },
     {
       "titolo": "Mergia PR #430, #431, #433 da GitHub",
@@ -44,7 +49,7 @@
       "livello": "giallo"
     },
     {
-      "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS (stima 150-200 euro/mese va bene)",
+      "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS (già approvato 16/7)",
       "motivo": "Runway sconosciuto da 116+ giri — sblocca la sentinella cassa_sconosciuta",
       "livello": "giallo"
     }
