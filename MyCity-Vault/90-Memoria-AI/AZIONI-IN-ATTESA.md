@@ -29,23 +29,39 @@ L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passa
 
 ---
 
-### 🟡 #push-video-live-chat — Push branch fix/video-live-chat e apri PR · ⏳ accodata 2026-07-17 04:30
+### ✅ #push-video-live-chat — Branch pushato e PR #428 aperta · FATTO 2026-07-17 06:45
 
-**Cosa fare:** dal VPS, approva il comando: `git push origin fix/video-live-chat` → poi l'AD apre la PR da solo.
+Branch `fix/video-live-chat` pushato su origin, rebase su main completato, build verde (compiled successfully 11.3s, zero errori TS).
+PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
 
-Branch `fix/video-live-chat` · commit `9816bb3f` · typecheck verde · 4 file modificati:
-- `BottoneFotoChat.tsx` — aggiunge microfono, textarea e chat a destra nella videocamera
-- `BarraScritturaChat.tsx` — passa i nuovi props al video live
-- `page.tsx` — passa `chatMessaggi` a BarraScritturaChat
-- `ChatCasella.tsx` — `invia()` accetta testo opzionale per invio dalla videocamera
+---
 
-Layout: telecamera (55%) + chat (45%) su desktop; stacked su mobile.
+### 🟡 #mergia-pr-428 — Mergia PR #428: video live con microfono e chat · ⏳ accodata 2026-07-17 06:45
+
+**Cosa fare:** vai su GitHub → PR #428 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/428
+
+4 file: `BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx` — telecamera (55%) + chat (45%) su desktop, stacked mobile.
 
 **Cosa cambia:** nel video live puoi scrivere, dettare col microfono e vedere la conversazione senza uscire dalla telecamera.
-**Se va bene:** l'AD apre la PR e la mergi come al solito.
+**Se va bene:** Vercel builda in ~2 min e la feature è live.
 
-- **Colore:** 🟡 (push su GitHub — Nicola approva il comando)
+- **Colore:** 🟡 (merge → Nicola)
 - **Reparto:** frontend-dev
+
+---
+
+### 🟡 #push-main-memoria — Pusha main su GitHub (2 commit memoria non pubblicati) · ⏳ accodata 2026-07-17 06:45
+
+**Cosa fare:** dal VPS esegui: `git push origin main`
+
+`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è 3 commit avanti di origin/main: memoria giro mattino, auto-coscienza e consegna PR #428 non ancora pubblicati su GitHub.
+
+**Cosa cambia:** il Pannello hosted vede la memoria aggiornata del giro di stamattina.
+**Se va bene:** nessun passo successivo necessario.
+
+- **Colore:** 🟡
+- **Reparto:** AD / devops-sre
 
 ---
 
