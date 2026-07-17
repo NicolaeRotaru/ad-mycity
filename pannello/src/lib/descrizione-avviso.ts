@@ -37,8 +37,39 @@ export function descrizioneAvviso(testo: string): string {
     // Caso coerenza-fatti: un valore vecchio è rimasto in un file secondario
     if (t.includes("coerenza-fatti")) {
       righe.push(
-        "Un valore era già stato aggiornato ma il testo vecchio era rimasto in un altro file — il Pannello avrebbe mostrato numeri diversi in posti diversi.",
+        "Un dato era già stato aggiornato ma il testo vecchio era rimasto in un altro file — il Pannello avrebbe mostrato numeri diversi in posti diversi.",
       );
+    }
+
+    // Vecchio formato senza nome file: "vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter o JSON rotti)"
+    if (righe.length === 0 && t.includes("vault-san")) {
+      const dl = t;
+      if (dl.includes("conflitti") || dl.includes("conflitto")) {
+        righe.push(
+          "Uno o più file della memoria avevano righe di conflitto git — il Pannello avrebbe mostrato dati mescolati e illeggibili.",
+        );
+      }
+      if (dl.includes("0-byte") || dl.includes("0 byte")) {
+        righe.push(
+          "Uno o più file della memoria erano vuoti — il Pannello avrebbe mostrato schede bianche senza dati.",
+        );
+      }
+      if (dl.includes("frontmatter")) {
+        righe.push(
+          "Uno o più file avevano l'intestazione incompleta — data e titolo non sarebbero stati riconosciuti.",
+        );
+      }
+      if (dl.includes("json")) {
+        righe.push(
+          "Uno o più file JSON erano corrotti — sarebbe comparso un errore al posto dei tuoi numeri.",
+        );
+      }
+      // Se nessun tipo specifico trovato, messaggio generico sul vault sporco
+      if (righe.length === 0) {
+        righe.push(
+          "Un file della memoria aveva un problema fisico (conflitto, vuoto o formato rotto) — la macchina si è fermata per non mostrarti dati sbagliati.",
+        );
+      }
     }
 
     const corpo =
