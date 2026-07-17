@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 · 🟡 · [Nicola richiesta + AD] · **Nicola chiede: (1) bottone "Riapprova" spostato nell'header della casella, vicino ad "Annulla" e "Chat" — visibile senza aprire la casella; (2) testo sotto la casella in errore riformulato in linguaggio umano (no `rc=1`/timeout/…` grezzo).** AD ha capito la struttura e chiesto conferma per aprire PR. Azione accodata come #mergia-pr-riapprova-header.
+
 2026-07-18 01:10 · 🟢 · [Nicola azione + AD] · **Nicola ha inserito `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS.** L'AD ha confermato l'inserimento («l'ho inserito») e ha girato lo script: dry-run (121 job da pulire, tutti errore, dal 9/7) poi `--esegui` → 121 job eliminati, coda libera. Confermato che la wildcard `node cervello/*.mjs:*` nel settings.json principale non basta per tutti gli script — per garantire l'esecuzione dalla chat serve la regola esplicita per nome in settings.local.json.
 
 2026-07-18 01:00 · 🟢 · [AD scoperta] · **File `.claude/*.json` non modificabili via chat.** Nicola ha chiesto «inserisci nell'allowlist ciò che ti serve per girare `pulisci-coda.mjs` nella chat». L'AD ha tentato skill `update-config` e Write tool: entrambi bloccati. Conclusione: i file `.claude/` sono protetti da un meccanismo di sicurezza che non dipende dall'allowlist — anche con permessi allargati il blocco regge. Passo residuo: Nicola aggiunge manualmente `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS.

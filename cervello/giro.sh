@@ -605,7 +605,9 @@ if command -v node >/dev/null 2>&1; then
   _vs_out="$(node "$SCRIPT_DIR/vault-sanita.mjs" "MyCity-Vault/90-Memoria-AI" 2>&1)"; _vs_rc=$?
   if [ "$_vs_rc" -ne 0 ]; then
     MEMORIA_INCOERENTE=1
-    _gate_motivi="${_gate_motivi}vault-sanità rc=$_vs_rc (vault sporco: conflitti/0-byte/frontmatter o JSON rotti); "
+    # Estrae i nomi file specifici (righe "   - NOME: TIPO") e li include nell'avviso.
+    _vs_file="$(printf '%s\n' "$_vs_out" | grep -E '^[[:space:]]+-[[:space:]]' | head -5 | sed 's/^[[:space:]]*-[[:space:]]*//' | tr '\n' ' | ' | sed 's/ | $//')"
+    _gate_motivi="${_gate_motivi}vault-sanità: ${_vs_file:-vault sporco (conflitti/0-byte/frontmatter o JSON rotti)}; "
     echo "[$(ts)] ⛔ VAULT-SANITÀ (pre-push): vault sporco (rc=$_vs_rc) — sync BLOCCATA." >&2
     printf '%s\n' "$_vs_out" | tail -12 >&2
   fi

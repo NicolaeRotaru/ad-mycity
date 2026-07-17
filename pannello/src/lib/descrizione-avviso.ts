@@ -9,7 +9,44 @@ export function descrizioneAvviso(testo: string): string {
     t.includes("vault sporco") ||
     t.includes("giro non pubblicato")
   ) {
-    return "Il giro non è stato pubblicato perché uno dei file di memoria conteneva un dato sbagliato o corrotto. La macchina si è fermata da sola per non mostrarti numeri o date errate nel Pannello. Il prossimo giro sistemerà tutto in automatico. Se l'avviso ha già qualche ora e il Pannello ora mostra dati freschi, il problema si è risolto da solo.";
+    const righe: string[] = [];
+
+    // Estrae i dettagli da "vault-sanità: NOMEFILE: TIPO | NOMEFILE2: TIPO2"
+    const matchVs = testo.match(/vault-san[iì]t[àa]:\s*([^;]+)/i);
+    if (matchVs) {
+      const voci = matchVs[1]
+        .split("|")
+        .map((s) => s.trim())
+        .filter((v) => v.length > 3 && v.includes(":"));
+      for (const v of voci.slice(0, 4)) {
+        const nomeFile = v.split(":")[0]?.trim();
+        const dl = v.toLowerCase();
+        const spieg = dl.includes("conflitto")
+          ? "aveva righe di conflitto git — il Pannello avrebbe mostrato dati mescolati e illeggibili"
+          : dl.includes("0 byte")
+            ? "era vuoto — il Pannello avrebbe mostrato una scheda bianca senza dati"
+            : dl.includes("frontmatter")
+              ? "aveva l'intestazione incompleta — data e titolo del file non sarebbero stati riconosciuti"
+              : dl.includes("json")
+                ? "era corrotto — al posto dei tuoi numeri sarebbe comparso un errore"
+                : "conteneva un dato non valido — avrebbe potuto mostrare informazioni sbagliate";
+        if (nomeFile) righe.push(`"${nomeFile}" ${spieg}.`);
+      }
+    }
+
+    // Caso coerenza-fatti: un valore vecchio è rimasto in un file secondario
+    if (t.includes("coerenza-fatti")) {
+      righe.push(
+        "Un valore era già stato aggiornato ma il testo vecchio era rimasto in un altro file — il Pannello avrebbe mostrato numeri diversi in posti diversi.",
+      );
+    }
+
+    const corpo =
+      righe.length > 0
+        ? `Il giro non è stato pubblicato per questi problemi:\n\n${righe.join("\n")}`
+        : "Il giro non è stato pubblicato perché uno dei file di memoria conteneva un dato sbagliato o corrotto.";
+
+    return `${corpo}\n\nLa macchina si è fermata da sola per non mostrarti dati rotti nel Pannello. Il prossimo giro sistemerà tutto in automatico. Se l'avviso ha già qualche ora e il Pannello ora mostra dati freschi, il problema si è risolto da solo.`;
   }
 
   if (t.includes("segreto") || t.includes("scan-segreti")) {
