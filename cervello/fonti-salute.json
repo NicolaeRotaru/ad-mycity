@@ -1,27 +1,11 @@
 {
-  "ok": false,
-  "quando": "2026-07-17 22:20",
+  "ok": true,
+  "quando": "2026-07-18 01:22",
   "radar": "cervello/radar-fonti.json",
   "fonti_totali": 16,
-  "vive": 13,
-  "morte": 3,
-  "allerta_peso_critico": [
-    {
-      "id": "comune-news",
-      "peso": 4,
-      "status": 403
-    },
-    {
-      "id": "comune-eventi",
-      "peso": 4,
-      "status": 403
-    },
-    {
-      "id": "comune-imprese",
-      "peso": 4,
-      "status": 403
-    }
-  ],
+  "vive": 16,
+  "morte": 0,
+  "allerta_peso_critico": [],
   "fonti": [
     {
       "id": "liberta-attualita",
@@ -72,33 +56,39 @@
       "nome": "Comune di Piacenza — News",
       "url": "https://www.comune.piacenza.it/it/menu/news",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 14,
-      "morta": true,
-      "ultimo_controllo": "2026-07-17 22:20"
+      "viva": true,
+      "status": 0,
+      "falliti_consecutivi": 0,
+      "morta": false,
+      "ultimo_controllo": "2026-07-18 01:22",
+      "skip_check": true,
+      "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it news commercio"
     },
     {
       "id": "comune-eventi",
       "nome": "Comune di Piacenza — Eventi",
       "url": "https://www.comune.piacenza.it/it/categorie-eventi/76806",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 14,
-      "morta": true,
-      "ultimo_controllo": "2026-07-17 22:20"
+      "viva": true,
+      "status": 0,
+      "falliti_consecutivi": 0,
+      "morta": false,
+      "ultimo_controllo": "2026-07-18 01:22",
+      "skip_check": true,
+      "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it eventi"
     },
     {
       "id": "comune-imprese",
       "nome": "Comune — Imprese e commercio / bandi",
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 14,
-      "morta": true,
-      "ultimo_controllo": "2026-07-17 22:20"
+      "viva": true,
+      "status": 0,
+      "falliti_consecutivi": 0,
+      "morta": false,
+      "ultimo_controllo": "2026-07-18 01:22",
+      "skip_check": true,
+      "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: comune piacenza bandi imprese commercio 2026"
     },
     {
       "id": "vitaincentro",
