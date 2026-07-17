@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0717-248",
+      "testo": "**«Smartphone» = Chat Pannello VPS (allowlist stretta, git varia per sessione); «Desktop» = Claude Code app (ambiente pieno, git sempre disponibile) — chiarito da Nicola 17/7:** la differenza non è dimensione dello schermo ma AMBIENTE DI ESECUZIONE. Claude Code desktop ha git/gh/MCP Vercel sempre attivi. Chat Pannello gira sul worker VPS con settings.local.json a permessi ridotti — git è in allowlist solo se configurato esplicitamente, e la disponibilità varia sessione per sessione. Soluzione permanente: aggiungere `git push` all'allowlist di settings.local.json in modo stabile (🟡, firma Nicola).",
+      "tag": ["chat-pannello", "claude-code-desktop", "smartphone", "allowlist", "git", "ambiente-vps", "ambienti-distinti"],
+      "reparto": "@devops-sre",
+      "confidenza": 1,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-17",
+      "ultima_conferma": "2026-07-17 10:00",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0717-247",
       "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 2 conferme):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, ecc.) va SOLO in `cervello/vps/.env` + `sudo systemctl restart mycity-worker-chat.service`. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
       "tag": ["vercel", "token", "env", "mcp-vercel", "configurazione", "worker", "permanente", "cervello-vps-env"],
