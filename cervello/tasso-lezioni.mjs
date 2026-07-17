@@ -116,13 +116,11 @@ function appendQuaderni(blob) {
   return blob;
 }
 
-function appendNoteGiro(appr, blob) {
-  if (!appr || typeof appr !== "object") return blob;
-  for (const [k, v] of Object.entries(appr)) {
-    if (!k.startsWith("_nota")) continue;
-    if (typeof v === "string") blob += v;
-  }
-  // preferenze_nicola NON entra: registrare una lezione ≠ applicarla nel lavoro.
+function appendNoteGiro(_appr, blob) {
+  // AR-volano-fix: le _nota_giro_ sono record auto-referenziali della macchina (cosa ha fatto
+  // in un giro). Includendole nel blob, ogni lezione citata nella propria nota di nascita
+  // risultava "applicata" — gonfiando il tasso con falsi positivi. Rimosse: la prova di uso
+  // reale viene da DECISIONI, SALA, AZIONI, Briefing recenti, consegne/ e quaderni/.
   return blob;
 }
 
