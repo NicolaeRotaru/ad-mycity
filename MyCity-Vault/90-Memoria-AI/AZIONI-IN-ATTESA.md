@@ -16,6 +16,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-444 — Mergia PR #444: ordinamento conversazioni per data creazione (non scivola più) · ⏳ accodata 2026-07-18 02:XX
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Branch: `feature/lista-conversazioni-sort`
+
+**Bug:** la lista conversazioni usava la data dell'ultima modifica (`updated_at`) per ordinare. Quando aprivi una chat, aggiornava quella data → la chat saliva in cima, poi scendeva man mano che ne aprivi altre.
+
+**Fix:** ordine fisso per data di CREAZIONE (`created_at`): la chat più nuova resta in cima, immobile, indipendentemente da quante ne apri.
+
+**Cosa cambia:** la lista è stabile — la posizione non si muove mentre navighi tra le conversazioni.
+**Se va bene:** l'ordine è prevedibile, la chat più recente è sempre in cima.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/443 · Branch: `feature/lavori-riapprova-ux`

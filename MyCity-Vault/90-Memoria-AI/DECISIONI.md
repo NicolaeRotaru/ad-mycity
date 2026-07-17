@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 02:XX · 🟡 · [AD] · **PR #444 aperta** — fix ordinamento lista conversazioni su branch `feature/lista-conversazioni-sort`: usava `updated_at` (data ultima modifica) invece di `created_at` (data creazione) → la lista si riordinava ogni volta che l'utente apriva una chat. Ora l'ordine è stabile: la chat più recente resta in cima, non scivola. PR in attesa di merge da Nicola.
+
 2026-07-18 02:XX · 🟢 · [AD] · **Fix avvisi descrizione storica già su main — nessuna PR necessaria.** Il commit `9c88c9e4` ("fix(avvisi): descrizione specifica anche per gli avvisi vecchi senza nome file") è già su `origin/main` — il watch-main l'ha assorbito prima che fosse committato su un branch separato. Nicola ha chiesto "Aggiorna tu descrizione-avviso.ts" e l'AD ha confermato che il fix è già live. Gli avvisi vecchi con formato `vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter)` ora mostrano testo specifico invece del generico. Branch `fix/avvisi-descrizione-storica` è un residuo, non usato.
 
 2026-07-18 02:XX · 🟢 · [AD scoperta] · **Fix avvisi (giro.sh + descrizione-avviso.ts) già su main** — le modifiche che estraggono il nome file dall'output di vault-sanita e le includono in `_gate_motivi` sono finite nel commit `ca2ebe07 recupero: scritture pendenti` su `origin/main` (watch-main le ha risucchiate prima del commit sul branch). Nessuna PR da aprire per quella parte. Il problema visibile ora è che le caselle hanno avvisi vecchi (JSON) senza nome file — risolto dalla PR branch `fix/avvisi-descrizione-storica`.
