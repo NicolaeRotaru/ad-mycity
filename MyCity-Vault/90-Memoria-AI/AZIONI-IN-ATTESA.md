@@ -16,7 +16,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-444 — Mergia PR #444: ordinamento conversazioni per data creazione (non scivola più) · ⏳ accodata 2026-07-18 02:XX
+### 🟡 #mergia-pr-444 — Mergia PR #444: ordinamento conversazioni per data creazione (non scivola più) · ⚠️ BLOCCATO 2026-07-18 01:14 — `git-merge.mjs` non in allowlist; sblocca dal terminale VPS con `AZIONI_LIVE=1 AZIONE_ID=mergia-pr-444 node cervello/esegui-azione.mjs github-merge ad-mycity 444` oppure aggiungi `"Bash(node cervello/git-merge.mjs:*)"` all'allowlist
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Branch: `feature/lista-conversazioni-sort`
 
