@@ -105,17 +105,13 @@ Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cer
 
 ---
 
-### ✅ #mergia-pr-433 — APPROVATA da Nicola (Pannello 23:16) — merge NON ancora eseguito (gh non in allowlist chat) · ⚠️ 2026-07-17 23:16
+### ✅ #mergia-pr-433 — FATTO 2026-07-18 · Nicola ha confermato via chat: PR #433 già mergiata su GitHub
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2`
-*(La PR #432 aveva un conflitto sui file di memoria — sostituita da questa, branch pulito da `origin/main`.)*
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2` · **Mergiata da Nicola**.
 
-**Dopo il merge, dal terminale VPS:**
+**Prossimo passo (dal terminale VPS, ancora da fare):**
 1. `node cervello/pulisci-coda.mjs` — dry-run, vedi quanti pulisce senza toccare niente
 2. `node cervello/pulisci-coda.mjs --esegui` — esegue la pulizia
-
-**Cosa cambia:** la coda passa da 121 a ~2-3 (solo i job attivamente in attesa o in corso). Le azioni approvate da Nicola non vengono mai toccate.
-**Se va bene:** il numero "In coda" nel Pannello torna a un valore reale e leggibile; il worker continua a girare normalmente.
 
 - **Colore:** 🟡 (merge codice)
 - **Reparto:** builder-automazioni

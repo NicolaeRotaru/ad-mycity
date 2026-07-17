@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 00:13 · 🟡 · [Nicola conferma chat] · **PR #433 confermata mergiata su GitHub da Nicola.** Nicola ha notato che la casella del Pannello diceva «merge NON ancora eseguito» nonostante il merge fosse già avvenuto. Spiegazione: il testo della casella è «cristallizzato» al momento dell'accodamento e non si aggiorna in automatico dopo il merge. Passo residuo ancora da fare: `node cervello/pulisci-coda.mjs --esegui` dal terminale VPS per pulire i 121 job in errore.
+
 2026-07-17 23:55 · 🟡 · [Nicola richiesta + AD] · **PR #441 aperta — lista conversazioni dentro la chat al 50% + margini laterali ridotti del 50%.** Nicola ha cambiato i requisiti a metà lavoro: da «lista accanto al menù bordo destro» (PR #437) a «lista dentro la chat, copra solo metà chat» + «spazi sui lati si ristringano del 50%». AD ha implementato: lista come pannello interno al 50% della larghezza del div chat, `max-w-3xl` → `max-w-5xl`. Branch `fix/worker-chat-layout-v2`, base `origin/main`. Card #mergia-pr-441 accodata.
 
 2026-07-17 23:58 · 🟡 · [AD] · **PR #439 aperta — fix conflitti PR #438 (descrizioni caselle in linguaggio umano), branch pulito `fix/avvisi-umano-v2` da `origin/main`.** PR #438 aveva commit di memoria doppi su origin/main con stesso titolo → conflitto inevitabile. Soluzione: branch pulito con solo i 2 file modificati, cherry-pick a mano. PR #437 (layout chat: centrata solo desktop + lista conversazioni affiancata al bordo destro del menù) già mergiata da Nicola in questa sessione.
