@@ -64,7 +64,7 @@ const CALO_MIN_BASE = Number(process.env.SENTINELLA_DATI_CALO_MIN_BASE || 3);
 const WORKER_MORTO_MIN = Number(process.env.SENTINELLA_DATI_WORKER_MORTO_MIN || 3);
 const SALUTE_MIN = Number(process.env.SENTINELLA_DATI_SALUTE_MIN || 60);
 const RADIOGRAFIA_MAX_GG = Number(process.env.SENTINELLA_DATI_RADIOGRAFIA_MAX_GG || 10);
-const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.3);
+const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.05);
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const STATE_PATH = join(VAULT, "sentinella-dati.json");

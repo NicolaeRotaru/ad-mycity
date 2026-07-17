@@ -110,8 +110,13 @@ export async function attendiEsitoLavoro(
   while (Date.now() < scadenza) {
     await new Promise((r) => setTimeout(r, 2000));
     try {
-      const d = await fetch("/api/lavori", { cache: "no-store" }).then((r) => r.json());
-      const l = Array.isArray(d.lavori) ? d.lavori.find((x: any) => x.id === id) : null;
+      const d = await fetch("/api/lavori/dettagli", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: [id] }),
+        cache: "no-store",
+      }).then((r) => r.json());
+      const l = Array.isArray(d.lavori) ? d.lavori[0] ?? null : null;
       if (l && (l.stato === "fatto" || l.stato === "errore")) {
         const testo =
           l.risultato ||
