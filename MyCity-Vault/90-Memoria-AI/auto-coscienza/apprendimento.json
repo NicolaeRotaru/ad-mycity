@@ -28,7 +28,10 @@
       "permanente_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-17 01:30",
-      "stato": "attiva"
+      "stato": "attiva",
+      "usi": [
+        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — cervello/vps/.env confermato su mycity-worker-chat.service; applicata in ogni raccomandazione env/worker della sessione (diagnosi volano)" }
+      ]
     },
     {
       "id": "L-2026-0717-246",
@@ -51,7 +54,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-17 01:15",
-      "stato": "attiva"
+      "stato": "attiva",
+      "usi": [
+        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — applicata in PR workflow: typecheck prima di ogni push, non come step asincrono" }
+      ]
     },
     {
       "id": "L-2026-0717-245",
@@ -72,7 +78,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-17",
-      "stato": "attiva"
+      "stato": "attiva",
+      "usi": [
+        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — applicata: git diff origin/main prima di push branch; rebase preventivo nei PR di Pannello" }
+      ]
     },
     {
       "id": "L-2026-0717-244",
@@ -92,7 +101,10 @@
       "caso_studio_nicola": false,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-17",
-      "stato": "attiva"
+      "stato": "attiva",
+      "usi": [
+        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — piano streaming accodato in AZIONI-IN-ATTESA #streaming-worker secondo questa lezione (worker, non Pannello)" }
+      ]
     },
     {
       "id": "L-2026-0716-243",
@@ -114,7 +126,10 @@
       "caso_studio_nicola": true,
       "nato": "2026-07-17",
       "ultima_conferma": "2026-07-17 00:20",
-      "stato": "attiva"
+      "stato": "attiva",
+      "usi": [
+        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — pattern 3-bug-da-stessa-radice applicato in PR #419 (coda messaggi → bolla+flicker+mobile gestiti insieme)" }
+      ]
     },
     {
       "id": "L-2026-0716-242",
@@ -5791,7 +5806,9 @@
     "tasso_applicazione": 0.36,
     "tasso_calcolato_il": "2026-07-17 00:27",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-17 00:27"
+    "tick_leggero_il": "2026-07-17 00:27",
+    "usi_marcati_il": "2026-07-17 07:00",
+    "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
   "_nota_giro_ad_07_07_0030": "Giro notturno cloud on-demand: MCP LIVE (numeri confermati dal vivo), AR-102 e fix Vercel in produzione, registro-fatti popolato (8 fatti fondati). Nessuna card nuova (anti-doppione)."
 }
