@@ -2872,10 +2872,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               : { boxShadow: "0 20px 60px rgba(0,0,0,0.28)", bottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }
           }
         >
-          {/* Colonna centrata con bordi laterali — solo workerFull */}
+          {/* Colonna centrata con bordi laterali — solo workerFull su desktop */}
           <div
-            className={workerFull ? "flex flex-col flex-1 min-h-0 max-w-3xl mx-auto w-full" : "flex flex-col flex-1 min-h-0"}
-            style={workerFull ? { borderLeft: "1px solid var(--border)", borderRight: "1px solid var(--border)" } : undefined}
+            className={workerFull ? "flex flex-col flex-1 min-h-0 w-full sm:max-w-3xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
+            style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
             <span className="grid place-items-center w-7 h-7 rounded-lg bg-brand text-white shrink-0 text-[13px] font-bold">M</span>
