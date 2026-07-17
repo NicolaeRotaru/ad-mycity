@@ -52,6 +52,59 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #touch1-vp17 — Manda il messaggio di feedback al primo cliente che ordina stasera · ⏳ accodata 2026-07-17 11:56
+
+**Trigger:** ordine cambia `delivery_status = DELIVERED` + `delivered_at` valorizzato
+**Timing:** +3h dalla consegna (non passare mezzanotte se consegnato tardi)
+**Canale:** WhatsApp/telefono del cliente dall'ordine · backup email in-app
+
+**Testo pronto:**
+
+> Ciao [NOME]! Sono Nicola di MyCity 👋
+> Ti è arrivata la spesa da **Pane Quotidiano**? Spero tutto fresco come al banco.
+>
+> Siamo appena nati e ogni tua parola conta. **Com'è andata?**
+> 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema
+>
+> Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
+> Grazie per aver scelto la bottega del quartiere 🧡
+
+Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → handoff @supporto, NON inviare Touch 2.
+
+**Cosa cambia:** primo feedback reale sul servizio — segnale di qualità e apertura della relazione col cliente.
+**Se va bene:** risposta positiva → parte Touch 2 domani mattina con link recensione.
+
+- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
+- **Reparto:** customer-success
+- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
+
+---
+
+### 🔴 #touch2-vp17 — Manda il link recensione al cliente del primo ordine (+1 giorno, solo se 👍) · ⏳ accodata 2026-07-17 11:56
+
+**Trigger:** Touch 1 (#touch1-vp17) ricevuto + risposta ≠ 👎
+**Timing:** domani mattina (18/7)
+**Canale:** stesso canale del Touch 1
+
+**Testo pronto:**
+
+> Buongiorno [NOME]! Come promesso, ecco il link per lasciare **due righe su Pane Quotidiano** 🌟
+> 👉 https://mycity.piacenza.it/negozi/pane-quotidiano/recensione?order=[ID-ORDINE]
+>
+> Bastano 30 secondi: stelline + una frase vera.
+> Sarebbe la **prima recensione verificata di MyCity a Piacenza** — grazie di cuore!
+
+Sostituire `[NOME]` e `[ID-ORDINE]` con i dati reali. Aprire il link LIVE prima di inviare.
+
+**Cosa cambia:** prima recensione verificata di MyCity — social proof reale per chi guarda il negozio.
+**Se va bene:** PQ ha la prima stella verificata. Logo "Recensito" sulla vetrina.
+
+- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
+- **Reparto:** customer-success
+- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
+
+---
+
 ### 🟡 #volano-soglia-fix — Abbassa la soglia del volano da 30% a 5% (13 lezioni su 261)
 
 **Cosa cambia:** La sentinella "VOLANO FERMO" scatta quando meno del 30% delle lezioni attive viene usata per giro — cioè 78 lezioni su 261. Impossibile: un giro normale ne usa 5-10. Il volano misura il tracciamento, non l'applicazione reale. Abbassando a 5% (13 lezioni) la sentinella scatta solo quando davvero non si impara nulla, non ad ogni giro normale.
