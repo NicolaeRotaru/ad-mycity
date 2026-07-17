@@ -16,9 +16,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-riapprova-ux — Mergia PR: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:XX
+### 🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
 
-**Branch: `feature/lavori-riapprova-ux` (push bloccato, 2 commit pronti)**
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/443 · Branch: `feature/lavori-riapprova-ux`
 
 **5 fix nel Pannello:**
 1. **Bottone Riapprova** — spostato dall'area gialla in fondo all'**header della casella**, affiancato ad "Annulla" e "Chat", visibile senza dover aprire la casella.

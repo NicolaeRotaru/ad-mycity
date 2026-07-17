@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:40 · 🟡 · [AD] · **PR #443 aperta** — 5 fix UX Pannello su branch `feature/lavori-riapprova-ux`: (1) Riapprova in header affiancato ad Annulla/Chat; (2) testo errore in italiano; (3) scroll chat all'ultimo messaggio; (4) flash streaming eliminato; (5) layout shift Worker eliminato (`min-h-0` + `shrink-0`). In attesa di merge da Nicola.
+
 2026-07-18 01:XX · 🟡 · [Nicola richiesta + AD] · **5 fix UX Pannello committati su branch `feature/lavori-riapprova-ux` (push bloccato, PR da aprire).** Commit 1: riapprova in header affiancato ad Annulla/Chat; testo errore in italiano («L'azione non è partita…»); scroll chat all'ultimo messaggio all'apertura. Commit 2: fix flash streaming (stessa struttura DOM pending=true/false → React aggiorna in-place); fix layout shift Worker (aggiunto `min-h-0` a div messaggi + `shrink-0` all'header, stessa fix già presente nel main view). Push non riuscito — branch locale pronto, da pushare e aprire PR.
 
 2026-07-18 · 🟡 · [Nicola richiesta + AD] · **Nicola chiede: (1) bottone "Riapprova" spostato nell'header della casella, vicino ad "Annulla" e "Chat" — visibile senza aprire la casella; (2) testo sotto la casella in errore riformulato in linguaggio umano (no `rc=1`/timeout/…` grezzo).** AD ha capito la struttura e chiesto conferma per aprire PR. Azione accodata come #mergia-pr-riapprova-header.
