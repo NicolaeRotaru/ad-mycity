@@ -169,17 +169,13 @@ type Conversazione = {
   updated_at: string;
 };
 
-/** Ordine lista: fissate in cima, poi per data di creazione (aprire/leggere non riordina). */
-function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>, convAperta?: string | null): Conversazione[] {
+/** Ordine lista: fissate in cima, poi per data di creazione DESC — aprire/leggere non riordina. */
+function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conversazione[] {
   return [...list].sort((a, b) => {
-    if (convAperta) {
-      if (a.id === convAperta) return -1;
-      if (b.id === convAperta) return 1;
-    }
     const pa = pinnate.has(a.id) ? 1 : 0;
     const pb = pinnate.has(b.id) ? 1 : 0;
     if (pb !== pa) return pb - pa;
-    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 }
 
@@ -2776,8 +2772,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: aperta ora → fissate in cima → updated_at */}
-                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
+                {/* Ordine: fissate in cima → create più di recente */}
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
@@ -3011,7 +3007,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate, convId).filter((c) => {
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
                   if (!convRicerca.trim()) return true;
                   const q = convRicerca.toLowerCase();
                   return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
