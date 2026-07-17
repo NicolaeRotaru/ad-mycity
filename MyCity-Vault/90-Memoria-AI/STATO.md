@@ -1,10 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 11:02
-fonte: AD digitale (🛰️ 17/7 11:02 giro · VP17/7 OGGI · stallo ~554h · PR #430+#431 in attesa · North Star 0 · chiusura-loop chiuso)
+aggiornato: 2026-07-17 11:45
+fonte: AD digitale (🛰️ 17/7 11:45 giro · VP17/7 OGGI · stallo ~555h · PR #430+#431 in attesa · North Star 0 · supervisione 11:29 ok)
 ---
 
-> 🛰️ **17/7 11:02 — GIRO.** **OGGI è il Venerdì Piacentini — finestra per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini, stallo **~554h** (≈23,1 giorni). REST ok 11:00, Stripe ok. **Gate chiusura-loop CHIUSO** (ESITO @intelligence registrato). Supervisione: 17 negozi (1 approvato)/258 prodotti/494 autofill pronti. **PR in attesa:** #430 (bottone fluttuante) · #431 (debounce messaggi). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP. **Coda:** post kefir 🔴 (link da Nicola) · mergia PR #430+#431 🟡 · BURN_MENSILE_EUR 🟡. Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
+> 🛰️ **17/7 11:45 — GIRO.** **OGGI è il Venerdì Piacentini — finestra unica per North Star 0→1.** Business INVARIATO dal 24/6: 1 PQ, 23 clienti, 0 ordini, stallo **~555h** (≈23,1 giorni). REST ok 11:28, Stripe ok, supervisione 11:29 confermata invariata. Macchina: 26 difetti aperti · 19 PR in coda · n8n cieco 22 giri · BURN_MENSILE_EUR mancante 116 giri. **PR in attesa:** #430 (bottone fluttuante) · #431 (debounce messaggi). **Mossa n.1:** 🔴 presidio banco PQ Via Calzolai stasera al VP (20:00-22:30). **Coda:** post kefir 🔴 (link da Nicola) · mergia PR #430+#431 🟡 · BURN_MENSILE_EUR 🟡 · ruota PAT GitHub 🔴. Bando ER scade 21/7 — 4 giorni. Dettaglio: [[Briefing/2026-07-17]] · [[SALA-OPERATIVA]].
 
 > 💬 **17/7 ~11:05 — CHAT: 121 item "In coda" nel Pannello — indagine aperta.** Nicola ha inviato uno screenshot mostrando 121 item nella tab "In coda". AD ha risposto che "In coda" aggrega più stati (attesa + in esecuzione + falliti) e ha chiesto accesso SQL (`mcp__supabase-memoria__execute_sql`) per distinguere gli stati reali. Risposta di Nicola non ancora ricevuta — indagine pendente. Fonte: chat Nicola 17/7 ~11:05.
 

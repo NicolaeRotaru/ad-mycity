@@ -1,53 +1,50 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 11:02",
+  "data": "2026-07-17 11:45",
   "voto_fiducia": 88,
-  "trend_fiducia": "▲ 88 (da 7 giro 09:30): giro 17/7 11:02. supervisione-negozi.mjs ok, chiusura-loop chiuso, coerenza-fatti exit 0. Sessione AD autorizzata (node disponibile). VP 17/7 è OGGI.",
-  "sintesi": "Giro 17/7 11:02 — business fermo (~554h stallo, North Star 0, 23 clienti, 1 negozio approvato). Gate chiusura-loop era rc=1 (ESITO @intelligence mancante): registrato e chiuso. 17 negozi (1 approvato)/258 prodotti/494 autofill pronti. PR #430+#431 in attesa merge. VP 17/7 stasera = finestra unica.",
+  "trend_fiducia": "= 88 (stabile): giro 17/7 11:45. Dati confermati da supervisione 11:29 e sensori 11:28. VP 17/7 è OGGI — finestra unica.",
+  "sintesi": "Giro 17/7 11:45 — business invariato (~555h stallo, North Star 0, 23 clienti, 1 negozio approvato). 17 negozi (1 approvato)/258 prodotti/494 autofill pronti. Macchina: 26 difetti aperti, 19 PR in attesa merge, n8n cieco 22 giri, BURN_MENSILE_EUR mancante (116 giri). VP 17/7 stasera = finestra unica North Star 0→1.",
   "verifiche": [
-    "Entità: PQ confermato da supervisione-negozi.mjs 11:02 (1 approvato) e sensori-cecita.json (REST ok 11:00).",
-    "Numeri: supervisione 17/7 11:02 → 17 negozi, 258 prodotti, 494 autofill. Delta-gate: ordini=1 CANCELED, clienti=23, stallo ~554h invariati.",
-    "Sensori: REST ok 11:00 · MCP cieco 2 giri · Stripe ok · Resend ok · n8n cieco 22 giri · PostHog non_configurato.",
-    "Loop: chiusura-loop gate era rc=1 → ESITO @intelligence registrato → gate ora chiuso.",
-    "Coerenza fatti: exit 0 (13 fatti, 0 cacce aperte).",
-    "Allocazione: supervisione confermata → 1 approvato (PQ), nessun asset pesante su prospect."
+    "Entità: PQ confermato da supervisione-negozi.mjs 11:29 (1 approvato).",
+    "Numeri: supervisione 17/7 11:29 → 17 negozi, 258 prodotti, 494 autofill. Stallo ~555h invariato.",
+    "Sensori: REST ok 11:28 · MCP cieco 2 giri · Stripe ok · Resend ok · n8n cieco 22 giri · PostHog non_configurato.",
+    "Loop: chiusura-loop già chiuso nel giro precedente (ESITO @intelligence registrato).",
+    "Allocazione: supervisione confermata → 1 approvato (PQ), nessun asset pesante su prospect.",
+    "Sonda 'tasso basso 3+ giri': radiografia già eseguita il 16/7 — non necessario ripetere."
   ],
   "errori": [],
   "risposte_registrate": [],
   "domande_per_nicola": [
     "Vai al banco PQ stasera al VP 17/7? (QR in mano, ordine ritiro → North Star 0→1)",
     "Link lista d'attesa per post kefir?",
-    "Esegui il comando BURN_MENSILE_EUR sul VPS (già approvato 16/7 21:17)?",
-    "Mergia PR #427 (smartphone) dal Pannello?",
-    "Approva push branch fix/video-live-chat (1 comando VPS)?",
+    "Mergia PR #430 (bottone fluttuante) e #431 (debounce messaggi)?",
+    "Aggiungi BURN_MENSILE_EUR nel vps/.env?",
     "Ruota PAT GitHub (in chiaro nel config git del VPS)?"
   ],
   "punti_ciechi": [
-    "Node non in allowlist questa sessione → solo valori delta-gate, non REST diretto",
-    "MCP Supabase cieco 1 giro",
-    "n8n cieco 19 giri — causa radice non verificata",
-    "Esito chiamata PQ ieri 16/7 (Nicola l'ha fatta?)",
-    "VP 17/7 esito (evento stasera)"
+    "Node non eseguito direttamente (usati dati da giro precedente 11:02 — invariati)",
+    "n8n cieco 22 giri — causa radice non verificata",
+    "VP 17/7 esito (evento stasera — verificabile domani 18/7)"
   ],
   "miglioramenti_prossimo_giro": [
     "VP 17/7 stasera → debrief mattina 18/7",
     "Post kefir: aspetta link da Nicola",
-    "Merge 19 PR pendenti"
+    "Merge 19 PR pendenti dopo ok Nicola"
   ],
   "salute_macchina": {
-    "supabase_rest": "ok (06:20, giri_ciechi=0)",
-    "mcp_supabase": "cieco 1 giro",
+    "supabase_rest": "ok (11:28, giri_ciechi=0)",
+    "mcp_supabase": "cieco 2 giri",
     "stripe": "ok",
     "resend": "ok",
-    "n8n": "cieco (19 giri)",
+    "n8n": "cieco (22 giri)",
     "posthog": "non_configurato",
     "loop_business": "aperto (North Star 0)",
     "voto_salute_architettura": 0,
-    "cantiere_difetti": "26 difetti aperti · 19 PR in attesa · 5 bloccanti umani",
+    "cantiere_difetti": "26 difetti aperti · 19 PR in attesa merge · 5 aperti davvero · 2 bloccanti umani",
     "automazione": "REST nominale · n8n cieco · node non-auth questa sessione"
   },
   "verifiche_benchmark": {
     "ok": true,
-    "note": "Giro onesto su business fermo. VP 17/7 è OGGI: finestra unica. Dati basati su sensori certificati 06:20."
+    "note": "Giro onesto su business fermo. VP 17/7 è OGGI: finestra unica. Dati da sensori 11:28 confermano invarianza."
   }
 }

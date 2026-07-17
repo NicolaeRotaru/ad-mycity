@@ -1,45 +1,45 @@
 {
-  "data": "2026-07-17 11:02",
-  "situazione": "Business invariato dal 24/6 (North Star 0, stallo ~554h). OGGI è il Venerdì Piacentini — presidio banco PQ stasera = finestra unica North Star 0→1. 17 negozi DB (1 approvato), 258 prodotti, 494 autofill pronti. PR #430+#431 in attesa merge. Gate chiusura-loop chiuso. Coerenza fatti exit 0. Bando ER scade 21/7 (4 giorni).",
+  "data": "2026-07-17 11:45",
+  "situazione": "Business invariato da ~23 giorni (North Star 0, stallo ~555h). OGGI è il Venerdì Piacentini — presidio banco PQ stasera = finestra unica North Star 0→1. Bando ER scade 21/7 (4 giorni). 17 negozi DB (1 approvato: PQ), 258 prodotti, 494 autofill pronti. Macchina: 26 difetti aperti, 19 PR in coda, n8n cieco da 22 giri.",
   "opportunita": [
     {
-      "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
-      "motivo": "VP è OGGI: centro pieno, PQ in Via Calzolai, ritiro al banco senza bici — finestra unica per North Star 0→1",
+      "titolo": "Vai al banco di Pane Quotidiano stasera al Venerdì Piacentini",
+      "motivo": "L'evento è stasera 20:00-22:30, centro pieno, ritiro al banco non richiede la bici — finestra unica per il primo ordine reale",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Autofill 494 campi catalogo (condizione + unità di misura)",
-      "motivo": "Catalogo PQ diventa più professionale — 2 card gialle già pronte in coda, reversibile",
-      "impatto": "medio",
+      "titolo": "Sblocca il bando ER con il primo ordine reale",
+      "motivo": "Scade il 21/7 (4 giorni) — gate = 1 bottega online con ordine evadibile; il VP di stasera è l'unico modo",
+      "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Mergia PR #430 e #431 — migliora la chat del Pannello",
-      "motivo": "Bottone fluttuante + debounce messaggi — fix UX testati e pronti",
-      "impatto": "basso",
+      "titolo": "Approva il batch di 494 campi catalogo da compilare",
+      "motivo": "Già proposti automaticamente, reversibili — 2 clic da Nicola, catalogo PQ più completo",
+      "impatto": "medio",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Vai al banco Pane Quotidiano stasera al Venerdì Piacentini",
-      "motivo": "Con il QR in mano, accetti un ordine a ritiro → North Star 0→1 → bando ER sbloccato",
+      "titolo": "Vai al banco PQ stasera al VP (QR + ritiro al banco)",
+      "motivo": "North Star 0→1 + sblocco bando ER + gate mail Hub Urbano",
       "livello": "rosso"
     },
     {
-      "titolo": "Pubblica il post kefir (serve il link lista d'attesa)",
-      "motivo": "Post pronto, caldo estivo, porta traffico pre-VP",
+      "titolo": "Dammi il link lista d'attesa per il post kefir",
+      "motivo": "Post già scritto in consegne/content — serve solo il link",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia PR #430 e #431 dal Pannello",
-      "motivo": "Fix UX chat Pannello: bottone fluttuante + debounce messaggi",
+      "titolo": "Mergia PR #430 e #431 da GitHub",
+      "motivo": "Chat Pannello: bottone fluttuante e debounce messaggi — pronte e testate",
       "livello": "giallo"
     },
     {
-      "titolo": "Metti BURN_MENSILE_EUR nel file di configurazione VPS",
-      "motivo": "Runway sconosciuto da 115 giri — anche una stima sblocca il calcolo",
+      "titolo": "Aggiungi BURN_MENSILE_EUR nel VPS .env",
+      "motivo": "Runway sconosciuto da 116 giri — bastano anche 200€/mese come stima",
       "livello": "giallo"
     }
   ]

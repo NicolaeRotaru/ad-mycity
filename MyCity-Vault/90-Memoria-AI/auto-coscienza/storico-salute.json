@@ -2,20 +2,6 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-06",
-      "voto_salute": 44,
-      "voto_provvisorio": 50,
-      "voto_pieno": 50,
-      "firma": "",
-      "difetti_aperti": 0,
-      "difetti_chiusi": 22,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 2,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing 6h fa · sensori max cecità 1 · salute pending-merge 50/100 (floor 50): 0 aperti-davvero · 0 in attesa merge · 2 bloccanti umani"
-    },
-    {
       "data": "2026-07-07",
       "voto_salute": 44,
       "voto_provvisorio": 75,
@@ -1236,6 +1222,34 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "tasso=0 ma c'è chiusura · briefing STALE (20h) · cecità sensori 20 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani"
+    },
+    {
+      "data": "2026-07-17",
+      "voto_salute": 56,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
+      "difetti_aperti": 26,
+      "difetti_chiusi": 48,
+      "pending_merge": 19,
+      "aperti_davvero": 5,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 21 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-17",
+      "voto_salute": 56,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
+      "difetti_aperti": 26,
+      "difetti_chiusi": 48,
+      "pending_merge": 19,
+      "aperti_davvero": 5,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "loop chiude (con prova) · briefing 0h fa (11:45) · cecità sensori 22 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · radiografia già eseguita 16/7 (non richiesta)"
     }
   ]
 }
