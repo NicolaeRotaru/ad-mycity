@@ -1,6 +1,6 @@
 ---
 titolo: Radar concorrenti — Piacenza (delivery / grocery / botteghe online)
-data: 2026-07-09 12:41
+data: 2026-07-17 09:30
 autore: "@intelligence + AD"
 tipo: intelligence-competitiva
 stato: 🟢 sola lettura — le mosse le firma Nicola
@@ -8,8 +8,7 @@ stato: 🟢 sola lettura — le mosse le firma Nicola
 
 # 🛰️ Radar concorrenti — Piacenza (delivery / grocery / botteghe online)
 
-> Aggiornato **2026-07-09 12:41** (fuso Piacenza) · @intelligence · WebSearch/WebFetch live.
-> Rifresca la versione del 04/07: **novità** = Foodracers (player regionale attivo a PC), Glovo Prime salito a **7,99 €** (era 5,99 €), Uber Eats **confermato fuori dall'Italia**, fee Amazon-Cortilia dettagliate.
+> Aggiornato **2026-07-17 09:30** (fuso Piacenza) · @intelligence · WebSearch ultimo: 09/07. Nessun nuovo player food-delivery a Piacenza segnalato da 09/07.
 > Legenda: **[FATTO]** = fonte primaria/datata · **[STIMA]** = inferenza/fonte secondaria · **[non verif.]** = da confermare prima di costruirci una mossa.
 
 ---

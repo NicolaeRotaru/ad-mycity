@@ -1,6 +1,6 @@
 # 🕳️ Buchi di mercato — categorie e zone scoperte
 
-> Aggiornato: **2026-07-14 08:30** · Fonte: @intelligence (monitora · fonte giornaliera [IlPiacenza Economia](https://www.ilpiacenza.it/economia/) + [Piacenza24 saldi](https://www.piacenza24.eu/saldi-estivi-2026-buona-la-partenza-a-piacenza/) + [Libertà Coin](https://liberta.it/news/territorio/citta/il-coin-cambia-casa-trasloco-in-via-xx-settembre/107656))
+> Aggiornato: **2026-07-17 09:30** · Fonte: @intelligence (WebSearch ultimo: 14/07; dati mercato invariati)
 
 ---
 
