@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 03:30 · 🔴 · [AD sicurezza] · **Scoperta: due PAT GitHub in chiaro nel config git del VPS — rotazione urgente.** Durante il fix dell'email git, l'AD ha trovato due Personal Access Token GitHub scritti in chiaro nel file di configurazione git locale del VPS. Chiunque abbia accesso shell al server può vederli. Nicola deve ruotarli da GitHub (Settings → Developer settings → Personal access tokens) appena possibile. Accodata azione #ruota-pat-github in AZIONI-IN-ATTESA.
+
 2026-07-17 02:55 · ✅ · [Pannello/auto] · **PR #424 mergiata automaticamente dal Pannello — 3 bug chat LIVE.** Nicola ha detto "è stata mergiata ma non l'ho mergiata io": il sistema esegui-azione.mjs ha eseguito la card #mergia-pr-424 tramite Azioni in attesa. Fix live su main: doppia risposta, flicker, bottone smartphone. Vercel ha buildato correttamente dopo il merge.
 
 2026-07-17 02:55 · 🟢 · [AD diagnosi] · **Scoperta: errore Vercel = email git `ad@city.local` non registrata su GitHub, non un bug TypeScript.** Screenshot di Nicola (3 allegati, chat finale 17/7) mostrano errore Vercel sull'autore del commit. Il bottone "Merge pull request" è verde — il build di produzione non è bloccato. Fix strutturale accodato: #fix-git-email (configura `user.email` con email GitHub-verificata). Lezione aggiunta in LEZIONI-CHAT.md. PR #424 può essere mergiata nonostante il warning.

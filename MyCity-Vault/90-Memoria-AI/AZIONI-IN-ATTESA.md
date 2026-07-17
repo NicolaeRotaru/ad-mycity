@@ -23,6 +23,20 @@ Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il
 
 ---
 
+### 🔴 #ruota-pat-github — Ruota i token GitHub trovati in chiaro nel config git del VPS · ⏳ accodata 2026-07-17 03:30
+
+**Cosa fare:** vai su GitHub → Settings → Developer settings → Personal access tokens → revoca i PAT attuali e crea uno nuovo se necessario.
+
+L'AD ha trovato due PAT in chiaro nel file di configurazione git locale del VPS durante il fix dell'email. Non li ha scritti nella risposta, ma sono visibili a chiunque abbia accesso shell al server.
+
+**Cosa cambia:** i vecchi token non potranno essere usati da terzi anche se il VPS fosse compromesso.
+**Se va bene:** sicurezza ripristinata; se il PAT è lo stesso usato nei remote git, aggiornare il remote URL con il nuovo token.
+
+- **Colore:** 🔴 (azione su account GitHub reale — Nicola)
+- **Reparto:** security / devops-sre
+
+---
+
 ### 🟡 #chiudi-pr-422 — Chiudi PR #422 su GitHub (ha conflitti, è la vecchia) · ⏳ accodata 2026-07-17 01:30
 
 **Cosa fare:** vai su GitHub → PR #422 → clicca "Close pull request" (senza merge).
