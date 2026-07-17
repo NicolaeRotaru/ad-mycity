@@ -943,3 +943,14 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-16 18:04 · @analista · FATTO · 7 numeri invariati: baseline REST 12:00 (ordini=1 annullato, clienti=23, 1 PQ, North Star 0). MCP non autorizzato in sessione → 0 numeri inventati. Stallo ~533h.
 - 2026-07-16 18:04 · @ad · SERVE · Da Nicola: 🔴 chiama PQ **0523 388601** (script #ritiro-pq-vp17-checkin, VP domani) · 🔴 post kefir stasera o domani mattina · 🟡 BURN_MENSILE_EUR in vps/.env · 🔴 mergia PR #380/#381/#383/#403 dal Pannello.
 - 2026-07-16 21:17 · @finanza · FATTO · Nicola ha approvato #burn-mensile-runway dal Pannello. File `.env` protetto — scrittura richiede intervento manuale Nicola. Comando pronto nella card (valore 150€/mese stima). Decisione registrata: proposta:metti-burn-mensile-eur-in-vps-env. Da prossimo giro runway calcolabile.
+
+### 2026-07-17 — ☀️ PIANO DEL MATTINO (AD · 06:00)
+**Venerdì Piacentini — la sera più importante dell'estate per la North Star.** Business INVARIATO dal 24/6, stallo ~553h. Stanotte: PR #423 (cassetto conv) mergiata · PR #424 (3 bug chat) mergiata · PR #427 (Invia smartphone) aperta · video-live-chat (mic+chat+textarea nel live) committato in branch pronto al push.
+
+**Tre priorità del giorno:**
+1. 🔴 Presidio al banco PQ stasera (VP17/7) → primo ordine in ritiro → North Star 0→1
+2. 🟡 Mergia PR #427 (tasto Invia smartphone) + push branch video-live-chat → AD apre PR
+3. 🔴 Ruota PAT GitHub (trovati in chiaro nel config git del VPS)
+
+- 2026-07-17 06:00 · @ad · FACCIO · Piano del mattino scritto. Aggiornati RITMO + SALA + STATO. PASSO-A Nicola (presidio VP stasera PQ) · @security (card #ruota-pat-github urgente) · @frontend-dev (merge PR #427 + push video-live-chat dopo ok Nicola).
+- 2026-07-17 06:00 · @ad · SERVE · 🔴 Nicola va da PQ stasera (Via Calzolai 25) con QR · 🔴 Ruota PAT GitHub (card #ruota-pat-github in coda) · 🟡 Mergia PR #427 da GitHub (1 clic) · 🟡 Approva push branch video-live-chat (card #push-video-live-chat).

@@ -380,3 +380,19 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 
 **Dettagli tecnici**
 - PR #411 (chat: fullscreen+streaming+ricerca) ✅ su main oggi · PR #409 (memoria-viva) ✅ · routing.json aggiornato 17:36 · PR #380/#381/#383/#403 ancora in coda merge · BURN_MENSILE_EUR assente · REST ok 12:00
+
+## Piano del mattino · 2026-07-17 06:00
+
+**Oggi è il Venerdì Piacentini — la prima occasione reale per il primo ordine, dopo 553 ore di stallo.**
+
+**Le 3 cose di oggi**
+1. 🔴 Vai al banco di Pane Quotidiano stasera con il QR — centro pieno, primo ordine in ritiro al banco (North Star 0→1).
+2. 🟡 Mergia PR #427 (tasto Invia su smartphone) — un clic su GitHub; poi l'AD pusha e apre la PR del video live con microfono e chat.
+3. 🔴 Ruota i token GitHub — trovati in chiaro nel config git del VPS, vanno cambiati oggi.
+
+**Serve da te**
+- 🔴 Stasera da Pane Quotidiano, Via Calzolai 25 — porta il QR, aiuta i clienti a fare il primo ordine in ritiro al banco
+- 🟡 Mergia PR #427 da GitHub (il tasto Invia su smartphone è rotto finché non mergi)
+- 🔴 GitHub → Settings → Personal access tokens → revoca e rigenera i PAT
+
+**Dettagli tecnici** — PR #427: branch `fix/invia-mobile-wrap`. Video-live: branch `fix/video-live-chat`, commit `9816bb3f`, 4 file, typecheck verde; attende `git push origin fix/video-live-chat` dal VPS (card #push-video-live-chat in coda).

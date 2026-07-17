@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 04:30
-fonte: AD digitale (💬 17/7 ~04:30 post-chat · video live costruito · PR #427 aperta · #423 mergiata)
+aggiornato: 2026-07-17 06:00
+fonte: AD digitale (☀️ 17/7 06:00 piano del mattino · VP17/7 oggi · PR #427 aperta · #423/#424 mergiate · video-live-chat in branch)
 ---
 
 > 💬 **17/7 ~04:30 — CHAT: Feature video live costruita — PR pendente.** Nicola ha chiesto mic + textarea + chat nel video live. AD ha modificato 4 file (`BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx`), typecheck verde, committato su branch `fix/video-live-chat` (commit `9816bb3f`). Layout: telecamera 55% + chat 45% su desktop, stacked su mobile. `git push` bloccato dalla sessione Pannello → azione **#push-video-live-chat** accodata in AZIONI-IN-ATTESA (3 comandi VPS da dare a Nicola). **Anche: PR #427** (tasto Invia smartphone, `flex-wrap`) aperta dall'AD direttamente. **PR #423** (cassetto conversazioni `fixed`) mergiata da Nicola. Fonte: chat Nicola 17/7.
@@ -581,18 +581,20 @@ fonte: AD digitale (💬 17/7 ~04:30 post-chat · video live costruito · PR #42
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
-## Prossime priorità (☀️ Piano del mattino 14/7 06:00 · T-3 al VEN 17/7)
-**Martedì 14/7 — tre giorni al Venerdì Piacentini.** Business INVARIATO dal 24/6, North Star 0, stallo ~492h. Stanotte chiusi fix sensori (#377) e volano (#378); coda pulita a 22 card.
+## Prossime priorità (☀️ Piano del mattino 17/7 06:00 · VENERDÌ PIACENTINI OGGI)
+**Venerdì 17/7 — è il giorno.** Business INVARIATO dal 24/6, North Star 0, stallo ~553h. Stanotte: PR #423/#424 mergiate · PR #427 aperta · video-live-chat committato in branch.
 
-1. [ ] 🔴 **Pubblica post kefir + lista d'attesa** — domanda fresca su Pane Quotidiano entro le 11 (#post-kefir-estate-1407).
-2. [ ] 🔴 **Prepara il 1° ordine vero al VEN 17/7** — presidio PQ, **ritiro al banco** (bici non pronta), payout-test. Cliente core = **botteghe**.
-3. [ ] 🟡 **Approva PR Pannello in coda** — sync, descrizioni umane, ordine chat, Onestà numeri (#379).
-4. [ ] 🟡 **SQL 107 / RLS `profiles`** (#32) — ultimo bloccante piattaforma.
-5. [ ] 🟡 **Imposta burn mensile** (#burn-mensile-runway) — runway sconosciuto da 98 giri.
-6. [ ] 🟡 **Approva batch supervisione** — 494 campi catalogo (condition + unit, reversibili).
-7. [x] 🔴 **R1 — Revoca PAT GitHub** — FATTA 7/7 · [x] 🔴 **R2 — 20 fix su `origin/main`** — FATTO 7/7 · [x] ✅ **Allegati chat LIVE** — 13/7 · [x] PR #377/#378 sensori+volano — 14/7 notte
+1. [ ] 🔴 **Presidio PQ stasera — VP17/7** — Nicola va al banco di Pane Quotidiano (Via Calzolai 25) con il QR → primo ordine in ritiro → North Star 0→1 → payout-test.
+2. [ ] 🟡 **Mergia PR #427** — tasto Invia smartphone rotto finché non mergi (1 clic su GitHub).
+3. [ ] 🔴 **Ruota PAT GitHub** (card #ruota-pat-github) — trovati in chiaro nel config git del VPS.
+4. [ ] 🟡 **Push branch video-live-chat** (card #push-video-live-chat) → AD apre PR → mic+chat nel video live.
+5. [ ] 🟡 **Chiudi PR #422** — branch vecchio con conflitti, chiuderla senza merge.
+6. [ ] 🟡 **Fix email git** (card #fix-git-email) — `nicolaflorea50@gmail.com` in git config → stop warning Vercel.
+7. [ ] 🟡 **Streaming worker** (card #streaming-worker) — testo live parola per parola come Claude.ai.
+8. [x] ✅ **BURN_MENSILE_EUR** — approvato 16/7 21:17 · comando VPS in coda (Nicola esegue)
+9. [x] ✅ Allegati chat · PR #377/#378 sensori+volano · R1/R2 PAT/fix — tutti FATTI
 
-**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `cassa_sconosciuta` (burn assente, tetto giorno) · `negozio_fermo` PQ (falso positivo, cooldown) · bici in riparazione (~28/7+) · PostHog spento (scelta 5/7).
+**Sentinelle attive:** loop business 🔴 (0 ordini reali) · `negozio_fermo` PQ (falso positivo, cooldown) · `ruota-pat-github` 🔴 (sicurezza urgente) · bici in riparazione (~28/7+) · PostHog spento (scelta 5/7).
 
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
