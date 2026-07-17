@@ -534,7 +534,11 @@
             "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
             "pattern": "\"usi\"\\s*:\\s*\\[\\s*\\{",
             "presente": true
-          }
+          },
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-17 08:20",
+          "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json contiene /\"usi\"\\s*:\\s*\\[\\s*\\{/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "La sonda mette in OR gli APERTI dentro `provaBusiness`: la prova di CHIUSURA del loop può reggere su previsioni/esperimenti solo APERTI, contro il suo stesso commento AR-063",
@@ -1735,7 +1739,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-17 06:20",
+    "data": "2026-07-17 08:20",
     "loop_chiude": false,
     "tasso_applicazione": 0,
     "prova_chiusura": true,
@@ -1750,10 +1754,10 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": false,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 6,
-    "ore_da_ultimo_briefing": 18,
-    "max_giri_ciechi_sensori": 18,
-    "giri_tasso_basso": 1,
+    "ore_da_ultima_completa": 8,
+    "ore_da_ultimo_briefing": 20,
+    "max_giri_ciechi_sensori": 20,
+    "giri_tasso_basso": 2,
     "serve_radiografia_completa": false,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -1763,23 +1767,23 @@
     "bloccanti_umani": 2,
     "salute_firma": "AR-106,AR-124,AR-125,AR-126,AR-129",
     "verdetto": "attenzione",
-    "nota": "tasso=0 ma c'è chiusura · briefing STALE (18h) · cecità sensori 18 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani"
+    "nota": "tasso=0 ma c'è chiusura · briefing STALE (20h) · cecità sensori 20 giri · salute pending-merge 0/100 (floor 0): 5 aperti-davvero · 19 in attesa merge · 2 bloccanti umani"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 1,
-    "aggiornato": "2026-07-17 06:20"
+    "giri_tasso_basso": 2,
+    "aggiornato": "2026-07-17 08:20"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-17 06:20",
-    "findings_aperti": 76,
+    "aggiornato": "2026-07-17 08:20",
+    "findings_aperti": 75,
     "findings_in_corso": 0,
-    "findings_chiusi": 3,
+    "findings_chiusi": 4,
     "findings_tot": 79,
     "cantiere_aperti": 26,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 48,
-    "match_aggiornati": 16,
-    "chiusi_verifica": 0,
+    "match_aggiornati": 1,
+    "chiusi_verifica": 1,
     "data_scan": "2026-07-16 23:58",
     "voto_live": 0
   },
