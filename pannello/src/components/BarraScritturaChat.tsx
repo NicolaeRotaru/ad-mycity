@@ -107,7 +107,7 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         }}
       />
       <AnteprimaAllegatiChat allegati={allegati} onTogli={onTogliAllegato} />
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         {!fab && onConversazioni && (
           <button
             onClick={onConversazioni}
