@@ -131,6 +131,27 @@ Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → ha
 
 ---
 
+### 🟡 #bandi-cciaa-2007 — Prepara le bozze domanda per i bandi CCIAA BT26 ed BE26 (aprono domani 20/7, scadenza 30/7) · ⏳ accodata 2026-07-17 20:30
+
+**Bandi:** CCIAA Piacenza — Bando BT26 (digitalizzazione/e-commerce, fino a €7.000 al 40%) e BE26 (energia, fino a €20.000 al 50%). Aprono **domani 20/7 alle 9:00** — scadenza **30/7/2026**.
+
+**Cosa serve a Nicola per completare la domanda:**
+1. Partita IVA + codice ATECO MyCity (verifica su visura CCIAA)
+2. Spese già sostenute o preventivi firmati relativi a e-commerce/digitalizzazione (BT26) o energia (BE26)
+3. IBAN aziendale per il rimborso
+
+**Cosa preparo io (🟢, già avviato):** schema checklist dei requisiti per ciascun bando, mappa delle spese ammissibili, bozza descrizione del progetto MyCity per BT26.
+
+**Azione che richiede la firma di Nicola:** inviare la domanda online sul portale CCIAA entro 30/7 (🔴 — step successivo, non questa card).
+
+**Cosa cambia:** se BT26 è approvato → rimborso 40% su spese e-commerce già sostenute o future (max €7.000 ricevuti su €17.500 di spese); BE26 → max €10.000 su spese energia.
+**Se va bene:** prima iniezione di cassa da finanza agevolata — abbassa il burn effettivo.
+
+- **Colore:** 🟡 (preparazione bozze domanda — ok di Nicola per partire su BT26 e/o BE26)
+- **Reparto:** relazioni-istituzionali + finanza-agevolata
+
+---
+
 ### 🔴 #touch2-vp17 — Manda il link recensione al cliente del primo ordine (+1 giorno, solo se 👍) · ⏳ accodata 2026-07-17 11:56
 
 **Trigger:** Touch 1 (#touch1-vp17) ricevuto + risposta ≠ 👎

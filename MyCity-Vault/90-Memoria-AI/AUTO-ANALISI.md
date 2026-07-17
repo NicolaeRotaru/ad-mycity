@@ -1,8 +1,30 @@
 ---
-data: 2026-07-17 18:45
+data: 2026-07-17 20:30
 tipo: auto-analisi
-fonte: AD digitale (cervello/auto-analisi.md)
+fonte: AD digitale (cervello/auto-analisi.md — giro sera)
 ---
+
+## Voto di fiducia: 84/100 ▲
+
+**Stato:** Nessun nuovo errore in questo giro serale. Il bando ER rimane corretto (CHIUSO 23/6). Tutte le entità hanno fondamento. Tutti i numeri hanno fonte.
+
+**Errori rilevati in questo giro:** nessuno.
+
+**Domande bloccanti:**
+- 🟡 BURN_MENSILE_EUR non impostato (116+ giri) → card #burn-mensile-runway
+- 🔴 Presidio VP: Nicola deve essere fisicamente al banco PQ (non delegabile)
+
+**Entità verificate:**
+- ✅ Pane Quotidiano — confermato (REST 18:20)
+- ✅ Venerdì Piacentini 17/7 — confermato (intelligence 12:15)
+- 🔶 Bandi CCIAA BT26+BE26 — scelta_ragionata (fonte web intelligence 17/7)
+- ✅ Bando ER CHIUSO 23/6 — confermato (registro-fatti AR-102)
+
+**Gap sensori:** n8n cieco 42 giri (causa radice sconosciuta, non bloccante). MCP Supabase cieco 3 giri (REST ok).
+
+---
+
+## Passaggio precedente — 18:45
 
 # 🔬 Auto-analisi — giro 18:45 VP-day (17/7 · REST ok 17:19 · VP tra ~1,25h · n8n cieco 38 giri)
 

@@ -190,9 +190,9 @@ Trasporto di carne/pesce/latticini = Reg. CE 852/853/2004 e D.Lgs. 193/2007. È 
 #operazioni #logistica #consegne #piano #coo #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-14 11:01
+## 🤖 Aggiornamento dell'AD — 2026-07-17 20:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **11:01 — DEADLINE COLazione:** post kefir 🔴 pronto — pubblicare ORA con link lista d'attesa (36°C oggi, 38°C domani).
-- **T-3 VP 17/7:** presidio PQ Via Calzolai, ritiro al banco (bici ~28/7+). Consegna domicilio dopo bici operativa.
-- **494 autofill** supervisione in coda 🟡 — catalogo più completo pre-evento.
+- **VP IN CORSO (20:00-22:30):** presidio banco PQ Via Calzolai — ritiro al banco attivo. Bici non pronta → consegna a domicilio solo da agosto.
+- **Dal 20/7 cambia il meteo (piogge, 27-30°C):** apertura finestra delivery a domicilio. Prepara la comunicazione "fresco a casa anche quando piove" per la settimana prossima.
+- **Coda operativa:** 494 autofill catalogo in attesa approva 🟡 (condizione + unità di misura).
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

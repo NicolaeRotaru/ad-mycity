@@ -170,9 +170,10 @@ Ogni esperimento ha **5 campi obbligatori PRIMA di partire** (se ne manca uno, n
 #growth #monetizzazione #esperimenti #ice #retention #piano #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-14 02:48
+## 🤖 Aggiornamento dell'AD — 2026-07-17 20:30
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star ancora 0** (~489h stallo) — la crescita riparte solo con 1 transazione end-to-end su PQ. Vetrina pronta (5 prodotti).
-- **Leva immediata:** post kefir + VP 17/7 + recupero carrello samir (€10 PQ) — tutti a costo ≈0, in coda.
-- **Dopo merge #369:** misurare se sync live migliora conversione approvazioni Pannello → azioni.
+- **North Star ancora 0** (~564h stallo ≈ 23,5 giorni) — VP 17/7 IN CORSO ADESSO. Presidio banco PQ è la mossa concreta.
+- **Dal 20/7 cambio meteo (piogge):** prima finestra delivery a domicilio. Adattare post kefir al messaggio "fresco a casa anche quando piove".
+- **Bandi CCIAA BT26+BE26 aprono domani 20/7:** leva per convincere le botteghe a iscriversi — "lo Stato rimborsa il 40-50% dell'investimento per andare online". Prepariamo le bozze domattina.
+- **Fusione Prosus/JustEat:** Glovo + JustEat convergono entro 12-24 mesi. Moat da costruire ADESSO con le botteghe storiche prima che le piattaforme dominanti si fondano.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

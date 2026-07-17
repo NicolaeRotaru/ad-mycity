@@ -1,28 +1,53 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 19:30",
-  "voto_fiducia": 82,
-  "trend_fiducia": "▼ 82 (da 88 — declassato per errore AR-102 bando ER: i giri dal 12/7 al 17/7 17:30 citavano 'bando ER scade 21/7' come gate attivo, ma il registro-fatti dice CHIUSO il 23/6. Errore rilevato e corretto in questo giro.",
-  "sintesi": "Giro 17/7 18:45 VP-day — business invariato (~562h stallo, North Star 0, 23 clienti, 1 negozio approvato PQ). Stasera VP gran finale stagione (20:00-22:30). Errore sistematico rilevato e corretto: bando ER FESR CHIUSO 23/6 (non 21/7). Mossa critica: pubblica post VP ADESSO + banco PQ entro 19:30. Macchina: 26 difetti aperti, 19 PR, n8n cieco 38 giri.",
-  "verifiche": [
-    "Entità: PQ confermato da supervisione-negozi.mjs 11:29 (1 approvato, Via Calzolai 25) — invariato.",
-    "Numeri: stallo ~562h calcolato da baseline 17:30 (~560h) + 1,25h. North Star 0 confermato da REST.",
-    "Sensori: REST ok 17:19 · MCP Supabase cieco 3 giri (aggiornato verifica-sensori) · Stripe ok · Resend ok · n8n cieco 38 giri · PostHog non_configurato (scelta Nicola).",
-    "VP 17/7: confermato da calendario VP, radar.json, eventi-picchi.md — evento reale, inizia tra ~1,25h.",
-    "Bando ER: CHIUSO dal 23/6/2026 (limite 350 domande — fonte: registro-fatti.json, intelligence 11/7). Errore nei giri 12/7-17/7 17:30 — CORRETTO in questo giro.",
-    "Bandi CCIAA BT26/BE26: apertura 20/7, scadenza 30/7 — card #bandi-cciaa-kit in AZIONI-IN-ATTESA.",
-    "giri_totali=189: aggiornato da verifica-sensori.mjs."
+  "data": "2026-07-17 20:30",
+  "voto_fiducia": 84,
+  "trend_fiducia": "▲ 84 (da 82 — lieve miglioramento: nessun nuovo errore introdotto in questo giro serale. Il bando ER rimane corretto, le entità sono fondate, i numeri hanno fonte. Malus: MCP Supabase cieco 3 giri, n8n cieco 42 giri — dati confermati da REST.",
+  "errori_giro": [],
+  "domande_bloccanti": [
+    {
+      "tipo": "dato_mancante",
+      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 116+ giri.",
+      "azione": "card 🟡 #burn-mensile-runway in AZIONI-IN-ATTESA",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "conferma_campo",
+      "domanda": "Nicola: sei al banco PQ stasera al VP (in corso 20:00-22:30)?",
+      "azione": "Nessuna azione automatica — presidio fisico di Nicola",
+      "colore": "🔴"
+    }
   ],
-  "errori_rilevati": [
-    "CRITICO AR-102: i giri dal 12/7 al 17/7 17:30 citavano 'bando ER scade 21/7' come gate attivo. Il registro-fatti.json (aggiornato intelligence 11/7) dice il bando è CHIUSO dal 23/6. Errore sistematico: il giro non consultava il registro-fatti prima di scrivere i banner. Corretto in questo giro: briefing, STATO, ultimo-briefing, intenzioni-nicola, eventi-picchi aggiornati.",
-    "Il guardiano coerenza-fatti.mjs probabilmente non era in allowlist nei giri automatici — non rileva le ri-introduzioni di pattern con caccia già chiusa.",
-    "Post VP non pubblicato entro 14:00 — finestra colazione persa. Ancora utile entro 19:00."
+  "entita_verificate": [
+    {
+      "nome": "Pane Quotidiano",
+      "stato": "confermato",
+      "fonte": "REST Supabase (1 negozio approvato) · supervisione 18:20"
+    },
+    {
+      "nome": "Venerdì Piacentini 17/7",
+      "stato": "confermato",
+      "fonte": "eventi-picchi.md (intelligence 12:15) — evento pubblico verificato"
+    },
+    {
+      "nome": "Bandi CCIAA BT26+BE26 (aprono 20/7)",
+      "stato": "scelta_ragionata",
+      "fonte": "eventi-picchi.md (intelligence 12:15) — fonte web verificata 17/7"
+    },
+    {
+      "nome": "Bando ER FESR commercio — CHIUSO 23/6",
+      "stato": "confermato",
+      "fonte": "registro-fatti.json (intelligence 11/7) + AR-102 corretto"
+    }
   ],
-  "lezioni_giro": [
-    "L-AR102-1707: consultare SEMPRE registro-fatti.json prima di scrivere date/gate nel briefing — non solo lo STATO. Una caccia 'chiusa' non previene la re-introduzione del pattern.",
-    "L-AR102-1707b: il guardiano coerenza-fatti.mjs deve essere in allowlist come comando senza parametri per girare a ogni giro senza approvazione."
+  "numeri_con_fonte": [
+    {"numero": "stallo ~564h", "fonte": "delta ordini: ultimo 2026-06-24T08:28 → 2026-07-17 20:30"},
+    {"numero": "23 clienti", "fonte": "REST Supabase 18:20"},
+    {"numero": "0 ordini", "fonte": "REST Supabase 18:20"},
+    {"numero": "42 giri n8n cieco", "fonte": "sensori-cecita.json 18:20"},
+    {"numero": "3 giri MCP Supabase cieco", "fonte": "sensori-cecita.json 18:20"},
+    {"numero": "194 giri totali", "fonte": "sensori-cecita.json 18:20"}
   ],
-  "domande_bloccanti": [],
-  "benchmark": "Giro VP-day: errore AR-102 rilevato autonomamente consultando il registro-fatti. Correzione immediata. Voto abbassato a 82 per l'errore sistematico precedente.",
-  "salute_giro": "OK con nota — errore rilevato e corretto, file scritti su disco, loop si chiude. Sonda auto-radiografia: n8n cieco 38 giri (> soglia 3), MCP cieco 3 giri; radiografia completa già eseguita 16/7 (< 10 giorni), non serve oggi."
+  "benchmark": "Il TL;DR serale è conciso e azionabile. Nessuna opportunità persa. Il gap rispetto ai migliori: le azioni 🔴 rimangono in attesa di Nicola (presidio fisico, link lista d'attesa) — non delegabili alla macchina.",
+  "salute_giro": "ok"
 }

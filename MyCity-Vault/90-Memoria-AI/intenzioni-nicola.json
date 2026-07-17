@@ -1,85 +1,86 @@
 {
-  "data": "2026-07-17 18:13",
-  "sintesi": "Nicola: VP 17/7 inizia TRA ~1h47m (20:00) — presidio banco PQ Via Calzolai = mossa concreta per North Star 0→1. Prima: pubblica post VP (card #post-vp-day-1707, testo già pronto — serve il link). Bici elettrica in riparazione. Bando ER FESR CHIUSO dal 23/6. DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (max €20k, scadenza 30/7). Dal 20/7 cambio meteo (piogge) → delivery a domicilio. PR #430+#431+#433 da mergiare. Macchina: 26 difetti · 19 PR · n8n cieco 41 giri.",
+  "data": "2026-07-17 20:30",
+  "sintesi": "Il VP 17/7 È IN CORSO (20:00-22:30, Via Calzolai). Nicola dovrebbe essere al banco PQ in questo momento — il presidio fisico con QR è la mossa per North Star 0→1. Bici elettrica ancora in riparazione. DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (€7k+€20k per bottega, scadenza 30/7) — opportunità concreta per convincere le prime botteghe. Dal 20/7 cambio meteo (piogge) → prima finestra delivery a domicilio. Prossima settimana (21-25/7): inserimento botteghe con bici riparata.",
   "prossime_mosse": [
     {
-      "titolo": "Pubblica il post Venerdì Piacentini ADESSO (card #post-vp-day-1707)",
-      "quando": "ADESSO — entro le 18:00-18:30",
-      "come": "Pannello → Da approvare → card #post-vp-day-1707 → link a Nicola → pubblica",
-      "priorita": "URGENTE",
-      "ad_prepara": "Post scritto in consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md, card già in coda",
-      "senior": "@content-social",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Presidio banco Pane Quotidiano al Venerdì Piacentini stasera",
-      "quando": "OGGI 17/7 — partenza ~19:30, banco 20:00-22:30",
-      "come": "Via Calzolai 25, QR in mano, accetta ordine ritiro al banco (bici non necessaria per ritiro)",
-      "priorita": "URGENTE",
-      "ad_prepara": "Briefing 2026-07-17.md, post VP da pubblicare prima",
+      "titolo": "Presidio banco PQ al VP stasera",
+      "quando": "2026-07-17 20:00-22:30",
+      "come": "Fisicamente a Via Calzolai 25, QR sul telefono, accetta ordini di ritiro al banco — nessuna bici necessaria",
+      "priorita": "alta",
+      "ad_prepara": "QR già pronto. Post VP testo già scritto in coda (#post-vp-day-1707). Basta che Nicola si presenti.",
       "senior": "@account-negozi",
       "colore": "🔴"
     },
     {
-      "titolo": "Verifica apertura bandi CCIAA BT26+BE26 domani 20/7",
-      "quando": "domani 20/7 mattina",
-      "come": "BT26 = €7.000 (40%, e-commerce/retail) · BE26 = €20.000 (50%, energia). Scadenza 30/7 — finestra 10 giorni. Prepara con PQ la domanda.",
+      "titolo": "Preparare le domande bandi CCIAA BT26+BE26 per le botteghe",
+      "quando": "2026-07-20 mattina (domani — aprono alle 00:00 del 20/7)",
+      "come": "Bozzare la domanda per le botteghe target con @relazioni-istituzionali + @finanza-agevolata. Usarla come argomento di vendita.",
       "priorita": "alta",
-      "ad_prepara": "eventi-picchi.md con dettagli bandi CCIAA aggiornati (bando ER FESR è CHIUSO dal 23/6)",
+      "ad_prepara": "Bozza domanda pronta prima dell'apertura (stanotte / domani mattina presto).",
       "senior": "@relazioni-istituzionali",
       "colore": "🟡"
     },
     {
-      "titolo": "Ruota i token GitHub trovati in chiaro nel VPS",
-      "quando": "appena possibile",
-      "come": "Settings → Developer settings → Personal access tokens → Revoca e rigenera → Aggiorna GIT_PUSH_TOKEN",
+      "titolo": "Inserire le prime botteghe su MyCity",
+      "quando": "Settimana 21-25 luglio 2026 (quando la bici è riparata)",
+      "come": "Visita fisica alle botteghe target (Garetti, Peretti, Amendolara…), firma accordo, onboarding done-for-you in 48h.",
       "priorita": "alta",
-      "ad_prepara": "card #ruota-pat-github in AZIONI-IN-ATTESA",
-      "senior": "@security",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Mergia PR #430, #431, #433 da GitHub",
-      "quando": "oggi (non urgente come il VP)",
-      "come": "Pannello → Da approvare → PR #430, #431, #433",
-      "priorita": "media",
-      "ad_prepara": "PR verificate e pronte",
-      "senior": "@frontend-dev",
+      "ad_prepara": "Dossier completi già pronti per i primi negozi. Appena bici pronta.",
+      "senior": "@vendite",
       "colore": "🟡"
     },
     {
-      "titolo": "Esegui il comando BURN_MENSILE_EUR sul VPS",
-      "quando": "quando puoi",
-      "come": "3-line bash command su VPS (già approvato 16/7 21:17 — card #burn-mensile-runway)",
+      "titolo": "Lanciare campagna delivery a domicilio con il cambio meteo",
+      "quando": "2026-07-20-21 (dal cambio meteo con piogge)",
+      "come": "Adattare il post kefir al messaggio 'fresco a casa anche quando piove'. Serve il link lista d'attesa da Nicola.",
       "priorita": "media",
-      "ad_prepara": "Comando pronto in AZIONI-IN-ATTESA",
-      "senior": "@finanza",
+      "ad_prepara": "Post già bozzato. Da adattare meteo. Serve il link lista d'attesa.",
+      "senior": "@content-social",
       "colore": "🟡"
     }
   ],
-  "bici_elettrica": {
-    "stato": "in riparazione",
-    "nota": "Nicola 12/7: forse settimana 14-18 luglio. Non ancora confermata la riparazione. Ritiro banco PQ è il workaround per il VP stasera.",
-    "impatto": "Consegna a domicilio non ancora possibile — dal 20/7 cambio meteo potrebbe aumentare la domanda"
-  },
-  "gate_primo_negozio": {
-    "gate": "prima bottega online (ordine reale evadibile)",
-    "azioni_bloccate": ["Mail Hub Urbano (#52)", "Post 'Lunedì della Bottega' (#46)", "Referral 5+5€ (#37)"],
-    "scadenza_vicina": "Bandi CCIAA BT26+BE26: aprono 20/7, scadono 30/7 (finestra 10gg, max €20k) — il bando ER FESR è CHIUSO dal 23/6"
-  },
-  "segnali_aggiornati_17lug_1730": {
-    "vp_stasera": "TRA ~1,25 ORE (ore 20:00) — post da pubblicare ADESSO (serve link), banco PQ entro 19:30",
-    "bando_er_corretto": "⚠️ AR-102: bando ER FESR commercio CHIUSO dal 23/6/2026 (limite 350 domande raggiunto — fonte: registro-fatti.json, intelligence 11/7). I giri dal 12/7 al 17/7 17:30 lo citavano per errore. Bandi CCIAA BT26/BE26 aprono 20/7 (scadenza 30/7) — quelli da pianificare.",
-    "concorrenti": "Prosus acquisisce JustEat → convergenza con Glovo in 12-24 mesi. Costruire moat sulle botteghe storiche ORA.",
-    "meteo": "Dal 20/7 piogge → domanda delivery a domicilio sale. Adattare post kefir a questo messaggio.",
-    "eventi": "Piacenza Summer Cult (luglio-settembre), rientro universitari settembre → pianificare flotta rider adesso."
-  },
+  "primi_negozi": [
+    {
+      "nome": "Pane Quotidiano",
+      "perche": "Unico negozio REALE confermato (Via Calzolai 25). Bio dal 1976. Già online e approvato.",
+      "stato": "attivo — 258 prodotti — ritiro al banco attivo stasera (VP)"
+    },
+    {
+      "nome": "Garetti (bottega storica Piacenza)",
+      "perche": "Bottega storica, profilo già nel dossier. Cliente core (botteghe, non ristoranti).",
+      "stato": "scelta_ragionata — da contattare con bici pronta"
+    },
+    {
+      "nome": "Peretti",
+      "perche": "Gastronomia piacentina storica. Nel dossier 6/7.",
+      "stato": "scelta_ragionata — da contattare con bici pronta"
+    }
+  ],
   "rischi": [
-    "VP 17/7 passa senza presidio → stallo continua per altra settimana + bando ER scade senza gate soddisfatto",
-    "Post VP non pubblicato entro 18:30 → reach minima, meno clienti potenziali stasera",
-    "Bandi CCIAA BT26+BE26 scadono 30/7: finestra 10 giorni, non perdere la domanda (aprono 20/7)",
-    "PAT GitHub in chiaro — security risk",
-    "Runway sconosciuto (BURN_MENSILE_EUR assente da 116+ giri)",
-    "Fusione Prosus/JustEat → player più forte sui ristoranti di Piacenza in 12-24 mesi"
+    "Il VP finisce alle 22:30 — se Nicola non va stasera, la finestra chiude",
+    "Bici non ancora pronta — consegna a domicilio non attivabile fino alla riparazione",
+    "Bandi CCIAA scadono il 30/7 — solo 10 giorni dalla apertura del 20/7"
+  ],
+  "serve_da_nicola": [
+    {
+      "ambito": "presidio VP",
+      "cosa_manca": "Conferma che Nicola è al banco PQ stasera (o ha già pubblicato il post)",
+      "domanda_per_nicola": "Sei al banco PQ adesso? Il VP è in corso fino alle 22:30."
+    },
+    {
+      "ambito": "post kefir",
+      "cosa_manca": "Link della lista d'attesa per includere nel post",
+      "domanda_per_nicola": "Qual è il link della lista d'attesa? Così pubblichiamo il post kefir."
+    },
+    {
+      "ambito": "bici elettrica",
+      "cosa_manca": "Data reale di riparazione — 'prossima settimana' del 12/7 non è ancora confermata",
+      "domanda_per_nicola": "Quando hai la bici pronta? Così pianifichiamo l'inserimento botteghe."
+    },
+    {
+      "ambito": "burn mensile",
+      "cosa_manca": "BURN_MENSILE_EUR nel .env VPS — sconosciuto da 116+ giri",
+      "domanda_per_nicola": "Quanti €/mese stimiamo di spendere (VPS + Claude + altro)? Così calcolo il runway."
+    }
   ]
 }
