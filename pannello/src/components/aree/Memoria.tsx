@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, FolderOpen, FolderTree, Gauge, ListChecks, ScrollText, TrendingUp } from "lucide-react";
+import { BookOpen, FolderOpen, FolderTree, Gauge, ListChecks, ScrollText, ShieldCheck, TrendingUp } from "lucide-react";
+import FattiChiave from "@/components/FattiChiave";
 import MemoriaViva from "@/components/MemoriaViva";
 import ScoperteProposte from "@/components/ScoperteProposte";
 import Documenti from "@/components/aree/Documenti";
@@ -12,10 +13,11 @@ import StatoNumeriVault from "@/components/StatoNumeriVault";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 
 type Tab = "memoria-viva" | "archivio";
-type VivaTab = "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato-numeri";
+type VivaTab = "fatti" | "memoria" | "scoperte" | "decisioni" | "quaderni-senior" | "stato-numeri";
 type ArchivioTab = "consegne" | "github";
 
 function parseVivaSub(sub?: string): VivaTab {
+  if (sub === "fatti" || sub === "viva-fatti" || sub === "fatti-chiave") return "fatti";
   if (sub === "scoperte" || sub === "viva-scoperte") return "scoperte";
   if (sub === "storico-decisioni" || sub === "storico" || sub === "decisioni") return "decisioni";
   if (sub === "storico-quaderni-senior" || sub === "quaderni-senior") return "quaderni-senior";
@@ -37,6 +39,7 @@ function parseMemoriaSub(sub?: string): Tab {
 }
 
 function vivaSubId(v: VivaTab): string {
+  if (v === "fatti") return "viva-fatti";
   if (v === "scoperte") return "viva-scoperte";
   if (v === "decisioni") return "storico-decisioni";
   if (v === "quaderni-senior") return "storico-quaderni-senior";
@@ -84,6 +87,7 @@ export default function Memoria() {
   ];
 
   const vivaTabs: { id: VivaTab; label: string; icon: React.ReactNode }[] = [
+    { id: "fatti", label: "Fatti-chiave", icon: <ShieldCheck size={14} /> },
     { id: "memoria", label: "Memoria", icon: <ListChecks size={14} /> },
     { id: "scoperte", label: "Scoperte", icon: <TrendingUp size={14} /> },
     { id: "decisioni", label: "Decisioni", icon: <ScrollText size={14} /> },
@@ -137,6 +141,7 @@ export default function Memoria() {
               </button>
             ))}
           </div>
+          {vivaTab === "fatti" && <FattiChiave />}
           {vivaTab === "memoria" && <MemoriaViva />}
           {vivaTab === "scoperte" && <ScoperteProposte />}
           {vivaTab === "decisioni" && <GovernoAD variant="decisioni" />}
