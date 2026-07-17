@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-17 02:55
-fonte: AD digitale (💬 17/7 ~02:55 post-chat · PR #424 mergiata · 3 bug chat live · VERCEL_TOKEN attivo in cervello/vps/.env)
+aggiornato: 2026-07-17 04:30
+fonte: AD digitale (💬 17/7 ~04:30 post-chat · video live costruito · PR #427 aperta · #423 mergiata)
 ---
+
+> 💬 **17/7 ~04:30 — CHAT: Feature video live costruita — PR pendente.** Nicola ha chiesto mic + textarea + chat nel video live. AD ha modificato 4 file (`BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx`), typecheck verde, committato su branch `fix/video-live-chat` (commit `9816bb3f`). Layout: telecamera 55% + chat 45% su desktop, stacked su mobile. `git push` bloccato dalla sessione Pannello → azione **#push-video-live-chat** accodata in AZIONI-IN-ATTESA (3 comandi VPS da dare a Nicola). **Anche: PR #427** (tasto Invia smartphone, `flex-wrap`) aperta dall'AD direttamente. **PR #423** (cassetto conversazioni `fixed`) mergiata da Nicola. Fonte: chat Nicola 17/7.
 
 > 💬 **17/7 ~02:55 — CHAT: 3 bug chat LIVE — PR #424 mergiata automaticamente dal Pannello.** Nicola ha detto "è stata mergiata ma non l'ho mergiata io" — il Pannello ha eseguito la card #mergia-pr-424 tramite Azioni in attesa (esegui-azione.mjs). I 3 fix sono su main: (1) doppia risposta eliminata — check coda sincrono `pendingLavoroChatRef.current.size > 0`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio smartphone sbloccato. Vercel ha buildato ~2 min dopo il merge. **Pendente 🟡:** chiudi PR #422 su GitHub (conflitti, inutilizzabile). **Pendente (non urgente):** #fix-git-email (configurare email GitHub-verificata in git per eliminare warning Vercel sull'autore `ad@city.local`). Fonte: chat Nicola 17/7.
 
