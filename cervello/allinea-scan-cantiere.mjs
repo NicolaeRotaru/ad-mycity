@@ -176,7 +176,7 @@ function allineaMacchina() {
     match_aggiornati: aggiornati,
     chiusi_verifica: chiusiVerifica,
     data_scan: rad.data || null,
-    voto_live: votoLive,
+    // AR-105: voto_salute_architettura aggiornato solo dalla radiografia completa, non qui
   };
 
   writeJson(RAD, rad);
@@ -187,7 +187,6 @@ function allineaMacchina() {
     aperti,
     in_corso: inCorso,
     chiusi,
-    voto_live: votoLive,
     cantiere: { aperti: rad.sync_scan.cantiere_aperti, in_corso: rad.sync_scan.cantiere_in_corso, chiusi: rad.sync_scan.cantiere_chiusi },
   };
 }
