@@ -23,6 +23,26 @@ Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il
 
 ---
 
+### 🟡 #fix-invia-mobile — Crea il branch e committa il fix del tasto Invia su smartphone · ⏳ accodata 2026-07-17 03:57
+
+**Cosa fare (20 secondi al terminale VPS):**
+```
+cd /opt/mycity/ad-mycity
+git checkout -b fix/invia-mobile-wrap
+git add pannello/src/components/BarraScritturaChat.tsx && git commit -m "fix(mobile): tasto Invia sempre visibile su schermi piccoli"
+```
+Poi l'AD apre la PR con `node cervello/git-pr.mjs --repo ad-mycity --base main`.
+
+**Causa:** la riga dei bottoni usava `flex` senza `flex-wrap` → su schermi piccoli il tasto Invia usciva fuori dal riquadro. Fix: aggiunto `flex-wrap: wrap` al container.
+
+**Cosa cambia:** il tasto Invia torna visibile su tutti gli smartphone, anche i più piccoli.
+**Se va bene:** PR aperta → Nicola mergia → live su Vercel in ~2 min.
+
+- **Colore:** 🟡 (branch+commit → Nicola; PR → AD)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🔴 #ruota-pat-github — Ruota i token GitHub trovati in chiaro nel config git del VPS · ⏳ accodata 2026-07-17 03:30
 
 **Cosa fare:** vai su GitHub → Settings → Developer settings → Personal access tokens → revoca i PAT attuali e crea uno nuovo se necessario.
