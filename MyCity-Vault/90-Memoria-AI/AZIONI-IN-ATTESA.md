@@ -39,6 +39,8 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 ### 🟡 #mergia-pr-424 — Mergia PR #424: fix 3 bug chat (doppia risposta, flicker, bottone smartphone) · ⏳ accodata 2026-07-17 00:45
 
+**APPROVATA** da Nicola via Pannello · 2026-07-17 02:08 {approvato: 2026-07-17}
+
 **Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
 
 **Per metterlo live:** mergia PR #424 → https://github.com/NicolaeRotaru/ad-mycity/pull/424
