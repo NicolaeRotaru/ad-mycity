@@ -31,6 +31,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-429 — Mergia PR #429: debounce messaggi multipli in chat · ⏳ accodata 2026-07-17 10:30
+
+**Cosa fare:** vai su GitHub → PR #429 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/429
+
+**Cosa cambia:** se mandi un secondo messaggio mentre sto elaborando, il primo giro viene annullato e ne parte uno nuovo che legge entrambi i messaggi insieme — una sola risposta che li considera tutti. Fix: rimosso il blocco `codaMsgRef` in `page.tsx`, usa il meccanismo `sostituisci` già esistente.
+**Se va bene:** nessun messaggio di Nicola viene ignorato durante l'elaborazione; Vercel builda in ~2 min e il comportamento è live.
+
+- **Colore:** 🟡 (merge → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
 
 Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
