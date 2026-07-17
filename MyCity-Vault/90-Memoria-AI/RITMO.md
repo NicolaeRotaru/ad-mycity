@@ -396,3 +396,47 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - 🔴 GitHub → Settings → Personal access tokens → revoca e rigenera i PAT
 
 **Dettagli tecnici** — PR #427: branch `fix/invia-mobile-wrap`. Video-live: branch `fix/video-live-chat`, commit `9816bb3f`, 4 file, typecheck verde; attende `git push origin fix/video-live-chat` dal VPS (card #push-video-live-chat in coda).
+
+## Review settimanale · 2026-07-17 15:00
+
+**In una riga:** una settimana di corsa sul Pannello — la macchina è più bella, ma la North Star è ancora a zero da 23 giorni; stasera al VP è l'occasione per cambiare questo.
+
+**Come è andata questa settimana**
+
+Questa settimana ha avuto due anime separate. Sul Pannello: accelerazione piena — 15+ PR mergiate, video live con microfono e chat, cassetto conversazioni cross-device, debounce messaggi, fix mobile, redesign del menu. La Cabina è diventata uno strumento vero. Sul business: silenzio totale — 0 ordini, 0 nuovi negozi, stallo fermo a 555 ore. La North Star non si è mossa di un millimetro.
+
+La radiografia del 16/7 ha confermato il quadro: 111 difetti macchina + 62 bug Pannello confermati (8 + 7 bloccanti), e un voto falso mostrato a te per 9 giorni (il termometro era rotto — ora è aggiustato, il voto reale è 56/100 con 19 PR da mergiare).
+
+Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 21/7 (lunedì), Prosus acquisisce JustEat (il delivery si consolida — costruire moat ora), meteo con piogge dal 20/7 (delivery a domicilio torna utile).
+
+**Pagella per reparto**
+
+- 🧠 **AD / North Star:** 0 ordini / target 1 entro il 27/6 — MANCATO. Causa principale: sforzo dominante sulla macchina, non sul business.
+- 🛠️ **Tech / Frontend-dev:** eccellente. 15+ PR in 7 giorni — video live, mobile fixes, Pannello UX. Velocità e qualità alte.
+- 🔎 **Intelligence:** ✅ tre opportunità settimana catturate (VP 17/7, bando ER, Prosus/JustEat, meteo).
+- 📊 **Analista:** ✅ snapshot KPI a ogni giro, dati puliti da REST.
+- 🚢 **DevOps-SRE:** ✅ worker 222+ job/24h, Vercel stabile.
+- 🔒 **Security:** 🟡 PAT GitHub trovato in chiaro — trovato ma non ancora ruotato (🔴 da te).
+- 💸 **Finanza:** burn mensile impostato (150€ stima), cassa 0€. Runway critico.
+- 🤝 **Vendite:** 0 nuovi negozi. Gate: bici pronta ~28/7, inserimento negozi dopo.
+- 📣 **Marketing / Content:** 2 post pronti (kefir + VP stasera), 0 pubblicati — manca il link e il tuo ok.
+- 🎨 **Designer:** QR pronti, locandine ok. ✅
+
+**Le 3 mosse per la prossima settimana**
+
+1. 🔴 **STASERA alle 20:00** — presidio al banco di Pane Quotidiano al Venerdì Piacentini (Via Calzolai). North Star 0→1. Primo ordine ritiro al banco.
+2. 🔴 **Lunedì 20/7** — ruota il PAT GitHub (card #ruota-pat-github) + appena PQ ha il primo ordine manda la mail Hub Urbano (bando ER scade 21/7 alle 13).
+3. 🟡 **Martedì-mercoledì** — mergia il batch PR in coda (19 in attesa): inizia da #433 (pulisci-coda), #430, #431, #push-pr-bloccanti.
+
+**Voto salute architettura**
+
+56/100 su base sonda — 26 difetti aperti, 48 chiusi, 19 PR in attesa merge. La formula penalizza le PR in coda: ogni merge riduce il debito. L'obiettivo è arrivare sotto i 10 difetti aperti entro la prossima review.
+
+**Serve da te**
+
+- 🔴 Stasera al banco di Pane Quotidiano — porta il telefono con il link marketplace
+- 🔴 Ruota i token GitHub (PAT in chiaro nel config git del VPS)
+- 🟡 Mergia #433, #430, #431, #push-pr-bloccanti dal Pannello
+- 🟡 Bando ER: mail Hub Urbano non appena esce il primo ordine (scade 21/7 ore 13)
+
+**Dettagli tecnici** — salute: 56 sonda / 0 radiografia piena 16/7 · difetti: 26 aperti / 48 chiusi · PR in coda: #430 #431 #433 #push-pr-bloccanti · n8n cieco 29 giri · BURN=150€ (stima) · cassa 0€
