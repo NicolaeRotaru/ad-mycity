@@ -18,15 +18,15 @@
   "lezioni": [
     {
       "id": "L-2026-0717-248",
-      "testo": "**«Smartphone» = Chat Pannello VPS (allowlist stretta, git varia per sessione); «Desktop» = Claude Code app (ambiente pieno, git sempre disponibile) — chiarito da Nicola 17/7:** la differenza non è dimensione dello schermo ma AMBIENTE DI ESECUZIONE. Claude Code desktop ha git/gh/MCP Vercel sempre attivi. Chat Pannello gira sul worker VPS con settings.local.json a permessi ridotti — git è in allowlist solo se configurato esplicitamente, e la disponibilità varia sessione per sessione. Soluzione permanente: aggiungere `git push` all'allowlist di settings.local.json in modo stabile (🟡, firma Nicola).",
-      "tag": ["chat-pannello", "claude-code-desktop", "smartphone", "allowlist", "git", "ambiente-vps", "ambienti-distinti"],
-      "reparto": "@devops-sre",
+      "testo": "**CORRETTO 17/7 ×2 (caso-studio Nicola): Pannello smartphone vs desktop = stesso ambiente VPS, problema di LAYOUT RESPONSIVO — NON di permessi o di ambienti diversi:** Nicola usa SEMPRE il Pannello (VPS worker), non Claude Code desktop. «Dal desktop riesco ad aprire la PR, dallo smartphone no» = stesso Pannello, stessa allowlist, stesso worker. La differenza è lo SCHERMO: su mobile i bottoni «Mergia PR» nella coda azioni escono dal riquadro o non sono cliccabili. Fix: responsive della sezione azioni (come flex-wrap del tasto Invia, PR #427). Lezione precedente (sbagliata): 'smartphone = Chat Pannello VPS, desktop = Claude Code app' — ERRATA, Nicola ha corretto due volte.",
+      "tag": ["chat-pannello", "mobile-layout", "smartphone", "responsive", "azioni-pannello", "layout-mobile", "correzione-nicola"],
+      "reparto": "@frontend-dev",
       "confidenza": 1,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-17",
-      "ultima_conferma": "2026-07-17 10:00",
+      "ultima_conferma": "2026-07-17 10:05",
       "stato": "attiva",
       "usi": []
     },
