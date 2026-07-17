@@ -668,7 +668,7 @@ $azioni_aperte"
 # prossimo turno). Mentre Claude genera, scrive la risposta PARZIALE su lavori.risultato (stato
 # resta in_corso) così nel Pannello compare parola per parola.
 _chat_stream_run() {
-  local to="$1" sid="$2" tmpf acc pidc cmd st pensando=0 _last_acc=""
+  local to="$1" sid="$2" tmpf acc pidc cmd st pensando=0 _last_acc="" _keep_beat=0 _beat_now=0
   CHAT_SOSTITUITA=0; CHAT_NUOVA_SESSIONE=""
   cmd=("${AI_CMD[@]}"); [ -n "${CHAT_MODELLO:-}" ] && cmd+=(--model "$CHAT_MODELLO")
   [ -n "$sid" ] && cmd+=(--resume "$sid")
@@ -686,8 +686,25 @@ _chat_stream_run() {
     -d "$(jq -n '{risultato:"💭 Sto elaborando la risposta…"}')" >/dev/null 2>&1 || true
   timeout --kill-after=30s "$to" "${cmd[@]}" "${stream_flags[@]}" "$prompt" >"$tmpf" 2>/dev/null &
   pidc=$!
+  _keep_beat="$(date +%s)"   # 🫀 ancora il throttle del battito-durante-chat all'inizio del turno
   while kill -0 "$pidc" 2>/dev/null; do
     sleep 0.5
+    # 🫀 BATTITO DURANTE LA CHAT (ROOT-CAUSE FIX falso-positivo "worker chat fermo" — 2026-07-17): un
+    # turno lungo (letture di codice, subagent, ragionamento con POCO testo nuovo) tiene il worker qui
+    # dentro per minuti senza tornare in cima al loop principale → worker:ultimo:$WORKER_LANE (per la
+    # lane chat) si CONGELAVA per TUTTO il turno. La sentinella-lavori legge quel battito per-lane e,
+    # trovandolo fermo da >5 min (mentre anche i parziali sono text-gated → updated_at fermo nelle fasi
+    # di soli strumenti), dichiarava "worker chat morto" e marcava 'errore' una chat SANA ancora in
+    # corso. Peggio: il check "sostituito" qui sotto legge stato≠in_corso e AMMAZZA la generazione viva.
+    # Battendo qui — stesso throttle del loop principale (WORKER_BATTITO_SEC) e curl già a timeout via
+    # AUTH — il battito per-lane resta un VERO segnale di vita: il fast-kill scatta SOLO a morte reale
+    # (processo/loop fermo → nessun battito), non su una risposta lunga ma sana.
+    _beat_now="$(date +%s)"
+    if [ "$(( _beat_now - _keep_beat ))" -ge "${WORKER_BATTITO_SEC:-20}" ]; then
+      battito_worker
+      battito_systemd
+      _keep_beat="$_beat_now"
+    fi
     # ⏩ CHAT MULTIPLA (interrompi-e-ripensa, come claude.ai): se Nicola manda un ALTRO messaggio
     # mentre stiamo ancora generando, il Pannello segna QUESTO lavoro come sostituito (stato non è
     # più in_corso). Fermiamo subito la generazione: il turno nuovo, già in coda, contiene TUTTA la
