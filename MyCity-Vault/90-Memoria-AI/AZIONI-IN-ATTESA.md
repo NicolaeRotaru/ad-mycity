@@ -17,6 +17,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 ---
 
 
+### 🟡 #mergia-pr-439 — Mergia PR #439: descrizioni caselle Pannello in linguaggio umano · ⏳ accodata 2026-07-17 23:58
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/439 · Branch: `fix/avvisi-umano-v2`
+
+Sostituisce la PR #438 (che aveva conflitti da commit memoria duplicati). Branch pulito su `origin/main`, nessun conflitto. 2 file modificati: `avvisi-macchina.ts` e `Azioni.tsx`.
+
+**Cosa cambia:** gli avvisi del Pannello usano frasi in italiano chiare invece del gergo tecnico. Il testo grezzo (`vault-sanità rc=1`, `conflitti/0-byte`) sparisce nel tab "Dettaglio tecnico" — si vede solo cliccando. 8 tipi di avviso coperti.
+**Se va bene:** ogni avviso che arriva da adesso è leggibile a colpo d'occhio senza sapere cosa significa "rc=1".
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #burn-mensile-env — Aggiungi il burn mensile nel .env VPS per calcolare il runway · ⏳ accodata 2026-07-17 23:35
 
 **Da aggiungere in `cervello/vps/.env` sul VPS (poi riavviare il worker):**
@@ -49,17 +63,9 @@ _(sostituisci 150 con il valore reale se diverso)_
 
 ---
 
-### 🟡 #layout-chat-centrata — Centra la chat worker e allinea la lista conversazioni sotto il menù · ⏳ accodata 2026-07-17 23:10
+### ✅ #layout-chat-centrata — FATTO 2026-07-17 (mergiata da Nicola come PR #437)
 
-**Cosa fare (2 modifiche CSS/layout nel Pannello):**
-1. **Chat centrata con bordi laterali** — la finestra della chat worker deve avere un margine a sinistra e a destra (colonna centrata), non occupare tutta la larghezza schermo.
-2. **Lista conversazioni allineata sotto il menù** — la lista deve iniziare esattamente dove finisce il bordo inferiore del menù di navigazione (no gap, no sovrapposizione).
-
-**Cosa cambia:** layout più leggibile su desktop e tablet; la lista conversazioni non si sovrappone al menù.
-**Se va bene:** PR aperta da @frontend-dev sul branch `fix/layout-chat-centrata`, anteprima disponibile.
-
-- **Colore:** 🟡 (modifica codice Pannello → PR da approvare e mergiare da Nicola)
-- **Reparto:** frontend-dev
+Chat centrata con bordi laterali solo su desktop, lista conversazioni affiancata al bordo destro del menù. Entrambi i fix confermati via PR #437 → merged.
 
 ---
 

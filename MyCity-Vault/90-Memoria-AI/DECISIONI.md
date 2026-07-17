@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-17 23:58 · 🟡 · [AD] · **PR #439 aperta — fix conflitti PR #438 (descrizioni caselle in linguaggio umano), branch pulito `fix/avvisi-umano-v2` da `origin/main`.** PR #438 aveva commit di memoria doppi su origin/main con stesso titolo → conflitto inevitabile. Soluzione: branch pulito con solo i 2 file modificati, cherry-pick a mano. PR #437 (layout chat: centrata solo desktop + lista conversazioni affiancata al bordo destro del menù) già mergiata da Nicola in questa sessione.
+
 2026-07-17 23:50 · 🟡 · [Nicola richiesta + AD] · **PR #438 aperta — descrizioni caselle Pannello riformulate in linguaggio umano.** Nicola: «queste caselle devono avere una descrizione chiara in linguaggio umano». Il testo grezzo tecnico (`vault-sanità rc=1`, `conflitti/0-byte`) nascosto in accordion collassabile "Dettaglio tecnico"; 8 casi coperti con frasi in italiano. PR #437 (layout chat: chat centrata + lista conversazioni affiancata al menù bordo destro) già mergiata da Nicola in questa sessione.
 
 2026-07-17 23:35 · 🟡 · [Nicola approvazione Pannello] · **Approvata proposta "Inserisci il BURN mensile nel VPS per calcolare il runway".** Sensore-cassa.mjs legge `BURN_MENSILE_EUR` dall'env e calcola `runway = cassa / burn`. Da 128 giri il valore mancava → runway "sconosciuto". Azione #burn-mensile-env accodata: Nicola aggiunge la riga nel .env VPS (stima bootstrap €150/mese o Anno 1 €3.000/mese). Il vault cita ~€3-4k/mese (Anno 1 con fondatore parzialmente pagato). Oggi cassa=0€ da Stripe → runway=0 qualunque sia il burn.
