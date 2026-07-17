@@ -1,53 +1,64 @@
 # 📅 Eventi & Picchi di domanda — Piacenza
 
-> Aggiornato: **2026-07-17 09:30** · Fonte: @intelligence (ultimo WebSearch live: 14/7 08:30 · aggiornamento date e stato VP per giro 17/7)
+> Aggiornato: **2026-07-17 11:00** · Fonte: @intelligence (WebSearch live 17/7 · meteo.it / 3bmeteo / quatarobpavia · ilpiacenza)
 
-## ☀️ Meteo (stima 17/7 — fonte 3BMeteo 14/7, aggiornamento visuale non disponibile)
+## ☀️ Meteo — prossimi 7 giorni (fonte: 3BMeteo / meteo.it 17/7)
 
-- **OGGI VEN 17/7 ⭐:** 24–**36°C** — **Venerdì Piacentini FINALE** (49 eventi in programma, centro chiuso al traffico dalle 18). Probabile afa serale.
-- **SAB 18/7:** sollievo atteso dopo terza ondata (ARPAe / ER). Calo temperature.
-- **Emergenza calore** attiva dal 1/7: fontanelle e punti di sollievo Comune.
-- ➡️ @operations: consegne deperibili **solo mattina** (8–12) se ordini arrivano. Gate catena del freddo obbligatorio PQ.
-- ➡️ @content-social: post kefir in coda 🔴 — serve link da Nicola, poi pubblicare.
+| Data | Condizioni | T min/max | Impatto MyCity |
+|------|------------|-----------|----------------|
+| **VEN 17/7 ← OGGI** | Rovesci/temporali pomeridiani possibili, poi miglioramento serale | 22–34°C | VP finale stasera — presidio Va Calzolai; consegne deperibili mattina |
+| **SAB 18/7** | Ancora caldo intenso (fino 36°C al Nord) | 22–36°C | Domanda delivery post-VP; catena del freddo attiva |
+| **DOM 19/7** | **ROTTURA ONDATA CALDO** — aria fresca da Nord-Ovest, possibile temporale | 19–28°C | Spike consegne fine pomeriggio se pioggia; calo urgenza borse termiche |
+| **LUN 20/7** | Più fresco e stabile — temperature tornano nella norma | 17–26°C | Condizioni ottimali per consegne |
+| **MAR–GIO 21–24/7** | Stabile, soleggiato, temperature moderate (25–29°C) | 17–29°C | Finestra ideale per onboarding negozi e prime consegne vere |
+| **VEN–DOM 25–27/7** | Soleggiato, caldo estivo ma sopportabile | 19–32°C | Nessuna emergenza operativa |
 
-## 🚧 Viabilità OGGI 14/7 (impatto consegne)
+> **Emergenza calore CHIUSA dal 19/7**: fontanelle/punti di sollievo Comune restano attivi fino a fine luglio.
+> ➡️ @operations: dal 19/7 finestra consegne si allarga (non solo mattina); dal 20/7 operatività normale.
+> ➡️ @content-social: post "finalmente si respira" il 20/7 — Piacenza torna a girare.
 
-- **Via San Siro** (civ. 4–6): divieto circolazione e sosta **7:00–13:00** per lavori edificio privato ([IlPiacenza 9/7](https://www.ilpiacenza.it/attualita/centro-storico-scattano-alcuni-provvedimenti-temporanei-alla-viabilita.html) · [PiacenzaSera](https://www.piacenzasera.it/2026/07/viabilita-divieti-di-sosta-e-di-transito-in-via-san-siro-e-via-taverna/653717/)).
-- ➡️ @operations: rerouting mattutino se tocca cluster centro; cargo-bike esonerata dai divieti VP ma non dai cantieri.
+---
 
-## 🎪 Eventi nei prossimi 7-14 giorni
+## 🚧 Viabilità attuale (impatto consegne)
 
-| Data | Evento | Rilevanza per MyCity | Azione consigliata |
-|---|---|---|---|
-| **17/7 (ven) ← OGGI** | **Venerdì Piacentini — FINALE ⭐** | 50–60k persone, centro pedonale 18–03 | **Presidio banco PQ Via Calzolai stasera + QR** |
-| **18/7 (sab)** | Sollievo caldo, post-VP | Recupero traffico normale | Debrief VP + aggiorna pipeline negozi |
-| **21/7 (mar)** | **Bando ER scade** | Gate: 1° ordine reale evadibile | VP di oggi è l'unica finestra prima della scadenza |
-| Lug ongoing | Saldi estivi (fino 3/9) | 300 negozi + estate | Pitch: «saldi del negozio del cuore, consegnati a casa» |
+- **VP stasera 17/7**: divieto sosta 14–03 in piazza Cavalli, Duomo, corso V.E.; **solo residenti** dalle 18 ([Comune](https://www.comune.piacenza.it/it/news/venerdi-piacentini)). → cargo-bike esonerata dai blocchi auto.
+- **Dal 18/7**: viabilità normale nel centro.
+- Via San Siro cantiere: chiusa 7–13 per lavori (verifica se ancora attiva).
 
-### Venerdì Piacentini 17/7 — highlights programma
+---
 
-Fonte: [programma ufficiale PDF](https://www.venerdipiacentini.it/pdf/programma2026.pdf) · 49 eventi.
-- **Piazza Cavalli 22:00** — Sfilata Stefanel (gran finale fashion show).
-- **Piazza Duomo 22:00** — Druid Vinyl Experience (gran finale DJ vinile).
-- **Via Calzolai** — «Via Calzolai in Festa» con DJ set Teeepeee+Techfood (zona PQ).
-- **Piazzetta Plebiscito 22:00** — Disco in Piazzetta con DJ Maurizio Popi.
-- Viabilità: divieto sosta 14–03 in piazza Cavalli, Duomo, corso V.E.; **solo residenti** dalle 18 ([Comune](https://www.comune.piacenza.it/it/news/venerdi-piacentini)).
-- Nota 12/7: quarta serata **recuperata** dopo temporale ore 20 ([IlPiacenza](https://www.ilpiacenza.it/attualita/il-temporale-minaccia-la-festa-ma-i-venerdi-piacentini-non-si-fermano-salvata-la-quarta-serata.html)) — organizzazione resiliente, pubblico confermato.
+## 🎪 Calendario eventi — 17 luglio → settembre 2026
 
-## 🛍️ Saldi estivi — window operativa (5 luglio – 3 settembre)
+| Data | Evento | Rilevanza | Azione consigliata |
+|------|--------|-----------|-------------------|
+| **17/7 (ven) ← OGGI** | **Venerdì Piacentini — FINALE ⭐** | 50–60k persone, centro pedonale 18–03 | Presidio banco PQ Via Calzolai + QR stasera |
+| 18/7 (sab) | Post-VP: primo weekend "normale" | Traffico normale, saldi attivi | Debrief VP + pipeline negozi |
+| **5/7–3/9** | **Saldi estivi 2026** | 300 negozi + estate (60 giorni) | Pitch: «saldi del negozio del cuore, consegnati a casa» |
+| **20/7 (lun)** | **Apertura bandi CCIAA** | €7.000 per negozio per digitalizzarsi | Segnala ai negozi: possono candidarsi con MyCity (→ leve-uscita) |
+| **22–24/8 (ven–dom)** | **Sagra di Sant'Elena** — Rottofreno | Gastronomia DOP, serate danzanti | Opportunità partnership locale food/sagra; spike ordini gastronomia |
+| **Sett 2026** | Sant'Antonino + Volley Superlega | Ritorno flussi studenti/lavoratori | Reclutamento rider e ambassador — prepara pipeline |
 
-- Partenza **positiva** a Piacenza secondo Filippo Bulla (Confesercenti): caldo = «lama a doppio taglio» per il centro ([Piacenza24](https://www.piacenza24.eu/saldi-estivi-2026-buona-la-partenza-a-piacenza/)).
-- ➡️ Combinare saldi + caldo 38°C del 15/7 nel pitch botteghe e nel post VP 17/7.
+---
 
-## 🔗 Catene indirette attive
+## 🛍️ Saldi estivi 2026 — window operativa (5 luglio – 3 settembre)
 
-- **Caldo → domanda delivery mattutina → freschi PQ** — catena Po/PM10 non attiva (cielo sereno), ma afa spinge «non uscire».
-- **VP 17/7 → centro pieno → ritiro banco PQ** — presidio fisico Via Calzolai (bici non pronta fino ~28/7).
-- **Saldi + caldo → meno passeggiate centro → consegna come alternativa** — argomento vendita.
+- Partenza **positiva** a Piacenza secondo Confesercenti: caldo = «lama a doppio taglio» ([Piacenza24](https://www.piacenza24.eu/saldi-estivi-2026-buona-la-partenza-a-piacenza/)).
+- **28% dei consumatori** spende meno nei saldi 2026; **65% cita caro vita** → COD-first e soglia bassa.
+- ➡️ Messaggio chiave: «saldi + afa → ti consegniamo i capi scelti da casa».
 
-## 🏪 Consigli operativi
+---
 
-1. **VEN 17/7 = la mossa:** ultimo VP, Via Calzolai in festa, samir ha carrello €10 PQ in DB.
-2. **OGGI 14/7:** via San Siro chiusa 7–13 — verificare percorsi mattutini.
-3. **Caldo 15–17/7:** borse termiche PQ prima di spingere deperibili.
-4. **Post kefir:** pubblicare entro le 11 (fascia colazione) — in coda 🔴.
+## 🔗 Catene indirette
+
+- **Rottura caldo 19/7 → "si esce di nuovo" → più presenze centro → più visibilità botteghe**.
+- **Sagra Sant'Elena 22-24/8 → picco gastronomia DOP** → spunto post + possibile partnership produttori locali.
+- **Bandi CCIAA 20/7 → digitalizzazione botteghe → argomento onboarding** (→ leve-uscita per dettagli).
+
+---
+
+## 🏪 Consigli operativi (da 17/7 in poi)
+
+1. **STASERA 17/7**: VP finale, Via Calzolai in festa — presenza fisica PQ + QR code.
+2. **DAL 19/7**: rottura caldo → normalizzare le consegne (fascia oraria estesa).
+3. **20/7**: apertura bandi CCIAA — usarli come argomento pitch negozi (→ leve-uscita per dettagli).
+4. **Post-kefir**: in coda 🔴, pubblicare appena Nicola dà link.

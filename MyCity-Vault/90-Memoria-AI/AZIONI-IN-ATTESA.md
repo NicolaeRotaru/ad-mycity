@@ -1676,3 +1676,21 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 - **Colore:** 🟡 (codice del Pannello in branch — firma tua)
 - **Reparto:** frontend-dev
 - **Origine:** `{origine:audit-pannello-2026-07-16, difetti:AR-120..AR-123}`
+
+---
+
+### 🟢 #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · ⏳ accodata 2026-07-17 11:00
+
+**Cosa fare:** `@onboarding-negozi` + `@relazioni-istituzionali` preparano una scheda sintetica 1 pagina da includere nel kit onboarding dei prossimi negozi, con:
+- Bando BT26 (Piccole Imprese): fino a €7.000 · 40% a fondo perduto · scade 30/7 · spese: digitalizzazione / e-commerce ✅ · link CCIAA
+- Bando BE26 (Efficienza Energetica): fino a €20.000 · 50% · scade 30/7 · spese: attrezzature energetiche
+
+**Apertura domande: 20 luglio 2026** → il kit va pronto **entro il 19/7** (domani) per poterlo mostrare ai prossimi negozi.
+
+**Cosa cambia:** ogni negozio che si iscrive a MyCity ora ha anche l'argomento «il canale digitale che ti fa prendere i fondi CCIAA». Sostituisce l'argomento del bando ER CHIUSO il 23/6.
+**Se va bene:** pitch più forte per il batch attuale; i negozi del cluster vedono subito un beneficio economico concreto, non solo visibilità.
+
+- **Colore:** 🟢 (kit bozza interno, nessuna firma — poi diventa 🔴 al momento del contatto reale col negozio)
+- **Reparto:** onboarding-negozi / relazioni-istituzionali
+- **Fonte bandi:** [BT26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-piccole-imprese-per-il-territorio-bt26) · [BE26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bandi-emanati-nel-corso-del-2026/bando-efficienza-energetica-2026-be26)
+- **Origine:** `{origine:monitora-2026-07-17, fonte:cciaa-emilia}`
