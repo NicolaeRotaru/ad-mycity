@@ -2874,7 +2874,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         >
           {/* Colonna centrata con bordi laterali — solo workerFull su desktop */}
           <div
-            className={workerFull ? "flex flex-col flex-1 min-h-0 w-full sm:max-w-3xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
+            className={workerFull ? "relative flex flex-col flex-1 min-h-0 w-full sm:max-w-5xl sm:mx-auto sm:border-l sm:border-r" : "flex flex-col flex-1 min-h-0"}
             style={workerFull ? { borderColor: "var(--border)" } : undefined}
           >
           <div className="px-4 py-3 flex items-center gap-2.5 border-b" style={{ borderColor: "var(--border)" }}>
@@ -2978,15 +2978,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onToggleVoce={toggleVoceWorker}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
-          </div>
-          {/* CASSETTO conversazioni del FAB, allineato al cassetto del desktop: scorre da sinistra. */}
+          {/* CASSETTO conversazioni del FAB: si apre DENTRO la colonna centrata, copre metà larghezza. */}
           <div
             className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             onClick={() => setFabConvOpen(false)}
             aria-hidden="true"
           />
           <aside
-            className={`absolute inset-y-0 z-30 flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"} ${navAperta ? "left-64 w-72" : "left-0 w-full sm:w-80"}`}
+            className={`absolute inset-y-0 left-0 z-30 w-1/2 flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!fabConvOpen}
           >
@@ -3061,6 +3060,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </div>
             )}
           </aside>
+          </div>
         </div>
         </>
       )}
