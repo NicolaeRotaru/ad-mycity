@@ -16,14 +16,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-riapprova-header — Mergia PR: bottone Riapprova nell'header + testo umano caselle errore · ⏳ accodata 2026-07-18
+### 🟡 #mergia-pr-riapprova-ux — Mergia PR: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:XX
 
-**Due modifiche al Pannello:**
-1. **Bottone Riapprova** — spostato dall'area gialla in fondo alla casella aperta all'**header della casella**, affiancato ad "Annulla" e "Chat", visibile senza dover aprire la casella.
-2. **Testo errore** — il testo che appare sotto la casella in errore («Non è partita: da riapprovare. Il primo tentativo non è andato a buon fine (rc=1 / timeout / …)») viene riscritto in italiano chiaro, es.: *«L'azione non è partita — premi Riapprova per rimetterla in coda. Nessun dato è stato modificato.»*
+**Branch: `feature/lavori-riapprova-ux` (push bloccato, 2 commit pronti)**
 
-**Cosa cambia:** Nicola vede "Riapprova" subito nell'header senza aprire la casella; il messaggio d'errore è leggibile.
-**Se va bene:** il Pannello mostra il bottone nel posto giusto e le caselle in errore parlano in italiano.
+**5 fix nel Pannello:**
+1. **Bottone Riapprova** — spostato dall'area gialla in fondo all'**header della casella**, affiancato ad "Annulla" e "Chat", visibile senza dover aprire la casella.
+2. **Testo errore** — riformulato in italiano: *«L'azione non è partita — premi Riapprova per rimetterla in coda. Nessun dato è stato modificato.»* (no `rc=1/timeout/…` grezzo).
+3. **Scroll chat all'ultimo messaggio** — aprire la chat dalla casella porta direttamente all'ultimo messaggio, non all'inizio.
+4. **Flash durante streaming eliminato** — stessa struttura DOM per `pending=true` e per messaggio finale: React aggiorna in-place invece di smontare/rimontare, il testo non sparisce più nel momento della transizione.
+5. **Layout shift eliminato** — aggiunto `min-h-0` al div messaggi Worker + `shrink-0` all'header: le nuove righe durante la risposta non spingono più header e input verso il basso.
+
+**Cosa cambia:** 5 fastidi visivi del Pannello spariscono in un solo deploy.
+**Se va bene:** il Pannello è stabile durante lo streaming, le caselle parlano in italiano, la chat apre all'ultimo messaggio.
 
 - **Colore:** 🟡 (merge codice)
 - **Reparto:** frontend-dev

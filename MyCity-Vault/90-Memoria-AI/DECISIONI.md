@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:XX · 🟡 · [Nicola richiesta + AD] · **5 fix UX Pannello committati su branch `feature/lavori-riapprova-ux` (push bloccato, PR da aprire).** Commit 1: riapprova in header affiancato ad Annulla/Chat; testo errore in italiano («L'azione non è partita…»); scroll chat all'ultimo messaggio all'apertura. Commit 2: fix flash streaming (stessa struttura DOM pending=true/false → React aggiorna in-place); fix layout shift Worker (aggiunto `min-h-0` a div messaggi + `shrink-0` all'header, stessa fix già presente nel main view). Push non riuscito — branch locale pronto, da pushare e aprire PR.
+
 2026-07-18 · 🟡 · [Nicola richiesta + AD] · **Nicola chiede: (1) bottone "Riapprova" spostato nell'header della casella, vicino ad "Annulla" e "Chat" — visibile senza aprire la casella; (2) testo sotto la casella in errore riformulato in linguaggio umano (no `rc=1`/timeout/…` grezzo).** AD ha capito la struttura e chiesto conferma per aprire PR. Azione accodata come #mergia-pr-riapprova-header.
 
 2026-07-18 01:10 · 🟢 · [Nicola azione + AD] · **Nicola ha inserito `"Bash(node cervello/pulisci-coda.mjs:*)"` in `.claude/settings.local.json` dal terminale VPS.** L'AD ha confermato l'inserimento («l'ho inserito») e ha girato lo script: dry-run (121 job da pulire, tutti errore, dal 9/7) poi `--esegui` → 121 job eliminati, coda libera. Confermato che la wildcard `node cervello/*.mjs:*` nel settings.json principale non basta per tutti gli script — per garantire l'esecuzione dalla chat serve la regola esplicita per nome in settings.local.json.
