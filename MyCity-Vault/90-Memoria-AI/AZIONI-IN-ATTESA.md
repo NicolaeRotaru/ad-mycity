@@ -267,56 +267,28 @@ Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live
 
 ---
 
-### 🟡 #mergia-pr-436 — Mergia PR #436: fix crash guardiano `allinea-scan-cantiere` · ⏳ accodata 2026-07-17 22:30
+### ✅ #mergia-pr-436 — FATTO 2026-07-18 · PR #436 mergiata (commit a41cc359)
 
-**Cosa fare:** vai su GitHub → PR #436 → clicca "Merge pull request". È la più piccola — 1 file, nessun conflitto.
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/436
-
-**Cosa cambia:** `allinea-scan-cantiere.mjs` smette di crashare (usava `votoLive` mai definita → righe 179 e 191) → il guardiano batte regolarmente → sparisce dalla lista "mancanti" nel freschezza.
-**Se va bene:** al prossimo giro automatico (~5-10 min dopo il merge) `allinea-scan-cantiere` non compare più tra i guardiani senza battito.
-
-- **Colore:** 🟡 (merge codice → Nicola)
-- **Reparto:** builder-automazioni
-- **Ordine merge consigliato:** prima questa (#436), poi #433, #430, #431
+Fix crash `allinea-scan-cantiere.mjs` — rimossa variabile `votoLive` mai definita. Il guardiano ora batte regolarmente.
 
 ---
 
-### 🟡 #mergia-pr-435 — Mergia PR #435: 3 fix bloccanti macchina · ⏳ accodata 2026-07-17 20:45
+### ✅ #mergia-pr-435 — FATTO 2026-07-18 · PR #435 mergiata (commit e8afc18f)
 
-**Cosa fare:** vai su GitHub → PR #435 → clicca "Merge pull request".
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/435
-
-**Cosa cambia:** 3 fix live — (1) chat più veloce: polling chiede solo il job specifico via `/api/lavori/dettagli` invece di tutti i 121+ job; (2) soglia volano 30%→5%: sentinella non dà più falsi allarmi; (3) AR-105: voto salute macchina non più sovrascritto da valori provvisori.
-**Se va bene:** chat più reattiva nell'uso quotidiano; sentinella volano torna verde entro 1-2 giri; voto salute stabile.
-
-- **Colore:** 🟡 (merge codice → Nicola)
-- **Reparto:** builder-automazioni
+3 fix live: chat più veloce (polling mirato), soglia volano 5%, voto salute stabile.
 
 ---
 
 
-### 🟡 #mergia-pr-430 — Mergia PR #430: bottone fluttuante e schermo intero Worker · ⏳ accodata 2026-07-17 10:31
+### ✅ #mergia-pr-430 — FATTO 2026-07-18 · PR #430 mergiata (commit 7063aa0d)
 
-**Cosa fare:** vai su GitHub → PR #430 → clicca "Merge pull request".
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/430
-
-**Cosa cambia:** il bottone fluttuante apre di nuovo la finestra piccola della chat (come prima); il tasto ⬜ (maximize) nella finestra piccola apre lo schermo intero del Worker con la navbar del Pannello visibile in cima.
-**Se va bene:** navigazione fluida tra chat piccola e schermo Worker senza perdere la navbar; Vercel builda in ~2 min e il comportamento è live.
+Bottone fluttuante + schermo intero Worker con navbar visibile.
 
 ---
 
-### 🟡 #mergia-pr-431 — Mergia PR #431: debounce messaggi multipli in chat (sostituisce #429) · ⏳ accodata 2026-07-17 10:35
+### ✅ #mergia-pr-431 — FATTO 2026-07-18 · PR #431 mergiata (commit 2d30ef19)
 
-**Cosa fare:** vai su GitHub → PR #431 → clicca "Merge pull request".
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/431
-
-**Cosa cambia:** se mandi un secondo messaggio mentre sto elaborando, il primo giro viene annullato e ne parte uno nuovo che legge entrambi i messaggi insieme — una sola risposta che li considera tutti. Fix: rimosso il blocco `codaMsgRef` in `page.tsx`, usa il meccanismo `sostituisci` già esistente.
-**Se va bene:** nessun messaggio di Nicola viene ignorato durante l'elaborazione; Vercel builda in ~2 min e il comportamento è live.
-
-*(PR #429 chiusa: file vault finiti nel branch avevano creato conflitti con main — sostituita da #431 con branch pulito.)*
-
-- **Colore:** 🟡 (merge → Nicola)
-- **Reparto:** frontend-dev
+Debounce messaggi multipli: nessun messaggio viene ignorato durante l'elaborazione.
 
 ---
 
@@ -383,16 +355,9 @@ PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
 
 ---
 
-### 🟡 #mergia-pr-427 — Mergia PR #427 su GitHub (tasto Invia smartphone) · ⏳ accodata 2026-07-17 04:00
+### ✅ #mergia-pr-427 — FATTO 2026-07-18 · PR #427 mergiata (commit f70e06a5)
 
-**Cosa fare:** vai su GitHub → PR #427 → clicca "Merge pull request".
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/427
-
-**Cosa cambia:** il tasto Invia torna visibile su tutti gli smartphone — Vercel builda in ~2 min e il fix è live.
-**Se va bene:** problema smartphone risolto; nessun altro passo necessario.
-
-- **Colore:** 🟡 (merge → Nicola)
-- **Reparto:** frontend-dev
+Tasto Invia visibile su tutti gli smartphone.
 
 ---
 
@@ -941,18 +906,9 @@ Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine 
 ---
 
 
-### 🟡 #pr-297-archivio-parallelo — Mergia PR #297: Archivio carica in 1-2 sec invece di 15 · ⏳ IN ATTESA · accodata 2026-07-12
+### ✅ #pr-297-archivio-parallelo — FATTO 2026-07-18 · PR #297 mergiata (commit 8afd6fd3)
 
-**Cosa fa:** la route API dell'Archivio leggeva le cartelle una alla volta (15 chiamate HTTP in fila = ~15 secondi). Con `Promise.all()` tutte le chiamate partono insieme — il tempo diventa quello della cartella più lenta (~1-2 secondi).
-
-**PR su GitHub:** [#297 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/297) ← branch pulito, solo `route.ts`, zero conflitti
-
-⚠️ **Chiudi PR #296 su GitHub senza mergiare** — aveva conflitti su `sentinella-dati.json`, superata da #297.
-
-**Cosa cambia:** apri Archivio → vedi i file in 1-2 secondi invece di aspettare 15.
-**Se va bene:** deploy automatico, Archivio diventa comodo da usare ogni giorno.
-
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+Archivio carica in 1-2 sec con `Promise.all()` invece di 15 sec in fila.
 
 ---
 
