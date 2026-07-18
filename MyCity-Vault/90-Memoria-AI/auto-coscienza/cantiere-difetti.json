@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-18 02:08",
+  "aggiornato": "2026-07-18 11:16",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -1163,15 +1163,16 @@
       "causa_radice": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json:116,132,148,164,180,197 (6 entità scelta_ragionata) vs MyCity-Vault/90-Memoria-AI/registro-fatti.json:164-178 (fatto onboarding.6-ristoranti-tattici ESCLUSI) — La correzione 16/7 ha aggiornato registro-fatti ma NON registro-realta. coerenza-fatti caccia solo pattern registrati con --caccia e nessuno cacciava i nomi dei 6 ristoranti. Causa di sistema: esistono DUE proiezioni delle stesse entità (registro-realta asse ① e registro-fatti AR-102) senza legame di riconciliazione, e nessun guardiano copre le entità del registro-realta quando un fatto-business le esclude.",
       "fix_proposto": "🟡 (a) accodare la riscrittura di registro-realta: marcare i 6 ristoranti 'scartato' con fonte='correzione Nicola 16/7'; (b) nuova sentinella entità-esclusa: quando un fatto-business esclude un'entità, FALLISCE se l'entità omonima in registro-realta resta confermato/scelta_ragionata; (c) dichiarare per iscritto: registro-fatti è SSOT, registro-realta lo cita.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-18 11:16",
       "verifica": {
         "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json",
         "pattern": "Osteria Carducci\"[\\s\\S]{0,80}?\"stato\": \"scelta_ragionata\"",
         "presente": false
       },
-      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)"
+      "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
+      "chiuso_come": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json NON contiene /Osteria Carducci\"[\\s\\S]{0,80}?\"stato\": \"scelta_ragionata\"/ → assente"
     },
     {
       "id": "AR-126",
@@ -1386,8 +1387,8 @@
     }
   ],
   "meta": {
-    "aperti": 25,
+    "aperti": 24,
     "in_corso": 0,
-    "chiusi": 50
+    "chiusi": 51
   }
 }
