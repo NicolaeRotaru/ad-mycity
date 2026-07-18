@@ -47,6 +47,30 @@ sudo systemctl restart mycity-worker-chat.service
 
 ---
 
+### 🟡 #apri-pr-chat-4bug-ux — Apri PR: 4 fix UX chat Pannello (scroll, sticky, triplicazione) · ⏳ accodata 2026-07-18 03:00
+
+**Branch:** `fix/chat-4bug-ux` · commit `f4b3beff` (già su VPS, non ancora pushato su GitHub)
+
+**4 fix in una PR (richiesta di Nicola 18/7):**
+1. **Scroll all'apertura** — la chat apre all'ultimo messaggio, non dall'inizio (doppio RAF + timeout 120ms)
+2. **Textarea sticky** — `shrink-0` su `BarraScritturaChat` nella chat principale e nel FAB: il box di testo non viene spinto giù dai nuovi messaggi
+3. **ChatCasella layout** — `flex-col max-h-[420px]` con footer sticky: il box di testo rimane fisso mentre si scrolla su
+4. **Triplicazione eliminata** — guard in `setMsgs` di ChatCasella: lo stesso messaggio non appare 3 volte
+
+**Aprire con:**
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --branch fix/chat-4bug-ux --base main --title "fix: 4 bug UX chat — scroll, textarea sticky, triplicazione"
+```
+*(git-pr.mjs è in allowlist dalla chat dal 18/7)*
+
+**Cosa cambia:** aprire la chat va all'ultimo messaggio; il box di testo resta fermo; le risposte non compaiono triplicate.
+**Se va bene:** 4 fastidi della chat quotidiana eliminati in un colpo solo.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #apri-pr-chat-sovrascrittura-v2 — Apri PR per il fix "Messaggio annullato non sovrascrive la risposta" (tentativo 2) · ⏳ accodata 2026-07-18 02:29
 
 **Branch:** `fix/chat-no-sovrascrittura-annullato` (già committato sul VPS)
