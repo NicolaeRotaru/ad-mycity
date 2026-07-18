@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 00:25 · 🟢 · [Nicola «perche peer_review è a 0?»] · **peer_review vuota per scelta di design** — non è un bug. La sezione si sblocca dopo il primo esito di business reale (EXP-001: primo ordine consegnato), per non fare torneo tra agenti su ipotesi e bozze. AD ha offerto di popolarla con revisioni preliminari (content-social vs ai-copywriter, qa vs tech); Nicola non ha ancora risposto. Regola confermata nel file `auto-miglioramento.json`.
+
 2026-07-19 00:05 · 🟢 · [Nicola «fai tutti i fix» — caselle auto-coscienza datate] · **Punteggio auto-coscienza aggiornato 42→50/100** (6 difetti AR chiusi, EXP-001 aperto). Obiettivo rinnovato: «chiudi EXP-001 entro 25 luglio» (il precedente «entro 2 settimane dal 3/7» era scaduto). Regola aggiunta a `ritmo.md`: ogni venerdì ricalcolare il punteggio dopo ogni batch di PR mergiate.
 
 2026-07-19 00:05 · 🟡 · [Nicola «c'è un conflitto» — PR #465 conflitti da worker] · **PR #465 chiusa (conflitti da file memoria aggiornati dal worker), sostituita da PR #466** (branch pulito `fix/ritmo-punteggio-v2` con solo `ritmo.md` + JSON auto-coscienza). Nicola deve: ① chiudere #465 senza merge ② mergiare #466. Pattern consolidato: branch con SOLO i file target (no memoria mista).
