@@ -13,7 +13,7 @@
       "aperti_davvero": 0,
       "bloccanti_umani": 3,
       "tipo": "sonda",
-      "nota": "decimo passaggio 17:12 · loop chiude ✅ · briefing FRESCO (0h) · sensori REST ok · n8n cieco 75g · MCP Supabase cieco 7g · 3 PR pendenti merge (443/446/#apri-pr-timer) · 3 bloccanti umani (PI26 🔴, ordine test 🟡, WhatsApp 🟡) · voto aggiornato da auto-analisi (91)"
+      "nota": "dodicesimo passaggio 17:37 · loop chiude ✅ · briefing FRESCO (0h) · sensori REST ok · n8n cieco 77g · MCP Supabase cieco 7g · 3 PR pendenti merge (443/446/#apri-pr-timer) · 3 bloccanti umani (PI26 🔴, ordine test 🟡, WhatsApp 🟡) · registro-scelte rc=0 confermato analiticamente"
     },
     {
       "data": "2026-07-10",

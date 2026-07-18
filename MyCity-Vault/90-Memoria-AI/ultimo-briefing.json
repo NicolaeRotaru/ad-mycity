@@ -1,9 +1,9 @@
 {
-  "data": "2026-07-18 17:35",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~588h (~24,5 giorni da 24/6). North Star 0, cassa 0€. Sensori 17:27: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 76 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 confermato (13 prospect + 6 esclusi invariati). URGENZA IMMEDIATA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo: piogge dal 20/7 (delivery window). PR #apri-pr-timer-chat accodata (fix timer lista + cassetto mobile).",
+  "data": "2026-07-18 17:37",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~587h (~24,5 giorni da 24/6). North Star 0, cassa 0€. Sensori 17:37: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 77 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 confermato analiticamente (13 prospect + 6 esclusi, invariato). URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo piogge dal 20/7 (delivery window). PR timer-lista-chat accodata.",
   "opportunita": [
     {
-      "titolo": "Bando PI26 — registrarsi su restart.infocamere.it OGGI",
+      "titolo": "Bando PI26 — registrati su restart.infocamere.it OGGI",
       "motivo": "Sportello apre domani 20/7 ore 10:00 — chi arriva primo prende i fondi. Max €10k fondo perduto (50%). Spese ammissibili: Supabase/Vercel/Render da maggio 2026.",
       "impatto": "alto",
       "sforzo": "basso"
@@ -16,7 +16,7 @@
     },
     {
       "titolo": "3 WhatsApp alle botteghe anchor con leva PI26",
-      "motivo": "Garetti/Peretti/Amendolara. Testi pronti. PI26 = urgenza reale per convincerli. Non richiede visita fisica.",
+      "motivo": "Garetti/Peretti/Amendolara. Testi pronti in consegne/vendite/. PI26 = urgenza reale per convincerli senza visita fisica.",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -36,7 +36,7 @@
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~585h — un ordine sblocca la prova che il sistema funziona",
+      "motivo": "North Star a 0 da ~587h — un ordine sblocca la prova che il sistema funziona",
       "livello": "giallo",
       "id_coda": "#ordine-test-pq"
     },
@@ -54,8 +54,8 @@
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo critico ~585h (>14 giorni)",
-    "n8n cieco — 71 giri consecutivi (non critico per operatività)",
+    "North Star 0 — stallo critico ~587h (>14 giorni)",
+    "n8n cieco — 77 giri consecutivi (non critico per operatività)",
     "BURN_MENSILE_EUR assente — runway sconosciuto 135+ giri",
     "Telegram non configurato — notifiche bloccate"
   ]
