@@ -581,7 +581,113 @@
     "misurati": 0,
     "chiusi": 0
   },
-  "peer_review": [],
+  "peer_review": [
+    {
+      "id": "PR-001",
+      "data": "2026-07-19",
+      "reviewer": "@qa",
+      "reviewed": "@tech + @frontend-dev",
+      "oggetto": "Fix Pannello luglio 2026 (10+ PR mergiate: chat, archivio, arsenale, auto-coscienza)",
+      "voto": 6,
+      "punti_forza": [
+        "Velocità di risposta ai bug segnalati da Nicola: fix in <24h nella maggior parte dei casi",
+        "Bug critici risolti (chat che si ricaricava da sola, risposta vuota, archivio che non collassava)",
+        "Nessuna regressione grave post-merge verificata"
+      ],
+      "punti_deboli": [
+        "Conflitti frequenti nelle PR perché i branch mescolavano codice + file di memoria — il worker li aggiorna ogni 2h e crea conflitti inevitabili",
+        "Descrizioni PR povere (problema segnalato da Nicola: 'fa schifo'): mancavano cosa/perché/come testare",
+        "PR orfane lasciate aperte dopo la sostituzione (es. #455 rimasta aperta dopo #457)",
+        "Alcuni fix hanno richiesto 2-3 tentativi prima di essere puliti"
+      ],
+      "raccomandazione": "Regola ferma: branch con SOLO il file target (mai codice + memoria insieme). Ogni PR con 3 righe obbligatorie: cosa cambia / perché / come si testa. PR sostitutiva → chiudi la vecchia entro 5 minuti.",
+      "fonte": "osservazione diretta sui branch e PR di luglio"
+    },
+    {
+      "id": "PR-002",
+      "data": "2026-07-19",
+      "reviewer": "@security",
+      "reviewed": "@backend-dev + @tech",
+      "oggetto": "Sicurezza del codice e delle credenziali — stato luglio 2026",
+      "voto": 5,
+      "punti_forza": [
+        "RLS Supabase configurato: ogni negozio vede solo i suoi dati",
+        "Webhook Stripe firmati lato server",
+        "Sola lettura garantita per i sensori (nessuna scrittura accidentale sul DB)"
+      ],
+      "punti_deboli": [
+        "PAT GitHub trovato in chiaro nel config git del VPS (AR-004 — segnalato, non ancora risolto perché richiede rotazione 🔴 da Nicola)",
+        ".env.save committato nel repo con credenziali reali (rimosso ma la storia git lo contiene ancora)",
+        "Allowlist mani ancora con slot aperti non necessari",
+        "Nessun scan-segreti automatico pre-commit attivo"
+      ],
+      "raccomandazione": "Priorità 1: Nicola ruota il PAT GitHub (#ruota-pat-github 🔴). Priorità 2: aggiungere scan-segreti pre-commit (script cervello/scan-segreti.mjs proposto in AR-004, non ancora implementato).",
+      "fonte": "AR-004 dal cantiere difetti + analisi env"
+    },
+    {
+      "id": "PR-003",
+      "data": "2026-07-19",
+      "reviewer": "@analista",
+      "reviewed": "@data-engineer",
+      "oggetto": "Qualità e copertura dei sensori dati — luglio 2026",
+      "voto": 6,
+      "punti_forza": [
+        "Supabase REST funzionante come fonte primaria: ordini, negozi, clienti leggibili in tempo reale",
+        "Sensori committati in JSON persistiti (sentinella-dati.json aggiornato ogni giro)",
+        "Delta-gate attivo: evita giri premium inutili quando non c'è nulla di nuovo"
+      ],
+      "punti_deboli": [
+        "PostHog spento (Nicola ha deciso 5/7) → nessun tracking comportamentale clienti: impossibile misurare funnel, CTR, abbandono carrello",
+        "Stripe non configurato come sensore → payout e incassi stimati, non letti in tempo reale",
+        "7 guardiani senza battito fresco (segnale freschezza-segnali in warn da ore)",
+        "0 dati reali su ordini/consegne da misurare — tutti gli esperimenti aperti sono in attesa del primo ordine"
+      ],
+      "raccomandazione": "Decidere se riattivare un sistema di tracking leggero (anche solo PostHog con eventi minimi) o accettare il blind spot sul comportamento utente. Il sensore Stripe va collegato non appena c'è il primo ordine reale.",
+      "fonte": "verifica-sensori.mjs + contesto macchina 19/7"
+    },
+    {
+      "id": "PR-004",
+      "data": "2026-07-19",
+      "reviewer": "@direttore-creativo",
+      "reviewed": "@content-social + @ai-copywriter",
+      "oggetto": "Qualità dei contenuti prodotti — giugno/luglio 2026",
+      "voto": 4,
+      "punti_forza": [
+        "Piattaforma creativa 'Il Turno' definita e documentata (consegne/marketing/PIATTAFORMA-CREATIVA.md)",
+        "Swipe file compilato con esempi competitor (creativi/swipe/SWIPE-FILE.md)",
+        "Brief creativo strutturato disponibile"
+      ],
+      "punti_deboli": [
+        "0 contenuti pubblicati su canali reali: tutto in bozza/accodata. Il post 'Il Lunedì della Bottega', il kefir, il VP del 17/7 — tutti scaduti o rimandati",
+        "Materia prima mancante: nessuna foto reale di Pane Quotidiano, nessuna intervista al fornaio, nessun UGC",
+        "Hook meteo 34° scritto per luglio — ora non più utilizzabile (il 20/7 piove, non 34°)",
+        "Nessun contenuto ha ancora ricevuto feedback dal mercato (0 like, 0 commenti, 0 iscritti generati)"
+      ],
+      "raccomandazione": "Sbloccare il gate: la bici di Nicola riparata → primo ordine → foto reale PQ → primo post. Senza materia prima reale il livello resta L3 massimo. Priorità assoluta: 1 foto vera del fornaio al lavoro, 1 video del prodotto.",
+      "fonte": "AZIONI-IN-ATTESA + contenuti scaduti + benchmark content-social"
+    },
+    {
+      "id": "PR-005",
+      "data": "2026-07-19",
+      "reviewer": "@product-manager",
+      "reviewed": "@frontend-dev + @ux-designer",
+      "oggetto": "Esperienza utente del Pannello di Controllo — luglio 2026",
+      "voto": 6,
+      "punti_forza": [
+        "Pannello funzionante e accessibile da browser: home, bacheca, azioni, archivio, arsenale",
+        "Chat integrata con la macchina AD: risposta in <5 secondi nella maggior parte dei casi",
+        "Caselle auto-coscienza visibili e leggibili anche per Nicola (non tecnico)"
+      ],
+      "punti_deboli": [
+        "Chat cross-device non funziona: lo smartphone non vede le conversazioni del desktop (PR in coda, non ancora mergiata)",
+        "Nuova chat si ricaricava da sola con la risposta precedente (bug risolto ma ha richiesto 3 sessioni)",
+        "Arsenale era sepolto in fondo alla pagina senza tab di navigazione (fix in PR #464, da mergiare)",
+        "Caselle auto-coscienza rimaste ferme a dati del 3 luglio per 15 giorni senza aggiornamento automatico del punteggio"
+      ],
+      "raccomandazione": "Mergiare le PR in coda (#464 arsenale-tab, #446 cross-device). Aggiungere aggiornamento automatico del punteggio ogni venerdì (#ritmo-venerdì-punteggio). Testare ogni modifica su mobile prima di considerarla chiusa.",
+      "fonte": "osservazione sessioni luglio + AZIONI-IN-ATTESA + LEZIONI-CHAT"
+    }
+  ],
   "proposte_auto_riscrittura": [
     {
       "cosa": "[REVIEW 3/7] Delta-gate: per i sensori marcati OPZIONALI/non-critici usare lo STATO booleano (cieco sì/no) nella firma, non il contatore incrementale max_giri_ciechi",
