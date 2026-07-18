@@ -464,3 +464,20 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - branch `fix/bloccanti-macchina` commit `da524a30` · PR #433 pronta · PR #430 #431 in coda · n8n cieco 38 giri · REST/Stripe/Resend ok · giri_totali=189 · 26 difetti aperti · 19 PR in coda
+
+## Piano del mattino · 2026-07-18 06:00
+
+**La giornata che conta: bando apre domani, la lista di botteghe è pronta.**
+
+**Le 3 cose di oggi**
+1. Prepara la domanda PI26 — il bando apre domani 20/7 alle 10:00 a sportello: chi arriva prima prende i fondi. Registrati oggi su restart.infocamere.it, tieni pronta la lista delle fatture da maggio 2026 (Supabase, Vercel, Render) e controlla che la firma digitale sia attiva.
+2. Avvia l'approccio alle botteghe nuove — ieri hai validato 13 prospect (Frolla Couture, Panetteria Del Corso, Anzico Forno, Rasparini e altre). La macchina prepara i profili di pitch per le 3 più pronte, così quando la bici è a posto hai tutto in mano.
+3. Mergia le PR Pannello rimaste — #443 (5 fix UX: scroll, sticky, testo errore) e #446 (chat cross-device smartphone/desktop) aspettano solo il tuo ok; poi l'AD apre anche la PR dei 4 bug UX.
+
+**Serve da te**
+- Registrati su restart.infocamere.it **entro stasera** — il bando PI26 apre domani mattina alle 10:00 a sportello (🔴)
+- Dimmi il prezzo della tazzina PQ — il prodotto è bloccato lì (🟡)
+- Riavvia il worker: `sudo systemctl restart mycity-worker-chat.service` — carica le 2 variabili env già inserite, 5 minuti di lavoro (🟡)
+
+**Dettagli tecnici**
+- Business: 1 PQ, 23 clienti, 0 ordini, stallo ~582h · bando PI26: restart.infocamere.it, 50% fondo perduto max €10k, spese ammissibili da maggio 2026 · PR in coda: #443 #446 + apertura #chat-4bug-ux · worker-env: PANNELLO_URL + MARKETPLACE_SITE_URL inseriti, manca riavvio · burn mensile: ancora da impostare in .env

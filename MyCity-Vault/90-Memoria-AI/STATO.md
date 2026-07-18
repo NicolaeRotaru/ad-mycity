@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 04:30
-fonte: AD digitale (chat Nicola 18/7)
+aggiornato: 2026-07-18 06:00
+fonte: AD digitale (piano mattino 18/7)
 ---
+
+> ☀️ **18/7 06:00 — PIANO DEL MATTINO.** Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~582h (~24,3 giorni). North Star 0, cassa 0€. **3 priorità di oggi:** ① 🔴 **Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello** (50% fondo perduto max €10k su spese tech da maggio 2026) — Nicola deve registrarsi su restart.infocamere.it OGGI + raccogliere fatture Supabase/Vercel/Render; ② 🟡 **Profili di approccio per i 13 prospect** — macchina costruisce materiali pitch per le 3 più promettenti (Frolla Couture, Panetteria Del Corso, Anzico Forno) pronte per quando la bici è operativa; ③ 🟡 **Chiudi PR Pannello** — mergia #443 (5 fix UX) + #446 (cross-device) + apri PR 4-bug-ux. **Prossimi passi Nicola:** registrati su restart.infocamere.it (🔴) · riavvia worker per env (🟡) · prezzo tazzina PQ (🟡). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
 
 > 💬 **18/7 14:00 — CHAT: registro prospect aggiornato — 13 botteghe valide, 6 ristoranti esclusi.** Nicola ha detto «questa è un'osteria, ti ho detto che i ristoranti non sono il nostro target» (Tigellabella). Regola confermata: ristoranti/osterie/trattorie = esclusi a priori. Il registro-realta.json è stato aggiornato: **6 ristoranti segnati ESCLUSI** (Tigellabella, La Forchetta, Tre Ganasce, Osteria Carducci, La Dispensa, Trattoria Pescatori) con nota "Nicola 18/7: ristoranti non target". **10 nuove botteghe aggiunte** come prospect validi: Frolla Couture, Rasparini, Struzzi, Panetteria Del Corso, Macelleria Callegari, Anzico Forno, L'Albero del Pane, Macelleria Scalabrini, Macelleria Polleria, Macelleria Carne Bovina. **Prospect totali validi: 13** (Garetti · Peretti · Amendolara · + 10 nuove). Fonte: chat Nicola 18/7 14:00.
 
