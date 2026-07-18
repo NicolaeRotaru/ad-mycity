@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 02:50 · 🟢 · [Audit 5 proposte aperte — 2 già implementate, 1 parziale, 3 ancora open] · **Nicola: «controlla le altre caselle»** — AD ha verificato nel codice lo stato reale delle 5 proposte ancora segnate "aperte" nel JSON: (1) Sensori-cecita.json + gate hard → già implementato → marcata `implementata`; (2) Delta-gate + banco-ai → già implementato ma sensore costo token mancante → marcata `parziale`; (3) Organigramma auto-generato da agents → ancora da fare; (4) Volano chiuso (esperimenti misurati) → ancora da fare; (5) Registro rischi + cassa/runway → ancora da fare. File `auto-miglioramento.json` aggiornato (non ancora committato — nel batch con altri 2 file).
+
 2026-07-19 02:35 · 🟢 · [Casella delta-gate [REVIEW 3/7] confermata chiusa — fix già in produzione] · **Nicola: «c'è ancora questo problema?» sulla casella AR-019 delta-gate.** AD ha verificato nel codice: `cervello/delta-gate.mjs` righe 14-15 usa già lo stato booleano (cieco sì/no) e NON il contatore `max_giri_ciechi`. Il problema è risolto. Casella da archiviare.
 
 2026-07-19 02:00 · 🟢 · [Nicola ha mergiato PR #467 — display ricco peer review ora live] · **Nicola: «mi ero dimenticato di margiarla, ok grazie».** PR #467 mergiata da Nicola: il componente `AutoCoscienza.tsx` ora mostra per ogni peer review il voto, i punti di forza (verde), i punti da migliorare (rosso) e la raccomandazione. Il Pannello si aggiornerà al prossimo build Vercel.
