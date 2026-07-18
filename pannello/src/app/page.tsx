@@ -1278,7 +1278,8 @@ export default function Dashboard() {
   async function nuovaConversazione() {
     segnaLettaChatAttiva();
     await persistConversazione(convId, messages);
-    nuovaChatManualeRef.current = true; // blocca l'auto-apri (vedi useEffect sotto)
+    nuovaChatManualeRef.current = true; // blocca l'auto-apri brevemente (reset dopo 3s)
+    setTimeout(() => { nuovaChatManualeRef.current = false; }, 3000);
     setMessages([]);
     setConvId(null);
     setBase(null);
@@ -1856,9 +1857,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Ref per auto-apertura cross-device: stesso pattern di apriChatRef.
   const continuaConversazioneRef = useRef(continuaConversazione);
   continuaConversazioneRef.current = continuaConversazione;
-  const autoApriEseguito = useRef(false);
+  const autoApriEseguitoPer = useRef<string | null>(null);
   // Blocca l'auto-apri quando Nicola ha esplicitamente premuto "nuova chat":
   // senza questo flag, nuovaConversazione() azzera i msg → l'auto-apri li rimette subito.
+  // Si resetta dopo 3s per permettere l'auto-apri di conversazioni nuove da altri dispositivi.
   const nuovaChatManualeRef = useRef(false);
   useEffect(() => {
     const onVai = (e: Event) => {
@@ -2078,23 +2080,23 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   }, [convDrawerAperto, fabConvOpen, caricaConversazioni]);
 
   // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
-  // Risolve: (1) smartphone non vede la risposta del desktop finché non apre manualmente il cassetto;
-  // (2) messaggio inviato da smartphone non "appare" nella lista perché la chat era vuota e scollegata.
-  // Scatta UNA SOLA VOLTA per sessione (autoApriEseguito), solo nelle prime 2 ore dalla creazione.
-  // NON scatta se Nicola ha appena premuto "nuova chat" manualmente (nuovaChatManualeRef).
+  // Risolve: smartphone non vede la risposta del desktop (e viceversa) finché non apre manualmente il cassetto.
+  // Finestra: 24 ore. Traccia l'ID dell'ultima aperta → se arriva una conversazione più recente da altro
+  // dispositivo la apre anche se ne aveva già aperta una. NON scatta se Nicola ha appena premuto "nuova chat"
+  // (nuovaChatManualeRef — si resetta da solo dopo 3s per non bloccare sync successivi).
   useEffect(() => {
-    if (autoApriEseguito.current) return;
     if (nuovaChatManualeRef.current) return;
     if (convId) return;
     if (!caricato) return;
     if (conversazioni.length === 0) return;
     if (messages.some((m) => !m.prompt && !m.pending)) return;
-    const oreMax = 2 * 60 * 60 * 1000;
+    const oreMax = 24 * 60 * 60 * 1000;
     const recente = [...conversazioni]
       .sort((a, b) => new Date(b.updated_at ?? b.created_at).getTime() - new Date(a.updated_at ?? a.created_at).getTime())
       .find((c) => Date.now() - new Date(c.updated_at ?? c.created_at).getTime() < oreMax);
     if (!recente) return;
-    autoApriEseguito.current = true;
+    if (autoApriEseguitoPer.current === recente.id) return;
+    autoApriEseguitoPer.current = recente.id;
     void continuaConversazioneRef.current(recente.id);
   }, [conversazioni, convId, messages, caricato]);
 
