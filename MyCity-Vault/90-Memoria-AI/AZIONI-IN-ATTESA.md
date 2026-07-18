@@ -25,6 +25,26 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #apri-pr-chat-sovrascrittura-v2 — Apri PR per il fix "Messaggio annullato non sovrascrive la risposta" (tentativo 2) · ⏳ accodata 2026-07-18 02:29
+
+**Branch:** `fix/chat-no-sovrascrittura-annullato` (già committato sul VPS)
+
+**Contesto:** il primo fix (commit `bba5495d` su main) non ha risolto completamente il problema — Nicola ha mostrato lo stesso screenshot due volte nella stessa chat. L'AD ha committato un secondo fix sullo stesso tema su branch dedicato ma **non ha potuto aprire la PR** perché `node cervello/git-pr.mjs` non è nell'allowlist.
+
+**Cosa cambia:** quando il worker annulla/interrompe un messaggio, la risposta già visibile a Nicola resta lì intatta. «🚫 Messaggio annullato» non compare più al posto del messaggio precedente.
+**Se va bene:** Nicola non vede più risposte cancellate quando il worker si ferma a metà.
+
+**Per aprirla:** dal terminale VPS:
+```
+cd /opt/mycity/ad-mycity && node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/chat-no-sovrascrittura-annullato --title "fix: Messaggio annullato non sovrascrive la risposta precedente (v2)"
+```
+Oppure aggiungi `"Bash(node cervello/git-pr.mjs:*)"` all'allowlist in `.claude/settings.local.json`.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 ### ✅ #apri-pr-chat-annullato — FATTO 2026-07-18 02:26 · fix già su main (commit bba5495d) — nessuna PR necessaria
 
 Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più "🚫 Messaggio annullato." che sovrascrive la risposta precedente — è già deployato su Vercel.
