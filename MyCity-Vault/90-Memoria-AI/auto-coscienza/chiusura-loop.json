@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
-  "aggiornato": "2026-07-18 11:33",
+  "aggiornato": "2026-07-18 11:59",
   "soglia_giorni": 7,
   "totale": 120,
   "mancanti": 0,
@@ -644,7 +644,7 @@
       "mancante": false,
       "righe_esito": 113,
       "ultimo_esito": "2026-07-17 23:50",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },

@@ -1742,7 +1742,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-18 11:33",
+    "data": "2026-07-18 11:58",
     "loop_chiude": false,
     "tasso_applicazione": 0,
     "prova_chiusura": true,
@@ -1759,8 +1759,8 @@
     "sentinelle_scattano": true,
     "ore_da_ultima_completa": 36,
     "ore_da_ultimo_briefing": 0,
-    "max_giri_ciechi_sensori": 54,
-    "giri_tasso_basso": 21,
+    "max_giri_ciechi_sensori": 56,
+    "giri_tasso_basso": 22,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 20,
@@ -1770,14 +1770,14 @@
     "bloccanti_umani": 2,
     "salute_firma": "AR-124,AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 54 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 56 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 21,
-    "aggiornato": "2026-07-18 11:33"
+    "giri_tasso_basso": 22,
+    "aggiornato": "2026-07-18 11:58"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-18 11:33",
+    "aggiornato": "2026-07-18 11:59",
     "findings_aperti": 74,
     "findings_in_corso": 0,
     "findings_chiusi": 5,
@@ -1785,7 +1785,7 @@
     "cantiere_aperti": 24,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 51,
-    "match_aggiornati": 1,
+    "match_aggiornati": 0,
     "chiusi_verifica": 0,
     "data_scan": "2026-07-16 23:58"
   },
