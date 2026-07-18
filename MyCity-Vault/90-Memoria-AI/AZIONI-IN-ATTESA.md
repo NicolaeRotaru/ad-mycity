@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-14 01:12** — Nicola «pulisci coda»: **101 → 22** card in «Da approvare» (confermato 02:15). Archiviate merge duplicate, PR già mergiate, social Garetti e gate scaduti. +1 nuova card merge #368 (fix numeri) aggiunta dal worker dopo la pulizia.
+> 🧹 **Housekeeping 2026-07-18 14:20** — Automatico: **37 aperte · 83 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,19 +13,6 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
-
----
-
-### ❌ #mergia-pr-449 — ~~Mergia PR #449~~ → CHIUDI SENZA MERGE · 2026-07-18 ~14:45
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/449 · Branch: `fix/pannello-bloccanti`
-
-**Motivo:** la riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva anche modifiche ai guardiani che main aveva nel frattempo superato → conflitto irresolubile. Il contenuto utile è già operativo — non serve mergiare.
-
-**Azione:** chiudi PR #449 da GitHub **senza merge** (pulsante «Close pull request»).
-
-- **Stato:** ⚠️ da chiudere senza merge (housekeeping già su main)
-- **Reparto:** devops-sre
 
 ---
 
@@ -135,15 +122,6 @@ sudo systemctl restart mycity-worker-chat.service
 
 ---
 
-### ✅ #mergia-pr-444 — FATTO 2026-07-18 01:17 · PR #444 mergiata da Nicola direttamente da GitHub
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Commit `8f9fa641` su main. Ordinamento lista conversazioni ora su `created_at` (data creazione) — la chat più recente resta in cima senza scivolare. Confermato dal git log.
-
-- **Colore:** ✅ completato
-- **Reparto:** frontend-dev
-
----
-
 ### 🟡 #apri-pr-chat-4bug-ux — Apri PR: 4 fix UX chat Pannello (scroll, sticky, triplicazione) · ⏳ accodata 2026-07-18 03:00
 
 **Branch:** `fix/chat-4bug-ux` · commit `f4b3beff` (già su VPS, non ancora pushato su GitHub)
@@ -188,10 +166,6 @@ Oppure aggiungi `"Bash(node cervello/git-pr.mjs:*)"` all'allowlist in `.claude/s
 
 ---
 
-### ✅ #apri-pr-chat-annullato — FATTO 2026-07-18 02:26 · fix già su main (commit bba5495d) — nessuna PR necessaria
-
-Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più "🚫 Messaggio annullato." che sovrascrive la risposta precedente — è già deployato su Vercel.
-
 ### 🟡 #mergia-pr-446 — Mergia PR #446: fix chat cross-device (smartphone vede chat vuota invece di quella desktop) · ⏳ accodata 2026-07-18 02:30
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/446
@@ -226,53 +200,6 @@ Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più 
 
 - **Colore:** 🟡 (merge codice)
 - **Reparto:** frontend-dev
-
----
-
-### ✅ #mergia-pr-441 — FATTO 2026-07-18 01:18 · Nicola ha mergiato PR #441 direttamente da GitHub
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/441 · Branch: `fix/worker-chat-layout-v2`
-
-2 modifiche layout chat worker: (1) lista conversazioni si apre DENTRO il div centrato della chat, occupa il 50% della larghezza; (2) margini laterali ridotti del 50% (`max-w-3xl` → `max-w-5xl`). Fix desktop e mobile separati (spazi laterali solo desktop come da richiesta precedente PR #437).
-
-**Cosa cambia:** la lista conversazioni non esce fuori dalla chat ma scorre sopra di essa come un pannello laterale interno. La chat è visibilmente più larga sugli schermi grandi.
-**Se va bene:** layout chat worker aggiornato su Vercel; chat centrata e lista ben posizionata.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
-
----
-
-### ✅ #mergia-pr-439 — FATTO 2026-07-18 · Mergia PR #439: descrizioni caselle Pannello in linguaggio umano
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/439 · Mergiata da Nicola 2026-07-18.
-
-**Esito:** 8 tipi di avviso ora mostrano frasi in italiano leggibili; gergo tecnico in accordion collassabile. **Follow-up aperto (Nicola 18/7):** le descrizioni devono aggiungere (1) il nome del file/dato specifico rotto e (2) l'impatto concreto ("cosa ti sarebbe arrivato di sbagliato"). PR successiva da aprire.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
-
----
-
-### ✅ #riduci-watch-main-1min — FATTO 2026-07-18 02:00 · Nicola ha eseguito i comandi sudo, timer confermato a 1 minuto
-
-**Richiesta di Nicola (18/7):** «si può ridurre il tempo di aggiornamento del watch-main»
-
-**Cosa cambia:** la macchina vede i merge GitHub con max 1 minuto di ritardo invece di 5. Utile anche per confermare deploy veloci e avvisi di commit senza aspettare.
-
-**Come fare (3 comandi sudo sul VPS, Nicola esegue):**
-```bash
-sudo sed -i 's/OnUnitActiveSec=5min/OnUnitActiveSec=1min/' /etc/systemd/system/mycity-watch-main.timer
-sudo systemctl daemon-reload && sudo systemctl restart mycity-watch-main.timer
-systemctl status mycity-watch-main.timer
-```
-
-**Opzionale** — l'AD può aggiornare anche il template in repo (`cervello/vps/mycity-watch-main.timer`) così rimane a 1 min anche dopo una reinstallazione.
-
-**Se va bene:** la carta giusta apparirà FATTA molto prima in ogni ciclo; meno «l'ho già mergiato ma non lo vedi ancora».
-
-- **Colore:** 🟡 (sudo sistema — Nicola esegue)
-- **Reparto:** devops-sre
 
 ---
 
@@ -324,18 +251,6 @@ _(sostituisci 150 con il valore reale se diverso)_
 
 ---
 
-### ✅ #layout-chat-centrata — FATTO 2026-07-17 (mergiata da Nicola come PR #437)
-
-Chat centrata con bordi laterali solo su desktop, lista conversazioni affiancata al bordo destro del menù. Entrambi i fix confermati via PR #437 → merged.
-
----
-
-### ✅ #fix-guardiano-coerenza-fatti — FATTO 2026-07-17 23:31
-
-Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cervello/coerenza-fatti.mjs:*)"` in allowlist (e wildcard `node cervello/*.mjs`); (2) `giro.sh` lo chiama in automatico alle righe 296 e 597 senza passare per la chat. `settings.local.json` è in directory protetta (denied) — non modificabile dalla chat, ma non necessario perché le allow list sono additive. Nicola ha approvato la proposta dal Pannello 2026-07-17 23:29.
-
----
-
 ### 🟡 #inserisci-tazzina-pq — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52
 
 **Prodotto:** tazzina da espresso bianca con decorazioni colorate (blu/rosso, stile decorativo italiano) — PQ vende la tazzina stessa (oggetto fisico), non il caffè.
@@ -353,82 +268,6 @@ Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cer
 
 - **Colore:** 🟡
 - **Reparto:** supervisione-negozi / onboarding-negozi
-
----
-
-### ✅ #mergia-pr-433 — FATTO 2026-07-18 · Nicola ha confermato via chat: PR #433 già mergiata su GitHub
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2` · **Mergiata da Nicola**.
-
-**Prossimo passo (dal terminale VPS, ancora da fare):**
-1. `node cervello/pulisci-coda.mjs` — dry-run, vedi quanti pulisce senza toccare niente
-2. `node cervello/pulisci-coda.mjs --esegui` — esegue la pulizia
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** builder-automazioni
-
----
-
-### ❌ #post-vp-day-1707 — SCADUTA 2026-07-18 11:43 · VP (17/7) passato senza ordini, post "stasera" non pubblicabile
-
-**Contenuto completo:** `consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md`
-
-**Testo pronto (versione Gruppi Facebook):**
-
-> Stasera gran finale dei **Venerdì Piacentini** 🎶 — centro chiuso al traffico dalle 18, Via Calzolai in festa.
->
-> Se volete i freschi senza coda: **Pane Quotidiano** (bio dal '76, Via Calzolai) è già ordinabile su MyCity. Ordinate adesso, ve li portiamo a casa stasera oppure passate al banco quando siete in giro.
->
-> Link nel primo commento 👇
-
-**Testo pronto (versione IG/FB feed):**
-
-> 🌆 Stasera è il gran finale. Via Calzolai si accende alle 18.
->
-> Musica, centro pedonale, gente in strada. Il **Venerdì Piacentini** chiude la stagione stasera.
-> E noi siamo qui con **Pane Quotidiano** — bio e dietetica in città dal 1976, in Via Calzolai.
->
-> **Stasera è il tuo turno.**
-> Ordina su MyCity — te lo portiamo a casa, oppure ritiri al banco quando passi.
->
-> 👉 Link in bio · @mycity.piacenza · *La spesa che tiene viva la città.*
-
-**Prima di pubblicare serve da Nicola (2 minuti):**
-1. **Link marketplace** da inserire nel primo commento (VA al posto di `INSERISCI-LINK`)
-2. **Ok pubblicazione** (🔴)
-
-**Timing:** entro le 14:00 di oggi — chi pianifica l'uscita VP guarda il telefono nel pomeriggio.
-
-**Cosa cambia:** post day-of evento con CTA diretta — dopo 2 countdown (15/7 e 16/7) questo spinge chi era "quasi pronto" al primo ordine vero.
-**Se va bene:** primo click/ordine via UTM `vp17_day_1707` + PQ vede traffico reale dalla serata.
-
----
-
-### ❌ #touch1-vp17 — SCADUTA 2026-07-18 11:43 · VP (17/7) senza ordini, gate `DELIVERED` mai scattato
-
-**Trigger:** ordine cambia `delivery_status = DELIVERED` + `delivered_at` valorizzato
-**Timing:** +3h dalla consegna (non passare mezzanotte se consegnato tardi)
-**Canale:** WhatsApp/telefono del cliente dall'ordine · backup email in-app
-
-**Testo pronto:**
-
-> Ciao [NOME]! Sono Nicola di MyCity 👋
-> Ti è arrivata la spesa da **Pane Quotidiano**? Spero tutto fresco come al banco.
->
-> Siamo appena nati e ogni tua parola conta. **Com'è andata?**
-> 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema
->
-> Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
-> Grazie per aver scelto la bottega del quartiere 🧡
-
-Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → handoff @supporto, NON inviare Touch 2.
-
-**Cosa cambia:** primo feedback reale sul servizio — segnale di qualità e apertura della relazione col cliente.
-**Se va bene:** risposta positiva → parte Touch 2 domani mattina con link recensione.
-
-- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
-- **Reparto:** customer-success
-- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
 
 ---
 
@@ -456,87 +295,6 @@ Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → ha
 
 ---
 
-### ❌ #touch2-vp17 — SCADUTA 2026-07-18 11:43 · dipende da #touch1-vp17 (scaduta), VP senza ordini
-
-**Trigger:** Touch 1 (#touch1-vp17) ricevuto + risposta ≠ 👎
-**Timing:** domani mattina (18/7)
-**Canale:** stesso canale del Touch 1
-
-**Testo pronto:**
-
-> Buongiorno [NOME]! Come promesso, ecco il link per lasciare **due righe su Pane Quotidiano** 🌟
-> 👉 https://mycity.piacenza.it/negozi/pane-quotidiano/recensione?order=[ID-ORDINE]
->
-> Bastano 30 secondi: stelline + una frase vera.
-> Sarebbe la **prima recensione verificata di MyCity a Piacenza** — grazie di cuore!
-
-Sostituire `[NOME]` e `[ID-ORDINE]` con i dati reali. Aprire il link LIVE prima di inviare.
-
-**Cosa cambia:** prima recensione verificata di MyCity — social proof reale per chi guarda il negozio.
-**Se va bene:** PQ ha la prima stella verificata. Logo "Recensito" sulla vetrina.
-
-- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
-- **Reparto:** customer-success
-- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
-
----
-
-### ✅ #volano-soglia-fix — Soglia volano abbassata al 5% · FATTO 2026-07-17 12:30
-
-Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live dopo il merge della PR (#push-pr-bloccanti).
-
----
-
-### ✅ #push-pr-bloccanti — Pusha e apri PR per i 3 fix bloccanti macchina · FATTO 2026-07-17 20:45
-
-**PR #435 aperta:** https://github.com/NicolaeRotaru/ad-mycity/pull/435 — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti. → vedi card `#mergia-pr-435` per il merge.
-
----
-
-### ✅ #mergia-pr-436 — FATTO 2026-07-18 · PR #436 mergiata (commit a41cc359)
-
-Fix crash `allinea-scan-cantiere.mjs` — rimossa variabile `votoLive` mai definita. Il guardiano ora batte regolarmente.
-
----
-
-### ✅ #mergia-pr-435 — FATTO 2026-07-18 · PR #435 mergiata (commit e8afc18f)
-
-3 fix live: chat più veloce (polling mirato), soglia volano 5%, voto salute stabile.
-
----
-
-
-### ✅ #mergia-pr-430 — FATTO 2026-07-18 · PR #430 mergiata (commit 7063aa0d)
-
-Bottone fluttuante + schermo intero Worker con navbar visibile.
-
----
-
-### ✅ #mergia-pr-431 — FATTO 2026-07-18 · PR #431 mergiata (commit 2d30ef19)
-
-Debounce messaggi multipli: nessun messaggio viene ignorato durante l'elaborazione.
-
----
-
-### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
-
-Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
-
----
-
-### ✅ #fix-invia-mobile — PR #427 aperta dall'AD · FATTO 2026-07-17 04:00
-
-L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passaggi manuali di Nicola. Fix: `flex-wrap: wrap` in `BarraScritturaChat.tsx`.
-
----
-
-### ✅ #push-video-live-chat — Branch pushato e PR #428 aperta · FATTO 2026-07-17 06:45
-
-Branch `fix/video-live-chat` pushato su origin, rebase su main completato, build verde (compiled successfully 11.3s, zero errori TS).
-PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
-
----
-
 ### 🟡 #push-volano-fix — Pusha memoria (volano) e apri PR per il fix tasso-lezioni · ⏳ accodata 2026-07-17 07:05
 
 **Cosa cambia:** il commit `6955feee` (5 lezioni marcate con usi reali) è locale su VPS ma non ancora su GitHub; il branch `feature/volano-tasso-lezioni-blob` ha il fix che rimuove le _nota_giro_ dal blob di string-match del tasso.
@@ -552,21 +310,6 @@ PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
 
 ---
 
-### ✅ #mergia-pr-428 — Mergia PR #428: video live con microfono e chat · FATTO 2026-07-17 10:20
-
-**Cosa fare:** vai su GitHub → PR #428 → clicca "Merge pull request".
-→ https://github.com/NicolaeRotaru/ad-mycity/pull/428
-
-4 file: `BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx` — telecamera (55%) + chat (45%) su desktop, stacked mobile.
-
-**Cosa cambia:** nel video live puoi scrivere, dettare col microfono e vedere la conversazione senza uscire dalla telecamera.
-**Se va bene:** Vercel builda in ~2 min e la feature è live.
-
-- **Colore:** 🟡 (merge → Nicola)
-- **Reparto:** frontend-dev
-
----
-
 ### 🟡 #push-main-memoria — Pusha main su GitHub (2 commit memoria non pubblicati) · ⏳ accodata 2026-07-17 06:45
 
 **Cosa fare:** dal VPS esegui: `git push origin main`
@@ -578,12 +321,6 @@ PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
 
 - **Colore:** 🟡
 - **Reparto:** AD / devops-sre
-
----
-
-### ✅ #mergia-pr-427 — FATTO 2026-07-18 · PR #427 mergiata (commit f70e06a5)
-
-Tasto Invia visibile su tutti gli smartphone.
 
 ---
 
@@ -612,28 +349,6 @@ PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato
 
 - **Colore:** 🟡 (azione su GitHub → Nicola)
 - **Reparto:** frontend-dev
-
----
-
-### ✅ #mergia-pr-424 — PR #424 mergiata · FATTO 2026-07-17 02:09
-
-**APPROVATA** da Nicola via Pannello · 2026-07-17 02:08 · SHA merge: `6c41f2f708f6d3f787d42a6ff88f667e5283f118`
-
-**Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
-
-**Per metterlo live:** mergia PR #424 → https://github.com/NicolaeRotaru/ad-mycity/pull/424
-
-**Cosa cambia:** (1) doppia risposta eliminata — check coda sincrono su `pendingLavoroChatRef`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio funziona su smartphone anche durante l'elaborazione.
-**Se va bene:** chat stabile su tutti i dispositivi; live su Vercel in ~2 min.
-
-- **Colore:** 🟡 (merge su main → Nicola)
-- **Reparto:** frontend-dev
-
----
-
-### ✅ #vercel-token-vps — VERCEL_TOKEN attivo · FATTO 2026-07-17 ~02:20
-
-Token in `cervello/vps/.env` ✅ · Worker riavviato da Nicola ("adesso l'ho riavviato") ✅ · MCP Vercel disponibile dalla prossima sessione.
 
 ---
 
@@ -688,10 +403,6 @@ Fix = DUE modifiche nel worker:
 
 ---
 
-### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
-
----
-
 ### 🟡 #thinking-budget-vps — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
 
 **Cosa fare (sul VPS, nel `.env` del worker-chat):**
@@ -707,58 +418,6 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 - **Reparto:** prompt-engineer
 
 ---
-
-### ✅ #pr-411-chat — PR #411 mergiata da Nicola · FATTO 2026-07-16 ~17:30
-
-Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore TypeScript TS2367 in `page.tsx:2959` — fix in branch separato (vedi #fix-vercel-ts-2959 sotto).
-
----
-
-### ✅ #pr-416-skill-tab — PR #416 mergiata da Nicola · FATTO 2026-07-17 (merge 73e79d97)
-
-Chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge.
-
----
-
-### ✅ #pr-419-chat-3fix — PR #419 mergiata da Nicola · FATTO 2026-07-17 (merge f3389eb8)
-
-Chat stabile: niente doppioni, niente lampeggio, bottone invio funziona su mobile. TS2367 risolto nel merge.
-
----
-
-### ✅ #fix-vercel-ts-2959 — Fix TS2367 incluso nel merge PR #419 · FATTO 2026-07-17
-
-`const chatVisibile = chatFluttuante` incorporato da Nicola nel merge di PR #419 (f3389eb8). Branch separato non necessario.
-
----
-
-### ✅ #pr-415-chat-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f — conv in cima + pulsanti in basso)
-
----
-
-### ✅ #burn-mensile-runway — APPROVATA 2026-07-16 21:17 · esegui il comando sul VPS
-
-**Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
-
-**Nicola: esegui questo comando sul VPS** (una sola volta):
-```bash
-echo '' >> /opt/mycity/ad-mycity/cervello/vps/.env
-echo '# Burn mensile stimato (stima 150€ — aggiorna con il valore reale)' >> /opt/mycity/ad-mycity/cervello/vps/.env
-echo 'BURN_MENSILE_EUR=150' >> /opt/mycity/ad-mycity/cervello/vps/.env
-```
-Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostituisci `150` con il numero giusto prima di eseguire.
-
-**Stato:** Nicola ha approvato dal Pannello (21:17:43). File `.env` protetto da permessi — scrittura solo da Nicola.
-
-**Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
-**Se va bene:** da prossimo giro vedrai il runway nel cruscotto (con cassa 0€ = runway critico → plan con @fp-and-a).
-
-- **Colore:** 🟡 (modifica env VPS)
-- **Reparto:** finanza
-- **Origine:** `{origine:sentinella:cassa_sconosciuta}`
-
----
-
 
 ### 🟡 #checkin-pq-postvp — Senti il fornaio il prima possibile: com'è andata venerdì e cosa facciamo adesso · ⏳ accodata 2026-07-18 01:09
 
@@ -791,31 +450,6 @@ Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostitui
 
 ---
 
-### ❌ #ritiro-pq-vp17-checkin — SCADUTA 2026-07-18 01:09 · sostituita da #checkin-pq-postvp
-
-> Il VP del 17/7 è già passato. Card originale: chiamare giovedì 16/7 per confermare il presidio. Quella finestra è chiusa — il follow-up post-VP è la nuova card qui sopra.
-
-> **Contesto anti-churn 15/7 12:56:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Re-accodamento **saltato** (cooldown 24h). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
-
-**Quando:** **giovedì 16/7 mattina** (T-1 al Venerdì Piacentini).
-
-**Chi chiami:** Pane Quotidiano · **0523 388601** · Via Calzolai 25.
-
-**Script (2 minuti, tono relazione — non «ci manchi»):**
-
-> «Ciao, sono Nicola di MyCity. Venerdì sera c'è il Venerdì Piacentini — centro pieno. Ti va se passo da te al banco con il QR e restiamo lì un'oretta? I clienti ordinano e **ritirano da te** (la bici non è ancora pronta). Così proviamo il primo ordine vero insieme, senza stress di consegna a domicilio.»
-
-**Cosa cambia:** il fornaio sa che venerdì non resta solo — il rischio «qui non vendo mai» si abbassa prima del VP.
-**Se va bene:** venerdì 17/7 al banco → primo ordine ritiro → North Star 0→1 → payout-test (#41).
-
-- **Colore:** 🟡 (telefonata a negoziante reale — Nicola la fa)
-- **Canale:** telefono
-- **Reparto:** account-negozi
-- **Origine:** `{origine:playbook:negozi-calo}`
-
----
-
-
 ### 🔴 #post-kefir-estate-1407 — Pubblica "La vera stella della colazione" sui canali locali · ⏳ accodata 2026-07-14 02:43
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
@@ -842,394 +476,6 @@ Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostitui
 
 ---
 
-
-### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ nona prova streaming in corso
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** il Pannello aggiorna la bolla chat in tempo reale mentre l'AD scrive (poll UI) e fissa i pallini che tornavano ad ogni pezzo di streaming.
-
-**PR su GitHub:** [#342 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/342) ← commit `6ee0ac4a`
-
-**Esito 18:41:** diagnosi verificata — worker già scriveva parziali in DB; collo di bottiglia era il Pannello, non il VPS.
-
-**Esito 18:50:** Nicola «fatto» — merge eseguito; quinta prova streaming.
-
-**Esito 18:54:** Nicola «fai la prova» — sesta prova streaming; esito non dichiarato.
-
-**Esito 18:56:** Nicola «rifai la prova» — settima prova streaming; esito non dichiarato.
-
-**Esito 19:02:** Nicola «**cresce live, però solo alla fine**» + «non da quando inizi» — **progresso parziale** (primo «cresce live» dopo 7 prove); tema **non chiuso** — serve #343 + aggiorna-cervello.sh per streaming dall'inizio.
-
-**Esito 19:13:** Nicola «**ok fatto**» — VPS allineato (`aggiorna-cervello.sh` completato, worker-chat riavviato 19:10); **nona prova** streaming in corso.
-
-**Esito 19:15:** Nicola feedback 3 punti — (1) «Sto elaborando…» subito **sì** · (2) testo vero **solo alla fine** · (3) pallini **uguali**. Streaming parziale (#343 ok placeholder); pallini #342 insufficiente — **tema aperto**.
-
-**Esito 19:23:** Nicola «**2) tutto insieme**» — testo finale non cresce parola per parola nemmeno negli ultimi secondi; arriva in un colpo solo. Prossimo fix = diagnosi parziali DB vs Pannello, non merge/restart.
-
-**Esito 14/7 02:37:** riapprovazione Pannello 00:35 — merge **già eseguito** su GitHub (`2e273311`, 13/7 18:46). Worker: `esegui-azione github-merge` → «PR #342 non è aperta (stato: closed)» exit 1 — obiettivo già raggiunto, nessun secondo merge.
-
-- **Colore:** ✅ merge fatto · ⏳ streaming testo vero (tutto insieme) + pallini ancora aperti
-
----
-
-
-### ✅ #pr-343-streaming-reattivo-inizio — MERGIATA 2026-07-13 ~19:05 · ✅ Nicola «ok fatto» 19:13
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** mostra «Sto elaborando…» / «Sto verificando i dati…» subito dopo l'invio e aggiorna la bolla più spesso — lo streaming parte dall'inizio, non solo in fase testo finale.
-
-**PR su GitHub:** [#343 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/343)
-
-**Esito 19:10:** VPS usciva RIMANDATO (branch `fix/streaming-piu-reattivo-inizio`) — AD ha chiuso branch → main `5a6bd24b`, codice #343 su disco.
-
-**Esito 19:13:** Nicola «**ok fatto**» — `aggiorna-cervello.sh` completato, worker-chat riavviato 19:10, codice #343 live; nona prova streaming in corso.
-
-**Esito 19:15:** Nicola — (1) «Sto elaborando…» subito **sì** (#343 ok) · (2) testo vero **solo alla fine** (obiettivo non raggiunto) · (3) pallini **uguali** (track separato).
-
-**Esito 19:23:** Nicola «**2) tutto insieme**» — nemmeno parola per parola negli ultimi secondi; #343 raggiunge solo placeholder iniziale.
-
-- **Colore:** ✅ merge fatto · ⏳ testo vero tutto insieme — serve fix oltre #343 (DB vs Pannello)
-
----
-
-
-### ✅ #pr-341-streaming-vps-allineamento — MERGIATA 2026-07-13 ~18:50 · ✅ Nicola «fatto»
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** allinea codice VPS da GitHub e riavvia **entrambi** i worker (principale + chat); fix streaming poll 1s + testo semplice mentre scrivo — chiude il buco «restart non basta».
-
-**PR su GitHub:** [#341 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/341) ← commit `cf690e6e`
-
-**Esito 18:50:** Nicola «fatto» — merge + procedura completati insieme a #342.
-
-- **Colore:** ✅ merge fatto · ✅ Nicola ha eseguito procedura 13/7 ~18:50
-
----
-
-
-### ✅ #pr-340-pallino-mancante — MERGIATA 2026-07-13 ~18:14 · ⏳ deploy Vercel + test Nicola
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — pallino sparisce solo se la chat è davvero a schermo (tab Assistente o drawer fluttuante).
-
-**PR su GitHub:** [#340 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/340) ← merge `824e1759`, commit `eef9e4f4`
-
-**Esito verifica 18:15:** codice su main ok; test B = scrivi → Plancia → elenco Conversazioni deve mostrare pallino dopo risposta AD.
-
-**Esito 18:27:** Nicola «merge non lette» — fix è su Vercel, non worker; serve deploy + Ctrl+F5 (restart worker non cambia pallini).
-
-**Pendente:** refresh forzato Pannello (Ctrl+F5) post-deploy Vercel.
-
-- **Colore:** ✅ merge fatto · verifica UX post-deploy
-
----
-
-
-### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ✅ riavvio worker FATTO 18:22 · ⏳ aggiorna-cervello.sh
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
-
-**PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← merge `d7881680`, commit `1081be71`
-
-**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola.
-
-**Esito 18:22:** Nicola ha eseguito `sudo systemctl restart mycity-worker-chat` + Ctrl+F5.
-
-**Esito 18:27:** streaming **ancora rotto** — restart non aggiorna codice su disco; serve **#341** + `aggiorna-cervello.sh`.
-
-- **Colore:** ✅ merge fatto · ⏳ VPS allineamento via #341
-
----
-
-
-### ✅ #pr-338-streaming-pallini — MERGIATA 2026-07-13 ~17:58 · ✅ riavvio worker FATTO 18:22
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat (`segnaLetta` salva orario «adesso» in persist).
-
-**PR su GitHub:** [#338 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/338) ← merge `81c28c0b`, commit fix `30c4c614`
-
-**Esito:** Nicola riconferma pallino ancora visibile ~18:01 — probabile versione Vercel pre-deploy (2–3 min). Test post-deploy: refresh forzato → apri chat col pallino → resta 15s → pallino non torna.
-
-**Esito 18:22:** Nicola ha eseguito restart worker + Ctrl+F5 — streaming live ora testabile; pallini da verificare post-deploy.
-
-- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
-
----
-
-
-### ✅ #pr-337-git-pr-body-gate — MERGIATA 2026-07-13 ~17:49
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** `git-pr.mjs` si ferma se manca il body reale (cosa/perché/come provare) — niente più PR con solo «PR aperta dall'AD…»; se la PR esiste già, aggiorna la descrizione quando il testo è diverso.
-
-**PR su GitHub:** [#337 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/337) ← body verificato 997 caratteri
-
-**Cosa cambia:** da oggi nessuna PR nuova può aprirsi senza spiegazione in italiano dentro GitHub — lo script blocca l'AD se dimentica.
-**Se va bene:** prova ad aprire una PR senza body: deve fallire con messaggio chiaro.
-
-- **Colore:** ✅ merge fatto (#337 live)
-
----
-
-
-### ✅ #pr-336-pallini-poll — MERGIATA 2026-07-13 ~17:49 · residuo → #338
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
-
-**PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, mergiata ~17:49
-
-**Esito:** Nicola riconferma pallino ancora rosso post-merge — race `persistConversazione` coperta in **#338** (mergiata ~17:58).
-
-- **Colore:** ✅ merge fatto · fix completo in #338 mergiata
-
----
-
-
-### ❌ #pr-334-pallini-poll — ANNULLATA 2026-07-13 17:51 · sostituita da #336
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** Nicola «c'è un conflitto» — #334 partiva da codice vecchio e mescolava fix già su main (#328/#332/#333). Stesso bug coperto da **#336** (ribasata su main, merge simulato OK).
-
-**Da fare:** Chiudi PR #334 su GitHub **senza mergiare** (se ancora aperta).
-
-- **Colore:** 🟢 (annullata — nessun merge)
-
----
-
-
-### ✅ #pr-335-streaming-chat — MERGIATA 2026-07-13 ~17:49 · ⚠️ fix annullato su main
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** riattiva lo streaming in chat quando il motore è Cursor — il testo compare nel Pannello mentre l'AD lavora.
-
-**PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← fix buono `db0552a0`, merge ha portato `68c15aa4` con codice vecchio
-
-**Esito:** streaming rotto su main — ripristino in **#338** (mergiata ~17:58). Dopo merge: `sudo systemctl restart mycity-worker-chat`.
-
-- **Colore:** ✅ merge fatto · fix in #338 mergiata · riavvio worker pendente
-
----
-
-
-### ✅ #pr-331-worker-plugins-fase3 — MERGIATA 2026-07-13 · ✅ riavvio worker FATTO 18:22
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** aggiunge al manifest 8 skill GitHub (21 totali): debug sistematico, design moduli, Supabase, Postgres, cross-repo, PDF/Excel/Word.
-
-**PR su GitHub:** [#331 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/331) ← commit `41ab7192`
-
-**Esito audit 17:55:** su main ma worker **non riavviato** dal 16:08 — plugin fase 3 non caricati live.
-
-**Esito 18:22:** Nicola ha riavviato `mycity-worker-chat` — plugin fase 3 ora caricabili live.
-
-- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
-
----
-
-
-### ✅ #pr-329-agent-registry — MERGIATA 2026-07-13 · card coda ancora «chiusa»
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** guardiano agenti legge le `description` di routing e segnala collisioni (fraud-risk/trust-safety).
-
-**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← commit `53afcdcc`
-
-**Esito audit 17:55:** su main; card #101 in coda Pannello non ancora aggiornata.
-
-- **Colore:** ✅ merge fatto
-
----
-
-
-### ❌ #pr-327-pallini-badge — ANNULLATA 2026-07-13 17:16 · sostituita da #328
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** Nicola «le mergio entrambe?» — #327 era fix incompleto (solo badge, senza sync server cross-device). Stesso bug coperto da **#328** (commit `812cff8b`, conflitti risolti).
-
-**Da fare:** Chiudi PR #327 su GitHub **senza mergiare**. Mergia solo **#328** (card #102).
-
-- **Colore:** 🟢 (annullata — nessun merge)
-
----
-
-
-### ❌ #pr-332-pallini-orologio — ANNULLATA 2026-07-13 17:45 · sostituita da #336
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** fix incompleto — Nicola conferma che il pallino riaccende ancora dopo ~5s. Stesso bug coperto da **#336** (max orario chat+lavoro + riallineamento al poll). #334 annullata 17:51 (conflittuale).
-
-**Da fare:** Chiudi PR #332 su GitHub **senza mergiare**. Mergia solo **#336** (card #108).
-
-- **Colore:** 🟢 (annullata — nessun merge)
-
----
-
-
-### ❌ #pr-328-pallini-sync — GIÀ SU MAIN 2026-07-13 17:51 · chiudere PR se ancora aperta
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** fix pallini sync telefono/PC (#328) già mergiato su main insieme a #332/#333. Nicola non deve mergiare di nuovo.
-
-**Da fare:** Se #328 è ancora aperta su GitHub, **chiudila senza merge**. Per il residuo pallino ~5s → solo **#336** (card #108).
-
-- **Colore:** 🟢 (già su main — nessun merge richiesto)
-
----
-
-
-### ✅� #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ chiusa · accodata 2026-07-13 14:33
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** sotto ogni scheda gialla «memoria incoerente» in Avvisi compare il link **«Parla con questa casella»** — apri chat contestuale, l'AD vede il testo completo dell'avviso e la data.
-
-**PR su GitHub:** [#323 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/323)
-
-**Cosa cambia:** da sola lettura dell'avviso a dialogo con l'AD su cosa significa e cosa fare — stesso pattern delle altre card del Pannello.
-**Se va bene:** mergi #323 dal Pannello → deploy Vercel → Avvisi → sotto ogni scheda gialla trovi «Parla con questa casella».
-
-- **Colore:** 🟢🟢 (merge dal Pannello — card #96)
-
----
-
-
-### ❌ #pr-320-worker-plugins — ANNULLATA 2026-07-13 17:19 · plugin fase 1 già su main
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** Nicola segnalò conflitto su #320 — stessi file già entrati su `main` con recovery worker (`601aec92`/`f5f5ae96`, 13/7 12:32–12:37). Manifest, sync, grilling, ponytail e caveman-internal già live.
-
-**Da fare:** Chiudi PR #320 su GitHub **senza mergiare** (come #316). Fase 2 = **PR #330 mergiata** (`ac9e24a9`). Dopo: **riavvia worker** una volta per caricare le 14 skill del manifest.
-
-- **Colore:** 🟢 (già su main — nessun merge richiesto)
-
----
-
-
-### ✅� #pr-319-volano-tasso — Mergia PR #319: fix volano tasso lezioni (ESITI quaderni + STATO) · ⏳ chiusa · accodata 2026-07-13 12:42
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** il calcolo del tasso lezioni legge anche gli ESITI dei quaderni senior e le citazioni in STATO, non solo i briefing — tasso onesto **0,29** (39/133). Fix pipeline in `giro.sh` + `tasso-lezioni.mjs` + `sentinella-dati.mjs`.
-
-**PR su GitHub:** [#319 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/319) ← branch `fix/volano-tasso-lezioni`, commit `2d8ff61f` (conflitti risolti 13/7 12:42 — uniti #317+#318 su main)
-
-**Cosa cambia:** il volano auto-coscienza misura le lezioni realmente applicate nel lavoro, non sottostima più.
-**Se va bene:** mergi #319 dal Pannello → prossimo giro aggiorna sentinella volano con tasso corretto.
-
-- **Colore:** 🟢🟢 (merge dal Pannello — card #96)
-
----
-
-
-### ✅ #pr-305-ordine-conversazioni — FATTO 2026-07-12 17:44 · fix già su main via PR #303 mergiata da Nicola
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine stabile (pinnate 📌 + data creazione). Commit `67c6b804` su main. PR #305/#306/#304 doppioni da chiudere senza merge (conflitti su file cervello). Deploy Vercel automatico.
-
-- **Colore:** 🟢 (già merged via #303)
-
----
-
-
-### ✅ #pr-297-archivio-parallelo — FATTO 2026-07-18 · PR #297 mergiata (commit 8afd6fd3)
-
-Archivio carica in 1-2 sec con `Promise.all()` invece di 15 sec in fila.
-
----
-
-
-### ❌ #pr-299-badge-fix — SOSTITUITA da PR #316 · 2026-07-13 12:14
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** PR #299 (fix parziale badge) superata da #316 che unisce sync chat cross-device + logica badge completa secondo specifica Nicola 13/7.
-
-**Da fare:** Chiudi PR #299 su GitHub senza mergiare. ~~Mergia **#316**~~ → sync già su main (#317); chiudi #316 senza merge.
-
----
-
-
-### ❌ #pr-316-chat-sync-badge — SOSTITUITA · sync già su main · 2026-07-13 12:39
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** sync chat PC↔telefono + fix pallini rossi entrati su `main` con merge #317 (13/7 ~12:30). PR #316 obsoleta — stesso fix già live.
-
-**Da fare:** Chiudi PR #316 su GitHub **senza mergiare**. Chiudi anche #299 se ancora aperta.
-
----
-
-
-### ✅� #pr-318-chat-ux-tre-fix — Mergia PR #318: X prompt + chat evidenziata + annulla invio · ⏳ chiusa · accodata 2026-07-13 12:27
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa fa:** (1) **X** sulla card «Prompt pronto» — chiudi senza copiare; (2) chat aperta **evidenziata** nel cassetto (bordo colorato + «aperta ora»), anche in chat fluttuante; (3) **Annulla invio** mentre compare «sto pensando…» — ferma l'AD, toglie il messaggio, rimette il testo nella casella.
-
-**PR su GitHub:** [#318 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/318) ← branch `fix/chat-ux-tre-fix`, commit `03751823`, solo `globals.css` + `page.tsx` (conflitti risolti 13/7 12:39 — file worker contatore lezioni rimossi dal branch)
-
-⚠️ **Non mergiare #316** — sync già su main. Opzionale: chiudi #316 senza merge.
-
-**Cosa cambia:** UX chat più controllabile — chiudi prompt, vedi quale chat hai aperto, annulla invii per sbaglio.
-**Se va bene:** deploy automatico Vercel; i tre fix online su PC e telefono.
-
-- **Colore:** 🟢🟢 (merge dal Pannello — card #94)
-
----
-
-
-### ✅ #pr-conv-pin-badge — FATTO 2026-07-12 02:22 · PR #294 MERGIATA da Nicola · pin + badge "non letto" live
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Feature: graffetta (📌) per pinnare chat in cima + pallino rosso per messaggi non letti (localStorage). PR #292 e #293 scartate per conflitti su file di memoria → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito.
-
-⚠️ **Chiudi PR #292 e #293 su GitHub senza mergiare** (superate da #294 già merged).
-
-- **Colore:** 🟢 (già merged)
-
----
-
-
-### ❌ #pr-290-report-piani — CHIUDERE SENZA MERGE · PR #290 basata su malinteso · 2026-07-12 01:39
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa è successo:** PR #290 spostava "Archivio" in una sezione dedicata "Report & Piani" nel sidebar. Nicola ha chiarito che NON vuole quella sezione — vuole rimettere "Archivio" com'era prima (dentro "Approfondisci"). La PR #290 va chiusa su GitHub **senza mergiare**.
-
-**Cosa voleva davvero Nicola:** il navigatore ad albero (Opzione A). **Già fatto:** commit `cc99d5e7` su main, deploy automatico in corso — Archivio mostra cartelle cliccabili.
-
-**Da fare:** Nicola chiude PR #290 su GitHub senza mergiare (il navigatore è già live senza bisogno di quella PR).
-
----
-
-
-### ❌ #pr-289-guard-pannello-main — SOSTITUITA da PR #295 (aveva conflitti) · 2026-07-12 02:35
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-PR #289 aveva conflitti su `sentinella-dati.json` e `routing.json`. Sostituita da PR #295 (branch pulito, zero conflitti). **Chiudi PR #289 su GitHub senza mergiare.**
-
----
-
-
-### ✅ #pr-295-guard-pannello-main-v3 — FATTO 2026-07-12 02:40 · PR #295 MERGIATA da Nicola · guard giro.sh v3 live
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-La guard in `giro.sh` è attiva: il sistema di recupero VPS non commette più `pannello/` o `cervello/` su main automaticamente.
-
-⚠️ **Chiudi PR #289 su GitHub senza mergiare** — superata da #295 già merged.
-
-- **Colore:** 🟢 (già merged)
-
----
-
-
-### ✅ #pr-288-scroll-chat — FATTO 2026-07-12 01:14 · Fix già su main (commit bf1ac43d) — nessuna PR da mergiare
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Il sistema di recupero VPS ha committato il fix `forzaScrollRef` direttamente su main, come già successo con PR #286. **PR #288 va chiusa su GitHub (è superata — la modifica è già live).** La chat ora si apre sempre all'ultimo messaggio.
-
-- **Colore:** 🟢 (già su main)
-
----
-
-
 ### 🟡 #pr-archivio-sezioni-chiuse — Pusha il branch e apri PR: sezioni Archivio chiuse di default · ⏳ IN ATTESA · accodata 2026-07-12 00:46
 
 **Cosa fa:** le sezioni dell'Archivio (account-negozi, Audit & radiografie, ecc.) partono chiuse invece di aperte. Clicchi sul titolo → si apre; clicchi ancora → si richiude. Freccia ruota di 180°. La ricerca mostra i risultati comunque.
@@ -1247,107 +493,6 @@ Il sistema di recupero VPS ha committato il fix `forzaScrollRef` direttamente su
 - **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
 
 ---
-
-
-### ✅ #pr-chat-fluttuante-v2 — FATTO 2026-07-12 00:42 · Fix già su main (commit 4bcdd5c5) — nessuna PR da mergiare
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Il sistema di recupero ha committato il fix direttamente su main prima che fosse possibile mergiare la PR #286. **PR #286 va chiusa su GitHub (è superata — la modifica è già live).**
-
-- **Colore:** 🟢 (già su main)
-
----
-
-
-### ✅ #pr-284-archivio — FATTO 2026-07-12 00:40 · PR #287 mergiata da Nicola · "Archivio" ora nel menu del Pannello
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
-
----
-
-
-### ✅ #pr-276-grafica-chat-coda — FATTO 2026-07-12 02:44 · PR #276 MERGIATA da Nicola · grafica "In coda" a 3 livelli live
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-La sezione **Lavori** del Pannello mostra ora 3 stati visivi distinti: in elaborazione (animato), in coda (grigio), errore (rosso). PR #275 (superata) chiusa. Deploy Vercel automatico.
-
-- **Colore:** 🟢 (già merged)
-
----
-
-
-### ✅ #pr-274-memoria-chat — FATTO 2026-07-12 02:44 · PR #274 MERGIATA da Nicola · chat con memoria sessioni precedenti live
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Ogni messaggio include automaticamente le ultime conversazioni compresse. #272 (contesto memoria in coda), #270 (errori AutoCoscienza), #269 (chat caselle compatta) — tutte mergiata nello stesso batch. Deploy Vercel automatico.
-
-- **Colore:** 🟢 (già merged)
-
----
-
-
-### ✅ #crea-tabella-conversazioni — FATTO 2026-07-12 01:30 · Nicola ha eseguito il SQL su Supabase SQL Editor · tabella `conversazioni` + index + RLS + policy creati nel DB Memoria
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-⚡ **APPROVATA in chat da Nicola il 12/7 00:35 ("fallo tu")** — firma data. Il MCP Supabase Memoria è connesso (`apply_migration` disponibile). L'AD può eseguire direttamente nel prossimo turno.
-
-**Problema:** le chat del Pannello si perdono a ogni ricarica perché la tabella `conversazioni` non esiste nel DB Memoria. Il codice è pronto, la tabella no.
-
-**Passi — firma Nicola (2 opzioni):**
-
-**Opzione A — 3 minuti su Supabase (subito):**
-1. Vai su [supabase.com](https://supabase.com) → progetto Memoria (`xjljcsorpbqwttrejqte`)
-2. SQL Editor → incolla e clicca **Run**:
-```sql
-create table if not exists public.conversazioni (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz default now(),
-  updated_at timestamptz default now(),
-  titolo text not null default 'Conversazione',
-  messaggi jsonb not null default '[]'::jsonb,
-  ultima_lettura timestamptz
-);
-create index if not exists conversazioni_updated_at_idx on public.conversazioni (updated_at desc);
-alter table public.conversazioni enable row level security;
-create policy "service role full access" on public.conversazioni
-  using (true) with check (true);
-```
-
-> ⚡ **Aggiornato 2026-07-12:** aggiunto `ultima_lettura timestamptz` — usato per mostrare il badge "non letto" nella lista conversazioni (se l'ultimo messaggio AI è più recente di `ultima_lettura`, compare il pallino). Si aggiorna ogni volta che si apre la chat. Richiesto da Nicola 12/7.
-
-**Opzione B — aggiungi token al VPS (poi l'AD crea la tabella da solo):**
-- Aggiungi `SUPABASE_ACCESS_TOKEN` (Management API token da supabase.com/account/tokens) nel file `.env` del VPS
-
-**Cosa cambia:** le chat vengono salvate e sincronizzate — non si perdono più a ogni ricarica.
-**Se va bene:** riapri il Pannello e la chat ripartirà da dove l'hai lasciata.
-
-- **Colore:** 🔴 (operazione DB in produzione — firma Nicola)
-- **Blocco n.1** da risolvere prima di `#allegati-vercel-env` (le env var servono, ma senza tabella non basta)
-
----
-
-
-### ✅ #allegati-vercel-env — FATTO 2026-07-13 17:28 · Nicola «ok #60» · variabili Storage su Vercel attive, upload verificato live
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Problema:** il Pannello non riesce a far leggere all'AD i file allegati. Il Pannello li carica su Supabase Memoria Storage, poi manda il percorso al worker. Il caricamento fallisce perché Vercel non ha le credenziali Supabase.
-
-**Passi (2 minuti, su [vercel.com](https://vercel.com)) — firma Nicola:**
-1. Vai al progetto Pannello → **Settings → Environment Variables**
-2. Aggiungi `SUPABASE_URL` = `https://xjljcsorpbqwttrejqte.supabase.co`
-3. Aggiungi `SUPABASE_SERVICE_KEY` = valore dalla riga `SUPABASE_SERVICE_KEY=eyJhbGci…` nel file `.env` del VPS
-4. Clicca **Save** — il prossimo deploy le userà automaticamente
-
-**Nota:** il worker VPS ha già entrambe le chiavi e sa scaricare i file — manca solo il lato Vercel.
-
-**Cosa cambia:** il Pannello riesce a caricare file su Supabase Memoria; l'AD può leggerli e rispondere al loro contenuto.
-**Se va bene:** test immediato — allega un file in chat e l'AD risponde al contenuto (no più errore).
-
-- **Colore:** 🔴 (variabili d'ambiente in produzione — firma Nicola)
-
----
-
 
 ### 🟡 #recensioni-trigger — Attiva il messaggio "grazie + recensione" automatico dopo ogni consegna · ⏳ IN ATTESA · accodata 2026-07-11 15:50
 
@@ -1368,45 +513,6 @@ create policy "service role full access" on public.conversazioni
 - **Attiva quando:** primo negozio online post-13/7, prima di accettare ordini reali
 
 ---
-
-
-### ✅� #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ chiusa · accodata 2026-07-11 15:30
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Contenuto completo:** `consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md`
-
-**Testo pronto (versione Gruppi Facebook — dal profilo personale del fondatore):**
-
-> Lunedì mattina mi alzo presto, prendo la bici e giro nel centro storico di Piacenza.
->
-> Busso alle saracinesche delle botteghe che voglio portare su MyCity. Di persona.
->
-> Non mando una mail. Non pago un agente. Ci vado io.
->
-> Perché se dico ai piacentini "la tua spesa la prepara qualcuno del centro", devo conoscere il centro anch'io. Devo sapere come si chiama il panettiere, a che ora alza la saracinesca, cosa va tenuto in fresco.
->
-> Questa settimana le prime botteghe. La prossima, vi dico chi c'è.
->
-> Un marketplace di Piacenza costruito a Piacenza — un negozio alla volta.
->
-> *La spesa che tiene viva la città. Fai il tuo turno.*
->
-> (nel 1° commento il link)
-
-**Prima del post servono da Nicola (👁️ due minuti):**
-1. **Link lista d'attesa** — incollalo qui e la macchina aggiunge il 1° commento al testo
-2. **Visual** — opzione rapida: testo *"Lunedì mattina ci vado di persona."* su sfondo cotto-brand (si prepara in 5 minuti col template); oppure una foto tua in bici/piedi per il centro
-
-**Timing suggerito:** sabato pomeriggio (oggi) o domenica mattina — finestra migliore per i gruppi FB; il lunedì 13/7 diventa "atteso".
-
-**Cosa cambia:** primo post BTS-fondatore della serie "Il Turno" — mostra la faccia di chi costruisce il marketplace, non solo il prodotto. Angolo impossibile da copiare per Amazon.
-**Se va bene:** commenti con "ci sono anch'io" + click lista d'attesa → follow-up naturale lunedì sera con "ecco le botteghe che ho incontrato" (post #5 già pianificato).
-
-- **Colore:** 🔴 (pubblicazione su profilo personale / pagina — firma Nicola prima)
-- **Canale:** Gruppi Facebook locali piacentini (profilo personale) + Instagram/Facebook Pagina MyCity
-
----
-
 
 ### 🟡 #pr-5bloccanti — PR #212: ⚠️ Manca PAT con scope mycity + rebase corretto · aggiornata 2026-07-11 04:00
 
@@ -1452,7 +558,6 @@ git stash pop
 
 ---
 
-
 ### 🟡 #fix-35-gravi — Crea branch e scrivi i 35 fix gravi della radiografia · ⏳ IN ATTESA · accodata 2026-07-11 07:40
 
 **Richiesta di Nicola (11/7 ~07:40):** risolvere TUTTI i 35 problemi gravi della radiografia (non solo i 5 bloccanti già in PR #212).
@@ -1473,154 +578,6 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 
 ---
 
-
-### ✅� #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ chiusa · accodata 2026-07-11 10:40 · **aggiornato 2026-07-13 11:18**
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-> ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" è scattata di nuovo oggi (firma `c0b240c0…`) — **cancello 🔬 confermato: falso positivo, nessuna telefonata anti-churn.** Il problema operativo resta la **vetrina scheletrica** (2/8), non l'abbandono.
->
-> **Dossier stampabile aggiornato:** `consegne/account-negozi/2026-07-13-checkin-pane-quotidiano-sentinella.md`
-
-**Health score — Pane Quotidiano (unico negozio approvato)**
-
-| Dimensione | Stato | Note |
-|---|---|---|
-| Approvato sul marketplace | ✅ | Unico negozio LIVE |
-| Prodotti caricati | ✅ | 258 prodotti presenti |
-| Ordini ultimi 14 giorni | ⚠️ 0 | Atteso: PQ aspetta la piattaforma — non è abbandono |
-| Logo negozio | ❌ manca | Da raccogliere fisicamente |
-| Foto prodotti | ❌ 1+ mancanti | Da raccogliere fisicamente |
-| Descrizione vetrina | ❌ manca | Da scrivere con loro (ai-copywriter dopo) |
-| Indirizzo / città | ❌ manca | "Piacenza" — 1 riga da aggiungere |
-| Fee consegna / min ordine | ⚠️ da verificare | Coerenti con l'operatività reale? |
-
-**Punteggio: 2/8 — la vetrina è scheletrica.** Non blocca ora, ma abbassa la qualità percepita dai clienti del 13/7+.
-
----
-
-**Kit per la visita del 13/7 — 3 cose da raccogliere di persona:**
-
-1. 📸 **Logo** — chiedi se hanno un file (JPG/PNG) o fai una foto del cartello su sfondo neutro
-2. 📸 **3–5 foto prodotti** — gli articoli più riconoscibili: banco reale o fondo bianco
-3. ✍️ **Descrizione in 2 righe** — "Chi siete, cosa vendete di speciale, da quando" — bastano le loro parole, ci pensa la macchina a formattarle in copia
-
-**Domande da fare durante la visita:**
-- Avete accesso al vostro account? Riuscite a entrare?
-- Avete ricevuto l'email di conferma attivazione?
-- Quando volete iniziare a prendere ordini sul serio?
-- Preferite che scrivo io la descrizione vetrina, o volete farlo voi?
-
----
-
-**Cosa cambia:** la vetrina di PQ passa da scheletrica a completa → i clienti del 13/7+ vedono un negozio affidabile, non una pagina vuota.
-**Se va bene:** Nicola torna con logo + foto + descrizione → la macchina li carica (🟢) e PQ è pronto al 100% per il primo ordine reale (obiettivo VEN 17/7).
-
-- **Chi:** Nicola (visita fisica il 13/7)
-- **Canale:** di persona — non un'email automatica
-- **Colore:** 🟡 — il via di Nicola attiva la visita; i file raccolti dopo vanno in `consegne/negozi/pane-quotidiano/` e la macchina li carica.
-
----
-
-
-### ❌ #antichurn-13lug — SCADUTA 2026-07-18 11:11 · condizione mai soddisfatta (0 botteghe onboardate dopo 13/7; i 6 ristoranti elencati in A4 sono ESCLUSI per regola Nicola 18/7)
-
-> **Scan 14/7 11:07 (REST live):** ancora **1 solo negozio approvato** (PQ) — nessuna bottega nuova online dal 13/7. Debrief visita mancante. Dettaglio: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
-
-> **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md` (titolo storico — da riallineare alle botteghe core, non ristoranti/trattorie)
-
-**Questo playbook si attiva dopo l'onboarding delle prime botteghe** — clienti MyCity = solo botteghe (Nicola 13/7 22:34).
-
-**4 touch point per ogni bottega onboardata (colori esatti nel playbook):**
-
-| Giorno | Trigger | Azione | Chi |
-|---|---|---|---|
-| **T+3** (≈ mer 16/7) | 3gg dall'onboarding | WhatsApp/tel caldo: "come va?" | Nicola |
-| **T+7** (≈ dom 20/7) | 0 ordini | Chiamata check-in + ottimizzazione vetrina | Nicola |
-| **T+14** (≈ dom 27/7) | < 3 ordini | Post social bottega + boost su MyCity | AD + Nicola |
-| **T+45** (≈ 29/8) | Health score < 50 | Decisione: upsell / promozione / ritiro | Nicola 🔴 |
-
-**Cosa faccio dopo il tuo "ok [#antichurn-13lug] + conferma quali botteghe hai firmato":**
-1. Inserisco i contatti raccolti nel playbook
-2. Preparo il messaggio WhatsApp T+3 personalizzato per ogni bottega (testo pronto, tu invii)
-3. Setto le date dei touch point T+7/T+14/T+45 nel calendario (scadenzario)
-
-**Cosa cambia:** ogni nuova bottega onboardata ha un ciclo di cura garantito nei primi 45 giorni — nessuna «si perde» in silenzio dopo l'onboarding.
-**Se va bene:** primo ristorante con ≥ 5 ordini nei primi 14 giorni = segnale che il ciclo funziona → estendiamo il modello a tutte le future.
-
-- **Chi avvia:** Nicola dopo le visite del 13/7 con "ok #antichurn-13lug + [nomi firmati]"
-- **Canale:** WhatsApp/telefono diretto (Nicola) + AD prepara i testi pronti
-- **Colore:** 🟡 (check-in reali con persone reali — Nicola li avvia, la macchina prepara i testi)
-
----
-
-
-### ✅✅ #pr-270-errori-undefined — Mergia PR #270: caselle AutoCoscienza mostrano testo vero degli errori · ⏳ IN ATTESA · accodata 2026-07-11 15:39
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa cambia:** le caselle "Errore: undefined" nel Pannello (sezione AutoCoscienza) mostrano ora il testo reale dell'errore (es. "MCP marketplace gated in sessione..."). Bug: il giro scriveva `errori` come array di stringhe, il componente cercava `.titolo` su ciascuna → undefined.
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/270
-
-**Cosa cambia:** il Pannello smette di mostrare caselle vuote con "Errore: undefined" — ogni errore ha il suo titolo leggibile.
-**Se va bene:** Nicola mergia la PR → deploy Vercel → caselle mostrano il testo degli errori.
-
-- **Colore:** 🟢🟢 (codice Pannello → il merge lo fai tu).
-
----
-
-
-### ✅✅ #pr-269-chat-height — Mergia PR #269: chat delle caselle più compatta · ⏳ IN ATTESA · accodata 2026-07-11 15:37
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Cosa cambia:** l'area messaggi nella chat delle caselle passa da 144px (`h-36`) a 96px (`h-24`) — un terzo di spazio in meno, il campo di testo rimane dov'è. Tocca `ChatCasella.tsx` (e la componente gemella se presente).
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/269
-
-**Cosa cambia:** la chat è più compatta e meno invasiva nel layout della casella.
-**Se va bene:** Nicola mergia la PR → deploy Vercel → chat accorciata online. Se l'altezza risultasse ancora troppa o troppo poca, basta riaprire e cambiare il valore in 30 secondi.
-
-- **Colore:** 🟢🟢 (codice Pannello → il merge lo fai tu).
-
----
-
-
-### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
-
----
-
-
-### ✅ #pr-257 — MERGIATA (auto-merge): vercel.json + ParlaCasella UX · FATTO 2026-07-10 18:57
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Fix confermati su `origin/main`:**
-1. `vercel.json`: `"deploymentEnabled": {"main": false}` → `true` — deploy Vercel sbloccati
-2. `ParlaCasella.tsx`: altezza `h-36`, scroll al fondo all'apertura, nessun doppio a capo
-
-**Nota:** PR mergiata via auto-merge (non da Nicola). I fix sono verificati su GitHub.
-Vercel dovrebbe buildare a breve; il Pannello si aggiorna in 1-2 minuti dal merge.
-
----
-
-
-### ❌ #pr-252 — ANNULLATA: sostituita dalla #255 · 2026-07-10 18:35
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-Branch non era su GitHub. Fix ripushato tramite PR #255.
-
----
-
-
-### ✅ #trigger-build-pannello — Committa un trigger su pannello/ per forzare il build Vercel · FATTO 2026-07-11 14:48
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Esito:** commit `4d37c741` su `origin/main` (toccato `pannello/.build-trigger`) — approvato Nicola 11/7. Da allora ogni merge su `pannello/` ribuilda Vercel automaticamente; i commit di sola memoria non triggerano build (voluto). Card rimasta in coda per errore housekeeping — **ignorare** se il Pannello online è aggiornato. Chiusa in metabolizzazione 13/7 19:44 dopo chiarimento Nicola «cioè?».
-
----
-
-
 ### 🟡 #chip-chat-normale — Pusho il branch e apro la PR per i chip nella chat normale · ⏳ IN ATTESA · accodata 2026-07-10 18:00
 
 I chip delle skill rapide funzionano in «Parla con questa casella» ma **mancano nella chat normale** (la chat principale che usi adesso). Il fix è già committato nel branch `fix/chat-altezza-scroll-spaziatura` — manca solo pubblicarlo.
@@ -1640,65 +597,6 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 **Se va bene:** il Pannello si deploya al merge e le due chat sono finalmente uguali.
 
 ---
-
-
-### ✅ #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · FATTO 2026-07-10 18:10
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-PR #251 MERGIATA (Nicola, 10/7 ~18:15). Fix deployati su Vercel.
-
-Fix inclusi:
-- Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
-- `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
-
-⚠️ `module_not_found` segnalato ancora da Nicola dopo il merge (10/7 ~23:59) → vedi azione `#worker-restart` qui sotto.
-
----
-
-
-### ✅ #sblocca-pannello — Push trigger-build + riavvio worker (1 comando, ~20 secondi) · FATTO 2026-07-13 19:44
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-
-**Esito:** trigger pushato **11/7** (`4d37c741` su `origin/main`); worker riavviato più volte (ultimo confermato **13/7 19:10** post-#343). Obiettivo raggiunto — Pannello ribuilda su ogni modifica `pannello/`. Card obsoleta, chiusa in metabolizzazione 13/7 19:44.
-
----
-
-## 2026-07-09 23:30 · @devops-sre → 🔴 Accendi gli allegati in chat su Vercel (variabili + Redeploy)
-Il codice degli allegati (foto + file nella chat con l'AD) è pronto nel branch. Perché funzioni online servono due passi che tocco NON posso fare io (sono nella dashboard Vercel): li devi fare tu, in 5 minuti.
-
-**Passo 1 — Metti due variabili su Vercel** (Project → Settings → Environment Variables, ambiente *Production*). Sono quelle del progetto Supabase **MEMORIA** (NON il marketplace), le stesse che hai sul VPS in `cervello/vps/.env`:
-- `SUPABASE_URL` = l'URL del progetto memoria (`https://…​.supabase.co`)
-- `SUPABASE_SERVICE_KEY` = la service_role key del progetto memoria (segreta, resta solo sul server)
-
-Servono perché la route `/api/allegato` carica il file nel bucket privato `chat-allegati` con quella chiave. Il bucket si crea da solo al primo upload: nessun passo manuale sul database.
-
-**Passo 2 — Fai il Redeploy** (Deployments → ultimo deploy → Redeploy) così Vercel builda il codice nuovo del Pannello con gli allegati.
-
-- **Cosa cambia:** dopo questi due passi potrai allegarmi foto e PDF/documenti direttamente dalla chat, e io li leggo. Finché non li fai, il pulsante graffetta compare ma l'upload dà errore.
-- **Se va bene:** provalo tu dal browser (allega una foto, mandamela) → se la vedo, è fatto; poi mergiamo il branch su `main`.
-- **Colore:** 🔴 — tocca la produzione (variabili + deploy). Lo firmi/fai tu; io non entro nella dashboard.
-
----
-
-
-### ✅ #60 — FATTO 2026-07-13 17:28 · Nicola «ok #60» · Storage allegati LIVE su Vercel (POST /api/allegato ok:true verificato)
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-**Cosa cambia:** con queste variabili la chat del Pannello inizia ad accettare **foto e file (PDF/documenti)** — li carica su Supabase Storage e li mostra in conversazione. Senza variabili + deploy, il codice c'è ma resta spento online.
-**Se va bene:** provo l'upload nel browser sul Pannello vero e ti mostro che una foto e un PDF arrivano davvero, prima di dichiararlo fatto.
-
-- **Colore:** 🔴 (tocca la produzione: dashboard Vercel + deploy online).
-- **Superficie:** usi **Vercel online** → le variabili vanno in **Vercel → Progetto del Pannello → Settings → Environment Variables** (non sul VPS).
-- **Passo A — variabili su Vercel** (Nicola, ~3 min): apri Settings → Environment Variables e verifica/aggiungi le chiavi Supabase del progetto **memoria** che servono allo Storage:
-  - `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` (progetto memoria) — se già presenti per la chat, sono queste.
-  - la chiave di **service role** lato server per scrivere nel bucket (nome esatto lo confermo quando ho pronto il branch del codice).
-  - il bucket Storage dedicato (es. `chat-allegati`) creato sul progetto memoria.
-  > Nota: i nomi esatti li fisso io quando finisco il codice nel branch — questa card è il segnaposto perché il passo non si perda. Non aggiungere nulla alla cieca finché non ti do la lista chiusa.
-- **Passo B — deploy** (Nicola, 1 clic): dopo aver salvato le variabili, **Redeploy** dell'ultimo commit del Pannello su Vercel, così il codice foto/file va online.
-- **Cosa NON faccio io:** non ho le mani sulla dashboard Vercel né sul deploy in produzione → li firmi tu. Io preparo il codice nel branch e ti do la lista esatta delle variabili.
-- Traccia: [[DECISIONI]] 2026-07-09 23:11 · richiesta Nicola «aggiungi foto e file in chat».
-
----
-
 
 ### 🟡 #59 — Togli dalla macchina tutto ciò che usa le API AI a pagamento
 **Cosa cambia:** spariscono i pezzi di codice che chiamerebbero API AI a consumo (generazione immagini/video/testi) — così non c'è più modo di far partire una spesa "credito AI". Sparisce anche la chiave Cursor inutilizzata dal server. L'AD continua a funzionare identico: gira già sul piano fisso Claude, non su un'API a consumo.
@@ -1723,31 +621,7 @@ Servono perché la route `/api/allegato` carica il file nel bucket privato `chat
 ## 🩻 RADIOGRAFIA DELLA MACCHINA — cantiere 2/7 · PRIORITÀ
 > 18/22 difetti chiusi in codice. Restano 3 cose che richiedono TE:
 
-
-### ✅� R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA · ✅ **FATTA — Nicola ha revocato il vecchio PAT (chat 2026-07-07)** → buco AR-004 chiuso. Resta solo la verifica a occhio: il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → dargli un suo PAT read-only + Redeploy). **↺ 7/7 10:57 — verifica trasformata in doer:** ordine A→B chiarito (prima la causa PRIMA = push `origin/main` **#54/#35**, poi il token). Il fix token è ora una card discreta **#55** (condizionata: parte solo se `/api/diagnosi` «Vault GitHub» è ROSSO dopo il push). Diagnosi completa: `consegne/devops/2026-07-07-verifica-pannello-hosted-token.md`. Il check «a occhio» dei 30 s resta l'unico passo umano (URL hosted non nel repo, rete gated in sessione).
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-Il file `cervello/vps/.env.save` col PAT è stato **rimosso dal repo**, il `.gitignore` è esteso (`.env*`/`*.save`) e ora c'è un **pre-commit hook** (`.githooks/pre-commit`) che passa **ogni commit** dallo scan-segreti e lo blocca — non più solo il giro. Ma il token **è già nella storia git**: vai su GitHub → *Settings → Developer settings → PAT* e **revocalo**, poi generane uno nuovo (solo nel `.env` del VPS, mai committato). È l'unica cosa che chiude davvero il buco.
-> 📄 **Runbook pronto (sequenza esatta, ~5 min):** `consegne/security/2026-07-04-R1-revoca-pat-github-runbook.md`.
-> ⚠️ **Difetto trovato in questo giro (🟢, 1 comando):** su QUESTO checkout del VPS il pre-commit hook **non è agganciato** (`core.hooksPath` non impostato, manca `.git/hooks/pre-commit`). L'ho preparato ma il write di git-config aspetta il tuo ok → lancia `bash cervello/installa-hooks.sh`.
-
-> **Decisione Nicola 2026-07-03 (Pannello):** *"Genera nuovo PAT solo nel `.env` VPS."* → nuovo PAT solo in `cervello/vps/.env` (`GIT_PUSH_TOKEN`), non condiviso con Vercel.
-> ⚠️ **Trappola da rispettare nella sequenza:** oggi lo STESSO token serve anche al **Pannello su Vercel** (`GITHUB_TOKEN`, `obsidian.ts`). Se revochi e metti il nuovo solo nel VPS, il Pannello va **cieco** (non legge più `memoria-ad` né il codice per radiografia/audit). Ordine corretto: 1) genera nuovo PAT (repo ad-mycity+mycity, Contents R/W + PR R/W) → VPS `.env`; 2) dai a Vercel un suo valore in `GITHUB_TOKEN` (consigliato: 2° PAT **read-only** = least-privilege, oppure lo stesso nuovo PAT); 3) **solo allora REVOCA il vecchio** su GitHub. Tutto 🔴, solo Nicola.
-
-
-### R2 — Merge + deploy dei fix del cantiere · ✅ **FATTO 2026-07-07 13:35 — Nicola: «l'ho fatto»** → `git push origin main` eseguito: i 20 fix del cantiere (PR #212) sono **canonici su `origin/main`** + la memoria pubblicata nello **stesso push** (chiude anche #54). **Non verificato dal VPS in sessione** (fetch/push gated) → prova del nove a video = il Pannello hosted mostra i fix + il giro di oggi; se in `/api/diagnosi` la voce «Vault GitHub» è **ROSSA** → card token **#55**. Il testo storico sotto è **superato**.
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-> ⛔ **[SUPERATO 7/7 13:35 — vedi header] Tentativo di esecuzione 2026-07-04 15:22 — BLOCCATO (nessun merge fatto).** Motivo: **non esiste nessuna PR da mergiare.** `github-merge`/`git-merge.mjs` mergia solo una PR già aperta (la recupera via API GitHub) — non la crea. Strada A: branch `claude/machine-analysis-ez7g3e` **assente dai ref locali** (morta). Strada B: creare branch→push→aprire PR→merge, ma **rete/git-push chiusi in questa sessione** (`git ls-remote`, esecuzione `node`, `printenv` tutti negati). `main` ora è **459 commit** dietro `memoria-ad` (non più 116). ➡️ Resta ⏳: serve una sessione con **rete + git push aperti** (VPS/cloud-agent) per creare e mergiare la PR Strada B. Nessun dato inventato, niente ✅ FATTO finché il merge non avviene davvero.
-I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione, guardiano agenti, `sensore-cassa`, `allocazione-check` AR-006, **pre-commit hook segreti AR-004**, gate HACCP) vanno resi **canonici in `main`**.
-> 🔎 **Scoperta di questo giro (cambia la premessa):** i fix **NON sono inerti** — sono già committati e **ATTIVI su `memoria-ad`**, il branch da cui gira il VPS (`giro.sh` li richiama davvero). Il problema vero è che **`main` è indietro di ~116 commit / ~150 file**: alla prossima avanzata di `main`, `aggiorna-cervello.sh` (righe 122-124, propaga le cancellazioni) **cancellerebbe da `memoria-ad` i file-fix assenti da main → romperebbe `giro.sh`**. Quindi R2 = **mettere in salvo i fix** rendendoli canonici, non "accenderli".
-> ⚠️ **Mina:** non spingere in `main` l'oggetto tracciato `marketplace` (copia locale del repo mycity, va escluso). `.mcp.json` è pulito.
-> 📄 **Runbook pronto (Strada A branch scoped / Strada B code-only, verifica + rollback):** `consegne/devops/2026-07-04-R2-merge-deploy-cantiere-runbook.md`.
-> 🔗 **Coordina con #33** (no-path-cablati, stesso cantiere, mid-giro) e **#34/R1** (usa il PAT nuovo se R1 fatto prima). Deploy = **automatico** via `watch-main.timer` (~5 min, riavvia il worker): nessun `systemctl` a mano.
-
-
-### ✅ R3 — Ripuntare i contenuti su Pane Quotidiano (AR-006) · CHIUSO 2026-07-14 01:00
-- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
-**Correzione di rotta:** Casa Linda era una **demo**, non un negozio. L'**unico negozio reale** su MyCity è **Pane Quotidiano** (contratto firmato 1/7). **Fix completato:** cancello allocazione attivo; **12** pacchetti Garetti archiviati; sforzo attivo su PQ (**16** contenuti); merge **PR #349** 13/7 21:44; **AR-006 chiuso** in cantiere su ordine Nicola «chiudi AR-006» (14/7 01:00); `allocazione-check` exit 0 (14/7 00:59). **Resta fuori da R3 (azioni separate):** foto/consenso/link CTA PQ; primo ordine payout-test; pubblicazioni PQ chiusa firma.
-
+---
 
 ### 🩻 R4 — 2 fix salute macchina rimasti (4/6 risolti da PR #448) · ⏳ IN ATTESA OK NICOLA
 > PR #448 mergiata (18/7 13:21) ha risolto 4/6 fix: AR-044 (guardiano integrità), AR-034 (pannello atomico), AR-030 (checklist), termometro vero. **Rimangono 2 voci che richiedono modifiche al worker:**
@@ -2109,8 +983,10 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 12:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 14:20)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
+
+---
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
 
@@ -2119,6 +995,8 @@ Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisio
 | 🟡 | 252 | 252 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
 
 Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
+
+---
 
 ### 🟡 Metti «pezzo» come unità di misura ai 242 prodotti che non ce l'hanno
 
@@ -2153,6 +1031,1117 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 
 ---
 
+### 🟡 #mergia-pr-450 — Mergia PR #450: 3 fix Pannello (risposta vuota, in_attesa, Parla azzera chat) · ⏳ accodata 2026-07-18 13:28
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/450 · Branch: `fix/pannello-bloccanti-v2`
+
+**Cosa cambia:** (1) la risposta non scompare più se lo streaming l'aveva già mostrata; (2) azioni stuck in «in_attesa» possono essere ri-approvate o annullate; (3) aprire «Parla con questa casella» non azzera più la chat principale.
+
+**Se va bene:** il Pannello risponde in modo affidabile — bottone Approva e chat tornano stabili.
+
+- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
+- **Reparto:** frontend-dev
+
+---
+
+### 🟢 #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · ⏳ accodata 2026-07-17 11:00
+
+**Cosa fare:** `@onboarding-negozi` + `@relazioni-istituzionali` preparano una scheda sintetica 1 pagina da includere nel kit onboarding dei prossimi negozi, con:
+- Bando BT26 (Piccole Imprese): fino a €7.000 · 40% a fondo perduto · scade 30/7 · spese: digitalizzazione / e-commerce ✅ · link CCIAA
+- Bando BE26 (Efficienza Energetica): fino a €20.000 · 50% · scade 30/7 · spese: attrezzature energetiche
+
+**Apertura domande: 20 luglio 2026** → il kit va pronto **entro il 19/7** (domani) per poterlo mostrare ai prossimi negozi.
+
+**Cosa cambia:** ogni negozio che si iscrive a MyCity ora ha anche l'argomento «il canale digitale che ti fa prendere i fondi CCIAA». Sostituisce l'argomento del bando ER CHIUSO il 23/6.
+**Se va bene:** pitch più forte per il batch attuale; i negozi del cluster vedono subito un beneficio economico concreto, non solo visibilità.
+
+- **Colore:** 🟢 (kit bozza interno, nessuna firma — poi diventa 🔴 al momento del contatto reale col negozio)
+- **Reparto:** onboarding-negozi / relazioni-istituzionali
+- **Fonte bandi:** [BT26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-piccole-imprese-per-il-territorio-bt26) · [BE26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bandi-emanati-nel-corso-del-2026/bando-efficienza-energetica-2026-be26)
+- **Origine:** `{origine:monitora-2026-07-17, fonte:cciaa-emilia}`
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-18 14:20 · 83 card totali
+
+### ❌ #mergia-pr-449 — ~~Mergia PR #449~~ → CHIUDI SENZA MERGE · 2026-07-18 ~14:45
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/449 · Branch: `fix/pannello-bloccanti`
+
+**Motivo:** la riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva anche modifiche ai guardiani che main aveva nel frattempo superato → conflitto irresolubile. Il contenuto utile è già operativo — non serve mergiare.
+
+**Azione:** chiudi PR #449 da GitHub **senza merge** (pulsante «Close pull request»).
+
+- **Stato:** ⚠️ da chiudere senza merge (housekeeping già su main)
+- **Reparto:** devops-sre
+
+---
+
+### ✅ #mergia-pr-444 — FATTO 2026-07-18 01:17 · PR #444 mergiata da Nicola direttamente da GitHub
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Commit `8f9fa641` su main. Ordinamento lista conversazioni ora su `created_at` (data creazione) — la chat più recente resta in cima senza scivolare. Confermato dal git log.
+
+- **Colore:** ✅ completato
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #apri-pr-chat-annullato — FATTO 2026-07-18 02:26 · fix già su main (commit bba5495d) — nessuna PR necessaria
+
+Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più "🚫 Messaggio annullato." che sovrascrive la risposta precedente — è già deployato su Vercel.
+
+---
+
+### ✅ #mergia-pr-441 — FATTO 2026-07-18 01:18 · Nicola ha mergiato PR #441 direttamente da GitHub
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/441 · Branch: `fix/worker-chat-layout-v2`
+
+2 modifiche layout chat worker: (1) lista conversazioni si apre DENTRO il div centrato della chat, occupa il 50% della larghezza; (2) margini laterali ridotti del 50% (`max-w-3xl` → `max-w-5xl`). Fix desktop e mobile separati (spazi laterali solo desktop come da richiesta precedente PR #437).
+
+**Cosa cambia:** la lista conversazioni non esce fuori dalla chat ma scorre sopra di essa come un pannello laterale interno. La chat è visibilmente più larga sugli schermi grandi.
+**Se va bene:** layout chat worker aggiornato su Vercel; chat centrata e lista ben posizionata.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #mergia-pr-439 — FATTO 2026-07-18 · Mergia PR #439: descrizioni caselle Pannello in linguaggio umano
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/439 · Mergiata da Nicola 2026-07-18.
+
+**Esito:** 8 tipi di avviso ora mostrano frasi in italiano leggibili; gergo tecnico in accordion collassabile. **Follow-up aperto (Nicola 18/7):** le descrizioni devono aggiungere (1) il nome del file/dato specifico rotto e (2) l'impatto concreto ("cosa ti sarebbe arrivato di sbagliato"). PR successiva da aprire.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #riduci-watch-main-1min — FATTO 2026-07-18 02:00 · Nicola ha eseguito i comandi sudo, timer confermato a 1 minuto
+
+**Richiesta di Nicola (18/7):** «si può ridurre il tempo di aggiornamento del watch-main»
+
+**Cosa cambia:** la macchina vede i merge GitHub con max 1 minuto di ritardo invece di 5. Utile anche per confermare deploy veloci e avvisi di commit senza aspettare.
+
+**Come fare (3 comandi sudo sul VPS, Nicola esegue):**
+```bash
+sudo sed -i 's/OnUnitActiveSec=5min/OnUnitActiveSec=1min/' /etc/systemd/system/mycity-watch-main.timer
+sudo systemctl daemon-reload && sudo systemctl restart mycity-watch-main.timer
+systemctl status mycity-watch-main.timer
+```
+
+**Opzionale** — l'AD può aggiornare anche il template in repo (`cervello/vps/mycity-watch-main.timer`) così rimane a 1 min anche dopo una reinstallazione.
+
+**Se va bene:** la carta giusta apparirà FATTA molto prima in ogni ciclo; meno «l'ho già mergiato ma non lo vedi ancora».
+
+- **Colore:** 🟡 (sudo sistema — Nicola esegue)
+- **Reparto:** devops-sre
+
+---
+
+### ✅ #layout-chat-centrata — FATTO 2026-07-17 (mergiata da Nicola come PR #437)
+
+Chat centrata con bordi laterali solo su desktop, lista conversazioni affiancata al bordo destro del menù. Entrambi i fix confermati via PR #437 → merged.
+
+---
+
+### ✅ #fix-guardiano-coerenza-fatti — FATTO 2026-07-17 23:31
+
+Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cervello/coerenza-fatti.mjs:*)"` in allowlist (e wildcard `node cervello/*.mjs`); (2) `giro.sh` lo chiama in automatico alle righe 296 e 597 senza passare per la chat. `settings.local.json` è in directory protetta (denied) — non modificabile dalla chat, ma non necessario perché le allow list sono additive. Nicola ha approvato la proposta dal Pannello 2026-07-17 23:29.
+
+---
+
+### ✅ #mergia-pr-433 — FATTO 2026-07-18 · Nicola ha confermato via chat: PR #433 già mergiata su GitHub
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/433 · Branch: `fix/pulisci-coda-v2` · **Mergiata da Nicola**.
+
+**Prossimo passo (dal terminale VPS, ancora da fare):**
+1. `node cervello/pulisci-coda.mjs` — dry-run, vedi quanti pulisce senza toccare niente
+2. `node cervello/pulisci-coda.mjs --esegui` — esegue la pulizia
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** builder-automazioni
+
+---
+
+### ❌ #post-vp-day-1707 — SCADUTA 2026-07-18 11:43 · VP (17/7) passato senza ordini, post "stasera" non pubblicabile
+
+**Contenuto completo:** `consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md`
+
+**Testo pronto (versione Gruppi Facebook):**
+
+> Stasera gran finale dei **Venerdì Piacentini** 🎶 — centro chiuso al traffico dalle 18, Via Calzolai in festa.
+>
+> Se volete i freschi senza coda: **Pane Quotidiano** (bio dal '76, Via Calzolai) è già ordinabile su MyCity. Ordinate adesso, ve li portiamo a casa stasera oppure passate al banco quando siete in giro.
+>
+> Link nel primo commento 👇
+
+**Testo pronto (versione IG/FB feed):**
+
+> 🌆 Stasera è il gran finale. Via Calzolai si accende alle 18.
+>
+> Musica, centro pedonale, gente in strada. Il **Venerdì Piacentini** chiude la stagione stasera.
+> E noi siamo qui con **Pane Quotidiano** — bio e dietetica in città dal 1976, in Via Calzolai.
+>
+> **Stasera è il tuo turno.**
+> Ordina su MyCity — te lo portiamo a casa, oppure ritiri al banco quando passi.
+>
+> 👉 Link in bio · @mycity.piacenza · *La spesa che tiene viva la città.*
+
+**Prima di pubblicare serve da Nicola (2 minuti):**
+1. **Link marketplace** da inserire nel primo commento (VA al posto di `INSERISCI-LINK`)
+2. **Ok pubblicazione** (🔴)
+
+**Timing:** entro le 14:00 di oggi — chi pianifica l'uscita VP guarda il telefono nel pomeriggio.
+
+**Cosa cambia:** post day-of evento con CTA diretta — dopo 2 countdown (15/7 e 16/7) questo spinge chi era "quasi pronto" al primo ordine vero.
+**Se va bene:** primo click/ordine via UTM `vp17_day_1707` + PQ vede traffico reale dalla serata.
+
+---
+
+### ❌ #touch1-vp17 — SCADUTA 2026-07-18 11:43 · VP (17/7) senza ordini, gate `DELIVERED` mai scattato
+
+**Trigger:** ordine cambia `delivery_status = DELIVERED` + `delivered_at` valorizzato
+**Timing:** +3h dalla consegna (non passare mezzanotte se consegnato tardi)
+**Canale:** WhatsApp/telefono del cliente dall'ordine · backup email in-app
+
+**Testo pronto:**
+
+> Ciao [NOME]! Sono Nicola di MyCity 👋
+> Ti è arrivata la spesa da **Pane Quotidiano**? Spero tutto fresco come al banco.
+>
+> Siamo appena nati e ogni tua parola conta. **Com'è andata?**
+> 👍 Tutto bene · 😐 Così così · 👎 C'è stato un problema
+>
+> Se qualcosa non va, rispondi qui: lo sistemo oggi stesso.
+> Grazie per aver scelto la bottega del quartiere 🧡
+
+Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → handoff @supporto, NON inviare Touch 2.
+
+**Cosa cambia:** primo feedback reale sul servizio — segnale di qualità e apertura della relazione col cliente.
+**Se va bene:** risposta positiva → parte Touch 2 domani mattina con link recensione.
+
+- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
+- **Reparto:** customer-success
+- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
+
+---
+
+### ❌ #touch2-vp17 — SCADUTA 2026-07-18 11:43 · dipende da #touch1-vp17 (scaduta), VP senza ordini
+
+**Trigger:** Touch 1 (#touch1-vp17) ricevuto + risposta ≠ 👎
+**Timing:** domani mattina (18/7)
+**Canale:** stesso canale del Touch 1
+
+**Testo pronto:**
+
+> Buongiorno [NOME]! Come promesso, ecco il link per lasciare **due righe su Pane Quotidiano** 🌟
+> 👉 https://mycity.piacenza.it/negozi/pane-quotidiano/recensione?order=[ID-ORDINE]
+>
+> Bastano 30 secondi: stelline + una frase vera.
+> Sarebbe la **prima recensione verificata di MyCity a Piacenza** — grazie di cuore!
+
+Sostituire `[NOME]` e `[ID-ORDINE]` con i dati reali. Aprire il link LIVE prima di inviare.
+
+**Cosa cambia:** prima recensione verificata di MyCity — social proof reale per chi guarda il negozio.
+**Se va bene:** PQ ha la prima stella verificata. Logo "Recensito" sulla vetrina.
+
+- **Colore:** 🔴 (messaggio a cliente reale — Nicola)
+- **Reparto:** customer-success
+- **Riferimento:** `consegne/customer-success/2026-07-17-playbook-recensioni-pronte.md`
+
+---
+
+### ✅ #volano-soglia-fix — Soglia volano abbassata al 5% · FATTO 2026-07-17 12:30
+
+Fix incluso nel commit `da524a30` su branch `fix/bloccanti-macchina`. Sarà live dopo il merge della PR (#push-pr-bloccanti).
+
+---
+
+### ✅ #push-pr-bloccanti — Pusha e apri PR per i 3 fix bloccanti macchina · FATTO 2026-07-17 20:45
+
+**PR #435 aperta:** https://github.com/NicolaeRotaru/ad-mycity/pull/435 — branch `fix/bloccanti-macchina-v2`, base `main`, zero conflitti. → vedi card `#mergia-pr-435` per il merge.
+
+---
+
+### ✅ #mergia-pr-436 — FATTO 2026-07-18 · PR #436 mergiata (commit a41cc359)
+
+Fix crash `allinea-scan-cantiere.mjs` — rimossa variabile `votoLive` mai definita. Il guardiano ora batte regolarmente.
+
+---
+
+### ✅ #mergia-pr-435 — FATTO 2026-07-18 · PR #435 mergiata (commit e8afc18f)
+
+3 fix live: chat più veloce (polling mirato), soglia volano 5%, voto salute stabile.
+
+---
+
+### ✅ #mergia-pr-430 — FATTO 2026-07-18 · PR #430 mergiata (commit 7063aa0d)
+
+Bottone fluttuante + schermo intero Worker con navbar visibile.
+
+---
+
+### ✅ #mergia-pr-431 — FATTO 2026-07-18 · PR #431 mergiata (commit 2d30ef19)
+
+Debounce messaggi multipli: nessun messaggio viene ignorato durante l'elaborazione.
+
+---
+
+### ✅ #pr-cassetto-conversazioni-fixed — PR #423 mergiata · FATTO 2026-07-17
+
+Cassetto conversazioni ancorato con `position: fixed` — live su Vercel dopo il merge.
+
+---
+
+### ✅ #fix-invia-mobile — PR #427 aperta dall'AD · FATTO 2026-07-17 04:00
+
+L'AD ha aperto direttamente PR #427 (branch `fix/invia-mobile-wrap`) senza passaggi manuali di Nicola. Fix: `flex-wrap: wrap` in `BarraScritturaChat.tsx`.
+
+---
+
+### ✅ #push-video-live-chat — Branch pushato e PR #428 aperta · FATTO 2026-07-17 06:45
+
+Branch `fix/video-live-chat` pushato su origin, rebase su main completato, build verde (compiled successfully 11.3s, zero errori TS).
+PR #428: https://github.com/NicolaeRotaru/ad-mycity/pull/428
+
+---
+
+### ✅ #mergia-pr-428 — Mergia PR #428: video live con microfono e chat · FATTO 2026-07-17 10:20
+
+**Cosa fare:** vai su GitHub → PR #428 → clicca "Merge pull request".
+→ https://github.com/NicolaeRotaru/ad-mycity/pull/428
+
+4 file: `BottoneFotoChat.tsx`, `BarraScritturaChat.tsx`, `page.tsx`, `ChatCasella.tsx` — telecamera (55%) + chat (45%) su desktop, stacked mobile.
+
+**Cosa cambia:** nel video live puoi scrivere, dettare col microfono e vedere la conversazione senza uscire dalla telecamera.
+**Se va bene:** Vercel builda in ~2 min e la feature è live.
+
+- **Colore:** 🟡 (merge → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #mergia-pr-427 — FATTO 2026-07-18 · PR #427 mergiata (commit f70e06a5)
+
+Tasto Invia visibile su tutti gli smartphone.
+
+---
+
+### ✅ #mergia-pr-424 — PR #424 mergiata · FATTO 2026-07-17 02:09
+
+**APPROVATA** da Nicola via Pannello · 2026-07-17 02:08 · SHA merge: `6c41f2f708f6d3f787d42a6ff88f667e5283f118`
+
+**Cosa fa:** Nicola ha eseguito i 3 comandi VPS (branch `fix/chat-3bug-v2`, commit fix 3 bug chat). L'AD ha aperto PR #424 — nessun conflitto.
+
+**Per metterlo live:** mergia PR #424 → https://github.com/NicolaeRotaru/ad-mycity/pull/424
+
+**Cosa cambia:** (1) doppia risposta eliminata — check coda sincrono su `pendingLavoroChatRef`; (2) flicker sparito — rimossi blocchi "Sto lavorando..." ridondanti; (3) bottone invio funziona su smartphone anche durante l'elaborazione.
+**Se va bene:** chat stabile su tutti i dispositivi; live su Vercel in ~2 min.
+
+- **Colore:** 🟡 (merge su main → Nicola)
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #vercel-token-vps — VERCEL_TOKEN attivo · FATTO 2026-07-17 ~02:20
+
+Token in `cervello/vps/.env` ✅ · Worker riavviato da Nicola ("adesso l'ho riavviato") ✅ · MCP Vercel disponibile dalla prossima sessione.
+
+---
+
+### ✅ #pr-chat-conv-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f)
+
+---
+
+### ✅ #pr-411-chat — PR #411 mergiata da Nicola · FATTO 2026-07-16 ~17:30
+
+Nicola ha mergato PR #411 (7 fix chat). Vercel ha rotto il build per errore TypeScript TS2367 in `page.tsx:2959` — fix in branch separato (vedi #fix-vercel-ts-2959 sotto).
+
+---
+
+### ✅ #pr-416-skill-tab — PR #416 mergiata da Nicola · FATTO 2026-07-17 (merge 73e79d97)
+
+Chat si apre vuota, comandi rapidi nella tab ⚡ Skill. Build Vercel partito dopo il merge.
+
+---
+
+### ✅ #pr-419-chat-3fix — PR #419 mergiata da Nicola · FATTO 2026-07-17 (merge f3389eb8)
+
+Chat stabile: niente doppioni, niente lampeggio, bottone invio funziona su mobile. TS2367 risolto nel merge.
+
+---
+
+### ✅ #fix-vercel-ts-2959 — Fix TS2367 incluso nel merge PR #419 · FATTO 2026-07-17
+
+`const chatVisibile = chatFluttuante` incorporato da Nicola nel merge di PR #419 (f3389eb8). Branch separato non necessario.
+
+---
+
+### ✅ #pr-415-chat-pulsanti — PR #415 mergiata · FATTO 2026-07-16 (merge e6671f5f — conv in cima + pulsanti in basso)
+
+---
+
+### ✅ #burn-mensile-runway — APPROVATA 2026-07-16 21:17 · esegui il comando sul VPS
+
+**Diagnosi completa:** `consegne/finanza/2026-07-16-diagnosi-cassa-runway.md`
+
+**Nicola: esegui questo comando sul VPS** (una sola volta):
+```bash
+echo '' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo '# Burn mensile stimato (stima 150€ — aggiorna con il valore reale)' >> /opt/mycity/ad-mycity/cervello/vps/.env
+echo 'BURN_MENSILE_EUR=150' >> /opt/mycity/ad-mycity/cervello/vps/.env
+```
+Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostituisci `150` con il numero giusto prima di eseguire.
+
+**Stato:** Nicola ha approvato dal Pannello (21:17:43). File `.env` protetto da permessi — scrittura solo da Nicola.
+
+**Cosa cambia:** la macchina calcola i mesi di autonomia (cassa ÷ burn) e allerta se sotto 3 mesi.
+**Se va bene:** da prossimo giro vedrai il runway nel cruscotto (con cassa 0€ = runway critico → plan con @fp-and-a).
+
+- **Colore:** 🟡 (modifica env VPS)
+- **Reparto:** finanza
+- **Origine:** `{origine:sentinella:cassa_sconosciuta}`
+
+---
+
+### ❌ #ritiro-pq-vp17-checkin — SCADUTA 2026-07-18 01:09 · sostituita da #checkin-pq-postvp
+
+> Il VP del 17/7 è già passato. Card originale: chiamare giovedì 16/7 per confermare il presidio. Quella finestra è chiusa — il follow-up post-VP è la nuova card qui sopra.
+
+> **Contesto anti-churn 15/7 12:56:** sentinella `negozio_fermo` ri-scattata — **falso positivo confermato** (PQ aspetta VP 17/7, non sta mollando). Scan REST → **0 negozi in calo**; rischio = **zero ordini consegnati** (non abbandono). Re-accodamento **saltato** (cooldown 24h). Report: `consegne/account-negozi/2026-07-15-negozio-fermo-pane-quotidiano.md`.
+
+**Quando:** **giovedì 16/7 mattina** (T-1 al Venerdì Piacentini).
+
+**Chi chiami:** Pane Quotidiano · **0523 388601** · Via Calzolai 25.
+
+**Script (2 minuti, tono relazione — non «ci manchi»):**
+
+> «Ciao, sono Nicola di MyCity. Venerdì sera c'è il Venerdì Piacentini — centro pieno. Ti va se passo da te al banco con il QR e restiamo lì un'oretta? I clienti ordinano e **ritirano da te** (la bici non è ancora pronta). Così proviamo il primo ordine vero insieme, senza stress di consegna a domicilio.»
+
+**Cosa cambia:** il fornaio sa che venerdì non resta solo — il rischio «qui non vendo mai» si abbassa prima del VP.
+**Se va bene:** venerdì 17/7 al banco → primo ordine ritiro → North Star 0→1 → payout-test (#41).
+
+- **Colore:** 🟡 (telefonata a negoziante reale — Nicola la fa)
+- **Canale:** telefono
+- **Reparto:** account-negozi
+- **Origine:** `{origine:playbook:negozi-calo}`
+
+---
+
+### ✅ #pr-342-pannello-streaming-live — MERGIATA 2026-07-13 ~18:50 · ⏳ nona prova streaming in corso
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** il Pannello aggiorna la bolla chat in tempo reale mentre l'AD scrive (poll UI) e fissa i pallini che tornavano ad ogni pezzo di streaming.
+
+**PR su GitHub:** [#342 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/342) ← commit `6ee0ac4a`
+
+**Esito 18:41:** diagnosi verificata — worker già scriveva parziali in DB; collo di bottiglia era il Pannello, non il VPS.
+
+**Esito 18:50:** Nicola «fatto» — merge eseguito; quinta prova streaming.
+
+**Esito 18:54:** Nicola «fai la prova» — sesta prova streaming; esito non dichiarato.
+
+**Esito 18:56:** Nicola «rifai la prova» — settima prova streaming; esito non dichiarato.
+
+**Esito 19:02:** Nicola «**cresce live, però solo alla fine**» + «non da quando inizi» — **progresso parziale** (primo «cresce live» dopo 7 prove); tema **non chiuso** — serve #343 + aggiorna-cervello.sh per streaming dall'inizio.
+
+**Esito 19:13:** Nicola «**ok fatto**» — VPS allineato (`aggiorna-cervello.sh` completato, worker-chat riavviato 19:10); **nona prova** streaming in corso.
+
+**Esito 19:15:** Nicola feedback 3 punti — (1) «Sto elaborando…» subito **sì** · (2) testo vero **solo alla fine** · (3) pallini **uguali**. Streaming parziale (#343 ok placeholder); pallini #342 insufficiente — **tema aperto**.
+
+**Esito 19:23:** Nicola «**2) tutto insieme**» — testo finale non cresce parola per parola nemmeno negli ultimi secondi; arriva in un colpo solo. Prossimo fix = diagnosi parziali DB vs Pannello, non merge/restart.
+
+**Esito 14/7 02:37:** riapprovazione Pannello 00:35 — merge **già eseguito** su GitHub (`2e273311`, 13/7 18:46). Worker: `esegui-azione github-merge` → «PR #342 non è aperta (stato: closed)» exit 1 — obiettivo già raggiunto, nessun secondo merge.
+
+- **Colore:** ✅ merge fatto · ⏳ streaming testo vero (tutto insieme) + pallini ancora aperti
+
+---
+
+### ✅ #pr-343-streaming-reattivo-inizio — MERGIATA 2026-07-13 ~19:05 · ✅ Nicola «ok fatto» 19:13
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** mostra «Sto elaborando…» / «Sto verificando i dati…» subito dopo l'invio e aggiorna la bolla più spesso — lo streaming parte dall'inizio, non solo in fase testo finale.
+
+**PR su GitHub:** [#343 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/343)
+
+**Esito 19:10:** VPS usciva RIMANDATO (branch `fix/streaming-piu-reattivo-inizio`) — AD ha chiuso branch → main `5a6bd24b`, codice #343 su disco.
+
+**Esito 19:13:** Nicola «**ok fatto**» — `aggiorna-cervello.sh` completato, worker-chat riavviato 19:10, codice #343 live; nona prova streaming in corso.
+
+**Esito 19:15:** Nicola — (1) «Sto elaborando…» subito **sì** (#343 ok) · (2) testo vero **solo alla fine** (obiettivo non raggiunto) · (3) pallini **uguali** (track separato).
+
+**Esito 19:23:** Nicola «**2) tutto insieme**» — nemmeno parola per parola negli ultimi secondi; #343 raggiunge solo placeholder iniziale.
+
+- **Colore:** ✅ merge fatto · ⏳ testo vero tutto insieme — serve fix oltre #343 (DB vs Pannello)
+
+---
+
+### ✅ #pr-341-streaming-vps-allineamento — MERGIATA 2026-07-13 ~18:50 · ✅ Nicola «fatto»
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** allinea codice VPS da GitHub e riavvia **entrambi** i worker (principale + chat); fix streaming poll 1s + testo semplice mentre scrivo — chiude il buco «restart non basta».
+
+**PR su GitHub:** [#341 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/341) ← commit `cf690e6e`
+
+**Esito 18:50:** Nicola «fatto» — merge + procedura completati insieme a #342.
+
+- **Colore:** ✅ merge fatto · ✅ Nicola ha eseguito procedura 13/7 ~18:50
+
+---
+
+### ✅ #pr-340-pallino-mancante — MERGIATA 2026-07-13 ~18:14 · ⏳ deploy Vercel + test Nicola
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** mostra il pallino rosso sulle chat con risposta AD non letta anche quando sei in Plancia/Lavori — pallino sparisce solo se la chat è davvero a schermo (tab Assistente o drawer fluttuante).
+
+**PR su GitHub:** [#340 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/340) ← merge `824e1759`, commit `eef9e4f4`
+
+**Esito verifica 18:15:** codice su main ok; test B = scrivi → Plancia → elenco Conversazioni deve mostrare pallino dopo risposta AD.
+
+**Esito 18:27:** Nicola «merge non lette» — fix è su Vercel, non worker; serve deploy + Ctrl+F5 (restart worker non cambia pallini).
+
+**Pendente:** refresh forzato Pannello (Ctrl+F5) post-deploy Vercel.
+
+- **Colore:** ✅ merge fatto · verifica UX post-deploy
+
+---
+
+### ✅ #pr-339-streaming-spezzato — MERGIATA 2026-07-13 ~18:14 · ✅ riavvio worker FATTO 18:22 · ⏳ aggiorna-cervello.sh
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** durante lo streaming in chat, il testo cresce **in orizzontale** (parola per parola) invece di spezzarsi a colonna — worker concatena i micro-frammenti Cursor; Pannello mostra testo semplice (no Markdown) finché la risposta non è completa.
+
+**PR su GitHub:** [#339 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/339) ← merge `d7881680`, commit `1081be71`
+
+**Esito verifica 18:15:** `_estrai_stream` testato in locale con pattern bug Nicola.
+
+**Esito 18:22:** Nicola ha eseguito `sudo systemctl restart mycity-worker-chat` + Ctrl+F5.
+
+**Esito 18:27:** streaming **ancora rotto** — restart non aggiorna codice su disco; serve **#341** + `aggiorna-cervello.sh`.
+
+- **Colore:** ✅ merge fatto · ⏳ VPS allineamento via #341
+
+---
+
+### ✅ #pr-338-streaming-pallini — MERGIATA 2026-07-13 ~17:58 · ✅ riavvio worker FATTO 18:22
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** ripristina lo streaming parola-per-parola con motore Cursor (la #335 aveva reintrodotto flag incompatibili) e chiude la race del pallino che tornava ~5s dopo aver aperto la chat (`segnaLetta` salva orario «adesso» in persist).
+
+**PR su GitHub:** [#338 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/338) ← merge `81c28c0b`, commit fix `30c4c614`
+
+**Esito:** Nicola riconferma pallino ancora visibile ~18:01 — probabile versione Vercel pre-deploy (2–3 min). Test post-deploy: refresh forzato → apri chat col pallino → resta 15s → pallino non torna.
+
+**Esito 18:22:** Nicola ha eseguito restart worker + Ctrl+F5 — streaming live ora testabile; pallini da verificare post-deploy.
+
+- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
+
+---
+
+### ✅ #pr-337-git-pr-body-gate — MERGIATA 2026-07-13 ~17:49
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** `git-pr.mjs` si ferma se manca il body reale (cosa/perché/come provare) — niente più PR con solo «PR aperta dall'AD…»; se la PR esiste già, aggiorna la descrizione quando il testo è diverso.
+
+**PR su GitHub:** [#337 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/337) ← body verificato 997 caratteri
+
+**Cosa cambia:** da oggi nessuna PR nuova può aprirsi senza spiegazione in italiano dentro GitHub — lo script blocca l'AD se dimentica.
+**Se va bene:** prova ad aprire una PR senza body: deve fallire con messaggio chiaro.
+
+- **Colore:** ✅ merge fatto (#337 live)
+
+---
+
+### ✅ #pr-336-pallini-poll — MERGIATA 2026-07-13 ~17:49 · residuo → #338
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** quando apri una chat con pallino, segna «letta» con l'orario più recente tra chat e lavoro AD, e si riallinea al refresh automatico dell'elenco — il pallino non torna rosso dopo ~5 secondi.
+
+**PR su GitHub:** [#336 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/336) ← commit `ee9d3f9b`, mergiata ~17:49
+
+**Esito:** Nicola riconferma pallino ancora rosso post-merge — race `persistConversazione` coperta in **#338** (mergiata ~17:58).
+
+- **Colore:** ✅ merge fatto · fix completo in #338 mergiata
+
+---
+
+### ❌ #pr-334-pallini-poll — ANNULLATA 2026-07-13 17:51 · sostituita da #336
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** Nicola «c'è un conflitto» — #334 partiva da codice vecchio e mescolava fix già su main (#328/#332/#333). Stesso bug coperto da **#336** (ribasata su main, merge simulato OK).
+
+**Da fare:** Chiudi PR #334 su GitHub **senza mergiare** (se ancora aperta).
+
+- **Colore:** 🟢 (annullata — nessun merge)
+
+---
+
+### ✅ #pr-335-streaming-chat — MERGIATA 2026-07-13 ~17:49 · ⚠️ fix annullato su main
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** riattiva lo streaming in chat quando il motore è Cursor — il testo compare nel Pannello mentre l'AD lavora.
+
+**PR su GitHub:** [#335 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/335) ← fix buono `db0552a0`, merge ha portato `68c15aa4` con codice vecchio
+
+**Esito:** streaming rotto su main — ripristino in **#338** (mergiata ~17:58). Dopo merge: `sudo systemctl restart mycity-worker-chat`.
+
+- **Colore:** ✅ merge fatto · fix in #338 mergiata · riavvio worker pendente
+
+---
+
+### ✅ #pr-331-worker-plugins-fase3 — MERGIATA 2026-07-13 · ✅ riavvio worker FATTO 18:22
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** aggiunge al manifest 8 skill GitHub (21 totali): debug sistematico, design moduli, Supabase, Postgres, cross-repo, PDF/Excel/Word.
+
+**PR su GitHub:** [#331 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/331) ← commit `41ab7192`
+
+**Esito audit 17:55:** su main ma worker **non riavviato** dal 16:08 — plugin fase 3 non caricati live.
+
+**Esito 18:22:** Nicola ha riavviato `mycity-worker-chat` — plugin fase 3 ora caricabili live.
+
+- **Colore:** ✅ merge fatto · ✅ riavvio worker fatto 13/7 18:22
+
+---
+
+### ✅ #pr-329-agent-registry — MERGIATA 2026-07-13 · card coda ancora «chiusa»
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** guardiano agenti legge le `description` di routing e segnala collisioni (fraud-risk/trust-safety).
+
+**PR su GitHub:** [#329 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/329) ← commit `53afcdcc`
+
+**Esito audit 17:55:** su main; card #101 in coda Pannello non ancora aggiornata.
+
+- **Colore:** ✅ merge fatto
+
+---
+
+### ❌ #pr-327-pallini-badge — ANNULLATA 2026-07-13 17:16 · sostituita da #328
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** Nicola «le mergio entrambe?» — #327 era fix incompleto (solo badge, senza sync server cross-device). Stesso bug coperto da **#328** (commit `812cff8b`, conflitti risolti).
+
+**Da fare:** Chiudi PR #327 su GitHub **senza mergiare**. Mergia solo **#328** (card #102).
+
+- **Colore:** 🟢 (annullata — nessun merge)
+
+---
+
+### ❌ #pr-332-pallini-orologio — ANNULLATA 2026-07-13 17:45 · sostituita da #336
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** fix incompleto — Nicola conferma che il pallino riaccende ancora dopo ~5s. Stesso bug coperto da **#336** (max orario chat+lavoro + riallineamento al poll). #334 annullata 17:51 (conflittuale).
+
+**Da fare:** Chiudi PR #332 su GitHub **senza mergiare**. Mergia solo **#336** (card #108).
+
+- **Colore:** 🟢 (annullata — nessun merge)
+
+---
+
+### ❌ #pr-328-pallini-sync — GIÀ SU MAIN 2026-07-13 17:51 · chiudere PR se ancora aperta
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** fix pallini sync telefono/PC (#328) già mergiato su main insieme a #332/#333. Nicola non deve mergiare di nuovo.
+
+**Da fare:** Se #328 è ancora aperta su GitHub, **chiudila senza merge**. Per il residuo pallino ~5s → solo **#336** (card #108).
+
+- **Colore:** 🟢 (già su main — nessun merge richiesto)
+
+---
+
+### ✅� #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ chiusa · accodata 2026-07-13 14:33
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** sotto ogni scheda gialla «memoria incoerente» in Avvisi compare il link **«Parla con questa casella»** — apri chat contestuale, l'AD vede il testo completo dell'avviso e la data.
+
+**PR su GitHub:** [#323 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/323)
+
+**Cosa cambia:** da sola lettura dell'avviso a dialogo con l'AD su cosa significa e cosa fare — stesso pattern delle altre card del Pannello.
+**Se va bene:** mergi #323 dal Pannello → deploy Vercel → Avvisi → sotto ogni scheda gialla trovi «Parla con questa casella».
+
+- **Colore:** 🟢🟢 (merge dal Pannello — card #96)
+
+---
+
+### ❌ #pr-320-worker-plugins — ANNULLATA 2026-07-13 17:19 · plugin fase 1 già su main
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** Nicola segnalò conflitto su #320 — stessi file già entrati su `main` con recovery worker (`601aec92`/`f5f5ae96`, 13/7 12:32–12:37). Manifest, sync, grilling, ponytail e caveman-internal già live.
+
+**Da fare:** Chiudi PR #320 su GitHub **senza mergiare** (come #316). Fase 2 = **PR #330 mergiata** (`ac9e24a9`). Dopo: **riavvia worker** una volta per caricare le 14 skill del manifest.
+
+- **Colore:** 🟢 (già su main — nessun merge richiesto)
+
+---
+
+### ✅� #pr-319-volano-tasso — Mergia PR #319: fix volano tasso lezioni (ESITI quaderni + STATO) · ⏳ chiusa · accodata 2026-07-13 12:42
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** il calcolo del tasso lezioni legge anche gli ESITI dei quaderni senior e le citazioni in STATO, non solo i briefing — tasso onesto **0,29** (39/133). Fix pipeline in `giro.sh` + `tasso-lezioni.mjs` + `sentinella-dati.mjs`.
+
+**PR su GitHub:** [#319 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/319) ← branch `fix/volano-tasso-lezioni`, commit `2d8ff61f` (conflitti risolti 13/7 12:42 — uniti #317+#318 su main)
+
+**Cosa cambia:** il volano auto-coscienza misura le lezioni realmente applicate nel lavoro, non sottostima più.
+**Se va bene:** mergi #319 dal Pannello → prossimo giro aggiorna sentinella volano con tasso corretto.
+
+- **Colore:** 🟢🟢 (merge dal Pannello — card #96)
+
+---
+
+### ✅ #pr-305-ordine-conversazioni — FATTO 2026-07-12 17:44 · fix già su main via PR #303 mergiata da Nicola
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Aprire una chat non la sposta più in cima nella lista Conversazioni — ordine stabile (pinnate 📌 + data creazione). Commit `67c6b804` su main. PR #305/#306/#304 doppioni da chiudere senza merge (conflitti su file cervello). Deploy Vercel automatico.
+
+- **Colore:** 🟢 (già merged via #303)
+
+---
+
+### ✅ #pr-297-archivio-parallelo — FATTO 2026-07-18 · PR #297 mergiata (commit 8afd6fd3)
+
+Archivio carica in 1-2 sec con `Promise.all()` invece di 15 sec in fila.
+
+---
+
+### ❌ #pr-299-badge-fix — SOSTITUITA da PR #316 · 2026-07-13 12:14
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** PR #299 (fix parziale badge) superata da #316 che unisce sync chat cross-device + logica badge completa secondo specifica Nicola 13/7.
+
+**Da fare:** Chiudi PR #299 su GitHub senza mergiare. ~~Mergia **#316**~~ → sync già su main (#317); chiudi #316 senza merge.
+
+---
+
+### ❌ #pr-316-chat-sync-badge — SOSTITUITA · sync già su main · 2026-07-13 12:39
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** sync chat PC↔telefono + fix pallini rossi entrati su `main` con merge #317 (13/7 ~12:30). PR #316 obsoleta — stesso fix già live.
+
+**Da fare:** Chiudi PR #316 su GitHub **senza mergiare**. Chiudi anche #299 se ancora aperta.
+
+---
+
+### ✅� #pr-318-chat-ux-tre-fix — Mergia PR #318: X prompt + chat evidenziata + annulla invio · ⏳ chiusa · accodata 2026-07-13 12:27
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa fa:** (1) **X** sulla card «Prompt pronto» — chiudi senza copiare; (2) chat aperta **evidenziata** nel cassetto (bordo colorato + «aperta ora»), anche in chat fluttuante; (3) **Annulla invio** mentre compare «sto pensando…» — ferma l'AD, toglie il messaggio, rimette il testo nella casella.
+
+**PR su GitHub:** [#318 su ad-mycity](https://github.com/NicolaeRotaru/ad-mycity/pull/318) ← branch `fix/chat-ux-tre-fix`, commit `03751823`, solo `globals.css` + `page.tsx` (conflitti risolti 13/7 12:39 — file worker contatore lezioni rimossi dal branch)
+
+⚠️ **Non mergiare #316** — sync già su main. Opzionale: chiudi #316 senza merge.
+
+**Cosa cambia:** UX chat più controllabile — chiudi prompt, vedi quale chat hai aperto, annulla invii per sbaglio.
+**Se va bene:** deploy automatico Vercel; i tre fix online su PC e telefono.
+
+- **Colore:** 🟢🟢 (merge dal Pannello — card #94)
+
+---
+
+### ✅ #pr-conv-pin-badge — FATTO 2026-07-12 02:22 · PR #294 MERGIATA da Nicola · pin + badge "non letto" live
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Feature: graffetta (📌) per pinnare chat in cima + pallino rosso per messaggi non letti (localStorage). PR #292 e #293 scartate per conflitti su file di memoria → risolto al terzo tentativo con branch pulito da main HEAD + solo `pannello/src/app/page.tsx`. Deploy Vercel automatico partito.
+
+⚠️ **Chiudi PR #292 e #293 su GitHub senza mergiare** (superate da #294 già merged).
+
+- **Colore:** 🟢 (già merged)
+
+---
+
+### ❌ #pr-290-report-piani — CHIUDERE SENZA MERGE · PR #290 basata su malinteso · 2026-07-12 01:39
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa è successo:** PR #290 spostava "Archivio" in una sezione dedicata "Report & Piani" nel sidebar. Nicola ha chiarito che NON vuole quella sezione — vuole rimettere "Archivio" com'era prima (dentro "Approfondisci"). La PR #290 va chiusa su GitHub **senza mergiare**.
+
+**Cosa voleva davvero Nicola:** il navigatore ad albero (Opzione A). **Già fatto:** commit `cc99d5e7` su main, deploy automatico in corso — Archivio mostra cartelle cliccabili.
+
+**Da fare:** Nicola chiude PR #290 su GitHub senza mergiare (il navigatore è già live senza bisogno di quella PR).
+
+---
+
+### ❌ #pr-289-guard-pannello-main — SOSTITUITA da PR #295 (aveva conflitti) · 2026-07-12 02:35
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+PR #289 aveva conflitti su `sentinella-dati.json` e `routing.json`. Sostituita da PR #295 (branch pulito, zero conflitti). **Chiudi PR #289 su GitHub senza mergiare.**
+
+---
+
+### ✅ #pr-295-guard-pannello-main-v3 — FATTO 2026-07-12 02:40 · PR #295 MERGIATA da Nicola · guard giro.sh v3 live
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+La guard in `giro.sh` è attiva: il sistema di recupero VPS non commette più `pannello/` o `cervello/` su main automaticamente.
+
+⚠️ **Chiudi PR #289 su GitHub senza mergiare** — superata da #295 già merged.
+
+- **Colore:** 🟢 (già merged)
+
+---
+
+### ✅ #pr-288-scroll-chat — FATTO 2026-07-12 01:14 · Fix già su main (commit bf1ac43d) — nessuna PR da mergiare
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Il sistema di recupero VPS ha committato il fix `forzaScrollRef` direttamente su main, come già successo con PR #286. **PR #288 va chiusa su GitHub (è superata — la modifica è già live).** La chat ora si apre sempre all'ultimo messaggio.
+
+- **Colore:** 🟢 (già su main)
+
+---
+
+### ✅ #pr-chat-fluttuante-v2 — FATTO 2026-07-12 00:42 · Fix già su main (commit 4bcdd5c5) — nessuna PR da mergiare
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Il sistema di recupero ha committato il fix direttamente su main prima che fosse possibile mergiare la PR #286. **PR #286 va chiusa su GitHub (è superata — la modifica è già live).**
+
+- **Colore:** 🟢 (già su main)
+
+---
+
+### ✅ #pr-284-archivio — FATTO 2026-07-12 00:40 · PR #287 mergiata da Nicola · "Archivio" ora nel menu del Pannello
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+- **Colore:** 🟡 (codice Pannello → il merge lo fai tu)
+
+---
+
+### ✅ #pr-276-grafica-chat-coda — FATTO 2026-07-12 02:44 · PR #276 MERGIATA da Nicola · grafica "In coda" a 3 livelli live
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+La sezione **Lavori** del Pannello mostra ora 3 stati visivi distinti: in elaborazione (animato), in coda (grigio), errore (rosso). PR #275 (superata) chiusa. Deploy Vercel automatico.
+
+- **Colore:** 🟢 (già merged)
+
+---
+
+### ✅ #pr-274-memoria-chat — FATTO 2026-07-12 02:44 · PR #274 MERGIATA da Nicola · chat con memoria sessioni precedenti live
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Ogni messaggio include automaticamente le ultime conversazioni compresse. #272 (contesto memoria in coda), #270 (errori AutoCoscienza), #269 (chat caselle compatta) — tutte mergiata nello stesso batch. Deploy Vercel automatico.
+
+- **Colore:** 🟢 (già merged)
+
+---
+
+### ✅ #crea-tabella-conversazioni — FATTO 2026-07-12 01:30 · Nicola ha eseguito il SQL su Supabase SQL Editor · tabella `conversazioni` + index + RLS + policy creati nel DB Memoria
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+⚡ **APPROVATA in chat da Nicola il 12/7 00:35 ("fallo tu")** — firma data. Il MCP Supabase Memoria è connesso (`apply_migration` disponibile). L'AD può eseguire direttamente nel prossimo turno.
+
+**Problema:** le chat del Pannello si perdono a ogni ricarica perché la tabella `conversazioni` non esiste nel DB Memoria. Il codice è pronto, la tabella no.
+
+**Passi — firma Nicola (2 opzioni):**
+
+**Opzione A — 3 minuti su Supabase (subito):**
+1. Vai su [supabase.com](https://supabase.com) → progetto Memoria (`xjljcsorpbqwttrejqte`)
+2. SQL Editor → incolla e clicca **Run**:
+```sql
+create table if not exists public.conversazioni (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  titolo text not null default 'Conversazione',
+  messaggi jsonb not null default '[]'::jsonb,
+  ultima_lettura timestamptz
+);
+create index if not exists conversazioni_updated_at_idx on public.conversazioni (updated_at desc);
+alter table public.conversazioni enable row level security;
+create policy "service role full access" on public.conversazioni
+  using (true) with check (true);
+```
+
+> ⚡ **Aggiornato 2026-07-12:** aggiunto `ultima_lettura timestamptz` — usato per mostrare il badge "non letto" nella lista conversazioni (se l'ultimo messaggio AI è più recente di `ultima_lettura`, compare il pallino). Si aggiorna ogni volta che si apre la chat. Richiesto da Nicola 12/7.
+
+**Opzione B — aggiungi token al VPS (poi l'AD crea la tabella da solo):**
+- Aggiungi `SUPABASE_ACCESS_TOKEN` (Management API token da supabase.com/account/tokens) nel file `.env` del VPS
+
+**Cosa cambia:** le chat vengono salvate e sincronizzate — non si perdono più a ogni ricarica.
+**Se va bene:** riapri il Pannello e la chat ripartirà da dove l'hai lasciata.
+
+- **Colore:** 🔴 (operazione DB in produzione — firma Nicola)
+- **Blocco n.1** da risolvere prima di `#allegati-vercel-env` (le env var servono, ma senza tabella non basta)
+
+---
+
+### ✅ #allegati-vercel-env — FATTO 2026-07-13 17:28 · Nicola «ok #60» · variabili Storage su Vercel attive, upload verificato live
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Problema:** il Pannello non riesce a far leggere all'AD i file allegati. Il Pannello li carica su Supabase Memoria Storage, poi manda il percorso al worker. Il caricamento fallisce perché Vercel non ha le credenziali Supabase.
+
+**Passi (2 minuti, su [vercel.com](https://vercel.com)) — firma Nicola:**
+1. Vai al progetto Pannello → **Settings → Environment Variables**
+2. Aggiungi `SUPABASE_URL` = `https://xjljcsorpbqwttrejqte.supabase.co`
+3. Aggiungi `SUPABASE_SERVICE_KEY` = valore dalla riga `SUPABASE_SERVICE_KEY=eyJhbGci…` nel file `.env` del VPS
+4. Clicca **Save** — il prossimo deploy le userà automaticamente
+
+**Nota:** il worker VPS ha già entrambe le chiavi e sa scaricare i file — manca solo il lato Vercel.
+
+**Cosa cambia:** il Pannello riesce a caricare file su Supabase Memoria; l'AD può leggerli e rispondere al loro contenuto.
+**Se va bene:** test immediato — allega un file in chat e l'AD risponde al contenuto (no più errore).
+
+- **Colore:** 🔴 (variabili d'ambiente in produzione — firma Nicola)
+
+---
+
+### ✅� #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ chiusa · accodata 2026-07-11 15:30
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Contenuto completo:** `consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md`
+
+**Testo pronto (versione Gruppi Facebook — dal profilo personale del fondatore):**
+
+> Lunedì mattina mi alzo presto, prendo la bici e giro nel centro storico di Piacenza.
+>
+> Busso alle saracinesche delle botteghe che voglio portare su MyCity. Di persona.
+>
+> Non mando una mail. Non pago un agente. Ci vado io.
+>
+> Perché se dico ai piacentini "la tua spesa la prepara qualcuno del centro", devo conoscere il centro anch'io. Devo sapere come si chiama il panettiere, a che ora alza la saracinesca, cosa va tenuto in fresco.
+>
+> Questa settimana le prime botteghe. La prossima, vi dico chi c'è.
+>
+> Un marketplace di Piacenza costruito a Piacenza — un negozio alla volta.
+>
+> *La spesa che tiene viva la città. Fai il tuo turno.*
+>
+> (nel 1° commento il link)
+
+**Prima del post servono da Nicola (👁️ due minuti):**
+1. **Link lista d'attesa** — incollalo qui e la macchina aggiunge il 1° commento al testo
+2. **Visual** — opzione rapida: testo *"Lunedì mattina ci vado di persona."* su sfondo cotto-brand (si prepara in 5 minuti col template); oppure una foto tua in bici/piedi per il centro
+
+**Timing suggerito:** sabato pomeriggio (oggi) o domenica mattina — finestra migliore per i gruppi FB; il lunedì 13/7 diventa "atteso".
+
+**Cosa cambia:** primo post BTS-fondatore della serie "Il Turno" — mostra la faccia di chi costruisce il marketplace, non solo il prodotto. Angolo impossibile da copiare per Amazon.
+**Se va bene:** commenti con "ci sono anch'io" + click lista d'attesa → follow-up naturale lunedì sera con "ecco le botteghe che ho incontrato" (post #5 già pianificato).
+
+- **Colore:** 🔴 (pubblicazione su profilo personale / pagina — firma Nicola prima)
+- **Canale:** Gruppi Facebook locali piacentini (profilo personale) + Instagram/Facebook Pagina MyCity
+
+---
+
+### ✅� #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ chiusa · accodata 2026-07-11 10:40 · **aggiornato 2026-07-13 11:18**
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+> ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" è scattata di nuovo oggi (firma `c0b240c0…`) — **cancello 🔬 confermato: falso positivo, nessuna telefonata anti-churn.** Il problema operativo resta la **vetrina scheletrica** (2/8), non l'abbandono.
+>
+> **Dossier stampabile aggiornato:** `consegne/account-negozi/2026-07-13-checkin-pane-quotidiano-sentinella.md`
+
+**Health score — Pane Quotidiano (unico negozio approvato)**
+
+| Dimensione | Stato | Note |
+|---|---|---|
+| Approvato sul marketplace | ✅ | Unico negozio LIVE |
+| Prodotti caricati | ✅ | 258 prodotti presenti |
+| Ordini ultimi 14 giorni | ⚠️ 0 | Atteso: PQ aspetta la piattaforma — non è abbandono |
+| Logo negozio | ❌ manca | Da raccogliere fisicamente |
+| Foto prodotti | ❌ 1+ mancanti | Da raccogliere fisicamente |
+| Descrizione vetrina | ❌ manca | Da scrivere con loro (ai-copywriter dopo) |
+| Indirizzo / città | ❌ manca | "Piacenza" — 1 riga da aggiungere |
+| Fee consegna / min ordine | ⚠️ da verificare | Coerenti con l'operatività reale? |
+
+**Punteggio: 2/8 — la vetrina è scheletrica.** Non blocca ora, ma abbassa la qualità percepita dai clienti del 13/7+.
+
+---
+
+**Kit per la visita del 13/7 — 3 cose da raccogliere di persona:**
+
+1. 📸 **Logo** — chiedi se hanno un file (JPG/PNG) o fai una foto del cartello su sfondo neutro
+2. 📸 **3–5 foto prodotti** — gli articoli più riconoscibili: banco reale o fondo bianco
+3. ✍️ **Descrizione in 2 righe** — "Chi siete, cosa vendete di speciale, da quando" — bastano le loro parole, ci pensa la macchina a formattarle in copia
+
+**Domande da fare durante la visita:**
+- Avete accesso al vostro account? Riuscite a entrare?
+- Avete ricevuto l'email di conferma attivazione?
+- Quando volete iniziare a prendere ordini sul serio?
+- Preferite che scrivo io la descrizione vetrina, o volete farlo voi?
+
+---
+
+**Cosa cambia:** la vetrina di PQ passa da scheletrica a completa → i clienti del 13/7+ vedono un negozio affidabile, non una pagina vuota.
+**Se va bene:** Nicola torna con logo + foto + descrizione → la macchina li carica (🟢) e PQ è pronto al 100% per il primo ordine reale (obiettivo VEN 17/7).
+
+- **Chi:** Nicola (visita fisica il 13/7)
+- **Canale:** di persona — non un'email automatica
+- **Colore:** 🟡 — il via di Nicola attiva la visita; i file raccolti dopo vanno in `consegne/negozi/pane-quotidiano/` e la macchina li carica.
+
+---
+
+### ❌ #antichurn-13lug — SCADUTA 2026-07-18 11:11 · condizione mai soddisfatta (0 botteghe onboardate dopo 13/7; i 6 ristoranti elencati in A4 sono ESCLUSI per regola Nicola 18/7)
+
+> **Scan 14/7 11:07 (REST live):** ancora **1 solo negozio approvato** (PQ) — nessuna bottega nuova online dal 13/7. Debrief visita mancante. Dettaglio: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
+
+> **Playbook completo:** `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md` (titolo storico — da riallineare alle botteghe core, non ristoranti/trattorie)
+
+**Questo playbook si attiva dopo l'onboarding delle prime botteghe** — clienti MyCity = solo botteghe (Nicola 13/7 22:34).
+
+**4 touch point per ogni bottega onboardata (colori esatti nel playbook):**
+
+| Giorno | Trigger | Azione | Chi |
+|---|---|---|---|
+| **T+3** (≈ mer 16/7) | 3gg dall'onboarding | WhatsApp/tel caldo: "come va?" | Nicola |
+| **T+7** (≈ dom 20/7) | 0 ordini | Chiamata check-in + ottimizzazione vetrina | Nicola |
+| **T+14** (≈ dom 27/7) | < 3 ordini | Post social bottega + boost su MyCity | AD + Nicola |
+| **T+45** (≈ 29/8) | Health score < 50 | Decisione: upsell / promozione / ritiro | Nicola 🔴 |
+
+**Cosa faccio dopo il tuo "ok [#antichurn-13lug] + conferma quali botteghe hai firmato":**
+1. Inserisco i contatti raccolti nel playbook
+2. Preparo il messaggio WhatsApp T+3 personalizzato per ogni bottega (testo pronto, tu invii)
+3. Setto le date dei touch point T+7/T+14/T+45 nel calendario (scadenzario)
+
+**Cosa cambia:** ogni nuova bottega onboardata ha un ciclo di cura garantito nei primi 45 giorni — nessuna «si perde» in silenzio dopo l'onboarding.
+**Se va bene:** primo ristorante con ≥ 5 ordini nei primi 14 giorni = segnale che il ciclo funziona → estendiamo il modello a tutte le future.
+
+- **Chi avvia:** Nicola dopo le visite del 13/7 con "ok #antichurn-13lug + [nomi firmati]"
+- **Canale:** WhatsApp/telefono diretto (Nicola) + AD prepara i testi pronti
+- **Colore:** 🟡 (check-in reali con persone reali — Nicola li avvia, la macchina prepara i testi)
+
+---
+
+### ✅✅ #pr-270-errori-undefined — Mergia PR #270: caselle AutoCoscienza mostrano testo vero degli errori · ⏳ IN ATTESA · accodata 2026-07-11 15:39
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa cambia:** le caselle "Errore: undefined" nel Pannello (sezione AutoCoscienza) mostrano ora il testo reale dell'errore (es. "MCP marketplace gated in sessione..."). Bug: il giro scriveva `errori` come array di stringhe, il componente cercava `.titolo` su ciascuna → undefined.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/270
+
+**Cosa cambia:** il Pannello smette di mostrare caselle vuote con "Errore: undefined" — ogni errore ha il suo titolo leggibile.
+**Se va bene:** Nicola mergia la PR → deploy Vercel → caselle mostrano il testo degli errori.
+
+- **Colore:** 🟢🟢 (codice Pannello → il merge lo fai tu).
+
+---
+
+### ✅✅ #pr-269-chat-height — Mergia PR #269: chat delle caselle più compatta · ⏳ IN ATTESA · accodata 2026-07-11 15:37
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Cosa cambia:** l'area messaggi nella chat delle caselle passa da 144px (`h-36`) a 96px (`h-24`) — un terzo di spazio in meno, il campo di testo rimane dov'è. Tocca `ChatCasella.tsx` (e la componente gemella se presente).
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/269
+
+**Cosa cambia:** la chat è più compatta e meno invasiva nel layout della casella.
+**Se va bene:** Nicola mergia la PR → deploy Vercel → chat accorciata online. Se l'altezza risultasse ancora troppa o troppo poca, basta riaprire e cambiare il valore in 30 secondi.
+
+- **Colore:** 🟢🟢 (codice Pannello → il merge lo fai tu).
+
+---
+
+### ✅ #pr-255 — SUPERATA: sostituita da PR #257 · 2026-07-10 18:50
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Branch `fix/chat-parla-casella-ux` presente su GitHub ma il commit non arrivava su `origin/main` in modo pulito. La PR #257 include gli stessi fix + la causa radice trovata (vercel.json). Non mergiare la #255.
+
+---
+
+### ✅ #pr-257 — MERGIATA (auto-merge): vercel.json + ParlaCasella UX · FATTO 2026-07-10 18:57
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Fix confermati su `origin/main`:**
+1. `vercel.json`: `"deploymentEnabled": {"main": false}` → `true` — deploy Vercel sbloccati
+2. `ParlaCasella.tsx`: altezza `h-36`, scroll al fondo all'apertura, nessun doppio a capo
+
+**Nota:** PR mergiata via auto-merge (non da Nicola). I fix sono verificati su GitHub.
+Vercel dovrebbe buildare a breve; il Pannello si aggiorna in 1-2 minuti dal merge.
+
+---
+
+### ❌ #pr-252 — ANNULLATA: sostituita dalla #255 · 2026-07-10 18:35
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+Branch non era su GitHub. Fix ripushato tramite PR #255.
+
+---
+
+### ✅ #trigger-build-pannello — Committa un trigger su pannello/ per forzare il build Vercel · FATTO 2026-07-11 14:48
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Esito:** commit `4d37c741` su `origin/main` (toccato `pannello/.build-trigger`) — approvato Nicola 11/7. Da allora ogni merge su `pannello/` ribuilda Vercel automaticamente; i commit di sola memoria non triggerano build (voluto). Card rimasta in coda per errore housekeeping — **ignorare** se il Pannello online è aggiornato. Chiusa in metabolizzazione 13/7 19:44 dopo chiarimento Nicola «cioè?».
+
+---
+
+### ✅ #chat-fix-1 — Pusha il branch fix/chat-altezza-scroll-spaziatura e apri la PR · FATTO 2026-07-10 18:10
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+PR #251 MERGIATA (Nicola, 10/7 ~18:15). Fix deployati su Vercel.
+
+Fix inclusi:
+- Altezza fissa finestra messaggi (`h-36`), scroll al fondo all'apertura, scroll al fondo dopo ogni risposta
+- `motore-ai.sh`: in auto Claude viene scelto per primo; Cursor gira solo se `CERVELLO_MOTORE=cursor` esplicito
+
+⚠️ `module_not_found` segnalato ancora da Nicola dopo il merge (10/7 ~23:59) → vedi azione `#worker-restart` qui sotto.
+
+---
+
+### ✅ #sblocca-pannello — Push trigger-build + riavvio worker (1 comando, ~20 secondi) · FATTO 2026-07-13 19:44
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+
+**Esito:** trigger pushato **11/7** (`4d37c741` su `origin/main`); worker riavviato più volte (ultimo confermato **13/7 19:10** post-#343). Obiettivo raggiunto — Pannello ribuilda su ogni modifica `pannello/`. Card obsoleta, chiusa in metabolizzazione 13/7 19:44.
+
+---
+
+## 2026-07-09 23:30 · @devops-sre → 🔴 Accendi gli allegati in chat su Vercel (variabili + Redeploy)
+Il codice degli allegati (foto + file nella chat con l'AD) è pronto nel branch. Perché funzioni online servono due passi che tocco NON posso fare io (sono nella dashboard Vercel): li devi fare tu, in 5 minuti.
+
+**Passo 1 — Metti due variabili su Vercel** (Project → Settings → Environment Variables, ambiente *Production*). Sono quelle del progetto Supabase **MEMORIA** (NON il marketplace), le stesse che hai sul VPS in `cervello/vps/.env`:
+- `SUPABASE_URL` = l'URL del progetto memoria (`https://…​.supabase.co`)
+- `SUPABASE_SERVICE_KEY` = la service_role key del progetto memoria (segreta, resta solo sul server)
+
+Servono perché la route `/api/allegato` carica il file nel bucket privato `chat-allegati` con quella chiave. Il bucket si crea da solo al primo upload: nessun passo manuale sul database.
+
+**Passo 2 — Fai il Redeploy** (Deployments → ultimo deploy → Redeploy) così Vercel builda il codice nuovo del Pannello con gli allegati.
+
+- **Cosa cambia:** dopo questi due passi potrai allegarmi foto e PDF/documenti direttamente dalla chat, e io li leggo. Finché non li fai, il pulsante graffetta compare ma l'upload dà errore.
+- **Se va bene:** provalo tu dal browser (allega una foto, mandamela) → se la vedo, è fatto; poi mergiamo il branch su `main`.
+- **Colore:** 🔴 — tocca la produzione (variabili + deploy). Lo firmi/fai tu; io non entro nella dashboard.
+
+---
+
+### ✅ #60 — FATTO 2026-07-13 17:28 · Nicola «ok #60» · Storage allegati LIVE su Vercel (POST /api/allegato ok:true verificato)
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+**Cosa cambia:** con queste variabili la chat del Pannello inizia ad accettare **foto e file (PDF/documenti)** — li carica su Supabase Storage e li mostra in conversazione. Senza variabili + deploy, il codice c'è ma resta spento online.
+**Se va bene:** provo l'upload nel browser sul Pannello vero e ti mostro che una foto e un PDF arrivano davvero, prima di dichiararlo fatto.
+
+- **Colore:** 🔴 (tocca la produzione: dashboard Vercel + deploy online).
+- **Superficie:** usi **Vercel online** → le variabili vanno in **Vercel → Progetto del Pannello → Settings → Environment Variables** (non sul VPS).
+- **Passo A — variabili su Vercel** (Nicola, ~3 min): apri Settings → Environment Variables e verifica/aggiungi le chiavi Supabase del progetto **memoria** che servono allo Storage:
+  - `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` (progetto memoria) — se già presenti per la chat, sono queste.
+  - la chiave di **service role** lato server per scrivere nel bucket (nome esatto lo confermo quando ho pronto il branch del codice).
+  - il bucket Storage dedicato (es. `chat-allegati`) creato sul progetto memoria.
+  > Nota: i nomi esatti li fisso io quando finisco il codice nel branch — questa card è il segnaposto perché il passo non si perda. Non aggiungere nulla alla cieca finché non ti do la lista chiusa.
+- **Passo B — deploy** (Nicola, 1 clic): dopo aver salvato le variabili, **Redeploy** dell'ultimo commit del Pannello su Vercel, così il codice foto/file va online.
+- **Cosa NON faccio io:** non ho le mani sulla dashboard Vercel né sul deploy in produzione → li firmi tu. Io preparo il codice nel branch e ti do la lista esatta delle variabili.
+- Traccia: [[DECISIONI]] 2026-07-09 23:11 · richiesta Nicola «aggiungi foto e file in chat».
+
+---
+
+### ✅� R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA · ✅ **FATTA — Nicola ha revocato il vecchio PAT (chat 2026-07-07)** → buco AR-004 chiuso. Resta solo la verifica a occhio: il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → dargli un suo PAT read-only + Redeploy). **↺ 7/7 10:57 — verifica trasformata in doer:** ordine A→B chiarito (prima la causa PRIMA = push `origin/main` **#54/#35**, poi il token). Il fix token è ora una card discreta **#55** (condizionata: parte solo se `/api/diagnosi` «Vault GitHub» è ROSSO dopo il push). Diagnosi completa: `consegne/devops/2026-07-07-verifica-pannello-hosted-token.md`. Il check «a occhio» dei 30 s resta l'unico passo umano (URL hosted non nel repo, rete gated in sessione).
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+Il file `cervello/vps/.env.save` col PAT è stato **rimosso dal repo**, il `.gitignore` è esteso (`.env*`/`*.save`) e ora c'è un **pre-commit hook** (`.githooks/pre-commit`) che passa **ogni commit** dallo scan-segreti e lo blocca — non più solo il giro. Ma il token **è già nella storia git**: vai su GitHub → *Settings → Developer settings → PAT* e **revocalo**, poi generane uno nuovo (solo nel `.env` del VPS, mai committato). È l'unica cosa che chiude davvero il buco.
+> 📄 **Runbook pronto (sequenza esatta, ~5 min):** `consegne/security/2026-07-04-R1-revoca-pat-github-runbook.md`.
+> ⚠️ **Difetto trovato in questo giro (🟢, 1 comando):** su QUESTO checkout del VPS il pre-commit hook **non è agganciato** (`core.hooksPath` non impostato, manca `.git/hooks/pre-commit`). L'ho preparato ma il write di git-config aspetta il tuo ok → lancia `bash cervello/installa-hooks.sh`.
+
+> **Decisione Nicola 2026-07-03 (Pannello):** *"Genera nuovo PAT solo nel `.env` VPS."* → nuovo PAT solo in `cervello/vps/.env` (`GIT_PUSH_TOKEN`), non condiviso con Vercel.
+> ⚠️ **Trappola da rispettare nella sequenza:** oggi lo STESSO token serve anche al **Pannello su Vercel** (`GITHUB_TOKEN`, `obsidian.ts`). Se revochi e metti il nuovo solo nel VPS, il Pannello va **cieco** (non legge più `memoria-ad` né il codice per radiografia/audit). Ordine corretto: 1) genera nuovo PAT (repo ad-mycity+mycity, Contents R/W + PR R/W) → VPS `.env`; 2) dai a Vercel un suo valore in `GITHUB_TOKEN` (consigliato: 2° PAT **read-only** = least-privilege, oppure lo stesso nuovo PAT); 3) **solo allora REVOCA il vecchio** su GitHub. Tutto 🔴, solo Nicola.
+
+
+### R2 — Merge + deploy dei fix del cantiere · ✅ **FATTO 2026-07-07 13:35 — Nicola: «l'ho fatto»** → `git push origin main` eseguito: i 20 fix del cantiere (PR #212) sono **canonici su `origin/main`** + la memoria pubblicata nello **stesso push** (chiude anche #54). **Non verificato dal VPS in sessione** (fetch/push gated) → prova del nove a video = il Pannello hosted mostra i fix + il giro di oggi; se in `/api/diagnosi` la voce «Vault GitHub» è **ROSSA** → card token **#55**. Il testo storico sotto è **superato**.
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+> ⛔ **[SUPERATO 7/7 13:35 — vedi header] Tentativo di esecuzione 2026-07-04 15:22 — BLOCCATO (nessun merge fatto).** Motivo: **non esiste nessuna PR da mergiare.** `github-merge`/`git-merge.mjs` mergia solo una PR già aperta (la recupera via API GitHub) — non la crea. Strada A: branch `claude/machine-analysis-ez7g3e` **assente dai ref locali** (morta). Strada B: creare branch→push→aprire PR→merge, ma **rete/git-push chiusi in questa sessione** (`git ls-remote`, esecuzione `node`, `printenv` tutti negati). `main` ora è **459 commit** dietro `memoria-ad` (non più 116). ➡️ Resta ⏳: serve una sessione con **rete + git push aperti** (VPS/cloud-agent) per creare e mergiare la PR Strada B. Nessun dato inventato, niente ✅ FATTO finché il merge non avviene davvero.
+I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione, guardiano agenti, `sensore-cassa`, `allocazione-check` AR-006, **pre-commit hook segreti AR-004**, gate HACCP) vanno resi **canonici in `main`**.
+> 🔎 **Scoperta di questo giro (cambia la premessa):** i fix **NON sono inerti** — sono già committati e **ATTIVI su `memoria-ad`**, il branch da cui gira il VPS (`giro.sh` li richiama davvero). Il problema vero è che **`main` è indietro di ~116 commit / ~150 file**: alla prossima avanzata di `main`, `aggiorna-cervello.sh` (righe 122-124, propaga le cancellazioni) **cancellerebbe da `memoria-ad` i file-fix assenti da main → romperebbe `giro.sh`**. Quindi R2 = **mettere in salvo i fix** rendendoli canonici, non "accenderli".
+> ⚠️ **Mina:** non spingere in `main` l'oggetto tracciato `marketplace` (copia locale del repo mycity, va escluso). `.mcp.json` è pulito.
+> 📄 **Runbook pronto (Strada A branch scoped / Strada B code-only, verifica + rollback):** `consegne/devops/2026-07-04-R2-merge-deploy-cantiere-runbook.md`.
+> 🔗 **Coordina con #33** (no-path-cablati, stesso cantiere, mid-giro) e **#34/R1** (usa il PAT nuovo se R1 fatto prima). Deploy = **automatico** via `watch-main.timer` (~5 min, riavvia il worker): nessun `systemctl` a mano.
+
+---
+
+### ✅ R3 — Ripuntare i contenuti su Pane Quotidiano (AR-006) · CHIUSO 2026-07-14 01:00
+- **Stato:** ✅ ARCHIVIATA housekeeping 14/7
+**Correzione di rotta:** Casa Linda era una **demo**, non un negozio. L'**unico negozio reale** su MyCity è **Pane Quotidiano** (contratto firmato 1/7). **Fix completato:** cancello allocazione attivo; **12** pacchetti Garetti archiviati; sforzo attivo su PQ (**16** contenuti); merge **PR #349** 13/7 21:44; **AR-006 chiuso** in cantiere su ordine Nicola «chiudi AR-006» (14/7 01:00); `allocazione-check` exit 0 (14/7 00:59). **Resta fuori da R3 (azioni separate):** foto/consenso/link CTA PQ; primo ordine payout-test; pubblicazioni PQ chiusa firma.
+
+---
+
 ### ✅ #fix-termometro-guardiani — Firma il pacchetto «termometro vero + guardiani ascoltati» · ✅ FATTO 2026-07-18 13:21 · PR #448 mergiata da Nicola
 
 **Il problema in una frase:** la Cabina ti ha mostrato salute **100/100 per 9 giorni mentre la radiografia diceva 0** (uno script sovrascrive il voto), e 4 guardiani (registro agenti, keyword-owner, esperimenti, north-star) escono rossi ma il giro ne scarta l'esito con `|| true`.
@@ -2168,19 +2157,6 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 - **Colore:** 🟡 (modifica al codice della macchina in branch — firma tua, regola «mai toccarmi da sola»)
 - **Reparto:** tech
 - **Origine:** `{origine:auto-radiografia-2026-07-16, difetti:AR-105,AR-106,AR-109,AR-111}`
-
----
-
-### 🟡 #mergia-pr-450 — Mergia PR #450: 3 fix Pannello (risposta vuota, in_attesa, Parla azzera chat) · ⏳ accodata 2026-07-18 13:28
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/450 · Branch: `fix/pannello-bloccanti-v2`
-
-**Cosa cambia:** (1) la risposta non scompare più se lo streaming l'aveva già mostrata; (2) azioni stuck in «in_attesa» possono essere ri-approvate o annullate; (3) aprire «Parla con questa casella» non azzera più la chat principale.
-
-**Se va bene:** il Pannello risponde in modo affidabile — bottone Approva e chat tornano stabili.
-
-- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
-- **Reparto:** frontend-dev
 
 ---
 
@@ -2200,21 +2176,3 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 - **Colore:** 🟡 (codice del Pannello in branch — firma tua)
 - **Reparto:** frontend-dev
 - **Origine:** `{origine:audit-pannello-2026-07-16, difetti:AR-120..AR-123}`
-
----
-
-### 🟢 #bandi-cciaa-kit — Prepara scheda 1-pagina bandi CCIAA per i negozi del batch · ⏳ accodata 2026-07-17 11:00
-
-**Cosa fare:** `@onboarding-negozi` + `@relazioni-istituzionali` preparano una scheda sintetica 1 pagina da includere nel kit onboarding dei prossimi negozi, con:
-- Bando BT26 (Piccole Imprese): fino a €7.000 · 40% a fondo perduto · scade 30/7 · spese: digitalizzazione / e-commerce ✅ · link CCIAA
-- Bando BE26 (Efficienza Energetica): fino a €20.000 · 50% · scade 30/7 · spese: attrezzature energetiche
-
-**Apertura domande: 20 luglio 2026** → il kit va pronto **entro il 19/7** (domani) per poterlo mostrare ai prossimi negozi.
-
-**Cosa cambia:** ogni negozio che si iscrive a MyCity ora ha anche l'argomento «il canale digitale che ti fa prendere i fondi CCIAA». Sostituisce l'argomento del bando ER CHIUSO il 23/6.
-**Se va bene:** pitch più forte per il batch attuale; i negozi del cluster vedono subito un beneficio economico concreto, non solo visibilità.
-
-- **Colore:** 🟢 (kit bozza interno, nessuna firma — poi diventa 🔴 al momento del contatto reale col negozio)
-- **Reparto:** onboarding-negozi / relazioni-istituzionali
-- **Fonte bandi:** [BT26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-piccole-imprese-per-il-territorio-bt26) · [BE26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bandi-emanati-nel-corso-del-2026/bando-efficienza-energetica-2026-be26)
-- **Origine:** `{origine:monitora-2026-07-17, fonte:cciaa-emilia}`
