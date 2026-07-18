@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 19:00
-fonte: AD digitale (metabolizzazione chat 18/7 19:00)
+aggiornato: 2026-07-18 19:15
+fonte: AD digitale (metabolizzazione chat 18/7 19:15)
 ---
+
+> 💬 **18/7 19:10 — CHAT: Verifica PR — #453 #454 #457 #458 tutte mergirate da Nicola, codice verificato su main.** AD ha verificato su richiesta di Nicola («controlla attentamente»): accordion in `Documenti.tsx` ✅, blocco `_nota_giro_` rimosso da `tasso-lezioni.mjs` ✅. PR mergirate: #453 (timer lista chat) · #454 (volano: tasso legge ESITI) · #457 (volano: blocco auto-referenziale) · #458 (sezioni Archivio chiuse default). ⚠️ **PR #455 ancora aperta su GitHub** — sostituita da #457, da chiudere senza merge (🔴 Nicola). Fonte: chat Nicola 18/7 19:10.
 
 > 💬 **18/7 ~19:00 — CHAT: 35 fix gravi radiografia completati e pushati su GitHub.** Nicola ha confermato «Fatto» dopo aver aggiunto `"Bash(git -C /opt/mycity/ad-mycity/marketplace:*)"` in allowlist (`settings.local.json`). AD ha completato 9 batch (sicurezza/pagamenti/analytics/privacy/AI): branch `fix/35-gravi-radiografia-2026-07-07` pushato. PR da aprire: https://github.com/NicolaeRotaru/mycity/pull/new/fix/35-gravi-radiografia-2026-07-07 (🔴 mergia Nicola). In allowlist ora disponibile: `git -C marketplace:*` (sessioni dopo le 18:00 del 18/7). Fonte: chat Nicola 18/7.
 
