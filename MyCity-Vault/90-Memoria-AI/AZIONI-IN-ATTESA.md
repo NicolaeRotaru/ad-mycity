@@ -356,7 +356,7 @@ Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cer
 
 ---
 
-### 🔴 #post-vp-day-1707 — Pubblica "Stasera è il tuo turno" per il gran finale Venerdì Piacentini · ⏳ accodata 2026-07-17 11:56
+### ❌ #post-vp-day-1707 — SCADUTA 2026-07-18 11:43 · VP (17/7) passato senza ordini, post "stasera" non pubblicabile
 
 **Contenuto completo:** `consegne/content/2026-07-17-post-del-giorno-vp-day-PQ.md`
 
@@ -391,7 +391,7 @@ Guardiano già attivo su due fronti: (1) `settings.json` ha già `"Bash(node cer
 
 ---
 
-### 🔴 #touch1-vp17 — Manda il messaggio di feedback al primo cliente che ordina stasera · ⏳ accodata 2026-07-17 11:56
+### ❌ #touch1-vp17 — SCADUTA 2026-07-18 11:43 · VP (17/7) senza ordini, gate `DELIVERED` mai scattato
 
 **Trigger:** ordine cambia `delivery_status = DELIVERED` + `delivered_at` valorizzato
 **Timing:** +3h dalla consegna (non passare mezzanotte se consegnato tardi)
@@ -443,7 +443,7 @@ Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → ha
 
 ---
 
-### 🔴 #touch2-vp17 — Manda il link recensione al cliente del primo ordine (+1 giorno, solo se 👍) · ⏳ accodata 2026-07-17 11:56
+### ❌ #touch2-vp17 — SCADUTA 2026-07-18 11:43 · dipende da #touch1-vp17 (scaduta), VP senza ordini
 
 **Trigger:** Touch 1 (#touch1-vp17) ricevuto + risposta ≠ 👎
 **Timing:** domani mattina (18/7)
