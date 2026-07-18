@@ -49,6 +49,21 @@ function attendeRitentativo(lv: LavoroBase): number | null {
   return !isNaN(t) && t > Date.now() ? t : null;
 }
 
+// 🫀 Soglia oltre la quale un lavoro «in_corso» è DAVVERO fermo (fix falso-allarme 2026-07-18).
+// Un `giro`/`ritmo-*`/`metabolizza` gira legittimamente a lungo: il worker gli concede fino a
+// WORKER_TIMEOUT_GIRO = 2700s (45 min) e lo cestina solo a 60 min (worker.sh SOGLIA_ORFANO_MIN).
+// Per di più, durante un giro la lane «all» NON batte (worker.sh:1138 è un comando bloccante, e né
+// worker.sh né giro.sh scrivono un battito nel frattempo): «battito fermo da 11 min» NON è morte,
+// è un giro sano a metà. Segnalarlo «bloccato/orfano» a 10 min spingeva a premere «Riavvia worker»,
+// che UCCIDE il giro vivo e ne crea l'orfano — il male che il banner dice di curare. Allineo la
+// soglia UI alla realtà del backend: 50 min per i lavori pesanti (sopra il timeout di 45 → se è
+// ancora in_corso a 50 min il worker è morto per davvero), 10 min per i leggeri (chat/azioni).
+const LAVORI_PESANTI = new Set(["giro", "metabolizza"]);
+function sogliaBloccoMs(lv: LavoroBase): number {
+  const pesante = LAVORI_PESANTI.has(lv.tipo) || lv.tipo.startsWith("ritmo-");
+  return (pesante ? 50 : 10) * 60 * 1000;
+}
+
 export default function LavoriCervello({ lavori, onSvuota, embedded = false, workerVivo, adInPausa }: Props) {
   // [fix radiografia-pannello 2026-07-03 — perf: useMemo con dip [lavori] rileggeva localStorage a ogni tick
   // ma NON reagiva ai veri cambi della mappa-gruppi. Ora è stato reattivo, riletto solo sugli eventi giusti.]
@@ -180,14 +195,14 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
     const t = new Date(lv.updated_at || lv.created_at).getTime();
     if (isNaN(t)) return false;
     if (lv.stato === "in_attesa") return Date.now() - t > 3 * 60 * 1000;
-    if (lv.stato === "in_corso") return Date.now() - t > 10 * 60 * 1000;
+    if (lv.stato === "in_corso") return Date.now() - t > sogliaBloccoMs(lv);
     return false;
   });
 
   const orfani = lavori.some((lv) => {
     if (lv.stato !== "in_corso") return false;
     const t = new Date(lv.updated_at || lv.created_at).getTime();
-    return !isNaN(t) && Date.now() - t > 10 * 60 * 1000;
+    return !isNaN(t) && Date.now() - t > sogliaBloccoMs(lv);
   });
 
   const cervelloSpento = codaBloccata && workerVivo === false;

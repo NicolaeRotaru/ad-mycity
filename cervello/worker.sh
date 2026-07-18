@@ -382,6 +382,35 @@ battito_systemd() {
   command -v systemd-notify >/dev/null 2>&1 && systemd-notify WATCHDOG=1 2>/dev/null || true
 }
 
+# 🫀 ESEGUI CON BATTITO (fix falso-allarme "worker riavviato a metà giro" — 2026-07-18): i lavori
+# pesanti (giro, ritmo-*) girano come UNA chiamata bloccante da ~45 min. Durante l'attesa il loop
+# principale NON torna in cima → battito_worker/battito_systemd non partono → worker:ultimo:<lane> si
+# CONGELA per tutto il lavoro. Il Pannello (soglia in_corso) e la sentinella leggono quel battito
+# fermo e gridano "worker riavviato a metà giro" su un giro SANO, spingendo a un restart che UCCIDE
+# il giro vivo e ne crea l'orfano. Come già fa la chat (vedi chat_streaming): eseguiamo il comando in
+# BACKGROUND e battiamo ogni WORKER_BATTITO_SEC finché vive, così worker:ultimo:<lane> resta un VERO
+# segnale di vita e "alive vs morto" diventa distinguibile PRIMA delle soglie a 45-60 min. Il timeout
+# resta il guardiano del runaway (lo passa il chiamante come $1). Torna l'rc del comando (124/137 su
+# timeout, come la versione sincrona); l'output combinato (stdout+stderr) finisce nel file $2.
+esegui_con_battito() {
+  local to="$1" outfile="$2"; shift 2
+  local pidj _last_beat _now
+  timeout --kill-after=60s "$to" "$@" >"$outfile" 2>&1 &
+  pidj=$!
+  battito_worker; battito_systemd   # battito subito all'avvio: timbra la lane senza aspettare il primo giro di throttle
+  _last_beat="$(date +%s)"
+  while kill -0 "$pidj" 2>/dev/null; do
+    sleep 2
+    _now="$(date +%s)"
+    if [ "$(( _now - _last_beat ))" -ge "${WORKER_BATTITO_SEC:-20}" ]; then
+      battito_worker
+      battito_systemd
+      _last_beat="$_now"
+    fi
+  done
+  wait "$pidj" 2>/dev/null; return $?
+}
+
 # ── CHAT IN STREAMING (Strada A, step 2) ─────────────────────────────────────────────────────────
 # Estrae il testo dagli eventi stream-json accumulati finora nel file $1. Salta le righe incomplete
 # o non-JSON (fromjson? // empty | objects) → non produce MAI testo sballato, al massimo un prefisso
@@ -1136,7 +1165,12 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     export GIRO_FORCE=1
     export GIRO_EXTRA_INSTRUCTION="Restituisci a Nicola il TL;DR del briefing (5 righe + mossa n.1)."
     to="${WORKER_TIMEOUT_GIRO:-2700}"   # 45 min — allineato al timeout chat del Pannello
-    out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/giro.sh" 2>&1)"; rc=$?
+    # 🫀 in background + battito per-lane durante il giro (vedi esegui_con_battito): il worker resta
+    # "vivo" agli occhi del Pannello/sentinella anche mentre il giro dura 45 min. Prefisso mycity-worker.
+    # così un kill a metà lascia un file che lo sweep all'avvio ripulisce.
+    _giro_out="$(mktemp -t mycity-worker.XXXXXX)"
+    esegui_con_battito "$to" "$_giro_out" bash "$SCRIPT_DIR/giro.sh"; rc=$?
+    out="$(cat "$_giro_out" 2>/dev/null)"; rm -f "$_giro_out"
     skip_sync=1
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       stato="errore"; out="$out
@@ -1158,7 +1192,10 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     sezione="${tipo#ritmo-}"
     export RITMO_FROM_WORKER=1
     to="${WORKER_TIMEOUT_GIRO:-2700}"
-    out="$(timeout --kill-after=60s "$to" bash "$SCRIPT_DIR/ritmo.sh" "$sezione" 2>&1)"; rc=$?
+    # 🫀 stesso battito-durante-il-lavoro del giro (una cadenza ritmo-* dura quanto un giro).
+    _ritmo_out="$(mktemp -t mycity-worker.XXXXXX)"
+    esegui_con_battito "$to" "$_ritmo_out" bash "$SCRIPT_DIR/ritmo.sh" "$sezione"; rc=$?
+    out="$(cat "$_ritmo_out" 2>/dev/null)"; rm -f "$_ritmo_out"
     skip_sync=1
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       stato="errore"; out="$out
