@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 03:00
+aggiornato: 2026-07-18 04:30
 fonte: AD digitale (chat Nicola 18/7)
 ---
+
+> 💬 **18/7 ~04:30 — CHAT: env VPS aggiornato da Nicola.** Nicola ha confermato di aver inserito le 2 righe in `cervello/vps/.env`: `PANNELLO_URL=https://ad-mycity.vercel.app` e `MARKETPLACE_SITE_URL=https://mycity-marketplace.com`. Pendente: riavvio worker (`sudo systemctl restart mycity-worker-chat.service`) — non ancora confermato. Nota: bastano 2 righe (non 3) — `CABINA_URL` è alias di `PANNELLO_URL`. Al prossimo giro dopo il riavvio i sensori `pannello_uptime` e `sito_uptime` dovrebbero diventare ✅. Fonte: chat Nicola 18/7 ~04:30.
 
 > 💬 **18/7 ~03:00 — CHAT: verifica tecnica 3 fix PR #435 — tutti ✅ nel codice.** Nicola ha chiesto «riesci a controllare se tutti e tre i fix funzionano correttamente?». AD ha letto il codice sul branch: (1) Fix 1 ✅ — `ChatCasella.tsx` chiama `/api/lavori/dettagli` che esiste e usa `getLavoriByIds` con query `id=in.(...)` — solo 1 job, non 121; (2) Fix 2 ✅ — soglia volano è `0.05` (5%) nel codice; (3) Fix 3 ✅ — il blocco che sovrascriveva il voto è rimosso, sostituito dal commento AR-105. TypeScript compila senza errori. Limite: non è possibile misurare i millisecondi reali del polling senza merge+deploy. PR #435 ancora in attesa di merge. Fonte: chat Nicola 18/7 ~03:00.
 

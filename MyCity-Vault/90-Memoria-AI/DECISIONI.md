@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 04:30 · 🟢 · [Nicola] · **Nicola ha inserito 2 variabili env in `cervello/vps/.env`** — `PANNELLO_URL=https://ad-mycity.vercel.app` e `MARKETPLACE_SITE_URL=https://mycity-marketplace.com`. Sono 2 righe, non 3: `CABINA_URL` è alias di `PANNELLO_URL`, non serve. Pendente: riavvio worker per caricarle (`sudo systemctl restart mycity-worker-chat.service`).
+
 2026-07-18 · 🟢 · [Nicola conferma] · **Nicola ha mergiato tutte e 6 le PR in coda:** #433 (121 errori coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec), #436 (crash guardiani allinea-scan-cantiere). Tutte segnate FATTO in AZIONI-IN-ATTESA. Pendente: Nicola deve ancora aggiungere `PANNELLO_URL` e `MARKETPLACE_SITE_URL` a `cervello/vps/.env` per sbloccare i 2 sensori ciechi pannello/sito.
 
 2026-07-18 01:25 · 🟡 · [Nicola richiesta] · **Riduzione timer watch-main da 5 min a 1 min.** Nicola ha chiesto «si può ridurre il tempo di aggiornamento del watch-main». Risposta: sì, con 2 comandi sudo. Azione accodata #riduci-watch-main-1min in AZIONI-IN-ATTESA. Beneficio: visione GitHub quasi in tempo reale invece di max 5 min di ritardo. Opzionale: aggiornare anche il template in repo.
