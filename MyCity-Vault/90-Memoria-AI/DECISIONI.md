@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 20:15 · 🟡 · [Bug descrizioni PR identificato] · **Bug strutturale nel sistema PR: `consegne/tech/pr-ad-mycity-body.md` è un file condiviso tra tutte le PR — durante il rebase si risolve automaticamente con il contenuto di main (la vecchia descrizione), corrompendo la nuova PR.** Nicola ha segnalato (18/7): «descrizione fa schifo, non è più come prima». Fix proposto dall'AD: riscrivere il file prima di ogni `git-pr.mjs` oppure usare `--body "..."` inline. Attende approvazione e implementazione in branch.
+
 2026-07-18 19:55 · 🔴 · [Nicola «Applica tu le 3 migrazioni»] · **Nicola ha chiesto all'AD di applicare le migrazioni 109, 110, 111 dopo il merge PR #213.** AD non ha potuto nella sessione precedente (MCP non disponibile in quel momento). Il tool `mcp__supabase-marketplace__apply_migration` è intermittente: appare quando il server MCP è connesso. Sequenza corretta: (1) Nicola mergia PR #213 su GitHub, (2) nella prossima chat AD carica il tool via ToolSearch e applica le 3 migrazioni in ordine.
 
 2026-07-18 19:45 · 🔴 · [PR #213 marketplace conflitti risolti] · **PR #213 sul repo marketplace pronta per merge — 35 fix da radiografia Opus 7/7, conflitti risolti via rebase.** Branch `fix/35-gravi-radiografia-2026-07-07` aveva 2 conflitti su `webhook/route.ts` (main: check checkout parziale; nostro: coupon atomico rimosso dal webhook) e `Navbar.tsx` (main: useShoppingMode; nostro: trackSignedOut). Tenute entrambe le parti. Force push completato. Dopo il merge: applicare 3 migrazioni Supabase (109, 110, 111) su dashboard. URL: https://github.com/NicolaeRotaru/mycity/pull/213.
