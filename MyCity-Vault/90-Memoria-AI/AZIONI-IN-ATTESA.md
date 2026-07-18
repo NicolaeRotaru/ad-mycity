@@ -2158,7 +2158,7 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 
 ---
 
-### 🟡 #fix-termometro-guardiani — Firma il pacchetto «termometro vero + guardiani ascoltati» · ⏳ accodata 2026-07-16 16:55
+### ✅ #fix-termometro-guardiani — Firma il pacchetto «termometro vero + guardiani ascoltati» · ✅ FATTO 2026-07-18 13:21 · PR #448 mergiata da Nicola
 
 **Il problema in una frase:** la Cabina ti ha mostrato salute **100/100 per 9 giorni mentre la radiografia diceva 0** (uno script sovrascrive il voto), e 4 guardiani (registro agenti, keyword-owner, esperimenti, north-star) escono rossi ma il giro ne scarta l'esito con `|| true`.
 
@@ -2176,7 +2176,20 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 
 ---
 
-### 🟡 #fix-pannello-bloccanti — Firma il pacchetto «il Pannello risponde»: chat che mostrano le risposte e azioni che non muoiono in coda · ⏳ accodata 2026-07-16 16:55
+### 🟡 #mergia-pr-450 — Mergia PR #450: 3 fix Pannello (risposta vuota, in_attesa, Parla azzera chat) · ⏳ accodata 2026-07-18 13:28
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/450 · Branch: `fix/pannello-bloccanti-v2`
+
+**Cosa cambia:** (1) la risposta non scompare più se lo streaming l'aveva già mostrata; (2) azioni stuck in «in_attesa» possono essere ri-approvate o annullate; (3) aprire «Parla con questa casella» non azzera più la chat principale.
+
+**Se va bene:** il Pannello risponde in modo affidabile — bottone Approva e chat tornano stabili.
+
+- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
+- **Reparto:** frontend-dev
+
+---
+
+### ✅ #fix-pannello-bloccanti — Firma il pacchetto «il Pannello risponde»: chat che mostrano le risposte e azioni che non muoiono in coda · ✅ FATTO 2026-07-18 13:28 · 3/4 difetti risolti in PR #450 (il 4° «chat persa al refresh» era già gestito da persistConversazione)
 
 **I 4 difetti (tutti confermati nel codice, file:riga nel report):**
 1. Le chat di caselle/lavori dicono «La risposta non è arrivata» anche quando c'è → il client non chiede mai il dettaglio del lavoro (`parla.ts:113-120`, `ChatCasella.tsx:32-40`).
