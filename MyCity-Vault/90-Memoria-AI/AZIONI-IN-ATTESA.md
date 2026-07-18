@@ -16,6 +16,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #cadenza-housekeeping — Aggiungi cadenza automatica pulizia AZIONI-IN-ATTESA in giro.sh · ⏳ accodata 2026-07-18 17:52
+
+**Contesto:** Nicola ha chiesto (18/7) una pulizia automatica periodica della coda AZIONI-IN-ATTESA. L'housekeeping manuale è fatto (17:10), ma la cadenza automatica non è in produzione: PR #450 era vuota (il branch non aveva modifiche vs main al momento dell'apertura — rebase aveva perso la modifica a `giro.sh`).
+
+**Fix da fare:** aggiungere 1 riga in `cervello/giro.sh` dopo la sezione pulizia STATO:
+```bash
+node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
+```
+(lo script già esiste — sposta le card ✅/❌ in archivio, aggiorna il contatore in cima.)
+
+**Cosa cambia:** ogni giro automatico (~60 min) la coda si ripulisce da sola — nessuna card zombie accumulata.
+**Se va bene:** Nicola non deve più chiedere «pulisci la lista» — succede sempre.
+
+- **Colore:** 🟡 (modifica giro.sh → PR → mergia Nicola)
+- **Reparto:** devops-sre
+
+---
+
 ### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ accodata 2026-07-18 17:45
 
 **Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. La PR apre tutti e 35 i fix gravi della radiografia Opus del 7/7.
