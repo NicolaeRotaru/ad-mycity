@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 03:10 · 🟡 · [Fix Pannello: nascondi proposte con stato "implementata"] · **Nicola: «intanto togli quelle che sono state completate al 100%»** — AD ha aggiunto `.filter(p => p.stato !== "implementata")` in `AutoCoscienza.tsx` + campo `stato?` al tipo. Commit `b5e6da73` su branch `fix/proposte-nascondi-implementate`. PR non aperta dalla chat (`node` non in allowlist): il worker la aprirà al prossimo giro. Dopo il merge spariscono le 7 proposte già completate; restano visibili solo quelle `aperte` e `parziali`.
+
 2026-07-19 02:50 · 🟢 · [Audit 5 proposte aperte — 2 già implementate, 1 parziale, 3 ancora open] · **Nicola: «controlla le altre caselle»** — AD ha verificato nel codice lo stato reale delle 5 proposte ancora segnate "aperte" nel JSON: (1) Sensori-cecita.json + gate hard → già implementato → marcata `implementata`; (2) Delta-gate + banco-ai → già implementato ma sensore costo token mancante → marcata `parziale`; (3) Organigramma auto-generato da agents → ancora da fare; (4) Volano chiuso (esperimenti misurati) → ancora da fare; (5) Registro rischi + cassa/runway → ancora da fare. File `auto-miglioramento.json` aggiornato (non ancora committato — nel batch con altri 2 file).
 
 2026-07-19 02:35 · 🟢 · [Casella delta-gate [REVIEW 3/7] confermata chiusa — fix già in produzione] · **Nicola: «c'è ancora questo problema?» sulla casella AR-019 delta-gate.** AD ha verificato nel codice: `cervello/delta-gate.mjs` righe 14-15 usa già lo stato booleano (cieco sì/no) e NON il contatore `max_giri_ciechi`. Il problema è risolto. Casella da archiviare.
