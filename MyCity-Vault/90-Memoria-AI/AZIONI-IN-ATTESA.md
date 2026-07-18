@@ -34,13 +34,14 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 
 ---
 
-### 🟡 #arsenale-tab — Mergia la PR #463 che sposta l'Arsenale in un tab · ⏳ accodata 2026-07-18 22:55
+### 🟡 #arsenale-tab — Mergia la PR #464 che sposta l'Arsenale in un tab · ⏳ aggiornata 2026-07-18 23:10
 
 **Contesto:** Nicola ha chiesto (18/7) di spostare l'Arsenale dall'area in fondo alla pagina dentro un tab «Arsenale» 🗡️ nella barra in alto delle Azioni, accanto ai tab esistenti.
 
 **Fix implementato:** `Arsenale` rimosso da `page.tsx` e aggiunto come tab in `Azioni.tsx` — la barra ha ora un tab «Arsenale» che mostra lo stesso contenuto.
 
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/463 · branch `fix/arsenale-tab` · commit `914e9fe2`
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/464 · branch `fix/arsenale-tab-v2` · commit `c70e4f2a`
+_(sostituisce PR #463 che aveva conflitti — già chiusa)_
 
 **Cosa cambia:** l'Arsenale compare nella barra in alto di Azioni — non più come blocco in fondo alla pagina.
 **Se va bene:** Nicola trova i playbook direttamente nel tab, insieme a tutti gli altri strumenti.
@@ -896,6 +897,7 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 181 | 2026-07-18 01:47 | @tech | Merge PR #446 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/446 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 182 | 2026-07-18 13:04 | @tech | Merge PR #447 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/447 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 183 | 2026-07-18 22:44 | @tech | Merge PR #463 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/463 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 184 | 2026-07-18 23:11 | @tech | Merge PR #464 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/464 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |

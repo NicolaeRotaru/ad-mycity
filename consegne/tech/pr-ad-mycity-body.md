@@ -1,6 +1,8 @@
-## Arsenale: da sezione separata a tab dentro le Azioni
+## Arsenale: da sezione separata a tab dentro le Azioni (v2 — senza conflitti)
 
 L'Arsenale non sta più in fondo come blocco separato — diventa un tab nella barra in alto di Azioni, accanto a Mosse, Sentinelle, Registro ecc.
+
+Sostituisce PR #463 (aveva conflitti).
 
 ### Come provare
 1. Vai su Azioni
