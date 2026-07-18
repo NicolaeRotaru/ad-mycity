@@ -125,11 +125,7 @@ function calcolaLive(analisi: any, sensori: any) {
     sensori_attivi: Number(meta.sensori_ok) || 0,
   };
   const gap: string[] = [];
-  if (mcpCieco && restOk) {
-    gap.push(
-      "Database diretto non disponibile in sessione: ordini e clienti ok via canale alternativo; 4 conteggi catalogo/lead non ri-misurati ora.",
-    );
-  } else if (mcpCieco) {
+  if (mcpCieco && !restOk) {
     gap.push("Sensori marketplace parzialmente ciechi — verifica canale ordini.");
   }
   if (s.sito_uptime?.stato === "non_configurato") {
