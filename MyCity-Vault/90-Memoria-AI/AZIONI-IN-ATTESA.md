@@ -16,6 +16,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
+
+**Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). Usa il dato reale 23 iscritti. Neutro, nessun consenso bottega richiesto. Post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
+
+**Cosa cambia:** il brand appare sui gruppi Facebook con un dato onesto e un countdown ("mancano 27 ai primi 50"). Prima uscita social della settimana.
+
+**Se va bene:** nuovi iscritti alla lista d'attesa → il 23 sale verso 50 → post celebrativo quando ci siamo.
+
+**Canale:** Facebook gruppi locali (profilo personale Nicola) + opzionale FB Pagina MyCity / Instagram.
+
+**Prima di pubblicare:** aggiorna il numero se nel frattempo gli iscritti sono cambiati. Inserisci il link UTM nel 1° commento: `utm_source=fb-gruppi&utm_content=siamo-in-23`.
+
+---
+
 ### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
