@@ -1,7 +1,7 @@
 ## Cosa fa
-- Aggiorna il punteggio nella casella "Confronto @AD" da 42/100 a 50/100 (6 difetti sistemati a luglio, EXP-001 aperto)
-- Aggiorna l'obiettivo: non piu' "entro 2 settimane dal 3/7" (scaduto) ma "chiudi EXP-001 entro 25/7"
-- Aggiunge al ritmo del venerdi' la regola: aggiorna sempre il punteggio settimanalmente, non lasciarlo stantio
+Aggiunge 3 righe al ritmo del venerdi': obbligo esplicito di aggiornare il punteggio e l'obiettivo nella casella "Confronto @AD" ogni settimana.
+
+Sostituisce PR #465 (aveva conflitti coi file di memoria del worker).
 
 ## Come verificare
-Apri il Pannello, sezione Auto-coscienza, casella "Confronto: @AD": deve mostrare punteggio 50/100 e obiettivo aggiornato.
+Nessuna verifica visiva necessaria: e' solo una modifica al prompt del venerdi'. L'effetto si vede il prossimo venerdi' quando il punteggio viene aggiornato automaticamente invece di restare fermo per settimane.
