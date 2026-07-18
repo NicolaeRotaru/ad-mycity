@@ -156,7 +156,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --branch fix/cha
 
 ---
 
-### 🟡 #apri-pr-chat-sovrascrittura-v2 — Apri PR per il fix "Messaggio annullato non sovrascrive la risposta" (tentativo 2) · ⏳ accodata 2026-07-18 02:29
+### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 
 **Branch:** `fix/chat-no-sovrascrittura-annullato` (già committato sul VPS)
 
