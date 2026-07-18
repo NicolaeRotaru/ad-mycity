@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0718-264",
+      "testo": "**Correzione Nicola (18/7): ristoranti e osterie sono esclusi dal target MyCity.** Tigellabella era stata identificata come prospect (tigelleria/osteria, già su Deliveroo, Google 4.4, centro pedonale). Nicola ha corretto: «questa è un'osteria, ti ho detto che i ristoranti non sono il nostro target». Radice dell'errore: ho applicato il criterio 'già su Deliveroo con commissione alta = buon prospect' senza filtrare per categoria. Regola corretta: nel prospecting la categoria ristorazione classica (ristoranti, osterie, trattorie) è esclusa a priori, indipendentemente da commissioni, recensioni o visibilità online. Applicare il filtro categoria PRIMA di qualsiasi altra analisi.",
+      "tag": ["prospecting", "target", "ristoranti", "osterie", "filtro-categoria", "correzione-nicola", "vendite"],
+      "reparto": "@vendite",
+      "confidenza": 1.0,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-18",
+      "ultima_conferma": "2026-07-18",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0718-263",
       "testo": "**3 nuovi bug chat segnalati da Nicola (18/7) — da fixare in unica PR sulla ChatCasella del Pannello:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio quando si clicca da lista conversazioni; (2) risposta AD spinge il box di testo/icone verso il basso invece di scrollare la lista messaggi; (3) vuole box di testo sticky in fondo mentre scrolla verso l'alto nella storia. Sono tutti nella stessa componente (ChatCasella o Worker chat). Fix: (1) scrollIntoView sull'ultimo messaggio all'apertura; (2) layout flex con min-h-0 sul div messaggi; (3) position sticky/fixed sul box input. L'AD li ha capiti tutti e 4 (incluso triplicamento) e ha proposto di risolverli in un'unica PR — Nicola ha chiesto di confermare la comprensione prima di procedere.",
       "tag": ["ux-chat", "scroll", "sticky", "apertura-chat", "box-input", "pannello", "bug", "frontend-dev"],

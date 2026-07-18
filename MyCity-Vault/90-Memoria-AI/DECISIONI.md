@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 14:00 · 🟢 · [Nicola correzione] · **Ristoranti e osterie esclusi definitivamente dal target MyCity.** Nicola ha corretto la casella Tigellabella: «questa è un'osteria, ti ho detto che i ristoranti non sono il nostro target». Regola: nel prospecting, la categoria ristorazione classica (ristoranti, osterie, trattorie) è esclusa a priori — indipendentemente da valutazione Google, presenza su Deliveroo o commissioni alte. Tigellabella archiviata.
+
 2026-07-18 ~02:35 · 🟢 · [Nicola] · **`node cervello/git-pr.mjs:*` aggiunto all'allowlist in `.claude/settings.local.json`.** Nicola ha eseguito manualmente `nano settings.local.json` e aggiunto la riga — confermato con «ho aggiunto». L'AD può ora aprire PR da chat senza intervento manuale. Il commit del fix (bba5495d "niente Messaggio annullato") era già su main GitHub — PR non servita per questo caso, ma il tool è ora disponibile per i prossimi fix.
 
 2026-07-18 05:00 · 🟡 · [AD analisi web] · **Bando CCIAA per MyCity: PI26 (Innovazione Digitale), non BT26.** BT26 è per negozi fisici — MyCity non è un negozio fisico. PI26: 50% fondo perduto, max €10.000, spese ammissibili = hosting/consulenze/software da maggio 2026. Apre 20/7 ore 10:00 a sportello (chi prima arriva meglio alloggia), scadenza 30/7. BE26 (energia, max €20.000) da ignorare per MyCity. Bozza in `consegne/relazioni-istituzionali/`. Prima del 20/7: (1) restart.infocamere.it, (2) fatture maggio 2026, (3) firma digitale attiva.
