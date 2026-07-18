@@ -5,7 +5,7 @@ fonte: AD digitale
 
 2026-07-18 04:30 · 🟢 · [Nicola] · **Nicola ha inserito 2 variabili env in `cervello/vps/.env`** — `PANNELLO_URL=https://ad-mycity.vercel.app` e `MARKETPLACE_SITE_URL=https://mycity-marketplace.com`. Sono 2 righe, non 3: `CABINA_URL` è alias di `PANNELLO_URL`, non serve. Pendente: riavvio worker per caricarle (`sudo systemctl restart mycity-worker-chat.service`).
 
-2026-07-18 · 🟢 · [Nicola conferma] · **Nicola ha mergiato tutte e 6 le PR in coda:** #433 (121 errori coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec), #436 (crash guardiani allinea-scan-cantiere). Tutte segnate FATTO in AZIONI-IN-ATTESA. Pendente: Nicola deve ancora aggiungere `PANNELLO_URL` e `MARKETPLACE_SITE_URL` a `cervello/vps/.env` per sbloccare i 2 sensori ciechi pannello/sito.
+2026-07-18 ~03:30 · 🟢 · [Nicola conferma] · **Nicola ha mergiato tutte e 6 le PR in coda:** #433 (121 errori coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec), #436 (crash guardiani allinea-scan-cantiere). Tutte segnate FATTO in AZIONI-IN-ATTESA. ✅ Env poi aggiunto alle 04:30 (vedi entry seguente).
 
 2026-07-18 02:30 · 🟡 · [Nicola verifica] · **Watch-main timer: Nicola sembra aver eseguito i comandi sudo (ha chiesto «controlla se si aggiorna al minuto»).** L'AD non riesce a verificare `systemctl list-timers` dalla chat (bloccato). Il file template repo (`cervello/vps/mycity-watch-main.timer`) era ancora a `5min` — non aggiornato. Verifica pendente: dal terminale VPS `systemctl list-timers mycity-watch-main.timer` → colonna NEXT. Se già a 1min: segnare FATTO #riduci-watch-main-1min + aggiornare anche il template in repo per persistenza.
 
