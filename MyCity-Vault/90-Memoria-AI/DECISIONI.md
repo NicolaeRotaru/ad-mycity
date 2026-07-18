@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 00:05 · 🟢 · [Nicola «fai tutti i fix» — caselle auto-coscienza datate] · **Punteggio auto-coscienza aggiornato 42→50/100** (6 difetti AR chiusi, EXP-001 aperto). Obiettivo rinnovato: «chiudi EXP-001 entro 25 luglio» (il precedente «entro 2 settimane dal 3/7» era scaduto). Regola aggiunta a `ritmo.md`: ogni venerdì ricalcolare il punteggio dopo ogni batch di PR mergiate.
+
+2026-07-19 00:05 · 🟡 · [Nicola «c'è un conflitto» — PR #465 conflitti da worker] · **PR #465 chiusa (conflitti da file memoria aggiornati dal worker), sostituita da PR #466** (branch pulito `fix/ritmo-punteggio-v2` con solo `ritmo.md` + JSON auto-coscienza). Nicola deve: ① chiudere #465 senza merge ② mergiare #466. Pattern consolidato: branch con SOLO i file target (no memoria mista).
+
 2026-07-18 23:58 · 🟢 · [Nicola «no» — desktop non vede chat smartphone] · **Chat cross-device: tabella `conversazioni` ha 37 righe, sync attivo. Root cause: `nuovaChatManualeRef` blocca tutti gli auto-open da altri device una volta acceso + finestra 2h troppo corta.** Fix: auto-open esteso a 24h + traccia per conv ID. Branch `fix/chat-crossdevice-autoopen` committato. Verifica presenza su origin/main nella prossima sessione prima di aprire PR (watch-main può averlo già pushato).
 
 2026-07-18 23:55 · 🟡 · [Nicola «non c'è nessuna PR aperta» → fix cross-device] · **Fix chat cross-device riscritto: auto-open esteso a 24h + tracking per conv ID.** La diagnosi ha confermato che il sync Supabase funziona (37 righe in `conversazioni`); il problema era l'auto-open logic: `nuovaChatManualeRef` una volta impostato blocca TUTTI i futuri auto-open da altri device (non solo stessa sessione), e la finestra di 2h era troppo corta. Fix nel branch `fix/chat-crossdevice-autoopen`: traccia per conv ID, estendi a 24h. Il comando PR era bloccato in sessione — Nicola deve aprire una nuova chat e scrivere «apri pr per fix/chat-crossdevice-autoopen».

@@ -4,6 +4,8 @@ aggiornato: 2026-07-18 23:28
 fonte: AD digitale (chat Nicola 18/7 23:28)
 ---
 
+> 💬 **19/7 00:05 — CHAT: caselle auto-coscienza aggiornate + PR #466 aperta.** Punteggio 42→50/100 (6 AR chiusi, EXP-001 aperto), obiettivo rinnovato «entro 25 luglio», regola venerdì aggiunta a ritmo.md. PR #465 aveva conflitti (worker aggiorna file memoria ogni 2h) — sostituita da PR #466 branch pulito (solo ritmo.md). Nicola deve: ① chiudere PR #465 ② mergiare PR #466. Fonte: chat Nicola 19/7 00:05.
+
 > 💬 **18/7 23:58 — CHAT: fix chat cross-device completato.** Nicola ha confermato che il desktop non mostra la chat dello smartphone neanche nella lista. AD ha verificato: `conversazioni` ha 37 righe (sync funziona), root cause è `nuovaChatManualeRef` che blocca auto-open da altri device + finestra 2h troppo corta. Fix applicato: auto-open 24h + traccia per conv ID (branch `fix/chat-crossdevice-autoopen`). Verifica push su origin/main nella prossima sessione. Fonte: chat Nicola 18/7 23:58.
 
 > 💬 **18/7 23:47 — CHAT: Nicola conferma «no» — la lista conversazioni sul desktop NON mostra la chat dello smartphone.** La tabella `conversazioni` esiste con 37 righe e il backend usa service key (RLS bypassed), ma il Pannello hosted sul desktop non legge da Supabase. Diagnosi in corso: o il Pannello hosted usa solo localStorage (non legge dal DB), o la conversazione del telefono non viene salvata sul DB. Passo successivo: capire se la lista sul desktop è vuota totalmente o mostra altre conversazioni. Open bug — PR #446 ancora in coda. Fonte: chat Nicola 18/7 23:47.
