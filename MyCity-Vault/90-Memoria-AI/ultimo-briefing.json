@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 16:32",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~584h (~24,3 giorni da 24/6). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 67 giri. URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo: piogge dal 20/7. Bici in riparazione — giro botteghe settimana 21-25/7.",
+  "data": "2026-07-18 16:52",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~585h (~24,4 giorni da 24/6). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 71 giri. URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo: piogge dal 20/7. Bici in riparazione — giro botteghe settimana 21-25/7. Allowlist marketplace pendente (nuova sessione → sblocca #fix-35-gravi).",
   "opportunita": [
     {
       "titolo": "Bando PI26 — registrarsi su restart.infocamere.it OGGI",
@@ -22,7 +22,7 @@
     },
     {
       "titolo": "Email benvenuto ai 23 clienti (gate: PQ pronto ad evadere)",
-      "motivo": "23 iscritti senza mai ricevere un messaggio. Hook piogge martedì 21/7 = trigger delivery perfetto.",
+      "motivo": "23 iscritti senza mai ricevere un messaggio. Hook piogge dal 20/7 = trigger delivery perfetto.",
       "impatto": "alto",
       "sforzo": "basso"
     }
@@ -36,7 +36,7 @@
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da ~579h — un ordine sblocca la prova che il sistema funziona",
+      "motivo": "North Star a 0 da ~585h — un ordine sblocca la prova che il sistema funziona",
       "livello": "giallo",
       "id_coda": "#ordine-test-pq"
     },
@@ -48,15 +48,15 @@
     },
     {
       "titolo": "Imposta BURN_MENSILE_EUR nel .env VPS",
-      "motivo": "Runway sconosciuto da 132 giri — basta indicare €/mese di costi fissi",
+      "motivo": "Runway sconosciuto da 135+ giri — basta indicare €/mese di costi fissi",
       "livello": "giallo",
       "id_coda": "#burn-mensile-env"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo critico ~580h (>14 giorni)",
-    "n8n cieco — 51 giri consecutivi (non critico per operatività)",
-    "BURN_MENSILE_EUR assente — runway sconosciuto 132 giri",
+    "North Star 0 — stallo critico ~585h (>14 giorni)",
+    "n8n cieco — 71 giri consecutivi (non critico per operatività)",
+    "BURN_MENSILE_EUR assente — runway sconosciuto 135+ giri",
     "Telegram non configurato — notifiche bloccate"
   ]
 }

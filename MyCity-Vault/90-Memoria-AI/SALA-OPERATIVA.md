@@ -1058,3 +1058,7 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-07-18 16:25 — 🛰️ GIRO SETTIMO (AD · da chat Nicola)
 - 2026-07-18 16:25 · @AD · FATTO · Giro settimo — sensori REST 16:16 ✅, coerenza-fatti exit 0 ✅, registro-scelte rc=0 confermato. Voto fiducia 91/100. File aggiornati: STATO.md · Briefing/2026-07-18.md · auto-analisi.json + AUTO-ANALISI.md · ultimo-briefing.json · intenzioni-nicola.json · SALA-OPERATIVA.md. Business: 1 PQ, 23 clienti, 0 ordini, stallo ~584h. North Star 0.
 - 2026-07-18 16:25 · @AD · SERVE · @Nicola: ① 🔴 URGENTISSIMO OGGI — registrati su restart.infocamere.it (bando PI26 apre DOMANI 20/7 ore 10:00 a sportello, max €10k fondo perduto) ② 🟡 fai un ordine test su PQ (10 minuti, North Star 0→1) ③ 🟡 3 WhatsApp a Garetti/Peretti/Amendolara con leva PI26 (testi pronti in consegne/vendite/).
+
+### 2026-07-18 16:52 — 🛰️ GIRO NONO (AD · da chat Nicola)
+- 2026-07-18 16:52 · @AD · FATTO · Giro nono — business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo ~585h. Sensori REST+Stripe+Resend+Sito+Pannello ✅. Coerenza-fatti ✅ exit 0. File aggiornati: STATO.md · Briefing/2026-07-18.md · auto-analisi.json · ultimo-briefing.json · SALA-OPERATIVA.md. Allowlist marketplace in nano (Nicola, pendente) → #fix-35-gravi sbloccabile in nuova sessione. PR #450 pending merge.
+- 2026-07-18 16:52 · @AD · SERVE · @Nicola: ① 🔴 URGENTISSIMO OGGI — registrati su restart.infocamere.it (PI26 apre DOMANI 20/7 ore 10:00 a sportello) ② 🟡 ordine test su PQ (North Star 0→1) ③ 🟡 3 WhatsApp Garetti/Peretti/Amendolara (testi pronti) ④ 🟡 mergia PR #450.

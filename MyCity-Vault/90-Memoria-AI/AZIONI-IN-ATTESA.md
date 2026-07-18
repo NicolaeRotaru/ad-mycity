@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-18 16:30** — Automatico: **38 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-18 16:52** — Automatico: **38 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -965,7 +965,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 16:30)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 16:52)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ---
@@ -1071,6 +1071,12 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-18 16:30 · 84 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-18 16:52 · 84 card totali
 
 ### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 16:38
-fonte: AD digitale (metabolizzazione chat 18/7 16:38)
+aggiornato: 2026-07-18 16:52
+fonte: AD digitale (giro nono 18/7 16:52 — giro da chat Nicola)
 ---
+
+> 🛰️ **18/7 16:52 — GIRO (nono passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~585h** (~24,4 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 71 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0 (16:52). **Novità:** Nicola stava aggiungendo voce allowlist `git -C marketplace/` in nano — pendente salvataggio + nuova sessione. PR #450 (#fix-pannello-bloccanti) pendente merge. **North Star focus:** ① 🔴 registrarsi su restart.infocamere.it OGGI (PI26 apre 20/7 ore 10:00) ② 🟡 ordine test PQ ③ 🟡 3 WhatsApp anchor PI26. Dettaglio: [[Briefing/2026-07-18]].
 
 > 💬 **18/7 ~16:47 — CHAT: Nicola sta aggiungendo la voce allowlist marketplace — #fix-35-gravi sbloccabile nella prossima sessione.** Nicola ha mostrato screenshot di nano aperto su `settings.local.json`. AD ha indicato la riga esatta da aggiungere: `"Bash(git -C /opt/mycity/ad-mycity/marketplace:*)",` dopo `"Bash(git checkout:*)"`. Dopo salvataggio + nuova chat, `git -C marketplace/` sarà sbloccato e l'AD potrà procedere con i 35 fix radiografia senza che Nicola debba eseguire nulla dal terminale VPS. **Pendente:** Nicola salva (Ctrl+O → Invio → Ctrl+X) e apre nuova sessione. Fonte: chat Nicola 18/7 ~16:47.
 

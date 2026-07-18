@@ -1,12 +1,12 @@
 ---
-data: 2026-07-18 16:25
+data: 2026-07-18 16:52
 tipo: auto-analisi
-fonte: AD digitale (giro settimo 18/7 16:25 — da chat Nicola)
+fonte: AD digitale (giro nono 18/7 16:52 — da chat Nicola)
 ---
 
 ## Voto di fiducia: 91/100 ▲
 
-**Stato:** Giro settimo completato — vincoli hard tutti chiusi. REST live 16:16 ✅, coerenza-fatti exit 0 ✅, registro-scelte rc=0 confermato da giro 11:10. North Star focus rispettato. Zero numeri inventati.
+**Stato:** Giro nono completato — vincoli hard tutti chiusi. REST live 16:52 ✅, coerenza-fatti exit 0 ✅, registro-scelte rc=0 confermato da giro 11:10. North Star focus rispettato. Zero numeri inventati. Allowlist marketplace pendente (Nicola in nano). PR #450 pending.
 
 **Errori rilevati:**
 - MCP Supabase cieco 6 giri → gestito con REST (priorità corretta)
