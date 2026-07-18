@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 18:10 · 🟡 · [metabolizzazione] · **PR #456 aperta — fix nuova chat carica messaggi vecchi.** Causa: `useEffect` cross-device sync (< 2 ore) riapreva l'ultima conversazione subito dopo che «+» la svuotava. Fix: `nuovaChatManualeRef` flag acceso sul click manuale «+», blocca solo quel caso. Branch `fix/nuova-chat-auto-apri-bloccato` (commit `d4c1e0d0`). Nicola deve mergiarla dal Pannello.
+
 2026-07-18 18:00 · 🟡 · [Nicola «Apri pr pendenti»] · **PR #454 e #455 aperte su ad-mycity.** #454 = fix volano: tasso lezioni legge ESITI quaderni (branch `fix/volano-tasso-lezioni`). #455 = fix volano: rimuovi `_nota_giro_` dal blob string-match. Branch `fix/archivio-sezioni-chiuse-default` non aperto: conflitto reale su `Documenti.tsx` (accordion vs nuove viste su main) — richiede risoluzione manuale o decisione di parcheggiare.
 
 2026-07-18 17:30 · 🟡 · [Nicola screenshot nuova chat con risposta vecchia] · **Bug nuova chat auto-ricarica — branch `fix/nuova-chat-auto-apri-bloccato` (commit `d4c1e0d0`) committato, PR da aprire.** Causa: `useEffect` cross-device sync riapreva l'ultima conversazione (< 2 ore) subito dopo che `nuovaConversazione()` la svuotava. Fix: `nuovaChatManualeRef` acceso sul click «+», blocca l'auto-apri solo in quel caso. Card `#apri-pr-nuova-chat-auto-apri` accodata.
