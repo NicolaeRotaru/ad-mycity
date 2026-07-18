@@ -574,7 +574,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-19 00:13",
+    "aggiornato": "2026-07-19 00:23",
     "totale": 12,
     "aperti": 7,
     "in_scadenza": 0,
@@ -608,7 +608,7 @@
       "data": "2026-07-19",
       "reviewer": "@security",
       "reviewed": "@backend-dev + @tech",
-      "lavoro":"Sicurezza del codice e delle credenziali — stato luglio 2026",
+      "lavoro": "Sicurezza del codice e delle credenziali — stato luglio 2026",
       "voto": 5,
       "punti_forza": [
         "RLS Supabase configurato: ogni negozio vede solo i suoi dati",
@@ -629,7 +629,7 @@
       "data": "2026-07-19",
       "reviewer": "@analista",
       "reviewed": "@data-engineer",
-      "lavoro":"Qualità e copertura dei sensori dati — luglio 2026",
+      "lavoro": "Qualità e copertura dei sensori dati — luglio 2026",
       "voto": 6,
       "punti_forza": [
         "Supabase REST funzionante come fonte primaria: ordini, negozi, clienti leggibili in tempo reale",
@@ -650,7 +650,7 @@
       "data": "2026-07-19",
       "reviewer": "@direttore-creativo",
       "reviewed": "@content-social + @ai-copywriter",
-      "lavoro":"Qualità dei contenuti prodotti — giugno/luglio 2026",
+      "lavoro": "Qualità dei contenuti prodotti — giugno/luglio 2026",
       "voto": 4,
       "punti_forza": [
         "Piattaforma creativa 'Il Turno' definita e documentata (consegne/marketing/PIATTAFORMA-CREATIVA.md)",
@@ -671,7 +671,7 @@
       "data": "2026-07-19",
       "reviewer": "@product-manager",
       "reviewed": "@frontend-dev + @ux-designer",
-      "lavoro":"Esperienza utente del Pannello di Controllo — luglio 2026",
+      "lavoro": "Esperienza utente del Pannello di Controllo — luglio 2026",
       "voto": 6,
       "punti_forza": [
         "Pannello funzionante e accessibile da browser: home, bacheca, azioni, archivio, arsenale",
@@ -796,7 +796,7 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-19 00:13",
+  "aggiornato": "2026-07-19 00:23",
   "proposte_sync": {
     "aggiornato": "2026-07-18 22:37",
     "totale": 11,
