@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 01:25 · 🟡 · [Nicola richiesta] · **Riduzione timer watch-main da 5 min a 1 min.** Nicola ha chiesto «si può ridurre il tempo di aggiornamento del watch-main». Risposta: sì, con 2 comandi sudo. Azione accodata #riduci-watch-main-1min in AZIONI-IN-ATTESA. Beneficio: visione GitHub quasi in tempo reale invece di max 5 min di ritardo. Opzionale: aggiornare anche il template in repo.
+
 2026-07-18 02:10 · 🟢 · [Nicola chiarimento] · **PR #445 (`fix/fonti-comune-403-blocked`) — mergiata da Nicola, non dall'AD.** Nicola ha chiesto «la 445 l'hai creata tu?» — era un branch già in coda creato in sessioni precedenti, mergiato direttamente da GitHub da Nicola stamattina. L'AD non era l'autore di quella PR.
 
 2026-07-18 02:00 · 🟡 · [Nicola richiesta] · **Feature richiesta: card «Da approvare» per merge PR deve auto-sparire quando Nicola mergia da GitHub.** Nicola ha detto esplicitamente «impara questa cosa: se dentro da approvare una casella per mergiar un PR ma io la mergio da GitHub, quella casella deve sparire.» — e ha confermato che PR #441 era già mergiata. Oggi l'AD segna la card FATTO a mano quando Nicola lo segnala. Feature da implementare: rilevamento automatico tramite GitHub API (al caricamento Pannello o nel giro) → auto-segna FATTO senza input di Nicola. Card #auto-segna-pr-mergiata accodata in AZIONI-IN-ATTESA.

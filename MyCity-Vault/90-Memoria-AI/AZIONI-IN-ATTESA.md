@@ -71,6 +71,28 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #riduci-watch-main-1min — Riduci il ciclo di aggiornamento da GitHub da 5 minuti a 1 minuto · ⏳ accodata 2026-07-18 01:25
+
+**Richiesta di Nicola (18/7):** «si può ridurre il tempo di aggiornamento del watch-main»
+
+**Cosa cambia:** la macchina vede i merge GitHub con max 1 minuto di ritardo invece di 5. Utile anche per confermare deploy veloci e avvisi di commit senza aspettare.
+
+**Come fare (3 comandi sudo sul VPS, Nicola esegue):**
+```bash
+sudo sed -i 's/OnUnitActiveSec=5min/OnUnitActiveSec=1min/' /etc/systemd/system/mycity-watch-main.timer
+sudo systemctl daemon-reload && sudo systemctl restart mycity-watch-main.timer
+systemctl status mycity-watch-main.timer
+```
+
+**Opzionale** — l'AD può aggiornare anche il template in repo (`cervello/vps/mycity-watch-main.timer`) così rimane a 1 min anche dopo una reinstallazione.
+
+**Se va bene:** la carta giusta apparirà FATTA molto prima in ogni ciclo; meno «l'ho già mergiato ma non lo vedi ancora».
+
+- **Colore:** 🟡 (sudo sistema — Nicola esegue)
+- **Reparto:** devops-sre
+
+---
+
 ### 🟡 #auto-segna-pr-mergiata — Implementa: la card «Da approvare» per merge PR sparisce da sola quando Nicola mergia da GitHub · ⏳ accodata 2026-07-18 02:00
 
 **Richiesta esplicita di Nicola (18/7):** «se dentro da approvare una casella che per far mergiare un PR ma io la mergio da GitHub, quella casella deve sparire.»
