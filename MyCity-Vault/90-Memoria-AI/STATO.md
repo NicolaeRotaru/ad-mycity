@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 18:00
-fonte: AD digitale (report della sera 18/7 18:00)
+aggiornato: 2026-07-18 19:00
+fonte: AD digitale (metabolizzazione chat 18/7 19:00)
 ---
+
+> 💬 **18/7 ~19:00 — CHAT: 35 fix gravi radiografia completati e pushati su GitHub.** Nicola ha confermato «Fatto» dopo aver aggiunto `"Bash(git -C /opt/mycity/ad-mycity/marketplace:*)"` in allowlist (`settings.local.json`). AD ha completato 9 batch (sicurezza/pagamenti/analytics/privacy/AI): branch `fix/35-gravi-radiografia-2026-07-07` pushato. PR da aprire: https://github.com/NicolaeRotaru/mycity/pull/new/fix/35-gravi-radiografia-2026-07-07 (🔴 mergia Nicola). In allowlist ora disponibile: `git -C marketplace:*` (sessioni dopo le 18:00 del 18/7). Fonte: chat Nicola 18/7.
 
 > 🌙 **18/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~587h** (~24,5 giorni). North Star 0, cassa 0€. Fatto oggi: bando PI26 analizzato (bozza pronta, domani 20/7 ore 10:00 apertura sportello 🔴), coda Pannello ripulita (84 card archiviate), 3 bug chat corretti (PR #456 #453 pronte), 13 prospect validi in registro. **STASERA:** registrarsi su restart.infocamere.it (🔴). Da mergiare: PR #456 #446 #443. Dettaglio: [[RITMO]] 18/7 18:00.
 
