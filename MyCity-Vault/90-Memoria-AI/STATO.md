@@ -4,6 +4,8 @@ aggiornato: 2026-07-18 12:00
 fonte: AD digitale (giro quinto 18/7 12:00 — da chat Nicola)
 ---
 
+> 💬 **18/7 ~15:00 — CHAT: PR #450 mergiata ma VUOTA — housekeeping già operativo su main.** Nicola ha chiesto «Hai aperto la nuova PR?». Verifica su giro.sh: le righe housekeeping (216-217) erano già su main. PR #450 mergiata da Nicola ma non aggiungeva nulla di nuovo. Housekeeping automatico confermato attivo dal prossimo giro. PR #449 va chiusa senza merge (conflitti + contenuto già presente). Fonte: chat Nicola 18/7.
+
 > 💬 **18/7 ~14:50 — CHAT: PR #449 housekeeping — conflitto, DA CHIUDERE senza merge.** La riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva modifiche ai guardiani che main aveva superato → conflitto. L'housekeeping automatico è già operativo. Azione: chiudi PR #449 da GitHub senza merge.
 
 > 💬 **18/7 ~14:30 — CHAT: housekeeping coda + cadenza automatica — PR #449 aperta.** Nicola: «Si pulisci la lista e aggiungi una cadenza automatica fissa». Analisi coda: 80 card chiuse, 38 aperte. Script `cervello/housekeeping-coda.mjs` creato + aggiunto al giro. PR #449 aperta su branch `fix/pannello-bloccanti`. ~~Pendente: Nicola mergia #449.~~ → SUPERATA: housekeeping già su main, PR va chiusa.
