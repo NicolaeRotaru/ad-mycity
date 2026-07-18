@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 23:58 · 🟡 · [Nicola «queste caselle mi sembrano incomplete»] · **Casella "Confronto: @AD" segnalata da Nicola come datata** — il punteggio 42/100 era fermo al 3/7 (15 giorni fa), non aggiornato dopo le migliorie di luglio: difetti chiusi via PR, EXP-001 aperto, 4 PR mergiate (#453/#454/#457/#458). Radice: i JSON sorgente delle caselle auto-coscienza non vengono ricalcolati automaticamente dopo ogni ciclo. AD ha offerto di aggiornare (🟢). In attesa di conferma di Nicola.
+
 2026-07-18 23:05 · 🟡 · [Pannello bloccato su "giro valido"] · **`auto-analisi.json` aveva `voto` (88) ma mancava il campo `sintesi` — senza di esso il Pannello non riconosce il giro come completato.** Fix committato (596402bc) + 4 file auto-coscienza pendenti. Push su main accodato come `#push-main-memoria` (non in allowlist dalla chat). Lezione: `auto-analisi.json` richiede SEMPRE entrambi i campi `voto` + `sintesi`.
 
 2026-07-18 22:55 · 🟡 · [Nicola «sposta l'arsenale dentro un tab in alto»] · **PR #463 aperta — Arsenale spostato da blocco in fondo a tab «Arsenale» 🗡️ nella barra in alto delle Azioni.** Nicola ha chiesto anche una spiegazione dell'Arsenale: è la raccolta di 15 playbook organizzati per le 9 aree di dominio, con frequenza, colore 🟢🟡🔴 e ultima esecuzione. Branch `fix/arsenale-tab` · commit `914e9fe2`. Attende merge da Nicola: https://github.com/NicolaeRotaru/ad-mycity/pull/463
