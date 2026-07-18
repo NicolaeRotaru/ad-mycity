@@ -269,23 +269,26 @@ Sostituire `[NOME]` con il nome del cliente dall'ordine. Se risponde 👎 → ha
 
 ---
 
-### 🟡 #bandi-cciaa-2007 — Prepara le bozze domanda per i bandi CCIAA BT26 ed BE26 (aprono domani 20/7, scadenza 30/7) · ⏳ accodata 2026-07-17 20:30
+### 🔴 #bandi-cciaa-2007 — Manda la domanda PI26 sul portale CCIAA (apre 20/7 ore 10:00, scadenza 30/7, a sportello) · ⏳ accodata 2026-07-17 20:30 · aggiornata 2026-07-18 05:00
 
-**Bandi:** CCIAA Piacenza — Bando BT26 (digitalizzazione/e-commerce, fino a €7.000 al 40%) e BE26 (energia, fino a €20.000 al 50%). Aprono **domani 20/7 alle 9:00** — scadenza **30/7/2026**.
+**Bando corretto: PI26 (Innovazione Digitale)** — non BT26 (quello è per negozi fisici). Portale: restart.infocamere.it. **Apre 20/7 ore 10:00** a sportello — chi prima arriva meglio alloggia. Scadenza 30/7.
 
-**Cosa serve a Nicola per completare la domanda:**
-1. Partita IVA + codice ATECO MyCity (verifica su visura CCIAA)
-2. Spese già sostenute o preventivi firmati relativi a e-commerce/digitalizzazione (BT26) o energia (BE26)
-3. IBAN aziendale per il rimborso
+**Condizioni:** 50% a fondo perduto, max €10.000 (cioè max €20.000 di spese ammissibili).
+**Spese ammissibili:** hosting Supabase/Vercel/Render, consulenze, software — tutto quello già speso da maggio 2026.
 
-**Cosa preparo io (🟢, già avviato):** schema checklist dei requisiti per ciascun bando, mappa delle spese ammissibili, bozza descrizione del progetto MyCity per BT26.
+**Cosa serve a Nicola prima delle 10:00 del 20/7:**
+1. Registrazione su restart.infocamere.it (se non già fatto)
+2. Lista fatture ammissibili da maggio 2026 (hosting, consulenze, software)
+3. Firma digitale attiva
 
-**Azione che richiede la firma di Nicola:** inviare la domanda online sul portale CCIAA entro 30/7 (🔴 — step successivo, non questa card).
+**Bozza descrizione progetto pronta** in `consegne/relazioni-istituzionali/` — l'AD l'ha preparata.
 
-**Cosa cambia:** se BT26 è approvato → rimborso 40% su spese e-commerce già sostenute o future (max €7.000 ricevuti su €17.500 di spese); BE26 → max €10.000 su spese energia.
-**Se va bene:** prima iniezione di cassa da finanza agevolata — abbassa il burn effettivo.
+**BE26 (energia):** da ignorare per MyCity, vale solo se ci sono spese energetiche (fotovoltaico, LED).
 
-- **Colore:** 🟡 (preparazione bozze domanda — ok di Nicola per partire su BT26 e/o BE26)
+**Cosa cambia:** rimborso 50% su spese tech già sostenute — fino a €10.000 di cassa in arrivo.
+**Se va bene:** prima iniezione di finanza agevolata — abbassa il burn effettivo.
+
+- **Colore:** 🔴 (invio domanda — firma Nicola sul portale CCIAA)
 - **Reparto:** relazioni-istituzionali + finanza-agevolata
 
 ---
