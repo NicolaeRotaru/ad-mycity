@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 02:00 · 🟢 · [Nicola ha mergiato PR #467 — display ricco peer review ora live] · **Nicola: «mi ero dimenticato di margiarla, ok grazie».** PR #467 mergiata da Nicola: il componente `AutoCoscienza.tsx` ora mostra per ogni peer review il voto, i punti di forza (verde), i punti da migliorare (rosso) e la raccomandazione. Il Pannello si aggiornerà al prossimo build Vercel.
+
 2026-07-19 01:45 · 🟢 · [Casella "Revisione tra specialisti" spiegata a Nicola] · **Nicola: «spiegami questa casella» sulla "Revisione tra specialisti: Qualità dei contenuti prodotti — giugno/luglio 2026".** AD ha spiegato: @direttore-creativo giudica il lavoro di @content-social; la casella mostra voto, punti_forza (verde), punti_deboli (rosso), raccomandazione. Il display ricco appare dopo il merge di PR #467.
 
 2026-07-19 01:40 · 🟡 · [Nicola chiede di spostare Arsenale in un tab in alto] · **Nicola: «1) sposta l'arsenale dentro un tab in alto 2)Spiegami molto bene l'arsenale». AD ha spiegato cos'è l'Arsenale (raccolta di playbook per 9 aree di dominio MyCity) e si è impegnato a spostarlo in un tab.** Spostamento UI (🟡 — modifica codice Pannello): da verificare se PR è stata aperta nello stesso turno o è ancora pendente.
