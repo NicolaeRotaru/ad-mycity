@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 13:40 · 🟡 · [Nicola «Fai i 4 punti in attesa»] · **4 punti pendenti avviati — PR #450 aperta, #fix-35-gravi bloccato.** (1) #fix-termometro-guardiani → già FATTO via PR #448 mergiata; (2) #fix-pannello-bloccanti → 3 fix implementati in PR #450 (risposta non sovrascritta, azioni stuck ri-approvabili, «Parla» non azzera chat); (3) #fix-35-gravi → BLOCCATO, richiede `git -C marketplace checkout -b fix/35-gravi-radiografia-2026-07-07` dal VPS; (4) R4 → 4/6 guardiani coperti da PR #448 mergiata, rimangono AR-043 (sensore costo cieco) e AR-040/041/042 (volano non misura esiti) — in attesa di ok Nicola se procedere ora o dopo.
+
 2026-07-18 ~14:30 · 🟡 · [Nicola richiesta + AD] · **Housekeeping AZIONI-IN-ATTESA + cadenza automatica approvata — PR #449 aperta.** Nicola: «Si pulisci la lista e aggiungi una cadenza automatica fissa». AD ha analizzato la coda (80 card chiuse, 38 aperte), creato `cervello/housekeeping-coda.mjs` e aggiunto il richiamo nel giro. PR #449 su branch `fix/pannello-bloccanti` in attesa di merge. Dopo il merge: le 80 card chiuse → sezione Archivio; a ogni giro automatico la coda resta pulita.
 
 2026-07-18 13:20 · 🟡 · [Nicola segnalazione] · **PR #447 aperta — lista conversazioni a schermo intero su smartphone.** Nicola ha mostrato uno screenshot: il pannello conversazioni occupava solo metà schermo su mobile (`w-1/2`). Fix: `w-1/2` → `w-full` su mobile, `sm:w-[340px]` su schermi più grandi. Branch `fix/chat-mobile-conversations`. Card #182 già accodata in AZIONI-IN-ATTESA con link PR.

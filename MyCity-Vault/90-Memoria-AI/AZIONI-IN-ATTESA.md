@@ -1751,14 +1751,11 @@ I fix di codice del cantiere (timeout giro AR-005, gate sensori anti-invenzione,
 **Correzione di rotta:** Casa Linda era una **demo**, non un negozio. L'**unico negozio reale** su MyCity è **Pane Quotidiano** (contratto firmato 1/7). **Fix completato:** cancello allocazione attivo; **12** pacchetti Garetti archiviati; sforzo attivo su PQ (**16** contenuti); merge **PR #349** 13/7 21:44; **AR-006 chiuso** in cantiere su ordine Nicola «chiudi AR-006» (14/7 01:00); `allocazione-check` exit 0 (14/7 00:59). **Resta fuori da R3 (azioni separate):** foto/consenso/link CTA PQ; primo ordine payout-test; pubblicazioni PQ chiusa firma.
 
 
-### 🩻 R4 — Firma 6 fix di salute della macchina (radiografia Opus del 7/7) · ⏳ SERVE FIRMA
-> La radiografia profonda del 7/7 ha trovato **74 difetti macchina**: 34 già chiusi in codice, 6 merge pendenti, **1 aperto-davvero già risolto oggi** (AR-030, checklist rigenerata) e **6 bloccanti che aspettano la tua firma** — sono auto-modifiche, per regola non le applico da sola. In ordine di **impatto sulla crescita**:
+### 🩻 R4 — 2 fix salute macchina rimasti (4/6 risolti da PR #448) · ⏳ IN ATTESA OK NICOLA
+> PR #448 mergiata (18/7 13:21) ha risolto 4/6 fix: AR-044 (guardiano integrità), AR-034 (pannello atomico), AR-030 (checklist), termometro vero. **Rimangono 2 voci che richiedono modifiche al worker:**
 > 1. 🟡 **Il contatore dei costi AI è cieco** (AR-043) — registra ~882 token per un giro da 20 min (sottostima ~1000×): non possiamo decidere niente su costo/valore finché mente. Fix: leggere l'usage reale del motore (`--output-format json`).
 > 2. 🟡 **Il volano non misura mai gli esiti** (AR-040/041/042) — 18 previsioni loggate ma 0 entrano nel punteggio (schema incompatibile) e nessun codice apre un esperimento: autonomia reparti ferma a 0 da sempre. Fix: ponte previsto→misura obbligatorio nel giro.
-> 3. 🟡 **Il giro può pubblicare il proprio codice senza firma** (AR-044) — `git add -A` mette in produzione anche eventuali auto-modifiche del motore. Fix: guardiano-integrità che blocca il push se tocca codice fuori dalla memoria.
-> 4. 🟡 **Pannello: "approva/ignora" risponde ok anche se il salvataggio fallisce** (AR-034) — con le azioni reali accese = rischio doppio invio. Fix: rollback della card + chiave di idempotenza (da chiudere insieme al claim atomico worker).
-> 5. 🟡 **Checklist di Nicola — la radice** (AR-030) — il sintomo è risolto (rigenerata oggi), ma senza un guardiano che la rigeneri dalla coda a ogni report della sera torna stantia. Fix: (a) freschezza nel giro, oppure (b) far derivare la checklist dal parser della coda nel Pannello (elimina la copia).
-> Dettaglio e causa-radice di ciascuno: `MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json` (AR-030, AR-034, AR-040→044). **Cosa cambia:** finché non firmi, il termometro-salute resta gated (voto pieno 0, provvisorio 55) e il volano-business non misura un solo esito. **Se va bene:** con le firme la macchina inizia a misurare il proprio costo e i propri risultati, e non può più modificarsi di nascosto.
+> Dettaglio: `MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json` (AR-040→043). **Cosa cambia:** finché non firmi, il volano-business non misura un solo esito e il sensore costo è cieco. **Se va bene:** la macchina inizia a misurare il proprio costo e i propri risultati. Vuoi che le faccia adesso o dopo?
 
 ---
 
