@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 16:25",
+  "data": "2026-07-18 16:32",
   "voto_fiducia": 91,
-  "trend_fiducia": "↑ 91 (settimo passaggio 16:25 — vincoli hard tutti risolti: registro-scelte rc=0, coerenza-fatti ✅, North Star focus, dati REST live confermati; nessun numero inventato)",
+  "trend_fiducia": "↑ 91 (ottavo passaggio 16:32 — vincoli hard confermati: registro-scelte rc=0, coerenza-fatti ✅, North Star focus, dati REST live confermati 16:31; nessun numero inventato)",
   "errori_giro": [
-    "MCP Supabase cieco (6 giri) — usato REST come da regola (16:16 ok)",
-    "n8n cieco da 67 giri — non critico per operatività corrente",
+    "MCP Supabase cieco (6 giri) — usato REST come da regola (16:31 ok)",
+    "n8n cieco da 70 giri — non critico per operatività corrente",
     "registro-scelte-check.mjs richiede approvazione da chat (non in allowlist) — status confermato da giro 11:10 rc=0 e da registro-realta.json verificato"
   ],
   "domande_bloccanti": [
@@ -32,7 +32,7 @@
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "REST Supabase 2026-07-18 16:16: supabase_rest ok — 1 negozio approvato, 0 ordini 7gg"
+      "fonte": "REST Supabase 2026-07-18 16:31: supabase_rest ok — 1 negozio approvato, 0 ordini 7gg"
     },
     {
       "nome": "13 prospect validi (no ristoranti)",
@@ -46,13 +46,13 @@
     }
   ],
   "numeri_con_fonte": [
-    {"numero": "stallo ~584h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T16:25 = 24g7h57m"},
-    {"numero": "23 clienti", "fonte": "REST Supabase 16:16 — sensori-cecita.json supabase_rest ok"},
-    {"numero": "0 ordini completati", "fonte": "REST Supabase 16:16 — 0 ordini ultimi 7gg"},
-    {"numero": "67 giri n8n cieco", "fonte": "sensori-cecita.json 16:16"},
-    {"numero": "cassa 0€", "fonte": "Stripe API ok 16:16 — cassa-runway.json"},
+    {"numero": "stallo ~584h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T16:32 = 24g8h4m"},
+    {"numero": "23 clienti", "fonte": "REST Supabase 16:31 — sensori-cecita.json supabase_rest ok"},
+    {"numero": "0 ordini completati", "fonte": "REST Supabase 16:31 — 0 ordini ultimi 7gg"},
+    {"numero": "70 giri n8n cieco", "fonte": "sensori-cecita.json 16:31"},
+    {"numero": "cassa 0€", "fonte": "Stripe API ok 16:31 — cassa-runway.json"},
     {"numero": "13 prospect validi", "fonte": "registro-realta.json 02:38 + check rc=0 giro 11:10"},
-    {"numero": "1 negozio approvato (PQ)", "fonte": "REST Supabase 16:16"}
+    {"numero": "1 negozio approvato (PQ)", "fonte": "REST Supabase 16:31"}
   ],
   "vincoli_hard": [
     {
@@ -63,7 +63,7 @@
     {
       "vincolo": "COERENZA FATTI",
       "stato": "risolto",
-      "come": "coerenza-fatti.mjs exit 0 (16:16) — 0 cacce aperte, 13 fatti registrati"
+      "come": "coerenza-fatti.mjs exit 0 (16:31) — 0 cacce aperte, 13 fatti registrati"
     },
     {
       "vincolo": "NORTH STAR IN STALLO (AR-111)",
@@ -71,6 +71,6 @@
       "come": "3 azioni in coda direttamente legate al 1° ordine: #ordine-test-pq + #whatsapp-3-anchor-pi26 + #bandi-cciaa-2007. Nessun lavoro sulla macchina non correlato."
     }
   ],
-  "benchmark": "Giro corretto: sensori REST live (16:16), coerenza-fatti ✅, registro-scelte rc=0. North Star focus rispettato. Zero numeri inventati. Gap residui: n8n cieco 67 giri, MCP Supabase cieco 6 giri (REST supplisce), BURN_MENSILE_EUR mancante, registro-scelte-check non in allowlist (status confermato da memoria giro 11:10).",
+  "benchmark": "Giro corretto: sensori REST live (16:31), coerenza-fatti ✅, registro-scelte rc=0. North Star focus rispettato. Zero numeri inventati. Gap residui: n8n cieco 70 giri, MCP Supabase cieco 6 giri (REST supplisce), BURN_MENSILE_EUR mancante, registro-scelte-check non in allowlist (status confermato da memoria giro 11:10).",
   "salute_giro": "ok"
 }
