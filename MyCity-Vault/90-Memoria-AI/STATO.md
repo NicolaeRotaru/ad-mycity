@@ -4,7 +4,9 @@ aggiornato: 2026-07-18 12:00
 fonte: AD digitale (giro quinto 18/7 12:00 — da chat Nicola)
 ---
 
-> 💬 **18/7 ~14:30 — CHAT: housekeeping coda + cadenza automatica — PR #449 aperta.** Nicola: «Si pulisci la lista e aggiungi una cadenza automatica fissa». Analisi coda: 80 card chiuse, 38 aperte. Script `cervello/housekeeping-coda.mjs` creato + aggiunto al giro. PR #449 aperta su branch `fix/pannello-bloccanti`. Pendente: Nicola mergia #449. Dopo il merge: coda auto-pulita a ogni giro.
+> 💬 **18/7 ~14:50 — CHAT: PR #449 housekeeping — conflitto, DA CHIUDERE senza merge.** La riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva modifiche ai guardiani che main aveva superato → conflitto. L'housekeeping automatico è già operativo. Azione: chiudi PR #449 da GitHub senza merge.
+
+> 💬 **18/7 ~14:30 — CHAT: housekeeping coda + cadenza automatica — PR #449 aperta.** Nicola: «Si pulisci la lista e aggiungi una cadenza automatica fissa». Analisi coda: 80 card chiuse, 38 aperte. Script `cervello/housekeeping-coda.mjs` creato + aggiunto al giro. PR #449 aperta su branch `fix/pannello-bloccanti`. ~~Pendente: Nicola mergia #449.~~ → SUPERATA: housekeeping già su main, PR va chiusa.
 
 > 🛰️ **18/7 12:00 — GIRO (quinto passaggio — da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~580h** (~24,2 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 57 giri · MCP Supabase cieco 4. Guardiani ✅ (confermati 11:38). **Vincolo hard registro-scelte: già risolto** (13 prospect + 6 esclusi, rc=0 dal 11:10). Coerenza-fatti ✅ exit 0. **URGENZA DOMANI 20/7 ore 10:00:** bando PI26 — 🔴 registrarsi su restart.infocamere.it OGGI. Mossa n.2: 🟡 ordine test PQ (North Star 0→1). Mossa n.3: 🟡 3 WhatsApp anchor con leva PI26. Dettaglio: [[Briefing/2026-07-18]].
 

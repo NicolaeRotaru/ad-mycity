@@ -16,17 +16,15 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #mergia-pr-449 — Mergia PR #449: housekeeping automatico coda azioni · ⏳ accodata 2026-07-18 14:30
+### ❌ #mergia-pr-449 — ~~Mergia PR #449~~ → CHIUDI SENZA MERGE · 2026-07-18 ~14:45
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/449 · Branch: `fix/pannello-bloccanti`
 
-**Cosa fa:** aggiunge `cervello/housekeeping-coda.mjs` (sposta le 80 card ✅ FATTO e ❌ in Archivio) e lo lancia automaticamente a ogni giro.
+**Motivo:** la riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva anche modifiche ai guardiani che main aveva nel frattempo superato → conflitto irresolubile. Il contenuto utile è già operativo — non serve mergiare.
 
-**Cosa cambia:** la sezione «Da approvare» nel Pannello mostra solo le 38 card aperte invece di 118+. La coda resta pulita in automatico a ogni giro — nessun intervento manuale.
+**Azione:** chiudi PR #449 da GitHub **senza merge** (pulsante «Close pull request»).
 
-**Se va bene:** lista azioni torna leggibile; housekeeping automatico da ora in poi.
-
-- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
+- **Stato:** ⚠️ da chiudere senza merge (housekeeping già su main)
 - **Reparto:** devops-sre
 
 ---

@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 ~14:50 · 🟢 · [AD analisi conflitto] · **PR #449 da CHIUDERE senza merge — housekeeping già su main (commit `8abf5197`).** Il branch `fix/pannello-bloccanti` aveva anche modifiche ai guardiani che main aveva superato → conflitto irrisolvibile. La riga `housekeeping-azioni.mjs` nel `giro.sh` è già operativa su main dal giro delle 13:28. Chiudere PR #449 da GitHub senza merge; il housekeeping automatico della coda parte al prossimo giro.
+
 2026-07-18 13:40 · 🟡 · [Nicola «Fai i 4 punti in attesa»] · **4 punti pendenti avviati — PR #450 aperta, #fix-35-gravi bloccato.** (1) #fix-termometro-guardiani → già FATTO via PR #448 mergiata; (2) #fix-pannello-bloccanti → 3 fix implementati in PR #450 (risposta non sovrascritta, azioni stuck ri-approvabili, «Parla» non azzera chat); (3) #fix-35-gravi → BLOCCATO, richiede `git -C marketplace checkout -b fix/35-gravi-radiografia-2026-07-07` dal VPS; (4) R4 → 4/6 guardiani coperti da PR #448 mergiata, rimangono AR-043 (sensore costo cieco) e AR-040/041/042 (volano non misura esiti) — in attesa di ok Nicola se procedere ora o dopo.
 
 2026-07-18 ~14:30 · 🟡 · [Nicola richiesta + AD] · **Housekeeping AZIONI-IN-ATTESA + cadenza automatica approvata — PR #449 aperta.** Nicola: «Si pulisci la lista e aggiungi una cadenza automatica fissa». AD ha analizzato la coda (80 card chiuse, 38 aperte), creato `cervello/housekeeping-coda.mjs` e aggiunto il richiamo nel giro. PR #449 su branch `fix/pannello-bloccanti` in attesa di merge. Dopo il merge: le 80 card chiuse → sezione Archivio; a ogni giro automatico la coda resta pulita.
