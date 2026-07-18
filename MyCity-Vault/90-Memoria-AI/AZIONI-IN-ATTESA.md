@@ -16,6 +16,28 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ⏳ accodata 2026-07-18 05:30
+
+**Contesto:** Nicola ha inserito il 18/7 in `cervello/vps/.env`:
+```
+PANNELLO_URL=https://ad-mycity.vercel.app
+MARKETPLACE_SITE_URL=https://mycity-marketplace.com
+```
+Senza riavvio del worker, le variabili non vengono caricate e i sensori `pannello_uptime` e `sito_uptime` restano ❌.
+
+**Comando (1 riga dal terminale VPS):**
+```bash
+sudo systemctl restart mycity-worker-chat.service
+```
+
+**Cosa cambia:** al prossimo giro automatico (~5 min) i sensori `pannello_uptime` e `sito_uptime` passano da ❌ a ✅.
+**Se va bene:** 2 sensori ciechi eliminati senza scrivere altro codice.
+
+- **Colore:** 🟡 (sudo — Nicola esegue dal terminale VPS)
+- **Reparto:** devops-sre
+
+---
+
 ### ✅ #mergia-pr-444 — FATTO 2026-07-18 01:17 · PR #444 mergiata da Nicola direttamente da GitHub
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/444 · Commit `8f9fa641` su main. Ordinamento lista conversazioni ora su `created_at` (data creazione) — la chat più recente resta in cima senza scivolare. Confermato dal git log.
