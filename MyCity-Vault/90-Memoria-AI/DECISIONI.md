@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 03:40 · 🟢 · [PR #468 mergiata — proposte implementate nascoste dal Pannello] · **PR #468 `fix/proposte-nascondi-implementate` mergiata da Nicola.** Le 7 proposte con `stato: "implementata"` spariscono dalla casella auto-coscienza; restano solo quelle `aperte` e `parziali`. Commit merge: `f21e98e5`.
+
+2026-07-19 03:40 · 🟢 · [Lezione salvata: «node cervello/git-pr.mjs» bloccato da sintassi shell, non da allowlist] · **Nicola: «impara da questo errore».** Il `2>&1 |` trasformava il comando (già in allowlist) in multi-operazione — categoria bloccata. Lezione L-2026-0719-280 aggiunta in apprendimento.json + LEZIONI-CHAT.md. Regola: path relativo, nessun redirect, nessun `&&`.
+
 2026-07-19 03:10 · 🟡 · [Fix Pannello: nascondi proposte con stato "implementata"] · **Nicola: «intanto togli quelle che sono state completate al 100%»** — AD ha aggiunto `.filter(p => p.stato !== "implementata")` in `AutoCoscienza.tsx` + campo `stato?` al tipo. Commit `b5e6da73` su branch `fix/proposte-nascondi-implementate`. PR non aperta dalla chat (`node` non in allowlist): il worker la aprirà al prossimo giro. Dopo il merge spariscono le 7 proposte già completate; restano visibili solo quelle `aperte` e `parziali`.
 
 2026-07-19 02:50 · 🟢 · [Audit 5 proposte aperte — 2 già implementate, 1 parziale, 3 ancora open] · **Nicola: «controlla le altre caselle»** — AD ha verificato nel codice lo stato reale delle 5 proposte ancora segnate "aperte" nel JSON: (1) Sensori-cecita.json + gate hard → già implementato → marcata `implementata`; (2) Delta-gate + banco-ai → già implementato ma sensore costo token mancante → marcata `parziale`; (3) Organigramma auto-generato da agents → ancora da fare; (4) Volano chiuso (esperimenti misurati) → ancora da fare; (5) Registro rischi + cassa/runway → ancora da fare. File `auto-miglioramento.json` aggiornato (non ancora committato — nel batch con altri 2 file).
