@@ -16,20 +16,17 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🔴 #fix-35-gravi — Sblocca i 35 fix gravi della radiografia: crea il branch nel repo marketplace · ⏳ accodata 2026-07-18 16:10
+### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ accodata 2026-07-18 17:45
 
-**Contesto:** I 35 problemi gravi della radiografia Opus (7/7) non sono ancora stati toccati. Per partire, serve creare il branch nel repo marketplace (git -C marketplace/ è bloccato dall'allowlist della chat — confermato 18/7).
+**Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. La PR apre tutti e 35 i fix gravi della radiografia Opus del 7/7.
 
-**Cosa fare (2 righe dal terminale VPS):**
-```bash
-git -C /opt/mycity/ad-mycity/marketplace checkout main
-git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-2026-07-07
-```
+**Cosa fare:** apri la PR su GitHub e mergiale:
+https://github.com/NicolaeRotaru/mycity/pull/new/fix/35-gravi-radiografia-2026-07-07
 
-**Cosa cambia:** quando hai fatto, scrivi «fatto» e l'AD parte subito con i 35 fix.
-**Se va bene:** 35 problemi gravi del sito marketplace corretti in un'unica sessione.
+**Cosa cambia:** 35 vulnerabilità/bug gravi del marketplace corretti (sicurezza, pagamenti, analytics, privacy, AI cost).
+**Se va bene:** il sito marketplace è significativamente più sicuro e corretto.
 
-- **Colore:** 🔴 (modifica repo marketplace — Nicola esegue dal terminale VPS)
+- **Colore:** 🔴 (deploy su marketplace — mergia Nicola)
 - **Reparto:** tech / backend-dev / frontend-dev
 
 ---
