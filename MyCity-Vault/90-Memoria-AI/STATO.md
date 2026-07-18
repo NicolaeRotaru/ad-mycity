@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 06:00
-fonte: AD digitale (piano mattino 18/7)
+aggiornato: 2026-07-18 06:30
+fonte: AD digitale (giro fleet 18/7 06:30)
 ---
+
+> 🛰️ **18/7 09:00 — GIRO MANUALE (chat).** Giro rilanciato da Nicola. Memoria aggiornata: briefing 09:00, auto-analisi (voto 83→84 dal worker 06:30), ultimo-briefing, intenzioni-nicola. Registro-realtà confermato: **13 prospect validi** (6 ristoranti esclusi 18/7 14:00), PQ confermato. Stato business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~576h. **Mossa n.1 OGGI:** 🔴 registrati su restart.infocamere.it per il bando PI26 che apre domani 20/7 ore 10:00 (max €10k fondo perduto, a sportello). **Mossa n.2:** 🟡 fai un ordine test su PQ (sblocca North Star 0→1). **Mossa n.3:** 🟡 3 WhatsApp alle botteghe anchor (Garetti/Peretti/Amendolara) con leva PI26. Dettaglio: [[Briefing/2026-07-18]].
 
 > ☀️ **18/7 06:00 — PIANO DEL MATTINO.** Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~582h (~24,3 giorni). North Star 0, cassa 0€. **3 priorità di oggi:** ① 🔴 **Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello** (50% fondo perduto max €10k su spese tech da maggio 2026) — Nicola deve registrarsi su restart.infocamere.it OGGI + raccogliere fatture Supabase/Vercel/Render; ② 🟡 **Profili di approccio per i 13 prospect** — macchina costruisce materiali pitch per le 3 più promettenti (Frolla Couture, Panetteria Del Corso, Anzico Forno) pronte per quando la bici è operativa; ③ 🟡 **Chiudi PR Pannello** — mergia #443 (5 fix UX) + #446 (cross-device) + apri PR 4-bug-ux. **Prossimi passi Nicola:** registrati su restart.infocamere.it (🔴) · riavvia worker per env (🟡) · prezzo tazzina PQ (🟡). Dettaglio: [[RITMO]] · [[SALA-OPERATIVA]].
 

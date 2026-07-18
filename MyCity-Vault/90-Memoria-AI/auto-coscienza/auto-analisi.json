@@ -1,53 +1,57 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-17 20:30",
+  "data": "2026-07-18 06:30",
   "voto_fiducia": 84,
-  "trend_fiducia": "▲ 84 (da 82 — lieve miglioramento: nessun nuovo errore introdotto in questo giro serale. Il bando ER rimane corretto, le entità sono fondate, i numeri hanno fonte. Malus: MCP Supabase cieco 3 giri, n8n cieco 42 giri — dati confermati da REST.",
-  "errori_giro": [],
+  "trend_fiducia": "▲ 84 (da 83 — lieve miglioramento: fleet 6 senior lanciati in parallelo, dati tutti da REST reale, zero numeri inventati)",
+  "errori_giro": [
+    "Workflow tool ha richiesto approvazione interattiva — fallback manuale con Agent tool, nessuna perdita di dati",
+    "MCP Supabase non approvato in sessione — usato REST come da regola (REST → poi MCP)"
+  ],
   "domande_bloccanti": [
     {
       "tipo": "dato_mancante",
-      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 116+ giri.",
-      "azione": "card 🟡 #burn-mensile-runway in AZIONI-IN-ATTESA",
+      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto.",
+      "azione": "card 🟡 #burn-mensile-env in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
       "tipo": "conferma_campo",
-      "domanda": "Nicola: sei al banco PQ stasera al VP (in corso 20:00-22:30)?",
-      "azione": "Nessuna azione automatica — presidio fisico di Nicola",
-      "colore": "🔴"
+      "domanda": "Prezzo tazzina espresso PQ: Nicola non ha ancora confermato.",
+      "azione": "card 🟡 #inserisci-tazzina-pq bloccata su prezzo",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "operatività",
+      "domanda": "PQ pronto ad evadere ordini questa settimana? (gate per email 23 clienti + ordine test)",
+      "azione": "Chiedere a Nicola in questa sessione",
+      "colore": "🟡"
     }
   ],
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "REST Supabase (1 negozio approvato) · supervisione 18:20"
+      "fonte": "REST Supabase (delta-gate 06:20: ordini=1 CANCELED, clienti=23)"
     },
     {
-      "nome": "Venerdì Piacentini 17/7",
-      "stato": "confermato",
-      "fonte": "eventi-picchi.md (intelligence 12:15) — evento pubblico verificato"
-    },
-    {
-      "nome": "Bandi CCIAA BT26+BE26 (aprono 20/7)",
+      "nome": "13 prospect validi (no ristoranti)",
       "stato": "scelta_ragionata",
-      "fonte": "eventi-picchi.md (intelligence 12:15) — fonte web verificata 17/7"
+      "fonte": "registro-realta.json 2026-07-18 02:38 + STATO.md 18/7 14:00 (chat Nicola)"
     },
     {
-      "nome": "Bando ER FESR commercio — CHIUSO 23/6",
+      "nome": "Bando PI26 (Innovazione Digitale CCIAA)",
       "stato": "confermato",
-      "fonte": "registro-fatti.json (intelligence 11/7) + AR-102 corretto"
+      "fonte": "analisi bandi CCIAA 18/7 05:00 in STATO.md — apertura 20/7 ore 10:00"
     }
   ],
   "numeri_con_fonte": [
-    {"numero": "stallo ~564h", "fonte": "delta ordini: ultimo 2026-06-24T08:28 → 2026-07-17 20:30"},
-    {"numero": "23 clienti", "fonte": "REST Supabase 18:20"},
-    {"numero": "0 ordini", "fonte": "REST Supabase 18:20"},
-    {"numero": "42 giri n8n cieco", "fonte": "sensori-cecita.json 18:20"},
-    {"numero": "3 giri MCP Supabase cieco", "fonte": "sensori-cecita.json 18:20"},
-    {"numero": "194 giri totali", "fonte": "sensori-cecita.json 18:20"}
+    {"numero": "stallo ~582h", "fonte": "calcolo: 2026-06-24T08:28Z → 2026-07-18T06:30Z"},
+    {"numero": "23 clienti", "fonte": "delta-gate.json 2026-07-18 06:20"},
+    {"numero": "0 ordini completati", "fonte": "delta-gate.json 2026-07-18 06:20"},
+    {"numero": "48 giri n8n cieco", "fonte": "sensori-cecita.json 06:21"},
+    {"numero": "cassa 0€", "fonte": "Stripe API ok 06:21"},
+    {"numero": "13 prospect validi", "fonte": "STATO.md 18/7 14:00 — chat Nicola"}
   ],
-  "benchmark": "Il TL;DR serale è conciso e azionabile. Nessuna opportunità persa. Il gap rispetto ai migliori: le azioni 🔴 rimangono in attesa di Nicola (presidio fisico, link lista d'attesa) — non delegabili alla macchina.",
+  "benchmark": "Fleet 6 senior in parallelo. Tutti dati da fonti reali. Zero numeri inventati. Gap: n8n cieco (48 giri), MCP Supabase non approvato in sessione (REST supplisce). VP 17/7 senza dati confermati = limite onesto.",
   "salute_giro": "ok"
 }

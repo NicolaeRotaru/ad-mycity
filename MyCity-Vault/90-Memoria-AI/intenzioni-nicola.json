@@ -1,86 +1,92 @@
 {
-  "data": "2026-07-17 20:30",
-  "sintesi": "Il VP 17/7 È IN CORSO (20:00-22:30, Via Calzolai). Nicola dovrebbe essere al banco PQ in questo momento — il presidio fisico con QR è la mossa per North Star 0→1. Bici elettrica ancora in riparazione. DOMANI 20/7: bandi CCIAA BT26+BE26 aprono (€7k+€20k per bottega, scadenza 30/7) — opportunità concreta per convincere le prime botteghe. Dal 20/7 cambio meteo (piogge) → prima finestra delivery a domicilio. Prossima settimana (21-25/7): inserimento botteghe con bici riparata.",
+  "data": "2026-07-18 06:30",
+  "sintesi": "Bando PI26 apre domani 20/7 ore 10:00 — registrazione su restart.infocamere.it è il passo più urgente di oggi. Bici in riparazione (lunedì prossimo), giro botteghe settimana 21-25/7. Nel frattempo: ordine di test su PQ per sbloccare North Star, e 3 WhatsApp alle botteghe anchor con la leva PI26. Le 13 schede pitch + il documento A4 li prepara la macchina oggi.",
   "prossime_mosse": [
     {
-      "titolo": "Presidio banco PQ al VP stasera",
-      "quando": "2026-07-17 20:00-22:30",
-      "come": "Fisicamente a Via Calzolai 25, QR sul telefono, accetta ordini di ritiro al banco — nessuna bici necessaria",
+      "titolo": "Registrati su restart.infocamere.it per il bando PI26",
+      "quando": "OGGI 2026-07-18 (prima di stasera)",
+      "come": "Portale bandi CCIAA. Raccogliere anche fatture Supabase/Vercel/Render da maggio 2026.",
       "priorita": "alta",
-      "ad_prepara": "QR già pronto. Post VP testo già scritto in coda (#post-vp-day-1707). Basta che Nicola si presenti.",
-      "senior": "@account-negozi",
+      "ad_prepara": "Bozza domanda PI26 in consegne/relazioni-istituzionali/. Checklist documenti allegata.",
+      "senior": "@relazioni-istituzionali",
       "colore": "🔴"
     },
     {
-      "titolo": "Preparare le domande bandi CCIAA BT26+BE26 per le botteghe",
-      "quando": "2026-07-20 mattina (domani — aprono alle 00:00 del 20/7)",
-      "come": "Bozzare la domanda per le botteghe target con @relazioni-istituzionali + @finanza-agevolata. Usarla come argomento di vendita.",
+      "titolo": "Fai un ordine di prova su Pane Quotidiano",
+      "quando": "OGGI o domani 19/7",
+      "come": "Vai su mycity-marketplace.com, scegli un prodotto PQ (es. pane), completa il checkout e testa la consegna/ritiro. Sblocca North Star 0→1.",
       "priorita": "alta",
-      "ad_prepara": "Bozza domanda pronta prima dell'apertura (stanotte / domani mattina presto).",
-      "senior": "@relazioni-istituzionali",
+      "ad_prepara": "Nessuna preparazione necessaria — flusso già funzionante.",
+      "senior": "@operations",
       "colore": "🟡"
     },
     {
-      "titolo": "Inserire le prime botteghe su MyCity",
-      "quando": "Settimana 21-25 luglio 2026 (quando la bici è riparata)",
-      "come": "Visita fisica alle botteghe target (Garetti, Peretti, Amendolara…), firma accordo, onboarding done-for-you in 48h.",
+      "titolo": "Manda 3 WhatsApp alle botteghe anchor con aggancio PI26",
+      "quando": "OGGI 18/7 pomeriggio",
+      "come": "3 messaggi a Garetti / Peretti / Amendolara. Testi personalizzati pronti in consegne/vendite/.",
       "priorita": "alta",
-      "ad_prepara": "Dossier completi già pronti per i primi negozi. Appena bici pronta.",
+      "ad_prepara": "Testi WhatsApp personalizzati per Garetti, Peretti, Amendolara con aggancio PI26.",
       "senior": "@vendite",
       "colore": "🟡"
     },
     {
-      "titolo": "Lanciare campagna delivery a domicilio con il cambio meteo",
-      "quando": "2026-07-20-21 (dal cambio meteo con piogge)",
-      "come": "Adattare il post kefir al messaggio 'fresco a casa anche quando piove'. Serve il link lista d'attesa da Nicola.",
-      "priorita": "media",
-      "ad_prepara": "Post già bozzato. Da adattare meteo. Serve il link lista d'attesa.",
-      "senior": "@content-social",
+      "titolo": "Riparare la bici e fissare la data del giro botteghe",
+      "quando": "Lunedì 20/7+ (riparazione), giro settimana 21-25/7",
+      "come": "Visita fisica ai 13 prospect. Porta tablet + accordo firmabile. Priorità: Frolla Couture, Panetteria Del Corso, Anzico Forno.",
+      "priorita": "alta",
+      "ad_prepara": "13 schede pitch complete (in consegne/vendite/) + documento A4 leave-behind.",
+      "senior": "@vendite",
       "colore": "🟡"
     }
   ],
   "primi_negozi": [
     {
       "nome": "Pane Quotidiano",
-      "perche": "Unico negozio REALE confermato (Via Calzolai 25). Bio dal 1976. Già online e approvato.",
-      "stato": "attivo — 258 prodotti — ritiro al banco attivo stasera (VP)"
+      "perche": "Unico negozio REALE confermato (Via Calzolai 25). Già online, 258+ prodotti.",
+      "stato": "attivo — stallo ordini 582h, North Star 0"
     },
     {
-      "nome": "Garetti (bottega storica Piacenza)",
-      "perche": "Bottega storica, profilo già nel dossier. Cliente core (botteghe, non ristoranti).",
-      "stato": "scelta_ragionata — da contattare con bici pronta"
+      "nome": "Frolla Couture",
+      "perche": "Score più alto tra i prospect, pasticceria/panetteria artigianale, nessun competitor delivery.",
+      "stato": "scelta_ragionata — da contattare settimana 21-25/7"
     },
     {
-      "nome": "Peretti",
-      "perche": "Gastronomia piacentina storica. Nel dossier 6/7.",
-      "stato": "scelta_ragionata — da contattare con bici pronta"
+      "nome": "Antica Salumeria Garetti",
+      "perche": "Bottega storica DOP piacentini. Tra i 3 più caldi — WhatsApp PI26 oggi.",
+      "stato": "scelta_ragionata — WhatsApp oggi"
     }
   ],
   "rischi": [
-    "Il VP finisce alle 22:30 — se Nicola non va stasera, la finestra chiude",
-    "Bici non ancora pronta — consegna a domicilio non attivabile fino alla riparazione",
-    "Bandi CCIAA scadono il 30/7 — solo 10 giorni dalla apertura del 20/7"
+    "Bando PI26 a sportello: senza registrazione TODAY si rischia di arrivare tardi al 20/7",
+    "Bici non ancora pronta: giro botteghe bloccato fino alla settimana 21-25/7",
+    "Stallo 582h senza ordini: Pane Quotidiano può perdere motivazione senza movimento",
+    "23 clienti senza comunicazione: nessuna welcome email inviata — rischiano di dimenticarsi di noi"
   ],
   "serve_da_nicola": [
     {
-      "ambito": "presidio VP",
-      "cosa_manca": "Conferma che Nicola è al banco PQ stasera (o ha già pubblicato il post)",
-      "domanda_per_nicola": "Sei al banco PQ adesso? Il VP è in corso fino alle 22:30."
+      "ambito": "bando PI26",
+      "cosa_manca": "Registrazione su restart.infocamere.it (non delegabile alla macchina)",
+      "domanda_per_nicola": "Riesci a registrarti su restart.infocamere.it OGGI? Bando apre domani 20/7 ore 10 a sportello."
     },
     {
-      "ambito": "post kefir",
-      "cosa_manca": "Link della lista d'attesa per includere nel post",
-      "domanda_per_nicola": "Qual è il link della lista d'attesa? Così pubblichiamo il post kefir."
+      "ambito": "ordine test PQ",
+      "cosa_manca": "Nicola deve eseguire l'ordine di persona",
+      "domanda_per_nicola": "Fai un ordine di prova su PQ oggi? Costa il prezzo del prodotto, sblocca North Star 0→1."
     },
     {
-      "ambito": "bici elettrica",
-      "cosa_manca": "Data reale di riparazione — 'prossima settimana' del 12/7 non è ancora confermata",
-      "domanda_per_nicola": "Quando hai la bici pronta? Così pianifichiamo l'inserimento botteghe."
+      "ambito": "WhatsApp anchor",
+      "cosa_manca": "Numeri di telefono Garetti/Peretti/Amendolara + approvazione testi",
+      "domanda_per_nicola": "Ok se preparo i 3 testi WhatsApp e tu li mandi oggi pomeriggio?"
+    },
+    {
+      "ambito": "operatività PQ",
+      "cosa_manca": "Conferma che PQ accetta ordini questa settimana",
+      "domanda_per_nicola": "Il fornaio è pronto ad evadere ordini questa settimana? (gate per email ai 23 clienti)"
     },
     {
       "ambito": "burn mensile",
-      "cosa_manca": "BURN_MENSILE_EUR nel .env VPS — sconosciuto da 116+ giri",
-      "domanda_per_nicola": "Quanti €/mese stimiamo di spendere (VPS + Claude + altro)? Così calcolo il runway."
+      "cosa_manca": "BURN_MENSILE_EUR nel .env VPS — runway sconosciuto",
+      "domanda_per_nicola": "Quanti €/mese spendi per VPS+hosting+tools? Serve per calcolare il runway."
     }
   ]
 }

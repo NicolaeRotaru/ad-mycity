@@ -16,6 +16,76 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30
+
+**Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
+
+**Cosa cambia:** il North Star passa da 0 a 1, si sa che la macchina funziona, si sblocca la comunicazione ai 23 clienti.
+
+**Se va bene:** PQ evade l'ordine → possiamo mandare l'email ai 23 iscritti con "la consegna funziona".
+
+**Canale:** manuale (Nicola apre mycity-marketplace.com e ordina)
+
+---
+
+### 🟡 #whatsapp-3-anchor-pi26 — Manda 3 WhatsApp a Garetti, Peretti e Amendolara · ⏳ accodata 2026-07-18 06:30
+
+**Contesto:** Le 3 botteghe più calde. Il bando PI26 (50% fondo perduto max €10k su spese tech) apre DOMANI 20/7 ore 10:00 → leva urgenza reale senza bisogno della bici.
+
+**Testi pronti in `consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md`**
+
+**Cosa cambia:** primo contatto caldo con le 3 botteghe top. Se 1 risponde positivamente → onboarding la settimana prossima.
+
+**Se va bene:** almeno 1 risposta positiva → fissa un appuntamento per la settimana 21-25/7.
+
+**Canale:** WhatsApp manuale da Nicola
+
+---
+
+### 🟡 #welcome-email-23 — Invia la welcome email ai 23 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
+
+**Contesto:** 23 clienti iscritti non hanno mai ricevuto un messaggio da MyCity. Nessuna welcome email. Rischio: si dimenticano di noi.
+
+**Gate:** PQ deve essere pronto ad evadere ordini (conferma da Nicola). Senza PQ operativo, rimandare.
+
+**Cosa fare:** recupera le 23 email da /admin/users del Pannello → invia via Gmail BCC. Testo: `consegne/crm/welcome-email-23.md` (da preparare 🟢 prima dell'invio).
+
+**Cosa cambia:** 23 clienti ricevono il primo messaggio → 2-3 risposte/click attesi → 1 primo ordine entro 48h.
+
+**Se va bene:** 1 ordine completato → sblocca tutto il funnel (recensioni, referral, reputazione).
+
+**Canale:** email manuale via Gmail BCC
+
+---
+
+### 🟡 #post-meteo-pioggia-20lug — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30
+
+**Contesto:** Piogge previste dal 20/7 su Piacenza. Delivery domestico ha il massimo valore percepito quando piove.
+
+**Testo pronto in `consegne/content/2026-07-18-post-meteo-pioggia.md`**
+
+**Cosa cambia:** visibilità nei gruppi Facebook locali (Piacenza Sei Tu + quartieri). Budget 0.
+
+**Se va bene:** 2-5 nuovi iscritti → 1 ordine.
+
+**Canale:** Facebook gruppi locali (manuale da Nicola il 20/7 mattina)
+
+---
+
+### 🟡 #zona-orario-consegna — Definisci zona, orario e ordine minimo per la prima consegna · ⏳ accodata 2026-07-18 06:30
+
+**Contesto:** Bici presto operativa (settimana 21-25/7). Prima di accettare ordini dal pubblico serve definire: raggio max (es. 3 km dal centro), fasce orarie (es. 12-14 / 18-20), ordine minimo (es. €10).
+
+**Cosa decide Nicola:** 3 parametri (raggio, fascia, minimo). L'AD li imposta poi via `cervello/marketplace.mjs`.
+
+**Cosa cambia:** evita over-promise al primo cliente. Regole chiare = primo ordine evadibile senza imprevisti.
+
+**Se va bene:** parametri impostati → attivi per il lancio.
+
+**Canale:** decisione Nicola → l'AD applica 🟢
+
+---
+
 ### 🟡 #riavvia-worker-env — Riavvia il worker per caricare le 2 nuove variabili env · ⏳ accodata 2026-07-18 05:30
 
 **Contesto:** Nicola ha inserito il 18/7 in `cervello/vps/.env`:
@@ -2014,8 +2084,8 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-17 22:20)
-Report completo con comandi pronti: `consegne/supervisione/2026-07-17-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 06:20)
+Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 252 prodotti che non ce l'hanno
 

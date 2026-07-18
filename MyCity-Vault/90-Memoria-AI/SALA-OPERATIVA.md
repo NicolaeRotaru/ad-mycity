@@ -32,6 +32,10 @@ Esempi:
 - 2026-06-24 02:29 · @designer · FATTO · Locandina QR A5 (PDF) + QR PNG in `creativi/output/` (brand ok, QR verificato; URL segnaposto → rigenerare col link reale). PASSO-A @vendite e @builder-automazioni.
 - 2026-06-24 02:29 · @customer-success · PASSO-A @designer/@content · script primo ordine concierge + telefonata feedback + prima recensione in `consegne/customer-success/primo-ordine-faro.md`. SERVE @tech (consegnato→abilita recensione), @legale-privacy (consenso messaggi).
 
+### 2026-07-18 09:00 — Giro manuale (chat Nicola)
+- 2026-07-18 09:00 · @AD · FATTO · Giro completo chat: briefing 2026-07-18 aggiornato (frontmatter 09:00), STATO.md aggiornato, auto-analisi voto 84, ultimo-briefing.json aggiornato, intenzioni-nicola.json aggiornato. Registro-realtà: 13 prospect validi (6 ristoranti esclusi). Stallo ~576h. PI26 apre domani.
+- 2026-07-18 09:00 · @AD · SERVE · @Nicola: ① registrati su restart.infocamere.it per PI26 OGGI (🔴); ② fai un ordine test su PQ (🟡); ③ approva i 3 WhatsApp alle botteghe anchor (🟡); ④ mergia PR #446 (cross-device chat); ⑤ conferma prezzo tazzina PQ.
+
 ### 2026-06-25 — ☀️ PIANO DEL MATTINO (AD)
 **Obiettivo del giorno:** Garetti LIVE + macchina collaudata (ordine-test → payout). North Star: 1° ordine reale entro sab 27/6.
 **Le 3 priorità:** ① Garetti LIVE (onboarding 20 min) · ② accendere la domanda (QR cassa + lista d'attesa + 1ª storia) · ③ collaudare la macchina (ordine-test fino al payout).
@@ -1020,3 +1024,12 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-18 06:00 · @relazioni-istituzionali · FACCIO · Preparo checklist finale pre-PI26: campi da compilare nel portale, spese ammissibili da confermare, documenti da allegare (visura, bilancio, fatture). Consegno in consegne/relazioni-istituzionali/ prima di stasera.
 - 2026-07-18 06:00 · @vendite · FACCIO · Costruisco i profili di approccio per le 3 botteghe più pronte tra i 13 prospect: Frolla Couture (pasticceria artigianale), Panetteria Del Corso, Anzico Forno. Profilo = hook del pitch, canale consigliato, materiali necessari. Pronto in consegne/vendite/ per quando la bici torna operativa.
 - 2026-07-18 06:00 · @frontend-dev · PASSO-A @Nicola · Mergia PR #443 (5 fix UX Pannello: scroll, sticky textarea, testo errore umano, flash streaming, layout shift) e PR #446 (chat cross-device smartphone/desktop). Poi @AD apre la PR fix/chat-4bug-ux per gli ultimi 4 bug UX. Tutte le PR sono senza conflitti e pronte.
+
+- 2026-07-18 06:30 · @AD · FATTO · giro fleet 6 senior in parallelo (analista, vendite, growth, marketing, crm, operations) — 14 mosse verificate, sintesi AD completa
+- 2026-07-18 06:30 · @analista · FATTO · collo bottiglia: negozio non evadibile + 582h stallo — mossa n.1 = ordine test PQ oggi
+- 2026-07-18 06:30 · @vendite · FATTO · 3 mosse: WhatsApp 3 anchor PI26 🟡 + schede pitch 13 botteghe 🟢 + leave-behind A4 🟢
+- 2026-07-18 06:30 · @growth-monetizzazione · FATTO · 3 mosse: ordine test PQ 🟡 + email 23 clienti 🔴 + soglia spedizione gratis 🟡
+- 2026-07-18 06:30 · @marketing · FATTO · 3 mosse: post meteo pioggia FB 🟡 + PR PI26 Libertà 🟡 + commenti Google Maps 13 prospect 🟢
+- 2026-07-18 06:30 · @crm-lifecycle · FATTO · 3 mosse: welcome email 23 iscritti 🟡 + reminder carrello samir 🟡 + messaggio pioggia 19/7 🟡
+- 2026-07-18 06:30 · @operations · FATTO · 2 mosse: runbook prima consegna 🟢 + zona/orario/ordine-minimo 🟡
+- 2026-07-18 06:30 · @AD · FACCIO · deliverable 🟢: schede pitch 7 botteghe + leave-behind A4 + runbook + WhatsApp testi + comunicato PI26

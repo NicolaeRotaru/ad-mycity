@@ -1,56 +1,51 @@
 {
-  "data": "2026-07-17 20:30",
-  "situazione": "Business invariato da ~564h (23.5 giorni) — North Star 0, 1 PQ, 23 clienti, 0€. Il Venerdì Piacentini È IN CORSO ADESSO (20:00-22:30, Via Calzolai). PQ al banco — ritiro senza bici, QR sul telefono. DOMANI 20/7: bandi CCIAA BT26 (€7k, e-commerce) + BE26 (€20k, energia) aprono — scadenza 30/7. Bando ER FESR CHIUSO dal 23/6 (AR-102 corretto). Macchina: 42 giri n8n cieco, 3 giri MCP Supabase cieco, REST/Stripe ok.",
+  "data": "2026-07-18 06:30",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo 582h (24,3 giorni). North Star 0, cassa 0€. Finestra critica: bando PI26 apre domani 20/7 ore 10:00 (max €10k fondo perduto), piogge dal 20/7 (delivery window), bici presto operativa (settimana 21-25/7). Mossa n.1: ordine di test su PQ per sbloccare il primo North Star.",
   "opportunita": [
     {
-      "titolo": "Primo ordine stasera al VP — North Star 0 diventa 1",
-      "motivo": "VP in corso con 50-60k persone in centro, PQ sulla via principale. Ritiro al banco senza bici. Finestra unica della stagione.",
+      "titolo": "Fai un ordine di prova su Pane Quotidiano oggi",
+      "motivo": "Sblocca il North Star da 0 a 1, prova end-to-end checkout→pagamento→consegna, non richiede bici né altri negozi",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Bandi CCIAA per le botteghe — fino a €20k a negozio, aprono domani",
-      "motivo": "BT26 (e-commerce, 40%, max €7k) + BE26 (energia, 50%, max €20k) aprono 20/7, scadenza 30/7. Leva concreta per convincere le botteghe ad aderire a MyCity.",
+      "titolo": "Bando PI26 — 50% fondo perduto max €10.000",
+      "motivo": "Apre domani 20/7 ore 10:00, a sportello — chi prima arriva. Spese tech da maggio 2026 ammissibili",
       "impatto": "alto",
       "sforzo": "medio"
     },
     {
-      "titolo": "Dal 20/7 piove — prima finestra delivery a domicilio",
-      "motivo": "Svolta meteo dal 20/7 (piogge, 27-30°C vs 38°C oggi). I clienti preferiscono ordinare da casa. Post kefir adattabile al messaggio 'fresco a casa anche quando piove'.",
-      "impatto": "medio",
+      "titolo": "WhatsApp a Garetti, Peretti e Amendolara con la leva PI26",
+      "motivo": "Le 3 botteghe più calde, testi pronti, bando PI26 = urgenza reale senza dover andare di persona",
+      "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Pulire la coda Pannello da 121 job errore",
-      "motivo": "Il worker accumula job errore che gonfiano il numero 'In coda'. PR #433 pronta e testata.",
-      "impatto": "basso",
+      "titolo": "Email ai 23 iscritti con hook piogge 20/7",
+      "motivo": "23 clienti caldi che aspettano, mai ricevuto un messaggio. Piogge = trigger delivery perfetto",
+      "impatto": "alto",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Vai al banco PQ adesso (Via Calzolai 25, fino alle 22:30)",
-      "motivo": "VP in corso — finestra unica per North Star 0→1. Porta il QR, accetta ritiro al banco.",
+      "titolo": "Registrati su restart.infocamere.it per il bando PI26 (apre domani)",
+      "motivo": "Bando a sportello — senza registrazione non si può presentare domanda domani ore 10:00",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia PR #433 per pulire la coda del Pannello",
-      "motivo": "121 job errore accumulati rendono il numero 'In coda' illeggibile. Pronta e testata.",
+      "titolo": "Fai un ordine di test su Pane Quotidiano",
+      "motivo": "North Star a 0 da 24 giorni — un ordine test sblocca la prova che il sistema funziona",
       "livello": "giallo"
     },
     {
-      "titolo": "Domani mattina prepariamo le domande CCIAA BT26+BE26",
-      "motivo": "Bandi aprono 20/7, scadono 30/7 — 10 giorni. Le botteghe che aderiscono a MyCity hanno argomento forte per la domanda.",
+      "titolo": "Manda 3 WhatsApp alle botteghe top con aggancio PI26",
+      "motivo": "Testi pronti, leva reale (bando CCIAA), non richiede bici",
       "livello": "giallo"
     },
     {
-      "titolo": "Metti il guardiano coerenza-fatti in allowlist automatica",
-      "motivo": "Senza allowlist, il guardiano non gira in automatico e le incoerenze passano inosservate (come il bando ER citato per errore per 6 giri).",
-      "livello": "giallo"
-    },
-    {
-      "titolo": "Inserisci il BURN mensile nel VPS per calcolare il runway",
-      "motivo": "Sconosciuto da 116+ giri. La cassa è a 0€ ma non sappiamo da quanto regge.",
+      "titolo": "Invia la welcome email ai 23 clienti via Gmail",
+      "motivo": "23 clienti non hanno mai ricevuto un messaggio — rischiano di dimenticarsi di noi",
       "livello": "giallo"
     }
   ]
