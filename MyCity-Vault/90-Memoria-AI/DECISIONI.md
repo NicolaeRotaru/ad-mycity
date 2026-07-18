@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 02:30 · 🟡 · [AD] · **PR #446 aperta — fix chat cross-device smartphone/desktop.** Nicola ha segnalato due problemi: (1) messaggio da smartphone compare in coda/archivio ma non nella lista conversazioni; (2) aprendo il Pannello da smartphone la chat è vuota anche se sul desktop c'è una conversazione attiva. Causa strutturale: ogni sessione parte da zero senza sapere delle conversazioni degli altri dispositivi. Fix: auto-apertura della conversazione più recente (ultime 2h) se la chat è vuota all'apertura. PR #446 in attesa di merge da Nicola.
+
 2026-07-18 ~02:00 · 🟢 · [Nicola esegue, AD conferma] · **Timer watch-main abbassato a 1 minuto — CONFERMATO.** Nicola ha eseguito i comandi sudo dal terminale VPS. Log `systemctl list-timers` mostrava `NEXT: 23:43:24 UTC, 52s left` (scatto ogni ~60s). L'AD ha anche aggiornato il file template in repo (`cervello/vps/mycity-watch-main.timer`) con commit `2502f502` su main. Da ora la macchina vede i merge GitHub con max 1 min di ritardo invece di 5.
 
 2026-07-18 04:30 · 🟢 · [Nicola] · **Nicola ha inserito 2 variabili env in `cervello/vps/.env`** — `PANNELLO_URL=https://ad-mycity.vercel.app` e `MARKETPLACE_SITE_URL=https://mycity-marketplace.com`. Sono 2 righe, non 3: `CABINA_URL` è alias di `PANNELLO_URL`, non serve. Pendente: riavvio worker per caricarle (`sudo systemctl restart mycity-worker-chat.service`).

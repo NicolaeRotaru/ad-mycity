@@ -29,6 +29,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più "🚫 Messaggio annullato." che sovrascrive la risposta precedente — è già deployato su Vercel.
 
+### 🟡 #mergia-pr-446 — Mergia PR #446: fix chat cross-device (smartphone vede chat vuota invece di quella desktop) · ⏳ accodata 2026-07-18 02:30
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/446
+
+**Due problemi risolti in un fix:**
+1. Messaggio da smartphone appare nella coda/archivio ma non nella lista conversazioni
+2. Risposte del desktop non visibili aprendo il Pannello da smartphone (sessione vuota)
+
+**Il fix:** quando il Pannello si apre e la chat è vuota, controlla se esiste una conversazione aggiornata nelle ultime 2 ore e la apre automaticamente. "Nuova chat" esplicita continua a funzionare come prima.
+
+**Cosa cambia:** apertura del Pannello da smartphone → la conversazione del desktop è già lì, niente da cliccare.
+**Se va bene:** chat desktop/smartphone sincronizzate automaticamente.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
 
 **PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/443 · Branch: `feature/lavori-riapprova-ux`
