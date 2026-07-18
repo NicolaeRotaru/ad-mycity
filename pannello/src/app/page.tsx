@@ -114,7 +114,6 @@ import { vaultToIso } from "@/lib/format";
 import { hintInvioChat } from "@/lib/chat-input";
 import { avviaDettatura } from "@/lib/dettatura-vocale";
 import Aggiornato from "@/components/Aggiornato";
-import Arsenale from "@/components/Arsenale";
 import DemoBanner from "@/components/DemoBanner";
 import ParlaCasella from "@/components/ParlaCasella";
 import BarraScritturaChat, { type BarraScritturaChatHandle } from "@/components/BarraScritturaChat";
@@ -2522,12 +2521,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         )}
 
         {/* ===================== AZIONI (corsia operativa) ===================== */}
-        {vista === "azioni" && (
-          <div className="space-y-4">
-            <Azioni />
-            <Arsenale />
-          </div>
-        )}
+        {vista === "azioni" && <Azioni />}
 
         {/* ===================== MEMORIA (hub: viva · archivio · storico) ===================== */}
         {(vista === "memoria" || vista === "report" || vista === "esplora" || vista === "storico") && (
