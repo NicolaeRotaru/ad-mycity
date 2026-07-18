@@ -392,7 +392,10 @@
       "atteso": 1,
       "data_misura": "2026-07-25",
       "aperto_il": "2026-07-18 16:06",
-      "azioni_gate": ["#ordine-test-pq", "#whatsapp-3-anchor-pi26"],
+      "azioni_gate": [
+        "#ordine-test-pq",
+        "#whatsapp-3-anchor-pi26"
+      ],
       "nota": "Esperimento critico North Star. Misura: REST ordini_consegnati > 0."
     },
     {
@@ -406,7 +409,9 @@
       "atteso": 1,
       "data_misura": "2026-07-27",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#whatsapp-3-anchor-pi26"],
+      "azioni_gate": [
+        "#whatsapp-3-anchor-pi26"
+      ],
       "nota": "Dipende dall'invio WhatsApp (🟡, mano manuale di Nicola). Misura: risposta ricevuta sì/no entro 48h."
     },
     {
@@ -417,10 +422,12 @@
       "ipotesi": "Una welcome email personalizzata ai 23 iscritti (con storia MyCity + cosa li aspetta) ottiene un tasso di apertura >50% e almeno 5 click sulla CTA.",
       "metrica": "email_open_rate",
       "baseline": 0,
-      "atteso": 0.50,
+      "atteso": 0.5,
       "data_misura": "2026-07-28",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#welcome-email-23"],
+      "azioni_gate": [
+        "#welcome-email-23"
+      ],
       "nota": "Misura via Gmail/tracking. Baseline industria food-delivery welcome email: ~35-40%."
     },
     {
@@ -434,7 +441,9 @@
       "atteso": 3,
       "data_misura": "2026-07-21",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#post-meteo-pioggia-20lug"],
+      "azioni_gate": [
+        "#post-meteo-pioggia-20lug"
+      ],
       "nota": "Gate: pubblicazione post approvata da Nicola. Misura: REST profiles count > 23 nelle 24h post-post."
     },
     {
@@ -448,7 +457,9 @@
       "atteso": 5,
       "data_misura": "2026-07-24",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#post-siamo-in-23"],
+      "azioni_gate": [
+        "#post-siamo-in-23"
+      ],
       "nota": "Gate: pubblicazione nei gruppi Facebook Piacenza (🔴, firma Nicola). Misura: REST profiles count delta."
     },
     {
@@ -462,7 +473,9 @@
       "atteso": "ammessa",
       "data_misura": "2026-08-20",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#bandi-cciaa-2007"],
+      "azioni_gate": [
+        "#bandi-cciaa-2007"
+      ],
       "nota": "Bando a sportello: il prima possibile dopo le 10:00 del 20/7. Scadenza 30/7. 🔴 richiede firma Nicola sul portale."
     },
     {
@@ -476,7 +489,9 @@
       "atteso": "data entro 2026-07-25",
       "data_misura": "2026-07-25",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#checkin-pq-postvp"],
+      "azioni_gate": [
+        "#checkin-pq-postvp"
+      ],
       "nota": "Misura: data concordata sì/no. Sblocca EXP-001 e EXP-008."
     },
     {
@@ -487,10 +502,12 @@
       "ipotesi": "Un messaggio automatico post-consegna (WhatsApp/email) che chiede la recensione porta un tasso di recensioni >20% sugli ordini completati.",
       "metrica": "tasso_recensioni",
       "baseline": 0,
-      "atteso": 0.20,
+      "atteso": 0.2,
       "data_misura": "2026-08-18",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#recensioni-trigger"],
+      "azioni_gate": [
+        "#recensioni-trigger"
+      ],
       "dipende_da": "EXP-001",
       "nota": "Pianificato, non aperto: si misura dopo i primi 10 ordini reali consegnati."
     },
@@ -519,7 +536,9 @@
       "atteso": "2x_media",
       "data_misura": "2026-08-15",
       "aperto_il": "2026-07-18 23:58",
-      "azioni_gate": ["#inserisci-tazzina-pq"],
+      "azioni_gate": [
+        "#inserisci-tazzina-pq"
+      ],
       "dipende_da": "EXP-001",
       "nota": "Misura via PostHog click evento prodotto. Pianificato: si apre dopo che la tazzina è online e ci sono almeno 50 visualizzazioni."
     },
@@ -546,7 +565,7 @@
       "ipotesi": "Un'email/messaggio automatico ai clienti inattivi da 14 giorni (con coupon 10% o prodotto segnalato) riattiva >10% di loro nel giorno successivo.",
       "metrica": "tasso_riattivazione_14gg",
       "baseline": 0,
-      "atteso": 0.10,
+      "atteso": 0.1,
       "data_misura": "2026-10-01",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [],
@@ -555,11 +574,10 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-18 23:58",
+    "aggiornato": "2026-07-19 00:03",
     "totale": 12,
     "aperti": 7,
-    "pianificati": 5,
-    "in_scadenza": 2,
+    "in_scadenza": 0,
     "misurati": 0,
     "chiusi": 0
   },
@@ -672,7 +690,7 @@
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-18 23:58",
+  "aggiornato": "2026-07-19 00:03",
   "proposte_sync": {
     "aggiornato": "2026-07-18 22:37",
     "totale": 11,
