@@ -1,10 +1,10 @@
 {
-  "data": "2026-07-18 20:04",
-  "sintesi": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrazione su restart.infocamere.it urgentissima STASERA (🔴, non delegabile). Stallo ~590h senza ordini. Bici in riparazione, giro botteghe settimana 21-25/7. 13 prospect validi con schede pitch pronte. Azioni immediate in ordine priorità: ① registrazione PI26 ② ordine test PQ ③ 3 WhatsApp anchor.",
+  "data": "2026-07-18 20:42",
+  "sintesi": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrazione su restart.infocamere.it urgentissima STASERA (🔴, non delegabile). Stallo ~592h senza ordini. Bici in riparazione, giro botteghe settimana 21-25/7. 13 prospect validi con schede pitch pronte. Azioni immediate in ordine priorità: ① registrazione PI26 ② ordine test PQ ③ 3 WhatsApp anchor.",
   "prossime_mosse": [
     {
       "titolo": "Registrati su restart.infocamere.it per il bando PI26",
-      "quando": "OGGI 2026-07-18 (prima di stasera)",
+      "quando": "OGGI 2026-07-18 (prima di stasera — URGENTE)",
       "come": "Portale bandi CCIAA. Raccogliere anche fatture Supabase/Vercel/Render da maggio 2026.",
       "priorita": "alta",
       "ad_prepara": "Bozza domanda PI26 in consegne/relazioni-istituzionali/. Checklist documenti allegata.",
@@ -13,7 +13,7 @@
     },
     {
       "titolo": "Fai un ordine di prova su Pane Quotidiano",
-      "quando": "OGGI o domani 19/7",
+      "quando": "Oggi 18/7 o domani 19/7",
       "come": "Vai su mycity-marketplace.com, scegli un prodotto PQ (es. pane), completa il checkout e testa la consegna/ritiro. Sblocca North Star 0→1.",
       "priorita": "alta",
       "ad_prepara": "Nessuna preparazione necessaria — flusso già funzionante.",
@@ -22,7 +22,7 @@
     },
     {
       "titolo": "Manda 3 WhatsApp alle botteghe anchor con aggancio PI26",
-      "quando": "OGGI 18/7 pomeriggio",
+      "quando": "OGGI 18/7 sera",
       "come": "3 messaggi a Garetti / Peretti / Amendolara. Testi personalizzati pronti in consegne/vendite/.",
       "priorita": "alta",
       "ad_prepara": "Testi WhatsApp personalizzati per Garetti, Peretti, Amendolara con aggancio PI26.",
@@ -31,7 +31,7 @@
     },
     {
       "titolo": "Riparare la bici e fissare la data del giro botteghe",
-      "quando": "Lunedì 20/7+ (riparazione), giro settimana 21-25/7",
+      "quando": "Giro settimana 21-25/7",
       "come": "Visita fisica ai 13 prospect. Porta tablet + accordo firmabile. Priorità: Frolla Couture, Panetteria Del Corso, Anzico Forno.",
       "priorita": "alta",
       "ad_prepara": "13 schede pitch complete (in consegne/vendite/) + documento A4 leave-behind.",
@@ -43,7 +43,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio REALE confermato (Via Calzolai 25). Già online, 258+ prodotti.",
-      "stato": "attivo — stallo ordini ~580h, North Star 0"
+      "stato": "attivo — stallo ordini ~592h, North Star 0"
     },
     {
       "nome": "Frolla Couture",
@@ -59,24 +59,24 @@
   "rischi": [
     "Bando PI26 a sportello: senza registrazione TODAY si rischia di arrivare tardi al 20/7",
     "Bici non ancora pronta: giro botteghe bloccato fino alla settimana 21-25/7",
-    "Stallo 582h senza ordini: Pane Quotidiano può perdere motivazione senza movimento",
+    "Stallo 592h senza ordini: Pane Quotidiano può perdere motivazione senza movimento",
     "23 clienti senza comunicazione: nessuna welcome email inviata — rischiano di dimenticarsi di noi"
   ],
   "serve_da_nicola": [
     {
       "ambito": "bando PI26",
       "cosa_manca": "Registrazione su restart.infocamere.it (non delegabile alla macchina)",
-      "domanda_per_nicola": "Riesci a registrarti su restart.infocamere.it OGGI? Bando apre domani 20/7 ore 10 a sportello."
+      "domanda_per_nicola": "Riesci a registrarti su restart.infocamere.it STASERA? Bando apre domani 20/7 ore 10 a sportello."
     },
     {
       "ambito": "ordine test PQ",
       "cosa_manca": "Nicola deve eseguire l'ordine di persona",
-      "domanda_per_nicola": "Fai un ordine di prova su PQ oggi? Costa il prezzo del prodotto, sblocca North Star 0→1."
+      "domanda_per_nicola": "Fai un ordine di prova su PQ oggi/domani? Costa il prezzo del prodotto, sblocca North Star 0→1."
     },
     {
       "ambito": "WhatsApp anchor",
       "cosa_manca": "Numeri di telefono Garetti/Peretti/Amendolara + approvazione testi",
-      "domanda_per_nicola": "Ok se preparo i 3 testi WhatsApp e tu li mandi oggi pomeriggio?"
+      "domanda_per_nicola": "Ok se preparo i 3 testi WhatsApp e tu li mandi stasera?"
     },
     {
       "ambito": "operatività PQ",

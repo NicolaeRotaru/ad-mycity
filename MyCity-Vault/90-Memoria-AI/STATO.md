@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 19:55
-fonte: AD digitale (metabolizzazione chat 18/7 19:55)
+aggiornato: 2026-07-18 20:42
+fonte: AD digitale (giro 17° 18/7 20:42)
 ---
+
+> 🛰️ **18/7 20:42 — GIRO (diciassettesimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~592h** (~24,7 giorni). North Star 0, cassa 0€. Sensori 20:42: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 79 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0. Registro-scelte rc=0 confermato analiticamente (13 prospect scelta_ragionata + 6 esclusi, invariato). **⚠️ URGENZA STASERA:** PI26 apre DOMANI 20/7 ore 10:00 a sportello — 🔴 registrarsi su restart.infocamere.it OGGI. **Mossa 2:** 🟡 ordine test PQ (North Star 0→1). **Mossa 3:** 🟡 3 WhatsApp anchor PI26. Dettaglio: [[Briefing/2026-07-18]].
 
 > 💬 **18/7 19:55 — CHAT: Nicola «Applica tu le 3 migrazioni» — da fare DOPO merge PR #213.** Nicola ha chiesto all'AD di applicare le migrazioni 109/110/111 post-merge. AD non ha potuto nella sessione precedente (MCP non disponibile in quel turno). Il tool `mcp__supabase-marketplace__apply_migration` è intermittente: disponibile via ToolSearch quando il server è connesso. **Sequenza**: ① Nicola mergia PR #213 su GitHub ② prossima chat: ToolSearch → applica le 3 migrazioni in ordine 109→110→111. Fonte: chat Nicola 18/7 ~19:50.
 

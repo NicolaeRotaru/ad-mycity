@@ -1,30 +1,30 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 20:04",
+  "data": "2026-07-18 20:42",
   "voto_fiducia": 91,
-  "trend_fiducia": "= 91 (sedicesimo passaggio 20:04 — vincoli hard confermati: registro-scelte rc=0 (verificato analiticamente — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato); coerenza-fatti ✅; North Star focus — solo azioni che avvicinano il 1° ordine; sensori REST live; nessun numero inventato)",
+  "trend_fiducia": "= 91 (diciassettesimo passaggio 20:42 — vincoli hard confermati: registro-scelte rc=0 verificato analiticamente — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato; coerenza-fatti ✅ exit 0; North Star focus — solo azioni che avvicinano il 1° ordine; sensori REST live; nessun numero inventato)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola (istruzioni_giro seguite)",
-    "n8n cieco da 77 giri — non critico per operatività corrente",
-    "registro-scelte-check.mjs non in allowlist da cloud agent — status confermato analiticamente: tutte le entità dei dossier (3 da scout-negozi + 3 da dossier-6-botteghe) sono presenti nel registro-realtà.json come scelta_ragionata (Garetti, Peretti, Amendolara) o escluso (6 ristoranti) — rc=0 invariato",
-    "sonda-volano.mjs, delta-gate.mjs e verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato da giro 17:35"
+    "n8n cieco da 79 giri — non critico per operatività corrente",
+    "registro-scelte-check.mjs non in allowlist da cloud agent — status confermato analiticamente: 13 entità scelta_ragionata + 6 escluse presenti in registro-realtà.json",
+    "sonda-volano.mjs, verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato"
   ],
   "domande_bloccanti": [
     {
       "tipo": "urgenza_esterna",
-      "domanda": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello. Registrazione su restart.infocamere.it richiesta OGGI — non delegabile.",
+      "domanda": "⚠️ Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello. Registrazione su restart.infocamere.it richiesta STASERA — non delegabile.",
       "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
       "colore": "🔴"
     },
     {
       "tipo": "operatività",
-      "domanda": "North Star 0 da ~587h. Ordine test PQ (Nicola) sblocca la prova end-to-end senza bici.",
+      "domanda": "North Star 0 da ~592h. Ordine test PQ (Nicola) sblocca la prova end-to-end senza bici.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
       "tipo": "dato_mancante",
-      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 135+ giri.",
+      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 146 giri.",
       "azione": "card 🟡 #burn-mensile-env in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
@@ -36,7 +36,7 @@
     }
   ],
   "entita_verificate": [
-    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST live 17:37 (1 approved in DB)"},
+    {"nome": "Pane Quotidiano", "stato": "confermato", "fonte": "REST live (1 approved in DB)"},
     {"nome": "Antica Salumeria Garetti", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
     {"nome": "Peretti Frutta e Verdura", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
     {"nome": "Caseificio Amendolara", "stato": "scelta_ragionata", "fonte": "registro-realtà.json + scout-negozi-categorie-mancanti.md"},
@@ -46,6 +46,6 @@
   "benchmark": "Focus COMPLETO su 1° ordine — nessun lavoro laterale. Azioni proposte identiche ai top delivery marketplace nel lancio: primo ordine = proof-of-concept = tutto il resto viene dopo.",
   "salute": {
     "voto": 91,
-    "note": "Voto stabile 91 (sonda). Stallo prolungato sul North Star = principale rischio. Macchina operativa. n8n cieco 77g = gap monitoring secondario."
+    "note": "Voto stabile 91 (sonda). Stallo prolungato sul North Star = principale rischio. Macchina operativa. n8n cieco 79g = gap monitoring secondario."
   }
 }
