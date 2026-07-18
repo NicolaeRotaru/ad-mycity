@@ -141,16 +141,31 @@ export async function attendiEsitoLavoro(
   return { testo: messaggioLavoroInCorso(tipo), definitiva: false };
 }
 
+// Esito del salvataggio: l'id del thread + DOVE è finito davvero.
+//   suServer=true  → salvato nella memoria condivisa (tabella `conversazioni`): durevole,
+//                    visibile in Archivio da ogni dispositivo.
+//   suServer=false → memoria non collegata: ripiego su localStorage (SOLO questo browser,
+//                    volatile). Il chiamante DEVE dirlo a Nicola, non spacciarlo per «salvata».
+export type EsitoSalvataggio = { id: string | null; suServer: boolean };
+
 // Salva/aggiorna la conversazione-con-la-casella in Conversazioni (Assistenza).
 // Server se la tabella esiste, altrimenti localStorage (stesso formato della Cabina).
-// Notifica la Cabina (`mycity:conversazioni`) di ricaricare l'elenco. Ritorna l'id.
-export async function salvaConversazioneCasella(id: string | null, titolo: string, messaggi: ParlaMsg[]): Promise<string | null> {
+// Notifica la Cabina (`mycity:conversazioni`) di ricaricare l'elenco. Ritorna id + dove.
+export async function salvaConversazioneCasella(id: string | null, titolo: string, messaggi: ParlaMsg[]): Promise<EsitoSalvataggio> {
   const reali = messaggi.filter((m) => !m.pending);
-  if (reali.length === 0) return id;
+  if (reali.length === 0) return { id, suServer: false };
   let nuovoId: string | null = id;
+  let suServer = false;
   try {
     const r = await fetch("/api/conversazioni", { method: "POST", headers: HEADERS, body: JSON.stringify({ id, titolo, messaggi: reali }) }).then((x) => x.json());
-    nuovoId = r?.ok && r.id ? String(r.id) : salvaLocale(id, titolo, reali);
+    if (r?.ok && r.id) {
+      nuovoId = String(r.id);
+      suServer = true;
+    } else {
+      // La memoria condivisa non ha ricevuto nulla (tabella `conversazioni` assente o errore):
+      // ripiego locale, ma NON è un vero salvataggio durevole.
+      nuovoId = salvaLocale(id, titolo, reali);
+    }
   } catch {
     nuovoId = salvaLocale(id, titolo, reali);
   }
@@ -159,7 +174,7 @@ export async function salvaConversazioneCasella(id: string | null, titolo: strin
   } catch {
     /* SSR / nessun window */
   }
-  return nuovoId;
+  return { id: nuovoId, suServer };
 }
 
 // Fonde due versioni dello stesso thread senza perdere messaggi (stesso criterio del
