@@ -173,7 +173,12 @@ export default function ChatCasella({
       const risposta = await attendiLavoro(post.lavoro.id, prep.tipo, prep.timeoutMs, (parziale) =>
         setStreamingText(parziale),
       );
-      setMsgs((m) => [...m, { role: "assistant", content: risposta }]);
+      setMsgs((m) => {
+        // Guard triplicazione: se la risposta è già l'ultimo messaggio (es. il polling l'ha già applicata), non duplicarla.
+        const last = m[m.length - 1];
+        if (last?.role === "assistant" && !last.pending && last.content === risposta) return m;
+        return [...m, { role: "assistant", content: risposta }];
+      });
       setStreamingText("");
       if (typeof window !== "undefined") {
         emitSync("memoria");
@@ -192,8 +197,9 @@ export default function ChatCasella({
   }
 
   return (
-    <div className="border-t-2 border-brand/35 bg-brand-50/50 dark:bg-brand/[0.09] px-3 pb-3 pt-0 space-y-2">
-      <div className="flex items-center gap-2 -mx-3 px-3 py-2 bg-brand/[0.07] dark:bg-brand/[0.12] border-b border-brand/15 dark:border-brand/20">
+    <div className="border-t-2 border-brand/35 bg-brand-50/50 dark:bg-brand/[0.09] flex flex-col max-h-[420px]">
+      {/* Header */}
+      <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-brand/[0.07] dark:bg-brand/[0.12] border-b border-brand/15 dark:border-brand/20">
         <span className="text-brand text-[11px]">💬</span>
         <span className="text-[10.5px] font-bold text-brand uppercase tracking-wider">Chat con questa casella</span>
         <button onClick={onChiudi} className="ml-auto shrink-0 whitespace-nowrap normal-case inline-flex items-center gap-1 text-black/40 dark:text-white/40 hover:text-brand transition text-[11px]">
@@ -201,9 +207,9 @@ export default function ChatCasella({
         </button>
       </div>
 
-      {/* Contenitore messaggi a altezza FISSA: nuova e vecchia chat hanno lo stesso ingombro */}
-      <div ref={scrollRef} className="scroll-soft h-28 overflow-y-auto pr-1 pt-1">
-        <div className="space-y-1.5">
+      {/* Area messaggi: occupa tutto lo spazio disponibile, scrolla internamente */}
+      <div ref={scrollRef} className="scroll-soft flex-1 min-h-[96px] overflow-y-auto px-3 pt-2">
+        <div className="space-y-1.5 pb-1">
           {msgs.map((m, i) => (
             <div key={i} className={m.role === "user" ? "text-right" : "text-left"}>
               <span
@@ -252,62 +258,65 @@ export default function ChatCasella({
         </div>
       </div>
 
-      <FinestraComandiSkill
-        aperta={skillAperte}
-        onChiudi={() => setSkillAperte(false)}
-        onScegli={(cmd) => {
-          setBozza(cmd);
-          setSkillAperte(false);
-          setTimeout(() => textareaRef.current?.focus(), 0);
-        }}
-      />
+      {/* Footer sticky: input + bottoni sempre visibili mentre si scrolla su */}
+      <div className="shrink-0 px-3 pb-3 pt-2 space-y-2 border-t border-brand/10">
+        <FinestraComandiSkill
+          aperta={skillAperte}
+          onChiudi={() => setSkillAperte(false)}
+          onScegli={(cmd) => {
+            setBozza(cmd);
+            setSkillAperte(false);
+            setTimeout(() => textareaRef.current?.focus(), 0);
+          }}
+        />
 
-      <div className="flex items-center gap-2 flex-wrap">
-        <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
-        <BottoneAllegatiChat
-          disabled={inviando || allegati.length >= 6}
-          iconSize={13}
-          etichetta="Allega"
-          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
-          onScegli={aggiungiFile}
+        <div className="flex items-center gap-2 flex-wrap">
+          <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />
+          <BottoneAllegatiChat
+            disabled={inviando || allegati.length >= 6}
+            iconSize={13}
+            etichetta="Allega"
+            className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+            onScegli={aggiungiFile}
+          />
+          <BottoneFotoChat
+            disabled={inviando || allegati.length >= 6}
+            iconSize={13}
+            etichetta="Foto"
+            className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+            onScegli={aggiungiFile}
+          />
+          <BottoneFotoChat
+            videoLive
+            disabled={inviando || allegati.length >= 6}
+            iconSize={13}
+            etichetta="Video live"
+            className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
+            onScegli={aggiungiFile}
+            chatMessaggi={msgs}
+            chatLoading={inviando}
+            chatOnInvia={(t) => void invia(t)}
+          />
+          <button
+            onClick={() => void invia()}
+            disabled={inviando || (!bozza.trim() && allegati.length === 0)}
+            className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
+          >
+            {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia a Claude Max
+          </button>
+          {err && <span className="t-eti text-red-600">{err}</span>}
+        </div>
+        <AnteprimaAllegatiChat allegati={allegati} onTogli={togliAllegato} disabilitato={inviando} />
+        <textarea
+          ref={textareaRef}
+          value={bozza}
+          onChange={(e) => setBozza(e.target.value)}
+          onKeyDown={(e) => gestisciInvioChat(e, invia)}
+          rows={2}
+          placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
+          className="input-soft w-full text-[12.5px] resize-y"
         />
-        <BottoneFotoChat
-          disabled={inviando || allegati.length >= 6}
-          iconSize={13}
-          etichetta="Foto"
-          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
-          onScegli={aggiungiFile}
-        />
-        <BottoneFotoChat
-          videoLive
-          disabled={inviando || allegati.length >= 6}
-          iconSize={13}
-          etichetta="Video live"
-          className="inline-flex items-center gap-1.5 border border-brand/30 text-brand text-[12px] font-medium px-2.5 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand/10 transition"
-          onScegli={aggiungiFile}
-          chatMessaggi={msgs}
-          chatLoading={inviando}
-          chatOnInvia={(t) => void invia(t)}
-        />
-        <button
-          onClick={() => void invia()}
-          disabled={inviando || (!bozza.trim() && allegati.length === 0)}
-          className="inline-flex items-center gap-1.5 bg-brand text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-brand-dark disabled:opacity-50 transition"
-        >
-          {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia a Claude Max
-        </button>
-        {err && <span className="t-eti text-red-600">{err}</span>}
       </div>
-      <AnteprimaAllegatiChat allegati={allegati} onTogli={togliAllegato} disabilitato={inviando} />
-      <textarea
-        ref={textareaRef}
-        value={bozza}
-        onChange={(e) => setBozza(e.target.value)}
-        onKeyDown={(e) => gestisciInvioChat(e, invia)}
-        rows={2}
-        placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
-        className="input-soft w-full text-[12.5px] resize-y"
-      />
     </div>
   );
 }

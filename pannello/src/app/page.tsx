@@ -863,10 +863,19 @@ export default function Dashboard() {
     forzaScrollRef.current = false;
     const el = scrollBoxRef.current;
     const fab = chatFabBoxRef.current;
+    // Doppio RAF + timeout: il singolo RAF non basta quando il drawer si chiude in parallelo
+    // al cambio di conversazione (il DOM è ancora in transizione quando il primo RAF scatta).
     requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
+        if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
+      });
+    });
+    const t = setTimeout(() => {
       if (el && (stickFullRef.current || forza)) el.scrollTop = el.scrollHeight;
       if (fab && (stickFabRef.current || forza)) fab.scrollTop = fab.scrollHeight;
-    });
+    }, 120);
+    return () => clearTimeout(t);
   }, [messages]);
   // Cambio conversazione → sempre al fondo (doppio rAF per aspettare il DOM aggiornato).
   useEffect(() => {
@@ -2696,6 +2705,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             )}
             <div ref={endRef} />
           </div>
+          <div className="shrink-0">
           <BarraScritturaChat
             ref={chatInputRef}
             variant="assistente"
@@ -2717,6 +2727,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onNuovaChat={nuovaConversazione}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
+          </div>
 
           {/* ===== CASSETTO CONVERSAZIONI: sfondo + pannello che scorre da SINISTRA (stile Claude). =====
               Su telefono riempie tutta la chat (w-full); su desktop è un pannello laterale (sm:w-[340px]). */}
@@ -2976,6 +2987,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               ))}
             <div ref={chatFabEndRef} />
           </div>
+          <div className="shrink-0">
           <BarraScritturaChat
             ref={chatInputRef}
             variant={workerFull ? "assistente" : "fluttuante"}
@@ -2995,6 +3007,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             onToggleVoce={toggleVoceWorker}
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
+          </div>
           {/* CASSETTO conversazioni del FAB: si apre DENTRO la colonna centrata, copre metà larghezza. */}
           <div
             className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
