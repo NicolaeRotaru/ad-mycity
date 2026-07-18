@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 01:10
+aggiornato: 2026-07-19 00:25
 fonte: AD digitale (metabolizzazione chat 19/7)
 ---
+
+> 💬 **19/7 00:22 — CHAT: Nicola chiede come abilitare MCP Supabase in chat.** «come faccio a farti visualizzare questi dati?» — MCP Supabase non è nell'allowlist di `.claude/settings.local.json` sul VPS. AD ha proposto di scrivere la riga esatta. Pendente: Nicola decide se aggiungere la voce (card #abilita-mcp-supabase-chat accodata). Fonte: chat Nicola 19/7 00:22.
 
 > ✅ **19/7 01:10 — FATTO: baseline esperimenti corretti 23→4.** EXP-003/004/005 in auto-miglioramento.json aggiornati con il numero confermato da Nicola (19/7: «a me risultano solo 4»). Note benchmark @crm-lifecycle aggiornata. Il «23 clienti» nei giri storici resta come era (storia esente). Fonte: metabolizzazione chat 19/7.
 

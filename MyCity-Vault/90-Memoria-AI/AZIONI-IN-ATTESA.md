@@ -16,6 +16,25 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22
+
+**Contesto:** Nicola ha chiesto «come faccio a farti visualizzare questi dati?» dopo che l'AD non riusciva a interrogare Supabase (né con `node` né con MCP) dalla chat del Pannello. Il tool `mcp__supabase-marketplace` non è nell'allowlist di `.claude/settings.local.json` sul VPS — il box di permesso non compare mai dalla chat del Pannello.
+
+**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e aggiungere nell'array `allowedTools`:
+```
+"mcp__supabase-marketplace__execute_sql",
+"mcp__supabase-marketplace__list_tables",
+```
+Poi salvare (Ctrl+O → Invio → Ctrl+X) e aprire una nuova chat.
+
+**Cosa cambia:** l'AD potrà leggere i dati Supabase live direttamente dalla chat, senza dover aspettare il giro automatico o chiedere a Nicola di ricopiare i numeri.
+**Se va bene:** nella prossima chat l'AD potrà rispondere «quanti utenti ci sono?» guardando il DB vero, non la memoria.
+
+- **Colore:** 🟡 (modifica file di configurazione sul VPS — solo Nicola o il terminale VPS)
+- **Reparto:** @AD
+
+---
+
 ### 🟡 #ritmo-venerdì-punteggio — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
 
 **Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.
