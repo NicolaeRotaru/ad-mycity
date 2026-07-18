@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 00:47 · 🟡 · [Nicola aggiunge Supabase MCP all'allowlist settings.local.json] · **Nicola: «Voglio aggiungere mcp di supabase settings.local.json».** L'AD non può modificare `.claude/` dalla chat (blocco di sicurezza). Ha fornito le 2 righe esatte da incollare: `"mcp__supabase-marketplace__execute_sql"` e `"mcp__supabase-marketplace__list_tables"`. Nicola le aggiunge via `nano /opt/mycity/ad-mycity/.claude/settings.local.json`. Dopo il salvataggio, il tool MCP Supabase sarà raggiungibile dalla chat senza approvazione esplicita — risolve il blocco che impediva di leggere il numero reale di iscritti (EXP-001: 23→4).
+
 2026-07-19 03:40 · 🟢 · [PR #468 mergiata — proposte implementate nascoste dal Pannello] · **PR #468 `fix/proposte-nascondi-implementate` mergiata da Nicola.** Le 7 proposte con `stato: "implementata"` spariscono dalla casella auto-coscienza; restano solo quelle `aperte` e `parziali`. Commit merge: `f21e98e5`.
 
 2026-07-19 03:40 · 🟢 · [Lezione salvata: «node cervello/git-pr.mjs» bloccato da sintassi shell, non da allowlist] · **Nicola: «impara da questo errore».** Il `2>&1 |` trasformava il comando (già in allowlist) in multi-operazione — categoria bloccata. Lezione L-2026-0719-280 aggiunta in apprendimento.json + LEZIONI-CHAT.md. Regola: path relativo, nessun redirect, nessun `&&`.
