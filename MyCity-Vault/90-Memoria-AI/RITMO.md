@@ -481,3 +481,27 @@ Intelligence della settimana ha colto tre cose importanti: il bando ER scade il 
 
 **Dettagli tecnici**
 - Business: 1 PQ, 23 clienti, 0 ordini, stallo ~582h · bando PI26: restart.infocamere.it, 50% fondo perduto max €10k, spese ammissibili da maggio 2026 · PR in coda: #443 #446 + apertura #chat-4bug-ux · worker-env: PANNELLO_URL + MARKETPLACE_SITE_URL inseriti, manca riavvio · burn mensile: ancora da impostare in .env
+
+## Report della sera · 2026-07-18 18:00
+
+**Com'è andata oggi**
+- Bando PI26 analizzato e bozza pronta: era quello giusto per MyCity (innovazione digitale, 50% fondo perduto, max €10k) — bastava registrarsi su restart.infocamere.it entro stasera, il portale apre domani alle 10.
+- Coda Pannello ripulita (84 card archiviate, housekeeping automatico nel giro) e 3 bug chat corretti con PR pronte al merge.
+- Registro prospect aggiornato a 13 botteghe valide: 6 ristoranti eliminati (non target), 10 nuove botteghe aggiunte.
+
+**I numeri**
+- 1 negozio · 23 clienti · 0 ordini · stallo 587h (24,5 giorni) · North Star 0 · cassa 0€ — invariati dal 24/6.
+
+**Da approvare**
+- 🔴 Registrati su restart.infocamere.it STASERA — PI26 apre domani 20/7 ore 10:00 a sportello, chi arriva prima prende i fondi
+- 🟡 Mergia PR #456 (nuova chat non mostra più vecchi messaggi) · #446 (cross-device) · #443 (5 fix UX)
+- 🟡 Manda 3 WhatsApp a Garetti, Peretti, Amendolara con leva PI26 (testi pronti in consegne/vendite/)
+
+**Lezione di oggi**
+- Il bando era PI26 (tech), non BT26 (negozi fisici): verificare la categoria prima di preparare la domanda evita un rifiuto.
+
+**Domani**
+- Ore 10:00 invia la domanda PI26 su restart.infocamere.it — bozza pronta, raccogliere le fatture Supabase/Vercel/Render da maggio 2026.
+
+**Dettagli tecnici**
+- Sensori 17:37: REST ✅ Stripe ✅ Resend ✅ Sito ✅ Pannello ✅ · n8n cieco ~77 giri · MCP Supabase cieco 7 giri · stallo ~587h · PR aperte: #456 (nuova chat) #453 (timer) #443 (5 UX) #446 (cross-device) · prospect validi: 13

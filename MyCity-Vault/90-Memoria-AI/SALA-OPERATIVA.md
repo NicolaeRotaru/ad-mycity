@@ -32,6 +32,10 @@ Esempi:
 - 2026-06-24 02:29 · @designer · FATTO · Locandina QR A5 (PDF) + QR PNG in `creativi/output/` (brand ok, QR verificato; URL segnaposto → rigenerare col link reale). PASSO-A @vendite e @builder-automazioni.
 - 2026-06-24 02:29 · @customer-success · PASSO-A @designer/@content · script primo ordine concierge + telefonata feedback + prima recensione in `consegne/customer-success/primo-ordine-faro.md`. SERVE @tech (consegnato→abilita recensione), @legale-privacy (consenso messaggi).
 
+### 2026-07-18 18:00 — Report della sera
+- 2026-07-18 18:00 · @AD · FATTO · Report della sera completato. RITMO.md aggiornato (blocco "Report della sera · 2026-07-18 18:00"), STATO.md aggiornato (18:00). Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo ~587h. Fatto oggi: bando PI26 analizzato+bozza pronta, coda 84 card archiviate, 3 bug chat corretti (PR #456 #453), 13 prospect validi. URGENZA: restart.infocamere.it STASERA 🔴.
+- 2026-07-18 18:00 · @AD · SERVE · @Nicola: ① 🔴 registrati su restart.infocamere.it STASERA (PI26 apre domani 20/7 ore 10:00 a sportello); ② 🟡 mergia PR #456 #446 #443; ③ 🟡 3 WhatsApp anchor PI26 (testi in consegne/vendite/).
+
 ### 2026-07-18 09:00 — Giro manuale (chat Nicola)
 - 2026-07-18 09:00 · @AD · FATTO · Giro completo chat: briefing 2026-07-18 aggiornato (frontmatter 09:00), STATO.md aggiornato, auto-analisi voto 84, ultimo-briefing.json aggiornato, intenzioni-nicola.json aggiornato. Registro-realtà: 13 prospect validi (6 ristoranti esclusi). Stallo ~576h. PI26 apre domani.
 - 2026-07-18 09:00 · @AD · SERVE · @Nicola: ① registrati su restart.infocamere.it per PI26 OGGI (🔴); ② fai un ordine test su PQ (🟡); ③ approva i 3 WhatsApp alle botteghe anchor (🟡); ④ mergia PR #446 (cross-device chat); ⑤ conferma prezzo tazzina PQ.

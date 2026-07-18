@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 17:37
-fonte: AD digitale (giro dodicesimo 18/7 17:37 — giro da chat Nicola)
+aggiornato: 2026-07-18 18:00
+fonte: AD digitale (report della sera 18/7 18:00)
 ---
+
+> 🌙 **18/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~587h** (~24,5 giorni). North Star 0, cassa 0€. Fatto oggi: bando PI26 analizzato (bozza pronta, domani 20/7 ore 10:00 apertura sportello 🔴), coda Pannello ripulita (84 card archiviate), 3 bug chat corretti (PR #456 #453 pronte), 13 prospect validi in registro. **STASERA:** registrarsi su restart.infocamere.it (🔴). Da mergiare: PR #456 #446 #443. Dettaglio: [[RITMO]] 18/7 18:00.
 
 > 💬 **18/7 18:10 — CHAT: PR #456 aperta — fix nuova chat con messaggi vecchi.** Bug: quando Nicola premeva «+» per una nuova chat, 1 secondo dopo il meccanismo di sync cross-device rimetteva dentro i messaggi dell'ultima conversazione. Fix: `nuovaChatManualeRef` flag blocca il rientro automatico solo quando la nuova chat è aperta manualmente (il sync automatico all'apertura del Pannello continua). Branch `fix/nuova-chat-auto-apri-bloccato` (commit `d4c1e0d0`), PR #456 aperta. Nicola mergia. Fonte: chat 18/7 18:10.
 
