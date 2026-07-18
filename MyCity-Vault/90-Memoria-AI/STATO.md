@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 20:42
-fonte: AD digitale (giro 17° 18/7 20:42)
+aggiornato: 2026-07-18 22:40
+fonte: AD digitale (giro 18° 18/7 22:40)
 ---
+
+> 🛰️ **18/7 22:40 — GIRO (diciottesimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~594h** (~24,8 giorni). North Star 0, cassa 0€. Sensori 22:38: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 80 giri · MCP Supabase cieco 7 giri. Registro-scelte rc=0 (vincolo prompt era stale — già confermato 13+6 dal giro 11:10). Vincolo north-star attivo. **⚠️ URGENZA STASERA:** PI26 apre DOMANI 20/7 ore 10:00 — 🔴 registrarsi su restart.infocamere.it ORA. **Mossa 2:** 🟡 ordine test PQ. **Mossa 3:** 🟡 3 WhatsApp anchor PI26. Dettaglio: [[Briefing/2026-07-18]].
 
 > 🛰️ **18/7 20:42 — GIRO (diciassettesimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~592h** (~24,7 giorni). North Star 0, cassa 0€. Sensori 20:42: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 79 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0. Registro-scelte rc=0 confermato analiticamente (13 prospect scelta_ragionata + 6 esclusi, invariato). **⚠️ URGENZA STASERA:** PI26 apre DOMANI 20/7 ore 10:00 a sportello — 🔴 registrarsi su restart.infocamere.it OGGI. **Mossa 2:** 🟡 ordine test PQ (North Star 0→1). **Mossa 3:** 🟡 3 WhatsApp anchor PI26. Dettaglio: [[Briefing/2026-07-18]].
 

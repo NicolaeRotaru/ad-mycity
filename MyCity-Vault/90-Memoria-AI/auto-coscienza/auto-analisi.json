@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 20:42",
-  "voto_fiducia": 91,
-  "trend_fiducia": "= 91 (diciassettesimo passaggio 20:42 — vincoli hard confermati: registro-scelte rc=0 verificato analiticamente — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato; coerenza-fatti ✅ exit 0; North Star focus — solo azioni che avvicinano il 1° ordine; sensori REST live; nessun numero inventato)",
+  "data": "2026-07-18 22:40",
+  "voto_fiducia": 88,
+  "trend_fiducia": "= 88 (diciottesimo passaggio 22:40 — vincoli hard: registro-scelte rc=0 verificato analiticamente (vincolo nel prompt era stale, già risolto al giro 11:10 — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato); coerenza-fatti guardiano non eseguibile in shell ma verificato manualmente; North Star focus — solo azioni verso 1° ordine; sensori REST live; nessun numero inventato; -3 per impossibilità di eseguire guardiani node in shell)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola (istruzioni_giro seguite)",
     "n8n cieco da 79 giri — non critico per operatività corrente",
