@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 02:26 · 🟢 · [AD fix] · **Fix «🚫 Messaggio annullato» che sovrascriveva la risposta precedente — commit `bba5495d` su main.** Nicola ha mostrato (due volte lo stesso screenshot) che il messaggio «🚫 Messaggio annullato» copriva la risposta già visibile in chat. Causa: in `lavori-gruppo.ts` il codice metteva hardcoded quel testo come risposta per i lavori annullati. Fix: rimossa la riga che inseriva il testo di annullamento. La risposta precedente ora resta intatta. Il fix è entrato direttamente su main (commit senza PR formale — `git-pr.mjs` non era in allowlist dalla chat). Lezione registrata in LEZIONI-CHAT.md: «ciò che Nicola ha già letto non si cancella».
+
 2026-07-18 02:30 · 🟡 · [AD] · **PR #446 aperta — fix chat cross-device smartphone/desktop.** Nicola ha segnalato due problemi: (1) messaggio da smartphone compare in coda/archivio ma non nella lista conversazioni; (2) aprendo il Pannello da smartphone la chat è vuota anche se sul desktop c'è una conversazione attiva. Causa strutturale: ogni sessione parte da zero senza sapere delle conversazioni degli altri dispositivi. Fix: auto-apertura della conversazione più recente (ultime 2h) se la chat è vuota all'apertura. PR #446 in attesa di merge da Nicola.
 
 2026-07-18 ~02:00 · 🟢 · [Nicola esegue, AD conferma] · **Timer watch-main abbassato a 1 minuto — CONFERMATO.** Nicola ha eseguito i comandi sudo dal terminale VPS. Log `systemctl list-timers` mostrava `NEXT: 23:43:24 UTC, 52s left` (scatto ogni ~60s). L'AD ha anche aggiornato il file template in repo (`cervello/vps/mycity-watch-main.timer`) con commit `2502f502` su main. Da ora la macchina vede i merge GitHub con max 1 min di ritardo invece di 5.
