@@ -746,7 +746,9 @@
       "origine": "auto-radiografia",
       "finding_id": "AR-010/AR-011/AR-012",
       "dove": "cervello/verifica-sensori.mjs + cervello/giro.sh + cervello/sonda-volano.mjs",
-      "stato": "proposta"
+      "stato": "implementata",
+      "sincronizzato_il": "2026-07-19 00:27",
+      "nota_fix": "sensori-cecita.json esiste e viene aggiornato; gate hard 'niente numeri nuovi se cieco' attivo in giro.sh (riga 173); REST promosso a sensore primario."
     },
     {
       "cosa": "Generare l'organigramma di CLAUDE.md/COMANDI/AGENTI dai file .claude/agents/*.md + guardiano drift",
@@ -782,7 +784,9 @@
       "origine": "auto-radiografia",
       "finding_id": "AR-019/AR-020",
       "dove": "cervello/giro.sh + cervello/costo-ai.mjs (nuovo)",
-      "stato": "proposta"
+      "stato": "parziale",
+      "sincronizzato_il": "2026-07-19 00:27",
+      "nota_fix": "delta-gate.mjs implementato e attivo (salta i giri senza novità); banco-ai.mjs esiste. Manca ancora: sensore costo token (nessun file costo-ai.mjs o sensore-costo.mjs)."
     },
     {
       "cosa": "[CHIUSO] Parametrizzare MARKETPLACE_REPO in radiografia.js/audit-design.js",
