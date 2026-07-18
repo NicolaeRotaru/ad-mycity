@@ -187,7 +187,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     setBozza("");
     const chiave = chiaveTitolo;
     const storia = msgs.filter((m) => !m.pending);
-    const conMio: ParlaMsg[] = [...storia, { role: "user", content: testo }];
+    const conMio: ParlaMsg[] = [...storia, { role: "user", content: testo, created_at: new Date().toISOString() }];
     setMsgs(conMio);
     setInviando(true);
     try {
@@ -206,7 +206,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       // ③ Aspetta la risposta e completa il thread salvato.
       const esito = await attendiEsitoLavoro(lavoro.id, lavoro.tipo, lavoro.timeoutMs);
       if (esito.definitiva) {
-        const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: esito.testo }];
+        const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: esito.testo, created_at: new Date().toISOString() }];
         setMsgs(completa);
         const idFinale = (await salvaConversazioneCasella(id, chiave, completa)).id;
         if (idFinale) setConvId(idFinale);

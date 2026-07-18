@@ -20,7 +20,7 @@ import { emitSync } from "@/lib/panel-sync";
 
 // pending = bolla solo a schermo (avviso "ci sto lavorando"): non si salva in
 // Conversazioni e non entra nella storia mandata al cervello.
-export type ParlaMsg = { role: "user" | "assistant"; content: string; pending?: boolean };
+export type ParlaMsg = { role: "user" | "assistant"; content: string; pending?: boolean; created_at?: string };
 
 const HEADERS = { "Content-Type": "application/json" };
 

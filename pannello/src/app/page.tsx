@@ -160,6 +160,7 @@ type Msg = {
   esperto?: { nome: string; emoji: string };
   prompt?: boolean;
   pending?: boolean; // bolla "sto pensando…" in attesa della risposta del cervello
+  created_at?: string; // timestamp reale del messaggio — usato dal timer nella lista conversazioni
 };
 type Conversazione = {
   id: string;
@@ -183,9 +184,15 @@ function tsMaxIso(a: string, b: string): string {
   return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
 }
 
-/** Timestamp «ultimo movimento» — conversazione salvata + lavori collegati (fonte più fresca). */
+/** Timestamp «ultimo messaggio» — usa created_at dei messaggi reali (non updated_at che si aggiorna a ogni apertura). */
 function tsConvAggiornato(c: Conversazione, gruppo?: GruppoLavori | null): string {
-  const candidati = [c.updated_at, gruppo?.ultimoAt].filter(Boolean) as string[];
+  // Prende il created_at più recente tra i messaggi non-prompt che ce l'hanno
+  const tsMsg = c.messaggi
+    .filter((m) => !m.prompt && !m.pending && m.created_at)
+    .map((m) => m.created_at as string)
+    .reduce((max, t) => tsMaxIso(max, t), "");
+  // Fallback: lavori terminati (risposte AD arrivate mentre la pagina era chiusa)
+  const candidati = [tsMsg || null, gruppo?.ultimoAt, c.created_at].filter(Boolean) as string[];
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0] ?? new Date().toISOString());
 }
 
