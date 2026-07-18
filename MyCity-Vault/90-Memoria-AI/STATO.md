@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 16:32
-fonte: AD digitale (giro ottavo 18/7 16:32 — da chat Nicola)
+aggiornato: 2026-07-18 16:38
+fonte: AD digitale (metabolizzazione chat 18/7 16:38)
 ---
+
+> 💬 **18/7 ~16:38 — CHAT: `settings.local.json` — voce git-pr.mjs PRESENTE ma JSON malformato (virgola mancante, riga 24).** Nicola ha confermato «C'è già» l'entry `"Bash(node cervello/git-pr.mjs:*)"` nell'allowlist — ma il comando git-pr restava bloccato. AD ha letto il file e trovato la causa: mancava `,` dopo quella voce → JSON invalido → allowlist ignorata in toto. Fix proposto a Nicola: `nano .claude/settings.local.json`, riga 24 aggiungere `,` alla fine. Pendente: Nicola applica il fix e riprova. Fonte: chat Nicola 18/7 ~16:38.
 
 > 🛰️ **18/7 16:32 — GIRO (ottavo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~584h** (~24,3 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 70 giri · MCP Supabase cieco 6 giri. Vincoli hard: registro-scelte rc=0 (confermato), coerenza-fatti ✅ exit 0 (16:31). **North Star focus:** ① 🔴 registrarsi su restart.infocamere.it OGGI (PI26 apre DOMANI 20/7 10:00) ② 🟡 ordine test PQ ③ 🟡 3 WhatsApp anchor PI26. auto-analisi ✅ · ultimo-briefing ✅ · intenzioni-nicola ✅. Dettaglio: [[Briefing/2026-07-18]].
 

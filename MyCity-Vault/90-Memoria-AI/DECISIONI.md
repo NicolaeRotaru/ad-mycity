@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 ~16:38 · 🟡 · [Nicola «C'è già» + verifica AD] · **`settings.local.json` — JSON malformato blocca allowlist git-pr.mjs.** La voce era già presente ma mancava `,` alla riga 24 → JSON invalido → allowlist ignorata silenziosamente. Fix proposto: aggiungere virgola. Lezione: quando «C'è già» ma la voce non funziona, verificare la sintassi JSON prima di dare nuove istruzioni.
+
 2026-07-18 ~16:05 · 🟡 · [Nicola «Fallo»] · **Fix MCP-cieco approvato — i 4 conteggi (catalogo/lead) migrati a REST, casella errore rimossa.** Commit `2ba574b1` su branch `fix/mcp-cieco-no-casella-errore`. PR accodata come `#apri-pr-mcp-cieco`. Dopo merge: la casella "Database diretto non disponibile" sparisce per sempre quando REST è ok. Lezione: il canale MCP essendo intermittente non va usato per dati che il REST copre già — architettura più stabile.
 
 2026-07-18 ~15:30 · 🟡 · [Nicola screenshots] · **4 bug UX chat Pannello confermati da Nicola — fixes committati in `fix/chat-4bug-ux` (f4b3beff), PR non ancora aperta.** Bug: (1) chat apre dall'inizio invece che dall'ultimo messaggio; (2) nuove risposte spingono il box di testo verso il basso; (3) box di testo non sticky durante lo scroll; (4) stessa risposta compare 3 volte (triplicazione). Fix committati ma PR bloccata: `git-pr.mjs` non riesce ad aprire la PR nella sessione corrente (già in allowlist dal 02:35, ma bloccato — causa non confermata). Card `#apri-pr-chat-4bug-ux` in AZIONI-IN-ATTESA con comando esatto. `#apri-pr-chat-sovrascrittura-v2` → FATTO (fix bba5495d già su main, PR non serviva).
