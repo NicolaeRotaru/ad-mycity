@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 11:38",
+  "data": "2026-07-18 12:00",
   "voto_fiducia": 88,
-  "trend_fiducia": "= 88 (invariato — sessione ripresa da summary, guardiani confermati ✅, nessun nuovo errore)",
+  "trend_fiducia": "= 88 (invariato — quinto passaggio 12:00, guardiani confermati ✅, coerenza-fatti exit 0, tutti file su disco)",
   "errori_giro": [
     "Primo tentativo Edit STATO.md fallito per mismatch stringa (giro 11:10) — risolto rileggendo prima il file esatto",
     "MCP Supabase cieco (4 giri) — usato REST come da regola",
@@ -50,7 +50,7 @@
     {"numero": "stallo ~580h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T11:38 = 24g3h10m"},
     {"numero": "23 clienti", "fonte": "delta-gate.json 2026-07-18 06:20"},
     {"numero": "0 ordini completati", "fonte": "delta-gate.json 2026-07-18 06:20"},
-    {"numero": "51 giri n8n cieco", "fonte": "sensori-cecita.json 11:00"},
+    {"numero": "58 giri n8n cieco", "fonte": "sensori-cecita.json 11:59"},
     {"numero": "cassa 0€", "fonte": "Stripe API ok — cassa-runway.json 11:00"},
     {"numero": "13 prospect validi", "fonte": "registro-realta.json 02:38 + check rc=0"}
   ],
