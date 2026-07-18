@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 16:25
-fonte: AD digitale (giro settimo 18/7 16:25 — da chat Nicola)
+aggiornato: 2026-07-18 16:32
+fonte: AD digitale (giro ottavo 18/7 16:32 — da chat Nicola)
 ---
+
+> 🛰️ **18/7 16:32 — GIRO (ottavo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~584h** (~24,3 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 70 giri · MCP Supabase cieco 6 giri. Vincoli hard: registro-scelte rc=0 (confermato), coerenza-fatti ✅ exit 0 (16:31). **North Star focus:** ① 🔴 registrarsi su restart.infocamere.it OGGI (PI26 apre DOMANI 20/7 10:00) ② 🟡 ordine test PQ ③ 🟡 3 WhatsApp anchor PI26. auto-analisi ✅ · ultimo-briefing ✅ · intenzioni-nicola ✅. Dettaglio: [[Briefing/2026-07-18]].
 
 > 🛰️ **18/7 16:25 — GIRO (settimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~584h** (~24,3 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 67 giri · MCP Supabase cieco 6 giri. Coerenza-fatti ✅ (16:16). Registro-scelte rc=0 (da giro 11:10). **North Star focus:** ① 🔴 registrarsi su restart.infocamere.it OGGI (PI26 apre DOMANI 20/7 10:00) ② 🟡 ordine test PQ ③ 🟡 3 WhatsApp anchor PI26. auto-analisi ✅ · ultimo-briefing ✅ · intenzioni-nicola ✅. Dettaglio: [[Briefing/2026-07-18]].
 
