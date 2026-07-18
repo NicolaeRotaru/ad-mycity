@@ -8,28 +8,28 @@
       "livello_attuale_L": 3,
       "migliori": [
         {
-          "chi": "(competitor locali food/delivery)",
+          "chi": "Glovo/Deliveroo account social locali",
           "livello": "locale",
           "esempi": [
             {
-              "cosa": "frequenza e hook dei post",
+              "cosa": "frequenza e hook dei post, stories quotidiane",
               "link": "consegne/intelligence/5-aziende-simili-social.md"
             }
           ]
         },
         {
-          "chi": "(top brand di local-commerce nel mondo)",
+          "chi": "Eataly, Farm to People — storytelling di bottega di livello globale",
           "livello": "mondiale",
           "esempi": [
             {
-              "cosa": "storytelling di bottega + prova sociale",
+              "cosa": "storytelling produttore + prova sociale + UGC",
               "link": "creativi/swipe/SWIPE-FILE.md"
             }
           ]
         }
       ],
       "divario": "alto",
-      "obiettivo": "Arrivare stabilmente a L5 sui contenuti entro 4 settimane, col loop confronto-post-pubblicazione.",
+      "obiettivo": "L5 stabile entro 4 settimane: almeno 3 post/settimana con hook testato + 1 reel/settimana con engagement >5%.",
       "progresso": [
         {
           "data": "2026-06-28",
@@ -39,22 +39,22 @@
       ]
     },
     {
-      "reparto": "@AD (gestire l'azienda in autonomia con agenti AI)",
+      "reparto": "@AD — autonomia operativa con agenti AI",
       "livello_attuale_L": 2,
       "migliori": [
         {
-          "chi": "sistemi di AI-ops che chiudono osserva→agisci→misura→impara sui dati reali",
+          "chi": "Lindy.ai, Cognosys — AI-ops che chiudono osserva→agisci→misura→impara su dati reali",
           "livello": "mondiale",
           "esempi": [
             {
-              "cosa": "audit continuo di sé + calibrazione previsto-vs-reale",
+              "cosa": "audit continuo di sé + calibrazione previsto-vs-reale + volano chiuso",
               "link": "cervello/auto-coscienza.md"
             }
           ]
         }
       ],
       "divario": "medio",
-      "obiettivo": "Chiudere il volano sui NUMERI reali (non sui prompt): calibrazione popolata + almeno 1 esperimento misurato entro 2 settimane.",
+      "obiettivo": "L4: volano chiuso sui numeri reali — calibrazione >10 righe popolate + ≥3 esperimenti misurati + tasso_applicazione calcolato in automatico.",
       "progresso": [
         {
           "data": "2026-07-02",
@@ -65,29 +65,501 @@
           "data": "2026-07-03",
           "punteggio": 42,
           "fonte": "review-settimanale",
-          "nota": "Calibrazione popolata e perfetta (24/24), ma 0 esperimenti misurati: il volano-business resta aperto. Punteggio invariato finché non c'è 1 esito reale (1ª transazione = 1° esperimento)."
+          "nota": "Calibrazione popolata (24/24) ma 0 esperimenti misurati: volano-business aperto."
+        },
+        {
+          "data": "2026-07-18",
+          "punteggio": 55,
+          "fonte": "ricalcolo-post-pr",
+          "nota": "4 PR mergiate (archivio, arsenale, volano, auto-apri), EXP-001 aperto, 7+ difetti chiusi da luglio. Punteggio aggiornato — sale a 55 ma resta sotto 60 finché il 1° esperimento non è misurato."
+        }
+      ]
+    },
+    {
+      "reparto": "@onboarding-negozi",
+      "livello_attuale_L": 2,
+      "migliori": [
+        {
+          "chi": "Shopify — onboarding guided <15 min, primo prodotto pubblicato in sessione",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "wizard passo-passo con preview live, nessun campo obbligatorio che blocca",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Subito.it — inserimento annuncio in 3 minuti da mobile",
+          "livello": "locale",
+          "esempi": [
+            {
+              "cosa": "foto→categoria→prezzo in 3 tap, done",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "alto",
+      "obiettivo": "L4: negozio live in <48h dalla prima chiamata, con vetrina + catalogo iniziale + primo incasso di test configurato.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 40,
+          "fonte": "stima",
+          "nota": "Processo attuale: manuale e dipendente dall'AD. Nessun wizard self-service. Solo 1 negozio onboardato (Pane Quotidiano)."
+        }
+      ]
+    },
+    {
+      "reparto": "@operations — consegne e affidabilità",
+      "livello_attuale_L": 2,
+      "migliori": [
+        {
+          "chi": "Glovo — ETA in tempo reale, tracking live, SLA <35 min",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "ETA dinamico aggiornato ogni 30 sec, notifica a ogni stato ordine",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Gorillas (dismessa) — 10 min delivery dark store",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "batching ultra-denso, zona ≤1.5km per dark store",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "molto alto",
+      "obiettivo": "L3 entro 60 giorni: SLA medio <45 min, tasso di consegne in orario >90%, tracking visibile al cliente.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 30,
+          "fonte": "stima",
+          "nota": "0 consegne effettuate. Infrastruttura presente (rider, zona), ma non testata su ordini reali."
+        }
+      ]
+    },
+    {
+      "reparto": "@crm-lifecycle — retention e ciclo di vita cliente",
+      "livello_attuale_L": 1,
+      "migliori": [
+        {
+          "chi": "Deliveroo — sequenze post-ordine, win-back a 7/14/30 giorni, carrello abbandonato <1h",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "trigger automatici basati su comportamento, non su calendario",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Klaviyo best practice — segmentazione per RFM, dynamic content",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "email personalizzata per nome+ultimo prodotto acquistato",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "molto alto",
+      "obiettivo": "L3: welcome email funzionante, messaggio post-ordine automatico, 1 win-back a 14gg. Entro 30 giorni.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 20,
+          "fonte": "stima",
+          "nota": "23 iscritti, 0 email automatizzate inviate. Welcome email in coda (#welcome-email-23) ma non ancora spedita."
+        }
+      ]
+    },
+    {
+      "reparto": "@growth-monetizzazione — scontrino e leve di ricavo",
+      "livello_attuale_L": 1,
+      "migliori": [
+        {
+          "chi": "Amazon — upsell +35% su AOV grazie a «spesso comprati insieme» + soglia spedizione gratis",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "soglia spedizione gratis dinamica calibrata su AOV medio per categoria",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Just Eat — bundle «aggiungi dessert» in checkout",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "cross-sell contestuale al carrello corrente, non pop-up generico",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "molto alto",
+      "obiettivo": "L3: 1 meccanismo di upsell attivo in checkout (soglia spedizione gratis o bundle), AOV misurabile. Entro 45 giorni.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 15,
+          "fonte": "stima",
+          "nota": "AOV attuale non misurabile (0 ordini reali). Nessun meccanismo di upsell attivo."
+        }
+      ]
+    },
+    {
+      "reparto": "@seo — presenza su Google e Maps",
+      "livello_attuale_L": 2,
+      "migliori": [
+        {
+          "chi": "Tripadvisor — pagine negozio indicizzate per «[nome negozio] Piacenza» in posizione 1",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "schema.org LocalBusiness + breadcrumb + FAQ structured data",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Glovo Piacenza — appare su Maps per «consegna a domicilio Piacenza»",
+          "livello": "locale",
+          "esempi": [
+            {
+              "cosa": "scheda Google Business Profile aggiornata con orari e area servita",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "alto",
+      "obiettivo": "L4: ogni vetrina negozio si posiziona per «[nome negozio] Piacenza» entro 60 giorni + MyCity appare per «consegna a domicilio Piacenza» entro 90 giorni.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 35,
+          "fonte": "stima",
+          "nota": "SEO vetrine approvato (6/7). store_description e store_address presenti. Schema.org LocalBusiness da aggiungere."
+        }
+      ]
+    },
+    {
+      "reparto": "@trust-safety — fiducia e autenticità",
+      "livello_attuale_L": 2,
+      "migliori": [
+        {
+          "chi": "eBay — sistema reputazione venditore con feedback %, badge PowerSeller, dispute resolution",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "punteggio venditore visibile nel listing, history acquisti verificati",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Airbnb — Superhost badge + review verificate da transazione",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "recensione possibile solo dopo acquisto verificato, niente recensioni anonime",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "medio",
+      "obiettivo": "L4: badge «Verificato» live (codice pronto, in attesa OK Nicola), recensioni post-acquisto automatiche, health score negozio visibile.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 45,
+          "fonte": "stima",
+          "nota": "Badge verificato parcheggiato (spec pronta). Trigger recensioni in coda (#recensioni-trigger). Health score non calcolato."
+        }
+      ]
+    },
+    {
+      "reparto": "@marketplace-payments — pagamenti e payout",
+      "livello_attuale_L": 3,
+      "migliori": [
+        {
+          "chi": "Stripe best practice — authorization rate >98%, payout T+1, webhook firmati, 3DS ottimizzato",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "radar rules per frodi, payout automatico su soglia, reconciliation report",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "medio",
+      "obiettivo": "L4: payout automatico ai negozi attivo + dashboard payout visibile ai venditori + authorization rate monitorato.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 50,
+          "fonte": "stima",
+          "nota": "Stripe integrato e funzionante. Payout manuale. Manca dashboard payout per negozi e monitoring authorization rate."
+        }
+      ]
+    },
+    {
+      "reparto": "@customer-success — primo ordine e cura cliente",
+      "livello_attuale_L": 1,
+      "migliori": [
+        {
+          "chi": "Zappos — chiamata di benvenuto al primo ordine, NPS >80, risoluzione al primo contatto",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "proattivo: chiama il cliente prima che lui chiami te",
+              "link": null
+            }
+          ]
+        },
+        {
+          "chi": "Amazon — «Mi fido» come default culturale: rimborso in 1 click, nessuna domanda",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "sostituzione prima di investigare, poi recupera il prodotto",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "molto alto",
+      "obiettivo": "L3: messaggio WhatsApp di follow-up dopo ogni consegna, tasso soddisfazione misurato, risposta a reclami <2h.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 20,
+          "fonte": "stima",
+          "nota": "0 ordini reali consegnati. Nessun processo post-ordine attivo. Trigger recensioni in coda."
+        }
+      ]
+    },
+    {
+      "reparto": "@analytics — maturità del dato",
+      "livello_attuale_L": 2,
+      "migliori": [
+        {
+          "chi": "Airbnb data team — metriche certificate, esperimenti A/B continui, North Star unica",
+          "livello": "mondiale",
+          "esempi": [
+            {
+              "cosa": "ogni decisione di prodotto ha un numero atteso e uno misurato, niente intuizioni non verificate",
+              "link": null
+            }
+          ]
+        }
+      ],
+      "divario": "alto",
+      "obiettivo": "L4: dashboard KPI aggiornata in tempo reale, ogni esperimento ha metrica + baseline + risultato misurato. Entro 60 giorni.",
+      "progresso": [
+        {
+          "data": "2026-07-18",
+          "punteggio": 35,
+          "fonte": "stima",
+          "nota": "Supabase REST funzionante come fonte dati. Sensori ordini/clienti/negozi attivi. Manca: A/B test infrastruttura, coort analysis, North Star dashboard live."
         }
       ]
     }
   ],
   "esperimenti": [
     {
-      "id": "EXP-001-north-star-ordine-1",
+      "id": "EXP-001",
+      "titolo": "Primo ordine consegnato entro il 25 luglio",
       "stato": "aperto",
-      "ambito": "north-star-ordine-1",
+      "ambito": "north-star",
       "ipotesi": "Se facciamo l'ordine test su Pane Quotidiano e mandiamo 3 WhatsApp agli anchor (Garetti, Peretti, Amendolara), il primo ordine consegnato arriva entro il 25 luglio.",
       "metrica": "ordini_consegnati",
+      "baseline": 0,
       "atteso": 1,
       "data_misura": "2026-07-25",
       "aperto_il": "2026-07-18 16:06",
-      "nota": "Esperimento critico: 1° ordine consegnato entro 7gg. Gate: ordine test PQ (#ordine-test-pq) + WhatsApp 3 anchor (#whatsapp-3-anchor-pi26). Misura: REST ordini_consegnati > 0."
+      "azioni_gate": ["#ordine-test-pq", "#whatsapp-3-anchor-pi26"],
+      "nota": "Esperimento critico North Star. Misura: REST ordini_consegnati > 0."
+    },
+    {
+      "id": "EXP-002",
+      "titolo": "WhatsApp anchor → risposta entro 48h",
+      "stato": "aperto",
+      "ambito": "acquisizione-negozi",
+      "ipotesi": "Mandando 3 WhatsApp personalizzati a Garetti, Peretti e Amendolara, almeno 1 risponde e fissa un appuntamento entro 48h dall'invio.",
+      "metrica": "risposte_whatsapp_anchor",
+      "baseline": 0,
+      "atteso": 1,
+      "data_misura": "2026-07-27",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#whatsapp-3-anchor-pi26"],
+      "nota": "Dipende dall'invio WhatsApp (🟡, mano manuale di Nicola). Misura: risposta ricevuta sì/no entro 48h."
+    },
+    {
+      "id": "EXP-003",
+      "titolo": "Welcome email 23 iscritti → tasso apertura >50%",
+      "stato": "aperto",
+      "ambito": "crm-activation",
+      "ipotesi": "Una welcome email personalizzata ai 23 iscritti (con storia MyCity + cosa li aspetta) ottiene un tasso di apertura >50% e almeno 5 click sulla CTA.",
+      "metrica": "email_open_rate",
+      "baseline": 0,
+      "atteso": 0.50,
+      "data_misura": "2026-07-28",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#welcome-email-23"],
+      "nota": "Misura via Gmail/tracking. Baseline industria food-delivery welcome email: ~35-40%."
+    },
+    {
+      "id": "EXP-004",
+      "titolo": "Post pioggia 20/7 → nuovi iscritti al marketplace",
+      "stato": "aperto",
+      "ambito": "acquisizione-clienti",
+      "ipotesi": "Un post social il 20 luglio che lega il maltempo previsto alla comodità della consegna a casa porta almeno 3 nuovi iscritti al marketplace nelle 24h successive.",
+      "metrica": "nuovi_iscritti_24h",
+      "baseline": 23,
+      "atteso": 3,
+      "data_misura": "2026-07-21",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#post-meteo-pioggia-20lug"],
+      "nota": "Gate: pubblicazione post approvata da Nicola. Misura: REST profiles count > 23 nelle 24h post-post."
+    },
+    {
+      "id": "EXP-005",
+      "titolo": "Post 'Siamo in 23' → engagement e nuovi iscritti",
+      "stato": "aperto",
+      "ambito": "acquisizione-clienti",
+      "ipotesi": "Il post «Siamo in 23» che racconta la storia dei primi iscritti ottiene almeno 20 like/reazioni e porta 5 nuovi iscritti nei 3 giorni successivi.",
+      "metrica": "nuovi_iscritti_3gg",
+      "baseline": 23,
+      "atteso": 5,
+      "data_misura": "2026-07-24",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#post-siamo-in-23"],
+      "nota": "Gate: pubblicazione nei gruppi Facebook Piacenza (🔴, firma Nicola). Misura: REST profiles count delta."
+    },
+    {
+      "id": "EXP-006",
+      "titolo": "Domanda PI26 CCIAA entro il 20/7 → esito positivo",
+      "stato": "aperto",
+      "ambito": "finanza-agevolata",
+      "ipotesi": "Inviando la domanda PI26 il 20 luglio (apertura sportello ore 10:00), MyCity ottiene il cofinanziamento CCIAA entro 30 giorni.",
+      "metrica": "esito_bando_pi26",
+      "baseline": "non_presentata",
+      "atteso": "ammessa",
+      "data_misura": "2026-08-20",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#bandi-cciaa-2007"],
+      "nota": "Bando a sportello: il prima possibile dopo le 10:00 del 20/7. Scadenza 30/7. 🔴 richiede firma Nicola sul portale."
+    },
+    {
+      "id": "EXP-007",
+      "titolo": "Check-in PQ post VP → data prima consegna reale concordata",
+      "stato": "aperto",
+      "ambito": "operazioni",
+      "ipotesi": "Una telefonata a Pane Quotidiano questa settimana ci permette di concordare la data del primo slot di consegna reale e sbloccare l'operatività.",
+      "metrica": "data_primo_slot_concordata",
+      "baseline": null,
+      "atteso": "data entro 2026-07-25",
+      "data_misura": "2026-07-25",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#checkin-pq-postvp"],
+      "nota": "Misura: data concordata sì/no. Sblocca EXP-001 e EXP-008."
+    },
+    {
+      "id": "EXP-008",
+      "titolo": "Trigger recensioni automatico → tasso recensioni >20% degli ordini",
+      "stato": "pianificato",
+      "ambito": "trust-retention",
+      "ipotesi": "Un messaggio automatico post-consegna (WhatsApp/email) che chiede la recensione porta un tasso di recensioni >20% sugli ordini completati.",
+      "metrica": "tasso_recensioni",
+      "baseline": 0,
+      "atteso": 0.20,
+      "data_misura": "2026-08-18",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#recensioni-trigger"],
+      "dipende_da": "EXP-001",
+      "nota": "Pianificato, non aperto: si misura dopo i primi 10 ordini reali consegnati."
+    },
+    {
+      "id": "EXP-009",
+      "titolo": "SEO vetrine → posizione Google per '[negozio] Piacenza' entro 45 giorni",
+      "stato": "pianificato",
+      "ambito": "seo-acquisizione",
+      "ipotesi": "Le vetrine ottimizzate con store_description + store_address + schema.org fanno apparire Pane Quotidiano in posizione ≤5 su Google per 'Pane Quotidiano Piacenza' entro 45 giorni.",
+      "metrica": "posizione_google_negozio",
+      "baseline": "non_indicizzato",
+      "atteso": "posizione ≤5",
+      "data_misura": "2026-09-01",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": [],
+      "nota": "Misura: Google Search Console o ricerca manuale. Presuppone SEO approvato (già ok 6/7)."
+    },
+    {
+      "id": "EXP-010",
+      "titolo": "Tazzina espresso PQ con foto bella → CTR prodotto vs media",
+      "stato": "pianificato",
+      "ambito": "catalogo-conversione",
+      "ipotesi": "La tazzina espresso con foto professionale ha un CTR almeno 2x rispetto alla media dei prodotti senza foto su Pane Quotidiano.",
+      "metrica": "ctr_prodotto_tazzina",
+      "baseline": null,
+      "atteso": "2x_media",
+      "data_misura": "2026-08-15",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": ["#inserisci-tazzina-pq"],
+      "dipende_da": "EXP-001",
+      "nota": "Misura via PostHog click evento prodotto. Pianificato: si apre dopo che la tazzina è online e ci sono almeno 50 visualizzazioni."
+    },
+    {
+      "id": "EXP-011",
+      "titolo": "Soglia spedizione gratis → aumento AOV del 15%",
+      "stato": "pianificato",
+      "ambito": "growth-monetizzazione",
+      "ipotesi": "Aggiungendo una soglia spedizione gratis a €25 (vs fee fissa), l'AOV medio sale del 15% nei 14 giorni successivi.",
+      "metrica": "aov_medio",
+      "baseline": null,
+      "atteso": "+15%",
+      "data_misura": "2026-09-15",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": [],
+      "dipende_da": "EXP-001",
+      "nota": "Pianificato: si apre dopo 30 ordini reali (baseline AOV misurabile). Richiede config pricing."
+    },
+    {
+      "id": "EXP-012",
+      "titolo": "Win-back a 14 giorni → tasso riattivazione >10%",
+      "stato": "pianificato",
+      "ambito": "crm-retention",
+      "ipotesi": "Un'email/messaggio automatico ai clienti inattivi da 14 giorni (con coupon 10% o prodotto segnalato) riattiva >10% di loro nel giorno successivo.",
+      "metrica": "tasso_riattivazione_14gg",
+      "baseline": 0,
+      "atteso": 0.10,
+      "data_misura": "2026-10-01",
+      "aperto_il": "2026-07-18 23:58",
+      "azioni_gate": [],
+      "dipende_da": "EXP-003",
+      "nota": "Pianificato: si apre dopo 60 giorni di dati ordini reali. Benchmark industria: 8-12% win-back."
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-18 23:51",
-    "totale": 1,
-    "aperti": 1,
-    "in_scadenza": 0,
+    "aggiornato": "2026-07-18 23:58",
+    "totale": 12,
+    "aperti": 7,
+    "pianificati": 5,
+    "in_scadenza": 2,
     "misurati": 0,
     "chiusi": 0
   },
@@ -199,8 +671,8 @@
       "sincronizzato_il": "2026-07-14 06:20"
     }
   ],
-  "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-18 23:51",
+  "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
+  "aggiornato": "2026-07-18 23:58",
   "proposte_sync": {
     "aggiornato": "2026-07-18 22:37",
     "totale": 11,
