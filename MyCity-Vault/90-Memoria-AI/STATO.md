@@ -4,6 +4,10 @@ aggiornato: 2026-07-18 12:00
 fonte: AD digitale (giro quinto 18/7 12:00 — da chat Nicola)
 ---
 
+> 💬 **18/7 ~15:30 — CHAT: proposta fix 4 conteggi catalogo/lead → sempre REST.** Casella "Database diretto non disponibile": Nicola ha chiesto la spiegazione (MCP = plugin sessione variabile, REST = canale stabile), poi «Non si può modificare?». AD ha proposto PR per far passare quei 4 conteggi sempre dal REST — Nicola non ha ancora confermato. ⏳ Pendente: ok di Nicola per aprire la PR. Fonte: chat Nicola 18/7 ~15:30.
+
+> 💬 **18/7 ~15:20 — CHAT: bug UX chat — PR unica in preparazione.** Nicola ha segnalato 4 bug chat: (1) lista conversazioni occupa metà schermo su mobile (`w-1/2`), (2) apertura chat mostra dall'inizio invece che dall'ultimo messaggio, (3) nuovi messaggi spingono il box testo giù invece di caricarsi verso l'alto, (4) risposta AD appare triplicata. AD ha capito tutti e 4 e preparerà PR unica. ⏳ Pendente: PR da aprire. Fonte: chat Nicola 18/7 ~15:20.
+
 > 💬 **18/7 ~15:00 — CHAT: PR #450 mergiata ma VUOTA — housekeeping già operativo su main.** Nicola ha chiesto «Hai aperto la nuova PR?». Verifica su giro.sh: le righe housekeeping (216-217) erano già su main. PR #450 mergiata da Nicola ma non aggiungeva nulla di nuovo. Housekeeping automatico confermato attivo dal prossimo giro. PR #449 va chiusa senza merge (conflitti + contenuto già presente). Fonte: chat Nicola 18/7.
 
 > 💬 **18/7 ~14:50 — CHAT: PR #449 housekeeping — conflitto, DA CHIUDERE senza merge.** La riga housekeeping in `giro.sh` era già su main (commit `8abf5197`, 13:28). Il branch aveva modifiche ai guardiani che main aveva superato → conflitto. L'housekeeping automatico è già operativo. Azione: chiudi PR #449 da GitHub senza merge.
