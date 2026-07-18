@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 02:30
+aggiornato: 2026-07-18 03:00
 fonte: AD digitale (chat Nicola 18/7)
 ---
+
+> 💬 **18/7 ~03:00 — CHAT: verifica tecnica 3 fix PR #435 — tutti ✅ nel codice.** Nicola ha chiesto «riesci a controllare se tutti e tre i fix funzionano correttamente?». AD ha letto il codice sul branch: (1) Fix 1 ✅ — `ChatCasella.tsx` chiama `/api/lavori/dettagli` che esiste e usa `getLavoriByIds` con query `id=in.(...)` — solo 1 job, non 121; (2) Fix 2 ✅ — soglia volano è `0.05` (5%) nel codice; (3) Fix 3 ✅ — il blocco che sovrascriveva il voto è rimosso, sostituito dal commento AR-105. TypeScript compila senza errori. Limite: non è possibile misurare i millisecondi reali del polling senza merge+deploy. PR #435 ancora in attesa di merge. Fonte: chat Nicola 18/7 ~03:00.
 
 > 💬 **18/7 ~02:50 — CHAT: 3 fix PR #435 spiegati a Nicola + quality check confermato.** Nicola ha chiesto «spiegami i 3 fix e controlla se hai fatto un buon lavoro». AD ha letto il codice, verificato che l'endpoint `/api/lavori/dettagli` esiste, e spiegato i 3 fix con analogie umane: (1) chat chiede solo il job specifico invece della lista intera — come cercare un numero invece di scaricare tutta la rubrica; (2) soglia volano 30%→5% — il guardiano non urla più a vuoto; (3) voto salute non sovrascritto dalla sonda — il referto non viene cambiato ogni 10 minuti dall'infermiere. Nessuna correzione da Nicola. PR #435 e #436 ancora in attesa di merge. Fonte: chat Nicola 18/7 ~02:50.
 
