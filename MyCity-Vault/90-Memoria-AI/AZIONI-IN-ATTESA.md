@@ -16,6 +16,21 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #mergia-pr-449 — Mergia PR #449: housekeeping automatico coda azioni · ⏳ accodata 2026-07-18 14:30
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/449 · Branch: `fix/pannello-bloccanti`
+
+**Cosa fa:** aggiunge `cervello/housekeeping-coda.mjs` (sposta le 80 card ✅ FATTO e ❌ in Archivio) e lo lancia automaticamente a ogni giro.
+
+**Cosa cambia:** la sezione «Da approvare» nel Pannello mostra solo le 38 card aperte invece di 118+. La coda resta pulita in automatico a ogni giro — nessun intervento manuale.
+
+**Se va bene:** lista azioni torna leggibile; housekeeping automatico da ora in poi.
+
+- **Colore:** 🟡 (merge PR — Nicola approva da GitHub)
+- **Reparto:** devops-sre
+
+---
+
 ### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
 
 **Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). Usa il dato reale 23 iscritti. Neutro, nessun consenso bottega richiesto. Post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
