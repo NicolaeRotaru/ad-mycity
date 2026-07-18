@@ -147,13 +147,7 @@ function testoRecente(appr) {
     // STATO è molto lungo (storico in coda): cercare gli ID in tutto il file, non solo in testa.
     blob += readFileSync(STATO_PATH, "utf8");
   }
-  if (appr && typeof appr === "object") {
-    for (const [k, v] of Object.entries(appr)) {
-      if (k.startsWith("_nota_") && typeof v === "string" && /APPLICATE:/i.test(v)) {
-        blob += `${v}\n`;
-      }
-    }
-  }
+  // AR-volano-fix: _nota_giro_ escluse — erano auto-referenziali e gonfiavano il tasso con falsi positivi.
   return blob;
 }
 
