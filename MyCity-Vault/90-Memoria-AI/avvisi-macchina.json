@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-18T16:20:18.923Z",
+  "aggiornato": "2026-07-18T18:11:18.327Z",
   "avvisi": [
     {
       "at": "2026-07-18T04:30:10.026Z",
@@ -89,6 +89,11 @@
     {
       "at": "2026-07-18T16:20:18.923Z",
       "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-18 18:20). Dettaglio: vault-sanità: auto-coscienza/apprendimento.json: JSON non parsabile (Expected ',' or '}' after property value in JSON at position 44876 (line 404 column 127)) ; La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
+      "canale": "casella"
+    },
+    {
+      "at": "2026-07-18T18:11:18.326Z",
+      "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-18 20:11). Dettaglio: vault-sanità: auto-coscienza/apprendimento.json: JSON non parsabile (Expected ',' or '}' after property value in JSON at position 44876 (line 404 column 127)) ; La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
       "canale": "casella"
     }
   ]

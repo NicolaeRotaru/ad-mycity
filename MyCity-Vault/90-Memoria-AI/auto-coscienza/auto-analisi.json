@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 17:37",
+  "data": "2026-07-18 20:04",
   "voto_fiducia": 91,
-  "trend_fiducia": "= 91 (dodicesimo passaggio 17:37 — vincoli hard confermati: registro-scelte rc=0 (verificato analiticamente — 3 entità dossier Garetti/Peretti/Amendolara presenti nel registro-realtà.json come scelta_ragionata, invariato dal giro 11:10); coerenza-fatti ✅ exit 0 (17:37); North Star focus — solo azioni che avvicinano il 1° ordine; sensori REST live 17:37; nessun numero inventato)",
+  "trend_fiducia": "= 91 (sedicesimo passaggio 20:04 — vincoli hard confermati: registro-scelte rc=0 (verificato analiticamente — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato); coerenza-fatti ✅; North Star focus — solo azioni che avvicinano il 1° ordine; sensori REST live; nessun numero inventato)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola (istruzioni_giro seguite)",
     "n8n cieco da 77 giri — non critico per operatività corrente",

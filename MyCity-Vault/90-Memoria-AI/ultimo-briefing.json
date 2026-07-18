@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 17:37",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~587h (~24,5 giorni da 24/6). North Star 0, cassa 0€. Sensori 17:37: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 77 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 confermato analiticamente (13 prospect + 6 esclusi, invariato). URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo piogge dal 20/7 (delivery window). PR timer-lista-chat accodata.",
+  "data": "2026-07-18 20:04",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~590h (~24,6 giorni da 24/6). North Star 0, cassa 0€. Sensori 20:04: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 82 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 confermato analiticamente (13 prospect scelta_ragionata + 6 ristoranti esclusi, invariato). URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo piogge dal 20/7 (delivery window). PR timer-lista-chat accodata.",
   "opportunita": [
     {
       "titolo": "Bando PI26 — registrati su restart.infocamere.it OGGI",
