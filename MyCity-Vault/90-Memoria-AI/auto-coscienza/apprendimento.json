@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-18 20:15",
+  "aggiornato": "2026-07-18 21:20",
   "_approvato_nicola_09_07_1421": "✅ APPROVATO Nicola (chat 9/7 14:21) — «vai» alla modifica #2: chat del Pannello su MODELLO VELOCE con ESCALATION automatica. Trasforma il desiderio-due-marce (_desiderio_nicola_09_07_1315) da backlog a lavoro avviato. VINCOLO fissato da Nicola con la domanda «nei momenti difficili non perderà efficienza?»: il veloce vale SOLO per la chiacchiera (come stiamo/che decido/spiegami); il lavoro pesante (giro dati, analisi numeri, senior, contenuti pro, audit) resta su Opus e la chat SCALA DA SOLA su Opus quando fiuta un compito difficile (ragionamento/decisione-soldi/analisi) → è la regola già nel mansionario «sforzo/modello giusto al compito». PREFERENZA emersa: Nicola accetta il veloce SOLO se garantito che i compiti difficili non degradano — l'escalation è la condizione non negoziabile, non un dettaglio. PROSSIMO passo AD (🟡): implementa veloce+escalation, TESTA sul VPS un caso facile e uno difficile ([[regola-testare-sempre]]), porta il prima/dopo (tempo risposta semplice + conferma che la difficile resta al massimo). Vedi DECISIONI 9/7 14:21, [[chat-lenta-max-non-widget]].",
   "_desiderio_nicola_09_07_1315": "🎯 DESIDERIO/BACKLOG Nicola (chat 9/7 ~13:15) [→ APPROVATO 14:21, vedi _approvato_nicola_09_07_1421]: vuole DUE «marce» selezionabili nella chat del Pannello — 🐇 **Veloce** (domande semplici/botta-e-risposta: modello più snello es. Sonnet + istruzione «conciso, vai al punto», niente pipeline pesante → risposta in pochi secondi) e 🧠 **Ragionata bene** (decisioni/analisi che contano: Opus a piena potenza + passa dal cancello di auto-analisi/verifica avversariale prima di rispondere). Nasce dalla richiesta «c'è un modo per rendere più veloce la chat a rispondere?»: oggi OGNI messaggio è un lavoro `chat` che gira SEMPRE su Opus + prompt generico, nessuna marcia. Feature 🟡 (modifica Pannello, 4 file: `ChatCasella.tsx` due pulsanti 🐇/🧠 · `lib/comandi.ts` modo→`chat-veloce`/`chat-ragionata` · `api/lavori` porta il campo in coda · `cervello/worker.sh` sceglie modello+prompt per marcia). Default proposto 🐇 Veloce (il tema è la velocità), 🧠 solo quando serve testa. Preferenza emersa: Nicola tiene alla VELOCITÀ della chat per le domande semplici. Da TESTARE nel browser prima di committare ([[regola-testare-sempre]], [[verifica-pannello-nel-browser]]). In attesa che l'AD lo consegni in questa chat (ha chiesto «procedo?»). Leva più profonda già segnalata ma non scelta: alleggerire il contesto caricato a ogni messaggio (CLAUDE.md enorme + memoria + sensori MCP eager). Vedi [[niente-api-ai]] (il motore Claude forfait resta, Sonnet è dentro lo stesso piano).",
   "_approvato_nicola_09_07_2250": "✅ APPROVATO Nicola (chat 9/7 22:50) — «Sì voglio che parta, mettili entrambe»: via libera a costruire gli ALLEGATI in chat, con AMBEDUE i tipi (foto E file/PDF-documenti, non solo foto). Trasforma _preferenza_nicola_09_07_1245 da backlog a lavoro avviato. Scelte confermate: (a) parte adesso; (b) sia immagini sia PDF/documenti. Prima dell'interazione Nicola ha chiesto «in che senso procedi nel branch con supabase storage?» → segnale che il gergo (branch/Supabase Storage) l'ha confuso: rinforza [[nicola-spiegazioni-piu-chiare]] (spiegare con parole semplici PRIMA del termine tecnico). Implementazione 🟡 già in working tree VPS (ChatCasella.tsx modificato · nuova route api/allegato/ · test cervello/test/allegati-chat.bats · routing.json/worker.sh toccati) — NON committato, NO deploy. VINCOLO non negoziabile [[regola-testare-sempre]]/[[verifica-pannello-nel-browser]]: prova nel browser (upload foto + upload PDF, e l'AD li VEDE davvero fino al worker) PRIMA di dichiarare «fatto» o committare. Il commit/push resta 🔴 (firma Nicola) e, quando tocca pannello/, va firmato con email GitHub valida non ad@mycity.local ([[pannello-legge-filesystem-non-github]], L-2026-0709-69). Vedi DECISIONI 9/7 22:50.",
@@ -19,7 +19,15 @@
     {
       "id": "L-2026-0718-273",
       "testo": "**Il file `consegne/tech/pr-ad-mycity-body.md` è condiviso tra TUTTE le PR — ogni rebase che genera un conflitto su questo file lo risolve con il contenuto di main (la descrizione della PR precedente), silenziosamente.** Risultato: la nuova PR ha la descrizione sbagliata + roba accumulata dalle PR vecchie. Nicola l'ha segnalato il 18/7 come «descrizione fa schifo / non è più come prima». La radice è strutturale: file condiviso + rebase + risoluzione automatica = sovrascrittura sistematica. Fix: prima di `git-pr.mjs`, riscrivere il file con la descrizione corretta della PR attuale (o passare `--body \"...\"` inline se supportato). Il file va trattato come artefatto PER-BRANCH, azzerato a ogni PR.",
-      "tag": ["pr-description", "git-pr.mjs", "rebase", "conflitto", "file-condiviso", "qualita-pr", "caso-studio-nicola"],
+      "tag": [
+        "pr-description",
+        "git-pr.mjs",
+        "rebase",
+        "conflitto",
+        "file-condiviso",
+        "qualita-pr",
+        "caso-studio-nicola"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -33,7 +41,15 @@
     {
       "id": "L-2026-0718-272",
       "testo": "**Allowlist `git -C /opt/mycity/ad-mycity/marketplace:*` aggiunta da Nicola il 18/7 — i comandi git sul repo marketplace ora funzionano dalla chat.** Prima era bloccato (solo la root `ad-mycity/` era in allowlist). `git-pr.mjs` NON supporta `marketplace` come target (solo `ad-mycity`): per aprire una PR su mycity, fare `git push origin <branch>` direttamente nel repo marketplace e aprire il link PR da GitHub. Se il repo marketplace ha un rebase interrotto, fare `git rebase --abort` prima di creare nuovi branch. La PR #213 (35 fix radiografia) è stata risoluta via `git rebase origin/main --strategy-option=theirs/ours` per i 2 conflitti (webhook + Navbar), poi force pushed.",
-      "tag": ["allowlist", "marketplace", "git-C", "git-pr.mjs", "pr", "rebase", "force-push"],
+      "tag": [
+        "allowlist",
+        "marketplace",
+        "git-C",
+        "git-pr.mjs",
+        "pr",
+        "rebase",
+        "force-push"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -47,7 +63,14 @@
     {
       "id": "L-2026-0718-271",
       "testo": "**Prima di eseguire `git-pr.mjs`, verifica che il branch sia ancora quello giusto (18/7).** Nicola ha eseguito `node cervello/git-pr.mjs --repo ad-mycity --base main` dal VPS ma ha ricevuto errore «head e base sono lo stesso ramo (main)» — il worker aveva riportato il repo su `main` nel frattempo. Fix: prima del comando, fare `git checkout fix/<nome-branch>` per assicurarsi che `HEAD` non sia su `main`. Il rischio è sistematico: il worker gira ogni pochi minuti e può fare reset sul branch principale. Sequenza corretta per aprire una PR dal VPS: `git checkout <branch>` → verifica con `git branch --show-current` → poi `node cervello/git-pr.mjs`.",
-      "tag": ["git-pr", "branch", "main", "worker-reset", "pr", "sequenza-corretta"],
+      "tag": [
+        "git-pr",
+        "branch",
+        "main",
+        "worker-reset",
+        "pr",
+        "sequenza-corretta"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -61,7 +84,14 @@
     {
       "id": "L-2026-0718-270",
       "testo": "**Prima di dire «lo devi fare tu dal VPS», PROVA il comando — poi delega se fallisce (18/7).** L'AD aveva detto a Nicola di eseguire 2 `git -C marketplace` senza averli mai tentati. Nicola ha dovuto chiedere «Non riesci tu?» e solo allora l'AD ha provato, confermando che sono bloccati dall'allowlist. Fatto confermato: `git -C /opt/mycity/ad-mycity/marketplace` (operazioni sulla sottocartella marketplace/) è bloccato — solo `ad-mycity/` root è in allowlist. Sequenza corretta: tenta il comando, riporta l'esito, delega con motivazione reale («ho provato, blocca così: ...»).",
-      "tag": ["allowlist", "marketplace", "git", "delega", "tentativa-prima", "prova-prima"],
+      "tag": [
+        "allowlist",
+        "marketplace",
+        "git",
+        "delega",
+        "tentativa-prima",
+        "prova-prima"
+      ],
       "reparto": "@AD",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -75,7 +105,14 @@
     {
       "id": "L-2026-0718-269",
       "testo": "**Prima di aprire una PR per aggiungere una funzione, verifica se è già su main (18/7).** PR #449 aveva conflitti irrisolvibili perché la riga `housekeeping-azioni.mjs` in `giro.sh` era già su main (commit `8abf5197`) da un giro precedente. L'AD ha creato branch, script, PR — ma il contenuto utile era già operativo. Procedura corretta: `git log --oneline main | grep <nome-funzione>` PRIMA di creare il branch. Se già presente: comunicare «è già su main» e chiudere senza merge.",
-      "tag": ["git", "branch", "pr", "main", "verifica-preventiva", "conflitto"],
+      "tag": [
+        "git",
+        "branch",
+        "pr",
+        "main",
+        "verifica-preventiva",
+        "conflitto"
+      ],
       "reparto": "@AD",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -89,7 +126,14 @@
     {
       "id": "L-2026-0718-268",
       "testo": "**Nicola non traccia lo stato dei bloccanti macchina tra sessioni — rispondere SEMPRE con 3-tier quando chiede «è già fatto?» (18/7).** Nicola ha chiesto «Non avevo già fatto i fix di tutti i bloccanti dentro la macchina?» — segnale che non aveva chiaro FATTO vs IN ATTESA vs NON INIZIATO. Lo stato reale era: ✅ PR #435 (3 fix) + guardiani coerenza-fatti; ⏳ R4 + #fix-termometro-guardiani + #fix-pannello-bloccanti (in attesa firma); ❌ #fix-35-gravi (non iniziato). Miglioramento: (1) in ogni giro includere mini-dashboard bloccanti multi-sessione con i 3 livelli; (2) quando Nicola fa domande di stato, rispondere con elenco itemizzato ✅FATTO / ⏳IN ATTESA FIRMA / ❌NON INIZIATO — mai con «in parte sì, in parte no» generico.",
-      "tag": ["bloccanti", "stato-sessione", "visibilita-completamento", "giro", "dashboard-macchina", "comunicazione-stato"],
+      "tag": [
+        "bloccanti",
+        "stato-sessione",
+        "visibilita-completamento",
+        "giro",
+        "dashboard-macchina",
+        "comunicazione-stato"
+      ],
       "reparto": "@AD",
       "confidenza": 0.85,
       "evidenze": 1,
@@ -103,9 +147,15 @@
     {
       "id": "L-2026-0718-267",
       "testo": "**Card ✅ FATTO nel Pannello: rimangono visibili fino all'housekeeping, non spariscono da sole (18/7).** Nicola ha chiesto «se è già fatto perché la card è ancora qui?». Comportamento atteso: una card segnata ✅ FATTO in AZIONI-IN-ATTESA rimane visibile nel Pannello con il ✅ davanti finché l'housekeeping periodico non la sposta in archivio. Non è un bug né un'azione in sospeso — è semplicemente l'interfaccia che mantiene la traccia. Risposta rapida per Nicola: «È chiusa e registrata — rimane visibile con il ✅ davanti fino alla pulizia periodica che la sposta in archivio. Non c'è nulla da fare.»",
-      "tag": ["pannello", "card-fatto", "housekeeping", "ux-pannello", "comportamento-atteso"],
+      "tag": [
+        "pannello",
+        "card-fatto",
+        "housekeeping",
+        "ux-pannello",
+        "comportamento-atteso"
+      ],
       "reparto": "@AD",
-      "confidenza": 1.0,
+      "confidenza": 1,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": false,
@@ -117,9 +167,16 @@
     {
       "id": "L-2026-0718-266",
       "testo": "**Permesso verbale Nicola NON sblocca lettura `cervello/vps/.env` dalla chat (18/7 — violazione ×2).** Nicola ha scritto «ti do il permesso di leggere l'env» e l'AD ha risposto correttamente che il blocco è di sistema. MA l'errore a monte è più grave: l'AD non aveva controllato STATO.md prima, dove MARKETPLACE_SITE_URL era già registrato dal 18/7 04:30 (`https://mycity-marketplace.com`). Violazione della lezione LEZIONI-CHAT linea 9 per la SECONDA VOLTA nella stessa giornata. Radice: l'AD tratta la casella come una domanda fresca invece di cercare prima in memoria. Regola: per OGNI domanda su variabile env / URL / configurazione — prima STATO.md e AZIONI-IN-ATTESA, poi rispondere. Il permesso verbale non è il fix — la memoria lo è.",
-      "tag": ["env", "stato-md", "memoria-prima", "permesso-verbale", "lezione-critica", "violazione-ripetuta"],
+      "tag": [
+        "env",
+        "stato-md",
+        "memoria-prima",
+        "permesso-verbale",
+        "lezione-critica",
+        "violazione-ripetuta"
+      ],
       "reparto": "@AD",
-      "confidenza": 1.0,
+      "confidenza": 1,
       "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": false,
@@ -131,7 +188,13 @@
     {
       "id": "L-2026-0718-265",
       "testo": "**Casella 'Database diretto non disponibile' → Nicola chiede 'non ho capito' (18/7).** Il testo 'Database diretto non disponibile in sessione: ordini e clienti ok via canale alternativo; 4 conteggi catalogo/lead non Ri Misurati ora' usa termini tecnici ('database diretto', 'sessione', 'canale alternativo') che Nicola non capisce. Versione leggibile: 'I dati ordini e clienti sono aggiornati. 4 conteggi secondari (catalogo, lead) mancano — si recuperano al prossimo giro.' Regola: in una casella MAI scrivere 'Supabase MCP', 'database diretto', 'canale alternativo', 'sessione di connessione' — usare sempre l'impatto per l'utente. Evidenza aggiuntiva della lezione LEZIONI-CHAT.md linea 19 (caselle Pannello: linguaggio umano + nome file + impatto).",
-      "tag": ["caselle-pannello", "linguaggio-umano", "supabase-mcp", "jargon", "correzione-nicola"],
+      "tag": [
+        "caselle-pannello",
+        "linguaggio-umano",
+        "supabase-mcp",
+        "jargon",
+        "correzione-nicola"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -145,9 +208,17 @@
     {
       "id": "L-2026-0718-264",
       "testo": "**Correzione Nicola (18/7): ristoranti e osterie sono esclusi dal target MyCity.** Tigellabella era stata identificata come prospect (tigelleria/osteria, già su Deliveroo, Google 4.4, centro pedonale). Nicola ha corretto: «questa è un'osteria, ti ho detto che i ristoranti non sono il nostro target». Radice dell'errore: ho applicato il criterio 'già su Deliveroo con commissione alta = buon prospect' senza filtrare per categoria. Regola corretta: nel prospecting la categoria ristorazione classica (ristoranti, osterie, trattorie) è esclusa a priori, indipendentemente da commissioni, recensioni o visibilità online. Applicare il filtro categoria PRIMA di qualsiasi altra analisi.",
-      "tag": ["prospecting", "target", "ristoranti", "osterie", "filtro-categoria", "correzione-nicola", "vendite"],
+      "tag": [
+        "prospecting",
+        "target",
+        "ristoranti",
+        "osterie",
+        "filtro-categoria",
+        "correzione-nicola",
+        "vendite"
+      ],
       "reparto": "@vendite",
-      "confidenza": 1.0,
+      "confidenza": 1,
       "evidenze": 1,
       "fonte": "chat",
       "caso_studio_nicola": true,
@@ -159,7 +230,16 @@
     {
       "id": "L-2026-0718-263",
       "testo": "**3 nuovi bug chat segnalati da Nicola (18/7) — da fixare in unica PR sulla ChatCasella del Pannello:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio quando si clicca da lista conversazioni; (2) risposta AD spinge il box di testo/icone verso il basso invece di scrollare la lista messaggi; (3) vuole box di testo sticky in fondo mentre scrolla verso l'alto nella storia. Sono tutti nella stessa componente (ChatCasella o Worker chat). Fix: (1) scrollIntoView sull'ultimo messaggio all'apertura; (2) layout flex con min-h-0 sul div messaggi; (3) position sticky/fixed sul box input. L'AD li ha capiti tutti e 4 (incluso triplicamento) e ha proposto di risolverli in un'unica PR — Nicola ha chiesto di confermare la comprensione prima di procedere.",
-      "tag": ["ux-chat", "scroll", "sticky", "apertura-chat", "box-input", "pannello", "bug", "frontend-dev"],
+      "tag": [
+        "ux-chat",
+        "scroll",
+        "sticky",
+        "apertura-chat",
+        "box-input",
+        "pannello",
+        "bug",
+        "frontend-dev"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -173,7 +253,15 @@
     {
       "id": "L-2026-0718-262",
       "testo": "**Bug triplicamento messaggi nella chat del Pannello (18/7):** Nicola ha mostrato screenshot con la stessa risposta AD ripetuta 3 volte di fila. Causa identificata: il polling del frontend trova il job in stati intermedi e lo aggiunge alla lista più volte. Bug separato da «Messaggio annullato» (già fixato con bba5495d). Fix da implementare: deduplica per job-ID nel renderer prima di appendere messaggi. Distinguere bug diversi che sembrano simili: sovrascrittura ≠ triplicamento.",
-      "tag": ["ux-chat", "triplicamento", "polling", "pannello", "deduplicazione", "frontend-dev", "bug"],
+      "tag": [
+        "ux-chat",
+        "triplicamento",
+        "polling",
+        "pannello",
+        "deduplicazione",
+        "frontend-dev",
+        "bug"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.85,
       "evidenze": 1,
@@ -187,23 +275,38 @@
     {
       "id": "L-2026-0718-261",
       "testo": "**Correzione Nicola (18/7): «🚫 Messaggio annullato» non va mandato se sovrascrive una risposta già visibile.** Il problema emerso: il worker mandava «🚫 Messaggio annullato» / «💭 Sto elaborando…» che comparivano AL POSTO dell'ultima risposta vera, cancellandola dalla vista di Nicola. Nicola ha corretto esplicitamente. Regola: se c'è già un messaggio visibile a Nicola, non mandare nulla che lo sostituisca. L'interruzione/annullamento va gestita in silenzio o aggiungendo sotto. Questo vale sia per i messaggi worker/stream sia per qualsiasi messaggio di stato dell'AD. Radice del problema: il meccanismo di annullamento/cancellazione non distingue tra «nessun messaggio precedente» (ok mostrare «annullato») e «c'era già una risposta» (NON sovrascrivere).",
-      "tag": ["ux-chat", "messaggio-annullato", "worker", "streaming", "correzione-nicola", "pannello", "comportamento-chat"],
+      "tag": [
+        "ux-chat",
+        "messaggio-annullato",
+        "worker",
+        "streaming",
+        "correzione-nicola",
+        "pannello",
+        "comportamento-chat"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.97,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-18",
       "ultima_conferma": "2026-07-18",
       "stato": "attiva",
-      "evidenze": 2,
       "nota_evidenza": "Nicola ha dovuto ripetere la correzione due volte con lo stesso screenshot nella stessa chat (18/7) — la regola non era ancora assorbita alla prima risposta dell'AD.",
       "uis": []
     },
     {
       "id": "L-2026-0718-260",
       "testo": "**Cambia firma funzione → grep TUTTI i call site prima del commit (18/7, PR #444).** Build Vercel fallito con «Expected 2 arguments, but got 3» nonostante il typecheck locale dicesse «Nessun errore». Causa: `ordinaConversazioni` aveva 2 call site — l'AD ne ha aggiornato uno e l'altro è rimasto con l'argomento vecchio. Il typecheck locale non ha rilevato il problema perché non ha coperto tutto il progetto. Regola: dopo ogni modifica alla firma di una funzione, esegui `grep -n \"nomeFunction\" src/` per trovare e aggiornare TUTTI i call site prima del commit. Se Vercel fallisce con un type error dopo un typecheck \"pulito\" in locale, quasi certamente è un call site non coperto.",
-      "tag": ["typescript", "call-site", "firma-funzione", "typecheck", "vercel-build", "frontend-dev", "pr-444"],
+      "tag": [
+        "typescript",
+        "call-site",
+        "firma-funzione",
+        "typecheck",
+        "vercel-build",
+        "frontend-dev",
+        "pr-444"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -217,7 +320,15 @@
     {
       "id": "L-2026-0718-259",
       "testo": "**Avvisi storici senza dettaglio registrato: impossibile essere più specifici — spiegare il limite SUBITO, non aspettare «solo?» (18/7, 20 avvisi vecchi).** Quando Nicola chiede «sii più specifico» su avvisi già salvati nel JSON, se il dato (nome file, tipo problema) non era stato registrato al momento della generazione, il dettaglio è irrecuperabile. Risposta corretta: (1) spiegare subito PERCHÉ non si può essere più specifici («l'informazione non era stata registrata»), (2) dire cosa cambia per i PROSSIMI avvisi (il fix è già live), (3) offrire due opzioni binarie per i vecchi («li cancello» vs «li lascio com'è»). MAI inventare il dettaglio mancante. MAI aspettare che Nicola dica «solo?» per spiegare il limite — anticiparlo nella prima risposta.",
-      "tag": ["avvisi-macchina", "dato-storico", "limite-specificità", "onestà-proattiva", "opzioni-binarie", "caselle-pannello", "correzione-nicola"],
+      "tag": [
+        "avvisi-macchina",
+        "dato-storico",
+        "limite-specificità",
+        "onestà-proattiva",
+        "opzioni-binarie",
+        "caselle-pannello",
+        "correzione-nicola"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -231,7 +342,16 @@
     {
       "id": "L-2026-0718-258",
       "testo": "**Pattern React Pannello: flash durante streaming = struttura DOM diversa tra pending e finale.** Quando il componente messaggio usa struttura DOM diversa per `pending=true` vs messaggio finale (es. `div.inline-flex.flex-col + div.chat-bubble-pending` → `div.chat-bubble-assistant + Markdown`), React smonta e rimonta il DOM invece di aggiornare in-place → flash visibile per l'utente. Fix: usare la STESSA struttura DOM per entrambi gli stati, cambiando solo il contenuto. Layout shift su flex-column Worker: senza `min-h-0` sul div messaggi, il contenuto crescente (nuove righe) spinge fisicamente header e input verso il basso. Fix: `min-h-0` sul div messaggi + `shrink-0` sull'header. Il main assistant view aveva già queste fix; il Worker no — regola: quando si crea un nuovo componente chat, copiare questi attributi dal main view.",
-      "tag": ["react-dom", "flash-streaming", "layout-shift", "flex-column", "min-h-0", "pannello", "worker-chat", "pattern-tecnico"],
+      "tag": [
+        "react-dom",
+        "flash-streaming",
+        "layout-shift",
+        "flex-column",
+        "min-h-0",
+        "pannello",
+        "worker-chat",
+        "pattern-tecnico"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -245,7 +365,15 @@
     {
       "id": "L-2026-0718-257",
       "testo": "**Correzione Nicola (18/7): descrizione avviso = linguaggio umano + file specifico + impatto, NON solo linguaggio umano.** PR #439 ha tradotto il gergo in italiano leggibile (buon primo passo), ma Nicola ha subito chiesto «perché non c'è ancora la descrizione di quali sono questi dati e che cosa fanno». La lezione: un avviso è completo solo se risponde a TRE domande: (1) Cosa si chiama il dato/file rotto? (2) Che cosa c'era di sbagliato? (3) Che danno avrebbe fatto se non si fosse fermato? Senza (2) e (3) l'avviso dice «c'è un problema» ma non aiuta Nicola a capire la gravità né a decidere se agire subito. Fix: lo script che genera l'avviso deve iniettare il nome del file e la conseguenza specifica; la descrizione UI le mostra in parole semplici.",
-      "tag": ["caselle-pannello", "avvisi-macchina", "descrizione-umana", "specificità", "impatto", "correzione-nicola", "pr-439"],
+      "tag": [
+        "caselle-pannello",
+        "avvisi-macchina",
+        "descrizione-umana",
+        "specificità",
+        "impatto",
+        "correzione-nicola",
+        "pr-439"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -259,7 +387,15 @@
     {
       "id": "L-2026-0717-256",
       "testo": "**Correzione Nicola (17/7): «dove finisce il [menù laterale]» = bordo DESTRO affiancato, NON sotto.** L'AD aveva interpretato «dove finisce il menù» come «sotto il menù» (allineamento verticale). Nicola ha corretto: «non sotto il menù ma dove finisce il menu bordo a destra» — i due elementi (menù e lista conversazioni) stanno affiancati orizzontalmente, non in colonna verticale. La domanda di conferma era stata posta («È corretto?») ma l'ambiguità spaziale non era stata risolta esplicitamente. Regola: quando Nicola descrive posizioni relative a elementi UI con orientamento ambiguo, conferma SEMPRE l'asse: «intendi affiancato (orizzontale/destra) o sotto (verticale)?»",
-      "tag": ["layout-ui", "posizione-spaziale", "correzione-nicola", "orientamento", "menù-laterale", "lista-conversazioni", "pr-437"],
+      "tag": [
+        "layout-ui",
+        "posizione-spaziale",
+        "correzione-nicola",
+        "orientamento",
+        "menù-laterale",
+        "lista-conversazioni",
+        "pr-437"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -273,7 +409,14 @@
     {
       "id": "L-2026-0717-255",
       "testo": "**Messaggi 🚫 «Annullati» consecutivi nascondono la risposta nel Pannello (17/7, «Non sto vedendo la risposta»):** quando più messaggi vengono annullati in sequenza, il contenuto successivo può non apparire o essere oscurato per Nicola. Workaround: al turno successivo, inizia con un paragrafo-riassunto brevissimo («Ecco cosa ho fatto: X, Y, Z — serve da te: comando VPS») PRIMA di qualsiasi blocco codice o dettaglio lungo. Il riassunto rompe il blocco visivo e garantisce che il minimo essenziale arrivi a Nicola. Fix strutturale: la PR #431 (debounce messaggi) potrebbe ridurre i cancellamenti compulsivi.",
-      "tag": ["messaggi-annullati", "risposta-invisibile", "pannello-chat", "ux-chat", "comunicazione-nicola", "workaround"],
+      "tag": [
+        "messaggi-annullati",
+        "risposta-invisibile",
+        "pannello-chat",
+        "ux-chat",
+        "comunicazione-nicola",
+        "workaround"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -287,7 +430,15 @@
     {
       "id": "L-2026-0717-254",
       "testo": "**Wildcard `node cervello/*.mjs` in allowlist NON copre script appena creati nella stessa sessione (17/7, pulisci-coda.mjs):** il file era sul filesystem VPS ma la chat non riusciva a girarlo. La wildcard è evaluata all'avvio del worker e non si aggiorna in-sessione. Processo corretto per nuovi script: crea il file → PR → Nicola merge → poi gira dal terminale VPS. Non promettere 'giro subito' su uno script appena scritto.",
-      "tag": ["allowlist", "wildcard", "node-script", "cervello", "permessi-chat", "nuovi-script", "pulisci-coda"],
+      "tag": [
+        "allowlist",
+        "wildcard",
+        "node-script",
+        "cervello",
+        "permessi-chat",
+        "nuovi-script",
+        "pulisci-coda"
+      ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -301,7 +452,16 @@
     {
       "id": "L-2026-0717-253",
       "testo": "**Per inserire foto su un negozio (es. store_logo di PQ), servono due pezzi non ancora esistenti (17/7):** (1) tabella `profiles` del marketplace NON è in allowlist — solo `products` è sbloccata; va aggiunta a settings.local.json; (2) manca lo script `cervello/carica-foto-negozio.mjs` che: scarica il file allegato dalla chat, lo carica su Supabase Storage, aggiorna `profiles.store_logo` per il negozio target. Senza questi due pezzi ogni richiesta 'inserisci questa foto nel negozio' si blocca. Pacchetto minimo da creare: script + allowlist profiles + dry-run.",
-      "tag": ["foto-negozio", "upload", "profiles", "store_logo", "supabase-storage", "allowlist", "pane-quotidiano", "arricchimento-catalogo"],
+      "tag": [
+        "foto-negozio",
+        "upload",
+        "profiles",
+        "store_logo",
+        "supabase-storage",
+        "allowlist",
+        "pane-quotidiano",
+        "arricchimento-catalogo"
+      ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -315,7 +475,14 @@
     {
       "id": "L-2026-0717-252",
       "testo": "**«In coda» nel Pannello raggruppa job in-attesa + in-corso + ERRORI accumulati (17/7, 121 in coda):** quando il contatore «In coda» è insolitamente alto, non è necessariamente un problema live. I job con status `errore` non vengono puliti automaticamente e si accumulano nel tempo. Il worker può essere completamente sano (222+ job completati/24h, zero blocchi) pur con 100+ errori vecchi in coda. Diagnosi operativa: conta le etichette 🔄 «Da riapprovare» nel tab — se sono la grande maggioranza, il problema è l'assenza di un job di pulizia automatica, non un'emergenza da escalar.",
-      "tag": ["pannello", "in-coda", "job-errore", "diagnostica", "health-worker", "pulizia-job"],
+      "tag": [
+        "pannello",
+        "in-coda",
+        "job-errore",
+        "diagnostica",
+        "health-worker",
+        "pulizia-job"
+      ],
       "reparto": "@backend-dev",
       "confidenza": 0.95,
       "evidenze": 1,
@@ -329,7 +496,13 @@
     {
       "id": "L-2026-0717-251",
       "testo": "**Capacità video dell'AD: il video live è solo sul dispositivo di Nicola — l'AD vede solo le foto inviate con 'Scatta' (Nicola 17/7):** il componente video live mostra la camera in diretta sul browser di Nicola, ma l'AD non riceve il flusso video. L'AD può analizzare solo i fotogrammi catturati manualmente. Se Nicola dice 'guarda il video', la risposta corretta è: 'premi Scatta e manda la foto'.",
-      "tag": ["video-live", "capacità-AD", "flusso-video", "scatta-foto", "multimodale"],
+      "tag": [
+        "video-live",
+        "capacità-AD",
+        "flusso-video",
+        "scatta-foto",
+        "multimodale"
+      ],
       "reparto": "@AD",
       "confidenza": 1,
       "evidenze": 1,
@@ -343,7 +516,15 @@
     {
       "id": "L-2026-0717-250",
       "testo": "**«Controlla prima parlare» — caso-studio Nicola (17/7, 2 volte in un giorno):** il pattern si è ripetuto due volte nella stessa giornata con trigger diversi: (1) PR #428 già mergiata, AD ha risposto «non ancora mergiata» senza verificare; (2) Nicola chiede «Che cosa vedi?» in contesto di bug video-live → AD risponde con status business da memoria senza leggere prima il codice → Nicola: «Controlla prima parlare». La radice è sempre la stessa: l'AD usa la memoria della chat come surrogato del dato attuale. Regola con 2 evidenze: prima di rispondere su qualsiasi stato (PR, feature, bug, code) → LEGGI PRIMA il file / il log / il codice rilevante, poi parla. La memoria della chat mente: il repo avanza, i file cambiano.",
-      "tag": ["controlla-prima-parlare", "verifica-stato", "memoria-chat-stale", "correzione-nicola", "caso-studio-nicola", "pr-status", "bug-investigation"],
+      "tag": [
+        "controlla-prima-parlare",
+        "verifica-stato",
+        "memoria-chat-stale",
+        "correzione-nicola",
+        "caso-studio-nicola",
+        "pr-status",
+        "bug-investigation"
+      ],
       "reparto": "@AD",
       "confidenza": 1,
       "evidenze": 2,
@@ -357,7 +538,14 @@
     {
       "id": "L-2026-0717-249",
       "testo": "**DEBOUNCE worker — Nicola (17/7): raccogliere tutti i messaggi rapidi prima di rispondere (feature #3 della chat, da approvare):** quando Nicola manda più messaggi in rapida successione mentre l'AD sta rispondendo, vuole che il worker aspetti 1-2 secondi di silenzio e risponda a TUTTO insieme — non processi ogni messaggio separatamente. Attualmente la coda li elabora uno alla volta; il debounce li raccoglie prima. Implementazione proposta: nel worker, prima di avviare Claude, aspetta 1-2s; se arriva un altro messaggio nel gap, resetta il timer; scaduto il silenzio → risponde a tutti i messaggi insieme. Proposta inviata 17/7, Nicola non ha risposto (non ancora approvata). Distinzione: CODA ✅ (già fatto), STREAMING 🟡 (pending), DEBOUNCE 🆕 (in attesa).",
-      "tag": ["debounce", "worker-chat", "messaggi-multipli", "ux-chat", "nicola-richiesta", "feature-chat"],
+      "tag": [
+        "debounce",
+        "worker-chat",
+        "messaggi-multipli",
+        "ux-chat",
+        "nicola-richiesta",
+        "feature-chat"
+      ],
       "reparto": "@backend-dev",
       "confidenza": 0.9,
       "evidenze": 1,
@@ -371,7 +559,15 @@
     {
       "id": "L-2026-0717-248",
       "testo": "**CORRETTO 17/7 ×2 (caso-studio Nicola): Pannello smartphone vs desktop = stesso ambiente VPS, problema di LAYOUT RESPONSIVO — NON di permessi o di ambienti diversi:** Nicola usa SEMPRE il Pannello (VPS worker), non Claude Code desktop. «Dal desktop riesco ad aprire la PR, dallo smartphone no» = stesso Pannello, stessa allowlist, stesso worker. La differenza è lo SCHERMO: su mobile i bottoni «Mergia PR» nella coda azioni escono dal riquadro o non sono cliccabili. Fix: responsive della sezione azioni (come flex-wrap del tasto Invia, PR #427). Lezione precedente (sbagliata): 'smartphone = Chat Pannello VPS, desktop = Claude Code app' — ERRATA, Nicola ha corretto due volte.",
-      "tag": ["chat-pannello", "mobile-layout", "smartphone", "responsive", "azioni-pannello", "layout-mobile", "correzione-nicola"],
+      "tag": [
+        "chat-pannello",
+        "mobile-layout",
+        "smartphone",
+        "responsive",
+        "azioni-pannello",
+        "layout-mobile",
+        "correzione-nicola"
+      ],
       "reparto": "@frontend-dev",
       "confidenza": 1,
       "evidenze": 2,
@@ -385,7 +581,16 @@
     {
       "id": "L-2026-0717-247",
       "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 2 conferme):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, ecc.) va SOLO in `cervello/vps/.env` + `sudo systemctl restart mycity-worker-chat.service`. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
-      "tag": ["vercel", "token", "env", "mcp-vercel", "configurazione", "worker", "permanente", "cervello-vps-env"],
+      "tag": [
+        "vercel",
+        "token",
+        "env",
+        "mcp-vercel",
+        "configurazione",
+        "worker",
+        "permanente",
+        "cervello-vps-env"
+      ],
       "reparto": "@devops-sre",
       "confidenza": 1,
       "evidenze": 2,
@@ -396,12 +601,15 @@
       "ultima_conferma": "2026-07-17 01:30",
       "stato": "attiva",
       "usi": [
-        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — cervello/vps/.env confermato su mycity-worker-chat.service; applicata in ogni raccomandazione env/worker della sessione (diagnosi volano)" }
+        {
+          "quando": "2026-07-17 07:00",
+          "ref": "giro-17-07 — cervello/vps/.env confermato su mycity-worker-chat.service; applicata in ogni raccomandazione env/worker della sessione (diagnosi volano)"
+        }
       ]
     },
     {
       "id": "L-2026-0717-246",
-      "testo": "**Typecheck scaduto in sessione rapida — il verde è valido SOLO se si pusha subito (caso-studio Nicola 17/7: "stai creando errori su errori"):** in sessioni con molte PR ravvicinate sullo stesso file, c'è un gap critico tra 'typecheck verde' e 'push'. Se nel gap un'altra PR mergia sullo stesso file, il typecheck è obsoleto e la PR aprirà un build rotto. Stanotte: `npx tsc` verde su page.tsx → gap di ~10 min → PR #423 mergiata su page.tsx → git-pr.mjs ha rebasato includendo #423 → errore TS non catturato → build Vercel rosso (PR #424). Regola: typecheck → PUSH IMMEDIATO nello stesso turno; se passa anche un singolo ciclo di PR sul file, ri-esegui il typecheck prima di pushare. Corollario: non fare typecheck come 'step asincrono' in attesa di altri eventi.",
+      "testo": "**Typecheck scaduto in sessione rapida — il verde è valido SOLO se si pusha subito (caso-studio Nicola 17/7: \"stai creando errori su errori\"):** in sessioni con molte PR ravvicinate sullo stesso file, c'è un gap critico tra 'typecheck verde' e 'push'. Se nel gap un'altra PR mergia sullo stesso file, il typecheck è obsoleto e la PR aprirà un build rotto. Stanotte: `npx tsc` verde su page.tsx → gap di ~10 min → PR #423 mergiata su page.tsx → git-pr.mjs ha rebasato includendo #423 → errore TS non catturato → build Vercel rosso (PR #424). Regola: typecheck → PUSH IMMEDIATO nello stesso turno; se passa anche un singolo ciclo di PR sul file, ri-esegui il typecheck prima di pushare. Corollario: non fare typecheck come 'step asincrono' in attesa di altri eventi.",
       "tag": [
         "typecheck",
         "typecheck-scaduto",
@@ -422,12 +630,15 @@
       "ultima_conferma": "2026-07-17 01:15",
       "stato": "attiva",
       "usi": [
-        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — applicata in PR workflow: typecheck prima di ogni push, non come step asincrono" }
+        {
+          "quando": "2026-07-17 07:00",
+          "ref": "giro-17-07 — applicata in PR workflow: typecheck prima di ogni push, non come step asincrono"
+        }
       ]
     },
     {
       "id": "L-2026-0717-245",
-      "testo": "**Branch stale in sessione rapida = conflitti certi (Nicola: "non c'era fino a ieri", 17/7):** in sessioni con molte PR ravvicinate sullo stesso file (page.tsx), un fix-branch creato prima di quelle merge diventa stale in poche ore. Quando si apre la PR, main è già avanti e il file è in conflitto. Root causa di fix/chat-coda-messaggi: basato su page.tsx vecchia mentre 10+ PR la modificavano su main. Prevenzione: prima di pushare un branch «fermo», verificare con `git diff origin/main -- <file>` se il file target è cambiato su main; se sì, eseguire il rebase PRIMA di aprire la PR. Il rebase preventivo costa 30 secondi; risolvere conflitti dopo costa un ciclo intero.",
+      "testo": "**Branch stale in sessione rapida = conflitti certi (Nicola: \"non c'era fino a ieri\", 17/7):** in sessioni con molte PR ravvicinate sullo stesso file (page.tsx), un fix-branch creato prima di quelle merge diventa stale in poche ore. Quando si apre la PR, main è già avanti e il file è in conflitto. Root causa di fix/chat-coda-messaggi: basato su page.tsx vecchia mentre 10+ PR la modificavano su main. Prevenzione: prima di pushare un branch «fermo», verificare con `git diff origin/main -- <file>` se il file target è cambiato su main; se sì, eseguire il rebase PRIMA di aprire la PR. Il rebase preventivo costa 30 secondi; risolvere conflitti dopo costa un ciclo intero.",
       "tag": [
         "git",
         "branch-stale",
@@ -446,7 +657,10 @@
       "ultima_conferma": "2026-07-17",
       "stato": "attiva",
       "usi": [
-        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — applicata: git diff origin/main prima di push branch; rebase preventivo nei PR di Pannello" }
+        {
+          "quando": "2026-07-17 07:00",
+          "ref": "giro-17-07 — applicata: git diff origin/main prima di push branch; rebase preventivo nei PR di Pannello"
+        }
       ]
     },
     {
@@ -469,7 +683,10 @@
       "ultima_conferma": "2026-07-17",
       "stato": "attiva",
       "usi": [
-        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — piano streaming accodato in AZIONI-IN-ATTESA #streaming-worker secondo questa lezione (worker, non Pannello)" }
+        {
+          "quando": "2026-07-17 07:00",
+          "ref": "giro-17-07 — piano streaming accodato in AZIONI-IN-ATTESA #streaming-worker secondo questa lezione (worker, non Pannello)"
+        }
       ]
     },
     {
@@ -494,7 +711,10 @@
       "ultima_conferma": "2026-07-17 00:20",
       "stato": "attiva",
       "usi": [
-        { "quando": "2026-07-17 07:00", "ref": "giro-17-07 — pattern 3-bug-da-stessa-radice applicato in PR #419 (coda messaggi → bolla+flicker+mobile gestiti insieme)" }
+        {
+          "quando": "2026-07-17 07:00",
+          "ref": "giro-17-07 — pattern 3-bug-da-stessa-radice applicato in PR #419 (coda messaggi → bolla+flicker+mobile gestiti insieme)"
+        }
       ]
     },
     {
@@ -6167,11 +6387,11 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 262,
+    "lezioni_attive": 290,
     "promosse_a_principio": 3,
     "decadute": 0,
-    "tasso_applicazione": 0.36,
-    "tasso_calcolato_il": "2026-07-17 00:27",
+    "tasso_applicazione": 0.24,
+    "tasso_calcolato_il": "2026-07-18 21:20",
     "tasso_finestra_giorni": 30,
     "tick_leggero_il": "2026-07-17 00:27",
     "usi_marcati_il": "2026-07-17 07:00",
