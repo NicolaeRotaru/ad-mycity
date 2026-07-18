@@ -54,6 +54,10 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const [msgs, setMsgs] = useState<ParlaMsg[]>([]);
   const [convId, setConvId] = useState<string | null>(null);
   const [salvata, setSalvata] = useState(false);
+  // Onestà del salvataggio: la spunta verde vale SOLO se è finito nella memoria condivisa.
+  // Se la memoria non è collegata (ripiego su localStorage), il messaggio vive solo su
+  // questo dispositivo ed è volatile: va detto, non spacciato per «salvata in Conversazioni».
+  const [salvataSuServer, setSalvataSuServer] = useState(false);
   const [err, setErr] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (si apre dal pulsante ⚡ accanto a Invia).
   const [skillAperte, setSkillAperte] = useState(false);
@@ -156,7 +160,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       const completi = await recuperaThreadDaLavori(titolo, cid, salvati);
       if (!completi) return;
       if (!annullato) setMsgs((cur) => fondiMessaggi(cur, completi));
-      const id = await salvaConversazioneCasella(cid, chiave, completi);
+      const { id } = await salvaConversazioneCasella(cid, chiave, completi);
       if (!annullato && id) setConvId(id);
     })();
     return () => {
@@ -179,6 +183,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     if (!testo || inviando) return;
     setErr("");
     setSalvata(false); // 🐛 Bug #5: azzera la spunta "salvata" all'inizio di ogni invio
+    setSalvataSuServer(false);
     setBozza("");
     const chiave = chiaveTitolo;
     const storia = msgs.filter((m) => !m.pending);
@@ -190,9 +195,11 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       //    di Nicola anche se la risposta arriverà quando questa pagina non ci sarà più.
       //    (Prima si salvava solo a risposta ricevuta: un refresh nel mezzo = thread mai
       //    salvato, lavoro presente in Archivio ma conversazione assente dalla lista.)
-      const id = (await salvaConversazioneCasella(convId, chiave, conMio)) ?? convId;
+      const salvataggio = await salvaConversazioneCasella(convId, chiave, conMio);
+      const id = salvataggio.id ?? convId;
       if (id) setConvId(id);
       setSalvata(true);
+      setSalvataSuServer(salvataggio.suServer); // verità: server (durevole) vs solo-dispositivo
       // ② Il lavoro nasce nello STESSO gruppo della conversazione (gruppo_id): Archivio e
       //    Assistente restano collegati e la risposta è sempre ricostruibile dai lavori.
       const lavoro = await creaLavoroCasella(titolo, contesto || "", storia, testo, id);
@@ -201,7 +208,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       if (esito.definitiva) {
         const completa: ParlaMsg[] = [...conMio, { role: "assistant", content: esito.testo }];
         setMsgs(completa);
-        const idFinale = await salvaConversazioneCasella(id, chiave, completa);
+        const idFinale = (await salvaConversazioneCasella(id, chiave, completa)).id;
         if (idFinale) setConvId(idFinale);
       } else {
         // Tempo scaduto: l'avviso resta solo a schermo (pending, non salvato) — la risposta
@@ -209,7 +216,17 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         setMsgs([...conMio, { role: "assistant", content: esito.testo, pending: true }]);
       }
     } catch (e: any) {
-      setErr(e?.message || "Non riuscito.");
+      // 🩹 Causa-radice «messaggio sparito»: se la memoria (database) non è collegata, il
+      //    lavoro NON parte (tabella `lavori` assente) → nessuna risposta, e la conversazione
+      //    è finita solo in localStorage (volatile). Diciamo la verità invece di lasciare la
+      //    spunta verde a far credere che sia tutto salvato e in arrivo.
+      const msg = e?.message || "Non riuscito.";
+      const memoriaGiu = /tabella 'lavori'|database non collegato|memoria (di memoria )?collegat/i.test(msg);
+      setErr(
+        memoriaGiu
+          ? "⚠️ Il messaggio non è arrivato alla macchina: la memoria (database) non è collegata, quindi non partirà nessuna risposta. Il testo è qui sotto: riprova quando il database è collegato — non l'ho perso."
+          : msg,
+      );
       setBozza(testo); // 🐛 Bug #5: non perdere la bozza se l'invio fallisce, ripristinala
     } finally {
       setInviando(false);
@@ -285,7 +302,15 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         >
           {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia a Claude Max
         </button>
-        {salvata && !inviando && <span className="t-eti inline-flex items-center gap-1 text-green-700"><CheckCircle2 size={12} /> salvata in Conversazioni</span>}
+        {salvata && !inviando && (
+          salvataSuServer ? (
+            <span className="t-eti inline-flex items-center gap-1 text-green-700"><CheckCircle2 size={12} /> salvata in Conversazioni</span>
+          ) : (
+            <span className="t-eti inline-flex items-center gap-1 text-amber-600" title="La memoria condivisa non è collegata: questa chat vive solo nel browser di questo dispositivo e può sparire. Collega il database per salvarla davvero.">
+              <CheckCircle2 size={12} /> salvata solo su questo dispositivo
+            </span>
+          )
+        )}
         {err && <span className="t-eti text-red-600">{err}</span>}
       </div>
     </div>
