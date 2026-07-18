@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 02:10 · 🟢 · [Nicola chiarimento] · **PR #445 (`fix/fonti-comune-403-blocked`) — mergiata da Nicola, non dall'AD.** Nicola ha chiesto «la 445 l'hai creata tu?» — era un branch già in coda creato in sessioni precedenti, mergiato direttamente da GitHub da Nicola stamattina. L'AD non era l'autore di quella PR.
+
 2026-07-18 02:00 · 🟡 · [Nicola richiesta] · **Feature richiesta: card «Da approvare» per merge PR deve auto-sparire quando Nicola mergia da GitHub.** Nicola ha detto esplicitamente «impara questa cosa: se dentro da approvare una casella per mergiar un PR ma io la mergio da GitHub, quella casella deve sparire.» — e ha confermato che PR #441 era già mergiata. Oggi l'AD segna la card FATTO a mano quando Nicola lo segnala. Feature da implementare: rilevamento automatico tramite GitHub API (al caricamento Pannello o nel giro) → auto-segna FATTO senza input di Nicola. Card #auto-segna-pr-mergiata accodata in AZIONI-IN-ATTESA.
 
 2026-07-18 03:15 · 🟢 · [Nicola] · **20 avvisi storici vault-sporco cancellati su richiesta di Nicola.** Nicola ha risposto "cancellali" agli avvisi con formato `vault-sanità rc=1 (vault sporco: conflitti/0-byte/frontmatter)` — tutti storici, vault sano da ieri sera. L'AD li ha cancellati dal JSON degli avvisi (commit `25aae9bd`). Motivazione: non era possibile renderli più specifici (il nome file e il tipo esatto non erano stati registrati al momento della generazione). Per i prossimi avvisi il fix è già in produzione: giro.sh include il nome file + tipo in `_gate_motivi`, descrizione-avviso.ts lo mostra in italiano con impatto concreto.
