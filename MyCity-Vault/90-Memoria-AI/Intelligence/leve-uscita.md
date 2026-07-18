@@ -1,7 +1,20 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
-> **2026-07-17 11:00** · @intelligence (monitora.md settimanale · WebFetch CCIAA Emilia + WebSearch Vita in Centro / Unione Commercianti · 17/7)
+> **2026-07-18 10:00** · @intelligence (monitora.md · WebSearch commercio Piacenza luglio 2026 · 18/7 — aggiornamento giornaliero su fonti locali)
+> **2026-07-17 11:00** · WebFetch CCIAA Emilia + WebSearch Vita in Centro / Unione Commercianti (settimanale)
 > Le azioni reali si firmano in [[AZIONI-IN-ATTESA]].
+
+---
+
+## 🆕 Novità 18/7 — dal web scan giornaliero
+
+| Leva | Fonte | Azionabilità |
+|------|-------|-------------|
+| **Desertificazione centro**: 20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele — narrativa "sopravvivenza digitale" è la più forte del momento | [PiacenzaSera 17/7](https://www.piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione/654728) | 🟢 integra il pitch pitch Garetti/Peretti/Amendolara |
+| **La Ragazzetta (caffè storico)** — riapertura 4/7, forte identità locale, candidato onboarding | [PiacenzaSera](https://www.piacenzasera.it/2026/07/apre-il-caffe-srico-la-ragazzetta-scelta-culturale-e-identitaria-per-piacenza/) | 🟡 contatto dopo primo negozio evadibile |
+| **Mercato Sant'Antonino (Via Alberici)** — apertura prolungata richiesta, artigiani/produttori aggregati | [PiacenzaSera](https://www.piacenzasera.it/2026/07/santantonino-il-mercato-coperto-di-via-alberici-resti-aperto-anche-nel-pomeriggio/652915/) | 🟡 prospecting concreto post-primo ordine |
+| **CCIAA Emilia: piano da 12 milioni** per imprese, sviluppo locale e turismo (luglio 2026) | [PiacenzaSera](https://www.piacenzasera.it/2026/07/camera-commercio-emilia-piano-da-12-milioni-per-imprese-sviluppo-locale-e-turismo/652938/) | 🟢 intercettare misure legate a digitalizzazione commercio |
+| **Saldi estivi** in corso fino al 1° settembre — negozi cercano visibilità aggiuntiva | [IlPiacenza 4/7](https://www.ilpiacenza.it/economia/saldi-estivi-al-via-a-piacenza-dal-4-luglio-sessanta-giorni-di-sconti.html) | 🟢 argomento per pitch "più visibilità = più ordini" |
 
 ---
 

@@ -1033,3 +1033,4 @@ Assegnazioni (1 mossa per reparto):
 - 2026-07-18 06:30 · @crm-lifecycle · FATTO · 3 mosse: welcome email 23 iscritti 🟡 + reminder carrello samir 🟡 + messaggio pioggia 19/7 🟡
 - 2026-07-18 06:30 · @operations · FATTO · 2 mosse: runbook prima consegna 🟢 + zona/orario/ordine-minimo 🟡
 - 2026-07-18 06:30 · @AD · FACCIO · deliverable 🟢: schede pitch 7 botteghe + leave-behind A4 + runbook + WhatsApp testi + comunicato PI26
+- 2026-07-18 10:00 · @intelligence · FATTO · monitoraggio web: 7 fonti giornaliere + reputazione (≥7gg) — meteo allerta gialla oggi/piogge mar 21/7, Venerdì Piacentini FINITI, Festa Tortello Vigolzone 25-29/7, 20+ chiusure centro storico (desertificazione), La Ragazzetta lead onboarding, reputazione 0 menzioni esterne (MyCity TV Piacenza entità diversa, monitorare)
