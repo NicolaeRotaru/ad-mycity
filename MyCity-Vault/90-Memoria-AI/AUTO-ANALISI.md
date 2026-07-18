@@ -1,12 +1,12 @@
 ---
-data: 2026-07-18 11:10
+data: 2026-07-18 16:07
 tipo: auto-analisi
-fonte: AD digitale (giro secondo-mattino 18/7 11:10)
+fonte: AD digitale (giro sesto 18/7 16:07 — da chat Nicola)
 ---
 
-## Voto di fiducia: 86/100 ▲
+## Voto di fiducia: 90/100 ▲
 
-**Stato:** Giro corretto — vincoli hard del guardiano risolti prima di scrivere gli output. Dati da REST reale. Zero numeri inventati.
+**Stato:** Giro completo — tutti e 5 i hard constraints risolti. Dati da REST reale. Zero numeri inventati. Contesto ripreso da summary correttamente senza perdita di stato.
 
 **Errori rilevati:**
 - Primo tentativo Edit STATO.md fallito (mismatch stringa) → risolto rileggendo il file prima di editare

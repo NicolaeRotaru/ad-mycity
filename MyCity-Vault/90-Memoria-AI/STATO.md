@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 12:00
-fonte: AD digitale (giro quinto 18/7 12:00 — da chat Nicola)
+aggiornato: 2026-07-18 16:07
+fonte: AD digitale (giro sesto 18/7 16:07 — da chat Nicola)
 ---
+
+> 💬 **18/7 ~16:10 — CHAT: git -C marketplace/ confermato bloccato — #fix-35-gravi in attesa Nicola.** Nicola ha chiesto «Non riesci a lanciare tu questi 2 comandi?» (git checkout branch fix/35-gravi su marketplace/). Confermato: comandi bloccati dall'allowlist (solo ad-mycity/ root, non la sottocartella marketplace/). Card #fix-35-gravi accodata: Nicola deve eseguire 2 righe dal terminale VPS. PR #450 (#fix-pannello-bloccanti: risposta non sovrascritta, azioni stuck ri-approvabili, «Parla» non azzera chat) aperta e in attesa merge. R4: AR-043 + AR-040/041/042 ancora pendenti. Fonte: chat Nicola 18/7 ~16:10.
+
+> 🛰️ **18/7 16:07 — GIRO (sesto passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~584h** (~24,3 giorni). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅ · n8n cieco 64 giri · MCP Supabase cieco. **Hard constraints chiusi tutti:** ① Registro scelte rc=0 (già dal 11:10) ② CHECKLIST-NICOLA rigenerata (AR-030) ③ Agent-registry drift=0 — 81 KPI placeholder in OKR-Squadra (AR-007/008) ④ Esperimento EXP-001 aperto (AR-041/106). **North Star focus:** ordine test PQ (#ordine-test-pq) + 3 WhatsApp anchor (#whatsapp-3-anchor-pi26) + PI26 domani 20/7. Mossa n.1: 🔴 restart.infocamere.it OGGI. Dettaglio: [[Briefing/2026-07-18]].
 
 > 💬 **18/7 ~15:30 — CHAT: proposta fix 4 conteggi catalogo/lead → sempre REST.** Casella "Database diretto non disponibile": Nicola ha chiesto la spiegazione (MCP = plugin sessione variabile, REST = canale stabile), poi «Non si può modificare?». AD ha proposto PR per far passare quei 4 conteggi sempre dal REST — Nicola non ha ancora confermato. ⏳ Pendente: ok di Nicola per aprire la PR. Fonte: chat Nicola 18/7 ~15:30.
 

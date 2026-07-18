@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-18 14:20** — Automatico: **37 aperte · 83 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-18 16:02** — Automatico: **37 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -13,6 +13,24 @@ fonte: senior dell'AD
 
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
+
+---
+
+### 🔴 #fix-35-gravi — Sblocca i 35 fix gravi della radiografia: crea il branch nel repo marketplace · ⏳ accodata 2026-07-18 16:10
+
+**Contesto:** I 35 problemi gravi della radiografia Opus (7/7) non sono ancora stati toccati. Per partire, serve creare il branch nel repo marketplace (git -C marketplace/ è bloccato dall'allowlist della chat — confermato 18/7).
+
+**Cosa fare (2 righe dal terminale VPS):**
+```bash
+git -C /opt/mycity/ad-mycity/marketplace checkout main
+git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-2026-07-07
+```
+
+**Cosa cambia:** quando hai fatto, scrivi «fatto» e l'AD parte subito con i 35 fix.
+**Se va bene:** 35 problemi gravi del sito marketplace corretti in un'unica sessione.
+
+- **Colore:** 🔴 (modifica repo marketplace — Nicola esegue dal terminale VPS)
+- **Reparto:** tech / backend-dev / frontend-dev
 
 ---
 
@@ -150,26 +168,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --branch fix/cha
 
 **Cosa cambia:** aprire la chat va all'ultimo messaggio; il box di testo resta fermo; le risposte non compaiono triplicate.
 **Se va bene:** 4 fastidi della chat quotidiana eliminati in un colpo solo.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
-
----
-
-### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
-
-**Branch:** `fix/chat-no-sovrascrittura-annullato` (già committato sul VPS)
-
-**Contesto:** il primo fix (commit `bba5495d` su main) non ha risolto completamente il problema — Nicola ha mostrato lo stesso screenshot due volte nella stessa chat. L'AD ha committato un secondo fix sullo stesso tema su branch dedicato ma **non ha potuto aprire la PR** perché `node cervello/git-pr.mjs` non è nell'allowlist.
-
-**Cosa cambia:** quando il worker annulla/interrompe un messaggio, la risposta già visibile a Nicola resta lì intatta. «🚫 Messaggio annullato» non compare più al posto del messaggio precedente.
-**Se va bene:** Nicola non vede più risposte cancellate quando il worker si ferma a metà.
-
-**Per aprirla:** dal terminale VPS:
-```
-cd /opt/mycity/ad-mycity && node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/chat-no-sovrascrittura-annullato --title "fix: Messaggio annullato non sovrascrive la risposta precedente (v2)"
-```
-Oppure aggiungi `"Bash(node cervello/git-pr.mjs:*)"` all'allowlist in `.claude/settings.local.json`.
 
 - **Colore:** 🟡 (merge codice)
 - **Reparto:** frontend-dev
@@ -993,7 +991,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 14:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 16:02)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ---
@@ -1075,6 +1073,32 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-18 14:20 · 83 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-18 16:02 · 84 card totali
+
+### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
+
+**Branch:** `fix/chat-no-sovrascrittura-annullato` (già committato sul VPS)
+
+**Contesto:** il primo fix (commit `bba5495d` su main) non ha risolto completamente il problema — Nicola ha mostrato lo stesso screenshot due volte nella stessa chat. L'AD ha committato un secondo fix sullo stesso tema su branch dedicato ma **non ha potuto aprire la PR** perché `node cervello/git-pr.mjs` non è nell'allowlist.
+
+**Cosa cambia:** quando il worker annulla/interrompe un messaggio, la risposta già visibile a Nicola resta lì intatta. «🚫 Messaggio annullato» non compare più al posto del messaggio precedente.
+**Se va bene:** Nicola non vede più risposte cancellate quando il worker si ferma a metà.
+
+**Per aprirla:** dal terminale VPS:
+```
+cd /opt/mycity/ad-mycity && node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/chat-no-sovrascrittura-annullato --title "fix: Messaggio annullato non sovrascrive la risposta precedente (v2)"
+```
+Oppure aggiungi `"Bash(node cervello/git-pr.mjs:*)"` all'allowlist in `.claude/settings.local.json`.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
 
 ### ❌ #mergia-pr-449 — ~~Mergia PR #449~~ → CHIUDI SENZA MERGE · 2026-07-18 ~14:45
 

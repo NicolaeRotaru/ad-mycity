@@ -1,13 +1,15 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 12:00",
-  "voto_fiducia": 88,
-  "trend_fiducia": "= 88 (invariato — quinto passaggio 12:00, guardiani confermati ✅, coerenza-fatti exit 0, tutti file su disco)",
+  "data": "2026-07-18 16:07",
+  "voto_fiducia": 90,
+  "trend_fiducia": "↑ 90 (sesto passaggio 16:07 — tutti 5 hard constraints risolti: registro-scelte rc=0, CHECKLIST-NICOLA rigenerata, agent-registry drift=0, EXP-001 aperto, North Star focus; contesto ripreso correttamente da summary)",
   "errori_giro": [
     "Primo tentativo Edit STATO.md fallito per mismatch stringa (giro 11:10) — risolto rileggendo prima il file esatto",
     "MCP Supabase cieco (4 giri) — usato REST come da regola",
     "Contesto compresso da Claude (sessione troppo lunga) — ripreso correttamente da summary senza perdere stato",
-    "allocazione-check segnalava falso positivo su Panetteria Del Corso (giro 11:23): fix applicato"
+    "allocazione-check segnalava falso positivo su Panetteria Del Corso (giro 11:23): fix applicato",
+    "81 agenti in CLAUDE.md senza KPI in OKR-Squadra (AR-007/008): fix con 81 righe placeholder — giro 16:07",
+    "auto-miglioramento.json aveva esperimenti=[] (AR-041/106): EXP-001 aggiunto — giro 16:07"
   ],
   "domande_bloccanti": [
     {

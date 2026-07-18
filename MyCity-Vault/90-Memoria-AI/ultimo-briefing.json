@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 12:00",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~580h (~24,2 giorni da 24/6). North Star 0, cassa 0€. Guardiani ✅ (allocazione, registro-realtà, coerenza-fatti). URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello (max €10k fondo perduto su spese tech da maggio 2026). Finestra meteo: piogge martedì 21/7 (delivery window). Bici in riparazione — giro botteghe settimana 21-25/7.",
+  "data": "2026-07-18 16:07",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~584h (~24,3 giorni da 24/6). North Star 0, cassa 0€. Hard constraints chiusi tutti: ① registro-scelte rc=0 ② CHECKLIST-NICOLA rigenerata (AR-030) ③ agent-registry drift=0 — 81 KPI aggiunti a OKR-Squadra ④ EXP-001 aperto (AR-041/106). URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello. Finestra meteo: piogge 21/7. Bici in riparazione — giro botteghe settimana 21-25/7.",
   "opportunita": [
     {
       "titolo": "Bando PI26 — registrarsi su restart.infocamere.it OGGI",

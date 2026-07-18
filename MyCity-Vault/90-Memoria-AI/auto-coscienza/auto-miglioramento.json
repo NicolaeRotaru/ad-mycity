@@ -70,7 +70,26 @@
       ]
     }
   ],
-  "esperimenti": [],
+  "esperimenti": [
+    {
+      "id": "EXP-001-north-star-ordine-1",
+      "stato": "aperto",
+      "ambito": "north-star-ordine-1",
+      "metrica": "ordini_consegnati",
+      "atteso": 1,
+      "data_misura": "2026-07-25",
+      "aperto_il": "2026-07-18 16:06",
+      "nota": "Esperimento critico: 1° ordine consegnato entro 7gg. Gate: ordine test PQ (#ordine-test-pq) + WhatsApp 3 anchor (#whatsapp-3-anchor-pi26). Misura: REST ordini_consegnati > 0."
+    }
+  ],
+  "meta_esperimenti": {
+    "aggiornato": "2026-07-18 16:14",
+    "totale": 1,
+    "aperti": 1,
+    "in_scadenza": 0,
+    "misurati": 0,
+    "chiusi": 0
+  },
   "peer_review": [],
   "proposte_auto_riscrittura": [
     {
@@ -180,17 +199,9 @@
     }
   ],
   "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "meta_esperimenti": {
-    "aggiornato": "2026-07-18 16:01",
-    "totale": 0,
-    "aperti": 0,
-    "in_scadenza": 0,
-    "misurati": 0,
-    "chiusi": 0
-  },
-  "aggiornato": "2026-07-18 16:01",
+  "aggiornato": "2026-07-18 16:14",
   "proposte_sync": {
-    "aggiornato": "2026-07-18 14:20",
+    "aggiornato": "2026-07-18 16:02",
     "totale": 11,
     "aggiornate": 0
   }

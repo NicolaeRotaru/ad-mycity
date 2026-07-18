@@ -2,54 +2,104 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-07-16 12:24
+aggiornato: 2026-07-18 16:07
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dal giro 16/7 12:24.
-
-## 🔥 OGGI — T-1 al Venerdì Piacentini (17/7)
-
-- [ ] 🔴 **Chiama Pane Quotidiano ORA** — **0523 388601** (Via Calzolai 25). Script pronto: «Venerdì sera c'è il VP, passo da te al banco con il QR, ritiro dal banco (bici non pronta)». Scopo: PQ sa che sei lì, rischio "qui non vendo" scende → primo ordine ritiro North Star 0→1.
-  → Card in coda: `#ritiro-pq-vp17-checkin`
-
-- [ ] 🔴 **Stasera o domani mattina presto — pubblica il post kefir** (`consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`). Serve da te: ① link lista d'attesa (incollalo → la macchina completa il primo commento) ② foto kefir reale (oppure usa il tipografico neutro già pronto).
-  → Card in coda: `#post-kefir-estate-1407`
-
-## 🟡 Pannello — 3 PR da mergiare (Azioni → Da approvare)
-
-- [ ] 🔴 **Approva PR #380** — miniatura foto allegata visibile (fluttuante + Assistente). Dopo: su iPhone chiudi e riapri il Pannello.
-- [ ] 🔴 **Approva PR #381** — efficienza costo AI (5/6 finding chiusi, 1 resta tua decisione timer mattino).
-- [ ] 🔴 **Approva PR #403** — fix tecnici giro (motore-principale, attrezzi worker). Dopo: Ctrl+Shift+R su Radiografia.
-
-## 🧱 Piattaforma — blocchi prima di scalare
-
-- [ ] 🟡 **Metti BURN_MENSILE_EUR=XXXX in `vps/.env`** — quanto spendi al mese (VPS+Vercel+Cursor+AI+domini). Senza questa variabile il runway resta «sconosciuto» (109 giri). Anche una stima (es. 150€/mese) è utile.
-  → Card in coda: `#burn-mensile-runway`
-
-- [ ] 🟡 **PAT GitHub write su `NicolaeRotaru/mycity`** — incollalo in `GIT_PUSH_TOKEN` (VPS `.env`). Sblocca push branch e PR direttamente sul marketplace senza passare da te ogni volta.
-  → Card in coda: `#14`
-
-- [ ] 🟡 **SQL 107 + migrazione RLS profiles** — ultimo blocco sicurezza prima di aprire le 6 botteghe. Deploy coordinato SQL+codice (non il solo SQL). Dossier pronto: `consegne/security/2026-07-08-chiusura-blocco-107-profiles.md`.
-  → Card in coda: `#32`
-
-## 📅 Finestra VP 17/7 — domani sera
-
-- [ ] 🔴 **Primo ordine reale su Pane Quotidiano** — ritiro al banco (non consegna a domicilio, bici non pronta). Accetta → ritiro COD → payout-test. North Star 0→1.
-  → Gate: chiama prima (riga sopra) → poi domani sera al banco.
-
-## ⏳ Gate automatici (partono soli al 1° ordine consegnato)
-
-> Recupero carrello · prima recensione · referral · payout-test batch — si attivano con il 1° ordine consegnato (North Star 0→1).
-
-## 📋 Coda media priorità
-
-- [ ] 🟡 **Approva autofill 252 prodotti "condizione=nuovo"** — reversibile, backup riga per riga, sola scrittura campi vuoti.
-- [ ] 🟡 **Approva autofill 242 prodotti "unità=pezzo"** — stesso meccanismo.
-- [ ] 🟡 **PR #297 archivio parallelo** — Archivio Pannello carica in 1-2s invece di 15s.
-- [ ] 🟡 **PR #212 sicurezza (37 fix marketplace)** — serve PAT Contents R/W su `NicolaeRotaru/mycity`.
+> Rigenerata dal giro 18/7 16:07.
 
 ---
-> Rimosso rispetto alla versione 13/7: PR #346/#348 ✅ · merge #374/#373/#359/#358/#357 ✅ · PR #383 ✅ MERGIATA 15/7.
+
+## 🔴 URGENTE OGGI/DOMANI
+
+- [ ] 🔴 **Registrati su restart.infocamere.it per il bando PI26** — apre DOMANI 20/7 ore 10:00 a sportello. 50% fondo perduto, max €10.000 su spese tech da maggio 2026. Prima del 20/7: ① registrazione sul portale; ② lista fatture Supabase/Vercel/Render da maggio 2026; ③ firma digitale attiva. Bozza progetto pronta in `consegne/relazioni-istituzionali/`.
+  → Card: `#bandi-cciaa-2007`
+
+- [ ] 🔴 **Pubblica "Siamo in 23"** sui gruppi Facebook locali — post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`. Aggiorna il numero se cambiato. Aggiungi link UTM nel primo commento.
+  → Card: `#post-siamo-in-23`
+
+- [ ] 🔴 **Ruota i token GitHub trovati in chiaro** nel config git del VPS — vai su GitHub → Settings → Personal access tokens → revoca PAT attuali e crea uno nuovo.
+  → Card: `#ruota-pat-github`
+
+---
+
+## 🟡 QUESTA SETTIMANA — mosse critiche per il 1° ordine
+
+- [ ] 🟡 **Fai un ordine su Pane Quotidiano** — anche piccolo (es. pane €3-5). North Star 0→1. Apri mycity-marketplace.com e ordina. 10 minuti.
+  → Card: `#ordine-test-pq`
+
+- [ ] 🟡 **Manda 3 WhatsApp a Garetti, Peretti e Amendolara** — testi pronti in `consegne/vendite/2026-07-18-whatsapp-anchor-pi26.md`. Leva: bando PI26 urgente.
+  → Card: `#whatsapp-3-anchor-pi26`
+
+- [ ] 🟡 **Senti il fornaio (Pane Quotidiano)** — tel. 0523 388601. Script: «Com'è andata venerdì? Con le piogge in arrivo potremmo provare la consegna a domicilio questa settimana». Scopo: data per il 1° ordine + prezzo tazzina.
+  → Card: `#checkin-pq-postvp`
+
+- [ ] 🟡 **Pubblica post meteo-pioggia il 20/7** — piogge previste dal 20/7. Testo pronto in `consegne/content/2026-07-18-post-meteo-pioggia.md`.
+  → Card: `#post-meteo-pioggia-20lug`
+
+---
+
+## 🟡 PR DA MERGIARE (Dal Pannello → Azioni → Da approvare)
+
+- [ ] 🟡 **Mergia PR #446** — fix chat cross-device (smartphone vede chat vuota invece di quella desktop)
+- [ ] 🟡 **Mergia PR #443** — 5 fix UX Pannello (riapprova in header, testo umano, scroll, flash, layout shift)
+- [ ] 🟡 **Apri PR #chat-4bug-ux** (4 fix UX chat: scroll apertura, textarea sticky, triplicazione) — card `#apri-pr-chat-4bug-ux`
+- [ ] 🟡 **Mergia PR `fix/mcp-cieco-no-casella-errore`** — rimuovi casella "Database non disponibile" (falso allarme) — card `#apri-pr-mcp-cieco`
+
+---
+
+## 🟡 ENV VPS — cose da aggiungere nel terminale
+
+- [ ] 🟡 **Aggiungi BURN_MENSILE_EUR nel .env VPS** — es. `echo "BURN_MENSILE_EUR=150" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service`. Sblocca il calcolo runway.
+  → Card: `#burn-mensile-env`
+
+- [ ] 🟡 **Riavvia il worker** (se non già fatto dopo le 2 variabili env del 18/7) — `sudo systemctl restart mycity-worker-chat.service`
+  → Card: `#riavvia-worker-env`
+
+---
+
+## 🟡 DECISIONI OPERATIVE
+
+- [ ] 🟡 **Definisci zona, orario e ordine minimo per la prima consegna** — 3 parametri: raggio (es. 3 km), fasce orarie (es. 12-14 / 18-20), ordine minimo (es. €10). L'AD li imposta poi.
+  → Card: `#zona-orario-consegna`
+
+- [ ] 🟡 **Tazzina espresso PQ** — quale tra i 2 candidati (Excelsa "Stile Siciliano" ~€31 set 6 o Ginori 1735 ~€55 singola)? + prezzo di vendita. La chiedi anche in chiamata a PQ.
+  → Card: `#inserisci-tazzina-pq`
+
+---
+
+## 📧 Welcome email ai 23 iscritti (gate: PQ pronto)
+
+- [ ] 🟡 **Invia welcome email ai 23 iscritti** via Gmail BCC — solo dopo conferma PQ operativo. Testo: `consegne/crm/welcome-email-23.md`.
+  → Card: `#welcome-email-23`
+
+---
+
+## 🗃️ PULIZIA GITHUB
+
+- [ ] 🟡 **Chiudi PR #422** su GitHub senza merge (conflitti, contenuto già in PR #424)
+  → Card: `#chiudi-pr-422`
+
+---
+
+## ⏳ IN CODA MEDIA PRIORITÀ
+
+- [ ] 🔴 **Post kefir** — `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md`. Serve: link lista d'attesa + foto.
+  → Card: `#post-kefir-estate-1407`
+
+- [ ] 🟡 **Approva autofill 252 prodotti "condizione=nuovo"** — reversibile, backup riga per riga
+- [ ] 🟡 **Approva autofill 242 prodotti "unità=pezzo"** — stesso meccanismo
+- [ ] 🟡 **Push memoria volano** — 2 push + PR `feature/volano-tasso-lezioni-blob`
+  → Card: `#push-volano-fix`
+- [ ] 🟡 **Fix email git** — 1 riga VPS: `git -C /opt/mycity/ad-mycity config user.email "nicolaflorea50@gmail.com"`
+  → Card: `#fix-git-email`
+- [ ] 🟡 **Streaming worker** (chat parola-per-parola come Claude.ai) — dal ok di Nicola
+  → Card: `#streaming-worker`
+- [ ] 🟡 **Thinking budget VPS** — alza THINKING_BUDGET nel .env worker
+  → Card: `#thinking-budget-vps`
+
+---
+
+> Rimosso: PR #444 ✅ mergiata · PR #436 ✅ mergiata · PR #435 ✅ mergiata · PR #433 ✅ mergiata · housekeeping già su main ✅
