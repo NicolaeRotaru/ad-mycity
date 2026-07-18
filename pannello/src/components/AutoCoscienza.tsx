@@ -173,7 +173,7 @@ type Miglioramento = {
   benchmark?: Benchmark[];
   esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
   peer_review?: { lavoro?: string; autore?: string; reviewer?: string; revisori?: string[]; reviewed?: string; prima?: string; dopo?: string; guadagno?: string; voto?: number; punti_forza?: string[]; punti_deboli?: string[]; raccomandazione?: string }[];
-  proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
+  proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string; stato?: string }[];
 };
 type Entita = { id?: string; nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
 type Registro = { entita?: Entita[] };
@@ -910,7 +910,7 @@ export default function AutoCoscienza({
                 <div>
                   <div className="t-micro mb-1.5 flex items-center gap-1.5"><AlertTriangle size={13} /> Proposte di auto-riscrittura (🟡 da validare)</div>
                   <div className="space-y-2">
-                    {mi.proposte_auto_riscrittura.map((p, i) => (
+                    {mi.proposte_auto_riscrittura.filter(p => p.stato !== "implementata").map((p, i) => (
                       <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
                         <div className="text-[12px] font-semibold text-amber-900/80">Cosa vorrebbe cambiare</div>
                         <TestoUmano testo={p.cosa} className="text-[12.5px] font-medium mt-0.5" />
