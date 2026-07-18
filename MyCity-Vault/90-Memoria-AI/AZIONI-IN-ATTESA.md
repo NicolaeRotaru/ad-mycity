@@ -16,6 +16,20 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #apri-pr-chat-crossdevice-24h — Apri PR per il fix chat cross-device (finestra 24h + tracking per ID) · ⏳ accodata 2026-07-18 23:55
+
+**Contesto:** Il fix cross-device auto-open è stato scritto e committato nel branch `fix/chat-crossdevice-autoopen`. Causa originale: `nuovaChatManualeRef` bloccava permanentemente l'auto-open da altri device; finestra di 2h troppo corta. Fix: tracking per conv ID e finestra estesa a 24h. Il comando PR era bloccato in quella sessione.
+
+**Cosa fare:** Nella prossima chat scrivere «apri pr per fix/chat-crossdevice-autoopen» oppure eseguire:
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
+```
+
+**Cosa cambia:** smartphone e desktop si sincronizzano correttamente — la chat aperta su uno appare sull'altro entro 8 secondi.
+**Se va bene:** il bug «nuova chat contiene risposta vecchia» e «chat telefono non appare su desktop» vengono chiusi con un unico deploy.
+
+---
+
 ### 🟡 #cadenza-housekeeping — Aggiungi cadenza automatica pulizia AZIONI-IN-ATTESA in giro.sh · ⏳ accodata 2026-07-18 17:52
 
 **Contesto:** Nicola ha chiesto (18/7) una pulizia automatica periodica della coda AZIONI-IN-ATTESA. L'housekeeping manuale è fatto (17:10), ma la cadenza automatica non è in produzione: PR #450 era vuota (il branch non aveva modifiche vs main al momento dell'apertura — rebase aveva perso la modifica a `giro.sh`).

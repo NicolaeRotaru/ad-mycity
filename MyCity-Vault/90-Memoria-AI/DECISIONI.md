@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 23:55 · 🟡 · [Nicola «non c'è nessuna PR aperta» → fix cross-device] · **Fix chat cross-device riscritto: auto-open esteso a 24h + tracking per conv ID.** La diagnosi ha confermato che il sync Supabase funziona (37 righe in `conversazioni`); il problema era l'auto-open logic: `nuovaChatManualeRef` una volta impostato blocca TUTTI i futuri auto-open da altri device (non solo stessa sessione), e la finestra di 2h era troppo corta. Fix nel branch `fix/chat-crossdevice-autoopen`: traccia per conv ID, estendi a 24h. Il comando PR era bloccato in sessione — Nicola deve aprire una nuova chat e scrivere «apri pr per fix/chat-crossdevice-autoopen».
+
 2026-07-18 23:58 · 🟡 · [Nicola «queste caselle mi sembrano incomplete»] · **Casella "Confronto: @AD" segnalata da Nicola come datata** — il punteggio 42/100 era fermo al 3/7 (15 giorni fa), non aggiornato dopo le migliorie di luglio: difetti chiusi via PR, EXP-001 aperto, 4 PR mergiate (#453/#454/#457/#458). Radice: i JSON sorgente delle caselle auto-coscienza non vengono ricalcolati automaticamente dopo ogni ciclo. AD ha offerto di aggiornare (🟢). In attesa di conferma di Nicola.
 
 2026-07-18 23:05 · 🟡 · [Pannello bloccato su "giro valido"] · **`auto-analisi.json` aveva `voto` (88) ma mancava il campo `sintesi` — senza di esso il Pannello non riconosce il giro come completato.** Fix committato (596402bc) + 4 file auto-coscienza pendenti. Push su main accodato come `#push-main-memoria` (non in allowlist dalla chat). Lezione: `auto-analisi.json` richiede SEMPRE entrambi i campi `voto` + `sintesi`.
