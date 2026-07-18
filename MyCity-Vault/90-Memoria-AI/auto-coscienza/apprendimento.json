@@ -17,6 +17,34 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0718-263",
+      "testo": "**3 nuovi bug chat segnalati da Nicola (18/7) — da fixare in unica PR sulla ChatCasella del Pannello:** (1) chat si apre dall'inizio invece che dall'ultimo messaggio quando si clicca da lista conversazioni; (2) risposta AD spinge il box di testo/icone verso il basso invece di scrollare la lista messaggi; (3) vuole box di testo sticky in fondo mentre scrolla verso l'alto nella storia. Sono tutti nella stessa componente (ChatCasella o Worker chat). Fix: (1) scrollIntoView sull'ultimo messaggio all'apertura; (2) layout flex con min-h-0 sul div messaggi; (3) position sticky/fixed sul box input. L'AD li ha capiti tutti e 4 (incluso triplicamento) e ha proposto di risolverli in un'unica PR — Nicola ha chiesto di confermare la comprensione prima di procedere.",
+      "tag": ["ux-chat", "scroll", "sticky", "apertura-chat", "box-input", "pannello", "bug", "frontend-dev"],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-18",
+      "ultima_conferma": "2026-07-18",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
+      "id": "L-2026-0718-262",
+      "testo": "**Bug triplicamento messaggi nella chat del Pannello (18/7):** Nicola ha mostrato screenshot con la stessa risposta AD ripetuta 3 volte di fila. Causa identificata: il polling del frontend trova il job in stati intermedi e lo aggiunge alla lista più volte. Bug separato da «Messaggio annullato» (già fixato con bba5495d). Fix da implementare: deduplica per job-ID nel renderer prima di appendere messaggi. Distinguere bug diversi che sembrano simili: sovrascrittura ≠ triplicamento.",
+      "tag": ["ux-chat", "triplicamento", "polling", "pannello", "deduplicazione", "frontend-dev", "bug"],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.85,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-18",
+      "ultima_conferma": "2026-07-18",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0718-261",
       "testo": "**Correzione Nicola (18/7): «🚫 Messaggio annullato» non va mandato se sovrascrive una risposta già visibile.** Il problema emerso: il worker mandava «🚫 Messaggio annullato» / «💭 Sto elaborando…» che comparivano AL POSTO dell'ultima risposta vera, cancellandola dalla vista di Nicola. Nicola ha corretto esplicitamente. Regola: se c'è già un messaggio visibile a Nicola, non mandare nulla che lo sostituisca. L'interruzione/annullamento va gestita in silenzio o aggiungendo sotto. Questo vale sia per i messaggi worker/stream sia per qualsiasi messaggio di stato dell'AD. Radice del problema: il meccanismo di annullamento/cancellazione non distingue tra «nessun messaggio precedente» (ok mostrare «annullato») e «c'era già una risposta» (NON sovrascrivere).",
       "tag": ["ux-chat", "messaggio-annullato", "worker", "streaming", "correzione-nicola", "pannello", "comportamento-chat"],
