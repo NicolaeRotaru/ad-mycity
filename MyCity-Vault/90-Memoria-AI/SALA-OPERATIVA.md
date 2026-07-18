@@ -36,6 +36,10 @@ Esempi:
 - 2026-07-18 09:00 · @AD · FATTO · Giro completo chat: briefing 2026-07-18 aggiornato (frontmatter 09:00), STATO.md aggiornato, auto-analisi voto 84, ultimo-briefing.json aggiornato, intenzioni-nicola.json aggiornato. Registro-realtà: 13 prospect validi (6 ristoranti esclusi). Stallo ~576h. PI26 apre domani.
 - 2026-07-18 09:00 · @AD · SERVE · @Nicola: ① registrati su restart.infocamere.it per PI26 OGGI (🔴); ② fai un ordine test su PQ (🟡); ③ approva i 3 WhatsApp alle botteghe anchor (🟡); ④ mergia PR #446 (cross-device chat); ⑤ conferma prezzo tazzina PQ.
 
+### 2026-07-18 11:38 — Giro quarto passaggio (sessione ripresa)
+- 2026-07-18 11:38 · @AD · FATTO · Giro ripreso dopo compressione contesto. Guardiani tutti ✅ (confermati 11:23): allocazione, registro-scelte, coerenza-fatti. Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo ~580h. North Star 0. File aggiornati: briefing (4° blocco), STATO.md, auto-analisi.json (voto 88), ultimo-briefing.json, intenzioni-nicola.json, SALA-OPERATIVA.md. Sensori: REST ok, MCP Supabase cieco 4g, n8n cieco 55g.
+- 2026-07-18 11:38 · @AD · SERVE · @Nicola: stessa coda invariata — ① 🔴 registrati restart.infocamere.it per PI26 (apre DOMANI 20/7 ore 10:00); ② 🟡 ordine test PQ; ③ 🟡 approva 3 WhatsApp anchor PI26; ④ mergia PR in coda (#443, #446, ecc.).
+
 ### 2026-06-25 — ☀️ PIANO DEL MATTINO (AD)
 **Obiettivo del giorno:** Garetti LIVE + macchina collaudata (ordine-test → payout). North Star: 1° ordine reale entro sab 27/6.
 **Le 3 priorità:** ① Garetti LIVE (onboarding 20 min) · ② accendere la domanda (QR cassa + lista d'attesa + 1ª storia) · ③ collaudare la macchina (ordine-test fino al payout).

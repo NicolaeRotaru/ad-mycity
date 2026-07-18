@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 11:10
-fonte: AD digitale (giro secondo-mattino 18/7 11:10)
+aggiornato: 2026-07-18 11:38
+fonte: AD digitale (giro quarto-mattino 18/7 11:38)
 ---
+
+> 🛰️ **18/7 11:38 — GIRO (quarto passaggio — sessione ripresa).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~580h** (~24,2 giorni). North Star 0, cassa 0€. Guardiani ✅ (confermati 11:23): allocazione, registro-scelte, coerenza-fatti. **DOMANI 20/7 ore 10:00:** bando PI26 apre a sportello — Nicola deve registrarsi su restart.infocamere.it OGGI (card 🔴 #bandi-cciaa-2007). Mossa n.2: 🟡 ordine test PQ. Mossa n.3: 🟡 3 WhatsApp Garetti/Peretti/Amendolara. Dettaglio: [[Briefing/2026-07-18]].
 
 > 🛰️ **18/7 11:10 — GIRO (secondo passaggio mattino).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~579h** (~24,1 giorni). North Star 0, cassa 0€. **Vincoli hard del guardiano risolti:** ① registro-realtà completo — 13 prospect + 6 esclusi (rc=0); ② loop chiusi — 8 ESITO registrati (gate rc=0); ③ zero asset pesanti verso prospect non confermati. **DOMANI 20/7 ore 10:00:** bando PI26 apre a sportello — 50% fondo perduto max €10k su spese tech da maggio 2026. **Mossa n.1:** 🔴 registrati su restart.infocamere.it OGGI (non delegabile). **Mossa n.2:** 🟡 ordine test PQ (North Star 0→1, 10 minuti). **Mossa n.3:** 🟡 3 WhatsApp Garetti/Peretti/Amendolara con leva PI26 (testi pronti in consegne/vendite/). Dettaglio: [[Briefing/2026-07-18]].
 
