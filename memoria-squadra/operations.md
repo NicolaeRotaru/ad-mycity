@@ -8,6 +8,7 @@ reparto: operations
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-18 11:06 · runbook prima consegna + zona/orario/ordine-minimo PQ · ✅ runbook consegnato ✅ parametri operativi definiti · atteso definire il runbook operativo per la prima consegna con PQ → reale runbook 🟢 in consegne/operations/, parametri zona/orario/ordine-minimo 🟡 accodati · #ops-18lug
 - 2026-07-14 03:00 · chat VP 17/7 · Nicola: bici non pronta venerdì (corretto bollette 21-27/7, riparazione ~28/7+) → VP = presidio PQ + **ritiro al banco**, non domicilio; North Star+payout-test restano validi con ritiro; domicilio gated su bici · lezione L-218 · #vp17 #bici #ritiro-prima
 - 2026-07-01 20:18 · giro AD · finestra slot **18:00–20:00 SCADUTA** — giornata a zero transazioni · ripiano **2/7 mattina** 🟢 + escalation v11 · lezione L-0701-40 · stallo 177,8h (+9,8h oltre 168h) · #operations #slot #zombie
 - 2026-07-01 14:19 · giro AD · finestra pranzo **chiusa** → slot #16 **sera post-18** · escalation v8 🟢 · lezione L-36 slot vs orologio · Allerta ER 070/2026 temporali 15-17 · #operations #meteo #slot

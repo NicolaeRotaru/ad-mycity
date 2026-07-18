@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-07-18 06:20",
+  "quando": "2026-07-18 11:00",
   "radar": "cervello/radar-fonti.json",
   "fonti_totali": 16,
   "vive": 16,
@@ -16,7 +16,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "liberta-citta",
@@ -27,7 +27,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "ilpiacenza-economia",
@@ -38,7 +38,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "piacenzasera",
@@ -49,7 +49,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "comune-news",
@@ -60,7 +60,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20",
+      "ultimo_controllo": "2026-07-18 11:00",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it news commercio"
     },
@@ -73,7 +73,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20",
+      "ultimo_controllo": "2026-07-18 11:00",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it eventi"
     },
@@ -86,7 +86,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20",
+      "ultimo_controllo": "2026-07-18 11:00",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: comune piacenza bandi imprese commercio"
     },
@@ -99,7 +99,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "unionecommercianti",
@@ -110,7 +110,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "cna-piacenza",
@@ -121,7 +121,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "glovo-piacenza",
@@ -132,7 +132,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "conad-consegna",
@@ -143,7 +143,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "cortilia",
@@ -154,7 +154,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "meteo-piacenza",
@@ -165,7 +165,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "sagre-provincia",
@@ -176,7 +176,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     },
     {
       "id": "reputazione-mycity",
@@ -187,7 +187,7 @@
       "status": 200,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-07-18 06:20"
+      "ultimo_controllo": "2026-07-18 11:00"
     }
   ]
 }

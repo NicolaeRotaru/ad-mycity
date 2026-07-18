@@ -1,52 +1,62 @@
 {
-  "data": "2026-07-18 06:30",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo 582h (24,3 giorni). North Star 0, cassa 0€. Finestra critica: bando PI26 apre domani 20/7 ore 10:00 (max €10k fondo perduto), piogge dal 20/7 (delivery window), bici presto operativa (settimana 21-25/7). Mossa n.1: ordine di test su PQ per sbloccare il primo North Star.",
+  "data": "2026-07-18 11:10",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~579h (~24,1 giorni da 24/6). North Star 0, cassa 0€. Vincoli hard guardiani risolti in questo giro (allocazione, registro-realtà, chiusura-loop). URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello (max €10k fondo perduto su spese tech da maggio 2026). Finestra meteo: piogge martedì 21/7 (delivery window). Bici in riparazione — giro botteghe settimana 21-25/7.",
   "opportunita": [
     {
-      "titolo": "Fai un ordine di prova su Pane Quotidiano oggi",
-      "motivo": "Sblocca il North Star da 0 a 1, prova end-to-end checkout→pagamento→consegna, non richiede bici né altri negozi",
+      "titolo": "Bando PI26 — registrarsi su restart.infocamere.it OGGI",
+      "motivo": "Sportello apre domani 20/7 ore 10:00 — chi arriva primo prende i fondi. Max €10k fondo perduto (50%). Spese ammissibili: Supabase/Vercel/Render da maggio 2026.",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Bando PI26 — 50% fondo perduto max €10.000",
-      "motivo": "Apre domani 20/7 ore 10:00, a sportello — chi prima arriva. Spese tech da maggio 2026 ammissibili",
-      "impatto": "alto",
-      "sforzo": "medio"
-    },
-    {
-      "titolo": "WhatsApp a Garetti, Peretti e Amendolara con la leva PI26",
-      "motivo": "Le 3 botteghe più calde, testi pronti, bando PI26 = urgenza reale senza dover andare di persona",
+      "titolo": "Ordine di test su Pane Quotidiano",
+      "motivo": "Sblocca North Star 0→1. 10 minuti. Non richiede bici né altri negozi. Prova end-to-end del flusso.",
       "impatto": "alto",
       "sforzo": "basso"
     },
     {
-      "titolo": "Email ai 23 iscritti con hook piogge 20/7",
-      "motivo": "23 clienti caldi che aspettano, mai ricevuto un messaggio. Piogge = trigger delivery perfetto",
+      "titolo": "3 WhatsApp alle botteghe anchor con leva PI26",
+      "motivo": "Garetti/Peretti/Amendolara. Testi pronti. PI26 = urgenza reale per convincerli. Non richiede visita fisica.",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Email benvenuto ai 23 clienti (gate: PQ pronto ad evadere)",
+      "motivo": "23 iscritti senza mai ricevere un messaggio. Hook piogge martedì 21/7 = trigger delivery perfetto.",
       "impatto": "alto",
       "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Registrati su restart.infocamere.it per il bando PI26 (apre domani)",
-      "motivo": "Bando a sportello — senza registrazione non si può presentare domanda domani ore 10:00",
-      "livello": "rosso"
+      "titolo": "Registrati su restart.infocamere.it per il bando PI26 (apre DOMANI)",
+      "motivo": "A sportello — senza registrazione non si può presentare domanda domani 20/7 ore 10:00",
+      "livello": "rosso",
+      "id_coda": "#bandi-cciaa-2007"
     },
     {
       "titolo": "Fai un ordine di test su Pane Quotidiano",
-      "motivo": "North Star a 0 da 24 giorni — un ordine test sblocca la prova che il sistema funziona",
-      "livello": "giallo"
+      "motivo": "North Star a 0 da ~579h — un ordine sblocca la prova che il sistema funziona",
+      "livello": "giallo",
+      "id_coda": "#ordine-test-pq"
     },
     {
-      "titolo": "Manda 3 WhatsApp alle botteghe top con aggancio PI26",
-      "motivo": "Testi pronti, leva reale (bando CCIAA), non richiede bici",
-      "livello": "giallo"
+      "titolo": "Manda 3 WhatsApp con aggancio PI26 alle botteghe top",
+      "motivo": "Testi pronti in consegne/vendite/. Leva PI26 = urgenza reale senza visita fisica",
+      "livello": "giallo",
+      "id_coda": "#whatsapp-3-anchor-pi26"
     },
     {
-      "titolo": "Invia la welcome email ai 23 clienti via Gmail",
-      "motivo": "23 clienti non hanno mai ricevuto un messaggio — rischiano di dimenticarsi di noi",
-      "livello": "giallo"
+      "titolo": "Imposta BURN_MENSILE_EUR nel .env VPS",
+      "motivo": "Runway sconosciuto da 132 giri — basta indicare €/mese di costi fissi",
+      "livello": "giallo",
+      "id_coda": "#burn-mensile-env"
     }
+  ],
+  "sentinelle_scattate": [
+    "North Star 0 — stallo critico ~579h (>14 giorni)",
+    "n8n cieco — 51 giri consecutivi (non critico per operatività)",
+    "BURN_MENSILE_EUR assente — runway sconosciuto 132 giri",
+    "Telegram non configurato — notifiche bloccate"
   ]
 }

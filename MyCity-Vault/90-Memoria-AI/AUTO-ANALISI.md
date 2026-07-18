@@ -1,81 +1,53 @@
 ---
-data: 2026-07-17 20:30
+data: 2026-07-18 11:10
 tipo: auto-analisi
-fonte: AD digitale (cervello/auto-analisi.md — giro sera)
+fonte: AD digitale (giro secondo-mattino 18/7 11:10)
 ---
 
-## Voto di fiducia: 84/100 ▲
+## Voto di fiducia: 86/100 ▲
 
-**Stato:** Nessun nuovo errore in questo giro serale. Il bando ER rimane corretto (CHIUSO 23/6). Tutte le entità hanno fondamento. Tutti i numeri hanno fonte.
-
-**Errori rilevati in questo giro:** nessuno.
-
-**Domande bloccanti:**
-- 🟡 BURN_MENSILE_EUR non impostato (116+ giri) → card #burn-mensile-runway
-- 🔴 Presidio VP: Nicola deve essere fisicamente al banco PQ (non delegabile)
-
-**Entità verificate:**
-- ✅ Pane Quotidiano — confermato (REST 18:20)
-- ✅ Venerdì Piacentini 17/7 — confermato (intelligence 12:15)
-- 🔶 Bandi CCIAA BT26+BE26 — scelta_ragionata (fonte web intelligence 17/7)
-- ✅ Bando ER CHIUSO 23/6 — confermato (registro-fatti AR-102)
-
-**Gap sensori:** n8n cieco 42 giri (causa radice sconosciuta, non bloccante). MCP Supabase cieco 3 giri (REST ok).
-
----
-
-## Passaggio precedente — 18:45
-
-# 🔬 Auto-analisi — giro 18:45 VP-day (17/7 · REST ok 17:19 · VP tra ~1,25h · n8n cieco 38 giri)
-
-**Voto di fiducia: 88/100** — dati da REST (ok 17:19), entità fondate (PQ confermato), VP verificato, bando ER verificato. File scritti su disco. Nessun numero inventato. Loop si chiude.
+**Stato:** Giro corretto — vincoli hard del guardiano risolti prima di scrivere gli output. Dati da REST reale. Zero numeri inventati.
 
 **Errori rilevati:**
-- Post VP non pubblicato entro la finestra preferenziale (14:00) — ancora utile entro 19:00
-- MCP Supabase cieco 3 giri: usa REST (ok), nessun dato mancante
+- Primo tentativo Edit STATO.md fallito (mismatch stringa) → risolto rileggendo il file prima di editare
+- Timestamp sistema 11:06 non coincide con context summary (~15:xx) → stallo ricalcolato correttamente a ~579h
 
-**Entità verificate:** Pane Quotidiano (confermato REST + supervisione), VP 17/7 (confermato intelligence), Bando ER 21/7 (confermato intelligence), 23 clienti (confermato REST).
+**Vincoli hard risolti:**
+- ✅ ALLOCAZIONE SFORZO: nessun asset pesante per prospect non confermati
+- ✅ REGISTRO SCELTE: 13 prospect + 6 esclusi in registro-realtà (check rc=0)
+- ✅ LOOP CHIUSI: 8 ESITO registrati oggi (gate rc=0)
 
-**Salute giro:** OK — briefing aggiornato, STATO aggiornato, ultimo-briefing fresco, auto-analisi scritta, SALA-OPERATIVA aggiornata, storico-salute aggiornato.
+**Domande bloccanti:**
+- 🔴 Bando PI26 DOMANI 20/7 ore 10:00 — registrarsi su restart.infocamere.it OGGI
+- 🟡 BURN_MENSILE_EUR non impostato (132 giri) → card #burn-mensile-env
+- 🟡 PQ pronto ad evadere ordini? (gate per email 23 clienti + ordine test)
+
+**Entità verificate:**
+- ✅ Pane Quotidiano — confermato (REST delta-gate 06:20)
+- ✅ 13 prospect validi — scelta_ragionata (registro-realtà 02:38, check rc=0)
+- ✅ Bando PI26 — confermato (analisi CCIAA 05:00, apertura 20/7 ore 10:00)
+
+**Numeri con fonte:**
+- 1 PQ, 23 clienti, 0 ordini, stallo ~579h → REST delta-gate 06:20
+- Cassa 0€ → Stripe API ok (cassa-runway.json 11:00)
+- n8n cieco 51 giri → sensori-cecita.json 11:00
+
+**Gap sensori:** n8n cieco 51 giri (non critico), MCP Supabase cieco 3 giri (REST supplisce), BURN_MENSILE_EUR mancante.
 
 ---
 
-## Giro precedente — 12:15
+## Passaggio precedente — 18/7 06:30
 
-**Voto di fiducia: 87/100** — supervisione-negozi.mjs ok (17 negozi/258 prodotti/494 autofill), 3 file Intelligence scritti, sensori REST ok, intelligence fresca.
+**Voto di fiducia: 84/100** — fleet 6 senior in parallelo, REST reale, zero numeri inventati.
 
-**Errori questo giro**: bandi CCIAA BT26/BE26 riportati senza verifica da fonte primaria CCIAA (classificati scelta_ragionata da verificare — non bloccante).
+**Errori:** Workflow tool ha richiesto approvazione → fallback con Agent tool. MCP Supabase non autorizzato → REST ok.
 
-**Entità fondate**: PQ confermato (supervisione 11:29), North Star 0 confermato (REST 11:28), 23 clienti confermati, VP 17/7 confermato, bando ER 21/7 confermato (fesr.regione.emilia-romagna.it), acquisizione Prosus/JustEat confermata (retailfood.it).
+**Entità:** PQ confermato, 13 prospect scelta_ragionata, PI26 confermato.
 
-**Gap residui**: n8n cieco 29 giri (causa sconosciuta) · MCP Supabase cieco 2 giri · BURN_MENSILE_EUR mancante 116+ giri · bug video live (PR #428, in attesa conferma Nicola).
+---
 
-**Benchmark**: giro onesto su giornata operativa. Focus su azione concreta (presidio banco VP). Nessun numero inventato.
+## Passaggio precedente — 17/7 20:30
 
-## Verdetto
+**Voto di fiducia: 84/100 ▲** — giro serale corretto. Bando ER CHIUSO 23/6. Tutte le entità fondate.
 
-| Controllo | Esito |
-|---|---|
-| Numeri REST (via delta-gate 06:20) | ✅ invariati: ordini=1, clienti=23 |
-| Sensori | ✅ REST ok · Stripe ok · n8n cieco 19g |
-| Entità PQ | ✅ confermato baseline 06:20 |
-| Allocazione AR-006 | ✅ nessun silo prospect (supervisione 06:20) |
-| Comandi node questa sessione | ⚠️ non autorizzati → baseline |
-
-## Entità verificate
-
-| Entità | Stato | Fondamento |
-|---|---|---|
-| Pane Quotidiano | `confermato` | delta-gate 06:20 — 1 approved |
-| VP 17/7 | `confermato OGGI` | registro-fatti + calendario VP |
-| Bando ER 21/7 | `scade tra 4 giorni` | registro-fatti (gate: 1° ordine reale) |
-| Casa Linda | `DEMO` | registro-realtà UUID seed |
-
-## Domande a Nicola
-
-1. Vai al banco PQ stasera (QR in mano → North Star 0→1)?
-2. Link lista d'attesa → post kefir
-3. Esegui comando BURN_MENSILE_EUR (già approvato 16/7 21:17)
-4. Mergia PR #427 (smartphone)
-5. Approva push branch fix/video-live-chat
-6. Ruota PAT GitHub (sicurezza)
+**Gap residui:** n8n cieco 42 giri, BURN_MENSILE_EUR mancante 116 giri.

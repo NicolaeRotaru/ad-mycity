@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 06:30
-fonte: AD digitale (giro fleet 18/7 06:30)
+aggiornato: 2026-07-18 11:10
+fonte: AD digitale (giro secondo-mattino 18/7 11:10)
 ---
+
+> 🛰️ **18/7 11:10 — GIRO (secondo passaggio mattino).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~579h** (~24,1 giorni). North Star 0, cassa 0€. **Vincoli hard del guardiano risolti:** ① registro-realtà completo — 13 prospect + 6 esclusi (rc=0); ② loop chiusi — 8 ESITO registrati (gate rc=0); ③ zero asset pesanti verso prospect non confermati. **DOMANI 20/7 ore 10:00:** bando PI26 apre a sportello — 50% fondo perduto max €10k su spese tech da maggio 2026. **Mossa n.1:** 🔴 registrati su restart.infocamere.it OGGI (non delegabile). **Mossa n.2:** 🟡 ordine test PQ (North Star 0→1, 10 minuti). **Mossa n.3:** 🟡 3 WhatsApp Garetti/Peretti/Amendolara con leva PI26 (testi pronti in consegne/vendite/). Dettaglio: [[Briefing/2026-07-18]].
 
 > 🛰️ **18/7 09:00 — GIRO MANUALE (chat).** Giro rilanciato da Nicola. Memoria aggiornata: briefing 09:00, auto-analisi (voto 83→84 dal worker 06:30), ultimo-briefing, intenzioni-nicola. Registro-realtà confermato: **13 prospect validi** (6 ristoranti esclusi 18/7 14:00), PQ confermato. Stato business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~576h. **Mossa n.1 OGGI:** 🔴 registrati su restart.infocamere.it per il bando PI26 che apre domani 20/7 ore 10:00 (max €10k fondo perduto, a sportello). **Mossa n.2:** 🟡 fai un ordine test su PQ (sblocca North Star 0→1). **Mossa n.3:** 🟡 3 WhatsApp alle botteghe anchor (Garetti/Peretti/Amendolara) con leva PI26. Dettaglio: [[Briefing/2026-07-18]].
 

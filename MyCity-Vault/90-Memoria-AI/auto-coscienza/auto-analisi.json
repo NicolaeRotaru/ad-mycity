@@ -1,29 +1,30 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 06:30",
-  "voto_fiducia": 84,
-  "trend_fiducia": "▲ 84 (da 83 — lieve miglioramento: fleet 6 senior lanciati in parallelo, dati tutti da REST reale, zero numeri inventati)",
+  "data": "2026-07-18 11:10",
+  "voto_fiducia": 86,
+  "trend_fiducia": "▲ 86 (da 84 — miglioramento: vincoli hard risolti, loop chiusi, nessun numero inventato)",
   "errori_giro": [
-    "Workflow tool ha richiesto approvazione interattiva — fallback manuale con Agent tool, nessuna perdita di dati",
-    "MCP Supabase non approvato in sessione — usato REST come da regola (REST → poi MCP)"
+    "Primo tentativo Edit STATO.md fallito per mismatch stringa — risolto rileggendo prima il file esatto",
+    "MCP Supabase cieco (3 giri) — usato REST come da regola",
+    "Timestamp sistema 11:06 (non pomeriggio come da context summary) — stallo ricalcolato correttamente a ~579h"
   ],
   "domande_bloccanti": [
     {
+      "tipo": "urgenza_esterna",
+      "domanda": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello. Registrazione su restart.infocamere.it richiesta OGGI.",
+      "azione": "card 🔴 #bandi-cciaa-2007 in AZIONI-IN-ATTESA",
+      "colore": "🔴"
+    },
+    {
       "tipo": "dato_mancante",
-      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto.",
+      "domanda": "BURN_MENSILE_EUR non impostato: runway sconosciuto da 132 giri.",
       "azione": "card 🟡 #burn-mensile-env in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
     {
-      "tipo": "conferma_campo",
-      "domanda": "Prezzo tazzina espresso PQ: Nicola non ha ancora confermato.",
-      "azione": "card 🟡 #inserisci-tazzina-pq bloccata su prezzo",
-      "colore": "🟡"
-    },
-    {
       "tipo": "operatività",
-      "domanda": "PQ pronto ad evadere ordini questa settimana? (gate per email 23 clienti + ordine test)",
-      "azione": "Chiedere a Nicola in questa sessione",
+      "domanda": "PQ pronto ad evadere ordini? (gate per email 23 clienti + ordine test)",
+      "azione": "Chiedere a Nicola",
       "colore": "🟡"
     }
   ],
@@ -31,27 +32,44 @@
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "REST Supabase (delta-gate 06:20: ordini=1 CANCELED, clienti=23)"
+      "fonte": "REST Supabase delta-gate 06:20: ordini=1 CANCELED, clienti=23"
     },
     {
       "nome": "13 prospect validi (no ristoranti)",
       "stato": "scelta_ragionata",
-      "fonte": "registro-realta.json 2026-07-18 02:38 + STATO.md 18/7 14:00 (chat Nicola)"
+      "fonte": "registro-realta.json 2026-07-18 02:38 + chat Nicola 18/7 — verifica rc=0 sul check"
     },
     {
       "nome": "Bando PI26 (Innovazione Digitale CCIAA)",
       "stato": "confermato",
-      "fonte": "analisi bandi CCIAA 18/7 05:00 in STATO.md — apertura 20/7 ore 10:00"
+      "fonte": "analisi bandi CCIAA 18/7 05:00 — apertura 20/7 ore 10:00 a sportello"
     }
   ],
   "numeri_con_fonte": [
-    {"numero": "stallo ~582h", "fonte": "calcolo: 2026-06-24T08:28Z → 2026-07-18T06:30Z"},
+    {"numero": "stallo ~579h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T11:10 = 24g2h42m"},
     {"numero": "23 clienti", "fonte": "delta-gate.json 2026-07-18 06:20"},
     {"numero": "0 ordini completati", "fonte": "delta-gate.json 2026-07-18 06:20"},
-    {"numero": "48 giri n8n cieco", "fonte": "sensori-cecita.json 06:21"},
-    {"numero": "cassa 0€", "fonte": "Stripe API ok 06:21"},
-    {"numero": "13 prospect validi", "fonte": "STATO.md 18/7 14:00 — chat Nicola"}
+    {"numero": "51 giri n8n cieco", "fonte": "sensori-cecita.json 11:00"},
+    {"numero": "cassa 0€", "fonte": "Stripe API ok — cassa-runway.json 11:00"},
+    {"numero": "13 prospect validi", "fonte": "registro-realta.json 02:38 + check rc=0"}
   ],
-  "benchmark": "Fleet 6 senior in parallelo. Tutti dati da fonti reali. Zero numeri inventati. Gap: n8n cieco (48 giri), MCP Supabase non approvato in sessione (REST supplisce). VP 17/7 senza dati confermati = limite onesto.",
+  "vincoli_hard": [
+    {
+      "vincolo": "ALLOCAZIONE SFORZO (rc=1→0)",
+      "stato": "risolto",
+      "come": "Nessun asset pesante per prospect scelta_ragionata — solo ESITO loop + file memoria"
+    },
+    {
+      "vincolo": "REGISTRO SCELTE INCOMPLETO (rc=1→0)",
+      "stato": "risolto",
+      "come": "registro-realta.json già aggiornato 02:38 con tutti i 13 prospect + 6 esclusi"
+    },
+    {
+      "vincolo": "LOOP NON CHIUSO (gate rc=1→0)",
+      "stato": "risolto",
+      "come": "8 ESITO registrati: ad, analista, vendite, intelligence, growth, marketing, crm-lifecycle, operations"
+    }
+  ],
+  "benchmark": "Giro corretto: vincoli hard guardiani risolti prima di scrivere output. REST reale. Zero numeri inventati. Gap residui: n8n cieco 51 giri, MCP Supabase cieco 3 giri (REST supplisce), BURN_MENSILE_EUR mancante.",
   "salute_giro": "ok"
 }
