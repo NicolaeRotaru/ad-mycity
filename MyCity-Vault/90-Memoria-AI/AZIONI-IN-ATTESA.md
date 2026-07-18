@@ -16,6 +16,16 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #apri-pr-mcp-cieco — Apri PR: rimuovi casella errore MCP quando REST è ok · ⏳ accodata 2026-07-18 15:55
+
+**Branch:** `fix/mcp-cieco-no-casella-errore` · commit `2ba574b1`
+
+**Cosa cambia:** la casella "Database diretto non disponibile" sparisce dal Pannello (era falsa: i dati sono sempre completi via REST). Rimane solo se anche il REST è cieco — guasto vero.
+
+**Se va bene:** Vercel deploya, la casella non compare più.
+
+---
+
 ### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
 
 **Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). Usa il dato reale 23 iscritti. Neutro, nessun consenso bottega richiesto. Post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
