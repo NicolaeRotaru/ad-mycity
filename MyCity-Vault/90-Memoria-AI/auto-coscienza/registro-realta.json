@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-14 11:01",
+  "aggiornato": "2026-07-18 02:38",
   "_nota_sync_13_07": "Sync scelte ragionate: 8 prospect del dossier 6/7 e scout categorie erano analizzati ma non nel registro → aggiunti. Guardiano registro-scelte-check.mjs (AR-103) a ogni giro.",
   "_nota_giro_17_07_1845": "Giro 18:45 VP-day: entità verificate — PQ confermato REST (1 approvato), VP 17/7 confermato intelligence, Bandi CCIAA BT26/BE26 scelta_ragionata (intelligence 12:15). AR-102 CRITICO: bando ER FESR era CHIUSO 23/6 (registro-fatti.json) — giri precedenti lo citavano erroneamente come gate attivo. Corretto.",
   "_nota_giro_06_07": "Giro 6/7 16:15→16:45: allineamento memoria APPROVATO da Nicola dal Pannello — l'ordine #16 è ANNULLATO (delivery_status=CANCELED nel DB live), NON 'in consegna'. Per giorni la macchina lo dava vivo perché l'MCP era cieco e riportava avanti la baseline REST vecchia. Verità a terra: #16 non si consegna, il 1° ordine reale va CREATO ex-novo. North Star resta 0. Decadono #16/#21/#22 e la cascata gated su '#16 consegnato' (#27/#26/#37), ri-ancorata a '1° ordine reale (NON #16)'.",
@@ -114,98 +114,56 @@
     {
       "nome": "Tigellabella",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.82,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Via Gerolamo Illica 5, centro pedonale — tigelleria/osteria emiliana, Google ~4,4, fascia €10-20.",
-        "Già su Deliveroo (~30% commissione) ma nessun sito proprio del punto Piacenza — cliente resta al intermediario.",
-        "Gap locale: cucina tradizionale piacentina senza canale delivery a commissioni basse su piattaforma locale.",
-        "Prospect non nel DB MyCity (0 ordini). Visita di acquisizione Nicola prevista dal 13/7."
-      ],
-      "note": "PROSPECT ristorazione. Possibile franchising (rete ~27 store) — in visita chiedere chi firma. Gate AR-006: solo pitch neutro finché non c'è sì.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». È un'osteria/tigelleria = ristorazione classica. Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Trattoria La Forchetta",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.85,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Via Borghetto 1/L (~400 m da Pane Quotidiano) — trattoria tipica, chef Leopoldo Gatti.",
-        "TripAdvisor #22/421, TheFork 8,9/10 — reputazione forte, zero delivery online.",
-        "Dominio laforchettapc.it rimanda a sito casinò (verifica web 6/7) — gancio digitale verificabile.",
-        "Prospect non nel DB MyCity."
-      ],
-      "note": "PROSPECT ristorazione. Pitch: vetrina propria + asporto/consegna piatti-icona (pisarei, anolini). Gate AR-006.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». Trattoria = ristorazione classica. Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Le Tre Ganasce da Andrea",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.86,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Via San Bartolomeo 60/62 — storica osteria piacentina, titolare Andrea (ex L'Agnello).",
-        "TripAdvisor #4/634, Travelers' Choice — ~1.041 recensioni, reputazione top città.",
-        "Nessun sito, no delivery, asporto solo telefonico — domanda non monetizzata online.",
-        "Prospect non nel DB MyCity."
-      ],
-      "note": "PROSPECT ristorazione eccellenza. Approccio da pari, non 'salvatore'. Gate AR-006.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». Osteria = ristorazione classica. Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Osteria Carducci",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.84,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Via Carducci 6/B, vicino Piazza Cavalli — pasta/pane/dolci di produzione propria (citato dalle recensioni).",
-        "TripAdvisor #13-16, Sluurpy 4,4/7.272 voti — forte quota habitué locali.",
-        "Sito vetrina intermittente, no delivery — asporto sì ma non ordinabile online.",
-        "Prospect non nel DB MyCity."
-      ],
-      "note": "PROSPECT ristorazione. Proposta test 3-4 piatti-icona asporto. Gate AR-006.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». Osteria = ristorazione classica. Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "La Dispensa de i Balocchi",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.8,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Largo Pietro Gioia 3 — ristorante contemporaneo/fine dining, TheFork 9,5/10, TripAdvisor #21.",
-        "Sito ladispensadeibalocchi.it con SSL guasto (verifica web 6/7) — vetrina web rotta.",
-        "IG curato (~4.100 follower) ma zero canale asporto/gastronomia da casa attivo.",
-        "Prospect non nel DB MyCity."
-      ],
-      "note": "PROSPECT ristorazione premium. Pitch calibrato: box gastronomici/taglieri, non 'spesa online'. Gate AR-006.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». Ristorante fine dining = ristorazione classica. Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Trattoria dei Pescatori",
       "tipo": "negozio",
-      "stato": "scelta_ragionata",
-      "fonte": "—",
-      "confidenza": 0.78,
-      "fonte_ragionamento": "consegne/vendite/2026-07-06-dossier-6-botteghe-visita-13-7.md (@intelligence + @vendite, ricerca web 6/7)",
-      "evidenze": [
-        "Loc. Malpaga 21, Calendasco — #1 TripAdvisor Calendasco, specialità pesce fresco.",
-        "Fuori raggio consegna urbana MyCity (~10-15 min in auto oltre il Po).",
-        "Sito lento, no delivery — reputazione locale forte, digitale debole.",
-        "Prospect non nel DB MyCity."
-      ],
-      "note": "PROSPECT ristorazione. NON promettere consegna urbana: vetrina + prenotazione + asporto. Gate AR-006.",
-      "ultima_verifica": "2026-07-13 19:40"
+      "stato": "escluso",
+      "fonte": "Nicola 18/7",
+      "confidenza": 1.0,
+      "note": "ESCLUSO 18/7 — Nicola: «i ristoranti non sono il nostro target». Trattoria + fuori raggio (Calendasco). Non contattare.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Peretti Frutta e Verdura",
@@ -238,6 +196,157 @@
       ],
       "note": "PROSPECT formaggi/gastronomia — pilastro cluster-spesa. Pitch-template neutro (gate AR-006). Contatto 🔴 dal 9/7.",
       "ultima_verifica": "2026-07-13 19:40"
+    },
+    {
+      "nome": "Frolla Couture",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.80,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2, score DB 350 — il più alto)",
+      "evidenze": [
+        "Via Felice Frasi 8f, tel. 0523 337540 — panetteria-pasticceria, pani multi-farina, focacce, dolci.",
+        "Score 350 nel DB lead — priorità massima onda 2.",
+        "Voto DovePasticcio 4,3 — reputazione verificabile. FB attivo.",
+        "Nessun delivery su aggregatori, menu online assente."
+      ],
+      "note": "PROSPECT panetteria — onda 2. Icona: focaccia + pane speciale. Slot consegna mattina. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Rasparini panificio",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.72,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Piazza Borgo 26 — forno in piazza ad alto passaggio.",
+        "Nessuna presenza delivery locale.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT panetteria — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Struzzi",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.70,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Via Roma 95 — su asse commerciale principale.",
+        "Nessun delivery, presenza online minima.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT panetteria — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Panetteria Del Corso",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.72,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Corso Vittorio Emanuele II 181 — massima visibilità fisica, corso principale.",
+        "Nessun delivery locale.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT panetteria — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Macelleria Callegari dal 1961",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.74,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Stradone Farnese — macelleria storica (dal 1961, >50 anni nel nome).",
+        "Nessun delivery locale, categoria trust alta.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT macelleria storica — onda 2. Slot consegna freschi 7–11. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Anzico Forno",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.70,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Via Giuseppe Taverna 82 — forno artigianale zona Borgo/Taverna, area residenziale densa.",
+        "Nessun delivery locale.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT forno — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "L'Albero del Pane",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.70,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Via Dieci Giugno 80 — panetteria di quartiere vicina al centro.",
+        "Nessun delivery locale.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT panetteria — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Macelleria (Via Scalabrini 16a)",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.65,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Via G.B. Scalabrini 16a — macelleria di prossimità.",
+        "Nessun delivery locale.",
+        "Score DB 50. Nome insegna da confermare in visita (DB generico)."
+      ],
+      "note": "PROSPECT macelleria — onda 2. Confermare nome in visita. Tel. da raccogliere. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Macelleria Polleria",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.72,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Viale Pubblico Passeggio 88 — polleria, categoria mancante nel catalogo MyCity.",
+        "Nessun concorrente delivery locale nella categoria polleria.",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT polleria — onda 2, valore strategico (unica categoria). Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
+    },
+    {
+      "nome": "Macelleria Carne Bovina",
+      "tipo": "negozio",
+      "stato": "scelta_ragionata",
+      "fonte": "—",
+      "confidenza": 0.68,
+      "fonte_ragionamento": "consegne/vendite/2026-07-14-stampa-tascabile-13-botteghe.md (onda 2)",
+      "evidenze": [
+        "Via Campagna 54 — macelleria bovina.",
+        "Completa cluster carne onda 2 (con Callegari e Scalabrini).",
+        "Score DB 50."
+      ],
+      "note": "PROSPECT macelleria — onda 2. Tel. da raccogliere in visita. Contatto 🔴 alla firma.",
+      "ultima_verifica": "2026-07-18 02:38"
     },
     {
       "nome": "Ex Scuderie — 3 spazi food premium",
