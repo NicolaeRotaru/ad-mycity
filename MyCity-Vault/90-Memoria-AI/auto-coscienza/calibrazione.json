@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-07-17 22:20",
+  "aggiornato": "2026-07-18 06:30",
   "per_reparto": [
     {
       "reparto": "@customer-success",
@@ -76,7 +76,7 @@
     },
     {
       "reparto": "@ad",
-      "previsioni": 1,
+      "previsioni": 2,
       "azzeccate": 0,
       "punteggio": 0,
       "lower_bound": 0,
@@ -93,11 +93,11 @@
       "reale": null,
       "entro": "2026-07-17",
       "tolleranza": 0.25,
-      "stato": "aperta",
+      "stato": "scaduta",
       "scarto_pct": null,
       "nota": "AR-040/autoprevedi: prima previsione baseline. Al giro della misurazione chiama: calibrazione.mjs esito --id=CAL-20260710042004-AD --reale=<n> --fonte=\"Supabase MCP\"",
       "creato": "2026-07-10 06:20",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-18 06:20"
     },
     {
       "id": "CAL-20260713182209-vendit",
@@ -123,11 +123,11 @@
       "reale": null,
       "entro": "2026-07-17",
       "tolleranza": 0.25,
-      "stato": "aperta",
+      "stato": "scaduta",
       "scarto_pct": null,
       "nota": "",
       "creato": "2026-07-14 02:47",
-      "chiuso_il": ""
+      "chiuso_il": "2026-07-18 06:20"
     },
     {
       "id": "CAL-20260714014054-finanz",
@@ -407,9 +407,27 @@
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-17 18:28",
       "chiuso_il": "2026-07-17 18:28"
+    },
+    {
+      "id": "CAL-20260718043026-ad",
+      "reparto": "@ad",
+      "azione": "Giro fleet 6 senior 18/7 — 14 mosse proposte e verificate",
+      "metrica": "esito_loop",
+      "atteso": 14,
+      "reale": 5,
+      "entro": "2026-07-18",
+      "tolleranza": 0.25,
+      "stato": "mancata",
+      "scarto_pct": 64.3,
+      "fonte": "chiusura-loop ESITO",
+      "sensore_stato": "n/d",
+      "banale": false,
+      "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
+      "creato": "2026-07-18 06:30",
+      "chiuso_il": "2026-07-18 06:30"
     }
   ],
-  "_nota": "16 chiuse · 2 aperte — registro gestito da calibrazione.mjs.",
+  "_nota": "17 chiuse · 0 aperte — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {
