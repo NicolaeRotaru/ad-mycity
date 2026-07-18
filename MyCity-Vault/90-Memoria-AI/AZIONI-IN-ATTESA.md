@@ -38,6 +38,23 @@ git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-20
 
 ---
 
+### 🟡 #apri-pr-timer-chat — Apri la PR per il fix del timer nelle conversazioni · ⏳ accodata 2026-07-18 17:00
+
+**Contesto:** Il timer nella lista conversazioni mostrava l'ora corrente invece dell'ultimo messaggio — si aggiornava ogni volta che Nicola apriva una chat (bug: `salvaConversazioneCasella` aggiornava `updated_at`). Fix committato su branch `fix/timer-ultimo-messaggio` (commit `8d898470`): ogni messaggio ora salva `created_at` proprio, il timer usa quello.
+
+**Comando dal terminale VPS:**
+```bash
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
+```
+
+**Cosa cambia:** il timer mostra l'orario dell'ultimo messaggio reale, non l'ora dell'apertura. Chat vecchie useranno la data di creazione della conversazione (stabile); le nuove funzioneranno correttamente da subito.
+**Se va bene:** Nicola vede le conversazioni ordinate per quando ha scritto l'ultima volta, non per quando le ha aperte.
+
+- **Colore:** 🟡 (merge codice)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🔴 #post-siamo-in-23 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
 
 **Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). Usa il dato reale 23 iscritti. Neutro, nessun consenso bottega richiesto. Post pronto in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
