@@ -55,6 +55,28 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
+### 🟡 #risolvi-conflitto-archivio-sezioni — Risolvi il conflitto di `Documenti.tsx` e apri la PR · ⏳ accodata 2026-07-18 18:00
+
+**Contesto:** Il branch `fix/archivio-sezioni-chiuse-default` ha un conflitto reale con main su `Documenti.tsx`: il branch ha riscritto la UI con l'accordion (sezioni chiuse di default), mentre main nel frattempo ha aggiunto le viste ricerca e cartella. L'auto-rebase ha abortito — non si risolve in automatico.
+
+**Cosa fare:** dal VPS, fai il rebase manuale:
+```bash
+git -C /opt/mycity/ad-mycity checkout fix/archivio-sezioni-chiuse-default
+git -C /opt/mycity/ad-mycity rebase main
+# risolvi il conflitto in Documenti.tsx (mantieni entrambe: accordion + nuove viste)
+git add pannello/src/components/Documenti.tsx
+git rebase --continue
+```
+Poi l'AD apre la PR.
+
+**Cosa cambia:** nel Pannello, le sezioni Documenti si aprono chiuse di default — meno rumore visivo nella vista iniziale.
+**Se va bene:** Pannello più pulito; Nicola decide se aprire o chiudere di default ogni sezione.
+
+- **Colore:** 🟡
+- **Reparto:** frontend-dev
+
+---
+
 ### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ accodata 2026-07-18 17:45
 
 **Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. La PR apre tutti e 35 i fix gravi della radiografia Opus del 7/7.
