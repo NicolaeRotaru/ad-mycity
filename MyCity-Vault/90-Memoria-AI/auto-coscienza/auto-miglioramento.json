@@ -587,7 +587,7 @@
       "data": "2026-07-19",
       "reviewer": "@qa",
       "reviewed": "@tech + @frontend-dev",
-      "oggetto": "Fix Pannello luglio 2026 (10+ PR mergiate: chat, archivio, arsenale, auto-coscienza)",
+      "lavoro": "Fix Pannello luglio 2026 (10+ PR mergiate: chat, archivio, arsenale, auto-coscienza)",
       "voto": 6,
       "punti_forza": [
         "Velocità di risposta ai bug segnalati da Nicola: fix in <24h nella maggior parte dei casi",
@@ -608,7 +608,7 @@
       "data": "2026-07-19",
       "reviewer": "@security",
       "reviewed": "@backend-dev + @tech",
-      "oggetto": "Sicurezza del codice e delle credenziali — stato luglio 2026",
+      "lavoro":"Sicurezza del codice e delle credenziali — stato luglio 2026",
       "voto": 5,
       "punti_forza": [
         "RLS Supabase configurato: ogni negozio vede solo i suoi dati",
@@ -629,7 +629,7 @@
       "data": "2026-07-19",
       "reviewer": "@analista",
       "reviewed": "@data-engineer",
-      "oggetto": "Qualità e copertura dei sensori dati — luglio 2026",
+      "lavoro":"Qualità e copertura dei sensori dati — luglio 2026",
       "voto": 6,
       "punti_forza": [
         "Supabase REST funzionante come fonte primaria: ordini, negozi, clienti leggibili in tempo reale",
@@ -650,7 +650,7 @@
       "data": "2026-07-19",
       "reviewer": "@direttore-creativo",
       "reviewed": "@content-social + @ai-copywriter",
-      "oggetto": "Qualità dei contenuti prodotti — giugno/luglio 2026",
+      "lavoro":"Qualità dei contenuti prodotti — giugno/luglio 2026",
       "voto": 4,
       "punti_forza": [
         "Piattaforma creativa 'Il Turno' definita e documentata (consegne/marketing/PIATTAFORMA-CREATIVA.md)",
@@ -671,7 +671,7 @@
       "data": "2026-07-19",
       "reviewer": "@product-manager",
       "reviewed": "@frontend-dev + @ux-designer",
-      "oggetto": "Esperienza utente del Pannello di Controllo — luglio 2026",
+      "lavoro":"Esperienza utente del Pannello di Controllo — luglio 2026",
       "voto": 6,
       "punti_forza": [
         "Pannello funzionante e accessibile da browser: home, bacheca, azioni, archivio, arsenale",
