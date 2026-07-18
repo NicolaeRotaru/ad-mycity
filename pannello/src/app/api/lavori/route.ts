@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { creaLavoro, getLavoriPannello, clearLavori, memoryConnected } from "@/lib/store";
+import { creaLavoro, getLavoriPannello, clearLavori, memoryConnected, MemoriaNonCollegata } from "@/lib/store";
 import { preparaLavoro } from "@/lib/comandi";
 
 export const runtime = "nodejs";
@@ -27,10 +27,23 @@ export async function POST(req: NextRequest) {
     const prep = preparaLavoro(String(richiesta || ""), tipo ? String(tipo) : undefined);
     if (!prep.richiesta.trim()) return NextResponse.json({ ok: false, error: "Richiesta vuota." }, { status: 400 });
     const gruppoId = gruppo_id ? String(gruppo_id).trim() : undefined;
-    const lavoro = await creaLavoro(prep.richiesta, prep.tipo, gruppoId || undefined);
+    let lavoro;
+    try {
+      lavoro = await creaLavoro(prep.richiesta, prep.tipo, gruppoId || undefined);
+    } catch (e: any) {
+      // Config: mancano le chiavi Supabase → problema stabile, va sistemato negli env.
+      if (e instanceof MemoriaNonCollegata) {
+        return NextResponse.json(
+          { ok: false, motivo: "memoria_non_collegata", error: "Memoria non collegata: mancano le chiavi del database (SUPABASE_URL / SUPABASE_SERVICE_KEY negli env)." },
+          { status: 503 }
+        );
+      }
+      throw e;
+    }
     if (!lavoro) {
+      // La tabella C'È: il DB non ha risposto dopo i ritentativi → intoppo passeggero di connessione.
       return NextResponse.json(
-        { ok: false, error: "Database non collegato o tabella 'lavori' mancante." },
+        { ok: false, motivo: "memoria_non_raggiungibile", error: "Il database di memoria non ha risposto (intoppo temporaneo di connessione). Il messaggio non è partito: riprova tra poco." },
         { status: 503 }
       );
     }

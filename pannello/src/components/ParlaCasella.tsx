@@ -216,17 +216,13 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         setMsgs([...conMio, { role: "assistant", content: esito.testo, pending: true }]);
       }
     } catch (e: any) {
-      // 🩹 Causa-radice «messaggio sparito»: se la memoria (database) non è collegata, il
-      //    lavoro NON parte (tabella `lavori` assente) → nessuna risposta, e la conversazione
-      //    è finita solo in localStorage (volatile). Diciamo la verità invece di lasciare la
-      //    spunta verde a far credere che sia tutto salvato e in arrivo.
-      const msg = e?.message || "Non riuscito.";
-      const memoriaGiu = /tabella 'lavori'|database non collegato|memoria (di memoria )?collegat/i.test(msg);
-      setErr(
-        memoriaGiu
-          ? "⚠️ Il messaggio non è arrivato alla macchina: la memoria (database) non è collegata, quindi non partirà nessuna risposta. Il testo è qui sotto: riprova quando il database è collegato — non l'ho perso."
-          : msg,
-      );
+      // 🩹 Causa-radice «messaggio sparito»: se il lavoro NON parte (memoria non collegata
+      //    o DB irraggiungibile per un intoppo passeggero) non ci sarà nessuna risposta, e
+      //    la conversazione è finita solo in localStorage (volatile). La route ci dà già il
+      //    messaggio giusto (config vs connessione): lo mostriamo com'è, con un prefisso ⚠️,
+      //    invece di far credere — con la spunta verde — che sia tutto salvato e in arrivo.
+      const msg = e?.message || "Il messaggio non è partito. Riprova.";
+      setErr(`⚠️ ${msg} Il testo è qui sotto: non l'ho perso.`);
       setBozza(testo); // 🐛 Bug #5: non perdere la bozza se l'invio fallisce, ripristinala
     } finally {
       setInviando(false);

@@ -129,15 +129,23 @@ export type Lavoro = {
 };
 
 /** Crea un lavoro per il cervello. Torna la riga creata, o null se non collegato. */
-export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<Lavoro | null> {
-  if (!memoryConnected()) return null;
-  const payload: Record<string, string> = { richiesta, tipo, stato: "in_attesa" };
-  if (gruppoId) payload.gruppo_id = gruppoId;
+// Errore "memoria non collegata": mancano le chiavi Supabase → è un problema di
+// CONFIGURAZIONE, non un intoppo passeggero. La route lo distingue per dare il
+// messaggio giusto (e NON dire mai "tabella mancante" quando la tabella c'è).
+export class MemoriaNonCollegata extends Error {
+  constructor() {
+    super("memoria-non-collegata");
+    this.name = "MemoriaNonCollegata";
+  }
+}
+
+async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: string | null): Promise<Response> {
   let res = await fetch(`${URL}/rest/v1/lavori`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
     body: JSON.stringify(payload),
   });
+  // Se la colonna gruppo_id non esiste sul DB, riprova SUBITO senza (non è un fallimento di rete).
   if (!res.ok && gruppoId) {
     const { gruppo_id: _g, ...senzaGruppo } = payload;
     res = await fetch(`${URL}/rest/v1/lavori`, {
@@ -146,9 +154,36 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
       body: JSON.stringify(senzaGruppo),
     });
   }
-  if (!res.ok) return null;
-  const rows = (await res.json()) as Lavoro[];
-  return rows[0] || null;
+  return res;
+}
+
+// Crea un lavoro. Lancia MemoriaNonCollegata se mancano le chiavi (config);
+// ritorna null solo se, DOPO i ritentativi, il DB continua a non rispondere
+// (intoppo di connessione passeggero — la tabella esiste, non è "mancante").
+export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<Lavoro | null> {
+  if (!memoryConnected()) throw new MemoriaNonCollegata();
+  const payload: Record<string, string> = { richiesta, tipo, stato: "in_attesa" };
+  if (gruppoId) payload.gruppo_id = gruppoId;
+  // Ritenta i fallimenti transitori (rete/pooler/5xx): 3 tentativi con backoff breve.
+  // Così un singolo intoppo non fa "sparire" il messaggio di Nicola.
+  let ultimoStato = 0;
+  for (let tentativo = 0; tentativo < 3; tentativo++) {
+    if (tentativo > 0) await new Promise((r) => setTimeout(r, 400 * tentativo));
+    try {
+      const res = await postLavoroUnaVolta(payload, gruppoId);
+      if (res.ok) {
+        const rows = (await res.json()) as Lavoro[];
+        return rows[0] || null;
+      }
+      ultimoStato = res.status;
+      // 4xx diversi da 429 = errore stabile (richiesta malformata, RLS): inutile ritentare.
+      if (res.status >= 400 && res.status < 500 && res.status !== 429) break;
+    } catch {
+      /* rete caduta: ritento */
+    }
+  }
+  void ultimoStato;
+  return null;
 }
 
 /** Un singolo lavoro per id, corpo completo (o null). */
