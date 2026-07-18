@@ -35,7 +35,8 @@ const WORKER_AUTO_PATHS = new Set([
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
 ]);
 
-/** Descrizione PR condivisa: ogni branch la riscrive → conflitto certo se main avanza. Non committarla sul branch. */
+/** Descrizione PR condivisa: SOLO come output di scrittura (writeConsegna), MAI come input/fallback di lettura.
+ * Il file viene corrotto dal rebase (--theirs lo riporta alla versione di main = PR precedente). */
 const SHARED_PR_BODY = "consegne/tech/pr-ad-mycity-body.md";
 
 /** In rebase, questi file si risolvono da soli (teniamo la base; il body vero va su GitHub via API). */
@@ -184,6 +185,21 @@ function isGenericBody(body) {
   return !t || t.length < MIN_BODY_LEN || GENERIC_BODY_RE.test(t);
 }
 
+/** Genera un body automatico dai commit del branch (formato standard ## Cosa cambia / ## Come provare).
+ * Non cerca mai il file condiviso pr-ad-mycity-body.md: viene corrotto dal rebase. */
+function buildAutoBody(cfg, branch) {
+  const commits = gitOrNull(
+    ["log", "--oneline", "--no-merges", `origin/main..refs/heads/${branch}`],
+    cfg.cwd
+  ) || gitOrNull(
+    ["log", "--oneline", "--no-merges", "-10", `refs/heads/${branch}`],
+    cfg.cwd
+  ) || "";
+  const righe = commits.split("\n").filter(Boolean).map((l) => `- ${l.replace(/^[0-9a-f]+ /, "")}`);
+  const lista = righe.length ? righe.join("\n") : `- ${branch}`;
+  return `## Cosa cambia\n${lista}\n\n## Come provare\nVerifica su Vercel Preview dopo il merge.`;
+}
+
 /** @param {Record<string, string | boolean>} args @param {{ key: string }} cfg @param {string} branch */
 function resolveBody(args, cfg, branch) {
   if (args["body-file"]) {
@@ -193,9 +209,10 @@ function resolveBody(args, cfg, branch) {
   }
   if (args.body) return String(args.body).trim();
 
+  // Cerca SOLO file per-branch (non il file condiviso pr-ad-mycity-body.md —
+  // viene sovrascritto dal rebase con --theirs e prende la descrizione della PR precedente).
   const slug = branchSlug(branch);
   const candidates = [
-    join(TECH_DIR, `pr-${cfg.key}-body.md`),
     join(TECH_DIR, `pr-${cfg.key}-${slug}-body.md`),
     join(TECH_DIR, `pr-body-${slug}.md`),
   ];
@@ -205,16 +222,12 @@ function resolveBody(args, cfg, branch) {
   return "";
 }
 
-function requireBody(body) {
-  if (isGenericBody(body)) {
-    console.error("ERRORE: ogni PR deve avere una descrizione comprensibile su GitHub.");
-    console.error("Scrivi cosa cambia, perché e come verificare (2-3 passi), poi passa:");
-    console.error("  --body \"…\"  oppure  --body-file consegne/tech/pr-ad-mycity-body.md");
-    console.error("Oppure salva il testo in uno di questi file prima di aprire la PR:");
-    console.error("  consegne/tech/pr-<repo>-body.md");
-    console.error("  consegne/tech/pr-<repo>-<branch>-body.md");
-    process.exit(1);
-  }
+function requireBody(body, cfg, branch) {
+  if (!isGenericBody(body)) return body;
+  // Nessun body esplicito: genera automaticamente dai commit.
+  const auto = buildAutoBody(cfg, branch);
+  console.log(`ℹ️  Nessun body esplicito — generato automaticamente dai commit del branch.`);
+  return auto;
 }
 
 /** @param {import('./git-github.mjs').RepoConfig} cfg @param {string} base */
@@ -499,8 +512,7 @@ async function main() {
     String(args.title || "") ||
     gitOrNull(["log", "-1", "--format=%s", `refs/heads/${branch}`], cfg.cwd) ||
     branch;
-  const body = resolveBody(args, cfg, branch);
-  requireBody(body);
+  const body = requireBody(resolveBody(args, cfg, branch), cfg, branch);
 
   let pr;
   if (dryRun) {
