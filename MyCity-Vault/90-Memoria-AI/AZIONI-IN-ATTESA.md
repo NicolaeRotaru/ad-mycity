@@ -34,13 +34,7 @@ git -C /opt/mycity/ad-mycity/marketplace checkout -b fix/35-gravi-radiografia-20
 
 ---
 
-### 🟡 #apri-pr-mcp-cieco — Apri PR: rimuovi casella errore MCP quando REST è ok · ⏳ accodata 2026-07-18 15:55
-
-**Branch:** `fix/mcp-cieco-no-casella-errore` · commit `2ba574b1`
-
-**Cosa cambia:** la casella "Database diretto non disponibile" sparisce dal Pannello (era falsa: i dati sono sempre completi via REST). Rimane solo se anche il REST è cieco — guasto vero.
-
-**Se va bene:** Vercel deploya, la casella non compare più.
+❌ #apri-pr-mcp-cieco — NESSUNA PR NECESSARIA: `fix/mcp-cieco-no-casella-errore` già dentro main (verificato 2026-07-18 16:28 con rebase). Fix già applicato.
 
 ---
 
@@ -150,27 +144,7 @@ sudo systemctl restart mycity-worker-chat.service
 
 ---
 
-### 🟡 #apri-pr-chat-4bug-ux — Apri PR: 4 fix UX chat Pannello (scroll, sticky, triplicazione) · ⏳ accodata 2026-07-18 03:00
-
-**Branch:** `fix/chat-4bug-ux` · commit `f4b3beff` (già su VPS, non ancora pushato su GitHub)
-
-**4 fix in una PR (richiesta di Nicola 18/7):**
-1. **Scroll all'apertura** — la chat apre all'ultimo messaggio, non dall'inizio (doppio RAF + timeout 120ms)
-2. **Textarea sticky** — `shrink-0` su `BarraScritturaChat` nella chat principale e nel FAB: il box di testo non viene spinto giù dai nuovi messaggi
-3. **ChatCasella layout** — `flex-col max-h-[420px]` con footer sticky: il box di testo rimane fisso mentre si scrolla su
-4. **Triplicazione eliminata** — guard in `setMsgs` di ChatCasella: lo stesso messaggio non appare 3 volte
-
-**Aprire con:**
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --branch fix/chat-4bug-ux --base main --title "fix: 4 bug UX chat — scroll, textarea sticky, triplicazione"
-```
-*(git-pr.mjs è in allowlist dalla chat dal 18/7)*
-
-**Cosa cambia:** aprire la chat va all'ultimo messaggio; il box di testo resta fermo; le risposte non compaiono triplicate.
-**Se va bene:** 4 fastidi della chat quotidiana eliminati in un colpo solo.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
+❌ #apri-pr-chat-4bug-ux — NESSUNA PR NECESSARIA: `fix/chat-4bug-ux` già dentro main (verificato 2026-07-18 16:28 con rebase). Scroll, sticky, triplicazione: fix già applicati.
 
 ---
 
@@ -318,13 +292,13 @@ _(sostituisci 150 con il valore reale se diverso)_
 
 ---
 
-### 🟡 #push-main-memoria — Pusha main su GitHub (2 commit memoria non pubblicati) · ⏳ accodata 2026-07-17 06:45
+### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45
 
 **Cosa fare:** dal VPS esegui: `git push origin main`
 
-`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è 3 commit avanti di origin/main: memoria giro mattino, auto-coscienza e consegna PR #428 non ancora pubblicati su GitHub.
+`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **ora 2 commit avanti** di origin/main (aggiornato 2026-07-18 16:28: +11 file memoria + 2 auto-coscienza).
 
-**Cosa cambia:** il Pannello hosted vede la memoria aggiornata del giro di stamattina.
+**Cosa cambia:** il Pannello hosted vede la memoria aggiornata.
 **Se va bene:** nessun passo successivo necessario.
 
 - **Colore:** 🟡
