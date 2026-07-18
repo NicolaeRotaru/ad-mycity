@@ -75,6 +75,7 @@
       "id": "EXP-001-north-star-ordine-1",
       "stato": "aperto",
       "ambito": "north-star-ordine-1",
+      "ipotesi": "Se facciamo l'ordine test su Pane Quotidiano e mandiamo 3 WhatsApp agli anchor (Garetti, Peretti, Amendolara), il primo ordine consegnato arriva entro il 25 luglio.",
       "metrica": "ordini_consegnati",
       "atteso": 1,
       "data_misura": "2026-07-25",
