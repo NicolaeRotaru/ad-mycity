@@ -1495,7 +1495,7 @@ Poi dì **"ok #fix-35-gravi"** e scrivo tutti i 35 fix uno per uno (Write/Edit, 
 ---
 
 
-### 🟡 #antichurn-13lug — Lancia il ciclo di check-in per le botteghe onboardate dopo il 13/7 · ⏳ IN ATTESA · accodata 2026-07-11 12:15
+### ❌ #antichurn-13lug — SCADUTA 2026-07-18 11:11 · condizione mai soddisfatta (0 botteghe onboardate dopo 13/7; i 6 ristoranti elencati in A4 sono ESCLUSI per regola Nicola 18/7)
 
 > **Scan 14/7 11:07 (REST live):** ancora **1 solo negozio approvato** (PQ) — nessuna bottega nuova online dal 13/7. Debrief visita mancante. Dettaglio: `consegne/account-negozi/2026-07-14-antichurn-playbook.md`.
 

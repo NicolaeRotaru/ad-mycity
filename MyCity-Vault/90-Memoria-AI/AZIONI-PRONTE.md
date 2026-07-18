@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-14 02:45
+aggiornato: 2026-07-18 11:11
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -12,13 +12,12 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 > mosse) referenziato da lì, NON una seconda coda parallela. Quando accodi un'azione nuova, mettila in
 > `AZIONI-IN-ATTESA.md`; se serve l'anteprima lunga, linkala qui. Non duplicare lo stato di approvazione.
 
-## A4 · 🛡️ Playbook anti-churn 6 botteghe priorità (post 13/7)
+## A4 · ⛔ RITIRATA 2026-07-18 — Playbook anti-churn 6 botteghe (post 13/7)
 reparto: account-negozi
-livello: 🟡 (ogni check-in reale va avviato da Nicola)
-canale: WhatsApp/telefono diretto → poi AD prepara i testi
-perche: 6 nuove botteghe food onboardate il 13/7 — nessun ciclo di cura garantisce che non si perdano in silenzio
-preparato: account-negozi · playbook completo in `consegne/account-negozi/2026-07-11-playbook-antichurn-6-botteghe.md`
-coda: [[AZIONI-IN-ATTESA]] #antichurn-13lug
+livello: ⛔ non avviare
+motivo: I 6 negozi elencati (Tigellabella, La Forchetta, Le Tre Ganasce, Osteria Carducci, La Dispensa, Trattoria Pescatori) sono TUTTI **ESCLUSI** perché ristoranti/osterie (Nicola 18/7: «non sono il nostro target»). La visita del 13/7 non ha prodotto onboarding. Condizione "botteghe onboardate dopo 13/7" = mai soddisfatta.
+stato: #antichurn-13lug segnata ❌ SCADUTA 2026-07-18 in AZIONI-IN-ATTESA.
+sostituzione: Il playbook anti-churn si riattiva quando arriva il **primo negozio reale onboardato** (Garetti/Peretti/Amendolara o onda 2). La struttura T+3/T+7/T+14/T+45 resta valida — basta cambiare i destinatari.
 
 ### Testi T+3 (da inviare ≈ mer 16/7, WhatsApp) — pronti, da personalizzare col nome raccolto il 13/7
 
