@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 17:12
-fonte: AD digitale (giro decimo 18/7 17:12 — giro da chat Nicola)
+aggiornato: 2026-07-18 17:37
+fonte: AD digitale (giro dodicesimo 18/7 17:37 — giro da chat Nicola)
 ---
+
+> 🛰️ **18/7 17:37 — GIRO (dodicesimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~587h** (~24,5 giorni). North Star 0, cassa 0€. Sensori 17:37: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 77 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0 (17:37). Registro-scelte rc=0 confermato analiticamente (13 prospect scelta_ragionata + 6 esclusi nel registro-realtà, invariato dal giro 11:10). **URGENZA STASERA:** PI26 apre DOMANI 20/7 ore 10:00 a sportello — 🔴 registrarsi su restart.infocamere.it OGGI. **Mossa 2:** 🟡 ordine test PQ (North Star 0→1). **Mossa 3:** 🟡 3 WhatsApp anchor PI26. Dettaglio: [[Briefing/2026-07-18]].
 
 > 🛰️ **18/7 17:12 — GIRO (decimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~586h** (~24,4 giorni). North Star 0, cassa 0€. Sensori 17:11: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 75 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0 (17:12). Registro-scelte rc=0 (confermato, invariato). **URGENZA ORA:** PI26 apre DOMANI 20/7 ore 10:00 — 🔴 registrarsi su restart.infocamere.it OGGI. **Mossa 2:** 🟡 ordine test PQ. **Mossa 3:** 🟡 3 WhatsApp anchor PI26. **Bug Pannello:** 6 screenshot da Nicola (non leggibili); 2 fix pronti: timer lista + cassetto mobile (PR accodata). Dettaglio: [[Briefing/2026-07-18]].
 
