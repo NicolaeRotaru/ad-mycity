@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 22:55 · 🟡 · [Nicola «sposta l'arsenale dentro un tab in alto»] · **PR #463 aperta — Arsenale spostato da blocco in fondo a tab «Arsenale» 🗡️ nella barra in alto delle Azioni.** Nicola ha chiesto anche una spiegazione dell'Arsenale: è la raccolta di 15 playbook organizzati per le 9 aree di dominio, con frequenza, colore 🟢🟡🔴 e ultima esecuzione. Branch `fix/arsenale-tab` · commit `914e9fe2`. Attende merge da Nicola: https://github.com/NicolaeRotaru/ad-mycity/pull/463
+
 2026-07-18 20:15 · 🟡 · [Bug descrizioni PR identificato] · **Bug strutturale nel sistema PR: `consegne/tech/pr-ad-mycity-body.md` è un file condiviso tra tutte le PR — durante il rebase si risolve automaticamente con il contenuto di main (la vecchia descrizione), corrompendo la nuova PR.** Nicola ha segnalato (18/7): «descrizione fa schifo, non è più come prima». Fix proposto dall'AD: riscrivere il file prima di ogni `git-pr.mjs` oppure usare `--body "..."` inline. Attende approvazione e implementazione in branch.
 
 2026-07-18 19:55 · 🔴 · [Nicola «Applica tu le 3 migrazioni»] · **Nicola ha chiesto all'AD di applicare le migrazioni 109, 110, 111 dopo il merge PR #213.** AD non ha potuto nella sessione precedente (MCP non disponibile in quel momento). Il tool `mcp__supabase-marketplace__apply_migration` è intermittente: appare quando il server MCP è connesso. Sequenza corretta: (1) Nicola mergia PR #213 su GitHub, (2) nella prossima chat AD carica il tool via ToolSearch e applica le 3 migrazioni in ordine.

@@ -34,6 +34,22 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 
 ---
 
+### 🟡 #arsenale-tab — Mergia la PR #463 che sposta l'Arsenale in un tab · ⏳ accodata 2026-07-18 22:55
+
+**Contesto:** Nicola ha chiesto (18/7) di spostare l'Arsenale dall'area in fondo alla pagina dentro un tab «Arsenale» 🗡️ nella barra in alto delle Azioni, accanto ai tab esistenti.
+
+**Fix implementato:** `Arsenale` rimosso da `page.tsx` e aggiunto come tab in `Azioni.tsx` — la barra ha ora un tab «Arsenale» che mostra lo stesso contenuto.
+
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/463 · branch `fix/arsenale-tab` · commit `914e9fe2`
+
+**Cosa cambia:** l'Arsenale compare nella barra in alto di Azioni — non più come blocco in fondo alla pagina.
+**Se va bene:** Nicola trova i playbook direttamente nel tab, insieme a tutti gli altri strumenti.
+
+- **Colore:** 🟡 (codice Pannello → mergia Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🟡 #apri-pr-nuova-chat-auto-apri — Apri la PR che blocca l'auto-ricarica della vecchia chat · ⏳ accodata 2026-07-18 17:30
 
 **Contesto:** Nicola ha mostrato screenshot: quando premeva «+» per una nuova chat, la conversazione precedente riappariva automaticamente. Causa: un `useEffect` per la sync cross-device riapr1va l'ultima conversazione recente (< 2 ore) dopo che `nuovaConversazione()` l'aveva svuotata.
