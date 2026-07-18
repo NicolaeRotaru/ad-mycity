@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 23:28
-fonte: AD digitale (chat Nicola 18/7 23:28)
+aggiornato: 2026-07-19 00:20
+fonte: AD digitale (chat Nicola 19/7 00:20)
 ---
+
+> 💬 **19/7 00:20 — CHAT: auto-miglioramento.json espanso a massima profondità.** Nicola ha chiesto «sono solo 2 benchmark e 1 esperimento o ce ne sono di più?» — confermato: non era un bug UI. Su istruzione «crea tutti, non limitarti, dai il massimo», AD ha portato benchmark da 2 a **11** (aggiunti: operations, onboarding-negozi, crm-lifecycle, growth, seo, trust-safety, marketplace-payments, customer-success, analytics) e esperimenti da 1 a **12** (7 aperti + 5 pianificati). File: `auto-coscienza/auto-miglioramento.json`. Fonte: chat Nicola 19/7 00:20.
 
 > 💬 **19/7 00:05 — CHAT: caselle auto-coscienza aggiornate + PR #466 aperta.** Punteggio 42→50/100 (6 AR chiusi, EXP-001 aperto), obiettivo rinnovato «entro 25 luglio», regola venerdì aggiunta a ritmo.md. PR #465 aveva conflitti (worker aggiorna file memoria ogni 2h) — sostituita da PR #466 branch pulito (solo ritmo.md). Nicola deve: ① chiudere PR #465 ② mergiare PR #466. Fonte: chat Nicola 19/7 00:05.
 
