@@ -2274,7 +2274,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     carica();
     const onLavori = () => carica();
     window.addEventListener("mycity:lavori", onLavori);
-    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 400 : 8000;
+    // 400→800 mentre una risposta è in arrivo: il canale SSE (ping) guida già gli aggiornamenti
+    // in tempo reale, quindi questo poll è la rete di sicurezza — dimezzarlo taglia il carico su
+    // Supabase senza rallentare lo streaming a schermo.
+    const ms = loading || pendingLavoroChatRef.current.size > 0 ? 800 : 8000;
     const id = setInterval(() => carica(), ms);
 
     // 🔴 TEMPO REALE (push): mentre una risposta scorre, apro il canale SSE e ricarico a ogni "ping"

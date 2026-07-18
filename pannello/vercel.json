@@ -1,5 +1,6 @@
 {
   "framework": "nextjs",
+  "regions": ["fra1"],
   "git": { "deploymentEnabled": { "main": false } },
   "ignoreCommand": "git cat-file -e ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} 2>/dev/null && git diff --quiet ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD -- . || exit 1",
   "crons": [

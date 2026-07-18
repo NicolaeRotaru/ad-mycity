@@ -36,10 +36,36 @@ function headers() {
   };
 }
 
+// Fetch verso Supabase REST con timeout (AbortController) + retry sui transitori.
+// Il timeout evita che una risposta lenta resti appesa fino al kill di Vercel;
+// il retry copre i singoli intoppi del pooler/rete. I 4xx (tranne 429) NON si ritentano.
+const SB_TIMEOUT_MS = 8000;
+async function sbFetch(url: string, opts: RequestInit = {}, retries = 0): Promise<Response> {
+  let ultimoErrore: unknown;
+  for (let tentativo = 0; tentativo <= retries; tentativo++) {
+    if (tentativo > 0) await new Promise((r) => setTimeout(r, 300 * tentativo));
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), SB_TIMEOUT_MS);
+    try {
+      const res = await fetch(url, { ...opts, signal: ac.signal });
+      clearTimeout(timer);
+      // Ritenta solo i transitori (5xx / 429) e solo se restano tentativi.
+      if ((res.status >= 500 || res.status === 429) && tentativo < retries) continue;
+      return res;
+    } catch (e) {
+      clearTimeout(timer);
+      ultimoErrore = e;
+    }
+  }
+  throw ultimoErrore instanceof Error ? ultimoErrore : new Error("supabase-fetch-timeout");
+}
+// GET idempotenti: timeout + 2 ritentativi. Comodo drop-in per le letture.
+const sbGet = (url: string, opts: RequestInit = {}) => sbFetch(url, opts, 2);
+
 /** Salva il briefing dell'ultimo giro. */
 export async function saveBriefing(data: Briefing): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/briefings`, {
+  await sbFetch(`${URL}/rest/v1/briefings`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=minimal" },
     body: JSON.stringify({ data }),
@@ -49,7 +75,7 @@ export async function saveBriefing(data: Briefing): Promise<void> {
 /** Ultimo briefing salvato (o null). */
 export async function getLatestBriefing(): Promise<BriefingRecord | null> {
   if (!memoryConnected()) return null;
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/briefings?select=created_at,data&order=created_at.desc&limit=1`,
     { headers: headers(), cache: "no-store" }
   );
@@ -61,7 +87,7 @@ export async function getLatestBriefing(): Promise<BriefingRecord | null> {
 /** Date degli ultimi giri (per mostrare "quanto e' attivo"). */
 export async function getRecentTimes(limit = 10): Promise<string[]> {
   if (!memoryConnected()) return [];
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/briefings?select=created_at&order=created_at.desc&limit=${limit}`,
     { headers: headers(), cache: "no-store" }
   );
@@ -79,7 +105,7 @@ export type DiarioRecord = DiarioVoce & { id: string; created_at: string };
 /** Salva una voce del diario (chat, giro, azione). */
 export async function saveDiarioVoce(v: DiarioVoce): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/diario`, {
+  await sbFetch(`${URL}/rest/v1/diario`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=minimal" },
     body: JSON.stringify({ tipo: v.tipo, titolo: v.titolo, testo: v.testo }),
@@ -89,7 +115,7 @@ export async function saveDiarioVoce(v: DiarioVoce): Promise<void> {
 /** Le ultime voci del diario, dalla piu' recente. */
 export async function getDiario(limit = 200): Promise<DiarioRecord[]> {
   if (!memoryConnected()) return [];
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/diario?select=id,created_at,tipo,titolo,testo&order=created_at.desc&limit=${limit}`,
     { headers: headers(), cache: "no-store" }
   );
@@ -100,7 +126,7 @@ export async function getDiario(limit = 200): Promise<DiarioRecord[]> {
 /** Svuota il diario (tutte le voci). */
 export async function clearDiario(): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/diario?id=not.is.null`, {
+  await sbFetch(`${URL}/rest/v1/diario?id=not.is.null`, {
     method: "DELETE",
     headers: { ...headers(), Prefer: "return=minimal" },
   });
@@ -140,7 +166,7 @@ export class MemoriaNonCollegata extends Error {
 }
 
 async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: string | null): Promise<Response> {
-  let res = await fetch(`${URL}/rest/v1/lavori`, {
+  let res = await sbFetch(`${URL}/rest/v1/lavori`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
     body: JSON.stringify(payload),
@@ -148,7 +174,7 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
   // Se la colonna gruppo_id non esiste sul DB, riprova SUBITO senza (non è un fallimento di rete).
   if (!res.ok && gruppoId) {
     const { gruppo_id: _g, ...senzaGruppo } = payload;
-    res = await fetch(`${URL}/rest/v1/lavori`, {
+    res = await sbFetch(`${URL}/rest/v1/lavori`, {
       method: "POST",
       headers: { ...headers(), Prefer: "return=representation" },
       body: JSON.stringify(senzaGruppo),
@@ -189,7 +215,7 @@ export async function creaLavoro(richiesta: string, tipo = "analisi", gruppoId?:
 /** Un singolo lavoro per id, corpo completo (o null). */
 export async function getLavoroById(id: string): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/lavori?select=${LAVORI_SELECT_FULL}&id=eq.${encodeURIComponent(id)}&limit=1`,
     { headers: headers(), cache: "no-store" }
   );
@@ -204,7 +230,7 @@ export async function getLavoriByIds(ids: string[]): Promise<Lavoro[]> {
   const uniq = [...new Set(ids.map((x) => x.trim()).filter(Boolean))].slice(0, 50);
   if (uniq.length === 0) return [];
   const inList = uniq.map((x) => encodeURIComponent(x)).join(",");
-  const res = await fetch(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_FULL}&id=in.(${inList})`, {
+  const res = await sbGet(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_FULL}&id=in.(${inList})`, {
     headers: headers(),
     cache: "no-store",
   });
@@ -215,11 +241,11 @@ export async function getLavoriByIds(ids: string[]): Promise<Lavoro[]> {
 /** Aggiorna stato/risultato di un lavoro. Torna true se riuscito. */
 export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato" | "risultato">>): Promise<boolean> {
   if (!memoryConnected()) return false;
-  const res = await fetch(`${URL}/rest/v1/lavori?id=eq.${encodeURIComponent(id)}`, {
+  const res = await sbFetch(`${URL}/rest/v1/lavori?id=eq.${encodeURIComponent(id)}`, {
     method: "PATCH",
     headers: { ...headers(), Prefer: "return=minimal" },
     body: JSON.stringify({ ...patch, updated_at: new Date().toISOString() }),
-  });
+  }, 2);
   return res.ok;
 }
 
@@ -237,7 +263,7 @@ export async function annullaLavoroSeStato(
 ): Promise<Lavoro | null> {
   if (!memoryConnected()) return null;
   const inFiltro = statiAmmessi.map((s) => encodeURIComponent(s)).join(",");
-  const res = await fetch(
+  const res = await sbFetch(
     `${URL}/rest/v1/lavori?id=eq.${encodeURIComponent(id)}&stato=in.(${inFiltro})`,
     {
       method: "PATCH",
@@ -261,9 +287,9 @@ async function fetchLavoriQuery(extra: string, full = false): Promise<Lavoro[]> 
   if (!memoryConnected()) return [];
   const select = full ? LAVORI_SELECT_FULL : LAVORI_SELECT_LIGHT;
   const q = `${URL}/rest/v1/lavori?select=${select}&${extra}`;
-  let res = await fetch(q, { headers: headers(), cache: "no-store" });
+  let res = await sbGet(q, { headers: headers(), cache: "no-store" });
   if (!res.ok && full) {
-    res = await fetch(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_LEGACY}&${extra}`, {
+    res = await sbGet(`${URL}/rest/v1/lavori?select=${LAVORI_SELECT_LEGACY}&${extra}`, {
       headers: headers(),
       cache: "no-store",
     });
@@ -280,7 +306,7 @@ export async function countLavori(filtro?: string): Promise<number> {
     const eq = filtro.indexOf("=");
     if (eq > 0) params.set(filtro.slice(0, eq), filtro.slice(eq + 1));
   }
-  const res = await fetch(`${URL}/rest/v1/lavori?${params}`, {
+  const res = await sbGet(`${URL}/rest/v1/lavori?${params}`, {
     headers: { ...headers(), Prefer: "count=exact" },
     cache: "no-store",
   });
@@ -353,7 +379,7 @@ export async function getLavori(limit = 50): Promise<Lavoro[]> {
 /** Svuota i lavori. */
 export async function clearLavori(): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/lavori?id=not.is.null`, {
+  await sbFetch(`${URL}/rest/v1/lavori?id=not.is.null`, {
     method: "DELETE",
     headers: { ...headers(), Prefer: "return=minimal" },
   });
@@ -375,7 +401,7 @@ export type ConversazioneRow = {
 /** Elenco conversazioni. tabella:false se la tabella non esiste ancora. */
 export async function getConversazioni(limit = 100): Promise<{ tabella: boolean; righe: ConversazioneRow[] }> {
   if (!memoryConnected()) return { tabella: false, righe: [] };
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/conversazioni?select=id,created_at,updated_at,titolo,messaggi&order=created_at.desc&limit=${limit}`,
     { headers: headers(), cache: "no-store" }
   );
@@ -387,14 +413,14 @@ export async function getConversazioni(limit = 100): Promise<{ tabella: boolean;
 export async function upsertConversazione(c: { id?: string | null; titolo: string; messaggi: any }): Promise<string | null> {
   if (!memoryConnected()) return null;
   if (c.id) {
-    const res = await fetch(`${URL}/rest/v1/conversazioni?id=eq.${c.id}`, {
+    const res = await sbFetch(`${URL}/rest/v1/conversazioni?id=eq.${c.id}`, {
       method: "PATCH",
       headers: { ...headers(), Prefer: "return=minimal" },
       body: JSON.stringify({ titolo: c.titolo, messaggi: c.messaggi, updated_at: new Date().toISOString() }),
-    });
+    }, 2);
     return res.ok ? c.id : null;
   }
-  const res = await fetch(`${URL}/rest/v1/conversazioni`, {
+  const res = await sbFetch(`${URL}/rest/v1/conversazioni`, {
     method: "POST",
     headers: { ...headers(), Prefer: "return=representation" },
     body: JSON.stringify({ titolo: c.titolo, messaggi: c.messaggi }),
@@ -407,7 +433,7 @@ export async function upsertConversazione(c: { id?: string | null; titolo: strin
 /** Elimina una conversazione. */
 export async function deleteConversazione(id: string): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/conversazioni?id=eq.${id}`, {
+  await sbFetch(`${URL}/rest/v1/conversazioni?id=eq.${id}`, {
     method: "DELETE",
     headers: { ...headers(), Prefer: "return=minimal" },
   });
@@ -416,7 +442,7 @@ export async function deleteConversazione(id: string): Promise<void> {
 /** Svuota tutte le conversazioni. */
 export async function clearConversazioni(): Promise<void> {
   if (!memoryConnected()) return;
-  await fetch(`${URL}/rest/v1/conversazioni?id=not.is.null`, {
+  await sbFetch(`${URL}/rest/v1/conversazioni?id=not.is.null`, {
     method: "DELETE",
     headers: { ...headers(), Prefer: "return=minimal" },
   });
@@ -429,7 +455,7 @@ export async function clearConversazioni(): Promise<void> {
 /** Legge il valore di una impostazione (o null se assente/non collegato). */
 export async function getImpostazione(chiave: string): Promise<string | null> {
   if (!memoryConnected()) return null;
-  const res = await fetch(
+  const res = await sbGet(
     `${URL}/rest/v1/impostazioni?select=valore&chiave=eq.${encodeURIComponent(chiave)}&limit=1`,
     { headers: headers(), cache: "no-store" }
   );
@@ -441,7 +467,7 @@ export async function getImpostazione(chiave: string): Promise<string | null> {
 /** Legge tutte le impostazioni come mappa chiave→valore. */
 export async function getImpostazioni(): Promise<{ tabella: boolean; valori: Record<string, string> }> {
   if (!memoryConnected()) return { tabella: false, valori: {} };
-  const res = await fetch(`${URL}/rest/v1/impostazioni?select=chiave,valore`, { headers: headers(), cache: "no-store" });
+  const res = await sbGet(`${URL}/rest/v1/impostazioni?select=chiave,valore`, { headers: headers(), cache: "no-store" });
   if (!res.ok) return { tabella: false, valori: {} };
   const rows = (await res.json()) as { chiave: string; valore: string }[];
   const valori: Record<string, string> = {};
@@ -452,7 +478,7 @@ export async function getImpostazioni(): Promise<{ tabella: boolean; valori: Rec
 /** Scrive (upsert) una impostazione. Torna true se riuscito. */
 export async function setImpostazione(chiave: string, valore: string): Promise<boolean> {
   if (!memoryConnected()) return false;
-  const res = await fetch(`${URL}/rest/v1/impostazioni?on_conflict=chiave`, {
+  const res = await sbFetch(`${URL}/rest/v1/impostazioni?on_conflict=chiave`, {
     method: "POST",
     headers: { ...headers(), Prefer: "resolution=merge-duplicates,return=minimal" },
     body: JSON.stringify({ chiave, valore, updated_at: new Date().toISOString() }),

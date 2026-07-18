@@ -14,7 +14,9 @@ export const revalidate = 0;
 const URL_BASE = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;
 
-const CADENZA_MS = 250; // ogni quanto il server controlla il DB (solo mentre una risposta scorre)
+const CADENZA_MS = 500; // ogni quanto il server controlla il DB (solo mentre una risposta scorre).
+// 250→500: dimezza il carico su Supabase (era la query più martellante nei log: ~4/s per ogni
+// linea aperta). Il debounce lato client (120ms) tiene comunque lo streaming fluido a schermo.
 const VITA_MAX_MS = 45_000; // dopo 45s chiudiamo: il client (EventSource) si riaggancia da solo
 const GRAZIA_VUOTO = 8; // cicli senza lavori in corso prima di chiudere (≈2s)
 
