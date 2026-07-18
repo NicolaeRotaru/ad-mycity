@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 00:20
-fonte: AD digitale (chat Nicola 19/7 00:20)
+aggiornato: 2026-07-19 01:10
+fonte: AD digitale (metabolizzazione chat 19/7)
 ---
+
+> ✅ **19/7 01:10 — FATTO: baseline esperimenti corretti 23→4.** EXP-003/004/005 in auto-miglioramento.json aggiornati con il numero confermato da Nicola (19/7: «a me risultano solo 4»). Note benchmark @crm-lifecycle aggiornata. Il «23 clienti» nei giri storici resta come era (storia esente). Fonte: metabolizzazione chat 19/7.
 
 > ⚠️ **19/7 00:40 — CORREZIONE NICOLA: iscritti = 4, non 23.** Nicola: «chi sono i 23 iscritti, a me risultano solo 4». Il «23 clienti» in STATO.md e in EXP-001 non era verificato dal DB live — era stale o contava categorie diverse (profili totali vs clienti reali). Il numero reale nella dashboard Supabase è **4** (da chiarire: auth.users totali o solo clienti esclusi negozi/admin). Pendente: aggiornare EXP-001 baseline da 23→4 quando Nicola conferma. L-2026-0719-279.
 

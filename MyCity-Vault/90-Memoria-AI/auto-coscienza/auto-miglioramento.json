@@ -179,7 +179,7 @@
           "data": "2026-07-18",
           "punteggio": 20,
           "fonte": "stima",
-          "nota": "23 iscritti, 0 email automatizzate inviate. Welcome email in coda (#welcome-email-23) ma non ancora spedita."
+          "nota": "4 iscritti (Nicola 19/7: «a me risultano solo 4»), 0 email automatizzate inviate. Welcome email in coda (#welcome-email-23) ma non ancora spedita."
         }
       ]
     },
@@ -416,10 +416,10 @@
     },
     {
       "id": "EXP-003",
-      "titolo": "Welcome email 23 iscritti → tasso apertura >50%",
+      "titolo": "Welcome email 4 iscritti → tasso apertura >50%",
       "stato": "aperto",
       "ambito": "crm-activation",
-      "ipotesi": "Una welcome email personalizzata ai 23 iscritti (con storia MyCity + cosa li aspetta) ottiene un tasso di apertura >50% e almeno 5 click sulla CTA.",
+      "ipotesi": "Una welcome email personalizzata ai 4 iscritti (con storia MyCity + cosa li aspetta) ottiene un tasso di apertura >50% e almeno 5 click sulla CTA.",
       "metrica": "email_open_rate",
       "baseline": 0,
       "atteso": 0.5,
@@ -437,14 +437,14 @@
       "ambito": "acquisizione-clienti",
       "ipotesi": "Un post social il 20 luglio che lega il maltempo previsto alla comodità della consegna a casa porta almeno 3 nuovi iscritti al marketplace nelle 24h successive.",
       "metrica": "nuovi_iscritti_24h",
-      "baseline": 23,
+      "baseline": 4,
       "atteso": 3,
       "data_misura": "2026-07-21",
       "aperto_il": "2026-07-18 23:58",
       "azioni_gate": [
         "#post-meteo-pioggia-20lug"
       ],
-      "nota": "Gate: pubblicazione post approvata da Nicola. Misura: REST profiles count > 23 nelle 24h post-post."
+      "nota": "Gate: pubblicazione post approvata da Nicola. Misura: REST profiles count > 4 nelle 24h post-post. Baseline corretto da 23→4 su conferma Nicola 19/7."
     },
     {
       "id": "EXP-005",
@@ -453,7 +453,7 @@
       "ambito": "acquisizione-clienti",
       "ipotesi": "Il post «Siamo in 23» che racconta la storia dei primi iscritti ottiene almeno 20 like/reazioni e porta 5 nuovi iscritti nei 3 giorni successivi.",
       "metrica": "nuovi_iscritti_3gg",
-      "baseline": 23,
+      "baseline": 4,
       "atteso": 5,
       "data_misura": "2026-07-24",
       "aperto_il": "2026-07-18 23:58",
