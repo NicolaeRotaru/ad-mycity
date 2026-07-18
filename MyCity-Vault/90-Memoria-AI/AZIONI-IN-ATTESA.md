@@ -25,7 +25,9 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #apri-pr-chat-annullato — Apri PR `fix/chat-no-sovrascrittura-annullato → main`: fix "🚫 Messaggio annullato." in chat · 1 file, 3 righe · corpo in consegne/tech/pr-ad-mycity-body.md · ⏳ accodata 2026-07-18 01:50
+### ✅ #apri-pr-chat-annullato — FATTO 2026-07-18 02:26 · fix già su main (commit bba5495d) — nessuna PR necessaria
+
+Il commit `bba5495d` era già su `origin/main` (GitHub). Il fix — niente più "🚫 Messaggio annullato." che sovrascrive la risposta precedente — è già deployato su Vercel.
 
 🟡 #mergia-pr-443 — Mergia PR #443: 5 fix UX Pannello (riapprova, testo umano, scroll, flash, layout) · ⏳ accodata 2026-07-18 01:40
 
