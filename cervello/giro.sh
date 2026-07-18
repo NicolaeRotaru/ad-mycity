@@ -141,6 +141,10 @@ LOOP_VINCOLO=""       # PZ-008: vincolo del gate chiusura-loop (FATTO in Sala se
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 CAL_VINCOLO=""        # AR-042: vincolo calibrazione senza voci strutturate (schema legacy)
+AGENTI_VINCOLO=""     # AR-007/008: guardiano registro agenti (promosso a gate hard da || true)
+ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard da || true)
+NORTH_VINCOLO=""      # AR-111: guardiano north-star (promosso a gate hard da || true)
+KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -176,8 +180,13 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | tail -4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
   node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | tail -4 || true
-  echo "[$(ts)] Guardiano registro agenti (AR-007/008)..."
-  node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
+  _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
+  printf '%s\n' "$_agenti_out" | tail -4
+  if [ "$_agenti_rc" -ne 0 ]; then
+    AGENTI_VINCOLO="⛔ REGISTRO AGENTI INCONSISTENTE (agent-registry-check.mjs rc=$_agenti_rc, AR-007/008): un agente è orfano o il conteggio dei 120 file .claude/agents/ non torna. Correggi prima di delegare nuovo lavoro."
+    echo "[$(ts)] ⚠️  AR-007/008: agent-registry-check FALLITO (rc=$_agenti_rc) → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD)..."
   node "$SCRIPT_DIR/stampo-check.mjs" 2>&1 | tail -6 || true
   echo "[$(ts)] Guardiano capacità (workflow ↔ comandi)..."
@@ -286,8 +295,13 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/calibrazione.mjs" promozioni --accoda 2>&1 | tail -4 || true
   # PZ-010: sweep esperimenti — chiude a scadenza gli esperimenti aperti di auto-miglioramento.json
   # (AR-054: nessun esperimento resta aperto all'infinito; la misura non è delegata alla memoria dell'LLM).
-  echo "[$(ts)] Sweep esperimenti in scadenza (AR-054)..."
-  node "$SCRIPT_DIR/esperimenti-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] Sweep esperimenti in scadenza (AR-054/AR-041/AR-106 — gate hard)..."
+  _esp_out="$(node "$SCRIPT_DIR/esperimenti-check.mjs" 2>&1)"; _esp_rc=$?
+  printf '%s\n' "$_esp_out" | tail -4
+  if [ "$_esp_rc" -ne 0 ]; then
+    ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO (esperimenti-check.mjs rc=$_esp_rc, AR-041/AR-106): il volano non misura esiti senza ≥1 esperimento aperto. Apri subito: node cervello/esperimenti-check.mjs --apri --ambito=<divario più alto> --metrica=<KPI> --atteso=1 --giorni=7"
+    echo "[$(ts)] ⚠️  AR-041/106: esperimenti-check FALLITO (rc=$_esp_rc) → vincolo hard al motore." >&2
+  fi
   # AR-102: GATE COERENZA-FATTI — fonte unica della verità + propagazione a cascata. Ogni fatto-chiave
   # vive in registro-fatti.json; quando cambia, il valore VECCHIO entra in "caccia" e questo gate
   # FALLISCE finché una copia vecchia resta in un file VIVO (coda, STATO, piani, intenzioni, consegne).
@@ -319,10 +333,20 @@ if command -v node >/dev/null 2>&1; then
   # Resi vivi su richiesta di Nicola (6/7): girano a ogni giro e lasciano il loro esito nel log/Cabina.
   # NON sono gate (|| true): non bloccano il giro — trasformarli in gate hard è un passo successivo (🟡).
   # Guardiani read-only che erano ORFANI dal battito (audit 6/7):
-  echo "[$(ts)] ⭐ North Star (ordini/negozi/margine — era orfana dal battito)..."
-  node "$SCRIPT_DIR/north-star-check.mjs" 2>&1 | tail -6 || true
-  echo "[$(ts)] Guardiano owner-keyword (anti-doppione AR-008/AR-027)..."
-  node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1 | tail -4 || true
+  echo "[$(ts)] ⭐ North Star (AR-111 — ora gate hard)..."
+  _north_out="$(node "$SCRIPT_DIR/north-star-check.mjs" 2>&1)"; _north_rc=$?
+  printf '%s\n' "$_north_out" | tail -6
+  if [ "$_north_rc" -ne 0 ]; then
+    NORTH_VINCOLO="⛔ NORTH STAR IN STALLO (north-star-check.mjs rc=$_north_rc, AR-111): stallo prolungato sul 1° ordine pagato. Questo giro produce SOLO azioni che avvicinano il 1° ordine; lavoro sulla macchina ammesso solo se sblocca direttamente una card business in coda."
+    echo "[$(ts)] ⚠️  AR-111: north-star-check FALLITO (rc=$_north_rc) → vincolo hard al motore." >&2
+  fi
+  echo "[$(ts)] Guardiano owner-keyword (AR-009/AR-027 — ora gate hard)..."
+  _keyword_out="$(node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1)"; _keyword_rc=$?
+  printf '%s\n' "$_keyword_out" | tail -4
+  if [ "$_keyword_rc" -ne 0 ]; then
+    KEYWORD_VINCOLO="⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare."
+    echo "[$(ts)] ⚠️  AR-109: keyword-owner-check FALLITO (rc=$_keyword_rc) → vincolo hard al motore." >&2
+  fi
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043)..."
   node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1 | tail -4 || true
   # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
@@ -444,6 +468,30 @@ if [ -n "${CAL_VINCOLO:-}" ]; then
 
 ## Vincolo calibrazione (HARD — AR-042: 0 voci strutturate nel registro)
 $CAL_VINCOLO"
+fi
+if [ -n "${AGENTI_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo registro agenti (HARD — AR-007/008: agente orfano o conteggio errato)
+$AGENTI_VINCOLO"
+fi
+if [ -n "${ESP_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo esperimenti (HARD — AR-041/106: nessun esperimento aperto, volano cieco)
+$ESP_VINCOLO"
+fi
+if [ -n "${NORTH_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo north-star (HARD — AR-111: stallo prolungato sul 1° ordine)
+$NORTH_VINCOLO"
+fi
+if [ -n "${KEYWORD_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo keyword-owner (HARD — AR-109: doppione owner, routing ambiguo)
+$KEYWORD_VINCOLO"
 fi
 PROMPT="$PROMPT
 

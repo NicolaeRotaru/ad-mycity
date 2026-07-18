@@ -3015,7 +3015,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             aria-hidden="true"
           />
           <aside
-            className={`absolute inset-y-0 left-0 z-30 w-1/2 flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
+            className={`absolute inset-y-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!fabConvOpen}
           >
