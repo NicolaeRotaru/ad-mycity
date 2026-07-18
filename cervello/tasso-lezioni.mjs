@@ -7,9 +7,10 @@
 // (sentinella "volano fermo < 0.3") era codice morto. Nessuno legava lezione → mossa reale.
 //
 // Fix: una forcing-function DETERMINISTICA (come chiusura-loop.mjs per i quaderni). Una lezione è "applicata"
-// se è stata USATA negli ultimi N giri, provato da UNO di questi due segnali verificabili:
+// se è stata USATA negli ultimi N giri, provato da UNO di questi segnali verificabili:
 //   (a) la lezione ha un campo `usi`/`applicata_in` (array di id-decisione/id-briefing) con una voce fresca;
-//   (b) il suo `id` compare in un Briefing recente o in DECISIONI.md (traccia reale d'uso).
+//   (b) il suo `id` compare in Briefing recente, DECISIONI.md, SALA/AZIONI/LEZIONI-CHAT/consegne,
+//       ESITI freschi memoria-squadra/, STATO.md o note `_nota_*` con «APPLICATE:» in apprendimento.json.
 //   tasso_applicazione = lezioni-attive-applicate / lezioni-attive  →  tasso>0 diventa una PROVA, non un'opinione.
 //
 // Uso:
@@ -35,6 +36,7 @@ const DECISIONI_PATH = join(VAULT, "DECISIONI.md");
 const SALA_PATH = join(VAULT, "SALA-OPERATIVA.md");
 const AZIONI_PATH = join(VAULT, "AZIONI-IN-ATTESA.md");
 const LEZIONI_CHAT_PATH = join(VAULT, "LEZIONI-CHAT.md");
+const STATO_PATH = join(VAULT, "STATO.md");
 const CONSEGNE_DIR = join(AD_ROOT, "consegne");
 const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
 
@@ -61,9 +63,23 @@ function giorniFa(dateStr) {
   return Math.floor((Date.now() - d.getTime()) / 86400000);
 }
 
-// Testo recente dove cercare l'id-lezione come prova d'uso (AR-051 + ponte volano 13/7).
-// Prima solo Briefing+DECISIONI → tasso ~0.11 con 131 lezioni: il lavoro reale finiva in
-// SALA/consegne/quaderni/LEZIONI-CHAT senza citare l'id nel briefing formale.
+// Righe ESITO fresche (data entro N giorni) — prova d'uso canonica AR-009.
+// Formati: "- AAAA-MM-GG …" (canonico) e "# ESITO — @reparto — AAAA-MM-GG" (legacy).
+function righeEsitoFresche(testo) {
+  const out = [];
+  for (const riga of testo.split("\n")) {
+    const t = riga.trim();
+    if (/ancora vuoto|placeholder/i.test(t)) continue;
+    const isCanonico = t.startsWith("- ");
+    const isLegacy = /^# ESITO/i.test(t);
+    if (!isCanonico && !isLegacy) continue;
+    const m = t.match(/(\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2})?)/);
+    if (!m || giorniFa(m[1]) > GIORNI) continue;
+    out.push(t);
+  }
+  return out.join("\n");
+}
+
 function appendFile(path, blob) {
   if (!existsSync(path)) return blob;
   try {
@@ -103,29 +119,6 @@ function appendConsegneRecenti(blob) {
   return blob;
 }
 
-function appendQuaderni(blob) {
-  if (!existsSync(SQUADRA_DIR)) return blob;
-  for (const f of readdirSync(SQUADRA_DIR)) {
-    if (!f.endsWith(".md")) continue;
-    try {
-      blob += readFileSync(join(SQUADRA_DIR, f), "utf8");
-    } catch {
-      /* ignora */
-    }
-  }
-  return blob;
-}
-
-function appendNoteGiro(appr, blob) {
-  if (!appr || typeof appr !== "object") return blob;
-  for (const [k, v] of Object.entries(appr)) {
-    if (!k.startsWith("_nota")) continue;
-    if (typeof v === "string") blob += v;
-  }
-  // preferenze_nicola NON entra: registrare una lezione ≠ applicarla nel lavoro.
-  return blob;
-}
-
 function testoRecente(appr) {
   let blob = "";
   blob = appendFile(DECISIONI_PATH, blob);
@@ -140,8 +133,27 @@ function testoRecente(appr) {
     }
   }
   blob = appendConsegneRecenti(blob);
-  blob = appendQuaderni(blob);
-  blob = appendNoteGiro(appr, blob);
+  if (existsSync(SQUADRA_DIR)) {
+    for (const f of readdirSync(SQUADRA_DIR)) {
+      if (!f.endsWith(".md")) continue;
+      try {
+        blob += righeEsitoFresche(readFileSync(join(SQUADRA_DIR, f), "utf8"));
+      } catch {
+        /* ignora */
+      }
+    }
+  }
+  if (existsSync(STATO_PATH)) {
+    // STATO è molto lungo (storico in coda): cercare gli ID in tutto il file, non solo in testa.
+    blob += readFileSync(STATO_PATH, "utf8");
+  }
+  if (appr && typeof appr === "object") {
+    for (const [k, v] of Object.entries(appr)) {
+      if (k.startsWith("_nota_") && typeof v === "string" && /APPLICATE:/i.test(v)) {
+        blob += `${v}\n`;
+      }
+    }
+  }
   return blob;
 }
 
@@ -173,7 +185,6 @@ function cmdApplica() {
 }
 
 function lezioneApplicata(lez, blob) {
-  // (a) campo esplicito usi / applicata_in con una voce fresca
   const usi = lez.usi || lez.applicata_in || [];
   if (Array.isArray(usi) && usi.length) {
     for (const u of usi) {
@@ -181,7 +192,6 @@ function lezioneApplicata(lez, blob) {
       if (quando == null || giorniFa(quando) <= GIORNI) return true;
     }
   }
-  // (b) l'id compare in un briefing recente / nelle decisioni
   if (lez.id && blob.includes(lez.id)) return true;
   return false;
 }
@@ -243,7 +253,6 @@ function main() {
     console.log(DRY ? "   (--dry: meta NON riscritto)" : `   meta.tasso_applicazione riscritto in ${APPR_PATH}`);
   }
 
-  // Exit 1 = volano fermo (fa da gate/sentinella nel giro). 0 = sano.
   process.exit(tasso_applicazione < 0.3 ? 1 : 0);
 }
 
