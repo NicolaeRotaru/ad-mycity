@@ -4,6 +4,8 @@ aggiornato: 2026-07-19 00:20
 fonte: AD digitale (chat Nicola 19/7 00:20)
 ---
 
+> 💬 **19/7 00:30 — CHAT: peer_review popolata (5 revisioni) + cadenze auto-miglioramento chiarite.** Nicola ha detto «si, popolalo» → 5 peer review aggiunte su fatti reali (qa su tech voto 6, security su backend voto 5, analista su data-engineer voto 6, direttore-creativo su content voto 4, product-manager su frontend/ux voto 6). Cadenze: esperimenti contatori auto ogni 2h, proposte_auto_riscrittura auto ogni giro, benchmark e peer_review solo manuale. Nicola vuole capire cosa si aggiorna da solo — possibile richiesta di aumentare l'automazione. Fonte: chat Nicola 19/7 00:10-00:30.
+
 > 💬 **19/7 00:20 — CHAT: auto-miglioramento.json espanso a massima profondità.** Nicola ha chiesto «sono solo 2 benchmark e 1 esperimento o ce ne sono di più?» — confermato: non era un bug UI. Su istruzione «crea tutti, non limitarti, dai il massimo», AD ha portato benchmark da 2 a **11** (aggiunti: operations, onboarding-negozi, crm-lifecycle, growth, seo, trust-safety, marketplace-payments, customer-success, analytics) e esperimenti da 1 a **12** (7 aperti + 5 pianificati). File: `auto-coscienza/auto-miglioramento.json`. Fonte: chat Nicola 19/7 00:20.
 
 > 💬 **19/7 00:05 — CHAT: caselle auto-coscienza aggiornate + PR #466 aperta.** Punteggio 42→50/100 (6 AR chiusi, EXP-001 aperto), obiettivo rinnovato «entro 25 luglio», regola venerdì aggiunta a ritmo.md. PR #465 aveva conflitti (worker aggiorna file memoria ogni 2h) — sostituita da PR #466 branch pulito (solo ritmo.md). Nicola deve: ① chiudere PR #465 ② mergiare PR #466. Fonte: chat Nicola 19/7 00:05.
