@@ -63,12 +63,14 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ accodata 2026-07-18 17:45
+### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ aggiornata 2026-07-18 19:45
 
-**Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. La PR apre tutti e 35 i fix gravi della radiografia Opus del 7/7.
+**Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. Conflitti PR risolti via rebase (webhook/route.ts e Navbar.tsx). PR #213 pronta senza conflitti.
 
-**Cosa fare:** apri la PR su GitHub e mergiale:
-https://github.com/NicolaeRotaru/mycity/pull/new/fix/35-gravi-radiografia-2026-07-07
+**Cosa fare:** mergia la PR #213 su GitHub:
+https://github.com/NicolaeRotaru/mycity/pull/213
+
+**Dopo il merge:** applicare le 3 migrazioni Supabase sulla dashboard (109, 110, 111).
 
 **Cosa cambia:** 35 vulnerabilità/bug gravi del marketplace corretti (sicurezza, pagamenti, analytics, privacy, AI cost).
 **Se va bene:** il sito marketplace è significativamente più sicuro e corretto.
