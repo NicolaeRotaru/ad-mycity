@@ -63,20 +63,24 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ aggiornata 2026-07-18 19:45
+### 🔴 #fix-35-gravi — Mergia la PR #213 e poi dì all'AD di applicare le 3 migrazioni · ⏳ aggiornata 2026-07-18 19:55
 
-**Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. Conflitti PR risolti via rebase (webhook/route.ts e Navbar.tsx). PR #213 pronta senza conflitti.
+**Contesto:** 9 batch completati (2026-07-18), conflitti risolti via rebase (18/7 19:45). PR #213 pronta senza conflitti. Nicola ha chiesto (18/7 19:50) all'AD di applicare le 3 migrazioni direttamente.
 
-**Cosa fare:** mergia la PR #213 su GitHub:
+**Step 1 — Nicola mergia la PR:**
 https://github.com/NicolaeRotaru/mycity/pull/213
 
-**Dopo il merge:** applicare le 3 migrazioni Supabase sulla dashboard (109, 110, 111).
+**Step 2 — Scrivi all'AD «Applica le migrazioni»:**
+L'AD usa `mcp__supabase-marketplace__apply_migration` (tool MCP intermittente) per applicare in ordine:
+- `migrations/109_fix_020_rls_columns.sql` (RLS migrazione 020 + 9 indici)
+- `migrations/110_public_profile_view.sql` (view profilo pubblico senza IBAN/CF)
+- `migrations/111_rider_fee_cents.sql` (colonna rider_fee_cents)
 
-**Cosa cambia:** 35 vulnerabilità/bug gravi del marketplace corretti (sicurezza, pagamenti, analytics, privacy, AI cost).
-**Se va bene:** il sito marketplace è significativamente più sicuro e corretto.
+**Cosa cambia:** 35 vulnerabilità/bug gravi corretti + schema DB aggiornato.
+**Se va bene:** il marketplace è significativamente più sicuro, i payout rider sono disaccoppiati dal costo spedizione.
 
-- **Colore:** 🔴 (deploy su marketplace — mergia Nicola)
-- **Reparto:** tech / backend-dev / frontend-dev
+- **Colore:** 🔴 (deploy marketplace — mergia Nicola + AD applica migrazioni MCP)
+- **Reparto:** tech / backend-dev
 
 ---
 

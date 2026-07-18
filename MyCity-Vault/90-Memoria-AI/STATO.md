@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 19:15
-fonte: AD digitale (metabolizzazione chat 18/7 19:15)
+aggiornato: 2026-07-18 19:55
+fonte: AD digitale (metabolizzazione chat 18/7 19:55)
 ---
+
+> 💬 **18/7 19:55 — CHAT: Nicola «Applica tu le 3 migrazioni» — da fare DOPO merge PR #213.** Nicola ha chiesto all'AD di applicare le migrazioni 109/110/111 post-merge. AD non ha potuto nella sessione precedente (MCP non disponibile in quel turno). Il tool `mcp__supabase-marketplace__apply_migration` è intermittente: disponibile via ToolSearch quando il server è connesso. **Sequenza**: ① Nicola mergia PR #213 su GitHub ② prossima chat: ToolSearch → applica le 3 migrazioni in ordine 109→110→111. Fonte: chat Nicola 18/7 ~19:50.
 
 > 💬 **18/7 19:10 — CHAT: Verifica PR — #453 #454 #457 #458 tutte mergirate da Nicola, codice verificato su main.** AD ha verificato su richiesta di Nicola («controlla attentamente»): accordion in `Documenti.tsx` ✅, blocco `_nota_giro_` rimosso da `tasso-lezioni.mjs` ✅. PR mergirate: #453 (timer lista chat) · #454 (volano: tasso legge ESITI) · #457 (volano: blocco auto-referenziale) · #458 (sezioni Archivio chiuse default). ⚠️ **PR #455 ancora aperta su GitHub** — sostituita da #457, da chiudere senza merge (🔴 Nicola). Fonte: chat Nicola 18/7 19:10.
 

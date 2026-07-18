@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 19:55 · 🔴 · [Nicola «Applica tu le 3 migrazioni»] · **Nicola ha chiesto all'AD di applicare le migrazioni 109, 110, 111 dopo il merge PR #213.** AD non ha potuto nella sessione precedente (MCP non disponibile in quel momento). Il tool `mcp__supabase-marketplace__apply_migration` è intermittente: appare quando il server MCP è connesso. Sequenza corretta: (1) Nicola mergia PR #213 su GitHub, (2) nella prossima chat AD carica il tool via ToolSearch e applica le 3 migrazioni in ordine.
+
 2026-07-18 19:45 · 🔴 · [PR #213 marketplace conflitti risolti] · **PR #213 sul repo marketplace pronta per merge — 35 fix da radiografia Opus 7/7, conflitti risolti via rebase.** Branch `fix/35-gravi-radiografia-2026-07-07` aveva 2 conflitti su `webhook/route.ts` (main: check checkout parziale; nostro: coupon atomico rimosso dal webhook) e `Navbar.tsx` (main: useShoppingMode; nostro: trackSignedOut). Tenute entrambe le parti. Force push completato. Dopo il merge: applicare 3 migrazioni Supabase (109, 110, 111) su dashboard. URL: https://github.com/NicolaeRotaru/mycity/pull/213.
 
 2026-07-18 19:10 · 🟢 · [Nicola «Controlla attentamente se hai fatto tutto giusto»] · **Verifica sistematica post-PR: tutto corretto.** Codice su main verificato: accordion `Documenti.tsx` ✅, `_nota_giro_` rimosso da `tasso-lezioni.mjs` ✅. Merge confermati: #453 (timer lista chat) · #454 (volano: tasso legge ESITI) · #457 (volano: blocco auto-referenziale) · #458 (sezioni Archivio chiuse default). In sospeso: **PR #455** ancora aperta su GitHub — sostituita da #457, da chiudere senza merge (🔴 Nicola).
