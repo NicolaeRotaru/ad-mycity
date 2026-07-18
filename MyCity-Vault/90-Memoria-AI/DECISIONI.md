@@ -3,6 +3,10 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 01:45 · 🟢 · [Casella "Revisione tra specialisti" spiegata a Nicola] · **Nicola: «spiegami questa casella» sulla "Revisione tra specialisti: Qualità dei contenuti prodotti — giugno/luglio 2026".** AD ha spiegato: @direttore-creativo giudica il lavoro di @content-social; la casella mostra voto, punti_forza (verde), punti_deboli (rosso), raccomandazione. Il display ricco appare dopo il merge di PR #467.
+
+2026-07-19 01:40 · 🟡 · [Nicola chiede di spostare Arsenale in un tab in alto] · **Nicola: «1) sposta l'arsenale dentro un tab in alto 2)Spiegami molto bene l'arsenale». AD ha spiegato cos'è l'Arsenale (raccolta di playbook per 9 aree di dominio MyCity) e si è impegnato a spostarlo in un tab.** Spostamento UI (🟡 — modifica codice Pannello): da verificare se PR è stata aperta nello stesso turno o è ancora pendente.
+
 2026-07-19 01:30 · 🟡 · [PR #467 aperta — display ricco peer review] · **Nicola ha detto «apri pr»: PR #467 aperta su `NicolaeRotaru/ad-mycity`.** Il componente `AutoCoscienza.tsx` ora mostra per ogni peer review: voto (es. 6/10) in alto a destra, lista verde punti_forza, lista rossa punti_deboli, raccomandazione in fondo. Attende merge da Nicola. Colore 🟡 (modifica codice Pannello).
 
 2026-07-19 01:00 · 🟢 · [Fix peer_review: campo `oggetto`→`lavoro` nel JSON] · **Casella "Revisione tra specialisti: undefined" causata da mismatch tra il campo usato nel JSON (`oggetto`) e quello letto dal componente Pannello (`lavoro`).** Fix immediato: rinominato `oggetto` → `lavoro` nelle 5 peer review in `auto-miglioramento.json`. Il titolo "undefined" sparirà dopo il prossimo ciclo. Lezione: prima di popolare un JSON che alimenta il Pannello, leggere il componente React che lo consuma per trovare i field names esatti.
