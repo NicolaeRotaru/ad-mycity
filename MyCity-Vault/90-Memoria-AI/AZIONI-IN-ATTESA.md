@@ -16,6 +16,24 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #ritmo-venerdì-punteggio — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
+
+**Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.
+
+**Cosa fare:** Verificare se la PR è già aperta su GitHub (`gh pr list --repo NicolaeRotaru/ad-mycity --state open`). Se non c'è, aprirla:
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
+```
+(assicurarsi di essere sul branch corretto del fix ritmo.md prima di eseguire)
+
+**Cosa cambia:** il ritmo del venerdì include esplicitamente il ricalcolo del punteggio auto-coscienza — la casella non può restare ferma più di 7 giorni.
+**Se va bene:** ogni venerdì il punteggio viene aggiornato automaticamente dal giro; Nicola non vedrà mai più una casella «ferma da 15 giorni».
+
+- **Colore:** 🟡 (modifica `cervello/ritmo.md` → PR → mergia Nicola)
+- **Reparto:** @AD
+
+---
+
 ### 🟡 #apri-pr-chat-crossdevice-24h — Apri PR per il fix chat cross-device (finestra 24h + tracking per ID) · ⏳ accodata 2026-07-18 23:55
 
 **Contesto:** Il fix cross-device auto-open è stato scritto e committato nel branch `fix/chat-crossdevice-autoopen`. Causa originale: `nuovaChatManualeRef` bloccava permanentemente l'auto-open da altri device; finestra di 2h troppo corta. Fix: tracking per conv ID e finestra estesa a 24h. Il comando PR era bloccato in quella sessione.
