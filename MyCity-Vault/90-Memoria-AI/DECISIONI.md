@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 18:35 · 🟡 · [Nicola «C'è un conflitto nella 455 / Risolvi e apri»] · **PR #457 e #458 aperte su ad-mycity.** #457 = fix volano: rimosso il blocco `_nota_giro_` auto-referenziale che gonfiava il tasso (branch `fix/volano-tasso-nota-giro-v2`, creato pulito da main perché PR #455 aveva conflitto irrisolvibile via rebase). #458 = fix Pannello: sezioni Archivio chiuse di default nella vista ricerca (branch `fix/archivio-sezioni-chiuse-default-v2`, stesso approccio). Card `#risolvi-conflitto-archivio-sezioni` → FATTO. In attesa che Nicola mergi le 3 PR (#454, #457, #458).
+
 2026-07-18 18:10 · 🟡 · [metabolizzazione] · **PR #456 aperta — fix nuova chat carica messaggi vecchi.** Causa: `useEffect` cross-device sync (< 2 ore) riapreva l'ultima conversazione subito dopo che «+» la svuotava. Fix: `nuovaChatManualeRef` flag acceso sul click manuale «+», blocca solo quel caso. Branch `fix/nuova-chat-auto-apri-bloccato` (commit `d4c1e0d0`). Nicola deve mergiarla dal Pannello.
 
 2026-07-18 18:00 · 🟡 · [Nicola «Apri pr pendenti»] · **PR #454 e #455 aperte su ad-mycity.** #454 = fix volano: tasso lezioni legge ESITI quaderni (branch `fix/volano-tasso-lezioni`). #455 = fix volano: rimuovi `_nota_giro_` dal blob string-match. Branch `fix/archivio-sezioni-chiuse-default` non aperto: conflitto reale su `Documenti.tsx` (accordion vs nuove viste su main) — richiede risoluzione manuale o decisione di parcheggiare.

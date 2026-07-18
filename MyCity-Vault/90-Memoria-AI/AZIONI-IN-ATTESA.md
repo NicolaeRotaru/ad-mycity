@@ -55,25 +55,11 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #risolvi-conflitto-archivio-sezioni — Risolvi il conflitto di `Documenti.tsx` e apri la PR · ⏳ accodata 2026-07-18 18:00
+✅ #risolvi-conflitto-archivio-sezioni — PR #458 aperta 2026-07-18 18:35 · FATTO
 
-**Contesto:** Il branch `fix/archivio-sezioni-chiuse-default` ha un conflitto reale con main su `Documenti.tsx`: il branch ha riscritto la UI con l'accordion (sezioni chiuse di default), mentre main nel frattempo ha aggiunto le viste ricerca e cartella. L'auto-rebase ha abortito — non si risolve in automatico.
-
-**Cosa fare:** dal VPS, fai il rebase manuale:
-```bash
-git -C /opt/mycity/ad-mycity checkout fix/archivio-sezioni-chiuse-default
-git -C /opt/mycity/ad-mycity rebase main
-# risolvi il conflitto in Documenti.tsx (mantieni entrambe: accordion + nuove viste)
-git add pannello/src/components/Documenti.tsx
-git rebase --continue
-```
-Poi l'AD apre la PR.
-
-**Cosa cambia:** nel Pannello, le sezioni Documenti si aprono chiuse di default — meno rumore visivo nella vista iniziale.
-**Se va bene:** Pannello più pulito; Nicola decide se aprire o chiudere di default ogni sezione.
-
-- **Colore:** 🟡
-- **Reparto:** frontend-dev
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/458 · branch `fix/archivio-sezioni-chiuse-default-v2`
+**Fix:** sezioni Archivio chiuse di default nella vista ricerca (`Documenti.tsx`) — accordion aggiunto anche nella ricerca, compatibile con le viste nuove di main.
+**Da fare:** mergia la PR dal Pannello quando vuoi.
 
 ---
 
