@@ -7,20 +7,6 @@
       "voto_provvisorio": 75,
       "voto_pieno": 75,
       "firma": "",
-      "difetti_aperti": 1,
-      "difetti_chiusi": 42,
-      "pending_merge": 0,
-      "aperti_davvero": 0,
-      "bloccanti_umani": 1,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (19h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
-    },
-    {
-      "data": "2026-07-10",
-      "voto_salute": 51,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
-      "firma": "",
       "difetti_aperti": 0,
       "difetti_chiusi": 42,
       "pending_merge": 0,
@@ -1224,6 +1210,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 65 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-18",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 23,
+      "difetti_chiusi": 52,
+      "pending_merge": 18,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 68 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }
