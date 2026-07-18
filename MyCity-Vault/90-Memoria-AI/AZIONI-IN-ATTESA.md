@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-07-18 20:26** — Automatico: **42 aperte · 84 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-07-18 22:37** — Automatico: **42 aperte · 84 chiuse in archivio**.
 
 > Qui i senior accodano le azioni **🟡/🔴 già PRONTE** (testo esatto, destinatario, importo, canale).
 > Le **🟢** non passano di qui: i senior le fanno e basta.
@@ -879,6 +879,7 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 | 180 | 2026-07-18 01:08 | @tech | Merge PR #445 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/445 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 181 | 2026-07-18 01:47 | @tech | Merge PR #446 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/446 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 182 | 2026-07-18 13:04 | @tech | Merge PR #447 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/447 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 183 | 2026-07-18 22:44 | @tech | Merge PR #463 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/463 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 <!-- I senior aggiungono righe qui sotto. Metti SEMPRE data E ora (AAAA-MM-GG HH:MM).
      Le ultime 2 colonne (Cosa cambia · Se va bene) sono OPZIONALI ma consigliate: sono la spiegazione che Nicola legge nella card. Esempio:
 | 1 | 2026-06-25 14:30 | crm | Email benvenuto ai primi 10 iscritti | 🟡 | consegne/crm/benvenuto.md | email (Resend) | ✅ ARCHIVIATA housekeeping 14/7 | I primi 10 iscritti ricevono il benvenuto e capiscono come funziona MyCity. | Più clienti completano il primo ordine invece di sparire dopo l'iscrizione. |
@@ -1023,7 +1024,7 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 20:26)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-07-18 22:37)
 Report completo con comandi pronti: `consegne/supervisione/2026-07-18-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ---
@@ -1159,6 +1160,12 @@ Approva **solo questo gruppo**: «ok riempi unità di misura». Comando e undo n
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-07-18 20:26 · 84 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-07-18 22:37 · 84 card totali
 
 ### ✅ #apri-pr-chat-sovrascrittura-v2 — FATTO 2026-07-18 — fix già su main, PR non necessaria
 

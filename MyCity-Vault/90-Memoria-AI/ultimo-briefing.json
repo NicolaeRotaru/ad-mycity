@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 20:42",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~592h (~24,7 giorni da 24/6). North Star 0, cassa 0€. Sensori 20:42: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 79 giri, MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0. Registro-scelte rc=0 confermato analiticamente (13 prospect scelta_ragionata + 6 ristoranti esclusi, invariato). ⚠️ URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI.",
+  "data": "2026-07-18 22:40",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~594h (~24,8 giorni da 24/6). North Star 0, cassa 0€. Sensori 22:40: REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 80 giri, MCP Supabase cieco 7 giri. Registro-scelte rc=0 (vincolo nel prompt era stale — già risolto al giro 11:10; 13 prospect scelta_ragionata + 6 ristoranti esclusi confermati). ⚠️ URGENZA STASERA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it ORA.",
   "opportunita": [
     {
       "titolo": "Bando PI26 — registrati su restart.infocamere.it OGGI",
