@@ -7,6 +7,8 @@ fonte: AD digitale
 
 2026-07-18 · 🟢 · [Nicola conferma] · **Nicola ha mergiato tutte e 6 le PR in coda:** #433 (121 errori coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec), #436 (crash guardiani allinea-scan-cantiere). Tutte segnate FATTO in AZIONI-IN-ATTESA. Pendente: Nicola deve ancora aggiungere `PANNELLO_URL` e `MARKETPLACE_SITE_URL` a `cervello/vps/.env` per sbloccare i 2 sensori ciechi pannello/sito.
 
+2026-07-18 02:30 · 🟡 · [Nicola verifica] · **Watch-main timer: Nicola sembra aver eseguito i comandi sudo (ha chiesto «controlla se si aggiorna al minuto»).** L'AD non riesce a verificare `systemctl list-timers` dalla chat (bloccato). Il file template repo (`cervello/vps/mycity-watch-main.timer`) era ancora a `5min` — non aggiornato. Verifica pendente: dal terminale VPS `systemctl list-timers mycity-watch-main.timer` → colonna NEXT. Se già a 1min: segnare FATTO #riduci-watch-main-1min + aggiornare anche il template in repo per persistenza.
+
 2026-07-18 01:25 · 🟡 · [Nicola richiesta] · **Riduzione timer watch-main da 5 min a 1 min.** Nicola ha chiesto «si può ridurre il tempo di aggiornamento del watch-main». Risposta: sì, con 2 comandi sudo. Azione accodata #riduci-watch-main-1min in AZIONI-IN-ATTESA. Beneficio: visione GitHub quasi in tempo reale invece di max 5 min di ritardo. Opzionale: aggiornare anche il template in repo.
 
 2026-07-18 02:10 · 🟢 · [Nicola chiarimento] · **PR #445 (`fix/fonti-comune-403-blocked`) — mergiata da Nicola, non dall'AD.** Nicola ha chiesto «la 445 l'hai creata tu?» — era un branch già in coda creato in sessioni precedenti, mergiato direttamente da GitHub da Nicola stamattina. L'AD non era l'autore di quella PR.
