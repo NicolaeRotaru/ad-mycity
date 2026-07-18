@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Clock, Megaphone } from "lucide-react";
+import { Loader2, ChevronDown, ChevronRight, ListChecks, BookOpen, CheckCircle2, XCircle, RotateCcw, Lightbulb, Zap, Footprints, ListTodo, FileText, ArrowRight, ShieldAlert, Clock, Megaphone, Swords } from "lucide-react";
+import Arsenale from "@/components/Arsenale";
 import { istante, testoPulito } from "@/lib/format";
 import { spiegaAzione, nomeReparto } from "@/lib/spiega-azione";
 import Aggiornato from "@/components/Aggiornato";
@@ -31,7 +32,7 @@ import {
 //  🖊️ Da approvare → la coda pronta dei senior, con scheda completa + qualità + cosa-fa.
 //  📒 Registro → lo storico dei risultati.
 
-type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "avvisi" | "approvare" | "incoda" | "registro";
+type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "avvisi" | "approvare" | "incoda" | "registro" | "arsenale";
 type Livello = "verde" | "giallo" | "rosso" | "?";
 type Stato = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 type Azione = {
@@ -250,7 +251,7 @@ export default function Azioni() {
   // Ripristino scheda dal tasto INDIETRO (EVENTO_SUB dal popstate centrale) e salto cross-area
   // (EVENTO_VAI da vaiArea / Plancia): un solo canale di cronologia, niente più hash. (contratto nav)
   useEffect(() => {
-    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "avvisi", "approvare", "incoda", "registro"];
+    const valide: Tab[] = ["mosse", "proposte", "dafare", "sentinelle", "avvisi", "approvare", "incoda", "registro", "arsenale"];
     // Al MOUNT consuma il sub parcheggiato (vaiArea/INDIETRO scattati prima che l'area fosse montata):
     // senza, l'evento sincrono si perdeva e l'area apriva "mosse" invece della scheda richiesta.
     const pend = consumaSubPendente("azioni");
@@ -495,6 +496,7 @@ export default function Azioni() {
     { id: "approvare", label: "Da approvare", icon: <ListChecks size={14} />, badge: daDecidere || undefined },
     { id: "incoda", label: "In coda", icon: <Clock size={14} />, badge: ferme.length || undefined },
     { id: "registro", label: "Registro", icon: <BookOpen size={14} /> },
+    { id: "arsenale", label: "Arsenale", icon: <Swords size={14} /> },
   ];
 
   // Card di una singola azione — estratta così la usano SIA «Da approvare» (azioni da firmare)
@@ -1028,6 +1030,8 @@ export default function Azioni() {
           )}
         </>
       )}
+
+      {tab === "arsenale" && <Arsenale />}
     </div>
   );
 }
