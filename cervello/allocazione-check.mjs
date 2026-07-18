@@ -41,6 +41,8 @@ const SOGLIA_PESANTI = 3;
 const STOPWORD_ALIAS = new Set([
   "antica", "salumeria", "casa", "bottega", "panificio", "forno", "pane", "macelleria",
   "gastronomia", "alimentari", "negozio", "azienda", "linda", "della", "delle", "dei",
+  // "corso" è troppo generico: significa via/avenue E "nel corso di…" → falsi positivi su "Panetteria Del Corso"
+  "corso",
 ]);
 
 /** Legge un JSON del vault; se manca o è rotto torna null (il guardiano lo segnala, non crasha). */

@@ -1,12 +1,13 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 11:10",
-  "voto_fiducia": 86,
-  "trend_fiducia": "▲ 86 (da 84 — miglioramento: vincoli hard risolti, loop chiusi, nessun numero inventato)",
+  "data": "2026-07-18 11:23",
+  "voto_fiducia": 88,
+  "trend_fiducia": "▲ 88 (da 86 — miglioramento: fix falso positivo allocazione-check, tutti guardiani ✅)",
   "errori_giro": [
     "Primo tentativo Edit STATO.md fallito per mismatch stringa — risolto rileggendo prima il file esatto",
     "MCP Supabase cieco (3 giri) — usato REST come da regola",
-    "Timestamp sistema 11:06 (non pomeriggio come da context summary) — stallo ricalcolato correttamente a ~579h"
+    "Timestamp sistema 11:06 (non pomeriggio come da context summary) — stallo ricalcolato correttamente a ~579h",
+    "allocazione-check segnalava falso positivo su Panetteria Del Corso: parola 'corso' troppo generica → aggiunta a STOPWORD_ALIAS in allocazione-check.mjs"
   ],
   "domande_bloccanti": [
     {
