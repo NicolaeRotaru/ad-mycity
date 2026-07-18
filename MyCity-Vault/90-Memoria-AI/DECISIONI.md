@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 17:08 · 🟢 · [Nicola «Voglio che apri tu la PR»] · **Preferenza confermata: l'AD apre le PR in autonomia dalla prossima sessione.** Nicola ha detto esplicitamente "Voglio che apri tu la pr" dopo il ciclo allowlist+virgola+blocco-sessione. La PR pendente è `fix/timer-ultimo-messaggio` (commit `8d898470`). In nuova chat: `node cervello/git-pr.mjs --repo ad-mycity --base main` senza aspettare la richiesta. La sessione in cui è stata fatta la modifica all'allowlist resta bloccata (carica i permessi solo all'avvio).
+
 2026-07-18 ~17:00 · 🟡 · [Nicola segnalazione screenshot] · **Fix timer lista chat — branch `fix/timer-ultimo-messaggio` committato (8d898470), PR da aprire.** Nicola ha mostrato screenshot: tutti i timer mostravano «16:37» (ora corrente) perché `salvaConversazioneCasella` aggiornava `updated_at` a ogni apertura. Fix: i messaggi salvano `created_at` proprio; `tsConvAggiornato()` usa quello invece di `updated_at` della conversazione. Card `#apri-pr-timer-chat` accodata. Comando VPS: `node cervello/git-pr.mjs --repo ad-mycity --base main`.
 
 2026-07-18 ~16:38 · 🟡 · [Nicola «C'è già» + verifica AD] · **`settings.local.json` — JSON malformato blocca allowlist git-pr.mjs.** La voce era già presente ma mancava `,` alla riga 24 → JSON invalido → allowlist ignorata silenziosamente. Fix proposto: aggiungere virgola. Lezione: quando «C'è già» ma la voce non funziona, verificare la sintassi JSON prima di dare nuove istruzioni.
