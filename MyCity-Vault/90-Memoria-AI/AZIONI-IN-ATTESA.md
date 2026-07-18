@@ -71,7 +71,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #riduci-watch-main-1min — Riduci il ciclo di aggiornamento da GitHub da 5 minuti a 1 minuto · ⏳ accodata 2026-07-18 01:25
+### ✅ #riduci-watch-main-1min — FATTO 2026-07-18 02:00 · Nicola ha eseguito i comandi sudo, timer confermato a 1 minuto
 
 **Richiesta di Nicola (18/7):** «si può ridurre il tempo di aggiornamento del watch-main»
 

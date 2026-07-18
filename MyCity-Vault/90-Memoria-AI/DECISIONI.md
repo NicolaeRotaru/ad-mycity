@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 ~02:00 · 🟢 · [Nicola esegue, AD conferma] · **Timer watch-main abbassato a 1 minuto — CONFERMATO.** Nicola ha eseguito i comandi sudo dal terminale VPS. Log `systemctl list-timers` mostrava `NEXT: 23:43:24 UTC, 52s left` (scatto ogni ~60s). L'AD ha anche aggiornato il file template in repo (`cervello/vps/mycity-watch-main.timer`) con commit `2502f502` su main. Da ora la macchina vede i merge GitHub con max 1 min di ritardo invece di 5.
+
 2026-07-18 04:30 · 🟢 · [Nicola] · **Nicola ha inserito 2 variabili env in `cervello/vps/.env`** — `PANNELLO_URL=https://ad-mycity.vercel.app` e `MARKETPLACE_SITE_URL=https://mycity-marketplace.com`. Sono 2 righe, non 3: `CABINA_URL` è alias di `PANNELLO_URL`, non serve. Pendente: riavvio worker per caricarle (`sudo systemctl restart mycity-worker-chat.service`).
 
 2026-07-18 ~03:30 · 🟢 · [Nicola conferma] · **Nicola ha mergiato tutte e 6 le PR in coda:** #433 (121 errori coda), #430 (bottone fluttuante), #431 (debounce), #427 (tasto invia smartphone), #297 (archivio lento 15sec), #436 (crash guardiani allinea-scan-cantiere). Tutte segnate FATTO in AZIONI-IN-ATTESA. ✅ Env poi aggiunto alle 04:30 (vedi entry seguente).
