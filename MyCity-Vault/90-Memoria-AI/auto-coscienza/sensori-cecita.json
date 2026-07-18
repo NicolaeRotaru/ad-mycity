@@ -72,7 +72,7 @@
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
-      "giri_ciechi": 66,
+      "giri_ciechi": 67,
       "stato": "cieco",
       "ultimo_errore": "fetch failed (dopo 3 tentativi)",
       "canale": "n8n healthz",
@@ -89,10 +89,10 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 218,
+    "giri_totali": 219,
     "sensori_ok": 6,
-    "max_giri_ciechi": 66,
-    "sensori_totali": 8,
+    "max_giri_ciechi": 67,
+    "sensori_totali": 7,
     "almeno_un_dato": true,
     "sensori_non_configurati": 2,
     "dati_ordini_ciechi": false
