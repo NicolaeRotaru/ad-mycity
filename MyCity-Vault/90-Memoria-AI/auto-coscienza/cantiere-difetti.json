@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-07-18 11:34",
+  "aggiornato": "2026-07-18 13:49",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
     {
@@ -818,15 +818,16 @@
       "causa_radice": "1) Il vincolo hard non arriva mai al motore AI: giro.sh ingoia l'exit code con `|| true` e non ha ESP_VINCOLO (a differenza del pattern già applicato ad allocazione-check/chiusura-loop/coerenza-fatti). 2) Il criterio di chiusura del cantiere verifica la PRESENZA del codice nel guardiano ({file,pattern}), non il suo CABLAGGIO nel battito né l'outcome — AR-041 risulta 'chiuso' con esperimenti a zero. 3) Nessun guardiano verifica che i gate dichiarati 'vincolo hard' siano davvero collegati come vincolo. 4) Causa di sistema: la macchina chiude i difetti sul MECCANISMO installato invece che sull'EFFETTO osservato.",
       "fix_proposto": "🟡 (a) Cablare in giro.sh il pattern già usato per allocazione-check: catturare rc di esperimenti-check e popolare un ESP_VINCOLO iniettato nel prompt del motore («apri ≥1 esperimento sull'ambito col divario più alto, col comando --apri»). (b) Regola di processo nel cantiere: un difetto su un gate si chiude solo con verifica dell'EFFETTO (pattern in giro.sh, non solo nel guardiano) — riaprire AR-041 con verifica {file: cervello/giro.sh, pattern: ESP_VINCOLO}.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 16:55",
-      "chiuso_il": "",
+      "chiuso_il": "2026-07-18 13:49",
       "verifica": {
         "file": "cervello/giro.sh",
         "pattern": "ESP_VINCOLO",
         "presente": true
       },
-      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello"
+      "origine": "auto-radiografia 2026-07-16 (completa) + audit-pannello",
+      "chiuso_come": "cervello/giro.sh contiene /ESP_VINCOLO/ → trovato"
     },
     {
       "id": "AR-108",
@@ -1387,8 +1388,8 @@
     }
   ],
   "meta": {
-    "aperti": 24,
+    "aperti": 23,
     "in_corso": 0,
-    "chiusi": 51
+    "chiusi": 52
   }
 }
