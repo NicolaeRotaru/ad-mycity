@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-18 16:52
-fonte: AD digitale (giro nono 18/7 16:52 — giro da chat Nicola)
+aggiornato: 2026-07-18 17:12
+fonte: AD digitale (giro decimo 18/7 17:12 — giro da chat Nicola)
 ---
+
+> 🛰️ **18/7 17:12 — GIRO (decimo passaggio — giro da chat Nicola).** Business INVARIATO: 1 PQ, 23 clienti, 0 ordini, stallo **~586h** (~24,4 giorni). North Star 0, cassa 0€. Sensori 17:11: REST ✅ · Stripe ✅ · Resend ✅ · Sito ✅ · Pannello ✅ · n8n cieco 75 giri · MCP Supabase cieco 7 giri. Coerenza-fatti ✅ exit 0 (17:12). Registro-scelte rc=0 (confermato, invariato). **URGENZA ORA:** PI26 apre DOMANI 20/7 ore 10:00 — 🔴 registrarsi su restart.infocamere.it OGGI. **Mossa 2:** 🟡 ordine test PQ. **Mossa 3:** 🟡 3 WhatsApp anchor PI26. **Bug Pannello:** 6 screenshot da Nicola (non leggibili); 2 fix pronti: timer lista + cassetto mobile (PR accodata). Dettaglio: [[Briefing/2026-07-18]].
 
 > 💬 **18/7 ~17:00 — CHAT: Nicola segnala errori multipli nel Pannello via screenshot — AD non può leggerli.** Nicola ha allegato 6 screenshot degli errori. Gli screenshot passati dalla chat del Pannello finiscono nel bucket Supabase, non sul filesystem locale → l'AD non riesce a leggerli. Dal codice l'AD ha identificato 2 bug già nel branch `fix/timer-ultimo-messaggio`: (1) timer lista chat mostra ora corrente invece dell'ultimo messaggio; (2) cassetto conversazioni occupa metà schermo su mobile (fix: `w-1/2` → `w-full`). Nicola ha confermato «C'è più di un errore» → ci sono altri bug oltre a quelli trovati dal codice. ⏳ Pendente: la PR con i 2 fix non è ancora aperta su GitHub (git-pr.mjs bloccato dalla chat). Fonte: chat Nicola 18/7 ~17:00.
 

@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 16:52",
-  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~585h (~24,4 giorni da 24/6). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 71 giri. URGENZA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo: piogge dal 20/7. Bici in riparazione — giro botteghe settimana 21-25/7. Allowlist marketplace pendente (nuova sessione → sblocca #fix-35-gravi).",
+  "data": "2026-07-18 17:12",
+  "situazione": "Business invariato: 1 PQ, 23 clienti, 0 ordini, stallo ~586h (~24,4 giorni da 24/6). North Star 0, cassa 0€. Sensori REST+Stripe+Resend+Sito+Pannello ✅, n8n cieco 75 giri. URGENZA IMMEDIATA: bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrarsi su restart.infocamere.it OGGI. Finestra meteo: piogge dal 20/7 (delivery window). Bug Pannello: Nicola ha mostrato 6 screenshot errori (non leggibili dall'AD — in bucket Supabase). 2 fix noti su branch: timer lista chat + cassetto mobile. PR #apri-pr-timer-chat accodata.",
   "opportunita": [
     {
       "titolo": "Bando PI26 — registrarsi su restart.infocamere.it OGGI",

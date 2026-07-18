@@ -1,6 +1,6 @@
 {
-  "data": "2026-07-18 16:52",
-  "sintesi": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrazione su restart.infocamere.it urgentissima (🔴). Stallo ~584h senza ordini. Bici in riparazione, giro botteghe settimana 21-25/7. Nel frattempo: ordine di test su PQ per sbloccare North Star (EXP-001, misura 25/7), e 3 WhatsApp alle botteghe anchor con la leva PI26. 13 schede pitch pronte in consegne/vendite/.",
+  "data": "2026-07-18 17:12",
+  "sintesi": "Bando PI26 apre DOMANI 20/7 ore 10:00 a sportello — registrazione su restart.infocamere.it urgentissima OGGI (🔴). Stallo ~586h senza ordini. Bici in riparazione, giro botteghe settimana 21-25/7. Pannello: 6 screenshot bug mostrati da Nicola (non leggibili dall'AD); 2 fix identificati da codice su branch fix/timer-ultimo-messaggio. Azioni immediate: ordine test PQ, 3 WhatsApp anchor PI26, e apertura PR timer dal VPS.",
   "prossime_mosse": [
     {
       "titolo": "Registrati su restart.infocamere.it per il bando PI26",

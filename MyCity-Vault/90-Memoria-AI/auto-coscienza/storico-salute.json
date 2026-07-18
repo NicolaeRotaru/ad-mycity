@@ -2,18 +2,18 @@
   "_cosa_e": "📈 STORICO SALUTE — la serie storica del voto di salute dell'architettura, per vedere se la macchina sta MIGLIORANDO nel tempo (il volano che gira). Lo aggiorna la radiografia completa e la sonda di ogni giro. Schema in cervello/auto-coscienza.md.",
   "serie": [
     {
-      "data": "2026-07-10",
-      "voto_salute": 51,
-      "voto_provvisorio": 75,
-      "voto_pieno": 75,
+      "data": "2026-07-18",
+      "voto_salute": 91,
+      "voto_provvisorio": 91,
+      "voto_pieno": 0,
       "firma": "",
       "difetti_aperti": 0,
-      "difetti_chiusi": 42,
-      "pending_merge": 0,
+      "difetti_chiusi": 0,
+      "pending_merge": 3,
       "aperti_davvero": 0,
-      "bloccanti_umani": 1,
+      "bloccanti_umani": 3,
       "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (27h) · sensori max cecità 1 · salute pending-merge 75/100 (floor 75): 0 aperti-davvero · 0 in attesa merge · 1 bloccanti umani"
+      "nota": "decimo passaggio 17:12 · loop chiude ✅ · briefing FRESCO (0h) · sensori REST ok · n8n cieco 75g · MCP Supabase cieco 7g · 3 PR pendenti merge (443/446/#apri-pr-timer) · 3 bloccanti umani (PI26 🔴, ordine test 🟡, WhatsApp 🟡) · voto aggiornato da auto-analisi (91)"
     },
     {
       "data": "2026-07-10",
@@ -1225,6 +1225,20 @@
       "bloccanti_umani": 2,
       "tipo": "sonda",
       "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 71 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    },
+    {
+      "data": "2026-07-18",
+      "voto_salute": 56,
+      "voto_provvisorio": 20,
+      "voto_pieno": 0,
+      "firma": "AR-124,AR-126,AR-129",
+      "difetti_aperti": 23,
+      "difetti_chiusi": 52,
+      "pending_merge": 18,
+      "aperti_davvero": 3,
+      "bloccanti_umani": 2,
+      "tipo": "sonda",
+      "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 73 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 18 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
     }
   ]
 }

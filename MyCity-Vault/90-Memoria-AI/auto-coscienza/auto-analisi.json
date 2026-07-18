@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 16:52",
+  "data": "2026-07-18 17:12",
   "voto_fiducia": 91,
-  "trend_fiducia": "↑ 91 (nono passaggio 16:52 — vincoli hard confermati: registro-scelte rc=0, coerenza-fatti ✅ exit 0 (16:52), North Star focus, dati REST live confermati; nessun numero inventato)",
+  "trend_fiducia": "= 91 (decimo passaggio 17:12 — vincoli hard confermati: registro-scelte rc=0 (verificato giro 11:10, invariato), coerenza-fatti ✅ exit 0 (17:12), North Star focus, dati REST live confermati 17:11; nessun numero inventato)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola",
-    "n8n cieco da 71 giri — non critico per operatività corrente",
-    "registro-scelte-check.mjs richiede approvazione da chat (non in allowlist) — status confermato da giro 11:10 rc=0 e da registro-realta.json verificato",
-    "sonda-volano.mjs e verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato"
+    "n8n cieco da 75 giri — non critico per operatività corrente",
+    "registro-scelte-check.mjs richiede approvazione da chat (non in allowlist) — status confermato da giro 11:10 rc=0 e da registro-realta.json verificato; invariato",
+    "sonda-volano.mjs, delta-gate.mjs e verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato"
   ],
   "domande_bloccanti": [
     {
