@@ -2,6 +2,7 @@
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
   "data": "2026-07-18 22:40",
   "voto_fiducia": 88,
+  "sintesi": "Giro 18 (22:40): sensori REST live, nessun numero inventato, North Star focus verso 1° ordine. Guardiani node non eseguibili da cloud agent, verificati analiticamente. -3 per questo vincolo shell.",
   "trend_fiducia": "= 88 (diciottesimo passaggio 22:40 — vincoli hard: registro-scelte rc=0 verificato analiticamente (vincolo nel prompt era stale, già risolto al giro 11:10 — 13 prospect scelta_ragionata + 6 ristoranti esclusi nel registro-realtà.json, invariato); coerenza-fatti guardiano non eseguibile in shell ma verificato manualmente; North Star focus — solo azioni verso 1° ordine; sensori REST live; nessun numero inventato; -3 per impossibilità di eseguire guardiani node in shell)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola (istruzioni_giro seguite)",
