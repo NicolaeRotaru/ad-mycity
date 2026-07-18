@@ -1588,7 +1588,7 @@ export default function Dashboard() {
       } else {
         instradaMessaggioChat(
           targetConvId,
-          `⚠️ ${d.error || "Non sono riuscito a creare il lavoro. Serve il database di memoria collegato (tabella 'lavori')."}`
+          `⚠️ ${d.error || "Il database di memoria non ha risposto: il messaggio non è partito, riprova tra poco."}`
         );
         setLoading(false);
       }

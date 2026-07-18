@@ -81,7 +81,7 @@ export async function creaLavoroCasella(
     .then((r) => r.json())
     .catch(() => null);
   if (!post?.ok || !post.lavoro) {
-    throw new Error(post?.error || "Serve il database di memoria collegato (tabella 'lavori').");
+    throw new Error(post?.error || "Il database di memoria non ha risposto: il messaggio non è partito, riprova tra poco.");
   }
   // Collegamento anche in localStorage: copre il caso in cui la colonna gruppo_id manchi sul DB.
   if (gruppoId) salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);

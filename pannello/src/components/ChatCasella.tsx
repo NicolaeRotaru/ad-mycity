@@ -163,7 +163,7 @@ export default function ChatCasella({
         .then((r) => r.json())
         .catch(() => null);
       if (!post?.ok || !post.lavoro) {
-        throw new Error(post?.error || "Serve il database di memoria collegato (tabella 'lavori').");
+        throw new Error(post?.error || "Il database di memoria non ha risposto: il messaggio non è partito, riprova tra poco.");
       }
       // Il nuovo messaggio resta nella STESSA conversazione anche in localStorage.
       salvaGruppoLavoroLocale(post.lavoro.id, gruppoId);
