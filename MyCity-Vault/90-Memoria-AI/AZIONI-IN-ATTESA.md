@@ -35,20 +35,11 @@ https://github.com/NicolaeRotaru/mycity/pull/new/fix/35-gravi-radiografia-2026-0
 
 ---
 
-### 🟡 #apri-pr-timer-chat — Apri la PR per il fix del timer nelle conversazioni · ⏳ accodata 2026-07-18 17:00
+✅ #apri-pr-timer-chat — PR #453 aperta 2026-07-18 17:05 · FATTO
 
-**Contesto:** Il timer nella lista conversazioni mostrava l'ora corrente invece dell'ultimo messaggio — si aggiornava ogni volta che Nicola apriva una chat (bug: `salvaConversazioneCasella` aggiornava `updated_at`). Fix committato su branch `fix/timer-ultimo-messaggio` (commit `8d898470`): ogni messaggio ora salva `created_at` proprio, il timer usa quello.
-
-**Comando dal terminale VPS:**
-```bash
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
-```
-
-**Cosa cambia:** il timer mostra l'orario dell'ultimo messaggio reale, non l'ora dell'apertura. Chat vecchie useranno la data di creazione della conversazione (stabile); le nuove funzioneranno correttamente da subito.
-**Se va bene:** Nicola vede le conversazioni ordinate per quando ha scritto l'ultima volta, non per quando le ha aperte.
-
-- **Colore:** 🟡 (merge codice)
-- **Reparto:** frontend-dev
+**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/453 · branch `fix/timer-ultimo-messaggio` (commit `8d898470`)
+**Fix:** `tsConvAggiornato()` usa `created_at` dei messaggi invece di `updated_at` della conversazione — il timer non si aggiorna più all'apertura.
+**Da fare:** mergia la PR dal Pannello quando vuoi.
 
 ---
 

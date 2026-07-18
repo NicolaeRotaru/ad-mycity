@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 17:05 · 🟡 · [AD apre PR in autonomia, sessione metabolizzazione] · **PR #453 aperta: fix timer lista chat.** L'AD ha aperto la PR direttamente nella sessione di metabolizzazione (nuova sessione con allowlist aggiornata). Branch `fix/timer-ultimo-messaggio` (commit `8d898470`) → PR #453 su ad-mycity. Nicola dovrà mergiarla dal Pannello. Conferma operativa: `git-pr.mjs` funziona in autonomia nelle sessioni avviate DOPO il fix dell'allowlist (18/7 sera).
+
 2026-07-18 17:45 · 🟡 · [Nicola esegue git-pr.mjs dal VPS] · **PR timer-chat bloccata: branch era tornato su main.** Nicola ha eseguito `node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main` da Termux ma l'errore era «head e base sono lo stesso ramo (main)» — il worker aveva riportato il repo su `main` nel mezzo. L'AD ha fatto `git checkout fix/timer-ultimo-messaggio` ma lo script era bloccato dall'allowlist (percorso relativo vs assoluto, sessione già avviata). Branch `fix/timer-ultimo-messaggio` (commit `8d898470`) resta committato e pronto. Card `#apri-pr-timer-chat` in AZIONI-IN-ATTESA. Lezione: prima di `git-pr.mjs` fare sempre `git checkout <branch>` esplicitamente.
 
 2026-07-18 17:08 · 🟢 · [Nicola «Voglio che apri tu la PR»] · **Preferenza confermata: l'AD apre le PR in autonomia dalla prossima sessione.** Nicola ha detto esplicitamente "Voglio che apri tu la pr" dopo il ciclo allowlist+virgola+blocco-sessione. La PR pendente è `fix/timer-ultimo-messaggio` (commit `8d898470`). In nuova chat: `node cervello/git-pr.mjs --repo ad-mycity --base main` senza aspettare la richiesta. La sessione in cui è stata fatta la modifica all'allowlist resta bloccata (carica i permessi solo all'avvio).
