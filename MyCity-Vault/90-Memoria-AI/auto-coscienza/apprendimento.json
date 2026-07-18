@@ -17,6 +17,20 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0718-266",
+      "testo": "**Permesso verbale Nicola NON sblocca lettura `cervello/vps/.env` dalla chat (18/7 — violazione ×2).** Nicola ha scritto «ti do il permesso di leggere l'env» e l'AD ha risposto correttamente che il blocco è di sistema. MA l'errore a monte è più grave: l'AD non aveva controllato STATO.md prima, dove MARKETPLACE_SITE_URL era già registrato dal 18/7 04:30 (`https://mycity-marketplace.com`). Violazione della lezione LEZIONI-CHAT linea 9 per la SECONDA VOLTA nella stessa giornata. Radice: l'AD tratta la casella come una domanda fresca invece di cercare prima in memoria. Regola: per OGNI domanda su variabile env / URL / configurazione — prima STATO.md e AZIONI-IN-ATTESA, poi rispondere. Il permesso verbale non è il fix — la memoria lo è.",
+      "tag": ["env", "stato-md", "memoria-prima", "permesso-verbale", "lezione-critica", "violazione-ripetuta"],
+      "reparto": "@AD",
+      "confidenza": 1.0,
+      "evidenze": 2,
+      "fonte": "chat",
+      "caso_studio_nicola": false,
+      "nato": "2026-07-18",
+      "ultima_conferma": "2026-07-18",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0718-265",
       "testo": "**Casella 'Database diretto non disponibile' → Nicola chiede 'non ho capito' (18/7).** Il testo 'Database diretto non disponibile in sessione: ordini e clienti ok via canale alternativo; 4 conteggi catalogo/lead non Ri Misurati ora' usa termini tecnici ('database diretto', 'sessione', 'canale alternativo') che Nicola non capisce. Versione leggibile: 'I dati ordini e clienti sono aggiornati. 4 conteggi secondari (catalogo, lead) mancano — si recuperano al prossimo giro.' Regola: in una casella MAI scrivere 'Supabase MCP', 'database diretto', 'canale alternativo', 'sessione di connessione' — usare sempre l'impatto per l'utente. Evidenza aggiuntiva della lezione LEZIONI-CHAT.md linea 19 (caselle Pannello: linguaggio umano + nome file + impatto).",
       "tag": ["caselle-pannello", "linguaggio-umano", "supabase-mcp", "jargon", "correzione-nicola"],
