@@ -1,13 +1,13 @@
 {
   "_cosa_e": "💶 CASSA / RUNWAY — mesi di autonomia = cassa disponibile / burn mensile. Rischio esistenziale n.1 (AR-016). Lo scrive cervello/sensore-cassa.mjs; una sentinella allerta sotto soglia. Sola lettura verso Stripe.",
-  "data": "2026-07-18 11:15",
+  "data": "2026-07-18 11:33",
   "cassa_disponibile_eur": 0,
   "fonte_cassa": "Stripe balance",
   "burn_mensile_eur": null,
   "runway_mesi": null,
   "soglia_allerta_mesi": 3,
   "stato": "sconosciuto",
-  "giri_sconosciuto": 133,
+  "giri_sconosciuto": 134,
   "note": "Stripe balance (available + pending) · burn mensile non impostato (env BURN_MENSILE_EUR): runway non calcolabile",
-  "istruzioni": "Runway non calcolabile da 133 giri (AR-039): Stripe ok (cassa 0€), manca solo BURN_MENSILE_EUR nel .env del VPS — Nicola deve indicare il burn mensile netto (€/mese)."
+  "istruzioni": "Runway non calcolabile da 134 giri (AR-039): Stripe ok (cassa 0€), manca solo BURN_MENSILE_EUR nel .env del VPS — Nicola deve indicare il burn mensile netto (€/mese)."
 }

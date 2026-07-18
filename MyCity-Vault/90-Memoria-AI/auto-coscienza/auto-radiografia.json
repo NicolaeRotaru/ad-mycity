@@ -368,7 +368,10 @@
             "pattern": "Osteria Carducci\"[\\s\\S]{0,80}?\"stato\": \"scelta_ragionata\"",
             "presente": false
           },
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-07-18 11:16",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-125"
         },
         {
           "titolo": "Il gate dei contratti JSON è decorativo: valida-contratti.mjs rileva 9 violazioni ma il suo exit 1 viene ingoiato da '| tail -4 || true'",
@@ -1739,13 +1742,13 @@
     }
   ],
   "sonda": {
-    "data": "2026-07-18 11:15",
+    "data": "2026-07-18 11:33",
     "loop_chiude": false,
     "tasso_applicazione": 0,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 50,
-    "difetti_chiusi_recenti": 29,
+    "difetti_chiusi": 51,
+    "difetti_chiusi_recenti": 30,
     "calibrazione_piena": true,
     "previsioni_aperte_recenti": 0,
     "esperimenti_aperti": 0,
@@ -1754,35 +1757,35 @@
     "esperimenti_misurati": false,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 35,
+    "ore_da_ultima_completa": 36,
     "ore_da_ultimo_briefing": 0,
-    "max_giri_ciechi_sensori": 52,
-    "giri_tasso_basso": 20,
+    "max_giri_ciechi_sensori": 54,
+    "giri_tasso_basso": 21,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
-    "voto_provvisorio": 10,
+    "voto_provvisorio": 20,
     "voto_pieno": 0,
     "pending_merge": 19,
-    "aperti_davvero": 4,
+    "aperti_davvero": 3,
     "bloccanti_umani": 2,
-    "salute_firma": "AR-124,AR-125,AR-126,AR-129",
+    "salute_firma": "AR-124,AR-126,AR-129",
     "verdetto": "serve-completa",
-    "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 52 giri · salute pending-merge 10/100 (floor 0): 4 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
+    "nota": "tasso=0 ma c'è chiusura · briefing 0h fa · cecità sensori 54 giri · salute pending-merge 20/100 (floor 0): 3 aperti-davvero · 19 in attesa merge · 2 bloccanti umani · tasso basso 3+ giri → radiografia completa"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 20,
-    "aggiornato": "2026-07-18 11:15"
+    "giri_tasso_basso": 21,
+    "aggiornato": "2026-07-18 11:33"
   },
   "sync_scan": {
-    "aggiornato": "2026-07-18 11:15",
-    "findings_aperti": 75,
+    "aggiornato": "2026-07-18 11:33",
+    "findings_aperti": 74,
     "findings_in_corso": 0,
-    "findings_chiusi": 4,
+    "findings_chiusi": 5,
     "findings_tot": 79,
-    "cantiere_aperti": 25,
+    "cantiere_aperti": 24,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 50,
-    "match_aggiornati": 0,
+    "cantiere_chiusi": 51,
+    "match_aggiornati": 1,
     "chiusi_verifica": 0,
     "data_scan": "2026-07-16 23:58"
   },
