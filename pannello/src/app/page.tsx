@@ -1837,6 +1837,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // l'ultima apriChatDaGruppo uso un ref aggiornato ad ogni render.
   const apriChatRef = useRef(apriChatDaGruppo);
   apriChatRef.current = apriChatDaGruppo;
+  // Ref per auto-apertura cross-device: stesso pattern di apriChatRef.
+  const continuaConversazioneRef = useRef(continuaConversazione);
+  continuaConversazioneRef.current = continuaConversazione;
+  const autoApriEseguito = useRef(false);
   useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
@@ -2053,6 +2057,25 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   useEffect(() => {
     if (convDrawerAperto || fabConvOpen) caricaConversazioni();
   }, [convDrawerAperto, fabConvOpen, caricaConversazioni]);
+
+  // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
+  // Risolve: (1) smartphone non vede la risposta del desktop finché non apre manualmente il cassetto;
+  // (2) messaggio inviato da smartphone non "appare" nella lista perché la chat era vuota e scollegata.
+  // Scatta UNA SOLA VOLTA per sessione (autoApriEseguito), solo nelle prime 2 ore dalla creazione.
+  useEffect(() => {
+    if (autoApriEseguito.current) return;
+    if (convId) return;
+    if (!caricato) return;
+    if (conversazioni.length === 0) return;
+    if (messages.some((m) => !m.prompt && !m.pending)) return;
+    const oreMax = 2 * 60 * 60 * 1000;
+    const recente = [...conversazioni]
+      .sort((a, b) => new Date(b.updated_at ?? b.created_at).getTime() - new Date(a.updated_at ?? a.created_at).getTime())
+      .find((c) => Date.now() - new Date(c.updated_at ?? c.created_at).getTime() < oreMax);
+    if (!recente) return;
+    autoApriEseguito.current = true;
+    void continuaConversazioneRef.current(recente.id);
+  }, [conversazioni, convId, messages, caricato]);
 
   // Baseline pallini v3: quando arrivano i lavori, marca le chat storiche (risposte solo nei Lavori).
   useEffect(() => {
