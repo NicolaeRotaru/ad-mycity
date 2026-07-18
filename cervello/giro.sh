@@ -213,6 +213,8 @@ if command -v node >/dev/null 2>&1; then
   # (autofill deducibile) in AZIONI-IN-ATTESA — sola lettura del marketplace, niente scrive sul DB, mai
   # tocca campi sensibili (legale/fiscale/IBAN/KYC/Stripe/consensi). Non è un gate: || true.
   node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | tail -6 || true
+  echo "[$(ts)] Housekeeping coda azioni (sposta ✅/❌ in archivio se >20)..."
+  node "$SCRIPT_DIR/housekeeping-azioni.mjs" 2>&1 | tail -2 || true
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | tail -4 || true
   # PZ-008 (piano "chiudi i loop"): GATE chiusura-loop — chi ha scritto FATTO in Sala OGGI deve avere
