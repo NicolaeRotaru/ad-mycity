@@ -96,9 +96,14 @@ Sei l'AD. Fai la REVIEW SETTIMANALE della squadra:
 5. 🚀 CICLO PROFONDO DI AUTO-MIGLIORAMENTO (cervello/auto-miglioramento.md): scegli i 3 ambiti col divario
    più alto vs i migliori, fai il giro benchmark→squadra(torneo+peer-review)→misura su ciascuno, verifica
    che gli esperimenti della settimana scorsa siano stati MISURATI (loop chiuso). Aggiorna la mappa competenze dei senior.
-   ⚠️ OBBLIGATORIO ogni venerdì: aggiorna il campo `progresso` (punteggio + nota) e `obiettivo` nel benchmark @AD
-   di auto-miglioramento.json. Se ci sono stati batch di PR mergiate, ricalcola il punteggio.
-   Il punteggio deve sempre riflettere lo stato reale di questa settimana, non quello di settimane precedenti.
+   ⚠️ OBBLIGATORIO ogni venerdì — aggiorna auto-miglioramento.json:
+   (a) BENCHMARK (tutti, non solo @AD): per ogni reparto con attività nella settimana, aggiungi una voce in
+       `progresso` (data + punteggio + nota), aggiorna `obiettivo` se cambiato, aggiorna `divario` se migliorato.
+       Il punteggio deve riflettere lo stato reale di questa settimana, non quello di settimane precedenti.
+   (b) PEER_REVIEW: aggiungi almeno 1 nuova voce per ogni reparto che ha prodotto output notevole nella settimana
+       (PR mergiate, contenuti pubblicati, fix risolti). Usa la struttura {id, data, reviewer, reviewed, oggetto,
+       voto, punti_forza, punti_deboli, raccomandazione, fonte}. Non lasciare peer_review invariata se la
+       settimana ha prodotto evidenza nuova da valutare.
 6. 🩻 RADIOGRAFIA COMPLETA DI SÉ (cervello/auto-radiografia.md): esegui il workflow
    `.claude/workflows/auto-radiografia.js` (12 dimensioni + pre-mortem + benchmark). Scrivi
    `auto-coscienza/auto-radiografia.json`, aggiorna `cantiere-difetti.json` (nuovi difetti + chiudi quelli
