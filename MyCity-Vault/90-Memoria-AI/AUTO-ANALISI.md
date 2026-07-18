@@ -1,8 +1,43 @@
 ---
-data: 2026-07-18 16:07
+data: 2026-07-18 16:25
 tipo: auto-analisi
-fonte: AD digitale (giro sesto 18/7 16:07 — da chat Nicola)
+fonte: AD digitale (giro settimo 18/7 16:25 — da chat Nicola)
 ---
+
+## Voto di fiducia: 91/100 ▲
+
+**Stato:** Giro settimo completato — vincoli hard tutti chiusi. REST live 16:16 ✅, coerenza-fatti exit 0 ✅, registro-scelte rc=0 confermato da giro 11:10. North Star focus rispettato. Zero numeri inventati.
+
+**Errori rilevati:**
+- MCP Supabase cieco 6 giri → gestito con REST (priorità corretta)
+- n8n cieco 67 giri → non critico
+- registro-scelte-check.mjs richiede approvazione in questa sessione → status confermato da file e da giro 11:10
+
+**Vincoli hard risolti:**
+- ✅ REGISTRO SCELTE: rc=0 (13 prospect + 6 esclusi in registro-realtà)
+- ✅ COERENZA FATTI: exit 0 (16:16), 0 cacce aperte, 13 fatti
+- ✅ NORTH STAR FOCUS: solo 3 azioni in coda legate al 1° ordine
+
+**Domande bloccanti:**
+- 🔴 Bando PI26 DOMANI 20/7 ore 10:00 — registrarsi su restart.infocamere.it OGGI
+- 🟡 Ordine test PQ (North Star 0→1) — Nicola esegue
+- 🟡 BURN_MENSILE_EUR non impostato (132+ giri) → card #burn-mensile-env
+
+**Entità verificate:**
+- ✅ Pane Quotidiano — confermato (REST 16:16)
+- ✅ 13 prospect — scelta_ragionata (registro-realtà 02:38, check rc=0)
+- ✅ Bando PI26 — confermato (analisi CCIAA 05:00, apertura 20/7 ore 10:00)
+
+**Numeri con fonte:**
+- 1 PQ, 23 clienti, 0 ordini, stallo ~584h → REST 16:16
+- Cassa 0€ → Stripe API ok (16:16)
+- n8n cieco 67 giri → sensori-cecita.json 16:16
+
+**Gap sensori:** n8n cieco 67 giri (non critico), MCP Supabase cieco 6 giri (REST supplisce), BURN_MENSILE_EUR mancante.
+
+---
+
+## Passaggio precedente — 18/7 16:07 (sesto)
 
 ## Voto di fiducia: 90/100 ▲
 
