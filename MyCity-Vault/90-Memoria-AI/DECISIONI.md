@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 00:30 · 🟢 · [Nicola «si, popolalo» → peer_review] · **5 peer review preliminari aggiunte in auto-miglioramento.json** — Nicola ha approvato la sezione peer_review anche prima del primo ordine reale. Regola aggiornata: non è bloccata al primo esito di business — si popola con revisioni tra senior basate su fatti reali già disponibili. Voci aggiunte: @qa su @tech/frontend (voto 6, fix veloci ma conflitti PR), @security su @backend (voto 5, PAT in chiaro ancora aperto), @analista su @data-engineer (voto 6, PostHog/Stripe ciechi), @direttore-creativo su @content (voto 4, zero contenuti pubblicati), @product-manager su @frontend/ux (voto 6, Pannello funziona ma cross-device incompleto). Commit pendente (3 file modificati non committati dopo la risposta).
+
 2026-07-19 00:25 · 🟢 · [Nicola «perche peer_review è a 0?»] · **peer_review vuota per scelta di design** — non è un bug. La sezione si sblocca dopo il primo esito di business reale (EXP-001: primo ordine consegnato), per non fare torneo tra agenti su ipotesi e bozze. AD ha offerto di popolarla con revisioni preliminari (content-social vs ai-copywriter, qa vs tech); Nicola non ha ancora risposto. Regola confermata nel file `auto-miglioramento.json`.
 
 2026-07-19 00:05 · 🟢 · [Nicola «fai tutti i fix» — caselle auto-coscienza datate] · **Punteggio auto-coscienza aggiornato 42→50/100** (6 difetti AR chiusi, EXP-001 aperto). Obiettivo rinnovato: «chiudi EXP-001 entro 25 luglio» (il precedente «entro 2 settimane dal 3/7» era scaduto). Regola aggiunta a `ritmo.md`: ogni venerdì ricalcolare il punteggio dopo ogni batch di PR mergiate.
