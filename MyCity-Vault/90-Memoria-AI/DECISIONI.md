@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 13:20 · 🟡 · [Nicola segnalazione] · **PR #447 aperta — lista conversazioni a schermo intero su smartphone.** Nicola ha mostrato uno screenshot: il pannello conversazioni occupava solo metà schermo su mobile (`w-1/2`). Fix: `w-1/2` → `w-full` su mobile, `sm:w-[340px]` su schermi più grandi. Branch `fix/chat-mobile-conversations`. Card #182 già accodata in AZIONI-IN-ATTESA con link PR.
+
 2026-07-18 ~02:55 · 🟡 · [Nicola richiesta] · **4 bug UX chat Pannello segnalati da Nicola — fixes committati su branch `fix/chat-4bug-ux` (commit `f4b3beff`), PR non ancora aperta.** Bug: (1) chat apre dall'inizio invece che dall'ultimo messaggio; (2) nuovi messaggi spingono il box di testo giù; (3) box di testo non resta fisso mentre si scrolla; (4) stessa risposta compare 3 volte (triplicazione). Fix applicati nei file `pannello/app/page.tsx` e `pannello/components/ChatCasella.tsx`. PR da aprire con `node cervello/git-pr.mjs --branch fix/chat-4bug-ux`. Accodata in AZIONI-IN-ATTESA come `#apri-pr-chat-4bug-ux`.
 
 2026-07-18 14:00 · 🟢 · [Nicola correzione] · **Ristoranti e osterie esclusi definitivamente dal target MyCity.** Nicola ha corretto la casella Tigellabella: «questa è un'osteria, ti ho detto che i ristoranti non sono il nostro target». Regola: nel prospecting, la categoria ristorazione classica (ristoranti, osterie, trattorie) è esclusa a priori — indipendentemente da valutazione Google, presenza su Deliveroo o commissioni alte. Tigellabella archiviata.
