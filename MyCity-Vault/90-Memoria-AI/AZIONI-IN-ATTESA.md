@@ -309,11 +309,11 @@ _(sostituisci 150 con il valore reale se diverso)_
 
 ---
 
-### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45
+### 🟡 #push-main-memoria — Pusha main su GitHub (memoria non pubblicata) · ⏳ accodata 2026-07-17 06:45 · aggiornata 2026-07-18 17:12
 
 **Cosa fare:** dal VPS esegui: `git push origin main`
 
-`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **ora 2 commit avanti** di origin/main (aggiornato 2026-07-18 16:28: +11 file memoria + 2 auto-coscienza).
+`git push` è nella deny list del Bash tool (sicurezza), ma funziona da terminale VPS direttamente. Main locale è **ora +2 commit avanti** di origin/main (17:12: commit ae4684b8 + e9ca9564, 24 file memoria aggiornati).
 
 **Cosa cambia:** il Pannello hosted vede la memoria aggiornata.
 **Se va bene:** nessun passo successivo necessario.
