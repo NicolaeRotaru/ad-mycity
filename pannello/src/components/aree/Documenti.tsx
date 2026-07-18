@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { FileText, Search, ArrowLeft, FolderOpen, Clock, Loader2, RefreshCw } from "lucide-react";
+import { FileText, Search, ArrowLeft, FolderOpen, ChevronDown, Clock, Loader2, RefreshCw } from "lucide-react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
@@ -58,6 +58,7 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
   const [gruppi, setGruppi] = useState<Gruppo[]>([]);
   const [caricaLista, setCaricaLista] = useState(true);
   const [filtro, setFiltro] = useState("");
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
   const [cartella, setCartella] = useState<string | null>(null);
   const [sel, setSel] = useState<Doc | null>(null);
   const [contenuto, setContenuto] = useState<string>("");
@@ -135,6 +136,9 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
         .map((g) => ({ ...g, documenti: g.documenti.filter((d) => (d.titolo + " " + g.etichetta + " " + d.nome).toLowerCase().includes(q)) }))
         .filter((g) => g.documenti.length)
     : gruppi;
+
+  const toggleGruppo = (key: string) =>
+    setOpenGroups((prev) => { const s = new Set(prev); s.has(key) ? s.delete(key) : s.add(key); return s; });
 
   return (
     <div className="space-y-4">
@@ -238,31 +242,41 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
                 <p className="t-eti">Nessun documento per questa ricerca.</p>
               </div>
             ) : (
-              <div className="space-y-4">
-                {gruppiFiltrati.map((g) => (
-                  <section key={g.categoria || "root"} className="card p-4">
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <span className="sez-ico"><FolderOpen size={15} /></span>
-                      <span className="t-sez">{g.etichetta}</span>
-                      <span className="badge badge-off ml-auto">{g.documenti.length}</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {g.documenti.map((d) => (
-                        <button
-                          key={d.file}
-                          onClick={() => { setCartella(g.categoria); apri({ ...d, etichetta: g.etichetta }); }}
-                          className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
-                        >
-                          <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
-                          <span className="min-w-0">
-                            <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
-                            {d.data && <span className="block t-eti mt-0.5 flex items-center gap-1"><Clock size={10} /> {dataIt(d.data)}</span>}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </section>
-                ))}
+              <div className="space-y-2">
+                {gruppiFiltrati.map((g) => {
+                  const key = g.categoria || "root";
+                  const aperto = openGroups.has(key);
+                  return (
+                    <section key={key} className="card overflow-hidden">
+                      <button
+                        onClick={() => toggleGruppo(key)}
+                        className="w-full flex items-center gap-2 p-4 hover:bg-black/[0.02] transition text-left"
+                      >
+                        <span className="sez-ico"><FolderOpen size={15} /></span>
+                        <span className="t-sez flex-1">{g.etichetta}</span>
+                        <span className="badge badge-off">{g.documenti.length}</span>
+                        <ChevronDown size={15} className={`text-black/40 transition-transform duration-200 ${aperto ? "rotate-180" : ""}`} />
+                      </button>
+                      {aperto && (
+                        <div className="px-4 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {g.documenti.map((d) => (
+                            <button
+                              key={d.file}
+                              onClick={() => { setCartella(g.categoria); apri({ ...d, etichetta: g.etichetta }); }}
+                              className="text-left surface-muted p-3 rounded-xl hover:border-brand/30 border border-transparent transition flex items-start gap-2.5"
+                            >
+                              <span className="mt-0.5 text-black/40 shrink-0"><FileText size={15} /></span>
+                              <span className="min-w-0">
+                                <span className="block text-[13px] font-medium truncate" style={{ color: "var(--text-primary)" }}>{d.titolo}</span>
+                                {d.data && <span className="block t-eti mt-0.5 flex items-center gap-1"><Clock size={10} /> {dataIt(d.data)}</span>}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </section>
+                  );
+                })}
               </div>
             )
           ) : cartella != null ? (
