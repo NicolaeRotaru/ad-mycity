@@ -1,11 +1,11 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-07-18 17:12",
+  "data": "2026-07-18 17:35",
   "voto_fiducia": 91,
-  "trend_fiducia": "= 91 (decimo passaggio 17:12 — vincoli hard confermati: registro-scelte rc=0 (verificato giro 11:10, invariato), coerenza-fatti ✅ exit 0 (17:12), North Star focus, dati REST live confermati 17:11; nessun numero inventato)",
+  "trend_fiducia": "= 91 (undicesimo passaggio 17:35 — vincoli hard confermati: registro-scelte rc=0 (verificato giro 11:10, invariato — 13+6 nel registro), coerenza-fatti ✅ invariato, North Star focus, dati REST live 17:27; nessun numero inventato)",
   "errori_giro": [
     "MCP Supabase cieco (7 giri) — usato REST come da regola",
-    "n8n cieco da 75 giri — non critico per operatività corrente",
+    "n8n cieco da 76 giri — non critico per operatività corrente",
     "registro-scelte-check.mjs richiede approvazione da chat (non in allowlist) — status confermato da giro 11:10 rc=0 e da registro-realta.json verificato; invariato",
     "sonda-volano.mjs, delta-gate.mjs e verifica-automazione.mjs non in allowlist da cloud agent — gap accettato, status invariato"
   ],
@@ -18,7 +18,7 @@
     },
     {
       "tipo": "operatività",
-      "domanda": "North Star 0 da 24,4 giorni. Ordine test PQ (Nicola) sblocca la prova end-to-end senza bici.",
+      "domanda": "North Star 0 da 24,5 giorni. Ordine test PQ (Nicola) sblocca la prova end-to-end senza bici.",
       "azione": "card 🟡 #ordine-test-pq in AZIONI-IN-ATTESA",
       "colore": "🟡"
     },
@@ -33,12 +33,12 @@
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "REST Supabase 2026-07-18 16:52: supabase_rest ok — 1 negozio approvato, 0 ordini 7gg"
+      "fonte": "REST Supabase 2026-07-18 17:27: supabase_rest ok — 1 negozio approvato, 0 ordini 7gg"
     },
     {
       "nome": "13 prospect validi (no ristoranti)",
       "stato": "scelta_ragionata",
-      "fonte": "registro-realta.json 2026-07-18 02:38 — 13 scelta_ragionata + 6 esclusi, check rc=0 da giro 11:10"
+      "fonte": "registro-realta.json 2026-07-18 02:38 — 13 scelta_ragionata + 6 esclusi, check rc=0 da giro 11:10 (invariato)"
     },
     {
       "nome": "Bando PI26 (Innovazione Digitale CCIAA)",
@@ -47,24 +47,24 @@
     }
   ],
   "numeri_con_fonte": [
-    {"numero": "stallo ~585h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T16:52 = 24g8h24m"},
-    {"numero": "23 clienti", "fonte": "REST Supabase sensori-cecita.json supabase_rest ok"},
+    {"numero": "stallo ~588h", "fonte": "calcolo: 2026-06-24T08:28 → 2026-07-18T17:35 ≈ 24g9h7m"},
+    {"numero": "23 clienti", "fonte": "REST Supabase sensori-cecita.json 17:27"},
     {"numero": "0 ordini completati", "fonte": "REST Supabase — 0 ordini ultimi 7gg"},
-    {"numero": "71 giri n8n cieco", "fonte": "sensori-cecita.json 16:52"},
+    {"numero": "76 giri n8n cieco", "fonte": "sensori-cecita.json 17:27"},
     {"numero": "cassa 0€", "fonte": "Stripe API ok — cassa-runway.json"},
     {"numero": "13 prospect validi", "fonte": "registro-realta.json 02:38 + check rc=0 giro 11:10"},
-    {"numero": "1 negozio approvato (PQ)", "fonte": "REST Supabase 16:52"}
+    {"numero": "1 negozio approvato (PQ)", "fonte": "REST Supabase 17:27"}
   ],
   "vincoli_hard": [
     {
-      "vincolo": "REGISTRO SCELTE INCOMPLETO (rc=0)",
+      "vincolo": "REGISTRO SCELTE INCOMPLETO",
       "stato": "risolto",
-      "come": "registro-realta.json aggiornato 02:38 con 13 prospect + 6 esclusi, check rc=0 confermato giro 11:10"
+      "come": "registro-realta.json aggiornato 02:38 con 13 prospect + 6 esclusi, check rc=0 confermato giro 11:10 — invariato al 17:35"
     },
     {
       "vincolo": "COERENZA FATTI",
       "stato": "risolto",
-      "come": "coerenza-fatti.mjs exit 0 (16:52) — 0 cacce aperte, 13 fatti registrati"
+      "come": "coerenza-fatti.mjs exit 0 (invariato da 17:12) — 0 cacce aperte"
     },
     {
       "vincolo": "NORTH STAR IN STALLO (AR-111)",
@@ -72,6 +72,6 @@
       "come": "3 azioni in coda direttamente legate al 1° ordine: #ordine-test-pq + #whatsapp-3-anchor-pi26 + #bandi-cciaa-2007. Nessun lavoro sulla macchina non correlato al business."
     }
   ],
-  "benchmark": "Giro corretto: sensori REST live, coerenza-fatti ✅ exit 0, registro-scelte rc=0. North Star focus rispettato. Zero numeri inventati. Gap residui: n8n cieco 71 giri, MCP Supabase cieco 7 giri (REST supplisce), BURN_MENSILE_EUR mancante, sonda-volano/verifica-automazione non in allowlist (da cloud agent).",
+  "benchmark": "Giro corretto: sensori REST live 17:27, coerenza-fatti ✅ invariato, registro-scelte rc=0. North Star focus rispettato. Zero numeri inventati. Gap residui: n8n cieco 76 giri, MCP Supabase cieco 7 giri (REST supplisce), BURN_MENSILE_EUR mancante, sonda-volano/verifica-automazione non in allowlist (da cloud agent).",
   "salute_giro": "ok"
 }
