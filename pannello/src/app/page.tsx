@@ -1279,6 +1279,7 @@ export default function Dashboard() {
   async function nuovaConversazione() {
     segnaLettaChatAttiva();
     await persistConversazione(convId, messages);
+    nuovaChatManualeRef.current = true; // blocca l'auto-apri (vedi useEffect sotto)
     setMessages([]);
     setConvId(null);
     setBase(null);
@@ -1857,6 +1858,9 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   const continuaConversazioneRef = useRef(continuaConversazione);
   continuaConversazioneRef.current = continuaConversazione;
   const autoApriEseguito = useRef(false);
+  // Blocca l'auto-apri quando Nicola ha esplicitamente premuto "nuova chat":
+  // senza questo flag, nuovaConversazione() azzera i msg → l'auto-apri li rimette subito.
+  const nuovaChatManualeRef = useRef(false);
   useEffect(() => {
     const onVai = (e: Event) => {
       const det = (e as CustomEvent).detail as { vista?: Vista; anchor?: string; sub?: string } | undefined;
@@ -2078,8 +2082,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Risolve: (1) smartphone non vede la risposta del desktop finché non apre manualmente il cassetto;
   // (2) messaggio inviato da smartphone non "appare" nella lista perché la chat era vuota e scollegata.
   // Scatta UNA SOLA VOLTA per sessione (autoApriEseguito), solo nelle prime 2 ore dalla creazione.
+  // NON scatta se Nicola ha appena premuto "nuova chat" manualmente (nuovaChatManualeRef).
   useEffect(() => {
     if (autoApriEseguito.current) return;
+    if (nuovaChatManualeRef.current) return;
     if (convId) return;
     if (!caricato) return;
     if (conversazioni.length === 0) return;
