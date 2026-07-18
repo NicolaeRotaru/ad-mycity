@@ -172,7 +172,7 @@ type Miglioramento = {
   meta_esperimenti?: { aggiornato?: string };
   benchmark?: Benchmark[];
   esperimenti?: { id?: string; ipotesi?: string; reparto_guida?: string; stato?: string; esito?: string }[];
-  peer_review?: { lavoro?: string; autore?: string; revisori?: string[]; prima?: string; dopo?: string; guadagno?: string }[];
+  peer_review?: { lavoro?: string; autore?: string; reviewer?: string; revisori?: string[]; reviewed?: string; prima?: string; dopo?: string; guadagno?: string; voto?: number; punti_forza?: string[]; punti_deboli?: string[]; raccomandazione?: string }[];
   proposte_auto_riscrittura?: { cosa?: string; perche?: string; dove?: string }[];
 };
 type Entita = { id?: string; nome?: string; tipo?: string; stato?: string; fonte?: string; confidenza?: number; fonte_ragionamento?: string; evidenze?: string[]; note?: string; domanda_per_nicola?: string };
@@ -845,31 +845,63 @@ export default function AutoCoscienza({
                 <div>
                   <div className="t-micro mb-1.5">🤝 I senior si migliorano a vicenda</div>
                   <div className="space-y-2">
-                    {mi.peer_review.map((p, i) => (
-                      <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
-                        <div className="text-[12.5px] font-medium">{traduciTestoCompleto(p.lavoro || "")} <span className="t-eti">· di {repartoLeggibile(p.autore) || p.autore}</span></div>
-                        {p.guadagno && (
-                          <div className="mt-1">
-                            <div className="text-[12px] text-green-700 font-medium">Miglioramento</div>
-                            <TestoUmano testo={p.guadagno} className="text-[12px] text-green-700/90 mt-0.5" />
+                    {mi.peer_review.map((p, i) => {
+                      const autoreDisplay = p.reviewer || p.autore;
+                      const revistiDisplay = p.reviewed || (p.revisori ? p.revisori.join(", ") : undefined);
+                      return (
+                        <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/40 p-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="text-[12.5px] font-medium">
+                              {traduciTestoCompleto(p.lavoro || "")}
+                              {autoreDisplay && <span className="t-eti"> · da {repartoLeggibile(autoreDisplay) || autoreDisplay}</span>}
+                              {revistiDisplay && <span className="t-eti"> su {revistiDisplay}</span>}
+                            </div>
+                            {p.voto != null && <span className="shrink-0 text-[12px] font-bold text-brand">{p.voto}/10</span>}
                           </div>
-                        )}
-                        {p.prima && (
-                          <div className="mt-1.5">
-                            <div className="text-[11px] font-semibold text-black/50">Prima</div>
-                            <TestoUmano testo={p.prima} className="text-[11.5px] text-black/55 mt-0.5" />
-                          </div>
-                        )}
-                        {p.dopo && (
-                          <div className="mt-1.5">
-                            <div className="text-[11px] font-semibold text-black/50">Dopo</div>
-                            <TestoUmano testo={p.dopo} className="text-[11.5px] text-black/55 mt-0.5" />
-                          </div>
-                        )}
-                        {p.revisori && <div className="t-eti mt-1.5">Rivisto da: {p.revisori.map((r) => repartoLeggibile(r) || r).join(", ")}</div>}
-                        <ParlaCasella titolo={`Revisione tra specialisti: ${p.lavoro}`} contesto={[p.lavoro && `Lavoro: ${p.lavoro}`, p.guadagno && `Guadagno: ${p.guadagno}`].filter(Boolean).join(" · ")} />
-                      </div>
-                    ))}
+                          {p.punti_forza && p.punti_forza.length > 0 && (
+                            <div className="mt-1.5">
+                              <div className="text-[11px] font-semibold text-green-700">Punti di forza</div>
+                              <ul className="mt-0.5 space-y-0.5">
+                                {p.punti_forza.map((pf, j) => <li key={j} className="text-[11.5px] text-green-700/90">• {pf}</li>)}
+                              </ul>
+                            </div>
+                          )}
+                          {p.punti_deboli && p.punti_deboli.length > 0 && (
+                            <div className="mt-1.5">
+                              <div className="text-[11px] font-semibold text-red-600/70">Da migliorare</div>
+                              <ul className="mt-0.5 space-y-0.5">
+                                {p.punti_deboli.map((pd, j) => <li key={j} className="text-[11.5px] text-red-600/80">• {pd}</li>)}
+                              </ul>
+                            </div>
+                          )}
+                          {p.raccomandazione && (
+                            <div className="mt-1.5">
+                              <div className="text-[11px] font-semibold text-black/60">Raccomandazione</div>
+                              <TestoUmano testo={p.raccomandazione} className="text-[11.5px] text-black/65 mt-0.5" />
+                            </div>
+                          )}
+                          {p.guadagno && (
+                            <div className="mt-1.5">
+                              <div className="text-[12px] text-green-700 font-medium">Miglioramento</div>
+                              <TestoUmano testo={p.guadagno} className="text-[12px] text-green-700/90 mt-0.5" />
+                            </div>
+                          )}
+                          {p.prima && (
+                            <div className="mt-1.5">
+                              <div className="text-[11px] font-semibold text-black/50">Prima</div>
+                              <TestoUmano testo={p.prima} className="text-[11.5px] text-black/55 mt-0.5" />
+                            </div>
+                          )}
+                          {p.dopo && (
+                            <div className="mt-1.5">
+                              <div className="text-[11px] font-semibold text-black/50">Dopo</div>
+                              <TestoUmano testo={p.dopo} className="text-[11.5px] text-black/55 mt-0.5" />
+                            </div>
+                          )}
+                          <ParlaCasella titolo={`Revisione: ${p.lavoro}`} contesto={[p.lavoro, p.raccomandazione || p.guadagno].filter(Boolean).join(" · ")} />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
