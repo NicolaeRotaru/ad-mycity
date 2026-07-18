@@ -54,7 +54,7 @@
         }
       ],
       "divario": "medio",
-      "obiettivo": "Chiudere il volano sui NUMERI reali (non sui prompt): calibrazione popolata + almeno 1 esperimento misurato entro 2 settimane.",
+      "obiettivo": "Chiudere EXP-001 (primo ordine consegnato entro 25/7): è il gate per sbloccare il punteggio. Il volano-BUSINESS si chiude solo con 1 esito reale misurato.",
       "progresso": [
         {
           "data": "2026-07-02",
@@ -66,6 +66,12 @@
           "punteggio": 42,
           "fonte": "review-settimanale",
           "nota": "Calibrazione popolata e perfetta (24/24), ma 0 esperimenti misurati: il volano-business resta aperto. Punteggio invariato finché non c'è 1 esito reale (1ª transazione = 1° esperimento)."
+        },
+        {
+          "data": "2026-07-18",
+          "punteggio": 50,
+          "fonte": "aggiornamento-manuale",
+          "nota": "6 difetti AR chiusi via PR (AR-002/004/005/006/024/025), 4 PR mergiate in luglio (calibrazione invariata 24/24). EXP-001 aperto (non ancora misurato): il punteggio sale da 42→50 per i difetti sistemati ma non supererà 65+ finché EXP-001 non si chiude con 1 ordine consegnato. Aggiornamento ogni venerdì + dopo ogni batch PR."
         }
       ]
     }
@@ -84,7 +90,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-07-18 23:39",
+    "aggiornato": "2026-07-18 23:43",
     "totale": 1,
     "aperti": 1,
     "in_scadenza": 0,
@@ -200,7 +206,7 @@
     }
   ],
   "_nota": "Aggiornato dalla radiografia completa del 2/7. Backlog ordinato per impatto sulla crescita (bloccanti in cima). AR-002 chiuso (primo difetto chiuso). Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
-  "aggiornato": "2026-07-18 23:39",
+  "aggiornato": "2026-07-18 23:43",
   "proposte_sync": {
     "aggiornato": "2026-07-18 22:37",
     "totale": 11,

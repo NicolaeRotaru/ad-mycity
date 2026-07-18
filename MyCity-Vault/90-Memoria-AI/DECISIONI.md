@@ -4,6 +4,7 @@ fonte: AD digitale
 ---
 
 2026-07-18 23:58 · 🟡 · [Nicola «queste caselle mi sembrano incomplete»] · **Casella "Confronto: @AD" segnalata da Nicola come datata** — il punteggio 42/100 era fermo al 3/7 (15 giorni fa), non aggiornato dopo le migliorie di luglio: difetti chiusi via PR, EXP-001 aperto, 4 PR mergiate (#453/#454/#457/#458). Radice: i JSON sorgente delle caselle auto-coscienza non vengono ricalcolati automaticamente dopo ogni ciclo. AD ha offerto di aggiornare (🟢). In attesa di conferma di Nicola.
+2026-07-19 00:01 · 🟡 · [Nicola «c'è un modo per farlo aggiornare in automatico?»] · **Contatori vs. punteggio nelle caselle auto-coscienza:** il job ogni 2h aggiorna contatori (esperimenti, tasso lezioni); il punteggio qualitativo (42/100) non cambia automaticamente — ha senso aggiornarlo solo dopo batch di PR mergiate. AD ha proposto di aggiungerlo alla review del venerdì. In attesa di conferma da Nicola.
 
 2026-07-18 23:05 · 🟡 · [Pannello bloccato su "giro valido"] · **`auto-analisi.json` aveva `voto` (88) ma mancava il campo `sintesi` — senza di esso il Pannello non riconosce il giro come completato.** Fix committato (596402bc) + 4 file auto-coscienza pendenti. Push su main accodato come `#push-main-memoria` (non in allowlist dalla chat). Lezione: `auto-analisi.json` richiede SEMPRE entrambi i campi `voto` + `sintesi`.
 
