@@ -71,6 +71,22 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
+### 🟡 #auto-segna-pr-mergiata — Implementa: la card «Da approvare» per merge PR sparisce da sola quando Nicola mergia da GitHub · ⏳ accodata 2026-07-18 02:00
+
+**Richiesta esplicita di Nicola (18/7):** «se dentro da approvare una casella che per far mergiare un PR ma io la mergio da GitHub, quella casella deve sparire.»
+
+**Come implementare (2 strade):**
+1. **Al caricamento del Pannello** — per ogni card con `tipo: merge-pr` e PR URL nota, chiama `GET /repos/{owner}/{repo}/pulls/{number}` (GitHub API pubblica, no auth per repo pubblici); se `merged_at` è valorizzato → segna la card FATTO automaticamente.
+2. **Nel giro** — aggiungere un passo in `giro.sh` che controlla le PR aperte in AZIONI-IN-ATTESA e le segna FATTO se già mergiate su GitHub.
+
+**Cosa cambia:** Nicola non deve più dire «l'ho mergiato» — il sistema lo vede da solo entro pochi minuti.
+**Se va bene:** nessuna card zombie per PR già mergiate; AD segna le card FATTO in autonomia (🟢).
+
+- **Colore:** 🟡 (modifica codice Pannello + eventuale giro.sh)
+- **Reparto:** frontend-dev / devops-sre
+
+---
+
 ### 🟡 #burn-mensile-env — Aggiungi il burn mensile nel .env VPS per calcolare il runway · ⏳ accodata 2026-07-17 23:35
 
 **Da aggiungere in `cervello/vps/.env` sul VPS (poi riavviare il worker):**
