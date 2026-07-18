@@ -18,18 +18,20 @@
   "lezioni": [
     {
       "id": "L-2026-0719-276",
-      "testo": "**Nicola monitora l'auto-miglioramento e si aspetta contenuto ricco.** Il 19/7 ha chiesto 'sono solo 2 benchmark e 1 esperimento o ce ne sono di più non visualizzati?' — non era un bug UI, era genuinamente poco contenuto nel JSON. La sezione `auto-miglioramento.json` va popolata proattivamente dopo ogni ciclo: almeno 1 benchmark per reparto attivo, almeno 2-3 esperimenti live. Se il conteggio risulta basso (2+1), offrire subito voci concrete da aggiungere invece di limitarsi a confermare 'è tutto quello che c'è'.",
+      "testo": "**«Non limitarti, dai il massimo» = copertura COMPLETA di tutti i reparti, nessun placeholder.** Il 19/7 Nicola ha visto auto-miglioramento.json con 2 benchmark e 1 esperimento: non era un bug UI, era genuinamente poco. Ha confermato: «crea tutti i benchmark e tutti gli esperimenti, non limitarti, dai il massimo». AD ha portato a 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Regola duale: (a) popola proattivamente la sezione dopo ogni ciclo — almeno 1 benchmark per reparto attivo, almeno 2-3 esperimenti live; (b) quando senti «non limitarti / dai il massimo / crea tutti», il risultato atteso è copertura COMPLETA — non 3-4 esempi pilota. Applicabile a OKR, esperimenti, benchmark, proposte, qualsiasi JSON con liste.",
       "tag": [
         "auto-miglioramento",
         "benchmark",
         "esperimenti",
         "densità-contenuto",
         "nicola",
-        "proattività"
+        "proattività",
+        "non-limitarti",
+        "copertura-completa"
       ],
       "reparto": "@AD",
-      "confidenza": 0.85,
-      "evidenze": 1,
+      "confidenza": 0.92,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
