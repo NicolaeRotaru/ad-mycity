@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-18 17:30 · 🟡 · [Nicola screenshot nuova chat con risposta vecchia] · **Bug nuova chat auto-ricarica — branch `fix/nuova-chat-auto-apri-bloccato` (commit `d4c1e0d0`) committato, PR da aprire.** Causa: `useEffect` cross-device sync riapreva l'ultima conversazione (< 2 ore) subito dopo che `nuovaConversazione()` la svuotava. Fix: `nuovaChatManualeRef` acceso sul click «+», blocca l'auto-apri solo in quel caso. Card `#apri-pr-nuova-chat-auto-apri` accodata.
+
 2026-07-18 17:52 · 🟡 · [Nicola «Cosa devo dire nella prossima chat?»] · **Prompt prossima sessione: «Apri le PR pendenti».** L'AD aprirà da solo `git-pr.mjs` nella nuova sessione. PR pendenti noti: #453 (timer lista chat, già aperta), #446 (cross-device), #443 (5 fix UX), e la cadenza automatica housekeeping (da rifare su giro.sh: PR #450 era vuota — branch non aveva modifiche vs main al momento dell'apertura).
 
 2026-07-18 17:50 · 🟡 · [PR #450 aperta ma vuota] · **Cadenza automatica housekeeping — PR #450 era vuota, il fix va rifatto.** Nicola ha chiesto «aggiungi una cadenza automatica fissa» per la pulizia di AZIONI-IN-ATTESA. L'AD ha creato `housekeeping-azioni.mjs` e ha tentato di aggiungere una riga in `giro.sh`, ma durante il rebase per risolvere il conflitto la modifica è andata persa. PR #450 aperta ma vuota (nessun diff vs main). La riga da aggiungere in `giro.sh`: `node cervello/housekeeping-azioni.mjs` dopo la pulizia STATO. Card `#cadenza-housekeeping` accodata in AZIONI-IN-ATTESA.

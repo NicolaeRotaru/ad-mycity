@@ -34,6 +34,27 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 
 ---
 
+### 🟡 #apri-pr-nuova-chat-auto-apri — Apri la PR che blocca l'auto-ricarica della vecchia chat · ⏳ accodata 2026-07-18 17:30
+
+**Contesto:** Nicola ha mostrato screenshot: quando premeva «+» per una nuova chat, la conversazione precedente riappariva automaticamente. Causa: un `useEffect` per la sync cross-device riapr1va l'ultima conversazione recente (< 2 ore) dopo che `nuovaConversazione()` l'aveva svuotata.
+
+**Fix implementato:** aggiunto `nuovaChatManualeRef` in `ChatCasella.tsx` — si accende quando premi «+» manualmente e blocca l'auto-apri solo in quel caso. La sync automatica all'apertura pagina (da altro dispositivo) continua a funzionare.
+
+**Commit:** `d4c1e0d0` · Branch: `fix/nuova-chat-auto-apri-bloccato`
+
+**Comando VPS (se bloccato in sessione):**
+```
+node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
+```
+
+**Cosa cambia:** premere «+» apre davvero una chat vuota — la risposta precedente non appare più.
+**Se va bene:** Nicola può aprire nuove chat senza trovare le vecchie risposte dentro.
+
+- **Colore:** 🟡 (codice Pannello → mergia Nicola)
+- **Reparto:** frontend-dev
+
+---
+
 ### 🔴 #fix-35-gravi — Mergia la PR con tutti i 35 fix gravi della radiografia · ⏳ accodata 2026-07-18 17:45
 
 **Contesto:** 9 batch completati (2026-07-18), branch pushato su GitHub. La PR apre tutti e 35 i fix gravi della radiografia Opus del 7/7.
