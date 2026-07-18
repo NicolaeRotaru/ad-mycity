@@ -1176,8 +1176,12 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
       stato="errore"; out="$out
 [worker] TIMEOUT giro dopo ${to}s — interrotto."
     elif [ "$rc" -eq 2 ]; then
+      # giro.sh esce 2 per DUE motivi diversi: (a) il gate memoria AR-104 (coerenza-fatti/vault-sanità)
+      # ha BLOCCATO la pubblicazione perché la memoria è incoerente o un file JSON del vault è rotto;
+      # (b) il push su main è fallito davvero. NON attribuirlo solo al token: il motivo esatto è
+      # nell'output sopra (cerca «GATE MEMORIA», «VAULT-SANITÀ», «COERENZA-FATTI» oppure «push … fallito»).
       stato="errore"; out="$out
-[worker] Memoria scritta in locale ma PUSH su main FALLITO. Controlla GIT_PUSH_TOKEN sul VPS."
+[worker] Memoria scritta in locale ma NON pubblicata su main (rc=2). Motivo nell'output sopra: o il gate coerenza/vault-sanità l'ha bloccata (es. un JSON del vault non parsabile → ripara il file), oppure il push è fallito (controlla GIT_PUSH_TOKEN)."
     elif [ "$rc" -ne 0 ]; then
       stato="errore"; out="$out
 [worker] giro.sh uscito con rc=$rc (motore AI o preparazione fallita)."
