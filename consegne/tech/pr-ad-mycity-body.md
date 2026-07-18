@@ -1,11 +1,7 @@
-## Arsenale: da sezione separata a tab dentro le Azioni (v2 — senza conflitti)
+## Cosa fa
+- Aggiorna il punteggio nella casella "Confronto @AD" da 42/100 a 50/100 (6 difetti sistemati a luglio, EXP-001 aperto)
+- Aggiorna l'obiettivo: non piu' "entro 2 settimane dal 3/7" (scaduto) ma "chiudi EXP-001 entro 25/7"
+- Aggiunge al ritmo del venerdi' la regola: aggiorna sempre il punteggio settimanalmente, non lasciarlo stantio
 
-L'Arsenale non sta più in fondo come blocco separato — diventa un tab nella barra in alto di Azioni, accanto a Mosse, Sentinelle, Registro ecc.
-
-Sostituisce PR #463 (aveva conflitti).
-
-### Come provare
-1. Vai su Azioni
-2. Nella barra tab in alto clicca "Arsenale"
-3. Vedi i playbook come prima (forme di dominio, colori, ultimo utilizzo)
-4. In fondo alle Azioni non c'è più la sezione separata
+## Come verificare
+Apri il Pannello, sezione Auto-coscienza, casella "Confronto: @AD": deve mostrare punteggio 50/100 e obiettivo aggiornato.
