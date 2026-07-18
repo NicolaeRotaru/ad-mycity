@@ -4,6 +4,8 @@ aggiornato: 2026-07-19 01:45
 fonte: AD digitale (metabolizzazione chat 19/7)
 ---
 
+> ✅ **19/7 02:35 — CHIUSO: delta-gate [REVIEW 3/7] AR-019/AR-025.** Nicola ha chiesto «c'è ancora questo problema?» — AD ha verificato nel codice: `cervello/delta-gate.mjs` usa già lo stato booleano (cieco sì/no) e non il contatore incrementale `max_giri_ciechi`. Fix confermato in produzione. Casella archiviabile. Fonte: chat Nicola 19/7 02:35.
+
 > 🟡 **19/7 01:40 — PENDENTE: Arsenale → tab in alto.** Nicola ha chiesto di spostare la sezione Arsenale del Pannello dentro un tab in alto. AD ha spiegato cosa è l'Arsenale (playbook per 9 domini) e si è impegnato a fare il fix. Verificare se PR aperta o ancora pendente nella prossima chat. Fonte: chat Nicola 19/7 01:40.
 
 > 💬 **19/7 00:22 — CHAT: Nicola chiede come abilitare MCP Supabase in chat.** «come faccio a farti visualizzare questi dati?» — MCP Supabase non è nell'allowlist di `.claude/settings.local.json` sul VPS. AD ha proposto di scrivere la riga esatta. Pendente: Nicola decide se aggiungere la voce (card #abilita-mcp-supabase-chat accodata). Fonte: chat Nicola 19/7 00:22.

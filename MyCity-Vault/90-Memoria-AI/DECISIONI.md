@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 02:35 · 🟢 · [Casella delta-gate [REVIEW 3/7] confermata chiusa — fix già in produzione] · **Nicola: «c'è ancora questo problema?» sulla casella AR-019 delta-gate.** AD ha verificato nel codice: `cervello/delta-gate.mjs` righe 14-15 usa già lo stato booleano (cieco sì/no) e NON il contatore `max_giri_ciechi`. Il problema è risolto. Casella da archiviare.
+
 2026-07-19 02:00 · 🟢 · [Nicola ha mergiato PR #467 — display ricco peer review ora live] · **Nicola: «mi ero dimenticato di margiarla, ok grazie».** PR #467 mergiata da Nicola: il componente `AutoCoscienza.tsx` ora mostra per ogni peer review il voto, i punti di forza (verde), i punti da migliorare (rosso) e la raccomandazione. Il Pannello si aggiornerà al prossimo build Vercel.
 
 2026-07-19 01:45 · 🟢 · [Casella "Revisione tra specialisti" spiegata a Nicola] · **Nicola: «spiegami questa casella» sulla "Revisione tra specialisti: Qualità dei contenuti prodotti — giugno/luglio 2026".** AD ha spiegato: @direttore-creativo giudica il lavoro di @content-social; la casella mostra voto, punti_forza (verde), punti_deboli (rosso), raccomandazione. Il display ricco appare dopo il merge di PR #467.
