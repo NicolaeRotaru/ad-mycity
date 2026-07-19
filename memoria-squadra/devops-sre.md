@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-19 18:57 · Fix build Render + rate limit GitHub — Nicola «Perché non apri tu la PR?» · atteso: scheda PR aperta automaticamente · reale: branch `fix/render-build-orders-page` pushato (`5497b96`); `gh pr create` 403 rate limit (retry confermato); compare manuale o retry ~1h · L-316 · L-315 · #render #github-api #rate-limit #pr #esito
 - 2026-07-19 18:38 · CI PR #214 marketplace — Nicola chiede se AD lavora con CI · atteso: lettura check GitHub + verdetto merge · reale: AD legge check + test locale; unit rossi = debito main non PR; merge #214 ok; CI verde = follow-up separato · L-311 · #ci #pr-214 #github-actions #esito
 - 2026-07-19 17:01 · Inventario allowlist GitHub+due repo — Nicola «Hai tutti gli MCP per github/mycity/ad-mycity?» · atteso: mappa per superficie con buco esplicito · reale: GitHub=git+git-pr (no MCP), MCP 9 voci ok, marketplace git -C ok, ad-mycity manca `git push origin fix/*` · L-298 · #allowlist #git #mcp #esito
 - 2026-07-14 13:11 · Rischio tecnico — PR #383 · atteso: 8 findings `rischio-sicurezza-se` chiusi con hardening guardiani · reale: 6/8 chiusi (hook segreti, monitora non distruttivo, Resend/n8n, timeout 8s, meta-guardiano, auto-fix no auto-chiusura); 2 tipo umano pendenti (Cursor --trust, prova chiusura difetti); commit su main per errore → branch fix; merge 🔴 #145 · L-230 · #rischio-tecnico #pr-383 #esito

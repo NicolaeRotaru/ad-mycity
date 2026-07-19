@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 18:56",
+  "aggiornato": "2026-07-19 18:58",
+  "_nota_metabolizzazione_19_07_1858": "Chat 19/7 ~18:57: Nicola «Perché non apri tu la PR?» dopo fix render build. AD retry gh → 403 rate limit confermato; branch+commit su GitHub, scheda PR mancante. L-316 nuova; preferenza apri-pr-automatica; coda #197 aggiornata.",
   "_nota_metabolizzazione_19_07_1856": "Chat 19/7 ~18:56: Nicola «Non ha fatto il deploy, come mai?» + screenshot Render X. AD: Auto-Deploy ok, build crashato (orders/page TS), fix branch fix/render-build-orders-page, PR manuale (#197). L-315 nuova; L-314 evidenze++; STATO corretto (#214 merged ≠ online); preferenza deploy-vs-merge.",
   "_nota_metabolizzazione_19_07_1841": "Chat 19/7 ~18:40: Nicola «Prepara la pr» dopo diagnosi CI → AD PR #215 (715/715, migration 107 + mock Stripe), accoda #195+#196 merge order. L-313 nuova; L-311 evidenze++; preferenza prepara-pr-ci.",
   "_nota_metabolizzazione_19_07_1840": "Chat 19/7 ~18:38: Nicola casella Supervisione «Fai i 2 fix» → 252 condition nuovo + 242 unit pezzo live, REST 0 null, PR #480 bug tool. L-312 nuova; preferenza fai-i-2-fix; L-216 evidenze++.",
@@ -34,6 +35,28 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-316",
+      "testo": "**GitHub rate limit — «Perché non apri tu la PR?» (Nicola 19/7 ~18:57).** Dopo push fix su `fix/render-build-orders-page` (build Render), Nicola chiede perché l'AD non ha aperto la scheda PR. 5 perché: (1) **standing-ask:** Nicola si aspetta che l'AD apra PR automaticamente (`git-pr.mjs` marketplace push + link/gh, o `gh pr create`), non istruzioni manuali «Compare & pull request» come prima scelta; (2) primo tentativo 18:56 già fallito **403 rate limit** GitHub API; (3) **retry 18:57** = stesso 403 — giornata intensa (merge #214, push fix, check CI) esaurisce quota API utente; (4) **push ≠ PR aperta:** codice e commit (`5497b96`) sono su GitHub, manca solo la scheda; (5) risposta corretta: riprova **una volta** subito, se 403 → spiega limite temporaneo + link Compare + «riprova la PR» tra ~1h — **MAI** aggirare con token alternativi o comandi vietati (LEZIONI-CHAT). Regola: «Perché non apri tu?» non è rifiuto del compare manuale — è frustrazione che l'automazione si è fermata; dimostrare retry + causa esterna. Vedi L-315, L-313.",
+      "tag": [
+        "github",
+        "rate-limit",
+        "git-pr",
+        "pr-apri-automatica",
+        "render",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@devops-sre",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 18:58",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-315",
       "testo": "**Render marketplace — X rosse = build fallito, non «deploy non partito» (Nicola 19/7 ~18:56).** Dopo merge #214 Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render. 5 perché: (1) interpreta sito vecchio = Auto-Deploy non attivo; (2) Render **ha tentato** deploy ma build crashato ~2 min (X rosse = failed, non canceled); (3) causa verificata in locale: errore TypeScript `app/orders/page.tsx` (`.catch` su PromiseLike Supabase) — già su main dal merge radiografia 18/7, **non** introdotto da #214/#215; (4) **merge GitHub ≠ online**: ogni PR mergiata resta offline finché un build completa con successo; (5) fix su branch `fix/render-build-orders-page` (+ `NODE_OPTIONS=4096` anti-OOM), build locale OK; PR automatica bloccata da rate limit GitHub API → aprire/mergiare a mano (#197). Regola: «deploy non fatto» → controllare **stato build Render** (failed vs never started); non dire «non ha deployato» se c'è un deploy failed; non attribuire al PR feature se il build fallisce su debito pre-esistente su main. Vedi L-314, L-311.",
       "tag": [
@@ -48,11 +71,11 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 0.96,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 18:56",
+      "ultima_conferma": "2026-07-19 18:58",
       "stato": "attiva",
       "usi": []
     },
@@ -7135,6 +7158,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**PR — «Perché non apri tu la PR?» = si aspetta apertura automatica, non compare manuale (chat 19/7 ~18:57):** dopo fix pushato su branch, chiede perché manca la scheda PR — vuole che l'AD riprovi subito con git-pr/gh; se **403 rate limit** GitHub accetta spiegazione + link Compare come piano B, ma la prima scelta resta automazione AD. Vedi L-316, L-315.",
     "**Deploy Render — «Non ha fatto il deploy?» = vuole PERCHÉ merge non è online (chat 19/7 ~18:56):** dopo merge PR (#214) sito invariato — si aspetta spiegazione concreta: Auto-Deploy sì/no, X rosse Render = build fallito (non «non ha provato»), causa verificata (log/build locale), fix pronto + passi merge. Distinguere merge GitHub vs deploy produzione. Vedi L-315.",
     "**CI — «A cosa serve la CI?» = spiegazione semplice pre-deploy, non gergo (chat 19/7 ~18:44):** dopo merge fuori ordine (#214 prima #215), chiede il significato della CI — si aspetta metafora collaudo (compila+test+E2E), pallini GitHub, cosa fare dopo (#215 per verde su main); rassicurazione se ordine merge invertito. Vedi L-314.",
     "**CI — «Prepara la pr» dopo diagnosi = vuole PR fix eseguita e accodata (chat 19/7 ~18:40):** dopo «Tu riesci a lavorare con CI?» e offerta PR separata, «Prepara la pr» = via libera — si aspetta suite verde (715/715), **PR #215** in Da approvare, ordine merge **#215 poi #214**; non solo spiegazione delle cause. Vedi L-313, L-311.",

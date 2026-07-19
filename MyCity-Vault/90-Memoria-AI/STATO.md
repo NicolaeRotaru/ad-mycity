@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:56
-fonte: AD digitale (chat Nicola 19/7 18:56)
+aggiornato: 2026-07-19 18:58
+fonte: AD digitale (chat Nicola 19/7 18:58)
 ---
+
+> 💬 **19/7 18:57 — CHAT: «Perché non apri tu la PR?» — rate limit GitHub confermato al retry.** Nicola dopo fix build Render: AD ha **riprovato** `gh pr create` → **403 rate limit** (stesso blocco 18:56). Branch `fix/render-build-orders-page` + commit `5497b96` **su GitHub** — manca solo scheda PR. Retry automatico ~1h o Compare manuale su mycity. Coda **#197** in attesa. Fonte: chat Nicola 19/7 18:57.
 
 > ⚠️ **19/7 18:56 — CHAT: merge #214 ok ma sito NON aggiornato — build Render fallito.** Nicola: «Non ha fatto il deploy, come mai?» + screenshot Render (X rosse). AD: Auto-Deploy **è partito**; build crashato ~2 min — sito ancora versione di ieri. Causa verificata in locale: errore TypeScript su `app/orders/page.tsx` (merge radiografia 18/7), **non** da #214/#215. Fix pronto su branch `fix/render-build-orders-page` (build locale OK); PR non aperta automaticamente (rate limit GitHub API). **Ordine:** mergia PR fix build → poi **#215** → ricarica telefono (icona carrello visibile solo dopo deploy verde). Fonte: chat Nicola 19/7 18:56.
 

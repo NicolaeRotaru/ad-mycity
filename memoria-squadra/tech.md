@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 18:57 · PR fix build Render — Nicola «Perché non apri tu la PR?» · atteso: PR mycity aperta dopo fix TS orders/page · reale: fix su branch pushato, apertura PR bloccata 403 rate limit GitHub (2 tentativi); coda #197 · L-316 · #render #mycity #pr #rate-limit #esito
 - 2026-07-19 17:00 · PR #213 mergiata (#fix-35-gravi chiuso) · atteso merge verificato su origin/main · reale: commit `304fe07` marketplace; codice+DB allineati · L-297 L-272 · #radiografia #pr-213 #fix-35-gravi #esito
 - 2026-07-19 16:57 · Migrazioni 109-111 marketplace · atteso apply su richiesta Nicola «Applica queste 3 migrations» · reale: Management API ok; 110 adattata schema live; rider_fee_cents + public_profiles verificati; ~~pendente merge PR #213~~ → mergiata 17:00 · L-294 L-296 · #migrazioni #fix-35-gravi #esito
 - 2026-07-19 16:55 · Migrazioni 109-111 post-PR #213 · atteso apply_migration o SQL Editor dopo merge · reale: verifica DB — mancano rider_fee_cents + public_profiles → NON applicate; Nicola chiede conferma esplicita · L-294 · #migrazioni #supabase #fix-35-gravi #esito
