@@ -8,6 +8,9 @@ export type Tipo = "n" | "euro" | "durata" | "stelle" | "perc";
 // viene già comunicato dal pallino/bordo, quindi nel testo è ridondante.
 export function testoPulito(s: string): string {
   return (s || "")
+    // Carattere di sostituzione U+FFFD («�»): mojibake da emoji corrotte a monte
+    // (es. «🟢�», «✅�» in memoria). Non deve MAI arrivare a schermo → via ovunque.
+    .replace(/�/g, "")
     .replace(/\*\*/g, "")
     .replace(/\*/g, "")
     .replace(/`/g, "")

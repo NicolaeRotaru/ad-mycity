@@ -959,21 +959,21 @@ cd /opt/mycity/ad-mycity && git push origin fix/chat-altezza-scroll-spaziatura
 -->
 
 
-### 2026-06-24 · @pr-stampa · ✅� Pacchetto earned media di lancio (kit pronto)
+### 2026-06-24 · @pr-stampa · ✅ Pacchetto earned media di lancio (kit pronto)
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 **Stato 30/6 09:09:** ❌ **rifiutato** da Nicola via Pannello — non riproporre finché non chiede esplicitamente.
 Fonte: `consegne/pr/KIT-STAMPA-LANCIO.md`. Tutto scritto e pronto; serve la firma per gli invii reali.
-1. 🟢� **Invio email ESCLUSIVA a Libertà** (+ proposta servizio Telelibertà). Verificare prima il nome del direttore attuale (Rocco vs Visconti).
-2. 🟢� **Invio email alle 3 testate online** (PiacenzaSera, Piacenza24, IlPiacenza) — solo DOPO l'uscita su Libertà o dopo 48h di silenzio.
-3. 🟢� **Autorizzazione citazione titolare Garetti** (ok scritto del negoziante prima di pubblicarla).
-4. 🟢� **Richiesta citazione/foto assessore Fornasari** (via @relazioni-istituzionali).
+1. 🟢 **Invio email ESCLUSIVA a Libertà** (+ proposta servizio Telelibertà). Verificare prima il nome del direttore attuale (Rocco vs Visconti).
+2. 🟢 **Invio email alle 3 testate online** (PiacenzaSera, Piacenza24, IlPiacenza) — solo DOPO l'uscita su Libertà o dopo 48h di silenzio.
+3. 🟢 **Autorizzazione citazione titolare Garetti** (ok scritto del negoziante prima di pubblicarla).
+4. 🟢 **Richiesta citazione/foto assessore Fornasari** (via @relazioni-istituzionali).
 5. Completare campi [INSERIRE]: numero/email/sito stampa, fonte ufficiale del -22%, data di lancio.
 
 ---
-## 🟢� Pubblicazione contenuti social — Settimane 1-4 (content-social)
+## 🟢 Pubblicazione contenuti social — Settimane 1-4 (content-social)
 - **Data proposta:** 2026-06-24
 - **Cosa:** pubblicare i 16 post + bio IG/FB del calendario `consegne/content/CALENDARIO-4-SETTIMANE.md` sui canali reali (gruppi FB locali, IG feed/storie).
-- **Perché 🟢�:** tocca canali pubblici reali in città piccola; cita nome/foto del negoziante.
+- **Perché 🟢:** tocca canali pubblici reali in città piccola; cita nome/foto del negoziante.
 - **Pre-condizioni prima del via:** (1) ok firmato di Garetti per nome/foto; (2) segnaposto [Garetti/MyCity/Cliente] riempiti coi dati veri; (3) dialetto validato da madrelingua; (4) URL lista d'attesa reale; (5) ⏳ grafiche DA GENERARE — la Content Factory (`render.mjs`) esiste, ma su disco c'è SOLO `creativi/output/social/storia-bottega-garetti-saracinesca.png`: i 4 PNG S1 + il reel .webm vanno ancora prodotti (non spuntare come pronti finché non sono su disco); (6) peer review @finanza sulla promo "primi 50 gratis".
 - **Mani:** canali social → da collegare via @builder-automazioni (o pubblicazione manuale).
 - **Stato:** chiusa DI FIRMA NICOLA.
@@ -981,96 +981,96 @@ Fonte: `consegne/pr/KIT-STAMPA-LANCIO.md`. Tutto scritto e pronto; serve la firm
 
 ## 2026-06-24 · @crm-lifecycle · Flussi lifecycle pronti (DRY-RUN)
 Fonte: consegne/crm/FLUSSI-LIFECYCLE.md — niente è stato inviato.
-- [x] 🟢� Approvare incentivo "prima consegna gratis" primi 50 iscritti (cap ~200€).
-- [x] 🟢� Approvare referral give-get 5€+5€ (budget mensile suggerito 250€) + anti-frode.
-- [x] 🟢� Approvare "Regala una spesa" (gift, prepagato = cash-positive) + scadenza buono 12 mesi.
-- [x] 🟢� Approvare consegna offerta su win-back #2 e carrello #2 (1 volta/cliente, ~4€).
-- [x] 🟢� Via libera all'INVIO dei 3 Welcome + transazionali ai primi clienti reali (dopo validazione legale-privacy footer/consenso).
-- [x] 🟢�️ @builder-automazioni: collegare RESEND_API_KEY (+ dominio/SPF/DKIM), VAPID push, Telegram, webhook stato ordine.
+- [x] 🟢 Approvare incentivo "prima consegna gratis" primi 50 iscritti (cap ~200€).
+- [x] 🟢 Approvare referral give-get 5€+5€ (budget mensile suggerito 250€) + anti-frode.
+- [x] 🟢 Approvare "Regala una spesa" (gift, prepagato = cash-positive) + scadenza buono 12 mesi.
+- [x] 🟢 Approvare consegna offerta su win-back #2 e carrello #2 (1 volta/cliente, ~4€).
+- [x] 🟢 Via libera all'INVIO dei 3 Welcome + transazionali ai primi clienti reali (dopo validazione legale-privacy footer/consenso).
+- [x] 🟢️ @builder-automazioni: collegare RESEND_API_KEY (+ dominio/SPF/DKIM), VAPID push, Telegram, webhook stato ordine.
 - [x] ⚖️ @legale-privacy: validare footer disiscrizione + testi consenso (marketing vs transazionale) prima del primo invio.
-- [x] 🟢� Pubblicare il MANIFESTO-CAUSA "Ogni spesa è un voto" (post gruppi FB + feed IG @mycity.piacenza). Testo pronto in `consegne/content/C1-manifesto-causa.md` (⏳ PNG `creativi/output/social/C1-manifesto-causa.png` DA GENERARE — non ancora su disco). PRECONDIZIONI: (a) confermare il dato −22%/12 anni + fonte citabile [vault riporta anche −20,4% al 2035]; (b) link reale lista d'attesa nel 1° commento (da @builder-automazioni); (c) [opz.] validare la variante dialetto con madrelingua.
+- [x] 🟢 Pubblicare il MANIFESTO-CAUSA "Ogni spesa è un voto" (post gruppi FB + feed IG @mycity.piacenza). Testo pronto in `consegne/content/C1-manifesto-causa.md` (⏳ PNG `creativi/output/social/C1-manifesto-causa.png` DA GENERARE — non ancora su disco). PRECONDIZIONI: (a) confermare il dato −22%/12 anni + fonte citabile [vault riporta anche −20,4% al 2035]; (b) link reale lista d'attesa nel 1° commento (da @builder-automazioni); (c) [opz.] validare la variante dialetto con madrelingua.
 
-## 🟢� Pubblicare il POV/ZTL "Sabato e ti tocca prendere la coppa" (C4) — @cro/@content-social
+## 🟢 Pubblicare il POV/ZTL "Sabato e ti tocca prendere la coppa" (C4) — @cro/@content-social
 - **Data proposta:** 2026-06-25
 - **Cosa:** pubblicare il contenuto POV relatable su canali reali: gruppi FB locali ("Sei di Piacenza se…", "Piacenza Mia") + IG feed @mycity.piacenza + rilancio in Storia. Testo+visual pronti in `consegne/content/C4-pov-ztl.md` (PNG: `creativi/output/social/C4-pov-ztl.png`).
-- **Perché 🟢�:** tocca canali pubblici reali in città piccola; cita ZTL/multa/vigile (tono bonario, da validare @legale-privacy).
+- **Perché 🟢:** tocca canali pubblici reali in città piccola; cita ZTL/multa/vigile (tono bonario, da validare @legale-privacy).
 - **Pre-condizioni prima del via:** (1) conferma cifra multa ZTL Piacenza — uso **83€** come ordine di grandezza, correggibile in 1 riga del render o rimovibile; (2) link reale in bio (lista d'attesa o /store) con UTM `pov_ztl` da @builder-automazioni; (3) caption versione "uno di noi" senza hashtag nei gruppi FB, link nel 1° commento; (4) [opz.] validazione tono @legale-privacy (non diffamatorio verso Comune/PL).
 - **Mani:** canali social → @builder-automazioni o pubblicazione manuale.
 - **Quando consigliato:** venerdì sera 18-20 (o sabato mattina 8:30-9:30 per max identificazione).
 - **Stato:** chiusa DI FIRMA NICOLA.
 
-## 2026-06-26 · @content-social · Pubblicare il ritratto "Il nostro bottegaio" (Garetti) — 🟢�
+## 2026-06-26 · @content-social · Pubblicare il ritratto "Il nostro bottegaio" (Garetti) — 🟢
 - **Cosa:** pubblicare post FB + caption IG (carosello) + reel su @mycity.piacenza e gruppi locali Piacenza.
 - **Contenuto pronto:** `consegne/content/W3-ritratto-bottega.md` · grafica `creativi/output/social/W3-ritratto-bottega.png`.
 - **Canale:** Facebook/Instagram MyCity (+ gruppi quartiere). Le "mani" social passano da n8n/integrazioni → @builder-automazioni se non collegate.
-- **🟢� BLOCCO finché non arrivano:** ① foto vera del volto di Garetti · ② frase reale sua · ③ consenso scritto uso nome/volto/frase (in città piccola la reputazione conta).
+- **🟢 BLOCCO finché non arrivano:** ① foto vera del volto di Garetti · ② frase reale sua · ③ consenso scritto uso nome/volto/frase (in città piccola la reputazione conta).
 - **Effetto atteso KPI:** iscritti lista d'attesa (acquisizione calda dai clienti di Garetti, portata a costo ≈0 via ripubblicazione del negozio).
 - **Via libera:** "ok" di Nicola DOPO foto+frase+consenso.
 
 ## 2026-06-26 · @ai-video · Reel W4 "Dietro la saracinesca"
-- 🟢� **Consenso Garetti** (volto+voce+nome) prima di girare/pubblicare il BTS. Chi va a chiederlo?
-- 🟢� **Pubblicare il reel** su IG/FB/TikTok (canali reali) → firma Nicola. Contenuto pronto in `consegne/content/W4-bts-bottega.md`, cover in `creativi/output/social/W4-bts-cover.png`.
-- 🟢� Pre-requisito: riempire segnaposto in negozio (anni attività, prodotto-orgoglio DOP, parentela) + scegliere traccia audio royalty-free con licenza social.
+- 🟢 **Consenso Garetti** (volto+voce+nome) prima di girare/pubblicare il BTS. Chi va a chiederlo?
+- 🟢 **Pubblicare il reel** su IG/FB/TikTok (canali reali) → firma Nicola. Contenuto pronto in `consegne/content/W4-bts-bottega.md`, cover in `creativi/output/social/W4-bts-cover.png`.
+- 🟢 Pre-requisito: riempire segnaposto in negozio (anni attività, prodotto-orgoglio DOP, parentela) + scegliere traccia audio royalty-free con licenza social.
 
 ## 2026-06-26 23:40 · @content-social · SISTEMA DI LANCIO Garetti (L6) → primi 50 iscritti
-Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-L6.md`. È il sistema dentro cui vive il post L3 già fatto. Cosa tocca il mondo reale (🟢�/🟢�):
-- [x] 🟢� **PRE-CONDIZIONE n°1 — Landing lista d'attesa reale** (1 campo + "primi 50 gratis" + UTM per canale). Senza, OGNI canale converte 0. → @builder-automazioni + @frontend-dev + @cro. *Questo sblocca tutto il resto.*
-- [x] 🟢� **Canale 2 (il più ricco) — SÌ di Garetti su 3 cose:** (a) ricondividere il post L3 "La saracinesca" ai suoi clienti, (b) QR + vetrofania in cassa, (c) [opz.] comparire su Libertà. Senza il suo consenso il funnel scende sotto i 50 nel caso peggiore. → richiesta da portare via @vendite/@onboarding-negozi.
-- [x] 🟢� **Canale 1 — pubblicare il Contenuto-faro nei gruppi FB locali** (già in coda; CORREZIONE d'onestà obbligatoria: togliere il −22% non confermato + ZTL solo se cifra blindata). Presidio commenti primi 90'.
-- [x] 🟢� **Canale 5 — angolo stampa Libertà** ("le botteghe storiche sfidano il delivery, parte da Piazza Duomo") → @pr-stampa, su base §4D del piano. Serve data lancio + consenso Garetti.
-- [x] 🟢� **Referral civico** (riga §4C in thank-you page, no budget, gloria non sconto) → @crm-lifecycle. Tenere distinto dal give-get 5€+5€.
-- [x] 🟢� **Vetrofania + cartoncino-cassa + QR per Garetti** → @designer (brief §6), check @qa-designer.
-- [x] 🟢� **Conferma/blinda dato −22% + cifra ZTL + cap incentivo "primi 50 gratis"** → @analista/@finanza prima di pubblicare.
+Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-L6.md`. È il sistema dentro cui vive il post L3 già fatto. Cosa tocca il mondo reale (🟢/🟢):
+- [x] 🟢 **PRE-CONDIZIONE n°1 — Landing lista d'attesa reale** (1 campo + "primi 50 gratis" + UTM per canale). Senza, OGNI canale converte 0. → @builder-automazioni + @frontend-dev + @cro. *Questo sblocca tutto il resto.*
+- [x] 🟢 **Canale 2 (il più ricco) — SÌ di Garetti su 3 cose:** (a) ricondividere il post L3 "La saracinesca" ai suoi clienti, (b) QR + vetrofania in cassa, (c) [opz.] comparire su Libertà. Senza il suo consenso il funnel scende sotto i 50 nel caso peggiore. → richiesta da portare via @vendite/@onboarding-negozi.
+- [x] 🟢 **Canale 1 — pubblicare il Contenuto-faro nei gruppi FB locali** (già in coda; CORREZIONE d'onestà obbligatoria: togliere il −22% non confermato + ZTL solo se cifra blindata). Presidio commenti primi 90'.
+- [x] 🟢 **Canale 5 — angolo stampa Libertà** ("le botteghe storiche sfidano il delivery, parte da Piazza Duomo") → @pr-stampa, su base §4D del piano. Serve data lancio + consenso Garetti.
+- [x] 🟢 **Referral civico** (riga §4C in thank-you page, no budget, gloria non sconto) → @crm-lifecycle. Tenere distinto dal give-get 5€+5€.
+- [x] 🟢 **Vetrofania + cartoncino-cassa + QR per Garetti** → @designer (brief §6), check @qa-designer.
+- [x] 🟢 **Conferma/blinda dato −22% + cifra ZTL + cap incentivo "primi 50 gratis"** → @analista/@finanza prima di pubblicare.
 - **Stato:** chiusa DI FIRMA NICOLA. **Mani social** → @builder-automazioni o pubblicazione manuale.
 
-## 2026-06-26 23:40 · @content-social · 🟢�🟢� PROPOSTA L7 (mossa 10x non richiesta) — Evento "IL PRIMO TURNO" in Piazza Duomo
+## 2026-06-26 23:40 · @content-social · 🟢🟢 PROPOSTA L7 (mossa 10x non richiesta) — Evento "IL PRIMO TURNO" in Piazza Duomo
 - **Cosa:** evento civico di lancio nel sabato di apertura — Garetti alza la saracinesca in Piazza Duomo + partono le prime 50 consegne in cargo-bike. Trasforma "iscriviti alla lista" in "sii tra le 50 consegne del Primo Turno". Dettagli: §8 del piano `PIANO-LANCIO-garetti-L6.md`.
 - **Perché 10x:** dà a stampa+gruppi FB un EVENTO (data+luogo iconico+immagine forte) → earned media; trasforma l'iscrizione in un rito civico; arruola Vita in Centro/Comune/altre botteghe a costo ≈0; nativamente "Il Turno", incopiabile da Amazon; i 50 iscritti diventano i primi 50 CLIENTI reali (fine dei "0 ordini").
 - **Serve:** una data · ok Garetti a fare il "primo turno" in piazza · mini-budget €0-300 · catena @relazioni-istituzionali + @pr-stampa + @designer + @operations.
-- **Colore:** 🟢� PROPOSTA — non eseguita. Aspetta valutazione/firma di Nicola.
+- **Colore:** 🟢 PROPOSTA — non eseguita. Aspetta valutazione/firma di Nicola.
 - **Stato:** PROPOSTA SUL TAVOLO.
 
-## 2026-07-03 11:34 · @content-social · 🟢� Post del giorno "Il turno più lungo di Piacenza" (Pane Quotidiano) — 🟢�
+## 2026-07-03 11:34 · @content-social · 🟢 Post del giorno "Il turno più lungo di Piacenza" (Pane Quotidiano) — 🟢
 - **Cosa:** pubblicare il post storia-bottega sul faro reale (partner firmato) su @mycity.piacenza (feed+storia) + gruppi FB locali. Gancio verificabile "bio dal 1976" agganciato alla piattaforma "Il Turno".
 - **Contenuto pronto + anteprima estesa:** `consegne/content/2026-07-03-POST-turno-piu-lungo-PQ.md` · blocco [[AZIONI-PRONTE]] **A8**.
 - **Cosa cambia:** primo ritratto pubblico di un negozio reale MyCity; nome/immagine di Pane Quotidiano nella campagna (città piccola).
 - **Se va bene:** il negozio ripubblica ai suoi clienti → primi iscritti caldi; parte il ritmo settimanale del motore "Volti".
-- **🟢� Due strade:** (a) versione col **nome+foto** → serve **ok del titolare** (chiedibile nella chiamata A6/#21); (b) versione **neutra tipografica** → pubblicabile subito con sola firma Nicola.
+- **🟢 Due strade:** (a) versione col **nome+foto** → serve **ok del titolare** (chiedibile nella chiamata A6/#21); (b) versione **neutra tipografica** → pubblicabile subito con sola firma Nicola.
 - **Pre-condizione tecnica:** link reale in bio con UTM `turno_pq` (@builder-automazioni). **Mani social** → @builder-automazioni o pubblicazione manuale.
 - **Onestà:** gate ONESTA-RULES passato (0 numeri finti, 0 testimonianze, "1976" = fonte pubblica Vita in Centro/Pagine Gialle).
 - **Stato:** chiusa DI FIRMA NICOLA.
 
-## 2026-07-06 15:10 · @trust-safety · 🟢�️ Dai il bollino «Negozio Verificato» al primo negozio che se lo merita (#38)
+## 2026-07-06 15:10 · @trust-safety · 🟢️ Dai il bollino «Negozio Verificato» al primo negozio che se lo merita (#38)
 - **Cosa:** far nascere il bollino «Negozio Verificato MyCity» — lo standard di fiducia della città (5 criteri verificabili nei dati) — e assegnarlo al primo negozio che li rispetta tutti. Standard, criteri, idoneità e bozze pronti in `consegne/trust-safety/2026-07-06-badge-negozio-verificato.md` · anteprima estesa [[AZIONI-PRONTE]] **A18**.
 - **I 5 criteri (tutti verificabili):** ① identità reale (P.IVA/sede + KYC Stripe) · ② bottega attiva e approvata (≥5 prodotti veri) · ③ pagamenti sicuri (payout Stripe ON) · ④ consegna provata (≥1 consegnato, 0 dispute) · ⑤ regole rispettate (contratto+GDPR, 0 segnalazioni). Il badge si **perde** se un pilastro cade → così vale qualcosa.
 - **Idoneità reale oggi (2026-07-06):** **0 verificati, 1 candidato = Pane Quotidiano** (3/5 pilastri; mancano payout ON + 1ª consegna). Casa Linda = demo (esclusa), Garetti = prospect non nel DB (non idoneo). PQ diventa il **1° Negozio Verificato di Piacenza** appena #16 è consegnato + payout acceso.
 - **Cosa cambia:** nasce lo standard di fiducia cittadino e il primo negozio reale che consegna si guadagna un bollino visibile a video → segnale di garanzia per i clienti, fossato contro Glovo/Amazon.
 - **Se va bene:** diventa il rito di qualità dell'onboarding dei negozi dal 13/7 (entri → payout+catalogo → 1ª consegna → bollino).
-- **🟢� Pre-condizioni (onestà):** (a) annuncio pubblico **solo con ≥1 negozio davvero verificato** — mai "lo standard della città" con 0 verificati · (b) mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (c) 🟢� corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
-- **Stato:** STANDARD DEFINITO (🟢�). Assegnazione + annuncio **chiusa DI FIRMA NICOLA** (condizionati alla prima consegna reale).
+- **🟢 Pre-condizioni (onestà):** (a) annuncio pubblico **solo con ≥1 negozio davvero verificato** — mai "lo standard della città" con 0 verificati · (b) mostrare il bollino su PQ = ok Nicola + validazione claim @legale-privacy · (c) 🟢 corsia tecnica: flag `verified` sul profilo (backend-dev) + bollino a video (frontend-dev/CONFIG), in branch, da collegare al via.
+- **Stato:** STANDARD DEFINITO (🟢). Assegnazione + annuncio **chiusa DI FIRMA NICOLA** (condizionati alla prima consegna reale).
 
-## 2026-07-06 16:10 · @seo→@tech · 🟢� Riempi la vetrina di Pane Quotidiano con le parole cercate su Google — APPROVATA
+## 2026-07-06 16:10 · @seo→@tech · 🟢 Riempi la vetrina di Pane Quotidiano con le parole cercate su Google — APPROVATA
 - **Cosa:** scrivere `store_description` (bio dal 1976, pane/pesto/kefir bio, bottega del centro, consegna a domicilio Piacenza) + `store_address` (Via Calzolai 25, Piacenza) sul profilo PQ, così title/meta/OG/schema del sito intercettano *prodotti bio a Piacenza · spesa bio online · pane bio a domicilio · botteghe del centro con consegna*. Comando + JSON pronti in `consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` §1.
 - **Approvazione:** Nicola 2026-07-06 «lo approvo e devi farlo con tutti i negozi» (Pannello).
-- **Colore:** 🟢� — CONFIG marketplace (`marketplace.mjs aggiorna profiles`), **mai DB clienti, mai deploy**. Backup automatico per riga → **reversibile** (rollback dal backup).
+- **Colore:** 🟢 — CONFIG marketplace (`marketplace.mjs aggiorna profiles`), **mai DB clienti, mai deploy**. Backup automatico per riga → **reversibile** (rollback dal backup).
 - **Canale/mani:** `node cervello/marketplace.mjs aggiorna` — esegue via Pannello/giro autorizzato (il comando è gated nella chat: prima `leggi` conferma id `c0b240c0…` + valori attuali, poi `aggiorna`).
 - **Cosa cambia:** la scheda di Pane Quotidiano su Google smette di uscire con testo generico e inizia a intercettare 5 ricerche bio/consegna del centro — traffico organico gratis verso l'unico negozio reale che può incassare.
 - **Se va bene:** stessa cosa in automatico su ogni negozio nuovo (regola-standing sotto) → le 6 botteghe dal 13/7 nascono già ottimizzate.
 - **Onestà:** solo fatti verificati (bio dal 1976, indirizzo reale, prodotti a catalogo). "Senza glutine/dietetico" **NON inserito** — linea da confermare col titolare.
 - **Stato:** chiusa DI ESECUZIONE (config autorizzato).
 
-## 2026-07-06 16:10 · @onboarding-negozi → @seo · 🟢� Regola-standing: SEO-fill nell'onboarding di OGNI negozio
-- **Cosa:** rendere il riempimento vetrina (`store_description` con le parole cercate + `store_address` pieno) un **passo obbligatorio del go-live** di ogni negozio nuovo. Handoff: @onboarding-negozi raccoglie i campi reali → @seo compila il template (`consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` §2) → proposta 🟢� col comando pronto → firma → `aggiorna`.
-- **Colore:** 🟢� regola di processo (l'esecuzione per-negozio resta 🟢� firma).
+## 2026-07-06 16:10 · @onboarding-negozi → @seo · 🟢 Regola-standing: SEO-fill nell'onboarding di OGNI negozio
+- **Cosa:** rendere il riempimento vetrina (`store_description` con le parole cercate + `store_address` pieno) un **passo obbligatorio del go-live** di ogni negozio nuovo. Handoff: @onboarding-negozi raccoglie i campi reali → @seo compila il template (`consegne/seo/2026-07-06-riempimento-vetrine-SEO.md` §2) → proposta 🟢 col comando pronto → firma → `aggiorna`.
+- **Colore:** 🟢 regola di processo (l'esecuzione per-negozio resta 🟢 firma).
 - **Cosa cambia:** "farlo con tutti i negozi" diventa automatico, non un secondo giro manuale; ogni bottega dal 13/7 nasce già ottimizzata per Google.
 - **Casa Linda (demo):** esclusa in modo permanente finché resta seed — non si mette un negozio finto nell'indice.
 - **Stato:** REGOLA ATTIVA — si applica al primo onboarding dal 13/7.
 
 
-## 2026-07-06 23:55 · @frontend-dev → @devops-sre · 🟢� Metti il codice fisso «#A42 — nome» su ogni card del Pannello (branch + verifica + PR)
+## 2026-07-06 23:55 · @frontend-dev → @devops-sre · 🟢 Metti il codice fisso «#A42 — nome» su ogni card del Pannello (branch + verifica + PR)
 - **Cosa:** ho scritto la modifica che dà a ogni casella del Pannello un'etichetta STABILE visibile nel formato «#codice — nome» (codice + nome sempre insieme, come chiesto). File toccati: `pannello/src/lib/azioni-attesa.ts` (il codice ora è `#A42` col cancelletto + helper `etichettaCasella`), `pannello/src/components/aree/Azioni.tsx` (codice inline col titolo nella card "Da approvare"), `pannello/src/components/aree/Plancia.tsx` (codice + «—» nella lista "Da firmare"). Il codice deriva dall'hash del contenuto dell'azione: NON si rinumera a ogni giro.
 - **Perché serve la tua mano:** nella mia sessione i comandi git/typecheck/browser sono bloccati, quindi il branch NON è ancora creato e la modifica NON è stata provata a video. I comandi pronti (copia-incolla dal VPS) sono qui sotto.
-- **Colore:** 🟢� — modifica UI in un branch, **nessun deploy**. La PR resta da mergiare a mano (Vercel redeploy solo dopo merge su `main`).
+- **Colore:** 🟢 — modifica UI in un branch, **nessun deploy**. La PR resta da mergiare a mano (Vercel redeploy solo dopo merge su `main`).
 - **Canale/mani:** terminale VPS (git + `npm run dev` per la prova a video) → poi PR su GitHub.
 - **Comandi (VPS, cartella `/opt/mycity/ad-mycity`):**
   1. `git checkout -b pannello/etichetta-stabile-card`
@@ -1084,16 +1084,16 @@ Piano completo (5 canali + funnel + L7): `consegne/content/PIANO-LANCIO-garetti-
 - **Stato:** chiusa — branch/verifica/PR da eseguire (bloccati nella mia sessione).
 
 
-## 2026-07-08 23:03 · @devops-sre → 🟢� Blocca il push del giro se la memoria è incoerente (gate coerenza-fatti + sanità del vault)
+## 2026-07-08 23:03 · @devops-sre → 🟢 Blocca il push del giro se la memoria è incoerente (gate coerenza-fatti + sanità del vault)
 - **Cosa:** due innesti in `cervello/giro.sh`, sullo STESSO meccanismo che già blocca su segreti/onestà (`GIRO_PUSH_OK=0`, righe 445-482):
   1. **Ri-eseguire `coerenza-fatti.mjs` prima del push** (accanto a scan-segreti/onesta-check, dopo che l'AI ha scritto — non solo a inizio giro alla riga 217, dove l'AI non ha ancora bonificato). Se `rc≠0` → memoria NON pubblicata su `main` + Telegram «memoria incoerente, giro non pubblicato» via `notifica-approvazioni.mjs`.
   2. **Check di sanità pre-commit del vault:** frontmatter valido, nessun marcatore di conflitto `<<<<<<`/`>>>>>>`, nessun file del vault a 0 byte. Se fallisce → blocca il commit del vault.
 - **Perché:** oggi il gate coerenza-fatti è solo un vincolo testuale passato all'AI (righe 217-222): se l'AI non bonifica tutte le copie vecchie di un fatto, il valore vecchio resta e il push parte comunque → il Pannello lo mostra a Nicola come vero. Idem per uno snapshot sporco da rebase/merge in conflitto (righe 88-96) o scritture a metà auto-committate (righe 68-72).
-- **Colore:** 🟢� — auto-modifica di `giro.sh` in un branch. Firma obbligatoria (regola: mai toccarsi da sola). **Nessun deploy** (è lo script del VPS, non il sito).
+- **Colore:** 🟢 — auto-modifica di `giro.sh` in un branch. Firma obbligatoria (regola: mai toccarsi da sola). **Nessun deploy** (è lo script del VPS, non il sito).
 - **Canale/mani:** terminale VPS, @devops-sre, in un branch → prova con la skill `verify` (bats sugli script) → commit.
 - **Cosa cambia:** una memoria incoerente o mezza-scritta viene TRATTENUTA sul server invece di finire su `main`; il caso peggiore diventa «un giro non pubblicato + una notifica», mai un dato falso in Cabina.
 - **Se va bene:** ogni giro futuro pubblica solo memoria coerente e integra; il rischio pre-mortem della casella è chiuso alla radice.
-- **Stato:** ✅ FIRMATA da Nicola («ok», 2026-07-08 23:48) — ora IN ESECUZIONE. Codice scritto e riletto a mano (`giro.sh` modificato + `vault-sanita.mjs` + `avviso-telegram.mjs` + test bats `gate-coerenza-vault-pre-push.bats`), **non ancora provato a runtime** (bash -n / node --check / bats gated in sessione). Restano da Nicola: approvare le verifiche, isolare i 4 file nel branch `ops/gate-coerenza-vault-pre-push` (oggi mescolati col lavoro AR-103), merge (🟢�), e confermare `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` in `cervello/vps/.env` (altrimenti l'avviso resta dry-run).
+- **Stato:** ✅ FIRMATA da Nicola («ok», 2026-07-08 23:48) — ora IN ESECUZIONE. Codice scritto e riletto a mano (`giro.sh` modificato + `vault-sanita.mjs` + `avviso-telegram.mjs` + test bats `gate-coerenza-vault-pre-push.bats`), **non ancora provato a runtime** (bash -n / node --check / bats gated in sessione). Restano da Nicola: approvare le verifiche, isolare i 4 file nel branch `ops/gate-coerenza-vault-pre-push` (oggi mescolati col lavoro AR-103), merge (🟢), e confermare `TELEGRAM_BOT_TOKEN`/`TELEGRAM_CHAT_ID` in `cervello/vps/.env` (altrimenti l'avviso resta dry-run).
 
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
@@ -1847,7 +1847,7 @@ Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostitui
 
 ---
 
-### ✅� #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ chiusa · accodata 2026-07-13 14:33
+### ✅ #pr-323-avvisi-parla — Mergia PR #323: «Parla con questa casella» su schede Avvisi · ⏳ chiusa · accodata 2026-07-13 14:33
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
 **Cosa fa:** sotto ogni scheda gialla «memoria incoerente» in Avvisi compare il link **«Parla con questa casella»** — apri chat contestuale, l'AD vede il testo completo dell'avviso e la data.
@@ -1872,7 +1872,7 @@ Oppure, se preferisci il valore reale (VPS + Vercel + Cursor + domini), sostitui
 
 ---
 
-### ✅� #pr-319-volano-tasso — Mergia PR #319: fix volano tasso lezioni (ESITI quaderni + STATO) · ⏳ chiusa · accodata 2026-07-13 12:42
+### ✅ #pr-319-volano-tasso — Mergia PR #319: fix volano tasso lezioni (ESITI quaderni + STATO) · ⏳ chiusa · accodata 2026-07-13 12:42
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
 **Cosa fa:** il calcolo del tasso lezioni legge anche gli ESITI dei quaderni senior e le citazioni in STATO, non solo i briefing — tasso onesto **0,29** (39/133). Fix pipeline in `giro.sh` + `tasso-lezioni.mjs` + `sentinella-dati.mjs`.
@@ -1919,7 +1919,7 @@ Archivio carica in 1-2 sec con `Promise.all()` invece di 15 sec in fila.
 
 ---
 
-### ✅� #pr-318-chat-ux-tre-fix — Mergia PR #318: X prompt + chat evidenziata + annulla invio · ⏳ chiusa · accodata 2026-07-13 12:27
+### ✅ #pr-318-chat-ux-tre-fix — Mergia PR #318: X prompt + chat evidenziata + annulla invio · ⏳ chiusa · accodata 2026-07-13 12:27
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
 **Cosa fa:** (1) **X** sulla card «Prompt pronto» — chiudi senza copiare; (2) chat aperta **evidenziata** nel cassetto (bordo colorato + «aperta ora»), anche in chat fluttuante; (3) **Annulla invio** mentre compare «sto pensando…» — ferma l'AD, toglie il messaggio, rimette il testo nella casella.
@@ -2078,7 +2078,7 @@ create policy "service role full access" on public.conversazioni
 
 ---
 
-### ✅� #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ chiusa · accodata 2026-07-11 15:30
+### ✅ #post-bts-lunedi — Pubblica "Lunedì mattina ci vado di persona" sui canali social · ⏳ chiusa · accodata 2026-07-11 15:30
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
 **Contenuto completo:** `consegne/content/2026-07-11-post-del-giorno-lunedi-busso.md`
@@ -2115,7 +2115,7 @@ create policy "service role full access" on public.conversazioni
 
 ---
 
-### ✅� #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ chiusa · accodata 2026-07-11 10:40 · **aggiornato 2026-07-13 11:18**
+### ✅ #checkin-pane-quotidiano — Porta questo kit alla visita di Pane Quotidiano lunedì 13/7 · ⏳ chiusa · accodata 2026-07-11 10:40 · **aggiornato 2026-07-13 11:18**
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 
 > ℹ️ **Contesto:** PQ non è in churn. Nicola li conosce di persona e aspettano che la piattaforma sia pronta. La sentinella "negozio fermo" è scattata di nuovo oggi (firma `c0b240c0…`) — **cancello 🔬 confermato: falso positivo, nessuna telefonata anti-churn.** Il problema operativo resta la **vetrina scheletrica** (2/8), non l'abbandono.
@@ -2309,7 +2309,7 @@ Servono perché la route `/api/allegato` carica il file nel bucket privato `chat
 
 ---
 
-### ✅� R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA · ✅ **FATTA — Nicola ha revocato il vecchio PAT (chat 2026-07-07)** → buco AR-004 chiuso. Resta solo la verifica a occhio: il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → dargli un suo PAT read-only + Redeploy). **↺ 7/7 10:57 — verifica trasformata in doer:** ordine A→B chiarito (prima la causa PRIMA = push `origin/main` **#54/#35**, poi il token). Il fix token è ora una card discreta **#55** (condizionata: parte solo se `/api/diagnosi` «Vault GitHub» è ROSSO dopo il push). Diagnosi completa: `consegne/devops/2026-07-07-verifica-pannello-hosted-token.md`. Il check «a occhio» dei 30 s resta l'unico passo umano (URL hosted non nel repo, rete gated in sessione).
+### ✅ R1 — REVOCA IL TOKEN GITHUB (AR-004) · azione TUA · ✅ **FATTA — Nicola ha revocato il vecchio PAT (chat 2026-07-07)** → buco AR-004 chiuso. Resta solo la verifica a occhio: il Pannello hosted mostra ancora il giro di oggi? (se cieco = Vercel condivideva il token → dargli un suo PAT read-only + Redeploy). **↺ 7/7 10:57 — verifica trasformata in doer:** ordine A→B chiarito (prima la causa PRIMA = push `origin/main` **#54/#35**, poi il token). Il fix token è ora una card discreta **#55** (condizionata: parte solo se `/api/diagnosi` «Vault GitHub» è ROSSO dopo il push). Diagnosi completa: `consegne/devops/2026-07-07-verifica-pannello-hosted-token.md`. Il check «a occhio» dei 30 s resta l'unico passo umano (URL hosted non nel repo, rete gated in sessione).
 - **Stato:** ✅ ARCHIVIATA housekeeping 14/7
 Il file `cervello/vps/.env.save` col PAT è stato **rimosso dal repo**, il `.gitignore` è esteso (`.env*`/`*.save`) e ora c'è un **pre-commit hook** (`.githooks/pre-commit`) che passa **ogni commit** dallo scan-segreti e lo blocca — non più solo il giro. Ma il token **è già nella storia git**: vai su GitHub → *Settings → Developer settings → PAT* e **revocalo**, poi generane uno nuovo (solo nel `.env` del VPS, mai committato). È l'unica cosa che chiude davvero il buco.
 > 📄 **Runbook pronto (sequenza esatta, ~5 min):** `consegne/security/2026-07-04-R1-revoca-pat-github-runbook.md`.

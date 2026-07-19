@@ -653,7 +653,7 @@ export default function Azioni() {
             <button onClick={() => decidi(a.id, "annulla")} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
           )}
         </div>
-        <ParlaCasella titolo={`Azione: ${a.titolo}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
+        <ParlaCasella titolo={`Azione: ${pulisciTitolo(testoPulito(a.titolo))}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
       </div>
     );
   };
@@ -718,7 +718,7 @@ export default function Azioni() {
                         <button onClick={() => vaiAllAzione(m.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
                           <ArrowRight size={13} /> Vai all'azione da firmare
                         </button>
-                        <ParlaCasella titolo={`Mossa: ${m.titolo}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella titolo={`Mossa: ${pulisciTitolo(testoPulito(m.titolo))}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
                       </div>
                     </div>
                   </div>
@@ -813,7 +813,7 @@ export default function Azioni() {
                     </button>
                   </div>
                 )}
-                <ParlaCasella titolo={`Proposta: ${p.titolo}`} contesto={p.motivo} />
+                <ParlaCasella titolo={`Proposta: ${pulisciTitolo(testoPulito(p.titolo))}`} contesto={p.motivo} />
               </div>
             );
           })}
@@ -867,7 +867,7 @@ export default function Azioni() {
                     <button onClick={() => vaiAllAzione(al.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
                       <ArrowRight size={13} /> Vai all'azione da firmare
                     </button>
-                    <ParlaCasella titolo={`Sentinella: ${al.titolo}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
+                    <ParlaCasella titolo={`Sentinella: ${pulisciTitolo(testoPulito(al.titolo))}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
                   </div>
                 </div>
               </div>
