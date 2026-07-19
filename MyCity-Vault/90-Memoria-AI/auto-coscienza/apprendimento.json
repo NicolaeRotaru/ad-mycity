@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:34",
+  "aggiornato": "2026-07-20 01:36",
+  "_nota_metabolizzazione_20_07_0136": "Chat 20/7 ~01:36: Nicola correzione «sidebar sì MA resta popup apri/chiudi con icona» — non pagina fissa. L-352 nuova (caso_studio_nicola); L-348 evidenze++ addendum popup; preferenza worker-popup-sidebar; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #486 in coda #204.",
   "_nota_metabolizzazione_20_07_0129": "Chat 20/7 ~01:29: Nicola «cos'altro posso inserire sul VPS?» — inventario stack + collegare mani vs altri programmi. L-351 nuova; preferenza vps-cosa-aggiungere; STATO+LEZIONI-CHAT+devops-sre+builder aggiornati.",
   "_nota_metabolizzazione_20_07_0125": "Chat 20/7 ~01:25: Nicola «ingrandisci apre altra chat» + chiarimento worker con menu sinistra. L-350 nuova; L-348 evidenze++; preferenza ingrandisci-workerFull; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #485 merge ancora #203.",
   "_nota_metabolizzazione_20_07_0117": "Chat 20/7 ~01:17: Nicola «comandi sul worker senza aprire cmd ogni volta?» — percorso sicuro chat-first + SSH raro. L-349 nuova; preferenza comandi-worker-senza-cmd; STATO+LEZIONI-CHAT+devops-sre aggiornati.",
@@ -69,6 +70,30 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-352",
+      "testo": "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi, NON pagina fissa (Nicola 20/7 ~01:36).** Correzione esplicita dopo #485: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona». 5 perché: (1) richiesta 01:06 copriva **layout** (lista conv integrata a sinistra) ma **non** il **contenitore** — AD ha esteso a pagina fissa `vista=assistente` quando voce menù «Worker» apriva schermo intero; (2) Nicola vuole **overlay popup** (icona basso-destra + voce menù → stessa finestra; **X** chiude; resti su Plancia/Azioni); (3) ingrandisci/riduci = **stessa** popup più grande/piccola, non cambio pagina; (4) sidebar sinistra + chat destra + barra sticky restano **dentro** il popup — compatibile con L-348/L-350; (5) errore processo = implementare metà requisito (sidebar) senza chiedere/confermare modalità contenitore quando si cambia entry point menù. Regola: Worker UX = **popup first** (apri/chiudi icona) + sidebar integrata; **mai** promuovere a pagina fissa senza ok esplicito. Fix PR #486 merge 🔴 #204. Vedi L-348, L-350, PR #485.",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "popup",
+        "overlay",
+        "sidebar",
+        "layout",
+        "nicola",
+        "correzione"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 01:36",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-351",
       "testo": "**VPS — «cos'altro posso inserire?» = inventario stack + collegare mani, non altri container (Nicola 20/7 ~01:29).** Dopo promemoria accesso n8n, chiede cosa aggiungere sul server «guardando a quello che ho creato fino ad ora». 5 perché: (1) pattern «cos'altro mettere/installare» = rispondere da **inventario verificato** (worker systemd, n8n Docker :5678, Playwright Node22+Chromium, Docker) — **non** lista generica di software da scaricare; (2) il passo utile **non** è un altro programma — è **finire i collegamenti** delle mani già previste (n8n Active+`N8N_WEBHOOK_URL`, Telegram, Resend, Gemini, chiave scrittura marketplace); (3) **59 avvisi** approvazione bloccati senza `TELEGRAM_BOT_TOKEN` (fonte: report 19/7 `notifica-approvazioni`) — Telegram BotFather = win più veloce (~5 min); (4) altri workflow n8n = import modelli già in repo, stesso container Docker — rinforza L-344 cervello/braccia; (5) **NON** proporre ora: secondo cervello, container a caso, WhatsApp (verifica Meta lenta) — Pannello resta su Vercel. Regola: «cos'altro sul VPS» → stack attuale + 3-5 leve mancanti ordinate per ROI + cosa NON serve; se chiede da dove partire → **Telegram** prima. Vedi L-347, L-344, CHECKLIST-VIVO.",
@@ -139,7 +164,7 @@
     },
     {
       "id": "L-2026-0720-348",
-      "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + PR dedicata senza toccare fix appena confermati. Vedi L-346, PR #485, PR #441 (precedente tentativo layout).",
+      "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. **ADDENDUM 01:36 (Nicola):** sidebar sì ma il contenitore resta **popup apri/chiudi con icona** — **non** pagina fissa del menù laterale; ingrandisci = stessa popup più grande. Fix popup in PR #486 (L-352). Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + **popup overlay** + PR dedicata senza toccare fix appena confermati. Vedi L-352, L-346, PR #485, PR #441.",
       "tag": [
         "pannello",
         "chat",
@@ -148,15 +173,16 @@
         "layout",
         "fullscreen",
         "floating",
+        "popup",
         "nicola"
       ],
       "reparto": "@frontend-dev",
-      "confidenza": 0.92,
-      "evidenze": 2,
+      "confidenza": 0.94,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-20",
-      "ultima_conferma": "2026-07-20 01:25",
+      "ultima_conferma": "2026-07-20 01:36",
       "stato": "attiva",
       "usi": []
     },
@@ -7980,10 +8006,11 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat — sidebar dentro riquadro MA resta POPUP apri/chiudi (chat 20/7 ~01:36):** corregge dopo #485 — lista conv integrata a sinistra **sì**, ma la Worker deve restare **finestra overlay** (icona basso-destra o voce menù → apre; **X** chiude; ingrandisci = più grande, stessa finestra) — **non** pagina a tutto schermo del menù laterale. Fix PR #486 merge 🔴 #204. Vedi L-352, L-348.",
     "**VPS — «cos'altro posso inserire?» = risposta da inventario reale + prossimi collegamenti, non catalogo software (chat 20/7 ~01:29):** dopo setup n8n chiede cosa aggiungere sul server — si aspetta elenco **concreto di cosa c'è già** (worker, n8n, Playwright) e **cosa manca per sbloccare valore** (webhook, Telegram, chiavi env), con priorità chiara (Telegram = avvisi bloccati); **non** suggerimenti generici «installa X/Y/Z» né secondo cervello/container extra. Vedi L-351, L-347.",
     "**Worker chat — ingrandisci = stessa chat Worker con menu sinistra, non pagina Assistente (chat 20/7 ~01:25):** segnala che pulsante ingrandisci sulla chat flottante apre **altra schermata** — si aspetta la **stessa** chat Worker (conv aperta + lista conv integrata a sinistra nel riquadro), solo a schermo intero; **non** la voce Worker del menù laterale (layout vecchio). Fix PR #485 workerFull; merge 🔴 #203; hard refresh se cache. Vedi L-350, L-348.",
     "**Comandi worker — vuole percorso sicuro senza aprire Termux/cmd ogni volta (chat 20/7 ~01:17):** chiede come scrivere comandi sul worker **senza** aprire il terminale a ogni operazione — si aspetta gerarchia chiara: **chat Pannello = uso normale** (AD esegue); SSH solo casi rari con scorciatoia una tantum; tmux sessioni lunghe; n8n per ripetitivo; regola «serve SSH?» + controllo prompt server vs telefono; **non** shell web su internet. Vedi L-349, L-6832, L-324.",
-    "**Worker chat — menu conversazioni integrato nel riquadro a sinistra, fluttuante+ingrandita (chat 20/7 ~01:06):** chiede lista conv **dentro** il pannello chat (non cassetto esterno) — stesso layout quando ingrandisce la chat flottante; si aspetta «dimmi cosa hai capito» + PR senza rompere scroll (#483) e barra fissa (#484) appena ok. PR #485 merge pendente (#203). Vedi L-348, L-346.",
+    "**Worker chat — menu conversazioni integrato nel riquadro a sinistra, fluttuante+ingrandita (chat 20/7 ~01:06, agg. 01:36 popup):** chiede lista conv **dentro** il pannello chat (non cassetto esterno) — stesso layout quando ingrandisce; **01:36** aggiunge: resta **popup apri/chiudi**, non pagina fissa. PR #485+#486 merge pendenti (#203+#204). Vedi L-352, L-348, L-346.",
     "**n8n — «ricordami accesso» = promemoria URL browser + disambiguare server/worker/n8n (chat 20/7 ~00:57):** chiede come entrare in n8n («worker? server?») — si aspetta risposta **operativa immediata**: browser su VPS porta 5678 (non Pannello), chiarire che server=VPS · worker=cervello · n8n=Docker automazioni (stesso Hetzner), login admin setup, workflow già importato; pagina bianca → container spento, riavvio SSH server; **non** ripetere install/import/scp. Vedi L-347, L-344, L-247.",
     "**Worker chat — barra scrittura fissa tipo WhatsApp (chat 20/7 ~00:55):** dopo scroll ok (#483), chiede casella input + icone **sempre incollate in basso** — scorre solo la conversazione, barra non esce dall'inquadratura; pattern «dimmi cosa hai capito» prima del fix; **non** toccare scroll appena confermato. PR #484 merge pendente (#202). Vedi L-346, L-263.",
     "**Chat scroll menu — conferma Nicola obbligatoria prima di chiudere bug (chat 20/7 ~00:51→00:55):** «non è cambiato nulla» post-#482 → serve #483; «ok, ha funzionato» = gate per considerare risolto — **non** dichiarare fixato senza test chat lunga + sua ok. Vedi L-345, L-342.",

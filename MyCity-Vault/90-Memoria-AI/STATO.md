@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:29
+aggiornato: 2026-07-20 01:36
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~01:36 — CHAT: Worker popup con sidebar — NON pagina fissa (L-352).** Nicola corregge: lista conv **dentro** il riquadro sì, ma la Worker deve restare **finestra popup** (apri/chiudi con icona o voce menù, **X** chiude, ingrandisci = stessa finestra più grande) — **non** pagina a tutto schermo del menù laterale. AD **PR #486** — bottone fluttuante + voce «Worker» aprono la **stessa** popup (sidebar sinistra + chat destra). Merge 🔴 pendente (#204). Fonte: chat Nicola 20/7 01:36.
 
 > 💬 **20/7 ~01:29 — CHAT: «cos'altro posso inserire sul VPS?» — inventario + mani, non altri programmi (L-351).** Dopo promemoria n8n (00:57), Nicola chiede cosa aggiungere sul server guardando ciò che c'è già. **Stack attuale VPS:** worker/cervello (systemd), **n8n** Docker `:5678`, **Playwright** (Node22 `/opt/node22` + Chromium `/opt/pw-browsers`), Docker. **Passo utile ≠ installare altro:** (1) finire n8n — Active + `N8N_WEBHOOK_URL` in env worker + restart; (2) **Telegram** BotFather (~5 min) — **59 avvisi** approvazione non partono (fonte: report 19/7 `notifica-approvazioni`, manca `TELEGRAM_BOT_TOKEN`); (3) altri workflow n8n da modelli repo; (4) chiavi env worker (Resend, Gemini, scrittura marketplace). **NON ora:** secondo cervello, container a caso, WhatsApp (Meta lento). Pannello resta Vercel. Prossimo singolo consigliato: **Telegram**. Fonte: chat Nicola 20/7 01:29.
 
