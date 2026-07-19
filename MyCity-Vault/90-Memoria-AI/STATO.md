@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 20:27
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:27)
+aggiornato: 2026-07-19 20:32
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 20:32)
 ---
+
+> ⏳ **19/7 ~20:32 — CHAT: n8n import — «Non trovo il file» ma JSON già in Download.** Screenshot Termux+My Files: scp **ok** (100%, ~6 KB) → `pubblica-post-programmato.json` visibile in **Download** (My Files); selettore n8n «Import from file» resta su **«File recenti»** (solo screenshot, no JSON). **Non** serve riscaricare — serve aprire cartella **Download** (☰ menu) o cercare «pubblica» nella barra. **Workflow non ancora importato.** Prossimo checkpoint: «workflow importato» → OAuth Meta + webhook env. Alternativa PC drag file. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:32.
 
 > ⏳ **19/7 ~20:27 — CHAT: n8n import workflow — scp lanciato dentro SSH per errore.** Screenshot Termux: Nicola tenta `scp root@162.55.51.250:…/pubblica-post-programmato.json ~/storage/downloads/` **con prompt `root@ubuntu-…#`** (ancora in SSH) → errore `open local "/root/storage/downloads/"` — path locale interpretato sul VPS, non su Termux. **Account n8n ok** (20:20); **workflow non ancora importato**. Fix: `exit` → `~ $` → mkdir downloads → scp verso telefono → Import from file in n8n → «workflow importato». Alternativa PC. **`N8N_WEBHOOK_URL` ancora segnaposto.** Fonte: chat Nicola 19/7 20:27.
 
