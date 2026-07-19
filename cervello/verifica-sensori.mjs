@@ -31,6 +31,29 @@ function fetchSensore(url, init = {}) {
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CECITA_PATH = join(VAULT, "sensori-cecita.json");
 
+/** Classe sensore per max_giri_ciechi_dati (sentinella M2) vs infrastruttura/mani. */
+const SENSOR_CLASSE = {
+  supabase_rest: "dati",
+  stripe_api: "dati",
+  resend_api: "dati",
+  supabase_memoria: "dati",
+  n8n_health: "mani",
+  mcp_supabase: "mcp",
+  mcp_stripe: "mcp",
+  sito_uptime: "uptime",
+  pannello_uptime: "uptime",
+  posthog_api: "optional",
+  telegram_bot: "optional",
+};
+
+/** Valori .env ancora segnaposto documentazione → non_configurato, non cecità infinita. */
+function isPlaceholderEnvValue(val) {
+  if (!val || typeof val !== "string") return false;
+  const v = val.trim().toLowerCase();
+  if (!v) return false;
+  return /tuo-n8n|il-tuo-n8n|your-n8n|example\.com|changeme|placeholder|insersci|<[^>]+>|\bxxx+\b|\[.*\]/.test(v);
+}
+
 /** @param {number} ms */
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -282,7 +305,21 @@ async function checkN8n() {
   if (!url) {
     return { ok: false, configurato: false, dettaglio: "N8N_WEBHOOK_URL/HEALTH_URL assente — hub mani non monitorato" };
   }
+  if (isPlaceholderEnvValue(url)) {
+    return {
+      ok: false,
+      configurato: false,
+      dettaglio: `N8N URL segnaposto (${url.slice(0, 80)}) — hub mani non collegato`,
+    };
+  }
   const healthUrl = process.env.N8N_HEALTH_URL?.trim() || url.replace(/\/webhook.*$/i, "/healthz");
+  if (isPlaceholderEnvValue(healthUrl)) {
+    return {
+      ok: false,
+      configurato: false,
+      dettaglio: `N8N_HEALTH_URL segnaposto (${healthUrl.slice(0, 80)}) — hub mani non collegato`,
+    };
+  }
   const r = await conRetry(async () => {
     const res = await fetchSensore(healthUrl, { method: "GET" });
     if (!res.ok) {
@@ -456,6 +493,13 @@ async function main() {
       .filter((s) => s.stato === "cieco")
       .map((s) => s.giri_ciechi || 0)
   );
+  // M2 sentinella: solo fonti-di-verità dati (REST/Stripe/Resend/memoria), non mani/uptime/MCP.
+  const maxCecitaDati = Math.max(
+    0,
+    ...Object.entries(cecita.sensori)
+      .filter(([key, s]) => s.stato === "cieco" && SENSOR_CLASSE[key] === "dati")
+      .map(([, s]) => s.giri_ciechi || 0)
+  );
 
   cecita.aggiornato = quando;
   cecita.istruzioni_giro = tuttiCiechi
@@ -468,6 +512,7 @@ async function main() {
   cecita.meta.sensori_totali = configurati.length;
   cecita.meta.sensori_non_configurati = checks.length - configurati.length;
   cecita.meta.max_giri_ciechi = maxCecita;
+  cecita.meta.max_giri_ciechi_dati = maxCecitaDati;
   cecita.meta.almeno_un_dato = !tuttiCiechi;
   cecita.meta.dati_ordini_ciechi = datiOrdiniCiechi;   // FIX gate-verità: fonte-di-verità (supabase_rest) cieca?
 
@@ -498,6 +543,7 @@ async function main() {
     istruzioni_giro: cecita.istruzioni_giro,
     sensori: cecita.sensori,
     max_giri_ciechi: maxCecita,
+    max_giri_ciechi_dati: maxCecitaDati,
     // FIX gate-verità: giro.sh legge questo flag (grep nel JSON) per il vincolo HARD indipendentemente
     // dall'exit-code (che è 0 se un QUALSIASI sensore configurato è vivo, anche solo l'uptime).
     datiOrdiniCiechi,
@@ -515,8 +561,10 @@ async function main() {
     console.log(scriviStato
       ? `\nScritto: ${CECITA_PATH}`
       : `\n⏭️  Ambiente senza chiavi sensore: NON aggiorno ${CECITA_PATH} (preservo lo stato del VPS — AR-035).`);
-    if (maxCecita >= 3) {
-      console.log(`\n⚠️  Sentinella: almeno un sensore cieco da ${maxCecita} giri consecutivi.`);
+    if (maxCecitaDati >= 3) {
+      console.log(`\n⚠️  Sentinella: fonte dati cieca da ${maxCecitaDati} giri consecutivi.`);
+    } else if (maxCecita >= 3) {
+      console.log(`\nℹ️  Infrastruttura cieca (max ${maxCecita} giri) ma fonti dati ok — niente vincolo numeri.`);
     }
   }
 
