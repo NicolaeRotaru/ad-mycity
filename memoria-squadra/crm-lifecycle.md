@@ -8,6 +8,7 @@ reparto: crm-lifecycle
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 13:01 · playbook recupero carrelli 19/7 RIPROVA · 4 record / 1 buyer reale / 2 touch · atteso bozze A3 per ogni carrello reale fermo → reale 1 samir €10 PQ + 3 SKIP admin/demo/seller · #recupero-carrelli
 - 2026-07-19 12:47 · correzione iscritti 23→4 · Nicola ha corretto il numero in chat EXP-001 · atteso propagare 4 ovunque in coda/STATO → reale AZIONI #welcome-email e #post-siamo-in-23 aggiornate, EXP-001 già a 4 in auto-miglioramento.json · L-279 evidenze 2 · #crm #numeri #nicola
 - 2026-07-18 11:06 · welcome 23 clienti + recupero carrello Samir + messaggio pioggia 19/7 · ✅ 3 sequenze pronte · atteso preparare email lifecycle per i 23 iscritti in stallo con finestra piogge → reale welcome email 🔴 accodata (gate PQ), reminder carrello 🟡 accodato, messaggio pioggia 🟡 accodato · #crm-18lug
 - 2026-07-14 11:09 · playbook recupero carrelli 14/7 11:08 · 4 record,1 buyer,2 touch · atteso bozze A3 per ogni carrello reale → reale 1 samir €10 + 3 SKIP, zero invii · #recupero-carrelli

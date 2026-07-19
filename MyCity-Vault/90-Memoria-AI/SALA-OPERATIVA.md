@@ -1088,3 +1088,6 @@ Assegnazioni (1 mossa per reparto):
 
 ### 2026-07-19 12:54 — PLAYBOOK Recensioni (RIPROVA Nicola · worker)
 - 2026-07-19 12:54 · @customer-success · FATTO · PLAYBOOK Recensioni: REST live ✅ → **0 consegne completate**, **0 recensioni**, **0 destinatari** (ordine zombie CANCELED). Messaggi grazie+recensione in [[AZIONI-PRONTE]] A4/A13/A14/A27 — ri-timestampati 12:54. Pacchetto `consegne/customer-success/2026-07-19-playbook-recensioni-pronte.md`. Zero invii. Alla prima consegna PQ: A13→A14 o firma **#recensioni-trigger**.
+
+### 2026-07-19 13:01 — PLAYBOOK Recupero carrelli (RIPROVA Nicola · worker)
+- 2026-07-19 13:01 · @crm-lifecycle · FATTO · PLAYBOOK Recupero carrelli RIPROVA: REST live ✅ (`verifica-sensori` 13:01) → 4 `abandoned_carts`, **1 buyer reale** (samir €10 PQ pesto+kefir, ~781h), 3 SKIP admin/demo/seller-test. Touch #1 🟡 + Touch #2 🔴 `BENVENUTO10` in [[AZIONI-PRONTE]] **A3** + `consegne/crm/2026-07-19-recupero-carrelli-pronte.md`. Zero invii. Gate PQ **CHIUSO** (0 ordini consegnati) — invio solo dopo `#ordine-test-pq`.
