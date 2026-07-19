@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:39",
+  "aggiornato": "2026-07-20 01:44",
   "_nota_metabolizzazione_20_07_0139": "Chat 20/7 ~01:39: Nicola «ti avevo chiesto di bloccare la box icone/testo» — re-ask barra fissa post-#484. L-353 nuova (caso_studio_nicola); L-346 evidenze++ addendum re-ask; preferenza barra-fissa-gate-nicola; #202+#203+#204 FATTO (merge main); STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati.",
   "_nota_metabolizzazione_20_07_0136": "Chat 20/7 ~01:36: Nicola correzione «sidebar sì MA resta popup apri/chiudi con icona» — non pagina fissa. L-352 nuova (caso_studio_nicola); L-348 evidenze++ addendum popup; preferenza worker-popup-sidebar; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #486 in coda #204.",
   "_nota_metabolizzazione_20_07_0129": "Chat 20/7 ~01:29: Nicola «cos'altro posso inserire sul VPS?» — inventario stack + collegare mani vs altri programmi. L-351 nuova; preferenza vps-cosa-aggiungere; STATO+LEZIONI-CHAT+devops-sre+builder aggiornati.",
@@ -8321,13 +8321,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 368,
+    "lezioni_attive": 370,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.21,
-    "tasso_calcolato_il": "2026-07-20 01:34",
+    "tasso_calcolato_il": "2026-07-20 01:44",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-20 01:34",
+    "tick_leggero_il": "2026-07-20 01:44",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
