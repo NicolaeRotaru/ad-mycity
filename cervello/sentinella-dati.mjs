@@ -222,7 +222,10 @@ async function leggiStatoReale(state) {
   s.lavori_in_corso = await conta(MEM_URL, MEM_KEY, "lavori?stato=eq.in_corso");
 
   const cecita = readJson(CECITA_PATH, {});
-  s.sensori_max_ciechi = Number(cecita.meta?.max_giri_ciechi ?? 0);
+  // M2: solo fonti-di-verità dati (max_giri_ciechi_dati), non mani n8n / MCP / uptime.
+  s.sensori_max_ciechi = Number(
+    cecita.meta?.max_giri_ciechi_dati ?? cecita.meta?.max_giri_ciechi ?? 0
+  );
 
   const storico = readJson(STORICO_PATH, {});
   const serie = Array.isArray(storico.serie) ? storico.serie : [];
