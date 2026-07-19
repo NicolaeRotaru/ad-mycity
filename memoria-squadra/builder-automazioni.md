@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 22:34 · Nicola «workflow complesso che produce tantissimo denaro… dimmi cosa hai capito» — atteso: capire intenzione, non meta-tutorial · reale: Nicola vuole **ragionamento in soldi/ROI**; AD propone funnel **carrello abbandonato** (1h→promemoria→2° touch→stop ordine→alert Telegram) come workflow n8n prioritario; JSON completo dopo webhook collegato · L-333 · #n8n #carrello-abbandonato #roi
 - 2026-07-19 22:00 · Nicola «Come farti ragionare come un esperto n8n?» — atteso: capire obiettivo oltre collegamento · reale: Nicola vuole AD **architetto automazioni** (workflow completi social/ordini/alert), non tutorial install; oggi ciechi su istanza n8n; scala webhook → API key env worker → JSON repo; OAuth Meta resta Nicola · L-332 · #n8n #esperto #workflow #api
 - 2026-07-19 21:58 · Nicola «Riesci a vedere n8n nel worker?» — atteso: conferma runtime n8n sul VPS · reale: porta 5678 risponde, workflow importato ok, N8N_WEBHOOK_URL ancora segnaposto → worker non collegato; prossimo Active+webhook env+restart → «webhook collegato» · L-331 · #n8n #webhook #verifica-runtime
 - 2026-07-19 21:54 · Nicola screenshot workflow n8n importato — atteso: workflow visibile in editor dopo import CLI · reale: «MyCity — Pubblica post programmato» ok (Webhook→FB/IG/Telegram), fix id/versionId L-329 confermato; prossimo Active + N8N_WEBHOOK_URL in env worker + Meta OAuth; pub auto ancora no · L-330 · #n8n #workflow #webhook #meta

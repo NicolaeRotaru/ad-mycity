@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-07-19 22:33",
+  "aggiornato": "2026-07-19 22:34",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -66,14 +66,8 @@
     "2026-07-19T08:20:27.270Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 1572,
+  "tick": 1573,
   "storia": [
-    {
-      "quando": "2026-07-19 20:55",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-07-19 20:56",
       "eventi": 3,
@@ -667,10 +661,16 @@
       "eventi": 3,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-07-19 22:34",
+      "eventi": 3,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-07-19 22:33",
+    "quando": "2026-07-19 22:34",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,

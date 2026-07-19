@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 22:28",
+  "aggiornato": "2026-07-19 22:34",
+  "_nota_metabolizzazione_19_07_2234": "Chat 19/7 ~22:34: Nicola «workflow complesso che produce tantissimo denaro… non come spiegartelo, dimmi cosa hai capito» — correzione: ROI/soldi, non meta-tutorial. L-333 nuova; preferenza workflow-in-soldi; STATO+DECISIONI+LEZIONI-CHAT+builder+crm aggiornati.",
   "_nota_metabolizzazione_19_07_2200": "Chat 19/7 ~22:00: Nicola «Come farti ragionare come un esperto n8n per workflow pazzeschi?» — standing-ask architetto automazioni, non tutorial collegamento. L-332 nuova; preferenza n8n-esperto-workflow; STATO+DECISIONI+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2158": "Chat 19/7 ~21:56: Nicola «Riesci a vedere che n8n è dentro il worker?» — AD verifica runtime porta 5678 ok, N8N_WEBHOOK_URL ancora segnaposto. L-331 nuova; L-330 evidenze++ addendum runtime; preferenza verifica-n8n-runtime; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_2155": "Chat 19/7 ~21:54: Nicola screenshot editor n8n — workflow «MyCity — Pubblica post programmato» importato (import CLI ok post-fix id/versionId L-329). L-330 nuova; L-329 evidenze++ confermato; preferenza n8n-workflow-importato; STATO già 21:54; LEZIONI-CHAT+builder+DECISIONI aggiornati.",
@@ -51,6 +52,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-333",
+      "testo": "**Workflow n8n «in soldi» — «non come spiegartelo, dimmi cosa hai capito» = ROI prima del meta-tutorial (Nicola 19/7 ~22:34).** Dopo L-332 (esperto n8n), Nicola chiede un workflow **complesso che produce tantissimo denaro** — con correzione esplicita: **non** spiegare come formare l'AD, dimostrare **cosa ha capito**. 5 perché: (1) L-332 era ancora orientata a capacità/setup — Nicola vuole **output in soldi**; (2) «cosa hai capito» = stesso pattern L-2026-0712-94 ma su **strategia automazioni**, non bug UX; (3) marketplace locale = pochi clienti, ogni ordine recuperato pesa → **carrello abbandonato** è leva ROI #1 (supera post automatico); (4) workflow «complesso» = funnel multi-step (attesa ~1h → check carrello ancora pieno → promemoria personalizzato WhatsApp/email → secondo touch giorno dopo con incentivo → stop se ordina → alert Telegram se errore), non singolo nodo; (5) prossimo passo concreto = JSON n8n in repo **dopo** webhook collegato, non altro tutorial. Regola: domanda «workflow che fa soldi» → rispondere con **funnel revenue** e perché vale su MyCity; vietato rispondere con «ti serve API key / ecco come insegnarmi». Vedi L-332, L-321, crm-lifecycle.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "roi",
+        "carrello-abbandonato",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.95,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 22:34",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-332",
       "testo": "**n8n — «Come farti ragionare come un esperto?» = architetto workflow, non tutorial collegamento (Nicola 19/7 ~22:00).** Nicola chiede come far ragionare l'AD come un automazionista bravo che crea «workflow pazzeschi» — non solo «installa n8n / metti webhook». 5 perché: (1) n8n installato ≠ valore — vuole **progettazione** (social, ordini, alert, bandi); (2) l'AD stava dando passi setup, Nicola vuole **output** (JSON completo + spiegazione + error handling/retry/notifica Telegram); (3) oggi l'AD è **cieco** sull'istanza n8n (no esecuzioni, errori nodi, modifiche live); (4) scala capacità: webhook attivo → **chiave API n8n** in env worker (Nicola la mette, mai in chat; read-only basta per diagnosi) → workflow nuovi in repo pronti import; (5) OAuth Meta/WhatsApp/Google resta Nicola; azioni reali 🔴. Regola: domanda su n8n = rispondere come **esperto automazioni** (disegna workflow concreti su richiesta), non ripetere loop install/import; finché webhook segnaposto, proporre un flusso concreto + passi Nicola in parallelo. Vedi L-331, L-321, L-322.",
@@ -7536,6 +7558,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Workflow n8n «in soldi» — «non come spiegartelo, dimmi cosa hai capito» (chat 19/7 ~22:34):** chiede un workflow complesso che **produce tantissimo denaro** — si aspetta che l'AD dimostri **cosa ha capito del business** (funnel revenue, ROI su marketplace locale), **non** meta-spiegazioni su come insegnargli n8n o su prerequisiti tecnici. Risposta giusta: **recupero carrelli abbandonati** (multi-touch, stop su ordine, alert Telegram). Prossimo: JSON completo dopo webhook. Vedi L-333, L-332.",
     "**n8n — «Come farti ragionare come un esperto?» = workflow completi, non tutorial collegamento (chat 19/7 ~22:00):** chiede come far ragionare l'AD come automazionista bravo — si aspetta **progettazione e costruzione** di workflow n8n seri (post→FB/IG, ordine→negozio, carrello abbandonato, alert) con JSON + spiegazione italiana, error handling, retry, notifica Telegram; **non** loop install/docker/webhook. Prerequisito capacità: webhook attivo + chiave API n8n in env worker (Nicola la mette, mai in chat). OAuth Meta resta suo; azioni 🔴. Vedi L-332, L-331.",
     "**n8n — screenshot editor workflow importato = conferma breve + prossimi passi Active/webhook (chat 19/7 ~21:54):** allega screenshot senza testo ma editor n8n con «MyCity — Pubblica post programmato» visibile — si aspetta che l'AD **non** ripeta import/docker/picker ma confermi milestone import ok e guidi (1) toggle **Active**, (2) URL webhook in env worker (mai in chat), (3) restart worker, (4) Meta OAuth separato e lento; post stasera ancora manuale. Vedi L-330, L-329.",
     "**n8n import CLI — errore `workflow_entity.id` = spiegare limite template JSON, non colpa Nicola (chat 19/7 ~21:00):** dopo docker cp ok, se `n8n import:workflow` fallisce su `NOT NULL constraint failed: workflow_entity.id` — si aspetta che l'AD **non** dica «hai sbagliato tu» ma spieghi che il file modello nel repo mancava `id`/`versionId` (UI li genera, CLI no), fixi il JSON, e dia solo **copia+import** da riprovare in SSH; se ancora rosso → testo errore completo. Vedi L-329, L-328.",

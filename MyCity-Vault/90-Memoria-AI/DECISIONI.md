@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 22:34 · 🟢 · [Priorità workflow n8n — carrello abbandonato come leva ROI] · **Nicola: «Dimmi un workflow complesso che produce tantissimo denaro… non come spiegartelo, dimmi cosa hai capito».** Correzione esplicita: non vuole spiegazioni su *come* formare l'AD, vuole dimostrare *cosa* ha capito del business. AD propone funnel recupero carrelli (1° touch ~1h, 2° giorno dopo con incentivo, stop su ordine, alert Telegram) come workflow n8n prioritario per ROI su marketplace locale. Prossimo passo: disegno JSON completo in repo dopo webhook n8n collegato. Lezione L-333.
+
 2026-07-19 22:00 · 🟢 · [Standing-ask — AD deve ragionare come esperto n8n, non tutorial collegamento] · **Nicola: «Come farti ragionare come un esperto che sa usare n8n per creare workflow pazzeschi?»** Non basta installare/collegare n8n: vuole che l'AD **progetti workflow completi** (social, ordini, alert, bandi) con error handling, retry, notifiche — JSON in repo + spiegazione italiana, pronti import. Prerequisiti capacità: webhook attivo → chiave API n8n in env worker (read-only ok) per diagnosi. OAuth Meta/WhatsApp e azioni 🔴 restano Nicola. Lezione L-332.
 
 2026-07-19 21:54 · 🟢 · [Milestone n8n — workflow «MyCity — Pubblica post programmato» importato] · **Nicola: screenshot editor n8n (no testo).** Import CLI riuscito dopo fix `id`/`versionId` (L-329): editor mostra nodi Webhook → Instrada per canale → FB/IG/GBP/Telegram. **Non** ancora mano social attiva — mancano toggle **Active**, URL webhook in `N8N_WEBHOOK_URL` (env worker, mai in chat), restart worker, OAuth Meta. Lezione L-330.

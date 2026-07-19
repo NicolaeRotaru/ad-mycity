@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 22:00
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 22:00)
+aggiornato: 2026-07-19 22:34
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 22:34)
 ---
+
+> 💬 **19/7 ~22:34 — CHAT: workflow n8n «in soldi» — carrello abbandonato = leva ROI #1.** Nicola: «Dimmi un workflow complesso che produce tantissimo denaro… **non come spiegartelo, dimmi cosa hai capito**». AD ha capito: vuole **ragionamento in denaro**, non meta-tutorial su come insegnare n8n. Proposta workflow prioritario: **recupero carrelli abbandonati** (trigger carrello non pagato → attesa ~1h → promemoria personalizzato WhatsApp/email → secondo touch giorno dopo con incentivo → stop se ordina → alert Telegram se si rompe). Complesso perché è funnel revenue, non post automatico; su marketplace locale ogni ordine recuperato pesa. **Prossimo:** JSON n8n completo dopo webhook collegato (L-333). Pub social e gruppi FB restano separati. Fonte: chat Nicola 19/7 22:34.
 
 > 💬 **19/7 ~22:00 — CHAT: Nicola vuole AD «esperto n8n», non solo collegamento.** «Come farti ragionare come un esperto che sa usare n8n per creare workflow pazzeschi?» — obiettivo: l'AD **progetta e costruisce** automazioni serie (post approvato→FB/IG, ordine pagato→negozio, carrello abbandonato, alert) con JSON completi, retry e notifica Telegram — non tutorial generici. **Oggi:** n8n runtime ok (5678), workflow importato, ma AD **cieco** su esecuzioni/errori nodi; `N8N_WEBHOOK_URL` ancora segnaposto. **Scala capacità:** (1) webhook attivo, (2) chiave API n8n in env worker (read-only ok — Nicola la mette, mai in chat), (3) workflow nuovi in repo pronti import. OAuth Meta/WhatsApp resta Nicola; azioni reali 🔴. Fonte: chat Nicola 19/7 22:00.
 
