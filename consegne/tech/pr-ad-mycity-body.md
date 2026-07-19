@@ -1,9 +1,8 @@
 ## Summary
-- Aprendo una chat dal menu a sinistra del Worker, la vista va all'**ultimo messaggio** invece che all'inizio.
-- Causa: lo scroll scattava a 120ms mentre il cassetto era ancora in animazione (200ms) e il layout si resettava.
-- Fix: dopo la scelta dal cassetto, scroll forzato al fondo a fine animazione (+ retry per messaggi lunghi).
+- Fix #482 era su main ma insufficiente: il primo scroll avveniva prima che Markdown/sync DB finissero di allungare la chat.
+- Ora: retry fino a ~3s + ResizeObserver quando apri dal menu Worker → resti sull'ultimo messaggio.
 
 ## Test plan
-- [ ] Apri Worker a schermo intero → menu Conversazioni → scegli chat lunga → deve mostrare l'ultimo messaggio
-- [ ] Chiudi il menu con X senza cambiare chat → se eri a metà lettura, resti lì
-- [ ] Nuovo messaggio mentre sei in fondo → segue il fondo; se sei risalito → non ti strappa giù
+- [ ] Worker → Conversazioni → chat lunga (10+ messaggi) → ultimo messaggio visibile
+- [ ] Attendi 2s senza scrollare → non salta in cima
+- [ ] Chiudi menu con X senza cambiare chat → posizione invariata
