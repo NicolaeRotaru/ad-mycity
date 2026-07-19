@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 21:55",
+  "aggiornato": "2026-07-19 21:57",
   "_nota_metabolizzazione_19_07_2155": "Chat 19/7 ~21:54: Nicola screenshot editor n8n — workflow «MyCity — Pubblica post programmato» importato (import CLI ok post-fix id/versionId L-329). L-330 nuova; L-329 evidenze++ confermato; preferenza n8n-workflow-importato; STATO già 21:54; LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2100": "Chat 19/7 ~21:00: Nicola screenshot Termux — docker cp ok, n8n import:workflow fallisce NOT NULL workflow_entity.id; file modello senza id/versionId. AD fix JSON repo, Nicola riprova. L-329 nuova; L-328 addendum; preferenza n8n-cli-import-id; STATO+LEZIONI-CHAT+builder+DECISIONI aggiornati.",
   "_nota_metabolizzazione_19_07_2042": "Chat 19/7 ~20:42: Nicola «Non trovo il file» (2°) + screenshot My Files — JSON in Download ma picker n8n su cartella Download mostra solo file giugno (Termux ≠ browser). AD: import CLI server docker cp + n8n import:workflow. L-328 nuova; L-327 addendum+evidenze++; preferenza n8n-import-cli; STATO+LEZIONI-CHAT+builder aggiornati.",
@@ -7758,13 +7758,13 @@
     "**Scenario ottimistico mese per mese (chat 11/7):** Nicola vuole sapere qual è il risultato MASSIMO possibile — «se azzecchiamo tutto al 100%, quali sono i numeri da adesso a un anno, mese per mese?». Non chiede il come: vuole prima i numeri del best-case, concreti e verificabili. Preferenza operativa: quando chiede outlook/proiezioni, fornire SEMPRE una tabella mese-per-mese (negozi / ordini / GMV / ricavi / margine) + le assunzioni dichiarate (scontrino medio, commissione %) + i 2-3 fattori critici che fanno saltare la curva. Scenario di riferimento Piacenza 12 mesi (lug 2026–giu 2027, ipotesi 100% successo): GMV ~1,3M€, ricavi MyCity ~387k€, margine ~169k€, 58 negozi, 15k clienti; scontrino 32€, commissione 20%+fee 2,90€, costo rider 4,50€. Gate critico dichiarato: settembre 2026 con 7+ negozi e 700+ ordini — se manca, la curva esponenziale non parte. Questa tabella è il 'nord' condiviso con Nicola: richiamala quando proponi priorità o sequenze."
   ],
   "meta": {
-    "lezioni_attive": 346,
+    "lezioni_attive": 347,
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 21:47",
+    "tasso_calcolato_il": "2026-07-19 21:57",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 21:47",
+    "tick_leggero_il": "2026-07-19 21:57",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
