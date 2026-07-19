@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:02
+aggiornato: 2026-07-20 01:07
 fonte: AD digitale (sentinella cassa_sconosciuta)
 ---
+
+> 💬 **20/7 ~01:06 — CHAT: menu conversazioni dentro riquadro chat — PR #485 (L-348).** Nicola chiede lista conversazioni **integrata a sinistra** nel pannello chat Worker (non cassetto esterno) — vale **sia chat fluttuante sia schermo intero** (pulsante ingrandisci). AD **PR #485** — stesso blocco UI per entrambe le modalità; scroll #483 e barra fissa #484 intatti. Merge 🔴 pendente (card #203). Fonte: chat Nicola 20/7 01:06.
 
 > 🛰️ **20/7 01:02 — SENTINELLA: cassa/runway — verifica 173 giri, blocco invariato.** `cassa_sconosciuta` **173 giri**. **Verificato 🟢:** Stripe ✅ · cassa **0 €** · `BURN_MENSILE_EUR` **assente** — **non** bug Stripe. **Unica mossa:** card **🟡 #burn-mensile-env** (già in coda, non ri-accodata). **Oggi ore 10:00:** 🔴 **PI26 apre a sportello** (`#bandi-cciaa-2007`). Diagnosi: `consegne/finanza/2026-07-20-diagnosi-cassa-runway.md`. Fonte: `sensore-cassa.mjs` + `verifica-sensori.mjs` exit 0 · 01:02.
 

@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-07-20 01:06 · Menu conv dentro riquadro chat — Nicola «inserisci menu conversazioni dentro riquadro chat a sinistra» + ingrandimento fluttuante · atteso: sidebar conv integrata nel pannello, fluttuante+fullscreen stesso layout · reale: PR #485 lista sinistra permanente nel riquadro, non drawer esterno; scroll #483 + sticky #484 intatti · merge 🔴 #203 · #pannello #chat #worker #layout #sidebar #pr-485 · L-348
 - 2026-07-20 00:55 · Barra scrittura Worker fissa — Nicola «blocca/fissala la box… dimmi cosa hai capito» · atteso: input+icone sticky basso, solo messaggi scrollano · reale: PR #484 layout flex/sticky tipo WhatsApp; scroll #483 intatto · merge 🔴 #202 · #pannello #chat #worker #sticky #pr-484 · L-346, L-263
 - 2026-07-20 00:55 · Scroll menu #483 confermato — Nicola «ok, ha funzionato» · atteso: fondo chat aprendo dal menu · reale: #483 live, Nicola verifica ok dopo #482 insufficiente · #201 FATTO · #pannello #chat #scroll #worker #pr-483 · L-345
 - 2026-07-20 00:42 · Meta-reflection sync+auto — Nicola «perché non ci sei arrivato prima / quante volte serve dirglielo?» · atteso: onestà processo + meccanismo coesistenza · reale: trigger separati PR #481 (sync sempre; auto-open se vuota≠«+»; cross-device stessa conv); errore AD = trade-off «togli auto-apertura» invece A+B con regole; L-343 · merge 🔴 #199 · #pannello #chat #processo #pr-481 · L-343, L-341

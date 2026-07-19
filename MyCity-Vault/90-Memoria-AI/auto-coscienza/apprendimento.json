@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-20 01:03",
+  "aggiornato": "2026-07-20 01:07",
+  "_nota_metabolizzazione_20_07_0107": "Chat 20/7 ~01:06: Nicola «menu conversazioni dentro riquadro chat a sinistra» + ingrandimento fluttuante. L-348 nuova; preferenza sidebar-conv-dentro-riquadro; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #485 in coda #203.",
   "_nota_metabolizzazione_20_07_0057": "Chat 20/7 ~00:57: Nicola «ricordami accesso n8n (worker? server?) via browser» — promemoria operativo + disambiguazione VPS/worker/n8n. L-347 nuova; preferenza n8n-accesso-promemoria; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_20_07_0055": "Chat 20/7 ~00:55: Nicola «ok, ha funzionato» scroll #483 + chiede barra scrittura fissa WhatsApp «dimmi cosa hai capito». L-346 nuova; L-345 evidenze++ chiusura ok; L-263 evidenze++ punto 3; #201 FATTO; STATO+DECISIONI+LEZIONI-CHAT+frontend-dev aggiornati; PR #484 in coda #202.",
   "_nota_metabolizzazione_20_07_0051": "Chat 20/7 ~00:51: Nicola «non è cambiato nulla» post-merge #482 scroll menu — fix animazione insufficiente, serve render async+reload DB. L-345 nuova; L-342 evidenze++ addendum; preferenza scroll-conferma-nicola; #200 FATTO; STATO+LEZIONI-CHAT+frontend-dev aggiornati; PR #483 in coda #201.",
@@ -65,6 +66,29 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0720-348",
+      "testo": "**Worker chat — menu conversazioni DENTRO riquadro a sinistra, fluttuante E ingrandita (Nicola 20/7 ~01:06).** Chiede «inserisci il menu delle conversazioni dentro il riquadro della chat (sulla sinistra)» + chiarimento «anche dentro la chat che si apre quando schiaccio ingrandimento nella chat fluttunante». 5 perché: (1) odia cassetto/drawer che scorre da fuori — vuole lista **sempre visibile** nel pannello; (2) fluttuante e schermo intero devono avere **stesso layout** (lista sinistra + chat destra + barra basso); (3) pattern «dimmi cosa hai capito» prima del fix (L-346, L-338); (4) filone UX Worker in sequenza rapida post-scroll ok — **non** rompere #483 scroll né #484 sticky; (5) PR #485. Regola: richiesta sidebar conv integrata → confermare copertura fluttuante+ingrandita + PR dedicata senza toccare fix appena confermati. Vedi L-346, PR #485, PR #441 (precedente tentativo layout).",
+      "tag": [
+        "pannello",
+        "chat",
+        "worker",
+        "sidebar",
+        "layout",
+        "fullscreen",
+        "floating",
+        "nicola"
+      ],
+      "reparto": "@frontend-dev",
+      "confidenza": 0.92,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-20",
+      "ultima_conferma": "2026-07-20 01:06",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0720-347",
       "testo": "**n8n — «ricordami come accedere» = URL browser + disambiguare VPS/worker/n8n (Nicola 20/7 ~00:57).** Nicola chiede promemoria accesso n8n via browser («worker? server?») — confusione sui nomi. 5 perché: (1) pattern «ricordami» = risposta **operativa immediata** (URL + login + troubleshooting), come L-247 per file `.env`, non tutorial install/import; (2) n8n **non** è nel Pannello — gira sul **VPS Hetzner** in Docker, porta **5678**, browser Chrome/Brave anche da telefono; (3) **server** = macchina VPS; **worker** = servizio cervello (systemd, chat/giro); **n8n** = interfaccia automazioni — **stesso server**, tre cose diverse (rinforza L-344 cervello/braccia); (4) login account admin creato al setup; workflow «Pubblica post programmato» già importato; **`N8N_WEBHOOK_URL` ancora segnaposto**; (5) pagina bianca/non risponde = container Docker spento → riavvio via **SSH sul VPS**, non comandi Docker su Termux locale (`~ $`). Regola: «ricordami accesso n8n» → URL + disambiguazione nomi + un passo troubleshooting; **non** ripetere install/scp/import/picker. Vedi L-344, L-325, L-247.",
@@ -7885,6 +7909,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Worker chat — menu conversazioni integrato nel riquadro a sinistra, fluttuante+ingrandita (chat 20/7 ~01:06):** chiede lista conv **dentro** il pannello chat (non cassetto esterno) — stesso layout quando ingrandisce la chat flottante; si aspetta «dimmi cosa hai capito» + PR senza rompere scroll (#483) e barra fissa (#484) appena ok. PR #485 merge pendente (#203). Vedi L-348, L-346.",
     "**n8n — «ricordami accesso» = promemoria URL browser + disambiguare server/worker/n8n (chat 20/7 ~00:57):** chiede come entrare in n8n («worker? server?») — si aspetta risposta **operativa immediata**: browser su VPS porta 5678 (non Pannello), chiarire che server=VPS · worker=cervello · n8n=Docker automazioni (stesso Hetzner), login admin setup, workflow già importato; pagina bianca → container spento, riavvio SSH server; **non** ripetere install/import/scp. Vedi L-347, L-344, L-247.",
     "**Worker chat — barra scrittura fissa tipo WhatsApp (chat 20/7 ~00:55):** dopo scroll ok (#483), chiede casella input + icone **sempre incollate in basso** — scorre solo la conversazione, barra non esce dall'inquadratura; pattern «dimmi cosa hai capito» prima del fix; **non** toccare scroll appena confermato. PR #484 merge pendente (#202). Vedi L-346, L-263.",
     "**Chat scroll menu — conferma Nicola obbligatoria prima di chiudere bug (chat 20/7 ~00:51→00:55):** «non è cambiato nulla» post-#482 → serve #483; «ok, ha funzionato» = gate per considerare risolto — **non** dichiarare fixato senza test chat lunga + sua ok. Vedi L-345, L-342.",
