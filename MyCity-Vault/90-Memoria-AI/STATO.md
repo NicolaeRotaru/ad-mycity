@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:45
+aggiornato: 2026-07-20 01:47
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~01:47 — CHAT: menu vs terminale — NO shell web nel Pannello (L-355).** Nicola follow-up comandi VPS: «dal menu posso mandare comandi? perché non pagina terminale?». AD chiarisce: menu «Stato worker» = **pulsanti sicuri preset** (giro, riavvio) — **non** terminale libero; esito in Lavori → Risultati comandi; **chat Worker** = canale completo in linguaggio umano; **pagina terminale web = NO** (sicurezza — sessione Pannello rubata = rischio server); azioni ripetute → pulsanti sicuri custom. Tre livelli: menu · chat · SSH raro. Fonte: chat Nicola 20/7 01:47.
 
 > 💬 **20/7 ~01:45 — CHAT: menu conv Worker incompleto — chat Lavori assente da lista (L-354).** Nicola screenshot: chat visibile nel pannello **Lavori** a sinistra (es. «comandi sul worker senza cmd») **non compare** nel menu Conversazioni del Worker. **Causa:** Worker e Lavori usavano **due storage diversi** — `ChatCasella` sotto un lavoro non veniva copiata nell'elenco condiviso Worker. AD **PR #487** (`ccc59691`): integra chat Lavori nel menu Worker + persistenza condivisa. Merge 🔴 pendente (#205). Dopo deploy: Ctrl+F5 — conv da Lavori deve comparire in lista. Fonte: chat Nicola 20/7 01:45.
 

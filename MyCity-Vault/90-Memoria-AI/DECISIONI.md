@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-20 01:47 · 🔴 · [NO terminale web nel Pannello — policy sicurezza] · **Nicola: «perché non crea un'altra pagina in cui inserire il terminale?»** Follow-up comandi VPS senza cmd (L-349). AD: **non** implementare shell web nel Pannello — esposizione equivalente a lasciare il server aperto su internet; menu resta pulsanti allowlist; chat Worker + SSH raro per casi eccezionali. Alternativa accettabile: pulsanti sicuri custom per azioni ripetute che Nicola chiede spesso. L-355.
+
 2026-07-20 01:39 · 🟢 · [Worker chat barra fissa — #484 mergiata, Nicola ripete richiesta] · **Nicola: «ti avevo chiesto di bloccare nella chat la box in cui ci sono le icone ed inserisco il testo».** Non è nuova richiesta — **re-ask** post-#484: per lui la barra **non è ancora fissa**. AD verifica: **PR #484 mergiata** su main; risposta = hard refresh + gate «ancora no» come scroll L-345. Bug **aperto** finché Nicola non conferma. L-353, L-346.
 
 2026-07-20 01:36 · 🟡 · [Worker chat — sidebar dentro riquadro MA resta popup apri/chiudi, PR #486] · **Nicola: «non ti ho specificato che deve restare una finestra che si apre e si chiude, schiacciando l'apposita icona».** Corregge interpretazione post-#485: sidebar conv integrata sì, ma **non** trasformare in pagina fissa `vista=assistente` — stessa popup (icona basso-destra + voce Worker → apre; X chiude; ingrandisci/riduci = stessa finestra). AD PR #486. Merge 🔴 pendente (#204). L-352, L-348.
