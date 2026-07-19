@@ -44,24 +44,19 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 16:45
+### 🟡 #abilita-mcp-supabase-chat — Aggiungi MCP Supabase all'allowlist così l'AD vede i dati live dalla chat · ⏳ accodata 2026-07-19 00:22 · richiamata 16:48
 
-**Contesto:** Nicola ha chiesto più volte (00:22, 14:20, 14:42, 16:45) come abilitare MCP in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). **19/7 16:44:** file **JSON invalido** per **trailing comma** sull'ultima riga (`Illegal trailing comma` riga 33) → l'intera allowlist ignorata (né Vercel né Supabase funzionano).
+**Contesto:** Nicola ha chiesto più volte (00:22, 14:20, 14:42, 16:45, 16:48) come abilitare MCP in chat — l'AD non riusciva a interrogare il DB (né `node` né MCP) e aveva scritto «23 iscritti» in EXP-001 senza verifica live (corretto a 4 da Nicola). **19/7 16:48:** verificato sul VPS — Vercel×5 + Supabase marketplace×2 **già incollati**; file ancora **JSON invalido** per **trailing comma** dopo `list_tables` (`Illegal trailing comma` riga 33) → l'intera allowlist ignorata (né Vercel né Supabase funzionano).
 
-**Cosa fare:** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json` e sostituire il blocco MCP in fondo con questo (ultima riga **senza virgola**):
-```
-      "mcp__claude_ai_Vercel__list_teams",
-      "mcp__claude_ai_Vercel__list_projects",
-      "mcp__claude_ai_Vercel__list_deployments",
-      "mcp__claude_ai_Vercel__get_deployment",
-      "mcp__claude_ai_Vercel__get_project",
-      "mcp__supabase-marketplace__execute_sql",
-      "mcp__supabase-marketplace__list_tables",
-      "mcp__supabase-memoria__execute_sql",
-      "mcp__supabase-memoria__list_tables"
-```
-Opzionale debug DB (solo se serve): aggiungere prima dell'ultima riga `mcp__supabase-marketplace__get_logs` e `mcp__supabase-marketplace__list_migrations`.
-Salvare (Ctrl+O → Invio → Ctrl+X) e aprire una **nuova chat** — chiedere «quanti utenti ci sono?» per verificare. Se fallisce: controllare anche env `SUPABASE_ACCESS_TOKEN` nel worker.
+**Cosa fare (fix minimo — non riscrivere tutto):** Dal terminale VPS aprire `nano /opt/mycity/ad-mycity/.claude/settings.local.json`:
+1. Trova `"mcp__supabase-marketplace__list_tables",` con virgola finale → togli la virgola (ultima riga MCP **senza virgola**).
+2. *(Opzionale)* Se vuoi anche il DB memoria del Pannello, **prima** di quella riga senza virgola aggiungi:
+   `"mcp__supabase-memoria__execute_sql",` e `"mcp__supabase-memoria__list_tables",` — l'ultima riga resta sempre senza virgola.
+3. Salva (Ctrl+O → Invio → Ctrl+X) → **nuova chat** → chiedi «quanti utenti ci sono?»
+
+**Blocco completo** (solo se mancano voci): 5 Vercel + 2 marketplace + 2 memoria opzionali — vedi card aggiornata 16:45 o L-291.
+
+Se fallisce dopo fix JSON: controllare env `SUPABASE_ACCESS_TOKEN` nel worker.
 
 **Cosa cambia:** l'AD potrà leggere i dati Supabase live direttamente dalla chat, senza dover aspettare il giro automatico o chiedere a Nicola di ricopiare i numeri.
 **Se va bene:** nella prossima chat l'AD risponde «4» (o il numero live) guardando il DB vero, non STATO.md.

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 16:45
-fonte: AD digitale (chat Nicola 19/7 16:45)
+aggiornato: 2026-07-19 16:48
+fonte: AD digitale (chat Nicola 19/7 16:48)
 ---
+
+> 💬 **19/7 16:48 — CHAT: allowlist MCP — verifica file esistente, fix minimo.** Nicola: «Controlla quelli che ci sono già e riscrivi le righe che devi inserire». Verificato su VPS: **già presenti** git, node, Write, Vercel×5, Supabase marketplace×2. Manca solo **togliere trailing comma** dopo `list_tables` (JSON invalido riga 33) + opzionale 2 righe `supabase-memoria`. Non serve riscrivere tutto il blocco. Fonte: chat Nicola 19/7 16:48.
 
 > 💬 **19/7 16:45 — CHAT: inventario MCP completo tiered per allowlist.** Nicola: «Quali sono tutti gli mcp utili da inserire nell'allow?» — AD ha consegnato mappa a 3 livelli: **Essenziali** (5 Vercel deploy + 2 Supabase marketplace) · **Opzionali** (2 Supabase memoria chat/lavori + 2 debug `get_logs`/`list_migrations`) · **Non mettere** (GitHub MCP non collegato, scritture DB read-only). Blocco JSON integrale 9 righe pronto da incollare. ⚠️ File permessi ancora rotto (trailing comma riga 33) — finché non si corregge, nessun MCP funziona. Fonte: chat Nicola 19/7 16:45.
 

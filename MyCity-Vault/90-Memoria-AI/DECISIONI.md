@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 16:48 · 🟢 · [Allowlist MCP — istruzioni delta dopo verifica file esistente] · **Nicola: «Controlla quelli che ci sono già e riscrivi le righe che devi inserire».** AD ha letto `settings.local.json` sul VPS: Vercel×5 + Supabase marketplace×2 già incollati; fix minimo = rimuovere trailing comma su ultima riga + (opzionale) aggiungere 2 righe memoria. Non sostituire l'intero blocco quando le voci essenziali ci sono già. Card #abilita-mcp-supabase-chat aggiornata con sequenza delta. L-292.
+
 2026-07-19 16:45 · 🟢 · [Inventario MCP allowlist tiered consegnato in chat] · **Nicola: «Quali sono tutti gli mcp utili da inserire nell'allow?»** AD ha mappato 3 tier sui server reali in `.mcp.json`: essenziali (5 Vercel + 2 Supabase marketplace), opzionali (2 memoria + 2 debug DB), esclusi (GitHub MCP, scritture). Blocco JSON 9 righe pronto. Pendente esecuzione Nicola: fix trailing comma + salva + nuova chat. Card #abilita-mcp-supabase-chat aggiornata. L-291.
 
 2026-07-19 16:44 · 🟡 · [Fix trailing comma settings.local.json — Vercel + Supabase insieme] · **Nicola: «C'era quello di vercel».** Correzione: le 5 voci Vercel MCP restano in allowlist; le 2 voci Supabase marketplace si aggiungono dopo, non le sostituiscono. Errore attuale verificato = trailing comma sull'ultima riga (riga 33), non virgola mancante — invalida l'intero JSON e blocca tutti i permessi. Sequenza: rimuovi virgola finale → salva → nuova chat → verifica con «quanti utenti ci sono?». Card #abilita-mcp-supabase-chat aggiornata.
