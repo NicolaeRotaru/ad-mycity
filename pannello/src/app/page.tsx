@@ -934,11 +934,10 @@ export default function Dashboard() {
   // 🔍 Ricerca nel cassetto conversazioni
   const [convRicerca, setConvRicerca] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
-  // Dentro la chat fluttuante: pannello "Conversazioni" (elenco per aprirne un'altra) a scomparsa.
-  const [fabConvOpen, setFabConvOpen] = useState(false);
-  // Cassetto chiuso dopo scelta chat → scroll al fondo quando finisce l'animazione drawer (200ms).
+  // Dentro la chat fluttuante: pannello conversazioni integrato a sinistra (non più cassetto a scomparsa).
+  // Cassetto Assistente chiuso dopo scelta chat → scroll al fondo post-animazione.
   useEffect(() => {
-    if (fabConvOpen || convDrawerAperto) return;
+    if (convDrawerAperto) return;
     if (!scrollDopoDrawerRef.current) return;
     scrollDopoDrawerRef.current = false;
     stickFabRef.current = true;
@@ -948,7 +947,7 @@ export default function Dashboard() {
     requestAnimationFrame(() => requestAnimationFrame(scroll));
     const timers = [240, 450, 800, 1200].map((ms) => setTimeout(scroll, ms));
     return () => timers.forEach(clearTimeout);
-  }, [fabConvOpen, convDrawerAperto]);
+  }, [convDrawerAperto]);
   // Riapertura FAB: il contenitore scroll si rimonta (condizionale) → torna all'ultimo messaggio.
   useEffect(() => {
     if (!chatFluttuante && !workerFull) return;
@@ -2119,8 +2118,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Refresh immediato quando si apre il cassetto conversazioni (desktop o FAB mobile):
   // senza questo, l'utente vede la lista "congelata" all'ultimo poll (fino a 8s fa).
   useEffect(() => {
-    if (convDrawerAperto || fabConvOpen) caricaConversazioni();
-  }, [convDrawerAperto, fabConvOpen, caricaConversazioni]);
+    if (convDrawerAperto || chatFluttuante || workerFull) caricaConversazioni();
+  }, [convDrawerAperto, chatFluttuante, workerFull, caricaConversazioni]);
 
   // Auto-apri l'ultima conversazione recente se la chat è vuota (sync cross-device).
   // (1) Primo caricamento: apre l'ultima conv <24h (smartphone ↔ desktop).
@@ -2983,20 +2982,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <div className="t-eti text-[11px]">Semplice e diretto — penso io a chi lo fa.</div>
             </div>
             <button
-              onClick={() => { nuovaConversazione(); setFabConvOpen(false); }}
+              onClick={() => { nuovaConversazione(); }}
               className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
               aria-label="Nuova chat"
               title="Nuova chat"
             >
               <Plus size={16} />
-            </button>
-            <button
-              onClick={() => setFabConvOpen((v) => !v)}
-              className={`grid place-items-center w-7 h-7 rounded-lg transition shrink-0 ${fabConvOpen ? "bg-brand/10 text-brand" : "text-black/45 hover:bg-black/[0.05]"}`}
-              aria-label="Le tue conversazioni"
-              title="Le tue conversazioni"
-            >
-              <MessageSquare size={15} />
             </button>
             <button
               onClick={() => {
@@ -3017,7 +3008,74 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <X size={15} />
             </button>
           </div>
-          {/* Corpo chat SEMPRE montato; il cassetto "Conversazioni" scorre SOPRA da sinistra (come nel desktop). */}
+          {/* Due colonne: conversazioni a sinistra (sempre visibili) + chat a destra */}
+          <div className="flex flex-1 min-h-0 overflow-hidden">
+          <aside
+            className="w-[min(240px,38%)] shrink-0 flex flex-col overflow-hidden border-r"
+            style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}
+          >
+            <div className="px-3 py-2.5 flex items-center gap-2 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
+              <MessagesSquare size={14} className="text-brand shrink-0" />
+              <span className="t-sez text-[13px] truncate">Conversazioni</span>
+            </div>
+            <button
+              onClick={() => { void nuovaConversazione(); }}
+              className="m-2 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12px] font-medium py-1.5 hover:bg-brand/[0.05] transition shrink-0"
+            >
+              <Plus size={13} /> Nuova
+            </button>
+            {conversazioni.length === 0 ? (
+              <p className="t-eti text-[11px] px-2 py-3 text-center">Ancora nessuna chat.</p>
+            ) : (
+              <div className="scroll-soft flex-1 overflow-y-auto p-2 space-y-1 min-h-0">
+                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
+                  if (!convRicerca.trim()) return true;
+                  const q = convRicerca.toLowerCase();
+                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
+                }).map((c) => {
+                  const pinnata = convPinnate.has(c.id);
+                  const gruppo = gruppiConvById.get(c.id);
+                  const chatVisibile = chatFluttuante || workerFull;
+                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
+                  const effMsgs = messaggiConvEffettivi(c, gruppo);
+                  const attiva = c.id === convId;
+                  return (
+                    <div
+                      key={c.id}
+                      className={`conv-row flex items-center gap-1.5 ${attiva ? "conv-row-active" : ""}`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => { void continuaConversazione(c.id); }}
+                        className="flex-1 min-w-0 text-left"
+                      >
+                        <div className={`conv-row-title flex items-center gap-1 ${attiva ? "text-brand" : ""}`}>
+                          {nonLetta && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" title="Nuova risposta non letta" />
+                          )}
+                          <span className="truncate text-[12.5px]">{c.titolo || "Conversazione"}</span>
+                        </div>
+                        <div className="conv-row-meta text-[10.5px]">
+                          {effMsgs.filter((m) => !m.prompt).length} msg · {fa(tsConvAggiornato(c, gruppo))}
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => togglePin(c.id)}
+                        className={`shrink-0 p-0.5 rounded hover:bg-brand/10 transition ${pinnata ? "text-brand" : "text-black/30 dark:text-white/30 hover:text-brand/60"}`}
+                        aria-label={pinnata ? "Sblocca dalla cima" : "Fissa in cima"}
+                        title={pinnata ? "Sblocca" : "Fissa in cima"}
+                      >
+                        <Pin size={11} className={pinnata ? "fill-brand" : ""} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </aside>
+          <div className="flex flex-col flex-1 min-h-0 min-w-0">
+          {/* Corpo chat: solo i messaggi scrollano; barra scrittura resta in fondo */}
           <div ref={chatFabBoxRef} onScroll={(e) => { stickFabRef.current = vicinoAlFondo(e.currentTarget); }} className="scroll-soft flex-1 min-h-0 p-3.5 space-y-3 overflow-y-auto overscroll-contain">
             {messages
               .filter((m) => !m.prompt)
@@ -3084,88 +3142,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             chatMessaggi={messages.filter((m) => !m.prompt).map((m) => ({ role: m.role, content: m.content, pending: m.pending }))}
           />
           </div>
-          {/* CASSETTO conversazioni del FAB: si apre DENTRO la colonna centrata, copre metà larghezza. */}
-          <div
-            className={`absolute inset-0 z-20 bg-black/25 transition-opacity duration-200 ${fabConvOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-            onClick={() => setFabConvOpen(false)}
-            aria-hidden="true"
-          />
-          <aside
-            className={`absolute inset-y-0 left-0 z-30 w-full sm:w-[340px] flex flex-col overflow-hidden border-r shadow-2xl transition-transform duration-200 ${fabConvOpen ? "translate-x-0" : "-translate-x-full"}`}
-            style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
-            aria-hidden={!fabConvOpen}
-          >
-            <div className="px-4 py-3 flex items-center justify-between border-b gap-2 shrink-0" style={{ borderColor: "var(--border)" }}>
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="sez-ico"><MessagesSquare size={15} /></span>
-                <span className="t-sez">Conversazioni</span>
-              </div>
-              <button
-                onClick={() => setFabConvOpen(false)}
-                className="grid place-items-center w-7 h-7 rounded-lg text-black/45 hover:bg-black/[0.05] transition shrink-0"
-                aria-label="Chiudi conversazioni"
-                title="Chiudi"
-              >
-                <X size={16} />
-              </button>
-            </div>
-            <button
-              onClick={() => { void nuovaConversazione(); setFabConvOpen(false); }}
-              className="m-2.5 inline-flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-brand/40 text-brand text-[12.5px] font-medium py-2 hover:bg-brand/[0.05] transition shrink-0"
-            >
-              <Plus size={14} /> Nuova chat
-            </button>
-            {conversazioni.length === 0 ? (
-              <p className="t-eti text-[12px] px-3 py-4 text-center">Ancora nessuna conversazione salvata.</p>
-            ) : (
-              <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
-                  if (!convRicerca.trim()) return true;
-                  const q = convRicerca.toLowerCase();
-                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
-                }).map((c) => {
-                  const pinnata = convPinnate.has(c.id);
-                  const gruppo = gruppiConvById.get(c.id);
-                  const chatVisibile = chatFluttuante || workerFull; // overlay chat: finestra o schermo intero
-                  const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
-                  const effMsgs = messaggiConvEffettivi(c, gruppo);
-                  const attiva = c.id === convId;
-                  return (
-                    <div
-                      key={c.id}
-                      className={`conv-row flex items-center gap-2 ${attiva ? "conv-row-active" : ""}`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => { void continuaConversazione(c.id); setFabConvOpen(false); }}
-                        className="flex-1 min-w-0 text-left"
-                      >
-                        <div className={`conv-row-title flex items-center gap-1.5 ${attiva ? "text-brand" : ""}`}>
-                          {nonLetta && (
-                            <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" title="Nuova risposta non letta" />
-                          )}
-                          <span className="truncate">{c.titolo || "Conversazione"}</span>
-                        </div>
-                        <div className="conv-row-meta">
-                          {effMsgs.filter((m) => !m.prompt).length} messaggi · {fa(tsConvAggiornato(c, gruppo))}
-                          {attiva && <span className="text-brand font-medium"> · aperta ora</span>}
-                        </div>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => togglePin(c.id)}
-                        className={`shrink-0 p-1 rounded hover:bg-brand/10 transition ${pinnata ? "text-brand" : "text-black/30 dark:text-white/30 hover:text-brand/60"}`}
-                        aria-label={pinnata ? "Sblocca dalla cima" : "Fissa in cima"}
-                        title={pinnata ? "Sblocca" : "Fissa in cima"}
-                      >
-                        <Pin size={13} className={pinnata ? "fill-brand" : ""} />
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </aside>
+          </div>
+          </div>
           </div>
         </div>
         </>
