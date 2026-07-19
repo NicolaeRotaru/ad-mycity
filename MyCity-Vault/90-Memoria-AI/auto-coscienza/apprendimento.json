@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
   "aggiornato": "2026-07-19 18:06",
+  "_nota_metabolizzazione_19_07_1806": "Chat 19/7 ~18:06: Nicola «Ricordami come si entra nel file segreto» (Playwright env). AD path nano cervello/vps/.env; verifica: file ok perm 600, riga Playwright assente. L-247 evidenze++; L-305 aggiornata; preferenza promemoria path operativo.",
   "_nota_metabolizzazione_19_07_1739": "Chat 19/7 ~17:38: Nicola «Fatto» passo 3 Playwright. Verifica server: Chromium ✅ /opt/pw-browsers; Playwright ❌ path sbagliato (/usr/lib vs /opt/node22) → ERR_MODULE_NOT_FOUND. L-307 nuova; L-305 aggiornata; preferenza «Fatto» = verifica runtime.",
   "_nota_metabolizzazione_19_07_1737": "Chat 19/7 ~17:36: Nicola «Controlla se ho fatto tutto giusto» dopo passo 2 Node22 Termux. Verifica server: v22.17.1 in /opt/node22, owner mycity ✅. L-305 aggiornata (node22 presente); L-306 evidenze++; preferenza verifica server post-setup.",
   "_nota_metabolizzazione_19_07_1734": "Chat 19/7 ~17:34: Nicola «Il passo 1 l'ho fatto, il secondo non so come farlo» (Playwright setup). Verifica server: font ✅; /opt/node22 ancora assente. AD comandi Termux blocchi singoli. L-306 nuova; L-305 evidenze++; preferenza comandi uno alla volta.",
@@ -70,7 +71,7 @@
     },
     {
       "id": "L-2026-0719-305",
-      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34, passo 2 ✅ 17:36, passo 3 ⚠️ 17:38).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34** · **Node22 ✅ 17:36** (`/opt/node22/bin/node -v` → v22.17.1, owner mycity) · **Chromium ✅ 17:38** (`/opt/pw-browsers/chromium-1228`) · **Playwright ⚠️ path sbagliato** (npm globale → `/usr/lib/node_modules/`, assente sotto `/opt/node22` → render fallisce); Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 ✅ → Playwright con **`--prefix /opt/node22`** + `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` → env in segreti worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; «Fatto»/«controlla se ho fatto giusto» = prova server, non fiducia cieca. Vedi L-306, L-307.",
+      "testo": "**Playwright sul worker — setup root una tantum + come dare strumenti (Nicola 19/7 ~17:26, passo 1 ✅ 17:34, passo 2 ✅ 17:36, passo 3 ⚠️ 17:38, env ⏳ 18:06).** «Come faccio a rendere operativo playwright su worker?» + «quali strumenti per contenuti potenti e come te li do?». Verifica VPS: **font ✅ 17:34** · **Node22 ✅ 17:36** (`/opt/node22/bin/node -v` → v22.17.1, owner mycity) · **Chromium ✅ 17:38** (`/opt/pw-browsers/chromium-1228`) · **Playwright ⚠️ path sbagliato** (npm globale → `/usr/lib/node_modules/`, assente sotto `/opt/node22` → render fallisce) · **env worker ⏳ 18:06** (Nicola chiede «ricordami file segreto» → `cervello/vps/.env` via nano; riga `PLAYWRIGHT_BROWSERS_PATH` ancora assente). Node sistema v24 ok; codice Content Factory punta path fisso che lo script setup VPS non crea → PNG rotti, SVG ok in Diretta. 5 perché: (1) Nicola vuole passi operativi, non teoria; (2) install richiede root — chat AD non può eseguirla; (3) ordine: font ✅ → Node22 ✅ → Playwright con **`--prefix /opt/node22`** + riga in **`cervello/vps/.env`** (L-247) + restart worker → test `render-domenica-settimana.mjs`; (4) contenuti potenti = foto/video veri (leva #1) + render Playwright **oppure** PNG Canva/Figma; chiavi AI solo se cambia [[niente-api-ai]]; (5) proposta PR setup automatico per non perdere al prossimo aggiornamento server. Regola: verifica runtime cosa manca PRIMA dei passi; «Fatto»/«controlla se ho fatto giusto» = prova server, non fiducia cieca. Vedi L-306, L-307, L-247.",
       "tag": [
         "playwright",
         "content-factory",
@@ -82,11 +83,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.97,
-      "evidenze": 4,
+      "evidenze": 5,
       "fonte": "chat",
       "caso_studio_nicola": false,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 17:38",
+      "ultima_conferma": "2026-07-19 18:06",
       "stato": "attiva",
       "usi": []
     },
@@ -1346,7 +1347,7 @@
     },
     {
       "id": "L-2026-0717-247",
-      "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 2 conferme):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, ecc.) va SOLO in `cervello/vps/.env` + `sudo systemctl restart mycity-worker-chat.service`. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
+      "testo": "**⭐ PERMANENTE — Il file `.env` del worker è `cervello/vps/.env`, MAI la root (caso-studio Nicola 17/7 × 3 conferme, ultima 19/7 18:06):** Nicola ha detto «impara questa lezione e ricordatela per sempre». Il systemd usa `EnvironmentFile=/opt/mycity/ad-mycity/cervello/vps/.env`. Il file root `/opt/mycity/ad-mycity/.env` è vuoto/assente e IGNORATO dal processo. Ogni nuova variabile d'ambiente (VERCEL_TOKEN, STRIPE_KEY, `PLAYWRIGHT_BROWSERS_PATH`, ecc.) va SOLO in `cervello/vps/.env` + restart worker (`mycity-worker.service` o `mycity-worker-chat.service`). Quando chiede «ricordami come si entra nel file segreto» → path assoluto Termux + `nano` + riga in fondo + restart; non leggere il file in chat. Quando Nicola dice 'ho inserito il token', chiedere subito DOVE: nel `cervello/vps/.env`? nel codice? nel root .env? Solo il primo funziona.",
       "tag": [
         "vercel",
         "token",
@@ -1359,17 +1360,21 @@
       ],
       "reparto": "@devops-sre",
       "confidenza": 1,
-      "evidenze": 2,
+      "evidenze": 3,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "permanente_nicola": true,
       "nato": "2026-07-17",
-      "ultima_conferma": "2026-07-17 01:30",
+      "ultima_conferma": "2026-07-19 18:06",
       "stato": "attiva",
       "usi": [
         {
           "quando": "2026-07-17 07:00",
           "ref": "giro-17-07 — cervello/vps/.env confermato su mycity-worker-chat.service; applicata in ogni raccomandazione env/worker della sessione (diagnosi volano)"
+        },
+        {
+          "quando": "2026-07-19 18:06",
+          "ref": "chat Playwright — Nicola «ricordami file segreto»; verifica riga PLAYWRIGHT_BROWSERS_PATH ancora assente"
         }
       ]
     },
@@ -6943,6 +6948,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**File segreto worker — «ricordami come si entra» = path nano immediato (chat 19/7 ~18:06):** durante setup Playwright chiede promemoria operativo — si aspetta path assoluto Termux (`/opt/mycity/ad-mycity/cervello/vps/.env`), comandi nano salva/esci, quale riga aggiungere (`PLAYWRIGHT_BROWSERS_PATH`), restart worker; non teoria systemd. Vedi L-247, L-305.",
     "**Playwright «Fatto» — vuole verifica server che trova errori nascosti (chat 19/7 ~17:38):** dopo passo 3 dice «Fatto» ma `npm -g` può finire nel path sbagliato (Chromium ok ≠ Playwright ok) — si aspetta che l'AD controlli runtime, corregga con `--prefix /opt/node22`, poi env worker + test render. Vedi L-307, L-305.",
     "**Playwright setup — dopo ogni passo chiede «controlla se ho fatto giusto» (chat 19/7 ~17:36):** si aspetta che l'AD **verifichi sul server** (es. `node -v`, owner cartella), non un ok generico sul solo screenshot; se ok → passo successivo uno alla volta (passo 3 Playwright). Vedi L-305, L-306.",
     "**Playwright setup VPS — comandi Termux uno alla volta quando «non so come farlo» (chat 19/7 ~17:34):** dopo passo 1 font («l'ho fatto»), chiede aiuto passo 2 Node22 — si aspetta blocchi incollabili **singoli** (mkdir → curl → tar → chown → verifica `node -v`), non istruzioni aggregate; AD verifica server prima di dare passi; attende conferma «fatto» o errore prima del passo 3. Termux root ok. Vedi L-306, L-305.",

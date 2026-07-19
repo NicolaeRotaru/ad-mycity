@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 18:00
-fonte: AD digitale (report della sera 19/7 18:00)
+aggiornato: 2026-07-19 18:06
+fonte: AD digitale (chat Nicola 19/7 18:06)
 ---
+
+> 💬 **19/7 18:06 — CHAT: «Ricordami come si entra nel file segreto».** Path worker: `/opt/mycity/ad-mycity/cervello/vps/.env` (Termux root → `nano`). AD ha chiesto di aggiungere `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` + `systemctl restart mycity-worker.service`. Verifica 18:06: file esiste (perm 600), **riga Playwright ancora assente**. Resta anche fix npm Playwright con `--prefix /opt/node22`. Fonte: chat Nicola 19/7 18:06.
 
 > 🌙 **19/7 18:00 — REPORT DELLA SERA.** Business INVARIATO: 1 PQ, **4 buyer** (REST 18:00), 0 ordini pagati, stallo **~608h** (~25,3 giorni). North Star 0, cassa 0€. Fatto oggi: fix gravi marketplace chiusi (PR #213 + migrazioni DB) · MCP allowlist validata · post domenica PQ con grafica in Diretta · audit chat/bandi · Playwright worker passi 1-2 ok. **Stasera entro 21:00:** post domenica 🔴 · **restart.infocamere.it** 🔴 · **domani 10:00 PI26**. Dettaglio: [[RITMO]] 19/7 18:00.
 

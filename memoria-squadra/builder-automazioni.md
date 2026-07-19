@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 18:06 · File segreto worker — Nicola «ricordami come si entra» · atteso: path nano + riga Playwright · reale: `/opt/mycity/ad-mycity/cervello/vps/.env` consegnato; verifica 18:06 riga `PLAYWRIGHT_BROWSERS_PATH` ancora assente; resta `--prefix /opt/node22` + restart worker + test render · L-247 · #playwright #vps #env
 - 2026-07-19 17:39 · Playwright passo 3 parziale — Nicola «Fatto» · atteso: Playwright operativo · reale: Chromium ✅ `/opt/pw-browsers`; Playwright in `/usr/lib/node_modules/` (path sbagliato) → fix `--prefix /opt/node22` + env worker + test render · L-307 · #playwright #vps #npm-prefix
 - 2026-07-19 17:36 · Playwright setup passo 2 Node22 ✅ — Nicola «controlla se ho fatto tutto giusto» · atteso: verifica server + conferma · reale: `/opt/node22` v22.17.1 owner mycity ✅; passo 3 Playwright+Chromium consegnato · L-305 · #playwright #vps #termux
 - 2026-07-19 17:34 · Playwright setup passo 1 font ✅ — Nicola «passo 1 fatto, passo 2 non so» · atteso: verifica font + comandi Termux passo 2 · reale: font ok server 17:34; 5 blocchi Node22 v22.17.1 consegnati uno alla volta · L-306 · #playwright #vps #termux
