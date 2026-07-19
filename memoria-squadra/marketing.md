@@ -8,6 +8,7 @@ reparto: marketing
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 23:34 · Nicola «Invece nel marketing?» — atteso: idee n8n acquisizione/contenuti · reale: 10 workflow marketing distinti da blocco ops (visibilità, calendario, eventi Piacenza, lancio negozio, retargeting, UGC, stagionali, micro-influencer, report Telegram); Nicola esplora automazioni per reparto · L-336 · #n8n #marketing #workflow
 - 2026-07-18 11:06 · strategia 18/7: post meteo pioggia 20/7, PR PI26 Libertà, commenti Google Maps 13 prospect · ✅ 3 mosse pronte in AZIONI-IN-ATTESA · atteso preparare 3 mosse di acquisizione allineate con finestra piogge+PI26 → reale post meteo 🟡 accodato, PR PI26 🟡 accodata, commenti Google Maps 🟢 pronti in consegne/ · #marketing-18lug
 - 2026-06-24 · piano editoriale maestro · fissata spina canonica (causa madre + tagline "La spesa che tiene viva la città" + tono Vicino Orgoglioso + CTA unica lista d'attesa) come riferimento per OGNI contenuto; KPI 4-sett onesti da zero (target fine S4: 120-180 iscritti, 50-70 nel cluster, 15-20 sì-1°-sabato) · lezione: da zero la metrica vera non è la lista totale ma le famiglie del cluster pronte al concierge; calendario canonico LUN/MER/VEN/DOM + post-causa nei gruppi FB (#1 reach gratis) · #piano #editoriale #notorieta
 

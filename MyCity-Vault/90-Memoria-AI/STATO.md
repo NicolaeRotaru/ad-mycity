@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 23:33
-fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:33)
+aggiornato: 2026-07-19 23:34
+fonte: AD digitale (metabolizzazione chat Nicola 19/7 23:34)
 ---
+
+> 💬 **19/7 ~23:34 — CHAT: «Invece nel marketing?» — catalogo n8n acquisizione/contenuti.** Dopo i 10 workflow revenue/ops (23:33), Nicola chiede **la stessa cosa ma solo marketing** — visibilità e domanda nuova, non recupero ordini. AD: 10 flussi (post approvato→pub, calendario editoriale, evento/meteo città, lancio negozio, prodotto rotante, retargeting visitatori, UGC recensioni, campagna stagionale, micro-influencer, report settimanale Telegram). **Regola emersa:** separare esplicitamente blocco **ops/revenue** vs **marketing/acquisizione** quando elenca workflow n8n; stesso formato lista numerata. Tutti pendono webhook n8n; pub/messaggi reali 🔴. Fonte: chat Nicola 19/7 23:34.
 
 > 💬 **19/7 ~23:33 — CHAT: «Dimmi altri 10 workflow diversi» — catalogo revenue n8n.** Nicola chiede **10 automazioni diverse** dal carrello abbandonato (L-333): primo ordine, post-consegna/recensione, cliente dormiente 2–4 sett., pagamento fallito, ordine pagato→avviso bottega, meteo pioggia Piacenza, referral 2° ordine, negozio fermo 7 gg, post approvato→FB/IG, scadenza bandi CCIAA. AD: lista concisa trigger→azione→stop; tutte pendono **webhook n8n** collegato; messaggi a clienti/negozi reali restano 🔴. **Prossimo:** Nicola sceglie quale disegnare per primo → JSON in repo. Fonte: chat Nicola 19/7 23:33.
 

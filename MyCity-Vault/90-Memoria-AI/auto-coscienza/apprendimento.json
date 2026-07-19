@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 23:33",
+  "aggiornato": "2026-07-19 23:34",
+  "_nota_metabolizzazione_19_07_2334": "Chat 19/7 ~23:34: Nicola «Invece nel marketing?» — catalogo n8n acquisizione/contenuti (10 idee distinte da blocco revenue/ops). L-336 nuova; preferenza workflow-marketing-vs-ops; STATO+LEZIONI-CHAT+builder+marketing aggiornati.",
   "_nota_metabolizzazione_19_07_2333": "Chat 19/7 ~23:33: Nicola «Dimmi altri 10 workflow diversi» — catalogo revenue n8n (10 idee distinte da carrello abbandonato). L-335 nuova; L-333 evidenze++; preferenza catalogo-n-workflow; STATO+LEZIONI-CHAT+builder+crm aggiornati.",
   "_nota_metabolizzazione_19_07_2323": "Chat 19/7 ~23:23: Nicola «C'è un conflitto» su PR #480 post-autofill — catalogo già ok, conflitto diario AZIONI-IN-ATTESA, branch ripulito mergeable. L-334 nuova; L-312 addendum; preferenza conflitto-post-autofill; STATO+DECISIONI+AZIONI+LEZIONI-CHAT+tech+supervisione aggiornati.",
   "_nota_metabolizzazione_19_07_2234": "Chat 19/7 ~22:34: Nicola «workflow complesso che produce tantissimo denaro… non come spiegartelo, dimmi cosa hai capito» — correzione: ROI/soldi, non meta-tutorial. L-333 nuova; preferenza workflow-in-soldi; STATO+DECISIONI+LEZIONI-CHAT+builder+crm aggiornati.",
@@ -54,6 +55,27 @@
   "_nota_giro_refresh_03_07_1022": "🔭 Giro refresh 3/7 10:22: nessuna lezione NUOVA. RINFORZATA L-2026-0703-52 (delta-gate/contatore cieco-opzionale) — 2ª conferma consecutiva oggi (08:20 poi 10:22): il giro pieno è scattato di nuovo solo perché PostHog è passato 11→12; business/sentinelle identici. La lezione sale a 3 evidenze e resta la candidata di rifinitura AR-019/AR-024 prioritaria. APPLICATE: L-2026-0702-51 (ancora #16 a UNA finestra certa = mattina + payout-test); L-2026-0702-48/AR-019 (giro trattato come minimale: timestamp+delta, no analisi pesante rifatta).",
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
+    {
+      "id": "L-2026-0719-336",
+      "testo": "**«Invece nel marketing?» = catalogo n8n acquisizione/contenuti, separato da ops/revenue (Nicola 19/7 ~23:34).** Dopo L-335 (10 workflow ordini/retention/negozi), Nicola chiede **«Invece nel marketing?»** — stessa richiesta di catalogo ampio ma **filtro reparto marketing**. 5 perché: (1) «invece» = **cambio binario**, non estensione del blocco precedente; (2) marketing = visibilità, domanda nuova, contenuti, campagne — **non** recupero carrelli/ordini/post-consegna; (3) formato identico: lista numerata 10 voci trigger→azione→stop; (4) risposta deve **dichiarare esplicitamente** la differenza ops vs marketing (traffico/contenuti vs ordini/retention); (5) stesse regole: webhook pendente + 🔴 pub/messaggi reali. Regola: «invece nel marketing?» / «e sul marketing?» → 10 idee **solo acquisizione/contenuti**; vietato mescolare o ripetere leve ops già elencate. Vedi L-335, L-333.",
+      "tag": [
+        "n8n",
+        "workflow",
+        "marketing",
+        "acquisizione",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@marketing",
+      "confidenza": 0.9,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 23:34",
+      "stato": "attiva",
+      "usi": []
+    },
     {
       "id": "L-2026-0719-335",
       "testo": "**«Dimmi altri 10 workflow diversi» = catalogo revenue n8n, non ripetere la leva già data (Nicola 19/7 ~23:33).** Dopo L-333 (carrello abbandonato prioritario), Nicola chiede **10 workflow diversi** — conferma che vuole un **portfolio ampio** di automazioni mappate a soldi/ordini/retention, non un solo esempio né meta-setup. 5 perché: (1) «altri» + «diversi» = **escludere** carrello abbandonato già proposto; (2) formato lista numerata con trigger→azione→stop in una riga; (3) coprire clienti + negozi + ops (welcome, post-consegna, dormiente, pagamento fallito, ordine→bottega, meteo, referral, negozio fermo, post→social, bandi); (4) ogni voce chiude con prerequisito webhook + 🔴 se tocca persone reali; (5) prossimo passo = Nicola **sceglie uno** → JSON n8n completo in repo. Regola: «dimmi N workflow» → N idee **distinte** revenue-first; vietato duplicare la leva già data o rispondere con tutorial tecnico. Vedi L-333, L-332.",
@@ -7603,6 +7625,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**Workflow n8n — «Invece nel marketing?» = catalogo acquisizione/contenuti separato da ops (chat 19/7 ~23:34):** dopo 10 workflow revenue/ops chiede **la stessa cosa filtrata marketing** — si aspetta lista numerata (post→pub, calendario, eventi città, lancio negozio, prodotto rotante, retargeting, UGC, stagionali, influencer, report) + **differenza esplicita** vs blocco precedente; non mescolare recupero ordini con visibilità; webhook pendente + 🔴 pub/messaggi reali. Vedi L-336, L-335.",
     "**Workflow n8n — «Dimmi altri 10 workflow diversi» = catalogo revenue ampio (chat 19/7 ~23:33):** dopo carrello abbandonato come leva #1, chiede **10 automazioni distinte** — si aspetta lista numerata concisa (trigger→azione→stop), tutte su ordini/retention/negozi; **non** ripetere carrello abbandonato né tutorial setup; ogni voce con webhook pendente + 🔴 se messaggia clienti/negozi. Prossimo: Nicola sceglie quale disegnare per primo → JSON in repo. Vedi L-335, L-333.",
     "**Conflitto post-autofill — «C'è un conflitto» = prima rassicurare catalogo ok, poi fix PR (chat 19/7 ~23:23):** dopo autofill supervisione live, segnala conflitto GitHub — si aspetta spiegazione che **i prodotti sono già sul sito** (252+242) e che il conflitto è solo sulla PR tecnica/diario; «Failed to fetch» ≠ catalogo rotto; AD risolve branch (solo codice) e chiede merge **#480** per i prossimi autofill. Vedi L-334, L-312.",
     "**Workflow n8n «in soldi» — «non come spiegartelo, dimmi cosa hai capito» (chat 19/7 ~22:34):** chiede un workflow complesso che **produce tantissimo denaro** — si aspetta che l'AD dimostri **cosa ha capito del business** (funnel revenue, ROI su marketplace locale), **non** meta-spiegazioni su come insegnargli n8n o su prerequisiti tecnici. Risposta giusta: **recupero carrelli abbandonati** (multi-touch, stop su ordine, alert Telegram). Prossimo: JSON completo dopo webhook. Vedi L-333, L-332.",
