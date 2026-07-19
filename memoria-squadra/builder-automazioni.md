@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-07-19 19:58 · Nicola screenshot n8n Docker Termux — atteso: superare blocco setup browser · reale: container ok (5678, volume n8n_data), errore secure cookie su IP+http; fix N8N_SECURE_COOKIE=false fase setup; webhook worker ancora segnaposto; prossimo import workflow+Meta · L-323 · #n8n #docker #secure-cookie #vps
 - 2026-07-19 19:45 · Nicola «Come installo n8n sul worker?» · atteso: passi operativi install VPS · reale: Docker SSH Nicola (AD non installa da chat), import workflow pubblica-post-programmato, OAuth Meta in n8n, webhook in env worker, restart, dry-run; N8N_WEBHOOK ancora segnaposto; stasera resta manuale · L-322 · #n8n #vps #docker #pubblicazione
 - 2026-07-19 19:43 · Nicola «Come faccio a farti pubblicare su IG/FB?» · atteso: percorso concreto collegare mano Meta · reale: publisher in repo, n8n consigliato (webhook env worker), N8N_WEBHOOK segnaposto, IG richiede URL immagine pubblico, card 🔴 anche collegato · L-321 · #n8n #meta #pubblicazione
 - 2026-07-19 18:06 · File segreto worker — Nicola «ricordami come si entra» · atteso: path nano + riga Playwright · reale: `/opt/mycity/ad-mycity/cervello/vps/.env` consegnato; verifica 18:06 riga `PLAYWRIGHT_BROWSERS_PATH` ancora assente; resta `--prefix /opt/node22` + restart worker + test render · L-247 · #playwright #vps #env

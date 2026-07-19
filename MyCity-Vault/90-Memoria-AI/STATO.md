@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 19:45
-fonte: AD digitale (chat Nicola 19/7 19:45)
+aggiornato: 2026-07-19 19:59
+fonte: AD digitale (chat Nicola 19/7 19:59)
 ---
+
+> ⏳ **19/7 ~19:58 — CHAT: n8n Docker avviato sul VPS — blocco secure cookie in setup.** Nicola screenshot Termux+Brave: container n8n **partito** (Docker ok, porta 5678, volume `n8n_data`); caduta SSH Termux **non** ferma il container. Browser su `162.55.51.250:5678/setup` → errore **secure cookie** (accesso IP + http, non https/localhost). Fix in corso: riavvio container con `N8N_SECURE_COOKIE=false` solo fase setup → account admin → import workflow. **`N8N_WEBHOOK_URL` ancora segnaposto** nel worker. Prossimo: «sono dentro n8n» → OAuth Meta + webhook env. Fonte: chat Nicola 19/7 19:58.
 
 > 💬 **19/7 ~19:45 — CHAT: «Come faccio ad installare n8n sul worker?».** Follow-up collegamento mano social (L-321). AD: **installazione n8n sul VPS = SSH Nicola con Docker** — l'AD non può installare da chat. Percorso: Docker container n8n (porta 5678) → import workflow `consegne/automazioni/n8n/pubblica-post-programmato.json` → OAuth Meta (@mycity.piacenza) in n8n → URL webhook produzione in `cervello/vps/.env` (`N8N_WEBHOOK_URL`, **mai in chat**) → restart worker → dry-run «prova un post di test». Oggi **`N8N_WEBHOOK_URL` ancora segnaposto** sul VPS. Anche installando ora, login Meta richiede tempo — post domenica `#post-domenica-settimana-1907` resta copia-incolla manuale se entro 21. Fonte: chat Nicola 19/7 19:45.
 

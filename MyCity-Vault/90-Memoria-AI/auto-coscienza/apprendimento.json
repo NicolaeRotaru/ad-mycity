@@ -1,6 +1,7 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:56",
+  "aggiornato": "2026-07-19 19:59",
+  "_nota_metabolizzazione_19_07_1959": "Chat 19/7 ~19:58: Nicola screenshot Termux+Brave — n8n Docker avviato, blocco secure cookie IP+http. AD: N8N_SECURE_COOKIE=false fase setup, volume ok, SSH drop non ferma container. L-323 nuova; L-322 evidenze++; preferenza n8n-setup-screenshot; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1945": "Chat 19/7 ~19:45: Nicola «Come installo n8n sul worker?» — follow-up L-321. AD: Docker SSH Nicola, import workflow, OAuth Meta, webhook env worker, restart, dry-run; AD non installa da chat. L-322 nuova; L-321 evidenze++; preferenza install-n8n-worker; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1943": "Chat 19/7 ~19:43: Nicola «Come faccio a farti pubblicare su IG/FB?» — AD percorso n8n vs Meta diretto, publisher in repo, N8N_WEBHOOK segnaposto, card 🔴 anche collegato. L-321 nuova; L-0630-06 evidenze++; preferenza collegare-mano-social; STATO+LEZIONI-CHAT+content-social+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1941": "Chat 19/7 ~19:41: Nicola casella post domenica PQ «Questo è tutto che puoi fare?» — AD confini 4 blocchi (pronto/rifaccio 🟢/pub 🔴/stasera). L-320 nuova; preferenza limiti-contenuto; STATO+LEZIONI-CHAT+content-social aggiornati.",
@@ -42,8 +43,30 @@
   "_nota_giro_mattino_03_07": "☀️ Giro del mattino 3/7 06:28: 1 lezione NUOVA (L-2026-0703-52, delta-gate che scatta pieno sul solo incremento del contatore cieco-opzionale). APPLICATE al giro: L-2026-0702-51 (ancorare #16 a UNA finestra certa → mattina + payout-test, ora anche col motivo meteo: afa pomeridiana); L-2026-0702-48/AR-019 (giro minimale con business invariato, ma stavolta con un dato nuovo reale: meteo ri-verificato live, che cambia la raccomandazione operativa da 'favorevole' a 'mattina'); L-2026-0702-50 (uso i campi delta-gate/sensori scritti da giro.sh alle 06:20 come dato live confermato, non ri-misurato).",
   "lezioni": [
     {
+      "id": "L-2026-0719-323",
+      "testo": "**n8n setup VPS — secure cookie blocca browser su IP+http (Nicola 19/7 ~19:58).** Nicola avvia Docker n8n sul worker (Termux SSH) e allega screenshot: container **ok** (porta 5678, volume `n8n_data` preservato su rm/restart), ma pagina `/setup` errore secure cookie. 5 perché: (1) n8n di default richiede https o localhost per cookie sicuro — IP pubblico + http fallisce; (2) **non** è fallimento Docker — il servizio gira anche se SSH Termux cade (background); (3) fix setup: riavvio container con `N8N_SECURE_COOKIE=false` **solo fase install**, poi account admin; (4) **sicurezza post-setup:** porta 5678 esposta su internet → password n8n o accesso solo localhost+tunnel SSH; (5) sequenza resta L-322: import workflow → OAuth Meta → webhook in env worker (segnaposto oggi). Regola: quando Nicola manda screenshot errore n8n post-Docker, diagnosticare secure cookie prima di altre cause; non dire «Docker fallito» se container running. Vedi L-322, L-321.",
+      "tag": [
+        "n8n",
+        "docker",
+        "vps",
+        "secure-cookie",
+        "setup",
+        "nicola",
+        "caso-studio"
+      ],
+      "reparto": "@builder-automazioni",
+      "confidenza": 0.93,
+      "evidenze": 1,
+      "fonte": "chat",
+      "caso_studio_nicola": true,
+      "nato": "2026-07-19",
+      "ultima_conferma": "2026-07-19 19:58",
+      "stato": "attiva",
+      "usi": []
+    },
+    {
       "id": "L-2026-0719-322",
-      "testo": "**n8n sul worker — «Come installo n8n sul worker?» = Docker SSH Nicola, AD non installa da chat (Nicola 19/7 ~19:45).** Follow-up immediato L-321 (collegare mano social). 5 perché: (1) install richiede root/Docker sul VPS — fuori dalle mani AD in chat; (2) percorso canonico già in repo: workflow `consegne/automazioni/n8n/pubblica-post-programmato.json` + guida `collega-le-mani.md`; (3) sequenza: Docker container n8n (5678) → import workflow → OAuth Meta in n8n → copiare URL webhook produzione in `cervello/vps/.env` (`N8N_WEBHOOK_URL`, **mai in chat**) → restart worker → dry-run «prova un post di test»; (4) **`N8N_WEBHOOK_URL` oggi ancora segnaposto** — senza URL vero la macchina non manda nulla; (5) anche post-install, login Meta + permessi richiedono tempo — post stasera resta copia-incolla manuale se entro 21. Regola: stesso pattern Playwright setup (L-305) — passi SSH numerati, AD verifica env/webhook dopo «fatto», non promettere auto-pub nello stesso turno. Vedi L-321, L-305.",
+      "testo": "**n8n sul worker — «Come installo n8n sul worker?» = Docker SSH Nicola, AD non installa da chat (Nicola 19/7 ~19:45).** Follow-up immediato L-321 (collegare mano social). 5 perché: (1) install richiede root/Docker sul VPS — fuori dalle mani AD in chat; (2) percorso canonico già in repo: workflow `consegne/automazioni/n8n/pubblica-post-programmato.json` + guida `collega-le-mani.md`; (3) sequenza: Docker container n8n (5678) → import workflow → OAuth Meta in n8n → copiare URL webhook produzione in `cervello/vps/.env` (`N8N_WEBHOOK_URL`, **mai in chat**) → restart worker → dry-run «prova un post di test»; (4) **`N8N_WEBHOOK_URL` oggi ancora segnaposto** — senza URL vero la macchina non manda nulla; (5) anche post-install, login Meta + permessi richiedono tempo — post stasera resta copia-incolla manuale se entro 21. Regola: stesso pattern Playwright setup (L-305) — passi SSH numerati, AD verifica env/webhook dopo «fatto», non promettere auto-pub nello stesso turno. **ADDENDUM 19:58:** Nicola ha avviato container — blocco corrente = secure cookie su IP+http (L-323). Vedi L-321, L-305, L-323.",
       "tag": [
         "n8n",
         "vps",
@@ -57,11 +80,11 @@
       ],
       "reparto": "@builder-automazioni",
       "confidenza": 0.94,
-      "evidenze": 1,
+      "evidenze": 2,
       "fonte": "chat",
       "caso_studio_nicola": true,
       "nato": "2026-07-19",
-      "ultima_conferma": "2026-07-19 19:45",
+      "ultima_conferma": "2026-07-19 19:58",
       "stato": "attiva",
       "usi": []
     },
@@ -7307,6 +7330,7 @@
     "Fondare le entità DA SOLA (3 strade) prima di disturbare Nicola."
   ],
   "preferenze_nicola": [
+    "**n8n setup — screenshot errore browser dopo Docker = diagnosi secure cookie + passi fix (chat 19/7 ~19:58):** avvia container via Termux e manda screenshot — si aspetta che l'AD **non** dica «Docker fallito» se container running; spiega errore secure cookie su IP+http, passi riavvio con flag setup, avviso sicurezza porta 5678; prossimo checkpoint «sono dentro n8n». Vedi L-323, L-322.",
     "**n8n install — «Come installo n8n sul worker?» = passi Docker SSH numerati (chat 19/7 ~19:45):** follow-up immediato dopo L-321 — chiede **come installare** sul VPS, non solo perché serve n8n; si aspetta sequenza concreta (Docker → import workflow → OAuth Meta → webhook in env worker → restart → dry-run), chiarire che l'AD **non installa da chat**, e che stasera resta manuale se Meta non è collegato. Vedi L-322, L-321.",
     "**Pubblicazione social — «Come faccio a farti pubblicare su IG/FB?» = checklist operativa n8n (chat 19/7 ~19:43):** dopo aver capito i limiti (L-320), chiede **come collegare** la mano — si aspetta percorso concreto passo-passo (n8n consigliato vs Meta diretto), cosa va in env worker (non in chat), dry-run + card 🔴 anche collegato; gruppi FB manuali; per stasera resta copia-incolla se setup non fatto. Vedi L-321, L-320.",
     "**Contenuti — «Questo è tutto che puoi fare?» = confini operativi espliciti (chat 19/7 ~19:41):** sulla casella post pronto in Diretta chiede se basta — si aspetta risposta in **4 blocchi**: pacchetto completo ora, cosa l'AD rifà ancora 🟢, cosa resta solo suo 🔴 (pubblicazione social + card Pannello), percorso più veloce se vuole uscire stasera (download grafiche + copia-incolla); **non** interpretare come ok a pubblicare senza firma. Vedi L-320, L-300.",
