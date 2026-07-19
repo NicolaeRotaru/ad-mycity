@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-20 01:39
+aggiornato: 2026-07-20 01:45
 fonte: AD digitale (metabolizzazione chat)
 ---
+
+> 💬 **20/7 ~01:45 — CHAT: menu conv Worker incompleto — chat Lavori assente da lista (L-354).** Nicola screenshot: chat visibile nel pannello **Lavori** a sinistra (es. «comandi sul worker senza cmd») **non compare** nel menu Conversazioni del Worker. **Causa:** Worker e Lavori usavano **due storage diversi** — `ChatCasella` sotto un lavoro non veniva copiata nell'elenco condiviso Worker. AD **PR #487** (`ccc59691`): integra chat Lavori nel menu Worker + persistenza condivisa. Merge 🔴 pendente (#205). Dopo deploy: Ctrl+F5 — conv da Lavori deve comparire in lista. Fonte: chat Nicola 20/7 01:45.
 
 > 💬 **20/7 ~01:39 — CHAT: barra scrittura Worker — Nicola ripete «ti avevo chiesto di bloccarla» (L-353).** Richiesta sticky input+icone **ancora aperta dal suo punto di vista** — stesso pattern scroll (#482→#483): #484 **mergiata** su main (`65f8daa8`) ma lui non conferma ok; possibile lag Vercel/cache PWA → hard refresh; se «ancora no» → fix #2. Anche **#485** (menu conv interno) e **#486** (popup apri/chiudi) mergiate su main — attesa deploy + test Nicola. Fonte: chat Nicola 20/7 01:39.
 
