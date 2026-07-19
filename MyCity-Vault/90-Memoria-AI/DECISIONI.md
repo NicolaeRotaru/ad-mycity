@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-07-19 14:05 · 🟢 · [PR #474 mergiata — #473 chiusa come doppione] · **Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474».** AD ha confermato: stessa fix n8n/sentinella M2 aperta due volte per errore (sessioni parallele). #474 (con test) mergiata alle 13:59 — fix già su main. #473 = doppione da chiudere senza merge. Nicola ha fatto bene a confrontare prima di approvare.
+
 2026-07-19 13:54 · 🟢 · [Conflitto PR #472 risolto — solo body condiviso] · **Nicola: «Ha un conflitto»** su merge PR #472 (caselle compatte). AD ha verificato: conflitto **solo** in `consegne/tech/pr-ad-mycity-body.md` (aggiornato anche da PR #471 titoli Lavori in parallelo), **non** nel codice `CasellaAnteprima`. Rebase su main (`5c2f8821`), push branch, GitHub API mergeable confermato. Card #190 resta in attesa merge Nicola.
 
 2026-07-19 13:17 · 🟡 · [Caselle auto-coscienza compatte con anteprima — PR #472] · **Nicola: «Sono troppo grandi queste caselle, riducile a metà della loro dimensione o trasformale in finestre con un anteprima»** (casella Ex Scuderie, 19/7 ~13:17). AD ha implementato componente `CasellaAnteprima`: titolo + badge + anteprima breve (~2 righe), partono chiuse, clic espande il contenuto completo. Applicato a Scelte ragionate, benchmark, esperimenti, peer review, proposte nel tab Miglioramento. PR #472 accodata (card #190). Attende merge Nicola.

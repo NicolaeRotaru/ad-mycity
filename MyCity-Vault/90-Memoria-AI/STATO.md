@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-07-19 13:54
-fonte: AD digitale (metabolizzazione chat 19/7 13:54)
+aggiornato: 2026-07-19 14:05
+fonte: AD digitale (metabolizzazione chat 19/7 14:05)
 ---
+
+> ✅ **19/7 14:05 — CHAT: PR #474 mergiata, #473 doppione — chiudere senza merge.** Nicola: «Non ho mergiato la 473 perché mi sembra uguale alla 474» — corretto. Due sessioni parallele hanno aperto la stessa fix n8n/sentinella M2: **#473** (prima versione) e **#474** (stessa fix + test, migliore). **#474 già su main** (merge 13:59, commit `99cf5017`). **#473 non serve** — chiudere su GitHub senza merge. Card #191/#192 aggiornate in [[AZIONI-IN-ATTESA]]. Fonte: chat Nicola 19/7 ~14:05.
 
 > 💬 **19/7 13:54 — CHAT: conflitto PR #472 risolto — mergeable.** Nicola: «Ha un conflitto». Conflitto **solo** in `consegne/tech/pr-ad-mycity-body.md` (parallelo con PR #471 titoli Lavori), codice `CasellaAnteprima` intatto. AD: rebase su main (`5c2f8821`), GitHub mergeable verificato. ⏳ Pendente merge Nicola (card #190). Fonte: chat Nicola 19/7 ~13:54.
 
