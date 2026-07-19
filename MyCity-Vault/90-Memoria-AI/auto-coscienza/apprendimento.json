@@ -1,6 +1,6 @@
 {
   "data": "2026-07-03 06:28",
-  "aggiornato": "2026-07-19 19:46",
+  "aggiornato": "2026-07-19 19:56",
   "_nota_metabolizzazione_19_07_1945": "Chat 19/7 ~19:45: Nicola «Come installo n8n sul worker?» — follow-up L-321. AD: Docker SSH Nicola, import workflow, OAuth Meta, webhook env worker, restart, dry-run; AD non installa da chat. L-322 nuova; L-321 evidenze++; preferenza install-n8n-worker; STATO+LEZIONI-CHAT+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1943": "Chat 19/7 ~19:43: Nicola «Come faccio a farti pubblicare su IG/FB?» — AD percorso n8n vs Meta diretto, publisher in repo, N8N_WEBHOOK segnaposto, card 🔴 anche collegato. L-321 nuova; L-0630-06 evidenze++; preferenza collegare-mano-social; STATO+LEZIONI-CHAT+content-social+builder aggiornati.",
   "_nota_metabolizzazione_19_07_1941": "Chat 19/7 ~19:41: Nicola casella post domenica PQ «Questo è tutto che puoi fare?» — AD confini 4 blocchi (pronto/rifaccio 🟢/pub 🔴/stasera). L-320 nuova; preferenza limiti-contenuto; STATO+LEZIONI-CHAT+content-social aggiornati.",
@@ -7569,9 +7569,9 @@
     "promosse_a_principio": 3,
     "decadute": 0,
     "tasso_applicazione": 0.22,
-    "tasso_calcolato_il": "2026-07-19 19:46",
+    "tasso_calcolato_il": "2026-07-19 19:56",
     "tasso_finestra_giorni": 30,
-    "tick_leggero_il": "2026-07-19 19:46",
+    "tick_leggero_il": "2026-07-19 19:56",
     "usi_marcati_il": "2026-07-17 07:00",
     "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)"
   },
